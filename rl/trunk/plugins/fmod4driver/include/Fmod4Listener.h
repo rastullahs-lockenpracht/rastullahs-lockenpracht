@@ -19,12 +19,16 @@
 #include "Fmod4DriverPrerequisites.h"
 #include "ListenerMovable.h"
 
-#include <fmod.hpp>
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+    #include <fmod.h>
+#else
+    #include <fmodex/fmod.h>
+#endif
 
 namespace rl {
     
    /** Diese Klasse dient der Interkation mit Ogre3d und Fmod4
-    * und kapselt den Hörer.
+    * und kapselt den Hï¿½rer.
     * @author Josch
     * @date 06-29-2005
     * @version 1.0

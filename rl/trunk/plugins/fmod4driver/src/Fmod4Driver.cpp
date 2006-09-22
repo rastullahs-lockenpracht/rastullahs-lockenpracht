@@ -20,7 +20,12 @@
 #include "Logger.h"
 #include "SoundResource.h"
 
-#include <fmod_errors.h>
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+    #include <fmod_errors.h>
+#else
+    #include <fmodex/fmod_errors.h>
+#endif
+
 
 using namespace Ogre;
 
@@ -332,10 +337,10 @@ FMOD_RESULT F_CALLBACK Fmod4Driver::seek(
 void Fmod4Driver::setMasterVolume(const Ogre::Real& vol)
 {
     SoundDriver::setMasterVolume(vol);
-    /**@todo: Lautstärke setzen, geht möglicherweise nur über channelgroups*/
+    /**@todo: Lautstï¿½rke setzen, geht mï¿½glicherweise nur ï¿½ber channelgroups*/
 }
 
-/// Setzt den Faktor f, mit der die Lautstärke nach der Formel 1/(f*Entfernung) abnimmt
+/// Setzt den Faktor f, mit der die Lautstï¿½rke nach der Formel 1/(f*Entfernung) abnimmt
 void Fmod4Driver::setRolloffFactor(const Ogre::Real& factor)
 {
     float dopplerScale;

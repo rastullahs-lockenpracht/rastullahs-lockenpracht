@@ -18,7 +18,11 @@
 
 #include "Fmod4DriverPrerequisites.h"
 
-#include <fmod.hpp>
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+    #include <fmod.h>
+#else
+    #include <fmodex/fmod.h>
+#endif
 
 #include "SoundDriver.h"
 
@@ -63,11 +67,11 @@ public:
     /// Die Einstellungen laden
     virtual void loadConf(rl::ConfigFile &conf);
 
-    /// Setzt den Faktor f, mit der die Lautstärke nach der Formel 1/(f*Entfernung) abnimmt
+    /// Setzt den Faktor f, mit der die Lautstï¿½rke nach der Formel 1/(f*Entfernung) abnimmt
 	virtual void setRolloffFactor(const Ogre::Real&);
 	virtual const Ogre::Real getRolloffFactor();
 
-	/// Datensammlung zurückgeben
+	/// Datensammlung zurï¿½ckgeben
 	const DriverMap& getDriverData() const;
 
     FMOD::System* _getFmodSystem();
@@ -75,7 +79,7 @@ public:
     void checkErrors(const FMOD_RESULT& errorcode) const;
 
 private:
-    /// Informationen über den Treiber ausgeben
+    /// Informationen ï¿½ber den Treiber ausgeben
     virtual void printData() const;
     void printDriverInfo(int driver) const;
 

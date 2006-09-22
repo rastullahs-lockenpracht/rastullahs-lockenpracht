@@ -19,7 +19,12 @@
 #include "Fmod4DriverPrerequisites.h"
 
 #include "Sound.h"
-#include <fmod.hpp>
+
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+    #include <fmod.h>
+#else
+    #include <fmodex/fmod.h>
+#endif
 
 namespace rl {
 
@@ -41,7 +46,7 @@ namespace rl {
         virtual void load() throw (RuntimeException);
         /// Entlaedt den Sound.
         virtual void unload() throw (RuntimeException);
-         // Wir geben zurück, wie lange der Sound ist.
+         // Wir geben zurï¿½ck, wie lange der Sound ist.
 	    virtual float getLength() const;
 
 		// Sind wir gueltig

@@ -45,7 +45,6 @@
 	SceneQuery.h \
 	SoundManager.h \
 	SoundObject.h \
-	SoundUpdateTask.h \
 	TrackAnimation.h \
 	World.h \
 	nulldriver/NullDriver.h \

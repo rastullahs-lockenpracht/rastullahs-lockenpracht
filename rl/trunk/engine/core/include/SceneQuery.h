@@ -22,7 +22,7 @@
 #include "Actor.h"
 #include "PhysicsManager.h"
 
-#include <OgreNewt_Raycast.h>
+#include <OgreNewt_RayCast.h>
 
 namespace rl
 {

@@ -47,7 +47,6 @@ libRlCore_la_SOURCES = \
 	SceneQuery.cpp \
 	SoundManager.cpp \
 	SoundObject.cpp \
-	SoundUpdateTask.cpp \
 	SoundDriver.cpp \
 	Sound.cpp \
 	SoundEvents.cpp \

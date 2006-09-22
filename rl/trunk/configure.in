@@ -114,24 +114,13 @@ else
         AM_CONDITIONAL(with_oal, [false])
 fi
 
-# PortAudio
-AC_CHECK_LIB(portaudio,main,WITH_PORTAUDIO="yes")
-AM_CONDITIONAL(WITH_PORTAUDIO, test "$WITH_PORTAUDIO" = "yes")
-
-# Ogg Vorbis
-AC_CHECK_LIB(ogg, main, [], AC_MSG_ERROR([Can't find libogg]))
-AC_CHECK_LIB(vorbis, main, [], AC_MSG_ERROR([Can't find libvorbis]))
-OLDLIBS="$LIBS"
-AC_CHECK_LIB(vorbisfile, main, [VORBISFILE_LIBS="-lvorbisfile"], AC_MSG_ERROR([Can't find libvorbisfile]))
-LIBS="$OLDLIBS"
-
 # Ogre
 PKG_CHECK_MODULES(OGRE, OGRE >= 1.2.0)
 AC_ARG_WITH(ogre-plugins,[  --with-ogre-plugins=path        Set location of Ogre plugins],[ OGRE_PLUGINDIR="$withval"], [OGRE_PLUGINDIR=/usr/local/lib/OGRE])
 AC_SUBST(OGRE_PLUGINDIR)
 
 # CEGUI
-PKG_CHECK_MODULES(CEGUI, CEGUI)
+PKG_CHECK_MODULES(CEGUI, CEGUI >= 0.4.0)
 PKG_CHECK_MODULES(CEGUIOGRE, CEGUI-OGRE)
 
 # OpenSteer
