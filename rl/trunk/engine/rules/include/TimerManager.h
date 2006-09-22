@@ -44,6 +44,8 @@ public:
 	void registerTimerEventSource(TimerEventSource* source);
 	void unregisterTimerEventSource(TimerEventSource* source);
 
+	virtual const Ogre::String& getName() const;
+
 protected:
 	virtual void run( Ogre::Real elapsedTime );
 

@@ -58,6 +58,14 @@ namespace rl {
 			invWin->updateItemPosition();
 		}
 	}
+
+	const Ogre::String& InventoryArrangeTask::getName() const
+	{
+		static Ogre::String NAME = "InventoryArrangeTask";
+
+		return NAME;
+	}
+
 	// ***************************************************************
 	// ***************** Konstruktor *********************************
 	// ***************************************************************

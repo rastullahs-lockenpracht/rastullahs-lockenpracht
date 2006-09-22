@@ -99,5 +99,12 @@ namespace rl {
 		mTimers.erase(source);
 		ScriptWrapper::getSingleton().disowned(source);
     }
+
+	const Ogre::String& TimerManager::getName() const
+	{
+		static Ogre::String NAME = "TimerManager";
+
+		return NAME;
+	}
 }
 

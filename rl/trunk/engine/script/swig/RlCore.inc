@@ -675,7 +675,6 @@ public:
     bool isPaused();
     void setPaused(bool pause);
     void addSynchronizedTask(GameTask* newTask, GameLoopSyncTime syncTime);
-	void addAsynchronousTask(GameTask* newTask);
 };
 
 class Sound 
