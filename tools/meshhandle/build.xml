@@ -1,0 +1,51 @@
+<project name="meshhandle" default="all" basedir=".">
+
+	<property name="src.home"    value="${basedir}/src"/>
+	<property name="build.home"    value="${basedir}/bin"/>
+	<property name="deploy.home"    value="${basedir}/deploy"/>
+	
+	<property name="compile.debug"       value="true"/>
+	<property name="compile.deprecation" value="false"/>
+	<property name="compile.optimize"    value="true"/>
+	
+	<path id="compile.classpath">
+	</path>
+	
+	<target name="all" depends="clean,compile,deploy" 
+		description="Clean build and dist directories, then compiles and deploys" />
+
+	<target name="clean" description="Delete old build and dist directories">
+	    <delete dir="${build.home}"/>
+	    <delete dir="${deploy.home}"/>
+	</target>
+
+	<target name="compile" description="Compile Java sources">
+		<!-- Compile Java classes as necessary -->
+		<mkdir dir="${build.home}/"/>
+		<javac srcdir="${src.home}"
+			destdir="${build.home}/"
+			debug="${compile.debug}"
+			deprecation="${compile.deprecation}"
+			optimize="${compile.optimize}">		
+			<classpath refid="compile.classpath"/>
+		</javac>
+		
+		<!-- Copy application resources -->
+		<copy todir="${build.home}/">
+		  <fileset dir="${src.home}" excludes="**/*.java"/>
+		</copy>
+	</target>	
+	
+	<target name="deploy" description="Creates deployable version">
+		<mkdir dir="${deploy.home}/"/>
+		<manifest file="${deploy.home}/MANIFEST.MF">
+			<attribute name="Built-By" value="${user.name}"/>
+			<attribute name="Main-Class" value="meshhandle.StartKlasse"/>
+		</manifest>
+		<jar 
+			basedir="${build.home}" 
+			destfile="${deploy.home}/meshhandle.jar" 
+			manifest="${deploy.home}/MANIFEST.MF" />		
+	</target>
+	
+</project>
