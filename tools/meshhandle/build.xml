@@ -1,8 +1,9 @@
 <project name="meshhandle" default="all" basedir=".">
 
-	<property name="src.home"    value="${basedir}/src"/>
-	<property name="build.home"    value="${basedir}/bin"/>
-	<property name="deploy.home"    value="${basedir}/deploy"/>
+	<property name="src.home" value="${basedir}/src"/>
+	<property name="build.home" value="${basedir}/bin"/>
+	<property name="deploy.home" value="${basedir}/deploy"/>
+	<property name="jsmooth.home" value="C:/Programme/Java/JSmooth 0.9.7/"/>
 	
 	<property name="compile.debug"       value="true"/>
 	<property name="compile.deprecation" value="false"/>
@@ -46,6 +47,11 @@
 			basedir="${build.home}" 
 			destfile="${deploy.home}/meshhandle.jar" 
 			manifest="${deploy.home}/MANIFEST.MF" />		
+
+		<echo>Loading JSmooth Ant tasks. Make sure you have installed http://jsmooth.sourceforge.net</echo>
+		<taskdef name="jsmoothgen" classname="net.charabia.jsmoothgen.ant.JSmoothGen" 
+			classpath="${jsmooth.home}/lib/jsmoothgen-ant.jar"  />
+		<jsmoothgen project="${basedir}/meshhandle.jsmooth" skeletonroot="${jsmooth.home}/skeletons/" />
 	</target>
 	
 </project>
