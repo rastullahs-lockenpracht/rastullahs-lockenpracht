@@ -62,4 +62,19 @@ namespace rl {
 		return CTRL_CUTSCENE;
 	}
 
+    void CutsceneCharacterController::setCameraPosition(const Ogre::Vector3& pos)
+    {
+        mCameraActor->setPosition(pos);
+    }
+
+    void CutsceneCharacterController::setCameraOrientation(const Ogre::Quaternion& orient)
+    {
+        mCameraActor->setOrientation(orient);
+    }
+
+    void CutsceneCharacterController::lookAt(const Ogre::Vector3& point)
+    {
+        dynamic_cast<Ogre::Camera*>(mCameraActor->getControlledObject()->getMovableObject())
+            ->lookAt(point);
+    }
 }

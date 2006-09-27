@@ -16,6 +16,8 @@
 
 namespace rl {
 
+%apply SWIGTYPE *DYNAMIC { rl::CharacterController * };
+
 %feature("director") CharacterController;
 class CharacterController
 {
@@ -41,6 +43,24 @@ public:
     void toggleViewMode();
     void resetCamera();
         
+};
+
+class CutsceneCharacterController : public CharacterController
+{
+private:
+   	CutsceneCharacterController(rl::Actor* camera);
+
+public:
+	virtual ~CutsceneCharacterController();
+
+	ControllerType getType() const;
+
+	void toggleViewMode();
+    void resetCamera();
+
+    void setCameraPosition(const Ogre::Vector3& pos);
+    void setCameraOrientation(const Ogre::Quaternion& orient);
+    void lookAt(const Ogre::Vector3& point);
 };
 
 class UiSubsystem 
@@ -115,4 +135,21 @@ public:
 	void closeTopWindow();
 };
 
+} //namespace rl
+
+%{
+static swig_type_info *CharacterController_dynamic_cast(void **ptr)
+{
+    rl::CharacterController **ppCharacterController = 
+        reinterpret_cast<rl::CharacterController**>(ptr);
+
+    rl::CutsceneCharacterController *pCutSceneCC = 
+        dynamic_cast<rl::CutsceneCharacterController*>(*ppCharacterController);
+    if (pCutSceneCC != NULL) {
+        *ptr=reinterpret_cast<void*>(pCutSceneCC);
+        return SWIGTYPE_p_rl__CutsceneCharacterController;
+    }
+    return 0;
 }
+%}
+DYNAMIC_CAST(SWIGTYPE_p_rl__CharacterController, CharacterController_dynamic_cast);

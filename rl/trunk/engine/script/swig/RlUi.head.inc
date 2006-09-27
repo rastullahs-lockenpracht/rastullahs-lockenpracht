@@ -18,8 +18,9 @@
 //----------- Includes - UI -----------
 #include "FixRubyHeaders.h"
 
-#include "CommandMapper.h"
 #include "CharacterController.h"
+#include "CommandMapper.h"
+#include "CutsceneCharacterController.h"
 #include "GameLoggerWindow.h"
 #include "UiPrerequisites.h"
 #include "UiSubsystem.h"
