@@ -245,6 +245,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Properties.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Property.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ScriptWrapper.cpp"
 				>
 			</File>
@@ -342,6 +350,14 @@
 			</File>
 			<File
 				RelativePath=".\include\PlaylistObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Properties.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Property.h"
 				>
 			</File>
 			<File
