@@ -661,22 +661,6 @@ public:
     void setScheme(const Ogre::String& schemeName);
 };
 
-enum GameLoopSyncTime {
-	FRAME_STARTED,
-	FRAME_ENDED
-};
-
-class GameLoopManager {
-private:
-	GameLoopManager();
-public:
-    static GameLoopManager& getSingleton(void);
-    
-    bool isPaused();
-    void setPaused(bool pause);
-    void addSynchronizedTask(GameTask* newTask, GameLoopSyncTime syncTime);
-};
-
 class Sound 
 {
 private:
