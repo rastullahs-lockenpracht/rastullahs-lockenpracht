@@ -21,9 +21,9 @@
 #include "Sound.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-    #include <fmod.h>
+    #include <fmod.hpp>
 #else
-    #include <fmodex/fmod.h>
+    #include <fmodex/fmod.hpp>
 #endif
 
 namespace rl {

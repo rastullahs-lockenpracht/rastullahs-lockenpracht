@@ -19,9 +19,9 @@
 #include "Fmod4DriverPrerequisites.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-    #include <fmod.h>
+    #include <fmod.hpp>
 #else
-    #include <fmodex/fmod.h>
+    #include <fmodex/fmod.hpp>
 #endif
 
 #include "SoundDriver.h"
@@ -71,7 +71,7 @@ public:
 	virtual void setRolloffFactor(const Ogre::Real&);
 	virtual const Ogre::Real getRolloffFactor();
 
-	/// Datensammlung zur�ckgeben
+	/// Datensammlung zurueckgeben
 	const DriverMap& getDriverData() const;
 
     FMOD::System* _getFmodSystem();
