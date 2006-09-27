@@ -259,6 +259,10 @@
 				RelativePath=".\swig\RlExports_wrap.h"
 				>
 			</File>
+			<File
+				RelativePath=".\swig\TypeMaps.i"
+				>
+			</File>
 			<Filter
 				Name="include"
 				>
@@ -327,7 +331,51 @@
 				Name="types"
 				>
 				<File
-					RelativePath=".\swig\TypeMaps.i"
+					RelativePath=".\swig\TypeOgreColourValue.inc"
+					>
+				</File>
+				<File
+					RelativePath=".\swig\TypeOgreQuaternion.inc"
+					>
+				</File>
+				<File
+					RelativePath=".\swig\TypeOgreRadian.inc"
+					>
+				</File>
+				<File
+					RelativePath=".\swig\TypeOgreReal.inc"
+					>
+				</File>
+				<File
+					RelativePath=".\swig\TypeOgreString.inc"
+					>
+				</File>
+				<File
+					RelativePath=".\swig\TypeOgreStringVector.inc"
+					>
+				</File>
+				<File
+					RelativePath=".\swig\TypeOgreVector3.inc"
+					>
+				</File>
+				<File
+					RelativePath=".\swig\TypeRlCeGuiString.inc"
+					>
+				</File>
+				<File
+					RelativePath=".\swig\TypeRlCeGuiStringVector.inc"
+					>
+				</File>
+				<File
+					RelativePath=".\swig\TypeRlProperty.inc"
+					>
+				</File>
+				<File
+					RelativePath=".\swig\TypeRlTripelInt.inc"
+					>
+				</File>
+				<File
+					RelativePath=".\swig\TypeStdPairIntInt.inc"
 					>
 				</File>
 			</Filter>

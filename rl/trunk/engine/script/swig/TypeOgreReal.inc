@@ -14,20 +14,24 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef __RL_DYNAMICCAST_I__
-#define __RL_DYNAMICCAST_I__
+/* Wrapping Real to ruby and back 
+ for Real, const Real, Real&, Real*, const Real*, const Real&
+*/
+%typemap(typecheck) Ogre::Real, const Ogre::Real& = double;
+    
+%typemap(in) Ogre::Real, const Ogre::Real 
+"   $1 = NUM2DBL($input);"
 
-%include "TypeOgreColourValue.inc"
-%include "TypeOgreQuaternion.inc"
-%include "TypeOgreRadian.inc"
-%include "TypeOgreReal.inc"
-%include "TypeOgreString.inc"
-%include "TypeOgreStringVector.inc"
-%include "TypeOgreVector3.inc"
-%include "TypeRlCeGuiString.inc"
-%include "TypeRlCeGuiStringVector.inc"
-%include "TypeRlProperty.inc"
-%include "TypeRlTripelInt.inc"
-%include "TypeStdPairIntInt.inc"
+%typemap(out) Ogre::Real, const Ogre::Real
+"   $result = rb_float_new($1);"
 
-#endif
+%typemap(in) Ogre::Real*, Ogre::Real&, const Ogre::Real*, const Ogre::Real&
+"   $1 = NUM2DBL($input);"
+
+%typemap(out) Ogre::Real*, Ogre::Real&,  const Ogre::Real*, const Ogre::Real&
+"   $result = rb_float_new(*$1);"
+
+%typemap(freearg) Ogre::Real*, Ogre::Real&,  const Ogre::Real*, const Ogre::Real&
+"   delete $1;"
+
+
