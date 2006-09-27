@@ -17,8 +17,10 @@ noinst_HEADERS =
 	SimplePlaylist.h \
 	PlaylistEvent.h \
 	PlaylistObject.h \
-    RastullahPrerequisites.h \
-    ScriptWrapper.h \
+        Properties.cpp \
+        Property.cpp \
+        RastullahPrerequisites.h \
+        ScriptWrapper.h \
 	Sleep.h \
 	Tripel.h \
 	XmlHelper.h \
