@@ -10,7 +10,6 @@ GC.disable
 $CORE = CoreSubsystem.getSingleton();
 $AM = ActorManager.getSingleton();
 $PM = PhysicsManager.getSingleton();
-$GL = GameLoopManager.getSingleton();
 $UI = UiSubsystem.getSingleton();
 $DM = DsaManager.getSingleton();
 $DS = DialogSubsystem.getSingleton();
