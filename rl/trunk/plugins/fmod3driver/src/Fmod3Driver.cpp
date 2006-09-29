@@ -331,7 +331,7 @@ int F_CALLBACKAPI Fmod3Driver::tell(void *handle)
  */
  void Fmod3Driver::update()
  {
-    LOG_TRIVIAL(Logger::MULTIMEDIA, "Updaten von Fmod3");
+    LOG_DEBUG(Logger::MULTIMEDIA, "Updaten von Fmod3");
  	FSOUND_Update();
  }
  

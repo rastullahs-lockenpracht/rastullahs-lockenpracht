@@ -441,7 +441,7 @@ namespace rl {
                 << "start jump : " << (mCharacterState.mStartJump ? "true" : "false")  << endl
                 << "jump timer : " << mCharacterState.mJumpTimer << endl;
 
-            LOG_TRIVIAL(Logger::UI, ss.str());
+            LOG_DEBUG(Logger::UI, ss.str());
             DebugWindow::getSingleton().setPageText(msDebugWindowPageName, ss.str());
 
 			// Assume we are air borne.

@@ -105,7 +105,7 @@ namespace rl {
 			}
 		}
 
-		LOG_TRIVIAL(Logger::UI, 
+		LOG_DEBUG(Logger::UI, 
 			mWindow->getName()
 			+ " Curr: "
 			+ Ogre::StringConverter::toString(mCurrentAlpha)

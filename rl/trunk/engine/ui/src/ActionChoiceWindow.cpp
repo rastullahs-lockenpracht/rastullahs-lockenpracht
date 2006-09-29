@@ -74,7 +74,7 @@ namespace rl {
 	
 	int ActionChoiceWindow::showActionsOfObject(GameObject* object)
 	{
-		LOG_TRIVIAL2(Logger::UI, 
+		LOG_DEBUG2(Logger::UI, 
 			"Start", "ActionChoiceWindow::showActionsOfObject");
 		mObject = object;
 		
@@ -84,7 +84,7 @@ namespace rl {
 			CEGUI::WindowManager::getSingleton().destroyWindow(mButtons[i]);
 		}
 		mButtons.clear();
-		LOG_TRIVIAL2(Logger::UI, 
+		LOG_DEBUG2(Logger::UI, 
 			"Buttons gelöscht", "ActionChoiceWindow::showActionsOfObject");
 
 		CEGUI::Point center = mWindow->relativeToAbsolute(CEGUI::Point(0.5, 0.5));
@@ -93,11 +93,11 @@ namespace rl {
 		ActionVector actions = object->getValidActions(mActor);
 		if (actions.size() != 0)
 		{
-			LOG_TRIVIAL2(Logger::UI, 
+			LOG_DEBUG2(Logger::UI, 
 				"Aktionen ermittelt", "ActionChoiceWindow::showActionsOfObject");
 
 			ActionNode* actionTree = ActionNode::createActionTree(actions);
-			LOG_TRIVIAL2(Logger::UI, 
+			LOG_DEBUG2(Logger::UI, 
 				"Baum erzeugt", "ActionChoiceWindow::showActionsOfObject");
 			createButtons(actionTree, center, RADIUS, 0, 360);
 
@@ -105,10 +105,10 @@ namespace rl {
 			bindClickToCloseWindow(mButtonCancel);
 			mWindow->addChildWindow(mButtonCancel);
 			
-			LOG_TRIVIAL2(Logger::UI, 
+			LOG_DEBUG2(Logger::UI, 
 				"Buttons erzeugt", "ActionChoiceWindow::showActionsOfObject");
 			setButtonActions(actionTree, actionTree);
-			LOG_TRIVIAL2(Logger::UI, 
+			LOG_DEBUG2(Logger::UI, 
 				"Ende", "ActionChoiceWindow::showActionsOfObject");
 		}
 		return actions.size();
@@ -155,7 +155,7 @@ namespace rl {
 			{
 				const NodeSet nodesToHide = 
 					ActionNode::getAllNodesNotBelow(treeRoot, actions);
-				LOG_TRIVIAL2(Logger::UI, 
+				LOG_DEBUG2(Logger::UI, 
 					StringConverter::toString(nodesToHide.size())+" nodes to hide",
 					"ActionChoiceWindow::setButtonActions");
 					
@@ -192,9 +192,9 @@ namespace rl {
 	
 	bool ActionChoiceWindow::activateAction(Action* action)
 	{
-		LOG_TRIVIAL2(Logger::UI, 
+		LOG_DEBUG2(Logger::UI, 
 			"Start", "ActionChoiceWindow::activateAction");
-		LOG_TRIVIAL2(Logger::UI, 
+		LOG_DEBUG2(Logger::UI, 
 			action->getName().c_str(), "ActionChoiceWindow::activateAction");
 			
 		
@@ -208,7 +208,7 @@ namespace rl {
             LOG_ERROR(Logger::UI,  sife.toString() );
         }
 		
-		LOG_TRIVIAL2(Logger::UI, 
+		LOG_DEBUG2(Logger::UI, 
 			"Ende", "ActionChoiceWindow::activateAction");
 
 		destroyWindow();
@@ -262,7 +262,7 @@ namespace rl {
 		CEGUI::Size size = button->getAbsoluteSize();
 		button->setPosition(
 			Absolute, pos - CEGUI::Point(size.d_width/2, size.d_height/2));
-		LOG_TRIVIAL2(Logger::UI, 
+		LOG_DEBUG2(Logger::UI, 
 			(button->getText()+" "+
 			StringConverter::toString(button->getAbsoluteXPosition()) + ", " + 
 			StringConverter::toString(button->getAbsoluteYPosition())).c_str(), 
@@ -282,14 +282,14 @@ namespace rl {
 		
 		if (button == NULL)
 		{
-			LOG_TRIVIAL2(Logger::UI, 
+			LOG_DEBUG2(Logger::UI, 
 				showHide + "NULL", "ActionChoiceWindow::setButtonVisible");
 			return true;
 		}
 		
-		LOG_TRIVIAL(Logger::UI, showHide + button->getName());
+		LOG_DEBUG(Logger::UI, showHide + button->getName());
 		CEGUI::Point p = button->getRelativePosition();
-		LOG_TRIVIAL(Logger::UI, 
+		LOG_DEBUG(Logger::UI, 
 			"("+StringConverter::toString(p.d_x)+", "+StringConverter::toString(p.d_y)+")");
 			
 		if (visible)
@@ -308,7 +308,7 @@ namespace rl {
 	CEGUI::Point ActionChoiceWindow::getPositionOnCircle(
 		const CEGUI::Point& center, float radius, float angle)
 	{
-		LOG_TRIVIAL(Logger::UI, 
+		LOG_DEBUG(Logger::UI, 
 			"center="+StringConverter::toString(center.d_x)+","+StringConverter::toString(center.d_y)+
 			" radius="+StringConverter::toString(radius)+
 			" angle="+StringConverter::toString(angle)
@@ -318,7 +318,7 @@ namespace rl {
 		float relX = radius * sin(PI * angle/180);
 		float relY = radius * cos(PI * angle/180);
 
-		LOG_TRIVIAL(Logger::UI, 
+		LOG_DEBUG(Logger::UI, 
 			"diff="+StringConverter::toString(relX)+","+StringConverter::toString(relY));
 			
 

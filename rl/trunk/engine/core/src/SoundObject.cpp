@@ -99,7 +99,7 @@ void SoundObject::_update()
         getSound()->setPosition(actor->getWorldPosition());
         getSound()->setDirection(actor->getWorldOrientation()); 
 
-       LOG_TRIVIAL(Logger::CORE, "Pos SoundObject: "
+       LOG_DEBUG(Logger::CORE, "Pos SoundObject: "
         + StringConverter::toString(actor->getWorldPosition().x) + " "
         + StringConverter::toString(actor->getWorldPosition().y) + " "
         + StringConverter::toString(actor->getWorldPosition().z));

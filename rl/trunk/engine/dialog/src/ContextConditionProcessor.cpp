@@ -96,7 +96,7 @@ void ContextConditionProcessor::processChildStep(XmlNode<CeGuiString>* pChild)
 		mCurrentReturnValue += pChild;
 		result = "true";
 	}
-	LOG_TRIVIAL(Logger::DIALOG, logMessage + result);
+	LOG_DEBUG(Logger::DIALOG, logMessage + result);
 }
 
 void ContextConditionProcessor::postprocessStep()

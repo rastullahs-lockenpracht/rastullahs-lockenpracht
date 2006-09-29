@@ -110,11 +110,11 @@ using namespace Ogre;
 				if( !curTask->isPaused() )
                 {
 
-			        LOG_TRIVIAL(Logger::CORE, curTask->getName() + " start ");
+			        LOG_DEBUG(Logger::CORE, curTask->getName() + " start ");
 			        double time = (double)CoreSubsystem::getSingleton().getClock();
 			    	(*i)->run(timeSinceLastCall);
                     time = (double)CoreSubsystem::getSingleton().getClock() - time;
-			        LOG_TRIVIAL(Logger::CORE, curTask->getName() +  " end "
+			        LOG_DEBUG(Logger::CORE, curTask->getName() +  " end "
                         + Ogre::StringConverter::toString(Ogre::Real(time)));
                 }
 			}
@@ -145,11 +145,11 @@ using namespace Ogre;
 	{
 		if (mSyncTime == FRAME_STARTED)
 		{
-			LOG_TRIVIAL(Logger::CORE, "Sync frame-start start ");
+			LOG_DEBUG(Logger::CORE, "Sync frame-start start ");
 			double time = (double)CoreSubsystem::getSingleton().getClock();
 			loop(evt.timeSinceLastFrame);
             time = (double)CoreSubsystem::getSingleton().getClock() - time;
-			LOG_TRIVIAL(Logger::CORE, "Sync frame-start end "
+			LOG_DEBUG(Logger::CORE, "Sync frame-start end "
                 + Ogre::StringConverter::toString(Ogre::Real(time)));
 		}
 

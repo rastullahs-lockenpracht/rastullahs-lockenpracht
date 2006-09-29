@@ -46,7 +46,7 @@ namespace rl {
 
     void ScriptSubsystem::log(const rl::CeGuiString &message)
     {
-        LOG_NORMAL(Logger::SCRIPT, message);
+        LOG_MESSAGE(Logger::SCRIPT, message);
     }
 
 }

@@ -193,7 +193,7 @@ void DialogWindow::textFinished()
 		handleClose();
 	}
 
-    LOG_TRIVIAL(Logger::UI, 
+    LOG_DEBUG(Logger::UI, 
 				StringConverter::toString(mState)
 				+ " bei textFinished" );
 }

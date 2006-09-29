@@ -74,7 +74,7 @@ namespace rl {
 		XMLPlatformUtils::Initialize();
 		XmlHelper::initializeTranscoder();
 
-		LOG_NORMAL(Logger::CORE, "Loading Scene from " + mSceneName );
+		LOG_MESSAGE(Logger::CORE, "Loading Scene from " + mSceneName );
         DOMDocument* doc = openSceneFile();            
 
 		// Durch alle Unterelemente iterieren
@@ -92,7 +92,7 @@ namespace rl {
 			child = child->getNextSibling();
 		} 
 
-		LOG_TRIVIAL(Logger::CORE, " Beginne parsen der Unterelemente" );
+		LOG_DEBUG(Logger::CORE, " Beginne parsen der Unterelemente" );
 		DOMElement* nodes = XmlHelper::getChildNamed(doc->getDocumentElement(), "nodes");
 
 		// Eine .scene wird in einem SceneNode mit dem Namen der .scene befestigt
@@ -127,16 +127,16 @@ namespace rl {
 				staticNode->removeAndDestroyAllChildren();
 				sceneManager->destroySceneNode( staticNode->getName() );				
 				staticNode = NULL;
-				LOG_TRIVIAL(Logger::CORE, " Statische Geometrie "+staticName+" erstellt" );
+				LOG_DEBUG(Logger::CORE, " Statische Geometrie "+staticName+" erstellt" );
 				++it;
 			}
         }
         else
-            LOG_TRIVIAL(Logger::CORE, " Keine statischen Geometrien erstellt" );
+            LOG_DEBUG(Logger::CORE, " Keine statischen Geometrien erstellt" );
         
         delete mParser;
 		XMLPlatformUtils::Terminate();		
-		LOG_TRIVIAL(Logger::CORE, "Szenenbeschreibung aus " + mSceneName +" fertig geparst" );
+		LOG_DEBUG(Logger::CORE, "Szenenbeschreibung aus " + mSceneName +" fertig geparst" );
 	}
 
 	DOMDocument* DotSceneLoader::openSceneFile( )
@@ -225,7 +225,7 @@ namespace rl {
             {
                 // Name schon vergeben
                 newNode = parentNode->createChildSceneNode();
-                LOG_TRIVIAL(Logger::CORE, 
+                LOG_DEBUG(Logger::CORE, 
                     " NodeName '"+nodeName+"' war schon vergeben! Es wurde der Name '"+newNode->getName()+"' benutzt." );
             }
         }
@@ -234,7 +234,7 @@ namespace rl {
             newNode = parentNode->createChildSceneNode();
         }	
 
-		LOG_TRIVIAL(Logger::CORE, 
+		LOG_DEBUG(Logger::CORE, 
             " Node '"+newNode->getName()+"' als Unterknoten von '"+parentNode->getName()+"' erstellt." );		
 		
         DOMNode* child = rootNodeXml->getFirstChild();
@@ -335,7 +335,7 @@ namespace rl {
 	void DotSceneLoader::processSceneUserData( XERCES_CPP_NAMESPACE::DOMElement* rootUserDataXml )
 	{
 		DOMNode* child = rootUserDataXml->getFirstChild();
-        LOG_TRIVIAL(Logger::CORE, " SceneUserData gefunden");
+        LOG_DEBUG(Logger::CORE, " SceneUserData gefunden");
 
         // Durch alle Unterelemente iterieren, um die properties zu finden
         while( child != NULL )
@@ -370,7 +370,7 @@ namespace rl {
                 }
                 catch(...)
                 {
-                    LOG_TRIVIAL(Logger::CORE, 
+                    LOG_DEBUG(Logger::CORE, 
                         " > Parse Error beim Übernehmen der Property '"+propertyName+"'!");
                 }
 
@@ -389,7 +389,7 @@ namespace rl {
                     mesh->removeLodLevels();
 
 					DOMNode* lodchild = child->getFirstChild();
-					LOG_TRIVIAL(Logger::CORE, " LOD-Bereich für "+meshName+" gefunden");
+					LOG_DEBUG(Logger::CORE, " LOD-Bereich für "+meshName+" gefunden");
 					Ogre::Real loddist = 10.0;
 					string lodmeshName = "";
 
@@ -413,7 +413,7 @@ namespace rl {
 								if( lodmeshName.length() > 0 && loddist > 0 )
 								{
 									mesh->createManualLodLevel(loddist, lodmeshName );
-									LOG_TRIVIAL(Logger::CORE, 
+									LOG_DEBUG(Logger::CORE, 
 										" LOD für bei '"+Ogre::StringConverter::toString(loddist)+
 										"' als '"+lodmeshName+"' gesetzt!");
 								}
@@ -426,7 +426,7 @@ namespace rl {
 				}
 				catch(...)
                 {
-					LOG_NORMAL(Logger::CORE, 
+					LOG_MESSAGE(Logger::CORE, 
                         " > Parse Error beim Setzen der LOD für '"+meshName+"'!");
                 }
 			}
@@ -438,7 +438,7 @@ namespace rl {
         NodeUserData* userData )
     {
         DOMNode* child = rootUserDataXml->getFirstChild();
-        LOG_TRIVIAL(Logger::CORE, " NodeUserData gefunden");
+        LOG_DEBUG(Logger::CORE, " NodeUserData gefunden");
 
         // Durch alle Unterelemente iterieren, um die properties zu finden
         while( child != NULL )
@@ -468,7 +468,7 @@ namespace rl {
                 }
                 catch(...)
                 {
-                    LOG_NORMAL(Logger::CORE, 
+                    LOG_MESSAGE(Logger::CORE, 
                         " > Parse Error beim Übernehmen der Property '"+propertyName+"'!");
                 }
 
@@ -524,13 +524,13 @@ namespace rl {
 
         parentNode->attachObject( newEnt );
 
-        LOG_TRIVIAL(Logger::CORE, " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
+        LOG_DEBUG(Logger::CORE, " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
 
         // Zur Physik des Levels hinzufügen
         if( createMeshPhysicalBody )
         {                
             PhysicsManager::getSingleton().addLevelGeometry( newEnt );
-            LOG_TRIVIAL(Logger::CORE, " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
+            LOG_DEBUG(Logger::CORE, " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
         }
         
         // Renderingdistanz berechnen
@@ -574,7 +574,7 @@ namespace rl {
 
 	Ogre::Vector3 DotSceneLoader::processPosition( DOMElement* rootPositionXml )
 	{
-		LOG_TRIVIAL(Logger::CORE, " Position gefunden");
+		LOG_DEBUG(Logger::CORE, " Position gefunden");
 
 		try
 		{
@@ -590,7 +590,7 @@ namespace rl {
 		}
 		catch(...) { }
          
-		LOG_NORMAL(Logger::CORE, " > Parse Error beim Übernehmen der Position! ");
+		LOG_MESSAGE(Logger::CORE, " > Parse Error beim Übernehmen der Position! ");
 
 		return Ogre::Vector3::ZERO;
 	}
@@ -598,7 +598,7 @@ namespace rl {
 
 	Ogre::Vector3 DotSceneLoader::processScale( DOMElement* rootScaleXml )
 	{
-		LOG_TRIVIAL(Logger::CORE, " Skalierung gefunden");
+		LOG_DEBUG(Logger::CORE, " Skalierung gefunden");
 
 		try
 		{
@@ -614,7 +614,7 @@ namespace rl {
 		}
         catch(...) { }
 
-		LOG_NORMAL(Logger::CORE, " > Parse Error beim Übernehmen der Skalierung! ");
+		LOG_MESSAGE(Logger::CORE, " > Parse Error beim Übernehmen der Skalierung! ");
 
 		return Ogre::Vector3::UNIT_SCALE;
 	}
@@ -622,7 +622,7 @@ namespace rl {
 	/// @TODO Sollten drei Möglichkeiten sein...
 	Ogre::Quaternion DotSceneLoader::processRotation( DOMElement* rootQuatXml )
 	{
-		LOG_TRIVIAL(Logger::CORE, " Rotation gefunden");
+		LOG_DEBUG(Logger::CORE, " Rotation gefunden");
 
 		try
 		{
@@ -669,7 +669,7 @@ namespace rl {
 		}
 		catch(...) {}
 
-        LOG_NORMAL(Logger::CORE, " > Parse Error beim Übernehmen der Rotation! ");
+        LOG_MESSAGE(Logger::CORE, " > Parse Error beim Übernehmen der Rotation! ");
 
 		return Ogre::Quaternion::IDENTITY;
 	}
@@ -677,7 +677,7 @@ namespace rl {
 
     void DotSceneLoader::warning(const XERCES_CPP_NAMESPACE::SAXParseException& exc)
     {
-        LOG_NORMAL(Logger::CORE, toString( " warning ", exc ) );
+        LOG_MESSAGE(Logger::CORE, toString( " warning ", exc ) );
     }
     void DotSceneLoader::error(const XERCES_CPP_NAMESPACE::SAXParseException& exc)
     {

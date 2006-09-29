@@ -162,7 +162,7 @@ void Fmod4Driver::printData() const
             pluginName,
             127,
             &version);
-        LOG_NORMAL(Logger::MULTIMEDIA, 
+        LOG_MESSAGE(Logger::MULTIMEDIA, 
             String("Fmod4Driver Plugin '")
             + pluginName
             + "' Version "
@@ -183,7 +183,7 @@ void Fmod4Driver::printDriverInfo(int driver) const
     FMOD_SPEAKERMODE speakermode;
     mFmod4System->getDriverCaps(driver, &caps, &minfreq, &maxfreq, &speakermode);
 
-    LOG_NORMAL(Logger::MULTIMEDIA, 
+    LOG_MESSAGE(Logger::MULTIMEDIA, 
         String("Fmod4Driver '")
         + name 
         + "'"
@@ -194,7 +194,7 @@ void Fmod4Driver::printDriverInfo(int driver) const
 
     int hard2d, hard3d, hardtotal;
     mFmod4System->getHardwareChannels(&hard2d, &hard3d, &hardtotal);
-    LOG_NORMAL(Logger::MULTIMEDIA, 
+    LOG_MESSAGE(Logger::MULTIMEDIA, 
         String("Fmod4Driver '")
         + name + "' Hardware Channels: "
         + "2D #" + StringConverter::toString(hard2d)
@@ -203,7 +203,7 @@ void Fmod4Driver::printDriverInfo(int driver) const
 
     int softchannels;
     mFmod4System->getSoftwareChannels(&softchannels);
-    LOG_NORMAL(Logger::MULTIMEDIA, 
+    LOG_MESSAGE(Logger::MULTIMEDIA, 
         String("Fmod4Driver '")
         + name + "' Software Channels: "
         + "#" + StringConverter::toString(softchannels));
@@ -243,7 +243,7 @@ void Fmod4Driver::printDriverInfo(int driver) const
     else if(output == FMOD_OUTPUTTYPE_OPENAL)
 		outputName = "OpenAL 1.1";
 
-    LOG_NORMAL(Logger::MULTIMEDIA, 
+    LOG_MESSAGE(Logger::MULTIMEDIA, 
         String("Fmod4Driver '")
         + name + "' Output: " + outputName);   
 }
@@ -256,7 +256,7 @@ FMOD_RESULT F_CALLBACK Fmod4Driver::open(
     void **  userdata)
 {
     SoundResourcePtr* res = new SoundResourcePtr(sSoundResourceManager->getByName(name));
-    LOG_TRIVIAL(Logger::MULTIMEDIA, 
+    LOG_DEBUG(Logger::MULTIMEDIA, 
 		"Opened stream " + (*res)->getName());
     (*res)->load();
     *filesize = (*res)->getSize();
@@ -269,7 +269,7 @@ FMOD_RESULT F_CALLBACK Fmod4Driver::close(
     void *  userdata)
 {
    	SoundResourcePtr *res = static_cast<SoundResourcePtr*>(handle);
-    LOG_TRIVIAL(Logger::MULTIMEDIA, 
+    LOG_DEBUG(Logger::MULTIMEDIA, 
 		"Closing stream " + (*res)->getName());
     (*res)->unload();
     delete res;

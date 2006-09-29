@@ -32,6 +32,9 @@ const char* rl::Logger::MULTIMEDIA = "Multimedia";
 const char* rl::Logger::MAIN = "Main";
 const char* rl::Logger::SCRIPT = "Script";
 
+const char* rl::Logger::LEVEL_TEXT[6] = 
+	{"(UD)", "(--)", "(--)", "(WW)", "(EE)", "(CC)"};
+
 namespace rl
 {
 	
@@ -68,38 +71,49 @@ Logger::~Logger()
 	delete LogManager::getSingletonPtr();
 }
 
-void Logger::log(const Logger::LogLevel level, const Ogre::String& component, 
-			const Ogre::String& message, const Ogre::String& ident)
+void Logger::log(
+			const Logger::LogLevel level, 
+			const Ogre::String& component, 
+			const Ogre::String& message, 
+			const Ogre::String& ident)
 {
 	if (ident.length() == 0)
 		log(level, "[" + component + "] " + message);
 	else
-		log(level, "[" + component + "] (" + ident + ") " + message);
+		log(level, "[" + component + "::" + ident + "] " + message);
 }
 
-void Logger::log(const Logger::LogLevel level, const Ogre::String& component, 
-			const CeGuiString& message, const Ogre::String& ident)
+void Logger::log(
+			const Logger::LogLevel level, 
+			const Ogre::String& component, 
+			const CeGuiString& message, 
+			const Ogre::String& ident)
 {
 	if (ident.length() == 0)
 		log(level, "[" + component + "] " + message.c_str());
 	else
-		log(level, "[" + component + "] (" + ident + ") " + message.c_str());
+		log(level, "[" + component + "::" + ident + "] " + message.c_str());
 }
 
-void Logger::log(const Logger::LogLevel level, const Ogre::String& component, 
-			const char* message, const Ogre::String& ident)
+void Logger::log(
+			const Logger::LogLevel level,
+			const Ogre::String& component, 
+			const char* message, 
+			const Ogre::String& ident)
 {
 	if (ident.length() == 0)
 		log(level, "[" + component + "] " + message);
 	else
-		log(level, "[" + component + "] (" + ident + ") " + message);
+		log(level, "[" + component + "::" + ident + "] " + message);
 }
 
-void Logger::log(const Logger::LogLevel level, const Ogre::String& msg )
+void Logger::log(
+			const Logger::LogLevel level, 
+			const Ogre::String& msg)
 {
 	if (level >= mLogLevel)
 	{
-		mLog->logMessage(msg, Ogre::LML_TRIVIAL);
+		mLog->logMessage(LEVEL_TEXT[level] + msg, Ogre::LML_TRIVIAL);
 	
 		if (level >= Logger::LL_ERROR) // Fehler
 		{
@@ -126,7 +140,7 @@ const CEGUI::LoggingLevel Logger::getCeGuiLogDetail() const
 {
 	if (mLogLevel > Logger::LL_ERROR)
 		return CEGUI::Errors;
-	else if (mLogLevel > Logger::LL_NORMAL)
+	else if (mLogLevel > Logger::LL_WARNING)
 		return CEGUI::Standard;
 	else
 		return CEGUI::Insane;

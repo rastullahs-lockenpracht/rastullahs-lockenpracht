@@ -135,7 +135,7 @@ namespace rl {
 			mDialogWindow->textFinished();
 		}
 
-        LOG_TRIVIAL(Logger::UI, 
+        LOG_DEBUG(Logger::UI, 
 				StringConverter::toString(mSubtitleWindow->getWindow()->getEffectiveAlpha())
 				+ ": "
 				+ mSubtitleWindow->getText()
@@ -267,7 +267,7 @@ namespace rl {
 			}
 		}
 
-        LOG_TRIVIAL(Logger::UI, 
+        LOG_DEBUG(Logger::UI, 
 			"Response: "
 				+ actor->getName()
 				+ " File: '"

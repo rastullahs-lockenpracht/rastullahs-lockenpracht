@@ -193,7 +193,7 @@ void SoundManager::setActiveDriver(SoundDriver *driver)
 {
 	if (mActiveDriver != NULL )
     {
-		LOG_NORMAL(Logger::CORE,
+		LOG_MESSAGE(Logger::CORE,
 			"Soundtreiber wird gewechselt von "
             + mActiveDriver->getName());
 
@@ -204,7 +204,7 @@ void SoundManager::setActiveDriver(SoundDriver *driver)
 
 	if (driver != NULL) 
 	{
-		LOG_NORMAL(Logger::CORE,
+		LOG_MESSAGE(Logger::CORE,
 			"Soundtreiber wird gewechselt zu "
              + driver->getName());
 
@@ -324,14 +324,14 @@ void SoundManager::loadConf(const Ogre::String &filename)
         }
         catch(Ogre::Exception &e)
         {
-            LOG_NORMAL(Logger::CORE,
+            LOG_MESSAGE(Logger::CORE,
                 CeGuiString("Soundtreiber kann nicht geladen werden: ")
                     + *it + "\n"
                     + e.getFullDescription());
         }
         catch(...)
         {
-            LOG_NORMAL(Logger::CORE,
+            LOG_MESSAGE(Logger::CORE,
                 CeGuiString("Soundtreiber kann nicht geladen werden: ")
                     + *it);
         }
@@ -378,13 +378,13 @@ void SoundManager::unloadAllDrivers()
 	{
 		Ogre::String driverPlugin = *it;
 
-		LOG_NORMAL(Logger::CORE,
+		LOG_MESSAGE(Logger::CORE,
 			"Unloading sound driver DLL "
 			+ driverPlugin);
 
 		Ogre::Root::getSingleton().unloadPlugin(driverPlugin);
 
-		LOG_NORMAL(Logger::CORE,
+		LOG_MESSAGE(Logger::CORE,
 			"Sound driver DLL "
 			+ driverPlugin
 			+ " successfully unloaded.");

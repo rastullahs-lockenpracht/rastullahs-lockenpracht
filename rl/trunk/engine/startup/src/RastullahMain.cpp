@@ -61,25 +61,25 @@ void startupRl(bool developerMode, Ogre::String module)
 
 		core = new rl::CoreSubsystem();
 		core->setDeveloperMode(developerMode);
-        LOG_NORMAL_SHORT("CoreSubsystem gestartet");
+        LOG_MESSAGE_SHORT("CoreSubsystem gestartet");
 
 		rules = new rl::RulesSubsystem();
-		LOG_NORMAL_SHORT("RulesSubsystem gestartet");
+		LOG_MESSAGE_SHORT("RulesSubsystem gestartet");
 
 		dialog = new rl::DialogSubsystem();
-		LOG_NORMAL_SHORT("DialogSubsystem gestartet");
+		LOG_MESSAGE_SHORT("DialogSubsystem gestartet");
 	
 		ai = new rl::AiSubsystem();
-		LOG_NORMAL_SHORT("AiSubsystem gestartet");
+		LOG_MESSAGE_SHORT("AiSubsystem gestartet");
 
 		ui = new rl::UiSubsystem();
-		LOG_NORMAL_SHORT("UiSubsystem gestartet");
+		LOG_MESSAGE_SHORT("UiSubsystem gestartet");
 
 		script = new rl::ScriptSubsystem();
-		LOG_NORMAL_SHORT("ScriptSubsystem gestartet");
+		LOG_MESSAGE_SHORT("ScriptSubsystem gestartet");
 
 
-		LOG_NORMAL_SHORT("Starte...");
+		LOG_MESSAGE_SHORT("Starte...");
 		if (module != "")
 			core->setDefaultActiveModule(module);
 
@@ -114,7 +114,7 @@ void startupRl(bool developerMode, Ogre::String module)
 	try 
     {
 #endif // #ifndef _DEBUG
-        LOG_NORMAL_SHORT("Soundkonfiguration gespeichert");
+        LOG_MESSAGE_SHORT("Soundkonfiguration gespeichert");
 
 		delete script;
 		delete ui;

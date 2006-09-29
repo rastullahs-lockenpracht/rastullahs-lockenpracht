@@ -164,7 +164,7 @@ void Fmod3Sound::setPosition(const Vector3& position)
 		// Bei Fmod ist +z "nach vorn", im Gegensatz zu -z bei Ogre
         float pos[] = {position.x, position.y, -position.z}; 
 
-        LOG_TRIVIAL(Logger::MULTIMEDIA, "Pos: "
+        LOG_DEBUG(Logger::MULTIMEDIA, "Pos: "
             + StringConverter::toString(position.x)
             + StringConverter::toString(position.y)
             + StringConverter::toString(position.z));

@@ -164,7 +164,7 @@ namespace rl
 		else 
 			scheme = "tu1";
 
-		LOG_NORMAL(Logger::CORE, 
+		LOG_MESSAGE(Logger::CORE, 
 			"Found "+Ogre::StringConverter::toString(numTu) + " Texture Units, using "+
 			"alphablending scheme "+scheme);
 		return scheme;

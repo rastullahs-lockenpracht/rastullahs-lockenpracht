@@ -17,13 +17,6 @@
 #define __LOGGER_H__
 
 
-#ifdef _DEBUG
-    #define MIN_LOGLEVEL 1
-#else
-    #define MIN_LOGLEVEL 2
-#endif
-
-
 #include "CommonPrerequisites.h"
 #include <OgreSingleton.h>
 #include <OgreLog.h>
@@ -45,12 +38,14 @@ namespace rl {
 
 		enum LogLevel
 		{
-			LL_TRIVIAL = 1,
+			LL_DEBUG = 1,
 			LL_MESSAGE,
-			LL_NORMAL,
+			LL_WARNING,
 			LL_ERROR,
 			LL_CRITICAL
 		};
+
+		static const char* LEVEL_TEXT[6];
 
 		Logger(const Ogre::String& logPath, const Ogre::String& ogreLogPath);
 		virtual ~Logger();
@@ -72,7 +67,7 @@ namespace rl {
 			const Ogre::String& ident = "");
 
 		void log(
-			const LogLevel level, 			
+			const LogLevel level, 		
 			const Ogre::String& component, 
 			const CeGuiString& msg, 
 			const Ogre::String& ident = "");
@@ -96,7 +91,7 @@ namespace rl {
 
 #define RL_LOG2(level, component, msg, ident) \
     if (level >= rl::Logger::getSingleton().getLogDetail()) \
-        rl::Logger::getSingleton().log(level, component, msg, ident)
+		rl::Logger::getSingleton().log(level, component, msg, ident)
 
 #define RL_LOG(level, component, msg) \
     RL_LOG2(level, component, msg, "")
@@ -104,69 +99,39 @@ namespace rl {
 #define RL_LOG_SHORT(level, msg) \
     RL_LOG2(level, "", msg, "")
 
-#if MIN_LOGLEVEL <= 1
-    #define LOG_TRIVIAL(component, msg) \
-        RL_LOG(rl::Logger::LL_TRIVIAL, component, msg)
-    #define LOG_TRIVIAL2(component, msg, ident) \
-        RL_LOG2(rl::Logger::LL_TRIVIAL, component, msg, ident)
-    #define LOG_TRIVIAL_SHORT(msg) \
-        RL_LOG_SHORT(rl::Logger::LL_TRIVIAL, msg)
-#else
-    #define LOG_TRIVIAL(component, msg)
-    #define LOG_TRIVIAL2(component, msg, ident)
-    #define LOG_TRIVIAL_SHORT(msg)
-#endif
+#define LOG_DEBUG(component, msg) \
+    RL_LOG(rl::Logger::LL_DEBUG, component, msg)
+#define LOG_DEBUG2(component, msg, ident) \
+    RL_LOG2(rl::Logger::LL_DEBUG, component, msg, ident)
+#define LOG_DEBUG_SHORT(msg) \
+    RL_LOG_SHORT(rl::Logger::LL_DEBUG, msg)
 
-#if MIN_LOGLEVEL <= 2
-    #define LOG_MESSAGE(component, msg) \
-        RL_LOG(rl::Logger::LL_MESSAGE, component, msg)
-    #define LOG_MESSAGE2(component, msg, ident) \
-        RL_LOG2(rl::Logger::LL_MESSAGE, component, msg, ident)
-    #define LOG_MESSAGE_SHORT(msg) \
-        RL_LOG_SHORT(rl::Logger::LL_MESSAGE, msg)
-#else
-    #define LOG_MESSAGE(component, msg)
-    #define LOG_MESSAGE2(component, msg, ident)
-    #define LOG_MESSAGE_SHORT(msg) 
-#endif
+#define LOG_MESSAGE(component, msg) \
+    RL_LOG(rl::Logger::LL_MESSAGE, component, msg)
+#define LOG_MESSAGE2(component, msg, ident) \
+    RL_LOG2(rl::Logger::LL_MESSAGE, component, msg, ident)
+#define LOG_MESSAGE_SHORT(msg) \
+    RL_LOG_SHORT(rl::Logger::LL_MESSAGE, msg)
 
-#if MIN_LOGLEVEL <= 3
-    #define LOG_NORMAL(component, msg) \
-        RL_LOG(rl::Logger::LL_NORMAL, component, msg)
-    #define LOG_NORMAL2(component, msg, ident) \
-        RL_LOG2(rl::Logger::LL_NORMAL, component, msg, ident)
-    #define LOG_NORMAL_SHORT(msg) \
-        RL_LOG_SHORT(rl::Logger::LL_NORMAL, msg)
-#else
-    #define LOG_NORMAL(component, msg)
-    #define LOG_NORMAL2(component, msg, ident)
-    #define LOG_NORMAL_SHORT(msg)
-#endif
+#define LOG_WARNING(component, msg) \
+    RL_LOG(rl::Logger::LL_WARNING, component, msg)
+#define LOG_WARNING2(component, msg, ident) \
+    RL_LOG2(rl::Logger::LL_WARNING, component, msg, ident)
+#define LOG_WARNING_SHORT(msg) \
+    RL_LOG_SHORT(rl::Logger::LL_WARNING, msg)
 
-#if MIN_LOGLEVEL <= 4
-    #define LOG_ERROR(component, msg) \
-        RL_LOG(rl::Logger::LL_ERROR, component, msg)
-    #define LOG_ERROR2(component, msg, ident) \
-        RL_LOG2(rl::Logger::LL_ERROR, component, msg, ident)
-    #define LOG_ERROR_SHORT(msg) \
-        RL_LOG_SHORT(rl::Logger::LL_ERROR, msg)
-#else
-    #define LOG_ERROR(component, msg)
-    #define LOG_ERROR2(component, msg, ident)
-    #define LOG_ERROR_SHORT(msg)
-#endif
+#define LOG_ERROR(component, msg) \
+    RL_LOG(rl::Logger::LL_ERROR, component, msg)
+#define LOG_ERROR2(component, msg, ident) \
+    RL_LOG2(rl::Logger::LL_ERROR, component, msg, ident)
+#define LOG_ERROR_SHORT(msg) \
+    RL_LOG_SHORT(rl::Logger::LL_ERROR, msg)
 
-#if MIN_LOGLEVEL <= 5
-    #define LOG_CRITICAL(component, msg) \
-        RL_LOG(rl::Logger::LL_CRITICAL, component, msg)
-    #define LOG_CRITICAL2(component, msg, ident) \
-        RL_LOG2(rl::Logger::LL_CRITICAL, component, msg, ident)
-    #define LOG_CRITICAL_SHORT(msg) \
-        RL_LOG_SHORT(rl::Logger::LL_CRITICAL, msg)
-#else
-    #define LOG_CRITICAL(component, msg)
-    #define LOG_CRITICAL2(component, msg, ident)
-    #define LOG_CRITICAL_SHORT(msg)
-#endif
+#define LOG_CRITICAL(component, msg) \
+    RL_LOG(rl::Logger::LL_CRITICAL, component, msg)
+#define LOG_CRITICAL2(component, msg, ident) \
+    RL_LOG2(rl::Logger::LL_CRITICAL, component, msg, ident)
+#define LOG_CRITICAL_SHORT(msg) \
+    RL_LOG_SHORT(rl::Logger::LL_CRITICAL, msg)
 
 #endif

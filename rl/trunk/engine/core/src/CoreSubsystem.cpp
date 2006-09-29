@@ -464,13 +464,13 @@ namespace rl {
     void CoreSubsystem::loadPlugins()
     {
 		mSoundManager->loadConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
-		LOG_NORMAL(Logger::CORE, "Soundkonfiguration geladen");
+		LOG_MESSAGE(Logger::CORE, "Soundkonfiguration geladen");
     }
 
     void CoreSubsystem::unloadPlugins()
     {
         mSoundManager->saveConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
-		LOG_NORMAL(Logger::CORE, "Soundkonfiguration gespeichert.");
+		LOG_MESSAGE(Logger::CORE, "Soundkonfiguration gespeichert.");
         mSoundManager->unloadAllDrivers();
     }
 

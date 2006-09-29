@@ -51,7 +51,7 @@ std::string XmlErrorHandler::toString( const std::string& type,
 
 void XmlErrorHandler::warning(const XERCES_CPP_NAMESPACE::SAXParseException& exc)
 {
-    LOG_NORMAL(Logger::CORE, toString( " warning ", exc ) );
+    LOG_MESSAGE(Logger::CORE, toString( " warning ", exc ) );
 }
 
 void XmlErrorHandler::error(const XERCES_CPP_NAMESPACE::SAXParseException& exc)

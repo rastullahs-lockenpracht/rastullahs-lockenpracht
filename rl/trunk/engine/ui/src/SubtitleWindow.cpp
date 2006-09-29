@@ -34,7 +34,7 @@ namespace rl
 	{
 		mSubtitle->setText(text);
 		setVisible(true);
-        LOG_TRIVIAL(Logger::UI, 
+        LOG_DEBUG(Logger::UI, 
 			"Subtitle: " + text);
 	}
 

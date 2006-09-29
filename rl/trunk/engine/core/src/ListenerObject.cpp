@@ -67,12 +67,12 @@ void ListenerObject::_update()
     Actor *actor = getActor();
     if (!listener || !actor) // Einer ist Null
     {
-		LOG_TRIVIAL(Logger::CORE, "Pos Listener: NULL!");
+		LOG_DEBUG(Logger::CORE, "Pos Listener: NULL!");
         return;
     }
     listener->setPosition(actor->getWorldPosition());
 	listener->setOrientation(actor->getWorldOrientation());
-    LOG_TRIVIAL(Logger::CORE, "Pos Listener: "
+    LOG_DEBUG(Logger::CORE, "Pos Listener: "
         + StringConverter::toString(actor->getWorldPosition().x) + " "
         + StringConverter::toString(actor->getWorldPosition().y) + " "
         + StringConverter::toString(actor->getWorldPosition().z) + ", "
