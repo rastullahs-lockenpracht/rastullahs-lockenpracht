@@ -8,13 +8,13 @@
 # value of the argument.  It should have the format: N[.N[.N]] (N is a
 # number between 0 and 999.  Only the first N is mandatory.)
 AC_DEFUN([SWIG_PROG],[
-	AC_PATH_PROG([SWIG],[swig])
+	AC_PATH_PROG([SWIG],[swig-pantheon])
 	if test -z "$SWIG" ; then
-		AC_MSG_WARN([cannot find 'swig' program, you may have a look at http://www.swig.org])
-		SWIG='echo "error: SWIG is not installed, you may have a look at http://www.swig.org" ; false'
+		AC_MSG_ERROR([cannot find 'swig-pantheon' program, you may download it from http://prdownload.berlios.de/dsa-hl/swig-1.3.29-pantheon.7z])
+		SWIG='echo "error: SWIG is not installed, you may download it from http://prdownload.berlios.de/dsa-hl/swig-1.3.29-pantheon.7z" ; false'
 	elif test -n "$1" ; then
 		AC_MSG_CHECKING([for SWIG version])
-		[swig_version=`$SWIG -version 2>&1 | grep 'SWIG Version' | sed 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/g'`]
+		[swig_version=`$SWIG -version 2>&1 | grep 'SWIG Version' | sed 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\)/\1/g'`]
 		AC_MSG_RESULT([$swig_version])
 		if test -n "$swig_version" ; then
 			# Calculate the required version number
@@ -26,7 +26,7 @@ AC_DEFUN([SWIG_PROG],[
 			[swig_tmp=$(( 1000000 * ${swig_tmp[0]:-0} + 1000 * ${swig_tmp[1]:-0} + ${swig_tmp[2]:-0} ))]
 
 			if test $swig_required_version -gt $swig_tmp ; then
-				AC_MSG_WARN([SWIG version $1 is required, you have $swig_version])
+				AC_MSG_ERROR([SWIG version $1 is required, you have $swig_version])
 			fi
 		else
 			AC_MSG_WARN([cannot determine SWIG version])
