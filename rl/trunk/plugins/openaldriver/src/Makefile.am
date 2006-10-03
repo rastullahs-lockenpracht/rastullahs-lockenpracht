@@ -5,7 +5,7 @@ INCLUDES = $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(RUBY_CFLAGS)  -I../include \
 lib_LTLIBRARIES = libRlOpenALDriver.la
 libRlOpenALDriver_la_LDFLAGS = $(RUBY_LIBS) $(OGRE_LIBS) $(CEGUI_LIBS) $(LIBS) \
 	-L../../../engine/common/src -L../../../engine/core/src -L../../../engine/ui/src \
-	-lRlCommon -lRlCore -lRlUi -lruby1.8
+	-lRlCommon -lRlCore -lRlUi
 libRlOpenALDriver_la_SOURCES = \
 	OpenALDriver.cpp \
 	OpenALConfig.cpp \
