@@ -41,12 +41,21 @@ http://www.boost.org
 
 
 Eigentlich ganz normal:
-configure; make; make install.
+./configure; make; make install.
 
 Wenn ein frischer Sourcecode aus dem SVN geholt wird, bitte vorher
 bootstrap aufrufen. bootstrap ruft als letzte Aktion (wenn vorher
 alles gut gegangen ist) configure mit den Parametern auf, die bootstrap
 übergeben wurden.
+
+Zum Benutzen der Soundtreiber:
+./configure --enable-<treibername>
+
+Aktuell funktionieren die Treiber fÃ¼r Fmod3 (--enable-fmod3) und Fmod4
+(--enable-fmod4).
+
+Sollen mehrere Treiber kompiliert werden, dann kann man die Argumente kombinieren.
+
 
 Bei Fragen: http://www.team-pantheon.de/projekt
 oder #pantheon auf irc.quakenet.org
