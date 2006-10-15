@@ -1,0 +1,24 @@
+material arc_Base
+{
+	technique
+	{
+		pass
+		{
+			//ambient 0.0509804 0.0509804 0.0509804 1
+			//ambient 0.0 0.0 0.0 1
+			specular 0 0 0 1 10
+			diffuse 0.9 0.9 0.9 
+			//emissive 0.105882 0.105882 0.105882 1
+			depth_func less
+			shading phong
+
+			texture_unit
+			{
+				//texture_alias 0
+				
+				colour_op_ex modulate_x2 src_texture src_current
+				colour_op_multipass_fallback dest_colour zero
+			}
+		}
+	}
+}
