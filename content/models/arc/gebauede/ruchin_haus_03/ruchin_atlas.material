@@ -1,0 +1,17 @@
+material ruchin_atlas :arc_Base
+{
+	technique
+	{
+		pass
+		{
+			
+
+			texture_unit
+			{
+				texture ruchin_atlas.dds
+			}
+		}
+
+	}
+
+}
