@@ -1,5 +1,5 @@
 
-material arc_bett_01 :arc_Base
+material arc_bett_01
 {
 	technique
 	{
