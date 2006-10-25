@@ -447,14 +447,35 @@ namespace rl
         {
             if (mPhysicalObject->isMeshObject())
             {
-                Entity* entity = dynamic_cast<MeshObject*>(mPhysicalObject)->getEntity();
-                rval = CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(physWorld,
-                    entity, true));
+				Entity* entity = dynamic_cast<MeshObject*>(mPhysicalObject)->getEntity();
 
-			    if (offset != NULL)
-			    {
-				    *offset = Vector3::ZERO;
-			    }
+				if( size.x < PhysicsManager::NEWTON_GRID_WIDTH ||
+					size.y < PhysicsManager::NEWTON_GRID_WIDTH ||
+					size.z < PhysicsManager::NEWTON_GRID_WIDTH )
+				{
+					// Objekt zu klein!
+					LOG_MESSAGE(Logger::CORE, " PhyiscalThing too small to create a convexhull, using 'box' instead! ");
+					rval = CollisionPtr(new CollisionPrimitives::Box(physWorld, size));
+					
+					if (inertiaCoefficients != NULL)
+					{
+						*inertiaCoefficients = Vector3(
+						size.x*size.x/6.0f,
+						size.y*size.y/6.0f,
+						size.z*size.z/6.0f);
+					}
+				}
+				else
+				{
+					
+					rval = CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(physWorld,
+						entity, true));
+
+					if (offset != NULL)
+					{
+						*offset = Vector3::ZERO;
+					}
+				}
             }
             else
             {
