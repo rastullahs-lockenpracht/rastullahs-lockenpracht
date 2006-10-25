@@ -202,19 +202,19 @@ namespace rl {
 	}
 
 	// Befasst sich mit einem Node
-	void DotSceneLoader::processNode(DOMElement* rootNodeXml, SceneManager* sceneManager, Ogre::SceneNode* parentNode, NodeUserData* parentUserData)
-	{
-		if ( rootNodeXml == NULL )
-			return;
-		if ( parentNode == NULL )
-			Throw( NullPointerException, "parentNode darf nicht null sein" );
+    void DotSceneLoader::processNode(DOMElement* rootNodeXml, SceneManager* sceneManager, Ogre::SceneNode* parentNode, NodeUserData* parentUserData)
+    {
+        if ( rootNodeXml == NULL )
+            return;
+        if ( parentNode == NULL )
+            Throw( NullPointerException, "parentNode darf nicht null sein" );
 
-		string nodeName = XmlHelper::getAttributeValueAsStdString( rootNodeXml, 
-			"name" );
-		
-		Ogre::SceneNode* newNode;
-		// Wurde dem Node ein Name zugewiesen?
-		if( nodeName.length() > 0 )
+        string nodeName = XmlHelper::getAttributeValueAsStdString( rootNodeXml, 
+                        "name" );
+
+        Ogre::SceneNode* newNode;
+        // Wurde dem Node ein Name zugewiesen?
+        if( nodeName.length() > 0 )
         {
             if( !parentNode->getCreator()->hasSceneNode( nodeName ) )
             {
@@ -229,112 +229,136 @@ namespace rl {
                     " NodeName '"+nodeName+"' war schon vergeben! Es wurde der Name '"+newNode->getName()+"' benutzt." );
             }
         }
-		else
+        else
         {
             newNode = parentNode->createChildSceneNode();
         }	
 
-		LOG_DEBUG(Logger::CORE, 
-            " Node '"+newNode->getName()+"' als Unterknoten von '"+parentNode->getName()+"' erstellt." );		
-		
-        DOMNode* child = rootNodeXml->getFirstChild();
+        LOG_DEBUG(Logger::CORE, 
+                    " Node '"+newNode->getName()+"' als Unterknoten von '"+parentNode->getName()+"' erstellt." );		
+
+
         NodeUserData userData;
         // Defaults einstellen
-		if( parentUserData == NULL || !parentUserData->is_inheriting )
-		{
-			userData.is_dynamic = false;
-			userData.is_inheriting = false;
-			userData.physical_body = "mesh";
-			userData.staticgeom_group = -1;
-			userData.renderingdistance = mRenderingDistance;
-		}
-		// Vom Vorgänger erben
-		else
-		{
-			userData.is_dynamic = parentUserData->is_dynamic;
-			userData.is_inheriting = parentUserData->is_inheriting;
-			userData.physical_body = parentUserData->physical_body;
-			userData.staticgeom_group = parentUserData->staticgeom_group;
-			userData.renderingdistance = parentUserData->renderingdistance;
-		}
+        if( parentUserData == NULL || !parentUserData->is_inheriting )
+        {
+            userData.is_dynamic = false;
+            userData.is_inheriting = false;
+            userData.physical_body = "mesh";
+            userData.staticgeom_group = -1;
+            userData.renderingdistance = mRenderingDistance;
+        }
+        // Vom Vorgänger erben
+        else
+        {
+            userData.is_dynamic = parentUserData->is_dynamic;
+            userData.is_inheriting = parentUserData->is_inheriting;
+            userData.physical_body = parentUserData->physical_body;
+            userData.staticgeom_group = parentUserData->staticgeom_group;
+            userData.renderingdistance = parentUserData->renderingdistance;
+        }
 
-        // Durch alle Unterelemente iterieren, um die userDatas zu finden
+
+        mCollisions.clear();
+        DOMNode* child = rootNodeXml->getFirstChild();
+        DOMNode *childScale = NULL, *childPosition = NULL, 
+        *childRotation = NULL;
+        // Durch alle Unterelemente iterieren und gefundenes speichern
         while( child != NULL )
         {
             // Ein selbstdefinierter Bereich
             if( XMLString::compareIString(child->getNodeName(), 
                 XMLString::transcode("userData") ) == 0 )
-			{
+            {
+                // UserData direkt auslesen
                 processNodeUserData( reinterpret_cast<DOMElement*>(child) , &userData );
-				break;
-			}
+            }
+            else if( XMLString::compareIString(child->getNodeName(), 
+                     XMLString::transcode("position") ) == 0 )
+                childPosition = child;//rootNodeXml->removeChild( child );
+            else if( XMLString::compareIString(child->getNodeName(), 
+                     XMLString::transcode("rotation") ) == 0 )
+                childRotation = child;//rootNodeXml->removeChild( child );
+            else if( XMLString::compareIString(child->getNodeName(), 
+                     XMLString::transcode("scale") ) == 0 )
+                childScale = child;//rootNodeXml->removeChild( child );
 
             child = child->getNextSibling();
-        } 
+        }
+        // so jetzt stehen nur noch entities und nodes in der liste
 
-		if( userData.staticgeom_group > -1 )
-		{
-			newNode->getParentSceneNode()->removeChild( newNode );
 
-			// Existiert noch nicht
-			if( mStaticNodes.find( userData.staticgeom_group ) == mStaticNodes.end() )
-			{
-				mStaticNodes[userData.staticgeom_group] = 
-					sceneManager->getRootSceneNode()->createChildSceneNode(
-						mSceneName+"_static_"+Ogre::StringConverter::toString(userData.staticgeom_group ) );
-			}
 
-			mStaticNodes[userData.staticgeom_group]->addChild( newNode );
-		}
 
-        // Muss für Meshes in diesem Node ein TriMeshBody erstellt werden?
-        bool createMeshPhysicalBody = userData.physical_body.compare("mesh") == 0;
 
+        if( userData.staticgeom_group > -1 )
+        {
+            newNode->getParentSceneNode()->removeChild( newNode );
+
+            // Existiert noch nicht
+            if( mStaticNodes.find( userData.staticgeom_group ) == mStaticNodes.end() )
+            {
+                mStaticNodes[userData.staticgeom_group] = 
+                sceneManager->getRootSceneNode()->createChildSceneNode(
+                mSceneName+"_static_"+Ogre::StringConverter::toString(userData.staticgeom_group ) );
+            }
+
+            mStaticNodes[userData.staticgeom_group]->addChild( newNode );
+        }
+
+
+        // Einzelne weitere childs auslesen, falls nötig, in der richtigen Reihenfolge
+
+        // Position des Nodes
+        if( childPosition != NULL )
+            newNode->setPosition( processPosition( reinterpret_cast<DOMElement*>(childPosition) ) );
+
+        // Rotation des Nodes
+        if( childRotation != NULL )
+            newNode->setOrientation( processRotation( reinterpret_cast<DOMElement*>(childRotation) ) );
+
+        // Skalierung des Nodes
+        if( childScale != NULL )
+            newNode->setScale( processScale( reinterpret_cast<DOMElement*>(childScale) ) );
+
+/*      // nun nicht mehr nötig!
+        {
+            // Skalierung auf alle Entities übertragen
+            for( unsigned short i = 0; i < newNode->numAttachedObjects(); i++ )
+            {
+                MovableObject* mo = newNode->getAttachedObject(i);
+                if( mo->getMovableType().compare("Entity") == 0 )
+                    static_cast<Entity*>(mo)->setNormaliseNormals( newNode->getScale() != Vector3::UNIT_SCALE );
+            }
+        }
+*/
+
+
+
+        // Alle Entities und Subnodes auslesen
         child = rootNodeXml->getFirstChild();
-        // Durch alle Unterelemente iterieren
-		while( child != NULL )
-		{
-			// Ein Node
-			if( XMLString::compareIString(child->getNodeName(), 
-				XMLString::transcode("node") ) == 0 )
-				processNode( reinterpret_cast<DOMElement*>(child), sceneManager, newNode, &userData );
-			// Position des Nodes
-			else if( XMLString::compareIString(child->getNodeName(), 
-				XMLString::transcode("position") ) == 0  )
-				newNode->setPosition( processPosition( reinterpret_cast<DOMElement*>(child) ) );
-			// Rotation des Nodes
-			else if( XMLString::compareIString(child->getNodeName(), 
-				XMLString::transcode("rotation") ) == 0  )
-				newNode->setOrientation( processRotation( reinterpret_cast<DOMElement*>(child) ) );
-			// Skalierung des Nodes
-			else if( XMLString::compareIString(child->getNodeName(), 
-				XMLString::transcode("scale") ) == 0  )
-			{
-				newNode->setScale( processScale( reinterpret_cast<DOMElement*>(child) ) );
-				
-				// Skalierung auf alle Entities übertragen
-				for( unsigned short i = 0; i < newNode->numAttachedObjects(); i++ )
-				{
-					MovableObject* mo = newNode->getAttachedObject(i);
-					if( mo->getMovableType().compare("Entity") == 0 )
-						static_cast<Entity*>(mo)->setNormaliseNormals( newNode->getScale() != Vector3::UNIT_SCALE );
-				}
-			}
-			// Eine Entity
-			else if( XMLString::compareIString(child->getNodeName(), 
-				XMLString::transcode("entity") ) == 0  )                
-				processEntity( reinterpret_cast<DOMElement*>(child), 
-					sceneManager,
-					newNode,
-					createMeshPhysicalBody, userData.renderingdistance );
+        while( child != NULL )
+        {
+            // geschachteltes weiteres Node
+            if( XMLString::compareIString(child->getNodeName(), 
+                XMLString::transcode("node") ) == 0 )
+                processNode( reinterpret_cast<DOMElement*>(child), sceneManager, newNode, &userData );
+            // Eine Entity
+            else if( XMLString::compareIString(child->getNodeName(), 
+                     XMLString::transcode("entity") ) == 0 )
+                processEntity( reinterpret_cast<DOMElement*>(child), 
+                                sceneManager,
+                                newNode,
+                                userData.renderingdistance,
+                                userData.physical_body );
 
-			child = child->getNextSibling();
-		} 
-	}
+            child = child->getNextSibling();
+        }
+    }
 
-	void DotSceneLoader::processSceneUserData( XERCES_CPP_NAMESPACE::DOMElement* rootUserDataXml )
-	{
-		DOMNode* child = rootUserDataXml->getFirstChild();
+    void DotSceneLoader::processSceneUserData( XERCES_CPP_NAMESPACE::DOMElement* rootUserDataXml )
+    {
+        DOMNode* child = rootUserDataXml->getFirstChild();
         LOG_DEBUG(Logger::CORE, " SceneUserData gefunden");
 
         // Durch alle Unterelemente iterieren, um die properties zu finden
@@ -350,23 +374,23 @@ namespace rl {
 
                 try
                 {
-					if( propertyName.compare("default_renderingdistance") == 0 )
-						mRenderingDistance = XmlHelper::getAttributeValueAsReal( 
+                    if( propertyName.compare("default_renderingdistance") == 0 )
+                        mRenderingDistance = XmlHelper::getAttributeValueAsReal( 
                             propertyXml, "data" );
-					else if( Ogre::StringUtil::startsWith(propertyName,"staticgeom_renderingdistance_") )
-					{
-						int groupId = Ogre::StringConverter::parseInt( propertyName.substr( 29 ) );
+                    else if( Ogre::StringUtil::startsWith(propertyName,"staticgeom_renderingdistance_") )
+                    {
+                        int groupId = Ogre::StringConverter::parseInt( propertyName.substr( 29 ) );
+
+                        mStaticgeomRenderingDistances[groupId] = XmlHelper::getAttributeValueAsReal( 
+                            propertyXml, "data" );
+                    }
+                    else if( Ogre::StringUtil::startsWith(propertyName,"staticgeom_batchsize_") )
+                    {
+                        int groupId = Ogre::StringConverter::parseInt( propertyName.substr( 21 ) );
 						
-						mStaticgeomRenderingDistances[groupId] = XmlHelper::getAttributeValueAsReal( 
+                        mStaticgeomBatchSizes[groupId] = XmlHelper::getAttributeValueAsReal( 
                             propertyXml, "data" );
-					}
-					else if( Ogre::StringUtil::startsWith(propertyName,"staticgeom_batchsize_") )
-					{
-						int groupId = Ogre::StringConverter::parseInt( propertyName.substr( 21 ) );
-						
-						mStaticgeomBatchSizes[groupId] = XmlHelper::getAttributeValueAsReal( 
-                            propertyXml, "data" );
-					}
+                    }
                 }
                 catch(...)
                 {
@@ -375,61 +399,61 @@ namespace rl {
                 }
 
             }
-			// Manuell definiertes LOD
-			else if( XMLString::compareIString(child->getNodeName(), 
-					 XMLString::transcode("manualLOD") ) == 0 )
+            // Manuell definiertes LOD
+            else if( XMLString::compareIString(child->getNodeName(), 
+                    XMLString::transcode("manualLOD") ) == 0 )
             {
-				DOMElement* lodXml = reinterpret_cast<DOMElement*>(child);
+                DOMElement* lodXml = reinterpret_cast<DOMElement*>(child);
                 string meshName = XmlHelper::getAttributeValueAsStdString( lodXml, 
-			        "mesh" );
+                    "mesh" );
 				
                 try
                 {
-					Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().getByName( meshName );
+                    Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().getByName( meshName );
                     mesh->removeLodLevels();
 
-					DOMNode* lodchild = child->getFirstChild();
-					LOG_DEBUG(Logger::CORE, " LOD-Bereich für "+meshName+" gefunden");
-					Ogre::Real loddist = 10.0;
-					string lodmeshName = "";
+                    DOMNode* lodchild = child->getFirstChild();
+                    LOG_DEBUG(Logger::CORE, " LOD-Bereich für "+meshName+" gefunden");
+                    Ogre::Real loddist = 10.0;
+                    string lodmeshName = "";
 
-					// Durch alle Unterelemente iterieren, um die LODs zu finden
-					while( lodchild != NULL )
-					{						
-						if( XMLString::compareIString(lodchild->getNodeName(), 
-							XMLString::transcode("LOD") ) == 0 )
-						{
-							loddist = 0.0;
-							lodmeshName = "";
+                    // Durch alle Unterelemente iterieren, um die LODs zu finden
+                    while( lodchild != NULL )
+                    {						
+                        if( XMLString::compareIString(lodchild->getNodeName(), 
+                            XMLString::transcode("LOD") ) == 0 )
+                        {
+                            loddist = 0.0;
+                            lodmeshName = "";
 
-							try
-							{
-								lodXml = reinterpret_cast<DOMElement*>(lodchild);
-								loddist = XmlHelper::getAttributeValueAsReal( lodXml, 
-									"distance" );
-								lodmeshName = XmlHelper::getAttributeValueAsStdString( lodXml, 
-									"mesh" );
+                            try
+                            {
+                                lodXml = reinterpret_cast<DOMElement*>(lodchild);
+                                loddist = XmlHelper::getAttributeValueAsReal( lodXml, 
+                                    "distance" );
+                                lodmeshName = XmlHelper::getAttributeValueAsStdString( lodXml, 
+                                    "mesh" );
 
-								if( lodmeshName.length() > 0 && loddist > 0 )
-								{
-									mesh->createManualLodLevel(loddist, lodmeshName );
-									LOG_DEBUG(Logger::CORE, 
-										" LOD für bei '"+Ogre::StringConverter::toString(loddist)+
-										"' als '"+lodmeshName+"' gesetzt!");
-								}
-							}
-							catch(...) { }
-						}
+                                if( lodmeshName.length() > 0 && loddist > 0 )
+                                {
+                                    mesh->createManualLodLevel(loddist, lodmeshName );
+                                    LOG_DEBUG(Logger::CORE, 
+                                        " LOD für bei '"+Ogre::StringConverter::toString(loddist)+
+                                        "' als '"+lodmeshName+"' gesetzt!");
+                                }
+                            }
+                            catch(...) { }
+                        }
 
-						lodchild = lodchild->getNextSibling();
-					}
+                        lodchild = lodchild->getNextSibling();
+                    }
 				}
-				catch(...)
+                catch(...)
                 {
-					LOG_MESSAGE(Logger::CORE, 
+                    LOG_MESSAGE(Logger::CORE, 
                         " > Parse Error beim Setzen der LOD für '"+meshName+"'!");
                 }
-			}
+            }
             child = child->getNextSibling();
         } 
 	}
@@ -459,11 +483,11 @@ namespace rl {
                     else if( propertyName.compare("dynamic") == 0 )
                         userData->is_dynamic = XmlHelper::getAttributeValueAsInteger( 
                         propertyXml, "data" ) != 0;
-					else if( propertyName.compare("staticgeom_group") == 0 )
-						userData->staticgeom_group = XmlHelper::getAttributeValueAsInteger( 
+                    else if( propertyName.compare("staticgeom_group") == 0 )
+                        userData->staticgeom_group = XmlHelper::getAttributeValueAsInteger( 
                         propertyXml, "data" );
-					else if( propertyName.compare("renderingdistance") == 0 )
-						userData->renderingdistance = XmlHelper::getAttributeValueAsReal( 
+                    else if( propertyName.compare("renderingdistance") == 0 )
+                        userData->renderingdistance = XmlHelper::getAttributeValueAsReal( 
                         propertyXml, "data" );
                 }
                 catch(...)
@@ -473,25 +497,289 @@ namespace rl {
                 }
 
             }
+            else if( XMLString::compareIString(child->getNodeName(), 
+                XMLString::transcode("collisions") ) == 0 )
+                    processCollisions( reinterpret_cast<DOMElement*> (child) );
+
 
             child = child->getNextSibling();
         } 
     }
 
+    // eine benutzerdefinierte Collision
+    void DotSceneLoader::processCollisions(XERCES_CPP_NAMESPACE::DOMElement *rootCollisionXml)
+    {
+        OgreNewt::CollisionPtr collision(NULL);
+        DOMNode* child = rootCollisionXml->getFirstChild();
+        OgreNewt::World *thisWorld = PhysicsManager::getSingleton()._getNewtonWorld();
+
+        std::vector<Ogre::Vector3> vec3Vector;
+        Ogre::Vector3 scale, offset;
+        Ogre::Quaternion rotation;
+
+
+        LOG_DEBUG(Logger::CORE, " collisions in NodeUserData gefunden");
+
+
+        while( child != NULL )
+        {
+            if( child->getNodeType() != DOMNode::ELEMENT_NODE )
+            {
+                child = child->getNextSibling();
+                continue;
+            }
+            collision.setNull();
+            // am Anfang steht ein Node mit dem Typ
+            std::string typeAsString = XmlHelper::transcodeToStdString(child->getNodeName());
+
+            scale = Ogre::Vector3::UNIT_SCALE;
+            offset = Ogre::Vector3::ZERO;
+            rotation = Ogre::Quaternion::IDENTITY;
+            vec3Vector.clear();
+
+            DOMNode *childChild = static_cast<DOMElement*>(child)->getFirstChild();
+            while( childChild != NULL )
+            {
+                if( childChild->getNodeType() == DOMNode::ELEMENT_NODE )
+                {
+                    if( XMLString::compareIString(childChild->getNodeName(), 
+                        XMLString::transcode("scale") ) == 0 )
+                        scale = processScale( reinterpret_cast<DOMElement*>(childChild) );
+                    else if( XMLString::compareIString(childChild->getNodeName(), 
+                             XMLString::transcode("offset") ) == 0 )
+                        offset = processPosition( reinterpret_cast<DOMElement*>(childChild) );
+                    else if( XMLString::compareIString(childChild->getNodeName(), 
+                             XMLString::transcode("rotation") ) == 0 )
+                        rotation = processRotation( reinterpret_cast<DOMElement*>(childChild) );
+
+                    else if( XMLString::compareIString(childChild->getNodeName(), 
+                             XMLString::transcode("vertices") ) == 0 )
+                    {
+                        DOMNode *childChildChild = static_cast<DOMElement*>(childChild)->getFirstChild();
+                        while( childChildChild != NULL )
+                        {
+                            if( childChild->getNodeType() == DOMNode::ELEMENT_NODE )
+                            {
+                                if( XMLString::compareIString(childChildChild->getNodeName(), 
+                                    XMLString::transcode("vertex") ) == 0 )
+                                {
+                                    bool error = false;
+                                    Ogre::Vector3 vec3 = processVector( reinterpret_cast<DOMElement*>(childChildChild), error );
+                                    if( !error )
+                                        vec3Vector.push_back(vec3);
+                                }
+                            }
+                            childChildChild = childChildChild->getNextSibling();
+                        }
+                    }
+                }
+                childChild = childChild->getNextSibling();
+            }
+
+            // typangabe aus String extrahieren
+            if( typeAsString.compare("convexhull") == 0 )
+            {
+                int vertcount = vec3Vector.size();
+                Ogre::Vector3 *vertices = new Ogre::Vector3[ vertcount ];
+                Ogre::Vector3 vec3Min(0,0,0), vec3Max(0,0,0);
+                for( int i = 0; i < vertcount; i++ )
+                {
+                    vertices[i] = vec3Vector[i] * scale; // in array übertragen
+
+
+                    if( vertices[i].x < vec3Min.x )   // und größe des körpers bestimmen
+                        vec3Min.x = vertices[i].x;
+                    if( vertices[i].y < vec3Min.y )
+                        vec3Min.y = vertices[i].y;
+                    if( vertices[i].z < vec3Min.z )
+                        vec3Min.z = vertices[i].z;
+
+                    if( vertices[i].x > vec3Max.x )
+                        vec3Max.x = vertices[i].x;
+                    if( vertices[i].y > vec3Max.y )
+                        vec3Max.y = vertices[i].y;
+                    if( vertices[i].z > vec3Max.z )
+                        vec3Max.z = vertices[i].z;
+                }
+
+                Ogre::Vector3 size = vec3Max - vec3Min;
+                // Größe überprüfen
+                if( size.x < PhysicsManager::NEWTON_GRID_WIDTH ||
+                    size.y < PhysicsManager::NEWTON_GRID_WIDTH ||
+                    size.z < PhysicsManager::NEWTON_GRID_WIDTH ||
+                    vertcount < 4 )
+                {
+                    LOG_MESSAGE(Logger::CORE, 
+                        " physical_body 'convexhull' in <collisions> konnte nicht erstellt werden; der Körper ist zu klein!");
+
+                    // Minimale Größe verwenden
+                    if( size.x < PhysicsManager::NEWTON_GRID_WIDTH )
+                        size.x = PhysicsManager::NEWTON_GRID_WIDTH;
+                    if( size.y < PhysicsManager::NEWTON_GRID_WIDTH )
+                        size.y = PhysicsManager::NEWTON_GRID_WIDTH;
+                    if( size.z < PhysicsManager::NEWTON_GRID_WIDTH )
+                        size.z = PhysicsManager::NEWTON_GRID_WIDTH;
+                        
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Box(
+                                     thisWorld, size, rotation, offset));
+                    
+                    LOG_MESSAGE(Logger::CORE, " stattdessen physical_body 'box' erstellt. ");
+                }
+                else
+                {
+                    collision = OgreNewt::CollisionPtr( new OgreNewt::CollisionPrimitives::ConvexHull(
+                                    thisWorld,
+                                    vertices,
+                                    vertcount,
+                                    rotation, offset));
+
+                    LOG_DEBUG(Logger::CORE, " physical_body 'convexhull' in <collisions> erstellt. ");
+                }
+
+                delete [] vertices;
+            }
+            else
+            {
+                if( !vec3Vector.empty() )   // fehler!
+                {
+                    LOG_MESSAGE(Logger::CORE, " > Parse Error beim Einlesen einer Collision; Es könne nur für Convexhull Vektoren definiert werden!");
+                }
+
+                if( typeAsString.compare("box") == 0 )
+                {
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Box(
+                                    thisWorld, scale, rotation, offset));
+                    LOG_DEBUG(Logger::CORE, " physical_body 'box' in <collisions> erstellt. ");
+                }
+                else if( typeAsString.compare("sphere") == 0 )
+                {
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
+                                    thisWorld, scale, rotation, offset));
+                    LOG_DEBUG(Logger::CORE, " physical_body 'sphere' in <collisions> erstellt. ");
+                }
+                else if( typeAsString.compare("ellipsoid") == 0 )
+                {
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
+                    thisWorld, scale, rotation, offset));
+                    LOG_DEBUG(Logger::CORE, " physical_body 'ellipsoid' in <collisions> erstellt. ");
+                }
+                else if( typeAsString.compare("pyramid") == 0 )
+                {
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Pyramid(
+                    thisWorld, scale, rotation, offset));
+                    LOG_DEBUG(Logger::CORE, " physical_body 'pyramid' in <collisions> erstellt. ");
+                }
+                else if( typeAsString.compare("capsule") == 0 )
+                {
+                    double radius = std::max(scale.x, scale.z) / 2.0;
+                    double height = scale.y;
+                    offset.x -= scale.y/2;
+                    Ogre::Quaternion tempRot;
+                    tempRot.FromAngleAxis(Degree(90), Ogre::Vector3::UNIT_Z);
+                    rotation = (rotation * tempRot);
+
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Capsule(
+                                    thisWorld,
+                                    radius,
+                                    height,
+                                    rotation, offset));
+                    LOG_DEBUG(Logger::CORE, " physical_body 'capsule' in <collisions> erstellt. ");
+                }
+                else if( typeAsString.compare("cone") == 0 )
+                {
+                    double radius = std::max(scale.x, scale.z) / 2.0;
+                    double height = scale.y;
+                    offset.x -= scale.y/2;
+                    Ogre::Quaternion tempRot;
+                    tempRot.FromAngleAxis(Degree(90), Ogre::Vector3::UNIT_Z);
+                    rotation = (rotation * tempRot);
+
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Cone(
+                                    thisWorld,
+                                    radius,
+                                    height,
+                                    rotation, offset));
+                    LOG_DEBUG(Logger::CORE, " physical_body 'cone' in <collisions> erstellt. ");
+                }
+                else if( typeAsString.compare("cylinder") == 0 )
+                {
+                    double radius = std::max(scale.x, scale.z) / 2.0;
+                    double height = scale.y;
+                    offset.x -= scale.y/2;
+                    Ogre::Quaternion tempRot;
+                    tempRot.FromAngleAxis(Degree(90), Ogre::Vector3::UNIT_Z);
+                    rotation = (rotation * tempRot);
+
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Cylinder(
+                                    thisWorld,
+                                    radius,
+                                    height,
+                                    rotation, offset));
+                    LOG_DEBUG(Logger::CORE, " physical_body 'cylinder' in <collisions> erstellt. ");
+                }
+                else if( typeAsString.compare("chamfer_cylinder") == 0 )
+                {
+                    double radius = std::max(scale.x, scale.z) / 2.0;
+                    double height = scale.y;
+                    offset.x -= scale.y/2;
+                    Ogre::Quaternion tempRot;
+                    tempRot.FromAngleAxis(Degree(90), Ogre::Vector3::UNIT_Z);
+                    rotation = (rotation * tempRot);
+
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::ChamferCylinder(
+                                    thisWorld,
+                                    radius,
+                                    height,
+                                    rotation, offset));
+                    LOG_DEBUG(Logger::CORE, " physical_body 'chamfer_cylinder' in <collisions> erstellt. ");
+                }
+                else if( typeAsString.compare("mesh") == 0 )
+                {
+                    LOG_MESSAGE(Logger::CORE,
+                        " Mesh-Collisions in <collisions> werden momentan noch nicht unterstützt (Eintrag wird ignoriert).");
+                    collision.setNull();
+                }
+/*
+                else if( typeAsString.compare("meshhull") == 0 )  // automatische convexhull mit daten aus mesh
+                {
+                    LOG_MESSAGE(Logger::CORE,
+                        " Entityhull-Collisions werden momentan noch nicht unterstützt (Eintrag wird ignoriert).");
+                    collision.setNull();
+                }
+*/
+                else
+                {
+                    LOG_MESSAGE(Logger::CORE, 
+                        " > Parse Error beim Erstellen einer Collision; ungültiger typ: '"+typeAsString+"' !");
+                    collision.setNull();
+                    //return OgreNewt::CollisionPtr(NULL);
+                }
+
+            }
+
+
+            // Collision dem vektor hinzufügen
+            if( !collision.isNull() )
+                mCollisions.push_back(collision);
+
+            child = child->getNextSibling();
+        }
+    }
+
 	// Eine Entity
 	void DotSceneLoader::processEntity( DOMElement* rootEntityXml,
 		SceneManager* sceneManager, Ogre::SceneNode* parentNode, 
-		bool createMeshPhysicalBody, Ogre::Real renderingDistance )
+		Ogre::Real renderingDistance, const std::string &physical_body )
 	{
-		string entName = XmlHelper::getAttributeValueAsStdString( 
-			rootEntityXml, "name" );
-		string meshName = XmlHelper::getAttributeValueAsStdString( 
-			rootEntityXml, "meshFile" );
+        string entName = XmlHelper::getAttributeValueAsStdString( 
+            rootEntityXml, "name" );
+        string meshName = XmlHelper::getAttributeValueAsStdString( 
+            rootEntityXml, "meshFile" );
 
-		Ogre::Entity* newEnt = NULL;
+        Ogre::Entity* newEnt = NULL;
 
         // Wurde der Entity bisher kein Name zugewiesen
-		if( entName.length() == 0 )
+        if( entName.length() == 0 )
         {
             entName = getRandomName(mSceneName+"_"+parentNode->getName());
         }
@@ -519,18 +807,144 @@ namespace rl {
               return;
         }
 
-		if( parentNode->getScale() != Vector3::UNIT_SCALE )
-			newEnt->setNormaliseNormals( true );
+        if( parentNode->getScale() != Vector3::UNIT_SCALE )
+            newEnt->setNormaliseNormals( true );
 
         parentNode->attachObject( newEnt );
 
         LOG_DEBUG(Logger::CORE, " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
 
+
+        // ------- Falls nötig automatisch bodyproxy erstellen -------------
+        // (wenn physical_body gesetzt wurde)
+        OgreNewt::CollisionPtr collision(NULL);
+        OgreNewt::World *thisWorld = PhysicsManager::getSingleton()._getNewtonWorld();
+
+        if( physical_body.compare("none") != 0 )
+        {
+            const AxisAlignedBox &aab = newEnt->getMesh()->getBounds();
+            Ogre::Vector3 size = (aab.getMaximum() - aab.getMinimum()) * parentNode->getScale();
+            bool forceBox = false;
+
+            if( (size.x < PhysicsManager::NEWTON_GRID_WIDTH || 
+                 size.y < PhysicsManager::NEWTON_GRID_WIDTH || 
+                 size.z < PhysicsManager::NEWTON_GRID_WIDTH ) &&
+                 physical_body.compare("convexhull") == 0 )
+            {
+                if( size.x < PhysicsManager::NEWTON_GRID_WIDTH )
+                    size.x = PhysicsManager::NEWTON_GRID_WIDTH;
+                if( size.y < PhysicsManager::NEWTON_GRID_WIDTH )
+                    size.y = PhysicsManager::NEWTON_GRID_WIDTH;
+                if( size.z < PhysicsManager::NEWTON_GRID_WIDTH )
+                    size.z = PhysicsManager::NEWTON_GRID_WIDTH;
+
+                LOG_MESSAGE(Logger::CORE, " Die Entity '"+entName+"' liegt in einer Ebene, verwende 'box' für physical_body '"+physical_body+"' ");
+                forceBox = true;
+            }
+            const Quaternion orientation(0,0,0,0);// = parentNode->getOrientation();
+            const Ogre::Vector3 pos = aab.getMinimum()* parentNode->getScale() + (size/2.0);
+
+
+            // Prüfen, ob schon ein identischer Proxy erstellt wurde um diesen erneut zu verwenden
+            AlreadyUsedCollision &aucol (mAutoCreatedCollisions[meshName]);
+            if( aucol.Type.compare(physical_body) == 0  && 
+                aucol.Scale == parentNode->getScale() &&
+                (!forceBox) ) // sicherheitshalber
+            {
+                collision = aucol.ColPtr;
+                LOG_DEBUG(Logger::CORE, " Schon früher erstellten physical_body für Entity '"+entName+"' wieder verwendet. ");
+            }
+            else
+            {
+
+                if( physical_body.compare("box") == 0 || forceBox )
+                {
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Box(
+                                     thisWorld, size, orientation, pos));
+                    LOG_DEBUG(Logger::CORE, " physical_body 'box' für Entity '"+entName+"' erstellt. ");
+                }
+                else if( physical_body.compare("pyramid") == 0 )
+                {
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Pyramid(
+                                    thisWorld, size, orientation, pos));
+                    LOG_DEBUG(Logger::CORE, " physical_body 'pyramid' für Entity '"+entName+"' erstellt. ");
+                }
+                else if( physical_body.compare("sphere") == 0 )
+                {
+                    double radius = std::max(size.x, std::max(size.y, size.z)) / 2.0;
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
+                                    thisWorld, Vector3(radius, radius, radius),
+                                    orientation, pos));
+                    LOG_DEBUG(Logger::CORE, " physical_body 'sphere' für Entity '"+entName+"' erstellt. ");
+                }
+                else if( physical_body.compare("ellipsoid") == 0 )
+                {
+                    // set the size x/z values to the maximum
+                    Ogre::Vector3 s(size/2.0);
+                    s.x = std::max(s.x, s.z);
+                    s.z = s.x;
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
+                                    thisWorld, s,
+                                    orientation, pos));
+                    LOG_DEBUG(Logger::CORE, " physical_body 'ellipsoid' für Entity '"+entName+"' erstellt. ");
+                }
+                else if( physical_body.compare("capsule") == 0 )
+                {
+                    double radius = std::max(size.x, size.z) / 2.0;
+                    double height = size.y;
+
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Capsule(
+                                    thisWorld,
+                                    radius,
+                                    height,
+                                    orientation, pos));
+                    LOG_DEBUG(Logger::CORE, " physical_body 'capsule' für Entity '"+entName+"' erstellt. ");
+                }
+                else if( physical_body.compare("convexhull") == 0 )
+                {
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(
+                                    thisWorld,
+                                    newEnt,
+                                    false));
+                    //orientation, pos));
+                    LOG_DEBUG(Logger::CORE, " physical_body 'convexhull' für Entity '"+entName+"' erstellt. ");
+                    }
+                    else if( physical_body.compare("mesh") == 0 || physical_body.compare("auto") )
+                    {
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(
+                                    thisWorld, newEnt, false));
+                    LOG_DEBUG(Logger::CORE, " physical_body 'mesh' für Entity '"+entName+"' erstellt. ");
+                }
+                else
+                    LOG_MESSAGE(Logger::CORE,
+                        " Der bodyproxy_type '"+physical_body+"'(aus userData) der Entity '"+meshName+"' ist ungültig.");
+
+                // proxy in die liste der schon erstellten proxies hinzufügen
+                aucol.ColPtr = collision;
+                aucol.Scale = parentNode->getScale();
+                aucol.Type = physical_body;
+            }
+        }
+
+        // zur liste hinzufügen
+        if( !collision.isNull() )
+        {
+            mCollisions.push_back(collision);
+        }
+
+
         // Zur Physik des Levels hinzufügen
-        if( createMeshPhysicalBody )
+        if( mCollisions.size() > 0 )
         {                
-            PhysicsManager::getSingleton().addLevelGeometry( newEnt );
-            LOG_DEBUG(Logger::CORE, " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
+            PhysicsManager::getSingleton().addLevelGeometry( newEnt, mCollisions );
+            LOG_DEBUG(Logger::CORE, " Entity '"+entName+"' in levelGeometry geladen");
+        }
+
+
+        // wieder aus der liste entfernen, falls mehrere entities hier definiert werden
+        if( !collision.isNull() )
+        {
+            mCollisions.pop_back();
         }
         
         // Renderingdistanz berechnen
@@ -615,6 +1029,31 @@ namespace rl {
         catch(...) { }
 
 		LOG_MESSAGE(Logger::CORE, " > Parse Error beim Übernehmen der Skalierung! ");
+
+		return Ogre::Vector3::UNIT_SCALE;
+	}
+
+	Ogre::Vector3 DotSceneLoader::processVector( DOMElement* rootScaleXml, bool &error )
+	{
+		LOG_DEBUG(Logger::CORE, " Vector gefunden");
+
+		try
+		{
+			if( rootScaleXml->hasAttribute( XMLString::transcode("x") ) && 
+				rootScaleXml->hasAttribute( XMLString::transcode("y") ) && 
+				rootScaleXml->hasAttribute( XMLString::transcode("z") ) )
+			{
+				error = false;
+				return Ogre::Vector3( 
+					XmlHelper::getAttributeValueAsReal( rootScaleXml, "x" ),
+					XmlHelper::getAttributeValueAsReal( rootScaleXml, "y" ),
+					XmlHelper::getAttributeValueAsReal( rootScaleXml, "z" ) );
+			}
+		}
+        catch(...) { }
+
+		LOG_MESSAGE(Logger::CORE, " > Parse Error beim Lesen eines Vectors! ");
+		error = true;
 
 		return Ogre::Vector3::UNIT_SCALE;
 	}

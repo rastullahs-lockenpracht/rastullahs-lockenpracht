@@ -32,6 +32,9 @@ template<> rl::PhysicsManager* Singleton<rl::PhysicsManager>::ms_Singleton = 0;
 
 namespace rl
 {
+    const Ogre::Real PhysicsManager::NEWTON_GRID_WIDTH = 0.01;
+
+
     PhysicsManager& PhysicsManager::getSingleton(void)
     {
         return Singleton<PhysicsManager>::getSingleton();
@@ -183,7 +186,7 @@ namespace rl
         mDebugMode = !mDebugMode;
     }
 
-    void PhysicsManager::addLevelGeometry( Ogre::Entity* levelEntity )
+    void PhysicsManager::addLevelGeometry( Ogre::Entity* levelEntity, const std::vector<OgreNewt::CollisionPtr> &collisions)
     {
         RlAssert1(levelEntity);
         RlAssert1(levelEntity->getParentSceneNode());
@@ -191,16 +194,23 @@ namespace rl
         SceneNode* node = levelEntity->getParentSceneNode();
         //Level entity has to be attached to a scene node.
 
-        OgreNewt::Collision* collision =
-            new OgreNewt::CollisionPrimitives::TreeCollision(mWorld, levelEntity, false);
-        OgreNewt::Body* body = new OgreNewt::Body(mWorld, CollisionPtr(collision));
+        for( size_t i = 0; i < collisions.size(); i++)
+        {
+		    if( collisions[i].isNull() )
+                continue;
 
-        body->attachToNode(node);
-        body->setPositionOrientation(node->getWorldPosition(),
-            node->getWorldOrientation());
-        body->setMaterialGroupID(mLevelID);
+            OgreNewt::CollisionPtr collision = collisions[i];
+            
+		    OgreNewt::Body* body = new OgreNewt::Body(mWorld, collision );
 
-        mLevelBodies.push_back(body);
+
+            body->attachToNode(node);
+            body->setPositionOrientation(node->getWorldPosition(),
+                node->getWorldOrientation());
+            body->setMaterialGroupID(mLevelID);
+
+            mLevelBodies.push_back(body);
+        }
 
         // adjust worldAABB
         Vector3 minV(mWorldAABB.getMinimum());

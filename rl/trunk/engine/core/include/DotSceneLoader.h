@@ -18,6 +18,7 @@
 #define __DotSceneLoader_H__
 
 #include <xercesc/sax/ErrorHandler.hpp>
+#include <OgreNewt.h>
 
 #include <string>
 #include <map>
@@ -61,6 +62,25 @@ namespace rl {
 			int staticgeom_group;
             bool is_dynamic;
 			bool is_inheriting;
+			OgreNewt::CollisionPtr collision;
+        };
+		struct CompareStrings    // für ne string-map
+		{
+		public:
+			bool operator() (const std::string &a, const std::string &b) const
+			{
+				return ((a.compare(b) ) != 0);
+			}
+		};
+
+        // wird verwendet um einen Zeiger auf eine vorherige identische
+        // Collision zu erhalten
+        struct AlreadyUsedCollision
+        {
+        public:
+            std::string Type;
+            Ogre::Vector3 Scale;
+            OgreNewt::CollisionPtr ColPtr;
         };
 
 
@@ -78,7 +98,7 @@ namespace rl {
 		/// Eine Entity+Attribute
 		void processEntity( XERCES_CPP_NAMESPACE::DOMElement* rootEntityXml, 
 			Ogre::SceneManager* sceneManager, Ogre::SceneNode* parentNode, 
-			bool createMeshPhysicalBody,  Ogre::Real renderingDistance);
+			Ogre::Real renderingDistance, const std::string &bodyproxy_type );
         /// Ein benutzerdefinierter Bereich im Node
         void processNodeUserData( XERCES_CPP_NAMESPACE::DOMElement* rootUserDataXml, 
 			NodeUserData* userData );
@@ -94,11 +114,20 @@ namespace rl {
 		*  Sollten die Attribute nicht korrekt definiert sein, gibt es Vector::UNIT_SCALE zurück (1,1,1)
 		*/
 		Ogre::Vector3 processScale( XERCES_CPP_NAMESPACE::DOMElement* rootPositionXml );
+		/** Liest einen Vector aus einem XML Element, über die Attribute x, y, z
+		*  Sollten die Attribute nicht korrekt definiert sein, wird error auf true gesetzt.
+		*/
+		Ogre::Vector3 processVector( XERCES_CPP_NAMESPACE::DOMElement* rootPositionXml, bool &error );
 		/** Liest ein Quaternion aus einem XML Element, 
 		*  über die Attribute qw, qx, qy, qz  ODER angle, axisX, axisY, axisZ
 		*  Sollten die Attribute nicht korrekt definiert sein, gibt es Quaternion::IDENTITY zurück (1,0,0,0)
 		*/
 		Ogre::Quaternion processRotation( XERCES_CPP_NAMESPACE::DOMElement* rootQuatXml );
+		/** Liest eine Liste von ein bis mehreren Bodyproxies (Collisions)
+		* SceneUserData ein.
+		* Sollten die Attribute falsch gesetzt sein, gibt es NULL zurück; Dadurch wird keine Collision verwendet
+		*/
+		void processCollisions( XERCES_CPP_NAMESPACE::DOMElement* rootCollisionXml );
 
         std::string getRandomName(const std::string& baseName);
         /// Builds a string from a xerces exception
@@ -108,6 +137,12 @@ namespace rl {
 		Ogre::SceneNode* mSceneNode;
 		/// Alle statischen GeometrieNodes
 		std::map<int,Ogre::SceneNode*> mStaticNodes;
+
+		/// Alle bodyproxies, die schon automatisch erstellt worden sind
+		typedef std::map<const std::string,AlreadyUsedCollision,CompareStrings>
+			USEDCOLLISIONSMAP;
+		USEDCOLLISIONSMAP mAutoCreatedCollisions;
+        std::vector<OgreNewt::CollisionPtr> mCollisions;
 
 		Ogre::Real mRenderingDistance;
 		std::map<int,Ogre::Real> mStaticgeomRenderingDistances;

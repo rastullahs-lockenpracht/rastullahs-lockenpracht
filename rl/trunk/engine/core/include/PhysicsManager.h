@@ -49,6 +49,8 @@ namespace rl {
             GT_ELLIPSOID = 4,
             GT_CONVEXHULL = 5
         };
+
+        static const Ogre::Real NEWTON_GRID_WIDTH;
         
         PhysicsManager();
         virtual ~PhysicsManager();
@@ -93,7 +95,7 @@ namespace rl {
         static PhysicsManager * getSingletonPtr(void);
 
 		/// Levelgeometrie hinzufügen
-		void addLevelGeometry(Ogre::Entity* ent);
+        void addLevelGeometry(Ogre::Entity* ent, const std::vector<OgreNewt::CollisionPtr> &collisions);
 		/// Komplette Levelgeometrie auflösen
 		void clearLevelGeometry();
 		
@@ -144,6 +146,11 @@ namespace rl {
 
         virtual const Ogre::String& getName() const;
 
+        // gibt die AxisAlignedBox der Welt zurück
+        const Ogre::AxisAlignedBox &getWorldAab(void)
+        {
+            return mWorldAABB;
+        }
     private:
         typedef std::map<PhysicalThing*, PhysicsController*> ControllerMap;
 
