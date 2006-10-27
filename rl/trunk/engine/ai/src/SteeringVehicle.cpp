@@ -34,7 +34,8 @@ SteeringVehicle::SteeringVehicle(Agent* parent, Actor* character)
 	  mForwardVector(Vector3::NEGATIVE_UNIT_Z),
       mYaw(115),
 	  mParent(parent),
-	  mActor(character)
+	  mActor(character),
+      mHeight(0)
 {
 	initialize();
 }

@@ -156,6 +156,9 @@ namespace rl
 		float radius (void) const {return mRadius;}
 		float setRadius (float m) {return mRadius = m;}
 
+        float height (void) const {return mHeight;}
+        float setHeight (float h) {return mHeight = h;}
+
 		// get/set maxForce
 		float maxForce (void) const {return 10000.0f;} 
 		float setMaxForce (float mf) {return _maxForce = mf;}// TODO: should not be set here, throw excpetion or so
@@ -226,6 +229,9 @@ namespace rl
 			setSide (localRotateForwardToSide (forward()));
 		}
 		*/
+
+
+        const Actor* getActor(void) const  { return mActor; }
 	protected:
 		void initialize();
 		AVGroup getNeighbors();
@@ -250,6 +256,8 @@ namespace rl
 		Ogre::Real mMass;
 		Ogre::Real mRadius;
 		Ogre::Real mSpeed;	
+
+        float mHeight;
 
 		Ogre::Vector3 mCurrentForce;
 		Ogre::Vector3 mCurrentVelocity;

@@ -27,6 +27,7 @@ template<> rl::AiSubsystem* Singleton<rl::AiSubsystem>::ms_Singleton = 0;
 
 using namespace rl;
 
+
 AiSubsystem& AiSubsystem::getSingleton(void)
 {
 	return Singleton<AiSubsystem>::getSingleton();
@@ -65,13 +66,37 @@ void AiSubsystem::initialize()
 		FRAME_STARTED);
 }
 
-void AiSubsystem::onAfterSceneLoaded()
-{
-
-}
-
 void AiSubsystem::onBeforeClearScene()
 {
 	AgentManager::getSingleton().removeAllAgents();
 	mWorld->removeAllObstacles();
+}
+
+
+
+void AiSubsystem::onAfterSceneLoaded()
+{
+    // newton world hinzufügen
+    Obstacle *newtonWorld = new NewtonWorldAsObstacle;
+    newtonWorld->setSeenFrom(AbstractObstacle::both);
+    mWorld->addObstacle(newtonWorld);
+
+    // äußere grenzen einfügen
+    //PhysicsManager
+/*    
+//  create an obstacle as bounding box of the walkarea for npcs
+//  this should be accessable through scripting, the Obstacles should have names
+//  for easier access
+	BoxObstacle* o = new BoxObstacle(25,50,25);
+	o->setSeenFrom(AbstractObstacle::inside);
+	o->setPosition(Vec3(-40.0f,-10.0f, 0.0f));
+	o->setForward(0,0,-1);
+	addObstacle(o);
+
+	o = new BoxObstacle(2,50,2);
+	o->setSeenFrom(AbstractObstacle::outside);
+	o->setPosition(Vec3(-31.5f,-10.0f, -3.5f));
+	o->setForward(0,0,-1);
+	addObstacle(o);
+*/
 }
