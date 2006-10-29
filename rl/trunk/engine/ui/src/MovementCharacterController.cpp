@@ -644,8 +644,8 @@ namespace rl {
 
             Vector3 diff = camPos - optimalCamPos;
             // Zittern vermeiden:
-            if( diff.squaredLength() < 0.04 )
-                diff = 0.0f;
+            //if( diff.squaredLength() < 0.04 )
+            //    diff = 0.0f;
 
 
 
