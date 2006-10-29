@@ -140,14 +140,20 @@ namespace rl {
         /// the smaller, the tighter the feel.
         Ogre::Real mMaxDelay;
 
+
+        /// Explained where these are set
+        Ogre::Real mLinearSpringK;
+        Ogre::Real mLinearDampingK;
+        Ogre::Vector3 mCameraVelocity;
+
 		bool isRunMovement(int movement);
 
         void updateSelection();
         void updateAnimationState();
 
-        bool isCharacterOccluded() const;
-
 		void calculateCamera(const Ogre::Real& timestep);
+
+        Ogre::Vector3 calculateOptimalCameraPosition(void);
     };
 }
 #endif

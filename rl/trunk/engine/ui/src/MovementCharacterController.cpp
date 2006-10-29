@@ -73,11 +73,13 @@ namespace rl {
 		mYaw(0),
 		mPitch(20),
 		mPitchRange(Degree(-75), Degree(85)),
+        mLinearSpringK(70.0f),
+        mLinearDampingK(Math::NEG_INFINITY),
 		mLookAtOffset(),
 		mRotationSpeed(4.0f),
 		mSpeedModifier(1.0f),
 		mViewMode(VM_THIRD_PERSON),
-		mMaxDelay(1.0/30.0),
+		mMaxDelay(1.0/20.0),
 		mObstractedFrameCount(0),
 		mObstractedTime(0.0f),
 		mCameraJammedFrameCount(0),
@@ -96,12 +98,28 @@ namespace rl {
 		mRotationSpeed
 			= ConfigurationManager::getSingleton().getIntSetting("mouse_sensitivity", 4);
 
+
+
+
+        // The relationCoefficient determines the relation between spring accel in target direction
+        // and damping in velocity direction. 1.0 means equilibrium is reached in optimal time
+        // smaller 1.0 means spring accel is stronger and thus cam shoots over the target, resulting
+        // in a damped ozillation before reaching equilibrium.
+        // Values greater than 1.0 mean damping is stronger and thus camera takes a detour.
+        Real relationCoefficient = 1.0f;
+        mLinearDampingK = relationCoefficient * 2.0f * Math::Sqrt(mLinearSpringK);
+
+
+
 		// Offset for the look at point,
 		// so the cam does look at the characters head instead of the feet.
 		MeshObject* charMesh = dynamic_cast<MeshObject*>(
 			mCharacterActor->getControlledObject());
         AxisAlignedBox aabb = charMesh->getDefaultSize();
+
+        // wird später neu berechnet in calculateOptimalCameraPosition
         mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45f, 0);
+
 
 		// The actor should be controlled manually,
 		// so let the PM prepare it accordingly
@@ -223,62 +241,21 @@ namespace rl {
 		}
 		else
 		{
+            // Kamera-Größe beziehen
+            CameraObject* ogreCam = static_cast<CameraObject*>(
+                mCameraActor->getControlledObject());
+            AxisAlignedBox aabb = ogreCam->getDefaultSize();
+            // Radius berechnen
+            Real radius = (aabb.getMaximum()-aabb.getMinimum()).length() / 2.0f;
+
 			cameraNode->lookAt(
-				charPos	+ mLookAtOffset, 
+				charPos	+ mLookAtOffset
+                + charOri * (-Vector3::UNIT_Z*radius), 
 				Node::TS_WORLD);
 		}
 
 		while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
 		while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
-
-		if (isCharacterOccluded())
-		{
-			mObstractedTime += elapsedTime;
-			++mObstractedFrameCount;
-		}
-		else
-		{
-			mObstractedTime = 0.0f;
-			mObstractedFrameCount = 0;
-		}
-
-		// if we have more than 250ms and at least five frames with no direct sight, reset camera
-		if (mObstractedTime > 0.250f && mObstractedFrameCount > 5)
-		{
-			mObstractedFrameCount = 0;
-			resetCamera();
-		}
-
-		mCharBody->getPositionOrientation(charPos, charOri);
-
-		Vector3 camPos;
-		Quaternion camOri;
-		mCamBody->getPositionOrientation(camPos, camOri);
-
-        float maxdistance;
-        if (mViewMode == VM_FIRST_PERSON)
-            maxdistance = 0.25;
-        else
-            maxdistance = 1.3f * mDesiredDistance + 1.4f;
-
-		// if we have more than 250ms and at least five frames with camera distance higher
-		// than desired distance, reset camera
-		if ((camPos - (charPos + charOri*mLookAtOffset)).length() > maxdistance)
-		{
-			mCameraJammedTime += elapsedTime;
-			++mCameraJammedFrameCount;
-		}
-		else
-		{
-			mCameraJammedTime = 0.0f;
-			mCameraJammedFrameCount = 0;
-		}
-
-		if (mCameraJammedTime > 0.250f && mCameraJammedFrameCount > 5)
-		{
-			mCameraJammedFrameCount = 0;
-			resetCamera();
-		}
 
 		updateAnimationState();
 
@@ -319,10 +296,11 @@ namespace rl {
 			// this is camera collision
 			// empty so far
 
-			if (getViewMode() == VM_FIRST_PERSON)
-			{
-				return 0; // no collision if in 1st Person mode
-			}
+            // was kann man hier noch machen, dass das nicht so stark ruckelt?
+            // "weiche" Berührung? ...
+            // bringen einem die callback-funktionen etwas?
+            return 1;
+			return 0; // no collision if in 1st Person mode
 		}
 		else if (m_body0 == mCharBody || m_body1 == mCharBody)
 		{
@@ -459,85 +437,357 @@ namespace rl {
 		Vector3 camPos;
 		Quaternion camOri;
 		mCamBody->getPositionOrientation(camPos, camOri);
+        SceneNode* cameraNode = mCameraActor->_getSceneNode();
 
-	    // determine the optimal target position of the camera
-		Vector3 targetCamPos = 
-			charPos 
-			+ charOri * mLookAtOffset 
-			+ charOri * Vector3(
-							0, 
-							Math::Sin(mPitch) * mDesiredDistance,
-							Math::Cos(mPitch) * mDesiredDistance);
+/*
+        // Ringbuffer mit Positionen der Kamera
+        static std::vector<Ogre::Vector3> camPositionsBuffer(20);
+        static size_t camPositionsBufferIdx = -1;
+        camPositionsBufferIdx = (camPositionsBufferIdx + 1) % camPositionsBuffer.size();
+        camPositionsBuffer[camPositionsBufferIdx] = camPos;
+
+        // Ringbuffer mit optimalen Positionen der Kamera
+        static std::vector<Ogre::Vector3> camOptPositionsBuffer(20);
+        static size_t camOptPositionsBufferIdx = -1;
+        camOptPositionsBufferIdx = (camOptPositionsBufferIdx + 1) % camOptPositionsBuffer.size();
+*/        
+        Vector3 optimalCamPos = calculateOptimalCameraPosition();
+        charPos = charPos + charOri * mLookAtOffset;
+//        camOptPositionsBuffer[camOptPositionsBufferIdx] = optimalCamPos;
+        
+
+        // Ringbuffer mit Positionen des Characters
+        static std::vector<Ogre::Vector3> charPositionsBuffer(20);
+        static size_t charPositionsBufferIdx = -1;
+        charPositionsBufferIdx = (charPositionsBufferIdx + 1) % charPositionsBuffer.size();
+        charPositionsBuffer[charPositionsBufferIdx] = charPos;
+
+
+        static Real characterOccludedTime = 0;
+        static unsigned int characterOccludedFrameCount = 0;
+
+
+
+        // Kamera-Größe beziehen
+        CameraObject* ogreCam = static_cast<CameraObject*>(
+            mCameraActor->getControlledObject());
+        AxisAlignedBox camAabb = ogreCam->getDefaultSize();
+        // Radius berechnen
+        Real camRadius = (camAabb.getMaximum().z - camAabb.getMinimum().z) / 2.0f;
+
+
+
+
 
 		if (mViewMode == VM_THIRD_PERSON)
 		{
-			Vector3 diff = targetCamPos - camPos;
+            // wir machen ein paar Raycasts um herauszufinden, ob wir von der jetzigen Position
+            // so zur optimalen kommen
+            OgreNewt::MaterialID* levelId =
+			    PhysicsManager::getSingleton()._getLevelMaterialID();
+            OgreNewt::World *world = PhysicsManager::getSingleton()._getNewtonWorld();
 
-			// cap the diff to the next obstacle
-			OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
-			OgreNewt::MaterialID* levelId =
-				PhysicsManager::getSingleton()._getLevelMaterialID();
-			Camera* camera = static_cast<CameraObject*>(
-                mCameraActor->getControlledObject())->getCamera();
+            Vector3 normToOptCamPos = (optimalCamPos - charPos);
+            normToOptCamPos.normalise();
 
-			Vector3 target = targetCamPos
-				+ 1.2f * camera->getNearClipDistance() * diff.normalisedCopy();
-			RaycastInfo info = mRaycast->execute(world, levelId, camPos, target);
-			if (info.mBody)
-			{
-				diff = info.mDistance * (target - camPos) -
-					info.mDistance *
-					(1.2f * camera->getNearClipDistance() * diff.normalisedCopy());
-			}
-			// determine velocity vector to get there.
-			// how fast has the camera to be,
-			// in order to get there in mMaxDelay seconds?
-			Vector3 vel = diff / mMaxDelay;
 
-			// calcuate force and apply it
+
+            RaycastInfo infoCastOptPos = mRaycast->execute(
+                world, 
+                levelId, 
+                camPos + camRadius * normToOptCamPos, // Größe der Kamera einbeziehen
+                optimalCamPos + camRadius * normToOptCamPos); // Größe der Kamera einbeziehen
+
+            RaycastInfo infoCastChar = mRaycast->execute(
+                world, 
+                levelId, 
+                camPos, 
+                charPos);
+
+            Real maxdistance = Math::Pow(1.3f * mDesiredDistance + 1.4f, 2);
+            if( infoCastChar.mBody || (camPos - charPos).squaredLength() > maxdistance)
+            {
+                characterOccludedTime += timestep;
+                characterOccludedFrameCount++;
+
+                // falls zu lange, Kamera resetten:
+                if( characterOccludedTime > 0.500f && characterOccludedFrameCount > 10 )
+                {
+                    resetCamera();
+                    return;
+                }
+
+            }
+            else
+                characterOccludedTime = 0;
+
+            if( infoCastOptPos.mBody )
+            {
+                if( !infoCastChar.mBody ) // Character noch im Blickfeld
+                {
+                    // andere Position ermitteln, die ziwschen optimaler und Character liegt
+                    // und erreichbar ist
+                    Real lenToOptCamPos = (optimalCamPos - charPos).length();
+
+                    RaycastInfo infoCastNewPos;
+                    Real delta = lenToOptCamPos/2.0f;
+                    Vector3 temp = charPos + delta * normToOptCamPos;
+                    // Annäherung in Schritten, an den Punkt, der von der aktuellen Position aus erreicht werden kann!
+                    while( delta > 0.05 ) // genauigkeit des gefundenen Punktes
+                    {
+                        infoCastNewPos = mRaycast->execute(
+                            world, 
+                            levelId,
+                            camPos + camRadius * normToOptCamPos, // Größe der Kamera!
+                            temp);
+                        delta = delta/2.0f;
+                        if( infoCastNewPos.mBody ) // Hindernis gefunden, näher an Char ran
+                        {
+                            temp = temp - delta * normToOptCamPos;
+                        }
+                        else // kein Hindernis gefunden, weiter von Char weg
+                        {
+                            temp = temp + delta * normToOptCamPos;
+                        }
+                    }
+
+                    // Jetzt können wir sicher sein, dass diese Stelle erreichbar ist:
+                    temp = temp - 0.05 * normToOptCamPos;
+                    // Größe der Kamera einbeziehen
+                    optimalCamPos = temp - camRadius * normToOptCamPos;
+                    // so ab hier kann ganz normal weiter gerechnet werden!
+                }
+            }
+
+
+            static bool isPathfinding (false); 
+            static unsigned int lastReachableBufPos;
+            // gibt an, ob schon gebufferte Daten für den
+            // neuen Weg existieren und dort weitergemacht werden kann,
+            // oder ob neu nach einem Weg gesucht werden muss!
+            if( infoCastChar.mBody && infoCastOptPos.mBody ) // neue Position und Character nicht erreichbar
+            {
+                // anderen Weg finden
+                // hier werden erstmal nur alte Player-Positionen betrachtet
+                // es wird davon ausgegangen, dass diese "nah" genug aneinanderliegen
+                // und durch "Geraden" miteinander verbunden werden können
+                // durch das spring-Acc-Damping System sollten die Bewegungen trotzdem flüssig
+                // und weich (keine scharfen Kurven) erscheinen
+
+                size_t buffSize = charPositionsBuffer.size();
+
+                if( !isPathfinding )
+                {
+                    LOG_MESSAGE(Logger::UI, " Pathfinding der Kamera sollte jetzt anfangen!");
+
+
+                    // letzte Character - Position suchen, die erreichbar ist...
+                    // Ist vermutlicherweise ja die letzte, davor war ja noch alles ok!
+                    unsigned int delta = 1;
+                    while ( delta < buffSize )
+                    {
+                        RaycastInfo info = mRaycast->execute(
+                            world, 
+                            levelId,
+                            camPos,
+                            charPositionsBuffer[ (charPositionsBufferIdx - delta) % buffSize ] );
+
+                        if( !info.mBody )
+                            break;
+                        delta++;
+                    }
+                    if( delta >= buffSize )
+                    {
+                        // is wohl irgendwas schiefgegangen!
+                        LOG_MESSAGE(Logger::UI, " Der Ringbuffer mit den Player-Positionen scheint zu klein zu sein; Pathfinding der Kamera fehlgeschlagen! ");
+                        isPathfinding = false;
+                        resetCamera();
+                        return;
+                    }
+                    lastReachableBufPos = delta;
+
+                    // auf zu der ermittelten Position!
+                    optimalCamPos = charPositionsBuffer[ (charPositionsBufferIdx - lastReachableBufPos) % buffSize ];
+                }
+                else
+                {
+                    LOG_MESSAGE(Logger::UI, " Pathfinding der Kamera sollte weitergeführt werden!");
+
+
+                    // suche von lastReachableBufPos aus der letzten Frame nach neuen erreichbaren Buffer-Positionen
+                    unsigned int delta = lastReachableBufPos; // das ist die von der letzten Frame!
+                    while ( delta > 0 ) // delta = 0 braucht nicht überprüft zu werden, wurde oben schon ausgeschlossen!
+                    {
+                        RaycastInfo info = mRaycast->execute(
+                            world, 
+                            levelId,
+                            camPos,
+                            charPositionsBuffer[ (charPositionsBufferIdx - delta) % buffSize ] );
+
+                        if( info.mBody )
+                            break;
+                        delta--;
+                    }
+                    lastReachableBufPos = delta + 1;
+
+                    // auf zu der ermittelten Position!
+                    optimalCamPos = charPositionsBuffer[ (charPositionsBufferIdx - lastReachableBufPos) % buffSize ];
+                }
+                isPathfinding = true; // so zum Testen noch keine Optimierung (doppelte Prüfung gleicher sachen)
+            }
+            else
+            {
+                isPathfinding = false;
+            }
+
+
+
+            Vector3 diff = camPos - optimalCamPos;
+            // Zittern vermeiden:
+            if( diff.squaredLength() < 0.04 )
+                diff = 0.0f;
+
+
+
+            mCameraVelocity = mCamBody->getVelocity();
+            // spring velocity
+            Vector3 springAcc = -mLinearSpringK*diff - mLinearDampingK * mCameraVelocity;
+            // die neue Geschwindigkeit:
+            mCameraVelocity += springAcc * timestep;
+            Vector3 newCamPos = mCameraVelocity * timestep + camPos;
+
+
+            // get the camera mass
 			Real mass;
 			Vector3 inertia;
-			mCamBody->getMassMatrix(mass, inertia);
-			Vector3 force = mass * (vel - mCamBody->getVelocity()) / timestep;
-			mCamBody->setForce(force);
-		}
-		else
-		{
-			mCamBody->setPositionOrientation(targetCamPos, camOri);
-			Real mass;
-			Vector3 inertia;
-			mCamBody->getMassMatrix(mass, inertia);
-            Vector3 force = mass * (mCharBody->getVelocity() - mCamBody->getVelocity()) / timestep;
-			mCamBody->setForce(force);
-		}
+            mCamBody->getMassMatrix(mass, inertia);
 
-		
+            //mCamBody->setPositionOrientation(newCamPos, camOri);
+            mCamBody->setForce(springAcc * mass);
+
+        }
+        else
+        {
+            mCamBody->setPositionOrientation(optimalCamPos, camOri);
+        }
 	}
 
-	/// Do raycasts to determine whether sight to character is free
-	bool MovementCharacterController::isCharacterOccluded() const
-	{
-		/// \todo remove hard coded numbers
-		bool rval = true;
-		int numPoints = 4;
-		float xs[] = {0.0f, 0.30f, -0.35f, 0.0f};
-		float ys[] = {mLookAtOffset.y*2.0, mLookAtOffset.y, mLookAtOffset.y, 0.20f};
-		OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
-		OgreNewt::MaterialID* levelId = PhysicsManager::getSingleton()._getLevelMaterialID();
+    Ogre::Vector3 MovementCharacterController::calculateOptimalCameraPosition(void)
+    {
+        Vector3 targetCamPos;
 
-		// Test the track points on the char.
-		// Break early, if one ray doesn't hit an obstacle
-		for (int i = 0; i < numPoints; ++i)
-		{
-			RaycastInfo info = mRaycast->execute(world, levelId,
-				mCameraActor->getWorldPosition(),
-				mCharacterActor->getWorldPosition() + Vector3(xs[i], ys[i], 0.0f));
-			rval = rval && info.mBody;
-			if (!rval) break;
-		}
 
-		return rval;
-	}
+        if( mViewMode == VM_THIRD_PERSON )
+        {
+            if( !mCharBody->getCollision().isNull() )
+            {
+                // man könnte mLookAtOffset dynamisch durch creature bestimmen lassen (offset der augen)
+		        // so the cam does look at the characters head instead of the feet.
+                AxisAlignedBox aabb = mCharBody->getCollision()->getAABB();
+                mLookAtOffset = Vector3(
+                    0, 
+                    (aabb.getMaximum().y - aabb.getMinimum().y) * 0.2f, 
+                    (aabb.getMaximum().z - aabb.getMinimum().z) * 0.1f
+                    );
+            }
+
+            Vector3 charPos;
+            Quaternion charOri;
+            mCharBody->getPositionOrientation(charPos, charOri);
+            charPos = charPos + charOri * mLookAtOffset;
+	        targetCamPos = 
+		        charPos 
+		        + charOri * Vector3(
+						        0, 
+						        Math::Sin(mPitch) * mDesiredDistance,
+						        Math::Cos(mPitch) * mDesiredDistance);
+
+
+            // Kamera-Größe beziehen
+            CameraObject* ogreCam = static_cast<CameraObject*>(
+                mCameraActor->getControlledObject());
+            AxisAlignedBox aabb = ogreCam->getDefaultSize();
+            // Radius berechnen
+            Real radius = (aabb.getMaximum().z - aabb.getMinimum().z) / 2.0f;
+            radius *= 1.1f; // bissle was dazu tun schadet nich, da ja nur wenige raycasts gemacht werden
+            // unds eigentlich ne kugel ist!
+
+
+            Vector3 startRay[6], endRay[6];
+
+            Real sinPitchRad = Math::Sin(mPitch) * radius;
+            Real cosPitchRad = Math::Cos(mPitch) * radius;
+            Vector3 radiusOffset = charOri * Vector3(0, sinPitchRad, cosPitchRad);
+
+            startRay[0] = charPos;
+            endRay[0] = targetCamPos; // hier ist nun leider was doppelt, 
+                                      // dadurch kann aber sichergestellt
+                                      // werden, dass kein Objekt direkt 
+                                      // hinter dem Helden übersehen wird
+            startRay[1] = charPos + radiusOffset;
+            endRay[1] = targetCamPos + radiusOffset;
+            radiusOffset = charOri * Vector3(radius, sinPitchRad, cosPitchRad);
+            startRay[2] = charPos + radiusOffset;
+            endRay[2] = targetCamPos + radiusOffset;
+            startRay[3] = charPos - radiusOffset;
+            endRay[3] = targetCamPos - radiusOffset;
+            radiusOffset = charOri * Vector3(0, radius-cosPitchRad, -sinPitchRad);
+            startRay[4] = charPos + radiusOffset;
+            endRay[4] = targetCamPos + radiusOffset;
+            startRay[5] = charPos - radiusOffset;
+            endRay[5] = targetCamPos - radiusOffset;
+
+            OgreNewt::MaterialID* levelId =
+			    PhysicsManager::getSingleton()._getLevelMaterialID();
+            
+            Vector3 diff = targetCamPos - charPos;
+            for( int i = 0; i < 6; i++ )
+            {
+                RaycastInfo info = mRaycast->execute(
+                    PhysicsManager::getSingleton()._getNewtonWorld(),
+                    levelId,
+                    startRay[i],
+                    endRay[i]);
+            
+                if( info.mBody )
+                {
+                    Vector3 newdiff = (info.mDistance) * (endRay[i] - startRay[i]);
+                    if( newdiff.squaredLength() < diff.squaredLength() )
+                        diff = newdiff;
+                }
+            }
+            targetCamPos = charPos + diff;
+        }
+        else
+        {
+            if( !mCharBody->getCollision().isNull() )
+            {
+                // man könnte mLookAtOffset dynamisch durch creature bestimmen lassen (offset der augen)
+		        // so the cam does look at the characters head instead of the feet.
+                AxisAlignedBox aabb = mCharBody->getCollision()->getAABB();
+                mLookAtOffset = Vector3(
+                    0, 
+                    (aabb.getMaximum().y - aabb.getMinimum().y) * 0.45f,
+                    (aabb.getMaximum().z - aabb.getMinimum().z) * (-0.3f) 
+                    );
+            }
+
+            Vector3 charPos;
+            Quaternion charOri;
+            mCharBody->getPositionOrientation(charPos, charOri);
+            // determine the optimal target position of the camera            
+	        targetCamPos = 
+		        charPos 
+		        + charOri * mLookAtOffset 
+		        + charOri * Vector3(
+						        0, 
+						        Math::Sin(mPitch) * mDesiredDistance,
+						        Math::Cos(mPitch) * mDesiredDistance);
+        }
+
+
+        return targetCamPos;
+    }
 
 	void MovementCharacterController::updateSelection()
 	{
@@ -685,14 +935,11 @@ namespace rl {
 
 	void MovementCharacterController::resetCamera()
 	{
-
-		if (mViewMode == VM_THIRD_PERSON)
-		{
-    		// Position camera at char position
-		    mCameraActor->getPhysicalThing()->setPosition(
-			    mCharacterActor->getPhysicalThing()->getPosition());
-			mPitch = Degree(30.0);
-		}
+        Vector3 camPos;
+		Quaternion camOri;
+        mCameraVelocity = Vector3::ZERO;
+		mCamBody->getPositionOrientation(camPos, camOri);
+        mCamBody->setPositionOrientation(calculateOptimalCameraPosition(), camOri);
 	}
 
 	bool MovementCharacterController::injectMouseClicked(int mouseButtonMask)
