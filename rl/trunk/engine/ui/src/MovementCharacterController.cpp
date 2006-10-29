@@ -73,7 +73,7 @@ namespace rl {
 		mYaw(0),
 		mPitch(20),
 		mPitchRange(Degree(-75), Degree(85)),
-        mLinearSpringK(70.0f),
+        mLinearSpringK(200.0f),
         mLinearDampingK(Math::NEG_INFINITY),
 		mLookAtOffset(),
 		mRotationSpeed(4.0f),
@@ -686,8 +686,8 @@ namespace rl {
                 AxisAlignedBox aabb = mCharBody->getCollision()->getAABB();
                 mLookAtOffset = Vector3(
                     0, 
-                    (aabb.getMaximum().y - aabb.getMinimum().y) * 0.2f, 
-                    (aabb.getMaximum().z - aabb.getMinimum().z) * 0.1f
+                    (aabb.getMaximum().y - aabb.getMinimum().y) * 0.45f, 
+                    (aabb.getMaximum().z - aabb.getMinimum().z) * (-0.3f)
                     );
             }
 
