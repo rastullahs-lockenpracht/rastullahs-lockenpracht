@@ -259,6 +259,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\MovementCharacterController.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\Selector.h"
 				>
 			</File>

@@ -40,11 +40,6 @@ namespace rl {
 		mCameraActor->getPhysicalThing()->unfreeze();
 	}
 
-	bool CutsceneCharacterController::injectKeyClicked(int keycode)
-	{
-		return startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT));		
-	}
-
 	void CutsceneCharacterController::run(Ogre::Real elapsedTime)
 	{
 	}
@@ -77,4 +72,9 @@ namespace rl {
         dynamic_cast<Ogre::Camera*>(mCameraActor->getControlledObject()->getMovableObject())
             ->lookAt(point);
     }
+
+    bool CutsceneCharacterController::injectKeyUp(int keycode)
+	{
+		return startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT));		
+	}
 }

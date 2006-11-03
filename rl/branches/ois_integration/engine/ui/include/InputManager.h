@@ -17,13 +17,14 @@
 #ifndef __InputManager_H__
 #define __InputManager_H__
 
-#include <set>
-#include <OgreEventQueue.h>
-#include <OgreFrameListener.h>
-#include <OgreEventListeners.h>
-#include <OgreInput.h>
-
 #include "UiPrerequisites.h"
+
+#include <OISMouse.h>
+#include <OISKeyboard.h>
+#include <OISJoyStick.h>
+#include <OgreRenderWindow.h>
+#include <OgreSingleton.h>
+
 #include "FixRubyHeaders.h"
 #include "GameTask.h"
 
@@ -43,11 +44,10 @@ namespace rl {
     class CommandMapper;
 
     class _RlUiExport InputManager
-        :	public GameTask, 
-        public Ogre::KeyListener, 
-        public Ogre::MouseListener, 
-        public Ogre::MouseMotionListener, 
-        public Ogre::Singleton<InputManager>
+        :	public Ogre::Singleton<InputManager>, 
+            public GameTask,
+            public OIS::KeyListener, 
+            public OIS::MouseListener
     {
     public:
         InputManager(void);
@@ -69,16 +69,11 @@ namespace rl {
         void unregisterCeGuiWindow(CeGuiWindow* window);
         bool isCeguiActive();
 
-        virtual void mouseClicked(Ogre::MouseEvent* e);
-        virtual void mouseEntered(Ogre::MouseEvent* e);
-        virtual void mouseExited(Ogre::MouseEvent* e);
-        virtual void mousePressed(Ogre::MouseEvent* e);
-        virtual void mouseReleased(Ogre::MouseEvent* e);
-        virtual void mouseMoved(Ogre::MouseEvent* e);
-        virtual void mouseDragged(Ogre::MouseEvent* e);
-        virtual void keyPressed(Ogre::KeyEvent* e);
-        virtual void keyReleased(Ogre::KeyEvent* e);
-        virtual void keyClicked(Ogre::KeyEvent* e);
+        virtual bool mousePressed(const OIS::MouseEvent & arg, OIS::MouseButtonID id);
+        virtual bool mouseReleased(const OIS::MouseEvent & arg, OIS::MouseButtonID id);
+        virtual bool mouseMoved(const OIS::MouseEvent &arg);
+		virtual bool keyPressed(const OIS::KeyEvent &arg);
+		virtual bool keyReleased(const OIS::KeyEvent &arg);
 
         CeGuiString getKeyName(int scancode, int syskeys);
         CeGuiString getKeyName(int combinedKeyCode);
@@ -96,16 +91,20 @@ namespace rl {
     private:
         static const int TIME_SHOW_DESCRIPTION = 4000;
         enum { NUM_MOUSE_BUTTON=4, NUM_KEYS=256 };
-        enum InputSwitch { SWITCH_NO_SWITCH, SWITCH_TO_BUFFERED, SWITCH_TO_UNBUFFERED };
-        
-        InputSwitch mScheduledInputSwitch;
 
-        Ogre::InputReader* mInputReader;
-        Ogre::EventQueue* mEventQueue; 
-        Ogre::EventProcessor* mEventProcessor;
+        enum Modifiers {ALT_MASK = 1, CTRL_MASK = 2, SHIFT_MASK = 4, SUPER_MASK = 8};
+
+        Ogre::Vector3 mSavedMouseState;
+        
+        void initializeOis(Ogre::RenderWindow* wnd);
+        bool sendKeyToCeGui(const OIS::KeyEvent& e) const;
+        void resetPressedKeys( bool up );
+        const int getModifierCode(const OIS::KeyEvent& e) const;
 
         bool mKeyDown[NUM_KEYS];
-        bool mMouseButtonDown[NUM_MOUSE_BUTTON];
+
+        OIS::Mouse* mMouse;
+        OIS::Keyboard* mKeyboard;
 
         unsigned short mScreenX;
         unsigned short mScreenY;
@@ -123,18 +122,6 @@ namespace rl {
         int mNumActiveWindowsAllInput;
 
         CharacterController* mCharacterController;
-
-        CEGUI::MouseButton convertOgreButtonToCegui(int ogre_button_id);
-
-        bool sendKeyToCeGui(Ogre::KeyEvent* e);
-
-        void switchMouseToUnbuffered();
-        void switchMouseToBuffered();
-        void resetPressedKeys( bool up );
-        void checkMouseButton(
-            const int button, const int buttonMask, int& pressedButtonMask, int& releasedButtonMask);
-
-        CEGUI::utf32 getKeyChar(Ogre::KeyEvent* ke);
     };
 }
 

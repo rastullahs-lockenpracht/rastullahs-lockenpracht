@@ -695,16 +695,6 @@ namespace rl {
 		}
 	}
 
-	bool MovementCharacterController::injectMouseClicked(int mouseButtonMask)
-	{
-		return startAction(mCommandMapper->getAction(mouseButtonMask, CMDMAP_MOUSEMAP_OFF_COMBAT));		
-	}
-
-	bool MovementCharacterController::injectKeyClicked(int keycode)
-	{
-		return startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT), mCharacter);
-	}
-
 	bool MovementCharacterController::injectKeyDown(int keycode)
 	{
 		int movement = mCommandMapper->getMovement(keycode);
@@ -726,6 +716,10 @@ namespace rl {
 			mCharacterState.mCurrentMovementState &= ~movement;
 			return true;
 		}
+        else
+        {
+            return startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT), mCharacter);
+        }
 			
 		return false;
 	}
