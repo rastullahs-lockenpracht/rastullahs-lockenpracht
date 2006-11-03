@@ -281,19 +281,6 @@ namespace rl {
 		}
 
 		updateAnimationState();
-
-        if (!im->isCeguiActive())
-        {
-		    updateSelection();
-            if (im->isMouseButtonDown(1) && mSelector.getSelectedObject() != NULL)
-            {
-                WindowFactory::getSingleton().showActionChoice(mSelector.getSelectedObject());
-            }
-            else if (im->isMouseButtonDown(0) && mSelector.getSelectedObject() != NULL)
-            {
-                mSelector.getSelectedObject()->doDefaultAction(mCharacter, NULL);
-            }
-        }
 	}
 
 	bool MovementCharacterController::isRunMovement(int movement)
@@ -726,7 +713,19 @@ namespace rl {
 
 	bool MovementCharacterController::injectMouseDown(int mouseButtonMask)
 	{
-		return false;
+      //  if (!im->isCeguiActive())
+      //  {
+		    //updateSelection();
+      //      if (im->isMouseButtonDown(1) && mSelector.getSelectedObject() != NULL)
+      //      {
+      //          WindowFactory::getSingleton().showActionChoice(mSelector.getSelectedObject());
+      //      }
+      //      else if (im->isMouseButtonDown(0) && mSelector.getSelectedObject() != NULL)
+      //      {
+      //          mSelector.getSelectedObject()->doDefaultAction(mCharacter, NULL);
+      //      }
+      //  }
+	  return false;
 	}
 
 	bool MovementCharacterController::injectMouseUp(int mouseButtonMask)

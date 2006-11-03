@@ -55,22 +55,19 @@ namespace rl {
 		mNumActiveWindowsMouseInput(0),
 		mNumActiveWindowsKeyboardInput(0),
 		mNumActiveWindowsAllInput(0),
-		mPickObjects(false),
-        mTargetedObject(NULL),
-        mTargetedObjectTime(0),
         mKeyMapNormal(),
 		mKeyMapShift(),
 	    mKeyMapAlt(),
 		mKeyNames(),
         mCharacterController(NULL),
-        mCommandMapper(NULL)
+        mCommandMapper(NULL),
+        mCurrentModifiers(0)
 	{
         initializeOis(win);
         for(int i=0; i<NUM_KEYS; i++)
         {
             mKeyDown[i] = false;
         }
-        mCurrentModifiers = 0;
         GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_ENDED);
     }
 
@@ -188,10 +185,10 @@ namespace rl {
 			CEGUI::Renderer* renderer  = System::getSingleton().getRenderer();
 			System::getSingleton().injectMouseMove(arg.state.relX, arg.state.relY);			
 
-			if (mPickObjects)
-            {
-                updatePickedObject(arg.state.abX, arg.state.abY);
-            }
+			//if (mPickObjects)
+   //         {
+   //             updatePickedObject(arg.state.abX, arg.state.abY);
+   //         }
 
             return true;
 		}
@@ -394,7 +391,7 @@ namespace rl {
             mSavedMouseState.x = mMouse->getMouseState().relX;
             mSavedMouseState.y = mMouse->getMouseState().relY;
             mSavedMouseState.z = mMouse->getMouseState().relZ;
-			setObjectPickingActive(false);
+//			setObjectPickingActive(false);
             CEGUI::MouseCursor::getSingleton().show();
             resetPressedKeys( true );
 		}
@@ -417,7 +414,7 @@ namespace rl {
 		if (active && !isCeguiActive()) // war aktiv, sollte nicht mehr aktiv sein -> ausschalten
 		{
 			CEGUI::MouseCursor::getSingleton().hide();
-            setObjectPickingActive(true);
+            //setObjectPickingActive(true);
             resetPressedKeys( false );
 		}
 	}
@@ -535,79 +532,79 @@ namespace rl {
 		mCommandMapper->loadCommandMap(filename);
     }
 
-	void InputManager::setObjectPickingActive(bool active)
-	{
-		mPickObjects = active;
-		if (!mPickObjects)
-		{
-            // Altes Picking entfernen
-            if (mTargetedObject != NULL && mTargetedObject->getActor() != NULL ) 
-				mTargetedObject->getActor()->setHighlighted(false);
+	//void InputManager::setObjectPickingActive(bool active)
+	//{
+	//	mPickObjects = active;
+	//	if (!mPickObjects)
+	//	{
+ //           // Altes Picking entfernen
+ //           if (mTargetedObject != NULL && mTargetedObject->getActor() != NULL ) 
+	//			mTargetedObject->getActor()->setHighlighted(false);
 
-			mTargetedObject = NULL;
-			WindowFactory::getSingleton().showObjectDescription(NULL);
-		}
-	}
+	//		mTargetedObject = NULL;
+	//		WindowFactory::getSingleton().showObjectDescription(NULL);
+	//	}
+	//}
 
-    void InputManager::updatePickedObject(float mouseRelX, float mouseRelY)
-    {
-        Actor* actor = ActorManager::getSingleton().getActorAt(mouseRelX, mouseRelY, 30, 7);
+ //   void InputManager::updatePickedObject(float mouseRelX, float mouseRelY)
+ //   {
+ //       Actor* actor = ActorManager::getSingleton().getActorAt(mouseRelX, mouseRelY, 30, 7);
 
-        // Keine Highlights in Cutscene oder Dialog
-        if( actor != NULL )
-		{
-            // Altes Highlight entfernen
-			if (mTargetedObject != NULL &&
-                mTargetedObject->getActor() != NULL &&
-                actor != mTargetedObject->getActor() )
-            {
-				mTargetedObject->getActor()->setHighlighted(false);
-            }
+ //       // Keine Highlights in Cutscene oder Dialog
+ //       if( actor != NULL )
+	//	{
+ //           // Altes Highlight entfernen
+	//		if (mTargetedObject != NULL &&
+ //               mTargetedObject->getActor() != NULL &&
+ //               actor != mTargetedObject->getActor() )
+ //           {
+	//			mTargetedObject->getActor()->setHighlighted(false);
+ //           }
 
-            // Nur ein Highlight wenn es auch ein dazugehöriges GameObject gibt
-			if( actor->getGameObject() != NULL)
-            {
-				GameObject* targetedObject = static_cast<GameObject*>(actor->getGameObject());
-				if (targetedObject->isHighlightingEnabled())
-				{
-					if (targetedObject != mTargetedObject)
-					{
-					    actor->setHighlighted(true);
-						mTargetedObject = targetedObject;
-						// mTargetedObjectTime = CoreSubsystem::getSingleton().getClock();
-						// WindowFactory::getSingleton().showObjectName(targetedObject);
-					}
-					//else
-					//{
-					//	if (CoreSubsystem::getSingleton().getClock()
-					//		- mTargetedObjectTime 
-					//		> TIME_SHOW_DESCRIPTION)
-					//	{
-					//		WindowFactory::getSingleton().showObjectDescription(mTargetedObject);
-					//	}
-					//}
-				}
-            }
-		}
-        // Nichts mehr angewählt
-		else
-		{
-			if (mTargetedObject != NULL && mTargetedObject->getActor() != NULL ) 
-			{
-				mTargetedObject->getActor()->setHighlighted(false);
-				//mTargetedObjectTime = 0;
-				//WindowFactory::getSingleton().showObjectName(NULL);
-				//WindowFactory::getSingleton().showObjectDescription(NULL);
-			}
+ //           // Nur ein Highlight wenn es auch ein dazugehöriges GameObject gibt
+	//		if( actor->getGameObject() != NULL)
+ //           {
+	//			GameObject* targetedObject = static_cast<GameObject*>(actor->getGameObject());
+	//			if (targetedObject->isHighlightingEnabled())
+	//			{
+	//				if (targetedObject != mTargetedObject)
+	//				{
+	//				    actor->setHighlighted(true);
+	//					mTargetedObject = targetedObject;
+	//					// mTargetedObjectTime = CoreSubsystem::getSingleton().getClock();
+	//					// WindowFactory::getSingleton().showObjectName(targetedObject);
+	//				}
+	//				//else
+	//				//{
+	//				//	if (CoreSubsystem::getSingleton().getClock()
+	//				//		- mTargetedObjectTime 
+	//				//		> TIME_SHOW_DESCRIPTION)
+	//				//	{
+	//				//		WindowFactory::getSingleton().showObjectDescription(mTargetedObject);
+	//				//	}
+	//				//}
+	//			}
+ //           }
+	//	}
+ //       // Nichts mehr angewählt
+	//	else
+	//	{
+	//		if (mTargetedObject != NULL && mTargetedObject->getActor() != NULL ) 
+	//		{
+	//			mTargetedObject->getActor()->setHighlighted(false);
+	//			//mTargetedObjectTime = 0;
+	//			//WindowFactory::getSingleton().showObjectName(NULL);
+	//			//WindowFactory::getSingleton().showObjectDescription(NULL);
+	//		}
 
-			mTargetedObject = NULL;
-		}
-    }
+	//		mTargetedObject = NULL;
+	//	}
+ //   }
 
-	GameObject* InputManager::getPickedObject()
-	{
-		return mTargetedObject;
-	}
+	//GameObject* InputManager::getPickedObject()
+	//{
+	//	return mTargetedObject;
+	//}
 
     const Ogre::String& InputManager::getName() const
     {

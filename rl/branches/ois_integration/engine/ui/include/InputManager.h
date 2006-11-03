@@ -50,7 +50,7 @@ namespace rl {
             public OIS::MouseListener
     {
     public:
-        InputManager(void);
+		InputManager(Ogre::RenderWindow* window);
         ~InputManager();
 
         static InputManager & getSingleton(void);
@@ -59,15 +59,15 @@ namespace rl {
         bool isKeyDown(Ogre::KeyCode kc);
         bool isMouseButtonDown(int iButtonID);
 
-        Ogre::Real getMouseRelativeX(void);
-        Ogre::Real getMouseRelativeY(void);
-        Ogre::Real getMouseRelativeZ(void);
+        Ogre::Real getMouseRelativeX(void) const;
+        Ogre::Real getMouseRelativeY(void) const;
+        Ogre::Real getMouseRelativeZ(void) const;
 
         void run(Ogre::Real elapsedTime);
 
         void registerCeGuiWindow(CeGuiWindow* window);
         void unregisterCeGuiWindow(CeGuiWindow* window);
-        bool isCeguiActive();
+        bool isCeguiActive() const;
 
         virtual bool mousePressed(const OIS::MouseEvent & arg, OIS::MouseButtonID id);
         virtual bool mouseReleased(const OIS::MouseEvent & arg, OIS::MouseButtonID id);
@@ -91,17 +91,16 @@ namespace rl {
     private:
         static const int TIME_SHOW_DESCRIPTION = 4000;
         enum { NUM_MOUSE_BUTTON=4, NUM_KEYS=256 };
-
         enum Modifiers {ALT_MASK = 1, CTRL_MASK = 2, SHIFT_MASK = 4, SUPER_MASK = 8};
 
-        Ogre::Vector3 mSavedMouseState;
-        
         void initializeOis(Ogre::RenderWindow* wnd);
         bool sendKeyToCeGui(const OIS::KeyEvent& e) const;
         void resetPressedKeys( bool up );
         const int getModifierCode(const OIS::KeyEvent& e) const;
 
+		Ogre::Vector3 mSavedMouseState;
         bool mKeyDown[NUM_KEYS];
+		int mCurrentModifiers;
 
         OIS::Mouse* mMouse;
         OIS::Keyboard* mKeyboard;

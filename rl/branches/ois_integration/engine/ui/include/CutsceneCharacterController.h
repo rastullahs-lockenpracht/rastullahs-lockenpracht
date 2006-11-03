@@ -47,7 +47,7 @@ namespace rl {
         void setCameraOrientation(const Ogre::Quaternion& orient);
         void lookAt(const Ogre::Vector3& point);
 
-        virtual void injectKeyUp(int keycode);
+        virtual bool injectKeyUp(int keycode);
 	};
 }
 #endif
