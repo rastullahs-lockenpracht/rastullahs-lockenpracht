@@ -54,7 +54,8 @@ namespace rl
         mGravity(0, -9.81, 0),
         mWorldAABB(Vector3(-100, -100, -100), Vector3(100, 100, 100)),
         mElapsed(0.0f),
-        mUpdate(1.0f/60.0f),
+        mMinTimestep(1.0f/600.0f),
+        mMaxTimestep(1.0f/60.0f),
         mLevelID(),
         mCharacterID(),
         mDefaultPair(),
@@ -106,11 +107,18 @@ namespace rl
         if (!mEnabled) 
 			return;
 
+
+        // Newton kann timesteps zwischen 1/60 und 1/600!
         mElapsed += elapsedTime;
-        while (mElapsed >= mUpdate)
+        while( mElapsed >= mMaxTimestep)
         {
-	 		mWorld->update(mUpdate);
-            mElapsed -= mUpdate;
+            mWorld->update(mMaxTimestep);
+            mElapsed-=mMaxTimestep;
+        }
+        if( mElapsed > mMinTimestep)
+        {
+            mWorld->update(mElapsed);
+            mElapsed = 0;
         }
     }
 

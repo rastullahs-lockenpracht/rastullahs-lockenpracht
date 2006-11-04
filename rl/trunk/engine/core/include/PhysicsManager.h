@@ -151,6 +151,15 @@ namespace rl {
         {
             return mWorldAABB;
         }
+
+        Ogre::Real getMinTimestep(void) const
+        {
+            return mMinTimestep;
+        }
+        Ogre::Real getMaxTimestep(void) const
+        {
+            return mMaxTimestep;
+        }
     private:
         typedef std::map<PhysicalThing*, PhysicsController*> ControllerMap;
 
@@ -164,7 +173,8 @@ namespace rl {
         Ogre::Vector3 mGravity;
         Ogre::AxisAlignedBox mWorldAABB;
         Ogre::Real mElapsed;
-        Ogre::Real mUpdate;
+        Ogre::Real mMinTimestep;
+        Ogre::Real mMaxTimestep;
 
         OgreNewt::MaterialID* mLevelID;
         OgreNewt::MaterialID* mCharacterID;
