@@ -25,10 +25,11 @@ namespace rl {
     {
     }
 
-    RaycastInfo PhysicsMaterialRaycast::execute(OgreNewt::World* world, MaterialID* material,
-        const Vector3& start, const Vector3& end)
+    RaycastInfo PhysicsMaterialRaycast::execute(OgreNewt::World* world, const MaterialID* material,
+        const Vector3& start, const Vector3& end, bool invertmat)
     {
         mMaterial = material;
+        mInvertMat = invertmat;
 
         mInfo.mBody = 0;
         mInfo.mDistance = 1.1;
@@ -42,7 +43,16 @@ namespace rl {
 
     bool PhysicsMaterialRaycast::userCallback(Body* body, Ogre::Real distance, const Ogre::Vector3& normal, int collisionID)
     {
-        if (body->getMaterialGroupID() && body->getMaterialGroupID()->getID() == mMaterial->getID())
+        if( mMaterial == NULL )
+        {
+            mInfo.mBody = body;
+            mInfo.mDistance = distance;
+            mInfo.mNormal = normal;
+            mGetNearest = true;
+        }
+        else if (body->getMaterialGroupID() && 
+            (body->getMaterialGroupID()->getID() == mMaterial->getID() && !mInvertMat ||
+             body->getMaterialGroupID()->getID() != mMaterial->getID() && mInvertMat))
         {
             mInfo.mBody = body;
             mInfo.mDistance = distance;
