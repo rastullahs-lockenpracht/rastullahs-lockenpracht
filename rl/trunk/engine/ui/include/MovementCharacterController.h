@@ -44,7 +44,7 @@ namespace rl {
         public DebugVisualisable
     {
     public:
-        typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON} ViewMode;
+        typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON, VM_FREE_CAMERA} ViewMode;
         /**
          *  @throw NullPointerException if camera or character is NULL.
          *  @throw InvalidArgumentException if character is not placed in the scene.
@@ -95,6 +95,7 @@ namespace rl {
 			CharacterState();
             Pose mPose;
 			bool mIsAirBorne;
+            bool mHasFloorContact;
 			bool mStartJump;
 
 			Ogre::Real mJumpTimer;
@@ -115,6 +116,7 @@ namespace rl {
         Ogre::Real mDesiredDistance;
         std::pair<Ogre::Real, Ogre::Real> mDistanceRange;
         Ogre::Degree mYaw;
+        Ogre::Degree mCamYaw; // für VM_FREE_CAMERA
         Ogre::Degree mPitch;
         std::pair<Ogre::Degree, Ogre::Degree> mPitchRange;
 
@@ -138,19 +140,24 @@ namespace rl {
         /// the maximum amount of time, the character or camera should need,
         /// in order to reach the position, desired by the user.
         /// the smaller, the tighter the feel.
-        Ogre::Real mMaxDelay;
+        //Ogre::Real mMaxDelay;
 
 
         /// Explained where these are set
         Ogre::Real mLinearSpringK;
         Ogre::Real mLinearDampingK;
-        Ogre::Vector3 mCameraVelocity;
+        Ogre::Real mRotLinearSpringK;
+        Ogre::Real mRotLinearDampingK;        
 
 		bool isRunMovement(int movement);
 
         void updateSelection();
         void updateAnimationState();
 
+        /** Does all camera-stuff, moves the camera to the right position 
+        * and does pathfinding (in a very simple way)
+        * @warning this does only work well, if the character's material is not used for other objects!
+        */
 		void calculateCamera(const Ogre::Real& timestep);
 
         Ogre::Vector3 calculateOptimalCameraPosition(void);
