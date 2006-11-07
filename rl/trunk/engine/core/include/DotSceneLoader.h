@@ -64,16 +64,8 @@ namespace rl {
 			bool is_inheriting;
 			OgreNewt::CollisionPtr collision;
         };
-		struct CompareStrings    // für ne string-map
-		{
-		public:
-			bool operator() (const std::string &a, const std::string &b) const
-			{
-				return ((a.compare(b) ) != 0);
-			}
-		};
 
-        // wird verwendet um einen Zeiger auf eine vorherige identische
+		// wird verwendet um einen Zeiger auf eine vorherige identische
         // Collision zu erhalten
         struct AlreadyUsedCollision
         {
@@ -139,7 +131,7 @@ namespace rl {
 		std::map<int,Ogre::SceneNode*> mStaticNodes;
 
 		/// Alle bodyproxies, die schon automatisch erstellt worden sind
-		typedef std::map<const std::string,AlreadyUsedCollision,CompareStrings>
+		typedef std::map<const std::string,AlreadyUsedCollision>
 			USEDCOLLISIONSMAP;
 		USEDCOLLISIONSMAP mAutoCreatedCollisions;
         std::vector<OgreNewt::CollisionPtr> mCollisions;
