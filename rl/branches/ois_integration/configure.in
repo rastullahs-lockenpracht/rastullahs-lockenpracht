@@ -150,6 +150,9 @@ AC_CHECK_HEADERS(xercesc/util/XercesVersion.hpp, ,
 AC_CHECK_LIB(xerces-c,main,,
     [AC_MSG_ERROR([cannot find the libxerces library]) ])
 
+# OIS
+PKG_CHECK_MODULES(OIS, OIS >= 0.7.1)
+
 # Boost
 AX_BOOST_BASE(1.33.1)
 AX_BOOST_THREAD()
