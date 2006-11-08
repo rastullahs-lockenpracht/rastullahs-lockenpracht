@@ -25,3 +25,15 @@ $UI.setActiveCharacter($hero);
 $SCRIPT.log("Held als aktiver Charakter gesetzt.");
 $heroVehicle = $AI.createAgent(AgentManager::AGENT_PLAYER, $hero);	
 $SCRIPT.log("SteeringVehicle für Held erstellen...");
+
+
+$SCRIPT.log("Dorf-Thema laden");
+testmaptrack = $AM.createSoundSampleActor( "testmaptrack", "testmaptrack.ogg" ); 
+testmaptrack.getControlledObject().set3d(false);
+$SCRIPT.log(" Loopen");
+testmaptrack.getControlledObject().setLooping( true );
+$SCRIPT.log(" Laden");
+testmaptrack.getControlledObject().load();
+$SCRIPT.log("Dorf-Thema fertig");
+
+testmaptrack.getControlledObject().play();
