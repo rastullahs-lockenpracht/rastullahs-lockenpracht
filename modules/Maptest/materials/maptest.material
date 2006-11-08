@@ -1,4 +1,4 @@
-material default: Splatting5
+material SOLID/TEX/alpha.dds: Splatting5
 {
 	technique hlsl
 	{
