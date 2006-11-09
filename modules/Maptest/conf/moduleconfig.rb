@@ -2,7 +2,7 @@ include RlScript
 
 class MapTestModule < ContentModule
     def initialize()
-        super("maptest", "MapTest", false, 200608012)
+        super("Maptest", "MapTest", false, 200608012)
     end
 
     def getDependencies()
@@ -22,7 +22,7 @@ class MapTestModule < ContentModule
     end
 
     def start()
-        $CORE.loadMap("Octree", "maptest.scene", "maptest", "maptest.rb");
+        $CORE.loadMap("Octree", "maptest.scene", "Maptest", "maptest.rb");
         $World = $CORE.getWorld();
     end
 end

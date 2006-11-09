@@ -6,7 +6,7 @@ require 'hero.rb'
 # Physik aktivieren
 $PM.setEnabled(true);
 
-$World.setSkyBox(true, "rl/desert07", 100.0)
+#$CORE.getWorld().setSkyBox(true, "rl/desert07", 100.0)
 
 shadowlight = $AM.createLightActor("shadowlight", LightObject::LT_POINT);
 shadowlight.placeIntoScene([0.0, 4.14, 0.0]);
