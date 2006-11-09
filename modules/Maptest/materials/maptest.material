@@ -33,7 +33,7 @@ material SOLID/TEX/alpha.dds: Splatting5
 			texture_unit SplattingMap
 			{
                 
-				texture alphamap.dds // eigentlich alpha.dds, die funktioniert aber nicht.
+				texture alpha.dds // eigentlich alpha.dds, die funktioniert aber nicht.
 			}
 			// Texture containing the LightingMap
 			texture_unit LightingMap
