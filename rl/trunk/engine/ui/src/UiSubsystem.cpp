@@ -144,7 +144,7 @@ namespace rl {
 		mWindowManager = new WindowManager();
 
 		//Initializing InputManager
-        mInputManager = new InputManager();
+        mInputManager = new InputManager(Ogre::Root::getSingleton().getAutoCreatedWindow());
 		mInputManager->loadKeyMapping(ConfigurationManager::getSingleton().getKeymap());
 		LOG_MESSAGE2(Logger::UI, "Keymap geladen",
             "UiSubsystem::initializeUiSubsystem");

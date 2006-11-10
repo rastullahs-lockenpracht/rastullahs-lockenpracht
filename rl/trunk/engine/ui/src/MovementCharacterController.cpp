@@ -287,15 +287,47 @@ namespace rl {
         if (!im->isCeguiActive())
         {
 		    updateSelection();
-            if (im->isMouseButtonDown(1) && mSelector.getSelectedObject() != NULL)
+            if (im->isMouseButtonDown(OIS::MB_Right) && mSelector.getSelectedObject() != NULL)
             {
                 WindowFactory::getSingleton().showActionChoice(mSelector.getSelectedObject());
             }
-            else if (im->isMouseButtonDown(0) && mSelector.getSelectedObject() != NULL)
+            else if (im->isMouseButtonDown(OIS::MB_Left) && mSelector.getSelectedObject() != NULL)
             {
                 mSelector.getSelectedObject()->doDefaultAction(mCharacter, NULL);
             }
         }
+		mCharBody->getPositionOrientation(charPos, charOri);
+
+		Vector3 camPos;
+		Quaternion camOri;
+		mCamBody->getPositionOrientation(camPos, camOri);
+
+        float maxdistance;
+        if (mViewMode == VM_FIRST_PERSON)
+            maxdistance = 0.25;
+        else
+            maxdistance = 1.3f * mDesiredDistance + 1.4f;
+
+		// if we have more than 250ms and at least five frames with camera distance higher
+		// than desired distance, reset camera
+		if ((camPos - (charPos + charOri*mLookAtOffset)).length() > maxdistance)
+		{
+			mCameraJammedTime += elapsedTime;
+			++mCameraJammedFrameCount;
+		}
+		else
+		{
+			mCameraJammedTime = 0.0f;
+			mCameraJammedFrameCount = 0;
+		}
+
+		if (mCameraJammedTime > 0.250f && mCameraJammedFrameCount > 5)
+		{
+			mCameraJammedFrameCount = 0;
+			resetCamera();
+		}
+
+		updateAnimationState();
     }
 
 	bool MovementCharacterController::isRunMovement(int movement)
@@ -1132,16 +1164,6 @@ ss << "'head'-bone NOT found; ";
             mCharacterActor->setVisible(true);
 	}
 
-	bool MovementCharacterController::injectMouseClicked(int mouseButtonMask)
-	{
-		return startAction(mCommandMapper->getAction(mouseButtonMask, CMDMAP_MOUSEMAP_OFF_COMBAT));		
-	}
-
-	bool MovementCharacterController::injectKeyClicked(int keycode)
-	{
-		return startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT), mCharacter);
-	}
-
 	bool MovementCharacterController::injectKeyDown(int keycode)
 	{
 		int movement = mCommandMapper->getMovement(keycode);
@@ -1163,13 +1185,29 @@ ss << "'head'-bone NOT found; ";
 			mCharacterState.mCurrentMovementState &= ~movement;
 			return true;
 		}
+        else
+        {
+            return startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT), mCharacter);
+        }
 			
 		return false;
 	}
 
 	bool MovementCharacterController::injectMouseDown(int mouseButtonMask)
 	{
-		return false;
+      //  if (!im->isCeguiActive())
+      //  {
+		    //updateSelection();
+      //      if (im->isMouseButtonDown(1) && mSelector.getSelectedObject() != NULL)
+      //      {
+      //          WindowFactory::getSingleton().showActionChoice(mSelector.getSelectedObject());
+      //      }
+      //      else if (im->isMouseButtonDown(0) && mSelector.getSelectedObject() != NULL)
+      //      {
+      //          mSelector.getSelectedObject()->doDefaultAction(mCharacter, NULL);
+      //      }
+      //  }
+	  return false;
 	}
 
 	bool MovementCharacterController::injectMouseUp(int mouseButtonMask)

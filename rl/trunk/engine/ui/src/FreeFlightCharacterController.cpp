@@ -137,11 +137,6 @@ namespace rl {
         }
 	}
 
-	bool FreeFlightCharacterController::injectKeyClicked(int keycode)
-	{
-		return startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT));		
-	}
-
 	bool FreeFlightCharacterController::injectKeyDown(int keycode)
 	{
 		int movement = mCommandMapper->getMovement(keycode);
@@ -163,6 +158,10 @@ namespace rl {
 			mCurrentMovementState &= ~movement;
 			return true;
 		}
+        else
+        {
+            startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT));
+        }
 			
 		return false;
 	}

@@ -42,7 +42,6 @@ namespace rl {
 		void toggleViewMode();
 		void resetCamera();
 
-		bool injectKeyClicked(int keycode);		
 		bool injectKeyDown(int keycode);
 		bool injectKeyUp(int keycode);		
 

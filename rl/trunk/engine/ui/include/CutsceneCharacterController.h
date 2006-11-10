@@ -40,14 +40,14 @@ namespace rl {
 
 		void run(Real elapsedTime);
 
-		bool injectKeyClicked(int keycode);
-
 		void toggleViewMode();
         void resetCamera();
 
         void setCameraPosition(const Ogre::Vector3& pos);
         void setCameraOrientation(const Ogre::Quaternion& orient);
         void lookAt(const Ogre::Vector3& point);
+
+        virtual bool injectKeyUp(int keycode);
 	};
 }
 #endif

@@ -59,12 +59,10 @@ namespace rl {
 		virtual void toggleViewMode() = 0;
 		virtual void resetCamera() = 0;
 
-		virtual bool injectMouseClicked(int mouseButtonMask) { return false; }
 		virtual bool injectMouseDown(int mouseButtonMask) { return false; }
 		virtual bool injectMouseUp(int mouseButtonMask) { return false; }
-		virtual bool injectKeyClicked(int keycode) { return false; }
 		virtual bool injectKeyDown(int keycode) { return false; }
-        virtual bool injectKeyUp(int keycode) { return false; }
+		virtual bool injectKeyUp(int keycode) { return false; }	
 
         virtual const Ogre::String& getName() const;
 
