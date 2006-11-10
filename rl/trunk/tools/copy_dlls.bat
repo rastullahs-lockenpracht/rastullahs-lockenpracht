@@ -12,7 +12,6 @@ REM ---------------------
 copy "%RL_ROOT%\engine\common\lib\%BUILD%\RlCommon.dll" "%RL_DIST%"
 copy "%RL_ROOT%\engine\core\lib\%BUILD%\RlCore.dll" "%RL_DIST%"
 copy "%RL_ROOT%\engine\dialog\lib\%BUILD%\RlDialog.dll" "%RL_DIST%"
-copy "%RL_ROOT%\engine\multimedia\lib\%BUILD%\RlMultimedia.dll" "%RL_DIST%"
 copy "%RL_ROOT%\engine\rules\lib\%BUILD%\RlRules.dll" "%RL_DIST%"
 copy "%RL_ROOT%\engine\script\lib\%BUILD%\RlScript.dll" "%RL_DIST%"
 copy "%RL_ROOT%\engine\startup\bin\%BUILD%\Rastullah.exe" "%RL_DIST%"
