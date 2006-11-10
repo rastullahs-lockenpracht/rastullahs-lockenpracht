@@ -290,6 +290,18 @@ namespace rl {
       virtual std::string getType() { return "FileNotFoundException"; }
    };
 
+   class WrongFormatException : public RuntimeException {
+   public:
+      WrongFormatException(const std::string& message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
+
+      WrongFormatException(const WrongFormatException& rhs)
+         : RuntimeException(rhs) {}
+
+      virtual std::string getType() { return "WrongFormatException"; }
+   };
+
    /**@brief Funktion zum ausgeben einer Nachricht an den Benutzer.
     *
     * Gibt ein Meldung an den Benutzer aus. Entweder ueber STDOUT oder

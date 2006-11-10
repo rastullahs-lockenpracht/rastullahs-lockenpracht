@@ -19,7 +19,31 @@
 #include "Exception.h"
 #include "Property.h"
 
+using namespace std;
+
 namespace rl {
+
+    void PropertyHolder::setProperties(const PropertySet* props)
+    {
+        for (PropertyMap::const_iterator it = props->begin();
+            it != props->end(); it++)
+        {
+            setProperty((*it).first, (*it).second);
+        }
+    }
+
+    PropertySet::PropertySet()
+        : PropertyHolder()
+    {
+        mProperties.clear();
+    }
+
+    PropertySet::PropertySet(const PropertySet* ps)
+        : PropertyHolder()
+    {
+        mProperties.clear();
+        setProperties(ps);
+    }
 
     const Property PropertySet::getProperty(const Ogre::String& key) const
     {
@@ -37,8 +61,18 @@ namespace rl {
         mProperties[key] = value;
     }
 
-    const PropertySet PropertySet::getAllProperties() const
+    PropertySet* PropertySet::getAllProperties() const
     {
-        return *this;
+        return new PropertySet(this);
+    }
+
+    const PropertyMap::const_iterator PropertySet::begin() const
+    {
+        return mProperties.begin();
+    }
+
+    const PropertyMap::const_iterator PropertySet::end() const
+    {
+        return mProperties.end();
     }
 }

@@ -20,6 +20,8 @@
 
 #include <boost/any.hpp>
 
+#include "Exception.h"
+
 namespace rl {
 
 #define PropertyMethod(Name, Type)\
@@ -37,7 +39,7 @@ namespace rl {
         } \
         catch (boost::bad_any_cast) \
         { \
-        return false; \
+            return false; \
         } \
     } \
     \
@@ -48,7 +50,16 @@ namespace rl {
     \
     Type to##Name() const \
     { \
-        return boost::any_cast<Type>(mValue); \
+        try \
+        { \
+            return boost::any_cast<Type>(mValue); \
+        } \
+        catch (boost::bad_any_cast) \
+        { \
+            Throw( \
+                rl::WrongFormatException, \
+                "Wrong property type for to##Name (type is "+ Ogre::String(mValue.type().name())+") " + (mValue.empty()?"EMPTY!":"not empty")); \
+        } \
     }
 
 
@@ -57,10 +68,10 @@ namespace rl {
     public:
         Property();
 
-        PropertyMethod(Bool, const bool);
+        PropertyMethod(Bool, const bool&);
         PropertyMethod(String, const CeGuiString&);
-        PropertyMethod(Int, const int);
-        PropertyMethod(Real, const Ogre::Real);
+        PropertyMethod(Int, const int&);
+        PropertyMethod(Real, const Ogre::Real&);
         PropertyMethod(Vector, const Ogre::Vector3&);
         PropertyMethod(Quaternion, const Ogre::Quaternion&);
         
@@ -70,6 +81,18 @@ namespace rl {
     private:
         boost::any mValue;
     };
+
+    class _RlCommonExport PropertyPtr :
+        public Ogre::SharedPtr<Property>
+    {
+    public:
+        PropertyPtr() : Ogre::SharedPtr<Property>() {}
+        explicit PropertyPtr(Property* rep) : Ogre::SharedPtr<Property>(rep) {}
+        PropertyPtr(const PropertyPtr& res) : Ogre::SharedPtr<Property>(res) {}
+    protected:
+        void destroy() { Ogre::SharedPtr<Property>::destroy(); }
+    };
+
 } // namespace rl
 
 #endif //__Property_H__

@@ -19,6 +19,7 @@
 #include "Exception.h"
 
 using namespace boost;
+using namespace Ogre;
 
 namespace rl {
 
@@ -38,5 +39,4 @@ namespace rl {
     {
         mValue = classname + "/" + Ogre::StringConverter::toString(goid);
     }
-
 }

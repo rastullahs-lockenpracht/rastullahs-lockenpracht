@@ -22,27 +22,46 @@
 namespace rl {
 
     class PropertySet;
+    class PropertySetPtr;
+    typedef std::map<const Ogre::String, Property> PropertyMap;
 
     class _RlCommonExport PropertyHolder
     {
     public:
         virtual const Property getProperty(const Ogre::String& key) const = 0;
         virtual void setProperty(const Ogre::String& key, const Property& value) = 0;
-        virtual const PropertySet getAllProperties() const = 0;
+        virtual PropertySet* getAllProperties() const = 0;
+        virtual void setProperties(const PropertySet* props);
     };
 
     class _RlCommonExport PropertySet : public PropertyHolder
     {
 	public:
+        PropertySet();
+        PropertySet(const PropertySet* ps);
+
         virtual const Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const Property& value);
-        virtual const PropertySet getAllProperties() const;
-
+        virtual PropertySet* getAllProperties() const;
+        const PropertyMap::const_iterator begin() const;
+        const PropertyMap::const_iterator end() const;
+        
     private:
-        typedef std::map<const Ogre::String, Property> PropertyMap;
-
         PropertyMap mProperties;
 	};
+
+    class _RlCommonExport PropertySetPtr :
+        public Ogre::SharedPtr<PropertySet>
+    {
+    public:
+        PropertySetPtr() : Ogre::SharedPtr<PropertySet>() {}
+        explicit PropertySetPtr(PropertySet* rep) : Ogre::SharedPtr<PropertySet>(rep) {}
+        PropertySetPtr(const PropertySetPtr& res) : Ogre::SharedPtr<PropertySet>(res) {}
+    
+    protected:
+        void destroy() { Ogre::SharedPtr<PropertySet>::destroy(); }
+    };
+
 }
 
 #endif //__Properties_H__
