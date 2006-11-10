@@ -1,1 +1,0 @@
-SUBDIRS = $(PLUGIN_DIRS)

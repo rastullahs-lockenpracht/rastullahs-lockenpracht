@@ -1,4 +1,0 @@
-LIBRARY	"RlOpenALDriver.dll"
-EXPORTS	
-	dllStartPlugin
-	dllStopPlugin
