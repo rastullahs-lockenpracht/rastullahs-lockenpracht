@@ -44,7 +44,7 @@ namespace rl {
 	TimerManager::TimerManager() :
 		mTimers()
 	{
-		GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_STARTED);
+		GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_ENDED);
 	}
 
 	TimerManager::~TimerManager()
@@ -100,11 +100,12 @@ namespace rl {
 		ScriptWrapper::getSingleton().disowned(source);
     }
 
-	const Ogre::String& TimerManager::getName() const
-	{
-		static Ogre::String NAME = "TimerManager";
+    const Ogre::String& TimerManager::getName() const
+    {
+        static Ogre::String NAME = "TimerManager";
 
-		return NAME;
-	}
+        return NAME;
+    }
+
+
 }
-

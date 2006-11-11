@@ -84,13 +84,15 @@ namespace rl {
 		mInfoPopup = new InfoPopup();
 		mObjectDescriptionWindow = new ObjectDescriptionWindow();
 		mSoundConfig = new SoundConfig();
-        mCloseConfirmationWindow = 0;
+        mCloseConfirmationWindow = NULL;
         
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mJournalWindow);
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mInfoPopup);
         mDataLoadingProgressWindow = new DataLoadingProgressWindow();
 		CoreSubsystem::getSingleton().addCoreEventListener(mDataLoadingProgressWindow);
         mMainMenuWindow = new MainMenuWindow( new MainMenuEngineWindow() );
+
+        logAllWindows();
 	}
 
 	WindowFactory::~WindowFactory()
@@ -407,4 +409,26 @@ namespace rl {
 	{
 		mSoundConfig->registerDriverConfig(wnd);
 	}
+
+    void WindowFactory::logAllWindows()
+    {
+        CEGUI::Window* rootWnd = CeGuiWindow::getRoot();
+        CEGUI::uint count = rootWnd->getChildCount();
+        for (CEGUI::uint chIdx =  0; chIdx < count; ++chIdx)
+        {
+            CEGUI::Window* wnd = rootWnd->getChildAtIdx(chIdx);
+            LOG_MESSAGE(
+                Logger::UI,
+                wnd->getName()
+                + (wnd->isVisible() ? " vis" : " nvis")
+                + " @"
+                + StringConverter::toString(wnd->getAbsoluteXPosition())
+                + ", "
+                + StringConverter::toString(wnd->getAbsoluteYPosition())
+                + " "
+                + StringConverter::toString(wnd->getAbsoluteWidth())
+                + ", "
+                + StringConverter::toString(wnd->getAbsoluteHeight()));
+        }
+    }
 }

@@ -145,7 +145,7 @@ namespace rl {
 
 		int preis = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Preis"));
 
-		// Neuen Waffenprototyp erzeugen und zur�ckgeben
+		// Neuen Waffenprototyp erzeugen und zurueckgeben
 		Weapon* w = new Weapon(
 			name,
 			desc

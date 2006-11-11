@@ -32,7 +32,7 @@ namespace rl {
 	WindowManager::WindowManager()
 	{
 		mWindowUpdater = new WindowUpdater();
-		GameLoopManager::getSingleton().addSynchronizedTask(mWindowUpdater, FRAME_STARTED);
+		GameLoopManager::getSingleton().addSynchronizedTask(mWindowUpdater, FRAME_ENDED);
 		//mWindowUpdater->setPaused(true);
 	}
 

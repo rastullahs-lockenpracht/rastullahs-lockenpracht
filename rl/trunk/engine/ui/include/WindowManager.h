@@ -28,7 +28,6 @@
 #undef min
 
 #include <CEGUIVector.h>
-#include "GameTask.h"
 
 namespace rl {
 

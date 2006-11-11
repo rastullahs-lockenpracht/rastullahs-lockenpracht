@@ -13,8 +13,9 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-
 #include "Selector.h"
+
+using namespace Ogre;
 
 namespace rl
 {

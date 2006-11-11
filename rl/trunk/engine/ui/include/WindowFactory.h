@@ -28,7 +28,6 @@
 #undef min
 
 #include <CEGUIVector.h>
-#include "GameTask.h"
 
 namespace rl {
 
@@ -118,6 +117,8 @@ namespace rl {
 		void registerSoundConfigComponent(SoundDriverConfigComponent* wnd);
 
 	private:
+        void logAllWindows();
+
 		GameLoggerWindow* mGameLogger;
 		CharacterStateWindow* mCharacterStateWindow;
 		InGameMenuWindow* mInGameMenuWindow;

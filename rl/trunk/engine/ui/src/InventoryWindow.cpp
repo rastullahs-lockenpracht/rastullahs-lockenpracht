@@ -18,19 +18,21 @@
 #include <boost/bind.hpp>
 
 #include "InventoryWindow.h"
-#include "RulesSubsystem.h"
-#include "Inventory.h"
-#include "Creature.h"
-#include "WindowFactory.h"
-#include "GameLoop.h"
+
+#include "Actor.h"
 #include "ActorManager.h"
-#include "CoreSubsystem.h"
-#include "UiSubsystem.h"
-#include "World.h"
 #include "CameraObject.h"
+#include "CoreSubsystem.h"
+#include "Creature.h"
+#include "Exception.h"
+#include "GameLoop.h"
+#include "Inventory.h"
 #include "MeshObject.h"
 #include "PhysicalThing.h"
-#include "Exception.h"
+#include "RulesSubsystem.h"
+#include "UiSubsystem.h"
+#include "WindowFactory.h"
+#include "World.h"
 
 #include <CEGUIPropertyHelper.h>
 #include <OgreCEGUIRenderer.h>
@@ -59,12 +61,13 @@ namespace rl {
 		}
 	}
 
-	const Ogre::String& InventoryArrangeTask::getName() const
-	{
-		static Ogre::String NAME = "InventoryArrangeTask";
+    const Ogre::String& InventoryArrangeTask::getName() const
+    {
+        static Ogre::String NAME = "InventoryArrangeTask";
 
-		return NAME;
-	}
+        return NAME;
+    }
+
 
 	// ***************************************************************
 	// ***************** Konstruktor *********************************
@@ -136,7 +139,7 @@ namespace rl {
 			mBackpackContent->destroy();
 		}*/
         delete mInventoryArrangeTask;
-        delete mGroundItem;
+//        delete mGroundItem;
 	}
 
 
@@ -485,7 +488,7 @@ namespace rl {
 		mDescription = getStaticText("InventoryWindow/Description");
 
 		// Das "BodenItem" initiieren
-		mGroundItem = new Item("Boden", "Dieses Item repräsentiert den Boden");
+		mGroundItem = new Item(1/*"Boden", "Dieses Item repräsentiert den Boden"*/);
 		mGroundItem->setImageName("Trank");
 		mGroundItem->setItemType(Item::ITEMTYPE_OTHER);
 		mGroundItem->setSize(1,1);
