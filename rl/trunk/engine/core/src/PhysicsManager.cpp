@@ -16,17 +16,19 @@
 
 #include "PhysicsManager.h"
 
-#include "CoreSubsystem.h"
-#include "World.h"
-#include "PhysicalThing.h"
 #include "Actor.h"
 #include "ActorManager.h"
+#include "CoreSubsystem.h"
 #include "Exception.h"
-#include "PhysicalObject.h"
 #include "PhysicsController.h"
+#include "PhysicsGenericContactCallback.h"
+#include "PhysicalObject.h"
+#include "PhysicalThing.h"
+#include "World.h"
 
 using namespace std;
 using namespace OgreNewt;
+using namespace Ogre;
 
 template<> rl::PhysicsManager* Singleton<rl::PhysicsManager>::ms_Singleton = 0;
 
@@ -132,7 +134,7 @@ namespace rl
         return mGravity;
     }
 
-    PhysicalThing* PhysicsManager::createPhysicalThing(GeometryTypes geomType,
+    PhysicalThing* PhysicsManager::createPhysicalThing(GeometryType geomType,
         PhysicalObject* po, Real mass, bool hullModifier)
     {
 		PhysicalThing* rval = NULL;

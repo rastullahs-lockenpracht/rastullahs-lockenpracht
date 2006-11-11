@@ -324,7 +324,7 @@ namespace rl {
     }
 
     Actor* ActorManager::createMeshActor(const String& name, const String& meshname,
-        PhysicsManager::GeometryTypes geomType, Ogre::Real mass)
+        PhysicsManager::GeometryType geomType, Ogre::Real mass)
     {
         const String&  uniquename = nextUniqueName(name);
         Actor* actor = NULL;

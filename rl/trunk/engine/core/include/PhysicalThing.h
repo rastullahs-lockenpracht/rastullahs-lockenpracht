@@ -32,7 +32,7 @@ namespace rl {
     {
     public:
 		PhysicalThing(
-			PhysicsManager::GeometryTypes geomType,
+			PhysicsManager::GeometryType geomType,
 			PhysicalObject* po, 
 			Real mass, 
 			bool hullModifier = false);
@@ -114,13 +114,13 @@ namespace rl {
         CollisionMap mPoseCollisions;
 
 		Ogre::Real mMass;
-		PhysicsManager::GeometryTypes mGeometryType;
+		PhysicsManager::GeometryType mGeometryType;
 		PhysicalObject* mPhysicalObject;
 		bool mHullModifier;
 
 		void setOffset(const Ogre::Vector3& offset);
 		void setOrientationBias(const Ogre::Quaternion& orientation);
-		PhysicsManager::GeometryTypes getGeometryType() const;
+		PhysicsManager::GeometryType getGeometryType() const;
 		void setBody(OgreNewt::Body* body);
 		OgreNewt::CollisionPtr createCollision(
 			const AxisAlignedBox& aabb, Vector3* offset = NULL, 

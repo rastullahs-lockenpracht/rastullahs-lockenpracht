@@ -20,27 +20,37 @@
 #include <map>
 #include <vector>
 #include <OgreSingleton.h>
-#include "GameTask.h"
-#include <OgreNewt.h>
 
+#include <OgreNewt_Collision.h>
+
+namespace OgreNewt {
+    class Body;
+    class Debugger;
+    class MaterialID;
+    class MaterialPair;
+    class World;
+}
+
+
+#include "GameTask.h"
 #include "CorePrerequisites.h"
-#include "PhysicsGenericContactCallback.h"
 
 namespace rl {
 
+    class Actor;
+	class PhysicalObject;
     class PhysicalThing;
     class PhysicsController;
-    class Actor;
+    class PhysicsGenericContactCallback;
     class World;
-	class PhysicalObject;
 
     class _RlCoreExport PhysicsManager
         :   public GameTask,
-            protected Singleton<PhysicsManager>
+            protected Ogre::Singleton<PhysicsManager>
     {
     public:
 
-        enum GeometryTypes {
+        enum GeometryType {
             GT_NONE = -1,
             GT_BOX = 0,
             GT_SPHERE = 1,
@@ -55,7 +65,7 @@ namespace rl {
         PhysicsManager();
         virtual ~PhysicsManager();
 
-        virtual void run( Real elapsedTime );
+        virtual void run( Ogre::Real elapsedTime );
 
         /**
          * @param geomType Grundform der Geometrie des Objektes
@@ -70,13 +80,13 @@ namespace rl {
          */
         /*PhysicalThing* createPhysicalThing(const int geomType, PhysicalObject* po,
             Ogre::Real mass, OffsetMode offsetMode = OM_BOTTOMCENTERED, bool hullModifier = false);*/
-		PhysicalThing* createPhysicalThing(GeometryTypes geomType, PhysicalObject* po,
+		PhysicalThing* createPhysicalThing(GeometryType geomType, PhysicalObject* po,
             Ogre::Real mass, bool hullModifier = false);
 
 		/**
 		 * Erschafft den entgültigen Physikproxy
 		 */
-		void createPhysicsProxy(PhysicalThing* pt, SceneNode* node);
+		void createPhysicsProxy(PhysicalThing* pt, Ogre::SceneNode* node);
 
         //PhysicalThing* createConvexHullPhysicalThing(Ogre::Entity*, Ogre::Real mass = 0.0f,
         //    const Ogre::Vector3& inertiaCoefficients = Ogre::Vector3(1.0f, 1.0f, 1.0f));
@@ -85,7 +95,7 @@ namespace rl {
 
         // Global Settings
         void setGravity(Ogre::Real x, Ogre::Real y, Ogre::Real z);
-        Vector3 getGravity() const;
+        Ogre::Vector3 getGravity() const;
 
         bool isEnabled() const;
         void setEnabled(bool enabled);

@@ -48,7 +48,7 @@ namespace rl {
         Actor* createCameraActor(const Ogre::String& name);
         Actor* createEmptyActor(const Ogre::String& name);
         Actor* createMeshActor(const Ogre::String& name,const Ogre::String& meshname,
-            PhysicsManager::GeometryTypes geomType = PhysicsManager::GT_NONE,
+            PhysicsManager::GeometryType geomType = PhysicsManager::GT_NONE,
             Ogre::Real mass = 1.0);
         Actor* createParticleSystemActor(const Ogre::String& name, 
             const Ogre::String& partname);

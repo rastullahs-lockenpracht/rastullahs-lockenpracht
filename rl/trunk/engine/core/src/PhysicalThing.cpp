@@ -28,7 +28,7 @@ using namespace OgreNewt::CollisionPrimitives;
 namespace rl
 {
 	PhysicalThing::PhysicalThing(
-		PhysicsManager::GeometryTypes geomType, PhysicalObject* po, Real mass, bool hullModifier)
+		PhysicsManager::GeometryType geomType, PhysicalObject* po, Real mass, bool hullModifier)
 		:
 		mActor(NULL),
         mBody(NULL),
