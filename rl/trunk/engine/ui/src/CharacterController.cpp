@@ -46,10 +46,15 @@ namespace rl {
 
 		if (mCharacterActor != NULL)
 		{
-			if (!mCharacterActor->_getSceneNode())
+			if (mCharacterActor->_getSceneNode() == NULL)
 			{
 				Throw(IllegalArgumentException,
 					"character has to be placed in the scene beforehand");
+			}
+            if (mCharacterActor->getPhysicalThing() == NULL)
+			{
+				Throw(IllegalArgumentException,
+					"character must have a physics proxy");
 			}
 
 			mCharBody = mCharacterActor->getPhysicalThing()->_getBody();
