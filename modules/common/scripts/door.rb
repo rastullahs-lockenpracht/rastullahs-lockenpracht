@@ -15,7 +15,7 @@ class OpenDoorAction < Action
     doorActor = door.getActor(); 
     
     #p "call fitToPose for zu"
-	doorActor.getPhysicalThing().fitToPose("zu");
+    doorActor.getPhysicalThing().fitToPose("zu");
 
     doorActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
 
@@ -39,7 +39,7 @@ class CloseDoorAction < Action
     doorActor = door.getActor();
    
     #p "call fitToPose for auf"
-	doorActor.getPhysicalThing().fitToPose("auf");
+    doorActor.getPhysicalThing().fitToPose("auf");
 
     doorActor.getControlledObject.replaceAnimation("auf", "zu", 1.0, 1); 
 
@@ -52,25 +52,33 @@ end
 
 class Door < GameObject
   
-  def initialize(name, description, position, orientation, mesh = "arc_tuer_01.mesh", sound = "doorcreak.ogg")
-    super(name, description);
-
-    doorActor = $AM.createMeshActor(name, mesh, PhysicsManager::GT_BOX , 0.0);
-    setActor(doorActor);
-    doorActor.placeIntoScene(position, orientation);
-
-    @mSoundActor = $AM.createSoundSampleActor(name+"_knarzen", sound);
-    doorActor.attach(@mSoundActor);
+  def initialize(id)
+    super(id);
   end
 
-  def addActions(isOpen = false, canBeOpened = true)
-    @mOpen = isOpen
+  def setProperty(name, value)
+    if (name == "str_sound")
+      @mSound = value;
+    elsif (name == "bool_open")
+      @mOpen = value;
+    elsif (name == "bool_openable")
+      @mCanBeOpened = value;
+    else
+      super(name, value)
+    end
+  end
+
+  def placeIntoScene()
+    super()
+    @mSoundActor = $AM.createSoundSampleActor("door_" + getId().to_s + "_knarzen", @mSound);
+    getActor().attach(@mSoundActor);
+    addActions();
+  end
+
+  def addActions()
     @mOpenAction = OpenDoorAction.new()
     @mCloseAction = CloseDoorAction.new()
-
-    @mCanBeOpened = canBeOpened
-    
-    if (canBeOpened)
+    if (@mCanBeOpened)
     	addAction(@mOpenAction);
     	addAction(@mCloseAction);
     else
@@ -78,8 +86,8 @@ class Door < GameObject
     	addAction(@mCloseAction, Action::ACT_DISABLED);
     end
 
-    @mDoor.doAction("opendoor") unless not @mOpen
-   end
+    doAction("opendoor") unless not @mOpen
+  end
   
   def setOpen(isOpen)
     @mOpen = isOpen

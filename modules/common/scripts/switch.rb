@@ -13,20 +13,20 @@ class SwitchUpAction < Action
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
   def canDo(switch, user) 
-    switch.getState() != Switch::STATE_OBEN;
+    switch.getState() != Switch3Way::STATE_OBEN;
   end
   
   def doAction(switch, user, target)    
     switchMesh = switch.getActor().getControlledObject(); 
 
-    if (switch.getState() == Switch::STATE_MITTE)
+    if (switch.getState() == Switch3Way::STATE_MITTE)
       switchMesh.stopAllAnimations()
       switchMesh.startAnimation("MitteOben", 2.0, 1)
-    elsif (switch.getState() == Switch::STATE_UNTEN)
+    elsif (switch.getState() == Switch3Way::STATE_UNTEN)
       switchMesh.stopAllAnimations()
       switchMesh.startAnimation("UntenOben", 4.0, 1)
     end
-    switch.setState( Switch::STATE_OBEN );
+    switch.setState( Switch3Way::STATE_OBEN );
   end
 end
 
@@ -37,19 +37,19 @@ class SwitchDownAction < Action
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
   def canDo(switch, user)
-     switch.getState() != Switch::STATE_UNTEN;
+     switch.getState() != Switch3Way::STATE_UNTEN;
   end
   
   def doAction(switch, user, target)    
     switchMesh = switch.getActor().getControlledObject();
-    if (switch.getState() == Switch::STATE_MITTE)
+    if (switch.getState() == Switch3Way::STATE_MITTE)
       switchMesh.stopAllAnimations()
       switchMesh.startAnimation("MitteUnten", 2.0, 1)
-    elsif (switch.getState() == Switch::STATE_OBEN )
+    elsif (switch.getState() == Switch3Way::STATE_OBEN )
       switchMesh.stopAllAnimations()
       switchMesh.startAnimation("ObenUnten", 4.0, 1)
     end
-    switch.setState( Switch::STATE_UNTEN );
+    switch.setState( Switch3Way::STATE_UNTEN );
   end
 end
 
@@ -60,37 +60,31 @@ class SwitchMiddleAction < Action
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
   def canDo(switch, user)    
-     switch.getState() != Switch::STATE_MITTE;
+     switch.getState() != Switch3Way::STATE_MITTE;
   end
   
   def doAction(switch, user, target)    
     switchMesh = switch.getActor().getControlledObject();
-    if (switch.getState() == Switch::STATE_OBEN)
+    if (switch.getState() == Switch3Way::STATE_OBEN)
       switchMesh.stopAllAnimations()
       switchMesh.startAnimation("ObenMitte", 2.0, 1)
-    elsif (switch.getState() == Switch::STATE_UNTEN)
+    elsif (switch.getState() == Switch3Way::STATE_UNTEN)
       switchMesh.stopAllAnimations()
       switchMesh.startAnimation("UntenMitte", 2.0, 1)
     end
-    switch.setState( Switch::STATE_MITTE );
+    switch.setState( Switch3Way::STATE_MITTE );
   end
 end
 
-class Switch < GameObject
-  Switch.const_set( "STATE_OBEN", 0 )
-  Switch.const_set( "STATE_MITTE", 1 )
-  Switch.const_set( "STATE_UNTEN", 2 )
+class Switch3Way < GameObject
+  Switch3Way.const_set( "STATE_OBEN", 0 )
+  Switch3Way.const_set( "STATE_MITTE", 1 )
+  Switch3Way.const_set( "STATE_UNTEN", 2 )
 
-  def initialize( name )
-    super(name, "Ein Hebel");
+  def initialize( id )
+    super(id);
 
-    switchActor = $AM.createMeshActor(name, "arc_hebel_01.mesh",
-                                      PhysicsManager::GT_BOX , 0.0);
-    $SCRIPT.log("switch-actor erstellt.");
-    setActor(switchActor);
-    $SCRIPT.log("actor gesetzt");
-    
-    @state = Switch::STATE_MITTE;
+    @state = Switch3Way::STATE_MITTE;
     
     addAction(SwitchUpAction.new);
     addAction(SwitchDownAction.new);

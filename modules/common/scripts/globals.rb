@@ -20,6 +20,7 @@ $SCRIPT = ScriptSubsystem.getSingleton();
 
 $GameEveMgr = GameEventManager.getSingleton();
 $AnimMgr = AnimationManager.getSingleton();
+$GOM = GameObjectManager.getSingleton();
 
 class HeroPosWriter
   def initialize()
@@ -33,8 +34,19 @@ class HeroPosWriter
 end
 
 $hpw = HeroPosWriter.new()
-
-
 p "Aktuelle Spielerposition in Log schreiben mit '$hpw.writePos'"
 
-require( "questsound.rb" ); 
+class RubyGameObjectFactory < GameObjectFactory
+  def initialize()
+    super();
+  end
+
+  def createRubyGameObject(classname, id)
+    return Module.const_get(classname).new(id);
+  end
+end
+
+rgof = RubyGameObjectFactory.new();
+$GOM.setGameObjectFactory(rgof);
+
+require( "questsound.rb" );

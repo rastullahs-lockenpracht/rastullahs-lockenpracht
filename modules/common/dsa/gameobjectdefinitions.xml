@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<GameObjectDefinitions>
+
+	<gameobjectclass 
+		str_classid="apple" 
+		str_classname="GameObject" 
+		str_description="Ein Apfel?"
+		str_meshfile="sphere.1m.mesh" />
+
+	<gameobjectclass 
+		str_classid="hero" 
+		str_classname="Hero" 
+		int_geometrytype="4" 
+		real_mass="75"/>
+	
+	<gameobjectclass
+	    str_classid="npc"
+		str_classname="NPC"
+		int_geometrytype="4"
+		real_mass="75"/>
+
+	<gameobjectclass
+		str_classid="door"
+		str_classname="Door"
+		str_description="Eine Tür"
+		int_geometrytype="1"
+		str_meshfile="arc_tuer_01.mesh"
+		str_sound="doorcreak.ogg"
+		bool_open="false"
+		bool_openable="true"/>
+
+	<gameobjectclass
+		str_classid="switch3way"
+		str_classname="Switch3Way"
+		str_description="Ein Hebel"
+		str_meshfile="arc_hebel_01.mesh"
+		int_geometrytype="1"/>
+
+</GameObjectDefinitions>

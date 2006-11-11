@@ -1,8 +1,10 @@
 load "embed.rb"
 
 class Hero < Person
-    def initialize
-        super("Alrike", "Heldin von Berufung");
+    def initialize(id)
+        super(id);
+	setName("Alrike");
+	setDescription("Heldin von Berufung");
 	$SCRIPT.log("Gute Eigenschaften zuweisen...");
 
         setEigenschaft("MU", 12);
@@ -16,7 +18,7 @@ class Hero < Person
         setWert(2, 10); # LE-Mod
 
 	$SCRIPT.log("LeP und AuP auffüllen");
-        modifyLe(1000,false); # LeP = LE
+        modifyLe(1000, false); # LeP = LE
         modifyAu(1000); # Au = voll
         # modifyLe(-20); # 10 LeP abziehen
 
@@ -25,11 +27,11 @@ class Hero < Person
 	#addTalent("Körperbeherrschung", 3);
 
         $SCRIPT.log("Heldenaktor erstellen...");
-        $heldaktor = $AM.createMeshActor("Held","men_alrike.mesh", PhysicsManager::GT_ELLIPSOID, 75.0);
-        setActor($heldaktor);
-        $heldaktor.setQueryMask(Actor::QGF_PLAYER);
-
-        addSounds()
+        setProperty("str_meshfile", "men_alrike.mesh")
+	setProperty("int_physicsbody", PhysicsManager::GT_ELLIPSOID)
+	setProperty("real_mass", 75.0);
+ 
+#       addSounds()
         $SCRIPT.log("done.");
     end
 

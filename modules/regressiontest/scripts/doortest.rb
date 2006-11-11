@@ -13,7 +13,7 @@ class DoorOpener < ObjectStateChangeListener
   end
 
   def objectStateChanged(event)
-      doorOpen = @switch.getState() == Switch::STATE_OBEN
+      doorOpen = @switch.getState() == Switch3Way::STATE_OBEN
       if (@door.isOpen() != doorOpen)
         if (doorOpen)
           @door.doAction("opendoor")
@@ -38,25 +38,27 @@ class DoorTest < TestCase
         base.placeIntoScene(center);
 
         # The door with the door knob
-        door1 = Door.new("DoorTest_Door1", "Eine Holztuer",
-            rel_pos([1.5, height, 0.0]), [0.0, 0.0, 0.0])
-        # Add door actions. Initially the door is not open but can be opened.
-        door1.addActions(false, true)
+        door1 = $GOM.createGameObjectProxy("door").getGameObject();
+	door1.setDescription("Eine Holztuer");
+	door1.setPosition(rel_pos([1.5, height, 0.0]));
+        # Place door and add door actions. Initially the door is not open but can be opened.
+        door1.placeIntoScene()
 
         # The door without a working door knob, to be opened with
-        door2 = Door.new("DoorTest_Door2",
-            "Eine Holztuer.\nDiese Tuer hat weder Klinke noch Schloesser",
-            rel_pos([-1.5, height, 0.0]), [0.0, 0.0, 0.0])
-        # Add door actions. Initially door is not open and cannot be opened.
-        door2.addActions(false, false)
+        door2 = $GOM.createGameObjectProxy("door").getGameObject();
+	door2.setDescription("Eine Holztuer.\nDiese Tuer hat weder Klinke noch Schloesser");
+	door2.setPosition(rel_pos([-1.5, height, 0.0]));
+        # Place door and add door actions. Initially door is not open and cannot be opened.
+        door2.placeIntoScene()
 
         # The switch to open the second door
-        switch = Switch.new( "DoorTest_Hebel" );
-        switch.getActor().placeIntoScene(rel_pos([2.25, height, 2.0]))
+        switch = $GOM.createGameObjectProxy("switch3way").getGameObject();
+        switch.setPosition(rel_pos([2.25, height, 2.0]));
+	switch.placeIntoScene();
 
-        doorprocessor = DoorOpener.new(door2, switch)
+        doorprocessor = DoorOpener.new(door2, switch);
 
-        $SCRIPT.log("Truhe reinsetzen")
+        $SCRIPT.log("doortest initialisiert");
     end
 end
 
