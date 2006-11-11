@@ -17,6 +17,8 @@
 #include <map>
 
 #include "Quest.h"
+
+#include "Property.h"
 #include "QuestBook.h"
 #include "QuestEvent.h"
 #include "QuestListener.h"
@@ -26,13 +28,24 @@
 
 namespace rl {
 
-CeGuiString	Quest::STATE_NAMES[5] = 
-		{	"OPEN",		"ASSIGNED",	"FAILED", "SUCCEEDED", "COMPLETED"};
-CeGuiString	Quest::KNOWN_NAMES[2] = 
-		{	"UNKNOWN",	"KNOWN"};
+const CeGuiString	Quest::STATE_NAMES[5] = 
+		{	"OPEN",		
+            "ASSIGNED",	
+            "FAILED", 
+            "SUCCEEDED", 
+            "COMPLETED"};
+
+const CeGuiString	Quest::KNOWN_NAMES[2] = 
+		{	"UNKNOWN",	
+            "KNOWN"};
+
+const Ogre::String Quest::PROP_NAME = "str_name";
+const Ogre::String Quest::PROP_DESCRIPTION = "str_description";
+const Ogre::String Quest::PROP_KNOWN = "bool_known";
 
 Quest::Quest(const CeGuiString id, const CeGuiString name, const CeGuiString description)
-:	mId(id),
+:	PropertySet(),
+    mId(id),
 	mName(name),
 	mDescription(description),
 	mPartsToDo(1),
@@ -53,22 +66,22 @@ Quest::~Quest()
     mSubquests.clear();
 }
 
-const CeGuiString Quest::getId()
+const CeGuiString Quest::getId() const
 {
 	return mId;
 }
 
-const CeGuiString Quest::getName()
+const CeGuiString Quest::getName() const
 {
 	return mName;
 }
 
-const CeGuiString Quest::getDescription()
+const CeGuiString Quest::getDescription() const
 {
 	return mDescription;
 }
 
-int Quest::getPartsToDo()
+int Quest::getPartsToDo() const
 {
 	if (mSubquests.size() == 0)
 		return mPartsToDo;
@@ -80,13 +93,13 @@ void Quest::setPartsToDo(int partsToDo)
 	mPartsToDo = partsToDo;
 }
 
-int Quest::getPartsDone()
+int Quest::getPartsDone() const
 {
 	if (!hasSubquests())
 		return mPartsDone;
 
 	int done = 0;
-	for(QuestVector::iterator it = mSubquests.begin(); 
+	for(QuestVector::const_iterator it = mSubquests.begin(); 
 		it != mSubquests.end(); it++)
 	{
 		Quest* cur = (*it);
@@ -129,17 +142,17 @@ void Quest::decreasePartsDone(int parts)
 }
 
 
-Quest::State Quest::getState()
+Quest::State Quest::getState() const
 {
 	return mState;
 }
 
-const CeGuiString Quest::getStateName()
+const CeGuiString Quest::getStateName() const
 {
 	return Quest::STATE_NAMES[mState];
 }
 
-const CeGuiString Quest::getKnownName()
+const CeGuiString Quest::getKnownName() const
 {
 	if (mKnown)
 	{
@@ -172,7 +185,7 @@ void Quest::setState(Quest::State state)
 	}
 }
 
-QuestVector Quest::getSubquests()
+QuestVector Quest::getSubquests() const
 {
 	return mSubquests;
 }
@@ -189,7 +202,7 @@ void Quest::addSubquest(Quest* quest)
 	notify(QuestEvent::QUEST_SUBQUEST);
 }
 
-bool Quest::hasSubquests()
+bool Quest::hasSubquests() const
 {
 	return mSubquests.size() > 0;
 }
@@ -199,7 +212,7 @@ void Quest::setParent(Quest* quest)
 	mParent = quest;
 }
 
-Quest* Quest::getParent()
+Quest* Quest::getParent() const
 {
 	return mParent;
 }
@@ -258,7 +271,7 @@ bool Quest::getKnownFromName(const CeGuiString knownName)
 		(knownName + " is no valid quest known state.").c_str());
 }
 
-bool Quest::isKnown()
+bool Quest::isKnown() const
 {
 	return mKnown;
 }
@@ -274,6 +287,57 @@ void Quest::setKnown(bool known)
 
 		notify(QuestEvent::QUEST_KNOWN);
 	}
+}
+
+const Property Quest::getProperty(const Ogre::String& key) const
+{
+    if (key == PROP_KNOWN)
+    {
+        return Property(mKnown);
+    }
+    else if (key == PROP_NAME)
+    {
+        return Property(mName);
+    }
+    else if (key == PROP_DESCRIPTION)
+    {
+        return Property(mDescription);
+    }
+    else
+    {
+        return PropertySet::getProperty(key);
+    }
+}
+
+void Quest::setProperty(const Ogre::String& key, const Property& value)
+{
+    if (key == PROP_KNOWN)
+    {
+        mKnown = value.toBool();
+    }
+    else if (key == PROP_NAME)
+    {
+        mName = value.toString();
+    }
+    else if (key == PROP_DESCRIPTION)
+    {
+        mDescription = value.toString();
+    }
+    else
+    {
+        PropertySet::setProperty(key, value);
+    }
+}
+
+PropertySet* Quest::getAllProperties() const
+{
+    PropertySet* ps = PropertySet::getAllProperties();
+    
+    ps->setProperty(PROP_NAME, Property(mName));
+    ps->setProperty(PROP_DESCRIPTION, Property(mDescription));
+    ps->setProperty(PROP_KNOWN, Property(mKnown));
+
+    return ps;
 }
 
 }

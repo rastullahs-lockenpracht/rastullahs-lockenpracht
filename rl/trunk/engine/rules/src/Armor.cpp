@@ -21,8 +21,10 @@ using namespace std;
 
 namespace rl
 {
-	Armor::Armor(const CeGuiString weaponName, const CeGuiString description)
-		: Item(weaponName, description)
+    const Ogre::String Armor::CLASS_NAME = "Armor";
+
+	Armor::Armor(unsigned int id)
+		: Item(id)
 	{
 
 	}
@@ -31,37 +33,11 @@ namespace rl
 	{
 	}
 
-	Armor* Armor::clone()
-	{
-		Armor* a = new Armor(mName,mDescription);
-		a->setImageName(mImageName);
-		a->setMeshName(mMeshName);
-		a->setItemType(mItemType);
-		a->setSize(mSize.first,mSize.second);
-		a->setContainer(mIsContainer,mCapacity);
-		a->setKo(mKo);
-		a->setBr(mBr);
-		a->setRue(mRue);
-		a->setBa(mBa);
-		a->setLA(mLA);
-		a->setRA(mRA);
-		a->setLB(mLB);
-		a->setRB(mRB);
-		a->setGes(mGes);
-		a->setGRS(mGRS);
-		a->setGBE(mGBE);
-		// Umrechnung Stein->Unzen = Mal 40
-		a->setWeight(mWeight);
-		a->setPrice(mPrice);
-		return a;
-	}
-	
 	const CeGuiString Armor::getDescription() const
 	{
 		return mName + "\r\n\r\n" + 
 			getFormattedText(mDescription);	
 	}
-
 
 	int Armor::getKo()
 	{

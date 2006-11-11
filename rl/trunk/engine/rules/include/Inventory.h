@@ -184,6 +184,52 @@ public:
 	void setShinbone(Item* item);
 	void setBoots(Item* item);
 
+    		/**
+		 *  Gibt der Spielfigur eine Waffe in die Hand. Wird gesteuert durch 
+         *  das Inventar.
+		 *  @param weapon Waffe, die in die Hand soll
+		 */
+		void attachWeapon(Weapon* weapon);
+
+		/**
+		 *  Entfernt der Kreatur die Waffe aus der Hand.
+		 **/
+		void detachWeapon();
+
+// Das Inventar der Kreatur wird durch das Inventarobjekt verwaltet.
+        void addToInventory(Item* item, const CeGuiString& containerName);
+        void hold(Item* item, const CeGuiString& slotName);
+        void ready(Item* item);
+		
+		/**
+		 *  Heftet Container an die Kreatur.
+		 *  @param container Ein Zeiger auf den hinzuzufuegenden Container.
+		 *  @throws InvalidArgumentException Nullpointer uebergeben.
+		 *  @throws InvalidArgumentException Container bereits in
+		 *   \c mContainer enthalten.
+         *  @ingroup CreatureRubyExports
+		 **/
+		void addContainer(Container* container);
+		/**
+		 *  Liefert den Container \a containerName zurueck.
+		 *  @param containerName Bezeichnet den Container in mContainer.
+		 *  @return Liefert einen Zeiger auf den Container.
+		 *  @throws InvalidArgumentException Der Container wurde nicht
+		 *  in \c mContainer gefunden.
+         *  @ingroup CreatureRubyExports
+		 **/
+		Container* getContainer(const CeGuiString containerName) const;
+		/**
+		 *  Entfernt den Container containerName. Der Container wird aus 
+         *  \c mContainer geloescht und ein Zeiger darauf zurueckgegeben.
+		 *  @param containerName Bezeichnet den Container in \c mContainer.
+		 *  @throws InvalidArgumentException Container nicht in
+		 *   \c mContainer gefunden.
+         *  @ingroup CreatureRubyExports
+		 **/
+		Container* removeContainer(const CeGuiString containerName);
+
+
 private:
 	bool mValuesUpToDate;
 	int mCurrentWeight;

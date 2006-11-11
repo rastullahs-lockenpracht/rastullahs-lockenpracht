@@ -20,6 +20,7 @@
 #include "RulesPrerequisites.h"
 #include <vector>
 
+#include "Properties.h"
 
 namespace rl {
 
@@ -32,7 +33,7 @@ typedef std::vector<Quest*> QuestVector;
 /**
  * @brief Verwaltet einen Quest oder Subquest
  */
-class _RlRulesExport Quest
+class _RlRulesExport Quest : public PropertySet
 {
 public:
 	enum State
@@ -44,8 +45,12 @@ public:
 		COMPLETED
 	};
 
-	static CeGuiString STATE_NAMES[5];
-	static CeGuiString KNOWN_NAMES[2];
+	static const CeGuiString STATE_NAMES[5];
+	static const CeGuiString KNOWN_NAMES[2];
+
+    static const Ogre::String PROP_NAME;
+	static const Ogre::String PROP_DESCRIPTION;
+	static const Ogre::String PROP_KNOWN;
 
 	/**
 	 * @param id eine einzigartige ID, um den Quest wiederzufinden
@@ -58,17 +63,17 @@ public:
 	/**
 	 * @return die Quest-ID
 	 */
-	const CeGuiString getId();
+	const CeGuiString getId() const;
 
 	/**
 	 * @return der Titel des Quests
 	 */
-	const CeGuiString getName();
+	const CeGuiString getName() const;
 
 	/**
 	 * @return die Questbeschreibung
 	 */
-	const CeGuiString getDescription();
+	const CeGuiString getDescription() const;
 
 	/**
 	 * @param partsToDo Anzahl der zu erledigenden Teile des Quests
@@ -79,7 +84,7 @@ public:
 	 * @return die Anzahl der zu erledigenden Teile des Quests oder, falls der 
 	 * Quest Teilquests enthaelt, die Anzahl der Teilquests
 	 */
-	int getPartsToDo();
+	int getPartsToDo() const;
 
 	/**
 	 * @param partsDone Anzahl der erledigten Teile des Quests
@@ -90,7 +95,7 @@ public:
 	 * @return die Anzahl der zu erledigenden Teile des Quests oder, falls der 
 	 * Quest Teilquests enthaelt, die Anzahl der Teilquests
 	 */
-	int getPartsDone();
+	int getPartsDone() const;
 
 	/**
 	 * Erhoeht die geschafften gleichen Teile eines Quests
@@ -110,13 +115,13 @@ public:
 	/**
 	 * @return Status des Quests
 	 */
-	Quest::State getState();
+	Quest::State getState() const;
 
 	/**
 	 * @return Status des Quests (als String)
 	 */
-	const CeGuiString getStateName();
-	const CeGuiString getKnownName();
+	const CeGuiString getStateName() const;
+	const CeGuiString getKnownName() const;
 
 	/**
 	 * @param state Status des Quests
@@ -124,19 +129,19 @@ public:
 	void setState(Quest::State state);
 
 	void setKnown(bool known);
-	bool isKnown();
+	bool isKnown() const;
 
 	/**
 	 * @return <code>true</code>, wenn dieser Quest Subquests hat
 	 *		   <code>false</code>, wenn dieser Quest atomar ist oder aus gleichen Teilen 
 	 *         (getPartsTodo() > 1) besteht
 	 */
-	bool hasSubquests();
+	bool hasSubquests() const;
 
 	/**
 	 * @return die Subquests dieses Quests
 	 */
-	QuestVector getSubquests();
+	QuestVector getSubquests() const;
 
 	/**
 	 * Fuegt einen Subquest hinzu
@@ -144,12 +149,17 @@ public:
 	 */
 	void addSubquest(Quest* quest);
 
-	Quest* getParent();
+	Quest* getParent() const;
 	
 	void setQuestBook(QuestBook* questBook);
 
 	static Quest::State getStateFromName(const CeGuiString stateName);
 	static bool getKnownFromName(const CeGuiString knownName);
+
+    virtual const Property getProperty(const Ogre::String& key) const;
+    virtual void setProperty(const Ogre::String& key, const Property& value);
+    virtual PropertySet* getAllProperties() const;
+
 private:
 
 	static const int KNOWN = 1;

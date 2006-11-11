@@ -13,9 +13,9 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-
-
 #include "Creature.h"
+
+#include "Actor.h"
 #include "DsaManager.h"
 #include "Eigenschaft.h"
 #include "Exception.h"
@@ -29,8 +29,10 @@
 
 namespace rl
 {
-    Creature::Creature(const CeGuiString name, const CeGuiString description)
-        : GameObject(name, description), 
+    const Ogre::String Creature::CLASS_NAME = "Creature";
+
+    Creature::Creature(unsigned int id)
+        : GameObject(id), 
 		mCurrentLe(0),
         mCurrentAu(0),
         mCurrentAe(0),
@@ -41,7 +43,6 @@ namespace rl
 		mTalente(),
         mKampftechniken(),
         mSonderfertigkeiten(),
-        mContainer(),
         mErschoepfung(0),
         mBlind(0),
         mDead(0),
@@ -53,7 +54,6 @@ namespace rl
         mSilenced(0),
         mSleeping(0),
         mUnconscious(0)
-
     {
         mQueryFlags = QUERYFLAG_CREATURE;
 
@@ -106,9 +106,6 @@ namespace rl
         for( SonderfertigkeitMap::iterator it=mSonderfertigkeiten.begin();it!=mSonderfertigkeiten.end(); it++ )
             delete it->second;
         mSonderfertigkeiten.clear();
-        for( ContainerMap::iterator it=mContainer.begin();it!=mContainer.end(); it++ )
-            delete it->second;
-        mContainer.clear();
     }
 
     int Creature::getAttackeBasis()
@@ -888,93 +885,11 @@ namespace rl
     }
 
 	
-	void Creature::addContainer(Container* container)
-	{
-		if (container == NULL)
-			Throw(IllegalArgumentException, "Nullpointer uebergeben");
-		ContainerMap::const_iterator it = mContainer.find(container->getName());
-		if (it != mContainer.end())
-		{
-			Throw(IllegalArgumentException, 
-				"Container bereits in mContainer enthalten.");
-		}
-		mContainer.insert(make_pair(container->getName(), container));
-	}
-
-	Container* Creature::getContainer(const CeGuiString containerName) const
-	{
-		ContainerMap::const_iterator it = mContainer.find(containerName);
-		if (it == mContainer.end())
-		{
-			Throw(IllegalArgumentException, "Container nicht in mContainer gefunden.");
-		}
-		return (*it).second;	
-	}
-
-	Container* Creature::removeContainer(const CeGuiString containerName)
-	{
-		ContainerMap::iterator it = mContainer.find(containerName);
-		if (it == mContainer.end())
-		{
-			Throw(IllegalArgumentException, "Container nicht in mContainer gefunden.");
-		}
-		Container* rval = (*it).second;
-		mContainer.erase(it);
-		return rval;
-	}
-	
-
 	Inventory* Creature::getInventory()
 	{
 		return mInventory;
 	}
 	
-	void Creature::addWeapon(Weapon* weapon)
-	{
-		if (weapon == NULL)
-			Throw(IllegalArgumentException, "Creature::addWeapon : Nullpointer uebergeben!");
-		mInventory->addWeapon(weapon);
-	}
-
-	Weapon* Creature::getWeapon(int weaponId) const
-	{
-		return mInventory->getWeapon(weaponId);
-	}
-
-	Weapon* Creature::removeWeapon(int weaponId)
-	{
-		return mInventory->removeWeapon(weaponId);
-	}
-
-	void Creature::switchToWeapon(int weaponId)
-	{
-		mInventory->switchToWeapon(weaponId);
-	}
-
-	void Creature::attachWeapon(Weapon* weapon)
-	{
-		/// @todo Waffenknochen immer r_hand?
-		getActor()->attachToSlot(
-			weapon->getActor(), 
-			"r_hand",
-			"SLOT_HANDLE"); 
-		 mActiveWeapon = weapon;
-	}
-	
-
-	void Creature::detachWeapon(){
-		if (mActiveWeapon != NULL)
-		{
-			getActor()->detach(mActiveWeapon->getActor());
-			mActiveWeapon = NULL;
-		}
-	}
-
-	Weapon* Creature::getActiveWeapon()
-	{
-		return mActiveWeapon;
-	}
-
 	int Creature::doAttacke(const CeGuiString kampftechnikName, int modifier)
 	{
 		KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
@@ -1041,8 +956,14 @@ namespace rl
 		int rval = getInitiativeBasis();
 		rval += getWert(WERT_MOD_INI);
 		rval -= getWert(WERT_BE);
-		if (getMaxInitiave) rval += 6;
-		else rval += DsaManager::getSingleton().rollD6();
+		if (getMaxInitiave) 
+        {
+            rval += 6;
+        }
+        else
+        {
+            rval += DsaManager::getSingleton().rollD6();
+        }
 		return rval;
 	}
 

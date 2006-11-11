@@ -23,7 +23,6 @@
 #include "ActorManager.h"
 #include "Creature.h"
 #include "Eigenschaft.h"
-#include "ItemManager.h"
 
 using namespace std;
 
@@ -60,51 +59,51 @@ namespace rl
 		mOwner = owner;
 
 
-		// *****************
-		// TODO: Entfernen, wenn der ItemManager in Skripte eingebunden ist...
-		// *****************
-		Item* backpack = ItemManager::getSingleton().createItem("Rucksack");
-		mBackpack = backpack;
+		//// *****************
+		//// TODO: Entfernen, wenn der ItemManager in Skripte eingebunden ist...
+		//// *****************
+		//Item* backpack = ItemManager::getSingleton().createItem("Rucksack");
+		//mBackpack = backpack;
 
-		Item* trank = ItemManager::getSingleton().createItem("Heiltrank");
-		addItem(trank);
-		
-		Item* kurzschwert = ItemManager::getSingleton().createItem("Kurzschwert");
-		addItem(kurzschwert);
+		//Item* trank = ItemManager::getSingleton().createItem("Heiltrank");
+		//addItem(trank);
+		//
+		//Item* kurzschwert = ItemManager::getSingleton().createItem("Kurzschwert");
+		//addItem(kurzschwert);
 
-		Item* fackel = ItemManager::getSingleton().createItem("Fackel");
-		addItem(fackel);
-		
-		Item* meinUmhang = ItemManager::getSingleton().createItem("Fellumhang");
-		addItem(meinUmhang);
+		//Item* fackel = ItemManager::getSingleton().createItem("Fackel");
+		//addItem(fackel);
+		//
+		//Item* meinUmhang = ItemManager::getSingleton().createItem("Fellumhang");
+		//addItem(meinUmhang);
 
-		Item* meineRuestung = ItemManager::getSingleton().createItem("Krötenhaut");
-		mArmor = meineRuestung;
+		//Item* meineRuestung = ItemManager::getSingleton().createItem("Krötenhaut");
+		//mArmor = meineRuestung;
 
-		Item* meineStiefel = ItemManager::getSingleton().createItem("Lederstiefel");
-		addItem(meineStiefel);
+		//Item* meineStiefel = ItemManager::getSingleton().createItem("Lederstiefel");
+		//addItem(meineStiefel);
 
-		Item* meineHandschuhe = ItemManager::getSingleton().createItem("Lederhandschuhe");
-		addItem(meineHandschuhe);
+		//Item* meineHandschuhe = ItemManager::getSingleton().createItem("Lederhandschuhe");
+		//addItem(meineHandschuhe);
 
-		Item* meinRing = ItemManager::getSingleton().createItem("Rubinring");
-		addItem(meinRing);
-		
-		Item* meinArmreif = ItemManager::getSingleton().createItem("Perlenarmreif");
-		mBraceletLeft = meinArmreif;
+		//Item* meinRing = ItemManager::getSingleton().createItem("Rubinring");
+		//addItem(meinRing);
+		//
+		//Item* meinArmreif = ItemManager::getSingleton().createItem("Perlenarmreif");
+		//mBraceletLeft = meinArmreif;
 
-		Item* meinAmboss = ItemManager::getSingleton().createItem("Amboss");
-		addItem(meinAmboss);
+		//Item* meinAmboss = ItemManager::getSingleton().createItem("Amboss");
+		//addItem(meinAmboss);
 	}
 
 	Inventory::~Inventory() 
 	{
-		// Lösche Alle Objekte aus dem Rucksack
-        ItemList items = getAllItems();
-        for (ItemList::iterator it = items.begin(); it != items.end(); ++it)
-        {
-            ItemManager::getSingleton().deleteItem((*it)->getId());
-        }
+		//// Lösche Alle Objekte aus dem Rucksack
+  //      ItemList items = getAllItems();
+  //      for (ItemList::iterator it = items.begin(); it != items.end(); ++it)
+  //      {
+  //          ItemManager::getSingleton().deleteItem((*it)->getId());
+  //      }
 	}
 
 	
@@ -365,9 +364,9 @@ namespace rl
 				
 				LOG_MESSAGE("InventoryWindow",
 					Ogre::String("Checking Point in Backpack: Point x:")
-					+ StringConverter::toString(x) 
+					+ Ogre::StringConverter::toString(x) 
 					+ ", Point y:"
-					+ StringConverter::toString(y));
+					+ Ogre::StringConverter::toString(y));
 				
 				if (x >= int(container->getContainerLayout().size()) || y >= int(container->getContainerLayout()[0].size())){
 					// Es wird versucht, das Item außerhalb des Containers zu platzieren
@@ -780,7 +779,7 @@ namespace rl
 	Item* Inventory::removeHandRight(){
 		if (mHandRight && mHandRight->getActor())
 		{
-			mOwner->detachWeapon();
+			//mOwner->detachWeapon();
 		}
 		Item* temp = mHandRight;
 		mHandRight = NULL;
@@ -868,7 +867,7 @@ namespace rl
 	void Inventory::setHandRight(Item* item)
 	{
 		if (item && item->getActor() && (dynamic_cast<Weapon*>(item) != 0)){
-			mOwner->attachWeapon(dynamic_cast<Weapon*>(item));
+			//mOwner->attachWeapon(dynamic_cast<Weapon*>(item));
 		}
 		mHandRight = item;
 	}
@@ -924,4 +923,19 @@ namespace rl
 	{
 		mBoots = item;
 	}
+
+	
+    void Inventory::addToInventory(Item* item, const CeGuiString& containerName)
+    {
+    }
+
+    void Inventory::hold(Item* item, const CeGuiString& slotName)
+    {
+    }
+
+    void Inventory::ready(Item* item)
+    {
+    }
+
+
 }

@@ -18,9 +18,10 @@
 
 namespace rl {
 
-	Person::Person(const CeGuiString name,
-                   const CeGuiString description)
-    	: Creature(name, description)
+    const Ogre::String Person::CLASS_NAME = "Person";
+
+	Person::Person(unsigned int id)
+    	: Creature(id)
     {
 		setWert(WERT_SOZIALSTATUS, 0);
     }

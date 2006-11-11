@@ -20,30 +20,18 @@
 #include "DsaDataLoader.h"
 #include "Logger.h"
 #include "TimerManager.h"
-#include "ItemManager.h"
-#include "ItemDataLoader.h"
+#include "GameObjectManager.h"
 #include "QuestBook.h"
 
 template <>
-rl::RulesSubsystem* Singleton<rl::RulesSubsystem> ::ms_Singleton = 0;
+rl::RulesSubsystem* Singleton<rl::RulesSubsystem>::ms_Singleton = 0;
 namespace rl
 {
-    RulesSubsystem& RulesSubsystem::getSingleton(void)
-    {
-        return Singleton<RulesSubsystem>::getSingleton();
-    }
-
-    RulesSubsystem* RulesSubsystem::getSingletonPtr(void)
-    {
-        return Singleton<RulesSubsystem>::getSingletonPtr();
-    }
-
     RulesSubsystem::RulesSubsystem()
 		: mQuestBook(NULL),
         mActionManager(NULL),
         mDsaManager(NULL),
-        mTimerManager(NULL),
-		mItemManager(NULL)
+        mTimerManager(NULL)
     {
 		LOG_MESSAGE(Logger::RULES, "Start");
         //Zufallsgenerator initialisieren
@@ -58,15 +46,12 @@ namespace rl
 		LOG_MESSAGE(Logger::RULES, "TimerManager erzeugt");
 		resetQuestBook();
 		LOG_MESSAGE(Logger::RULES, "Questverwaltung erzeugt");
-		mItemManager = new ItemManager();
-		LOG_MESSAGE(Logger::RULES, "ItemManager erzeugt");
 
 		//Daten laden
 		DsaDataLoader::loadData("basis.xdi");
 		LOG_MESSAGE(Logger::RULES, "Basisdaten geladen");
-
-		ItemDataLoader::loadData("items.xdi");
 		
+        new GameObjectManager();
 		LOG_MESSAGE(Logger::RULES, "Erzeugen abgeschlossen");		
     }
 	
@@ -76,7 +61,7 @@ namespace rl
         delete mTimerManager;
         delete mDsaManager;
         delete mActionManager;
-        delete mItemManager;
+        delete GameObjectManager::getSingletonPtr();
     }
 
 	QuestBook* RulesSubsystem::getQuestBook()

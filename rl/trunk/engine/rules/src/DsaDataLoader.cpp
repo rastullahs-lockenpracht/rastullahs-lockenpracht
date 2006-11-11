@@ -78,13 +78,13 @@ namespace rl {
             rootTalente->getElementsByTagName(AutoXMLCh("Talentgruppe").data());
         for (unsigned int gruppe = 0; gruppe < talentGruppen->getLength(); gruppe++)
 		{
-			DOMElement* gruppeData = reinterpret_cast<DOMElement*>(talentGruppen->item(gruppe));
+			DOMElement* gruppeData = static_cast<DOMElement*>(talentGruppen->item(gruppe));
 			DOMNodeList* talenteXml =
                 gruppeData->getElementsByTagName(AutoXMLCh("Talent").data());
             //int numTalent = 0;
             for (unsigned int talentIdx = 0; talentIdx < talenteXml->getLength(); talentIdx++)
             {
-                Talent* t = processTalent(gruppe, reinterpret_cast<DOMElement*>(talenteXml->item(talentIdx)));
+                Talent* t = processTalent(gruppe, static_cast<DOMElement*>(talenteXml->item(talentIdx)));
                 //numTalent++;
 				DsaManager::getSingleton()._addTalent(t);
             }
@@ -146,13 +146,13 @@ namespace rl {
             rootKampftechniken->getElementsByTagName(AutoXMLCh("Kampfart").data());
 		for (unsigned int art = 0; art < kampfarten->getLength(); art++)
 		{
-			DOMElement* artData = reinterpret_cast<DOMElement*>(kampfarten->item(art));
+			DOMElement* artData = static_cast<DOMElement*>(kampfarten->item(art));
 			DOMNodeList* kampftechnikenXml =
                 artData->getElementsByTagName(AutoXMLCh("Kampftechnik").data());
 			int numKampftechnik = 0;
 			for (unsigned int kampftechnikIdx = 0; kampftechnikIdx < kampftechnikenXml->getLength(); kampftechnikIdx++)
 			{
-				Kampftechnik* k = processKampftechnik(reinterpret_cast<DOMElement*>(kampftechnikenXml->item(kampftechnikIdx)));
+				Kampftechnik* k = processKampftechnik(static_cast<DOMElement*>(kampftechnikenXml->item(kampftechnikIdx)));
 				numKampftechnik++;
 				DsaManager::getSingleton()._addKampftechnik(k);
 			}
@@ -192,7 +192,7 @@ namespace rl {
 		{
 			Person* p = 
 				processPerson(
-					reinterpret_cast<DOMElement*>(personenXml->item(idx)));
+					static_cast<DOMElement*>(personenXml->item(idx)));
 			DsaManager::getSingleton()._addPerson(p);
 		}
 		
@@ -209,8 +209,11 @@ namespace rl {
 			XmlHelper::getValueAsString(XmlHelper::getChildNamed(personXml, "Name"));
 		CeGuiString desc = 
 			XmlHelper::getValueAsString(XmlHelper::getChildNamed(personXml, "Beschreibung"));
-
-		Person* rval = new Person(name, desc);
+        
+        //@warning replace this by correct loading process
+		Person* rval = new Person(10000);
+        rval->setName(name);
+        rval->setDescription(desc);
 
 		// Eigenschaften laden
 		DOMNodeList* eigensch = 
@@ -219,7 +222,7 @@ namespace rl {
 		// Die Eigenschaftsnamen müssen durch ihre Abkürzung ersetzt werden.
 		for (unsigned int idx = 0; idx < eigensch->getLength(); idx++)
 		{
-			DOMElement* eigenschXml = reinterpret_cast<DOMElement*>(eigensch->item(idx));
+			DOMElement* eigenschXml = static_cast<DOMElement*>(eigensch->item(idx));
 			CeGuiString eigName = XmlHelper::transcodeToString(eigenschXml->getAttribute(ID.data()));
 			if (eigName == DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()) 
 				eigName = DsaManager::getSingleton().getEigenschaft(E_MUT)->getNameAbbreviation();
@@ -248,7 +251,7 @@ namespace rl {
 				getElementsByTagName(ABGELEITETER_WERT.data());
 		for (unsigned int idx = 0; idx < werte->getLength(); idx++)
 		{
-			DOMElement* wertXml = reinterpret_cast<DOMElement*>(werte->item(idx));
+			DOMElement* wertXml = static_cast<DOMElement*>(werte->item(idx));
 			int basis = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(wertXml, "Basiswert"));
 			int wert = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(wertXml, "Wert"));
 			
@@ -281,7 +284,7 @@ namespace rl {
 				getElementsByTagName(TALENT.data());
 		for (unsigned int idx = 0; idx < talente->getLength(); idx++)
 		{
-			DOMElement* talentXml = reinterpret_cast<DOMElement*>(talente->item(idx));
+			DOMElement* talentXml = static_cast<DOMElement*>(talente->item(idx));
 			
 			CeGuiString talentName = XmlHelper::transcodeToString(
                 talentXml->getAttribute(ID.data()));

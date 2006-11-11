@@ -13,9 +13,6 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-
-
-
 #ifndef __CREATURE_H__
 #define __CREATURE_H__
 
@@ -39,6 +36,7 @@ using namespace std;
 namespace rl
 {
 	class Effect;
+    class Item;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Konstanten
@@ -113,9 +111,9 @@ namespace rl
 		 **/
 		typedef map<const CeGuiString, TalentStateSet*> TalentMap;
 
-		///@warning Nur zu Testzwecken da. Wird spaeter entfernt.
-        Creature(const CeGuiString name,
-                 const CeGuiString description);
+        static const Ogre::String CLASS_NAME;
+
+        Creature(unsigned int id);
 		        
         /// Der Standarddestruktor.
         virtual ~Creature();
@@ -638,89 +636,6 @@ namespace rl
 		Inventory* getInventory();
 
 
-		/**
-		 *  Gibt der Spielfigur eine Waffe in die Hand. Wird gesteuert durch 
-         *  das Inventar.
-		 *  @param weapon Waffe, die in die Hand soll
-		 */
-		void attachWeapon(Weapon* weapon);
-
-		/**
-		 *  Entfernt der Kreatur die Waffe aus der Hand.
-		 **/
-		void detachWeapon();
-
-// Das Inventar der Kreatur wird durch das Inventarobjekt verwaltet.
-		
-		/**
-		 *  Heftet Container an die Kreatur.
-		 *  @param container Ein Zeiger auf den hinzuzufuegenden Container.
-		 *  @throws InvalidArgumentException Nullpointer uebergeben.
-		 *  @throws InvalidArgumentException Container bereits in
-		 *   \c mContainer enthalten.
-         *  @ingroup CreatureRubyExports
-		 **/
-		void addContainer(Container* container);
-		/**
-		 *  Liefert den Container \a containerName zurueck.
-		 *  @param containerName Bezeichnet den Container in mContainer.
-		 *  @return Liefert einen Zeiger auf den Container.
-		 *  @throws InvalidArgumentException Der Container wurde nicht
-		 *  in \c mContainer gefunden.
-         *  @ingroup CreatureRubyExports
-		 **/
-		Container* getContainer(const CeGuiString containerName) const;
-		/**
-		 *  Entfernt den Container containerName. Der Container wird aus 
-         *  \c mContainer geloescht und ein Zeiger darauf zurueckgegeben.
-		 *  @param containerName Bezeichnet den Container in \c mContainer.
-		 *  @throws InvalidArgumentException Container nicht in
-		 *   \c mContainer gefunden.
-         *  @ingroup CreatureRubyExports
-		 **/
-		Container* removeContainer(const CeGuiString containerName);
-
-		/**
-		 *  Fuegt eine Waffer der Liste der derzeit einsetzbaren Waffen
-		 *  hinzu.
-		 *  @param weapon Ein Zeiger auf die hinzuzufuegende Waffe.
-		 *  @throws InvalidArgumentException weapon darf nicht \c NULL sein.
-         *  @ingroup CreatureRubyExports
-		 **/
-		void addWeapon(Weapon* weapon);
-		/**
-		 *  Liefert einen Zeiger auf eine Waffe aus der Liste der derzeit
-		 *  verfuegbaren Waffen zurueck.
-		 *  @param weaponId Bezeichnet zurueckzugebende die Waffe.
-		 *  @return Ein Zeiger auf die Waffe \a weaponId.
-		 *  @throws InvalidArgumentException weaponId kann nicht in \c mWeapons
-		 *   gefunden werden.
-         *  @ingroup CreatureRubyExports
-		 **/
-		Weapon* getWeapon(int weaponId) const;
-		/** 
-		 *  Entfernt die Waffe \a weaponId aus der Liste der derzeit 
-		 *  verfuegbaren Waffen.
-		 *  @param weaponId Bezeichnet die zu entfernende Waffe.
-		 *  @return Ein Zeiger auf die Entfernte Waffe.
-		 *  @throws InvalidArgumentException weaponId kann nicht in \a mWeapons
-		 *   gefunden werden.
-         *  @ingroup CreatureRubyExports
-		 **/
-		Weapon* removeWeapon(int weaponId);
-
-        /**
-         *  Macht die Waffe \a weaponId zur aktiven Waffe.
-         *  @param weaponId Bezeichnet die Waffe.
-         *  @ingroup CreatureRubyExports
-         **/
-		void switchToWeapon(int weaponId);
-        /**
-         *  Liefert die gerade aktive Waffe zurueck.
-         *  @return Ein Zeiger auf die aktive Waffe.
-         *  @ingroup CreatureRubyExports
-         **/
-		Weapon* getActiveWeapon();
 
 ///////////////////////////////////////////////////////////////////////////////
 // Aktionen
@@ -957,12 +872,6 @@ namespace rl
          *  Sonderfertigkeit als Schluessel und ihrem Status.
 		 */
 		typedef map<const CeGuiString ,SonderfertigkeitenStateSet*> SonderfertigkeitMap;
-		/** 
-         *  Die Container einer Kreatur. Diese Container sollen dann alles beinhalten, 
-         *  was direkt am Koerper  getragen wird (Kleidung, Rucksaecke, Ringe etc.), 
-         *  sowie angeborene Waffen (Faeuste, Klauen, Zaehne...).
-		 **/
-		typedef map<const CeGuiString, Container*> ContainerMap;
 
         struct Ap
         {
@@ -1012,7 +921,6 @@ namespace rl
         NachteilMap mNachteile;
 		SonderfertigkeitMap mSonderfertigkeiten;
 		WertMap mWerte;
-		ContainerMap mContainer;
         Ap mAp;
 
         /// Zeigt auf das Inventar der Kreatur.

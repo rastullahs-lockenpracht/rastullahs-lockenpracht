@@ -29,6 +29,8 @@
 #include "Effect.h"
 #include "EigenschaftenStateSet.h"
 #include "GameObject.h"
+#include "GameObjectManager.h"
+#include "GameObjectProxy.h"
 #include "Item.h"
 #include "ObjectStateChangeEventSource.h"
 #include "ObjectStateChangeEvent.h"

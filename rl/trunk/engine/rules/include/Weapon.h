@@ -34,14 +34,10 @@ namespace rl
 			DK_P
 		};
 
-		Weapon (const CeGuiString weaponName, const CeGuiString description);
-		Weapon(const CeGuiString name, const CeGuiString description, 
-			const CeGuiString imageName, const CeGuiString meshName,
-			Item::ItemType type, std::pair<int,int> size);
+        static const Ogre::String CLASS_NAME;
 
-		virtual ~Weapon(void);
-
-		Weapon* clone();
+		Weapon (unsigned int id);
+        virtual ~Weapon(void);
 
 		const CeGuiString getDescription() const;
 
@@ -59,11 +55,6 @@ namespace rl
 		Distanzklasse getDk();
 		void setKampftechnik(const CeGuiString newKampftechnik);
 		const CeGuiString getKampftechnik() const;
-
-		/// Ermittelt, wie weit die Entfernung von der optimalen Distanzklasse entfernt ist
-		/// @param distance die Entfernung von Angreifer und Verteidiger
-		/// @return Anzahl der Distanzklassen, die von der optimalen DK trennen (positiv = zu weit entfernt)
-		const int getDkDistanceToOptimum(Ogre::Real distance) const;
 
 	private:
 		Tripel<int> mTp;

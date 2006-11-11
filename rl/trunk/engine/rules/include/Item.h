@@ -50,19 +50,11 @@ namespace rl
 			ITEMTYPE_OTHER
 		};
 
-		Item(const CeGuiString name, const CeGuiString description);
+        static const Ogre::String CLASS_NAME;
 
-		Item(const CeGuiString name, const CeGuiString description, 
-			const CeGuiString imageName, const CeGuiString meshName,
-			Item::ItemType type, std::pair<int,int> size);
-
-		// Copy Konstruktor
-		Item(Item* item);
+		Item(unsigned int id);
 
         virtual ~Item(void);
-
-		Item* clone();
-
 
 		const CeGuiString getDescription() const;
 
@@ -78,10 +70,7 @@ namespace rl
 		static const CeGuiString getItemTypeString(ItemType type);
  
 		const CeGuiString getImageName();
-		const CeGuiString getMeshName();
-
 		void setImageName(const CeGuiString name);
-		void setMeshName(const CeGuiString name);
 
 		/**
 		 * @return ob es sich um ein Item handelt,
@@ -107,7 +96,6 @@ namespace rl
 		unsigned int mPrice;
 
 		CeGuiString mImageName;
-		CeGuiString mMeshName;
 
 		bool mIsContainer;
 		ContainerLayout mContainerLayout;

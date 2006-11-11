@@ -13,30 +13,45 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "GameObject.h"
 
 #include "Action.h"
-#include "ObjectStateChangeEventSource.h"
-#include "GameObject.h"
-#include "Exception.h"
-#include "RulesSubsystem.h"
 #include "ActionManager.h"
+#include "Actor.h"
+#include "ActorManager.h"
+#include "Exception.h"
+#include "ObjectStateChangeEventSource.h"
+#include "Property.h"
+#include "RulesSubsystem.h"
 
 using namespace std;
 
 namespace rl
 {
 	const CeGuiString GameObject::DEFAULT_VIEW_OBJECT_ACTION = "viewobject";
-	int GameObject::sNextGameObjectId = 1;
 
-    GameObject::GameObject(const CeGuiString name,
-                           const CeGuiString description)
-		:   mId(GameObject::sNextGameObjectId++),
-            mName(name),
-            mDescription(description),
+    const Ogre::String GameObject::CLASS_NAME = "GameObject";
+
+    const Ogre::String GameObject::POSITION = "vec_position"; 
+    const Ogre::String GameObject::ORIENTATION = "quat_orientation"; 
+    const Ogre::String GameObject::NAME = "str_name"; 
+    const Ogre::String GameObject::DESCRIPTION = "str_description"; 
+    const Ogre::String GameObject::MESHFILE = "str_meshfile"; 
+    const Ogre::String GameObject::GEOMETRY_TYPE = "int_geometrytype"; 
+    const Ogre::String GameObject::MASS = "real_mass"; 
+
+    GameObject::GameObject(unsigned int id)
+		:   mId(id),
+            mName(""),
+            mDescription(""),
             mQueryFlags(0),
 			mHighlightingEnabled(true),
 			mActor(NULL),
-            mActions()
+            mActions(),
+            mPosition(Ogre::Vector3::ZERO),
+            mOrientation(Ogre::Quaternion::IDENTITY),
+            mMass(0),
+            mGeometryType(PhysicsManager::GT_NONE)
     {
         // Standardactions registrieren
 		Action* defaultAction = ActionManager::getSingleton().getAction(DEFAULT_VIEW_OBJECT_ACTION);
@@ -79,6 +94,16 @@ namespace rl
     void GameObject::setDescription(CeGuiString description)
     {
         mDescription = description;
+    }
+
+    const CeGuiString GameObject::getMeshfile() const
+    {
+        return mMeshfile;
+    }
+
+    void GameObject::setMeshfile(CeGuiString meshfile)
+    {
+        mMeshfile = meshfile;
     }
 
     void GameObject::addAction(Action* action, int option)
@@ -211,11 +236,19 @@ namespace rl
 	
 	void GameObject::setActor(Actor* actor)
 	{
-		if (NULL == actor)
-			Throw(IllegalArgumentException, "Actor must not be NULL");
+        if (mActor != NULL)
+        {
+            mActor->setGameObject(NULL);
+        }
 
-		mActor = actor;
-		mActor->setGameObject(this);
+        if (actor != NULL)
+        {
+            actor->setPosition(mPosition);
+            actor->setOrientation(mOrientation);
+		    actor->setGameObject(this);
+        }
+		
+        mActor = actor;
 	}
 	
 	Actor* GameObject::getActor()
@@ -255,5 +288,208 @@ namespace rl
     bool GameObject::isHighlighted() const
     {
         return mActor != NULL && mActor->isHighlighted();
+    }
+
+    void GameObject::setPosition(const Ogre::Vector3& position)
+    {
+        if (mActor != NULL)
+        {
+            mActor->setPosition(position);
+        }
+        else
+        {
+            mPosition = position;
+        }
+    }
+
+    const Ogre::Vector3& GameObject::getPosition() const
+    {
+        if (mActor != NULL)
+        {
+            return mActor->getPosition();
+        }
+        return mPosition;
+    }
+
+    void GameObject::setOrientation(const Ogre::Quaternion& orientation)
+    {
+        if (mActor != NULL)
+        {
+            mActor->setOrientation(orientation);
+        }
+        else
+        {
+            mOrientation = orientation;
+        }
+    }
+
+    const Ogre::Quaternion& GameObject::getOrientation() const
+    {
+        if (mActor != NULL)
+        {
+            return mActor->getOrientation();
+        }
+        return mOrientation;
+    }
+
+    const PhysicsManager::GeometryType GameObject::getGeometryType() const
+    {
+        return mGeometryType;
+    }
+
+    void GameObject::setGeometryType(PhysicsManager::GeometryType type)
+    {
+        mGeometryType = type;
+    }
+
+    const Ogre::Real GameObject::getMass() const
+    {
+        return mMass;
+    }
+
+    void GameObject::setMass(const Ogre::Real mass)
+    {
+        mMass = mass;
+    }
+
+    const Property GameObject::getProperty(const Ogre::String& key) const
+    {
+        Property prop;
+        if (key == POSITION)
+        {
+            prop.setValue(getPosition());
+        }
+        else if (key == ORIENTATION)
+        {
+            prop.setValue(getOrientation());
+        }
+        else if (key == NAME)
+        {
+            prop.setValue(mName);
+        }
+        else if (key == DESCRIPTION)
+        {
+            prop.setValue(mDescription);
+        }
+        else if (key == MESHFILE)
+        {
+            prop.setValue(mMeshfile);
+        }
+        else if (key == GEOMETRY_TYPE)
+        {
+            prop.setValue(mGeometryType);
+        }
+        else if (key == MASS)
+        {
+            prop.setValue(mMass);
+        }
+        else
+        {
+            Throw(IllegalArgumentException, key + " is not a property of this gameobject ("+mName.c_str()+")");
+        }
+
+        return prop;
+    }
+
+    void GameObject::setProperty(const Ogre::String& key, const Property& value)
+    {
+        try 
+        {
+            if (key == POSITION)
+            {
+                setPosition(value.toVector());
+            }
+            else if (key == ORIENTATION)
+            {
+                setOrientation(value.toQuaternion());
+            }
+            else if (key == NAME)
+            {
+                setName(value.toString());
+            }
+            else if (key == DESCRIPTION)
+            {
+                setDescription(value.toString());
+            }
+            else if (key == MESHFILE)
+            {
+                setMeshfile(value.toString());
+            }
+            else if (key == GEOMETRY_TYPE)
+            {
+                setGeometryType(static_cast<PhysicsManager::GeometryType>(value.toInt()));
+            }
+            else if (key == MASS)
+            {
+                Ogre::Real mass;
+                if (value.isInt())
+                {
+                    mass = value.toInt();
+                }
+                else if (value.isReal())
+                {
+                    mass = value.toReal();
+                }
+                setMass(mass);
+            }
+            else
+            {
+                LOG_WARNING(
+                    Logger::RULES, 
+                    key + " is not a property of this GameObject ("+mName+")");
+            }
+        }
+        catch (WrongFormatException ex)
+        {
+            LOG_ERROR(
+                Logger::RULES,
+                "property " + key + " has the wrong format");
+        }
+    }
+
+    PropertySet* GameObject::getAllProperties() const
+    {
+        PropertySet* ps = new PropertySet();
+        ps->setProperty(NAME, Property(mName));
+        ps->setProperty(DESCRIPTION, Property(mDescription));
+        ps->setProperty(POSITION, Property(getPosition()));
+        ps->setProperty(ORIENTATION, Property(getOrientation()));
+        ps->setProperty(MESHFILE, Property(mMeshfile));
+        ps->setProperty(GEOMETRY_TYPE, Property(mGeometryType));
+        ps->setProperty(MASS, Property(mMass));
+
+        return ps;
+    }
+
+    void GameObject::placeIntoScene()
+    {
+        Ogre::String actorName = Ogre::StringConverter::toString(mId);
+
+        Actor* actor = ActorManager::getSingleton().createMeshActor(
+                actorName,
+                mMeshfile.c_str(),
+                mGeometryType,
+                mMass);
+
+        actor->placeIntoScene();
+        setActor(actor);
+    }
+
+    void GameObject::removeFromScene()
+    {
+        Actor* actor = mActor;
+        setActor(NULL);
+        actor->removeFromScene();
+        ActorManager::getSingleton().destroyActor(actor);
+    }
+
+    void GameObject::setState(GameObjectState state)
+    {
+        mState = state;
+    }
+
+    GameObjectState GameObject::getState() const
+    {
+        return mState;
     }
 }

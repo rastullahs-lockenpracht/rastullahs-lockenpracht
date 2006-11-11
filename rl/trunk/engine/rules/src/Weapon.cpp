@@ -21,40 +21,17 @@ using namespace std;
 
 namespace rl
 {
-	Weapon::Weapon(const CeGuiString weaponName, const CeGuiString description)
-		: Item(weaponName, description)
+    const Ogre::String Weapon::CLASS_NAME = "Weapon";
+
+	Weapon::Weapon(unsigned int id)
+		: Item(id)
 	{
 	}
 
-	Weapon::Weapon(const CeGuiString weaponName, const CeGuiString description, 
-			const CeGuiString imageName, const CeGuiString meshName,
-			Item::ItemType type, std::pair<int,int> size)
-			: Item(weaponName, description, imageName, meshName, type, size)
+	Weapon::~Weapon()
 	{
 	}
 
-	Weapon::~Weapon(void)
-	{
-	}
-
-
-	Weapon* Weapon::clone()
-	{
-		Weapon* weapon = new Weapon(mName, mDescription, 
-			mImageName, mMeshName, mItemType, mSize);
-		weapon->setContainer(mIsContainer,mCapacity);
-		weapon->setTp(mTp.first,mTp.second,mTp.third);
-		weapon->setTpKk(mTpKk.first,mTpKk.second);
-		weapon->setBf(mBf);
-		weapon->setIni(mIni);
-		weapon->setWm(mWm);
-		weapon->setDk(mDk);
-		weapon->setWeight(mWeight);
-		weapon->setKampftechnik(mKampftechnik);
-		weapon->setPrice(mPrice);
-
-		return weapon;
-	}
 
 	const CeGuiString Weapon::getDescription() const
 	{
@@ -153,55 +130,6 @@ namespace rl
 	const CeGuiString Weapon::getKampftechnik() const
 	{
 		return mKampftechnik;
-	}
-
-	const int Weapon::getDkDistanceToOptimum(Ogre::Real distance) const
-	{
-		if (DsaManager::getSingleton().isRuleActive(DsaManager::RULE_DISTANZKLASSEN))
-		{
-			//Man kann auch auf +/- 1 DK angreifen, siehe MBK 22
-			if (DsaManager::getSingleton().isDkDistance(mDk, distance))
-				return 0;
-
-			if (DsaManager::getSingleton().isDkDistance(
-						static_cast<Weapon::Distanzklasse>(mDk + 1), distance))
-				return +1;
-
-			if (DsaManager::getSingleton().isDkDistance(
-						static_cast<Weapon::Distanzklasse>(mDk - 1), distance))
-				return -1;
-
-			if (DsaManager::getSingleton().isDkDistance(
-						static_cast<Weapon::Distanzklasse>(mDk + 2), distance))
-				return -2;
-
-			if (DsaManager::getSingleton().isDkDistance(
-						static_cast<Weapon::Distanzklasse>(mDk - 2), distance))
-				return -2;
-
-			if (DsaManager::getSingleton().isDkDistance(
-						static_cast<Weapon::Distanzklasse>(mDk - 3), distance))
-				return -3;
-
-			return +3;
-		}
-		else
-		{
-			// Ohne DK-Regel
-			// DK der Waffe >= Entfernung
-			if (DsaManager::getSingleton().isDkDistance(mDk, distance)
-				|| DsaManager::getSingleton().isDkDistance(
-					static_cast<Weapon::Distanzklasse>(mDk - 1), distance)
-				|| DsaManager::getSingleton().isDkDistance(
-					static_cast<Weapon::Distanzklasse>(mDk - 2), distance)
-				|| DsaManager::getSingleton().isDkDistance(
-					static_cast<Weapon::Distanzklasse>(mDk - 3), distance))
-			{
-				return 0;
-			}
-
-			return +3;
-		}
 	}
 }
 

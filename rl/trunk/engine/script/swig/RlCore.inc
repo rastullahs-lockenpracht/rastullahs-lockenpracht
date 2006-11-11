@@ -107,7 +107,7 @@ public:
     rl::Actor* createEmptyActor(const Ogre::String& name);
     rl::Actor* createLightActor(const Ogre::String& name, rl::LightObject::LightTypes type );
 	rl::Actor* createMeshActor(const Ogre::String& name, const Ogre::String& meshname,
-		    rl::PhysicsManager::GeometryTypes geom = rl::PhysicsManager::GT_NONE,
+		    rl::PhysicsManager::GeometryType geom = rl::PhysicsManager::GT_NONE,
 		    Ogre::Real density=1.0);
 	rl::Actor* createBoxPrimitiveActor(const Ogre::String& name,
             const Ogre::Vector3& minCorner, const Ogre::Vector3& maxCorner,
@@ -542,7 +542,7 @@ class PhysicalThing
 {
 public:
     PhysicalThing(
-			rl::PhysicsManager::GeometryTypes geomType,
+			rl::PhysicsManager::GeometryType geomType,
 			rl::PhysicalObject* po, 
 			Ogre::Real mass, 
 			bool hullModifier = false);
@@ -583,7 +583,7 @@ class PhysicsManager
 {
 public:
 
-    enum GeometryTypes {
+    enum GeometryType {
         GT_NONE = -1,
         GT_BOX = 0,
         GT_SPHERE = 1,
@@ -596,7 +596,7 @@ public:
     PhysicsManager();
 	static PhysicsManager& getSingleton(void);
     
-    rl::PhysicalThing* createPhysicalThing(rl::PhysicsManager::GeometryTypes geomType, rl::PhysicalObject* po,
+    rl::PhysicalThing* createPhysicalThing(rl::PhysicsManager::GeometryType geomType, rl::PhysicalObject* po,
 		Ogre::Real mass);
 
     void removeAndDestroyPhysicalThing(PhysicalThing* thing);

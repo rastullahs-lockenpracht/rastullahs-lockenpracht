@@ -253,6 +253,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\PropertyReader.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ScriptWrapper.cpp"
 				>
 			</File>
@@ -358,6 +362,10 @@
 			</File>
 			<File
 				RelativePath=".\include\Property.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\PropertyReader.h"
 				>
 			</File>
 			<File

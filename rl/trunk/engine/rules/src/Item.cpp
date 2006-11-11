@@ -21,12 +21,13 @@ using namespace std;
 
 namespace rl
 {
-    Item::Item(const CeGuiString name, const CeGuiString description)
-        : GameObject(name, description),
+    const Ogre::String Item::CLASS_NAME = "Item";
+
+    Item::Item(unsigned int id)
+        : GameObject(id),
 		mWeight(0),
 		mItemType(ITEMTYPE_OTHER),
 		mImageName(""),
-		mMeshName(""),
 		mIsContainer(false),
 		mContainerLayout(),
 		mCapacity(make_pair<int,int>(0,0)),
@@ -35,32 +36,10 @@ namespace rl
         mQueryFlags = QUERYFLAG_ITEM;
     }
 
-	Item::Item(const CeGuiString name, const CeGuiString description, const CeGuiString imageName, const CeGuiString meshName, Item::ItemType type, std::pair<int,int> size)
-		: GameObject(name, description),
-		mWeight(0),
-		mItemType(type),
-		mImageName(imageName),
-		mMeshName(meshName),
-		mIsContainer(false),
-		mContainerLayout(),
-		mCapacity(make_pair<int,int>(0,0)),
-		mSize(size)
-	{
-	}
-
     Item::~Item(void)
     {
     }
 	
-	Item* Item::clone()
-	{
-		Item* item = new Item(mName, mDescription, mImageName, mMeshName, mItemType, mSize);
-		item->setWeight(mWeight);
-		item->setContainer(mIsContainer,mCapacity);
-		return item;
-	}
-
-
 	CeGuiString Item::getFormattedText(const CeGuiString &unformattedText)
 	{
 		// Anzahl der Zeichen pro Zeile hässlich, soll später durch Konstante ersetzt werden...
@@ -184,20 +163,11 @@ namespace rl
 	{
 		mImageName = name;
 	}
-	void Item::setMeshName(const CeGuiString name)
-	{
-		mMeshName = name;
-	}
 
 	const CeGuiString Item::getImageName()
 	{
 		return mImageName;
 	}
-	const CeGuiString Item::getMeshName()
-	{
-		return mMeshName;
-	}
-
 	void Item::setPrice(int price)
 	{
 		mPrice = price;
@@ -213,7 +183,8 @@ namespace rl
 	{
 		return mIsContainer;
 	}
-	void Item::setContainer(bool isContainer, pair<int,int> dim)
+
+    void Item::setContainer(bool isContainer, pair<int,int> dim)
 	{
 		mIsContainer = isContainer;
 		mCapacity = dim;

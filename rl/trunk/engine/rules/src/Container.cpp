@@ -23,8 +23,8 @@ using namespace std;
 
 namespace rl {
 
-    Container::Container(const CeGuiString name, const CeGuiString description)
-        : Item(name, description)
+    Container::Container(unsigned int id)
+        : Item(id)
     {
 
     }

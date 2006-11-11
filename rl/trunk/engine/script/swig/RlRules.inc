@@ -99,12 +99,47 @@ namespace rl {
         int rollD6();
         int roll(int d6, int d20);
       
-	    static DsaManager& getSingleton(void);
+	    static DsaManager& getSingleton();
 	    rl::Talent* getTalent(const rl::CeGuiString name) const;
 	    rl::Person* getPerson(const int id) const;
 
-        void loadDsaDataFile(const std::string& filename);	
+        void loadDsaDataFile(const Ogre::String& filename);	
     };
+    
+    class GameObjectProxy
+    {
+    private:
+        GameObjectProxy(const Ogre::String& classid, unsigned int id);
+        
+    public:       
+        rl::GameObject* getGameObject();
+
+        unsigned int getId() const;
+        const Ogre::String& getClassId() const;
+        
+        void load();
+        void unload();
+    };
+    
+    %feature("director") GameObjectFactory; 
+    class GameObjectFactory
+    {
+    public:
+        virtual rl::GameObject* createRubyGameObject(const Ogre::String& classname, unsigned int id) = 0;
+        GameObjectFactory();
+    };
+
+    class GameObjectManager
+    {
+    public:
+        static rl::GameObjectManager& getSingleton();
+        rl::GameObjectProxy& createGameObjectProxy(const Ogre::String& classId, unsigned int id = 0);
+        void setGameObjectFactory(rl::GameObjectFactory* gof);
+
+    private:
+        GameObjectManager();
+    };
+
 
 	%feature("director") QuestListener; 
 	class QuestListener
@@ -285,10 +320,10 @@ namespace rl {
     class GameObject: public ObjectStateChangeEventSource
     {
     public:
-        GameObject(const rl::CeGuiString name, const rl::CeGuiString description);
-        virtual ~GameObject(void);
+        GameObject(unsigned int id);
+        virtual ~GameObject();
 
-        virtual int getId();
+        virtual unsigned int getId();
 
         virtual const rl::CeGuiString getName() const;
         virtual void setName(rl::CeGuiString name);
@@ -304,6 +339,10 @@ namespace rl {
         void removeAction(rl::Action *action);
 
         const std::vector<Action*> getValidActions(rl::Creature *actor) const;        
+        void setPosition(const Ogre::Vector3& position);
+        void setOrientation(const Ogre::Quaternion& orientation);
+	    const Ogre::Quaternion& getOrientation() const;
+        const Ogre::Vector3& getPosition() const;
         
         virtual Action* getDefaultAction(rl::Creature* actor) const;
         
@@ -322,13 +361,19 @@ namespace rl {
 		
 		bool isHighlightingEnabled();
         void setHighlightingEnabled( bool highlightenabled );
+        
+        virtual const rl::Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        
+        void placeIntoScene();
+        void removeFromScene();
     };
     
     %feature("director") Item;
     class Item : public GameObject {
     public:
-        Item(const rl::CeGuiString name, const rl::CeGuiString description);
-        virtual ~Item(void);
+        Item(unsigned int id);
+        virtual ~Item();
         
         enum ItemType;
         void setItemType(ItemType itemType);
@@ -341,8 +386,8 @@ namespace rl {
     public:
 		enum Distanzklasse { DK_H=0, DK_N, DK_S, DK_P };
 
-        Weapon(const rl::CeGuiString name, const rl::CeGuiString description);
-        virtual ~Weapon(void);
+        Weapon(unsigned int id);
+        virtual ~Weapon();
                 
 		void setTp(int d6, int d20, int mod);
 		const Tripel<int>& getTp() const;
@@ -364,8 +409,8 @@ namespace rl {
     class Container : public GameObject
     {
     public:
-        Container(const rl::CeGuiString name, const rl::CeGuiString description);
-        virtual ~Container(void);
+        Container(unsigned int id);
+        virtual ~Container();
 
         int getCapacity() const;
         void setCapacity(int capacity);
@@ -491,28 +536,27 @@ namespace rl {
     class Creature : public GameObject {
     public:
 
-    enum Wert
-    {
-        WERT_MOD_AE = 1, // Astralenergie
-        WERT_MOD_LE, // Lebensenergie
-        WERT_MOD_AT, // Attacke
-        WERT_MOD_PA, // Parade
-        WERT_MOD_FK, // Fernkampf
-        WERT_MOD_AU, // Ausdauer
-        WERT_MOD_MR, // Magieresistenz
-        WERT_MOD_INI, // Initiative
-        WERT_MOD_REGENERATION_LE, // Naechtliche Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die KO-Probe.
-        WERT_MOD_REGENERATION_AE, // Astrale Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die IN-Probe.
-        WERT_MOD_ERSCHOEPFUNGSSCHWELLE, // Die Modifkitoren von KO bezueglich der Erschoepfungsschwelle.
-        WERT_MOD_ALL_EIGENSCHAFTSPROBEN, // Modifiziert alle Proben, die mit 1W20 gewuerfelt werden.
-        WERT_MOD_ALL_TALENTPROBEN, // Modifiziert alle Proben, die mit 3W20 gewuerfelt werden.
-        WERT_GS, // Geschwindigkeit
-        WERT_SOZIALSTATUS, // Sozialstatus
-        WERT_BE // Behinderung
-    };
+        enum Wert
+        {
+            WERT_MOD_AE = 1, // Astralenergie
+            WERT_MOD_LE, // Lebensenergie
+            WERT_MOD_AT, // Attacke
+            WERT_MOD_PA, // Parade
+            WERT_MOD_FK, // Fernkampf
+            WERT_MOD_AU, // Ausdauer
+            WERT_MOD_MR, // Magieresistenz
+            WERT_MOD_INI, // Initiative
+            WERT_MOD_REGENERATION_LE, // Naechtliche Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die KO-Probe.
+            WERT_MOD_REGENERATION_AE, // Astrale Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die IN-Probe.
+            WERT_MOD_ERSCHOEPFUNGSSCHWELLE, // Die Modifkitoren von KO bezueglich der Erschoepfungsschwelle.
+            WERT_MOD_ALL_EIGENSCHAFTSPROBEN, // Modifiziert alle Proben, die mit 1W20 gewuerfelt werden.
+            WERT_MOD_ALL_TALENTPROBEN, // Modifiziert alle Proben, die mit 3W20 gewuerfelt werden.
+            WERT_GS, // Geschwindigkeit
+            WERT_SOZIALSTATUS, // Sozialstatus
+            WERT_BE // Behinderung
+        };
 
-        Creature(const rl::CeGuiString name, const rl::CeGuiString description);
-        //Creature(const rl::CeGuiString data);
+        Creature(unsigned int id);
         virtual ~Creature();
 
         virtual int getLe();
@@ -541,16 +585,6 @@ namespace rl {
         
 		virtual SonderfertigkeitenStateSet* getSonderfertigkeitenStateSet(const rl::CeGuiString sfName);
 
-		void addContainer(rl::Container* container);
-		rl::Container* getContainer(const rl::CeGuiString containterName) const;
-		rl::Container* removeContainer(rl::CeGuiString containerName);
-		void addWeapon(Weapon* weapon);
-		Weapon* getWeapon(int weaponId) const;
-		Weapon* removeWeapon(int waponId);
-		void switchToWeapon(int weaponId);
-		void rl::Creature::detachWeapon();
-		rl::Weapon* rl::Creature::getActiveWeapon();
-		
         virtual int doTalentprobe(const rl::CeGuiString talentName, int modifier);
         virtual int doEigenschaftsprobe(const rl::CeGuiString eigenschaftName, int modifier);
         
@@ -572,8 +606,7 @@ namespace rl {
    class Person : public Creature
    {
    public:
-	    Person(  const rl::CeGuiString name,
-                 const rl::CeGuiString description);
+	    Person(unsigned int id);
 	};
 		
 	%feature("director") CompositeEffect;	

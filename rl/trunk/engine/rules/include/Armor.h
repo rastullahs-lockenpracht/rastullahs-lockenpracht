@@ -26,16 +26,17 @@ namespace rl
 	{
 
 	public:
-		// Konstruktor und Destruktor
-		Armor (const CeGuiString armorName, const CeGuiString description);
-		virtual ~Armor(void);
+        static const Ogre::String CLASS_NAME;
+        
+        // Konstruktor und Destruktor
+		Armor (unsigned int id);
+		virtual ~Armor();
 		 
 
 		/**
 		* @override
 		*/
 
-		Armor* clone();
 		const CeGuiString getDescription() const;
 
 		// Getter 

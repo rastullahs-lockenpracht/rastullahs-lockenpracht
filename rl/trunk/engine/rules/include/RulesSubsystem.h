@@ -27,7 +27,6 @@ namespace rl
     class ActionManager;
     class DsaManager;
     class TimerManager;
-	class ItemManager;
 
 	class _RlRulesExport RulesSubsystem : public Ogre::Singleton<RulesSubsystem>
     {
@@ -35,9 +34,6 @@ namespace rl
         RulesSubsystem();
         ~RulesSubsystem();
 	
-        static RulesSubsystem& getSingleton(void);
-        static RulesSubsystem* getSingletonPtr(void);
-
 		QuestBook* getQuestBook();
 		void resetQuestBook();
 
@@ -46,7 +42,6 @@ namespace rl
         ActionManager* mActionManager;
         DsaManager* mDsaManager;
         TimerManager* mTimerManager;
-		ItemManager* mItemManager;
     };
 }
 

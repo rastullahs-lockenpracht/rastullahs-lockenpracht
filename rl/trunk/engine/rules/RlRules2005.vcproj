@@ -257,6 +257,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\GameObjectManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\GameObjectProxy.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Inventory.cpp"
 				>
 			</File>
@@ -302,6 +310,10 @@
 			</File>
 			<File
 				RelativePath=".\src\RulesSubsystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Slot.cpp"
 				>
 			</File>
 			<File
@@ -353,14 +365,6 @@
 				</File>
 				<File
 					RelativePath=".\src\Item.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ItemDataLoader.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ItemManager.cpp"
 					>
 				</File>
 				<File
@@ -435,6 +439,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\GameObjectManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\GameObjectProxy.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\GameObjectState.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\Inventory.h"
 				>
 			</File>
@@ -484,6 +500,10 @@
 			</File>
 			<File
 				RelativePath=".\include\RulesSubsystem.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Slot.h"
 				>
 			</File>
 			<File

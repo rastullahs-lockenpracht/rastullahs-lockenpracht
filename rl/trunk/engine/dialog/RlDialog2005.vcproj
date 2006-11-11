@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="RlDialog"
 	ProjectGUID="{6361481B-A6D5-4BC2-826C-C26A49C631A8}"
+	RootNamespace="RlDialog"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -39,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;.\include\predicates;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\boost\include;..\..\dependencies\aiml\MadaBot\include;..\..\dependencies\aiml\dependencies"
+				AdditionalIncludeDirectories=".\include;.\include\predicates;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\boost\include;..\..\dependencies\aiml\MadaBot\include;..\..\dependencies\aiml\dependencies;..\..\dependencies\ogrenewt\inc;..\..\dependencies\NewtonSDK\sdk"
 				PreprocessorDefinitions="WITH_FMOD3;_WINDOWS,_DEBUG,WIN32,RLDIALOG_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -136,7 +137,7 @@
 				Optimization="3"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;.\include\predicates;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\boost\include;..\..\dependencies\aiml\MadaBot\include;..\..\dependencies\aiml\dependencies"
+				AdditionalIncludeDirectories=".\include;.\include\predicates;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\boost\include;..\..\dependencies\aiml\MadaBot\include;..\..\dependencies\aiml\dependencies;..\..\dependencies\ogrenewt\inc;..\..\dependencies\NewtonSDK\sdk"
 				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;_USRDLL;RLDIALOG_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"

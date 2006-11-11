@@ -26,9 +26,9 @@ namespace rl {
 	class _RlRulesExport Person : public Creature
 	{
 	public:
-		///@warning Nur zu Testzwecken da. Wird spaeter entfernt.
-        Person(  const CeGuiString name,
-                 const CeGuiString description);
+        static const Ogre::String CLASS_NAME;
+
+        Person(unsigned int id);
 	};	
 }
 

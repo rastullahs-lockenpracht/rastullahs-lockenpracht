@@ -19,13 +19,16 @@
 
 #include "RulesPrerequisites.h"
 
-#include "Actor.h"
 #include "Action.h"
+#include "GameObjectState.h"
 #include "ObjectStateChangeEventSource.h"
+#include "Properties.h"
+#include "PhysicsManager.h"
 
 namespace rl
 {
-    class _RlRulesExport Creature;
+    class Actor;
+    class Creature;
 
     static const unsigned long QUERYFLAG_CREATURE   = 1;
     static const unsigned long QUERYFLAG_ITEM       = 2;
@@ -40,22 +43,47 @@ namespace rl
     *
     * @todo Ueberlegen, wie man Aktionen situativ aktivierbar macht.
     */
-    class _RlRulesExport GameObject : public Ogre::UserDefinedObject, public ObjectStateChangeEventSource
+    class _RlRulesExport GameObject 
+        : public Ogre::UserDefinedObject, 
+          public ObjectStateChangeEventSource,
+          public PropertyHolder
     {
     public:
-        GameObject(const CeGuiString name,
-                   const CeGuiString description);
-        virtual ~GameObject(void);
+    	typedef std::vector<std::pair<Action*, int> > ActionOptionVector;
+
+        static const Ogre::String CLASS_NAME;
+
+        static const Ogre::String POSITION; 
+        static const Ogre::String ORIENTATION; 
+        static const Ogre::String NAME;
+        static const Ogre::String DESCRIPTION; 
+        static const Ogre::String MESHFILE; 
+        static const Ogre::String GEOMETRY_TYPE; 
+        static const Ogre::String MASS; 
+
+		static const CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
+
+        GameObject(unsigned int id);
+        virtual ~GameObject();
 
 		virtual GameObject* clone();
 
-        virtual int getId() const;
+        int getId() const;
 
-        virtual const CeGuiString getName() const;
-        virtual void setName(CeGuiString name);
+        const CeGuiString getName() const;
+        void setName(CeGuiString name);
 
-        virtual const CeGuiString getDescription() const;
-        virtual void setDescription(CeGuiString description);
+        const CeGuiString getDescription() const;
+        void setDescription(CeGuiString description);
+
+        const CeGuiString getMeshfile() const;
+        void setMeshfile(CeGuiString meshfile);
+
+        const PhysicsManager::GeometryType getGeometryType() const;
+        void setGeometryType(PhysicsManager::GeometryType type);
+
+        const Ogre::Real getMass() const;
+        void setMass(const Ogre::Real mass);
 
 		void addAction(Action* action, int option = Action::ACT_NORMAL);
         void addActionInGroup(Action* action, ActionGroup* group, int option = Action::ACT_NORMAL);
@@ -92,6 +120,10 @@ namespace rl
         void doDefaultAction(Creature* actor, GameObject* target);
 
 		typedef std::vector<std::pair<Action*, int> > ActionOptionVector;
+        void setPosition(const Ogre::Vector3& position);
+        void setOrientation(const Ogre::Quaternion& orientation);
+	    const Ogre::Quaternion& getOrientation() const;
+        const Ogre::Vector3& getPosition() const;
 
         /// Soll der Aktor überhaupt leuchten?
         bool isHighlightingEnabled();
@@ -100,13 +132,23 @@ namespace rl
         void setHighlighted(bool highlight);
         bool isHighlighted() const;
 
-		static const CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
+        virtual const Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const Property& value);
+        virtual PropertySet* getAllProperties() const;
+
+        GameObjectState getState() const;
+        void setState(GameObjectState state);
+        void placeIntoScene();
+        void removeFromScene();
 
     protected:
         int mId;
+        GameObjectState mState;
+        
         CeGuiString mName;
         CeGuiString mDescription;
-
+        CeGuiString mMeshfile;
+        
         // Query flags to be set to the actor, when placed into scene.
         unsigned long mQueryFlags;
 
@@ -115,8 +157,13 @@ namespace rl
 
 	private:
 		static int sNextGameObjectId;	
+
 		Actor* mActor;
         ActionOptionVector mActions;
+        Ogre::Vector3 mPosition;
+        Ogre::Quaternion mOrientation;
+        Ogre::Real mMass;
+        PhysicsManager::GeometryType mGeometryType;
 
 		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin,
             ActionOptionVector::iterator end, const CeGuiString actionName);
