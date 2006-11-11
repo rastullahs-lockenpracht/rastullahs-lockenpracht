@@ -160,11 +160,11 @@ using namespace Ogre;
 	{
 		if (mSyncTime == FRAME_ENDED)
 		{
-			LOG_MESSAGE(Logger::CORE, "Sync frame-end start ");
+			LOG_DEBUG(Logger::CORE, "Sync frame-end start ");
 			double time = (double)CoreSubsystem::getSingleton().getClock();
 			loop(evt.timeSinceLastFrame);
             time = (double)CoreSubsystem::getSingleton().getClock() - time;
-			LOG_MESSAGE(Logger::CORE, "Sync frame-end end "
+			LOG_DEBUG(Logger::CORE, "Sync frame-end end "
 				+ Ogre::StringConverter::toString(Ogre::Real(time)));
 		}
 
