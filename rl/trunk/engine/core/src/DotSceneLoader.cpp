@@ -42,6 +42,7 @@
 
 using namespace XERCES_CPP_NAMESPACE;
 using namespace std;
+using namespace Ogre;
 
 namespace rl {
 	using XERCES_CPP_NAMESPACE::DOMDocument;

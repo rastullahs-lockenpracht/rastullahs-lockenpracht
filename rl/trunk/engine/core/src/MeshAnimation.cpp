@@ -24,6 +24,8 @@
 #include "OgreSkeleton.h"
 #include "MeshAnimation.h"
 
+using namespace Ogre;
+
 namespace rl {
 
 MeshAnimation::MeshAnimation( Ogre::AnimationState* animState, MeshObject* mesh,

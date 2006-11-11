@@ -21,6 +21,9 @@
 
 #include "BaseAnimation.h"
 
+using namespace Ogre;
+
+
 namespace rl {
 
 BaseAnimation::BaseAnimation( Ogre::Real length, Ogre::Real speed, 

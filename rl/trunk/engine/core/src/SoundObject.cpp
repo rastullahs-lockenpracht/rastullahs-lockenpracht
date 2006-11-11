@@ -18,7 +18,6 @@
 #include "Actor.h"
 #include "SoundResource.h"
 #include "SoundManager.h"
-#include <Ogre.h>
 #include "Sound.h"
 #include "SoundDriver.h"
 #include "SoundManager.h"

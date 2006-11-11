@@ -49,6 +49,8 @@
 #include "FixRubyHeaders.h"
 #include <OgreMemoryMacros.h>
 
+using namespace Ogre;
+
 template<> rl::CoreSubsystem* Singleton<rl::CoreSubsystem>::ms_Singleton = 0;
 
 namespace rl {

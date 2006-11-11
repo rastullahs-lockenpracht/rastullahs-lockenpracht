@@ -28,6 +28,8 @@
 #include "PhysicsManager.h"
 #include "DotSceneLoader.h"
 
+using namespace Ogre;
+
 namespace rl {
 
     DotSceneOctreeWorld::DotSceneOctreeWorld( )
