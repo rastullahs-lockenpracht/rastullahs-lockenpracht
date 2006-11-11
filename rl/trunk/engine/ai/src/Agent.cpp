@@ -14,9 +14,11 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 #include "Agent.h"
-#include "Exception.h"
+
+#include "Actor.h"
 #include "Creature.h"
 #include "DialogCharacter.h"
+#include "Exception.h"
 #include "ScriptWrapper.h"
 #include "SteeringVehicle.h"
 #include "SteeringMachine.h"
