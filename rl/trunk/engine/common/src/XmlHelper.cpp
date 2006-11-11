@@ -19,6 +19,7 @@
 #include "XmlHelper.h"
 #include "XmlErrorHandler.h"
 #include "Exception.h"
+#include "Logger.h"
 
 using namespace XERCES_CPP_NAMESPACE;
 
@@ -51,7 +52,7 @@ DOMElement* XmlHelper::getChildNamed(DOMElement* parent, const char* const name)
 		if (item->getNodeType() == DOMNode::ELEMENT_NODE &&
 			XMLString::compareString(item->getNodeName(), nameXml)==0 )
 		{
-			rval = reinterpret_cast<DOMElement*>(item);
+			rval = static_cast<DOMElement*>(item);
 			break;
 		}
 	}

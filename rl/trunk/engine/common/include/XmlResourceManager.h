@@ -29,11 +29,7 @@ namespace rl {
 	{
 	
     public:
-        /// Gibt das Singleton zurueck.
-        static XmlResourceManager& getSingleton();
-        /// Gibt einen Zeiger auf das Singleton zurueck.
-        static XmlResourceManager* getSingletonPtr();
-
+        XmlResourceManager();
 	protected:
         /// Eine Resource erzeugen
 		Ogre::Resource* createImpl(const Ogre::String& resName, 

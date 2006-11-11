@@ -21,16 +21,10 @@ using namespace Ogre;
 template<> rl::XmlResourceManager* Singleton<rl::XmlResourceManager>::ms_Singleton = 0;
 
 namespace rl {
-// Gibt das Singleton zurueck.
-XmlResourceManager& XmlResourceManager::getSingleton()
+XmlResourceManager::XmlResourceManager()
+    :   Ogre::ResourceManager(),
+        Ogre::Singleton<XmlResourceManager>()
 {
-	return Ogre::Singleton<XmlResourceManager>::getSingleton();
-}
-
-// Gibt einen Zeiger auf das Singleton zurueck.
-XmlResourceManager* XmlResourceManager::getSingletonPtr()
-{
-	return Ogre::Singleton<XmlResourceManager>::getSingletonPtr();
 }
 
 Resource* XmlResourceManager::createImpl(
