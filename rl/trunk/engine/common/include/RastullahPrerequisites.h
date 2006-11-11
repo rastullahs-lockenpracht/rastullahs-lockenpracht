@@ -26,6 +26,7 @@
 #   undef PACKAGE_VERSION
 #endif
 
+#define OGRE_MEMORY_STRESS_TEST 1
 #include <Ogre.h>
 
 #ifdef HAVE_CONFIG_H
