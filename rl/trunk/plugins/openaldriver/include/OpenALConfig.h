@@ -31,6 +31,7 @@ namespace rl {
 
         virtual void apply();
         virtual void resetToDefaults();
+        virtual void readDriverData();
 
 	private:
 		OpenALDriver* mDriver;

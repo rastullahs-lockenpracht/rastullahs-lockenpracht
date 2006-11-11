@@ -56,4 +56,7 @@ namespace rl
     {
     }
 
+    void Fmod4Config::readDriverData()
+    {
+    }
 }

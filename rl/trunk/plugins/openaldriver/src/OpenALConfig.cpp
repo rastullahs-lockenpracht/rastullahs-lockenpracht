@@ -39,4 +39,8 @@ namespace rl {
     void OpenALConfig::resetToDefaults()
     {
     }
+
+    void OpenALConfig::readDriverData()
+    {
+    }
 }

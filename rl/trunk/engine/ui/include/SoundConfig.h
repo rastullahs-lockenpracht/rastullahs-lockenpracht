@@ -31,21 +31,25 @@ namespace rl
 		virtual ~SoundConfig();
 
 		void registerDriverConfig(SoundDriverConfigComponent* cmp);
-		
+        virtual void setVisible(bool visible, bool destroyAfterHide = false);
+
 	private:
 		bool handleOK();
 		bool handleVolumeMusicChanged();
 		bool handleVolumeSoundChanged();
 		bool handleVolumeMasterChanged();
-		bool handleConfig();
+		bool handleSelectDriver();
 		bool handleClose();
+
+        void update();
+        void setDriverPage(const CeGuiString& drivername);
 		
 		// Die Combobox, aus der gewählt wird.
 		CEGUI::Combobox*	mDriverBox;
 		CEGUI::Slider*		mVolumeSound;
 		CEGUI::Slider*		mVolumeMusic;
 		CEGUI::Slider*		mVolumeMaster;
-		CEGUI::Window*		mDriverConfig;
+        CEGUI::Window*      mDriverConfig;
 		
 		SoundDriverConfigComponent* mCurrentConfig;
 

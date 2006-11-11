@@ -36,6 +36,7 @@ namespace rl {
         void setVisible(bool visible);
         virtual void apply() = 0;
         virtual void resetToDefaults() = 0;
+        virtual void readDriverData() = 0;
 
 	protected:
 		virtual SoundDriver* getDriver() const = 0;

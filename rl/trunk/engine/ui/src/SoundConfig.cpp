@@ -77,17 +77,9 @@ namespace rl
 			boost::bind(&SoundConfig::handleVolumeMasterChanged, this));
 
 		mDriverBox = getCombobox("SoundConfig/Table");
-		DriverList list = 
-			SoundManager::getSingleton().getSoundDriverList();
-		DriverList::const_iterator it;
-		for (it = list.begin(); it != list.end(); it++)
-		{
-			CeGuiString name = (*it)->getName();
-			mDriverBox->addItem(new ListboxTextItem(name));
-		}
 		mDriverBox->subscribeEvent(
 			Combobox::EventListSelectionAccepted,
-			boost::bind(&SoundConfig::handleConfig, this));
+			boost::bind(&SoundConfig::handleSelectDriver, this));
 
 		mDriverConfig = getWindow("SoundConfig/DriverSettings");
 
@@ -115,6 +107,7 @@ namespace rl
 				}
 			}
 		}
+        mCurrentConfig->apply();
 		setVisible(false);
 		destroyWindow();
 		return true;
@@ -144,42 +137,69 @@ namespace rl
 		return true;
 	}
 
-	bool SoundConfig::handleConfig()
-	{
-		ListboxTextItem *item = 
-			dynamic_cast<ListboxTextItem*>(mDriverBox->getSelectedItem());
-		if (item != 0)
-		{
-			for (list<SoundDriverConfigComponent*>::iterator it = mDriverConfigs.begin();
-				it != mDriverConfigs.end(); it++)
-			{
-				SoundDriverConfigComponent* curr = *it;
-				if (item->getText() == curr->getDriverName()
-					&& mCurrentConfig != curr)
-				{
-					if (mCurrentConfig != NULL)
-					{
-						mCurrentConfig->setVisible(false);
-					}
-					curr->setVisible(true);
-					mCurrentConfig = curr;
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
 	void SoundConfig::registerDriverConfig(SoundDriverConfigComponent* wnd)
 	{
 		mDriverConfigs.push_back(wnd);
         wnd->addTo(mDriverConfig);
+
+        mDriverBox->addItem(
+            new ListboxTextItem(
+                wnd->getDriverName(), 
+                mDriverBox->getItemCount(), 
+                wnd));
 	}
 
-	bool SoundConfig::handleClose()
+    bool SoundConfig::handleClose()
 	{
 		setVisible(false);
 		return true;
 	}
+
+    bool SoundConfig::handleSelectDriver()
+    {
+        if (mDriverBox->getSelectedItem() != NULL)
+        {
+            setDriverPage(mDriverBox->getSelectedItem()->getText());
+            mCurrentConfig->readDriverData();
+            return true;
+        }
+
+        return false;
+    }
+
+    void SoundConfig::setVisible(bool visible, bool destroyAfterHide)
+    {
+        CeGuiWindow::setVisible(visible, destroyAfterHide);
+        if (visible)
+        {
+            update();
+        }
+    }
+
+    void SoundConfig::update()
+    {
+        setDriverPage(SoundManager::getSingleton().getActiveDriver()->getName());
+        mCurrentConfig->readDriverData();
+    }
+
+    void SoundConfig::setDriverPage(const CeGuiString& drivername)
+    {
+        for (list<SoundDriverConfigComponent*>::iterator it = mDriverConfigs.begin();
+				it != mDriverConfigs.end(); it++)
+		{
+			SoundDriverConfigComponent* curr = *it;
+			if (drivername == curr->getDriverName()
+				&& mCurrentConfig != curr)
+			{
+				if (mCurrentConfig != NULL)
+				{
+					mCurrentConfig->setVisible(false);
+				}
+				curr->setVisible(true);
+				mCurrentConfig = curr;
+				return;
+			}
+		}
+    }
 
 }

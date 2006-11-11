@@ -28,6 +28,7 @@ namespace rl
 		virtual ~Fmod4Config();
         virtual void apply();
         virtual void resetToDefaults();
+        virtual void readDriverData();
 
 	protected:
 		Fmod4Driver* getDriver() const;

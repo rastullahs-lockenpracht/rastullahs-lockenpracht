@@ -118,4 +118,7 @@ namespace rl
     {
     }
 
+    void Fmod3Config::readDriverData()
+    {
+    }
 }
