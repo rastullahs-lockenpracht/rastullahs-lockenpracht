@@ -232,7 +232,7 @@ namespace rl {
 
 	int CommandMapper::getMouseButtonCode(int buttonNum)
 	{
-		return 1 << (buttonNum+4);
+		return buttonNum;
 	}
 
 	int CommandMapper::getMouseButtonCode(const Ogre::String &buttonDescription)
