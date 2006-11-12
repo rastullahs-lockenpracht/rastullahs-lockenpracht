@@ -18,9 +18,9 @@ libRlRules_la_SOURCES = \
 	Eigenschaft.cpp \
 	EigenschaftenStateSet.cpp \
 	GameObject.cpp \
+	GameObjectManager.cpp \
+	GameObjectProxy.cpp \
 	Item.cpp \
-	ItemDataLoader.cpp \
-	ItemManager.cpp \
 	Inventory.cpp \
 	JournalEntry.cpp \
 	Kampftechnik.cpp \

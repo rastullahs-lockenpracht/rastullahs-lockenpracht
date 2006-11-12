@@ -119,7 +119,6 @@ namespace rl
 
         void doDefaultAction(Creature* actor, GameObject* target);
 
-		typedef std::vector<std::pair<Action*, int> > ActionOptionVector;
         void setPosition(const Ogre::Vector3& position);
         void setOrientation(const Ogre::Quaternion& orientation);
 	    const Ogre::Quaternion& getOrientation() const;
