@@ -26,11 +26,20 @@ class Hero < Person
 	addTalent("Athletik", 3);
 	#addTalent("Körperbeherrschung", 3);
 
-        $SCRIPT.log("Heldenaktor erstellen...");
+        $SCRIPT.log("Heldenaktor beschreiben...");
         setProperty("str_meshfile", "men_alrike.mesh")
 	setProperty("int_physicsbody", PhysicsManager::GT_ELLIPSOID)
 	setProperty("real_mass", 75.0);
- 
+
+	$SCRIPT.log("Inventar konfigurieren.");
+	inv = getInventory();
+	inv.addSlot("Left Ring", "l_finger_2", Item::ITEMTYPE_RING);
+	inv.addSlot("Right Ring", "r_finger_2", Item::ITEMTYPE_RING);
+	inv.addSlot("Left Hand", "l_hand", Item::ITEMTYPE_ALL_ITEMS);
+	inv.addSlot("Right Hand", "r_hand", Item::ITEMTYPE_ALL_ITEMS);
+	inv.addSlot("Head", "kopf", Item::ITEMTYPE_HELMET);
+	inv.addSlot("Back", "brust", Item::ITEMTYPE_BACKPACK);
+
 #       addSounds()
         $SCRIPT.log("done.");
     end

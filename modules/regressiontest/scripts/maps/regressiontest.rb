@@ -6,6 +6,7 @@ require 'doortest.rb'
 require 'GameObjectCreationTest.rb'
 require 'GameObjectStatesTest.rb'
 require 'NpcTest.rb'
+require 'InventoryTest.rb'
 
 # Physik aktivieren
 $PM.setEnabled(true)
@@ -31,6 +32,7 @@ $SCRIPT.log("map 'regressiontest' initialisiert.");
 DoorTest.new([0.0, 0.0, -5.0])
 #GameObjectCreationTest.new([5, 0, 0])
 #GameObjectStatesTest.new([0, 0, 5])
-NpcTest.new([10, 0, 0])
+NpcTest.new([-5, 0, 0])
+InventoryTest.new([0, 0, 10])
 
 $SCRIPT.log("tests initialisiert.");
