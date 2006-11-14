@@ -267,142 +267,142 @@ namespace rl {
 
 		bool itemSwitched = false;
 		// Gegenstand in Slot setzen / Schon dagewesenen Gegenstand zurück in den Rucksack setzen
-		if (mContainerDraggedTo == mArmor){
-			if (mInventory->getArmor() != NULL){
-				//Pack die alte Rüstung ins Inventar
-				mInventory->addItemToContainer(mInventory->removeArmor(), mInventory->getBackpack());
-				itemSwitched = true;
-			}
-			mInventory->setArmor(item);
-		}
-		if (mContainerDraggedTo == mCape){
-			if (mInventory->getCape() != NULL){
-				//Pack die alte Rüstung ins Inventar
-				mInventory->addItemToContainer(mInventory->removeCape(), mInventory->getBackpack());
-				itemSwitched = true;
-			}
-			mInventory->setCape(item);
-		}
-		if (mContainerDraggedTo == mBackpack) {
-			if (mInventory->getBackpack() != NULL){
-				//Pack den alten Rucksack auf den Boden
-				mInventory->addItemToContainer(mInventory->removeBackpack(), mInventory->getBackpack());
-				itemSwitched = true;
-			}
-			mInventory->setBackpack(item);
-		}
-		if (mContainerDraggedTo == mBelt) {
-			if (mInventory->getBelt() != NULL){
-				//Pack den alten Gürtel ins Inventar
-				mInventory->addItemToContainer(mInventory->removeBelt(), mInventory->getBackpack());
-				itemSwitched = true;
-			}
-			mInventory->setBelt(item);
-		}
-		if (mContainerDraggedTo == mBoots) {
-			if (mInventory->getBoots() != NULL){
-				//pack die alten Stiefel ins Inventar
-				mInventory->addItemToContainer(mInventory->removeBoots(), mInventory->getBackpack());
-				itemSwitched = true;
-			}
-			mInventory->setBoots(item);
-		}
-		if (mContainerDraggedTo == mBraceletLeft) {
-			if (mInventory->getBraceletLeft() != NULL){
-				//pack den alten Armreif ins Inventar
-				mInventory->addItemToContainer(mInventory->removeBraceletLeft(), mInventory->getBackpack());
-				itemSwitched = true;
-			}
-			mInventory->setBraceletLeft(item);
-		}
-		if (mContainerDraggedTo == mBraceletRight) {
-			if (mInventory->getBraceletRight() != NULL){
-				//pack den alten Armreif ins Inventar
-				mInventory->addItemToContainer(mInventory->removeBraceletRight(), mInventory->getBackpack());
-				itemSwitched = true;
-			}
-			mInventory->setBraceletRight(item);
-		}
-		if (mContainerDraggedTo == mRingLeft) {
-			if (mInventory->getRingLeft() != NULL){
-				//pack den alten Ring ins Inventar
-				mInventory->addItemToContainer(mInventory->removeRingLeft(), mInventory->getBackpack());
-				itemSwitched = true;
-			}
-			mInventory->setRingLeft(item);
-		}
-		if (mContainerDraggedTo == mRingRight) {
-			if (mInventory->getRingRight() != NULL){
-				//pack den alten Ring ins Inventar
-				mInventory->addItemToContainer(mInventory->removeRingRight(), mInventory->getBackpack());
-				itemSwitched = true;
-			}
-			mInventory->setRingRight(item);
-		}
-		if (mContainerDraggedTo == mHelmet) {
-			if (mInventory->getHelmet() != NULL){
-				//pack den alten Helm ins Inventar
-				mInventory->addItemToContainer(mInventory->removeHelmet(), mInventory->getBackpack());
-				itemSwitched = true;
-			}
-			mInventory->setHelmet(item);
-		}
-		if (mContainerDraggedTo == mBracers) {
-			if (mInventory->getBracers() != NULL){
-				//pack die alte Armschienen ins Inventar
-				mInventory->addItemToContainer(mInventory->removeBracers(), mInventory->getBackpack());
-				itemSwitched = true;
-			}
-			mInventory->setBracers(item);
-		}
-		if (mContainerDraggedTo == mNecklace) {
-			if (mInventory->getNecklace() != NULL){
-				//pack das alte Amulett ins Inventar
-				mInventory->addItemToContainer(mInventory->removeNecklace(), mInventory->getBackpack());
-				itemSwitched = true;
-			}
-			mInventory->setNecklace(item);
-		}
-		if (mContainerDraggedTo == mGloves) {
-			if (mInventory->getGloves() != NULL){
-				//pack die alten Handschuhe ins Inventar
-				mInventory->addItemToContainer(mInventory->removeGloves(), mInventory->getBackpack());
-				itemSwitched = true;
-			}
-			mInventory->setGloves(item);
-		}
-		if (mContainerDraggedTo == mTrousers) {
-			if (mInventory->getTrousers() != NULL){
-				//pack die alte Hose ins Inventar
-				mInventory->addItemToContainer(mInventory->removeTrousers(), mInventory->getBackpack());
-				itemSwitched = true;
-			}
-			mInventory->setTrousers(item);
-		}
-		if (mContainerDraggedTo == mShinbone) {
-			if (mInventory->getShinbone() != NULL){
-				//pack die alte Hose ins Inventar
-				mInventory->addItemToContainer(mInventory->removeShinbone(), mInventory->getBackpack());
-				itemSwitched = true;
-			}
-			mInventory->setShinbone(item);
-		}
-		if (mContainerDraggedTo == mHandLeft) {
-			if (mInventory->getHandLeft() != NULL){
-				//pack das alte Schild ins Inventar
-				mInventory->addItemToContainer(mInventory->removeHandLeft(), mInventory->getBackpack());
-				itemSwitched = true;
-			}
-			mInventory->setHandLeft(item);
-		}
-		if (mContainerDraggedTo == mHandRight) {
-			if (mInventory->getHandRight() != NULL){
-				//pack die alte Waffe ins Inventar
-				mInventory->addItemToContainer(mInventory->removeHandRight(), mInventory->getBackpack());
-				itemSwitched = true;
-			}
-			mInventory->setHandRight(item);
-		}
+		//if (mContainerDraggedTo == mArmor){
+		//	if (mInventory->getArmor() != NULL){
+		//		//Pack die alte Rüstung ins Inventar
+		//		mInventory->addItemToContainer(mInventory->removeArmor(), mInventory->getBackpack());
+		//		itemSwitched = true;
+		//	}
+		//	mInventory->setArmor(item);
+		//}
+		//if (mContainerDraggedTo == mCape){
+		//	if (mInventory->getCape() != NULL){
+		//		//Pack die alte Rüstung ins Inventar
+		//		mInventory->addItemToContainer(mInventory->removeCape(), mInventory->getBackpack());
+		//		itemSwitched = true;
+		//	}
+		//	mInventory->setCape(item);
+		//}
+		//if (mContainerDraggedTo == mBackpack) {
+		//	if (mInventory->getBackpack() != NULL){
+		//		//Pack den alten Rucksack auf den Boden
+		//		mInventory->addItemToContainer(mInventory->removeBackpack(), mInventory->getBackpack());
+		//		itemSwitched = true;
+		//	}
+		//	mInventory->setBackpack(item);
+		//}
+		//if (mContainerDraggedTo == mBelt) {
+		//	if (mInventory->getBelt() != NULL){
+		//		//Pack den alten Gürtel ins Inventar
+		//		mInventory->addItemToContainer(mInventory->removeBelt(), mInventory->getBackpack());
+		//		itemSwitched = true;
+		//	}
+		//	mInventory->setBelt(item);
+		//}
+		//if (mContainerDraggedTo == mBoots) {
+		//	if (mInventory->getBoots() != NULL){
+		//		//pack die alten Stiefel ins Inventar
+		//		mInventory->addItemToContainer(mInventory->removeBoots(), mInventory->getBackpack());
+		//		itemSwitched = true;
+		//	}
+		//	mInventory->setBoots(item);
+		//}
+		//if (mContainerDraggedTo == mBraceletLeft) {
+		//	if (mInventory->getBraceletLeft() != NULL){
+		//		//pack den alten Armreif ins Inventar
+		//		mInventory->addItemToContainer(mInventory->removeBraceletLeft(), mInventory->getBackpack());
+		//		itemSwitched = true;
+		//	}
+		//	mInventory->setBraceletLeft(item);
+		//}
+		//if (mContainerDraggedTo == mBraceletRight) {
+		//	if (mInventory->getBraceletRight() != NULL){
+		//		//pack den alten Armreif ins Inventar
+		//		mInventory->addItemToContainer(mInventory->removeBraceletRight(), mInventory->getBackpack());
+		//		itemSwitched = true;
+		//	}
+		//	mInventory->setBraceletRight(item);
+		//}
+		//if (mContainerDraggedTo == mRingLeft) {
+		//	if (mInventory->getRingLeft() != NULL){
+		//		//pack den alten Ring ins Inventar
+		//		mInventory->addItemToContainer(mInventory->removeRingLeft(), mInventory->getBackpack());
+		//		itemSwitched = true;
+		//	}
+		//	mInventory->setRingLeft(item);
+		//}
+		//if (mContainerDraggedTo == mRingRight) {
+		//	if (mInventory->getRingRight() != NULL){
+		//		//pack den alten Ring ins Inventar
+		//		mInventory->addItemToContainer(mInventory->removeRingRight(), mInventory->getBackpack());
+		//		itemSwitched = true;
+		//	}
+		//	mInventory->setRingRight(item);
+		//}
+		//if (mContainerDraggedTo == mHelmet) {
+		//	if (mInventory->getHelmet() != NULL){
+		//		//pack den alten Helm ins Inventar
+		//		mInventory->addItemToContainer(mInventory->removeHelmet(), mInventory->getBackpack());
+		//		itemSwitched = true;
+		//	}
+		//	mInventory->setHelmet(item);
+		//}
+		//if (mContainerDraggedTo == mBracers) {
+		//	if (mInventory->getBracers() != NULL){
+		//		//pack die alte Armschienen ins Inventar
+		//		mInventory->addItemToContainer(mInventory->removeBracers(), mInventory->getBackpack());
+		//		itemSwitched = true;
+		//	}
+		//	mInventory->setBracers(item);
+		//}
+		//if (mContainerDraggedTo == mNecklace) {
+		//	if (mInventory->getNecklace() != NULL){
+		//		//pack das alte Amulett ins Inventar
+		//		mInventory->addItemToContainer(mInventory->removeNecklace(), mInventory->getBackpack());
+		//		itemSwitched = true;
+		//	}
+		//	mInventory->setNecklace(item);
+		//}
+		//if (mContainerDraggedTo == mGloves) {
+		//	if (mInventory->getGloves() != NULL){
+		//		//pack die alten Handschuhe ins Inventar
+		//		mInventory->addItemToContainer(mInventory->removeGloves(), mInventory->getBackpack());
+		//		itemSwitched = true;
+		//	}
+		//	mInventory->setGloves(item);
+		//}
+		//if (mContainerDraggedTo == mTrousers) {
+		//	if (mInventory->getTrousers() != NULL){
+		//		//pack die alte Hose ins Inventar
+		//		mInventory->addItemToContainer(mInventory->removeTrousers(), mInventory->getBackpack());
+		//		itemSwitched = true;
+		//	}
+		//	mInventory->setTrousers(item);
+		//}
+		//if (mContainerDraggedTo == mShinbone) {
+		//	if (mInventory->getShinbone() != NULL){
+		//		//pack die alte Hose ins Inventar
+		//		mInventory->addItemToContainer(mInventory->removeShinbone(), mInventory->getBackpack());
+		//		itemSwitched = true;
+		//	}
+		//	mInventory->setShinbone(item);
+		//}
+		//if (mContainerDraggedTo == mHandLeft) {
+		//	if (mInventory->getHandLeft() != NULL){
+		//		//pack das alte Schild ins Inventar
+		//		mInventory->addItemToContainer(mInventory->removeHandLeft(), mInventory->getBackpack());
+		//		itemSwitched = true;
+		//	}
+		//	mInventory->setHandLeft(item);
+		//}
+		//if (mContainerDraggedTo == mHandRight) {
+		//	if (mInventory->getHandRight() != NULL){
+		//		//pack die alte Waffe ins Inventar
+		//		mInventory->addItemToContainer(mInventory->removeHandRight(), mInventory->getBackpack());
+		//		itemSwitched = true;
+		//	}
+		//	mInventory->setHandRight(item);
+		//}
 		if (itemSwitched)
 		{
 			try {
@@ -571,23 +571,23 @@ namespace rl {
 
 	void InventoryWindow::fillSlots()
 	{
-		createItem(mInventory->getRingLeft(), mRingLeft);
-		createItem(mInventory->getRingRight(), mRingRight);
-		createItem(mInventory->getHandLeft(), mHandLeft);
-		createItem(mInventory->getHandRight(), mHandRight);
-		createItem(mInventory->getGloves(), mGloves);
-		createItem(mInventory->getBraceletLeft(), mBraceletLeft);
-		createItem(mInventory->getBraceletRight(), mBraceletRight);
-		createItem(mInventory->getArmor(), mArmor);
-		createItem(mInventory->getCape(), mCape);
-		createItem(mInventory->getBracers(), mBracers);
-		createItem(mInventory->getBackpack(), mBackpack);
-		createItem(mInventory->getBelt(), mBelt);
-		createItem(mInventory->getNecklace(), mNecklace);
-		createItem(mInventory->getHelmet(), mHelmet);
-		createItem(mInventory->getTrousers(), mTrousers);
-		createItem(mInventory->getShinbone(), mShinbone);
-		createItem(mInventory->getBoots(), mBoots);
+		//createItem(mInventory->getRingLeft(), mRingLeft);
+		//createItem(mInventory->getRingRight(), mRingRight);
+		//createItem(mInventory->getHandLeft(), mHandLeft);
+		//createItem(mInventory->getHandRight(), mHandRight);
+		//createItem(mInventory->getGloves(), mGloves);
+		//createItem(mInventory->getBraceletLeft(), mBraceletLeft);
+		//createItem(mInventory->getBraceletRight(), mBraceletRight);
+		//createItem(mInventory->getArmor(), mArmor);
+		//createItem(mInventory->getCape(), mCape);
+		//createItem(mInventory->getBracers(), mBracers);
+		//createItem(mInventory->getBackpack(), mBackpack);
+		//createItem(mInventory->getBelt(), mBelt);
+		//createItem(mInventory->getNecklace(), mNecklace);
+		//createItem(mInventory->getHelmet(), mHelmet);
+		//createItem(mInventory->getTrousers(), mTrousers);
+		//createItem(mInventory->getShinbone(), mShinbone);
+		//createItem(mInventory->getBoots(), mBoots);
 
 
 		// Fenster für ContainerItems erstellen

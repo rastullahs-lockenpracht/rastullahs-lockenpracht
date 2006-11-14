@@ -32,23 +32,25 @@ namespace rl
     {
     public:
 		enum ItemType{
-			ITEMTYPE_WEAPON = 0,
-			ITEMTYPE_SHIELD,
-			ITEMTYPE_RING,
-			ITEMTYPE_GLOVES,
-			ITEMTYPE_BRACELET,
-			ITEMTYPE_ARMOR,
-			ITEMTYPE_CAPE,
-			ITEMTYPE_BRACERS,
-			ITEMTYPE_BACKPACK,
-			ITEMTYPE_BELT,
-			ITEMTYPE_NECKLACE,
-			ITEMTYPE_HELMET,
-			ITEMTYPE_TROUSERS,
-			ITEMTYPE_SHINBONE,
-			ITEMTYPE_BOOTS,
-			ITEMTYPE_OTHER
+			ITEMTYPE_WEAPON     = 1 << 0,
+			ITEMTYPE_SHIELD     = 1 << 1,
+			ITEMTYPE_RING       = 1 << 2,
+			ITEMTYPE_GLOVES     = 1 << 3,
+			ITEMTYPE_BRACELET   = 1 << 4,
+			ITEMTYPE_ARMOR      = 1 << 5,
+			ITEMTYPE_CAPE       = 1 << 6,
+			ITEMTYPE_BRACERS    = 1 << 7,
+			ITEMTYPE_BACKPACK   = 1 << 8,
+			ITEMTYPE_BELT       = 1 << 9,
+			ITEMTYPE_NECKLACE   = 1 << 10,
+			ITEMTYPE_HELMET     = 1 << 11,
+			ITEMTYPE_TROUSERS   = 1 << 12,
+			ITEMTYPE_SHINBONE   = 1 << 13,
+			ITEMTYPE_BOOTS      = 1 << 14,
+			ITEMTYPE_OTHER      = 1 << 15,
+            ITEMTYPE_ALL_ITEMS  = ~(0)
 		};
+
 
         static const Ogre::String CLASS_NAME;
 

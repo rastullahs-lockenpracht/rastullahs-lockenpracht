@@ -31,7 +31,7 @@ public:
 
     void setItem(Item* item);
     Item* getItem() const;
-    bool isAllowed(Item* item);
+    bool isAllowed(Item* item) const;
 
 private:
     Creature* mOwner;

@@ -15,6 +15,10 @@
  */
 
 namespace rl {
+
+	// Muss vor der ersten Benutzung stehen!
+	%apply SWIGTYPE *DYNAMIC { rl::Item * };
+	%apply SWIGTYPE *DYNAMIC { rl::GameObject * };
 					
    template<typename T>
    class Tripel {
@@ -134,6 +138,7 @@ namespace rl {
     public:
         static rl::GameObjectManager& getSingleton();
         rl::GameObjectProxy& createGameObjectProxy(const Ogre::String& classId, unsigned int id = 0);
+        rl::GameObjectProxy* getGameObjectProxy(unsigned int id) const;
         void setGameObjectFactory(rl::GameObjectFactory* gof);
 
     private:
@@ -249,9 +254,6 @@ namespace rl {
 	
 		const rl::CeGuiString getName() const;
 	};
-	
-	// Vor Action stehen!
-	%apply SWIGTYPE *DYNAMIC { rl::GameObject * };
 	
 	%feature("director") Action;   
     class Action
@@ -370,18 +372,37 @@ namespace rl {
     };
     
     %feature("director") Item;
-    class Item : public GameObject {
+    class Item : public rl::GameObject {
     public:
+        enum ItemType{
+			ITEMTYPE_WEAPON     = 1 << 0,
+			ITEMTYPE_SHIELD     = 1 << 1,
+			ITEMTYPE_RING       = 1 << 2,
+			ITEMTYPE_GLOVES     = 1 << 3,
+			ITEMTYPE_BRACELET   = 1 << 4,
+			ITEMTYPE_ARMOR      = 1 << 5,
+			ITEMTYPE_CAPE       = 1 << 6,
+			ITEMTYPE_BRACERS    = 1 << 7,
+			ITEMTYPE_BACKPACK   = 1 << 8,
+			ITEMTYPE_BELT       = 1 << 9,
+			ITEMTYPE_NECKLACE   = 1 << 10,
+			ITEMTYPE_HELMET     = 1 << 11,
+			ITEMTYPE_TROUSERS   = 1 << 12,
+			ITEMTYPE_SHINBONE   = 1 << 13,
+			ITEMTYPE_BOOTS      = 1 << 14,
+			ITEMTYPE_OTHER      = 1 << 15,
+            ITEMTYPE_ALL_ITEMS  = ~(0)
+		};
+    
         Item(unsigned int id);
         virtual ~Item();
         
-        enum ItemType;
-        void setItemType(ItemType itemType);
-        ItemType getItemType() const;
+        void setItemType(rl::Item::ItemType itemType);
+        rl::Item::ItemType getItemType() const;
     };
     
     %feature("director") Weapon;
-    class Weapon : public Item 
+    class Weapon : public rl::Item 
     {
     public:
 		enum Distanzklasse { DK_H=0, DK_N, DK_S, DK_P };
@@ -531,6 +552,16 @@ namespace rl {
 		virtual void remove() = 0;
 		virtual RL_LONGLONG getTimePassed();
 	};
+	
+	class Inventory 
+	{
+    private:
+        Inventory(rl::Creature* owner);
+	public:
+	    void addSlot(const rl::CeGuiString& name, const Ogre::String& bone, int itemMask);
+	    rl::Item* getItem(const rl::CeGuiString& slotName);
+        void hold(rl::Item* item, const rl::CeGuiString& slot);
+	};
 
     %feature("director") Creature;
     class Creature : public GameObject {
@@ -587,6 +618,8 @@ namespace rl {
 
         virtual int doTalentprobe(const rl::CeGuiString talentName, int modifier);
         virtual int doEigenschaftsprobe(const rl::CeGuiString eigenschaftName, int modifier);
+        
+        rl::Inventory* getInventory();
         
 		void addEffect(Effect* effect);
 		void damageLe(int tp, int damageType = LEDAMAGE_NORMAL);
@@ -670,6 +703,23 @@ namespace rl {
 } // Namespace
 
 %{
+static swig_type_info *Item_dynamic_cast(void **ptr)
+{
+    rl::Item **ppItem = reinterpret_cast<rl::Item**>(ptr);
+
+    rl::Weapon *pWeapon=dynamic_cast<rl::Weapon*>(*ppItem);
+    if (pWeapon) {
+        *ptr=reinterpret_cast<void*>(pWeapon);
+        return SWIGTYPE_p_rl__Weapon;
+    }
+    rl::Container *pContainer=dynamic_cast<rl::Container*>(*ppItem);
+    if (pContainer) {
+        *ptr=reinterpret_cast<void*>(pContainer);
+        return SWIGTYPE_p_rl__Container;
+    }
+    return 0;
+}
+
 static swig_type_info *GameObject_dynamic_cast(void **ptr)
 {
     rl::GameObject **ppGameObject = reinterpret_cast<rl::GameObject**>(ptr);
@@ -684,18 +734,24 @@ static swig_type_info *GameObject_dynamic_cast(void **ptr)
         *ptr=reinterpret_cast<void*>(pCreature);
         return SWIGTYPE_p_rl__Creature;
     }
-    rl::Item *pItem=dynamic_cast<rl::Item*>(*ppGameObject);
-    if (pItem) {
-        *ptr=reinterpret_cast<void*>(pItem);
-        return SWIGTYPE_p_rl__Item;
+    rl::Weapon *pWeapon=dynamic_cast<rl::Weapon*>(*ppGameObject);
+    if (pWeapon) {
+        *ptr=reinterpret_cast<void*>(pWeapon);
+        return SWIGTYPE_p_rl__Weapon;
     }
     rl::Container *pContainer=dynamic_cast<rl::Container*>(*ppGameObject);
     if (pContainer) {
         *ptr=reinterpret_cast<void*>(pContainer);
         return SWIGTYPE_p_rl__Container;
     }
+    rl::Item *pItem=dynamic_cast<rl::Item*>(*ppGameObject);
+    if (pItem) {
+        *ptr=reinterpret_cast<void*>(pItem);
+        return SWIGTYPE_p_rl__Item;
+    }
     return 0;
 }
 %}
+DYNAMIC_CAST(SWIGTYPE_p_rl__Item, Item_dynamic_cast);
 DYNAMIC_CAST(SWIGTYPE_p_rl__GameObject, GameObject_dynamic_cast);
 

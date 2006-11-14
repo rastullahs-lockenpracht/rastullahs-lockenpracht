@@ -15,6 +15,11 @@
  */
 #include "Slot.h"
 
+#include "Actor.h"
+#include "Creature.h"
+#include "Item.h"
+#include "MeshObject.h"
+
 namespace rl {
 
     Slot::Slot(Creature* owner, const CeGuiString& name, const Ogre::String& bone, int itemMask)
@@ -22,10 +27,34 @@ namespace rl {
     {
     }
 
+    Slot::~Slot()
+    {
+        ///@todo an den richtigen Bone anfügen
+    }
+
     void Slot::setItem(Item* item)
     {
-        mItem = item;
-        ///@todo an den richtigen Bone anfügen
+        if (isAllowed(item))
+        {
+            mItem = item;
+            if (mOwner->getState() == GOS_IN_SCENE)
+            {
+                //mItem->placeIntoScene();
+                mItem->setState(GOS_HELD);
+                mOwner->getActor()->attachToSlot(mItem->getActor(), mBone);
+            }
+        }
+    }
+
+    Item* Slot::getItem() const
+    {
+        return mItem;
+    }
+
+    bool Slot::isAllowed(Item *item) const
+    {
+        int type = item->getItemType();
+        return (type & mItemMask) == type;
     }
 
 } // namespace rl

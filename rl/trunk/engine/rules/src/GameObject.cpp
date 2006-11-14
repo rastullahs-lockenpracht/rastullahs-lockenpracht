@@ -473,6 +473,8 @@ namespace rl
 
         actor->placeIntoScene();
         setActor(actor);
+
+        mState = GOS_IN_SCENE;
     }
 
     void GameObject::removeFromScene()

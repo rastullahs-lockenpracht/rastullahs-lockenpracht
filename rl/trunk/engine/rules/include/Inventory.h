@@ -17,16 +17,16 @@
 #ifndef __INVENTORY_H__
 #define __INVENTORY_H__
 
-#include "Item.h"
-#include "Weapon.h"
-#include "Container.h"
 #include "RulesPrerequisites.h"
 
-
+#include "Container.h"
 
 namespace rl {
-class _RlRulesExport Inventory;
-class _RlRulesExport Creature;
+
+    class Creature;
+    class Item;
+    class Slot;
+    class Weapon;
 
 /**
  * @brief Verwaltet das Inventar des Charakters
@@ -113,76 +113,7 @@ public:
 
 	void removeItem(Item* item);
 
-	//Ring links
-	Item* getRingLeft();
-	//Ring rechts
-	Item* getRingRight();
-	//in Hand links
-	Item* getHandLeft();
-	//in Hand rechts
-	Item* getHandRight();
-	//Handschuhe
-	Item* getGloves();
-	//Armreif links
-	Item* getBraceletLeft();
-	//Armreif rechts
-	Item* getBraceletRight();
-	//Oberkoerper Ruestung
-	Item* getArmor();
-	//Umhang
-	Item* getCape();
-	//Armschienen
-	Item* getBracers();
-	//Oberkoerper Ruecken (Rucksack, Schwertscheiden)
-	Item* getBackpack();
-	//Guertel  (+Slots fuer Guerteltaschen+Scheiden)
-	Item* getBelt();
-	//Halskette
-	Item* getNecklace();
-	//Stirnband, Helm, Diadem
-	Item* getHelmet();
-	//Hose
-	Item* getTrousers();
-	//Beinschienen
-	Item* getShinbone();
-	//Stiefel
-	Item* getBoots();
 
-	Item* removeRingLeft();
-	Item* removeRingRight();
-	Item* removeHandLeft();
-	Item* removeHandRight();
-	Item* removeGloves();
-	Item* removeBraceletLeft();
-	Item* removeBraceletRight();
-	Item* removeArmor();
-	Item* removeCape();
-	Item* removeBracers();
-	Item* removeBackpack();
-	Item* removeBelt();
-	Item* removeNecklace();
-	Item* removeHelmet();
-	Item* removeTrousers();
-	Item* removeShinbone();
-	Item* removeBoots();
-
-	void setRingLeft(Item* item);
-	void setRingRight(Item* item);
-	void setHandLeft(Item* item);
-	void setHandRight(Item* item);
-	void setGloves(Item* item);
-	void setBraceletLeft(Item* item);
-	void setBraceletRight(Item* item);
-	void setBracers(Item* item);
-	void setArmor(Item* item);
-	void setCape(Item* item);
-	void setBackpack(Item* item);
-	void setBelt(Item* item);
-	void setNecklace(Item* item);
-	void setHelmet(Item* item);
-	void setTrousers(Item* item);
-	void setShinbone(Item* item);
-	void setBoots(Item* item);
 
     		/**
 		 *  Gibt der Spielfigur eine Waffe in die Hand. Wird gesteuert durch 
@@ -229,6 +160,8 @@ public:
 		 **/
 		Container* removeContainer(const CeGuiString containerName);
 
+        Item* getItem(const CeGuiString& slotName) const;
+        void addSlot(const CeGuiString& name, const Ogre::String& bone, int itemMask);
 
 private:
 	bool mValuesUpToDate;
@@ -237,28 +170,11 @@ private:
 	int mCurrentBe;
 	int mCurrentRs;
 
+    std::map<CeGuiString, Slot*> mSlots;
+
 	WeaponMap mWeapons;
 
 	Creature* mOwner;
-
-	Item* mRingLeft;
-	Item* mRingRight;
-	Item* mHandLeft;
-	Item* mHandRight;
-	Item* mGloves;
-	Item* mBraceletLeft;
-	Item* mBraceletRight;
-	Item* mArmor;
-	Item* mCape;
-	Item* mBracers;
-	Item* mBackpack;
-	Item* mBelt;
-	Item* mNecklace;
-	Item* mHelmet;
-	Item* mTrousers;
-	Item* mShinbone;
-	Item* mBoots;
-
 
 	/**
 	* Setzt Flag, dass die Werte neu berechnet werden müssen
@@ -313,7 +229,6 @@ private:
 	* @post: berechnet die Behinderung (mCurrentRs und mCurrentBe werden aktualisiert)
 	*/
 	void calculateRsAndBe();
-
 
 
 };

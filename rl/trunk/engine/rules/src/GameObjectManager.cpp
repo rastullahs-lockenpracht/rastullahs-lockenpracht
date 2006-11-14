@@ -72,12 +72,11 @@ namespace rl
 
         if (id != 0)
         {
-            std::map<unsigned int, GameObjectProxy*>::iterator it 
-                = mGameObjectProxys.find(id);
+            GameObjectProxy* gopInMap = getGameObjectProxy(id);
 
-            if (it != mGameObjectProxys.end())
+            if (gopInMap != NULL)
             {
-                return *(*it).second;
+                return *gopInMap;
             }
             else
             {
@@ -93,6 +92,19 @@ namespace rl
 
         mGameObjectProxys[goId] = gop;
         return *gop;
+    }
+
+    GameObjectProxy* GameObjectManager::getGameObjectProxy(unsigned int id) const
+    {
+        std::map<unsigned int, GameObjectProxy*>::const_iterator it 
+                = mGameObjectProxys.find(id);
+
+        if (it != mGameObjectProxys.end())
+        {
+            return (*it).second;
+        }
+
+        return NULL;
     }
 
     unsigned int GameObjectManager::generateId()

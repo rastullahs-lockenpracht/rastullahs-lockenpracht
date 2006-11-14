@@ -44,6 +44,7 @@ namespace rl
         ~GameObjectManager();
 
         GameObjectProxy& createGameObjectProxy(const Ogre::String& classId, unsigned int id = 0);
+        GameObjectProxy* getGameObjectProxy(unsigned int id) const;
         GameObject* createGameObject(const GameObjectProxy* proxy);
         void setGameObjectFactory(GameObjectFactory* gof);
         void loadProperties(const Ogre::String& module);
