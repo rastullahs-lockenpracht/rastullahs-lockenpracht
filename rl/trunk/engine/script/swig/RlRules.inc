@@ -16,8 +16,7 @@
 
 namespace rl {
 
-	// Muss vor der ersten Benutzung stehen!
-	%apply SWIGTYPE *DYNAMIC { rl::Item * };
+	// Before first use of GameObject or subclasses!
 	%apply SWIGTYPE *DYNAMIC { rl::GameObject * };
 					
    template<typename T>
@@ -703,23 +702,6 @@ namespace rl {
 } // Namespace
 
 %{
-static swig_type_info *Item_dynamic_cast(void **ptr)
-{
-    rl::Item **ppItem = reinterpret_cast<rl::Item**>(ptr);
-
-    rl::Weapon *pWeapon=dynamic_cast<rl::Weapon*>(*ppItem);
-    if (pWeapon) {
-        *ptr=reinterpret_cast<void*>(pWeapon);
-        return SWIGTYPE_p_rl__Weapon;
-    }
-    rl::Container *pContainer=dynamic_cast<rl::Container*>(*ppItem);
-    if (pContainer) {
-        *ptr=reinterpret_cast<void*>(pContainer);
-        return SWIGTYPE_p_rl__Container;
-    }
-    return 0;
-}
-
 static swig_type_info *GameObject_dynamic_cast(void **ptr)
 {
     rl::GameObject **ppGameObject = reinterpret_cast<rl::GameObject**>(ptr);
@@ -752,6 +734,5 @@ static swig_type_info *GameObject_dynamic_cast(void **ptr)
     return 0;
 }
 %}
-DYNAMIC_CAST(SWIGTYPE_p_rl__Item, Item_dynamic_cast);
 DYNAMIC_CAST(SWIGTYPE_p_rl__GameObject, GameObject_dynamic_cast);
 
