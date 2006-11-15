@@ -282,6 +282,8 @@ namespace rl {
         /// gib das Bone zurück
         Ogre::Bone *_getBone() const;
 
+        bool isInScene() const;
+
     private:
         typedef std::set<Actor*> ChildSet;
 

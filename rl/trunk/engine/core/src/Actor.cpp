@@ -825,4 +825,9 @@ namespace rl {
     {
         return mBone;
     }
+
+    bool Actor::isInScene() const
+    {
+        return mSceneNode != NULL || mBone != NULL;
+    }
 }
