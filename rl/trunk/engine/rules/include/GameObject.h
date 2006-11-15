@@ -136,7 +136,7 @@ namespace rl
         virtual PropertySet* getAllProperties() const;
 
         GameObjectState getState() const;
-        void setState(GameObjectState state);
+        virtual void setState(GameObjectState state);
         void placeIntoScene();
         void removeFromScene();
 
@@ -153,6 +153,8 @@ namespace rl
 
         /// Soll das GameObject überhaupt leuchten?
         bool mHighlightingEnabled;
+
+        Actor* createActor();
 
 	private:
 		static int sNextGameObjectId;	

@@ -217,14 +217,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Container.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Creature.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\Date.cpp"
 				>
 			</File>
@@ -250,10 +242,6 @@
 			</File>
 			<File
 				RelativePath=".\src\EigenschaftenStateSet.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\GameObject.cpp"
 				>
 			</File>
 			<File
@@ -286,10 +274,6 @@
 			</File>
 			<File
 				RelativePath=".\src\ObjectStateChangeListener.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Person.cpp"
 				>
 			</File>
 			<File
@@ -357,14 +341,30 @@
 				>
 			</File>
 			<Filter
-				Name="items"
+				Name="game objects"
 				>
 				<File
 					RelativePath=".\src\Armor.cpp"
 					>
 				</File>
 				<File
+					RelativePath=".\src\Container.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Creature.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\GameObject.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\Item.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Person.cpp"
 					>
 				</File>
 				<File

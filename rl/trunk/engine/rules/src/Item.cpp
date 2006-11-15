@@ -229,4 +229,29 @@ namespace rl
 	{
 		return mContainerLayout;
 	}
+
+    void Item::hold()
+    {
+        setActor(createActor());
+        mState = GOS_HELD;
+    }
+
+    void Item::setState(GameObjectState targetstate)
+    {
+        if (targetstate == GOS_IN_POSSESION)
+        {
+        }
+        else if (targetstate == GOS_LOADED)
+        {
+        }
+        else if (targetstate == GOS_IN_SCENE)
+        {
+        }
+        else if (targetstate == GOS_HELD)
+        {
+        }
+        else if (targetstate == GOS_READY)
+        {
+        }
+    }
 }

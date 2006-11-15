@@ -24,7 +24,7 @@ namespace rl {
         GOS_UNDEFINED = 0,
         GOS_UNLOADED,
         GOS_LOADED,
-        GOS_IN_PROPERTY,
+        GOS_IN_POSSESION,
         GOS_IN_SCENE,
         GOS_HELD,
         GOS_READY

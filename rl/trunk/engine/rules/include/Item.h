@@ -88,6 +88,9 @@ namespace rl
 		std::pair<int,int> getSize();
 		void setSize(int width, int height);
 
+        virtual void setState(GameObjectState state);
+        void hold();
+
 		
     protected:
         /// Masse in Unzen.

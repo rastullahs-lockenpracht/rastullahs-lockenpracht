@@ -39,8 +39,7 @@ namespace rl {
             mItem = item;
             if (mOwner->getState() == GOS_IN_SCENE)
             {
-                //mItem->placeIntoScene();
-                mItem->setState(GOS_HELD);
+                mItem->hold();
                 mOwner->getActor()->attachToSlot(mItem->getActor(), mBone);
             }
         }

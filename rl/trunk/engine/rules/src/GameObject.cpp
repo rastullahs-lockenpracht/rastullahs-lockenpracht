@@ -243,8 +243,11 @@ namespace rl
 
         if (actor != NULL)
         {
-            actor->setPosition(mPosition);
-            actor->setOrientation(mOrientation);
+            if (actor->isInScene())
+            {
+                actor->setPosition(mPosition);
+                actor->setOrientation(mOrientation);
+            }
 		    actor->setGameObject(this);
         }
 		
@@ -461,7 +464,7 @@ namespace rl
         return ps;
     }
 
-    void GameObject::placeIntoScene()
+    Actor* GameObject::createActor()
     {
         Ogre::String actorName = Ogre::StringConverter::toString(mId);
 
@@ -470,6 +473,13 @@ namespace rl
                 mMeshfile.c_str(),
                 mGeometryType,
                 mMass);
+
+        return actor;
+    }
+
+    void GameObject::placeIntoScene()
+    {
+        Actor* actor = createActor();
 
         actor->placeIntoScene();
         setActor(actor);
@@ -483,11 +493,23 @@ namespace rl
         setActor(NULL);
         actor->removeFromScene();
         ActorManager::getSingleton().destroyActor(actor);
+
+        mState = GOS_LOADED;
     }
 
-    void GameObject::setState(GameObjectState state)
+    void GameObject::setState(GameObjectState targetstate)
     {
-        mState = state;
+        ///@fixme change state
+        if (targetstate == GOS_LOADED)
+        {
+            //...
+        }
+        else if (targetstate == GOS_IN_SCENE)
+        {
+            //...
+        }
+
+        mState = targetstate;
     }
 
     GameObjectState GameObject::getState() const
