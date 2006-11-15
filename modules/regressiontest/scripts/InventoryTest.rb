@@ -5,7 +5,7 @@ class InventoryTest < TestCase
   def initialize(center)
     super(center)
 
-    longsword = $GOM.createGameObjectProxy("longsword");
+    longsword = $GOM.createGameObjectProxy("shortsword");
 
     hero = $GOM.getGameObjectProxy(1).getGameObject();
     hero.getInventory().hold(longsword.getGameObject(), "Right Hand");

@@ -36,11 +36,10 @@
 		str_meshfile="arc_hebel_01.mesh"
 		int_geometrytype="1"/>
 
-	<!-- FIXME: Replace class by Weapon -->
 	<gameobjectclass
-	    str_classid="longsword"
+	    str_classid="shortsword"
 		str_classname="Weapon" 
-		str_description="Ein ordinäres Langschwert - scharf, aber langweilig"
+		str_description="Ein ordinäres Kurzschwert - scharf, aber langweilig"
 		str_meshfile="waf_kurzschwert_01.mesh"/>
 
 </GameObjectDefinitions>
