@@ -42,4 +42,10 @@
 		str_description="Ein ordinäres Kurzschwert - scharf, aber langweilig"
 		str_meshfile="waf_kurzschwert_01.mesh"/>
 
+	<gameobjectclass
+	    str_classid="leather backpack"
+		str_classname="Container" 
+		str_description="Ein Lederrucksack (oder so)"
+		str_meshfile="ver_truhe_gross01.mesh"/>
+
 </GameObjectDefinitions>
