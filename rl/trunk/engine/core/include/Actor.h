@@ -223,8 +223,7 @@ namespace rl {
             const Ogre::String& slot,
             const Ogre::String& childSlot = "SLOT_DEFAULT",
             const Ogre::Vector3& offsetPosition=Ogre::Vector3::ZERO,
-            const Ogre::Quaternion& offsetOrientation=Ogre::Quaternion::IDENTITY
-            );
+            const Ogre::Quaternion& offsetOrientation=Ogre::Quaternion::IDENTITY);
 
         /**
         *	Befestigt einen anderen Aktor an einem SLOT dieses Aktors.
@@ -250,6 +249,14 @@ namespace rl {
         */
         void detach(Actor* actor);
 
+        /// Entfernt alle Kinder vom Node
+        void detachAllChildren( );
+
+        /**
+         * Entfernt den Aktor von seinem Elternaktor
+         */
+        void detachFromParent();
+
         Ogre::SceneNode* _getSceneNode() const;
         Ogre::MovableObject* _getMovableObject() const;
         void _update(unsigned long flags = UF_ALL);
@@ -268,9 +275,6 @@ namespace rl {
         /// Set Rendering Distance
         Ogre::Real getRenderingDistance() const;
         void setRenderingDistance( Ogre::Real dist );
-
-        /// Entfernt alle Kinder vom Node
-        void detachAllChildren( );
 
         // Die Methoden die Node::Listener definiert.
         virtual void nodeUpdated (const Ogre::Node *node);
@@ -298,7 +302,7 @@ namespace rl {
         /// Der Parent-Aktor
         Actor* mParent;
         /// Darunterliegende Aktoren
-        ChildSet mChilds;
+        ChildSet mChildren;
         /// Der SceneNode des Aktors
         Ogre::SceneNode* mSceneNode;
         /// MovableText mit der Objektbeschreibung

@@ -41,7 +41,7 @@ namespace rl {
         mGameObject(go),
         mActorControlledObject(aco),
         mParent(0),
-        mChilds(),
+        mChildren(),
         mSceneNode(0),
         mDescription(0),
         mHighlighted(false),
@@ -417,8 +417,8 @@ namespace rl {
 
             // Überprüfen ob Childs am Node fest sind
             bool childsInNode = false;
-            ChildSet::const_iterator iter =  mChilds.begin();
-            for( iter; iter != mChilds.end(); ++iter )
+            ChildSet::const_iterator iter =  mChildren.begin();
+            for( iter; iter != mChildren.end(); ++iter )
             {
                 Actor* actor = *iter;
 
@@ -450,7 +450,7 @@ namespace rl {
         doAttach(actor, slot, childSlot, offsetPosition, offsetOrientation );
         // Erst danach Parent/Child wirklich zuweisen, falls es eine Exception gibt.
         actor->mParent = this;
-        mChilds.insert(actor);
+        mChildren.insert(actor);
     }
 
     void Actor::attachToSlotAxisRot( 
@@ -567,8 +567,6 @@ namespace rl {
             ent->attachObjectToBone( slot, movObj, offsetOrientationMod, offsetPositionMod );
             // Der Aktor wurde an einem Bone befestigt
             actor->mBone = ent->getSkeleton()->getBone( slot );
-
-            return;
         }
         // Wenn hier kein MeshObjekt dran ist, trotzdem irgendwie zusammenfügen
         else
@@ -576,21 +574,28 @@ namespace rl {
             actor->placeIntoNode( mSceneNode,  offsetPositionMod, offsetOrientationMod );
 
             // Der Aktor wurde nicht an einem Bone befestigt
-            actor->mBone = 0;
-            return;      
+            actor->mBone = NULL;
         }
     }         
+
+    void Actor::detachFromParent()
+    {
+        if (mParent != NULL)
+        {
+            mParent->detach(this);
+        }
+    }
 
     void Actor::detach(Actor* actor)
     {
         doDetach(actor);
         actor->mParent = NULL;
-        mChilds.erase(actor);
+        mChildren.erase(actor);
     }
 
     void Actor::doDetach(Actor* actor)
     {
-        if (mChilds.find(actor) == mChilds.end())
+        if (mChildren.find(actor) == mChildren.end())
         {
             Throw(IllegalArgumentException,
                 "Aktor " + mName + ": Der Aktor ist kein Kind dieses Aktors");
@@ -609,7 +614,7 @@ namespace rl {
         else
         {
             mSceneNode->removeChild( actor->_getSceneNode() );
-            actor->mBone = 0;
+            actor->mBone = NULL;
             return;
         }
     }
@@ -638,7 +643,7 @@ namespace rl {
 
         if (flags & UF_CHILDREN)
         {
-            for( ChildSet::const_iterator iter = mChilds.begin(); iter != mChilds.end(); ++iter )
+            for( ChildSet::const_iterator iter = mChildren.begin(); iter != mChildren.end(); ++iter )
             {
                 Actor* child = *iter;
                 child->_update();
@@ -752,8 +757,8 @@ namespace rl {
 
     Actor* Actor::getChildByName(const String& name ) const
     {
-        ChildSet::const_iterator iter =  mChilds.begin();
-        for( iter; iter != mChilds.end(); ++iter )
+        ChildSet::const_iterator iter =  mChildren.begin();
+        for( iter; iter != mChildren.end(); ++iter )
         {
             Actor* actor = *iter;
 
@@ -768,14 +773,14 @@ namespace rl {
 
     void Actor::detachAllChildren( )
     {
-        ChildSet::iterator iter =  mChilds.begin();
-        for( iter; iter != mChilds.end();  )
+        ChildSet::iterator iter =  mChildren.begin();
+        for( iter; iter != mChildren.end();  )
         {
             Actor* actor = *iter;
 
             doDetach( actor );
             actor->mParent = NULL;
-            mChilds.erase( iter++ );
+            mChildren.erase( iter++ );
         } 
     }
 
