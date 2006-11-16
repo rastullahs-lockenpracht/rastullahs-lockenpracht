@@ -168,6 +168,10 @@ namespace rl
         {
             return new Armor(id);
         }
+        else if (classname == Container::CLASS_NAME)
+        {
+            return new Container(id);
+        }
         else if (classname == Item::CLASS_NAME)
         {
             return new Item(id);

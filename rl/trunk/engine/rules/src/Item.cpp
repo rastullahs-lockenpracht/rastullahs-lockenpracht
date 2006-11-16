@@ -15,6 +15,8 @@
  */
 
 #include "Item.h"
+
+#include "Actor.h"
 #include "Exception.h"
 
 using namespace std;
@@ -139,12 +141,12 @@ namespace rl
 
 	}
 
-    void Item::setWeight(int weight)
+    void Item::setWeight(Ogre::Real weight)
     {
         mWeight = weight;
     }
 
-    int Item::getWeight() const
+    Ogre::Real Item::getWeight() const
     {
         return mWeight;
     }
@@ -238,20 +240,88 @@ namespace rl
 
     void Item::setState(GameObjectState targetstate)
     {
-        if (targetstate == GOS_IN_POSSESION)
+        if (mState == targetstate)
         {
+            return;
+        }
+
+        bool stateChanged = false;
+
+        if (targetstate == GOS_IN_POSSESSION)
+        {
+            if (mState == GOS_LOADED)
+            {
+                stateChanged = true;
+            }
+            else if (mState == GOS_IN_SCENE)
+            {
+                removeFromScene();
+                stateChanged = true;
+            }
+            else if (mState == GOS_HELD)
+            {
+                mActor->detachFromParent();
+                destroyActor();
+                stateChanged = true;
+            }
         }
         else if (targetstate == GOS_LOADED)
         {
+            if (mState == GOS_IN_POSSESSION)
+            {
+                stateChanged = true;
+            }
+            if (mState == GOS_HELD)
+            {
+                mActor->detachFromParent();
+                destroyActor();
+                stateChanged = true;
+            }
         }
         else if (targetstate == GOS_IN_SCENE)
         {
+            if (mState == GOS_IN_POSSESSION)
+            {
+                removeFromScene();
+                stateChanged = true;
+            }
+            if (mState == GOS_HELD)
+            {
+                mActor->detachFromParent();
+                stateChanged = true;
+            }
         }
         else if (targetstate == GOS_HELD)
         {
+            if (mState == GOS_LOADED)
+            {
+                hold();
+                stateChanged = true;
+            }
+            else if (mState == GOS_IN_SCENE)
+            {
+                mActor->removeFromScene();
+                hold();
+                stateChanged = true;
+            }
+            else if (mState == GOS_IN_POSSESSION)
+            {
+                hold();
+                stateChanged = true;
+            }
         }
         else if (targetstate == GOS_READY)
         {
+            ///@todo
+        }
+
+        if (stateChanged)
+        {
+            mState = targetstate;   
+        }
+        else
+        {
+            GameObject::setState(targetstate);
         }
     }
 }

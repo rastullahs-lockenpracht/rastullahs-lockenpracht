@@ -148,6 +148,8 @@ namespace rl
         CeGuiString mDescription;
         CeGuiString mMeshfile;
         
+        Actor* mActor;
+        
         // Query flags to be set to the actor, when placed into scene.
         unsigned long mQueryFlags;
 
@@ -155,12 +157,12 @@ namespace rl
         bool mHighlightingEnabled;
 
         Actor* createActor();
+        void destroyActor();
 
 	private:
 		static int sNextGameObjectId;	
 
-		Actor* mActor;
-        ActionOptionVector mActions;
+		ActionOptionVector mActions;
         Ogre::Vector3 mPosition;
         Ogre::Quaternion mOrientation;
         Ogre::Real mMass;

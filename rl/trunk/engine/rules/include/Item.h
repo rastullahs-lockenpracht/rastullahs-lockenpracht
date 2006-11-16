@@ -60,8 +60,8 @@ namespace rl
 
 		const CeGuiString getDescription() const;
 
-        void setWeight(int weight);
-        int getWeight() const;
+        void setWeight(Ogre::Real weight);
+        Ogre::Real getWeight() const;
 
 		void setItemType(ItemType itemType);
 		ItemType getItemType() const;
@@ -94,7 +94,7 @@ namespace rl
 		
     protected:
         /// Masse in Unzen.
-        int mWeight;
+        Ogre::Real mWeight;
 		ItemType mItemType;
 
 		// Der Standard-Preis (kann variiert werden) in Silbertalern

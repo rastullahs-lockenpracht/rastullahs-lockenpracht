@@ -466,15 +466,41 @@ namespace rl
 
     Actor* GameObject::createActor()
     {
-        Ogre::String actorName = Ogre::StringConverter::toString(mId);
+        if (mActor == NULL)
+        {
+            Ogre::String actorName = Ogre::StringConverter::toString(mId);
 
-        Actor* actor = ActorManager::getSingleton().createMeshActor(
-                actorName,
-                mMeshfile.c_str(),
-                mGeometryType,
-                mMass);
+            Actor* actor = ActorManager::getSingleton().createMeshActor(
+                    actorName,
+                    mMeshfile.c_str(),
+                    mGeometryType,
+                    mMass);
 
-        return actor;
+            if (actor == NULL)
+            {
+                LOG_ERROR(
+                    Logger::RULES, 
+                    "Error creating actor '"
+                    + actorName
+                    + "' with mesh file "
+                    + mMeshfile);
+            }
+
+            return actor;
+        }
+        else
+        {
+            return mActor;
+        }
+    }
+
+    void GameObject::destroyActor()
+    {
+        if (mActor != NULL)
+        {
+            ActorManager::getSingleton().destroyActor(mActor);
+            mActor = NULL;
+        }
     }
 
     void GameObject::placeIntoScene()
@@ -499,17 +525,34 @@ namespace rl
 
     void GameObject::setState(GameObjectState targetstate)
     {
-        ///@fixme change state
+        if (targetstate == mState)
+        {
+            return;
+        }
+
+        bool stateChange = false;
+
         if (targetstate == GOS_LOADED)
         {
-            //...
+            if (mState == GOS_IN_SCENE)
+            {
+                removeFromScene();
+                stateChange = true;
+            }
         }
         else if (targetstate == GOS_IN_SCENE)
         {
-            //...
+            if (mState == GOS_LOADED)
+            {
+                placeIntoScene();
+                stateChange = true;
+            }
         }
 
-        mState = targetstate;
+        if (stateChange)
+        {
+            mState = targetstate;
+        }
     }
 
     GameObjectState GameObject::getState() const
