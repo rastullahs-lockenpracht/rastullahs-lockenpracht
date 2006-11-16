@@ -24,28 +24,33 @@ using namespace std;
 namespace rl {
 
     Container::Container(unsigned int id)
-        : Item(id)
+        : Item(id),
+          mCapacity(0.0)
     {
-
     }
 
     Container::~Container()
     {
     }
 
-    int Container::getCapacity() const
+    Ogre::Real Container::getCapacity() const
     {
         return mCapacity;
     }
 
-    void Container::setCapacity(const int capacity)
+    void Container::setCapacity(const Ogre::Real capacity)
     {
         mCapacity = capacity;
     }
 
-    int Container::getContentWeight() const
+    void Container::setVolume(unsigned int x, unsigned int y)
     {
-        int rval = 0;
+        mVolume = make_pair(x, y);
+    }
+
+    Ogre::Real Container::getContentWeight() const
+    {
+        Ogre::Real rval = 0;
         for (ItemSet::const_iterator it = mItems.begin(); it != mItems.end(); it++)
         {
             rval += (*it)->getWeight();
@@ -64,24 +69,25 @@ namespace rl {
         {
             Throw(NullPointerException, "Item ist null.");
         }
+        pair<unsigned int, unsigned int> pos = findPositionWithEnoughSpace(item->getSize());
+        mItemPositions[item] = pos;
         mItems.insert(item);
+        item->setState(GOS_IN_POSSESSION);
     }
 
-    Item* Container::removeItem(int itemId)
+    void Container::removeItem(Item* item)
     {
-        Item* rval = 0;
-        ItemSet::iterator it = find_if(mItems.begin(), mItems.end(),
-            bind1st(FindItemById(), itemId));
+        ItemSet::iterator it = mItems.find(item);
         if (it != mItems.end())
         {
-            rval = *it;
             mItems.erase(it);
+            mItemPositions.erase(mItemPositions.find(item));
+            item->setState(GOS_LOADED);
         }
         else
         {
-            Throw(IllegalArgumentException, "Item nicht in Container.");
+            Throw(IllegalArgumentException, "Item not in Container.");
         }
-        return rval;
     }
 
 	int Container::getItemCount() const
@@ -89,17 +95,117 @@ namespace rl {
 		return mItems.size();
 	}
 
-	const Item* Container::getItem(int itemId) const
+    bool Container::canPlaceAt(Item* item, unsigned int xPos, unsigned int yPos) const
 	{
-		ItemSet::const_iterator it = find_if(mItems.begin(), mItems.end(),
-			bind1st(FindItemById(), itemId));
-		if (it != mItems.end())
-		{
-			return (*it);
+		int xSize = item->getSize().first;
+		int ySize = item->getSize().second;
+
+		bool free = true;
+
+        // Es wird versucht, das Item außerhalb des Containers zu platzieren
+        if (xPos + xSize >= mVolume.first 
+            || yPos + ySize >= mVolume.second)
+        {
+            return false;
+        }
+
+		for (unsigned int x = xPos; x < (xPos + xSize); x++)
+        {
+			for (unsigned int y = yPos; y < (yPos + ySize); y++)
+            {
+                LOG_DEBUG2(Logger::RULES,
+					Ogre::String("Checking Point in Backpack: Point x:")
+					+ Ogre::StringConverter::toString(x) 
+					+ ", Point y:"
+					+ Ogre::StringConverter::toString(y),
+                    "Container::canPlaceAt()");
+
+                if (getItemAt(x, y) != item)
+                {				
+                    // Siehe nach, ob ein anderes Item im Weg ist
+					return false;
+				}
+			}
 		}
-		else
-		{
-			Throw(IllegalArgumentException, "Item nicht in Container.");
-		}
+		
+		return true;
 	}
+
+
+    void Container::setItemPosition(Item* item, unsigned int xPos, unsigned int yPos)
+    {
+        if (mItemPositions.find(item) == mItemPositions.end())
+        {
+            Throw(IllegalArgumentException, "Item not in Container.");
+        }
+
+        mItemPositions[item] = make_pair(xPos, yPos);
+    }
+
+    pair<unsigned int, unsigned int> Container::findPositionWithEnoughSpace(pair<unsigned int, unsigned int> space) const
+    {
+		for (unsigned int x = 0; x < mVolume.first; x++)
+        {
+			for (unsigned int y = 0; y < mVolume.second; y++)
+            {
+				if (isFree(x, y) && checkSpace(x, y, space))
+                {
+					return pair<unsigned int, unsigned int>(x,y);
+				}
+			}
+		}
+		Throw(IllegalStateException, "Rucksack hat keinen Platz für das Item");
+	}
+
+    bool Container::checkSpace(unsigned int xStart, unsigned int yStart, pair<unsigned int,unsigned int> space) const
+    {
+		// Falls Kästchen nicht mehr im Rucksack, ist auch kein Platz mehr :)
+        if ((xStart+space.first) >= mVolume.first 
+            || (yStart+space.second) >= mVolume.second)
+        {
+			return false;
+		}
+
+		for (unsigned int x = 0; x < space.first; x++)
+        {
+			for (unsigned int y = 0; y < space.second; y++)
+            {
+                if (!isFree(xStart+x, yStart+y))
+                {
+                    return false;				
+                }
+			}
+		}
+		return true;
+	}
+
+    bool Container::isFree(unsigned int x, unsigned int y) const
+    {
+        return getItemAt(x, y) == NULL;
+    }
+
+    Item* Container::getItemAt(unsigned int x, unsigned int y) const
+    {
+        for (map<Item*, pair<unsigned int, unsigned int>>::const_iterator iter = mItemPositions.begin(); 
+            iter != mItemPositions.end(); iter++)
+        {
+            Item* item = (*iter).first;
+            pair<unsigned int, unsigned int> pos = (*iter).second;
+
+            if (pos.first <= x 
+                && pos.second <= y 
+                && x <= pos.first + item->getSize().first
+                && y <= pos.second + item->getSize().second)
+            {
+                return item;
+            }
+        }
+
+        return NULL;
+    }
+
+    Ogre::Real Container::getWeight() const
+    {
+        return mWeight + getContentWeight();
+    }
 }

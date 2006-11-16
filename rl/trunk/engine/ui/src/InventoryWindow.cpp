@@ -214,10 +214,10 @@ namespace rl {
 		Item* item = static_cast<Item*>(mDroppedItem->getUserData());
 
 		// Gegenstand von alter Position entfernen
-		mInventory->removeItem(item);
+		//mInventory->removeItem(item);
 
 		// Gegenstand vom Boden entfernen
-		mInventory->removeItemFromContainer(item, mGroundItem);
+		//mInventory->removeItemFromContainer(item, mGroundItem);
 
 		// Welchem Item wird das Item hinzugefügt? -> speichere das in die Variable container
 		Item* container = static_cast<Item*>(mContainerDraggedTo->getUserData());
@@ -225,11 +225,11 @@ namespace rl {
 		// Extra Behandlung, falls Item auf den Boden gelegt wird
 		if (container == mGroundItem)
 		{
-			mInventory->setItemContainerPosition(
-				item,
-				(int)(mPosDraggedTo.d_x/30), 
-				(int)(mPosDraggedTo.d_y/30),
-				container);
+			//mInventory->setItemContainerPosition(
+			//	item,
+			//	(int)(mPosDraggedTo.d_x/30), 
+			//	(int)(mPosDraggedTo.d_y/30),
+			//	container);
 
 			// Zusätzlich wenn Item Container war, muss Tab entfernt werden (einfach Inventar neu aufbauen)
 			if (item->isContainer())
@@ -247,11 +247,11 @@ namespace rl {
 		while (it != mContainerContents.end())
 		{
 			if (mContainerDraggedTo == *it++){
-				mInventory->setItemContainerPosition(
-					item,
-					(int)(mPosDraggedTo.d_x/30), 
-					(int)(mPosDraggedTo.d_y/30),
-					container);
+				//mInventory->setItemContainerPosition(
+				//	item,
+				//	(int)(mPosDraggedTo.d_x/30), 
+				//	(int)(mPosDraggedTo.d_y/30),
+				//	container);
 				break;
 			}
 		}
@@ -407,15 +407,15 @@ namespace rl {
 		{
 			try {
 				//Bild muss im Inventarfenster an die neue Position gelegt werden
-				pair<pair<int,int>,Item*> posInContainer = mInventory->getItemPositionInContainer(static_cast<Item*>(mOldItemInSlot->getUserData()));
+				//pair<pair<int,int>,Item*> posInContainer = mInventory->getItemPositionInContainer(static_cast<Item*>(mOldItemInSlot->getUserData()));
 
-				// Container Fenster suchen
-				CEGUI::Window* win = findContainer(posInContainer.second);
-				// Dem Fenster hinzufügen
-				win->addChildWindow(mOldItemInSlot);
-				// Positionieren		
-				mOldItemInSlot->setPosition( CEGUI::Absolute,
-					CEGUI::Point(posInContainer.first.first * 30, posInContainer.first.second * 30));
+				//// Container Fenster suchen
+				//CEGUI::Window* win = findContainer(posInContainer.second);
+				//// Dem Fenster hinzufügen
+				//win->addChildWindow(mOldItemInSlot);
+				//// Positionieren		
+				//mOldItemInSlot->setPosition( CEGUI::Absolute,
+				//	CEGUI::Point(posInContainer.first.first * 30, posInContainer.first.second * 30));
 
 			}
 			catch (IllegalArgumentException iae)
@@ -449,7 +449,8 @@ namespace rl {
 
 	bool InventoryWindow::isFreeInContainer(Item* item, pair<int,int> kaestchenPos, Item* container)
 	{
-		return mInventory->isFreeInContainer(item, kaestchenPos, container);
+		//return mInventory->isFreeInContainer(item, kaestchenPos, container);
+        return true;
 	}
 
 

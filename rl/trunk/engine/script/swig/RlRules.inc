@@ -423,25 +423,32 @@ namespace rl {
 		Weapon::Distanzklasse getDk();
 		void setKampftechnik(const rl::CeGuiString newKampftechnik);
 		const rl::CeGuiString getKampftechnik() const;
-     };
+    };
+    
+    %feature("director") Armor;
+    class Armor : public Item
+    {
+    public:
+        Armor(unsigned int id);
+        virtual ~Armor();
+    };
     
     %feature("director") Container;
-    class Container : public GameObject
+    class Container : public Item
     {
     public:
         Container(unsigned int id);
         virtual ~Container();
 
-        int getCapacity() const;
-        void setCapacity(int capacity);
-        int getContentWeight() const;
+        Ogre::Real getCapacity() const;
+        void setCapacity(Ogre::Real capacity);
+        void setVolume(unsigned int x, unsigned int y);
+        Ogre::Real getContentWeight() const;
         void addItem(rl::Item* item);
-        rl::Item* removeItem(int itemId);
+        void removeItem(rl::Item* item);
         rl::ItemSet getItems() const;
         int getItemCount() const;
-        rl::Item* getItem(int itemId);
-        
-        virtual void close() = 0;
+        rl::Item* getItemAt(unsigned int x, unsigned int y);
 	};
 	
 	class StateSet
@@ -720,6 +727,11 @@ static swig_type_info *GameObject_dynamic_cast(void **ptr)
     if (pWeapon) {
         *ptr=reinterpret_cast<void*>(pWeapon);
         return SWIGTYPE_p_rl__Weapon;
+    }
+    rl::Armor *pArmor=dynamic_cast<rl::Armor*>(*ppGameObject);
+    if (pArmor) {
+        *ptr=reinterpret_cast<void*>(pArmor);
+        return SWIGTYPE_p_rl__Armor;
     }
     rl::Container *pContainer=dynamic_cast<rl::Container*>(*ppGameObject);
     if (pContainer) {

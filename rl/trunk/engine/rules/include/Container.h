@@ -31,39 +31,47 @@ namespace rl
         virtual ~Container(void);
 
         /// Fassungsvermoegen in Unzen
-        int getCapacity() const;
+        Ogre::Real getCapacity() const;
 
         /// Fassungsvermoegen in Unzen
-        void setCapacity(int capacity);
+        void setCapacity(Ogre::Real capacity);
 
 		// Volumen in x (breite) * y (hoehe)
-		void setVolume(int x, int y);
+		void setVolume(unsigned int x, unsigned int y);
 
-		pair<int,int> getVolume();
+		pair<unsigned int, unsigned int> getVolume();
 
         /// Liefert Gesamtgewicht des Inhalts.
-        int getContentWeight() const;
+        Ogre::Real getContentWeight() const;
+        virtual Ogre::Real getWeight() const;
 
         void addItem(Item* item);
-        Item* removeItem(int itemId);
+        void removeItem(Item* item);
 
         ItemSet getItems() const;
 
 		int getItemCount() const;
 
-		const Item* getItem(int itemId) const;
-
-		virtual void close() = 0;
+        bool isFree(unsigned int x, unsigned int y) const;
+        Item* getItemAt(unsigned int x, unsigned int y) const;
+        void putItemAt(Item* item, unsigned int x, unsigned int y);
+        bool canPlaceAt(Item* item, unsigned int xPos, unsigned int yPos) const;
+        void setItemPosition(Item* item, unsigned int xPos, unsigned int yPos);
 
     private:
-        int mCapacity;
-		pair<int,int> mVolume;
+        Ogre::Real mCapacity;
+		pair<unsigned int,unsigned int> mVolume;
 		
 		// Speichert, wo die Items sich im Container befinden.
 		// Speichert also die IDs der Objekte in die einzelnen Volumenfelder
 		int objIDMap [1][1];
 
         ItemSet mItems;
+
+        std::map<Item*, std::pair<unsigned int, unsigned int>> mItemPositions;
+
+        std::pair<unsigned int, unsigned int> findPositionWithEnoughSpace(std::pair<unsigned int, unsigned int> space) const;
+        bool checkSpace(unsigned int xStart, unsigned int yStart, std::pair<unsigned int,unsigned int> space) const;
     };
 }
 

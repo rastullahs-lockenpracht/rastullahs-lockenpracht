@@ -21,6 +21,7 @@
 
 #include "Action.h"
 #include "ActionManager.h"
+#include "Armor.h"
 #include "CompositeEffect.h"
 #include "Container.h"
 #include "Creature.h"
