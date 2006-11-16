@@ -10,7 +10,6 @@ noinst_HEADERS = \
 	CommandMapper.h \
 	CommandMapperWindow.h \
 	Console.h \
-	ContainerContentWindow.h \
 	CutsceneCharacterController.h \
 	DataLoadingProgressWindow.h \
 	DebugWindow.h \

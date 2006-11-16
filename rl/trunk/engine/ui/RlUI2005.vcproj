@@ -322,10 +322,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\ContainerContentWindow.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\DataLoadingProgressWindow.h"
 					>
 				</File>
@@ -480,10 +476,6 @@
 				</File>
 				<File
 					RelativePath=".\src\Console.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ContainerContentWindow.cpp"
 					>
 				</File>
 				<File

@@ -19,7 +19,6 @@ libRlUi_la_SOURCES = \
 	CommandMapper.cpp \
 	CommandMapperWindow.cpp \
 	Console.cpp \
-	ContainerContentWindow.cpp \
 	CutsceneCharacterController.cpp \
 	DataLoadingProgressWindow.cpp \
 	DebugWindow.cpp \
