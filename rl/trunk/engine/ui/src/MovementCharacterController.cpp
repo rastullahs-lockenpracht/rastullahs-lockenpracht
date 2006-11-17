@@ -201,8 +201,8 @@ namespace rl {
 		
 		if (movement & MOVE_JUMP)  mCharacterState.mStartJump = true;
 
-		if (movement & TURN_LEFT)  mYaw += Degree(mRotationSpeed * 30.0 * elapsedTime);
-		if (movement & TURN_RIGHT) mYaw -= Degree(mRotationSpeed * 30.0 * elapsedTime);
+		if (movement & TURN_LEFT)  mYaw += Degree(mRotationSpeed * 0.1);
+		if (movement & TURN_RIGHT) mYaw -= Degree(mRotationSpeed * 0.1);
 
 		if (isRunMovement(movement))
         {
