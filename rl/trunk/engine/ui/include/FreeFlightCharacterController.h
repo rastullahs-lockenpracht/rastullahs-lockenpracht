@@ -37,7 +37,7 @@ namespace rl {
 		virtual ~FreeFlightCharacterController();
 		virtual ControllerType getType() const;
 
-		void run(Ogre::Real elapsedTime);
+		virtual void run(Ogre::Real elapsedTime);
 
 		void toggleViewMode();
 		void resetCamera();

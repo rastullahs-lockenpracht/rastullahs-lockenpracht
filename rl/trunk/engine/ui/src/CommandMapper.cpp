@@ -116,8 +116,17 @@ namespace rl {
 
 	void CommandMapper::decodeKey(int combinedKeyCode, int* scancode, int* syskeys)
 	{
-		*syskeys = combinedKeyCode >> 16;
-		*scancode = combinedKeyCode & ~(*syskeys << 16);
+		int syskeysTmp = combinedKeyCode >> 16;
+		int scancodeTmp = combinedKeyCode & ~(syskeysTmp << 16);
+
+        if (syskeys != NULL)
+        {
+            *syskeys = syskeysTmp;
+        }
+        if (scancode != NULL)
+        {
+		    *scancode = scancodeTmp;
+        }
 	}
   
 	const MovementState CommandMapper::getMovement(int keycode) const

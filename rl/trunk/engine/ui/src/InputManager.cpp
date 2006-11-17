@@ -101,6 +101,8 @@ namespace rl {
 		size_t windowHnd = 0;
         #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		    win->getCustomAttribute("HWND", &windowHnd);
+            pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_EXCLUSIVE")));
+            pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
         #elif OGRE_PLATFORM == OGRE_PLATFORM_LINUX
 		    win->getCustomAttribute("GLXWINDOW", &windowHnd);
         //	pl.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
@@ -111,10 +113,10 @@ namespace rl {
         windowHndStr << windowHnd;
 		pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
 
-		OIS::InputManager &im = *OIS::InputManager::createInputSystem( pl );
-		mKeyboard = static_cast<OIS::Keyboard*>(im.createInputObject( OIS::OISKeyboard, true ));
+		OIS::InputManager &im = *OIS::InputManager::createInputSystem(pl);
+		mKeyboard = static_cast<OIS::Keyboard*>(im.createInputObject(OIS::OISKeyboard, true));
         mKeyboard->setTextTranslation(OIS::Keyboard::Unicode);
-		mMouse = static_cast<OIS::Mouse*>(im.createInputObject( OIS::OISMouse, true ));
+		mMouse = static_cast<OIS::Mouse*>(im.createInputObject(OIS::OISMouse, true));
         
         unsigned int width, height, depth;
 		int left, top;
@@ -233,16 +235,23 @@ namespace rl {
 	{
 		// Fenster, die alle Inputs wollen
 		if (mNumActiveWindowsAllInput > 0)
+        {
 			return true;
+        }
 
 		// Wenn kein Fenster mit Tastatureingabe aktiv ist, kriegt CEGUI keine KeyEvents
 		if (mNumActiveWindowsKeyboardInput == 0)
+        {
 			return false;
+        }
 
-		// Tastatureingabe gefordert
-		// Alle Tasten an CEGUI senden, die ein Zeichen erzeugen
-		if (e.text != 0)
-			return true;
+		// ---- Tastatureingabe gefordert ----
+
+        // Tasten, die Zeichen liefern sollen an CEGUI gesendet werden
+        if (getKeyChar(e.key, mCurrentModifiers) != 0)
+        {
+            return true;
+        }
 
         if (e.key == OIS::KC_RETURN 
 			|| e.key == OIS::KC_HOME || e.key == OIS::KC_END
@@ -250,32 +259,36 @@ namespace rl {
 			|| e.key == OIS::KC_BACK || e.key == OIS::KC_DELETE
 			|| e.key == OIS::KC_UP   || e.key == OIS::KC_DOWN
 			|| e.key == OIS::KC_RMENU)
+        {
 			return true;
+        }
 
 		return false;
 	}
 
     bool InputManager::keyPressed(const OIS::KeyEvent& e)
 	{
+        if (sendKeyToCeGui(e)) 
+		{   // Send all events to CEGUI
+			CEGUI::System& cegui = CEGUI::System::getSingleton();
+			cegui.injectKeyDown(e.key);
+			cegui.injectChar(e.text);
+		}
+        else
+        {
+            if (mCharacterController != NULL)
+            {
+                mCharacterController->injectKeyDown(CommandMapper::encodeKey(e.key, mCurrentModifiers));
+            }
+        }
+
         int mod = getModifierCode(e);
         if (mod != 0)
         {
             mCurrentModifiers |= mod;
         }
 
-		if (sendKeyToCeGui(e)) 
-		{   // Send all events to CEGUI
-			CEGUI::System& cegui = CEGUI::System::getSingleton();
-			cegui.injectKeyDown(e.key);
-			cegui.injectChar(e.text);
-			return true;
-		}
-
-        if (mCharacterController != NULL)
-        {
-            mCharacterController->injectKeyDown(CommandMapper::encodeKey(e.key, mCurrentModifiers));
-        }
-		return true;
+        return true;
 	}
 
 	bool InputManager::keyReleased(const OIS::KeyEvent& e)
@@ -290,28 +303,28 @@ namespace rl {
 		{
 			CEGUI::System& cegui = CEGUI::System::getSingleton();
 			cegui.injectKeyUp(e.key);
-
-			return true;
 		}
-
-        int code = CommandMapper::encodeKey(e.key, mCurrentModifiers);
-        Action* action = ActionManager::getSingleton().getInGameGlobalAction(
-            mCommandMapper->getAction(code, CMDMAP_KEYMAP_GLOBAL));
-        if (action != NULL)
+        else
         {
-            try
+            int code = CommandMapper::encodeKey(e.key, mCurrentModifiers);
+            Action* action = ActionManager::getSingleton().getInGameGlobalAction(
+                mCommandMapper->getAction(code, CMDMAP_KEYMAP_GLOBAL));
+            if (action != NULL)
             {
-                action->doAction(NULL, NULL, NULL);
+                try
+                {
+                    action->doAction(NULL, NULL, NULL);
+                }
+                catch( ScriptInvocationFailedException& sife )
+		        {
+			        LOG_ERROR(Logger::UI, sife.toString() );
+		        }
             }
-            catch( ScriptInvocationFailedException& sife )
-		    {
-			    LOG_ERROR(Logger::UI, sife.toString() );
-		    }
-        }
 
-        if (mCharacterController != NULL)
-        {
-		    mCharacterController->injectKeyUp(e.key);
+            if (mCharacterController != NULL)
+            {
+		        mCharacterController->injectKeyUp(e.key);
+            }
         }
 
         return true;
@@ -353,14 +366,21 @@ namespace rl {
 	int InputManager::getSystemCode(const CeGuiString& name)
 	{
 		if (name == "Alt")
+        {
 			return ALT_MASK;
+        }
 		else if (name == "Ctrl")
+        {
 			return CTRL_MASK;
+        }
 		else if (name == "Shift")
+        {
 			return SHIFT_MASK;
+        }
 		else if (name == "Super")
+        {
 			return SUPER_MASK;
-
+        }
 		return 0;
 	}
 
@@ -368,13 +388,21 @@ namespace rl {
     {
         OIS::KeyCode code = evt.key;
 		if (code == OIS::KC_LMENU || code == OIS::KC_RMENU)
+        {
 			return ALT_MASK;
+        }
         else if (code == OIS::KC_LCONTROL || code == OIS::KC_RCONTROL)
+        {
 			return CTRL_MASK;
-		else if (code == OIS::KC_LSHIFT || code == OIS::KC_RSHIFT)
+        }
+        else if (code == OIS::KC_LSHIFT || code == OIS::KC_RSHIFT)
+        {
 			return SHIFT_MASK;
+        }
         else if (code == OIS::KC_LWIN || code == OIS::KC_RWIN)
+        {
 			return SUPER_MASK;
+        }
 
 		return 0;
     }
@@ -387,11 +415,17 @@ namespace rl {
 		bool active = isCeguiActive();
 
 		if (window->getWindowType() == CeGuiWindow::WND_MOUSE_INPUT)
+		{
 			mNumActiveWindowsMouseInput++;
+        }
 		else if (window->getWindowType() == CeGuiWindow::WND_KEYBOARD_INPUT)
+		{
 			mNumActiveWindowsKeyboardInput++;
+        }
 		else if (window->getWindowType() == CeGuiWindow::WND_ALL_INPUT)
+		{
 			mNumActiveWindowsAllInput++;
+        }
 		
 		if (!active && isCeguiActive()) // war nicht aktiv, sollte jetzt aktiv sein -> anschalten
 		{
@@ -407,16 +441,24 @@ namespace rl {
 	void InputManager::unregisterCeGuiWindow(CeGuiWindow* window)
 	{
 		if (window->getWindowType() == CeGuiWindow::WND_SHOW)
+		{
 			return;
+        }
 
 		bool active = isCeguiActive();
 
 		if (window->getWindowType() == CeGuiWindow::WND_MOUSE_INPUT)
+		{
 			mNumActiveWindowsMouseInput--;
+        }
 		else if (window->getWindowType() == CeGuiWindow::WND_KEYBOARD_INPUT)
+		{
 			mNumActiveWindowsKeyboardInput--;
+        }
 		else if (window->getWindowType() == CeGuiWindow::WND_ALL_INPUT)
+		{
 			mNumActiveWindowsAllInput--;
+        }
 
 		if (active && !isCeguiActive()) // war aktiv, sollte nicht mehr aktiv sein -> ausschalten
 		{
@@ -432,14 +474,18 @@ namespace rl {
         {
             if( mKeyDown[i] && up )
             {
-                if( mCharacterController != NULL )
+                if (mCharacterController != NULL)
+                {
                     mCharacterController->injectKeyUp( i );
+                }
                 mKeyDown[i] = false;
             }
             else if( mKeyDown[i] && !up ) 
             {
-                if( mCharacterController != NULL )
+                if (mCharacterController != NULL)
+                {
                     mCharacterController->injectKeyDown( i );
+                }
             }
         }
     }
@@ -530,6 +576,37 @@ namespace rl {
         //res.setNull();
 	}
 
+    const CEGUI::utf8& InputManager::getKeyChar(int scancode, int modifiers) const
+    {
+        static const CEGUI::utf8 NO_CHAR = 0;
+
+        const KeyCharMap* charmap = NULL;
+
+        if (modifiers == 0)
+        {
+            charmap = &mKeyMapNormal;
+        }
+        else if (modifiers == ALT_MASK)
+        {
+            charmap = &mKeyMapAlt;
+        }
+        else if (modifiers == SHIFT_MASK)
+        {
+            charmap = &mKeyMapShift;
+        }
+
+        if (charmap != NULL)
+        {
+            KeyCharMap::const_iterator charIt = charmap->find(scancode);
+            if (charIt != charmap->end())
+            {
+                return (*charIt).second;
+            }
+        }
+
+        return NO_CHAR;
+    }
+
     void InputManager::loadCommandMapping(const Ogre::String& filename)
     {
         if (mCommandMapper == NULL)
@@ -538,80 +615,6 @@ namespace rl {
         }
 		mCommandMapper->loadCommandMap(filename);
     }
-
-	//void InputManager::setObjectPickingActive(bool active)
-	//{
-	//	mPickObjects = active;
-	//	if (!mPickObjects)
-	//	{
- //           // Altes Picking entfernen
- //           if (mTargetedObject != NULL && mTargetedObject->getActor() != NULL ) 
-	//			mTargetedObject->getActor()->setHighlighted(false);
-
-	//		mTargetedObject = NULL;
-	//		WindowFactory::getSingleton().showObjectDescription(NULL);
-	//	}
-	//}
-
- //   void InputManager::updatePickedObject(float mouseRelX, float mouseRelY)
- //   {
- //       Actor* actor = ActorManager::getSingleton().getActorAt(mouseRelX, mouseRelY, 30, 7);
-
- //       // Keine Highlights in Cutscene oder Dialog
- //       if( actor != NULL )
-	//	{
- //           // Altes Highlight entfernen
-	//		if (mTargetedObject != NULL &&
- //               mTargetedObject->getActor() != NULL &&
- //               actor != mTargetedObject->getActor() )
- //           {
-	//			mTargetedObject->getActor()->setHighlighted(false);
- //           }
-
- //           // Nur ein Highlight wenn es auch ein dazugehöriges GameObject gibt
-	//		if( actor->getGameObject() != NULL)
- //           {
-	//			GameObject* targetedObject = static_cast<GameObject*>(actor->getGameObject());
-	//			if (targetedObject->isHighlightingEnabled())
-	//			{
-	//				if (targetedObject != mTargetedObject)
-	//				{
-	//				    actor->setHighlighted(true);
-	//					mTargetedObject = targetedObject;
-	//					// mTargetedObjectTime = CoreSubsystem::getSingleton().getClock();
-	//					// WindowFactory::getSingleton().showObjectName(targetedObject);
-	//				}
-	//				//else
-	//				//{
-	//				//	if (CoreSubsystem::getSingleton().getClock()
-	//				//		- mTargetedObjectTime 
-	//				//		> TIME_SHOW_DESCRIPTION)
-	//				//	{
-	//				//		WindowFactory::getSingleton().showObjectDescription(mTargetedObject);
-	//				//	}
-	//				//}
-	//			}
- //           }
-	//	}
- //       // Nichts mehr angewählt
-	//	else
-	//	{
-	//		if (mTargetedObject != NULL && mTargetedObject->getActor() != NULL ) 
-	//		{
-	//			mTargetedObject->getActor()->setHighlighted(false);
-	//			//mTargetedObjectTime = 0;
-	//			//WindowFactory::getSingleton().showObjectName(NULL);
-	//			//WindowFactory::getSingleton().showObjectDescription(NULL);
-	//		}
-
-	//		mTargetedObject = NULL;
-	//	}
- //   }
-
-	//GameObject* InputManager::getPickedObject()
-	//{
-	//	return mTargetedObject;
-	//}
 
     const Ogre::String& InputManager::getName() const
     {

@@ -79,19 +79,29 @@ namespace rl {
 
 		// Determine character's control state based on user input
 		if (movement & MOVE_FORWARD)
+        {
 			translation.z = -mMovementSpeed;
+        }
 
 		if (movement & MOVE_BACKWARD)
-			translation.z = mMovementSpeed;
+        {
+            translation.z = mMovementSpeed;
+        }
 
 		if (movement & MOVE_RIGHT)
+        {
 			translation.x = mMovementSpeed;
+        }
 
 		if (movement & MOVE_LEFT)
+        {
 			translation.x = -mMovementSpeed;
+        }
 
 		if (movement & MOVE_RUN)
+        {
 			translation *= 4.0;
+        }
 
 		mMovementSpeed += im->getMouseRelativeZ() * mSpeedIncrement;
 		if (mMovementSpeed < mSpeedRange.first)

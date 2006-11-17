@@ -102,9 +102,6 @@ namespace rl {
 		mRotationSpeed
 			= ConfigurationManager::getSingleton().getIntSetting("mouse_sensitivity", 4);
 
-
-
-
         // The relationCoefficient determines the relation between spring accel in target direction
         // and damping in velocity direction. 1.0 means equilibrium is reached in optimal time
         // smaller 1.0 means spring accel is stronger and thus cam shoots over the target, resulting
@@ -114,8 +111,6 @@ namespace rl {
         mLinearDampingK = relationCoefficient * 2.0f * Math::Sqrt(mLinearSpringK);
         mRotLinearDampingK = relationCoefficient * 2.0f * Math::Sqrt(mRotLinearSpringK);
 
-
-
 		// Offset for the look at point,
 		// so the cam does look at the characters head instead of the feet.
 		MeshObject* charMesh = dynamic_cast<MeshObject*>(
@@ -124,7 +119,6 @@ namespace rl {
 
         // wird später neu berechnet in calculateOptimalCameraPosition
         mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45f, 0);
-
 
 		// The actor should be controlled manually,
 		// so let the PM prepare it accordingly
@@ -1166,7 +1160,9 @@ ss << "'head'-bone NOT found; ";
 
 	bool MovementCharacterController::injectKeyDown(int keycode)
 	{
-		int movement = mCommandMapper->getMovement(keycode);
+        int scancode;
+        mCommandMapper->decodeKey(keycode, &scancode, NULL);
+		int movement = mCommandMapper->getMovement(scancode);
 
 		if (movement != MOVE_NONE)
 		{
@@ -1178,7 +1174,9 @@ ss << "'head'-bone NOT found; ";
 
 	bool MovementCharacterController::injectKeyUp(int keycode)
 	{
-		int movement = mCommandMapper->getMovement(keycode);
+        int scancode;
+        mCommandMapper->decodeKey(keycode, &scancode, NULL);
+		int movement = mCommandMapper->getMovement(scancode);
 
 		if (movement != MOVE_NONE)
 		{

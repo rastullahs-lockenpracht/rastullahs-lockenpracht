@@ -89,7 +89,6 @@ namespace rl {
         virtual const Ogre::String& getName() const;
 
     private:
-        static const int TIME_SHOW_DESCRIPTION = 4000;
         enum { NUM_MOUSE_BUTTON=4, NUM_KEYS=256 };
         enum Modifiers {ALT_MASK = 1, CTRL_MASK = 2, SHIFT_MASK = 4, SUPER_MASK = 8};
 
@@ -97,6 +96,7 @@ namespace rl {
         bool sendKeyToCeGui(const OIS::KeyEvent& e) const;
         void resetPressedKeys( bool up );
         const int getModifierCode(const OIS::KeyEvent& e) const;
+        const CEGUI::utf8& getKeyChar(int keycode, int modifiers) const;
 
 		Ogre::Vector3 mSavedMouseState;
         bool mKeyDown[NUM_KEYS];
@@ -107,7 +107,6 @@ namespace rl {
 
         unsigned short mScreenX;
         unsigned short mScreenY;
-        bool mBuffered, mEventInitialized, mInputInitialized;			
 
         CommandMapper* mCommandMapper;
 
