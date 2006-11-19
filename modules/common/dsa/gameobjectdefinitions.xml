@@ -46,6 +46,6 @@
 	    str_classid="leather backpack"
 		str_classname="Container" 
 		str_description="Ein Lederrucksack (oder so)"
-		str_meshfile="ver_truhe_gross01.mesh"/>
+		str_meshfile="ins_rucksack.mesh"/>
 
 </GameObjectDefinitions>

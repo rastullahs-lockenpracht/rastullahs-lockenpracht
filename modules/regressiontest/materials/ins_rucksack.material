@@ -6,7 +6,7 @@ material SOLID/TEX/rucksack.png
 		{
 			texture_unit
 			{
-				texture rucksack.png
+				texture ins_rucksack.png
 			}
 		}
 	}

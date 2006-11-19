@@ -38,7 +38,7 @@ class Hero < Person
 	inv.addSlot("Left Hand", "l_hand", Item::ITEMTYPE_ALL_ITEMS);
 	inv.addSlot("Right Hand", "r_hand", Item::ITEMTYPE_ALL_ITEMS);
 	inv.addSlot("Head", "kopf", Item::ITEMTYPE_HELMET);
-	inv.addSlot("Back", "brust", Item::ITEMTYPE_ALL_ITEMS);
+	inv.addSlot("Back", "hals", Item::ITEMTYPE_ALL_ITEMS);
 
 #       addSounds()
         $SCRIPT.log("done.");
