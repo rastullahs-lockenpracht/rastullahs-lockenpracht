@@ -8,6 +8,8 @@ class InventoryTest < TestCase
     hero = $GOM.getGameObjectProxy(1).getGameObject();
     backpack = $GOM.createGameObjectProxy("leather backpack").getGameObject();
     backpack.setVolume(5, 5);
+    #backpack.setPosition(center);
+    #backpack.placeIntoScene();
     
     p "InventoryTest #1: Put an object a creature's slot."
     hero.getInventory().hold(backpack, "Back");
