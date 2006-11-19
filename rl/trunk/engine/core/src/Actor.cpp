@@ -505,34 +505,47 @@ namespace rl {
             "Aktor "+mName+": Der Aktor ist bereits an einen anderen Aktor angefügt." );
 
         // Verschiebung durch den Child-Slot berechnen
-        // Ist es ein nicht Standard-Slot && Kontrolliert der Aktor ein Objekt && Ist dieses ein Mesh
-        if( childSlot.compare(DEFAULT_SLOT_NAME) != 0 &&
-            actor->getControlledObject() != NULL && 
+        // Kontrolliert der Aktor ein Objekt && Ist dieses ein Mesh
+        if( actor->getControlledObject() != NULL && 
             actor->getControlledObject()->isMeshObject() )
         {
             Entity* ent = dynamic_cast<MeshObject*>(actor->getControlledObject())->getEntity();
 
-            // Braucht ein Skelett
+			bool useDefaultBone = childSlot == DEFAULT_SLOT_NAME;
+
+			// An Bone anfuegen braucht ein Skelett
             if( !ent->hasSkeleton() )
-                Throw(IllegalArgumentException, 
-                "Aktor "+mName+": Das kontrollierte MeshObject des ChildAktor hat kein Skeleton." );
+			{
+				if (!useDefaultBone)
+				{
+					LOG_ERROR(
+						Logger::CORE, 
+						"Aktor "+mName+": Das kontrollierte MeshObject des ChildAktor hat kein Skeleton." );
+				}
+			}
+			else
+			{
+				// Wenn der Slot existiert, dann 
+				try
+				{
+					Bone* bone = ent->getSkeleton()->getBone( childSlot );
 
-            // Der Slot muss existieren
-            try
-            {
-                Bone* bone = ent->getSkeleton()->getBone( childSlot );
+					Vector3 vec = bone->_getDerivedPosition();
+					Quaternion quat = bone->_getDerivedOrientation();
 
-                Vector3 vec = bone->_getDerivedPosition();
-                Quaternion quat = bone->_getDerivedOrientation();
-
-                // Durch den Bone ExtraOffset hinzufügen
-                offsetOrientationMod = offsetOrientation *  quat;
-                offsetPositionMod = ( offsetOrientationMod * (-vec) ) + offsetPosition;
-            }
-            catch (Ogre::Exception) {
-                Throw(IllegalArgumentException, 
-                    "Aktor "+mName+": Der geforderte Slot '"+childSlot+"' am ChildAktor existiert nicht." );
-            }
+					// Durch den Bone ExtraOffset hinzufügen
+					offsetOrientationMod = offsetOrientation *  quat;
+					offsetPositionMod = ( offsetOrientationMod * (-vec) ) + offsetPosition;
+				}
+				catch (Ogre::Exception) 
+				{
+					if (!useDefaultBone)
+					{
+						LOG_ERROR(Logger::CORE, 
+							"Aktor "+mName+": Der geforderte Slot '"+childSlot+"' am ChildAktor existiert nicht." );
+					}
+				}
+			}
         }
 
         // Das wirkliche Anfügen
