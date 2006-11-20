@@ -23,6 +23,9 @@ namespace rl
 {
     const Ogre::String Armor::CLASS_NAME = "Armor";
 
+    const Ogre::String Armor::PROPERTY_G_BE = "g_be";
+    const Ogre::String Armor::PROPERTY_G_RS = "g_rs";
+
 	Armor::Armor(unsigned int id)
 		: Item(id)
 	{
@@ -129,5 +132,45 @@ namespace rl
 		mGBE = gbe;
 	}
 
+    void Armor::setProperty(const Ogre::String &key, const rl::Property &value)
+    {
+        if (key == Armor::PROPERTY_G_BE)
+        {
+            mGBE = value.toInt();
+        }
+        else if (key == Armor::PROPERTY_G_RS)
+        {
+            mGRS = value.toInt();
+        }
+        else
+        {
+            Item::setProperty(key, value);
+        }
+    }
+
+    const Property Armor::getProperty(const Ogre::String &key) const
+    {
+        if (key == Armor::PROPERTY_G_BE)
+        {
+            return Property(mGBE);
+        }
+        else if (key == Armor::PROPERTY_G_RS)
+        {
+            return Property(mGRS);
+        }
+        else
+        {
+            return Item::getProperty(key);
+        }
+    }
+
+    PropertySet* Armor::getAllProperties() const
+    {
+        PropertySet* ps = Item::getAllProperties();
+        ps->setProperty(Armor::PROPERTY_G_BE, Property(mGBE));
+        ps->setProperty(Armor::PROPERTY_G_RS, Property(mGRS));
+
+        return ps;
+    }
 }
 

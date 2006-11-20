@@ -798,6 +798,10 @@ namespace rl
 		 **/
 		void addEffect(Effect* effect);
 
+        virtual const Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const Property& value);
+        virtual PropertySet* getAllProperties() const;
+
     protected:
         /**
          * Liefert den Eigenschaftswert \a eigenschaftName fuer eine 

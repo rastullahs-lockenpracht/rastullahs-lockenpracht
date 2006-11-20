@@ -32,13 +32,13 @@ namespace rl
 
     const Ogre::String GameObject::CLASS_NAME = "GameObject";
 
-    const Ogre::String GameObject::POSITION = "vec_position"; 
-    const Ogre::String GameObject::ORIENTATION = "quat_orientation"; 
-    const Ogre::String GameObject::NAME = "str_name"; 
-    const Ogre::String GameObject::DESCRIPTION = "str_description"; 
-    const Ogre::String GameObject::MESHFILE = "str_meshfile"; 
-    const Ogre::String GameObject::GEOMETRY_TYPE = "int_geometrytype"; 
-    const Ogre::String GameObject::MASS = "real_mass"; 
+    const Ogre::String GameObject::PROPERTY_POSITION = "vec_position"; 
+    const Ogre::String GameObject::PROPERTY_ORIENTATION = "quat_orientation"; 
+    const Ogre::String GameObject::PROPERTY_NAME = "str_name"; 
+    const Ogre::String GameObject::PROPERTY_DESCRIPTION = "str_description"; 
+    const Ogre::String GameObject::PROPERTY_MESHFILE = "str_meshfile"; 
+    const Ogre::String GameObject::PROPERTY_GEOMETRY_TYPE = "int_geometrytype"; 
+    const Ogre::String GameObject::PROPERTY_MASS = "real_mass"; 
 
     GameObject::GameObject(unsigned int id)
 		:   mId(id),
@@ -358,31 +358,31 @@ namespace rl
     const Property GameObject::getProperty(const Ogre::String& key) const
     {
         Property prop;
-        if (key == POSITION)
+        if (key == PROPERTY_POSITION)
         {
             prop.setValue(getPosition());
         }
-        else if (key == ORIENTATION)
+        else if (key == PROPERTY_ORIENTATION)
         {
             prop.setValue(getOrientation());
         }
-        else if (key == NAME)
+        else if (key == PROPERTY_NAME)
         {
             prop.setValue(mName);
         }
-        else if (key == DESCRIPTION)
+        else if (key == PROPERTY_DESCRIPTION)
         {
             prop.setValue(mDescription);
         }
-        else if (key == MESHFILE)
+        else if (key == PROPERTY_MESHFILE)
         {
             prop.setValue(mMeshfile);
         }
-        else if (key == GEOMETRY_TYPE)
+        else if (key == PROPERTY_GEOMETRY_TYPE)
         {
             prop.setValue(mGeometryType);
         }
-        else if (key == MASS)
+        else if (key == PROPERTY_MASS)
         {
             prop.setValue(mMass);
         }
@@ -398,31 +398,31 @@ namespace rl
     {
         try 
         {
-            if (key == POSITION)
+            if (key == PROPERTY_POSITION)
             {
                 setPosition(value.toVector());
             }
-            else if (key == ORIENTATION)
+            else if (key == PROPERTY_ORIENTATION)
             {
                 setOrientation(value.toQuaternion());
             }
-            else if (key == NAME)
+            else if (key == PROPERTY_NAME)
             {
                 setName(value.toString());
             }
-            else if (key == DESCRIPTION)
+            else if (key == PROPERTY_DESCRIPTION)
             {
                 setDescription(value.toString());
             }
-            else if (key == MESHFILE)
+            else if (key == PROPERTY_MESHFILE)
             {
                 setMeshfile(value.toString());
             }
-            else if (key == GEOMETRY_TYPE)
+            else if (key == PROPERTY_GEOMETRY_TYPE)
             {
                 setGeometryType(static_cast<PhysicsManager::GeometryType>(value.toInt()));
             }
-            else if (key == MASS)
+            else if (key == PROPERTY_MASS)
             {
                 Ogre::Real mass;
                 if (value.isInt())
@@ -453,13 +453,13 @@ namespace rl
     PropertySet* GameObject::getAllProperties() const
     {
         PropertySet* ps = new PropertySet();
-        ps->setProperty(NAME, Property(mName));
-        ps->setProperty(DESCRIPTION, Property(mDescription));
-        ps->setProperty(POSITION, Property(getPosition()));
-        ps->setProperty(ORIENTATION, Property(getOrientation()));
-        ps->setProperty(MESHFILE, Property(mMeshfile));
-        ps->setProperty(GEOMETRY_TYPE, Property(mGeometryType));
-        ps->setProperty(MASS, Property(mMass));
+        ps->setProperty(PROPERTY_NAME, Property(mName));
+        ps->setProperty(PROPERTY_DESCRIPTION, Property(mDescription));
+        ps->setProperty(PROPERTY_POSITION, Property(getPosition()));
+        ps->setProperty(PROPERTY_ORIENTATION, Property(getOrientation()));
+        ps->setProperty(PROPERTY_MESHFILE, Property(mMeshfile));
+        ps->setProperty(PROPERTY_GEOMETRY_TYPE, Property(mGeometryType));
+        ps->setProperty(PROPERTY_MASS, Property(mMass));
 
         return ps;
     }

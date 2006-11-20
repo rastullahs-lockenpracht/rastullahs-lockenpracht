@@ -399,14 +399,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\Container.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\Creature.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\Date.h"
 				>
 			</File>
@@ -432,10 +424,6 @@
 			</File>
 			<File
 				RelativePath=".\include\EigenschaftenStateSet.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\GameObject.h"
 				>
 			</File>
 			<File
@@ -472,10 +460,6 @@
 			</File>
 			<File
 				RelativePath=".\include\ObjectStateChangeListener.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\Person.h"
 				>
 			</File>
 			<File
@@ -551,10 +535,22 @@
 				>
 			</File>
 			<Filter
-				Name="items"
+				Name="game objects"
 				>
 				<File
 					RelativePath=".\include\Armor.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\Container.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\Creature.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\GameObject.h"
 					>
 				</File>
 				<File
@@ -562,11 +558,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\ItemDataLoader.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\ItemManager.h"
+					RelativePath=".\include\Person.h"
 					>
 				</File>
 				<File

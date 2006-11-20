@@ -1075,4 +1075,41 @@ namespace rl
 		/// @todo Nur einmal pro Aktion ausfuehren
 		mEffectManager.checkEffects();
 	}
+
+    void Creature::setProperty(const Ogre::String &key, const rl::Property &value)
+    {
+        //if (key == Creature::PROPERTY_)
+        //{
+        //    mImageName = value.toString();
+        //}
+        //else
+        //{
+            GameObject::setProperty(key, value);
+        //}
+    }
+
+    const Property Creature::getProperty(const Ogre::String &key) const
+    {
+        //if (key == Item::PROPERTY_IMAGENAME)
+        //{
+        //    return Property(mImageName);
+        //}
+        //else if (key == Item::PROPERTY_SIZE)
+        //{
+        //    return Property(mSize);
+        //}
+        //else
+        //{
+            return GameObject::getProperty(key);
+        //}
+    }
+
+    PropertySet* Creature::getAllProperties() const
+    {
+        PropertySet* ps = GameObject::getAllProperties();
+        //ps->setProperty(Item::PROPERTY_IMAGENAME, Property(mImageName));
+        //ps->setProperty(Item::PROPERTY_SIZE, Property(mSize));
+
+        return ps;
+    }
 }

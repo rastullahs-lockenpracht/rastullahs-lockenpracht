@@ -25,14 +25,15 @@ namespace rl
 {
     const Ogre::String Item::CLASS_NAME = "Item";
 
+    const Ogre::String Item::PROPERTY_IMAGENAME = "imagename";
+    const Ogre::String Item::PROPERTY_ITEMTYPE = "itemtype";
+    const Ogre::String Item::PROPERTY_SIZE = "size";
+
     Item::Item(unsigned int id)
         : GameObject(id),
 		mWeight(0),
 		mItemType(ITEMTYPE_OTHER),
 		mImageName(""),
-		mIsContainer(false),
-		mContainerLayout(),
-		mCapacity(make_pair<int,int>(0,0)),
 		mSize(pair<int,int>(1,1))
     {
         mQueryFlags = QUERYFLAG_ITEM;
@@ -181,40 +182,9 @@ namespace rl
 	}
 
 
-	bool Item::isContainer()
+	bool Item::isContainer() const
 	{
-		return mIsContainer;
-	}
-
-    void Item::setContainer(bool isContainer, pair<int,int> dim)
-	{
-		mIsContainer = isContainer;
-		mCapacity = dim;
-		if (isContainer) {
-			initContainer();
-		}
-	}
-
-	pair<int,int> Item::getCapacity()
-	{
-		return mCapacity;
-	}
-
-	void Item::initContainer()
-	{
-		mContainerLayout = ContainerLayout(mCapacity.first);
-
-		for (unsigned z = 0; z< mContainerLayout.size(); z++){
-			ContainerColumn temp = ContainerColumn(mCapacity.second);
-			mContainerLayout[z] = temp;
-		}
-		
-		for (unsigned int x = 0; x < mContainerLayout.size(); x++){
-			for (unsigned int y = 0; y < mContainerLayout[0].size(); y++){
-				mContainerLayout[x][y] = NULL;
-			}
-		}
-
+		return false;
 	}
 
 	pair<int,int> Item::getSize()
@@ -225,11 +195,6 @@ namespace rl
 	void Item::setSize(int widthSize,int heightSize)
 	{
 		mSize = pair<int,int>(widthSize,heightSize);
-	}
-
-	ContainerLayout &Item::getContainerLayout()
-	{
-		return mContainerLayout;
 	}
 
     void Item::hold()
@@ -323,5 +288,55 @@ namespace rl
         {
             GameObject::setState(targetstate);
         }
+    }
+
+    void Item::setProperty(const Ogre::String &key, const rl::Property &value)
+    {
+        if (key == Item::PROPERTY_IMAGENAME)
+        {
+            mImageName = value.toString();
+        }
+        else if (key == Item::PROPERTY_SIZE)
+        {
+            mSize = value.toIntPair();
+        }
+        else if (key == Item::PROPERTY_ITEMTYPE)
+        {
+            mItemType = static_cast<Item::ItemType>(value.toInt());
+        }
+        else
+        {
+            GameObject::setProperty(key, value);
+        }
+    }
+
+    const Property Item::getProperty(const Ogre::String &key) const
+    {
+        if (key == Item::PROPERTY_IMAGENAME)
+        {
+            return Property(mImageName);
+        }
+        else if (key == Item::PROPERTY_SIZE)
+        {
+            return Property(mSize);
+        }
+        else if (key == Item::PROPERTY_ITEMTYPE)
+        {
+            return Property(mItemType);
+        }
+        else
+        {
+            return GameObject::getProperty(key);
+        }
+    }
+
+    PropertySet* Item::getAllProperties() const
+    {
+        PropertySet* ps = GameObject::getAllProperties();
+        ps->setProperty(Item::PROPERTY_IMAGENAME, Property(mImageName));
+        ps->setProperty(Item::PROPERTY_SIZE, Property(mSize));
+        ps->setProperty(Item::PROPERTY_ITEMTYPE, Property(mItemType));
+
+        return ps;
     }
 }

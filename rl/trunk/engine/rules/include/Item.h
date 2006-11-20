@@ -54,8 +54,11 @@ namespace rl
 
         static const Ogre::String CLASS_NAME;
 
-		Item(unsigned int id);
+        static const Ogre::String PROPERTY_ITEMTYPE;
+        static const Ogre::String PROPERTY_IMAGENAME;
+        static const Ogre::String PROPERTY_SIZE;
 
+		Item(unsigned int id);
         virtual ~Item(void);
 
 		const CeGuiString getDescription() const;
@@ -78,12 +81,7 @@ namespace rl
 		 * @return ob es sich um ein Item handelt,
 		 * in dem andere gespeichert werden können
 		 */
-		bool isContainer();
-		
-		void setContainer(bool isContainer, std::pair<int,int> dim = std::make_pair(0,0) );
-
-		ContainerLayout &getContainerLayout();
-		std::pair<int,int> getCapacity();
+        virtual bool isContainer() const;
 		
 		std::pair<int,int> getSize();
 		void setSize(int width, int height);
@@ -91,7 +89,10 @@ namespace rl
         virtual void setState(GameObjectState state);
         void hold();
 
-		
+        virtual const Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const Property& value);
+        virtual PropertySet* getAllProperties() const;
+
     protected:
         /// Masse in Unzen.
         Ogre::Real mWeight;
@@ -102,10 +103,6 @@ namespace rl
 
 		CeGuiString mImageName;
 
-		bool mIsContainer;
-		ContainerLayout mContainerLayout;
-		std::pair<int,int> mCapacity;
-
 		std::pair<int,int> mSize;
 
 
@@ -115,33 +112,7 @@ namespace rl
 		* @return CeGuiString der Text mit eingefügten Enter-symbolen
 		*/
 		static CeGuiString getFormattedText(const CeGuiString &unformattedText);
-
-	private:
-
-		/**
-		* initiiert einen Container mit null-pointern
-		* gemaess der Kapazitaet des Items
-		*/
-		void initContainer();
     };
-
-    class ItemByIdOrdering : public std::binary_function<Item*, Item*, bool> {
-    public:
-        bool operator()(const Item* const lhs, const Item* const rhs)
-        {
-            return lhs->getId() < rhs->getId();
-        }
-    };
-
-    class FindItemById : public std::binary_function<int, Item*, bool> {
-    public:
-        bool operator()(int id, const Item* const item) const
-        {
-            return item->getId() == id;
-        }
-    };
-
-    typedef std::set<Item*, ItemByIdOrdering> ItemSet;
 }
 
 #endif

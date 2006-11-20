@@ -53,13 +53,13 @@ namespace rl
 
         static const Ogre::String CLASS_NAME;
 
-        static const Ogre::String POSITION; 
-        static const Ogre::String ORIENTATION; 
-        static const Ogre::String NAME;
-        static const Ogre::String DESCRIPTION; 
-        static const Ogre::String MESHFILE; 
-        static const Ogre::String GEOMETRY_TYPE; 
-        static const Ogre::String MASS; 
+        static const Ogre::String PROPERTY_POSITION; 
+        static const Ogre::String PROPERTY_ORIENTATION; 
+        static const Ogre::String PROPERTY_NAME;
+        static const Ogre::String PROPERTY_DESCRIPTION; 
+        static const Ogre::String PROPERTY_MESHFILE; 
+        static const Ogre::String PROPERTY_GEOMETRY_TYPE; 
+        static const Ogre::String PROPERTY_MASS; 
 
 		static const CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
 

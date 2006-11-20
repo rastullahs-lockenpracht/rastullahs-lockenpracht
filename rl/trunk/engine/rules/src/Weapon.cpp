@@ -131,5 +131,39 @@ namespace rl
 	{
 		return mKampftechnik;
 	}
+
+    void Weapon::setProperty(const Ogre::String &key, const rl::Property &value)
+    {
+        //if (key == Weapon::PROPERTY_IMAGENAME)
+        //{
+        //    mImageName = value.toString();
+        //}
+        //else
+        //{
+            Item::setProperty(key, value);
+        //}
+    }
+
+    const Property Weapon::getProperty(const Ogre::String &key) const
+    {
+        //if (key == Item::PROPERTY_IMAGENAME)
+        //{
+        //    return Property(mImageName);
+        //}
+        //else
+        //{
+            return Item::getProperty(key);
+        //}
+    }
+
+    PropertySet* Weapon::getAllProperties() const
+    {
+        PropertySet* ps = Item::getAllProperties();
+        //ps->setProperty(Item::PROPERTY_IMAGENAME, Property(mImageName));
+        //ps->setProperty(Item::PROPERTY_SIZE, Property(mSize));
+
+        return ps;
+    }
+
 }
 

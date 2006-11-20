@@ -56,6 +56,10 @@ namespace rl
 		void setKampftechnik(const CeGuiString newKampftechnik);
 		const CeGuiString getKampftechnik() const;
 
+        virtual const Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const Property& value);
+        virtual PropertySet* getAllProperties() const;
+
 	private:
 		Tripel<int> mTp;
 		pair<int, int> mTpKk;

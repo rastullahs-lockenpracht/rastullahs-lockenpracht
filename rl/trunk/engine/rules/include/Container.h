@@ -23,10 +23,18 @@
 
 namespace rl
 {
+    typedef set<Item*> ItemSet;
+
     /// Behaelter für Items.
     class _RlRulesExport Container : public Item
     {
     public:
+        static const Ogre::String CLASS_NAME;
+
+        static const Ogre::String PROPERTY_VOLUME;
+        static const Ogre::String PROPERTY_CAPACITY;
+        static const Ogre::String PROPERTY_CONTENT;
+
         Container(unsigned int id);
         virtual ~Container(void);
 
@@ -38,10 +46,12 @@ namespace rl
 
 		// Volumen in x (breite) * y (hoehe)
 		void setVolume(unsigned int x, unsigned int y);
+        pair<unsigned int, unsigned int> getVolume() const;
 
-		pair<unsigned int, unsigned int> getVolume();
+        /// ist dieser Gegenstand ein Container
+        virtual bool isContainer() const;
 
-        /// Liefert Gesamtgewicht des Inhalts.
+		/// Liefert Gesamtgewicht des Inhalts.
         Ogre::Real getContentWeight() const;
         virtual Ogre::Real getWeight() const;
 
@@ -57,6 +67,10 @@ namespace rl
         void putItemAt(Item* item, unsigned int x, unsigned int y);
         bool canPlaceAt(Item* item, unsigned int xPos, unsigned int yPos) const;
         void setItemPosition(Item* item, unsigned int xPos, unsigned int yPos);
+
+        virtual const Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const Property& value);
+        virtual PropertySet* getAllProperties() const;
 
     private:
         Ogre::Real mCapacity;

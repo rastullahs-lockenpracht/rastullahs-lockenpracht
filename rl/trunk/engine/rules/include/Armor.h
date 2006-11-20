@@ -28,6 +28,9 @@ namespace rl
 	public:
         static const Ogre::String CLASS_NAME;
         
+        static const Ogre::String PROPERTY_G_BE;
+        static const Ogre::String PROPERTY_G_RS;
+
         // Konstruktor und Destruktor
 		Armor (unsigned int id);
 		virtual ~Armor();
@@ -63,6 +66,10 @@ namespace rl
 		void setGes(int ges);
 		void setGRS(int grs);
 		void setGBE(int gbe);
+
+        virtual const Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const Property& value);
+        virtual PropertySet* getAllProperties() const;
 
 	private:
 		// Rüstungsschutz

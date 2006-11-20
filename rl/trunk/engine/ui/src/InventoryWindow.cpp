@@ -234,7 +234,7 @@ namespace rl {
 			// Zusätzlich wenn Item Container war, muss Tab entfernt werden (einfach Inventar neu aufbauen)
 			if (item->isContainer())
 			{
-				removeContainerAndContent(item);
+				removeContainerAndContent(dynamic_cast<Container*>(item));
 				refreshTabs();
 			}
 			update();
@@ -259,7 +259,7 @@ namespace rl {
 		if (item->isContainer())
 		{
 			// ContainerTab hinzufügen, wenn nicht schon vorhanden
-			createAndFillContainer(item);
+			createAndFillContainer(dynamic_cast<Container*>(item));
 			refreshTabs();
 
 		}
@@ -447,10 +447,11 @@ namespace rl {
 		}
 	}
 
-	bool InventoryWindow::isFreeInContainer(Item* item, pair<int,int> kaestchenPos, Item* container)
+	bool InventoryWindow::isFreeInContainer(Item* item, pair<int,int> kaestchenPos, Container* container)
 	{
+        return container->canPlaceAt(item, kaestchenPos.first, kaestchenPos.second);
 		//return mInventory->isFreeInContainer(item, kaestchenPos, container);
-        return true;
+        //return true;
 	}
 
 
@@ -493,7 +494,7 @@ namespace rl {
 		mGroundItem->setImageName("Trank");
 		mGroundItem->setItemType(Item::ITEMTYPE_OTHER);
 		mGroundItem->setSize(1,1);
-		mGroundItem->setContainer(true, std::make_pair<int,int>(mGroundDimension.first,mGroundDimension.second));
+		//mGroundItem->setContainer(true, std::make_pair<int,int>(mGroundDimension.first,mGroundDimension.second));
 
 
 		mContainerTabs = getTabControl("InventoryWindow/Tabs");
@@ -608,14 +609,14 @@ namespace rl {
 
 			if (currentItem->isContainer()){
 				// Tab für Item erzeugen, da es als Container funktioniert
-				createAndFillContainer(currentItem);
+				createAndFillContainer(dynamic_cast<Container*>(currentItem));
 			}
 		}
 		// Den Boden hinzufuegen
-		createAndFillContainer(mGroundItem);
+		//createAndFillContainer(mGroundItem);
 	}
 
-	void InventoryWindow::createAndFillContainer(Item* container){
+	void InventoryWindow::createAndFillContainer(Container* container){
 		assert(mContainerContents.size() == mContainers.size());
 
 		std::list<CEGUI::Window*>::iterator it = mContainerContents.begin();
@@ -647,7 +648,7 @@ namespace rl {
 			
 			containerSpace->setVerticalAlignment(CEGUI::VA_CENTRE);
 			containerSpace->setHorizontalAlignment(CEGUI::HA_CENTRE);
-			containerSpace->setWindowSize(UVector2(cegui_absdim(container->getCapacity().first*30), cegui_absdim(container->getCapacity().second*30)));
+            containerSpace->setWindowSize(UVector2(cegui_absdim(container->getVolume().first*30), cegui_absdim(container->getVolume().second*30)));
 			containerSpace->setUserData(container);
 			containerWindow->addChildWindow(containerSpace);
 
@@ -684,24 +685,24 @@ namespace rl {
 			// Items im Container erstellen
 			std::set<Item*> itemsInContainer;
 
-			ContainerLayout temp = container->getContainerLayout();
-			for (unsigned x = 0; x < temp.size(); x++){
-				for (unsigned y = 0; y < temp[0].size(); y++) {
-					if (temp[x][y] != NULL && (itemsInContainer.find(temp[x][y]) == itemsInContainer.end())){
-						DragContainer* itemhandler = createItem(temp[x][y],containerSpace);
-						itemhandler->setPosition(CEGUI::Absolute,CEGUI::Point(x*30,y*30));
-						itemsInContainer.insert(temp[x][y]);
-						LOG_MESSAGE(
-							"InventoryWindow",
-							Ogre::String("erzeuge Bild im Container: ") + temp[x][y]->getName());
-					}
-				}
-			}
+			//ContainerLayout temp = container->getContainerLayout();
+			//for (unsigned x = 0; x < temp.size(); x++){
+			//	for (unsigned y = 0; y < temp[0].size(); y++) {
+			//		if (temp[x][y] != NULL && (itemsInContainer.find(temp[x][y]) == itemsInContainer.end())){
+			//			DragContainer* itemhandler = createItem(temp[x][y],containerSpace);
+			//			itemhandler->setPosition(CEGUI::Absolute,CEGUI::Point(x*30,y*30));
+			//			itemsInContainer.insert(temp[x][y]);
+			//			LOG_MESSAGE(
+			//				"InventoryWindow",
+			//				Ogre::String("erzeuge Bild im Container: ") + temp[x][y]->getName());
+			//		}
+			//	}
+			//}
 		}
 	}
 
 
-	void InventoryWindow::removeContainerAndContent(Item* container)
+	void InventoryWindow::removeContainerAndContent(Container* container)
 	{
 		assert(mContainerContents.size() == mContainers.size());
 		std::list<CEGUI::Window*>::iterator it = mContainerContents.begin();
@@ -800,7 +801,7 @@ namespace rl {
 		slot->subscribeEvent(Window::EventDragDropItemDropped, boost::bind(&InventoryWindow::handleDragDropped,this,_1)); 
 	}
 
-	CEGUI::Window* InventoryWindow::findContainer(Item* container)
+	CEGUI::Window* InventoryWindow::findContainer(Container* container)
 	{
 		std::list<CEGUI::Window*>::iterator it = mContainerContents.begin();
 		while (it != mContainerContents.end())
@@ -1210,7 +1211,7 @@ namespace rl {
 
 			if (isFreeInContainer(
 				static_cast<Item*>(ddea.dragDropItem->getUserData()),
-				newPos, static_cast<Item*>(ddea.window->getUserData())))
+				newPos, static_cast<Container*>(ddea.window->getUserData())))
 			{
 				ddea.window->addChildWindow(ddea.dragDropItem);
 

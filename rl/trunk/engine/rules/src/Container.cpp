@@ -23,6 +23,11 @@ using namespace std;
 
 namespace rl {
 
+    const Ogre::String Container::CLASS_NAME = "Container";
+
+    const Ogre::String Container::PROPERTY_CAPACITY = "capacity";
+    const Ogre::String Container::PROPERTY_VOLUME = "volume";
+
     Container::Container(unsigned int id)
         : Item(id),
           mCapacity(0.0)
@@ -48,6 +53,11 @@ namespace rl {
         mVolume = make_pair(x, y);
     }
 
+    std::pair<unsigned int,unsigned int> Container::getVolume() const
+    {
+        return mVolume;
+    }
+
     Ogre::Real Container::getContentWeight() const
     {
         Ogre::Real rval = 0;
@@ -56,6 +66,11 @@ namespace rl {
             rval += (*it)->getWeight();
         }
         return rval;
+    }
+
+    bool Container::isContainer() const
+    {
+        return true;
     }
 
     ItemSet Container::getItems() const
@@ -208,4 +223,53 @@ namespace rl {
     {
         return mWeight + getContentWeight();
     }
+
+    void Container::setProperty(const Ogre::String &key, const rl::Property &value)
+    {
+        if (key == Container::PROPERTY_CAPACITY)
+        {
+            if (value.isInt())
+            {
+                mCapacity = value.toInt();
+            }
+            else if (value.isReal())
+            {
+                mCapacity = value.toReal();
+            }
+        }
+        else if (key == Container::PROPERTY_VOLUME)
+        {
+            mVolume = value.toIntPair();
+        }
+        else
+        {
+            Item::setProperty(key, value);
+        }
+    }
+
+    const Property Container::getProperty(const Ogre::String &key) const
+    {
+        if (key == Container::PROPERTY_CAPACITY)
+        {
+            return Property(mCapacity);
+        }
+        else if (key == Container::PROPERTY_VOLUME)
+        {
+            return Property(mVolume);
+        }
+        else
+        {
+            return Item::getProperty(key);
+        }
+    }
+
+    PropertySet* Container::getAllProperties() const
+    {
+        PropertySet* ps = Item::getAllProperties();
+        ps->setProperty(Container::PROPERTY_CAPACITY, Property(mCapacity));
+        ps->setProperty(Container::PROPERTY_VOLUME, Property(mVolume));
+
+        return ps;
+    }
+
 }

@@ -43,6 +43,7 @@ namespace rl
 	typedef CEGUI::String CeGuiString;
     typedef std::vector<CeGuiString> CeGuiStringVector;
 	typedef RL_LONGLONG Time; 
+    typedef std::pair<int,int> IntPair;
 }
 
 #include "Logger.h"

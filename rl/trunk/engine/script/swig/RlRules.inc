@@ -381,7 +381,7 @@ namespace rl {
         void removeFromScene();
         
         rl::GameObjectState getState() const;
-        void setState(rl::GameObjectState state);
+        virtual void setState(rl::GameObjectState state);
     };
     
     %feature("director") Item;
@@ -412,6 +412,10 @@ namespace rl {
         
         void setItemType(rl::Item::ItemType itemType);
         rl::Item::ItemType getItemType() const;
+        virtual void setState(rl::GameObjectState state);
+
+        virtual const rl::Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
     };
     
     %feature("director") Weapon;
@@ -437,6 +441,9 @@ namespace rl {
 		Weapon::Distanzklasse getDk();
 		void setKampftechnik(const rl::CeGuiString newKampftechnik);
 		const rl::CeGuiString getKampftechnik() const;
+
+        virtual const rl::Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
     };
     
     %feature("director") Armor;
@@ -445,6 +452,9 @@ namespace rl {
     public:
         Armor(unsigned int id);
         virtual ~Armor();
+
+        virtual const rl::Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
     };
     
     %feature("director") Container;
@@ -463,6 +473,9 @@ namespace rl {
         rl::ItemSet getItems() const;
         int getItemCount() const;
         rl::Item* getItemAt(unsigned int x, unsigned int y);
+
+        virtual const rl::Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
 	};
 	
 	class StateSet
@@ -653,6 +666,9 @@ namespace rl {
         static const int AUDAMAGE_COLD = 2;
         static const int AUDAMAGE_CHOKE = 4;
         static const int AUDAMAGE_DROWN = 8;
+
+        virtual const rl::Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
    };
    
    %feature("director") Person;
@@ -660,6 +676,9 @@ namespace rl {
    {
    public:
 	    Person(unsigned int id);
+
+        virtual const rl::Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
 	};
 		
 	%feature("director") CompositeEffect;	

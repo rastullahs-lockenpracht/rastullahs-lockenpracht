@@ -25,6 +25,7 @@
 namespace rl {
 
 	class Creature;
+    class Item;
 
 	class _RlUiExport InventoryArrangeTask : public GameTask
 	{
@@ -87,7 +88,7 @@ namespace rl {
 		/**
 		* Schaut nach, ob das Item an der Position gedroppt werden kann.
 		*/
-		bool isFreeInContainer(Item* item, pair<int,int> kaestechenPos, Item* container);
+		bool isFreeInContainer(Item* item, pair<int,int> kaestechenPos, Container* container);
 
 
 		Item* getGroundItem();
@@ -213,12 +214,12 @@ namespace rl {
 		/**
 		* Erzeugt ein Tab für den Container, und befuellt ihn nach Inhalt des container - Items
 		*/
-		void createAndFillContainer(Item* container);
+		void createAndFillContainer(Container* container);
 
 		/**
 		* entfernt ein ContainerTab mitsamt Inhalt aus dem Inventar
 		*/
-		void removeContainerAndContent(Item* container);
+		void removeContainerAndContent(Container* container);
 
 		/**
 		* Entleert die Slots im InventarFenster wieder
@@ -231,7 +232,7 @@ namespace rl {
 		/**
 		* Sucht unter den Containern dasjenige, das zum gesuchten Container gehört
 		*/
-		CEGUI::Window* findContainer(Item* container);
+		CEGUI::Window* findContainer(Container* container);
 
 		/**
 		*

@@ -21,6 +21,7 @@
 #include <boost/any.hpp>
 
 #include "Exception.h"
+#include "Tripel.h"
 
 namespace rl {
 
@@ -74,6 +75,8 @@ namespace rl {
         PropertyMethod(Real, const Ogre::Real&);
         PropertyMethod(Vector, const Ogre::Vector3&);
         PropertyMethod(Quaternion, const Ogre::Quaternion&);
+        PropertyMethod(IntTriple, const Tripel<int>);
+        PropertyMethod(IntPair, const IntPair);
         
         void toGameObjectData(Ogre::String& classname, unsigned int& goid) const;
         void setValue(Ogre::String& classname, unsigned int& goid);
