@@ -130,6 +130,7 @@ namespace rl {
     public:
         virtual rl::GameObject* createRubyGameObject(const Ogre::String& classname, unsigned int id) = 0;
         GameObjectFactory();
+        virtual ~GameObjectFactory();
     };
 
     class GameObjectManager
@@ -316,6 +317,16 @@ namespace rl {
 		rl::ObjectStateChangeEventSource* getSource() const; 	 
 	};
 		    
+	enum GameObjectState
+    {
+        GOS_UNDEFINED = 0,
+        GOS_UNLOADED,
+        GOS_LOADED,
+        GOS_IN_POSSESSION,
+        GOS_IN_SCENE,
+        GOS_HELD,
+        GOS_READY
+    };
     
     %feature("director") GameObject;
     class GameObject: public ObjectStateChangeEventSource
@@ -368,6 +379,9 @@ namespace rl {
         
         void placeIntoScene();
         void removeFromScene();
+        
+        rl::GameObjectState getState() const;
+        void setState(rl::GameObjectState state);
     };
     
     %feature("director") Item;
