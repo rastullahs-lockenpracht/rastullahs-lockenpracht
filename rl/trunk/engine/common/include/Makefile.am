@@ -12,6 +12,7 @@ noinst_HEADERS =
 	Logger.h \
 	LinkedPlaylist.h \
 	MathUtil.h \
+	OgreXercesInput.h \
 	PauseObject.h \
 	Playlist.h \
 	SimplePlaylist.h \

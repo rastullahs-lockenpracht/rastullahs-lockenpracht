@@ -10,6 +10,7 @@ libRlCommon_la_SOURCES = \
   Logger.cpp \
   LinkedPlaylist.cpp \
   MathUtil.cpp \
+  OgreXercesInput.cpp \
   PauseObject.cpp \
   Playlist.cpp \
   PlaylistEvent.cpp \

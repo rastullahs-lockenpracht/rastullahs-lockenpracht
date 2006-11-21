@@ -229,6 +229,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\OgreXercesInput.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\PauseObject.cpp"
 				>
 			</File>
@@ -338,6 +342,10 @@
 			</File>
 			<File
 				RelativePath=".\include\MathUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\OgreXercesInput.h"
 				>
 			</File>
 			<File
