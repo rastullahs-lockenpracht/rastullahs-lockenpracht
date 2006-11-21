@@ -185,9 +185,19 @@ AC_SUBST(RUBY_CFLAGS)
 AC_SUBST(RUBY_LIBS)
 AC_SUBST(PLUGIN_DIRS)
 
+dnl Test for modified swig version
 SWIG_PROG(1.3.29-pantheon)
 SWIG_ENABLE_CXX
 SWIG_RUBY
+
+dnl Define the directory, where RL should look for modules
+if test "x${prefix}" = "xNONE"; then
+	prefix=${ac_default_prefix}
+fi
+dnl Must double eval here, to replace ${datadir} and after that ${prefix}
+eval RL_MODULE_DIR="${datadir}"
+eval RL_MODULE_DIR="${RL_MODULE_DIR}/rl"
+AC_SUBST(RL_MODULE_DIR)
 
 dnl Create the makefiles
 AC_CONFIG_FILES([Makefile \
