@@ -34,7 +34,7 @@ class HeroPosWriter
 end
 
 $hpw = HeroPosWriter.new()
-p "Aktuelle Spielerposition in Log schreiben mit '$hpw.writePos'"
+print "Aktuelle Spielerposition in Log schreiben mit '$hpw.writePos'"
 
 class RubyGameObjectFactory < GameObjectFactory
   def initialize()
