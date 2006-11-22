@@ -22,6 +22,10 @@ class CommonModule < ContentModule
     end
 
     def start()
+	UiSubsystem.getSingleton().initializeSubsystem()
+
+	load "globals.rb"
+	load "startup-global.rb"	
     end
 end
 
