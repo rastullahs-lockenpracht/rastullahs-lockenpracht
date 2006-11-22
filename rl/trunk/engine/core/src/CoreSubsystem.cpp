@@ -107,36 +107,22 @@ namespace rl {
     {
         loadPlugins();
 
-		mRubyInterpreter->executeFile("globals.rb");
-		mRubyInterpreter->executeFile("startup-global.rb");
 		mInitialized = true;
 
 		if (mDefaultActiveModule == "")
 		{
-			mRubyInterpreter->executeFile("startup-global-mainmenu.rb");
+			mDefaultActiveModule = "intro"; ///@fixme replace by last active
+		}
+
+
+		ContentModule* mod = getModule(mDefaultActiveModule);
+		if (mod == NULL)
+		{
+			Throw(rl::RuntimeException, "Module "+mDefaultActiveModule+" not found");
 		}
 		else
 		{
-			ContentModule* mod = getModule(mDefaultActiveModule);
-			if (mod == NULL)
-			{
-				Throw(rl::RuntimeException, "Module "+mDefaultActiveModule+" not found");
-			}
-			else if (mod->getMinimumEngineVersion() > ConfigurationManager::getSingleton().getEngineBuildNumber())
-			{
-				Throw(
-					rl::RuntimeException, 
-					"Module "
-					+ Ogre::String(mod->getName().c_str())
-					+ " needs engine >"
-					+ StringConverter::toString(mod->getMinimumEngineVersion())
-					+ " but engine is "
-					+ StringConverter::toString(ConfigurationManager::getSingleton().getEngineBuildNumber()));
-			}
-			else
-			{
-				startAdventureModule(mod);
-			}
+			startAdventureModule(mod);
 		}
 
         Root::getSingleton().startRendering();
@@ -262,6 +248,14 @@ namespace rl {
             "FileSystem", 
 			ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
+        ResourceGroupManager::getSingleton().addResourceLocation(
+			ConfigurationManager::getSingleton().
+                getConfigModulePath(), 
+            "FileSystem", 
+			ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+        mConfigurationManager->loadConfig();
+
         // Laden mittels eines Configfiles
         ConfigFile cf;
         cf.load(mConfigurationManager->getModulesCfgPath());
@@ -286,21 +280,16 @@ namespace rl {
 						rl::RuntimeException,
 						ContentModule::getInitFile(value) + " did not register module '"+value+"'");
 				}
-				else
-				{
-					if (module->isCommon())
-					{
-						module->initializeTextures();
-						module->initialize();
-					}
-				}
+				//else
+				//{
+				//	if (module->isCommon())
+				//	{
+				//		module->initializeTextures();
+				//		module->initialize();
+				//	}
+				//}
             }
         }
-
-        ResourceGroupManager::getSingleton()
-            .initialiseResourceGroup(ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-
-        precreateTextures();
     }
 
     void CoreSubsystem::precreateTextures()
@@ -393,25 +382,76 @@ namespace rl {
 
     void CoreSubsystem::startAdventureModule(ContentModule* module)
     {
-		if (mActiveAdventureModule != NULL)
+        if (mActiveAdventureModule != NULL)
 		{
 	        mActiveAdventureModule->unload();
 		}
 
+        //mCoreEventCaster.dispatchEvent(new DataLoadedEvent(0.0));
+
+		updateDefaultScheme();
+        loadModule(module);
+        mActiveAdventureModule = module;
+
+        //mCoreEventCaster.dispatchEvent(new DataLoadedEvent(100.0));
+
+        module->start();
+    }
+
+    void CoreSubsystem::loadModule(ContentModule* module)
+    {
+        if (module->getMinimumEngineVersion() 
+            > ConfigurationManager::getSingleton().getEngineBuildNumber())
+		{
+			Throw(
+				rl::RuntimeException, 
+				"Module "
+				+ Ogre::String(module->getName().c_str())
+				+ " needs engine >="
+				+ StringConverter::toString(module->getMinimumEngineVersion())
+				+ " but engine is "
+				+ StringConverter::toString(ConfigurationManager::getSingleton().getEngineBuildNumber()));
+		}
+
+        StringVector deps = module->getDependencies();
+        for (StringVector::const_iterator depsIt = deps.begin(); depsIt != deps.end(); depsIt++)
+        {
+            String depName = *depsIt;
+            ModuleMap::iterator modIt = mModules.find(depName);
+            if (modIt == mModules.end())
+            {
+			    Throw(
+				    rl::RuntimeException, 
+				    "Depedency Module " + depName 
+                    + " needed by " + Ogre::String(module->getName().c_str()) 
+                    + " not found.");
+            }
+
+            ContentModule* depMod = (*modIt).second;
+
+            if (!depMod->isLoaded())
+            {
+                loadModule(depMod);
+            }
+        }
+
+        LOG_MESSAGE(
+            Logger::CORE,
+            "Start initializing module " + module->getName());
         module->initializeTextures();
         module->initialize();
 
-		updateDefaultScheme();
-
-		//mCoreEventCaster.dispatchEvent(new DataLoadedEvent(0.0));
-		
 		ResourceGroupManager::getSingleton().initialiseResourceGroup(module->getId());
         module->precreateMeshes();
-        mActiveAdventureModule = module;
 
-		//mCoreEventCaster.dispatchEvent(new DataLoadedEvent(100.0));
+        if (module->isCommon())
+        {
+            module->start();
+        }
 
-        module->start();
+        LOG_MESSAGE(
+            Logger::CORE,
+            "Module " + module->getName() + " initialized.");
     }
 
 	void CoreSubsystem::setDefaultActiveModule(const Ogre::String& module)

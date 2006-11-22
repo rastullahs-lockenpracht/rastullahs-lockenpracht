@@ -49,6 +49,7 @@
 #include "RubyInterpreter.h"
 #include "RulesSubsystem.h"
 #include "SoundConfig.h"
+#include "SoundDriverConfigComponent.h"
 #include "SubtitleWindow.h"
 #include "UiSubsystem.h"
 #include "WindowManager.h"
@@ -65,6 +66,10 @@ namespace rl {
 		: mShownObject(NULL),
 		  mObjectNameText(NULL),
           mMainMenuWindow(NULL)
+    {
+    }
+
+    void WindowFactory::initialize()
 	{
 		mConsole = new Console();
 		mDebugWindow = new DebugWindow();
@@ -83,6 +88,12 @@ namespace rl {
 		mInfoPopup = new InfoPopup();
 		mObjectDescriptionWindow = new ObjectDescriptionWindow();
 		mSoundConfig = new SoundConfig();
+        for (std::vector<SoundDriverConfigComponent*>::iterator it = 
+            mSoundConfigComponents.begin(); it != mSoundConfigComponents.end(); it++)
+        {
+            mSoundConfig->registerDriverConfig(*it);
+        }
+        
         mCloseConfirmationWindow = NULL;
         
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mJournalWindow);
@@ -284,15 +295,28 @@ namespace rl {
 
 	void WindowFactory::writeToConsole(Ogre::String text)
 	{
-		mConsole->write(text);
+        if (mConsole != NULL)
+        {
+		    mConsole->write(text);
+        }
+        else
+        {
+            LOG_MESSAGE("Console", text);
+        }
 	}
 
 	VALUE WindowFactory::consoleWrite(VALUE self, VALUE str)
 	{
+        CeGuiString text = RubyInterpreter::val2ceguistr(str);
+
 		if (WindowFactory::getSingleton().mConsole != NULL)
         {
             WindowFactory::getSingleton().mConsole->
-				write(RubyInterpreter::val2ceguistr(str) + " \n");
+				write(text + " \n");
+        }
+        else
+        {
+            LOG_MESSAGE("Console", text);
         }
 		return Qnil;
 	}
@@ -405,7 +429,11 @@ namespace rl {
 
 	void WindowFactory::registerSoundConfigComponent(SoundDriverConfigComponent* wnd)
 	{
-		mSoundConfig->registerDriverConfig(wnd);
+        mSoundConfigComponents.push_back(wnd);
+		if (mSoundConfig != NULL)
+        {
+            mSoundConfig->registerDriverConfig(wnd);
+        }
 	}
 
     void WindowFactory::logAllWindows()

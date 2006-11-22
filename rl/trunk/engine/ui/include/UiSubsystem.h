@@ -87,6 +87,8 @@ namespace rl {
 
         virtual const Ogre::String& getName() const;
 
+        void initializeSubsystem();
+
     private:
         CharacterController* mCharacterController;
 		CharacterController::ControllerType mCharacterControllerType;
@@ -101,9 +103,6 @@ namespace rl {
         CEGUI::OgreCEGUIRenderer* mGuiRenderer;
         CEGUI::OgreCEGUIResourceProvider* mGuiResourceProvider;
         CEGUI::System* mGuiSystem;
-
-        void initializeUiSubsystem();
-        void runTest();
     };
 }
 

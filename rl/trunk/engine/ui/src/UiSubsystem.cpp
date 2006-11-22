@@ -38,6 +38,7 @@
 #include "Person.h"
 #include "ScriptWrapper.h"
 #include "SoundManager.h"
+#include "VanityModeCharacterController.h"
 #include "WindowFactory.h"
 #include "WindowManager.h"
 #include "World.h"
@@ -73,9 +74,8 @@ namespace rl {
         mGuiResourceProvider(NULL),
         mGuiSystem(NULL)
 	{
-		LOG_MESSAGE(Logger::UI, "Init Start");
-		initializeUiSubsystem();
-		LOG_MESSAGE(Logger::UI, "Init Ende");
+        CoreSubsystem::getSingletonPtr()->getWorld()->addSceneChangeListener(this);
+		mWindowFactory = new WindowFactory();
 	}
 
     UiSubsystem::~UiSubsystem() 
@@ -95,7 +95,7 @@ namespace rl {
         delete mGuiRenderer;
 	}
 	
-    void UiSubsystem::initializeUiSubsystem( void )
+    void UiSubsystem::initializeSubsystem()
     {
 		using namespace CEGUI;
 
@@ -152,9 +152,8 @@ namespace rl {
 		LOG_MESSAGE2(Logger::UI, "UI-Manager geladen",
             "UiSubsystem::initializeUiSubsystem");
 
-		mWindowFactory = new WindowFactory();
+        mWindowFactory->initialize();
 
-        CoreSubsystem::getSingletonPtr()->getWorld()->addSceneChangeListener(this);
 		GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_ENDED);
     }
 
@@ -257,6 +256,11 @@ namespace rl {
 		else if (type == CharacterController::CTRL_DIALOG)
         {
 			mCharacterController = new DialogCharacterController(camera,
+                CoreSubsystem::getSingleton().getWorld()->getActiveActor());
+        }
+		else if (type == CharacterController::CTRL_VANITY_MODE)
+        {
+			mCharacterController = new VanityModeCharacterController(camera,
                 CoreSubsystem::getSingleton().getWorld()->getActiveActor());
         }
 		else if (type == CharacterController::CTRL_CUTSCENE)

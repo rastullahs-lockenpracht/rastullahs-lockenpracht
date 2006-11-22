@@ -40,8 +40,10 @@ namespace rl {
 
 	protected:
 		virtual SoundDriver* getDriver() const = 0;
+        virtual void initialize() = 0;
 
     private:
+        CeGuiString mXmlFile;
         CEGUI::Window* mWindow;
 	};
 }

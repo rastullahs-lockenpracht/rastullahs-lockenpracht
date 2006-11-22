@@ -158,6 +158,8 @@ private:
 	 */
 	void updateDefaultScheme();
 
+    void loadModule(ContentModule* module);
+
 	/** Opens a configuration dialog */
 	bool setupConfiguration();
 

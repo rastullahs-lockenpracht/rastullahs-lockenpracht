@@ -68,6 +68,8 @@ namespace rl {
 		WindowFactory();
 		~WindowFactory();
 
+        void initialize();
+
 		static WindowFactory& getSingleton();
 		static WindowFactory* getSingletonPtr();
 
@@ -136,7 +138,9 @@ namespace rl {
 		SoundConfig* mSoundConfig;
         MainMenuWindow* mMainMenuWindow;
         CloseConfirmationWindow* mCloseConfirmationWindow;
-	};
+
+        std::vector<SoundDriverConfigComponent*> mSoundConfigComponents;
+    };
 }
 
 #endif

@@ -37,45 +37,6 @@ namespace rl
 		mWasActive(false),
 		mFmod3Driver(driver)
 	{
-        mOutput = static_cast<Combobox*>(CEGUI::WindowManager::getSingleton().getWindow("Fmod3Config/Output"));
-		mOutput->subscribeEvent(
-			Combobox::EventTextChanged,
-			boost::bind(&Fmod3Config::handleOutputChanged, this));
-
-		mSpeaker = static_cast<Combobox*>(CEGUI::WindowManager::getSingleton().getWindow("Fmod3Config/Speaker"));
-		mSpeaker->subscribeEvent(
-			Combobox::EventTextChanged,
-			boost::bind(&Fmod3Config::handleSpeakerChanged, this));
-
-		for (int i = 0; i < FSOUND_GetNumDrivers(); i++)
-		{
-			ListboxTextItem *item = new ListboxTextItem(
-				Ogre::String(FSOUND_GetDriverName(i))
-				);
-			mDriver->addItem(item);
-		}
-
-		DriverMap data = mFmod3Driver->getDriverData();
-		for(DriverMap::const_iterator it = data.begin(); it != data.end(); it++)
-		{
-			ListboxItem *item = new ListboxTextItem(it->first);
-			mDriver->addItem(item);
-		}
-
-		ListboxItem *item = new ListboxTextItem("Mono");
-		mSpeaker->addItem(item);
-		item = new ListboxTextItem("Stereo");
-		mSpeaker->addItem(item);
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-		item = new ListboxTextItem("Dolby Digital");
-		mSpeaker->addItem(item);
-		item = new ListboxTextItem("Kopfhörer");
-		mSpeaker->addItem(item);
-		item = new ListboxTextItem("Quad");
-		mSpeaker->addItem(item);
-		item = new ListboxTextItem("Surround");
-		mSpeaker->addItem(item);
-#endif
 	}
 
 
@@ -120,5 +81,48 @@ namespace rl
 
     void Fmod3Config::readDriverData()
     {
+    }
+
+    void Fmod3Config::initialize()
+    {
+        mOutput = static_cast<Combobox*>(CEGUI::WindowManager::getSingleton().getWindow("Fmod3Config/Output"));
+		mOutput->subscribeEvent(
+			Combobox::EventTextChanged,
+			boost::bind(&Fmod3Config::handleOutputChanged, this));
+
+		mSpeaker = static_cast<Combobox*>(CEGUI::WindowManager::getSingleton().getWindow("Fmod3Config/Speaker"));
+		mSpeaker->subscribeEvent(
+			Combobox::EventTextChanged,
+			boost::bind(&Fmod3Config::handleSpeakerChanged, this));
+
+		for (int i = 0; i < FSOUND_GetNumDrivers(); i++)
+		{
+			ListboxTextItem *item = new ListboxTextItem(
+				Ogre::String(FSOUND_GetDriverName(i))
+				);
+			mDriver->addItem(item);
+		}
+
+		DriverMap data = mFmod3Driver->getDriverData();
+		for(DriverMap::const_iterator it = data.begin(); it != data.end(); it++)
+		{
+			ListboxItem *item = new ListboxTextItem(it->first);
+			mDriver->addItem(item);
+		}
+
+		ListboxItem *item = new ListboxTextItem("Mono");
+		mSpeaker->addItem(item);
+		item = new ListboxTextItem("Stereo");
+		mSpeaker->addItem(item);
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+		item = new ListboxTextItem("Dolby Digital");
+		mSpeaker->addItem(item);
+		item = new ListboxTextItem("Kopfhörer");
+		mSpeaker->addItem(item);
+		item = new ListboxTextItem("Quad");
+		mSpeaker->addItem(item);
+		item = new ListboxTextItem("Surround");
+		mSpeaker->addItem(item);
+#endif
     }
 }

@@ -43,4 +43,8 @@ namespace rl {
     void OpenALConfig::readDriverData()
     {
     }
+
+    void OpenALConfig::initialize()
+    {
+    }
 }

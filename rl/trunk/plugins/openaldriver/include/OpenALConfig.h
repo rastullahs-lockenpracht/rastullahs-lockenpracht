@@ -27,11 +27,13 @@ namespace rl {
 		OpenALConfig(OpenALDriver* driver);
 		~OpenALConfig();
 
-		virtual OpenALDriver* getDriver() const;
-
         virtual void apply();
         virtual void resetToDefaults();
         virtual void readDriverData();
+
+    protected:
+		virtual OpenALDriver* getDriver() const;
+        virtual void initialize();
 
 	private:
 		OpenALDriver* mDriver;

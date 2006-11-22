@@ -51,6 +51,8 @@ void startupRl(bool developerMode, Ogre::String module)
 #ifndef _DEBUG
 	try {
 #endif // #ifndef _DEBUG
+        rl::ConfigurationManager::getSingleton().loadConfig();
+
 		logger = new rl::Logger(
 			rl::ConfigurationManager::getSingleton().getRastullahLogPath(),
 			rl::ConfigurationManager::getSingleton().getOgreLogPath());

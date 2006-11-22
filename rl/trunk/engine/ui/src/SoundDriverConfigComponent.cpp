@@ -21,16 +21,18 @@
 
 namespace rl {
 	SoundDriverConfigComponent::SoundDriverConfigComponent(const CeGuiString& xmlfile)
+        : mXmlFile(xmlfile)
 	{
-        mWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout(xmlfile);
-        setVisible(false);
 	}
 
     SoundDriverConfigComponent::~SoundDriverConfigComponent()
     {
-        mWindow->getParent()->removeChildWindow(mWindow);
-        CEGUI::WindowManager::getSingleton().destroyWindow(mWindow);
-        CEGUI::WindowManager::getSingleton().cleanDeadPool();
+        if (mWindow != NULL)
+        {
+            mWindow->getParent()->removeChildWindow(mWindow);
+            CEGUI::WindowManager::getSingleton().destroyWindow(mWindow);
+            CEGUI::WindowManager::getSingleton().cleanDeadPool();
+        }
     }
 
 	const CeGuiString SoundDriverConfigComponent::getDriverName() const
@@ -40,7 +42,9 @@ namespace rl {
 
     void SoundDriverConfigComponent::addTo(CEGUI::Window* parent)
     {
+        mWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout(mXmlFile);
         parent->addChildWindow(mWindow);
+        initialize();
     }
 
     void SoundDriverConfigComponent::setVisible(bool visible)

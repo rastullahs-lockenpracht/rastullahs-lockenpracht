@@ -31,6 +31,7 @@ public:
 		CTRL_MOVEMENT,
 		CTRL_DIALOG,
 		CTRL_CUTSCENE,
+        CTRL_VANITY_MODE,
 		CTRL_COMBAT,
 	};
 	
@@ -67,7 +68,8 @@ class UiSubsystem
 {
 public:
     static UiSubsystem& getSingleton(void);
-    
+	void initializeSubsystem();
+	    
 	rl::Person* getActiveCharacter();
 	void setActiveCharacter(rl::Person* chara);
 

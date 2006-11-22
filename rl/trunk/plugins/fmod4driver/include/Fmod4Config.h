@@ -32,6 +32,7 @@ namespace rl
 
 	protected:
 		Fmod4Driver* getDriver() const;
+        virtual void initialize();
 
 	private:
 		bool handleDriverChanged();
