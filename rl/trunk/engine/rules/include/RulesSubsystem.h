@@ -27,6 +27,7 @@ namespace rl
     class ActionManager;
     class DsaManager;
     class TimerManager;
+    class XdimlLoader;
 
 	class _RlRulesExport RulesSubsystem : public Ogre::Singleton<RulesSubsystem>
     {
@@ -42,6 +43,7 @@ namespace rl
         ActionManager* mActionManager;
         DsaManager* mDsaManager;
         TimerManager* mTimerManager;
+        XdimlLoader* mXdimlLoader;
     };
 }
 

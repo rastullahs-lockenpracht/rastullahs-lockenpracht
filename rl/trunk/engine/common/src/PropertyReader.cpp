@@ -13,21 +13,20 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#include <xercesc/util/XMemory.hpp>
+#include <xercesc/dom/DOM.hpp>
+#include <xercesc/parsers/XercesDOMParser.hpp>
+#include <xercesc/util/XMLString.hpp>
+#include <xercesc/util/PlatformUtils.hpp>
+
+#include "XmlHelper.h"
+#include "OgreXercesInput.h"
 
 #include "Properties.h"
 #include "PropertyReader.h"
 
-#include <xercesc/framework/LocalFileInputSource.hpp>
-#include <xercesc/dom/DOM.hpp>
-#include <xercesc/util/XMLString.hpp>
-#include <xercesc/util/PlatformUtils.hpp>
-
 #include <OgreResourceManager.h>
 #include <CEGUIPropertyHelper.h>
 
-#include "XmlHelper.h"
-#include "XmlResourceManager.h"
 
 using namespace XERCES_CPP_NAMESPACE;
 
@@ -37,9 +36,9 @@ XmlPropertyReader::XmlPropertyReader()
 {
 }
 
-void XmlPropertyReader::load(const Ogre::String& filename, const Ogre::String& group)
+void XmlPropertyReader::parseGameObjectFile(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
 {
-	XMLPlatformUtils::Initialize();
+    XMLPlatformUtils::Initialize();
 
 	XmlHelper::initializeTranscoder();
 	XercesDOMParser* parser = new XercesDOMParser();
@@ -47,12 +46,12 @@ void XmlPropertyReader::load(const Ogre::String& filename, const Ogre::String& g
     parser->setValidationScheme(XercesDOMParser::Val_Auto);    // optional.
     parser->setDoNamespaces(true);    // optional
 	
-    XmlPtr res = XmlResourceManager::getSingleton().create("gameobjectdefinitions.xml", group);
-	res->parseBy(parser);
+    OgreInputSource source(stream);
+    parser->parse(source);
 
     XERCES_CPP_NAMESPACE::DOMDocument* doc = parser->getDocument();
 
-	DOMNodeList* godefsXml = doc->getDocumentElement()->getElementsByTagName(AutoXMLCh("gameobjectclass").data());
+    DOMNodeList* godefsXml = doc->getDocumentElement()->getElementsByTagName(AutoXMLCh("gameobjectclass").data());
     for (unsigned int idx = 0; idx < godefsXml->getLength(); idx++)
     {
         PropertySet* ps = new PropertySet();
@@ -71,11 +70,7 @@ void XmlPropertyReader::load(const Ogre::String& filename, const Ogre::String& g
 	
 	doc->release();
 
-    res.setNull();
-    XmlResourceManager::getSingleton().remove(filename);
-
 	XMLPlatformUtils::Terminate();
-
 }
 
 std::vector<PropertySet*> XmlPropertyReader::getPropertySets()

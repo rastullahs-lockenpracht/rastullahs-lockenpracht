@@ -18,6 +18,7 @@
 #define __GAMEOBJECTMANAGER_H__
 
 #include "RulesPrerequisites.h"
+#include <OgreScriptLoader.h>
 #include <OgreSingleton.h>
 #include <map>
 
@@ -37,7 +38,7 @@ namespace rl
     };
 
     class _RlRulesExport GameObjectManager : 
-        public Ogre::Singleton<GameObjectManager>
+        public Ogre::Singleton<GameObjectManager>, public Ogre::ScriptLoader
     {
     public:
         GameObjectManager();
@@ -49,8 +50,14 @@ namespace rl
         void setGameObjectFactory(GameObjectFactory* gof);
         void loadProperties(const Ogre::String& module);
 
+        virtual const Ogre::StringVector& getScriptPatterns() const;
+        virtual Ogre::Real getLoadingOrder() const;
+        virtual void parseScript(Ogre::DataStreamPtr& stream, const Ogre::String& groupName);
+
     private:
         typedef std::map<const Ogre::String, PropertySet*> ClassPropertyMap;
+
+        Ogre::StringVector mScriptPatterns;
 
         std::map<unsigned int, GameObjectProxy*> mGameObjectProxys;
         std::map<const GameObjectProxy*, GameObject*> mGameObjects;

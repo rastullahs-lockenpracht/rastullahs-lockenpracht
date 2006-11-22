@@ -94,8 +94,6 @@ namespace rl
 		bool isDkDistance(const Weapon::Distanzklasse& dk, const Ogre::Real& distance) const;
 		bool isRuleActive(Rule rule) const;
 
-		void loadDsaDataFile(const std::string& filename);	
-
 		void _addTalent(Talent* talent);
 		void _addPerson(Person* person);
 		void _addKampftechnik(Kampftechnik* kampftechnik);

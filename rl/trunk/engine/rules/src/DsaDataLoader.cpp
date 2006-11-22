@@ -14,15 +14,16 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#include <xercesc/framework/LocalFileInputSource.hpp>
 #include <xercesc/dom/DOM.hpp>
+#include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/util/PlatformUtils.hpp>
 
+// #include "XdimlLoader.h"
 #include "DsaDataLoader.h"
 
 #include "XmlHelper.h"
-#include "XmlResourceManager.h"
+#include "OgreXercesInput.h"
 
 #include "DsaManager.h"
 #include "Talent.h"
@@ -33,14 +34,22 @@
 #include "Exception.h"
 
 using namespace XERCES_CPP_NAMESPACE;
-using namespace std;
+using namespace Ogre;
 
 namespace rl {
 
 	using XERCES_CPP_NAMESPACE::DOMDocument; //XXX: Warum brauche ich das unter VS 2003?
 
-	void DsaDataLoader::loadData(string filename)
-	{
+    XdimlLoader::XdimlLoader()
+        : ScriptLoader()
+    {
+		mScriptPatterns.push_back("*.xdi");
+		mScriptPatterns.push_back("*.xdiml");
+		ResourceGroupManager::getSingleton()._registerScriptLoader(this);
+    }
+
+    void XdimlLoader::parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
+    {
 		XMLPlatformUtils::Initialize();
 
 		XmlHelper::initializeTranscoder();
@@ -49,9 +58,8 @@ namespace rl {
         parser->setValidationScheme(XercesDOMParser::Val_Auto);    // optional.
         parser->setDoNamespaces(true);    // optional
 		
-		XmlPtr res = XmlResourceManager::getSingleton().create(filename, 
-			Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-		res->parseBy(parser);
+        OgreInputSource source(stream);
+        parser->parse(source);
 
 		DOMDocument* doc = parser->getDocument();
 		DOMElement* dataDocumentContent = XmlHelper::getChildNamed(
@@ -63,13 +71,20 @@ namespace rl {
 		
 		doc->release();
 
-        res.setNull();
-        XmlResourceManager::getSingleton().remove(filename);
-
 		XMLPlatformUtils::Terminate();
-	}
+    }
 
-    void DsaDataLoader::initializeTalente(DOMElement* rootTalente)
+    const StringVector& XdimlLoader::getScriptPatterns() const
+    {
+        return mScriptPatterns;
+    }
+
+    Real XdimlLoader::getLoadingOrder() const
+    {
+        return 1000.0;
+    }
+
+    void XdimlLoader::initializeTalente(DOMElement* rootTalente)
     {
 		if (rootTalente == NULL)
 			return;
@@ -91,7 +106,7 @@ namespace rl {
 		}
     }
 
-    Talent* DsaDataLoader::processTalent(int gruppe, DOMElement* talentXml)
+    Talent* XdimlLoader::processTalent(int gruppe, DOMElement* talentXml)
     {
 		CeGuiString desc = XmlHelper::getValueAsString(XmlHelper::getChildNamed(talentXml, "Beschreibung"));
         CeGuiString probe = XmlHelper::getValueAsString(XmlHelper::getChildNamed(talentXml, "Probe"));
@@ -121,7 +136,7 @@ namespace rl {
         return t;
     }
 
-	int DsaDataLoader::getEBeFromString(const string& eBeString)
+	int XdimlLoader::getEBeFromString(const string& eBeString)
 	{
 		if (eBeString.length() == 0)
 			return EBE_KEINE_BE;
@@ -137,7 +152,7 @@ namespace rl {
 		return atoi(ebe.c_str());
 	}
 
-    void DsaDataLoader::initializeKampftechniken(DOMElement* rootKampftechniken)
+    void XdimlLoader::initializeKampftechniken(DOMElement* rootKampftechniken)
     {
 		if (rootKampftechniken == NULL)
 			return;
@@ -160,7 +175,7 @@ namespace rl {
 
 	}
 
-	Kampftechnik* DsaDataLoader::processKampftechnik(DOMElement* kampftechnikXml)
+	Kampftechnik* XdimlLoader::processKampftechnik(DOMElement* kampftechnikXml)
 	{
 		CeGuiString desc = XmlHelper::getValueAsString(XmlHelper::getChildNamed(kampftechnikXml, "Beschreibung"));
 		CeGuiString art = XmlHelper::getValueAsString(XmlHelper::getChildNamed(kampftechnikXml, "Art"));
@@ -182,7 +197,7 @@ namespace rl {
 	}
 
 
-	void DsaDataLoader::initializePersonen(DOMElement* rootPersons)
+	void XdimlLoader::initializePersonen(DOMElement* rootPersons)
 	{
 		if (rootPersons == NULL)
 			return;
@@ -198,7 +213,7 @@ namespace rl {
 		
 	}
 
-	Person* DsaDataLoader::processPerson(DOMElement* personXml)
+	Person* XdimlLoader::processPerson(DOMElement* personXml)
 	{
 		AutoXMLCh TALENT = "Talent";
 		AutoXMLCh ID = "ID";

@@ -22,6 +22,7 @@
 #include "Person.h"
 #include "RulesSubsystem.h"
 #include "Date.h"
+//#include "XdimlLoader.h"
 #include "DsaDataLoader.h"
 
 #include "Exception.h"
@@ -283,10 +284,5 @@ namespace rl
         {
             Throw(IllegalArgumentException, "Person nicht gefunden.");
         }
-	}
-
-	void DsaManager::loadDsaDataFile(const std::string& filename)
-	{
-		DsaDataLoader::loadData(filename);
 	}
 }

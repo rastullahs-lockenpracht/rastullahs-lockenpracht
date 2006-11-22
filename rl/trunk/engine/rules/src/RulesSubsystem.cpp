@@ -17,6 +17,7 @@
 #include "RulesSubsystem.h"
 #include "ActionManager.h"
 #include "DsaManager.h"
+//#include "XdimlLoader.h"
 #include "DsaDataLoader.h"
 #include "Logger.h"
 #include "TimerManager.h"
@@ -31,7 +32,8 @@ namespace rl
 		: mQuestBook(NULL),
         mActionManager(NULL),
         mDsaManager(NULL),
-        mTimerManager(NULL)
+        mTimerManager(NULL),
+        mXdimlLoader(NULL)
     {
 		LOG_MESSAGE(Logger::RULES, "Start");
         //Zufallsgenerator initialisieren
@@ -48,7 +50,7 @@ namespace rl
 		LOG_MESSAGE(Logger::RULES, "Questverwaltung erzeugt");
 
 		//Daten laden
-		DsaDataLoader::loadData("basis.xdi");
+		mXdimlLoader = new XdimlLoader();
 		LOG_MESSAGE(Logger::RULES, "Basisdaten geladen");
 		
         new GameObjectManager();
@@ -61,6 +63,7 @@ namespace rl
         delete mTimerManager;
         delete mDsaManager;
         delete mActionManager;
+        delete mXdimlLoader;
         delete GameObjectManager::getSingletonPtr();
     }
 

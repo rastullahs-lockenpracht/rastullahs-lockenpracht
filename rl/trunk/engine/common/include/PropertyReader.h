@@ -29,7 +29,7 @@ namespace rl
     public:
         XmlPropertyReader();
 
-        void load(const Ogre::String& filename, const Ogre::String& group);
+        void parseGameObjectFile(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);
         std::vector<PropertySet*> getPropertySets();
 
     private:

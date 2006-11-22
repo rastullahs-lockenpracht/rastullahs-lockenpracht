@@ -14,13 +14,13 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef __DsaDataLoader_H__
-#define __DsaDataLoader_H__
+#ifndef __XdimlLoader_H__
+#define __XdimlLoader_H__
 
 #include <xercesc/dom/DOMDocument.hpp>
 #include <xercesc/dom/DOMElement.hpp>
 
-#include <string>
+#include <OgreScriptLoader.h>
 
 namespace rl {
 
@@ -28,13 +28,17 @@ namespace rl {
 	class Person;
 	class Kampftechnik;
 
-	class DsaDataLoader
+    class XdimlLoader : public Ogre::ScriptLoader
 	{
-	public:
-		static void loadData(std::string filename);
+    public:
+        XdimlLoader();
 
-	private:
-		static int getEBeFromString(const std::string& eBeString);
+        virtual void parseScript(Ogre::DataStreamPtr& stream, const Ogre::String& groupName);
+        virtual const Ogre::StringVector& getScriptPatterns() const;
+		virtual Ogre::Real getLoadingOrder() const;
+
+    private:
+		static int getEBeFromString(const Ogre::String& eBeString);
 
 		static void initializeTalente(XERCES_CPP_NAMESPACE::DOMElement* rootTalente);
 		static Talent* processTalent(int gruppe, XERCES_CPP_NAMESPACE::DOMElement* talentXml);
@@ -45,9 +49,8 @@ namespace rl {
 		static void initializeKampftechniken(XERCES_CPP_NAMESPACE::DOMElement* rootKampftechniken);
 		static Kampftechnik* processKampftechnik(XERCES_CPP_NAMESPACE::DOMElement* kampftechnikXml);
 
-		DsaDataLoader();
-	};
-
+        Ogre::StringVector mScriptPatterns;
+    };
 }
 
 #endif

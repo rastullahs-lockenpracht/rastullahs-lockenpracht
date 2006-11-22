@@ -41,7 +41,8 @@ namespace rl
         mGameObjects.clear();
         mGameObjectProxys.clear();
 
-        loadProperties("regressiontest");
+        mScriptPatterns.push_back("*.gof");
+        Ogre::ResourceGroupManager::getSingleton()._registerScriptLoader(this);
     }
 
     GameObjectManager::~GameObjectManager()
@@ -49,10 +50,20 @@ namespace rl
         ///@TODO: Delete all game objects, delete all class properties
     }
 
-    void GameObjectManager::loadProperties(const Ogre::String& module)
+    const Ogre::StringVector& GameObjectManager::getScriptPatterns() const
+    {
+        return mScriptPatterns;
+    }
+
+    Ogre::Real GameObjectManager::getLoadingOrder() const
+    {
+        return 1500.0;
+    }
+
+    void GameObjectManager::parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
     {
         XmlPropertyReader* propReader = new XmlPropertyReader();
-        propReader->load("gameobjectdefinitions.xml", "General");
+        propReader->parseGameObjectFile(stream, groupName);
         std::vector<PropertySet*> psset = propReader->getPropertySets();
         for(std::vector<PropertySet*>::iterator it = psset.begin(); it != psset.end(); it++)
         {
@@ -61,6 +72,7 @@ namespace rl
             mClassProperties[classId] = curPs;
         }
         delete propReader;
+
     }
 
     GameObjectProxy& GameObjectManager::createGameObjectProxy(
