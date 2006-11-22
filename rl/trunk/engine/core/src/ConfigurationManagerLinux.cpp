@@ -45,15 +45,14 @@ namespace rl
 	ConfigurationManagerLinux::ConfigurationManagerLinux()
 	{
 		mModulesRootDirectory = findModulesRootDir();
-		mPluginCfgPath = mModulesRootDirectory + 
-			"/modules/common/conf/plugins-linux.cfg";
-		mSoundCfgPath = mModulesRootDirectory +
-			"/modules/common/conf/sound.cfg";
+		mConfigModuleDirectory = mModulesRootDirectory + "/modules/config";
+        mPluginCfgPath = mConfigModuleDirectory + "/plugins-linux.cfg";
+		mSoundCfgPath = mConfigModuleDirectory + "/sound.cfg";
 		mRastullahCfgPath = findRastullahConf( "rastullah_ogre.cfg" );
 		mRastullahSystemCfgPath = findRastullahConf( "rastullah_system.cfg" );
         if (!checkForFile(mRastullahSystemCfgPath))
         {
-            string filename = mModulesRootDirectory + "/modules/common/conf/rastullah_system.cfg";
+            string filename = mConfigModuleDirectory + "/rastullah_system.cfg";
             if (checkForFile(filename))
             {
                 mRastullahSystemCfgPath = filename;
@@ -62,7 +61,6 @@ namespace rl
 		mOgreLogPath = mModulesRootDirectory+"/logs/ogre.log";
 		mRastullahLogPath = mModulesRootDirectory+"/logs/rastullah.log";
 		mModulesCfgPath = mModulesRootDirectory + "/modules/modules.cfg";
-		mModuleconfigCfgPath = "/conf/moduleconfig.cfg";
 	}
 	
 	ConfigurationManagerLinux::~ConfigurationManagerLinux()

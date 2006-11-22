@@ -53,32 +53,34 @@ namespace rl
 			 */
 			static ConfigurationManager& getSingleton();
 			
-			Ogre::String getOgreLogPath();
-			Ogre::String getRastullahCfgPath();
-			Ogre::String getPluginCfgPath();
-			Ogre::String getRastullahLogPath();
-			Ogre::String getModulesCfgPath();
-			Ogre::String getModuleconfigCfgPath(const Ogre::String& module);
-			Ogre::String getModulesRootDirectory();
-            Ogre::String getRastullahSystemCfgPath();
-			Ogre::String getSoundCfgPath();
-			Ogre::String getKeymap();
-			Ogre::String getInputConfigPath();
+			Ogre::String getOgreLogPath() const;
+			Ogre::String getRastullahCfgPath() const;
+			Ogre::String getPluginCfgPath() const;
+			Ogre::String getRastullahLogPath() const;
+			Ogre::String getModulesCfgPath() const;
+			Ogre::String getConfigModulePath() const;
+			Ogre::String getModulesRootDirectory() const;
+            Ogre::String getRastullahSystemCfgPath() const;
+			Ogre::String getSoundCfgPath() const;
+			Ogre::String getKeymap() const;
+			Ogre::String getInputConfigPath() const;
             
-			Ogre::String getStringSetting(const Ogre::String& name, const Ogre::String& _default = Ogre::StringUtil::BLANK);
-			Ogre::Real getRealSetting(const Ogre::String& name, Ogre::Real _default = 0.0f);
-			int getIntSetting(const Ogre::String& name, int _default = 0);
-			bool getBoolSetting(const Ogre::String& name, bool _default = false);
+			Ogre::String getStringSetting(const Ogre::String& name, const Ogre::String& _default = Ogre::StringUtil::BLANK) const;
+			Ogre::Real getRealSetting(const Ogre::String& name, Ogre::Real _default = 0.0f) const;
+			int getIntSetting(const Ogre::String& name, int _default = 0) const;
+			bool getBoolSetting(const Ogre::String& name, bool _default = false) const;
 
-            Logger::LogLevel getLogLevel();
+            Logger::LogLevel getLogLevel() const;
 
 			Ogre::String getEngineVersionString() const;
 			Ogre::String getEngineVersionName() const;
 			long         getEngineBuildNumber() const;
 			const rl::CeGuiString&  getAboutText() const;
 
-			bool shouldUseStaticGeometry( );
-			Ogre::String getTextureUnitScheme();
+			bool shouldUseStaticGeometry() const;
+			Ogre::String getTextureUnitScheme() const;
+
+            void loadConfig();
 						
 		protected:
 			Ogre::String mOgreLogPath;
@@ -86,14 +88,12 @@ namespace rl
 			Ogre::String mPluginCfgPath;
 			Ogre::String mRastullahLogPath;
 			Ogre::String mModulesCfgPath;
-			Ogre::String mModuleconfigCfgPath;
+			Ogre::String mConfigModuleDirectory;
 			Ogre::String mModulesRootDirectory;
             Ogre::String mRastullahSystemCfgPath;
 			Ogre::String mSoundCfgPath;
 
-			Ogre::ConfigFile* getSystemConfig();
-
-		private:
+        private:
             Ogre::ConfigFile* mSystemConfig;
 	};
 }

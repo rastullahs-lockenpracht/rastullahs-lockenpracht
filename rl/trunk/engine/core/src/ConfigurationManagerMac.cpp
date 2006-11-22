@@ -42,16 +42,19 @@ namespace rl
 	
 	ConfigurationManagerMac::ConfigurationManagerMac()
 	{
-		string confdir("modules/common/conf/");
-		mPluginCfgPath = confdir + "plugins-mac.cfg";
-		mRastullahCfgPath = confdir + "rastullah_ogre.cfg";
-		mRastullahSystemCfgPath = confdir + "rastullah_system.cfg";
-		mOgreLogPath = "logs/ogre.log";
-		mRastullahLogPath = "logs/rastullah.log";
-		mModulesCfgPath = "./modules/modules.cfg";
-		mSoundCfgPath = confdir + "sound.cfg";
-		mModuleconfigCfgPath = "/conf/moduleconfig.cfg";
 		mModulesRootDirectory = ".";
+
+        mConfigModuleDirectory = mModulesRootDirectory+"/modules/config";
+       
+		mPluginCfgPath = mConfigModuleDirectory + "/plugins-mac.cfg";
+		mRastullahCfgPath = mConfigModuleDirectory + "/rastullah_ogre.cfg";
+		mRastullahSystemCfgPath = mConfigModuleDirectory + "/rastullah_system.cfg";
+		mSoundCfgPath = mConfigModuleDirectory + "sound.cfg";
+
+		mOgreLogPath = mModulesRootDirectory + "/logs/ogre.log";
+		mRastullahLogPath = mModulesRootDirectory + "/logs/rastullah.log";
+		mModulesCfgPath = "./modules/modules.cfg";
+
 	}
 	
 	ConfigurationManagerMac::~ConfigurationManagerMac()

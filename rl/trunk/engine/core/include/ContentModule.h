@@ -42,10 +42,12 @@ namespace rl
 		virtual void start() = 0;
 
 		static const Ogre::String getInitFile(const Ogre::String& moduleId);
-		void initialize() const;
+		void initialize();
 		void initializeTextures() const;
 		void precreateMeshes() const;
-		void unload() const;
+		void unload();
+
+        bool isLoaded() const;
 
 	private:
 		static const Ogre::String getDirectory(const Ogre::String& moduleId);
@@ -55,6 +57,7 @@ namespace rl
 		const CeGuiString mName;
 		bool mCommon;
 		long mMinimumEngineVersion;
+        bool mLoaded;
 	};
 
 } //namespace rl

@@ -43,15 +43,15 @@ namespace rl
 	ConfigurationManagerWin32::ConfigurationManagerWin32()
 	{
 		Ogre::String confdir("modules/common/conf/");
-		mPluginCfgPath = "./" + confdir + "plugins-win.cfg";
-		mRastullahCfgPath = confdir + "rastullah_ogre.cfg";
-        mRastullahSystemCfgPath = confdir + "rastullah_system.cfg";
-		mSoundCfgPath = confdir + "sound.cfg";
+		mModulesRootDirectory = ".";
+		mConfigModuleDirectory = mModulesRootDirectory + "/modules/config";
+		mPluginCfgPath = mConfigModuleDirectory + "/plugins-win.cfg";
+		mRastullahCfgPath = mConfigModuleDirectory + "/rastullah_ogre.cfg";
+        mRastullahSystemCfgPath = mConfigModuleDirectory + "/rastullah_system.cfg";
+		mSoundCfgPath = mConfigModuleDirectory + "/sound.cfg";
 		mOgreLogPath = "logs/ogre.log";
 		mRastullahLogPath = "logs/rastullah.log";
-		mModulesCfgPath = "./modules/modules.cfg";
-		mModuleconfigCfgPath = "/conf/moduleconfig.cfg";
-		mModulesRootDirectory = ".";
+		mModulesCfgPath = mModulesRootDirectory + "/modules/modules.cfg";
 	}
 	
 	ConfigurationManagerWin32::~ConfigurationManagerWin32()

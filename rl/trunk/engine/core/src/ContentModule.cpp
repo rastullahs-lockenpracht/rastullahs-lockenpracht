@@ -32,7 +32,8 @@ namespace rl
 	:	mId(id),
 		mName(name),
 		mCommon(common),
-		mMinimumEngineVersion(minimumEngineVersion)
+		mMinimumEngineVersion(minimumEngineVersion),
+        mLoaded(false)
 	{
 	}
 
@@ -42,7 +43,7 @@ namespace rl
 
 	const String ContentModule::getInitFile(const String& moduleId)
 	{
-		return getDirectory(moduleId) + "/conf/moduleconfig.rb";
+		return getDirectory(moduleId) + "/scripts/moduleconfig.rb";
 	}
 
 	const String ContentModule::getDirectory(const String& moduleId)
@@ -78,9 +79,7 @@ namespace rl
 
     void ContentModule::initializeTextures() const
     {
-        
-		String resourceGroup = isCommon() ?
-            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME : getId();
+		String resourceGroup = getId();
 
 		StringVector texLocations = getTextureLocations();
 		for(StringVector::iterator iter = texLocations.begin();
@@ -103,12 +102,11 @@ namespace rl
 		addSearchPath(getDirectory()+"/materials", resourceGroup);
     }
 
-	void ContentModule::initialize() const
+	void ContentModule::initialize()
     {
         String moduleDir = getDirectory();
 
-        String resourceGroup = isCommon() ?
-            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME : getId();
+        String resourceGroup = getId();
 
         addSearchPath(moduleDir + "/conf", resourceGroup);
         addSearchPath(moduleDir + "/dsa", resourceGroup);
@@ -137,13 +135,14 @@ namespace rl
 
 		SoundManager::getSingleton().addSounds( resourceGroup );
 
-
 		RubyInterpreter* interpreter = CoreSubsystem::getSingleton().getRubyInterpreter();
         if (interpreter != NULL)
         {
             interpreter->addSearchPath(moduleDir + "/scripts");
             interpreter->addSearchPath(moduleDir + "/scripts/maps");
         }
+
+        mLoaded = true;
     }
 
 	void ContentModule::addSearchPath(const Ogre::String& path, const Ogre::String& resourceGroup) const
@@ -175,8 +174,14 @@ namespace rl
         }
     }
 
-	void ContentModule::unload() const
+	void ContentModule::unload()
     {
         //TODO: unloadModule
+        mLoaded = false;
+    }
+
+    bool ContentModule::isLoaded() const
+    {
+        return mLoaded;
     }
 }

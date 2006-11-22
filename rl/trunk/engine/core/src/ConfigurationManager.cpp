@@ -60,52 +60,47 @@ namespace rl
         delete mSystemConfig;
 	}
 	
-	Ogre::String ConfigurationManager::getOgreLogPath()
+	Ogre::String ConfigurationManager::getOgreLogPath() const
 	{
 		return mOgreLogPath;
 	}
 	
-	Ogre::String ConfigurationManager::getRastullahCfgPath()
+	Ogre::String ConfigurationManager::getRastullahCfgPath() const
 	{
 		return mRastullahCfgPath;
 	}
 	
-	Ogre::String ConfigurationManager::getPluginCfgPath()
+	Ogre::String ConfigurationManager::getPluginCfgPath() const
 	{
 		return mPluginCfgPath;
 	}
 	
-	Ogre::String ConfigurationManager::getRastullahLogPath()
+	Ogre::String ConfigurationManager::getRastullahLogPath() const
 	{
 		return mRastullahLogPath;
 	}
 	
-	Ogre::String ConfigurationManager::getModulesCfgPath()
+	Ogre::String ConfigurationManager::getModulesCfgPath() const
 	{
 		return mModulesCfgPath;
 	}
 	
-	Ogre::String ConfigurationManager::getModuleconfigCfgPath(const Ogre::String& module)
-	{
-		return (mModulesRootDirectory + "/modules/" + module + mModuleconfigCfgPath);
-	}
-	
-	Ogre::String ConfigurationManager::getModulesRootDirectory()
+	Ogre::String ConfigurationManager::getModulesRootDirectory() const
 	{
 		return mModulesRootDirectory;
 	}
 
-    Ogre::String ConfigurationManager::getRastullahSystemCfgPath()
+    Ogre::String ConfigurationManager::getRastullahSystemCfgPath() const
     {
         return mRastullahSystemCfgPath;
     }
 
-    Ogre::String ConfigurationManager::getSoundCfgPath()
+    Ogre::String ConfigurationManager::getSoundCfgPath() const
     {
         return mSoundCfgPath;
     }
 
-	Ogre::ConfigFile* ConfigurationManager::getSystemConfig()
+    void ConfigurationManager::loadConfig()
     {
         if( mSystemConfig == NULL )
         {
@@ -121,14 +116,12 @@ namespace rl
                     "Konnte Rastullah-System-Konfiguration aus '" + mRastullahSystemCfgPath + 
                     "' nicht laden! Defaulteinstellungen werden benutzt.","Configuration");
             }
-        }
-        
-        return mSystemConfig;
+        }        
     }
 
-    bool ConfigurationManager::shouldUseStaticGeometry()
+    bool ConfigurationManager::shouldUseStaticGeometry() const
     {
-        Ogre::String mode = getSystemConfig()->getSetting( "use_static_geometry" );
+        Ogre::String mode = mSystemConfig->getSetting( "use_static_geometry" );
         
         if( mode == Ogre::StringUtil::BLANK )
             mode = "auto";
@@ -150,7 +143,7 @@ namespace rl
         
     }
 
-	Ogre::String ConfigurationManager::getTextureUnitScheme()
+	Ogre::String ConfigurationManager::getTextureUnitScheme() const
 	{
 		int numTu = Ogre::Root::getSingleton().getRenderSystem()
 			->getCapabilities()->getNumTextureUnits();
@@ -170,9 +163,9 @@ namespace rl
 		return scheme;
 	}
 
-	Logger::LogLevel ConfigurationManager::getLogLevel() 
+	Logger::LogLevel ConfigurationManager::getLogLevel() const
 	{
-		int loglevel = Ogre::StringConverter::parseInt(getSystemConfig()->getSetting("log_level"));
+		int loglevel = Ogre::StringConverter::parseInt(mSystemConfig->getSetting("log_level"));
 		return static_cast<Logger::LogLevel>(loglevel);
 	}
 
@@ -224,41 +217,46 @@ namespace rl
 		return aboutText;
 	}
 
-	String ConfigurationManager::getStringSetting(const String& name, const String& defaultv)
+	String ConfigurationManager::getStringSetting(const String& name, const String& defaultv) const
 	{
-		String rval = getSystemConfig()->getSetting(name);
+		String rval = mSystemConfig->getSetting(name);
 		if (rval == StringUtil::BLANK) rval = defaultv;
 		return rval;
 	}
 
-	Real ConfigurationManager::getRealSetting(const String& name, Real defaultv)
+	Real ConfigurationManager::getRealSetting(const String& name, Real defaultv) const
 	{
 		String val = getStringSetting(name);
 		if (val == StringUtil::BLANK) return defaultv;
 		else return StringConverter::parseReal(val);
 	}
 
-	int ConfigurationManager::getIntSetting(const String& name, int defaultv)
+	int ConfigurationManager::getIntSetting(const String& name, int defaultv) const
 	{
 		String val = getStringSetting(name);
 		if (val == StringUtil::BLANK) return defaultv;
 		else return StringConverter::parseInt(val);
 	}
 
-	bool ConfigurationManager::getBoolSetting(const String& name, bool defaultv)
+	bool ConfigurationManager::getBoolSetting(const String& name, bool defaultv) const
 	{
 		String val = getStringSetting(name);
 		if (val == StringUtil::BLANK) return defaultv;
 		else return StringConverter::parseBool(val);
 	}
 
-	String ConfigurationManager::getInputConfigPath()
+	String ConfigurationManager::getInputConfigPath() const
 	{
-		return mModulesRootDirectory+"/common/conf/rastullah_input.cfg";
+		return mConfigModuleDirectory+"/rastullah_input.cfg";
 	}
 
-	String ConfigurationManager::getKeymap()
+	String ConfigurationManager::getKeymap() const
 	{
 		return getStringSetting("Keymap", "keymap-german.xml");
 	}
+
+    String ConfigurationManager::getConfigModulePath() const
+    {
+        return mConfigModuleDirectory;
+    }
 }
