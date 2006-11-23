@@ -82,7 +82,7 @@ namespace rl
 
         ItemSet mItems;
 
-        std::map<Item*, std::pair<unsigned int, unsigned int>> mItemPositions;
+        std::map<Item*, std::pair<unsigned int, unsigned int> > mItemPositions;
 
         std::pair<unsigned int, unsigned int> findPositionWithEnoughSpace(std::pair<unsigned int, unsigned int> space) const;
         bool checkSpace(unsigned int xStart, unsigned int yStart, std::pair<unsigned int,unsigned int> space) const;

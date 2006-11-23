@@ -33,8 +33,9 @@ libRlRules_la_SOURCES = \
 	QuestEvent.cpp \
 	QuestListener.cpp \
 	RulesSubsystem.cpp \
-	StateSet.cpp \
+	Slot.cpp \
 	SonderfertigkeitenStateSet.cpp \
+	StateSet.cpp \
 	Talent.cpp \
 	Talentgruppe.cpp \
 	TalentStateSet.cpp \

@@ -201,7 +201,7 @@ namespace rl {
 
     Item* Container::getItemAt(unsigned int x, unsigned int y) const
     {
-        for (map<Item*, pair<unsigned int, unsigned int>>::const_iterator iter = mItemPositions.begin(); 
+        for (map<Item*, pair<unsigned int, unsigned int> >::const_iterator iter = mItemPositions.begin(); 
             iter != mItemPositions.end(); iter++)
         {
             Item* item = (*iter).first;

@@ -43,6 +43,7 @@ libRlUi_la_SOURCES = \
 	SoundDriverConfigComponent.cpp \
 	SubtitleWindow.cpp \
 	UiSubsystem.cpp \
+	VanityModeCharacterController.cpp \
 	WindowFactory.cpp \
 	WindowManager.cpp \
 	WindowUpdater.cpp
