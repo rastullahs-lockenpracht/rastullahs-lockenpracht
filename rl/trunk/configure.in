@@ -196,7 +196,7 @@ if test "x${prefix}" = "xNONE"; then
 fi
 dnl Must double eval here, to replace ${datadir} and after that ${prefix}
 eval RL_MODULE_DIR="${datadir}"
-eval RL_MODULE_DIR="${RL_MODULE_DIR}/rl"
+eval RL_MODULE_DIR="${RL_MODULE_DIR}/rastullah"
 AC_SUBST(RL_MODULE_DIR)
 
 dnl Create the makefiles
@@ -218,7 +218,7 @@ AC_CONFIG_FILES([Makefile \
 		plugins/fmod3driver/Makefile plugins/fmod3driver/include/Makefile plugins/fmod3driver/src/Makefile \
 		plugins/fmod4driver/Makefile plugins/fmod4driver/include/Makefile plugins/fmod4driver/src/Makefile \
 		plugins/openaldriver/Makefile plugins/openaldriver/include/Makefile plugins/openaldriver/src/Makefile \
-		rl.conf  \
+		rastullah.conf  \
 		tools/Makefile \
     ])
 
