@@ -74,6 +74,15 @@ utf8* XmlHelper::getValueAsUtf8(DOMElement* element)
 	return XmlHelper::transcodeToUtf8(element->getFirstChild()->getNodeValue());
 }
 
+bool XmlHelper::hasAttribute(DOMElement* element,const char* const name)
+{
+	RlAssert(element != NULL, "Element should be not NULL");
+	XMLCh* attrName = XMLString::transcode(name);
+    bool rVal = element->hasAttribute(attrName);
+	XMLString::release(&attrName);
+	return rVal;
+}
+
 int XmlHelper::getAttributeValueAsInteger(DOMElement* element,const char* const name)
 {
 	RlAssert(element != NULL, "Element should be not NULL");

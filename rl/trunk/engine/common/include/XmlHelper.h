@@ -91,6 +91,16 @@ public:
 	static int getValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element);
 
 	/**
+	 * Ermittelt, ob ein DOMElement ein bestimmtes Attribut bestitzt
+	 * um eine Ganzzahl daraus zu machen
+	 *
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+	 * @return <code>true</code>, wenn das Attribut an diesem Element existiert, sonst <code>false</code>
+	 */
+	static bool hasAttribute(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+
+    /**
 	 * Ermittelt den Text eines DOMElement-Attributes und parst ihn, 
 	 * um eine Ganzzahl daraus zu machen
 	 *
