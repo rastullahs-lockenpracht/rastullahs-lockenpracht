@@ -392,7 +392,7 @@ namespace rl {
                 catch(...)
                 {
                     LOG_DEBUG(Logger::CORE, 
-                        " > Parse Error beim Übernehmen der Property '"+propertyName+"'!");
+                        " > Parse Error beim Übernehmen der Property '"+entry.first+"'!");
                 }
 
             }
