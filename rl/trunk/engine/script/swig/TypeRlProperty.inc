@@ -18,7 +18,9 @@
 {
     if (TYPE($input) == T_FLOAT 
         || TYPE($input) == T_FIXNUM 
-	    || TYPE($input) == T_STRING) 
+	    || TYPE($input) == T_STRING
+	    || TYPE($input) == T_TRUE 
+	    || TYPE($input) == T_FALSE) 
     {
         return 1;
     }
@@ -43,6 +45,18 @@
     else if (TYPE($input) == T_FIXNUM)
     {
         $1.setValue(FIX2INT($input));
+    }
+    else if (TYPE($input) == T_FIXNUM)
+    {
+        $1.setValue(FIX2INT($input));
+    }
+    else if (TYPE($input) == T_TRUE)
+    {
+        $1.setValue(true);
+    }
+    else if (TYPE($input) == T_FALSE)
+    {
+        $1.setValue(false);
     }
     else if (TYPE($input) == T_STRING) 
     {
@@ -83,6 +97,14 @@
     {
         $1 = new rl::Property(rl::CeGuiString(StringValuePtr($input)));
     }
+    else if (TYPE($input) == T_TRUE)
+    {
+        $1 = new rl::Property(true);
+    }
+    else if (TYPE($input) == T_FALSE)
+    {
+        $1 = new rl::Property(false);
+    }
     else if (TYPE($input) == T_ARRAY)
     {
         if (RARRAY($input)->len == 3)
@@ -118,6 +140,18 @@
     else if ($1.isReal())
     {
 	    $result = rb_float_new($1.toReal());
+    }
+    else if ($1.isBool())
+    {
+        bool boolValue = $1.toBool();
+        if (boolValue)
+        {
+            $result = Qtrue;
+        }
+        else
+        {
+            $result = Qfalse;
+        }
     }
     else if ($1.isVector())
     {
@@ -160,6 +194,14 @@
     {
         $result.setValue(rl::CeGuiString(StringValuePtr($1)));
     }
+    else if (TYPE($1) == T_TRUE)
+    {
+        $result.setValue(true);
+    }
+    else if (TYPE($1) == T_FALSE)
+    {
+        $result.setValue(false);
+    }
     else if (TYPE($1) == T_ARRAY)
     {
         if (RARRAY($1)->len == 3)
@@ -195,6 +237,14 @@
     {
         $result = new Property(rl::CeGuiString(StringValuePtr($1)));
     }
+    else if (TYPE($1) == T_TRUE)
+    {
+        $result = new rl::Property(true);
+    }
+    else if (TYPE($1) == T_FALSE)
+    {
+        $result = new rl::Property(false);
+    }
     else if (TYPE($1) == T_ARRAY)
     {
         if (RARRAY($1)->len == 3)
@@ -229,6 +279,18 @@
     else if ($1.isReal())
     {
 	    $input = rb_float_new($1.toReal());
+    }
+    else if ($1.isBool())
+    {
+        bool boolValue = $1.toBool();
+        if (boolValue)
+        {
+            $input = Qtrue;
+        }
+        else
+        {
+            $input = Qfalse;
+        }
     }
     else if ($1.isVector())
     {
@@ -267,6 +329,18 @@
     else if ($1->isReal())
     {
 	    $input = rb_float_new($1->toReal());
+    }
+    else if ($1->isBool())
+    {
+        bool boolValue = $1->toBool();
+        if (boolValue)
+        {
+            $result = Qtrue;
+        }
+        else
+        {
+            $result = Qfalse;
+        }
     }
     else if ($1->isVector())
     {
