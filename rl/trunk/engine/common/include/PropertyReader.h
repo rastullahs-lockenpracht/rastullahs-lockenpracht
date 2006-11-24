@@ -19,10 +19,14 @@
 
 #include "CommonPrerequisites.h"
 
+#include <xercesc/dom/DOMElement.hpp>
+
 namespace rl 
 {
     class Property;
     class PropertySet;
+
+    typedef std::pair<Ogre::String, Property> PropertyEntry;
 
     class _RlCommonExport XmlPropertyReader
     {
@@ -31,6 +35,8 @@ namespace rl
 
         void parseGameObjectFile(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);
         std::vector<PropertySet*> getPropertySets();
+
+        PropertyEntry processProperty(XERCES_CPP_NAMESPACE::DOMElement* domElem) const;
 
     private:
         std::vector<PropertySet*> mPropertySets;

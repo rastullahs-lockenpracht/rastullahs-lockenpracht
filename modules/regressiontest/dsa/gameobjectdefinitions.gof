@@ -1,51 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <GameObjectDefinitions>
 
-	<gameobjectclass 
-		str_classid="apple" 
-		str_classname="GameObject" 
-		str_description="Ein Apfel?"
-		str_meshfile="sphere.1m.mesh" />
+	<gameobjectclass>
+		<property name="classid" type="STRING" data="apple"/> 
+		<property name="baseclass" type="STRING" data="GameObject" />
+		<property name="description" type="STRING" data="Ein Apfel?"/>
+		<property name="meshfile" type="STRING" data="sphere.1m.mesh"/>
+	</gameobjectclass>
 
-	<gameobjectclass 
-		str_classid="hero" 
-		str_classname="Hero" 
-		int_geometrytype="4" 
-		real_mass="75"/>
+	<gameobjectclass>
+		<property name="classid" type="STRING" data="hero" />
+		<property name="baseclass" type="STRING" data="Hero" />
+		<property name="geometrytype" type="INT" data="4" />
+		<property name="mass" type="REAL" data="75"/>
+	</gameobjectclass>
 	
-	<gameobjectclass
-	    str_classid="npc"
-		str_classname="NPC"
-		int_geometrytype="4"
-		real_mass="75"/>
+	<gameobjectclass>
+	    <property name="classid" type="STRING" data="npc"/>
+		<property name="baseclass" type="STRING" data="NPC"/>
+		<property name="geometrytype" type="INT" data="4"/>
+		<property name="mass" type="REAL" data="75"/>
+	</gameobjectclass>
 
-	<gameobjectclass
-		str_classid="door"
-		str_classname="Door"
-		str_description="Eine Tür"
-		int_geometrytype="1"
-		str_meshfile="arc_tuer_01.mesh"
-		str_sound="doorcreak.ogg"
-		bool_open="false"
-		bool_openable="true"/>
+	<gameobjectclass>
+		<property name="classid" type="STRING" data="door"/>
+		<property name="baseclass" type="STRING" data="Door"/>
+		<property name="description" type="STRING" data="Eine Tür"/>
+		<property name="geometrytype" type="INT" data="1"/>
+		<property name="meshfile" type="STRING" data="arc_tuer_01.mesh"/>
+		<property name="sound" type="STRING" data="doorcreak.ogg"/>
+		<property name="open" type="BOOL" data="false"/>
+		<property name="openable" type="BOOL" data="true"/>
+	</gameobjectclass>
 
-	<gameobjectclass
-		str_classid="switch3way"
-		str_classname="Switch3Way"
-		str_description="Ein Hebel"
-		str_meshfile="arc_hebel_01.mesh"
-		int_geometrytype="1"/>
+	<gameobjectclass>
+		<property name="classid" type="STRING" data="switch3way"/>
+		<property name="baseclass" type="STRING" data="Switch3Way"/>
+		<property name="description" type="STRING" data="Ein Hebel"/>
+		<property name="meshfile" type="STRING" data="arc_hebel_01.mesh"/>
+		<property name="geometrytype" type="INT" data="1"/>
+	</gameobjectclass>
 
-	<gameobjectclass
-	    str_classid="shortsword"
-		str_classname="Weapon" 
-		str_description="Ein ordinäres Kurzschwert - scharf, aber langweilig"
-		str_meshfile="waf_kurzschwert_01.mesh"/>
+	<gameobjectclass>
+	    <property name="classid" type="STRING" data="shortsword"/>
+		<property name="baseclass" type="STRING" data="Weapon" />
+		<property name="description" type="STRING" data="Ein ordinäres Kurzschwert - scharf, aber langweilig"/>
+		<property name="meshfile" type="STRING" data="waf_kurzschwert_01.mesh"/>
+	</gameobjectclass>
 
-	<gameobjectclass
-	    str_classid="leather backpack"
-		str_classname="Container" 
-		str_description="Ein Lederrucksack (oder so)"
-		str_meshfile="ins_rucksack.mesh"/>
+	<gameobjectclass>
+	    <property name="classid" type="STRING" data="leather backpack"/>
+		<property name="baseclass" type="STRING" data="Container"/> 
+		<property name="description" type="STRING" data="Ein Lederrucksack (oder so)"/>
+		<property name="meshfile" type="STRING" data="ins_rucksack.mesh"/>
+	</gameobjectclass>
 
 </GameObjectDefinitions>

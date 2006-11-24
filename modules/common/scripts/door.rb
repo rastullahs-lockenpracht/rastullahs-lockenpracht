@@ -57,11 +57,11 @@ class Door < GameObject
   end
 
   def setProperty(name, value)
-    if (name == "str_sound")
+    if (name == "sound")
       @mSound = value;
-    elsif (name == "bool_open")
+    elsif (name == "open")
       @mOpen = value;
-    elsif (name == "bool_openable")
+    elsif (name == "openable")
       @mCanBeOpened = value;
     else
       super(name, value)

@@ -31,7 +31,7 @@ namespace rl
         static const unsigned int NO_ID = 0;
         static const Ogre::String CLASS_ID;
         static const Ogre::String OBJECT_ID;
-        static const Ogre::String CLASS_NAME;
+        static const Ogre::String BASE_CLASS;
 
 
         GameObjectProxy(const Ogre::String& classid, unsigned int id);

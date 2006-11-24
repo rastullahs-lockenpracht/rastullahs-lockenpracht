@@ -27,7 +27,7 @@ module TalkTarget
   end
 
   def setProperty(key, value)
-    if (key == "str_dialogfile")
+    if (key == "dialogfile")
       @mDialogfile = value;
     else
       super(key, value)

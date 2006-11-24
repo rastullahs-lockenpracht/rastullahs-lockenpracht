@@ -32,13 +32,13 @@ namespace rl
 
     const Ogre::String GameObject::CLASS_NAME = "GameObject";
 
-    const Ogre::String GameObject::PROPERTY_POSITION = "vec_position"; 
-    const Ogre::String GameObject::PROPERTY_ORIENTATION = "quat_orientation"; 
-    const Ogre::String GameObject::PROPERTY_NAME = "str_name"; 
-    const Ogre::String GameObject::PROPERTY_DESCRIPTION = "str_description"; 
-    const Ogre::String GameObject::PROPERTY_MESHFILE = "str_meshfile"; 
-    const Ogre::String GameObject::PROPERTY_GEOMETRY_TYPE = "int_geometrytype"; 
-    const Ogre::String GameObject::PROPERTY_MASS = "real_mass"; 
+    const Ogre::String GameObject::PROPERTY_POSITION = "position"; 
+    const Ogre::String GameObject::PROPERTY_ORIENTATION = "orientation"; 
+    const Ogre::String GameObject::PROPERTY_NAME = "name"; 
+    const Ogre::String GameObject::PROPERTY_DESCRIPTION = "description"; 
+    const Ogre::String GameObject::PROPERTY_MESHFILE = "meshfile"; 
+    const Ogre::String GameObject::PROPERTY_GEOMETRY_TYPE = "geometrytype"; 
+    const Ogre::String GameObject::PROPERTY_MASS = "mass"; 
 
     GameObject::GameObject(unsigned int id)
 		:   mId(id),
@@ -424,7 +424,7 @@ namespace rl
             }
             else if (key == PROPERTY_MASS)
             {
-                Ogre::Real mass;
+                Ogre::Real mass = 0.0;
                 if (value.isInt())
                 {
                     mass = value.toInt();

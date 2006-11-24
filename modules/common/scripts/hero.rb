@@ -27,9 +27,9 @@ class Hero < Person
 	#addTalent("Körperbeherrschung", 3);
 
         $SCRIPT.log("Heldenaktor beschreiben...");
-        setProperty("str_meshfile", "men_alrike.mesh")
-	setProperty("int_physicsbody", PhysicsManager::GT_ELLIPSOID)
-	setProperty("real_mass", 75.0);
+        setProperty("meshfile", "men_alrike.mesh")
+	setProperty("physicsbody", PhysicsManager::GT_ELLIPSOID)
+	setProperty("mass", 75.0);
 
 	$SCRIPT.log("Inventar konfigurieren.");
 	inv = getInventory();

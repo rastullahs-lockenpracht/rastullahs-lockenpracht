@@ -127,7 +127,7 @@ namespace rl
     GameObject* GameObjectManager::createGameObject(const rl::GameObjectProxy *proxy)
     {
         PropertySet* ps = getClassProperties(proxy->getClassId());
-        Ogre::String classname =  ps->getProperty(GameObjectProxy::CLASS_NAME).toString().c_str();
+        Ogre::String classname =  ps->getProperty(GameObjectProxy::BASE_CLASS).toString().c_str();
 
         GameObject* go = mGameObjectFactory
             ->createGameObject(
@@ -164,7 +164,7 @@ namespace rl
         {
             return new GameObject(id);
         }
-        if (classname == Creature::CLASS_NAME)
+        else if (classname == Creature::CLASS_NAME)
         {
             return new Creature(id);
         }
