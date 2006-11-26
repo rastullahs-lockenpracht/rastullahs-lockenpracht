@@ -60,8 +60,7 @@ namespace rl {
 	    mKeyMapAlt(),
 		mKeyNames(),
         mCharacterController(NULL),
-        mCommandMapper(NULL),
-        mCurrentModifiers(0)
+        mCommandMapper(NULL)
 	{
         initializeOis(win);
         for(int i=0; i<NUM_KEYS; i++)
@@ -152,7 +151,7 @@ namespace rl {
             if (mCharacterController != NULL)
             {
 			    mCharacterController->
-                    injectMouseDown(CommandMapper::encodeKey(id, mCurrentModifiers));
+                    injectMouseDown(CommandMapper::encodeKey(id, getModifierCode()));
             }
 		}
         return true;
@@ -182,7 +181,7 @@ namespace rl {
             /// dass da noch mehr durcheinander ist. ^^
             if (mCharacterController != NULL)
                 mCharacterController->injectMouseUp(
-                    CommandMapper::encodeKey(id, mCurrentModifiers));
+                    CommandMapper::encodeKey(id, getModifierCode()));
             /// }
             return true;
 	}
@@ -248,7 +247,7 @@ namespace rl {
 		// ---- Tastatureingabe gefordert ----
 
         // Tasten, die Zeichen liefern sollen an CEGUI gesendet werden
-        if (getKeyChar(e.key, mCurrentModifiers) != 0)
+        if (getKeyChar(e.key, getModifierCode()) != 0)
         {
             return true;
         }
@@ -272,20 +271,14 @@ namespace rl {
 		{   // Send all events to CEGUI
 			CEGUI::System& cegui = CEGUI::System::getSingleton();
 			cegui.injectKeyDown(e.key);
-			cegui.injectChar(e.text);
+			cegui.injectChar(getKeyChar(e.key, getModifierCode()));
 		}
         else
         {
             if (mCharacterController != NULL)
             {
-                mCharacterController->injectKeyDown(CommandMapper::encodeKey(e.key, mCurrentModifiers));
+                mCharacterController->injectKeyDown(CommandMapper::encodeKey(e.key, getModifierCode()));
             }
-        }
-
-        int mod = getModifierCode(e);
-        if (mod != 0)
-        {
-            mCurrentModifiers |= mod;
         }
 
         return true;
@@ -293,12 +286,6 @@ namespace rl {
 
 	bool InputManager::keyReleased(const OIS::KeyEvent& e)
 	{
-        int mod = getModifierCode(e);
-        if (mod != 0)
-        {
-            mCurrentModifiers &= ~mod;
-        }
-        
         if (sendKeyToCeGui(e)) 
 		{
 			CEGUI::System& cegui = CEGUI::System::getSingleton();
@@ -306,7 +293,7 @@ namespace rl {
 		}
         else
         {
-            int code = CommandMapper::encodeKey(e.key, mCurrentModifiers);
+            int code = CommandMapper::encodeKey(e.key, getModifierCode());
             Action* action = ActionManager::getSingleton().getInGameGlobalAction(
                 mCommandMapper->getAction(code, CMDMAP_KEYMAP_GLOBAL));
             if (action != NULL)
@@ -384,27 +371,15 @@ namespace rl {
 		return 0;
 	}
 
-    const int InputManager::getModifierCode(const OIS::KeyEvent& evt) const
+    int InputManager::getModifierCode() const
     {
-        OIS::KeyCode code = evt.key;
-		if (code == OIS::KC_LMENU || code == OIS::KC_RMENU)
-        {
-			return ALT_MASK;
-        }
-        else if (code == OIS::KC_LCONTROL || code == OIS::KC_RCONTROL)
-        {
-			return CTRL_MASK;
-        }
-        else if (code == OIS::KC_LSHIFT || code == OIS::KC_RSHIFT)
-        {
-			return SHIFT_MASK;
-        }
-        else if (code == OIS::KC_LWIN || code == OIS::KC_RWIN)
-        {
-			return SUPER_MASK;
-        }
+        int rval = 0;
 
-		return 0;
+        if (mKeyboard->isModifierDown(OIS::Keyboard::Alt)) rval |= ALT_MASK;
+        if (mKeyboard->isModifierDown(OIS::Keyboard::Ctrl)) rval |= CTRL_MASK;
+        if (mKeyboard->isModifierDown(OIS::Keyboard::Shift)) rval |= SHIFT_MASK;
+
+		return rval;
     }
 
 	void InputManager::registerCeGuiWindow(CeGuiWindow* window)

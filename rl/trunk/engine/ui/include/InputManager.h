@@ -95,12 +95,11 @@ namespace rl {
         void initializeOis(Ogre::RenderWindow* wnd);
         bool sendKeyToCeGui(const OIS::KeyEvent& e) const;
         void resetPressedKeys( bool up );
-        const int getModifierCode(const OIS::KeyEvent& e) const;
+        int getModifierCode() const;
         const CEGUI::utf8& getKeyChar(int keycode, int modifiers) const;
 
 		Ogre::Vector3 mSavedMouseState;
         bool mKeyDown[NUM_KEYS];
-		int mCurrentModifiers;
 
         OIS::Mouse* mMouse;
         OIS::Keyboard* mKeyboard;
