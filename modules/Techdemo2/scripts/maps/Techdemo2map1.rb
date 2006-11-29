@@ -8,6 +8,18 @@ require 'door.rb'
 $PM.setEnabled(true);
 
 $SCRIPT.log("init map 'Techdemo2'...");
+
+$SCRIPT.log("Held erstellen");
+$hero = $GOM.createGameObjectProxy("hero", 1).getGameObject();
+$hero.placeIntoScene()
+PlayerSettings.preparePlayer($hero)
+$UI.setActiveCharacter($hero)
+$SCRIPT.log("Held erstellt");
+
+$heroVehicle = $AI.createAgent(AgentManager::AGENT_PLAYER, $hero);	
+$SCRIPT.log("SteeringVehicle für Held erstellen...");
+
+
 $World = $CORE.getWorld();
 $World.setSkyBox(true, "rl/desert07", 100.0);
 $SCRIPT.log("skybox set");
@@ -22,17 +34,22 @@ $SCRIPT.log("Tageslicht erstellt.");
 
 
 $SCRIPT.log("Türen einsetzen");
-door1 = Door.new("Haustuer", "Eine Holztür", [-12.9124, -6.86492, 13.7133], [0, -120, 0], "arc_door_02.mesh");
-door1.addActions(false, true)
-door2 = Door.new("Jarns Tuer", "Eine Holztür", [-34.6458, -6.2058, 14.9355], [0, -212.5, 0], "arc_door_02.mesh");
-door2.addActions(false, true)
+door1 = $GOM.createGameObjectProxy("door").getGameObject()
+door1.setMeshfile("arc_door_02.mesh");
+door1.setPosition([-12.9124, -6.86492, 13.7133]);
+door1.setOrientation([0, -120, 0]);
+door1.setDescription("Eine Holztür");
+
+door2 = $GOM.createGameObjectProxy("door").getGameObject()
+door2.setMeshfile("arc_door_02.mesh");
+door2.setPosition([-34.6458, -6.2058, 14.9355]);
+door2.setOrientation([0, -212.5, 0]);
+door2.setDescription("Eine Holztür");
+
+door1.placeIntoScene();
+door2.placeIntoScene();
 $SCRIPT.log("Türen gesetzt");
 
-#shadowlight = $AM.createLightActor("shadowlight", LightObject::LT_SPOTLIGHT);
-#shadowlight.setPosition(0.0, 1000.0, 0.0);
-#shadowlight.getControlledObject().setDirection(-0.17101, -0.873647, 0.969846);
-#shadowlight.getControlledObject().setCastShadows(true);
-#shadowlight.getControlledObject().setDiffuseColour(0.0,0.0,0.0);
 
 $SCRIPT.log("Dorf-Thema laden");
 techdemoDorf = $AM.createSoundSampleActor( "techdemoDorf", "techdemo001.ogg" ); 
@@ -42,21 +59,6 @@ techdemoDorf.getControlledObject().setLooping( true );
 $SCRIPT.log(" Laden");
 techdemoDorf.getControlledObject().load();
 $SCRIPT.log("Dorf-Thema fertig");
-
-$SCRIPT.log("Held erstellen");
-$hero = Hero.new;
-$SCRIPT.log("Held erstellt");
-$SCRIPT.log("Held in die Szene einfuegen.");#-22.0130577087402, -6.70670890808105, 25.1438484191895
-$hero.getActor().placeIntoScene([ -67.5761337280273, -5.58534526824951, 35.5633811950684]);
-$SCRIPT.log("Held eingefügt.");
-PlayerSettings.preparePlayer($hero);
-$SCRIPT.log("Held vorbereitet.");
-$UI.setActiveCharacter($hero);
-$SCRIPT.log("Held als aktiver Charakter gesetzt.");
-$heroVehicle = $AI.createAgent(AgentManager::AGENT_PLAYER, $hero);	
-$SCRIPT.log("SteeringVehicle für Held erstellen...");
-		
-
 
 $World.setFog( World::FOG_EXP, [0.1,0.08,0.01,0.1], 0.00503, 10.0, 100.0);
 
@@ -100,10 +102,10 @@ kugelDings.placeIntoScene( [-56.2, -1.1, -75.0] );
 
 require 'techdemo2_mapchange.rb'
 #Erstellen mit 
-MapchangeListener = Td2LevelwechselListener.new("techdemo2map2_01.scene", "Techdemo2", "Techdemo2map2.rb"); 
+mapchangeListener = Td2LevelwechselListener.new("techdemo2map2_01.scene", "Techdemo2", "Techdemo2map2.rb"); 
 
 $SCRIPT.log("Mapchange: MapchangeListener hinzufügen");
-$GameEveMgr.addSphereAreaListener( kugelDings, 10.000, MapchangeListener, Actor::QGF_PLAYER );
+$GameEveMgr.addSphereAreaListener( kugelDings, 10.000, mapchangeListener, Actor::QGF_PLAYER );
 
 
 $SCRIPT.log("map 'Techdemo2' initialisiert.");

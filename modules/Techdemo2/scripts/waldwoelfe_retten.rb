@@ -30,7 +30,11 @@ class WaldWolfTotListener < SimpleEnemyDeathListener
 end
 
 # 4 Wölfe platzieren
-positions = [ [  5.94, -48.54, -260.63], [ 2.41, -48.30, -266.42],  [5.78, -47.94, -272.07], [ 11.94, -47.71, -274.41 ] ]
+positions = [ 
+	[ 5.94, -48.54, -260.63], 
+	[ 2.41, -48.30, -266.42],  
+	[ 5.78, -47.94, -272.07], 
+	[11.94, -47.71, -274.41] ];
 wolfnum = 1
 
 # Die Positionen durchgehen

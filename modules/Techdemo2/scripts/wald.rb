@@ -62,7 +62,7 @@ $AM.getActor("wind").getControlledObject().stop()
 $AM.getActor("windBaum").getControlledObject().stop()
 $AM.getActor("windBaum2").getControlledObject().stop()
 
-#Wölfe wegschmeißen wenn das Schnetzel aktiv ist
+#WÃ¶lfe wegschmeiÃŸen wenn das Schnetzel aktiv ist
 if (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest51").isKnown())
 	[1,2,3,4].each{|w| $AM.getActor("Wolf_"+w.to_s).setPosition( 0.0, -1000.0, 0.0 ) }
 end

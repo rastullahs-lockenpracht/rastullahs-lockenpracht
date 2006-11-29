@@ -4,13 +4,10 @@ load( "npc.rb" );
 
 print( "Bauer wird geladen" );
 
-bowerActor = $AM.createMeshActor("Bauer", "men_Gennisch.mesh" );
- 
-bower = Creature.new("Ein Bauer", "Ein Bauer. Er ist im Gespräch vertieft und lässt sich nicht stören.");
-bower.setActor( bowerActor );
- 
-bowerActor.placeIntoScene(-27.10, -6.5, -0.32, 1.0, 0.0, 0.0, 0.0);
-bowerAnim = bowerActor.getControlledObject().startAnimation("reden");
+bower = $GOM.createGameObjectProxy("Bauer").getGameObject();
+bower.placeIntoScene()
+
+bowerAnim = bower.getActor().getControlledObject().startAnimation("reden");
 bowerAnim.setSpeed( 0.9 );
 
 print( "Bauer fertig geladen" );

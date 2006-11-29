@@ -20,18 +20,7 @@ RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest51").setKnown(t
 RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest51").setState(Quest::ASSIGNED)
 
 $SCRIPT.log("FieserAlter wird geladen");
-	druide = Creature.new("Alter Mann", "Alter Mann");
-	druide.setActor($AM.createMeshActor("Alter Mann", "men_druide.mesh", PhysicsManager::GT_BOX, 0.0));
-	druide.getActor().placeIntoScene([21.78, -35.28, -264.45],[0.0, 90.0, 0.0]);
-	#druide.getActor().placeIntoScene([-5.80, -38.23, -19.97]);
-
-	bot = $DS.loadBot("Alter Mann", "druide51.xml");
-	bot.setNonPlayerCharacter(druide);
-	druide.addAction(TalkAction.new("Alter Mann", "druide51.xml"))
-	#agent = $AI.createAgent(bot);
-	#agent.addSteeringBehaviour(DefaultIdleBehaviour.new);
-	#agent.addSteeringBehaviour(AvoidObstaclesBehaviour.new);
-	#agent.addSteeringBehaviour(DialogBehaviour.new($hero.getActor()));
+	$GOM.createGameObjectProxy("SchnetzelDruide").getGameObject().placeIntoScene();
 $SCRIPT.log("FieserAlter geladen");
 
 

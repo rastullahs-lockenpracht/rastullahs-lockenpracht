@@ -6,6 +6,17 @@ require 'hero.rb'
 # Physik aktivieren
 $PM.setEnabled(true);
 
+$SCRIPT.log("Held erstellen");
+$hero = $GOM.createGameObjectProxy("hero", 1).getGameObject();
+$hero.placeIntoScene()
+PlayerSettings.preparePlayer($hero)
+$UI.setActiveCharacter($hero)
+$SCRIPT.log("Held erstellt");
+
+$heroVehicle = $AI.createAgent(AgentManager::AGENT_PLAYER, $hero);	
+$SCRIPT.log("SteeringVehicle für Held erstellen...");
+
+
 $SCRIPT.log("init map 'Techdemo2'...");
 $World = $CORE.getWorld()
 $World.setSkyBox(true, "rl/desert07", 100.0)
@@ -105,17 +116,6 @@ $SCRIPT.log("Wind fertig");
 
 
 
-$SCRIPT.log("Held erstellen");
-$hero = Hero.new;
-$SCRIPT.log("Held erstellt");
-$SCRIPT.log("Held in die Szene einfuegen.");
-$hero.getActor().placeIntoScene(0.99, -36.95, -7.68, 1.0, 0.0, 0.0, 0.0);
-$SCRIPT.log("Held eingefügt.");
-PlayerSettings.preparePlayer($hero);
-$SCRIPT.log("Held vorbereitet.");
-$UI.setActiveCharacter($hero);
-$SCRIPT.log("Held als aktiver Charakter gesetzt.");
-
 $World.setFog( World::FOG_EXP, [0.1,0.08,0.01,0.1], 0.00503, 10.0, 100.0);
 
 #nur ein Test! Ist mit Mapwechsel nicht mehr nötig
@@ -176,7 +176,7 @@ class LevelwechselListener < GameAreaListener
 end
  
 #Erstellen mit 
-MapchangeListener = LevelwechselListener .new("techdemo2map1_02.scene", "Techdemo2", "Techdemo2map1.rb"); 
+MapchangeListener = LevelwechselListener.new("techdemo2map1_02.scene", "Techdemo2", "Techdemo2map1.rb"); 
 
 $SCRIPT.log("Mapchange: MapchangeListener hinzufügen");
 $GameEveMgr.addSphereAreaListener( kugelDings, 5.000, MapchangeListener, Actor::QGF_PLAYER );

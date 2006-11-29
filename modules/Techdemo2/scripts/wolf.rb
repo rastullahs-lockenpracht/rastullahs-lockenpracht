@@ -1,12 +1,12 @@
-# das fiese Wölfilein nach draußen setzen
+# das fiese WÃ¶lfilein nach drauÃŸen setzen
 
 #Model schonmal reinladen mit was anderem als dem Wolf, Spinne z.B.
 
 
-#Tagebucheinträge bei Tötung einstellen
+#TagebucheintrÃ¤ge bei TÃ¶tung einstellen
 	questBook = RulesSubsystem.getSingleton().getQuestBook()
 	questBook.addJournalEntry("Der alte Mann aus dem Wald II",
-	"Geschafft! Ein großer Wolf hatte den Vermissten angefallen und ihn im Turm festgesetzt, wo ich ihn verwundet und fiebrig fand. Ich musste den Wolf töten und habe den alten Mann notdürftig versorgt. Ich sollte nun ins Dorf zurückkehren und alles berichten, die Dorfbewohner können sich dann um alles weitere kümmern, nun wo der Weg wieder frei ist.");
+	"Geschafft! Ein groÃŸer Wolf hatte den Vermissten angefallen und ihn im Turm festgesetzt, wo ich ihn verwundet und fiebrig fand. Ich musste den Wolf tÃ¶ten und habe den alten Mann notdÃ¼rftig versorgt. Ich sollte nun ins Dorf zurÃ¼ckkehren und alles berichten, die Dorfbewohner kÃ¶nnen sich dann um alles weitere kÃ¼mmern, nun wo der Weg wieder frei ist.");
 
 #Waffe wegstecken wenn Wolfi tot ist
 # $AM.getActor("Held").getGameObject().detachWeapon();  
