@@ -1,0 +1,86 @@
+
+material 03_-_Default :arc_Base
+{
+	set_texture_alias DiffuseMap karte_fliped.jpg
+			
+}
+
+material 04_-_Default :arc_Base
+{
+
+	set_texture_alias DiffuseMap ruchin_atlasmap.png
+
+}
+
+material 08_-_Default
+{
+	technique
+	{
+		pass
+		{
+		 fog_override true
+			ambient 0.545098 0.545098 0.545098 1
+
+			scene_blend alpha_blend 
+
+     	    depth_write off
+			
+     	    cull_hardware none
+      cull_software none
+     	    
+			texture_unit
+			{
+				texture_alias 0
+				texture clouds01.png
+				scroll_anim 0.001 0
+			}
+		}
+
+	}
+
+}
+
+material Dome
+{
+	technique
+	{
+		pass
+		{
+		 fog_override true
+			lighting off
+			texture_unit
+			{
+				texture_alias 0
+				texture dome.png
+				
+			}
+			
+		}
+
+	}
+
+}
+
+material sun
+{
+	technique
+	{
+		pass
+		{
+		 fog_override true
+			lighting off
+			
+			scene_blend alpha_blend 
+
+     	    //depth_write off
+			texture_unit
+			{
+				texture sun.png
+				
+			}
+			
+		}
+
+	}
+
+}
