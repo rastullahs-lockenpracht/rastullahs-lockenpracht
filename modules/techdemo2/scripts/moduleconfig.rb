@@ -2,7 +2,7 @@ include RlScript
 
 class Techdemo2 < ContentModule
     def initialize()
-        super("Techdemo2", "Techdemo 2", false, 200603030);
+        super("techdemo2", "Techdemo 2", false, 200603030);
     end
 
     def getDependencies()
@@ -22,7 +22,7 @@ class Techdemo2 < ContentModule
     end
 
     def start()
-       $CORE.loadMap("Octree", "techdemo2map1_02.scene", "Techdemo2", "Techdemo2map1.rb");
+       $CORE.loadMap("Octree", "techdemo2map1_02.scene", "techdemo2", "Techdemo2map1.rb");
 #	$CORE.loadMap("Octree", "techdemo2map2_01.scene", "Techdemo2", "Techdemo2map2.rb");
         $World = $CORE.getWorld();
     end
