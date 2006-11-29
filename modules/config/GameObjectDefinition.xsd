@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xs:element name="gameobjectdefinitions">
+      <xs:complexType>
+        <xs:sequence>
+           <xs:element name="gameobjectclass" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="gameobjectclass">
+       <xs:complexType>
+  <!--        <xs:attribute name="classid"></xs:attribute>
+          <xs:attribute name="baseclass"></xs:attribute>-->
+          <xs:sequence>
+            <xs:element name="property" maxOccurs="unbounded"/>
+          </xs:sequence>
+       </xs:complexType>
+    </xs:element>
+    <xs:element name="property">
+       <xs:complexType>
+          <xs:attribute name="name" type="xs:string"></xs:attribute>
+          <xs:attribute name="type" use="required">
+             <xs:simpleType>
+                <xs:restriction base="xs:string">
+                   <xs:enumeration value="BOOL"/>
+                   <xs:enumeration value="INT"/>
+                   <xs:enumeration value="STRING"/>
+                   <xs:enumeration value="REAL"/>
+                   <xs:enumeration value="VECTOR3"/>
+                   <xs:enumeration value="QUATERNION"/>
+                   <xs:enumeration value="ARRAY"/>
+                </xs:restriction>
+             </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="data"></xs:attribute>
+       </xs:complexType>
+    </xs:element>
+</xs:schema>
