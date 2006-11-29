@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<gameobjectdefinitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://svn.berlios.de/svnroot/repos/dsa-hl/modules/config/gameobjectclass.xsd">
+<gameobjectdefinitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://svn.berlios.de/svnroot/repos/dsa-hl/modules/config/GameObjectDefinition.xsd">
   <!-- TODO: 
   	* remove properties classid and baseclass (should be attributes of gameobjectclass
   	* move all never reused gameobjectclass definition to dotScene file -->
