@@ -14,355 +14,191 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
+%{
+namespace rl {
+
+Property convertValueToProperty(VALUE input)
+{
+	Property rval;
+	if (TYPE(input) == T_FLOAT)
+    {
+	    rval.setValue(Ogre::Real(NUM2DBL(input)));
+    }
+    else if (TYPE(input) == T_FIXNUM)
+    {
+        rval.setValue(FIX2INT(input));
+    }
+    else if (TYPE(input) == T_FIXNUM)
+    {
+        rval.setValue(FIX2INT(input));
+    }
+    else if (TYPE(input) == T_TRUE)
+    {
+        rval.setValue(true);
+    }
+    else if (TYPE(input) == T_FALSE)
+    {
+        rval.setValue(false);
+    }
+    else if (TYPE(input) == T_STRING) 
+    {
+        rval.setValue(rl::CeGuiString(StringValuePtr(input)));
+    }
+    else if (TYPE(input) == T_ARRAY)
+    {
+		int length = RARRAY(input)->len;
+		if (length > 0)
+		{
+			VALUE firstVal = rb_ary_entry(input, 0);
+			if (length == 3 
+				&& (TYPE(firstVal) == T_FLOAT || TYPE(firstVal) == T_FIXNUM))
+			{
+				Ogre::Vector3 vec;
+				vec.x = NUM2DBL(rb_ary_entry(input, 0));
+				vec.y = NUM2DBL(rb_ary_entry(input, 1));
+				vec.z = NUM2DBL(rb_ary_entry(input, 2));
+				rval.setValue(vec);
+			}
+			else if (length == 4 
+				&& (TYPE(firstVal) == T_FLOAT || TYPE(firstVal) == T_FIXNUM))
+			{
+				Ogre::Quaternion quat;
+				quat.w = NUM2DBL(rb_ary_entry(input, 0));
+				quat.x = NUM2DBL(rb_ary_entry(input, 1));
+				quat.y = NUM2DBL(rb_ary_entry(input, 2));
+				quat.z = NUM2DBL(rb_ary_entry(input, 3));
+				rval.setValue(quat);
+			}
+			else // Array of Properties
+			{
+				std::vector<Property> vec;
+				for (int idx = 0; idx < length; idx++)
+				{
+					vec.push_back(rl::convertValueToProperty(rb_ary_entry(input, 0)));
+				}
+				rval.setValue(vec);
+			}
+        }
+    }
+    
+    return rval;
+}
+
+VALUE convertPropertyToValue(Property input)
+{
+	if (input.isString())
+    {
+        return rb_str_buf_new2(input.toString().c_str());
+    }
+    else if (input.isInt())
+    {
+        return rb_int_new(input.toInt());
+    }
+    else if (input.isReal())
+    {
+	    return rb_float_new(input.toReal());
+    }
+    else if (input.isBool())
+    {
+        bool boolValue = input.toBool();
+        if (boolValue)
+        {
+            return Qtrue;
+        }
+        else
+        {
+            return Qfalse;
+        }
+    }
+    else if (input.isVector3())
+    {
+        Ogre::Vector3 vec = input.toVector3();
+        VALUE rval = rb_ary_new();
+        rb_ary_push(rval, rb_float_new(vec.x));
+        rb_ary_push(rval, rb_float_new(vec.y));
+        rb_ary_push(rval, rb_float_new(vec.z));
+        return rval;
+    }
+    else if (input.isQuaternion())
+    {
+        Ogre::Quaternion vec = input.toQuaternion();
+        VALUE rval = rb_ary_new();
+        rb_ary_push(rval, rb_float_new(vec.w));
+        rb_ary_push(rval, rb_float_new(vec.x));
+        rb_ary_push(rval, rb_float_new(vec.y));
+        rb_ary_push(rval, rb_float_new(vec.z));
+        return rval;
+    }
+    else if (input.isArray())
+    {
+		std::vector<Property> vec = input.toArray();
+		VALUE rval = rb_ary_new();
+		for (std::vector<Property>::const_iterator it = vec.begin();
+			it != vec.end(); it++)
+		{
+			rb_ary_push(rval, rl::convertPropertyToValue(*it));
+		}
+		return rval;
+    }
+
+    return Qnil;
+}
+
+}
+%}
+
+
 %typemap(typecheck) rl::Property, const rl::Property, rl::Property&, const rl::Property&, rl::Property*, const rl::Property* 
 {
     if (TYPE($input) == T_FLOAT 
         || TYPE($input) == T_FIXNUM 
 	    || TYPE($input) == T_STRING
 	    || TYPE($input) == T_TRUE 
-	    || TYPE($input) == T_FALSE) 
+	    || TYPE($input) == T_FALSE
+	    || TYPE($input == T_ARRAY) 
     {
         return 1;
     }
     
-    if (TYPE($input == T_ARRAY))
-    {
-        if (RARRAY($input)->len == 3
-            || RARRAY($input)->len == 4)
-        {
-            return 1;
-        }
-    }
-
     return 0;
 }
 
 %typemap(in) rl::Property, const rl::Property
-"   if (TYPE($input) == T_FLOAT)
-    {
-	    $1.setValue(Ogre::Real(NUM2DBL($input)));
-    }
-    else if (TYPE($input) == T_FIXNUM)
-    {
-        $1.setValue(FIX2INT($input));
-    }
-    else if (TYPE($input) == T_FIXNUM)
-    {
-        $1.setValue(FIX2INT($input));
-    }
-    else if (TYPE($input) == T_TRUE)
-    {
-        $1.setValue(true);
-    }
-    else if (TYPE($input) == T_FALSE)
-    {
-        $1.setValue(false);
-    }
-    else if (TYPE($input) == T_STRING) 
-    {
-        $1.setValue(rl::CeGuiString(StringValuePtr($input)));
-    }
-    else if (TYPE($input) == T_ARRAY)
-    {
-        if (RARRAY($input)->len == 3)
-        {
-            Ogre::Vector3 vec;
-	        vec.x = NUM2DBL(rb_ary_entry($input, 0));
-	        vec.y = NUM2DBL(rb_ary_entry($input, 1));
-	        vec.z = NUM2DBL(rb_ary_entry($input, 2));
-            $1.setValue(vec);
-        }
-        else if (RARRAY($input)->len == 4)
-        {
-            Ogre::Quaternion quat;
-            quat.w = NUM2DBL(rb_ary_entry($input, 0));
-	        quat.x = NUM2DBL(rb_ary_entry($input, 1));
-	        quat.y = NUM2DBL(rb_ary_entry($input, 2));
-	        quat.z = NUM2DBL(rb_ary_entry($input, 3));
-            $1.setValue(quat);
-        }
-    }
+"   
+	$1 = rl::convertValueToProperty($input);
 "
 
 %typemap(in) rl::Property&, const rl::Property&, rl::Property*, const rl::Property*
-"   if (TYPE($input) == T_FLOAT)
-    {
-	    $1 = new rl::Property(Ogre::Real(NUM2DBL($input)));
-    }
-    else if (TYPE($input) == T_FIXNUM)
-    {
-        $1 = new rl::Property(FIX2INT($input));
-    }
-    else if (TYPE($input) == T_STRING) 
-    {
-        $1 = new rl::Property(rl::CeGuiString(StringValuePtr($input)));
-    }
-    else if (TYPE($input) == T_TRUE)
-    {
-        $1 = new rl::Property(true);
-    }
-    else if (TYPE($input) == T_FALSE)
-    {
-        $1 = new rl::Property(false);
-    }
-    else if (TYPE($input) == T_ARRAY)
-    {
-        if (RARRAY($input)->len == 3)
-        {
-            Ogre::Vector3 vec;
-	        vec.x = NUM2DBL(rb_ary_entry($input, 0));
-	        vec.y = NUM2DBL(rb_ary_entry($input, 1));
-	        vec.z = NUM2DBL(rb_ary_entry($input, 2));
-            $1 = new rl::Property(vec);
-        }
-        else if (RARRAY($input)->len == 4)
-        {
-            Ogre::Quaternion quat;
-            quat.w = NUM2DBL(rb_ary_entry($input, 0));
-	        quat.x = NUM2DBL(rb_ary_entry($input, 1));
-	        quat.y = NUM2DBL(rb_ary_entry($input, 2));
-	        quat.z = NUM2DBL(rb_ary_entry($input, 3));
-            $1 = new rl::Property(quat);
-        }
-    }
+"   
+	$1 = new rl::Property(rl::convertValueToProperty($input));
 "
 
 
 %typemap(out) rl::Property, const rl::Property
-"   if ($1.isString())
-    {
-        $result = rb_str_buf_new2($1.toString().c_str());
-    }
-    else if ($1.isInt())
-    {
-        $result = rb_int_new($1.toInt());
-    }
-    else if ($1.isReal())
-    {
-	    $result = rb_float_new($1.toReal());
-    }
-    else if ($1.isBool())
-    {
-        bool boolValue = $1.toBool();
-        if (boolValue)
-        {
-            $result = Qtrue;
-        }
-        else
-        {
-            $result = Qfalse;
-        }
-    }
-    else if ($1.isVector())
-    {
-        Ogre::Vector3 vec = $1.toVector();
-        VALUE rval = rb_ary_new();
-        rb_ary_push(rval, rb_float_new(vec.x));
-        rb_ary_push(rval, rb_float_new(vec.y));
-        rb_ary_push(rval, rb_float_new(vec.z));
-        $result = rval;
-    }
-    else if ($1.isQuaternion())
-    {
-        Ogre::Quaternion vec = $1.toQuaternion();
-        VALUE rval = rb_ary_new();
-        rb_ary_push(rval, rb_float_new(vec.w));
-        rb_ary_push(rval, rb_float_new(vec.x));
-        rb_ary_push(rval, rb_float_new(vec.y));
-        rb_ary_push(rval, rb_float_new(vec.z));
-        $result = rval;
-    }
-    else
-    {
-	    $result = Qnil;
-    }"
+"   
+	$result = rl::convertPropertyToValue($1);
+"
 
 
 %typemap(freearg) rl::Property*, rl::Property&, const rl::Property*, const rl::Property&
 "   delete $1;"
 
 %typemap(directorout) rl::Property, const rl::Property, rl::Property&, const rl::Property&
-"   if (TYPE($1) == T_FLOAT)
-    {
-	    $result.setValue(Ogre::Real(NUM2DBL($1)));
-    }
-    else if (TYPE($1) == T_FIXNUM)
-    {
-        $result.setValue(FIX2INT($1));
-    }
-    else if (TYPE($1) == T_STRING) 
-    {
-        $result.setValue(rl::CeGuiString(StringValuePtr($1)));
-    }
-    else if (TYPE($1) == T_TRUE)
-    {
-        $result.setValue(true);
-    }
-    else if (TYPE($1) == T_FALSE)
-    {
-        $result.setValue(false);
-    }
-    else if (TYPE($1) == T_ARRAY)
-    {
-        if (RARRAY($1)->len == 3)
-        {
-            Ogre::Vector3 vec;
-	        vec.x = NUM2DBL(rb_ary_entry($1, 0));
-	        vec.y = NUM2DBL(rb_ary_entry($1, 1));
-	        vec.z = NUM2DBL(rb_ary_entry($1, 2));
-            $result.setValue(vec);
-        }
-        else if (RARRAY($1)->len == 4)
-        {
-            Ogre::Quaternion quat;
-            quat.w = NUM2DBL(rb_ary_entry($1, 0));
-	        quat.x = NUM2DBL(rb_ary_entry($1, 1));
-	        quat.y = NUM2DBL(rb_ary_entry($1, 2));
-	        quat.z = NUM2DBL(rb_ary_entry($1, 3));
-            $result.setValue(quat);
-        }
-    }
+"   
+	$result = rl::convertValueToProperty($1);
 "
 
 %typemap(directorout) rl::Property*, const rl::Property*
-"   if (TYPE($1) == T_FLOAT)
-    {
-	    $result = new Property(Ogre::Real(NUM2DBL($1)));
-    }
-    else if (TYPE($1) == T_FIXNUM)
-    {
-        $result = new Property(FIX2INT($1));
-    }
-    else if (TYPE($1) == T_STRING) 
-    {
-        $result = new Property(rl::CeGuiString(StringValuePtr($1)));
-    }
-    else if (TYPE($1) == T_TRUE)
-    {
-        $result = new rl::Property(true);
-    }
-    else if (TYPE($1) == T_FALSE)
-    {
-        $result = new rl::Property(false);
-    }
-    else if (TYPE($1) == T_ARRAY)
-    {
-        if (RARRAY($1)->len == 3)
-        {
-            Ogre::Vector3 vec;
-	        vec.x = NUM2DBL(rb_ary_entry($1, 0));
-	        vec.y = NUM2DBL(rb_ary_entry($1, 1));
-	        vec.z = NUM2DBL(rb_ary_entry($1, 2));
-            $result = new Property(vec);
-        }
-        else if (RARRAY($1)->len == 4)
-        {
-            Ogre::Quaternion quat;
-            quat.w = NUM2DBL(rb_ary_entry($1, 0));
-	        quat.x = NUM2DBL(rb_ary_entry($1, 1));
-	        quat.y = NUM2DBL(rb_ary_entry($1, 2));
-	        quat.z = NUM2DBL(rb_ary_entry($1, 3));
-            $result = new Property(quat);
-        }
-    }
+"   
+	$result = new rl::Property(rl::convertValueToProperty($1));
 "
 
 %typemap(directorin) rl::Property, const rl::Property, rl::Property&, const rl::Property&
-"   if ($1.isString())
-    {
-        $input = rb_str_buf_new2($1.toString().c_str());
-    }
-    else if ($1.isInt())
-    {
-        $input = rb_int_new($1.toInt());
-    }
-    else if ($1.isReal())
-    {
-	    $input = rb_float_new($1.toReal());
-    }
-    else if ($1.isBool())
-    {
-        bool boolValue = $1.toBool();
-        if (boolValue)
-        {
-            $input = Qtrue;
-        }
-        else
-        {
-            $input = Qfalse;
-        }
-    }
-    else if ($1.isVector())
-    {
-        Ogre::Vector3 vec = $1.toVector();
-        VALUE rval = rb_ary_new();
-        rb_ary_push(rval, rb_float_new(vec.x));
-        rb_ary_push(rval, rb_float_new(vec.y));
-        rb_ary_push(rval, rb_float_new(vec.z));
-        $input = rval;
-    }
-    else if ($1.isQuaternion())
-    {
-        Ogre::Quaternion vec = $1.toQuaternion();
-        VALUE rval = rb_ary_new();
-        rb_ary_push(rval, rb_float_new(vec.w));
-        rb_ary_push(rval, rb_float_new(vec.x));
-        rb_ary_push(rval, rb_float_new(vec.y));
-        rb_ary_push(rval, rb_float_new(vec.z));
-        $input = rval;
-    }
-    else
-    {
-	    $input = Qnil;
-    }
+"   
+	$input = rl::convertPropertyToValue($1);
 "
 
 %typemap(directorin) rl::Property*, const rl::Property*
-"   if ($1->isString())
-    {
-        $input = rb_str_buf_new2($1->toString().c_str());
-    }
-    else if ($1->isInt())
-    {
-        $input = rb_int_new($1->toInt());
-    }
-    else if ($1->isReal())
-    {
-	    $input = rb_float_new($1->toReal());
-    }
-    else if ($1->isBool())
-    {
-        bool boolValue = $1->toBool();
-        if (boolValue)
-        {
-            $result = Qtrue;
-        }
-        else
-        {
-            $result = Qfalse;
-        }
-    }
-    else if ($1->isVector())
-    {
-        Ogre::Vector3 vec = $1->toVector();
-        VALUE rval = rb_ary_new();
-        rb_ary_push(rval, rb_float_new(vec.x));
-        rb_ary_push(rval, rb_float_new(vec.y));
-        rb_ary_push(rval, rb_float_new(vec.z));
-        $input = rval;
-    }
-    else if ($1->isQuaternion())
-    {
-        Ogre::Quaternion vec = $1->toQuaternion();
-        VALUE rval = rb_ary_new();
-        rb_ary_push(rval, rb_float_new(vec.w));
-        rb_ary_push(rval, rb_float_new(vec.x));
-        rb_ary_push(rval, rb_float_new(vec.y));
-        rb_ary_push(rval, rb_float_new(vec.z));
-        $input = rval;
-    }
-    else
-    {
-	    $input = Qnil;
-    }
+"   	
+	$input = rl::convertPropertyToValue(*$1);
 "

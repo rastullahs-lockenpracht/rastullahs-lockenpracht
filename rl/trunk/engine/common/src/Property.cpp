@@ -26,17 +26,4 @@ namespace rl {
     Property::Property()
     {
     }
-
-    void Property::toGameObjectData(Ogre::String& classname, unsigned int& goid) const
-    {
-        Ogre::String sval = toString().c_str();
-        int pos = sval.find("/");
-        classname.assign(sval.substr(0, pos - 1));
-        goid = Ogre::StringConverter::parseInt(sval.substr(pos));
-    }
-
-    void Property::setValue(Ogre::String& classname, unsigned int& goid)
-    {
-        mValue = classname + "/" + Ogre::StringConverter::toString(goid);
-    }
 }

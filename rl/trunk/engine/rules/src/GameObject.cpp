@@ -400,7 +400,7 @@ namespace rl
         {
             if (key == PROPERTY_POSITION)
             {
-                setPosition(value.toVector());
+                setPosition(value.toVector3());
             }
             else if (key == PROPERTY_ORIENTATION)
             {
@@ -516,6 +516,9 @@ namespace rl
     void GameObject::removeFromScene()
     {
         Actor* actor = mActor;
+        mOrientation = actor->getWorldOrientation();
+        mPosition = actor->getWorldPosition();
+
         setActor(NULL);
         actor->removeFromScene();
         ActorManager::getSingleton().destroyActor(actor);

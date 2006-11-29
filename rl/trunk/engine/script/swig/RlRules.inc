@@ -354,6 +354,8 @@ namespace rl {
 	    const Ogre::Quaternion& getOrientation() const;
         const Ogre::Vector3& getPosition() const;
         
+        void setMeshfile(rl::CeGuiString meshfile);
+        
         virtual Action* getDefaultAction(rl::Creature* actor) const;
         
         void doAction(

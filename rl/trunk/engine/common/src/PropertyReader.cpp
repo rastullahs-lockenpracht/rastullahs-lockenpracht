@@ -29,6 +29,7 @@
 
 
 using namespace XERCES_CPP_NAMESPACE;
+using namespace Ogre;
 
 namespace rl {
 
@@ -83,17 +84,23 @@ std::vector<PropertySet*> XmlPropertyReader::getPropertySets()
 
 PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElement* domElem) const
 {
-    if (!XmlHelper::hasAttribute(domElem, "name")
-        || !XmlHelper::hasAttribute(domElem, "type")
-        || !XmlHelper::hasAttribute(domElem, "data"))
+    if (!XmlHelper::hasAttribute(domElem, "type"))
     {
         return std::make_pair("", Property(0));
     }
 
-    Ogre::String key = XmlHelper::getAttributeValueAsStdString(domElem, "name");
-    Ogre::String type = XmlHelper::getAttributeValueAsStdString(domElem, "type");
-    CeGuiString value = XmlHelper::getAttributeValueAsString(domElem, "data");
-    
+    Ogre::String key = "";
+	if (XmlHelper::hasAttribute(domElem, "name"))
+	{
+		key = XmlHelper::getAttributeValueAsStdString(domElem, "name");
+	}
+	Ogre::String type = XmlHelper::getAttributeValueAsStdString(domElem, "type");
+    CeGuiString value = "";
+    if (XmlHelper::hasAttribute(domElem, "data"))
+    {
+        value = XmlHelper::getAttributeValueAsString(domElem, "data");
+    }
+
     Property prop;
     if (type == "STRING")
     {
@@ -104,7 +111,7 @@ PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElemen
         const int intVal = CEGUI::PropertyHelper::stringToInt(value);
         prop = Property(intVal);
     }
-    else if (type == "REAL")
+    else if (type == "REAL" || type == "FLOAT")
     {
         const Ogre::Real realVal = CEGUI::PropertyHelper::stringToFloat(value);
         prop = Property(realVal);
@@ -130,12 +137,32 @@ PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElemen
         CeGuiString::size_type comma3 = value.find(",", comma2 + 1);
 
         Ogre::Quaternion quat(Ogre::Quaternion::IDENTITY);
-        if (comma1 != CeGuiString::npos && comma2 != CeGuiString::npos && comma3 != CeGuiString::npos)
+        if (comma1 != CeGuiString::npos 
+            && comma2 != CeGuiString::npos 
+            && comma3 != CeGuiString::npos)
         {
             quat.w = CEGUI::PropertyHelper::stringToFloat(value.substr(0, comma1));
             quat.x = CEGUI::PropertyHelper::stringToFloat(value.substr(comma1 + 1, comma2 - comma1 - 1));
             quat.y = CEGUI::PropertyHelper::stringToFloat(value.substr(comma2 + 1, comma3 - comma2 - 1));
             quat.z = CEGUI::PropertyHelper::stringToFloat(value.substr(comma3 + 1));
+        }
+        else if (comma1 != CeGuiString::npos 
+            && comma2 != CeGuiString::npos 
+            && comma3 == CeGuiString::npos)
+        {
+            Quaternion rotX, rotY, rotZ;
+
+            rotX.FromAngleAxis(
+			    Ogre::Degree(CEGUI::PropertyHelper::stringToFloat(value.substr(0, comma1))), 
+			    Ogre::Vector3::UNIT_X);
+            rotY.FromAngleAxis(
+			    Ogre::Degree(CEGUI::PropertyHelper::stringToFloat(value.substr(comma1 + 1, comma2 - comma1 - 1))), 
+			    Ogre::Vector3::UNIT_Y);
+            rotZ.FromAngleAxis(
+			    Ogre::Degree(CEGUI::PropertyHelper::stringToFloat(value.substr(comma2 + 1))), 
+			    Ogre::Vector3::UNIT_Z);
+
+            quat = rotX * rotY * rotZ;
         }
         prop = Property(quat);
     }
@@ -144,6 +171,22 @@ PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElemen
         const bool boolVal = CEGUI::PropertyHelper::stringToBool(value);
         prop = Property(boolVal);
     }
+	else if (type == "ARRAY")
+	{
+		std::vector<Property> vecVal;
+		DOMNode* curChild = domElem->getFirstChild();
+		while (curChild != NULL)
+		{
+			if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
+			{
+				PropertyEntry entry = processProperty(static_cast<DOMElement*>(curChild));
+				vecVal.push_back(entry.second);
+			}
+
+			curChild = curChild->getNextSibling();
+		}
+		prop = Property(vecVal);
+	}
 
     return std::make_pair(key, prop);
 }
