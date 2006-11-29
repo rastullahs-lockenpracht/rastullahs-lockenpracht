@@ -39,6 +39,29 @@ module TalkTarget
   end
 end
 
+module BehaviourBot
+  def setProperty(key, value)
+    if (key == "behaviours")
+      print "behaviours:";
+      p value;
+    else
+      super(key, value)
+    end
+    
+    #TODO: Create behaviours like that:
+    #
+    #bot = $DS.loadBot("Sonja", "sonja.xml");
+    #bot.setNonPlayerCharacter(sonja);
+    #
+    #agent = $AI.createAgent(bot);
+    #agent.addSteeringBehaviour(DefaultIdleBehaviour.new);
+    #agent.addSteeringBehaviour(AvoidObstaclesBehaviour.new);
+    #agent.addSteeringBehaviour(DialogBehaviour.new($heroVehicle));
+    
+  end
+end
+
 class NPC < Person
   include TalkTarget
+  include BehaviourBot
 end
