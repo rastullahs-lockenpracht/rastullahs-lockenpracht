@@ -1,16 +1,79 @@
 
-material 03_-_Default :arc_Base
+material 03_-_Default
 {
-	set_texture_alias DiffuseMap karte_fliped.jpg
+	lighting off
+	//receive_shadows off
+	technique
+	{
+		pass
+		{
+		
+
+			texture_unit
+			{
+				texture karte_fliped.jpg
+			}
+
+			texture_unit
+			{
+				texture LightingmapGround.dds
+			}
+		}
+
+	}
+//	set_texture_alias DiffuseMap karte_fliped.jpg
 			
 }
 
-material 04_-_Default :arc_Base
-{
 
-	set_texture_alias DiffuseMap ruchin_atlasmap.png
+material 04_-_Default
+{
+	//lighting off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.8 0.8 0.8 1
+			//ambient 0.0 0.0 0.0 1
+			//ambient vertexcolour
+ 
+			//specular 0 0 0 1 10
+			
+			//diffuse 0.9 0.9 0.9 
+			//emissive 0.105882 0.105882 0.105882 1
+			//emissive vertexcolour
+
+			texture_unit
+			{
+				colour_op_ex subtract src_current src_manual 0.2 0.2 0.2
+			}
+			diffuse vertexcolour
+			
+			texture_unit
+			{
+				texture_alias 1
+				texture LightingmapBlockS3.dds
+				tex_coord_set 1
+			}
+			
+			
+			
+			texture_unit
+			{
+				texture_alias 0
+				texture ruchin_atlasmap.png
+				colour_op_ex modulate_x2 src_texture src_current
+				colour_op_multipass_fallback dest_colour zero
+			}
+
+			
+		}
+
+	}
 
 }
+
 
 material 08_-_Default
 {
@@ -83,4 +146,147 @@ material sun
 
 	}
 
+}
+
+
+material Ruchin_map
+{
+	//lighting off
+	//receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.5 0.5 0.5 1
+			//ambient 0.0 0.0 0.0 1
+			//ambient vertexcolour
+ 
+			//specular 0 0 0 1 10
+			
+			//diffuse 0.9 0.9 0.9 
+			//emissive 0.105882 0.105882 0.105882 1
+			//emissive vertexcolour
+
+			texture_unit
+			{
+				colour_op_ex subtract src_current src_manual 0.2 0.2 0.2
+			}
+			diffuse vertexcolour
+			
+			texture_unit
+			{
+				texture_alias 1
+				texture Ruchin_ao_Ground.dds
+				tex_coord_set 1
+			}
+			
+			
+			
+			texture_unit
+			{
+				texture_alias 0
+				texture karte_fliped.jpg
+				colour_op_ex modulate_x2 src_texture src_current
+				colour_op_multipass_fallback dest_colour zero
+			}
+
+			
+		}
+
+	}
+
+}
+
+material Ruchin_s
+{
+	//lighting off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.8 0.8 0.8 1
+			//ambient 0.0 0.0 0.0 1
+			//ambient vertexcolour
+ 
+			//specular 0 0 0 1 10
+			
+			//diffuse 0.9 0.9 0.9 
+			//emissive 0.105882 0.105882 0.105882 1
+			//emissive vertexcolour
+
+			texture_unit
+			{
+				colour_op_ex subtract src_current src_manual 0.2 0.2 0.2
+			}
+			diffuse vertexcolour
+			
+			texture_unit
+			{
+				texture_alias 1
+				texture Ruchin_ao_s.dds
+				tex_coord_set 1
+			}
+			
+			
+			
+			texture_unit
+			{
+				texture_alias 0
+				texture ruchin_atlasmap.png
+				colour_op_ex modulate_x2 src_texture src_current
+				colour_op_multipass_fallback dest_colour zero
+			}
+
+			
+		}
+
+	}
+}
+
+material Ruchin_p
+{
+	//lighting off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.8 0.8 0.8 1
+			//ambient 0.0 0.0 0.0 1
+			//ambient vertexcolour
+ 
+			//specular 0 0 0 1 10
+			
+			//diffuse 0.9 0.9 0.9 
+			//emissive 0.105882 0.105882 0.105882 1
+			//emissive vertexcolour
+
+			texture_unit
+			{
+				colour_op_ex subtract src_current src_manual 0.2 0.2 0.2
+			}
+			diffuse vertexcolour
+			
+			texture_unit
+			{
+				texture_alias 1
+				texture Ruchin_ao_p.dds
+				tex_coord_set 1
+			}
+			
+			
+			
+			texture_unit
+			{
+				texture_alias 0
+				texture ruchin_atlasmap.png
+				colour_op_ex modulate_x2 src_texture src_current
+				colour_op_multipass_fallback dest_colour zero
+			}
+
+			
+		}
+
+	}
 }

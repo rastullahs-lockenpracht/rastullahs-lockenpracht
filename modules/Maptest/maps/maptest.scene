@@ -1,28 +1,13 @@
 <scene formatVersion="0.0" >
 	<nodes>
-		<node name="Plane27" id="1" >
-			<position x="87.9637" y="196.696" z="-30.5118" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="5.08402" y="4.00516" z="4.00516" />
-			<entity
-				name="Plane27"
-				id="2"
-				meshFile ="Plane27.mesh"
-				materialFile="maptest.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="Plane26" id="3" >
+		<node name="Ruchin_s" id="1" >
 			<position x="5.80911" y="-3.21776" z="21.7133" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="Plane26"
-				id="4"
-				meshFile ="Plane26.mesh"
+				name="Ruchin_s"
+				id="2"
+				meshFile ="Ruchin_s.mesh"
 				materialFile="maptest.material"
 				castsShadow="false"
 			/>
@@ -30,14 +15,14 @@
   
 
 		</node>
-		<node name="Object15" id="5" >
+		<node name="Ruchin_p" id="3" >
 			<position x="30.2696" y="2.87219" z="-9.16725" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="Object15"
-				id="6"
-				meshFile ="Object15.mesh"
+				name="Ruchin_p"
+				id="4"
+				meshFile ="Ruchin_p.mesh"
 				materialFile="maptest.material"
 				castsShadow="false"
 			/>
@@ -45,14 +30,14 @@
   
 
 		</node>
-		<node name="Plane02" id="7" >
+		<node name="Ruchin_map" id="5" >
 			<position x="68.5845" y="0.0" z="-47.3902" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="Plane02"
-				id="8"
-				meshFile ="Plane02.mesh"
+				name="Ruchin_map"
+				id="6"
+				meshFile ="Ruchin_map.mesh"
 				materialFile="maptest.material"
 				castsShadow="false"
 			/>
@@ -60,14 +45,44 @@
   
 
 		</node>
-		<node name="Plane04" id="9" >
+		<node name="dome_clouds_near" id="7" >
+			<position x="87.9637" y="196.696" z="-30.5118" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="5.08402" y="4.00516" z="4.00516" />
+			<entity
+				name="dome_clouds_near"
+				id="8"
+				meshFile ="dome_clouds_near.mesh"
+				materialFile="maptest.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="dome_sun" id="9" >
+			<position x="614.1" y="1980.49" z="-3609.07" />
+			<rotation qx="0.838383" qy="-0.00269342" qz="0.163517" qw="0.51997" />
+			<scale x="38.9469" y="38.9469" z="38.9469" />
+			<entity
+				name="dome_sun"
+				id="10"
+				meshFile ="dome_sun.mesh"
+				materialFile="maptest.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="dome_clouds_far" id="11" >
 			<position x="119.321" y="358.829" z="-87.2079" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.7353" y="1.7353" z="1.7353" />
 			<entity
-				name="Plane04"
-				id="10"
-				meshFile ="Plane04.mesh"
+				name="dome_clouds_far"
+				id="12"
+				meshFile ="dome_clouds_far.mesh"
 				materialFile="maptest.material"
 				castsShadow="false"
 			/>
@@ -75,29 +90,14 @@
   
 
 		</node>
-		<node name="dome" id="11" >
+		<node name="dome" id="13" >
 			<position x="173.926" y="-451.645" z="-113.578" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="3.14024" y="3.14024" z="3.14024" />
 			<entity
 				name="dome"
-				id="12"
-				meshFile ="dome.mesh"
-				materialFile="maptest.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="Plane03" id="13" >
-			<position x="614.1" y="1980.49" z="-3609.07" />
-			<rotation qx="0.838383" qy="-0.00269342" qz="0.163517" qw="0.51997" />
-			<scale x="38.9469" y="38.9469" z="38.9469" />
-			<entity
-				name="Plane03"
 				id="14"
-				meshFile ="Plane03.mesh"
+				meshFile ="dome.mesh"
 				materialFile="maptest.material"
 				castsShadow="false"
 			/>
