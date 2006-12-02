@@ -12,7 +12,9 @@ $SCRIPT.log("Tageslicht erstellen..");
 sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
 sunlight.getControlledObject().setDirection(-0.17101, -0.873647, 0.969846);
 sunlight.getControlledObject().setCastShadows(true);
-sunlight.getControlledObject().setDiffuseColour(0.8,0.8,0.8);
+
+sunlight.getControlledObject().setDiffuseColour(1.0,1.0,1.0);
+#sunlight.getControlledObject().setDiffuseColour(0.1,0.1,0.2);
 $SCRIPT.log("Tageslicht erstellt.");
 
 $World.setFog( World::FOG_EXP, [0.4,0.5,0.6,0.7], 0.00219, 0.5, 1.0);
