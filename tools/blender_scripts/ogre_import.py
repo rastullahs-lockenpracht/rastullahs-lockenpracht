@@ -125,8 +125,9 @@ import Blender.Mathutils
 IMPORT_LOG_LEVEL = 1
 
 IMPORT_SCALE_FACTOR = 0.1
-IMPORT_OGREXMLCONVERTER = "D:\\work\\OgreCommandLineTools\\OgreXmlConverter.exe"
+#IMPORT_OGREXMLCONVERTER = "D:\\work\\OgreCommandLineTools\\OgreXmlConverter.exe"
 #IMPORT_OGREXMLCONVERTER = "F:\\Projekte\\rastullah\checkout\\rl\\branches\python\dependencies\ogre\Tools\Common\\bin\\release\\OgreXmlConverter.exe"
+IMPORT_OGREXMLCONVERTER = "/usr/local/bin/OgreXMLConverter"
 
 def log( msg ):
     if IMPORT_LOG_LEVEL >= 1: print msg
