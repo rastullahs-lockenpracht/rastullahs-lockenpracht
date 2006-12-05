@@ -151,7 +151,7 @@ AC_CHECK_LIB(xerces-c,main,,
     [AC_MSG_ERROR([cannot find the libxerces library]) ])
 
 # OIS
-PKG_CHECK_MODULES(OIS, OIS >= 0.7.1)
+PKG_CHECK_MODULES(OIS, OIS >= 1.0.0)
 
 # Boost
 AX_BOOST_BASE(1.33.1)

@@ -103,6 +103,7 @@ namespace rl {
 
         OIS::Mouse* mMouse;
         OIS::Keyboard* mKeyboard;
+        OIS::InputManager* mInputManager;
 
         unsigned short mScreenX;
         unsigned short mScreenY;

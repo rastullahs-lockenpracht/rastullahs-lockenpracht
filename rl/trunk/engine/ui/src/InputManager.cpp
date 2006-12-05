@@ -60,7 +60,8 @@ namespace rl {
 	    mKeyMapAlt(),
 		mKeyNames(),
         mCharacterController(NULL),
-        mCommandMapper(NULL)
+        mCommandMapper(NULL),
+        mInputManager(NULL)
 	{
         initializeOis(win);
         for(int i=0; i<NUM_KEYS; i++)
@@ -73,13 +74,12 @@ namespace rl {
 	InputManager::~InputManager()
 	{
         GameLoopManager::getSingleton().removeSynchronizedTask(this);
-        OIS::InputManager* im = OIS::InputManager::getSingletonPtr();
-		if( im )
+		if( mInputManager )
 		{
-			im->destroyInputObject( mMouse );
-			im->destroyInputObject( mKeyboard );
-			im->destroyInputSystem();
-			im = NULL;
+			mInputManager->destroyInputObject( mMouse );
+			mInputManager->destroyInputObject( mKeyboard );
+            OIS::InputManager::destroyInputSystem(mInputManager);
+			mInputManager = NULL;
 		}
 	}
 
@@ -112,10 +112,10 @@ namespace rl {
         windowHndStr << windowHnd;
 		pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
 
-		OIS::InputManager &im = *OIS::InputManager::createInputSystem(pl);
-		mKeyboard = static_cast<OIS::Keyboard*>(im.createInputObject(OIS::OISKeyboard, true));
+		mInputManager = OIS::InputManager::createInputSystem(pl);
+		mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject(OIS::OISKeyboard, true));
         mKeyboard->setTextTranslation(OIS::Keyboard::Unicode);
-		mMouse = static_cast<OIS::Mouse*>(im.createInputObject(OIS::OISMouse, true));
+		mMouse = static_cast<OIS::Mouse*>(mInputManager->createInputObject(OIS::OISMouse, true));
         
         unsigned int width, height, depth;
 		int left, top;
@@ -191,7 +191,7 @@ namespace rl {
 		if (isCeguiActive())
 		{			
 			CEGUI::Renderer* renderer  = System::getSingleton().getRenderer();
-			System::getSingleton().injectMouseMove(arg.state.relX, arg.state.relY);			
+			System::getSingleton().injectMouseMove(arg.state.X.rel, arg.state.Y.rel);			
 
 			//if (mPickObjects)
    //         {
@@ -209,7 +209,7 @@ namespace rl {
         {
             return mSavedMouseState.x;
         }
-        return (float)mMouse->getMouseState().relX;
+        return (float)mMouse->getMouseState().X.rel;
     }
 
     Ogre::Real InputManager::getMouseRelativeY() const
@@ -218,7 +218,7 @@ namespace rl {
         {
             return mSavedMouseState.y;
         }
-        return (float)mMouse->getMouseState().relY;
+        return (float)mMouse->getMouseState().Y.rel;
     }
 
     Ogre::Real InputManager::getMouseRelativeZ() const
@@ -227,7 +227,7 @@ namespace rl {
         {
             return mSavedMouseState.z;
         }
-        return (float)mMouse->getMouseState().relZ;
+        return (float)mMouse->getMouseState().Z.rel;
     }
 
     bool InputManager::sendKeyToCeGui(const OIS::KeyEvent& e) const
@@ -404,9 +404,9 @@ namespace rl {
 		
 		if (!active && isCeguiActive()) // war nicht aktiv, sollte jetzt aktiv sein -> anschalten
 		{
-            mSavedMouseState.x = mMouse->getMouseState().relX;
-            mSavedMouseState.y = mMouse->getMouseState().relY;
-            mSavedMouseState.z = mMouse->getMouseState().relZ;
+            mSavedMouseState.x = mMouse->getMouseState().X.rel;
+            mSavedMouseState.y = mMouse->getMouseState().Y.rel;
+            mSavedMouseState.z = mMouse->getMouseState().Z.rel;
 //			setObjectPickingActive(false);
             CEGUI::MouseCursor::getSingleton().show();
             resetPressedKeys( true );
