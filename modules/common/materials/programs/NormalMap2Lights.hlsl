@@ -22,8 +22,8 @@ VS_OUTPUT vs_main(float4 inPos     : POSITION,
     Out.Pos = mul(WorldViewProjMatrix, inPos);
     Out.UV = inUV;
 
-    float3 Light1Dir = normalize(Light1PosOS.xyz - inPos.xyz);
-    float3 Light2Dir = normalize(Light2PosOS.xyz - inPos.xyz);
+    float3 Light1Dir = normalize(Light1PosOS.xyz - inPos.xyz*Light1PosOS.w);
+    float3 Light2Dir = normalize(Light2PosOS.xyz - inPos.xyz*Light2PosOS.w);
     float3 EyeDir = normalize(EyePosOS.xyz - inPos.xyz);
 
     float3 binormal = cross(inTangent, inNormal);
