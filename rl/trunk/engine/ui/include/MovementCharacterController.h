@@ -120,7 +120,8 @@ namespace rl {
 
         Ogre::Vector3 mLookAtOffset;
         Ogre::Real mMovementSpeed;
-        Ogre::Real mRotationSpeed;
+        Ogre::Radian mRotationSpeed;
+        Ogre::Real mMouseSensitivity;
         Ogre::Real mSpeedModifier;
 
 		Ogre::Vector3 mGravitation;
@@ -141,11 +142,20 @@ namespace rl {
         //Ogre::Real mMaxDelay;
 
 
-        /// Explained where these are set
+        /// Camera Spring-Damping System (smooth movement) spring-factor
         Ogre::Real mLinearSpringK;
+        /// Camera Spring-Damping System (smooth movement) damping-factor
         Ogre::Real mLinearDampingK;
+        /// Character rotation Spring-Damping System (smooth movement) spring-factor
         Ogre::Real mRotLinearSpringK;
-        Ogre::Real mRotLinearDampingK;        
+        /// Character rotation Spring-Damping System (smooth movement) spring-factor
+        Ogre::Real mRotLinearDampingK;
+        /// with this velocity the optimal Position of the cam moves away from the char
+        Ogre::Real mCamMoveAwayVelocity;
+        /// if there was no collision of the cam for this time, the cam can securely move backward
+        Ogre::Real mCamMoveAwayStartTime;
+        /// if the angle between the last camera pos and the character and the new one is smaller than this value, the camera can move away from the character
+        Ogre::Radian mCamMoveAwayRange;
 
 		bool isRunMovement(int movement);
 
@@ -158,7 +168,12 @@ namespace rl {
         */
 		void calculateCamera(const Ogre::Real& timestep);
 
-        Ogre::Vector3 calculateOptimalCameraPosition(void);
+        /** Calculates the position, 
+        * the camera should move to.
+        * @param SlowlyMoveBackward if set, the camera moves more slowly away from the character then toward it.
+        * @param timestep in order to reset the camera (no valid last position) the timestep can be 0.
+        */
+        Ogre::Vector3 calculateOptimalCameraPosition(bool SlowlyMoveBackward, const Ogre::Real &timestep);
     };
 }
 #endif
