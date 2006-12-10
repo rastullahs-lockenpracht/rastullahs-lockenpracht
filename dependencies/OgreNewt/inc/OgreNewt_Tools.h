@@ -89,7 +89,7 @@ namespace OgreNewt
 			\param retPosB returned position on collision primitive B
 			\param retNorm returned collision normal
 		*/
-		_OgreNewtExport int CollisionClosestPoint( const OgreNewt::World* world, const OgreNewt::Collision* colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA,
+		_OgreNewtExport int CollisionClosestPoint( const OgreNewt::World* world, const OgreNewt::CollisionPtr colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA,
 															CollisionPtr colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB,
 															Ogre::Vector3& retPosA, Ogre::Vector3& retPosB, Ogre::Vector3& retNorm );
 
