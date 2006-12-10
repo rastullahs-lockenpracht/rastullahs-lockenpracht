@@ -8,14 +8,14 @@ struct VS_OUTPUT
    float3 Half2DirTS  : TEXCOORD4;
 };
 
-VS_OUTPUT vs_main(float4 inPos     : POSITION,
-                  float3 inNormal  : NORMAL,
-                  float3 inTangent : TANGENT,
-                  float2 inUV      : TEXCOORD0,
-                  uniform float4 EyePosOS,
-                  uniform float4 Light1PosOS,
-                  uniform float4 Light2PosOS,
-                  uniform float4x4 WorldViewProjMatrix)
+VS_OUTPUT vs_main_1uv(float4 inPos     : POSITION,
+                      float3 inNormal  : NORMAL,
+                      float3 inTangent : TEXCOORD1,
+                      float2 inUV      : TEXCOORD0,
+                      uniform float4 EyePosOS,
+                      uniform float4 Light1PosOS,
+                      uniform float4 Light2PosOS,
+                      uniform float4x4 WorldViewProjMatrix)
 {
     VS_OUTPUT Out;
 
@@ -26,7 +26,41 @@ VS_OUTPUT vs_main(float4 inPos     : POSITION,
     float3 Light2Dir = normalize(Light2PosOS.xyz - inPos.xyz*Light2PosOS.w);
     float3 EyeDir = normalize(EyePosOS.xyz - inPos.xyz);
 
-    float3 binormal = cross(inTangent, inNormal);
+    //float3 binormal = cross(inTangent, inNormal);
+    float3 binormal = cross(inNormal, inTangent);
+    float3x3 TangentSpace;
+    TangentSpace[0] = inTangent;
+    TangentSpace[1] = binormal;
+    TangentSpace[2] = inNormal;
+
+    Out.Half1DirTS  = mul(TangentSpace, normalize(Light1Dir + EyeDir));
+    Out.Half2DirTS  = mul(TangentSpace, normalize(Light2Dir + EyeDir));
+    Out.Light1DirTS = mul(TangentSpace, Light1Dir);
+    Out.Light2DirTS = mul(TangentSpace, Light2Dir);
+
+    return Out;
+}
+
+VS_OUTPUT vs_main_2uv(float4 inPos     : POSITION,
+                      float3 inNormal  : NORMAL,
+                      float3 inTangent : TEXCOORD2,
+                      float2 inUV      : TEXCOORD0,
+                      uniform float4 EyePosOS,
+                      uniform float4 Light1PosOS,
+                      uniform float4 Light2PosOS,
+                      uniform float4x4 WorldViewProjMatrix)
+{
+    VS_OUTPUT Out;
+
+    Out.Pos = mul(WorldViewProjMatrix, inPos);
+    Out.UV = inUV;
+
+    float3 Light1Dir = normalize(Light1PosOS.xyz - inPos.xyz*Light1PosOS.w);
+    float3 Light2Dir = normalize(Light2PosOS.xyz - inPos.xyz*Light2PosOS.w);
+    float3 EyeDir = normalize(EyePosOS.xyz - inPos.xyz);
+
+    //float3 binormal = cross(inTangent, inNormal);
+    float3 binormal = cross(inNormal, inTangent);
     float3x3 TangentSpace;
     TangentSpace[0] = inTangent;
     TangentSpace[1] = binormal;
