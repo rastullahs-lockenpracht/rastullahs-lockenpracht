@@ -17,8 +17,19 @@ sunlight.getControlledObject().setDiffuseColour(1.0,1.0,1.0);
 #sunlight.getControlledObject().setDiffuseColour(0.1,0.1,0.2);
 $SCRIPT.log("Tageslicht erstellt.");
 
+
+backlight = $AM.createLightActor("backlight", LightObject::LT_DIRECTIONAL);
+backlight.getControlledObject().setDirection(0.17101, 0.873647, -0.969846);
+backlight.getControlledObject().setCastShadows(true);
+backlight.getControlledObject().setDiffuseColour(-0.3,-0.3,-0.3);
+
+
+tavernfire1 = $AM.createParticleSystemActor("tavernfire1", "feuertest" );
+tavernfire1.placeIntoScene( 94.28, 5.65, -30.88, 1.0, 0.0, 0.0, 0.0 );
+
+
 $World.setFog( World::FOG_EXP, [0.4,0.5,0.6,0.7], 0.00219, 0.5, 1.0);
-#$World.setAmbientLight( 0.2, 0.2, 0.2  );
+$World.setAmbientLight( 0.2, 0.2, 0.2  );
 
 $SCRIPT.log("Held erstellen");
 $hero = Hero.new;
