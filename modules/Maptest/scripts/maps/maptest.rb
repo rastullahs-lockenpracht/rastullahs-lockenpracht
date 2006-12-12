@@ -27,6 +27,21 @@ backlight.getControlledObject().setDiffuseColour(-0.3,-0.3,-0.3);
 tavernfire1 = $AM.createParticleSystemActor("tavernfire1", "feuertest" );
 tavernfire1.placeIntoScene( 94.28, 5.65, -30.88, 1.0, 0.0, 0.0, 0.0 );
 
+qualm1 = $AM.createParticleSystemActor("qualm1", "qualm" );
+qualm1.placeIntoScene( -4.28, 3.00, -1.66, 1.0, 0.0, 0.0, 0.0 );
+
+qualm2 = $AM.createParticleSystemActor("qualm2", "qualm" );
+qualm2.placeIntoScene( -3.10, 2.18, 6.12, 1.0, 0.0, 0.0, 0.0 );
+
+qualm3 = $AM.createParticleSystemActor("qualm3", "qualm" );
+qualm3.placeIntoScene( 34.31, 10.60, -4.16, 1.0, 0.0, 0.0, 0.0 );
+
+qualm4 = $AM.createParticleSystemActor("qualm4", "qualm" );
+qualm4.placeIntoScene( 0.42, 3.78, 22.26, 1.0, 0.0, 0.0, 0.0 );
+
+qualm5 = $AM.createParticleSystemActor("qualm5", "qualm" );
+qualm5.placeIntoScene( 92.39, 18.35, -30.55, 1.0, 0.0, 0.0, 0.0 );
+
 
 $World.setFog( World::FOG_EXP, [0.4,0.5,0.6,0.7], 0.00219, 0.5, 1.0);
 #$World.setAmbientLight( 0.2, 0.2, 0.2  );
