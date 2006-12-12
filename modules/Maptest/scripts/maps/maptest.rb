@@ -29,7 +29,7 @@ tavernfire1.placeIntoScene( 94.28, 5.65, -30.88, 1.0, 0.0, 0.0, 0.0 );
 
 
 $World.setFog( World::FOG_EXP, [0.4,0.5,0.6,0.7], 0.00219, 0.5, 1.0);
-$World.setAmbientLight( 0.2, 0.2, 0.2  );
+#$World.setAmbientLight( 0.2, 0.2, 0.2  );
 
 $SCRIPT.log("Held erstellen");
 $hero = Hero.new;
