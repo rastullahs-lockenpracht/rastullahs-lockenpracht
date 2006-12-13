@@ -90,7 +90,7 @@ namespace rl {
 }
 
 #define RL_LOG2(level, component, msg, ident) \
-    if (level >= rl::Logger::getSingleton().getLogDetail()) \
+    if (rl::Logger::getSingletonPtr() != NULL && level >= rl::Logger::getSingleton().getLogDetail()) \
 		rl::Logger::getSingleton().log(level, component, msg, ident)
 
 #define RL_LOG(level, component, msg) \

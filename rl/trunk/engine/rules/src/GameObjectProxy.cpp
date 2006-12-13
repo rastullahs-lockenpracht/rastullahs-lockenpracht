@@ -29,6 +29,7 @@ namespace rl
     GameObjectProxy::GameObjectProxy(const Ogre::String& classId, unsigned int goId)
         : mId(goId),
           mClassId(classId),
+          mGameObject(NULL),
           mProperties(NULL)
     {
     }
