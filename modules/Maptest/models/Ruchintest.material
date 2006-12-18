@@ -28,6 +28,7 @@ material 03_-_Default
 
 material 04_-_Default
 {
+
 	//lighting off
 	receive_shadows off
 	technique
@@ -71,6 +72,7 @@ material 04_-_Default
 		}
 
 	}
+
 
 }
 
@@ -197,51 +199,15 @@ material Ruchin_map
 
 }
 
-material Ruchin_s
+material Ruchin_s : NormalMapMaterial2LightsAO2UV
 {
-	//lighting off
-	receive_shadows off
-	technique
-	{
-		pass
-		{
-			ambient 0.7 0.7 0.7 1
-			//ambient 0.0 0.0 0.0 1
-			//ambient vertexcolour
- 
-			//specular 0 0 0 1 10
-			
-			diffuse 0.9 0.9 0.9 
-			//emissive 0.105882 0.105882 0.105882 1
-			//emissive vertexcolour
+	
 
-			//texture_unit
-			//{
-			//	colour_op_ex subtract src_current src_manual 0.2 0.2 0.2
-			//}
-			diffuse vertexcolour
-			
-			texture_unit
-			{
-				texture_alias 1
-				texture Ruchin_ao_m.dds
-				tex_coord_set 1
-			}
-			
-			
-			
-			texture_unit
-			{
-				texture_alias 0
-				texture ruchin_atlasmap.dds
-				colour_op_ex modulate_x2 src_texture src_current
-				colour_op_multipass_fallback dest_colour zero
-			}
 
-			
-		}
+			set_texture_alias normalmap ruchin_atlasmap_normal.png
+			set_texture_alias diffusemap ruchin_atlasmap.png
+			set_texture_alias aomap Ruchin_ao_sp.dds
 
-	}
 }
 
 material Ruchin_p

@@ -3,9 +3,7 @@
 tavernfire1 = $AM.createParticleSystemActor("tavernfire1", "feuertest" );
 tavernfire1.placeIntoScene( 94.28, 5.65, -30.88, 1.0, 0.0, 0.0, 0.0 );
 
-#firelight = $AM.createLightActor("firelight", LightObject::LT_POINT);
-#firelight.placeIntoScene( 94.28, 5.65, -30.88, 1.0, 0.0, 0.0, 0.0 );
-#firelight.getControlledObject().setCastShadows(false);
+
 
 qualm1 = $AM.createParticleSystemActor("qualm1", "qualm" );
 qualm1.placeIntoScene( -4.28, 3.00, -1.66, 1.0, 0.0, 0.0, 0.0 );
@@ -27,6 +25,12 @@ qualm5.placeIntoScene( 92.39, 18.35, -30.55, 1.0, 0.0, 0.0, 0.0 );
 #rain = $AM.createParticleSystemActor("rain", "rain" );
 #rain.placeIntoScene( 0.39, 0.35, 0.55, 1.0, 0.0, 0.0, 0.0 );
 
+
+#firelight = $AM.createLightActor("firelight", LightObject::LT_POINT);
+#firelight.placeIntoScene( 94.28, 5.65, -30.88, 1.0, 0.0, 0.0, 0.0 );
+#firelight.getControlledObject().setCastShadows(false);
+
+#firelight.getControlledObject().setAttenuation(10,1,1,1);
 
 #halter= $hero.getActor();
 #halter.attachToSlotAxisRot( rain, "l_oberarm", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 0.0, 0.0, 0.0 ], 0.0 );

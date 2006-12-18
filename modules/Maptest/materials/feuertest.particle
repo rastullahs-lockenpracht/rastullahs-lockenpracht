@@ -1,3 +1,4 @@
+
 feuertest
 {
 	quota	70
@@ -12,7 +13,7 @@ feuertest
 	nonvisible_update_timeout	0
 	billboard_type	point
 	billboard_origin	center
-	billboard_rotation_type	texcoord
+	billboard_rotation_type	vertex
 	common_up_vector	0 1 0
 	point_rendering	false
 	accurate_facing	false
