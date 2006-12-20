@@ -5,5 +5,6 @@ noinst_HEADERS =
 	AiSubsystem.h \
 	FuzzyState.h \
 	FuzzyStateMachine.h \
+	PhysicalObstacle.h \
 	SteeringMachine.h \
 	SteeringVehicle.h

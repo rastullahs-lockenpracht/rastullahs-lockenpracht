@@ -29,7 +29,7 @@ AiWorld::AiWorld(void) : mObstacles()
 //  create an obstacle as bounding box of the walkarea for npcs
 //  this should be accessable through scripting, the Obstacles should have names
 //  for easier access
-	BoxObstacle* o = new BoxObstacle(25,50,25);
+/*	BoxObstacle* o = new BoxObstacle(25,50,25);
 	o->setSeenFrom(AbstractObstacle::inside);
 	o->setPosition(Vec3(-40.0f,-10.0f, 0.0f));
 	o->setForward(0,0,-1);
@@ -39,7 +39,7 @@ AiWorld::AiWorld(void) : mObstacles()
 	o->setSeenFrom(AbstractObstacle::outside);
 	o->setPosition(Vec3(-31.5f,-10.0f, -3.5f));
 	o->setForward(0,0,-1);
-	addObstacle(o);
+	addObstacle(o); */
 
 }
 
@@ -79,8 +79,8 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
     pi.intersect = false;
     RaycastInfo info;
     // versuche bis zu 5 raycasts mit der Mitte und den "Ecken:" oben, unten, links, rechts!
-    // Dadurch ist ungefähr der Umriss gesichert!
-    // Habe bisher keine elegantere Lösung gefunden
+    // Dadurch ist ungefï¿½hr der Umriss gesichert!
+    // Habe bisher keine elegantere Lï¿½sung gefunden
     RaycastType raycastType;
     Vec3 _pos = vehicle.position();
     Vec3 _futPos = vehicle.forward() * 2 + _pos;
@@ -97,9 +97,9 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
     velocityNorm.normalise(); // normalisierte geschwindigkeit (Richtung!)
 
 
-    // Versuchen wir mal das Casten, um das ursprüngliche SteelingVehicle zu kriegen
+    // Versuchen wir mal das Casten, um das ursprï¿½ngliche SteelingVehicle zu kriegen
     const SteeringVehicle *steerVec = dynamic_cast<const SteeringVehicle *> (&vehicle);
-    // falls nich geklappt, ist das Ergebnis NULL, das wird später abgefragt!
+    // falls nich geklappt, ist das Ergebnis NULL, das wird spï¿½ter abgefragt!
 
 
     for( int i = 0; i < 5; i++ )
@@ -110,7 +110,7 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
         AxisAlignedBox aab;
 
 
-        if( raycastType == MIDDLE ) // immer Ausführen
+        if( raycastType == MIDDLE ) // immer Ausfï¿½hren
         {
             castPos = pos;
             castFutPos = futPos;
@@ -182,10 +182,10 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
         pi.distance = info.mDistance * (futPos - pos).length();
         pi.surfacePoint = _pos + (vehicle.forward() * pi.distance);
 
-        // Die normale muss zu uns zeigen! könnte aber auch in die entgegengesetzte Richtung sein!
+        // Die normale muss zu uns zeigen! kï¿½nnte aber auch in die entgegengesetzte Richtung sein!
         pi.surfaceNormal = Vec3(info.mNormal.x, info.mNormal.y, info.mNormal.z);
         pi.surfaceNormal.normalize();
-        // jedenfalls gilt dafür, dass der abstand zwischen surfacePoint+surfaceNormal und _pos minimal sein muss
+        // jedenfalls gilt dafï¿½r, dass der abstand zwischen surfacePoint+surfaceNormal und _pos minimal sein muss
         if( ((pi.surfacePoint + pi.surfaceNormal) - _pos).length() > 
             ((pi.surfacePoint - pi.surfaceNormal) - _pos).length() )
             pi.surfaceNormal = -pi.surfaceNormal;
