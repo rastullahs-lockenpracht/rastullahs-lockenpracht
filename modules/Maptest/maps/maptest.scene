@@ -15,6 +15,21 @@
   
 
 		</node>
+		<node name="ver_lagerfeuer01_an" id="1" >
+			<position x="36.74" y="-4.09" z="35.93" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_lagerfeuer01_an"
+				id="3"
+				meshFile ="ver_lagerfeuer01_an.mesh"
+				materialFile="maptest.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
 		<node name="Ruchin_p" id="3" >
 			<position x="30.2696" y="2.87219" z="-9.16725" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
