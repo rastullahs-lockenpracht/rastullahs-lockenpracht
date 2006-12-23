@@ -225,3 +225,26 @@ AC_CONFIG_FILES([Makefile \
 
 AC_OUTPUT
 
+eval GAME_DIR="${bindir}"
+eval GAME_DIR="${GAME_DIR}"
+
+dnl Show a summary about important directories
+echo
+echo "***********************************************************"
+echo "* Rastullahs Lockenpracht - Configuration Results Summary *"
+echo "***********************************************************"
+echo
+echo " Code options:"
+echo "       Building RL in debug mode:          ${enable_debug-no}"
+echo "       Enable unit testing:                ${enable_tests-no}"
+echo
+echo " Sound plugins:"
+echo "       FMOD 3 plugin:                      ${enable_fmod3-no}"
+echo "       FMOD 4 plugin:                      ${enable_fmod4-no}"
+echo "       OpenAL plugin:                      ${enable_openal-no}"
+echo
+echo " Directory settings:"
+echo "       rastullah binary will be placed in: ${GAME_DIR}"
+echo "       Module directory:                   ${RL_MODULE_DIR}"
+echo
+echo "Type make && make install and pray!"
