@@ -159,8 +159,8 @@ material Ruchin_map
 	{
 		pass
 		{
-			ambient 0.5 0.5 0.5 1
-			//ambient 0.0 0.0 0.0 1
+			//ambient 0.5 0.5 0.5 1
+			ambient 0.0 0.0 0.0 1
 			//ambient vertexcolour
  
 			//specular 0 0 0 1 10
@@ -255,4 +255,61 @@ material Ruchin_p
 		}
 
 	}
+}
+
+material Ruchin/base
+{
+//lighting off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.8 0.8 0.8 1
+			//ambient 0.0 0.0 0.0 1
+			//ambient vertexcolour
+ 
+			//specular 0 0 0 1 10
+			
+			//diffuse 0.9 0.9 0.9 
+			//emissive 0.105882 0.105882 0.105882 1
+			//emissive vertexcolour
+			
+			texture_unit
+			{
+				texture ruchin_atlasmap.png
+			}
+
+			
+		}
+
+	}
+}
+
+material Ruchin/Schiefer
+{
+//lighting off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.8 0.8 0.8 1
+			//ambient 0.0 0.0 0.0 1
+			//ambient vertexcolour
+ 
+			//specular 0 0 0 1 10
+			
+			//diffuse 0.9 0.9 0.9 
+			//emissive 0.105882 0.105882 0.105882 1
+			//emissive vertexcolour
+
+			texture_unit
+			{
+				texture arc_schieferdach.png
+			}
+		}
+
+	}
+
 }
