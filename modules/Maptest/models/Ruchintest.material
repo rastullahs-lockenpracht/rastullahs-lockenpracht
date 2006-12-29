@@ -246,7 +246,7 @@ material Ruchin_p
 			texture_unit
 			{
 				texture_alias 0
-				texture ruchin_atlasmap.png
+				texture ruchin_atlasmap.dds
 				colour_op_ex modulate_x2 src_texture src_current
 				colour_op_multipass_fallback dest_colour zero
 			}
@@ -277,7 +277,7 @@ material Ruchin/base
 			
 			texture_unit
 			{
-				texture ruchin_atlasmap.png
+				texture ruchin_atlasmap.dds
 			}
 
 			
@@ -285,6 +285,8 @@ material Ruchin/base
 
 	}
 }
+
+
 
 material Ruchin/Schiefer
 {
@@ -312,4 +314,38 @@ material Ruchin/Schiefer
 
 	}
 
+}
+
+material Ruchin/glas
+{
+//lighting off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.8 0.8 0.8 1
+			//ambient 0.0 0.0 0.0 1
+			//ambient vertexcolour
+ 
+			//specular 0 0 0 1 10
+			
+			//diffuse 0.9 0.9 0.9 
+			//emissive 0.105882 0.105882 0.105882 1
+			//emissive vertexcolour
+			
+			// Überblenden aktiviert
+      		scene_blend alpha_blend 
+      		// Tiefenpuffer aus
+      		depth_write off
+			
+			texture_unit
+			{
+				texture ruchin_atlasmap.dds
+			}
+
+			
+		}
+
+	}
 }
