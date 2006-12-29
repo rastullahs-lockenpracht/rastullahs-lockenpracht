@@ -2,6 +2,7 @@ load "embed.rb"
 $World = $CORE.getWorld()
 require 'player.rb'
 require 'hero.rb'
+require 'door.rb'
 
 # Physik aktivieren
 $PM.setEnabled(true);
@@ -42,6 +43,16 @@ $UI.setActiveCharacter($hero);
 $SCRIPT.log("Held als aktiver Charakter gesetzt.");
 $heroVehicle = $AI.createAgent(AgentManager::AGENT_PLAYER, $hero);	
 $SCRIPT.log("SteeringVehicle für Held erstellen...");
+
+
+$SCRIPT.log("Türen einsetzen");
+#door1 = Door.new("Haustuer", "Eine Holztür", [-12.9124, -6.86492, 13.7133], [0, -120, 0], "arc_door_02.mesh");
+#door1.addActions(false, true)
+
+door2 = Door.new("Tavernentür", "Die Eingangstür zur Taverne", [52.461, 1.28902, -26.323], [-0.462671,0.0, 0.88653, 0.0], "arc_door_tavern.mesh");
+door2.addActions(false, true)
+
+$SCRIPT.log("Türen gesetzt");
 
 
 

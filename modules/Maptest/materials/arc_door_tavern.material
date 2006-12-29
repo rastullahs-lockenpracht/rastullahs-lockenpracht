@@ -1,0 +1,17 @@
+
+material taverntuer
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.8 0.8 0.8 1
+			specular 0 0 0 1 10
+
+			texture_unit
+			{
+				texture arc_door_tavern.dds
+			}
+		}
+	}
+}
