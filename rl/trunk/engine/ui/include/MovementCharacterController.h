@@ -92,7 +92,6 @@ namespace rl {
             typedef enum {Stand, Crouch, StandToCrouch, CrouchToStand, Falling, Jumping, StartJump, EndJump} Pose;
 			CharacterState();
             Pose mPose;
-            Pose mLastPose;
 			bool mIsAirBorne;
             bool mHasFloorContact;
 			bool mStartJump;

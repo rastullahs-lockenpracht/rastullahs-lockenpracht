@@ -62,7 +62,8 @@ namespace rl {
 		mJumpTimer(0.0),
 		mDesiredVel(Vector3::ZERO),
 		mCurrentMovementState(MOVE_NONE),
-		mLastMovementState(MOVE_NONE)
+		mLastMovementState(MOVE_NONE),
+        mPose(Stand)
 	{
 
 	}
@@ -1161,6 +1162,9 @@ while( angleToFloor < Degree(60) && angleToFloor > Degree(-60) );
 
         if (jumpNextFrame)
             movement |= MOVE_JUMP;
+
+        if (mCharacterState.mPose == CharacterState::Falling) // noch nicht implementiert!
+            mCharacterState.mPose = CharacterState::Stand;
 
 
         if (mCharacterState.mPose == CharacterState::Stand && movement & MOVE_SNEAK)
