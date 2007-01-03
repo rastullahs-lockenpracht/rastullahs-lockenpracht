@@ -75,8 +75,12 @@ namespace rl {
 		if (it == mPoseSizes.end())
 		{
 			// Not yet calculated. Do so now and save.
-            AxisAlignedBox rval = calculateSizeFromPose(animationName);
+            // Duplicating the MeshObject, the restrictions of the 
+            // calculateSizeFromPose-method don't matter any more!
+            MeshObject tempMesh("tempMesh_getPoseSize", getEntity()->getMesh()->getName());
+            AxisAlignedBox rval = tempMesh.calculateSizeFromPose(animationName);
 			mPoseSizes.insert(make_pair(animationName, rval));
+            // Does the tempMesh need to be removed explicitly?
 			return rval;
 		}
 		else
@@ -244,6 +248,7 @@ namespace rl {
 		// update the animation and then remove the software request
 		// Actually this doesn't work, if animation has been updated already in this frame,
 		// but this restriction can't be circumvented easily.
+        // This can be circumvented by duplicating the MeshObject, this is done in getPoseSize
 		entity->addSoftwareAnimationRequest(false);
 		entity->_updateAnimation();
 
