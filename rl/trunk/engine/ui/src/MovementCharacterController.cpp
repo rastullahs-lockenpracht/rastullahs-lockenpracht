@@ -37,6 +37,7 @@
 #include "InputManager.h"
 #include "Logger.h"
 #include "MeshObject.h"
+#include "MeshAnimation.h"
 #include "MovementCharacterController.h"
 #include "PhysicsManager.h"
 #include "PhysicsMaterialRaycast.h"
@@ -44,6 +45,7 @@
 #include "World.h"
 #include "LineSetPrimitive.h"
 #include "WindowFactory.h"
+#include "AnimationManager.h"
 
 #include <numeric>
 
@@ -83,7 +85,7 @@ namespace rl {
         mRotLinearSpringK(600.0f),
         mRotLinearDampingK(Math::NEG_INFINITY),
 		mLookAtOffset(),
-		mRotationSpeed(Degree(180.0f)),
+		mRotationSpeed(Degree(120.0f)),
         mMouseSensitivity(4.0f),
 		mSpeedModifier(1.0f),
 		mViewMode(VM_THIRD_PERSON),
@@ -97,14 +99,14 @@ namespace rl {
         mSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager())
 	{
         DebugWindow::getSingleton().registerPage(msDebugWindowPageName);
-		mMovementSpeed = 
-            (float)character->getWert(Creature::WERT_GS) / 
-			(float)Date::ONE_KAMPFRUNDE 
-			* 1000.0f;
+
 
 		mGravitation = PhysicsManager::getSingleton().getGravity();
 		mMouseSensitivity
 			= ConfigurationManager::getSingleton().getIntSetting("mouse_sensitivity", 4);
+        int temp = 
+            ConfigurationManager::getSingleton().getIntSetting("mouse_invert", 0);
+        mInvertedMouse = temp != 0;
 
         // The relationCoefficient determines the relation between spring accel in target direction
         // and damping in velocity direction. 1.0 means equilibrium is reached in optimal time
@@ -188,32 +190,125 @@ namespace rl {
 	//------------------------------------------------------------------------
 	void MovementCharacterController::run(Real elapsedTime)
 	{
+        int movement = mCharacterState.mCurrentMovementState;
+        updateAnimationState(movement);
+        updateCharacterState(movement, elapsedTime);
+        updateCameraLookAt(elapsedTime);
+        updateSelection();
+
+
+
+        // Do we need to reset the Camera?
+        Vector3 charPos = mCharacterActor->getWorldPosition();
+        Quaternion charOri = mCharacterActor->getWorldOrientation();
+		//mCharBody->getPositionOrientation(charPos, charOri);
+
+		Vector3 camPos;
+		Quaternion camOri;
+		mCamBody->getPositionOrientation(camPos, camOri);
+
+        float maxdistance;
+        if (mViewMode == VM_FIRST_PERSON)
+            maxdistance = 0.25;
+        else
+            maxdistance = 1.3f * mDesiredDistance + 1.4f;
+
+		// if we have more than 250ms and at least five frames with camera distance higher
+		// than desired distance, reset camera
+		if ((camPos - (charPos + charOri*mLookAtOffset)).length() > maxdistance)
+		{
+			mCameraJammedTime += elapsedTime;
+			++mCameraJammedFrameCount;
+		}
+		else
+		{
+			mCameraJammedTime = 0.0f;
+			mCameraJammedFrameCount = 0;
+		}
+
+		if (mCameraJammedTime > 0.250f && mCameraJammedFrameCount > 5)
+		{
+			mCameraJammedFrameCount = 0;
+			resetCamera();
+		}
+			
+        mCharacterState.mLastMovementState = mCharacterState.mCurrentMovementState;
+    }
+
+	//------------------------------------------------------------------------
+	void MovementCharacterController::updateCharacterState(int movement, Ogre::Real elapsedTime)
+	{
 		InputManager* im = InputManager::getSingletonPtr();
+        Real gs = mCharacter->getWert(Creature::WERT_GS);
+        Real auPerSecond = 0.0; // Standard - Ausdauer-verbrauch/Regeneration pro Sekunde
+        bool canRun = mCharacter->getAu() > 6.0f;
+        Radian rotationSpeed = mRotationSpeed * gs / 6.0f; // <-- arme Zwerge? aber wenn gs sinkt sollte das auch sinken!
 
-		// Fetch current movement state
-		mCharacterState.mDesiredVel = Vector3::ZERO;
-		int movement = mCharacterState.mCurrentMovementState;
+        if (mCharacterState.mPose == CharacterState::StartJump ||
+            mCharacterState.mPose == CharacterState::Jumping ||
+            mCharacterState.mPose == CharacterState::EndJump)
+            ; // do nothing, old mDesiredVel!!
+        else
+            mCharacterState.mDesiredVel = Vector3::ZERO;
 
-		// Determine character's control state based on user input
-		if (movement & MOVE_FORWARD)  mCharacterState.mDesiredVel.z = -1;
-		if (movement & MOVE_BACKWARD) mCharacterState.mDesiredVel.z =  1;
-		if (movement & MOVE_RIGHT)    mCharacterState.mDesiredVel.x =  1;
-		if (movement & MOVE_LEFT)     mCharacterState.mDesiredVel.x = -1;
-		
-		mCharacterState.mDesiredVel.normalise();
-		mCharacterState.mDesiredVel *= mMovementSpeed;
-		
-		if (movement & MOVE_JUMP)  mCharacterState.mStartJump = true;
-
-		if (movement & TURN_LEFT)  mYaw += mRotationSpeed*elapsedTime;
-		if (movement & TURN_RIGHT) mYaw -= mRotationSpeed*elapsedTime;
-
-		if (isRunMovement(movement))
+        if (mCharacterState.mPose == CharacterState::Stand)
         {
-            if( movement & MOVE_FORWARD ) 
-                mCharacterState.mDesiredVel *= 3.0;
-            else // für Rückwärts und Seite
-                mCharacterState.mDesiredVel *= 1.5;
+            // Sprünge werden von updateAnimationStat geregelt
+
+            // Rückwärts gehen oder laufen
+            if ( movement & MOVE_BACKWARD && !(movement & MOVE_FORWARD) )
+            {
+                if( movement & MOVE_RUN_LOCK ) // Rückwärts joggen
+                {
+                    mCharacterState.mDesiredVel = Vector3(0,0,1) * 0.6 * gs / 2.0;
+                }
+                else
+                {
+                    mCharacterState.mDesiredVel = Vector3(0,0,1) * 0.6 * gs / 3.6;
+                }
+            }
+            else if ( movement & MOVE_FORWARD ) // Vorwärtsbewegung
+            {
+                if( movement & MOVE_RUN && movement & MOVE_RUN_LOCK ) // sprinten
+                {
+                    mCharacterState.mDesiredVel = Vector3(0,0,-1) * gs;
+                }
+                else if( movement & MOVE_RUN && !(movement & MOVE_RUN_LOCK) ) // gehen
+                {
+                    mCharacterState.mDesiredVel = Vector3(0,0,-1) * gs / 3.6f;
+                }
+                else if( movement & MOVE_RUN_LOCK ) // laufen
+                {
+                    mCharacterState.mDesiredVel = Vector3(0,0,-1) * gs / 2.0f;
+                }
+                else // joggen
+                {
+                    mCharacterState.mDesiredVel = Vector3(0,0,-1) * gs / 2.5f;
+                }
+            }
+            else if( movement & MOVE_LEFT )
+            {
+                mCharacterState.mDesiredVel = Vector3(1,0,0) * gs / 3.6;
+            }
+            else if( movement & MOVE_RIGHT )
+            {
+                mCharacterState.mDesiredVel = Vector3(-1,0,0) * gs / 3.6;
+            }
+
+            if (movement & TURN_LEFT)  mYaw += rotationSpeed*elapsedTime;
+            if (movement & TURN_RIGHT) mYaw -= rotationSpeed*elapsedTime;
+
+
+        }
+        else if (mCharacterState.mPose == CharacterState::Crouch)
+        {
+            if (movement & MOVE_FORWARD)
+                mCharacterState.mDesiredVel.z = -0.5 * gs / 3.6;
+            rotationSpeed *= 0.6;
+
+            if (movement & TURN_LEFT)  mYaw += rotationSpeed*elapsedTime;
+            if (movement & TURN_RIGHT) mYaw -= rotationSpeed*elapsedTime;
+
         }
 
 
@@ -227,24 +322,47 @@ namespace rl {
 			mDesiredDistance = mDistanceRange.second;
 		}
 
-		mPitch += 0.5 * mMouseSensitivity * Degree(im->getMouseRelativeY() / 10);
+        if (mInvertedMouse)
+		    mPitch -= 0.5 * mMouseSensitivity * Degree(im->getMouseRelativeY() / 10);
+        else
+            mPitch += 0.5 * mMouseSensitivity * Degree(im->getMouseRelativeY() / 10);
 		if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
 		if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
 
 
-        if(mViewMode == VM_FREE_CAMERA)
-            mCamYaw -= 2 * mMouseSensitivity / 4.0 * mRotationSpeed * Degree(im->getMouseRelativeX() / 15);
-        else
+        if( !im->isCeguiActive() && mViewMode == VM_FIRST_PERSON || mViewMode == VM_THIRD_PERSON )
         {
             if( !(movement & TURN_LEFT || movement & TURN_RIGHT) )
-		        mYaw -= mMouseSensitivity / 4.0 * mRotationSpeed * Degree(im->getMouseRelativeX() / 15);
+            {
+                mYaw -= mMouseSensitivity / 6.0 * rotationSpeed * Degree(im->getMouseRelativeX() / 15);
+
+                while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
+		        while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
+            }
+        }
+    }
+
+	//------------------------------------------------------------------------
+	void MovementCharacterController::updateCameraLookAt(Ogre::Real elapsedTime)
+	{
+        InputManager* im = InputManager::getSingletonPtr();
+        
+
+        if( !im->isCeguiActive() && mViewMode == VM_FREE_CAMERA )
+        {
+            mCamYaw -= 2 * mMouseSensitivity / 4.0 * mRotationSpeed * Degree(im->getMouseRelativeX() / 15);
+
+		    while (mCamYaw.valueDegrees() > 360.0f) mCamYaw -= Degree(360.0f);
+		    while (mCamYaw.valueDegrees() < -360.0f) mCamYaw += Degree(360.0f);
         }
 
 		SceneNode* cameraNode = mCameraActor->_getSceneNode();
 
 		Vector3 charPos;
 		Quaternion charOri;
-		mCharBody->getPositionOrientation(charPos, charOri);
+		//mCharBody->getPositionOrientation(charPos, charOri);
+        charPos = mCharacterActor->getWorldPosition();
+        charOri = mCharacterActor->getWorldOrientation();
 
 		if( mViewMode == VM_FIRST_PERSON)
 		{
@@ -269,6 +387,7 @@ namespace rl {
 				charPos	+ mLookAtOffset
                 + charOri * (-Vector3::UNIT_Z*radius), 
 				Node::TS_WORLD);
+
 		}
         else if( mViewMode == VM_FREE_CAMERA )
         {
@@ -300,68 +419,9 @@ namespace rl {
                 mCharacterActor->setVisible(true);
             }
         }
-
-		while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
-		while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
-		while (mCamYaw.valueDegrees() > 360.0f) mCamYaw -= Degree(360.0f);
-		while (mCamYaw.valueDegrees() < -360.0f) mCamYaw += Degree(360.0f);
-
-
-        updateAnimationState();
-
-        if (!im->isCeguiActive())
-        {
-		    updateSelection();
-            if (im->isMouseButtonDown(OIS::MB_Right) && mSelector.getSelectedObject() != NULL)
-            {
-                WindowFactory::getSingleton().showActionChoice(mSelector.getSelectedObject());
-            }
-            else if (im->isMouseButtonDown(OIS::MB_Left) && mSelector.getSelectedObject() != NULL)
-            {
-                mSelector.getSelectedObject()->doDefaultAction(mCharacter, NULL);
-            }
-        }
-		mCharBody->getPositionOrientation(charPos, charOri);
-
-		Vector3 camPos;
-		Quaternion camOri;
-		mCamBody->getPositionOrientation(camPos, camOri);
-
-        float maxdistance;
-        if (mViewMode == VM_FIRST_PERSON)
-            maxdistance = 0.25;
-        else
-            maxdistance = 1.3f * mDesiredDistance + 1.4f;
-
-		// if we have more than 250ms and at least five frames with camera distance higher
-		// than desired distance, reset camera
-		if ((camPos - (charPos + charOri*mLookAtOffset)).length() > maxdistance)
-		{
-			mCameraJammedTime += elapsedTime;
-			++mCameraJammedFrameCount;
-		}
-		else
-		{
-			mCameraJammedTime = 0.0f;
-			mCameraJammedFrameCount = 0;
-		}
-
-		if (mCameraJammedTime > 0.250f && mCameraJammedFrameCount > 5)
-		{
-			mCameraJammedFrameCount = 0;
-			resetCamera();
-		}
-
-		updateAnimationState();
     }
 
-	bool MovementCharacterController::isRunMovement(int movement)
-	{
-		return 
-			((movement & MOVE_RUN) && !(movement & MOVE_RUN_LOCK)) 
-			|| (!(movement & MOVE_RUN) && (movement & MOVE_RUN_LOCK));
-	}
-
+    //------------------------------------------------------------------------
     // adopted from the chararcter demo in the newton sdk
     // copyright 2000-2004
     // By Julio Jerez
@@ -442,6 +502,7 @@ namespace rl {
 		return 1;
 	}
 
+    //------------------------------------------------------------------------
     // adopted from the chararcter demo in the newton sdk
     // copyright 2000-2004
     // By Julio Jerez
@@ -491,7 +552,7 @@ namespace rl {
 			//if (currentVel.y < 0.0f || mCharacterState.mJumpTimer < 2.0f) 
 			currentVel.y = 0.0f;
 
-            if( (mCharacterState.mHasFloorContact && mCharacterState.mJumpTimer > 0.25f) || 
+            if( (mCharacterState.mHasFloorContact && mCharacterState.mJumpTimer > 0.1f) || 
                 ( timeSinceLastFloorContact < 0.2f && !mCharacterState.mIsAirBorne ) )
                 mCharacterState.mIsAirBorne = false;
             else
@@ -512,6 +573,39 @@ namespace rl {
                         jumpForce,
                         0);
 			    }
+
+// NOCH NICHT FERTIG, TUT NOCH NICHTS
+// soll dafür sorgen, dass er auf dem
+// Boden bleibt und über kleien Hindernisse kommt
+/*
+Degree angleToFloor (-9.0f);
+RaycastInfo info;
+bool foundFloor (false);
+do
+{
+    // Raycast in Bewegungsrichtung
+    info = mRaycast->execute(
+        PhysicsManager::getSingleton()._getNewtonWorld(),
+        mCharBody->getMaterialGroupID(),
+        position, position + mCharacterState.mDesiredVel / 2.0,
+        true);
+    if( info.mBody ) // etwas gefunden
+    {
+        angleToFloor += Degree(10);
+        foundFloor = true;
+    }
+    else
+    {
+        if (foundFloor)
+            break;
+        else
+            angleToFloor -= Degree(10);
+    }
+}
+while( angleToFloor < Degree(60) && angleToFloor > Degree(-60) );
+*/
+
+
                 Real delay = 2 * PhysicsManager::getSingleton().getMaxTimestep(); // so ist die Beschleunigung unabhängig von der framerate!
                 force += mass*(orientation*mCharacterState.mDesiredVel - currentVel) / delay;
             }
@@ -519,7 +613,7 @@ namespace rl {
 
 			body->setForce(force);
 			// Assume we are air borne.
-			// Might be set to false in the collision callback
+			// Might be set to true in the collision callback
 			mCharacterState.mHasFloorContact = false;
 
 
@@ -582,11 +676,14 @@ namespace rl {
         DebugWindow::getSingleton().setPageText(msDebugWindowPageName, ss.str());
     }
 
+    //------------------------------------------------------------------------
 	void MovementCharacterController::calculateCamera(const Ogre::Real& timestep)
 	{
 		Vector3 charPos;
 		Quaternion charOri;
-		mCharBody->getPositionOrientation(charPos, charOri);
+		//mCharBody->getPositionOrientation(charPos, charOri);
+        charPos = mCharacterActor->getWorldPosition();
+        charOri = mCharacterActor->getWorldOrientation();
 
 		Vector3 camPos;
 		Quaternion camOri;
@@ -823,6 +920,7 @@ namespace rl {
         }
 	}
 
+    //------------------------------------------------------------------------
     Ogre::Vector3 MovementCharacterController::calculateOptimalCameraPosition(bool SlowlyMoveBackward, const Real &timestep)
     {
         Vector3 targetCamPos;
@@ -830,32 +928,11 @@ namespace rl {
 
         if( mViewMode == VM_THIRD_PERSON || mViewMode == VM_FREE_CAMERA )
         {
-            if( !mCharBody->getCollision().isNull() )
-            {
-                // man könnte mLookAtOffset dynamisch durch creature bestimmen lassen (offset der augen)
-		        // so the cam does look at the characters head instead of the feet.
-                AxisAlignedBox aabb = mCharBody->getCollision()->getAABB();
-                if(mViewMode == VM_THIRD_PERSON)
-                {
-                    mLookAtOffset = Vector3(
-                        0, 
-                        (aabb.getMaximum().y - aabb.getMinimum().y) * 0.45f, 
-                        0 //(aabb.getMaximum().z - aabb.getMinimum().z) * (-0.3f)
-                        );
-                }
-                else
-                {
-                    mLookAtOffset = Vector3(
-                        0, 
-                        (aabb.getMaximum().y - aabb.getMinimum().y) * 0.25f, 
-                        0 //(aabb.getMaximum().z - aabb.getMinimum().z) * (-0.3f)
-                        );
-                }
-            }
-
             Vector3 charPos;
             Quaternion charOri;
-            mCharBody->getPositionOrientation(charPos, charOri);
+            charPos = mCharacterActor->getWorldPosition();
+            charOri = mCharacterActor->getWorldOrientation();
+            //mCharBody->getPositionOrientation(charPos, charOri);
             charPos = charPos + charOri * mLookAtOffset;
             if(mViewMode == VM_THIRD_PERSON)
             {
@@ -991,52 +1068,11 @@ namespace rl {
         }
         else
         {
-            if( !mCharBody->getCollision().isNull() )
-            {
-		        // so the cam does look at the characters head instead of the feet.
-                AxisAlignedBox aabb = mCharBody->getCollision()->getAABB();
-                mLookAtOffset = Vector3(
-                    0, 
-                    (aabb.getMaximum().y - aabb.getMinimum().y) * 0.45f,
-                    (aabb.getMaximum().z - aabb.getMinimum().z) * (-0.3f) 
-                    );
-            }
-/*
-std::ostringstream ss;
-            // nach head bone suchen!
-            // funktioniert noch nicht ganz
-ss << "suche position der head-bone: ";
-            ActorControlledObject *aco = mCharacterActor->getControlledObject();
-            if( aco->isMeshObject() )
-            {
-ss << "Mesh-Objekt ok; ";
-                MeshObject* meshObj = dynamic_cast<MeshObject*>(aco);
-                Entity* ent = meshObj->getEntity();
-                if( ent->hasSkeleton() )
-                {
-ss << "Skeleton found; ";
-                    Ogre::SkeletonInstance *skel = ent->getSkeleton();
-                    try
-                    {
-                        Ogre::Bone *head = skel->getBone(Ogre::String("kopf"));
-                        if( head != NULL )
-                        {
-ss << "'head'-bone found; ";
-                            mLookAtOffset = head->getPosition();
-ss << "Position: ( " << mLookAtOffset.x << " | " << mLookAtOffset.y << " | " << mLookAtOffset.z << " )";
-                        }
-                    }
-                    catch(...)
-                    {
-ss << "'head'-bone NOT found; ";
-                    }
-                }
-            }
-//LOG_DEBUG(Logger::UI, ss.str());
-*/
             Vector3 charPos;
             Quaternion charOri;
-            mCharBody->getPositionOrientation(charPos, charOri);
+            //mCharBody->getPositionOrientation(charPos, charOri);
+            charPos = mCharacterActor->getWorldPosition();
+            charOri = mCharacterActor->getWorldOrientation();
             // determine the optimal target position of the camera            
 	        targetCamPos = 
 		        charPos 
@@ -1051,8 +1087,13 @@ ss << "'head'-bone NOT found; ";
         return targetCamPos;
     }
 
+    //------------------------------------------------------------------------
 	void MovementCharacterController::updateSelection()
 	{
+        InputManager* im = InputManager::getSingletonPtr();
+        if( im->isCeguiActive() )
+            return;
+
         GameObject* oldGo = mSelector.getSelectedObject();
 
         mSelector.setPosition(mCharacterActor->getWorldPosition());
@@ -1071,14 +1112,279 @@ ss << "'head'-bone NOT found; ";
         {
             newGo->setHighlighted(true);            
         }
+
+        // Optionen anzeigen
+        if (im->isMouseButtonDown(OIS::MB_Right) && mSelector.getSelectedObject() != NULL)
+        {
+            WindowFactory::getSingleton().showActionChoice(mSelector.getSelectedObject());
+        }
+        else if (im->isMouseButtonDown(OIS::MB_Left) && mSelector.getSelectedObject() != NULL)
+        {
+            mSelector.getSelectedObject()->doDefaultAction(mCharacter, NULL);
+        }
 	}
 
-	void MovementCharacterController::updateAnimationState()
+    //------------------------------------------------------------------------
+	void MovementCharacterController::updateAnimationState(int &movement)
 	{
 		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
 		PhysicalThing* pt = mCharacterActor->getPhysicalThing();
-        static bool lastAirBorne(false);
+        static std::string lastAnimation("");
+        std::string newAnimation("");
+        Real animSpeed = 1;
+        static Real lastSpeed = 1;
+        static bool jumpNextFrame(false);
+        unsigned int animTimesToPlay = 0;
+        Real gs = mCharacter->getWert(Creature::WERT_GS);
 
+        // the different factors used to calculate the animation-speed from the character-speed
+        const Real factor_hocke_gehen = 0.7;
+        const Real factor_drehen_idle = 0.6;
+        const Real factor_gehen = 0.5;
+        const Real factor_gehen_rueckwaerts = 0.7;
+        const Real factor_rennen = 0.25;
+        const Real factor_rennen_absprung = 0.25;
+        const Real factor_rennen_sprung_landung = 0.6;
+        const Real factor_rennen_sprung = 0.25;
+        const Real factor_seitwaerts = 0.9;
+
+
+        Vector3 charVelocity, charOmega;
+        charOmega = mCharBody->getOmega();
+        charVelocity = mCharBody->getVelocity();
+        Quaternion charOri = mCharacterActor->getWorldOrientation();
+        if( charOri != Quaternion::ZERO )
+        {
+            charVelocity = charOri.Inverse() * charVelocity;
+        }
+        Real vel = charVelocity.length();
+
+        if (jumpNextFrame)
+            movement |= MOVE_JUMP;
+
+
+        if (mCharacterState.mPose == CharacterState::Stand && movement & MOVE_SNEAK)
+        {
+            newAnimation = "idle_zu_hocke";
+            mCharacterState.mPose = CharacterState::StandToCrouch;
+            animTimesToPlay = 1;
+        }
+        else if(mCharacterState.mPose == CharacterState::StandToCrouch)
+        {
+            MeshAnimation *meshAnim = mesh->getAnimation("idle_zu_hocke");
+            if (meshAnim->getTimePlayed() >= meshAnim->getLength())
+            {
+                newAnimation = "hocke_idle";
+                mCharacterState.mPose = CharacterState::Crouch;
+            }
+            // kamera-offset interpolieren grrr
+            Real factor;
+            factor = meshAnim->getTimePlayed() / meshAnim->getLength();
+            interpolateAnimationLookAtOffset("idle", "hocke_idle", factor);
+        }
+        else if(mCharacterState.mPose == CharacterState::Crouch && movement & MOVE_SNEAK)
+        {
+            if (vel > 0.1 && movement & MOVE_FORWARD)
+            {
+                newAnimation = "hocke_gehen";
+                animSpeed = charVelocity.length() * factor_hocke_gehen;
+            }
+            else
+            {
+                newAnimation = "hocke_idle";
+            }
+        }
+        else if (mCharacterState.mPose == CharacterState::Crouch)
+        {
+            // Achtung, nur wenn nach oben hin genug Platz ist aufstehen!!
+            newAnimation = "hocke_zu_stehen";
+            mCharacterState.mPose = CharacterState::CrouchToStand;
+            animTimesToPlay = 1;
+        }
+        else if(mCharacterState.mPose == CharacterState::CrouchToStand)
+        {
+            MeshAnimation *meshAnim = mesh->getAnimation("hocke_zu_stehen");
+            if (meshAnim->getTimePlayed() >= meshAnim->getLength())
+            {
+                mCharacterState.mPose = CharacterState::Stand;
+            }
+            // kamera-offset interpolieren grrr
+            Real factor;
+            factor = meshAnim->getTimePlayed() / meshAnim->getLength();
+            interpolateAnimationLookAtOffset("hocke_idle", "idle", factor);
+        }
+        else if(mCharacterState.mPose == CharacterState::StartJump)
+        {
+            if( lastAnimation == "rennen_absprung" )
+            {
+                MeshAnimation *meshAnim = mesh->getAnimation("rennen_absprung");
+                if (meshAnim->getTimePlayed() >= meshAnim->getLength())
+                {
+                    newAnimation = "rennen_sprung";
+                    animSpeed = factor_rennen_sprung * vel;
+                    animTimesToPlay = 1;
+                    mCharacterState.mPose = CharacterState::Jumping;
+                    mCharacterState.mStartJump = true;
+                }
+            }
+            else // "idle_absprung"
+            {
+                MeshAnimation *meshAnim = mesh->getAnimation("idle_absprung");
+                if (meshAnim->getTimePlayed() >= meshAnim->getLength())
+                {
+                    newAnimation = "idle_sprung";
+                    animTimesToPlay = 1;
+                    mCharacterState.mPose = CharacterState::Jumping;
+                    mCharacterState.mStartJump = true;
+                }
+            }
+        }
+        else if(mCharacterState.mPose == CharacterState::Jumping)
+        {
+            if( lastAnimation == "rennen_sprung" )
+            {
+                if (!mCharacterState.mIsAirBorne)
+                {
+                    newAnimation = "rennen_sprung_landung";
+                    animSpeed = factor_rennen_sprung_landung * vel;
+                    animTimesToPlay = 1;
+                    mCharacterState.mPose = CharacterState::EndJump;
+                }
+            }
+            else // "idle_sprung"
+            {
+                if (!mCharacterState.mIsAirBorne)
+                {
+                    newAnimation = "idle_sprung_landung";
+                    animTimesToPlay = 1;
+                    mCharacterState.mPose = CharacterState::EndJump;
+                }
+            }
+        }
+        else if(mCharacterState.mPose == CharacterState::EndJump)
+        {
+            MeshAnimation *meshAnim = mesh->getAnimation(lastAnimation);
+
+            if (meshAnim->getTimePlayed() >= meshAnim->getLength())
+                mCharacterState.mPose = CharacterState::Stand;
+        }
+
+
+
+
+        // absichtlich kein else!
+        if(mCharacterState.mPose == CharacterState::Stand && !(movement & MOVE_SNEAK)
+            && !(movement & MOVE_JUMP))
+        {
+            newAnimation = "idle";
+
+            // Nur im Stehen Drehen:
+            if( vel < 0.1)
+            {
+                if( charOmega.squaredLength() < 0.1)
+                {
+                    newAnimation = "idle";
+                }
+                else if( charOmega.y > 0 )
+                {
+                    newAnimation = "drehen_links";
+                    animSpeed = factor_drehen_idle * charOmega.y * (1);
+                }
+                else if( charOmega.y < 0 )
+                {
+                    newAnimation = "drehen_rechts";
+                    animSpeed = factor_drehen_idle * charOmega.y * (-1);
+                }
+            }
+            else if( vel <= gs / 3.55f)
+            {
+                if( charVelocity.z > 0 && movement & MOVE_BACKWARD)
+                {
+                    newAnimation = "gehen_rueckwaerts";
+                    animSpeed = factor_gehen_rueckwaerts * vel;
+                }
+                else if( movement & MOVE_FORWARD )
+                {
+                    newAnimation = "gehen";
+                    animSpeed = factor_gehen * vel;
+                }
+                else if( movement & MOVE_LEFT )
+                {
+                    newAnimation = "seitwaerts_links";
+                    animSpeed = factor_seitwaerts * vel;
+                }
+                else if( movement & MOVE_RIGHT )
+                {
+                    newAnimation = "seitwaerts_rechts";
+                    animSpeed = factor_seitwaerts * vel;
+                }
+            }
+            else if( movement & MOVE_FORWARD )
+            {
+                newAnimation = "rennen";
+                animSpeed = factor_rennen * vel;
+            }
+        }
+        else if(mCharacterState.mPose == CharacterState::Stand && !(movement & MOVE_SNEAK)
+            && (movement & MOVE_JUMP))
+        {
+            // Beginn eines Sprunges
+            if( lastAnimation == "rennen" )
+            {
+                newAnimation = "rennen_absprung";
+                animTimesToPlay = 1;
+                animSpeed = factor_rennen_absprung * vel;
+                mCharacterState.mPose = CharacterState::StartJump;
+            }
+            else 
+            {
+                if ( vel > 0.1 )
+                {
+                    // erstmal anhalten!
+                    movement = MOVE_NONE;
+                    jumpNextFrame = true;
+                }
+                else
+                {
+                    newAnimation = "idle_absprung";
+                    animTimesToPlay = 1;
+                    mCharacterState.mPose = CharacterState::StartJump;
+                }
+            }
+        }
+
+        if( mCharacterState.mPose == CharacterState::StartJump )
+            jumpNextFrame = false;
+
+
+
+
+        if (newAnimation != "")
+        {
+            if (lastAnimation != newAnimation)
+            {
+                // DIE REIHENFOLGE HIER IST EXTREM WICHTIG
+                //mesh->getAnimation(newAnimation);
+                pt->fitToPose(newAnimation);
+                mesh->stopAllAnimations();
+                mesh->startAnimation(newAnimation, animSpeed, animTimesToPlay);
+                lastAnimation = newAnimation;
+                lastSpeed = animSpeed;
+            }
+            else
+            {
+                if ( lastSpeed != animSpeed ) // Geschwindigkeitsänderung
+                {
+                    MeshAnimation *meshAnim = mesh->getAnimation(newAnimation);
+                    meshAnim->setSpeed(animSpeed);
+                    lastSpeed = animSpeed;
+                }
+            }
+        }
+
+        
+
+/*
 		if (mCharacterState.mCurrentMovementState != mCharacterState.mLastMovementState
             || mCharacterState.mIsAirBorne != lastAirBorne)
 		{
@@ -1151,11 +1457,13 @@ ss << "'head'-bone NOT found; ";
 					mesh->startAnimation("drehen_rechts");
 				}
 			}
-			mCharacterState.mLastMovementState = mCharacterState.mCurrentMovementState;
+
             lastAirBorne = mCharacterState.mIsAirBorne;
 		}
-	}
+*/
+    }
 
+    //------------------------------------------------------------------------
 	void MovementCharacterController::setViewMode(ViewMode mode)
 	{
 		mViewMode = mode;
@@ -1164,8 +1472,10 @@ ss << "'head'-bone NOT found; ";
 		AxisAlignedBox aabb = charMesh->getDefaultSize();
 		if (mode == VM_FIRST_PERSON)
 		{
-            // wird in calculateOptimalCameraPosition gesetzt
-			//mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45f, 0);
+            mLookAtOffset = Vector3(
+                    0, 
+                    (aabb.getMaximum().y - aabb.getMinimum().y) * 0.90f,
+                    (aabb.getMaximum().z - aabb.getMinimum().z) * (-0.3f) );
 			mDistanceRange.first = 0.0;
 			mDistanceRange.second = 0.0;
 			mDesiredDistance = 0.0;
@@ -1177,8 +1487,7 @@ ss << "'head'-bone NOT found; ";
 		}
 		else if(mode == VM_THIRD_PERSON)
 		{
-            // wird in calculateOptimalCameraPosition gesetzt
-			//mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45f, 0);
+            mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.90f, 0);
 			mDistanceRange.first = 0.60;
 			mDistanceRange.second = 7.00;
 			mDesiredDistance = 2.0;
@@ -1190,8 +1499,7 @@ ss << "'head'-bone NOT found; ";
 		}
         else // mode == VM_FREE_CAMERA
         {
-            // wird in calculateOptimalCameraPosition gesetzt
-			//mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45f, 0);
+			mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.80f, 0);
 			mDistanceRange.first = 0.60;
 			mDistanceRange.second = 7.00;
 			mDesiredDistance = 2.0;
@@ -1204,11 +1512,47 @@ ss << "'head'-bone NOT found; ";
         }
 	}
 
+    //------------------------------------------------------------------------
+    void MovementCharacterController::interpolateAnimationLookAtOffset(std::string actAnim, std::string newAnim, Ogre::Real factor)
+    {
+        AxisAlignedBox aab;
+        Vector3 size[2];
+        Vector3 interpolatedSize;
+
+
+        // Die Größe der beiden Animationen abfragen
+        MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
+        aab = mesh->getPoseSize(actAnim);
+        size[0] = aab.getMaximum() - aab.getMinimum();
+
+        aab = mesh->getPoseSize(newAnim);
+        size[1] = aab.getMaximum() - aab.getMinimum();
+
+        // interpolierte Größe (linear) berechnen
+        interpolatedSize = size[0] + factor*(size[1] - size[0]);
+
+        // LookAtOffset berechnen!
+        switch(mViewMode)
+        {
+        case VM_FIRST_PERSON:
+            mLookAtOffset = Vector3(0, interpolatedSize.y * 0.90f, interpolatedSize.z * (-0.3f) );
+            break;
+        case VM_THIRD_PERSON:
+            mLookAtOffset = Vector3(0, interpolatedSize.y * 0.90f, 0);
+            break;
+        case VM_FREE_CAMERA:
+        default:
+            mLookAtOffset = Vector3(0, interpolatedSize.y * 0.80f, 0);
+        }
+    }
+
+    //------------------------------------------------------------------------
 	MovementCharacterController::ViewMode MovementCharacterController::getViewMode()
 	{
 		return mViewMode;
 	}
 
+    //------------------------------------------------------------------------
 	void MovementCharacterController::toggleViewMode()
 	{
 		if (getViewMode() == VM_THIRD_PERSON)
@@ -1219,6 +1563,7 @@ ss << "'head'-bone NOT found; ";
             setViewMode(VM_THIRD_PERSON);         
 	}
 
+    //------------------------------------------------------------------------
 	void MovementCharacterController::resetCamera()
 	{
         Vector3 camPos;
@@ -1231,12 +1576,18 @@ ss << "'head'-bone NOT found; ";
             mCharacterActor->setVisible(true);
 	}
 
+    //------------------------------------------------------------------------
 	bool MovementCharacterController::injectKeyDown(int keycode)
 	{
         int scancode;
         mCommandMapper->decodeKey(keycode, &scancode, NULL);
 		int movement = mCommandMapper->getMovement(scancode);
 
+        if (movement & MOVE_RUN_LOCK) // dieses einrasten lassen
+        {
+            mCharacterState.mCurrentMovementState ^= MOVE_RUN_LOCK;
+            movement &= ~MOVE_RUN_LOCK;
+        }
 		if (movement != MOVE_NONE)
 		{
 			mCharacterState.mCurrentMovementState |= movement;
@@ -1245,6 +1596,7 @@ ss << "'head'-bone NOT found; ";
 		return false;
 	}
 
+    //------------------------------------------------------------------------
 	bool MovementCharacterController::injectKeyUp(int keycode)
 	{
         int scancode;
@@ -1253,7 +1605,7 @@ ss << "'head'-bone NOT found; ";
 
 		if (movement != MOVE_NONE)
 		{
-			mCharacterState.mCurrentMovementState &= ~movement;
+			mCharacterState.mCurrentMovementState &= (~movement | MOVE_RUN_LOCK);
 			return true;
 		}
         else
@@ -1264,6 +1616,7 @@ ss << "'head'-bone NOT found; ";
 		return false;
 	}
 
+    //------------------------------------------------------------------------
 	bool MovementCharacterController::injectMouseDown(int mouseButtonMask)
 	{
       //  if (!im->isCeguiActive())
@@ -1281,6 +1634,7 @@ ss << "'head'-bone NOT found; ";
 	  return false;
 	}
 
+    //------------------------------------------------------------------------
 	bool MovementCharacterController::injectMouseUp(int mouseButtonMask)
 	{
         if (!InputManager::getSingleton().isCeguiActive())
@@ -1294,11 +1648,13 @@ ss << "'head'-bone NOT found; ";
         }
 	}
 
+    //------------------------------------------------------------------------
     DebugVisualisableFlag MovementCharacterController::getFlag() const
     {
         return DVF_CONTROL;
     }
 
+    //------------------------------------------------------------------------
     void MovementCharacterController::updatePrimitive()
     {
         if (mSceneNode->getParent() == NULL)
@@ -1312,6 +1668,7 @@ ss << "'head'-bone NOT found; ";
         lineSet->addLine(Vector3::ZERO, mGravitation * 0.1, ColourValue::Green);
     }
 
+    //------------------------------------------------------------------------
     void MovementCharacterController::doCreatePrimitive()
     {
         mPrimitive = new LineSetPrimitive();

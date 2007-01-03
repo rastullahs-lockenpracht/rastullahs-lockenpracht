@@ -207,6 +207,7 @@ namespace rl {
     {
         if (isCeguiActive())
         {
+            return 0;
             return mSavedMouseState.x;
         }
         return (float)mMouse->getMouseState().X.rel;
@@ -216,6 +217,7 @@ namespace rl {
     {
         if (isCeguiActive())
         {
+            return 0;
             return mSavedMouseState.y;
         }
         return (float)mMouse->getMouseState().Y.rel;
@@ -225,6 +227,7 @@ namespace rl {
     {
         if (isCeguiActive())
         {
+            return 0;
             return mSavedMouseState.z;
         }
         return (float)mMouse->getMouseState().Z.rel;

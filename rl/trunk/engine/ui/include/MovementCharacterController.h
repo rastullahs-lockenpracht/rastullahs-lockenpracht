@@ -89,9 +89,10 @@ namespace rl {
 		/// private struct for holding state info of the controller
 		struct CharacterState
 		{
-            typedef enum {Stand, Crouch} Pose;
+            typedef enum {Stand, Crouch, StandToCrouch, CrouchToStand, Falling, Jumping, StartJump, EndJump} Pose;
 			CharacterState();
             Pose mPose;
+            Pose mLastPose;
 			bool mIsAirBorne;
             bool mHasFloorContact;
 			bool mStartJump;
@@ -106,7 +107,7 @@ namespace rl {
 
         static Ogre::String msDebugWindowPageName;
 
-		CharacterState mCharacterState;
+		CharacterState mCharacterState;// does only refer to the movement caused by the keyboard
 		Creature* mCharacter;
 
         // camera control params
@@ -119,9 +120,9 @@ namespace rl {
         std::pair<Ogre::Degree, Ogre::Degree> mPitchRange;
 
         Ogre::Vector3 mLookAtOffset;
-        Ogre::Real mMovementSpeed;
         Ogre::Radian mRotationSpeed;
         Ogre::Real mMouseSensitivity;
+        bool mInvertedMouse; // like in old games
         Ogre::Real mSpeedModifier;
 
 		Ogre::Vector3 mGravitation;
@@ -135,12 +136,6 @@ namespace rl {
 
         PhysicsMaterialRaycast* mRaycast;
         HalfSphereSingleSelector mSelector;
-
-        /// the maximum amount of time, the character or camera should need,
-        /// in order to reach the position, desired by the user.
-        /// the smaller, the tighter the feel.
-        //Ogre::Real mMaxDelay;
-
 
         /// Camera Spring-Damping System (smooth movement) spring-factor
         Ogre::Real mLinearSpringK;
@@ -157,10 +152,13 @@ namespace rl {
         /// if the angle between the last camera pos and the character and the new one is smaller than this value, the camera can move away from the character
         Ogre::Radian mCamMoveAwayRange;
 
-		bool isRunMovement(int movement);
-
         void updateSelection();
-        void updateAnimationState();
+        void updateCharacterState(int movement, Ogre::Real elapsedTime);
+        void updateCameraLookAt(Ogre::Real elapsedTime);
+        void updateAnimationState(int &movement); // this can also modify movement, if needed
+
+void interpolateAnimationLookAtOffset(std::string actAnim, std::string newAnim, Ogre::Real factor);
+
 
         /** Does all camera-stuff, moves the camera to the right position 
         * and does pathfinding (in a very simple way)
