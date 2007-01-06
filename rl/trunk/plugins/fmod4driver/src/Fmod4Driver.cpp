@@ -240,8 +240,6 @@ void Fmod4Driver::printDriverInfo(int driver) const
 		outputName = "Macintosh SoundManager";
     else if(output == FMOD_OUTPUTTYPE_COREAUDIO)
 		outputName = "Macintosh CoreAudio";
-    else if(output == FMOD_OUTPUTTYPE_OPENAL)
-		outputName = "OpenAL 1.1";
 
     LOG_MESSAGE(Logger::MULTIMEDIA, 
         String("Fmod4Driver '")
