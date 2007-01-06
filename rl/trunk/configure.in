@@ -66,25 +66,6 @@ fi
 
 
 plugins=""
-# fmod3
-AC_ARG_ENABLE(fmod3, AC_HELP_STRING([--enable-fmod3], [enable fmod 3.xx support [default=off]]))
-if test "$enable_fmod3" = "yes"; then
-	AC_CHECK_LIB(fmod3, main, , 
-		[
-		  AM_CONDITIONAL(with_fmod3, [false])
-		  AC_MSG_ERROR([Cannot find fmod 3.xx libs])
-		])
-	AC_CHECK_HEADERS(fmod.h, , 
-	    [
-		  AM_CONDITIONAL(with_fmod3, [false])
-	      AC_MSG_ERROR([Cannot find fmod headers])
-	    ])
-	AM_CONDITIONAL(with_fmod3, [true])
-	plugins="$plugins fmod3driver"
-else
-    AM_CONDITIONAL(with_fmod3, [false])
-fi
-
 # fmod4
 AC_ARG_ENABLE(fmod4, AC_HELP_STRING([--enable-fmod4], [enable fmod 4.xx (FMODex) support [default=off]]))
 if test "$enable_fmod4" = "yes"; then
@@ -216,7 +197,6 @@ AC_CONFIG_FILES([Makefile \
 		tests/Makefile tests/coretests/Makefile tests/rulestests/Makefile tests/multimediatests/Makefile \
 		tests/RlDialogTests/Makefile \
 		plugins/Makefile \
-		plugins/fmod3driver/Makefile plugins/fmod3driver/include/Makefile plugins/fmod3driver/src/Makefile \
 		plugins/fmod4driver/Makefile plugins/fmod4driver/include/Makefile plugins/fmod4driver/src/Makefile \
 		plugins/openaldriver/Makefile plugins/openaldriver/include/Makefile plugins/openaldriver/src/Makefile \
 		rastullah.conf  \
@@ -239,7 +219,6 @@ echo "       Building RL in debug mode:          ${enable_debug-no}"
 echo "       Enable unit testing:                ${enable_tests-no}"
 echo
 echo " Sound plugins:"
-echo "       FMOD 3 plugin:                      ${enable_fmod3-no}"
 echo "       FMOD 4 plugin:                      ${enable_fmod4-no}"
 echo "       OpenAL plugin:                      ${enable_openal-no}"
 echo
