@@ -1,0 +1,38 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ(2.50)
+AC_INIT(OgreNewt, 0.07)
+AC_CONFIG_SRCDIR([config.h.in])
+AC_CONFIG_HEADER([config.h])
+AM_INIT_AUTOMAKE([1.6.1 foreign no-installinfo no-installman subdir-objects])
+
+# Checks for programs.
+AC_LANG([C++])
+AC_PROG_CXX
+AC_PROG_CC
+AC_PROG_INSTALL
+AC_PROG_LIBTOOL
+
+# Checks for libraries.
+
+# Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS([memory.h stddef.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_HEADER_STDBOOL
+AC_C_CONST
+AC_C_INLINE
+AC_TYPE_SIZE_T
+
+# Checks for library functions.
+AC_FUNC_MEMCMP
+
+# Check for Ogre
+PKG_CHECK_MODULES(OGRE, OGRE >= 1.2.0)
+
+AC_CONFIG_FILES([Makefile
+                 inc/Makefile
+                 src/Makefile])
+AC_OUTPUT
