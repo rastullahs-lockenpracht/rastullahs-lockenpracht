@@ -7,4 +7,4 @@ Name: OgreNewt
 Description: Ogre Bindings for the Newton Physics SDK
 Version: @VERSION@
 Libs: -L${libdir} -lOgreNewt
-Cflags: -I${includedir}
+Cflags: -I${includedir}/OgreNewt

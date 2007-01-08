@@ -1,4 +1,4 @@
-INCLUDES = $(OGRE_CFLAGS) -I../inc
+INCLUDES = $(OGRE_CFLAGS) -I../include/OgreNewt
 
 lib_LTLIBRARIES = libOgreNewt.la
 libOgreNewt_la_LDFLAGS = $(OGRE_LIBS)
