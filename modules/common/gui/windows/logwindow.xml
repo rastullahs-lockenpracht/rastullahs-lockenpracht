@@ -1,65 +1,53 @@
 <GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
     <Window Type="RastullahLook/FrameWindow" Name="LogWindow">
-        <Property Name="MetricsMode" Value="Absolute"/>
-        <Property Name="Position" Value="x:0.0 y:0.0"/>
-        <Property Name="Width" Value="400"/>
-        <Property Name="Height" Value="330"/>
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+        <Property Name="UnifiedSize" Value="{{0,400},{0,330}}"/>
 
 		<Window Type="RastullahLook/TabControl" Name="LogWindow/TabPlane">
-			<Property Name="MetricsMode" Value="Absolute"/>
-			<Property Name="AbsolutePosition" Value="x:15 y:20"/>
-			<Property Name="AbsoluteWidth" Value="370"/>
-			<Property Name="AbsoluteHeight" Value="275"/>
+            <Property Name="UnifiedPosition" Value="{{0,15},{0,20}}"/>
+            <Property Name="UnifiedSize" Value="{{0,370},{0,275}}"/>
 		 
 			<Window Type="DefaultGUISheet" Name="LogWindow/ErrorLog">
-				<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
-				<Property Name="RelativeWidth" Value="1.0"/>
-				<Property Name="RelativeHeight" Value="1.0"/>
+                <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
 				<Property Name="Text" Value="Fehler"/>
 				<Window Type="RastullahLook/MultiLineEditbox" Name="LogWindow/ErrorLog/Text">
-					<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
-					<Property Name="RelativeWidth" Value="1.0"/>
-					<Property Name="RelativeHeight" Value="1.0"/>
+                    <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                    <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
 				</Window>
 			</Window>
 			 
 			<Window Type="DefaultGUISheet" Name="LogWindow/RastullahLog">
-				<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
-				<Property Name="RelativeWidth" Value="1.0"/>
-				<Property Name="RelativeHeight" Value="1.0"/>
+                <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
 				<Property Name="Text" Value="rastullah.log"/>
 				<Window Type="RastullahLook/MultiLineEditbox" Name="LogWindow/RastullahLog/Text">
-					<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
-					<Property Name="RelativeWidth" Value="1.0"/>
-					<Property Name="RelativeHeight" Value="1.0"/>
+                    <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                    <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
 				</Window>
 			</Window>
 
 			<Window Type="DefaultGUISheet" Name="LogWindow/OgreLog"> 
-				<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
-				<Property Name="RelativeWidth" Value="1.0"/>
-				<Property Name="RelativeHeight" Value="1.0"/>
+                <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
 				<Property Name="Text" Value="ogre.log"/>
 				<Window Type="RastullahLook/MultiLineEditbox" Name="LogWindow/OgreLog/Text">
-					<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
-					<Property Name="RelativeWidth" Value="1.0"/>
-					<Property Name="RelativeHeight" Value="1.0"/>
+                    <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                    <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
 				</Window>
 			</Window>
 		</Window>
 
 	    <Window Type="RastullahLook/Button" Name="LogWindow/UpdateButton">
 		<Property Name="Text" Value="Update"/>
-                <Property Name="AbsolutePosition" Value="x:50 y:300"/>
-                <Property Name="AbsoluteWidth" Value="80"/>
-                <Property Name="AbsoluteHeight" Value="20"/>
+                <Property Name="UnifiedPosition" Value="{{0,50},{0,300}}"/>
+                <Property Name="UnifiedSize" Value="{{0,80},{0,20}}"/>
 	    </Window>		
 
 	    <Window Type="RastullahLook/Button" Name="LogWindow/CloseButton">
 		<Property Name="Text" Value="Schließen"/>
-                <Property Name="AbsolutePosition" Value="x:160 y:300"/>
-                <Property Name="AbsoluteWidth" Value="80"/>
-                <Property Name="AbsoluteHeight" Value="20"/>
+                <Property Name="UnifiedPosition" Value="{{0,160},{0,300}}"/>
+                <Property Name="UnifiedSize" Value="{{0,80},{0,20}}"/>
 	    </Window>		
         </Window>
 </GUILayout>

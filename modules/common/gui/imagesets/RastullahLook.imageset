@@ -1,6 +1,9 @@
 <?xml version="1.0" ?>
 <Imageset Name="RastullahLook-Images" Imagefile="RastullahLook.png" >
 
+    <!-- new in cegui0.5 -->
+    <Image Name="GenericBrush"  XPos="40" YPos="350" Width="1" Height="1" />
+
     <!-- Rastullah/FrameWindow -->
     <Image Name="WindowBackground" XPos="256" YPos="1" Width="254" Height="254" />    
     <Image Name="WindowLeftEdge" XPos="30" YPos="302" Width="18" Height="2" />
@@ -19,6 +22,10 @@
     <Image Name="ButtonLeftPushed"  XPos="78" YPos="301" Width="7" Height="17" />
     <Image Name="ButtonMiddlePushed" XPos="88" YPos="301" Width="4" Height="17" />
     <Image Name="ButtonRightPushed" XPos="95" YPos="301" Width="12" Height="17" />
+    <!-- Rastullah/Button (new with cegui0.5)-->
+    <Image Name="ButtonLeftHighlight" XPos="78" YPos="281" Width="7" Height="17" />
+    <Image Name="ButtonMiddleHighlight" XPos="88" YPos="281" Width="4" Height="17" />
+    <Image Name="ButtonRightHighlight" XPos="95" YPos="281" Width="12" Height="17" />
     
     <!-- Rastullah/Editbox -->
     <Image Name="EditBoxLeft" XPos="42" YPos="331" Width="8" Height="16" />
@@ -52,7 +59,13 @@
     <Image Name="TitlebarLeft" XPos="113" YPos="294" Width="22" Height="23" />
     <Image Name="TitlebarMiddle" XPos="138" YPos="294" Width="7" Height="23" />
     <Image Name="TitlebarRight" XPos="148" YPos="294" Width="73" Height="23" />
-    
+
+    <!-- new in cegui0.5 -->
+    <Image Name="NewTitlebarLeft" XPos="113" YPos="294" Width="22" Height="23" />
+    <Image Name="NewTitlebarMiddle" XPos="138" YPos="294" Width="7" Height="23" />
+    <Image Name="NewTitlebarRight" XPos="148" YPos="294" Width="73" Height="23" />
+
+
     <Image Name="SysAreaMiddle" XPos="224" YPos="294" Width="29" Height="23" />
     <Image Name="SysAreaRight" XPos="256" YPos="294" Width="12" Height="23" />
     
@@ -69,37 +82,37 @@
     
 
 
-    <Image Name="LargeVertScrollBarSegment" XPos="163" YPos="275" Width="7" Height="4" />
-    
-    <Image Name="LargeVertScrollTop" XPos="182" YPos="2" Width="20" Height="8" />
-    <Image Name="LargeVertScrollMiddle" XPos="182" YPos="12" Width="20" Height="8" />
-    <Image Name="LargeVertScrollBottom" XPos="182" YPos="22" Width="20" Height="8" />
-
-    <Image Name="LargeVertScrollThumbNormal" XPos="214" YPos="2" Width="8" Height="24" />
-    <Image Name="LargeVertScrollThumbHover" XPos="224" YPos="2" Width="8" Height="24" />
-    <Image Name="LargeVertScrollUpNormal" XPos="196" YPos="32" Width="12" Height="12" />
-    <Image Name="LargeVertScrollDownNormal" XPos="182" YPos="32" Width="12" Height="12" />
-    <Image Name="LargeVertScrollUpHover" XPos="196" YPos="46" Width="12" Height="12" />
-    <Image Name="LargeVertScrollDownHover" XPos="182" YPos="46" Width="12" Height="12" />
-
-
     <Image Name="VertScrollBarSegment" XPos="163" YPos="275" Width="7" Height="4" />
     
-    <Image Name="VertScrollThumbNormal" XPos="1" YPos="495" Width="11" Height="26" />
-    <Image Name="VertScrollThumbTopNormal" XPos="122" YPos="277" Width="11" Height="10" />
-    <Image Name="VertScrollThumbMiddleNormal" XPos="136" YPos="279" Width="11" Height="7" />
-    <Image Name="VertScrollThumbBottomNormal" XPos="149" YPos="279" Width="11" Height="9" />
+    <Image Name="VertScrollTop" XPos="182" YPos="2" Width="20" Height="8" />
+    <Image Name="VertScrollMiddle" XPos="182" YPos="12" Width="20" Height="8" />
+    <Image Name="VertScrollBottom" XPos="182" YPos="22" Width="20" Height="8" />
+
+    <Image Name="VertScrollThumbNormal" XPos="214" YPos="2" Width="8" Height="24" />
+    <Image Name="VertScrollThumbHover" XPos="224" YPos="2" Width="8" Height="24" />
+    <Image Name="VertScrollUpNormal" XPos="196" YPos="32" Width="12" Height="12" />
+    <Image Name="VertScrollDownNormal" XPos="182" YPos="32" Width="12" Height="12" />
+    <Image Name="VertScrollUpHover" XPos="196" YPos="46" Width="12" Height="12" />
+    <Image Name="VertScrollDownHover" XPos="182" YPos="46" Width="12" Height="12" />
+
+
+    <Image Name="MiniVertScrollBarSegment" XPos="163" YPos="275" Width="7" Height="4" />
     
-    <Image Name="VertScrollThumbHover" XPos="1" YPos="495" Width="11" Height="26" />
-    <Image Name="VertScrollThumbTopHover" XPos="122" YPos="277" Width="11" Height="10" />
-    <Image Name="VertScrollThumbMiddleHover" XPos="136" YPos="279" Width="11" Height="7" />
-    <Image Name="VertScrollThumbBottomHover" XPos="149" YPos="279" Width="11" Height="9" />
+    <Image Name="MiniVertScrollThumbNormal" XPos="1" YPos="495" Width="11" Height="26" />
+    <Image Name="MiniVertScrollThumbTopNormal" XPos="122" YPos="277" Width="11" Height="10" />
+    <Image Name="MiniVertScrollThumbMiddleNormal" XPos="136" YPos="279" Width="11" Height="7" />
+    <Image Name="MiniVertScrollThumbBottomNormal" XPos="149" YPos="279" Width="11" Height="9" />
     
-    <Image Name="VertScrollUpNormal" XPos="123" YPos="257" Width="11" Height="13" />
-    <Image Name="VertScrollDownNormal" XPos="136" YPos="259" Width="11" Height="13" />
+    <Image Name="MiniVertScrollThumbHover" XPos="1" YPos="495" Width="11" Height="26" />
+    <Image Name="MiniVertScrollThumbTopHover" XPos="122" YPos="277" Width="11" Height="10" />
+    <Image Name="MiniVertScrollThumbMiddleHover" XPos="136" YPos="279" Width="11" Height="7" />
+    <Image Name="MiniVertScrollThumbBottomHover" XPos="149" YPos="279" Width="11" Height="9" />
     
-    <Image Name="VertScrollUpHover" XPos="123" YPos="257" Width="11" Height="13" />
-    <Image Name="VertScrollDownHover" XPos="136" YPos="259" Width="11" Height="13" />
+    <Image Name="MiniVertScrollUpNormal" XPos="123" YPos="257" Width="11" Height="13" />
+    <Image Name="MiniVertScrollDownNormal" XPos="136" YPos="259" Width="11" Height="13" />
+    
+    <Image Name="MiniVertScrollUpHover" XPos="123" YPos="257" Width="11" Height="13" />
+    <Image Name="MiniVertScrollDownHover" XPos="136" YPos="259" Width="11" Height="13" />
        
 
     <Image Name="HorzScrollBarSegment" XPos="174" YPos="274" Width="4" Height="7" />
@@ -120,6 +133,26 @@
     <Image Name="HorzScrollLeftHover" XPos="181" YPos="259" Width="13" Height="11" />
     <Image Name="HorzScrollRightHover" XPos="164" YPos="259" Width="13" Height="11" />
 
+    <!-- new in cegui0.5 -->
+    <Image Name="MiniHorzScrollBarSegment" XPos="174" YPos="274" Width="4" Height="7" />
+    
+    <Image Name="MiniHorzScrollThumbNormal" XPos="1" YPos="500" Width="26" Height="11" />
+    <Image Name="MiniHorzScrollThumbLeftNormal" XPos="220" YPos="259" Width="9" Height="11" />
+    <Image Name="MiniHorzScrollThumbMiddleNormal" XPos="232" YPos="259" Width="7" Height="11" />
+    <Image Name="MiniHorzScrollThumbRightNormal" XPos="242" YPos="259" Width="10" Height="11" />
+    
+    <Image Name="MiniHorzScrollThumbHover" XPos="1" YPos="500" Width="26" Height="11" />
+    <Image Name="MiniHorzScrollThumbLeftHover" XPos="220" YPos="259" Width="9" Height="11" />
+    <Image Name="MiniHorzScrollThumbMiddleHover" XPos="232" YPos="259" Width="7" Height="11" />
+    <Image Name="MiniHorzScrollThumbRightHover" XPos="242" YPos="259" Width="10" Height="11" />
+    
+    <Image Name="MiniHorzScrollLeftNormal" XPos="181" YPos="259" Width="13" Height="11" />
+    <Image Name="MiniHorzScrollRightNormal" XPos="164" YPos="259" Width="13" Height="11" />
+    
+    <Image Name="MiniHorzScrollLeftHover" XPos="181" YPos="259" Width="13" Height="11" />
+    <Image Name="MiniHorzScrollRightHover" XPos="164" YPos="259" Width="13" Height="11" />
+
+
 
     <Image Name="ListboxLeft" XPos="106" YPos="263" Width="4" Height="2" />
     <Image Name="ListboxRight" XPos="116" YPos="263" Width="4" Height="2"  />
@@ -136,6 +169,11 @@
     <Image Name="CloseButtonNormal" XPos="125" YPos="319" Width="15" Height="15" />
     <Image Name="CloseButtonHover" XPos="125" YPos="319" Width="15" Height="15" />
     <Image Name="CloseButtonPressed" XPos="125" YPos="319" Width="15" Height="15" />
+
+    <!-- new in cegui0.5 -->
+    <Image Name="NewCloseButtonNormal" XPos="125" YPos="319" Width="15" Height="15" />
+    <Image Name="NewCloseButtonHover" XPos="125" YPos="319" Width="15" Height="15" />
+    <Image Name="NewCloseButtonPressed" XPos="125" YPos="319" Width="15" Height="15" />
     
     <Image Name="MultiLineEditboxLeft" XPos="258" YPos="268" Width="8" Height="2" />
     <Image Name="MultiLineEditboxRight" XPos="278" YPos="268" Width="5" Height="2" />
@@ -169,13 +207,29 @@
     <Image Name="MouseTextBar" XPos="15" YPos="321" Width="11" Height="18" XOffset="-4" YOffset="-8"  />
    
     <Image Name="TabControlButtonPaneFiller" XPos="57" YPos="280" Width="7" Height="1" />
+        <!-- following yet has to be defined in the imageset image -->
+    <Image Name="TabHorizontalFiller" XPos="57" YPos="280" Width="7" Height="1" />
 
+    <!-- not needed in cegui0.5? -->
     <Image Name="TabPaneLeft" XPos="106" YPos="263" Width="4" Height="2" />
     <Image Name="TabPaneRight" XPos="116" YPos="263" Width="4" Height="2"  />
     <Image Name="TabPaneLower" XPos="112" YPos="267" Width="2" Height="4" />
     <Image Name="TabPaneLowerLeft" XPos="106" YPos="268" Width="3" Height="3" />
     <Image Name="TabPaneLowerRight" XPos="117" YPos="268" Width="3" Height="3" />
     <Image Name="TabPaneMiddle" XPos="111" YPos="262" Width="4" Height="4" />
+
+    <!-- new in cegui0.5 -->
+    <Image Name="TabContentPaneLeft" XPos="106" YPos="263" Width="4" Height="2" />
+    <Image Name="TabContentPaneRight" XPos="116" YPos="263" Width="4" Height="2"  />
+    <Image Name="TabContentPaneLower" XPos="112" YPos="267" Width="2" Height="4" />
+    <Image Name="TabContentPaneLowerLeft" XPos="106" YPos="268" Width="3" Height="3" />
+    <Image Name="TabContentPaneLowerRight" XPos="117" YPos="268" Width="3" Height="3" />
+        <!-- following three yet have to be defined in the imageset image -->
+    <Image Name="TabContentPaneUpper" XPos="112" YPos="267" Width="2" Height="4" />
+    <Image Name="TabContentPaneUpperLeft" XPos="106" YPos="268" Width="3" Height="3" />
+    <Image Name="TabContentPaneUpperRight" XPos="117" YPos="268" Width="3" Height="3" />
+    <Image Name="TabContentPaneMiddle" XPos="111" YPos="262" Width="4" Height="4" />
+
 
     <Image Name="TabButtonLeftNormal" XPos="35" YPos="266" Width="7" Height="3" />
     <Image Name="TabButtonRightNormal" XPos="55" YPos="266" Width="6" Height="3" />
@@ -197,6 +251,14 @@
     <Image Name="TabButtonLowerRightSelected" XPos="93" YPos="272" Width="6" Height="6" />
     <Image Name="TabButtonMiddleSelected" XPos="83" YPos="266" Width="7" Height="3" />
    
+    <!-- new in cegui0.5 -->
+    <Image Name="TabButtonUpperLeft2Normal" XPos="35" YPos="257" Width="7" Height="6" />
+    <Image Name="TabButtonUpperRight2Normal" XPos="55" YPos="257" Width="7" Height="6" />
+    <Image Name="TabButtonLowerLeft2Normal" XPos="35" YPos="272" Width="7" Height="6" />
+    <Image Name="TabButtonLowerRight2Normal" XPos="55" YPos="272" Width="6" Height="6" />
+    <Image Name="TabButtonScrollLeftNormal" XPos="35" YPos="272" Width="7" Height="6" />
+    <Image Name="TabButtonScrollRightNormal" XPos="55" YPos="272" Width="6" Height="6" />
+
     <Image Name="MultiListLeft" XPos="106" YPos="263" Width="4" Height="2" />
     <Image Name="MultiListRight" XPos="116" YPos="263" Width="4" Height="2"  />
     <Image Name="MultiListTop" XPos="112" YPos="257" Width="2" Height="4" />

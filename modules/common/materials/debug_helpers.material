@@ -19,6 +19,8 @@ material DefaultDebugPrimitiveMaterial
          depth_write off
          scene_blend alpha_blend
 
+         lighting off
+
          //cull_software none
          //cull_hardware none
 

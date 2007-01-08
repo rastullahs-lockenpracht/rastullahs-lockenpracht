@@ -1,37 +1,30 @@
 <GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
     <Window Type="RastullahLook/FrameWindow" Name="CloseConfirmationWindow">
-        <Property Name="Position" Value="x:0.0 y:0.0"/>
-        <Property Name="AbsoluteWidth" Value="400"/>
-        <Property Name="AbsoluteHeight" Value="171"/>
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+        <Property Name="UnifiedSize" Value="{{0,400},{0,171}}"/>
 		<Property Name="Text" Value="Rastullahs Lockenpracht beenden"/>
 
 		<Window Type="RastullahLook/StaticText" Name="CloseConfirmationWindow/Text">
-			<Property Name="AbsoluteXPosition" Value="15"/>
-			<Property Name="AbsoluteWidth" Value="370"/>
-			<Property Name="AbsoluteYPosition" Value="26"/>
-			<Property Name="AbsoluteHeight" Value="50"/>
+            <Property Name="UnifiedPosition" Value="{{0,15},{0,26}}"/>
+            <Property Name="UnifiedSize" Value="{{0,370},{0,50}}"/>
 			<Property Name="FrameEnabled" Value="False"/>
 			<Property Name="Text" Value="Soll Rastullahs Lockenpracht wirklich beendet werden?" />
             <Property Name="HorzFormatting" Value="WordWrapCentred" />
 		</Window>
 
 		<Window Type="RastullahLook/Button" Name="CloseConfirmationWindow/YesButton">
-			<Property Name="AbsoluteXPosition" Value="50"/>
-			<Property Name="AbsoluteYPosition" Value="125"/>
-			<Property Name="AbsoluteWidth" Value="125"/>
-			<Property Name="AbsoluteHeight" Value="28"/>
+            <Property Name="UnifiedPosition" Value="{{0,50},{0,125}}"/>
+            <Property Name="UnifiedSize" Value="{{0,125},{0,28}}"/>
 			<Property Name="Font" Value="Vera Serif-10"/>
 			<Property Name="Text" Value="Ja"/>
 		</Window>
 
 		<Window Type="RastullahLook/Button" Name="CloseConfirmationWindow/NoButton">
-			<Property Name="AbsoluteXPosition" Value="225"/>
-			<Property Name="AbsoluteYPosition" Value="125"/>
-			<Property Name="AbsoluteWidth" Value="125"/>
-			<Property Name="AbsoluteHeight" Value="28"/>
+            <Property Name="UnifiedPosition" Value="{{0,225},{0,125}}"/>
+            <Property Name="UnifiedSize" Value="{{0,125},{0,28}}"/>
 			<Property Name="Font" Value="Vera Serif-10"/>
 			<Property Name="Text" Value="Nein"/>
 		</Window>
-
     </Window>
 </GUILayout>
+

@@ -1,9 +1,7 @@
 <GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
     <Window Type="RastullahLook/FrameWindow" Name="DebugWindow">
-        <Property Name="RelativeXPosition" Value="0.05"/>
-        <Property Name="RelativeYPosition" Value="0.70"/>
-        <Property Name="RelativeWidth" Value="0.9"/>
-        <Property Name="RelativeHeight" Value="0.30"/>
+        <Property Name="UnifiedPosition" Value="{{0.05,0},{0.70,0}}"/>
+        <Property Name="UnifiedSize" Value="{{0.9,0},{0.3,0}}"/>
         <Property Name="TitlebarEnabled" Value="False" />
         <Property Name="CloseButtonEnabled" Value="False" />
         <Property Name="SizingEnabled" Value="False" />
@@ -18,7 +16,6 @@
         <Window Type="RastullahLook/MultiLineEditbox" Name="DebugWindow/PageText">
             <Property Name="ReadOnly" Value="true"/>
             <Property Name="Disabled" Value="true"/>
-            <Property Name="RelativeMaxSize" Value="w:1.0 h:1.0" />
             <Property Name="UnifiedPosition" Value="{{0.025,0},{0.15,4}}" />
             <Property Name="UnifiedSize" Value="{{0.95,0},{0.65,-4}}" />
             <Property Name="Font" Value="Vera Mono-8" />

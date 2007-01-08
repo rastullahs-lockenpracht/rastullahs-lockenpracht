@@ -2,11 +2,9 @@
 <Font 
     Name="Vera Serif Bold-8" 
     Filename="VeraSeBd.ttf" 
-    Type="Dynamic" 
+    Type="FreeType" 
     Size="8" 
     NativeHorzRes="800" 
     NativeVertRes="600" 
-    FirstCodepoint="32" 
-    LastCodepoint="300" 
     AutoScaled="false"
 />

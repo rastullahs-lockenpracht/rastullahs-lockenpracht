@@ -1,24 +1,19 @@
 <GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
     <Window Type="RastullahLook/FrameWindow" Name="MessageWindow">
-        <Property Name="Position" Value="x:0.0 y:0.0"/>
-        <Property Name="AbsoluteWidth" Value="400"/>
-        <Property Name="AbsoluteHeight" Value="300"/>
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+        <Property Name="UnifiedSize" Value="{{0,400},{0,300}}"/>
     <Window Type="RastullahLook/StaticText" Name="MessageWindow/Text">
-		  <Property Name="AbsoluteXPosition" Value="15"/>
-          <Property Name="AbsoluteWidth" Value="370"/>
-          <Property Name="AbsoluteYPosition" Value="26"/>
-          <Property Name="AbsoluteHeight" Value="234"/>
-		  <Property Name="FrameEnabled" Value="False"/>
-          <Property Name="HorzFormatting" Value="WordWrapCentred" />
-      </Window>
-      <Window Type="RastullahLook/Button" Name="MessageWindow/CloseButton">
-          <Property Name="AbsoluteXPosition" Value="140"/>
-          <Property Name="AbsoluteYPosition" Value="265"/>
-          <Property Name="AbsoluteWidth" Value="120"/>
-          <Property Name="AbsoluteHeight" Value="28"/>
-          <Property Name="Font" Value="Vera Serif-10"/>
-          <Property Name="Text" Value="Schließen"/>
-		  <Property Name="Tooltip" Value="Das Fenster schließen"/>
+        <Property Name="UnifiedPosition" Value="{{0,15},{0,26}}"/>
+        <Property Name="UnifiedSize" Value="{{0,370},{0,234}}"/>
+        <Property Name="FrameEnabled" Value="False"/>
+        <Property Name="HorzFormatting" Value="WordWrapCentred" />
+    </Window>
+    <Window Type="RastullahLook/Button" Name="MessageWindow/CloseButton">
+        <Property Name="UnifiedPosition" Value="{{0,140},{0,265}}"/>
+        <Property Name="UnifiedSize" Value="{{0,120},{0,28}}"/>
+        <Property Name="Font" Value="Vera Serif-10"/>
+        <Property Name="Text" Value="Schließen"/>
+        <Property Name="Tooltip" Value="Das Fenster schließen"/>
     </Window>
     </Window>
 </GUILayout>

@@ -112,14 +112,14 @@
 				<Property Name="UnifiedAreaRect" Value="{{0,370},{0,20},{0,498},{0,148}}" />
 			</Window>
 			
-			<Window Type="RastullahLook/StaticText" Name="InventoryWindow/Description">
+			<Window Type="RastullahLook/ScrollablePane" Name="InventoryWindow/Description">
 				<Property Name="Text" Value=""/>
 				<Property Name="UnifiedAreaRect" Value="{{0,508},{0,20},{1,-25},{0,148}}" />
 			</Window>
 	
 			<Window Type="RastullahLook/MultiLineEditbox" Name="InventoryWindow/Infos">
 				<Property Name="Font" Value="Vera Serif-10" />
-				<Property Name="FrameEnabled" Value="false" />
+                <!--<Property Name="FrameEnabled" Value="false" />-->
 				<Property Name="Text" Value="BE: 0, AT: 5, Traglast: 0 Stein, Max: 50 Stein, Guthaben: 5 Dukaten, Ausdauer: 25"/>
 				
 				<Property Name="UnifiedAreaRect" Value="{{0,370},{0,158},{1,-25},{0,210}}" />

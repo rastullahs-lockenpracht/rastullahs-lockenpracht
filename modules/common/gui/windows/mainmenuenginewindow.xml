@@ -3,19 +3,19 @@
 	    <Property Name="UnifiedPosition" Value="{{0,5},{0,100}}" />
 	    <Property Name="UnifiedSize" Value="{{1,-10},{1,-100}}" />
 		<Window Type="RastullahLook/StaticText" Name="MainMenu/GameName">
-            <Property Name="HorzFormatting" Value="RightAligned"/>
             <Property Name="UnifiedPosition" Value="{{1,-355},{1,-58}}" />
+    	    <Property Name="UnifiedSize" Value="{{0,350},{0,50}}" />
+            <Property Name="HorzFormatting" Value="RightAligned"/>
 			<Property Name="FrameEnabled" Value="False"/>
-            <Property Name="AbsoluteSize" Value="w:350 h:50" />
             <Property Name="Text" Value="Rastullahs Lockenpracht"/>
             <Property Name="Font" Value="Vera Serif Bold-18" />
             <Property Name="TextColours" Value="tl:FFEDD5A1 tr:FFEDD5A1 bl:FFEDD5A1 br:FFEDD5A1" />
 		</Window>
 		<Window Type="RastullahLook/StaticText" Name="MainMenu/EngineVersion">
-            <Property Name="HorzFormatting" Value="RightAligned"/>
             <Property Name="UnifiedPosition" Value="{{1,-210},{1,-20}}" />
+    	    <Property Name="UnifiedSize" Value="{{0,200},{0,20}}" />
+            <Property Name="HorzFormatting" Value="RightAligned"/>
 			<Property Name="FrameEnabled" Value="False"/>
-            <Property Name="AbsoluteSize" Value="w:200 h:20" />
             <Property Name="TextColours" Value="tl:FFEDD5A1 tr:FFEDD5A1 bl:FFEDD5A1 br:FFEDD5A1" />
 		</Window>
 
