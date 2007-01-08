@@ -506,7 +506,7 @@ namespace rl {
     // eine benutzerdefinierte Collision
     void DotSceneLoader::processCollisions(XERCES_CPP_NAMESPACE::DOMElement *rootCollisionXml)
     {
-        OgreNewt::CollisionPtr collision(NULL);
+        OgreNewt::CollisionPtr collision = OgreNewt::CollisionPtr();
         DOMNode* child = rootCollisionXml->getFirstChild();
         OgreNewt::World *thisWorld = PhysicsManager::getSingleton()._getNewtonWorld();
 
@@ -814,7 +814,7 @@ namespace rl {
 
         // ------- Falls nötig automatisch bodyproxy erstellen -------------
         // (wenn physical_body gesetzt wurde)
-        OgreNewt::CollisionPtr collision(NULL);
+        OgreNewt::CollisionPtr collision = OgreNewt::CollisionPtr();
         OgreNewt::World *thisWorld = PhysicsManager::getSingleton()._getNewtonWorld();
 
         if (physical_body.compare("none") != 0)

@@ -47,7 +47,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\uicomponents\include;..\common\include;..\dialog\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\OgreNewt\inc;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\ois\includes"
+				AdditionalIncludeDirectories=".\include;..\uicomponents\include;..\common\include;..\dialog\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\ois\includes"
 				PreprocessorDefinitions="WITH_FMOD3;_WINDOWS,_DEBUG,WIN32,RLUI_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -158,7 +158,7 @@
 				Optimization="3"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;..\uicomponents\include;..\common\include;..\dialog\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\OgreNewt\inc;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\ois\includes"
+				AdditionalIncludeDirectories=".\include;..\uicomponents\include;..\common\include;..\dialog\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\ois\includes"
 				PreprocessorDefinitions="WITH_FMOD3;NDEBUG,_WINDOWS,WIN32,RLUI_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="false"
 				ExceptionHandling="1"
@@ -226,6 +226,109 @@
 				ExcludedFromBuild="false"
 			/>
 		</Configuration>
+		<Configuration
+			Name="Release with Symbols|Win32"
+			OutputDirectory="./lib/Release"
+			IntermediateDirectory="./obj/Release"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\lib\Release/Rastullah.tlb"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="3"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories=".\include;..\uicomponents\include;..\common\include;..\dialog\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\ois\includes"
+				PreprocessorDefinitions="WITH_FMOD3;NDEBUG,_WINDOWS,WIN32,RLUI_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
+				StringPooling="false"
+				ExceptionHandling="1"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
+				RuntimeTypeInfo="true"
+				UsePrecompiledHeader="0"
+				PrecompiledHeaderFile=".\obj\Release/Rastullah.pch"
+				AssemblerListingLocation=".\obj\Release/"
+				ObjectFile=".\obj\Release/"
+				ProgramDataBaseFileName=".\obj\Release/"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
+				CompileAs="2"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="2057"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="true"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="RlCore.lib RlRules.lib RlUiComponents.lib msvcrt-ruby18.lib OgreMain.lib OgreGuiRenderer.lib CEGUIBase.lib xerces-c_2.lib OgreNewt.lib Newton.lib OIS.lib"
+				OutputFile="$(OutDir)/RlUI.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="..\core\lib\Release;..\rules\lib\Release;..\uicomponents\lib\Release;..\..\dependencies\ogrenew\OgreMain\lib\Release;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib\Release;..\..\dependencies\NewtonSDK\sdk\dll;..\..\dependencies\ois\dll"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(TargetDir)$(TargetName).pdb"
+				SubSystem="2"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="Kopiere DLL"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
+				ExcludedFromBuild="false"
+			/>
+		</Configuration>
 	</Configurations>
 	<References>
 	</References>
@@ -234,6 +337,10 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+			<File
+				RelativePath=".\include\CeGuiHelper.h"
+				>
+			</File>
 			<File
 				RelativePath=".\include\CharacterController.h"
 				>
@@ -400,10 +507,6 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath=".\src\CeGuiWindow.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\CharacterController.cpp"
 				>
 			</File>
@@ -464,6 +567,10 @@
 				</File>
 				<File
 					RelativePath=".\src\ActionChoiceWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\CeGuiWindow.cpp"
 					>
 				</File>
 				<File

@@ -20,6 +20,7 @@
 
 #include "UiSubsystem.h"
 #include "CeGuiWindow.h"
+#include "CeGuiHelper.h"
 #include "InputManager.h"
 #include "WindowManager.h"
 #include "WindowUpdater.h"
@@ -194,29 +195,9 @@ namespace rl
 		return static_cast<Editbox*>(getWindow(name, "Editbox"));
 	}
 
-	TabPane* CeGuiWindow::getTabPane(const char* name)
-	{
-		return static_cast<TabPane*>(getWindow(name, "TabPane"));
-	}
-
-	TabControl* CeGuiWindow::getTabControl(const char* name)
-	{
-		return static_cast<TabControl*>(getWindow(name, "TabControl"));
-	}
-
 	Listbox* CeGuiWindow::getListbox(const char* name)
 	{
 		return static_cast<Listbox*>(getWindow(name, "Listbox"));
-	}
-
-	StaticText* CeGuiWindow::getStaticText(const char* name)
-	{
-		return static_cast<StaticText*>(getWindow(name, "StaticText"));
-	}
-
-	StaticImage* CeGuiWindow::getStaticImage(const char* name)
-	{
-		return static_cast<StaticImage*>(getWindow(name, "StaticImage"));
 	}
 
 	MultiColumnList* CeGuiWindow::getMultiColumnList(const char* name)
@@ -259,9 +240,19 @@ namespace rl
 		return static_cast<ComboDropList*>(getWindow(name, "ComboDropList"));
 	}
 
+    ScrollablePane* CeGuiWindow::getScrollablePane(const char* name)
+    {
+		return static_cast<ScrollablePane*>(getWindow(name, "ScrollablePane"));
+    }
+
 	Slider* CeGuiWindow::getSlider(const char* name)
 	{
 		return static_cast<Slider*>(getWindow(name, "Slider"));
+	}
+
+	TabControl* CeGuiWindow::getTabControl(const char* name)
+	{
+		return static_cast<TabControl*>(getWindow(name, "TabControl"));
 	}
 
 	const CeGuiString& CeGuiWindow::getName() const
@@ -271,10 +262,11 @@ namespace rl
 
 	void CeGuiWindow::centerWindow()
 	{
-		CEGUI::Point pos(
-			(1.0-mWindow->getRelativeWidth())/2, 
-			(1.0-mWindow->getRelativeHeight())/2);
-		mWindow->setPosition(Relative, pos);
+		Size screenSize = System::getSingleton().getRenderer()->getSize();
+		Size windowSize = mWindow->getPixelSize();
+		float x = 0.5f * (screenSize.d_width - windowSize.d_width);
+		float y = 0.5f * (screenSize.d_height - windowSize.d_height);
+		mWindow->setPosition(CeGuiHelper::asAbsolute(CEGUI::Vector2(x, y)));
 	}
 
 	void CeGuiWindow::bindClickToCloseWindow(CEGUI::Window* button)

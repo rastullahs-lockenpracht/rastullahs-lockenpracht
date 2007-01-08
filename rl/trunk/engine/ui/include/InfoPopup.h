@@ -44,11 +44,11 @@ namespace rl {
     private:
         static const int ICON_SPACING = 5;
 
-        void showMessageIcon(CEGUI::StaticImage* image);
+        void showMessageIcon(CEGUI::Window* image);
 
-        std::vector<CEGUI::StaticImage*> mActiveIcons;
-        CEGUI::StaticImage* mErrorIcon;
-        CEGUI::StaticImage* mQuestIcon;
+        std::vector<CEGUI::Window*> mActiveIcons;
+        CEGUI::Window* mErrorIcon;
+        CEGUI::Window* mQuestIcon;
     };
 
 }

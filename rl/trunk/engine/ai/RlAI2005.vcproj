@@ -161,6 +161,90 @@
 				OutputFile="$(OutDir)/RlAI.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\dialog\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\opensteer\lib;..\..\dependencies\boost\lib;..\..\dependencies\NewtonSDK\sdk\dll"
+				GenerateDebugInformation="false"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/RlAI.lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="Kopiere DLL"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release with Symbols|Win32"
+			OutputDirectory="./lib/Release"
+			IntermediateDirectory="./obj/Release"
+			ConfigurationType="2"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="3"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\rules\include;..\dialog\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\OgreNewt\inc;..\..\dependencies\cegui_mk2\include;..\..\dependencies\opensteer\include;..\..\dependencies\boost\include;..\..\dependencies\NewtonSDK\sdk\"
+				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;_USRDLL;RLAI_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="OgreMain.lib OgreNewt.lib CEGUIBase.lib opensteer.lib RlCommon.lib RlCore.lib RlRules.lib RlDialog.lib boost_thread-vc80-mt-1_33.lib Newton.lib"
+				OutputFile="$(OutDir)/RlAI.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\common\lib\Release;..\core\lib\Release;..\rules\lib\Release;..\dialog\lib\Release;..\..\dependencies\ogrenew\OgreMain\lib\Release;..\..\dependencies\ogrenewt\lib\Release;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\opensteer\lib;..\..\dependencies\boost\lib;..\..\dependencies\NewtonSDK\sdk\dll"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"

@@ -24,8 +24,8 @@ namespace rl {
 	InfoPopup::InfoPopup()
 		: CeGuiWindow("infopopup.xml", CeGuiWindow::WND_SHOW, false)
 	{
-		mErrorIcon = getStaticImage("InfoPopup/ErrorIcon");
-		mQuestIcon = getStaticImage("InfoPopup/QuestIcon");
+		mErrorIcon = getWindow("InfoPopup/ErrorIcon");
+		mQuestIcon = getWindow("InfoPopup/QuestIcon");
 		mWindow->removeChildWindow(mErrorIcon);
 		mWindow->removeChildWindow(mQuestIcon);
 	}
@@ -44,21 +44,21 @@ namespace rl {
 		showMessageIcon(mQuestIcon);
 	}
 
-	void InfoPopup::showMessageIcon(StaticImage* image)
+	void InfoPopup::showMessageIcon(Window* image)
 	{
 		int iconWidth = 0;
-		for(std::vector<StaticImage*>::iterator it = mActiveIcons.begin();
+		for(std::vector<Window*>::iterator it = mActiveIcons.begin();
 			it != mActiveIcons.end(); it++)
 		{
-			StaticImage* cur = *it;
-			iconWidth += cur->getAbsoluteWidth();
+			Window* cur = *it;
+            iconWidth += cur->getPixelSize().d_width;
 		}
 		iconWidth += ICON_SPACING * mActiveIcons.size();
 
 		mWindow->addChildWindow(image);
-		image->setXPosition(iconWidth);
+		image->setXPosition(cegui_absdim(iconWidth));
 
-		mWindow->setWidth(Absolute, iconWidth + ICON_SPACING + image->getAbsoluteWidth());
+        mWindow->setWidth(cegui_absdim(iconWidth + ICON_SPACING + image->getPixelSize().d_width));
 
 		mActiveIcons.push_back(image);
 		setVisible(true);
@@ -66,10 +66,10 @@ namespace rl {
 
 	void InfoPopup::windowHid()
 	{
-		for(std::vector<StaticImage*>::iterator it = mActiveIcons.begin();
+		for(std::vector<Window*>::iterator it = mActiveIcons.begin();
 			it != mActiveIcons.end(); it++)
 		{
-			StaticImage* cur = *it;
+			Window* cur = *it;
 			mWindow->removeChildWindow(cur);
 		}
 

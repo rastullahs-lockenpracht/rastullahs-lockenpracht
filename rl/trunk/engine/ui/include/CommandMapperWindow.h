@@ -60,7 +60,7 @@ namespace rl {
 		CEGUI::MultiColumnList* mTableInCombat;
 		CEGUI::MultiColumnList* mTableOffCombat;
 		CEGUI::MultiColumnList* mTableMovement;
-		CEGUI::TabPane* mTabPane;
+		CEGUI::TabControl* mTabControl;
 		CEGUI::Window* mSelectedTable;
 	};
 

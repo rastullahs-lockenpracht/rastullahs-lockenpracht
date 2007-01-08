@@ -34,33 +34,33 @@ CharacterSheetWindow::CharacterSheetWindow()
 	: CeGuiWindow("charactersheet.xml", WND_MOUSE_INPUT)
 {
 	mTalentTable = getMultiColumnList("CharacterSheet/TalentSheet/Table");
-	mTalentTable->addColumn((utf8*)"Talent", 0, 0.5);
-	mTalentTable->addColumn((utf8*)"Probe", 1, 0.3);
-	mTalentTable->addColumn((utf8*)"eBE", 2, 0.1);
-	mTalentTable->addColumn((utf8*)"TW", 3, 0.1);
+	mTalentTable->addColumn((utf8*)"Talent", 0, cegui_reldim(0.5));
+	mTalentTable->addColumn((utf8*)"Probe", 1, cegui_reldim(0.3));
+	mTalentTable->addColumn((utf8*)"eBE", 2, cegui_reldim(0.1));
+	mTalentTable->addColumn((utf8*)"TW", 3, cegui_reldim(0.1));
 	mTalentTable->setUserSortControlEnabled(false);
 	
-	mLE = getStaticText("CharacterSheet/CharacterSheet/LE");
-	mAE = getStaticText("CharacterSheet/CharacterSheet/AE");
-	mAP = getStaticText("CharacterSheet/CharacterSheet/AP");
-	mName = getStaticText("CharacterSheet/CharacterSheet/Name");
-	mRasse = getStaticText("CharacterSheet/CharacterSheet/Rasse");
-	mProfession = getStaticText("CharacterSheet/CharacterSheet/Profession");
+	mLE = getWindow("CharacterSheet/CharacterSheet/LE");
+	mAE = getWindow("CharacterSheet/CharacterSheet/AE");
+	mAP = getWindow("CharacterSheet/CharacterSheet/AP");
+	mName = getWindow("CharacterSheet/CharacterSheet/Name");
+	mRasse = getWindow("CharacterSheet/CharacterSheet/Rasse");
+	mProfession = getWindow("CharacterSheet/CharacterSheet/Profession");
 
 	bindCloseToCloseButton();
 	
 	/*for (int i=0; i<EIGENSCHAFT_COUNT; i++)
 		mEigenschaft[i] = 
-			getStaticText(("CharacterSheet/CharacterSheet/Eigenschaften/"+
+			getWindow(("CharacterSheet/CharacterSheet/Eigenschaften/"+
 				DsaManager::getSingleton().getEigenschaft(i)->getNameAbbreviation()).c_str());*/
-	mEigenschaft[0]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/MU");
-	mEigenschaft[1]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/KL");
-	mEigenschaft[2]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/IN");
-	mEigenschaft[3]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/CH");
-	mEigenschaft[4]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/FF");
-	mEigenschaft[5]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/GE");
-	mEigenschaft[6]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/KO");
-	mEigenschaft[7]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/KK");
+	mEigenschaft[0]= getWindow("CharacterSheet/CharacterSheet/Eigenschaften/MU");
+	mEigenschaft[1]= getWindow("CharacterSheet/CharacterSheet/Eigenschaften/KL");
+	mEigenschaft[2]= getWindow("CharacterSheet/CharacterSheet/Eigenschaften/IN");
+	mEigenschaft[3]= getWindow("CharacterSheet/CharacterSheet/Eigenschaften/CH");
+	mEigenschaft[4]= getWindow("CharacterSheet/CharacterSheet/Eigenschaften/FF");
+	mEigenschaft[5]= getWindow("CharacterSheet/CharacterSheet/Eigenschaften/GE");
+	mEigenschaft[6]= getWindow("CharacterSheet/CharacterSheet/Eigenschaften/KO");
+	mEigenschaft[7]= getWindow("CharacterSheet/CharacterSheet/Eigenschaften/KK");
 }
 
 CharacterSheetWindow::~CharacterSheetWindow()

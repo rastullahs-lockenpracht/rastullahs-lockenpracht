@@ -15,6 +15,7 @@
  */
 
 #include "CeGuiWindow.h"
+#include "CeGuiHelper.h"
 #include "CoreSubsystem.h"
 #include "Exception.h"
 #include "WindowManager.h"
@@ -32,7 +33,7 @@ namespace rl {
 	:	mWindow(window),
 		mAction(action)
 	{
-		mCurrentPoint = mWindow->getWindow()->getAbsolutePosition();
+        mCurrentPoint = mWindow->getWindow()->getPixelRect().getPosition();
 		mCurrentAlpha = mWindow->getWindow()->getAlpha();
 	}
 
@@ -43,7 +44,7 @@ namespace rl {
 	:	WindowUpdateTask(window, action),
 		mTargetPoint(targetX, targetY)
 	{
-		CEGUI::Point delta = mTargetPoint - mWindow->getWindow()->getAbsolutePosition();
+		CEGUI::Point delta = mTargetPoint - mWindow->getWindow()->getPixelRect().getPosition();
 		mRatePoint = CEGUI::Point(delta.d_x / mTime, delta.d_y / mTime);
 	}
 
@@ -206,7 +207,8 @@ namespace rl {
 			WindowUpdateTask* task = *it;
 			task->run(elapsedTime);
 			CeGuiWindow* wnd = task->getWindow();
-			wnd->getWindow()->setPosition(CEGUI::Absolute, task->getCurrentPosition());
+            wnd->getWindow()->setPosition(
+                CeGuiHelper::asAbsolute(task->getCurrentPosition()));
 			wnd->getWindow()->setAlpha(task->getCurrentAlpha());
 			if (task->isFinished())
 			{
@@ -310,8 +312,8 @@ namespace rl {
 				window, 
 				time,
 				destroy ? WindowUpdateTask::WND_DESTROY : WindowUpdateTask::WND_HIDE, 
-				-wnd->getAbsoluteWidth(), 
-				wnd->getAbsoluteYPosition());
+                -wnd->getPixelSize().d_width, 
+                wnd->getPixelRect().getPosition().d_y);
 		mTasks.insert(task);
 		window->setFading(true);
 		window->_setUpdateTask(task);

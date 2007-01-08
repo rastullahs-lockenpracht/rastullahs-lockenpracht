@@ -44,7 +44,7 @@ CommandMapperWindow::CommandMapperWindow(Creature* actionHolder, CommandMapper* 
 	bindClickToCloseWindow(getWindow("CommandMapper/CloseButton"));
 	bindCloseToCloseButton();
 
-	mTabPane = getTabPane("CommandMapper/TabPane");
+	mTabControl = getTabControl("CommandMapper/TabPane");
 
 	mTableMovement = getMultiColumnList("CommandMapper/TableMovement");
 	mTableMovement->subscribeEvent(
@@ -59,14 +59,14 @@ CommandMapperWindow::CommandMapperWindow(Creature* actionHolder, CommandMapper* 
 			Window::EventMouseDoubleClick,
 			boost::bind(&CommandMapperWindow::handleChangeOffCombat, this));
 
-	mTableMovement->addColumn("Aktion", 0, 0.5);
-	mTableMovement->addColumn("Taste", 1, 0.5);
-	mTableInCombat->addColumn("Aktion", 0, 0.3);
-	mTableInCombat->addColumn("Klasse", 1, 0.4);
-	mTableInCombat->addColumn("Taste", 2, 0.3);
-	mTableOffCombat->addColumn("Aktion", 0, 0.3);
-	mTableOffCombat->addColumn("Klasse", 1, 0.4);
-	mTableOffCombat->addColumn("Taste", 2, 0.3);
+	mTableMovement->addColumn("Aktion", 0, cegui_reldim(0.5));
+	mTableMovement->addColumn("Taste", 1, cegui_reldim(0.5));
+	mTableInCombat->addColumn("Aktion", 0, cegui_reldim(0.3));
+	mTableInCombat->addColumn("Klasse", 1, cegui_reldim(0.4));
+	mTableInCombat->addColumn("Taste", 2, cegui_reldim(0.3));
+	mTableOffCombat->addColumn("Aktion", 0, cegui_reldim(0.3));
+	mTableOffCombat->addColumn("Klasse", 1, cegui_reldim(0.4));
+	mTableOffCombat->addColumn("Taste", 2, cegui_reldim(0.3));
 
 	getWindow("CommandMapper")->
 		subscribeEvent(
@@ -104,7 +104,7 @@ bool CommandMapperWindow::handleChangeButton()
 	muteElements(true);
 	muteWindow(false);
 
-	mSelectedTable = mTabPane->getActiveChild();
+	mSelectedTable = mTabControl->getActiveChild();
 
 	return true;
 }

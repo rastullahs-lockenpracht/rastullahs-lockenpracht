@@ -52,13 +52,13 @@ namespace rl {
 		CEGUI::Window* mMagicSheet;
 		CEGUI::MultiColumnList* mTalentTable;
 		
-		CEGUI::StaticText* mEigenschaft[EIGENSCHAFT_COUNT];
-		CEGUI::StaticText* mLE;
-		CEGUI::StaticText* mAE;
-		CEGUI::StaticText* mAP;
-		CEGUI::StaticText* mName;
-		CEGUI::StaticText* mRasse;
-		CEGUI::StaticText* mProfession;
+		CEGUI::Window* mEigenschaft[EIGENSCHAFT_COUNT];
+		CEGUI::Window* mLE;
+		CEGUI::Window* mAE;
+		CEGUI::Window* mAP;
+		CEGUI::Window* mName;
+		CEGUI::Window* mRasse;
+		CEGUI::Window* mProfession;
 		
 		void updateTalents();
 

@@ -52,12 +52,12 @@ namespace rl
           mCurrentPage(StringUtil::BLANK),
           mDebugPageName("General Informations")
 	{
-		mPageCaption = getStaticText("DebugWindow/PageCaption");
+		mPageCaption = getWindow("DebugWindow/PageCaption");
 		mPageCaption->moveToFront();
 
 		mPageText = getMultiLineEditbox("DebugWindow/PageText");
 
-		mMessageText = getStaticText("DebugWindow/MessageText");
+		mMessageText = getWindow("DebugWindow/MessageText");
 		mMessageText->moveToFront();
 
 		bindCloseToCloseButton();

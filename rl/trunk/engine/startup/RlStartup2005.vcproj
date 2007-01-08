@@ -157,6 +157,92 @@
 				OutputFile="$(OutDir)/Rastullah.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\script\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\xerces\lib;..\..\dependencies\boost\lib"
+				GenerateDebugInformation="false"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="Kopiere EXE"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release with Symbols|Win32"
+			OutputDirectory="./bin/Release"
+			IntermediateDirectory="./obj/Release"
+			ConfigurationType="1"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				OmitFramePointers="true"
+				AdditionalIncludeDirectories=".\include;..\core\include;..\dialog\include;..\rules\include;..\ai\include;..\ui\include;..\common\include;..\script\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\xerces\include;..\..\dependencies\boost\include;..\..\dependencies\OgreNewt\inc;..\..\dependencies\NewtonSDK\sdk;..\..\dependencies\ogrenew\dependencies\include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="false"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="OgreMain.lib RlCommon.lib RlCore.lib RlAi.lib RlUi.lib RlScript.lib CEGUIBase.lib Shell32.lib user32.lib"
+				OutputFile="$(OutDir)/Rastullah.exe"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\rules\lib\Release;..\common\lib\Release;..\core\lib\Release;..\script\lib\Release;..\ai\lib\Release;..\ui\lib\Release;..\..\dependencies\ogrenew\OgreMain\lib\Release;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\xerces\lib;..\..\dependencies\boost\lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -229,6 +315,14 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release with Symbols|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool

@@ -234,7 +234,7 @@ namespace rl
             oldLe > getWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE))
 		{
             setIncapacitated(true);
-			MeshObject* mo = dynamic_cast<MeshObject*>(getActor()->getControlledObject());
+			MeshObject* mo = static_cast<MeshObject*>(getActor()->getControlledObject());
 			mo->stopAllAnimations();
             ///@todo Sturzanimation aufrufen, sobald sie verfuegbar ist.
 			//mo->startAnimation("Niederschlag/Sturz", 1.0f, 1);

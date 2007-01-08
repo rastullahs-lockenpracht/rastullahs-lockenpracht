@@ -173,6 +173,78 @@
 				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
 			/>
 		</Configuration>
+		<Configuration
+			Name="Release with Symbols|Win32"
+			OutputDirectory="./lib/Release"
+			IntermediateDirectory="./obj/Release"
+			ConfigurationType="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				WholeProgramOptimization="false"
+				AdditionalIncludeDirectories=".\include;..\..\engine\common\include;..\..\engine\core\include;..\..\engine\ui\include;..\..\dependencies\fmod4\api\inc;..\..\dependencies\cegui_mk2\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;RLFMOD4DRIVER_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
+				RuntimeLibrary="2"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="RlCommon.lib RlCore.lib RlUi.lib OgreMain.lib ceguibase.lib fmodex_vc.lib"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
+				AdditionalLibraryDirectories="..\..\engine\common\lib\Release;..\..\engine\core\lib\Release;..\..\engine\multimedia\lib\Release;..\..\engine\ui\lib\Release;..\..\dependencies\boost\lib;..\..\dependencies\ogrenew\OgreMain\lib\Release;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\fmod4\api\lib"
+				ModuleDefinitionFile="Fmod4DriverDllExports.def"
+				GenerateDebugInformation="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="Kopiere DLL"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
+			/>
+		</Configuration>
 	</Configurations>
 	<References>
 	</References>

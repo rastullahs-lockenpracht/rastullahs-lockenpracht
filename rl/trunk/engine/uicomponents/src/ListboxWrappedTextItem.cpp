@@ -101,10 +101,10 @@ namespace CEGUI
 
         if (d_owner != NULL)
         {
-            size.d_width = d_owner->getAbsoluteSize().d_width - 25;
+            size.d_width = d_owner->getWidth().asAbsolute(0.0f) - 25.0f;
         }
 
-        const Font* font = getFont();
+        Font* font = const_cast<Font*>(getFont());
 
         if (font != NULL)
         {
@@ -142,7 +142,7 @@ namespace CEGUI
                 getModulateAlphaColourRect(d_selectCols, alpha));
         }
 
-        const Font* font = getFont();
+        Font* font = const_cast<Font*>(getFont());
 
         if (font)
         {
@@ -174,7 +174,7 @@ namespace CEGUI
                 getModulateAlphaColourRect(d_selectCols, alpha), clipper);
         }
 
-        const Font* font = getFont();
+        Font* font = const_cast<Font*>(getFont());
 
         if (font)
         {

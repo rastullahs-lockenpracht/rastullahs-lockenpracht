@@ -37,12 +37,12 @@ namespace rl {
 
     private:
         CEGUI::Listbox* mQuests;
-        CEGUI::StaticText* mQuestTitle;
-        CEGUI::StaticText* mQuestState;
+        CEGUI::Window* mQuestTitle;
+        CEGUI::Window* mQuestState;
         CEGUI::MultiLineEditbox* mQuestDescription;
 
         CEGUI::Listbox* mJournalEntries;
-        CEGUI::StaticText* mJournalEntryTitle;
+        CEGUI::Window* mJournalEntryTitle;
         CEGUI::MultiLineEditbox* mJournalEntryText;
 
         CeGuiString mSelectionBrush;

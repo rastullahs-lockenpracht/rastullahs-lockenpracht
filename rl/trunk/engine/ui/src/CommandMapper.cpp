@@ -21,7 +21,6 @@
 #include "Action.h"
 #include "ActionManager.h"
 #include "InputManager.h"
-#include <OgreMouseEvent.h>
 #include <OgreConfigFile.h>
 
 using namespace Ogre;

@@ -19,7 +19,6 @@
 
 #include "UiPrerequisites.h"
 
-#include <OgreInput.h>
 #include <map>
 
 namespace rl {

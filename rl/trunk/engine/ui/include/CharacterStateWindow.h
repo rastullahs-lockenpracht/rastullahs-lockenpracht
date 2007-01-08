@@ -45,7 +45,7 @@ namespace rl {
 		CEGUI::ProgressBar* mLP;
 		CEGUI::ProgressBar* mAP;
 		CEGUI::ProgressBar* mAU;
-		CEGUI::StaticText* mName;
+		CEGUI::Window* mName;
 		
 	};
 }

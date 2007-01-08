@@ -64,10 +64,6 @@ namespace rl {
         mInputManager(NULL)
 	{
         initializeOis(win);
-        for(int i=0; i<NUM_KEYS; i++)
-        {
-            mKeyDown[i] = false;
-        }
         GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_ENDED);
     }
 
@@ -99,7 +95,7 @@ namespace rl {
 		OIS::ParamList pl;	
 		size_t windowHnd = 0;
         #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-		    win->getCustomAttribute("HWND", &windowHnd);
+		    win->getCustomAttribute("WINDOW", &windowHnd);
             pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_EXCLUSIVE")));
             pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
         #elif OGRE_PLATFORM == OGRE_PLATFORM_LINUX
@@ -112,6 +108,7 @@ namespace rl {
         windowHndStr << windowHnd;
 		pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
 
+		//mInputManager = OIS::InputManager::createInputSystem(windowHnd);
 		mInputManager = OIS::InputManager::createInputSystem(pl);
 		mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject(OIS::OISKeyboard, true));
         mKeyboard->setTextTranslation(OIS::Keyboard::Unicode);
@@ -172,7 +169,7 @@ namespace rl {
                 static_cast<CEGUI::MouseButton>(id));
             // return true;
 		}
-            /// else
+        else
             /// {
             /// @todo Furchtbarer Hack. Das Ereignis wird durchgeschliffen, damit
             /// der DialogCharacterController ne Möglichkeit hat den Text abzubrechen.
@@ -181,9 +178,9 @@ namespace rl {
             /// dass da noch mehr durcheinander ist. ^^
             if (mCharacterController != NULL)
                 mCharacterController->injectMouseUp(
-                    CommandMapper::encodeKey(id, getModifierCode()));
-            /// }
-            return true;
+					CommandMapper::encodeKey(id, getModifierCode()));
+            
+		return true;
 	}
 
     bool InputManager::mouseMoved(const OIS::MouseEvent &arg)
@@ -192,11 +189,6 @@ namespace rl {
 		{			
 			CEGUI::Renderer* renderer  = System::getSingleton().getRenderer();
 			System::getSingleton().injectMouseMove(arg.state.X.rel, arg.state.Y.rel);			
-
-			//if (mPickObjects)
-   //         {
-   //             updatePickedObject(arg.state.abX, arg.state.abY);
-   //         }
 
             return true;
 		}
@@ -289,10 +281,12 @@ namespace rl {
 
 	bool InputManager::keyReleased(const OIS::KeyEvent& e)
 	{
+		LOG_MESSAGE2(Logger::UI, "Key released: " + mKeyboard->getAsString(e.key) , "InputManager::keyReleased");
         if (sendKeyToCeGui(e)) 
 		{
 			CEGUI::System& cegui = CEGUI::System::getSingleton();
 			cegui.injectKeyUp(e.key);
+			LOG_MESSAGE2(Logger::UI, "    fed to cegui", "InputManager::keyReleased");
 		}
         else
         {
@@ -304,6 +298,7 @@ namespace rl {
                 try
                 {
                     action->doAction(NULL, NULL, NULL);
+					LOG_MESSAGE2(Logger::UI, "    invoked action " + action->getName(), "InputManager::keyReleased");
                 }
                 catch( ScriptInvocationFailedException& sife )
 		        {
@@ -314,6 +309,7 @@ namespace rl {
             if (mCharacterController != NULL)
             {
 		        mCharacterController->injectKeyUp(e.key);
+				LOG_MESSAGE2(Logger::UI, "    fed to char controller", "InputManager::keyReleased");
             }
         }
 
@@ -410,9 +406,7 @@ namespace rl {
             mSavedMouseState.x = mMouse->getMouseState().X.rel;
             mSavedMouseState.y = mMouse->getMouseState().Y.rel;
             mSavedMouseState.z = mMouse->getMouseState().Z.rel;
-//			setObjectPickingActive(false);
             CEGUI::MouseCursor::getSingleton().show();
-            resetPressedKeys( true );
 		}
 	}
 
@@ -441,32 +435,8 @@ namespace rl {
 		if (active && !isCeguiActive()) // war aktiv, sollte nicht mehr aktiv sein -> ausschalten
 		{
 			CEGUI::MouseCursor::getSingleton().hide();
-            //setObjectPickingActive(true);
-            resetPressedKeys( false );
 		}
 	}
-
-    void InputManager::resetPressedKeys( bool up )
-    {
-        for(int i=0; i<NUM_KEYS; i++)
-        {
-            if( mKeyDown[i] && up )
-            {
-                if (mCharacterController != NULL)
-                {
-                    mCharacterController->injectKeyUp( i );
-                }
-                mKeyDown[i] = false;
-            }
-            else if( mKeyDown[i] && !up ) 
-            {
-                if (mCharacterController != NULL)
-                {
-                    mCharacterController->injectKeyDown( i );
-                }
-            }
-        }
-    }
 
 	bool InputManager::isCeguiActive() const
 	{

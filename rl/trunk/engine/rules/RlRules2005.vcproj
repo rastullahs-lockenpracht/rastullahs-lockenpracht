@@ -191,6 +191,90 @@
 				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
 			/>
 		</Configuration>
+		<Configuration
+			Name="Release with Symbols|Win32"
+			OutputDirectory="./lib/Release"
+			IntermediateDirectory="./obj/Release"
+			ConfigurationType="2"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=".\include;..\core\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\boost\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\OgreNewt\inc;..\..\dependencies\NewtonSDK\sdk"
+				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;RLRULES_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
+				RuntimeLibrary="2"
+				RuntimeTypeInfo="true"
+				UsePrecompiledHeader="0"
+				AssemblerListingLocation=".\obj\Release/"
+				ObjectFile=".\obj\Release/"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib xerces-c_2.lib CEGUIBase.lib RlCore.lib OgreNewt.lib Newton.lib"
+				OutputFile="$(OutDir)/RlRules.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\core\lib\Release;..\..\dependencies\ogrenew\OgreMain\lib\Release;..\..\dependencies\ruby\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\OgreNewt\lib\Release;..\..\dependencies\NewtonSDK\sdk\dll"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/RlRules.lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="Kopiere DLL"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
+			/>
+		</Configuration>
 	</Configurations>
 	<References>
 	</References>

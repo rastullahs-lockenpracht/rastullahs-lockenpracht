@@ -65,7 +65,7 @@ namespace rl {
          */
         void setPageText(const Ogre::String& page, const Ogre::String& text);
 
-        /** Sets the text for the one line StaticText field at the bottom of the window.
+        /** Sets the text for the one line Window field at the bottom of the window.
          *  This is used for situational short term info.
          */
         void setMessageText(const Ogre::String& text);
@@ -77,8 +77,8 @@ namespace rl {
         virtual const Ogre::String& getName() const;
 
     private:
-        CEGUI::StaticText* mMessageText;
-        CEGUI::StaticText* mPageCaption;
+        CEGUI::Window* mMessageText;
+        CEGUI::Window* mPageCaption;
         CEGUI::MultiLineEditbox* mPageText;
         typedef std::map<Ogre::String, Ogre::String> PageTextMap;
         PageTextMap mPageTexts;

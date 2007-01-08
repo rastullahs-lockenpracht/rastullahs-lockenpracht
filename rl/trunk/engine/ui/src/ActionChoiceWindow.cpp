@@ -41,7 +41,7 @@ namespace rl {
 		:	CeGuiWindow("actionchoicewindow.xml", WND_MOUSE_INPUT),
 			mActor(actor)
 	{
-		mHint = getStaticText("ActionChoiceWindow/Hint");
+		mHint = getWindow("ActionChoiceWindow/Hint");
 		getWindow("ActionChoiceWindow")->subscribeEvent(
 			Window::EventMouseClick,
 			boost::bind(
@@ -87,8 +87,8 @@ namespace rl {
 		LOG_DEBUG2(Logger::UI, 
 			"Buttons gelöscht", "ActionChoiceWindow::showActionsOfObject");
 
-		CEGUI::Point center = mWindow->relativeToAbsolute(CEGUI::Point(0.5, 0.5));
-		static int RADIUS = 80;
+		CEGUI::UVector2 center(cegui_reldim(0.5), cegui_reldim(0.5));
+		static float RADIUS = 0.10;
 
 		ActionVector actions = object->getValidActions(mActor);
 		if (actions.size() != 0)
@@ -216,7 +216,7 @@ namespace rl {
 	}
 
 	void ActionChoiceWindow::createButtons(
-		ActionNode* actions, const CEGUI::Point& center, 
+		ActionNode* actions, const CEGUI::UVector2& center, 
 		float radius, float angle, float angleWidth)
 	{
 		PushButton* button = NULL;
@@ -238,7 +238,7 @@ namespace rl {
 			for (NodeSet::const_iterator iter = children.begin(); 
 				iter != children.end(); iter++)
 			{
-				CEGUI::Point centerChild = getPositionOnCircle(center, radius, ang);
+				CEGUI::UVector2 centerChild = getPositionOnCircle(center, radius, ang);
 				createButtons(*iter, centerChild, radius, ang, 60);
 				ang += angleStep;
 			}
@@ -249,7 +249,7 @@ namespace rl {
 			mWindow->addChildWindow(button);		
 	}
 
-	PushButton* ActionChoiceWindow::createButton(const CeGuiString& name, const CEGUI::Point& pos)
+	PushButton* ActionChoiceWindow::createButton(const CeGuiString& name, const CEGUI::UVector2& pos)
 	{
 		Window* button = CeGuiWindow::loadWindow("buttons/"+name+".xml");
 		if (button == NULL)
@@ -259,13 +259,12 @@ namespace rl {
 					"buttons/defaultbutton.xml");
 		}
 
-		CEGUI::Size size = button->getAbsoluteSize();
-		button->setPosition(
-			Absolute, pos - CEGUI::Point(size.d_width/2, size.d_height/2));
+		CEGUI::UVector2 size = button->getSize();
+		button->setPosition(pos - size * UVector2(cegui_reldim(0.5), cegui_reldim(0.5)));
 		LOG_DEBUG2(Logger::UI, 
 			(button->getText()+" "+
-			StringConverter::toString(button->getAbsoluteXPosition()) + ", " + 
-			StringConverter::toString(button->getAbsoluteYPosition())).c_str(), 
+            StringConverter::toString(button->getPixelRect().d_left) + ", " + 
+            StringConverter::toString(button->getPixelRect().d_top)).c_str(), 
 			"createButton");
 		
 		return static_cast<PushButton*>(button);
@@ -288,9 +287,9 @@ namespace rl {
 		}
 		
 		LOG_DEBUG(Logger::UI, showHide + button->getName());
-		CEGUI::Point p = button->getRelativePosition();
-		LOG_DEBUG(Logger::UI, 
-			"("+StringConverter::toString(p.d_x)+", "+StringConverter::toString(p.d_y)+")");
+		//CEGUI::Point p = button->getRelativePosition();
+		//LOG_DEBUG(Logger::UI, 
+		//	"("+StringConverter::toString(p.d_x)+", "+StringConverter::toString(p.d_y)+")");
 			
 		if (visible)
 			button->show();
@@ -305,14 +304,14 @@ namespace rl {
 		return true;
 	}
 
-	CEGUI::Point ActionChoiceWindow::getPositionOnCircle(
-		const CEGUI::Point& center, float radius, float angle)
+	CEGUI::UVector2 ActionChoiceWindow::getPositionOnCircle(
+		const CEGUI::UVector2& center, float radius, float angle)
 	{
-		LOG_DEBUG(Logger::UI, 
-			"center="+StringConverter::toString(center.d_x)+","+StringConverter::toString(center.d_y)+
-			" radius="+StringConverter::toString(radius)+
-			" angle="+StringConverter::toString(angle)
-			);
+		//LOG_DEBUG(Logger::UI, 
+		//	"center="+StringConverter::toString(center.d_x)+","+StringConverter::toString(center.d_y)+
+		//	" radius="+StringConverter::toString(radius)+
+		//	" angle="+StringConverter::toString(angle)
+		//	);
 		static const float PI = 3.1415926;
 		
 		float relX = radius * sin(PI * angle/180);
@@ -322,7 +321,7 @@ namespace rl {
 			"diff="+StringConverter::toString(relX)+","+StringConverter::toString(relY));
 			
 
-		return center + CEGUI::Point(relX, relY);
+		return center + CEGUI::UVector2(cegui_reldim(relX), cegui_reldim(relY));
 	}
 	
 	ActionChoiceWindow::ActionNode* 

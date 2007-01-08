@@ -42,7 +42,7 @@
 #include "WindowFactory.h"
 #include "WindowManager.h"
 #include "World.h"
-
+#include "CeGuiHelper.h"
 #include <OgreCEGUIRenderer.h>
 #include <CEGUISystem.h>
 #include <OgreCEGUIResourceProvider.h>
@@ -113,7 +113,9 @@ namespace rl {
 		LOG_MESSAGE2(Logger::UI,
             "Initialisiere CEGUI-System", "UiSubsystem::initializeUiSubsystem");
         mGuiResourceProvider = new OgreCEGUIResourceProvider();
-		mGuiSystem = new System(mGuiRenderer, NULL, mGuiResourceProvider, (utf8*)"cegui.config");
+        CEGUI::System::setDefaultXMLParserName("XercesParser");
+		mGuiSystem = new System(mGuiRenderer, mGuiResourceProvider,
+            NULL, NULL, (utf8*)"cegui.config");
 		CEGUI::Logger::getSingleton().setLoggingLevel(
             rl::Logger::getSingleton().getCeGuiLogDetail());
 		LOG_MESSAGE2(Logger::UI,
@@ -130,14 +132,14 @@ namespace rl {
 		LOG_MESSAGE2(Logger::UI, "Rootfenster",
             "UiSubsystem::initializeUiSubsystem");
 		sheet->setSize(
-			Absolute, 
-			CEGUI::Size(Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth(), 
-				Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight()));
-		sheet->setPosition(Absolute, CEGUI::Point(0, 0));
+            CeGuiHelper::asAbsolute(CEGUI::Vector2(
+                Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth(), 
+				Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight())));
+		sheet->setPosition(CeGuiHelper::asAbsolute(CEGUI::Point(0, 0)));
 		System::getSingleton().setGUISheet(sheet);
         sheet->setZOrderingEnabled(true);
         sheet->moveToBack();
-		System::getSingleton().setTooltip("RastullahLook/Tooltip");
+		System::getSingleton().setDefaultTooltip("RastullahLook/Tooltip");
         LOG_MESSAGE2(Logger::UI, "CEGUI geladen",
             "UiSubsystem::initializeUiSubsystem");
 
@@ -303,8 +305,6 @@ namespace rl {
 		if (mCharacterController != NULL)
 		{
             setCharacterController(CharacterController::CTRL_NONE);
-            LOG_MESSAGE(Logger::UI, 
-                "Old CharacterController deleted.");
 			setActiveCharacter(NULL);
 		}
     }

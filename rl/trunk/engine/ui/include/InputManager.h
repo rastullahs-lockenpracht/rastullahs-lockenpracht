@@ -56,7 +56,6 @@ namespace rl {
         static InputManager & getSingleton(void);
         static InputManager * getSingletonPtr(void);
 
-        bool isKeyDown(Ogre::KeyCode kc);
         bool isMouseButtonDown( OIS::MouseButtonID buttonID );
 
         Ogre::Real getMouseRelativeX(void) const;
@@ -94,12 +93,10 @@ namespace rl {
 
         void initializeOis(Ogre::RenderWindow* wnd);
         bool sendKeyToCeGui(const OIS::KeyEvent& e) const;
-        void resetPressedKeys( bool up );
         int getModifierCode() const;
         const CEGUI::utf8& getKeyChar(int keycode, int modifiers) const;
 
 		Ogre::Vector3 mSavedMouseState;
-        bool mKeyDown[NUM_KEYS];
 
         OIS::Mouse* mMouse;
         OIS::Keyboard* mKeyboard;

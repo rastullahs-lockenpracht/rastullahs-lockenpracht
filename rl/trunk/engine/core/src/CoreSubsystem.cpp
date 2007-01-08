@@ -42,13 +42,6 @@
 
 #include <ctime>
 
-// gettimeofday for windows
-#include <OgreNoMemoryMacros.h>
-#include "FixRubyHeaders.h"
-#include <ruby.h>
-#include "FixRubyHeaders.h"
-#include <OgreMemoryMacros.h>
-
 using namespace Ogre;
 
 template<> rl::CoreSubsystem* Singleton<rl::CoreSubsystem>::ms_Singleton = 0;
@@ -292,33 +285,6 @@ namespace rl {
         }
     }
 
-    void CoreSubsystem::precreateTextures()
-    {
-        // Falls Texturen noch nicht über Materialien referenziert erzeugt wurden,
-        // hole das jetzt nach.
-        char* suffixes[] = {"png", "jpg", "jpeg", "tga", "dds"};
-        int suffix_count = 5;
-        vector<String> texes;
-        for (int i = 0; i < suffix_count; ++i)
-        {
-            StringVectorPtr curTexes = ResourceGroupManager::getSingleton()
-                .findResourceNames(ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-                String("*.") + suffixes[i]);
-            texes.insert(texes.end(), curTexes->begin(), curTexes->end());
-        }
-        for (size_t i = 0; i < texes.size(); ++i)
-        {
-            ResourcePtr res = TextureManager::getSingleton().getByName(texes[i]);
-            if (res.isNull())
-            {
-                TexturePtr tex = TextureManager::getSingleton().create(texes[i],
-                    ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-                tex->setNumMipmaps(TextureManager::getSingleton().getDefaultNumMipmaps());
-                tex->enable32Bit(true);
-            }
-        }
-    }
-
 	ContentModule* CoreSubsystem::getModule(const String& moduleId) const
 	{
 		ModuleMap::const_iterator moduleIt = mModules.find(moduleId);
@@ -528,12 +494,9 @@ namespace rl {
 
     RL_LONGLONG CoreSubsystem::getCurrentTime()
     {
-        timeval timebuffer;
-		
-        gettimeofday( &timebuffer, NULL );
-
-        return static_cast<RL_LONGLONG>(timebuffer.tv_sec) * 1000L + 
-        	static_cast<RL_LONGLONG>(timebuffer.tv_usec / 1000);
+        std::time_t t = std::time(NULL);
+        std::tm* ts = std::localtime(&t);
+        return static_cast<RL_LONGLONG>((ts->tm_hour * 3600 + ts->tm_min * 60 + ts->tm_sec) * 1000);
     }
 
 	void CoreSubsystem::addCoreEventListener(rl::CoreEventListener *listener)

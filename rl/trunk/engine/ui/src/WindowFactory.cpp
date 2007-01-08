@@ -448,13 +448,13 @@ namespace rl {
                 wnd->getName()
                 + (wnd->isVisible() ? " vis" : " nvis")
                 + " @"
-                + StringConverter::toString(wnd->getAbsoluteXPosition())
+                + StringConverter::toString(wnd->getPixelRect().getPosition().d_x)
                 + ", "
-                + StringConverter::toString(wnd->getAbsoluteYPosition())
+                + StringConverter::toString(wnd->getPixelRect().getPosition().d_y)
                 + " "
-                + StringConverter::toString(wnd->getAbsoluteWidth())
+                + StringConverter::toString(wnd->getPixelSize().d_width)
                 + ", "
-                + StringConverter::toString(wnd->getAbsoluteHeight()));
+                + StringConverter::toString(wnd->getPixelSize().d_height));
         }
     }
 }

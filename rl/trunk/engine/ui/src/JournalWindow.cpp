@@ -48,8 +48,8 @@ namespace rl {
             CEGUI::Listbox::EventSelectionChanged,
             boost::bind(&JournalWindow::updateQuestSelection, this));
 
-        mQuestTitle = getStaticText("JournalWindow/Quests/QuestTitle");
-        mQuestState = getStaticText("JournalWindow/Quests/QuestState");
+        mQuestTitle = getWindow("JournalWindow/Quests/QuestTitle");
+        mQuestState = getWindow("JournalWindow/Quests/QuestState");
         mQuestDescription = getMultiLineEditbox("JournalWindow/Quests/QuestDescription");
         mQuestDescription->setReadOnly(true);
 
@@ -59,15 +59,13 @@ namespace rl {
             CEGUI::Listbox::EventSelectionChanged,
             boost::bind(&JournalWindow::updateJournalEntrySelection, this));
 
-        mJournalEntryTitle = getStaticText("JournalWindow/Journal/JournalEntryTitle");
+        mJournalEntryTitle = getWindow("JournalWindow/Journal/JournalEntryTitle");
         mJournalEntryText = getMultiLineEditbox("JournalWindow/Journal/JournalEntryText");
         mJournalEntryText->setReadOnly(true);
 
-        mSelectionColour = 
-            PropertyHelper::stringToColour(
-            mQuests->getProperty("DefaultSelectionColour"));
-        mSelectionImageset = mQuests->getProperty("DefaultSelectionImageset");
-        mSelectionBrush = mQuests->getProperty("DefaultSelectionBrush");
+        mSelectionColour = CEGUI::ListboxItem::DefaultSelectionColour;
+        mSelectionImageset = "Rastullah-Images";
+        mSelectionBrush = "ListboxSelectionBrush";
 
         updateQuests();
         updateJournal();

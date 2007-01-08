@@ -145,13 +145,6 @@ private:
 	void loadPlugins();
     void unloadPlugins();
 
-    /**
-     * Texturen werden nicht gefunden, wenn sie erst bei Materialnutzung erzeugt werden
-     * und nicht in der Gruppe des Materials sind. Deshalb hier vorerstellen.
-     * @XXX Das ist mehr oder weniger ein Hack um eine Ogre-Einschränkung herum.
-     */
-    void precreateTextures();
-
 	/**
 	 * Sammelt alle Default-Techniques, um sie später bei jedem aktivierten Scheme 
 	 * benutzen zu können

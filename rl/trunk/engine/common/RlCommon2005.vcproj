@@ -191,6 +191,90 @@
 				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
 			/>
 		</Configuration>
+		<Configuration
+			Name="Release with Symbols|Win32"
+			OutputDirectory="./lib/Release"
+			IntermediateDirectory="./obj/Release"
+			ConfigurationType="2"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=".\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\boost\include"
+				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;_USRDLL;RLCOMMON_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="0"
+				AssemblerListingLocation=".\obj\$(ConfigurationName)/"
+				ObjectFile=".\obj\$(ConfigurationName)/"
+				GenerateXMLDocumentationFiles="false"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="OgreMain.lib xerces-c_2.lib CEGUIBase.lib boost_thread-vc80-mt-1_33.lib"
+				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\..\dependencies\ogrenew\OgreMain\lib\Release;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui_mk2\lib\$(PlatformName)\Release&quot;;..\..\dependencies\cegui_mk2\lib\;..\..\dependencies\boost\lib"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/RlCommon.lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="Kopiere DLL"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
+			/>
+		</Configuration>
 	</Configurations>
 	<References>
 	</References>

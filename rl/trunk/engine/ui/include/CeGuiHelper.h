@@ -14,21 +14,25 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-/**
- * Einige Undefines, für unfreundliche defines in den Ruby-Headers.
- * Dort werden viele C-Funktionen überdeckt, die in Ogre aber benötigt werden.
- * Diese Datei muss nach einem Ruby-Header inkludiert werden, möglicherweise auch
- * noch davor, um vorherige Makros zu löschen.
- */
-#undef close
-#undef bind
-#undef select
-#undef shutdown
-#undef snprintf
-#undef vsnprintf
-#undef Sleep
-#undef sleep
-#undef strcasecmp
-#undef rename
-#undef fd_set
-#undef u_long
+#ifndef __RL_CEGUI_HELPER_H__
+#define __RL_CEGUI_HELPER_H__
+
+#include "UiPrerequisites.h"
+namespace rl
+{
+    class CeGuiHelper
+    {
+    public:
+        static CEGUI::UVector2 asAbsolute(const CEGUI::Vector2& position)
+        {
+            return CEGUI::UVector2(CEGUI::UDim(0, position.d_x), CEGUI::UDim(0, position.d_y));
+        }
+
+        static CEGUI::UVector2 asRelative(const CEGUI::Vector2& position)
+        {
+            return CEGUI::UVector2(CEGUI::UDim(position.d_x, 0), CEGUI::UDim(position.d_y, 0));
+        }
+    };
+}
+
+#endif

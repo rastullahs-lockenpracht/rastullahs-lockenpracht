@@ -62,9 +62,9 @@ namespace rl {
 		DialogCharacter* mBot;
 		DialogResponse* mCurrentResponse;
 		CEGUI::Listbox* mDialogOptions;
-		CEGUI::StaticImage* mImage;
+		CEGUI::Window* mImage;
 		CEGUI::Listbox* mQuestion;
-		CEGUI::StaticText* mName;
+		CEGUI::Window* mName;
 		GameLoggerWindow* mGameLogger;
 		DialogCharacterController* mController;
 		DialogState mState;

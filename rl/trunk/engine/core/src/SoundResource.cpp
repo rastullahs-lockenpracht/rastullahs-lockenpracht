@@ -27,7 +27,7 @@ namespace rl {
 SoundResource::SoundResource(ResourceManager* creator, const String& name, ResourceHandle handle,
         const String& group, bool isManual, ManualResourceLoader* loader):
     Resource(creator, name, handle, group, isManual, loader),
-    mDataStream(0)
+    mDataStream()
 {
 }
 
@@ -46,7 +46,7 @@ SoundResource::~SoundResource()
  */
 void SoundResource::loadImpl()
 {
-    if (!mIsLoaded)
+    if (!isLoaded())
     {
 		mDataStream = ResourceGroupManager::getSingleton().openResource(mName, mGroup);
     }
@@ -62,7 +62,6 @@ void SoundResource::unloadImpl()
     {
         mDataStream.setNull();
     }
-    mIsLoaded = false;
 }
 
 /**

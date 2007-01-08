@@ -33,6 +33,7 @@
 #include "UiSubsystem.h"
 #include "WindowFactory.h"
 #include "World.h"
+#include "CeGuiHelper.h"
 
 #include <CEGUIPropertyHelper.h>
 #include <OgreCEGUIRenderer.h>
@@ -195,7 +196,7 @@ namespace rl {
 	void InventoryWindow::updateItemPosition(){
 		
 		// Positionieren
-		mDroppedItem->setPosition(CEGUI::Absolute, mPosDraggedTo);
+        mDroppedItem->setPosition(CeGuiHelper::asAbsolute(mPosDraggedTo));
 		mDroppedItem = NULL;
 
 		// Loggen
@@ -462,32 +463,32 @@ namespace rl {
 
 	void InventoryWindow::initSlots()
 	{
-		mArmorValueWindow = getStaticImage("InventoryWindow/ArmorValueWindow");
-		mArmorValueWindow->setBackgroundImage("InventorySymbols","Shield");
+		mArmorValueWindow = getWindow("InventoryWindow/ArmorValueWindow");
+        mArmorValueWindow->setProperty("Image", "set:InventorySymbols image:Shield");
 		mArmorValueWindow->setTooltipText("Rüstung / Behinderung");
 		//TODO: An Tooltip anhängen: woraus setzt sich die Rüstung zusammen?
-		mArmorValue = getStaticText("InventoryWindow/ArmorValue");
+		mArmorValue = getWindow("InventoryWindow/ArmorValue");
 		mArmorValue->setText(" 3");
-		mArmorValue->setTextColours(CEGUI::colour(0.0,0.4,0.0));
+		//mArmorValue->setTextColours(CEGUI::colour(0.0,0.4,0.0)); //TODO port to cegui0.5
 		mArmorValue->disable();
-		mHandicapValue = getStaticText("InventoryWindow/HandicapValue");
-		mHandicapValue-> setText("2");
-		mHandicapValue->setTextColours(CEGUI::colour(0.4,0.0,0.0));
+		mHandicapValue = getWindow("InventoryWindow/HandicapValue");
+		mHandicapValue->setText("2");
+		//mHandicapValue->setTextColours(CEGUI::colour(0.4,0.0,0.0)); //TODO port to cegui0.5
 		mHandicapValue->disable();
 
-		mWeightWindow = getStaticImage("InventoryWindow/WeightWindow");
-		mWeightWindow->setBackgroundImage("InventorySymbols", "Weight");
+		mWeightWindow = getWindow("InventoryWindow/WeightWindow");
+        mWeightWindow->setProperty("Image", "set:InventorySymbols image:Weight");
 		mWeightWindow->setTooltipText("Getragenes Gewicht\r\nin Stein");
 
-		mTotalWeight = getStaticText("InventoryWindow/TotalWeight");
+		mTotalWeight = getWindow("InventoryWindow/TotalWeight");
 		mTotalWeight->setText("");
 		// Schwarzer Text (wird rot, wenn überladen)
-		mTotalWeight->setTextColours(CEGUI::colour(0.0,0.0,0.0));
+		//mTotalWeight->setTextColours(CEGUI::colour(0.0,0.0,0.0));  //TODO port to cegui0.5
 		mTotalWeight->disable();
 				
 
 		// Das Item-Beschreibungsfeld holen
-		mDescription = getStaticText("InventoryWindow/Description");
+		mDescription = getScrollablePane("InventoryWindow/Description");
 
 		// Das "BodenItem" initiieren
 		mGroundItem = new Item(1/*"Boden", "Dieses Item repräsentiert den Boden"*/);
@@ -500,55 +501,55 @@ namespace rl {
 		mContainerTabs = getTabControl("InventoryWindow/Tabs");
 		
 		// Hole die einzelnen Slots aus dem XML-File
-		mHelmet = getStaticImage("InventoryWindow/Helmet");
+		mHelmet = getWindow("InventoryWindow/Helmet");
 		mHelmet->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_HELMET));
 		
-		mRingLeft = getStaticImage("InventoryWindow/RingLeft");
+		mRingLeft = getWindow("InventoryWindow/RingLeft");
 		mRingLeft->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_RING));
 		
-		mRingRight = getStaticImage("InventoryWindow/RingRight");
+		mRingRight = getWindow("InventoryWindow/RingRight");
 		mRingRight->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_RING));
 		
-		mHandLeft = getStaticImage("InventoryWindow/HandLeft");
+		mHandLeft = getWindow("InventoryWindow/HandLeft");
 		mHandLeft->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_SHIELD));
 
-		mHandRight = getStaticImage("InventoryWindow/HandRight");
+		mHandRight = getWindow("InventoryWindow/HandRight");
 		mHandRight->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_WEAPON));
 
-		mGloves = getStaticImage("InventoryWindow/Gloves");
+		mGloves = getWindow("InventoryWindow/Gloves");
 		mGloves->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_GLOVES));
 
-		mBraceletLeft = getStaticImage("InventoryWindow/BraceletLeft");
+		mBraceletLeft = getWindow("InventoryWindow/BraceletLeft");
 		mBraceletLeft->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_BRACELET));
 
-		mBraceletRight = getStaticImage("InventoryWindow/BraceletRight");
+		mBraceletRight = getWindow("InventoryWindow/BraceletRight");
 		mBraceletRight->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_BRACELET));
 
-		mArmor = getStaticImage("InventoryWindow/Armor");
+		mArmor = getWindow("InventoryWindow/Armor");
 		mArmor->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_ARMOR));
 
-		mCape = getStaticImage("InventoryWindow/Cape");
+		mCape = getWindow("InventoryWindow/Cape");
 		mCape->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_CAPE));
 
-		mBracers = getStaticImage("InventoryWindow/Bracers");
+		mBracers = getWindow("InventoryWindow/Bracers");
 		mBracers->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_BRACERS));
 
-		mBackpack = getStaticImage("InventoryWindow/Backpack");
+		mBackpack = getWindow("InventoryWindow/Backpack");
 		mBackpack->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_BACKPACK));
 
-		mBelt = getStaticImage("InventoryWindow/Belt");
+		mBelt = getWindow("InventoryWindow/Belt");
 		mBelt->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_BELT));
 
-		mNecklace = getStaticImage("InventoryWindow/Necklace");
+		mNecklace = getWindow("InventoryWindow/Necklace");
 		mNecklace->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_NECKLACE));
 
-		mTrousers = getStaticImage("InventoryWindow/Trousers");
+		mTrousers = getWindow("InventoryWindow/Trousers");
 		mTrousers->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_TROUSERS));
 
-		mShinbone = getStaticImage("InventoryWindow/Shinbone");
+		mShinbone = getWindow("InventoryWindow/Shinbone");
 		mShinbone->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_SHINBONE));
 
-		mBoots = getStaticImage("InventoryWindow/Boots");
+		mBoots = getWindow("InventoryWindow/Boots");
 		mBoots->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_BOOTS));
 
 		// gib ihnen die Funktionalität Items aufzunehmen
@@ -644,11 +645,12 @@ namespace rl {
 
 			mContainerTabs->addTab(containerWindow);
 
-			CEGUI::StaticImage* containerSpace = static_cast<CEGUI::StaticImage*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("RastullahLook/Container", "InventoryWindow/Tabs/"+container->getName()+"/Content"));
+			CEGUI::Window* containerSpace = static_cast<CEGUI::Window*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("RastullahLook/Container", "InventoryWindow/Tabs/"+container->getName()+"/Content"));
 			
 			containerSpace->setVerticalAlignment(CEGUI::VA_CENTRE);
 			containerSpace->setHorizontalAlignment(CEGUI::HA_CENTRE);
-            containerSpace->setWindowSize(UVector2(cegui_absdim(container->getVolume().first*30), cegui_absdim(container->getVolume().second*30)));
+            containerSpace->setSize(UVector2(cegui_absdim(container->getVolume().first*30),
+                cegui_absdim(container->getVolume().second*30)));
 			containerSpace->setUserData(container);
 			containerWindow->addChildWindow(containerSpace);
 
@@ -831,8 +833,9 @@ namespace rl {
 			// Erzeuge einen Handler für Drag and Drop
 			DragContainer* itemhandler = static_cast<DragContainer*>(
 				CEGUI::WindowManager::getSingletonPtr()->createWindow("DragContainer", Ogre::StringConverter::toString(itemCnt) + item->getName()));
-			itemhandler->setWindowPosition(position);
-			itemhandler->setWindowSize(UVector2(cegui_absdim(item->getSize().first*30), cegui_absdim(item->getSize().second*30))); 
+			itemhandler->setPosition(position);
+			itemhandler->setSize(UVector2(cegui_absdim(item->getSize().first*30),
+                cegui_absdim(item->getSize().second*30))); 
 			itemhandler->setUserString("ItemType",Item::getItemTypeString(item->getItemType()));
 			itemhandler->setUserData(item);
 			itemhandler->setTooltipText(item->getName());
@@ -849,12 +852,14 @@ namespace rl {
 					"RastullahLook/Item", 
 					tempName + "Item");
 
-			itemWindow->setWindowPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
-			itemWindow->setWindowSize(UVector2(cegui_absdim(item->getSize().first*30), cegui_absdim(item->getSize().second*30)));
+			itemWindow->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
+			itemWindow->setSize(UVector2(cegui_absdim(item->getSize().first*30),
+                cegui_absdim(item->getSize().second*30)));
 			itemWindow->setProperty("FrameEnabled", "false");
 			itemWindow->setProperty("BackgroundColour", mColorItemNormal);
 			// Gib dem Item noch ein Bild...
-			itemWindow->setProperty("Image", CeGuiString("set:ModelThumbnails image:") + item->getImageName());
+			itemWindow->setProperty("Image",
+                CeGuiString("set:ModelThumbnails image:") + item->getImageName());
 			itemWindow->disable(); 
 
 			itemhandler->addChildWindow(itemWindow);
@@ -910,7 +915,7 @@ namespace rl {
 				if (item->getDescription().length() > 200)
 				{
 					// Scrollbalken aktivieren
-					mDescription->setVerticalScrollbarEnabled(true);
+                    mDescription->setShowVertScrollbar(true);
 				}
 				else 
 				{
@@ -929,7 +934,7 @@ namespace rl {
 	void InventoryWindow::initRenderToTexture()
 	{
 		// Das Feld, in das gerendert werden soll (TransparentStaticImage)
-		mItemRenderImage = getStaticImage("InventoryWindow/ItemPicture");
+		mItemRenderImage = getWindow("InventoryWindow/ItemPicture");
 
 		SceneManager* tempManager = CoreSubsystem::getSingleton().
 				getWorld()->getSceneManager();
@@ -999,30 +1004,36 @@ namespace rl {
 			loadCamera();
 
 			// Item setzen und Schnappschuss machen
-			mRenderItemEntity = tempManager->createEntity("inventoryRenderedItem", (static_cast<MeshObject*>(item->getActor()->getControlledObject()))->getMeshName());
+			mRenderItemEntity = tempManager->createEntity("inventoryRenderedItem",
+                (static_cast<MeshObject*>(item->getActor()->getControlledObject()))->getMeshName());
 			mInventoryItemNode->attachObject(mRenderItemEntity);
 		
 			// Das Item hat einen Actor
-			//mItemActor = ActorManager::getSingleton().createMeshActor("inventoryRenderedItem",(static_cast<MeshObject*>(item->getActor()->getControlledObject()))->getMeshName());
+			//mItemActor = ActorManager::getSingleton().createMeshActor("inventoryRenderedItem",
+            //  (static_cast<MeshObject*>(item->getActor()->getControlledObject()))->getMeshName());
 			//mItemActor->placeIntoScene(Ogre::Vector3(0,-101055.3,-0.2));
-			mItemRenderImage->setSize(CEGUI::Absolute,CEGUI::Size(128,128));
-			mItemRenderImage->setBackgroundImage(&mImageSet->getImage((CEGUI::utf8*)"InventoryItemRttImage"));
+            mItemRenderImage->setSize(CeGuiHelper::asAbsolute(CEGUI::Vector2(128, 128)));
+			mItemRenderImage->setProperty("Image",
+                "set:" + mImageSet->getName() + " image:InventoryItemRttImage");
 			mRenderTexture->update();
 
-		} else if (item->getImageName() != "") {
-			mItemRenderImage->setBackgroundImage("ModelThumbnails", item->getImageName());
+		}
+        else if (item->getImageName() != "")
+        {
+            mItemRenderImage->setProperty("Image",
+                "set:ModelThumbnails image:" + item->getImageName());
 
 			float div = item->getSize().first / float(item->getSize().second);
 
 			if (div < 1)
 			{
 				//schmales Item
-				mItemRenderImage->setSize(CEGUI::Absolute,CEGUI::Size(128*div, 128));
+                mItemRenderImage->setSize(CeGuiHelper::asAbsolute(CEGUI::Vector2(128*div, 128)));
 			}
 			else
 			{
 				// breites oder quadratisches Item
-				mItemRenderImage->setSize(CEGUI::Absolute,CEGUI::Size(128, 128/div));
+                mItemRenderImage->setSize(CeGuiHelper::asAbsolute(CEGUI::Vector2(128, 128/div)));
 			}
 		}
 	}
@@ -1036,7 +1047,8 @@ namespace rl {
 		mCameraActor->getPhysicalThing()->freeze();
 
 		mRenderTexture->setAutoUpdated(false);
-        mRenderViewport = mRenderTexture->addViewport( (static_cast<CameraObject*>(mCameraActor->getControlledObject()))->getCamera());
+        mRenderViewport = mRenderTexture->addViewport(
+            (static_cast<CameraObject*>(mCameraActor->getControlledObject()))->getCamera());
         mRenderViewport->setOverlaysEnabled(false);
         mRenderViewport->setClearEveryFrame(true);
         mRenderViewport->setBackgroundColour( ColourValue::Black );
@@ -1074,8 +1086,8 @@ namespace rl {
 	{
 		// Errechnung der Koordinaten, in welchem Kästchen denn nun gedroppt wird
 		Point absMouse = MouseCursor::getSingleton().getPosition();
-		Point scrnPt = ddea.window->windowToScreen( Point(0,0) ); 
-		Point relMouse = absMouse- ddea.dragDropItem->windowToScreen( Point(0,0) );
+        Point scrnPt = ddea.window->getPixelRect().getPosition();
+		Point relMouse = absMouse - ddea.dragDropItem->getPixelRect().getPosition();
 
 		//Bug in CeGUI (1. rel Mouse koordinate spinnt
 		if (relMouse.d_x < 0) {
@@ -1093,21 +1105,32 @@ namespace rl {
 		pointInBackpack -= relMouse;
 
 		// Position des nächsten Kästchens bestimmen		
-		if (pointInBackpack.d_x < 0){
+		if (pointInBackpack.d_x < 0)
+        {
 			pointInBackpack.d_x = 0;
 		}
-		if (pointInBackpack.d_y < 0) {
+		if (pointInBackpack.d_y < 0)
+        {
 			pointInBackpack.d_y = 0;
 		}
 
-		if (pointInBackpack.d_x > 16){
-			pointInBackpack.d_x = (int(pointInBackpack.d_x) + 14) - ((int(pointInBackpack.d_x) + 14) % 30);
-		} else {
+		if (pointInBackpack.d_x > 16)
+        {
+			pointInBackpack.d_x = (int(pointInBackpack.d_x) + 14) -
+                ((int(pointInBackpack.d_x) + 14) % 30);
+		}
+        else
+        {
 			pointInBackpack.d_x = 0;
 		}
-		if (pointInBackpack.d_y > 16){
-			pointInBackpack.d_y = (int(pointInBackpack.d_y) + 14 ) - ((int(pointInBackpack.d_y) + 14) % 30);
-		} else {
+
+		if (pointInBackpack.d_y > 16)
+        {
+			pointInBackpack.d_y = (int(pointInBackpack.d_y) + 14 ) -
+                ((int(pointInBackpack.d_y) + 14) % 30);
+		}
+        else
+        {
 			pointInBackpack.d_y = 0;
 		}
 

@@ -106,7 +106,7 @@ namespace rl {
 
         RlAssert1(!mMaterial.isNull());
 
-        mMaterial->setDepthBias(!mOnTop);
+        mMaterial->setDepthBias(!mOnTop, !mOnTop);
         mMaterial->setDepthCheckEnabled(!mOnTop);
         mMaterial->setDepthWriteEnabled(mOnTop);
     }

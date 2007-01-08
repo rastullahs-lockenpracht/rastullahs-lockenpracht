@@ -35,11 +35,10 @@ copy "%OGREPLATFORMS%\Win32\bin\%BUILD%\PlatFormManager_Win32.dll" "%RL_DIST%\Og
 copy "%OGREHOME%\Samples\Common\CEGUIRenderer\bin\Debug\OgreGUIRenderer_d.dll" "%RL_DIST%"
 copy "%OGREHOME%\Samples\Common\CEGUIRenderer\bin\Release\OgreGUIRenderer.dll" "%RL_DIST%"
 
-copy "%OGREHOME%\Dependencies\Bin\%BUILD%\cg.dll" "%RL_DIST%"
-copy "%OGREHOME%\Dependencies\Bin\%BUILD%\ilu.dll" "%RL_DIST%"
-copy "%OGREHOME%\Dependencies\Bin\%BUILD%\ilut.dll" "%RL_DIST%"
-copy "%OGREHOME%\Dependencies\Bin\%BUILD%\devil.dll" "%RL_DIST%"
-copy "%OGREHOME%\Dependencies\Bin\%BUILD%\zlib1.dll" "%RL_DIST%"
+copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\cg.dll" "%RL_DIST%"
+copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\freeimage.dll" "%RL_DIST%"
+copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\freeimaged.dll" "%RL_DIST%"
+copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\zlib1.dll" "%RL_DIST%"
 
 REM Boost Dateien kopieren
 REM ---------------------

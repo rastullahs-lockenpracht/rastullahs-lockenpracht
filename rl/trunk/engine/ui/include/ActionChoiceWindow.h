@@ -63,22 +63,22 @@ namespace rl {
 
         typedef std::set<ActionNode*,actnodecmp> NodeSet;
 	
-		static CEGUI::Point 
+		static CEGUI::UVector2 
 			getPositionOnCircle(
-				const CEGUI::Point& center, 
+				const CEGUI::UVector2& center, 
 				float radius, 
 				float angle);
 
 		void createButtons(
 			ActionNode* actions, 
-			const CEGUI::Point& center, 
+			const CEGUI::UVector2& center, 
 			float radius, 
 			float minAngle, 
 			float maxAngle);
 
 		CEGUI::PushButton* createButton(
 			const CeGuiString& name,
-			const CEGUI::Point& pos);
+			const CEGUI::UVector2& pos);
 			
 		bool handleMouseClickNoButton(const CEGUI::EventArgs& evt);
 		void setButtonActions(ActionNode* actions, ActionNode* treeRoot);
@@ -89,7 +89,7 @@ namespace rl {
 		std::vector<CEGUI::PushButton*> mButtons;
 		CEGUI::PushButton* mButtonCancel;
 		CEGUI::Window* mButtonArea;
-		CEGUI::StaticText* mHint;
+		CEGUI::Window* mHint;
 
 		Person* mActor;		
 		

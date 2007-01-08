@@ -53,8 +53,8 @@ DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger,
 	mController(controller),
     mState( TALKING_PLAYER_CHARACTER )
 {
-	mImage = getStaticImage("DialogWindow/Image");
-	mName = getStaticText("DialogWindow/Name");
+	mImage = getWindow("DialogWindow/Image");
+	mName = getWindow("DialogWindow/Name");
 	mQuestion = getListbox("DialogWindow/Question");
 	mDialogOptions = getListbox("DialogWindow/OptionList");
 
@@ -316,12 +316,12 @@ bool DialogWindow::requestClose()
 
 void DialogWindow::setImage(string imageset, string image)
 {
-	mImage->setImage(imageset, image);
+    mImage->setProperty("Image", "set:" + imageset + " image:" + image);
 }
 
 void DialogWindow::setName(string name)
 {
-	mName->setText(name);
+	mName->setProperty("Text", name);
 }
 
 }

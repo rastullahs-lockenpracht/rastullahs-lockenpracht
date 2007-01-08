@@ -69,7 +69,7 @@ size_t XmlResource::calculateSize() const
  */
 bool XmlResource::parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser, bool useErrorHandler)
 {
-	if (!mIsLoaded)
+	if (!isLoaded())
 		load();
     if(useErrorHandler && parser->getErrorHandler() == NULL)
     {
@@ -86,7 +86,7 @@ bool XmlResource::parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser, bool us
 
 bool XmlResource::parseBy(XERCES_CPP_NAMESPACE::SAX2XMLReader* parser, bool useErrorHandler)
 {
-	if (!mIsLoaded)
+	if (!isLoaded())
 		load();
     if(useErrorHandler && parser->getErrorHandler() == NULL)
     {

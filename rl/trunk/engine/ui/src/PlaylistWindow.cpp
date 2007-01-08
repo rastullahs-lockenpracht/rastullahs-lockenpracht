@@ -32,8 +32,8 @@ PlaylistWindow::PlaylistWindow()
 	: CeGuiWindow("playlistwindow.xml", WND_MOUSE_INPUT)
 {
 	mPlaylistTable = getMultiColumnList("PlaylistSheet/PlaylistSheet/Table");
-	mPlaylistTable->addColumn((utf8*)"Name", 0, 0.5);
-	mPlaylistTable->addColumn((utf8*)"Dauer", 1, 0.3);
+	mPlaylistTable->addColumn((utf8*)"Name", 0, cegui_reldim(0.5));
+	mPlaylistTable->addColumn((utf8*)"Dauer", 1, cegui_reldim(0.3));
 	mPlaylistTable->setUserSortControlEnabled(false);
 	
     /* getWindow("PlaylistWindow")->subscribeEvent(

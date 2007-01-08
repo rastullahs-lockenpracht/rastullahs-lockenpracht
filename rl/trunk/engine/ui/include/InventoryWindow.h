@@ -123,21 +123,21 @@ namespace rl {
         InventoryArrangeTask* mInventoryArrangeTask;
 
 		// Das Item-Renderfenster
-		CEGUI::StaticImage* mItemRenderImage;
+		CEGUI::Window* mItemRenderImage;
 
 
 		// Das Rüstungs- und Behinderungswert Fenster
-		CEGUI::StaticImage* mArmorValueWindow;
-		CEGUI::StaticText* mArmorValue;
-		CEGUI::StaticText* mHandicapValue;
+		CEGUI::Window* mArmorValueWindow;
+		CEGUI::Window* mArmorValue;
+		CEGUI::Window* mHandicapValue;
 
 		// Das Gewichtsfenster
-		CEGUI::StaticImage* mWeightWindow;
-		CEGUI::StaticText* mTotalWeight;
+		CEGUI::Window* mWeightWindow;
+		CEGUI::Window* mTotalWeight;
 		
 
 		// Das Item-Beschreibungsfenster
-		CEGUI::StaticText* mDescription;
+		CEGUI::ScrollablePane* mDescription;
 
 		// Das jeweils aktive Fenster, das im Beschreibungsfenster angewählt ist
 		CEGUI::Window* mActiveItemWindow;
@@ -156,32 +156,29 @@ namespace rl {
 		const std::pair<int,int> mGroundDimension;
 
 		// Alle verschiedenen Inventoryslots
-		CEGUI::StaticImage* mRingLeft;
-		CEGUI::StaticImage* mRingRight;
-		CEGUI::StaticImage* mHandLeft;
-		CEGUI::StaticImage* mHandRight;
-		CEGUI::StaticImage* mGloves;
-		CEGUI::StaticImage* mBraceletLeft;
-		CEGUI::StaticImage* mBraceletRight;
-		CEGUI::StaticImage* mArmor;
-		CEGUI::StaticImage* mCape;
-		CEGUI::StaticImage* mBracers;
-		CEGUI::StaticImage* mBackpack;
-		CEGUI::StaticImage* mBelt;
-		CEGUI::StaticImage* mNecklace;
-		CEGUI::StaticImage* mHelmet;
-		CEGUI::StaticImage* mTrousers;
-		CEGUI::StaticImage* mShinbone;
-		CEGUI::StaticImage* mBoots;
+		CEGUI::Window* mRingLeft;
+		CEGUI::Window* mRingRight;
+		CEGUI::Window* mHandLeft;
+		CEGUI::Window* mHandRight;
+		CEGUI::Window* mGloves;
+		CEGUI::Window* mBraceletLeft;
+		CEGUI::Window* mBraceletRight;
+		CEGUI::Window* mArmor;
+		CEGUI::Window* mCape;
+		CEGUI::Window* mBracers;
+		CEGUI::Window* mBackpack;
+		CEGUI::Window* mBelt;
+		CEGUI::Window* mNecklace;
+		CEGUI::Window* mHelmet;
+		CEGUI::Window* mTrousers;
+		CEGUI::Window* mShinbone;
+		CEGUI::Window* mBoots;
 
 		CEGUI::Point mPosDraggedTo;
 		CEGUI::Window* mContainerDraggedTo;
 		CEGUI::DragContainer* mOldItemInSlot;
-
-		/** 
-		* Erzeugt eine Itemrepräsentation im Inventarfenster
-		*/
-		CEGUI::DragContainer* createItem(Item* item, CEGUI::Window* parent, CEGUI::UVector2 position = CEGUI::UVector2(CEGUI::cegui_reldim(0.0f), CEGUI::cegui_reldim(0.0f)));
+        
+        CEGUI::DragContainer* createItem(Item* item, CEGUI::Window* parent, CEGUI::UVector2 position = CEGUI::UVector2(cegui_reldim(0.0f), cegui_reldim(0.0f)));
 
 		/**
 		* Schliesst das Fenster bei Klick auf X

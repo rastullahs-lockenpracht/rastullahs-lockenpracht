@@ -108,8 +108,8 @@ namespace rl
 		const float MIN_SPACE_POS = 0.5;
 
 		CeGuiString textLeft = CeGuiString(text);
-		const CEGUI::Font* font = mDisplay->getFont();
-		unsigned int width = mDisplay->getAbsoluteWidth()*0.95;
+        CEGUI::Font* font = const_cast<CEGUI::Font*>(mDisplay->getFont());
+        unsigned int width = mDisplay->getPixelSize().d_width * 0.95f;
 
 		while (textLeft.length() > 0)
 		{

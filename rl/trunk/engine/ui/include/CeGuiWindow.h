@@ -45,19 +45,17 @@ namespace rl {
 		CEGUI::Window* getWindow(const char* name, const char* requiredClass = NULL);
 		CEGUI::Editbox* getEditbox(const char* name);
 		CEGUI::Listbox* getListbox(const char* name);
-		CEGUI::StaticText* getStaticText(const char* name);
-		CEGUI::StaticImage* getStaticImage(const char* name);
 		CEGUI::MultiColumnList* getMultiColumnList(const char* name);
 		CEGUI::MultiLineEditbox* getMultiLineEditbox(const char* name);
-		CEGUI::TabPane* getTabPane(const char* name);
-		CEGUI::TabControl* getTabControl(const char* name);
 		CEGUI::ProgressBar* getProgressBar(const char* name);
 		CEGUI::MenuBase* getMenu(const char* name);
 		CEGUI::MenuItem* getMenuItem(const char* name);
 		CEGUI::PushButton* getPushButton(const char* name);
 		CEGUI::Combobox* getCombobox(const char* name);
 		CEGUI::ComboDropList* getComboDropList(const char* name);
+        CEGUI::ScrollablePane* getScrollablePane(const char* name);
 		CEGUI::Slider* getSlider(const char* name);
+		CEGUI::TabControl* getTabControl(const char* name);
 
 		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile);
 		static CEGUI::Window* getRoot();
