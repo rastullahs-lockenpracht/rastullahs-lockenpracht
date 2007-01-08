@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\inc;..\NewtonSDK\sdk;..\ogrenew\OgreMain\include"
+				AdditionalIncludeDirectories=".\include\OgreNewt;..\NewtonSDK\sdk;..\ogrenew\OgreMain\include"
 				PreprocessorDefinitions="_WINDOWS;WIN32;_DEBUG;_OGRENEWT_EXPORTS;_OGRENEWT_DYNAMIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -122,7 +122,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\inc;..\NewtonSDK\sdk;..\ogrenew\OgreMain\include"
+				AdditionalIncludeDirectories=".\include\OgreNewt;..\NewtonSDK\sdk;..\ogrenew\OgreMain\include"
 				PreprocessorDefinitions="_WINDOWS;WIN32;NDEBUG;_OGRENEWT_EXPORTS;_OGRENEWT_DYNAMIC"
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="2"
@@ -244,71 +244,71 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\inc\OgreNewt.h"
+				RelativePath=".\include\OgreNewt\OgreNewt.h"
 				>
 			</File>
 			<File
-				RelativePath=".\inc\OgreNewt_BasicJoints.h"
+				RelativePath=".\include\OgreNewt\OgreNewt_BasicJoints.h"
 				>
 			</File>
 			<File
-				RelativePath=".\inc\OgreNewt_Body.h"
+				RelativePath=".\include\OgreNewt\OgreNewt_Body.h"
 				>
 			</File>
 			<File
-				RelativePath=".\inc\OgreNewt_BodyIterator.h"
+				RelativePath=".\include\OgreNewt\OgreNewt_BodyIterator.h"
 				>
 			</File>
 			<File
-				RelativePath=".\inc\OgreNewt_Collision.h"
+				RelativePath=".\include\OgreNewt\OgreNewt_Collision.h"
 				>
 			</File>
 			<File
-				RelativePath=".\inc\OgreNewt_CollisionPrimitives.h"
+				RelativePath=".\include\OgreNewt\OgreNewt_CollisionPrimitives.h"
 				>
 			</File>
 			<File
-				RelativePath=".\inc\OgreNewt_ContactCallback.h"
+				RelativePath=".\include\OgreNewt\OgreNewt_ContactCallback.h"
 				>
 			</File>
 			<File
-				RelativePath=".\inc\OgreNewt_Debugger.h"
+				RelativePath=".\include\OgreNewt\OgreNewt_Debugger.h"
 				>
 			</File>
 			<File
-				RelativePath=".\inc\OgreNewt_Joint.h"
+				RelativePath=".\include\OgreNewt\OgreNewt_Joint.h"
 				>
 			</File>
 			<File
-				RelativePath=".\inc\OgreNewt_MaterialID.h"
+				RelativePath=".\include\OgreNewt\OgreNewt_MaterialID.h"
 				>
 			</File>
 			<File
-				RelativePath=".\inc\OgreNewt_MaterialPair.h"
+				RelativePath=".\include\OgreNewt\OgreNewt_MaterialPair.h"
 				>
 			</File>
 			<File
-				RelativePath=".\inc\OgreNewt_Prerequisites.h"
+				RelativePath=".\include\OgreNewt\OgreNewt_Prerequisites.h"
 				>
 			</File>
 			<File
-				RelativePath=".\inc\OgreNewt_RayCast.h"
+				RelativePath=".\include\OgreNewt\OgreNewt_RayCast.h"
 				>
 			</File>
 			<File
-				RelativePath=".\inc\OgreNewt_Tools.h"
+				RelativePath=".\include\OgreNewt\OgreNewt_Tools.h"
 				>
 			</File>
 			<File
-				RelativePath=".\inc\OgreNewt_TreeCollisionSerializer.h"
+				RelativePath=".\include\OgreNewt\OgreNewt_TreeCollisionSerializer.h"
 				>
 			</File>
 			<File
-				RelativePath=".\inc\OgreNewt_Vehicle.h"
+				RelativePath=".\include\OgreNewt\OgreNewt_Vehicle.h"
 				>
 			</File>
 			<File
-				RelativePath=".\inc\OgreNewt_World.h"
+				RelativePath=".\include\OgreNewt\OgreNewt_World.h"
 				>
 			</File>
 		</Filter>
