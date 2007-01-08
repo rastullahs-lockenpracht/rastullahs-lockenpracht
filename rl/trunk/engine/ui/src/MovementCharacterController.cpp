@@ -198,6 +198,17 @@ namespace rl {
         updateSelection();
 
 
+        // Do we need to reset the character?
+        static Real charAnimationOccTime = 0;
+        charAnimationOccTime += elapsedTime;
+        if( mCharacterState.mPose != CharacterState::Stand &&
+            mCharacterState.mPose != CharacterState::Crouch )
+        {
+            if( charAnimationOccTime > 10.0f ) // mehr als ... sekunden!
+                mCharacterState.mPose = CharacterState::Stand;
+        }
+        else
+            charAnimationOccTime = 0;
 
         // Do we need to reset the Camera?
         Vector3 charPos = mCharacterActor->getWorldPosition();
@@ -289,11 +300,11 @@ namespace rl {
             }
             else if( movement & MOVE_LEFT )
             {
-                mCharacterState.mDesiredVel = Vector3(1,0,0) * gs / 3.6;
+                mCharacterState.mDesiredVel = Vector3(-1,0,0) * gs / 3.6;
             }
             else if( movement & MOVE_RIGHT )
             {
-                mCharacterState.mDesiredVel = Vector3(-1,0,0) * gs / 3.6;
+                mCharacterState.mDesiredVel = Vector3(1,0,0) * gs / 3.6;
             }
 
             if (movement & TURN_LEFT)  mYaw += rotationSpeed*elapsedTime;
@@ -311,6 +322,82 @@ namespace rl {
             if (movement & TURN_RIGHT) mYaw -= rotationSpeed*elapsedTime;
 
         }
+
+/*
+// soll dafür sorgen, dass er auf dem
+// Boden bleibt und über kleine Hindernisse kommt
+
+Quaternion orientation = mCharacterActor->getWorldOrientation();
+Vector3 position = mCharacterActor->getWorldPosition();
+Vector3 delta(0,0.05,0);
+position += delta;
+Real stepHeight = 0.5;
+Real stepWidth = 0.3;
+Vector3 dirVector = stepWidth*mCharacterState.mDesiredVel;
+dirVector.y = stepHeight;
+RaycastInfo info;
+Vector3 relCollPos;
+do
+{
+    // Raycast in Bewegungsrichtung
+    info = mRaycast->execute(
+        PhysicsManager::getSingleton()._getNewtonWorld(),
+        mCharBody->getMaterialGroupID(),
+        position, position + orientation * dirVector,
+        true);
+    if( info.mBody )
+    {
+        relCollPos = (info.mDistance * 1.1) * dirVector.normalisedCopy();
+        dirVector.y += 0.1;
+        break;
+    }
+    dirVector.y -= 0.2;
+}
+while( dirVector.y > -stepHeight );
+
+// kann das Hindernis überwunden werden:
+dirVector = relCollPos;
+while( dirVector.y <= stepHeight )
+{
+    info = mRaycast->execute(
+        PhysicsManager::getSingleton()._getNewtonWorld(),
+        mCharBody->getMaterialGroupID(),
+        position, position + orientation * dirVector,
+        true);
+    if( info.mBody )
+    {
+        break;
+    }
+    dirVector.y += 0.1;
+}
+
+// linie an der angegebenen Stelle anzeigen
+LineSetPrimitive* lineSet = static_cast<LineSetPrimitive*>(mPrimitive);
+if(lineSet != NULL)
+{
+    lineSet->clear();
+    lineSet->addLine(delta, delta+dirVector, ColourValue::Blue);
+    lineSet->addLine(delta+dirVector, delta+2*dirVector, ColourValue::Red);
+    lineSet->addLine(delta, delta-dirVector, ColourValue::Red);
+    lineSet->addLine(delta, delta+relCollPos, ColourValue::White);
+}
+
+if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
+{
+    mCharacterState.mDesiredVel.y = dirVector.y;
+    // Bremsen wenn bergab:
+    if (dirVector.y < 0)
+    {
+        mCharacterState.mDesiredVel *= (1 + dirVector.y/stepHeight * 0.5);
+    }
+}
+*/
+
+
+
+
+
+
 
 
 		mDesiredDistance -= im->getMouseRelativeZ() * 0.002;
@@ -401,6 +488,9 @@ namespace rl {
         // Character ausblenden, wenn Kamera zu nah.
         if( mViewMode != VM_FIRST_PERSON )
         {
+            Vector3 charPos;
+            Quaternion charOri;
+            mCharBody->getPositionOrientation(charPos, charOri);
             Vector3 camPos;
             Quaternion camOri;
             mCamBody->getPositionOrientation(camPos, camOri);
@@ -492,7 +582,7 @@ namespace rl {
             // der erste Sprung bleibt normal, jeder weitere Sprung ist ungefähr um
             // die angegebene Zahl höher (eher 2*die angegebene Zahl oder so, 
             // vermutlich wieder framedauer abhängig!)
-			setContactElasticity(0.0f); // was 0.3f 
+			setContactElasticity(0.3f); // was 0.3f 
 			setContactSoftness(0.01f);
 
 			setContactFrictionState(1, 0);
@@ -574,38 +664,6 @@ namespace rl {
                         jumpForce,
                         0);
 			    }
-
-// NOCH NICHT FERTIG, TUT NOCH NICHTS
-// soll dafür sorgen, dass er auf dem
-// Boden bleibt und über kleien Hindernisse kommt
-/*
-Degree angleToFloor (-9.0f);
-RaycastInfo info;
-bool foundFloor (false);
-do
-{
-    // Raycast in Bewegungsrichtung
-    info = mRaycast->execute(
-        PhysicsManager::getSingleton()._getNewtonWorld(),
-        mCharBody->getMaterialGroupID(),
-        position, position + mCharacterState.mDesiredVel / 2.0,
-        true);
-    if( info.mBody ) // etwas gefunden
-    {
-        angleToFloor += Degree(10);
-        foundFloor = true;
-    }
-    else
-    {
-        if (foundFloor)
-            break;
-        else
-            angleToFloor -= Degree(10);
-    }
-}
-while( angleToFloor < Degree(60) && angleToFloor > Degree(-60) );
-*/
-
 
                 Real delay = 2 * PhysicsManager::getSingleton().getMaxTimestep(); // so ist die Beschleunigung unabhängig von der framerate!
                 force += mass*(orientation*mCharacterState.mDesiredVel - currentVel) / delay;
@@ -1180,6 +1238,7 @@ while( angleToFloor < Degree(60) && angleToFloor > Degree(-60) );
             {
                 newAnimation = "hocke_idle";
                 mCharacterState.mPose = CharacterState::Crouch;
+                pt->fitToPose(newAnimation);
             }
             // kamera-offset interpolieren grrr
             Real factor;
@@ -1210,7 +1269,9 @@ while( angleToFloor < Degree(60) && angleToFloor > Degree(-60) );
             MeshAnimation *meshAnim = mesh->getAnimation("hocke_zu_stehen");
             if (meshAnim->getTimePlayed() >= meshAnim->getLength())
             {
+                newAnimation = "idle";
                 mCharacterState.mPose = CharacterState::Stand;
+                pt->fitToPose(newAnimation);
             }
             // kamera-offset interpolieren grrr
             Real factor;
@@ -1277,8 +1338,7 @@ while( angleToFloor < Degree(60) && angleToFloor > Degree(-60) );
 
 
         // absichtlich kein else!
-        if(mCharacterState.mPose == CharacterState::Stand && !(movement & MOVE_SNEAK)
-            && !(movement & MOVE_JUMP))
+        if( mCharacterState.mPose == CharacterState::Stand && !(movement & MOVE_SNEAK) )
         {
             newAnimation = "idle";
 
@@ -1328,31 +1388,32 @@ while( angleToFloor < Degree(60) && angleToFloor > Degree(-60) );
                 newAnimation = "rennen";
                 animSpeed = factor_rennen * vel;
             }
-        }
-        else if(mCharacterState.mPose == CharacterState::Stand && !(movement & MOVE_SNEAK)
-            && (movement & MOVE_JUMP))
-        {
-            // Beginn eines Sprunges
-            if( lastAnimation == "rennen" )
+
+
+            if( movement & MOVE_JUMP )
             {
-                newAnimation = "rennen_absprung";
-                animTimesToPlay = 1;
-                animSpeed = factor_rennen_absprung * vel;
-                mCharacterState.mPose = CharacterState::StartJump;
-            }
-            else 
-            {
-                if ( vel > 0.1 )
+                // Beginn eines Sprunges
+                if( newAnimation == "rennen" )
                 {
-                    // erstmal anhalten!
-                    movement = MOVE_NONE;
-                    jumpNextFrame = true;
-                }
-                else
-                {
-                    newAnimation = "idle_absprung";
+                    newAnimation = "rennen_absprung";
                     animTimesToPlay = 1;
+                    animSpeed = factor_rennen_absprung * vel;
                     mCharacterState.mPose = CharacterState::StartJump;
+                }
+                else 
+                {
+                    if ( vel > 0.1 )
+                    {
+                        // erstmal anhalten!
+                        movement = MOVE_NONE;
+                        jumpNextFrame = true;
+                    }
+                    else
+                    {
+                        newAnimation = "idle_absprung";
+                        animTimesToPlay = 1;
+                        mCharacterState.mPose = CharacterState::StartJump;
+                    }
                 }
             }
         }
@@ -1365,11 +1426,11 @@ while( angleToFloor < Degree(60) && angleToFloor > Degree(-60) );
 
         if (newAnimation != "")
         {
+            if( animSpeed < 1 ) // nur schneller nicht langsamer ausführen!
+                animSpeed = 1;
             if (lastAnimation != newAnimation)
             {
-                // DIE REIHENFOLGE HIER IST EXTREM WICHTIG
-                //mesh->getAnimation(newAnimation);
-                pt->fitToPose(newAnimation);
+                //pt->fitToPose(newAnimation);
                 mesh->stopAllAnimations();
                 mesh->startAnimation(newAnimation, animSpeed, animTimesToPlay);
                 lastAnimation = newAnimation;
@@ -1385,86 +1446,6 @@ while( angleToFloor < Degree(60) && angleToFloor > Degree(-60) );
                 }
             }
         }
-
-        
-
-/*
-		if (mCharacterState.mCurrentMovementState != mCharacterState.mLastMovementState
-            || mCharacterState.mIsAirBorne != lastAirBorne)
-		{
-            // Do we need to update coliision proxy?
-            if (mCharacterState.mCurrentMovementState & MOVE_SNEAK
-                && mCharacterState.mPose != CharacterState::Crouch)
-            {
-                pt->fitToPose("hocke_idle");
-                mCharacterState.mPose = CharacterState::Crouch;
-            }
-            else if (!(mCharacterState.mCurrentMovementState & MOVE_SNEAK)
-                && mCharacterState.mPose == CharacterState::Crouch)
-            {
-                pt->fitToPose("idle");
-                mCharacterState.mPose = CharacterState::Stand;
-            }
-
-			// Update animation state
-            mesh->stopAllAnimations();
-            if (mCharacterState.mIsAirBorne)
-            {
-            }
-			else if (mCharacterState.mCurrentMovementState & MOVE_SNEAK)
-			{
-				if (mCharacterState.mCurrentMovementState & MOVE_FORWARD)
-				{
-					mesh->startAnimation("hocke_gehen");
-				}
-				else
-				{
-					mesh->startAnimation("hocke_idle");
-				}
-			}
-			else if (isRunMovement(mCharacterState.mCurrentMovementState) 
-				&& (mCharacterState.mCurrentMovementState != MOVE_RUN) 
-				&& (mCharacterState.mCurrentMovementState != MOVE_RUN_LOCK))
-			{
-				mesh->startAnimation("rennen");
-			}
-			else if (mCharacterState.mCurrentMovementState == MOVE_NONE ||
-				mCharacterState.mCurrentMovementState == MOVE_RUN)
-			{
-				mesh->startAnimation("idle");
-			}
-			else
-			{
-				// standard walk in any direction
-				if (mCharacterState.mCurrentMovementState & MOVE_FORWARD)
-				{
-					mesh->startAnimation("gehen");
-				}
-				else if (mCharacterState.mCurrentMovementState & MOVE_BACKWARD)
-				{
-					mesh->startAnimation("gehen_rueckwaerts");
-				}
-				else if (mCharacterState.mCurrentMovementState & MOVE_LEFT)
-				{
-					mesh->startAnimation("seitwaerts_links");
-				}
-				else if (mCharacterState.mCurrentMovementState & MOVE_RIGHT)
-				{
-					mesh->startAnimation("seitwaerts_rechts");
-				}
-				else if (mCharacterState.mCurrentMovementState & TURN_LEFT)
-				{
-					mesh->startAnimation("drehen_links");
-				}
-				else if (mCharacterState.mCurrentMovementState & TURN_RIGHT)
-				{
-					mesh->startAnimation("drehen_rechts");
-				}
-			}
-
-            lastAirBorne = mCharacterState.mIsAirBorne;
-		}
-*/
     }
 
     //------------------------------------------------------------------------
@@ -1667,9 +1648,9 @@ while( angleToFloor < Degree(60) && angleToFloor > Degree(-60) );
         }
 
         LineSetPrimitive* lineSet = static_cast<LineSetPrimitive*>(mPrimitive);
-        lineSet->clear();
-        lineSet->addLine(mLookAtOffset, mLookAtOffset + Vector3(0, 1.2, 0), ColourValue::Red);
-        lineSet->addLine(Vector3::ZERO, mGravitation * 0.1, ColourValue::Green);
+        //lineSet->clear();
+        //lineSet->addLine(mLookAtOffset, mLookAtOffset + Vector3(0, 1.2, 0), ColourValue::Red);
+        //lineSet->addLine(Vector3::ZERO, mGravitation * 0.1, ColourValue::Green);
     }
 
     //------------------------------------------------------------------------
