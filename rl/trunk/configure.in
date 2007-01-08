@@ -117,14 +117,14 @@ AC_CHECK_FUNC(vsnprintf, AC_DEFINE(HAVE_VSNPRINTF,1,vsnprintf))
 AC_CHECK_PROG(HAVE_DOXYGEN_PROG, doxygen, `which doxygen`, false)
 AC_CHECK_LIB([MadaBot], [main], [], AC_MSG_ERROR([Can't find libMadaBot]))
 
-# Physics
+# Newton
 AC_CHECK_LIB([Newton], [fopen], [], AC_MSG_ERROR([Can't find libNewton]) ) 
 AC_CHECK_HEADERS(Newton.h, , AC_MSG_ERROR([Can't find Newton headers]))
-OLDCXXFLAGS="$CXXFLAGS"
-CXXFLAGS="$CXXFLAGS $OGRE_CFLAGS"
-AC_CHECK_LIB([OgreNewt], [NewtonBallGetJointAngle], [], AC_MSG_ERROR([Can't find OgreNewt]) )
-AC_CHECK_HEADERS(OgreNewt.h, , AC_MSG_ERROR([Can't find OgreNewt headers]))
-CXXFLAGS="$OLDCXXFLAGS"
+
+# OgreNewt
+PKG_CHECK_MODULES(OgreNewt, OgreNewt >= 0.07)
+OGRE_CFLAGS="${OGRE_CFLAGS} ${OgreNewt_CFLAGS}"
+OGRE_LIBS="${OGRE_LIBS} ${OgreNewt_LIBS}"
 
 # XERCES
 AC_CHECK_HEADERS(xercesc/util/XercesVersion.hpp, ,
