@@ -33,7 +33,8 @@ namespace rl
 		mVolumeSound(0),
 		mVolumeMusic(0),
 		mVolumeMaster(0),
-		mCurrentConfig(NULL)
+		mCurrentConfig(NULL),
+		mDriverConfigs()
 	{
 		getWindow()->subscribeEvent(
 			FrameWindow::EventCloseClicked,
