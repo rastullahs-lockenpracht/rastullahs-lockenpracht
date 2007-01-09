@@ -42,7 +42,6 @@ namespace rl
 	
 	ConfigurationManagerWin32::ConfigurationManagerWin32()
 	{
-		Ogre::String confdir("modules/common/conf/");
 		mModulesRootDirectory = ".";
 		mConfigModuleDirectory = mModulesRootDirectory + "/modules/config";
 		mPluginCfgPath = mConfigModuleDirectory + "/plugins-win.cfg";
