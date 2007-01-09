@@ -34,8 +34,9 @@ namespace Ogre
 		SoundManager::getSingleton().registerDriver(fmod4driver);
 
 		// Register config window
-        fmod4config = new Fmod4Config(fmod4driver);
-		WindowFactory::getSingleton().registerSoundConfigComponent(fmod4config);
+		///\todo This ain't working. Dunno why, don't care right now.
+        //fmod4config = new Fmod4Config(fmod4driver);
+		//WindowFactory::getSingleton().registerSoundConfigComponent(fmod4config);
 	}
 
 	//Called when unloading plugins
