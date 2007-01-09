@@ -101,4 +101,17 @@ namespace rl
 		rl::Agent* createAgent(rl::AgentManager::AgentType type, rl::Creature* character);
 		rl::Agent* createAgent(rl::DialogCharacter* character);
 	};
+	
+    class PhysicalObstacle {
+        
+        public:
+            PhysicalObstacle(rl::PhysicalThing *thing);
+            virtual ~PhysicalObstacle();
+            
+            OpenSteer::Obstacle *getObstacle() const;
+            
+            rl::PhysicalThing *getPhysicalThing() const;
+            void setPhysicalThing(rl::PhysicalThing *thing);
+    };
+	
 }

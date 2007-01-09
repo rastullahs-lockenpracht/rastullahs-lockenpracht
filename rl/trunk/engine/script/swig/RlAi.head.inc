@@ -23,4 +23,5 @@
 #include "AiSubsystem.h"
 #include "AgentManager.h"
 #include "Agent.h"
+#include "PhysicalObstacle.h"
 %}
