@@ -1195,6 +1195,8 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
         static bool jumpNextFrame(false);
         unsigned int animTimesToPlay = 0;
         Real gs = mCharacter->getWert(Creature::WERT_GS);
+		static String lastCollisionPose = "";
+		String collisionPose = "idle";
 
         // the different factors used to calculate the animation-speed from the character-speed
         const Real factor_hocke_gehen = 0.7;
@@ -1237,8 +1239,8 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             if (meshAnim->getTimePlayed() >= meshAnim->getLength())
             {
                 newAnimation = "hocke_idle";
+				collisionPose = "hocke_idle";
                 mCharacterState.mPose = CharacterState::Crouch;
-                pt->fitToPose(newAnimation);
             }
             // kamera-offset interpolieren grrr
             Real factor;
@@ -1250,11 +1252,13 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             if (vel > 0.1 && movement & MOVE_FORWARD)
             {
                 newAnimation = "hocke_gehen";
+				collisionPose = "hocke_idle";
                 animSpeed = charVelocity.length() * factor_hocke_gehen;
             }
             else
             {
                 newAnimation = "hocke_idle";
+				collisionPose = "hocke_idle";
             }
         }
         else if (mCharacterState.mPose == CharacterState::Crouch)
@@ -1271,7 +1275,6 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             {
                 newAnimation = "idle";
                 mCharacterState.mPose = CharacterState::Stand;
-                pt->fitToPose(newAnimation);
             }
             // kamera-offset interpolieren grrr
             Real factor;
@@ -1285,7 +1288,10 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                 MeshAnimation *meshAnim = mesh->getAnimation("rennen_absprung");
                 if (meshAnim->getTimePlayed() >= meshAnim->getLength())
                 {
-                    newAnimation = "rennen_sprung";
+					///\todo Animation "rennen_sprung" has length of 0.0f. Substitute for Idle, till this is resolved.
+                    //newAnimation = "rennen_sprung";
+                    newAnimation = "idle";
+
                     animSpeed = factor_rennen_sprung * vel;
                     animTimesToPlay = 1;
                     mCharacterState.mPose = CharacterState::Jumping;
@@ -1297,7 +1303,10 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                 MeshAnimation *meshAnim = mesh->getAnimation("idle_absprung");
                 if (meshAnim->getTimePlayed() >= meshAnim->getLength())
                 {
-                    newAnimation = "idle_sprung";
+					///\todo Animation "idle_sprung" has length of 0.0f. Substitute for Idle, till this is resolved.
+                    //newAnimation = "idle_sprung";
+                    newAnimation = "idle";
+
                     animTimesToPlay = 1;
                     mCharacterState.mPose = CharacterState::Jumping;
                     mCharacterState.mStartJump = true;
@@ -1426,11 +1435,16 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
 
         if (newAnimation != "")
         {
-            if( animSpeed < 1 ) // nur schneller nicht langsamer ausführen!
-                animSpeed = 1;
+			// nur schneller nicht langsamer ausführen!
+            if (animSpeed < 1) animSpeed = 1;
+                
             if (lastAnimation != newAnimation)
             {
-                //pt->fitToPose(newAnimation);
+				if (collisionPose != lastCollisionPose)
+				{
+					pt->fitToPose(collisionPose);
+					lastCollisionPose = collisionPose;
+				}
                 mesh->stopAllAnimations();
                 mesh->startAnimation(newAnimation, animSpeed, animTimesToPlay);
                 lastAnimation = newAnimation;
