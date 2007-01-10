@@ -1,0 +1,37 @@
+Hinweise zur Mitarbeit am DSA4 Werkzeug
+
+DSA4 Werkzeug ist ein Open Source Projekt. Das bedeutet der Quelltext ist
+frei verfügbar, jeder kann Änderungen machen und das Programm verbessern.
+Da das nicht ganz chaotisch gehen kann, sind ein paar Hinweise zu beachten:
+
+Alle Veränderungen bitte bloß auf der neuesten Version machen, die über CVS
+von SourceForge herunterladbar ist. Veränderungen, die auf der Version von
+anno dazumal basieren, können sehr schwierig einzubauen sein, so schön sie
+auch sind.
+
+Bitte angeben, mit welchem Namen ihr in der Mitarbeiterliste geführt werden
+wollt.
+
+Es wäre sinnvoll der Mailingliste DSA4Tooldev bei YahooGroups beizutreten.
+Auch die Mailingliste darkeyetool-developer auf SourceForge könnte
+interessant sein.
+
+Macht ihr euch an eine größere Aufgabe, schreibt das bitte DAVOR, am besten
+an die darkeyetool-developer, damit es nicht zu doppelt gemachten Arbeiten
+kommt. Dann wird der entsprechende Teil quasi gelockt, für andere vorübergehend
+geschlossen.
+
+Auch kleinere Korrekturen werden gerne genommen.
+
+Ach ja, rechtliches: Wer mir Code zuschickt und Material im Bezug auf das
+DSA4 Werkzeug schickt, von dem gehe ich aus, dass er mit einer
+Veröffentlichung desselben Materials unter der BSD-Lizenz einverstanden ist.
+Sollte dies nicht der Fall sein, so muss mir dies ausdrücklich mitgeteilt
+werden.
+
+Bitte nicht ärgerlich werden, wenn ich mal etwas länger zum Antworten
+brauche. Dies ist ein Projekt, an dem nur Freiwillige mitarbeiten.
+
+Wer entwirft ist toll. Wer verbessert, Gold wert. Wer dokumentiert, ein Held!
+
+Habt Spaß dabei.

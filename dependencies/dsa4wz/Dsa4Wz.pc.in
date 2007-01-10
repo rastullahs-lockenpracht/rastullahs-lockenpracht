@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: DSA4WZ
+Description: Core library of DSA4 Werkzeug
+Version: @VERSION@
+Libs: -L${libdir} -lDsa4Wz
+Cflags: -I${includedir}/Dsa4Wz

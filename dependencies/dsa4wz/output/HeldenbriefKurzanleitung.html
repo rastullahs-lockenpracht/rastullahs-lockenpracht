@@ -1,0 +1,350 @@
+<html>
+<head>
+<!-- GMy Heldenbrief V1.01 -->
+<title>DSA Spieler-Dokument</title>
+<STYLE TYPE="text/css">
+<!--
+H1,H3 { color:blue; margin-bottom: 6pt; line-height: 16pt }
+body {font-family: Arial; font-size: 11pt}
+p {margin-top: 3pt}
+td {font-size: 10pt}
+-->
+</STYLE>
+</head>
+<body BGCOLOR="#f0f0e0" TEXT="#000000">
+
+<h1>Heldenbrief für DSA-Spieler V1.0</h1>
+<h3>Funktion</h3>
+
+<p>Diese Anwendung ist als Druckvorlage für
+<a href="http://www.denny@nodix.de"> Denny Vrandecics</a> DSA-Werkzeug entworfen. Sie erstellt
+ein Spieler-Dokument (Heldenbrief) für das Rollenspiel
+<i>"Das Schwarze Auge"</i> von FANPRO. Die Anwendung ist im XML-Format (mit XSLT-Komponenten)
+geschrieben. Der Anwender benötigt lediglich einen XML-fähigen Browser, z.B. Microsoft
+Internet Explorer ab der Version 6.0. Die Anwendung wurde mit dem
+<i>Microsoft Internet Explorer 6.0 </i>entwickelt und getestet.
+</p>
+
+<h3>Bedienungsanleitung</h3>
+<p>Die Software besteht aus 3 Dateien. Die Dateien
+<b>dsaperson.dtd</b> und
+<b>dsaperson.xsl</b> brauchen vom Anwender nicht verändert zu werden. Sie beschreiben
+lediglich die Datenstruktur und die Formulargestaltung. Wer sich natürlich in XML und XSLT
+auskennt, kann hier sicherlich noch einiges verbessern...</p>
+
+<p>Die zentrale Datei, die die Eigenschaften eines Charakters beschreibt, ist die
+<b>'person'.xml</b>. Als Beispieldatei wurde hier eine <b>'Alrik.xml'</b> mitgeliefert.
+Normalerweise wird diese Datei mittels einer Export-Funktion aus Denny Vrandecics
+<i>DSA-Werkzeug</i> erstellt und muss sich mit den anderen beiden Dateien im gleichen
+Verzeichnis wie die Datei 'data.xdi' des
+<i>DSA-Werkzeugs</i> befinden.
+</p>
+<p>
+Zum Ausdrucken eines Heldenbriefes braucht man sich die 'person'.xml nur noch in einem
+Browser anzuschauen ( oder Doppelklick auf diese Datei im Explorer) und auf
+'Datei' 'Drucken...' zu klicken.
+</p>
+
+<h3>Features</h3>
+<p>
+Der Heldenbrief besteht derzeit 4 Seiten.
+<ul>
+  <li>Die Seite 1 beinhaltet:
+    <ul>
+      <li>die 'Personalien' eines Helden</li>
+      <li>seine Eigenschaften wie Mut, Klugheit usw.</li>
+      <li>die abgeleitete Eigenschaften wie Lebensenergie, Ausdauer usw.</li>
+      <li>seine Kampftechniken</li>
+      <li>seine Vor- und Nachteile</li>
+      <li>seine Sonderfertigkeiten</li>
+      <li>die Basiswerte für Attacke, Parade, Fernkampf und Initiative </li>
+      <li>seine Bewaffnung (wird vom DSA-Werkzeug noch nicht unterstützt)</li>
+      <li>Rüstungen und Schilde (wird vom DSA-Werkzeug noch nicht unterstützt)</li>
+    </ul>
+  </li><br>
+  <li>Die 2. Seite beinhaltet:
+    <ul>
+      <li>nochmals die wichtigesten Eigenschaftswerte (werden automatisch von Seite 1 übernommen)</li>
+      <li>alle Talente, Sprachen und Schriften</li>
+    </ul>
+  </li><br>
+  <li>Die 3. Seite erscheint nur bei Charakteren mit Astralenergie größer 0 und enthält</li>
+    <ul>
+      <li>nochmals die wichtigsten Eigenschaften, (damit man nicht immer hin- und herblättern
+      muss)</li>
+      <li>Tabelle mit den wichtigsten Zauberdaten (vom DSA-Werkzeug noch nicht unterstützt)</li>
+    </ul>
+  </li><br>
+  <li>Die 4. Seite ist für besondere Güter und Besitztümer des Charakters (vom DSA-Werkzeug noch nicht unterstützt)
+  und Notizen des Spielers vorgesehen</li>
+</ul>
+Alle Tabellen auf den einzelnen Seiten sind dynamisch und verlängern oder verkürzen sich je
+nach Anzahl der Einträge automatisch.</p>
+
+<h3 style="page-break-before:always">Editiermöglichkeiten des eigenen Heldenbriefs</h3>
+<p>Grundsätzlich kann der Heldenbrief in zweierlei Hinsicht editiert werden, stilistisch oder
+inhaltlich. Stilistische Änderungen wie Schrifttypen, Anordnung der Tabellen oder Umgestaltung der Seiten
+sind etwas schwierig, da sie Kenntnisse in HTML / CSS bzw. in XSL verlangen. Zu diesem Zweck
+verweise ich auf die Datei
+<b>'dsa4person.xsl'</b>, die entsprechend abgeändert werden müsste.</p>
+
+<p>Inhaltliche Änderungen (aber leider noch nicht alle) können jedoch sehr leicht an einen
+persönlichen Charakter angepasst werden. Die folgende Tabelle, in der beschrieben wird,
+in welcher Zeile bestimmte Inhalte editiert werden können, bezieht sich auf die Datei
+unseres Beispielhelden
+<b>'Alrik.xml'</b>. Dazu ist lediglich ein gewöhnlicher Texteditor notwending.</p>
+
+<table cols="4" cellpadding="2" cellspacing="0" border="1" width="640">
+   <tr>
+      <th width="20%">Gruppe</th>
+      <th width="40%">Änderung</th>
+      <th width="20%">Zeile</th>
+      <th width=",*">Bemerkung</th>
+   </tr>
+   <tr>
+      <td rowspan="10">Personalien des Helden</td>
+      <td>Name des Helden</td>
+      <td align="right">9</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Geschlecht</td>
+      <td align="right">10</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Rasse</td>
+      <td align="right">11</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Kultur</td>
+      <td align="right">12</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Profession</td>
+      <td align="right">13</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Hauptfarbe</td>
+      <td align="right">135</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Augenfarbe</td>
+      <td align="right">136</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Größe</td>
+      <td align="right">137</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Gewicht</td>
+      <td align="right">138</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Alter</td>
+      <td align="right">139</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td rowspan="8">Eigenschaften</td>
+      <td>Wert für Mut</td>
+      <td align="right">16</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Wert für Klugheit</td>
+      <td align="right">26</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Wert für Intuition</td>
+      <td align="right">31</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Wert für Charisma</td>
+      <td align="right">36</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Wert für Fingerfertigkeit</td>
+      <td align="right">41</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Wert für Gewandtheit</td>
+      <td align="right">46</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Wert für Konstitution</td>
+      <td align="right">51</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Wert für Körperkraft</td>
+      <td align="right">61</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td rowspan="9">Abgeleitete Werte</td>
+      <td>Lebensenergie LE</td>
+      <td align="right">73</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Ausdauer AU</td>
+      <td align="right">85</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Attacke-Basiswert B-AT</td>
+      <td align="right">94</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Parade-Basiswert B-PA</td>
+      <td align="right">98</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Fernkampf-Basiswert</td>
+      <td align="right">102</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Initiative-Basiswert</td>
+      <td align="right">106</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Magieresistenz</td>
+      <td align="right">110</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Astralenergie</td>
+      <td align="right">122</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Sozialstatus</td>
+      <td align="right">126</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td rowspan="4">Kampftechnik</td>
+      <td>Waffe</td>
+      <td align="right">311, 318, 324 ...</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Attacke-Wert</td>
+      <td align="right">313, 320, 326 ...</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Parade-Wert</td>
+      <td align="right">314, 327 ...</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Talentwert</td>
+      <td align="right">312, 319, 325 ...</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Charakteristika</td>
+      <td>Vorteile / Nachteile</td>
+      <td align="right">367 - 373</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Sonderfertigkeiten</td>
+      <td>Sonderfertigkeit</td>
+      <td align="right">377-379</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td rowspan="4">Talente</td>
+      <td>Talent</td>
+      <td align="right">142, 145, 148  ...</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Probe</td>
+      <td align="right">-</td>
+      <td>siehe Bem. 1</td>
+   </tr>
+   <tr>
+      <td>Behinderung</td>
+      <td align="right">-</td>
+      <td>siehe Bem. 2</td>
+   </tr>
+   <tr>
+      <td>Talent-Wert</td>
+      <td align="right">143, 146, 149 ...</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td rowspan="2">Waffen</td>
+      <td>Nahkampfwaffen</td>
+      <td>383-404</td>
+      <td>Begriffe wie in Überschriften</td>
+   </tr>
+   <tr>
+      <td>Fernkampfwaffen</td>
+      <td>407-423</td>
+      <td>s.o.</td>
+   </tr>
+   <tr>
+      <td rowspan="2">Rüstungen und Schilde</td>
+      <td>Rüstungen</td>
+      <td>427</td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td>Schilde</td>
+      <td>433</td>
+      <td>&nbsp;</td>
+   </tr>
+</table>
+<br>
+
+<table cols="2" cellpadding="0" cellspacing="0" border="0" width="640">
+   <tr>
+      <td valign="top" width="15%">Bemerkung 1</td>
+      <td width=",*">Wenn sich die Datei 'data.xdi' von den DSA-Werkzeugen im gleichen Verzeichnis
+          befindet, werden die Proben zu den Talenten automatisch eingesetzt.</td>
+   </tr>
+   <tr>
+      <td>Bemerkung 2</td>
+      <td>Die Behinderung wird momentan noch nicht unterstützt.</td>
+</table>
+
+<h3>Bekannte Fehler und Schwächen</h3>
+<p>In der Praxis hat sich in unserer Gruppe dieses Formular ganz gut bewährt. Das bedeutet nicht, dass
+man es nicht noch besser kann. Es könnte zum Beispiel sein, dass einzelne Tabellen so lang
+werden, dass sie nicht mehr auf eine Seite passen. Eine Lösung wäre, die Zeilenhöhe und
+Schrifthöhe zu reduzieren. Ich habe aber mit Absicht eine etwas größere Schrift gewählt,
+damit man die Seiten auch bei stimmungsvollerer Beleuchtung noch gut lesen kann.</p>
+
+<p>Die Anzahl der Vor-/Nachteile und die Anzahl der Sonderfertigkeiten sind auf jeweils 8
+      begrenzt.</p>
+
+<p>
+Zur Zeit wird das Formular auf jeden Fall noch weiterentwickelt, je nach Anregungen und Zeit.
+Wenn Euch das Formular gefällt, schreibt mir eine kurze Email (gerd@diemayers.de). Auch Anregungen, Kritiken und
+Verbesserungsvorschläge sind willkommen, Drohungen zwecklos! In diesem Sinne
+</p>
+Zwölf zum Gruße
+<br>Gerhard Mayer
+</body>
+</html>

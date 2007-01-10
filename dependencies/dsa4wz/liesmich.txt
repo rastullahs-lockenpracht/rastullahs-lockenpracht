@@ -1,0 +1,34 @@
+**************
+DSA4 Werkzeug
+**************
+
+MITARBEITER GESUCHT! Siehe www.dsa4.com oder in
+der Anleitung.
+
+Sollten Sie bereits ältere Version des DSA4 Werkzeugs
+gehabt haben, bedenken Sie: Ihre Daten werden *nicht*
+überschrieben. Das Programm bietet Ihnen aber an, die
+aktuellsten Daten beim ersten Start einzuladen.
+
+Dies ist nach wie vor keine vollständige Version!
+Mehr dazu siehe in der Anleitung.
+
+Projektleiter  Denny Vrandecic - denny@nodix.de
+Weitere Informationen unter  www.nodix.de  oder
+direkt unter www.nodix.de/dsa4
+Für Rückfragen und Neuigkeiten wurde eine Liste
+eingerichtet mit dem Namen dsatools.Um diese zu
+abonnieren,  schicken Sie einfach eine eMail an
+ dsatools-subscribe@yahoogroups.com
+Das DSA4 Werkzeug ist Open Source.  Quellen und
+Informationen finden Sie ebenfalls auf 
+
+www.dsa4.com
+
+oder
+
+www.sourceforge.net/projects/darkeyetool
+
+Eine Anleitung für das Programm findet sich entweder
+in der Hilfe im Programm, auf www.dsa.com oder
+in dem Verzeichnis doc/ in der Datei index.htm.

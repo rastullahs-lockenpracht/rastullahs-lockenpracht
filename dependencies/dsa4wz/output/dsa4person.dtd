@@ -1,0 +1,88 @@
+<!-- Heldenbrief V1.01 GMy -->
+<!ELEMENT Inhalt             (Personen,Talente)>
+<!ELEMENT Personen           (Person)*>
+<!ELEMENT Person             (Name,Geschlecht,Rasse,Kultur,Profession,Eigenschaften,AbgeleiteteWerte,
+                                 Hauptfarbe,Augenfarbe,Groesse,Gewicht,Alter,Talente,Kampftechniken,
+                                 Charakteristika?,Sonderfertigkeiten?,Waffen?,Ruestungen?,Schilde?)>
+<!ELEMENT Name               (#PCDATA)>                          
+<!ELEMENT Geschlecht         (#PCDATA)>                          
+<!ELEMENT Rasse              (#PCDATA)>                          
+<!ELEMENT Kultur             (#PCDATA)>                          
+<!ELEMENT Profession         (#PCDATA)>
+<!ELEMENT Eigenschaften      (Eigenschaft)*>
+<!ELEMENT Eigenschaft        (Wert | Basiswert | Maximalwert)*>
+<!ATTLIST Eigenschaft
+             ID CDATA            #REQUIRED>
+<!--             (Mut|Klugheit|Intuition|Charisma|Fingerfertigkeit|Gewandtheit|Konstution|Koerperkraft) #REQUIRED> -->
+<!ELEMENT Wert               (#PCDATA)>
+<!ELEMENT Basiswert          (#PCDATA)>
+<!ELEMENT Maximalwert        (#PCDATA)>
+<!ELEMENT AbgeleiteteWerte   (AbgeleiteterWert)*>
+<!ELEMENT AbgeleiteterWert   (Wert,Basiswert,Modifikatoren?)*>
+<!ATTLIST AbgeleiteterWert
+             ID (Lebensenergie|Ausdauer|AttackeBasis|ParadeBasis|FernkampfBasis|InitiativeBasis|Magieresistenz|Astralenergie|Sozialstatus) #REQUIRED>
+          
+<!ELEMENT Modifikatoren      (Modifikator)*>
+<!ELEMENT Modifikator        (Wert)>
+<!ATTLIST Modifikator 
+            ID (Startwert)       #REQUIRED>
+<!ELEMENT Hautfarbe          (#PCDATA)>
+<!ELEMENT Augenfarbe         (#PCDATA)>                          
+<!ELEMENT Groesse            (#PCDATA)>                          
+<!ELEMENT Gewicht            (#PCDATA)>                          
+<!ELEMENT Alter              (#PCDATA)>
+<!ELEMENT Talente            (Talentgruppe)*>
+<!ELEMENT Talentgruppe       (Talent)*> 
+<!ATTLIST Talentgruppe
+               ID CDATA          #REQUIRED>
+<!ELEMENT Talent             (Wert|Probe)>
+<!ATTLIST Talent
+               ID CDATA          #REQUIRED>
+<!ELEMENT Probe              (#PCDATA)>               
+
+<!ELEMENT Kampftechniken     (Kampftechnik)*>
+<!ELEMENT Kampftechnik       (Wert | AufAT | AufPA | Attacke | Parade | eBE)>
+<!ELEMENT AufAT              (#PCDATA)>               
+<!ELEMENT AufPA              (#PCDATA)>
+<!ELEMENT Attacke            (#PCDATA)>
+<!ELEMENT Parade             (#PCDATA)>
+<!ELEMENT eBE                (#PCDATA)>
+<!ELEMENT Charakteristika    (Charakteristikum)>
+<!ELEMENT Charakteristikum   (Stufe?)>
+<!ATTLIST Charakteristikum
+               ID CDATA          #REQUIRED>
+<!ELEMENT Stufe              (#PCDATA)>
+<!ELEMENT Sonderfertigkeiten (Sonderfertigkeit)*>
+<!ELEMENT Sonderfertigkeit   EMPTY>
+<!ATTLIST Sonderfertigkeit
+               ID CDATA          #REQUIRED>
+<!ELEMENT Waffen             (Waffengruppe)*>
+<!ELEMENT Waffengruppe       (Waffe)*>
+<!ATTLIST Waffengruppe
+               ID CDATA          #REQUIRED>
+<!ELEMENT Waffe             (TypeBE, TP,(DKlasse | TPKK |INI | WM | AT | PA | TPeff | Entfernungen | TPEntfernung | FK | Geschosse))>
+<!ATTLIST Waffe
+               ID CDATA         #REQUIRED>
+<!ELEMENT TypeBE             (#PCDATA)>
+<!ELEMENT DKlasse            (#PCDATA)>
+<!ELEMENT TP                 (#PCDATA)>
+<!ELEMENT TPKK               (#PCDATA)>
+<!ELEMENT INI                (#PCDATA)>
+<!ELEMENT WM                 (#PCDATA)>
+<!ELEMENT AT                 (#PCDATA)>
+<!ELEMENT PA                 (#PCDATA)>
+<!ELEMENT TPeff              (#PCDATA)>
+<!ELEMENT Entfernungen       (#PCDATA)>
+<!ELEMENT TPEntfernung       (#PCDATA)>
+<!ELEMENT FK                 (#PCDATA)>
+<!ELEMENT Geschosse          (#PCDATA)>
+<!ELEMENT Ruestungen         (Ruestungsstueck)*>
+<!ELEMENT Ruestungsstueck    (RS,BE)>
+<!ATTLIST Ruestungsstueck
+               ID CDATA         #REQUIRED>
+<!ELEMENT RS                 (#PCDATA)>
+<!ELEMENT BE                 (#PCDATA)>
+<!ELEMENT Schilde            (Schild)*>
+<!ELEMENT Schild             (INI,WM)>
+<!ATTLIST Schild
+               ID CDATA         #REQUIRED>

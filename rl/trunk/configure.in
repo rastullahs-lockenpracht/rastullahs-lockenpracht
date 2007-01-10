@@ -109,6 +109,7 @@ PKG_CHECK_MODULES(CEGUIOGRE, CEGUI-OGRE)
 AC_CHECK_HEADERS(OpenSteer/SteerLibrary.h, , AC_MSG_ERROR([Can't find OpenSteer headers]))
 AC_CHECK_LIB(OpenSteer, main, , AC_MSG_ERROR([Can't find libOpenSteer]))
 
+
 dnl Other stuff we need
 AC_CHECK_LIB(m, pow)
 AC_CHECK_LIB(z, gzopen)
@@ -125,6 +126,10 @@ AC_CHECK_HEADERS(Newton.h, , AC_MSG_ERROR([Can't find Newton headers]))
 PKG_CHECK_MODULES(OgreNewt, OgreNewt >= 0.07)
 OGRE_CFLAGS="${OGRE_CFLAGS} ${OgreNewt_CFLAGS}"
 OGRE_LIBS="${OGRE_LIBS} ${OgreNewt_LIBS}"
+
+# DSA4Werkzeug
+PKG_CHECK_MODULES(Dsa4Wz, Dsa4Wz >= 1.33.0)
+
 
 # XERCES
 AC_CHECK_HEADERS(xercesc/util/XercesVersion.hpp, ,

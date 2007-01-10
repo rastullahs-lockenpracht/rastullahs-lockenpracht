@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE XDIML SYSTEM "dsa4person.dtd">  
+<?xml-stylesheet type="text/xsl" href="dsa4person.xsl" ?>    
+<XDIML lang="de" version="1.01">          
+<!-- Version 1.01 GMy -->
+  <Inhalt>
+    <Personen>
+      <Person ID="Alrik1">
+        <Name>Alrik Großmaul, der Hüne</Name>
+        <Geschlecht>männlich</Geschlecht>
+        <Rasse>Gjalskerländer</Rasse>
+        <Kultur>Tulamidische Stadtstaaten</Kultur>
+        <Profession>Darsteller</Profession>
+        <Eigenschaften>
+          <Eigenschaft ID="Mut">
+            <Wert>11</Wert>
+            <Basiswert>10</Basiswert>
+            <Maximalwert>16</Maximalwert>
+            <Modifikatoren>
+              <Modifikator ID="Rasse">
+                <Wert>1</Wert>
+              </Modifikator>
+            </Modifikatoren>
+          </Eigenschaft>
+          <Eigenschaft ID="Klugheit">
+            <Wert>11</Wert>
+            <Basiswert>11</Basiswert>
+            <Maximalwert>17</Maximalwert>
+          </Eigenschaft>
+          <Eigenschaft ID="Intuition">
+            <Wert>13</Wert>
+            <Basiswert>13</Basiswert>
+            <Maximalwert>20</Maximalwert>
+          </Eigenschaft>
+          <Eigenschaft ID="Charisma">
+            <Wert>13</Wert>
+            <Basiswert>13</Basiswert>
+            <Maximalwert>20</Maximalwert>
+          </Eigenschaft>
+          <Eigenschaft ID="Fingerfertigkeit">
+            <Wert>10</Wert>
+            <Basiswert>10</Basiswert>
+            <Maximalwert>15</Maximalwert>
+          </Eigenschaft>
+          <Eigenschaft ID="Gewandtheit">
+            <Wert>10</Wert>
+            <Basiswert>10</Basiswert>
+            <Maximalwert>15</Maximalwert>
+          </Eigenschaft>
+          <Eigenschaft ID="Konstitution">
+            <Wert>11</Wert>
+            <Basiswert>10</Basiswert>
+            <Maximalwert>16</Maximalwert>
+            <Modifikatoren>
+              <Modifikator ID="Rasse">
+                <Wert>1</Wert>
+              </Modifikator>
+            </Modifikatoren>
+          </Eigenschaft>
+          <Eigenschaft ID="Körperkraft">
+            <Wert>11</Wert>
+            <Basiswert>10</Basiswert>
+            <Maximalwert>16</Maximalwert>
+            <Modifikatoren>
+              <Modifikator ID="Rasse">
+                <Wert>1</Wert>
+              </Modifikator>
+            </Modifikatoren>
+          </Eigenschaft>
+        </Eigenschaften>
+        <AbgeleiteteWerte>
+          <AbgeleiteterWert ID="Lebensenergie">
+            <Wert>29</Wert>
+            <Basiswert>17</Basiswert>
+            <Modifikatoren>
+              <Modifikator ID="Hohe Lebenskraft">
+                <Wert>1</Wert>
+              </Modifikator>
+              <Modifikator ID="Rasse">
+                <Wert>11</Wert>
+              </Modifikator>
+            </Modifikatoren>
+          </AbgeleiteterWert>
+          <AbgeleiteterWert ID="Ausdauer">
+            <Wert>26</Wert>
+            <Basiswert>16</Basiswert>
+            <Modifikatoren>
+              <Modifikator ID="Rasse">
+                <Wert>10</Wert>
+              </Modifikator>
+            </Modifikatoren>
+          </AbgeleiteterWert>
+          <AbgeleiteterWert ID="AttackeBasis">
+            <Wert>6</Wert>
+            <Basiswert>6</Basiswert>
+          </AbgeleiteterWert>
+          <AbgeleiteterWert ID="ParadeBasis">
+            <Wert>7</Wert>
+            <Basiswert>7</Basiswert>
+          </AbgeleiteterWert>
+          <AbgeleiteterWert ID="FernkampfBasis">
+            <Wert>7</Wert>
+            <Basiswert>7</Basiswert>
+          </AbgeleiteterWert>
+          <AbgeleiteterWert ID="InitiativeBasis">
+            <Wert>9</Wert>
+            <Basiswert>9</Basiswert>
+          </AbgeleiteterWert>
+          <AbgeleiteterWert ID="Magieresistenz">
+            <Wert>3</Wert>
+            <Basiswert>7</Basiswert>
+            <Modifikatoren>
+              <Modifikator ID="Kultur">
+                <Wert>1</Wert>
+              </Modifikator>
+              <Modifikator ID="Rasse">
+                <Wert>-5</Wert>
+              </Modifikator>
+            </Modifikatoren>
+          </AbgeleiteterWert>
+          <AbgeleiteterWert ID="Astralenergie">
+            <Wert>1</Wert>
+            <Basiswert>0</Basiswert>
+          </AbgeleiteterWert>
+          <AbgeleiteterWert ID="Sozialstatus">
+            <Wert>7</Wert>
+            <Basiswert>0</Basiswert>
+            <Modifikatoren>
+              <Modifikator ID="Startwert">
+                <Wert>7</Wert>
+              </Modifikator>
+            </Modifikatoren>
+          </AbgeleiteterWert>
+        </AbgeleiteteWerte>
+        <Hauptfarbe>schwarz</Hauptfarbe>
+        <Augenfarbe>grün</Augenfarbe>
+        <Groesse>175</Groesse>
+        <Gewicht>80</Gewicht>
+        <Alter>17</Alter>
+        <Talente>
+          <Talentgruppe ID="Körperliche Talente">
+            <Talent ID="Athletik">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Klettern">
+              <Wert>0</Wert>
+            </Talent>
+            <Talent ID="Körperbeherrschung">
+              <Wert>5</Wert>
+            </Talent>
+            <Talent ID="Reiten">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Schleichen">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Schwimmen">
+              <Wert>0</Wert>
+            </Talent>
+            <Talent ID="Selbstbeherrschung">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Sich Verstecken">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Singen">
+              <Wert>4</Wert>
+            </Talent>
+            <Talent ID="Sinnenschärfe">
+              <Wert>3</Wert>
+            </Talent>
+            <Talent ID="Tanzen">
+              <Wert>4</Wert>
+            </Talent>
+            <Talent ID="Taschendiebstahl">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Zechen">
+              <Wert>1</Wert>
+            </Talent>
+          </Talentgruppe>
+          <Talentgruppe ID="Gesellschaftliche Talente">
+            <Talent ID="Betören">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Etikette">
+              <Wert>5</Wert>
+            </Talent>
+            <Talent ID="Gassenwissen">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Lehren">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Menschenkenntnis">
+              <Wert>4</Wert>
+            </Talent>
+            <Talent ID="Schauspielerei">
+              <Wert>6</Wert>
+            </Talent>
+            <Talent ID="Sich Verkleiden">
+              <Wert>5</Wert>
+            </Talent>
+            <Talent ID="Überreden">
+              <Wert>4</Wert>
+            </Talent>
+            <Talent ID="Überzeugen">
+              <Wert>1</Wert>
+            </Talent>
+          </Talentgruppe>
+          <Talentgruppe ID="Natur-Talente">
+            <Talent ID="Fährtensuchen">
+              <Wert>0</Wert>
+            </Talent>
+            <Talent ID="Orientierung">
+              <Wert>0</Wert>
+            </Talent>
+            <Talent ID="Wettervorhersage">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Wildnisleben">
+              <Wert>2</Wert>
+            </Talent>
+          </Talentgruppe>
+          <Talentgruppe ID="Wissenstalente">
+            <Talent ID="Brettspiel">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Geschichtswissen">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Götter und Kulte">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Heraldik">
+              <Wert>4</Wert>
+            </Talent>
+            <Talent ID="Rechnen">
+              <Wert>5</Wert>
+            </Talent>
+            <Talent ID="Rechtskunde">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Sagen / Legenden">
+              <Wert>3</Wert>
+            </Talent>
+            <Talent ID="Schätzen">
+              <Wert>4</Wert>
+            </Talent>
+          </Talentgruppe>
+          <Talentgruppe ID="Handwerkliche Talente">
+            <Talent ID="Boote Fahren">
+              <Wert>7</Wert>
+            </Talent>
+            <Talent ID="Hauswirtschaft">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Heilkunde Wunden">
+              <Wert>0</Wert>
+            </Talent>
+            <Talent ID="Holzbearbeitung">
+              <Wert>0</Wert>
+            </Talent>
+            <Talent ID="Kochen">
+              <Wert>0</Wert>
+            </Talent>
+            <Talent ID="Lederarbeiten">
+              <Wert>0</Wert>
+            </Talent>
+            <Talent ID="Malen / Zeichnen">
+              <Wert>0</Wert>
+            </Talent>
+            <Talent ID="Schneidern">
+              <Wert>0</Wert>
+            </Talent>
+          </Talentgruppe>
+          <Talentgruppe ID="Gaben">
+            <Talent ID="Gefahreninstinkt">
+              <Wert>1</Wert>
+            </Talent>  
+          </Talentgruppe>
+        </Talente>
+        <Sprachen>
+          <Sprache ID="Garethi">
+            <Wert>6</Wert>
+            <Art>Zweitsprache</Art>
+          </Sprache>
+          <Sprache ID="Thorwalsch">
+            <Wert>6</Wert>
+          </Sprache>
+          <Sprache ID="Tulamidya">
+            <Wert>8</Wert>
+            <Art>Muttersprache</Art>
+          </Sprache>
+          <Sprache ID="Ur-Tulamidya">
+            <Wert>8</Wert>
+          </Sprache>
+        </Sprachen>
+        <Schriften>
+          <Schrift ID="Gjalskisch">
+            <Wert>3</Wert>
+          </Schrift>
+          <Schrift ID="Kusliker Zeichen">
+            <Wert>6</Wert>
+          </Schrift>
+          <Schrift ID="Tulamidya">
+            <Wert>4</Wert>
+          </Schrift>
+        </Schriften>
+        <Kampftechniken>
+          <Kampftechnik ID="Anderthalbhänder">
+            <Wert>6</Wert>
+            <Attacke>9</Attacke>
+            <Parade>10</Parade>
+            <AufAT>3</AufAT>
+            <AufPA>3</AufPA>
+          </Kampftechnik>
+          <Kampftechnik ID="Armbrust">
+            <Wert>5</Wert>
+            <Attacke>12</Attacke>
+            <AufAT>5</AufAT>
+            <AufPA>0</AufPA>
+          </Kampftechnik>
+          <Kampftechnik ID="Dolche">
+            <Wert>3</Wert>
+            <Attacke>9</Attacke>
+            <Parade>7</Parade>
+            <AufAT>3</AufAT>
+            <AufPA>0</AufPA>
+          </Kampftechnik>
+          <Kampftechnik ID="Hiebwaffen">
+            <Wert>2</Wert>
+            <Attacke>8</Attacke>
+            <Parade>9</Parade>
+            <AufAT>1</AufAT>
+            <AufPA>1</AufPA>
+          </Kampftechnik>
+          <Kampftechnik ID="Raufen">
+            <Wert>2</Wert>
+            <Attacke>10</Attacke>
+            <Parade>11</Parade>
+            <AufAT>1</AufAT>
+            <AufPA>1</AufPA>
+          </Kampftechnik>
+          <Kampftechnik ID="Ringen">
+            <Wert>3</Wert>
+            <Attacke>8</Attacke>
+            <Parade>12</Parade>
+            <AufAT>0</AufAT>
+            <AufPA>3</AufPA>
+          </Kampftechnik>
+          <Kampftechnik ID="Säbel">
+            <Wert>8</Wert>
+            <Attacke>10</Attacke>
+            <Parade>11</Parade>
+            <AufAT>4</AufAT>
+            <AufPA>4</AufPA>
+          </Kampftechnik>
+          <Kampftechnik ID="Wurfmesser">
+            <Wert>0</Wert>
+            <Attacke>7</Attacke>
+            <AufAT>0</AufAT>
+            <AufPA>0</AufPA>
+          </Kampftechnik>
+        </Kampftechniken>
+        <Charakteristika>
+          <Charakteristikum ID="Beidhändig" />
+          <Charakteristikum ID="Blutrausch" />    
+          <Charakteristikum ID="Hohe Lebenskraft">
+            <Stufe>1</Stufe>
+          </Charakteristikum>
+          <Charakteristikum ID="Jähzorn">
+            <Stufe>5</Stufe>
+          </Charakteristikum>
+        </Charakteristika>
+        <Sonderfertigkeiten>
+          <Sonderfertigkeit ID="Ausweichen I" />
+          <Sonderfertigkeit ID="Linkhand" />
+          <Sonderfertigkeit ID="Sumpfkundig" />
+        </Sonderfertigkeiten>
+        <Waffen>                                 <!-- Ab hier wirds neu *********** -->         
+          <Waffengruppe ID="Nahkampfwaffen">
+            <Waffe ID="Säbel">
+	      <TypeBE>BE-2</TypeBE>
+	      <DKlasse>N</DKlasse>
+	      <TP>1W+3</TP>
+	      <TPKK>12/4</TPKK>
+	      <INI>+1</INI>
+	      <WM>0/0</WM>
+	      <AT>10</AT>
+	      <PA>11</PA>
+	      <TPeff>1W+3</TPeff>
+            </Waffe>  
+            <Waffe ID="Langdolch">
+              <TypeBE>BE-1</TypeBE>
+              <DKlasse>H</DKlasse>
+              <TP>1W+2</TP>
+              <TPKK>12/4</TPKK>
+              <INI>0</INI>
+              <WM>0/0</WM>
+              <AT>9</AT>
+              <PA>7</PA>
+              <TPeff>1W+2</TPeff>
+            </Waffe>  
+          </Waffengruppe>
+          <Waffengruppe ID="Fernkampfwaffen">
+            <Waffe ID="Baläster">
+	      <TypeBE>BE-5</TypeBE>
+	      <TP>1W+4</TP>
+	      <Entfernungen>10/20/30/60/100</Entfernungen>
+	      <TPEntfernung>+3/+1/0/-1/-1</TPEntfernung>
+	      <FK>12</FK>
+	      <TPeff>1W+4</TPeff>
+	      <Geschosse>20</Geschosse>
+            </Waffe>  
+            <Waffe ID="Wurfmesser">
+              <TypeBE>BE-3</TypeBE>
+              <TP>1W</TP>
+              <Entfernungen>2/4/6/8/15</Entfernungen>
+              <TPEntfernung>+1/0/0/0/-1</TPEntfernung>
+              <FK>7</FK>
+              <Geschosse>-</Geschosse>
+            </Waffe>  
+          </Waffengruppe>
+        </Waffen>
+        <Ruestungen>
+          <Ruestungsstueck ID="Lederrüstung">
+            <RS>2</RS>
+            <BE>2</BE>
+          </Ruestungsstueck>
+        </Ruestungen>  
+        <Schilde>
+          <Schild ID="Buckler">
+            <INI>0</INI>
+            <WM>0/+2</WM>
+          </Schild>
+        </Schilde>  
+      </Person>
+    </Personen>
+  </Inhalt>
+</XDIML>
