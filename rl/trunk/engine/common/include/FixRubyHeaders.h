@@ -30,5 +30,3 @@
 #undef sleep
 #undef strcasecmp
 #undef rename
-#undef fd_set
-#undef u_long
