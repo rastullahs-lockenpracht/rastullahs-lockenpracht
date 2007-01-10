@@ -305,6 +305,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\PhysicalObstacle.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\PlayerVehicle.cpp"
 				>
 			</File>
@@ -344,6 +348,10 @@
 			</File>
 			<File
 				RelativePath=".\include\FuzzyStateMachine.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\PhysicalObstacle.h"
 				>
 			</File>
 			<File
