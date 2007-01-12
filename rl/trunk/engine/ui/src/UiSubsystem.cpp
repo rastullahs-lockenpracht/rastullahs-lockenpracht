@@ -106,12 +106,12 @@ namespace rl {
 		
 		Ogre::RenderWindow* window = Ogre::Root::getSingleton().getAutoCreatedWindow();
 		LOG_MESSAGE2(Logger::UI,
-            "Initialisiere CEGUI-Renderer", "UiSubsystem::initializeUiSubsystem");
+            "Initializing CEGUI Renderer.", "UiSubsystem::initializeUiSubsystem");
 		mGuiRenderer = new OgreCEGUIRenderer(window,
             Ogre::RENDER_QUEUE_OVERLAY, false, 3000, sceneMgr);
 
 		LOG_MESSAGE2(Logger::UI,
-            "Initialisiere CEGUI-System", "UiSubsystem::initializeUiSubsystem");
+            "Initializing CEGUI System.", "UiSubsystem::initializeUiSubsystem");
         mGuiResourceProvider = new OgreCEGUIResourceProvider();
         CEGUI::System::setDefaultXMLParserName("XercesParser");
 		mGuiSystem = new System(mGuiRenderer, mGuiResourceProvider,
@@ -119,17 +119,17 @@ namespace rl {
 		CEGUI::Logger::getSingleton().setLoggingLevel(
             rl::Logger::getSingleton().getCeGuiLogDetail());
 		LOG_MESSAGE2(Logger::UI,
-            "CEGUI-System initialisiert", "UiSubsystem::initializeUiSubsystem");
+            "CEGUI System initialized.", "UiSubsystem::initializeUiSubsystem");
         
 		// load scheme and set up defaults
 		///@todo Hier sollte was Lookunabhängiges rein!!! FIXME TODO BUG!
 		System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook-Images",
             (utf8*)"MouseArrow");
-		LOG_MESSAGE2(Logger::UI, "Mauszeiger",
+		LOG_MESSAGE2(Logger::UI, "Mouse arrow loaded.",
             "UiSubsystem::initializeUiSubsystem");
 		Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet",
             (utf8*)CEGUI_ROOT);
-		LOG_MESSAGE2(Logger::UI, "Rootfenster",
+		LOG_MESSAGE2(Logger::UI, "CEGUI Root Window created.",
             "UiSubsystem::initializeUiSubsystem");
 		sheet->setSize(
             CeGuiHelper::asAbsolute(CEGUI::Vector2(
@@ -140,18 +140,21 @@ namespace rl {
         sheet->setZOrderingEnabled(true);
         sheet->moveToBack();
 		System::getSingleton().setDefaultTooltip("RastullahLook/Tooltip");
-        LOG_MESSAGE2(Logger::UI, "CEGUI geladen",
+        LOG_MESSAGE2(Logger::UI, "CEGUI initialized.",
             "UiSubsystem::initializeUiSubsystem");
 
 		mWindowManager = new WindowManager();
 
 		//Initializing InputManager
         mInputManager = new InputManager(Ogre::Root::getSingleton().getAutoCreatedWindow());
+		LOG_MESSAGE2(Logger::UI, "InputManager started.",
+            "UiSubsystem::initializeUiSubsystem");
+
 		mInputManager->loadKeyMapping(ConfigurationManager::getSingleton().getKeymap());
 		LOG_MESSAGE2(Logger::UI, "Keymap geladen",
             "UiSubsystem::initializeUiSubsystem");
         mInputManager->loadCommandMapping(ConfigurationManager::getSingleton().getInputConfigPath());
-		LOG_MESSAGE2(Logger::UI, "UI-Manager geladen",
+		LOG_MESSAGE2(Logger::UI, "UI-Manager loaded.",
             "UiSubsystem::initializeUiSubsystem");
 
         mWindowFactory->initialize();

@@ -91,15 +91,18 @@ namespace rl {
 
     void InputManager::initializeOis(RenderWindow* win)
     {
-                // BEGIN INPUT INITIALIZATION
+        // BEGIN INPUT INITIALIZATION
+        LOG_DEBUG(Logger::UI, "Initializing input manager.");
+        
 		OIS::ParamList pl;	
 		size_t windowHnd = 0;
+        LOG_DEBUG(Logger::UI, "Initializing input manager: Render window parameters");
+        win->getCustomAttribute("WINDOW", &windowHnd);
+        
         #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-		    win->getCustomAttribute("WINDOW", &windowHnd);
             pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_EXCLUSIVE")));
             pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
         #elif OGRE_PLATFORM == OGRE_PLATFORM_LINUX
-		    win->getCustomAttribute("GLXWINDOW", &windowHnd);
         //	pl.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
         //	pl.insert(std::make_pair(std::string("x11_mouse_hide"), std::string("false")));
         #endif
@@ -108,12 +111,15 @@ namespace rl {
         windowHndStr << windowHnd;
 		pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
 
-		//mInputManager = OIS::InputManager::createInputSystem(windowHnd);
+		LOG_DEBUG(Logger::UI, "Initializing input manager: Create input manager");
 		mInputManager = OIS::InputManager::createInputSystem(pl);
+		LOG_DEBUG(Logger::UI, "Initializing input manager: Create Keyboard input.");
 		mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject(OIS::OISKeyboard, true));
         mKeyboard->setTextTranslation(OIS::Keyboard::Unicode);
+        LOG_DEBUG(Logger::UI, "Initializing input manager: Create Mouse Input.");
 		mMouse = static_cast<OIS::Mouse*>(mInputManager->createInputObject(OIS::OISMouse, true));
         
+        LOG_DEBUG(Logger::UI, "Initializing input manager: Set mouse paremeters.");
         unsigned int width, height, depth;
 		int left, top;
 		win->getMetrics(width, height, depth, left, top);
@@ -122,6 +128,8 @@ namespace rl {
 
         mKeyboard->setEventCallback(this);
         mMouse->setEventCallback(this);
+        
+        LOG_DEBUG(Logger::UI, "Done initializing input manager.");
     }
 
     void InputManager::run(Ogre::Real elapsedTime)
