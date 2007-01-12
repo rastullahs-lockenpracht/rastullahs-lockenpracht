@@ -20,8 +20,10 @@
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
     #include <fmod.hpp>
+    #include <fmod_errors.h>
 #else
     #include <fmodex/fmod.hpp>
+    #include <fmodex/fmod_errors.h>
 #endif
 
 #include "SoundDriver.h"
@@ -30,6 +32,19 @@ namespace rl
 {
 
 typedef map<Ogre::String, StringList> DriverMap;
+
+#define CHECK_FMOD4_ERRORS(fmod4_errorcode)\
+{\
+    if (fmod4_errorcode != FMOD_OK)\
+    {\
+        Throw(rl::RuntimeException,\
+            "FMOD error #"\
+            + StringConverter::toString(fmod4_errorcode)\
+            + " "\
+            + FMOD_ErrorString(fmod4_errorcode));\
+    }\
+}
+
 
 /** Diese Klasse ist der Treiber, der OpenAL zur
  * Ausgabe benutzt.
@@ -75,8 +90,6 @@ public:
 	const DriverMap& getDriverData() const;
 
     FMOD::System* _getFmodSystem();
-
-    void checkErrors(const FMOD_RESULT& errorcode) const;
 
 private:
     /// Informationen �ber den Treiber ausgeben

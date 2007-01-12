@@ -20,15 +20,7 @@
 #include "Logger.h"
 #include "SoundResource.h"
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-    #include <fmod_errors.h>
-#else
-    #include <fmodex/fmod_errors.h>
-#endif
-
-
 using namespace Ogre;
-
 
 namespace rl
 {
@@ -54,7 +46,7 @@ void Fmod4Driver::initialize()
     static int MAX_VIRTUAL_CHANNELS = 100;
 
     FMOD_RESULT result = FMOD::System_Create(&mFmod4System);
-    checkErrors(result);
+    CHECK_FMOD4_ERRORS(result);
 
     mFmod4System->setFileSystem(
         Fmod4Driver::open,
@@ -72,8 +64,8 @@ void Fmod4Driver::initialize()
 
 void Fmod4Driver::shutdown()
 {
-    checkErrors(mFmod4System->close());
-    checkErrors(mFmod4System->release());
+    CHECK_FMOD4_ERRORS(mFmod4System->close());
+    CHECK_FMOD4_ERRORS(mFmod4System->release());
 }
 
 bool Fmod4Driver::isDriverAvailable()
@@ -353,16 +345,5 @@ const Ogre::Real Fmod4Driver::getRolloffFactor()
     return factor;
 }
 
-void Fmod4Driver::checkErrors(const FMOD_RESULT &errorcode) const
-{
-    if (errorcode != FMOD_OK)
-    {
-        Throw(rl::RuntimeException,
-            "FMOD error #"
-            + StringConverter::toString(errorcode)
-            + " "
-            + FMOD_ErrorString(errorcode));
-    }
-}
 
 }
