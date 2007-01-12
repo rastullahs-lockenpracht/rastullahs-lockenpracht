@@ -27,7 +27,7 @@ namespace rl
 
 /**
  * Diese Klasse dient zur Definition einer Schnittstelle
- * zu den möglichen Soundbibliotheken. Sie geben Preis, ob
+ * zu den mï¿½glichen Soundbibliotheken. Sie geben Preis, ob
  * ein Treiber vorhanden ist oder nicht. Der Nulltreiber
  * existiert dabei immer.
  */
@@ -38,10 +38,14 @@ public:
 	SoundDriver(Ogre::ResourceManager* soundResourceManager);
     /// Der Destruktor
 	virtual ~SoundDriver();
-    /// Zeigt an, ob der Treiber funktionsfähig ist.
+    /// Zeigt an, ob der Treiber funktionsfï¿½hig ist.
     virtual bool isDriverAvailable() = 0;
-    /// Initialisiere den Treiber
-    virtual void initialize() = 0;
+    
+    /** Initialize driver
+     *  @return <code>true</code> if successful, <code>false</code> otherwise
+     */ 
+    virtual bool initialize() = 0;
+    
     /// Beende den Treiber
     virtual void shutdown() = 0;
     /// Der Name des Treibers
@@ -56,20 +60,20 @@ public:
     virtual ListenerMovable *createListener(const Ogre::String &name) = 0;
     
 
-	/// Setzt den Faktor f, mit der die Lautstärke nach der Formel 1/(f*Entfernung) abnimmt
+	/// Setzt den Faktor f, mit der die Lautstï¿½rke nach der Formel 1/(f*Entfernung) abnimmt
 	virtual void setRolloffFactor(const Ogre::Real& f) = 0;
 	virtual const Ogre::Real getRolloffFactor() = 0;
-    /// Die Standardlautstärke für Musik einstellen
+    /// Die Standardlautstï¿½rke fï¿½r Musik einstellen
     void setDefaultMusicVolume(const Ogre::Real& vol);
-    /// Die Standardlautstärke für Musik zurückgeben.
+    /// Die Standardlautstï¿½rke fï¿½r Musik zurï¿½ckgeben.
 	const Ogre::Real getDefaultMusicVolume() const;
-    /// Die Standardlautstärke für Musik einstellen
+    /// Die Standardlautstï¿½rke fï¿½r Musik einstellen
     void setDefaultSoundVolume(const Ogre::Real& vol);
-    /// Die Standardlautstärke für Musik zurückgeben.
+    /// Die Standardlautstï¿½rke fï¿½r Musik zurï¿½ckgeben.
     const Ogre::Real getDefaultSoundVolume() const;
-    /// Die Lautstärke aller Sounds
+    /// Die Lautstï¿½rke aller Sounds
     virtual void setMasterVolume(const Ogre::Real& vol);
-    /// Die Standardlautstärke für Musik zurückgeben.
+    /// Die Standardlautstï¿½rke fï¿½r Musik zurï¿½ckgeben.
     const Ogre::Real getMasterVolume() const;
     /// Einen Sound aus den Listen entfernen
     void remove(Sound *sound);
@@ -81,13 +85,13 @@ public:
     
     
 protected:
-    /// Liste der Musikstücke
+    /// Liste der Musikstï¿½cke
     SoundSet mMusicSet;
     /// Liste der Sounds
     SoundSet mSoundSet;
-    /// Standardeinstellung für Musik
+    /// Standardeinstellung fï¿½r Musik
     Ogre::Real mDefaultMusicVolume;
-    /// Standardeinstellung für Sounds
+    /// Standardeinstellung fï¿½r Sounds
     Ogre::Real mDefaultSoundVolume;
 
 	Ogre::Real mMasterVolume;

@@ -37,7 +37,7 @@ public:
     /// Ist der Treiber angeschaltet?
     virtual bool isDriverAvailable();
     /// Initialisiere den Treiber.
-    virtual void initialize();
+    virtual bool initialize();
     /// Deinitialisiere den Treiber.
     virtual void shutdown();
     /// Der Name des Treibers

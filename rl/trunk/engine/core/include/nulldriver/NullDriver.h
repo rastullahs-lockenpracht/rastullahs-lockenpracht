@@ -37,7 +37,7 @@ public:
     /// Ist der Treiber angeschaltet?
     bool isDriverAvailable();
     /// Initialisiere den Treiber.
-    virtual void initialize();
+    virtual bool initialize();
     /// Deinitialisiere den Treiber.
     virtual void shutdown();
     /// Der Name des Treibers
@@ -56,7 +56,7 @@ public:
     /// Die Einstellungen laden
     virtual void loadConf(rl::ConfigFile &conf);
 
-	/// Setzt den Faktor f, mit der die Lautstärke nach der Formel 1/(f*Entfernung) abnimmt
+	/// Setzt den Faktor f, mit der die Lautstï¿½rke nach der Formel 1/(f*Entfernung) abnimmt
 	virtual void setRolloffFactor(const Ogre::Real&);
 	virtual const Ogre::Real getRolloffFactor();
 };

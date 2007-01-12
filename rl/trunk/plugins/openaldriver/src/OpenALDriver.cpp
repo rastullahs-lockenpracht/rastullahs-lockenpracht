@@ -100,8 +100,9 @@ bool OpenALDriver::isDriverAvailable()
  * @author JoSch
  * @date 12-23-2005
  */
-void OpenALDriver::initialize()
+bool OpenALDriver::initialize()
 {
+    return true;
 }
 
 /** 

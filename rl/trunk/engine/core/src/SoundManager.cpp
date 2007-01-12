@@ -191,38 +191,42 @@ const DriverList& SoundManager::getSoundDriverList() const
  */
 void SoundManager::setActiveDriver(SoundDriver *driver)
 {
+	if (driver == NULL)
+	{
+		driver = getDriverByName(NullDriver::NAME);
+	}
+
 	if (mActiveDriver == driver)
 	{
-	    LOG_MESSAGE(Logger::CORE,
-			"Soundtreiber braucht nicht gewechselt werden");
+	    LOG_DEBUG(Logger::CORE,
+			"No need to change Sound Driver, "
+			+ mActiveDriver->getName()
+			+ " is already active.");
 	    return;
 	}
+	
+	LOG_MESSAGE(Logger::CORE,
+		"Changing Sound Driver to "
+         + driver->getName());
 
-	if (mActiveDriver != NULL )
+	if (driver->initialize())
     {
-		LOG_MESSAGE(Logger::CORE,
-			"Soundtreiber wird gewechselt von "
-            + mActiveDriver->getName());
-
-        mActiveDriver->shutdown();
-		delete mActiveDriver;
-		mActiveDriver = NULL;
-    } 
-
-	if (driver != NULL) 
-	{
-		LOG_MESSAGE(Logger::CORE,
-			"Soundtreiber wird gewechselt zu "
-             + driver->getName());
-
+    	if (mActiveDriver != NULL)
+    	{
+	    	mActiveDriver->shutdown();
+	    	delete mActiveDriver;
+	    	mActiveDriver = NULL;
+    	}
 		mActiveDriver = driver;
     }
-	else
-	{
-		mActiveDriver = getDriverByName(NullDriver::NAME);
-	}
-    
-    mActiveDriver->initialize();
+    else
+    {
+    	LOG_ERROR(
+    		Logger::CORE, 
+    		"Sound driver "
+    		+ driver->getName()
+    		+ " had an error while initializing, keeping old driver.");
+    }
 }
 
 void SoundManager::_clearListenerActor()

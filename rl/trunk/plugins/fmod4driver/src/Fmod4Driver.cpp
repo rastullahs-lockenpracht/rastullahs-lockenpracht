@@ -41,13 +41,12 @@ String Fmod4Driver::getName() const
     return NAME;
 }
 
-void Fmod4Driver::initialize()
+bool Fmod4Driver::initialize()
 {
     static int MAX_VIRTUAL_CHANNELS = 100;
 
-    FMOD_RESULT result = FMOD::System_Create(&mFmod4System);
-    CHECK_FMOD4_ERRORS(result);
-
+    CHECK_FMOD4_ERRORS(FMOD::System_Create(&mFmod4System));
+    
     mFmod4System->setFileSystem(
         Fmod4Driver::open,
         Fmod4Driver::close,
@@ -58,8 +57,22 @@ void Fmod4Driver::initialize()
     printData();
 
     mFmod4System->setDriver(-1);
-    mFmod4System->init(MAX_VIRTUAL_CHANNELS, FMOD_INIT_NORMAL, NULL); //Alternative: ,Output)
+    //CHECK_FMOD4_ERRORS(mFmod4System->setOutput(FMOD_OUTPUTTYPE_ESD));
+    
+    FMOD_RESULT result = mFmod4System->init(MAX_VIRTUAL_CHANNELS, FMOD_INIT_NORMAL, NULL); //Alternative: ,Output)
+    if (result != FMOD_OK)
+    {
+        LOG_ERROR(Logger::CORE,
+            "FMOD error #"
+            + StringConverter::toString(result)
+            + " "
+            + FMOD_ErrorString(result));
+            
+        return false;
+    }
+    
     mFmod4System->getMasterChannelGroup(&mMasterChannelGroup);
+    return true;
 }
 
 void Fmod4Driver::shutdown()

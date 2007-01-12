@@ -42,7 +42,7 @@ NullDriver::~NullDriver()
 }
 
 /** 
- * Zeigt an, ob der Treiber funktionsfähig ist.
+ * Zeigt an, ob der Treiber funktionsfï¿½hig ist.
  * @return Immer TRUE.
  * @author JoSch
  * @date 12-23-2005
@@ -57,8 +57,9 @@ bool NullDriver::isDriverAvailable()
  * @author JoSch
  * @date 12-23-2005
  */
-void NullDriver::initialize()
+bool NullDriver::initialize()
 {
+	return true;
 }
 
 /** 
@@ -71,7 +72,7 @@ void NullDriver::shutdown()
 }
 
 /** 
- * Gibt den Anzeigename des Treiber zurück.
+ * Gibt den Anzeigename des Treiber zurï¿½ck.
  * @return Anzeigename
  * @author JoSch
  * @date 12-23-2005
