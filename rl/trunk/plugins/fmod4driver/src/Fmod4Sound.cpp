@@ -77,7 +77,7 @@ void Fmod4Sound::load() throw (RuntimeException)
             NULL, 
             &mSound);
 
-        mDriver->checkErrors(res);
+        CHECK_FMOD4_ERRORS(res);
     }
     else if (mType == Fmod4Sound::STREAM)
     {
@@ -87,7 +87,7 @@ void Fmod4Sound::load() throw (RuntimeException)
             NULL, 
             &mSound);
 
-        mDriver->checkErrors(res);
+        CHECK_FMOD4_ERRORS(res);
     }
 }
 
@@ -124,7 +124,7 @@ void Fmod4Sound::play()
         true,
         &mChannel);
 
-    mDriver->checkErrors(res);
+    CHECK_FMOD4_ERRORS(res);
 
     RlAssert1(mChannel != NULL);
 
