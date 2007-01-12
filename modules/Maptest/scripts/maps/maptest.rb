@@ -33,16 +33,17 @@ $World.setFog( World::FOG_EXP, [0.4,0.5,0.6,0.7], 0.00219, 0.5, 1.0);
 
 
 $SCRIPT.log("Create hero")
-$hero = $GOM.createGameObjectProxy("hero", 1);
+$hero = $GOM.createGameObjectProxy("hero", 1).getGameObject();
 
 $SCRIPT.log("Place hero into scene")
-$hero.getGameObject().placeIntoScene();
+$hero.placeIntoScene();
+$hero.setPosition([10.0, 5.0, 0.0]);
 
 $SCRIPT.log("Prepare hero for being the active character")
-PlayerSettings.preparePlayer($hero.getGameObject())
+PlayerSettings.preparePlayer($hero)
 
 $SCRIPT.log("Set hero as active character")
-$UI.setActiveCharacter($hero.getGameObject())
+$UI.setActiveCharacter($hero)
 
 $SCRIPT.log("Hero ready")
 
