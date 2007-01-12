@@ -64,12 +64,12 @@ namespace rl {
         mInputManager(NULL)
 	{
         initializeOis(win);
-        GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_ENDED);
+        GameLoopManager::getSingleton().addTask(this);
     }
 
 	InputManager::~InputManager()
 	{
-        GameLoopManager::getSingleton().removeSynchronizedTask(this);
+        GameLoopManager::getSingleton().removeTask(this);
 		if( mInputManager )
 		{
 			mInputManager->destroyInputObject( mMouse );

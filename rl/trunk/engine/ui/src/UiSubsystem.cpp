@@ -85,7 +85,7 @@ namespace rl {
 		delete mWindowFactory;
 		delete mWindowManager;
 
-        GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
+        GameLoopManager::getSingleton().removeTask(mCharacterController);
 		delete mCharacterController;
 
 		delete mInputManager;
@@ -159,7 +159,7 @@ namespace rl {
 
         mWindowFactory->initialize();
 
-		GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_ENDED);
+		GameLoopManager::getSingleton().addTask(this);
     }
 
 
@@ -225,7 +225,7 @@ namespace rl {
 			if (mCharacterController->getType() == type)
 				return;
 
-			GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
+			GameLoopManager::getSingleton().removeTask(mCharacterController);
 			delete mCharacterController;
             mCharacterController = NULL;
 			LOG_MESSAGE(Logger::UI,
@@ -281,7 +281,7 @@ namespace rl {
 		mInputManager->setCharacterController(mCharacterController);
 
 	    LOG_MESSAGE(Logger::UI, "CharacterController created.");
-		GameLoopManager::getSingleton().addSynchronizedTask(mCharacterController, FRAME_ENDED );
+		GameLoopManager::getSingleton().addTask(mCharacterController);
         LOG_MESSAGE(Logger::UI, "CharacterController task added.");
 	}
 

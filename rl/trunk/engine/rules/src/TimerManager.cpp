@@ -44,7 +44,7 @@ namespace rl {
 	TimerManager::TimerManager() :
 		mTimers()
 	{
-		GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_ENDED);
+		GameLoopManager::getSingleton().addTask(this);
 	}
 
 	TimerManager::~TimerManager()
@@ -56,7 +56,7 @@ namespace rl {
 			ScriptWrapper::getSingleton().disowned( currTimer );
 		}
 		mTimers.clear();
-		GameLoopManager::getSingleton().removeSynchronizedTask(this);
+		GameLoopManager::getSingleton().removeTask(this);
 	}
 
 	void TimerManager::run(Ogre::Real elapsedTime)

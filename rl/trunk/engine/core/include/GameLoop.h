@@ -18,6 +18,7 @@
 #define __GameLoop_H__
 
 #include <list>
+#include <deque>
 #include <OgreSingleton.h>
 #include <boost/thread.hpp>
 
@@ -30,64 +31,36 @@ class GameLoop;
 class SynchronizedGameLoop;
 
 typedef std::list<GameTask*> GameTaskList;
-enum GameLoopSyncTime {
-	FRAME_STARTED,
-	FRAME_ENDED
-};
 
 class _RlCoreExport GameLoopManager : protected Ogre::Singleton<GameLoopManager>
 {
 public:
-	GameLoopManager(unsigned long millisPerAsyncTick);
+	GameLoopManager();
 	virtual ~GameLoopManager();
 
-    void addSynchronizedTask(GameTask* newTask, GameLoopSyncTime syncTime);
-	void removeSynchronizedTask(GameTask* oldTask);
-	void quitGame();
-      
-    bool isPaused();
-    void setPaused(bool pause);
+    void addTask(GameTask* newTask);
+	void removeTask(GameTask* oldTask);
 
+	/// Request the game to quit. The current task loop will finish though.
+	void quitGame();
+
+    /// Main loop of RL.
+    void loop();
+      
     static GameLoopManager & getSingleton(void);
 	static GameLoopManager * getSingletonPtr(void);
 
 private:
-	SynchronizedGameLoop* mSynchronizedFrameStartedGameLoop;
-	SynchronizedGameLoop* mSynchronizedFrameEndedGameLoop;
-};
-
-class GameLoop
-{
-public:
-	GameLoop();
-	virtual ~GameLoop();
-
-	void add(GameTask* task);
-	void remove(GameTask* task);
-	bool isPaused();
-	void setPaused(bool pause);
-
-protected:
-	void loop( Ogre::Real timeSinceLastCall );
-	
-private:	
 	GameTaskList mTaskList;
-	bool mPaused;
-};
+    std::deque<unsigned long> mLastTimes;
+    /// In milliseconds, because Ogre's timer works this way.
+    unsigned long mSmoothPeriod;
+    Ogre::Real mMaxFrameTime;
+	bool mQuitRequested;
 
-class SynchronizedGameLoop : public GameLoop, public Ogre::FrameListener
-{
-private:
-	bool mRunning;
-	GameLoopSyncTime mSyncTime;
-
-public:
-	SynchronizedGameLoop(GameLoopSyncTime syncTime);
-    
-	void quitGame();
-
-	bool frameStarted(const Ogre::FrameEvent & evt);
-	bool frameEnded(const Ogre::FrameEvent & evt);
+    /// Averages frame rate over mSmoothPeriod milliseconds.
+    /// Steadies Controls and Physics a bit.
+    unsigned long smoothTime(unsigned long time);
 };
 
 }

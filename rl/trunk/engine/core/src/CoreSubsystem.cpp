@@ -118,7 +118,7 @@ namespace rl {
 			startAdventureModule(mod);
 		}
 
-        Root::getSingleton().startRendering();
+		mGameLoopManager->loop();
 
         mWorld->clearScene();
         unloadPlugins();
@@ -184,7 +184,7 @@ namespace rl {
         if (!carryOn) 
             return false;
 
-		mGameLoopManager = new GameLoopManager(100); //TODO: In Config-Datei verlagern
+		mGameLoopManager = new GameLoopManager();
         LOG_MESSAGE(Logger::CORE,"GameLoopmanager erzeugt");
 
 		mScriptWrapper = new ScriptWrapper();
@@ -215,16 +215,16 @@ namespace rl {
 		mActorManager->setWorld(mWorld);
 
 		mPhysicsManager = new PhysicsManager();        
-        GameLoopManager::getSingleton().addSynchronizedTask(mPhysicsManager, FRAME_ENDED);
+        GameLoopManager::getSingleton().addTask(mPhysicsManager);
 
         mAnimationManager = new AnimationManager();
-        GameLoopManager::getSingleton().addSynchronizedTask(mAnimationManager, FRAME_ENDED);
+        GameLoopManager::getSingleton().addTask(mAnimationManager);
 
         mGameEventManager = new GameEventManager();
-        GameLoopManager::getSingleton().addSynchronizedTask(mGameEventManager, FRAME_ENDED);
+        GameLoopManager::getSingleton().addTask(mGameEventManager);
         
         mDebugVisualsManager = new DebugVisualsManager();
-        GameLoopManager::getSingleton().addSynchronizedTask(mDebugVisualsManager, FRAME_ENDED);
+        GameLoopManager::getSingleton().addTask(mDebugVisualsManager);
 
 		return true;
     }
@@ -460,13 +460,8 @@ namespace rl {
     void CoreSubsystem::loadMap(const String type, const String filename, 
     	const String module, const String startupScript)
     {
-        GameLoopManager::getSingleton().setPaused(true);
-
         mWorld->loadScene(filename, module);
-        if (startupScript.length() > 0)
-            mRubyInterpreter->executeFile(startupScript);
-
-        GameLoopManager::getSingleton().setPaused(false);
+        if (startupScript.length() > 0) mRubyInterpreter->executeFile(startupScript);
     }
 
     void CoreSubsystem::loadPlugins()
