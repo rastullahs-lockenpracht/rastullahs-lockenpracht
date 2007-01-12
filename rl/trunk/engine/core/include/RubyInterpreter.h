@@ -17,7 +17,6 @@
 #ifndef __RubyInterpreter_H__
 #define __RubyInterpreter_H__
 
-#include "CommonPrerequisites.h"
 #include "CorePrerequisites.h"
 
 typedef unsigned long VALUE;
