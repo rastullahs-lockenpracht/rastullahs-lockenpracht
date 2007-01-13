@@ -5,9 +5,25 @@ material Stadtmauer
 	{
 		pass
 		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
+			ambient 0.341176 0.341176 0.341176 1
 			specular 0 0 0 1 10
+
+			texture_unit
+			{
+				texture_alias 0
+				texture Ruchin_stadtmauer.png
+				colour_op_ex modulate_x2 src_texture src_current
+				colour_op_multipass_fallback dest_colour zero
+			}
+
+			texture_unit
+			{
+				texture_alias 1
+				texture Ruchin_stadtmauer_variation.png
+				tex_coord_set 1
+				colour_op_ex modulate_x2 src_texture src_current
+				colour_op_multipass_fallback dest_colour zero
+			}
 		}
 
 	}
