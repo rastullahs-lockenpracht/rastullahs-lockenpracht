@@ -27,18 +27,16 @@
 namespace rl {
 
 class GameTask;
-class GameLoop;
-class SynchronizedGameLoop;
 
-typedef std::list<GameTask*> GameTaskList;
-
-class _RlCoreExport GameLoopManager : protected Ogre::Singleton<GameLoopManager>
+class _RlCoreExport GameLoop : protected Ogre::Singleton<GameLoop>
 {
 public:
-	GameLoopManager();
-	virtual ~GameLoopManager();
+    typedef enum {TG_PHYSICS, TG_INPUT, TG_LOGIC, TG_GRAPHICS, TG_SOUND} TaskGroup;
 
-    void addTask(GameTask* newTask);
+	GameLoop();
+	virtual ~GameLoop();
+
+    void addTask(GameTask* newTask, TaskGroup group);
 	void removeTask(GameTask* oldTask);
 
 	/// Request the game to quit. The current task loop will finish though.
@@ -47,11 +45,13 @@ public:
     /// Main loop of RL.
     void loop();
       
-    static GameLoopManager & getSingleton(void);
-	static GameLoopManager * getSingletonPtr(void);
+    static GameLoop & getSingleton(void);
+	static GameLoop * getSingletonPtr(void);
 
 private:
-	GameTaskList mTaskList;
+    typedef std::list<GameTask*> GameTaskList;
+
+    std::vector<GameTaskList*> mTaskLists;
     std::deque<unsigned long> mLastTimes;
     /// In milliseconds, because Ogre's timer works this way.
     unsigned long mSmoothPeriod;

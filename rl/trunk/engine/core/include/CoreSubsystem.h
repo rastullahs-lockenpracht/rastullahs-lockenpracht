@@ -37,7 +37,7 @@ class Actor;
 class ContentModule;
 class ScriptWrapper;
 class PhysicsManager;
-class GameLoopManager;
+class GameLoop;
 class AnimationManager;
 class ActorManager;
 class GameEventManager;
@@ -128,7 +128,7 @@ private:
     ScriptWrapper* mScriptWrapper;
     XmlResourceManager* mXmlResourceManager;
     PhysicsManager* mPhysicsManager;
-    GameLoopManager* mGameLoopManager;
+    GameLoop* mGameLoopManager;
     AnimationManager* mAnimationManager;
     ActorManager* mActorManager;
     GameEventManager* mGameEventManager;

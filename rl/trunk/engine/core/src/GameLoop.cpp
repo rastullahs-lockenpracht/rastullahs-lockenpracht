@@ -25,48 +25,68 @@
 
 using namespace Ogre;
 
-template<> rl::GameLoopManager* Singleton<rl::GameLoopManager>::ms_Singleton = 0;
+template<> rl::GameLoop* Singleton<rl::GameLoop>::ms_Singleton = 0;
 
 namespace rl {
 
-    GameLoopManager* GameLoopManager::getSingletonPtr(void)
+    GameLoop* GameLoop::getSingletonPtr(void)
     {
-        return Singleton<GameLoopManager>::getSingletonPtr();
+        return Singleton<GameLoop>::getSingletonPtr();
     }
-    GameLoopManager& GameLoopManager::getSingleton(void)
+    GameLoop& GameLoop::getSingleton(void)
     {
-        return Singleton<GameLoopManager>::getSingleton();
+        return Singleton<GameLoop>::getSingleton();
     }
 
-    GameLoopManager::GameLoopManager()
-        : mTaskList(),
+    GameLoop::GameLoop()
+        : mTaskLists(),
           mLastTimes(),
           mSmoothPeriod(5000),
           mMaxFrameTime(0.5f),
           mQuitRequested(false)
     {
+        // create five task lists, one for each taskgroup
+        mTaskLists.push_back(new GameTaskList);
+        mTaskLists.push_back(new GameTaskList);
+        mTaskLists.push_back(new GameTaskList);
+        mTaskLists.push_back(new GameTaskList);
+        mTaskLists.push_back(new GameTaskList);
     }
 
-    GameLoopManager::~GameLoopManager()
+    GameLoop::~GameLoop()
     {
+        for (size_t i = 0; i < mTaskLists.size(); ++i)
+        {
+            delete mTaskLists[i];
+        }
+        mTaskLists.clear();
     }
 
-    void GameLoopManager::addTask(GameTask* task)
+    void GameLoop::addTask(GameTask* task, TaskGroup group)
     {
-        mTaskList.push_back(task);
+        mTaskLists[group]->push_back(task);
     }
 
-    void GameLoopManager::removeTask(GameTask* task)
+    void GameLoop::removeTask(GameTask* task)
     {
-        mTaskList.remove(task);
+        for (size_t i = 0; i < mTaskLists.size(); ++i)
+        {
+            GameTaskList* tasks = mTaskLists[i];
+            GameTaskList::iterator it = std::find(tasks->begin(), tasks->end(), task);
+            if (it != tasks->end())
+            {
+                tasks->erase(it);
+                break;
+            }
+        }
     }
 
-    void GameLoopManager::quitGame()
+    void GameLoop::quitGame()
     {
         mQuitRequested = true;
     }
 
-    void GameLoopManager::loop()
+    void GameLoop::loop()
     {
         Timer* timer = Root::getSingleton().getTimer();
         // A sensible start value
@@ -81,11 +101,15 @@ namespace rl {
 			WindowEventUtilities::messagePump();
             Root::getSingleton().renderOneFrame();
 
-            for (GameTaskList::iterator i = mTaskList.begin(); i != mTaskList.end(); ++i)
+            for (size_t i = 0; i < mTaskLists.size(); ++i)
             {
-                if (!(*i)->isPaused())
+                GameTaskList* tasks = mTaskLists[i];
+                for (GameTaskList::iterator it = tasks->begin(); it != tasks->end(); ++it)
                 {
-                    (*i)->run(frameTime);
+                    if (!(*it)->isPaused())
+                    {
+                        (*it)->run(frameTime);
+                    }
                 }
             }
         }
@@ -93,7 +117,7 @@ namespace rl {
 
     // Idea taken from Ogre, but implementation by us.
     // smooths time step over the period mSmoothPeriod.
-    unsigned long GameLoopManager::smoothTime(unsigned long time)
+    unsigned long GameLoop::smoothTime(unsigned long time)
     {
         mLastTimes.push_back(time);
 

@@ -62,7 +62,7 @@ void AiSubsystem::initialize()
 	mWorld = new AiWorld();
 
     CoreSubsystem::getSingletonPtr()->getWorld()->addSceneChangeListener(this);
-	GameLoopManager::getSingleton().addTask(AgentManager::getSingletonPtr());
+    GameLoop::getSingleton().addTask(AgentManager::getSingletonPtr(), GameLoop::TG_LOGIC);
 }
 
 void AiSubsystem::onBeforeClearScene()

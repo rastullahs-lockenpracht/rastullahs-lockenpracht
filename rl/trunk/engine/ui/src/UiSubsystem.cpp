@@ -85,7 +85,7 @@ namespace rl {
 		delete mWindowFactory;
 		delete mWindowManager;
 
-        GameLoopManager::getSingleton().removeTask(mCharacterController);
+        GameLoop::getSingleton().removeTask(mCharacterController);
 		delete mCharacterController;
 
 		delete mInputManager;
@@ -159,7 +159,10 @@ namespace rl {
 
         mWindowFactory->initialize();
 
-		GameLoopManager::getSingleton().addTask(this);
+        ///\XXX Not sensible to call setCharacterController each frame.
+        /// A better control over removed and added tasks will resolve this.
+        /// TG_INPUT is a bit of a stretch, but this doesn't fit anywhere else.
+        GameLoop::getSingleton().addTask(this, GameLoop::TG_INPUT);
     }
 
 
@@ -225,7 +228,7 @@ namespace rl {
 			if (mCharacterController->getType() == type)
 				return;
 
-			GameLoopManager::getSingleton().removeTask(mCharacterController);
+			GameLoop::getSingleton().removeTask(mCharacterController);
 			delete mCharacterController;
             mCharacterController = NULL;
 			LOG_MESSAGE(Logger::UI,
@@ -281,7 +284,7 @@ namespace rl {
 		mInputManager->setCharacterController(mCharacterController);
 
 	    LOG_MESSAGE(Logger::UI, "CharacterController created.");
-		GameLoopManager::getSingleton().addTask(mCharacterController);
+        GameLoop::getSingleton().addTask(mCharacterController, GameLoop::TG_INPUT);
         LOG_MESSAGE(Logger::UI, "CharacterController task added.");
 	}
 

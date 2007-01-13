@@ -131,7 +131,7 @@ namespace rl {
 			boost::bind(&InventoryWindow::handleClose, this));
 
         mInventoryArrangeTask = new InventoryArrangeTask();
-		GameLoopManager::getSingletonPtr()->addTask(mInventoryArrangeTask);
+        GameLoop::getSingletonPtr()->addTask(mInventoryArrangeTask, GameLoop::TG_GRAPHICS);
 	}
 	
 	InventoryWindow::~InventoryWindow()

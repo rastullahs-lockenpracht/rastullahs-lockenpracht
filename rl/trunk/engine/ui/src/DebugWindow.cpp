@@ -214,9 +214,9 @@ namespace rl
 	{
 		CeGuiWindow::setVisible(visible, destroyAfterHide);
 		if (visible)
-			GameLoopManager::getSingleton().addTask(this);
+            GameLoop::getSingleton().addTask(this, GameLoop::TG_GRAPHICS);
 		else
-			GameLoopManager::getSingleton().removeTask(this);
+			GameLoop::getSingleton().removeTask(this);
 	}
 
     const Ogre::String& DebugWindow::getName() const

@@ -44,7 +44,7 @@ namespace rl {
 	TimerManager::TimerManager() :
 		mTimers()
 	{
-		GameLoopManager::getSingleton().addTask(this);
+        GameLoop::getSingleton().addTask(this, GameLoop::TG_GRAPHICS);
 	}
 
 	TimerManager::~TimerManager()
@@ -56,7 +56,7 @@ namespace rl {
 			ScriptWrapper::getSingleton().disowned( currTimer );
 		}
 		mTimers.clear();
-		GameLoopManager::getSingleton().removeTask(this);
+		GameLoop::getSingleton().removeTask(this);
 	}
 
 	void TimerManager::run(Ogre::Real elapsedTime)

@@ -184,7 +184,7 @@ namespace rl {
         if (!carryOn) 
             return false;
 
-		mGameLoopManager = new GameLoopManager();
+		mGameLoopManager = new GameLoop();
         LOG_MESSAGE(Logger::CORE,"GameLoopmanager erzeugt");
 
 		mScriptWrapper = new ScriptWrapper();
@@ -215,16 +215,16 @@ namespace rl {
 		mActorManager->setWorld(mWorld);
 
 		mPhysicsManager = new PhysicsManager();        
-        GameLoopManager::getSingleton().addTask(mPhysicsManager);
+        GameLoop::getSingleton().addTask(mPhysicsManager, GameLoop::TG_PHYSICS);
 
         mAnimationManager = new AnimationManager();
-        GameLoopManager::getSingleton().addTask(mAnimationManager);
+        GameLoop::getSingleton().addTask(mAnimationManager, GameLoop::TG_GRAPHICS);
 
         mGameEventManager = new GameEventManager();
-        GameLoopManager::getSingleton().addTask(mGameEventManager);
+        GameLoop::getSingleton().addTask(mGameEventManager, GameLoop::TG_LOGIC);
         
         mDebugVisualsManager = new DebugVisualsManager();
-        GameLoopManager::getSingleton().addTask(mDebugVisualsManager);
+        GameLoop::getSingleton().addTask(mDebugVisualsManager, GameLoop::TG_GRAPHICS);
 
 		return true;
     }

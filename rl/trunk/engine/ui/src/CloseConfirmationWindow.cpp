@@ -42,7 +42,7 @@ CloseConfirmationWindow::~CloseConfirmationWindow()
 
 bool CloseConfirmationWindow::handleConfirm()
 {
-	GameLoopManager::getSingleton().quitGame();
+	GameLoop::getSingleton().quitGame();
 	return true;
 }
 
