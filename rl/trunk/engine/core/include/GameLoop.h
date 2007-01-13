@@ -28,15 +28,34 @@ namespace rl {
 
 class GameTask;
 
+/// This class encapsulates the top level game loop.
+/// GameLoop::loop is called immediately after RL has been initialised.
+/// GameLoop is dumb, it only calls added tasks in the set order.
+/// No game logic whatsoever is handled here.
 class _RlCoreExport GameLoop : protected Ogre::Singleton<GameLoop>
 {
 public:
-    typedef enum {TG_PHYSICS, TG_INPUT, TG_LOGIC, TG_GRAPHICS, TG_SOUND} TaskGroup;
+    /// Groups a task can belong to. Tasks are executed in the order listed.
+    typedef enum {TG_PHYSICS,  ///< Tasks that update physics
+                  TG_INPUT,    ///< Tasks that handle user input
+                  TG_LOGIC,    ///< Tasks that control game play. (AI, Triggers, etc..)
+                  TG_GRAPHICS, ///< Tasks that update graphics
+                  TG_SOUND     ///< Tasks that update sound
+                 } TaskGroup;
 
 	GameLoop();
 	virtual ~GameLoop();
 
+    /// Adds a task to the game loop. It will not be executed immediately,
+    /// but in the next loop.
+    /// @param newTask task to added.
+    /// @param group tasks are executed in order, they are listed in TaskGroup enum. Choose
+    ///        the group, that best fits the purpose of the task.
+    /// @sa GameLoop::TaskGroup
     void addTask(GameTask* newTask, TaskGroup group);
+
+    /// Removes a task to the game loop.
+    /// The removal is delayed till before the next frame is rendered.
 	void removeTask(GameTask* oldTask);
 
 	/// Request the game to quit. The current task loop will finish though.
@@ -50,17 +69,25 @@ public:
 
 private:
     typedef std::list<GameTask*> GameTaskList;
+    typedef std::list<std::pair<TaskGroup, GameTask*> > GroupTaskList;
 
     std::vector<GameTaskList*> mTaskLists;
+    GroupTaskList mAddedTasks;
+    GameTaskList mRemovedTasks;
+
     std::deque<unsigned long> mLastTimes;
     /// In milliseconds, because Ogre's timer works this way.
     unsigned long mSmoothPeriod;
+    /// Time cap for frame time, to prevent interpolation problems during spikes.
     Ogre::Real mMaxFrameTime;
 	bool mQuitRequested;
 
     /// Averages frame rate over mSmoothPeriod milliseconds.
     /// Steadies Controls and Physics a bit.
     unsigned long smoothTime(unsigned long time);
+
+    /// Processes queued additions and removals of tasks.
+    void updateTaskList();
 };
 
 }
