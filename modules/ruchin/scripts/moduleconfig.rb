@@ -1,8 +1,8 @@
 include RlScript
 
-class MapTestModule < ContentModule
+class RuchinModule < ContentModule
     def initialize()
-        super("Maptest", "MapTest", false, 200608012)
+        super("ruchin", "Ruchin (WIP)", false, 200608012)
     end
 
     def getDependencies()
@@ -22,9 +22,9 @@ class MapTestModule < ContentModule
     end
 
     def start()
-        $CORE.loadMap("Octree", "maptest.scene", "Maptest", "maptest.rb");
+        $CORE.loadMap("Octree", "maptest.scene", "ruchin", "maptest.rb");
         $World = $CORE.getWorld();
     end
 end
 
-CoreSubsystem.getSingleton().registerModule(MapTestModule.new());
+CoreSubsystem.getSingleton().registerModule(RuchinModule.new());
