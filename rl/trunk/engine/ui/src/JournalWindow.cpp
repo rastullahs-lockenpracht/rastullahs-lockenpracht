@@ -64,7 +64,7 @@ namespace rl {
         mJournalEntryText->setReadOnly(true);
 
         mSelectionColour = CEGUI::ListboxItem::DefaultSelectionColour;
-        mSelectionImageset = "Rastullah-Images";
+        mSelectionImageset = "RastullahLook-Images";
         mSelectionBrush = "ListboxSelectionBrush";
 
         updateQuests();
