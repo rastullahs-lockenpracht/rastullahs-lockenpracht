@@ -24,163 +24,163 @@
 
 namespace rl {
 
-class _RlRulesExport Quest;
-class _RlRulesExport QuestBook;
+    class _RlRulesExport Quest;
+    class _RlRulesExport QuestBook;
 
-typedef std::vector<Quest*> QuestVector;
+    typedef std::vector<Quest*> QuestVector;
 
 #undef SUCCEEDED
-/**
- * @brief Verwaltet einen Quest oder Subquest
- */
-class _RlRulesExport Quest : public PropertySet
-{
-public:
-	enum State
-	{
-		OPEN = 0,
-		ASSIGNED,
-		FAILED,
-		SUCCEEDED,
-		COMPLETED
-	};
+    /**
+    * @brief Verwaltet einen Quest oder Subquest
+    */
+    class _RlRulesExport Quest : public PropertySet
+    {
+    public:
+        enum State
+        {
+            OPEN = 0,
+            ASSIGNED,
+            FAILED,
+            SUCCEEDED,
+            COMPLETED
+        };
 
-	static const CeGuiString STATE_NAMES[5];
-	static const CeGuiString KNOWN_NAMES[2];
+        static const CeGuiString STATE_NAMES[5];
+        static const CeGuiString KNOWN_NAMES[2];
 
-    static const Ogre::String PROP_NAME;
-	static const Ogre::String PROP_DESCRIPTION;
-	static const Ogre::String PROP_KNOWN;
+        static const Ogre::String PROP_NAME;
+        static const Ogre::String PROP_DESCRIPTION;
+        static const Ogre::String PROP_KNOWN;
 
-	/**
-	 * @param id eine einzigartige ID, um den Quest wiederzufinden
-	 * @param name Titel des Quests
-	 * @param description Lange Beschreibung, die im Tagebuch angezeigt wird
-	 */
-	Quest(const CeGuiString id, const CeGuiString name, const CeGuiString description);
-	virtual ~Quest();
+        /**
+        * @param id eine einzigartige ID, um den Quest wiederzufinden
+        * @param name Titel des Quests
+        * @param description Lange Beschreibung, die im Tagebuch angezeigt wird
+        */
+        Quest(const CeGuiString id, const CeGuiString name, const CeGuiString description);
+        virtual ~Quest();
 
-	/**
-	 * @return die Quest-ID
-	 */
-	const CeGuiString getId() const;
+        /**
+        * @return die Quest-ID
+        */
+        const CeGuiString getId() const;
 
-	/**
-	 * @return der Titel des Quests
-	 */
-	const CeGuiString getName() const;
+        /**
+        * @return der Titel des Quests
+        */
+        const CeGuiString getName() const;
 
-	/**
-	 * @return die Questbeschreibung
-	 */
-	const CeGuiString getDescription() const;
+        /**
+        * @return die Questbeschreibung
+        */
+        const CeGuiString getDescription() const;
 
-	/**
-	 * @param partsToDo Anzahl der zu erledigenden Teile des Quests
-	 */
-	void setPartsToDo(int partsToDo);
+        /**
+        * @param partsToDo Anzahl der zu erledigenden Teile des Quests
+        */
+        void setPartsToDo(int partsToDo);
 
-	/**
-	 * @return die Anzahl der zu erledigenden Teile des Quests oder, falls der 
-	 * Quest Teilquests enthaelt, die Anzahl der Teilquests
-	 */
-	int getPartsToDo() const;
+        /**
+        * @return die Anzahl der zu erledigenden Teile des Quests oder, falls der 
+        * Quest Teilquests enthaelt, die Anzahl der Teilquests
+        */
+        int getPartsToDo() const;
 
-	/**
-	 * @param partsDone Anzahl der erledigten Teile des Quests
-	 */
-	void setPartsDone(int partsDone);
+        /**
+        * @param partsDone Anzahl der erledigten Teile des Quests
+        */
+        void setPartsDone(int partsDone);
 
-	/**
-	 * @return die Anzahl der zu erledigenden Teile des Quests oder, falls der 
-	 * Quest Teilquests enthaelt, die Anzahl der Teilquests
-	 */
-	int getPartsDone() const;
+        /**
+        * @return die Anzahl der zu erledigenden Teile des Quests oder, falls der 
+        * Quest Teilquests enthaelt, die Anzahl der Teilquests
+        */
+        int getPartsDone() const;
 
-	/**
-	 * Erhoeht die geschafften gleichen Teile eines Quests
-	 * 
-	 * @param parts wieviele Teile wurden erledigt (default 1)
-	 */
-	void increasePartsDone(int parts = 1);
+        /**
+        * Erhoeht die geschafften gleichen Teile eines Quests
+        * 
+        * @param parts wieviele Teile wurden erledigt (default 1)
+        */
+        void increasePartsDone(int parts = 1);
 
-	/**
-	 * Verringert die geschafften gleichen Teile eines Quests
-	 * 
-	 * @param parts wieviele weniger Teile wurden erledigt (default 1)
-	 */
-	void decreasePartsDone(int parts = 1);
+        /**
+        * Verringert die geschafften gleichen Teile eines Quests
+        * 
+        * @param parts wieviele weniger Teile wurden erledigt (default 1)
+        */
+        void decreasePartsDone(int parts = 1);
 
 
-	/**
-	 * @return Status des Quests
-	 */
-	Quest::State getState() const;
+        /**
+        * @return Status des Quests
+        */
+        Quest::State getState() const;
 
-	/**
-	 * @return Status des Quests (als String)
-	 */
-	const CeGuiString getStateName() const;
-	const CeGuiString getKnownName() const;
+        /**
+        * @return Status des Quests (als String)
+        */
+        const CeGuiString getStateName() const;
+        const CeGuiString getKnownName() const;
 
-	/**
-	 * @param state Status des Quests
-	 */
-	void setState(Quest::State state);
+        /**
+        * @param state Status des Quests
+        */
+        void setState(Quest::State state);
 
-	void setKnown(bool known);
-	bool isKnown() const;
+        void setKnown(bool known);
+        bool isKnown() const;
 
-	/**
-	 * @return <code>true</code>, wenn dieser Quest Subquests hat
-	 *		   <code>false</code>, wenn dieser Quest atomar ist oder aus gleichen Teilen 
-	 *         (getPartsTodo() > 1) besteht
-	 */
-	bool hasSubquests() const;
+        /**
+        * @return <code>true</code>, wenn dieser Quest Subquests hat
+        *		   <code>false</code>, wenn dieser Quest atomar ist oder aus gleichen Teilen 
+        *         (getPartsTodo() > 1) besteht
+        */
+        bool hasSubquests() const;
 
-	/**
-	 * @return die Subquests dieses Quests
-	 */
-	QuestVector getSubquests() const;
+        /**
+        * @return die Subquests dieses Quests
+        */
+        QuestVector getSubquests() const;
 
-	/**
-	 * Fuegt einen Subquest hinzu
-	 * @param quest der Subquest
-	 */
-	void addSubquest(Quest* quest);
+        /**
+        * Fuegt einen Subquest hinzu
+        * @param quest der Subquest
+        */
+        void addSubquest(Quest* quest);
 
-	Quest* getParent() const;
-	
-	void setQuestBook(QuestBook* questBook);
+        Quest* getParent() const;
 
-	static Quest::State getStateFromName(const CeGuiString stateName);
-	static bool getKnownFromName(const CeGuiString knownName);
+        void setQuestBook(QuestBook* questBook);
 
-    virtual const Property getProperty(const Ogre::String& key) const;
-    virtual void setProperty(const Ogre::String& key, const Property& value);
-    virtual PropertySet* getAllProperties() const;
+        static Quest::State getStateFromName(const CeGuiString stateName);
+        static bool getKnownFromName(const CeGuiString knownName);
 
-private:
+        virtual const Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const Property& value);
+        virtual PropertySet* getAllProperties() const;
 
-	static const int KNOWN = 1;
-	static const int UNKNOWN = 0;
+    private:
 
-	QuestVector mSubquests;
-	CeGuiString mId;
-	CeGuiString mName;
-	CeGuiString mDescription;
-	int mPartsToDo;
-	int mPartsDone;
-	bool mKnown;
+        static const int KNOWN = 1;
+        static const int UNKNOWN = 0;
 
-	State mState;
-	Quest* mParent;
-	QuestBook* mQuestBook;
+        QuestVector mSubquests;
+        CeGuiString mId;
+        CeGuiString mName;
+        CeGuiString mDescription;
+        int mPartsToDo;
+        int mPartsDone;
+        bool mKnown;
 
-	void checkDone();
-	void setParent(Quest* parentQuest);
-	void notify( int reason );
-};
+        State mState;
+        Quest* mParent;
+        QuestBook* mQuestBook;
+
+        void checkDone();
+        void setParent(Quest* parentQuest);
+        void notify( int reason );
+    };
 
 }
 #endif
