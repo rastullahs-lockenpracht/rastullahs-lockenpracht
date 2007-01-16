@@ -77,7 +77,6 @@ load( "tsafried.rb" );
 load( "bauer.rb" );
 load( "wirt.rb" );
 load( "forrest.rb");
-load( "wolfram.rb" );
 load( "wolframstuer.rb" );
 $SCRIPT.log("NSCs geladen");
 
