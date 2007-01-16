@@ -1,13 +1,11 @@
 <GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
     <Window Type="DefaultGUISheet" Name="SubtitleWindow">
-        <Property Name="MetricsMode" Value="Absolute"/>
 		<Property Name="UnifiedPosition" Value="{{0.0,120},{1.0,-120}}" />	
 		<Property Name="UnifiedSize" Value="{{1.0,-240},{0.0,100}}" />
 
 		<Window Type="RastullahLook/MultiLineEditbox" Name="SubtitleWindow/Text">
-			<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
-			<Property Name="RelativeWidth" Value="1.0"/>
-			<Property Name="RelativeHeight" Value="1.0"/>
+    		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />	
+	    	<Property Name="UnifiedSize" Value="{{1.0,0},{1.0,0}}" />
 			<Property Name="Font" Value="Vera Serif-10" />
 		</Window>
 	</Window>

@@ -2,7 +2,6 @@
 	<Window Type="RastullahLook/FrameWindow" Name="DialogWindow">
 		<Property Name="UnifiedPosition" Value="{{0.0,5},{0.0,5}}" />	
 		<Property Name="UnifiedSize" Value="{{0,450},{0,400}}" />
-        <Property Name="AbsoluteMinSize" Value="w:350 h:300" />
         <Property Name="Text" Value="Dialog Fenster" /> 
 
 		<Window Type="RastullahLook/StaticImage" Name="DialogWindow/Image">
