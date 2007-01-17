@@ -106,7 +106,7 @@ namespace rl {
                 GameTaskList* tasks = mTaskLists[i];
                 for (GameTaskList::iterator it = tasks->begin(); it != tasks->end(); ++it)
                 {
-                    if (!(*it)->isPaused())
+                    if (*it != NULL && !(*it)->isPaused())
                     {
                         (*it)->run(frameTime);
                     }
