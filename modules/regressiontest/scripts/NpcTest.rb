@@ -2,15 +2,20 @@ require 'testcase.rb'
 require 'npc.rb'
 
 class NpcTest < TestCase
-  def initialize(center)
-    super(center)
+    def initialize(center)
+        super(center)
 
-    npc1proxy = $GOM.createGameObjectProxy("npc");
-    npc1 = npc1proxy.getGameObject();
-    npc1.setProperty("meshfile", "men_alrike.mesh");
-    npc1.setProperty("position", center);
-    npc1.setProperty("dialogfile", "testdialog.aiml");
+        height = 0.3
+        min_base = [-3.0, 0.05, -3.0]
+        max_base = [3.0, height, 3.0]
+        base = $AM.createBoxPrimitiveActor("DialogTestBase",
+                                           min_base, max_base, "alpha_blue")
+        base.placeIntoScene(center);
 
-    npc1.placeIntoScene();
-  end
+        npc1proxy = $GOM.createGameObjectProxy("TestPerson");
+        npc1 = npc1proxy.getGameObject();
+        npc1.setPosition([center[0], height, center[2]]);
+
+        npc1.placeIntoScene();
+    end
 end
