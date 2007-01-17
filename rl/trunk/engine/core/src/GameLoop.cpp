@@ -20,6 +20,7 @@
 #include "GameTask.h"
 #include "CoreSubsystem.h"
 #include "FixRubyHeaders.h"
+#include "Exception.h"
 
 #include <numeric>
 
@@ -66,6 +67,7 @@ namespace rl {
 
     void GameLoop::addTask(GameTask* task, TaskGroup group)
     {
+        RlAssert(task != NULL, "Added task should be not null");
         mAddedTasks.push_back(std::make_pair(group, task));
     }
 
@@ -106,7 +108,8 @@ namespace rl {
                 GameTaskList* tasks = mTaskLists[i];
                 for (GameTaskList::iterator it = tasks->begin(); it != tasks->end(); ++it)
                 {
-                    if (*it != NULL && !(*it)->isPaused())
+                    RlAssert(*it != NULL, "This task should not be NULL");
+                    if (!(*it)->isPaused())
                     {
                         (*it)->run(frameTime);
                     }
@@ -139,6 +142,7 @@ namespace rl {
         // Add new ones.
         for (GroupTaskList::iterator it = mAddedTasks.begin(); it != mAddedTasks.end(); ++it)
         {
+            RlAssert((*it).second, "New task should not be null");
             mTaskLists[(*it).first]->push_back((*it).second);
         }
         mAddedTasks.clear();
