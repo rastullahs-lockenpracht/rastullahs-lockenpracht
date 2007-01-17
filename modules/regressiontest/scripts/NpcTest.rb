@@ -14,7 +14,7 @@ class NpcTest < TestCase
 
         npc1proxy = $GOM.createGameObjectProxy("TestPerson");
         npc1 = npc1proxy.getGameObject();
-        npc1.setPosition(rel_pos(0.0, height, 0.0));
+        npc1.setPosition(rel_pos([0.0, height, 0.0]));
 
         npc1.placeIntoScene();
     end
