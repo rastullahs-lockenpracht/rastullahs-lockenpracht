@@ -6,6 +6,7 @@ require 'doortest.rb'
 require 'GameObjectCreationTest.rb'
 require 'GameObjectStatesTest.rb'
 require 'NpcTest.rb'
+require 'TimeTest.rb'
 require 'InventoryTest.rb'
 
 # Physik aktivieren
@@ -33,6 +34,7 @@ DoorTest.new([0.0, 0.0, -5.0])
 #GameObjectCreationTest.new([5, 0, 0])
 #GameObjectStatesTest.new([0, 0, 5])
 NpcTest.new([-5, 0, 5])
+TimeTest.new([-5, 0, -5])
 InventoryTest.new([0, 0, 10])
 
 $SCRIPT.log("tests initialisiert.");
