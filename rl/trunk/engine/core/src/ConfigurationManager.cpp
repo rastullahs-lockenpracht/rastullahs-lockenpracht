@@ -200,12 +200,11 @@ namespace rl
 			}
         }
 
-		mModulesCfgDirectory = mModulesRootDirectory + "/modules/config";
-
 		/**
 		 * @todo Remove, after other subsystems were changed to
 		 *       new ConfigurationManager style
 		 */
+		mModulesCfgDirectory = mModulesRootDirectory + "/modules/config";
 		mRastullahCfgPath = "./rastullah_ogre.cfg";
 		mRastullahSystemCfgPath = mModulesCfgDirectory + "/rastullah_system.cfg";
 		mSoundCfgPath = mModulesCfgDirectory + "/sound.cfg";
@@ -342,12 +341,12 @@ namespace rl
 
 	String ConfigurationManager::getInputConfigPath() const
 	{
-		return mConfigModuleDirectory+"/rastullah_input.cfg";
+		return mModulesCfgDirectory + "/rastullah_input.cfg";
 	}
 
 	String ConfigurationManager::getKeymap() const
 	{
-		return getStringSetting("Keymap", "keymap-german.xml");
+		return mModulesCfgDirectory + "/keymap-german.xml";
 	}
 
     String ConfigurationManager::getConfigModulePath() const

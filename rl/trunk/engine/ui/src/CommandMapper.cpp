@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -59,8 +59,8 @@ namespace rl {
 
 
 	void CommandMapper::setMapping(
-			MapType mapType, 
-			int code, 
+			MapType mapType,
+			int code,
 			const CeGuiString& actionName)
 	{
 		getCommandMap(mapType)->insert(make_pair(code, actionName));
@@ -87,7 +87,7 @@ namespace rl {
 	}
 
 	int CommandMapper::getMapping(
-			MapType mapType, 
+			MapType mapType,
 			const CeGuiString& actionName)
 	{
 		if (mapType == CMDMAP_KEYMAP_MOVEMENT)
@@ -96,7 +96,7 @@ namespace rl {
 		}
 
 		KeyAndMouseCommandMap* commandMap = getCommandMap(mapType);
-	
+
 		for (KeyAndMouseCommandMap::iterator command = commandMap->begin();
 				command != commandMap->end(); command++)
 		{
@@ -127,7 +127,7 @@ namespace rl {
 		    *scancode = scancodeTmp;
         }
 	}
-  
+
 	const MovementState CommandMapper::getMovement(int keycode) const
 	{
 		MovementCommandMap::const_iterator mvcmd = mMovementCommands.find(keycode);
@@ -145,9 +145,8 @@ namespace rl {
 	void CommandMapper::loadCommandMap(const Ogre::String& mapfile)
 	{
 		ConfigFile* cfg = new ConfigFile();
-		cfg->loadFromResourceSystem("rastullah_input.cfg", 
-				ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-		
+		cfg->load(mapfile);
+
 		for (ConfigFile::SettingsIterator it = cfg->getSettingsIterator("Movement");
 			it.hasMoreElements();)
 		{
@@ -156,7 +155,7 @@ namespace rl {
 
 			mMovementCommands[InputManager::getSingleton().getScanCode(key)] = getMovement(setting);
 			LOG_MESSAGE(Logger::UI,
-				Ogre::String("Key ") + key	+ " (" 
+				Ogre::String("Key ") + key	+ " ("
 				+ StringConverter::toString(InputManager::getSingleton().getScanCode(key))
 				+ ") is assigned to movement "	+ setting+" ("
 				+ StringConverter::toString(getMovement(setting))+")");
@@ -228,13 +227,13 @@ namespace rl {
 	int CommandMapper::getKeyCode(const Ogre::String &keyDescription)
 	{
 		StringVector parts = StringUtil::split(keyDescription, "+");
-		
+
 		int modifiers = 0;
 		for(size_t i = 0; i<parts.size()-1; i++)
 		{
 			modifiers |= InputManager::getSingleton().getSystemCode(parts[i]);
 		}
-		
+
 		return encodeKey(InputManager::getSingleton().getScanCode(parts[parts.size()-1]), modifiers);
 	}
 
@@ -246,13 +245,13 @@ namespace rl {
 	int CommandMapper::getMouseButtonCode(const Ogre::String &buttonDescription)
 	{
 		StringVector parts = StringUtil::split(buttonDescription, "+");
-		
+
 		int modifiers = 0;
 		for(size_t i = 0; i<parts.size()-1; i++)
 		{
 			modifiers |= InputManager::getSingleton().getSystemCode(parts[i]);
 		}
-		
+
 		int buttonNum = StringConverter::parseInt(parts[parts.size()-1].substr(6));
 		return encodeKey(getMouseButtonCode(buttonNum), modifiers);
 	}
