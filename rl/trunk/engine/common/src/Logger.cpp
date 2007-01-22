@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -32,12 +32,12 @@ const char* rl::Logger::MULTIMEDIA = "Multimedia";
 const char* rl::Logger::MAIN = "Main";
 const char* rl::Logger::SCRIPT = "Script";
 
-const char* rl::Logger::LEVEL_TEXT[6] = 
+const char* rl::Logger::LEVEL_TEXT[6] =
 	{"(UD)", "(--)", "(--)", "(WW)", "(EE)", "(CC)"};
 
 namespace rl
 {
-	
+
 Logger& Logger::getSingleton(void)
 {
     return Singleton<Logger>::getSingleton();
@@ -48,7 +48,7 @@ Logger* Logger::getSingletonPtr(void)
     return Singleton<Logger>::getSingletonPtr();
 }
 
-Logger::Logger(const Ogre::String& logPath, const Ogre::String& ogreLogPath)
+Logger::Logger(const Ogre::String& logDirectory, const Ogre::String& ogreLogFile, const Ogre::String& rastullahLogFile)
     : mLog(0),
       mLogLevel(LL_ERROR),
       mErrorBuffer(""),
@@ -59,11 +59,23 @@ Logger::Logger(const Ogre::String& logPath, const Ogre::String& ogreLogPath)
 	    new LogManager();
     }
 
+	// Check, if logPath exists
+#   if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+	fs::path rastullahLogDirectory(logDirectory, fs::portable_posix_name);
+#   elif
+	fs::path rastullahLogDirectory(logDirectory);
+#   endif
+
+	if (!fs::exists(rastullahLogDirectory))
+	{
+		fs::create_directory(rastullahLogDirectory);
+	}
+
 	//Log für Ogre
-	LogManager::getSingleton().setDefaultLog(LogManager::getSingleton().createLog(ogreLogPath));
+	LogManager::getSingleton().setDefaultLog(LogManager::getSingleton().createLog(ogreLogFile));
 
 	//Log für RL
-	mLog = LogManager::getSingleton().createLog(logPath);
+	mLog = LogManager::getSingleton().createLog(rastullahLogFile);
 }
 
 Logger::~Logger()
@@ -72,9 +84,9 @@ Logger::~Logger()
 }
 
 void Logger::log(
-			const Logger::LogLevel level, 
-			const Ogre::String& component, 
-			const Ogre::String& message, 
+			const Logger::LogLevel level,
+			const Ogre::String& component,
+			const Ogre::String& message,
 			const Ogre::String& ident)
 {
 	if (ident.length() == 0)
@@ -84,9 +96,9 @@ void Logger::log(
 }
 
 void Logger::log(
-			const Logger::LogLevel level, 
-			const Ogre::String& component, 
-			const CeGuiString& message, 
+			const Logger::LogLevel level,
+			const Ogre::String& component,
+			const CeGuiString& message,
 			const Ogre::String& ident)
 {
 	if (ident.length() == 0)
@@ -97,8 +109,8 @@ void Logger::log(
 
 void Logger::log(
 			const Logger::LogLevel level,
-			const Ogre::String& component, 
-			const char* message, 
+			const Ogre::String& component,
+			const char* message,
 			const Ogre::String& ident)
 {
 	if (ident.length() == 0)
@@ -108,13 +120,13 @@ void Logger::log(
 }
 
 void Logger::log(
-			const Logger::LogLevel level, 
+			const Logger::LogLevel level,
 			const Ogre::String& msg)
 {
 	if (level >= mLogLevel)
 	{
 		mLog->logMessage(LEVEL_TEXT[level] + msg, Ogre::LML_TRIVIAL);
-	
+
 		if (level >= Logger::LL_ERROR) // Fehler
 		{
 			mErrorBuffer.append("\n");
@@ -126,7 +138,7 @@ void Logger::log(
 
 void Logger::setLogDetail(const Logger::LogLevel level)
 {
-	mLogLevel = level;	
+	mLogLevel = level;
 	mLog->setLogDetail(Ogre::LL_BOREME);
 }
 

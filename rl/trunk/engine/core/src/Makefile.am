@@ -12,9 +12,6 @@ libRlCore_la_SOURCES = \
 	BoxPrimitive.cpp \
 	CameraObject.cpp \
 	ConfigurationManager.cpp \
-	ConfigurationManagerLinux.cpp \
-	ConfigurationManagerWin32.cpp \
-	ConfigurationManagerMac.cpp \
 	ContentModule.cpp \
 	CoreEvents.cpp \
 	CoreSubsystem.cpp \

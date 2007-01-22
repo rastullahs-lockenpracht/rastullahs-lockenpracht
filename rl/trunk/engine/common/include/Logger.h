@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -16,11 +16,14 @@
 #ifndef __LOGGER_H__
 #define __LOGGER_H__
 
-
 #include "CommonPrerequisites.h"
 #include <OgreSingleton.h>
 #include <OgreLog.h>
 #include <CEGUILogger.h>
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/exception.hpp>
+
+namespace fs = boost::filesystem;
 
 namespace rl {
 	class _RlCommonExport Logger : public Ogre::Singleton<Logger>
@@ -47,7 +50,7 @@ namespace rl {
 
 		static const char* LEVEL_TEXT[6];
 
-		Logger(const Ogre::String& logPath, const Ogre::String& ogreLogPath);
+		Logger(const Ogre::String& logDirectory, const Ogre::String& ogreLogFile, const Ogre::String& rastullahLogFile);
 		virtual ~Logger();
 
         // Singleton Stuff
@@ -55,23 +58,23 @@ namespace rl {
         static Logger * getSingletonPtr(void);
 
 		void log(
-			const LogLevel level, 
-			const Ogre::String& component, 
-			const char* message, 
+			const LogLevel level,
+			const Ogre::String& component,
+			const char* message,
 			const Ogre::String& ident = "");
 
 		void log(
-			const LogLevel level, 
-			const Ogre::String& component, 
-			const Ogre::String& message, 
+			const LogLevel level,
+			const Ogre::String& component,
+			const Ogre::String& message,
 			const Ogre::String& ident = "");
 
 		void log(
-			const LogLevel level, 		
-			const Ogre::String& component, 
-			const CeGuiString& msg, 
+			const LogLevel level,
+			const Ogre::String& component,
+			const CeGuiString& msg,
 			const Ogre::String& ident = "");
-	
+
 		void setLogDetail(const LogLevel level);
         const LogLevel& getLogDetail();
 		const CEGUI::LoggingLevel getCeGuiLogDetail() const;
@@ -81,7 +84,7 @@ namespace rl {
 		const Ogre::String& getErrorLog() const;
 	private:
 		void log(const LogLevel level, const Ogre::String& msg );
-		
+
 		Ogre::Log* mLog;
 		LogLevel mLogLevel;
 		Ogre::String mErrorBuffer;
@@ -95,7 +98,7 @@ namespace rl {
 
 #define RL_LOG(level, component, msg) \
     RL_LOG2(level, component, msg, "")
-    
+
 #define RL_LOG_SHORT(level, msg) \
     RL_LOG2(level, "", msg, "")
 

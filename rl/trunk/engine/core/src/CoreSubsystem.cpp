@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -73,12 +73,12 @@ namespace rl {
         mDebugVisualsManager(NULL)
     {
         resetClock();
-        initializeCoreSubsystem();        
+        initializeCoreSubsystem();
         resetClock();
     }
 
-    CoreSubsystem::~CoreSubsystem() 
-    {  
+    CoreSubsystem::~CoreSubsystem()
+    {
 		mCoreEventCaster.removeEventListeners();
 
         delete mWorld;
@@ -92,7 +92,7 @@ namespace rl {
         delete mScriptWrapper;
         delete mConfigurationManager;
 		delete mSoundManager;
-        delete mOgreRoot;		
+        delete mOgreRoot;
         delete mRubyInterpreter;
 	}
 
@@ -127,7 +127,7 @@ namespace rl {
     }
 
     bool CoreSubsystem::setupConfiguration()
-    {      
+    {
         if(Root::getSingleton().restoreConfig()
             || Root::getSingleton().showConfigDialog())
         {
@@ -165,9 +165,9 @@ namespace rl {
     {
         mConfigurationManager = ConfigurationManager::getSingletonPtr();
         mOgreRoot = new Root(
-        	mConfigurationManager->getPluginCfgPath(), 
-        	mConfigurationManager->getRastullahCfgPath(), 
-        	mConfigurationManager->getOgreLogPath()
+        	mConfigurationManager->getPluginCfgPath(),
+        	mConfigurationManager->getRastullahCfgPath(),
+        	mConfigurationManager->getOgreLogFile()
         );
 
         //Root::getSingleton().setFrameSmoothingPeriod(0.5f);
@@ -178,10 +178,10 @@ namespace rl {
 
 		// EDIT:
 		LOG_MESSAGE(Logger::CORE,"init");
-        
+
         bool carryOn = setupConfiguration();
 
-        if (!carryOn) 
+        if (!carryOn)
             return false;
 
 		mGameLoopManager = new GameLoop();
@@ -194,7 +194,7 @@ namespace rl {
 		LOG_MESSAGE(Logger::CORE,"RubyInterpreter erzeugt");
 		mRubyInterpreter->initializeInterpreter();
 		LOG_MESSAGE(Logger::CORE,"RubyInterpreter initialisiert");
-		
+
         mActorManager = new ActorManager();
 		LOG_MESSAGE(Logger::CORE,"Aktormanager erzeugt");
 
@@ -206,15 +206,15 @@ namespace rl {
         // Set default mipmap level (NB some APIs ignore this)
         //TODO: In Config-Datei verlagern
         TextureManager::getSingleton().setDefaultNumMipmaps(5);
-        MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_TRILINEAR); 
+        MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_TRILINEAR);
         MaterialManager::getSingleton().setDefaultAnisotropy(
             ConfigurationManager::getSingleton().getIntSetting("max_anisotropy",1));
-        
-        
+
+
         mWorld = new DotSceneOctreeWorld();
 		mActorManager->setWorld(mWorld);
 
-		mPhysicsManager = new PhysicsManager();        
+		mPhysicsManager = new PhysicsManager();
         GameLoop::getSingleton().addTask(mPhysicsManager, GameLoop::TG_PHYSICS);
 
         mAnimationManager = new AnimationManager();
@@ -222,7 +222,7 @@ namespace rl {
 
         mGameEventManager = new GameEventManager();
         GameLoop::getSingleton().addTask(mGameEventManager, GameLoop::TG_LOGIC);
-        
+
         mDebugVisualsManager = new DebugVisualsManager();
         GameLoop::getSingleton().addTask(mDebugVisualsManager, GameLoop::TG_GRAPHICS);
 
@@ -237,14 +237,14 @@ namespace rl {
         // und die per kompletten Verezeichnis erfragt werden
 		ResourceGroupManager::getSingleton().addResourceLocation(
 			ConfigurationManager::getSingleton().
-				getModulesRootDirectory(), 
-            "FileSystem", 
+				getModulesRootDirectory(),
+            "FileSystem",
 			ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
         ResourceGroupManager::getSingleton().addResourceLocation(
 			ConfigurationManager::getSingleton().
-                getConfigModulePath(), 
-            "FileSystem", 
+                getConfigModulePath(),
+            "FileSystem",
 			ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
         mConfigurationManager->loadConfig();
@@ -264,7 +264,7 @@ namespace rl {
 			if (key.compare("module") == 0)
             {
 				mRubyInterpreter->executeFile(ContentModule::getInitFile(value));
-				
+
 				ContentModule* module = getModule(value);
 
 				if (module == NULL)
@@ -308,12 +308,12 @@ namespace rl {
 	{
 		String tuScheme = mConfigurationManager->getTextureUnitScheme();
 
-		for (ResourceManager::ResourceMapIterator itMat = 
+		for (ResourceManager::ResourceMapIterator itMat =
 			MaterialManager::getSingleton().getResourceIterator();
 			itMat.hasMoreElements();)
 		{
 			MaterialPtr mat = itMat.getNext();
-			for (Material::TechniqueIterator itTech = 
+			for (Material::TechniqueIterator itTech =
 				mat->getTechniqueIterator();
 				itTech.hasMoreElements();)
 			{
@@ -366,11 +366,11 @@ namespace rl {
 
     void CoreSubsystem::loadModule(ContentModule* module)
     {
-        if (module->getMinimumEngineVersion() 
+        if (module->getMinimumEngineVersion()
             > ConfigurationManager::getSingleton().getEngineBuildNumber())
 		{
 			Throw(
-				rl::RuntimeException, 
+				rl::RuntimeException,
 				"Module "
 				+ Ogre::String(module->getName().c_str())
 				+ " needs engine >="
@@ -387,9 +387,9 @@ namespace rl {
             if (modIt == mModules.end())
             {
 			    Throw(
-				    rl::RuntimeException, 
-				    "Depedency Module " + depName 
-                    + " needed by " + Ogre::String(module->getName().c_str()) 
+				    rl::RuntimeException,
+				    "Depedency Module " + depName
+                    + " needed by " + Ogre::String(module->getName().c_str())
                     + " not found.");
             }
 
@@ -431,7 +431,7 @@ namespace rl {
 	}
 
     World* CoreSubsystem::getWorld()
-    { 
+    {
         return mWorld;
     }
 
@@ -457,7 +457,7 @@ namespace rl {
 		return mModules;
 	}
 
-    void CoreSubsystem::loadMap(const String type, const String filename, 
+    void CoreSubsystem::loadMap(const String type, const String filename,
     	const String module, const String startupScript)
     {
         mWorld->loadScene(filename, module);

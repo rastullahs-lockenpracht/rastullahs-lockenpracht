@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -48,15 +48,16 @@ void startupRl(bool developerMode, Ogre::String module)
 	rl::UiSubsystem* ui =  NULL;
 	rl::ScriptSubsystem* script =  NULL;
 	rl::Logger* logger = NULL;
-	
+
 #ifndef _DEBUG
 	try {
 #endif // #ifndef _DEBUG
         rl::ConfigurationManager::getSingleton().loadConfig();
 
 		logger = new rl::Logger(
-			rl::ConfigurationManager::getSingleton().getRastullahLogPath(),
-			rl::ConfigurationManager::getSingleton().getOgreLogPath());
+			rl::ConfigurationManager::getSingleton().getRastullahLogDirectory(),
+			rl::ConfigurationManager::getSingleton().getOgreLogFile(),
+			rl::ConfigurationManager::getSingleton().getRastullahLogFile());
         // @todo in ConfigDatei auslagern/ oder auch Parameter
 
 		rl::Logger::getSingleton().setLogDetail(
@@ -71,7 +72,7 @@ void startupRl(bool developerMode, Ogre::String module)
 
 		dialog = new rl::DialogSubsystem();
 		LOG_MESSAGE_SHORT("DialogSubsystem gestartet");
-	
+
 		ai = new rl::AiSubsystem();
 		LOG_MESSAGE_SHORT("AiSubsystem gestartet");
 
@@ -87,34 +88,37 @@ void startupRl(bool developerMode, Ogre::String module)
 			core->setDefaultActiveModule(module);
 
 		core->startCore();
-		
+
 
 #ifndef _DEBUG
-	} 
+	}
 	catch(Ogre::Exception& oe) {
 		rl::showError(oe.getFullDescription());
-	} 
+	}
 	catch(rl::Exception& re) {
 		rl::showError(re.toString());
-	} 
+	}
 	catch(CEGUI::Exception& ce) {
 		rl::showError(ce.getMessage().c_str());
 	}
+	catch(fs::filesystem_error& fe) {
+		rl::showError(fe.what());
+	}
 	catch(std::runtime_error& rte) {
 		rl::showError(rte.what());
-	} 
+	}
 	catch(std::exception& exp) {
 		rl::showError( exp.what() );
-	} 
+	}
 	catch(std::string& err) {
 		rl::showError( err );
-	} 
+	}
 	catch(...) {
 		rl::showError( "Unknown exception occured" );
 	}
 
 
-	try 
+	try
     {
 #endif // #ifndef _DEBUG
         LOG_MESSAGE_SHORT("Soundkonfiguration gespeichert");
@@ -131,22 +135,22 @@ void startupRl(bool developerMode, Ogre::String module)
 	}
 	catch(Ogre::Exception& oe) {
 		rl::showError(oe.getFullDescription());
-	} 
+	}
 	catch(rl::Exception& re) {
 		rl::showError(re.toString());
-	} 
+	}
 	catch(std::runtime_error& rte) {
 		rl::showError(rte.what());
-	} 
+	}
 	catch(std::exception& exp) {
 		rl::showError( exp.what() );
-	} 
+	}
 	catch(std::string& err) {
 		rl::showError( err );
-	} 
+	}
 	catch(...) {
 		rl::showError( "Unknown exception occured" );
-	}	
+	}
 #endif //#ifndef _DEBUG
 
 }
@@ -181,7 +185,7 @@ INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
 		argv[argIdx][len-1] = '\0';
 	}
 
-	bool developer; 
+	bool developer;
 	Ogre::String module;
 	analyzeParameters(argc, argv, developer, module);
 
@@ -191,7 +195,7 @@ INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
 	}
 	delete[] argv;
 	LocalFree(argList);
-	
+
     startupRl(developer, module);
 
 	return 0;
@@ -201,7 +205,7 @@ INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
 
 int main(int argc, char **argv)
 {
-	bool developer; 
+	bool developer;
 	Ogre::String module;
 
 	analyzeParameters(argc, argv, developer, module);

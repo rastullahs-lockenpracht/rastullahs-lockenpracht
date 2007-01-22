@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -78,8 +78,8 @@ namespace rl {
 		mWindowFactory = new WindowFactory();
 	}
 
-    UiSubsystem::~UiSubsystem() 
-    {  
+    UiSubsystem::~UiSubsystem()
+    {
         CoreSubsystem::getSingletonPtr()->getWorld()->removeSceneChangeListener(this);
 
 		delete mWindowFactory;
@@ -94,7 +94,7 @@ namespace rl {
         delete mGuiResourceProvider;
         delete mGuiRenderer;
 	}
-	
+
     void UiSubsystem::initializeSubsystem()
     {
 		using namespace CEGUI;
@@ -103,7 +103,7 @@ namespace rl {
             "Initialisiere UI", "UiSubsystem::initializeUiSubsystem");
         World* world = CoreSubsystem::getSingleton().getWorld();
         SceneManager* sceneMgr = world->getSceneManager();
-		
+
 		Ogre::RenderWindow* window = Ogre::Root::getSingleton().getAutoCreatedWindow();
 		LOG_MESSAGE2(Logger::UI,
             "Initializing CEGUI Renderer.", "UiSubsystem::initializeUiSubsystem");
@@ -115,12 +115,12 @@ namespace rl {
         mGuiResourceProvider = new OgreCEGUIResourceProvider();
         CEGUI::System::setDefaultXMLParserName("XercesParser");
 		mGuiSystem = new System(mGuiRenderer, mGuiResourceProvider,
-            NULL, NULL, (utf8*)"cegui.config");
+            NULL, NULL, (utf8*)"cegui.config", ConfigurationManager::getSingleton().getCeguiLogFile());
 		CEGUI::Logger::getSingleton().setLoggingLevel(
             rl::Logger::getSingleton().getCeGuiLogDetail());
 		LOG_MESSAGE2(Logger::UI,
             "CEGUI System initialized.", "UiSubsystem::initializeUiSubsystem");
-        
+
 		// load scheme and set up defaults
 		///@todo Hier sollte was Lookunabhängiges rein!!! FIXME TODO BUG!
 		System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook-Images",
@@ -133,7 +133,7 @@ namespace rl {
             "UiSubsystem::initializeUiSubsystem");
 		sheet->setSize(
             CeGuiHelper::asAbsolute(CEGUI::Vector2(
-                Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth(), 
+                Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth(),
 				Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight())));
 		sheet->setPosition(CeGuiHelper::asAbsolute(CEGUI::Point(0, 0)));
 		System::getSingleton().setGUISheet(sheet);
@@ -204,13 +204,13 @@ namespace rl {
 			{
 				ScriptWrapper::getSingleton().owned( person );
 				mCharacter = person;
-				
+
 				world->setActiveActor(person->getActor());
 				mWindowFactory->setActiveCharacter(person);
 
 				mCharacter->getActor()->attach(SoundManager::getSingleton().getListenerActor());
 				LOG_MESSAGE(Logger::UI, "SoundListener attached.");
-	            
+
 				setCharacterController(CharacterController::CTRL_MOVEMENT);
 			}
         }
@@ -234,7 +234,7 @@ namespace rl {
 			LOG_MESSAGE(Logger::UI,
                 "Old CharacterController deleted.");
 		}
-        
+
    		if( type == CharacterController::CTRL_NONE )
         {
 			mCharacterController = NULL;
@@ -280,7 +280,7 @@ namespace rl {
 			Throw(IllegalArgumentException, "Unknown CharacterControllerType.");
 		}
 		mCharacterControllerType = type;
-		
+
 		mInputManager->setCharacterController(mCharacterController);
 
 	    LOG_MESSAGE(Logger::UI, "CharacterController created.");

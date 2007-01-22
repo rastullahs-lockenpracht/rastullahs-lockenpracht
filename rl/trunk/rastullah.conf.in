@@ -1,1 +1,3 @@
-@RL_MODULE_DIR@
+[Rastullah]
+ModulesDirectory=@RL_MODULE_DIR@
+PluginCfg=plugins-linux.cfg

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -39,7 +39,7 @@ std::string XmlErrorHandler::toString( const std::string& type,
         const XERCES_CPP_NAMESPACE::SAXParseException& exc ) const
 {
     std::stringstream strs;
-    strs << "A" << type << " occured while parsing " << mFileName 
+    strs << "A" << type << " occured while parsing " << mFileName
          << " at line " << exc.getLineNumber() << " column " <<  exc.getColumnNumber();
 
     if( exc.getSystemId() != NULL )
