@@ -22,7 +22,7 @@ class RuchinModule < ContentModule
     end
 
     def start()
-        $CORE.loadMap("Octree", "maptest.scene", "ruchin", "maptest.rb");
+        $CORE.loadMap("Octree", "ruchin.scene", "ruchin", "maptest.rb");
         $World = $CORE.getWorld();
     end
 end

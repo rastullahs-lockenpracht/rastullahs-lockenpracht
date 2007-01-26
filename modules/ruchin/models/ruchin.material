@@ -1,0 +1,39 @@
+material Ruchin_l_inside
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			alpha_rejection greater 128
+
+			texture_unit
+			{
+				texture_alias 0
+				texture Ruchin_ao_l_inside.dds
+				tex_coord_set 1
+			}
+		}
+
+	}
+
+}
+
+material Material_#25/02_-_Default
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+
+			texture_unit
+			{
+				texture_alias 0
+				texture ruchin_atlasmap.dds
+			}
+		}
+
+	}
+
+}
