@@ -614,18 +614,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\ConfigurationManagerLinux.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ConfigurationManagerMac.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ConfigurationManagerWin32.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\ContentModule.cpp"
 				>
 			</File>
