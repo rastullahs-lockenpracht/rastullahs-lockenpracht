@@ -381,18 +381,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\ConfigurationManagerLinux.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\ConfigurationManagerMac.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\ConfigurationManagerWin32.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\ContentModule.h"
 				>
 			</File>
