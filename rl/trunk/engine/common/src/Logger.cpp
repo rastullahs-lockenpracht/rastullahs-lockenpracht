@@ -62,7 +62,7 @@ Logger::Logger(const Ogre::String& logDirectory, const Ogre::String& ogreLogFile
 	// Check, if logPath exists
 #   if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
 	fs::path rastullahLogDirectory(logDirectory, fs::portable_posix_name);
-#   elif
+#   else
 	fs::path rastullahLogDirectory(logDirectory);
 #   endif
 
