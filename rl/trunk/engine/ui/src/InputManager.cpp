@@ -598,7 +598,7 @@ namespace rl {
 
     void InputManager::linkKeyToRubyCommand(const CeGuiString &keyStr, const CeGuiString &command)
     {
-        stringstream ss;
+        std::ostringstream ss;
 
         ss << "InputManager::linkKeyToRubyCommand called: ";
         int key = getScanCode(keyStr);
