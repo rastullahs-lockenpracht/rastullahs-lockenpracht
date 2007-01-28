@@ -53,6 +53,7 @@ namespace rl
     	mRastullahCfgFile = "rastullah.conf";
     	mOgreLogFile = "ogre.log";
     	mCeguiLogFile = "cegui.log";
+        mRastullahLogFile = "rastullah.log";
 		mModulesCfgFile = "modules.cfg";
 
     	setRastullahCfgPath();
@@ -169,7 +170,7 @@ namespace rl
 				cfg_paths = StringUtil::split(mRastullahCfgPath, ":");
 			}
 
-			for (int i = 0; i < cfg_paths.size(); i++)
+			for (unsigned int i = 0; i < cfg_paths.size(); i++)
 			{
 				try
 				{
