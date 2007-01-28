@@ -41,6 +41,7 @@
 #include "DialogWindow.h"
 #include "GameLoop.h"
 #include "GameObject.h"
+#include "RubyInterpreter.h"
 #include "UiSubsystem.h"
 #include "WindowFactory.h"
 
@@ -278,9 +279,24 @@ namespace rl {
 		}
         else
         {
+            int code = CommandMapper::encodeKey(e.key, getModifierCode());
+
+            // is there a ruby script command linked?
+            KeyCommandMap::iterator it;
+            it = mKeyRubyCommand.find(code);
+            if( it != mKeyRubyCommand.end() )
+            {
+                if( it->second.length() > 0 )
+                {
+                    bool error = CoreSubsystem::getSingleton().getRubyInterpreter()->execute(it->second.c_str());
+                    LOG_MESSAGE(Logger::UI, " (keyboard shortcut) execution of ruby command '" + it->second + "' " + (error == false ? "success." : "failure."));
+                    return true;
+                }
+            }
+
             if (mCharacterController != NULL)
             {
-                mCharacterController->injectKeyDown(CommandMapper::encodeKey(e.key, getModifierCode()));
+                mCharacterController->injectKeyDown(code);
             }
         }
 
@@ -577,6 +593,43 @@ namespace rl {
         static Ogre::String NAME = "InputManager";
 
         return NAME;
+    }
+
+
+    void InputManager::linkKeyToRubyCommand(const CeGuiString &keyStr, const CeGuiString &command)
+    {
+        stringstream ss;
+
+        ss << "InputManager::linkKeyToRubyCommand called: ";
+        int key = getScanCode(keyStr);
+        if( command.length() == 0 ) // delete
+        {
+            KeyCommandMap::iterator it = mKeyRubyCommand.find(key);
+            ss << "Requesting to delete link from Key '" << keyStr << "'... ";
+            if( it != mKeyRubyCommand.end() )
+            {
+                ss << "Link to command '" << it->second << "' deleted.";
+                mKeyRubyCommand.erase(it);
+            }
+        }
+        else
+        {
+            KeyCommandMap::iterator it = mKeyRubyCommand.find(key);
+            if( it == mKeyRubyCommand.end() )
+            {
+                ss << "New linking Key '";
+                mKeyRubyCommand.insert(make_pair(key, command));
+            }
+            else
+            {
+                ss << "Setting link from key '";
+                it->second = command;
+            }
+            ss << keyStr << "' to command '" << command << "'.";
+            
+        }
+
+        LOG_MESSAGE(Logger::UI, ss.str());
     }
 
 }

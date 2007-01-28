@@ -76,6 +76,7 @@ public:
 	rl::CharacterController* getCharacterController() const;
 	rl::CharacterController::ControllerType getCharacterControllerType() const;
 	void setCharacterController(rl::CharacterController::ControllerType type);
+	void linkKeyToRubyCommand(const rl::CeGuiString &key, const rl::CeGuiString &command);
 };
 
 class GameLoggerWindow

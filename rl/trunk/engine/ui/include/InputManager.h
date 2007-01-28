@@ -87,6 +87,8 @@ namespace rl {
 
         virtual const Ogre::String& getName() const;
 
+        void linkKeyToRubyCommand(const CeGuiString &key, const CeGuiString &command);
+
     private:
         enum { NUM_MOUSE_BUTTON=4, NUM_KEYS=256 };
         enum Modifiers {ALT_MASK = 1, CTRL_MASK = 2, SHIFT_MASK = 4, SUPER_MASK = 8};
@@ -111,6 +113,9 @@ namespace rl {
         KeyCharMap mKeyMapShift;
         KeyCharMap mKeyMapAlt;
         KeyNameMap mKeyNames;
+
+        typedef std::map<int, CeGuiString> KeyCommandMap;
+        KeyCommandMap mKeyRubyCommand;
 
         int mNumActiveWindowsMouseInput;
         int mNumActiveWindowsKeyboardInput;

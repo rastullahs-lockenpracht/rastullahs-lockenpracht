@@ -89,6 +89,9 @@ namespace rl {
 
         void initializeSubsystem();
 
+        /// this method is here because it is easier to include it in swig here (actually really defined in InputManager)
+        void linkKeyToRubyCommand(const CeGuiString &key, const CeGuiString &command);
+
     private:
         CharacterController* mCharacterController;
 		CharacterController::ControllerType mCharacterControllerType;
