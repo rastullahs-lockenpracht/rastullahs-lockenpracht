@@ -144,7 +144,7 @@ namespace rl
 
 			mRastullahOgreCfgPath = string(::getenv("HOME")) + "/.rastullah/rastullah_ogre.cfg";
 #           else
-			mRastullahOgreCfgPath = "./rastullah_ogre.cfg";
+			mRastullahOgreCfgPath = "./modules/config/rastullah_ogre.cfg";
 #           endif
 
             mSystemConfig = new Ogre::ConfigFile();
@@ -371,7 +371,9 @@ namespace rl
     	{
 			addToCfgPath(path);
     	}
-#		endif
+#		else
+        addToCfgPath("./modules/config/");
+#       endif
     }
 
 	void ConfigurationManager::addToCfgPath(const std::string& path)
