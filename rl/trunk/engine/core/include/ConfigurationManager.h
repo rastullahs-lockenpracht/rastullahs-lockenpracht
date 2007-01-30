@@ -140,7 +140,6 @@ namespace rl
 			 * @todo Remove, after other subsystems were changed to
 			 *       new ConfigurationManager style
 			 */
-			Ogre::String getOgreLogPath() const;
 			Ogre::String getPluginCfgPath() const;
 			Ogre::String getRastullahLogPath() const;
 			Ogre::String getModulesCfgPath() const;
@@ -190,9 +189,7 @@ namespace rl
 			 * @todo Remove, after other subsystems were changed to
 			 *       new ConfigurationManager style
 			 */
-			Ogre::String mOgreLogPath;
 			Ogre::String mPluginCfgPath;
-			Ogre::String mRastullahLogPath;
 			Ogre::String mModulesCfgPath;
 			Ogre::String mConfigModuleDirectory;
             Ogre::String mRastullahSystemCfgPath;

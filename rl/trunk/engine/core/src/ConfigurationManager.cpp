@@ -108,19 +108,9 @@ namespace rl
 		return mPluginCfgFile;
 	}
 
-	Ogre::String ConfigurationManager::getOgreLogPath() const
-	{
-		return mOgreLogPath;
-	}
-
 	Ogre::String ConfigurationManager::getPluginCfgPath() const
 	{
 		return mPluginCfgPath;
-	}
-
-	Ogre::String ConfigurationManager::getRastullahLogPath() const
-	{
-		return mRastullahLogPath;
 	}
 
 	Ogre::String ConfigurationManager::getModulesCfgPath() const
