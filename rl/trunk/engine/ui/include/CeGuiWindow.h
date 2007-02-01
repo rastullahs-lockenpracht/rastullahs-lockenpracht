@@ -67,16 +67,11 @@ namespace rl {
 
 		bool isModal();
 		bool isClosingOnEscape();
-		bool isFading();
-		void setFading(bool fading);
 
 		const CeGuiString& getName() const;
 		const Ogre::Real& getNormalAlpha() const;
 
-		virtual void windowHid();		
-
-		void _setUpdateTask(WindowUpdateTask* updateTask);
-		WindowUpdateTask* _getUpdateTask();
+		virtual void windowHid();
 
 	protected:
 		CeGuiWindow(
@@ -96,7 +91,7 @@ namespace rl {
 		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile, CeGuiString& prefix);
 
 		CEGUI::Window* mWindow;
-		bool mVisible; 
+		bool mVisible;
 
 	private:
 		
@@ -105,8 +100,6 @@ namespace rl {
 		CeGuiString mName;
 		bool mModal;
 		bool mCloseOnEscape;
-		bool mFading;
-		WindowUpdateTask* mUpdateTask;
 		Ogre::Real mNormalAlpha;
 
 		static int sNumCeGuiWindows;

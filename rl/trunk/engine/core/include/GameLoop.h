@@ -43,7 +43,7 @@ public:
                   TG_SOUND     ///< Tasks that update sound
                  } TaskGroup;
 
-	GameLoop();
+    GameLoop();
 	virtual ~GameLoop();
 
     /// Adds a task to the game loop. It will not be executed immediately,
@@ -54,12 +54,15 @@ public:
     /// @sa GameLoop::TaskGroup
     void addTask(GameTask* newTask, TaskGroup group);
 
-    /// Removes a task to the game loop.
+    /// Removes a task from the game loop.
     /// The removal is delayed till before the next frame is rendered.
 	void removeTask(GameTask* oldTask);
 
 	/// Request the game to quit. The current task loop will finish though.
 	void quitGame();
+
+    /// Returns time since game started in Milliseconds.
+    unsigned long getClock();
 
     /// Main loop of RL.
     void loop();
@@ -75,6 +78,10 @@ private:
     GroupTaskList mAddedTasks;
     GameTaskList mRemovedTasks;
 
+    Ogre::Timer* mTimer;
+    /// Time as sampled after the last frame.
+    unsigned long mGameTime;
+
     std::deque<unsigned long> mLastTimes;
     /// In milliseconds, because Ogre's timer works this way.
     unsigned long mSmoothPeriod;
@@ -84,7 +91,7 @@ private:
 
     /// Averages frame rate over mSmoothPeriod milliseconds.
     /// Steadies Controls and Physics a bit.
-    unsigned long smoothTime(unsigned long time);
+    unsigned long smoothFrameTime(unsigned long time);
 
     /// Processes queued additions and removals of tasks.
     void updateTaskList();

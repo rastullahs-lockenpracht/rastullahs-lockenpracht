@@ -51,7 +51,6 @@ namespace rl
 			RULE_DISTANZKLASSEN
 		};
 
-
         static DsaManager& getSingleton(void);
         static DsaManager* getSingletonPtr(void);
 
@@ -61,34 +60,32 @@ namespace rl
         ~DsaManager();
 
         /** Liefert die aktuelle Spielzeit */
-        RL_LONGLONG getTimestamp();
-		Date getCurrentDate();
+        RL_LONGLONG getTimestamp() const;
+		Date getCurrentDate() const;
 
-		/** Setzt die aktuelle Spielzeit, die Spieluhr in Core wird dabei zurückgesetzt */
+		/// Setzt die aktuelle Spielzeit
 		void setTimestamp(const RL_LONGLONG time);
 		void setCurrentDate(const Date& date);
 
+        Ogre::Real getTimeScale() const;
+        void setTimeScale(Ogre::Real scale);
 
         /** liefert eine Zufallszahl zwischen 1 und 20.*/
-        int rollD20();
+        int rollD20() const;
 
         /** liefert ein Tripel von Zufallszahlen zwischen 1 und 20.*/
-        Tripel<int> roll3D20();
+        Tripel<int> roll3D20() const;
 
         /** liefert eine Zufallszahl zwischen 1 und 6.*/
-        int rollD6();
+        int rollD6() const;
 
-		int roll(int d6, int d20);
+		int roll(int d6, int d20) const;
 
         Talent* getTalent(const CeGuiString talentName) const;
-		//Talent* getTalent(const CeGuiString name) const;
         Kampftechnik* getKampftechnik(const CeGuiString kampftechnikName) const;
         Eigenschaft* getEigenschaft(const CeGuiString eigenschaftName) const;
 		Person* getPerson(int id) const;        
-		
-		//int getEigenschaftIdFromString(const CeGuiString str) const;
-		//int getEigenschaftIdFromLongString(const CeGuiString str) const;
-		
+				
 		int getSteigerKosten(int column, int from, int to) const;
 		int getSteigerKosten(int column, int from) const;
 		bool isDkDistance(const Weapon::Distanzklasse& dk, const Ogre::Real& distance) const;
@@ -99,7 +96,9 @@ namespace rl
 		void _addKampftechnik(Kampftechnik* kampftechnik);
 
     private:
-		RL_LONGLONG mBaseTime;
+		mutable RL_LONGLONG mLastGameTime;
+        mutable unsigned long mLastClock;
+        Ogre::Real mTimeScale;
 
         typedef std::map<CeGuiString, Talent*> TalentMap;
 		typedef std::map<int, Person*> PersonMap;

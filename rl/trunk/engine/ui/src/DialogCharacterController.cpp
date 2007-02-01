@@ -75,12 +75,12 @@ namespace rl {
 		mCharacterActor->getPhysicalThing()->unfreeze();
 		if (mDialogWindow != NULL)
 		{
-			WindowManager::getSingleton().destroyWindow(mDialogWindow);
+            mDialogWindow->setVisible(false, true);
 			mDialogWindow = NULL;
 		}
 		if (mSubtitleWindow != NULL)
 		{
-			WindowManager::getSingleton().destroyWindow(mSubtitleWindow);
+            mSubtitleWindow->setVisible(false, true);
 			mSubtitleWindow = NULL;
 		}
 		delete mSoundObject;

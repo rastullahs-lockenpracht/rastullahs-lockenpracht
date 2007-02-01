@@ -44,24 +44,13 @@ namespace rl {
 		static WindowManager* getSingletonPtr();
 
 		void registerWindow(CeGuiWindow* window);
-		bool destroyWindow(CeGuiWindow* window);
-		void _doDestroyWindow(CeGuiWindow* window);
+		void destroyWindow(CeGuiWindow* window);
 		void closeTopWindow();
 		bool handleMovedToFront(CeGuiWindow* window);
 		bool handleMovedToBack(CeGuiWindow* window);
 
-		void _fadeIn(CeGuiWindow* window, float targetAlpha = 1.0);
-		void _fadeOut(CeGuiWindow* window, bool destroy);
-		void _fadeInOut(
-			CeGuiWindow* window, 
-			Ogre::Real timeFade, 
-			Ogre::Real timeHold, 
-			bool destroy = false);
-		void _moveOutLeft(CeGuiWindow* window, Ogre::Real time, bool destroy);
-
 	private:
 		std::list<CeGuiWindow*> mWindowList;
-		WindowUpdater* mWindowUpdater;
 	};
 }
 

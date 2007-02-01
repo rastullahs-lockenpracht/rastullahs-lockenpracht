@@ -62,7 +62,7 @@ namespace rl {
 	void TimerManager::run(Ogre::Real elapsedTime)
 	{
 		RL_LONGLONG nowDsa = DsaManager::getSingleton().getTimestamp();
-		RL_LONGLONG now = CoreSubsystem::getSingleton().getClock();
+		RL_LONGLONG now = GameLoop::getSingleton().getClock();
 
 		for (std::set<TimerEventSource*>::iterator timerIter = mTimers.begin(); 
 			timerIter != mTimers.end();)
@@ -106,6 +106,4 @@ namespace rl {
 
         return NAME;
     }
-
-
 }

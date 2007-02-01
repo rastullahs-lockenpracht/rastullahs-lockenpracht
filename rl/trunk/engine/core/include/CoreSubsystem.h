@@ -21,6 +21,7 @@
 #include <OgreSingleton.h>
 #include <OgreString.h>
 #include <OgreRoot.h>
+#include <OgreTimer.h>
 #include <map>
 
 #include "EventSource.h"
@@ -45,6 +46,7 @@ class XmlResourceManager;
 class ConfigurationManager;
 class SoundManager;
 class DebugVisualsManager;
+class JobScheduler;
 
 typedef _RlCoreExport std::map<Ogre::String, ContentModule*> ModuleMap;
 
@@ -91,17 +93,6 @@ public:
 	*/
 	void makeScreenshot(const Ogre::String& sName);
 
-    /** Gibt die abgelaufene Spielzeit zurück*/
-	RL_LONGLONG getClock();
-
-	/** 
-	*   Setzt die abgelaufene Spielzeit wieder auf Null, die DSA-Zeit wird 
-	*   aus der Basiszeit + abgelaufener Spielzeit berechnet
-	*
-	* @see DsaManager
-	*/
-	void resetClock();
-
 	void addCoreEventListener(CoreEventListener* listener);
 	void removeCoreEventListener(CoreEventListener* listener);
 
@@ -128,13 +119,14 @@ private:
     ScriptWrapper* mScriptWrapper;
     XmlResourceManager* mXmlResourceManager;
     PhysicsManager* mPhysicsManager;
-    GameLoop* mGameLoopManager;
+    GameLoop* mGameLoop;
     AnimationManager* mAnimationManager;
     ActorManager* mActorManager;
     GameEventManager* mGameEventManager;
     ConfigurationManager* mConfigurationManager;
 	SoundManager* mSoundManager;
     DebugVisualsManager* mDebugVisualsManager;
+    JobScheduler* mJobScheduler;
 
     /** Runs the setup methods  */
 	bool initializeCoreSubsystem();
@@ -155,8 +147,6 @@ private:
 
 	/** Opens a configuration dialog */
 	bool setupConfiguration();
-
-	RL_LONGLONG getCurrentTime();
 };
 
 }

@@ -62,14 +62,7 @@ namespace rl
     const unsigned RL_LONGLONG Date::ONE_DAY = 86400000UL;
     const unsigned RL_LONGLONG Date::ONE_WEEK = 604800000UL;
     const unsigned RL_LONGLONG Date::ONE_MONTH = 2592000000UL;
-
-#if (_MSC_VER >= 1200) && (_MSC_VER < 1300)
-    // VC6 kennt kein ULL-Suffix 
-    const unsigned RL_LONGLONG Date::ONE_YEAR = 31536000000UL;
-#else
-    // Und GCC will unbedingt ULL
     const unsigned RL_LONGLONG Date::ONE_YEAR = 31536000000ULL;
-#endif
     const unsigned RL_LONGLONG Date::ONE_KAMPFRUNDE = 3 * Date::ONE_SECOND;
     const unsigned RL_LONGLONG Date::ONE_SPIELRUNDE = 5 * Date::ONE_MINUTE;
 

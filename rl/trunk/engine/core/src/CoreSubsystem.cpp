@@ -39,6 +39,7 @@
 #include "ScriptWrapper.h"
 #include "SoundManager.h"
 #include "DebugVisualsManager.h"
+#include "JobScheduler.h"
 
 #include <ctime>
 
@@ -64,17 +65,16 @@ namespace rl {
         mScriptWrapper(NULL),
         mXmlResourceManager(NULL),
         mPhysicsManager(NULL),
-        mGameLoopManager(NULL),
+        mGameLoop(NULL),
         mAnimationManager(NULL),
         mActorManager(NULL),
         mGameEventManager(NULL),
         mConfigurationManager(NULL),
 		mSoundManager(NULL),
-        mDebugVisualsManager(NULL)
+        mDebugVisualsManager(NULL),
+        mJobScheduler(NULL)
     {
-        resetClock();
         initializeCoreSubsystem();
-        resetClock();
     }
 
     CoreSubsystem::~CoreSubsystem()
@@ -82,10 +82,11 @@ namespace rl {
 		mCoreEventCaster.removeEventListeners();
 
         delete mWorld;
+        delete mGameLoop;
+        delete mJobScheduler;
         delete mActorManager;
         delete mGameEventManager;
         delete mAnimationManager;
-        delete mGameLoopManager;
         delete mDebugVisualsManager;
         delete mPhysicsManager;
         delete mXmlResourceManager;
@@ -118,7 +119,7 @@ namespace rl {
 			startAdventureModule(mod);
 		}
 
-		mGameLoopManager->loop();
+		mGameLoop->loop();
 
         mWorld->clearScene();
         unloadPlugins();
@@ -184,7 +185,7 @@ namespace rl {
         if (!carryOn)
             return false;
 
-		mGameLoopManager = new GameLoop();
+		mGameLoop = new GameLoop();
         LOG_MESSAGE(Logger::CORE,"GameLoopmanager erzeugt");
 
 		mScriptWrapper = new ScriptWrapper();
@@ -225,6 +226,9 @@ namespace rl {
 
         mDebugVisualsManager = new DebugVisualsManager();
         GameLoop::getSingleton().addTask(mDebugVisualsManager, GameLoop::TG_GRAPHICS);
+
+        mJobScheduler = new JobScheduler();
+        GameLoop::getSingleton().addTask(mJobScheduler, GameLoop::TG_GRAPHICS);
 
 		return true;
     }
@@ -475,23 +479,6 @@ namespace rl {
         mSoundManager->saveConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
 		LOG_MESSAGE(Logger::CORE, "Soundkonfiguration gespeichert.");
         mSoundManager->unloadAllDrivers();
-    }
-
-    void CoreSubsystem::resetClock()
-    {
-        mClockStartTime = getCurrentTime();
-    }
-
-    RL_LONGLONG CoreSubsystem::getClock()
-    {
-        return getCurrentTime() - mClockStartTime;
-    }
-
-    RL_LONGLONG CoreSubsystem::getCurrentTime()
-    {
-        std::time_t t = std::time(NULL);
-        std::tm* ts = std::localtime(&t);
-        return static_cast<RL_LONGLONG>((ts->tm_hour * 3600 + ts->tm_min * 60 + ts->tm_sec) * 1000);
     }
 
 	void CoreSubsystem::addCoreEventListener(rl::CoreEventListener *listener)

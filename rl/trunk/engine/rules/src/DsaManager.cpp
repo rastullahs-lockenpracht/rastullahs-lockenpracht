@@ -22,16 +22,17 @@
 #include "Person.h"
 #include "RulesSubsystem.h"
 #include "Date.h"
-//#include "XdimlLoader.h"
 #include "DsaDataLoader.h"
 
 #include "Exception.h"
-#include "CoreSubsystem.h"
+#include "GameLoop.h"
 
-template <>
-	rl::DsaManager* Ogre::Singleton<rl::DsaManager> ::ms_Singleton = 0;
+#include <cstdlib>
+
+template <> rl::DsaManager* Ogre::Singleton<rl::DsaManager> ::ms_Singleton = 0;
 
 using namespace std;
+using namespace Ogre;
 using CEGUI::utf8;
 
 namespace rl
@@ -47,7 +48,9 @@ namespace rl
     }
 
     DsaManager::DsaManager()
-        : mBaseTime(0),
+        : mLastGameTime(0),
+        mLastClock(0),
+        mTimeScale(24.0f), // 5 min == 2 hours, 1 hour == 1 day
         mEigenschaften(),
         mTalente(),
         mKampftechniken(),
@@ -136,20 +139,23 @@ namespace rl
 		return false;
 	}
 
-    RL_LONGLONG DsaManager::getTimestamp()
+    RL_LONGLONG DsaManager::getTimestamp() const
     {
-		return mBaseTime + CoreSubsystem::getSingleton().getClock();
+        unsigned long currentClock = GameLoop::getSingleton().getClock();
+        mLastGameTime += mTimeScale * (currentClock - mLastClock);
+        mLastClock = currentClock;
+		return mLastGameTime;
     }
 
-	Date DsaManager::getCurrentDate()
+	Date DsaManager::getCurrentDate() const
 	{
 		return Date(getTimestamp());
 	}
 
 	void DsaManager::setTimestamp(const RL_LONGLONG time)
 	{
-		mBaseTime = time;
-		CoreSubsystem::getSingleton().resetClock();
+		mLastGameTime = time;
+        mLastClock = GameLoop::getSingleton().getClock();
 	}
 
 	void DsaManager::setCurrentDate(const Date& date)
@@ -157,24 +163,37 @@ namespace rl
 		setTimestamp(date.getTimestamp());
 	}
 
-    int DsaManager::rollD20()
+    Real DsaManager::getTimeScale() const
     {
-        double d = rand();
+        return mTimeScale;
+    }
+
+    void DsaManager::setTimeScale(Real scale)
+    {
+        // First refresh time with old scale.
+        getTimestamp();
+        // Then set new scale.
+        mTimeScale = scale;
+    }
+
+    int DsaManager::rollD20() const
+    {
+        double d = std::rand();
         return static_cast<int>(d * 20.0 / RAND_MAX) + 1;
     }
 
-    Tripel<int> DsaManager::roll3D20()
+    Tripel<int> DsaManager::roll3D20() const
     {
         return Tripel<int>(rollD20(), rollD20(), rollD20());
     }
 
-    int DsaManager::rollD6()
+    int DsaManager::rollD6() const
     {
-        double d = rand();
+        double d = std::rand();
         return static_cast<int>(d * 6.0 / RAND_MAX) + 1;
     }
 
-	int DsaManager::roll(int d6, int d20)
+	int DsaManager::roll(int d6, int d20) const
 	{
 		int sum = 0;
 

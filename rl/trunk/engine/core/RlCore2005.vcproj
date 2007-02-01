@@ -441,6 +441,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\Job.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\JobListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\JobScheduler.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\LightObject.h"
 				>
 			</File>
@@ -655,6 +667,14 @@
 			</File>
 			<File
 				RelativePath=".\src\GameLoop.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Job.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\JobScheduler.cpp"
 				>
 			</File>
 			<File

@@ -21,7 +21,6 @@
 #include "Exception.h"
 #include "GameLoop.h"
 #include "UiSubsystem.h"
-#include "WindowUpdater.h"
 
 template<> rl::WindowManager* Ogre::Singleton<rl::WindowManager>::ms_Singleton = 0;
 
@@ -31,15 +30,10 @@ namespace rl {
 
 	WindowManager::WindowManager()
 	{
-		mWindowUpdater = new WindowUpdater();
-        GameLoop::getSingleton().addTask(mWindowUpdater, GameLoop::TG_GRAPHICS);
-		//mWindowUpdater->setPaused(true);
 	}
 
 	WindowManager::~WindowManager()
 	{
-		GameLoop::getSingleton().removeTask(mWindowUpdater);
-		delete mWindowUpdater;
 	}
 	
 	void WindowManager::registerWindow(CeGuiWindow* window)
@@ -47,20 +41,14 @@ namespace rl {
 		mWindowList.push_back(window);
 	}
 
-	bool WindowManager::destroyWindow(CeGuiWindow* window)
-	{
-		mWindowUpdater->fadeOut(window, true);
-		return true;
-	}
-
-	void WindowManager::_doDestroyWindow(CeGuiWindow* window)
+	void WindowManager::destroyWindow(CeGuiWindow* window)
 	{
 		mWindowList.remove(window);
 		window->getWindow()->hide();
 		CeGuiWindow::getRoot()->removeChildWindow(window->getWindow());
 		CEGUI::WindowManager::getSingleton().destroyWindow(window->getWindow());
 
-		//FIXME: memory leak, aber destroyWindow macht sonst Probleme (heap corruption)
+		///@todo memory leak, aber destroyWindow macht sonst Probleme (heap corruption)
 		//delete window;		
 	}
 
@@ -99,26 +87,5 @@ namespace rl {
 	WindowManager* WindowManager::getSingletonPtr()
 	{
 		return Ogre::Singleton<WindowManager>::getSingletonPtr();
-	}
-
-	void WindowManager::_fadeIn(CeGuiWindow* window, float targetAlpha)
-	{
-		mWindowUpdater->fadeIn(window, targetAlpha);
-	}
-
-	void WindowManager::_fadeOut(CeGuiWindow* window, bool destroy)
-	{
-		mWindowUpdater->fadeOut(window, destroy);
-	}
-
-	void WindowManager::_fadeInOut(CeGuiWindow* window, Ogre::Real timeFade, 
-		Ogre::Real timeHold, bool destroy)
-	{
-		mWindowUpdater->fadeInOut(window, timeFade, timeHold, destroy);
-	}
-
-	void WindowManager::_moveOutLeft(CeGuiWindow* window, Ogre::Real time, bool destroy)
-	{
-		mWindowUpdater->moveOutLeft(window, time, destroy);
 	}
 }

@@ -21,7 +21,7 @@
 #include "TimerListener.h"
 #include "GameObject.h"
 #include "DsaManager.h"
-#include "CoreSubsystem.h"
+#include "GameLoop.h"
 #include "ScriptWrapper.h"
 
 using Ogre::Real;
@@ -87,7 +87,7 @@ namespace rl {
 		}
 		else if (mType == TIMER_GAME_TIME)
 		{
-			RL_LONGLONG time = CoreSubsystem::getSingleton().getClock();
+			RL_LONGLONG time = GameLoop::getSingleton().getClock();
 			evt->setTime(time);
 			mGameTimeLastCall = time;
 		}

@@ -390,11 +390,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\WindowManager.h"
+				RelativePath=".\include\WindowFadeJob.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\WindowUpdater.h"
+				RelativePath=".\include\WindowManager.h"
 				>
 			</File>
 			<Filter
@@ -551,11 +551,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\WindowManager.cpp"
+				RelativePath=".\src\WindowFadeJob.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\WindowUpdater.cpp"
+				RelativePath=".\src\WindowManager.cpp"
 				>
 			</File>
 			<Filter

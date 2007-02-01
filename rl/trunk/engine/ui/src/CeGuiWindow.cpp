@@ -23,7 +23,8 @@
 #include "CeGuiHelper.h"
 #include "InputManager.h"
 #include "WindowManager.h"
-#include "WindowUpdater.h"
+#include "WindowFadeJob.h"
+#include "JobScheduler.h"
 
 using namespace std;
 using namespace CEGUI;
@@ -38,8 +39,7 @@ namespace rl
 	: mVisible(false),
 		mModal(modal),
 		mWindowType(type),
-		mCloseOnEscape(closeOnEscape),
-		mUpdateTask(NULL)
+		mCloseOnEscape(closeOnEscape)
 	{
         LOG_MESSAGE(Logger::UI, 
 		    "Lade Fenster '" + Ogre::String(xmlfile.c_str()) + "'");
@@ -111,22 +111,23 @@ namespace rl
 
 	void CeGuiWindow::setVisible(bool visible, bool destroy)
 	{
-		static float FADE_TIME = 0.2f;
-
 		if(mVisible != visible)
 		{
 			if (visible)
 			{
 				InputManager::getSingleton().registerCeGuiWindow(this);
-				WindowManager::getSingleton()._fadeIn(this, mNormalAlpha);
-				mVisible = true;
+                JobScheduler::getSingleton().addJob(
+                    new WindowFadeJob(this, WindowFadeJob::FADE_IN, mNormalAlpha));
 			}
 			else
 			{
 				InputManager::getSingleton().unregisterCeGuiWindow(this);
-				WindowManager::getSingleton()._fadeOut(this, destroy);
-				mVisible = false;
+                JobScheduler::getSingleton().addJob(
+                    new WindowFadeJob(this,
+                    destroy ? WindowFadeJob::FADE_OUT_AND_DESTROY : WindowFadeJob::FADE_OUT,
+                    0.0f));
 			}
+            mVisible = visible;
 		}
 	}
 
@@ -143,16 +144,6 @@ namespace rl
 	bool CeGuiWindow::isClosingOnEscape()
 	{
 		return mCloseOnEscape;
-	}
-
-	bool CeGuiWindow::isFading()
-	{
-		return mFading;
-	}
-
-	void CeGuiWindow::setFading(bool fading)
-	{
-		mFading = fading;
 	}
 
 	CeGuiWindow::WindowType CeGuiWindow::getWindowType()
@@ -295,16 +286,6 @@ namespace rl
 	const CeGuiString& CeGuiWindow::getNamePrefix() const
 	{
 		return mNamePrefix;
-	}
-
-	void CeGuiWindow::_setUpdateTask(WindowUpdateTask* task)
-	{
-		mUpdateTask = task;
-	}
-
-	WindowUpdateTask* CeGuiWindow::_getUpdateTask()
-	{
-		return mUpdateTask;
 	}
 
 	void CeGuiWindow::windowHid()

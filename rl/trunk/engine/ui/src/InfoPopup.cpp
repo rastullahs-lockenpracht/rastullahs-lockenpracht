@@ -78,10 +78,12 @@ namespace rl {
 
 	void InfoPopup::setVisible(bool visible, bool destroyAfterHide)
 	{
-		if (visible && !isVisible())
-		{
-			WindowManager::getSingleton()._fadeInOut(this, 0.25f, 2.0f);
-		}
+        CeGuiWindow::setVisible(visible, destroyAfterHide);
+        ///@todo implement the following, when timed jobs are possible.
+		//if (visible && !isVisible())
+		//{
+		//	WindowManager::getSingleton()._fadeInOut(this, 0.25f, 2.0f);
+		//}
 	}
 
 	void InfoPopup::questStateChanged(QuestEvent* anEvent)

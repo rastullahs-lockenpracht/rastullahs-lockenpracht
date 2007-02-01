@@ -43,6 +43,8 @@ namespace rl {
         : mTaskLists(),
           mAddedTasks(),
           mRemovedTasks(),
+          mTimer(NULL),
+          mGameTime(0),
           mLastTimes(),
           mSmoothPeriod(500),
           mMaxFrameTime(0.250f),
@@ -54,6 +56,8 @@ namespace rl {
         mTaskLists.push_back(new GameTaskList);
         mTaskLists.push_back(new GameTaskList);
         mTaskLists.push_back(new GameTaskList);
+
+        mTimer = new Timer();
     }
 
     GameLoop::~GameLoop()
@@ -63,11 +67,12 @@ namespace rl {
             delete mTaskLists[i];
         }
         mTaskLists.clear();
+        delete mTimer;
     }
 
     void GameLoop::addTask(GameTask* task, TaskGroup group)
     {
-        RlAssert(task != NULL, "Added task should be not null");
+        RlAssert1(task != NULL);
         mAddedTasks.push_back(std::make_pair(group, task));
     }
 
@@ -83,17 +88,16 @@ namespace rl {
 
     void GameLoop::loop()
     {
-        Timer* timer = Root::getSingleton().getTimer();
         // A sensible start value
-        unsigned long timeSinceLastLoop = timer->getMilliseconds() - 50;
+        mGameTime = mTimer->getMilliseconds() - 50;
 
         // Loop until game exit is requested.
         while (!mQuitRequested)
         {
             // Calculate frame time. This time is smoothed and capped.
-            unsigned long elapsedTime = timer->getMilliseconds();
-            Real frameTime = 0.001f * (Real) smoothTime(elapsedTime - timeSinceLastLoop);
-            timeSinceLastLoop = elapsedTime;
+            unsigned long elapsedTime = mTimer->getMilliseconds();
+            Real frameTime = 0.001f * (Real) smoothFrameTime(elapsedTime - mGameTime);
+            mGameTime = elapsedTime;
             if (frameTime > mMaxFrameTime) frameTime = mMaxFrameTime;
 
 			// Let Ogre handle Windows/XServer events.
@@ -108,7 +112,6 @@ namespace rl {
                 GameTaskList* tasks = mTaskLists[i];
                 for (GameTaskList::iterator it = tasks->begin(); it != tasks->end(); ++it)
                 {
-                    RlAssert(*it != NULL, "This task should not be NULL");
                     if (!(*it)->isPaused())
                     {
                         (*it)->run(frameTime);
@@ -142,7 +145,6 @@ namespace rl {
         // Add new ones.
         for (GroupTaskList::iterator it = mAddedTasks.begin(); it != mAddedTasks.end(); ++it)
         {
-            RlAssert((*it).second, "New task should not be null");
             mTaskLists[(*it).first]->push_back((*it).second);
         }
         mAddedTasks.clear();
@@ -150,7 +152,7 @@ namespace rl {
 
     // Idea taken from Ogre, but implementation by us.
     // smooths time step over the period mSmoothPeriod.
-    unsigned long GameLoop::smoothTime(unsigned long time)
+    unsigned long GameLoop::smoothFrameTime(unsigned long time)
     {
         // First add time for this frame
         mLastTimes.push_back(time);
@@ -170,5 +172,10 @@ namespace rl {
         // Return the mean of the remaining times.
         return std::accumulate(mLastTimes.begin(), mLastTimes.end(), 0)
             / std::max(mLastTimes.size(), (size_t)1);
+    }
+
+    unsigned long GameLoop::getClock()
+    {
+        return mGameTime;
     }
 }
