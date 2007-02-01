@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
+* Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
 * 
 *  This program is distributed in the hope that it will be useful,
 *  but WITHOUT ANY WARRANTY; without even the implied warranty of
