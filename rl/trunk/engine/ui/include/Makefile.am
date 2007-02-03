@@ -37,5 +37,5 @@ noinst_HEADERS = \
 	UiPrerequisites.h \
 	UiSubsystem.h \
 	WindowFactory.h \
-	WindowManager.h \
-	WindowUpdater.h
+	WindowFadeJob.h \
+	WindowManager.h

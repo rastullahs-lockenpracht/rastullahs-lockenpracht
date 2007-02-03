@@ -45,5 +45,5 @@ libRlUi_la_SOURCES = \
 	UiSubsystem.cpp \
 	VanityModeCharacterController.cpp \
 	WindowFactory.cpp \
-	WindowManager.cpp \
+	WindowFadeJob.cpp \
 	WindowUpdater.cpp
