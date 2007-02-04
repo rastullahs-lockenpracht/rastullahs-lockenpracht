@@ -59,7 +59,19 @@ namespace XmlMapper
 	
 		// virtual const S& getName() { return mName; }
 		virtual typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType getCurrentReturnValue() { return mReturnValue; }
-		virtual typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType interpret(XmlDocument<S>* pDocument, T<S>* pProcessHelper = NULL);
+		virtual typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType interpret(XmlDocument<S>* pDocument, T<S>* pProcessHelper = NULL)
+        {
+		    if(pDocument != NULL)
+		    {
+			    XmlNode<S>* root = pDocument->getRootNode();
+			    XmlNode<S>* child = root->getFirstChild();
+			    if(isProcessable(child))
+			    {
+				    return getProcessor(child->getNodeName())->process(child, pProcessHelper);
+			    }
+		    }
+		    return mReturnValue;
+        }
 		
 		void setParent(XmlProcessorPtr pProcessor) {}
 
@@ -111,23 +123,6 @@ namespace XmlMapper
 			mProcessors.erase(result);
 			return;
 		}
-	}
-
-	template<template <class> class R, template <class> class T, class S, bool hasPolymorphicReturnType> 
-	typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType 
-		XmlInterpreter<R, T, S, hasPolymorphicReturnType>::interpret( XmlDocument<S>* pDocument, 
-																	  T<S>* pProcessHelper)
-	{
-		if(pDocument != NULL)
-		{
-			XmlNode<S>* root = pDocument->getRootNode();
-			XmlNode<S>* child = root->getFirstChild();
-			if(isProcessable(child))
-			{
-				return getProcessor(child->getNodeName())->process(child, pProcessHelper);
-			}
-		}
-		return mReturnValue;
 	}
 
 	template<template <class> class R, template <class> class T, class S, bool hasPolymorphicReturnType> 

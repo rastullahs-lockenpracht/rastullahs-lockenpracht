@@ -63,7 +63,25 @@ namespace XmlMapper
 
 		XmlProcessorPtr getProcessor(const S& pName);
 		
-		virtual typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType process(XmlNodePtr pNode, T<S>* pProcessHelper = NULL);
+		virtual typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType process(XmlNodePtr pNode, T<S>* pProcessHelper = NULL)
+        {
+//		    mCurrentReturnValue = NULL;
+		    mCurrentHelper = pProcessHelper;
+		    mCurrentNode = pNode;
+		    createAttributeMapping();
+		    preprocessStep();
+		    XmlNode<S>* child = mCurrentNode->getFirstChild();
+		    for(; child != NULL; child = child->getNextSibling())
+		    {
+			    if(isProcessable(child) && mProcessChildren)
+			    {
+				    processChildStep(child);
+			    }
+		    }
+		    postprocessStep();
+		    mCurrentNode = NULL;
+		    return mCurrentReturnValue;
+        }
 		void setParent(XmlProcessorPtr pProcessor) { mInterpreter = pProcessor; }
 
 	private:
@@ -159,27 +177,6 @@ namespace XmlMapper
 		return true;
 	}
 
-	template<template <class> class R, template <class> class T, class S, bool hasPolymorphicReturnType> 
-	typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType 
-		XmlNodeProcessor<R, T, S, hasPolymorphicReturnType>::process(XmlNode<S>* pNode, T<S>* pProcessHelper)
-	{
-//		mCurrentReturnValue = NULL;
-		mCurrentHelper = pProcessHelper;
-		mCurrentNode = pNode;
-		createAttributeMapping();
-		preprocessStep();
-		XmlNode<S>* child = mCurrentNode->getFirstChild();
-		for(; child != NULL; child = child->getNextSibling())
-		{
-			if(isProcessable(child) && mProcessChildren)
-			{
-				processChildStep(child);
-			}
-		}
-		postprocessStep();
-		mCurrentNode = NULL;
-		return mCurrentReturnValue;
-	}
 }
 
 #endif
