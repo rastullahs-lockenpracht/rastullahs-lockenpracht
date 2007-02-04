@@ -23,8 +23,12 @@
 	GameAreaTypes.h \
 	GameEventManager.h \
 	GameLoop.h \
+	Job.h \
+	JobListener.h \
+	JobScheduler.h \
 	LightObject.h \
 	LineSetPrimitive.h \
+	ListenerMovable.h \
 	ListenerObject.h \
 	MeshAnimation.h \
 	MeshObject.h \
@@ -40,8 +44,12 @@
 	PrimitiveObject.h \
 	RubyInterpreter.h \
 	SceneQuery.h \
+	Sound.h \
+	SoundDriver.h \
+	SoundEvents.h \
 	SoundManager.h \
 	SoundObject.h \
+	SoundResource.h \
 	TrackAnimation.h \
 	World.h \
 	nulldriver/NullDriver.h \

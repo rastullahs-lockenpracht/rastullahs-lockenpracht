@@ -26,6 +26,8 @@ libRlCore_la_SOURCES = \
 	GameAreaTypes.cpp \
 	GameEventManager.cpp \
 	GameLoop.cpp \
+	Job.cpp \
+	JobScheduler.cpp \
 	LightObject.cpp \
 	LineSetPrimitive.cpp \
 	ListenerObject.cpp \
