@@ -52,6 +52,8 @@ namespace rl
          * This function is called by the JobScheduler at most once per frame. The frequency depends
          * on the Job's priority given with JobScheduler#addJob.
          * @param time the frame-time time, since the last call of this function.
+         * @return true, when the job is done, false else. If false is returned. The Job will be
+         * rescheduled for another execution.
          */
         virtual bool execute(Ogre::Real time) = 0;
 
