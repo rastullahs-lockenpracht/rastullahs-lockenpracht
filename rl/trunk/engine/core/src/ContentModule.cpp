@@ -133,8 +133,6 @@ namespace rl
         addSearchPath(moduleDir + "/gui/windows/buttons", resourceGroup);
         addSearchPath(moduleDir + "/dialogs", resourceGroup);     
 
-		SoundManager::getSingleton().addSounds( resourceGroup );
-
 		RubyInterpreter* interpreter = CoreSubsystem::getSingleton().getRubyInterpreter();
         if (interpreter != NULL)
         {
