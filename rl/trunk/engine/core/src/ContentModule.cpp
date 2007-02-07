@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -28,81 +28,81 @@ using namespace Ogre;
 
 namespace rl
 {
-	ContentModule::ContentModule(const String& id, const CeGuiString& name, bool common, long minimumEngineVersion)
-	:	mId(id),
-		mName(name),
-		mCommon(common),
-		mMinimumEngineVersion(minimumEngineVersion),
+    ContentModule::ContentModule(const String& id, const CeGuiString& name, bool common, long minimumEngineVersion)
+    :    mId(id),
+        mName(name),
+        mCommon(common),
+        mMinimumEngineVersion(minimumEngineVersion),
         mLoaded(false)
-	{
-	}
+    {
+    }
 
-	ContentModule::~ContentModule()
-	{
-	}
+    ContentModule::~ContentModule()
+    {
+    }
 
-	const String ContentModule::getInitFile(const String& moduleId)
-	{
-		return getDirectory(moduleId) + "/scripts/moduleconfig.rb";
-	}
+    const String ContentModule::getInitFile(const String& moduleId)
+    {
+        return getDirectory(moduleId) + "/scripts/moduleconfig.rb";
+    }
 
-	const String ContentModule::getDirectory(const String& moduleId)
-	{
-		return ConfigurationManager::getSingleton().
-        		getModulesRootDirectory() + "/modules/" + moduleId;
-	}
+    const String ContentModule::getDirectory(const String& moduleId)
+    {
+        return ConfigurationManager::getSingleton().
+                getModulesRootDirectory() + "/" + moduleId;
+    }
 
-	const String ContentModule::getDirectory() const
-	{
-		return ContentModule::getDirectory(mId);
-	}
+    const String ContentModule::getDirectory() const
+    {
+        return ContentModule::getDirectory(mId);
+    }
 
-	const CeGuiString& ContentModule::getName() const
-	{
-		return mName;
-	}
+    const CeGuiString& ContentModule::getName() const
+    {
+        return mName;
+    }
 
-	const String& ContentModule::getId() const
-	{
-		return mId;
-	}
+    const String& ContentModule::getId() const
+    {
+        return mId;
+    }
 
-	long ContentModule::getMinimumEngineVersion() const
-	{
-		return mMinimumEngineVersion;
-	}
+    long ContentModule::getMinimumEngineVersion() const
+    {
+        return mMinimumEngineVersion;
+    }
 
-	bool ContentModule::isCommon() const
-	{
-		return mCommon;
-	}
+    bool ContentModule::isCommon() const
+    {
+        return mCommon;
+    }
 
     void ContentModule::initializeTextures() const
     {
-		String resourceGroup = getId();
+        String resourceGroup = getId();
 
-		StringVector texLocations = getTextureLocations();
-		for(StringVector::iterator iter = texLocations.begin();
-			iter != texLocations.end();
-			iter++)
-		{
-			String location = *iter;
-			if (location.find(".zip") != String::npos)
-			{
+        StringVector texLocations = getTextureLocations();
+        for(StringVector::iterator iter = texLocations.begin();
+            iter != texLocations.end();
+            iter++)
+        {
+            String location = *iter;
+            if (location.find(".zip") != String::npos)
+            {
                 ResourceGroupManager::getSingleton().addResourceLocation(
-                	getDirectory() + "/materials/" + location, "Zip", resourceGroup);
-			}
-			else
-			{
+                    getDirectory() + "/materials/" + location, "Zip", resourceGroup);
+            }
+            else
+            {
                 ResourceGroupManager::getSingleton().addResourceLocation(
-                	getDirectory() + "/materials/" + location, "FileSystem", resourceGroup);
-			}
-		}
+                    getDirectory() + "/materials/" + location, "FileSystem", resourceGroup);
+            }
+        }
 
-		addSearchPath(getDirectory()+"/materials", resourceGroup);
+        addSearchPath(getDirectory()+"/materials", resourceGroup);
     }
 
-	void ContentModule::initialize()
+    void ContentModule::initialize()
     {
         String moduleDir = getDirectory();
 
@@ -112,28 +112,28 @@ namespace rl
         addSearchPath(moduleDir + "/dsa", resourceGroup);
         addSearchPath(moduleDir + "/maps", resourceGroup);
         addSearchPath(moduleDir + "/models", resourceGroup);
-   		StringVector modelLoc = getModelLocations();
-		for (StringVector::iterator it = modelLoc.begin(); it != modelLoc.end(); ++it)
-		{
-			addSearchPath(moduleDir + "/models/"+*it, resourceGroup);
-		}
+           StringVector modelLoc = getModelLocations();
+        for (StringVector::iterator it = modelLoc.begin(); it != modelLoc.end(); ++it)
+        {
+            addSearchPath(moduleDir + "/models/"+*it, resourceGroup);
+        }
 
-		addSearchPath(moduleDir + "/sound", resourceGroup); //@todo ueber Verzeichnisnamen nachdenken
-		StringVector soundLoc = getSoundLocations();
-		for (StringVector::iterator it = soundLoc.begin(); it != soundLoc.end(); ++it)
-		{
-			addSearchPath(moduleDir + "/sound/"+*it, resourceGroup);
-		}
+        addSearchPath(moduleDir + "/sound", resourceGroup); //@todo ueber Verzeichnisnamen nachdenken
+        StringVector soundLoc = getSoundLocations();
+        for (StringVector::iterator it = soundLoc.begin(); it != soundLoc.end(); ++it)
+        {
+            addSearchPath(moduleDir + "/sound/"+*it, resourceGroup);
+        }
 
-		addSearchPath(moduleDir + "/gui", resourceGroup);
+        addSearchPath(moduleDir + "/gui", resourceGroup);
         addSearchPath(moduleDir + "/gui/fonts", resourceGroup);
         addSearchPath(moduleDir + "/gui/imagesets", resourceGroup);
         addSearchPath(moduleDir + "/gui/schemes", resourceGroup);
         addSearchPath(moduleDir + "/gui/windows", resourceGroup);
         addSearchPath(moduleDir + "/gui/windows/buttons", resourceGroup);
-        addSearchPath(moduleDir + "/dialogs", resourceGroup);     
+        addSearchPath(moduleDir + "/dialogs", resourceGroup);
 
-		RubyInterpreter* interpreter = CoreSubsystem::getSingleton().getRubyInterpreter();
+        RubyInterpreter* interpreter = CoreSubsystem::getSingleton().getRubyInterpreter();
         if (interpreter != NULL)
         {
             interpreter->addSearchPath(moduleDir + "/scripts");
@@ -143,20 +143,20 @@ namespace rl
         mLoaded = true;
     }
 
-	void ContentModule::addSearchPath(const Ogre::String& path, const Ogre::String& resourceGroup) const
+    void ContentModule::addSearchPath(const Ogre::String& path, const Ogre::String& resourceGroup) const
     {
-        try 
+        try
         {
-            ResourceGroupManager::getSingleton().addResourceLocation(path, 
+            ResourceGroupManager::getSingleton().addResourceLocation(path,
                 "FileSystem", resourceGroup);
-        } 
-        catch(...) 
+        }
+        catch(...)
         {
-			// and forget
-		}
+            // and forget
+        }
     }
 
-	void ContentModule::precreateMeshes() const
+    void ContentModule::precreateMeshes() const
     {
         StringVectorPtr meshes = ResourceGroupManager::getSingleton()
             .findResourceNames(getId(), "*.mesh");
@@ -172,7 +172,7 @@ namespace rl
         }
     }
 
-	void ContentModule::unload()
+    void ContentModule::unload()
     {
         //TODO: unloadModule
         mLoaded = false;

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Perl Artistic License.
 *
@@ -55,29 +55,29 @@ namespace rl {
 
     String MovementCharacterController::msDebugWindowPageName = "MovementCharacterController";
 
-	MovementCharacterController::CharacterState::CharacterState()
-		: mIsAirBorne(false),
+    MovementCharacterController::CharacterState::CharacterState()
+        : mIsAirBorne(false),
         mHasFloorContact(false),
-		mStartJump(false),
-		mJumpTimer(0.0),
-		mDesiredVel(Vector3::ZERO),
-		mCurrentMovementState(MOVE_NONE),
-		mLastMovementState(MOVE_NONE),
+        mStartJump(false),
+        mJumpTimer(0.0),
+        mDesiredVel(Vector3::ZERO),
+        mCurrentMovementState(MOVE_NONE),
+        mLastMovementState(MOVE_NONE),
         mPose(Stand)
-	{
+    {
 
-	}
+    }
 
-	MovementCharacterController::MovementCharacterController(Actor* camera, Creature* character)
-		: CharacterController(camera, character->getActor()),
-		mCharacterState(),
-		mCharacter(character),
-		mDesiredDistance(2.00),
-		mDistanceRange(0.60, 7.00),
-		mYaw(0),
+    MovementCharacterController::MovementCharacterController(Actor* camera, Creature* character)
+        : CharacterController(camera, character->getActor()),
+        mCharacterState(),
+        mCharacter(character),
+        mDesiredDistance(2.00),
+        mDistanceRange(0.60, 7.00),
+        mYaw(0),
         mCamYaw(0),
-		mPitch(20),
-		mPitchRange(Degree(-75), Degree(85)),
+        mPitch(20),
+        mPitchRange(Degree(-75), Degree(85)),
         mLinearSpringK(400.0f),
         mLinearDampingK(Math::NEG_INFINITY),
         mCamMoveAwayVelocity(4.0f),
@@ -85,29 +85,26 @@ namespace rl {
         mCamMoveAwayRange(8.0f),
         mRotLinearSpringK(600.0f),
         mRotLinearDampingK(Math::NEG_INFINITY),
-		mLookAtOffset(),
-		mRotationSpeed(Degree(120.0f)),
+        mLookAtOffset(),
+        mRotationSpeed(Degree(120.0f)),
         mMouseSensitivity(4.0f),
-		mSpeedModifier(1.0f),
-		mViewMode(VM_THIRD_PERSON),
-//		mMaxDelay(1.0/20.0),
-		mObstractedFrameCount(0),
-		mObstractedTime(0.0f),
-		mCameraJammedFrameCount(0),
-		mCameraJammedTime(0.0f),
-		mRaycast(new PhysicsMaterialRaycast()),
-		mGravitation(),
+        mSpeedModifier(1.0f),
+        mViewMode(VM_THIRD_PERSON),
+//        mMaxDelay(1.0/20.0),
+        mObstractedFrameCount(0),
+        mObstractedTime(0.0f),
+        mCameraJammedFrameCount(0),
+        mCameraJammedTime(0.0f),
+        mRaycast(new PhysicsMaterialRaycast()),
+        mGravitation(),
         mSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager())
-	{
+    {
         DebugWindow::getSingleton().registerPage(msDebugWindowPageName);
 
 
-		mGravitation = PhysicsManager::getSingleton().getGravity();
-		mMouseSensitivity
-			= ConfigurationManager::getSingleton().getIntSetting("mouse_sensitivity", 4);
-        int temp = 
-            ConfigurationManager::getSingleton().getIntSetting("mouse_invert", 0);
-        mInvertedMouse = temp != 0;
+        mGravitation = PhysicsManager::getSingleton().getGravity();
+        mMouseSensitivity = ConfigurationManager::getSingleton().getIntSetting(ConfigurationManager::CS_INPUT, "Mouse Sensitivity");
+        mInvertedMouse = ConfigurationManager::getSingleton().getBoolSetting(ConfigurationManager::CS_INPUT, "Mouse Invert");
 
         // The relationCoefficient determines the relation between spring accel in target direction
         // and damping in velocity direction. 1.0 means equilibrium is reached in optimal time
@@ -118,46 +115,46 @@ namespace rl {
         mLinearDampingK = relationCoefficient * 2.0f * Math::Sqrt(mLinearSpringK);
         mRotLinearDampingK = relationCoefficient * 2.0f * Math::Sqrt(mRotLinearSpringK);
 
-		// Offset for the look at point,
-		// so the cam does look at the characters head instead of the feet.
-		MeshObject* charMesh = dynamic_cast<MeshObject*>(
-			mCharacterActor->getControlledObject());
+        // Offset for the look at point,
+        // so the cam does look at the characters head instead of the feet.
+        MeshObject* charMesh = dynamic_cast<MeshObject*>(
+            mCharacterActor->getControlledObject());
         AxisAlignedBox aabb = charMesh->getDefaultSize();
 
         // wird später neu berechnet in calculateOptimalCameraPosition
         mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45f, 0);
 
-		// The actor should be controlled manually,
-		// so let the PM prepare it accordingly
-		PhysicsManager::getSingleton().setPhysicsController(
-			mCharacterActor->getPhysicalThing(), this);
-		PhysicsManager::getSingleton().setPhysicsController(
-			mCameraActor->getPhysicalThing(), this);
+        // The actor should be controlled manually,
+        // so let the PM prepare it accordingly
+        PhysicsManager::getSingleton().setPhysicsController(
+            mCharacterActor->getPhysicalThing(), this);
+        PhysicsManager::getSingleton().setPhysicsController(
+            mCameraActor->getPhysicalThing(), this);
         // We also handle char<->level, char<->default collision from now on
         PhysicsManager::getSingleton().setCharLevelContactCallback(this);
         PhysicsManager::getSingleton().setCharDefaultContactCallback(this);
-		// Fit Collision proxy to idle anim
+        // Fit Collision proxy to idle anim
         mCharacterActor->getPhysicalThing()->fitToPose("idle");
 
         MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
-		mesh->stopAllAnimations();
-		mesh->startAnimation("idle");
+        mesh->stopAllAnimations();
+        mesh->startAnimation("idle");
 
-		setViewMode(VM_THIRD_PERSON);
+        setViewMode(VM_THIRD_PERSON);
 
         // We want to check for visibility from char's POV.
         mSelector.setCheckVisibility(true, mCharacterActor);
-	}
+    }
 
-	//------------------------------------------------------------------------
-	MovementCharacterController::~MovementCharacterController()
-	{
+    //------------------------------------------------------------------------
+    MovementCharacterController::~MovementCharacterController()
+    {
         delete mRaycast;
-		// actors aren't controlled anymore
-		PhysicsManager::getSingleton().setPhysicsController(
-			mCharacterActor->getPhysicalThing(), NULL);
-		PhysicsManager::getSingleton().setPhysicsController(
-			mCameraActor->getPhysicalThing(), NULL);
+        // actors aren't controlled anymore
+        PhysicsManager::getSingleton().setPhysicsController(
+            mCharacterActor->getPhysicalThing(), NULL);
+        PhysicsManager::getSingleton().setPhysicsController(
+            mCameraActor->getPhysicalThing(), NULL);
         // Char<->Level collision back to default
         PhysicsManager::getSingleton().setCharLevelContactCallback(NULL);
         // Char<->Default collision back to default
@@ -180,17 +177,17 @@ namespace rl {
         {
             mCharacterActor->_getSceneNode()->removeChild(mSceneNode);
         }
-	}
+    }
 
-	//------------------------------------------------------------------------
-	CharacterController::ControllerType MovementCharacterController::getType() const
-	{
-		return CTRL_MOVEMENT;
-	}
+    //------------------------------------------------------------------------
+    CharacterController::ControllerType MovementCharacterController::getType() const
+    {
+        return CTRL_MOVEMENT;
+    }
 
-	//------------------------------------------------------------------------
-	void MovementCharacterController::run(Real elapsedTime)
-	{
+    //------------------------------------------------------------------------
+    void MovementCharacterController::run(Real elapsedTime)
+    {
         int movement = mCharacterState.mCurrentMovementState;
         updateAnimationState(movement);
         updateCharacterState(movement, elapsedTime);
@@ -213,11 +210,11 @@ namespace rl {
         // Do we need to reset the Camera?
         Vector3 charPos = mCharacterActor->getWorldPosition();
         Quaternion charOri = mCharacterActor->getWorldOrientation();
-		//mCharBody->getPositionOrientation(charPos, charOri);
+        //mCharBody->getPositionOrientation(charPos, charOri);
 
-		Vector3 camPos;
-		Quaternion camOri;
-		mCamBody->getPositionOrientation(camPos, camOri);
+        Vector3 camPos;
+        Quaternion camOri;
+        mCamBody->getPositionOrientation(camPos, camOri);
 
         float maxdistance;
         if (mViewMode == VM_FIRST_PERSON)
@@ -225,32 +222,32 @@ namespace rl {
         else
             maxdistance = 1.3f * mDesiredDistance + 1.4f;
 
-		// if we have more than 250ms and at least five frames with camera distance higher
-		// than desired distance, reset camera
-		if ((camPos - (charPos + charOri*mLookAtOffset)).length() > maxdistance)
-		{
-			mCameraJammedTime += elapsedTime;
-			++mCameraJammedFrameCount;
-		}
-		else
-		{
-			mCameraJammedTime = 0.0f;
-			mCameraJammedFrameCount = 0;
-		}
+        // if we have more than 250ms and at least five frames with camera distance higher
+        // than desired distance, reset camera
+        if ((camPos - (charPos + charOri*mLookAtOffset)).length() > maxdistance)
+        {
+            mCameraJammedTime += elapsedTime;
+            ++mCameraJammedFrameCount;
+        }
+        else
+        {
+            mCameraJammedTime = 0.0f;
+            mCameraJammedFrameCount = 0;
+        }
 
-		if (mCameraJammedTime > 0.250f && mCameraJammedFrameCount > 5)
-		{
-			mCameraJammedFrameCount = 0;
-			resetCamera();
-		}
-			
+        if (mCameraJammedTime > 0.250f && mCameraJammedFrameCount > 5)
+        {
+            mCameraJammedFrameCount = 0;
+            resetCamera();
+        }
+
         mCharacterState.mLastMovementState = mCharacterState.mCurrentMovementState;
     }
 
-	//------------------------------------------------------------------------
-	void MovementCharacterController::updateCharacterState(int movement, Ogre::Real elapsedTime)
-	{
-		InputManager* im = InputManager::getSingletonPtr();
+    //------------------------------------------------------------------------
+    void MovementCharacterController::updateCharacterState(int movement, Ogre::Real elapsedTime)
+    {
+        InputManager* im = InputManager::getSingletonPtr();
         Real gs = mCharacter->getWert(Creature::WERT_GS);
         Real auPerSecond = 0.0; // Standard - Ausdauer-verbrauch/Regeneration pro Sekunde
         bool canRun = mCharacter->getAu() > 6.0f;
@@ -400,22 +397,22 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
 
 
 
-		mDesiredDistance -= im->getMouseRelativeZ() * 0.002;
-		if (mDesiredDistance < mDistanceRange.first)
-		{
-			mDesiredDistance = mDistanceRange.first;
-		}
-		if (mDesiredDistance > mDistanceRange.second)
-		{
-			mDesiredDistance = mDistanceRange.second;
-		}
+        mDesiredDistance -= im->getMouseRelativeZ() * 0.002;
+        if (mDesiredDistance < mDistanceRange.first)
+        {
+            mDesiredDistance = mDistanceRange.first;
+        }
+        if (mDesiredDistance > mDistanceRange.second)
+        {
+            mDesiredDistance = mDistanceRange.second;
+        }
 
         if (mInvertedMouse)
-		    mPitch -= 0.5 * mMouseSensitivity * Degree(im->getMouseRelativeY() / 10);
+            mPitch -= 0.5 * mMouseSensitivity * Degree(im->getMouseRelativeY() / 10);
         else
             mPitch += 0.5 * mMouseSensitivity * Degree(im->getMouseRelativeY() / 10);
-		if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
-		if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
+        if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
+        if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
 
 
         if( !im->isCeguiActive() && mViewMode == VM_FIRST_PERSON || mViewMode == VM_THIRD_PERSON )
@@ -425,45 +422,45 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                 mYaw -= mMouseSensitivity / 6.0 * rotationSpeed * Degree(im->getMouseRelativeX() / 15);
 
                 while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
-		        while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
+                while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
             }
         }
     }
 
-	//------------------------------------------------------------------------
-	void MovementCharacterController::updateCameraLookAt(Ogre::Real elapsedTime)
-	{
+    //------------------------------------------------------------------------
+    void MovementCharacterController::updateCameraLookAt(Ogre::Real elapsedTime)
+    {
         InputManager* im = InputManager::getSingletonPtr();
-        
+
 
         if( !im->isCeguiActive() && mViewMode == VM_FREE_CAMERA )
         {
             mCamYaw -= 2 * mMouseSensitivity / 4.0 * mRotationSpeed * Degree(im->getMouseRelativeX() / 15);
 
-		    while (mCamYaw.valueDegrees() > 360.0f) mCamYaw -= Degree(360.0f);
-		    while (mCamYaw.valueDegrees() < -360.0f) mCamYaw += Degree(360.0f);
+            while (mCamYaw.valueDegrees() > 360.0f) mCamYaw -= Degree(360.0f);
+            while (mCamYaw.valueDegrees() < -360.0f) mCamYaw += Degree(360.0f);
         }
 
-		SceneNode* cameraNode = mCameraActor->_getSceneNode();
+        SceneNode* cameraNode = mCameraActor->_getSceneNode();
 
-		Vector3 charPos;
-		Quaternion charOri;
-		//mCharBody->getPositionOrientation(charPos, charOri);
+        Vector3 charPos;
+        Quaternion charOri;
+        //mCharBody->getPositionOrientation(charPos, charOri);
         charPos = mCharacterActor->getWorldPosition();
         charOri = mCharacterActor->getWorldOrientation();
 
-		if( mViewMode == VM_FIRST_PERSON)
-		{
-			Quaternion camOri;
+        if( mViewMode == VM_FIRST_PERSON)
+        {
+            Quaternion camOri;
             camOri.FromAngleAxis(mPitch, Vector3::NEGATIVE_UNIT_X);
-			cameraNode->lookAt(
-				charPos
-				+ charOri * mLookAtOffset
-				+ charOri * camOri * (-Vector3::UNIT_Z), 
-				Node::TS_WORLD);
-		}
-		else if( mViewMode == VM_THIRD_PERSON )
-		{
+            cameraNode->lookAt(
+                charPos
+                + charOri * mLookAtOffset
+                + charOri * camOri * (-Vector3::UNIT_Z),
+                Node::TS_WORLD);
+        }
+        else if( mViewMode == VM_THIRD_PERSON )
+        {
             // Kamera-Größe beziehen
             CameraObject* ogreCam = static_cast<CameraObject*>(
                 mCameraActor->getControlledObject());
@@ -472,15 +469,15 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             Real radius = (aabb.getMaximum()-aabb.getMinimum()).length() / 2.0f;
 
             cameraNode->lookAt(
-				charPos	+ mLookAtOffset
-                + charOri * (-Vector3::UNIT_Z*radius), 
-				Node::TS_WORLD);
+                charPos    + mLookAtOffset
+                + charOri * (-Vector3::UNIT_Z*radius),
+                Node::TS_WORLD);
 
-		}
+        }
         else if( mViewMode == VM_FREE_CAMERA )
         {
             cameraNode->lookAt(
-				charPos	+ mLookAtOffset,
+                charPos    + mLookAtOffset,
                 Node::TS_WORLD);
         }
 
@@ -495,7 +492,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             Quaternion camOri;
             mCamBody->getPositionOrientation(camPos, camOri);
             Vector3 camPoint, charPoint, normal;
-            int collisionPoints = 
+            int collisionPoints =
                 OgreNewt::CollisionTools::CollisionClosestPoint(
                     PhysicsManager::getSingleton()._getNewtonWorld(),
                     mCamBody->getCollision(), camOri, camPos,
@@ -516,17 +513,17 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
     // adopted from the chararcter demo in the newton sdk
     // copyright 2000-2004
     // By Julio Jerez
-	int MovementCharacterController::userProcess()
-	{
+    int MovementCharacterController::userProcess()
+    {
         if ((m_body0 == mCamBody && m_body1 == mCharBody)
             || (m_body0 == mCharBody && m_body1 == mCamBody))
         {
             // No collision between char and camera
             return 0;
         }
-		else if (m_body0 == mCamBody || m_body1 == mCamBody)
-		{
-			// this is camera collision
+        else if (m_body0 == mCamBody || m_body1 == mCamBody)
+        {
+            // this is camera collision
 
             if( mViewMode == VM_FIRST_PERSON )
                 return 0;
@@ -535,17 +532,17 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             setContactElasticity(0.0f);
 
             return 1;
-		}
-		else if (m_body0 == mCharBody || m_body1 == mCharBody)
-		{
-			// this is character collision
-			Vector3 point;
-			Vector3 normal;
-			getContactPositionAndNormal(point, normal);
+        }
+        else if (m_body0 == mCharBody || m_body1 == mCharBody)
+        {
+            // this is character collision
+            Vector3 point;
+            Vector3 normal;
+            getContactPositionAndNormal(point, normal);
 
-			// determine if this contact is with the floor.
-			// Meaning the contact normal has an angle to UNIT_Y of 20° or less.
-			Degree angle = Math::ACos(normal.dotProduct(Vector3::UNIT_Y));
+            // determine if this contact is with the floor.
+            // Meaning the contact normal has an angle to UNIT_Y of 20° or less.
+            Degree angle = Math::ACos(normal.dotProduct(Vector3::UNIT_Y));
 
             Vector3 charPos;
             Quaternion charOri;
@@ -562,88 +559,88 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
 
             if ( isFloorCollision )
             {
-				mCharacterState.mHasFloorContact = true;
+                mCharacterState.mHasFloorContact = true;
             }
             else
             {
 
-				Vector3 velocity = mCharBody->getVelocity();
+                Vector3 velocity = mCharBody->getVelocity();
 
-				// calculate char velocity perpendicular to the contact normal
-				Vector3 tangentVel = velocity - normal * (normal.dotProduct(velocity));
+                // calculate char velocity perpendicular to the contact normal
+                Vector3 tangentVel = velocity - normal * (normal.dotProduct(velocity));
 
-				// align the tangent at the contact point with the
-				// tangent velocity vector of the char
-				rotateTangentDirections(tangentVel);
-			}
+                // align the tangent at the contact point with the
+                // tangent velocity vector of the char
+                rotateTangentDirections(tangentVel);
+            }
 
 
             // beinflusst die Sprunghöhe!
             // der erste Sprung bleibt normal, jeder weitere Sprung ist ungefähr um
-            // die angegebene Zahl höher (eher 2*die angegebene Zahl oder so, 
+            // die angegebene Zahl höher (eher 2*die angegebene Zahl oder so,
             // vermutlich wieder framedauer abhängig!)
-			setContactElasticity(0.3f); // was 0.3f 
-			setContactSoftness(0.01f);
+            setContactElasticity(0.3f); // was 0.3f
+            setContactSoftness(0.01f);
 
-			setContactFrictionState(1, 0);
-			setContactFrictionState(1, 1);
-		}
+            setContactFrictionState(1, 0);
+            setContactFrictionState(1, 1);
+        }
 
-		// return one to tell Newton we want to accept this contact
-		return 1;
-	}
+        // return one to tell Newton we want to accept this contact
+        return 1;
+    }
 
     //------------------------------------------------------------------------
     // adopted from the chararcter demo in the newton sdk
     // copyright 2000-2004
     // By Julio Jerez
-	void MovementCharacterController::OnApplyForceAndTorque(PhysicalThing* thing)
-	{
-		OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
-		OgreNewt::Body* body = thing->_getBody();
+    void MovementCharacterController::OnApplyForceAndTorque(PhysicalThing* thing)
+    {
+        OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
+        OgreNewt::Body* body = thing->_getBody();
 
-		// Get the current world timestep
-		Real timestep = world->getTimeStep();
+        // Get the current world timestep
+        Real timestep = world->getTimeStep();
 
-		if (body == mCamBody)
-		{
-			calculateCamera(timestep);
-		}
-		else
-		{
-		    mCharacterState.mJumpTimer += timestep;
+        if (body == mCamBody)
+        {
+            calculateCamera(timestep);
+        }
+        else
+        {
+            mCharacterState.mJumpTimer += timestep;
             static Real timeSinceLastFloorContact(0.0f); // damit kleine Bodenunebenheiten nicht gleich zum "Sprung führen"
             if( !mCharacterState.mHasFloorContact )
                 timeSinceLastFloorContact += timestep;
             else
                 timeSinceLastFloorContact = 0.0f;
-            
-            
-            
-            
+
+
+
+
             // apply character force
-			Vector3 position;
-			Quaternion orientation;
-			body->getPositionOrientation(position, orientation);
+            Vector3 position;
+            Quaternion orientation;
+            body->getPositionOrientation(position, orientation);
 
-			// get the charater mass
-			Real mass;
-			Vector3 inertia;
-			body->getMassMatrix(mass, inertia);
+            // get the charater mass
+            Real mass;
+            Vector3 inertia;
+            body->getMassMatrix(mass, inertia);
 
-			// apply gravity
+            // apply gravity
             Vector3 force = Vector3::ZERO;
-			force = mass * mGravitation;
+            force = mass * mGravitation;
 
-			// Get the velocity vector
-			Vector3 currentVel = body->getVelocity();
+            // Get the velocity vector
+            Vector3 currentVel = body->getVelocity();
 
-			// Gravity is applied above, so not needed here
-			// prevent adding a counter force against gravity
-			//if (currentVel.y < 0.0f || mCharacterState.mJumpTimer < 2.0f) 
-			currentVel.y = 0.0f;
+            // Gravity is applied above, so not needed here
+            // prevent adding a counter force against gravity
+            //if (currentVel.y < 0.0f || mCharacterState.mJumpTimer < 2.0f)
+            currentVel.y = 0.0f;
 
-            if( (mCharacterState.mHasFloorContact && mCharacterState.mJumpTimer > 0.1f) || 
+            if( (mCharacterState.mHasFloorContact && mCharacterState.mJumpTimer > 0.1f) ||
                 ( timeSinceLastFloorContact < 0.2f && !mCharacterState.mIsAirBorne ) )
                 mCharacterState.mIsAirBorne = false;
             else
@@ -652,10 +649,10 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
 
             if( !mCharacterState.mIsAirBorne )
             {
-			    // apply the jump
-			    if ( mCharacterState.mStartJump )
-			    {
-				    mCharacterState.mJumpTimer = 0.0f;
+                // apply the jump
+                if ( mCharacterState.mStartJump )
+                {
+                    mCharacterState.mJumpTimer = 0.0f;
                     mCharacterState.mIsAirBorne = true;
                     Real height = 0.75f; // beim zweiten gehts seltsamerweise was höher /doppelsprung physik?)
                     Real gravity = 9.81f;
@@ -663,32 +660,32 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                     force += Vector3(0,
                         jumpForce,
                         0);
-			    }
+                }
 
                 Real delay = 2 * PhysicsManager::getSingleton().getMaxTimestep(); // so ist die Beschleunigung unabhängig von der framerate!
                 force += mass*(orientation*mCharacterState.mDesiredVel - currentVel) / delay;
             }
             mCharacterState.mStartJump = false;
 
-			body->setForce(force);
-			// Assume we are air borne.
-			// Might be set to true in the collision callback
-			mCharacterState.mHasFloorContact = false;
+            body->setForce(force);
+            // Assume we are air borne.
+            // Might be set to true in the collision callback
+            mCharacterState.mHasFloorContact = false;
 
 
 
 
 
 
-		    // Calculate angular velocity
-		    // We first need the yaw rotation from actual yaw to desired yaw
-		    Vector3 src = orientation*Vector3::NEGATIVE_UNIT_Z;
-		    src.y = 0;
-		    Vector3 dst = Quaternion(mYaw, Vector3::UNIT_Y)*Vector3::UNIT_Z;
-		    dst.y = 0;
-		    Radian yaw = src.getRotationTo(dst).getYaw();
+            // Calculate angular velocity
+            // We first need the yaw rotation from actual yaw to desired yaw
+            Vector3 src = orientation*Vector3::NEGATIVE_UNIT_Z;
+            src.y = 0;
+            Vector3 dst = Quaternion(mYaw, Vector3::UNIT_Y)*Vector3::UNIT_Z;
+            dst.y = 0;
+            Radian yaw = src.getRotationTo(dst).getYaw();
 
-            
+
             // was soll dieser komische Fehler?
             // wenn yaw 0 sein sollte, wird er manchmal zu -90 grad, find ich nich nett
             if( (yaw.valueDegrees() - (-90)) < 0.5 )
@@ -696,28 +693,28 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                     yaw = Degree(0);
 
 
-		    // Calculate omega in order to go this rotation in mMaxDelay seconds.
+            // Calculate omega in order to go this rotation in mMaxDelay seconds.
             // Real newOmega = yaw.valueRadians() / mMaxDelay;
             Vector3 diff = Vector3(0, yaw.valueRadians(), 0);
             Vector3 omega = mCharBody->getOmega();
             omega.x = omega.z = 0;
             // sollte nicht direkt gesetzt werden!
             Vector3 springAcc = -mRotLinearSpringK*diff - mRotLinearDampingK * omega;
-		    //body->setOmega(Vector3(0, newOmega, 0)); // omega sollte nicht direkt gesetzt werden
+            //body->setOmega(Vector3(0, newOmega, 0)); // omega sollte nicht direkt gesetzt werden
             body->setTorque( mass * springAcc );
         }
 
 
 
         SceneNode* node = mCharacterActor->_getSceneNode();
-		std::ostringstream ss;
+        std::ostringstream ss;
         Vector3 bodpos, playpos = node->getPosition();
         Quaternion egal;
         mCamBody->getPositionOrientation(bodpos,egal);
         static Real maxHeight(0);
         if( playpos.y > maxHeight )
             maxHeight = playpos.y;
-        ss 
+        ss
             << "scene node : " << playpos << endl
 //            << "player max Height : " << maxHeight << endl
             << "camera posder : " << static_cast<Camera*>(
@@ -736,17 +733,17 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
     }
 
     //------------------------------------------------------------------------
-	void MovementCharacterController::calculateCamera(const Ogre::Real& timestep)
-	{
-		Vector3 charPos;
-		Quaternion charOri;
-		//mCharBody->getPositionOrientation(charPos, charOri);
+    void MovementCharacterController::calculateCamera(const Ogre::Real& timestep)
+    {
+        Vector3 charPos;
+        Quaternion charOri;
+        //mCharBody->getPositionOrientation(charPos, charOri);
         charPos = mCharacterActor->getWorldPosition();
         charOri = mCharacterActor->getWorldOrientation();
 
-		Vector3 camPos;
-		Quaternion camOri;
-		mCamBody->getPositionOrientation(camPos, camOri);
+        Vector3 camPos;
+        Quaternion camOri;
+        mCamBody->getPositionOrientation(camPos, camOri);
         SceneNode* cameraNode = mCameraActor->_getSceneNode();
 
 /*
@@ -760,11 +757,11 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
         static std::vector<Ogre::Vector3> camOptPositionsBuffer(20);
         static size_t camOptPositionsBufferIdx = -1;
         camOptPositionsBufferIdx = (camOptPositionsBufferIdx + 1) % camOptPositionsBuffer.size();
-*/        
+*/
         Vector3 optimalCamPos = calculateOptimalCameraPosition(true, timestep);
         charPos = charPos + charOri * mLookAtOffset;
 //        camOptPositionsBuffer[camOptPositionsBufferIdx] = optimalCamPos;
-        
+
 
         // Ringbuffer mit Positionen des Characters
         static std::vector<Ogre::Vector3> charPositionsBuffer(20);
@@ -789,14 +786,14 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
 
 
 
-		if (mViewMode == VM_THIRD_PERSON || mViewMode == VM_FREE_CAMERA )
-		{
+        if (mViewMode == VM_THIRD_PERSON || mViewMode == VM_FREE_CAMERA )
+        {
 
             // wir machen ein paar Raycasts um herauszufinden, ob wir von der jetzigen Position
             // so zur optimalen kommen
             const OgreNewt::MaterialID* materialId =
                 mCharBody->getMaterialGroupID();
-//			    PhysicsManager::getSingleton()._getLevelMaterialID();
+//                PhysicsManager::getSingleton()._getLevelMaterialID();
             OgreNewt::World *world = PhysicsManager::getSingleton()._getNewtonWorld();
 
             Vector3 normToOptCamPos = (optimalCamPos - charPos);
@@ -805,16 +802,16 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
 
 
             RaycastInfo infoCastOptPos = mRaycast->execute(
-                world, 
-                materialId, 
+                world,
+                materialId,
                 camPos + camRadius * normToOptCamPos, // Größe der Kamera einbeziehen
                 optimalCamPos + camRadius * normToOptCamPos,
                 true); // Größe der Kamera einbeziehen
 
             RaycastInfo infoCastChar = mRaycast->execute(
-                world, 
-                materialId, 
-                camPos, 
+                world,
+                materialId,
+                camPos,
                 charPos,
                 true);
 
@@ -850,7 +847,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                     while( delta > 0.05 ) // genauigkeit des gefundenen Punktes
                     {
                         infoCastNewPos = mRaycast->execute(
-                            world, 
+                            world,
                             materialId,
                             camPos + camRadius * normToOptCamPos, // Größe der Kamera!
                             temp,
@@ -875,7 +872,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             }
 
 
-            static bool isPathfinding (false); 
+            static bool isPathfinding (false);
             static unsigned int lastReachableBufPos;
             // gibt an, ob schon gebufferte Daten für den
             // neuen Weg existieren und dort weitergemacht werden kann,
@@ -902,7 +899,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                     while ( delta < buffSize )
                     {
                         RaycastInfo info = mRaycast->execute(
-                            world, 
+                            world,
                             materialId,
                             camPos,
                             charPositionsBuffer[ (charPositionsBufferIdx - delta) % buffSize ] ,
@@ -935,7 +932,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                     while ( delta > 0 ) // delta = 0 braucht nicht überprüft zu werden, wurde oben schon ausgeschlossen!
                     {
                         RaycastInfo info = mRaycast->execute(
-                            world, 
+                            world,
                             materialId,
                             camPos,
                             charPositionsBuffer[ (charPositionsBufferIdx - delta) % buffSize ],
@@ -966,8 +963,8 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             Vector3 springAcc = -mLinearSpringK*diff - mLinearDampingK * cameraVelocity;
 
             // get the camera mass
-			Real mass;
-			Vector3 inertia;
+            Real mass;
+            Vector3 inertia;
             mCamBody->getMassMatrix(mass, inertia);
 
             //mCamBody->setPositionOrientation(newCamPos, camOri);
@@ -977,7 +974,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
         {
             mCamBody->setPositionOrientation(optimalCamPos, camOri);
         }
-	}
+    }
 
     //------------------------------------------------------------------------
     Ogre::Vector3 MovementCharacterController::calculateOptimalCameraPosition(bool SlowlyMoveBackward, const Real &timestep)
@@ -995,23 +992,23 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             charPos = charPos + charOri * mLookAtOffset;
             if(mViewMode == VM_THIRD_PERSON)
             {
-	            targetCamPos = 
-		            charPos 
-		            + charOri * Vector3(
-						            0, 
-						            Math::Sin(mPitch) * mDesiredDistance,
-						            Math::Cos(mPitch) * mDesiredDistance);
+                targetCamPos =
+                    charPos
+                    + charOri * Vector3(
+                                    0,
+                                    Math::Sin(mPitch) * mDesiredDistance,
+                                    Math::Cos(mPitch) * mDesiredDistance);
             }
             else
             {
                 Quaternion camOri;
                 camOri.FromAngleAxis(mCamYaw, Vector3::UNIT_Y);
-	            targetCamPos = 
-		            charPos 
-		            + charOri * camOri * Vector3(
-						                        0, 
-						                        Math::Sin(mPitch) * mDesiredDistance,
-						                        Math::Cos(mPitch) * mDesiredDistance);
+                targetCamPos =
+                    charPos
+                    + charOri * camOri * Vector3(
+                                                0,
+                                                Math::Sin(mPitch) * mDesiredDistance,
+                                                Math::Cos(mPitch) * mDesiredDistance);
             }
 
 
@@ -1033,9 +1030,9 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             Vector3 radiusOffset = charOri * Vector3(0, sinPitchRad, cosPitchRad);
 
             startRay[0] = charPos;
-            endRay[0] = targetCamPos; // hier ist nun leider was doppelt, 
+            endRay[0] = targetCamPos; // hier ist nun leider was doppelt,
                                       // dadurch kann aber sichergestellt
-                                      // werden, dass kein Objekt direkt 
+                                      // werden, dass kein Objekt direkt
                                       // hinter dem Helden übersehen wird
             startRay[1] = charPos + radiusOffset;
             endRay[1] = targetCamPos + radiusOffset;
@@ -1052,9 +1049,9 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
 
             const OgreNewt::MaterialID* materialId =
                 mCharBody->getMaterialGroupID();
-//			    PhysicsManager::getSingleton()._getLevelMaterialID();
+//                PhysicsManager::getSingleton()._getLevelMaterialID();
             OgreNewt::World *world = PhysicsManager::getSingleton()._getNewtonWorld();
-            
+
             Vector3 diff = targetCamPos - charPos;
             bool CollisionFound = false;
             for( int i = 0; i < 6; i++ )
@@ -1065,7 +1062,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                     startRay[i],
                     endRay[i],
                     true);
-            
+
                 if( info.mBody )
                 {
                     CollisionFound = true;
@@ -1097,7 +1094,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             Quaternion camOri;
             mCamBody->getPositionOrientation(camPos, camOri);
 
-            if( SlowlyMoveBackward && 
+            if( SlowlyMoveBackward &&
                 desiredDistance > lastDistance )
             {
 
@@ -1105,18 +1102,18 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                 Real newDistance;
                 Vector3 actDiff = camPos - charPos;
                 actDiff.normalise();
-                
-                if( TimeOfLastCollision > mCamMoveAwayStartTime || 
+
+                if( TimeOfLastCollision > mCamMoveAwayStartTime ||
                     diff.directionEquals(actDiff, mCamMoveAwayRange*timestep) )
                     newDistance = lastDistance + mCamMoveAwayVelocity*timestep;
                 else
                     newDistance = lastDistance;
-                
+
                 if( newDistance > desiredDistance )
                     newDistance = desiredDistance;
-                
+
                 diff = diff*newDistance;
-                
+
                 lastDistance = newDistance;
             }
             else
@@ -1132,14 +1129,14 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             //mCharBody->getPositionOrientation(charPos, charOri);
             charPos = mCharacterActor->getWorldPosition();
             charOri = mCharacterActor->getWorldOrientation();
-            // determine the optimal target position of the camera            
-	        targetCamPos = 
-		        charPos 
-		        + charOri * mLookAtOffset 
-		        + charOri * Vector3(
-						        0, 
-						        Math::Sin(mPitch) * mDesiredDistance,
-						        Math::Cos(mPitch) * mDesiredDistance);
+            // determine the optimal target position of the camera
+            targetCamPos =
+                charPos
+                + charOri * mLookAtOffset
+                + charOri * Vector3(
+                                0,
+                                Math::Sin(mPitch) * mDesiredDistance,
+                                Math::Cos(mPitch) * mDesiredDistance);
         }
 
 
@@ -1147,8 +1144,8 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
     }
 
     //------------------------------------------------------------------------
-	void MovementCharacterController::updateSelection()
-	{
+    void MovementCharacterController::updateSelection()
+    {
         InputManager* im = InputManager::getSingletonPtr();
         if( im->isCeguiActive() )
             return;
@@ -1169,7 +1166,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
 
         if (newGo != NULL && newGo != oldGo)
         {
-            newGo->setHighlighted(true);            
+            newGo->setHighlighted(true);
         }
 
         // Optionen anzeigen
@@ -1181,13 +1178,13 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
         {
             mSelector.getSelectedObject()->doDefaultAction(mCharacter, NULL);
         }
-	}
+    }
 
     //------------------------------------------------------------------------
-	void MovementCharacterController::updateAnimationState(int &movement)
-	{
-		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
-		PhysicalThing* pt = mCharacterActor->getPhysicalThing();
+    void MovementCharacterController::updateAnimationState(int &movement)
+    {
+        MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
+        PhysicalThing* pt = mCharacterActor->getPhysicalThing();
         static std::string lastAnimation("");
         std::string newAnimation("");
         Real animSpeed = 1;
@@ -1195,8 +1192,8 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
         static bool jumpNextFrame(false);
         unsigned int animTimesToPlay = 0;
         Real gs = mCharacter->getWert(Creature::WERT_GS);
-		static String lastCollisionPose = "";
-		String collisionPose = "idle";
+        static String lastCollisionPose = "";
+        String collisionPose = "idle";
 
         // the different factors used to calculate the animation-speed from the character-speed
         const Real factor_hocke_gehen = 0.7;
@@ -1239,7 +1236,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             if (meshAnim->getTimePlayed() >= meshAnim->getLength())
             {
                 newAnimation = "hocke_idle";
-				collisionPose = "hocke_idle";
+                collisionPose = "hocke_idle";
                 mCharacterState.mPose = CharacterState::Crouch;
             }
             // kamera-offset interpolieren grrr
@@ -1252,13 +1249,13 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             if (vel > 0.1 && movement & MOVE_FORWARD)
             {
                 newAnimation = "hocke_gehen";
-				collisionPose = "hocke_idle";
+                collisionPose = "hocke_idle";
                 animSpeed = charVelocity.length() * factor_hocke_gehen;
             }
             else
             {
                 newAnimation = "hocke_idle";
-				collisionPose = "hocke_idle";
+                collisionPose = "hocke_idle";
             }
         }
         else if (mCharacterState.mPose == CharacterState::Crouch)
@@ -1288,7 +1285,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                 MeshAnimation *meshAnim = mesh->getAnimation("rennen_absprung");
                 if (meshAnim->getTimePlayed() >= meshAnim->getLength())
                 {
-					///\todo Animation "rennen_sprung" has length of 0.0f. Substitute for Idle, till this is resolved.
+                    ///\todo Animation "rennen_sprung" has length of 0.0f. Substitute for Idle, till this is resolved.
                     //newAnimation = "rennen_sprung";
                     newAnimation = "idle";
 
@@ -1303,7 +1300,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                 MeshAnimation *meshAnim = mesh->getAnimation("idle_absprung");
                 if (meshAnim->getTimePlayed() >= meshAnim->getLength())
                 {
-					///\todo Animation "idle_sprung" has length of 0.0f. Substitute for Idle, till this is resolved.
+                    ///\todo Animation "idle_sprung" has length of 0.0f. Substitute for Idle, till this is resolved.
                     //newAnimation = "idle_sprung";
                     newAnimation = "idle";
 
@@ -1409,7 +1406,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                     animSpeed = factor_rennen_absprung * vel;
                     mCharacterState.mPose = CharacterState::StartJump;
                 }
-                else 
+                else
                 {
                     if ( vel > 0.1 )
                     {
@@ -1435,16 +1432,16 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
 
         if (newAnimation != "")
         {
-			// nur schneller nicht langsamer ausführen!
+            // nur schneller nicht langsamer ausführen!
             if (animSpeed < 1) animSpeed = 1;
-                
+
             if (lastAnimation != newAnimation)
             {
-				if (collisionPose != lastCollisionPose)
-				{
-					pt->fitToPose(collisionPose);
-					lastCollisionPose = collisionPose;
-				}
+                if (collisionPose != lastCollisionPose)
+                {
+                    pt->fitToPose(collisionPose);
+                    lastCollisionPose = collisionPose;
+                }
                 mesh->stopAllAnimations();
                 mesh->startAnimation(newAnimation, animSpeed, animTimesToPlay);
                 lastAnimation = newAnimation;
@@ -1463,53 +1460,53 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
     }
 
     //------------------------------------------------------------------------
-	void MovementCharacterController::setViewMode(ViewMode mode)
-	{
-		mViewMode = mode;
+    void MovementCharacterController::setViewMode(ViewMode mode)
+    {
+        mViewMode = mode;
 
-		MeshObject* charMesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
-		AxisAlignedBox aabb = charMesh->getDefaultSize();
-		if (mode == VM_FIRST_PERSON)
-		{
+        MeshObject* charMesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
+        AxisAlignedBox aabb = charMesh->getDefaultSize();
+        if (mode == VM_FIRST_PERSON)
+        {
             mLookAtOffset = Vector3(
-                    0, 
+                    0,
                     (aabb.getMaximum().y - aabb.getMinimum().y) * 0.90f,
                     (aabb.getMaximum().z - aabb.getMinimum().z) * (-0.3f) );
-			mDistanceRange.first = 0.0;
-			mDistanceRange.second = 0.0;
-			mDesiredDistance = 0.0;
-			mPitchRange.first = Degree(-85);
-			mPitchRange.second = Degree(85);
+            mDistanceRange.first = 0.0;
+            mDistanceRange.second = 0.0;
+            mDesiredDistance = 0.0;
+            mPitchRange.first = Degree(-85);
+            mPitchRange.second = Degree(85);
             mPitch = 0;
-			LOG_MESSAGE(Logger::UI, "Switch to 1st person view");
-			resetCamera();
-		}
-		else if(mode == VM_THIRD_PERSON)
-		{
+            LOG_MESSAGE(Logger::UI, "Switch to 1st person view");
+            resetCamera();
+        }
+        else if(mode == VM_THIRD_PERSON)
+        {
             mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.90f, 0);
-			mDistanceRange.first = 0.60;
-			mDistanceRange.second = 7.00;
-			mDesiredDistance = 2.0;
-			mPitchRange.first = Degree(-75);
-			mPitchRange.second = Degree(85);
+            mDistanceRange.first = 0.60;
+            mDistanceRange.second = 7.00;
+            mDesiredDistance = 2.0;
+            mPitchRange.first = Degree(-75);
+            mPitchRange.second = Degree(85);
             mPitch = Degree(30);
-			LOG_MESSAGE(Logger::UI, "Switch to 3rd person view");			
-			resetCamera();
-		}
+            LOG_MESSAGE(Logger::UI, "Switch to 3rd person view");
+            resetCamera();
+        }
         else // mode == VM_FREE_CAMERA
         {
-			mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.80f, 0);
-			mDistanceRange.first = 0.60;
-			mDistanceRange.second = 7.00;
-			mDesiredDistance = 2.0;
-			mPitchRange.first = Degree(-75);
-			mPitchRange.second = Degree(85);
+            mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.80f, 0);
+            mDistanceRange.first = 0.60;
+            mDistanceRange.second = 7.00;
+            mDesiredDistance = 2.0;
+            mPitchRange.first = Degree(-75);
+            mPitchRange.second = Degree(85);
             mPitch = Degree(30);
             mCamYaw = mYaw;
-			LOG_MESSAGE(Logger::UI, "Switch to free camera view");			
-			resetCamera();
+            LOG_MESSAGE(Logger::UI, "Switch to free camera view");
+            resetCamera();
         }
-	}
+    }
 
     //------------------------------------------------------------------------
     void MovementCharacterController::interpolateAnimationLookAtOffset(std::string actAnim, std::string newAnim, Ogre::Real factor)
@@ -1546,81 +1543,81 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
     }
 
     //------------------------------------------------------------------------
-	MovementCharacterController::ViewMode MovementCharacterController::getViewMode()
-	{
-		return mViewMode;
-	}
+    MovementCharacterController::ViewMode MovementCharacterController::getViewMode()
+    {
+        return mViewMode;
+    }
 
     //------------------------------------------------------------------------
-	void MovementCharacterController::toggleViewMode()
-	{
-		if (getViewMode() == VM_THIRD_PERSON)
+    void MovementCharacterController::toggleViewMode()
+    {
+        if (getViewMode() == VM_THIRD_PERSON)
             setViewMode(VM_FIRST_PERSON);
         else if(getViewMode() == VM_FIRST_PERSON)
             setViewMode(VM_FREE_CAMERA);
         else
-            setViewMode(VM_THIRD_PERSON);         
-	}
+            setViewMode(VM_THIRD_PERSON);
+    }
 
     //------------------------------------------------------------------------
-	void MovementCharacterController::resetCamera()
-	{
+    void MovementCharacterController::resetCamera()
+    {
         Vector3 camPos;
-		Quaternion camOri;
-		mCamBody->getPositionOrientation(camPos, camOri);
+        Quaternion camOri;
+        mCamBody->getPositionOrientation(camPos, camOri);
         mCamBody->setPositionOrientation(calculateOptimalCameraPosition(false, 0.0f), camOri);
         if(mViewMode == VM_FIRST_PERSON)
             mCharacterActor->setVisible(false);
         else
             mCharacterActor->setVisible(true);
-	}
+    }
 
     //------------------------------------------------------------------------
-	bool MovementCharacterController::injectKeyDown(int keycode)
-	{
+    bool MovementCharacterController::injectKeyDown(int keycode)
+    {
         int scancode;
         mCommandMapper->decodeKey(keycode, &scancode, NULL);
-		int movement = mCommandMapper->getMovement(scancode);
+        int movement = mCommandMapper->getMovement(scancode);
 
         if (movement & MOVE_RUN_LOCK) // dieses einrasten lassen
         {
             mCharacterState.mCurrentMovementState ^= MOVE_RUN_LOCK;
             movement &= ~MOVE_RUN_LOCK;
         }
-		if (movement != MOVE_NONE)
-		{
-			mCharacterState.mCurrentMovementState |= movement;
-			return true;
-		}
-		return false;
-	}
+        if (movement != MOVE_NONE)
+        {
+            mCharacterState.mCurrentMovementState |= movement;
+            return true;
+        }
+        return false;
+    }
 
     //------------------------------------------------------------------------
-	bool MovementCharacterController::injectKeyUp(int keycode)
-	{
+    bool MovementCharacterController::injectKeyUp(int keycode)
+    {
         int scancode;
         mCommandMapper->decodeKey(keycode, &scancode, NULL);
-		int movement = mCommandMapper->getMovement(scancode);
+        int movement = mCommandMapper->getMovement(scancode);
 
-		if (movement != MOVE_NONE)
-		{
-			mCharacterState.mCurrentMovementState &= (~movement | MOVE_RUN_LOCK);
-			return true;
-		}
+        if (movement != MOVE_NONE)
+        {
+            mCharacterState.mCurrentMovementState &= (~movement | MOVE_RUN_LOCK);
+            return true;
+        }
         else
         {
             return startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT), mCharacter);
         }
-			
-		return false;
-	}
+
+        return false;
+    }
 
     //------------------------------------------------------------------------
-	bool MovementCharacterController::injectMouseDown(int mouseButtonMask)
-	{
+    bool MovementCharacterController::injectMouseDown(int mouseButtonMask)
+    {
       //  if (!im->isCeguiActive())
       //  {
-		    //updateSelection();
+            //updateSelection();
       //      if (im->isMouseButtonDown(1) && mSelector.getSelectedObject() != NULL)
       //      {
       //          WindowFactory::getSingleton().showActionChoice(mSelector.getSelectedObject());
@@ -1630,22 +1627,22 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
       //          mSelector.getSelectedObject()->doDefaultAction(mCharacter, NULL);
       //      }
       //  }
-	  return false;
-	}
+      return false;
+    }
 
     //------------------------------------------------------------------------
-	bool MovementCharacterController::injectMouseUp(int mouseButtonMask)
-	{
+    bool MovementCharacterController::injectMouseUp(int mouseButtonMask)
+    {
         if (!InputManager::getSingleton().isCeguiActive())
         {
-		    return startAction(mCommandMapper->getAction(mouseButtonMask,
-                CMDMAP_MOUSEMAP_OFF_COMBAT), mCharacter);		
+            return startAction(mCommandMapper->getAction(mouseButtonMask,
+                CMDMAP_MOUSEMAP_OFF_COMBAT), mCharacter);
         }
         else
         {
             return false;
         }
-	}
+    }
 
     //------------------------------------------------------------------------
     DebugVisualisableFlag MovementCharacterController::getFlag() const

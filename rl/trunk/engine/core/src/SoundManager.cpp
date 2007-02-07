@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -37,58 +37,56 @@ using namespace Ogre;
  * @date 04-26-2004
  */
 template<> rl::SoundManager* Singleton<rl::SoundManager>::ms_Singleton = 0;
- 
+
 namespace rl {
 
-/**
- * @return Eine Referenz auf das Singleton-Objekt.
- * @author JoSch
- * @date 04-26-2004
- */
-SoundManager& SoundManager::getSingleton()
-{
-    return Singleton<SoundManager>::getSingleton();
-}
+    /**
+     * @return Eine Referenz auf das Singleton-Objekt.
+     * @author JoSch
+     * @date 04-26-2004
+     */
+    SoundManager& SoundManager::getSingleton()
+    {
+        return Singleton<SoundManager>::getSingleton();
+    }
 
-/**
- * @return Ein Zeiger auf das Singleton-Objekt.
- * @author JoSch
- * @date 04-26-2004
- */
-SoundManager* SoundManager::getSingletonPtr()
-{
-    return Singleton<SoundManager>::getSingletonPtr();
-}
+    /**
+     * @return Ein Zeiger auf das Singleton-Objekt.
+     * @author JoSch
+     * @date 04-26-2004
+     */
+    SoundManager* SoundManager::getSingletonPtr()
+    {
+        return Singleton<SoundManager>::getSingletonPtr();
+    }
 
-/**
- * Standardkonstruktor
- * @author JoSch
- * @date 01-27-2005
- */
-SoundManager::SoundManager() 
-: ResourceManager(),
-  mDriverList(),
-  mActiveDriver(NULL),
-  mListenerActor(NULL),
-  mActiveListener(NULL)
-{
-	LOG_MESSAGE(Logger::CORE, "Erzeuge Soundmanager...");
-	SoundDriver *driver = NULL;
-    mDriverList.clear();
-	NullDriver* nullDriver = new NullDriver(this);
-    registerDriver(nullDriver);
-    setActiveDriver(nullDriver);
+    /**
+     * Standardkonstruktor
+     * @author JoSch
+     * @date 01-27-2005
+     */
+    SoundManager::SoundManager()
+    : ResourceManager(),
+      mDriverList(),
+      mActiveDriver(NULL),
+      mListenerActor(NULL),
+      mActiveListener(NULL)
+    {
+        LOG_MESSAGE(Logger::CORE, "Erzeuge Soundmanager...");
+        NullDriver* nullDriver = new NullDriver(this);
+        registerDriver(nullDriver);
+        setActiveDriver(nullDriver);
 
-    mResourceType = "Sound";
-    ResourceGroupManager::getSingleton()._registerResourceManager(mResourceType, this);
+        mResourceType = "Sound";
+        ResourceGroupManager::getSingleton()._registerResourceManager(mResourceType, this);
 
-}
+    }
 
-SoundManager::~SoundManager()
-{
-    ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
-    unloadAllDrivers();    
-}
+    SoundManager::~SoundManager()
+    {
+        ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
+        unloadAllDrivers();
+    }
 
 /**
  * Gibt die Suchmuster fuer die Extension zurueck.
@@ -101,7 +99,7 @@ StringList SoundManager::getExtension()
     StringList result;
     result.push_back("*.ogg");
     result.push_back("*.wav");
-    
+
     return result;
 }
 
@@ -112,26 +110,16 @@ StringList SoundManager::getExtension()
 * @date 06-18-2004
 */
 Resource* SoundManager::createImpl(
-	const String& resName, 
-	ResourceHandle handle,
-	const String& group,
-	bool isManual, 
-	ManualResourceLoader* loader, 
-	const NameValuePairList* loadParams)
+    const String& resName,
+    ResourceHandle handle,
+    const String& group,
+    bool isManual,
+    ManualResourceLoader* loader,
+    const NameValuePairList* loadParams)
 {
-	SoundResource *newSound = NULL;
-	newSound = new SoundResource(this, resName, handle, group, isManual, loader);
-	return newSound;
-}
-
-/**
- * @return Die Liste der funktionierenden Treiber.
- * @author JoSch
- * @date 12-23-2005
- */
-const DriverList& SoundManager::getSoundDriverList() const
-{
-    return mDriverList;
+    SoundResource *newSound = NULL;
+    newSound = new SoundResource(this, resName, handle, group, isManual, loader);
+    return newSound;
 }
 
 /**
@@ -141,48 +129,48 @@ const DriverList& SoundManager::getSoundDriverList() const
  */
 void SoundManager::setActiveDriver(SoundDriver *driver)
 {
-	if (driver == NULL)
-	{
-		driver = getDriverByName(NullDriver::NAME);
-	}
+    if (driver == NULL)
+    {
+        driver = getDriverByName(NullDriver::NAME);
+    }
 
-	if (mActiveDriver == driver)
-	{
-	    LOG_DEBUG(Logger::CORE,
-			"No need to change Sound Driver, "
-			+ mActiveDriver->getName()
-			+ " is already active.");
-	    return;
-	}
-	
-	LOG_MESSAGE(Logger::CORE,
-		"Changing Sound Driver to "
+    if (mActiveDriver == driver)
+    {
+        LOG_DEBUG(Logger::CORE,
+            "No need to change Sound Driver, "
+            + mActiveDriver->getName()
+            + " is already active.");
+        return;
+    }
+
+    LOG_MESSAGE(Logger::CORE,
+        "Changing Sound Driver to "
          + driver->getName());
 
-	if (driver->initialize())
+    if (driver->initialize())
     {
-    	if (mActiveDriver != NULL)
-    	{
-	    	mActiveDriver->shutdown();
-	    	delete mActiveDriver;
-	    	mActiveDriver = NULL;
-    	}
-		mActiveDriver = driver;
+        if (mActiveDriver != NULL)
+        {
+            mActiveDriver->shutdown();
+            delete mActiveDriver;
+            mActiveDriver = NULL;
+        }
+        mActiveDriver = driver;
     }
     else
     {
-    	LOG_ERROR(
-    		Logger::CORE, 
-    		"Sound driver "
-    		+ driver->getName()
-    		+ " had an error while initializing, keeping old driver.");
+        LOG_ERROR(
+            Logger::CORE,
+            "Sound driver "
+            + driver->getName()
+            + " had an error while initializing, keeping old driver.");
     }
 }
 
 void SoundManager::_clearListenerActor()
 {
-	mActiveListener = NULL;
-	mListenerActor = NULL;
+    mActiveListener = NULL;
+    mListenerActor = NULL;
 }
 
 
@@ -208,18 +196,18 @@ ListenerObject* SoundManager::getListener() const
 
 Actor* SoundManager::createListenerActor()
 {
-	if (mListenerActor == NULL)
-	{
-		if (mActiveListener != NULL)
-		{
-			mActiveListener->getListener()->setActive(false);
-		}
+    if (mListenerActor == NULL)
+    {
+        if (mActiveListener != NULL)
+        {
+            mActiveListener->getListener()->setActive(false);
+        }
 
-		mListenerActor = ActorManager::getSingleton().createListenerActor("SoundListenerObject");
-		mActiveListener = static_cast<ListenerObject*>(mListenerActor->getControlledObject());
-		mActiveListener->getListener()->setActive(true);
-	    return mListenerActor;
-	}
+        mListenerActor = ActorManager::getSingleton().createListenerActor("SoundListenerObject");
+        mActiveListener = static_cast<ListenerObject*>(mListenerActor->getControlledObject());
+        mActiveListener->getListener()->setActive(true);
+        return mListenerActor;
+    }
     else
     {
         Throw(IllegalStateException, "ListenerActor already created.");
@@ -231,7 +219,7 @@ Actor* SoundManager::getListenerActor()
     return mListenerActor;
 }
 
-/** 
+/**
  * Hole einen Treiber durch Angabe seines Namens
  * @param name Der name des gesuchten Treibers.
  * @return Der gesuchte Treiber
@@ -240,118 +228,112 @@ Actor* SoundManager::getListenerActor()
  */
 SoundDriver *SoundManager::getDriverByName(const String &name)
 {
-	DriverList::const_iterator it;
-	for(it = mDriverList.begin(); it != mDriverList.end(); it++)
-	{
-		if ((*it)->getName() == name)
-		{
-			return *it;
-		}
-	}
-	return 0;
+    DriverList::const_iterator it;
+    for(it = mDriverList.begin(); it != mDriverList.end(); it++)
+    {
+        if ((*it)->getName() == name)
+        {
+            return *it;
+        }
+    }
+    return 0;
 }
 
-void SoundManager::registerDriver(rl::SoundDriver *driver)
-{
-	mDriverList.push_back(driver);
-}
+    void SoundManager::registerDriver(rl::SoundDriver *driver)
+    {
+        mDriverList.push_back(driver);
+    }
 
-void SoundManager::unregisterDriver(rl::SoundDriver *driver)
-{
-	mDriverList.remove(driver);
-}
+    void SoundManager::unregisterDriver(rl::SoundDriver *driver)
+    {
+        mDriverList.remove(driver);
+    }
 
-/**
- * Hole die Soundkonfiguration
- * 
- * @author JoSch
- * @date 05-08-2006
- */
-void SoundManager::loadConf(const Ogre::String &filename)
-{
-	ConfigFile conf;
-	conf.load(filename);
-	
-	mDrivers = conf.getValues("Driver", "Drivers");
-	for (StringVector::const_iterator it = mDrivers.begin(); 
-		it != mDrivers.end(); it++)
-	{
-        try {
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-		    Ogre::Root::getSingleton().loadPlugin(*it);
-#else
-            Ogre::Root::getSingleton().loadPlugin("lib"+*it);
-#endif
+    void SoundManager::applySettings(const Ogre::NameValuePairList& settings)
+    {
+        // Get the sound driver
+        Ogre::NameValuePairList::const_iterator it = settings.find("Driver");
+        Ogre::String drivername;
+
+        if (it == settings.end())
+        {
+            drivername = "RlFmod4Driver";
+        }
+        else
+        {
+            drivername = it->second;
+        }
+
+        try
+        {
+            #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+            Ogre::Root::getSingleton().loadPlugin(drivername);
+            #else
+            Ogre::Root::getSingleton().loadPlugin("lib" + drivername);
+            #endif
         }
         catch(Ogre::Exception &e)
         {
             LOG_MESSAGE(Logger::CORE,
                 CeGuiString("Soundtreiber kann nicht geladen werden: ")
-                    + *it + "\n"
+                    + drivername + "\n"
                     + e.getFullDescription());
         }
         catch(...)
         {
             LOG_MESSAGE(Logger::CORE,
-                CeGuiString("Soundtreiber kann nicht geladen werden: ")
-                    + *it);
+                 CeGuiString("Soundtreiber kann nicht geladen werden: ")
+                    + drivername);
         }
-            
-	}
 
-	String drivername = conf.getValue(NullDriver::NAME, "ActiveDriver", "General");
-	SoundDriver *driver = getDriverByName(drivername);
-    if (driver == NULL)
-    {
-        driver = getDriverByName(NullDriver::NAME);
+        SoundDriver *driver = getDriverByName(drivername);
+
+        if (driver == NULL)
+        {
+            driver = getDriverByName(NullDriver::NAME);
+        }
+
+        RlAssert(driver != NULL, "Beim Laden des Treibers ist ein Fehler aufgetreten");
+        setActiveDriver(driver);
+        getActiveDriver()->applySettings(settings);
     }
-	RlAssert(driver != NULL, "Beim Laden des Treibers ist ein Fehler aufgetreten");
-	setActiveDriver(driver);
-	getActiveDriver()->loadConf(conf);
-}
-
-/**
- * Schreibe die Soundkonfiguration
- * @author JoSch
- * @date 05-08-2006
- * @param filename Der Dateiname der Konfiguration
- */
-void SoundManager::saveConf(const Ogre::String &filename) const
-{
-	RlAssert(getActiveDriver() != NULL, "Kein aktiver Soundtreiber");
-	ConfigFile conf;
-	conf.setValues(mDrivers, "Driver", "Drivers");
-	conf.setValue(String(getActiveDriver()->getName().c_str()), "ActiveDriver", "General");
-	getActiveDriver()->saveConf(conf);
-	conf.save(filename);
-}
 
 void SoundManager::unloadAllDrivers()
 {
-   	if (mActiveDriver != NULL)
+       if (mActiveDriver != NULL)
     {
         mActiveDriver->shutdown();
         mActiveDriver = NULL;
     }
 
-	for(StringVector::iterator it = mDrivers.begin();
-		it != mDrivers.end(); it++)
-	{
-		Ogre::String driverPlugin = *it;
+    /**
+     * @ToDo: This is a hack to avoid the problem with the Null driver.
+     *        Don't know yet, why this happens.
+     */
+    DriverList::iterator it = mDriverList.begin();
+    it++;
+    /** Hack End **/
+    for(/*DriverList::iterator it = mDriverList.begin()*/; it != mDriverList.end(); it++)
+    {
+#       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+        Ogre::String driverPlugin = (*it)->getName();
+#       else
+        Ogre::String driverPlugin = "lib" + (*it)->getName();
+#       endif
 
-		LOG_MESSAGE(Logger::CORE,
-			"Unloading sound driver DLL "
-			+ driverPlugin);
+        LOG_MESSAGE(Logger::CORE,
+            "Unloading sound driver DLL "
+            + driverPlugin);
 
-		Ogre::Root::getSingleton().unloadPlugin(driverPlugin);
+        Ogre::Root::getSingleton().unloadPlugin(driverPlugin);
 
-		LOG_MESSAGE(Logger::CORE,
-			"Sound driver DLL "
-			+ driverPlugin
-			+ " successfully unloaded.");
-	}
+        LOG_MESSAGE(Logger::CORE,
+            "Sound driver DLL "
+            + driverPlugin
+            + " successfully unloaded.");
+    }
 
-	mDriverList.clear();
+    mDriverList.clear();
 }
 
 /**

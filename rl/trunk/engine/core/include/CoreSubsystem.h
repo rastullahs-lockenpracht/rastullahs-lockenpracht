@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -50,69 +50,77 @@ class JobScheduler;
 
 typedef _RlCoreExport std::map<Ogre::String, ContentModule*> ModuleMap;
 
-/** CoreSubsystem. 
-	@remarks		
+/** CoreSubsystem.
+    @remarks
         It follows the Singleton Pattern,
-		and initialises the game context.
+        and initialises the game context.
 */
 class _RlCoreExport CoreSubsystem : public Ogre::Singleton<CoreSubsystem>, public virtual EventSource
 {
 public:
-	/** Default Constructor */
-	CoreSubsystem();
+    /** Default Constructor */
+    CoreSubsystem();
     /** Default Deconstructor */
-	virtual ~CoreSubsystem();
+    virtual ~CoreSubsystem();
 
-	/** Starts the Game */
-	void startCore();
-	
-	/** Returns the Singleton */
-	//static CoreSubsystem & getSingleton();
-	//static CoreSubsystem * getSingletonPtr();
+    /** Starts the Game */
+    void startCore();
 
-	World* getWorld();
-	void loadMap(const Ogre::String type, const Ogre::String filename,
-	    const Ogre::String module, const Ogre::String startupScript = "");
+    /** Returns the Singleton */
+    //static CoreSubsystem & getSingleton();
+    //static CoreSubsystem * getSingletonPtr();
 
-	RubyInterpreter* getRubyInterpreter();
+    World* getWorld();
+    void loadMap(const Ogre::String type, const Ogre::String filename,
+        const Ogre::String module, const Ogre::String startupScript = "");
 
-	ContentModule* getActiveAdventureModule() const;
-	ContentModule* getModule(const Ogre::String& moduleId) const;
-	const ModuleMap& getAllModules() const;
-	void startAdventureModule(ContentModule* module);
-	void setDefaultActiveModule(const Ogre::String& moduleId); 
-	const Ogre::String& getDefaultActiveModule() const; 
-	void registerModule(ContentModule* module);
+    RubyInterpreter* getRubyInterpreter();
 
-	void setDeveloperMode(bool developerMode);
-	bool getDeveloperMode() const;
+    ContentModule* getActiveAdventureModule() const;
+    ContentModule* getModule(const Ogre::String& moduleId) const;
+    const ModuleMap& getAllModules() const;
+    void startAdventureModule(ContentModule* module);
+    void setDefaultActiveModule(const Ogre::String& moduleId);
+    const Ogre::String& getDefaultActiveModule() const;
+    void registerModule(ContentModule* module);
 
-	
-	/** Saves a timestamped jpg Screenshot
-		@param sName The filename (extended with the timestamp)
-	*/
-	void makeScreenshot(const Ogre::String& sName);
+    void setDeveloperMode(bool developerMode);
+    bool getDeveloperMode() const;
 
-	void addCoreEventListener(CoreEventListener* listener);
-	void removeCoreEventListener(CoreEventListener* listener);
 
-	void setScheme(const Ogre::String& schemeName);
+    /** Saves a timestamped jpg Screenshot
+        @param sName The filename (extended with the timestamp)
+    */
+    void makeScreenshot(const Ogre::String& sName);
 
-	bool isInitialized() const;
+    void addCoreEventListener(CoreEventListener* listener);
+    void removeCoreEventListener(CoreEventListener* listener);
+
+    void setScheme(const Ogre::String& schemeName);
+
+    bool isInitialized() const;
+
+    /**
+     * Retrieves a pointer to the current render window.
+     *
+     * @return pointer to render window
+     */
+    Ogre::RenderWindow* getRenderWindow();
 
 private:
-	World* mWorld;
-	RubyInterpreter* mRubyInterpreter;
-	ModuleMap mModules;
-	ContentModule* mActiveAdventureModule;
-	Ogre::String mDefaultActiveModule;
+    World* mWorld;
+    RubyInterpreter* mRubyInterpreter;
+    ModuleMap mModules;
+    ContentModule* mActiveAdventureModule;
+    Ogre::String mDefaultActiveModule;
+    Ogre::RenderWindow* mRenderWindow;            //!< Render window for OGRE
 
-	RL_LONGLONG mClockStartTime;
+    RL_LONGLONG mClockStartTime;
 
-	bool mDeveloperMode;
-	bool mInitialized;
-	EventCaster<CoreEvent> mCoreEventCaster;
-	std::vector<Ogre::Technique*> mDefaultTechniques;
+    bool mDeveloperMode;
+    bool mInitialized;
+    EventCaster<CoreEvent> mCoreEventCaster;
+    std::vector<Ogre::Technique*> mDefaultTechniques;
 
     // The singletons of this subsystem
     Ogre::Root* mOgreRoot;
@@ -124,29 +132,26 @@ private:
     ActorManager* mActorManager;
     GameEventManager* mGameEventManager;
     ConfigurationManager* mConfigurationManager;
-	SoundManager* mSoundManager;
+    SoundManager* mSoundManager;
     DebugVisualsManager* mDebugVisualsManager;
     JobScheduler* mJobScheduler;
 
     /** Runs the setup methods  */
-	bool initializeCoreSubsystem();
+    bool initializeCoreSubsystem();
 
-	/** Loads all needed ressources */
-	void initializeResources();
+    /** Loads all needed ressources */
+    void initializeResources();
 
-	void loadPlugins();
+    void loadPlugins();
     void unloadPlugins();
 
-	/**
-	 * Sammelt alle Default-Techniques, um sie später bei jedem aktivierten Scheme 
-	 * benutzen zu können
-	 */
-	void updateDefaultScheme();
+    /**
+     * Sammelt alle Default-Techniques, um sie später bei jedem aktivierten Scheme
+     * benutzen zu können
+     */
+    void updateDefaultScheme();
 
     void loadModule(ContentModule* module);
-
-	/** Opens a configuration dialog */
-	bool setupConfiguration();
 };
 
 }

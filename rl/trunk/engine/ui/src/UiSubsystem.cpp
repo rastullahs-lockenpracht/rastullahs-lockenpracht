@@ -50,111 +50,110 @@
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
 
 namespace rl {
-	const char* UiSubsystem::CEGUI_ROOT = "RootWindow";
+    const char* UiSubsystem::CEGUI_ROOT = "RootWindow";
 
-	UiSubsystem& UiSubsystem::getSingleton(void)
-	{
-		return Singleton<UiSubsystem>::getSingleton();
-	}
+    UiSubsystem& UiSubsystem::getSingleton(void)
+    {
+        return Singleton<UiSubsystem>::getSingleton();
+    }
 
-	UiSubsystem* UiSubsystem::getSingletonPtr(void)
-	{
-		return Singleton<UiSubsystem>::getSingletonPtr();
-	}
+    UiSubsystem* UiSubsystem::getSingletonPtr(void)
+    {
+        return Singleton<UiSubsystem>::getSingletonPtr();
+    }
 
-	UiSubsystem::UiSubsystem() :
+    UiSubsystem::UiSubsystem() :
         mCharacterController(NULL),
-		mCharacterControllerType(CharacterController::CTRL_NONE),
+        mCharacterControllerType(CharacterController::CTRL_NONE),
         mHero(NULL),
         mCharacter(NULL),
-		mInputManager(NULL),
-		mWindowFactory(NULL),
-		mWindowManager(NULL),
+        mInputManager(NULL),
+        mWindowFactory(NULL),
+        mWindowManager(NULL),
         mGuiRenderer(NULL),
         mGuiResourceProvider(NULL),
         mGuiSystem(NULL)
-	{
+    {
         CoreSubsystem::getSingletonPtr()->getWorld()->addSceneChangeListener(this);
-		mWindowFactory = new WindowFactory();
-	}
+        mWindowFactory = new WindowFactory();
+    }
 
     UiSubsystem::~UiSubsystem()
     {
         CoreSubsystem::getSingletonPtr()->getWorld()->removeSceneChangeListener(this);
 
-		delete mWindowFactory;
-		delete mWindowManager;
+        delete mWindowFactory;
+        delete mWindowManager;
 
         GameLoop::getSingleton().removeTask(mCharacterController);
-		delete mCharacterController;
+        delete mCharacterController;
 
-		delete mInputManager;
+        delete mInputManager;
 
         delete mGuiSystem;
         delete mGuiResourceProvider;
         delete mGuiRenderer;
-	}
+    }
 
     void UiSubsystem::initializeSubsystem()
     {
-		using namespace CEGUI;
+        using namespace CEGUI;
 
         LOG_MESSAGE2(Logger::UI,
             "Initialisiere UI", "UiSubsystem::initializeUiSubsystem");
         World* world = CoreSubsystem::getSingleton().getWorld();
         SceneManager* sceneMgr = world->getSceneManager();
 
-		Ogre::RenderWindow* window = Ogre::Root::getSingleton().getAutoCreatedWindow();
-		LOG_MESSAGE2(Logger::UI,
+        LOG_MESSAGE2(Logger::UI,
             "Initializing CEGUI Renderer.", "UiSubsystem::initializeUiSubsystem");
-		mGuiRenderer = new OgreCEGUIRenderer(window,
+        mGuiRenderer = new OgreCEGUIRenderer(CoreSubsystem::getSingleton().getRenderWindow(),
             Ogre::RENDER_QUEUE_OVERLAY, false, 3000, sceneMgr);
 
-		LOG_MESSAGE2(Logger::UI,
+        LOG_MESSAGE2(Logger::UI,
             "Initializing CEGUI System.", "UiSubsystem::initializeUiSubsystem");
         mGuiResourceProvider = new OgreCEGUIResourceProvider();
         CEGUI::System::setDefaultXMLParserName("XercesParser");
-		mGuiSystem = new System(mGuiRenderer, mGuiResourceProvider,
+        mGuiSystem = new System(mGuiRenderer, mGuiResourceProvider,
             NULL, NULL, (utf8*)"cegui.config", ConfigurationManager::getSingleton().getCeguiLogFile());
-		CEGUI::Logger::getSingleton().setLoggingLevel(
+        CEGUI::Logger::getSingleton().setLoggingLevel(
             rl::Logger::getSingleton().getCeGuiLogDetail());
-		LOG_MESSAGE2(Logger::UI,
+        LOG_MESSAGE2(Logger::UI,
             "CEGUI System initialized.", "UiSubsystem::initializeUiSubsystem");
 
-		// load scheme and set up defaults
-		///@todo Hier sollte was Lookunabhängiges rein!!! FIXME TODO BUG!
-		System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook-Images",
+        // load scheme and set up defaults
+        ///@todo Hier sollte was Lookunabhängiges rein!!! FIXME TODO BUG!
+        System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook-Images",
             (utf8*)"MouseArrow");
-		LOG_MESSAGE2(Logger::UI, "Mouse arrow loaded.",
+        LOG_MESSAGE2(Logger::UI, "Mouse arrow loaded.",
             "UiSubsystem::initializeUiSubsystem");
-		Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet",
+        Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet",
             (utf8*)CEGUI_ROOT);
-		LOG_MESSAGE2(Logger::UI, "CEGUI Root Window created.",
+        LOG_MESSAGE2(Logger::UI, "CEGUI Root Window created.",
             "UiSubsystem::initializeUiSubsystem");
-		sheet->setSize(
+        sheet->setSize(
             CeGuiHelper::asAbsolute(CEGUI::Vector2(
-                Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth(),
-				Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight())));
-		sheet->setPosition(CeGuiHelper::asAbsolute(CEGUI::Point(0, 0)));
-		System::getSingleton().setGUISheet(sheet);
+                CoreSubsystem::getSingleton().getRenderWindow()->getWidth(),
+                CoreSubsystem::getSingleton().getRenderWindow()->getHeight())));
+        sheet->setPosition(CeGuiHelper::asAbsolute(CEGUI::Point(0, 0)));
+        System::getSingleton().setGUISheet(sheet);
         sheet->setZOrderingEnabled(true);
         sheet->moveToBack();
-		System::getSingleton().setDefaultTooltip("RastullahLook/Tooltip");
+        System::getSingleton().setDefaultTooltip("RastullahLook/Tooltip");
         LOG_MESSAGE2(Logger::UI, "CEGUI initialized.",
             "UiSubsystem::initializeUiSubsystem");
 
-		mWindowManager = new WindowManager();
+        mWindowManager = new WindowManager();
 
-		//Initializing InputManager
-        mInputManager = new InputManager(Ogre::Root::getSingleton().getAutoCreatedWindow());
-		LOG_MESSAGE2(Logger::UI, "InputManager started.",
+        //Initializing InputManager
+        mInputManager = new InputManager(CoreSubsystem::getSingleton().getRenderWindow());
+        LOG_MESSAGE2(Logger::UI, "InputManager started.",
             "UiSubsystem::initializeUiSubsystem");
 
-		mInputManager->loadKeyMapping(ConfigurationManager::getSingleton().getKeymap());
-		LOG_MESSAGE2(Logger::UI, "Keymap geladen",
+        mInputManager->loadKeyMapping(ConfigurationManager::getSingleton().getKeymap());
+        LOG_MESSAGE2(Logger::UI, "Keymap geladen",
             "UiSubsystem::initializeUiSubsystem");
-        mInputManager->loadCommandMapping(ConfigurationManager::getSingleton().getInputConfigPath());
-		LOG_MESSAGE2(Logger::UI, "UI-Manager loaded.",
+        mInputManager->buildCommandMapping(ConfigurationManager::getSingleton().getInputSettings());
+        LOG_MESSAGE2(Logger::UI, "UI-Manager loaded.",
             "UiSubsystem::initializeUiSubsystem");
 
         mWindowFactory->initialize();
@@ -166,18 +165,18 @@ namespace rl {
     }
 
 
-	CEGUI::OgreCEGUIRenderer* UiSubsystem::getGUIRenderer()
-	{
-		return mGuiRenderer;
-	}
+    CEGUI::OgreCEGUIRenderer* UiSubsystem::getGUIRenderer()
+    {
+        return mGuiRenderer;
+    }
 
-	Person* UiSubsystem::getActiveCharacter() const
-	{
-		return mCharacter;
-	}
+    Person* UiSubsystem::getActiveCharacter() const
+    {
+        return mCharacter;
+    }
 
-	void UiSubsystem::setActiveCharacter(Person* person)
-	{
+    void UiSubsystem::setActiveCharacter(Person* person)
+    {
         // Ensure we have a sound listener
         if (SoundManager::getSingleton().getListenerActor() == NULL)
         {
@@ -187,58 +186,58 @@ namespace rl {
         // Nur wenn es sich verändert hat
         if( person != mCharacter )
         {
-			if( mCharacter != NULL )
-			{
-				ScriptWrapper::getSingleton().disowned( mCharacter );
-				mCharacter->getActor()->detach(SoundManager::getSingleton().getListenerActor());
-			}
+            if( mCharacter != NULL )
+            {
+                ScriptWrapper::getSingleton().disowned( mCharacter );
+                mCharacter->getActor()->detach(SoundManager::getSingleton().getListenerActor());
+            }
 
             World* world = CoreSubsystem::getSingletonPtr()->getWorld();
 
-			if (person == NULL)
-			{
-				mCharacter = NULL;
+            if (person == NULL)
+            {
+                mCharacter = NULL;
                 world->setActiveActor( ActorManager::getSingleton().getActor("DefaultCamera") );
-			}
-			else
-			{
-				ScriptWrapper::getSingleton().owned( person );
-				mCharacter = person;
+            }
+            else
+            {
+                ScriptWrapper::getSingleton().owned( person );
+                mCharacter = person;
 
-				world->setActiveActor(person->getActor());
-				mWindowFactory->setActiveCharacter(person);
+                world->setActiveActor(person->getActor());
+                mWindowFactory->setActiveCharacter(person);
 
-				mCharacter->getActor()->attach(SoundManager::getSingleton().getListenerActor());
-				LOG_MESSAGE(Logger::UI, "SoundListener attached.");
+                mCharacter->getActor()->attach(SoundManager::getSingleton().getListenerActor());
+                LOG_MESSAGE(Logger::UI, "SoundListener attached.");
 
-				setCharacterController(CharacterController::CTRL_MOVEMENT);
-			}
+                setCharacterController(CharacterController::CTRL_MOVEMENT);
+            }
         }
-	}
+    }
 
-	void UiSubsystem::requestCharacterControllerSwitch(CharacterController::ControllerType type)
-	{
-		mCharacterControllerType = type;
-	}
+    void UiSubsystem::requestCharacterControllerSwitch(CharacterController::ControllerType type)
+    {
+        mCharacterControllerType = type;
+    }
 
-	void UiSubsystem::setCharacterController(CharacterController::ControllerType type)
-	{
-		if (mCharacterController != NULL)
-		{
-			if (mCharacterController->getType() == type)
-				return;
-
-			GameLoop::getSingleton().removeTask(mCharacterController);
-			delete mCharacterController;
-            mCharacterController = NULL;
-			LOG_MESSAGE(Logger::UI,
-                "Old CharacterController deleted.");
-		}
-
-   		if( type == CharacterController::CTRL_NONE )
+    void UiSubsystem::setCharacterController(CharacterController::ControllerType type)
+    {
+        if (mCharacterController != NULL)
         {
-			mCharacterController = NULL;
-			return;
+            if (mCharacterController->getType() == type)
+                return;
+
+            GameLoop::getSingleton().removeTask(mCharacterController);
+            delete mCharacterController;
+            mCharacterController = NULL;
+            LOG_MESSAGE(Logger::UI,
+                "Old CharacterController deleted.");
+        }
+
+           if( type == CharacterController::CTRL_NONE )
+        {
+            mCharacterController = NULL;
+            return;
         }
 
         Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
@@ -248,71 +247,71 @@ namespace rl {
             return;
         }
 
-		if (type == CharacterController::CTRL_MOVEMENT)
+        if (type == CharacterController::CTRL_MOVEMENT)
         {
-			mCharacterController = new MovementCharacterController(camera, mCharacter);
-			if (!PhysicsManager::getSingleton().isEnabled())
-			{
-				PhysicsManager::getSingleton().setEnabled(true);
-			}
+            mCharacterController = new MovementCharacterController(camera, mCharacter);
+            if (!PhysicsManager::getSingleton().isEnabled())
+            {
+                PhysicsManager::getSingleton().setEnabled(true);
+            }
         }
-		else if (type == CharacterController::CTRL_FREEFLIGHT)
+        else if (type == CharacterController::CTRL_FREEFLIGHT)
         {
-			mCharacterController = new FreeFlightCharacterController(camera,
+            mCharacterController = new FreeFlightCharacterController(camera,
                 CoreSubsystem::getSingleton().getWorld()->getActiveActor());
         }
-		else if (type == CharacterController::CTRL_DIALOG)
+        else if (type == CharacterController::CTRL_DIALOG)
         {
-			mCharacterController = new DialogCharacterController(camera,
+            mCharacterController = new DialogCharacterController(camera,
                 CoreSubsystem::getSingleton().getWorld()->getActiveActor());
         }
-		else if (type == CharacterController::CTRL_VANITY_MODE)
+        else if (type == CharacterController::CTRL_VANITY_MODE)
         {
-			mCharacterController = new VanityModeCharacterController(camera,
+            mCharacterController = new VanityModeCharacterController(camera,
                 CoreSubsystem::getSingleton().getWorld()->getActiveActor());
         }
-		else if (type == CharacterController::CTRL_CUTSCENE)
+        else if (type == CharacterController::CTRL_CUTSCENE)
         {
-			mCharacterController = new CutsceneCharacterController(camera);
+            mCharacterController = new CutsceneCharacterController(camera);
         }
         else
         {
-			Throw(IllegalArgumentException, "Unknown CharacterControllerType.");
-		}
-		mCharacterControllerType = type;
+            Throw(IllegalArgumentException, "Unknown CharacterControllerType.");
+        }
+        mCharacterControllerType = type;
 
-		mInputManager->setCharacterController(mCharacterController);
+        mInputManager->setCharacterController(mCharacterController);
 
-	    LOG_MESSAGE(Logger::UI, "CharacterController created.");
+        LOG_MESSAGE(Logger::UI, "CharacterController created.");
         GameLoop::getSingleton().addTask(mCharacterController, GameLoop::TG_INPUT);
         LOG_MESSAGE(Logger::UI, "CharacterController task added.");
-	}
+    }
 
-	void UiSubsystem::run(Ogre::Real timeElapsed)
-	{
-		setCharacterController(mCharacterControllerType);
-	}
+    void UiSubsystem::run(Ogre::Real timeElapsed)
+    {
+        setCharacterController(mCharacterControllerType);
+    }
 
     CharacterController* UiSubsystem::getCharacterController() const
     {
         return mCharacterController;
     }
 
-	CharacterController::ControllerType UiSubsystem::getCharacterControllerType() const
-	{
-		if (mCharacterController == NULL)
-			return CharacterController::CTRL_NONE;
+    CharacterController::ControllerType UiSubsystem::getCharacterControllerType() const
+    {
+        if (mCharacterController == NULL)
+            return CharacterController::CTRL_NONE;
 
-		return mCharacterController->getType();
-	}
+        return mCharacterController->getType();
+    }
 
     void UiSubsystem::onBeforeClearScene()
     {
-		if (mCharacterController != NULL)
-		{
+        if (mCharacterController != NULL)
+        {
             setCharacterController(CharacterController::CTRL_NONE);
-			setActiveCharacter(NULL);
-		}
+            setActiveCharacter(NULL);
+        }
     }
 
     const Ogre::String& UiSubsystem::getName() const

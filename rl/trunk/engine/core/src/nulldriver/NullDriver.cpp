@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -22,7 +22,7 @@ namespace rl
 {
 Ogre::String NullDriver::NAME = "NullDriver";
 
-/** 
+/**
  * Konstruktor
  * @author JoSch
  * @date 12-23-2005
@@ -32,7 +32,7 @@ NullDriver::NullDriver(Ogre::ResourceManager* soundResourceManager)
 {
 }
 
-/** 
+/**
  * Destruktor
  * @author JoSch
  * @date 12-23-2005
@@ -41,7 +41,7 @@ NullDriver::~NullDriver()
 {
 }
 
-/** 
+/**
  * Zeigt an, ob der Treiber funktionsf�hig ist.
  * @return Immer TRUE.
  * @author JoSch
@@ -52,17 +52,17 @@ bool NullDriver::isDriverAvailable()
     return true;
 }
 
-/** 
+/**
  * Starte den Nulltreiber und mache alle Initialisierung.
  * @author JoSch
  * @date 12-23-2005
  */
 bool NullDriver::initialize()
 {
-	return true;
+    return true;
 }
 
-/** 
+/**
  * Beeende den Nulltreiber und gib alle Resourcen frei.
  * @author JoSch
  * @date 12-23-2005
@@ -71,7 +71,7 @@ void NullDriver::shutdown()
 {
 }
 
-/** 
+/**
  * Gibt den Anzeigename des Treiber zur�ck.
  * @return Anzeigename
  * @author JoSch
@@ -89,9 +89,9 @@ Ogre::String NullDriver::getName() const
  */
  void NullDriver::update()
  {
- 	// Erstmal nichts zu tun.
+     // Erstmal nichts zu tun.
  }
- 
+
  /**
   * Einen Sound-Stream mit Resource erzeugen
   * @return Der erzeugte Stream
@@ -101,8 +101,8 @@ Ogre::String NullDriver::getName() const
   */
 Sound *NullDriver::createStream(const SoundResourcePtr &res)
 {
- 	Sound *sound = new NullSound(res);
- 	return sound;
+     Sound *sound = new NullSound(res);
+     return sound;
 }
 
 /**
@@ -114,8 +114,8 @@ Sound *NullDriver::createStream(const SoundResourcePtr &res)
  */
 Sound *NullDriver::createSample(const SoundResourcePtr &res)
 {
- 	Sound *sound = new NullSound(res);
- 	return sound;
+     Sound *sound = new NullSound(res);
+     return sound;
 }
 
 /**
@@ -131,38 +131,13 @@ ListenerMovable *NullDriver::createListener(const Ogre::String &name)
     return listener;
 }
 
-
-/*
- * Die Konfiguration in Datei schreiben.
- * @author JoSch
- * @date 05-07-2006
- * @param conf Die Konfigurationdatei zum Schreiben.
- */
-void NullDriver::saveConf(ConfigFile &conf) const
-{
-	SoundDriver::saveConf(conf);
-    // DO NOTHING
-}
-
-/*
- * Die Konfiguration lesen
- * @author JoSch
- * @date 05-07-2006
- * @param conf Die Konfigurationdatei, aus der gelesen werden soll
- */
-void NullDriver::loadConf(ConfigFile &conf)
-{
-	SoundDriver::loadConf(conf);
-    // DO NOTHING
-}
-
 void NullDriver::setRolloffFactor(const Ogre::Real&)
 {
 }
 
 const Ogre::Real NullDriver::getRolloffFactor()
 {
-	return 1.0;
+    return 1.0;
 }
 
 }

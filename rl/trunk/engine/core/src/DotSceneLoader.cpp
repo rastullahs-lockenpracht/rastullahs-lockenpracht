@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -47,112 +47,129 @@ using namespace std;
 using namespace Ogre;
 
 namespace rl {
-	using XERCES_CPP_NAMESPACE::DOMDocument;
+    using XERCES_CPP_NAMESPACE::DOMDocument;
 
     DotSceneLoader::DotSceneLoader(const string& filename, const string& resourceGroup)
         : mSceneName(filename),
           mResourceGroup(resourceGroup),
-		  mStaticNodes(),
-		  mRenderingDistance(ActorManager::getSingleton().getDefaultActorRenderingDistance()),
-		  mStaticgeomRenderingDistances(),
-		  mStaticgeomBatchSizes(),
+          mStaticNodes(),
+          mRenderingDistance(ActorManager::getSingleton().getDefaultActorRenderingDistance()),
+          mStaticgeomRenderingDistances(),
+          mStaticgeomBatchSizes(),
           mRessource(NULL),
           mParser(NULL),
           mErrorCount(0)
-	{
+    {
         srand(static_cast<unsigned int>(time(NULL)));
-	}
+    }
 
-	DotSceneLoader::~DotSceneLoader()
-	{      
+    DotSceneLoader::~DotSceneLoader()
+    {
         if (mRessource->isLoaded())
         {
             XmlResourceManager::getSingleton().unload(mSceneName);
             XmlResourceManager::getSingleton().remove(mRessource->getHandle());
         }
-	}
+    }
 
-	void DotSceneLoader::initializeScene(SceneManager* sceneManager)
-	{
-		XMLPlatformUtils::Initialize();
-		XmlHelper::initializeTranscoder();
+    void DotSceneLoader::initializeScene(SceneManager* sceneManager)
+    {
+        XMLPlatformUtils::Initialize();
+        XmlHelper::initializeTranscoder();
 
-		LOG_MESSAGE(Logger::CORE, "Loading Scene from " + mSceneName);
-        DOMDocument* doc = openSceneFile();            
+        LOG_MESSAGE(Logger::CORE, "Loading Scene from " + mSceneName);
+        DOMDocument* doc = openSceneFile();
 
-		// Durch alle Unterelemente iterieren
-		DOMNode* child = doc->getDocumentElement()->getFirstChild();
+        // Durch alle Unterelemente iterieren
+        DOMNode* child = doc->getDocumentElement()->getFirstChild();
 
-		while(child != NULL)
-		{
-			// Ein Node
+        while(child != NULL)
+        {
+            // Ein Node
             if (XMLString::compareIString(child->getNodeName(), AutoXMLCh("userData").data()) == 0 )
-			{
-				processSceneUserData(static_cast<DOMElement*>(child));
-			}
-			child = child->getNextSibling();
-		} 
+            {
+                processSceneUserData(static_cast<DOMElement*>(child));
+            }
+            child = child->getNextSibling();
+        }
 
-		LOG_DEBUG(Logger::CORE, " Beginne parsen der Unterelemente");
-		DOMElement* nodes = XmlHelper::getChildNamed(doc->getDocumentElement(), "nodes");
+        LOG_DEBUG(Logger::CORE, " Beginne parsen der Unterelemente");
+        DOMElement* nodes = XmlHelper::getChildNamed(doc->getDocumentElement(), "nodes");
 
-		// Eine .scene wird in einem SceneNode mit dem Namen der .scene befestigt
-		mSceneNode = sceneManager->getRootSceneNode()->createChildSceneNode(mSceneName);
-		processNodes(nodes, sceneManager, mSceneNode);
+        // Eine .scene wird in einem SceneNode mit dem Namen der .scene befestigt
+        mSceneNode = sceneManager->getRootSceneNode()->createChildSceneNode(mSceneName);
+        processNodes(nodes, sceneManager, mSceneNode);
 
+        // Find out, if static geometry should be used
+        Ogre::String temp = ConfigurationManager::getSingleton().getStringSetting(ConfigurationManager::CS_GRAPHICS, "Use Static Geometry");
+        bool useStaticGeometry;
 
-        if (ConfigurationManager::getSingleton().shouldUseStaticGeometry())
-        {    
-			for(std::map<int,Ogre::SceneNode*>::iterator it = mStaticNodes.begin();
-				it != mStaticNodes.end();) 
-			{
-				Ogre::SceneNode* staticNode = it->second;
-				string staticName = Ogre::StringConverter::toString(it->first);
-				Ogre::Real renderDist = mRenderingDistance;
-				Ogre::Real batchSize = 25.0;
+        if (temp == "yes")
+        {
+            useStaticGeometry = true;
+        }
+        else if (temp == "no")
+        {
+            useStaticGeometry = false;
+        }
+        else
+        {
+            // Check, if Renderer supports vertex buffer
+            useStaticGeometry = Ogre::Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(Ogre::RSC_VBO);
+        }
 
-				if (mStaticgeomRenderingDistances.find(it->first) != mStaticgeomRenderingDistances.end())
-					renderDist = mStaticgeomRenderingDistances[it->first];
-				if (mStaticgeomBatchSizes.find(it->first) != mStaticgeomBatchSizes.end())
-					batchSize = mStaticgeomBatchSizes[it->first];
+        if (useStaticGeometry)
+        {
+            for(std::map<int,Ogre::SceneNode*>::iterator it = mStaticNodes.begin();
+                it != mStaticNodes.end();)
+            {
+                Ogre::SceneNode* staticNode = it->second;
+                string staticName = Ogre::StringConverter::toString(it->first);
+                Ogre::Real renderDist = mRenderingDistance;
+                Ogre::Real batchSize = 25.0;
 
-				StaticGeometry* staticGeom = sceneManager->createStaticGeometry(mSceneName + staticName );
-				
-				staticGeom->setRenderingDistance(renderDist);
-				staticGeom->addSceneNode(staticNode);
-				staticGeom->setRegionDimensions(batchSize * Vector3::UNIT_SCALE);
-				// Statische Geometrie bauen
-				staticGeom->build();
-				// Nicht mehr den Original-Knoten rendern, da dieser noch erhalten ist.			
-				staticNode->setVisible(false);
-				staticNode->removeAndDestroyAllChildren();
-				sceneManager->destroySceneNode(staticNode->getName());				
-				staticNode = NULL;
-				LOG_DEBUG(Logger::CORE, " Statische Geometrie "+staticName+" erstellt");
-				++it;
-			}
+                if (mStaticgeomRenderingDistances.find(it->first) != mStaticgeomRenderingDistances.end())
+                    renderDist = mStaticgeomRenderingDistances[it->first];
+                if (mStaticgeomBatchSizes.find(it->first) != mStaticgeomBatchSizes.end())
+                    batchSize = mStaticgeomBatchSizes[it->first];
+
+                StaticGeometry* staticGeom = sceneManager->createStaticGeometry(mSceneName + staticName );
+
+                staticGeom->setRenderingDistance(renderDist);
+                staticGeom->addSceneNode(staticNode);
+                staticGeom->setRegionDimensions(batchSize * Vector3::UNIT_SCALE);
+                // Statische Geometrie bauen
+                staticGeom->build();
+                // Nicht mehr den Original-Knoten rendern, da dieser noch erhalten ist.
+                staticNode->setVisible(false);
+                staticNode->removeAndDestroyAllChildren();
+                sceneManager->destroySceneNode(staticNode->getName());
+                staticNode = NULL;
+                LOG_DEBUG(Logger::CORE, " Statische Geometrie "+staticName+" erstellt");
+                ++it;
+            }
         }
         else
             LOG_DEBUG(Logger::CORE, " Keine statischen Geometrien erstellt");
-        
-        delete mParser;
-		XMLPlatformUtils::Terminate();		
-		LOG_DEBUG(Logger::CORE, "Szenenbeschreibung aus " + mSceneName +" fertig geparst");
-	}
 
-	DOMDocument* DotSceneLoader::openSceneFile()
-	{
-		mParser = new XercesDOMParser();
+        delete mParser;
+        XMLPlatformUtils::Terminate();
+        LOG_DEBUG(Logger::CORE, "Szenenbeschreibung aus " + mSceneName +" fertig geparst");
+    }
+
+    DOMDocument* DotSceneLoader::openSceneFile()
+    {
+        mParser = new XercesDOMParser();
         mParser->setValidationScheme(XercesDOMParser::Val_Auto);
         mParser->setDoNamespaces(true);
         mParser->setErrorHandler(this);
-		
+
         try
         {
-		    mRessource = 
-			    XmlResourceManager::getSingleton().create(
-			    mSceneName, 
-		   	    mResourceGroup);
+            mRessource =
+                XmlResourceManager::getSingleton().create(
+                mSceneName,
+                   mResourceGroup);
         }
         catch(Ogre::Exception)
         {
@@ -171,36 +188,36 @@ namespace rl {
         if (mErrorCount > 0)
             Throw(RuntimeException, "File '"+mSceneName+"' could not be parsed.");
 
-		DOMDocument* doc = mParser->getDocument();     
+        DOMDocument* doc = mParser->getDocument();
 
         return doc;
-	}
+    }
 
-	// Iteriert durch die einzelnen Nodes
-	void DotSceneLoader::processNodes(DOMElement* rootNodesXml, SceneManager* sceneManager, 
-		Ogre::SceneNode* parentNode)
-	{
-		if (rootNodesXml == NULL)
-			return;
-		if (parentNode == NULL)
-			Throw(NullPointerException, "parentNode darf nicht null sein");
-	
+    // Iteriert durch die einzelnen Nodes
+    void DotSceneLoader::processNodes(DOMElement* rootNodesXml, SceneManager* sceneManager,
+        Ogre::SceneNode* parentNode)
+    {
+        if (rootNodesXml == NULL)
+            return;
+        if (parentNode == NULL)
+            Throw(NullPointerException, "parentNode darf nicht null sein");
 
-		// Durch alle Unterelemente iterieren
-		DOMNode* child = rootNodesXml->getFirstChild();
 
-		while(child != NULL)
-		{
-			// Ein Node
+        // Durch alle Unterelemente iterieren
+        DOMNode* child = rootNodesXml->getFirstChild();
+
+        while(child != NULL)
+        {
+            // Ein Node
             if (XMLString::compareIString(child->getNodeName(), AutoXMLCh("node").data()) == 0 )
-			{
-				processNode(static_cast<DOMElement*>(child), sceneManager, parentNode, NULL);
-			}
-			child = child->getNextSibling();
-		} 
-	}
+            {
+                processNode(static_cast<DOMElement*>(child), sceneManager, parentNode, NULL);
+            }
+            child = child->getNextSibling();
+        }
+    }
 
-	// Befasst sich mit einem Node
+    // Befasst sich mit einem Node
     void DotSceneLoader::processNode(DOMElement* rootNodeXml, SceneManager* sceneManager, Ogre::SceneNode* parentNode, NodeUserData* parentUserData)
     {
         if (rootNodeXml == NULL)
@@ -208,7 +225,7 @@ namespace rl {
         if (parentNode == NULL)
             Throw(NullPointerException, "parentNode darf nicht null sein");
 
-        string nodeName = XmlHelper::getAttributeValueAsStdString(rootNodeXml, 
+        string nodeName = XmlHelper::getAttributeValueAsStdString(rootNodeXml,
                         "name");
 
         Ogre::SceneNode* newNode;
@@ -224,17 +241,17 @@ namespace rl {
             {
                 // Name schon vergeben
                 newNode = parentNode->createChildSceneNode();
-                LOG_DEBUG(Logger::CORE, 
+                LOG_DEBUG(Logger::CORE,
                     " NodeName '"+nodeName+"' war schon vergeben! Es wurde der Name '"+newNode->getName()+"' benutzt.");
             }
         }
         else
         {
             newNode = parentNode->createChildSceneNode();
-        }	
+        }
 
-        LOG_DEBUG(Logger::CORE, 
-                    " Node '"+newNode->getName()+"' als Unterknoten von '"+parentNode->getName()+"' erstellt.");		
+        LOG_DEBUG(Logger::CORE,
+                    " Node '"+newNode->getName()+"' als Unterknoten von '"+parentNode->getName()+"' erstellt.");
 
 
         NodeUserData userData;
@@ -260,25 +277,25 @@ namespace rl {
 
         mCollisions.clear();
         DOMNode* child = rootNodeXml->getFirstChild();
-        DOMNode *childScale = NULL, *childPosition = NULL, 
+        DOMNode *childScale = NULL, *childPosition = NULL,
         *childRotation = NULL;
         // Durch alle Unterelemente iterieren und gefundenes speichern
         while(child != NULL)
         {
             // Ein selbstdefinierter Bereich
-            if (XMLString::compareIString(child->getNodeName(), 
+            if (XMLString::compareIString(child->getNodeName(),
                 AutoXMLCh("userData").data()) == 0)
             {
                 // UserData direkt auslesen
                 processNodeUserData(static_cast<DOMElement*>(child) , &userData);
             }
-            else if (XMLString::compareIString(child->getNodeName(), 
+            else if (XMLString::compareIString(child->getNodeName(),
                      AutoXMLCh("position").data()) == 0)
                 childPosition = child;//rootNodeXml->removeChild(child);
-            else if (XMLString::compareIString(child->getNodeName(), 
+            else if (XMLString::compareIString(child->getNodeName(),
                      AutoXMLCh("rotation").data()) == 0)
                 childRotation = child;//rootNodeXml->removeChild(child);
-            else if (XMLString::compareIString(child->getNodeName(), 
+            else if (XMLString::compareIString(child->getNodeName(),
                      AutoXMLCh("scale").data()) == 0)
                 childScale = child;//rootNodeXml->removeChild(child);
 
@@ -297,7 +314,7 @@ namespace rl {
             // Existiert noch nicht
             if (mStaticNodes.find(userData.staticgeom_group) == mStaticNodes.end())
             {
-                mStaticNodes[userData.staticgeom_group] = 
+                mStaticNodes[userData.staticgeom_group] =
                 sceneManager->getRootSceneNode()->createChildSceneNode(
                 mSceneName+"_static_"+Ogre::StringConverter::toString(userData.staticgeom_group));
             }
@@ -339,13 +356,13 @@ namespace rl {
         while(child != NULL)
         {
             // geschachteltes weiteres Node
-            if (XMLString::compareIString(child->getNodeName(), 
+            if (XMLString::compareIString(child->getNodeName(),
                 AutoXMLCh("node").data()) == 0)
                 processNode(static_cast<DOMElement*>(child), sceneManager, newNode, &userData);
             // Eine Entity
-            else if (XMLString::compareIString(child->getNodeName(), 
+            else if (XMLString::compareIString(child->getNodeName(),
                      AutoXMLCh("entity").data()) == 0)
-                processEntity(static_cast<DOMElement*>(child), 
+                processEntity(static_cast<DOMElement*>(child),
                                 sceneManager,
                                 newNode,
                                 userData.renderingdistance,
@@ -365,11 +382,11 @@ namespace rl {
         while(child != NULL)
         {
             // Ein selbstdefinierter Bereich
-            if (XMLString::compareIString(child->getNodeName(), 
+            if (XMLString::compareIString(child->getNodeName(),
                 AutoXMLCh("property").data()) == 0)
             {
                 DOMElement* propertyXml = static_cast<DOMElement*>(child);
-                
+
                 PropertyEntry entry = propertyReader->processProperty(propertyXml);
 
                 try
@@ -391,19 +408,19 @@ namespace rl {
                 }
                 catch(...)
                 {
-                    LOG_DEBUG(Logger::CORE, 
+                    LOG_DEBUG(Logger::CORE,
                         " > Parse Error beim Übernehmen der Property '"+entry.first+"'!");
                 }
 
             }
             // Manuell definiertes LOD
-            else if (XMLString::compareIString(child->getNodeName(), 
+            else if (XMLString::compareIString(child->getNodeName(),
                 AutoXMLCh("manualLOD").data()) == 0)
             {
                 DOMElement* lodXml = static_cast<DOMElement*>(child);
-                string meshName = XmlHelper::getAttributeValueAsStdString(lodXml, 
+                string meshName = XmlHelper::getAttributeValueAsStdString(lodXml,
                     "mesh");
-				
+
                 try
                 {
                     Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().getByName(meshName);
@@ -416,8 +433,8 @@ namespace rl {
 
                     // Durch alle Unterelemente iterieren, um die LODs zu finden
                     while(lodchild != NULL)
-                    {						
-                        if (XMLString::compareIString(lodchild->getNodeName(), 
+                    {
+                        if (XMLString::compareIString(lodchild->getNodeName(),
                             AutoXMLCh("LOD").data()) == 0)
                         {
                             loddist = 0.0;
@@ -426,15 +443,15 @@ namespace rl {
                             try
                             {
                                 lodXml = static_cast<DOMElement*>(lodchild);
-                                loddist = XmlHelper::getAttributeValueAsReal(lodXml, 
+                                loddist = XmlHelper::getAttributeValueAsReal(lodXml,
                                     "distance");
-                                lodmeshName = XmlHelper::getAttributeValueAsStdString(lodXml, 
+                                lodmeshName = XmlHelper::getAttributeValueAsStdString(lodXml,
                                     "mesh");
 
                                 if (lodmeshName.length() > 0 && loddist > 0)
                                 {
                                     mesh->createManualLodLevel(loddist, lodmeshName);
-                                    LOG_DEBUG(Logger::CORE, 
+                                    LOG_DEBUG(Logger::CORE,
                                         " LOD für bei '"+Ogre::StringConverter::toString(loddist)+
                                         "' als '"+lodmeshName+"' gesetzt!");
                                 }
@@ -444,10 +461,10 @@ namespace rl {
 
                         lodchild = lodchild->getNextSibling();
                     }
-				}
+                }
                 catch(...)
                 {
-                    LOG_MESSAGE(Logger::CORE, 
+                    LOG_MESSAGE(Logger::CORE,
                         " > Parse Error beim Setzen der LOD für '"+meshName+"'!");
                 }
             }
@@ -455,9 +472,9 @@ namespace rl {
         }
 
         delete propertyReader;
-	}
+    }
 
-    void DotSceneLoader::processNodeUserData(XERCES_CPP_NAMESPACE::DOMElement* rootUserDataXml, 
+    void DotSceneLoader::processNodeUserData(XERCES_CPP_NAMESPACE::DOMElement* rootUserDataXml,
         NodeUserData* userData)
     {
         DOMNode* child = rootUserDataXml->getFirstChild();
@@ -468,7 +485,7 @@ namespace rl {
         while(child != NULL)
         {
             // Ein selbstdefinierter Bereich
-            if (XMLString::compareIString(child->getNodeName(), 
+            if (XMLString::compareIString(child->getNodeName(),
                 AutoXMLCh("property").data()) == 0)
             {
                 DOMElement* propertyXml = static_cast<DOMElement*>(child);
@@ -487,12 +504,12 @@ namespace rl {
                 }
                 catch(...)
                 {
-                    LOG_MESSAGE(Logger::CORE, 
+                    LOG_MESSAGE(Logger::CORE,
                         " > Parse Error beim Übernehmen der Property '"+entry.first+"'!");
                 }
 
             }
-            else if (XMLString::compareIString(child->getNodeName(), 
+            else if (XMLString::compareIString(child->getNodeName(),
                         AutoXMLCh("collisions").data()) == 0)
                     processCollisions(static_cast<DOMElement*> (child));
 
@@ -539,17 +556,17 @@ namespace rl {
             {
                 if (childChild->getNodeType() == DOMNode::ELEMENT_NODE)
                 {
-                    if (XMLString::compareIString(childChild->getNodeName(), 
+                    if (XMLString::compareIString(childChild->getNodeName(),
                         AutoXMLCh("scale").data()) == 0)
                         scale = processScale(static_cast<DOMElement*>(childChild));
-                    else if (XMLString::compareIString(childChild->getNodeName(), 
+                    else if (XMLString::compareIString(childChild->getNodeName(),
                              AutoXMLCh("offset").data()) == 0)
                         offset = processPosition(static_cast<DOMElement*>(childChild));
-                    else if (XMLString::compareIString(childChild->getNodeName(), 
+                    else if (XMLString::compareIString(childChild->getNodeName(),
                              AutoXMLCh("rotation").data()) == 0)
                         rotation = processRotation(static_cast<DOMElement*>(childChild));
 
-                    else if (XMLString::compareIString(childChild->getNodeName(), 
+                    else if (XMLString::compareIString(childChild->getNodeName(),
                              AutoXMLCh("vertices").data()) == 0)
                     {
                         DOMNode *childChildChild = static_cast<DOMElement*>(childChild)->getFirstChild();
@@ -557,7 +574,7 @@ namespace rl {
                         {
                             if (childChild->getNodeType() == DOMNode::ELEMENT_NODE)
                             {
-                                if (XMLString::compareIString(childChildChild->getNodeName(), 
+                                if (XMLString::compareIString(childChildChild->getNodeName(),
                                     AutoXMLCh("vertex").data()) == 0)
                                 {
                                     bool error = false;
@@ -606,7 +623,7 @@ namespace rl {
                     size.z < PhysicsManager::NEWTON_GRID_WIDTH ||
                     vertcount < 4)
                 {
-                    LOG_MESSAGE(Logger::CORE, 
+                    LOG_MESSAGE(Logger::CORE,
                         " physical_body 'convexhull' in <collisions> konnte nicht erstellt werden; der Körper ist zu klein!");
 
                     // Minimale Größe verwenden
@@ -616,10 +633,10 @@ namespace rl {
                         size.y = PhysicsManager::NEWTON_GRID_WIDTH;
                     if (size.z < PhysicsManager::NEWTON_GRID_WIDTH)
                         size.z = PhysicsManager::NEWTON_GRID_WIDTH;
-                        
+
                     collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Box(
                                      thisWorld, size, rotation, offset));
-                    
+
                     LOG_MESSAGE(Logger::CORE, " stattdessen physical_body 'box' erstellt. ");
                 }
                 else
@@ -746,7 +763,7 @@ namespace rl {
 */
                 else
                 {
-                    LOG_MESSAGE(Logger::CORE, 
+                    LOG_MESSAGE(Logger::CORE,
                         " > Parse Error beim Erstellen einer Collision; ungültiger typ: '"+typeAsString+"' !");
                     collision.setNull();
                     //return OgreNewt::CollisionPtr(NULL);
@@ -763,11 +780,11 @@ namespace rl {
         }
     }
 
-	// Eine Entity
-	void DotSceneLoader::processEntity(DOMElement* rootEntityXml,
-		SceneManager* sceneManager, Ogre::SceneNode* parentNode, 
-		Ogre::Real renderingDistance, const std::string &physical_body)
-	{
+    // Eine Entity
+    void DotSceneLoader::processEntity(DOMElement* rootEntityXml,
+        SceneManager* sceneManager, Ogre::SceneNode* parentNode,
+        Ogre::Real renderingDistance, const std::string &physical_body)
+    {
         string entName = XmlHelper::getAttributeValueAsStdString(
             rootEntityXml, "name");
         string meshName = XmlHelper::getAttributeValueAsStdString(
@@ -823,8 +840,8 @@ namespace rl {
             Ogre::Vector3 size = (aab.getMaximum() - aab.getMinimum()) * parentNode->getScale();
             bool forceBox = false;
 
-            if ((size.x < PhysicsManager::NEWTON_GRID_WIDTH || 
-                 size.y < PhysicsManager::NEWTON_GRID_WIDTH || 
+            if ((size.x < PhysicsManager::NEWTON_GRID_WIDTH ||
+                 size.y < PhysicsManager::NEWTON_GRID_WIDTH ||
                  size.z < PhysicsManager::NEWTON_GRID_WIDTH) &&
                  physical_body.compare("convexhull") == 0)
             {
@@ -844,7 +861,7 @@ namespace rl {
 
             // Prüfen, ob schon ein identischer Proxy erstellt wurde um diesen erneut zu verwenden
             AlreadyUsedCollision &aucol (mAutoCreatedCollisions[meshName]);
-            if (aucol.Type.compare(physical_body) == 0  && 
+            if (aucol.Type.compare(physical_body) == 0  &&
                 aucol.Scale == parentNode->getScale() &&
                 (!forceBox)) // sicherheitshalber
             {
@@ -932,7 +949,7 @@ namespace rl {
 
         // Zur Physik des Levels hinzufügen
         if (mCollisions.size() > 0)
-        {                
+        {
             PhysicsManager::getSingleton().addLevelGeometry(newEnt, mCollisions);
             LOG_DEBUG(Logger::CORE, " Entity '"+entName+"' in levelGeometry geladen");
         }
@@ -943,12 +960,12 @@ namespace rl {
         {
             mCollisions.pop_back();
         }
-        
+
         // Renderingdistanz berechnen
         if (renderingDistance == mRenderingDistance)
         {
-            Ogre::Real diameter 
-                = (newEnt->getBoundingBox().getMaximum() - newEnt->getBoundingBox().getMinimum()).length();  
+            Ogre::Real diameter
+                = (newEnt->getBoundingBox().getMaximum() - newEnt->getBoundingBox().getMinimum()).length();
 
             // Gerade mal 10cm² => 10m
             if (diameter <= 0.5)
@@ -971,9 +988,9 @@ namespace rl {
             newEnt->setRenderingDistance(renderingDistance);
         }
         else
-		    newEnt->setRenderingDistance(renderingDistance);
+            newEnt->setRenderingDistance(renderingDistance);
         newEnt->setCastShadows(false);
-	}
+    }
 
     string DotSceneLoader::getRandomName(const string& baseName)
     {
@@ -983,132 +1000,132 @@ namespace rl {
         return rval.str();
     }
 
-	Ogre::Vector3 DotSceneLoader::processPosition(DOMElement* rootPositionXml)
-	{
-		LOG_DEBUG(Logger::CORE, " Position gefunden");
+    Ogre::Vector3 DotSceneLoader::processPosition(DOMElement* rootPositionXml)
+    {
+        LOG_DEBUG(Logger::CORE, " Position gefunden");
 
-		try
-		{
-			if (XmlHelper::hasAttribute(rootPositionXml, "x") && 
-				XmlHelper::hasAttribute(rootPositionXml, "y") && 
-				XmlHelper::hasAttribute(rootPositionXml, "z"))
-			{
-				return Ogre::Vector3(
-					XmlHelper::getAttributeValueAsReal(rootPositionXml, "x"),
-					XmlHelper::getAttributeValueAsReal(rootPositionXml, "y"),
-					XmlHelper::getAttributeValueAsReal(rootPositionXml, "z"));
-			}
-		}
-		catch(...) { }
-         
-		LOG_MESSAGE(Logger::CORE, " > Parse Error beim Übernehmen der Position! ");
-
-		return Ogre::Vector3::ZERO;
-	}
-
-
-	Ogre::Vector3 DotSceneLoader::processScale(DOMElement* rootScaleXml)
-	{
-		LOG_DEBUG(Logger::CORE, " Skalierung gefunden");
-
-		try
-		{
-			if (XmlHelper::hasAttribute(rootScaleXml, "x") && 
-				XmlHelper::hasAttribute(rootScaleXml, "y") && 
-				XmlHelper::hasAttribute(rootScaleXml, "z"))
-			{
-				return Ogre::Vector3(
-					XmlHelper::getAttributeValueAsReal(rootScaleXml, "x"),
-					XmlHelper::getAttributeValueAsReal(rootScaleXml, "y"),
-					XmlHelper::getAttributeValueAsReal(rootScaleXml, "z"));
-			}
-		}
+        try
+        {
+            if (XmlHelper::hasAttribute(rootPositionXml, "x") &&
+                XmlHelper::hasAttribute(rootPositionXml, "y") &&
+                XmlHelper::hasAttribute(rootPositionXml, "z"))
+            {
+                return Ogre::Vector3(
+                    XmlHelper::getAttributeValueAsReal(rootPositionXml, "x"),
+                    XmlHelper::getAttributeValueAsReal(rootPositionXml, "y"),
+                    XmlHelper::getAttributeValueAsReal(rootPositionXml, "z"));
+            }
+        }
         catch(...) { }
 
-		LOG_MESSAGE(Logger::CORE, " > Parse Error beim Übernehmen der Skalierung! ");
+        LOG_MESSAGE(Logger::CORE, " > Parse Error beim Übernehmen der Position! ");
 
-		return Ogre::Vector3::UNIT_SCALE;
-	}
+        return Ogre::Vector3::ZERO;
+    }
 
-	Ogre::Vector3 DotSceneLoader::processVector(DOMElement* rootScaleXml, bool &error)
-	{
-		LOG_DEBUG(Logger::CORE, " Vector gefunden");
 
-		try
-		{
-			if (XmlHelper::hasAttribute(rootScaleXml, "x") && 
-				XmlHelper::hasAttribute(rootScaleXml, "y") && 
-				XmlHelper::hasAttribute(rootScaleXml, "z"))
-			{
-				error = false;
-				return Ogre::Vector3(
-					XmlHelper::getAttributeValueAsReal(rootScaleXml, "x"),
-					XmlHelper::getAttributeValueAsReal(rootScaleXml, "y"),
-					XmlHelper::getAttributeValueAsReal(rootScaleXml, "z"));
-			}
-		}
+    Ogre::Vector3 DotSceneLoader::processScale(DOMElement* rootScaleXml)
+    {
+        LOG_DEBUG(Logger::CORE, " Skalierung gefunden");
+
+        try
+        {
+            if (XmlHelper::hasAttribute(rootScaleXml, "x") &&
+                XmlHelper::hasAttribute(rootScaleXml, "y") &&
+                XmlHelper::hasAttribute(rootScaleXml, "z"))
+            {
+                return Ogre::Vector3(
+                    XmlHelper::getAttributeValueAsReal(rootScaleXml, "x"),
+                    XmlHelper::getAttributeValueAsReal(rootScaleXml, "y"),
+                    XmlHelper::getAttributeValueAsReal(rootScaleXml, "z"));
+            }
+        }
         catch(...) { }
 
-		LOG_MESSAGE(Logger::CORE, " > Parse Error beim Lesen eines Vectors! ");
-		error = true;
+        LOG_MESSAGE(Logger::CORE, " > Parse Error beim Übernehmen der Skalierung! ");
 
-		return Ogre::Vector3::UNIT_SCALE;
-	}
+        return Ogre::Vector3::UNIT_SCALE;
+    }
 
-	/// @TODO Sollten drei Möglichkeiten sein...
-	Ogre::Quaternion DotSceneLoader::processRotation(DOMElement* rootQuatXml)
-	{
-		LOG_DEBUG(Logger::CORE, " Rotation gefunden");
+    Ogre::Vector3 DotSceneLoader::processVector(DOMElement* rootScaleXml, bool &error)
+    {
+        LOG_DEBUG(Logger::CORE, " Vector gefunden");
 
-		try
-		{
-			// Durch w,x,y,z definiert
-			if (XmlHelper::hasAttribute(rootQuatXml, "qw") && 
-				XmlHelper::hasAttribute(rootQuatXml, "qx") && 
-				XmlHelper::hasAttribute(rootQuatXml, "qy") && 
-				XmlHelper::hasAttribute(rootQuatXml, "qz"))
-			{
+        try
+        {
+            if (XmlHelper::hasAttribute(rootScaleXml, "x") &&
+                XmlHelper::hasAttribute(rootScaleXml, "y") &&
+                XmlHelper::hasAttribute(rootScaleXml, "z"))
+            {
+                error = false;
+                return Ogre::Vector3(
+                    XmlHelper::getAttributeValueAsReal(rootScaleXml, "x"),
+                    XmlHelper::getAttributeValueAsReal(rootScaleXml, "y"),
+                    XmlHelper::getAttributeValueAsReal(rootScaleXml, "z"));
+            }
+        }
+        catch(...) { }
 
-				return Ogre::Quaternion(
-					XmlHelper::getAttributeValueAsReal(rootQuatXml, "qw"),
-					XmlHelper::getAttributeValueAsReal(rootQuatXml, "qx"),
-					XmlHelper::getAttributeValueAsReal(rootQuatXml, "qy"),
-					XmlHelper::getAttributeValueAsReal(rootQuatXml, "qz"));
-			}
+        LOG_MESSAGE(Logger::CORE, " > Parse Error beim Lesen eines Vectors! ");
+        error = true;
 
-			// Durch axisX,axisY,axisZ,angle definiert
-			if (XmlHelper::hasAttribute(rootQuatXml, "angle") &&
-				XmlHelper::hasAttribute(rootQuatXml, "axisX") && 
-				XmlHelper::hasAttribute(rootQuatXml, "axisY") && 
-				XmlHelper::hasAttribute(rootQuatXml, "axisZ"))
-			{
-				return Ogre::Quaternion(
-					Ogre::Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angle")),
-					Ogre::Vector3(
-					XmlHelper::getAttributeValueAsReal(rootQuatXml, "axisX"),
-					XmlHelper::getAttributeValueAsReal(rootQuatXml, "axisY"),
-					XmlHelper::getAttributeValueAsReal(rootQuatXml, "axisZ")));
-			}
+        return Ogre::Vector3::UNIT_SCALE;
+    }
 
-			// Durch angleX,angleY,angleZ definiert
-			if (XmlHelper::hasAttribute(rootQuatXml, "angleX") && 
-				XmlHelper::hasAttribute(rootQuatXml, "angleY") && 
-				XmlHelper::hasAttribute(rootQuatXml, "angleZ") )
-			{
-				Ogre::Matrix3 mat;
-				mat.FromEulerAnglesXYZ(
-					Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleX")),
-					Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleY")),
-					Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleZ")));
-				return Quaternion(mat);
-			}
-		}
-		catch(...) {}
+    /// @TODO Sollten drei Möglichkeiten sein...
+    Ogre::Quaternion DotSceneLoader::processRotation(DOMElement* rootQuatXml)
+    {
+        LOG_DEBUG(Logger::CORE, " Rotation gefunden");
+
+        try
+        {
+            // Durch w,x,y,z definiert
+            if (XmlHelper::hasAttribute(rootQuatXml, "qw") &&
+                XmlHelper::hasAttribute(rootQuatXml, "qx") &&
+                XmlHelper::hasAttribute(rootQuatXml, "qy") &&
+                XmlHelper::hasAttribute(rootQuatXml, "qz"))
+            {
+
+                return Ogre::Quaternion(
+                    XmlHelper::getAttributeValueAsReal(rootQuatXml, "qw"),
+                    XmlHelper::getAttributeValueAsReal(rootQuatXml, "qx"),
+                    XmlHelper::getAttributeValueAsReal(rootQuatXml, "qy"),
+                    XmlHelper::getAttributeValueAsReal(rootQuatXml, "qz"));
+            }
+
+            // Durch axisX,axisY,axisZ,angle definiert
+            if (XmlHelper::hasAttribute(rootQuatXml, "angle") &&
+                XmlHelper::hasAttribute(rootQuatXml, "axisX") &&
+                XmlHelper::hasAttribute(rootQuatXml, "axisY") &&
+                XmlHelper::hasAttribute(rootQuatXml, "axisZ"))
+            {
+                return Ogre::Quaternion(
+                    Ogre::Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angle")),
+                    Ogre::Vector3(
+                    XmlHelper::getAttributeValueAsReal(rootQuatXml, "axisX"),
+                    XmlHelper::getAttributeValueAsReal(rootQuatXml, "axisY"),
+                    XmlHelper::getAttributeValueAsReal(rootQuatXml, "axisZ")));
+            }
+
+            // Durch angleX,angleY,angleZ definiert
+            if (XmlHelper::hasAttribute(rootQuatXml, "angleX") &&
+                XmlHelper::hasAttribute(rootQuatXml, "angleY") &&
+                XmlHelper::hasAttribute(rootQuatXml, "angleZ") )
+            {
+                Ogre::Matrix3 mat;
+                mat.FromEulerAnglesXYZ(
+                    Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleX")),
+                    Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleY")),
+                    Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleZ")));
+                return Quaternion(mat);
+            }
+        }
+        catch(...) {}
 
         LOG_MESSAGE(Logger::CORE, " > Parse Error beim Übernehmen der Rotation! ");
 
-		return Ogre::Quaternion::IDENTITY;
-	}
+        return Ogre::Quaternion::IDENTITY;
+    }
 
 
     void DotSceneLoader::warning(const XERCES_CPP_NAMESPACE::SAXParseException& exc)
@@ -1133,14 +1150,14 @@ namespace rl {
         const XERCES_CPP_NAMESPACE::SAXParseException& exc) const
     {
         std::stringstream strs;
-        strs << "A" << type << " occured while parsing " << mSceneName 
+        strs << "A" << type << " occured while parsing " << mSceneName
              << " at line " << exc.getLineNumber() << " column " <<  exc.getColumnNumber();
 
         if (exc.getSystemId() != NULL)
             strs << " with system " << XmlHelper::transcodeToStdString(exc.getSystemId());
         if (exc.getPublicId() != NULL)
             strs << " with public " << XmlHelper::transcodeToStdString(exc.getPublicId());
-    
+
         return strs.str();
     }
 }

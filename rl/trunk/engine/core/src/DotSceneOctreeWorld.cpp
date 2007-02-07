@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -23,6 +23,7 @@
 #include <OgreRoot.h>
 #include <OgreException.h>
 
+#include "CoreSubsystem.h"
 #include "ActorManager.h"
 #include "Actor.h"
 #include "PhysicsManager.h"
@@ -58,19 +59,18 @@ namespace rl {
             mCamera->setAutoAspectRatio(true);
 
             actor->placeIntoScene();
-            setActiveActor( actor );            
+            setActiveActor( actor );
         }
 
         // Ein Viewport, das komplette Fenster
-        Viewport* newVp = Ogre::Root::getSingletonPtr()->
-            getAutoCreatedWindow()->addViewport(mCamera, 1);
+        Viewport* newVp = CoreSubsystem::getSingleton().getRenderWindow()->addViewport(mCamera, 1);
 
         // Schwarzer Hintergrund
         newVp->setBackgroundColour(ColourValue(0,0,0));
     }
 
     void DotSceneOctreeWorld::loadScene(const String& levelName, const String& module)
-    {   
+    {
         // Alte Szene löschen
         clearScene();
 
@@ -86,7 +86,7 @@ namespace rl {
             /// TODO - In den Sky-Sonnenpart verschieben
             mSceneMgr->setAmbientLight(ColourValue(0.55, 0.55, 0.55));
             mSceneFile = levelName;
-            
+
             DotSceneLoader* dot = NULL;
             try
             {
@@ -96,7 +96,7 @@ namespace rl {
             }
             catch( ... )
             {
-                LOG_CRITICAL(Logger::CORE, 
+                LOG_CRITICAL(Logger::CORE,
                     "Laden der Szenenbeschreibung aus '" + mSceneFile + "' ist fehlgeschlagen." );
                 delete dot;
             }
@@ -113,7 +113,7 @@ namespace rl {
         fireBeforeClearScene();
 
         // This is necessary to destroy cameras too.
-        Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports();
+        CoreSubsystem::getSingleton().getRenderWindow()->removeAllViewports();
         ActorManager::getSingleton().destroyAllActors();
         mSceneMgr->clearScene();
         PhysicsManager::getSingleton().clearLevelGeometry();

@@ -1,3 +1,6 @@
+# Default values, if configuration file is missing (hard coded)
+AM_CPPFLAGS = -DRL_MODULEDIR=\"$(RL_MODULEDIR)\" -DOGRE_PLUGINDIR=\"$(OGRE_PLUGINDIR)\"
+
 INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../common/include -I../include/nulldriver
 
 lib_LTLIBRARIES = libRlCore.la

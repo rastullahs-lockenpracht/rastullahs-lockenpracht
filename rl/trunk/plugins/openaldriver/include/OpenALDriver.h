@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -22,49 +22,43 @@
 namespace rl
 {
 
-/** Diese Klasse ist der Treiber, der OpenAL zur
- * Ausgabe benutzt.
- */
-class _RlOpenALDriverExport OpenALDriver : public rl::SoundDriver
-{
-public:
-	/// Der Treibername
-    static Ogre::String NAME;
-    /// Der Konstruktor
-	OpenALDriver(Ogre::ResourceManager* soundResourceManager);
-    /// Der Destruktor
-	virtual ~OpenALDriver();
-    /// Ist der Treiber angeschaltet?
-    virtual bool isDriverAvailable();
-    /// Initialisiere den Treiber.
-    virtual bool initialize();
-    /// Deinitialisiere den Treiber.
-    virtual void shutdown();
-    /// Der Name des Treibers
-    virtual Ogre::String getName() const;
-    /// Update-Aufgaben erledigen
-    virtual void update();
-    /// Einen Sound-Stream mit Resource erzeugen
-    virtual Sound *createStream(const SoundResourcePtr &res);
-    /// Einen Sound-Sample mit Resource erzeugen
-    virtual Sound *createSample(const SoundResourcePtr &res);
-    /// Einen Soundlistener erzeugen
-    virtual ListenerMovable *createListener(const Ogre::String &name);
+    /** Diese Klasse ist der Treiber, der OpenAL zur
+     * Ausgabe benutzt.
+     */
+    class _RlOpenALDriverExport OpenALDriver : public rl::SoundDriver
+    {
+    public:
+        /// Der Treibername
+        static Ogre::String NAME;
+        /// Der Konstruktor
+        OpenALDriver(Ogre::ResourceManager* soundResourceManager);
+        /// Der Destruktor
+        virtual ~OpenALDriver();
+        /// Ist der Treiber angeschaltet?
+        virtual bool isDriverAvailable();
+        /// Initialisiere den Treiber.
+        virtual bool initialize();
+        /// Deinitialisiere den Treiber.
+        virtual void shutdown();
+        /// Der Name des Treibers
+        virtual Ogre::String getName() const;
+        /// Update-Aufgaben erledigen
+        virtual void update();
+        /// Einen Sound-Stream mit Resource erzeugen
+        virtual Sound *createStream(const SoundResourcePtr &res);
+        /// Einen Sound-Sample mit Resource erzeugen
+        virtual Sound *createSample(const SoundResourcePtr &res);
+        /// Einen Soundlistener erzeugen
+        virtual ListenerMovable *createListener(const Ogre::String &name);
 
-    /// Die Einstellungen in Datei schreiben
-    virtual void saveConf(rl::ConfigFile &conf) const;
-    /// Die Einstellungen laden
-    virtual void loadConf(rl::ConfigFile &conf);
+        /// Setzt den Faktor f, mit der die Lautstärke nach der Formel 1/(f*Entfernung) abnimmt
+        virtual void setRolloffFactor(const Ogre::Real& f);
+        virtual const Ogre::Real getRolloffFactor();
 
-    /// Setzt den Faktor f, mit der die Lautstärke nach der Formel 1/(f*Entfernung) abnimmt
-	virtual void setRolloffFactor(const Ogre::Real& f);
-	virtual const Ogre::Real getRolloffFactor();
-    
-private:
-    /// Informationen über den Treiber ausgeben
-    virtual void printData() const;
-};
-
+    private:
+        /// Informationen über den Treiber ausgeben
+        virtual void printData() const;
+    };
 }
 
 #endif /*OALDRIVER_H_*/

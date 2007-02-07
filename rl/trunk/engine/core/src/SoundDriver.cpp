@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -29,9 +29,9 @@ SoundDriver::SoundDriver(ResourceManager* soundResourceManager)
     mSoundSet(),
     mDefaultMusicVolume(40),
     mDefaultSoundVolume(100),
-	mMasterVolume(100)	
+    mMasterVolume(100)
 {
-	sSoundResourceManager = soundResourceManager;
+    sSoundResourceManager = soundResourceManager;
 }
 
 SoundDriver::~SoundDriver()
@@ -89,30 +89,53 @@ void SoundDriver::remove(Sound *sound)
     mSoundSet.erase(sound);
 }
 
-/*
- * Die Konfiguration in Datei schreiben.
- * @author JoSch
- * @date 05-07-2006
- * @param conf Die Konfigurationdatei zum Schreiben.
- */
-void SoundDriver::saveConf(ConfigFile &conf) const
-{
-	conf.setValue(getMasterVolume(), "MasterVolume", "General");
-	conf.setValue(getDefaultMusicVolume(), "DefaultMusicVolume", "General");
-	conf.setValue(getDefaultSoundVolume(), "DefaultSoundVolume", "General");
-}
+    Ogre::NameValuePairList SoundDriver::getSettings() const
+    {
+        Ogre::NameValuePairList SoundSettings;
 
-/*
- * Die Konfiguration lesen
- * @author JoSch
- * @date 05-07-2006
- * @param conf Die Konfigurationdatei, aus der gelesen werden soll
- */
-void SoundDriver::loadConf(ConfigFile &conf)
-{
-	setMasterVolume(conf.getValue(Real(1.0), "MasterVolume", "General"));
-	setDefaultMusicVolume(conf.getValue(Real(0.30), "DefaultMusicVolume", "General"));
-	setDefaultSoundVolume(conf.getValue(Real(1.0), "DefaultSoundVolume", "General"));
-}
+        // Append the settings to the list
+        SoundSettings.insert(make_pair("MasterVolume", Ogre::StringConverter::toString(mMasterVolume)));
+        SoundSettings.insert(make_pair("DefaultMusicVolume", Ogre::StringConverter::toString(mDefaultMusicVolume)));
+        SoundSettings.insert(make_pair("DefaultSoundVolume", Ogre::StringConverter::toString(mDefaultSoundVolume)));
 
+        return SoundSettings;
+    }
+
+    void SoundDriver::applySettings(const Ogre::NameValuePairList& settings)
+    {
+        Ogre::NameValuePairList::const_iterator it;
+
+        // Set the Master volume
+        if ((it = settings.find("MasterVolume")) == settings.end())
+        {
+            // Set a sane default value
+            setMasterVolume(Real(1.0));
+        }
+        else
+        {
+            setMasterVolume(Ogre::StringConverter::parseReal(it->second));
+        }
+
+        // Set the Default Music Volume
+        if ((it = settings.find("DefaultMusicVolume")) == settings.end())
+        {
+            // Set a sane default value
+            setDefaultMusicVolume(Real(0.3));
+        }
+        else
+        {
+            setDefaultMusicVolume(Ogre::StringConverter::parseReal(it->second));
+        }
+
+        // Set the Default Sound Volume
+        if ((it = settings.find("DefaultSoundVolume")) == settings.end())
+        {
+            // Set a sane default value
+            setDefaultSoundVolume(Real(1.0));
+        }
+        else
+        {
+            setDefaultSoundVolume(Ogre::StringConverter::parseReal(it->second));
+        }
+    }
 }

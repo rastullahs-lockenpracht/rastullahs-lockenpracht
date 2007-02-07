@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -33,24 +33,24 @@
 #include <OgreMemoryMacros.h>
 
 namespace CEGUI {
-	enum MouseButton;
+    enum MouseButton;
 }
 
 namespace rl {
 
-	class CeGuiWindow;
-	class GameObject;
-	class CharacterController;
+    class CeGuiWindow;
+    class GameObject;
+    class CharacterController;
     class CommandMapper;
 
     class _RlUiExport InputManager
-        :	public Ogre::Singleton<InputManager>, 
+        :    public Ogre::Singleton<InputManager>,
             public GameTask,
-            public OIS::KeyListener, 
+            public OIS::KeyListener,
             public OIS::MouseListener
     {
     public:
-		InputManager(Ogre::RenderWindow* window);
+        InputManager(Ogre::RenderWindow* window);
         ~InputManager();
 
         static InputManager & getSingleton(void);
@@ -71,15 +71,15 @@ namespace rl {
         virtual bool mousePressed(const OIS::MouseEvent & arg, OIS::MouseButtonID id);
         virtual bool mouseReleased(const OIS::MouseEvent & arg, OIS::MouseButtonID id);
         virtual bool mouseMoved(const OIS::MouseEvent &arg);
-		virtual bool keyPressed(const OIS::KeyEvent &arg);
-		virtual bool keyReleased(const OIS::KeyEvent &arg);
+        virtual bool keyPressed(const OIS::KeyEvent &arg);
+        virtual bool keyReleased(const OIS::KeyEvent &arg);
 
         CeGuiString getKeyName(int scancode, int syskeys);
         CeGuiString getKeyName(int combinedKeyCode);
         int getScanCode(const CeGuiString& name);
         int getSystemCode(const CeGuiString& name);
         void loadKeyMapping(const Ogre::String& filename);
-        void loadCommandMapping(const Ogre::String& filename);
+        void buildCommandMapping(const Ogre::NameValuePairList& keylist);
         typedef std::map<int, CEGUI::utf8> KeyCharMap;
         typedef std::map<int, CeGuiString> KeyNameMap;
 
@@ -98,7 +98,7 @@ namespace rl {
         int getModifierCode() const;
         const CEGUI::utf8& getKeyChar(int keycode, int modifiers) const;
 
-		Ogre::Vector3 mSavedMouseState;
+        Ogre::Vector3 mSavedMouseState;
 
         OIS::Mouse* mMouse;
         OIS::Keyboard* mKeyboard;

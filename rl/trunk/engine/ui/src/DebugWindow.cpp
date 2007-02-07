@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -33,38 +33,38 @@ using namespace Ogre;
 
 template<> rl::DebugWindow* Ogre::Singleton<rl::DebugWindow>::ms_Singleton = 0;
 
-namespace rl 
+namespace rl
 {
   DebugWindow& DebugWindow::getSingleton(void)
     {
         return Ogre::Singleton<DebugWindow>::getSingleton();
     }
-	DebugWindow* DebugWindow::getSingletonPtr(void)
+    DebugWindow* DebugWindow::getSingletonPtr(void)
     {
         return Ogre::Singleton<DebugWindow>::getSingletonPtr();
     }
 
-	DebugWindow::DebugWindow() : CeGuiWindow("debugwindow.xml", WND_SHOW),
+    DebugWindow::DebugWindow() : CeGuiWindow("debugwindow.xml", WND_SHOW),
           mMessageText(),
           mPageCaption(),
           mPageText(),
           mPageTexts(),
           mCurrentPage(StringUtil::BLANK),
           mDebugPageName("General Informations")
-	{
-		mPageCaption = getWindow("DebugWindow/PageCaption");
-		mPageCaption->moveToFront();
+    {
+        mPageCaption = getWindow("DebugWindow/PageCaption");
+        mPageCaption->moveToFront();
 
-		mPageText = getMultiLineEditbox("DebugWindow/PageText");
+        mPageText = getMultiLineEditbox("DebugWindow/PageText");
 
-		mMessageText = getWindow("DebugWindow/MessageText");
-		mMessageText->moveToFront();
+        mMessageText = getWindow("DebugWindow/MessageText");
+        mMessageText->moveToFront();
 
-		bindCloseToCloseButton();
+        bindCloseToCloseButton();
         registerPage("General Informations");
-	}
+    }
 
-	DebugWindow::~DebugWindow()
+    DebugWindow::~DebugWindow()
     {
         unregisterPage("General Informations");
     }
@@ -123,7 +123,7 @@ namespace rl
             updatePageText();
         }
     }
-    
+
     void DebugWindow::setMessageText(const Ogre::String& text)
     {
         CeGuiString o(text.c_str());
@@ -132,7 +132,7 @@ namespace rl
 
     void DebugWindow::showNextPage()
     {
-        PageTextMap::iterator it = mPageTexts.find(mCurrentPage);        
+        PageTextMap::iterator it = mPageTexts.find(mCurrentPage);
         if (it != mPageTexts.end())
         {
             ++it;
@@ -149,10 +149,10 @@ namespace rl
         }
     }
 
-	void DebugWindow::run(Ogre::Real elapsedTime)
-	{
-		updateFps();
-	}
+    void DebugWindow::run(Ogre::Real elapsedTime)
+    {
+        updateFps();
+    }
 
     void DebugWindow::updatePageText()
     {
@@ -162,62 +162,62 @@ namespace rl
         mPageText->setText(text);
     }
 
-	void DebugWindow::updateFps()
-	{
-		const RenderTarget::FrameStats& stats = Root::getSingleton().getAutoCreatedWindow()->getStatistics();
+    void DebugWindow::updateFps()
+    {
+        const RenderTarget::FrameStats& stats = CoreSubsystem::getSingleton().getRenderWindow()->getStatistics();
 
-		Ogre::String textSt = "Current FPS: " + 
-			StringConverter::toString(stats.lastFPS)+
-			"\nBest/worst/avg FPS: " + 
-			StringConverter::toString(stats.bestFPS) + "/" + 
-			StringConverter::toString(stats.worstFPS) + "/" + 
-			StringConverter::toString(stats.avgFPS)+
-			"\nBest/worst Frame times: " + 
-			StringConverter::toString(stats.bestFPS) + "/" + 
-			StringConverter::toString(stats.worstFPS)+
-			"\nTriangle Count: " + 
-			StringConverter::toString(stats.triangleCount);
+        Ogre::String textSt = "Current FPS: " +
+            StringConverter::toString(stats.lastFPS)+
+            "\nBest/worst/avg FPS: " +
+            StringConverter::toString(stats.bestFPS) + "/" +
+            StringConverter::toString(stats.worstFPS) + "/" +
+            StringConverter::toString(stats.avgFPS)+
+            "\nBest/worst Frame times: " +
+            StringConverter::toString(stats.bestFPS) + "/" +
+            StringConverter::toString(stats.worstFPS)+
+            "\nTriangle Count: " +
+            StringConverter::toString(stats.triangleCount);
 
-		if (UiSubsystem::getSingleton().getActiveCharacter() != NULL && 
-			UiSubsystem::getSingleton().getActiveCharacter()->getActor() != NULL)
-		{
+        if (UiSubsystem::getSingleton().getActiveCharacter() != NULL &&
+            UiSubsystem::getSingleton().getActiveCharacter()->getActor() != NULL)
+        {
             ActorControlledObject* charObj = UiSubsystem::getSingletonPtr()->
-				getActiveCharacter()->getActor()->getControlledObject();
+                getActiveCharacter()->getActor()->getControlledObject();
 
             if( charObj != NULL )
             {
-			    Ogre::Vector3 pos = charObj->getMovableObject()->getParentNode()->getWorldPosition();
+                Ogre::Vector3 pos = charObj->getMovableObject()->getParentNode()->getWorldPosition();
 
-			    textSt += "\nPlayer Position [ "
-				    + StringConverter::toString(pos.x,2,0,32,std::ios_base::fixed)+", "
-				    + StringConverter::toString(pos.y,2,0,32,std::ios_base::fixed)+", "
-				    + StringConverter::toString(pos.z,2,0,32,std::ios_base::fixed)+" ]";
+                textSt += "\nPlayer Position [ "
+                    + StringConverter::toString(pos.x,2,0,32,std::ios_base::fixed)+", "
+                    + StringConverter::toString(pos.y,2,0,32,std::ios_base::fixed)+", "
+                    + StringConverter::toString(pos.z,2,0,32,std::ios_base::fixed)+" ]";
             }
-		}
+        }
 
         Actor* camActor = ActorManager::getSingleton().getActor("DefaultCamera");
-		if( camActor != 0 && camActor->_getSceneNode() != NULL )
-		{
-			Ogre::Camera* cam = dynamic_cast<CameraObject*>(camActor->getControlledObject())->getCamera();
+        if( camActor != 0 && camActor->_getSceneNode() != NULL )
+        {
+            Ogre::Camera* cam = dynamic_cast<CameraObject*>(camActor->getControlledObject())->getCamera();
             Ogre::Vector3 pos = cam->getDerivedPosition();
 
-			textSt += "\nCamera Position [ "
-				+ StringConverter::toString(pos.x,2,0,32,std::ios_base::fixed)+", "
-				+ StringConverter::toString(pos.y,2,0,32,std::ios_base::fixed)+", "
-				+ StringConverter::toString(pos.z,2,0,32,std::ios_base::fixed)+" ]";
-		}
+            textSt += "\nCamera Position [ "
+                + StringConverter::toString(pos.x,2,0,32,std::ios_base::fixed)+", "
+                + StringConverter::toString(pos.y,2,0,32,std::ios_base::fixed)+", "
+                + StringConverter::toString(pos.z,2,0,32,std::ios_base::fixed)+" ]";
+        }
 
         setPageText(mDebugPageName, textSt);
-	}
+    }
 
-	void DebugWindow::setVisible(bool visible, bool destroyAfterHide)
-	{
-		CeGuiWindow::setVisible(visible, destroyAfterHide);
-		if (visible)
+    void DebugWindow::setVisible(bool visible, bool destroyAfterHide)
+    {
+        CeGuiWindow::setVisible(visible, destroyAfterHide);
+        if (visible)
             GameLoop::getSingleton().addTask(this, GameLoop::TG_GRAPHICS);
-		else
-			GameLoop::getSingleton().removeTask(this);
-	}
+        else
+            GameLoop::getSingleton().removeTask(this);
+    }
 
     const Ogre::String& DebugWindow::getName() const
     {

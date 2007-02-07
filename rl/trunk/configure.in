@@ -108,7 +108,7 @@ fi
 
 # Ogre
 PKG_CHECK_MODULES(OGRE, OGRE >= 1.3.0)
-AC_ARG_WITH(ogre-plugins,[  --with-ogre-plugins=path        Set location of Ogre plugins],[ OGRE_PLUGINDIR="$withval"], [OGRE_PLUGINDIR=/usr/local/lib/OGRE])
+AC_ARG_WITH(ogre-plugins,[  --with-ogre-plugins=path        Set location of Ogre plugins],[ OGRE_PLUGINDIR="$withval"], [OGRE_PLUGINDIR=`pkg-config OGRE --variable=plugindir`])
 AC_SUBST(OGRE_PLUGINDIR)
 
 # CEGUI
@@ -193,9 +193,10 @@ if test "x${prefix}" = "xNONE"; then
 	prefix=${ac_default_prefix}
 fi
 dnl Must double eval here, to replace ${datadir} and after that ${prefix}
-eval RL_MODULE_DIR="${datadir}"
-eval RL_MODULE_DIR="${RL_MODULE_DIR}/rastullah"
-AC_SUBST(RL_MODULE_DIR)
+eval RL_MODULEDIR="${datadir}"
+eval RL_MODULEDIR="${RL_MODULEDIR}/rastullah"
+AC_SUBST(RL_MODULEDIR)
+
 
 dnl Create the makefiles
 AC_CONFIG_FILES([Makefile \
@@ -215,14 +216,14 @@ AC_CONFIG_FILES([Makefile \
 		plugins/Makefile \
 		plugins/fmod4driver/Makefile plugins/fmod4driver/include/Makefile plugins/fmod4driver/src/Makefile \
 		plugins/openaldriver/Makefile plugins/openaldriver/include/Makefile plugins/openaldriver/src/Makefile \
-		rastullah.conf  \
 		tools/Makefile \
+		rastullah.conf
     ])
 
 AC_OUTPUT
 
-eval GAME_DIR="${bindir}"
-eval GAME_DIR="${GAME_DIR}"
+eval RL_GAMEDIR="${bindir}"
+eval RL_GAMEDIR="${RL_GAMEDIR}"
 
 dnl Show a summary about important directories
 echo
@@ -239,8 +240,8 @@ echo "       FMOD 4 plugin:                      ${enable_fmod4-no}"
 echo "       OpenAL plugin:                      ${enable_openal-no}"
 echo
 echo " Directory settings:"
-echo "       rastullah binary will be placed in: ${GAME_DIR}"
-echo "       Module directory:                   ${RL_MODULE_DIR}"
+echo "       rastullah binary will be placed in: ${RL_GAMEDIR}"
+echo "       Module directory:                   ${RL_MODULEDIR}"
 echo
 echo " Configuration files:"
 echo "       installation of global config file: ${enable_global_config-no}"

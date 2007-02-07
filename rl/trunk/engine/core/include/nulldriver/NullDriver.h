@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -28,12 +28,12 @@ namespace rl
 class _RlCoreExport NullDriver : public rl::SoundDriver
 {
 public:
-	/// Der Treibername
+    /// Der Treibername
     static Ogre::String NAME;
     /// Der Konstruktor
-	NullDriver(Ogre::ResourceManager* soundResourceManager);
+    NullDriver(Ogre::ResourceManager* soundResourceManager);
     /// Der Destruktor
-	~NullDriver();
+    ~NullDriver();
     /// Ist der Treiber angeschaltet?
     bool isDriverAvailable();
     /// Initialisiere den Treiber.
@@ -50,15 +50,9 @@ public:
     virtual Sound *createSample(const SoundResourcePtr &res);
     /// Einen Soundlistener erzeugen
     virtual ListenerMovable *createListener(const Ogre::String &name);
-
-    /// Die Einstellungen in Datei schreiben
-    virtual void saveConf(rl::ConfigFile &conf) const;
-    /// Die Einstellungen laden
-    virtual void loadConf(rl::ConfigFile &conf);
-
-	/// Setzt den Faktor f, mit der die Lautst�rke nach der Formel 1/(f*Entfernung) abnimmt
-	virtual void setRolloffFactor(const Ogre::Real&);
-	virtual const Ogre::Real getRolloffFactor();
+    /// Setzt den Faktor f, mit der die Lautst�rke nach der Formel 1/(f*Entfernung) abnimmt
+    virtual void setRolloffFactor(const Ogre::Real&);
+    virtual const Ogre::Real getRolloffFactor();
 };
 
 }

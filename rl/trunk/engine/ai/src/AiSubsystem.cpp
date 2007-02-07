@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
  *
@@ -30,36 +30,36 @@ using namespace rl;
 
 AiSubsystem& AiSubsystem::getSingleton(void)
 {
-	return Singleton<AiSubsystem>::getSingleton();
+    return Singleton<AiSubsystem>::getSingleton();
 }
 
 AiSubsystem* AiSubsystem::getSingletonPtr(void)
 {
-	return Singleton<AiSubsystem>::getSingletonPtr();
+    return Singleton<AiSubsystem>::getSingletonPtr();
 }
 
 AiSubsystem::AiSubsystem(void)
-	: mAgentManager(NULL), 
-	  mWorld(NULL)
+    : mAgentManager(NULL),
+      mWorld(NULL)
 {
-	LOG_MESSAGE(Logger::AI, "Init Start");
-	initialize();
-	LOG_MESSAGE(Logger::AI, "Init Ende");
+    LOG_MESSAGE(Logger::AI, "Init Start");
+    initialize();
+    LOG_MESSAGE(Logger::AI, "Init Ende");
 }
 
 AiSubsystem::~AiSubsystem(void)
 {
     CoreSubsystem::getSingletonPtr()->getWorld()->removeSceneChangeListener(this);
     AgentManager::getSingleton().removeAllAgents();
-	mWorld->removeAllObstacles();
-	delete mAgentManager;
-	delete mWorld;
+    mWorld->removeAllObstacles();
+    delete mAgentManager;
+    delete mWorld;
 }
 
 void AiSubsystem::initialize()
 {
-	mAgentManager = new AgentManager();
-	mWorld = new AiWorld();
+    mAgentManager = new AgentManager();
+    mWorld = new AiWorld();
 
     CoreSubsystem::getSingletonPtr()->getWorld()->addSceneChangeListener(this);
     GameLoop::getSingleton().addTask(AgentManager::getSingletonPtr(), GameLoop::TG_LOGIC);
@@ -67,8 +67,8 @@ void AiSubsystem::initialize()
 
 void AiSubsystem::onBeforeClearScene()
 {
-	AgentManager::getSingleton().removeAllAgents();
-	mWorld->removeAllObstacles();
+    AgentManager::getSingleton().removeAllAgents();
+    mWorld->removeAllObstacles();
 }
 
 
@@ -82,20 +82,20 @@ void AiSubsystem::onAfterSceneLoaded()
 
     // äußere grenzen einfügen
     //PhysicsManager
-/*    
+/*
 //  create an obstacle as bounding box of the walkarea for npcs
 //  this should be accessable through scripting, the Obstacles should have names
 //  for easier access
-	BoxObstacle* o = new BoxObstacle(25,50,25);
-	o->setSeenFrom(AbstractObstacle::inside);
-	o->setPosition(Vec3(-40.0f,-10.0f, 0.0f));
-	o->setForward(0,0,-1);
-	addObstacle(o);
+    BoxObstacle* o = new BoxObstacle(25,50,25);
+    o->setSeenFrom(AbstractObstacle::inside);
+    o->setPosition(Vec3(-40.0f,-10.0f, 0.0f));
+    o->setForward(0,0,-1);
+    addObstacle(o);
 
-	o = new BoxObstacle(2,50,2);
-	o->setSeenFrom(AbstractObstacle::outside);
-	o->setPosition(Vec3(-31.5f,-10.0f, -3.5f));
-	o->setForward(0,0,-1);
-	addObstacle(o);
+    o = new BoxObstacle(2,50,2);
+    o->setSeenFrom(AbstractObstacle::outside);
+    o->setPosition(Vec3(-31.5f,-10.0f, -3.5f));
+    o->setForward(0,0,-1);
+    addObstacle(o);
 */
 }
