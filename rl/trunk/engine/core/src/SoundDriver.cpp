@@ -25,8 +25,8 @@ namespace rl
 Ogre::ResourceManager* SoundDriver::sSoundResourceManager = NULL;
 
 SoundDriver::SoundDriver(ResourceManager* soundResourceManager)
- :  mMusicSet(),
-    mSoundSet(),
+ :  mStreamSet(),
+    mSampleSet(),
     mDefaultMusicVolume(40),
     mDefaultSoundVolume(100),
     mMasterVolume(100)
@@ -36,6 +36,17 @@ SoundDriver::SoundDriver(ResourceManager* soundResourceManager)
 
 SoundDriver::~SoundDriver()
 {
+    SoundSet sounds;
+    sounds.insert(mSampleSet.begin(), mSampleSet.end());
+    sounds.insert(mSampleSet.begin(), mSampleSet.end());
+    for (SoundSet::iterator it = sounds.begin(); it != sounds.end(); ++it)
+    {
+        if ((*it)->isPlaying())
+        {
+            (*it)->stop();
+        }
+        delete *it;
+    }
 }
 
 /// Die Standardlautstärke für Musik einstellen
@@ -43,7 +54,7 @@ void SoundDriver::setDefaultMusicVolume(const Ogre::Real& vol)
 {
     mDefaultMusicVolume = vol;
     SoundSet::iterator it;
-    for(it = mMusicSet.begin(); it != mMusicSet.end(); it++)
+    for(it = mStreamSet.begin(); it != mStreamSet.end(); it++)
     {
         (*it)->setVolume(vol);
     }
@@ -60,7 +71,7 @@ void SoundDriver::setDefaultSoundVolume(const Ogre::Real& vol)
 {
     mDefaultSoundVolume = vol;
     SoundSet::iterator it;
-    for(it = mSoundSet.begin(); it != mSoundSet.end(); it++)
+    for(it = mSampleSet.begin(); it != mSampleSet.end(); it++)
     {
         (*it)->setVolume(vol);
     }
@@ -80,13 +91,6 @@ void SoundDriver::setMasterVolume(const Ogre::Real& vol)
 const Ogre::Real SoundDriver::getMasterVolume() const
 {
     return mMasterVolume;
-}
-
-/// Aus einer Liste entfernen.
-void SoundDriver::remove(Sound *sound)
-{
-    mMusicSet.erase(sound);
-    mSoundSet.erase(sound);
 }
 
     Ogre::NameValuePairList SoundDriver::getSettings() const
@@ -137,5 +141,36 @@ void SoundDriver::remove(Sound *sound)
         {
             setDefaultSoundVolume(Ogre::StringConverter::parseReal(it->second));
         }
+    }
+
+    Sound* SoundDriver::createStream(const SoundResourcePtr &res)
+    {
+        Sound* sound = createStreamImpl(res);
+        if (sound != NULL)
+        {
+            mStreamSet.insert(sound);
+        }
+        return sound;
+    }
+
+    Sound* SoundDriver::createSample(const SoundResourcePtr &res)
+    {
+        Sound* sound = createSampleImpl(res);
+        if (sound != NULL)
+        {
+            mSampleSet.insert(sound);
+        }
+        return sound;
+    }
+
+    void SoundDriver::destroySound(Sound* sound)
+    {
+        if (sound->isPlaying())
+        {
+            sound->stop();
+        }
+        mStreamSet.erase(sound);
+        mSampleSet.erase(sound);
+        delete sound;
     }
 }

@@ -99,7 +99,7 @@ Ogre::String NullDriver::getName() const
   * @author JoSch
   * @date 03-06-2006
   */
-Sound *NullDriver::createStream(const SoundResourcePtr &res)
+Sound *NullDriver::createStreamImpl(const SoundResourcePtr &res)
 {
      Sound *sound = new NullSound(res);
      return sound;
@@ -112,7 +112,7 @@ Sound *NullDriver::createStream(const SoundResourcePtr &res)
  * @author JoSch
  * @date 03-06-2006
  */
-Sound *NullDriver::createSample(const SoundResourcePtr &res)
+Sound *NullDriver::createSampleImpl(const SoundResourcePtr &res)
 {
      Sound *sound = new NullSound(res);
      return sound;

@@ -52,9 +52,13 @@ namespace rl
         /// Update-Aufgaben erledigen
         virtual void update() = 0;
         /// Einen Sound-Stream mit Resource erzeugen
-        virtual Sound *createStream(const SoundResourcePtr &res) = 0;
+        virtual Sound* createStream(const SoundResourcePtr &res);
         /// Einen Sound-Sample mit Resource erzeugen
-        virtual Sound *createSample(const SoundResourcePtr &res) = 0;
+        virtual Sound* createSample(const SoundResourcePtr &res);
+
+        /// Destroy a sound created by this driver. Do not call the Sound destructor yourself!
+        virtual void destroySound(Sound*);
+
         /// Einen Soundlistener erzeugen
         virtual ListenerMovable *createListener(const Ogre::String &name) = 0;
 
@@ -74,8 +78,6 @@ namespace rl
         virtual void setMasterVolume(const Ogre::Real& vol);
         /// Die Standardlautst�rke f�r Musik zur�ckgeben.
         const Ogre::Real getMasterVolume() const;
-        /// Einen Sound aus den Listen entfernen
-        void remove(Sound *sound);
 
         /**
          * Returns the current sound driver settings as a key-value list
@@ -93,17 +95,18 @@ namespace rl
         virtual void applySettings(const Ogre::NameValuePairList& settings);
 
     protected:
-        /// Liste der Musikst�cke
-        SoundSet mMusicSet;
-        /// Liste der Sounds
-        SoundSet mSoundSet;
+        static Ogre::ResourceManager* sSoundResourceManager;
+
+        SoundSet mStreamSet;
+        SoundSet mSampleSet;
+
         Ogre::Real mDefaultMusicVolume;  ///!< Music volume
         Ogre::Real mDefaultSoundVolume;  ///!< Sound effect volume
         Ogre::Real mMasterVolume;        ///!< Master volume
 
-        static Ogre::ResourceManager* sSoundResourceManager;
+        virtual Sound* createStreamImpl(const SoundResourcePtr &res) = 0;
+        virtual Sound* createSampleImpl(const SoundResourcePtr &res) = 0;
     };
-
 }
 
 #endif /*SOUNDDRIVER_H_*/

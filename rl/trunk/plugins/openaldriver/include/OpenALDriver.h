@@ -44,16 +44,16 @@ namespace rl
         virtual Ogre::String getName() const;
         /// Update-Aufgaben erledigen
         virtual void update();
-        /// Einen Sound-Stream mit Resource erzeugen
-        virtual Sound *createStream(const SoundResourcePtr &res);
-        /// Einen Sound-Sample mit Resource erzeugen
-        virtual Sound *createSample(const SoundResourcePtr &res);
         /// Einen Soundlistener erzeugen
         virtual ListenerMovable *createListener(const Ogre::String &name);
 
         /// Setzt den Faktor f, mit der die Lautstärke nach der Formel 1/(f*Entfernung) abnimmt
         virtual void setRolloffFactor(const Ogre::Real& f);
         virtual const Ogre::Real getRolloffFactor();
+
+    protected:
+        virtual Sound* createStreamImpl(const SoundResourcePtr &res);
+        virtual Sound* createSampleImpl(const SoundResourcePtr &res);
 
     private:
         /// Informationen über den Treiber ausgeben

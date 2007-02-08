@@ -140,7 +140,7 @@ namespace rl
       * @author JoSch
       * @date 03-06-2006
       */
-    Sound *OpenALDriver::createStream(const SoundResourcePtr &res)
+    Sound* OpenALDriver::createStreamImpl(const SoundResourcePtr &res)
     {
          Sound *sound = new OpenALSoundStream(this, res);
          return sound;
@@ -152,7 +152,7 @@ namespace rl
      * @author JoSch
      * @date 03-06-2006
      */
-    Sound *OpenALDriver::createSample(const SoundResourcePtr &res)
+    Sound* OpenALDriver::createSampleImpl(const SoundResourcePtr &res)
     {
          Sound *sound = new OpenALSoundSample(this, res);
          return sound;

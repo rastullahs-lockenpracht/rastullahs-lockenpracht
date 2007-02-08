@@ -105,7 +105,7 @@ namespace rl
       * @author JoSch
       * @date 03-06-2006
       */
-    Sound *Fmod4Driver::createStream(const SoundResourcePtr &res)
+    Sound *Fmod4Driver::createStreamImpl(const SoundResourcePtr &res)
     {
          Sound *sound = new Fmod4Sound(this, res, Fmod4Sound::STREAM);
          return sound;
@@ -117,7 +117,7 @@ namespace rl
      * @author JoSch
      * @date 03-06-2006
      */
-    Sound *Fmod4Driver::createSample(const SoundResourcePtr &res)
+    Sound *Fmod4Driver::createSampleImpl(const SoundResourcePtr &res)
     {
         Sound *sound = new Fmod4Sound(this, res, Fmod4Sound::SAMPLE);
          return sound;

@@ -44,15 +44,15 @@ public:
     virtual Ogre::String getName() const;
     /// Update-Aufgaben erledigen
     virtual void update();
-    /// Einen Sound-Stream mit Resource erzeugen
-    virtual Sound *createStream(const SoundResourcePtr &res);
-    /// Einen Sound-Sample mit Resource erzeugen
-    virtual Sound *createSample(const SoundResourcePtr &res);
     /// Einen Soundlistener erzeugen
     virtual ListenerMovable *createListener(const Ogre::String &name);
-    /// Setzt den Faktor f, mit der die Lautst�rke nach der Formel 1/(f*Entfernung) abnimmt
+    /// Set volume attenuation factor f in 1/(f*distance)
     virtual void setRolloffFactor(const Ogre::Real&);
     virtual const Ogre::Real getRolloffFactor();
+
+protected:
+    virtual Sound *createStreamImpl(const SoundResourcePtr &res);
+    virtual Sound *createSampleImpl(const SoundResourcePtr &res);
 };
 
 }

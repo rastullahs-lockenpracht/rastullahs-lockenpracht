@@ -67,10 +67,6 @@ namespace rl
         virtual Ogre::String getName() const;
         /// Update-Aufgaben erledigen
         virtual void update();
-        /// Einen Sound-Stream mit Resource erzeugen
-        virtual Sound *createStream(const SoundResourcePtr &res);
-        /// Einen Sound-Sample mit Resource erzeugen
-        virtual Sound *createSample(const SoundResourcePtr &res);
         /// Einen Soundlistener erzeugen
         virtual ListenerMovable *createListener(const Ogre::String &name);
 
@@ -99,6 +95,10 @@ namespace rl
         const DriverMap& getDriverData() const;
 
         FMOD::System* _getFmodSystem();
+
+    protected:
+        virtual Sound* createStreamImpl(const SoundResourcePtr &res);
+        virtual Sound* createSampleImpl(const SoundResourcePtr &res);
 
     private:
         /// Informationen �ber den Treiber ausgeben
