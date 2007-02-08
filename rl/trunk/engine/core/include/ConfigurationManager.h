@@ -36,8 +36,6 @@ namespace rl
     class _RlCoreExport ConfigurationManager : protected Ogre::Singleton<ConfigurationManager>
     {
         public:
-            static Ogre::String PathDelimiter;
-
             /// Sections where settings can be queried from
             enum ConfigurationSection
             {

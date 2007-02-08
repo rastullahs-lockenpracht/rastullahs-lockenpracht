@@ -18,11 +18,6 @@
 #include "CoreSubsystem.h"
 
 template<> rl::ConfigurationManager* Ogre::Singleton<rl::ConfigurationManager>::ms_Singleton = 0;
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-    Ogre::String rl::ConfigurationManager::PathDelimiter = "/";
-#else
-    Ogre::String rl::ConfigurationManager::PathDelimiter = "/";
-#endif
 
 namespace rl
 {
@@ -90,22 +85,22 @@ namespace rl
 
     Ogre::String ConfigurationManager::getOgreLogFile() const
     {
-        return mRastullahLogDirectory + PathDelimiter + mOgreLogFile;
+        return mRastullahLogDirectory + "/" + mOgreLogFile;
     }
 
     Ogre::String ConfigurationManager::getRastullahLogFile() const
     {
-        return mRastullahLogDirectory + PathDelimiter + mRastullahLogFile;
+        return mRastullahLogDirectory + "/" + mRastullahLogFile;
     }
 
     Ogre::String ConfigurationManager::getCeguiLogFile() const
     {
-        return mRastullahLogDirectory + PathDelimiter + mCeguiLogFile;
+        return mRastullahLogDirectory + "/" + mCeguiLogFile;
     }
 
     Ogre::String ConfigurationManager::getModulesCfgFile() const
     {
-        return mModulesRootDirectory  + PathDelimiter + mModulesCfgFile;
+        return mModulesRootDirectory  + "/" + mModulesCfgFile;
     }
 
     Ogre::String ConfigurationManager::getModulesRootDirectory() const
