@@ -54,10 +54,12 @@ void startupRl(bool developerMode, Ogre::String module)
 #endif // #ifndef _DEBUG
         rl::ConfigurationManager::getSingleton().loadConfig();
 
-        logger = new rl::Logger(
-            rl::ConfigurationManager::getSingleton().getRastullahLogDirectory(),
-            rl::ConfigurationManager::getSingleton().getOgreLogFile(),
-            rl::ConfigurationManager::getSingleton().getRastullahLogFile());
+        Ogre::String logDir = rl::ConfigurationManager::getSingleton().getRastullahLogDirectory();
+        Ogre::String ogreLogFile = rl::ConfigurationManager::getSingleton().getOgreLogFile();
+        Ogre::String rlLogFile = rl::ConfigurationManager::getSingleton().getRastullahLogFile();
+
+
+        logger = new rl::Logger(logDir, ogreLogFile, rlLogFile);
         // @todo in ConfigDatei auslagern/ oder auch Parameter
 
         rl::Logger::getSingleton().setLogDetail(

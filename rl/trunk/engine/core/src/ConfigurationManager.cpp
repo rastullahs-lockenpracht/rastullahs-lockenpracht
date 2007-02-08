@@ -18,6 +18,11 @@
 #include "CoreSubsystem.h"
 
 template<> rl::ConfigurationManager* Ogre::Singleton<rl::ConfigurationManager>::ms_Singleton = 0;
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+    Ogre::String rl::ConfigurationManager::PathDelimiter = "/";
+#else
+    Ogre::String rl::ConfigurationManager::PathDelimiter = "/";
+#endif
 
 namespace rl
 {
@@ -85,22 +90,22 @@ namespace rl
 
     Ogre::String ConfigurationManager::getOgreLogFile() const
     {
-        return mRastullahLogDirectory + "/" + mOgreLogFile;
+        return mRastullahLogDirectory + PathDelimiter + mOgreLogFile;
     }
 
     Ogre::String ConfigurationManager::getRastullahLogFile() const
     {
-        return mRastullahLogDirectory + "/" + mRastullahLogFile;
+        return mRastullahLogDirectory + PathDelimiter + mRastullahLogFile;
     }
 
     Ogre::String ConfigurationManager::getCeguiLogFile() const
     {
-        return mRastullahLogDirectory + "/" + mCeguiLogFile;
+        return mRastullahLogDirectory + PathDelimiter + mCeguiLogFile;
     }
 
     Ogre::String ConfigurationManager::getModulesCfgFile() const
     {
-        return mModulesRootDirectory  + "/" + mModulesCfgFile;
+        return mModulesRootDirectory  + PathDelimiter + mModulesCfgFile;
     }
 
     Ogre::String ConfigurationManager::getModulesRootDirectory() const
@@ -137,7 +142,8 @@ namespace rl
     {
         // On Linux, we create the .rastullah directory
 #       if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
-        fs::path rastullahCfgDirectory(string(::getenv("HOME")) + "/.rastullah", fs::portable_posix_name);
+        fs::path rastullahCfgDirectory(string(::getenv("HOME")) + "/.rastullah",
+            fs::portable_posix_name);
 
         if (!fs::exists(rastullahCfgDirectory))
         {
@@ -165,7 +171,8 @@ namespace rl
             {
                 try
                 {
-                    std::cout << "Loading Configuration File " << cfg_paths[i] << mRastullahCfgFile << std::endl;
+                    std::cout << "Loading Configuration File " << cfg_paths[i]
+                        << mRastullahCfgFile << std::endl;
                     configfile->load(cfg_paths[i] + mRastullahCfgFile, "=", true);
                 }
                 catch (Ogre::Exception)
@@ -183,7 +190,9 @@ namespace rl
                 // Get general settings
                 try
                 {
-                    for (ConfigFile::SettingsIterator it = configfile->getSettingsIterator("General"); it.hasMoreElements(); it.moveNext())
+                    for (ConfigFile::SettingsIterator it =
+                        configfile->getSettingsIterator("General");
+                        it.hasMoreElements(); it.moveNext())
                     {
                         addSetting(CS_GENERAL, it.peekNextKey(), it.peekNextValue());
                     }
@@ -191,13 +200,17 @@ namespace rl
                 catch (Ogre::Exception& oe)
                 {
                     // Log it as information
-                    LOG_WARNING(Logger::CORE, "Configuration File " + cfg_paths[i] + mRastullahCfgFile + " does not contain a section 'General'. Defaults will be used.");
+                    LOG_WARNING(Logger::CORE, "Configuration File " + cfg_paths[i] +
+                        mRastullahCfgFile +
+                        " does not contain a section 'General'. Defaults will be used.");
                 }
 
                 // Get video settings
                 try
                 {
-                    for (ConfigFile::SettingsIterator it = configfile->getSettingsIterator("Video"); it.hasMoreElements(); it.moveNext())
+                    for (ConfigFile::SettingsIterator it =
+                        configfile->getSettingsIterator("Video");
+                        it.hasMoreElements(); it.moveNext())
                     {
                         addSetting(CS_GRAPHICS, it.peekNextKey(), it.peekNextValue());
                     }
@@ -205,13 +218,17 @@ namespace rl
                 catch (Ogre::Exception& oe)
                 {
                     // Log it as information
-                    LOG_WARNING(Logger::CORE, "Configuration File " + cfg_paths[i] + mRastullahCfgFile + " does not contain a section 'Video'. Defaults will be used.");
+                    LOG_WARNING(Logger::CORE, "Configuration File " + cfg_paths[i] +
+                        mRastullahCfgFile +
+                        " does not contain a section 'Video'. Defaults will be used.");
                 }
 
                 // Get sound settings
                 try
                 {
-                    for (ConfigFile::SettingsIterator it = configfile->getSettingsIterator("Sound"); it.hasMoreElements(); it.moveNext())
+                    for (ConfigFile::SettingsIterator it =
+                        configfile->getSettingsIterator("Sound");
+                        it.hasMoreElements(); it.moveNext())
                     {
                         addSetting(CS_SOUND, it.peekNextKey(), it.peekNextValue());
                     }
@@ -219,13 +236,17 @@ namespace rl
                 catch (Ogre::Exception& oe)
                 {
                     // Log it as information
-                    LOG_WARNING(Logger::CORE, "Configuration File " + cfg_paths[i] + mRastullahCfgFile + " does not contain a section 'Video'. Defaults will be used.");
+                    LOG_WARNING(Logger::CORE, "Configuration File " + cfg_paths[i] +
+                        mRastullahCfgFile +
+                        " does not contain a section 'Video'. Defaults will be used.");
                 }
 
                 // Get input settings
                 try
                 {
-                    for (ConfigFile::SettingsIterator it = configfile->getSettingsIterator("Input"); it.hasMoreElements(); it.moveNext())
+                    for (ConfigFile::SettingsIterator it =
+                        configfile->getSettingsIterator("Input");
+                        it.hasMoreElements(); it.moveNext())
                     {
                         addSetting(CS_INPUT, it.peekNextKey(), it.peekNextValue());
                     }
@@ -233,7 +254,9 @@ namespace rl
                 catch (Ogre::Exception& oe)
                 {
                     // Log it as information
-                    LOG_WARNING(Logger::CORE, "Configuration File " + cfg_paths[i] + mRastullahCfgFile + " does not contain a section 'Input'. Defaults will be used.");
+                    LOG_WARNING(Logger::CORE, "Configuration File " + cfg_paths[i] +
+                        mRastullahCfgFile +
+                        " does not contain a section 'Input'. Defaults will be used.");
                 }
             }
 
@@ -254,7 +277,7 @@ namespace rl
 #           if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
                 mModulesRootDirectory = RL_MODULEDIR;
 #           else
-                mModulesRootDirectory = "./";
+                mModulesRootDirectory = "./modules";
 #           endif
         }
 
@@ -263,7 +286,7 @@ namespace rl
 #           if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
             mOgrePluginDirectory = OGRE_PLUGINDIR;
 #           else
-            mOgrePluginDirectory = "";
+            mOgrePluginDirectory = ".";
 #           endif
         }
     }
@@ -290,7 +313,7 @@ namespace rl
         cfgfile->addSection("Input", mInputSettings);
 
 #       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-        cfgfile->save("./config");
+        cfgfile->save(fs::path("./modules/config/" + mRastullahCfgFile).native_file_string());
 #       else
         cfgfile->save(Ogre::String(::getenv("HOME")) + "/.rastullah/" + mRastullahCfgFile);
 #       endif
@@ -302,7 +325,8 @@ namespace rl
 
     Logger::LogLevel ConfigurationManager::getLogLevel()
     {
-        return static_cast<Logger::LogLevel>(getIntSetting(ConfigurationManager::CS_GENERAL, "Log Level"));
+        return static_cast<Logger::LogLevel>(getIntSetting(ConfigurationManager::CS_GENERAL,
+            "Log Level"));
     }
 
     Ogre::String ConfigurationManager::getEngineVersionString() const
@@ -317,7 +341,8 @@ namespace rl
         return version;
     }
 
-    Ogre::String ConfigurationManager::getStringSetting(ConfigurationSection section, Ogre::String key)
+    Ogre::String ConfigurationManager::getStringSetting(ConfigurationSection section,
+        Ogre::String key)
     {
         // Get the value we are looking for
         return findSetting(section, key);
@@ -341,7 +366,8 @@ namespace rl
         return Ogre::StringConverter::parseReal(findSetting(section, key));
     }
 
-    Ogre::String ConfigurationManager::findSetting(ConfigurationSection section, Ogre::String key) const
+    Ogre::String ConfigurationManager::findSetting(ConfigurationSection section,
+        Ogre::String key) const
     {
         Ogre::NameValuePairList::const_iterator it;
         const Ogre::NameValuePairList* searchList;
@@ -378,7 +404,8 @@ namespace rl
         }
     }
 
-    void ConfigurationManager::addSetting(ConfigurationSection section, Ogre::String key, Ogre::String value)
+    void ConfigurationManager::addSetting(ConfigurationSection section, Ogre::String key,
+        Ogre::String value)
     {
         Ogre::NameValuePairList::iterator it;
         Ogre::NameValuePairList* addList;
@@ -450,7 +477,8 @@ namespace rl
     const CeGuiString& ConfigurationManager::getAboutText() const
     {
         static CeGuiString aboutText =
-            "Rastullahs Lockenpracht\n\nCopyright 2003-2006 Team Pantheon\n\nBenutzte Bibliotheken: Ogre, fmod, Newton, boost, ...";
+            "Rastullahs Lockenpracht\n\nCopyright 2003-2006 Team Pantheon\
+\n\nBenutzte Bibliotheken: Ogre, fmod, Newton, boost, ...";
         return aboutText;
     }
 
@@ -470,7 +498,7 @@ namespace rl
         // Check home .rastullah directory
         addToCfgPath(Ogre::String(::getenv("HOME")) + "/.rastullah/");
 #       else
-        addToCfgPath("./config/");
+        addToCfgPath("./modules/config/");
 #       endif
     }
 
@@ -489,7 +517,8 @@ namespace rl
                 mRastullahCfgPath = path;
             }
 
-            std::cout << "Adding path " << path << " to Rastullah configuration path." << std::endl;
+            std::cout << "Adding path " << path << " to Rastullah configuration path."
+                << std::endl;
         }
     }
 

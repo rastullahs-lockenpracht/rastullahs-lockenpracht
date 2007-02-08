@@ -311,7 +311,7 @@ void SoundManager::unloadAllDrivers()
      *        Don't know yet, why this happens.
      */
     DriverList::iterator it = mDriverList.begin();
-    it++;
+    if (!mDriverList.empty()) ++it;
     /** Hack End **/
     for(/*DriverList::iterator it = mDriverList.begin()*/; it != mDriverList.end(); it++)
     {

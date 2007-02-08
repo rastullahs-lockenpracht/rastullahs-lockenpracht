@@ -158,11 +158,15 @@ namespace rl {
         // Load Ogre plugins
         String PluginDir = ConfigurationManager::getSingleton().getOgrePluginDirectory();
 #       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-        mOgreRoot->loadPlugin(PluginDir + "/RenderSystem_Direct3D9");
-#       endif
+        mOgreRoot->loadPlugin(PluginDir + "\\RenderSystem_Direct3D9");
+        mOgreRoot->loadPlugin(PluginDir + "\\RenderSystem_GL");
+        mOgreRoot->loadPlugin(PluginDir + "\\Plugin_ParticleFX");
+        mOgreRoot->loadPlugin(PluginDir + "\\Plugin_OctreeSceneManager");
+#       else
         mOgreRoot->loadPlugin(PluginDir + "/RenderSystem_GL");
         mOgreRoot->loadPlugin(PluginDir + "/Plugin_ParticleFX");
         mOgreRoot->loadPlugin(PluginDir + "/Plugin_OctreeSceneManager");
+#       endif
 
         // Find out, what Renderer plugins are available
         RenderSystemList* rsl = mOgreRoot->getAvailableRenderers();
@@ -170,7 +174,8 @@ namespace rl {
 
         for (it = rsl->begin(); it < rsl->end(); it++)
         {
-            if ((*it)->getName() == ConfigurationManager::getSingleton().getStringSetting(ConfigurationManager::CS_GRAPHICS, "Render System"))
+            if ((*it)->getName() == ConfigurationManager::getSingleton().getStringSetting(
+                ConfigurationManager::CS_GRAPHICS, "Render System"))
             {
                 // Select and initialise the render system
                 mOgreRoot->setRenderSystem(*it);
@@ -194,12 +199,16 @@ namespace rl {
         name << ConfigurationManager::getSingleton().getEngineBuildNumber() << "]";
 
         // Get width and height of the RenderWindow from the "Video Mode" setting
-        Ogre::String VideoMode = ConfigurationManager::getSingleton().getStringSetting(ConfigurationManager::CS_GRAPHICS, "Video Mode");
+        Ogre::String VideoMode = ConfigurationManager::getSingleton().getStringSetting(
+            ConfigurationManager::CS_GRAPHICS, "Video Mode");
         int temp = VideoMode.find("x");
         int width = Ogre::StringConverter::parseInt(VideoMode.substr(0, temp));
         int height = Ogre::StringConverter::parseInt(VideoMode.substr(temp + 1, VideoMode.size()));
 
-        mRenderWindow = mOgreRoot->createRenderWindow(name.str(), width, height, ConfigurationManager::getSingleton().getBoolSetting(ConfigurationManager::CS_GRAPHICS, "Fullscreen"), &ConfigurationManager::getSingleton().getGraphicSettings());
+        mRenderWindow = mOgreRoot->createRenderWindow(name.str(), width, height,
+            ConfigurationManager::getSingleton().getBoolSetting(
+                ConfigurationManager::CS_GRAPHICS, "Fullscreen"),
+                    &ConfigurationManager::getSingleton().getGraphicSettings());
 
         if (!mRenderWindow)
             return false;
@@ -228,7 +237,8 @@ namespace rl {
         TextureManager::getSingleton().setDefaultNumMipmaps(5);
         MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_TRILINEAR);
         MaterialManager::getSingleton().setDefaultAnisotropy(
-            ConfigurationManager::getSingleton().getIntSetting(ConfigurationManager::CS_GRAPHICS, "Max Anisotropy"));
+            ConfigurationManager::getSingleton().getIntSetting(
+                ConfigurationManager::CS_GRAPHICS, "Max Anisotropy"));
 
 
         mWorld = new DotSceneOctreeWorld();
@@ -265,8 +275,9 @@ namespace rl {
             ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
         // Laden mittels eines Configfiles
+        String cfgFilePath = mConfigurationManager->getModulesCfgFile();
         ConfigFile cf;
-        cf.load(mConfigurationManager->getModulesCfgFile());
+        cf.load(boost::filesystem::path(cfgFilePath).native_directory_string());
 
         // Durchgehen der einzelnen Settings
         ConfigFile::SettingsIterator i = cf.getSettingsIterator();
