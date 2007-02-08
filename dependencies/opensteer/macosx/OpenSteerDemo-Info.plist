@@ -6,15 +6,21 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>OpenSteer</string>
+	<key>CFBundleIconFile</key>
+	<string>OpenSteer.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.sony.OpenSteerDemo</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
-	<string>FMWK</string>
+	<string>APPL</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>0.8</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
 </dict>
 </plist>
