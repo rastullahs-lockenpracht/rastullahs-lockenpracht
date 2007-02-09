@@ -69,8 +69,6 @@
 		4425B4180B7B67D20067899D /* SegmentedPathway.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3224E5030844B18600C13D97 /* SegmentedPathway.cpp */; };
 		4425B4190B7B67D20067899D /* Vec3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32FFF54E06E9CEBD00E1D8A3 /* Vec3.cpp */; };
 		4425B41A0B7B67D20067899D /* Vec3Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32ECFEAF083389F000E5E444 /* Vec3Utilities.cpp */; };
-		4425B41B0B7B67E50067899D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		4425B41D0B7B67F90067899D /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4425B41C0B7B67F90067899D /* Carbon.framework */; };
 		4425B41F0B7B681A0067899D /* OpenSteer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4425B3E60B7B61DB0067899D /* OpenSteer.framework */; };
 		4425B4430B7B6AF90067899D /* SimpleVehicle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32FFF54C06E9CEBD00E1D8A3 /* SimpleVehicle.cpp */; };
 		4425B44A0B7B6B460067899D /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32FFF54506E9CEBD00E1D8A3 /* Camera.cpp */; };
@@ -88,7 +86,7 @@
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		3224E47608435BCC00C13D97 /* UnitTest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = UnitTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3224E47608435BCC00C13D97 /* UnitTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = UnitTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3224E47808435D8C00C13D97 /* libcppunit-1.10.2.0.0.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; name = "libcppunit-1.10.2.0.0.dylib"; path = "../../libcppunit-1.10.2.0.0.dylib"; sourceTree = SOURCE_ROOT; };
 		3224E4A50843657800C13D97 /* StandardTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardTypes.h; sourceTree = "<group>"; };
 		3224E4AC0844A32F00C13D97 /* SegmentedPathway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentedPathway.h; sourceTree = "<group>"; };
@@ -165,7 +163,7 @@
 		84AD12AD070E221100559513 /* OpenSteerDemo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OpenSteerDemo.h; sourceTree = "<group>"; };
 		84AD12B1070E224000559513 /* OpenSteerDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = OpenSteerDemo.cpp; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* OpenSteerDemo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "OpenSteerDemo-Info.plist"; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* OpenSteerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenSteerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* OpenSteerDemo.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = OpenSteerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,15 +176,6 @@
 				3230C0C4084DBBA100CBB0D9 /* OpenGL.framework in Frameworks */,
 				3230C0C5084DBBA100CBB0D9 /* GLUT.framework in Frameworks */,
 				3230C0C6084DBBA500CBB0D9 /* Cocoa.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4425B3E40B7B61DB0067899D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4425B41B0B7B67E50067899D /* Cocoa.framework in Frameworks */,
-				4425B41D0B7B67F90067899D /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,7 +429,6 @@
 			buildPhases = (
 				4425B3E10B7B61DB0067899D /* Headers */,
 				4425B3E30B7B61DB0067899D /* Sources */,
-				4425B3E40B7B61DB0067899D /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -779,7 +767,7 @@
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
 				GCC_WARN_MISSING_PARENTHESES = YES;
 				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
-				GCC_WARN_PEDANTIC = YES;
+				GCC_WARN_PEDANTIC = NO;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
@@ -811,7 +799,7 @@
 				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
 				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_PEDANTIC = YES;
+				GCC_WARN_PEDANTIC = NO;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
@@ -843,7 +831,7 @@
 				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
 				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_PEDANTIC = YES;
+				GCC_WARN_PEDANTIC = NO;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
@@ -878,8 +866,8 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				HEADER_SEARCH_PATHS = ../include;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
@@ -909,8 +897,8 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				HEADER_SEARCH_PATHS = ../include;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
@@ -938,8 +926,8 @@
 				FRAMEWORK_VERSION = 0.8;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				HEADER_SEARCH_PATHS = ../include;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
