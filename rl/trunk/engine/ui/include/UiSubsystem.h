@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -37,19 +37,19 @@ namespace rl {
 
     class Creature;
     class GameActor;
-	class GameObject;
-	class InputManager;
-	class Person;
-	class RBCombat;
-	class RTCombat;
-	class WindowFactory;
-	class WindowManager;
+    class GameObject;
+    class InputManager;
+    class Person;
+    class RBCombat;
+    class RTCombat;
+    class WindowFactory;
+    class WindowManager;
 
     class _RlUiExport UiSubsystem : public SceneChangeListener,
         protected Ogre::Singleton<UiSubsystem>, protected GameTask
     {
     public:
-		static const char* CEGUI_ROOT;
+        static const char* CEGUI_ROOT;
 
         /** Default Constructor */
         UiSubsystem();
@@ -60,30 +60,30 @@ namespace rl {
         static UiSubsystem & getSingleton(void);
         static UiSubsystem * getSingletonPtr(void);
 
-		CEGUI::OgreCEGUIRenderer* getGUIRenderer();
-		Person* getActiveCharacter() const;
-		void setActiveCharacter(Person* person);
+        CEGUI::OgreCEGUIRenderer* getGUIRenderer();
+        Person* getActiveCharacter() const;
+        void setActiveCharacter(Person* person);
         CharacterController* getCharacterController() const;
-		CharacterController::ControllerType getCharacterControllerType() const;
-		
-		/**
-		 * Aendert den CharacterController, wird sofort durchgefuehrt
-		 * kann Probleme bei Ausfuehrung innerhalb eines Controllers geben,
-		 * dann ist @see requestCharacterControllerSwitch empfohlen
-		*/
-		void setCharacterController(CharacterController::ControllerType type);
-		
-		/**
-		 * Aendert den CharacterController nach dem naechsten Frame
-		*/
-		void requestCharacterControllerSwitch(CharacterController::ControllerType type);
+        CharacterController::ControllerType getCharacterControllerType() const;
 
-		void update();
+        /**
+         * Aendert den CharacterController, wird sofort durchgefuehrt
+         * kann Probleme bei Ausfuehrung innerhalb eines Controllers geben,
+         * dann ist @see requestCharacterControllerSwitch empfohlen
+        */
+        void setCharacterController(CharacterController::ControllerType type);
+
+        /**
+         * Aendert den CharacterController nach dem naechsten Frame
+        */
+        void requestCharacterControllerSwitch(CharacterController::ControllerType type);
+
+        void update();
 
         /// from SceneChangeListener
         virtual void onBeforeClearScene();
 
-		virtual void run(Ogre::Real elapsedTime);
+        virtual void run(Ogre::Real elapsedTime);
 
         virtual const Ogre::String& getName() const;
 
@@ -94,17 +94,17 @@ namespace rl {
 
     private:
         CharacterController* mCharacterController;
-		CharacterController::ControllerType mCharacterControllerType;
+        CharacterController::ControllerType mCharacterControllerType;
         GameActor* mHero;
         Person* mCharacter;
 
         // Singletons
-		InputManager* mInputManager;
-		WindowFactory* mWindowFactory;
-		WindowManager* mWindowManager;
+        InputManager* mInputManager;
+        WindowFactory* mWindowFactory;
+        WindowManager* mWindowManager;
 
         CEGUI::OgreCEGUIRenderer* mGuiRenderer;
-        CEGUI::OgreCEGUIResourceProvider* mGuiResourceProvider;
+        CEGUI::ResourceProvider* mGuiResourceProvider;
         CEGUI::System* mGuiSystem;
     };
 }

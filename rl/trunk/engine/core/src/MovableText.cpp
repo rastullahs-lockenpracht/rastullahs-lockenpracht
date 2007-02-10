@@ -177,8 +177,8 @@ namespace rl {
         mRenderOp.indexData = 0;
         mRenderOp.vertexData->vertexStart = 0;
         mRenderOp.vertexData->vertexCount = vertexCount;
-        mRenderOp.operationType = RenderOperation::OT_TRIANGLE_LIST; 
-        mRenderOp.useIndexes = false; 
+        mRenderOp.operationType = RenderOperation::OT_TRIANGLE_LIST;
+        mRenderOp.useIndexes = false;
 
         VertexDeclaration  *decl = mRenderOp.vertexData->vertexDeclaration;
         VertexBufferBinding   *bind = mRenderOp.vertexData->vertexBufferBinding;
@@ -248,7 +248,7 @@ namespace rl {
                 {
                     if (*j == ' ')
                         len += mSpaceWidth;
-                    else 
+                    else
                         len += mFont->getGlyphAspectRatio(*j) * mCharHeight * 2.0;
                 }
                 newLine = false;
@@ -272,8 +272,12 @@ namespace rl {
             }
 
             Real horiz_height = mFont->getGlyphAspectRatio(*i);
-            Real u1, u2, v1, v2; 
-            mFont->getGlyphTexCoords(*i, u1, v1, u2, v2);
+            Real u1, u2, v1, v2;
+            Font::UVRect rect = mFont->getGlyphTexCoords(*i);
+            u1 = rect.left;
+            v1 = rect.top;
+            u2 = rect.right;
+            v2 = rect.bottom;
 
             // each vert is (x, y, z, u, v)
             //---------------------------------------------------------------
@@ -436,7 +440,7 @@ namespace rl {
     }
 
     /************************************************************************/
-    void MovableText::getWorldTransforms(Matrix4* xform) const 
+    void MovableText::getWorldTransforms(Matrix4* xform) const
     {
         if (this->isVisible() && mCamera != 0)
         {
@@ -463,7 +467,7 @@ namespace rl {
             scale3x3[0][0] = 0.01 * mScaleOffset.x * mParentNode->_getDerivedScale().x / 2;
             scale3x3[1][1] = 0.01 * mScaleOffset.y * mParentNode->_getDerivedScale().y / 2;
             scale3x3[2][2] = 0.01 * mScaleOffset.z * mParentNode->_getDerivedScale().z / 2;
-            // apply all transforms to xform       
+            // apply all transforms to xform
             *xform = (rot3x3 * scale3x3);
             xform->setTrans(ppos);
         }

@@ -107,7 +107,7 @@ else
 fi
 
 # Ogre
-PKG_CHECK_MODULES(OGRE, OGRE >= 1.3.0)
+PKG_CHECK_MODULES(OGRE, OGRE >= 1.4.0)
 AC_ARG_WITH(ogre-plugins,[  --with-ogre-plugins=path        Set location of Ogre plugins],[ OGRE_PLUGINDIR="$withval"], [OGRE_PLUGINDIR=`pkg-config OGRE --variable=plugindir`])
 AC_SUBST(OGRE_PLUGINDIR)
 
