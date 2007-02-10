@@ -156,17 +156,12 @@ namespace rl {
         mOgreRoot = new Root("", "", ConfigurationManager::getSingleton().getOgreLogFile());
 
         // Load Ogre plugins
-        String PluginDir = ConfigurationManager::getSingleton().getOgrePluginDirectory();
-#       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-        mOgreRoot->loadPlugin(PluginDir + "\\RenderSystem_Direct3D9");
-        mOgreRoot->loadPlugin(PluginDir + "\\RenderSystem_GL");
-        mOgreRoot->loadPlugin(PluginDir + "\\Plugin_ParticleFX");
-        mOgreRoot->loadPlugin(PluginDir + "\\Plugin_OctreeSceneManager");
-#       else
-        mOgreRoot->loadPlugin(PluginDir + "/RenderSystem_GL");
-        mOgreRoot->loadPlugin(PluginDir + "/Plugin_ParticleFX");
-        mOgreRoot->loadPlugin(PluginDir + "/Plugin_OctreeSceneManager");
-#       endif
+        Ogre::StringVector pluginList = ConfigurationManager::getSingleton().getPluginList();
+
+        for (Ogre::StringVector::const_iterator it = pluginList.begin(); it < pluginList.end(); it++)
+        {
+            mOgreRoot->loadPlugin(*it);
+        }
 
         // Find out, what Renderer plugins are available
         RenderSystemList* rsl = mOgreRoot->getAvailableRenderers();

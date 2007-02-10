@@ -113,11 +113,6 @@ namespace rl
         return mRastullahLogDirectory;
     }
 
-    Ogre::String ConfigurationManager::getOgrePluginDirectory() const
-    {
-        return mOgrePluginDirectory;
-    }
-
     Ogre::NameValuePairList ConfigurationManager::getGraphicSettings() const
     {
         return mGraphicSettings;
@@ -131,6 +126,11 @@ namespace rl
     Ogre::NameValuePairList ConfigurationManager::getInputSettings() const
     {
         return mInputSettings;
+    }
+
+    Ogre::StringVector ConfigurationManager::getPluginList() const
+    {
+        return mPluginList;
     }
 
     void ConfigurationManager::loadConfig()
@@ -283,6 +283,24 @@ namespace rl
 #           else
             mOgrePluginDirectory = ".";
 #           endif
+        }
+
+        // Plugin list for OGRE specific to operating system
+#       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+        Ogre::String dirSeparator = "\\";
+        mPluginList.push_back(mOgrePluginDirectory + dirSeparator + "RenderSystem_Direct3D9");
+#       else
+        Ogre::String dirSeparator = "/";
+#       endif
+        mPluginList.push_back(mOgrePluginDirectory + dirSeparator + "RenderSystem_GL");
+        mPluginList.push_back(mOgrePluginDirectory + dirSeparator + "Plugin_ParticleFX");
+        mPluginList.push_back(mOgrePluginDirectory + dirSeparator + "Plugin_OctreeSceneManager");
+
+        Ogre::StringVector test = getPluginList();
+
+        for (Ogre::StringVector::const_iterator it = test.begin(); it < test.end(); it++)
+        {
+            std::cout << std::endl << *it << std::endl;
         }
     }
 

@@ -98,14 +98,6 @@ namespace rl
             Ogre::String getModulesCfgFile() const;
 
             /**
-             * Returns the filename of the configuration file for the OS
-             * specific plugins
-             *
-             * @return filename of the plugin's configuration file
-             */
-            Ogre::String getPluginCfgFile() const;
-
-            /**
              * Returns a list of paths, were Rastullah configuration files
              * reside
              *
@@ -130,13 +122,6 @@ namespace rl
              * @return directoy where Rastullah logfiles are stored
              */
             Ogre::String getRastullahLogDirectory() const;
-
-            /**
-             * Returns the directory where OGRE stores its plugins
-             *
-             * @return directory where OGRE plugins are stored
-             */
-            Ogre::String getOgrePluginDirectory() const;
 
             /**
              * Adds a key-value pair to the list specified by section
@@ -198,6 +183,13 @@ namespace rl
              * @return key-value list of sound settings
              */
             Ogre::NameValuePairList getSoundSettings() const;
+
+            /**
+             * Returns a list of Ogre plugins specific to the OS
+             *
+             * @return vector of plugin names
+             */
+            Ogre::StringVector getPluginList() const;
 
             /**
              * Returns the filename of the current keymap file used by
@@ -302,6 +294,7 @@ namespace rl
             Ogre::NameValuePairList mGraphicSettings; //!< Graphic settings for the OGRE Renderer
             Ogre::NameValuePairList mSoundSettings;   //!< Sound settings for the Rastullah soundsystem
             Ogre::NameValuePairList mInputSettings;   //!< Input settings for the Rastullah inputsystem
+            Ogre::StringVector mPluginList;           //!< List of OGRE Plugins, which will be loaded by CoreSubsystem
     };
 }
 
