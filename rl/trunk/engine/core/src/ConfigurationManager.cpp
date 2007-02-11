@@ -178,9 +178,20 @@ namespace rl
                 }
 
                 // Set log, modules and OGRE plugin directory
-                mRastullahLogDirectory = configfile->getSetting("LogDirectory", "Paths");
-                mModulesRootDirectory = configfile->getSetting("ModulesDirectory", "Paths");
-                mOgrePluginDirectory = configfile->getSetting("OgrePluginDirectory", "Paths");
+                if (!configfile->getSetting("LogDirectory", "Paths").empty())
+                {
+                    mRastullahLogDirectory = configfile->getSetting("LogDirectory", "Paths");
+                }
+
+                if (!configfile->getSetting("ModulesDirectory", "Paths").empty())
+                {
+                    mModulesRootDirectory = configfile->getSetting("ModulesDirectory", "Paths");
+                }
+
+                if (!configfile->getSetting("OgrePluginDirectory", "Paths").empty())
+                {
+                    mOgrePluginDirectory = configfile->getSetting("OgrePluginDirectory", "Paths");
+                }
 
                 // Get general settings
                 try
@@ -327,7 +338,7 @@ namespace rl
         // Add General settings
         cfgfile->addSection("General", mGeneralSettings);
         // Add Path settings
-        cfgfile->addSection("Path", *PathSettings);
+        cfgfile->addSection("Paths", *PathSettings);
         // Add Video settings
         cfgfile->addSection("Video", mGraphicSettings);
         // Add Sound settings
