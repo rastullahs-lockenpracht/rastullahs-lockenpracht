@@ -269,40 +269,29 @@ namespace rl {
             "FileSystem",
             ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
-        // Laden mittels eines Configfiles
-        String cfgFilePath = mConfigurationManager->getModulesCfgFile();
-        ConfigFile cf;
-        cf.load(boost::filesystem::path(cfgFilePath).native_directory_string());
 
-        // Durchgehen der einzelnen Settings
-        ConfigFile::SettingsIterator i = cf.getSettingsIterator();
-        String key, value;
-        while (i.hasMoreElements())
+        // Initialise the modules
+        Ogre::StringVector modulesList = ConfigurationManager::getSingleton().getModuleList();
+
+        for (int i = 0; i < modulesList.size(); i++)
         {
-            key = i.peekNextKey();
-            value = i.getNext();
+            mRubyInterpreter->executeFile(ContentModule::getInitFile(modulesList[i]));
 
-            if (key.compare("module") == 0)
+            ContentModule* module = getModule(modulesList[i]);
+
+            if (module == NULL)
             {
-                mRubyInterpreter->executeFile(ContentModule::getInitFile(value));
-
-                ContentModule* module = getModule(value);
-
-                if (module == NULL)
-                {
-                    Throw(
-                        rl::RuntimeException,
-                        ContentModule::getInitFile(value) + " did not register module '"+value+"'");
-                }
-                //else
-                //{
-                //    if (module->isCommon())
-                //    {
-                //        module->initializeTextures();
-                //        module->initialize();
-                //    }
-                //}
+                Throw(rl::RuntimeException,
+                      ContentModule::getInitFile(modulesList[i]) + " did not register module '" + modulesList[i] + "'");
             }
+            //else
+            //{
+            //    if (module->isCommon())
+            //    {
+            //        module->initializeTextures();
+            //        module->initialize();
+            //    }
+            //}
         }
     }
 

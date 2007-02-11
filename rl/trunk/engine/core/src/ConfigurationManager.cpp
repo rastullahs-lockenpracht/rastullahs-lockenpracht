@@ -98,11 +98,6 @@ namespace rl
         return mRastullahLogDirectory + "/" + mCeguiLogFile;
     }
 
-    Ogre::String ConfigurationManager::getModulesCfgFile() const
-    {
-        return mModulesRootDirectory  + "/" + mModulesCfgFile;
-    }
-
     Ogre::String ConfigurationManager::getModulesRootDirectory() const
     {
         return mModulesRootDirectory;
@@ -131,6 +126,11 @@ namespace rl
     Ogre::StringVector ConfigurationManager::getPluginList() const
     {
         return mPluginList;
+    }
+
+    Ogre::StringVector ConfigurationManager::getModuleList() const
+    {
+        return mModuleList;
     }
 
     void ConfigurationManager::loadConfig()
@@ -296,15 +296,25 @@ namespace rl
         mPluginList.push_back(mOgrePluginDirectory + dirSeparator + "Plugin_ParticleFX");
         mPluginList.push_back(mOgrePluginDirectory + dirSeparator + "Plugin_OctreeSceneManager");
 
-        Ogre::StringVector test = getPluginList();
+        // Load the module list
+        ConfigFile* configfile = new ConfigFile();
+        configfile->load(fs::path(mModulesRootDirectory + "/" + mModulesCfgFile).native_directory_string());
 
-        for (Ogre::StringVector::const_iterator it = test.begin(); it < test.end(); it++)
+        ConfigFile::SettingsIterator it = configfile->getSettingsIterator();
+        for (ConfigFile::SettingsIterator it = configfile->getSettingsIterator();
+             it.hasMoreElements(); it.moveNext())
         {
-            std::cout << std::endl << *it << std::endl;
+            // If key is module, we add value to our module list
+            if (it.peekNextKey() == "module")
+            {
+                mModuleList.push_back(it.peekNextValue());
+            }
         }
+
+        delete configfile;
     }
 
-    void ConfigurationManager::saveConfig()
+    void ConfigurationManager::saveConfig() const
     {
         ConfigFile* cfgfile = new ConfigFile();
 
@@ -336,7 +346,7 @@ namespace rl
         delete cfgfile;
     }
 
-    Logger::LogLevel ConfigurationManager::getLogLevel()
+    Logger::LogLevel ConfigurationManager::getLogLevel() const
     {
         return static_cast<Logger::LogLevel>(getIntSetting(ConfigurationManager::CS_GENERAL,
             "Log Level"));
@@ -354,33 +364,36 @@ namespace rl
         return version;
     }
 
-    Ogre::String ConfigurationManager::getStringSetting(ConfigurationSection section,
-        Ogre::String key)
+    Ogre::String ConfigurationManager::getStringSetting(const ConfigurationSection& section,
+        const Ogre::String& key) const
     {
         // Get the value we are looking for
         return findSetting(section, key);
     }
 
-    int ConfigurationManager::getIntSetting(ConfigurationSection section, Ogre::String key)
+    int ConfigurationManager::getIntSetting(const ConfigurationSection& section,
+        const Ogre::String& key) const
     {
         // Get the value we are looking for
         return Ogre::StringConverter::parseInt(findSetting(section, key));
     }
 
-    bool ConfigurationManager::getBoolSetting(ConfigurationSection section, Ogre::String key)
+    bool ConfigurationManager::getBoolSetting(const ConfigurationSection& section,
+        const Ogre::String& key) const
     {
         // Get the value we are looking for
         return Ogre::StringConverter::parseBool(findSetting(section, key));
     }
 
-    Ogre::Real ConfigurationManager::getRealSetting(ConfigurationSection section, Ogre::String key)
+    Ogre::Real ConfigurationManager::getRealSetting(const ConfigurationSection& section,
+        const Ogre::String& key) const
     {
         // Get the value we are looking for
         return Ogre::StringConverter::parseReal(findSetting(section, key));
     }
 
-    Ogre::String ConfigurationManager::findSetting(ConfigurationSection section,
-        Ogre::String key) const
+    Ogre::String ConfigurationManager::findSetting(const ConfigurationSection& section,
+        const Ogre::String& key) const
     {
         Ogre::NameValuePairList::const_iterator it;
         const Ogre::NameValuePairList* searchList;
@@ -417,8 +430,8 @@ namespace rl
         }
     }
 
-    void ConfigurationManager::addSetting(ConfigurationSection section, Ogre::String key,
-        Ogre::String value)
+    void ConfigurationManager::addSetting(const ConfigurationSection& section,
+        const Ogre::String& key, const Ogre::String& value)
     {
         Ogre::NameValuePairList::iterator it;
         Ogre::NameValuePairList* addList;

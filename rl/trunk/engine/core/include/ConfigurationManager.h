@@ -91,13 +91,6 @@ namespace rl
             Ogre::String getCeguiLogFile() const;
 
             /**
-             * Returns the filename of the configuration file for the modules
-             *
-             * @return filename of module's configuration file
-             */
-            Ogre::String getModulesCfgFile() const;
-
-            /**
              * Returns a list of paths, were Rastullah configuration files
              * reside
              *
@@ -132,7 +125,7 @@ namespace rl
              * @param key The key of the key-value pair
              * @param value The value of the key-value pair
              */
-            void addSetting(ConfigurationSection section, Ogre::String key, Ogre::String value);
+            void addSetting(const ConfigurationSection& section, const Ogre::String& key, const Ogre::String& value);
 
             /**
              * Returns the string value for a specific key in a specific section
@@ -141,7 +134,7 @@ namespace rl
              * @param key The key, for which a value will be returned
              * @return string value for the specific key in the specific section
              */
-            Ogre::String getStringSetting(ConfigurationSection section, Ogre::String key);
+            Ogre::String getStringSetting(const ConfigurationSection& section, const Ogre::String& key) const;
 
             /**
              * Returns the int value for a specific key in a specific section
@@ -150,7 +143,7 @@ namespace rl
              * @param key The key, for which a value will be returned
              * @return int value for the specific key in the specific section
              */
-            int getIntSetting(ConfigurationSection section, Ogre::String key);
+            int getIntSetting(const ConfigurationSection& section, const Ogre::String& key) const;
 
             /**
              * Returns the boolean value for a specific key in a specific section
@@ -159,7 +152,7 @@ namespace rl
              * @param key The key, for which a value will be returned
              * @return boolean value for the specific key in the specific section
              */
-            bool getBoolSetting(ConfigurationSection section, Ogre::String key);
+            bool getBoolSetting(const ConfigurationSection& section, const Ogre::String& key) const;
 
             /**
              * Returns the real value for a specific key in a specific section
@@ -168,7 +161,7 @@ namespace rl
              * @param key The key, for which a value will be returned
              * @return real value for the specific key in the specific section
              */
-            Ogre::Real getRealSetting(ConfigurationSection section, Ogre::String key);
+            Ogre::Real getRealSetting(const ConfigurationSection& section, const Ogre::String& key) const;
 
             /**
              * Returns a pointer to the graphical settings for the OGRE renderer
@@ -185,11 +178,25 @@ namespace rl
             Ogre::NameValuePairList getSoundSettings() const;
 
             /**
+             * Returns the input settings for the CommandMapper
+             *
+             * @return key-value list of input settings
+             */
+            Ogre::NameValuePairList getInputSettings() const;
+
+            /**
              * Returns a list of Ogre plugins specific to the OS
              *
              * @return vector of plugin names
              */
             Ogre::StringVector getPluginList() const;
+
+            /**
+             * Returns the list of Rastullah game modules
+             *
+             * @return vector of module names
+             */
+            Ogre::StringVector getModuleList() const;
 
             /**
              * Returns the filename of the current keymap file used by
@@ -200,19 +207,12 @@ namespace rl
             Ogre::String getKeymap() const;
 
             /**
-             * Returns the input settings for the CommandMapper
-             *
-             * @return key-value list of input settings
-             */
-            Ogre::NameValuePairList getInputSettings() const;
-
-            /**
              * Returns the log level specifying how verbose the created
              * logfiles are
              *
              * @return verbosity level of logfiles
              */
-            Logger::LogLevel getLogLevel();
+            Logger::LogLevel getLogLevel() const;
 
             Ogre::String getEngineVersionString() const;
             Ogre::String getEngineVersionName() const;
@@ -236,7 +236,7 @@ namespace rl
             /**
              * Saves a configuration file in OS specific directory
              */
-            void saveConfig();
+            void saveConfig() const;
 
         private:
             /**
@@ -279,7 +279,7 @@ namespace rl
              * @param key The key, for which a value will be returned
              * @return value if key exits, otherwise NULL
              */
-            Ogre::String findSetting(ConfigurationSection section, Ogre::String key) const;
+            Ogre::String findSetting(const ConfigurationSection& section, const Ogre::String& key) const;
 
             Ogre::String mRastullahCfgFile;           //!< Filename of the Rastullah configuration file
             Ogre::String mOgreLogFile;                //!< Filename of the logfile written by OGRE
@@ -294,6 +294,7 @@ namespace rl
             Ogre::NameValuePairList mGraphicSettings; //!< Graphic settings for the OGRE Renderer
             Ogre::NameValuePairList mSoundSettings;   //!< Sound settings for the Rastullah soundsystem
             Ogre::NameValuePairList mInputSettings;   //!< Input settings for the Rastullah inputsystem
+            Ogre::StringVector mModuleList;           //!< List of Rastullah game modules
             Ogre::StringVector mPluginList;           //!< List of OGRE Plugins, which will be loaded by CoreSubsystem
     };
 }
