@@ -70,7 +70,7 @@
 				AdditionalDependencies="OgreMain_d.lib xerces-c_2D.lib CEGUIBase_d.lib boost_thread-vc80-mt-gd-1_33_1.lib"
 				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui_mk2\lib\$(PlatformName)\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib\;..\..\dependencies\boost\lib"
+				AdditionalLibraryDirectories="..\..\dependencies\ogrenew\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui_mk2\lib\$(PlatformName)\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib\;..\..\dependencies\boost\lib"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				ProgramDatabaseFile="$(OutDir)/RlCommon.pdb"
@@ -156,7 +156,7 @@
 				AdditionalDependencies="OgreMain.lib xerces-c_2.lib CEGUIBase.lib boost_thread-vc80-mt-1_33_1.lib"
 				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui_mk2\lib\$(PlatformName)\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib\;..\..\dependencies\boost\lib"
+				AdditionalLibraryDirectories="..\..\dependencies\ogrenew\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui_mk2\lib\$(PlatformName)\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib\;..\..\dependencies\boost\lib"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -240,7 +240,7 @@
 				AdditionalDependencies="OgreMain.lib xerces-c_2.lib CEGUIBase.lib boost_thread-vc80-mt-1_33_1.lib"
 				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\dependencies\ogrenew\OgreMain\lib\Release;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui_mk2\lib\$(PlatformName)\Release&quot;;..\..\dependencies\cegui_mk2\lib\;..\..\dependencies\boost\lib"
+				AdditionalLibraryDirectories="..\..\dependencies\ogrenew\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui_mk2\lib\$(PlatformName)\Release&quot;;..\..\dependencies\cegui_mk2\lib\;..\..\dependencies\boost\lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -314,10 +314,6 @@
 			</File>
 			<File
 				RelativePath=".\src\OgreXercesInput.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\PauseObject.cpp"
 				>
 			</File>
 			<File
@@ -430,10 +426,6 @@
 			</File>
 			<File
 				RelativePath=".\include\OgreXercesInput.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\PauseObject.h"
 				>
 			</File>
 			<File

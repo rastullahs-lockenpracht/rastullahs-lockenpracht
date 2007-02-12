@@ -4,9 +4,6 @@
 
 @SET OGREHOME="%1\Dependencies\ogrenew"
 @SET OGREDEPS="%1\Dependencies\ogrenew\Dependencies"
-@SET OGREPLUGINS="%1\Dependencies\ogrenew\PlugIns"
-@SET OGRERENDERERS="%1\Dependencies\ogrenew\RenderSystems"
-@SET OGREPLATFORMS="%1\Dependencies\ogrenew\PlatformManagers"
 
 REM Verzeichnisse erzeugen
 REM ----------------------
@@ -19,26 +16,25 @@ REM ----------------------
 
 REM Ogre Dateien kopieren
 REM ---------------------
-copy "%OGREHOME%\OgreMain\lib\%BUILD%\OgreMain.dll" "%RL_DIST%"
-copy "%OGREHOME%\OgreMain\lib\%BUILD%\OgreMain_d.dll" "%RL_DIST%"
+copy "%OGREHOME%\lib\OgreMain.dll" "%RL_DIST%"
+copy "%OGREHOME%\lib\OgreMain_d.dll" "%RL_DIST%"
 
-copy "%OGREPLUGINS%\CgProgramManager\bin\%BUILD%\Plugin_CgProgramManager.dll" "%RL_DIST%"
-copy "%OGREPLUGINS%\OctreeSceneManager\bin\%BUILD%\Plugin_OctreeSceneManager.dll" "%RL_DIST%"
-copy "%OGREPLUGINS%\ParticleFx\bin\%BUILD%\Plugin_ParticleFx.dll" "%RL_DIST%"
+copy "%OGREHOME%\lib\Plugin_CgProgramManager.dll" "%RL_DIST%"
+copy "%OGREHOME%\lib\Plugin_OctreeSceneManager.dll" "%RL_DIST%"
+copy "%OGREHOME%\lib\Plugin_ParticleFx.dll" "%RL_DIST%"
+copy "%OGREHOME%\lib\Plugin_CgProgramManager_d.dll" "%RL_DIST%"
+copy "%OGREHOME%\lib\Plugin_OctreeSceneManager_d.dll" "%RL_DIST%"
+copy "%OGREHOME%\lib\Plugin_ParticleFx_d.dll" "%RL_DIST%"
 
-copy "%OGRERENDERERS%\Direct3D9\bin\%BUILD%\RenderSystem_Direct3D9.dll" "%RL_DIST%"
-copy "%OGRERENDERERS%\GL\bin\%BUILD%\RenderSystem_GL.dll" "%RL_DIST%"
+copy "%OGREHOME%\lib\RenderSystem_Direct3D9.dll" "%RL_DIST%"
+copy "%OGREHOME%\lib\RenderSystem_GL.dll" "%RL_DIST%"
+copy "%OGREHOME%\lib\RenderSystem_Direct3D9_d.dll" "%RL_DIST%"
+copy "%OGREHOME%\lib\RenderSystem_GL_d.dll" "%RL_DIST%"
 
-copy "%OGREPLATFORMS%\Win32\bin\%BUILD%\PlatFormManager_Win32.dll" "%RL_DIST%\OgrePlatform.dll"
-copy "%OGREPLATFORMS%\Win32\bin\%BUILD%\PlatFormManager_Win32.dll" "%RL_DIST%\OgrePlatform_d.dll"
-
-copy "%OGREHOME%\Samples\Common\CEGUIRenderer\bin\Debug\OgreGUIRenderer_d.dll" "%RL_DIST%"
-copy "%OGREHOME%\Samples\Common\CEGUIRenderer\bin\Release\OgreGUIRenderer.dll" "%RL_DIST%"
+copy "%OGREHOME%\lib\OgreGUIRenderer_d.dll" "%RL_DIST%"
+copy "%OGREHOME%\lib\OgreGUIRenderer.dll" "%RL_DIST%"
 
 copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\cg.dll" "%RL_DIST%"
-copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\freeimage.dll" "%RL_DIST%"
-copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\freeimaged.dll" "%RL_DIST%"
-copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\zlib1.dll" "%RL_DIST%"
 
 REM Boost Dateien kopieren
 REM ---------------------

@@ -158,9 +158,19 @@ namespace rl {
         // Load Ogre plugins
         Ogre::StringVector pluginList = ConfigurationManager::getSingleton().getPluginList();
 
+        ///\todo In Windows Ogre now uses a _d suffix for debug plugins. But client application is
+        /// responsible for loading the proper vesion. This way to do it is kinda ugly.
+        /// We should somehow handle this in the ConfigurationManager.
+        Ogre::String pluginSuffix = "";
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#ifdef _DEBUG
+        pluginSuffix = "_d";
+#endif
+#endif
+
         for (Ogre::StringVector::const_iterator it = pluginList.begin(); it < pluginList.end(); it++)
         {
-            mOgreRoot->loadPlugin(*it);
+            mOgreRoot->loadPlugin(*it + pluginSuffix);
         }
 
         // Find out, what Renderer plugins are available

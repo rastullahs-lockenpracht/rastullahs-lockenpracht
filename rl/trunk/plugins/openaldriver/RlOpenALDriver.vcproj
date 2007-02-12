@@ -59,7 +59,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="RlCommon.lib RlCore.lib RlUi.lib OgreMain_d.lib ceguibase_d.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\engine\common\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\ui\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\OpenAL\libs\Win32"
+				AdditionalLibraryDirectories="&quot;..\..\engine\common\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\ui\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;..\..\dependencies\ogrenew\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\OpenAL\libs\Win32"
 				ModuleDefinitionFile="OpenALDriverDllExports.def"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
@@ -132,7 +132,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="RlCommon.lib RlCore.lib RlUi.lib OgreMain.lib ceguibase.lib"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
-				AdditionalLibraryDirectories="&quot;..\..\engine\common\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\ui\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\OpenAL\libs\Win32"
+				AdditionalLibraryDirectories="&quot;..\..\engine\common\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\ui\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;..\..\dependencies\ogrenew\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\OpenAL\libs\Win32"
 				ModuleDefinitionFile="OpenALDriverDllExports.def"
 			/>
 			<Tool
@@ -201,7 +201,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="RlCommon.lib RlCore.lib RlUi.lib OgreMain.lib ceguibase.lib"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
-				AdditionalLibraryDirectories="..\..\engine\common\lib\Release;..\..\engine\core\lib\Release;..\..\engine\multimedia\lib\Release;..\..\engine\ui\lib\Release;..\..\dependencies\boost\lib;..\..\dependencies\ogrenew\OgreMain\lib\Release;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\OpenAL\libs\Win32"
+				AdditionalLibraryDirectories="..\..\engine\common\lib\Release;..\..\engine\core\lib\Release;..\..\engine\multimedia\lib\Release;..\..\engine\ui\lib\Release;..\..\dependencies\boost\lib;..\..\dependencies\ogrenew\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\OpenAL\libs\Win32"
 				ModuleDefinitionFile="OpenALDriverDllExports.def"
 				GenerateDebugInformation="true"
 			/>

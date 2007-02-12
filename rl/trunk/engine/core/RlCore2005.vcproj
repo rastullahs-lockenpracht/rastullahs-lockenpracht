@@ -87,7 +87,7 @@
 				OutputFile="./lib/$(ConfigurationName)/RlCore.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;&quot;..\..\dependencies\ogrenewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
+				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;&quot;..\..\dependencies\ogrenewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
 				IgnoreDefaultLibraryNames=""
 				TypeLibraryFile="$(OutDir)\RlCore.lib"
 				GenerateDebugInformation="true"
@@ -197,7 +197,7 @@
 				OutputFile="./lib/$(ConfigurationName)/RlCore.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;&quot;..\..\dependencies\ogrenewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
+				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;&quot;..\..\dependencies\ogrenewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
 				TypeLibraryFile="$(OutDir)\RlCore.lib"
 				ProgramDatabaseFile=""
 				SubSystem="2"
@@ -302,7 +302,7 @@
 				OutputFile="$(OutDir)/RlCore.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\common\lib\Release;..\..\dependencies\ogrenew\OgreMain\lib\Release;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\ogrenewt\lib\Release;..\..\dependencies\NewtonSDK\sdk\dll"
+				AdditionalLibraryDirectories="..\common\lib\Release;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\ogrenewt\lib\Release;..\..\dependencies\NewtonSDK\sdk\dll"
 				TypeLibraryFile="$(OutDir)\RlCore.lib"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(TargetDir)$(TargetName).pdb"
@@ -510,6 +510,10 @@
 			</File>
 			<File
 				RelativePath=".\include\PhysicsMaterialRaycast.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\PlaySoundJob.h"
 				>
 			</File>
 			<File
@@ -727,6 +731,10 @@
 			</File>
 			<File
 				RelativePath=".\src\PhysicsMaterialRaycast.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\PlaySoundJob.cpp"
 				>
 			</File>
 			<File
