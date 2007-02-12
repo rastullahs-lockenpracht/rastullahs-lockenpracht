@@ -13,7 +13,6 @@ noinst_HEADERS =
 	LinkedPlaylist.h \
 	MathUtil.h \
 	OgreXercesInput.h \
-	PauseObject.h \
 	Playlist.h \
 	SimplePlaylist.h \
 	PlaylistEvent.h \

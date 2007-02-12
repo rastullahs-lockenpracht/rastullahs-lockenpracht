@@ -11,7 +11,6 @@ libRlCommon_la_SOURCES = \
   LinkedPlaylist.cpp \
   MathUtil.cpp \
   OgreXercesInput.cpp \
-  PauseObject.cpp \
   Playlist.cpp \
   PlaylistEvent.cpp \
   PlaylistObject.cpp \

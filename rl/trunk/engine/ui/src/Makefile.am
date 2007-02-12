@@ -4,9 +4,10 @@ INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(CEGUIOGRE_CFLAGS) \
 	-I../../startup/include -I../../uicomponents/include 
 
 lib_LTLIBRARIES = libRlUi.la
-libRlUi_la_LIBADD = -lRlUiComponents $(RUBY_LIBS) $(LIBS) \
-	$(CEGUI_LIBS) $(OGRE_LIBS) $(CEGUIOGRE_LIBS) $(OIS_LIBS)
-libRlUi_la_LDFLAGS = -L../../uicomponents/src
+libRlUi_la_LIBADD = \
+    $(top_builddir)/engine/uicomponents/src/libRlUiComponents.la \
+    $(RUBY_LIBS) $(LIBS) $(CEGUI_LIBS) $(OGRE_LIBS) $(CEGUIOGRE_LIBS) $(OIS_LIBS)
+
 libRlUi_la_SOURCES = \
 	AboutWindow.cpp \
 	ActionChoiceWindow.cpp \

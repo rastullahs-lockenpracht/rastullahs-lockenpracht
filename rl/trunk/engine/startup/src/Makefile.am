@@ -4,12 +4,16 @@ INCLUDES = $(CEGUI_CFLAGS) $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(STLPORT_CFLAGS) \
 
 bin_PROGRAMS = rastullah
 rastullah_SOURCES = RastullahMain.cpp
-rastullah_LDFLAGS = -L../../script/src -L../../core/src  -L../../common/src -L../../dialog/src \
-	-L../../ui/src -L../../rules/src -L../../uicomponents/src \
-	-L../../ai/src
-rastullah_LDADD = $(RUBY_LIBS) $(LIBS) $(CEGUI_LIBS) $(OGRE_LIBS) \
-	 -lRlUiComponents -lRlCore -lRlScript -lRlCommon -lRlDialog -lRlUi -lRlRules \
-	 $(BOOST_THREAD_LIB) -lRlAi
+rastullah_LDADD = \
+    $(top_builddir)/engine/common/src/libRlCommon.la \
+    $(top_builddir)/engine/core/src/libRlCore.la \
+    $(top_builddir)/engine/ui/src/libRlUi.la \
+    $(top_builddir)/engine/uicomponents/src/libRlUiComponents.la \
+    $(top_builddir)/engine/dialog/src/libRlDialog.la \
+    $(top_builddir)/engine/rules/src/libRlRules.la \
+    $(top_builddir)/engine/script/src/libRlScript.la \
+    $(top_builddir)/engine/ai/src/libRlAi.la \
+    $(RUBY_LIBS) $(LIBS) $(CEGUI_LIBS) $(OGRE_LIBS)
 
 
 

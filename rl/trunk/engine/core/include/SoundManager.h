@@ -23,7 +23,6 @@
 #include <OgreSingleton.h>
 #include <OgreResourceGroupManager.h>
 #include <list>
-#include <boost/thread/mutex.hpp>
 
 #include "GameTask.h"
 
@@ -105,8 +104,6 @@ typedef std::list<SoundDriver*> DriverList;
             const Ogre::NameValuePairList* createParams);
 
     private:
-        /// Ein MutEx, um das Hinzufügen der Sounds zu synchronisieren.
-        boost::mutex mResListMutex;
         /// Welche Dateiendung soll verwendet werden.
         virtual StringList getExtension();
 

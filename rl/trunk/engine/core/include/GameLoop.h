@@ -20,7 +20,6 @@
 #include <list>
 #include <deque>
 #include <OgreSingleton.h>
-#include <boost/thread.hpp>
 
 #include "CorePrerequisites.h"
 

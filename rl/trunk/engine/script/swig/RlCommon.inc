@@ -171,18 +171,5 @@ public:
 	LinkItem* getList() const;
 };
 
-class PauseObject : public rl::PlaylistObject {
-	public:
-		PauseObject(long unsigned int nsec);
-		~PauseObject();
-		const long unsigned int getPause() const;
-		virtual void start();
-		virtual void stop();
-		virtual void pause();
-		virtual void load();
-		virtual void unload();
-};
-
-
 }
 

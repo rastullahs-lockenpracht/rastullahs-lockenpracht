@@ -3,9 +3,12 @@ INCLUDES = $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(RUBY_CFLAGS) -I../include \
 	-I../../../engine/common/include
 
 lib_LTLIBRARIES = libRlFmod4Driver.la
-libRlFmod4Driver_la_LDFLAGS = $(OGRE_LIBS) $(CEGUIOGRE_LIBS) $(LIBS) \
-	-L../../../engine/common/src -L../../../engine/core/src -L../../../engine/ui/src \
-	-lRlCommon -lRlCore -lRlUi
+libRlFmod4Driver_la_LDFLAGS = \
+     $(top_builddir)/engine/common/src/libRlCommon.la \
+     $(top_builddir)/engine/core/src/libRlCore.la \
+     $(top_builddir)/engine/ui/src/libRlUi.la \
+     $(OGRE_LIBS) $(CEGUIOGRE_LIBS) $(LIBS)
+
 libRlFmod4Driver_la_SOURCES = \
 	Fmod4Config.cpp \
 	Fmod4Driver.cpp \
