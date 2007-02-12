@@ -65,7 +65,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="Newton.lib OgreMain_d.lib"
 				OutputFile="$(OutDir)/OgreNewt_d.dll"
-				AdditionalLibraryDirectories="..\NewtonSDK\sdk\dll;&quot;..\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="..\NewtonSDK\sdk\dll;..\ogrenew\lib"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/OgreNewt_d.pdb"
 				SubSystem="2"
@@ -144,7 +144,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="Newton.lib OgreMain.lib"
 				OutputFile="$(OutDir)/OgreNewt.dll"
-				AdditionalLibraryDirectories="..\NewtonSDK\sdk\dll;&quot;..\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="..\NewtonSDK\sdk\dll;..\ogrenew\lib"
 				ImportLibrary="$(OutDir)/OgreNewt.lib"
 			/>
 			<Tool
