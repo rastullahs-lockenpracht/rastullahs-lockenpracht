@@ -1,4 +1,4 @@
-load( "embed.rb" );
+require 'steering.rb'
 
 class TalkAction < Action
   def initialize()
