@@ -16,7 +16,7 @@ class QuestSoundPlayer < QuestListener
 		super()
 		@mHasSound = false;
 		@mSound = nil;
-		@mSoundTimer = TimerEventSource.new($CORE.getClock() + 1000, 1000)
+		@mSoundTimer = TimerEventSource.new(0, 1000)
         @mTimerListener = QuestSoundTimer.new(self)
 		@mSoundTimer.addTimerListener( @mTimerListener )
 	end
