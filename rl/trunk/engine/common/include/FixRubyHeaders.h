@@ -30,3 +30,9 @@
 #undef sleep
 #undef strcasecmp
 #undef rename
+#ifdef HAVE_CONFIG_H
+    #undef PACKAGE_VERSION
+    #undef PACKAGE_STRING
+    #undef PACKAGE_NAME
+    #undef PACKAGE_TARNAME
+#endif
