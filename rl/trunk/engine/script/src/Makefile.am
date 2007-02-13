@@ -10,7 +10,7 @@ libRlScript_la_LDFLAGS = \
     $(top_builddir)/engine/dialog/src/libRlDialog.la \
     $(top_builddir)/engine/ui/src/libRlUi.la \
     $(top_builddir)/engine/rules/src/libRlRules.la \
-    $(CEGUI_LIBS) $(OGRE_LIBS) $(RUBY_LIBS) $(LIBS) \ 
+    $(CEGUI_LIBS) $(OGRE_LIBS) $(RUBY_LIBS) $(LIBS) \
     -Wl,--defsym -Wl,Init_libRlScript=Init_RlScript
 	
 libRlScript_la_SOURCES = \
