@@ -7,7 +7,7 @@ libRlOpenALDriver_la_LDFLAGS = \
     $(top_builddir)/engine/common/src/libRlCommon.la \
     $(top_builddir)/engine/core/src/libRlCore.la \
     $(top_builddir)/engine/ui/src/libRlUi.la \
-    $(RUBY_LIBS) $(OGRE_LIBS) $(CEGUI_LIBS) $(LIBS)
+    -lopenal $(RUBY_LIBS) $(OGRE_LIBS) $(CEGUI_LIBS) $(LIBS)
 
 libRlOpenALDriver_la_SOURCES = \
 	OpenALDriver.cpp \

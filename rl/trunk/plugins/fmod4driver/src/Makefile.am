@@ -7,7 +7,7 @@ libRlFmod4Driver_la_LDFLAGS = \
      $(top_builddir)/engine/common/src/libRlCommon.la \
      $(top_builddir)/engine/core/src/libRlCore.la \
      $(top_builddir)/engine/ui/src/libRlUi.la \
-     $(OGRE_LIBS) $(CEGUIOGRE_LIBS) $(LIBS)
+     -lfmodex $(OGRE_LIBS) $(CEGUIOGRE_LIBS) $(LIBS)
 
 libRlFmod4Driver_la_SOURCES = \
 	Fmod4Config.cpp \
