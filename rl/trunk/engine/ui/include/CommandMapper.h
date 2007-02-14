@@ -57,6 +57,11 @@ namespace rl {
         CommandMapper();
         ~CommandMapper();
 
+        /**
+         * Creates the key -> action mapping from the key-value list
+         *
+         * @param keylist key-value list of input options
+         */
         void buildCommandMapping(const Ogre::NameValuePairList& keylist);
 
         void setMapping(MapType map, int code, const CeGuiString& actionName);

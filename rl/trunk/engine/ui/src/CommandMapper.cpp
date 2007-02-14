@@ -145,35 +145,50 @@ namespace rl {
     void CommandMapper::buildCommandMapping(const Ogre::NameValuePairList& keylist)
     {
         /** @Todo: Replace this with something not static */
-        mMovementCommands[InputManager::getSingleton().getScanCode("Q")] = getMovement("turn_left");
-        mMovementCommands[InputManager::getSingleton().getScanCode("E")] = getMovement("turn_right");
-        mMovementCommands[InputManager::getSingleton().getScanCode("W")] = getMovement("forward");
-        mMovementCommands[InputManager::getSingleton().getScanCode("S")] = getMovement("backward");
-        mMovementCommands[InputManager::getSingleton().getScanCode("A")] = getMovement("left");
-        mMovementCommands[InputManager::getSingleton().getScanCode("D")] = getMovement("right");
-        mMovementCommands[InputManager::getSingleton().getScanCode("Leertaste")] = getMovement("jump");
-
-        mKeyCommandsGlobal[getKeyCode("Ctrl+X")] = CeGuiString("quitgame");
+        /*
         mKeyCommandsGlobal[getKeyCode("F10")] = CeGuiString("toggleingameglobalmenu");
         mKeyCommandsGlobal[getKeyCode("I")] = CeGuiString("toggleinventorywindow");
         mKeyCommandsGlobal[getKeyCode("J")] = CeGuiString("showjournalwindow");
         mKeyCommandsGlobal[getKeyCode("C")] = CeGuiString("showcharactersheet");
         mKeyCommandsGlobal[getKeyCode("O")] = CeGuiString("togglecharacterstatewindow");
+        */
+
+        std::vector<Ogre::String> keys;
+
+        // Extract global actions and movement actions from the list
+        for (Ogre::NameValuePairList::const_iterator it = keylist.begin(); it != keylist.end(); it++)
+        {
+            // Split the path at the ',' character
+            keys = Ogre::StringUtil::split(it->second, ",");
+
+            // We got a movement action
+            if (it->first.find("mov_") != std::string::npos)
+            {
+                for (int i = 0; i < keys.size(); i++)
+                {
+                    mMovementCommands[InputManager::getSingleton().getScanCode(keys[i])] = getMovement(it->first);
+                    LOG_MESSAGE(Logger::UI,
+                        Ogre::String("Key ") + keys[i] + " ("
+                        + StringConverter::toString(InputManager::getSingleton().getScanCode(keys[i]))
+                        + ") is assigned to movement " + it->first +" ("
+                        + StringConverter::toString(getMovement(it->first))+")");
+                }
+            }
+
+            // We got a global action
+            if (it->first.find("act_") != std::string::npos)
+            {
+                for (int i = 0; i < keys.size(); i++)
+                {
+                    mKeyCommandsGlobal[getKeyCode(keys[i])] = CeGuiString(it->first);
+                    LOG_MESSAGE(Logger::UI,
+                        Ogre::String("Key ") + keys[i] + " (" + StringConverter::toString(getKeyCode(keys[i]))
+                        + ") is assigned to command " + it->first +" globally");
+                }
+            }
+        }
 
         /*
-        for (ConfigFile::SettingsIterator it = cfgfile->getSettingsIterator("Movement");
-            it.hasMoreElements();)
-        {
-            String key = it.peekNextKey();
-            String setting = it.getNext();
-
-            mMovementCommands[InputManager::getSingleton().getScanCode(key)] = getMovement(setting);
-            LOG_MESSAGE(Logger::UI,
-                Ogre::String("Key ") + key    + " ("
-                + StringConverter::toString(InputManager::getSingleton().getScanCode(key))
-                + ") is assigned to movement "    + setting+" ("
-                + StringConverter::toString(getMovement(setting))+")");
-        }
 
         for (ConfigFile::SettingsIterator it = cfgfile->getSettingsIterator("Global keys");
             it.hasMoreElements();)
@@ -271,43 +286,43 @@ namespace rl {
 
     MovementState CommandMapper::getMovement(const Ogre::String &movementDescription)
     {
-        if (movementDescription == "left")
+        if (movementDescription == "mov_move_left")
         {
             return MOVE_LEFT;
         }
-        else if (movementDescription == "right")
+        else if (movementDescription == "mov_move_right")
         {
             return MOVE_RIGHT;
         }
-        else if (movementDescription == "forward")
+        else if (movementDescription == "mov_move_forward")
         {
             return MOVE_FORWARD;
         }
-        else if (movementDescription == "backward")
+        else if (movementDescription == "mov_move_backward")
         {
             return MOVE_BACKWARD;
         }
-        else if (movementDescription == "turn_left")
+        else if (movementDescription == "mov_turn_left")
         {
             return TURN_LEFT;
         }
-        else if (movementDescription == "turn_right")
+        else if (movementDescription == "mov_turn_right")
         {
             return TURN_RIGHT;
         }
-        else if (movementDescription == "run")
+        else if (movementDescription == "mov_run")
         {
             return MOVE_RUN;
         }
-        else if (movementDescription == "sneak")
+        else if (movementDescription == "mov_sneak")
         {
             return MOVE_SNEAK;
         }
-        else if (movementDescription == "jump")
+        else if (movementDescription == "mov_jump")
         {
             return MOVE_JUMP;
         }
-        else if (movementDescription == "run_lock")
+        else if (movementDescription == "mov_run_lock")
         {
             return MOVE_RUN_LOCK;
         }

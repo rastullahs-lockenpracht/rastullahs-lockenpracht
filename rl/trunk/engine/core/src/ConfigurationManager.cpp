@@ -75,6 +75,36 @@ namespace rl
         // Setup input default values
         mInputSettings.insert(make_pair("Mouse Sensitivity", "4"));
         mInputSettings.insert(make_pair("Mouse Invert", "no"));
+        mInputSettings.insert(make_pair("mov_turn_left", "Q"));
+        mInputSettings.insert(make_pair("mov_turn_right", "E"));
+        mInputSettings.insert(make_pair("mov_move_left", "A"));
+        mInputSettings.insert(make_pair("mov_move_right", "D"));
+        mInputSettings.insert(make_pair("mov_move_forward", "W"));
+        mInputSettings.insert(make_pair("mov_move_backward", "S"));
+        mInputSettings.insert(make_pair("mov_jump", "Leertaste"));
+        mInputSettings.insert(make_pair("mov_run", "Umschalt links"));
+        mInputSettings.insert(make_pair("mov_sneak", "Strg links"));
+        //mInputSettings.insert(make_pair("act_run_lock", "<,|,>"));
+        mInputSettings.insert(make_pair("act_quitgame", "Ctrl+X"));
+        mInputSettings.insert(make_pair("act_closecurrentwindow", "Escape"));
+        mInputSettings.insert(make_pair("act_toggleconsole", "Tabulator"));
+        mInputSettings.insert(make_pair("act_toggledebugwindow", "F2"));
+        mInputSettings.insert(make_pair("act_togglegamelogwindow", "F3"));
+        mInputSettings.insert(make_pair("act_toggleviewmode", "F"));
+        mInputSettings.insert(make_pair("act_resetcamera", "0 (Nummernblock)"));
+        mInputSettings.insert(make_pair("act_makescreenshot", "P,Ctrl+P"));
+        mInputSettings.insert(make_pair("act_togglecollisiondebug", "L,Ctrl+L"));
+        mInputSettings.insert(make_pair("act_toggledebugvisualisation", "Ctrl+O"));
+        mInputSettings.insert(make_pair("act_togglevanitymode", "V"));
+        mInputSettings.insert(make_pair("act_usecurrentobjectdefaultaction", "R"));
+        mInputSettings.insert(make_pair("act_toggleinventorywindow", "I"));
+        mInputSettings.insert(make_pair("act_showjournalwindow ", "J"));
+        mInputSettings.insert(make_pair("act_showcharactersheet", "C"));
+        mInputSettings.insert(make_pair("act_togglecharacterstatewindow", "O"));
+        mInputSettings.insert(make_pair("act_toggleingameglobalmenu", "F10"));
+        mInputSettings.insert(make_pair("act_togglecharactercontroller", "M"));
+        mInputSettings.insert(make_pair("act_shownextdebugwindowpage ", "Ctrl+M"));
+        mInputSettings.insert(make_pair("act_showobjectactions", "U"));
 
         setRastullahCfgPath();
     }
@@ -150,17 +180,9 @@ namespace rl
         if (!mRastullahCfgPath.empty())
         {
             ConfigFile* configfile = new ConfigFile();
-            std::vector<Ogre::String> cfg_paths;
 
-            if (mRastullahCfgPath.find(":") == std::string::npos)
-            {
-                cfg_paths.push_back(mRastullahCfgPath);
-            }
-            else
-            {
-                // Split the path at the ':' character
-                cfg_paths = Ogre::StringUtil::split(mRastullahCfgPath, ":");
-            }
+            // Split the path at the ':' character
+            std::vector<Ogre::String> cfg_paths = Ogre::StringUtil::split(mRastullahCfgPath, ":");
 
             for (unsigned int i = 0; i < cfg_paths.size(); i++)
             {
