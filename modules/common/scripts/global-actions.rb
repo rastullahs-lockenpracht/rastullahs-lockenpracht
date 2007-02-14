@@ -2,7 +2,7 @@ load 'embed.rb'
 
 class ShowActionMenuAction < Action
   def initialize
-    super("showactions", "Aktionen anzeigen")
+    super("act_showactions", "Aktionen anzeigen")
   end
 
   def doAction(object, actor, target)
@@ -12,7 +12,7 @@ end
 
 class QuitGameAction < Action
   def initialize
-    super("quitgame", "Das Spiel beenden")
+    super("act_quitgame", "Das Spiel beenden")
   end
 
   def doAction(object, actor, target)
@@ -22,7 +22,7 @@ end
 
 class ToggleConsoleAction < Action
   def initialize
-    super("toggleconsole", "Konsole zeigen/verstecken")
+    super("act_toggleconsole", "Konsole zeigen/verstecken")
   end
   
   def doAction(object, actor, target)
@@ -32,7 +32,7 @@ end
 
 class ToggleDebugWindowAction < Action
   def initialize
-    super("toggledebugwindow", "DebugWindow zeigen/verstecken")
+    super("act_toggledebugwindow", "DebugWindow zeigen/verstecken")
   end
 
   def doAction(object, actor, target)
@@ -42,7 +42,7 @@ end
 
 class ToggleGameLogWindowAction < Action
     def initialize
-        super("togglegamelogwindow", "Game Log zeigen/verstecken")
+        super("act_togglegamelogwindow", "Game Log zeigen/verstecken")
     end
 
     def doAction(object, actor, target)
@@ -52,7 +52,7 @@ end
 
 class ToggleViewModeAction < Action
   def initialize
-    super("toggleviewmode", "First/ThirdPerson umschalten")
+    super("act_toggleviewmode", "First/ThirdPerson umschalten")
   end
 
   def doAction(object, actor, target)
@@ -63,7 +63,7 @@ end
 
 class ToggleInGameGlobalMenuAction < Action
   def initialize
-    super("toggleingameglobalmenu", "Spielmenü anzeigen")
+    super("act_toggleingameglobalmenu", "Spielmenü anzeigen")
   end
 
   def doAction(object, actor, target)
@@ -73,7 +73,7 @@ end
 
 class ToggleInventoryAction < Action
 	def initialize
-		super("toggleinventorywindow", "Das Inventar des aktiven Helden anzeigen")
+		super("act_toggleinventorywindow", "Das Inventar des aktiven Helden anzeigen")
 	end
 	
 	def doAction(object, actor, target)
@@ -83,7 +83,7 @@ end
 
 class ResetCameraAction < Action
   def initialize
-    super("resetcamera", "Kamera zurücksetzen")
+    super("act_resetcamera", "Kamera zurücksetzen")
   end
 
   def doAction(object, actor, target)
@@ -94,7 +94,7 @@ end
 
 class MakeScreenshotAction < Action
   def initialize
-    super("makescreenshot", "Screenshot erstellen")
+    super("act_makescreenshot", "Screenshot erstellen")
   end
   
   def doAction(object, actor, target)
@@ -104,7 +104,7 @@ end
 
 class ToggleCollisionDebugAction < Action
   def initialize
-    super("togglecollisiondebug", "Kollisionskörper anzeigen")
+    super("act_togglecollisiondebug", "Kollisionskörper anzeigen")
   end
   
   def doAction(object, actor, target)
@@ -114,7 +114,7 @@ end
 
 class ToggleDebugVisualisationAction < Action
   def initialize
-    super("toggledebugvisualisation", "Debug-Helfer anzeigen")
+    super("act_toggledebugvisualisation", "Debug-Helfer anzeigen")
     @isShown = false
   end
   
@@ -130,7 +130,7 @@ end
 
 class ToggleCharacterStateWindowAction < Action
     def initialize
-        super("togglecharacterstatewindow", "Charakterstatus zeigen/verstecken")
+        super("act_togglecharacterstatewindow", "Charakterstatus zeigen/verstecken")
     end
 
     def doAction(object, actor, target)
@@ -140,7 +140,7 @@ end
 
 class ShowCharacterSheetAction < Action
   def initialize
-    super("showcharactersheet", "Charakterblatt des aktiven Helden anzeigen")
+    super("act_showcharactersheet", "Charakterblatt des aktiven Helden anzeigen")
   end
 
   def doAction(object, actor, target)
@@ -150,7 +150,7 @@ end
 
 class ShowTargetWindowAction < Action
   def initialize
-    super("showtargetwindow", "Zielauswahl")
+    super("act_showtargetwindow", "Zielauswahl")
   end
 
   def doAction(object, actor, target)
@@ -160,7 +160,7 @@ end
 
 class ShowJournalWindowAction < Action
   def initialize
-    super("showjournalwindow", "Tagebuch")
+    super("act_showjournalwindow", "Tagebuch")
   end
 
   def doAction(object, actor, target)
@@ -180,7 +180,7 @@ end
 
 class ShowAboutWindowAction < Action
   def initialize
-    super("showaboutwindow", "Über")
+    super("act_showaboutwindow", "Über")
   end
   
   def doAction(object, actor, target)
@@ -190,7 +190,7 @@ end
 
 class ShowSoundConfigAction < Action
   def initialize
-    super("showsoundconfig", "Soundeinstellungen")
+    super("act_showsoundconfig", "Soundeinstellungen")
   end
 
   def doAction(object, actor, target)
@@ -200,7 +200,7 @@ end
 
 class ShowLogfilesAction < Action
   def initialize
-    super("showlogfiles", "Logfiles anzeigen")
+    super("act_showlogfiles", "Logfiles anzeigen")
   end
 
   def doAction(object, actor, target)
@@ -210,7 +210,7 @@ end
 
 class ShowNextDebugWindowPageAction < Action
   def initialize
-    super("shownextdebugwindowpage", "Zur nächsten Info-Seite wechseln")
+    super("act_shownextdebugwindowpage", "Zur nächsten Info-Seite wechseln")
   end
 
   def doAction(object, actor, target)
@@ -220,7 +220,7 @@ end
 
 class CloseCurrentWindowAction < Action
   def initialize
-    super("closecurrentwindow", "Oberstes Fenster schliessen")
+    super("act_closecurrentwindow", "Oberstes Fenster schliessen")
   end
   
   def doAction(object, actor, target)
@@ -230,7 +230,7 @@ end
 
 class ToggleCharacterControllerAction < Action
   def initialize
-    super("togglecharactercontroller",
+    super("act_togglecharactercontroller",
         "Freeflight- / Movement-Controller umschalten")
   end
 
