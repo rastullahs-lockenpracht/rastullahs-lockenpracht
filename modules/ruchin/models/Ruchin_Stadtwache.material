@@ -1,0 +1,80 @@
+
+material Ruchin_Stadtwache/Stein
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.341176 0.341176 0.341176 1
+			specular 0 0 0 1 10
+
+			texture_unit
+			{
+				texture_alias 0
+				texture Ruchin_stadtmauer.png
+			}
+		}
+
+	}
+
+}
+
+material Ruchin_Stadtwache/Metall
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			specular 0 0 0 1 10
+
+			texture_unit
+			{
+				texture_alias 0
+				texture metal.jpg
+			}
+		}
+
+	}
+
+}
+
+material Ruchin_Stadtwache/Holz
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			specular 0 0 0 1 10
+
+			texture_unit
+			{
+				texture_alias 0
+				texture ruchin_atlasmap.dds
+			}
+		}
+
+	}
+
+}
+
+material Ruchin_Stadtwache/Schiefer
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.623529 0.623529 0.623529 1
+			specular 0 0 0 1 10
+
+			texture_unit
+			{
+				texture_alias 0
+				texture arc_schieferdach.png
+			}
+		}
+
+	}
+
+}
