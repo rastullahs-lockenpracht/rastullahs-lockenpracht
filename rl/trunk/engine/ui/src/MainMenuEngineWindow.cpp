@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -17,7 +17,7 @@
 
 #include "UiPrerequisites.h"
 
-#include "ConfigurationManager.h"
+#include "CoreSubsystem.h"
 #include "MainMenuEngineWindow.h"
 
 using namespace CEGUI;
@@ -25,14 +25,14 @@ using namespace Ogre;
 
 namespace rl {
 
-	MainMenuEngineWindow::MainMenuEngineWindow() :
-		CeGuiWindow("mainmenuenginewindow.xml", WND_SHOW, false)
-	{
-		getWindow("MainMenu/EngineVersion")->setText(
-			ConfigurationManager::getSingleton().getEngineVersionString()+
-			" ("+StringConverter::toString(ConfigurationManager::getSingleton().getEngineBuildNumber())+")");
+    MainMenuEngineWindow::MainMenuEngineWindow() :
+        CeGuiWindow("mainmenuenginewindow.xml", WND_SHOW, false)
+    {
+        getWindow("MainMenu/EngineVersion")->setText(
+            CoreSubsystem::getSingleton().getEngineVersionString()+
+            " ("+StringConverter::toString(CoreSubsystem::getSingleton().getEngineBuildNumber())+")");
         mWindow->setAlwaysOnTop(false);
         mWindow->setModalState(false);
         mWindow->moveToBack();
-	}
+    }
 }

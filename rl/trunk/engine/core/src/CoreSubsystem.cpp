@@ -47,8 +47,8 @@ using namespace Ogre;
 
 template<> rl::CoreSubsystem* Singleton<rl::CoreSubsystem>::ms_Singleton = 0;
 
-namespace rl {
-
+namespace rl
+{
     CoreSubsystem::CoreSubsystem()
         : Singleton<CoreSubsystem>(),
         mWorld(NULL),
@@ -69,7 +69,6 @@ namespace rl {
         mAnimationManager(NULL),
         mActorManager(NULL),
         mGameEventManager(NULL),
-        mConfigurationManager(NULL),
         mSoundManager(NULL),
         mDebugVisualsManager(NULL),
         mJobScheduler(NULL),
@@ -92,7 +91,7 @@ namespace rl {
         delete mPhysicsManager;
         delete mXmlResourceManager;
         delete mScriptWrapper;
-        delete mConfigurationManager;
+        delete ConfigurationManager::getSingletonPtr();
         delete mSoundManager;
         delete mOgreRoot;
         delete mRubyInterpreter;
@@ -150,7 +149,6 @@ namespace rl {
 
     bool CoreSubsystem::initializeCoreSubsystem()
     {
-        mConfigurationManager = ConfigurationManager::getSingletonPtr();
         // By not specifying the first two parameters, OGRE will not try
         // to load plugins.cfg and ogre.cfg
         mOgreRoot = new Root("", "", ConfigurationManager::getSingleton().getOgreLogFile());
@@ -199,9 +197,9 @@ namespace rl {
 
         std::stringstream name;
         name << "Rastullahs Lockenpracht - ";
-        name << ConfigurationManager::getSingleton().getEngineVersionString() << " ";
-        name << ConfigurationManager::getSingleton().getEngineVersionName() << " [";
-        name << ConfigurationManager::getSingleton().getEngineBuildNumber() << "]";
+        name << getEngineVersionString() << " ";
+        name << getEngineVersionName() << " [";
+        name << getEngineBuildNumber() << "]";
 
         // Get width and height of the RenderWindow from the "Video Mode" setting
         Ogre::String VideoMode = ConfigurationManager::getSingleton().getStringSetting(
@@ -399,8 +397,7 @@ namespace rl {
 
     void CoreSubsystem::loadModule(ContentModule* module)
     {
-        if (module->getMinimumEngineVersion()
-            > ConfigurationManager::getSingleton().getEngineBuildNumber())
+        if (module->getMinimumEngineVersion() > getEngineBuildNumber())
         {
             Throw(
                 rl::RuntimeException,
@@ -409,7 +406,7 @@ namespace rl {
                 + " needs engine >="
                 + StringConverter::toString(module->getMinimumEngineVersion())
                 + " but engine is "
-                + StringConverter::toString(ConfigurationManager::getSingleton().getEngineBuildNumber()));
+                + StringConverter::toString(getEngineBuildNumber()));
         }
 
         StringVector deps = module->getDependencies();
@@ -468,6 +465,38 @@ namespace rl {
         return mWorld;
     }
 
+    Ogre::String CoreSubsystem::getEngineVersionString() const
+    {
+        static Ogre::String version = "0.3.0";
+        return version;
+    }
+
+    Ogre::String CoreSubsystem::getEngineVersionName() const
+    {
+        static Ogre::String version = "Internal Build";
+        return version;
+    }
+
+    long CoreSubsystem::getEngineBuildNumber() const
+    {
+        static const Ogre::String sMonths[] =
+        {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
+         "Sep", "Oct", "Nov", "Dec"};
+
+        Ogre::String dateStr = Ogre::String(__DATE__);
+        Ogre::String monthStr = dateStr.substr(0,3);
+        int day = Ogre::StringConverter::parseInt(dateStr.substr(4,2));
+        int year = Ogre::StringConverter::parseInt(dateStr.substr(7,4));
+        int month = 0;
+
+        while( month < 12 && monthStr.compare(sMonths[month]) != 0 )
+            month++;
+
+        return /* Jahr */          year * 100000 +
+               /* Monat */     (month+1) * 1000 +
+               /* Tag */           day * 10 +
+               /* Sub-Version */     0;
+    }
 
     RubyInterpreter* CoreSubsystem::getRubyInterpreter()
     {

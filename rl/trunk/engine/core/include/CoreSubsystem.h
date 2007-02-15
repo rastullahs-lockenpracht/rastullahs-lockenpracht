@@ -43,7 +43,6 @@ class AnimationManager;
 class ActorManager;
 class GameEventManager;
 class XmlResourceManager;
-class ConfigurationManager;
 class SoundManager;
 class DebugVisualsManager;
 class JobScheduler;
@@ -100,6 +99,10 @@ public:
 
     bool isInitialized() const;
 
+    Ogre::String getEngineVersionString() const;
+    Ogre::String getEngineVersionName() const;
+    long         getEngineBuildNumber() const;
+
     /**
      * Retrieves a pointer to the current render window.
      *
@@ -131,7 +134,6 @@ private:
     AnimationManager* mAnimationManager;
     ActorManager* mActorManager;
     GameEventManager* mGameEventManager;
-    ConfigurationManager* mConfigurationManager;
     SoundManager* mSoundManager;
     DebugVisualsManager* mDebugVisualsManager;
     JobScheduler* mJobScheduler;

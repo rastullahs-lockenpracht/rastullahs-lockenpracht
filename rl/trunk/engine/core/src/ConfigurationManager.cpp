@@ -14,6 +14,12 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
+/**
+ * \file ConfigurationManager.h
+ *
+ * Implementation of the ConfigurationManager subsystem
+ */
+
 #include "ConfigurationManager.h"
 #include "CoreSubsystem.h"
 
@@ -385,18 +391,6 @@ namespace rl
             "Log Level"));
     }
 
-    Ogre::String ConfigurationManager::getEngineVersionString() const
-    {
-        static Ogre::String version = "0.2.0";
-        return version;
-    }
-
-    Ogre::String ConfigurationManager::getEngineVersionName() const
-    {
-        static Ogre::String version = "Internal Build";
-        return version;
-    }
-
     Ogre::String ConfigurationManager::getStringSetting(const ConfigurationSection& section,
         const Ogre::String& key) const
     {
@@ -502,43 +496,6 @@ namespace rl
             // Key does exist, update
             it->second = value;
         }
-    }
-
-    static const Ogre::String sMonths[] =
-            {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
-             "Sep", "Oct", "Nov", "Dec"};
-
-    /// __DATE__ sieht ca. so aus : Nov 08 2005
-    long parseDate(char* date)
-    {
-        Ogre::String dateStr = Ogre::String(date);
-        Ogre::String monthStr = dateStr.substr(0,3);
-        int day = Ogre::StringConverter::parseInt( dateStr.substr(4,2) );
-        int year = Ogre::StringConverter::parseInt( dateStr.substr(7,4) );
-        int month = 0;
-
-        while( month < 12 && monthStr.compare(sMonths[month]) != 0 )
-            month++;
-
-        return /* Jahr */          year * 100000 +
-               /* Monat */     (month+1) * 1000 +
-               /* Tag */           day * 10 +
-               /* Sub-Version */     0;
-    }
-
-    long ConfigurationManager::getEngineBuildNumber() const
-    {
-        static long buildNumber = parseDate(__DATE__);
-        return buildNumber;
-    }
-
-
-    const CeGuiString& ConfigurationManager::getAboutText() const
-    {
-        static CeGuiString aboutText =
-            "Rastullahs Lockenpracht\n\nCopyright 2003-2006 Team Pantheon\
-\n\nBenutzte Bibliotheken: Ogre, fmod, Newton, boost, ...";
-        return aboutText;
     }
 
     Ogre::String ConfigurationManager::getKeymap() const

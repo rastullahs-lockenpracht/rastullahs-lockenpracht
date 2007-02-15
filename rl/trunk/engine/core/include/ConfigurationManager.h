@@ -16,7 +16,8 @@
 
 /**
  * \file ConfigurationManager.h
- * Definiert die abstrakte Basisklasse für das Konfigurationsmanagement.
+ *
+ * Declaration of the ConfigurationManager subsystem
  */
 
 #ifndef __RL_CONFIGURATIONMANAGER_H__
@@ -33,6 +34,13 @@ namespace fs = boost::filesystem;
 
 namespace rl
 {
+    /**
+     * The ConfigurationManager subsystem class
+     *
+     * It provides a convenient way for other subsystems to access values read from the
+     * configuration files. If no configuration file is available, sane default values are
+     * provided so that Rastullah will work properly on most systems.
+     */
     class _RlCoreExport ConfigurationManager : protected Ogre::Singleton<ConfigurationManager>
     {
         public:
@@ -213,17 +221,6 @@ namespace rl
              * @return verbosity level of logfiles
              */
             Logger::LogLevel getLogLevel() const;
-
-            Ogre::String getEngineVersionString() const;
-            Ogre::String getEngineVersionName() const;
-            long         getEngineBuildNumber() const;
-
-            /**
-             * Returns the text displayed in the "About Application" window
-             *
-             * @return text displayed in "About Application" window
-             */
-            const rl::CeGuiString& getAboutText() const;
 
             /**
              * Loads configuration files from the configuration directories
