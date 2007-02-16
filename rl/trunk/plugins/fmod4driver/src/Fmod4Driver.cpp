@@ -24,12 +24,16 @@ using namespace Ogre;
 
 namespace rl
 {
+    // Used by FMOD-Callbacks, which are not C++-functions, but C-functions.
+    Ogre::ResourceManager* gSoundResourceManager = NULL;
+
     String Fmod4Driver::NAME = "RlFmod4Driver";
 
     Fmod4Driver::Fmod4Driver(Ogre::ResourceManager *soundResourceManager)
         : SoundDriver(soundResourceManager),
         mMasterChannelGroup(NULL)
     {
+        gSoundResourceManager = soundResourceManager;
     }
 
     Fmod4Driver::~Fmod4Driver()
@@ -258,7 +262,7 @@ namespace rl
         void **  handle,
         void **  userdata)
     {
-        SoundResourcePtr* res = new SoundResourcePtr(sSoundResourceManager->getByName(name));
+        SoundResourcePtr* res = new SoundResourcePtr(gSoundResourceManager->getByName(name));
         LOG_DEBUG(Logger::MULTIMEDIA,
             "Opened stream " + (*res)->getName());
         (*res)->load();
@@ -340,10 +344,8 @@ namespace rl
     void Fmod4Driver::setMasterVolume(const Ogre::Real& vol)
     {
         SoundDriver::setMasterVolume(vol);
-        /**@todo: Lautst�rke setzen, geht m�glicherweise nur �ber channelgroups*/
     }
 
-    /// Setzt den Faktor f, mit der die Lautst�rke nach der Formel 1/(f*Entfernung) abnimmt
     void Fmod4Driver::setRolloffFactor(const Ogre::Real& factor)
     {
         float dopplerScale;

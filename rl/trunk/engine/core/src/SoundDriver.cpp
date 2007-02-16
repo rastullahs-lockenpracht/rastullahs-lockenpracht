@@ -15,6 +15,7 @@
  */
 #include "SoundDriver.h"
 #include "ConfigFile.h"
+
 #include <OgreStringConverter.h>
 
 using namespace Ogre;
@@ -22,16 +23,14 @@ using namespace Ogre;
 namespace rl
 {
 
-Ogre::ResourceManager* SoundDriver::sSoundResourceManager = NULL;
-
 SoundDriver::SoundDriver(ResourceManager* soundResourceManager)
- :  mStreamSet(),
+ :  mSoundResourceManager(soundResourceManager),
+    mStreamSet(),
     mSampleSet(),
     mDefaultMusicVolume(40),
     mDefaultSoundVolume(100),
     mMasterVolume(100)
 {
-    sSoundResourceManager = soundResourceManager;
 }
 
 SoundDriver::~SoundDriver()
@@ -143,6 +142,17 @@ const Ogre::Real SoundDriver::getMasterVolume() const
         }
     }
 
+    Sound* SoundDriver::createStream(const Ogre::String& name)
+    {
+        SoundResourcePtr ptr = mSoundResourceManager->load(name,
+            ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
+        if (ptr.isNull())
+        {
+            Throw(IllegalArgumentException, "Sound " + name + "nicht gefunden");
+        }
+        return createStream(ptr);
+    }
+
     Sound* SoundDriver::createStream(const SoundResourcePtr &res)
     {
         Sound* sound = createStreamImpl(res);
@@ -151,6 +161,17 @@ const Ogre::Real SoundDriver::getMasterVolume() const
             mStreamSet.insert(sound);
         }
         return sound;
+    }
+
+    Sound* SoundDriver::createSample(const Ogre::String& name)
+    {
+        SoundResourcePtr ptr = mSoundResourceManager->load(name,
+            ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
+        if (ptr.isNull())
+        {
+            Throw(IllegalArgumentException, "Sound " + name + "nicht gefunden");
+        }
+        return createSample(ptr);
     }
 
     Sound* SoundDriver::createSample(const SoundResourcePtr &res)

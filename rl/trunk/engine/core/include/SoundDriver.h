@@ -24,12 +24,7 @@ namespace rl
 {
     class ListenerMovable;
 
-    /**
-     * Diese Klasse dient zur Definition einer Schnittstelle
-     * zu den m�glichen Soundbibliotheken. Sie geben Preis, ob
-     * ein Treiber vorhanden ist oder nicht. Der Nulltreiber
-     * existiert dabei immer.
-     */
+    /// Abstract super class of all API specific sound drivers.
     class _RlCoreExport SoundDriver
     {
     public:
@@ -37,7 +32,8 @@ namespace rl
         SoundDriver(Ogre::ResourceManager* soundResourceManager);
         /// Der Destruktor
         virtual ~SoundDriver();
-        /// Zeigt an, ob der Treiber funktionsf�hig ist.
+
+        /// returns true, if the driver can work on the current system. False else.
         virtual bool isDriverAvailable() = 0;
 
         /** Initialize driver
@@ -53,8 +49,11 @@ namespace rl
         virtual void update() = 0;
         /// Einen Sound-Stream mit Resource erzeugen
         virtual Sound* createStream(const SoundResourcePtr &res);
+        virtual Sound* createStream(const Ogre::String& name);
         /// Einen Sound-Sample mit Resource erzeugen
         virtual Sound* createSample(const SoundResourcePtr &res);
+        virtual Sound* createSample(const Ogre::String& name);
+
 
         /// Destroy a sound created by this driver. Do not call the Sound destructor yourself!
         virtual void destroySound(Sound*);
@@ -63,20 +62,18 @@ namespace rl
         virtual ListenerMovable *createListener(const Ogre::String &name) = 0;
 
 
-        /// Setzt den Faktor f, mit der die Lautst�rke nach der Formel 1/(f*Entfernung) abnimmt
+        /// Set attenuation of the volume with distance. f influences
+        /// volume like this: relative volume = 1/(f*distance)
         virtual void setRolloffFactor(const Ogre::Real& f) = 0;
         virtual const Ogre::Real getRolloffFactor() = 0;
-        /// Die Standardlautst�rke f�r Musik einstellen
+
         void setDefaultMusicVolume(const Ogre::Real& vol);
-        /// Die Standardlautst�rke f�r Musik zur�ckgeben.
         const Ogre::Real getDefaultMusicVolume() const;
-        /// Die Standardlautst�rke f�r Musik einstellen
+
         void setDefaultSoundVolume(const Ogre::Real& vol);
-        /// Die Standardlautst�rke f�r Musik zur�ckgeben.
         const Ogre::Real getDefaultSoundVolume() const;
-        /// Die Lautst�rke aller Sounds
+
         virtual void setMasterVolume(const Ogre::Real& vol);
-        /// Die Standardlautst�rke f�r Musik zur�ckgeben.
         const Ogre::Real getMasterVolume() const;
 
         /**
@@ -95,7 +92,7 @@ namespace rl
         virtual void applySettings(const Ogre::NameValuePairList& settings);
 
     protected:
-        static Ogre::ResourceManager* sSoundResourceManager;
+        Ogre::ResourceManager* mSoundResourceManager;
 
         SoundSet mStreamSet;
         SoundSet mSampleSet;

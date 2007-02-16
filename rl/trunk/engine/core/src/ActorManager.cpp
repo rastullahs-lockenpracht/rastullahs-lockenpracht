@@ -192,9 +192,7 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            Sound* sm = SoundManager::getSingleton().
-				getActiveDriver()->createSample(SoundManager::getSingleton().load(soundfile,
-                    ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME));
+            Sound* sm = SoundManager::getSingleton().getActiveDriver()->createSample(soundfile);
             SoundObject* so = new SoundObject(sm, soundfile);
             actor = new Actor(uniquename, so);
             mActors.insert(ActorPtrPair(uniquename,actor));  
@@ -222,9 +220,7 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            Sound* sm = SoundManager::getSingleton().
-                getActiveDriver()->createStream(SoundManager::getSingleton().load(soundfile,
-                    ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME));
+            Sound* sm = SoundManager::getSingleton().getActiveDriver()->createStream(soundfile);
             SoundObject* so = new SoundObject(sm, soundfile);
 
             actor = new Actor(uniquename, so);
