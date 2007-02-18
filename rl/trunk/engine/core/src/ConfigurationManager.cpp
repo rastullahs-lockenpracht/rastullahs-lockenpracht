@@ -104,12 +104,12 @@ namespace rl
         mInputSettings.insert(make_pair("act_togglevanitymode", "V"));
         mInputSettings.insert(make_pair("act_usecurrentobjectdefaultaction", "R"));
         mInputSettings.insert(make_pair("act_toggleinventorywindow", "I"));
-        mInputSettings.insert(make_pair("act_showjournalwindow ", "J"));
+        mInputSettings.insert(make_pair("act_showjournalwindow", "J"));
         mInputSettings.insert(make_pair("act_showcharactersheet", "C"));
         mInputSettings.insert(make_pair("act_togglecharacterstatewindow", "O"));
         mInputSettings.insert(make_pair("act_toggleingameglobalmenu", "F10"));
         mInputSettings.insert(make_pair("act_togglecharactercontroller", "M"));
-        mInputSettings.insert(make_pair("act_shownextdebugwindowpage ", "Ctrl+M"));
+        mInputSettings.insert(make_pair("act_shownextdebugwindowpage", "Ctrl+M"));
         mInputSettings.insert(make_pair("act_showobjectactions", "U"));
 
         setRastullahCfgPath();
