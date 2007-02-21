@@ -64,8 +64,7 @@ namespace XmlMapper
 		XmlProcessorPtr getProcessor(const S& pName);
 		
 		virtual typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType process(XmlNodePtr pNode, T<S>* pProcessHelper = NULL)
-        {
-//		    mCurrentReturnValue = NULL;
+	    {
 		    mCurrentHelper = pProcessHelper;
 		    mCurrentNode = pNode;
 		    createAttributeMapping();
@@ -81,7 +80,7 @@ namespace XmlMapper
 		    postprocessStep();
 		    mCurrentNode = NULL;
 		    return mCurrentReturnValue;
-        }
+	    }
 		void setParent(XmlProcessorPtr pProcessor) { mInterpreter = pProcessor; }
 
 	private:
@@ -176,7 +175,6 @@ namespace XmlMapper
 		}
 		return true;
 	}
-
 }
 
 #endif

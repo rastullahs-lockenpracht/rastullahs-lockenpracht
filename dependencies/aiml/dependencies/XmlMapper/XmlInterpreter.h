@@ -51,7 +51,15 @@ namespace XmlMapper
 
 		XmlInterpreter(const S& pName) : 
 		  XmlProcessor<R, T, S, hasPolymorphicReturnType>(pName) {}
-		virtual ~XmlInterpreter();
+		virtual ~XmlInterpreter()
+        {
+		    ProcessorMap::iterator itr = mProcessors.begin();
+		    for(; itr != mProcessors.end(); ++itr)
+		    {
+			    delete itr->second;
+		    }
+		    mProcessors.clear();
+        }
 
 		void addProcessor(XmlProcessorPtr pProcessor);
 		XmlProcessorPtr getProcessor(const S& pName);
@@ -60,7 +68,7 @@ namespace XmlMapper
 		// virtual const S& getName() { return mName; }
 		virtual typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType getCurrentReturnValue() { return mReturnValue; }
 		virtual typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType interpret(XmlDocument<S>* pDocument, T<S>* pProcessHelper = NULL)
-        {
+	    {
 		    if(pDocument != NULL)
 		    {
 			    XmlNode<S>* root = pDocument->getRootNode();
@@ -71,7 +79,7 @@ namespace XmlMapper
 			    }
 		    }
 		    return mReturnValue;
-        }
+	    }
 		
 		void setParent(XmlProcessorPtr pProcessor) {}
 
@@ -83,17 +91,6 @@ namespace XmlMapper
 		typename XmlInterpreter<R, T, S, hasPolymorphicReturnType>::ProcessorMap mProcessors;
 		typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType mReturnValue;
 	};
-
-	template<template <class> class R, template <class> class T, class S, bool hasPolymorphicReturnType> 
-	XmlInterpreter<R, T, S, hasPolymorphicReturnType>::~XmlInterpreter()
-	{
-		typename XmlInterpreter<R, T, S, hasPolymorphicReturnType>::ProcessorMap::iterator itr = mProcessors.begin();
-		for(; itr != mProcessors.end(); ++itr)
-		{
-			delete itr->second;
-		}
-		mProcessors.clear();
-	}
 
 	template<template <class> class R, template <class> class T, class S, bool hasPolymorphicReturnType> 
 	void XmlInterpreter<R, T, S, hasPolymorphicReturnType>::addProcessor(XmlProcessor<R, T, S, hasPolymorphicReturnType>* pProcessor)
