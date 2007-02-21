@@ -21,9 +21,6 @@ material DefaultDebugPrimitiveMaterial
 
          lighting off
 
-         //cull_software none
-         //cull_hardware none
-
          texture_unit
          {
             colour_op_ex source1 src_manual src_current 1.0 0.5 1.0
@@ -41,9 +38,6 @@ material alpha_purple
       {
          depth_write off
          scene_blend alpha_blend
-
-         cull_software none
-         cull_hardware none
 
          texture_unit
          {
@@ -63,9 +57,6 @@ material alpha_red
          depth_write off
          scene_blend alpha_blend
 
-         cull_software none
-         cull_hardware none
-
          texture_unit
          {
             colour_op_ex source1 src_manual src_current 1.0 0.5 0.5
@@ -83,9 +74,6 @@ material alpha_green
       {
          depth_write off
          scene_blend alpha_blend
-
-         cull_software none
-         cull_hardware none
 
          texture_unit
          {
@@ -105,9 +93,6 @@ material alpha_blue
          depth_write off
          scene_blend alpha_blend
 
-         cull_software none
-         cull_hardware none
-
          texture_unit
          {
             colour_op_ex source1 src_manual src_current 0.5 0.5 1.0
@@ -126,9 +111,6 @@ material alpha_yellow
          depth_write off
          scene_blend alpha_blend
 
-         cull_software none
-         cull_hardware none
-
          texture_unit
          {
             colour_op_ex source1 src_manual src_current 1.0 1.0 0.5
@@ -146,9 +128,6 @@ material alpha_orange
       {
          depth_write off
          scene_blend alpha_blend
-
-         cull_software none
-         cull_hardware none
 
          texture_unit
          {
