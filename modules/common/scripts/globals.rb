@@ -8,6 +8,7 @@ include RlScript
 GC.disable
 
 $CORE = CoreSubsystem.getSingleton();
+$JS = JobScheduler.getSingleton();
 $AM = ActorManager.getSingleton();
 $PM = PhysicsManager.getSingleton();
 $UI = UiSubsystem.getSingleton();

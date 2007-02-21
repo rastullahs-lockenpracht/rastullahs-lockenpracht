@@ -1,5 +1,6 @@
 load "embed.rb"
 #require 'actorupdateanimationlistener.rb'
+require 'jobs/soundjobs.rb'
 
 class OpenDoorAction < Action
   def initialize
@@ -18,9 +19,7 @@ class OpenDoorAction < Action
     doorActor.getPhysicalThing().fitToPose("zu");
 
     doorActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
-
-    knarzActor = door.getSoundActor();
-    knarzActor.getControlledObject().play();
+    PlaySound3d("doorcreak.ogg", doorActor.getPosition());
     door.setOpen(true);
   end
 end
@@ -42,10 +41,7 @@ class CloseDoorAction < Action
     doorActor.getPhysicalThing().fitToPose("auf");
 
     doorActor.getControlledObject.replaceAnimation("auf", "zu", 1.0, 1); 
-
-    knarzActor = door.getSoundActor();
-    knarzActor.getControlledObject().play();
-
+    PlaySound3d("doorcreak.ogg", doorActor.getPosition());
     door.setOpen(false);
   end
 end
@@ -70,8 +66,6 @@ class Door < GameObject
 
   def placeIntoScene()
     super()
-    @mSoundActor = $AM.createSoundSampleActor("door_" + getId().to_s + "_knarzen", @mSound);
-    getActor().attach(@mSoundActor);
     addActions();
   end
 
@@ -109,10 +103,5 @@ class Door < GameObject
        end
      end
   end
-
-  def getSoundActor()
-     return @mSoundActor
-  end
-
 end
 
