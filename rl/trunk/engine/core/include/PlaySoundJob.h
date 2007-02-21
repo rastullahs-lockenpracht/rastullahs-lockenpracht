@@ -28,8 +28,7 @@ namespace rl
     {
     public:
 
-        PlaySound2dJob(const Ogre::String& sound, Ogre::Real volume=1.0f,
-            bool looping=false, bool isDiscardable=false);
+        PlaySound2dJob(const Ogre::String& sound, Ogre::Real volume=1.0f);
         virtual ~PlaySound2dJob();
 
         /// Play the sound.
@@ -39,11 +38,28 @@ namespace rl
         ///       playing.
         virtual bool execute(Ogre::Real time);
 
-        /// Do nothing, since the sound can be either played or not.
-        /// Once started, it is not aborted.
-        virtual void discard();
     private:
         Sound* mSound;
+        bool mExecuted;
+    };
+
+    class _RlCoreExport PlaySound3dJob : public Job
+    {
+    public:
+
+        PlaySound3dJob(const Ogre::String& sound, const Ogre::Vector3& pos, Ogre::Real volume=1.0f);
+        virtual ~PlaySound3dJob();
+
+        /// Play the sound.
+        /// @return true, when the sound is done playing, false else.
+        /// @todo this return-behaviour is actually a hack to prevent a memory leak.
+        ///       We have to find a way to get rid of the sound automatically, when it is done
+        ///       playing.
+        virtual bool execute(Ogre::Real time);
+
+    private:
+        Sound* mSound;
+        bool mExecuted;
     };
 }
 

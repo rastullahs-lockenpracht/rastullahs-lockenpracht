@@ -24,28 +24,56 @@ using namespace Ogre;
 namespace rl
 {
 
-    PlaySound2dJob::PlaySound2dJob(const String& sound, Real volume,
-        bool looping, bool isDiscardable) : Job(isDiscardable, true), mSound()
+    PlaySound2dJob::PlaySound2dJob(const String& sound, Real volume)
+        : Job(false, true), mSound(NULL), mExecuted(false)
     {
-        mSound = SoundManager::getSingleton().getActiveDriver()->
-            createStream(SoundManager::getSingleton().getByName(sound));
+        mSound = SoundManager::getSingleton().getActiveDriver()->createSound(sound, ST_SAMPLE);
         mSound->set3d(false);
         mSound->setVolume(volume);
-        mSound->setLooping(looping);
+        mSound->setLooping(false);
     }
 
     PlaySound2dJob::~PlaySound2dJob()
     {
-        delete mSound;
+        // Only destroy sound, if not played,
+        // because else the sound gets destroyed automatically.
+        if(!mExecuted)
+        {
+            SoundManager::getSingleton().getActiveDriver()->destroySound(mSound);
+        }
     }
 
     bool PlaySound2dJob::execute(Ogre::Real time)
     {
-        if (mSound) mSound->play();
+        if (mSound) mSound->play(true);
+        mExecuted = true;
         return true;
     }
 
-    void PlaySound2dJob::discard()
+    PlaySound3dJob::PlaySound3dJob(const String& sound, const Ogre::Vector3& pos, Real volume)
+        : Job(false, true), mSound(NULL), mExecuted(false)
     {
+        mSound = SoundManager::getSingleton().getActiveDriver()->createSound(sound, ST_SAMPLE);
+        mSound->set3d(true);
+        mSound->setPosition(pos);
+        mSound->setVolume(volume);
+        mSound->setLooping(false);
+    }
+
+    PlaySound3dJob::~PlaySound3dJob()
+    {
+        // Only destroy sound, if not played,
+        // because else the sound gets destroyed automatically.
+        if(!mExecuted)
+        {
+            SoundManager::getSingleton().getActiveDriver()->destroySound(mSound);
+        }
+    }
+
+    bool PlaySound3dJob::execute(Ogre::Real time)
+    {
+        if (mSound) mSound->play(true);
+        mExecuted = true;
+        return true;
     }
 }

@@ -19,6 +19,7 @@
 #include "Fmod4DriverPrerequisites.h"
 
 #include "Sound.h"
+#include "SoundDriver.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
     #include <fmod.hpp>
@@ -33,20 +34,14 @@ namespace rl {
     class _RlFmod4DriverExport Fmod4Sound : public Sound
     {
     public:
-        enum SoundType 
-        {
-            SAMPLE,
-            STREAM
-        };
-
         /// Konstruktor
-        Fmod4Sound(Fmod4Driver* driver, const SoundResourcePtr &soundres, SoundType type = SAMPLE);
+        Fmod4Sound(Fmod4Driver* driver, SoundResourcePtr soundres, SoundType type = ST_SAMPLE);
 
         /// Laedt den Sound.
         virtual void load() throw (RuntimeException);
         /// Entlaedt den Sound.
         virtual void unload() throw (RuntimeException);
-         // Wir geben zur�ck, wie lange der Sound ist.
+        // Running length in seconds
 	    virtual float getLength() const;
 
 		// Sind wir gueltig
@@ -71,8 +66,7 @@ namespace rl {
 		/// Setzt die Geschwindigkeit der Soundquelle.
 		virtual void setVelocity(const Ogre::Vector3&);
 
-		/// Spielt den Sound ab.
-		virtual void play();
+        virtual void play(bool destroyWhenDone=false);
 		/// Pausiert den Sound.
 		virtual void pause(bool pausing);
 		/// Ist der Sound pausiert?
@@ -81,7 +75,7 @@ namespace rl {
 		virtual void stop();
 		/// Laeuft der Sound noch
 		virtual const bool isPlaying() const;
-	    
+
     private:
 		/// Shared class-level name for Movable type
 		static Ogre::String msMovableType;

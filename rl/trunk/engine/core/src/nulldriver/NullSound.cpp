@@ -14,6 +14,8 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 #include "NullSound.h"
+#include "NullDriver.h"
+
 #include "SoundManager.h"
 #include "SoundResource.h"
 
@@ -29,8 +31,8 @@ namespace rl {
  * @author JoSch
  * @date 07-04-2005
  */
-NullSound::NullSound(const SoundResourcePtr &soundres):
-    Sound(soundres)
+NullSound::NullSound(const SoundResourcePtr &soundres, SoundDriver* creator):
+    Sound(soundres, creator)
 {
 }
 
@@ -89,8 +91,13 @@ void NullSoundPtr::destroy()
  * @author JoSch
  * @date 07-23-2005
  */
-void NullSound::play()
+void NullSound::play(bool destroyWhenDone)
 {
+    if (destroyWhenDone)
+    {
+        // We're not going to play anything, so we can self-destroy right away...
+        mCreator->destroySound(this);
+    }
 }
 
 /**

@@ -26,6 +26,7 @@ namespace rl
 {
     // Used by FMOD-Callbacks, which are not C++-functions, but C-functions.
     Ogre::ResourceManager* gSoundResourceManager = NULL;
+    Fmod4Driver* gDriver = NULL;
 
     String Fmod4Driver::NAME = "RlFmod4Driver";
 
@@ -34,6 +35,7 @@ namespace rl
         mMasterChannelGroup(NULL)
     {
         gSoundResourceManager = soundResourceManager;
+        gDriver = this;
     }
 
     Fmod4Driver::~Fmod4Driver()
@@ -63,7 +65,7 @@ namespace rl
         mFmod4System->setDriver(-1);
         //CHECK_FMOD4_ERRORS(mFmod4System->setOutput(FMOD_OUTPUTTYPE_ESD));
 
-        FMOD_RESULT result = mFmod4System->init(MAX_VIRTUAL_CHANNELS, FMOD_INIT_NORMAL, NULL); //Alternative: ,Output)
+        FMOD_RESULT result = mFmod4System->init(MAX_VIRTUAL_CHANNELS, FMOD_INIT_NORMAL, NULL);
         if (result != FMOD_OK)
         {
             LOG_ERROR(Logger::CORE,
@@ -103,28 +105,10 @@ namespace rl
         mFmod4System->update();
     }
 
-    /**
-      * Einen Sound-Stream mit Resource erzeugen
-      * @return Der erzeugte Stream
-      * @author JoSch
-      * @date 03-06-2006
-      */
-    Sound *Fmod4Driver::createStreamImpl(const SoundResourcePtr &res)
+    Sound* Fmod4Driver::createSoundImpl(SoundResourcePtr res, SoundType type)
     {
-         Sound *sound = new Fmod4Sound(this, res, Fmod4Sound::STREAM);
-         return sound;
-    }
-
-    /**
-     * Einen Sound-Sample mit Resource erzeugen
-     * @return Das erzeugte Sample
-     * @author JoSch
-     * @date 03-06-2006
-     */
-    Sound *Fmod4Driver::createSampleImpl(const SoundResourcePtr &res)
-    {
-        Sound *sound = new Fmod4Sound(this, res, Fmod4Sound::SAMPLE);
-         return sound;
+        Sound* sound = new Fmod4Sound(this, res, type);
+        return sound;
     }
 
     ListenerMovable *Fmod4Driver::createListener(const Ogre::String &name)
@@ -284,11 +268,11 @@ namespace rl
     }
 
     FMOD_RESULT F_CALLBACK Fmod4Driver::read(
-        void *  handle,
-        void *  buffer,
+        void*  handle,
+        void*  buffer,
         unsigned int  sizebytes,
-        unsigned int *  bytesread,
-        void *  userdata)
+        unsigned int* bytesread,
+        void*  userdata)
     {
         if (handle == NULL)
         {
@@ -341,6 +325,23 @@ namespace rl
         return FMOD_ERR_INVALID_PARAM;
     }
 
+    FMOD_RESULT F_CALLBACK Fmod4Driver::channelCallback(
+        FMOD_CHANNEL* channel,
+        FMOD_CHANNEL_CALLBACKTYPE type,
+        int command,
+        unsigned int commanddata1,
+        unsigned int commanddata2)
+    {
+        // Look up sound for this channel
+        ChannelSoundMap::iterator it = gDriver->mChannelSoundMap.find((FMOD::Channel*)channel);
+        if (it != gDriver->mChannelSoundMap.end())
+        {
+            gDriver->destroySound(it->second);
+            gDriver->mChannelSoundMap.erase(it);
+        }
+        return FMOD_OK;
+    }
+
     void Fmod4Driver::setMasterVolume(const Ogre::Real& vol)
     {
         SoundDriver::setMasterVolume(vol);
@@ -358,5 +359,12 @@ namespace rl
         float factor;
         mFmod4System->get3DSettings(NULL, NULL, &factor);
         return factor;
+    }
+
+    void Fmod4Driver::_registerForAutoDestruction(Fmod4Sound* sound, FMOD::Channel* channel)
+    {
+        FMOD_RESULT res = channel->setCallback(FMOD_CHANNEL_CALLBACKTYPE_END, channelCallback, 0);
+        CHECK_FMOD4_ERRORS(res);
+        mChannelSoundMap.insert(std::make_pair(channel, sound));
     }
 }

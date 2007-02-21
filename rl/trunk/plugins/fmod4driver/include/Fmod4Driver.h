@@ -45,6 +45,8 @@ namespace rl
         }\
     }
 
+    class Fmod4Sound;
+
     /** Diese Klasse ist der Treiber, der OpenAL zur
      * Ausgabe benutzt.
      */
@@ -95,20 +97,14 @@ namespace rl
         const DriverMap& getDriverData() const;
 
         FMOD::System* _getFmodSystem();
+        void _registerForAutoDestruction(Fmod4Sound* sound, FMOD::Channel* channel);
 
     protected:
-        virtual Sound* createStreamImpl(const SoundResourcePtr &res);
-        virtual Sound* createSampleImpl(const SoundResourcePtr &res);
+        virtual Sound* createSoundImpl(SoundResourcePtr res, SoundType type);
 
     private:
-        /// Informationen �ber den Treiber ausgeben
-        virtual void printData() const;
-        void printDriverInfo(int driver) const;
 
-        // Wir merken uns die Konfiguration von Fmod4
-        DriverMap mDriverData;
-        FMOD::System* mFmod4System;
-        FMOD::ChannelGroup* mMasterChannelGroup;
+        typedef std::map<FMOD::Channel*, Fmod4Sound*> ChannelSoundMap;
 
         static FMOD_RESULT F_CALLBACK open(
             const char *  name,
@@ -137,8 +133,26 @@ namespace rl
             void *  userdata
         );
 
-    };
+        static FMOD_RESULT F_CALLBACK channelCallback(
+            FMOD_CHANNEL* channel,
+            FMOD_CHANNEL_CALLBACKTYPE type,
+            int command,
+            unsigned int commanddata1,
+            unsigned int commanddata2
+        );
 
+        /// Log driver config data
+        virtual void printData() const;
+        void printDriverInfo(int driver) const;
+
+        // Wir merken uns die Konfiguration von Fmod4
+        DriverMap mDriverData;
+        /// Stores sounds that are automatically destroyed after having been played.
+        ChannelSoundMap mChannelSoundMap;
+        FMOD::System* mFmod4System;
+        FMOD::ChannelGroup* mMasterChannelGroup;
+
+    };
 }
 
 #endif /*FMODDRIVER_H_*/

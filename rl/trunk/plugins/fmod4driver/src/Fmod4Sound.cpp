@@ -26,8 +26,8 @@ namespace rl {
 
 String Fmod4Sound::msMovableType = "Fmod4Sound";
  
-Fmod4Sound::Fmod4Sound(Fmod4Driver* driver, const rl::SoundResourcePtr &soundres, SoundType type)
-  : Sound(soundres),
+Fmod4Sound::Fmod4Sound(Fmod4Driver* driver, SoundResourcePtr soundres, SoundType type)
+  : Sound(soundres, driver),
     mType(type),
     mSound(NULL),
     mDriver(driver),
@@ -69,7 +69,7 @@ void Fmod4Sound::load() throw (RuntimeException)
         mode |= FMOD_LOOP_OFF;
     }
 
-    if (mType == Fmod4Sound::SAMPLE)
+    if (mType == ST_SAMPLE)
     {
         FMOD_RESULT res = mDriver->_getFmodSystem()->createSound(
             getSoundResource()->getName().c_str(), 
@@ -79,7 +79,7 @@ void Fmod4Sound::load() throw (RuntimeException)
 
         CHECK_FMOD4_ERRORS(res);
     }
-    else if (mType == Fmod4Sound::STREAM)
+    else if (mType == ST_STREAM)
     {
         FMOD_RESULT res = mDriver->_getFmodSystem()->createStream(
             getSoundResource()->getName().c_str(), 
@@ -88,6 +88,10 @@ void Fmod4Sound::load() throw (RuntimeException)
             &mSound);
 
         CHECK_FMOD4_ERRORS(res);
+    }
+    else
+    {
+        RlFail("Unsupported SoundType.");
     }
 }
 
@@ -111,7 +115,7 @@ const String& Fmod4Sound::getMovableType() const
     return msMovableType;
 }
 
-void Fmod4Sound::play()
+void Fmod4Sound::play(bool destroyWhenDone)
 {
     if (!isValid())
     {
@@ -127,6 +131,10 @@ void Fmod4Sound::play()
     CHECK_FMOD4_ERRORS(res);
 
     RlAssert1(mChannel != NULL);
+    if (destroyWhenDone)
+    {
+        mDriver->_registerForAutoDestruction(this, mChannel);
+    }
 
     float vol;
 	if (is3d())
@@ -142,7 +150,6 @@ void Fmod4Sound::play()
     setPosition(mPosition);
     setDirection(mDirection);
 	setVelocity(mVelocity); 
-    //getSound()->_getFmodSound()->FSOUND_3D_SetMinMaxDistance(mChannel, mRolloffStartDistance, mRolloffEndDistance);
     pause(false);
     SoundPlayEvent event = SoundPlayEvent(this, SoundPlayEvent::STARTEVENT);
     dispatchEvent(&event);

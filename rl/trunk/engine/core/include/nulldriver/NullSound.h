@@ -32,7 +32,7 @@ namespace rl {
     {
     public:
         /// Konstruktor
-        NullSound(const SoundResourcePtr &soundres);
+        NullSound(const SoundResourcePtr &soundres, SoundDriver* creator);
         /// Destruktor
         virtual ~NullSound();
 
@@ -64,8 +64,8 @@ namespace rl {
         /// Setzt die Geschwindigkeit der Soundquelle.
          void setVelocity(const Ogre::Vector3&);
 
-        /// Spielt den Sound ab.
-         void play();
+         /// Spielt den Sound ab.
+         void play(bool destroyWhenDone=false);
         /// Pausiert den Sound.
          void pause(bool pausing);
         /// Ist der Sound pausiert?
@@ -76,9 +76,11 @@ namespace rl {
     //         void rewind() throw (RuntimeException);
         /// Laeuft der Sound noch
          const bool isPlaying() const;
+
     protected:
         // Sind wir gueltig?
         virtual bool isValid() const throw (RuntimeException);
+
     private:
         // Shared class-level name for Movable type
         static Ogre::String msMovableType;

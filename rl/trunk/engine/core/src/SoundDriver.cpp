@@ -97,9 +97,12 @@ const Ogre::Real SoundDriver::getMasterVolume() const
         Ogre::NameValuePairList SoundSettings;
 
         // Append the settings to the list
-        SoundSettings.insert(make_pair("MasterVolume", Ogre::StringConverter::toString(mMasterVolume)));
-        SoundSettings.insert(make_pair("DefaultMusicVolume", Ogre::StringConverter::toString(mDefaultMusicVolume)));
-        SoundSettings.insert(make_pair("DefaultSoundVolume", Ogre::StringConverter::toString(mDefaultSoundVolume)));
+        SoundSettings.insert(make_pair("MasterVolume",
+            Ogre::StringConverter::toString(mMasterVolume)));
+        SoundSettings.insert(make_pair("DefaultMusicVolume",
+            Ogre::StringConverter::toString(mDefaultMusicVolume)));
+        SoundSettings.insert(make_pair("DefaultSoundVolume",
+            Ogre::StringConverter::toString(mDefaultSoundVolume)));
 
         return SoundSettings;
     }
@@ -142,7 +145,7 @@ const Ogre::Real SoundDriver::getMasterVolume() const
         }
     }
 
-    Sound* SoundDriver::createStream(const Ogre::String& name)
+    Sound* SoundDriver::createSound(const String& name, SoundType type)
     {
         SoundResourcePtr ptr = mSoundResourceManager->load(name,
             ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
@@ -150,36 +153,22 @@ const Ogre::Real SoundDriver::getMasterVolume() const
         {
             Throw(IllegalArgumentException, "Sound " + name + "nicht gefunden");
         }
-        return createStream(ptr);
+        return createSound(ptr, type);
     }
 
-    Sound* SoundDriver::createStream(const SoundResourcePtr &res)
+    Sound* SoundDriver::createSound(SoundResourcePtr res, SoundType type)
     {
-        Sound* sound = createStreamImpl(res);
+        Sound* sound = createSoundImpl(res, type);
         if (sound != NULL)
         {
-            mStreamSet.insert(sound);
-        }
-        return sound;
-    }
-
-    Sound* SoundDriver::createSample(const Ogre::String& name)
-    {
-        SoundResourcePtr ptr = mSoundResourceManager->load(name,
-            ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
-        if (ptr.isNull())
-        {
-            Throw(IllegalArgumentException, "Sound " + name + "nicht gefunden");
-        }
-        return createSample(ptr);
-    }
-
-    Sound* SoundDriver::createSample(const SoundResourcePtr &res)
-    {
-        Sound* sound = createSampleImpl(res);
-        if (sound != NULL)
-        {
-            mSampleSet.insert(sound);
+            if (type == ST_SAMPLE)
+            {
+                mSampleSet.insert(sound);
+            }
+            else
+            {
+                mStreamSet.insert(sound);
+            }
         }
         return sound;
     }

@@ -231,6 +231,7 @@ namespace rl
         LOG_MESSAGE(Logger::CORE,"Aktormanager erzeugt");
 
         mSoundManager = new SoundManager();
+        GameLoop::getSingleton().addTask(mSoundManager, GameLoop::TG_SOUND);
         LOG_MESSAGE(Logger::CORE,"SoundManager erzeugt");
 
         initializeResources();
@@ -249,18 +250,23 @@ namespace rl
 
         mPhysicsManager = new PhysicsManager();
         GameLoop::getSingleton().addTask(mPhysicsManager, GameLoop::TG_PHYSICS);
+        LOG_MESSAGE(Logger::CORE,"PhysicsManager erzeugt");
 
         mAnimationManager = new AnimationManager();
         GameLoop::getSingleton().addTask(mAnimationManager, GameLoop::TG_GRAPHICS);
+        LOG_MESSAGE(Logger::CORE,"AnimationManager erzeugt");
 
         mGameEventManager = new GameEventManager();
         GameLoop::getSingleton().addTask(mGameEventManager, GameLoop::TG_LOGIC);
+        LOG_MESSAGE(Logger::CORE,"GameEventManager erzeugt");
 
         mDebugVisualsManager = new DebugVisualsManager();
         GameLoop::getSingleton().addTask(mDebugVisualsManager, GameLoop::TG_GRAPHICS);
+        LOG_MESSAGE(Logger::CORE,"DebugVisualsManager erzeugt");
 
         mJobScheduler = new JobScheduler();
         GameLoop::getSingleton().addTask(mJobScheduler, GameLoop::TG_GRAPHICS);
+        LOG_MESSAGE(Logger::CORE,"JobScheduler erzeugt");
 
         return true;
     }
@@ -463,6 +469,11 @@ namespace rl
     World* CoreSubsystem::getWorld()
     {
         return mWorld;
+    }
+
+    unsigned long CoreSubsystem::getClock()
+    {
+        return mGameLoop->getClock();
     }
 
     Ogre::String CoreSubsystem::getEngineVersionString() const

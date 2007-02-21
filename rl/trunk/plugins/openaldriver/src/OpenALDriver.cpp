@@ -140,21 +140,21 @@ namespace rl
       * @author JoSch
       * @date 03-06-2006
       */
-    Sound* OpenALDriver::createStreamImpl(const SoundResourcePtr &res)
+    Sound* OpenALDriver::createSoundImpl(SoundResourcePtr res, SoundType type)
     {
-         Sound *sound = new OpenALSoundStream(this, res);
-         return sound;
-    }
-
-    /**
-     * Einen Sound-Sample mit Resource erzeugen
-     * @return Das erzeugte Sample
-     * @author JoSch
-     * @date 03-06-2006
-     */
-    Sound* OpenALDriver::createSampleImpl(const SoundResourcePtr &res)
-    {
-         Sound *sound = new OpenALSoundSample(this, res);
+         Sound* sound = NULL;
+         if (type == ST_STREAM)
+         {
+             sound = new OpenALSoundStream(this, res);
+         }
+         else if (type == ST_SAMPLE)
+         {
+             sound = new OpenALSoundSample(this, res);
+         }
+         else
+         {
+             RlFail("Unsupported SoundType.");
+         }
          return sound;
     }
 
@@ -188,5 +188,4 @@ namespace rl
     {
         return 1.0;
     }
-
 }

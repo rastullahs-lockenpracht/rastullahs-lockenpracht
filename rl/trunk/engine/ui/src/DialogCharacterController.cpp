@@ -237,12 +237,8 @@ namespace rl {
                     mSoundObject->getMovableObject() );
 
             delete mSoundObject;
-            mSoundObject =
-                new SoundObject(
-                    SoundManager::getSingleton().getActiveDriver()->
-                        createSample(
-                            SoundManager::getSingleton().getByName(soundFile)),
-                    soundFile);
+            mSoundObject = new SoundObject(SoundManager::getSingleton().getActiveDriver()->
+                    createSound(soundFile, ST_SAMPLE), soundFile);
 
             // An Sprecher hängen
             actor->_getSceneNode()->attachObject( mSoundObject->getMovableObject() );

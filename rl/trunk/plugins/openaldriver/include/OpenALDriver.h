@@ -52,8 +52,7 @@ namespace rl
         virtual const Ogre::Real getRolloffFactor();
 
     protected:
-        virtual Sound* createStreamImpl(const SoundResourcePtr &res);
-        virtual Sound* createSampleImpl(const SoundResourcePtr &res);
+        virtual Sound* createSoundImpl(SoundResourcePtr res, SoundType type);
 
     private:
         /// Informationen über den Treiber ausgeben

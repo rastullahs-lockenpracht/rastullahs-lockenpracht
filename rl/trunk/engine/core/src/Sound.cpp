@@ -14,6 +14,7 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 #include "Sound.h"
+#include "SoundDriver.h"
 
 using namespace Ogre; 
 
@@ -22,10 +23,11 @@ namespace rl
 
 AxisAlignedBox Sound::msAABox = Ogre::AxisAlignedBox(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-Sound::Sound(const SoundResourcePtr &soundres)
+Sound::Sound(const SoundResourcePtr &soundres, SoundDriver* creator)
 : MovableObject(soundres->getName()),
    EventSource(),
    EventCaster<SoundEvent>(),
+   mCreator(creator),
    mVolume(1.0),
    mSoundResource(soundres),
    mIsLooping(false),
@@ -134,6 +136,5 @@ const Ogre::Real Sound::getRolloffEndDistance() const
 {
 	return mRolloffEndDistance;
 }
-
 
 };

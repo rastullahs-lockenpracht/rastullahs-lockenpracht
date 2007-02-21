@@ -54,8 +54,7 @@ public:
     /// Setzt die Geschwindigkeit der Soundquelle.
     virtual void setVelocity(const Ogre::Vector3&);
 
-    /// Spielt den Sound ab.
-    virtual void play();
+    virtual void play(bool destroyWhenDone=false);
     /// Pausiert den Sound.
     virtual void pause(bool pausing);
     /// Ist der Sound pausiert?

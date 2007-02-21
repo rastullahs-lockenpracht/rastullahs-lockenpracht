@@ -50,6 +50,10 @@
 #include "ListenerObject.h"
 #include "Sound.h"
 #include "SoundEvents.h"
+#include "JobScheduler.h"
+#include "Job.h"
+#include "JobListener.h"
+#include "PlaySoundJob.h"
 #undef message
 #undef send
 %}

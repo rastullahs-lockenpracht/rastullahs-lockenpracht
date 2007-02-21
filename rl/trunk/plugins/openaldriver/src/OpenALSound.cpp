@@ -16,6 +16,7 @@
 #include "OpenALSound.h"
 
 #include "OpenALDriver.h"
+#include "Logger.h"
 
 Ogre::String rl::OpenALSound::msMovableType = "OpenALSound";
 
@@ -25,7 +26,7 @@ namespace rl
 {
 
 OpenALSound::OpenALSound(OpenALDriver* driver, const SoundResourcePtr& res)
- : Sound(res),
+ : Sound(res, driver),
    mDriver(driver),
    mChannel(NO_CHANNEL)
 {   
@@ -39,7 +40,7 @@ OpenALSound::~OpenALSound()
  * @author JoSch
  * @date 07-23-2005
  */
-void OpenALSound::play()
+void OpenALSound::play(bool destroyWhenDone)
 {
     if (!isValid())
     {
@@ -51,6 +52,13 @@ void OpenALSound::play()
     setDirection(mDirection);
     setVelocity(mVelocity); 
     pause(false);
+
+    // OpenAL Driver doesn't handle destroyWhenDone yet, so warn about it
+    if (destroyWhenDone)
+    {
+        LOG_WARNING(Logger::MULTIMEDIA, "Sound zum automatischen löschen regisitert, aber\
+ OpenAL-Treiber unterstützt diese Option nicht. Memory-Leak.");
+    }
 }
 
 float OpenALSound::getLength() const

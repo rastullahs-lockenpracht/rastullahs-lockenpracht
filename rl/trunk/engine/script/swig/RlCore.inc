@@ -655,6 +655,7 @@ public:
 		const Ogre::String& resourceGroup, const Ogre::String& startupScript = "");
 	void registerModule(ContentModule* module);
     World* getWorld();
+    unsigned long getClock();
     void makeScreenshot(const Ogre::String& sName);
     bool isInitialized() const;
     void setScheme(const Ogre::String& schemeName);
@@ -711,6 +712,36 @@ public:
     
     // Sind wir gueltig
     bool isValid() const;
+};
+
+// define as empty at this time. Must not yet be used from within ruby.
+class Job
+{
+private:
+	Job();
+};
+
+class PlaySound2dJob : public rl::Job
+{
+public:
+
+    PlaySound2dJob(const Ogre::String& sound, Ogre::Real volume=1.0f);
+    virtual ~PlaySound2dJob();
+};
+
+class PlaySound3dJob : public rl::Job
+{
+public:
+
+    PlaySound3dJob(const Ogre::String& sound, const Ogre::Vector3& pos, Ogre::Real volume=1.0f);
+    virtual ~PlaySound3dJob();
+};
+
+class JobScheduler
+{
+public:
+	static JobScheduler& getSingleton(void);
+    unsigned long addJob(rl::Job* job);
 };
 
 }

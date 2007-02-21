@@ -92,29 +92,9 @@ Ogre::String NullDriver::getName() const
      // Erstmal nichts zu tun.
  }
 
- /**
-  * Einen Sound-Stream mit Resource erzeugen
-  * @return Der erzeugte Stream
-  * @param res Die Resource zur Erzeugung des Sounds
-  * @author JoSch
-  * @date 03-06-2006
-  */
-Sound *NullDriver::createStreamImpl(const SoundResourcePtr &res)
+Sound *NullDriver::createSoundImpl(SoundResourcePtr res, SoundType type)
 {
-     Sound *sound = new NullSound(res);
-     return sound;
-}
-
-/**
- * Einen Sound-Sample mit Resource erzeugen
- * @return Das erzeugte Sample
- * @param res Die Resource zur Erzeugung des Sounds
- * @author JoSch
- * @date 03-06-2006
- */
-Sound *NullDriver::createSampleImpl(const SoundResourcePtr &res)
-{
-     Sound *sound = new NullSound(res);
+     Sound* sound = new NullSound(res, this);
      return sound;
 }
 
@@ -127,7 +107,7 @@ Sound *NullDriver::createSampleImpl(const SoundResourcePtr &res)
  */
 ListenerMovable *NullDriver::createListener(const Ogre::String &name)
 {
-    ListenerMovable *listener = new NullListener(name);
+    ListenerMovable* listener = new NullListener(name);
     return listener;
 }
 

@@ -24,6 +24,8 @@ namespace rl
 {
     class ListenerMovable;
 
+    typedef enum {ST_SAMPLE, ST_STREAM} SoundType;
+
     /// Abstract super class of all API specific sound drivers.
     class _RlCoreExport SoundDriver
     {
@@ -47,20 +49,24 @@ namespace rl
         virtual Ogre::String getName() const = 0;
         /// Update-Aufgaben erledigen
         virtual void update() = 0;
-        /// Einen Sound-Stream mit Resource erzeugen
-        virtual Sound* createStream(const SoundResourcePtr &res);
-        virtual Sound* createStream(const Ogre::String& name);
-        /// Einen Sound-Sample mit Resource erzeugen
-        virtual Sound* createSample(const SoundResourcePtr &res);
-        virtual Sound* createSample(const Ogre::String& name);
 
+        /**
+         *  Create a Sound object.
+         *  Sounds created with this functions have to be destroyed using
+         *  SoundDriver#destroySound, unless destroyWhenDone is set to true.
+         *  @param res the resource from which to create the sound.
+         *  @param type whether to create the sound as sample or stream.
+         */
+        virtual Sound* createSound(SoundResourcePtr res, SoundType type=ST_SAMPLE);
+
+        /// @overload
+        virtual Sound* createSound(const Ogre::String& res, SoundType type=ST_SAMPLE);
 
         /// Destroy a sound created by this driver. Do not call the Sound destructor yourself!
         virtual void destroySound(Sound*);
 
         /// Einen Soundlistener erzeugen
         virtual ListenerMovable *createListener(const Ogre::String &name) = 0;
-
 
         /// Set attenuation of the volume with distance. f influences
         /// volume like this: relative volume = 1/(f*distance)
@@ -101,8 +107,7 @@ namespace rl
         Ogre::Real mDefaultSoundVolume;  ///!< Sound effect volume
         Ogre::Real mMasterVolume;        ///!< Master volume
 
-        virtual Sound* createStreamImpl(const SoundResourcePtr &res) = 0;
-        virtual Sound* createSampleImpl(const SoundResourcePtr &res) = 0;
+        virtual Sound* createSoundImpl(SoundResourcePtr res, SoundType type) = 0;
     };
 }
 

@@ -43,7 +43,7 @@ namespace rl {
     {
     public:
         /// Konstruktor
-        Sound(const SoundResourcePtr &soundres);
+        Sound(const SoundResourcePtr& soundres, SoundDriver* creator);
         /// Destruktor
         virtual ~Sound();
           
@@ -53,7 +53,7 @@ namespace rl {
         virtual void unload() throw (RuntimeException) = 0;
 
         // SoundResource zurueckgeben.
-        const SoundResourcePtr &getSoundResource() const;
+        const SoundResourcePtr& getSoundResource() const;
         // Wollen wir 3D?
         bool is3d() const;
         // Setzen des 3D-Flags.
@@ -100,7 +100,7 @@ namespace rl {
 	    virtual const Ogre::Real getRolloffEndDistance() const;
 
         /// Spielt den Sound ab.
-        virtual void play() = 0;
+        virtual void play(bool destroyWhenDone=false) = 0;
         /// Pausiert den Sound.
         virtual void pause(bool pausing) = 0;
         /// Ist der Sound pausiert?
@@ -113,6 +113,8 @@ namespace rl {
         virtual const bool isPlaying() const = 0;
 
     protected:
+        SoundDriver* mCreator;
+
         /// Die Lautstaerke
 	    Ogre::Real mVolume;
         /// Die Position
