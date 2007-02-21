@@ -29,7 +29,7 @@ class QuestSoundPlayer < QuestListener
 	def playSound()
         now = $CORE.getClock()
         # only play sound, if we didn't play it in the last two seconds
-        if (now - @lastPlayed) > 2.0
+        if (now - @lastPlayed) > 2000
             PlaySound2d("quest_aenderung_gekritzel_01.ogg")
             @lastPlayed = now
         end
