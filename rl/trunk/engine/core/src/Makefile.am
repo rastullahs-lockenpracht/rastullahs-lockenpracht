@@ -44,6 +44,7 @@ libRlCore_la_SOURCES = \
 	PhysicsGenericContactCallback.cpp \
 	PhysicsManager.cpp \
 	PhysicsMaterialRaycast.cpp \
+	PlaySoundJob.cpp \
 	PrimitiveObject.cpp \
 	RubyInterpreter.cpp \
 	SceneQuery.cpp \
