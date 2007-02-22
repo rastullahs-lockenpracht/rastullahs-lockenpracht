@@ -513,6 +513,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\PlayAnimationJob.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\PlaySoundJob.h"
 				>
 			</File>
@@ -731,6 +735,10 @@
 			</File>
 			<File
 				RelativePath=".\src\PhysicsMaterialRaycast.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\PlayAnimationJob.cpp"
 				>
 			</File>
 			<File

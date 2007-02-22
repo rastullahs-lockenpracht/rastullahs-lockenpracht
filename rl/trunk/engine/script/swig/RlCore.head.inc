@@ -54,6 +54,7 @@
 #include "Job.h"
 #include "JobListener.h"
 #include "PlaySoundJob.h"
+#include "PlayAnimationJob.h"
 #undef message
 #undef send
 %}

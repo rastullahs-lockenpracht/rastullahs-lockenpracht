@@ -737,6 +737,15 @@ public:
     virtual ~PlaySound3dJob();
 };
 
+class PlayAnimationJob : public Job
+{
+public:
+
+    PlayAnimationJob(Actor* actor, const Ogre::String& anim, bool doLoop=false,
+		bool replaceAllAnims=true);
+    virtual ~PlayAnimationJob();
+};
+
 class JobScheduler
 {
 public:
