@@ -41,6 +41,7 @@
 	PhysicsController.h \
 	PhysicsManager.h \
 	PhysicsMaterialRaycast.h \
+	PlayAnimationJob.h \
 	PlaySoundJob.h \
 	PrimitiveObject.h \
 	RubyInterpreter.h \
