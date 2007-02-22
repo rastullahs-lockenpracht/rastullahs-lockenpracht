@@ -1,6 +1,7 @@
 load "embed.rb"
 #require 'actorupdateanimationlistener.rb'
 require 'jobs/soundjobs.rb'
+require 'jobs/animationjobs.rb'
 
 class OpenDoorAction < Action
   def initialize
@@ -18,7 +19,7 @@ class OpenDoorAction < Action
     #p "call fitToPose for zu"
     doorActor.getPhysicalThing().fitToPose("zu");
 
-    doorActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
+    PlayAnimation(doorActor, "auf");
     PlaySound3d("doorcreak.ogg", doorActor.getPosition());
     door.setOpen(true);
   end
@@ -40,7 +41,7 @@ class CloseDoorAction < Action
     #p "call fitToPose for auf"
     doorActor.getPhysicalThing().fitToPose("auf");
 
-    doorActor.getControlledObject.replaceAnimation("auf", "zu", 1.0, 1); 
+    PlayAnimation(doorActor, "zu");
     PlaySound3d("doorcreak.ogg", doorActor.getPosition());
     door.setOpen(false);
   end
