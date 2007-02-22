@@ -61,7 +61,7 @@ namespace XmlMapper
 		  XmlProcessor<R, T, S, hasPolymorphicReturnType>(pName) {}
 		virtual ~XmlInterpreter()
         {
-		    ProcessorMap::iterator itr = mProcessors.begin();
+		    typename ProcessorMap::iterator itr = mProcessors.begin();
 		    for(; itr != mProcessors.end(); ++itr)
 		    {
 			    delete itr->second;
