@@ -5,7 +5,7 @@
 		<property name="classid" type="STRING" data="door"/>
 		<property name="baseclass" type="STRING" data="Door"/>
 		<property name="description" type="STRING" data="Eine Tür"/>
-		<property name="geometrytype" type="INT" data="1"/>
+		<property name="geometrytype" type="INT" data="5"/>
 		<property name="meshfile" type="STRING" data="arc_tuer_01.mesh"/>
 		<property name="sound" type="STRING" data="doorcreak.ogg"/>
 		<property name="open" type="BOOL" data="false"/>
