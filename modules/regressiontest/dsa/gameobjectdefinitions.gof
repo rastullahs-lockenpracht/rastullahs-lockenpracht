@@ -54,4 +54,11 @@
         <property name="meshfile" type="STRING" data="ins_rucksack.mesh"/>
     </gameobjectclass>
 
+    <gameobjectclass>
+        <property name="classid" type="STRING" data="ErrorHandling"/>
+        <property name="baseclass" type="STRING" data="GameObject" />
+        <property name="description" type="STRING" data="The ErrorHandling TestCase"/>
+        <property name="meshfile" type="STRING" data="arc_hebel_01.mesh"/>
+    </gameobjectclass>
+
 </GameObjectDefinitions>
