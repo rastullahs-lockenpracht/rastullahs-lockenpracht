@@ -12,3 +12,12 @@ def PlaySound3d(sound, pos, volume=1.0)
     $JS.addJob(job)
 end
 
+def _PlaySound2d(sound, volume=1.0)
+    PlaySound2dJob.new(sound, volume)
+end
+
+# Play a 3d sound at position pos
+def _PlaySound3d(sound, pos, volume=1.0)
+    PlaySound3dJob.new(sound, pos, volume)
+end
+

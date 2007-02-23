@@ -61,4 +61,13 @@
         <property name="meshfile" type="STRING" data="arc_hebel_01.mesh"/>
     </gameobjectclass>
 
+    <!-- JobSequenceTest -->
+    <gameobjectclass>
+        <property name="classid" type="STRING" data="JobSequenceTestChest"/>
+        <property name="baseclass" type="STRING" data="GameObject" />
+        <property name="description" type="STRING" data="Eine Truhe zum Test der JobSequence"/>
+        <property name="meshfile" type="STRING" data="ver_truhe_gross01.mesh"/>
+        <property name="geometrytype" type="INT" data="0"/> <!-- GT_BOX -->
+    </gameobjectclass>
+
 </GameObjectDefinitions>

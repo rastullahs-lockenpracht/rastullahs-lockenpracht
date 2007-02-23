@@ -9,6 +9,7 @@ require 'NpcTest.rb'
 require 'TimeTest.rb'
 require 'InventoryTest.rb'
 require 'ErrorHandlingTest.rb'
+require 'JobSequenceTest.rb'
 
 # Physik aktivieren
 $PM.setEnabled(true)
@@ -38,5 +39,5 @@ NpcTest.new([-5, 0, 5])
 TimeTest.new([-5, 0, -5])
 ErrorHandlingTest.new([-10, 0, 5])
 InventoryTest.new([0, 0, 10])
-
+JobSequenceTest.new([5, 0, -5])
 $SCRIPT.log("tests initialisiert.");

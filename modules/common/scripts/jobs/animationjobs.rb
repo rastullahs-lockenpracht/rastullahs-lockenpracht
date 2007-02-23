@@ -5,3 +5,7 @@ def PlayAnimation(actor, anim, doloop=false, replace=true)
     $JS.addJob(job)
 end
 
+def _PlayAnimation(actor, anim, doloop=false, replace=true)
+    PlayAnimationJob.new(actor, anim, doloop, replace)
+end
+
