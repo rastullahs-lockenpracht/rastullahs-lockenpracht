@@ -122,7 +122,7 @@ namespace rl
                     notDone.push_back(entry);
                 }
             }
-            else if (!(clock < entry.end))
+            else if (clock < entry.end)
             {
                 // Start time not yet reached. Queue again.
                 notDone.push_back(entry);

@@ -749,8 +749,11 @@ public:
 class JobScheduler
 {
 public:
+    typedef enum {JP_LOW = 10, JP_NORMAL = 20, JP_HIGH = 30} JobPriority;
 	static JobScheduler& getSingleton(void);
-    unsigned long addJob(rl::Job* job);
+    unsigned long addJob(rl::Job* job,
+		rl::JobScheduler::JobPriority priority = JobScheduler::JP_NORMAL,
+		Ogre::Real delay=0.0f);
 };
 
 }
