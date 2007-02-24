@@ -48,7 +48,7 @@ namespace rl {
                 }
             }
             mMovableObject = entity;
-            mSize = calculateSize();
+            mSize = calculateDefaultSize();
         }
     }
 
@@ -75,12 +75,14 @@ namespace rl {
 		if (it == mPoseSizes.end())
 		{
 			// Not yet calculated. Do so now and save.
-            // Duplicating the MeshObject, the restrictions of the 
-            // calculateSizeFromPose-method don't matter any more!
-            MeshObject tempMesh("tempMesh_getPoseSize", getEntity()->getMesh()->getName());
-            AxisAlignedBox rval = tempMesh.calculateSizeFromPose(animationName);
+            // Duplicating the MeshObject, the restrictions of
+            // calculateSize (animation not possible) don't matter any more
+            MeshObject* tempMesh = createPosedCopy(animationName);
+            AxisAlignedBox rval = tempMesh->calculateSize();
 			mPoseSizes.insert(make_pair(animationName, rval));
-            // Does the tempMesh need to be removed explicitly?
+
+			delete tempMesh;
+
 			return rval;
 		}
 		else
@@ -202,7 +204,7 @@ namespace rl {
         }
     }
 
-    AxisAlignedBox MeshObject::calculateSize()
+    AxisAlignedBox MeshObject::calculateDefaultSize()
     {
         const AxisAlignedBox& aabb = getEntity()->getBoundingBox();
         Vector3 x = aabb.getMaximum();
@@ -212,27 +214,30 @@ namespace rl {
         return rval;
     }
 
-    AxisAlignedBox MeshObject::calculateSizeFromPose(const String& animationName)
+	MeshObject *MeshObject::createPosedCopy(const String& animName)
 	{
 		Entity* entity = getEntity();
+		MeshObject *newMesh = NULL;
 		AnimationStateSet* ass = entity->getAllAnimationStates();
 
 		// Test if wanted anim is available for the entity
-		if (!ass->hasAnimationState(animationName))
+		if (!ass->hasAnimationState(animName))
 		{
-			Throw(IllegalArgumentException, String("No animation " + animationName +
+			Throw(IllegalArgumentException, String("No animation " + animName +
 				" for entity " + entity->getName()));
 		}
 
-		// Save current animation state set. We don't want to interfere with the visible anim.
-		AnimationStateSet* saveAss = new AnimationStateSet(*ass);
+		// Duplicating the MeshObject, so that the restrictions of animations don't apply
+        newMesh = new MeshObject("tempMesh_getPoseSize", getEntity()->getMesh()->getName());
+		entity = newMesh->getEntity();
+		ass = entity->getAllAnimationStates();
 
 		// Deactivate all anims, save the wanted one.
 		AnimationStateIterator it = ass->getAnimationStateIterator();
 		while (it.hasMoreElements())
 		{
 			AnimationState* as = it.peekNextValue();
-            if (as->getAnimationName() == animationName)
+            if (as->getAnimationName() == animName)
             {
 			    as->setEnabled(true);
                 as->setTimePosition(0.0f);
@@ -252,7 +257,14 @@ namespace rl {
 		entity->addSoftwareAnimationRequest(false);
 		entity->_updateAnimation();
 
-        AxisAlignedBox aabb;
+		return newMesh;
+	}
+
+	AxisAlignedBox MeshObject::calculateSize()
+	{
+		Entity* entity = getEntity();
+		AxisAlignedBox aabb;
+
         if (entity->getMesh()->sharedVertexData)
         {
 		    aabb.merge(getAabbFromVertexData(entity->_getSkelAnimVertexData()));
@@ -266,11 +278,6 @@ namespace rl {
             }
 		}
 
-		entity->removeSoftwareAnimationRequest(false);
-        // Restore animation states
-        saveAss->copyMatchingState(ass);
-		entity->_updateAnimation();
-        delete saveAss;
 		return aabb;
 	}
 

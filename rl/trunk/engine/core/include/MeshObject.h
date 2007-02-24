@@ -81,6 +81,10 @@ namespace rl {
         void setCastShadows (bool enabled);
         bool getCastShadows (void) const;
 
+		/** creates a mesh animated to the specified pose.
+		 * @param animName name of the animation to be posed at.
+		 */
+		MeshObject *createPosedCopy(const Ogre::String& animName);
 
 		const Ogre::String &getMeshName();
 
@@ -99,8 +103,15 @@ namespace rl {
         typedef std::map<Ogre::String, Ogre::AxisAlignedBox> PoseMap;
 		PoseMap mPoseSizes;
 
+		/** calculates the default size stored in mSize.
+		 * This is the size of the mesh in it's default position.
+		 */
+		Ogre::AxisAlignedBox calculateDefaultSize(void);
+		/** calculates the size from vertices of the mesh.
+		 * This takes animation into account and therefore calculates
+		 * a size Box for the currently active animation.
+		 */
 		Ogre::AxisAlignedBox calculateSize();
-        Ogre::AxisAlignedBox calculateSizeFromPose(const Ogre::String& animationName);
 		Ogre::AxisAlignedBox getAabbFromVertexData(Ogre::VertexData*);
     };
 }

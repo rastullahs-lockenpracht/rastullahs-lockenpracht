@@ -124,7 +124,8 @@ namespace rl {
 		void setBody(OgreNewt::Body* body);
 		OgreNewt::CollisionPtr createCollision(
 			const AxisAlignedBox& aabb, Vector3* offset = NULL, 
-			Quaternion* orientation = NULL, Vector3* inertiaCoefficients = NULL) const;
+			Quaternion* orientation = NULL, Vector3* inertiaCoefficients = NULL, 
+			const String animName = "") const;
 	};
 }
 

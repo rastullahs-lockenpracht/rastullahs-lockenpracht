@@ -335,15 +335,19 @@ namespace rl
             if (it == mPoseCollisions.end())
             {
                 // No, so create it and put it into the map
-                coll = createCollision(size, &offset, &orientationBias);
+                coll = createCollision(size, &offset, &orientationBias, NULL, name);
                 mPoseCollisions.insert(make_pair(name, coll));
             }
             else
             {
                 // Yes
                 coll = it->second;
-                offset = size.getCenter();
-                orientationBias = Quaternion::IDENTITY;
+				// natoka: i know this is ugly ... but CONVEXHULL has got a zero offset (see createCollision)
+				if (mGeometryType == PhysicsManager::GT_CONVEXHULL)
+					offset = Vector3::ZERO;
+				else
+					offset = size.getCenter();
+				orientationBias = Quaternion::IDENTITY;
             }
             setOffset(offset);
             mBody->setCollision(coll);
@@ -361,7 +365,7 @@ namespace rl
 
 	OgreNewt::CollisionPtr PhysicalThing::createCollision(
 		const AxisAlignedBox& aabb, Vector3* offset, 
-		Quaternion* orientation, Vector3* inertiaCoefficients) const
+		Quaternion* orientation, Vector3* inertiaCoefficients, const String animName) const
     {
 		const Vector3 size = aabb.getMaximum() - aabb.getMinimum();
 
@@ -448,7 +452,8 @@ namespace rl
             if (mPhysicalObject->isMeshObject())
             {
 				Entity* entity = dynamic_cast<MeshObject*>(mPhysicalObject)->getEntity();
-
+				MeshObject *tempMesh = NULL;
+				
 				if( size.x < PhysicsManager::NEWTON_GRID_WIDTH ||
 					size.y < PhysicsManager::NEWTON_GRID_WIDTH ||
 					size.z < PhysicsManager::NEWTON_GRID_WIDTH )
@@ -467,10 +472,28 @@ namespace rl
 				}
 				else
 				{
-					
+					// the problem fixed and it's source:
+					// entity is a MeshObject containing the basic state of the Mesh, but
+					// this function should create the physical bounding convex hull for one of the
+					// animated states. Therefore the convex hull must be created from a mesh
+					// representing the animated state and not from a mesh containing the basic state
+
+					// check if this is a 'animated' state we have to create the convex hull for ...
+
+					if (animName != "") {
+						// Duplicating the MeshObject and animate it into the animName pose
+						tempMesh = dynamic_cast<MeshObject*>(mPhysicalObject)->createPosedCopy(animName);
+
+						entity = tempMesh->getEntity();
+					}
+
+					// calculate the convex hull of the animated mesh
 					rval = CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(physWorld,
 						entity, true));
 
+					// cleanup the temporary mesh
+					delete tempMesh;
+										
 					if (offset != NULL)
 					{
 						*offset = Vector3::ZERO;
