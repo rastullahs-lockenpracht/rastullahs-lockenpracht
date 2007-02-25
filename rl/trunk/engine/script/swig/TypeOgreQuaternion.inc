@@ -84,13 +84,13 @@
    {
 	   Quaternion rotX, rotY, rotZ;
         rotX.FromAngleAxis(
-			Ogre::Degree(NUM2DBL(rb_ary_entry(argv[1], 0))), 
+			Ogre::Degree(NUM2DBL(rb_ary_entry($input, 0))), 
 			Ogre::Vector3::UNIT_X);
         rotY.FromAngleAxis(
-			Ogre::Degree(NUM2DBL(rb_ary_entry(argv[1], 1))), 
+			Ogre::Degree(NUM2DBL(rb_ary_entry($input, 1))), 
 			Ogre::Vector3::UNIT_Y);
         rotZ.FromAngleAxis(
-			Ogre::Degree(NUM2DBL(rb_ary_entry(argv[1], 2))), 
+			Ogre::Degree(NUM2DBL(rb_ary_entry($input, 2))), 
 			Ogre::Vector3::UNIT_Z);
 	   
 	   quat = rotX * rotY * rotZ;
@@ -126,13 +126,13 @@
    {
 	   Quaternion rotX, rotY, rotZ;
         rotX.FromAngleAxis(
-			Ogre::Degree(NUM2DBL(rb_ary_entry(argv[1], 0))), 
+			Ogre::Degree(NUM2DBL(rb_ary_entry($input, 0))), 
 			Ogre::Vector3::UNIT_X);
         rotY.FromAngleAxis(
-			Ogre::Degree(NUM2DBL(rb_ary_entry(argv[1], 1))), 
+			Ogre::Degree(NUM2DBL(rb_ary_entry($input, 1))), 
 			Ogre::Vector3::UNIT_Y);
         rotZ.FromAngleAxis(
-			Ogre::Degree(NUM2DBL(rb_ary_entry(argv[1], 2))), 
+			Ogre::Degree(NUM2DBL(rb_ary_entry($input, 2))), 
 			Ogre::Vector3::UNIT_Z);
 	   
 	   *quat = rotX * rotY * rotZ;
