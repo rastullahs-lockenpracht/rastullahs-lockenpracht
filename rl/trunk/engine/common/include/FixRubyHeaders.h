@@ -30,6 +30,7 @@
 #undef sleep
 #undef strcasecmp
 #undef rename
+#undef write
 #ifdef HAVE_CONFIG_H
     #undef PACKAGE_VERSION
     #undef PACKAGE_STRING

@@ -365,4 +365,21 @@ namespace rl
 
         return NAME;
     }
+
+	PhysicsManager::GeometryType PhysicsManager::convertStringToGeometryType(const Ogre::String& geomTypeString)
+	{
+		if (geomTypeString == "box")
+			return GT_BOX;
+		if (geomTypeString == "sphere")
+			return GT_SPHERE;
+		if (geomTypeString == "capsule")
+			return GT_CAPSULE;
+		if (geomTypeString == "mesh")
+			return GT_MESH;
+		if (geomTypeString == "ellipsoid")
+			return GT_ELLIPSOID;
+		if (geomTypeString == "convexhull")
+			return GT_CONVEXHULL;
+		return GT_NONE;
+	}
 }

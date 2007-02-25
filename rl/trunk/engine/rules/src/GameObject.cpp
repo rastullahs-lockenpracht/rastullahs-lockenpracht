@@ -420,7 +420,7 @@ namespace rl
             }
             else if (key == PROPERTY_GEOMETRY_TYPE)
             {
-                setGeometryType(static_cast<PhysicsManager::GeometryType>(value.toInt()));
+				setGeometryType(PhysicsManager::convertStringToGeometryType(value.toString().c_str()));			
             }
             else if (key == PROPERTY_MASS)
             {

@@ -170,6 +170,8 @@ namespace rl {
         {
             return mMaxTimestep;
         }
+		static GeometryType convertStringToGeometryType(const Ogre::String& geomTypeString);
+
     private:
         typedef std::map<PhysicalThing*, PhysicsController*> ControllerMap;
 
