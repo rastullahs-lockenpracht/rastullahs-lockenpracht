@@ -11,7 +11,7 @@
     <property name="description" type="STRING" data="Wolfram"/>
     <property name="meshfile" type="STRING" data="men_grim.mesh"/>
     <property name="mass" type="REAL" data="75"/>
-    <property name="geometrytype" type="INT" data="4"/>
+    <property name="geometrytype" type="STRING" data="ellipsoid"/>
     <property name="position" type="VECTOR3" data="-20.99, -6.5, 1.55"/>
     <property name="orientation" type="QUATERNION" data="0.0, 180.0, 0.0"/>
     <property name="dialogfile" type="STRING" data="wolfram.xml"/>
@@ -28,7 +28,7 @@
     <property name="description" type="STRING" data="Sonja"/>
     <property name="meshfile" type="STRING" data="men_sonja.mesh"/>
     <property name="mass" type="REAL" data="75"/>
-    <property name="geometrytype" type="INT" data="4"/>
+    <property name="geometrytype" type="STRING" data="ellipsoid"/>
     <property name="position" type="VECTOR3" data="-32.40, -6.46, 4.03"/>
     <property name="orientation" type="QUATERNION" data="0.0, 120.94, 0.0"/>
     <property name="dialogfile" type="STRING" data="sonja.xml"/>
@@ -45,7 +45,7 @@
     <property name="description" type="STRING" data="Sonja"/>
     <property name="meshfile" type="STRING" data="men_sonja.mesh"/>
     <property name="mass" type="REAL" data="0"/>
-    <property name="geometrytype" type="INT" data="1"/>
+    <property name="geometrytype" type="STRING" data="sphere"/>
     <property name="position" type="VECTOR3" data="2.70, -37.79, -23.48"/>
     <property name="orientation" type="QUATERNION" data="0.0, 120.94, 0.0"/>
     <property name="dialogfile" type="STRING" data="sonja2.xml"/>
@@ -62,7 +62,7 @@
     <property name="description" type="STRING" data="Jarn"/>
     <property name="meshfile" type="STRING" data="men_gennisch2.mesh"/>
     <property name="mass" type="REAL" data="75"/>
-    <property name="geometrytype" type="INT" data="4"/>
+    <property name="geometrytype" type="STRING" data="ellipsoid"/>
     <property name="position" type="VECTOR3" data="-36.16, -6.25, 18.12"/>
     <property name="orientation" type="QUATERNION" data="0.0, -23.40, 0.0"/>
     <property name="dialogfile" type="STRING" data="jarn.xml"/>
@@ -79,7 +79,7 @@
     <property name="description" type="STRING" data="Tsafried"/>
     <property name="meshfile" type="STRING" data="men_gennisch2.mesh"/>
     <property name="mass" type="REAL" data="75"/>
-    <property name="geometrytype" type="INT" data="1"/>
+    <property name="geometrytype" type="STRING" data="sphere"/>
     <property name="position" type="VECTOR3" data="11.46, -8.88, 39.43"/>
     <property name="orientation" type="QUATERNION" data="0.0, 50.0, 0.0"/>
     <property name="dialogfile" type="STRING" data="wolfram.xml"/>
@@ -96,7 +96,7 @@
     <property name="description" type="STRING" data="Forrest"/>
     <property name="meshfile" type="STRING" data="men_Gennisch.mesh"/>
     <property name="mass" type="REAL" data="75"/>
-    <property name="geometrytype" type="INT" data="1"/>
+    <property name="geometrytype" type="STRING" data="sphere"/>
     <property name="position" type="VECTOR3" data="-20.83, -6.70, 19.46"/>
     <property name="dialogfile" type="STRING" data="forrest.xml"/>
     <property name="behaviours" type="ARRAY">
@@ -113,7 +113,7 @@
     <property name="description" type="STRING" data="Alter Mann"/>
     <property name="meshfile" type="STRING" data="men_druide.mesh"/>
     <property name="mass" type="REAL" data="0"/>
-    <property name="geometrytype" type="INT" data="1"/>
+    <property name="geometrytype" type="STRING" data="sphere"/>
     <property name="position" type="VECTOR3" data="21.78, -35.28, -264.45"/>
     <property name="orientation" type="QUATERNION" data="0.0, 90.0, 0.0"/>
     <property name="dialogfile" type="STRING" data="druide51.xml"/>
@@ -126,7 +126,7 @@
     <property name="description" type="STRING" data="Alter Mann"/>
     <property name="meshfile" type="STRING" data="men_druide.mesh"/>
     <property name="mass" type="REAL" data="0"/>
-    <property name="geometrytype" type="INT" data="1"/>
+    <property name="geometrytype" type="STRING" data="sphere"/>
     <property name="position" type="VECTOR3" data="24.53, -47.45, -260.33"/>
     <property name="orientation" type="QUATERNION" data="90.0, 0.0, 0.0"/>
     <property name="dialogfile" type="STRING" data="druide52.xml"/>
@@ -140,7 +140,7 @@
     <property name="description_dead" type="STRING" data="Ein sehr toter Wolf"/>
     <property name="meshfile" type="STRING" data="tie_wolf_01.mesh"/>
     <property name="mass" type="REAL" data="0"/>
-    <property name="geometrytype" type="INT" data="1"/>
+    <property name="geometrytype" type="STRING" data="sphere"/>
     <property name="behaviours" type="ARRAY">
     	<property type="STRING" data="default_idle_behaviour"/>
     	<property type="STRING" data="avoid_obstacles_behaviour"/>
@@ -154,7 +154,7 @@
     <property name="description" type="STRING" data="Wolframs Tür"/>
     <property name="meshfile" type="STRING" data="arc_door_02.mesh"/>
     <property name="mass" type="REAL" data="0"/>
-    <property name="geometrytype" type="INT" data="1"/>
+    <property name="geometrytype" type="STRING" data="sphere"/>
     <property name="position" type="VECTOR3" data="-20.8134, -6.61745, 1.91752"/>
     <property name="orientation" type="QUATERNION" data="0, 13, 0"/>
   </gameobjectclass>
@@ -166,7 +166,7 @@
     <property name="description" type="STRING" data="Ein Bauer. Er ist im Gespräch vertieft und lässt sich nicht stören."/>
     <property name="meshfile" type="STRING" data="men_Gennisch.mesh"/>
     <property name="mass" type="REAL" data="0"/>
-    <property name="geometrytype" type="INT" data="4"/>
+    <property name="geometrytype" type="STRING" data="ellipsoid"/>
     <property name="position" type="VECTOR3" data="-27.10, -6.5, -0.32"/>
   </gameobjectclass>
   

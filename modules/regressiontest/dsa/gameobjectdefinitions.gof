@@ -13,7 +13,7 @@
         <property name="baseclass" type="STRING" data="GameObject" />
         <property name="description" type="STRING" data="Ein Apfel?"/>
         <property name="meshfile" type="STRING" data="sphere.1m.mesh"/>
-        <property name="geometrytype" type="INT" data="4"/>
+        <property name="geometrytype" type="STRING" data="ellipsoid"/>
         <property name="mass" type="REAL" data="65"/>
     </gameobjectclass>
 
@@ -22,7 +22,7 @@
         <property name="baseclass" type="STRING" data="NPC"/>
         <property name="name" type="STRING" data="TestPerson"/>
         <property name="description" type="STRING" data="Wenn man mal jemanden zum Reden braucht..."/>
-        <property name="geometrytype" type="INT" data="4"/>
+        <property name="geometrytype" type="STRING" data="ellipsoid"/>
         <property name="meshfile" type="STRING" data="men_alrike.mesh"/>
         <property name="mass" type="REAL" data="65"/>
         <property name="dialogfile" type="STRING" data="testperson.xml"/>
@@ -37,7 +37,7 @@
         <property name="baseclass" type="STRING" data="Switch3Way"/>
         <property name="description" type="STRING" data="Ein Hebel"/>
         <property name="meshfile" type="STRING" data="arc_hebel_01.mesh"/>
-        <property name="geometrytype" type="INT" data="1"/>
+        <property name="geometrytype" type="STRING" data="sphere"/>
     </gameobjectclass>
 
     <gameobjectclass>
@@ -67,7 +67,7 @@
         <property name="baseclass" type="STRING" data="GameObject" />
         <property name="description" type="STRING" data="Eine Truhe zum Test der JobSequence"/>
         <property name="meshfile" type="STRING" data="ver_truhe_gross01.mesh"/>
-        <property name="geometrytype" type="INT" data="0"/> <!-- GT_BOX -->
+        <property name="geometrytype" type="STRING" data="box"/>
     </gameobjectclass>
 
 </GameObjectDefinitions>
