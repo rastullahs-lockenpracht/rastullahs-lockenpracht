@@ -342,7 +342,7 @@ namespace rl
             {
                 // Yes
                 coll = it->second;
-				// natoka: i know this is ugly ... but CONVEXHULL has got a zero offset (see createCollision)
+				// CONVEXHULL has got a zero offset (see createCollision)
 				if (mGeometryType == PhysicsManager::GT_CONVEXHULL)
 					offset = Vector3::ZERO;
 				else
