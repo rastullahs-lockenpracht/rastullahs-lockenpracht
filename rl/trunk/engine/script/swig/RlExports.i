@@ -42,13 +42,13 @@ void RL_RubyRemoveTracking(void* ptr)
 %}
 
 
-%include "RlCommon.head.inc"
-%include "RlUi.head.inc"
-%include "RlCore.head.inc"
-%include "RlRules.head.inc"
-%include "RlDialog.head.inc"
-%include "RlAi.head.inc"
-%include "RlScript.head.inc"
+%include "RlCommon.head.swig"
+%include "RlUi.head.swig"
+%include "RlCore.head.swig"
+%include "RlRules.head.swig"
+%include "RlDialog.head.swig"
+%include "RlAi.head.swig"
+%include "RlScript.head.swig"
 
 
 
@@ -215,11 +215,11 @@ namespace Swig {
 	}
 } 
 
-%include "RlCommon.inc"
-%include "RlCore.inc"
-%include "RlRules.inc"
-%include "RlDialog.inc"
-%include "RlUi.inc"
-%include "RlAi.inc"
-%include "RlScript.inc"
+%include "RlCommon.swig"
+%include "RlCore.swig"
+%include "RlRules.swig"
+%include "RlDialog.swig"
+%include "RlUi.swig"
+%include "RlAi.swig"
+%include "RlScript.swig"
 

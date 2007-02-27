@@ -17,17 +17,17 @@
 #ifndef __RL_DYNAMICCAST_I__
 #define __RL_DYNAMICCAST_I__
 
-%include "TypeOgreColourValue.inc"
-%include "TypeOgreQuaternion.inc"
-%include "TypeOgreRadian.inc"
-%include "TypeOgreReal.inc"
-%include "TypeOgreString.inc"
-%include "TypeOgreStringVector.inc"
-%include "TypeOgreVector3.inc"
-%include "TypeRlCeGuiString.inc"
-%include "TypeRlCeGuiStringVector.inc"
-%include "TypeRlProperty.inc"
-%include "TypeRlTripelInt.inc"
-%include "TypeStdPairIntInt.inc"
+%include "TypeOgreColourValue.swig"
+%include "TypeOgreQuaternion.swig"
+%include "TypeOgreRadian.swig"
+%include "TypeOgreReal.swig"
+%include "TypeOgreString.swig"
+%include "TypeOgreStringVector.swig"
+%include "TypeOgreVector3.swig"
+%include "TypeRlCeGuiString.swig"
+%include "TypeRlCeGuiStringVector.swig"
+%include "TypeRlProperty.swig"
+%include "TypeRlTripelInt.swig"
+%include "TypeStdPairIntInt.swig"
 
 #endif
