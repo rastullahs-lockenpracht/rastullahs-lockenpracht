@@ -317,7 +317,7 @@
 						Name="VCCustomBuildTool"
 						Description="[SWIG] RubyWrapper erzeugen."
 						CommandLine="cd &quot;$(InputDir)&quot;&#x0D;&#x0A;&quot;$(ProjectDir)..\..\dependencies\swig\swig.exe&quot; -o &quot;$(InputDir)$(InputName)_wrap.cxx&quot; -c++ -ruby -minherit -v -Wall  &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(InputDir)TypeMaps.i&quot;;&quot;$(InputDir)RlCore.inc&quot;;&quot;$(InputDir)RlDialog.inc&quot;;&quot;$(InputDir)RlCommon.inc&quot;;&quot;$(InputDir)RlRules.inc&quot;;&quot;$(InputDir)RlScript.inc&quot;;&quot;$(InputDir)RlSound.inc&quot;;&quot;$(InputDir)RlUi.inc&quot;;&quot;$(InputDir)RlAi.inc&quot;"
+						AdditionalDependencies="&quot;$(InputDir)TypeMaps.i&quot;;&quot;$(InputDir)RlCore.swig&quot;;&quot;$(InputDir)RlDialog.swig&quot;;&quot;$(InputDir)RlCommon.swig&quot;;&quot;$(InputDir)RlRules.swig&quot;;&quot;$(InputDir)RlScript.swig&quot;;&quot;$(InputDir)RlSound.swig&quot;;&quot;$(InputDir)RlUi.swig&quot;;&quot;$(InputDir)RlAi.swig&quot;"
 						Outputs="&quot;$(InputDir)$(InputName)_wrap.cxx&quot;"
 					/>
 				</FileConfiguration>
@@ -328,7 +328,7 @@
 						Name="VCCustomBuildTool"
 						Description="[SWIG] RubyWrapper erzeugen."
 						CommandLine="cd &quot;$(InputDir)&quot;&#x0D;&#x0A;&quot;$(ProjectDir)..\..\dependencies\swig\swig.exe&quot; -o &quot;$(InputDir)$(InputName)_wrap.cxx&quot; -c++ -ruby -minherit -v -Wall  &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(InputDir)TypeMaps.i&quot;;&quot;$(InputDir)RlCore.inc&quot;;&quot;$(InputDir)RlDialog.inc&quot;;&quot;$(InputDir)RlCommon.inc&quot;;&quot;$(InputDir)RlRules.inc&quot;;&quot;$(InputDir)RlScript.inc&quot;;&quot;$(InputDir)RlSound.inc&quot;;&quot;$(InputDir)RlUi.inc&quot;;&quot;$(InputDir)RlAi.inc&quot;"
+						AdditionalDependencies="&quot;$(InputDir)TypeMaps.i&quot;;&quot;$(InputDir)RlCore.swig&quot;;&quot;$(InputDir)RlDialog.swig&quot;;&quot;$(InputDir)RlCommon.swig&quot;;&quot;$(InputDir)RlRules.swig&quot;;&quot;$(InputDir)RlScript.swig&quot;;&quot;$(InputDir)RlSound.swig&quot;;&quot;$(InputDir)RlUi.swig&quot;;&quot;$(InputDir)RlAi.swig&quot;"
 						Outputs="&quot;$(InputDir)$(InputName)_wrap.cxx&quot;"
 					/>
 				</FileConfiguration>
@@ -339,7 +339,7 @@
 						Name="VCCustomBuildTool"
 						Description="[SWIG] RubyWrapper erzeugen."
 						CommandLine="cd &quot;$(InputDir)&quot;&#x0D;&#x0A;&quot;$(ProjectDir)..\..\dependencies\swig\swig.exe&quot; -o &quot;$(InputDir)$(InputName)_wrap.cxx&quot; -c++ -ruby -minherit -v -Wall  &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(InputDir)TypeMaps.i&quot;;&quot;$(InputDir)RlCore.inc&quot;;&quot;$(InputDir)RlDialog.inc&quot;;&quot;$(InputDir)RlCommon.inc&quot;;&quot;$(InputDir)RlRules.inc&quot;;&quot;$(InputDir)RlScript.inc&quot;;&quot;$(InputDir)RlSound.inc&quot;;&quot;$(InputDir)RlUi.inc&quot;;&quot;$(InputDir)RlAi.inc&quot;"
+						AdditionalDependencies="&quot;$(InputDir)TypeMaps.i&quot;;&quot;$(InputDir)RlCore.swig&quot;;&quot;$(InputDir)RlDialog.swig&quot;;&quot;$(InputDir)RlCommon.swig&quot;;&quot;$(InputDir)RlRules.swig&quot;;&quot;$(InputDir)RlScript.swig&quot;;&quot;$(InputDir)RlSound.swig&quot;;&quot;$(InputDir)RlUi.swig&quot;;&quot;$(InputDir)RlAi.swig&quot;"
 						Outputs="&quot;$(InputDir)$(InputName)_wrap.cxx&quot;"
 					/>
 				</FileConfiguration>
@@ -360,31 +360,31 @@
 				Name="include"
 				>
 				<File
-					RelativePath=".\swig\RlAi.head.inc"
+					RelativePath=".\swig\RlAi.head.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\RlCommon.head.inc"
+					RelativePath=".\swig\RlCommon.head.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\RlCore.head.inc"
+					RelativePath=".\swig\RlCore.head.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\RlDialog.head.inc"
+					RelativePath=".\swig\RlDialog.head.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\RlRules.head.inc"
+					RelativePath=".\swig\RlRules.head.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\RlScript.head.inc"
+					RelativePath=".\swig\RlScript.head.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\RlUi.head.inc"
+					RelativePath=".\swig\RlUi.head.swig"
 					>
 				</File>
 			</Filter>
@@ -392,31 +392,31 @@
 				Name="src"
 				>
 				<File
-					RelativePath=".\swig\RlAi.inc"
+					RelativePath=".\swig\RlAi.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\RlCommon.inc"
+					RelativePath=".\swig\RlCommon.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\RlCore.inc"
+					RelativePath=".\swig\RlCore.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\RlDialog.inc"
+					RelativePath=".\swig\RlDialog.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\RlRules.inc"
+					RelativePath=".\swig\RlRules.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\RlScript.inc"
+					RelativePath=".\swig\RlScript.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\RlUi.inc"
+					RelativePath=".\swig\RlUi.swig"
 					>
 				</File>
 			</Filter>
@@ -424,51 +424,51 @@
 				Name="types"
 				>
 				<File
-					RelativePath=".\swig\TypeOgreColourValue.inc"
+					RelativePath=".\swig\TypeOgreColourValue.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\TypeOgreQuaternion.inc"
+					RelativePath=".\swig\TypeOgreQuaternion.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\TypeOgreRadian.inc"
+					RelativePath=".\swig\TypeOgreRadian.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\TypeOgreReal.inc"
+					RelativePath=".\swig\TypeOgreReal.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\TypeOgreString.inc"
+					RelativePath=".\swig\TypeOgreString.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\TypeOgreStringVector.inc"
+					RelativePath=".\swig\TypeOgreStringVector.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\TypeOgreVector3.inc"
+					RelativePath=".\swig\TypeOgreVector3.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\TypeRlCeGuiString.inc"
+					RelativePath=".\swig\TypeRlCeGuiString.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\TypeRlCeGuiStringVector.inc"
+					RelativePath=".\swig\TypeRlCeGuiStringVector.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\TypeRlProperty.inc"
+					RelativePath=".\swig\TypeRlProperty.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\TypeRlTripelInt.inc"
+					RelativePath=".\swig\TypeRlTripelInt.swig"
 					>
 				</File>
 				<File
-					RelativePath=".\swig\TypeStdPairIntInt.inc"
+					RelativePath=".\swig\TypeStdPairIntInt.swig"
 					>
 				</File>
 			</Filter>
