@@ -21,6 +21,8 @@
  #include <OgreNewt_Body.h>
  #include <OgreNewt_Collision.h>
  
+using namespace Ogre;
+
 namespace rl {
     PhysicalObstacle::PhysicalObstacle(PhysicalThing *thing)
     {

@@ -22,6 +22,7 @@
 #include "PhysicalObject.h"
 #include "MathUtil.h"
 
+using namespace Ogre;
 using namespace OgreNewt;
 using namespace OgreNewt::CollisionPrimitives;
 
@@ -342,12 +343,20 @@ namespace rl
             {
                 // Yes
                 coll = it->second;
+
+				orientationBias = Quaternion::IDENTITY;
+
 				// CONVEXHULL has got a zero offset (see createCollision)
 				if (mGeometryType == PhysicsManager::GT_CONVEXHULL)
 					offset = Vector3::ZERO;
-				else
+				else if (mGeometryType == PhysicsManager::GT_CAPSULE) {
+					const Vector3 diff = size.getMaximum() - size.getMinimum();
+					offset = Vector3(-diff.y/2,0,0); //(-diff.y/2, 0, 0);
+					offset = Vector3::ZERO;
+					//orientationBias.FromAngleAxis(Degree(90), Vector3::UNIT_Y);
+				} else
 					offset = size.getCenter();
-				orientationBias = Quaternion::IDENTITY;
+				
             }
             setOffset(offset);
             mBody->setCollision(coll);
@@ -419,9 +428,11 @@ namespace rl
 			double height = size.y;
 			
 			Quaternion orientCaps;
-			orientCaps.FromAngleAxis(Degree(90), Vector3::UNIT_Z);
+			orientCaps.FromAngleAxis(Degree(90), Vector3::UNIT_Y);
 
-			Vector3 offsetCaps(-size.y/2, 0, 0);
+			//Vector3 offsetCaps (-size.y/2, 0, 0);
+			//Vector3 offsetCaps (-size.y/2, 0, 0);
+			Vector3 offsetCaps (0, 0, 0);
 
 			rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Capsule(
 						physWorld, 
@@ -433,7 +444,7 @@ namespace rl
 			//coll = CollisionPtr(new CollisionPrimitives::Capsule(mWorld, radius, size.y));
 			if (offset != NULL)
 			{
-				*offset = offsetCaps;
+				*offset = aabb.getCenter(); //offsetCaps;
 			}
 
 			if (orientation != NULL)

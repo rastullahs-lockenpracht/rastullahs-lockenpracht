@@ -34,7 +34,7 @@ namespace rl {
 		PhysicalThing(
 			PhysicsManager::GeometryType geomType,
 			PhysicalObject* po, 
-			Real mass, 
+			Ogre::Real mass, 
 			bool hullModifier = false);
 
         /// Klasse Polymorph machen, damit SWIG glücklich ist.
@@ -79,7 +79,7 @@ namespace rl {
         Ogre::Real getMass() const;
         void setMass(Ogre::Real mass);
 
-		void createPhysicsProxy(SceneNode* node);
+		void createPhysicsProxy(Ogre::SceneNode* node);
 
         /** Called to update the collision of the physical thing, in order to adapt
          *  to a new animation state.
@@ -122,10 +122,13 @@ namespace rl {
 		void setOrientationBias(const Ogre::Quaternion& orientation);
 		PhysicsManager::GeometryType getGeometryType() const;
 		void setBody(OgreNewt::Body* body);
+
+		/** creates a collision primitive for OgreNewt
+		*/
 		OgreNewt::CollisionPtr createCollision(
-			const AxisAlignedBox& aabb, Vector3* offset = NULL, 
-			Quaternion* orientation = NULL, Vector3* inertiaCoefficients = NULL, 
-			const String animName = "") const;
+			const Ogre::AxisAlignedBox& aabb, Ogre::Vector3* offset = NULL, 
+			Ogre::Quaternion* orientation = NULL, Ogre::Vector3* inertiaCoefficients = NULL, 
+			const Ogre::String animName = "") const;
 	};
 }
 

@@ -34,6 +34,8 @@
 #include "SoundObject.h"
 #include "World.h"
 
+using namespace Ogre;
+
 template<> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
 
 namespace rl {
