@@ -38,7 +38,7 @@ namespace rl {
 
 		virtual ControllerType getType() const;
 
-		void run(Real elapsedTime);
+		void run(Ogre::Real elapsedTime);
 
 		void toggleViewMode();
         void resetCamera();

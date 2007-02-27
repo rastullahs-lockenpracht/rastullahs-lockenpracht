@@ -45,6 +45,7 @@
 #include "UiSubsystem.h"
 #include "WindowFactory.h"
 
+using namespace Ogre;
 
 template<> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
 using namespace OIS;

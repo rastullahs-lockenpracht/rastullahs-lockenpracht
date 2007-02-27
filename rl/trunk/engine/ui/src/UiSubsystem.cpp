@@ -48,6 +48,7 @@
 #include <OgreCEGUIResourceProvider.h>
 
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
+using namespace Ogre;
 
 namespace rl {
     const char* UiSubsystem::CEGUI_ROOT = "RootWindow";

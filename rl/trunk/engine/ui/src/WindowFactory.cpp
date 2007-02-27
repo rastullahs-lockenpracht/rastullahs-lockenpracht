@@ -59,6 +59,7 @@
 template<> rl::WindowFactory* Ogre::Singleton<rl::WindowFactory>::ms_Singleton = 0;
 
 using namespace CEGUI;
+using namespace Ogre;
 
 namespace rl {
 

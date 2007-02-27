@@ -20,6 +20,7 @@
 #include "CameraObject.h"
 #include "CommandMapper.h"
 
+using namespace Ogre;
 
 namespace rl {
 
