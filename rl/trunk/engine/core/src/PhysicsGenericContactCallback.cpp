@@ -14,6 +14,8 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
+#include <OgreNewt_Prerequisites.h>
+
 #include "PhysicsGenericContactCallback.h"
 #include "Actor.h"
 #include "PhysicalThing.h"
