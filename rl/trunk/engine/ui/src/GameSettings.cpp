@@ -86,13 +86,16 @@ namespace rl
 
 	bool GameSettings::onApply()
 	{
+        return true;
 	}
 
 	bool GameSettings::onCancel()
 	{
+        return true;
 	}
 
 	bool GameSettings::onSoundDriverChanged()
 	{
+        return true;
 	}
 }

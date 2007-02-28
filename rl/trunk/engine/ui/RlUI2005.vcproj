@@ -362,6 +362,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\GameSettings.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\InputManager.h"
 				>
 			</File>
@@ -429,6 +433,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\ConfigComponent.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\Console.h"
 					>
 				</File>
@@ -489,6 +497,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\RenderSystemConfigComponent.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\SoundConfig.h"
 					>
 				</File>
@@ -524,6 +536,10 @@
 			</File>
 			<File
 				RelativePath=".\src\FreeFlightCharacterController.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\GameSettings.cpp"
 				>
 			</File>
 			<File
@@ -590,6 +606,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\ConfigComponent.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\Console.cpp"
 					>
 				</File>
@@ -647,6 +667,10 @@
 				</File>
 				<File
 					RelativePath=".\src\PlaylistWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\RenderSystemConfigComponent.cpp"
 					>
 				</File>
 				<File

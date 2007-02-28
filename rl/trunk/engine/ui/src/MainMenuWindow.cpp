@@ -133,6 +133,7 @@ namespace rl {
 	bool MainMenuWindow::handleSettings()
 	{
 		WindowFactory::getSingleton().showGameSettings();
+        return true;
 	}
 
 	void MainMenuWindow::setVisible(bool visible, bool destroyAfterHide)
