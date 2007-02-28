@@ -30,7 +30,7 @@ AC_TYPE_SIZE_T
 AC_FUNC_MEMCMP
 
 # Check for Ogre
-PKG_CHECK_MODULES(OGRE, OGRE >= 1.2.0)
+PKG_CHECK_MODULES(OGRE, OGRE >= 1.4.0)
 
 # Check for Newton header
 AC_CHECK_HEADERS(Newton.h, , AC_MSG_ERROR([Can't find Newton headers]))
