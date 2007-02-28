@@ -8,11 +8,11 @@
 
 	main header file.
 
-	current version:  0.06
+	current version:  0.10
 
-		Newton version: 1.5
+		Newton version: 1.53
 
-		Ogre version: Dagon branch
+		Ogre version: Eihort (1.4.x)
 
 */
 
@@ -38,7 +38,8 @@
 #include "OgreNewt_BodyIterator.h"
 #include "OgreNewt_Debugger.h"
 
-/*! \mainpage OgreNewt Library version 0.07
+
+/*! \mainpage OgreNewt Library version 0.10
 
 	\section into_sec Introduction
 
@@ -47,12 +48,21 @@
 	\section new New in this Version
 
 	New in this version!
+		- OgreNewt and it's demos are now fully compatible with Ogre 1.4.x (Eihort).
 		- moved callback system to much more OOP-friendly "fastdelegate" system.  callbacks can now be instance-specific member functions!
+		- Addition of script files for compiling under linux (Scons)
+		- slight modification to the ContactCallback class to allow access to Newton structures from the outside.
+
+	previous changes...
+		- some cosmetic changes to make the wrapper compile more easily under Linux and other non-windows platforms.
+		- updated to work with the release version of Ogre dagon (1.2)
+		- updated to work with version 1.53 of Newton
+		- raycast now has an optional pre-filter to ignore specific bodies from the raycast.
+		- various other clean-up!
+		- moved callback system to much more OOP-friendly "boost::function" system.  callbacks can now be instance-specific member functions!
 		- several other small fixes to project files, etc.
 		- automatic convex hull generation system added to supplementary ragdoll class (see demo08).
 		- documentation updated.
-
-	previous changes...
 		- updated to Newton version 1.5
 		- added this documentation!
 		- added buoyancy functionality.
@@ -82,11 +92,11 @@
 	- c:/programming/Ogre/ogrenew						<- ogre installation
 	- c:/programming/Ogre/ogreaddons/OgreNewt			<- OgreNewt main directory.
 	- c:/programming/NewtonSDK							<- Newton SDK.
-	- c:/programming/tinyxml							<- tinyxml library (for ragdoll demo only)
+	- c:/programming/tinyxml							<- tinyxml library (needed for ragdoll demo only)
 
 	\section compiling Compiling
 
-	OgreNewt compiles be default to a static library for linking to your project.  However you can also compile OgreNewt into a dynamic DLL on the 
+	OgreNewt compiles by default to a static library for linking to your project.  However you can also compile OgreNewt into a dynamic DLL on the 
 	Windows platform by using the Debug_DLL and Release_DLL solution build configurations in the MSVC solutions.
 
 	note that if you compile OgreNewt as a dynamic DLL and the default debugger, you will need to manually link to the Line3D.obj file by
@@ -105,3 +115,4 @@
 */
 
 #endif
+

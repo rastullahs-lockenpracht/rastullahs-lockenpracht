@@ -11,7 +11,6 @@ by Walaber
 #ifndef _INCLUDE_OGRENEWT_TREECOLLISIONSERIALIZER
 #define _INCLUDE_OGRENEWT_TREECOLLISIONSERIALIZER
 
-#include "OgreNewt_Prerequisites.h"
 #include <Newton.h>
 #include "OgreNewt_World.h"
 #include "OgreSerializer.h"

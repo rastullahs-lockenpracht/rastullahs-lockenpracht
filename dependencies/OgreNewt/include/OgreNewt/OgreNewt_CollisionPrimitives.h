@@ -11,7 +11,6 @@
 #ifndef _INCLUDE_OGRENEWT_COLLISIONPRIMITIVES
 #define _INCLUDE_OGRENEWT_COLLISIONPRIMITIVES
 
-#include <OgreNewt_Prerequisites.h>
 #include <Newton.h>
 #include "OgreNewt_World.h"
 #include "OgreNewt_Collision.h"
@@ -20,6 +19,7 @@
 // OgreNewt namespace.  all functions and classes use this namespace.
 namespace OgreNewt
 {
+
 	//! set of basic collision shapes
 	namespace CollisionPrimitives
 	{
@@ -170,8 +170,7 @@ namespace OgreNewt
 		public:
 			//! constructor
 			/*!
-				Overloaded constructor.  pass a SceneNode*, 
-                and it will use the vertex data from the first attached object.
+				Overloaded constructor.  pass an Ogre::Entity*, and it will use its vertex data.
 				\param world pointer to the OgreNewt::World
 				\param entity pointer to an Ogre::Entity, if this is attached to an node, then
 				              the node's scale is applied
@@ -215,21 +214,24 @@ namespace OgreNewt
 		class _OgreNewtExport TreeCollision : public OgreNewt::Collision
 		{
 		public:
-      //! constructor
-      /*!
-        Create a 'blank' tree collision object to be used with
-        TreeCollisionSerializer::importTreeCollision
-        \param world pointer to the OgreNewt::World
-      */
-      TreeCollision( const World* world);
+			//! constructor
+			/*!
+				Create a 'blank' tree collision object.
+				Can be used for manual TreeCollision creation,
+				or to be used with
+			       	TreeCollisionSerializer::importTreeCollision
+				\param world pointer to the OgreNewt::World
+			*/
+			TreeCollision( const World* world);
 
 			//! constructor
 			/*!
 				Create a tree collision object.
 				\param world pointer to the OgreNewt::World
-				\param entity pointer to an entity, if it is attached to a scenenode, then
-                              the node's scale is applied.
-                \param useTempBuffer determines whether to use the temporary blend buffer instead
+				\param entity pointer to an entity, if it is
+			       		      attached to a scenenode, then
+					      the node's scale is applied.
+				\param useTempBuffer determines whether to use the temporary blend buffer instead
                                      of the mesh's vertex data. This is useful when you want
                                      to create a collision from an intermediate animation state.
 				\param optimize bool whether you want to optimize the collision or not.
@@ -267,10 +269,63 @@ namespace OgreNewt
                 Ogre::IndexData* indexData, bool optimize);
 
 			//! destructor
-			~TreeCollision() {}
+			virtual ~TreeCollision() {}
 
-      friend void TreeCollisionSerializer::exportTreeCollision(const TreeCollision* collision, const Ogre::String& filename);
-      friend void TreeCollisionSerializer::importTreeCollision(Ogre::DataStreamPtr& stream, TreeCollision* pDest);
+			//! start a tree collision creation
+			void start();
+
+			//! add a poly to the tree collision
+			/*!
+				Add a single poly to the tree collision.
+				\param polys pointer to an array of 3 Vector3D objects representing the global position of each poly.
+				\param ID and identifier to assign to this poly, that can be retrieved later upon collision detection.
+			*/
+			void addPoly( Ogre::Vector3* polys, unsigned int ID );
+
+			//! finish the tree collision
+			void finish( bool optimize = true );
+
+
+			friend void TreeCollisionSerializer::exportTreeCollision(const TreeCollision* collision, const Ogre::String& filename);
+			friend void TreeCollisionSerializer::importTreeCollision(Ogre::DataStreamPtr& stream, TreeCollision* pDest);
+		};
+
+		////////////////////////////////////////////////////////
+		//! TreeCollision created by parsing a tree of SceneNodes, adding collision data of all meshes.
+		/*!
+			Users can inherit this class, and inherit the "getID" function to perform their own filtering on the
+			IDs to pass to Newton.  IDs are useful during collision callbacks to determine which part of the world
+			is being hit.
+
+			By default, the ID is set to an incrementing integer.
+		*/
+		class _OgreNewtExport TreeCollisionSceneParser : public TreeCollision
+		{
+		public:
+			TreeCollisionSceneParser( OgreNewt::World* world );
+
+			~TreeCollisionSceneParser() {}
+
+			//! parse the scene.
+			void parseScene( Ogre::SceneNode* startNode, bool optimize = false );
+
+		protected:
+
+			//! this is a user-inherited function that lets you filter which Entities will be added to the treeCollision.
+			/*!
+				return true to add this entity, return false to ignore it.
+			*/
+			virtual bool entityFilter( const Ogre::SceneNode* currentNode, const Ogre::Entity* currentEntity ) { return true; }
+
+			//! user inherit-able function, allows customization of the ID to be assigned to this group of polygons.
+			virtual unsigned int getID( const Ogre::SceneNode* currentNode, const Ogre::Entity* currentEntity, unsigned int currentSubMesh ) { return count++; }
+
+		private:
+			//! recursive function to parse a single scene node.
+			void _parseNode( Ogre::SceneNode* node, const Ogre::Quaternion& curOrient, const Ogre::Vector3& curPos );
+
+
+			static int count;
 		};
 
 		////////////////////////////////////////////////////////
@@ -320,17 +375,23 @@ namespace OgreNewt
 			~Pyramid() {}
 		};
 
-		//! Wraps another collision to let the user modify the hull via a world space scale matrix
+		//! Wraps a collision in order to make it scaleable.
+		/*!
+			It lets the user to modify the hull via a world space scale
+			matrix without changing the initial collision
+		*/
 		class _OgreNewtExport HullModifier: public OgreNewt::Collision
 		{
 		public:
-			HullModifier( World* world, CollisionPtr wrappedCollision );	// constructor
+			//! constructor
+			HullModifier( World* world, CollisionPtr wrappedCollision );
+			//! destructor
 			~HullModifier() {};
 
-			//! scale matrix in world space
+			//! Sets the scale matrix in world space (of Ogre)
 			void setMatrix(const Ogre::Matrix4& matrix);
 
-			//! scale matrix in world space
+			//! scale matrix in world space (of Ogre)
 			Ogre::Matrix4 getMatrix() const;
 		};	
 
@@ -339,3 +400,4 @@ namespace OgreNewt
 }// end namespace OgreNewt
 
 #endif	// _INCLUDE_OGRENEWT_COLLISIONPRIMITIVES
+

@@ -11,7 +11,6 @@
 #ifndef _INCLUDE_OGRENEWT_VEHICLE
 #define _INCLUDE_OGRENEWT_VEHICLE
 
-#include "OgreNewt_Prerequisites.h"
 #include <Newton.h>
 #include "OgreNewt_Body.h"
 #include "OgreNewt_Joint.h"
@@ -215,3 +214,4 @@ namespace OgreNewt
 
 
 #endif	// _INCLUDE_OGRENEWT_VEHICLE
+

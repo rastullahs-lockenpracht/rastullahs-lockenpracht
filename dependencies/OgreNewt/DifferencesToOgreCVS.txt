@@ -1,0 +1,194 @@
+This file partionally documents the differences between this svn repository and
+the Ogre addons cvs repository. Some pieces might be outdated, because they 
+have been merged, other pieces might not be mentioned. Therefore this is 
+essentially an overview and by no means complete.
+
+if you don't understand some parts, feel free to contact me
+
+So enjoy reading it,
+Natoka
+
+P.s. most of the #include Prerequisites have been removed in favour of a
+better approach (which means less files to parse for the compiler).
+
+OgreNewt.h:
+	comment changes
+	rl - #include Framelisterner ...
+
+OgreNewt_BasicJoints.h:
+	rl:
+	currently: missing a _OgreNewtExport for CustomRigidJoint
+	cvs: no include of prerequisites
+OgreNewt_BasicJoints.cpp:
+	rl:
+	cvs:
+	#include <Newton.h>
+	m_Accel bug (not initialized)
+
+OgreNewt_Body.h:
+	rl:
+	#include Prerequisites
+	fastdelegates
+	uses CollisionPtr
+	getOgreNode returns an Ogre::SceneNode
+						[fixed] natoka
+		returns an Ogre::Node now ...
+	getOffset()
+	setOffset()
+	getOrientation()
+	setOrientation()
+
+	cvs:
+	boost::function
+	getOgreNode returns an Ogre::Node (this is more generic)
+	autoactiveCallback();
+		auto activate / deactivate callback
+						[takeover] natoka
+						(uses fastdelegates in rl)
+OgreNewt_Body.cpp:
+	rl:
+
+	Callbacks have a if (m_callback != callback) m_callback = callback
+		reason - unknown ...
+	modified setPositionOrientation (to utilize offset/orientationbias)
+
+	cvs:
+	look above
+
+OgreNewt_BodyIterator.h:
+	rl:
+	cvs:
+	newline at end of file
+
+OgreNewt_Collision.h:
+	rl:
+	typedef of CollisionPtr
+	utilization of CollisionPtr to pass Collision objects
+OgreNewt_Collision.cpp:
+	rl:
+	uses CollisionPtr
+
+OgreNewt_CollisionPrimitives.h:
+	rl:
+	#include Prerequisites
+	indentation difference
+	ConvexHull constructor utilizes Ogre::Entity
+	
+	uses CollisionPtr
+	non virtual ~treecollision	[fixed] natoka
+	missing TreecollisionSceneParser [fixed] natoka
+	added better comments
+
+	cvs:
+	ConvexHull constructor utilizes Ogre::SceneNode
+	virtual ~treecollision
+OgreNewt_CollisionPrimitives.cpp:
+	rl:
+	
+	cvs:
+	start()			[takeover] (should be inlined)
+	addVertex()		[takeover] (should be inlined)
+	finalize()		[takeover] (should be inlined)
+	unsigned int in loops	[takeover] natoka
+	TreecollisionSceneParser[takeover] natoka
+
+OgreNewt_ContactCallback.h:
+	rl:
+	#include Prerequisites
+
+	cvs:
+	material and contact get functions for newton mat & contanct
+
+OgreNewt_Debugger.h:
+	rl:
+	destructor defined with code
+
+	cvs:
+	additional	deinit();
+OgreNewt_Debugger.h:
+	rl:
+
+	cvs:
+	indent				[takeover] natoka
+	destructor			[takeover] natoka
+	additional	deinit();	[takeover] natoka
+	uses detachAllObjects		[takeover] natoka
+		in showLines() and
+		hideLines()
+
+OgreNewt_Joint.h:
+	rl:
+	#include Prerequisites
+
+OgreNewt_MaterialID.h:
+	rl:
+	#include Prerequisites
+OgreNewt_MaterialID.cpp:
+	rl:
+	missing newline			[fixed] natoka
+
+OgreNewt_MaterialPair.h:
+	rl:
+	#include Prerequisites
+OgreNewt_MaterialPair.cpp:
+	newline at end
+
+OgreNewt_Prerequisites.h:
+	rl:
+	include <stddef.h>
+
+OgreNewt_RayCast.h:
+	rl:
+	BasicRaycastInfo() constructor in the header [fixed] natoka
+	BasicRaycastInfo() operator < in the header  [!!!!!]
+	virtual ~BasicRaycast()
+
+	cvs:
+	indent, newlines (empty)		[takeover] natoka
+	userPrefilteredCallback()		[takeover] natoka
+		user callback pre-filter function
+	newtonRaycastPrefilter()		[takeover] natoka
+	nonvirtual ~BasicRaycast()
+
+OgreNewt_Tools.h:
+	rl:
+	uses 'using namespace Ogre' 	(args)	[fixed]	natoka
+	utilizes CollisionPtr
+	CalcSphereHollor() renamed to CalcSphereHollow()	[fixed] natoka
+
+	cvs:
+OgreNewt_Tools.cpp:
+	rl:
+	CollisionPointDistance()
+		doesn't missuse globalpt parameter
+
+	cvs:
+	uses 'using namespace Ogre' within source (cleaner) [takeover] natoka
+	CollisionPointDistance()
+		globalpt parameter misused for calculation
+
+
+OgreNewt_TreeCollisionSerializer.h
+	rl:
+	#include Prerequisites
+OgreNewt_TreeCollisionSerializer.cpp
+	rl:
+	uses 'using namespae Ogre'
+
+	cvs:
+	explicitly uses Ogre:: everywere 	[takeover] natoka
+
+
+OgreNewt_Vehicle.h:
+	rl:
+	#include Prerequisites
+
+OgreNewt_World.h:
+	rl:
+	uses fastdelegates
+
+	cvs:
+	uses boost::function
+OgreNewt_World.cpp:
+	newline at file end
+	

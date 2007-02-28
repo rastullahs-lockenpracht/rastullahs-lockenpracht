@@ -11,7 +11,6 @@
 #ifndef _INCLUDE_OGRENEWT_BASICJOINTS
 #define _INCLUDE_OGRENEWT_BASICJOINTS
 
-#include "OgreNewt_Prerequisites.h"
 #include <Newton.h>
 #include "OgreNewt_World.h"
 #include "OgreNewt_Body.h"
@@ -470,7 +469,7 @@ namespace PrebuiltCustomJoints
 		This joint implements a fully fixed joint, which removes all DOF, creating a completely fixed connection between bodies.
 		This is probably the most expensive kind of joint, and should only be used when really needed.
 	*/
-	class CustomRigidJoint : public OgreNewt::CustomJoint
+	class _OgreNewtExport CustomRigidJoint : public OgreNewt::CustomJoint
 	{
 	public:
 		CustomRigidJoint( OgreNewt::Body* child, OgreNewt::Body* parent, Ogre::Vector3 dir, Ogre::Vector3 pos);

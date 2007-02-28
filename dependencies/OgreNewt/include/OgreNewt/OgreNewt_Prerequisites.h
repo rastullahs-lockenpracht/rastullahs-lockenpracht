@@ -25,9 +25,9 @@
 #       define _OgreNewtExport
 #   endif
 #else // Linux / Mac OSX etc
-#   include <stddef.h>
 #   define _OgreNewtExport
 #   define _CDECL
 #endif
 
 #endif 
+

@@ -33,7 +33,7 @@ namespace OgreNewt
 	{
 	
 	public:
-		~Debugger() {}
+		~Debugger();
 
 		//! get the singleton reference
 		static Debugger& getSingleton();
@@ -43,6 +43,9 @@ namespace OgreNewt
 			\param smgr pointer to your Ogre::SceneManager
 		*/
 		void init( Ogre::SceneManager* smgr );
+
+		//! de-init the debugger (cleantup)
+		void deInit();
 
 		//! show the newton world
 		/*!
@@ -69,3 +72,4 @@ namespace OgreNewt
 
 
 #endif	// _INCLUDE_OGRENEWT_DEBUGGER
+

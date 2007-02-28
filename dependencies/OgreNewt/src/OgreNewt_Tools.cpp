@@ -11,6 +11,7 @@ namespace OgreNewt
 	{
 		// this takes a matrix returned by Newton, and creates a Quaternion
 		// and position Vector3, which is more meaningful for Ogre.
+		using namespace Ogre;
 		quat = Quaternion( Matrix3(	matrix[0], matrix[4], matrix[8],
 						matrix[1], matrix[5], matrix[9],
 						matrix[2], matrix[6], matrix[10] ) );
@@ -23,6 +24,7 @@ namespace OgreNewt
 	{
 		// this takes a Quaternion and a Vector3 and creates a float array
 		// which is more meaningful to Newton.
+		using namespace Ogre;
 		Matrix3 rot;
 		Vector3 xcol, ycol, zcol;
 		
@@ -243,3 +245,4 @@ namespace OgreNewt
 
 
 }
+

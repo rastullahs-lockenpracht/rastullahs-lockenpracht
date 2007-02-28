@@ -11,7 +11,6 @@
 #ifndef _INCLUDE_OGRENEWT_MATERIALPAIR
 #define _INCLUDE_OGRENEWT_MATERIALPAIR
 
-#include "OgreNewt_Prerequisites.h"
 #include <Newton.h>
 #include "OgreNewt_World.h"
 #include "OgreNewt_ContactCallback.h"

@@ -16,9 +16,6 @@ Body::Body( const World* W, CollisionPtr col, int bodytype )
 	
 	m_userdata = NULL;
 
-	m_offset = Vector3::ZERO;
-	m_orientationBias = Quaternion::IDENTITY;
-
 	m_forcecallback = NULL;
 	m_transformcallback = NULL;
 	m_buoyancycallback = NULL;
@@ -83,6 +80,14 @@ void _CDECL Body::newtonForceTorqueCallback( const NewtonBody* body )
 		me->m_forcecallback( me );
 }
 
+void _CDECL Body::newtonAutoactiveCallback(const NewtonBody* body, unsigned state)
+{
+	OgreNewt::Body* me = (OgreNewt::Body*)NewtonBodyGetUserData( body );
+
+	if (me->m_autoactivecallback)
+		me->m_autoactivecallback( me, state );
+}
+
 void Body::standardForceCallback( OgreNewt::Body* me )
 {
 	//apply a simple gravity force.
@@ -100,8 +105,8 @@ void Body::standardForceCallback( OgreNewt::Body* me )
 
 void Body::standardTransformCallback( OgreNewt::Body* me, const Ogre::Quaternion& orient, const Ogre::Vector3& pos )
 {
-	me->m_node->setOrientation( me->m_orientationBias * orient);
-	me->m_node->setPosition( pos - orient*me->m_offset);
+	me->m_node->setOrientation( orient );
+	me->m_node->setPosition( pos );
 }
 
 
@@ -135,12 +140,9 @@ int _CDECL Body::newtonBuoyancyCallback(const int collisionID, void *context, co
 
 
 // attachToNode
-void Body::attachToNode(Ogre::SceneNode* node, const Vector3& offset,
-						const Quaternion& orientationBias)
+void Body::attachToNode( Ogre::Node* node )
 {
 	m_node = node;
-	m_offset = offset;
-	m_orientationBias = orientationBias;
 	if (m_body)
 	{
 		setCustomTransformCallback( &Body::standardTransformCallback );
@@ -158,8 +160,8 @@ void Body::setPositionOrientation( const Ogre::Vector3& pos, const Ogre::Quatern
 
 		if (m_node)
 		{
-			m_node->setOrientation(m_orientationBias * orient);
-			m_node->setPosition(pos - orient*m_offset);
+			m_node->setOrientation( orient );
+			m_node->setPosition( pos );
 		}
 	}
 }
@@ -175,8 +177,8 @@ void Body::setMass(Ogre::Real mass)
 {
 	if (m_body)
     {
-        Vector3 center = Vector3::ZERO;
-        Vector3 inertia = Vector3::ZERO;
+		Ogre::Vector3 center = Ogre::Vector3::ZERO;
+        Ogre::Vector3 inertia = Ogre::Vector3::ZERO;
         NewtonConvexCollisionCalculateInertialMatrix(m_collision->getNewtonCollision(),
             &inertia.x, &center.x);
         NewtonBodySetMassMatrix(m_body, (float)mass,
@@ -222,10 +224,26 @@ void Body::setCustomTransformCallback( TransformCallback callback )
 
 }
 
+// set callback for auto activate / deactivate
+void Body::setAutoactiveCallback ( autoactiveCallback callback ) 
+{
+	if (!m_autoactivecallback)
+	{
+		m_autoactivecallback = callback; 
+		NewtonBodySetAutoactiveCallback( m_body, newtonAutoactiveCallback );
+	}
+	else
+	{
+//		if (m_autoactivecallback != callback) // no need for this, setting it is quick and will not be called often, plus it keeps me from needing to include another file. :)
+			m_autoactivecallback = callback;
+	}
+}
+
 //set collision
 void Body::setCollision(CollisionPtr col)
 {
 	NewtonBodySetCollision( m_body, col->getNewtonCollision() );
+
 	m_collision = col;
 }
 
@@ -332,25 +350,6 @@ void Body::addLocalForce( const Ogre::Vector3& force, const Ogre::Vector3& pos )
 	addGlobalForce( globalforce, globalpoint );
 }
 
-Ogre::Vector3 Body::getOffset() const
-{
-    return m_offset;
-}
-
-void Body::setOffset(const Ogre::Vector3& offset)
-{
-    m_offset = offset;
-}
-
-Ogre::Quaternion Body::getOrientationBias() const
-{
-	return m_orientationBias;
-}
-
-void Body::setOrientationBias(const Ogre::Quaternion& orientationbias)
-{
-	m_orientationBias = orientationbias;
-}
 
 // --------------------------------------------------------------------------------------
 

@@ -17,7 +17,6 @@
 #define _INCLUDE_OGRENEWT_BODY
 
 
-#include "OgreNewt_Prerequisites.h"
 #include <Ogre.h>
 #include <Newton.h>
 #include "OgreNewt_World.h"
@@ -75,6 +74,13 @@ public:
 	typedef fastdelegate::FastDelegate5< int, OgreNewt::Body*, const Ogre::Quaternion&, const Ogre::Vector3&, Ogre::Plane&, bool > buoyancyPlaneCallback;
 
 
+	//! auto activate / deactivate callback
+    /*!
+		This function is called whenever Newton automatically activates or deactivates an object.  the unsigned int passed is to
+		inform you if the object is about to "fall asleep", or "wake up".
+	*/
+	typedef fastdelegate::FastDelegate2<OgreNewt::Body*, unsigned int> autoactiveCallback;
+
 	//! constructor.
 	/*!
 		creates a Rigid Body in an OgreNewt::World, based on a specific collision shape.
@@ -103,11 +109,11 @@ public:
 	*/
 	NewtonBody* getNewtonBody() const { return m_body; }
 
-	//! get a pointer to the attached SceneNode.
+	//! get a pointer to the attached Node.
 	/*!
-		if you have "attached" this body to an Ogre::SceneNode, this retrieves the node.
+		if you have "attached" this body to an Ogre::Node, this retrieves the node.
 	*/
-	Ogre::SceneNode* getOgreNode() const { return m_node; }
+	Ogre::Node* getOgreNode() const { return m_node; }
 
 	//! get a pointer to the OgreNewt::World this body belongs to.
 	const OgreNewt::World* getWorld() const { return m_world; }
@@ -122,16 +128,11 @@ public:
 	//! get the type set for this body.
 	int getType() const { return m_type; }
 
-	//! attach this body to an Ogre::SceneNode*
+	//! attach this body to an Ogre::Node*
 	/*!
-		This is an easy way to connect a Rigid Body with an Ogre::SceneNode.
-		This automatically sets up a standard Transform callback when you call this.
-		After calling this, the Ogre::SceneNode will have its position orientation updated
-		to that of the Rigid Body each time you call World::update(),
-		and the body has moved during the update.
+		This is an easy way to connect a Rigid Body with an Ogre::Node.  this automatically sets up a standard Transform callback when you call this.  after calling this, the Ogre::Node will have its position orientation updated to that of the Rigid Body each time you call World::update(), and the body has moved during the update.
 	*/
-	void attachToNode(Ogre::SceneNode* node, const Ogre::Vector3& offset = Ogre::Vector3::ZERO,
-		const Ogre::Quaternion& orientationBias = Ogre::Quaternion::IDENTITY);
+	void attachToNode( Ogre::Node* node );
 
 	//! set a standard gravity callback for this body to use.
 	/*!
@@ -156,12 +157,21 @@ public:
 
 	//! set a custom transform callback.
 	/*
-		sets a custom transform callback for the rigid body. see the docs on setCustomForceAndTorqueCallback for a description of how to use this funciton.
+		sets a custom transform callback for the rigid body. see the docs on setCustomForceAndTorqueCallback for a description of how to use this function.
 	*/
 	void setCustomTransformCallback( TransformCallback callback );
 
 	//! remove any transform callbacks.
 	void removeTransformCallback() { m_transformcallback = NULL; }
+
+	//! set a custom autoactivate callback for this body to use.
+    /*
+		This will be called whenever Newton automatically activates or deactivates an object.
+    */
+	void setAutoactiveCallback ( autoactiveCallback callback );
+
+    //! remove any autoactivate callbacks.
+    void removeAutoactiveCallback() { NewtonBodySetAutoactiveCallback( m_body, NULL );   m_autoactivecallback = NULL; }
 
 	//! position and orient the body arbitrarily.
 	/*!
@@ -375,11 +385,7 @@ public:
 	*/
 	void addLocalForce( const Ogre::Vector3& force, const Ogre::Vector3& pos );
 
-    Ogre::Vector3 getOffset() const;
-    void setOffset(const Ogre::Vector3& offset);
 
-	Ogre::Quaternion getOrientationBias() const;
-	void setOrientationBias(const Ogre::Quaternion& orientationbias);
 
  protected:
 
@@ -392,13 +398,12 @@ public:
 	void*				m_userdata;
 	
 	int					m_type;
-	Ogre::SceneNode*	m_node;
-	Ogre::Vector3       m_offset;
-	Ogre::Quaternion    m_orientationBias;
+	Ogre::Node*			m_node;
 
 	ForceCallback			m_forcecallback;
 	TransformCallback		m_transformcallback;
 	buoyancyPlaneCallback	m_buoyancycallback;
+	autoactiveCallback		m_autoactivecallback;
 
 private:
 
@@ -408,6 +413,8 @@ private:
 	static void _CDECL newtonForceTorqueCallback( const NewtonBody* body );
 
 	static int _CDECL newtonBuoyancyCallback( const int collisionID, void* context, const float* globalSpaceMatrix, float* globalSpacePlane );
+
+	static void _CDECL newtonAutoactiveCallback(const NewtonBody* body, unsigned state);
 
 	// standard gravity force callback.
 	static void standardForceCallback( Body* me );

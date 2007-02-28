@@ -10,9 +10,9 @@
 #ifndef _INCLUDE_OGRENEWT_WORLD
 #define _INCLUDE_OGRENEWT_WORLD
 
-#include "OgreNewt_Prerequisites.h"
 #include <Newton.h>
 #include <Ogre.h>
+#include "OgreNewt_Prerequisites.h"
 #include "OgreNewt_MaterialID.h"
 #include "FastDelegate.h"
 

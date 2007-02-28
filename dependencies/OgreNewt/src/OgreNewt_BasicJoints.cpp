@@ -1,3 +1,4 @@
+#include <Newton.h>
 #include <OgreNewt_BasicJoints.h>
 #include <OgreNewt_World.h>
 #include <OgreNewt_Body.h>
@@ -441,6 +442,7 @@ Custom2DJoint::Custom2DJoint(const OgreNewt::Body* body, const Ogre::Vector3& pi
 	// initialize variables
 	mMin = mMax = Ogre::Degree(0);
 	mLimitsOn = false;
+	mAccel = 0.0f;
 
 }
 

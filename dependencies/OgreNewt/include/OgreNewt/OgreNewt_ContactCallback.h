@@ -11,7 +11,6 @@
 #ifndef _INCLUDE_OGRENEWT_CONTACTCALLBACK
 #define _INCLUDE_OGRENEWT_CONTACTCALLBACK
 
-#include <OgreNewt_Prerequisites.h>
 #include <Newton.h>
 #include "OgreNewt_Body.h"
 
@@ -121,6 +120,12 @@ public:
 		function either, as all contacts have been processed at this point.
 	*/
 	virtual void userEnd() {  }
+
+	//! get the NewtonMaterial from this callback.
+	NewtonMaterial* _getNewtonMaterial() { return m_material; }
+
+	//! get the NewtonContact from this callback.
+	NewtonContact* _getNewtonContact() { return m_contact; }
 
 
 	//! internal function.

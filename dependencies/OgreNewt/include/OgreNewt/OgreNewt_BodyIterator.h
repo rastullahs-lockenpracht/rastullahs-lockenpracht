@@ -93,3 +93,4 @@ protected:
 }	// end NAMESPACE OgreNewt
 
 #endif	// _INCLUDE_OGRENEWT_BODYITERATOR
+

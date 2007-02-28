@@ -30,3 +30,4 @@ void MaterialPair::setContactCallback( OgreNewt::ContactCallback* callback )
 
 
 }
+

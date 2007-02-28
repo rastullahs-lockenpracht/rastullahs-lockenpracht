@@ -16,7 +16,6 @@
 #include <Newton.h>
 #include "OgreNewt_World.h"
 #include "OgreNewt_Collision.h"
-using namespace Ogre;
 
 namespace OgreNewt
 {
@@ -30,7 +29,7 @@ namespace OgreNewt
 			\param quat returned quaternion
 			\param pos returned position vector
 		*/
-		_OgreNewtExport void MatrixToQuatPos( const float* matrix, Quaternion& quat, Vector3 &pos );
+		_OgreNewtExport void MatrixToQuatPos( const float* matrix, Ogre::Quaternion& quat, Ogre::Vector3 &pos );
 	
 
 		//! Take a Quaternion and Position Matrix and create a Newton-happy float matrix!
@@ -39,7 +38,7 @@ namespace OgreNewt
 			\param pos input position vector
 			\param matrix returned matrix (float[16])
 		*/
-		_OgreNewtExport void QuatPosToMatrix( const Quaternion& quat, const Vector3 &pos, float* matrix );
+		_OgreNewtExport void QuatPosToMatrix( const Ogre::Quaternion& quat, const Ogre::Vector3 &pos, float* matrix );
 
 		//! Take a Newton matrix and make it into an Ogre::Matrix4.
 		/*!
@@ -180,7 +179,7 @@ namespace OgreNewt
 		_OgreNewtExport Ogre::Vector3 CalcSphereSolid( Ogre::Real mass, Ogre::Real radius );
 
 		//! calculate moment of inertia for a hollow sphere
-		_OgreNewtExport Ogre::Vector3 CalcSphereHollor(Ogre::Real mass, Ogre::Real radius );
+		_OgreNewtExport Ogre::Vector3 CalcSphereHollow(Ogre::Real mass, Ogre::Real radius );
 		
 		//! calculate moment of inertia for a solid box
 		_OgreNewtExport Ogre::Vector3 CalcBoxSolid(Ogre::Real mass, const Ogre::Vector3& size );
@@ -193,3 +192,4 @@ namespace OgreNewt
 }	// end NAMESPACE OgreNewt
 
 #endif
+

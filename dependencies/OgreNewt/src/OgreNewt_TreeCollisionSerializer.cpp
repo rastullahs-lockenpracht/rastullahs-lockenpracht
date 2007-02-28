@@ -2,7 +2,7 @@
 #include <OgreNewt_CollisionPrimitives.h>
 
 #include "Ogre.h"
-using namespace Ogre;
+
 namespace OgreNewt
 {
   TreeCollisionSerializer::TreeCollisionSerializer()
@@ -20,8 +20,7 @@ namespace OgreNewt
     mpfFile=fopen(filename.c_str(),"wb");
     if (!mpfFile)
     {
-      OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Unable to open file " + filename + " for writing",
-		  "TreeCollisionSerializer::exportTreeCollision");
+      OGRE_EXCEPT(Ogre::Exception::ERR_INVALIDPARAMS, "Unable to open file " + filename + " for writing","TreeCollisionSerializer::exportTreeCollision");
     }
     NewtonTreeCollisionSerialize(collision->m_col,&TreeCollisionSerializer::_newtonSerializeCallback,this);
   }
