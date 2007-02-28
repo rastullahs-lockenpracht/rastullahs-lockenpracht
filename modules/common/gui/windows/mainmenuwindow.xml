@@ -14,7 +14,7 @@
 					<Property Name="AutoResizeEnabled" Value="True"/>
 
 					<Window Type="RastullahLook/MenuItem" Name="MainMenu/Game/Start">
-						<Property Name="Text" Value="Start"/>	
+						<Property Name="Text" Value="Start"/>
 					</Window>
 					<Window Type="RastullahLook/MenuItem" Name="MainMenu/Game/Quit">
 						<Property Name="Text" Value="Beenden"/>
@@ -25,7 +25,7 @@
 			<Window Type="RastullahLook/MenuItem" Name="MainMenu/Modules">
 				<Property Name="Text" Value="Module"/>
 				<Property Name="MousePassThroughEnabled" Value="False"/>
-				
+
 				<Window Type="RastullahLook/PopupMenu" Name="MainMenu/Modules/Menu">
 					<Property Name="Text" Value="Module"/>
 					<Property Name="AutoResizeEnabled" Value="True"/>
@@ -34,18 +34,6 @@
 
 			<Window Type="RastullahLook/MenuItem" Name="MainMenu/Options">
 				<Property Name="Text" Value="Optionen"/>
-				<Window Type="RastullahLook/PopupMenu" Name="MainMenu/Options/Menu">
-					<Property Name="AutoResizeEnabled" Value="True"/>
-					<Window Type="RastullahLook/MenuItem" Name="MainMenu/Options/Graphics">
-						<Property Name="Text" Value="Grafikoptionen"/>
-					</Window>
-					<Window Type="RastullahLook/MenuItem" Name="MainMenu/Options/Sound">
-						<Property Name="Text" Value="Soundoptionen"/>
-					</Window>
-					<Window Type="RastullahLook/MenuItem" Name="MainMenu/Options/Shortcuts">
-						<Property Name="Text" Value="Tastaturbelegung"/>
-					</Window>
-				</Window>
 			</Window>
 
 		</Window>

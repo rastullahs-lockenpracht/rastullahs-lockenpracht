@@ -24,7 +24,7 @@ class ToggleConsoleAction < Action
   def initialize
     super("act_toggleconsole", "Konsole zeigen/verstecken")
   end
-  
+
   def doAction(object, actor, target)
     $WF.toggleConsole()
   end
@@ -75,7 +75,7 @@ class ToggleInventoryAction < Action
 	def initialize
 		super("act_toggleinventorywindow", "Das Inventar des aktiven Helden anzeigen")
 	end
-	
+
 	def doAction(object, actor, target)
 		$WF.toggleInventoryWindow()
 	end
@@ -96,7 +96,7 @@ class MakeScreenshotAction < Action
   def initialize
     super("act_makescreenshot", "Screenshot erstellen")
   end
-  
+
   def doAction(object, actor, target)
     $CORE.makeScreenshot("rastullah");
   end
@@ -106,7 +106,7 @@ class ToggleCollisionDebugAction < Action
   def initialize
     super("act_togglecollisiondebug", "Kollisionskörper anzeigen")
   end
-  
+
   def doAction(object, actor, target)
     $PM.toggleDebugMode();
   end
@@ -117,7 +117,7 @@ class ToggleDebugVisualisationAction < Action
     super("act_toggledebugvisualisation", "Debug-Helfer anzeigen")
     @isShown = false
   end
-  
+
   def doAction(object, actor, target)
     if @isShown:
       $DVM.hideAll()
@@ -172,7 +172,7 @@ class ShowObjectDescriptionWindow < Action
   def initialize
     super(GameObject.DEFAULT_VIEW_OBJECT_ACTION, "Anschauen")
   end
-  
+
   def doAction(object, actor, target)
     $WF.showDescriptionWindow(object)
   end
@@ -182,19 +182,19 @@ class ShowAboutWindowAction < Action
   def initialize
     super("act_showaboutwindow", "Über")
   end
-  
+
   def doAction(object, actor, target)
     $WF.showAboutWindow()
   end
 end
 
-class ShowSoundConfigAction < Action
+class ShowGameSettingsAction < Action
   def initialize
-    super("act_showsoundconfig", "Soundeinstellungen")
+    super("act_showgamesettings", "Spieleinstellungen")
   end
 
   def doAction(object, actor, target)
-    $WF.showSoundConfig()
+    $WF.showGameSettings()
   end
 end
 
@@ -222,7 +222,7 @@ class CloseCurrentWindowAction < Action
   def initialize
     super("act_closecurrentwindow", "Oberstes Fenster schliessen")
   end
-  
+
   def doAction(object, actor, target)
     WindowManager.getSingleton().closeTopWindow()
   end

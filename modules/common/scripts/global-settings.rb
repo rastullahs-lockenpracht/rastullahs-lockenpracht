@@ -24,7 +24,7 @@ class GlobalSettings
       $act19 = ShowAboutWindowAction.new()
       $act20 = ShowJournalWindowAction.new()
       $act21 = CloseCurrentWindowAction.new()
-      $act22 = ShowSoundConfigAction.new()
+      $act22 = ShowGameSettingsAction.new()
       $act23 = ShowLogfilesAction.new()
       $act24 = ToggleCharacterControllerAction.new()
       $act25 = ShowNextDebugWindowPageAction.new()
