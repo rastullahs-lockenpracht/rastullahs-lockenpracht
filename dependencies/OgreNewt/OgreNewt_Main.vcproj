@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="OgreNewt_Main"
 	ProjectGUID="{DCC3C838-9803-497D-8C32-A5985644CCE9}"
+	RootNamespace="OgreNewt_Main"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -317,6 +318,18 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+		</Filter>
+		<Filter
+			Name="doc"
+			>
+			<File
+				RelativePath=".\DifferencesToOgreCVS.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\README"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
