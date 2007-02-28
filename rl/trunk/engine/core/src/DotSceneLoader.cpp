@@ -922,9 +922,9 @@ namespace rl {
                                     false));
                     //orientation, pos));
                     LOG_DEBUG(Logger::CORE, " physical_body 'convexhull' für Entity '"+entName+"' erstellt. ");
-                    }
-                    else if (physical_body.compare("mesh") == 0 || physical_body.compare("auto"))
-                    {
+                }
+                else if (physical_body.compare("mesh") == 0 || physical_body.compare("auto"))
+                {
                     collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(
                                     thisWorld, newEnt, false));
                     LOG_DEBUG(Logger::CORE, " physical_body 'mesh' für Entity '"+entName+"' erstellt. ");
