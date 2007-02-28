@@ -1,3 +1,4 @@
+#include <OgreNewt_Prerequisites.h>
 #include <Newton.h>
 #include <OgreNewt_BasicJoints.h>
 #include <OgreNewt_World.h>
