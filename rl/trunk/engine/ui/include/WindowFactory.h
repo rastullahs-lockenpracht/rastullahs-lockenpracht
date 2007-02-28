@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -50,11 +50,10 @@ namespace rl {
 	class LogWindow;
 	class ObjectDescriptionWindow;
 	class Person;
-	class SoundConfig;
-	class SoundDriverConfigComponent;
 	class WindowUpdater;
     class MainMenuWindow;
     class CloseConfirmationWindow;
+    class GameSettings;
 
 	class _RlUiExport WindowFactory : public Ogre::Singleton<WindowFactory>
 	{
@@ -93,7 +92,10 @@ namespace rl {
 		void showObjectName(GameObject* object);
 		void showPlaylist();
 		void showPopupMessage(int popupTypes);
-		void showSoundConfig();
+		/**
+		 * Creates a GameSettings object and displays its layout file on screen
+		 */
+		void showGameSettings();
 
 		void toggleConsole();
 		void toggleDebugWindow();
@@ -101,9 +103,9 @@ namespace rl {
 		void toggleCharacterStateWindow();
 		void toggleInGameGlobalMenu();
 		void toggleInventoryWindow();
-		
+
 		InventoryWindow* getInventoryWindow();
-		
+
 		void checkForErrors();
 		GameLoggerWindow* getGameLogger();
 
@@ -115,8 +117,6 @@ namespace rl {
 
         /// Change shown DebugWindow page
         void showNextDebugWindowPage();
-
-		void registerSoundConfigComponent(SoundDriverConfigComponent* wnd);
 
 	private:
         void logAllWindows();
@@ -135,11 +135,9 @@ namespace rl {
 		GameObject* mShownObject;
 		ObjectDescriptionWindow* mObjectDescriptionWindow;
         DataLoadingProgressWindow* mDataLoadingProgressWindow;
-		SoundConfig* mSoundConfig;
         MainMenuWindow* mMainMenuWindow;
         CloseConfirmationWindow* mCloseConfirmationWindow;
-
-        std::vector<SoundDriverConfigComponent*> mSoundConfigComponents;
+        GameSettings* mGameSettings;
     };
 }
 

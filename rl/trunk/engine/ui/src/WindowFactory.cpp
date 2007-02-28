@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -32,6 +32,7 @@
 #include "Exception.h"
 #include "GameLoggerWindow.h"
 #include "GameObject.h"
+#include "GameSettings.h"
 #include "InfoPopup.h"
 #include "InGameMenuWindow.h"
 #include "InputManager.h"
@@ -48,8 +49,6 @@
 #include "QuestBook.h"
 #include "RubyInterpreter.h"
 #include "RulesSubsystem.h"
-#include "SoundConfig.h"
-#include "SoundDriverConfigComponent.h"
 #include "SubtitleWindow.h"
 #include "UiSubsystem.h"
 #include "WindowManager.h"
@@ -75,11 +74,11 @@ namespace rl {
 		mConsole = new Console();
 		mDebugWindow = new DebugWindow();
 		CoreSubsystem::getSingleton().getRubyInterpreter()->
-			setOutputFunction( 
+			setOutputFunction(
 				(VALUE(*)(...))&WindowFactory::consoleWrite );
 
 		mLogWindow = new LogWindow();
-			      
+
 		mGameLogger = new GameLoggerWindow();
 		mCharacterStateWindow = new CharacterStateWindow();
 		mInGameMenuWindow = new InGameMenuWindow();
@@ -88,15 +87,8 @@ namespace rl {
 		mJournalWindow = new JournalWindow();
 		mInfoPopup = new InfoPopup();
 		mObjectDescriptionWindow = new ObjectDescriptionWindow();
-		mSoundConfig = new SoundConfig();
-        for (std::vector<SoundDriverConfigComponent*>::iterator it = 
-            mSoundConfigComponents.begin(); it != mSoundConfigComponents.end(); it++)
-        {
-            mSoundConfig->registerDriverConfig(*it);
-        }
-        
         mCloseConfirmationWindow = NULL;
-        
+
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mJournalWindow);
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mInfoPopup);
         mDataLoadingProgressWindow = new DataLoadingProgressWindow();
@@ -125,7 +117,7 @@ namespace rl {
 		delete mConsole;
         delete mMainMenuWindow;
         delete mCloseConfirmationWindow;
-        delete mSoundConfig;
+        delete mGameSettings;
 	}
 
 	WindowFactory& WindowFactory::getSingleton()
@@ -150,9 +142,9 @@ namespace rl {
 
 	bool WindowFactory::showInputOptionsMenu(Creature* actionHolder)
 	{
-		CommandMapperWindow* wnd = 
+		CommandMapperWindow* wnd =
 			new CommandMapperWindow(
-				actionHolder, 
+				actionHolder,
 				NULL);
 		wnd->setVisible(true);
 
@@ -203,7 +195,7 @@ namespace rl {
 		return mInventoryWindow;
 	}
 
-	
+
 	void WindowFactory::showCharacterSheet()
 	{
 		if (mCharacterSheet->isVisible())
@@ -269,7 +261,7 @@ namespace rl {
         PlaylistWindow* wnd = new PlaylistWindow();
         wnd->setVisible(true);
     }
-	
+
 	void WindowFactory::checkForErrors()
 	{
 		if (Logger::getSingleton().isErrorPresent())
@@ -288,9 +280,9 @@ namespace rl {
     {
         if( mCloseConfirmationWindow != NULL )
             delete mCloseConfirmationWindow;
-        
+
         mCloseConfirmationWindow = new CloseConfirmationWindow();
-		LOG_MESSAGE2(Logger::UI, "Start", "UiSubsystem::requestExit");         
+		LOG_MESSAGE2(Logger::UI, "Start", "UiSubsystem::requestExit");
 		mCloseConfirmationWindow->setVisible(true);
 	}
 
@@ -351,14 +343,14 @@ namespace rl {
 		}
 
 		UiSubsystem::getSingleton().setCharacterController(CharacterController::CTRL_DIALOG);
-		DialogCharacterController* controller = 
+		DialogCharacterController* controller =
 			dynamic_cast<DialogCharacterController*>(
 				UiSubsystem::getSingleton().getCharacterController());
 
 		SubtitleWindow* subtitleWnd = new SubtitleWindow();
 		controller->setSubtitleWindow(subtitleWnd);
 		controller->setDialogPartner(bot->getDialogPartner()->getActor());
-		
+
 		DialogWindow* dialogWnd = new DialogWindow(bot, mGameLogger, controller);
 		controller->setDialogWindow(dialogWnd);
 		dialogWnd->start();
@@ -367,11 +359,6 @@ namespace rl {
 	void WindowFactory::showLogfiles()
 	{
 		(new LogWindow())->setVisible(true);
-	}
-
-	void WindowFactory::showSoundConfig()
-	{
-		mSoundConfig->setVisible(true);
 	}
 
 	void WindowFactory::showPopupMessage(int popupTypes)
@@ -428,13 +415,11 @@ namespace rl {
         mDebugWindow->showNextPage();
     }
 
-	void WindowFactory::registerSoundConfigComponent(SoundDriverConfigComponent* wnd)
+	void WindowFactory::showGameSettings()
 	{
-        mSoundConfigComponents.push_back(wnd);
-		if (mSoundConfig != NULL)
-        {
-            mSoundConfig->registerDriverConfig(wnd);
-        }
+		// Create the game settings window and show it
+		mGameSettings = new GameSettings();
+		mGameSettings->setVisible(true);
 	}
 
     void WindowFactory::logAllWindows()

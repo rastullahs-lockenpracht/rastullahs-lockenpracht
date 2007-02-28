@@ -9,6 +9,7 @@ noinst_HEADERS = \
 	CommandExecutor.h \
 	CommandMapper.h \
 	CommandMapperWindow.h \
+	ConfigComponent.h \
 	Console.h \
 	CutsceneCharacterController.h \
 	DataLoadingProgressWindow.h \
@@ -17,6 +18,7 @@ noinst_HEADERS = \
 	DialogCharacterController.h \
 	FreeFlightCharacterController.h \
 	GameLoggerWindow.h \
+	GameSettings.h \
 	InfoPopup.h \
 	InGameMenuWindow.h \
 	InputManager.h \
@@ -30,8 +32,8 @@ noinst_HEADERS = \
 	LogWindow.h \
 	ObjectDescriptionWindow.h \
 	PlaylistWindow.h \
+	RenderSystemConfigComponent.h \
 	Selector.h \
-	SoundConfig.h \
 	SoundDriverConfigComponent.h \
 	SubtitleWindow.h \
 	UiPrerequisites.h \

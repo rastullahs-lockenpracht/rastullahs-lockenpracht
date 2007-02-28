@@ -19,6 +19,7 @@ libRlUi_la_SOURCES = \
 	CommandExecutor.cpp \
 	CommandMapper.cpp \
 	CommandMapperWindow.cpp \
+	ConfigComponent.cpp \
 	Console.cpp \
 	CutsceneCharacterController.cpp \
 	DataLoadingProgressWindow.cpp \
@@ -27,6 +28,7 @@ libRlUi_la_SOURCES = \
 	DialogWindow.cpp \
 	FreeFlightCharacterController.cpp \
 	GameLoggerWindow.cpp \
+	GameSettings.cpp \
 	InfoPopup.cpp \
 	InGameMenuWindow.cpp \
 	InputManager.cpp \
@@ -39,8 +41,8 @@ libRlUi_la_SOURCES = \
 	MovementCharacterController.cpp \
 	ObjectDescriptionWindow.cpp \
 	PlaylistWindow.cpp \
+	RenderSystemConfigComponent.cpp \
 	Selector.cpp \
-	SoundConfig.cpp \
 	SoundDriverConfigComponent.cpp \
 	SubtitleWindow.cpp \
 	UiSubsystem.cpp \

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,7 +21,7 @@
 #include <elements/CEGUIMenuItem.h>
 
 namespace rl {
-	
+
 	class ContentModule;
 	class MainMenuEngineWindow;
 
@@ -36,14 +36,13 @@ namespace rl {
 
 	private:
 		bool handleChooseModule(CEGUI::MenuItem* it, ContentModule* module);
-		bool handleGraphicOptions();
-		bool handleSoundOptions();
 		bool handleStart();
 		bool handleQuit();
-		
+		bool handleSettings();
+
 		bool handleKey(const CEGUI::EventArgs& evt);
 		void fillModules();
-		
+
 		ContentModule* mActiveModule;
 		MainMenuEngineWindow* mEngineWindow;
 	};

@@ -24,7 +24,7 @@ namespace rl {
 AboutWindow::AboutWindow() :
     CeGuiWindow("aboutwindow.xml", WND_MOUSE_INPUT)
 {
-    getWindow("AboutWindow/Text")->setText("Rastullahs Lockenpracht\n\nCopyright 2003-2006 Team Pantheon\
+    getWindow("AboutWindow/Text")->setText("Rastullahs Lockenpracht\n\nCopyright 2003-2007 Team Pantheon\
 \n\nBenutzte Bibliotheken: Ogre, fmod, Newton, boost, ...");
     getWindow("AboutWindow/EngineText")->setText(
         CoreSubsystem::getSingleton().getEngineVersionString()

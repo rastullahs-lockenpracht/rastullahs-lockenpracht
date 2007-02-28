@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,34 +21,16 @@
 
 namespace rl {
 	SoundDriverConfigComponent::SoundDriverConfigComponent(const CeGuiString& xmlfile)
-        : mXmlFile(xmlfile)
+        : ConfigComponent(xmlfile)
 	{
 	}
 
     SoundDriverConfigComponent::~SoundDriverConfigComponent()
     {
-        if (mWindow != NULL)
-        {
-            mWindow->getParent()->removeChildWindow(mWindow);
-            CEGUI::WindowManager::getSingleton().destroyWindow(mWindow);
-            CEGUI::WindowManager::getSingleton().cleanDeadPool();
-        }
     }
 
 	const CeGuiString SoundDriverConfigComponent::getDriverName() const
 	{
 		return getDriver()->getName();
 	}
-
-    void SoundDriverConfigComponent::addTo(CEGUI::Window* parent)
-    {
-        mWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout(mXmlFile);
-        parent->addChildWindow(mWindow);
-        initialize();
-    }
-
-    void SoundDriverConfigComponent::setVisible(bool visible)
-    {
-        mWindow->setVisible(visible);
-    }
 }

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -37,17 +37,17 @@ namespace rl {
 		mEngineWindow(enginewindow)
 	{
 		getWindow("MainMenu/Game/Start")->subscribeEvent(
-			MenuItem::EventClicked, 
+			MenuItem::EventClicked,
 			boost::bind(&MainMenuWindow::handleStart, this));
 
 		getWindow("MainMenu/Game/Quit")->subscribeEvent(
-			MenuItem::EventClicked, 
+			MenuItem::EventClicked,
 			boost::bind(&MainMenuWindow::handleQuit, this));
-            
-        getWindow("MainMenu/Options/Sound")->subscribeEvent(
-            MenuItem::EventClicked,
-            boost::bind(&MainMenuWindow::handleSoundOptions, this));
-		
+
+		getWindow("MainMenu/Options")->subscribeEvent(
+			MenuItem::EventClicked,
+			boost::bind(&MainMenuWindow::handleSettings, this));
+
 		fillModules();
 
         mWindow->moveToBack();
@@ -65,7 +65,7 @@ namespace rl {
 		ModuleMap modules = CoreSubsystem::getSingleton().getAllModules();
 		mActiveModule = CoreSubsystem::getSingleton().getActiveAdventureModule();
 
-		for(ModuleMap::iterator modIt = modules.begin();	
+		for(ModuleMap::iterator modIt = modules.begin();
 			modIt != modules.end(); modIt++)
 		{
 			ContentModule* mod = (*modIt).second;
@@ -76,15 +76,15 @@ namespace rl {
 					mActiveModule = mod;
 
 				MenuItem* it = static_cast<MenuItem*>(
-					CEGUI::WindowManager::getSingleton().createWindow("RastullahLook/MenuItem", 
+					CEGUI::WindowManager::getSingleton().createWindow("RastullahLook/MenuItem",
 					getNamePrefix()+"MainMenu/Modules/" + mod->getId()));
-				
+
 				if (mod == mActiveModule)
 					it->setText(mod->getName() + " *");
 				else
 					it->setText(mod->getName());
 				modulesMenu->addItem(it);
-				
+
 				it->subscribeEvent(
 					MenuItem::EventClicked,
 					boost::bind(&MainMenuWindow::handleChooseModule, this, it, mod));
@@ -95,7 +95,7 @@ namespace rl {
 	bool MainMenuWindow::handleChooseModule(MenuItem* it, ContentModule* module)
 	{
 		MenuBase* modulesMenu = getMenu("MainMenu/Modules/Menu");
-		
+
 		ItemEntry* itOld = NULL;
 		for (size_t i=0; i<modulesMenu->getItemCount(); i++)
 		{
@@ -109,7 +109,7 @@ namespace rl {
 		itOld->setText(mActiveModule->getName());
 
 		mActiveModule = module;
-		it->setText(module->getName()+" *");	
+		it->setText(module->getName()+" *");
 
 		return true;
 	}
@@ -130,9 +130,9 @@ namespace rl {
 		return true;
 	}
 
-	bool MainMenuWindow::handleGraphicOptions()
+	bool MainMenuWindow::handleSettings()
 	{
-		return true;
+		WindowFactory::getSingleton().showGameSettings();
 	}
 
 	void MainMenuWindow::setVisible(bool visible, bool destroyAfterHide)
@@ -140,12 +140,4 @@ namespace rl {
 		CeGuiWindow::setVisible(visible, destroyAfterHide);
 		mEngineWindow->setVisible(visible, destroyAfterHide);
 	}
-	
-	bool MainMenuWindow::handleSoundOptions()
-	{
-		WindowFactory::getSingleton().showSoundConfig();
-		return true;
-	}
-
-	
 }

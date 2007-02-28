@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -24,7 +24,7 @@ class CharacterController
 private:
 	CharacterController(rl::Actor* camera, rl::Actor* character);
 public:
-	enum ControllerType 
+	enum ControllerType
 	{
 		CTRL_NONE = 1,
 		CTRL_FREEFLIGHT,
@@ -34,7 +34,7 @@ public:
         CTRL_VANITY_MODE,
 		CTRL_COMBAT,
 	};
-	
+
 	rl::CharacterController::ControllerType getType();
 
      /**
@@ -43,7 +43,7 @@ public:
        */
     void toggleViewMode();
     void resetCamera();
-        
+
 };
 
 class CutsceneCharacterController : public CharacterController
@@ -64,12 +64,12 @@ public:
     void lookAt(const Ogre::Vector3& point);
 };
 
-class UiSubsystem 
+class UiSubsystem
 {
 public:
     static UiSubsystem& getSingleton(void);
 	void initializeSubsystem();
-	    
+
 	rl::Person* getActiveCharacter();
 	void setActiveCharacter(rl::Person* chara);
 
@@ -116,18 +116,18 @@ public:
 	void showMessageWindow(const rl::CeGuiString& message);
     void showPlaylist();
 	void showPopupMessage(int popupTypes);
-    void showSoundConfig();
+	void showGameSettings();
 
 	void toggleConsole();
 	void toggleDebugWindow();
 	void toggleGameLogWindow();
 	void toggleCharacterStateWindow();
 	void toggleInGameGlobalMenu();
-	void toggleInventoryWindow();	
+	void toggleInventoryWindow();
 
 	void checkForErrors();
 	rl::GameLoggerWindow* getGameLogger();
-	
+
     void showNextDebugWindowPage();
 };
 
@@ -143,10 +143,10 @@ public:
 %{
 static swig_type_info *CharacterController_dynamic_cast(void **ptr)
 {
-    rl::CharacterController **ppCharacterController = 
+    rl::CharacterController **ppCharacterController =
         reinterpret_cast<rl::CharacterController**>(ptr);
 
-    rl::CutsceneCharacterController *pCutSceneCC = 
+    rl::CutsceneCharacterController *pCutSceneCC =
         dynamic_cast<rl::CutsceneCharacterController*>(*ppCharacterController);
     if (pCutSceneCC != NULL) {
         *ptr=reinterpret_cast<void*>(pCutSceneCC);
