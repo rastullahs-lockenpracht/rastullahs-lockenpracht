@@ -102,11 +102,12 @@ namespace rl
         mBody->setVelocity(vel);
     }
 
-	void PhysicalThing::setOffset(const Vector3& offset)
+/*	void PhysicalThing::setOffset(const Vector3& offset)
 	{
 		mOffset = offset;
-        mBody->setOffset(offset);
+        //mBody->setOffset(offset);
 	}
+	*/
 
     Actor *PhysicalThing::getActor(void) const
     {
@@ -127,7 +128,7 @@ namespace rl
     void PhysicalThing::_update()
     {
         mBody->setPositionOrientation(
-            mActor->_getSceneNode()->getWorldPosition() + mBody->getOffset(),
+            mActor->_getSceneNode()->getWorldPosition(), // + mBody->getOffset(),
             mOrientationBias.Inverse() * mActor->_getSceneNode()->getWorldOrientation());
 		mActor->_update(Actor::UF_ALL & ~Actor::UF_PHYSICAL_THING);
     }
@@ -141,7 +142,7 @@ namespace rl
 
     void PhysicalThing::_attachToSceneNode(Ogre::SceneNode* node)
     {
-        mBody->attachToNode(node, mOffset, mOrientationBias);
+        mBody->attachToNode(node); //, mOffset, mOrientationBias);
     }
 
     void PhysicalThing::_attachToBone(MeshObject* object, const std::string& boneName )
@@ -322,8 +323,8 @@ namespace rl
 
     void PhysicalThing::fitToPose(const Ogre::String& name)
     {
-		Vector3 offset;
-		Quaternion orientationBias;
+		Vector3 offset = Vector3::ZERO;
+		Quaternion orientationBias = Quaternion::IDENTITY;;
 		CollisionPtr coll;
         
         if (mPhysicalObject->isMeshObject())
@@ -341,24 +342,10 @@ namespace rl
             }
             else
             {
-                // Yes
+                // collision primitiv is cached, retrieve it
                 coll = it->second;
-
-				orientationBias = Quaternion::IDENTITY;
-
-				// CONVEXHULL has got a zero offset (see createCollision)
-				if (mGeometryType == PhysicsManager::GT_CONVEXHULL)
-					offset = Vector3::ZERO;
-				else if (mGeometryType == PhysicsManager::GT_CAPSULE) {
-					const Vector3 diff = size.getMaximum() - size.getMinimum();
-					offset = Vector3(-diff.y/2,0,0); //(-diff.y/2, 0, 0);
-					offset = Vector3::ZERO;
-					//orientationBias.FromAngleAxis(Degree(90), Vector3::UNIT_Y);
-				} else
-					offset = size.getCenter();
-				
             }
-            setOffset(offset);
+            //setOffset(offset);
             mBody->setCollision(coll);
             mOrientationBias = orientationBias;
 
@@ -378,18 +365,30 @@ namespace rl
     {
 		const Vector3 size = aabb.getMaximum() - aabb.getMinimum();
 
-		if (offset != NULL)
-		{
-			*offset = aabb.getCenter();
-		}
-
 		OgreNewt::World* physWorld = PhysicsManager::getSingleton()._getNewtonWorld();
 
         CollisionPtr rval;
 
+		/* inertiaCoefficients could be calculated like OgreNewt::MomentOfInertia 
+			or even better is to use it ? */
+
+		/* differentiate between the different collision primitives, because they all
+		   need different offset and probably different orientation values.
+		   Newton SDK is really nifty and helps here, because we can shift the origin
+		   of the coordinate system of the primitiv we create into any position we
+		   desire. Actually this is the bottom middle of our mesh - as the meshes are
+		   always constructed like that.
+	    */
 		if (mGeometryType == PhysicsManager::GT_BOX)
         {
-            rval = CollisionPtr(new CollisionPrimitives::Box(physWorld, size));
+			// a box collision primitiv has got it's coordinate system at it's center, so we need to shift it
+			rval = CollisionPtr(new CollisionPrimitives::Box(
+				physWorld,
+				size,
+				Ogre::Quaternion::IDENTITY,
+				aabb.getCenter())
+				);
+
 			if (inertiaCoefficients != NULL)
 			{
                 *inertiaCoefficients = Vector3(
@@ -400,9 +399,14 @@ namespace rl
         }
         else if (mGeometryType == PhysicsManager::GT_SPHERE)
         {
-            double radius = std::max(size.x, std::max(size.y, size.z)) / 2.0;
-            rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(physWorld,
-                Vector3(radius, radius, radius)));
+			double radius = std::max(size.x, std::max(size.y, size.z)) / 2.0;
+			// a sphere primitiv has got its coordinate system at its center, so shift it with radius
+            rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
+				physWorld,
+				Vector3(radius, radius, radius),
+				Ogre::Quaternion::IDENTITY,
+				Vector3(0,radius,0))
+				);
             
 			if (inertiaCoefficients != NULL)
 			{
@@ -415,7 +419,13 @@ namespace rl
             Vector3 s(size/2.0);
             s.x = std::max(s.x, s.z);
             s.z = s.x;
-            rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(physWorld, s));
+
+			// an ellipsoid primitiv has got its coordinate system at its center, so shift it with radius
+            rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
+				physWorld, 
+				s,
+				Ogre::Quaternion::IDENTITY,
+				Vector3(0,s.y,0)));
 
             if (inertiaCoefficients != NULL)
 			{
@@ -428,30 +438,19 @@ namespace rl
 			double height = size.y;
 			
 			Quaternion orientCaps;
-			orientCaps.FromAngleAxis(Degree(90), Vector3::UNIT_Y);
+			orientCaps.FromAngleAxis(Degree(90), Vector3::UNIT_Z);
 
-			//Vector3 offsetCaps (-size.y/2, 0, 0);
-			//Vector3 offsetCaps (-size.y/2, 0, 0);
-			Vector3 offsetCaps (0, 0, 0);
+			Vector3 offsetCaps (0, size.y/2, 0);
 
+			// an capsule primitiv has got its coordinate system at its center, so shift it with radius
+			// additionally it is x axis aligned, so rotate it 90 degrees around z axis
 			rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Capsule(
 						physWorld, 
 						radius, 
 						height,
 						orientCaps,
 						offsetCaps));
-			//Alte Variante
-			//coll = CollisionPtr(new CollisionPrimitives::Capsule(mWorld, radius, size.y));
-			if (offset != NULL)
-			{
-				*offset = aabb.getCenter(); //offsetCaps;
-			}
-
-			if (orientation != NULL)
-			{
-				*orientation = orientCaps;
-			}
-
+			
 			if (inertiaCoefficients != NULL)
 			{
 				double sradius = radius*radius;
@@ -472,14 +471,6 @@ namespace rl
 					// Objekt zu klein!
 					LOG_MESSAGE(Logger::CORE, " PhyiscalThing too small to create a convexhull, using 'box' instead! ");
 					rval = CollisionPtr(new CollisionPrimitives::Box(physWorld, size));
-					
-					if (inertiaCoefficients != NULL)
-					{
-						*inertiaCoefficients = Vector3(
-						size.x*size.x/6.0f,
-						size.y*size.y/6.0f,
-						size.z*size.z/6.0f);
-					}
 				}
 				else
 				{
@@ -504,11 +495,13 @@ namespace rl
 
 					// cleanup the temporary mesh
 					delete tempMesh;
-										
-					if (offset != NULL)
-					{
-						*offset = Vector3::ZERO;
-					}
+				}
+				if (inertiaCoefficients != NULL)
+				{
+					*inertiaCoefficients = Vector3(
+					size.x*size.x/6.0f,
+					size.y*size.y/6.0f,
+					size.z*size.z/6.0f);
 				}
             }
             else
@@ -523,11 +516,6 @@ namespace rl
                 Entity* entity = dynamic_cast<MeshObject*>(mPhysicalObject)->getEntity();
                 rval = CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(physWorld,
                     entity, false, true));
-
-                if (offset != NULL)
-                {
-                    *offset = Vector3::ZERO;
-                }
             }
             else
             {
@@ -572,7 +560,7 @@ namespace rl
 			body->setCustomForceAndTorqueCallback(PhysicsManager::genericForceCallback);
 
             setBody(body);
-            setOffset(offset);
+            //setOffset(offset);
 			mOrientationBias = orientationBias;
         }
 	}

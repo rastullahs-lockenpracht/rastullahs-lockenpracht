@@ -552,7 +552,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             //if( charPos.y > point.y && angle < Degree(50.0f)  )
             AxisAlignedBox CharAab = mCharBody->getCollision()->getAABB();
             Real CharHeight = CharAab.getMaximum().y - CharAab.getMinimum().y;
-            Real stepHeight = point.y - charPos.y + CharHeight / 2.0f;
+            Real stepHeight = point.y - charPos.y; //+ CharHeight / 2.0f;
             if( stepHeight < 0.4f && mCharacterState.mHasFloorContact ||
                 stepHeight < 0.1f )
                 isFloorCollision = true;

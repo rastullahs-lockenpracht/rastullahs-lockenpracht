@@ -118,12 +118,23 @@ namespace rl {
 		PhysicalObject* mPhysicalObject;
 		bool mHullModifier;
 
-		void setOffset(const Ogre::Vector3& offset);
-		void setOrientationBias(const Ogre::Quaternion& orientation);
+		//void setOffset(const Ogre::Vector3& offset);
+		//void setOrientationBias(const Ogre::Quaternion& orientation);
 		PhysicsManager::GeometryType getGeometryType() const;
 		void setBody(OgreNewt::Body* body);
 
-		/** creates a collision primitive for OgreNewt
+		/** creates a collision primitive for OgreNewt.
+		 * Currently this is Work In Progress - so it's changing 
+		 *    and the offset/orientation is not working accordling at the moment ...
+		 * The collision primitive created has got a basic orientation which can be influenced by
+		 * offset and orientation parameters. Additionally an initial inertiaCoefficents vector is
+		 * calculated according to the size and type of collision primitiv.
+		 * @param aabb AxisAlignedBox that contains the extents of mesh whose coll. primitiv is to be created
+		 * @param offset Vector3 gives the offset of the coordinate system of the coll. primitiv
+		 * @param orientation Quaternion gives an euler rotation for the coordinate system of the coll. primitiv
+		 * @param inertiaCoefficients Vector3 returns the inertia coefficients for the created coll. primitiv
+		 * @param animName String specifies the name of the animation of the mesh whose coll. primitiv should be created,
+		 *        when "", then the basic mesh is used as a basis.
 		*/
 		OgreNewt::CollisionPtr createCollision(
 			const Ogre::AxisAlignedBox& aabb, Ogre::Vector3* offset = NULL, 
