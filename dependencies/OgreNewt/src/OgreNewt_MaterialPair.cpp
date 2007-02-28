@@ -1,3 +1,4 @@
+#include <OgreNewt_Prerequisites.h>
 #include <OgreNewt_MaterialPair.h>
 #include <OgreNewt_World.h>
 #include <OgreNewt_MaterialID.h>

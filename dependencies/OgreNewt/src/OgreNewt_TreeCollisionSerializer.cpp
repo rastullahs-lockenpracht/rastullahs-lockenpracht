@@ -1,3 +1,4 @@
+#include <OgreNewt_Prerequisites.h>
 #include <OgreNewt_TreeCollisionSerializer.h>
 #include <OgreNewt_CollisionPrimitives.h>
 

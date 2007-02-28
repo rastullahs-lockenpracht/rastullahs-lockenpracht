@@ -1,3 +1,4 @@
+#include <OgreNewt_Prerequisites.h>
 #include <OgreNewt_ContactCallback.h>
 #include <OgreNewt_Body.h>
 

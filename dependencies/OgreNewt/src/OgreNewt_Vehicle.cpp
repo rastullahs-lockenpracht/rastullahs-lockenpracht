@@ -1,3 +1,4 @@
+#include <OgreNewt_Prerequisites.h>
 #include <OgreNewt_Vehicle.h>
 #include <OgreNewt_Tools.h>
 

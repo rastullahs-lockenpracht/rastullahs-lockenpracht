@@ -1,3 +1,4 @@
+#include <OgreNewt_Prerequisites.h>
 #include <assert.h>
 #include <OgreNewt_Joint.h>
 
