@@ -19,6 +19,7 @@
 #ifndef _INCLUDE_OGRENEWT_
 #define _INCLUDE_OGRENEWT_
 
+#include "OgreNewt_Prerequisites.h"
 
 #include "OgreNewt_World.h"
 #include "OgreNewt_Collision.h"

@@ -3,6 +3,10 @@ the Ogre addons cvs repository. Some pieces might be outdated, because they
 have been merged, other pieces might not be mentioned. Therefore this is 
 essentially an overview and by no means complete.
 
+A general information: Many .cpp files contain a #include <OgreNewt_Prerequisites.h>
+additionally OgreNewt.h too. This include is essential for linux (and may become
+essential for windows too).
+
 if you don't understand some parts, feel free to contact me
 
 So enjoy reading it,
@@ -12,9 +16,13 @@ P.s. most of the #include Prerequisites have been removed in favour of a
 better approach (which means less files to parse for the compiler).
 
 OgreNewt.h:
-	comment changes
-	rl - #include Framelisterner ...
+	rl:
 
+	cvs:
+	comment changes
+	#include Framelisterner 	[not necessary] natoka
+
+-------------------------------------------------------------------------------
 OgreNewt_BasicJoints.h:
 	rl:
 	currently: missing a _OgreNewtExport for CustomRigidJoint
@@ -24,7 +32,7 @@ OgreNewt_BasicJoints.cpp:
 	cvs:
 	#include <Newton.h>
 	m_Accel bug (not initialized)
-
+-------------------------------------------------------------------------------
 OgreNewt_Body.h:
 	rl:
 	#include Prerequisites
@@ -54,12 +62,12 @@ OgreNewt_Body.cpp:
 
 	cvs:
 	look above
-
+-------------------------------------------------------------------------------
 OgreNewt_BodyIterator.h:
 	rl:
 	cvs:
 	newline at end of file
-
+-------------------------------------------------------------------------------
 OgreNewt_Collision.h:
 	rl:
 	typedef of CollisionPtr
@@ -67,7 +75,7 @@ OgreNewt_Collision.h:
 OgreNewt_Collision.cpp:
 	rl:
 	uses CollisionPtr
-
+-------------------------------------------------------------------------------
 OgreNewt_CollisionPrimitives.h:
 	rl:
 	#include Prerequisites
@@ -91,14 +99,14 @@ OgreNewt_CollisionPrimitives.cpp:
 	finalize()		[takeover] (should be inlined)
 	unsigned int in loops	[takeover] natoka
 	TreecollisionSceneParser[takeover] natoka
-
+-------------------------------------------------------------------------------
 OgreNewt_ContactCallback.h:
 	rl:
 	#include Prerequisites
 
 	cvs:
 	material and contact get functions for newton mat & contanct
-
+-------------------------------------------------------------------------------
 OgreNewt_Debugger.h:
 	rl:
 	destructor defined with code
@@ -115,28 +123,28 @@ OgreNewt_Debugger.h:
 	uses detachAllObjects		[takeover] natoka
 		in showLines() and
 		hideLines()
-
+-------------------------------------------------------------------------------
 OgreNewt_Joint.h:
 	rl:
 	#include Prerequisites
-
+-------------------------------------------------------------------------------
 OgreNewt_MaterialID.h:
 	rl:
 	#include Prerequisites
 OgreNewt_MaterialID.cpp:
 	rl:
 	missing newline			[fixed] natoka
-
+-------------------------------------------------------------------------------
 OgreNewt_MaterialPair.h:
 	rl:
 	#include Prerequisites
 OgreNewt_MaterialPair.cpp:
 	newline at end
-
+-------------------------------------------------------------------------------
 OgreNewt_Prerequisites.h:
 	rl:
 	include <stddef.h>
-
+-------------------------------------------------------------------------------
 OgreNewt_RayCast.h:
 	rl:
 	BasicRaycastInfo() constructor in the header [fixed] natoka
@@ -149,7 +157,7 @@ OgreNewt_RayCast.h:
 		user callback pre-filter function
 	newtonRaycastPrefilter()		[takeover] natoka
 	nonvirtual ~BasicRaycast()
-
+-------------------------------------------------------------------------------
 OgreNewt_Tools.h:
 	rl:
 	uses 'using namespace Ogre' 	(args)	[fixed]	natoka
@@ -166,8 +174,7 @@ OgreNewt_Tools.cpp:
 	uses 'using namespace Ogre' within source (cleaner) [takeover] natoka
 	CollisionPointDistance()
 		globalpt parameter misused for calculation
-
-
+-------------------------------------------------------------------------------
 OgreNewt_TreeCollisionSerializer.h
 	rl:
 	#include Prerequisites
@@ -177,12 +184,11 @@ OgreNewt_TreeCollisionSerializer.cpp
 
 	cvs:
 	explicitly uses Ogre:: everywere 	[takeover] natoka
-
-
+-------------------------------------------------------------------------------
 OgreNewt_Vehicle.h:
 	rl:
 	#include Prerequisites
-
+-------------------------------------------------------------------------------
 OgreNewt_World.h:
 	rl:
 	uses fastdelegates
