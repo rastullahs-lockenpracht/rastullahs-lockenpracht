@@ -34,8 +34,6 @@ namespace rl
 		mActor(NULL),
         mBody(NULL),
         mUpVectorJoint(NULL),
-        mOffset(Vector3::ZERO),
-		mOrientationBias(Quaternion::IDENTITY),
         mPendingForce(Vector3::ZERO),
         mOverrideGravity(false),
         mGravity(Vector3::ZERO),
@@ -51,8 +49,10 @@ namespace rl
     PhysicalThing::~PhysicalThing()
 	{
         PhysicsManager::getSingleton().setPhysicsController( this, NULL );
+		// missing removal of list of collision objects here ...
 		delete mBody;
 		mBody = NULL;
+
     }
 
     Ogre::Vector3 PhysicalThing::getPosition() const
@@ -102,13 +102,6 @@ namespace rl
         mBody->setVelocity(vel);
     }
 
-/*	void PhysicalThing::setOffset(const Vector3& offset)
-	{
-		mOffset = offset;
-        //mBody->setOffset(offset);
-	}
-	*/
-
     Actor *PhysicalThing::getActor(void) const
     {
         return mActor;
@@ -128,8 +121,8 @@ namespace rl
     void PhysicalThing::_update()
     {
         mBody->setPositionOrientation(
-            mActor->_getSceneNode()->getWorldPosition(), // + mBody->getOffset(),
-            mOrientationBias.Inverse() * mActor->_getSceneNode()->getWorldOrientation());
+			mActor->_getSceneNode()->getWorldPosition(),
+			mActor->_getSceneNode()->getWorldOrientation());
 		mActor->_update(Actor::UF_ALL & ~Actor::UF_PHYSICAL_THING);
     }
 
@@ -142,7 +135,7 @@ namespace rl
 
     void PhysicalThing::_attachToSceneNode(Ogre::SceneNode* node)
     {
-        mBody->attachToNode(node); //, mOffset, mOrientationBias);
+        mBody->attachToNode(node);
     }
 
     void PhysicalThing::_attachToBone(MeshObject* object, const std::string& boneName )
@@ -281,7 +274,7 @@ namespace rl
 						Vector3 v = Vector3(vpos[0], vpos[1], vpos[2]);
 						//Positions in world space. So we need to transform them back.
 						vertices.push_back(transform * v);
-						offset++;
+						offset++;		// question: do we really need this here?
 					}
 
 					vbuffer->unlock();
@@ -323,8 +316,6 @@ namespace rl
 
     void PhysicalThing::fitToPose(const Ogre::String& name)
     {
-		Vector3 offset = Vector3::ZERO;
-		Quaternion orientationBias = Quaternion::IDENTITY;;
 		CollisionPtr coll;
         
         if (mPhysicalObject->isMeshObject())
@@ -337,7 +328,7 @@ namespace rl
             if (it == mPoseCollisions.end())
             {
                 // No, so create it and put it into the map
-                coll = createCollision(size, &offset, &orientationBias, NULL, name);
+                coll = createCollision(size, NULL, name);
                 mPoseCollisions.insert(make_pair(name, coll));
             }
             else
@@ -345,13 +336,11 @@ namespace rl
                 // collision primitiv is cached, retrieve it
                 coll = it->second;
             }
-            //setOffset(offset);
             mBody->setCollision(coll);
-            mOrientationBias = orientationBias;
 
             // Set body-position so, that node-position is invariant.
-            setPosition(mActor->_getSceneNode()->_getDerivedPosition() +
-                mActor->_getSceneNode()->_getDerivedOrientation() * offset);
+            setPosition(mActor->_getSceneNode()->_getDerivedPosition());
+			setOrientation(mActor->_getSceneNode()->_getDerivedOrientation());
         }
         else
         {
@@ -360,11 +349,10 @@ namespace rl
     }
 
 	OgreNewt::CollisionPtr PhysicalThing::createCollision(
-		const AxisAlignedBox& aabb, Vector3* offset, 
-		Quaternion* orientation, Vector3* inertiaCoefficients, const String animName) const
+		const AxisAlignedBox& aabb, Vector3* inertiaCoefficients,
+		const String animName, Vector3* offset, Quaternion* orientation ) const
     {
-		const Vector3 size = aabb.getMaximum() - aabb.getMinimum();
-
+		const Vector3 size( aabb.getSize() );
 		OgreNewt::World* physWorld = PhysicsManager::getSingleton()._getNewtonWorld();
 
         CollisionPtr rval;
@@ -542,11 +530,8 @@ namespace rl
 		{
             const AxisAlignedBox& aabb = mPhysicalObject->getDefaultSize();
                         
-			Quaternion orientationBias;
             Vector3 inertiaCoefficients;
-			Vector3 offset;
-			OgreNewt::CollisionPtr coll = createCollision(aabb, &offset,
-                &orientationBias, &inertiaCoefficients);
+			OgreNewt::CollisionPtr coll = createCollision(aabb, &inertiaCoefficients);
 
 			OgreNewt::Body* body = new OgreNewt::Body(
                 PhysicsManager::getSingleton()._getNewtonWorld(), coll);
@@ -560,8 +545,6 @@ namespace rl
 			body->setCustomForceAndTorqueCallback(PhysicsManager::genericForceCallback);
 
             setBody(body);
-            //setOffset(offset);
-			mOrientationBias = orientationBias;
         }
 	}
 

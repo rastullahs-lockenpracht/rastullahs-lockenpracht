@@ -28,24 +28,69 @@ namespace rl {
 	class Actor;
 	class MeshObject;
 
+	/** PhysicalThing contains the physical representation of an ActorControlledObject.
+	 * It utilizes a default collision primitiv derived from the default mesh, but it
+	 * can also handle keyframe animation states of the ActorControlledObject.
+	 */
     class _RlCoreExport PhysicalThing
     {
     public:
+		/** Constructor storing all passed values.
+		 * It simply initializes all internal variables to meaningful values
+		 * and stores the values passed by the parameters.
+		 * @param geomType PhysicsManager::GeometryType defining collision primitiv type
+		 *				   (box, sphere, etc.)
+		 * @param po PhysicalObject that utilizes this PhysicalThing object
+		 * @param mass Real containing the mass of the physical object in kg
+		 * 
+		 */
 		PhysicalThing(
 			PhysicsManager::GeometryType geomType,
 			PhysicalObject* po, 
 			Ogre::Real mass, 
 			bool hullModifier = false);
 
-        /// Klasse Polymorph machen, damit SWIG glücklich ist.
+        /** default virtual destructor
+		 * It is needed otherwise SWIG is not happy. It frees up the allocated 
+		 * OgreNewt::Body and unregisteres the object from PhysicsManager.
+		 */
         virtual ~PhysicalThing();
 
+		/** returns the position of the OgreNewt::Body object
+		 */
         Ogre::Vector3 getPosition() const;
+		/** sets the position of the OgreNewt::Body object
+		 * Since the physic engine alters position, using this function is bad.
+		 * Use addForce to manipulate the body instead.
+		 * @param pos Ogre::Vector3 containing new position in physic world space
+		 */
         void setPosition(const Ogre::Vector3& pos);
+		/** sets the position of the OgreNewt::Body object
+		 * Since the physic engine alters position, using this function is bad.
+		 * Use addForce to manipulate the body instead.
+		 * @param x Ogre::Real containing new x position in physic world space
+		 * @param y Ogre::Real containing new y position in physic world space
+		 * @param z Ogre::Real containing new z position in physic world space
+		 */
         void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z);
 
+		/** returns the orientation of the OgreNewt::Body object
+		 */
         Ogre::Quaternion getOrientation() const;
+		/** sets the position of the OgreNewt::Body object
+		 * Since the physic engine alters position, using this function is bad.
+		 * Use addForce to manipulate the body instead.
+		 * @param orientation Ogre::Quaternion containing new orientation in physic world space
+		 */
         void setOrientation(const Ogre::Quaternion& orienation);
+		/** sets the position of the OgreNewt::Body object
+		 * Since the physic engine alters position, using this function is bad.
+		 * Use addForce to manipulate the body instead.
+		 * @param w Ogre::Real containing new w orientation in physic world space
+		 * @param x Ogre::Real containing new x orientation in physic world space
+		 * @param y Ogre::Real containing new y orientation in physic world space
+		 * @param z Ogre::Real containing new z orientation in physic world space
+		 */
         void setOrientation(Ogre::Real w, Ogre::Real x, Ogre::Real y, Ogre::Real z);
 
         void setVelocity(const Ogre::Vector3& velocity);
@@ -70,6 +115,7 @@ namespace rl {
 		void _attachToBone(MeshObject* object, const std::string& boneName);
         void _detachFromSceneNode(Ogre::SceneNode* node);
 
+		/** ForceCallback for mBody (OgreNewt::Body). */
         void onApplyForceAndTorque();
         void addForce(const Ogre::Vector3& force);
 
@@ -88,8 +134,11 @@ namespace rl {
          */
         void updateCollisionHull();
 
-        /** Called to update the collision of the physical thing, in order to adapt
-         *  to a new animation state.
+        /** Called to update the collision primitiv to a new animation state.
+		 * Meshes can have different keyframe animations, which can vary in size and orientation.
+		 * To update the collision primitiv from one such keyframe to another, this function can
+		 * be used.
+		 * @param name String containing name of animation pose to update to.
          */
         void fitToPose(const Ogre::String& name);
 
@@ -101,25 +150,40 @@ namespace rl {
 
     private:
         Actor* mActor;
+		//! The newton body object this physical thing works with
         OgreNewt::Body* mBody;
+		//! an upjoint to keep the body from falling over
         OgreNewt::BasicJoints::UpVector* mUpVectorJoint;
-        Ogre::Vector3 mOffset;
-        Ogre::Quaternion mOrientationBias;
+		//! the pending force to apply at the body
         Ogre::Vector3 mPendingForce;
+		/** whether we override gravity or not
+		 question: is this really necessary ?
+		 */
         bool mOverrideGravity;
+		/** gravity vector ?
+		 question: is this really necessary ?
+		 */
         Ogre::Vector3 mGravity;
+		//! a contact listener called on collision with other objects
         PhysicsContactListener* mContactListener;
 
+		//! typedefinition for easing variable declaration
         typedef std::map<Ogre::String, OgreNewt::CollisionPtr> CollisionMap;
+		//! ??
         CollisionMap mPoseCollisions;
 
+		//! the objects mass
 		Ogre::Real mMass;
+		//! the collision primitivs type (box, sphere, ellipsoid, etc.)
 		PhysicsManager::GeometryType mGeometryType;
+		//! the associated tangible object ?
 		PhysicalObject* mPhysicalObject;
 		bool mHullModifier;
 
-		//void setOffset(const Ogre::Vector3& offset);
-		//void setOrientationBias(const Ogre::Quaternion& orientation);
+		/** returns the geometrytype of the collision primitiv.
+		 * That is normally box, sphere, ellipsoid, capsule, convexhull or mesh.
+		 * question: is mesh also userdefined ?
+		 */
 		PhysicsManager::GeometryType getGeometryType() const;
 		void setBody(OgreNewt::Body* body);
 
@@ -130,16 +194,18 @@ namespace rl {
 		 * offset and orientation parameters. Additionally an initial inertiaCoefficents vector is
 		 * calculated according to the size and type of collision primitiv.
 		 * @param aabb AxisAlignedBox that contains the extents of mesh whose coll. primitiv is to be created
-		 * @param offset Vector3 gives the offset of the coordinate system of the coll. primitiv
-		 * @param orientation Quaternion gives an euler rotation for the coordinate system of the coll. primitiv
 		 * @param inertiaCoefficients Vector3 returns the inertia coefficients for the created coll. primitiv
 		 * @param animName String specifies the name of the animation of the mesh whose coll. primitiv should be created,
 		 *        when "", then the basic mesh is used as a basis.
+		 * @param offset Vector3 gives the offset of the coordinate system of the coll. primitiv
+		 * @param orientation Quaternion gives an euler rotation for the coordinate system of the coll. primitiv
 		*/
 		OgreNewt::CollisionPtr createCollision(
-			const Ogre::AxisAlignedBox& aabb, Ogre::Vector3* offset = NULL, 
-			Ogre::Quaternion* orientation = NULL, Ogre::Vector3* inertiaCoefficients = NULL, 
-			const Ogre::String animName = "") const;
+			const Ogre::AxisAlignedBox& aabb,
+			Ogre::Vector3* inertiaCoefficients = NULL,
+			const Ogre::String animName = "",
+			Ogre::Vector3* offset = NULL, 
+			Ogre::Quaternion* orientation = NULL) const;
 	};
 }
 
