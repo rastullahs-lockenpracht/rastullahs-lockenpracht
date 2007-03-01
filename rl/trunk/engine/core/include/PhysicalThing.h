@@ -188,8 +188,6 @@ namespace rl {
 		void setBody(OgreNewt::Body* body);
 
 		/** creates a collision primitive for OgreNewt.
-		 * Currently this is Work In Progress - so it's changing 
-		 *    and the offset/orientation is not working accordling at the moment ...
 		 * The collision primitive created has got a basic orientation which can be influenced by
 		 * offset and orientation parameters. Additionally an initial inertiaCoefficents vector is
 		 * calculated according to the size and type of collision primitiv.

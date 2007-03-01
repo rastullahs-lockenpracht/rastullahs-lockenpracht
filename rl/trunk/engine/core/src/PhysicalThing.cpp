@@ -354,6 +354,8 @@ namespace rl
     {
 		const Vector3 size( aabb.getSize() );
 		OgreNewt::World* physWorld = PhysicsManager::getSingleton()._getNewtonWorld();
+		Ogre::Vector3 object_offset = Ogre::Vector3::ZERO;
+		Ogre::Quaternion object_orientation = Ogre::Quaternion::IDENTITY;
 
         CollisionPtr rval;
 
@@ -369,12 +371,20 @@ namespace rl
 	    */
 		if (mGeometryType == PhysicsManager::GT_BOX)
         {
+			// set offset/orientation when they are null
+			if (! offset) {
+				offset = &object_offset;
+				*offset = aabb.getCenter();
+			}
+			if (! orientation)
+				orientation = &object_orientation;
+
 			// a box collision primitiv has got it's coordinate system at it's center, so we need to shift it
-			rval = CollisionPtr(new CollisionPrimitives::Box(
+			rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Box(
 				physWorld,
 				size,
-				Ogre::Quaternion::IDENTITY,
-				aabb.getCenter())
+				*orientation,
+				*offset)
 				);
 
 			if (inertiaCoefficients != NULL)
@@ -388,12 +398,21 @@ namespace rl
         else if (mGeometryType == PhysicsManager::GT_SPHERE)
         {
 			double radius = std::max(size.x, std::max(size.y, size.z)) / 2.0;
+
+			// set offset/orientation when they are null
+			if (! offset) {
+				offset = &object_offset;
+				*offset = Vector3(0,radius,0);
+			}
+			if (! orientation)
+				orientation = &object_orientation;
+
 			// a sphere primitiv has got its coordinate system at its center, so shift it with radius
             rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
 				physWorld,
 				Vector3(radius, radius, radius),
-				Ogre::Quaternion::IDENTITY,
-				Vector3(0,radius,0))
+				*orientation,
+				*offset)
 				);
             
 			if (inertiaCoefficients != NULL)
@@ -408,12 +427,21 @@ namespace rl
             s.x = std::max(s.x, s.z);
             s.z = s.x;
 
+			// set offset/orientation when they are null
+			if (! offset) {
+				offset = &object_offset;
+				*offset = Vector3(0,s.y,0);
+			}
+			if (! orientation)
+				orientation = &object_orientation;
+
 			// an ellipsoid primitiv has got its coordinate system at its center, so shift it with radius
             rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
 				physWorld, 
 				s,
-				Ogre::Quaternion::IDENTITY,
-				Vector3(0,s.y,0)));
+				*orientation,
+				*offset)
+				);
 
             if (inertiaCoefficients != NULL)
 			{
@@ -424,20 +452,26 @@ namespace rl
 		{
 			double radius = std::max(size.x, size.z) / 2.0;
 			double height = size.y;
-			
-			Quaternion orientCaps;
-			orientCaps.FromAngleAxis(Degree(90), Vector3::UNIT_Z);
 
-			Vector3 offsetCaps (0, size.y/2, 0);
+			// set offset/orientation when they are null
+			if (! offset) {
+				offset = &object_offset;
+				*offset = Vector3(0, size.y/2, 0);
+			}
+			if (! orientation) {
+				orientation = &object_orientation;
+				orientation->FromAngleAxis(Degree(90), Vector3::UNIT_Z);
+			}
 
 			// an capsule primitiv has got its coordinate system at its center, so shift it with radius
 			// additionally it is x axis aligned, so rotate it 90 degrees around z axis
 			rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Capsule(
-						physWorld, 
-						radius, 
-						height,
-						orientCaps,
-						offsetCaps));
+				physWorld, 
+				radius, 
+				height,
+				*orientation,
+				*offset)
+				);
 			
 			if (inertiaCoefficients != NULL)
 			{
@@ -458,10 +492,30 @@ namespace rl
 				{
 					// Objekt zu klein!
 					LOG_MESSAGE(Logger::CORE, " PhyiscalThing too small to create a convexhull, using 'box' instead! ");
-					rval = CollisionPtr(new CollisionPrimitives::Box(physWorld, size));
+
+					// set offset/orientation when they are null
+					if (! offset) {
+						offset = &object_offset;
+						*offset = aabb.getCenter();
+					}
+					if (! orientation)
+						orientation = &object_orientation;
+					
+					rval = CollisionPtr(new CollisionPrimitives::Box(
+						physWorld, 
+						size, 
+						*orientation,
+						*offset)
+						);
 				}
 				else
 				{
+					// set offset/orientation when they are null
+					if (! offset)
+						offset = &object_offset;
+					if (! orientation)
+						orientation = &object_orientation;
+
 					// the problem fixed and it's source:
 					// entity is a MeshObject containing the basic state of the Mesh, but
 					// this function should create the physical bounding convex hull for one of the
@@ -479,7 +533,7 @@ namespace rl
 
 					// calculate the convex hull of the animated mesh
 					rval = CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(physWorld,
-						entity, true));
+						entity, true, *orientation, *offset));
 
 					// cleanup the temporary mesh
 					delete tempMesh;
