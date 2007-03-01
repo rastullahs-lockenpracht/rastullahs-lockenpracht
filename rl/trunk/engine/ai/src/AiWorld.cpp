@@ -23,6 +23,7 @@
 #include "PhysicsMaterialRaycast.h"
 
 using namespace rl;
+using namespace OpenSteer;
 
 AiWorld::AiWorld(void) : mObstacles()
 {

@@ -22,6 +22,7 @@
 #include "World.h"
 
 using namespace Ogre;
+using namespace OpenSteer;
 
 template<> rl::AiSubsystem* Singleton<rl::AiSubsystem>::ms_Singleton = 0;
 

@@ -91,6 +91,7 @@ void AgentManager::OnApplyForceAndTorque(PhysicalThing* thing)
 void AgentManager::run( Ogre::Real elapsedTime ) 
 {
 //	update agents
+	//if the loop below is reactivated, then remove this ...
 	if(mPlayer != NULL)
 	{
 		mPlayer->update(elapsedTime);

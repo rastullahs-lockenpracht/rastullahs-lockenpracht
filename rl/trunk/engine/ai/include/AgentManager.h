@@ -28,6 +28,8 @@ namespace rl
 	class SteeringVehicle;
 	class DialogCharacter;
 
+	/** Executes AI during game as a RL::GameTask
+	 */
 	class _RlAiExport AgentManager
 		: protected Ogre::Singleton<AgentManager>,
 		  public GameTask

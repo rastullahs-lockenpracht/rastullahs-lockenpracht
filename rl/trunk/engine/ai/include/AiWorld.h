@@ -20,7 +20,6 @@
 #include <OgreNewt.h>
 #include "PhysicsManager.h"
 
-using namespace OpenSteer;
 namespace rl
 {
 	/**
@@ -32,11 +31,11 @@ namespace rl
 		AiWorld(void);
 		~AiWorld(void);
 
-		ObstacleGroup getSteeringObstacles();
-		void addObstacle(Obstacle* obstacle);
+		OpenSteer::ObstacleGroup getSteeringObstacles();
+		void addObstacle(OpenSteer::Obstacle* obstacle);
 		void removeAllObstacles();
 	private:
-		ObstacleGroup mObstacles;
+		OpenSteer::ObstacleGroup mObstacles;
 	};
 
 
@@ -52,7 +51,7 @@ namespace rl
             mLevelMaterial = PhysicsManager::getSingleton()._getLevelMaterialID();
             mNewtonWorld = PhysicsManager::getSingleton()._getNewtonWorld();
         }
-        virtual void findIntersectionWithVehiclePath (const AbstractVehicle& vehicle,
+        virtual void findIntersectionWithVehiclePath (const OpenSteer::AbstractVehicle& vehicle,
                                               PathIntersection& pi) const;
     private:
         enum RaycastType

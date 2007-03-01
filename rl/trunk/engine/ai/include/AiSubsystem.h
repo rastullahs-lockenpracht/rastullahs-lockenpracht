@@ -26,6 +26,8 @@ namespace rl
 	class AgentManager;
 	class AiWorld;
 
+	/** Central core of AI
+	 */
 	class _RlAiExport AiSubsystem 
 		: public Ogre::Singleton<AiSubsystem>,
 		  public SceneChangeListener
