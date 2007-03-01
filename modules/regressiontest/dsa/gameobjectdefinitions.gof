@@ -33,6 +33,21 @@
     </gameobjectclass>
 
     <gameobjectclass>
+        <property name="classid" type="STRING" data="TestPersonCapsule"/>
+        <property name="baseclass" type="STRING" data="NPC"/>
+        <property name="name" type="STRING" data="TestPerson"/>
+        <property name="description" type="STRING" data="Wenn man mal jemanden zum Reden braucht..."/>
+        <property name="geometrytype" type="STRING" data="capsule"/>
+        <property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+        <property name="mass" type="REAL" data="65"/>
+        <property name="dialogfile" type="STRING" data="testperson.xml"/>
+        <property name="behaviours" type="ARRAY">
+            <property type="STRING" data="default_idle_behaviour"/>
+            <property type="STRING" data="dialog_behaviour"/>
+        </property>
+    </gameobjectclass>
+
+    <gameobjectclass>
         <property name="classid" type="STRING" data="switch3way"/>
         <property name="baseclass" type="STRING" data="Switch3Way"/>
         <property name="description" type="STRING" data="Ein Hebel"/>

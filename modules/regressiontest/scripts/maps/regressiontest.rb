@@ -6,6 +6,7 @@ require 'doortest.rb'
 require 'GameObjectCreationTest.rb'
 require 'GameObjectStatesTest.rb'
 require 'NpcTest.rb'
+require 'NpcCapsuleTest.rb'
 require 'TimeTest.rb'
 require 'InventoryTest.rb'
 require 'ErrorHandlingTest.rb'
@@ -20,7 +21,9 @@ $SCRIPT.log("Create hero")
 $hero = $GOM.createGameObjectProxy("hero", 1);
 
 $SCRIPT.log("Place hero into scene")
+#$hero.getGameObject().setPosition([0.0, 1.0, 0.0]);
 $hero.getGameObject().placeIntoScene()
+
 
 $SCRIPT.log("Prepare hero for being the active character")
 PlayerSettings.preparePlayer($hero.getGameObject())
@@ -36,6 +39,7 @@ DoorTest.new([0.0, 0.0, -5.0])
 #GameObjectCreationTest.new([5, 0, 0])
 #GameObjectStatesTest.new([0, 0, 5])
 NpcTest.new([-5, 0, 5])
+NpcCapsuleTest.new([0, 0, 5])
 TimeTest.new([-5, 0, -5])
 ErrorHandlingTest.new([-10, 0, 5])
 InventoryTest.new([0, 0, 10])
