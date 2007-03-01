@@ -301,10 +301,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\LinkedPlaylist.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\Logger.cpp"
 				>
 			</File>
@@ -314,18 +310,6 @@
 			</File>
 			<File
 				RelativePath=".\src\OgreXercesInput.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Playlist.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\PlaylistEvent.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\PlaylistObject.cpp"
 				>
 			</File>
 			<File
@@ -342,10 +326,6 @@
 			</File>
 			<File
 				RelativePath=".\src\ScriptWrapper.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\SimplePlaylist.cpp"
 				>
 			</File>
 			<File
@@ -413,10 +393,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\LinkedPlaylist.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\Logger.h"
 				>
 			</File>
@@ -426,18 +402,6 @@
 			</File>
 			<File
 				RelativePath=".\include\OgreXercesInput.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\Playlist.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\PlaylistEvent.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\PlaylistObject.h"
 				>
 			</File>
 			<File
@@ -458,10 +422,6 @@
 			</File>
 			<File
 				RelativePath=".\include\ScriptWrapper.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SimplePlaylist.h"
 				>
 			</File>
 			<File

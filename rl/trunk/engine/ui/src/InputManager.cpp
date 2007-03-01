@@ -320,15 +320,8 @@ namespace rl {
                 mCommandMapper->getAction(code, CMDMAP_KEYMAP_GLOBAL));
             if (action != NULL)
             {
-                try
-                {
-                    action->doAction(NULL, NULL, NULL);
-                    LOG_MESSAGE2(Logger::UI, "    invoked action " + action->getName(), "InputManager::keyReleased");
-                }
-                catch( ScriptInvocationFailedException& sife )
-                {
-                    LOG_ERROR(Logger::UI, sife.toString() );
-                }
+                action->doAction(NULL, NULL, NULL);
+                LOG_MESSAGE2(Logger::UI, "    invoked action " + action->getName(), "InputManager::keyReleased");
             }
 
             if (mCharacterController != NULL)

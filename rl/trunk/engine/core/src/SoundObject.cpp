@@ -35,11 +35,8 @@ namespace rl {
  * @date 03-11-2005
  */   
 SoundObject::SoundObject(Sound *sound, const Ogre::String &name)
-    : ActorControlledObject(sound),
-	PlaylistObject(),
-	EventListener<SoundEvent>()
+    : ActorControlledObject(sound)
 {
-    sound->addEventListener(this);
     // The movable has to be registered with the Ogre scene manager, since it is not
     // created by it.
     CoreSubsystem::getSingletonPtr()->getWorld()->getSceneManager()->injectMovableObject(sound);
@@ -53,7 +50,6 @@ SoundObject::~SoundObject()
 {
     if (mMovableObject != NULL)
     {
-        getSound()->removeEventListener(this);
 		SoundManager::getSingleton().getActiveDriver()->destroySound(getSound());
         mMovableObject = NULL;
     }
@@ -121,7 +117,6 @@ bool SoundObject::isPaused()
 
 void SoundObject::stop()
 {
-	PlaylistObject::stop();
     getSound()->stop();
 }
 
@@ -153,13 +148,11 @@ void SoundObject::set3d( bool is3d )
 
 void SoundObject::load()
 {
-	PlaylistObject::load();
 	getSound()->load();
 }
 
 void SoundObject::unload()
 {
-	PlaylistObject::unload();
     getSound()->unload();
 }
 
@@ -183,37 +176,14 @@ String SoundObject::getObjectType()
     return "SoundObject";
 }
 
-bool SoundObject::eventRaised(SoundEvent *event)
-{
-	int newReason = PlaylistEvent::NOPEVENT;
-	switch(event->getReason())
-	{
-		case SoundPlayEvent::PAUSEEVENT:
-			newReason = PlaylistEvent::PAUSEEVENT;
-			break;
-		case SoundPlayEvent::STARTEVENT:
-			newReason = PlaylistEvent::STARTEVENT;
-			break;
-		case SoundPlayEvent::STOPEVENT:
-			newReason = PlaylistEvent::STOPEVENT;
-			break;
-		default:
-			break;
-	}
-	PlaylistEvent newEvent = PlaylistEvent(event->getSource(), newReason);
-    dispatchEvent(&newEvent);
-    return true;
-}
 
 void SoundObject::pause()
 {
-	PlaylistObject::pause();
     pause(true);
 }
 
 void SoundObject::start()
 {
-	PlaylistObject::start();
     pause(false);
 }
 

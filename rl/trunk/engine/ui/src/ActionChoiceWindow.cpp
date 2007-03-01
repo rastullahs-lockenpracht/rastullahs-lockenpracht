@@ -197,16 +197,8 @@ namespace rl {
 		LOG_DEBUG2(Logger::UI, 
 			action->getName().c_str(), "ActionChoiceWindow::activateAction");
 			
-		
-        try
-        {
-            //TODO: Ask for target
-            action->doAction(mObject, mActor, NULL); 
-        }
-        catch( ScriptInvocationFailedException& sife )
-        {
-            LOG_ERROR(Logger::UI,  sife.toString() );
-        }
+		//TODO: Ask for target
+        action->doAction(mObject, mActor, NULL); 
 		
 		LOG_DEBUG2(Logger::UI, 
 			"Ende", "ActionChoiceWindow::activateAction");

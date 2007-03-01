@@ -241,18 +241,6 @@ namespace rl {
 
    };
 
-   class ScriptInvocationFailedException : public RuntimeException {
-   public:
-       ScriptInvocationFailedException(const std::string& message,
-           const std::string& file, const std::string& function, int line)
-           : RuntimeException(message, file, function, line) {}
-
-       ScriptInvocationFailedException(const ScriptInvocationFailedException& rhs)
-               : RuntimeException(rhs) {}
-
-       virtual std::string getType() { return "ScriptInvocationFailedException"; }
-   };
-
    class OutOfRangeException : public RuntimeException {
    public:
       OutOfRangeException(const std::string& message,

@@ -19,7 +19,6 @@
 
 #include "CorePrerequisites.h"
 #include "ActorControlledObject.h"
-#include "PlaylistObject.h"
 #include "SoundEvents.h"
 #include "EventListener.h"
 
@@ -33,8 +32,7 @@ namespace rl {
      *  heften kann. Zwischen Actor und ActorControlledObject
      *  besteht eine 1:1-Beziehung.
      */
-    class _RlCoreExport SoundObject : public ActorControlledObject, public PlaylistObject,
-        public EventListener<SoundEvent>
+    class _RlCoreExport SoundObject : public ActorControlledObject
     {
     public:
         SoundObject(Sound *sound, const Ogre::String &name);
@@ -84,9 +82,6 @@ namespace rl {
         void start();
         /// Pausieren den Sound
         void pause();
-        
-        /// Ein SoundEreignis ist passiert.
-        virtual bool eventRaised(SoundEvent *event);
 
 		virtual bool isMeshObject();
     };

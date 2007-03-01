@@ -94,23 +94,16 @@ namespace rl {
 			return false;
 		}
 
-		try
+        Action* action = ActionManager::getSingleton().getInGameGlobalAction(actionName);
+        if (action != NULL)
+        {
+            action->doAction(NULL, NULL, NULL);
+        }
+        else if (character != NULL)
 		{
-            Action* action = ActionManager::getSingleton().getInGameGlobalAction(actionName);
-            if (action != NULL)
-            {
-                action->doAction(NULL, NULL, NULL);
-            }
-            else if (character != NULL)
-			{
-				character->doAction(actionName, character, character);
-			}
-			return true;
+			character->doAction(actionName, character, character);
 		}
-		catch( ScriptInvocationFailedException& sife )
-		{
-			LOG_ERROR(Logger::UI, sife.toString() );
-		}
+		return true;
 
 		return false;
 	}

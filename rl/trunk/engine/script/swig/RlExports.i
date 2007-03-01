@@ -14,6 +14,7 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
+// Activate Directors and name the module RlScript
 %module(directors="1") RlScript
 /* Tell SWIG to keep track of mappings between C/C++ structs/classes. */
 %trackobjects;
@@ -28,20 +29,25 @@
 #	endif
 #endif
 
-#include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest fuer VS)
+// Has to be included before Ogre, MemoryManager issues...
+#include <xercesc/util/XMemory.hpp>	
 
-// Exportieren der Ruby Instanz Rückgabe
+// Exporting the function for getting ruby instances
 VALUE RL_RubyInstanceFor(void* ptr) 
 {
 	return SWIG_RubyInstanceFor(ptr);
 }
+// Exporting the function for removing ruby instances
 void RL_RubyRemoveTracking(void* ptr) 
 {
 	return SWIG_RubyRemoveTracking(ptr);
 }
+
+#include "FixRubyHeaders.h"
+
 %}
 
-
+// Header includes
 %include "RlCommon.head.swig"
 %include "RlUi.head.swig"
 %include "RlCore.head.swig"
@@ -50,12 +56,13 @@ void RL_RubyRemoveTracking(void* ptr)
 %include "RlAi.head.swig"
 %include "RlScript.head.swig"
 
-
-
 %include "TypeMaps.i"
 %include "stl.i"
 %include "std_string.i"
 %include "std_pair.i"
+
+
+
 
 // Kopie. Falls das nochmal irgendwohin kopiert werden muss,
 // In separate Datei auslagen.
@@ -67,19 +74,31 @@ void RL_RubyRemoveTracking(void* ptr)
 #   endif
 #endif
 
-%feature("director:except") {
-	stringstream stream;	
-	VALUE lasterr = rb_gv_get("$!");
 
-    // class
-    VALUE klass = rb_class_path(CLASS_OF(lasterr));
+
+
+// Handling of errors in director methods
+
+%feature("director:except") 
+{
+	RL_handleRubyError( error );
+	return Qnil;
+}
+
+%{
+// Error Handling for Ruby
+void RL_handleRubyError( VALUE error )
+{
+	stringstream stream;	
+	// get error class
+    VALUE klass = rb_class_path(CLASS_OF(error));
     stream << RSTRING(klass)->ptr << " ("; 
 
-    // message
-    VALUE message = rb_obj_as_string(lasterr);
+    // get error message
+    VALUE message = rb_obj_as_string(error);
     stream << RSTRING(message)->ptr << ") " << endl;
 
-    // backtrace
+    // get backtrace
     if(!NIL_P(ruby_errinfo)) 
     {
 		stream << "Callstack: [ ";
@@ -93,10 +112,17 @@ void RL_RubyRemoveTracking(void* ptr)
         }
         stream << "]";
     }
+    else
+		stream << "Kein Stacktrace vorhanden...";
         
-    rl::WindowFactory::getSingleton().writeToConsole( stream.str() );        
-	Throw(rl::ScriptInvocationFailedException, stream.str() );
+    rl::ScriptSubsystem::getSingleton().log( stream.str() );
+    rl::WindowFactory::getSingleton().writeToConsole( stream.str() );  
 }
+%}
+
+
+
+// Converting C++ Exceptions to Ruby Exceptions
 
 namespace Swig {
 	class DirectorException;
@@ -119,8 +145,7 @@ namespace Swig {
     rb_raise(ogreException, oe.getFullDescription().c_str());
   }
   catch (Swig::DirectorException&) {
-    static VALUE directorException = rb_define_class("DirectorException", rb_eRuntimeError);
-    rb_raise(directorException, "Eine Director Exception ist aufgetreten");
+    SWIG_fail; 
   } 
   catch (std::exception& se) {
     static VALUE stdException = rb_define_class("StdException", rb_eRuntimeError);
@@ -132,10 +157,20 @@ namespace Swig {
   }
 }
 
+
+
+
+// deaktiviere Warnung ueber unreferenzierte lokale Variable, 
+// da dies in allen erzeugten Exceptionhandlern auftritt
 %{
-#pragma warning( disable : 4101 )	// deaktiviere Warnung ueber unreferenzierte lokale Variable, 
-									// da dies in allen erzeugten Exceptionhandlern auftritt
+#pragma warning( disable : 4101 )	
+									
 %}
+
+
+
+
+// These functions will ensure no C++ will have to different Ruby links
 
 // doWithActor( Actor* ) oder andere Director-Methoden Parameter
 %typemap(directorin) SWIGTYPE*
@@ -146,12 +181,11 @@ namespace Swig {
     if (resultdirector) {
         $input = resultdirector->swig_get_self();
     }
-    else
-	{
+    else {
 		VALUE val = SWIG_RubyInstanceFor( $1 );
 		
 		// Es gab das SkriptObjekt noch nicht
-		if( val == Qnil )
+		if (NIL_P(val))
 		{
 			$input = SWIG_NewPointerObj((void *) $1, $1_descriptor, NULL);		
 		}
@@ -166,8 +200,7 @@ namespace Swig {
 	VALUE val = SWIG_RubyInstanceFor( $1 );
 	
 	// Es gab das SkriptObjekt noch nicht
-	if( val == Qnil )
-	{
+	if (NIL_P(val)) {
 		$result = SWIG_NewPointerObj((void *) $1, $1_descriptor, NULL);			
 	}
 	else	
@@ -180,7 +213,7 @@ namespace Swig {
 	VALUE val = SWIG_RubyInstanceFor( $1 );
 	
 	// Es gab das SkriptObjekt noch nicht
-	if( val == Qnil )
+	if (NIL_P(val))
 	{
 		// Dynamic Cast ausführen
 		swig_type_info *ty = SWIG_TypeDynamicCast($1_descriptor, (void **) &$1);
@@ -204,8 +237,7 @@ namespace Swig {
 		VALUE val = SWIG_RubyInstanceFor( $1 );
 		
 		// Es gab das SkriptObjekt noch nicht
-		if( val == Qnil )
-		{
+		if (NIL_P(val)) {
 			// Dynamic Cast ausführen
 			swig_type_info *ty = SWIG_TypeDynamicCast($1_descriptor, (void **) &$1);
 			$input = SWIG_NewPointerObj((void *) $1, ty, 0);		
@@ -214,6 +246,9 @@ namespace Swig {
 			$input = val;
 	}
 } 
+
+
+// Include bodies
 
 %include "RlCommon.swig"
 %include "RlCore.swig"

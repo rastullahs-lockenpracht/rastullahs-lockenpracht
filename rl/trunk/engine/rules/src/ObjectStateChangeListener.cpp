@@ -26,14 +26,7 @@ namespace rl {
 
 	bool ObjectStateChangeListener::eventRaised(ObjectStateChangeEvent* evt)
 	{
-        try
-        {
-            objectStateChanged(evt);
-        }
-		catch( ScriptInvocationFailedException& sife )
-        {
-			LOG_ERROR(Logger::RULES, sife.toString() );
-        }
+        objectStateChanged(evt);
 
         // consumed or not
 		return false;

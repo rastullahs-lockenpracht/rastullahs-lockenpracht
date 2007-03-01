@@ -26,21 +26,14 @@ namespace rl {
 
     bool QuestListener::eventRaised(QuestEvent* evt)
     {
-        try
-        {
-            if( evt->getReason() == QuestEvent::QUEST_STATE )
-                questStateChanged(evt);
-            else if( evt->getReason() == QuestEvent::QUEST_PARTSDONE )
-                questPartsDoneChanged(evt);
-            else if( evt->getReason() == QuestEvent::QUEST_KNOWN )
-                questKnownChanged(evt);
-            else if( evt->getReason() == QuestEvent::QUEST_SUBQUEST )
-                questSubquestAdded(evt);
-        }
-        catch( ScriptInvocationFailedException& sife )
-        {
-            LOG_ERROR(Logger::RULES, sife.toString() );
-        }
+        if( evt->getReason() == QuestEvent::QUEST_STATE )
+            questStateChanged(evt);
+        else if( evt->getReason() == QuestEvent::QUEST_PARTSDONE )
+            questPartsDoneChanged(evt);
+        else if( evt->getReason() == QuestEvent::QUEST_KNOWN )
+            questKnownChanged(evt);
+        else if( evt->getReason() == QuestEvent::QUEST_SUBQUEST )
+            questSubquestAdded(evt);
 
         // consumed or not
         return false;
@@ -48,16 +41,9 @@ namespace rl {
 
     bool QuestListener::eventRaised(JournalEvent* evt)
     {
-        try
+        if (evt->getReason() == JournalEvent::JOURNAL_ENTRY_ADDED)
         {
-            if (evt->getReason() == JournalEvent::JOURNAL_ENTRY_ADDED)
-            {
-                journalEntryAdded(evt);
-            }
-        }
-        catch (ScriptInvocationFailedException& sife)
-        {
-            LOG_ERROR(Logger::RULES, sife.toString());
+            journalEntryAdded(evt);
         }
 
         // consumed or not

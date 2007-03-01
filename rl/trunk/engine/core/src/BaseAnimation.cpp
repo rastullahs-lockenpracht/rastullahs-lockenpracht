@@ -28,7 +28,7 @@ namespace rl {
 
 BaseAnimation::BaseAnimation( Ogre::Real length, Ogre::Real speed, 
     unsigned int timesToPlay, bool paused ) :
-    PlaylistObject(),
+    EventSource(),
     mLength(length),
 	mAnimationFrameListener(),
 	mAnimationCaster(),
@@ -427,19 +427,16 @@ void BaseAnimation::checkAnimationFrameListeners( Ogre::Real timePassed )
 
 void BaseAnimation::start()
 {
-	PlaylistObject::start();
     setPaused(false);
 }
 
 void BaseAnimation::stop()
 {
-	PlaylistObject::stop();
     setPaused(true);
 }
 
 void BaseAnimation::pause()
 {
-	PlaylistObject::pause();
     setPaused(true);
 }
 

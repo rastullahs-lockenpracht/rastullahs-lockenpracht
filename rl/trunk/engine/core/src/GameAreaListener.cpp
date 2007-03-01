@@ -30,21 +30,14 @@ namespace rl {
 
     bool GameAreaListener::eventRaised( GameAreaEvent* anEvent )
     {
-        try
+        switch( anEvent->getReason() )
         {
-            switch( anEvent->getReason() )
-            {
-            case GameAreaEvent::AREA_ENTERED:
-                this->areaEntered( anEvent );
-                break;
-            case GameAreaEvent::AREA_LEFT:
-                this->areaLeft( anEvent );
-                break;
-            }
-        }
-        catch( ScriptInvocationFailedException& sife )
-        {
-            LOG_ERROR(Logger::CORE, sife.toString() );
+        case GameAreaEvent::AREA_ENTERED:
+            this->areaEntered( anEvent );
+            break;
+        case GameAreaEvent::AREA_LEFT:
+            this->areaLeft( anEvent );
+            break;
         }
 
 

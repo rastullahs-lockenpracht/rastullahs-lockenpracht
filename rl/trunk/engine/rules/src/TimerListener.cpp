@@ -27,14 +27,7 @@ namespace rl {
 
 	bool TimerListener::eventRaised(TimerEvent* evt)
 	{
-        try
-        {
-            timerFired(evt);
-        }
-		catch( ScriptInvocationFailedException& sife )
-        {
-			LOG_ERROR(Logger::CORE, sife.toString() );
-        }
+        timerFired(evt);
 
         // consumed or not
 		return false;

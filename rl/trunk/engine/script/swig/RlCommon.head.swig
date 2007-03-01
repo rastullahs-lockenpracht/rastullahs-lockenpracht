@@ -23,10 +23,5 @@
 #include "EventListener.h"
 #include "EventObject.h"
 #include "EventCaster.h"
-#include "PlaylistObject.h"
-#include "Playlist.h"
-#include "PlaylistEvent.h"
 #include "Property.h"
-#include "SimplePlaylist.h"
-#include "LinkedPlaylist.h"
 %}

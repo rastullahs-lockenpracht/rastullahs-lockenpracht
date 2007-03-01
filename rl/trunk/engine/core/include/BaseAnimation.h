@@ -22,7 +22,6 @@
 #include <set>
 #include <map>
 #include "AnimationListener.h"
-#include "PlaylistObject.h"
 
 
 namespace rl {
@@ -33,7 +32,7 @@ namespace rl {
 	@remarks Instanzen werden über den AnimationManager erzeugt
 	@see AnimationManager
 */
-class _RlCoreExport BaseAnimation : public virtual PlaylistObject
+class _RlCoreExport BaseAnimation : public virtual EventSource
 {
     public:
 		/**

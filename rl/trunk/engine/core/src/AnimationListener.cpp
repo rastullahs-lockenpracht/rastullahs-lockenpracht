@@ -38,24 +38,17 @@ AnimationListener::~AnimationListener()
 
 bool AnimationListener::eventRaised( AnimationEvent* anEvent ) 
 {
-    try
+    switch( anEvent->getReason() )
     {
-	    switch( anEvent->getReason() )
-	    {
-	    case AnimationEvent::ANIMATION_FINISHED:
-		    this->animationFinished( anEvent );
-		    break;
-	    case AnimationEvent::ANIMATION_UNPAUSED:
-		    this->animationUnpaused( anEvent );
-		    break;
-	    case AnimationEvent::ANIMATION_PAUSED:
-		    this->animationPaused( anEvent );
-		    break;
-	    }
-    }
-    catch( ScriptInvocationFailedException& sife )
-    {
-        LOG_ERROR(Logger::CORE, sife.toString() );
+    case AnimationEvent::ANIMATION_FINISHED:
+        this->animationFinished( anEvent );
+        break;
+    case AnimationEvent::ANIMATION_UNPAUSED:
+        this->animationUnpaused( anEvent );
+        break;
+    case AnimationEvent::ANIMATION_PAUSED:
+        this->animationPaused( anEvent );
+        break;
     }
 
 	// consumed or not ;)
@@ -64,15 +57,7 @@ bool AnimationListener::eventRaised( AnimationEvent* anEvent )
 
  bool AnimationFrameListener::eventRaised(AnimationFrameEvent *anEvent)
 {
-    try
-    {
-        this->animationFrameReached( anEvent );
-    }
-    catch( ScriptInvocationFailedException& sife )
-    {
-        LOG_ERROR(Logger::CORE, sife.toString() );
-    }
-
+    this->animationFrameReached( anEvent );
 
     // consumed or not ;)
     return false;
