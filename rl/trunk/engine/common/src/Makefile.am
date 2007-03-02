@@ -14,7 +14,6 @@ libRlCommon_la_SOURCES = \
   Property.cpp \
   PropertyReader.cpp \
   ScriptWrapper.cpp \
-  SimplePlaylist.cpp \
   XmlErrorHandler.cpp \
   XmlHelper.cpp \
   XmlResource.cpp \
