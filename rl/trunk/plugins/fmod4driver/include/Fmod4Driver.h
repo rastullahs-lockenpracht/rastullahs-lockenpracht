@@ -31,7 +31,7 @@
 namespace rl
 {
 
-    typedef map<Ogre::String, StringList> DriverMap;
+    typedef std::map<Ogre::String, StringList> DriverMap;
 
     #define CHECK_FMOD4_ERRORS(fmod4_errorcode)\
     {\

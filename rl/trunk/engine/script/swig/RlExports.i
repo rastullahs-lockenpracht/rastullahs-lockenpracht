@@ -92,11 +92,11 @@ void RL_handleRubyError( VALUE error )
 	std::stringstream stream;	
 	// get error class
     VALUE klass = rb_class_path(CLASS_OF(error));
-    stream << RSTRING(klass)->ptr << " ("; 
+    stream << RSTRING(klass)->ptr << " (\""; 
 
     // get error message
     VALUE message = rb_obj_as_string(error);
-    stream << RSTRING(message)->ptr << ") " << std::endl;
+    stream << RSTRING(message)->ptr << "\"), ";
 
     // get backtrace
     if(!NIL_P(ruby_errinfo)) 
@@ -113,9 +113,9 @@ void RL_handleRubyError( VALUE error )
         stream << "]";
     }
     else
-		stream << "Kein Stacktrace vorhanden...";
-        
-    rl::ScriptSubsystem::getSingleton().log( stream.str() );
+		stream << "[ No Callstack found ]";
+     
+    LOG_ERROR(rl::Logger::SCRIPT, stream.str() );
     rl::WindowFactory::getSingleton().writeToConsole( stream.str() );  
 }
 %}

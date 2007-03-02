@@ -156,7 +156,7 @@ namespace rl {
         void updateCameraLookAt(Ogre::Real elapsedTime);
         void updateAnimationState(int &movement); // this can also modify movement, if needed
 
-void interpolateAnimationLookAtOffset(std::string actAnim, std::string newAnim, Ogre::Real factor);
+        void interpolateAnimationLookAtOffset(std::string actAnim, std::string newAnim, Ogre::Real factor);
 
 
         /** Does all camera-stuff, moves the camera to the right position 

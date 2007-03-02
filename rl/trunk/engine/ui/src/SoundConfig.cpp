@@ -185,7 +185,7 @@ namespace rl
 
     void SoundConfig::setDriverPage(const CeGuiString& drivername)
     {
-        for (list<SoundDriverConfigComponent*>::iterator it = mDriverConfigs.begin();
+        for ( std::list<SoundDriverConfigComponent*>::iterator it = mDriverConfigs.begin();
 				it != mDriverConfigs.end(); it++)
 		{
 			SoundDriverConfigComponent* curr = *it;

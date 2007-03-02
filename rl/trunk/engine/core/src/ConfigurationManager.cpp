@@ -233,7 +233,7 @@ namespace rl
                         addSetting(CS_GENERAL, it.peekNextKey(), it.peekNextValue());
                     }
                 }
-                catch (Ogre::Exception& oe)
+                catch (Ogre::Exception&)
                 {
                     // Log it as information
                     LOG_WARNING(Logger::CORE, "Configuration File " + cfg_paths[i] +
@@ -251,7 +251,7 @@ namespace rl
                         addSetting(CS_GRAPHICS, it.peekNextKey(), it.peekNextValue());
                     }
                 }
-                catch (Ogre::Exception& oe)
+                catch (Ogre::Exception&)
                 {
                     // Log it as information
                     LOG_WARNING(Logger::CORE, "Configuration File " + cfg_paths[i] +
@@ -269,7 +269,7 @@ namespace rl
                         addSetting(CS_SOUND, it.peekNextKey(), it.peekNextValue());
                     }
                 }
-                catch (Ogre::Exception& oe)
+                catch (Ogre::Exception&)
                 {
                     // Log it as information
                     LOG_WARNING(Logger::CORE, "Configuration File " + cfg_paths[i] +
@@ -287,7 +287,7 @@ namespace rl
                         addSetting(CS_INPUT, it.peekNextKey(), it.peekNextValue());
                     }
                 }
-                catch (Ogre::Exception& oe)
+                catch (Ogre::Exception&)
                 {
                     // Log it as information
                     LOG_WARNING(Logger::CORE, "Configuration File " + cfg_paths[i] +
@@ -551,7 +551,7 @@ namespace rl
                 return true;
             }
         }
-        catch (fs::filesystem_error& fe) {
+        catch (fs::filesystem_error&) {
             return false;
         }
 

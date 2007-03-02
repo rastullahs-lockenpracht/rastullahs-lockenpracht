@@ -76,7 +76,7 @@ void FadeAnimation::addAnimation( MeshAnimation* anim, Ogre::Real timeStart,
     else
         anim->setWeight(0.0);
 
-    mLength = max(timeEnd,mLength);
+    mLength = std::max(timeEnd,mLength);
 }
 
 void FadeAnimation::removeAnimation( MeshAnimation* anim )
