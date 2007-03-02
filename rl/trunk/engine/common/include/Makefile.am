@@ -10,13 +10,10 @@ noinst_HEADERS =
 	FixRubyHeaders.h \
 	GameTask.h \
 	Logger.h \
-	LinkedPlaylist.h \
 	MathUtil.h \
 	OgreXercesInput.h \
 	Playlist.h \
 	SimplePlaylist.h \
-	PlaylistEvent.h \
-	PlaylistObject.h \
         Properties.cpp \
         Property.cpp \
         RastullahPrerequisites.h \
