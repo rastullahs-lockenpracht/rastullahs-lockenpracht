@@ -57,7 +57,7 @@ namespace rl
         mWorldAABB(Vector3(-100, -100, -100), Vector3(100, 100, 100)),
         mElapsed(0.0f),
         mMinTimestep(1.0f/600.0f),
-        mMaxTimestep(1.0f/60.0f),
+        mMaxTimestep(1.0f/30.0f),
         mLevelID(),
         mCharacterID(),
         mDefaultPair(),
@@ -109,8 +109,12 @@ namespace rl
         if (!mEnabled) 
 			return;
 
+        // does not need to be executed each frame!
+        // this is only here for testing
+        //NewtonSetMinimumFrameRate(mWorld->getNewtonWorld(), 1./mMaxTimestep);
 
-        // Newton kann timesteps zwischen 1/60 und 1/600!
+
+        // Newton kann timesteps zwischen 1/20 und 1/600!
         mElapsed += elapsedTime;
         while( mElapsed >= mMaxTimestep)
         {
