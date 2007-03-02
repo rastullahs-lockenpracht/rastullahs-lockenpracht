@@ -44,13 +44,13 @@ namespace rl
 		void setTp(int d6, int d20, int mod);
 		const Tripel<int>& getTp() const;
 		void setTpKk(int base, int step);
-		const pair<int, int>& getTpKk() const;
+		const std::pair<int, int>& getTpKk() const;
 		void setBf(int newBf);
 		int getBf();
 		void setIni(int newIni);
 		int getIni();
-		void setWm(pair<int, int>& newWm);
-		const pair<int,int>& getWm() const;
+		void setWm(std::pair<int, int>& newWm);
+		const std::pair<int,int>& getWm() const;
 		void setDk(Distanzklasse newDk);
 		Distanzklasse getDk();
 		void setKampftechnik(const CeGuiString newKampftechnik);
@@ -62,10 +62,10 @@ namespace rl
 
 	private:
 		Tripel<int> mTp;
-		pair<int, int> mTpKk;
+		std::pair<int, int> mTpKk;
 		int mBf;
 		int mIni;
-		pair<int, int> mWm;
+		std::pair<int, int> mWm;
 		Distanzklasse mDk;
 		CeGuiString mKampftechnik;
 	};

@@ -24,6 +24,7 @@
 
 using namespace rl;
 using namespace OpenSteer;
+using namespace Ogre;
 
 AiWorld::AiWorld(void) : mObstacles()
 {

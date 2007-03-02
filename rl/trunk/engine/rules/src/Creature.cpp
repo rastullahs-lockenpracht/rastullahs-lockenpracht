@@ -16,16 +16,22 @@
 #include "Creature.h"
 
 #include "Actor.h"
+#include "Container.h"
 #include "DsaManager.h"
 #include "Eigenschaft.h"
 #include "Exception.h"
+#include "Inventory.h"
 #include "Kampftechnik.h"
 #include "MeshObject.h"
 #include "StateSet.h"
 #include "Talent.h"
-#include "Inventory.h"
+#include "Weapon.h"
+
+///@todo Just for debugging, remove when not needed anymore
 #include "CoreSubsystem.h"
 #include "RubyInterpreter.h"
+
+using namespace std;
 
 namespace rl
 {
@@ -36,7 +42,7 @@ namespace rl
 		mCurrentLe(0),
         mCurrentAu(0),
         mCurrentAe(0),
-		mActiveWeapon(NULL),
+	mActiveWeapon(NULL),
 		mInventory(NULL),
 		mEigenschaften(),
 		mWerte(),

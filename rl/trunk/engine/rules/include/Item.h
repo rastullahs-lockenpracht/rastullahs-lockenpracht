@@ -23,8 +23,8 @@ namespace rl
 {
 	class _RlRulesExport Item;
 
-	typedef vector<Item*> ContainerColumn;
-	typedef vector<ContainerColumn> ContainerLayout;
+	typedef std::vector<Item*> ContainerColumn;
+	typedef std::vector<ContainerColumn> ContainerLayout;
 
 
     /// Aufnehmbare Objekte in der Spielwelt.
@@ -79,7 +79,7 @@ namespace rl
 
 		/**
 		 * @return ob es sich um ein Item handelt,
-		 * in dem andere gespeichert werden können
+		 * in dem andere gespeichert werden kï¿½nen
 		 */
         virtual bool isContainer() const;
 		
@@ -107,9 +107,9 @@ namespace rl
 
 
 		/**
-		* Generiert einen Text mit Zeilenumbrüchen, aus dem String.
+		* Generiert einen Text mit Zeilenumbrchen, aus dem String.
 		* @param unformattedText Der zu formatierende Text
-		* @return CeGuiString der Text mit eingefügten Enter-symbolen
+		* @return CeGuiString der Text mit eingefgten Enter-symbolen
 		*/
 		static CeGuiString getFormattedText(const CeGuiString &unformattedText);
     };

@@ -6,7 +6,6 @@ noinst_HEADERS = \
 	CharacterSheetWindow.h \
 	CharacterStateWindow.h \
 	CloseConfirmationWindow.h \
-	CommandExecutor.h \
 	CommandMapper.h \
 	CommandMapperWindow.h \
 	ConfigComponent.h \

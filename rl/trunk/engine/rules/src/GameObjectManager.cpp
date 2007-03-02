@@ -17,6 +17,7 @@
 
 #include "Armor.h"
 #include "CoreSubsystem.h"
+#include "Container.h"
 #include "Creature.h"
 #include "Exception.h"
 #include "GameObject.h"

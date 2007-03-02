@@ -19,6 +19,8 @@
 #include "PhysicalThing.h"
 
 using namespace rl;
+using namespace OpenSteer;
+using namespace Ogre;
 
 PlayerVehicle::PlayerVehicle(Actor* character)
 	: SteeringVehicle(NULL, character)

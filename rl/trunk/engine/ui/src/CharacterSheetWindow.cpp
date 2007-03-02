@@ -84,7 +84,7 @@ void CharacterSheetWindow::setCharacter(Person* person)
 
 void CharacterSheetWindow::update()
 {
-	    //TODO: Daten updaten
+	///@TODO: Daten updaten
 	updateTalents();
 	/*if (mCharacter->isMagic())
 		updateMagic();*/
@@ -94,8 +94,8 @@ void CharacterSheetWindow::update()
 void CharacterSheetWindow::updateValues()
 {
 	mName->setText("Name: "+mCharacter->getName());
-	mRasse->setText(string("Rasse: "));
-	mProfession->setText(string("Profession: "));
+	mRasse->setText("Rasse: ");
+	mProfession->setText("Profession: ");
 
 	mLE->setText("LeP: "+
 		StringConverter::toString(mCharacter->getLe())+"/"+
@@ -161,18 +161,18 @@ void CharacterSheetWindow::updateTalents()
 		mTalentTable->setItem(new ListboxTextItem(probe), 1, talentNum);
 		CeGuiString eBe;
 		if (talent->getEbe() == EBE_KEINE_BE)
-			eBe = (utf8*)"-";
+			eBe = "-";
 		else if (talent->getEbe() == EBE_BEx2)
-			eBe = (utf8*)"BEx2";
+			eBe = "BEx2";
 		else if (talent->getEbe() == 0)
-			eBe = (utf8*)"BE";
+			eBe = "BE";
 		else if (talent->getEbe() > 0)
-			eBe = (utf8*)"BE+" + CeGuiString(StringConverter::toString(talent->getEbe()));
+			eBe = "BE+" + CEGUI::PropertyHelper::intToString(talent->getEbe());
 		else
-			eBe = (utf8*)"BE" + CeGuiString(StringConverter::toString(talent->getEbe()));
+			eBe = "BE" + CEGUI::PropertyHelper::intToString(talent->getEbe());
 
 		mTalentTable->setItem(new ListboxTextItem(eBe), 2, talentNum);
-		mTalentTable->setItem(new ListboxTextItem((utf8*)""), 3, talentNum);
+		mTalentTable->setItem(new ListboxTextItem(""), 3, talentNum);
 
 		talentNum++;
 	}

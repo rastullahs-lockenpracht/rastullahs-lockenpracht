@@ -136,7 +136,7 @@ namespace rl {
         return t;
     }
 
-	int XdimlLoader::getEBeFromString(const string& eBeString)
+	int XdimlLoader::getEBeFromString(const Ogre::String& eBeString)
 	{
 		if (eBeString.length() == 0)
 			return EBE_KEINE_BE;
@@ -144,7 +144,7 @@ namespace rl {
 		if (!(eBeString.substr(0, 2).compare("BE")) == 0)
 			Throw(IllegalArgumentException, "Ungueltige EBE-Angabe.");
 
-		string ebe = eBeString.substr(2);
+		Ogre::String ebe = eBeString.substr(2);
 		if (ebe.compare("x2") == 0)
 			return EBE_BEx2;
 		if (ebe.compare("") == 0)
@@ -234,7 +234,7 @@ namespace rl {
 		DOMNodeList* eigensch = 
 			XmlHelper::getChildNamed(personXml, "Eigenschaften")->
 				getElementsByTagName(EIGENSCHAFT.data());
-		// Die Eigenschaftsnamen müssen durch ihre Abkürzung ersetzt werden.
+		// Die Eigenschaftsnamen mssen durch ihre Abkrzung ersetzt werden.
 		for (unsigned int idx = 0; idx < eigensch->getLength(); idx++)
 		{
 			DOMElement* eigenschXml = static_cast<DOMElement*>(eigensch->item(idx));

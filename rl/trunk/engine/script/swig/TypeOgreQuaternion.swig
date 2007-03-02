@@ -16,7 +16,7 @@
 
 /* Typemaps fuer Quaternion.
  * Ein Quaternion wird auf ein Array aus einem 3-elementigen Array 
- * für die Rotationsachse und einem Wert für den Winkel abgebildet
+ * fr die Rotationsachse und einem Wert fr den Winkel abgebildet
  * 
  */
 
@@ -82,7 +82,7 @@
    }
    else if (RARRAY($input)->len == 3)
    {
-	   Quaternion rotX, rotY, rotZ;
+	   Ogre::Quaternion rotX, rotY, rotZ;
         rotX.FromAngleAxis(
 			Ogre::Degree(NUM2DBL(rb_ary_entry($input, 0))), 
 			Ogre::Vector3::UNIT_X);
@@ -124,7 +124,7 @@
    }
    else if (RARRAY($input)->len == 3)
    {
-	   Quaternion rotX, rotY, rotZ;
+	   Ogre::Quaternion rotX, rotY, rotZ;
         rotX.FromAngleAxis(
 			Ogre::Degree(NUM2DBL(rb_ary_entry($input, 0))), 
 			Ogre::Vector3::UNIT_X);
@@ -155,8 +155,8 @@
 
 
 %typemap(out) Ogre::Quaternion, const Ogre::Quaternion {
-   Degree angle;
-   Vector3 axis;
+   Ogre::Degree angle;
+   Ogre::Vector3 axis;
    
    $1.ToAngleAxis(angle, axis);
    
@@ -172,8 +172,8 @@
 }
 
 %typemap(out) Ogre::Quaternion*, const Ogre::Quaternion*, const Ogre::Quaternion&, Ogre::Quaternion& {
-   Degree angle;
-   Vector3 axis;
+   Ogre::Degree angle;
+   Ogre::Vector3 axis;
    
    $1->ToAngleAxis(angle, axis);
    

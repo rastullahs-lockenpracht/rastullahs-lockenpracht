@@ -23,9 +23,9 @@
 
 namespace rl
 {
-    typedef set<Item*> ItemSet;
+    typedef std::set<Item*> ItemSet;
 
-    /// Behaelter für Items.
+    /// Behaelter fr Items.
     class _RlRulesExport Container : public Item
     {
     public:
@@ -44,9 +44,9 @@ namespace rl
         /// Fassungsvermoegen in Unzen
         void setCapacity(Ogre::Real capacity);
 
-		// Volumen in x (breite) * y (hoehe)
-		void setVolume(unsigned int x, unsigned int y);
-        pair<unsigned int, unsigned int> getVolume() const;
+	// Volumen in x (breite) * y (hoehe)
+	void setVolume(unsigned int x, unsigned int y);
+        std::pair<unsigned int, unsigned int> getVolume() const;
 
         /// ist dieser Gegenstand ein Container
         virtual bool isContainer() const;
@@ -60,7 +60,7 @@ namespace rl
 
         ItemSet getItems() const;
 
-		int getItemCount() const;
+	int getItemCount() const;
 
         bool isFree(unsigned int x, unsigned int y) const;
         Item* getItemAt(unsigned int x, unsigned int y) const;
@@ -74,11 +74,11 @@ namespace rl
 
     private:
         Ogre::Real mCapacity;
-		pair<unsigned int,unsigned int> mVolume;
+	std::pair<unsigned int,unsigned int> mVolume;
 		
 		// Speichert, wo die Items sich im Container befinden.
 		// Speichert also die IDs der Objekte in die einzelnen Volumenfelder
-		int objIDMap [1][1];
+	int objIDMap [1][1];
 
         ItemSet mItems;
 

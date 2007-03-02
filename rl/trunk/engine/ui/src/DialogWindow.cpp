@@ -256,7 +256,7 @@ unsigned int DialogWindow::count()
 	return mDialogOptions->getItemCount();
 }
 
-void DialogWindow::setCallback(string function)
+void DialogWindow::setCallback(Ogre::String function)
 {
 	// TO DO: DialogWindow::setCallback(string function)
 }
@@ -314,12 +314,12 @@ bool DialogWindow::requestClose()
 	return true;
 }
 
-void DialogWindow::setImage(string imageset, string image)
+void DialogWindow::setImage(Ogre::String imageset, Ogre::String image)
 {
     mImage->setProperty("Image", "set:" + imageset + " image:" + image);
 }
 
-void DialogWindow::setName(string name)
+void DialogWindow::setName(Ogre::String name)
 {
 	mName->setProperty("Text", name);
 }

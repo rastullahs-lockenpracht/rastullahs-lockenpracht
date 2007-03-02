@@ -25,6 +25,8 @@
 
 template<> rl::ConfigurationManager* Ogre::Singleton<rl::ConfigurationManager>::ms_Singleton = 0;
 
+using namespace std;
+
 namespace rl
 {
     ConfigurationManager* ConfigurationManager::getSingletonPtr()
@@ -173,7 +175,7 @@ namespace rl
     {
         // On Linux, we create the .rastullah directory
 #       if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
-        fs::path rastullahCfgDirectory(string(::getenv("HOME")) + "/.rastullah",
+        fs::path rastullahCfgDirectory(Ogre::String(::getenv("HOME")) + "/.rastullah",
             fs::portable_posix_name);
 
         if (!fs::exists(rastullahCfgDirectory))
@@ -300,7 +302,7 @@ namespace rl
         if (mRastullahLogDirectory.empty())
         {
 #           if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
-            mRastullahLogDirectory = string(::getenv("HOME")) + "/.rastullah/logs";
+            mRastullahLogDirectory = Ogre::String(::getenv("HOME")) + "/.rastullah/logs";
 #           else
             mRastullahLogDirectory = "./logs";
 #           endif
@@ -375,7 +377,7 @@ namespace rl
         cfgfile->addSection("Input", mInputSettings);
 
 #       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-        cfgfile->save(fs::path("./modules/config/" + mRastullahCfgFile).native_file_string());
+        cfgfile->save(fs::path("./modules/config/" + mRastullahCfgFile).native_file_Ogre::String());
 #       else
         cfgfile->save(Ogre::String(::getenv("HOME")) + "/.rastullah/" + mRastullahCfgFile);
 #       endif
@@ -518,7 +520,7 @@ namespace rl
 #       endif
     }
 
-    void ConfigurationManager::addToCfgPath(const std::string& path)
+    void ConfigurationManager::addToCfgPath(const Ogre::String& path)
     {
         std::cout << "Checking for " << mRastullahCfgFile << " in " << path << std::endl;
 
@@ -538,7 +540,7 @@ namespace rl
         }
     }
 
-    bool ConfigurationManager::checkForFile(const std::string& filename)
+    bool ConfigurationManager::checkForFile(const Ogre::String& filename)
     {
         try {
 #           if OGRE_PLATFORM == OGRE_PLATFORM_WIN32

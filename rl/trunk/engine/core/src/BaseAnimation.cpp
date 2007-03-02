@@ -176,7 +176,7 @@ void BaseAnimation::removeAnimationListener(AnimationListener *listener)
     }
 }
 
-// @todo - Existenz überprüfen
+// @todo - Existenz berprfen
 void BaseAnimation::addAnimationFrameListener( 
 	AnimationFrameListener *listener, Ogre::Real frameNumber)
 {
@@ -185,7 +185,7 @@ void BaseAnimation::addAnimationFrameListener(
     ScriptWrapper::getSingleton().owned( listener );
 }
 
-// @todo - Existenz überprüfen
+// @todo - Existenz berprfen
 void BaseAnimation::removeAnimationFrameListener( AnimationFrameListener *listener )
 {
     AnimationFrameListenerMap::iterator iter = mAnimationFrameListener.begin();
@@ -252,7 +252,7 @@ void BaseAnimation::removeAllListeners()
     mAnimationCaster.removeEventListeners();
 }
 
-// Zeit hinzufügen // wird vom AnimationManager aufgerufen
+// Zeit hinzufgen // wird vom AnimationManager aufgerufen
 void BaseAnimation::addTime( Ogre::Real timePassed )
 {
 	if( !mPaused )
@@ -304,8 +304,8 @@ void BaseAnimation::addTime( Ogre::Real timePassed )
 
 	Erfolgt in drei Schritten 
 	 * Aktueller Durchlauf
-	 * Wenn Überlauf, dann wird die Anzahl weiterer Durchläufe bestimmt
-	 * Für den Rest im letzten Durchlauf wird erneut geprüft
+	 * Wenn ï¿½erlauf, dann wird die Anzahl weiterer Durchlï¿½fe bestimmt
+	 * Fr den Rest im letzten Durchlauf wird erneut geprft
 */
 void BaseAnimation::checkAnimationFrameListeners( Ogre::Real timePassed )
 {
@@ -329,25 +329,25 @@ void BaseAnimation::checkAnimationFrameListeners( Ogre::Real timePassed )
 
     Ogre::Real elapsedTime = (mTimePlayed/mLength)*mLength;
 
-	// Vorwärts laufen
+	// Vorwï¿½ts laufen
 	if( mSpeed > 0 )		
 	{
-        lower = max(elapsedTime, 0.0f);
-		upper = min(elapsedTime, mLength );
+        lower = std::max(elapsedTime, 0.0f);
+		upper = std::min(elapsedTime, mLength );
 	}
-	// Das ganze rückwärts
+	// Das ganze rckwï¿½ts
 	else
 	{
-		// FIXME für die erste Runde beim Rückwärtsspielen, beginnt leider bei 0, nicht Length
+		// FIXME fr die erste Runde beim Rckwï¿½tsspielen, beginnt leider bei 0, nicht Length
 		Ogre::Real timePos = elapsedTime;
 		if( timePos == 0.0f )
 			timePos = mLength;
 
-		lower = max(timePos-timePassed, 0.0f);
-		upper = min(timePos, mLength );
+		lower = std::max(timePos-timePassed, 0.0f);
+		upper = std::min(timePos, mLength );
 	}
 
-	// Iteratoren für die Grenzen holen
+	// Iteratoren fr die Grenzen holen
 	lowerBorder = mAnimationFrameListener.lower_bound(
 		lower);
 	upperBorder = mAnimationFrameListener.upper_bound(
@@ -362,21 +362,21 @@ void BaseAnimation::checkAnimationFrameListeners( Ogre::Real timePassed )
 
 	// Einmal abspielen abziehen
 	timePassed -= mLength;
-	// Ums Wrapping kümmern - wenn Looping - und AbspielZeit
+	// Ums Wrapping kmmern - wenn Looping - und AbspielZeit
 	if( timePassed > 0 && isLoop() && 
-		// Falls begrenzte Wiederholungen, müssen mindestens 2(1+die oben abgearbeitete) fehlen
+		// Falls begrenzte Wiederholungen, mssen mindestens 2(1+die oben abgearbeitete) fehlen
 		( ( mTimesToPlay > 0 && getTimesToPlayLeft() > 1 ) || ( mTimesToPlay == 0 ) )
 	   )
 	{
-		// Wie oft passt die Länge in die gesamte fortgeschrittene Zeit		
+		// Wie oft passt die Lï¿½ge in die gesamte fortgeschrittene Zeit		
 		unsigned int timesSkipped = floor( timePassed/mLength );
 		Ogre::Real timeLeft = timePassed - timesSkipped*mLength;
 
-		// Falls die Abspielanzahlbegrenzt ist, nicht häufiger als verbliebene Anzahl abspielen
+		// Falls die Abspielanzahlbegrenzt ist, nicht hï¿½figer als verbliebene Anzahl abspielen
 		if( mTimesToPlay > 0 && timesSkipped >= getTimesToPlayLeft()-1)
 		{
 			timesSkipped = getTimesToPlayLeft()-1;
-			// Restzeit unwichtig, letzen Abspielvorgänge waren komplette
+			// Restzeit unwichtig, letzen Abspielvorgï¿½ge waren komplette
 			timeLeft = 0;
 		}
 
@@ -393,7 +393,7 @@ void BaseAnimation::checkAnimationFrameListeners( Ogre::Real timePassed )
 			}
 		}		
 
-		// Für letzten Event prüfen, wenn noch Restzeit vorhanden ist
+		// Fr letzten Event prfen, wenn noch Restzeit vorhanden ist
 		if( timeLeft > 0 )
 		{
 			// Wrapping nach oben

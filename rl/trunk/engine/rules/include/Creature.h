@@ -20,9 +20,6 @@
 
 #include "GameObject.h"
 #include "Eigenschaft.h"
-#include "Inventory.h"
-#include "Container.h"
-#include "Weapon.h"
 #include "EigenschaftenStateSet.h"
 #include "TalentStateSet.h"
 #include "ZauberStateSet.h"
@@ -31,12 +28,13 @@
 
 //#include "CompositeEffect.h"
 
-using namespace std;
-
 namespace rl
 {
-	class Effect;
+    class Container;
+    class Effect;
+    class Inventory;
     class Item;
+    class Weapon;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Konstanten
@@ -109,7 +107,7 @@ namespace rl
 		 *  Liste der Talente. Besteht aus den Namen der Talente (z.B. Athletik)
          *  als Schluessel und ihrem Wert.
 		 **/
-		typedef map<const CeGuiString, TalentStateSet*> TalentMap;
+		typedef std::map<const CeGuiString, TalentStateSet*> TalentMap;
 
         static const Ogre::String CLASS_NAME;
 
@@ -272,7 +270,7 @@ namespace rl
          **/
         int getAp();
         /**
-         *  Verändert die verbrauchten @ref abbdea "AP", wird beim Steigern
+         *  Verï¿½dert die verbrauchten @ref abbdea "AP", wird beim Steigern
          *  aufgerufen.
          *  @param modifier Kann auch negativ sein (z.B. Borbarad-Moskitos).
          **/
@@ -402,16 +400,16 @@ namespace rl
 		 *  @throws InvalidArgumentExeption Die Kampftechnik ist unbekannt.
          *  @ingroup CreatureRubyExports
 		 **/
-		void addKampftechnik(const CeGuiString kampftechnikName, const pair<int,int>& value = make_pair(0,0));
+		void addKampftechnik(const CeGuiString kampftechnikName, const std::pair<int,int>& value = std::make_pair(0,0));
 		/** 
          *  Liefert die @ref abbdea "AT" und @ref abbdep "PA" Werte in einer 
          *  bestimmten Kampftechnik zurueck.
 		 *  @param kampftechnikName Beszeichnet die Kampftechnik.
-		 *  @return Ein pair<AT, PA>.
+		 *  @return Ein std::pair<AT, PA>.
 		 *  @throws InvalidArgumentException \a kampftechnikId konnte nicht in 
 		 *   \c mKampftechniken gefunden werden.
 		 **/
-        virtual pair<int, int> getKampftechnik(const CeGuiString kampftechnikName) const;
+        virtual std::pair<int, int> getKampftechnik(const CeGuiString kampftechnikName) const;
 		/** 
          *  Setzt die @ref abbdea "AT" und @ref abbdep "PA" Werte in einer bestimmten 
          *  Kampftechnik.
@@ -420,7 +418,7 @@ namespace rl
 		 *  @throws InvalidArgumentException Die Kampftechnik \a kampftechnikId
 		 *    konnte nicht in \c mKampftechniken gefunden werden.
 		 **/
-        virtual void setKampftechnik(const CeGuiString kampftechnikName, const pair<int, int>& value);
+        virtual void setKampftechnik(const CeGuiString kampftechnikName, const std::pair<int, int>& value);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Vorteile
@@ -844,13 +842,13 @@ namespace rl
          *  Liste der Werte.
          *  @see Wert
          **/
-		typedef map<const Wert, StateSet*> WertMap;
+		typedef std::map<const Wert, StateSet*> WertMap;
 		/** 
          *  Liste der guten Eigenschaften. Besteht aus dem Abkuerzung der 
          *  Eigenschaft (z.B. @ref abbdem "MU", @ref abbdek "KL") als Schluessel 
          *  und einem Zeiger auf ihr StateSet.
 		 **/
-		typedef map<const CeGuiString, EigenschaftenStateSet*> EigenschaftMap;
+		typedef std::map<const CeGuiString, EigenschaftenStateSet*> EigenschaftMap;
 		/**
 		 *  Liste der Kampftechniken und ihrer @ref abbdea "AT"/@ref abbdep "PA2 Werte.
 		 *  Eine Kampftechnik in diesem Sinne ist so was wie Hiebwaffen
@@ -860,22 +858,22 @@ namespace rl
 		 *  AT/PA Werte ergeben. Die Summe des pairs muss also dem TaW in dem
 		 *  Kampftalent entsprechen.
 		 **/
-        typedef map<const CeGuiString, pair<int, int> > KampftechnikMap;
+        typedef std::map<const CeGuiString, std::pair<int, int> > KampftechnikMap;
         /**
          *  Eine Liste der Vorteile der Kreatur. Gaben gehoeren ebenfalls zu 
          *  den Vorteilen, verhalten sich aber wie Talente.
          **/
-        typedef map<const CeGuiString, TalentStateSet*> VorteilMap;
+        typedef std::map<const CeGuiString, TalentStateSet*> VorteilMap;
         /**
          *  Eine Liste der Nachteile der Kreatur. Schlechte Eigenschaften gehoeren 
          *  ebenfalls zu den Nachteilen, verhalten sich aber wie Eigenschaften.
          **/
-        typedef map<const CeGuiString, EigenschaftenStateSet*> NachteilMap;
+        typedef std::map<const CeGuiString, EigenschaftenStateSet*> NachteilMap;
 		/** 
          *  Die Sonderfertigkeiten der Kreatur. Besteht aus dem Namen der 
          *  Sonderfertigkeit als Schluessel und ihrem Status.
 		 */
-		typedef map<const CeGuiString ,SonderfertigkeitenStateSet*> SonderfertigkeitMap;
+		typedef std::map<const CeGuiString ,SonderfertigkeitenStateSet*> SonderfertigkeitMap;
 
         struct Ap
         {

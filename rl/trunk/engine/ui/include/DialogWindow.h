@@ -41,9 +41,9 @@ namespace rl {
 
 		void getResponse(const CeGuiString& msg);
 		unsigned int count();
-		void setCallback(std::string function);
-		void setName(std::string name);
-		void setImage(std::string imageset, std::string image);
+		void setCallback(Ogre::String function);
+		void setName(Ogre::String name);
+		void setImage(Ogre::String imageset, Ogre::String image);
 		int getSelectedOption();
 
 		void textFinished();

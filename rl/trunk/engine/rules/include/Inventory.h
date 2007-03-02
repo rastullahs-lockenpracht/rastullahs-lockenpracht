@@ -50,7 +50,7 @@ public:
 	/**
 	* Liefert alle Items im Inventar inm einer Liste
 	* Wichtig:
-	* NUR die erste Hierarchieebene der Items wird zurückgegeben
+	* NUR die erste Hierarchieebene der Items wird zurckgegeben
 	* Was in den Items drinnen ist, ist vernachlaessigt
 	*/
 	ItemList getAllItems();
@@ -64,10 +64,10 @@ public:
 	/**
 	 * @return Die errechnete Behinderung
 	 **/
-	pair<int,int> getOverallBe();
+	std::pair<int,int> getOverallBe();
 
 	/**
-	* @return die gesamte Rüstung des Chars
+	* @return die gesamte Rstung des Chars
 	*/
 	int getOverallRs();
 
@@ -94,12 +94,12 @@ private:
 	Creature* mOwner;
 
 	/**
-	* Setzt Flag, dass die Werte neu berechnet werden müssen
+	* Setzt Flag, dass die Werte neu berechnet werden mssen
 	*/
 	void markDirty();
 
 	/**
-	* Update der Werte für Gewicht, Rs und Behinderung
+	* Update der Werte fr Gewicht, Rs und Behinderung
 	*/
 	void updateStats();
 

@@ -17,7 +17,7 @@
 #include "GameAreaEventSource.h"
 #include "ScriptWrapper.h"
 
-// Für Intersection und so :)
+// Fr Intersection und so :)
 #include <algorithm>
 
 namespace rl {
@@ -44,27 +44,27 @@ namespace rl {
 		if( !mAreaEventCaster.hasEventListeners() )
 			return;
 
-        // Position übertragen
+        // Position bertragen
         mAreaType->setQueryPosition( mActor->getWorldPosition() );       
         ActorMap currInside = mAreaType->performQuery();
         // Der Actor um den herum die Quelle ist, wird vermutlich auch gefunden :)
-        // Also rauslöschen
+        // Also rauslï¿½chen
         currInside.erase( mActor->getName() );
 
         ActorMap enteredMap, leftMap;
         // EinfuegeIteratoren erstellen        
-        insert_iterator<ActorMap> enteredInsert(enteredMap, enteredMap.begin());
-        insert_iterator<ActorMap> leftInsert(leftMap, leftMap.begin());
+        std::insert_iterator<ActorMap> enteredInsert(enteredMap, enteredMap.begin());
+        std::insert_iterator<ActorMap> leftInsert(leftMap, leftMap.begin());
 
         // Alle feststellen die rausgefallen sind
-        set_difference( mInsideAreaList.begin(), mInsideAreaList.end(),
+        std::set_difference( mInsideAreaList.begin(), mInsideAreaList.end(),
                         currInside.begin(), currInside.end(), leftInsert );
         
         // Alle feststellen die neu hinzugekommen sind
-        set_difference( currInside.begin(), currInside.end(),
+        std::set_difference( currInside.begin(), currInside.end(),
             mInsideAreaList.begin(), mInsideAreaList.end(), enteredInsert );
 
-        // Die Übriggebliebenen in mInsideAreaList speichern
+        // Die ï¿½riggebliebenen in mInsideAreaList speichern
         mInsideAreaList = currInside;
 
         // Die Neuen und die Rausgefallenen an die Listener dispatchen
@@ -78,7 +78,7 @@ namespace rl {
         Actor* actor;
 
         GameAreaEvent* event = new GameAreaEvent( this, GameAreaEvent::AREA_LEFT );
-        // Erst werden alle Listener für jedes verlassende Object einmal benachrichtigt
+        // Erst werden alle Listener fr jedes verlassende Object einmal benachrichtigt
         for( it = leavingActors.begin(); it != leavingActors.end();++it) 
         {
             actor = it->second;
@@ -87,7 +87,7 @@ namespace rl {
         }
 
         event->setReason( GameAreaEvent::AREA_ENTERED );
-        // Dann werden alle Listener für jedes betretende Object einmal benachrichtigt
+        // Dann werden alle Listener fr jedes betretende Object einmal benachrichtigt
         for( it = enteringActors.begin(); it != enteringActors.end();++it) 
         {
             actor = it->second;

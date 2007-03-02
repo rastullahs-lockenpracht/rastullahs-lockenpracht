@@ -46,10 +46,11 @@
 #include "WindowFactory.h"
 
 using namespace Ogre;
-
-template<> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
 using namespace OIS;
 using CEGUI::System;
+using namespace std;
+
+template<> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
 
 namespace rl {
 

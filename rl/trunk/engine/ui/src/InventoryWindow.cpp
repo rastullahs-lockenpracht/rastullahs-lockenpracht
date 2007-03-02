@@ -40,6 +40,7 @@
 
 using namespace CEGUI;
 using namespace Ogre;
+using namespace std;
 
 namespace rl {
 
@@ -172,7 +173,7 @@ namespace rl {
 	{
 		// Aktualisiere Werte
 
-		// Rüstung
+		// Rstung
 		mArmorValue->setText(Ogre::StringConverter::toString(mInventory->getOverallRs()));
 
 		// Behinderung
@@ -180,11 +181,11 @@ namespace rl {
 		mHandicapValue->setText(Ogre::StringConverter::toString(behinderung.first+behinderung.second));
 		if (behinderung.second > 0)
 		{
-			mArmorValueWindow->setTooltipText("Rüstung / Behinderung\r\n           / +"+Ogre::StringConverter::toString(behinderung.second)+" überladen");
+			mArmorValueWindow->setTooltipText("Rstung / Behinderung\r\n           / +"+Ogre::StringConverter::toString(behinderung.second)+" berladen");
 		} 
 		else
 		{
-			mArmorValueWindow->setTooltipText("Rüstung / Behinderung");
+			mArmorValueWindow->setTooltipText("Rstung / Behinderung");
 		}
 
 		// Gewicht in Unzen
@@ -220,7 +221,7 @@ namespace rl {
 		// Gegenstand vom Boden entfernen
 		//mInventory->removeItemFromContainer(item, mGroundItem);
 
-		// Welchem Item wird das Item hinzugefügt? -> speichere das in die Variable container
+		// Welchem Item wird das Item hinzugefgt? -> speichere das in die Variable container
 		Item* container = static_cast<Item*>(mContainerDraggedTo->getUserData());
 
 		// Extra Behandlung, falls Item auf den Boden gelegt wird
@@ -232,7 +233,7 @@ namespace rl {
 			//	(int)(mPosDraggedTo.d_y/30),
 			//	container);
 
-			// Zusätzlich wenn Item Container war, muss Tab entfernt werden (einfach Inventar neu aufbauen)
+			// Zusï¿½zlich wenn Item Container war, muss Tab entfernt werden (einfach Inventar neu aufbauen)
 			if (item->isContainer())
 			{
 				removeContainerAndContent(dynamic_cast<Container*>(item));
@@ -259,7 +260,7 @@ namespace rl {
 
 		if (item->isContainer())
 		{
-			// ContainerTab hinzufügen, wenn nicht schon vorhanden
+			// ContainerTab hinzufgen, wenn nicht schon vorhanden
 			createAndFillContainer(dynamic_cast<Container*>(item));
 			refreshTabs();
 
@@ -267,10 +268,10 @@ namespace rl {
 		
 
 		bool itemSwitched = false;
-		// Gegenstand in Slot setzen / Schon dagewesenen Gegenstand zurück in den Rucksack setzen
+		// Gegenstand in Slot setzen / Schon dagewesenen Gegenstand zurck in den Rucksack setzen
 		//if (mContainerDraggedTo == mArmor){
 		//	if (mInventory->getArmor() != NULL){
-		//		//Pack die alte Rüstung ins Inventar
+		//		//Pack die alte Rstung ins Inventar
 		//		mInventory->addItemToContainer(mInventory->removeArmor(), mInventory->getBackpack());
 		//		itemSwitched = true;
 		//	}
@@ -278,7 +279,7 @@ namespace rl {
 		//}
 		//if (mContainerDraggedTo == mCape){
 		//	if (mInventory->getCape() != NULL){
-		//		//Pack die alte Rüstung ins Inventar
+		//		//Pack die alte Rstung ins Inventar
 		//		mInventory->addItemToContainer(mInventory->removeCape(), mInventory->getBackpack());
 		//		itemSwitched = true;
 		//	}
@@ -294,7 +295,7 @@ namespace rl {
 		//}
 		//if (mContainerDraggedTo == mBelt) {
 		//	if (mInventory->getBelt() != NULL){
-		//		//Pack den alten Gürtel ins Inventar
+		//		//Pack den alten Grtel ins Inventar
 		//		mInventory->addItemToContainer(mInventory->removeBelt(), mInventory->getBackpack());
 		//		itemSwitched = true;
 		//	}
@@ -412,7 +413,7 @@ namespace rl {
 
 				//// Container Fenster suchen
 				//CEGUI::Window* win = findContainer(posInContainer.second);
-				//// Dem Fenster hinzufügen
+				//// Dem Fenster hinzufgen
 				//win->addChildWindow(mOldItemInSlot);
 				//// Positionieren		
 				//mOldItemInSlot->setPosition( CEGUI::Absolute,
@@ -426,7 +427,7 @@ namespace rl {
 		}
 
 
-		// Update am Inventar durchgeführt, jetzt sollen noch die Werte aktualisiert werden
+		// Update am Inventar durchgefhrt, jetzt sollen noch die Werte aktualisiert werden
 		update();
 	}
 
@@ -441,7 +442,7 @@ namespace rl {
 			mContainerTabs->removeTab(mContainerTabs->getTabContents(0)->getName());
 		}
 
-		// füge sie in richtiger Reihenfolge wieder hinzu
+		// fge sie in richtiger Reihenfolge wieder hinzu
 		while (it != mContainers.end())
 		{
 			mContainerTabs->addTab(*it++);
@@ -465,8 +466,8 @@ namespace rl {
 	{
 		mArmorValueWindow = getWindow("InventoryWindow/ArmorValueWindow");
         mArmorValueWindow->setProperty("Image", "set:InventorySymbols image:Shield");
-		mArmorValueWindow->setTooltipText("Rüstung / Behinderung");
-		//TODO: An Tooltip anhängen: woraus setzt sich die Rüstung zusammen?
+		mArmorValueWindow->setTooltipText("Rstung / Behinderung");
+		//TODO: An Tooltip anhï¿½gen: woraus setzt sich die Rstung zusammen?
 		mArmorValue = getWindow("InventoryWindow/ArmorValue");
 		mArmorValue->setText(" 3");
 		//mArmorValue->setTextColours(CEGUI::colour(0.0,0.4,0.0)); //TODO port to cegui0.5
@@ -482,7 +483,7 @@ namespace rl {
 
 		mTotalWeight = getWindow("InventoryWindow/TotalWeight");
 		mTotalWeight->setText("");
-		// Schwarzer Text (wird rot, wenn überladen)
+		// Schwarzer Text (wird rot, wenn berladen)
 		//mTotalWeight->setTextColours(CEGUI::colour(0.0,0.0,0.0));  //TODO port to cegui0.5
 		mTotalWeight->disable();
 				
@@ -491,7 +492,7 @@ namespace rl {
 		mDescription = getScrollablePane("InventoryWindow/Description");
 
 		// Das "BodenItem" initiieren
-		mGroundItem = new Item(1/*"Boden", "Dieses Item repräsentiert den Boden"*/);
+		mGroundItem = new Item(1/*"Boden", "Dieses Item reprï¿½entiert den Boden"*/);
 		mGroundItem->setImageName("Trank");
 		mGroundItem->setItemType(Item::ITEMTYPE_OTHER);
 		mGroundItem->setSize(1,1);
@@ -552,7 +553,7 @@ namespace rl {
 		mBoots = getWindow("InventoryWindow/Boots");
 		mBoots->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_BOOTS));
 
-		// gib ihnen die Funktionalität Items aufzunehmen
+		// gib ihnen die Funktionalitï¿½ Items aufzunehmen
 		addDropListener(mHelmet);
 		addDropListener(mRingLeft);
 		addDropListener(mRingRight);
@@ -593,7 +594,7 @@ namespace rl {
 		//createItem(mInventory->getBoots(), mBoots);
 
 
-		// Fenster für ContainerItems erstellen
+		// Fenster fr ContainerItems erstellen
 		createContainerWindows();
 	}
 
@@ -609,7 +610,7 @@ namespace rl {
 			Item* currentItem = *itemIterator++;
 
 			if (currentItem->isContainer()){
-				// Tab für Item erzeugen, da es als Container funktioniert
+				// Tab fr Item erzeugen, da es als Container funktioniert
 				createAndFillContainer(dynamic_cast<Container*>(currentItem));
 			}
 		}
@@ -622,7 +623,7 @@ namespace rl {
 
 		std::list<CEGUI::Window*>::iterator it = mContainerContents.begin();
 		bool found = false;
-		// überprüfe, ob schon vorhanden
+		// berprfe, ob schon vorhanden
 		while (it != mContainerContents.end())
 		{
 			if (container == static_cast<Item*>((*it)->getUserData()))
@@ -637,9 +638,9 @@ namespace rl {
 		if (!found)
 		{
 
-			// Erzeuge Tab im Inventar für den Container
+			// Erzeuge Tab im Inventar fr den Container
 			CEGUI::Window* containerWindow = CEGUI::WindowManager::getSingleton().createWindow("DefaultGUISheet", "InventoryWindow/Tabs/"+container->getName());
-			// Name für das Tab
+			// Name fr das Tab
 			containerWindow->setText(container->getName());
 
 
@@ -655,8 +656,8 @@ namespace rl {
 			containerWindow->addChildWindow(containerSpace);
 
 
-			// Inhalt in die Liste Einfügen
-						// Boden an das Ende der Liste einfügen
+			// Inhalt in die Liste Einfgen
+						// Boden an das Ende der Liste einfgen
 			if (container == mGroundItem)
 			{
 				mContainers.push_back(containerWindow);
@@ -762,7 +763,7 @@ namespace rl {
 		emptySlot(mShinbone);
 		emptySlot(mBoots);
 
-		// Zusätzlich alle Container durchgehen und entleeren
+		// Zusï¿½zlich alle Container durchgehen und entleeren
 		
 		std::list<CEGUI::Window*>::iterator it = mContainerContents.begin();
 		
@@ -817,10 +818,10 @@ namespace rl {
 
 	DragContainer* InventoryWindow::createItem(Item* item, Window* parent, UVector2 position)
 	{
-		// Prüfe, ob ein Item da ist
+		// Prfe, ob ein Item da ist
 		if (item != NULL) {
 
-			// TODO: Ausnahmen sind Waffe und Schild (wenn parent mHand* ist, soll Hintergrund gefüllt werden)
+			// TODO: Ausnahmen sind Waffe und Schild (wenn parent mHand* ist, soll Hintergrund gefllt werden)
 			// Waffe:
 			if (parent == mHandRight || parent == mHandLeft) 
 			{
@@ -830,7 +831,7 @@ namespace rl {
 			static int itemCnt = 0;
 			itemCnt++;
 
-			// Erzeuge einen Handler für Drag and Drop
+			// Erzeuge einen Handler fr Drag and Drop
 			DragContainer* itemhandler = static_cast<DragContainer*>(
 				CEGUI::WindowManager::getSingletonPtr()->createWindow("DragContainer", Ogre::StringConverter::toString(itemCnt) + item->getName()));
 			itemhandler->setPosition(position);
@@ -886,7 +887,7 @@ namespace rl {
 
 	bool InventoryWindow::handleMouseClicked(const EventArgs &args) 
 	{
-		// Hole das ausgewählte Item
+		// Hole das ausgewï¿½lte Item
 		const CEGUI::MouseEventArgs& mea = static_cast<const MouseEventArgs&>(args);
 
 		// Nur, wenn es sich uim einen Itemhandler handelt, soll was geschehen...
@@ -903,7 +904,7 @@ namespace rl {
 			
 			assert(mea.window->getChildCount() > 0);
 			
-			// aktiviere das angewählte Item...
+			// aktiviere das angewï¿½lte Item...
 			mActiveItemWindow = mea.window->getChildAtIdx(0);
 			mActiveItemWindow->setProperty("BackgroundColour", mColorItemSelected);
 			mActiveItemWindow->setProperty("FrameEnabled", "True");
@@ -984,7 +985,7 @@ namespace rl {
 		SceneManager* tempManager = CoreSubsystem::getSingleton().
 					getWorld()->getSceneManager();
 
-		// Für einen Aufhängeknoten Sorgen
+		// Fr einen Aufhï¿½geknoten Sorgen
 		if (mInventoryItemNode == NULL){
 			mInventoryItemNode = tempManager->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(0,-999999.6,-0.2));
 			//mInventoryItemNode->setPosition(0,-100,-0.2);
@@ -999,7 +1000,7 @@ namespace rl {
 		}
 		if (item->getActor())
 		{
-			// Camera update erforderlich, da Mapchange da was kaputt gemacht haben könnte
+			// Camera update erforderlich, da Mapchange da was kaputt gemacht haben kï¿½nte
 			unloadCamera();
 			loadCamera();
 
@@ -1056,7 +1057,7 @@ namespace rl {
 
 	void InventoryWindow::unloadCamera()
 	{
-		// wenn loadCamera schon mal geladen wurde, soll die Camera zerstört werden
+		// wenn loadCamera schon mal geladen wurde, soll die Camera zerstï¿½t werden
 		if (mRenderViewport)
 		{
 			mRenderTexture->removeViewport(0);
@@ -1065,7 +1066,7 @@ namespace rl {
 	}
 
 	/*!
-	*		Überprüft, ob das Item von dem Slot akzeptiert wird
+	*		ï¿½erprft, ob das Item von dem Slot akzeptiert wird
 	*/
 	bool InventoryWindow::checkTypeAccepted(CEGUI::Window* window, CEGUI::DragContainer* draggedItem)
 	{
@@ -1084,7 +1085,7 @@ namespace rl {
 	*/
 	std::pair<int,int> InventoryWindow::calculateNewPosition(const DragDropEventArgs& ddea)
 	{
-		// Errechnung der Koordinaten, in welchem Kästchen denn nun gedroppt wird
+		// Errechnung der Koordinaten, in welchem Kï¿½tchen denn nun gedroppt wird
 		Point absMouse = MouseCursor::getSingleton().getPosition();
         Point scrnPt = ddea.window->getPixelRect().getPosition();
 		Point relMouse = absMouse - ddea.dragDropItem->getPixelRect().getPosition();
@@ -1104,7 +1105,7 @@ namespace rl {
 		Point pointInBackpack = absMouse-scrnPt;
 		pointInBackpack -= relMouse;
 
-		// Position des nächsten Kästchens bestimmen		
+		// Position des nï¿½hsten Kï¿½tchens bestimmen		
 		if (pointInBackpack.d_x < 0)
         {
 			pointInBackpack.d_x = 0;
@@ -1143,8 +1144,8 @@ namespace rl {
 
 
 	/*!
-	* Behandlung für Mouse-over mit Item in der Maus
-	* Überprüft, ob das Item passt, und färbt dementsprechend den Behälter ein
+	* Behandlung fr Mouse-over mit Item in der Maus
+	* ï¿½erprft, ob das Item passt, und fï¿½bt dementsprechend den Behï¿½ter ein
 	*/
 	bool InventoryWindow::handleDragEnter(const CEGUI::EventArgs& args)
 	{
@@ -1175,8 +1176,8 @@ namespace rl {
 				}
 			}
 			else {
-				// Beliebiger anderer Container am Körper
-				// TODO: Beschränkung auf Itemtypen... 
+				// Beliebiger anderer Container am Kï¿½per
+				// TODO: Beschrï¿½kung auf Itemtypen... 
 
 				ddea.window->setProperty("ContainerColour", mColorAccept);
 				return true;
@@ -1206,7 +1207,7 @@ namespace rl {
 	{
 		// Event zu einem DragDropEvent machen
 		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-		// Farbe zurücksetzen
+		// Farbe zurcksetzen
 		ddea.window->setProperty("ContainerColour", mColorNormal);
 
 
@@ -1219,15 +1220,15 @@ namespace rl {
 			} 
 			else if (container->getItemType() == Item::ITEMTYPE_BACKPACK)
 			{
-				// Rucksack (nimmt alles außer dem Rucksack selbst)
+				// Rucksack (nimmt alles auï¿½r dem Rucksack selbst)
 				if (!(ddea.dragDropItem->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_BACKPACK))))
 				{
 					return false;
 				}
 			}
 			else {
-				// Beliebiger anderer Container am Körper
-				// TODO: Beschränkung auf Itemtypen... 
+				// Beliebiger anderer Container am Kï¿½per
+				// TODO: Beschrï¿½kung auf Itemtypen... 
 			}
 
 			std::pair<int,int> newPos = calculateNewPosition(ddea);
@@ -1252,9 +1253,9 @@ namespace rl {
 
 
 		} else {
-			// Es handelt sich um einen Slot am Körper
+			// Es handelt sich um einen Slot am Kï¿½per
 			if (checkTypeAccepted(ddea.window, ddea.dragDropItem)){
-				// Nur wenn das Item in den Slot passt, soll es auch dort gedroppt werden können
+				// Nur wenn das Item in den Slot passt, soll es auch dort gedroppt werden kï¿½nen
 
 				if (ddea.window->getChildCount() > 0)
 				{
@@ -1277,7 +1278,7 @@ namespace rl {
 					Item* item = static_cast<Item*>(ddea.dragDropItem->getUserData());
 					mPosDraggedTo= CEGUI::Point(30-(item->getSize().first * 15),75-(item->getSize().second *15));
 				}
-				// Rest kommt in die linke obere Ecke (weil ausfüllend)
+				// Rest kommt in die linke obere Ecke (weil ausfllend)
 				else {
 					mPosDraggedTo=CEGUI::Point(0.0,0.0);
 				}

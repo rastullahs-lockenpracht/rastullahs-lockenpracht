@@ -22,13 +22,10 @@
 #include "OpenSteer/SteerLibrary.h"
 
 
-using namespace Ogre;
-using namespace OpenSteer;
-
 namespace rl
 {
 //	SimpleVehicle_1 adds concrete LocalSpace methods to AbstractVehicle
-	typedef OpenSteer::LocalSpaceMixin<AbstractVehicle> SimpleVehicle_1;
+	typedef OpenSteer::LocalSpaceMixin<OpenSteer::AbstractVehicle> SimpleVehicle_1;
 //	SimpleVehicle_2 adds concrete steering methods to SimpleVehicle_1
 	typedef OpenSteer::SteerLibraryMixin<SimpleVehicle_1> SimpleVehicle_2;
 	
@@ -63,7 +60,7 @@ namespace rl
 		 * @param  elapsedTime The time step value allows wander rate to be consistent when frame times vary
 		 * @return a steering force for wandering behavior. 
 		 */
-		Vector3 calcWander(const float elapsedTime);
+		Ogre::Vector3 calcWander(const float elapsedTime);
 
 		/**
 		 * Causes the vehicle to turn toward a target and move to it. 
@@ -73,23 +70,23 @@ namespace rl
 		 * @param  target target position to seek for
 		 * @return a steering force to seek the given target location. 
 		 */
-		Vector3 calcSeek(const Vector3& target);
+		Ogre::Vector3 calcSeek(const Ogre::Vector3& target);
 
 		/**
 		 * Causes the vehicle to turn away from a target and move away from it.
 		 * @param  target target position to flee for
 		 * @return a steering force to flee from the given target location. 
 		 */
-		Vector3 calcFlee(const Vector3& target);
+		Ogre::Vector3 calcFlee(const Ogre::Vector3& target);
 
-		Vector3 calcPursuit(Agent* agent);
+		Ogre::Vector3 calcPursuit(Agent* agent);
 		/**
 		 * Causes the vehicle to turn away from obstacles in space. 
 		 * The vehicle will consider all close-by obstacles automatically
 		 * @param  minTimeToCollision distance to the obstacle in time at the vehicle's current velocity
 		 * @return a steering force to avoid obstacles. 
 		 */
-		Vector3 calcAvoidObstacles(const float minTimeToCollision);
+		Ogre::Vector3 calcAvoidObstacles(const float minTimeToCollision);
 
 		/**
 		 * Causes the vehicle to turn away from neighbor vehicles.
@@ -97,12 +94,12 @@ namespace rl
 		 * @param  minTimeToCollision distance to the neighbour in time at the vehicle's current velocity
 		 * @return a steering force to avoid neighbours. 
 		 */
-		Vector3 calcAvoidNeighbors(const float minTimeToCollision);
+		Ogre::Vector3 calcAvoidNeighbors(const float minTimeToCollision);
 			
 		/**
 		 * @returns a steering force to maintain a given target speed. 
 		 */
-		Vector3 calcSteerTargetSpeed(const float targetSpeed);
+		Ogre::Vector3 calcSteerTargetSpeed(const float targetSpeed);
 
 		bool isAhead(Agent* agent, const float threshold);
 		bool needAvoidance(const float minTimeToCollision);
@@ -123,9 +120,9 @@ namespace rl
 
 		bool isDialogActive();
 
-		float calcDistance(const Vector3& vec1, const Vector3& vec2);
+		float calcDistance(const Ogre::Vector3& vec1, const Ogre::Vector3& vec2);
 
-		Vector3 getPosition();
+		Ogre::Vector3 getPosition();
 
 		// inherited from AbstractVehicle
 
@@ -137,7 +134,7 @@ namespace rl
 		 * predict position of this vehicle at some time in the future
 		 * (assumes velocity remains constant)
 		 */
-		Vec3 predictFuturePosition (const float predictionTime) const;
+		OpenSteer::Vec3 predictFuturePosition (const float predictionTime) const;
 
 		void resetLocalSpace();
 		// get/set mass
@@ -145,7 +142,7 @@ namespace rl
 		float setMass (float m) {return 1;} // don't set mass here TODO: throw exception
 
 		// get velocity of vehicle
-		Vec3 velocity (void) const {return Vec3(mCurrentVelocity.x, mCurrentVelocity.y, mCurrentVelocity.z);}
+		OpenSteer::Vec3 velocity (void) const {return OpenSteer::Vec3(mCurrentVelocity.x, mCurrentVelocity.y, mCurrentVelocity.z);}
 
 		// get/set speed of vehicle  (may be faster than taking mag of velocity)
 		float speed (void) const {return mSpeed;}
@@ -173,14 +170,14 @@ namespace rl
          * allows a specific vehicle class to redefine this adjustment.
          * default is to disallow backward-facing steering at low speed.
 		 */
-		virtual Vec3 adjustRawSteeringForce (const Vec3& force);
+		virtual OpenSteer::Vec3 adjustRawSteeringForce (const OpenSteer::Vec3& force);
                                             // const float elapsedTime);
 
 		/**
 		 * apply a given steering force to our momentum,
 		 * adjusting our orientation to maintain velocity-alignment.
 		 */
-	//	void applySteeringForce(const Vec3& force, const float elapsedTime);
+	//	void applySteeringForce(const OpenSteer::Vec3& force, const float elapsedTime);
 	//	void applySteeringForce(const Ogre::Vector3& force, const float elapsedTime);
 		
 		
@@ -189,7 +186,7 @@ namespace rl
 		 * the default version: keep FORWARD parallel to velocity, change
          * UP as little as possible.
 		 */
-  /*      virtual void regenerateLocalSpace (const Vec3& newVelocity,
+  /*      virtual void regenerateLocalSpace (const OpenSteer::Vec3& newVelocity,
                                            const float elapsedTime);
 		*/
 		
@@ -201,21 +198,21 @@ namespace rl
 		
 		float resetSmoothedCurvature (float value = 0)
 		{
-			_lastForward = Vec3::zero;
-			_lastPosition = Vec3::zero;
+			_lastForward = OpenSteer::Vec3::zero;
+			_lastPosition = OpenSteer::Vec3::zero;
 			return _smoothedCurvature = _curvature = value;
 		}
 		
-		Vec3 smoothedAcceleration (void) {return _smoothedAcceleration;}
+		OpenSteer::Vec3 smoothedAcceleration (void) {return _smoothedAcceleration;}
 		
-		Vec3 resetSmoothedAcceleration (const Vec3& value = Vec3::zero)
+		OpenSteer::Vec3 resetSmoothedAcceleration (const OpenSteer::Vec3& value = OpenSteer::Vec3::zero)
 		{
 			return _smoothedAcceleration = value;
 		}
 		
-		Vec3 smoothedPosition (void) {return _smoothedPosition;}
+		OpenSteer::Vec3 smoothedPosition (void) {return _smoothedPosition;}
 		
-		Vec3 resetSmoothedPosition (const Vec3& value = Vec3::zero)
+		OpenSteer::Vec3 resetSmoothedPosition (const OpenSteer::Vec3& value = OpenSteer::Vec3::zero)
 		{
 			return _smoothedPosition = value;
 		}
@@ -224,7 +221,7 @@ namespace rl
 		// rotate about it by a random angle (pick random forward, derive side).
 		void randomizeHeadingOnXZPlane (void)
 		{
-			setUp (Vec3::up);
+			setUp (OpenSteer::Vec3::up);
 			setForward (RandomUnitVectorOnXZPlane ());
 			setSide (localRotateForwardToSide (forward()));
 		}
@@ -234,8 +231,8 @@ namespace rl
         const Actor* getActor(void) const  { return mActor; }
 	protected:
 		void initialize();
-		AVGroup getNeighbors();
-		ObstacleGroup getObstacles();
+		OpenSteer::AVGroup getNeighbors();
+		OpenSteer::ObstacleGroup getObstacles();
 	//    float _mass;       // mass (defaults to unity so acceleration=force)
     //   float _radius;     // size of bounding sphere, for obstacle avoidance, etc.
     //    float _speed;      // speed along Forward direction.  Because local space

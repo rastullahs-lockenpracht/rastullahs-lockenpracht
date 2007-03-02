@@ -89,14 +89,14 @@ void RL_RubyRemoveTracking(void* ptr)
 // Error Handling for Ruby
 void RL_handleRubyError( VALUE error )
 {
-	stringstream stream;	
+	std::stringstream stream;	
 	// get error class
     VALUE klass = rb_class_path(CLASS_OF(error));
     stream << RSTRING(klass)->ptr << " ("; 
 
     // get error message
     VALUE message = rb_obj_as_string(error);
-    stream << RSTRING(message)->ptr << ") " << endl;
+    stream << RSTRING(message)->ptr << ") " << std::endl;
 
     // get backtrace
     if(!NIL_P(ruby_errinfo)) 
@@ -207,7 +207,7 @@ namespace Swig {
 		$result = val;
 } 
 
-// Animation* getActor oder andere OUTPUT Parameter für DYNAMICs
+// Animation* getActor oder andere OUTPUT Parameter fr DYNAMICs
 %typemap(out) SWIGTYPE* DYNAMIC, SWIGTYPE& DYNAMIC
 {
 	VALUE val = SWIG_RubyInstanceFor( $1 );
@@ -215,7 +215,7 @@ namespace Swig {
 	// Es gab das SkriptObjekt noch nicht
 	if (NIL_P(val))
 	{
-		// Dynamic Cast ausführen
+		// Dynamic Cast ausfhren
 		swig_type_info *ty = SWIG_TypeDynamicCast($1_descriptor, (void **) &$1);
 		$result = SWIG_NewPointerObj((void *) $1, ty, 0);		
 	}
@@ -223,7 +223,7 @@ namespace Swig {
 		$result = val;
 } 
 
-// doWithAnimation( Animation* ) oder andere Director-Methoden Parameter für DYNAMICs
+// doWithAnimation( Animation* ) oder andere Director-Methoden Parameter fr DYNAMICs
 %typemap(directorin) SWIGTYPE* DYNAMIC, SWIGTYPE& DYNAMIC
 {
 	// Auf Director testen
@@ -238,7 +238,7 @@ namespace Swig {
 		
 		// Es gab das SkriptObjekt noch nicht
 		if (NIL_P(val)) {
-			// Dynamic Cast ausführen
+			// Dynamic Cast ausfhren
 			swig_type_info *ty = SWIG_TypeDynamicCast($1_descriptor, (void **) &$1);
 			$input = SWIG_NewPointerObj((void *) $1, ty, 0);		
 		}

@@ -19,6 +19,8 @@
 #include "Exception.h"
 #include "ScriptWrapper.h"
 
+using namespace std;
+
 namespace rl {
 
 QuestBook::QuestBook()

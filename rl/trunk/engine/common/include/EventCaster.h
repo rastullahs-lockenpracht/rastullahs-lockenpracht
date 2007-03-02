@@ -20,8 +20,6 @@
 #include <set>
 #include "EventListener.h"
 
-using namespace std;
-
 namespace rl {
 /**
  * Diese Klasse ist die Basisklasse fuer Objekte, die Ereignisse verschicken.
@@ -34,7 +32,7 @@ template <typename Event>
 class EventCaster {
 public:
     typedef EventListener<Event> ListenerToEvent;
-    typedef set<ListenerToEvent*> EventSet;
+    typedef std::set<ListenerToEvent*> EventSet;
     typedef typename EventSet::iterator EventSetIterator;
 
     /// Der Konstruktor
@@ -168,7 +166,7 @@ void EventCaster<Event>::dispatchEvent(Event *anEvent)
 }
     
 template <typename Event>
-set< EventListener<Event>* > EventCaster<Event>::getEventSet() const
+std::set< EventListener<Event>* > EventCaster<Event>::getEventSet() const
 {
     return mListeners;
 }

@@ -19,6 +19,7 @@
 #include "CoreSubsystem.h"
 
 using namespace Ogre;
+using namespace std;
 
 namespace rl {
 

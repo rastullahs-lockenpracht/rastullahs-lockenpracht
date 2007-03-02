@@ -22,6 +22,8 @@
 #include "PhysicalThing.h"
 
 using namespace rl;
+using namespace Ogre;
+using namespace OpenSteer;
 
 SteeringVehicle::SteeringVehicle(Agent* parent, Actor* character)
 	: _maxForce(1.0f),

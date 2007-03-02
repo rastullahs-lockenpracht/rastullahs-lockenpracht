@@ -17,9 +17,9 @@
 %{
 namespace rl {
 
-Property convertValueToProperty(VALUE input)
+rl::Property convertValueToProperty(VALUE input)
 {
-	Property rval;
+	rl::Property rval;
 	if (TYPE(input) == T_FLOAT)
     {
 	    rval.setValue(Ogre::Real(NUM2DBL(input)));
@@ -71,7 +71,7 @@ Property convertValueToProperty(VALUE input)
 			}
 			else // Array of Properties
 			{
-				std::vector<Property> vec;
+				std::vector<rl::Property> vec;
 				for (int idx = 0; idx < length; idx++)
 				{
 					vec.push_back(rl::convertValueToProperty(rb_ary_entry(input, 0)));
@@ -84,7 +84,7 @@ Property convertValueToProperty(VALUE input)
     return rval;
 }
 
-VALUE convertPropertyToValue(Property input)
+VALUE convertPropertyToValue(rl::Property input)
 {
 	if (input.isString())
     {
@@ -131,9 +131,9 @@ VALUE convertPropertyToValue(Property input)
     }
     else if (input.isArray())
     {
-		std::vector<Property> vec = input.toArray();
+		std::vector<rl::Property> vec = input.toArray();
 		VALUE rval = rb_ary_new();
-		for (std::vector<Property>::const_iterator it = vec.begin();
+		for (std::vector<rl::Property>::const_iterator it = vec.begin();
 			it != vec.end(); it++)
 		{
 			rb_ary_push(rval, rl::convertPropertyToValue(*it));

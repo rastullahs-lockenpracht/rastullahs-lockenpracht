@@ -44,7 +44,7 @@ namespace rl {
 		InventoryWindow();
 		~InventoryWindow();
 
-		// Flag für den ArrangeTask - FIXME nach private umziehen, wenn 
+		// Flag fr den ArrangeTask - FIXME nach private umziehen, wenn 
 		CEGUI::DragContainer* mDroppedItem;
 
 		/**
@@ -53,17 +53,17 @@ namespace rl {
 		void setInventory(Inventory* inventory);
 
 		/**
-		* Methode für das OnMouseOver Event
+		* Methode fr das OnMouseOver Event
 		*/
 		bool handleMouseEnters(const CEGUI::EventArgs &args);
 		
 		/**
-		* Methode für das OnMouseLeaves Event
+		* Methode fr das OnMouseLeaves Event
 		*/
 		bool handleMouseLeaves(const CEGUI::EventArgs &args);
 
 		/**
-		* Methode für das OnMouseClick Event
+		* Methode fr das OnMouseClick Event
 		*/
 		bool handleMouseClicked(const CEGUI::EventArgs &args);
 
@@ -73,13 +73,13 @@ namespace rl {
 		void update();
 
 		/**
-		* Übergibt änderungen ans Inventar
+		* ï¿½ergibt ï¿½derungen ans Inventar
 		*/
 		void updateInventory();
 
 		/**
 		* Passt die Position eines gedroppten Items an, da CEGUI Bug, braucht man 
-		* dafür ne externe Methode
+		* dafr ne externe Methode
 		*/
 		void updateItemPosition();
 
@@ -88,7 +88,7 @@ namespace rl {
 		/**
 		* Schaut nach, ob das Item an der Position gedroppt werden kann.
 		*/
-		bool isFreeInContainer(Item* item, pair<int,int> kaestechenPos, Container* container);
+		bool isFreeInContainer(Item* item, std::pair<int,int> kaestechenPos, Container* container);
 
 
 		Item* getGroundItem();
@@ -96,7 +96,7 @@ namespace rl {
 	private:
 		Inventory* mInventory;
 
-		// Farbschema für die Fenster und Itemhintergründe
+		// Farbschema fr die Fenster und Itemhintergrnde
 		const CeGuiString mColorAccept;
 		const CeGuiString mColorReject;
 		const CeGuiString mColorNormal;
@@ -110,7 +110,7 @@ namespace rl {
 		Ogre::SceneNode* mInventoryItemNode;
 		// Entity des jeweils zu rendernden Items
 		Ogre::Entity* mRenderItemEntity;
-		// 128*128 Textur für das Item-view Fenster
+		// 128*128 Textur fr das Item-view Fenster
 		Ogre::RenderTexture* mRenderTexture;
 		// Viewport des RenderToTexture Features
 		Ogre::Viewport* mRenderViewport;
@@ -126,7 +126,7 @@ namespace rl {
 		CEGUI::Window* mItemRenderImage;
 
 
-		// Das Rüstungs- und Behinderungswert Fenster
+		// Das Rstungs- und Behinderungswert Fenster
 		CEGUI::Window* mArmorValueWindow;
 		CEGUI::Window* mArmorValue;
 		CEGUI::Window* mHandicapValue;
@@ -139,7 +139,7 @@ namespace rl {
 		// Das Item-Beschreibungsfenster
 		CEGUI::ScrollablePane* mDescription;
 
-		// Das jeweils aktive Fenster, das im Beschreibungsfenster angewählt ist
+		// Das jeweils aktive Fenster, das im Beschreibungsfenster angewï¿½lt ist
 		CEGUI::Window* mActiveItemWindow;
 
 		// Das Fenster, in das der Rucksackcontainer soll
@@ -188,7 +188,7 @@ namespace rl {
 		void initRenderToTexture();
 
 		/**
-		* Lädt die Rtt-Camera
+		* Lï¿½t die Rtt-Camera
 		*/
 		void loadCamera();
 		void unloadCamera();
@@ -204,12 +204,12 @@ namespace rl {
 		void initSlots();
 
 		/**
-		* Füllt die Slots im InventarFenster mit den Items aus dem Inventar
+		* Fllt die Slots im InventarFenster mit den Items aus dem Inventar
 		*/
 		void fillSlots();
 
 		/**
-		* Erzeugt ein Tab für den Container, und befuellt ihn nach Inhalt des container - Items
+		* Erzeugt ein Tab fr den Container, und befuellt ihn nach Inhalt des container - Items
 		*/
 		void createAndFillContainer(Container* container);
 
@@ -227,7 +227,7 @@ namespace rl {
 		void refreshTabs();
 
 		/**
-		* Sucht unter den Containern dasjenige, das zum gesuchten Container gehört
+		* Sucht unter den Containern dasjenige, das zum gesuchten Container gehï¿½t
 		*/
 		CEGUI::Window* findContainer(Container* container);
 
@@ -237,25 +237,25 @@ namespace rl {
 		*/
 		void emptySlot(CEGUI::Window* slot);
 		/** 
-		* Gibt dem Slot die Fähigkeit Dragcontainer zu akzeptieren
+		* Gibt dem Slot die Fï¿½igkeit Dragcontainer zu akzeptieren
 		*/
 		void addDropListener(CEGUI::Window* slot);
 
 		/*!
-		* fügt dem Inventar den Container für den Rucksack zu,
-		* gibt ihm die nötige Funktionalität für drag&drop
+		* fgt dem Inventar den Container fr den Rucksack zu,
+		* gibt ihm die nï¿½ige Funktionalitï¿½ fr drag&drop
 		*/
 		void initBackpack(std::pair<int,int> dim);
 
 
 		/**
-		* erzeugt für alle Items im Inventar, die Containerfunktionaltiaet haben, ein Containertab
+		* erzeugt fr alle Items im Inventar, die Containerfunktionaltiaet haben, ein Containertab
 		* im Inventar
 		*/
 		void createContainerWindows();
 
 		/**
-		* Überprüft, ob das gedroppte Item vom Slot akzeptiert wird oder nicht
+		* ï¿½erprft, ob das gedroppte Item vom Slot akzeptiert wird oder nicht
 		* @return true: Item wird akzeptiert
 		*         false: Item wird nicht akzeptiert
 		*/ 
@@ -263,7 +263,7 @@ namespace rl {
 
 
 		/**
-		* Errechnet die Kästchenposition, an der das Item im Container gedroppt wurde
+		* Errechnet die Kï¿½tchenposition, an der das Item im Container gedroppt wurde
 		*/
 		std::pair<int,int> calculateNewPosition(const CEGUI::DragDropEventArgs& ddea);
 

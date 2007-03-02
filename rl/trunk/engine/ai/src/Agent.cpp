@@ -24,6 +24,8 @@
 #include "SteeringMachine.h"
 //#include "PerceptionPool.h"
 
+using namespace Ogre;
+using namespace OpenSteer;
 using namespace rl;
 
 Agent::Agent(Creature* character)
