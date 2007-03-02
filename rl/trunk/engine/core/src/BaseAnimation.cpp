@@ -135,7 +135,7 @@ unsigned int BaseAnimation::getTimesToPlayLeft() const
 {
 	// Nicht unsigned :)
 	int left = mTimesToPlay - getTimesPlayed();
-	return max( left ,0);
+    return std::max(left, 0);
 }
 
 void BaseAnimation::setDelay( Ogre::Real delay )

@@ -377,7 +377,7 @@ namespace rl
         cfgfile->addSection("Input", mInputSettings);
 
 #       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-        cfgfile->save(fs::path("./modules/config/" + mRastullahCfgFile).native_file_Ogre::String());
+        cfgfile->save(fs::path("./modules/config/" + mRastullahCfgFile).native_file_string());
 #       else
         cfgfile->save(Ogre::String(::getenv("HOME")) + "/.rastullah/" + mRastullahCfgFile);
 #       endif
@@ -470,19 +470,18 @@ namespace rl
         {
             case CS_GENERAL:
                 addList = &mGeneralSettings;
-            break;
+                break;
             case CS_GRAPHICS:
                 addList = &mGraphicSettings;
-            break;
+                break;
             case CS_SOUND:
                 addList = &mSoundSettings;
-            break;
+                break;
             case CS_INPUT:
                 addList = &mInputSettings;
-            break;
+                break;
             default:
-
-            break;
+                break;
         }
 
         // Find out, if key exist
