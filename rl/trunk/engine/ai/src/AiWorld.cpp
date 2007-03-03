@@ -70,7 +70,11 @@ void AiWorld::removeAllObstacles()
 	mObstacles.clear();
 }
 
-
+NewtonWorldAsObstacle::NewtonWorldAsObstacle(void)
+{
+    mLevelMaterial = PhysicsManager::getSingleton()._getLevelMaterialID();
+    mNewtonWorld = PhysicsManager::getSingleton()._getNewtonWorld();
+}
 
 void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
     const AbstractVehicle& vehicle,

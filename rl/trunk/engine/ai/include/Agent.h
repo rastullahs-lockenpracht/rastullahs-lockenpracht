@@ -31,35 +31,88 @@ namespace rl
 	class Actor;
 //	class PerceptionPool;
 
+	/** Represents a single entity that has got AI.
+	 * Instantiated objects are normally registered with AgentManager.
+	 * This class creates the connection between actively involved
+	 * Creatures (rl::Creature), steering (pathfinding, movement - OpenSteer)
+	 * and decission making (behaviours)
+	 */
 	class _RlAiExport Agent 
 		: public PhysicsController
 	{
 	public:
+		/** Constructor by Creature object.
+		 * @param character Creature object
+		 */
 		Agent(Creature* character);
+		/** Constructor by Creature object.
+		 * @param character Creature object
+		 * @param vehicle SteeringVehicle object for the specified creature
+		 */
 		Agent(Creature* character, SteeringVehicle* vehicle);
+
+		// deprecated
 		Agent(DialogCharacter* character);
+		/** explicit virtual destructor
+		 */
 		virtual ~Agent(void);
 
+		/** Initializes class and registeres with parts exterior to AI system.
+		 * Creates a standard Vehicle object for the creature when none was
+		 * supplied on object creation. Creates a behaviour state machine and
+		 * registers itself as a PhysicsController with PhysicalManager for the
+		 * stored creature object.
+		 */
 		void initialize();
 
+		/** Returns the agent type (Player, NPC, ...).
+		 */
 		AgentManager::AgentType getType();
+		/** Sets the agent type (Player, NPC, ...).
+		 * @param type AgentType sets the type to the given one.
+		 */
 		void setType(AgentManager::AgentType type);
 
+		/** Function invoked by AgentManager to let Agents advance their AI.
+		 * Is invoked with time since last invocation. Here the behaviour and
+		 * the vehicle are updated.
+		 */
 		void update(const float elapsedTime);
+		/** Adds a steering behaviour to the internal steering machine.
+		 * @param behaviour SteeringBehaviour is initialized and registered to mBehaviour.
+		 */
 		void addSteeringBehaviour(SteeringBehaviour* behaviour);
+		/** Removes all steering behaviours.
+		 */
         void clearSteeringBehaviours();
 
+		/** Retrieves the stored SteeringVehicle.
+		 */
 		SteeringVehicle* getVehicle();
+
 //		PerceptionPool* getPerceptionPool();
+
+		// deprecated - for DialogBot
 		bool isDialogActive();
+
+		/** Function invoked by PhysicsManager whenever force/torque is to be
+		 * applied to the creature stored.
+		 * @param thing PhysicalThing that is responsible for the creature.
+		 */
 		virtual void OnApplyForceAndTorque(PhysicalThing* thing);
 
 	protected:
+		//! stores the type of the agent (Player, NPC, ...)
 		AgentManager::AgentType mType;
+		//! stores the behaviour FuzzyStateMachine for behaviour
 		SteeringMachine* mBehaviour;
+		//! stores the vehicle representation of the creature
 		SteeringVehicle* mVehicle;
-		DialogCharacter* mDialogBot;
+		//! stores the creature whose AI is simulated
 		Creature* mCreature;
+
+		// deprecated
+		DialogCharacter* mDialogBot;
 //		PerceptionPool* mPerceptionPool;
 	};
 

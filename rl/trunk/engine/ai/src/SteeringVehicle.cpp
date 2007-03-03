@@ -285,6 +285,79 @@ Vector3 SteeringVehicle::getPosition()
 	return Vector3(position().x, position().y, position().z);
 }
 
+float SteeringVehicle::mass (void) const 
+{
+	return mMass;
+}
+
+float SteeringVehicle::setMass (float m) 
+{
+	// don't set mass here TODO: throw exception
+
+	return 1;
+} 
+
+float SteeringVehicle::speed (void) const 
+{
+	return mSpeed;
+}
+
+float SteeringVehicle::setSpeed (float s) 
+{
+	return mSpeed = s;
+}
+
+float SteeringVehicle::radius (void) const 
+{
+	// TODO: this should be handled by size of NewtonBody
+	return mRadius;
+}
+
+float SteeringVehicle::setRadius (float m) 
+{
+	// TODO: this should be handled by size of NewtonBody
+	return mRadius = m;
+}
+
+float SteeringVehicle::height (void) const 
+{
+	// TODO: this should be handled by height of NewtonBody
+	return mHeight;
+}
+
+float SteeringVehicle::setHeight (float h) 
+{
+	// TODO: this should be handled by height of NewtonBody
+	return mHeight = h;
+}
+
+const Actor* SteeringVehicle::getActor(void) const  
+{ 
+	return mActor; 
+}
+
+float SteeringVehicle::maxForce (void) const 
+{
+	return 10000.0f;
+} 
+
+float SteeringVehicle::setMaxForce (float mf) 
+{
+	 // TODO: should not be set here, throw excpetion or so
+	return _maxForce = mf;
+}
+
+float SteeringVehicle::maxSpeed (void) const 
+{
+	return 100000; 
+}
+
+float SteeringVehicle::setMaxSpeed (float ms) 
+{
+	 // TODO: should not be set here, throw excpetion or so
+	return _maxSpeed = ms;
+}
+
 ObstacleGroup SteeringVehicle::getObstacles()
 {
 	return AiSubsystem::getSingleton().getWorld()->getSteeringObstacles();

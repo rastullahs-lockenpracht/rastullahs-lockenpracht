@@ -51,7 +51,7 @@ namespace rl {
     void PhysicalObstacle::setPhysicalThing(PhysicalThing *thing)
     {
         mPhysicalThing = thing;
-        mObstacle = NULL;
+        mObstacle = NULL;	// question: shouldn't we check before doing this ?
         _update();
     }
     

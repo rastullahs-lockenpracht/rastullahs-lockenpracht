@@ -22,38 +22,49 @@
 
 namespace rl
 {
-	/**
-	 * Representation of the GameWorld for Steering and Pathing
+	/** Representation of the GameWorld for Steering and Pathing.
+	 * Is a container for obstacles that have to be avoided when
+	 * creating a path.
 	 */
 	class AiWorld
 	{
 	public:
+		//! default constructor
 		AiWorld(void);
+		//! default destructor
 		~AiWorld(void);
 
+		/** Returns a list of obstacles for OpenSteer.
+		 */
 		OpenSteer::ObstacleGroup getSteeringObstacles();
+		/** Adds an obstacle to the internal list of obstacles
+		 */
 		void addObstacle(OpenSteer::Obstacle* obstacle);
+		/** Removes and deletes all internally stored obstacle objects.
+		 */
 		void removeAllObstacles();
 	private:
+		//! list of obstacles
 		OpenSteer::ObstacleGroup mObstacles;
 	};
 
 
-
-
-
-    // Wrapper für Newton-World
+    /** Wrapper für Newton-World
+	 */
     class NewtonWorldAsObstacle : public OpenSteer::Obstacle
     {
     public:
-        NewtonWorldAsObstacle(void)
-        {
-            mLevelMaterial = PhysicsManager::getSingleton()._getLevelMaterialID();
-            mNewtonWorld = PhysicsManager::getSingleton()._getNewtonWorld();
-        }
+		/** default constructor.
+		 * Retrieves Material of newton level and the newton world.
+		 */
+        NewtonWorldAsObstacle(void);
+		/** Searchs for pathintersections by ray casting.
+		 * natoka: should be thought over
+		 */
         virtual void findIntersectionWithVehiclePath (const OpenSteer::AbstractVehicle& vehicle,
                                               PathIntersection& pi) const;
     private:
+		//! different types of raycasting directions
         enum RaycastType
         {
             NONE = -1,
@@ -63,7 +74,9 @@ namespace rl
             TOP,
             BOTTOM
         };
+		//! newton material id
         OgreNewt::MaterialID *mLevelMaterial;
+		//! newton world
         OgreNewt::World *mNewtonWorld;
     };
 }

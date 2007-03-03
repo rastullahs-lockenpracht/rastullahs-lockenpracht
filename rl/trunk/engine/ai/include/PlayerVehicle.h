@@ -22,18 +22,27 @@ namespace rl
 {
 	class Agent;
 	class Actor;
-	/**
-     * Represents the player as a vehicle
+	/** Represents the player as a vehicle.
 	 */
 	class PlayerVehicle :
 		public SteeringVehicle
 	{
 	public:
+		/** Constructor
+		 * @param Actor gives the Actor representing the Player
+		 */
 		PlayerVehicle(Actor* character);
+		/** explicit destructor
+		 */
 		virtual ~PlayerVehicle(void);
 
-		/**
-		 * update the steering of the vehicle
+		/** Updates the steering of the vehicle.
+		 * Update is done by fetching position and orientation from the
+		 * attached PhysicalThing object representing the player. Those
+		 * are then used to set the state of the OpenSteer Obstacle
+		 * accordingly.
+		 * @param currentTime const float current time
+		 * @param elapsedTime const float elapsed time since last call
 		 */
 		virtual void update(const float currentTime, const float elapsedTime);
 	};

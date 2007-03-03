@@ -25,24 +25,47 @@ namespace OpenSteer {
 namespace rl {
     class PhysicalThing;
     
+	/** Class connecting OpenSteer::Obstacle and rl::PhysicalThing.
+	 */
     class _RlAiExport PhysicalObstacle {
         
         public:
+			/** Constructor
+			 * @param thing PhysicalThing object to be connected with a OpenSteer::Obstacle
+			 */
             PhysicalObstacle(PhysicalThing *thing);
+			/** explicit default destructor
+			 */
             virtual ~PhysicalObstacle();
-            
+            /** returns the associated OpenSteer::Obstacle.
+			 */
             OpenSteer::Obstacle *getObstacle() const;
             
+			/** returns the associated PhysicalThing.
+			 */
             PhysicalThing *getPhysicalThing() const;
+			/** stores an other PhysicalThing internally.
+			 * @param thing PhysicalThing object to be connected with a OpenSteer::Obstacle
+			 */
             void setPhysicalThing(PhysicalThing *thing);
             
         protected:
+			/** Initializes the opensteer obstacle by utilizing the PhysicalThing
+			 * Creates a Box Obstacle representing the PhysicalThings Collision primitiv
+			 * for OpenSteer.
+			 */
             void _update();
             
         private:
+			/** Sets the obstacle
+			 * @param obstacle OpenSteer::Obstacle representing the internally stored
+			 * PhysicalThing.
+			 */
             void setObstacle(OpenSteer::Obstacle *obstacle);
 
+			//! collision object for OpenSteer
             OpenSteer::Obstacle *mObstacle;
+			//! object used for the collision object for opensteer
             PhysicalThing *mPhysicalThing;
     };
 }

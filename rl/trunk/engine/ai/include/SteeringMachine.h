@@ -22,14 +22,25 @@
 namespace rl
 {
 	class SteeringVehicle;
+	//! typedefinition for ruby interface
 	typedef FuzzyState<SteeringVehicle> SteeringBehaviour;
 //	typedef FuzzyStateMachine<Agent> SteeringMachine;
+	/** SteeringMachine responsible for steering a Vehicle.
+	 */
 	class SteeringMachine : public FuzzyStateMachine<SteeringVehicle>
 	{
 	public:
+		/** Constructor
+		 * sets parent and controller for the FuzzyStateMachine
+		 * @param parent gives the parent FuzzyState object
+		 * @param controller sets the controller object
+		 */
 		SteeringMachine(SteeringBehaviour* parent, SteeringVehicle* controller)
 			: FuzzyStateMachine<SteeringVehicle>(parent, controller) {}
 
+		/** returns the type 
+		 * @returns CeGuiString containing SteeringMachine as a typestring
+		 */
 		virtual CeGuiString getType() { return "SteeringMachine"; }
 	};
 	

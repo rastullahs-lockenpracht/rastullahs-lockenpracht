@@ -38,6 +38,8 @@ class _RlCommonExport GameTask
 		*/
 		virtual void run( Ogre::Real elapsedTime ) = 0;
 
+		/** Returns the name of the derived class for debugging purposes.
+		 */
         virtual const Ogre::String& getName() const = 0;
         
 		/// Gibt zurück ob dieser GameTask pausiert ist

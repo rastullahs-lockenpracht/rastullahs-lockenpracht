@@ -51,6 +51,7 @@ AiSubsystem::AiSubsystem(void)
 AiSubsystem::~AiSubsystem(void)
 {
     CoreSubsystem::getSingletonPtr()->getWorld()->removeSceneChangeListener(this);
+	GameLoop::getSingleton().removeTask(AgentManager::getSingletonPtr());
     AgentManager::getSingleton().removeAllAgents();
     mWorld->removeAllObstacles();
     delete mAgentManager;
