@@ -73,12 +73,27 @@ namespace rl {
     void GameLoop::addTask(GameTask* task, TaskGroup group)
     {
         RlAssert1(task != NULL);
-        mAddedTasks.push_back(std::make_pair(group, task));
+        GameTaskEntry entry = {task, true};
+        mAddedTasks.push_back(std::make_pair(group, entry));
     }
 
     void GameLoop::removeTask(GameTask* task)
     {
-        mRemovedTasks.push_back(task);
+        // find the removed task entry, and set it to invalid.
+        for (size_t i = 0; i < mTaskLists.size(); ++i)
+        {
+            GameTaskList* tasks = mTaskLists[i];
+            GameTaskList::iterator find_it = std::find_if(tasks->begin(), tasks->end(),
+                std::bind2nd(FindEntryByTask(), task));
+            if (find_it != tasks->end())
+            {
+                find_it->valid = false;
+                break;
+            }
+        }
+        // Add it to the removed list, so we can find it faster in updateTaskList().
+        GameTaskEntry entry = {task, false};
+        mRemovedTasks.push_back(entry);
     }
 
     void GameLoop::quitGame()
@@ -112,9 +127,9 @@ namespace rl {
                 GameTaskList* tasks = mTaskLists[i];
                 for (GameTaskList::iterator it = tasks->begin(); it != tasks->end(); ++it)
                 {
-                    if (!(*it)->isPaused())
+                    if (it->valid && !(it->task->isPaused()))
                     {
-                        (*it)->run(frameTime);
+                        it->task->run(frameTime);
                     }
                 }
             }

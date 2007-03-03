@@ -70,8 +70,32 @@ public:
 	static GameLoop * getSingletonPtr(void);
 
 private:
-    typedef std::list<GameTask*> GameTaskList;
-    typedef std::list<std::pair<TaskGroup, GameTask*> > GroupTaskList;
+    /// Internal struct for storing the tasks in the queue.
+    /// Contains additional meta-information useful for scheduling.
+    struct GameTaskEntry
+    {
+        bool operator==(const GameTaskEntry& rhs) const
+        {
+            return task == rhs.task && valid == rhs.valid;
+        }
+
+        /// The task to be executed
+        GameTask* task;
+        /// Flag whether this task is valid, e.g. removeTask not called for it.
+        bool valid;
+    };
+
+    /// Functor for finding an entry by the task it holds.
+    struct FindEntryByTask : public std::binary_function<GameTaskEntry, GameTask*, bool>
+    {
+        bool operator()(const GameTaskEntry& entry, GameTask* task) const
+        {
+            return entry.task == task;
+        }
+    };
+
+    typedef std::list<GameTaskEntry> GameTaskList;
+    typedef std::list<std::pair<TaskGroup, GameTaskEntry> > GroupTaskList;
 
     std::vector<GameTaskList*> mTaskLists;
     GroupTaskList mAddedTasks;
