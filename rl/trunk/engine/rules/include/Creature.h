@@ -208,11 +208,11 @@ namespace rl
          *   hinaus erhoeht werden.
          *  @ingroup CreatureRubyExports
          **/
-		virtual void modifyAu(int mod,  bool ignoreMax = false);
+		virtual void modifyAu(float mod,  bool ignoreMax = false);
         /**
          *  Gibt die aktuelle @ref abbdea "AU" der Kreatur zurueck.
          **/
-        virtual int getAu();
+        virtual float getAu();
         /**
          *  Gibt die maximale Anzahl an @ref abbdea "AE" zurueck, die die Kreatur haben kann.
          **/
@@ -758,7 +758,7 @@ namespace rl
          *  @param damageType Typ des Schadens, um Resistenzen
          *   etc. korrekt zu beruecksichtigen.
 		 **/
-        void damageAu(int aup, int damageType = AUDAMAGE_NORMAL);
+        void damageAu(float aup, int damageType = AUDAMAGE_NORMAL);
         static const int AUDAMAGE_NORMAL = 0;
         static const int AUDAMAGE_HEAT = 1;
         static const int AUDAMAGE_COLD = 2;
@@ -783,11 +783,14 @@ namespace rl
         void regenerateAe(int modifier = 0);
         /**
          *  Regeneriert die @reg appdea "AU" einer Kreatur, ueblicherweise nach
-         *  einer mind. 5 minuetigen Ruhephase.
+         *  einer mind. 5 minuetigen Ruhephase. Andernfalls kann die Funktion mit dem
+         *  Parameter time aufgerufen werden.
          *  @param modifier Ein situationsabhaengiger Modifikator, sollte eher
          *   selten eingesetzt werden.
+         *  @param time Sollte nur benutzt werden, falls es nicht möglich ist
+         *   die Funktion wirklich nur alle 5 Minuten aufzurufen
          **/
-        void regenerateAu(int modifier = 0);
+        void regenerateAu(int modifier = 0, float factor = 1, float time = Date::ONE_SPIELRUNDE);
 
 		/**
 		 * Laesst einen Effekt auf der Kreatur wirken.
@@ -799,6 +802,90 @@ namespace rl
         virtual const Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const Property& value);
         virtual PropertySet* getAllProperties() const;
+
+        
+        /**
+         * Berechnet die taktische Geschwindigkeit bei der angegebenen Bewegungsart (siehe Basisbox S.112 ff).
+         * Eventuelle Athletikproben werden hier nicht miteinbezogen!
+         * Die Wirkung der Modifikatoren hängt von den Eigenschaften der Kreatur ab!
+         * Eine gezogene Waffe (bedeutet Aufmerksamkeit) müsste hier auch miteinbezogen werden.
+         * Eigentlich sind die Modifikatoren laut Regelwerk nur für strategische Bewegung gedacht,
+         * aber man könnte sie auch gut hier einbauen zum Ausspielen von Vorteilen wie Geländekundig
+         * @param movementType Flag für die Art der Bewegung
+         * @param modified Gibt an, ob die Behinderung und Ähnliches miteinbezogen werden soll, 
+         *  bei zu geringerer Au gibt dies auch eine geringere Geschwindigkeit zurück
+         * @param modifikatoren Flags für verschiedene Modifikatoren wie Gelände und Wetter
+         * @retval Berechnete Geschwindigkeit, kann diese Bewegung nicht ausgeführt werden, ist der Wert 0
+         *  Bei Sprüngen ist die Angabe die Höhe oder die Weite des Sprungs, bei Drehungen die Umdrehungen pro Sekunde
+        **/
+        float getTaktischeGeschwindigkeitsBasis(int movementType, bool modified, int modifikatoren = 0);
+        // die Reihenfolger der Definitionen hier ist wichtig!
+        static const int BEWEGUNG_NONE = 0;
+        //static const int BEWEGUNG_FALLEN = -1 ?
+        // schließen sich gegenseitig aus
+        static const int BEWEGUNG_GEHEN = 1; // bitte das hier nicht ändern, ohne sich der Folgen in MovementCharacterController bewusst zu sein!
+        static const int BEWEGUNG_JOGGEN = 2;
+        static const int BEWEGUNG_LAUFEN = 4;
+        static const int BEWEGUNG_RENNEN = 8;
+        //static const int BEWEGUNG_SCHWIMMEN = 6;
+        //static const int BEWEGUNG_TAUCHEN = 7;
+        // schließen sich gegenseitig aus
+        static const int BEWEGUNG_WEITSPRUNG = 16;
+        static const int BEWEGUNG_HOCHSPRUNG = 32;
+        //static const int BEWEGUNG_PRAEZISER_SPRUNG = 24;
+        static const int BEWEGUNG_SCHLEICHEN = 64; //allgemein für den Versuch leise zu sein?
+        // können miteinander kombiniert werden
+        static const int BEWEGUNG_RUECKWAERTS = 128;
+        static const int BEWEGUNG_SEITWAERTS = 256;
+        // können nicht miteinander kombiniert werden
+        static const int BEWEGUNG_DREHEN = 512;
+        static const int BEWEGUNG_UMDREHEN = 1024;
+        //static const int BEWEGUNG_BALANCIEREN = 1024;
+        //static const int BEWEGUNG_FLUCHT = 2048; //weiterrennen auch bei zu niedriger AU?
+        //...
+        // folgendes sinnvoll? siehe taktische und strategische Bewegung
+        //static const int BEWEGUNG_MOD_NONE = 0;
+        //static const int BEWEGUNG_MOD_REICHSSTRASSE = 1;
+        //static const int BEWEGUNG_MOD_STADT = 2;
+        //static const int BEWEGUNG_MOD_OFFENES_GELAENDE = 4;
+        //static const int BEWEGUNG_MOD_STEILER_ABHANG = 8; // ? ...
+        
+
+        /**
+         * Gibt an, ob die angegebene taktische Bewegungsart im Moment überhaupt möglich ist.
+         * (Ausdauer und Talentwerte hoch genug?)
+        **/
+        bool canUseTaktischeBewegung(int movementType);
+
+
+        /**
+         * Führt eine taktische Bewegung aus, das bedeutet, es werden falls nötig Proben abgelegt
+         * und die Veränderungen der AU und LE berechnet; für Richtungsänderungen (Drehung) beim Laufen/etc
+         * muss die Funktion zweimal aufgerufen werden, einmal um die Laufgeschwindigkeit und einmal um die 
+         * Rotationsgeschwindigkeit zu ermitteln 
+         * (das bedeutet auch, dass sobald eine Drehung angegeben wird, nur die Auswirkungen der Drehung, 
+         * nicht der restlichen Bewegung ermittelt werden)
+         * @param movementType Flag für die Art der Bewegung
+         * @param modifikator Flags für die Umgebung
+         * @param time Die Dauer der Bewegung; hier sind kurze Zeiten vorgesehen (Dauer einer Frame)
+         * @param patzer Falls eine Probe benötigt wird, gibt dies die übriggebliebenen TaW an.
+         *  Ein negativer Wert steht für einen Patzer; je kleiner der Wert, desto schlimmer sollten die
+         *  Auswirkungen ausfallen!
+         * @param probenErschwernis Um diesen Wert sind alle benötigten Proben erschwert, dient vor allem
+         *  dazu, erschwerte Schleichen-Proben oder Ähnliches zu ermöglichen!
+         * @retval Berechnete Geschwindigkeit (alle Ergebnisse von Talentproben einbezogen)
+        **/
+        float doTaktischeBewegung(int movementType, float time, int& patzer, int probenErschwernis = 0, int modifikatoren = 0);
+
+        /**
+         * Fragt den aktuellen Bewegungstyp ab.
+        **/
+        int getTaktischeBewegung(void) const;
+
+        /**
+         * Setzt den aktuellen Bewegungstyp. Wird ebenfalls in doTaktischeBewegung getan!
+        **/
+        void setTaktischeBewegung(int type);
 
     protected:
         /**
@@ -888,7 +975,7 @@ namespace rl
         /// Die aktuelle @ref abbdea "Astralenergie" der Kreatur.
 		int mCurrentAe;
         /// Die aktuelle @ref abbdea "Ausdauer" der Kreatur.
-		int mCurrentAu;
+		float mCurrentAu;
         /// Die aktuelle Erschoepfung der Kreatur.
         int mErschoepfung;
         /// Wenn > 0 ist die Kreatur blind.
@@ -911,6 +998,8 @@ namespace rl
         int mSleeping;
         /// Wenn > 0 ist die Kreatur bewusstlos.
         int mUnconscious;
+        /// Zuletzt zugewiesene Bewegungsart
+        int mMovementType;
 
         /// Verwaltet die Effekte die auf die Kreatur wirken.
 		EffectManager mEffectManager;

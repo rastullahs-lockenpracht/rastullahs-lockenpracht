@@ -59,7 +59,8 @@ namespace rl
         mParalyzed(0),
         mSilenced(0),
         mSleeping(0),
-        mUnconscious(0)
+        mUnconscious(0),
+        mMovementType(0)
     {
         mQueryFlags = QUERYFLAG_CREATURE;
 
@@ -286,11 +287,11 @@ namespace rl
 		return isMagic()?getAeBasis() + getWert(WERT_MOD_AE):0;
     }
 
-    void Creature::modifyAu(int mod, bool ignoreMax)
+    void Creature::modifyAu(float mod, bool ignoreMax)
     {
-        mCurrentAu = max(mCurrentAu + mod, 0);
+        mCurrentAu = max(mCurrentAu + mod, 0.0f);
 		if (!ignoreMax)
-			mCurrentAu = min(mCurrentAu, getAuMax());
+			mCurrentAu = min(mCurrentAu, float(getAuMax()));
         if (getAu() <= 0)
         {
             setIncapacitated(true);
@@ -298,7 +299,7 @@ namespace rl
 		fireObjectStateChangeEvent();
     }
 
-    int Creature::getAu()
+    float Creature::getAu()
     {
         return mCurrentAu;
     }
@@ -1005,9 +1006,9 @@ namespace rl
         modifyAe(-asp);
     }
 
-    void Creature::damageAu(int aup, int damageType)
+    void Creature::damageAu(float aup, int damageType)
     {
-        if (aup <= 0)
+        if (aup < 0)
         {
          /**@todo Was tun bei negativen AuP? Exception? Fehlermeldung? Stillschweigend
              auf 0 setzen?*/
@@ -1016,6 +1017,9 @@ namespace rl
            mErschoepfung += DsaManager::getSingleton().rollD6();
            setIncapacitated(true);
         }
+        // bei Überanstrengung, kostet alles doppelte Au!!!!!
+        if( mErschoepfung > getEigenschaft("KO") )
+            aup *= 2;
         modifyAu(-aup);
     }
 
@@ -1051,23 +1055,62 @@ namespace rl
         modifyAe(regeneratedAe);
     }
 
-    void Creature::regenerateAu(int modifier)
+    void Creature::regenerateAu(int modifier, float factor, float time)
     {
-        ///@todo Gibt es etwas das die Regeneration permanent modifiziert?
-        //Grundregeneration von 3W6
-        int regeneratedAu = DsaManager::getSingleton().rollD6()
-            + DsaManager::getSingleton().rollD6() 
-            + DsaManager::getSingleton().rollD6();
-        //Addiere eventuelle Modifikatoren hinzu
-        //regeneratedAu += getWert(WERT_MOD_REGENERATION_LE);
-        //Bei gelungener KO Probe addiere 1
-        if (RESULT_ERFOLG <= doEigenschaftsprobe("KO", 
-            getWertStateSet(WERT_MOD_REGENERATION_LE)->getProbenModifier()))
+        // das Ganze nur jede Spielrunde machen
+        static float lastSpielrunde = 0;
+        static int regeneratedAu = DsaManager::getSingleton().rollD6()
+                + DsaManager::getSingleton().rollD6() 
+                + DsaManager::getSingleton().rollD6();
+        lastSpielrunde += time;
+
+
+        if( getAu() == getAuMax() )
         {
-            regeneratedAu += 6;
+            lastSpielrunde = 0;
+            return;
         }
-        //modifiziere die aktuellen AU
-        modifyAu(regeneratedAu);
+
+
+        while( lastSpielrunde >= Date::ONE_SPIELRUNDE )
+        {
+            lastSpielrunde -= Date::ONE_SPIELRUNDE;
+
+
+            ///@todo Gibt es etwas das die Regeneration permanent modifiziert?
+            //Grundregeneration von 3W6
+            regeneratedAu = DsaManager::getSingleton().rollD6()
+                + DsaManager::getSingleton().rollD6() 
+                + DsaManager::getSingleton().rollD6();
+            //Addiere eventuelle Modifikatoren hinzu
+            //regeneratedAu += getWert(WERT_MOD_REGENERATION_LE);
+            //Bei gelungener KO Probe addiere 1
+            if (RESULT_ERFOLG <= doEigenschaftsprobe("KO", 
+                getWertStateSet(WERT_MOD_REGENERATION_LE)->getProbenModifier()))
+            {
+                modifyAu(6*factor);
+            }
+            
+            if( lastSpielrunde >= Date::ONE_SPIELRUNDE ) // mehrere Runden auf einmal
+            {
+                //modifiziere die aktuellen AU
+                time -= Date::ONE_SPIELRUNDE;
+                modifyAu((regeneratedAu-modifier)*factor);
+            }
+
+
+
+
+            if( getAu() == getAuMax() )
+            {
+                lastSpielrunde = 0;
+                return;
+            }
+        }
+
+        // Restbetrag regenerieren:
+        float regeneratedAuPerTime = float(regeneratedAu-modifier)/Date::ONE_SPIELRUNDE * Date::ONE_SECOND * time;
+        modifyAu(regeneratedAuPerTime*factor);
     }
 
 	void Creature::addEffect(Effect* effect)
@@ -1118,4 +1161,508 @@ namespace rl
 
         return ps;
     }
+
+    int Creature::getTaktischeBewegung(void) const
+    {
+        return mMovementType;
+    }
+
+    void Creature::setTaktischeBewegung(int type)
+    {
+        mMovementType = type;
+    }
+
+
+    bool Creature::canUseTaktischeBewegung(int movementType)
+    {
+        if( movementType == BEWEGUNG_NONE )
+        {
+            return true;
+        }
+
+        // kann sich die Kreatur ueberhaupt bewegen?
+        if( isImmovable() )
+            return false;
+
+        if( getAu() <= 1 )
+            return false;
+
+
+
+        if( movementType & BEWEGUNG_SCHLEICHEN )
+        {
+            // if( getragenes Gewicht > 2*KK ) return false
+            if( movementType & 
+                (BEWEGUNG_RENNEN | BEWEGUNG_LAUFEN | BEWEGUNG_JOGGEN |
+                BEWEGUNG_HOCHSPRUNG | BEWEGUNG_WEITSPRUNG | BEWEGUNG_UMDREHEN) 
+                )
+            {
+                return false;
+            }
+
+        }
+        else if( movementType & BEWEGUNG_SEITWAERTS )
+        {
+            if( movementType & 
+                (BEWEGUNG_RENNEN | BEWEGUNG_JOGGEN |
+                BEWEGUNG_HOCHSPRUNG | BEWEGUNG_WEITSPRUNG | BEWEGUNG_UMDREHEN)
+                )
+            {
+                return false;
+            }
+        }
+        else if( movementType & BEWEGUNG_HOCHSPRUNG || movementType & BEWEGUNG_WEITSPRUNG )
+        {
+            // if( getragenes Gewicht > KK ) return false
+        }
+
+
+
+        if( movementType & BEWEGUNG_DREHEN ||
+            movementType & BEWEGUNG_UMDREHEN)
+        {
+        }
+        else if( movementType & BEWEGUNG_RENNEN )
+        {
+            // if( getragenes Gewicht > KK ) return false
+            // getCurrentBE() > ?
+            if( getAu() < 6.0 || getAu() < getAuBasis()/3.0 )
+                return false;
+        }
+        else if( movementType & BEWEGUNG_LAUFEN )
+        {
+            // if( getragenes Gewicht > 1.5*KK ) return false
+            if( getAu() < 6.0 )
+                return false;
+        }
+        else if( movementType & BEWEGUNG_JOGGEN )
+        {
+            // if( getragenes Gewicht > 2*KK ) return false
+            if( getAu() < 6.0 )
+                return false;
+        }
+        else if( movementType & BEWEGUNG_GEHEN )
+        {
+        }    
+
+        return true;
+    }
+
+
+
+
+    float Creature::getTaktischeGeschwindigkeitsBasis(int movementType, bool modified, int modifikatoren)
+    {
+        static float factorJoggen = 2.0;
+        // Bewegung nicht möglich!
+        if( !canUseTaktischeBewegung(movementType) )
+            return 0;
+
+
+        int act_gs = getWert(Creature::WERT_GS);
+        if( modified )
+            act_gs -= getCurrentBe();
+        if( act_gs < 1 )
+            act_gs = 1;
+
+        float velocity = 0;
+
+
+        // drehen ist ein sonderfall! angabe der Rotationsgeschwindigkeit in Umdrehungen pro Sekunde
+        if( movementType & BEWEGUNG_DREHEN ||
+            movementType & BEWEGUNG_UMDREHEN )
+        {
+            if( movementType & BEWEGUNG_UMDREHEN )
+                velocity = 0.5;
+            else
+                velocity = 0.3;
+            //if( modified )
+            //    velocity -= getCurrentBe()/getEigenschaft("GE");
+            if( movementType & BEWEGUNG_SCHLEICHEN )
+                velocity *= 0.5;
+            return velocity;
+        }
+
+
+
+
+        if( movementType & BEWEGUNG_SCHLEICHEN )
+        {
+            if( !(movementType & BEWEGUNG_GEHEN) && !(movementType & BEWEGUNG_JOGGEN) &&
+                !(movementType & BEWEGUNG_RENNEN) && !(movementType & BEWEGUNG_LAUFEN) )
+            {
+                return 0;
+            }
+            if( movementType & BEWEGUNG_RUECKWAERTS || movementType & BEWEGUNG_SEITWAERTS )
+                return 1;
+            if( modified && getCurrentBe() > 1 )
+                return 1;
+            
+            return 2;
+        }
+        else if( movementType & BEWEGUNG_WEITSPRUNG )
+        {
+            float mod;
+            if( movementType & BEWEGUNG_RENNEN )
+                mod = 1;
+            else if( movementType & BEWEGUNG_LAUFEN )
+                mod = 0.6;
+            else if( movementType & BEWEGUNG_JOGGEN )
+                mod = 0.5;
+            else
+                mod = 0.3;
+            velocity = mod*(getEigenschaft("GE") + getEigenschaft("KK")) / 5.0;
+
+            if( modified )
+            {
+                // steht nicht in den Regeln aber finde ich sinnvoll
+                // velocityBase *= (1 - getrageneLast/KK);
+                // steht in den Regeln: pro Erschöpfung ein KK abziehen
+                if( mErschoepfung > getEigenschaft("KO") )
+                    velocity -= mod*(mErschoepfung - getEigenschaft("KO")) / 5.0;
+                // steht nicht in den Regeln, aber finde ich sinnvoll
+                if( getAu() < getAuBasis() / 3.0 )
+                    velocity -= mod*(getAu() / getAuBasis() * 3.0) * getEigenschaft("GE") / 5.0;
+            }
+            if( movementType & BEWEGUNG_SCHLEICHEN )
+            {
+                velocity *= 0.3;
+            }
+            return velocity;
+        }
+        else if( movementType & BEWEGUNG_HOCHSPRUNG )
+        {
+            velocity = (getEigenschaft("GE") + getEigenschaft("KK")) / 4.0 / 5.0;
+            
+            if( modified )
+            {
+                // steht nicht in den Regeln aber finde ich sinnvoll
+                // velocityBase *= (1 - getrageneLast/KK);
+                // steht in den Regeln: pro Erschöpfung ein KK abziehen
+                if( mErschoepfung > getEigenschaft("KO") )
+                    velocity -= (mErschoepfung - getEigenschaft("KO")) / 4.0 / 5.0;
+                // steht nicht in den Regeln, aber finde ich sinnvoll
+                if( getAu() < getAuBasis() / 3.0 )
+                    velocity -= (getAu() / getAuBasis() * 3.0) * getEigenschaft("GE") / 4.0 / 5.0;
+            }
+            if( movementType & BEWEGUNG_SCHLEICHEN )
+            {
+                velocity *= 0.3;
+            }
+            return velocity;
+        }
+
+
+        if( movementType & BEWEGUNG_RUECKWAERTS )
+        {
+            if( movementType & BEWEGUNG_RENNEN ||
+                movementType & BEWEGUNG_LAUFEN ||
+                movementType & BEWEGUNG_JOGGEN )
+            {
+                velocity = 0.6 * act_gs / factorJoggen;
+            }
+            else if( movementType & BEWEGUNG_GEHEN )
+            {
+                velocity = 0.6 * act_gs / 3.6;
+            }
+
+            if( movementType & BEWEGUNG_SCHLEICHEN )
+            {
+                velocity = 0.3 * act_gs / 3.6;
+            }
+            return velocity;
+        }
+        else if( movementType & BEWEGUNG_SEITWAERTS )
+        {
+            if( movementType & BEWEGUNG_RENNEN || 
+                movementType & BEWEGUNG_LAUFEN ||
+                movementType & BEWEGUNG_JOGGEN )
+            {
+                velocity = 0.8 * act_gs / factorJoggen;
+            }
+            else if( movementType & BEWEGUNG_GEHEN )
+            {
+                velocity = 0.8 * act_gs / 3.6;
+            }
+            
+            if( movementType & BEWEGUNG_SCHLEICHEN )
+            {
+                velocity = 0.4 * act_gs / 3.6;
+            }            
+            return velocity;
+        }
+
+
+
+        if( movementType & BEWEGUNG_SCHLEICHEN )
+        {
+            if( !(movementType & BEWEGUNG_GEHEN) && !(movementType & BEWEGUNG_JOGGEN) &&
+                !(movementType & BEWEGUNG_RENNEN) && !(movementType & BEWEGUNG_LAUFEN) )
+            {
+                return 0;
+            }
+            if( modified && getCurrentBe() > 1 )
+                return 1;
+            
+            return 2;
+        }
+
+
+        if( movementType & BEWEGUNG_RENNEN )
+        {
+            velocity = act_gs;
+        }
+        else if( movementType & BEWEGUNG_LAUFEN )
+        {
+            velocity = act_gs / 2.5;
+        }
+        else if( movementType & BEWEGUNG_JOGGEN )
+        {
+            velocity = act_gs / 2.0;
+        }
+        else if( movementType & BEWEGUNG_GEHEN )
+        {
+            velocity = act_gs / 3.6;
+        }
+        else
+        {
+            velocity = 0;
+        }
+        return velocity;
+    }
+
+
+
+    float Creature::doTaktischeBewegung(int movementType, float time, int& patzer, int probenErschwernis, int modifikatoren)
+    {
+        // damit bei einem Sprint immer nur eine Probe gemacht wird!
+        static float lastProbeTaW = 0;
+        static int lastProbeTime = 0;
+        static int lastMovementType = 0;
+        lastProbeTaW -= time;
+        bool movementTypeChanged = false;
+        if( movementType != lastMovementType ) // das System lässt sich durch Zwischendurch nicht rennen austricksen!!!!
+            movementTypeChanged = true;
+        lastMovementType = movementType;
+        
+        const int regenerateAuModifier_Gehen = 2;
+        const float regenerateAuFactor_Gehen = 0.5;
+        const int regenerateAuModifier_Stehen = 1;
+        const float regenerateAuFactor_Stehen = 0.75;
+
+
+
+
+        float velocity = getTaktischeGeschwindigkeitsBasis(movementType, true, modifikatoren);
+
+
+        setTaktischeBewegung(movementType);
+
+        
+
+
+        if( movementType & BEWEGUNG_DREHEN )
+        {
+            return velocity;
+        }
+
+
+
+        if( movementType & BEWEGUNG_SCHLEICHEN )
+        {
+//
+/*
+            try // schleichen wirklich hier machen?
+            {
+                patzer = doTalentprobe("Schleichen", probenErschwernis);
+            }
+            catch(OutOfRangeException err)
+            {
+                patzer = RESULT_MISSERFOLG;
+            }
+*/
+            return velocity;
+        }
+        else if( movementType & BEWEGUNG_WEITSPRUNG )
+        {
+            try
+            {
+                patzer = doTalentprobe("Athletik", probenErschwernis);
+                if( patzer > 0 )
+                {
+                    if( patzer == RESULT_SPEKT_AUTOERFOLG )
+                    {
+                        velocity += getTalent("Athletik") / 25.0;
+                    }
+                    else if( patzer == RESULT_AUTOERFOLG )
+                    {
+                        velocity += getTalent("Athletik") / 50.0;
+                    }
+                    else
+                    {
+                        velocity += patzer / 50.0;
+                    }
+                }
+            }
+            catch(OutOfRangeException err)
+            {
+                patzer = 0;
+            }
+            // Ausdauerverbrauch: eigentlich 1, aber ich denke das ist zu hoch
+            damageAu(1./3);
+            return velocity;
+        }
+        else if( movementType & BEWEGUNG_HOCHSPRUNG )
+        {
+            try
+            {
+                patzer = doTalentprobe("Athletik", probenErschwernis);
+                if( patzer > 0 )
+                {
+                    if( patzer == RESULT_SPEKT_AUTOERFOLG )
+                    {
+                        velocity += getTalent("Athletik") / 12.5;
+                    }
+                    else if( patzer == RESULT_AUTOERFOLG )
+                    {
+                        velocity += getTalent("Athletik") / 25.0;
+                    }
+                    else
+                    {
+                        velocity += patzer / 25.0;
+                    }
+                }
+            }
+            catch(OutOfRangeException err)
+            {
+                patzer = 0;
+            }
+            // Ausdauerverbrauch:
+            damageAu(2./3);
+            return velocity;
+        }
+
+
+        if( movementType & BEWEGUNG_RUECKWAERTS )
+        {
+            if( movementType & BEWEGUNG_RENNEN || 
+                movementType & BEWEGUNG_LAUFEN ||
+                movementType & BEWEGUNG_JOGGEN )
+            {
+            }
+            else if( movementType & BEWEGUNG_GEHEN )
+            {
+            }
+            return velocity;
+        }
+        else if( movementType & BEWEGUNG_SEITWAERTS )
+        {
+            if( movementType & BEWEGUNG_RENNEN || 
+                movementType & BEWEGUNG_LAUFEN ||
+                movementType & BEWEGUNG_JOGGEN )
+            {
+            }
+            else if( movementType & BEWEGUNG_GEHEN )
+            {
+            }
+            
+            return velocity;
+        }
+
+
+
+        if( movementType & BEWEGUNG_RENNEN )
+        {
+            // für Rennen Athletik-probe -> höhere Geschwindigkeit
+            try
+            {
+                if( lastProbeTime <= 0 || movementTypeChanged)
+                {
+                    lastProbeTaW = doTalentprobe("Athletik", probenErschwernis);
+                    patzer = lastProbeTaW;
+                    lastProbeTime = getAuMax();
+                }
+                else
+                {
+                    // wird nur einmal angerechnet ?
+                    patzer = 0;
+                }
+                if( lastProbeTaW > 0 )
+                {
+                    if( lastProbeTaW == RESULT_AUTOERFOLG )
+                    {
+                        velocity += getTalent("Athletik") * 0.2;
+                    }
+                    else if( lastProbeTaW == RESULT_SPEKT_AUTOERFOLG )
+                    {
+                        velocity += getTalent("Athletik") * 0.3;
+                    }
+                    else
+                    {
+                        velocity += lastProbeTaW;
+                    }
+                }
+                damageAu(time/1.5);
+            }
+            catch(OutOfRangeException err)
+            {
+                patzer = 0;
+            }
+        }
+        else if( movementType & BEWEGUNG_LAUFEN )
+        {
+            // für Laufen, Athletik-Probe weniger Ausdauer-Verbrauch
+            float timePerAu = 180;
+            try
+            {
+                if( lastProbeTime <= 0 || movementTypeChanged )
+                {
+                    lastProbeTaW = doTalentprobe("Athletik", probenErschwernis);
+                    patzer = lastProbeTime;
+                    lastProbeTime = Date::ONE_SPIELRUNDE;
+                }
+                else
+                {
+                    // wird nur einmal angerechnet ?
+                    patzer = 0;
+                }
+                if( lastProbeTaW > 0 )
+                {
+                    if( lastProbeTaW == RESULT_AUTOERFOLG )
+                    {
+                        timePerAu += getTalent("Athletik") * 5;
+                    }
+                    else if( lastProbeTime == RESULT_SPEKT_AUTOERFOLG )
+                    {
+                        timePerAu += getTalent("Athletik") * 10;
+                    }
+                    else
+                    {
+                        timePerAu += lastProbeTaW * 5;
+                    }
+                }
+                damageAu(time/timePerAu);
+            }
+            catch(OutOfRangeException err)
+            {
+                patzer = 0;
+            }
+        }
+        else if( movementType & BEWEGUNG_JOGGEN )
+        {
+        }
+        else if( movementType & BEWEGUNG_GEHEN )
+        {
+            regenerateAu(regenerateAuModifier_Gehen, regenerateAuFactor_Gehen, time);
+        }
+        else
+        {
+            // rumstehen
+            regenerateAu(regenerateAuModifier_Stehen, regenerateAuFactor_Stehen, time);
+        }
+
+        return velocity;
+    }
+
+
 }
