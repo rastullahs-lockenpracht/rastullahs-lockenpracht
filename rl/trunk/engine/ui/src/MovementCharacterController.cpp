@@ -59,11 +59,11 @@ namespace rl {
         : mIsAirBorne(false),
         mHasFloorContact(false),
         mStartJump(false),
+        mJumpWidthHeight(0),
         mJumpTimer(0.0),
         mDesiredVel(Vector3::ZERO),
         mCurrentMovementState(MOVE_NONE),
-        mLastMovementState(MOVE_NONE),
-        mPose(Stand)
+        mLastMovementState(MOVE_NONE)
     {
 
     }
@@ -76,7 +76,9 @@ namespace rl {
         mDistanceRange(0.60, 7.00),
         mYaw(0),
         mCamYaw(0),
+        mCamVirtualYaw(0),
         mPitch(20),
+        mRoll(0),
         mPitchRange(Degree(-75), Degree(85)),
         mLinearSpringK(400.0f),
         mLinearDampingK(Math::NEG_INFINITY),
@@ -121,7 +123,7 @@ namespace rl {
             mCharacterActor->getControlledObject());
         AxisAlignedBox aabb = charMesh->getDefaultSize();
 
-        // wird spï¿½er neu berechnet in calculateOptimalCameraPosition
+        // wird später neu berechnet in calculateOptimalCameraPosition
         mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45f, 0);
 
         // The actor should be controlled manually,
@@ -188,24 +190,13 @@ namespace rl {
     //------------------------------------------------------------------------
     void MovementCharacterController::run(Real elapsedTime)
     {
-        int movement = mCharacterState.mCurrentMovementState;
-        updateAnimationState(movement);
-        updateCharacterState(movement, elapsedTime);
+        //int movement = mCharacterState.mCurrentMovementState;
+        //updateAnimationState(movement); // lasse updateAnimationState das ändern
+        //updateCharacterState(movement, elapsedTime);
+        updateCharacterState(elapsedTime);
         updateCameraLookAt(elapsedTime);
         updateSelection();
 
-
-        // Do we need to reset the character?
-        static Real charAnimationOccTime = 0;
-        charAnimationOccTime += elapsedTime;
-        if( mCharacterState.mPose != CharacterState::Stand &&
-            mCharacterState.mPose != CharacterState::Crouch )
-        {
-            if( charAnimationOccTime > 10.0f ) // mehr als ... sekunden!
-                mCharacterState.mPose = CharacterState::Stand;
-        }
-        else
-            charAnimationOccTime = 0;
 
         // Do we need to reset the Camera?
         Vector3 charPos = mCharacterActor->getWorldPosition();
@@ -245,166 +236,509 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    void MovementCharacterController::updateCharacterState(int movement, Ogre::Real elapsedTime)
+    void MovementCharacterController::updateCharacterState(Ogre::Real elapsedTime)
     {
         InputManager* im = InputManager::getSingletonPtr();
+        mCharacterState.mDesiredVel = Vector3::ZERO;
+        int patzer = 0;
+        int movement = mCharacterState.mCurrentMovementState;
+        int creatureMovement = mCharacter->getTaktischeBewegung();
+        bool blockMovement (false);
+
+
+
+
+        MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
+        PhysicalThing* pt = mCharacterActor->getPhysicalThing();
+        static std::string lastAnimation("");
+        std::string newAnimation("idle");
+        Real animSpeed = 1;
+        static Real lastSpeed = 1;
+        unsigned int animTimesToPlay = 0;
         Real gs = mCharacter->getWert(Creature::WERT_GS);
-        Real auPerSecond = 0.0; // Standard - Ausdauer-verbrauch/Regeneration pro Sekunde
-        bool canRun = mCharacter->getAu() > 6.0f;
-        Radian rotationSpeed = mRotationSpeed * gs / 6.0f; // <-- arme Zwerge? aber wenn gs sinkt sollte das auch sinken!
+        static String lastCollisionPose = "";
+        String collisionPose = "idle";
 
-        if (mCharacterState.mPose == CharacterState::StartJump ||
-            mCharacterState.mPose == CharacterState::Jumping ||
-            mCharacterState.mPose == CharacterState::EndJump)
-            ; // do nothing, old mDesiredVel!!
-        else
-            mCharacterState.mDesiredVel = Vector3::ZERO;
+        // the different factors used to calculate the animation-speed from the character-speed
+        const Real factor_hocke_gehen = 0.7;
+        const Real factor_drehen_idle = 0.6;
+        const Real factor_gehen = 0.5;
+        const Real factor_gehen_rueckwaerts = 0.7;
+        const Real factor_rennen = 0.25;
+        const Real factor_rennen_absprung = 0.25;
+        const Real factor_rennen_sprung_landung = 0.6;
+        const Real factor_rennen_sprung = 0.25;
+        const Real factor_gehen_seitwaerts = 0.9;
 
-        if (mCharacterState.mPose == CharacterState::Stand)
+
+
+
+        Vector3 charVelocity, charOmega;
+        charOmega = mCharBody->getOmega();
+        charVelocity = mCharBody->getVelocity();
+        Real vel = charVelocity.length();
+
+
+
+
+        //  --------------------------- sneaking-behaviour ----------------------------
         {
-            // Sprnge werden von updateAnimationStat geregelt
-
-            // Rckwï¿½ts gehen oder laufen
-            if ( movement & MOVE_BACKWARD && !(movement & MOVE_FORWARD) )
+            static bool beginSneak (false);
+            static bool endSneak (false);
+            
+            if( (!(creatureMovement & Creature::BEWEGUNG_SCHLEICHEN) && 
+                movement & MOVE_SNEAK) || 
+                beginSneak )
             {
-                if( movement & MOVE_RUN_LOCK ) // Rckwï¿½ts joggen
+                beginSneak = true;
+            }
+            if( (!(movement & MOVE_SNEAK) && 
+                creatureMovement & Creature::BEWEGUNG_SCHLEICHEN) || 
+                endSneak)
+            {
+                endSneak = true;
+            }
+
+            if( beginSneak )
+            {
+                newAnimation = "idle_zu_hocke";
+
+                MeshAnimation *meshAnim = mesh->getAnimation(newAnimation);
+                if (meshAnim->getTimePlayed() >= meshAnim->getLength())
                 {
-                    mCharacterState.mDesiredVel = Vector3(0,0,1) * 0.6 * gs / 2.0;
+                    creatureMovement |= Creature::BEWEGUNG_SCHLEICHEN;
+                    mCharacter->setTaktischeBewegung(creatureMovement);
+                    beginSneak = false;
                 }
                 else
                 {
-                    mCharacterState.mDesiredVel = Vector3(0,0,1) * 0.6 * gs / 3.6;
+                    collisionPose = "idle";
+                    animTimesToPlay = 1;
+                    blockMovement = true;
+
+                    mCharacter->doTaktischeBewegung(Creature::BEWEGUNG_NONE, elapsedTime, patzer);
                 }
+
+                // interpolate camera offset
+                Real factor = meshAnim->getTimePlayed() / meshAnim->getLength();
+                interpolateAnimationLookAtOffset("idle", "hocke_idle", factor);
             }
-            else if ( movement & MOVE_FORWARD ) // Vorwï¿½tsbewegung
+
+            if( creatureMovement & Creature::BEWEGUNG_SCHLEICHEN )
             {
-                if( movement & MOVE_RUN && movement & MOVE_RUN_LOCK ) // sprinten
-                {
-                    mCharacterState.mDesiredVel = Vector3(0,0,-1) * gs;
-                }
-                else if( movement & MOVE_RUN && !(movement & MOVE_RUN_LOCK) ) // gehen
-                {
-                    mCharacterState.mDesiredVel = Vector3(0,0,-1) * gs / 3.6f;
-                }
-                else if( movement & MOVE_RUN_LOCK ) // laufen
-                {
-                    mCharacterState.mDesiredVel = Vector3(0,0,-1) * gs / 2.0f;
-                }
-                else // joggen
-                {
-                    mCharacterState.mDesiredVel = Vector3(0,0,-1) * gs / 2.5f;
-                }
+                newAnimation = "hocke_idle";
+                collisionPose = newAnimation;
             }
-            else if( movement & MOVE_LEFT )
+
+            if( endSneak )
             {
-                mCharacterState.mDesiredVel = Vector3(-1,0,0) * gs / 3.6;
+                creatureMovement &= ~Creature::BEWEGUNG_SCHLEICHEN;
+                mCharacter->setTaktischeBewegung(creatureMovement);
+                newAnimation = "hocke_zu_stehen";
+
+
+                MeshAnimation *meshAnim = mesh->getAnimation(newAnimation);
+                if (meshAnim->getTimePlayed() >= meshAnim->getLength())
+                {
+                    newAnimation = "idle";
+                    endSneak = false;
+                }
+                else
+                {
+                    collisionPose = "idle";
+                    animTimesToPlay = 1;
+                    blockMovement = true;
+
+                    mCharacter->doTaktischeBewegung(Creature::BEWEGUNG_NONE, elapsedTime, patzer);
+                }
+
+                // interpolate camera-offset
+                Real factor = meshAnim->getTimePlayed() / meshAnim->getLength();
+                interpolateAnimationLookAtOffset("hocke_idle", "idle", factor);
             }
-            else if( movement & MOVE_RIGHT )
+        }
+        //  --------------------------- sneaking-behaviour -------------------------
+
+
+
+
+
+        // ------------------ walking, jogging, running etc ------------------------
+        if( !blockMovement )
+        {
+
+            int newCreatureMovement = 
+                creatureMovement & ~
+                    (Creature::BEWEGUNG_RENNEN |
+                    Creature::BEWEGUNG_LAUFEN | 
+                    Creature::BEWEGUNG_JOGGEN |
+                    Creature::BEWEGUNG_GEHEN | 
+                    Creature::BEWEGUNG_RUECKWAERTS |
+                    Creature::BEWEGUNG_SEITWAERTS |
+                    Creature::BEWEGUNG_DREHEN |
+                    Creature::BEWEGUNG_UMDREHEN
+                    );
+
+            if( movement & MOVE_RUN && movement & MOVE_RUN_LOCK )
+                newCreatureMovement |= Creature::BEWEGUNG_RENNEN;
+            else if( movement & MOVE_RUN_LOCK )
+                newCreatureMovement |= Creature::BEWEGUNG_LAUFEN;
+            else if( !(movement & MOVE_RUN) )
+                newCreatureMovement |= Creature::BEWEGUNG_JOGGEN;
+            else
+                newCreatureMovement |= Creature::BEWEGUNG_GEHEN;
+
+            if( movement & MOVE_FORWARD )
+                ;
+            else if( movement & MOVE_BACKWARD )
+                newCreatureMovement |= Creature::BEWEGUNG_RUECKWAERTS;
+            else if( movement & MOVE_RIGHT || movement & MOVE_LEFT )
+                newCreatureMovement |= Creature::BEWEGUNG_SEITWAERTS;
+
+
+            // check if new Movement is possible
+            if( newCreatureMovement & Creature::BEWEGUNG_RENNEN )
             {
-                mCharacterState.mDesiredVel = Vector3(1,0,0) * gs / 3.6;
+                if( !mCharacter->canUseTaktischeBewegung(newCreatureMovement) )
+                {
+                    newCreatureMovement &= ~Creature::BEWEGUNG_RENNEN;
+                    newCreatureMovement |= Creature::BEWEGUNG_LAUFEN;
+                }
             }
 
-            if (movement & TURN_LEFT)  mYaw += rotationSpeed*elapsedTime;
-            if (movement & TURN_RIGHT) mYaw -= rotationSpeed*elapsedTime;
+            if( newCreatureMovement & Creature::BEWEGUNG_LAUFEN )
+            {
+                if( !mCharacter->canUseTaktischeBewegung(newCreatureMovement) )
+                {
+                    newCreatureMovement &= ~Creature::BEWEGUNG_LAUFEN;
+                    newCreatureMovement |= Creature::BEWEGUNG_JOGGEN;
+                }
+            }
+            
+            if( newCreatureMovement & Creature::BEWEGUNG_JOGGEN )
+            {
+                if( !mCharacter->canUseTaktischeBewegung(newCreatureMovement) )
+                {
+                    newCreatureMovement &= ~Creature::BEWEGUNG_JOGGEN;
+                    newCreatureMovement |= Creature::BEWEGUNG_GEHEN;
+                }
+            }
+            
+            if( newCreatureMovement & Creature::BEWEGUNG_GEHEN )
+            {
+                if( !mCharacter->canUseTaktischeBewegung(newCreatureMovement) )
+                {
+                    // character exhausted?
+                    blockMovement = true;
+                    newAnimation = "idle";
+                    newCreatureMovement &= ~Creature::BEWEGUNG_GEHEN;
+                    newCreatureMovement |= Creature::BEWEGUNG_NONE;
+                    mCharacter->doTaktischeBewegung(newCreatureMovement, elapsedTime, patzer);
+                }
+            }
+
+            if( !blockMovement )
+            {
+                mCharacterState.mDesiredVel = Vector3::ZERO;
+
+                // not handled movements:
+                if( movement & MOVE_FORWARD && movement & MOVE_BACKWARD ||
+                    movement & MOVE_LEFT && movement & MOVE_RIGHT )
+                {
+                }
+                else if( (movement & MOVE_FORWARD || movement & MOVE_BACKWARD) && // this also handles strafe+forward/backward
+                         (newCreatureMovement & Creature::BEWEGUNG_LAUFEN ||
+                          newCreatureMovement & Creature::BEWEGUNG_JOGGEN ||
+                          newCreatureMovement & Creature::BEWEGUNG_RENNEN ) )
+                {
+                    newAnimation = "rennen";
+                    if( movement & MOVE_FORWARD )
+                    {
+                        mCharacterState.mDesiredVel.z = -1;
+                        animSpeed = factor_rennen;
+                    }
+                    else
+                    {
+                        mCharacterState.mDesiredVel.z = 1;
+                        animSpeed = -factor_rennen;
+                    }
+                }
+                else if( movement & MOVE_FORWARD )
+                {
+                    newAnimation = "gehen";
+                    animSpeed = factor_gehen;
+                    mCharacterState.mDesiredVel.z = -1;
+                }
+                else if( movement & MOVE_BACKWARD )
+                {
+                    newAnimation = "gehen_rueckwaerts";
+                    animSpeed = factor_gehen_rueckwaerts;
+                    mCharacterState.mDesiredVel.z = 1;
+                }
+                else if( movement & MOVE_LEFT )
+                {
+                    newAnimation = "seitwaerts_links";
+                    animSpeed = factor_gehen_seitwaerts;
+                    mCharacterState.mDesiredVel.x = -1;
+                }
+                else if( movement & MOVE_RIGHT )
+                {
+                    newAnimation = "seitwaerts_rechts";
+                    animSpeed = factor_gehen_seitwaerts;
+                    mCharacterState.mDesiredVel.x = 1;
+                }
 
 
+
+
+                // ---------- jumping-behaviour (and falling?) ---------
+                {
+
+                    static bool beginJump (false);
+                    static bool endJump (false);
+                    static enum {HOCHSPRUNG, WEITSPRUNG /*, PRAEZISER_SPRUNG*/}
+                        jumpType;
+
+
+                    if( !(creatureMovement & Creature::BEWEGUNG_SCHLEICHEN) && 
+                        !blockMovement && !beginJump &&
+                        !(creatureMovement & Creature::BEWEGUNG_HOCHSPRUNG) &&
+                        !(creatureMovement & Creature::BEWEGUNG_WEITSPRUNG) &&
+                        movement & MOVE_JUMP)
+                    {
+                        if( mCharacterState.mDesiredVel.squaredLength() > 0 )
+                        {
+                            jumpType = WEITSPRUNG;
+                            if( mCharacter->canUseTaktischeBewegung(newCreatureMovement | Creature::BEWEGUNG_WEITSPRUNG) )
+                            {
+                                beginJump = true;
+                                Real jumpWidth = 
+                                    mCharacter->doTaktischeBewegung(
+                                            newCreatureMovement | Creature::BEWEGUNG_WEITSPRUNG,
+                                            elapsedTime,
+                                            patzer);
+
+                                mCharacterState.mJumpWidthHeight = jumpWidth;
+                            }
+                        }
+                        else
+                        {
+                            jumpType = HOCHSPRUNG;
+                            if( mCharacter->canUseTaktischeBewegung(newCreatureMovement | Creature::BEWEGUNG_HOCHSPRUNG) )
+                            {
+                                beginJump = true;
+                                Real jumpHeight = 
+                                    mCharacter->doTaktischeBewegung(
+                                            newCreatureMovement | Creature::BEWEGUNG_HOCHSPRUNG,
+                                            elapsedTime,
+                                            patzer);
+
+                                mCharacterState.mJumpWidthHeight = jumpHeight;
+                            }
+                        }
+                    }
+
+
+                    if( (creatureMovement & Creature::BEWEGUNG_HOCHSPRUNG ||
+                        creatureMovement & Creature::BEWEGUNG_WEITSPRUNG  ) &&
+                        !beginJump )
+                    {
+                        if( !mCharacterState.mIsAirBorne )
+                            endJump = true;
+                    }
+
+
+
+                    
+                    Real timeJumpKeyPressed (0.0);
+                    if( !beginJump )
+                        timeJumpKeyPressed = 0;
+                    else if( movement & MOVE_JUMP && 
+                        (creatureMovement & Creature::BEWEGUNG_HOCHSPRUNG ||
+                        creatureMovement & Creature::BEWEGUNG_WEITSPRUNG ) )
+                        timeJumpKeyPressed += elapsedTime;
+
+
+
+                    if( beginJump )
+                    {
+                        blockMovement = true;
+                        if( jumpType == WEITSPRUNG )
+                        {
+                            newAnimation = "rennen_absprung";
+                            animSpeed = factor_rennen_sprung * vel;
+                        }
+                        else // HOCHSPRUNG
+                        {
+                            newAnimation = "idle_absprung";
+                        }
+                        animTimesToPlay = 1;
+                        
+
+                        MeshAnimation *meshAnim = mesh->getAnimation(newAnimation);
+                        if (meshAnim->getTimePlayed() >= meshAnim->getLength())
+                        {
+                            mCharacterState.mStartJump = true;
+                            if( timeJumpKeyPressed > 0.5 )
+                            mCharacterState.mJumpWidthHeight *= timeJumpKeyPressed / meshAnim->getLength();
+                            beginJump = false;
+                        }
+                    }
+                    else // !beginJump
+                    {
+                        if( creatureMovement & Creature::BEWEGUNG_HOCHSPRUNG )
+                        {
+                            blockMovement = true;
+                            newAnimation = "idle_sprung";
+                        }
+                        else
+                        if( creatureMovement & Creature::BEWEGUNG_WEITSPRUNG )
+                        {
+                            blockMovement = true;
+                            newAnimation = "rennen_sprung";
+                            animSpeed = vel * factor_rennen_sprung;
+                        }
+                    }
+
+                    if( endJump )
+                    {
+                        blockMovement = true;
+                        if( creatureMovement & Creature::BEWEGUNG_WEITSPRUNG )
+                        {
+                            newAnimation = "rennen_sprung_landung";
+                            animSpeed = factor_rennen_sprung * vel;
+                        }
+                        else // HOCHSPRUNG
+                        {
+                            newAnimation = "idle_sprung_landung";
+                        }
+                        animTimesToPlay = 1;
+                        
+
+                        MeshAnimation *meshAnim = mesh->getAnimation(newAnimation);
+                        if (meshAnim->getTimePlayed() >= meshAnim->getLength())
+                        {
+                            endJump = false;
+                            creatureMovement &= ~Creature::BEWEGUNG_HOCHSPRUNG & ~Creature::BEWEGUNG_WEITSPRUNG;
+                            mCharacter->setTaktischeBewegung(creatureMovement);
+                        }
+                    }
+
+
+                }
+                // ------ jumping-behaviour ----------
+
+
+
+                // only do something, if the char does not jump
+                if( !blockMovement )
+                {
+                    Real vel;
+                    if( mCharacterState.mDesiredVel.squaredLength() == 0 )
+                    {
+                        newCreatureMovement &= ~(
+                                Creature::BEWEGUNG_RENNEN |
+                                Creature::BEWEGUNG_LAUFEN | 
+                                Creature::BEWEGUNG_JOGGEN |
+                                Creature::BEWEGUNG_GEHEN | 
+                                Creature::BEWEGUNG_RUECKWAERTS |
+                                Creature::BEWEGUNG_SEITWAERTS |
+                                Creature::BEWEGUNG_DREHEN |
+                                Creature::BEWEGUNG_UMDREHEN
+                                );
+                    }
+                    vel = mCharacter->doTaktischeBewegung(newCreatureMovement, elapsedTime, patzer);
+                    creatureMovement = newCreatureMovement;
+                    
+                    mCharacterState.mDesiredVel *= vel;
+                    animSpeed *= vel;
+
+                    // some special cases:
+                    if( newCreatureMovement & Creature::BEWEGUNG_SCHLEICHEN &&
+                        vel > 0 )
+                    {
+                        newAnimation = "hocke_gehen";
+                        animSpeed = vel*factor_hocke_gehen;
+                    }
+                }
+
+
+
+
+                // this simulates going right-forward or left-forward or right/left - backward
+                Degree newCharVirtualYaw (0); 
+                if( (movement & MOVE_FORWARD && movement & MOVE_LEFT) ||
+                    (movement & MOVE_BACKWARD && movement & MOVE_RIGHT) )
+                {
+                    newCharVirtualYaw = Degree(45);
+                }
+                else if( (movement & MOVE_FORWARD && movement & MOVE_RIGHT) ||
+                         (movement & MOVE_BACKWARD && movement & MOVE_LEFT) )
+                {
+                    newCharVirtualYaw = Degree(-45);
+                }
+                else // no strafing
+                {
+                    newCharVirtualYaw = Degree(0);
+                }
+
+                if( newCharVirtualYaw != -mCamVirtualYaw )
+                {
+                    mYaw += mCamVirtualYaw;
+                    mYaw += newCharVirtualYaw;
+                    mCamVirtualYaw = -newCharVirtualYaw;
+                }
+            }
         }
-        else if (mCharacterState.mPose == CharacterState::Crouch)
+        // ------------------ walking, jogging, running etc ------------------------
+
+
+
+
+        // ---------------------------- turning + direction changing ---------------
+
+        if( !blockMovement )
         {
-            if (movement & MOVE_FORWARD)
-                mCharacterState.mDesiredVel.z = -0.5 * gs / 3.6;
-            rotationSpeed *= 0.6;
 
-            if (movement & TURN_LEFT)  mYaw += rotationSpeed*elapsedTime;
-            if (movement & TURN_RIGHT) mYaw -= rotationSpeed*elapsedTime;
+            Degree rotation;
+            // keyboard
+            if (movement & TURN_LEFT)
+                rotation = -elapsedTime * Degree(360.0f) * mCharacter->doTaktischeBewegung(
+                    creatureMovement | Creature::BEWEGUNG_DREHEN, elapsedTime, patzer);
+            if (movement & TURN_RIGHT)
+                rotation = elapsedTime * Degree(360.0f) * mCharacter->doTaktischeBewegung(
+                    mCharacter->getTaktischeBewegung() | Creature::BEWEGUNG_DREHEN, elapsedTime, patzer);
 
-        }
-
-/*
-// soll dafr sorgen, dass er auf dem
-// Boden bleibt und ber kleine Hindernisse kommt
-
-Quaternion orientation = mCharacterActor->getWorldOrientation();
-Vector3 position = mCharacterActor->getWorldPosition();
-Vector3 delta(0,0.05,0);
-position += delta;
-Real stepHeight = 0.5;
-Real stepWidth = 0.3;
-Vector3 dirVector = stepWidth*mCharacterState.mDesiredVel;
-dirVector.y = stepHeight;
-RaycastInfo info;
-Vector3 relCollPos;
-do
-{
-    // Raycast in Bewegungsrichtung
-    info = mRaycast->execute(
-        PhysicsManager::getSingleton()._getNewtonWorld(),
-        mCharBody->getMaterialGroupID(),
-        position, position + orientation * dirVector,
-        true);
-    if( info.mBody )
-    {
-        relCollPos = (info.mDistance * 1.1) * dirVector.normalisedCopy();
-        dirVector.y += 0.1;
-        break;
-    }
-    dirVector.y -= 0.2;
-}
-while( dirVector.y > -stepHeight );
-
-// kann das Hindernis berwunden werden:
-dirVector = relCollPos;
-while( dirVector.y <= stepHeight )
-{
-    info = mRaycast->execute(
-        PhysicsManager::getSingleton()._getNewtonWorld(),
-        mCharBody->getMaterialGroupID(),
-        position, position + orientation * dirVector,
-        true);
-    if( info.mBody )
-    {
-        break;
-    }
-    dirVector.y += 0.1;
-}
-
-// linie an der angegebenen Stelle anzeigen
-LineSetPrimitive* lineSet = static_cast<LineSetPrimitive*>(mPrimitive);
-if(lineSet != NULL)
-{
-    lineSet->clear();
-    lineSet->addLine(delta, delta+dirVector, ColourValue::Blue);
-    lineSet->addLine(delta+dirVector, delta+2*dirVector, ColourValue::Red);
-    lineSet->addLine(delta, delta-dirVector, ColourValue::Red);
-    lineSet->addLine(delta, delta+relCollPos, ColourValue::White);
-}
-
-if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
-{
-    mCharacterState.mDesiredVel.y = dirVector.y;
-    // Bremsen wenn bergab:
-    if (dirVector.y < 0)
-    {
-        mCharacterState.mDesiredVel *= (1 + dirVector.y/stepHeight * 0.5);
-    }
-}
-*/
+            // mouse
+            if( !im->isCeguiActive() && mViewMode == VM_FIRST_PERSON || mViewMode == VM_THIRD_PERSON )
+            {
+                if( !(movement & TURN_LEFT || movement & TURN_RIGHT) )
+                {
+                    rotation = mMouseSensitivity/3.0 * Degree(im->getMouseRelativeX());
 
 
+                    if( rotation != Degree(0) || mCharBody->getOmega().squaredLength() > 0.1 )
+                        rotation = rotation * mCharacter->doTaktischeBewegung( 
+                                        mCharacter->getTaktischeBewegung() | Creature::BEWEGUNG_DREHEN, elapsedTime, patzer);
+                }
+            }
 
 
+            if( mCharacter->getTaktischeBewegung() == Creature::BEWEGUNG_DREHEN &&
+                charOmega.y != 0 )
+            {
+                if( charOmega.y > 0 )
+                    newAnimation = "drehen_links";
+                else
+                    newAnimation = "drehen_rechts";
+                
+                animSpeed = factor_drehen_idle * charOmega.y;
+            }
 
 
-
-
-        mDesiredDistance -= im->getMouseRelativeZ() * 0.002;
-        if (mDesiredDistance < mDistanceRange.first)
-        {
-            mDesiredDistance = mDistanceRange.first;
-        }
-        if (mDesiredDistance > mDistanceRange.second)
-        {
-            mDesiredDistance = mDistanceRange.second;
+            mYaw -= rotation;
+            while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
+            while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
         }
 
         if (mInvertedMouse)
@@ -414,24 +748,70 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
         if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
         if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
 
+        // ---------------------------- turning + direction changing ---------------
 
-        if( !im->isCeguiActive() && mViewMode == VM_FIRST_PERSON || mViewMode == VM_THIRD_PERSON )
+
+
+
+
+        // ---------------------------- show animation -----------------------------
+        if (newAnimation != "")
         {
-            if( !(movement & TURN_LEFT || movement & TURN_RIGHT) )
-            {
-                mYaw -= mMouseSensitivity / 6.0 * rotationSpeed * Degree(im->getMouseRelativeX() / 15);
+            // nur schneller nicht langsamer ausführen!
+            if (animSpeed < 1) animSpeed = 1;
 
-                while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
-                while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
+            if (lastAnimation != newAnimation)
+            {
+                if (collisionPose != lastCollisionPose)
+                {
+                    pt->fitToPose(collisionPose);
+                    lastCollisionPose = collisionPose;
+                }
+                mesh->stopAllAnimations();
+
+
+                // animations with zero-length can't be played
+                if( newAnimation == "idle_sprung" ||
+                    newAnimation == "rennen_sprung" )
+                {
+                    newAnimation = "idle";
+                    animSpeed = 1;
+                }
+
+
+
+                mesh->startAnimation(newAnimation, animSpeed, animTimesToPlay);
+                lastAnimation = newAnimation;
+                lastSpeed = animSpeed;
+            }
+            else
+            {
+                if ( lastSpeed != animSpeed ) // Geschwindigkeitsänderung
+                {
+                    MeshAnimation *meshAnim = mesh->getAnimation(newAnimation);
+                    meshAnim->setSpeed(animSpeed);
+                    lastSpeed = animSpeed;
+                }
             }
         }
+
     }
 
-    //------------------------------------------------------------------------
+
     void MovementCharacterController::updateCameraLookAt(Ogre::Real elapsedTime)
     {
         InputManager* im = InputManager::getSingletonPtr();
 
+        // camera position (distance)
+        mDesiredDistance -= im->getMouseRelativeZ() * 0.002;
+        if (mDesiredDistance < mDistanceRange.first)
+        {
+            mDesiredDistance = mDistanceRange.first;
+        }
+        if (mDesiredDistance > mDistanceRange.second)
+        {
+            mDesiredDistance = mDistanceRange.second;
+        }
 
         if( !im->isCeguiActive() && mViewMode == VM_FREE_CAMERA )
         {
@@ -444,10 +824,11 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
         SceneNode* cameraNode = mCameraActor->_getSceneNode();
 
         Vector3 charPos;
-        Quaternion charOri;
-        //mCharBody->getPositionOrientation(charPos, charOri);
+        Quaternion charOri(mYaw, Vector3::UNIT_Y);
+        Quaternion virtualCamOri;
         charPos = mCharacterActor->getWorldPosition();
-        charOri = mCharacterActor->getWorldOrientation();
+        virtualCamOri.FromAngleAxis(mCamVirtualYaw, Vector3::UNIT_Y);
+
 
         if( mViewMode == VM_FIRST_PERSON)
         {
@@ -455,13 +836,13 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             camOri.FromAngleAxis(mPitch, Vector3::NEGATIVE_UNIT_X);
             cameraNode->lookAt(
                 charPos
-                + charOri * mLookAtOffset
-                + charOri * camOri * (-Vector3::UNIT_Z),
+                + charOri * virtualCamOri * mLookAtOffset
+                + charOri * camOri * virtualCamOri * (-Vector3::UNIT_Z),
                 Node::TS_WORLD);
         }
         else if( mViewMode == VM_THIRD_PERSON )
         {
-            // Kamera-Grï¿½e beziehen
+            // Kamera-Größe beziehen
             CameraObject* ogreCam = static_cast<CameraObject*>(
                 mCameraActor->getControlledObject());
             AxisAlignedBox aabb = ogreCam->getDefaultSize();
@@ -469,15 +850,16 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             Real radius = (aabb.getMaximum()-aabb.getMinimum()).length() / 2.0f;
 
             cameraNode->lookAt(
-                charPos    + mLookAtOffset
-                + charOri * (-Vector3::UNIT_Z*radius),
+                charPos
+                + charOri * virtualCamOri *  mLookAtOffset
+                + charOri * virtualCamOri * (-Vector3::UNIT_Z*radius),
                 Node::TS_WORLD);
 
         }
         else if( mViewMode == VM_FREE_CAMERA )
         {
             cameraNode->lookAt(
-                charPos    + mLookAtOffset,
+                charPos + charOri * virtualCamOri * mLookAtOffset,
                 Node::TS_WORLD);
         }
 
@@ -485,6 +867,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
         // Character ausblenden, wenn Kamera zu nah.
         if( mViewMode != VM_FIRST_PERSON )
         {
+            // here the real charOri of the object is needed
             Vector3 charPos;
             Quaternion charOri;
             mCharBody->getPositionOrientation(charPos, charOri);
@@ -541,7 +924,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             getContactPositionAndNormal(point, normal);
 
             // determine if this contact is with the floor.
-            // Meaning the contact normal has an angle to UNIT_Y of 20 or less.
+            // Meaning the contact normal has an angle to UNIT_Y of 20° or less.
             Degree angle = Math::ACos(normal.dotProduct(Vector3::UNIT_Y));
 
             Vector3 charPos;
@@ -552,7 +935,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             //if( charPos.y > point.y && angle < Degree(50.0f)  )
             AxisAlignedBox CharAab = mCharBody->getCollision()->getAABB();
             Real CharHeight = CharAab.getMaximum().y - CharAab.getMinimum().y;
-            Real stepHeight = point.y - charPos.y; //+ CharHeight / 2.0f;
+            Real stepHeight = point.y - charPos.y;
             if( stepHeight < 0.4f && mCharacterState.mHasFloorContact ||
                 stepHeight < 0.1f )
                 isFloorCollision = true;
@@ -575,10 +958,10 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             }
 
 
-            // beinflusst die Sprunghï¿½e!
-            // der erste Sprung bleibt normal, jeder weitere Sprung ist ungefï¿½r um
-            // die angegebene Zahl hï¿½er (eher 2*die angegebene Zahl oder so,
-            // vermutlich wieder framedauer abhï¿½gig!)
+            // beinflusst die Sprunghöhe!
+            // der erste Sprung bleibt normal, jeder weitere Sprung ist ungefähr um
+            // die angegebene Zahl höher (eher 2*die angegebene Zahl oder so,
+            // vermutlich wieder framedauer abhängig!)
             setContactElasticity(0.3f); // was 0.3f
             setContactSoftness(0.01f);
 
@@ -598,6 +981,11 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
     {
         OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
         OgreNewt::Body* body = thing->_getBody();
+        //static Vector3 lastDirVector = Vector3::ZERO;
+        static Vector3 lastForce = Vector3::ZERO;
+        //static bool doCollisionStep = false;
+        //static Vector3 collisionStepPos;
+        //static int curCollisionStep;
 
         // Get the current world timestep
         Real timestep = world->getTimeStep();
@@ -609,7 +997,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
         else
         {
             mCharacterState.mJumpTimer += timestep;
-            static Real timeSinceLastFloorContact(0.0f); // damit kleine Bodenunebenheiten nicht gleich zum "Sprung fhren"
+            static Real timeSinceLastFloorContact(0.0f); // damit kleine Bodenunebenheiten nicht gleich zum "Sprung führen"
             if( !mCharacterState.mHasFloorContact )
                 timeSinceLastFloorContact += timestep;
             else
@@ -641,7 +1029,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             currentVel.y = 0.0f;
 
             if( (mCharacterState.mHasFloorContact && mCharacterState.mJumpTimer > 0.1f) ||
-                ( timeSinceLastFloorContact < 0.2f && !mCharacterState.mIsAirBorne ) )
+                ( timeSinceLastFloorContact < 2.2f && !mCharacterState.mIsAirBorne ) )
                 mCharacterState.mIsAirBorne = false;
             else
                 mCharacterState.mIsAirBorne = true;
@@ -649,25 +1037,71 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
 
             if( !mCharacterState.mIsAirBorne )
             {
-                // apply the jump
-                if ( mCharacterState.mStartJump )
-                {
-                    mCharacterState.mJumpTimer = 0.0f;
-                    mCharacterState.mIsAirBorne = true;
-                    Real height = 0.75f; // beim zweiten gehts seltsamerweise was hï¿½er /doppelsprung physik?)
-                    Real gravity = 9.81f;
-                    Real jumpForce = 0.5f*gravity*mass * (Math::Sqrt(1 + 8*height/(gravity * timestep * timestep)) - 1);
-                    force += Vector3(0,
-                        jumpForce,
-                        0);
-                }
 
-                Real delay = 2 * PhysicsManager::getSingleton().getMaxTimestep(); // so ist die Beschleunigung unabhï¿½gig von der framerate!
-                force += mass*(orientation*mCharacterState.mDesiredVel - currentVel) / delay;
+                if( mCharacterState.mStartJump )
+                {
+                    int creatureMovement = mCharacter->getTaktischeBewegung();
+
+                    if( creatureMovement & Creature::BEWEGUNG_HOCHSPRUNG )
+                    {
+                        Real height = mCharacterState.mJumpWidthHeight;
+                        Real m = mass;
+                        Real g = mGravitation.length();
+                        Real t = timestep;
+                        Real h = height;
+                        std::ostringstream os;
+                        os << "Sprunghöhe: " << height;
+                        LOG_MESSAGE(Logger::UI, os.str());
+                        Real jumpForce = 0.5f*g*m * (Math::Sqrt(1 + 8*h/(g * t * t)) - 1);
+                        force += Vector3(0,
+                            jumpForce,
+                            0);
+                    }
+                    else // weitsprung
+                    {
+                        Real width = mCharacterState.mJumpWidthHeight;
+                        Real m = mass;
+                        Real g = mGravitation.length();
+                        Real v0 = currentVel.x;
+                        Real t = timestep;
+                        Real s = width;
+                        std::ostringstream os;
+                        os << "Sprungweite: " << width;
+                        LOG_MESSAGE(Logger::UI, os.str());
+                        Real jumpForcezy = 
+                            m*g/4 - v0*m /2 /t + 
+                            Math::Sqrt( 
+                                v0*v0 * m*m  -
+                                v0 * m*m *g *t +
+                                m*m * g*g * t*t /4 +
+                                2 * s * m*m *g
+                                       )/2/t;
+                        force += Vector3(0,jumpForcezy,0);
+                        // in the direction of mDesiredVel
+                        if( mCharacterState.mDesiredVel.squaredLength() == 0 )
+                        {
+                            // this shouldn't happen...
+                            mCharacterState.mDesiredVel.z = -1;                            
+                        }
+                        mCharacterState.mDesiredVel.y = 0;
+                        mCharacterState.mDesiredVel.normalise();
+                        force += orientation * mCharacterState.mDesiredVel * jumpForcezy;
+                    }
+
+                    mCharacterState.mStartJump = false;
+                    mCharacterState.mIsAirBorne = true;
+                    mCharacterState.mJumpTimer = 0;
+                }
+                else
+                {
+                    Real delay = 2 * PhysicsManager::getSingleton().getMaxTimestep(); // so ist die Beschleunigung unabhängig von der framerate!
+                    force += mass*(orientation*mCharacterState.mDesiredVel - currentVel) / delay;
+                }
             }
-            mCharacterState.mStartJump = false;
+
 
             body->setForce(force);
+            lastForce = force;
             // Assume we are air borne.
             // Might be set to true in the collision callback
             mCharacterState.mHasFloorContact = false;
@@ -716,17 +1150,18 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             maxHeight = playpos.y;
         ss
             << "scene node : " << playpos << std::endl
-//            << "player max Height : " << maxHeight << endl
+            << "player max Height : " << maxHeight << std::endl
             << "camera posder : " << static_cast<Camera*>(
                 mCameraActor->_getMovableObject())->getDerivedPosition() << std::endl
-//                << "camera pos : " << static_cast<Camera*>(
-//                    mCameraActor->_getMovableObject())->getPosition() << std::endl
+                << "camera pos : " << static_cast<Camera*>(
+                    mCameraActor->_getMovableObject())->getPosition() << std::endl
             << "camera actor orientation : " << mCameraActor->getWorldOrientation() << std::endl
             << "camera actor : " << mCameraActor->getWorldPosition() << std::endl
             << "camera body pos : " << bodpos << std::endl
             << "is airborne: " << (mCharacterState.mIsAirBorne ? "true" : "false") << std::endl
             << "start jump : " << (mCharacterState.mStartJump ? "true" : "false")  << std::endl
-            << "jump timer : " << mCharacterState.mJumpTimer << std::endl;
+            << "jump timer : " << mCharacterState.mJumpTimer << std::endl
+            << "force : " << lastForce << std::endl;
 
         LOG_DEBUG(Logger::UI, ss.str());
         DebugWindow::getSingleton().setPageText(msDebugWindowPageName, ss.str());
@@ -736,10 +1171,11 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
     void MovementCharacterController::calculateCamera(const Ogre::Real& timestep)
     {
         Vector3 charPos;
-        Quaternion charOri;
-        //mCharBody->getPositionOrientation(charPos, charOri);
+        Quaternion charOri(mYaw, Vector3::UNIT_Y);
+        Quaternion virtualCamOri;
         charPos = mCharacterActor->getWorldPosition();
-        charOri = mCharacterActor->getWorldOrientation();
+        virtualCamOri.FromAngleAxis(mCamVirtualYaw, Vector3::UNIT_Y);
+
 
         Vector3 camPos;
         Quaternion camOri;
@@ -759,7 +1195,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
         camOptPositionsBufferIdx = (camOptPositionsBufferIdx + 1) % camOptPositionsBuffer.size();
 */
         Vector3 optimalCamPos = calculateOptimalCameraPosition(true, timestep);
-        charPos = charPos + charOri * mLookAtOffset;
+        charPos = charPos + charOri * virtualCamOri * mLookAtOffset;
 //        camOptPositionsBuffer[camOptPositionsBufferIdx] = optimalCamPos;
 
 
@@ -775,7 +1211,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
 
 
 
-        // Kamera-Grï¿½e beziehen
+        // Kamera-Größe beziehen
         CameraObject* ogreCam = static_cast<CameraObject*>(
             mCameraActor->getControlledObject());
         AxisAlignedBox camAabb = ogreCam->getDefaultSize();
@@ -804,9 +1240,9 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             RaycastInfo infoCastOptPos = mRaycast->execute(
                 world,
                 materialId,
-                camPos + camRadius * normToOptCamPos, // Grï¿½e der Kamera einbeziehen
+                camPos + camRadius * normToOptCamPos, // Größe der Kamera einbeziehen
                 optimalCamPos + camRadius * normToOptCamPos,
-                true); // Grï¿½e der Kamera einbeziehen
+                true); // Größe der Kamera einbeziehen
 
             RaycastInfo infoCastChar = mRaycast->execute(
                 world,
@@ -843,17 +1279,17 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                     RaycastInfo infoCastNewPos;
                     Real delta = lenToOptCamPos/2.0f;
                     Vector3 temp = charPos + delta * normToOptCamPos;
-                    // Annï¿½erung in Schritten, an den Punkt, der von der aktuellen Position aus erreicht werden kann!
+                    // Annäherung in Schritten, an den Punkt, der von der aktuellen Position aus erreicht werden kann!
                     while( delta > 0.05 ) // genauigkeit des gefundenen Punktes
                     {
                         infoCastNewPos = mRaycast->execute(
                             world,
                             materialId,
-                            camPos + camRadius * normToOptCamPos, // Grï¿½e der Kamera!
+                            camPos + camRadius * normToOptCamPos, // Größe der Kamera!
                             temp,
                             true);
                         delta = delta/2.0f;
-                        if( infoCastNewPos.mBody ) // Hindernis gefunden, nï¿½er an Char ran
+                        if( infoCastNewPos.mBody ) // Hindernis gefunden, näher an Char ran
                         {
                             temp = temp - delta * normToOptCamPos;
                         }
@@ -863,9 +1299,9 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                         }
                     }
 
-                    // Jetzt kï¿½nen wir sicher sein, dass diese Stelle erreichbar ist:
+                    // Jetzt können wir sicher sein, dass diese Stelle erreichbar ist:
                     temp = temp - 0.05 * normToOptCamPos;
-                    // Grï¿½e der Kamera einbeziehen
+                    // Größe der Kamera einbeziehen
                     optimalCamPos = temp - camRadius * normToOptCamPos;
                     // so ab hier kann ganz normal weiter gerechnet werden!
                 }
@@ -874,7 +1310,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
 
             static bool isPathfinding (false);
             static unsigned int lastReachableBufPos;
-            // gibt an, ob schon gebufferte Daten fr den
+            // gibt an, ob schon gebufferte Daten für den
             // neuen Weg existieren und dort weitergemacht werden kann,
             // oder ob neu nach einem Weg gesucht werden muss!
             if( infoCastChar.mBody && infoCastOptPos.mBody ) // neue Position und Character nicht erreichbar
@@ -882,8 +1318,8 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                 // anderen Weg finden
                 // hier werden erstmal nur alte Player-Positionen betrachtet
                 // es wird davon ausgegangen, dass diese "nah" genug aneinanderliegen
-                // und durch "Geraden" miteinander verbunden werden kï¿½nen
-                // durch das spring-Acc-Damping System sollten die Bewegungen trotzdem flssig
+                // und durch "Geraden" miteinander verbunden werden können
+                // durch das spring-Acc-Damping System sollten die Bewegungen trotzdem flüssig
                 // und weich (keine scharfen Kurven) erscheinen
 
                 size_t buffSize = charPositionsBuffer.size();
@@ -924,12 +1360,12 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                 }
                 else
                 {
-                    LOG_DEBUG(Logger::UI, " Pathfinding der Kamera sollte weitergefhrt werden!");
+                    LOG_DEBUG(Logger::UI, " Pathfinding der Kamera sollte weitergeführt werden!");
 
 
                     // suche von lastReachableBufPos aus der letzten Frame nach neuen erreichbaren Buffer-Positionen
                     unsigned int delta = lastReachableBufPos; // das ist die von der letzten Frame!
-                    while ( delta > 0 ) // delta = 0 braucht nicht berprft zu werden, wurde oben schon ausgeschlossen!
+                    while ( delta > 0 ) // delta = 0 braucht nicht überprüft zu werden, wurde oben schon ausgeschlossen!
                     {
                         RaycastInfo info = mRaycast->execute(
                             world,
@@ -947,7 +1383,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                     // auf zu der ermittelten Position!
                     optimalCamPos = charPositionsBuffer[ (charPositionsBufferIdx - lastReachableBufPos) % buffSize ];
                 }
-                isPathfinding = true; // so zum Testen noch keine Optimierung (doppelte Prfung gleicher sachen)
+                isPathfinding = true; // so zum Testen noch keine Optimierung (doppelte Prüfung gleicher sachen)
             }
             else
             {
@@ -981,20 +1417,22 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
     {
         Vector3 targetCamPos;
 
+        Vector3 charPos;
+        Quaternion charOri(mYaw, Vector3::UNIT_Y);
+        Quaternion virtualCamOri;
+        charPos = mCharacterActor->getWorldPosition();
+        virtualCamOri.FromAngleAxis(mCamVirtualYaw, Vector3::UNIT_Y);
+
+
 
         if( mViewMode == VM_THIRD_PERSON || mViewMode == VM_FREE_CAMERA )
         {
-            Vector3 charPos;
-            Quaternion charOri;
-            charPos = mCharacterActor->getWorldPosition();
-            charOri = mCharacterActor->getWorldOrientation();
-            //mCharBody->getPositionOrientation(charPos, charOri);
             charPos = charPos + charOri * mLookAtOffset;
             if(mViewMode == VM_THIRD_PERSON)
             {
                 targetCamPos =
                     charPos
-                    + charOri * Vector3(
+                    + charOri * virtualCamOri * Vector3(
                                     0,
                                     Math::Sin(mPitch) * mDesiredDistance,
                                     Math::Cos(mPitch) * mDesiredDistance);
@@ -1005,14 +1443,14 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
                 camOri.FromAngleAxis(mCamYaw, Vector3::UNIT_Y);
                 targetCamPos =
                     charPos
-                    + charOri * camOri * Vector3(
+                    + charOri * camOri * virtualCamOri * Vector3(
                                                 0,
                                                 Math::Sin(mPitch) * mDesiredDistance,
                                                 Math::Cos(mPitch) * mDesiredDistance);
             }
 
 
-            // Kamera-Grï¿½e beziehen
+            // Kamera-Größe beziehen
             CameraObject* ogreCam = static_cast<CameraObject*>(
                 mCameraActor->getControlledObject());
             AxisAlignedBox aabb = ogreCam->getDefaultSize();
@@ -1033,7 +1471,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             endRay[0] = targetCamPos; // hier ist nun leider was doppelt,
                                       // dadurch kann aber sichergestellt
                                       // werden, dass kein Objekt direkt
-                                      // hinter dem Helden bersehen wird
+                                      // hinter dem Helden übersehen wird
             startRay[1] = charPos + radiusOffset;
             endRay[1] = targetCamPos + radiusOffset;
             radiusOffset = charOri * Vector3(radius, sinPitchRad, cosPitchRad);
@@ -1122,18 +1560,13 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
 
             targetCamPos = charPos + diff;
         }
-        else
+        else  // FIRST_PERSON
         {
-            Vector3 charPos;
-            Quaternion charOri;
-            //mCharBody->getPositionOrientation(charPos, charOri);
-            charPos = mCharacterActor->getWorldPosition();
-            charOri = mCharacterActor->getWorldOrientation();
             // determine the optimal target position of the camera
             targetCamPos =
                 charPos
-                + charOri * mLookAtOffset
-                + charOri * Vector3(
+                + charOri * virtualCamOri * mLookAtOffset
+                + charOri * virtualCamOri * Vector3(
                                 0,
                                 Math::Sin(mPitch) * mDesiredDistance,
                                 Math::Cos(mPitch) * mDesiredDistance);
@@ -1180,286 +1613,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
         }
     }
 
-    //------------------------------------------------------------------------
-    void MovementCharacterController::updateAnimationState(int &movement)
-    {
-        MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
-        PhysicalThing* pt = mCharacterActor->getPhysicalThing();
-        static std::string lastAnimation("");
-        std::string newAnimation("");
-        Real animSpeed = 1;
-        static Real lastSpeed = 1;
-        static bool jumpNextFrame(false);
-        unsigned int animTimesToPlay = 0;
-        Real gs = mCharacter->getWert(Creature::WERT_GS);
-        static String lastCollisionPose = "";
-        String collisionPose = "idle";
 
-        // the different factors used to calculate the animation-speed from the character-speed
-        const Real factor_hocke_gehen = 0.7;
-        const Real factor_drehen_idle = 0.6;
-        const Real factor_gehen = 0.5;
-        const Real factor_gehen_rueckwaerts = 0.7;
-        const Real factor_rennen = 0.25;
-        const Real factor_rennen_absprung = 0.25;
-        const Real factor_rennen_sprung_landung = 0.6;
-        const Real factor_rennen_sprung = 0.25;
-        const Real factor_seitwaerts = 0.9;
-
-
-        Vector3 charVelocity, charOmega;
-        charOmega = mCharBody->getOmega();
-        charVelocity = mCharBody->getVelocity();
-        Quaternion charOri = mCharacterActor->getWorldOrientation();
-        if( charOri != Quaternion::ZERO )
-        {
-            charVelocity = charOri.Inverse() * charVelocity;
-        }
-        Real vel = charVelocity.length();
-
-        if (jumpNextFrame)
-            movement |= MOVE_JUMP;
-
-        if (mCharacterState.mPose == CharacterState::Falling) // noch nicht implementiert!
-            mCharacterState.mPose = CharacterState::Stand;
-
-
-        if (mCharacterState.mPose == CharacterState::Stand && movement & MOVE_SNEAK)
-        {
-            newAnimation = "idle_zu_hocke";
-            mCharacterState.mPose = CharacterState::StandToCrouch;
-            animTimesToPlay = 1;
-        }
-        else if(mCharacterState.mPose == CharacterState::StandToCrouch)
-        {
-            MeshAnimation *meshAnim = mesh->getAnimation("idle_zu_hocke");
-            if (meshAnim->getTimePlayed() >= meshAnim->getLength())
-            {
-                newAnimation = "hocke_idle";
-                collisionPose = "hocke_idle";
-                mCharacterState.mPose = CharacterState::Crouch;
-            }
-            // kamera-offset interpolieren grrr
-            Real factor;
-            factor = meshAnim->getTimePlayed() / meshAnim->getLength();
-            interpolateAnimationLookAtOffset("idle", "hocke_idle", factor);
-        }
-        else if(mCharacterState.mPose == CharacterState::Crouch && movement & MOVE_SNEAK)
-        {
-            if (vel > 0.1 && movement & MOVE_FORWARD)
-            {
-                newAnimation = "hocke_gehen";
-                collisionPose = "hocke_idle";
-                animSpeed = charVelocity.length() * factor_hocke_gehen;
-            }
-            else
-            {
-                newAnimation = "hocke_idle";
-                collisionPose = "hocke_idle";
-            }
-        }
-        else if (mCharacterState.mPose == CharacterState::Crouch)
-        {
-            // Achtung, nur wenn nach oben hin genug Platz ist aufstehen!!
-            newAnimation = "hocke_zu_stehen";
-            mCharacterState.mPose = CharacterState::CrouchToStand;
-            animTimesToPlay = 1;
-        }
-        else if(mCharacterState.mPose == CharacterState::CrouchToStand)
-        {
-            MeshAnimation *meshAnim = mesh->getAnimation("hocke_zu_stehen");
-            if (meshAnim->getTimePlayed() >= meshAnim->getLength())
-            {
-                newAnimation = "idle";
-                mCharacterState.mPose = CharacterState::Stand;
-            }
-            // kamera-offset interpolieren grrr
-            Real factor;
-            factor = meshAnim->getTimePlayed() / meshAnim->getLength();
-            interpolateAnimationLookAtOffset("hocke_idle", "idle", factor);
-        }
-        else if(mCharacterState.mPose == CharacterState::StartJump)
-        {
-            if( lastAnimation == "rennen_absprung" )
-            {
-                MeshAnimation *meshAnim = mesh->getAnimation("rennen_absprung");
-                if (meshAnim->getTimePlayed() >= meshAnim->getLength())
-                {
-                    ///\todo Animation "rennen_sprung" has length of 0.0f. Substitute for Idle, till this is resolved.
-                    //newAnimation = "rennen_sprung";
-                    newAnimation = "idle";
-
-                    animSpeed = factor_rennen_sprung * vel;
-                    animTimesToPlay = 1;
-                    mCharacterState.mPose = CharacterState::Jumping;
-                    mCharacterState.mStartJump = true;
-                }
-            }
-            else // "idle_absprung"
-            {
-                MeshAnimation *meshAnim = mesh->getAnimation("idle_absprung");
-                if (meshAnim->getTimePlayed() >= meshAnim->getLength())
-                {
-                    ///\todo Animation "idle_sprung" has length of 0.0f. Substitute for Idle, till this is resolved.
-                    //newAnimation = "idle_sprung";
-                    newAnimation = "idle";
-
-                    animTimesToPlay = 1;
-                    mCharacterState.mPose = CharacterState::Jumping;
-                    mCharacterState.mStartJump = true;
-                }
-            }
-        }
-        else if(mCharacterState.mPose == CharacterState::Jumping)
-        {
-            if( lastAnimation == "rennen_sprung" )
-            {
-                if (!mCharacterState.mIsAirBorne)
-                {
-                    newAnimation = "rennen_sprung_landung";
-                    animSpeed = factor_rennen_sprung_landung * vel;
-                    animTimesToPlay = 1;
-                    mCharacterState.mPose = CharacterState::EndJump;
-                }
-            }
-            else // "idle_sprung"
-            {
-                if (!mCharacterState.mIsAirBorne)
-                {
-                    newAnimation = "idle_sprung_landung";
-                    animTimesToPlay = 1;
-                    mCharacterState.mPose = CharacterState::EndJump;
-                }
-            }
-        }
-        else if(mCharacterState.mPose == CharacterState::EndJump)
-        {
-            MeshAnimation *meshAnim = mesh->getAnimation(lastAnimation);
-
-            if (meshAnim->getTimePlayed() >= meshAnim->getLength())
-                mCharacterState.mPose = CharacterState::Stand;
-        }
-
-
-
-
-        // absichtlich kein else!
-        if( mCharacterState.mPose == CharacterState::Stand && !(movement & MOVE_SNEAK) )
-        {
-            newAnimation = "idle";
-
-            // Nur im Stehen Drehen:
-            if( vel < 0.1)
-            {
-                if( charOmega.squaredLength() < 0.1)
-                {
-                    newAnimation = "idle";
-                }
-                else if( charOmega.y > 0 )
-                {
-                    newAnimation = "drehen_links";
-                    animSpeed = factor_drehen_idle * charOmega.y * (1);
-                }
-                else if( charOmega.y < 0 )
-                {
-                    newAnimation = "drehen_rechts";
-                    animSpeed = factor_drehen_idle * charOmega.y * (-1);
-                }
-            }
-            else if( vel <= gs / 3.55f)
-            {
-                if( charVelocity.z > 0 && movement & MOVE_BACKWARD)
-                {
-                    newAnimation = "gehen_rueckwaerts";
-                    animSpeed = factor_gehen_rueckwaerts * vel;
-                }
-                else if( movement & MOVE_FORWARD )
-                {
-                    newAnimation = "gehen";
-                    animSpeed = factor_gehen * vel;
-                }
-                else if( movement & MOVE_LEFT )
-                {
-                    newAnimation = "seitwaerts_links";
-                    animSpeed = factor_seitwaerts * vel;
-                }
-                else if( movement & MOVE_RIGHT )
-                {
-                    newAnimation = "seitwaerts_rechts";
-                    animSpeed = factor_seitwaerts * vel;
-                }
-            }
-            else if( movement & MOVE_FORWARD )
-            {
-                newAnimation = "rennen";
-                animSpeed = factor_rennen * vel;
-            }
-
-
-            if( movement & MOVE_JUMP )
-            {
-                // Beginn eines Sprunges
-                if( newAnimation == "rennen" )
-                {
-                    newAnimation = "rennen_absprung";
-                    animTimesToPlay = 1;
-                    animSpeed = factor_rennen_absprung * vel;
-                    mCharacterState.mPose = CharacterState::StartJump;
-                }
-                else
-                {
-                    if ( vel > 0.1 )
-                    {
-                        // erstmal anhalten!
-                        movement = MOVE_NONE;
-                        jumpNextFrame = true;
-                    }
-                    else
-                    {
-                        newAnimation = "idle_absprung";
-                        animTimesToPlay = 1;
-                        mCharacterState.mPose = CharacterState::StartJump;
-                    }
-                }
-            }
-        }
-
-        if( mCharacterState.mPose == CharacterState::StartJump )
-            jumpNextFrame = false;
-
-
-
-
-        if (newAnimation != "")
-        {
-            // nur schneller nicht langsamer ausfhren!
-            if (animSpeed < 1) animSpeed = 1;
-
-            if (lastAnimation != newAnimation)
-            {
-                if (collisionPose != lastCollisionPose)
-                {
-                    pt->fitToPose(collisionPose);
-                    lastCollisionPose = collisionPose;
-                }
-                mesh->stopAllAnimations();
-                mesh->startAnimation(newAnimation, animSpeed, animTimesToPlay);
-                lastAnimation = newAnimation;
-                lastSpeed = animSpeed;
-            }
-            else
-            {
-                if ( lastSpeed != animSpeed ) // Geschwindigkeitsï¿½derung
-                {
-                    MeshAnimation *meshAnim = mesh->getAnimation(newAnimation);
-                    meshAnim->setSpeed(animSpeed);
-                    lastSpeed = animSpeed;
-                }
-            }
-        }
-    }
-
-    //------------------------------------------------------------------------
     void MovementCharacterController::setViewMode(ViewMode mode)
     {
         mViewMode = mode;
@@ -1516,7 +1670,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
         Vector3 interpolatedSize;
 
 
-        // Die Grï¿½e der beiden Animationen abfragen
+        // Die Größe der beiden Animationen abfragen
         MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
         aab = mesh->getPoseSize(actAnim);
         size[0] = aab.getMaximum() - aab.getMinimum();
@@ -1524,7 +1678,7 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
         aab = mesh->getPoseSize(newAnim);
         size[1] = aab.getMaximum() - aab.getMinimum();
 
-        // interpolierte Grï¿½e (linear) berechnen
+        // interpolierte Größe (linear) berechnen
         interpolatedSize = size[0] + factor*(size[1] - size[0]);
 
         // LookAtOffset berechnen!
@@ -1570,6 +1724,15 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
             mCharacterActor->setVisible(false);
         else
             mCharacterActor->setVisible(true);
+
+        // also reset the char
+        mCharacterState.mCurrentMovementState = 0;
+        mCharacterState.mDesiredVel = Vector3::ZERO;
+        mCharacterState.mHasFloorContact = true;
+        mCharacterState.mIsAirBorne = true;
+        mCharacterState.mStartJump = false;
+        mCharacterState.mJumpTimer = 0;
+        mCharacter->setTaktischeBewegung(Creature::BEWEGUNG_NONE);
     }
 
     //------------------------------------------------------------------------
@@ -1659,9 +1822,9 @@ if( dirVector.y < stepHeight && dirVector.y > -stepHeight )
         }
 
         LineSetPrimitive* lineSet = static_cast<LineSetPrimitive*>(mPrimitive);
-        //lineSet->clear();
-        //lineSet->addLine(mLookAtOffset, mLookAtOffset + Vector3(0, 1.2, 0), ColourValue::Red);
-        //lineSet->addLine(Vector3::ZERO, mGravitation * 0.1, ColourValue::Green);
+        lineSet->clear();
+        lineSet->addLine(mLookAtOffset, mLookAtOffset + Vector3(0, 1.2, 0), ColourValue::Red);
+        lineSet->addLine(Vector3::ZERO, mGravitation * 0.1, ColourValue::Green);
     }
 
     //------------------------------------------------------------------------

@@ -89,12 +89,15 @@ namespace rl {
 		/// private struct for holding state info of the controller
 		struct CharacterState
 		{
-            typedef enum {Stand, Crouch, StandToCrouch, CrouchToStand, Falling, Jumping, StartJump, EndJump} Pose;
+            //typedef enum {Stand, Crouch, StandToCrouch, CrouchToStand, Falling, Jumping, StartJump, EndJump} Pose;
 			CharacterState();
-            Pose mPose;
+            //Pose mPose;
 			bool mIsAirBorne;
             bool mHasFloorContact;
-			bool mStartJump;
+			//bool mStartJumpLong;
+            //bool mStartJumpHigh;
+            bool mStartJump;
+            Ogre::Real mJumpWidthHeight;
 
 			Ogre::Real mJumpTimer;
 
@@ -115,7 +118,9 @@ namespace rl {
         std::pair<Ogre::Real, Ogre::Real> mDistanceRange;
         Ogre::Degree mYaw;
         Ogre::Degree mCamYaw; // für VM_FREE_CAMERA
+        Ogre::Degree mCamVirtualYaw; // helps to simulate strafe+forward/backward movement
         Ogre::Degree mPitch;
+        Ogre::Degree mRoll;
         std::pair<Ogre::Degree, Ogre::Degree> mPitchRange;
 
         Ogre::Vector3 mLookAtOffset;
@@ -152,9 +157,10 @@ namespace rl {
         Ogre::Radian mCamMoveAwayRange;
 
         void updateSelection();
-        void updateCharacterState(int movement, Ogre::Real elapsedTime);
+        //void updateCharacterState(int movement, Ogre::Real elapsedTime);
+        void updateCharacterState(Ogre::Real elapsedTime);
         void updateCameraLookAt(Ogre::Real elapsedTime);
-        void updateAnimationState(int &movement); // this can also modify movement, if needed
+        //void updateAnimationState(int &movement); // this can also modify movement, if needed
 
         void interpolateAnimationLookAtOffset(std::string actAnim, std::string newAnim, Ogre::Real factor);
 

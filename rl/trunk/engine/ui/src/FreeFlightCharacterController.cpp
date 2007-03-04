@@ -16,6 +16,7 @@
 
 #include "FreeFlightCharacterController.h"
 #include "CoreSubsystem.h"
+#include "ConfigurationManager.h"
 #include "Exception.h"
 #include "Actor.h"
 #include "PhysicalThing.h"
@@ -33,21 +34,33 @@ namespace rl {
 
 	FreeFlightCharacterController::FreeFlightCharacterController(Actor* camera, Actor* character)
 		: CharacterController(camera, character),
-		mMovementSpeed(30.0f),
+		mMovementSpeed(5.0f),
 		mSpeedRange(0.03f, 90.0f),
 		mSpeedIncrement(0.02f),
 		mRotationSpeed(4.0f),
-		mOgreCam(0),
-		mCurrentMovementState(0)
+		mCurrentMovementState(0),
+        mDesiredVelocity(Vector3::ZERO),
+        mCollisionsEnabled(false),
+        mPitch(Degree(0)),
+        mYaw(Degree(0)),
+        mPitchRange(Degree(-89), Degree(89))
 	{
-		mCameraActor->getPhysicalThing()->freeze();
+		//mCameraActor->getPhysicalThing()->freeze();
 		mCharacterActor->getPhysicalThing()->freeze();
+        mMouseSensitivity = ConfigurationManager::getSingleton().getIntSetting(ConfigurationManager::CS_INPUT, "Mouse Sensitivity");
+        mInvertedMouse = ConfigurationManager::getSingleton().getBoolSetting(ConfigurationManager::CS_INPUT, "Mouse Invert");
+
 
 		resetCamera();
-		mOgreCam = static_cast<Camera*>(mCameraActor->_getMovableObject());
-        mOgreCam->setPosition(Vector3::ZERO);
-		mOgreCam->setOrientation(Quaternion::IDENTITY);
-		mOgreCam->setFixedYawAxis(true);
+
+
+        // The actor should be controlled manually,
+        // so let the PM prepare it accordingly
+        PhysicsManager::getSingleton().setPhysicsController(
+            mCameraActor->getPhysicalThing(), this);
+        // We also handle char<->level, char<->default collision from now on (camera=char!)
+        PhysicsManager::getSingleton().setCharLevelContactCallback(this);
+        PhysicsManager::getSingleton().setCharDefaultContactCallback(this);
 
 		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
         if( mesh != NULL )
@@ -59,7 +72,7 @@ namespace rl {
 
 	FreeFlightCharacterController::~FreeFlightCharacterController()
 	{
-		mCameraActor->getPhysicalThing()->unfreeze();
+		//mCameraActor->getPhysicalThing()->unfreeze();
 		mCharacterActor->getPhysicalThing()->unfreeze();
 	}
 
@@ -73,34 +86,46 @@ namespace rl {
 		InputManager* im = InputManager::getSingletonPtr();
 
 		// Fetch current movement state
-		Vector3 translation = Vector3::ZERO;
+		mDesiredVelocity = Vector3::ZERO;
 
 		int movement = mCurrentMovementState;
 
 		// Determine character's control state based on user input
 		if (movement & MOVE_FORWARD)
         {
-			translation.z = -mMovementSpeed;
+			mDesiredVelocity.z = -mMovementSpeed;
         }
 
 		if (movement & MOVE_BACKWARD)
         {
-            translation.z = mMovementSpeed;
+            mDesiredVelocity.z = mMovementSpeed;
         }
 
 		if (movement & MOVE_RIGHT)
         {
-			translation.x = mMovementSpeed;
+			mDesiredVelocity.x = mMovementSpeed;
         }
 
 		if (movement & MOVE_LEFT)
         {
-			translation.x = -mMovementSpeed;
+			mDesiredVelocity.x = -mMovementSpeed;
         }
 
 		if (movement & MOVE_RUN)
         {
-			translation *= 4.0;
+			mDesiredVelocity *= 10.0;
+        }
+
+        if (movement & MOVE_JUMP)
+        {
+            // put character here
+            if( mCharacterActor != NULL )
+            {
+                mCharacterActor->setPosition(
+                    mCameraActor->getPosition()
+                    + mCameraActor->getWorldOrientation() * Vector3::NEGATIVE_UNIT_Z * 2 
+                    - 1.5 * Vector3::UNIT_Y);
+            }
         }
 
 		mMovementSpeed += im->getMouseRelativeZ() * mSpeedIncrement;
@@ -113,25 +138,50 @@ namespace rl {
 			mMovementSpeed = mSpeedRange.second;
 		}
 
-		Radian pitch = Degree(-im->getMouseRelativeY() * 30.0 * elapsedTime);
-		Radian yaw = Degree(-im->getMouseRelativeX() * 30.0 * elapsedTime);
 
-		mOgreCam->yaw(yaw);
-		mOgreCam->pitch(pitch);
-		mOgreCam->moveRelative(translation*elapsedTime);
-	}
+        if (movement & TURN_LEFT)
+            mYaw += elapsedTime * Degree(120.0f);
+        if (movement & TURN_RIGHT)
+            mYaw -= elapsedTime * Degree(120.0f);
+
+        // mouse
+        if( !(movement & TURN_LEFT || movement & TURN_RIGHT) )
+        {
+            Degree rotation = mMouseSensitivity * Degree(im->getMouseRelativeX() / 10);
+
+            mYaw -= rotation;
+
+            while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
+            while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
+        }
+
+
+        if (mInvertedMouse)
+            mPitch += mMouseSensitivity * Degree(im->getMouseRelativeY() / 4);
+        else
+            mPitch -= mMouseSensitivity * Degree(im->getMouseRelativeY() / 4);
+
+        while (mPitch.valueDegrees() > 360.0f) mPitch -= Degree(360.0f);
+        while (mPitch.valueDegrees() < -360.0f) mPitch += Degree(360.0f);
+        if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
+        if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
+    }
 
 	void FreeFlightCharacterController::toggleViewMode()
 	{
-		// Gibbet keine.
+		// with or without collision?
+        // be careful to enable collision if beeing in another collision
+        mCollisionsEnabled = !mCollisionsEnabled;
 	}
 
 	void FreeFlightCharacterController::resetCamera()
 	{
+        mYaw = Degree(0);
+        mPitch = Degree(0);
 		// Position camera at char position
         if( mCharacterActor != NULL )
         {
-            mCameraActor->_getSceneNode()->setOrientation( mCharacterActor->getWorldOrientation() );
+            mCameraActor->setOrientation(Quaternion::IDENTITY);
             Vector3 newPos = mCharacterActor->getWorldPosition();
             if( mCharacterActor->getControlledObject()->isMeshObject() )
             {
@@ -142,14 +192,17 @@ namespace rl {
         }
         else
         {
-		    mCameraActor->_getSceneNode()->setOrientation( Quaternion::IDENTITY );
-            mCameraActor->_getSceneNode()->setPosition( Vector3::ZERO );
+		    mCameraActor->setOrientation( Quaternion::IDENTITY );
+            mCameraActor->setPosition( Vector3::ZERO );
         }
 	}
 
 	bool FreeFlightCharacterController::injectKeyDown(int keycode)
 	{
-		int movement = mCommandMapper->getMovement(keycode);
+        int scancode;
+        mCommandMapper->decodeKey(keycode, &scancode, NULL);
+        int movement = mCommandMapper->getMovement(scancode);
+
 
 		if (movement != MOVE_NONE)
 		{
@@ -161,7 +214,9 @@ namespace rl {
 
 	bool FreeFlightCharacterController::injectKeyUp(int keycode)
 	{
-		int movement = mCommandMapper->getMovement(keycode);
+        int scancode;
+        mCommandMapper->decodeKey(keycode, &scancode, NULL);
+        int movement = mCommandMapper->getMovement(scancode);
 
 		if (movement != MOVE_NONE)
 		{
@@ -175,4 +230,62 @@ namespace rl {
 			
 		return false;
 	}
+
+
+    int FreeFlightCharacterController::userProcess()
+    {
+        if (m_body0 == mCamBody || m_body1 == mCamBody)
+        {
+            // this is camera collision
+
+            if( !mCollisionsEnabled )
+                return 0;
+
+            setContactSoftness(1.0f);  // "weiche" Collision
+            setContactElasticity(0.0f);
+
+            return 1;
+        }
+
+        // return one to tell Newton we want to accept this contact
+        return 1;
+    }
+
+
+
+    void FreeFlightCharacterController::OnApplyForceAndTorque(PhysicalThing* thing)
+    {
+        OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
+        OgreNewt::Body* body = thing->_getBody();
+
+        // Get the current world timestep
+        Real timestep = world->getTimeStep();
+
+        if (body == mCamBody)
+        {
+            // apply camera force
+            Vector3 position;
+            Quaternion orientation;
+            body->getPositionOrientation(position, orientation);
+
+            // get the camera mass
+            Real mass;
+            Vector3 inertia;
+            body->getMassMatrix(mass, inertia);
+
+
+            // Get the velocity vector
+            Vector3 currentVel = body->getVelocity();
+            Real delay = 2 * PhysicsManager::getSingleton().getMaxTimestep();
+            Vector3 force = mass*(orientation * mDesiredVelocity - currentVel) / delay;
+
+            body->setForce(force);
+
+
+            mCameraActor->setOrientation(Quaternion::IDENTITY);
+            mCameraActor->yaw(mYaw.valueDegrees());
+            mCameraActor->pitch(mPitch.valueDegrees());
+        }
+    }
+
 }

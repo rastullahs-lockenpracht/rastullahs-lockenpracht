@@ -19,6 +19,8 @@
 
 #include "UiPrerequisites.h"
 #include "CharacterController.h"
+#include "PhysicsController.h"
+#include "PhysicsGenericContactCallback.h"
 #include <OgreNewt.h>
 
 namespace rl {
@@ -26,7 +28,10 @@ namespace rl {
 	/**
 	* This class provides a no-clip free fly controller.
 	*/
-	class _RlUiExport FreeFlightCharacterController : public CharacterController
+	class _RlUiExport FreeFlightCharacterController : 
+        public CharacterController,
+        public PhysicsController,
+        public PhysicsGenericContactCallback
 	{
 	public:
 		/**
@@ -43,7 +48,14 @@ namespace rl {
 		void resetCamera();
 
 		bool injectKeyDown(int keycode);
-		bool injectKeyUp(int keycode);		
+		bool injectKeyUp(int keycode);
+
+        /// This is the OgreNewt contact process callback for the combination
+        /// Character <-> Level
+        int userProcess();
+
+        /// Newton force and torque callback
+        void OnApplyForceAndTorque(PhysicalThing* thing);
 
 	private:		
 		int mCurrentMovementState;
@@ -52,8 +64,13 @@ namespace rl {
 		std::pair<Ogre::Real, Ogre::Real> mSpeedRange;
 		Ogre::Real mSpeedIncrement;
 		Ogre::Real mRotationSpeed;
-
-		Ogre::Camera* mOgreCam;
+        Ogre::Vector3 mDesiredVelocity;
+        Ogre::Degree mPitch;
+        Ogre::Degree mYaw;
+        bool mCollisionsEnabled;
+        Ogre::Real mMouseSensitivity;
+        bool mInvertedMouse;
+        std::pair<Ogre::Degree, Ogre::Degree> mPitchRange;
 	};
 }
 #endif
