@@ -63,7 +63,11 @@ namespace rl {
         mJumpTimer(0.0),
         mDesiredVel(Vector3::ZERO),
         mCurrentMovementState(MOVE_NONE),
-        mLastMovementState(MOVE_NONE)
+        mLastMovementState(MOVE_NONE),
+        beginSneak(false),
+        endSneak(false),
+        beginJump(false),
+        endJump(false)
     {
 
     }
@@ -283,23 +287,20 @@ namespace rl {
 
         //  --------------------------- sneaking-behaviour ----------------------------
         {
-            static bool beginSneak (false);
-            static bool endSneak (false);
-            
             if( (!(creatureMovement & Creature::BEWEGUNG_SCHLEICHEN) && 
                 movement & MOVE_SNEAK) || 
-                beginSneak )
+                mCharacterState.beginSneak )
             {
-                beginSneak = true;
+                mCharacterState.beginSneak = true;
             }
             if( (!(movement & MOVE_SNEAK) && 
                 creatureMovement & Creature::BEWEGUNG_SCHLEICHEN) || 
-                endSneak)
+                mCharacterState.endSneak)
             {
-                endSneak = true;
+                mCharacterState.endSneak = true;
             }
 
-            if( beginSneak )
+            if( mCharacterState.beginSneak )
             {
                 newAnimation = "idle_zu_hocke";
 
@@ -308,7 +309,7 @@ namespace rl {
                 {
                     creatureMovement |= Creature::BEWEGUNG_SCHLEICHEN;
                     mCharacter->setTaktischeBewegung(creatureMovement);
-                    beginSneak = false;
+                    mCharacterState.beginSneak = false;
                 }
                 else
                 {
@@ -330,7 +331,7 @@ namespace rl {
                 collisionPose = newAnimation;
             }
 
-            if( endSneak )
+            if( mCharacterState.endSneak )
             {
                 creatureMovement &= ~Creature::BEWEGUNG_SCHLEICHEN;
                 mCharacter->setTaktischeBewegung(creatureMovement);
@@ -341,7 +342,7 @@ namespace rl {
                 if (meshAnim->getTimePlayed() >= meshAnim->getLength())
                 {
                     newAnimation = "idle";
-                    endSneak = false;
+                    mCharacterState.endSneak = false;
                 }
                 else
                 {
@@ -493,25 +494,18 @@ namespace rl {
 
                 // ---------- jumping-behaviour (and falling?) ---------
                 {
-
-                    static bool beginJump (false);
-                    static bool endJump (false);
-                    static enum {HOCHSPRUNG, WEITSPRUNG /*, PRAEZISER_SPRUNG*/}
-                        jumpType;
-
-
                     if( !(creatureMovement & Creature::BEWEGUNG_SCHLEICHEN) && 
-                        !blockMovement && !beginJump &&
+                        !blockMovement && !mCharacterState.beginJump &&
                         !(creatureMovement & Creature::BEWEGUNG_HOCHSPRUNG) &&
                         !(creatureMovement & Creature::BEWEGUNG_WEITSPRUNG) &&
                         movement & MOVE_JUMP)
                     {
                         if( mCharacterState.mDesiredVel.squaredLength() > 0 )
                         {
-                            jumpType = WEITSPRUNG;
+                            mCharacterState.jumpType = CharacterState::WEITSPRUNG;
                             if( mCharacter->canUseTaktischeBewegung(newCreatureMovement | Creature::BEWEGUNG_WEITSPRUNG) )
                             {
-                                beginJump = true;
+                                mCharacterState.beginJump = true;
                                 Real jumpWidth = 
                                     mCharacter->doTaktischeBewegung(
                                             newCreatureMovement | Creature::BEWEGUNG_WEITSPRUNG,
@@ -523,10 +517,10 @@ namespace rl {
                         }
                         else
                         {
-                            jumpType = HOCHSPRUNG;
+                            mCharacterState.jumpType = CharacterState::HOCHSPRUNG;
                             if( mCharacter->canUseTaktischeBewegung(newCreatureMovement | Creature::BEWEGUNG_HOCHSPRUNG) )
                             {
-                                beginJump = true;
+                                mCharacterState.beginJump = true;
                                 Real jumpHeight = 
                                     mCharacter->doTaktischeBewegung(
                                             newCreatureMovement | Creature::BEWEGUNG_HOCHSPRUNG,
@@ -541,17 +535,17 @@ namespace rl {
 
                     if( (creatureMovement & Creature::BEWEGUNG_HOCHSPRUNG ||
                         creatureMovement & Creature::BEWEGUNG_WEITSPRUNG  ) &&
-                        !beginJump )
+                        !mCharacterState.beginJump )
                     {
                         if( !mCharacterState.mIsAirBorne )
-                            endJump = true;
+                            mCharacterState.endJump = true;
                     }
 
 
 
                     
                     Real timeJumpKeyPressed (0.0);
-                    if( !beginJump )
+                    if( !mCharacterState.beginJump )
                         timeJumpKeyPressed = 0;
                     else if( movement & MOVE_JUMP && 
                         (creatureMovement & Creature::BEWEGUNG_HOCHSPRUNG ||
@@ -560,10 +554,10 @@ namespace rl {
 
 
 
-                    if( beginJump )
+                    if( mCharacterState.beginJump )
                     {
                         blockMovement = true;
-                        if( jumpType == WEITSPRUNG )
+                        if( mCharacterState.jumpType == CharacterState::WEITSPRUNG )
                         {
                             newAnimation = "rennen_absprung";
                             animSpeed = factor_rennen_sprung * vel;
@@ -581,7 +575,7 @@ namespace rl {
                             mCharacterState.mStartJump = true;
                             if( timeJumpKeyPressed > 0.5 )
                             mCharacterState.mJumpWidthHeight *= timeJumpKeyPressed / meshAnim->getLength();
-                            beginJump = false;
+                            mCharacterState.beginJump = false;
                         }
                     }
                     else // !beginJump
@@ -600,7 +594,7 @@ namespace rl {
                         }
                     }
 
-                    if( endJump )
+                    if( mCharacterState.endJump )
                     {
                         blockMovement = true;
                         if( creatureMovement & Creature::BEWEGUNG_WEITSPRUNG )
@@ -618,7 +612,7 @@ namespace rl {
                         MeshAnimation *meshAnim = mesh->getAnimation(newAnimation);
                         if (meshAnim->getTimePlayed() >= meshAnim->getLength())
                         {
-                            endJump = false;
+                            mCharacterState.endJump = false;
                             creatureMovement &= ~Creature::BEWEGUNG_HOCHSPRUNG & ~Creature::BEWEGUNG_WEITSPRUNG;
                             mCharacter->setTaktischeBewegung(creatureMovement);
                         }
@@ -1733,6 +1727,10 @@ namespace rl {
         mCharacterState.mStartJump = false;
         mCharacterState.mJumpTimer = 0;
         mCharacter->setTaktischeBewegung(Creature::BEWEGUNG_NONE);
+        mCharacterState.beginJump = false;
+        mCharacterState.endJump = false;
+        mCharacterState.beginSneak = false;
+        mCharacterState.endSneak = false;
     }
 
     //------------------------------------------------------------------------

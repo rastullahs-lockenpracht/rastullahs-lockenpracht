@@ -105,6 +105,12 @@ namespace rl {
 
 			int mCurrentMovementState;
 			int mLastMovementState;
+            bool beginSneak;
+            bool endSneak;
+            bool beginJump;
+            bool endJump;
+            enum {HOCHSPRUNG, WEITSPRUNG /*, PRAEZISER_SPRUNG*/}
+                        jumpType;
 		};
 
         static Ogre::String msDebugWindowPageName;
