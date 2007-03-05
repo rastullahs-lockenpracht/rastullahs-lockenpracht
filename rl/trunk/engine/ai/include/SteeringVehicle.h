@@ -24,9 +24,18 @@
 
 namespace rl
 {
-//	SimpleVehicle_1 adds concrete LocalSpace methods to AbstractVehicle
+	/*	SimpleVehicle_1 adds concrete LocalSpace methods to AbstractVehicle.
+	 * OpenSteer::LocalSpaceMixin contains functionality to convert from one
+	 * coordinate system to an other.
+	 */
 	typedef OpenSteer::LocalSpaceMixin<OpenSteer::AbstractVehicle> SimpleVehicle_1;
-//	SimpleVehicle_2 adds concrete steering methods to SimpleVehicle_1
+	/*	SimpleVehicle_2 adds concrete steering methods to SimpleVehicle_1.
+	 * OpenSteer::SteerLibraryMixin adds the "steering library"
+	 * functionality to a given base class.  SteerLibraryMixin assumes its base
+     * class supports the AbstractVehicle interface.
+	 * The "steering library" itself presents methods to calculate movements
+	 * according to behaviours.
+	 */
 	typedef OpenSteer::SteerLibraryMixin<SimpleVehicle_1> SimpleVehicle_2;
 	
 	class Actor;

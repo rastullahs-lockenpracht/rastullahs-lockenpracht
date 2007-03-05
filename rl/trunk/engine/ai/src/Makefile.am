@@ -12,4 +12,7 @@ libRlAi_la_SOURCES = \
 	FuzzyStateMachine.cpp \
 	PhysicalObstacle.cpp \
 	PlayerVehicle.cpp \
-	SteeringVehicle.cpp 
+	SteeringVehicle.cpp \
+        WayPointNode.cpp \
+	WayPointGraph.cpp \
+	WayPointGraphManager.cpp

@@ -27,7 +27,8 @@ namespace rl {
     /// To only display the debug graphics for classes of visualisables.
     typedef enum { DVF_AREA    = 1, ///< Flag used for all kinds of game area types
                    DVF_BOT     = 2, ///< Flag used for bot(-thinking) visualisation
-                   DVF_CONTROL = 4  ///< Flag for visualisation of user control
+                   DVF_CONTROL = 4, ///< Flag for visualisation of user control
+				   DVF_WAYPOINT = 8, ///< Flag for visualisation of way points
                  } DebugVisualisableFlag;
 
     /// Abstract base class for classes that provide visual debug helpers.

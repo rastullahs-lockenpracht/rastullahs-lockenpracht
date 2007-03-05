@@ -62,7 +62,9 @@ namespace rl
 		virtual ~AgentManager(void);
 
 		/** Creates an AI agent with an assigned rl::Actor.
-		 * AiSubsystems is responsible for memory management of the Agent
+		 * AgentManager is responsible for memory management of the Agent
+		 * @param type defines the type of the agent \see AgentType
+		 * @param character the associated creature
 		 */
 		Agent* createAgent(AgentType type, Creature* character);
 

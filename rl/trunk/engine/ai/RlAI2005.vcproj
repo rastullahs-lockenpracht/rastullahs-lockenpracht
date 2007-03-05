@@ -316,6 +316,18 @@
 				RelativePath=".\src\SteeringVehicle.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\WayPointGraph.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\WayPointGraphManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\WayPointNode.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Headerdateien"
@@ -364,6 +376,18 @@
 			</File>
 			<File
 				RelativePath=".\include\SteeringVehicle.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\WayPointGraph.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\WayPointGraphManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\WayPointNode.h"
 				>
 			</File>
 		</Filter>

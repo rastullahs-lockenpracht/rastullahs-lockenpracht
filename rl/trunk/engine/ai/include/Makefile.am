@@ -7,4 +7,7 @@ noinst_HEADERS =
 	FuzzyStateMachine.h \
 	PhysicalObstacle.h \
 	SteeringMachine.h \
-	SteeringVehicle.h
+	SteeringVehicle.h \
+	WayPointNode.h \
+	WayPointGraph.h \
+	WayPointGraphManager.h

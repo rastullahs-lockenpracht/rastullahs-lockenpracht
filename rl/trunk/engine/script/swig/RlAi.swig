@@ -113,5 +113,40 @@ namespace rl
             rl::PhysicalThing *getPhysicalThing() const;
             void setPhysicalThing(rl::PhysicalThing *thing);
     };
+    
+    class WayPointNode
+	{
+	public:
+		enum WayPointNodeType 
+		{
+			WP_UNKNOWN = 0,
+			WP_EXTERIOR = 1,
+			WP_INTERIOR = 2
+		};
+		
+		WayPointNode(const Ogre::Vector3& pos, const rl::WayPointNode::WayPointNodeType type);
+		Ogre::Vector3 getPosition() const;
+	};
 	
-}
+	class WayPointGraph 
+	{
+	public:
+		WayPointNode* addWayPoint(const Ogre::Vector3& position, const WayPointNode::WayPointNodeType type);
+		void addConnection(rl::WayPointNode* wp1, rl::WayPointNode* wp2);
+		void addDirectedConnection(rl::WayPointNode* wp1, const rl::WayPointNode* wp2);
+		void load (const Ogre::String& filename);
+		void save (const Ogre::String& filename) const;
+		const rl::WayPointNode* getNearestWayPoint(const Ogre::Vector3 position) const;
+		const rl::WayPointNode* getWayPointAt(unsigned int index) const;
+	};
+	
+	class WayPointGraphManager 
+	{
+	public:
+		static WayPointGraphManager& getSingleton(void);
+		rl::WayPointGraph* createWayPointGraph();
+	};
+	
+} // Namespace
+
+

@@ -24,6 +24,7 @@ namespace rl
 {
 	class Agent;
 	class AgentManager;
+	class WayPointGraphManager;
 	class AiWorld;
 
 	/** Central core of AI
@@ -66,6 +67,8 @@ namespace rl
 
 		//! single AgentManager object
 		AgentManager* mAgentManager;
+		//! single WayPointGraphManager object
+		WayPointGraphManager *mWayPointGraphManager;
 		//! AiWorld representation - WIP!!! (object to changes)
 		AiWorld* mWorld;
 	};

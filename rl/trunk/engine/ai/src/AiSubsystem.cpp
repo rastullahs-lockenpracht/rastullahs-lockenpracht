@@ -16,6 +16,7 @@
 #include "AiSubsystem.h"
 #include "AiWorld.h"
 #include "AgentManager.h"
+#include "WayPointGraphManager.h"
 #include "Logger.h"
 #include "GameLoop.h"
 #include "CoreSubsystem.h"
@@ -41,6 +42,7 @@ AiSubsystem* AiSubsystem::getSingletonPtr(void)
 
 AiSubsystem::AiSubsystem(void)
     : mAgentManager(NULL),
+	  mWayPointGraphManager(NULL),
       mWorld(NULL)
 {
     LOG_MESSAGE(Logger::AI, "Init Start");
@@ -55,12 +57,14 @@ AiSubsystem::~AiSubsystem(void)
     AgentManager::getSingleton().removeAllAgents();
     mWorld->removeAllObstacles();
     delete mAgentManager;
+	delete mWayPointGraphManager;
     delete mWorld;
 }
 
 void AiSubsystem::initialize()
 {
     mAgentManager = new AgentManager();
+	mWayPointGraphManager = new WayPointGraphManager();
     mWorld = new AiWorld();
 
     CoreSubsystem::getSingletonPtr()->getWorld()->addSceneChangeListener(this);

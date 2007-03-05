@@ -24,4 +24,7 @@
 #include "AgentManager.h"
 #include "Agent.h"
 #include "PhysicalObstacle.h"
+#include "WayPointNode.h"
+#include "WayPointGraph.h"
+#include "WayPointGraphManager.h"
 %}
