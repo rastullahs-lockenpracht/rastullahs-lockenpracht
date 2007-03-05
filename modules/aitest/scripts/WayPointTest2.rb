@@ -5,10 +5,10 @@ class WayPointTest2
 	@WPGraph = $WPGM.createWayPointGraph();
     end
     def save()
-	@WPGraph.save("graphtest.wpg")
+	@WPGraph.save("modules/aitest/maps/graphtest.wpg")
     end
     def load()
-	@WPGraph.load("graphtest.wpg")
+	@WPGraph.load("modules/aitest/maps/graphtest.wpg")
     end
 end
 
