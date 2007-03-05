@@ -61,7 +61,7 @@ public:
 	void quitGame();
 
     /// Returns time since game started in Milliseconds.
-    unsigned long getClock();
+    unsigned long getClock() const;
 
     /// Main loop of RL.
     void loop();

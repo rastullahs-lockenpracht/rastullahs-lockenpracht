@@ -19,15 +19,17 @@
 
 namespace rl {
 
+    /// Basic states, a GameObject can have.
+    /// Values are chosen so, that they are maskable.
     enum GameObjectState
     {
-        GOS_UNDEFINED = 0,
-        GOS_UNLOADED,
-        GOS_LOADED,
-        GOS_IN_POSSESSION,
-        GOS_IN_SCENE,
-        GOS_HELD,
-        GOS_READY
+        GOS_UNDEFINED     =  0, ///!< Nothing known about such a GO.
+        GOS_UNLOADED      =  1, ///!< GO is known, but its actual properties are not loaded yet.
+        GOS_LOADED        =  2, ///!< GO is loaded, unused.
+        GOS_IN_POSSESSION =  4, ///!< GO is owned by another GO. (e.g. inside a chest)
+        GOS_IN_SCENE      =  8, ///!< GO is placed openly in the scene.
+        GOS_HELD          = 16, ///!< GO is held openly by another GO. (e.g. apple in NPC's hand)
+        GOS_READY         = 32  ///!< GO is ready for usage by another GO. (sword in NPC's hand)
     };
 }
 

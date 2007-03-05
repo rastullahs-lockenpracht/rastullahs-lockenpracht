@@ -23,8 +23,6 @@
 namespace rl
 {
 	class SteeringVehicle;
-	typedef FuzzyState<SteeringVehicle> SteeringBehaviour;
-
 	class SteeringMachine;
 	class DialogCharacter;
 	class Creature;
@@ -89,6 +87,8 @@ namespace rl
 		/** Retrieves the stored SteeringVehicle.
 		 */
 		SteeringVehicle* getVehicle();
+
+        Creature* getControlledCreature() const;
 
 //		PerceptionPool* getPerceptionPool();
 

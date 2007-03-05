@@ -155,6 +155,26 @@ namespace rl
         mGameObjectFactory = gof;
     }
 
+    void GameObjectManager::gameObjectStateChanged(GameObject* go, GameObjectState oldState,
+        GameObjectState newState)
+    {
+        for (GameObjectStateListenerSet::iterator it = mGameObjectStateListeners.begin();
+            it != mGameObjectStateListeners.end(); ++it)
+        {
+            (*it)->gameObjectStateChanged(go, oldState, newState);
+        }
+    }
+
+    void GameObjectManager::registerGameObjectStateListener(GameObjectStateListener* listener)
+    {
+        mGameObjectStateListeners.insert(listener);
+    }
+
+    void GameObjectManager::unregisterGameObjectStateListener(GameObjectStateListener* listener)
+    {
+        mGameObjectStateListeners.erase(listener);
+    }
+
     GameObjectFactory::GameObjectFactory()
     {
     }

@@ -20,13 +20,26 @@
 #include "AiPrerequisites.h"
 //#include "PhysicsController.h"
 #include "GameTask.h"
+#include "GameObjectStateListener.h"
+#include "FuzzyState.h"
 
 namespace rl
 {
-	class Agent;
 	class Creature;
 	class SteeringVehicle;
 	class DialogCharacter;
+    class Agent;
+
+    typedef FuzzyState<SteeringVehicle> SteeringBehaviour;
+
+    class _RlAiExport BehaviourFactory
+    {
+    public:
+        BehaviourFactory() {}
+        virtual ~BehaviourFactory() {}
+
+        virtual SteeringBehaviour* createBehaviour(const Ogre::String& classname) = 0;
+    };
 
 	/** Executes AI during game as a RL::GameTask.
 	 * Each registered Agent gets executed once per gametask in order
@@ -34,7 +47,8 @@ namespace rl
 	 */
 	class _RlAiExport AgentManager
 		: protected Ogre::Singleton<AgentManager>,
-		  public GameTask
+		  public GameTask,
+          public GameObjectStateListener
   	//	  public PhysicsController,
 		  
 	{
@@ -72,6 +86,9 @@ namespace rl
 		// Hint: it's deprecated
 		Agent* createAgent(DialogCharacter* character);
 
+        // Destroys an Agent and all its behaviours. (if any)
+        void destroyAgent(Agent*);
+
 		// ??? purpose ??? needed for opensteer ?
 
 		VehicleList getNeighbors(Agent* agent);
@@ -88,10 +105,19 @@ namespace rl
 		 */
 		void removeAllAgents();
 
-		/** Returns the name of this class - AgentManager for debugging purposes.
-		 */
+		/// Override from GameTask
+		/// Returns the name of this class - AgentManager for debugging purposes.
         virtual const Ogre::String& getName() const;
+
+        /// Override from GameObjectStateListener.
+        /// Used to create/destroy Agents
+        virtual void gameObjectStateChanged(GameObject* go, GameObjectState oldState,
+            GameObjectState newState);
+
+        /// Set the factory to be used to create behaviours.
+        virtual void setBehaviourFactory(BehaviourFactory*);
 	private:
+
 		/** Used to register an agent internally.
 		 * Adds the given Agent to AgentList and its vehicle to mAllNeighbors.
 		 * @param agent Agent to be added
@@ -100,6 +126,9 @@ namespace rl
 
 		//! defines a std::list of Agents
 		typedef std::vector<Agent*> AgentList;
+
+        /// Factory to create behaviours with.
+        BehaviourFactory* mBehaviourFactory;
 		
 		//! List of Vehicle objects from the Agents in mAgents (might be needed for opensteer)
 		VehicleList mAllNeighbors;

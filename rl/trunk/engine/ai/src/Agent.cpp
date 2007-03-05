@@ -142,4 +142,9 @@ bool Agent::isDialogActive()
 	return mDialogBot->isActive();
 }
 
+Creature* Agent::getControlledCreature() const
+{
+    return mCreature;
+}
+
 }

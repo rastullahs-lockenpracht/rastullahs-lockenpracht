@@ -519,6 +519,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\GameObjectStateListener.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\Inventory.h"
 				>
 			</File>

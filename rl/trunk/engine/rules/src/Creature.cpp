@@ -36,6 +36,7 @@ using namespace std;
 namespace rl
 {
     const Ogre::String Creature::CLASS_NAME = "Creature";
+    const Ogre::String Creature::PROPERTY_BEHAVIOURS = "behaviours";
 
     Creature::Creature(unsigned int id)
         : GameObject(id), 
@@ -1127,30 +1128,30 @@ namespace rl
 
     void Creature::setProperty(const Ogre::String &key, const rl::Property &value)
     {
-        //if (key == Creature::PROPERTY_)
-        //{
-        //    mImageName = value.toString();
-        //}
-        //else
-        //{
+        if (key == Creature::PROPERTY_BEHAVIOURS)
+        {
+            mBehaviours = value;
+        }
+        else
+        {
             GameObject::setProperty(key, value);
-        //}
+        }
     }
 
     const Property Creature::getProperty(const Ogre::String &key) const
     {
-        //if (key == Item::PROPERTY_IMAGENAME)
-        //{
-        //    return Property(mImageName);
-        //}
+        if (key == Creature::PROPERTY_BEHAVIOURS)
+        {
+            return mBehaviours;
+        }
         //else if (key == Item::PROPERTY_SIZE)
         //{
         //    return Property(mSize);
         //}
-        //else
-        //{
+        else
+        {
             return GameObject::getProperty(key);
-        //}
+        }
     }
 
     PropertySet* Creature::getAllProperties() const

@@ -23,6 +23,7 @@
 #include "ObjectStateChangeEventSource.h"
 #include "Property.h"
 #include "RulesSubsystem.h"
+#include "GameObjectManager.h"
 
 using namespace std;
 
@@ -56,7 +57,9 @@ namespace rl
         // Standardactions registrieren
 		Action* defaultAction = ActionManager::getSingleton().getAction(DEFAULT_VIEW_OBJECT_ACTION);
 		if (defaultAction != NULL)
-			addAction(defaultAction);
+        {
+            addAction(defaultAction);
+        }
 
 		// Eventsource erzeugen
 		setObject(this);
@@ -505,25 +508,35 @@ namespace rl
 
     void GameObject::placeIntoScene()
     {
-        Actor* actor = createActor();
+        if (mState != GOS_IN_SCENE)
+        {
+            Actor* actor = createActor();
 
-        actor->placeIntoScene();
-        setActor(actor);
+            actor->placeIntoScene();
+            setActor(actor);
 
-        mState = GOS_IN_SCENE;
+            GameObjectState tmpState = mState;
+            mState = GOS_IN_SCENE;
+            GameObjectManager::getSingleton().gameObjectStateChanged(this, tmpState, mState);
+        }
     }
 
     void GameObject::removeFromScene()
     {
-        Actor* actor = mActor;
-        mOrientation = actor->getWorldOrientation();
-        mPosition = actor->getWorldPosition();
+        if (mState != GOS_IN_SCENE)
+        {
+            Actor* actor = mActor;
+            mOrientation = actor->getWorldOrientation();
+            mPosition = actor->getWorldPosition();
 
-        setActor(NULL);
-        actor->removeFromScene();
-        ActorManager::getSingleton().destroyActor(actor);
+            setActor(NULL);
+            actor->removeFromScene();
+            ActorManager::getSingleton().destroyActor(actor);
 
-        mState = GOS_LOADED;
+            GameObjectState tmpState = mState;
+            mState = GOS_LOADED;
+            GameObjectManager::getSingleton().gameObjectStateChanged(this, tmpState, mState);
+        }
     }
 
     void GameObject::setState(GameObjectState targetstate)
@@ -533,28 +546,15 @@ namespace rl
             return;
         }
 
-        bool stateChange = false;
-
-        if (targetstate == GOS_LOADED)
+        if (targetstate == GOS_LOADED && mState == GOS_IN_SCENE)
         {
-            if (mState == GOS_IN_SCENE)
-            {
-                removeFromScene();
-                stateChange = true;
-            }
+            //Statechange-Event is triggered in this function
+            removeFromScene();
         }
-        else if (targetstate == GOS_IN_SCENE)
+        else if (targetstate == GOS_IN_SCENE && mState == GOS_LOADED)
         {
-            if (mState == GOS_LOADED)
-            {
-                placeIntoScene();
-                stateChange = true;
-            }
-        }
-
-        if (stateChange)
-        {
-            mState = targetstate;
+            //Statechange-Event is triggered in this function
+            placeIntoScene();
         }
     }
 

@@ -86,6 +86,16 @@ namespace rl
 		static AiSubsystem& getSingleton(void);
 	};
 	
+	%feature("director") BehaviourFactory;
+    class BehaviourFactory
+    {
+    public:
+        BehaviourFactory();
+        virtual ~BehaviourFactory();
+
+        virtual SteeringBehaviour* createBehaviour(const Ogre::String& classname) = 0;
+    };
+    
 	class AgentManager
 	{
 	public:
@@ -100,6 +110,8 @@ namespace rl
 		static AgentManager& getSingleton(void);
 		rl::Agent* createAgent(rl::AgentManager::AgentType type, rl::Creature* character);
 		rl::Agent* createAgent(rl::DialogCharacter* character);
+		
+        virtual void setBehaviourFactory(BehaviourFactory* factory);
 	};
 	
     class PhysicalObstacle {

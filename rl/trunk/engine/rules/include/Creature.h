@@ -110,6 +110,7 @@ namespace rl
 		typedef std::map<const CeGuiString, TalentStateSet*> TalentMap;
 
         static const Ogre::String CLASS_NAME;
+        static const Ogre::String PROPERTY_BEHAVIOURS; 
 
         Creature(unsigned int id);
 		        
@@ -1016,6 +1017,8 @@ namespace rl
 
         /// Zeigt auf das Inventar der Kreatur.
 		Inventory* mInventory;
+
+        Property mBehaviours;
 
         /**
          *  Sets a the status \a statusVariable. It uses a reference counting

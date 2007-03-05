@@ -18,6 +18,8 @@
 #define __GAMEOBJECTMANAGER_H__
 
 #include "RulesPrerequisites.h"
+#include "GameObjectStateListener.h"
+
 #include <OgreScriptLoader.h>
 #include <OgreSingleton.h>
 #include <map>
@@ -38,7 +40,9 @@ namespace rl
     };
 
     class _RlRulesExport GameObjectManager : 
-        public Ogre::Singleton<GameObjectManager>, public Ogre::ScriptLoader
+        public Ogre::Singleton<GameObjectManager>,
+        public GameObjectStateListener,
+        public Ogre::ScriptLoader
     {
     public:
         GameObjectManager();
@@ -54,8 +58,17 @@ namespace rl
         virtual Ogre::Real getLoadingOrder() const;
         virtual void parseScript(Ogre::DataStreamPtr& stream, const Ogre::String& groupName);
 
+        /// Override from GameObjectStateListener.
+        /// Used to propagate to global GameObjectStateListeners.
+        virtual void gameObjectStateChanged(GameObject* go, GameObjectState oldState,
+            GameObjectState newState);
+
+        void registerGameObjectStateListener(GameObjectStateListener* listener);
+        void unregisterGameObjectStateListener(GameObjectStateListener* listener);
+
     private:
         typedef std::map<const Ogre::String, PropertySet*> ClassPropertyMap;
+        typedef std::set<GameObjectStateListener*> GameObjectStateListenerSet;
 
         Ogre::StringVector mScriptPatterns;
 
@@ -64,6 +77,7 @@ namespace rl
         ClassPropertyMap mClassProperties;
         unsigned int mGeneratedId;
         GameObjectFactory* mGameObjectFactory;
+        GameObjectStateListenerSet mGameObjectStateListeners;
 
         unsigned int generateId();
         PropertySet* getClassProperties(const Ogre::String& classId);

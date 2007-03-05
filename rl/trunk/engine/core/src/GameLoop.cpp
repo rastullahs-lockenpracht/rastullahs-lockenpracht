@@ -189,7 +189,7 @@ namespace rl {
             / std::max(mLastTimes.size(), (size_t)1);
     }
 
-    unsigned long GameLoop::getClock()
+    unsigned long GameLoop::getClock() const
     {
         return mGameTime;
     }
