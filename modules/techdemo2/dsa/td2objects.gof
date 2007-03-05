@@ -16,7 +16,7 @@
     <property name="orientation" type="QUATERNION" data="0.0, 180.0, 0.0"/>
     <property name="dialogfile" type="STRING" data="wolfram.xml"/>
     <property name="behaviours" type="ARRAY">
-    	<property type="STRING" data="default_idle_behaviour"/>
+    	<property type="STRING" data="DefaultIdleBehaviour"/>
     	<property type="STRING" data="dialog_behaviour"/>
     </property>
   </gameobjectclass>
@@ -33,8 +33,8 @@
     <property name="orientation" type="QUATERNION" data="0.0, 120.94, 0.0"/>
     <property name="dialogfile" type="STRING" data="sonja.xml"/>
     <property name="behaviours" type="ARRAY">
-    	<property type="STRING" data="default_idle_behaviour"/>
-    	<property type="STRING" data="dialog_behaviour"/>
+    	<property type="STRING" data="DefaultIdleBehaviour"/>
+    	<property type="STRING" data="DialogBehaviour"/>
     </property>
   </gameobjectclass>
   
@@ -50,8 +50,8 @@
     <property name="orientation" type="QUATERNION" data="0.0, 120.94, 0.0"/>
     <property name="dialogfile" type="STRING" data="sonja2.xml"/>
     <property name="behaviours" type="ARRAY">
-    	<property type="STRING" data="default_idle_behaviour"/>
-    	<property type="STRING" data="dialog_behaviour"/>
+    	<property type="STRING" data="DefaultIdleBehaviour"/>
+    	<property type="STRING" data="DialogBehaviour"/>
     </property>
   </gameobjectclass>
   
@@ -67,8 +67,8 @@
     <property name="orientation" type="QUATERNION" data="0.0, -23.40, 0.0"/>
     <property name="dialogfile" type="STRING" data="jarn.xml"/>
     <property name="behaviours" type="ARRAY">
-    	<property type="STRING" data="default_idle_behaviour"/>
-    	<property type="STRING" data="dialog_behaviour"/>
+    	<property type="STRING" data="DefaultIdleBehaviour"/>
+    	<property type="STRING" data="DialogBehaviour"/>
     </property>
   </gameobjectclass>
   
@@ -84,8 +84,8 @@
     <property name="orientation" type="QUATERNION" data="0.0, 50.0, 0.0"/>
     <property name="dialogfile" type="STRING" data="wolfram.xml"/>
     <property name="behaviours" type="ARRAY">
-    	<property type="STRING" data="default_idle_behaviour"/>
-    	<property type="STRING" data="dialog_behaviour"/>
+    	<property type="STRING" data="DefaultIdleBehaviour"/>
+    	<property type="STRING" data="DialogBehaviour"/>
     </property>
   </gameobjectclass>
   
@@ -100,9 +100,9 @@
     <property name="position" type="VECTOR3" data="-20.83, -6.70, 19.46"/>
     <property name="dialogfile" type="STRING" data="forrest.xml"/>
     <property name="behaviours" type="ARRAY">
-    	<property type="STRING" data="default_idle_behaviour"/>
-    	<property type="STRING" data="avoid_obstacles_behaviour"/>
-    	<property type="STRING" data="dialog_behaviour"/>
+    	<property type="STRING" data="DefaultIdleBehaviour"/>
+    	<property type="STRING" data="AvoidObstaclesBehaviour"/>
+    	<property type="STRING" data="DialogBehaviour"/>
     </property>
   </gameobjectclass>
   
@@ -142,8 +142,8 @@
     <property name="mass" type="REAL" data="0"/>
     <property name="geometrytype" type="STRING" data="sphere"/>
     <property name="behaviours" type="ARRAY">
-    	<property type="STRING" data="default_idle_behaviour"/>
-    	<property type="STRING" data="avoid_obstacles_behaviour"/>
+    	<property type="STRING" data="DefaultIdleBehaviour"/>
+    	<property type="STRING" data="AvoidObstaclesBehaviour"/>
     </property>
   </gameobjectclass>
   

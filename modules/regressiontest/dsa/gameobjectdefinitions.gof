@@ -27,8 +27,8 @@
         <property name="mass" type="REAL" data="65"/>
         <property name="dialogfile" type="STRING" data="testperson.xml"/>
         <property name="behaviours" type="ARRAY">
-            <property type="STRING" data="default_idle_behaviour"/>
-            <property type="STRING" data="dialog_behaviour"/>
+            <property type="STRING" data="DefaultIdleBehaviour"/>
+            <property type="STRING" data="DialogBehaviour"/>
         </property>
     </gameobjectclass>
 
@@ -42,8 +42,8 @@
         <property name="mass" type="REAL" data="65"/>
         <property name="dialogfile" type="STRING" data="testperson.xml"/>
         <property name="behaviours" type="ARRAY">
-            <property type="STRING" data="default_idle_behaviour"/>
-            <property type="STRING" data="dialog_behaviour"/>
+            <property type="STRING" data="DefaultIdleBehaviour"/>
+            <property type="STRING" data="DialogBehaviour"/>
         </property>
     </gameobjectclass>
 

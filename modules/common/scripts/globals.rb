@@ -1,5 +1,3 @@
-load "embed.rb"
-
 print( "\n- Registering Globals" );
 
 include RlScript
@@ -50,5 +48,20 @@ end
 
 rgof = RubyGameObjectFactory.new();
 $GOM.setGameObjectFactory(rgof);
+
+require 'steering.rb'
+
+class RubyBehaviourFactory < BehaviourFactory
+  def initialize()
+    super();
+  end
+
+  def createBehaviour(classname)
+    return Module.const_get(classname).new();
+  end
+end
+
+rbf = RubyBehaviourFactory.new();
+$AI.setBehaviourFactory(rbf);
 
 require( "questsound.rb" );
