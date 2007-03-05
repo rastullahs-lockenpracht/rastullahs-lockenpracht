@@ -18,7 +18,7 @@
 #include "Exception.h"
 #include "Logger.h"
 
-using namespace rl;
+namespace rl {
 
 ContextConditionProcessor::ContextConditionProcessor(void)
 	: XmlNodeProcessor<Response, AimlBot, CeGuiString, false>("contextCondition")
@@ -101,4 +101,6 @@ void ContextConditionProcessor::processChildStep(XmlNode<CeGuiString>* pChild)
 
 void ContextConditionProcessor::postprocessStep()
 {
+}
+
 }

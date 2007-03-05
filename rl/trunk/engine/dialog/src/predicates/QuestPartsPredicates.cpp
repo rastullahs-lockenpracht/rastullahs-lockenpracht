@@ -22,8 +22,9 @@
 #include "Quest.h"
 #include "RulesSubsystem.h"
 
-using namespace rl;
 using CEGUI::PropertyHelper;
+
+namespace rl {
 
 QuestPartsPredicates::QuestPartsPredicates()
 {
@@ -95,4 +96,6 @@ void QuestPartsPredicates::setPredicate(const CeGuiString& name, const CeGuiStri
 CeGuiString QuestPartsPredicates::getType() const
 {
 	return "questparts";
+}
+
 }

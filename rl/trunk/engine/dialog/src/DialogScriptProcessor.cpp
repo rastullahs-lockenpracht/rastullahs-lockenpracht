@@ -17,7 +17,7 @@
 #include "CoreSubsystem.h"
 #include "RubyInterpreter.h"
 
-using namespace rl;
+namespace rl {
 
 DialogScriptProcessor::DialogScriptProcessor()
 	: XmlNodeProcessor<AimlBot, AimlCore, CeGuiString>("script")
@@ -50,4 +50,6 @@ void DialogScriptProcessor::preprocessStep()
 				CoreSubsystem::getSingleton().getRubyInterpreter()
 					->execute(newDialogScriptObject.str());
 	}
+}
+
 }

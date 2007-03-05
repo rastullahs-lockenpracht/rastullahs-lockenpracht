@@ -16,7 +16,7 @@
 #include "CreaturePredicates.h"
 #include "Creature.h"
 
-using namespace rl;
+namespace rl {
 
 CreaturePredicates::CreaturePredicates(Creature* pCharacter)
 	: mCharacter(pCharacter)
@@ -33,4 +33,6 @@ void CreaturePredicates::setPredicate(const CeGuiString& pName, const CeGuiStrin
 	{
 		mModifier = Ogre::StringConverter::parseInt(pValue.c_str());
 	}
+}
+
 }

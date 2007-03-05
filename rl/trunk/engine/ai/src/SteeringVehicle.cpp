@@ -21,9 +21,10 @@
 #include "MeshObject.h"
 #include "PhysicalThing.h"
 
-using namespace rl;
 using namespace Ogre;
 using namespace OpenSteer;
+
+namespace rl {
 
 SteeringVehicle::SteeringVehicle(Agent* parent, Actor* character)
 	: _maxForce(1.0f),
@@ -408,3 +409,4 @@ void SteeringVehicle::measurePathCurvature (const float elapsedTime)
 }
 */
 
+}

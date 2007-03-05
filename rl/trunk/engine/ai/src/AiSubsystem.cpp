@@ -27,8 +27,7 @@ using namespace OpenSteer;
 
 template<> rl::AiSubsystem* Singleton<rl::AiSubsystem>::ms_Singleton = 0;
 
-using namespace rl;
-
+namespace rl {
 
 AiSubsystem& AiSubsystem::getSingleton(void)
 {
@@ -104,4 +103,6 @@ void AiSubsystem::onAfterSceneLoaded()
     o->setForward(0,0,-1);
     addObstacle(o);
 */
+}
+
 }

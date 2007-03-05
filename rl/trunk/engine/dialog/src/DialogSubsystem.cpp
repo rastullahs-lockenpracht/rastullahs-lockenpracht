@@ -35,7 +35,7 @@ using namespace XERCES_CPP_NAMESPACE;
 
 template<> rl::DialogSubsystem* Singleton<rl::DialogSubsystem>::ms_Singleton = 0;
 
-using namespace rl;
+namespace rl {
 
 DialogSubsystem& DialogSubsystem::getSingleton(void)
 {
@@ -143,4 +143,6 @@ ResourcePtr DialogSubsystem::getXmlResource(const Ogre::String& filename)
 void DialogSubsystem::setCurrentDialogCharacter(DialogCharacter* bot)
 {
 	mCurrentBot = bot;
+}
+
 }

@@ -21,7 +21,7 @@
 
 #include "XmlHelper.h"
 
-using namespace rl;
+namespace rl {
 
 AimlNodeImplRl::AimlNodeImplRl(DOMNode* pNode)
 {
@@ -96,4 +96,6 @@ AimlNodeImplRl::AimlNodeImplRl(DOMNode* pNode)
 
 AimlNodeImplRl::~AimlNodeImplRl(void)
 {
+}
+
 }

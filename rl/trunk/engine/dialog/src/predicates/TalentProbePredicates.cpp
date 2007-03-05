@@ -16,7 +16,7 @@
 #include "TalentProbePredicates.h"
 #include "Creature.h"
 
-using namespace rl;
+namespace rl {
 
 TalentProbePredicates::TalentProbePredicates(Creature* pCharacter)
 	: CreaturePredicates(pCharacter)
@@ -43,4 +43,6 @@ CeGuiString TalentProbePredicates::getPredicate(const CeGuiString& pName) const
 CeGuiString TalentProbePredicates::getType() const
 {
 	return "talentprobe";
+}
+
 }

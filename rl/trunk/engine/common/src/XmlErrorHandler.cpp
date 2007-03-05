@@ -19,7 +19,7 @@
 #include "XmlHelper.h"
 
 
-using namespace rl;
+namespace rl {
 
 XmlErrorHandler::XmlErrorHandler(void)
     : mFileName("")
@@ -66,4 +66,6 @@ void XmlErrorHandler::fatalError(const XERCES_CPP_NAMESPACE::SAXParseException& 
 
 void XmlErrorHandler::resetErrors()
 {
+}
+
 }

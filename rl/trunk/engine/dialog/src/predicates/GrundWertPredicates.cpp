@@ -16,7 +16,7 @@
 #include "GrundWertPredicates.h"
 #include "Creature.h"
 
-using namespace rl;
+namespace rl {
 
 GrundWertPredicates::GrundWertPredicates(Creature* pCharacter)
 	: CreaturePredicates(pCharacter) 
@@ -79,4 +79,6 @@ void GrundWertPredicates::setPredicate(const CeGuiString& pName, const CeGuiStri
 CeGuiString GrundWertPredicates::getType() const
 {
 	return "grundwert";
+}
+
 }

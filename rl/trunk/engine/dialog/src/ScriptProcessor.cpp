@@ -18,7 +18,7 @@
 #include "RubyInterpreter.h"
 #include "Exception.h"
 
-using namespace rl;
+namespace rl {
 
 ScriptProcessor::ScriptProcessor(void)
 	: XmlNodeProcessor<Response, AimlBot, CeGuiString, false>("script")
@@ -51,5 +51,7 @@ void ScriptProcessor::preprocessStep()
 	// execute the value of the text node
 	CoreSubsystem::getSingleton().getRubyInterpreter()
 		->execute(mCurrentNode->getFirstChild()->getNodeValue().c_str());
+
+}
 
 }

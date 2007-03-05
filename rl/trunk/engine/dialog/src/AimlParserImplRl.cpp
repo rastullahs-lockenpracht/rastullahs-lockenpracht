@@ -11,9 +11,11 @@
 #include "CoreSubsystem.h"
 #include "ContentModule.h"
 
-using namespace rl;
 using namespace Ogre;
 using namespace XERCES_CPP_NAMESPACE;
+
+namespace rl {
+
 
 AimlParserImplRl::~AimlParserImplRl(void)
 {
@@ -59,4 +61,6 @@ ResourcePtr AimlParserImplRl::getXmlResource(const CeGuiString& fileName)
 
     }
     return res;
+}
+
 }

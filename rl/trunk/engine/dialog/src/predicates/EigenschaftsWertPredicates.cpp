@@ -17,7 +17,7 @@
 #include "Creature.h"
 
 
-using namespace rl;
+namespace rl {
 
 EigenschaftsWertPredicates::EigenschaftsWertPredicates(Creature* pCharacter)
 	: CreaturePredicates(pCharacter)
@@ -48,4 +48,6 @@ void EigenschaftsWertPredicates::setPredicate(const CeGuiString& pName, const Ce
 CeGuiString EigenschaftsWertPredicates::getType() const
 {
 	return "eigenschaftswert";
+}
+
 }

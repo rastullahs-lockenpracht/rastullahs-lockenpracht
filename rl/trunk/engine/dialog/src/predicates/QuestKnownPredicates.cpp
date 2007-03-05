@@ -20,7 +20,7 @@
 #include "Quest.h"
 #include "RulesSubsystem.h"
 
-using namespace rl;
+namespace rl {
 
 QuestKnownPredicates::QuestKnownPredicates()
 {
@@ -67,4 +67,6 @@ void QuestKnownPredicates::setPredicate(const CeGuiString& name, const CeGuiStri
 CeGuiString QuestKnownPredicates::getType() const
 {
 	return "questknown";
+}
+
 }

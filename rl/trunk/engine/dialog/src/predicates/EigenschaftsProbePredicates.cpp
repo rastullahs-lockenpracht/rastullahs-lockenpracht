@@ -16,7 +16,7 @@
 #include "EigenschaftsProbePredicates.h"
 #include "Creature.h"
 
-using namespace rl;
+namespace rl {
 
 EigenschaftsProbePredicates::EigenschaftsProbePredicates(Creature* pCharacter)
 	: CreaturePredicates(pCharacter)
@@ -50,4 +50,6 @@ CeGuiString EigenschaftsProbePredicates::getPredicate(const CeGuiString& pName) 
 CeGuiString EigenschaftsProbePredicates::getType() const
 {
 	return "eigenschaftsprobe";
+}
+
 }

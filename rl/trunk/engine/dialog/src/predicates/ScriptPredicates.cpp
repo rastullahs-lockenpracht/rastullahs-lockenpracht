@@ -16,7 +16,7 @@
 #include "DialogCharacter.h"
 #include "ScriptPredicates.h"
 
-using namespace rl;
+namespace rl {
 
 ScriptPredicates::ScriptPredicates(DialogCharacter* pCharacter)
 	: mCharacter(pCharacter)
@@ -54,4 +54,6 @@ void ScriptPredicates::setPredicate(const CeGuiString& pName, const CeGuiString&
 CeGuiString ScriptPredicates::getType() const
 {
 	return "script";
+}
+
 }

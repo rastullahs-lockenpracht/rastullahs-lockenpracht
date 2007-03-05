@@ -26,7 +26,8 @@
 
 using namespace Ogre;
 using namespace OpenSteer;
-using namespace rl;
+
+namespace rl {
 
 Agent::Agent(Creature* character)
 	: mType(AgentManager::AGENT_NONE), mBehaviour(NULL), mVehicle(NULL), mDialogBot(NULL), 
@@ -139,4 +140,6 @@ bool Agent::isDialogActive()
         return false;
 	}
 	return mDialogBot->isActive();
+}
+
 }

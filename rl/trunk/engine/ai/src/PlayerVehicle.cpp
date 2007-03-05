@@ -18,9 +18,10 @@
 #include "MeshObject.h"
 #include "PhysicalThing.h"
 
-using namespace rl;
 using namespace OpenSteer;
 using namespace Ogre;
+
+namespace rl {
 
 PlayerVehicle::PlayerVehicle(Actor* character)
 	: SteeringVehicle(NULL, character)
@@ -61,3 +62,4 @@ void PlayerVehicle::update(const float currentTime, const float elapsedTime)
 	mCurrentForce = Ogre::Vector3::ZERO;
 }
 
+}

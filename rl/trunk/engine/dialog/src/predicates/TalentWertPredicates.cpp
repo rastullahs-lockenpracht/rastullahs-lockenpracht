@@ -16,7 +16,7 @@
 #include "TalentWertPredicates.h"
 #include "Creature.h"
 
-using namespace rl;
+namespace rl {
 
 TalentWertPredicates::TalentWertPredicates(Creature* pCharacter)
 	: CreaturePredicates(pCharacter)
@@ -47,4 +47,6 @@ void TalentWertPredicates::setPredicate(const CeGuiString& pName, const CeGuiStr
 CeGuiString TalentWertPredicates::getType() const
 {
 	return "talentwert";
+}
+
 }

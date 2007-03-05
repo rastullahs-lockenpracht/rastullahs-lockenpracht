@@ -22,9 +22,10 @@
 #include <Ogre.h>
 #include "PhysicsMaterialRaycast.h"
 
-using namespace rl;
 using namespace OpenSteer;
 using namespace Ogre;
+
+namespace rl {
 
 AiWorld::AiWorld(void) : mObstacles()
 {
@@ -200,4 +201,6 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
         //pi.steerHint.normalize();
         return;
     }
+}
+
 }

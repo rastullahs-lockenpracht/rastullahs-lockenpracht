@@ -20,8 +20,9 @@
 #include "DialogOption.h"
 #include "AimlBot.h"
 
-using namespace rl;
 using namespace std;
+
+namespace rl {
 
 CeGuiString ContextInterpreter::INTERPRETER_NAME = "contextInterpreter";
 CeGuiString ContextInterpreter::RL_TYPE = "rldialog:type";
@@ -183,4 +184,6 @@ void ContextInterpreter::initialize()
 {
 	addProcessor(new ContextConditionProcessor());
 	addProcessor(new ScriptProcessor());
+}
+
 }

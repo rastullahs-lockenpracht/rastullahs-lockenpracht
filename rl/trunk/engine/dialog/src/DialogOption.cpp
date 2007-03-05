@@ -19,7 +19,7 @@
 #include "ContextInterpreter.h"
 #include "Response.h"
 
-using namespace rl;
+namespace rl {
 
 DialogOption::DialogOption(const Response<CeGuiString>& pData, AimlBot<CeGuiString>* pBot)
 	: mBot(pBot), mData(new Response<CeGuiString>(pData))
@@ -57,4 +57,6 @@ void DialogOption::processSelection()
 			delete response;
 		}
 	}
+}
+
 }
