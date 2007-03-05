@@ -23,6 +23,14 @@ namespace rl
 {
 	class WayPointGraph;
 
+	/** Manager for WayPointGraphs.
+	 * Organizes the management of WayPointGraphs.
+	 * The really sexy thing here is that enhancing the whole
+	 * waypoint finding can be done right in this class by extending it
+	 * with a grid like algorithm storage for waypointgraphs. That would
+	 * most likely reduce searching for a waypoint drastically - _if_ there
+	 * are many waypoints. At the moment this not something to consider.
+	 */
 	class _RlAiExport WayPointGraphManager 
 		: protected Ogre::Singleton<WayPointGraphManager>
 	{

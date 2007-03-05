@@ -224,7 +224,7 @@ void WayPointGraph::save (const Ogre::String& filename) const
 	output.close();
 }
 
-const WayPointNode* WayPointGraph::getNearestWayPoint(const Ogre::Vector3 position) const
+const WayPointNode* WayPointGraph::getNearestWayPoint(const Ogre::Vector3& position) const
 {
 	WayPointNodeList::const_iterator it;
 	WayPointNode* nearestWayPoint = NULL;

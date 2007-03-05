@@ -25,15 +25,15 @@
 namespace rl
 {
 
-	//template <class Data>
 	/** Stores a waypointgraph and is capable of loading and saving it.
 	 */
+	//template <class NodeType>
 	class _RlAiExport WayPointGraph 
 		: public DebugVisualisable
 	{
 	public:
 		//! defines a list of waypoint nodes
-		typedef std::vector<WayPointNode*> WayPointNodeList;
+		typedef std::vector< WayPointNode* > WayPointNodeList;
 
 		/* default constructor
 		 */
@@ -98,7 +98,7 @@ namespace rl
 		 * @param position in world space whose nearest waypoint has to be found.
 		 * @returns WayPointNode pointer to a waypoint object
 		 */
-		const WayPointNode* getNearestWayPoint(const Ogre::Vector3 position) const;
+		const WayPointNode* getNearestWayPoint(const Ogre::Vector3& position) const;
 
 		/** retrieves the WayPoint at the specified index from the list
 		 * @param index of the waypoint to fetch.
