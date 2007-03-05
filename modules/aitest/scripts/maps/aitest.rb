@@ -2,7 +2,7 @@ load "embed.rb"
 
 require 'player.rb'
 require 'hero.rb'
-require 'debugkeys.rb'
+require 'DebugKeys.rb'
 
 require 'doortest.rb'
 
