@@ -16,6 +16,7 @@ $DM = DsaManager.getSingleton();
 $DS = DialogSubsystem.getSingleton();
 $WF = WindowFactory.getSingleton();
 $AI = AgentManager.getSingleton();
+$WPGM = WayPointGraphManager.getSingleton();
 $DVM = DebugVisualsManager.getSingleton();
 $SCRIPT = ScriptSubsystem.getSingleton();
 
