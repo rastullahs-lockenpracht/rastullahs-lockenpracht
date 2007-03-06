@@ -96,6 +96,7 @@ namespace rl
     {
         delete mGenericCallback;
         delete mCharCharPair;
+		delete mCharDefaultPair;
         delete mCharLevelPair;
         delete mCharacterID;
         delete mLevelID;
