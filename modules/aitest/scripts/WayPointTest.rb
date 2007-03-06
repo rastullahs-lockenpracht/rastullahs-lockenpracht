@@ -71,10 +71,10 @@ class WayPointTest
 
     end
     def save()
-	@WPGraph.save("modules/aitest/maps/graphtest.wpg")
+	@WPGraph.save("aitest/maps/graphtest.wpg")
     end
     def load()
-	@WPGraph.load("modules/aitest/maps/graphtest.wpg")
+	@WPGraph.load("aitest/maps/graphtest.wpg")
     end
 #def clear()
 #	@WPGraph.
