@@ -46,7 +46,7 @@ WayPointGraph::~WayPointGraph()
 
 	// Remove debug scene node from root scene note, if debugview was used.
     if (mSceneNode != NULL && mSceneNode->getParent() != NULL)
-	{
+    {
 		CoreSubsystem::getSingletonPtr()->getWorld()->getSceneManager()->
 			getRootSceneNode()->removeChild(mSceneNode);
     }

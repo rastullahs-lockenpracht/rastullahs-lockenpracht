@@ -46,14 +46,14 @@ namespace rl {
 	// a set of sample heuristics that can be used
 
 	//! Manhatten distance heuristic
-	class _RlAiExport ManhattenDistance
+	class _RlAiExport ManhattanDistance
 		: public AStarHeuristic
 	{
 	public:
 		//! default constructor
-		ManhattenDistance();
+		ManhattanDistance();
 		//! explicit virtual destructor
-		virtual ~ManhattenDistance();
+		virtual ~ManhattanDistance();
 
 		/** calculates the Manhatten distance of the given 2 points.
 		 * @param vec1 start point in world space

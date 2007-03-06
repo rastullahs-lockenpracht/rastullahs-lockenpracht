@@ -120,17 +120,18 @@ namespace rl
 	
 	class AStarHeuristic
 	{
+	public:
 		AStarHeuristic();
 		virtual ~AStarHeuristic();
 		virtual float calcDistance(const Ogre::Vector3& vec1, const Ogre::Vector3& vec2) const = 0;
 	};
 	
-	class ManhattenDistance
+	class ManhattanDistance
 		: public AStarHeuristic
 	{
 	public:
-		ManhattenDistance();
-		virtual ~ManhattenDistance();
+		ManhattanDistance();
+		virtual ~ManhattanDistance();
 	};
 
 	class DiagonalDistance
@@ -159,18 +160,21 @@ namespace rl
 	
 	class AStarCosts
 	{
+	public:
 		AStarCosts(const AStarHeuristic* Heuristic);	
 		virtual ~AStarCosts();
 	};
 	
 	class AStarCostsDefault
 	{
+	public:
 		AStarCostsDefault(const AStarHeuristic* Heuristic);	
 		~AStarCostsDefault();
 	};
 	
 	class AStar
 	{
+	public:
 		AStar( const AStarCosts* Costs, const WayPointGraph* WPGraph,
 			const Ogre::Vector3& StartPos, const Ogre::Vector3& EndPos );
 		virtual ~AStar();
@@ -233,11 +237,11 @@ static swig_type_info *AStarHeuristic_dynamic_cast(void **ptr)
 {
     rl::AStarHeuristic **ppAStarHeuristic = reinterpret_cast<rl::AStarHeuristic**>(ptr);
 
-    rl::ManhattenDistance *pManhattenDistance=dynamic_cast<rl::ManhattenDistance*>(*ppAStarHeuristic);
-    if( pManhattenDistance )
+    rl::ManhattanDistance *pManhattanDistance=dynamic_cast<rl::ManhattanDistance*>(*ppAStarHeuristic);
+    if( pManhattanDistance )
     {
-        *ptr=reinterpret_cast<void*>(pManhattenDistance);
-        return SWIGTYPE_p_rl__ManhattenDistance;
+        *ptr=reinterpret_cast<void*>(pManhattanDistance);
+        return SWIGTYPE_p_rl__ManhattanDistance;
     }
     rl::DiagonalDistance *pDiagonalDistance=dynamic_cast<rl::DiagonalDistance*>(*ppAStarHeuristic);
     if( pDiagonalDistance )

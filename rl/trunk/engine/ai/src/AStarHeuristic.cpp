@@ -27,13 +27,13 @@ AStarHeuristic::~AStarHeuristic()
 {
 }
 
-ManhattenDistance::ManhattenDistance()
+ManhattanDistance::ManhattanDistance()
 {
 }
-ManhattenDistance::~ManhattenDistance()
+ManhattanDistance::~ManhattanDistance()
 {
 }
-float ManhattenDistance::calcDistance(const Ogre::Vector3& vec1, const Ogre::Vector3& vec2) const
+float ManhattanDistance::calcDistance(const Ogre::Vector3& vec1, const Ogre::Vector3& vec2) const
 {
 	return (abs(vec1.x - vec2.x) + abs(vec1.y - vec2.y) + abs(vec1.z - vec2.z));
 }
