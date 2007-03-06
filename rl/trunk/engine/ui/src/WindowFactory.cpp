@@ -88,6 +88,7 @@ namespace rl {
 		mInfoPopup = new InfoPopup();
 		mObjectDescriptionWindow = new ObjectDescriptionWindow();
         mCloseConfirmationWindow = NULL;
+        mGameSettings = NULL;
 
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mJournalWindow);
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mInfoPopup);
