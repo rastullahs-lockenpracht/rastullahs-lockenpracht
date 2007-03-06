@@ -28,7 +28,8 @@ using namespace std;
 namespace rl {
 
 WayPointGraph::WayPointGraph()
-: mRoot(NULL)
+: mRoot(NULL),
+  mChanged(false)
 {
 }
 
@@ -70,6 +71,7 @@ WayPointNode* WayPointGraph::rawAddWayPoint(const Ogre::Vector3& position, const
 {
 	WayPointNode* newWayPoint = new WayPointNode(position, type);
 	mNodeList.push_back(newWayPoint);
+	mChanged = true;
 
 	return newWayPoint;
 }
@@ -78,11 +80,13 @@ void WayPointGraph::addConnection(WayPointNode* wp1, WayPointNode* wp2)
 {
 	wp1->addNeighbour(wp2);
 	wp2->addNeighbour(wp1);
+	mChanged = true;
 }
 
 void WayPointGraph::addDirectedConnection(WayPointNode* wp1, const WayPointNode* wp2)
 {
 	wp1->addNeighbour(wp2);
+	mChanged = true;
 }
 
 void WayPointGraph::load (const Ogre::String& filename)
@@ -168,6 +172,7 @@ void WayPointGraph::load (const Ogre::String& filename)
 		Throw(Error, filename+": couldn't read expeced number of connections");
 
 	input.close();
+	mChanged = true;
 }
 
 void WayPointGraph::save (const Ogre::String& filename) const
@@ -298,6 +303,10 @@ void WayPointGraph::updatePrimitive()
 		//mCharacterActor->_getSceneNode()->addChild(mSceneNode);
     }
 
+	// avoid building graph again and again
+	if (! mChanged)
+		return;
+
 	LineSetPrimitive* lineSet = static_cast<LineSetPrimitive*>(mPrimitive);
 
 	lineSet->clear();
@@ -336,6 +345,8 @@ void WayPointGraph::updatePrimitive()
 		}
 	}
 	edgeList.clear();
+
+	mChanged = false;
 }
 
 void WayPointGraph::doCreatePrimitive()

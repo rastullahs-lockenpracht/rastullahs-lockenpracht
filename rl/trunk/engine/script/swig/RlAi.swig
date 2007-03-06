@@ -16,6 +16,10 @@
 
 namespace rl 
 {
+	// Before first use of GameObject or subclasses!
+	%apply SWIGTYPE *DYNAMIC { rl::AStarHeuristic * };
+	%apply SWIGTYPE *DYNAMIC { rl::AStarCosts * };
+
 	class SteeringVehicle
 	{
 	public:
@@ -114,6 +118,69 @@ namespace rl
         virtual void setBehaviourFactory(BehaviourFactory* factory);
 	};
 	
+	class AStarHeuristic
+	{
+		AStarHeuristic();
+		virtual ~AStarHeuristic();
+		virtual float calcDistance(const Ogre::Vector3& vec1, const Ogre::Vector3& vec2) const = 0;
+	};
+	
+	class ManhattenDistance
+		: public AStarHeuristic
+	{
+	public:
+		ManhattenDistance();
+		virtual ~ManhattenDistance();
+	};
+
+	class DiagonalDistance
+		: public AStarHeuristic
+	{
+	public:
+		DiagonalDistance();
+		virtual ~DiagonalDistance();
+	};
+
+	class EuclideanDistance
+		: public AStarHeuristic
+	{
+	public:
+		EuclideanDistance();
+		virtual ~EuclideanDistance();
+	};
+
+	class EuclideanDistanceSquared
+		: public AStarHeuristic
+	{
+	public:
+		EuclideanDistanceSquared();
+		virtual ~EuclideanDistanceSquared();
+	}; 
+	
+	class AStarCosts
+	{
+		AStarCosts(const AStarHeuristic* Heuristic);	
+		virtual ~AStarCosts();
+	};
+	
+	class AStarCostsDefault
+	{
+		AStarCostsDefault(const AStarHeuristic* Heuristic);	
+		~AStarCostsDefault();
+	};
+	
+	class AStar
+	{
+		AStar( const AStarCosts* Costs, const WayPointGraph* WPGraph,
+			const Ogre::Vector3& StartPos, const Ogre::Vector3& EndPos );
+		virtual ~AStar();
+		
+		void search(std::vector<Ogre::Vector3>& resultPath);
+		void searchFromTo(std::vector<Ogre::Vector3>& resultPath,
+			const Ogre::Vector3& StartPos, const Ogre::Vector3& EndPos );
+		void reset();
+	};
+	
     class PhysicalObstacle {
         
         public:
@@ -160,5 +227,58 @@ namespace rl
 	};
 	
 } // Namespace
+
+%{
+static swig_type_info *AStarHeuristic_dynamic_cast(void **ptr)
+{
+    rl::AStarHeuristic **ppAStarHeuristic = reinterpret_cast<rl::AStarHeuristic**>(ptr);
+
+    rl::ManhattenDistance *pManhattenDistance=dynamic_cast<rl::ManhattenDistance*>(*ppAStarHeuristic);
+    if( pManhattenDistance )
+    {
+        *ptr=reinterpret_cast<void*>(pManhattenDistance);
+        return SWIGTYPE_p_rl__ManhattenDistance;
+    }
+    rl::DiagonalDistance *pDiagonalDistance=dynamic_cast<rl::DiagonalDistance*>(*ppAStarHeuristic);
+    if( pDiagonalDistance )
+    {
+        *ptr=reinterpret_cast<void*>(pDiagonalDistance);
+        return SWIGTYPE_p_rl__DiagonalDistance;
+    }
+    rl::EuclideanDistance *pEuclideanDistance=dynamic_cast<rl::EuclideanDistance*>(*ppAStarHeuristic);
+    if( pEuclideanDistance )
+    {
+        *ptr=reinterpret_cast<void*>(pEuclideanDistance);
+        return SWIGTYPE_p_rl__EuclideanDistance;
+    }
+    rl::EuclideanDistanceSquared *pEuclideanDistanceSquared=dynamic_cast<rl::EuclideanDistanceSquared*>(*ppAStarHeuristic);
+    if( pEuclideanDistanceSquared )
+    {
+        *ptr=reinterpret_cast<void*>(pEuclideanDistanceSquared);
+        return SWIGTYPE_p_rl__EuclideanDistanceSquared;
+    }
+   
+    return 0;
+}
+%}
+DYNAMIC_CAST(SWIGTYPE_p_rl__AStarHeuristic, AStarHeuristic_dynamic_cast);
+
+
+%{
+static swig_type_info *AStarCosts_dynamic_cast(void **ptr)
+{
+    rl::AStarCosts **ppAStarCosts = reinterpret_cast<rl::AStarCosts**>(ptr);
+
+    rl::AStarCostsDefault *pAStarCostsDefault=dynamic_cast<rl::AStarCostsDefault*>(*ppAStarCosts);
+    if( pAStarCostsDefault )
+    {
+        *ptr=reinterpret_cast<void*>(pAStarCostsDefault);
+        return SWIGTYPE_p_rl__AStarCostsDefault;
+    }
+   
+    return 0;
+}
+%}
+DYNAMIC_CAST(SWIGTYPE_p_rl__AStarCosts, AStarCosts_dynamic_cast);
 
 

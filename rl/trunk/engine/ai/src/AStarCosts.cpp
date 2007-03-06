@@ -1,0 +1,53 @@
+/* This source file is part of Rastullahs Lockenpracht.
+ * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
+ * 
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Perl Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Perl Artistic License for more details.
+ *
+ *  You should have received a copy of the Perl Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.perldoc.com/perl5.6/Artistic.html.
+ */
+#include "AStarCosts.h"
+#include "AStarWayPointNode.h"
+#include "WayPointNode.h"
+
+namespace rl {
+
+AStarCosts::AStarCosts(const AStarHeuristic* Heuristic)
+: mHeuristic(Heuristic)
+{
+}
+
+AStarCosts::~AStarCosts()
+{
+}
+
+float AStarCosts::calcHeuristic(const WayPointGraph* WPGraph, const AStarWayPointNode* wp1,
+			const AStarWayPointNode* wp2) const
+{
+	return mHeuristic->calcDistance(wp1->getWP()->getPosition(), wp2->getWP()->getPosition());
+}
+
+AStarCostsDefault::AStarCostsDefault(const AStarHeuristic* Heuristic)
+: AStarCosts(Heuristic)
+{
+}
+
+AStarCostsDefault::~AStarCostsDefault()
+{
+}
+
+float AStarCostsDefault::calcCost(const WayPointGraph* WPGraph,
+										  const AStarWayPointNode* wp1,
+										  const AStarWayPointNode* wp2) const
+{
+	return mEuclid.calcDistance(wp1->getWP()->getPosition(), wp2->getWP()->getPosition());
+}
+
+};

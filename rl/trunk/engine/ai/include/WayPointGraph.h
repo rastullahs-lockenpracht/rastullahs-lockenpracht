@@ -150,6 +150,9 @@ namespace rl
 
 		//! to ease handling of the WayPointTree we also store a list of nodes
 		WayPointNodeList mNodeList;
+
+		//! remembers changes
+		bool mChanged;
 	};
 
 };

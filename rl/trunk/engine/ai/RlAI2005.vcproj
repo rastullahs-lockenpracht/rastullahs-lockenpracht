@@ -305,6 +305,26 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\AStar.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\AStarCosts.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\AStarHeuristic.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\AStarNodePool.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\AStarWayPointNode.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\PhysicalObstacle.cpp"
 				>
 			</File>
@@ -352,6 +372,26 @@
 			</File>
 			<File
 				RelativePath=".\include\AiWorld.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\AStar.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\AStarCosts.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\AStarHeuristic.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\AStarNodePool.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\AStarWayPointNode.h"
 				>
 			</File>
 			<File
