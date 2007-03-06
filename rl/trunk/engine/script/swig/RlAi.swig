@@ -127,55 +127,63 @@ namespace rl
 	};
 	
 	class ManhattanDistance
-		: public AStarHeuristic
+		: public rl::AStarHeuristic
 	{
 	public:
 		ManhattanDistance();
 		virtual ~ManhattanDistance();
+		virtual float calcDistance(const Ogre::Vector3& vec1, const Ogre::Vector3& vec2) const;
 	};
 
 	class DiagonalDistance
-		: public AStarHeuristic
+		: public rl::AStarHeuristic
 	{
 	public:
 		DiagonalDistance();
 		virtual ~DiagonalDistance();
+		virtual float calcDistance(const Ogre::Vector3& vec1, const Ogre::Vector3& vec2) const;
 	};
 
 	class EuclideanDistance
-		: public AStarHeuristic
+		: public rl::AStarHeuristic
 	{
 	public:
 		EuclideanDistance();
 		virtual ~EuclideanDistance();
+		virtual float calcDistance(const Ogre::Vector3& vec1, const Ogre::Vector3& vec2) const;
 	};
 
 	class EuclideanDistanceSquared
-		: public AStarHeuristic
+		: public rl::AStarHeuristic
 	{
 	public:
 		EuclideanDistanceSquared();
 		virtual ~EuclideanDistanceSquared();
+		virtual float calcDistance(const Ogre::Vector3& vec1, const Ogre::Vector3& vec2) const;
 	}; 
 	
 	class AStarCosts
 	{
 	public:
-		AStarCosts(const AStarHeuristic* Heuristic);	
+		AStarCosts(const rl::AStarHeuristic* Heuristic);	
 		virtual ~AStarCosts();
+		virtual float calcHeuristic(const rl::WayPointGraph* WPGraph, const rl::AStarWayPointNode* wp1,
+			const rl::AStarWayPointNode* wp2) const = 0;
 	};
 	
 	class AStarCostsDefault
 	{
 	public:
-		AStarCostsDefault(const AStarHeuristic* Heuristic);	
+		AStarCostsDefault(const rl::AStarHeuristic* Heuristic);	
 		~AStarCostsDefault();
+		virtual float calcCost(const rl::WayPointGraph* WPGraph, const rl::AStarWayPointNode* wp1,
+			const rl::AStarWayPointNode* wp2) const;
 	};
 	
 	class AStar
 	{
 	public:
-		AStar( const AStarCosts* Costs, const WayPointGraph* WPGraph,
+		AStar( const rl::AStarCosts* Costs, const rl::WayPointGraph* WPGraph,
 			const Ogre::Vector3& StartPos, const Ogre::Vector3& EndPos );
 		virtual ~AStar();
 		

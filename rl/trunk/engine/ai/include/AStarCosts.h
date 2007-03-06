@@ -69,6 +69,7 @@ namespace rl {
 	class _RlAiExport AStarCostsDefault
 		: public AStarCosts
 	{
+    public:
 		/** default constructor
 		 * @param Heuristic to use for calculating heuritic values
 		 */
