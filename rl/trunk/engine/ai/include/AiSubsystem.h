@@ -28,6 +28,7 @@ namespace rl
 	class AiWorld;
 
 	/** Central core of AI
+	 * Handles creation of all AI related object Managers.
 	 */
 	class _RlAiExport AiSubsystem 
 		: public Ogre::Singleton<AiSubsystem>,
@@ -44,7 +45,7 @@ namespace rl
 		/** explicit virtual destructor.
 		 * Unregisters Scene listener, makes AgentManager drop all Agents,
 		 * unregisters AgentManager from GameLoop,
-		 * deletes AgentManager and AiWorld
+		 * deletes AgentManager, WayPointGraphManager and AiWorld
 		 */
 		virtual ~AiSubsystem(void);
 		

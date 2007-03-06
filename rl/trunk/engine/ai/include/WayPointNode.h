@@ -32,11 +32,11 @@ namespace rl
 		//! defines the different types of terrain
 		enum WayPointNodeType 
 		{
-			WP_UNKNOWN = 0,
-			WP_EXTERIOR = 1,
-			WP_INTERIOR = 1 << 1,
+			WP_UNKNOWN = 0,			//!< initial type - shouldn't be used
+			WP_EXTERIOR = 1,		//!< when the node is 'outdoors'
+			WP_INTERIOR = 1 << 1,	//!< when the node is inside (a building)
 		};
-		//! defines a weighted edge
+		//! defines a weighted edge with a distance weigth
 		typedef std::pair<Ogre::Real, const WayPointNode*> WayPointWeightEdge;
 		//! defines a list of weighted 'edges' connecting to other nodes
 		typedef std::list<WayPointWeightEdge> WayPointWeightNodeList;
@@ -71,9 +71,11 @@ namespace rl
 		WayPointNodeType getType() const;
 
 	protected:
-		/** calculates the real cost to the neighbour.
+		/** calculates the distance to the neighbour in 3D world space.
 		 * Is used internally when adding a node and calculates the euclidean
-		 * distance. Terrain types etc. are ignored here.
+		 * distance. 
+		 * At the moment terrain types etc. are ignored here.
+		 * But this would be the place 
 		 * @param neighbour WayPointNode to calculate the movement cost to.
 		 */
 		Ogre::Real calcCost(WayPointNode* neighbour);

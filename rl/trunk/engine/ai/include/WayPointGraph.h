@@ -25,7 +25,10 @@
 namespace rl
 {
 
-	/** Stores a waypointgraph and is capable of loading and saving it.
+	/** Stores a waypointgraph containing a map of waypoints.
+	 * It is capable of loading and saving it the map of waypoints and
+	 * manipulating it.
+	 * Debugging the graph by visualising it is also possible.
 	 */
 	//template <class NodeType>
 	class _RlAiExport WayPointGraph 
@@ -35,7 +38,8 @@ namespace rl
 		//! defines a list of waypoint nodes
 		typedef std::vector< WayPointNode* > WayPointNodeList;
 
-		/* default constructor
+		/* default constructor.
+		 * initialises internal variables.
 		 */
 		WayPointGraph();
 		/* explicit virtual destructor.
@@ -69,6 +73,8 @@ namespace rl
 
 
 		/** loads the Waypoints from a file.
+		 * The Load functionality uses the module path querying of the
+		 * configuration module in oder to fetch the module directory path.
 		 * @param filename of the file to load.
 		 */
 		void load (const Ogre::String& filename);
@@ -76,8 +82,8 @@ namespace rl
 		 * Structure of the file is as follows:
 		 * Header\n
 		 * numberOfWaypoints\n
-		 * waypoint1.x waypoint1.y waypoint1.z waypoint2.x ...\n
-		 * 4 1 2 3 4\n
+		 * waypoint0.x waypoint0.y waypoint0.z waypoint0.type waypoint1.x ...\n
+		 * numberOfConnections connectionindex1 connectionindex2 ...\n
 		 * ...
 		 * \n
 		 * \n
@@ -85,10 +91,11 @@ namespace rl
 		 * As you can see the waypoint coordinates are written consecutivily on one line
 		 * and the connections of one waypoint to the others are written per waypoint on one line.
 		 * The first number gives the number of connections and the rest are the indices of the
-		 * waypoints the connections have to be made to.
-		 * If the line is empty that means that the waypoint has got not other waypoints to connect to
-		 * (very unlikely)
-		 * the file is terminated either with end of file or two newlines.
+		 * waypoints the connections have to be made to. That index given by the order of the
+		 * the list of WayPoints in the file. It starts with 0.
+		 * If the line is just contains a 0 for numberOfConnections that means that the
+		 * waypoint has got not other waypoints to connect to (very unlikely).
+		 * The file is terminated either with end of file or two newlines.
 		 *
 		 * @param filename of the file to save to.
 		 */
@@ -145,18 +152,6 @@ namespace rl
 		WayPointNodeList mNodeList;
 	};
 
-	/*
-	class WayPointGraphDebugger
-	{
-		WayPointGraphDebugger();
-		~WayPointGraphDebugger();
-
-		void init( Ogre::SceneManager* smgr );
-		void deInit();
-		void showLines( WayPointGraph* graph );
-		void hideLines();
-	};
-	*/
 };
 
 #endif

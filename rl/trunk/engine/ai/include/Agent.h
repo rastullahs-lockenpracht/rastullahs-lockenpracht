@@ -49,8 +49,10 @@ namespace rl
 		 */
 		Agent(Creature* character, SteeringVehicle* vehicle);
 
-		// deprecated
+		/** deprecated
+		 */
 		Agent(DialogCharacter* character);
+
 		/** explicit virtual destructor
 		 */
 		virtual ~Agent(void);
@@ -63,10 +65,10 @@ namespace rl
 		 */
 		void initialize();
 
-		/** Returns the agent type (Player, NPC, ...).
+		/** Returns the agent type (Player, NPC, etc.).
 		 */
 		AgentManager::AgentType getType();
-		/** Sets the agent type (Player, NPC, ...).
+		/** Sets the agent type (Player, NPC, etc. ).
 		 * @param type AgentType sets the type to the given one.
 		 */
 		void setType(AgentManager::AgentType type);
@@ -88,11 +90,14 @@ namespace rl
 		 */
 		SteeringVehicle* getVehicle();
 
+		/** Retrieves the Creature object controlled by this agent
+		 * @returns Creature object controlled
+		 */
         Creature* getControlledCreature() const;
 
 //		PerceptionPool* getPerceptionPool();
 
-		// deprecated - for DialogBot
+		//! deprecated - for DialogBot
 		bool isDialogActive();
 
 		/** Function invoked by PhysicsManager whenever force/torque is to be
@@ -111,7 +116,7 @@ namespace rl
 		//! stores the creature whose AI is simulated
 		Creature* mCreature;
 
-		// deprecated
+		//! deprecated - for DialogBot
 		DialogCharacter* mDialogBot;
 //		PerceptionPool* mPerceptionPool;
 	};

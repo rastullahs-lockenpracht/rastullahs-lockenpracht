@@ -53,7 +53,10 @@ namespace rl
 		  
 	{
 	public:
-		// Different types of agents
+		/** Different types of agents.
+		 * Implemented in order to recognise different types of agents, because
+		 * the AI needs to handle them differently.
+		 */
 		enum AgentType
 		{
 			AGENT_NONE = -1,	//!< when the type is unknown/unset
@@ -70,9 +73,9 @@ namespace rl
 		//! defines a std::vector list of Vehicle objects for OpenSteer
 		typedef std::vector<SteeringVehicle*> VehicleList;
 
-		// default constructor
+		//! default constructor
 		AgentManager(void);
-		// explicit virtual destructor
+		//! explicit virtual destructor
 		virtual ~AgentManager(void);
 
 		/** Creates an AI agent with an assigned rl::Actor.
@@ -82,15 +85,14 @@ namespace rl
 		 */
 		Agent* createAgent(AgentType type, Creature* character);
 
-		// ok, this is something that should be removed in the long run
-		// Hint: it's deprecated
+		//! deprecated - should be removed in the long run.
+		//! Hint: it's deprecated
 		Agent* createAgent(DialogCharacter* character);
 
-        // Destroys an Agent and all its behaviours. (if any)
+        //! Destroys an Agent and all its behaviours. (if any)
         void destroyAgent(Agent*);
 
-		// ??? purpose ??? needed for opensteer ?
-
+		//! ??? purpose ??? needed for opensteer ?
 		VehicleList getNeighbors(Agent* agent);
 
 		/** Interface executed as a GameTask by GameLoop.
@@ -124,10 +126,10 @@ namespace rl
 		 */
 		void addAgent(Agent* agent);
 
-		//! defines a std::list of Agents
+		//! defines a std::vector of Agents to ease understanding
 		typedef std::vector<Agent*> AgentList;
 
-        /// Factory to create behaviours with.
+        //! Factory to create behaviours with.
         BehaviourFactory* mBehaviourFactory;
 		
 		//! List of Vehicle objects from the Agents in mAgents (might be needed for opensteer)

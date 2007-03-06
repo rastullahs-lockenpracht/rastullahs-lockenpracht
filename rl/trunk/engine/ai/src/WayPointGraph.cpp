@@ -21,6 +21,7 @@
 #include "World.h"
 #include "Exception.h"
 #include "LineSetPrimitive.h"
+#include "ConfigurationManager.h"
 
 using namespace std;
 
@@ -86,10 +87,16 @@ void WayPointGraph::addDirectedConnection(WayPointNode* wp1, const WayPointNode*
 
 void WayPointGraph::load (const Ogre::String& filename)
 {
-	//if (! boost::filesystem::exists(boost::filesystem::path(filename)) )
-	//	Throw(FileNotFoundException, filename);
+	// fetch modules directory
+	Ogre::String modulespath( 
+		ConfigurationManager::getSingleton().getModulesRootDirectory());
+	Ogre::String fullfilename(modulespath + "/" + filename);
+	
+	// check if the file exists
+	if (! boost::filesystem::exists(boost::filesystem::path(fullfilename)) )
+		Throw(FileNotFoundException, fullfilename);
 
-	std::ifstream input(filename.c_str(), ios::binary);
+	std::ifstream input(fullfilename.c_str(), ios::binary);
 	
 	if (input.fail())
 		Throw(Error, filename+": couldn't open");
@@ -168,8 +175,13 @@ void WayPointGraph::save (const Ogre::String& filename) const
 	unsigned int count;
 	WayPointNodeList::const_iterator it;
 	std::map<const WayPointNode*, unsigned int> IndexList;
-	std::ofstream output(filename.c_str(), std::ios::binary);
+	
+	// fetch modules directory
+	Ogre::String modulespath( 
+		ConfigurationManager::getSingleton().getModulesRootDirectory());
+	Ogre::String fullfilename(modulespath + "/" + filename);
 
+	std::ofstream output(fullfilename.c_str(), std::ios::binary);
 	// opening file for write failed
 	if (output.fail())
 		Throw (Error,filename + "couldn't open for writing");

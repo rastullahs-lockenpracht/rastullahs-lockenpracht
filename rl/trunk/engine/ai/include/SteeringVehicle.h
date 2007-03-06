@@ -94,7 +94,13 @@ namespace rl
 		 */
 		Ogre::Vector3 calcFlee(const Ogre::Vector3& target);
 
+		/**
+		 * Causes the vehicle to turn to a target and move to it.
+		 * @param agent to persue
+		 * @return a steering force for persuing the given agent
+		 */
 		Ogre::Vector3 calcPursuit(Agent* agent);
+
 		/**
 		 * Causes the vehicle to turn away from obstacles in space. 
 		 * The vehicle will consider all close-by obstacles automatically
