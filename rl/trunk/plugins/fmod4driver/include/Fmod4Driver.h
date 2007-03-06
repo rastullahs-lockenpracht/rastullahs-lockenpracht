@@ -67,6 +67,8 @@ namespace rl
         virtual void shutdown();
         /// Der Name des Treibers
         virtual Ogre::String getName() const;
+        /// Ist ein Ogre plugin
+        virtual bool isDriverPlugin() { return true; }
         /// Update-Aufgaben erledigen
         virtual void update();
         /// Einen Soundlistener erzeugen

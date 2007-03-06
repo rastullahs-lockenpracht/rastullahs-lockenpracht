@@ -83,6 +83,12 @@ namespace rl
         const Ogre::Real getMasterVolume() const;
 
         /**
+         * If this driver is a Ogre plugin, it returns TRUE.
+         * @return bool TRUE if Ogre plugin, FALSE otherwise.
+         */
+        virtual bool isDriverPlugin() = 0;
+
+        /**
          * Returns the current sound driver settings as a key-value list
          *
          * @return key-value list of sound options

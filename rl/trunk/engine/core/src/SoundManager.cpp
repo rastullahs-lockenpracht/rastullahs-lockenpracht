@@ -72,7 +72,7 @@ namespace rl {
       mListenerActor(NULL),
       mActiveListener(NULL)
     {
-        LOG_MESSAGE(Logger::CORE, "Erzeuge Soundmanager...");
+        LOG_MESSAGE(Logger::MULTIMEDIA, "Erzeuge Soundmanager...");
         NullDriver* nullDriver = new NullDriver(this);
         registerDriver(nullDriver);
         setActiveDriver(nullDriver);
@@ -136,14 +136,14 @@ void SoundManager::setActiveDriver(SoundDriver *driver)
 
     if (mActiveDriver == driver)
     {
-        LOG_DEBUG(Logger::CORE,
+        LOG_DEBUG(Logger::MULTIMEDIA,
             "No need to change Sound Driver, "
             + mActiveDriver->getName()
             + " is already active.");
         return;
     }
 
-    LOG_MESSAGE(Logger::CORE,
+    LOG_MESSAGE(Logger::MULTIMEDIA,
         "Changing Sound Driver to "
          + driver->getName());
 
@@ -160,7 +160,7 @@ void SoundManager::setActiveDriver(SoundDriver *driver)
     else
     {
         LOG_ERROR(
-            Logger::CORE,
+            Logger::MULTIMEDIA,
             "Sound driver "
             + driver->getName()
             + " had an error while initializing, keeping old driver.");
@@ -274,14 +274,14 @@ SoundDriver *SoundManager::getDriverByName(const String &name)
         }
         catch(Ogre::Exception &e)
         {
-            LOG_MESSAGE(Logger::CORE,
+            LOG_MESSAGE(Logger::MULTIMEDIA,
                 CeGuiString("Soundtreiber kann nicht geladen werden: ")
                     + drivername + "\n"
                     + e.getFullDescription());
         }
         catch(...)
         {
-            LOG_MESSAGE(Logger::CORE,
+            LOG_MESSAGE(Logger::MULTIMEDIA,
                  CeGuiString("Soundtreiber kann nicht geladen werden: ")
                     + drivername);
         }
@@ -300,20 +300,11 @@ SoundDriver *SoundManager::getDriverByName(const String &name)
 
 void SoundManager::unloadAllDrivers()
 {
-       if (mActiveDriver != NULL)
-    {
-        mActiveDriver->shutdown();
-        mActiveDriver = NULL;
-    }
-
     /**
      * @ToDo: This is a hack to avoid the problem with the Null driver.
      *        Don't know yet, why this happens.
      */
-    DriverList::iterator it = mDriverList.begin();
-    if (!mDriverList.empty()) ++it;
-    /** Hack End **/
-    for(/*DriverList::iterator it = mDriverList.begin()*/; it != mDriverList.end(); it++)
+    for(DriverList::iterator it = mDriverList.begin(); it != mDriverList.end(); it++)
     {
 #       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
         Ogre::String driverPlugin = (*it)->getName();
@@ -321,13 +312,23 @@ void SoundManager::unloadAllDrivers()
         Ogre::String driverPlugin = "lib" + (*it)->getName();
 #       endif
 
-        LOG_MESSAGE(Logger::CORE,
+        LOG_MESSAGE(Logger::MULTIMEDIA,
             "Unloading sound driver DLL "
             + driverPlugin);
 
-        Ogre::Root::getSingleton().unloadPlugin(driverPlugin);
+        bool isDriverPlugin = (*it)->isDriverPlugin();
+        if (mActiveDriver != NULL && mActiveDriver == *it)
+        {
+            mActiveDriver->shutdown();
+            delete mActiveDriver;
+            mActiveDriver = NULL;
+        }
+        if (isDriverPlugin)
+        {
+            Ogre::Root::getSingleton().unloadPlugin(driverPlugin);
+        }
 
-        LOG_MESSAGE(Logger::CORE,
+        LOG_MESSAGE(Logger::MULTIMEDIA,
             "Sound driver DLL "
             + driverPlugin
             + " successfully unloaded.");

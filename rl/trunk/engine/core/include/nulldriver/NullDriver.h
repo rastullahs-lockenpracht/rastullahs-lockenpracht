@@ -44,6 +44,8 @@ public:
     virtual Ogre::String getName() const;
     /// Update-Aufgaben erledigen
     virtual void update();
+    /// Ist kein Ogre plugin
+    virtual bool isDriverPlugin() { return false; }
     /// Einen Soundlistener erzeugen
     virtual ListenerMovable *createListener(const Ogre::String &name);
     /// Set volume attenuation factor f in 1/(f*distance)
