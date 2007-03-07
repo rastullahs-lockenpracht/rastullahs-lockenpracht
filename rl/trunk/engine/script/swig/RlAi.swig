@@ -171,7 +171,7 @@ namespace rl
 	class AStarCosts
 	{
 	public:
-		AStarCosts(const rl::AStarHeuristic* Heuristic);	
+		AStarCosts(const rl::AStarHeuristic* Heuristic, float TieBreakFactor);	
 		virtual ~AStarCosts();
 		virtual float calcCost(const rl::WayPointGraph* WPGraph, const rl::AStarWayPointNode* wp1,
 			const rl::AStarWayPointNode* wp2) const = 0;
@@ -180,7 +180,7 @@ namespace rl
 	class AStarCostsDefault : public AStarCosts
 	{
 	public:
-		AStarCostsDefault(const rl::AStarHeuristic* Heuristic);	
+		AStarCostsDefault(const rl::AStarHeuristic* Heuristic, float TieBreakFactor);	
 		~AStarCostsDefault();
 		virtual float calcCost(const rl::WayPointGraph* WPGraph, const rl::AStarWayPointNode* wp1,
 			const rl::AStarWayPointNode* wp2) const;
@@ -189,8 +189,9 @@ namespace rl
 	class AStar
 	{
 	public:
-		AStar( const rl::AStarCosts* Costs, const rl::WayPointGraph* WPGraph,
-			const Ogre::Vector3& StartPos, const Ogre::Vector3& EndPos );
+		AStar( const rl::AStarCosts* Costs, const rl::WayPointGraph* WPGraph);
+		//AStar( const rl::AStarCosts* Costs, const rl::WayPointGraph* WPGraph,
+		//	const Ogre::Vector3& StartPos, const Ogre::Vector3& EndPos );
 		virtual ~AStar();
 		
 		void search(std::vector<Ogre::Vector3>& resultPath);

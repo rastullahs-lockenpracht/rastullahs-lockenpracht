@@ -29,6 +29,39 @@ using namespace std;
 
 namespace rl {
 
+AStarStatistics::AStarStatistics()
+: mNodesSearched(0),
+  mNodesAdded(0),
+  mNodesRemoved(0),
+  mNodesVisited(0),
+  mNodesLeft(0),
+  mPathLength(0),
+  mPathCost(0)
+{
+}
+
+void AStarStatistics::reset()
+{
+  mNodesSearched = 0;
+  mNodesAdded = 0;
+  mNodesRemoved = 0;
+  mNodesVisited = 0;
+  mNodesLeft = 0;
+  mPathLength = 0;
+  mPathCost = 0;
+}
+
+AStar::AStar( const AStarCosts* Costs, const WayPointGraph* WPGraph )
+    : mCosts(Costs),
+	mWPGraph(WPGraph),
+	mStartPos(0,0,0),
+	mEndPos(0,0,0),
+	mANStart(NULL),
+	mANEnd(NULL),
+    mDebugAstar(false)
+{
+}
+
 AStar::AStar( const AStarCosts* Costs, const WayPointGraph* WPGraph,
 			const Ogre::Vector3& StartPos, const Ogre::Vector3& EndPos )
 	: mCosts(Costs),
@@ -61,6 +94,8 @@ void AStar::reset()
 	{
 		delete (*it);
 	}
+    mOpen.clear();
+    mClosed.clear();
 }
 
 void AStar::initialise()
@@ -73,9 +108,6 @@ void AStar::initialise()
 	// first find 'real' start and end positions by searching for the corresponding waypoints
 	mANStart = new AStarWayPointNode( mWPGraph->getNearestWayPoint(mStartPos) );
 	mANEnd = new AStarWayPointNode( mWPGraph->getNearestWayPoint(mEndPos) );
-
-    mOpen.clear();
-    mClosed.clear();
 }
 
 void AStar::searchFromTo(AStarPath& resultPath, const Ogre::Vector3& StartPos,
@@ -128,7 +160,10 @@ void AStar::search(AStarPath& resultPath)
 
 		// check if goal reached
         if ( Node->EqualPosition(mANEnd) ) {
-			// create result
+			// remember new 'end'
+            delete mANEnd;
+            mANEnd = Node;
+            // create result
             for (; Node; Node = Node->getParent())
 			{
 				resultPath.push_back(Node->getWP()->getPosition());

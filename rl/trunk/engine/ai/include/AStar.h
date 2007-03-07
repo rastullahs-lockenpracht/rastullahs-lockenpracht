@@ -37,6 +37,21 @@ namespace rl
 	class AStarStatistics
 	{
 	public:
+        /** default constructor
+         */
+        AStarStatistics();
+
+        /** resets all variables to zero
+         */
+        void reset();
+
+        int mNodesSearched;
+        int mNodesAdded;
+        int mNodesRemoved;
+        int mNodesVisited;
+        int mNodesLeft;
+        int mPathLength;
+        int mPathCost;
 	};
 
 	/** Stores a waypointgraph and is capable of loading and saving it.
@@ -49,6 +64,18 @@ namespace rl
 		typedef std::vector< AStarWayPointNode* > AStarSet;
 		//! defines the resultpath as a list of points in world space
 		typedef std::vector< Ogre::Vector3 > AStarPath;
+
+        /** The constructor of AStar
+		 * AStar needs several things to find a path: 
+		 * a heuristic to calculate the cost for the still not travelled part of the path.
+		 * some sort of map to travel in.
+		 * A start and and end point.
+         * This is a convenience constructor so that there is no need to do
+         * a search right from the start, but can be done sometime later.
+		 * @param Costs encapsulates cost and heuristic for distance calculations.
+		 * @param WPGraph contains the map of WayPoints to examine for a path.
+         */
+        AStar( const AStarCosts* Costs, const WayPointGraph* WPGraph );
 
 		/** The constructor of AStar
 		 * AStar needs several things to find a path: 

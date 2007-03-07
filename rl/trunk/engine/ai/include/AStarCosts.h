@@ -34,7 +34,7 @@ namespace rl {
 		/** default constructor
 		 * @param Heuristic to use for calculating heuritic values
 		 */
-		AStarCosts(const AStarHeuristic* Heuristic);
+		AStarCosts(const AStarHeuristic* Heuristic, float TieBreakFactor = 1.0f);
 		/** explicit virtual destructor
 		 */
 		virtual ~AStarCosts();
@@ -58,7 +58,10 @@ namespace rl {
 			const AStarWayPointNode* wp2) const = 0;
 
 	protected:
+        //! stores the heuristic used to estimate the distance to the goal
 		const AStarHeuristic* mHeuristic;
+        //! a tie break factor that is multiplied with the heuritics result
+        float mTieBreakFactor;
 	};
 	
 	/* An implementation of the abstract interface of AStarCosts.
@@ -73,7 +76,7 @@ namespace rl {
 		/** default constructor
 		 * @param Heuristic to use for calculating heuritic values
 		 */
-		AStarCostsDefault(const AStarHeuristic* Heuristic);
+		AStarCostsDefault(const AStarHeuristic* Heuristic, float TieBreakFactor = 1.0f);
 		/** explicit virtual destructor
 		 */
 		virtual ~AStarCostsDefault();

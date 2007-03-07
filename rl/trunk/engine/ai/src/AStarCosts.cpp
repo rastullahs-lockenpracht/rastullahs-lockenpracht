@@ -19,8 +19,9 @@
 
 namespace rl {
 
-AStarCosts::AStarCosts(const AStarHeuristic* Heuristic)
-: mHeuristic(Heuristic)
+AStarCosts::AStarCosts(const AStarHeuristic* Heuristic, float TieBreakFactor)
+: mHeuristic(Heuristic),
+  mTieBreakFactor(TieBreakFactor)
 {
 }
 
@@ -28,14 +29,16 @@ AStarCosts::~AStarCosts()
 {
 }
 
-float AStarCosts::calcHeuristic(const WayPointGraph* WPGraph, const AStarWayPointNode* wp1,
-			const AStarWayPointNode* wp2) const
+float AStarCosts::calcHeuristic(const WayPointGraph* WPGraph, 
+                                const AStarWayPointNode* wp1,
+                                const AStarWayPointNode* wp2) const
 {
-	return mHeuristic->calcDistance(wp1->getWP()->getPosition(), wp2->getWP()->getPosition());
+	return mTieBreakFactor *
+        mHeuristic->calcDistance(wp1->getWP()->getPosition(), wp2->getWP()->getPosition());
 }
 
-AStarCostsDefault::AStarCostsDefault(const AStarHeuristic* Heuristic)
-: AStarCosts(Heuristic)
+AStarCostsDefault::AStarCostsDefault(const AStarHeuristic* Heuristic, float TieBreakFactor)
+: AStarCosts(Heuristic, TieBreakFactor)
 {
 }
 
@@ -44,8 +47,8 @@ AStarCostsDefault::~AStarCostsDefault()
 }
 
 float AStarCostsDefault::calcCost(const WayPointGraph* WPGraph,
-										  const AStarWayPointNode* wp1,
-										  const AStarWayPointNode* wp2) const
+                                  const AStarWayPointNode* wp1,
+                                  const AStarWayPointNode* wp2) const
 {
 	return mEuclid.calcDistance(wp1->getWP()->getPosition(), wp2->getWP()->getPosition());
 }
