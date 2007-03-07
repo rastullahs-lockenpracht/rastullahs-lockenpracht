@@ -299,6 +299,12 @@ SoundDriver *SoundManager::getDriverByName(const String &name)
 
 void SoundManager::unloadAllDrivers()
 {
+    if (mActiveDriver != NULL)
+    {
+        mActiveDriver->shutdown();
+        mActiveDriver = NULL;
+    }
+
     for(DriverList::iterator it = mDriverList.begin(); it != mDriverList.end(); it++)
     {
 #       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -312,11 +318,6 @@ void SoundManager::unloadAllDrivers()
             + driverPlugin);
 
         bool isDriverPlugin = (*it)->isDriverPlugin();
-        if (mActiveDriver != NULL && mActiveDriver == *it)
-        {
-            mActiveDriver->shutdown();
-            mActiveDriver = NULL;
-        }
         if (isDriverPlugin)
         {
             Ogre::Root::getSingleton().unloadPlugin(driverPlugin);
