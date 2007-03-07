@@ -2,7 +2,7 @@
 
 #include <OgreMeshManager.h>
 #include <OgreHardwareBufferManager.h>
-#include <OgreSubmesh.h>
+#include <OgreSubMesh.h>
 
 #include "MeshCombiner.h"
 
@@ -46,7 +46,7 @@ namespace rl {
         m_Meshes.push_back( mesh );
 	}
 
-    const String MergeMesh::findSubmeshName( MeshPtr m, ushort sid ) const
+    const String MergeMesh::findSubmeshName( MeshPtr m, Ogre::ushort sid ) const
     {
         Mesh::SubMeshNameMap map = m->getSubMeshNameMap();
         for( Mesh::SubMeshNameMap::const_iterator it = map.begin();
@@ -76,7 +76,7 @@ namespace rl {
                 "Baking: adding submeshes for " + (*it)->getName() );
 
             // insert all submeshes
-            for( ushort sid = 0; sid < (*it)->getNumSubMeshes(); ++sid )
+            for( Ogre::ushort sid = 0; sid < (*it)->getNumSubMeshes(); ++sid )
             {
                 SubMesh* sub = (*it)->getSubMesh( sid );
                 const String name = findSubmeshName( (*it), sid );                
@@ -203,3 +203,4 @@ namespace rl {
                     VertexBufferBinding* bind = newsub->vertexData->vertexBufferBinding;*/
 
 }
+

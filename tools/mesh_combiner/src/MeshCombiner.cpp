@@ -181,3 +181,4 @@ namespace rl {
 		m_Log->logMessage(msg,lvl);
 	}
 }
+
