@@ -3,10 +3,10 @@ class AStarTest1
 	@WPGraph = $WPGM.createWayPointGraph();
     end
     def save()
-	@WPGraph.save("aitest/maps/graphtest.wpg")
+	@WPGraph.save("aitest/maps/astargrid.wpg")
     end
     def load()
-	@WPGraph.load("aitest/maps/graphtest.wpg")
+	@WPGraph.load("aitest/maps/astargrid.wpg")
     end
     def create()
 	# this function defines a waypoint grid
@@ -60,7 +60,9 @@ class AStarTest1
     end
     def initastar()
 	test = Ogrevec3Vector.new()
-	@astar = AStar.new(AStarCostsDefault.new(ManhattanDistance.new()), @WPGraph, [9.5, 0.5, 9.5], [5, 0.4, -10])
+	@astarcosts = AStarCostsDefault.new(ManhattanDistance.new(), 1.001)
+	@astar = AStar.new(@astarcosts, @WPGraph)
+	# [9.5, 0.5, 9.5], [5, 0.4, -10])
 	@astar.search(test);
     end
     def calc()

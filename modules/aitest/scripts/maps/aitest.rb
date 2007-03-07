@@ -59,6 +59,6 @@ WallSet2.new([0, 0, 0])
 #$MyWPT.load()
 $MyAS = AStarTest1.new([0, 0, 0])
 $MyAS.create()
-$MyAS.calc()
+$MyAS.initastar()
 
 $SCRIPT.log("tests initialisiert.");
