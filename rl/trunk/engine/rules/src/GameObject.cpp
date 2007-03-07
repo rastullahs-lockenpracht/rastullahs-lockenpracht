@@ -512,6 +512,9 @@ namespace rl
         {
             Actor* actor = createActor();
 
+            if (actor == NULL)  // fail silently, because error is already in the log
+                return;
+
             actor->placeIntoScene();
             setActor(actor);
 
