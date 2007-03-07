@@ -104,6 +104,10 @@ namespace rl
 		 */
         virtual void doCreatePrimitive();
 
+        /** creates the primitive from the searchpath
+         */
+        virtual void createPrimitive(const AStarPath& searchPath);
+
 		// End of Overrides from DebugVisualisable
 
 		/** sets up everyting needed for the search.
@@ -137,6 +141,15 @@ namespace rl
 		AStarSet mOpen;
 		//! contains the CLOSED set
 		AStarSet mClosed;
+
+        /** debug variable - prevents regenerating the lineprimitive.
+         * When nothing has changed this is set to false and prevents
+         * the regeneration
+         */
+        //bool mChanged;
+
+        //! to be able to turn debug on/off per AStar object
+        bool mDebugAstar;
 
 	};
 	

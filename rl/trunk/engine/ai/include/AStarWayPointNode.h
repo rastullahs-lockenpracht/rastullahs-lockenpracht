@@ -60,18 +60,17 @@ namespace rl
          * does not work.
          * @param wp pointer to an AStarWayPointNode
 		 */
-		inline bool Equal ( const AStarWayPointNode* wp )
+		inline bool EqualPosition ( const AStarWayPointNode* wp )
 		{
-			return (mWP == wp->mWP) && (mG == wp->mG) && (mH == wp->mH);
+			return (mWP == wp->mWP); //&& (mG == wp->mG) && (mH == wp->mH);
 		}
 
 		/** 2 nodes compared for equilibrium by comparing their values.
 		 * (really needed?) 
 		 */
-		static inline bool Equal ( const AStarWayPointNode* wp1 , const AStarWayPointNode* wp2 )
+		static inline bool EqualPosition ( const AStarWayPointNode* wp1 , const AStarWayPointNode* wp2 )
 		{
-			
-			return (wp1->mWP == wp2->mWP) && (wp1->mG == wp2->mG) && (wp1->mH == wp2->mH);
+			return (wp1->mWP == wp2->mWP);
 		}
 
 		/** 2 nodes compared by comparing their f value.
@@ -90,10 +89,10 @@ namespace rl
             //float wp1F = wp1->mG+wp1->mH;
             //float wp2F = wp2->mG+wp2->mH;
             //if (wp1F == wp2F)
-            //    return wp1->mG < wp2->mG;
+            //    return wp1->mG > wp2->mG;
 
-            //return wp1F < wp2F;
-			return (wp1->mG+wp1->mH) < (wp2->mG+wp2->mH);
+            //return wp1F > wp2F;
+			return (wp1->mG+wp1->mH) > (wp2->mG+wp2->mH);
 		}
 
 		/** fetches the G value (cost til now)

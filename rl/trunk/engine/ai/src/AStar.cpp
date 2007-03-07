@@ -36,7 +36,8 @@ AStar::AStar( const AStarCosts* Costs, const WayPointGraph* WPGraph,
 	mStartPos(StartPos),
 	mEndPos(EndPos),
 	mANStart(NULL),
-	mANEnd(NULL)
+	mANEnd(NULL),
+    mDebugAstar(false)
 {
 }
 
@@ -72,6 +73,9 @@ void AStar::initialise()
 	// first find 'real' start and end positions by searching for the corresponding waypoints
 	mANStart = new AStarWayPointNode( mWPGraph->getNearestWayPoint(mStartPos) );
 	mANEnd = new AStarWayPointNode( mWPGraph->getNearestWayPoint(mEndPos) );
+
+    mOpen.clear();
+    mClosed.clear();
 }
 
 void AStar::searchFromTo(AStarPath& resultPath, const Ogre::Vector3& StartPos,
@@ -116,18 +120,20 @@ void AStar::search(AStarPath& resultPath)
 	// While there are still unvisited nodes
     while( !mOpen.empty() )
 	{
-		Node = mOpen.front();
+        Node = mOpen.front();
 		pop_heap(mOpen.begin(), mOpen.end(), AStarWayPointNode::SortMethod);
 		mOpen.pop_back();
+
 		mClosed.push_back(Node);
 
 		// check if goal reached
-        if ( Node->Equal(mANEnd) ) {
+        if ( Node->EqualPosition(mANEnd) ) {
 			// create result
-			for (; Node->getParent(); Node = Node->getParent())
+            for (; Node; Node = Node->getParent())
 			{
 				resultPath.push_back(Node->getWP()->getPosition());
 			}
+            createPrimitive(resultPath);
 			// terminate search
 			break;
 		}
@@ -201,8 +207,8 @@ AStar::AStarSet::iterator AStar::searchSet(AStarSet& Set, AStarWayPointNode* Nod
      * so this is not going to work at the moment with the current sortMethod ...
      */
     
-    AStarWayPointNode* help = NULL;
-    bool found = std::binary_search(Set.begin(), Set.end(), Node, AStarWayPointNode::SortMethod);
+    //AStarWayPointNode* help = NULL;
+    //bool found = std::binary_search(Set.begin(), Set.end(), Node, AStarWayPointNode::SortMethod);
     //while (it != Set.end())
     //{
     //    if ( (*it)->Equal(Node) ) // if equal, then Node was 'found'
@@ -214,19 +220,38 @@ AStar::AStarSet::iterator AStar::searchSet(AStarSet& Set, AStarWayPointNode* Nod
     
 	for (it = Set.begin(); it != Set.end(); it++) 
 	{
-        if ( (*it)->Equal(Node) )
+        if ( (*it)->EqualPosition(Node) )
 			return it;
 	}
 
 	return it;
 }
 
-/*		
-const AStarSet& AStar::getWayPointList()
+void AStar::createPrimitive(const AStarPath& searchPath)
 {
-	// search must be finished ? or just invoke it here then ?
+    // if there is no line primitive just skip this here
+    if (!mPrimitive)
+        return;
+
+    AStarPath::const_iterator it = searchPath.begin();
+    AStarPath::const_iterator pit;
+	LineSetPrimitive* lineSet = static_cast<LineSetPrimitive*>(mPrimitive);
+
+	lineSet->clear();
+    if (it == searchPath.end())
+        return;
+
+    Ogre::Vector3 From;
+    Ogre::Vector3 To;
+    for (it++ ; it != searchPath.end(); it++) 
+    {
+        pit = it - 1;
+        From = (*pit) + Ogre::Vector3(0,0.5,0);
+        To = (*it) + Ogre::Vector3(0,0.5,0);
+
+        lineSet->addLine(From, To, Ogre::ColourValue::Green);
+    }
 }
-*/
 
 DebugVisualisableFlag AStar::getFlag() const
 {
@@ -241,12 +266,8 @@ void AStar::updatePrimitive()
 		CoreSubsystem::getSingletonPtr()->getWorld()->getSceneManager()->
 			getRootSceneNode()->addChild(mSceneNode);
     }
-
-	LineSetPrimitive* lineSet = static_cast<LineSetPrimitive*>(mPrimitive);
-
-	lineSet->clear();
-
-	//lineSet->addLine(wp1Vec, (*nit).second->getPosition(), Ogre::ColourValue::Blue);
+    // no update here because updates are only necessary when a search
+    // has finished
 }
 
 void AStar::doCreatePrimitive()
