@@ -152,7 +152,6 @@ void SoundManager::setActiveDriver(SoundDriver *driver)
         if (mActiveDriver != NULL)
         {
             mActiveDriver->shutdown();
-            delete mActiveDriver;
             mActiveDriver = NULL;
         }
         mActiveDriver = driver;
@@ -300,10 +299,6 @@ SoundDriver *SoundManager::getDriverByName(const String &name)
 
 void SoundManager::unloadAllDrivers()
 {
-    /**
-     * @ToDo: This is a hack to avoid the problem with the Null driver.
-     *        Don't know yet, why this happens.
-     */
     for(DriverList::iterator it = mDriverList.begin(); it != mDriverList.end(); it++)
     {
 #       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -320,12 +315,15 @@ void SoundManager::unloadAllDrivers()
         if (mActiveDriver != NULL && mActiveDriver == *it)
         {
             mActiveDriver->shutdown();
-            delete mActiveDriver;
             mActiveDriver = NULL;
         }
         if (isDriverPlugin)
         {
             Ogre::Root::getSingleton().unloadPlugin(driverPlugin);
+        }
+        else
+        {
+            delete *it;
         }
 
         LOG_MESSAGE(Logger::MULTIMEDIA,
