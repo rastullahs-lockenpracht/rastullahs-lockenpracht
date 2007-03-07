@@ -109,6 +109,7 @@ void AStar::search(AStarPath& resultPath)
 	initialise();
 	mOpen.push_back(mANStart);
 	mANStart->setH(mCosts->calcHeuristic(mWPGraph,mANStart,mANEnd));
+    mANStart->setG(0);
 
 	AStarWayPointNode* Node;
 
@@ -121,7 +122,7 @@ void AStar::search(AStarPath& resultPath)
 		mClosed.push_back(Node);
 
 		// check if goal reached
-		if ( (*Node) == (*mANEnd) ) {
+        if ( Node->Equal(mANEnd) ) {
 			// create result
 			for (; Node->getParent(); Node = Node->getParent())
 			{
@@ -138,7 +139,7 @@ void AStar::search(AStarPath& resultPath)
 		for (it = WPList.begin(); it != WPList.end(); it++)
 		{
 			AStarWayPointNode* ASubNode = new AStarWayPointNode((*it).second);
-			float cost = mCosts->calcCost(mWPGraph,mANStart,mANEnd);
+			float cost = mCosts->calcCost(mWPGraph,ASubNode,Node);
 
 			ASubNode->setG( Node->getG() + cost );
 			ASubNode->setH( mCosts->calcHeuristic(mWPGraph,ASubNode,mANEnd) );
@@ -196,11 +197,24 @@ AStar::AStarSet::iterator AStar::searchSet(AStarSet& Set, AStarWayPointNode* Nod
 {
 	AStarSet::iterator it;
 
-	it = find(Set.begin(), Set.end(), Node);
-	AStarWayPointNode* help = (*it);
+    /* try binary search - but keep in mind this compares the F and not G&H values 
+     * so this is not going to work at the moment with the current sortMethod ...
+     */
+    
+    AStarWayPointNode* help = NULL;
+    bool found = std::binary_search(Set.begin(), Set.end(), Node, AStarWayPointNode::SortMethod);
+    //while (it != Set.end())
+    //{
+    //    if ( (*it)->Equal(Node) ) // if equal, then Node was 'found'
+    //        break;
+        // otherwise continue binary search
+        //it = std::binary_search(it, Set.end(), Node, AStarWayPointNode::SortMethod);
+    //}
+    
+    
 	for (it = Set.begin(); it != Set.end(); it++) 
 	{
-		if ( (*it) == Node )
+        if ( (*it)->Equal(Node) )
 			return it;
 	}
 

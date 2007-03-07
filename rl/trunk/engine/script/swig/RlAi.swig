@@ -14,6 +14,12 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
+%include std_vector.i
+
+namespace std {
+	%template(Ogrevec3Vector) vector<Ogre::Vector3 >;
+};
+
 namespace rl 
 {
 	// Before first use of GameObject or subclasses!
@@ -167,11 +173,11 @@ namespace rl
 	public:
 		AStarCosts(const rl::AStarHeuristic* Heuristic);	
 		virtual ~AStarCosts();
-		virtual float calcHeuristic(const rl::WayPointGraph* WPGraph, const rl::AStarWayPointNode* wp1,
+		virtual float calcCost(const rl::WayPointGraph* WPGraph, const rl::AStarWayPointNode* wp1,
 			const rl::AStarWayPointNode* wp2) const = 0;
 	};
 	
-	class AStarCostsDefault
+	class AStarCostsDefault : public AStarCosts
 	{
 	public:
 		AStarCostsDefault(const rl::AStarHeuristic* Heuristic);	

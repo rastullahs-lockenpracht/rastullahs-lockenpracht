@@ -55,7 +55,7 @@ EuclideanDistance::~EuclideanDistance()
 }
 float EuclideanDistance::calcDistance(const Ogre::Vector3& vec1, const Ogre::Vector3& vec2) const
 {
-	return vec1.distance( vec2);
+    return vec1.distance( vec2);
 }
 EuclideanDistanceSquared::EuclideanDistanceSquared()
 {

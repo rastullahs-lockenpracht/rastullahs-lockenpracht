@@ -54,21 +54,17 @@ namespace rl
 			return (mG+mH) < (wp2.mG+wp2.mH);
 		    //return (wp1->mG+wp1->mH) < (wp2->mG+wp2->mH);
 		}
-		/** 2 nodes compared for equilibrium by comparing their values.
-		 * (really needed?)
+		
+        /** 2 nodes compared for equilibrium by comparing their values.
+		 * This is needed, because operator overloading for pointer types
+         * does not work.
+         * @param wp pointer to an AStarWayPointNode
 		 */
-		inline bool operator == ( const AStarWayPointNode& wp2 ) //, const AStarWayPointNode* wp2 )
+		inline bool Equal ( const AStarWayPointNode* wp )
 		{
-			return (mWP == wp2.mWP) && (mG == wp2.mG) && (mH == wp2.mH);
-			//return (wp1->mWP == wp2->mWP) && (wp1->mG == wp2->mG) && (wp1->mH == wp2->mH);
+			return (mWP == wp->mWP) && (mG == wp->mG) && (mH == wp->mH);
 		}
-		/** 2 nodes compared for equilibrium by comparing their values.
-		 * (really needed?)
-		 */
-		inline bool operator == (const AStarWayPointNode* wp2 )
-		{
-			return (mWP == wp2->mWP) && (mG == wp2->mG) && (mH == wp2->mH);
-		}
+
 		/** 2 nodes compared for equilibrium by comparing their values.
 		 * (really needed?) 
 		 */
@@ -81,9 +77,22 @@ namespace rl
 		/** 2 nodes compared by comparing their f value.
 		 * The f value of a node is the sum of g and h value.
 		 * This function is used when sorting a stl::vector.
+         * It can be fine tune extended so that binary_search
+         * will work, by addind functionality so that when wp1->F == wp2->F
+         * a finer sort mechanism kicks in.
+         * sorting for G is not enough then.
+         * a sort for H is not needed then, because H depends on G and
+         * will just be reverse proportional to G. Therefore we just need
+         * to sort either for G or H .
 		 */
 		static bool SortMethod(const AStarWayPointNode* wp1, const AStarWayPointNode* wp2)
 		{
+            //float wp1F = wp1->mG+wp1->mH;
+            //float wp2F = wp2->mG+wp2->mH;
+            //if (wp1F == wp2F)
+            //    return wp1->mG < wp2->mG;
+
+            //return wp1F < wp2F;
 			return (wp1->mG+wp1->mH) < (wp2->mG+wp2->mH);
 		}
 
@@ -127,8 +136,6 @@ namespace rl
 		//! the parent of this node in the search
 		AStarWayPointNode* mParent;
 	};
-
-
 
 }; // namespace
 
