@@ -3,6 +3,7 @@
 #include <OgreMeshManager.h>
 #include <OgreHardwareBufferManager.h>
 #include <OgreSubMesh.h>
+#include <OgreAxisAlignedBox.h>
 
 #include "MeshCombiner.h"
 
@@ -61,7 +62,7 @@ namespace rl {
 
     MeshPtr MergeMesh::bake()
     {    
-         MeshCombiner::getSingleton().log( 
+        MeshCombiner::getSingleton().log( 
              "Baking: New Mesh started" );
 
         MeshPtr mp = MeshManager::getSingleton().
@@ -85,7 +86,8 @@ namespace rl {
                 SubMesh* newsub;
                 if( name.length() == 0 )
                     newsub = mp->createSubMesh(  );
-                else /// @todo check if a submesh with this name has been created before
+                else 
+                /// @todo check if a submesh with this name has been created before
                     newsub = mp->createSubMesh( name );   
 
                 newsub->useSharedVertices = sub->useSharedVertices;
@@ -113,7 +115,7 @@ namespace rl {
                     "Baking: adding submesh '" + name + "'  with material " + sub->getMaterialName() );
             } 
 
-            /// sharedvertices
+            // sharedvertices
             if( (*it)->sharedVertexData != NULL )
             {
                 /// @todo merge with existing sharedVertexData
@@ -131,14 +133,7 @@ namespace rl {
                 "Baking: adding bounds for " + (*it)->getName() );
 
             // add bounds
-            Vector3 oldmin = totalBounds.getMinimum();
-            Vector3 newmin = (*it)->getBounds().getMinimum();
-            Vector3 oldmax = totalBounds.getMaximum();
-            Vector3 newmax = (*it)->getBounds().getMaximum();
-            totalBounds = AxisAlignedBox( 
-                std::min( oldmin.x, newmin.x ), std::min( oldmin.y, newmin.y  ), std::min( oldmin.z, newmin.z  ),
-                std::max( oldmax.x, newmax.x ), std::max( oldmax.y, newmax.y  ), std::max( oldmax.z, newmax.z  )
-                );
+            totalBounds.merge( (*it)->getBounds() );
         }           
         mp->_setBounds( totalBounds );
 
