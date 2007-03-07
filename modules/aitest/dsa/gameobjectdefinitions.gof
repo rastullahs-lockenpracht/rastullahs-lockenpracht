@@ -22,12 +22,13 @@
         <property name="baseclass" type="STRING" data="NPC"/>
         <property name="name" type="STRING" data="TestPerson"/>
         <property name="description" type="STRING" data="Wenn man mal jemanden zum Reden braucht..."/>
-        <property name="geometrytype" type="STRING" data="ellipsoid"/>
+        <property name="geometrytype" type="STRING" data="capsule"/>
         <property name="meshfile" type="STRING" data="men_alrike.mesh"/>
         <property name="mass" type="REAL" data="65"/>
         <property name="dialogfile" type="STRING" data="testperson.xml"/>
         <property name="behaviours" type="ARRAY">
-            <property type="STRING" data="DefaultIdleBehaviour"/>
+	    <property type="STRING" data="DefaultWanderBehaviour"/>
+	    <property type="STRING" data="AvoidObstaclesBehaviour"/>
             <property type="STRING" data="DialogBehaviour"/>
         </property>
     </gameobjectclass>
@@ -41,11 +42,26 @@
         <property name="meshfile" type="STRING" data="men_alrike.mesh"/>
         <property name="mass" type="REAL" data="65"/>
         <property name="dialogfile" type="STRING" data="testperson.xml"/>
-        <property name="behaviours" type="ARRAY">
-            <property type="STRING" data="DefaultIdleBehaviour"/>
-            <property type="STRING" data="DialogBehaviour"/>
+	<property name="behaviours" type="ARRAY">
+	    <property type="STRING" data="DefaultWanderBehaviour"/>
+	    <property type="STRING" data="AvoidObstaclesBehaviour"/>
         </property>
     </gameobjectclass>
+
+  <gameobjectclass classid="Wolf" baseclass="Creature">
+     <property name="classid" type="STRING" data="Wolf"/>
+     <property name="baseclass" type="STRING" data="Creature"/>
+     <property name="name" type="STRING" data="Wolf"/>
+     <property name="description" type="STRING" data="Ein gefährlicher, ganz gefährlicher, wirklich extrem gefährlicher Wolf. Aber er hat ein schwaches Herz."/>
+    <property name="description_dead" type="STRING" data="Ein sehr toter Wolf"/>
+    <property name="meshfile" type="STRING" data="tie_wolf_01.mesh"/>
+    <property name="mass" type="REAL" data="0"/>
+    <property name="geometrytype" type="STRING" data="sphere"/>
+    <property name="behaviours" type="ARRAY">
+    	<property type="STRING" data="DefaultWanderBehaviour"/>
+    	<property type="STRING" data="AvoidObstaclesBehaviour"/>
+    </property>
+  </gameobjectclass>
 
     <gameobjectclass>
         <property name="classid" type="STRING" data="switch3way"/>

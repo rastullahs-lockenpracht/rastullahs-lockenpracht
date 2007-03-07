@@ -15,7 +15,7 @@ require 'WallSet2.rb'
 require 'WayPointTest.rb'
 require 'WayPointTest2.rb'
 
-require 'AStarTest1.rb'
+#require 'AStarTest1.rb'
 
 # Physik aktivieren
 $PM.setEnabled(true)
@@ -57,8 +57,13 @@ WallSet2.new([0, 0, 0])
 #$MyWPT.save()
 #$MyWPT = WayPointTest2.new([0, 0, 0])
 #$MyWPT.load()
-$MyAS = AStarTest1.new([0, 0, 0])
-$MyAS.create()
-$MyAS.initastar()
+#$MyAS = AStarTest1.new([0, 0, 0])
+#$MyAS.create()
+#$MyAS.initastar()
+#$UI.linkKeyToRubyCommand('H',"$MyAS.calcFromTo([9.3,8.2,-10,-3])");
+
+wolf = $GOM.createGameObjectProxy("Wolf").getGameObject()
+wolf.placeIntoScene
+wolf.setPosition [0.0,0.0,-5.0]
 
 $SCRIPT.log("tests initialisiert.");
