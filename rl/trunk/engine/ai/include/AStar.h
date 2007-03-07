@@ -94,10 +94,16 @@ namespace rl
 		~AStar();
 
 		/** starts the search.
+         * The A* utilises AStarCost and searches for a path by building
+         * a A* node graph to the goal. Afterwards the resultpath is
+         * extracted by traversing the graph from the goal to the start.
+         * This actually creates a _reverse_ path to the goal.
+         * @param resultPath contains the researched path in reverse order.
 		 */
 		void search(AStarPath& resultPath);
 
 		/** starts the search for the given start and end positions
+         * @param resultPath contains the researched path in reverse order.
 		 * @param StartPos gives the startpoint for the search
 		 * @param EndPos gives the endposition for the search
 		 */

@@ -163,11 +163,21 @@ void AStar::search(AStarPath& resultPath)
 			// remember new 'end'
             delete mANEnd;
             mANEnd = Node;
-            // create result
+            // create result path (start and enpoint might not be on path!)
+            if (Node->getWP()->getPosition() != mEndPos)
+                resultPath.push_back(mEndPos);  // push endpos
+
             for (; Node; Node = Node->getParent())
 			{
 				resultPath.push_back(Node->getWP()->getPosition());
 			}
+
+            // save startpos, if waypoint is not the startpos
+            if (resultPath.back() != mStartPos)
+            {
+                resultPath.push_back(mStartPos);
+            }
+
             createPrimitive(resultPath);
 			// terminate search
 			break;
