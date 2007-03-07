@@ -9,11 +9,13 @@ require 'doortest.rb'
 require 'WallSet1.rb'
 require 'WallSet2.rb'
 
-require 'NpcTest.rb'
-require 'NpcCapsuleTest.rb'
+#require 'NpcTest.rb'
+#require 'NpcCapsuleTest.rb'
 
 require 'WayPointTest.rb'
 require 'WayPointTest2.rb'
+
+require 'AStarTest1.rb'
 
 # Physik aktivieren
 $PM.setEnabled(true)
@@ -48,12 +50,15 @@ $SCRIPT.log("debug keys are set up");
 #WallSet1.new([0, 0, 0])
 WallSet2.new([0, 0, 0])
 
-NpcTest.new([-5, 0, 5])
-NpcCapsuleTest.new([0, 0, 5])
+#NpcTest.new([-5, 0, 5])
+#NpcCapsuleTest.new([0, 0, 5])
 
 #$MyWPT = WayPointTest.new([0, 0, 0])
 #$MyWPT.save()
-$MyWPT = WayPointTest2.new([0, 0, 0])
-$MyWPT.load()
+#$MyWPT = WayPointTest2.new([0, 0, 0])
+#$MyWPT.load()
+$MyAS = AStarTest1.new([0, 0, 0])
+$MyAS.create()
+$MyAS.calc()
 
 $SCRIPT.log("tests initialisiert.");
