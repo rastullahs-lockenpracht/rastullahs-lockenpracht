@@ -114,7 +114,7 @@ namespace rl
 		 * @param Set to search through
 		 * @param Node to search for
 		 */
-		AStarSet::iterator AStar::searchSet(AStarSet& Set, AStarWayPointNode* Node);
+		AStarSet::iterator searchSet(AStarSet& Set, AStarWayPointNode* Node);
 
 		// static data
 		//! heuristic function

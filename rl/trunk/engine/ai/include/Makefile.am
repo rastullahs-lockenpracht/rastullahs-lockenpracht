@@ -3,6 +3,11 @@ noinst_HEADERS =
 	AgentManager.h \
 	AiPrerequisites.h \
 	AiSubsystem.h \
+	AStarCosts.h \
+	AStar.h \
+	AStarHeuristic.h \
+	AStarNodePool.h \
+	AStarWayPointNode.h \
 	FuzzyState.h \
 	FuzzyStateMachine.h \
 	PhysicalObstacle.h \

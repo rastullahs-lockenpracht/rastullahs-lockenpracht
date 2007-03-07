@@ -8,6 +8,11 @@ libRlAi_la_SOURCES = \
 	AgentManager.cpp \
 	AiSubsystem.cpp \
 	AiWorld.cpp \
+	AStarCosts.cpp \
+	AStar.cpp \
+	AStarHeuristic.cpp \
+	AStarNodePool.cpp \
+	AStarWayPointNode.cpp \
 	FuzzyState.cpp \
 	FuzzyStateMachine.cpp \
 	PhysicalObstacle.cpp \
