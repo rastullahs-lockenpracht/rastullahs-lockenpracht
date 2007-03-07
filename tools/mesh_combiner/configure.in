@@ -1,0 +1,52 @@
+AC_PREREQ(2.50)
+
+AC_INIT(RLMeshCombiner, 0.3.0)
+AC_CANONICAL_TARGET
+AM_INIT_AUTOMAKE([1.6.1 foreign no-installinfo no-installman subdir-objects])
+AC_CONFIG_HEADER(include/config.h)
+#AC_CONFIG_MACRO_DIR([m4])
+
+##AC_CANONICAL_TARGET
+
+dnl Check for programs
+AC_LANG([C++])
+AC_PROG_CXX
+AC_PROG_INSTALL
+AM_PROG_LIBTOOL
+
+# ***** DEBUGGING
+AC_ARG_ENABLE(debug,AS_HELP_STRING([--enable-debug],[enable debugging @<:@default=no@:>@]))
+if test "$enable_debug" = "yes"; then
+    CXXFLAGS="$CXXFLAGS -g -O0"
+else
+    CXXFLAGS="$CXXFLAGS -O2"
+fi
+# ***** PROFILING
+AC_ARG_ENABLE([profiling], AS_HELP_STRING([--enable-profiling], [enable profiling @<:@default=no@:>@]))
+if test "$enable_profiling" = "yes"; then
+    CXXFLAGS="$CXXFLAGS -pg -g"
+    LDFLAGS="$LDFLAGS -pg -g"
+fi
+
+# Pthreads
+# Ogre
+PKG_CHECK_MODULES([OGRE], [OGRE >= 1.4.0])
+AC_ARG_WITH([ogre-plugins], [AS_HELP_STRING([--with-ogre-plugins=@<:@=DIR@:>@], [set location of Ogre plugins])] ,[OGRE_PLUGINDIR="$withval"], [OGRE_PLUGINDIR=`pkg-config OGRE --variable=plugindir`])
+AC_SUBST(OGRE_PLUGINDIR)
+
+# XERCES
+AC_CHECK_HEADERS(xercesc/util/XercesVersion.hpp, ,
+    [AC_MSG_ERROR([cannot find libxerces headers]) ])
+AC_CHECK_LIB(xerces-c,main,,
+    [AC_MSG_ERROR([cannot find the libxerces library]) ])
+
+
+dnl Create the makefiles
+AC_CONFIG_FILES([Makefile \
+	include/Makefile \
+        src/Makefile \
+    ])
+
+AC_OUTPUT
+
+
