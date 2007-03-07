@@ -187,7 +187,7 @@ namespace Swig {
 		// Es gab das SkriptObjekt noch nicht
 		if (NIL_P(val))
 		{
-			$input = SWIG_NewPointerObj((void *) $1, $1_descriptor, NULL);		
+			$input = SWIG_NewPointerObj((void *) $1, $1_descriptor, 0);		
 		}
 		else	
 			$input = val;
@@ -201,7 +201,7 @@ namespace Swig {
 	
 	// Es gab das SkriptObjekt noch nicht
 	if (NIL_P(val)) {
-		$result = SWIG_NewPointerObj((void *) $1, $1_descriptor, NULL);			
+		$result = SWIG_NewPointerObj((void *) $1, $1_descriptor, 0);			
 	}
 	else	
 		$result = val;
