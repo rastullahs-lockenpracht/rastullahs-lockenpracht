@@ -512,15 +512,23 @@ namespace rl
         {
             Actor* actor = createActor();
 
-            if (actor == NULL)  // fail silently, because error is already in the log
-                return;
+            if (actor != NULL)
+            {
+                actor->placeIntoScene();
+                setActor(actor);
 
-            actor->placeIntoScene();
-            setActor(actor);
-
-            GameObjectState tmpState = mState;
-            mState = GOS_IN_SCENE;
-            GameObjectManager::getSingleton().gameObjectStateChanged(this, tmpState, mState);
+                GameObjectState tmpState = mState;
+                mState = GOS_IN_SCENE;
+                GameObjectManager::getSingleton().gameObjectStateChanged(this, tmpState, mState);
+            }
+            else {
+                LOG_ERROR(
+                    Logger::RULES, 
+                    "Error placing gameobject '"
+                    + Ogre::StringConverter::toString(mId)
+                    + "' into scene "
+                    + mMeshfile);
+            }
         }
     }
 
