@@ -51,6 +51,12 @@ namespace rl
         virtual void setRolloffFactor(const Ogre::Real& f);
         virtual const Ogre::Real getRolloffFactor();
 
+        /**
+         * If this driver is a Ogre plugin, it returns TRUE.
+         * @return bool TRUE if Ogre plugin, FALSE otherwise.
+         */
+        virtual bool isDriverPlugin();
+
     protected:
         virtual Sound* createSoundImpl(SoundResourcePtr res, SoundType type);
 

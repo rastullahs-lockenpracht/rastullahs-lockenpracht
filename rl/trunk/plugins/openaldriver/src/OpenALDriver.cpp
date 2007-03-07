@@ -171,6 +171,12 @@ namespace rl
         return listener;
     }
 
+
+    bool OpenALDriver::isDriverPlugin()
+    {
+        return true;
+    }
+
     /**
      * Ausdruck einiger Werte des Soundsystems.
      * @author JoSch
