@@ -33,9 +33,9 @@
         </property>
     </gameobjectclass>
 
-    <gameobjectclass>
+    <gameobjectclass classid="TestPersonCapsule" baseclass="Create">
         <property name="classid" type="STRING" data="TestPersonCapsule"/>
-        <property name="baseclass" type="STRING" data="NPC"/>
+        <property name="baseclass" type="STRING" data="Creature"/>
         <property name="name" type="STRING" data="TestPerson"/>
         <property name="description" type="STRING" data="Wenn man mal jemanden zum Reden braucht..."/>
         <property name="geometrytype" type="STRING" data="capsule"/>
@@ -55,7 +55,7 @@
      <property name="description" type="STRING" data="Ein gefährlicher, ganz gefährlicher, wirklich extrem gefährlicher Wolf. Aber er hat ein schwaches Herz."/>
     <property name="description_dead" type="STRING" data="Ein sehr toter Wolf"/>
     <property name="meshfile" type="STRING" data="tie_wolf_01.mesh"/>
-    <property name="mass" type="REAL" data="0"/>
+    <property name="mass" type="REAL" data="40"/>
     <property name="geometrytype" type="STRING" data="sphere"/>
     <property name="behaviours" type="ARRAY">
     	<property type="STRING" data="DefaultWanderBehaviour"/>

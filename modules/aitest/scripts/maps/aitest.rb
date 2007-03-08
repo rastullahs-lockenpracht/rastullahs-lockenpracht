@@ -8,14 +8,15 @@ require 'doortest.rb'
 
 require 'WallSet1.rb'
 require 'WallSet2.rb'
+require 'WallSet3.rb'
 
 #require 'NpcTest.rb'
-#require 'NpcCapsuleTest.rb'
+require 'NpcCapsuleTest.rb'
 
-require 'WayPointTest.rb'
-require 'WayPointTest2.rb'
+#require 'WayPointTest.rb'
+#require 'WayPointTest2.rb'
 
-#require 'AStarTest1.rb'
+require 'AStarTest1.rb'
 
 # Physik aktivieren
 $PM.setEnabled(true)
@@ -26,16 +27,13 @@ $SCRIPT.log("Create hero")
 $hero = $GOM.createGameObjectProxy("hero", 1);
 
 $SCRIPT.log("Place hero into scene")
-#$hero.getGameObject().setPosition([0.0, 1.0, 0.0]);
 $hero.getGameObject().placeIntoScene()
-
 
 $SCRIPT.log("Prepare hero for being the active character")
 PlayerSettings.preparePlayer($hero.getGameObject())
 
 $SCRIPT.log("Set hero as active character")
 $UI.setActiveCharacter($hero.getGameObject())
-
 $SCRIPT.log("Hero ready")
 
 $SCRIPT.log("map 'regressiontest' initialisiert.");
@@ -45,13 +43,15 @@ $UI.linkKeyToRubyCommand('G',"$debugkeys.toggleWP()");
 
 $SCRIPT.log("debug keys are set up");
 
-#DoorTest.new([0.0, 0.0, -5.0])
+DoorTest.new([0.0, 0.0, -5.0])
 
 #WallSet1.new([0, 0, 0])
-WallSet2.new([0, 0, 0])
+#WallSet2.new([0, 0, 0])
+WallSet3.new([0, 0, 0], 0.5, 20, [1,1,1,1])
+WallSet3.new([0, 0, 0], 0.5, 10, [1,1,0,1])
 
 #NpcTest.new([-5, 0, 5])
-#NpcCapsuleTest.new([0, 0, 5])
+NpcCapsuleTest.new([0, 0, 5])
 
 #$MyWPT = WayPointTest.new([0, 0, 0])
 #$MyWPT.save()
