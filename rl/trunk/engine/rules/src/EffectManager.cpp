@@ -95,5 +95,15 @@ namespace rl
 		mEffects.insert(effect);
 		effect->enable();
 	}
+    
+    Effect::Status EffectManager::getStatus()
+    {
+      Effect::Status status;
+      for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
+      {
+        status = status | (((*it)->getStatus()));
+      }
+      return false;
+    }
 }
 

@@ -154,4 +154,10 @@ namespace rl
 	{		
         return (DsaManager::getSingleton().getTimestamp() - mStartTime);
 	}
+    
+    Effect::Status Effect::getStatus()
+    {
+      // should be overlaoaded in the specific derivated effects.
+      return STATUS_NONE;
+    }
 }

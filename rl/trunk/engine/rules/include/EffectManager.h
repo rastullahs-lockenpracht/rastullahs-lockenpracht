@@ -29,7 +29,7 @@ namespace rl
      * Verwaltet die Effekte die auf einer Kreatur wirken.
      * Diese Klasse verwaltet alle Effekte, die auf einer Kreatur liegen.
      * Jede Kreatur hat ihren eigenen EffectManager. Die Funktion checkeffects
-     * sollte während jeder Aktion (gemeint ist die DSA-Zeiteinheit) aufgerufen
+     * sollte wï¿½rend jeder Aktion (gemeint ist die DSA-Zeiteinheit) aufgerufen
      * werden.
      **/
 
@@ -68,6 +68,11 @@ namespace rl
          * @param effect Ein Zeiger auf den einzufuegenden Effekt.
          **/
 		void addEffect(Effect* effect);
+        
+        /**
+         * Checks the effects for the given status.
+         **/
+        Effect::Status getStatus();
 
 	private:
         /// Eine einfache Menge von Effekten

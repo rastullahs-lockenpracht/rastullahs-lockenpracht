@@ -556,6 +556,21 @@ namespace rl {
             EFFECTTAG_NONE,
             EFFECTTAG_KRANKHEIT
         };
+        
+        typedef unsigned long Status;
+        static const Status STATUS_NONE = 0;
+        static const Status STATUS_BLIND = 1;
+        static const Status STATUS_DEAD = 2;
+        static const Status STATUS_DEAF = 4;
+        static const Status STATUS_IMMOVABLE = 8;
+        static const Status STATUS_INCAPACITATED = 16;
+        static const Status STATUS_INVISIBLE = 32;
+        static const Status STATUS_INVULNERABLE = 64;
+        static const Status STATUS_PARALYZED = 128;
+        static const Status STATUS_SILENCED = 512;
+        static const Status STATUS_SLEEPING = 1024;
+        static const Status STATUS_UNCONSCIOUS = 2048;
+
 
 		Effect(int stufe = 1);
 		virtual ~Effect();
@@ -580,6 +595,8 @@ namespace rl {
 		virtual void disable();
 		virtual void check() = 0;
 
+        Status getStatus();
+        
 	protected:
 		virtual void apply() = 0;
 		virtual void remove() = 0;

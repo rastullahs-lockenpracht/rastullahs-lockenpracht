@@ -18,6 +18,6 @@ libRlAi_la_SOURCES = \
 	PhysicalObstacle.cpp \
 	PlayerVehicle.cpp \
 	SteeringVehicle.cpp \
-        WayPointNode.cpp \
+    WayPointNode.cpp \
 	WayPointGraph.cpp \
 	WayPointGraphManager.cpp

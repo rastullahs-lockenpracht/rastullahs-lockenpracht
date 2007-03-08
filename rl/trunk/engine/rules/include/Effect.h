@@ -29,6 +29,20 @@ namespace rl
 	class _RlRulesExport Effect
 	{
 	public:
+        
+      typedef unsigned long Status;
+      static const Status STATUS_NONE = 0;
+      static const Status STATUS_BLIND = 1;
+      static const Status STATUS_DEAD = 2;
+      static const Status STATUS_DEAF = 4;
+      static const Status STATUS_IMMOVABLE = 8;
+      static const Status STATUS_INCAPACITATED = 16;
+      static const Status STATUS_INVISIBLE = 32;
+      static const Status STATUS_INVULNERABLE = 64;
+      static const Status STATUS_PARALYZED = 128;
+      static const Status STATUS_SILENCED = 512;
+      static const Status STATUS_SLEEPING = 1024;
+      static const Status STATUS_UNCONSCIOUS = 2048;
 
         /**
          * Spezifiziert wie oft Effekte des selben Typs gleichzeitig auf dieselbe
@@ -108,6 +122,9 @@ namespace rl
 
 		/// Ueberprueft die Lebendigkeit des Effekts.
 		virtual void check();
+        
+        /// Returns if status is applied to the creature
+        Status getStatus();
 
 	protected:
 		/// Bringt die Aenderungen ein.

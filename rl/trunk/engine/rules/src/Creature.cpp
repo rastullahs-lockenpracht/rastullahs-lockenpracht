@@ -613,6 +613,11 @@ namespace rl
 		return it->second;
 	}
 
+    Effect::Status Creature::getStatus()
+    {
+      return mEffectManager.getStatus();
+    }
+    
     bool Creature::isBlind()
     {
         if (mBlind > 0) return true;
@@ -906,7 +911,7 @@ namespace rl
 			Throw(IllegalArgumentException, "kampftechnikName nicht in mKampftechniken gefunden");
 		}
 		int rval;
-		int eBe = floor(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getWert(WERT_BE))) / 2.0);
+		int eBe = (int)floor(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getWert(WERT_BE))) / 2.0);
 
 		int probe = DsaManager::getSingleton().rollD20();
 		if (probe == 1) /// @todo Bestätigen
@@ -936,7 +941,7 @@ namespace rl
 			Throw(IllegalArgumentException, "kampftechnikName nicht in mKampftechniken gefunden");
 		}
 		int rval;
-		int eBe = ceil(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getWert(WERT_BE))) / 2.0);
+		int eBe = (int)ceil(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getWert(WERT_BE))) / 2.0);
 
 		int probe = DsaManager::getSingleton().rollD20();
 		if (probe == 1) /// @todo Bestätigen
@@ -991,7 +996,7 @@ namespace rl
         if ((damageType&LEDAMAGE_TP_A) == LEDAMAGE_TP_A)
         {
             damageAu(tp, AUDAMAGE_NORMAL);
-            tp = floor(tp/2.);
+            tp = (int)floor(tp/2.);
         }
 		modifyLe(-tp);
 	}
@@ -1182,8 +1187,14 @@ namespace rl
         }
 
         // kann sich die Kreatur ueberhaupt bewegen?
+        /*
         if( isImmovable() )
             return false;
+        */
+        ///@todo What other Stati prohibit creature  movement? Paralyzed? Inacapacitated? Sleep? etc.
+        ///@todo Jumping etc. still possible, even if immobilized.
+        if (Effect::STATUS_IMMOVABLE & getStatus())
+          return false;
 
         if( getAu() <= 1 )
             return false;
@@ -1212,15 +1223,15 @@ namespace rl
                 return false;
             }
         }
-        else if( movementType & BEWEGUNG_HOCHSPRUNG || movementType & BEWEGUNG_WEITSPRUNG )
+        else if( (movementType & BEWEGUNG_HOCHSPRUNG) || (movementType & BEWEGUNG_WEITSPRUNG) )
         {
             // if( getragenes Gewicht > KK ) return false
         }
 
 
 
-        if( movementType & BEWEGUNG_DREHEN ||
-            movementType & BEWEGUNG_UMDREHEN)
+        if( (movementType & BEWEGUNG_DREHEN) ||
+            (movementType & BEWEGUNG_UMDREHEN))
         {
         }
         else if( movementType & BEWEGUNG_RENNEN )
@@ -1270,8 +1281,8 @@ namespace rl
 
 
         // drehen ist ein sonderfall! angabe der Rotationsgeschwindigkeit in Umdrehungen pro Sekunde
-        if( movementType & BEWEGUNG_DREHEN ||
-            movementType & BEWEGUNG_UMDREHEN )
+        if( (movementType & BEWEGUNG_DREHEN) ||
+            (movementType & BEWEGUNG_UMDREHEN) )
         {
             if( movementType & BEWEGUNG_UMDREHEN )
                 velocity = 0.5;
@@ -1294,7 +1305,7 @@ namespace rl
             {
                 return 0;
             }
-            if( movementType & BEWEGUNG_RUECKWAERTS || movementType & BEWEGUNG_SEITWAERTS )
+            if( (movementType & BEWEGUNG_RUECKWAERTS) || (movementType & BEWEGUNG_SEITWAERTS) )
                 return 1;
             if( modified && getCurrentBe() > 1 )
                 return 1;
@@ -1356,13 +1367,13 @@ namespace rl
 
         if( movementType & BEWEGUNG_RUECKWAERTS )
         {
-            if( movementType & BEWEGUNG_RENNEN ||
-                movementType & BEWEGUNG_LAUFEN ||
-                movementType & BEWEGUNG_JOGGEN )
+            if( (movementType & BEWEGUNG_RENNEN) ||
+                (movementType & BEWEGUNG_LAUFEN) ||
+                (movementType & BEWEGUNG_JOGGEN) )
             {
                 velocity = 0.6 * act_gs / factorJoggen;
             }
-            else if( movementType & BEWEGUNG_GEHEN )
+            else if( (movementType & BEWEGUNG_GEHEN) )
             {
                 velocity = 0.6 * act_gs / 3.6;
             }
@@ -1375,9 +1386,9 @@ namespace rl
         }
         else if( movementType & BEWEGUNG_SEITWAERTS )
         {
-            if( movementType & BEWEGUNG_RENNEN || 
-                movementType & BEWEGUNG_LAUFEN ||
-                movementType & BEWEGUNG_JOGGEN )
+            if( (movementType & BEWEGUNG_RENNEN) || 
+                (movementType & BEWEGUNG_LAUFEN) ||
+                (movementType & BEWEGUNG_JOGGEN) )
             {
                 velocity = 0.8 * act_gs / factorJoggen;
             }
@@ -1546,9 +1557,9 @@ namespace rl
 
         if( movementType & BEWEGUNG_RUECKWAERTS )
         {
-            if( movementType & BEWEGUNG_RENNEN || 
-                movementType & BEWEGUNG_LAUFEN ||
-                movementType & BEWEGUNG_JOGGEN )
+            if( (movementType & BEWEGUNG_RENNEN) || 
+                (movementType & BEWEGUNG_LAUFEN) ||
+                (movementType & BEWEGUNG_JOGGEN) )
             {
             }
             else if( movementType & BEWEGUNG_GEHEN )
@@ -1558,9 +1569,9 @@ namespace rl
         }
         else if( movementType & BEWEGUNG_SEITWAERTS )
         {
-            if( movementType & BEWEGUNG_RENNEN || 
-                movementType & BEWEGUNG_LAUFEN ||
-                movementType & BEWEGUNG_JOGGEN )
+            if( (movementType & BEWEGUNG_RENNEN) || 
+                (movementType & BEWEGUNG_LAUFEN) ||
+                (movementType & BEWEGUNG_JOGGEN) )
             {
             }
             else if( movementType & BEWEGUNG_GEHEN )
