@@ -255,7 +255,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\src\Fmod4Config.cpp"
+				RelativePath=".\src\Fmod4ConfigComponent.cpp"
 				>
 			</File>
 			<File
@@ -281,7 +281,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\include\Fmod4Config.h"
+				RelativePath=".\include\Fmod4ConfigComponent.h"
 				>
 			</File>
 			<File

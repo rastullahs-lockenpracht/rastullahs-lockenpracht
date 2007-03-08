@@ -16,7 +16,6 @@
 
 #include "Fmod4Driver.h"
 #include "SoundManager.h"
-#include "WindowFactory.h"
 
 namespace Ogre
 {

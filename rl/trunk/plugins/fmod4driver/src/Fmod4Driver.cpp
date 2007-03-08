@@ -14,8 +14,8 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#include "Fmod4Driver.h"
 #include "Fmod4ConfigComponent.h"
+#include "Fmod4Driver.h"
 #include "Fmod4Sound.h"
 #include "Fmod4Listener.h"
 #include "Logger.h"
