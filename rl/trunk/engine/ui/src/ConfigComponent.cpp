@@ -15,37 +15,45 @@
  */
 
 #include <CEGUIWindowManager.h>
+#include <iostream>
 
 #include "ConfigComponent.h"
 
 namespace rl
 {
-	ConfigComponent::ConfigComponent(const CEGUI::String& xmlfile)
-	{
-		// Set layout file for component
-		mXmlFile = xmlfile;
-	}
+    ConfigComponent::ConfigComponent(const CEGUI::String& xmlfile, const CEGUI::String& drivername)
+    {
+        // Set layout file for component
+        mXmlFile = xmlfile;
 
-	ConfigComponent::~ConfigComponent()
-	{
-		// Free components root window and its child windows
+        // Set user readable name for driver
+        mName = drivername;
+    }
+
+    ConfigComponent::~ConfigComponent()
+    {
+        // Free components root window and its child windows
         if (mWindow != NULL)
         {
             mWindow->getParent()->removeChildWindow(mWindow);
             CEGUI::WindowManager::getSingleton().destroyWindow(mWindow);
             CEGUI::WindowManager::getSingleton().cleanDeadPool();
         }
-	}
+    }
 
-	void ConfigComponent::addTo(CEGUI::Window* parent)
-	{
+    void ConfigComponent::addTo(CEGUI::Window* parent)
+    {
         mWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout(mXmlFile);
         parent->addChildWindow(mWindow);
-        initialize();
-	}
+    }
 
-	void ConfigComponent::setVisible(bool visible)
-	{
-		mWindow->setVisible(visible);
-	}
+    void ConfigComponent::setVisible(bool visible)
+    {
+        mWindow->setVisible(visible);
+    }
+
+    const CEGUI::String ConfigComponent::getDriverName() const
+    {
+        return mName;
+    }
 }

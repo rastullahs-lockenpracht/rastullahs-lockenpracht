@@ -23,6 +23,7 @@
 namespace rl
 {
     class ListenerMovable;
+    class SoundDriverConfigComponent;
 
     typedef enum {ST_SAMPLE, ST_STREAM} SoundType;
 
@@ -96,6 +97,13 @@ namespace rl
         virtual Ogre::NameValuePairList getSettings() const;
 
         /**
+         * Retrieves a pointer to the ConfigComponent of this driver
+         *
+         * @return pointer to ConfigComponent
+         */
+        virtual SoundDriverConfigComponent* getConfigComponent();
+
+        /**
          * Sets certain options for the sound driver, like volume settings for
          * sound effects and music.
          *
@@ -104,16 +112,17 @@ namespace rl
         virtual void applySettings(const Ogre::NameValuePairList& settings);
 
     protected:
+        virtual Sound* createSoundImpl(SoundResourcePtr res, SoundType type) = 0;
+
         Ogre::ResourceManager* mSoundResourceManager;
 
         SoundSet mStreamSet;
         SoundSet mSampleSet;
 
-        Ogre::Real mDefaultMusicVolume;  ///!< Music volume
-        Ogre::Real mDefaultSoundVolume;  ///!< Sound effect volume
-        Ogre::Real mMasterVolume;        ///!< Master volume
-
-        virtual Sound* createSoundImpl(SoundResourcePtr res, SoundType type) = 0;
+        Ogre::Real mDefaultMusicVolume;               ///!< Music volume
+        Ogre::Real mDefaultSoundVolume;               ///!< Sound effect volume
+        Ogre::Real mMasterVolume;                     ///!< Master volume
+        SoundDriverConfigComponent* mConfigComponent; ///!< Configuration dialog for driver specific settings
     };
 }
 

@@ -10,8 +10,8 @@ libRlOpenALDriver_la_LDFLAGS = \
     -lopenal $(RUBY_LIBS) $(OGRE_LIBS) $(CEGUI_LIBS) $(LIBS)
 
 libRlOpenALDriver_la_SOURCES = \
+	OpenALConfigComponent.cpp \
 	OpenALDriver.cpp \
-	OpenALConfig.cpp \
 	OpenALDriverDllMain.cpp \
 	OpenALListener.cpp \
 	OpenALSound.cpp \

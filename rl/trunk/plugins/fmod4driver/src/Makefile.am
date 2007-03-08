@@ -10,7 +10,7 @@ libRlFmod4Driver_la_LDFLAGS = \
      -lfmodex $(OGRE_LIBS) $(CEGUIOGRE_LIBS) $(LIBS)
 
 libRlFmod4Driver_la_SOURCES = \
-	Fmod4Config.cpp \
+	Fmod4ConfigComponent.cpp \
 	Fmod4Driver.cpp \
 	Fmod4DriverDllMain.cpp \
 	Fmod4Listener.cpp \

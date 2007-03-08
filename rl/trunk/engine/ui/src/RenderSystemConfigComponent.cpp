@@ -20,17 +20,12 @@
 #include <CEGUIWindowManager.h>
 
 namespace rl {
-	RenderSystemConfigComponent::RenderSystemConfigComponent(const CeGuiString& xmlfile)
-        : ConfigComponent(xmlfile)
-	{
-	}
+    RenderSystemConfigComponent::RenderSystemConfigComponent(const CeGuiString& xmlfile, const CEGUI::String& drivername)
+        : ConfigComponent(xmlfile, drivername)
+    {
+    }
 
     RenderSystemConfigComponent::~RenderSystemConfigComponent()
     {
     }
-
-	const CEGUI::String RenderSystemConfigComponent::getDriverName() const
-	{
-		return getDriver()->getName();
-	}
 }

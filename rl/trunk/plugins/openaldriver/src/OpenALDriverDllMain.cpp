@@ -16,32 +16,28 @@
 #include "WindowFactory.h"
 
 #include "OpenALDriver.h"
-#include "OpenALConfig.h"
 #include "SoundManager.h"
 
 namespace Ogre
 {
-	using namespace rl;
+    using namespace rl;
 
-	OpenALDriver* openaldriver;
+    OpenALDriver* openaldriver;
 
-	//Called from Ogre's dynload when loading plugins
-	extern "C" void dllStartPlugin( void )
-	{
-		// Create the driver
-		openaldriver = new OpenALDriver(SoundManager::getSingletonPtr());
+    //Called from Ogre's dynload when loading plugins
+    extern "C" void dllStartPlugin( void )
+    {
+        // Create the driver
+        openaldriver = new OpenALDriver(SoundManager::getSingletonPtr());
 
-		// Register driver
-		SoundManager::getSingleton().registerDriver(openaldriver);
+        // Register driver
+        SoundManager::getSingleton().registerDriver(openaldriver);
+    }
 
-		// Register config window
-		// WindowFactory::getSingleton().registerSoundConfigComponent(new OpenALConfig(openaldriver));
-	}
-
-	//Called when unloading plugins
-	extern "C" void dllStopPlugin( void )
-	{
-		//Just delete the driver :P
-		delete openaldriver;
-	}
+    //Called when unloading plugins
+    extern "C" void dllStopPlugin( void )
+    {
+        //Just delete the driver :P
+        delete openaldriver;
+    }
 }

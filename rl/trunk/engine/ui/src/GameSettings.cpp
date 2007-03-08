@@ -15,87 +15,109 @@
  */
 
 #include <boost/bind.hpp>
+#include <iostream>
 
 #include "GameSettings.h"
+#include "SoundManager.h"
+#include "SoundDriver.h"
 
 namespace rl
 {
-	GameSettings::GameSettings()
-	    : CeGuiWindow("gamesettings.xml", WND_MOUSE_INPUT)
-	{
-		// Connect actions to callbacks
-		getWindow()->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked,
-		                            boost::bind(&GameSettings::onCancel, this));
+    GameSettings::GameSettings()
+        : CeGuiWindow("gamesettings.xml", WND_MOUSE_INPUT)
+    {
+        // Register sound driver components
+        std::list<SoundDriver*> soundDriverList = SoundManager::getSingleton().getDriverList();
 
-		centerWindow();
-	}
+        for (std::list<SoundDriver*>::iterator it = soundDriverList.begin();
+             it != soundDriverList.end(); it++)
+        {
+            if ((*it)->isDriverPlugin())
+            {
+                registerSoundDriverConfig((*it)->getConfigComponent());
+            }
+        }
 
-	GameSettings::~GameSettings()
-	{
-	}
+        // Connect actions to callbacks
+        getWindow()->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked,
+                                    boost::bind(&GameSettings::onCancel, this));
 
-	void GameSettings::registerSoundDriverConfig(SoundDriverConfigComponent* scc)
-	{
-	}
+        centerWindow();
+    }
 
-	void GameSettings::registerRenderSystemConfig(RenderSystemConfigComponent* rcc)
-	{
-	}
+    GameSettings::~GameSettings()
+    {
+    }
 
-	void GameSettings::setVisible(bool visible, bool destroyAfterHide)
-	{
-		CeGuiWindow::setVisible(visible, destroyAfterHide);
-	}
+    void GameSettings::registerSoundDriverConfig(SoundDriverConfigComponent* scc)
+    {
+        // Add component to list
+        mSoundDriverConfigs.push_back(scc);
 
-	void GameSettings::setConfigComponent(const CEGUI::String& drivername)
-	{
-		// Search the sound configuration component list
-		for (std::list<SoundDriverConfigComponent*>::iterator it = mSoundDriverConfigs.begin();
-		     it != mSoundDriverConfigs.end(); it++)
-		{
-			SoundDriverConfigComponent* cmp = *it;
-			if (drivername == cmp->getDriverName() && mCurrentSoundDriverConfig != cmp)
-			{
-				if (mCurrentSoundDriverConfig != NULL)
-				{
-					mCurrentSoundDriverConfig->setVisible(false);
-				}
-				cmp->setVisible(true);
-				mCurrentSoundDriverConfig = cmp;
-				return;
-			}
-		}
+        getCombobox("GameOptionsWindow/Sound/TableSoundDriver")->addItem(
+            new CEGUI::ListboxTextItem(scc->getDriverName(),
+            getCombobox("GameOptionsWindow/Sound/TableSoundDriver")->getItemCount(),
+            scc));
+    }
 
-		// Search the graphic configuration component list
-		for (std::list<RenderSystemConfigComponent*>::iterator it = mRenderSystemConfigs.begin();
-		     it != mRenderSystemConfigs.end(); it++)
-		{
-			RenderSystemConfigComponent* cmp = *it;
-			if (drivername == cmp->getDriverName() && mCurrentRenderSystemConfig != cmp)
-			{
-				if (mCurrentRenderSystemConfig != NULL)
-				{
-					mCurrentRenderSystemConfig->setVisible(false);
-				}
-				cmp->setVisible(true);
-				mCurrentRenderSystemConfig = cmp;
-				return;
-			}
-		}
-	}
+    void GameSettings::registerRenderSystemConfig(RenderSystemConfigComponent* rcc)
+    {
+    }
 
-	bool GameSettings::onApply()
-	{
+    void GameSettings::setVisible(bool visible, bool destroyAfterHide)
+    {
+        CeGuiWindow::setVisible(visible, destroyAfterHide);
+    }
+
+    void GameSettings::setConfigComponent(const CEGUI::String& drivername)
+    {
+        // Search the sound configuration component list
+        for (std::list<SoundDriverConfigComponent*>::iterator it = mSoundDriverConfigs.begin();
+             it != mSoundDriverConfigs.end(); it++)
+        {
+            SoundDriverConfigComponent* cmp = *it;
+            if (drivername == cmp->getDriverName() && mCurrentSoundDriverConfig != cmp)
+            {
+                if (mCurrentSoundDriverConfig != NULL)
+                {
+                    mCurrentSoundDriverConfig->setVisible(false);
+                }
+                cmp->setVisible(true);
+                mCurrentSoundDriverConfig = cmp;
+                return;
+            }
+        }
+
+        // Search the graphic configuration component list
+        for (std::list<RenderSystemConfigComponent*>::iterator it = mRenderSystemConfigs.begin();
+             it != mRenderSystemConfigs.end(); it++)
+        {
+            RenderSystemConfigComponent* cmp = *it;
+            if (drivername == cmp->getDriverName() && mCurrentRenderSystemConfig != cmp)
+            {
+                if (mCurrentRenderSystemConfig != NULL)
+                {
+                    mCurrentRenderSystemConfig->setVisible(false);
+                }
+                cmp->setVisible(true);
+                mCurrentRenderSystemConfig = cmp;
+                return;
+            }
+        }
+    }
+
+    bool GameSettings::onApply()
+    {
         return true;
-	}
+    }
 
-	bool GameSettings::onCancel()
-	{
+    bool GameSettings::onCancel()
+    {
         return true;
-	}
+    }
 
-	bool GameSettings::onSoundDriverChanged()
-	{
+    bool GameSettings::onSoundDriverChanged()
+    {
         return true;
-	}
+    }
 }

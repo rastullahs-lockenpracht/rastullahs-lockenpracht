@@ -23,45 +23,40 @@
 
 namespace rl
 {
-	/**
-	 * Abstract class defining the shared functionality between all
-	 * concrete ConfigComponent implementation classes.
-	 */
-	class _RlUiExport ConfigComponent
-	{
-	public:
-		ConfigComponent(const CEGUI::String& xmlfile);
-		virtual ~ConfigComponent();
+    /**
+     * Abstract class defining the shared functionality between all
+     * concrete ConfigComponent implementation classes.
+     */
+    class _RlUiExport ConfigComponent
+    {
+    public:
+        ConfigComponent(const CEGUI::String& xmlfile, const CEGUI::String& drivername);
+        virtual ~ConfigComponent();
 
-		/**
-		 * Adds this component's root window to a given parent window
-		 *
-		 * @param parent Pointer to parent CEGUI::Window
-		 */
-		void addTo(CEGUI::Window* parent);
+        /**
+         * Adds this component's root window to a given parent window
+         *
+         * @param parent Pointer to parent CEGUI::Window
+         */
+        void addTo(CEGUI::Window* parent);
 
-		/**
-		 * Sets the visibilty state of the window
-		 *
-		 * @param visible true sets window to visible, false the other way
-		 */
-		void setVisible(bool visible);
+        /**
+         * Sets the visibilty state of the window
+         *
+         * @param visible true sets window to visible, false the other way
+         */
+        void setVisible(bool visible);
 
-	protected:
-		/**
-		 * Returns the name for the given driver
-		 */
-		virtual const CEGUI::String getDriverName() const = 0;
+        /**
+         * Returns the name for the given driver
+         */
+        const CEGUI::String getDriverName() const;
 
-		/**
-		 * Initialises the driver of the concrete ConfigComponent
-		 */
-		virtual void initialize() = 0;
-
-	private:
-		CEGUI::Window* mWindow;   //!< CEGUI root window for this component
-		CEGUI::String mXmlFile;   //!< CEGUI layout file
-	};
+    private:
+        CEGUI::Window* mWindow; //!< CEGUI root window for this component
+        CEGUI::String mXmlFile; //!< CEGUI layout file
+        CEGUI::String mName;    //!< User readable name, which is displayed in the driver selection box
+    };
 }
 
 #endif // CONFIGCOMPONENT_H

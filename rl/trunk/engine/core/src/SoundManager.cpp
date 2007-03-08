@@ -38,8 +38,8 @@ using namespace Ogre;
  */
 template<> rl::SoundManager* Singleton<rl::SoundManager>::ms_Singleton = 0;
 
-namespace rl {
-
+namespace rl
+{
     /**
      * @return Eine Referenz auf das Singleton-Objekt.
      * @author JoSch
@@ -237,6 +237,11 @@ SoundDriver *SoundManager::getDriverByName(const String &name)
     }
     return 0;
 }
+
+    const std::list<SoundDriver*>& SoundManager::getDriverList()
+    {
+        return mDriverList;
+    }
 
     void SoundManager::registerDriver(rl::SoundDriver *driver)
     {

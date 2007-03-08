@@ -1,5 +1,5 @@
 noinst_HEADERS = \
-	OpenALConfig.h \
+	OpenALConfigComponent.h \
 	OpenALDriver.h \
 	OpenALDriverPrerequisites.h \
 	OpenALListener.h \

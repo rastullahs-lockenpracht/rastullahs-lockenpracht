@@ -20,17 +20,12 @@
 #include <CEGUIWindowManager.h>
 
 namespace rl {
-	SoundDriverConfigComponent::SoundDriverConfigComponent(const CeGuiString& xmlfile)
-        : ConfigComponent(xmlfile)
-	{
-	}
+    SoundDriverConfigComponent::SoundDriverConfigComponent(const CeGuiString& xmlfile, const CEGUI::String& drivername)
+        : ConfigComponent(xmlfile, drivername)
+    {
+    }
 
     SoundDriverConfigComponent::~SoundDriverConfigComponent()
     {
     }
-
-	const CeGuiString SoundDriverConfigComponent::getDriverName() const
-	{
-		return getDriver()->getName();
-	}
 }

@@ -72,6 +72,13 @@ typedef std::list<SoundDriver*> DriverList;
         SoundDriver* getDriverByName(const Ogre::String &name);
 
         /**
+         * Retrieves the curren list of sound drivers
+         *
+         * @return list of sound drivers
+         */
+        const std::list<SoundDriver*>& getDriverList();
+
+        /**
          * Sets the active sound driver and forwards all other settings
          * to the driver's setSettings function.
          *

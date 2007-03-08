@@ -1,5 +1,5 @@
 noinst_HEADERS = \
-	Fmod4Config.h \
+	Fmod4ConfigComponent.h \
 	Fmod4Driver.h \
 	Fmod4DriverPrerequisites.h \
 	Fmod4Listener.h \

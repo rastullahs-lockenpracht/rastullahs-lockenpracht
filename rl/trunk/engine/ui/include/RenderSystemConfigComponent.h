@@ -22,23 +22,22 @@
 
 namespace rl
 {
-	class Ogre::RenderSystem;
+    class Ogre::RenderSystem;
 
-	class _RlUiExport RenderSystemConfigComponent : public ConfigComponent
-	{
-	public:
-		RenderSystemConfigComponent(const CEGUI::String& xmlfile);
-		virtual ~RenderSystemConfigComponent();
+    class _RlUiExport RenderSystemConfigComponent : public ConfigComponent
+    {
+    public:
+        RenderSystemConfigComponent(const CEGUI::String& xmlfile, const CEGUI::String& drivername);
+        virtual ~RenderSystemConfigComponent();
 
         virtual void apply() = 0;
         virtual void resetToDefaults() = 0;
         virtual void readDriverData() = 0;
-		const CEGUI::String getDriverName() const;
 
-	protected:
-		virtual Ogre::RenderSystem* getDriver() const = 0;
+    protected:
+        virtual Ogre::RenderSystem* getDriver() const = 0;
         virtual void initialize() = 0;
-	};
+    };
 }
 
 #endif // _RenderSystemConfigComponent_H_

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -13,7 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#include "Fmod4Config.h"
+#include "Fmod4ConfigComponent.h"
 
 #include <boost/bind.hpp>
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -33,35 +33,24 @@ using namespace Ogre;
 
 namespace rl
 {
-    Fmod4Config::Fmod4Config(Fmod4Driver *driver)
-      : SoundDriverConfigComponent("fmod4.xml"),
-        mFmod4Driver(driver)
+    Fmod4ConfigComponent::Fmod4ConfigComponent()
+      : SoundDriverConfigComponent("fmod4.xml", "FMOD Ex")
     {
     }
 
-    Fmod4Config::~Fmod4Config()
+    Fmod4ConfigComponent::~Fmod4ConfigComponent()
     {
     }
 
-    Fmod4Driver* Fmod4Config::getDriver() const
-    {
-        return mFmod4Driver;
-    }
-
-    void Fmod4Config::apply()
+    void Fmod4ConfigComponent::apply()
     {
     }
 
-    void Fmod4Config::resetToDefaults()
+    void Fmod4ConfigComponent::resetToDefaults()
     {
     }
 
-    void Fmod4Config::readDriverData()
+    void Fmod4ConfigComponent::readDriverData()
     {
     }
-
-    void Fmod4Config::initialize()
-    {
-    }
-
 }

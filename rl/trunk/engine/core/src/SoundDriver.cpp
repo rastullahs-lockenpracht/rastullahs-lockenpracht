@@ -107,6 +107,11 @@ const Ogre::Real SoundDriver::getMasterVolume() const
         return SoundSettings;
     }
 
+    SoundDriverConfigComponent* SoundDriver::getConfigComponent()
+    {
+        return mConfigComponent;
+    }
+
     void SoundDriver::applySettings(const Ogre::NameValuePairList& settings)
     {
         Ogre::NameValuePairList::const_iterator it;

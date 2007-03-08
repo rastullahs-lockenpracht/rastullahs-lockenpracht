@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,34 +21,30 @@
 
 namespace rl
 {
-	class Fmod4Config : public SoundDriverConfigComponent
-	{
-	public:
-		Fmod4Config(Fmod4Driver* driver);
-		virtual ~Fmod4Config();
+    class Fmod4ConfigComponent : public SoundDriverConfigComponent
+    {
+    public:
+        Fmod4ConfigComponent();
+        virtual ~Fmod4ConfigComponent();
         virtual void apply();
         virtual void resetToDefaults();
         virtual void readDriverData();
 
-	protected:
-		Fmod4Driver* getDriver() const;
-        virtual void initialize();
+    private:
+        bool handleDriverChanged();
+        bool handleOutputChanged();
+        bool handleSpeakerChanged();
 
-	private:
-		bool handleDriverChanged();
-		bool handleOutputChanged();
-		bool handleSpeakerChanged();
-		
-		// Die Combobox, aus der gewählt wird.
-		CEGUI::Combobox* mOutput;
-		CEGUI::Combobox* mDriver;
-		CEGUI::Combobox* mSpeaker;
+        // Die Combobox, aus der gewählt wird.
+        CEGUI::Combobox* mOutput;
+        CEGUI::Combobox* mDriver;
+        CEGUI::Combobox* mSpeaker;
 
-		// War der Treiber vorher aktiv.
-		bool mWasActive;
+        // War der Treiber vorher aktiv.
+        bool mWasActive;
 
-		Fmod4Driver* mFmod4Driver;
-	};
+        Fmod4Driver* mFmod4Driver;
+    };
 
 }
 

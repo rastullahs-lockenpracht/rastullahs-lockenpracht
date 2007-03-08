@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -13,31 +13,28 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#ifndef _OpenALConfig_H_
-#define _OpenALConfig_H
-
-#include "SoundDriverConfigComponent.h"
-#include "OpenALDriver.h"
+#include "OpenALConfigComponent.h"
 
 namespace rl {
 
-	class OpenALConfig : public SoundDriverConfigComponent
-	{
-	public:
-		OpenALConfig(OpenALDriver* driver);
-		~OpenALConfig();
+    OpenALConfigComponent::OpenALConfigComponent()
+        :   SoundDriverConfigComponent("openal.xml", "OpenAL")
+    {
+    }
 
-        virtual void apply();
-        virtual void resetToDefaults();
-        virtual void readDriverData();
+    OpenALConfigComponent::~OpenALConfigComponent()
+    {
+    }
 
-    protected:
-		virtual OpenALDriver* getDriver() const;
-        virtual void initialize();
+    void OpenALConfigComponent::apply()
+    {
+    }
 
-	private:
-		OpenALDriver* mDriver;
-	};
+    void OpenALConfigComponent::resetToDefaults()
+    {
+    }
+
+    void OpenALConfigComponent::readDriverData()
+    {
+    }
 }
-
-#endif //_OpenALConfig_H_
