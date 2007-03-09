@@ -18,6 +18,7 @@
 #include "Actor.h"
 #include "Container.h"
 #include "DsaManager.h"
+#include "EffectManager.h"
 #include "Eigenschaft.h"
 #include "Exception.h"
 #include "Inventory.h"
@@ -63,6 +64,7 @@ namespace rl
         mUnconscious(0),
         mMovementType(0)
     {
+        mEffectManager = new EffectManager();
         mQueryFlags = QUERYFLAG_CREATURE;
 
 		//RlFail("Test");
@@ -97,9 +99,8 @@ namespace rl
 
 	Creature::~Creature()
     {
-		if (mInventory){
-			delete mInventory;
-		}
+        delete mInventory;
+	delete mEffectManager;
 
         for( WertMap::iterator it=mWerte.begin();it!=mWerte.end(); it++ )
             delete it->second;
@@ -615,7 +616,7 @@ namespace rl
 
     Effect::Status Creature::getStatus()
     {
-      return mEffectManager.getStatus();
+      return mEffectManager->getStatus();
     }
     
     bool Creature::isBlind()
@@ -898,7 +899,7 @@ namespace rl
     }
 
 	
-	Inventory* Creature::getInventory()
+	Inventory* Creature::getInventory() const
 	{
 		return mInventory;
 	}
@@ -1122,13 +1123,13 @@ namespace rl
 	void Creature::addEffect(Effect* effect)
 	{
 		effect->setOwner(this);
-		mEffectManager.addEffect(effect);
+		mEffectManager->addEffect(effect);
 	}
 
 	void Creature::checkEffects()
 	{
 		/// @todo Nur einmal pro Aktion ausfuehren
-		mEffectManager.checkEffects();
+		mEffectManager->checkEffects();
 	}
 
     void Creature::setProperty(const Ogre::String &key, const rl::Property &value)
@@ -1445,13 +1446,13 @@ namespace rl
 
 
 
-    float Creature::doTaktischeBewegung(int movementType, float time, int& patzer, int probenErschwernis, int modifikatoren)
+    float Creature::doTaktischeBewegung(int movementType, Ogre::Real time, int& patzer, int probenErschwernis, int modifikatoren)
     {
         // damit bei einem Sprint immer nur eine Probe gemacht wird!
-        static float lastProbeTaW = 0;
-        static int lastProbeTime = 0;
+        static int lastProbeTaW = 0;
+        static Ogre::Real lastProbeTime = 0;
         static int lastMovementType = 0;
-        lastProbeTaW -= time;
+        lastProbeTime -= time;
         bool movementTypeChanged = false;
         if( movementType != lastMovementType ) // das System lässt sich durch Zwischendurch nicht rennen austricksen!!!!
             movementTypeChanged = true;
@@ -1590,7 +1591,7 @@ namespace rl
             {
                 if( lastProbeTime <= 0 || movementTypeChanged)
                 {
-                    lastProbeTaW = doTalentprobe("Athletik", probenErschwernis);
+                	int lastProbeTaW = doTalentprobe("Athletik", probenErschwernis);
                     patzer = lastProbeTaW;
                     lastProbeTime = getAuMax();
                 }
@@ -1630,7 +1631,7 @@ namespace rl
                 if( lastProbeTime <= 0 || movementTypeChanged )
                 {
                     lastProbeTaW = doTalentprobe("Athletik", probenErschwernis);
-                    patzer = lastProbeTime;
+                    patzer = lastProbeTaW;
                     lastProbeTime = Date::ONE_SPIELRUNDE;
                 }
                 else

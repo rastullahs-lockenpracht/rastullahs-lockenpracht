@@ -19,19 +19,17 @@
 #include "RulesPrerequisites.h"
 
 #include "GameObject.h"
+#include "Effect.h"
 #include "Eigenschaft.h"
 #include "EigenschaftenStateSet.h"
 #include "TalentStateSet.h"
 #include "ZauberStateSet.h"
 #include "SonderfertigkeitenStateSet.h"
-#include "EffectManager.h"
-
-//#include "CompositeEffect.h"
 
 namespace rl
 {
     class Container;
-    class Effect;
+    class EffectManager;
     class Inventory;
     class Item;
     class Weapon;
@@ -638,7 +636,7 @@ namespace rl
              *  Gibt das Inventar der Kreatur zurueck.
              *  @return Liefert einen Zeiger auf Inventar der Kreatur
              **/
-            Inventory* getInventory();
+            Inventory* getInventory() const;
 
 
 
@@ -1009,7 +1007,7 @@ namespace rl
             int mMovementType;
 
             /// Verwaltet die Effekte die auf die Kreatur wirken.
-            EffectManager mEffectManager;
+            EffectManager* mEffectManager;
             /// Zeigt auf die gerade aktive Waffe.
             Weapon* mActiveWeapon;
             EigenschaftMap mEigenschaften;
