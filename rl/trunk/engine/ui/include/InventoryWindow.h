@@ -18,7 +18,7 @@
 #define __InventoryWindow_H__
 
 #include "UiPrerequisites.h"
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 #include "Inventory.h"
 #include "GameTask.h"
 
@@ -38,7 +38,7 @@ namespace rl {
         virtual const Ogre::String& getName() const;
 	};
 
-	class _RlUiExport InventoryWindow : public CeGuiWindow
+	class _RlUiExport InventoryWindow : public AbstractWindow
 	{
 	public:
 		InventoryWindow();

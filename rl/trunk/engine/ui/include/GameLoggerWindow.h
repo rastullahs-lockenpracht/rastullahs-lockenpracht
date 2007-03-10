@@ -19,11 +19,11 @@
 
 #include "UiPrerequisites.h"
 
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 
 namespace rl {
 
-	class _RlUiExport GameLoggerWindow : public CeGuiWindow
+	class _RlUiExport GameLoggerWindow : public AbstractWindow
 	{
 	public:
 		GameLoggerWindow();

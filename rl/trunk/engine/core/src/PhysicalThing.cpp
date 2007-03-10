@@ -15,12 +15,15 @@
  */
 
 #include "PhysicalThing.h"
-#include "OgreLogManager.h"
-#include "MeshObject.h"
+
+
+#include <OgreSceneNode.h>
+
 #include "Actor.h"
 #include "Exception.h"
-#include "PhysicalObject.h"
 #include "MathUtil.h"
+#include "MeshObject.h"
+#include "PhysicalObject.h"
 
 using namespace Ogre;
 using namespace OgreNewt;

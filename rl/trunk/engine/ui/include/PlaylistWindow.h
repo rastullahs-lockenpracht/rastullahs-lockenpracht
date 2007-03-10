@@ -19,13 +19,13 @@
 
 #include "UiPrerequisites.h"
 
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 
 namespace rl {
 
 	class Person;
 
-	class _RlUiExport PlaylistWindow : public CeGuiWindow
+	class _RlUiExport PlaylistWindow : public AbstractWindow
 	{
 	public:
 		PlaylistWindow();

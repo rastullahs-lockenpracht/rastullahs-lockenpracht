@@ -19,7 +19,7 @@
 namespace rl {
 
 DataLoadingProgressWindow::DataLoadingProgressWindow()
-: CeGuiWindow("dataloadingprogresswindow.xml", CeGuiWindow::WND_SHOW, false)
+: AbstractWindow("dataloadingprogresswindow.xml", AbstractWindow::WND_SHOW, false)
 {
 	mProgressBar = getProgressBar("DataLoadingProgressWindow/ProgressBar");
 	centerWindow();

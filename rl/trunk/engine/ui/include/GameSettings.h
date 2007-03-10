@@ -17,13 +17,13 @@
 #ifndef GAMESETTINGS_H
 #define GAMESETTINGS_H
 
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 #include "SoundDriverConfigComponent.h"
 #include "RenderSystemConfigComponent.h"
 
 namespace rl
 {
-	class GameSettings : CeGuiWindow
+	class GameSettings : AbstractWindow
 	{
 	public:
 		/**

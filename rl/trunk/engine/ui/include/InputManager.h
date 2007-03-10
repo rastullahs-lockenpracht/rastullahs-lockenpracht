@@ -28,17 +28,17 @@
 #include "FixRubyHeaders.h"
 #include "GameTask.h"
 
-#include <OgreNoMemoryMacros.h>
-#include <CEGUI.h>
-#include <OgreMemoryMacros.h>
+//#include <OgreNoMemoryMacros.h>
+//#include <CEGUI.h>
+//#include <OgreMemoryMacros.h>
 
-namespace CEGUI {
-    enum MouseButton;
-}
+//namespace CEGUI {
+//    enum MouseButton;
+//}
 
 namespace rl {
 
-    class CeGuiWindow;
+    class AbstractWindow;
     class GameObject;
     class CharacterController;
     class CommandMapper;
@@ -64,8 +64,8 @@ namespace rl {
 
         void run(Ogre::Real elapsedTime);
 
-        void registerCeGuiWindow(CeGuiWindow* window);
-        void unregisterCeGuiWindow(CeGuiWindow* window);
+        void registerAbstractWindow(AbstractWindow* window);
+        void unregisterAbstractWindow(AbstractWindow* window);
         bool isCeguiActive() const;
 
         virtual bool mousePressed(const OIS::MouseEvent & arg, OIS::MouseButtonID id);

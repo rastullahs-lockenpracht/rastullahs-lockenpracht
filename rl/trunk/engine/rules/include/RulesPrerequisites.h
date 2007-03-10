@@ -30,12 +30,7 @@
 #   define _RlRulesExport
 #endif
 
-#include <map>
 #include <vector>
-
-#define _t(T) CeGuiString(T)
-
-#include <OgreLogManager.h>
 
 #undef min
 

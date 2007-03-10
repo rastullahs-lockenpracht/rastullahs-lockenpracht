@@ -22,7 +22,7 @@ using namespace CEGUI;
 namespace rl {
 
 	InfoPopup::InfoPopup()
-		: CeGuiWindow("infopopup.xml", CeGuiWindow::WND_SHOW, false)
+		: AbstractWindow("infopopup.xml", AbstractWindow::WND_SHOW, false)
 	{
 		mErrorIcon = getWindow("InfoPopup/ErrorIcon");
 		mQuestIcon = getWindow("InfoPopup/QuestIcon");
@@ -78,7 +78,7 @@ namespace rl {
 
 	void InfoPopup::setVisible(bool visible, bool destroyAfterHide)
 	{
-        CeGuiWindow::setVisible(visible, destroyAfterHide);
+        AbstractWindow::setVisible(visible, destroyAfterHide);
         ///@todo implement the following, when timed jobs are possible.
 		//if (visible && !isVisible())
 		//{

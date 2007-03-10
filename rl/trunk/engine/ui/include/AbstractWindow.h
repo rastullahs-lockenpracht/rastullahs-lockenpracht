@@ -14,20 +14,32 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef __CeGuiWindow_H__
-#define __CeGuiWindow_H__
+#ifndef __AbstractWindow_H__
+#define __AbstractWindow_H__
 
 #include "UiPrerequisites.h"
 
-#include <OgreNoMemoryMacros.h>
-#include <CEGUI.h>
-#include <OgreMemoryMacros.h>
+
+#include <CEGUIWindow.h>
+#include <elements/CEGUIEditbox.h>
+#include <elements/CEGUIListbox.h>
+#include <elements/CEGUIMultiColumnList.h>
+#include <elements/CEGUIMultiLineEditbox.h>
+#include <elements/CEGUIProgressBar.h>
+#include <elements/CEGUIMenuBase.h>
+#include <elements/CEGUIMenuItem.h>
+#include <elements/CEGUIPushButton.h>
+#include <elements/CEGUICombobox.h>
+#include <elements/CEGUIComboDropList.h>
+#include <elements/CEGUIScrollablePane.h>
+#include <elements/CEGUISlider.h>
+#include <elements/CEGUITabControl.h>
 
 namespace rl {
 
 	class WindowUpdateTask;
 
-	class _RlUiExport CeGuiWindow
+	class _RlUiExport AbstractWindow
 	{
 	public:
 
@@ -38,7 +50,7 @@ namespace rl {
 			WND_KEYBOARD_INPUT,
 			WND_ALL_INPUT,
 		};
-		virtual ~CeGuiWindow();	
+		virtual ~AbstractWindow();	
 
 		CEGUI::Window* getWindow();
 
@@ -74,7 +86,7 @@ namespace rl {
 		virtual void windowHid();
 
 	protected:
-		CeGuiWindow(
+		AbstractWindow(
 			const CeGuiString& xmlfile, 
 			WindowType type, 
 			bool closeOnEscape = true,
@@ -102,7 +114,7 @@ namespace rl {
 		bool mCloseOnEscape;
 		Ogre::Real mNormalAlpha;
 
-		static int sNumCeGuiWindows;
+		static int sNumAbstractWindows;
 
 	};
 

@@ -13,22 +13,23 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "JournalWindow.h"
 
 #include <boost/bind.hpp>
+#include <CEGUIPropertyHelper.h>
+#include <elements/CEGUIListboxTextItem.h>
 
-#include "JournalWindow.h"
 #include "RulesSubsystem.h"
 #include "Quest.h"
 #include "QuestBook.h"
 
-#include <CEGUIPropertyHelper.h>
 
 using namespace CEGUI;
 
 namespace rl {
 
     JournalWindow::JournalWindow()
-        : CeGuiWindow("journalwindow.xml", WND_MOUSE_INPUT),
+        : AbstractWindow("journalwindow.xml", WND_MOUSE_INPUT),
         mQuests(0),
         mQuestTitle(0),
         mQuestState(0),

@@ -29,7 +29,7 @@ using namespace Ogre;
 namespace rl {
 
 PlaylistWindow::PlaylistWindow()
-	: CeGuiWindow("playlistwindow.xml", WND_MOUSE_INPUT)
+	: AbstractWindow("playlistwindow.xml", WND_MOUSE_INPUT)
 {
 	mPlaylistTable = getMultiColumnList("PlaylistSheet/PlaylistSheet/Table");
 	mPlaylistTable->addColumn((utf8*)"Name", 0, cegui_reldim(0.5));

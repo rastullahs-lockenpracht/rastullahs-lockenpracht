@@ -20,6 +20,7 @@
 #include "UiPrerequisites.h"
 
 #include <map>
+#include <OgreCommon.h>
 
 namespace rl {
 

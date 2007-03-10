@@ -13,16 +13,16 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#include <boost/bind.hpp>
-
-#include "UiPrerequisites.h"
-
-#include "UiSubsystem.h"
-#include "CoreSubsystem.h"
-
 #include "InGameMenuWindow.h"
+
+#include <boost/bind.hpp>
+#include <CEGUIWindowManager.h>
+#include <elements/CEGUIPopupMenu.h>
+
 #include "Action.h"
 #include "ActionManager.h"
+#include "CoreSubsystem.h"
+#include "UiSubsystem.h"
 
 #include <map>
 
@@ -33,7 +33,7 @@ using std::map;
 namespace rl {
 
 InGameMenuWindow::InGameMenuWindow()
-: CeGuiWindow("ingamemenuwindow.xml", WND_MOUSE_INPUT)
+: AbstractWindow("ingamemenuwindow.xml", WND_MOUSE_INPUT)
 {
 	update();
 }

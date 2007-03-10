@@ -287,7 +287,7 @@ namespace rl
         // Initialise the modules
         Ogre::StringVector modulesList = ConfigurationManager::getSingleton().getModuleList();
 
-        for (int i = 0; i < modulesList.size(); i++)
+        for (size_t i = 0; i < modulesList.size(); i++)
         {
             mRubyInterpreter->executeFile(ContentModule::getInitFile(modulesList[i]));
 

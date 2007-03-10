@@ -153,7 +153,7 @@ namespace rl {
         mKeyCommandsGlobal[getKeyCode("O")] = CeGuiString("togglecharacterstatewindow");
         */
 
-        std::vector<Ogre::String> keys;
+        StringVector keys;
 
         // Extract global actions and movement actions from the list
         for (Ogre::NameValuePairList::const_iterator it = keylist.begin(); it != keylist.end(); it++)
@@ -164,7 +164,7 @@ namespace rl {
             // We got a movement action
             if (it->first.find("mov_") != std::string::npos)
             {
-                for (int i = 0; i < keys.size(); i++)
+                for (size_t i = 0; i < keys.size(); i++)
                 {
                     mMovementCommands[InputManager::getSingleton().getScanCode(keys[i])] = getMovement(it->first);
                     LOG_MESSAGE(Logger::UI,
@@ -178,7 +178,7 @@ namespace rl {
             // We got a global action
             if (it->first.find("act_") != std::string::npos)
             {
-                for (int i = 0; i < keys.size(); i++)
+                for (size_t i = 0; i < keys.size(); i++)
                 {
                     mKeyCommandsGlobal[getKeyCode(keys[i])] = CeGuiString(it->first);
                     LOG_MESSAGE(Logger::UI,

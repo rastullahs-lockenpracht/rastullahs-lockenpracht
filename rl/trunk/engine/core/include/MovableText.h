@@ -1,5 +1,5 @@
 //-----------------------------------------------------------
-//Copyright © 2003 by cTh
+//Copyright ï¿½ 2003 by cTh
 //Use as you see fit.
 //Questions : gavocanov@rambler.ru
 //-----------------------------------------------------------
@@ -9,6 +9,9 @@
 #define __MovableText_H__
 
 #include "CorePrerequisites.h"
+
+#include <OgreMovableObject.h>
+#include <OgreRenderable.h>
 
 namespace rl
 {

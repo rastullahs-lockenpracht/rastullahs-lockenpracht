@@ -30,7 +30,7 @@ using namespace Ogre;
 namespace rl {
 
 CharacterStateWindow::CharacterStateWindow()
-: CeGuiWindow("characterstatewindow.xml", WND_SHOW, false),
+: AbstractWindow("characterstatewindow.xml", WND_SHOW, false),
 	mCharacter(NULL)
 {
 	mLP = getProgressBar("CharacterStateWindow/LP");
@@ -102,7 +102,7 @@ void CharacterStateWindow::objectStateChanged(ObjectStateChangeEvent* evt)
 
 void CharacterStateWindow::setVisible(bool visible, bool destroyAfterHide)
 {
-	CeGuiWindow::setVisible(visible, destroyAfterHide);
+	AbstractWindow::setVisible(visible, destroyAfterHide);
 	if (visible) 
 	{
 		update();

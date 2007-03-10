@@ -19,7 +19,7 @@
 
 #include "UiPrerequisites.h"
 
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 #include "Eigenschaft.h"
 #include "ObjectStateChangeEventSource.h"
 
@@ -27,7 +27,7 @@ namespace rl {
 
 	class Creature;
 
-	class _RlUiExport CharacterStateWindow : public CeGuiWindow, public ObjectStateChangeListener
+	class _RlUiExport CharacterStateWindow : public AbstractWindow, public ObjectStateChangeListener
 	{
 	public:
 		CharacterStateWindow();

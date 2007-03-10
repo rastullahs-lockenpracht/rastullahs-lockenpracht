@@ -16,6 +16,9 @@
 #include "SoundConfig.h"
 
 #include <boost/bind.hpp>
+#include <elements/CEGUIFrameWindow.h>
+#include <elements/CEGUIListboxTextItem.h>
+
 #include "Exception.h"
 #include "SoundDriver.h"
 #include "SoundDriverConfigComponent.h"
@@ -28,7 +31,7 @@ namespace rl
 {
 
 	SoundConfig::SoundConfig()
-		: CeGuiWindow("soundconfig.xml", WND_ALL_INPUT),
+		: AbstractWindow("soundconfig.xml", WND_ALL_INPUT),
 		mDriverBox(NULL),
 		mVolumeSound(0),
 		mVolumeMusic(0),
@@ -100,7 +103,7 @@ namespace rl
 			SoundDriver *activeDriver = SoundManager::getSingleton().getActiveDriver();        
 			if (item->getText() != activeDriver->getName())
 			{
-				// Nicht der aktive Treiber, also ändern.
+				// Nicht der aktive Treiber, also ï¿½ndern.
                 SoundDriver *driver = SoundManager::getSingleton().getDriverByName(item->getText().c_str());
                 if (driver != NULL)
 				{
@@ -170,7 +173,7 @@ namespace rl
 
     void SoundConfig::setVisible(bool visible, bool destroyAfterHide)
     {
-        CeGuiWindow::setVisible(visible, destroyAfterHide);
+        AbstractWindow::setVisible(visible, destroyAfterHide);
         if (visible)
         {
             update();
@@ -185,7 +188,7 @@ namespace rl
 
     void SoundConfig::setDriverPage(const CeGuiString& drivername)
     {
-        for ( std::list<SoundDriverConfigComponent*>::iterator it = mDriverConfigs.begin();
+        for (std::list<SoundDriverConfigComponent*>::iterator it = mDriverConfigs.begin();
 				it != mDriverConfigs.end(); it++)
 		{
 			SoundDriverConfigComponent* curr = *it;

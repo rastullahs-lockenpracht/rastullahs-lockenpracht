@@ -16,6 +16,8 @@
 
 #include "AnimationManager.h"
 
+#include <OgreAnimationState.h>
+
 #include "Exception.h"
 #include "Actor.h"
 #include "MeshAnimation.h"
@@ -223,7 +225,7 @@ void AnimationManager::removeAnimation(Ogre::AnimationState* animState)
     {
         BaseAnimation* anim = iter->second;
 
-        // Nicht löschen, wird noch benutzt
+        // Nicht lï¿½schen, wird noch benutzt
         if( isStillInUse( anim ) )
             return;
 

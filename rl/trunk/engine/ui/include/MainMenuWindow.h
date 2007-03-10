@@ -17,7 +17,7 @@
 #define __MainMenuWindow_H__
 
 #include "UiPrerequisites.h"
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 #include <elements/CEGUIMenuItem.h>
 
 namespace rl {
@@ -25,7 +25,7 @@ namespace rl {
 	class ContentModule;
 	class MainMenuEngineWindow;
 
-	class _RlUiExport MainMenuWindow : public CeGuiWindow
+	class _RlUiExport MainMenuWindow : public AbstractWindow
 	{
 	public:
 		MainMenuWindow(MainMenuEngineWindow* enginewindow);

@@ -18,7 +18,13 @@
 #define __RastullahPrerequisites_H__
 
 #define OGRE_MEMORY_STRESS_TEST 1
-#include <Ogre.h>
+
+#undef max
+#undef min
+
+#include <OgreString.h>
+#include <OgreStringConverter.h>
+#include <OgreVector3.h>
 
 #if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
 #   define _snprintf snprintf

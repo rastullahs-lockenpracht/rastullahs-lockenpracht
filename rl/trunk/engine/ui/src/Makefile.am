@@ -11,7 +11,7 @@ libRlUi_la_LIBADD = \
 libRlUi_la_SOURCES = \
 	AboutWindow.cpp \
 	ActionChoiceWindow.cpp \
-	CeGuiWindow.cpp \
+	AbstractWindow.cpp \
 	CharacterController.cpp \
 	CharacterSheetWindow.cpp \
 	CharacterStateWindow.cpp \

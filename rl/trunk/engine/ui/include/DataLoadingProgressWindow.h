@@ -18,12 +18,12 @@
 #define __DataLoadingProgressWindow_H__
 
 #include "UiPrerequisites.h"
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 #include "CoreEvents.h"
 
 namespace rl {
 
-	class _RlUiExport DataLoadingProgressWindow : public CeGuiWindow, public CoreEventListener
+	class _RlUiExport DataLoadingProgressWindow : public AbstractWindow, public CoreEventListener
 	{
 	public:
 		DataLoadingProgressWindow();

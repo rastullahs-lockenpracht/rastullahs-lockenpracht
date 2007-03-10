@@ -16,11 +16,12 @@
 #ifndef __DialogSubsystem_H__
 #define __DialogSubsystem_H__
 
+#include "DialogPrerequisites.h"
+
+#include <OgreResource.h>
 #include <OgreSingleton.h>
 
-#include "CommonPrerequisites.h"
-#include "DialogPrerequisites.h"
-//#include "AimlCoreComponent.h"
+//#include "CommonPrerequisites.h"
 
 namespace MadaBot
 {

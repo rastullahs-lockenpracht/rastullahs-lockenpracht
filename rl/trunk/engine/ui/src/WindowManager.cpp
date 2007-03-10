@@ -13,11 +13,11 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#include "CeGuiWindow.h"
 #include "WindowManager.h"
 #include <CEGUIWindowManager.h>
 
 #include "CoreSubsystem.h"
+#include "AbstractWindow.h"
 #include "Exception.h"
 #include "GameLoop.h"
 #include "UiSubsystem.h"
@@ -36,16 +36,16 @@ namespace rl {
 	{
 	}
 	
-	void WindowManager::registerWindow(CeGuiWindow* window)
+	void WindowManager::registerWindow(AbstractWindow* window)
 	{
 		mWindowList.push_back(window);
 	}
 
-	void WindowManager::destroyWindow(CeGuiWindow* window)
+	void WindowManager::destroyWindow(AbstractWindow* window)
 	{
 		mWindowList.remove(window);
 		window->getWindow()->hide();
-		CeGuiWindow::getRoot()->removeChildWindow(window->getWindow());
+		AbstractWindow::getRoot()->removeChildWindow(window->getWindow());
 		CEGUI::WindowManager::getSingleton().destroyWindow(window->getWindow());
 
 		///@todo memory leak, aber destroyWindow macht sonst Probleme (heap corruption)
@@ -54,9 +54,9 @@ namespace rl {
 
 	void WindowManager::closeTopWindow()
 	{
-		for(std::list<CeGuiWindow*>::iterator it = mWindowList.begin(); it != mWindowList.end(); it++)
+		for(std::list<AbstractWindow*>::iterator it = mWindowList.begin(); it != mWindowList.end(); it++)
 		{
-			CeGuiWindow* cur = *it;
+			AbstractWindow* cur = *it;
 			if (cur->isVisible() && cur->isClosingOnEscape())
 			{
 				cur->setVisible(false);
@@ -65,14 +65,14 @@ namespace rl {
 		}
 	}
 
-	bool WindowManager::handleMovedToFront(CeGuiWindow* window)
+	bool WindowManager::handleMovedToFront(AbstractWindow* window)
 	{
 		mWindowList.remove(window);
 		mWindowList.push_front(window);
 		return true;
 	}
 	
-	bool WindowManager::handleMovedToBack(CeGuiWindow* window)
+	bool WindowManager::handleMovedToBack(AbstractWindow* window)
 	{
 		mWindowList.remove(window);
 		mWindowList.push_back(window);

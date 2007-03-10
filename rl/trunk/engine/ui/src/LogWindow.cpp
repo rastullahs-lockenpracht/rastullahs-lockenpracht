@@ -23,7 +23,7 @@
 namespace rl
 {
 	LogWindow::LogWindow()
-		: CeGuiWindow("logwindow.xml", WND_MOUSE_INPUT)
+		: AbstractWindow("logwindow.xml", WND_MOUSE_INPUT)
 	{
 		mRastullahLog = getMultiLineEditbox("LogWindow/RastullahLog/Text");
 		mOgreLog = getMultiLineEditbox("LogWindow/OgreLog/Text");
@@ -54,7 +54,7 @@ namespace rl
 	
 	void LogWindow::setVisible(bool visible, bool destroyAfterHide)
 	{
-		CeGuiWindow::setVisible(visible, destroyAfterHide);
+		AbstractWindow::setVisible(visible, destroyAfterHide);
 
 		if (visible)
 		{

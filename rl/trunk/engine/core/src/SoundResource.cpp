@@ -16,6 +16,8 @@
 
 #include "SoundResource.h"
 
+#include <OgreResourceGroupManager.h>
+
 using namespace Ogre;
 
 namespace rl {

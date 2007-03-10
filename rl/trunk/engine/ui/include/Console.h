@@ -22,7 +22,7 @@
 #include <vector>
 #include <string>
 
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 
 #include <OgreSingleton.h>
 
@@ -32,7 +32,7 @@ namespace rl {
 
 	/** This is a Console System
 	 */
-	class _RlUiExport Console : public CeGuiWindow
+	class _RlUiExport Console : public AbstractWindow
 	{
 		public:
 			Console();

@@ -18,13 +18,13 @@
 
 #include "UiPrerequisites.h"
 
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 
 namespace rl
 {
 	class GameObject;
 
-	class _RlUiExport SubtitleWindow : public CeGuiWindow
+	class _RlUiExport SubtitleWindow : public AbstractWindow
 	{
 	public:
 		SubtitleWindow();

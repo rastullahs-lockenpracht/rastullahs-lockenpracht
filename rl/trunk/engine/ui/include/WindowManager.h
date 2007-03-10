@@ -25,13 +25,12 @@
 #include <ruby.h>
 #include "FixRubyHeaders.h"
 #include <OgreMemoryMacros.h>
-#undef min
 
 #include <CEGUIVector.h>
 
 namespace rl {
 
-	class CeGuiWindow;
+	class AbstractWindow;
 	class WindowUpdater;
 
 	class _RlUiExport WindowManager : public Ogre::Singleton<WindowManager>
@@ -43,14 +42,14 @@ namespace rl {
 		static WindowManager& getSingleton();
 		static WindowManager* getSingletonPtr();
 
-		void registerWindow(CeGuiWindow* window);
-		void destroyWindow(CeGuiWindow* window);
+		void registerWindow(AbstractWindow* window);
+		void destroyWindow(AbstractWindow* window);
 		void closeTopWindow();
-		bool handleMovedToFront(CeGuiWindow* window);
-		bool handleMovedToBack(CeGuiWindow* window);
+		bool handleMovedToFront(AbstractWindow* window);
+		bool handleMovedToBack(AbstractWindow* window);
 
 	private:
-		std::list<CeGuiWindow*> mWindowList;
+		std::list<AbstractWindow*> mWindowList;
 	};
 }
 

@@ -13,15 +13,17 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "CharacterSheetWindow.h"
+
 #include <boost/bind.hpp>
-#include "UiPrerequisites.h"
+#include <CEGUIPropertyHelper.h>
+#include <elements/CEGUIListboxTextItem.h>
 
 #include "DsaManager.h"
 #include "Person.h"
 #include "InputManager.h"
 #include "Talent.h"
 
-#include "CharacterSheetWindow.h"
 #include "ObjectStateChangeEvent.h"
 
 using namespace CEGUI;
@@ -31,7 +33,7 @@ using namespace Ogre;
 namespace rl {
 
 CharacterSheetWindow::CharacterSheetWindow()
-	: CeGuiWindow("charactersheet.xml", WND_MOUSE_INPUT)
+	: AbstractWindow("charactersheet.xml", WND_MOUSE_INPUT)
 {
 	mTalentTable = getMultiColumnList("CharacterSheet/TalentSheet/Table");
 	mTalentTable->addColumn((utf8*)"Talent", 0, cegui_reldim(0.5));

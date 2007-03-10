@@ -16,6 +16,11 @@
 
 #include "UiSubsystem.h"
 
+#include <CEGUISystem.h>
+#include <CEGUIWindowManager.h>
+#include <OgreCEGUIRenderer.h>
+#include <OgreCEGUIResourceProvider.h>
+
 #include "Action.h"
 #include "ActionManager.h"
 #include "Actor.h"
@@ -43,9 +48,6 @@
 #include "WindowManager.h"
 #include "World.h"
 #include "CeGuiHelper.h"
-#include <OgreCEGUIRenderer.h>
-#include <CEGUISystem.h>
-#include <OgreCEGUIResourceProvider.h>
 
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
 using namespace Ogre;
@@ -121,7 +123,7 @@ namespace rl {
             "CEGUI System initialized.", "UiSubsystem::initializeUiSubsystem");
 
         // load scheme and set up defaults
-        ///@todo Hier sollte was Lookunabhängiges rein!!! FIXME TODO BUG!
+        ///@todo Hier sollte was Lookunabhï¿½ngiges rein!!! FIXME TODO BUG!
         System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook-Images",
             (utf8*)"MouseArrow");
         LOG_MESSAGE2(Logger::UI, "Mouse arrow loaded.",
@@ -183,7 +185,7 @@ namespace rl {
             SoundManager::getSingleton().createListenerActor();
         }
 
-        // Nur wenn es sich verändert hat
+        // Nur wenn es sich verï¿½ndert hat
         if( person != mCharacter )
         {
             if( mCharacter != NULL )

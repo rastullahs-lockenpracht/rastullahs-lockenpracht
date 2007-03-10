@@ -24,21 +24,21 @@
 
 namespace rl {
 
-    class CeGuiWindow;
+    class AbstractWindow;
 
     class WindowFadeJob : public Job
     {
     public:
         typedef enum {FADE_IN, FADE_OUT, FADE_OUT_AND_DESTROY} Mode;
 
-        WindowFadeJob(CeGuiWindow* window, Mode mode,
+        WindowFadeJob(AbstractWindow* window, Mode mode,
             Ogre::Real targetAlpha, Ogre::Real changeRate = 4.0f);
 
         virtual bool execute(Ogre::Real time);
         virtual void discard();
 
     protected:
-        CeGuiWindow* mWindow;
+        AbstractWindow* mWindow;
         Mode mMode;
         Ogre::Real mChangeRate;
         Ogre::Real mCurrentAlpha;

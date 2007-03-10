@@ -20,7 +20,7 @@
 #include "UiPrerequisites.h"
 #include <OgreSingleton.h>
 
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 #include "GameTask.h"
 
 #include <map>
@@ -28,13 +28,11 @@
 namespace rl {
 
     class _RlUiExport DebugWindow
-		: public Ogre::Singleton<DebugWindow>, public GameTask, public CeGuiWindow
+		: public Ogre::Singleton<DebugWindow>, public GameTask, public AbstractWindow
     {
     public:
         DebugWindow(void);
         ~DebugWindow();
-        static DebugWindow& getSingleton(void);
-        static DebugWindow* getSingletonPtr(void);
 
 		void setVisible(bool visible, bool destroyAfterHide = false);
 

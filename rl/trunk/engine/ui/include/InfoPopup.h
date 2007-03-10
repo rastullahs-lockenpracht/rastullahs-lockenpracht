@@ -17,12 +17,12 @@
 #include "UiPrerequisites.h"
 #include <vector>
 
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 #include "QuestListener.h"
 
 namespace rl {
 
-    class _RlUiExport InfoPopup : public CeGuiWindow, public QuestListener
+    class _RlUiExport InfoPopup : public AbstractWindow, public QuestListener
     {
     public:
         InfoPopup();

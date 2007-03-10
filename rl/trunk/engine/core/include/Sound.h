@@ -18,11 +18,12 @@
 #define __Sound_H__
 
 #include "CorePrerequisites.h"
-#include "Exception.h"
 #include <set>
+#include <OgreMovableObject.h>
 #include <OgreVector3.h>
 #include <OgreQuaternion.h>
 
+#include "Exception.h"
 #include "EventCaster.h"
 #include "SoundEvents.h"
 #include "SoundResource.h"

@@ -17,14 +17,14 @@
 #define __InGameMenuWindow_H__
 
 #include "UiPrerequisites.h"
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 
 namespace rl {
 	
 	class GameObject;
 	class Action;
 
-	class _RlUiExport InGameMenuWindow : public CeGuiWindow
+	class _RlUiExport InGameMenuWindow : public AbstractWindow
 	{
 	public:
 		InGameMenuWindow();

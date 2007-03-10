@@ -32,7 +32,7 @@
 #include "ActionManager.h"
 #include "Actor.h"
 #include "ActorManager.h"
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 #include "CharacterController.h"
 #include "CommandMapper.h"
 #include "Console.h"
@@ -400,22 +400,22 @@ namespace rl {
         return rval;
     }
 
-    void InputManager::registerCeGuiWindow(CeGuiWindow* window)
+    void InputManager::registerAbstractWindow(AbstractWindow* window)
     {
-        if (window->getWindowType() == CeGuiWindow::WND_SHOW)
+        if (window->getWindowType() == AbstractWindow::WND_SHOW)
             return;
 
         bool active = isCeguiActive();
 
-        if (window->getWindowType() == CeGuiWindow::WND_MOUSE_INPUT)
+        if (window->getWindowType() == AbstractWindow::WND_MOUSE_INPUT)
         {
             mNumActiveWindowsMouseInput++;
         }
-        else if (window->getWindowType() == CeGuiWindow::WND_KEYBOARD_INPUT)
+        else if (window->getWindowType() == AbstractWindow::WND_KEYBOARD_INPUT)
         {
             mNumActiveWindowsKeyboardInput++;
         }
-        else if (window->getWindowType() == CeGuiWindow::WND_ALL_INPUT)
+        else if (window->getWindowType() == AbstractWindow::WND_ALL_INPUT)
         {
             mNumActiveWindowsAllInput++;
         }
@@ -429,24 +429,24 @@ namespace rl {
         }
     }
 
-    void InputManager::unregisterCeGuiWindow(CeGuiWindow* window)
+    void InputManager::unregisterAbstractWindow(AbstractWindow* window)
     {
-        if (window->getWindowType() == CeGuiWindow::WND_SHOW)
+        if (window->getWindowType() == AbstractWindow::WND_SHOW)
         {
             return;
         }
 
         bool active = isCeguiActive();
 
-        if (window->getWindowType() == CeGuiWindow::WND_MOUSE_INPUT)
+        if (window->getWindowType() == AbstractWindow::WND_MOUSE_INPUT)
         {
             mNumActiveWindowsMouseInput--;
         }
-        else if (window->getWindowType() == CeGuiWindow::WND_KEYBOARD_INPUT)
+        else if (window->getWindowType() == AbstractWindow::WND_KEYBOARD_INPUT)
         {
             mNumActiveWindowsKeyboardInput--;
         }
-        else if (window->getWindowType() == CeGuiWindow::WND_ALL_INPUT)
+        else if (window->getWindowType() == AbstractWindow::WND_ALL_INPUT)
         {
             mNumActiveWindowsAllInput--;
         }

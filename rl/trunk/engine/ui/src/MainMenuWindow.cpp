@@ -13,18 +13,17 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "MainMenuWindow.h"
+
 #include <boost/bind.hpp>
+#include <CEGUIWindowManager.h>
 
-#include "UiPrerequisites.h"
-
-#include "WindowFactory.h"
 #include "CoreSubsystem.h"
 #include "ConfigurationManager.h"
 #include "ContentModule.h"
-
 #include "MainMenuEngineWindow.h"
-#include "MainMenuWindow.h"
 #include "SoundConfig.h"
+#include "WindowFactory.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -32,7 +31,7 @@ using namespace Ogre;
 namespace rl {
 
 	MainMenuWindow::MainMenuWindow(MainMenuEngineWindow* enginewindow) :
-		CeGuiWindow("mainmenuwindow.xml", WND_MOUSE_INPUT, false, false),
+		AbstractWindow("mainmenuwindow.xml", WND_MOUSE_INPUT, false, false),
 		mActiveModule(NULL),
 		mEngineWindow(enginewindow)
 	{
@@ -138,7 +137,7 @@ namespace rl {
 
 	void MainMenuWindow::setVisible(bool visible, bool destroyAfterHide)
 	{
-		CeGuiWindow::setVisible(visible, destroyAfterHide);
+		AbstractWindow::setVisible(visible, destroyAfterHide);
 		mEngineWindow->setVisible(visible, destroyAfterHide);
 	}
 }

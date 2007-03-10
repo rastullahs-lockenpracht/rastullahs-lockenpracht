@@ -19,6 +19,7 @@
 #include "CommonPrerequisites.h"
 
 #include <boost/any.hpp>
+#include <OgreSharedPtr.h>
 
 #include "Exception.h"
 #include "Tripel.h"

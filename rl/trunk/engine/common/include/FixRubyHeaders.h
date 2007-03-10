@@ -37,3 +37,5 @@
     #undef PACKAGE_NAME
     #undef PACKAGE_TARNAME
 #endif
+#undef max
+#undef min

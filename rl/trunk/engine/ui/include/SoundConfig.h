@@ -17,14 +17,14 @@
 #ifndef SOUNDCONFIG_H_
 #define SOUNDCONFIG_H_
 
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 
 namespace rl
 {
 
 	class SoundDriverConfigComponent;
 
-	class SoundConfig : public rl::CeGuiWindow
+	class SoundConfig : public rl::AbstractWindow
 	{
 	public:
 		SoundConfig();

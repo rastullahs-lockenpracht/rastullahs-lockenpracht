@@ -17,13 +17,13 @@
 #define __MainMenuEngineWindow_H__
 
 #include "UiPrerequisites.h"
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 
 namespace rl {
 	
 	class ContentModule;
 
-	class _RlUiExport MainMenuEngineWindow : public CeGuiWindow
+	class _RlUiExport MainMenuEngineWindow : public AbstractWindow
 	{
 	public:
 		MainMenuEngineWindow();

@@ -13,10 +13,11 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "World.h"
 
+#include <OgreRoot.h>
 #include <OgreSceneManager.h>
 
-#include "World.h"
 #include "Exception.h"
 
 using namespace Ogre;

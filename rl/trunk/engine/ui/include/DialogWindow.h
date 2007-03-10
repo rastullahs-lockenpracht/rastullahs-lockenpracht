@@ -22,7 +22,7 @@
 #include <vector>
 #include <map>
 
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 
 namespace rl {
 
@@ -31,7 +31,7 @@ namespace rl {
 	class DialogCharacterController;
 	class GameLoggerWindow;
 
-	class _RlUiExport DialogWindow : public CeGuiWindow
+	class _RlUiExport DialogWindow : public AbstractWindow
 	{
 	public:
 		DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger, DialogCharacterController* controller);

@@ -15,9 +15,12 @@
 */
 
 #include "DebugVisualisable.h"
+
+#include <OgreSceneNode.h>
+
+#include "CoreSubsystem.h"
 #include "DebugVisualsManager.h"
 #include "PrimitiveObject.h"
-#include "CoreSubsystem.h"
 #include "World.h"
 
 using namespace Ogre;

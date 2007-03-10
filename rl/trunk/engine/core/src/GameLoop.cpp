@@ -13,10 +13,11 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "GameLoop.h"
 
 #include <OgreRoot.h>
+#include <OgreWindowEventUtilities.h>
 
-#include "GameLoop.h"
 #include "GameTask.h"
 #include "CoreSubsystem.h"
 #include "FixRubyHeaders.h"

@@ -15,11 +15,14 @@
 */
 
 #include "ParticleSystemObject.h"
+
+#include <OgreMeshManager.h>
+#include <OgreParticleEmitter.h>
+
 #include "Actor.h"
 #include "CoreSubsystem.h"
 #include "World.h"
 
-#include <OgreMeshManager.h>
 
 using namespace Ogre;
 

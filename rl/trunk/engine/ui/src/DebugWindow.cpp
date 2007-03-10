@@ -35,16 +35,7 @@ template<> rl::DebugWindow* Ogre::Singleton<rl::DebugWindow>::ms_Singleton = 0;
 
 namespace rl
 {
-  DebugWindow& DebugWindow::getSingleton(void)
-    {
-        return Ogre::Singleton<DebugWindow>::getSingleton();
-    }
-    DebugWindow* DebugWindow::getSingletonPtr(void)
-    {
-        return Ogre::Singleton<DebugWindow>::getSingletonPtr();
-    }
-
-    DebugWindow::DebugWindow() : CeGuiWindow("debugwindow.xml", WND_SHOW),
+    DebugWindow::DebugWindow() : AbstractWindow("debugwindow.xml", WND_SHOW),
           mMessageText(),
           mPageCaption(),
           mPageText(),
@@ -212,7 +203,7 @@ namespace rl
 
     void DebugWindow::setVisible(bool visible, bool destroyAfterHide)
     {
-        CeGuiWindow::setVisible(visible, destroyAfterHide);
+        AbstractWindow::setVisible(visible, destroyAfterHide);
         if (visible)
             GameLoop::getSingleton().addTask(this, GameLoop::TG_GRAPHICS);
         else

@@ -413,7 +413,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\CeGuiWindow.h"
+					RelativePath=".\include\AbstractWindow.h"
 					>
 				</File>
 				<File
@@ -586,7 +586,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\CeGuiWindow.cpp"
+					RelativePath=".\src\AbstractWindow.cpp"
 					>
 				</File>
 				<File

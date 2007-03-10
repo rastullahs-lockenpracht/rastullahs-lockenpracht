@@ -1,7 +1,7 @@
 noinst_HEADERS = \
 	AboutWindow.h \
 	ActionChoiceWindow.h \
-	CeGuiWindow.h \
+	AbstractWindow.h \
 	CharacterController.h \
 	CharacterSheetWindow.h \
 	CharacterStateWindow.h \

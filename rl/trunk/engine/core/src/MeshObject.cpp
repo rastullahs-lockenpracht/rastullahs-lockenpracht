@@ -13,18 +13,21 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-
-#include "Exception.h"
 #include "MeshObject.h"
+
+#include <OgreAnimationState.h>
+#include <OgreMaterialManager.h>
+#include <OgreMeshManager.h>
+#include <OgreSubEntity.h>
+#include <OgreSubMesh.h>
+
 #include "Actor.h"
+#include "AnimationManager.h"
 #include "CoreSubsystem.h"
+#include "MeshAnimation.h"
+#include "Exception.h"
 #include "World.h"
 
-#include "MeshAnimation.h"
-#include "AnimationManager.h"
-
-#include <OgreMeshManager.h>
-#include <OgreAnimationState.h>
 
 using namespace Ogre;
 
@@ -327,7 +330,7 @@ namespace rl {
             if( subent == NULL )
                 continue;
 
-            // TODO - optimieren, nur wenn der Typ verändert wird
+            // TODO - optimieren, nur wenn der Typ verï¿½ndert wird
             //if(StringUtil::endsWith(subent->getMaterialName(),nameExtension)
             // == highlight )
             //  continue;  

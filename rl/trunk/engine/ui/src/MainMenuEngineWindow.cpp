@@ -26,7 +26,7 @@ using namespace Ogre;
 namespace rl {
 
     MainMenuEngineWindow::MainMenuEngineWindow() :
-        CeGuiWindow("mainmenuenginewindow.xml", WND_SHOW, false)
+        AbstractWindow("mainmenuenginewindow.xml", WND_SHOW, false)
     {
         getWindow("MainMenu/EngineVersion")->setText(
             CoreSubsystem::getSingleton().getEngineVersionString()+

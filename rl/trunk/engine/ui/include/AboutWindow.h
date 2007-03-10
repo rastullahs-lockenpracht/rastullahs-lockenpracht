@@ -18,12 +18,12 @@
 #define __AboutWindow_H__
 
 #include "UiPrerequisites.h"
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 
 namespace rl {
 	
 	class _RlUiExport AboutWindow :
-		public CeGuiWindow
+		public AbstractWindow
 	{
 	public:
 		AboutWindow();

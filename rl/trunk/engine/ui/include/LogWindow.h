@@ -18,12 +18,12 @@
 
 #include "UiPrerequisites.h"
 
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 
 namespace rl
 {
 
-	class _RlUiExport LogWindow : public CeGuiWindow
+	class _RlUiExport LogWindow : public AbstractWindow
 	{
 	public:
 		LogWindow();

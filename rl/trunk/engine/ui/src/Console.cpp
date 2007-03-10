@@ -13,24 +13,25 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "Console.h"
+
 #include <boost/bind.hpp>
-#include "UiPrerequisites.h"
+#include <elements/CEGUIFrameWindow.h>
 
 #include "RubyInterpreter.h"
 #include "ListboxWrappedTextItem.h"
 #include "CoreSubsystem.h"
-#include "Console.h"
 
 using namespace Ogre;
 
-using CEGUI::WindowManager; using CEGUI::utf8; using CEGUI::ListboxTextItem;
+using CEGUI::utf8; using CEGUI::ListboxTextItem;
 using CEGUI::KeyEventArgs; using CEGUI::Key; using CEGUI::colour;
 using CEGUI::ListboxWrappedTextItem; using CEGUI::TextFormatting;
 
 namespace rl 
 {
 	Console::Console() : 
-		CeGuiWindow("console.xml", WND_KEYBOARD_INPUT)
+		AbstractWindow("console.xml", WND_KEYBOARD_INPUT)
 	{
 		using namespace CEGUI;
 		
@@ -58,7 +59,7 @@ namespace rl
 			mCommandLine->activate();
 		}
 		
-		CeGuiWindow::setVisible(visible, destroy);
+		AbstractWindow::setVisible(visible, destroy);
 	}
 
 	bool Console::handleKeyDown(const CEGUI::EventArgs& e)

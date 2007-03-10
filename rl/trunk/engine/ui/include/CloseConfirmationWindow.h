@@ -18,11 +18,11 @@
 #define __CloseConfirmationWindow_H__
 
 #include "UiPrerequisites.h"
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 
 namespace rl {
 
-	class _RlUiExport CloseConfirmationWindow : public CeGuiWindow
+	class _RlUiExport CloseConfirmationWindow : public AbstractWindow
 	{
 	public:
 		CloseConfirmationWindow();

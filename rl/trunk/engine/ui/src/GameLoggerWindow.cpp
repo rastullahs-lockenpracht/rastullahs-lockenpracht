@@ -27,7 +27,7 @@ CEGUI::colour GameLoggerWindow::COLOR_FIGHT(     0xFFFFFF7F);
 CEGUI::colour GameLoggerWindow::COLOR_MISC(      0xFFFFFFFF);
 
 GameLoggerWindow::GameLoggerWindow() : 
-	CeGuiWindow("gameloggerwindow.xml", WND_SHOW)
+	AbstractWindow("gameloggerwindow.xml", WND_SHOW)
 {
 	mLog = getListbox ("GameLogger/Log");
 	bindCloseToCloseButton();

@@ -45,6 +45,8 @@ void RL_RubyRemoveTracking(void* ptr)
 
 #include "FixRubyHeaders.h"
 
+#include <CEGUIExceptions.h>
+
 %}
 
 // Header includes

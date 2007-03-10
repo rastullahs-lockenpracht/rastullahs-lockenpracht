@@ -425,7 +425,7 @@ namespace rl {
 
     void WindowFactory::logAllWindows()
     {
-        CEGUI::Window* rootWnd = CeGuiWindow::getRoot();
+        CEGUI::Window* rootWnd = AbstractWindow::getRoot();
         CEGUI::uint count = rootWnd->getChildCount();
         for (CEGUI::uint chIdx =  0; chIdx < count; ++chIdx)
         {

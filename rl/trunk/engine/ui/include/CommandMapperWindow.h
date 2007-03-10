@@ -18,7 +18,7 @@
 #define __CommandMapperWindow_H__
 
 #include "UiPrerequisites.h"
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 
 namespace rl {
 
@@ -26,7 +26,7 @@ namespace rl {
 	class CommandMapper;
 
 	class CommandMapperInputWindow :
-		public CeGuiWindow
+		public AbstractWindow
 	{
 	public:
 		CommandMapperInputWindow();
@@ -35,7 +35,7 @@ namespace rl {
 	};
 
 	class _RlUiExport CommandMapperWindow :
-		public CeGuiWindow
+		public AbstractWindow
 	{
 	public:
 		CommandMapperWindow(Creature* actionHolder, CommandMapper* commandMapper);

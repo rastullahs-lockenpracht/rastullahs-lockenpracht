@@ -16,7 +16,7 @@
 
 #include "WindowFadeJob.h"
 
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 #include "CeGuiHelper.h"
 #include "WindowManager.h"
 
@@ -25,7 +25,7 @@ using namespace Ogre;
 
 namespace rl
 {
-    WindowFadeJob::WindowFadeJob(CeGuiWindow* window, Mode mode, Real targetAlpha, Real changeRate)
+    WindowFadeJob::WindowFadeJob(AbstractWindow* window, Mode mode, Real targetAlpha, Real changeRate)
         : Job(true, true),
         mWindow(window),
         mMode(mode),

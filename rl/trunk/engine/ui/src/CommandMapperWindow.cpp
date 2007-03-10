@@ -13,14 +13,15 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#include <boost/bind.hpp>
 
-#include "UiPrerequisites.h"
+#include "CommandMapperWindow.h"
+
+#include <boost/bind.hpp>
+#include <elements/CEGUIListboxTextItem.h>
 
 #include "InputManager.h"
 #include "UiSubsystem.h"
 #include "CommandMapper.h"
-#include "CommandMapperWindow.h"
 
 #include "GameObject.h"
 #include "Creature.h"
@@ -32,7 +33,7 @@ using namespace Ogre;
 namespace rl {
 
 CommandMapperWindow::CommandMapperWindow(Creature* actionHolder, CommandMapper* commandMapper)
-	:	CeGuiWindow("commandmapper.xml", WND_ALL_INPUT),
+	:	AbstractWindow("commandmapper.xml", WND_ALL_INPUT),
 		mActionHolder(actionHolder),
 		mInputWindow(new CommandMapperInputWindow()),
 		mCommandMapper(commandMapper)
@@ -177,7 +178,7 @@ bool CommandMapperWindow::handleMouseButton(const CEGUI::EventArgs& e)
 }
 
 CommandMapperInputWindow::CommandMapperInputWindow() :
-	CeGuiWindow("commandmapperinput.xml", CeGuiWindow::WND_SHOW)
+	AbstractWindow("commandmapperinput.xml", AbstractWindow::WND_SHOW)
 {
 	setVisible(false);
 	mWindow->moveToFront();
@@ -186,7 +187,7 @@ CommandMapperInputWindow::CommandMapperInputWindow() :
 
 void CommandMapperInputWindow::setVisible(bool visible, bool destroyAfterHide)
 {
-	CeGuiWindow::setVisible(visible, destroyAfterHide);
+	AbstractWindow::setVisible(visible, destroyAfterHide);
 	if (visible)
 		mWindow->moveToFront();
 }
@@ -194,7 +195,7 @@ void CommandMapperInputWindow::setVisible(bool visible, bool destroyAfterHide)
 void CommandMapperWindow::refreshContent()
 {
 	unsigned int row;
-	//// Alle möglichen Bewegungen aus dem CommandMapper auslesen
+	//// Alle mï¿½glichen Bewegungen aus dem CommandMapper auslesen
 	//row = 0;
 	//const std::map<CeGuiString, MovementState> movements = 
 	//	mCommandMapper->getMovements();

@@ -19,7 +19,7 @@
 
 #include "UiPrerequisites.h"
 
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 #include <set>
 #include <vector>
 #include "Action.h"
@@ -30,7 +30,7 @@ namespace rl {
 	class Person;
 	class ActionGroup;
 
-	class _RlUiExport ActionChoiceWindow : public CeGuiWindow
+	class _RlUiExport ActionChoiceWindow : public AbstractWindow
 	{
 	public:
 		ActionChoiceWindow(Person* actor);

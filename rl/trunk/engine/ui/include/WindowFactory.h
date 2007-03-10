@@ -32,7 +32,7 @@
 namespace rl {
 
 	class Actor;
-	class CeGuiWindow;
+	class AbstractWindow;
 	class CharacterStateWindow;
 	class CharacterSheetWindow;
 	class Console;

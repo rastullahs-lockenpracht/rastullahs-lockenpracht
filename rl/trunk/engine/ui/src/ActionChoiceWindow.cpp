@@ -13,8 +13,9 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "ActionChoiceWindow.h"
 #include <boost/bind.hpp>
-#include "UiPrerequisites.h"
+#include <CEGUIWindowManager.h>
 
 #include <set>
 #include <algorithm>
@@ -26,7 +27,6 @@
 #include "UiSubsystem.h"
 #include "Exception.h"
 
-#include "ActionChoiceWindow.h"
 
 using namespace CEGUI;
 using namespace std;
@@ -38,7 +38,7 @@ namespace rl {
 	const int MAX_NUM_SUBACTIONS = 7;
 
 	ActionChoiceWindow::ActionChoiceWindow(Person* actor)
-		:	CeGuiWindow("actionchoicewindow.xml", WND_MOUSE_INPUT),
+		:	AbstractWindow("actionchoicewindow.xml", WND_MOUSE_INPUT),
 			mActor(actor)
 	{
 		mHint = getWindow("ActionChoiceWindow/Hint");
@@ -85,7 +85,7 @@ namespace rl {
 		}
 		mButtons.clear();
 		LOG_DEBUG2(Logger::UI, 
-			"Buttons gelöscht", "ActionChoiceWindow::showActionsOfObject");
+			"Buttons gelï¿½scht", "ActionChoiceWindow::showActionsOfObject");
 
 		CEGUI::UVector2 center(cegui_reldim(0.5), cegui_reldim(0.5));
 		static float RADIUS = 0.10;
@@ -243,11 +243,11 @@ namespace rl {
 
 	PushButton* ActionChoiceWindow::createButton(const CeGuiString& name, const CEGUI::UVector2& pos)
 	{
-		Window* button = CeGuiWindow::loadWindow("buttons/"+name+".xml");
+		Window* button = AbstractWindow::loadWindow("buttons/"+name+".xml");
 		if (button == NULL)
 		{
 			button = 
-				CeGuiWindow::loadWindow(
+				AbstractWindow::loadWindow(
 					"buttons/defaultbutton.xml");
 		}
 

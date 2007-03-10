@@ -13,11 +13,16 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "InventoryWindow.h"
 
 
 #include <boost/bind.hpp>
+#include <CEGUIImageset.h>
+#include <CEGUIImagesetManager.h>
+#include <CEGUIWindowManager.h>
+#include <elements/CEGUIDragContainer.h>
+#include <elements/CEGUIFrameWindow.h>
 
-#include "InventoryWindow.h"
 
 #include "Actor.h"
 #include "ActorManager.h"
@@ -75,7 +80,7 @@ namespace rl {
 	// ***************** Konstruktor *********************************
 	// ***************************************************************
 	InventoryWindow::InventoryWindow()
-		: CeGuiWindow("inventorywindow.xml", WND_MOUSE_INPUT),
+		: AbstractWindow("inventorywindow.xml", WND_MOUSE_INPUT),
 		mDescription(NULL),
 		mRenderItemEntity(NULL),
 		mRenderTexture(NULL),

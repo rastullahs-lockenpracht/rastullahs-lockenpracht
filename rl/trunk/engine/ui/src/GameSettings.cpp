@@ -13,18 +13,20 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "GameSettings.h"
 
 #include <boost/bind.hpp>
+#include <elements/CEGUIFrameWindow.h>
+#include <elements/CEGUIListboxTextItem.h>
 #include <iostream>
 
-#include "GameSettings.h"
 #include "SoundManager.h"
 #include "SoundDriver.h"
 
 namespace rl
 {
     GameSettings::GameSettings()
-        : CeGuiWindow("gamesettings.xml", WND_MOUSE_INPUT)
+        : AbstractWindow("gamesettings.xml", WND_MOUSE_INPUT)
     {
         // Register sound driver components
         std::list<SoundDriver*> soundDriverList = SoundManager::getSingleton().getDriverList();
@@ -66,7 +68,7 @@ namespace rl
 
     void GameSettings::setVisible(bool visible, bool destroyAfterHide)
     {
-        CeGuiWindow::setVisible(visible, destroyAfterHide);
+        AbstractWindow::setVisible(visible, destroyAfterHide);
     }
 
     void GameSettings::setConfigComponent(const CEGUI::String& drivername)

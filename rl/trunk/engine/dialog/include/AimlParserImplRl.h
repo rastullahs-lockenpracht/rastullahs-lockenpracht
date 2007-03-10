@@ -19,6 +19,8 @@
 #include "DialogPrerequisites.h"
 #include "XmlMapper/XmlParser.h"
 
+#include <OgreResource.h>
+
 using namespace XmlMapper;
 
 namespace rl

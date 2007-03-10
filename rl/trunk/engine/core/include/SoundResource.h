@@ -18,8 +18,9 @@
 #define SOUNDRESOURCE_H
 
 #include "CorePrerequisites.h"
+#include <OgreDataStream.h> 
 #include <OgreResource.h>
-#include <OgreDataStream.h>
+#include <OgreSharedPtr.h>
 
 namespace rl {
  
@@ -46,7 +47,7 @@ class _RlCoreExport SoundResource: public Ogre::Resource
             Ogre::ManualResourceLoader* loader);
         /// Der Destruktor
         virtual ~SoundResource();
-        /// Den Datenstrom zurückgeben
+        /// Den Datenstrom zurï¿½ckgeben
         const Ogre::DataStreamPtr &getDataStream() const;
         /// Groesse zurueckgeben.
         int getSize() const;

@@ -19,12 +19,12 @@
 
 #include "UiPrerequisites.h"
 
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 #include "QuestListener.h"
 
 namespace rl {
 
-    class JournalWindow : public CeGuiWindow, public QuestListener {
+    class JournalWindow : public AbstractWindow, public QuestListener {
     public:
         JournalWindow();
         virtual ~JournalWindow();

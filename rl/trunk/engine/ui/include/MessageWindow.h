@@ -18,12 +18,12 @@
 #define __MessageWindow_H__
 
 #include "UiPrerequisites.h"
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 
 namespace rl {
 	
 	class _RlUiExport MessageWindow :
-		public CeGuiWindow
+		public AbstractWindow
 	{
 	public:
 		MessageWindow();

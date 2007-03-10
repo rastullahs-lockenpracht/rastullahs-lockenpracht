@@ -13,9 +13,10 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#include <boost/bind.hpp>
-
 #include "DialogWindow.h"
+
+#include <boost/bind.hpp>
+#include <elements/CEGUIFrameWindow.h>
 
 #include "Exception.h"
 #include "ConfigurationManager.h"
@@ -45,7 +46,7 @@ const CeGuiString DialogWindow::DIALOG_EXIT = "EXIT";
 
 DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger,
                            DialogCharacterController* controller)
-  : CeGuiWindow("dialogwindow.xml", WND_MOUSE_INPUT, false),
+  : AbstractWindow("dialogwindow.xml", WND_MOUSE_INPUT, false),
 	mBot(bot), 
 	mCurrentResponse(NULL),
     mCurrentResponseText(""),
