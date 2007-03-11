@@ -22,6 +22,7 @@
 
 #include <boost/bind.hpp>
 #include <CEGUIPropertyHelper.h>
+#include <CEGUIWindowManager.h>
 #include <elements/CEGUIListboxTextItem.h>
 
 #include "GameObjectWindow.h"
@@ -77,7 +78,7 @@ namespace rl {
         for( PropertyMap::const_iterator propIter = props->begin();
             propIter != props->end(); propIter++ )
         {
-            CEGUI::String key = propIter->first;
+            Ogre::String key = propIter->first;
             
             if( key == "description" || key == "name" )
                 continue;
@@ -157,7 +158,7 @@ namespace rl {
     //------------------------------------------------------- addPropertyInt
 
     void GameObjectWindow::addPropertyInt(const Property& prop, 
-        CEGUI::MultiColumnList* table, const CEGUI::String& key)
+        CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
         // if count = 3 | MainTable
@@ -178,6 +179,7 @@ namespace rl {
         // Table has the two columns Type, Value
         else if ( colCount == 2 )
         {
+            table->addRow(rowCount);
             table->setItem(new ListboxTextItem("Int  "), 0, rowCount);
             table->setItem(new ListboxTextItem(PropertyHelper::intToString(prop.toInt())), 
                 1, 
@@ -188,7 +190,7 @@ namespace rl {
     //------------------------------------------------------- addPropertyIntPair
 
     void GameObjectWindow::addPropertyIntPair(const Property& prop, 
-        CEGUI::MultiColumnList* table, const CEGUI::String& key)
+        CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
         // if count = 3 | MainTable
@@ -205,19 +207,20 @@ namespace rl {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem(key + "  "), 0, rowCount);
             table->setItem(new ListboxTextItem("IntPair  "), 1, rowCount);
-            table->setItem(new ListboxTextItem( 
+            table->setItem(new ListboxTextItem( "( " + 
                 PropertyHelper::intToString(intPair.first) + ", " +
-                PropertyHelper::intToString(intPair.second)), 
+                PropertyHelper::intToString(intPair.second) + " )"), 
                 2, 
                 rowCount);
         }
         // Table has the two columns Type, Value
         else if ( colCount == 2 )
         {
+            table->addRow(rowCount);
             table->setItem(new ListboxTextItem("IntPair  "), 0, rowCount);
-            table->setItem(new ListboxTextItem(
+            table->setItem(new ListboxTextItem("( " + 
                 PropertyHelper::intToString(intPair.first) + ", " +
-                PropertyHelper::intToString(intPair.second)), 
+                PropertyHelper::intToString(intPair.second) + " )"), 
                 1, 
                 rowCount);
         }
@@ -226,7 +229,7 @@ namespace rl {
     //------------------------------------------------------- addPropertyIntTriple
 
     void GameObjectWindow::addPropertyIntTriple(const Property& prop, 
-        CEGUI::MultiColumnList* table, const CEGUI::String& key)
+        CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
         // if count = 3 | MainTable
@@ -243,21 +246,22 @@ namespace rl {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem(key + "  "), 0, rowCount);
             table->setItem(new ListboxTextItem("IntTriple  "), 1, rowCount);
-            table->setItem(new ListboxTextItem(
+            table->setItem(new ListboxTextItem("( " +
                 PropertyHelper::intToString(intTriple.first) + ", " +
                 PropertyHelper::intToString(intTriple.second) + ", " +
-                PropertyHelper::intToString(intTriple.third)),
+                PropertyHelper::intToString(intTriple.third) + " )"),
                 2, 
                 rowCount);
         }
         // Table has the two columns Type, Value
         else if ( colCount == 2 )
         {
+            table->addRow(rowCount);
             table->setItem(new ListboxTextItem("IntTriple  "), 0, rowCount);
-            table->setItem(new ListboxTextItem(
+            table->setItem(new ListboxTextItem("( " +
                 PropertyHelper::intToString(intTriple.first) + ", " +
                 PropertyHelper::intToString(intTriple.second) + ", " +
-                PropertyHelper::intToString(intTriple.third)), 
+                PropertyHelper::intToString(intTriple.third) + " )"), 
                 1, 
                 rowCount);
         } 
@@ -266,7 +270,7 @@ namespace rl {
     //------------------------------------------------------- addPropertyString
 
     void GameObjectWindow::addPropertyString(const Property& prop, 
-        CEGUI::MultiColumnList* table, const CEGUI::String& key)
+        CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
         // if count = 3 | MainTable
@@ -279,7 +283,7 @@ namespace rl {
         {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem(key + "  "), 0, rowCount);
-            table->setItem(new ListboxTextItem("String  "), 1, rowCount);
+            table->setItem(new ListboxTextItem("String    "), 1, rowCount);
             table->setItem(new ListboxTextItem(prop.toString()), 
                 2, 
                 rowCount);
@@ -287,7 +291,8 @@ namespace rl {
         // Table has the two columns Type, Value
         else if ( colCount == 2 )
         {
-            table->setItem(new ListboxTextItem("String  "), 0, rowCount);
+            table->addRow(rowCount);
+            table->setItem(new ListboxTextItem("String    "), 0, rowCount);
             table->setItem(new ListboxTextItem(prop.toString()), 
                 1, 
                 rowCount);
@@ -297,7 +302,7 @@ namespace rl {
     //------------------------------------------------------- addPropertyBool
 
     void GameObjectWindow::addPropertyBool(const Property& prop, 
-        CEGUI::MultiColumnList* table, const CEGUI::String& key)
+        CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
         // if count = 3 | MainTable
@@ -318,6 +323,7 @@ namespace rl {
         // Table has the two columns Type, Value
         else if ( colCount == 2 )
         {
+            table->addRow(rowCount);
             table->setItem(new ListboxTextItem("Bool  "), 0, rowCount);
             table->setItem(new ListboxTextItem(PropertyHelper::boolToString(prop.toBool())), 
                 1, 
@@ -328,7 +334,7 @@ namespace rl {
     //------------------------------------------------------- addPropertyReal
 
     void GameObjectWindow::addPropertyReal(const Property& prop, 
-        CEGUI::MultiColumnList* table, const CEGUI::String& key)
+        CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
        // Check column count
         // if count = 3 | MainTable
@@ -349,6 +355,7 @@ namespace rl {
         // Table has the two columns Type, Value
         else if ( colCount == 2 )
         {
+            table->addRow(rowCount);
             table->setItem(new ListboxTextItem("Real  "), 0, rowCount);
             table->setItem(new ListboxTextItem(PropertyHelper::floatToString(prop.toReal())), 
                 1, 
@@ -359,7 +366,7 @@ namespace rl {
     //------------------------------------------------------- addPropertyVector3
 
     void GameObjectWindow::addPropertyVector3(const Property& prop, 
-        CEGUI::MultiColumnList* table, const CEGUI::String& key)
+        CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
         // if count = 3 | MainTable
@@ -395,6 +402,7 @@ namespace rl {
         // Table has the two columns Type, Value
         else if ( colCount == 2 )
         {
+            table->addRow(rowCount);
             table->setItem(new ListboxTextItem("Vector3  "), 0, rowCount);
             table->setItem(new ListboxTextItem("X " + PropertyHelper::floatToString(vec.x)), 
                 1, 
@@ -417,7 +425,7 @@ namespace rl {
     //------------------------------------------------------- addPropertyQuaternion
 
     void GameObjectWindow::addPropertyQuaternion(const Property& prop, 
-        CEGUI::MultiColumnList* table, const CEGUI::String& key)
+        CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
         // if count = 3 | MainTable
@@ -426,7 +434,7 @@ namespace rl {
         int rowCount = table->getRowCount();
 
         Ogre::Quaternion quat = prop.toQuaternion();
-        Ogre::Radian angle;
+        Ogre::Degree angle;
         Ogre::Vector3 axis;
 
         quat.ToAngleAxis( angle, axis );
@@ -447,7 +455,7 @@ namespace rl {
 
             // Add second for the second IntTriple value
             table->addRow(rowCount + 1);
-            table->setItem(new ListboxTextItem("Radian " + 
+            table->setItem(new ListboxTextItem("Degree " + 
                 PropertyHelper::floatToString(angle.valueRadians())), 
                 2, 
                 rowCount + 1);
@@ -455,6 +463,7 @@ namespace rl {
         // Table has the two columns Type, Value
         else if ( colCount == 2 )
         {
+            table->addRow(rowCount);
             table->setItem(new ListboxTextItem("Quaternion  "), 0, rowCount);
             table->setItem(new ListboxTextItem("Axis " +
                 PropertyHelper::floatToString(axis.x) + ", " +
@@ -465,7 +474,7 @@ namespace rl {
 
             // Add second for the second IntTriple value
             table->addRow(rowCount + 1);
-            table->setItem(new ListboxTextItem("Radian " + 
+            table->setItem(new ListboxTextItem("Degree " + 
                 PropertyHelper::floatToString(angle.valueRadians())), 
                 2, 
                 rowCount + 1);
@@ -475,19 +484,29 @@ namespace rl {
 
     //------------------------------------------------------- addPropertyArray
 
-    void GameObjectWindow::addPropertyArray(const Property& prop, const CEGUI::String& key)
+    void GameObjectWindow::addPropertyArray(const Property& prop, const Ogre::String& key)
     {
         // Create the new MultiColumnList with two columns
         // Type and Value and set tab text to key
         int tabCount = mTabPane->getTabCount();
-        CEGUI::MultiColumnList* newTable = new MultiColumnList(
-            "RastullahLook/MultiColumnList",
-            "GameObjectWindow/PropertiesTabControl/PropertyTab_" + 
-            CEGUI::PropertyHelper::intToString(tabCount) );
+        CEGUI::MultiColumnList* newTable = static_cast<CEGUI::MultiColumnList*>
+            (CEGUI::WindowManager::getSingleton().createWindow("RastullahLook/MultiColumnList", 
+            "GameObjectWindow/PropertiesTabControl/" + key));
+
+        // Set table properties
         newTable->setText(key);
+        newTable->setPosition(CEGUI::UVector2( 
+            CEGUI::UDim(0,0), 
+            CEGUI::UDim(0,0)));
+        newTable->setSize(CEGUI::UVector2(
+            CEGUI::UDim(1,0), 
+            CEGUI::UDim(1,0)));
+        newTable->setUserSortControlEnabled(false);
+        newTable->setFont("Vera Serif-8");
+
         newTable->addColumn("Type", 0, cegui_reldim(0.3));
         newTable->addColumn("Value", 1, cegui_reldim(0.7));
-        
+
         // Add the MultiColumnList to the tab pane
         mTabPane->addTab(newTable);
 

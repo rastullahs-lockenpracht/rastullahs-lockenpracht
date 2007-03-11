@@ -86,38 +86,38 @@ namespace rl {
          */
         virtual void addPropertyInt(const Property& prop, 
             CEGUI::MultiColumnList* table,
-            const CEGUI::String& key = "");
+            const Ogre::String& key = "");
 
         virtual void addPropertyIntPair(const Property& prop, 
             CEGUI::MultiColumnList* table,
-            const CEGUI::String& key = "");
+            const Ogre::String& key = "");
 
         virtual void addPropertyIntTriple(const Property& prop, 
             CEGUI::MultiColumnList* table,
-            const CEGUI::String& key = "");
+            const Ogre::String& key = "");
 
         virtual void addPropertyString(const Property& prop, 
             CEGUI::MultiColumnList* table,
-            const CEGUI::String& key = "");
+            const Ogre::String& key = "");
 
         virtual void addPropertyBool(const Property& prop, 
             CEGUI::MultiColumnList* table,
-            const CEGUI::String& key = "");
+            const Ogre::String& key = "");
 
         virtual void addPropertyReal(const Property& prop, 
             CEGUI::MultiColumnList* table,
-            const CEGUI::String& key = "");
+            const Ogre::String& key = "");
 
         virtual void addPropertyVector3(const Property& prop, 
             CEGUI::MultiColumnList* table,
-            const CEGUI::String& key = "");
+            const Ogre::String& key = "");
 
         virtual void addPropertyQuaternion(const Property& prop, 
             CEGUI::MultiColumnList* table,
-            const CEGUI::String& key = "");
+            const Ogre::String& key = "");
 
         virtual void addPropertyArray(const Property& prop,
-            const CEGUI::String& key = "");
+            const Ogre::String& key = "");
 
         
         CEGUI::TabControl *mTabPane;        //!< TabControl for the property tabs
