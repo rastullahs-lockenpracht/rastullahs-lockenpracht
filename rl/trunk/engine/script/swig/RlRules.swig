@@ -559,18 +559,25 @@ namespace rl {
         };
         
         typedef unsigned long Status;
-        static const Status STATUS_NONE = 0;
-        static const Status STATUS_BLIND = 1;
-        static const Status STATUS_DEAD = 2;
-        static const Status STATUS_DEAF = 4;
-        static const Status STATUS_IMMOVABLE = 8;
-        static const Status STATUS_INCAPACITATED = 16;
-        static const Status STATUS_INVISIBLE = 32;
-        static const Status STATUS_INVULNERABLE = 64;
-        static const Status STATUS_PARALYZED = 128;
-        static const Status STATUS_SILENCED = 512;
-        static const Status STATUS_SLEEPING = 1024;
-        static const Status STATUS_UNCONSCIOUS = 2048;
+        static const Status STATUS_NONE           = 1<<0;
+        static const Status STATUS_BLIND          = 1<<1;   ///< The creature can't see anything.
+        static const Status STATUS_DEAD           = 1<<2;   ///< The creature is dead.
+        static const Status STATUS_DEAF           = 1<<3;   ///< The creature can't hear anything.
+        static const Status STATUS_PARALYZED      = 1<<4;   ///< The creature can't move, turn, jump etc.
+        static const Status STATUS_INCAPACITATED  = 1<<5;   ///< The creature can't fight anymore due to serious injuries. The creature can barely move.
+        static const Status STATUS_INVISIBLE      = 1<<6;   ///< The creature can't be seen.
+        static const Status STATUS_INVULNERABLE   = 1<<7;   ///< The creature is immune to any mundane attacks.
+        static const Status STATUS_PETRIFIED      = 1<<8;   ///< The creature is coated with stone and has all the effects of paralyzation
+        static const Status STATUS_SILENCED       = 1<<9;   ///< The creature doesn't make any noises.
+        static const Status STATUS_SLEEPING       = 1<<10;  ///< The creature is asleep.
+        static const Status STATUS_UNCONSCIOUS    = 1<<11;  ///< Like SLEEPING, but more difficult to wake.
+      
+      // Meta stati
+        static const Status STATUS_IMMOBILE = STATUS_PARALYZED | STATUS_SLEEPING | STATUS_UNCONSCIOUS | STATUS_PETRIFIED | STATUS_DEAD;
+      
+      // other constants
+        static const int REMOVE = -1;
+        static const int PERMANENT = 0;
 
 
 		Effect(int stufe = 1);
@@ -594,9 +601,9 @@ namespace rl {
 		virtual void decreaseStufe();
 		virtual void enable();
 		virtual void disable();
-		virtual void check() = 0;
+		virtual RL_LONGLONG check() = 0;
 
-        Status getStatus();
+        virtual Status getStatus();
         
 	protected:
 		virtual void apply() = 0;
@@ -673,7 +680,10 @@ namespace rl {
         rl::Inventory* getInventory();
         
 		void addEffect(Effect* effect);
-		void damageLe(int tp, int damageType = LEDAMAGE_NORMAL);
+        void addEffectWithCheckTime(Effect* effect, RL_LONGLONG time);
+        void addEffectWithCheckDate(Effect* effect, RL_LONGLONG date);
+        
+        void damageLe(int tp, int damageType = LEDAMAGE_NORMAL);
         static const int LEDAMAGE_NORMAL = 0;
         static const int LEDAMAGE_FIRE = 1;
         static const int LEDAMAGE_WATER = 2;
@@ -699,20 +709,6 @@ namespace rl {
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
 	};
 		
-	%feature("director") CompositeEffect;	
-	class CompositeEffect : public Effect
-	{
-	public:
-		CompositeEffect();
-		virtual ~CompositeEffect();
-
-		void addEffect(Effect* effect);
-		virtual void check();
-	protected:
-		void apply();
-		void remove();
-	};
-
 	%feature("director") ActionMananger;
     class ActionManager
     {

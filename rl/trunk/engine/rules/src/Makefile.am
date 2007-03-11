@@ -6,8 +6,6 @@ libRlRules_la_SOURCES = \
 	Action.cpp \
 	ActionManager.cpp \
 	Armor.cpp \
-	AtomicEffect.cpp \
-	CompositeEffect.cpp \
 	Container.cpp \
 	Creature.cpp \
 	Date.cpp \

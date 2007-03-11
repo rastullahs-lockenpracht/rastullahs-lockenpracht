@@ -52,7 +52,7 @@ namespace rl
          *  @throws IllegalArgumentException effect pointer is NULL
          *  @see addCheckDate Date
          **/
-        void addCheck(RL_LONGLONG timeUntilCheck, Effect* effect);
+        void addTimeCheck(RL_LONGLONG timeUntilCheck, Effect* effect);
         /**
          *  Mit dieser Funktion kann ein Effekt dem Manager mitteilen,
          *  zu welchem Zeitpunkt er wieder ueberprueft werden muss.
@@ -62,12 +62,14 @@ namespace rl
          *  @throws IllegalArgumentException effect pointer is NULL
          *  @see addCheck, Date
          **/
-        void addCheckDate(RL_LONGLONG date, Effect* effect);
+        void addDateCheck(RL_LONGLONG date, Effect* effect);
         /**
          * Fuegt einen neuen Effekt in die Liste ein.
          * @param effect Ein Zeiger auf den einzufuegenden Effekt.
          **/
 		void addEffect(Effect* effect);
+        
+        void removeEffect(Effect* effect);
         
         /**
          * Checks the effects for the given status.

@@ -1,8 +1,6 @@
 noinst_HEADERS = \
 	Action.h \
 	ActionManager.h \
-	AtomicEffect.h \
-	CompositeEffect.h \
 	Container.h \
 	Creature.h \
 	Date.h \

@@ -31,18 +31,25 @@ namespace rl
 	public:
         
       typedef unsigned long Status;
-      static const Status STATUS_NONE = 0;
-      static const Status STATUS_BLIND = 1;
-      static const Status STATUS_DEAD = 2;
-      static const Status STATUS_DEAF = 4;
-      static const Status STATUS_IMMOVABLE = 8;
-      static const Status STATUS_INCAPACITATED = 16;
-      static const Status STATUS_INVISIBLE = 32;
-      static const Status STATUS_INVULNERABLE = 64;
-      static const Status STATUS_PARALYZED = 128;
-      static const Status STATUS_SILENCED = 512;
-      static const Status STATUS_SLEEPING = 1024;
-      static const Status STATUS_UNCONSCIOUS = 2048;
+      static const Status STATUS_NONE           = 1<<0;
+      static const Status STATUS_BLIND          = 1<<1;   ///< The creature can't see anything.
+      static const Status STATUS_DEAD           = 1<<2;   ///< The creature is dead.
+      static const Status STATUS_DEAF           = 1<<3;   ///< The creature can't hear anything.
+      static const Status STATUS_PARALYZED      = 1<<4;   ///< The creature can't move, turn, jump etc.
+      static const Status STATUS_INCAPACITATED  = 1<<5;   ///< The creature can't fight anymore due to serious injuries. The creature can barely move.
+      static const Status STATUS_INVISIBLE      = 1<<6;   ///< The creature can't be seen.
+      static const Status STATUS_INVULNERABLE   = 1<<7;   ///< The creature is immune to any mundane attacks.
+      static const Status STATUS_PETRIFIED      = 1<<8;   ///< The creature is coated with stone and has all the effects of paralyzation
+      static const Status STATUS_SILENCED       = 1<<9;   ///< The creature doesn't make any noises.
+      static const Status STATUS_SLEEPING       = 1<<10;  ///< The creature is asleep.
+      static const Status STATUS_UNCONSCIOUS    = 1<<11;  ///< Like SLEEPING, but more difficult to wake.
+      
+      // Meta stati
+      static const Status STATUS_IMMOBILE = STATUS_PARALYZED | STATUS_SLEEPING | STATUS_UNCONSCIOUS | STATUS_PETRIFIED | STATUS_DEAD;
+      
+      // other constants
+      static const int REMOVE = -1;
+      static const int PERMANENT = 0;
 
         /**
          * Spezifiziert wie oft Effekte des selben Typs gleichzeitig auf dieselbe
@@ -120,11 +127,15 @@ namespace rl
 		/// Macht den Effekt unwirksam.
 		virtual void disable();
 
-		/// Ueberprueft die Lebendigkeit des Effekts.
-		virtual void check();
+		/**
+         * runs a check on the effect.
+         * @return Returns the time to the next check. If REMOVE is returned, the 
+         * effect will be removed, if PERMANENT is returned, the effect lasts permanently.
+         **/
+		virtual RL_LONGLONG check();
         
         /// Returns if status is applied to the creature
-        Status getStatus();
+        virtual Status getStatus();
 
 	protected:
 		/// Bringt die Aenderungen ein.

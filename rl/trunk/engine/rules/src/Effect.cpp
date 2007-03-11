@@ -146,8 +146,9 @@ namespace rl
 		}
 	}
 
-    void Effect::check()
+    RL_LONGLONG Effect::check()
     {
+      return PERMANENT;
     }
 
 	RL_LONGLONG Effect::getTimePassed()

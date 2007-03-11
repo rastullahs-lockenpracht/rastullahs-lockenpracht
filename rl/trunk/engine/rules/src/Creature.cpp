@@ -242,7 +242,7 @@ namespace rl
 		if (mCurrentLe <= getWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE) &&
             oldLe > getWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE))
 		{
-            setIncapacitated(true);
+            ///@todo set incapacitated.
 			MeshObject* mo = static_cast<MeshObject*>(getActor()->getControlledObject());
 			mo->stopAllAnimations();
             ///@todo Sturzanimation aufrufen, sobald sie verfuegbar ist.
@@ -251,12 +251,12 @@ namespace rl
         if (mCurrentLe <= 0 &&
             oldLe > 0)
         {
-            setUnconscious(true);
+            ///@todo set unconscious
         }
         if (mCurrentLe <= -getEigenschaft("KO") &&
             oldLe > -getEigenschaft("KO"))
         {
-            setDead(true);
+            ///@todo set dead
         }
 		fireObjectStateChangeEvent();
     }
@@ -296,7 +296,7 @@ namespace rl
 			mCurrentAu = min(mCurrentAu, float(getAuMax()));
         if (getAu() <= 0)
         {
-            setIncapacitated(true);
+            ///@todo set incapacitated
         }
 		fireObjectStateChangeEvent();
     }
@@ -618,77 +618,6 @@ namespace rl
     {
       return mEffectManager->getStatus();
     }
-    
-    bool Creature::isBlind()
-    {
-        if (mBlind > 0) return true;
-        else return false;
-    }
-
-    bool Creature::isDead()
-    {
-        if (mDead > 0) return true;
-        else return false;
-    }
-
-    bool Creature::isDeaf()
-    {
-        if (mDeaf > 0) return true;
-        else return false;
-    }
-
-    bool Creature::isIncapacitated()
-    {
-        if (mIncapacitated > 0) return true;
-        else return false;
-    }
-
-    bool Creature::isInvulnerable()
-    {
-        if (mInvulnerable > 0) return true;
-        else return false;
-    }
-
-    bool Creature::isInvisible()
-    {
-        if (mInvisible > 0) return true;
-        else return false;
-    }
-
-    bool Creature::isParalyzed()
-    {
-        if (mParalyzed > 0) return true;
-        else return false;
-    }
-
-    bool Creature::isSilenced()
-    {
-        if (mSilenced > 0) return true;
-        else return false;
-    }
-
-    bool Creature::isSleeping()
-    {
-        if (mSleeping > 0) return true;
-        else return false;
-    }
-
-    bool Creature::isUnconscious()
-    {
-        if (mUnconscious > 0) return true;
-        else return false;
-    }
-
-    bool Creature::isImmovable()
-    {
-        if (isDead() ||
-            isParalyzed() ||
-            isSleeping() ||
-            isUnconscious())
-            return true;
-        else
-            return false;
-    }
 
 	bool Creature::isMagic()
 	{
@@ -714,67 +643,6 @@ namespace rl
         } //value == false
     }
 
-    void Creature::setBlind(bool value)
-    {
-        setStatus(mBlind, value, 
-            "Trying to remove blindness from a seeing creature.");
-    }
-
-    
-    void Creature::setDead(bool value)
-    {
-        setStatus(mDead, value, 
-            "Trying to revive a living creature.");
-    }
-    
-    void Creature::setDeaf(bool value)
-    {
-        setStatus(mDeaf, value, 
-            "Trying to remove deafness from a hearing creature.");
-    }
-    
-    void Creature::setIncapacitated(bool value)
-    {
-        setStatus(mIncapacitated, value,
-            "Trying to remove incapacitation from a non incapacitated "
-            "creature.");
-    }
-
-    void Creature::setInvisible(bool value)
-    {
-        setStatus(mInvisible, value,
-            "Trying to remove Invisibility from a visible creature.");
-    }
-    
-    void Creature::setInvulnerable(bool value)
-    {
-        setStatus(mInvulnerable, value,
-            "Trying to remove Invulnerability from a vulnerable creature.");
-    }
-    
-    void Creature::setParalyzed(bool value)
-    {
-        setStatus(mParalyzed, value,
-            "Trying to remove paralyzation from a non paralyzed creature.");
-    }
-    
-    void Creature::setSilenced(bool value)
-    {
-        setStatus(mSilenced, value,
-            "Trying to remove silence from a non silenced creature.");
-    }
-    
-    void Creature::setSleeping(bool value)
-    {
-        setStatus(mSleeping, value,
-            "Trying to awake a wake creature.");
-    }
-
-    void Creature::setUnconscious(bool value)
-    {
-        setStatus(mUnconscious, value,
-            "Trying to awake a conscious creature.");
-    }
 
     int Creature::doAlternativeTalentprobe(const CeGuiString talentName, int spezialisierungId,
 		int modifier, CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, CeGuiString eigenschaft3Name)
@@ -1022,7 +890,7 @@ namespace rl
            aup = 0;
            ///@todo evtl. eine modifyErschoepfung()?
            mErschoepfung += DsaManager::getSingleton().rollD6();
-           setIncapacitated(true);
+           ///@todo set incapacitated
         }
         // bei Überanstrengung, kostet alles doppelte Au!!!!!
         if( mErschoepfung > getEigenschaft("KO") )
@@ -1125,6 +993,19 @@ namespace rl
 		effect->setOwner(this);
 		mEffectManager->addEffect(effect);
 	}
+    
+    void Creature::addEffectWithCheckTime(Effect* effect, RL_LONGLONG time)
+    {
+      addEffect(effect);
+      mEffectManager->addTimeCheck(time, effect);
+    }
+    
+    void Creature::addEffectWithCheckDate(Effect* effect, RL_LONGLONG date)
+    {
+      addEffect(effect);
+      mEffectManager->addDateCheck(date, effect);
+    }
+
 
 	void Creature::checkEffects()
 	{
@@ -1185,16 +1066,14 @@ namespace rl
         {
             return true;
         }
-
         // kann sich die Kreatur ueberhaupt bewegen?
-        /*
-        if( isImmovable() )
-            return false;
-        */
-        ///@todo What other Stati prohibit creature  movement? Paralyzed? Inacapacitated? Sleep? etc.
-        ///@todo Jumping etc. still possible, even if immobilized.
-        if (Effect::STATUS_IMMOVABLE & getStatus())
+        ///@todo What other Stati prohibit creature  movement? Paralyzed? Incapacitated? Sleep? etc.
+        ///@todo Crouching still possible, even if immobilized.
+        if (getStatus() & Effect::STATUS_IMMOBILE)
+        {
+          //CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Immobile!\"");
           return false;
+        }
 
         if( getAu() <= 1 )
             return false;
@@ -1591,7 +1470,7 @@ namespace rl
                 if( lastProbeTime <= 0 || movementTypeChanged)
                 {
                 	int lastProbeTaW = doTalentprobe("Athletik", probenErschwernis);
-                    patzer = lastProbeTaW;
+                    patzer = (int)lastProbeTaW;
                     lastProbeTime = getAuMax();
                 }
                 else

@@ -519,112 +519,7 @@ namespace rl
              **/
             Effect::Status getStatus();
 
-            /**
-             *  @todo Weitere denkbare Zustaende: unconcious (wie sleeping, nur 
-             *   schwieriger zu wecken), petrified (paralyzed eigentlich = gelaehmt,
-             *   petrified = versteinert
-             **/
 
-            /// Checks if the creature is currently blind.
-            bool isBlind();
-            /**
-             *  Set the creature to blind / not blind. This status works with reference
-             *  counting.
-             *  @see setStatus for a detailed description of the reference system.
-             **/
-            void setBlind(bool value);
-            /// Checks if the creature is dead.
-            bool isDead();
-            /**
-             *  Set the creature to dead / alive. This status works with reference
-             *  counting.
-             *  @see setStatus for a detailed description of the reference system.
-             **/
-            void setDead(bool value);
-            /// Checks if the creature is currently deaf.
-            bool isDeaf();
-            /**
-             *  Set the creature to deaf / not deaf. This status works with reference
-             *  counting.
-             *  @see setStatus for a detailed description of the reference system.
-             **/
-            void setDeaf(bool value);
-            /**
-             *  Checks if the creature is currently incapacitated.
-             *  This happens usually if the creature's @ref abbenv "VI" (de: 
-             *  @ref abbdel "LE") falls below the value of 
-             *  WERT_KAMPFUNFAEHIGKEITSSCHWELLE.
-             *  @see Wert
-             **/
-            bool isIncapacitated();
-            /**
-             *  Set the creature to incapacitated / not incapacitated. This status 
-             *  works with reference counting.
-             *  @see setStatus for a detailed description of the reference system.
-             **/
-            void setIncapacitated(bool value);
-            /// Checks if the creature is currently invisible.
-            bool isInvisible();
-            /**
-             *  Set the creature to invisible / visible. This status works with reference
-             *  counting.
-             *  @see setStatus for a detailed description of the reference system.
-             **/
-            void setInvisible(bool value);
-            /// Checks if the creature is currently invulnerable.
-            bool isInvulnerable();
-            /**
-             *  Set the creature to invulnerable / vulnerable. This status works with 
-             *  reference counting.
-             *  @see setStatus for a detailed description of the reference system.
-             **/
-            void setInvulnerable(bool value);
-            /// Checks if the creature is currently parallyzed.
-            bool isParalyzed();
-            /**
-             *  Set the creature to paralyzed / not paralyzed. This status works with 
-             *  reference counting.
-             *  @see setStatus for a detailed description of the reference system.
-             **/
-            void setParalyzed(bool value);
-            /// Checks if the creature is currently silenced.
-            bool isSilenced();
-            /**
-             *  Set the creature to silenced / not silenced. This status works with 
-             *  reference counting.
-             *  @see setStatus for a detailed description of the reference system.
-             **/
-            void setSilenced(bool value);
-            /// Checks if the creature is currently sleeping.
-            bool isSleeping();
-            /**
-             *  Set the creature to sleeping / awake. This status works with reference
-             *  counting.
-             *  @see setStatus for a detailed description of the reference system.
-             **/
-            void setSleeping(bool value);
-            /**
-             *  Checks if the creature is unconcious. This status works with reference
-             *  counting.
-             **/
-            bool isUnconscious();
-            /**
-             *  Set the creature to unconcious/concious. This status works with reference
-             *  counting.
-             *  @see setStatus for a detailed description of the reference system.
-             **/
-            void setUnconscious(bool value);
-            /**
-             *  Returns true if the creature cannot move. This function does not 
-             *  correspond to a certain status variable but checks several other 
-             *  stati such as isDead, isParalyzed and isSleeping.
-             **/
-            bool isImmovable();
-            /**
-             *  Checks if the creature is actively magic. This function does not 
-             *  correspond to a certain status variable but returns true if the 
-             *  modified AE is greater than zero.
-             **/
             bool isMagic();
 
 
@@ -800,9 +695,11 @@ namespace rl
             /**
              * Laesst einen Effekt auf der Kreatur wirken.
              * @param effect Zeiger auf den Effekt.
-                   * @ingroup CreatureRubyExports
+             * @ingroup CreatureRubyExports
              **/
             void addEffect(Effect* effect);
+            void addEffectWithCheckTime(Effect* effect, RL_LONGLONG time);
+            void addEffectWithCheckDate(Effect* effect, RL_LONGLONG date);
 
             virtual const Property getProperty(const Ogre::String& key) const;
             virtual void setProperty(const Ogre::String& key, const Property& value);

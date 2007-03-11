@@ -17,6 +17,9 @@
 #include "EffectManager.h"
 #include "DsaManager.h"
 #include "Exception.h"
+#include "CoreSubsystem.h"
+#include "RubyInterpreter.h"
+#include "ScriptWrapper.h"
 
 namespace rl
 {
@@ -28,7 +31,8 @@ namespace rl
 	{
 		for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
 		{
-			delete (*it);
+			//delete (*it);
+            ScriptWrapper::getSingleton().disowned(*it);
 		}
 	}
 
@@ -39,16 +43,28 @@ namespace rl
         if (checkIt == mChecklist.end()) return;
         while ( checkIt->first <= now )
         {
+          std::cout << "Effect check: " << checkIt->first << " now: " << now << std::endl;
             for (Effects::iterator effIt = checkIt->second.begin(); effIt != checkIt->second.end(); effIt++)
             {
-                (*effIt)->check();
+                int nextCheck; 
+                nextCheck = (*effIt)->check();
+                switch (nextCheck)
+                {
+                  case Effect::REMOVE:
+                    removeEffect(*effIt);
+                    break;
+                  case Effect::PERMANENT:
+                    break;
+                  default:
+                    addTimeCheck(nextCheck, *effIt);
+                }
             }
             mChecklist.erase(checkIt);
             checkIt++;
         }
 	}
 
-    void EffectManager::addCheck(RL_LONGLONG timeUntilCheck, Effect* effect)
+    void EffectManager::addTimeCheck(RL_LONGLONG timeUntilCheck, Effect* effect)
     {
         // Preconditions: time > 0, effect != NULL
         if (time <= 0) Throw(IllegalArgumentException, "time parameter is <= 0!");
@@ -58,9 +74,12 @@ namespace rl
         RL_LONGLONG timeForCheck = now + timeUntilCheck;
         // Fuege die Summe und Effekt in die Checklist ein
         mChecklist[timeForCheck].insert(effect);
+        std::cout << "####################### Effect expires in: " << timeUntilCheck << " ms." << std::endl;
+        std::cout << "####################### Now              : " << now << std::endl;
+        std::cout << "####################### Check            : " << timeForCheck << std::endl;
     }
-
-    void EffectManager::addCheckDate(RL_LONGLONG date, Effect* effect)
+    
+    void EffectManager::addDateCheck(RL_LONGLONG date, Effect* effect)
     {
         // Preconditions: date > now, effect != NULL
         RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
@@ -91,19 +110,36 @@ namespace rl
 				}
 			}
 		}
-		
+        CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Adding Effect \"");
+        ScriptWrapper::getSingleton().owned( effect );
 		mEffects.insert(effect);
 		effect->enable();
 	}
     
+    void EffectManager::removeEffect(Effect* effect)
+    {
+      effect->disable();
+      mEffects.erase(effect);
+      ScriptWrapper::getSingleton().disowned(effect);
+      ///@todo also remove from the check lists?
+    }
+    
     Effect::Status EffectManager::getStatus()
     {
-      Effect::Status status;
+      checkEffects();
+      Effect::Status status = 0;
       for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
       {
-        status = status | (((*it)->getStatus()));
+        //try
+        //{
+            status = status | ((*it)->getStatus());
+        //}
+        //catch (ScriptInvocationFailedException& sife)
+        //{
+        //  Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, sife.toString() );
+        //}
       }
-      return false;
+      return status;
     }
 }
 
