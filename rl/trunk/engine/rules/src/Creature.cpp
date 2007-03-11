@@ -1163,8 +1163,7 @@ namespace rl
     PropertySet* Creature::getAllProperties() const
     {
         PropertySet* ps = GameObject::getAllProperties();
-        //ps->setProperty(Item::PROPERTY_IMAGENAME, Property(mImageName));
-        //ps->setProperty(Item::PROPERTY_SIZE, Property(mSize));
+        ps->setProperty(Creature::PROPERTY_BEHAVIOURS, mBehaviours);
 
         return ps;
     }
