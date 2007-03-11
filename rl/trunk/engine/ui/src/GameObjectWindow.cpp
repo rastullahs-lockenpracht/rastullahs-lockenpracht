@@ -205,33 +205,21 @@ namespace rl {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem(key + "  "), 0, rowCount);
             table->setItem(new ListboxTextItem("IntPair  "), 1, rowCount);
-            table->setItem(new ListboxTextItem(
-                "First " + PropertyHelper::intToString(intPair.first)), 
+            table->setItem(new ListboxTextItem( 
+                PropertyHelper::intToString(intPair.first) + ", " +
+                PropertyHelper::intToString(intPair.second)), 
                 2, 
                 rowCount);
-
-            // Add second for the second IntPair value
-            table->addRow(rowCount + 1);
-            table->setItem(new ListboxTextItem(
-                "Second " + PropertyHelper::intToString(intPair.second)), 
-                2, 
-                rowCount + 1);
         }
         // Table has the two columns Type, Value
         else if ( colCount == 2 )
         {
             table->setItem(new ListboxTextItem("IntPair  "), 0, rowCount);
             table->setItem(new ListboxTextItem(
-                "First " + PropertyHelper::intToString(intPair.first)), 
+                PropertyHelper::intToString(intPair.first) + ", " +
+                PropertyHelper::intToString(intPair.second)), 
                 1, 
                 rowCount);
-
-            // Add second for the second IntPair value
-            table->addRow(rowCount + 1);
-            table->setItem(new ListboxTextItem(
-                "Second " + PropertyHelper::intToString(intPair.second)), 
-                2, 
-                rowCount + 1);
         }
     }
 
@@ -256,46 +244,22 @@ namespace rl {
             table->setItem(new ListboxTextItem(key + "  "), 0, rowCount);
             table->setItem(new ListboxTextItem("IntTriple  "), 1, rowCount);
             table->setItem(new ListboxTextItem(
-                "First " + PropertyHelper::intToString(intTriple.first)), 
+                PropertyHelper::intToString(intTriple.first) + ", " +
+                PropertyHelper::intToString(intTriple.second) + ", " +
+                PropertyHelper::intToString(intTriple.third)),
                 2, 
                 rowCount);
-
-            // Add second for the second IntTriple value
-            table->addRow(rowCount + 1);
-            table->setItem(new ListboxTextItem(
-                "Second " + PropertyHelper::intToString(intTriple.second)), 
-                2, 
-                rowCount + 1);
-
-            // Add third for the third IntTriple value
-            table->addRow(rowCount + 2);
-            table->setItem(new ListboxTextItem(
-                "Third " + PropertyHelper::intToString(intTriple.third)), 
-                2, 
-                rowCount + 2);
         }
         // Table has the two columns Type, Value
         else if ( colCount == 2 )
         {
             table->setItem(new ListboxTextItem("IntTriple  "), 0, rowCount);
             table->setItem(new ListboxTextItem(
-                "First " + PropertyHelper::intToString(intTriple.first)), 
+                PropertyHelper::intToString(intTriple.first) + ", " +
+                PropertyHelper::intToString(intTriple.second) + ", " +
+                PropertyHelper::intToString(intTriple.third)), 
                 1, 
                 rowCount);
-
-            // Add second for the second IntPair value
-            table->addRow(rowCount + 1);
-            table->setItem(new ListboxTextItem(
-                "Second " + PropertyHelper::intToString(intTriple.second)), 
-                2, 
-                rowCount + 1);
-
-            // Add third for the third IntTriple value
-            table->addRow(rowCount + 2);
-            table->setItem(new ListboxTextItem(
-                "Third " + PropertyHelper::intToString(intTriple.third)), 
-                2, 
-                rowCount + 2);
         } 
     }
 
