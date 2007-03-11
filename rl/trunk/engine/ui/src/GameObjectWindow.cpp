@@ -342,13 +342,16 @@ namespace rl {
         int colCount = table->getColumnCount();
         int rowCount = table->getRowCount();
 
+        char buf [50];
+        sprintf(buf, "%1.2f", prop.toReal());
+
         // Table has the three columns Key, Type, Value
         if ( colCount == 3 )
         {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem(key + "  "), 0, rowCount);
             table->setItem(new ListboxTextItem("Real  "), 1, rowCount);
-            table->setItem(new ListboxTextItem(PropertyHelper::floatToString(prop.toReal())), 
+            table->setItem(new ListboxTextItem(CEGUI::String(buf)), 
                 2, 
                 rowCount);
         }
@@ -357,7 +360,7 @@ namespace rl {
         {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem("Real  "), 0, rowCount);
-            table->setItem(new ListboxTextItem(PropertyHelper::floatToString(prop.toReal())), 
+            table->setItem(new ListboxTextItem(CEGUI::String(buf)), 
                 1, 
                 rowCount);
         }
@@ -376,6 +379,13 @@ namespace rl {
 
         Ogre::Vector3 vec = prop.toVector3();
 
+        char buf1 [50];
+        sprintf(buf1, "%1.2f", vec.x);
+        char buf2 [50];
+        sprintf(buf2, "%1.2f", vec.y);
+        char buf3 [50];
+        sprintf(buf3, "%1.2f", vec.z);
+
         // Table has the three columns Key, Type, Value
         if ( colCount == 3 )
         {
@@ -383,42 +393,22 @@ namespace rl {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem(key + "  "), 0, rowCount);
             table->setItem(new ListboxTextItem("Vector3  "), 1, rowCount);
-            table->setItem(new ListboxTextItem("X " + PropertyHelper::floatToString(vec.x)), 
-                2, 
+            table->setItem(new ListboxTextItem("( " + CEGUI::String(buf1) + ", " +
+                CEGUI::String(buf2) + ", " +
+                CEGUI::String(buf3) + " )"), 
+                2 , 
                 rowCount);
-
-            // Add second for the second IntTriple value
-            table->addRow(rowCount + 1);
-            table->setItem(new ListboxTextItem("Y " + PropertyHelper::floatToString(vec.y)), 
-                2, 
-                rowCount + 1);
-
-            // Add third for the third IntTriple value
-            table->addRow(rowCount + 2);
-            table->setItem(new ListboxTextItem("Z " + PropertyHelper::floatToString(vec.z)), 
-                2, 
-                rowCount + 2);
         }
         // Table has the two columns Type, Value
         else if ( colCount == 2 )
         {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem("Vector3  "), 0, rowCount);
-            table->setItem(new ListboxTextItem("X " + PropertyHelper::floatToString(vec.x)), 
-                1, 
+            table->setItem(new ListboxTextItem("( " + CEGUI::String(buf1) + ", " +
+                CEGUI::String(buf2) + ", " +
+                CEGUI::String(buf3) + " )"), 
+                1 , 
                 rowCount);
-
-            // Add second for the second IntPair value
-            table->addRow(rowCount + 1);
-            table->setItem(new ListboxTextItem("Y " + PropertyHelper::floatToString(vec.y)), 
-                2, 
-                rowCount + 1);
-
-            // Add third for the third IntTriple value
-            table->addRow(rowCount + 2);
-            table->setItem(new ListboxTextItem("Z " + PropertyHelper::floatToString(vec.z)), 
-                2, 
-                rowCount + 2);
         } 
     }
 
@@ -439,6 +429,15 @@ namespace rl {
 
         quat.ToAngleAxis( angle, axis );
 
+        char buf_angle [50];
+        sprintf(buf_angle, "%1.2f", angle.valueDegrees());
+        char buf_v1 [50];
+        sprintf(buf_v1, "%1.2f", axis.x);
+        char buf_v2 [50];
+        sprintf(buf_v2, "%1.2f", axis.y);
+        char buf_v3 [50];
+        sprintf(buf_v3, "%1.2f", axis.z);
+
         // Table has the three columns Key, Type, Value
         if ( colCount == 3 )
         {
@@ -446,17 +445,17 @@ namespace rl {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem(key + "  "), 0, rowCount);
             table->setItem(new ListboxTextItem("Quaternion  "), 1, rowCount);
-            table->setItem(new ListboxTextItem("Axis " +
-                PropertyHelper::floatToString(axis.x) + ", " +
-                PropertyHelper::floatToString(axis.y) + ", " +
-                PropertyHelper::floatToString(axis.z)), 
+            table->setItem(new ListboxTextItem("Axis:   ( " +
+                CEGUI::String(buf_v1) + ", " +
+                CEGUI::String(buf_v2) + ", " +
+                CEGUI::String(buf_v3) + " )"), 
                 2, 
                 rowCount);
 
             // Add second for the second IntTriple value
             table->addRow(rowCount + 1);
-            table->setItem(new ListboxTextItem("Degree " + 
-                PropertyHelper::floatToString(angle.valueRadians())), 
+            table->setItem(new ListboxTextItem("Degree: " + 
+                CEGUI::String(buf_angle)), 
                 2, 
                 rowCount + 1);
         }
@@ -465,17 +464,17 @@ namespace rl {
         {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem("Quaternion  "), 0, rowCount);
-            table->setItem(new ListboxTextItem("Axis " +
-                PropertyHelper::floatToString(axis.x) + ", " +
-                PropertyHelper::floatToString(axis.y) + ", " +
-                PropertyHelper::floatToString(axis.z)), 
+            table->setItem(new ListboxTextItem("Axis:   ( " +
+                CEGUI::String(buf_v1) + ", " +
+                CEGUI::String(buf_v2) + ", " +
+                CEGUI::String(buf_v3) + " )"), 
                 2, 
                 rowCount);
 
             // Add second for the second IntTriple value
             table->addRow(rowCount + 1);
             table->setItem(new ListboxTextItem("Degree " + 
-                PropertyHelper::floatToString(angle.valueRadians())), 
+                CEGUI::String(buf_angle)), 
                 2, 
                 rowCount + 1);
         } 
