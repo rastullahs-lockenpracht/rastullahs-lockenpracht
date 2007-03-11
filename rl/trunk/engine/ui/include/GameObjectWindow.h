@@ -24,7 +24,7 @@
 #define __GameObjectWindow_H__
 
 #include "UiPrerequisites.h"
-#include "CeGuiWindow.h"
+#include "AbstractWindow.h"
 
 namespace rl {
 

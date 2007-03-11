@@ -21,6 +21,9 @@
  */
 
 #include <boost/bind.hpp>
+#include <CEGUIPropertyHelper.h>
+#include <elements/CEGUIListboxTextItem.h>
+
 #include "GameObjectWindow.h"
 #include "GameObject.h"
 
@@ -31,7 +34,7 @@ namespace rl {
     //------------------------------------------------------- Constructor
 
 	GameObjectWindow::GameObjectWindow() :
-        CeGuiWindow("gameobjectwindow.xml", WND_MOUSE_INPUT)
+        AbstractWindow("gameobjectwindow.xml", WND_MOUSE_INPUT)
 	{
         // Get access to the tab control
         mTabPane = getTabControl("GameObjectWindow/PropertiesTabPane");
