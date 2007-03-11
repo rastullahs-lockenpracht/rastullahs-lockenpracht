@@ -62,6 +62,7 @@ namespace rl
         static const Ogre::String PROPERTY_MASS; 
 
 		static const CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
+        static const CeGuiString DEFAULT_VIEW_OBJECT_ACTION_DEBUG;
 
         GameObject(unsigned int id);
         virtual ~GameObject();

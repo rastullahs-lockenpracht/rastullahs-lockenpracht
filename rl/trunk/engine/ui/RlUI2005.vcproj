@@ -87,7 +87,7 @@
 				OutputFile="$(OutDir)/RlUI.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll;..\..\dependencies\ois\dll"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll;..\..\dependencies\ois\dll;&quot;..\..\dependencies\ogrenew\lib\$(ConfigurationName)&quot;"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
@@ -194,7 +194,7 @@
 				OutputFile="$(OutDir)/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll;..\..\dependencies\ois\dll"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll;..\..\dependencies\ois\dll;&quot;..\..\dependencies\ogrenew\lib\$(ConfigurationName)&quot;"
 				ProgramDatabaseFile=""
 				SubSystem="2"
 			/>
@@ -260,7 +260,7 @@
 				Optimization="3"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;..\uicomponents\include;..\common\include;..\dialog\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\ois\includes"
+				AdditionalIncludeDirectories=".\include;..\uicomponents\include;..\common\include;..\dialog\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\Dependencies\include\;..\..\dependencies\ois\includes"
 				PreprocessorDefinitions="WITH_FMOD3;NDEBUG,_WINDOWS,WIN32,RLUI_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="false"
 				ExceptionHandling="1"
@@ -296,7 +296,7 @@
 				OutputFile="$(OutDir)/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\core\lib\Release;..\rules\lib\Release;..\uicomponents\lib\Release;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib\Release;..\..\dependencies\NewtonSDK\sdk\dll;..\..\dependencies\ois\dll"
+				AdditionalLibraryDirectories="..\core\lib\Release;..\rules\lib\Release;..\uicomponents\lib\Release;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib\Release;..\..\dependencies\NewtonSDK\sdk\dll;..\..\dependencies\ois\dll;&quot;..\..\dependencies\ogrenew\lib\$(ConfigurationName)&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(TargetDir)$(TargetName).pdb"
 				SubSystem="2"
@@ -454,6 +454,10 @@
 				</File>
 				<File
 					RelativePath=".\include\GameLoggerWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\GameObjectWindow.h"
 					>
 				</File>
 				<File
@@ -627,6 +631,10 @@
 				</File>
 				<File
 					RelativePath=".\src\GameLoggerWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\GameObjectWindow.cpp"
 					>
 				</File>
 				<File

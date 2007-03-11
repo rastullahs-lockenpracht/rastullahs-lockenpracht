@@ -52,6 +52,7 @@
 #include "SubtitleWindow.h"
 #include "UiSubsystem.h"
 #include "WindowManager.h"
+#include "GameObjectWindow.h"
 
 #undef max
 
@@ -172,6 +173,13 @@ namespace rl {
 	void WindowFactory::toggleDebugWindow()
 	{
 		mDebugWindow->setVisible(!mDebugWindow->isVisible());
+	}
+
+	void WindowFactory::showGameObjectWindow(GameObject* obj)
+	{
+        GameObjectWindow* wnd = new GameObjectWindow();
+        wnd->initialize(obj);
+        wnd->setVisible(true);
 	}
 
 	void WindowFactory::toggleGameLogWindow()

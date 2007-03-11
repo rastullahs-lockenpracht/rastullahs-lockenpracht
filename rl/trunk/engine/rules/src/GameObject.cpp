@@ -24,12 +24,14 @@
 #include "Property.h"
 #include "RulesSubsystem.h"
 #include "GameObjectManager.h"
+#include "CoreSubsystem.h"
 
 using namespace std;
 
 namespace rl
 {
 	const CeGuiString GameObject::DEFAULT_VIEW_OBJECT_ACTION = "viewobject";
+    const CeGuiString GameObject::DEFAULT_VIEW_OBJECT_ACTION_DEBUG = "viewobjectdebug";
 
     const Ogre::String GameObject::CLASS_NAME = "GameObject";
 
@@ -60,6 +62,17 @@ namespace rl
         {
             addAction(defaultAction);
         }
+
+        // If game in developer mode, show GameObject debug window
+        // in the radial menu
+        //if( CoreSubsystem::getSingleton().getDeveloperMode() )
+        //{
+            defaultAction = ActionManager::getSingleton().getAction(DEFAULT_VIEW_OBJECT_ACTION_DEBUG);
+		    if (defaultAction != NULL)
+            {
+                addAction(defaultAction);
+            }
+        //}
 
 		// Eventsource erzeugen
 		setObject(this);

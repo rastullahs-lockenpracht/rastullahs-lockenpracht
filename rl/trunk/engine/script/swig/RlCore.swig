@@ -659,6 +659,7 @@ public:
     void makeScreenshot(const Ogre::String& sName);
     bool isInitialized() const;
     void setScheme(const Ogre::String& schemeName);
+    bool getDeveloperMode() const;
 };
 
 class Sound 

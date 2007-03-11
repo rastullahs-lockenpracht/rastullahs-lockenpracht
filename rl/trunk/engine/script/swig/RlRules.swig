@@ -370,6 +370,7 @@ namespace rl {
         void doDefaultAction(rl::Creature* actor, rl::GameObject* target);
             
 		static const rl::CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
+		static const rl::CeGuiString DEFAULT_VIEW_OBJECT_ACTION_DEBUG;
 		
 		bool isHighlightingEnabled();
         void setHighlightingEnabled( bool highlightenabled );
