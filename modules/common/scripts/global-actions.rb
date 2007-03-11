@@ -178,6 +178,20 @@ class ShowObjectDescriptionWindow < Action
   end
 end
 
+class ShowGameObjectWindowAction < Action
+  def initialize
+    super(GameObject.DEFAULT_VIEW_OBJECT_ACTION_DEBUG, "GameObject Properties (DeveloperMode)")
+  end
+  
+  def doAction(object, actor, target)
+    $WF.showGameObjectWindow(object)
+  end
+  
+  def canDo(object, actor)
+    $CORE.getDeveloperMode()
+  end
+end
+
 class ShowAboutWindowAction < Action
   def initialize
     super("act_showaboutwindow", "Über")
@@ -246,3 +260,6 @@ end
 
 act = ShowObjectDescriptionWindow.new()
 ActionManager.getSingleton().registerAction(act)
+
+act2 = ShowGameObjectWindowAction.new()
+ActionManager.getSingleton().registerAction(act2)
