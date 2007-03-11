@@ -63,7 +63,7 @@
        	 		<Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
        	 		<Property Name="Text" Value="Eigenschaften"/>
        	 		<Property Name="SortSettingEnabled" Value="False"/>
-       	 		<Property Name="Font" Value="Vera Serif Bold-8"/>
+       	 		<Property Name="Font" Value="Vera Serif-8"/>
        	 		<Property Name="FrameEnabled" Value="False"/>
     		</Window>   	
        	 	 	
