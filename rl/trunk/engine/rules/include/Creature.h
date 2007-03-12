@@ -293,7 +293,7 @@ namespace rl
              *   Gross/Kleinschreibung beachtet?).
                    *  @ingroup CreatureRubyExports
              **/
-            virtual int getEigenschaft(const CeGuiString eigenschaftName);
+            virtual int getEigenschaft(const CeGuiString eigenschaftName, Effect::ModTag tag = Effect::MODTAG_NONE);
             /**
              *  Setzt den Wert der Eigenschaft \a eigenschaftName auf \a value.
              *  @param eigenschaftName Der Name als Abkuerzung (z.B. @ref abbdem "MU", 
@@ -790,13 +790,7 @@ namespace rl
             void setTaktischeBewegung(int type);
 
         protected:
-            /**
-             * Liefert den Eigenschaftswert \a eigenschaftName fuer eine 
-             * Basiswertberechnung zurueck. Manche Effekte veraendern zwar den
-             * Eigenschaftswert, nicht jedoch die Basiswerte.
-             **/
-            virtual int getEigenschaftForBasiswertCalculation(const CeGuiString eigenschaftName);
-            /**
+           /**
              *  Berechnet den Basiswert von der @ref abbdea "Astralenergie".
              **/
             virtual int getAeBasis();

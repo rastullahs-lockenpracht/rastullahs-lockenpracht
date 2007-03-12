@@ -161,4 +161,9 @@ namespace rl
       // should be overlaoaded in the specific derivated effects.
       return STATUS_NONE;
     }
+    
+    int Effect::getMod(CeGuiString target, ModType type, ModTag tag)
+    {
+      return 0;
+    }
 }

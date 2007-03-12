@@ -47,6 +47,19 @@ namespace rl
       // Meta stati
       static const Status STATUS_IMMOBILE = STATUS_PARALYZED | STATUS_SLEEPING | STATUS_UNCONSCIOUS | STATUS_PETRIFIED | STATUS_DEAD;
       
+      typedef int ModType;
+      static const ModType MODTYPE_NONE         = 1 << 0;
+      static const ModType MODTYPE_WERTMOD      = 1 << 1;   ///< Modifies the actual value.
+      static const ModType MODTYPE_PROBENMOD    = 1 << 2;   ///< Modifies the test.
+      static const ModType MODTYPE_WERTMULT     = 1 << 3;   ///< Will be multiplied on the value.
+      static const ModType MODTYPE_MAXWERTMOD   = 1 << 4;   ///< Modifies only the maximum of the value.
+      
+      typedef unsigned long ModTag;
+      static const ModTag MODTAG_NONE           = 1 << 0;
+      static const ModTag MODTAG_KRANKHEIT      = 1 << 1;
+      static const ModTag MODTAG_RECALCULATE    = 1 << 2;
+
+      
       // other constants
       static const int REMOVE = -1;
       static const int PERMANENT = 0;
@@ -134,8 +147,11 @@ namespace rl
          **/
 		virtual RL_LONGLONG check();
         
-        /// Returns if status is applied to the creature
+        /// Returns the status that is applied to the creature by this effect.
         virtual Status getStatus();
+        
+        /// Returns the modificator applied on the value specified by the parameters.
+        virtual int getMod(CeGuiString target, ModType type, ModTag tag);
 
 	protected:
 		/// Bringt die Aenderungen ein.

@@ -75,6 +75,14 @@ namespace rl
          * Checks the effects for the given status.
          **/
         Effect::Status getStatus();
+        
+        /**
+         * Returns the specified modificator.
+         * @param target specifies what modificator you want to get (e.g. "Athletik")
+         * @param type specifies what type of modificator you want (e.g. modificator of the TaW or the Probenzuschlag)
+         * @param tag add some additional restrictions (e.g. KO Probe for sicknesses or Athletik for balance acts)
+         **/
+        int getMod(CeGuiString target, Effect::ModType type, Effect::ModTag tag = Effect::MODTAG_NONE);
 
 	private:
         /// Eine einfache Menge von Effekten

@@ -74,9 +74,6 @@ namespace rl
         RL_LONGLONG timeForCheck = now + timeUntilCheck;
         // Fuege die Summe und Effekt in die Checklist ein
         mChecklist[timeForCheck].insert(effect);
-        std::cout << "####################### Effect expires in: " << timeUntilCheck << " ms." << std::endl;
-        std::cout << "####################### Now              : " << now << std::endl;
-        std::cout << "####################### Check            : " << timeForCheck << std::endl;
     }
     
     void EffectManager::addDateCheck(RL_LONGLONG date, Effect* effect)
@@ -110,7 +107,6 @@ namespace rl
 				}
 			}
 		}
-        CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Adding Effect \"");
         ScriptWrapper::getSingleton().owned( effect );
 		mEffects.insert(effect);
 		effect->enable();
@@ -130,16 +126,20 @@ namespace rl
       Effect::Status status = 0;
       for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
       {
-        //try
-        //{
             status = status | ((*it)->getStatus());
-        //}
-        //catch (ScriptInvocationFailedException& sife)
-        //{
-        //  Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, sife.toString() );
-        //}
       }
       return status;
+    }
+    
+    int EffectManager::getMod(CeGuiString target, Effect::ModType type, Effect::ModTag tag)
+    {
+      checkEffects();
+      int mod = 0;
+      for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
+      {
+        mod += (*it)->getMod(target, type, tag);
+      }
+      return mod;
     }
 }
 

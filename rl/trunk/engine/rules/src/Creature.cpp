@@ -119,71 +119,71 @@ namespace rl
 
     int Creature::getAttackeBasis()
     {
-        double es = getEigenschaftForBasiswertCalculation(E_MUT) +
-            getEigenschaftForBasiswertCalculation(E_GEWANDTHEIT) +
-            getEigenschaftForBasiswertCalculation(E_KOERPERKRAFT);
+        double es = getEigenschaft(E_MUT, Effect::MODTAG_RECALCULATE) +
+            getEigenschaft(E_GEWANDTHEIT, Effect::MODTAG_RECALCULATE) +
+              getEigenschaft(E_KOERPERKRAFT, Effect::MODTAG_RECALCULATE);
 
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
     int Creature::getParadeBasis()
     {
-        double es = getEigenschaftForBasiswertCalculation(E_INTUITION) +
-            getEigenschaftForBasiswertCalculation(E_GEWANDTHEIT) +
-            getEigenschaftForBasiswertCalculation(E_KOERPERKRAFT);
+      double es = getEigenschaft(E_INTUITION, Effect::MODTAG_RECALCULATE) +
+            getEigenschaft(E_GEWANDTHEIT, Effect::MODTAG_RECALCULATE) +
+            getEigenschaft(E_KOERPERKRAFT, Effect::MODTAG_RECALCULATE);
 
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
     int Creature::getFernkampfBasis()
     {
-        double es = getEigenschaftForBasiswertCalculation(E_INTUITION) +
-            getEigenschaftForBasiswertCalculation(E_FINGERFERTIGKEIT) +
-            getEigenschaftForBasiswertCalculation(E_KOERPERKRAFT);
+      double es = getEigenschaft(E_INTUITION, Effect::MODTAG_RECALCULATE) +
+            getEigenschaft(E_FINGERFERTIGKEIT, Effect::MODTAG_RECALCULATE) +
+            getEigenschaft(E_KOERPERKRAFT, Effect::MODTAG_RECALCULATE);
 
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
     int Creature::getInitiativeBasis()
     {
-        int es = 2 * getEigenschaftForBasiswertCalculation(E_MUT) +
-            getEigenschaftForBasiswertCalculation(E_INTUITION) +
-            getEigenschaftForBasiswertCalculation(E_GEWANDTHEIT);
+      int es = 2 * getEigenschaft(E_MUT, Effect::MODTAG_RECALCULATE) +
+          getEigenschaft(E_INTUITION, Effect::MODTAG_RECALCULATE) +
+          getEigenschaft(E_GEWANDTHEIT, Effect::MODTAG_RECALCULATE);
 
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
     int Creature::getMrBasis()
     {
-        int es = getEigenschaftForBasiswertCalculation(E_MUT) +
-            getEigenschaftForBasiswertCalculation(E_KLUGHEIT) +
-            getEigenschaftForBasiswertCalculation(E_KONSTITUTION);
+      int es = getEigenschaft(E_MUT, Effect::MODTAG_RECALCULATE) +
+          getEigenschaft(E_KLUGHEIT, Effect::MODTAG_RECALCULATE) +
+          getEigenschaft(E_KONSTITUTION, Effect::MODTAG_RECALCULATE);
 
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
     int Creature::getLeBasis()
     {
-        int es =  2 * getEigenschaftForBasiswertCalculation(E_KONSTITUTION) +
-            getEigenschaftForBasiswertCalculation(E_KOERPERKRAFT);
+      int es =  2 * getEigenschaft(E_KONSTITUTION, Effect::MODTAG_RECALCULATE) +
+          getEigenschaft(E_KOERPERKRAFT, Effect::MODTAG_RECALCULATE);
 
         return static_cast<int>(es / 2.0 + 0.5);
     }
 
     int Creature::getAuBasis()
     {
-        int es = getEigenschaftForBasiswertCalculation(E_MUT) +
-            getEigenschaftForBasiswertCalculation(E_KONSTITUTION) +
-            getEigenschaftForBasiswertCalculation(E_GEWANDTHEIT);
+      int es = getEigenschaft(E_MUT, Effect::MODTAG_RECALCULATE) +
+          getEigenschaft(E_KONSTITUTION, Effect::MODTAG_RECALCULATE) +
+          getEigenschaft(E_GEWANDTHEIT, Effect::MODTAG_RECALCULATE);
 
         return static_cast<int>(es / 2.0 + 0.5);
     }
 
 	int Creature::getAeBasis()
 	{
-        int es = getEigenschaftForBasiswertCalculation(E_MUT) +
-			getEigenschaftForBasiswertCalculation(E_INTUITION) +
-            getEigenschaftForBasiswertCalculation(E_CHARISMA);
+      int es = getEigenschaft(E_MUT, Effect::MODTAG_RECALCULATE) +
+          getEigenschaft(E_INTUITION, Effect::MODTAG_RECALCULATE) +
+          getEigenschaft(E_CHARISMA, Effect::MODTAG_RECALCULATE);
 
         return static_cast<int>(es / 2.0 + 0.5);
     }
@@ -331,7 +331,7 @@ namespace rl
         return mAp.used;
     }
 
-    int Creature::getEigenschaft(const CeGuiString eigenschaftName)
+    int Creature::getEigenschaft(const CeGuiString eigenschaftName, Effect::ModTag tag)
     {
 		checkEffects();
 		EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
@@ -339,18 +339,9 @@ namespace rl
 		{
 			Throw(IllegalArgumentException, "Eigenschaft nicht gefunden.");
 		}
-		return it->second->getValue();
-    }
-
-    int Creature::getEigenschaftForBasiswertCalculation(const CeGuiString eigenschaftName)
-    {
-		checkEffects();
-		EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
-		if (it == mEigenschaften.end())
-		{
-			Throw(IllegalArgumentException, "Eigenschaft nicht gefunden.");
-		}
-		return it->second->getValueForBasiswertCalculation();
+		int result = it->second->getValue();
+        result += mEffectManager->getMod(eigenschaftName, Effect::MODTYPE_WERTMOD, tag);
+        return result;
     }
 
     void Creature::setEigenschaft(const CeGuiString eigenschaftName, int value)

@@ -575,6 +575,17 @@ namespace rl {
       // Meta stati
         static const Status STATUS_IMMOBILE = STATUS_PARALYZED | STATUS_SLEEPING | STATUS_UNCONSCIOUS | STATUS_PETRIFIED | STATUS_DEAD;
       
+        typedef int ModType;
+        static const ModType MODTYPE_NONE         = 1 << 0;
+        static const ModType MODTYPE_WERTMOD      = 1 << 1;   ///< Modifies the actual value.
+        static const ModType MODTYPE_PROBENMOD    = 1 << 2;   ///< Modifies the test.
+        static const ModType MODTYPE_WERTMULT     = 1 << 3;   ///< Will be multiplied on the value.
+        static const ModType MODTYPE_MAXWERTMOD   = 1 << 4;   ///< Modifies only the maximum of the value.
+      
+        typedef unsigned long ModTag;
+        static const ModTag MODTAG_NONE           = 1 << 0;
+        static const ModTag MODTAG_KRANKHEIT      = 1 << 1;
+
       // other constants
         static const int REMOVE = -1;
         static const int PERMANENT = 0;
@@ -604,6 +615,7 @@ namespace rl {
 		virtual RL_LONGLONG check() = 0;
 
         virtual Status getStatus();
+        virtual int getMod(rl::CeGuiString target, ModType type, ModTag tag);
         
 	protected:
 		virtual void apply() = 0;
@@ -655,7 +667,7 @@ namespace rl {
         void setWert(Wert wertId, int value);
         virtual StateSet* getWertStateSet(Wert wertId);
         
-        virtual int getEigenschaft(const rl::CeGuiString eigenschaftName);
+        virtual int getEigenschaft(const rl::CeGuiString eigenschaftName, Effect::ModTag = Effect::MODTAG_NONE);
         virtual void setEigenschaft(const rl::CeGuiString eigenschaftName, int value);
         virtual void modifyEigenschaft(const rl::CeGuiString eigenschaftName, int mod);
 		virtual EigenschaftenStateSet* getEigenschaftenStateSet(const rl::CeGuiString eigenschaftName);
