@@ -84,5 +84,15 @@
         <property name="meshfile" type="STRING" data="ver_truhe_gross01.mesh"/>
         <property name="geometrytype" type="STRING" data="box"/>
     </gameobjectclass>
+    
+    <!-- EffectTest -->
+    <gameobjectclass>
+        <property name="classid" type= "STRING" data="EffectTest" />
+        <property name="baseclass" type="STRING" data="GameObject"/>
+        <property name="name" type="STRING" data="Bottich der Versteinerung"/>
+        <property name="description" type="STRING" data="Der Essigbottich der Versteinerung (Vorsicht!)"/>
+        <property name="meshfile" type="STRING" data="ver_essigbottich_01.mesh"/>
+        <property name="geometrytype" type="STRING" data="box"/>
+    </gameobjectclass>
 
 </GameObjectDefinitions>
