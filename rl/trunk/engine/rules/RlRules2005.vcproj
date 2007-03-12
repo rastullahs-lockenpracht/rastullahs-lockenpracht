@@ -293,14 +293,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\AtomicEffect.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\CompositeEffect.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\Date.cpp"
 				>
 			</File>
@@ -468,14 +460,6 @@
 			</File>
 			<File
 				RelativePath=".\include\ActionManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\AtomicEffect.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\CompositeEffect.h"
 				>
 			</File>
 			<File
