@@ -55,7 +55,7 @@ namespace rl {
 
             mCamera->setPosition( getStartPoint() );
             mCamera->setFOVy(Degree(60));
-            mCamera->setFixedYawAxis(false);
+            mCamera->setFixedYawAxis(true);
             mCamera->setAutoAspectRatio(true);
 
             actor->placeIntoScene();

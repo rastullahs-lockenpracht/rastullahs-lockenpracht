@@ -41,11 +41,11 @@ namespace rl {
 		mCurrentMovementState(0),
         mDesiredVelocity(Vector3::ZERO),
         mCollisionsEnabled(false),
-        mPitch(Degree(0)),
-        mYaw(Degree(0)),
-        mPitchRange(Degree(-89), Degree(89))
+        mPitchRange(Degree(-89), Degree(89)),
+        mCameraUpConstraint(Vector3::ZERO)
 	{
-		//mCameraActor->getPhysicalThing()->freeze();
+		mCameraActor->getPhysicalThing()->freeze();
+        mCameraUpConstraint = mCameraActor->getPhysicalThing()->getUpConstraint();
 		mCharacterActor->getPhysicalThing()->freeze();
         mMouseSensitivity = ConfigurationManager::getSingleton().getIntSetting(ConfigurationManager::CS_INPUT, "Mouse Sensitivity");
         mInvertedMouse = ConfigurationManager::getSingleton().getBoolSetting(ConfigurationManager::CS_INPUT, "Mouse Invert");
@@ -72,7 +72,9 @@ namespace rl {
 
 	FreeFlightCharacterController::~FreeFlightCharacterController()
 	{
-		//mCameraActor->getPhysicalThing()->unfreeze();
+		mCameraActor->getPhysicalThing()->unfreeze();
+        if(mCameraUpConstraint != Vector3::ZERO)
+            mCameraActor->getPhysicalThing()->setUpConstraint(mCameraUpConstraint);
 		mCharacterActor->getPhysicalThing()->unfreeze();
 	}
 
@@ -139,32 +141,34 @@ namespace rl {
 		}
 
 
+        Radian yaw;
         if (movement & TURN_LEFT)
-            mYaw += elapsedTime * Degree(120.0f);
+            yaw = elapsedTime * Degree(120.0f);
         if (movement & TURN_RIGHT)
-            mYaw -= elapsedTime * Degree(120.0f);
+            yaw = -elapsedTime * Degree(120.0f);
 
         // mouse
         if( !(movement & TURN_LEFT || movement & TURN_RIGHT) )
         {
-            Degree rotation = mMouseSensitivity * Degree(im->getMouseRelativeX() / 10);
-
-            mYaw -= rotation;
-
-            while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
-            while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
+            yaw = -mMouseSensitivity * Degree(im->getMouseRelativeX() / 10);
         }
+        while (yaw.valueDegrees() > 360.0f) yaw -= Degree(360.0f);
+        while (yaw.valueDegrees() < -360.0f) yaw += Degree(360.0f);
 
-
+        Radian pitch;
         if (mInvertedMouse)
-            mPitch += mMouseSensitivity * Degree(im->getMouseRelativeY() / 4);
+            pitch = mMouseSensitivity * Degree(im->getMouseRelativeY() / 4);
         else
-            mPitch -= mMouseSensitivity * Degree(im->getMouseRelativeY() / 4);
+            pitch = -mMouseSensitivity * Degree(im->getMouseRelativeY() / 4);
 
-        while (mPitch.valueDegrees() > 360.0f) mPitch -= Degree(360.0f);
-        while (mPitch.valueDegrees() < -360.0f) mPitch += Degree(360.0f);
-        if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
-        if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
+        while (pitch.valueDegrees() > 360.0f) pitch -= Degree(360.0f);
+        while (pitch.valueDegrees() < -360.0f) pitch += Degree(360.0f);
+        if (pitch < mPitchRange.first) pitch = mPitchRange.first;
+        if (pitch > mPitchRange.second) pitch = mPitchRange.second;
+
+        mCameraActor->getPhysicalThing()->clearUpConstraint();
+        mCameraActor->yaw(yaw.valueDegrees());
+        mCameraActor->pitch(pitch.valueDegrees());
     }
 
 	void FreeFlightCharacterController::toggleViewMode()
@@ -176,8 +180,6 @@ namespace rl {
 
 	void FreeFlightCharacterController::resetCamera()
 	{
-        mYaw = Degree(0);
-        mPitch = Degree(0);
 		// Position camera at char position
         if( mCharacterActor != NULL )
         {
@@ -280,11 +282,6 @@ namespace rl {
             Vector3 force = mass*(orientation * mDesiredVelocity - currentVel) / delay;
 
             body->setForce(force);
-
-
-            mCameraActor->setOrientation(Quaternion::IDENTITY);
-            mCameraActor->yaw(mYaw.valueDegrees());
-            mCameraActor->pitch(mPitch.valueDegrees());
         }
     }
 

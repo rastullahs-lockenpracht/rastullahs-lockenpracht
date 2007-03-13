@@ -65,8 +65,7 @@ namespace rl {
 		Ogre::Real mSpeedIncrement;
 		Ogre::Real mRotationSpeed;
         Ogre::Vector3 mDesiredVelocity;
-        Ogre::Degree mPitch;
-        Ogre::Degree mYaw;
+        Ogre::Vector3 mCameraUpConstraint;
         bool mCollisionsEnabled;
         Ogre::Real mMouseSensitivity;
         bool mInvertedMouse;

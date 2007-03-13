@@ -1296,11 +1296,11 @@ namespace rl
         }
         else if( movementType & BEWEGUNG_LAUFEN )
         {
-            velocity = act_gs / 2.5;
+            velocity = act_gs / 2.0;
         }
         else if( movementType & BEWEGUNG_JOGGEN )
         {
-            velocity = act_gs / 2.0;
+            velocity = act_gs / 3.0;
         }
         else if( movementType & BEWEGUNG_GEHEN )
         {
@@ -1391,7 +1391,7 @@ namespace rl
                 patzer = 0;
             }
             // Ausdauerverbrauch: eigentlich 1, aber ich denke das ist zu hoch
-            damageAu(1./3);
+            damageAu(2./3);
             return velocity;
         }
         else if( movementType & BEWEGUNG_HOCHSPRUNG )

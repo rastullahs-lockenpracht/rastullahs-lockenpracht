@@ -440,8 +440,6 @@ namespace rl {
 
             if( !blockMovement )
             {
-                mCharacterState.mDesiredVel = Vector3::ZERO;
-
                 // not handled movements:
                 if( movement & MOVE_FORWARD && movement & MOVE_BACKWARD ||
                     movement & MOVE_LEFT && movement & MOVE_RIGHT )
@@ -494,41 +492,26 @@ namespace rl {
 
                 // ---------- jumping-behaviour (and falling?) ---------
                 {
-                    if( !(creatureMovement & Creature::BEWEGUNG_SCHLEICHEN) && 
-                        !blockMovement && !mCharacterState.beginJump &&
-                        !(creatureMovement & Creature::BEWEGUNG_HOCHSPRUNG) &&
-                        !(creatureMovement & Creature::BEWEGUNG_WEITSPRUNG) &&
+                    if( !((creatureMovement & Creature::BEWEGUNG_SCHLEICHEN) || 
+                        blockMovement || mCharacterState.beginJump ||
+                        (creatureMovement & Creature::BEWEGUNG_HOCHSPRUNG) ||
+                        (creatureMovement & Creature::BEWEGUNG_WEITSPRUNG)) &&
                         movement & MOVE_JUMP)
                     {
                         if( mCharacterState.mDesiredVel.squaredLength() > 0 )
                         {
-                            mCharacterState.jumpType = CharacterState::WEITSPRUNG;
-                            if( mCharacter->canUseTaktischeBewegung(newCreatureMovement | Creature::BEWEGUNG_WEITSPRUNG) )
+                            if( movement & MOVE_FORWARD )
                             {
                                 mCharacterState.beginJump = true;
-                                Real jumpWidth = 
-                                    mCharacter->doTaktischeBewegung(
-                                            newCreatureMovement | Creature::BEWEGUNG_WEITSPRUNG,
-                                            elapsedTime,
-                                            patzer);
-
-                                mCharacterState.mJumpWidthHeight = jumpWidth;
+                                mCharacterState.jumpType = CharacterState::WEITSPRUNG;
+                                creatureMovement = newCreatureMovement;
                             }
                         }
                         else
                         {
+                            mCharacterState.beginJump = true;
                             mCharacterState.jumpType = CharacterState::HOCHSPRUNG;
-                            if( mCharacter->canUseTaktischeBewegung(newCreatureMovement | Creature::BEWEGUNG_HOCHSPRUNG) )
-                            {
-                                mCharacterState.beginJump = true;
-                                Real jumpHeight = 
-                                    mCharacter->doTaktischeBewegung(
-                                            newCreatureMovement | Creature::BEWEGUNG_HOCHSPRUNG,
-                                            elapsedTime,
-                                            patzer);
-
-                                mCharacterState.mJumpWidthHeight = jumpHeight;
-                            }
+                            creatureMovement = newCreatureMovement;
                         }
                     }
 
@@ -542,15 +525,12 @@ namespace rl {
                     }
 
 
-
-                    
-                    Real timeJumpKeyPressed (0.0);
-                    if( !mCharacterState.beginJump )
-                        timeJumpKeyPressed = 0;
-                    else if( movement & MOVE_JUMP && 
-                        (creatureMovement & Creature::BEWEGUNG_HOCHSPRUNG ||
-                        creatureMovement & Creature::BEWEGUNG_WEITSPRUNG ) )
+                    static Real timeJumpKeyPressed (0.0);
+                    if( mCharacterState.beginJump && (movement & MOVE_JUMP) )
                         timeJumpKeyPressed += elapsedTime;
+                    else
+                        timeJumpKeyPressed = 0;
+
 
 
 
@@ -565,6 +545,7 @@ namespace rl {
                         else // HOCHSPRUNG
                         {
                             newAnimation = "idle_absprung";
+
                         }
                         animTimesToPlay = 1;
                         
@@ -572,13 +553,63 @@ namespace rl {
                         MeshAnimation *meshAnim = mesh->getAnimation(newAnimation);
                         if (meshAnim->getTimePlayed() >= meshAnim->getLength())
                         {
-                            mCharacterState.mStartJump = true;
-                            if( timeJumpKeyPressed > 0.5 )
-                            mCharacterState.mJumpWidthHeight *= timeJumpKeyPressed / meshAnim->getLength();
                             mCharacterState.beginJump = false;
+                            
+                            if( mCharacterState.jumpType == CharacterState::WEITSPRUNG )
+                            {
+                                if( mCharacter->canUseTaktischeBewegung(creatureMovement | Creature::BEWEGUNG_WEITSPRUNG) )
+                                {
+                                    Real jumpWidth = 
+                                        mCharacter->doTaktischeBewegung(
+                                                creatureMovement | Creature::BEWEGUNG_WEITSPRUNG,
+                                                elapsedTime,
+                                                patzer);
+
+                                    mCharacterState.mJumpWidthHeight = jumpWidth;
+                                    mCharacterState.mStartJump = true;
+                                }
+                            }
+                            else
+                            {
+                                if( mCharacter->canUseTaktischeBewegung(creatureMovement | Creature::BEWEGUNG_HOCHSPRUNG) )
+                                {
+                                    Real jumpHeight = 
+                                        mCharacter->doTaktischeBewegung(
+                                                creatureMovement | Creature::BEWEGUNG_HOCHSPRUNG,
+                                                elapsedTime,
+                                                patzer);
+
+                                    mCharacterState.mJumpWidthHeight = jumpHeight;
+                                    mCharacterState.mStartJump = true;
+                                }
+                            }
+
+                            if( timeJumpKeyPressed < 0.1f )
+                                timeJumpKeyPressed = 0.1f;
+                            Real factor = timeJumpKeyPressed / meshAnim->getLength();
+                            if (factor > 1.0f)
+                                factor = 1.0f;
+
+
+                            mCharacterState.mJumpWidthHeight *= factor;
+                        }
+                        else
+                        {
+                            mCharacterState.mDesiredVel = Vector3::ZERO;
+                            if( mCharacterState.jumpType == CharacterState::WEITSPRUNG )
+                            {
+                                mCharacterState.mDesiredVel.z = -1;
+                                Real vel = mCharacter->doTaktischeBewegung(
+                                    creatureMovement, elapsedTime, patzer);
+                                mCharacterState.mDesiredVel *= vel;
+                            }
+                            else
+                            {
+                                mCharacter->setTaktischeBewegung(creatureMovement & Creature::BEWEGUNG_HOCHSPRUNG);
+                            }
                         }
                     }
-                    else // !beginJump
+                    else
                     {
                         if( creatureMovement & Creature::BEWEGUNG_HOCHSPRUNG )
                         {
@@ -594,13 +625,33 @@ namespace rl {
                         }
                     }
 
+
                     if( mCharacterState.endJump )
                     {
+                        mCharacterState.mDesiredVel = Vector3::ZERO;
+
                         blockMovement = true;
-                        if( creatureMovement & Creature::BEWEGUNG_WEITSPRUNG )
+                        if( mCharacterState.jumpType == CharacterState::WEITSPRUNG )
                         {
                             newAnimation = "rennen_sprung_landung";
                             animSpeed = factor_rennen_sprung * vel;
+
+                            // schneller oder gleich schnell weiterlaufen
+                            if( movement & MOVE_FORWARD )
+                            {
+                                int dummy = Creature::BEWEGUNG_GEHEN |
+                                            Creature::BEWEGUNG_LAUFEN |
+                                            Creature::BEWEGUNG_JOGGEN |
+                                            Creature::BEWEGUNG_RENNEN;
+                                if( (newCreatureMovement & dummy) >=
+                                    (creatureMovement & dummy) )
+                                {
+                                    blockMovement = false;
+                                    mCharacterState.mDesiredVel.z = -1;
+                                    newCreatureMovement &= ~Creature::BEWEGUNG_WEITSPRUNG;
+                                }
+                                    
+                            }
                         }
                         else // HOCHSPRUNG
                         {
@@ -718,9 +769,11 @@ namespace rl {
             }
 
 
+            static bool lastTurning(false);
             if( mCharacter->getTaktischeBewegung() == Creature::BEWEGUNG_DREHEN &&
-                charOmega.y != 0 )
+                (rotation <= Degree(-2) || rotation >= Degree(2) || lastTurning) )
             {
+                lastTurning = true;
                 if( charOmega.y > 0 )
                     newAnimation = "drehen_links";
                 else
@@ -728,6 +781,8 @@ namespace rl {
                 
                 animSpeed = factor_drehen_idle * charOmega.y;
             }
+            else
+                lastTurning = false;
 
 
             mYaw -= rotation;
@@ -1043,9 +1098,6 @@ namespace rl {
                         Real g = mGravitation.length();
                         Real t = timestep;
                         Real h = height;
-                        std::ostringstream os;
-                        os << "Sprunghöhe: " << height;
-                        LOG_MESSAGE(Logger::UI, os.str());
                         Real jumpForce = 0.5f*g*m * (Math::Sqrt(1 + 8*h/(g * t * t)) - 1);
                         force += Vector3(0,
                             jumpForce,
@@ -1059,9 +1111,6 @@ namespace rl {
                         Real v0 = currentVel.x;
                         Real t = timestep;
                         Real s = width;
-                        std::ostringstream os;
-                        os << "Sprungweite: " << width;
-                        LOG_MESSAGE(Logger::UI, os.str());
                         Real jumpForcezy = 
                             m*g/4 - v0*m /2 /t + 
                             Math::Sqrt( 
@@ -1070,16 +1119,7 @@ namespace rl {
                                 m*m * g*g * t*t /4 +
                                 2 * s * m*m *g
                                        )/2/t;
-                        force += Vector3(0,jumpForcezy,0);
-                        // in the direction of mDesiredVel
-                        if( mCharacterState.mDesiredVel.squaredLength() == 0 )
-                        {
-                            // this shouldn't happen...
-                            mCharacterState.mDesiredVel.z = -1;                            
-                        }
-                        mCharacterState.mDesiredVel.y = 0;
-                        mCharacterState.mDesiredVel.normalise();
-                        force += orientation * mCharacterState.mDesiredVel * jumpForcezy;
+                        force += orientation * Vector3(0,jumpForcezy,-jumpForcezy);
                     }
 
                     mCharacterState.mStartJump = false;
@@ -1089,6 +1129,8 @@ namespace rl {
                 else
                 {
                     Real delay = 2 * PhysicsManager::getSingleton().getMaxTimestep(); // so ist die Beschleunigung unabhängig von der framerate!
+                    if( mCharacterState.mDesiredVel.squaredLength() < currentVel.squaredLength() )
+                        delay *= 4;
                     force += mass*(orientation*mCharacterState.mDesiredVel - currentVel) / delay;
                 }
             }
@@ -1731,6 +1773,7 @@ namespace rl {
         mCharacterState.endJump = false;
         mCharacterState.beginSneak = false;
         mCharacterState.endSneak = false;
+        mCharacter->modifyAu(100);
     }
 
     //------------------------------------------------------------------------
