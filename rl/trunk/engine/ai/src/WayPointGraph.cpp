@@ -16,7 +16,7 @@
 #include "WayPointGraph.h"
 #include "WayPointNode.h"
 #include <algorithm>
-#include <Ogre.h>
+#include "OgreVector3.h"
 #include "CoreSubsystem.h"
 #include "World.h"
 #include "Exception.h"

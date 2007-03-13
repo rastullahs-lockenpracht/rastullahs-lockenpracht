@@ -19,7 +19,7 @@
 #include "SteeringVehicle.h"
 #include "Actor.h"
 #include "PhysicalThing.h"
-#include <Ogre.h>
+#include "OgreVector3.h"
 #include "PhysicsMaterialRaycast.h"
 
 using namespace OpenSteer;
