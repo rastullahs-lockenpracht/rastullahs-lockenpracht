@@ -99,8 +99,8 @@ namespace rl
         const DriverMap& getDriverData() const;
 
         FMOD::System* _getFmodSystem();
-        void _registerForAutoDestruction(Fmod4Sound* sound, FMOD::Channel* channel);
-
+        void _registerChannel(FMOD::Channel* channel, Fmod4Sound* sound);
+        
     protected:
         virtual Sound* createSoundImpl(SoundResourcePtr res, SoundType type);
 

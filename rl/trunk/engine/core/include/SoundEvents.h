@@ -56,13 +56,25 @@ public:
 class _RlCoreExport  SoundTimingEvent : public SoundEvent {
 
 public:
-    double mTime;
+    unsigned int mTime;
 
     SoundTimingEvent(EventSource *source);
     SoundTimingEvent(EventSource *source, const unsigned int reason );
     virtual ~SoundTimingEvent();
     
     static const unsigned int TIMEEVENT = 14;
+};
+
+class _RlCoreExport  SoundVoiceEvent : public SoundEvent {
+
+public:
+
+    SoundVoiceEvent(EventSource *source);
+    SoundVoiceEvent(EventSource *source, const unsigned int reason );
+    virtual ~SoundVoiceEvent();
+    
+    static const unsigned int SWAPINEVENT = 16;
+    static const unsigned int SWAPOUTEVENT = 17;
 };
 
 

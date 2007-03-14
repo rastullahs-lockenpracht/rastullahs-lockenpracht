@@ -422,6 +422,10 @@ public:
     void stop();
 	/// Setzt die Lautstaerke (1.0 = volle Lautstärke)
 	void setVolume(float volume = 1.0);
+    // Sets the priority of this sound
+    void setPriority(const int priority);
+    // Gets the priority of this sound
+    const int getPriority() const;
 	
 	rl::Sound* getSound();
 };
@@ -705,6 +709,11 @@ public:
     void stop() ;
     /// Laeuft der Sound noch
     const bool isPlaying() const ;
+
+    // Sets the priority of this sound
+    virtual void setPriority(const int priority);
+    // Gets the priority of this sound
+    virtual const int getPriority() const;
 
     /// Gibt zurück ob der Sound geloopt werden soll 
     bool isLooping() const;

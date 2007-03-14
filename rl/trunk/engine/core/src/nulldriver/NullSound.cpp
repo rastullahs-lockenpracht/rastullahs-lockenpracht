@@ -229,5 +229,26 @@ bool NullSound::isPaused()
     return true;
 }
 
+/**
+ * @author JoSch
+ * @date 14-03-2007
+ * @version 1.0
+ * @param priority The new priority of this sound
+ */ 
+void NullSound::setPriority(const int priority)
+{
+    mPriority = priority;
+}
+
+/**
+ * @author JoSch
+ * @date 14-03-2007
+ * @version 1.0
+ * @return The new priority of this sound
+ */ 
+const int NullSound::getPriority() const
+{
+    return mPriority;
+}
 
 } // Namespace

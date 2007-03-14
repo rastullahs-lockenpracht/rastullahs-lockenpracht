@@ -207,4 +207,35 @@ bool OpenALSound::isPaused()
     return !mIsPlaying;
 }
 
+
+/**
+ * @author JoSch
+ * @date 14-03-2007
+ * @version 1.0
+ * @param priority The new priority of this sound
+ */ 
+void OpenALSound::setPriority(const int priority)
+{
+    mPriority = priority;
+    if (isValid())
+    {
+    }
+}
+
+/**
+ * @author JoSch
+ * @date 14-03-2007
+ * @version 1.0
+ * @return The new priority of this sound
+ */ 
+const int OpenALSound::getPriority() const
+{
+    if (isValid())
+    {
+        return mPriority;
+    } else {
+        return mPriority;
+    }
+}
+
 };

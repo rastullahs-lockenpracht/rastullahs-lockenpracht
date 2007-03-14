@@ -74,4 +74,18 @@ SoundTimingEvent::~SoundTimingEvent()
 {
 }
 
+SoundVoiceEvent::SoundVoiceEvent(EventSource *source) :
+    SoundEvent(source)
+{
+}
+
+SoundVoiceEvent::SoundVoiceEvent(EventSource *source, const unsigned int reason):
+    SoundEvent(source, reason)
+{
+}
+
+SoundVoiceEvent::~SoundVoiceEvent()
+{
+}
+
 }

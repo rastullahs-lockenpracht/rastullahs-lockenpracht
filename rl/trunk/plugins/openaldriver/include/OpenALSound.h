@@ -66,6 +66,11 @@ public:
     /// Laeuft der Sound noch
     virtual const bool isPlaying() const;
     
+    // Sets the priority of this sound
+    virtual void setPriority(const int priority);
+    // Gets the priority of this sound
+    virtual const int getPriority() const;
+
     // Sind wir gueltig
     bool isValid() const throw (RuntimeException);
 

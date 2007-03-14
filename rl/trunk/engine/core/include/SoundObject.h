@@ -68,6 +68,10 @@ namespace rl {
         virtual void stop();
 		/// Setzt die Lautstaerke (1.0 = volle Lautstärke)
 		void setVolume(float volume = 1.0);
+        // Sets the priority of this sound
+        void setPriority(const int priority);
+        // Gets the priority of this sound
+        const int getPriority() const;
 
 		float getLength() const;
 

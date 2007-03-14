@@ -192,4 +192,16 @@ float SoundObject::getLength() const
 	return getSound()->getLength();
 }
 
+// Sets the priority of this sound
+void SoundObject::setPriority(const int priority)
+{
+    getSound()->setPriority(priority);
+}
+
+// Gets the priority of this sound
+const int SoundObject::getPriority() const
+{
+    return getSound()->getPriority();
+}
+
 }

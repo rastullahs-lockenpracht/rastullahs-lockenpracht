@@ -99,6 +99,10 @@ namespace rl {
 	    /// Setzt die Entfernung, ab der ein 3D-Sound nicht mehr leiser wird
 	    virtual void setRolloffEndDistance(const Ogre::Real&);
 	    virtual const Ogre::Real getRolloffEndDistance() const;
+        // Sets the priority of this sound
+        virtual void setPriority(const int priority) = 0;
+        // Gets the priority of this sound
+        virtual const int getPriority() const = 0;
 
         /// Spielt den Sound ab.
         virtual void play(bool destroyWhenDone=false) = 0;
@@ -124,6 +128,8 @@ namespace rl {
         Ogre::Quaternion mDirection;
         /// Die Geschwindigkeit
         Ogre::Vector3 mVelocity;
+        /// The priority of this sound
+        int mPriority;
 
 	    Ogre::Real mRolloffStartDistance;
 	    Ogre::Real mRolloffEndDistance;
@@ -141,6 +147,7 @@ namespace rl {
         bool mIs3d;
         // Ob dieser Sound loopen soll.
         bool mIsLooping;
+        
     }; 
 
 

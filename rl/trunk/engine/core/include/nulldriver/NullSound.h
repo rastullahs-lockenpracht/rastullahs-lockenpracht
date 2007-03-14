@@ -76,6 +76,11 @@ namespace rl {
     //         void rewind() throw (RuntimeException);
         /// Laeuft der Sound noch
          const bool isPlaying() const;
+        
+        // Sets the priority of this sound
+        virtual void setPriority(const int priority);
+        // Gets the priority of this sound
+        virtual const int getPriority() const;
 
     protected:
         // Sind wir gueltig?

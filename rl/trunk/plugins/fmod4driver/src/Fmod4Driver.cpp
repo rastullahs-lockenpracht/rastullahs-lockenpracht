@@ -327,22 +327,74 @@ namespace rl
         return FMOD_ERR_INVALID_PARAM;
     }
 
-    FMOD_RESULT F_CALLBACK Fmod4Driver::channelCallback(
-        FMOD_CHANNEL* channel,
-        FMOD_CHANNEL_CALLBACKTYPE type,
-        int command,
-        unsigned int commanddata1,
-        unsigned int commanddata2)
+/**
+ * This static method is as channel callback, so that we get callbacks
+ * from FMOD
+ * @author Blakharaz
+ * @version 1.0
+ * @author JoSch
+ * @version 1.1
+ * @date 07-03-2007
+ * @param _channel The channel for which the callback is registered.
+ * @param type Type of the event.
+ * @param command A commando
+ * @param commanddata1 Data
+ * @param commanddata2 Data
+ */
+FMOD_RESULT F_CALLBACK Fmod4Driver::channelCallback(
+    FMOD_CHANNEL *_channel,
+    FMOD_CHANNEL_CALLBACKTYPE type,
+    int command,
+    unsigned int commanddata1, 
+    unsigned int commanddata2)
+{
+    /// Extract the Fmod channel and then our Sound object.
+    FMOD::Channel* channel = (FMOD::Channel*)_channel;
+    RlAssert1(channel != NULL);
+    ChannelSoundMap::iterator it = gDriver->mChannelSoundMap.find((FMOD::Channel*)channel);
+    if (it != gDriver->mChannelSoundMap.end())
     {
-        // Look up sound for this channel
-        ChannelSoundMap::iterator it = gDriver->mChannelSoundMap.find((FMOD::Channel*)channel);
-        if (it != gDriver->mChannelSoundMap.end())
+        Fmod4Sound* sound = it->second;
+        RlAssert1(sound != NULL);
+        switch(type)
         {
-            gDriver->destroySound(it->second);
-            gDriver->mChannelSoundMap.erase(it);
+            case FMOD_CHANNEL_CALLBACKTYPE_END:
+                {
+                    // We dispatch a stop event
+                    SoundPlayEvent event(NULL, SoundPlayEvent::STOPEVENT);
+                    sound->dispatchEvent(&event);
+                    // If the sound is set for autodestruction,
+                    // we destroy it now.
+                    if (sound->isAutoDestroying())
+                    {
+                        gDriver->destroySound(sound);
+                        gDriver->mChannelSoundMap.erase(it);
+                    }
+                }
+                break;
+                
+            case FMOD_CHANNEL_CALLBACKTYPE_SYNCPOINT:
+                {
+                    FMOD::Sound *fmodsound = NULL;
+                    FMOD_SYNCPOINT* syncpoint = NULL;
+                    SoundTimingEvent event(NULL, SoundTimingEvent::TIMEEVENT);
+        
+                    // We get the time point of the sync point and put it in a timing event.
+                    sound->getFmodChannel()->getCurrentSound(&fmodsound);
+                    fmodsound->getSyncPoint(commanddata1, &syncpoint);
+                    fmodsound->getSyncPointInfo(syncpoint, NULL, 0, &event.mTime, FMOD_TIMEUNIT_MS);
+                    sound->dispatchEvent(&event);
+                }
+                break;
+             case FMOD_CHANNEL_CALLBACKTYPE_VIRTUALVOICE:
+                {
+                }
+                break;
         }
-        return FMOD_OK;
-    }
+    }  
+    return FMOD_OK;
+}
+
 
     void Fmod4Driver::setMasterVolume(const Ogre::Real& vol)
     {
@@ -363,9 +415,13 @@ namespace rl
         return factor;
     }
 
-    void Fmod4Driver::_registerForAutoDestruction(Fmod4Sound* sound, FMOD::Channel* channel)
+    void Fmod4Driver::_registerChannel(FMOD::Channel* channel, Fmod4Sound* sound)
     {
         FMOD_RESULT res = channel->setCallback(FMOD_CHANNEL_CALLBACKTYPE_END, channelCallback, 0);
+        CHECK_FMOD4_ERRORS(res);
+        res = channel->setCallback(FMOD_CHANNEL_CALLBACKTYPE_SYNCPOINT, channelCallback, 0);
+        CHECK_FMOD4_ERRORS(res);
+        res = channel->setCallback(FMOD_CHANNEL_CALLBACKTYPE_VIRTUALVOICE, channelCallback, 0);
         CHECK_FMOD4_ERRORS(res);
         mChannelSoundMap.insert(std::make_pair(channel, sound));
     }

@@ -33,6 +33,7 @@ Fmod4Sound::Fmod4Sound(Fmod4Driver* driver, SoundResourcePtr soundres, SoundType
     mDriver(driver),
     mChannel(NULL)
 {
+    setPriority(128);
 }
 
 float Fmod4Sound::getLength() const
@@ -131,10 +132,8 @@ void Fmod4Sound::play(bool destroyWhenDone)
     CHECK_FMOD4_ERRORS(res);
 
     RlAssert1(mChannel != NULL);
-    if (destroyWhenDone)
-    {
-        mDriver->_registerForAutoDestruction(this, mChannel);
-    }
+    mAutoDestroy = destroyWhenDone;
+    mDriver->_registerChannel(mChannel, this);
 
     float vol;
 	if (is3d())
@@ -147,6 +146,7 @@ void Fmod4Sound::play(bool destroyWhenDone)
 	}
 	setVolume(vol);
 
+    setPriority(mPriority);
     setPosition(mPosition);
     setDirection(mDirection);
 	setVelocity(mVelocity); 
@@ -258,6 +258,45 @@ const float Fmod4Sound::getVolume() const
     float vol;
     mChannel->getVolume(&vol);
     return vol;
+}
+
+/**
+ * @author JoSch
+ * @date 14-03-2007
+ * @version 1.0
+ * @param priority The new priority of this sound
+ */ 
+void Fmod4Sound::setPriority(const int priority)
+{
+    mPriority = priority;
+    if (mPriority < 0)
+    {
+        mPriority = 0;
+    }
+    if (mPriority > 256)
+    {
+        mPriority = 256;
+    }
+    if (isValid())
+    {
+        mChannel->setPriority(mPriority);
+    }
+}
+
+/**
+ * @author JoSch
+ * @date 14-03-2007
+ * @version 1.0
+ * @return The new priority of this sound
+ */ 
+const int Fmod4Sound::getPriority() const
+{
+    int priority = mPriority;
+    if (isValid())
+    {
+        mChannel->getPriority(&priority);
+    }
+    return priority;
 }
 
 } // Namespace

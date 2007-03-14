@@ -65,6 +65,11 @@ namespace rl {
 		virtual void setDirection(const Ogre::Quaternion&);
 		/// Setzt die Geschwindigkeit der Soundquelle.
 		virtual void setVelocity(const Ogre::Vector3&);
+        
+        /// Gibt den FMOD Channel zurück.
+        FMOD::Channel* getFmodChannel() const;
+        /// Gibt den FMOD Sound zurück.
+        FMOD::Sound* getFmodSound() const;
 
         virtual void play(bool destroyWhenDone=false);
 		/// Pausiert den Sound.
@@ -75,6 +80,15 @@ namespace rl {
 		virtual void stop();
 		/// Laeuft der Sound noch
 		virtual const bool isPlaying() const;
+        
+        // Sets the priority of this sound
+        virtual void setPriority(const int priority);
+        // Gets the priority of this sound
+        virtual const int getPriority() const;
+        
+        
+        /// Should the sound be autodestructed when playing is done.
+        bool isAutoDestroying() const;
 
     private:
 		/// Shared class-level name for Movable type
@@ -83,6 +97,7 @@ namespace rl {
         SoundType mType;
         FMOD::Sound *mSound;
         Fmod4Driver* mDriver;
+        bool mAutoDestroy;
     };
 
     class _RlFmod4DriverExport Fmod4SoundPtr :
