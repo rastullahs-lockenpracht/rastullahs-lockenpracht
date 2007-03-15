@@ -45,17 +45,16 @@ namespace rl
 		mGeometryType(geomType),
 		mPhysicalObject(po),
 		mMass(mass),
-		mHullModifier(hullModifier)
+		mHullModifier(hullModifier),
+        mPhysicsController(NULL)
 	{
 	}
 
     PhysicalThing::~PhysicalThing()
 	{
-        PhysicsManager::getSingleton().setPhysicsController( this, NULL );
 		// missing removal of list of collision objects here ...
 		delete mBody;
 		mBody = NULL;
-
     }
 
     Ogre::Vector3 PhysicalThing::getPosition() const
@@ -605,24 +604,45 @@ namespace rl
         }
 	}
 
-	void PhysicalThing::prepareUserControl(OgreNewt::MaterialID* material)
+    PhysicsController* PhysicalThing::getPhysicsController() const
     {
-        mBody->setMaterialGroupID(material);
-        mBody->setAutoFreeze(0);
-        mBody->unFreeze();
-        mBody->setLinearDamping(0.0f);
-        mBody->setAngularDamping(Vector3::ZERO);
-
-        mBody->setCustomForceAndTorqueCallback( PhysicsManager::controlledForceCallback );
-
-        // Set up-vector, so force application doesn't let the char fall over
-        setUpConstraint(Vector3::UNIT_Y);
+        return mPhysicsController;
     }
 
-    void PhysicalThing::unprepareUserControl()
+    void PhysicalThing::setPhysicsController(PhysicsController* controller)
     {
-		mBody->setMaterialGroupID(PhysicsManager::getSingleton()._getDefaultMaterialID());
-        mBody->setCustomForceAndTorqueCallback( PhysicsManager::genericForceCallback );
-        setUpConstraint(Vector3::ZERO);
+        if (mPhysicsController)
+        {
+            // if there is an old controller, remove it
+            mBody->setCustomForceAndTorqueCallback( PhysicsManager::genericForceCallback );
+            setUpConstraint(Vector3::ZERO);
+            mPhysicsController = NULL;
+        }
+
+        if(controller)
+        {
+            // prepare for control
+            mPhysicsController = controller;
+            mBody->setAutoFreeze(0);
+            mBody->unFreeze();
+            mBody->setLinearDamping(0.0f);
+            mBody->setAngularDamping(Vector3::ZERO);
+
+            mBody->setCustomForceAndTorqueCallback( PhysicsManager::controlledForceCallback );
+
+            // Set up-vector, so force application doesn't let the char fall over
+            setUpConstraint(Vector3::UNIT_Y);
+        }
     }
+
+    void PhysicalThing::setMaterialID(const OgreNewt::MaterialID* materialid)
+    {
+        mBody->setMaterialGroupID(materialid);
+    }
+
+    const OgreNewt::MaterialID* PhysicalThing::getMaterialID() const
+    {
+        return mBody->getMaterialGroupID();
+    }
+
 }

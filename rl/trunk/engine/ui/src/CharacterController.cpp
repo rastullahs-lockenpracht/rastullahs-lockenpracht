@@ -75,6 +75,20 @@ namespace rl {
 		ogreCam->setOrientation(Quaternion::IDENTITY);
 
 		mCameraActor->_getSceneNode()->setFixedYawAxis(true);
+
+        PhysicsManager::getSingleton().createMaterialID("character");
+
+        PhysicsManager::getSingleton().createMaterialPair(
+            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("default"))->setDefaultFriction(0,0);
+
+        PhysicsManager::getSingleton().createMaterialPair(
+            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("level"))->setDefaultFriction(0,0);
+
+        PhysicsManager::getSingleton().createMaterialPair(
+            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("character"))->setDefaultCollidable(0);
 	}
     
     CharacterController::~CharacterController()

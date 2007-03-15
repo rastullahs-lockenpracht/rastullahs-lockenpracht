@@ -132,13 +132,20 @@ namespace rl {
 
         // The actor should be controlled manually,
         // so let the PM prepare it accordingly
-        PhysicsManager::getSingleton().setPhysicsController(
-            mCharacterActor->getPhysicalThing(), this);
-        PhysicsManager::getSingleton().setPhysicsController(
-            mCameraActor->getPhysicalThing(), this);
+        mCharacterActor->getPhysicalThing()->setMaterialID(
+            PhysicsManager::getSingleton().getMaterialID("character"));
+        mCharacterActor->getPhysicalThing()->setPhysicsController(this);
+        mCameraActor->getPhysicalThing()->setMaterialID(
+            PhysicsManager::getSingleton().getMaterialID("character"));
+        mCameraActor->getPhysicalThing()->setPhysicsController(this);
         // We also handle char<->level, char<->default collision from now on
-        PhysicsManager::getSingleton().setCharLevelContactCallback(this);
-        PhysicsManager::getSingleton().setCharDefaultContactCallback(this);
+        PhysicsManager::getSingleton().getMaterialPair(
+            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("default"))->setContactCallback(this);
+        PhysicsManager::getSingleton().getMaterialPair(
+            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("level"))->setContactCallback(this);
+        
         // Fit Collision proxy to idle anim
         mCharacterActor->getPhysicalThing()->fitToPose("idle");
 
@@ -157,14 +164,16 @@ namespace rl {
     {
         delete mRaycast;
         // actors aren't controlled anymore
-        PhysicsManager::getSingleton().setPhysicsController(
-            mCharacterActor->getPhysicalThing(), NULL);
-        PhysicsManager::getSingleton().setPhysicsController(
-            mCameraActor->getPhysicalThing(), NULL);
+        mCharacterActor->getPhysicalThing()->setPhysicsController(NULL);
+        mCameraActor->getPhysicalThing()->setPhysicsController(NULL);
         // Char<->Level collision back to default
-        PhysicsManager::getSingleton().setCharLevelContactCallback(NULL);
+        PhysicsManager::getSingleton().resetMaterialPair(
+            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("default"));
         // Char<->Default collision back to default
-        PhysicsManager::getSingleton().setCharDefaultContactCallback(NULL);
+        PhysicsManager::getSingleton().resetMaterialPair(
+            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("level"));
 
         if (DebugWindow::getSingletonPtr())
         {

@@ -145,6 +145,28 @@ namespace rl {
         void setContactListener(PhysicsContactListener* listener);
         PhysicsContactListener* getContactListener() const;
 
+        /** Retrieves the PhysicsController of this object.
+         * @returns the responsible PhysicsController object reacting on force/torque updates
+         */
+        PhysicsController* getPhysicsController() const;
+        /** Sets the PhysicsController for this object.
+         * When the given controller object is NULL, then this removes only
+         * removes the previous controller object.
+         * @param controller is the responsible PhysicsController object reacting on force/torque updates
+         * @param materialid of the material to use for this physical object
+         */
+        void setPhysicsController(PhysicsController* controller);
+
+        /** Sets the material id for this OgreNewt Body.
+         * @param materialid to set to.
+         */
+        void setMaterialID(const OgreNewt::MaterialID* materialid);
+        /** Retrieves the material id for the OgreNewt Body.
+         * @returns materialid of the OgreNewt body.
+         */
+        const OgreNewt::MaterialID* getMaterialID() const;
+
+    protected:
 		void prepareUserControl(OgreNewt::MaterialID* material);
         void unprepareUserControl();
 
@@ -179,6 +201,9 @@ namespace rl {
 		//! the associated tangible object ?
 		PhysicalObject* mPhysicalObject;
 		bool mHullModifier;
+
+        //! the responsible PhysicsController object reacting on force/torque updates
+        PhysicsController* mPhysicsController;
 
 		/** returns the geometrytype of the collision primitiv.
 		 * That is normally box, sphere, ellipsoid, capsule, convexhull or mesh.

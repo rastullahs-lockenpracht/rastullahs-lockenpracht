@@ -73,7 +73,7 @@ void AiWorld::removeAllObstacles()
 
 NewtonWorldAsObstacle::NewtonWorldAsObstacle(void)
 {
-    mLevelMaterial = PhysicsManager::getSingleton()._getLevelMaterialID();
+    mLevelMaterial = PhysicsManager::getSingleton().getMaterialID("level");
     mNewtonWorld = PhysicsManager::getSingleton()._getNewtonWorld();
 }
 

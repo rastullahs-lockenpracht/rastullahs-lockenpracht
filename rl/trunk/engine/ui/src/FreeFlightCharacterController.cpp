@@ -56,13 +56,16 @@ namespace rl {
 
         // The actor should be controlled manually,
         // so let the PM prepare it accordingly
-        PhysicsManager::getSingleton().setPhysicsController(
-            mCameraActor->getPhysicalThing(), this);
+        mCameraActor->getPhysicalThing()->setPhysicsController(this);
         // We also handle char<->level, char<->default collision from now on (camera=char!)
-        PhysicsManager::getSingleton().setCharLevelContactCallback(this);
-        PhysicsManager::getSingleton().setCharDefaultContactCallback(this);
+        PhysicsManager::getSingleton().getMaterialPair(
+            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("default"))->setContactCallback(this);
+        PhysicsManager::getSingleton().getMaterialPair(
+            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("level"))->setContactCallback(this);
 
-		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
+        MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
         if( mesh != NULL )
         {
 		    mesh->stopAllAnimations();

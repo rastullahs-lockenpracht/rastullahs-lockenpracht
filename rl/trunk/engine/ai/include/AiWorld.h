@@ -75,7 +75,7 @@ namespace rl
             BOTTOM
         };
 		//! newton material id
-        OgreNewt::MaterialID *mLevelMaterial;
+        const OgreNewt::MaterialID *mLevelMaterial;
 		//! newton world
         OgreNewt::World *mNewtonWorld;
     };

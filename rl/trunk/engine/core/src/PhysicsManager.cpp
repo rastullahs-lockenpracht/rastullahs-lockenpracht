@@ -51,18 +51,18 @@ namespace rl
         : mEnabled(false),
         mNewtonDebugger(),
         mPhysicalThings(),
-        mControlledThings(),
+        //mControlledThings(),
         mDebugMode(false),
         mGravity(0, -9.81, 0),
         mWorldAABB(Vector3(-100, -100, -100), Vector3(100, 100, 100)),
         mElapsed(0.0f),
         mMinTimestep(1.0f/600.0f),
         mMaxTimestep(1.0f/30.0f),
-        mLevelID(),
-        mCharacterID(),
-        mDefaultPair(),
-        mCharLevelPair(),
-        mCharCharPair(),
+        //mLevelID(),
+        //mCharacterID(),
+        //mDefaultPair(),
+        //mCharLevelPair(),
+        //mCharCharPair(),
         mGenericCallback()
     {
 		mWorld = new OgreNewt::World();
@@ -72,35 +72,40 @@ namespace rl
 
         // setup materials: default<->default
         const OgreNewt::MaterialID* defaultID = mWorld->getDefaultMaterialID();
-        mDefaultPair = new OgreNewt::MaterialPair(
-            mWorld, defaultID, defaultID);
+        mMaterials.insert(MaterialMapPair("default", defaultID));
+
+        OgreNewt::MaterialPair* mDefaultPair = createMaterialPair( defaultID, defaultID );
         mGenericCallback = new PhysicsGenericContactCallback();
         mDefaultPair->setContactCallback(mGenericCallback);
         mDefaultPair->setDefaultFriction(0.85f, 0.80f);
 
-        // setup materials: character/cam<->level
-        mLevelID = new OgreNewt::MaterialID(mWorld);
-        mCharacterID = new OgreNewt::MaterialID(mWorld);
-        mCharLevelPair = new OgreNewt::MaterialPair(mWorld, mCharacterID, mLevelID);
-        mCharLevelPair->setDefaultFriction(0, 0);
+        // setup level material
+        createMaterialID("level");
 
-        mCharDefaultPair = new OgreNewt::MaterialPair(mWorld, mCharacterID, defaultID);
-        mCharDefaultPair->setDefaultFriction(0, 0);
+        // below here starts 'old' stale fix code that should be removed
 
-        // setup material: char<->cam. there should be no collision
-        mCharCharPair = new OgreNewt::MaterialPair(mWorld, mCharacterID, mCharacterID);
-        mCharCharPair->setDefaultCollidable(0);
+        // setup camera material (actually not needed)
+        //createMaterialID("camera");
+
+        // setup character material
+        // actually this is needed here, because the actor is created in advance before the
+        // character controller who actually does create 'character' material too.
+        createMaterialID("character");      
     }
 
     PhysicsManager::~PhysicsManager()
     {
+        // remove all materials
+        for (MaterialMap::iterator it = mMaterials.begin(); it != mMaterials.end(); it++)
+        {
+            // default material has been provided by OgreNewt, therefore it
+            // it must not be deleted here
+            if ((*it).first != "default") 
+                delete (*it).second;
+        }
+        mMaterials.clear();
+
         delete mGenericCallback;
-        delete mCharCharPair;
-		delete mCharDefaultPair;
-        delete mCharLevelPair;
-        delete mCharacterID;
-        delete mLevelID;
-        delete mDefaultPair;
         delete mWorld;
     }
 
@@ -222,7 +227,7 @@ namespace rl
             body->attachToNode(node);
             body->setPositionOrientation(node->getWorldPosition(),
                 node->getWorldOrientation());
-            body->setMaterialGroupID(mLevelID);
+            body->setMaterialGroupID(getMaterialID("level"));
 
             mLevelBodies.push_back(body);
         }
@@ -272,10 +277,9 @@ namespace rl
         PhysicalThing* thing =
             static_cast<Actor*>(body->getUserData())->getPhysicalThing();
 
-        ControllerMap::const_iterator it = getSingleton().mControlledThings.find(thing);
-        if (it != getSingleton().mControlledThings.end())
+        if (thing->getPhysicsController())
         {
-            (*it).second->OnApplyForceAndTorque(thing);
+            thing->getPhysicsController()->OnApplyForceAndTorque(thing);
         }
         else
         {
@@ -284,84 +288,9 @@ namespace rl
         }
     }
 
-
-    PhysicsController* PhysicsManager::getPhysicsController(PhysicalThing* thing) const
-    {
-        PhysicsController* rval = 0;
-
-        ControllerMap::const_iterator it = mControlledThings.find(thing);
-        if (it != mControlledThings.end())
-        {
-            rval = (*it).second;
-        }
-
-        return rval;
-    }
-
-    void PhysicsManager::setPhysicsController(PhysicalThing* thing,
-        PhysicsController* controller)
-    {
-        RlAssert1(thing);
-
-        // first see, if the thing has another controller already
-        PhysicsController* oldController = getPhysicsController(thing);
-        if (oldController)
-        {
-            // if so, remove it
-            thing->unprepareUserControl();
-            mControlledThings.erase(thing);
-        }
-
-        if(controller)
-        {
-            // add it to the map and prepare it for control
-            mControlledThings[thing] = controller;
-			thing->prepareUserControl(mCharacterID); /** @TODO: Nicht immer nur Char-Material nehmen */
-        }
-    }
-
-    void PhysicsManager::setCharLevelContactCallback(PhysicsGenericContactCallback* callback)
-    {
-        if (callback != NULL)
-        {
-            mCharLevelPair->setContactCallback(callback);
-        }
-        else
-        {
-            mCharLevelPair->setContactCallback(PhysicsManager::mGenericCallback);
-        }
-    }
-
-    void PhysicsManager::setCharDefaultContactCallback(PhysicsGenericContactCallback* callback)
-    {
-        if (callback != NULL)
-        {
-            mCharDefaultPair->setContactCallback(callback);
-        }
-        else
-        {
-            mCharDefaultPair->setContactCallback(PhysicsManager::mGenericCallback);
-        }
-    }
-
     OgreNewt::World* PhysicsManager::_getNewtonWorld() const
     {
         return mWorld;
-    }
-
-    OgreNewt::MaterialID* PhysicsManager::_getLevelMaterialID() const
-    {
-        return mLevelID;
-    }
-
-	OgreNewt::MaterialID* PhysicsManager::_getCharMaterialID() const
-    {
-        return mCharacterID;
-    }
-
-	const OgreNewt::MaterialID* PhysicsManager::_getDefaultMaterialID() const
-    {
-        return 	mWorld->getDefaultMaterialID();
     }
 
     const Ogre::String& PhysicsManager::getName() const
@@ -369,6 +298,65 @@ namespace rl
         static String NAME = "PhysicsManager";
 
         return NAME;
+    }
+
+    const OgreNewt::MaterialID* PhysicsManager::getMaterialID(const Ogre::String& materialname) const
+    {
+        MaterialMap::const_iterator it;
+
+        it = mMaterials.find(materialname);
+        if (it != mMaterials.end())
+        {
+            return (*it).second;
+        }
+
+        return NULL;
+    }
+
+    const OgreNewt::MaterialID* PhysicsManager::createMaterialID(const Ogre::String& materialname)
+    {
+        const OgreNewt::MaterialID* materialid = NULL;
+
+        if ((materialid = getMaterialID(materialname)) == NULL)
+        {
+            materialid = new OgreNewt::MaterialID(mWorld);
+            mMaterials.insert( MaterialMapPair(materialname, materialid) );
+        }
+        return materialid;
+    }
+
+    OgreNewt::MaterialPair* PhysicsManager::createMaterialPair(const OgreNewt::MaterialID* M1,
+        const OgreNewt::MaterialID* M2)
+    {
+        OgreNewt::MaterialPair* materialpair = NULL;
+
+        if ((materialpair = getMaterialPair(M1, M2)) == NULL)
+        {
+            materialpair = new OgreNewt::MaterialPair(mWorld, M1, M2);
+            mMaterialPairs.insert(
+                MaterialPairMapPair( PairOfMaterials(M1,M2), materialpair ));
+        }
+        return materialpair;
+    }
+
+    OgreNewt::MaterialPair* PhysicsManager::getMaterialPair(const OgreNewt::MaterialID* M1,
+            const OgreNewt::MaterialID* M2) const
+    {
+        MaterialPairMap::const_iterator it;
+
+        it = mMaterialPairs.find(PairOfMaterials(M1,M2));
+        if (it != mMaterialPairs.end())
+        {
+            return (*it).second;
+        }
+
+        return NULL;
+    }
+
+    void PhysicsManager::resetMaterialPair( const OgreNewt::MaterialID* M1,
+            const OgreNewt::MaterialID* M2)
+    {
+        getMaterialPair(M1,M2)->setContactCallback(mGenericCallback);
     }
 
 	PhysicsManager::GeometryType PhysicsManager::convertStringToGeometryType(const Ogre::String& geomTypeString)

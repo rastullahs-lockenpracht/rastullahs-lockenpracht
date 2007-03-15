@@ -8,7 +8,7 @@ namespace rl
 {
 	/** abstract baseclass for PhysicalObject with an external force/torque control.
 	 * Derived objects register with PhysicalManager. Whenever force/torque is
-	 * going to be applied to the an object controlled by a PhysicsController, the
+	 * going to be applied to the object controlled by a PhysicsController, the
 	 * associated PhysicsControllers OnApplyForceAndTorque gets executed.
 	 * So the applied force/torque can be modified before it is applied to the
 	 * associated PhysicalThing.

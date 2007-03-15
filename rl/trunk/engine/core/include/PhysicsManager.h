@@ -44,12 +44,25 @@ namespace rl {
     class PhysicsGenericContactCallback;
     class World;
 
+    /** Management class for the physical properties of game world objects.
+     * This class utilizes OgreNewt (and therefore indirectly Newton) for handling
+     * the physics of RL. It sets up OgreNewt and realizes the timestepping for Newton.
+     * Additionally it manages materials which are needed for handling different kinds
+     * of object collisions. It also installs a basic forcefeedback function per object,
+     * in a way that is perhaps not the quickest one, but removes the need for a per object
+     * registration.
+     * So basically this class handles the global settings and things related 
+     * to the object world.
+     * It also manages a list of physical controllers (that are objects that
+     * modify physical properties of a specific object).
+     */
     class _RlCoreExport PhysicsManager
         :   public GameTask,
             protected Ogre::Singleton<PhysicsManager>
     {
     public:
 
+        //! differentiates between the different collision primitives
         enum GeometryType {
             GT_NONE = -1,
             GT_BOX = 0,
@@ -62,7 +75,11 @@ namespace rl {
 
         static const Ogre::Real NEWTON_GRID_WIDTH;
         
+        //! default constructor
         PhysicsManager();
+        /** explicit virtual destructor.
+         * frees any acquired memory.
+         */
         virtual ~PhysicsManager();
 
         virtual void run( Ogre::Real elapsedTime );
@@ -112,34 +129,6 @@ namespace rl {
 		void toggleDebugMode();
         bool isDebugMode() const;
 
-        PhysicsController* getPhysicsController(PhysicalThing* thing) const;
-        /**
-         * @param thing, the PhysicalThing to be controlled by controller
-         * @param controller, the controller may be NULL.
-         *        In this case, thing is not controlled anymore
-         */
-        void setPhysicsController(PhysicalThing* thing, PhysicsController* controller);
-
-        /**
-         * Sets the special contact callback for character-level-interaction.
-         * This is handled specifically
-         * @todo If other special cases are identified, the interface for
-         * material handling has to be generalised.
-         * @ param callback, the new contact callback. Can be NULL, in this case the default
-         *   callback is set.
-         */
-        void setCharLevelContactCallback(PhysicsGenericContactCallback* callback);
-
-        /**
-         * Sets the special contact callback for character-interaction with any other
-         * material, that has not yet a specialised handler defined.
-         * @todo If other special cases are identified, the interface for
-         * material handling has to be generalised.
-         * @ param callback, the new contact callback. Can be NULL, in this case the default
-         *   callback is set.
-         */
-        void setCharDefaultContactCallback(PhysicsGenericContactCallback* callback);
-
         // Newton callbacks ...
         /// generic force callback. Gravity is applied and the force,
         /// applied via PhysicalThing interface.
@@ -150,9 +139,6 @@ namespace rl {
         static void controlledForceCallback(OgreNewt::Body* body);
 
         OgreNewt::World* _getNewtonWorld() const;
-        OgreNewt::MaterialID* _getLevelMaterialID() const;
-        OgreNewt::MaterialID* _getCharMaterialID() const;
-		const OgreNewt::MaterialID* _getDefaultMaterialID() const;
 
         virtual const Ogre::String& getName() const;
 
@@ -170,16 +156,57 @@ namespace rl {
         {
             return mMaxTimestep;
         }
+
+        // Material handling (for different types of collision)
+        /** retrieves a material by name.
+         * @param materialname string identifying the material
+         * @returns the specified material object
+         */
+        const OgreNewt::MaterialID* getMaterialID(const Ogre::String& materialname) const;
+        /** creates a material by name.
+         * Whenever the material exists already, the existing object is returned.
+         * @param materialname string identifying the material
+         * @returns the newly created material object (or the already present one)
+         */
+        const OgreNewt::MaterialID* createMaterialID(const Ogre::String& materialname);
+
+        /** creates a materialpair.
+         * Whenever the materialpair exists already, the existing object is returned.
+         * @param M1 material id of first material
+         * @param M2 material id of second material
+         * @returns the created materialpair object (or the already present one)
+         */
+        OgreNewt::MaterialPair* createMaterialPair(const OgreNewt::MaterialID* M1,
+            const OgreNewt::MaterialID* M2);
+        /** retrieves a material by name.
+         * @param M1 material id of first material
+         * @param M2 material id of second material
+         * @returns the specified materialpair object
+         */
+        OgreNewt::MaterialPair* getMaterialPair(const OgreNewt::MaterialID* M1,
+            const OgreNewt::MaterialID* M2) const;
+        /** reset MaterialPair to default.
+         * @param M1 material id of first material
+         * @param M2 material id of second material
+         */
+        void resetMaterialPair( const OgreNewt::MaterialID* M1,
+            const OgreNewt::MaterialID* M2);
+
+        /** converts a string identifying a collision property into an enum.
+         * Mainly for making string definitions of the collision property
+         * possible in .gof files.
+         * @param geomTypeString giving the collision primitiv.
+         */
 		static GeometryType convertStringToGeometryType(const Ogre::String& geomTypeString);
 
     private:
-        typedef std::map<PhysicalThing*, PhysicsController*> ControllerMap;
+        //typedef std::map<PhysicalThing*, PhysicsController*> ControllerMap;
+        //ControllerMap mControlledThings;
 
         bool mEnabled;
         OgreNewt::World* mWorld;
         OgreNewt::Debugger* mNewtonDebugger;
         std::vector<PhysicalThing*> mPhysicalThings;
-        ControllerMap mControlledThings;
         std::vector<OgreNewt::Body*> mLevelBodies;
         bool mDebugMode;
         Ogre::Vector3 mGravity;
@@ -188,12 +215,46 @@ namespace rl {
         Ogre::Real mMinTimestep;
         Ogre::Real mMaxTimestep;
 
+        // Material handling needed for different types of collisions
+        //! shortens the type definition for maps of materials
+        typedef std::map<const Ogre::String, const OgreNewt::MaterialID*> MaterialMap;
+        //! shortens the creation of pair types for the stl map
+        typedef std::pair<const Ogre::String, const OgreNewt::MaterialID*> MaterialMapPair;
+
+        //! defines a pair of MaterialIDs
+        typedef std::pair< const OgreNewt::MaterialID*, const OgreNewt::MaterialID* > PairOfMaterials;
+
+        //! defines a comparison operator for pairs of MaterialIDs
+        struct ltPairOfMaterials
+        {
+            bool operator()(const PairOfMaterials P1, const PairOfMaterials P2) const
+            {
+                if (P1.first->getID() == P2.first->getID())
+                    return (P1.second->getID() < P2.second->getID());
+
+                return (P1.first->getID() < P2.first->getID());
+            }
+        };
+
+        //! shortens the type definition for maps of materialpairs
+        typedef std::multimap< PairOfMaterials, OgreNewt::MaterialPair*, ltPairOfMaterials > MaterialPairMap;
+        //! shortens the type definition for pairs for the stl multimap
+        typedef std::pair< PairOfMaterials, OgreNewt::MaterialPair* > MaterialPairMapPair;
+
+        //! contains a list materials with string id as a key
+        MaterialMap mMaterials;
+        //! contains a list of materialpairs (for different collisionhandling)
+        MaterialPairMap mMaterialPairs;
+
+        /*
         OgreNewt::MaterialID* mLevelID;
         OgreNewt::MaterialID* mCharacterID;
         OgreNewt::MaterialPair* mDefaultPair;
         OgreNewt::MaterialPair* mCharLevelPair;
         OgreNewt::MaterialPair* mCharCharPair;
         OgreNewt::MaterialPair* mCharDefaultPair;
+        */
+
         PhysicsGenericContactCallback* mGenericCallback;
     };
 }

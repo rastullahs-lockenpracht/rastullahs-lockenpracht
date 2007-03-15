@@ -59,8 +59,7 @@ Agent::Agent(DialogCharacter* character)
 Agent::~Agent(void)
 {
     if(mType == AgentManager::AGENT_STD_NPC)
-        PhysicsManager::getSingleton().
-			setPhysicsController( mCreature->getActor()->getPhysicalThing(), NULL );
+        mCreature->getActor()->getPhysicalThing()->setPhysicsController( NULL );
 
     delete mVehicle;
     delete mBehaviour;
@@ -94,8 +93,7 @@ void Agent::initialize()
 //  the steering force with the help of different steering behaviours
 	if(mType == AgentManager::AGENT_STD_NPC)
 	{
-		PhysicsManager::getSingleton().
-			setPhysicsController(mCreature->getActor()->getPhysicalThing(), this);
+		mCreature->getActor()->getPhysicalThing()->setPhysicsController(this);
         LOG_MESSAGE(Logger::AI, 
 			"added Agent to PhysicsManager as PhysicsController");
 	}

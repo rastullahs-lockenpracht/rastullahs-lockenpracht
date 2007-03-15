@@ -98,7 +98,7 @@ namespace rl
         OgreNewt::BasicRaycast raycast = OgreNewt::BasicRaycast(
             PhysicsManager::getSingleton()._getNewtonWorld(), mRayStart, mRayEnd, true);
 
-	    OgreNewt::MaterialID* levelId = PhysicsManager::getSingleton()._getLevelMaterialID();
+	    const OgreNewt::MaterialID* levelId = PhysicsManager::getSingleton().getMaterialID("level");
 
         // Collect results
         for (int i = 0, num = raycast.getHitCount(); i < num; ++i)
