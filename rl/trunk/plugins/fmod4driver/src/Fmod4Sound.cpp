@@ -299,4 +299,38 @@ const int Fmod4Sound::getPriority() const
     return priority;
 }
 
+
+/**
+ * @author JoSch
+ * @date 15-03-2007
+ * @version 1.0
+ * @return The Fmod4 Channel object
+ */ 
+FMOD::Channel *Fmod4Sound::getFmodChannel() const
+{
+    return mChannel;
+}
+
+/**
+ * @author JoSch
+ * @date 15-03-2007
+ * @version 1.0
+ * @return The Fmod4 Sound object
+ */ 
+FMOD::Sound *Fmod4Sound::getFmodSound() const
+{
+    return mSound;
+}
+
+/**
+ * @author JoSch
+ * @date 15-03-2007
+ * @version 1.0
+ * @return TRUE, if the sound should autodestroy when playing ended.
+ */ 
+bool Fmod4Sound::isAutoDestroying() const
+{
+    return mAutoDestroy;
+}
+
 } // Namespace
