@@ -70,16 +70,6 @@ namespace rl {
         virtual void fillHeader(GameObject* object);
  
         /**
-         * Adds one row to the property table with the given key
-         * and the property value.
-         *
-         * @param key The key of the property key|value pair
-         * @param prop The property value
-         * @param row The current row in the property table
-         */
-        //virtual void addProperty(const Ogre::String& key, const Property& prop, int row); 
-
-        /**
          * Adds an Int value to the property table.
          *
          * @param key The property to add.
@@ -88,34 +78,75 @@ namespace rl {
             CEGUI::MultiColumnList* table,
             const Ogre::String& key = "");
 
+        /**
+         * Adds the IntPair values to the property table.
+         *
+         * @param key The property to add.
+         */
         virtual void addPropertyIntPair(const Property& prop, 
             CEGUI::MultiColumnList* table,
             const Ogre::String& key = "");
 
+        /**
+         * Adds the IntTriple values to the property table.
+         *
+         * @param key The property to add.
+         */
         virtual void addPropertyIntTriple(const Property& prop, 
             CEGUI::MultiColumnList* table,
             const Ogre::String& key = "");
 
+        /**
+         * Adds a String value to the property table.
+         *
+         * @param key The property to add.
+         */
         virtual void addPropertyString(const Property& prop, 
             CEGUI::MultiColumnList* table,
             const Ogre::String& key = "");
 
+        /**
+         * Adds a Bool value to the property table.
+         *
+         * @param key The property to add.
+         */
         virtual void addPropertyBool(const Property& prop, 
             CEGUI::MultiColumnList* table,
             const Ogre::String& key = "");
 
+        /**
+         * Adds a Real value to the property table.
+         *
+         * @param key The property to add.
+         */
         virtual void addPropertyReal(const Property& prop, 
             CEGUI::MultiColumnList* table,
             const Ogre::String& key = "");
 
+        /**
+         * Adds the Vector3 values to the property table.
+         *
+         * @param key The property to add.
+         */
         virtual void addPropertyVector3(const Property& prop, 
             CEGUI::MultiColumnList* table,
             const Ogre::String& key = "");
 
+        /**
+         * Adds the Quaternion values to the property table.
+         *
+         * @param key The property to add.
+         */
         virtual void addPropertyQuaternion(const Property& prop, 
             CEGUI::MultiColumnList* table,
             const Ogre::String& key = "");
 
+        /**
+         * Adds a new tab to the tabpane and lists
+         * the array values.
+         *
+         * @param key The property to add.
+         */
         virtual void addPropertyArray(const Property& prop,
             const Ogre::String& key = "");
 
