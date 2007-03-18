@@ -85,14 +85,14 @@ namespace rl
 		setWert(WERT_GS, 8);
 		setWert(WERT_BE, 0);
         setWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE, 0);
-		mEigenschaften[E_MUT] = new EigenschaftenStateSet();
-		mEigenschaften[E_KLUGHEIT] = new EigenschaftenStateSet();
-		mEigenschaften[E_INTUITION] = new EigenschaftenStateSet();
-		mEigenschaften[E_CHARISMA] = new EigenschaftenStateSet();
-		mEigenschaften[E_FINGERFERTIGKEIT] = new EigenschaftenStateSet();
-		mEigenschaften[E_GEWANDTHEIT] = new EigenschaftenStateSet();
-		mEigenschaften[E_KONSTITUTION] = new EigenschaftenStateSet();
-		mEigenschaften[E_KOERPERKRAFT] = new EigenschaftenStateSet();
+		mEigenschaften[E_MUT] = 0;
+		mEigenschaften[E_KLUGHEIT] = 0;
+		mEigenschaften[E_INTUITION] = 0;
+		mEigenschaften[E_CHARISMA] = 0;
+		mEigenschaften[E_FINGERFERTIGKEIT] = 0;
+		mEigenschaften[E_GEWANDTHEIT] = 0;
+		mEigenschaften[E_KONSTITUTION] = 0;
+		mEigenschaften[E_KOERPERKRAFT] = 0;
 
 		mInventory = new Inventory(this);
     }
@@ -105,8 +105,6 @@ namespace rl
         for( WertMap::iterator it=mWerte.begin();it!=mWerte.end(); it++ )
             delete it->second;
         mWerte.clear();
-        for( EigenschaftMap::iterator it=mEigenschaften.begin();it!=mEigenschaften.end(); it++ )
-            delete it->second;
         mEigenschaften.clear();
         for( TalentMap::iterator it=mTalente.begin();it!=mTalente.end(); it++ )
             delete it->second;
@@ -339,7 +337,7 @@ namespace rl
 		{
 			Throw(IllegalArgumentException, "Eigenschaft nicht gefunden.");
 		}
-		int result = it->second->getValue();
+		int result = it->second;
         result += mEffectManager->getMod(eigenschaftName, Effect::MODTYPE_WERTMOD, tag);
         return result;
     }
@@ -351,26 +349,15 @@ namespace rl
         {
             Throw(IllegalArgumentException, "Eigenschaft nicht gefunden.");
         }
-		it->second->setOriginalValue( value );
-		fireObjectStateChangeEvent();
+		it->second = value;
+        fireObjectStateChangeEvent();
     }
 
     void Creature::modifyEigenschaft(const CeGuiString eigenschaftName, int mod)
     {
-		mEigenschaften[eigenschaftName]->setOriginalValue( mEigenschaften[eigenschaftName]->getOriginalValue() + mod );
+		mEigenschaften[eigenschaftName] += mod ;
 		fireObjectStateChangeEvent();
     }
-
-	EigenschaftenStateSet* Creature::getEigenschaftenStateSet(const CeGuiString eigenschaftName)
-	{
-		checkEffects();
-        EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
-        if (it == mEigenschaften.end())
-        {
-            Throw(IllegalArgumentException, "Eigenschaft nicht gefunden.");
-        }
-		return it->second;
-	}
 
     int Creature::getTalent(const CeGuiString talentName)
     {
@@ -533,8 +520,7 @@ namespace rl
         {
             Throw(IllegalArgumentException, "Nachteil schon in mNachteile enthalten");
         }
-        mNachteile[nachteilName] = new EigenschaftenStateSet();
-        mNachteile[nachteilName]->setOriginalValue( value );
+        mNachteile[nachteilName] = value;
     }
 
     bool Creature::hasNachteil(const CeGuiString nachteilName)
@@ -547,7 +533,7 @@ namespace rl
         else return false;
     }
 
-    EigenschaftenStateSet* Creature::getNachteilStateSet(const CeGuiString nachteilName)
+    int Creature::getSchlechteEigenschaft(const CeGuiString nachteilName)
     {
 		checkEffects();
         NachteilMap::const_iterator it = mNachteile.find(nachteilName);
@@ -555,7 +541,7 @@ namespace rl
         {
             Throw(IllegalArgumentException, "Nachteil nicht gefunden.");
         }
-		else return it->second;
+		else return it->second + mEffectManager->getMod(nachteilName, Effect::MODTYPE_WERTMOD);
     }
 
     int Creature::getSf(const CeGuiString sfName)
@@ -751,7 +737,7 @@ namespace rl
         else
         {
 			rval = getEigenschaft(eigenschaftName) - 
-				(probe + modifier + getEigenschaftenStateSet(eigenschaftName)->getProbenModifier() 
+				(probe + modifier + mEffectManager->getMod(eigenschaftName, Effect::MODTYPE_PROBENMOD) 
 				+ getWertStateSet(WERT_MOD_ALL_EIGENSCHAFTSPROBEN)->getProbenModifier());
         }
         return rval;

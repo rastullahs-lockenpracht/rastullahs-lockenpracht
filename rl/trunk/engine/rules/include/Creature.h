@@ -21,7 +21,7 @@
 #include "GameObject.h"
 #include "Effect.h"
 #include "Eigenschaft.h"
-#include "EigenschaftenStateSet.h"
+//#include "EigenschaftenStateSet.h"
 #include "TalentStateSet.h"
 #include "ZauberStateSet.h"
 #include "SonderfertigkeitenStateSet.h"
@@ -316,17 +316,6 @@ namespace rl
              **/
             virtual void modifyEigenschaft(const CeGuiString eigenschaftName, int mod);
 
-            /**
-             *  Liefert einen Zeiger auf das StateSet von \a eigenschaftName zurueck.
-            *  @param eigenschaftName Der Name als Abkuerzung (z.B. @ref abbdem "MU", 
-             *   @ref abbdef "FF", etc.).
-            *  @throws InvalidArgumentException Die Eigenschaft konnte nicht
-            *   gefunden werden (Name ausgeschrieben statt abgekuerzt? 
-            *   Gross/Kleinschreibung beachtet?).
-             *  @ingroup CreatureRubyExports
-            **/
-            virtual EigenschaftenStateSet* getEigenschaftenStateSet(const CeGuiString eigenschaftName);
-
 ///////////////////////////////////////////////////////////////////////////////
 // Talente
 
@@ -469,7 +458,7 @@ namespace rl
              *  @throws InvalidArgumentException Der Nachteil \a nachteilName konnte
              *   nicht gefunden werden.
              **/
-            virtual EigenschaftenStateSet* getNachteilStateSet(const CeGuiString nachteilName);
+            virtual int getSchlechteEigenschaft(const CeGuiString nachteilName);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Sonderfertigkeiten
@@ -831,7 +820,8 @@ namespace rl
                    *  Eigenschaft (z.B. @ref abbdem "MU", @ref abbdek "KL") als Schluessel 
                    *  und einem Zeiger auf ihr StateSet.
              **/
-            typedef std::map<const CeGuiString, EigenschaftenStateSet*> EigenschaftMap;
+            //typedef std::map<const CeGuiString, EigenschaftenStateSet*> EigenschaftMap;
+            typedef std::map<const CeGuiString, int> EigenschaftMap;
             /**
              *  Liste der Kampftechniken und ihrer @ref abbdea "AT"/@ref abbdep "PA2 Werte.
              *  Eine Kampftechnik in diesem Sinne ist so was wie Hiebwaffen
@@ -851,7 +841,7 @@ namespace rl
              *  Eine Liste der Nachteile der Kreatur. Schlechte Eigenschaften gehoeren 
              *  ebenfalls zu den Nachteilen, verhalten sich aber wie Eigenschaften.
              **/
-            typedef std::map<const CeGuiString, EigenschaftenStateSet*> NachteilMap;
+            typedef std::map<const CeGuiString, int> NachteilMap;
             /**
                    *  Die Sonderfertigkeiten der Kreatur. Besteht aus dem Namen der 
                    *  Sonderfertigkeit als Schluessel und ihrem Status.

@@ -670,7 +670,7 @@ namespace rl {
         virtual int getEigenschaft(const rl::CeGuiString eigenschaftName, Effect::ModTag = Effect::MODTAG_NONE);
         virtual void setEigenschaft(const rl::CeGuiString eigenschaftName, int value);
         virtual void modifyEigenschaft(const rl::CeGuiString eigenschaftName, int mod);
-		virtual EigenschaftenStateSet* getEigenschaftenStateSet(const rl::CeGuiString eigenschaftName);
+
 		
         void addTalent(const rl::CeGuiString talentName, int value=0);
         virtual int getTalent(const rl::CeGuiString talentName);
