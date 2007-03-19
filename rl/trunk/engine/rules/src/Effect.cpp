@@ -20,6 +20,10 @@
 
 namespace rl
 {
+  const CeGuiString Effect::ALL_EIGENSCHAFTEN = "alle Eigenschaften";
+  const CeGuiString Effect::ALL_TALENTE = "alle Talente";
+ 
+  
 	Effect::Effect(int stufe)
 	{
 		mStufe = stufe;

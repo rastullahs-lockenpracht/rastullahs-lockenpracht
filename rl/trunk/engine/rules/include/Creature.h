@@ -21,8 +21,6 @@
 #include "GameObject.h"
 #include "Effect.h"
 #include "Eigenschaft.h"
-//#include "EigenschaftenStateSet.h"
-#include "TalentStateSet.h"
 #include "ZauberStateSet.h"
 #include "SonderfertigkeitenStateSet.h"
 
@@ -105,7 +103,7 @@ namespace rl
              *  Liste der Talente. Besteht aus den Namen der Talente (z.B. Athletik)
                    *  als Schluessel und ihrem Wert.
              **/
-            typedef std::map<const CeGuiString, TalentStateSet*> TalentMap;
+            typedef std::map<const CeGuiString, int> TalentMap;
 
             static const Ogre::String CLASS_NAME;
             static const Ogre::String PROPERTY_BEHAVIOURS;
@@ -151,8 +149,6 @@ namespace rl
                 WERT_MOD_REGENERATION_LE, ///< Naechtliche Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die KO-Probe.
                 WERT_MOD_REGENERATION_AE, ///< Astrale Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die IN-Probe.
                 WERT_MOD_ERSCHOEPFUNGSSCHWELLE, ///< Die Modifkitoren von KO bezueglich der Erschoepfungsschwelle.
-                WERT_MOD_ALL_EIGENSCHAFTSPROBEN, ///< Modifiziert alle Proben, die mit 1W20 gewuerfelt werden.
-                WERT_MOD_ALL_TALENTPROBEN, ///< Modifiziert alle Proben, die mit 3W20 gewuerfelt werden.
                 WERT_GS, ///< Geschwindigkeit
                 WERT_SOZIALSTATUS, ///< Sozialstatus
                 WERT_BE, ///< Behinderung
@@ -368,14 +364,6 @@ namespace rl
                    *  @ingroup CreatureRubyExports
              */
             virtual void addSe(const CeGuiString talentName);
-            /**
-             *  Liefert einen Zeiger auf das StateSet des Talents \a talentName zurueck.
-             *  @param talentName Bezeichnet das Talent von dem das StateSet zurueckgegeben
-             *   werden soll.
-             *  @throws IllegalArgumentException Talent nicht gefunden.
-             *  @ingroup CreatureRubyExports
-             **/
-            virtual TalentStateSet* getTalentStateSet(const CeGuiString talentName);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Kampftechniken
@@ -424,16 +412,7 @@ namespace rl
              *  @param vorteilName Der Name des zu ueberpruefenden Vorteils.
              **/
             virtual bool hasVorteil(const CeGuiString vorteilName);
-            /**
-             *  Liefert das StateSet des Vorteils zurueck.
-             *  Gedacht um die erforderlichen Daten von Gaben abzufragen.
-             *  @param vorteilName Der Name der Gabe.
-             *  @return Ein Zeiger auf das StateSet der Gabe.
-             *  @throws InvalidArgumentException Der Vorteil \a vorteilName konnte
-             *   nicht gefunden werden.
-             **/
-            virtual TalentStateSet* getVorteilStateSet(const CeGuiString vorteilName);
-
+ 
 ///////////////////////////////////////////////////////////////////////////////
 // Nachteile
             /**
@@ -560,12 +539,12 @@ namespace rl
             /**
              *  @overload doAlternativeTalentprobe(const CeGuiString,int,CeGuiString,CeGuiString,CeGuiString)
              **/
-            virtual int doAlternativeTalentprobe(const CeGuiString talentName, int spezialisierungId,
+            virtual int doAlternativeTalentprobe(const CeGuiString talentName, Effect::ModTag  spezialisierung,
                                                  int modifier, CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name,
                                                  CeGuiString eigenschaft3Name);
             virtual int doTalentprobe(const CeGuiString talentName, int modifier);
 
-            virtual int doTalentprobe(const CeGuiString talentName, int spezialisierungId,
+            virtual int doTalentprobe(const CeGuiString talentName, Effect::ModTag spezialisierung,
                                       int modifier);
             virtual int doAlternativeTalentprobe(const CeGuiString talentName, int modifier,
                                                  CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, CeGuiString eigenschaft3Name);
@@ -582,7 +561,7 @@ namespace rl
             *  @retval RESULT_PATZER bedeutet 20 gewuerfelt.
             *  @ingroup CreatureRubyExports
             */
-            virtual int doEigenschaftsprobe(const CeGuiString eigenschaftName, int modifier);
+            virtual int doEigenschaftsprobe(const CeGuiString eigenschaftName, int modifier = 0, Effect::ModTag tag = Effect::MODTAG_NONE);
 
             /**
             *  Fuehrt eine Attacke aus. Die Funktion wird von einem Angriffsmanoever 
@@ -820,7 +799,6 @@ namespace rl
                    *  Eigenschaft (z.B. @ref abbdem "MU", @ref abbdek "KL") als Schluessel 
                    *  und einem Zeiger auf ihr StateSet.
              **/
-            //typedef std::map<const CeGuiString, EigenschaftenStateSet*> EigenschaftMap;
             typedef std::map<const CeGuiString, int> EigenschaftMap;
             /**
              *  Liste der Kampftechniken und ihrer @ref abbdea "AT"/@ref abbdep "PA2 Werte.
@@ -836,7 +814,7 @@ namespace rl
              *  Eine Liste der Vorteile der Kreatur. Gaben gehoeren ebenfalls zu 
              *  den Vorteilen, verhalten sich aber wie Talente.
              **/
-            typedef std::map<const CeGuiString, TalentStateSet*> VorteilMap;
+            typedef std::map<const CeGuiString, int> VorteilMap;
             /**
              *  Eine Liste der Nachteile der Kreatur. Schlechte Eigenschaften gehoeren 
              *  ebenfalls zu den Nachteilen, verhalten sich aber wie Eigenschaften.
@@ -864,26 +842,6 @@ namespace rl
             float mCurrentAu;
             /// Die aktuelle Erschoepfung der Kreatur.
             int mErschoepfung;
-            /// Wenn > 0 ist die Kreatur blind.
-            int mBlind;
-            /// Wenn > 0 ist die Kreatur tot.
-            int mDead;
-            /// Wenn > 0 ist die Kreatur taub.
-            int mDeaf;
-            /// Wenn > 0 ist die Kreatur kampfunfaehig.
-            int mIncapacitated;
-            /// Wenn > 0 ist die Kreatur unverwundbar.
-            int mInvulnerable;
-            /// Wenn > 0 ist die Kreatur unsichtbar.
-            int mInvisible;
-            /// Wenn > 0 ist die Kreatur gelaehmt.
-            int mParalyzed;
-            /// Wenn > 0 ist liegt ein Silentium auf der Kreatur.
-            int mSilenced;
-            /// Wenn > 0 schlaeft die Kreatur.
-            int mSleeping;
-            /// Wenn > 0 ist die Kreatur bewusstlos.
-            int mUnconscious;
             /// Zuletzt zugewiesene Bewegungsart
             int mMovementType;
 

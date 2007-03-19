@@ -558,6 +558,9 @@ namespace rl {
             EFFECTTAG_KRANKHEIT
         };
         
+        static const CeGuiString ALL_EIGENSCHAFTEN = "alle Eigenschaften";
+        static const CeGuiString ALL_TALENTE = "alle Talente";
+        
         typedef unsigned long Status;
         static const Status STATUS_NONE           = 1<<0;
         static const Status STATUS_BLIND          = 1<<1;   ///< The creature can't see anything.
@@ -650,8 +653,6 @@ namespace rl {
             WERT_MOD_REGENERATION_LE, // Naechtliche Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die KO-Probe.
             WERT_MOD_REGENERATION_AE, // Astrale Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die IN-Probe.
             WERT_MOD_ERSCHOEPFUNGSSCHWELLE, // Die Modifkitoren von KO bezueglich der Erschoepfungsschwelle.
-            WERT_MOD_ALL_EIGENSCHAFTSPROBEN, // Modifiziert alle Proben, die mit 1W20 gewuerfelt werden.
-            WERT_MOD_ALL_TALENTPROBEN, // Modifiziert alle Proben, die mit 3W20 gewuerfelt werden.
             WERT_GS, // Geschwindigkeit
             WERT_SOZIALSTATUS, // Sozialstatus
             WERT_BE // Behinderung
@@ -667,7 +668,7 @@ namespace rl {
         void setWert(Wert wertId, int value);
         virtual StateSet* getWertStateSet(Wert wertId);
         
-        virtual int getEigenschaft(const rl::CeGuiString eigenschaftName, Effect::ModTag = Effect::MODTAG_NONE);
+        virtual int getEigenschaft(const rl::CeGuiString eigenschaftName, Effect::ModTag tag = Effect::MODTAG_NONE);
         virtual void setEigenschaft(const rl::CeGuiString eigenschaftName, int value);
         virtual void modifyEigenschaft(const rl::CeGuiString eigenschaftName, int mod);
 
@@ -677,7 +678,6 @@ namespace rl {
         virtual void setTalent(const rl::CeGuiString talentName, int value);
         virtual void modifyTalent(const rl::CeGuiString talentName, int mod);
 		virtual void addSe(const rl::CeGuiString talentName);
-		virtual TalentStateSet* getTalentStateSet(const rl::CeGuiString talentName);
 		
 		void addVorteil(const rl::CeGuiString vorteilName, int value = 0);
 		void addNachteil(const rl::CeGuiString nachteilName, int value = 0);		

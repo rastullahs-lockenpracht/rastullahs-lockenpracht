@@ -52,16 +52,6 @@ namespace rl
         mKampftechniken(),
         mSonderfertigkeiten(),
         mErschoepfung(0),
-        mBlind(0),
-        mDead(0),
-        mDeaf(0),
-        mIncapacitated(0),
-        mInvulnerable(0),
-        mInvisible(0),
-        mParalyzed(0),
-        mSilenced(0),
-        mSleeping(0),
-        mUnconscious(0),
         mMovementType(0)
     {
         mEffectManager = new EffectManager();
@@ -80,8 +70,6 @@ namespace rl
         setWert(WERT_MOD_REGENERATION_LE, 0);
         setWert(WERT_MOD_REGENERATION_AE, 0);
         setWert(WERT_MOD_ERSCHOEPFUNGSSCHWELLE, 0);
-        setWert(WERT_MOD_ALL_EIGENSCHAFTSPROBEN, 0);
-        setWert(WERT_MOD_ALL_TALENTPROBEN, 0);
 		setWert(WERT_GS, 8);
 		setWert(WERT_BE, 0);
         setWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE, 0);
@@ -105,10 +93,6 @@ namespace rl
         for( WertMap::iterator it=mWerte.begin();it!=mWerte.end(); it++ )
             delete it->second;
         mWerte.clear();
-        mEigenschaften.clear();
-        for( TalentMap::iterator it=mTalente.begin();it!=mTalente.end(); it++ )
-            delete it->second;
-        mTalente.clear();
         mKampftechniken.clear();
         for( SonderfertigkeitMap::iterator it=mSonderfertigkeiten.begin();it!=mSonderfertigkeiten.end(); it++ )
             delete it->second;
@@ -382,7 +366,7 @@ namespace rl
             }
             return rval;
         } //if (it == mTalente.end())
-		return it->second->getValue();
+		return it->second;
     }
 
 	void Creature::addTalent(const CeGuiString talentName, int value)
@@ -393,8 +377,7 @@ namespace rl
 			Throw(IllegalArgumentException, "Talent schon in mTalente enthalten.");
         }
 	    DsaManager::getSingleton().getTalent(talentName); //ueberpruefe ob es das Talent ueberhaupt gibt
-		mTalente[talentName] = new TalentStateSet();
-		mTalente[talentName]->setOriginalValue(value);
+		mTalente[talentName] = value;
 		fireObjectStateChangeEvent();
 	}
 
@@ -405,7 +388,7 @@ namespace rl
         {
             Throw(IllegalArgumentException, "Talent nicht gefunden.");
         }
-		it->second->setOriginalValue( it->second->getOriginalValue() + mod );
+		it->second += mod ;
 		fireObjectStateChangeEvent();
     }
 
@@ -421,7 +404,7 @@ namespace rl
         {
             Throw(IllegalArgumentException, "Talent nicht gefunden.");
         }
-		it->second->setOriginalValue( value );
+		it->second = value;
 		fireObjectStateChangeEvent();
     }
 
@@ -432,18 +415,8 @@ namespace rl
         {
             Throw(IllegalArgumentException, "Talent nicht gefunden.");
         }
-		it->second->setSe( true );
-	}
-
-	TalentStateSet* Creature::getTalentStateSet(const CeGuiString talentName)
-	{
-		checkEffects();
-        TalentMap::const_iterator it = mTalente.find(talentName);
-        if (it == mTalente.end())
-        {
-            Throw(IllegalArgumentException, "Talent nicht gefunden.");
-        }
-		return it->second;
+		//it->second->setSe( true );
+        /// @todo Implement SEs
 	}
 
 	void Creature::addKampftechnik(const CeGuiString kampftechnikName, const pair<int,int>& value)
@@ -488,8 +461,7 @@ namespace rl
         {
             Throw(IllegalArgumentException, "Vorteil schon in mVorteile enthalten");
         }
-        mVorteile[vorteilName] = new TalentStateSet();
-        mVorteile[vorteilName]->setOriginalValue( value );
+        mVorteile[vorteilName] = value;
     }
 
     bool Creature::hasVorteil(const CeGuiString vorteilName)
@@ -500,17 +472,6 @@ namespace rl
             return true;
         }
         else return false;
-    }
-
-    TalentStateSet* Creature::getVorteilStateSet(const CeGuiString vorteilName)
-    {
-		checkEffects();
-        VorteilMap::const_iterator it = mVorteile.find(vorteilName);
-        if (it == mVorteile.end())
-        {
-            Throw(IllegalArgumentException, "Vorteil nicht gefunden.");
-        }
-		else return it->second;
     }
 
     void Creature::addNachteil(const CeGuiString nachteilName, int value)
@@ -621,14 +582,16 @@ namespace rl
     }
 
 
-    int Creature::doAlternativeTalentprobe(const CeGuiString talentName, int spezialisierungId,
+    int Creature::doAlternativeTalentprobe(const CeGuiString talentName, Effect::ModTag spezialisierung,
 		int modifier, CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, CeGuiString eigenschaft3Name)
     {
         Talent* talent = DsaManager::getSingleton().getTalent(talentName);
 		if (((talent->getArt() == TALENT_ART_SPEZIAL) && (getTalent(talentName) < TALENT_MIN_TAW_FOR_SPEZIAL)) || 
 			((talent->getArt() == TALENT_ART_BERUF) && (getTalent(talentName) < TALENT_MIN_TAW_FOR_BERUF)))
 		{
-			Throw(OutOfRangeException, "TaW zu niedrig");
+          /// @todo Find proper return value. Prompt an error message?
+			//Throw(OutOfRangeException, "TaW zu niedrig");
+          return -1;
 		}
         EigenschaftTripel et(eigenschaft1Name, eigenschaft2Name, eigenschaft3Name);
 
@@ -665,16 +628,10 @@ namespace rl
 
 
         // Vor dem Vergleich hat man den Talentwert übrig.
-		int taW = 0;
 		int eBe = DsaManager::getSingleton().getTalent(talentName)->calculateEbe(getWert(WERT_BE));
-		try 
-		{
-			//if (1 == getSf(sfName)) taW = 2; //Spezialisiereung?
-		}
-		catch(IllegalArgumentException){};
-		taW += getTalent(talentName);
-		int rval = taW - modifier - getTalentStateSet(talentName)->getProbenModifier()
-			- getWertStateSet(WERT_MOD_ALL_TALENTPROBEN)->getProbenModifier() - eBe;
+		int taW = getTalent(talentName);
+		int rval = taW - modifier - mEffectManager->getMod(talentName, Effect::MODTYPE_PROBENMOD, spezialisierung)
+            - mEffectManager->getMod(Effect::ALL_TALENTE, Effect::MODTYPE_PROBENMOD, spezialisierung) - eBe;
 		// Bei negativen TaP*
 		int handicap = 0;
 		if (rval < 0)
@@ -701,15 +658,15 @@ namespace rl
     int Creature::doAlternativeTalentprobe(const CeGuiString talentName, int modifier, 
 		CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, CeGuiString eigenschaft3Name)
     {
-		return doAlternativeTalentprobe(talentName, -1, modifier, eigenschaft1Name,
+		return doAlternativeTalentprobe(talentName, Effect::MODTAG_NONE, modifier, eigenschaft1Name,
 			eigenschaft2Name, eigenschaft3Name);
 	}
 
-    int Creature::doTalentprobe(const CeGuiString talentName, int spezialisierungId, int modifier)
+    int Creature::doTalentprobe(const CeGuiString talentName, Effect::ModTag spezialisierung, int modifier)
     {
         Talent* talent = DsaManager::getSingleton().getTalent(talentName);
         EigenschaftTripel et(talent->getEigenschaften());
-		return doAlternativeTalentprobe(talentName, spezialisierungId, modifier, 
+		return doAlternativeTalentprobe(talentName, spezialisierung, modifier, 
 			et.first, et. second, et.third);
 	}
 
@@ -717,11 +674,11 @@ namespace rl
     {
         Talent* talent = DsaManager::getSingleton().getTalent(talentName);
         EigenschaftTripel et(talent->getEigenschaften());
-		return doAlternativeTalentprobe(talentName, -1, modifier, et.first, 
+		return doAlternativeTalentprobe(talentName, Effect::MODTAG_NONE, modifier, et.first, 
 			et. second, et.third);
 	}
 
-    int Creature::doEigenschaftsprobe(const CeGuiString eigenschaftName, int modifier)
+    int Creature::doEigenschaftsprobe(const CeGuiString eigenschaftName, int modifier, Effect::ModTag tag)
     {
         int rval;
 
@@ -737,8 +694,7 @@ namespace rl
         else
         {
 			rval = getEigenschaft(eigenschaftName) - 
-				(probe + modifier + mEffectManager->getMod(eigenschaftName, Effect::MODTYPE_PROBENMOD) 
-				+ getWertStateSet(WERT_MOD_ALL_EIGENSCHAFTSPROBEN)->getProbenModifier());
+                (probe + modifier + mEffectManager->getMod(eigenschaftName, Effect::MODTYPE_PROBENMOD, tag) + mEffectManager->getMod(Effect::ALL_EIGENSCHAFTEN, Effect::MODTYPE_PROBENMOD, tag));
         }
         return rval;
     }
@@ -771,7 +727,7 @@ namespace rl
 		else
 		{
 			rval = getAttackeBasis() + (*it).second.first - (probe + modifier 
-				+ getWertStateSet(WERT_MOD_ALL_EIGENSCHAFTSPROBEN)->getProbenModifier() + eBe);
+                + mEffectManager->getMod(Effect::ALL_EIGENSCHAFTEN, Effect::MODTYPE_PROBENMOD) + eBe);
 		}
 		if (rval < 0) 
 			return RESULT_MISSERFOLG;
@@ -802,7 +758,7 @@ namespace rl
 		{
 			/// @todo Gute Parade
 			rval = getParadeBasis() + (*it).second.second - (probe + modifier 
-				+ getWertStateSet(WERT_MOD_ALL_EIGENSCHAFTSPROBEN)->getProbenModifier() + eBe);
+                + mEffectManager->getMod(Effect::ALL_EIGENSCHAFTEN, Effect::MODTYPE_PROBENMOD) + eBe);
 		}
 		if (rval < 0) 
 			return RESULT_MISSERFOLG;

@@ -30,6 +30,10 @@ namespace rl
 	{
 	public:
         
+      // some targets
+      static const CeGuiString ALL_EIGENSCHAFTEN;
+      static const CeGuiString ALL_TALENTE;
+      
       typedef unsigned long Status;
       static const Status STATUS_NONE           = 1<<0;
       static const Status STATUS_BLIND          = 1<<1;   ///< The creature can't see anything.
