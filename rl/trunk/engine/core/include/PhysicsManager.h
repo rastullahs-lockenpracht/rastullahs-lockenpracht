@@ -44,6 +44,9 @@ namespace rl {
     class PhysicsGenericContactCallback;
     class World;
 
+    class PhysicsCollisionFactory;
+
+
     /** Management class for the physical properties of game world objects.
      * This class utilizes OgreNewt (and therefore indirectly Newton) for handling
      * the physics of RL. It sets up OgreNewt and realizes the timestepping for Newton.
@@ -70,7 +73,8 @@ namespace rl {
             GT_CAPSULE = 2,
             GT_MESH = 3,
             GT_ELLIPSOID = 4,
-            GT_CONVEXHULL = 5
+            GT_CONVEXHULL = 5,
+            GT_PYRAMID = 6
         };
 
         static const Ogre::Real NEWTON_GRID_WIDTH;
@@ -192,6 +196,31 @@ namespace rl {
         void resetMaterialPair( const OgreNewt::MaterialID* M1,
             const OgreNewt::MaterialID* M2);
 
+        /** creates a collision primitive for OgreNewt.
+		 * The collision primitive created has got a basic orientation which can be influenced by
+		 * offset and orientation parameters. Additionally an initial inertiaCoefficents vector is
+		 * calculated according to the size and type of collision primitiv.
+         * Whenever any of the parameters is a null pointer, it is ignored.
+         * The created collision primitive gets cached for the given mesh,
+         * so whenever an other entity with the same mesh tries to fetch
+         * a collision primitive here, then it gets back the already existing
+         * one (no need to duplicate).
+		 * @param aabb AxisAlignedBox that contains the extents of mesh whose coll. primitiv is to be created
+		 * @param inertiaCoefficients Vector3 returns the inertia coefficients for the created coll. primitiv
+		 * @param animName String specifies the name of the animation of the mesh whose coll. primitiv should be created,
+		 *        when "", then the basic mesh is used as a basis.
+		 * @param offset Vector3 gives the offset of the coordinate system of the coll. primitiv
+		 * @param orientation Quaternion gives an euler rotation for the coordinate system of the coll. primitiv
+		*/
+		OgreNewt::CollisionPtr createCollision(
+			Ogre::Entity* entity,
+            const Ogre::String animName = "",
+            const PhysicsManager::GeometryType& geomType = PhysicsManager::GT_NONE,
+			Ogre::Vector3* offset = NULL,
+			Ogre::Quaternion* orientation = NULL,
+            const Ogre::Real Mass = 0,
+            Ogre::Vector3* inertia = NULL);
+
         /** converts a string identifying a collision property into an enum.
          * Mainly for making string definitions of the collision property
          * possible in .gof files.
@@ -199,18 +228,56 @@ namespace rl {
          */
 		static GeometryType convertStringToGeometryType(const Ogre::String& geomTypeString);
 
+        /** converts an enum into a string identifying a collision property.
+         * Mainly for making string definitions of the collision property
+         * possible in error messages.
+         * @param geomType enum giving the collision primitiv.
+         */
+        static Ogre::String PhysicsManager::convertGeometryTypeToString(const PhysicsManager::GeometryType& geomType);
+
     private:
-        //typedef std::map<PhysicalThing*, PhysicsController*> ControllerMap;
-        //ControllerMap mControlledThings;
+
+        /** structure containing further information about the collision primitive.
+         * Actually this information should go into either the collisionptr or the
+         * object for the primitive ...
+         */
+        struct CollisionInUse
+        {
+        public:
+            PhysicsManager::GeometryType geomType;  //! primitive type
+            OgreNewt::CollisionPtr colPtr;          //! the collision primitve
+        };
+
+        /** shortens definition of a list of collision primitives.
+         * currently only one geometry type per entity (mesh) is allowed.
+         * if multiple should be possible, the geometry type should be
+         * moved from the above struct into the key.
+         */
+        typedef std::map< std::string, CollisionInUse > CollisionMap;
 
         bool mEnabled;
+        //! the globally used physical representation of the world by Newton
         OgreNewt::World* mWorld;
+        //! the visualisation for physical behaviour (actually not the best)
         OgreNewt::Debugger* mNewtonDebugger;
-        std::vector<PhysicalThing*> mPhysicalThings;
-        std::vector<OgreNewt::Body*> mLevelBodies;
         bool mDebugMode;
-        Ogre::Vector3 mGravity;
+
+        //! factory for creating new collision primitives
+        PhysicsCollisionFactory* mPhysicsCollisionFactory;
+        //! a list of collision primitives
+        CollisionMap mCollisionPrimitives;
+
+        //! a list of objects of the physical world
+        std::vector<PhysicalThing*> mPhysicalThings;
+        //! a list of bodies for the static level parts
+        std::vector<OgreNewt::Body*> mLevelBodies;
+        //! the extents of the level
         Ogre::AxisAlignedBox mWorldAABB;
+        
+        //! the globally known gravity force
+        Ogre::Vector3 mGravity;
+        
+        // time stuff
         Ogre::Real mElapsed;
         Ogre::Real mMinTimestep;
         Ogre::Real mMaxTimestep;
@@ -246,16 +313,90 @@ namespace rl {
         //! contains a list of materialpairs (for different collisionhandling)
         MaterialPairMap mMaterialPairs;
 
-        /*
-        OgreNewt::MaterialID* mLevelID;
-        OgreNewt::MaterialID* mCharacterID;
-        OgreNewt::MaterialPair* mDefaultPair;
-        OgreNewt::MaterialPair* mCharLevelPair;
-        OgreNewt::MaterialPair* mCharCharPair;
-        OgreNewt::MaterialPair* mCharDefaultPair;
-        */
-
+        //! generic physics contact callback handler object
         PhysicsGenericContactCallback* mGenericCallback;
+    };
+
+    class PhysicsCollisionFactory
+    {
+    public:
+        /** checks if the specified size is ok for OgreNewt
+         * @param size to check
+         */
+        bool checkSize(const Ogre::Vector3& size) const;
+        /** corrects the specified size if it is not ok for OgreNewt
+         * @param size to correct
+         */
+        void correctSize(Ogre::Vector3& size);
+        /** calculates the Inertia for the given primitive type
+         */
+        //Ogre::Vector3 calculateIntertia(const Ogre::Real& Mass, Ogre::Vector3* inertiaCoefficients);
+
+        /** creates a collision primitive for OgreNewt an Ogre::Entity.
+		 * The collision primitive created has got a basic orientation which can be influenced by
+		 * offset and orientation parameters.
+         * Whenever any of the parameters is a null pointer, it is ignored.
+         * Scaling should be implemented through attaching to a scene node.
+         * if that is not the case, we'll have to fix OgreNewt ...
+		 * @param entity Ogre::Entity mesh object
+		 * @param geomType specifies the type of collision primitiv to create.
+		 * @param offset gives the offset of the coordinate system of the coll. primitiv
+		 * @param orientation Quaternion gives an euler rotation for the coordinate system of the coll. primitiv
+		*/
+        OgreNewt::CollisionPtr createCollisionFromEntity(Ogre::Entity* entity,
+            const PhysicsManager::GeometryType& geomType,
+            Ogre::Vector3* offset = NULL, 
+            Ogre::Quaternion* orientation = NULL,
+            const Ogre::Real Mass = 0,
+            Ogre::Vector3* inertiaCoefficients = NULL);
+
+        /** creates a collision primitive for OgreNewt from an AABB box.
+		 * The collision primitive created has got a basic orientation which can be influenced by
+		 * offset and orientation parameters.
+         * Whenever any of the parameters is a null pointer, it is ignored.
+         * Since no entity is given several physical collision primitives are not
+         * possible (convexhull, tree, etc.)
+         * Scaling should be implemented through attaching to a scene node.
+         * if that is not the case, we'll have to fix OgreNewt ...
+		 * @param entity Ogre::Entity mesh object
+		 * @param geomType specifies the type of collision primitiv to create.
+		 * @param offset gives the offset of the coordinate system of the coll. primitiv
+		 * @param orientation Quaternion gives an euler rotation for the coordinate system of the coll. primitiv
+		*/
+        OgreNewt::CollisionPtr createCollisionFromAABB(const Ogre::AxisAlignedBox aabb,
+            const PhysicsManager::GeometryType& geomType,
+            Ogre::Vector3* offset = NULL,
+            Ogre::Quaternion* orientation = NULL,
+            const Ogre::Real Mass = 0,
+            Ogre::Vector3* inertiaCoefficients = NULL);
+    protected:
+        // to ease understanding and break up a huge factory creation function
+        // into smaller parts
+        OgreNewt::CollisionPtr createBox(const Ogre::AxisAlignedBox& aabb,
+            Ogre::Vector3* offset = NULL,
+            Ogre::Quaternion* orientation = NULL,
+            const Ogre::Real Mass = 0,
+            Ogre::Vector3* inertia = NULL);
+        OgreNewt::CollisionPtr createPyramid(const Ogre::AxisAlignedBox& aabb,
+            Ogre::Vector3* offset = NULL,
+            Ogre::Quaternion* orientation = NULL,
+            const Ogre::Real Mass = 0,
+            Ogre::Vector3* inertia = NULL);
+        OgreNewt::CollisionPtr createSphere(const Ogre::AxisAlignedBox& aabb,
+            Ogre::Vector3* offset = NULL,
+            Ogre::Quaternion* orientation = NULL,
+            const Ogre::Real Mass = 0,
+            Ogre::Vector3* inertia = NULL);
+        OgreNewt::CollisionPtr createEllipsoid(const Ogre::AxisAlignedBox& aabb,
+            Ogre::Vector3* offset = NULL,
+            Ogre::Quaternion* orientation = NULL,
+            const Ogre::Real Mass = 0,
+            Ogre::Vector3* inertia = NULL);
+        OgreNewt::CollisionPtr createCapsule(const Ogre::AxisAlignedBox& aabb,
+            Ogre::Vector3* offset = NULL,
+            Ogre::Quaternion* orientation = NULL,
+            const Ogre::Real Mass = 0,
+            Ogre::Vector3* inertia = NULL);
     };
 }
 

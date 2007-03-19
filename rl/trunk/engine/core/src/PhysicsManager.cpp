@@ -51,19 +51,14 @@ namespace rl
         : mEnabled(false),
         mNewtonDebugger(),
         mPhysicalThings(),
-        //mControlledThings(),
         mDebugMode(false),
         mGravity(0, -9.81, 0),
         mWorldAABB(Vector3(-100, -100, -100), Vector3(100, 100, 100)),
         mElapsed(0.0f),
         mMinTimestep(1.0f/600.0f),
         mMaxTimestep(1.0f/30.0f),
-        //mLevelID(),
-        //mCharacterID(),
-        //mDefaultPair(),
-        //mCharLevelPair(),
-        //mCharCharPair(),
-        mGenericCallback()
+        mGenericCallback(),
+        mPhysicsCollisionFactory(new PhysicsCollisionFactory())
     {
 		mWorld = new OgreNewt::World();
         mWorld->setFrictionModel(OgreNewt::World::FM_ADAPTIVE);
@@ -84,9 +79,6 @@ namespace rl
 
         // below here starts 'old' stale fix code that should be removed
 
-        // setup camera material (actually not needed)
-        //createMaterialID("camera");
-
         // setup character material
         // actually this is needed here, because the actor is created in advance before the
         // character controller who actually does create 'character' material too.
@@ -105,6 +97,7 @@ namespace rl
         }
         mMaterials.clear();
 
+        delete mPhysicsCollisionFactory;
         delete mGenericCallback;
         delete mWorld;
     }
@@ -222,7 +215,7 @@ namespace rl
             OgreNewt::CollisionPtr collision = collisions[i];
             
 		    OgreNewt::Body* body = new OgreNewt::Body(mWorld, collision );
-
+            
 
             body->attachToNode(node);
             body->setPositionOrientation(node->getWorldPosition(),
@@ -353,16 +346,84 @@ namespace rl
         return NULL;
     }
 
-    void PhysicsManager::resetMaterialPair( const OgreNewt::MaterialID* M1,
+    void PhysicsManager::resetMaterialPair(const OgreNewt::MaterialID* M1,
             const OgreNewt::MaterialID* M2)
     {
         getMaterialPair(M1,M2)->setContactCallback(mGenericCallback);
+    }
+
+    OgreNewt::CollisionPtr PhysicsManager::createCollision(Ogre::Entity* entity,
+            const Ogre::String animName, const PhysicsManager::GeometryType& geomType,
+            Ogre::Vector3* offset, Ogre::Quaternion* orientation,
+            const Ogre::Real Mass, Ogre::Vector3* inertia)
+    {
+        // problem here is that a mesh can have different animations with
+        // different extents. Therefore we add the animName to the meshname
+        // to compute a unique name for the collision primitiv.
+        Ogre::String collisionName (entity->getMesh()->getName() + animName);
+
+        // result value
+        CollisionPtr rval;
+		
+        // check if there is a collision primitiv for the specified mesh object
+        CollisionInUse &usedcol (mCollisionPrimitives[collisionName]);
+        // log some performance warning if collisionname is equal, but geomtype different ?
+
+        if (! usedcol.colPtr.isNull() )
+        {
+            if ( usedcol.geomType != geomType )
+            {   // when geometry types mismatch, issue performance warning
+                LOG_DEBUG(Logger::CORE, " performance warning creating an other collision primitives '"+
+                PhysicsManager::convertGeometryTypeToString(geomType)+ "' for Entity '"+
+                entity->getName()+"' that already has got '"+
+                PhysicsManager::convertGeometryTypeToString(usedcol.geomType)+ "' as a primitive.");
+            } else {
+                // found it
+                rval = usedcol.colPtr;
+            }
+        }
+        
+        if (rval.isNull())
+        {
+            // if there is none, then create a new collision object
+            rval = mPhysicsCollisionFactory->createCollisionFromEntity(
+                entity, geomType, offset, orientation, Mass, inertia );
+
+            usedcol.geomType = geomType;
+            usedcol.colPtr = rval;
+        }
+
+        return rval;
+
+            if (geomType == GT_CONVEXHULL) {
+                MeshObject *tempMesh = NULL;
+
+            // the problem fixed and it's source:
+			// entity is a MeshObject containing the basic state of the Mesh, but
+			// this function should create the physical bounding convex hull for one of the
+			// animated states. Therefore the convex hull must be created from a mesh
+			// representing the animated state and not from a mesh containing the basic state
+
+			// check if this is a 'animated' state we have to create the convex hull for ...
+
+			if (animName != "") {
+				// Duplicating the MeshObject and animate it into the animName pose
+				//tempMesh = dynamic_cast<MeshObject*>(mPhysicalObject)->createPosedCopy(animName);
+				//entity = tempMesh->getEntity();
+			}
+            // fetch the collision body here ...
+
+            // cleanup the temporary mesh
+			delete tempMesh;
+        }
     }
 
 	PhysicsManager::GeometryType PhysicsManager::convertStringToGeometryType(const Ogre::String& geomTypeString)
 	{
 		if (geomTypeString == "box")
 			return GT_BOX;
+        if (geomTypeString == "pyramid")
+            return GT_PYRAMID;
 		if (geomTypeString == "sphere")
 			return GT_SPHERE;
 		if (geomTypeString == "capsule")
@@ -375,4 +436,367 @@ namespace rl
 			return GT_CONVEXHULL;
 		return GT_NONE;
 	}
+
+    Ogre::String PhysicsManager::convertGeometryTypeToString(const PhysicsManager::GeometryType& geomType)
+	{
+        Ogre::String typestr("none");
+
+		if (geomType == GT_BOX)
+            typestr = "box";
+        if (geomType == GT_PYRAMID)
+            typestr = "pyramid";
+		if (geomType == GT_SPHERE)
+			typestr = "sphere";
+		if (geomType == GT_CAPSULE)
+			typestr = "capsule";
+		if (geomType == GT_MESH)
+			typestr = "mesh";
+		if (geomType == GT_ELLIPSOID)
+			typestr = "ellipsoid";
+		if (geomType == GT_CONVEXHULL)
+			typestr = "convexhull";
+		return typestr;
+	}
+
+    bool PhysicsCollisionFactory::checkSize(const Ogre::Vector3& size) const
+    {
+        if( size.x < PhysicsManager::NEWTON_GRID_WIDTH ||
+            size.y < PhysicsManager::NEWTON_GRID_WIDTH ||
+            size.z < PhysicsManager::NEWTON_GRID_WIDTH )
+            return false;
+        return true;            
+    }
+
+    void PhysicsCollisionFactory::correctSize(Ogre::Vector3& size)
+    {
+        // correct size, log warning and fail back to box
+        if (size.x < PhysicsManager::NEWTON_GRID_WIDTH)
+            size.x = PhysicsManager::NEWTON_GRID_WIDTH;
+        if (size.y < PhysicsManager::NEWTON_GRID_WIDTH)
+            size.y = PhysicsManager::NEWTON_GRID_WIDTH;
+        if (size.z < PhysicsManager::NEWTON_GRID_WIDTH)
+            size.z = PhysicsManager::NEWTON_GRID_WIDTH;
+        LOG_MESSAGE(Logger::CORE, "Correcting collision primitiv size");
+    }
+
+    /*
+    Ogre::Vector3 PhysicsCollisionFactory::calculateIntertia(const Ogre::Real& Mass, Ogre::Vector3* inertiaCoefficients)
+    {
+        return Ogre::Vector3(0,0,0);
+    }
+    */
+
+    OgreNewt::CollisionPtr PhysicsCollisionFactory::createCollisionFromAABB(const Ogre::AxisAlignedBox aabb,
+        const PhysicsManager::GeometryType& geomType,
+        Ogre::Vector3* offset,
+        Ogre::Quaternion* orientation,
+        const Ogre::Real Mass,
+        Ogre::Vector3* inertia) 
+    {
+        // size of the mesh
+        Vector3 size( aabb.getSize() );
+        // type for the collision primitiv (can change internally here)
+        bool forceBox (false);
+		
+        // result value
+        CollisionPtr rval;
+
+        // size check (if object is too small, it falls back to a box primitiv
+        if (checkSize(size) == false )
+        {
+            correctSize(size);
+            LOG_MESSAGE(Logger::CORE, 
+                " AABB is too small, using 'box' instead of primitiv '" +
+                PhysicsManager::convertGeometryTypeToString(geomType));
+            forceBox = true;
+        }
+
+        // check if the geometry type is supported for aabb
+        if (geomType == PhysicsManager::GT_CONVEXHULL || 
+            geomType == PhysicsManager::GT_MESH)
+        {
+            LOG_MESSAGE(Logger::CORE, 
+                " the geometry type '"+
+                PhysicsManager::convertGeometryTypeToString(geomType)+
+                "' is not supported for aabb, fail back to box");
+            forceBox = true;
+        }
+
+        /* differentiate between the different collision primitives, because they all
+		   need different offset and probably different orientation values.
+		   Newton SDK is really nifty and helps here, because we can shift the origin
+		   of the coordinate system of the primitiv we create into any position we
+		   desire. Actually this is the bottom middle of our mesh - as the meshes are
+		   always constructed like that.
+	    */
+		if (geomType == PhysicsManager::GT_BOX || forceBox == true)
+        {
+			rval = createBox(aabb, offset, orientation, Mass, inertia);
+        }
+        else if (geomType == PhysicsManager::GT_PYRAMID)
+        {
+            rval = createPyramid(aabb, offset, orientation, Mass, inertia);
+        }
+        else if (geomType == PhysicsManager::GT_SPHERE)
+        {
+			rval = createSphere(aabb, offset, orientation, Mass, inertia);
+        }
+        else if (geomType == PhysicsManager::GT_ELLIPSOID)
+        {
+            rval = createEllipsoid(aabb, offset, orientation, Mass, inertia);
+        }
+		else if (geomType == PhysicsManager::GT_CAPSULE)
+		{
+			rval = createCapsule(aabb, offset, orientation, Mass, inertia);
+		}
+        return rval;
+    }
+
+    OgreNewt::CollisionPtr PhysicsCollisionFactory::createCollisionFromEntity(Ogre::Entity* entity,
+        const PhysicsManager::GeometryType& geomType,
+        Ogre::Vector3* offset,
+        Ogre::Quaternion* orientation,
+        const Ogre::Real Mass,
+        Ogre::Vector3* inertia) 
+    {
+        // bounding box of the mesh
+        const Ogre::AxisAlignedBox aabb(entity->getBoundingBox());
+        // size of the mesh
+        Vector3 size( aabb.getSize() );
+        // type for the collision primitiv (can change internally here)
+        bool forceBox (false);
+		
+        // result value
+        CollisionPtr rval;
+
+        // size check (if object is too small, it falls back to a box primitiv
+        if (checkSize(size) == false )
+        {
+            correctSize(size);
+            LOG_MESSAGE(Logger::CORE, " Entity '"+entity->getName()+
+                "' is too small, using 'box' instead of primitiv '"+
+                PhysicsManager::convertGeometryTypeToString(geomType));
+            forceBox = true;
+        }
+
+		/* differentiate between the different collision primitives, because they all
+		   need different offset and probably different orientation values.
+		   Newton SDK is really nifty and helps here, because we can shift the origin
+		   of the coordinate system of the primitiv we create into any position we
+		   desire. Actually this is the bottom middle of our mesh - as the meshes are
+		   always constructed like that.
+	    */
+		if (geomType == PhysicsManager::GT_BOX || forceBox == true)
+        {
+			rval = createBox(aabb, offset, orientation, Mass, inertia);
+        }
+        else if (geomType == PhysicsManager::GT_PYRAMID)
+        {
+            rval = createPyramid(aabb, offset, orientation, Mass, inertia);
+        }
+        else if (geomType == PhysicsManager::GT_SPHERE)
+        {
+			rval = createSphere(aabb, offset, orientation, Mass, inertia);
+        }
+        else if (geomType == PhysicsManager::GT_ELLIPSOID)
+        {
+            rval = createEllipsoid(aabb, offset, orientation, Mass, inertia);
+        }
+		else if (geomType == PhysicsManager::GT_CAPSULE)
+		{
+			rval = createCapsule(aabb, offset, orientation, Mass, inertia);
+		}
+        else if (geomType == PhysicsManager::GT_CONVEXHULL)
+        {
+            // offset of the collision primitiv
+	    	Ogre::Vector3 object_offset( Ogre::Vector3::ZERO );
+            // orientation of the collision primitiv
+		    Ogre::Quaternion object_orientation = Ogre::Quaternion::IDENTITY;
+				
+            // set offset/orientation when they are null
+			if (! offset)
+				offset = &object_offset;
+			if (! orientation)
+				orientation = &object_orientation;
+
+			// calculate the convex hull of the animated mesh
+			rval = CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(
+                PhysicsManager::getSingleton()._getNewtonWorld(),
+				entity, true, *orientation, *offset));
+
+			if (inertia != NULL)
+			{
+				*inertia = Vector3(
+				size.x*size.x/6.0f * Mass,
+				size.y*size.y/6.0f * Mass,
+				size.z*size.z/6.0f * Mass);
+			}
+        }
+        else if (geomType == PhysicsManager::GT_MESH)
+        {
+            rval = CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(
+                PhysicsManager::getSingleton()._getNewtonWorld(),
+                entity, false, true));
+        }
+        else
+        {
+            Throw(IllegalArgumentException, "unknown geometry type.");
+        }
+
+        if (rval.isNull())
+        {
+            LOG_DEBUG(Logger::CORE, " creating collision primitiv '"+
+                PhysicsManager::convertGeometryTypeToString(geomType)+"' for Entity '"+
+                entity->getName()+"' failed.");
+        }
+        else
+        {
+            LOG_DEBUG(Logger::CORE, " collision primitiv '"+
+                PhysicsManager::convertGeometryTypeToString(geomType)+"' created for Entity '"+
+                entity->getName()+"'");
+        }
+
+        return rval;
+    }
+
+    OgreNewt::CollisionPtr PhysicsCollisionFactory::createBox(const Ogre::AxisAlignedBox& aabb,
+            Ogre::Vector3* offset,
+            Ogre::Quaternion* orientation,
+            const Ogre::Real Mass,
+            Ogre::Vector3* inertia)
+    {
+        // offset of the collision primitiv
+		Ogre::Vector3 object_offset( aabb.getCenter() );
+        // orientation of the collision primitiv
+		Ogre::Quaternion object_orientation = Ogre::Quaternion::IDENTITY;
+
+        // set offset/orientation when they are null
+		if (! offset)
+			offset = &object_offset;
+		if (! orientation)
+			orientation = &object_orientation;
+        if (inertia)
+            *inertia = OgreNewt::MomentOfInertia::CalcBoxSolid(Mass, aabb.getSize());
+
+		// a box collision primitiv has got it's coordinate system at it's center, so we need to shift it
+		return CollisionPtr(new OgreNewt::CollisionPrimitives::Box(
+            PhysicsManager::getSingleton()._getNewtonWorld(),
+            aabb.getSize(), *orientation, *offset));
+    }
+
+    OgreNewt::CollisionPtr PhysicsCollisionFactory::createPyramid(const Ogre::AxisAlignedBox& aabb,
+            Ogre::Vector3* offset,
+            Ogre::Quaternion* orientation,
+            const Ogre::Real Mass,
+            Ogre::Vector3* inertia)
+    {
+        Ogre::Vector3 size = aabb.getSize();
+        // positional offset of the collision primitiv
+        Ogre::Vector3 object_offset(aabb.getCenter());
+        // orientation of the collision primitiv
+		Ogre::Quaternion object_orientation = Ogre::Quaternion::IDENTITY;
+
+        // set offset/orientation when they are null
+		if (! offset)
+			offset = &object_offset;
+		if (! orientation)
+			orientation = &object_orientation;
+        if (inertia)
+            *inertia = Ogre::Vector3(size.x*Mass,size.y/2.0f*Mass, size.z*Mass);
+
+        return CollisionPtr(new OgreNewt::CollisionPrimitives::Pyramid(
+            PhysicsManager::getSingleton()._getNewtonWorld(),
+            size, *orientation, *offset));
+    }
+
+    OgreNewt::CollisionPtr PhysicsCollisionFactory::createSphere(const Ogre::AxisAlignedBox& aabb,
+            Ogre::Vector3* offset,
+            Ogre::Quaternion* orientation,
+            const Ogre::Real Mass,
+            Ogre::Vector3* inertia)
+    {
+        Ogre::Vector3 size = aabb.getSize();
+        // calculate the maximum radius needed to include 'everything'
+        double radius = std::max(size.x, std::max(size.y, size.z)) / 2.0;
+        // positional offset of the collision primitiv
+		Ogre::Vector3 object_offset(0,radius,0);
+        // orientation of the collision primitiv
+		Ogre::Quaternion object_orientation = Ogre::Quaternion::IDENTITY;
+        
+		// set offset/orientation when they are null
+		if (! offset)
+			offset = &object_offset;
+		if (! orientation)
+			orientation = &object_orientation;
+        if (inertia)
+            *inertia = OgreNewt::MomentOfInertia::CalcSphereSolid(Mass,radius);
+
+		// a sphere primitiv has got its coordinate system at its center, so shift it with radius
+        return CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
+    		PhysicsManager::getSingleton()._getNewtonWorld(),
+            Vector3(radius, radius, radius), *orientation, *offset));
+    }
+
+    OgreNewt::CollisionPtr PhysicsCollisionFactory::createEllipsoid(const Ogre::AxisAlignedBox& aabb,
+            Ogre::Vector3* offset,
+            Ogre::Quaternion* orientation,
+            const Ogre::Real Mass,
+            Ogre::Vector3* inertia)
+    {
+        Ogre::Vector3 size = aabb.getSize();
+        // set the size x/z values to the maximum
+        Vector3 s(size/2.0);
+        s.x = std::max(s.x, s.z);
+        s.z = s.x;
+        // positional offset of the collision primitiv
+		Ogre::Vector3 object_offset(0,s.y,0);
+        // orientation of the collision primitiv
+		Ogre::Quaternion object_orientation = Ogre::Quaternion::IDENTITY;
+
+		// set offset/orientation when they are null
+		if (! offset) 
+			offset = &object_offset;
+		if (! orientation)
+			orientation = &object_orientation;
+        if (inertia)
+            *inertia = Vector3(s.x*s.x, s.y*s.y, s.z*s.z);
+
+        // an ellipsoid primitiv has got its coordinate system at its center, so shift it with radius
+        return CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
+            PhysicsManager::getSingleton()._getNewtonWorld(),
+            s, *orientation, *offset));
+    }
+
+    OgreNewt::CollisionPtr PhysicsCollisionFactory::createCapsule(const Ogre::AxisAlignedBox& aabb,
+            Ogre::Vector3* offset,
+            Ogre::Quaternion* orientation,
+            const Ogre::Real Mass,
+            Ogre::Vector3* inertia)
+    {
+        Ogre::Vector3 size = aabb.getSize();
+        // positional offset of the collision primitiv
+		Ogre::Vector3 object_offset(0, size.y/2, 0);
+        // orientation of the collision primitiv
+		Ogre::Quaternion object_orientation = Ogre::Quaternion::IDENTITY;
+        double radius = std::max(size.x, size.z) / 2.0;
+		double height = size.y;
+        object_orientation.FromAngleAxis(Degree(90), Vector3::UNIT_Z);
+
+		// set offset/orientation when they are null
+		if (! offset)
+    		offset = &object_offset;
+		if (! orientation) 
+			orientation = &object_orientation;
+        if (inertia) {
+            double sradius = radius*radius;
+			*inertia = Vector3(sradius, size.y*size.y, sradius);
+        }
+
+		// an capsule primitiv has got its coordinate system at its center, so shift it with radius
+		// additionally it is x axis aligned, so rotate it 90 degrees around z axis
+		return CollisionPtr(new OgreNewt::CollisionPrimitives::Capsule(
+            PhysicsManager::getSingleton()._getNewtonWorld(),
+            radius, height, *orientation, *offset));
+    }
+
 }

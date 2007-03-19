@@ -316,22 +316,45 @@ namespace rl
         return mContactListener;
     }
 
-    void PhysicalThing::fitToPose(const Ogre::String& name)
+    void PhysicalThing::fitToPose(const Ogre::String& animName)
     {
 		CollisionPtr coll;
         
         if (mPhysicalObject->isMeshObject())
         {
             MeshObject* meshObject = dynamic_cast<MeshObject*>(mPhysicalObject);
-            AxisAlignedBox size = meshObject->getPoseSize(name);
+            //AxisAlignedBox size = meshObject->getPoseSize(name);
 
             // Do we already have a collision for the wanted pose?
-            CollisionMap::iterator it = mPoseCollisions.find(name);
+            CollisionMap::iterator it = mPoseCollisions.find(animName);
             if (it == mPoseCollisions.end())
             {
+                Entity* entity = dynamic_cast<MeshObject*>(mPhysicalObject)->getEntity();
+                MeshObject *tempMesh = NULL;
+
+                // the problem fixed and it's source:
+				// entity is a MeshObject containing the basic state of the Mesh, but
+				// this function should create the physical bounding convex hull for one of the
+				// animated states. Therefore the convex hull must be created from a mesh
+				// representing the animated state and not from a mesh containing the basic state
+
+				// check if this is a 'animated' state we have to create the convex hull for ...
+
+				if (animName != "") {
+					// Duplicating the MeshObject and animate it into the animName pose
+					tempMesh = dynamic_cast<MeshObject*>(mPhysicalObject)->createPosedCopy(animName);
+
+					entity = tempMesh->getEntity();
+				}
+
+				// calculate the convex hull of the animated mesh
+ 				coll = PhysicsManager::getSingleton().createCollision(entity, animName, mGeometryType);
+
+				// cleanup the temporary mesh
+				delete tempMesh;
+
                 // No, so create it and put it into the map
-                coll = createCollision(size, NULL, name);
-                mPoseCollisions.insert(make_pair(name, coll));
+                mPoseCollisions.insert(make_pair(animName, coll));
             }
             else
             {
