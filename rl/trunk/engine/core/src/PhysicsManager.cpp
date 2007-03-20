@@ -87,6 +87,9 @@ namespace rl
 
     PhysicsManager::~PhysicsManager()
     {
+        // simply remove all collision ptrs (is this really ok?)
+        mCollisionPrimitives.clear();
+
         // remove all materials
         for (MaterialMap::iterator it = mMaterials.begin(); it != mMaterials.end(); it++)
         {
