@@ -233,7 +233,7 @@ namespace rl {
          * possible in error messages.
          * @param geomType enum giving the collision primitiv.
          */
-        static Ogre::String PhysicsManager::convertGeometryTypeToString(const PhysicsManager::GeometryType& geomType);
+        static Ogre::String convertGeometryTypeToString(const PhysicsManager::GeometryType& geomType);
 
     private:
 
