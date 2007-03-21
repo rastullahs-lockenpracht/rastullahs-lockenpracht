@@ -659,6 +659,9 @@ namespace rl
         }
         else if (geomType == PhysicsManager::GT_MESH)
         {
+            if (inertia != NULL)
+                *inertia = Ogre::Vector3::ZERO;
+
             rval = CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(
                 PhysicsManager::getSingleton()._getNewtonWorld(),
                 entity, false, true));
@@ -806,6 +809,7 @@ namespace rl
 		Ogre::Quaternion object_orientation = Ogre::Quaternion::IDENTITY;
         double radius = std::max(size.x, size.z) / 2.0;
 		double height = size.y;
+        // fixme: this is a semi ugly fix - because the orientation should be set by the loader
         object_orientation.FromAngleAxis(Degree(90), Vector3::UNIT_Z);
 
 		// set offset/orientation when they are null
