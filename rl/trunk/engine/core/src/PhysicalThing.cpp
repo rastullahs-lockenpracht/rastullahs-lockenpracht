@@ -347,7 +347,7 @@ namespace rl
 					entity = tempMesh->getEntity();
 				}
 
-				// calculate the convex hull of the animated mesh
+				// create the collision primitive of the animated mesh
  				coll = PhysicsManager::getSingleton().createCollision(entity, animName, mGeometryType);
 
 				// cleanup the temporary mesh
@@ -373,6 +373,7 @@ namespace rl
         }
     }
 
+    
 	OgreNewt::CollisionPtr PhysicalThing::createCollision(
 		const AxisAlignedBox& aabb, Vector3* inertiaCoefficients,
 		const String animName, Vector3* offset, Quaternion* orientation ) const
@@ -384,16 +385,16 @@ namespace rl
 
         CollisionPtr rval;
 
-		/* inertiaCoefficients could be calculated like OgreNewt::MomentOfInertia 
-			or even better is to use it ? */
+		// inertiaCoefficients could be calculated like OgreNewt::MomentOfInertia 
+		//	or even better is to use it ? 
 
-		/* differentiate between the different collision primitives, because they all
-		   need different offset and probably different orientation values.
-		   Newton SDK is really nifty and helps here, because we can shift the origin
-		   of the coordinate system of the primitiv we create into any position we
-		   desire. Actually this is the bottom middle of our mesh - as the meshes are
-		   always constructed like that.
-	    */
+		// differentiate between the different collision primitives, because they all
+		//   need different offset and probably different orientation values.
+		//   Newton SDK is really nifty and helps here, because we can shift the origin
+		//   of the coordinate system of the primitiv we create into any position we
+		//   desire. Actually this is the bottom middle of our mesh - as the meshes are
+		//   always constructed like that.
+	    
 		if (mGeometryType == PhysicsManager::GT_BOX)
         {
 			// set offset/orientation when they are null
@@ -607,10 +608,36 @@ namespace rl
 	{
 		if (mBody == NULL) 
 		{
-            const AxisAlignedBox& aabb = mPhysicalObject->getDefaultSize();
-                        
-            Vector3 inertiaCoefficients;
-			OgreNewt::CollisionPtr coll = createCollision(aabb, &inertiaCoefficients);
+            OgreNewt::CollisionPtr coll;
+            Vector3 inertia;
+
+            // there is a difference between a meshobject and a 'normal' object
+            // because a meshobject has got an entity and therefore a direct name
+            // which is used to determine it's collision primitive cache hash
+            // value (in order to avoid duplication)
+
+            if (mPhysicalObject->isMeshObject())
+            {
+                Entity* entity = dynamic_cast<MeshObject*>(mPhysicalObject)->getEntity();
+                coll = PhysicsManager::getSingleton().createCollision(
+                    entity,
+                    "",
+                    mGeometryType,
+                    NULL,
+                    NULL,
+                    mMass,
+                    &inertia);
+            }
+            else
+            {
+                coll = PhysicsManager::getSingleton().getCollisionFactory()->createCollisionFromAABB(
+                    aabb,
+                    mGeometryType,
+                    NULL,
+                    NULL,
+                    mMass,
+                    &inertia);
+            }
 
 			OgreNewt::Body* body = new OgreNewt::Body(
                 PhysicsManager::getSingleton()._getNewtonWorld(), coll);
@@ -618,7 +645,7 @@ namespace rl
 			Ogre::Real mass = mMass;
 			if (mass > 0.0 && mGeometryType != PhysicsManager::GT_MESH)
             {
-                body->setMassMatrix(mass, mass*inertiaCoefficients);
+                body->setMassMatrix(mass, inertia);
             }
 
 			body->setCustomForceAndTorqueCallback(PhysicsManager::genericForceCallback);

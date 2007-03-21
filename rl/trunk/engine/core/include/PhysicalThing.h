@@ -229,6 +229,7 @@ namespace rl {
 			const Ogre::String animName = "",
 			Ogre::Vector3* offset = NULL, 
 			Ogre::Quaternion* orientation = NULL) const;
+            
 	};
 }
 

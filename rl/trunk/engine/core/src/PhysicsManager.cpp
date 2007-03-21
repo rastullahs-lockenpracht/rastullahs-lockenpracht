@@ -652,9 +652,9 @@ namespace rl
 			if (inertia != NULL)
 			{
 				*inertia = Vector3(
-				size.x*size.x/6.0f * Mass,
-				size.y*size.y/6.0f * Mass,
-				size.z*size.z/6.0f * Mass);
+				size.x*size.x/6.0f,
+				size.y*size.y/6.0f,
+				size.z*size.z/6.0f) * Mass;
 			}
         }
         else if (geomType == PhysicsManager::GT_MESH)
@@ -687,7 +687,7 @@ namespace rl
     OgreNewt::CollisionPtr PhysicsCollisionFactory::createBox(const Ogre::AxisAlignedBox& aabb,
             Ogre::Vector3* offset,
             Ogre::Quaternion* orientation,
-            const Ogre::Real Mass,
+            const Ogre::Real mass,
             Ogre::Vector3* inertia)
     {
         // offset of the collision primitiv
@@ -701,7 +701,7 @@ namespace rl
 		if (! orientation)
 			orientation = &object_orientation;
         if (inertia)
-            *inertia = OgreNewt::MomentOfInertia::CalcBoxSolid(Mass, aabb.getSize());
+            *inertia = OgreNewt::MomentOfInertia::CalcBoxSolid(mass, aabb.getSize());
 
 		// a box collision primitiv has got it's coordinate system at it's center, so we need to shift it
 		return CollisionPtr(new OgreNewt::CollisionPrimitives::Box(
@@ -712,7 +712,7 @@ namespace rl
     OgreNewt::CollisionPtr PhysicsCollisionFactory::createPyramid(const Ogre::AxisAlignedBox& aabb,
             Ogre::Vector3* offset,
             Ogre::Quaternion* orientation,
-            const Ogre::Real Mass,
+            const Ogre::Real mass,
             Ogre::Vector3* inertia)
     {
         Ogre::Vector3 size = aabb.getSize();
@@ -727,7 +727,7 @@ namespace rl
 		if (! orientation)
 			orientation = &object_orientation;
         if (inertia)
-            *inertia = Ogre::Vector3(size.x*Mass,size.y/2.0f*Mass, size.z*Mass);
+            *inertia = Ogre::Vector3(size.x,size.y/2.0f, size.z) * mass;
 
         return CollisionPtr(new OgreNewt::CollisionPrimitives::Pyramid(
             PhysicsManager::getSingleton()._getNewtonWorld(),
@@ -766,7 +766,7 @@ namespace rl
     OgreNewt::CollisionPtr PhysicsCollisionFactory::createEllipsoid(const Ogre::AxisAlignedBox& aabb,
             Ogre::Vector3* offset,
             Ogre::Quaternion* orientation,
-            const Ogre::Real Mass,
+            const Ogre::Real mass,
             Ogre::Vector3* inertia)
     {
         Ogre::Vector3 size = aabb.getSize();
@@ -785,7 +785,7 @@ namespace rl
 		if (! orientation)
 			orientation = &object_orientation;
         if (inertia)
-            *inertia = Vector3(s.x*s.x, s.y*s.y, s.z*s.z);
+            *inertia = Vector3(s.x*s.x, s.y*s.y, s.z*s.z) * mass;
 
         // an ellipsoid primitiv has got its coordinate system at its center, so shift it with radius
         return CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
@@ -796,7 +796,7 @@ namespace rl
     OgreNewt::CollisionPtr PhysicsCollisionFactory::createCapsule(const Ogre::AxisAlignedBox& aabb,
             Ogre::Vector3* offset,
             Ogre::Quaternion* orientation,
-            const Ogre::Real Mass,
+            const Ogre::Real mass,
             Ogre::Vector3* inertia)
     {
         Ogre::Vector3 size = aabb.getSize();
@@ -815,7 +815,7 @@ namespace rl
 			orientation = &object_orientation;
         if (inertia) {
             double sradius = radius*radius;
-			*inertia = Vector3(sradius, size.y*size.y, sradius);
+			*inertia = Vector3(sradius, size.y*size.y, sradius) * mass;
         }
 
 		// an capsule primitiv has got its coordinate system at its center, so shift it with radius
