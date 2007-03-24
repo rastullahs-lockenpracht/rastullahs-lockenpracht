@@ -1,0 +1,6 @@
+material Statue_01 : NormalMapMaterial2Lights2UV
+{
+			set_texture_alias normalmap Ingrimiane_normal.png
+			set_texture_alias diffusemap Ingrimiane_diffuse.png
+
+}
