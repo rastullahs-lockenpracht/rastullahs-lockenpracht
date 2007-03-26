@@ -13,15 +13,18 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-  
+
 #ifndef __QUADTREE_H__
 #define __QUADTREE_H__
 
 namespace Ogre {
-	class AxisAlignedBoundingBox;
+	class AxisAlignedBox;
+	class Vector2;
+	class Vector3;
 };
 
 #include "CorePrerequisites.h"
+#include "Exception.h"
 
 namespace rl
 {
@@ -38,8 +41,9 @@ namespace rl
  * NodeLocation.
  */
 template <class TData>
-struct TQuadTreeBasicNode
+class TQuadTreeBasicNode
 {
+public:
 	/** Tells where the node within an array is located.
 	 * creates a counterclockwise location of nodes.
 	 */
@@ -55,7 +59,7 @@ struct TQuadTreeBasicNode
 	 * @returns a const reference to the internally stored data
 	 */
 	const TData& getData() { return mData; }
-
+protected:
 	bool		mSubDivided;	//!< true if node has subnodes
 	TData		mData;			//!< data of this node
 };
@@ -65,16 +69,27 @@ struct TQuadTreeBasicNode
  * nodes can be allocated and inserted on demand.
  */
 template <class TData, class TNode>
-struct TQuadTreeBasicPointerNode : public TQuadTreeBasicNode< TData >
+class TQuadTreeBasicPointerNode : public TQuadTreeBasicNode< TData >
 {
+protected:
 	TNode*		mNodes[4];	//!< four pointers to subnodes
 
-	TNode*	getNode(enum rl::TQuadTreeBasicNode<TData>::NodeLocation location);
-
+public:
+	/** default constructor.
+	 * Initializes the subquad pointers to NULL
+	 */
 	TQuadTreeBasicPointerNode();
 
+	/** Retrieve the specified subnode.
+	 * Accounting the nature of (non) uniform quadtrees the returned pointer might
+	 * be NULL.
+	 * @param location whether to fetch the upper/lower left/right quad.
+	 * @returns the subquadtree node
+	 */
+	TNode*	getNode(enum rl::TQuadTreeBasicNode<TData>::NodeLocation location);
+
 	// function for recursively deleting the quad tree
-	void removeNode (TQuadTreeBasicPointerNode<TData, TNode> *node);
+	void remove(); //Node (TQuadTreeBasicPointerNode<TData, TNode> *node);
 };
 
 template <class TData, class TNode>
@@ -87,12 +102,59 @@ TQuadTreeBasicPointerNode<TData, TNode>::TQuadTreeBasicPointerNode()
 /** A basic Quadtree containing vertex data
  */
 template <class TData, class TNode>
-struct TQuadTreeOgreNode : public TQuadTreeBasicPointerNode< TData, TNode >
+class TQuadTreeOgreNode : public TQuadTreeBasicPointerNode< TData, TNode >
 {
-	Ogre::Vector3	mVertices[4];	//!< vertices of this node
-	float			mWidth;	//!< length of this quad
+protected:
+	Ogre::Vector2	mVertexTL;	//!< top left vertex of this node
+	Ogre::Vector2	mVertexBR;	//!< bottom right vertex of this node
+	Ogre::Real		mWidth;		//!< length of this quad
 
+public:
+	/** Default constructor.
+	 * initializes a completely empty quad, that even doesn't represent a part
+	 * a space.
+	 */
 	TQuadTreeOgreNode();
+
+	/** Constructor to use for correct setup of quad.
+	 * Initialises the quad with all necessary data to function properly.
+	 */
+	TQuadTreeOgreNode(Ogre::Vector2& tlc, Ogre::Vector2& brc, float mWidth=0.0f);
+
+	/** Constructor to use for correct setup of quad.
+	 * Initialises the quad with all necessary data to function properly.
+	 */
+	//TQuadTreeOgreNode(Ogre::Vector2& tlc, Ogre::Vector2& blc, Ogre Vector2& lrc);
+
+	/** Fetches the width of the quad.
+	 * @returns the width of the quad.
+	 */
+	inline Ogre::Real getWidth() { return mWidth; }
+
+	/** Retrieve the specified corner vertex.
+	 * Since only the upper left and lower right corner of the quad are stored,
+	 * the two others have to be constructed.
+	 * @param location specifies which vertex to fetch (upper/lower-left/right).
+	 * @returns the wanted vertex.
+	 */
+	inline Ogre::Vector2 getVertex(enum rl::TQuadTreeBasicNode<TData>::NodeLocation location)
+	{
+		switch (location)
+		{
+		case TOP_LEFT:
+			return mVertexTL;
+		case BOTTOM_LEFT:
+			return Ogre::Vector2(mVertexTL.x, mVertexBR.y);
+		case BOTTOM_RIGHT:
+			return mVertexBR;
+		case TOP_RIGHT:
+			return Ogre::Vector2(mVertexBR.x, mVertexTL.y);
+		default:
+			Throw(IllegalArgumentException, "unknown NodeLocation type.");
+		}
+
+		return Ogre::Vector2(0.0f,0.0f);
+	}
 
 	/** tests if the given u value is inside the quad.
 	 * Since this is a 2D test, the name refers to u coordinate
@@ -101,7 +163,7 @@ struct TQuadTreeOgreNode : public TQuadTreeBasicPointerNode< TData, TNode >
 	 */
 	inline bool isUInside(Ogre::Real u) 
 	{ 
-		return (mVertices[TOP_LEFT].x < u && u < mVertices[BOTTOM_RIGHT].x);
+		return (mVertices[TOP_LEFT].x < u && u < mVertices[BOTTOM_RIGHT].);
 	}
 	/** tests if the given v value is inside the quad.
 	 * Since this is a 2D test, the name refers to v coordinate
@@ -110,7 +172,7 @@ struct TQuadTreeOgreNode : public TQuadTreeBasicPointerNode< TData, TNode >
 	 */
 	inline bool isVInside(Ogre::Real v) 
 	{
-		return (mVertices[TOP_LEFT].z < v && v < mVertices[BOTTOM_RIGHT].z);
+		return (mVertices[TOP_LEFT].y < v && v < mVertices[BOTTOM_RIGHT].y);
 	}
 
 	void remove(); //TQuadTree<TData, TNode> *node);
@@ -118,9 +180,27 @@ struct TQuadTreeOgreNode : public TQuadTreeBasicPointerNode< TData, TNode >
 
 template <class TData, class TNode>
 TQuadTreeOgreNode<TData, TNode>::TQuadTreeOgreNode()
-: mWidth(0.0f)
+: mWidth(0.0f),
+  mVertexTL(0,0),
+  mVertexBR(0,0)
 {
-	memset((char*) mVertices, 0, sizeof(mVertices));
+	//memset((char*) mVertices, 0, sizeof(mVertices));
+}
+
+template <class TData, class TNode>
+TQuadTreeOgreNode<TData, TNode>::TQuadTreeOgreNode(Ogre::Vector2& tlc, Ogre::Vector2& brc, float mWidth)
+: mWidth(mWidth),
+  mVertexTL(tlc),
+  mVertexBR(brc)
+{
+	/*
+	mVertices[TOP_LEFT] = tlc;
+	mVertices[BOTTOM_LEFT].x = tlc.x;
+	mVertices[BOTTOM_LEFT].z = brc.z;
+	mVertices[BOTTOM_RIGHT] = brc;
+	mVertices[TOP_RIGHT].x = brc.x;
+	mVertices[TOP_RIGHT].z = tlc.z;
+	*/
 }
 
 /** A basic loose quadtree.
@@ -134,7 +214,13 @@ TQuadTreeOgreNode<TData, TNode>::TQuadTreeOgreNode()
 template <class TData, class TNode>
 struct TLooseQuadTree : public TQuadTreeOgreNode< std::vector< TData >, TNode >
 {
+	//! default constructor
 	TLooseQuadTree();
+
+
+	TLooseQuadTree(int maxData, int maxDepth, float looseness, 
+		Ogre::Vector2& tlc, Ogre::Vector2& brc, float mWidth=0.0f);
+
 
 	/** maximum number of elements in one leaf.
 	 * Whenever this number is reached a subdivision takes place.
@@ -184,8 +270,9 @@ struct TLooseQuadTree : public TQuadTreeOgreNode< std::vector< TData >, TNode >
 	 */
 	inline bool isUInsideLoose(Ogre::Real u) 
 	{ 
-		return (mVertices[TOP_LEFT].x - mLooseness < u &&
-			u < mVertices[BOTTOM_RIGHT].x + mLooseness);
+		return (mVertexTL.x - mLooseness < u && u < mVertexBR.x + mLooseness);
+		//return (mVertices[TOP_LEFT].x - mLooseness < u &&
+		//	u < mVertices[BOTTOM_RIGHT].x + mLooseness);
 	}
 	/** tests if the given v value is inside the quad.
 	 * Since this is a 2D test, the name refers to v coordinate
@@ -194,8 +281,9 @@ struct TLooseQuadTree : public TQuadTreeOgreNode< std::vector< TData >, TNode >
 	 */
 	inline bool isVInsideLoose(Ogre::Real v) 
 	{
-		return (mVertices[TOP_LEFT].z - mLooseness < v &&
-			v < mVertices[BOTTOM_RIGHT].z + mLooseness);
+		return (mVertexTL.y - mLooseness < v && v < mVertexBR.y + mLooseness);
+		//return (mVertices[TOP_LEFT].y - mLooseness < v &&
+		//	v < mVertices[BOTTOM_RIGHT].y + mLooseness);
 	}
 
 	/** inserts the specified data.
@@ -203,7 +291,7 @@ struct TLooseQuadTree : public TQuadTreeOgreNode< std::vector< TData >, TNode >
 	 * According to that information the data is inserted at one or more
 	 * leaf nodes.
 	 */
-	void insert(Ogre::AxisAlignedBox& aabb, TData data);
+	void insert(TData data);
 
 	/** removes a node.
 	 * When the node has got subnodes they are also removed
@@ -235,7 +323,18 @@ TLooseQuadTree<TData, TNode>::TLooseQuadTree()
 }
 
 template <class TData, class TNode>
-void TLooseQuadTree<TData,TNode>::insert(Ogre::AxisAlignedBox& aabb, TData data)
+TLooseQuadTree<TData, TNode>::TLooseQuadTree(int maxData, int maxDepth,
+											 float looseness, Ogre::Vector2& tlc,
+											 Ogre::Vector2& brc, float mWidth)
+: TQuadTreeOgreNode< std::vector< TData >, TNode >(tlc, brc, mWidth),
+  mMaxData(maxData),
+  mMaxDepth(maxDepth),
+  mLooseness(looseness)
+{
+}
+
+template <class TData, class TNode>
+void TLooseQuadTree<TData,TNode>::insert(TData data)
 {
 	if (mSubDivided)
 	{
@@ -243,15 +342,14 @@ void TLooseQuadTree<TData,TNode>::insert(Ogre::AxisAlignedBox& aabb, TData data)
 		for (int i=0; i<4; i++)
 		{
 			if (mNodes[i])
-				mNodes[i]->insert(aabb, data);
+				mNodes[i]->insert(data);
 		}
 	}
 	else
 	{
+		Ogre::AxisAlignedBox aabb = TNode::getAABB(data);
 		// check whether any of the 4 edges of the axisalignedbox are in the loose quad
 		Ogre::Vector3 flb = aabb.getCorner(Ogre::AxisAlignedBox::FAR_LEFT_BOTTOM);
-		//aabb.getCorner(Ogre::AxisAlignedBox::FAR_RIGHT_BOTTOM)
-		//aabb.getCorner(Ogre::AxisAlignedBox::NEAR_LEFT_BOTTOM) 
 		Ogre::Vector3 nrb = aabb.getCorner(Ogre::AxisAlignedBox::NEAR_RIGHT_BOTTOM);
 		if ( (isVInsideLoose(flb.x) && (isUInsideLoose(flb.z) || isUInsideLoose(nrb.z))) ||
 			 (isVInsideLoose(nrb.x) && (isUInsideLoose(flb.z) || isUInsideLoose(nrb.z))) )
@@ -270,20 +368,30 @@ void TLooseQuadTree<TData,TNode>::insert(Ogre::AxisAlignedBox& aabb, TData data)
 template <class TData, class TNode>
 void TLooseQuadTree<TData,TNode>::split()
 {
+	Ogre::Real HalfWidth = mWidth/2.0f;
+	Ogre::Vector2 center (getVertex(TOP_LEFT) + Ogre::Vector2(HalfWidth, -HalfWidth));
 	// create 4 subnodes
-	for (int i=0; i<4; i++)
-	{
-		if (! mNodes[i])
-			mNodes[i] = new TNode();
-	}
+	mNodes[TOP_LEFT] = 
+		new TNode(mMaxData,mMaxDepth-1,mLooseness/2.0f,
+		          mVertexTL, center, HalfWidth);
+	mNodes[BOTTOM_LEFT] = 
+		new TNode(mMaxData,mMaxDepth-1,mLooseness/2.0f,
+		          Ogre::Vector2(mVertexTL.x, center.y),
+				  Ogre::Vector2(center.x, mVertexBR.y), HalfWidth);
+	mNodes[BOTTOM_RIGHT] =
+		new TNode(mMaxData,mMaxDepth-1,mLooseness/2.0f, 
+				  center, mVertexBR, HalfWidth);
+	mNodes[TOP_RIGHT] =
+		new TNode(mMaxData,mMaxDepth-1,mLooseness/2.0f,
+				  Ogre::Vector2(center.x, mVertexTL.y),
+				  Ogre::Vector2(mVertexBR.x, center.y), HalfWidth);
 
-	// distribute the data accordingly
+	// distribute the data accordingly between the subnodes
 	Ogre::AxisAlignedBox aab;
 	for (std::vector<TData>::iterator it = mData.begin();
 		it != mData.end(); it++)
 	{
-		aab = TNode::getAABB((*it));
-		insert(aab,(*it));
+		insert((*it));
 	}
 	// simply erase the data here ...
 	mData.clear();
@@ -298,7 +406,7 @@ void TLooseQuadTree<TData,TNode>::remove()
 {
 	if (mSubdivided)
 	{
-		// try to add the data to any of the subnodes
+		// try to remove the data of any of the subnodes
 		for (int i=0; i<4; i++)
 		{
 			if (mNodes[i]) 
@@ -316,10 +424,10 @@ TLooseQuadTree<TData, TNode>* TLooseQuadTree<TData,TNode>::find(const Ogre::Vect
 	TLooseQuadTree* result = NULL;
 	if (mSubdivided)
 	{
-		// try to add the data to any of the subnodes
+		// try to search for the data in any of the subnodes
 		for (int i=0; i<4; i++)
 		{
-			if (mNodes[i]) 
+			if (mNodes[i])
 			{
 				result = mNodes[i].find(position);
 				if (result)
@@ -330,10 +438,6 @@ TLooseQuadTree<TData, TNode>* TLooseQuadTree<TData,TNode>::find(const Ogre::Vect
 	else
 	{
 		// check whether any of the 4 edges of the axisalignedbox are in the loose quad
-		Ogre::Vector3 flb = aabb.getCorner(Ogre::AxisAlignedBox::FAR_LEFT_BOTTOM);
-		//aabb.getCorner(Ogre::AxisAlignedBox::FAR_RIGHT_BOTTOM)
-		//aabb.getCorner(Ogre::AxisAlignedBox::NEAR_LEFT_BOTTOM) 
-		Ogre::Vector3 nrb = aabb.getCorner(Ogre::AxisAlignedBox::NEAR_RIGHT_BOTTOM);
 		if ( isUInside(position.x) && isVInside(position.z) )
 		{
 			// if position is in the loose quad, return it
