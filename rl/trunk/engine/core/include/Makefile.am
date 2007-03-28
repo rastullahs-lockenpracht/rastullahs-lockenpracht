@@ -44,6 +44,7 @@
 	PlayAnimationJob.h \
 	PlaySoundJob.h \
 	PrimitiveObject.h \
+	QuadTree.h \
 	RubyInterpreter.h \
 	SceneQuery.h \
 	Sound.h \

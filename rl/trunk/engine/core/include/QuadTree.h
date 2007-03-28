@@ -882,3 +882,4 @@ TLooseQuadTree<TData, TNode>* TLooseQuadTree<TData,TNode>::find(const Ogre::Vect
 }; /* world */
 
 #endif /* __QUADTREE_H__ */
+
