@@ -156,7 +156,11 @@ public:
 		return Ogre::Vector2(0.0f,0.0f);
 	}
 
+    /** retrieves the topleft vertex
+     */
     inline Ogre::Vector2 getTopLeft() { return mVertexTL; }
+    /** retrieves the bottom right vertex
+     */
     inline Ogre::Vector2 getBottomRight() { return mVertexBR; }
 
 	/** tests if the given u value is inside the quad.
@@ -197,14 +201,8 @@ TQuadTreeOgreNode<TData, TNode>::TQuadTreeOgreNode(
   mVertexTL(tlc),
   mVertexBR(brc)
 {
-	/*
-	mVertices[TOP_LEFT] = tlc;
-	mVertices[BOTTOM_LEFT].x = tlc.x;
-	mVertices[BOTTOM_LEFT].z = brc.z;
-	mVertices[BOTTOM_RIGHT] = brc;
-	mVertices[TOP_RIGHT].x = brc.x;
-	mVertices[TOP_RIGHT].z = tlc.z;
-	*/
+    // right hand side coordinate system (2D part) xz plane
+    RlAssert ( (tlc < brc), "coordinates don't fit together" );
 }
 
 /** A basic loose quadtree.
@@ -348,8 +346,6 @@ public:
 	inline bool isUInsideLoose(Ogre::Real u)
 	{ 
 		return (mVertexTL.x - mLooseness < u && u < mVertexBR.x + mLooseness);
-		//return (mVertices[TOP_LEFT].x - mLooseness < u &&
-		//	u < mVertices[BOTTOM_RIGHT].x + mLooseness);
 	}
 	/** tests if the given v value is inside the quad.
 	 * Since this is a 2D test, the name refers to v coordinate
@@ -359,8 +355,6 @@ public:
 	inline bool isVInsideLoose(Ogre::Real v) 
 	{
 		return (mVertexTL.y - mLooseness < v && v < mVertexBR.y + mLooseness);
-		//return (mVertices[TOP_LEFT].y - mLooseness < v &&
-		//	v < mVertices[BOTTOM_RIGHT].y + mLooseness);
 	}
 
    	/** inserts the specified data.
@@ -392,6 +386,10 @@ protected:
 	 */
 	void split();
 
+    /** sets the specified vertex to a new value
+     * @param location gives the position of the vertex
+     * @param vertex contains the new value
+     */
     void SetVertex(enum rl::TQuadTreeBasicNode<TData>::NodeLocation location, Ogre::Vector2 vertex);
 
     /** maximum number of elements in one leaf.
@@ -466,7 +464,7 @@ template <class TData, class TNode>
 void TLooseQuadTreeNode<TData,TNode>::split()
 {
 	Ogre::Real HalfWidth = mWidth/2.0f;
-	Ogre::Vector2 center (getVertex(TOP_LEFT) + Ogre::Vector2(HalfWidth, -HalfWidth));
+	Ogre::Vector2 center (getVertex(TOP_LEFT) + Ogre::Vector2(HalfWidth, HalfWidth));
 	// create 4 subnodes
 	mNodes[TOP_LEFT] = 
 		new TNode(mMaxData,mMaxDepth-1,mLooseness/2.0f,
@@ -637,74 +635,83 @@ void TLooseQuadTree<TData,TNode>::createNewRootNode(
 	{
 	case BNode::TOP_LEFT:
         // first create new root (top) node
-        newVertexTL = vertexTL + Ogre::Vector2(-oldWidth,oldWidth);
-        mRoot = new TNode(mMaxData, mMaxDepth, newLooseness,
-            newVertexTL, vertexBR, newWidth);
-
-        mRoot->mNodes[BNode::TOP_LEFT] = 
-            new TNode(mMaxData, oldMaxDepth, oldLooseness,
-                      vertexTL + Ogre::Vector2(-oldWidth,oldWidth), 
-                      vertexTL, oldWidth);
-        mRoot->mNodes[BNode::BOTTOM_LEFT] =
-            new TNode(mMaxData, oldMaxDepth, oldLooseness,
-                      vertexTL + Ogre::Vector2(-oldWidth,0.0f), 
-                      vertexBR + Ogre::Vector2(-oldWidth,0.0f), oldWidth);
-        mRoot->mNodes[BNode::BOTTOM_RIGHT] = oldroot;
-        mRoot->mNodes[BNode::TOP_RIGHT] =
-            new TNode(mMaxData, mMaxDepth, oldLooseness,
-            vertexTL + Ogre::Vector2(0.0f,oldWidth), 
-            vertexBR + Ogre::Vector2(0.0f,oldWidth), oldWidth);
-		break;
-    case BNode::BOTTOM_LEFT:
-        newVertexTL = vertexTL + Ogre::Vector2(-oldWidth,0.0f);
-        newVertexBR = vertexBR + Ogre::Vector2(0.0f,-oldWidth);
-        mRoot = new TNode(mMaxData, mMaxDepth, newLooseness,
-            newVertexTL, newVertexBR, newWidth);
-
-        mRoot->mNodes[BNode::TOP_LEFT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
-            vertexTL + Ogre::Vector2(-oldWidth,0.0f), 
-            vertexBR + Ogre::Vector2(-oldWidth,0.0f), oldWidth);
-        mRoot->mNodes[BNode::BOTTOM_LEFT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
-            vertexTL + Ogre::Vector2(-oldWidth,-oldWidth), 
-            vertexBR + Ogre::Vector2(-oldWidth,-oldWidth), oldWidth);
-        mRoot->mNodes[BNode::BOTTOM_RIGHT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
-            vertexTL + Ogre::Vector2(0.0f,-oldWidth), 
-            vertexBR + Ogre::Vector2(0.0f,-oldWidth), oldWidth);
-        mRoot->mNodes[BNode::TOP_RIGHT] = oldroot;
-        break;
-    case BNode::BOTTOM_RIGHT:
-        newVertexBR = vertexBR + Ogre::Vector2(oldWidth,-oldWidth);
+        newVertexBR = vertexBR + Ogre::Vector2(oldWidth,oldWidth);
         mRoot = new TNode(mMaxData, mMaxDepth, newLooseness,
             vertexTL, newVertexBR, newWidth);
 
 		mRoot->mNodes[BNode::TOP_LEFT] = oldroot;
-        mRoot->mNodes[BNode::BOTTOM_LEFT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
-            vertexTL + Ogre::Vector2(0.0f,-oldWidth), 
-            vertexBR + Ogre::Vector2(0.0f,-oldWidth), oldWidth);
-        mRoot->mNodes[BNode::BOTTOM_RIGHT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
-            vertexBR,
-            vertexBR + Ogre::Vector2(oldWidth,-oldWidth), oldWidth);
-        mRoot->mNodes[rl::TQuadTreeBasicNode<TData>::TOP_RIGHT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
-            vertexTL + Ogre::Vector2(oldWidth,0.0f), 
-            vertexBR + Ogre::Vector2(oldWidth,0.0f), oldWidth);
-        
+        mRoot->mNodes[BNode::BOTTOM_LEFT] = 
+            new TNode(mMaxData, oldMaxDepth, oldLooseness,
+                      Ogre::Vector2(vertexTL.x,vertexBR.y), 
+                      Ogre::Vector2(vertexBR.x,newVertexBR.y), oldWidth);
+        mRoot->mNodes[BNode::BOTTOM_RIGHT] =
+            new TNode(mMaxData, oldMaxDepth, oldLooseness,
+                      vertexBR,
+                      newVertexBR, oldWidth);
+        mRoot->mNodes[BNode::TOP_RIGHT] =
+            new TNode(mMaxData, oldMaxDepth, oldLooseness,
+                      Ogre::Vector2(vertexBR.x,vertexTL.y),
+                      Ogre::Vector2(newVertexBR.x,vertexBR.y), oldWidth);
+
 		break;
-	case BNode::TOP_RIGHT:
-        newVertexTL = vertexTL + Ogre::Vector2(0.0f,oldWidth);
-        newVertexBR = vertexBR + Ogre::Vector2(oldWidth,0.0f);
+    case BNode::BOTTOM_LEFT:
+        newVertexTL = vertexTL + Ogre::Vector2(0.0f, -oldWidth);
+        newVertexBR = vertexBR + Ogre::Vector2(oldWidth, 0.0f);
         mRoot = new TNode(mMaxData, mMaxDepth, newLooseness,
             newVertexTL, newVertexBR, newWidth);
 
-        mRoot->mNodes[BNode::TOP_LEFT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
-            vertexTL + Ogre::Vector2(0.0f,oldWidth),
-            vertexBR + Ogre::Vector2(0.0f,oldWidth), oldWidth);
+        mRoot->mNodes[BNode::TOP_LEFT] =
+            new TNode(mMaxData, oldMaxDepth, oldLooseness,
+                      newVertexTL, 
+                      Ogre::Vector2(vertexBR.x,vertexTL.y), oldWidth);
         mRoot->mNodes[BNode::BOTTOM_LEFT] = oldroot;
-        mRoot->mNodes[BNode::BOTTOM_RIGHT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
-            vertexTL + Ogre::Vector2(oldWidth,0.0f),
-            vertexBR + Ogre::Vector2(oldWidth,0.0f), oldWidth);
-        mRoot->mNodes[BNode::TOP_RIGHT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
-            vertexTL + Ogre::Vector2(oldWidth,oldWidth),
-            vertexBR + Ogre::Vector2(oldWidth,oldWidth), oldWidth);
+        mRoot->mNodes[BNode::BOTTOM_RIGHT] =
+            new TNode(mMaxData, oldMaxDepth, oldLooseness,
+                      Ogre::Vector2(vertexBR.x,vertexTL.y),
+                      newVertexBR, oldWidth);
+        mRoot->mNodes[BNode::TOP_RIGHT] =
+            new TNode(mMaxData, oldMaxDepth, oldLooseness,
+                      Ogre::Vector2(vertexBR.x,newVertexTL.y), 
+                      Ogre::Vector2(newVertexBR.x,vertexTL.y), oldWidth);
+        break;
+    case BNode::BOTTOM_RIGHT:
+        newVertexTL = vertexTL + Ogre::Vector2(-oldWidth,-oldWidth);
+        mRoot = new TNode(mMaxData, mMaxDepth, newLooseness,
+            newVertexTL, vertexBR, newWidth);
+
+        mRoot->mNodes[BNode::TOP_LEFT] =
+            new TNode(mMaxData, oldMaxDepth, oldLooseness,
+                      newVertexTL,
+                      vertexTL, oldWidth);
+        mRoot->mNodes[BNode::BOTTOM_LEFT] =
+            new TNode(mMaxData, oldMaxDepth, oldLooseness,
+                      Ogre::Vector2(newVertexTL.x,vertexTL.y),
+                      Ogre::Vector2(vertexTL.x,vertexBR.y), oldWidth);
+        mRoot->mNodes[BNode::BOTTOM_RIGHT] = oldroot;
+        mRoot->mNodes[BNode::TOP_RIGHT] =
+            new TNode(mMaxData, mMaxDepth, oldLooseness,
+                      Ogre::Vector2(vertexTL.x,newVertexTL.y),
+                      Ogre::Vector2(vertexBR.x,vertexTL.y), oldWidth);
+		break;
+	case BNode::TOP_RIGHT:
+        newVertexTL = vertexTL + Ogre::Vector2(-oldWidth, 0.0f);
+        newVertexBR = vertexBR + Ogre::Vector2(0.0f, oldWidth);
+        mRoot = new TNode(mMaxData, mMaxDepth, newLooseness,
+            newVertexTL, newVertexBR, newWidth);
+
+        mRoot->mNodes[BNode::TOP_LEFT] =
+            new TNode(mMaxData, oldMaxDepth, oldLooseness,
+                      newVertexTL,
+                      Ogre::Vector2(vertexTL.x,vertexBR.y), oldWidth);
+        mRoot->mNodes[BNode::BOTTOM_LEFT] =
+            new TNode(mMaxData, oldMaxDepth, oldLooseness,
+                      Ogre::Vector2(newVertexTL.x,vertexBR.y),
+                      Ogre::Vector2(vertexTL.x,newVertexBR.y), oldWidth);
+        mRoot->mNodes[BNode::BOTTOM_RIGHT] =
+            new TNode(mMaxData, oldMaxDepth, oldLooseness,
+                      Ogre::Vector2(vertexTL.x,vertexBR.y),
+                      newVertexBR, oldWidth);
+        mRoot->mNodes[BNode::TOP_RIGHT] = oldroot;
 		break;
 	default:
 		Throw (IllegalArgumentException, "unknown NodeLocation type.");
@@ -719,6 +726,24 @@ void TLooseQuadTree<TData,TNode>::extend(const Ogre::Real& u, const Ogre::Real& 
     {
         if ( v < mRoot->mVertexTL.y )
         {
+            createNewRootNode(rl::TQuadTreeBasicNode<TData>::BOTTOM_RIGHT);
+            extend(u,v);
+        }
+        else if ( v > mRoot->mVertexBR.y )
+        {
+            createNewRootNode(rl::TQuadTreeBasicNode<TData>::TOP_RIGHT);
+            extend(u,v);
+        }
+        else
+        {
+            createNewRootNode(rl::TQuadTreeBasicNode<TData>::BOTTOM_RIGHT);
+            extend(u,v);
+        }
+    }
+    else if ( u > mRoot->mVertexBR.x )
+    {
+        if ( v < mRoot->mVertexTL.y )
+        {
             createNewRootNode(rl::TQuadTreeBasicNode<TData>::BOTTOM_LEFT);
             extend(u,v);
         }
@@ -726,39 +751,21 @@ void TLooseQuadTree<TData,TNode>::extend(const Ogre::Real& u, const Ogre::Real& 
         {
             createNewRootNode(rl::TQuadTreeBasicNode<TData>::TOP_LEFT);
             extend(u,v);
-        }
+        }  
         else
         {
             createNewRootNode(rl::TQuadTreeBasicNode<TData>::BOTTOM_LEFT);
             extend(u,v);
         }
     }
-    else if ( u > mRoot->mVertexBR.x )
-    {
-        if ( v < mRoot->mVertexBR.y )
-        {
-            createNewRootNode(rl::TQuadTreeBasicNode<TData>::BOTTOM_RIGHT);
-            extend(u,v);
-        }
-        else if ( v > mRoot->mVertexTL.y )
-        {
-            createNewRootNode(rl::TQuadTreeBasicNode<TData>::TOP_RIGHT);
-            extend(u,v);
-        }  
-        else
-        {
-            createNewRootNode(rl::TQuadTreeBasicNode<TData>::BOTTOM_RIGHT);
-            extend(u,v);
-        }
-    }
     else //  u is inside
     {
-        if ( v < mRoot->mVertexBR.y )
+        if ( v < mRoot->mVertexTL.y )
         {
             createNewRootNode(rl::TQuadTreeBasicNode<TData>::BOTTOM_RIGHT);
             extend(u,v);
         }
-        else if ( v > mRoot->mVertexTL.y )
+        else if ( v > mRoot->mVertexBR.y )
         {
             createNewRootNode(rl::TQuadTreeBasicNode<TData>::TOP_RIGHT);
             extend(u,v);
