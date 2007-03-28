@@ -170,7 +170,7 @@ public:
 	 */
 	inline bool isUInside(Ogre::Real u) 
 	{ 
-		return (mVertexTL.x < u && u < mVertexBR.x);
+		return (mVertexTL.x <= u && u <= mVertexBR.x);
 	}
 	/** tests if the given v value is inside the quad.
 	 * Since this is a 2D test, the name refers to v coordinate
@@ -179,7 +179,7 @@ public:
 	 */
 	inline bool isVInside(Ogre::Real v) 
 	{
-		return (mVertexTL.y < v && v < mVertexBR.y);
+		return (mVertexTL.y <= v && v <= mVertexBR.y);
 	}
 
 	void remove(); //TQuadTree<TData, TNode> *node);
@@ -345,7 +345,7 @@ public:
 	 */
 	inline bool isUInsideLoose(Ogre::Real u)
 	{ 
-		return (mVertexTL.x - mLooseness < u && u < mVertexBR.x + mLooseness);
+		return (mVertexTL.x - mLooseness <= u && u <= mVertexBR.x + mLooseness);
 	}
 	/** tests if the given v value is inside the quad.
 	 * Since this is a 2D test, the name refers to v coordinate
@@ -354,7 +354,7 @@ public:
 	 */
 	inline bool isVInsideLoose(Ogre::Real v) 
 	{
-		return (mVertexTL.y - mLooseness < v && v < mVertexBR.y + mLooseness);
+		return (mVertexTL.y - mLooseness <= v && v <= mVertexBR.y + mLooseness);
 	}
 
    	/** inserts the specified data.
