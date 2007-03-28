@@ -35,6 +35,8 @@ namespace OgreNewt {
 #include "GameTask.h"
 #include "CorePrerequisites.h"
 
+#include "QuadTree.h"
+
 namespace rl {
 
     class Actor;
@@ -43,9 +45,19 @@ namespace rl {
     class PhysicsController;
     class PhysicsGenericContactCallback;
     class World;
-
     class PhysicsCollisionFactory;
 
+	class LQTBodies : public TLooseQuadTreeNode<OgreNewt::Body*, LQTBodies>
+	{
+	public:
+		typedef std::vector<OgreNewt::Body*> BodyList;
+		LQTBodies(int maxData, int maxDepth, float looseness, const Ogre::Vector2& tlc,
+			const Ogre::Vector2& brc, float mWidth);
+        LQTBodies(const LQTBodies& LQT);
+		~LQTBodies();
+
+		static const Ogre::AxisAlignedBox getAABB(OgreNewt::Body* body);
+	};
 
     /** Management class for the physical properties of game world objects.
      * This class utilizes OgreNewt (and therefore indirectly Newton) for handling
@@ -304,7 +316,9 @@ namespace rl {
         //! a list of objects of the physical world
         std::vector<PhysicalThing*> mPhysicalThings;
         //! a list of bodies for the static level parts
-        std::vector<OgreNewt::Body*> mLevelBodies;
+        //std::vector<OgreNewt::Body*> mLevelBodies;
+		//! a quadtree storing a spatial partioning of static level parts
+        TLooseQuadTree<OgreNewt::Body*, LQTBodies> mLevelBodiesQuadTree;
         //! the extents of the level
         Ogre::AxisAlignedBox mWorldAABB;
         

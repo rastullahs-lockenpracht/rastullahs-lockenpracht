@@ -36,6 +36,35 @@ namespace rl
 {
     const Ogre::Real PhysicsManager::NEWTON_GRID_WIDTH = 0.01;
 
+	LQTBodies::LQTBodies(int maxData, int maxDepth, float looseness,
+		const Ogre::Vector2& tlc, const Ogre::Vector2& brc, float mWidth)
+		: TLooseQuadTreeNode<OgreNewt::Body*, LQTBodies>( maxData, maxDepth, looseness, tlc, brc, mWidth)
+	{
+	}
+
+    LQTBodies::LQTBodies(const LQTBodies& LQT)
+        : TLooseQuadTreeNode<OgreNewt::Body*, LQTBodies>(LQT)
+    {
+        for (BodyList::const_iterator it = LQT.mData.begin(); it != LQT.mData.end(); it++)
+		{
+            mData.push_back(*it);
+        }
+    }
+
+	LQTBodies::~LQTBodies()
+	{
+		for (BodyList::iterator it = mData.begin(); it != mData.end(); it++)
+		{
+			delete (*it);
+		}
+		mData.clear();
+	}
+
+
+	const Ogre::AxisAlignedBox LQTBodies::getAABB(OgreNewt::Body* body) 
+	{
+		return body->getCollision()->getAABB();
+	}
 
     PhysicsManager& PhysicsManager::getSingleton(void)
     {
@@ -82,7 +111,13 @@ namespace rl
         // setup character material
         // actually this is needed here, because the actor is created in advance before the
         // character controller who actually does create 'character' material too.
-        createMaterialID("character");      
+        createMaterialID("character");
+
+        // setup level quadtree extents
+        mLevelBodiesQuadTree.setMaxData(20);
+        mLevelBodiesQuadTree.setMaxDepth(10);
+        mLevelBodiesQuadTree.setLoosenessFactor(0.5f);
+        mLevelBodiesQuadTree.setExtents(Ogre::Vector2(-100,-100), Ogre::Vector2(100,100));
     }
 
     PhysicsManager::~PhysicsManager()
@@ -224,8 +259,9 @@ namespace rl
             body->setPositionOrientation(node->getWorldPosition(),
                 node->getWorldOrientation());
             body->setMaterialGroupID(getMaterialID("level"));
-
-            mLevelBodies.push_back(body);
+			
+			mLevelBodiesQuadTree.add(body);
+            //mLevelBodies.push_back(body);
         }
 
         // adjust worldAABB
@@ -249,11 +285,13 @@ namespace rl
 
     void PhysicsManager::clearLevelGeometry(  )
     {
-        for (size_t i = 0; i < mLevelBodies.size(); i++ )
+		mLevelBodiesQuadTree.removeAll();
+        /*for (size_t i = 0; i < mLevelBodies.size(); i++ )
         {
             delete mLevelBodies[i];
         }
         mLevelBodies.clear();
+		*/
     }
 
     // adopted from the chararcter demo in the newton sdk

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="RlCore"
 	ProjectGUID="{0935F495-4540-40E3-AC8F-AA54C85DC5B2}"
 	RootNamespace="RlCore"
@@ -522,6 +522,10 @@
 			</File>
 			<File
 				RelativePath=".\include\PrimitiveObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\QuadTree.h"
 				>
 			</File>
 			<File
