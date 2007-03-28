@@ -93,6 +93,26 @@ public:
 };
 
 template <class TData, class TNode>
+void TQuadTreeBasicPointerNode<TData,TNode>::remove()
+{
+	if (mSubDivided)
+	{
+		// try to remove the data of any of the subnodes
+		for (int i=0; i<4; i++)
+		{
+			if (mNodes[i]) 
+			{
+				mNodes[i]->remove();
+				delete mNodes[i];
+				mNodes[i] = NULL;
+			}
+		}
+	}
+	else 
+		mSubDivided = false;
+}
+
+template <class TData, class TNode>
 TQuadTreeBasicPointerNode<TData, TNode>::TQuadTreeBasicPointerNode()
 {
 	memset(mNodes, 0, sizeof(mNodes));
@@ -120,11 +140,6 @@ public:
 	 * Initialises the quad with all necessary data to function properly.
 	 */
 	TQuadTreeOgreNode(const Ogre::Vector2& tlc, const Ogre::Vector2& brc, float mWidth=0.0f);
-
-	/** Constructor to use for correct setup of quad.
-	 * Initialises the quad with all necessary data to function properly.
-	 */
-	//TQuadTreeOgreNode(Ogre::Vector2& tlc, Ogre::Vector2& blc, Ogre Vector2& lrc);
 
 	/** Fetches the width of the quad.
 	 * @returns the width of the quad.
@@ -156,10 +171,12 @@ public:
 		return Ogre::Vector2(0.0f,0.0f);
 	}
 
-    /** retrieves the topleft vertex
+    /** retrieves the topleft vertex.
+    * @todo is this really necessary?
      */
     inline Ogre::Vector2 getTopLeft() { return mVertexTL; }
-    /** retrieves the bottom right vertex
+    /** retrieves the bottom right vertex.
+     * @todo is this really necessary?
      */
     inline Ogre::Vector2 getBottomRight() { return mVertexBR; }
 
@@ -191,7 +208,6 @@ TQuadTreeOgreNode<TData, TNode>::TQuadTreeOgreNode()
   mVertexTL(0,0),
   mVertexBR(0,0)
 {
-	//memset((char*) mVertices, 0, sizeof(mVertices));
 }
 
 template <class TData, class TNode>
@@ -220,10 +236,26 @@ public:
 	//! default constructor
 	TLooseQuadTree();
 
+    /** Detailed constructor.
+     * Gives the possibility to initialise all internal values to meaningfull
+     * values
+     * @param maxDepth gives the maximum number of levels inside the quadtree. \c setMaxDepth
+     * @param maxData maximum number of data elements per node. \c setMaxData 
+     * @param looseness looseness factor in percent (e.g. 0.5 for 50%) \c setLooseness
+     * @param tlc gives the top left corner (in world space) \c setExtents
+     * @param tlc gives the bottom rigth corner (in world space) \c setExtents
+     */
 	TLooseQuadTree(int maxData, int maxDepth, float looseness, 
-		const Ogre::Vector2& tlc, const Ogre::Vector2& brc, float mWidth=0.0f);
+		const Ogre::Vector2& tlc, const Ogre::Vector2& brc);
 
 	//TLooseQuadTree(const TLooseQuadTree<TData, TNode>& Node);
+
+    /** Searches the quadtree for the node containing position.
+     * Returns the node containing the specified position or null if position
+     * is outside the quadtree.
+     * @return pointer to the node containing position or null if not inside.
+     */
+    TLooseQuadTree<TData, TNode>* find(const Ogre::Vector3& position);
 
 	/** Retrieves the loosness factor.
 	 */
@@ -235,29 +267,64 @@ public:
 	 */
 	int getMaxData() { return mMaxData; }
 
-    TLooseQuadTree<TData, TNode>* find(const Ogre::Vector3& position);
-	
-	/** Sets the looseness factor to a new value.
+    /** Sets the looseness factor to a new value.
+     * Changing this value is only possible, when the tree is empty.
 	 * mLooseness stores a precalculated looseness value.
 	 * The looseness is specified in percents of the width, so the loose quad
 	 * is the original quad + some additional area. e.g. 0.5 extends the original
-	 * length by 50% which means an additional area of 125%. Since this is evenly
-	 * distributed in all directions, the value that has to be added/substracted 
-	 * to the quad's original vertices is 25% of width. Those 25% of width are
-	 * stored in mLooseness.
-	 * @param looseness looseness factor in percent (e.g. 0.5 for 50%)
+	 * length by 50% which means an additional area of 125%.
+     * @param looseness looseness factor in percent (e.g. 0.5 for 50%)
 	 */
 	void setLoosenessFactor(float loosenessfactor) { mLoosenessFactor = loosenessfactor; }
 	
-	void setMaxDepth(int maxDepth) { mMaxDepth = maxDepth; }
+    /** Sets the maximum depth of the quadtree.
+     * Changing this value is only possible, when the tree is empty.
+     * This value can change (grow) when data is added to the quad tree
+     * that is outside the quadtree.
+     * Setting this value is only possible, when there is no data in the
+     * quadtree.
+     * @param maxDepth gives the maximum number of levels inside the quadtree.
+     */
+	void setMaxDepth(int maxDepth) 
+    { 
+        if (!mRoot)
+            mMaxDepth = maxDepth;
+        else
+            LOG_DEBUG(Logger::CORE, "Setting maximum depth on non empty quadtree not possible");
+    }
 	
-	void setMaxData(int maxData) { mMaxData = maxData; }
+    /** Sets the maximum number of data elements per quad.
+     * Changing this value is only possible, when the tree is empty.
+     * Whenever this number is exceeded, the quad is split creating 4 new
+     * subquads.
+     * When maxData is reached at the maximum depth level of the quadtree,
+     * no split will take place (because the depth limit prevents it),
+     * \c setMaxDepth.
+     * @param maxData maximum number of data elements per node.
+     */
+	void setMaxData(int maxData) 
+    {
+        if (!mRoot) 
+            mMaxData = maxData;
+        else
+            LOG_DEBUG(Logger::CORE, "Setting maximum data on non empty quadtree not possible");
+    }
 
+    /** Sets the extents of the quadtree to the specified one.
+     * Changing these value is only possible, when the tree is empty.
+     * This creates a new quadtree with the specified extents, when the
+     * tree was initially empty.
+     * The coordinates have world space (right hand sided, y is facing down).
+     * @param tlc gives the top left corner (in world space)
+     * @param tlc gives the bottom rigth corner (in world space)
+     */
     inline void setExtents(const Ogre::Vector2& tlc, const Ogre::Vector2& brc)
     {
         if (!mRoot)
             mRoot = new TNode(mMaxData, mMaxDepth, mLoosenessFactor * (brc.x-tlc.x) / 2.0f,
             tlc, brc, brc.x-tlc.x);
+        else
+            LOG_DEBUG(Logger::CORE, "Settings extents on non empty quadtree not possible");
     }
 
 	/** adds the specified data.
@@ -267,7 +334,8 @@ public:
 	 */
 	void add(TData data);
 
-
+    /** deletes the complete quadtree.
+     */
     void removeAll();
 
 protected:
@@ -300,32 +368,44 @@ protected:
 	int mMaxDepth;
 	/** The looseness factor
 	 * Defines the size of the 'loose' area around the quad.
-	 * Should be between 1.0 and 1.5 - less or more doesn't make sense at all.
+	 * Should be between 0.25 and 1.0 - less or more doesn't make sense at all.
 	 */
 	float mLoosenessFactor;
 
-    /** The root node of the quad tree.
-     */
+    //! The root node of the quad tree.
     TNode* mRoot;
-    //TLooseQuadTreeNode< std::vector< TData >,
-    
 };
 
-/** A basic loose quadtree.
+/** A basic loose quadtree node.
  * A loose quadtree consists of loose quads, which have an extended
  * 'loose' area around them. So the quads do not only store the
- * contents of the quad, but of the extende area too. This can be
- * helpfull in eliminating additional traversals of the tree, when
- * objects are near the border of the quad (or reaching into neighbouring
- * quads).
+ * contents of the quad, but of the extended area too. This can be
+ * helpfull in eliminating additional traversals of the tree, when searching
+ * in case the objects are near the border of the quad (or reaching into
+ * neighbouring quads).
  */
 template <class TData, class TNode>
 class TLooseQuadTreeNode : public TQuadTreeOgreNode< std::vector< TData >, TNode >
 {
 public:
+    /** Detailed quad node constructor.
+     * Gives the possibility to initialise all internal values to meaningfull
+     * values
+     * @param maxDepth gives the maximum number of levels inside the quadtree.
+     * @param maxData maximum number of data elements per node.
+     * @param looseness looseness factor in percent (e.g. 0.5 for 50%)
+     * @param tlc gives the top left corner (in world space)
+     * @param tlc gives the bottom rigth corner (in world space)
+     * @param mWidth gives the width of the node (passing this for performance).
+     */ 
     TLooseQuadTreeNode(int maxData, int maxDepth, float looseness, 
 		const Ogre::Vector2& tlc, const Ogre::Vector2& brc, float mWidth=0.0f);
 
+    /** copy constructor.
+     * Should copy the data of the specified node into the new object.
+     * Normally it is not necessary to do a deep copy here (wastes performance).
+     * @param Node to copy.
+     */
     TLooseQuadTreeNode(const TLooseQuadTreeNode<TData, TNode>& Node);
 
 	/** Retrieves the loosness factor.
@@ -376,6 +456,8 @@ public:
 	 */
 	TLooseQuadTreeNode* find(const Ogre::Vector3& position);
 
+    /** TLooseQuadTree is the management class for this node class. 
+     */
     friend TLooseQuadTree< TData, TNode >;
 
 protected:
@@ -390,7 +472,7 @@ protected:
      * @param location gives the position of the vertex
      * @param vertex contains the new value
      */
-    void SetVertex(enum rl::TQuadTreeBasicNode<TData>::NodeLocation location, Ogre::Vector2 vertex);
+    void setVertex(enum rl::TQuadTreeBasicNode<TData>::NodeLocation location, Ogre::Vector2 vertex);
 
     /** maximum number of elements in one leaf.
 	 * Whenever this number is reached a subdivision takes place.
@@ -403,7 +485,7 @@ protected:
 	int mMaxDepth;
 	/** The looseness factor
 	 * Defines the size of the 'loose' area around the quad.
-	 * Should be between 1.0 and 1.5 - less or more doesn't make sense at all.
+	 * Is added and substracted from the corner vertices.
 	 */
 	float mLooseness;
 };
@@ -463,6 +545,10 @@ void TLooseQuadTreeNode<TData,TNode>::insert(TData data)
 template <class TData, class TNode>
 void TLooseQuadTreeNode<TData,TNode>::split()
 {
+    // first test if this node is allowed to be subdivided
+    if (mMaxDepth == 0)
+        return; // last level reached, prevent subdivision
+
 	Ogre::Real HalfWidth = mWidth/2.0f;
 	Ogre::Vector2 center (getVertex(TOP_LEFT) + Ogre::Vector2(HalfWidth, HalfWidth));
 	// create 4 subnodes
@@ -546,7 +632,7 @@ TLooseQuadTreeNode<TData, TNode>* TLooseQuadTreeNode<TData,TNode>::find(const Og
 }
 
 template <class TData, class TNode>
-void TLooseQuadTreeNode<TData, TNode>::SetVertex(
+void TLooseQuadTreeNode<TData, TNode>::setVertex(
 	enum rl::TQuadTreeBasicNode<TData>::NodeLocation location, Ogre::Vector2 vertex)
 {
 	switch (location)
@@ -580,12 +666,14 @@ TLooseQuadTree<TData, TNode>::TLooseQuadTree()
 template <class TData, class TNode>
 TLooseQuadTree<TData, TNode>::TLooseQuadTree(int maxData, int maxDepth,
 											 float loosenessfactor, const Ogre::Vector2& tlc,
-											 const Ogre::Vector2& brc, float mWidth)
+											 const Ogre::Vector2& brc)
 : mMaxData(maxData),
   mMaxDepth(maxDepth),
   mLoosenessFactor(loosenessfactor)
 {
-    mRoot = new TNode(maxData,maxDepth,looseness, tlc, brc, mWidth);
+    RlAssert(brc.x - tlc.x == brc.y - tlc.y, 
+        "topleft and bottom right vertices specify non quad");
+    mRoot = new TNode(maxData,maxDepth,looseness, tlc, brc, brc.x - tlc.x);
 }
 
 
@@ -597,6 +685,7 @@ void TLooseQuadTree<TData,TNode>::add(TData data)
     Ogre::Vector3 flb = aabb.getCorner(Ogre::AxisAlignedBox::FAR_LEFT_BOTTOM);
     Ogre::Vector3 nrb = aabb.getCorner(Ogre::AxisAlignedBox::NEAR_RIGHT_BOTTOM);
 
+    // essential, create a root node when none is present
     if (!mRoot)
         mRoot = new TNode(mMaxData, mMaxDepth, mLoosenessFactor * (nrb.x-flb.x) / 2.0f,
         Ogre::Vector2(flb.x,flb.z), Ogre::Vector2(nrb.x,nrb.z), nrb.x-flb.x);
@@ -784,7 +873,10 @@ void TLooseQuadTree<TData,TNode>::removeAll()
 template <class TData, class TNode>
 TLooseQuadTree<TData, TNode>* TLooseQuadTree<TData,TNode>::find(const Ogre::Vector3& position)
 {
-    return mRoot->find(position);
+    TLooseQuadTree<TData, TNode>* result;
+    if (mRoot)
+        result = mRoot->find(position);
+    return result;
 }
 
 }; /* world */
