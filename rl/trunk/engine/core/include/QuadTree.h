@@ -40,7 +40,7 @@ namespace rl
  * Anyway the node indexing should follow the defined style by the enum
  * NodeLocation.
  */
-template <class TData>
+template <class TData, class TNode>
 class TQuadTreeBasicNode
 {
 public:
@@ -55,45 +55,33 @@ public:
 		TOP_RIGHT			//!< upper right quad
 	};
 
+    TQuadTreeBasicNode();
+
 	/** Returns the stored data.
 	 * @returns a const reference to the internally stored data
 	 */
 	const TData& getData() { return mData; }
+
+    /** Retrieve the specified subnode.
+     * Accounting the nature of (non) uniform quadtrees the returned pointer might
+     * be NULL.
+     * @param location whether to fetch the upper/lower left/right quad.
+     * @returns the subquadtree node
+     */
+    TNode*  getNode(enum rl::TQuadTreeBasicNode<TData, TNode>::NodeLocation location);
+
+    // function for recursively deleting the quad tree
+    void remove(); //Node (TQuadTreeBasicPointerNode<TData, TNode> *node);
+
 protected:
 	bool		mSubDivided;	//!< true if node has subnodes
 	TData		mData;			//!< data of this node
-};
 
-/** A basic quadtree with pointer to it's children nodes.
- * This quadree template is for (non) uniform quadtrees where additional
- * nodes can be allocated and inserted on demand.
- */
-template <class TData, class TNode>
-class TQuadTreeBasicPointerNode : public TQuadTreeBasicNode< TData >
-{
-protected:
-	TNode*		mNodes[4];	//!< four pointers to subnodes
-
-public:
-	/** default constructor.
-	 * Initializes the subquad pointers to NULL
-	 */
-	TQuadTreeBasicPointerNode();
-
-	/** Retrieve the specified subnode.
-	 * Accounting the nature of (non) uniform quadtrees the returned pointer might
-	 * be NULL.
-	 * @param location whether to fetch the upper/lower left/right quad.
-	 * @returns the subquadtree node
-	 */
-	TNode*	getNode(enum rl::TQuadTreeBasicNode<TData>::NodeLocation location);
-
-	// function for recursively deleting the quad tree
-	void remove(); //Node (TQuadTreeBasicPointerNode<TData, TNode> *node);
+    TNode*      mNodes[4];  //!< four pointers to subnodes
 };
 
 template <class TData, class TNode>
-void TQuadTreeBasicPointerNode<TData,TNode>::remove()
+void TQuadTreeBasicNode<TData,TNode>::remove()
 {
 	if (mSubDivided)
 	{
@@ -113,16 +101,19 @@ void TQuadTreeBasicPointerNode<TData,TNode>::remove()
 }
 
 template <class TData, class TNode>
-TQuadTreeBasicPointerNode<TData, TNode>::TQuadTreeBasicPointerNode()
+TQuadTreeBasicNode<TData, TNode>::TQuadTreeBasicNode()
 {
-	memset(mNodes, 0, sizeof(mNodes));
+	for (int i=0; i<4; i++)
+    {
+        mNodes[i] = NULL;
+    }
 	mSubDivided = false;
 }
 
 /** A basic Quadtree containing vertex data
  */
 template <class TData, class TNode>
-class TQuadTreeOgreNode : public TQuadTreeBasicPointerNode< TData, TNode >
+class TQuadTreeOgreNode : public TQuadTreeBasicNode< TData, TNode >
 {
 protected:
 	Ogre::Vector2	mVertexTL;	//!< top left vertex of this node
@@ -152,17 +143,17 @@ public:
 	 * @param location specifies which vertex to fetch (upper/lower-left/right).
 	 * @returns the wanted vertex.
 	 */
-	inline Ogre::Vector2 getVertex(enum rl::TQuadTreeBasicNode<TData>::NodeLocation location)
+	inline Ogre::Vector2 getVertex(enum TQuadTreeBasicNode<TData,TNode>::NodeLocation location)
 	{
 		switch (location)
 		{
-		case TOP_LEFT:
+		case TQuadTreeBasicNode<TData,TNode>::TOP_LEFT:
 			return mVertexTL;
-		case BOTTOM_LEFT:
+		case TQuadTreeBasicNode<TData,TNode>::BOTTOM_LEFT:
 			return Ogre::Vector2(mVertexTL.x, mVertexBR.y);
-		case BOTTOM_RIGHT:
+		case TQuadTreeBasicNode<TData,TNode>::BOTTOM_RIGHT:
 			return mVertexBR;
-		case TOP_RIGHT:
+		case TQuadTreeBasicNode<TData,TNode>::TOP_RIGHT:
 			return Ogre::Vector2(mVertexBR.x, mVertexTL.y);
 		default:
 			Throw(IllegalArgumentException, "unknown NodeLocation type.");
@@ -259,7 +250,7 @@ public:
 
 	/** Retrieves the loosness factor.
 	 */
-	float getLooseness() { return (mLooseness / mWidth * 2.0f); }
+	float getLooseness() { return /*mLooseness / mWidth * 2.0f;*/ mLoosenessFactor; }
 	/** Retrieves the maximum depth of the quadtree
 	 */
 	int getMaxDepth() { return mMaxDepth; }
@@ -355,7 +346,7 @@ protected:
      * TOP_LEFT).
      * @param location new location direction
      */
-    void createNewRootNode(enum rl::TQuadTreeBasicNode<TData>::NodeLocation location);
+    void createNewRootNode(enum rl::TQuadTreeBasicNode<TData, TNode>::NodeLocation location);
 
     /** maximum number of elements in one leaf.
 	 * Whenever this number is reached a subdivision takes place.
@@ -410,7 +401,7 @@ public:
 
 	/** Retrieves the loosness factor.
 	 */
-	float getLooseness() { return (mLooseness / mWidth * 2.0f); }
+	float getLooseness() { return /*mLooseness / mWidth * 2.0f*/mLooseness; }
 	/** Retrieves the maximum depth of the quadtree
 	 */
 	int getMaxDepth() { return mMaxDepth; }
@@ -458,7 +449,7 @@ public:
 
     /** TLooseQuadTree is the management class for this node class. 
      */
-    friend TLooseQuadTree< TData, TNode >;
+    friend class TLooseQuadTree< TData, TNode >;
 
 protected:
    	/** splits the node into subnodes.
@@ -472,7 +463,7 @@ protected:
      * @param location gives the position of the vertex
      * @param vertex contains the new value
      */
-    void setVertex(enum rl::TQuadTreeBasicNode<TData>::NodeLocation location, Ogre::Vector2 vertex);
+    void setVertex(enum rl::TQuadTreeBasicNode<TData, TNode>::NodeLocation location, Ogre::Vector2 vertex);
 
     /** maximum number of elements in one leaf.
 	 * Whenever this number is reached a subdivision takes place.
@@ -549,27 +540,27 @@ void TLooseQuadTreeNode<TData,TNode>::split()
     if (mMaxDepth == 0)
         return; // last level reached, prevent subdivision
 
-	Ogre::Real HalfWidth = mWidth/2.0f;
-	Ogre::Vector2 center (getVertex(TOP_LEFT) + Ogre::Vector2(HalfWidth, HalfWidth));
+	Ogre::Real halfWidth = mWidth/2.0f;
+	Ogre::Vector2 center (getVertex(TQuadTreeBasicNode<TData,TNode>::TOP_LEFT) + Ogre::Vector2(halfWidth, halfWidth));
 	// create 4 subnodes
-	mNodes[TOP_LEFT] = 
+	mNodes[TQuadTreeBasicNode<TData,TNode>::TOP_LEFT] = 
 		new TNode(mMaxData,mMaxDepth-1,mLooseness/2.0f,
-		          mVertexTL, center, HalfWidth);
-	mNodes[BOTTOM_LEFT] = 
+		          mVertexTL, center, halfWidth);
+	mNodes[TQuadTreeBasicNode<TData,TNode>::BOTTOM_LEFT] = 
 		new TNode(mMaxData,mMaxDepth-1,mLooseness/2.0f,
 		          Ogre::Vector2(mVertexTL.x, center.y),
-				  Ogre::Vector2(center.x, mVertexBR.y), HalfWidth);
-	mNodes[BOTTOM_RIGHT] =
+				  Ogre::Vector2(center.x, mVertexBR.y), halfWidth);
+	mNodes[TQuadTreeBasicNode<TData,TNode>::BOTTOM_RIGHT] =
 		new TNode(mMaxData,mMaxDepth-1,mLooseness/2.0f, 
-				  center, mVertexBR, HalfWidth);
-	mNodes[TOP_RIGHT] =
+				  center, mVertexBR, halfWidth);
+	mNodes[TQuadTreeBasicNode<TData,TNode>::TOP_RIGHT] =
 		new TNode(mMaxData,mMaxDepth-1,mLooseness/2.0f,
 				  Ogre::Vector2(center.x, mVertexTL.y),
-				  Ogre::Vector2(mVertexBR.x, center.y), HalfWidth);
+				  Ogre::Vector2(mVertexBR.x, center.y), halfWidth);
 
 	// distribute the data accordingly between the subnodes
 	Ogre::AxisAlignedBox aab;
-	for (std::vector<TData>::iterator it = mData.begin();
+	for (typename std::vector<TData>::iterator it = mData.begin();
 		it != mData.end(); it++)
 	{
 		insert((*it));
@@ -605,8 +596,8 @@ void TLooseQuadTreeNode<TData,TNode>::remove()
 template <class TData, class TNode>
 TLooseQuadTreeNode<TData, TNode>* TLooseQuadTreeNode<TData,TNode>::find(const Ogre::Vector3& position)
 {
-	TLooseQuadTree* result = NULL;
-	if (mSubdivided)
+	TLooseQuadTree<TData, TNode>* result = NULL;
+	if (mSubDivided)
 	{
 		// try to search for the data in any of the subnodes
 		for (int i=0; i<4; i++)
@@ -622,7 +613,7 @@ TLooseQuadTreeNode<TData, TNode>* TLooseQuadTreeNode<TData,TNode>::find(const Og
 	else
 	{
 		// check whether any of the 4 edges of the axisalignedbox are in the loose quad
-		if ( isUInside(position.x) && isVInside(position.z) )
+		if ( isUInsideLoose(position.x) && isVInsideLoose(position.z) )
 		{
 			// if position is in the loose quad, return it
 			result = *this;
@@ -633,18 +624,18 @@ TLooseQuadTreeNode<TData, TNode>* TLooseQuadTreeNode<TData,TNode>::find(const Og
 
 template <class TData, class TNode>
 void TLooseQuadTreeNode<TData, TNode>::setVertex(
-	enum rl::TQuadTreeBasicNode<TData>::NodeLocation location, Ogre::Vector2 vertex)
+	enum rl::TQuadTreeBasicNode<TData, TNode>::NodeLocation location, Ogre::Vector2 vertex)
 {
 	switch (location)
 	{
-	case TOP_LEFT:
+	case TQuadTreeBasicNode<TData,TNode>::TOP_LEFT:
 		mVertexTL = vertex;
 		break;
-	case BOTTOM_RIGHT:
+	case TQuadTreeBasicNode<TData,TNode>::BOTTOM_RIGHT:
 		mVertexBR = vertex;
 		break;
-	case BOTTOM_LEFT:
-	case TOP_RIGHT:
+	case TQuadTreeBasicNode<TData,TNode>::BOTTOM_LEFT:
+	case TQuadTreeBasicNode<TData,TNode>::TOP_RIGHT:
 		Throw (IllegalArgumentException, "Cannot set lowerleft/upperright corner");
 		break;
 	default:
@@ -673,7 +664,7 @@ TLooseQuadTree<TData, TNode>::TLooseQuadTree(int maxData, int maxDepth,
 {
     RlAssert(brc.x - tlc.x == brc.y - tlc.y, 
         "topleft and bottom right vertices specify non quad");
-    mRoot = new TNode(maxData,maxDepth,looseness, tlc, brc, brc.x - tlc.x);
+    mRoot = new TNode(maxData, maxDepth, loosenessfactor, tlc, brc, brc.x - tlc.x);
 }
 
 
@@ -704,9 +695,9 @@ void TLooseQuadTree<TData,TNode>::add(TData data)
 
 template <class TData, class TNode>
 void TLooseQuadTree<TData,TNode>::createNewRootNode(
-    enum rl::TQuadTreeBasicNode<TData>::NodeLocation location)
+    enum rl::TQuadTreeBasicNode<TData, TNode>::NodeLocation location)
 {
-    typedef rl::TQuadTreeBasicNode<TData> BNode;
+    typedef rl::TQuadTreeBasicNode<TData, TNode> BNode;
     TNode* oldroot = mRoot;
     int oldMaxDepth = mMaxDepth;
     float oldLooseness = oldroot->getLooseness();
@@ -815,17 +806,17 @@ void TLooseQuadTree<TData,TNode>::extend(const Ogre::Real& u, const Ogre::Real& 
     {
         if ( v < mRoot->mVertexTL.y )
         {
-            createNewRootNode(rl::TQuadTreeBasicNode<TData>::BOTTOM_RIGHT);
+            createNewRootNode(TQuadTreeBasicNode<TData, TNode>::BOTTOM_RIGHT);
             extend(u,v);
         }
         else if ( v > mRoot->mVertexBR.y )
         {
-            createNewRootNode(rl::TQuadTreeBasicNode<TData>::TOP_RIGHT);
+            createNewRootNode(TQuadTreeBasicNode<TData, TNode>::TOP_RIGHT);
             extend(u,v);
         }
         else
         {
-            createNewRootNode(rl::TQuadTreeBasicNode<TData>::BOTTOM_RIGHT);
+            createNewRootNode(TQuadTreeBasicNode<TData, TNode>::BOTTOM_RIGHT);
             extend(u,v);
         }
     }
@@ -833,17 +824,17 @@ void TLooseQuadTree<TData,TNode>::extend(const Ogre::Real& u, const Ogre::Real& 
     {
         if ( v < mRoot->mVertexTL.y )
         {
-            createNewRootNode(rl::TQuadTreeBasicNode<TData>::BOTTOM_LEFT);
+            createNewRootNode(TQuadTreeBasicNode<TData, TNode>::BOTTOM_LEFT);
             extend(u,v);
         }
         else if ( v > mRoot->mVertexBR.y )
         {
-            createNewRootNode(rl::TQuadTreeBasicNode<TData>::TOP_LEFT);
+            createNewRootNode(TQuadTreeBasicNode<TData, TNode>::TOP_LEFT);
             extend(u,v);
         }  
         else
         {
-            createNewRootNode(rl::TQuadTreeBasicNode<TData>::BOTTOM_LEFT);
+            createNewRootNode(TQuadTreeBasicNode<TData, TNode>::BOTTOM_LEFT);
             extend(u,v);
         }
     }
@@ -851,12 +842,12 @@ void TLooseQuadTree<TData,TNode>::extend(const Ogre::Real& u, const Ogre::Real& 
     {
         if ( v < mRoot->mVertexTL.y )
         {
-            createNewRootNode(rl::TQuadTreeBasicNode<TData>::BOTTOM_RIGHT);
+            createNewRootNode(TQuadTreeBasicNode<TData, TNode>::BOTTOM_RIGHT);
             extend(u,v);
         }
         else if ( v > mRoot->mVertexBR.y )
         {
-            createNewRootNode(rl::TQuadTreeBasicNode<TData>::TOP_RIGHT);
+            createNewRootNode(TQuadTreeBasicNode<TData, TNode>::TOP_RIGHT);
             extend(u,v);
         }
     }
@@ -865,17 +856,18 @@ void TLooseQuadTree<TData,TNode>::extend(const Ogre::Real& u, const Ogre::Real& 
 template <class TData, class TNode>
 void TLooseQuadTree<TData,TNode>::removeAll()
 {
-    if (mRoot)
-        delete mRoot;
+    delete mRoot;
     mRoot = NULL;
 }
 
 template <class TData, class TNode>
 TLooseQuadTree<TData, TNode>* TLooseQuadTree<TData,TNode>::find(const Ogre::Vector3& position)
 {
-    TLooseQuadTree<TData, TNode>* result;
-    if (mRoot)
+    TLooseQuadTree<TData, TNode>* result = NULL;
+    if (mRoot != NULL)
+    {
         result = mRoot->find(position);
+    }
     return result;
 }
 
