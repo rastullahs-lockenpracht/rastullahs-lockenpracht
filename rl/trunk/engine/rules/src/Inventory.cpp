@@ -196,4 +196,8 @@ namespace rl
         mSlots[name] = new Slot(mOwner, name, bone, itemMask);
     }
 
+    const Inventory::SlotMap& Inventory::getAllSlots() const
+    {
+        return mSlots;
+    }
 }

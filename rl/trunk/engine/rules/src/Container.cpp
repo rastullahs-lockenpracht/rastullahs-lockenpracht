@@ -255,7 +255,7 @@ namespace rl {
         }
         else if (key == Container::PROPERTY_VOLUME)
         {
-            return Property(mVolume);
+            return Property(make_pair((int)mVolume.first, (int)mVolume.second));
         }
         else
         {
@@ -267,7 +267,7 @@ namespace rl {
     {
         PropertySet* ps = Item::getAllProperties();
         ps->setProperty(Container::PROPERTY_CAPACITY, Property(mCapacity));
-        ps->setProperty(Container::PROPERTY_VOLUME, Property(mVolume));
+        ps->setProperty(Container::PROPERTY_VOLUME, Property(make_pair((int)mVolume.first, (int)mVolume.second)));
 
         return ps;
     }

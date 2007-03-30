@@ -41,6 +41,11 @@ public:
 	**/
 	typedef std::list<Item*> ItemList;
 
+    /**
+     * @brief A map of slot names to slots
+     */
+    typedef std::map<CeGuiString, Slot*> SlotMap;
+
 	Inventory(Creature* owner);
 	virtual ~Inventory();
 
@@ -79,10 +84,9 @@ public:
 
     Item* getItem(const CeGuiString& slotName) const;
     void addSlot(const CeGuiString& name, const Ogre::String& bone, int itemMask);
+    const SlotMap& getAllSlots() const;
 
 private:
-    typedef std::map<CeGuiString, Slot*> SlotMap;
-
 	bool mValuesUpToDate;
 	int mCurrentWeight;
 	int mCurrentBeByWeight;

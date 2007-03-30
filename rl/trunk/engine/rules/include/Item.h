@@ -61,9 +61,7 @@ namespace rl
 		Item(unsigned int id);
         virtual ~Item(void);
 
-		const CeGuiString getDescription() const;
-
-        void setWeight(Ogre::Real weight);
+	    void setWeight(Ogre::Real weight);
         Ogre::Real getWeight() const;
 
 		void setItemType(ItemType itemType);
@@ -79,7 +77,7 @@ namespace rl
 
 		/**
 		 * @return ob es sich um ein Item handelt,
-		 * in dem andere gespeichert werden k�nen
+		 * in dem andere gespeichert werden koennen
 		 */
         virtual bool isContainer() const;
 		

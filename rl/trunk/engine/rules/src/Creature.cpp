@@ -39,6 +39,8 @@ namespace rl
     const Ogre::String Creature::CLASS_NAME = "Creature";
     const Ogre::String Creature::PROPERTY_BEHAVIOURS = "behaviours";
 
+    const Ogre::String Creature::PROPERTY_INVENTORY_WINDOW_TYPE = "inventorywindowtype"; 
+
     Creature::Creature(unsigned int id)
         : GameObject(id), 
 		mCurrentLe(0),
@@ -81,6 +83,8 @@ namespace rl
 		mEigenschaften[E_GEWANDTHEIT] = 0;
 		mEigenschaften[E_KONSTITUTION] = 0;
 		mEigenschaften[E_KOERPERKRAFT] = 0;
+
+        mEffectManager = new EffectManager();
 
 		mInventory = new Inventory(this);
     }
@@ -704,6 +708,11 @@ namespace rl
 	{
 		return mInventory;
 	}
+
+    const Ogre::String& Creature::getInventoryWindowType() const
+    {
+        return mInventoryWindowType;
+    }
 	
 	int Creature::doAttacke(const CeGuiString kampftechnikName, int modifier)
 	{
@@ -952,6 +961,10 @@ namespace rl
         {
             mBehaviours = value;
         }
+        else if (key == Creature::PROPERTY_INVENTORY_WINDOW_TYPE)
+        {
+            mInventoryWindowType = value.toString().c_str();
+        }
         else
         {
             GameObject::setProperty(key, value);
@@ -964,10 +977,10 @@ namespace rl
         {
             return mBehaviours;
         }
-        //else if (key == Item::PROPERTY_SIZE)
-        //{
-        //    return Property(mSize);
-        //}
+        else if (key == Creature::PROPERTY_INVENTORY_WINDOW_TYPE)
+        {
+            return Property(mInventoryWindowType);
+        }
         else
         {
             return GameObject::getProperty(key);
@@ -978,6 +991,7 @@ namespace rl
     {
         PropertySet* ps = GameObject::getAllProperties();
         ps->setProperty(Creature::PROPERTY_BEHAVIOURS, mBehaviours);
+        ps->setProperty(Creature::PROPERTY_INVENTORY_WINDOW_TYPE, Property(mInventoryWindowType));
 
         return ps;
     }
@@ -1487,6 +1501,7 @@ namespace rl
 
         return velocity;
     }
+
 
 
 }

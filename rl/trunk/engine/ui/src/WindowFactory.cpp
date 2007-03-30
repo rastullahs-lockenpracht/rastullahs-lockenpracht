@@ -66,7 +66,8 @@ namespace rl {
 	WindowFactory::WindowFactory()
 		: mShownObject(NULL),
 		  mObjectNameText(NULL),
-          mMainMenuWindow(NULL)
+          mMainMenuWindow(NULL),
+          mInventoryWindow(NULL)
     {
     }
 
@@ -83,7 +84,6 @@ namespace rl {
 		mGameLogger = new GameLoggerWindow();
 		mCharacterStateWindow = new CharacterStateWindow();
 		mInGameMenuWindow = new InGameMenuWindow();
-		mInventoryWindow = new InventoryWindow();
 		mCharacterSheet = new CharacterSheetWindow();
 		mJournalWindow = new JournalWindow();
 		mInfoPopup = new InfoPopup();
@@ -189,19 +189,32 @@ namespace rl {
 
 	void WindowFactory::toggleInventoryWindow()
 	{
-		if (mInventoryWindow->isVisible())
-		{
-			mInventoryWindow->setVisible(false);
-		}
-		else if (UiSubsystem::getSingleton().getActiveCharacter() != NULL)
+        if (mInventoryWindow != NULL && mInventoryWindow->isVisible())
         {
-			mInventoryWindow->setInventory(UiSubsystem::getSingleton().getActiveCharacter()->getInventory());
-			mInventoryWindow->setVisible(true);
-		}
-	}
+            mInventoryWindow->setVisible(false, true);
+            mInventoryWindow = NULL;
+        }
+        else
+        {
+            if (mInventoryWindow != NULL)
+            {
+                WindowManager::getSingleton().destroyWindow(mInventoryWindow);
+                mInventoryWindow = NULL;
+            }
 
-	InventoryWindow* WindowFactory::getInventoryWindow(){
-		return mInventoryWindow;
+		    if (UiSubsystem::getSingleton().getActiveCharacter() != NULL)
+            {
+                Creature* creat = UiSubsystem::getSingleton().getActiveCharacter();
+
+                Ogre::String inventoryWindowType = creat->getInventoryWindowType();
+                if (inventoryWindowType == "")
+                {
+                    inventoryWindowType = "inventory_default.xml"; ///TODO: Extract
+                }
+                mInventoryWindow = new InventoryWindow(inventoryWindowType, creat->getInventory());
+			    mInventoryWindow->setVisible(true);
+		    }
+        }
 	}
 
 

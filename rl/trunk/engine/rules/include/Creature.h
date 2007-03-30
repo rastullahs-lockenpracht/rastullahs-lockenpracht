@@ -18,9 +18,11 @@
 
 #include "RulesPrerequisites.h"
 
-#include "GameObject.h"
+#include "Date.h"
+#include "Effect.h"
 #include "Effect.h"
 #include "Eigenschaft.h"
+#include "GameObject.h"
 #include "ZauberStateSet.h"
 #include "SonderfertigkeitenStateSet.h"
 
@@ -107,7 +109,8 @@ namespace rl
 
             static const Ogre::String CLASS_NAME;
             static const Ogre::String PROPERTY_BEHAVIOURS;
-
+        static const Ogre::String PROPERTY_INVENTORY_WINDOW_TYPE;
+        
             Creature(unsigned int id);
 
             /// Der Standarddestruktor.
@@ -501,7 +504,7 @@ namespace rl
              **/
             Inventory* getInventory() const;
 
-
+        const Ogre::String& getInventoryWindowType() const;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Aktionen
@@ -857,9 +860,9 @@ namespace rl
             SonderfertigkeitMap mSonderfertigkeiten;
             WertMap mWerte;
             Ap mAp;
-
             /// Zeigt auf das Inventar der Kreatur.
             Inventory* mInventory;
+        Ogre::String mInventoryWindowType;
 
             Property mBehaviours;
 

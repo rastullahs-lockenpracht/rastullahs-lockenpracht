@@ -124,23 +124,22 @@ namespace rl
 		return CeGuiString("undefined");
 	}
 
-	const CeGuiString Item::getDescription() const
-	{
-		CeGuiString desc = mName + "\r\n\r\n" + 
-			getFormattedText(mDescription)+
-			"\r\n\r\n"+
-			"Gewicht: ";
-		if (mWeight >= 40)
-		{
-			desc += Ogre::StringConverter::toString(mWeight / 40)+ " Stein";
-		}
-		else
-		{
-			desc += Ogre::StringConverter::toString(mWeight)+ " Unzen";
-		}
-		return desc;
-
-	}
+	//const CeGuiString Item::getDescription() const
+	//{
+	//	CeGuiString desc = mName + "\r\n\r\n" + 
+	//		getFormattedText(mDescription)+
+	//		"\r\n\r\n"+
+	//		"Gewicht: ";
+	//	if (mWeight >= 40)
+	//	{
+	//		desc += Ogre::StringConverter::toString(mWeight / 40)+ " Stein";
+	//	}
+	//	else
+	//	{
+	//		desc += Ogre::StringConverter::toString(mWeight)+ " Unzen";
+	//	}
+	//	return desc;
+	//}
 
     void Item::setWeight(Ogre::Real weight)
     {

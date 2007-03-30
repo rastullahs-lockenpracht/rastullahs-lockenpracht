@@ -60,6 +60,7 @@
         <property name="baseclass" type="STRING" data="Weapon" />
         <property name="description" type="STRING" data="Ein ordinäres Kurzschwert - scharf, aber langweilig"/>
         <property name="meshfile" type="STRING" data="waf_kurzschwert_01.mesh"/>
+		<property name="imagename" type="STRING" data="set:ModelThumbnails image:waf_kurzschwert_01"/>
     </gameobjectclass>
 
     <gameobjectclass>

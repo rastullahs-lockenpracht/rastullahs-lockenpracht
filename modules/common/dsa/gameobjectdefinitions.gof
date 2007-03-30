@@ -17,6 +17,7 @@
 		<property name="baseclass" type="STRING" data="Hero" />
 		<property name="geometrytype" type="STRING" data="ellipsoid" />
 		<property name="mass" type="REAL" data="75"/>
+		<property name="inventorywindowtype" type="STRING" data="inventory_human.xml"/>
 	</gameobjectclass>
 
 </GameObjectDefinitions>
