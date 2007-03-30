@@ -416,7 +416,7 @@ public:
 	 */
 	inline bool isUInsideLoose(Ogre::Real u)
 	{ 
-		return (mVertexTL.x - mLooseness <= u && u <= mVertexBR.x + mLooseness);
+		return (TQuadTreeOgreNode<TData, TNode>::mVertexTL.x - mLooseness <= u && u <= TQuadTreeOgreNode<TData, TNode>::mVertexBR.x + mLooseness);
 	}
 	/** tests if the given v value is inside the quad.
 	 * Since this is a 2D test, the name refers to v coordinate
@@ -425,7 +425,7 @@ public:
 	 */
 	inline bool isVInsideLoose(Ogre::Real v) 
 	{
-		return (mVertexTL.y - mLooseness <= v && v <= mVertexBR.y + mLooseness);
+		return (TQuadTreeOgreNode<TData, TNode>::mVertexTL.y - mLooseness <= v && v <= TQuadTreeOgreNode<TData, TNode>::mVertexBR.y + mLooseness);
 	}
 
    	/** inserts the specified data.
@@ -504,13 +504,15 @@ TLooseQuadTreeNode<TData, TNode>::TLooseQuadTreeNode(const TLooseQuadTreeNode<TD
 template <class TData, class TNode>
 void TLooseQuadTreeNode<TData,TNode>::insert(TData data)
 {
-	if (mSubDivided)
+	if (TQuadTreeBasicNode<TData, TNode>::mSubDivided)
 	{
 		// try to add the data to any of the subnodes
 		for (int i=0; i<4; i++)
 		{
-			if (mNodes[i])
-				mNodes[i]->insert(data);
+			if (TQuadTreeOgreNode<TData, TNode>::mNodes[i] != NULL)
+            {
+				TQuadTreeOgreNode<TData, TNode>::mNodes[i]->insert(data);
+            }
 		}
 	}
 	else
@@ -523,10 +525,10 @@ void TLooseQuadTreeNode<TData,TNode>::insert(TData data)
 			 (isVInsideLoose(nrb.x) && (isUInsideLoose(flb.z) || isUInsideLoose(nrb.z))) )
 		{
 			// if at least one is in the loose quad, store the data
-			mData.push_back(data);
+			TQuadTreeOgreNode<TData, TNode>::mData.push_back(data);
 		}
 		// split if maximum number of elements is reached ...
-		if (mData.size() == mMaxData) 
+		if (TQuadTreeOgreNode<TData, TNode>::mData.size() == mMaxData) 
 		{
 			split();
 		}
@@ -540,73 +542,77 @@ void TLooseQuadTreeNode<TData,TNode>::split()
     if (mMaxDepth == 0)
         return; // last level reached, prevent subdivision
 
-	Ogre::Real halfWidth = mWidth/2.0f;
+	Ogre::Real halfWidth = TQuadTreeOgreNode<TData, TNode>::mWidth/2.0f;
 	Ogre::Vector2 center (getVertex(TQuadTreeBasicNode<TData,TNode>::TOP_LEFT) + Ogre::Vector2(halfWidth, halfWidth));
 	// create 4 subnodes
-	mNodes[TQuadTreeBasicNode<TData,TNode>::TOP_LEFT] = 
+	TQuadTreeBasicNode<TData, TNode>::mNodes[TQuadTreeBasicNode<TData,TNode>::TOP_LEFT] = 
 		new TNode(mMaxData,mMaxDepth-1,mLooseness/2.0f,
-		          mVertexTL, center, halfWidth);
-	mNodes[TQuadTreeBasicNode<TData,TNode>::BOTTOM_LEFT] = 
+		          TQuadTreeOgreNode<TData, TNode>::mVertexTL, center, halfWidth);
+	TQuadTreeBasicNode<TData, TNode>::mNodes[TQuadTreeBasicNode<TData,TNode>::BOTTOM_LEFT] = 
 		new TNode(mMaxData,mMaxDepth-1,mLooseness/2.0f,
-		          Ogre::Vector2(mVertexTL.x, center.y),
-				  Ogre::Vector2(center.x, mVertexBR.y), halfWidth);
-	mNodes[TQuadTreeBasicNode<TData,TNode>::BOTTOM_RIGHT] =
+		          Ogre::Vector2(TQuadTreeOgreNode<TData, TNode>::mVertexTL.x, center.y),
+				  Ogre::Vector2(center.x, TQuadTreeOgreNode<TData, TNode>::mVertexBR.y), halfWidth);
+	TQuadTreeBasicNode<TData, TNode>::mNodes[TQuadTreeBasicNode<TData,TNode>::BOTTOM_RIGHT] =
 		new TNode(mMaxData,mMaxDepth-1,mLooseness/2.0f, 
-				  center, mVertexBR, halfWidth);
-	mNodes[TQuadTreeBasicNode<TData,TNode>::TOP_RIGHT] =
+				  center, TQuadTreeOgreNode<TData, TNode>::mVertexBR, halfWidth);
+	TQuadTreeBasicNode<TData, TNode>::mNodes[TQuadTreeBasicNode<TData,TNode>::TOP_RIGHT] =
 		new TNode(mMaxData,mMaxDepth-1,mLooseness/2.0f,
-				  Ogre::Vector2(center.x, mVertexTL.y),
-				  Ogre::Vector2(mVertexBR.x, center.y), halfWidth);
+				  Ogre::Vector2(center.x, TQuadTreeOgreNode<TData, TNode>::mVertexTL.y),
+				  Ogre::Vector2(TQuadTreeOgreNode<TData, TNode>::mVertexBR.x, center.y), halfWidth);
 
 	// distribute the data accordingly between the subnodes
 	Ogre::AxisAlignedBox aab;
-	for (typename std::vector<TData>::iterator it = mData.begin();
-		it != mData.end(); it++)
+	for (typename std::vector<TData>::iterator it = TQuadTreeBasicNode<TData, TNode>::mData.begin();
+		it != TQuadTreeBasicNode<TData, TNode>::mData.end(); it++)
 	{
 		insert((*it));
 	}
 	// simply erase the data here ...
-	mData.clear();
-	mData.resize(1);
+	TQuadTreeBasicNode<TData, TNode>::mData.clear();
+	TQuadTreeBasicNode<TData, TNode>::mData.resize(1);
 
 	// remember that it's subdivided
-	mSubDivided = true;
+	TQuadTreeBasicNode<TData, TNode>::mSubDivided = true;
 }
 
 template <class TData, class TNode>
 void TLooseQuadTreeNode<TData,TNode>::remove()
 {
-	if (mSubDivided)
+	if (TQuadTreeBasicNode<TData, TNode>::mSubDivided)
 	{
 		// try to remove the data of any of the subnodes
 		for (int i=0; i<4; i++)
 		{
-			if (mNodes[i]) 
+			if (TQuadTreeBasicNode<TData, TNode>::mNodes[i] != NULL) 
 			{
-				mNodes[i]->remove();
-				delete mNodes[i];
-				mNodes[i] = NULL;
+				TQuadTreeBasicNode<TData, TNode>::mNodes[i]->remove();
+				delete TQuadTreeBasicNode<TData, TNode>::mNodes[i];
+				TQuadTreeBasicNode<TData, TNode>::mNodes[i] = NULL;
 			}
 		}
 	}
 	else 
-		mSubDivided = false;
+    {
+		TQuadTreeBasicNode<TData, TNode>::mSubDivided = false;
+    }
 }
 
 template <class TData, class TNode>
 TLooseQuadTreeNode<TData, TNode>* TLooseQuadTreeNode<TData,TNode>::find(const Ogre::Vector3& position)
 {
 	TLooseQuadTree<TData, TNode>* result = NULL;
-	if (mSubDivided)
+	if (TQuadTreeBasicNode<TData, TNode>::mSubDivided)
 	{
 		// try to search for the data in any of the subnodes
 		for (int i=0; i<4; i++)
 		{
-			if (mNodes[i])
+			if (TQuadTreeBasicNode<TData, TNode>::mNodes[i])
 			{
-				result = mNodes[i].find(position);
-				if (result)
+				result = TQuadTreeBasicNode<TData, TNode>::mNodes[i].find(position);
+				if (result != NULL)
+                {
 					break;
+                }
 			}
 		}
 	}
@@ -629,10 +635,10 @@ void TLooseQuadTreeNode<TData, TNode>::setVertex(
 	switch (location)
 	{
 	case TQuadTreeBasicNode<TData,TNode>::TOP_LEFT:
-		mVertexTL = vertex;
+		TQuadTreeOgreNode<TData, TNode>::mVertexTL = vertex;
 		break;
 	case TQuadTreeBasicNode<TData,TNode>::BOTTOM_RIGHT:
-		mVertexBR = vertex;
+		TQuadTreeOgreNode<TData, TNode>::mVertexBR = vertex;
 		break;
 	case TQuadTreeBasicNode<TData,TNode>::BOTTOM_LEFT:
 	case TQuadTreeBasicNode<TData,TNode>::TOP_RIGHT:
