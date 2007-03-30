@@ -82,3 +82,4 @@ CeGuiString GrundWertPredicates::getType() const
 }
 
 }
+

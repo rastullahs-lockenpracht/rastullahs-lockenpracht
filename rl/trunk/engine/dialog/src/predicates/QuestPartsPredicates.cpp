@@ -99,3 +99,4 @@ CeGuiString QuestPartsPredicates::getType() const
 }
 
 }
+
