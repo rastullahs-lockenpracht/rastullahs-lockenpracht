@@ -30,24 +30,25 @@ $SCRIPT.log(" Abspielen");
 techdemoWelt.getControlledObject().play();
 $SCRIPT.log("Welten-Thema fertig");
 
-$SCRIPT.log("Held erstellen");
-$hero = Hero.new;
-$SCRIPT.log("Held erstellt");
-$SCRIPT.log("Held in die Szene einfuegen.");
-$hero.getActor().placeIntoScene([-69.220, 3.440, -4.000], [[0.0, 1.0, 0.0], 0.0]);
-$SCRIPT.log("Held eingefügt.");
-PlayerSettings.preparePlayer($hero);
-$SCRIPT.log("Held vorbereitet.");
-$UI.setActiveCharacter($hero);
-$SCRIPT.log("Held als aktiver Charakter gesetzt.");
+$SCRIPT.log("Create hero")
+$hero = $GOM.createGameObjectProxy("hero", 1);
+
+$SCRIPT.log("Place hero into scene")
+$hero.getGameObject().placeIntoScene()
+
+$SCRIPT.log("Prepare hero for being the active character")
+PlayerSettings.preparePlayer($hero.getGameObject())
+
+$SCRIPT.log("Set hero as active character")
+$UI.setActiveCharacter($hero.getGameObject())
 
 $World.setFog( World::FOG_EXP, [0.8,0.8,1.0,0.5], 0.00003, 0.4, 1.0);
 
 load "techdemo_umgebung.rb"
 load "techdemo_quests.rb"
 
-
 load "techdemo_bauer.rb"
+$bauer = 
 $bauer = BauerArnolfGrossschaedel.new()
 $bauer.getActor().placeIntoScene([29.9182, -0.6554, 9.590], [[0, 1, 0], 280])
 

@@ -122,13 +122,13 @@ class SteinschlagzoneListener < GameAreaListener
 	def initialize(rock1, rock2, rock3)
 		super()
 		@mRock1 = rock1
-		@mRock1.spawn()
+		@mRock1.placeIntoScene()
 		@mRock1.getActor().setVisible(false);
 		@mRock2 = rock2
-		@mRock2.spawn()
+		@mRock2.placeIntoScene()
 		@mRock2.getActor().setVisible(false);
 		@mRock3 = rock3
-		@mRock3.spawn()
+		@mRock3.placeIntoScene()
 		@mRock3.getActor().setVisible(false);
 	end
 
