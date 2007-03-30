@@ -416,7 +416,7 @@ public:
 	 */
 	inline bool isUInsideLoose(Ogre::Real u)
 	{ 
-		return (mVertexTL.x - mLooseness <= u && u <= mVertexBR.x + mLooseness);
+		return (this->mVertexTL.x - mLooseness <= u && u <= this->mVertexBR.x + mLooseness);
 	}
 	/** tests if the given v value is inside the quad.
 	 * Since this is a 2D test, the name refers to v coordinate
@@ -425,7 +425,7 @@ public:
 	 */
 	inline bool isVInsideLoose(Ogre::Real v) 
 	{
-		return (mVertexTL.y - mLooseness <= v && v <= mVertexBR.y + mLooseness);
+		return (this->mVertexTL.y - mLooseness <= v && v <= this->mVertexBR.y + mLooseness);
 	}
 
    	/** inserts the specified data.
@@ -504,14 +504,14 @@ TLooseQuadTreeNode<TData, TNode>::TLooseQuadTreeNode(const TLooseQuadTreeNode<TD
 template <class TData, class TNode>
 void TLooseQuadTreeNode<TData,TNode>::insert(TData data)
 {
-	if (mSubDivided)
+	if (this->mSubDivided)
 	{
 		// try to add the data to any of the subnodes
 		for (int i=0; i<4; i++)
 		{
-			if (mNodes[i] != NULL)
+			if (this->mNodes[i] != NULL)
             {
-				mNodes[i]->insert(data);
+				this->mNodes[i]->insert(data);
             }
 		}
 	}
@@ -525,10 +525,10 @@ void TLooseQuadTreeNode<TData,TNode>::insert(TData data)
 			 (isVInsideLoose(nrb.x) && (isUInsideLoose(flb.z) || isUInsideLoose(nrb.z))) )
 		{
 			// if at least one is in the loose quad, store the data
-			mData.push_back(data);
+			this->mData.push_back(data);
 		}
 		// split if maximum number of elements is reached ...
-		if (mData.size() == mMaxData) 
+		if (this->mData.size() == mMaxData) 
 		{
 			split();
 		}
@@ -542,58 +542,58 @@ void TLooseQuadTreeNode<TData,TNode>::split()
     if (mMaxDepth == 0)
         return; // last level reached, prevent subdivision
 
-	Ogre::Real halfWidth = mWidth/2.0f;
-	Ogre::Vector2 center (getVertex(TOP_LEFT) + Ogre::Vector2(halfWidth, halfWidth));
+	Ogre::Real halfWidth = this->mWidth/2.0f;
+	Ogre::Vector2 center (getVertex(this->TOP_LEFT) + Ogre::Vector2(halfWidth, halfWidth));
 	// create 4 subnodes
-	mNodes[TQuadTreeBasicNode<TData,TNode>::TOP_LEFT] = 
+	this->mNodes[TQuadTreeBasicNode<TData,TNode>::TOP_LEFT] = 
 		new TNode(mMaxData,mMaxDepth-1,mLooseness/2.0f,
-		          mVertexTL, center, halfWidth);
-	mNodes[TQuadTreeBasicNode<TData,TNode>::BOTTOM_LEFT] = 
+		          this->mVertexTL, center, halfWidth);
+	this->mNodes[TQuadTreeBasicNode<TData,TNode>::BOTTOM_LEFT] = 
 		new TNode(mMaxData,mMaxDepth-1,mLooseness/2.0f,
-		          Ogre::Vector2(mVertexTL.x, center.y),
-				  Ogre::Vector2(center.x, mVertexBR.y), halfWidth);
-	mNodes[TQuadTreeBasicNode<TData,TNode>::BOTTOM_RIGHT] =
+		          Ogre::Vector2(this->mVertexTL.x, center.y),
+				  Ogre::Vector2(center.x, this->mVertexBR.y), halfWidth);
+	this->mNodes[TQuadTreeBasicNode<TData,TNode>::BOTTOM_RIGHT] =
 		new TNode(mMaxData,mMaxDepth-1,mLooseness/2.0f, 
-				  center, mVertexBR, halfWidth);
-	mNodes[TQuadTreeBasicNode<TData,TNode>::TOP_RIGHT] =
+				  center, this->mVertexBR, halfWidth);
+	this->mNodes[TQuadTreeBasicNode<TData,TNode>::TOP_RIGHT] =
 		new TNode(mMaxData,mMaxDepth-1,mLooseness/2.0f,
-				  Ogre::Vector2(center.x, mVertexTL.y),
-				  Ogre::Vector2(mVertexBR.x, center.y), halfWidth);
+				  Ogre::Vector2(center.x, this->mVertexTL.y),
+				  Ogre::Vector2(this->mVertexBR.x, center.y), halfWidth);
 
 	// distribute the data accordingly between the subnodes
 	Ogre::AxisAlignedBox aab;
-	for (typename std::vector<TData>::iterator it = mData.begin();
-		it != mData.end(); it++)
+	for (typename std::vector<TData>::iterator it = this->mData.begin();
+		it != this->mData.end(); it++)
 	{
 		insert((*it));
 	}
 	// simply erase the data here ...
-	mData.clear();
-	mData.resize(1);
+	this->mData.clear();
+	this->mData.resize(1);
 
 	// remember that it's subdivided
-	mSubDivided = true;
+	this->mSubDivided = true;
 }
 
 template <class TData, class TNode>
 void TLooseQuadTreeNode<TData,TNode>::remove()
 {
-	if (mSubDivided)
+	if (this->mSubDivided)
 	{
 		// try to remove the data of any of the subnodes
 		for (int i=0; i<4; i++)
 		{
-			if (mNodes[i] != NULL) 
+			if (this->mNodes[i] != NULL) 
 			{
-				mNodes[i]->remove();
-				delete mNodes[i];
-				mNodes[i] = NULL;
+				this->mNodes[i]->remove();
+				delete this->mNodes[i];
+				this->mNodes[i] = NULL;
 			}
 		}
 	}
 	else 
     {
-		mSubDivided = false;
+		this->mSubDivided = false;
     }
 }
 
@@ -601,14 +601,14 @@ template <class TData, class TNode>
 TLooseQuadTreeNode<TData, TNode>* TLooseQuadTreeNode<TData,TNode>::find(const Ogre::Vector3& position)
 {
 	TLooseQuadTree<TData, TNode>* result = NULL;
-	if (mSubDivided)
+	if (this->mSubDivided)
 	{
 		// try to search for the data in any of the subnodes
 		for (int i=0; i<4; i++)
 		{
-			if (mNodes[i])
+			if (this->mNodes[i] != NULL)
 			{
-				result = mNodes[i].find(position);
+				result = this->mNodes[i].find(position);
 				if (result != NULL)
                 {
 					break;
@@ -635,10 +635,10 @@ void TLooseQuadTreeNode<TData, TNode>::setVertex(
 	switch (location)
 	{
 	case TQuadTreeBasicNode<TData,TNode>::TOP_LEFT:
-		mVertexTL = vertex;
+		this->mVertexTL = vertex;
 		break;
 	case TQuadTreeBasicNode<TData,TNode>::BOTTOM_RIGHT:
-		mVertexBR = vertex;
+		this->mVertexBR = vertex;
 		break;
 	case TQuadTreeBasicNode<TData,TNode>::BOTTOM_LEFT:
 	case TQuadTreeBasicNode<TData,TNode>::TOP_RIGHT:
