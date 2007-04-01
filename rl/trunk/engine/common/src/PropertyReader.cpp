@@ -187,6 +187,19 @@ PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElemen
 		}
 		prop = Property(vecVal);
 	}
+	else if (type == "INTPAIR")
+    {
+        CeGuiString::size_type comma1 = value.find(",");
+
+		std::pair<int,int> intpairVal = std::make_pair(0, 0);
+        if (comma1 != CeGuiString::npos)
+        {
+			intpairVal = std::make_pair(
+				CEGUI::PropertyHelper::stringToInt(value.substr(0, comma1)),
+				CEGUI::PropertyHelper::stringToInt(value.substr(comma1 + 1)));
+        }
+        prop = Property(intpairVal);
+    }
 
     return std::make_pair(key, prop);
 }
