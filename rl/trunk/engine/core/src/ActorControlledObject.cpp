@@ -39,7 +39,7 @@ namespace rl {
     
     void ActorControlledObject::_setActor(Actor* actor)
     {
-        if (mMovableObject != 0)
+        if (mMovableObject != NULL)
         {
             mMovableObject->setUserObject(actor);
         }
@@ -47,12 +47,12 @@ namespace rl {
     
     Actor* ActorControlledObject::getActor()
     {
-        if (mMovableObject != 0)
+        if (mMovableObject != NULL)
         {
             UserDefinedObject* m = mMovableObject->getUserObject();
-            return m != 0 ? reinterpret_cast<Actor*>(m) : 0;
+            return m != NULL ? reinterpret_cast<Actor*>(m) : NULL;
         }
-        return 0;
+        return NULL;
     }
     
     MovableObject* ActorControlledObject::getMovableObject()
@@ -62,7 +62,7 @@ namespace rl {
     
     void ActorControlledObject::_attachSceneNode(Ogre::SceneNode* node)
     {
-        if (mMovableObject != 0)
+        if (mMovableObject != NULL)
         {
             node->attachObject(mMovableObject);
         }
@@ -70,7 +70,7 @@ namespace rl {
     
     void ActorControlledObject::_detachSceneNode(Ogre::SceneNode* node)
     {
-        if (mMovableObject != 0)
+        if (mMovableObject != NULL)
         {
             node->detachObject(mMovableObject);    
         }        
@@ -78,7 +78,7 @@ namespace rl {
 
     bool ActorControlledObject::isAttached() const
     {
-        if (mMovableObject != 0)
+        if (mMovableObject != NULL)
         {
             return mMovableObject->isAttached();
         }

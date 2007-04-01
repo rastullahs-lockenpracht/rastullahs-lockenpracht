@@ -57,9 +57,12 @@ namespace rl {
 
     MeshObject::~MeshObject()
     {
-        stopAllAnimations();
-        CoreSubsystem::getSingletonPtr()->getWorld()
-            ->getSceneManager()->destroyEntity( getEntity() );		
+        if (getEntity() != NULL)
+        {
+            stopAllAnimations();
+            CoreSubsystem::getSingletonPtr()->getWorld()
+                ->getSceneManager()->destroyEntity( getEntity() );
+        }		
     }
 
     Entity* MeshObject::getEntity() const
@@ -172,6 +175,10 @@ namespace rl {
     
     void MeshObject::stopAllAnimations( )
     {
+        if (getEntity() == NULL) // Entity schon abgebaut?
+        {
+            return;
+        }
         AnimationStateSet* animStates = getEntity()->getAllAnimationStates();
         if (animStates != NULL)
         {
