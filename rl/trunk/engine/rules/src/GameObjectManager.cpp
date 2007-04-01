@@ -69,7 +69,7 @@ namespace rl
         for(std::vector<PropertySet*>::iterator it = psset.begin(); it != psset.end(); it++)
         {
             PropertySet* curPs = *it;
-            Ogre::String classId = curPs->getProperty(GameObjectProxy::CLASS_ID).toString().c_str();
+            Ogre::String classId = curPs->getProperty(GameObjectProxy::PROPERTY_CLASS_ID).toString().c_str();
             mClassProperties[classId] = curPs;
         }
         delete propReader;
@@ -81,9 +81,9 @@ namespace rl
         unsigned int id)
     {
 
-        unsigned int goId = 0;
+		unsigned int goId = GameObjectProxy::NO_OBJECT_ID;
 
-        if (id != 0)
+        if (id != GameObjectProxy::NO_OBJECT_ID)
         {
             GameObjectProxy* gopInMap = getGameObjectProxy(id);
 
@@ -128,7 +128,7 @@ namespace rl
     GameObject* GameObjectManager::createGameObject(const rl::GameObjectProxy *proxy)
     {
         PropertySet* ps = getClassProperties(proxy->getClassId());
-        Ogre::String classname =  ps->getProperty(GameObjectProxy::BASE_CLASS).toString().c_str();
+        Ogre::String classname =  ps->getProperty(GameObjectProxy::PROPERTY_BASE_CLASS).toString().c_str();
 
         GameObject* go = mGameObjectFactory
             ->createGameObject(

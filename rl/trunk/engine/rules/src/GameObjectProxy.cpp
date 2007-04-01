@@ -22,9 +22,9 @@
 
 namespace rl
 {
-    const Ogre::String GameObjectProxy::CLASS_ID = "classid";
-    const Ogre::String GameObjectProxy::OBJECT_ID = "objectid";
-    const Ogre::String GameObjectProxy::BASE_CLASS = "baseclass";
+    const Ogre::String GameObjectProxy::PROPERTY_CLASS_ID = "classid";
+    const Ogre::String GameObjectProxy::PROPERTY_OBJECT_ID = "objectid";
+    const Ogre::String GameObjectProxy::PROPERTY_BASE_CLASS = "baseclass";
 
     GameObjectProxy::GameObjectProxy(const Ogre::String& classId, unsigned int goId)
         : mId(goId),

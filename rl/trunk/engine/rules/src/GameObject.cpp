@@ -47,6 +47,7 @@ namespace rl
 		:   mId(id),
             mName(""),
             mDescription(""),
+			mMeshfile(""),
             mQueryFlags(0),
 			mHighlightingEnabled(true),
 			mActor(NULL),

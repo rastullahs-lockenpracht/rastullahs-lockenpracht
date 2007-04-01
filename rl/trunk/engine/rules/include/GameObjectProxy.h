@@ -28,10 +28,10 @@ namespace rl
     class _RlRulesExport GameObjectProxy
     {
     public:
-        static const unsigned int NO_ID = 0;
-        static const Ogre::String CLASS_ID;
-        static const Ogre::String OBJECT_ID;
-        static const Ogre::String BASE_CLASS;
+        static const unsigned int NO_OBJECT_ID = 0;
+        static const Ogre::String PROPERTY_CLASS_ID;
+        static const Ogre::String PROPERTY_OBJECT_ID;
+        static const Ogre::String PROPERTY_BASE_CLASS;
 
 
         GameObjectProxy(const Ogre::String& classid, unsigned int id);
