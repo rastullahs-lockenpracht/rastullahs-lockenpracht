@@ -60,6 +60,8 @@ namespace rl
         static const Ogre::String PROPERTY_MESHFILE; 
         static const Ogre::String PROPERTY_GEOMETRY_TYPE; 
         static const Ogre::String PROPERTY_MASS; 
+		static const Ogre::String PROPERTY_ACTIONS; 
+		static const Ogre::String PROPERTY_DEFAULT_ACTION;
 
 		static const CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
         static const CeGuiString DEFAULT_VIEW_OBJECT_ACTION_DEBUG;
@@ -167,6 +169,7 @@ namespace rl
         Ogre::Vector3 mPosition;
         Ogre::Quaternion mOrientation;
         Ogre::Real mMass;
+		CeGuiString mDefaultAction;
         PhysicsManager::GeometryType mGeometryType;
 
 		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin,
