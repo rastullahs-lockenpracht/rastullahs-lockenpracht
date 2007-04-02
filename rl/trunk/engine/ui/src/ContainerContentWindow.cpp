@@ -83,11 +83,33 @@ namespace rl {
 			{
 				dragcont->getItemParentContainer()->removeItem(item);
 				mContainer->addItem(item);
+
+				dragcont->getParent()->removeChildWindow(dragcont);
+				std::pair<unsigned int, unsigned int> pos = mContainer->getItemPosition(item);
+				mContentWindow->addChildWindow(dragcont);
+				dragcont->setPosition(
+					UVector2(
+						cegui_absdim(pos.first*30),
+						cegui_absdim(pos.second*30)));
+				dragcont->setItemParent(mContainer);
+
+				///@todo Swap with old content (if there is some)				
 			}
 			else if (dragcont->getItemParentSlot() != "")
 			{
 				dragcont->getItemParentInventory()->dropItem(dragcont->getItemParentSlot());
 				mContainer->addItem(item);
+
+				dragcont->getParent()->removeChildWindow(dragcont);
+				std::pair<unsigned int, unsigned int> pos = mContainer->getItemPosition(item);
+				mContentWindow->addChildWindow(dragcont);
+				dragcont->setPosition(
+					UVector2(
+						cegui_absdim(pos.first*30),
+						cegui_absdim(pos.second*30)));
+				dragcont->setItemParent(mContainer);
+
+				///@todo Swap with old content (if there is some)				
 			}
 			
 			return true;
