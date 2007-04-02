@@ -102,6 +102,9 @@ namespace rl {
 
 		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile, CeGuiString& prefix);
 
+		const CeGuiString& getUserDataType(CEGUI::Window* window) const;
+		void setUserDataType(CEGUI::Window* window, const CeGuiString& typeDescription) const;
+
 		CEGUI::Window* mWindow;
 		bool mVisible;
 

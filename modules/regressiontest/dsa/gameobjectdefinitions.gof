@@ -61,6 +61,8 @@
         <property name="description" type="STRING" data="Ein ordinäres Kurzschwert - scharf, aber langweilig"/>
         <property name="meshfile" type="STRING" data="waf_kurzschwert_01.mesh"/>
 		<property name="imagename" type="STRING" data="set:ModelThumbnails image:waf_kurzschwert_01"/>
+		<property name="mass" type="REAL" data="3.0"/>
+		<property name="size" type="INTPAIR" data="2,4"/>
     </gameobjectclass>
 
     <gameobjectclass>
@@ -68,8 +70,17 @@
         <property name="baseclass" type="STRING" data="Container"/> 
         <property name="description" type="STRING" data="Ein Lederrucksack (oder so)"/>
         <property name="meshfile" type="STRING" data="ins_rucksack.mesh"/>
+		<property name="imagename" type="STRING" data="set:ModelThumbnails image:Rucksack"/>
+        <property name="capacity" type="REAL" data="20.0"/>
+        <property name="volume" type="INTPAIR" data="8,6"/>
+        <property name="size" type="INTPAIR" data="2,2"/>
+        <property name="actions" type="ARRAY">
+        	<property type="STRING" data="act_showcontainercontent"/>
+        </property>
+        <property name="defaultaction" type="STRING" data="act_showcontainercontent"/>
     </gameobjectclass>
 
+    <!-- ErrorHandlingTest -->
     <gameobjectclass>
         <property name="classid" type="STRING" data="ErrorHandling"/>
         <property name="baseclass" type="STRING" data="GameObject" />

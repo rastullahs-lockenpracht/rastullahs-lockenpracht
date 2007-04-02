@@ -24,6 +24,7 @@ noinst_HEADERS = \
 	InGameMenuWindow.h \
 	InputManager.h \
 	InventoryWindow.h \
+	ItemDragContainer.h \
 	JournalWindow.h \
 	ListboxWrappedTextItem.h \
 	LogWindow.h \

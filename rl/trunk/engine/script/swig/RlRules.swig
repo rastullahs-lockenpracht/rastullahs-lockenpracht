@@ -417,6 +417,7 @@ namespace rl {
 
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual bool isContainer();
     };
     
     %feature("director") Weapon;
@@ -632,8 +633,9 @@ namespace rl {
         Inventory(rl::Creature* owner);
 	public:
 	    void addSlot(const rl::CeGuiString& name, const Ogre::String& bone, int itemMask);
-	    rl::Item* getItem(const rl::CeGuiString& slotName);
-        void hold(rl::Item* item, const rl::CeGuiString& slot);
+	    rl::Item* getItem(const rl::CeGuiString& slotName) const;
+	    void hold(rl::Item* item, const rl::CeGuiString& slot);
+	    void dropItem(const rl::CeGuiString& slotName);
 	};
 
     %feature("director") Creature;

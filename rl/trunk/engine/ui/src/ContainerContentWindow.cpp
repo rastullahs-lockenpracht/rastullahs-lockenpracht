@@ -20,10 +20,10 @@
 #include <CEGUIImagesetManager.h>
 #include <CEGUIPropertyHelper.h>
 #include <CEGUIWindowManager.h>
-#include <elements/CEGUIDragContainer.h>
 
 #include "Container.h"
 #include "InventoryWindow.h"
+#include "ItemDragContainer.h"
 
 using namespace CEGUI;
 
@@ -72,9 +72,27 @@ namespace rl {
 	bool ContainerContentWindow::handleItemDroppedOnContainer(const EventArgs& evt)
 	{
 		const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
-		Item* item = static_cast<Item*>(evtArgs.dragDropItem->getUserData());
-		
-		return true;
+
+		if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
+		{
+			ItemDragContainer* dragcont = static_cast<ItemDragContainer*>(
+				evtArgs.dragDropItem);
+			Item* item = dragcont->getItem();
+
+			if (dragcont->getItemParentContainer() != NULL)
+			{
+				dragcont->getItemParentContainer()->removeItem(item);
+				mContainer->addItem(item);
+			}
+			else if (dragcont->getItemParentSlot() != "")
+			{
+				dragcont->getItemParentInventory()->dropItem(dragcont->getItemParentSlot());
+				mContainer->addItem(item);
+			}
+			
+			return true;
+		}
+		return false;
 	}
 
 	Window* ContainerContentWindow::createItemWindow(Item* item)
@@ -98,10 +116,9 @@ namespace rl {
             UVector2(cegui_absdim(item->getSize().first*30),
                      cegui_absdim(item->getSize().second*30)));
 
-		DragContainer* itemhandler = static_cast<DragContainer*>(
-		CEGUI::WindowManager::getSingletonPtr()->createWindow(
-			"DragContainer", 
-			"DragContainer_"+itemWindow->getName()));
+		ItemDragContainer* itemhandler = new ItemDragContainer(item, 
+			"DragContainer_"+itemWindow->getName());
+		itemhandler->setItemParent(mContainer);
 		itemhandler->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
 		itemhandler->setSize(
 			UVector2(cegui_absdim(item->getSize().first*30),
@@ -109,9 +126,7 @@ namespace rl {
 		itemhandler->setUserData(item);
 		itemhandler->setTooltipText(item->getName());
 		itemhandler->addChildWindow(itemWindow);
-		//itemhandler->subscribeEvent(
-		//	Window::EventMouseClick,
-		//	Event::Subscriber(&InventoryWindow::handleMouseClicked,	this));
+		
 
 		return itemhandler;
 	}

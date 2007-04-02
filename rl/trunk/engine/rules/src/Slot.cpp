@@ -34,8 +34,19 @@ namespace rl {
 
     void Slot::setItem(Item* item)
     {
+		if (item == NULL)
+		{
+			mItem = NULL;
+			return;
+		}
+
         if (isAllowed(item))
         {
+			if (mItem != NULL)
+			{
+				/// @todo What to do with the item which was already in the slot (or should we throw an exception if the item is not NULL)
+			}
+
             mItem = item;
             if (mOwner->getState() == GOS_IN_SCENE)
             {

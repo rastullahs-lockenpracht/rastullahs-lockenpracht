@@ -58,7 +58,7 @@ public:
 	* NUR die erste Hierarchieebene der Items wird zurckgegeben
 	* Was in den Items drinnen ist, ist vernachlaessigt
 	*/
-	ItemList getAllItems();
+	ItemList getAllItems() const;
 
 
 	/**
@@ -80,11 +80,15 @@ public:
     // Das Inventar der Kreatur wird durch das Inventarobjekt verwaltet.
     void addToInventory(Item* item, const CeGuiString& containerName);
     void hold(Item* item, const CeGuiString& slotName);
+    bool canHold(Item* item, const CeGuiString& slotName) const;
+	void dropItem(const CeGuiString& slotName);
     void ready(Item* item);
 
     Item* getItem(const CeGuiString& slotName) const;
     void addSlot(const CeGuiString& name, const Ogre::String& bone, int itemMask);
     const SlotMap& getAllSlots() const;
+
+	Creature* getOwner() const;
 
 private:
 	bool mValuesUpToDate;

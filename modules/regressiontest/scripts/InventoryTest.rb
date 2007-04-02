@@ -7,7 +7,7 @@ class InventoryTest < TestCase
 
     hero = $GOM.getGameObjectProxy(1).getGameObject();
     backpack = $GOM.createGameObjectProxy("leather backpack").getGameObject();
-    backpack.setVolume(5, 5);
+    #backpack.addAction(ShowContainerContentAction.new());
     #backpack.setPosition(center);
     #backpack.placeIntoScene();
     
@@ -26,6 +26,7 @@ class InventoryTest < TestCase
     $SCRIPT.log("InventoryTest #4: Put an object attached to the hero into container.");
     sword_held_to_inventory = $GOM.createGameObjectProxy("shortsword").getGameObject();
     hero.getInventory().hold(sword_held_to_inventory, "Left Hand");
+    hero.getInventory().dropItem("Left Hand")
     hero.getInventory().getItem("Back").addItem(sword_held_to_inventory);
 
     $SCRIPT.log("InventoryTest #5: Put an object from a container into the hero's hand.");

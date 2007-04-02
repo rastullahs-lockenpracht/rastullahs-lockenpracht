@@ -43,14 +43,20 @@ namespace rl {
 		InventoryWindow(const Ogre::String& inventoryWindow, Inventory* inventory);
 		~InventoryWindow();
 
+		static const Ogre::String ICON_UNKNOWN_ITEM;
+		static const Ogre::String SLOTNAME;
+
     private:
         Inventory* mInventory;
         std::map<CeGuiString, CEGUI::Window*> mSlotWindows;
 
-        CEGUI::Window* mContainerTabs;
-
         void createSlotWindows(Inventory* inventory);
         void initInventoryWindow(Inventory* inventory);
+
+		CEGUI::Window* createItemWindow(const CeGuiString& containerName, Item* item);
+		bool handleItemDroppedOnSlot(const CEGUI::EventArgs& evt);
+		bool handleItemMouseClick(const CEGUI::EventArgs& evt, Item* item);
+		bool handleItemDoubleClick(const CEGUI::EventArgs& evt, Item* item);
     };
 }
 

@@ -477,6 +477,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\ItemDragContainer.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\JournalWindow.h"
 					>
 				</File>
@@ -659,6 +663,10 @@
 				</File>
 				<File
 					RelativePath=".\src\InventoryWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ItemDragContainer.cpp"
 					>
 				</File>
 				<File

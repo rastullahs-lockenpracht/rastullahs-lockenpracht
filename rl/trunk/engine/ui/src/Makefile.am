@@ -33,6 +33,7 @@ libRlUi_la_SOURCES = \
 	InGameMenuWindow.cpp \
 	InputManager.cpp \
 	InventoryWindow.cpp \
+	ItemDragContainer.cpp \
 	JournalWindow.cpp \
 	ListboxWrappedTextItem.cpp \
 	LogWindow.cpp \

@@ -3,9 +3,9 @@ load "embed.rb"
 class Hero < Person
     def initialize(id)
         super(id);
-	setName("Alrike");
-	setDescription("Heldin von Berufung");
-	$SCRIPT.log("Gute Eigenschaften zuweisen...");
+		setName("Alrike");
+		setDescription("Heldin von Berufung");
+		$SCRIPT.log("Gute Eigenschaften zuweisen...");
 
         setEigenschaft("MU", 12);
         setEigenschaft("KL", 8);
@@ -17,30 +17,30 @@ class Hero < Person
         setEigenschaft("KK", 14); #KK
         setWert(2, 10); # LE-Mod
 
-	$SCRIPT.log("LeP und AuP auffüllen");
+		$SCRIPT.log("LeP und AuP auffüllen");
         modifyLe(1000, false); # LeP = LE
         modifyAu(1000); # Au = voll
-        # modifyLe(-20); # 10 LeP abziehen
+        #modifyLe(-20); # 10 LeP abziehen
 
-	$SCRIPT.log("Talente hinzufügen");
-	addTalent("Athletik", 3);
-	#addTalent("Körperbeherrschung", 3);
+		$SCRIPT.log("Talente hinzufügen");
+		addTalent("Athletik", 3);
+		#addTalent("Körperbeherrschung", 3);
 
         $SCRIPT.log("Heldenaktor beschreiben...");
         setProperty("meshfile", "men_alrike.mesh")
-	setProperty("physicsbody", PhysicsManager::GT_ELLIPSOID)
-	setProperty("mass", 75.0);
+		setProperty("physicsbody", PhysicsManager::GT_ELLIPSOID)
+		setProperty("mass", 75.0);
+	
+		$SCRIPT.log("Inventar konfigurieren.");
+		inv = getInventory();
+		inv.addSlot("Left Ring", "l_finger_2", Item::ITEMTYPE_RING);
+		inv.addSlot("Right Ring", "r_finger_2", Item::ITEMTYPE_RING);
+		inv.addSlot("Left Hand", "l_hand", Item::ITEMTYPE_ALL_ITEMS);
+		inv.addSlot("Right Hand", "r_hand", Item::ITEMTYPE_ALL_ITEMS);
+		inv.addSlot("Head", "kopf", Item::ITEMTYPE_HELMET);
+		inv.addSlot("Back", "hals", Item::ITEMTYPE_ALL_ITEMS);
 
-	$SCRIPT.log("Inventar konfigurieren.");
-	inv = getInventory();
-	inv.addSlot("Left Ring", "l_finger_2", Item::ITEMTYPE_RING);
-	inv.addSlot("Right Ring", "r_finger_2", Item::ITEMTYPE_RING);
-	inv.addSlot("Left Hand", "l_hand", Item::ITEMTYPE_ALL_ITEMS);
-	inv.addSlot("Right Hand", "r_hand", Item::ITEMTYPE_ALL_ITEMS);
-	inv.addSlot("Head", "kopf", Item::ITEMTYPE_HELMET);
-	inv.addSlot("Back", "hals", Item::ITEMTYPE_ALL_ITEMS);
-
-#       addSounds()
+		#addSounds()
         $SCRIPT.log("done.");
     end
 

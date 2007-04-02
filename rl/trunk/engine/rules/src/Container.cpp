@@ -23,6 +23,8 @@ using namespace std;
 
 namespace rl {
 
+	const std::pair<unsigned int, unsigned int> Container::NO_SPACE_FOR_ITEM = make_pair(1999999999, 1999999999);
+
     const Ogre::String Container::CLASS_NAME = "Container";
 
     const Ogre::String Container::PROPERTY_CAPACITY = "capacity";
@@ -30,7 +32,8 @@ namespace rl {
 
     Container::Container(unsigned int id)
         : Item(id),
-          mCapacity(0.0)
+          mCapacity(0.0),
+		  mVolume(std::make_pair(1,1))
     {
     }
 
@@ -78,16 +81,25 @@ namespace rl {
         return mItems;
     }
 
-    void Container::addItem(Item* item)
+    bool Container::addItem(Item* item)
     {
-        if(item == 0)
+        if(item == NULL)
         {
             Throw(NullPointerException, "Item ist null.");
         }
+
         pair<unsigned int, unsigned int> pos = findPositionWithEnoughSpace(item->getSize());
-        mItemPositions[item] = pos;
-        mItems.insert(item);
-        item->setState(GOS_IN_POSSESSION);
+		if (pos != NO_SPACE_FOR_ITEM)
+		{
+			mItemPositions[item] = pos;
+			mItems.insert(item);
+			item->setState(GOS_IN_POSSESSION);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
     }
 
     void Container::removeItem(Item* item)
@@ -118,8 +130,8 @@ namespace rl {
 		bool free = true;
 
         // Es wird versucht, das Item außerhalb des Containers zu platzieren
-        if (xPos + xSize >= mVolume.first 
-            || yPos + ySize >= mVolume.second)
+        if (xPos + xSize > mVolume.first 
+            || yPos + ySize > mVolume.second)
         {
             return false;
         }
@@ -146,7 +158,6 @@ namespace rl {
 		return true;
 	}
 
-
     void Container::setItemPosition(Item* item, unsigned int xPos, unsigned int yPos)
     {
         if (mItemPositions.find(item) == mItemPositions.end())
@@ -157,6 +168,18 @@ namespace rl {
         mItemPositions[item] = make_pair(xPos, yPos);
     }
 
+	std::pair<unsigned int, unsigned int> Container::getItemPosition(Item* item) const
+    {
+		std::map<Item*, std::pair<unsigned int, unsigned int> >::const_iterator it = 
+			mItemPositions.find(item);
+        if (it == mItemPositions.end())
+        {
+            Throw(IllegalArgumentException, "Item not in Container.");
+        }
+
+		return (*it).second;
+    }
+
     pair<unsigned int, unsigned int> Container::findPositionWithEnoughSpace(pair<unsigned int, unsigned int> space) const
     {
 		for (unsigned int x = 0; x < mVolume.first; x++)
@@ -165,18 +188,18 @@ namespace rl {
             {
 				if (isFree(x, y) && checkSpace(x, y, space))
                 {
-					return pair<unsigned int, unsigned int>(x,y);
+					return make_pair(x,y);
 				}
 			}
 		}
-		Throw(IllegalStateException, "Rucksack hat keinen Platz für das Item");
+		return NO_SPACE_FOR_ITEM;
 	}
 
     bool Container::checkSpace(unsigned int xStart, unsigned int yStart, pair<unsigned int,unsigned int> space) const
     {
 		// Falls Kästchen nicht mehr im Rucksack, ist auch kein Platz mehr :)
-        if ((xStart+space.first) >= mVolume.first 
-            || (yStart+space.second) >= mVolume.second)
+        if ((xStart+space.first) > mVolume.first 
+            || (yStart+space.second) > mVolume.second)
         {
 			return false;
 		}
@@ -209,8 +232,8 @@ namespace rl {
 
             if (pos.first <= x 
                 && pos.second <= y 
-                && x <= pos.first + item->getSize().first
-                && y <= pos.second + item->getSize().second)
+                && x < pos.first + item->getSize().first
+                && y < pos.second + item->getSize().second)
             {
                 return item;
             }

@@ -68,18 +68,22 @@ namespace rl
 	Inventory::~Inventory() 
 	{
 	}
-
 	
 	void Inventory::markDirty()
 	{
 		mValuesUpToDate = false;
 	}
 
-	Inventory::ItemList Inventory::getAllItems()
+	Creature* Inventory::getOwner() const
+	{
+		return mOwner;
+	}
+
+	Inventory::ItemList Inventory::getAllItems() const
 	{
 		ItemList allItems(0);
 
-        for (SlotMap::iterator iter = mSlots.begin(); iter != mSlots.end(); ++iter)
+        for (SlotMap::const_iterator iter = mSlots.begin(); iter != mSlots.end(); ++iter)
         {
             Item* item = (*iter).second->getItem();
             if (item != NULL)
@@ -91,21 +95,21 @@ namespace rl
 		return allItems;
 	}
 
-	int Inventory::getOverallWeight()
+	int Inventory::getOverallWeight() 
 	{
 		if (!mValuesUpToDate)
 			updateStats();
 		return mCurrentWeight;
 	}
 
-	pair<int,int> Inventory::getOverallBe()
+	pair<int,int> Inventory::getOverallBe() 
 	{
 		if (!mValuesUpToDate)
 			updateStats();
 		return make_pair<int,int>(mCurrentBe, mCurrentBeByWeight);
 	}
 
-	int Inventory::getOverallRs()
+	int Inventory::getOverallRs() 
 	{
 		if (!mValuesUpToDate)
 			updateStats();
@@ -161,6 +165,16 @@ namespace rl
 		//}
 	}
 
+	void Inventory::dropItem(const CeGuiString& slotName)
+	{
+		std::map<CeGuiString, Slot*>::iterator slotIter = mSlots.find(slotName);
+        if (slotIter == mSlots.end())
+        {
+            Throw(rl::IllegalArgumentException, Ogre::String("Slot '")+slotName.c_str()+"' doesn't exist.");
+        }
+        (*slotIter).second->setItem(NULL);
+	}
+
     void Inventory::hold(Item* item, const CeGuiString& slotName)
     {
         std::map<CeGuiString, Slot*>::iterator slotIter = mSlots.find(slotName);
@@ -170,6 +184,17 @@ namespace rl
         }
         
         (*slotIter).second->setItem(item);
+    }
+
+	bool Inventory::canHold(Item* item, const CeGuiString& slotName) const
+    {
+        std::map<CeGuiString, Slot*>::const_iterator slotIter = mSlots.find(slotName);
+        if (slotIter == mSlots.end())
+        {
+            Throw(rl::IllegalArgumentException, Ogre::String("Slot '")+slotName.c_str()+"' doesn't exist.");
+        }
+        
+		return (*slotIter).second->isAllowed(item);
     }
 
     Item* Inventory::getItem(const CeGuiString& slotName) const
