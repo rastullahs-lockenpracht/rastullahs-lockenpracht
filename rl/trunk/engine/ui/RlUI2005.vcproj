@@ -409,11 +409,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\ActionChoiceWindow.h"
+					RelativePath=".\include\AbstractWindow.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\AbstractWindow.h"
+					RelativePath=".\include\ActionChoiceWindow.h"
 					>
 				</File>
 				<File
@@ -438,6 +438,10 @@
 				</File>
 				<File
 					RelativePath=".\include\Console.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ContainerContentWindow.h"
 					>
 				</File>
 				<File
@@ -586,11 +590,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\ActionChoiceWindow.cpp"
+					RelativePath=".\src\AbstractWindow.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\AbstractWindow.cpp"
+					RelativePath=".\src\ActionChoiceWindow.cpp"
 					>
 				</File>
 				<File
@@ -615,6 +619,10 @@
 				</File>
 				<File
 					RelativePath=".\src\Console.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ContainerContentWindow.cpp"
 					>
 				</File>
 				<File

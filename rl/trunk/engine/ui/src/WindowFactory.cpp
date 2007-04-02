@@ -23,6 +23,7 @@
 #include "CloseConfirmationWindow.h"
 #include "CommandMapperWindow.h"
 #include "Console.h"
+#include "ContainerContentWindow.h"
 #include "CoreSubsystem.h"
 #include "DataLoadingProgressWindow.h"
 #include "DebugWindow.h"
@@ -139,7 +140,7 @@ namespace rl {
 
 	void WindowFactory::showContainerContent(Container* container)
 	{
-        ///@todo: open inventory with content of external container
+        (new ContainerContentWindow(container))->setVisible(true);
 	}
 
 	bool WindowFactory::showInputOptionsMenu(Creature* actionHolder)

@@ -258,8 +258,26 @@ class ToggleCharacterControllerAction < Action
   end
 end
 
+class ShowContainerContentAction < Action
+  def initialize
+    super("act_showcontainercontent", "Inhalt anzeigen")
+  end
+  
+  def doAction(object, actor, target)
+    $WF.showContainerContent(object)
+  end
+  
+  def canDo(object, actor)
+    return object.isContainer()
+  end
+end
+
+
 act = ShowObjectDescriptionWindow.new()
 ActionManager.getSingleton().registerAction(act)
 
 act2 = ShowGameObjectWindowAction.new()
 ActionManager.getSingleton().registerAction(act2)
+
+act3 = ShowContainerContentAction.new()
+ActionManager.getSingleton().registerAction(act3)
