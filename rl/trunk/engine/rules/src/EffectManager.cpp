@@ -41,9 +41,9 @@ namespace rl
         RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
         Checklist::iterator checkIt = mChecklist.begin();
         if (checkIt == mChecklist.end()) return;
-        while ( checkIt->first <= now )
+        while ( checkIt != mChecklist.end() && checkIt->first <= now )
         {
-          std::cout << "Effect check: " << checkIt->first << " now: " << now << std::endl;
+			std::cout << "Effect check: " << checkIt->first << " now: " << now << std::endl;
             for (Effects::iterator effIt = checkIt->second.begin(); effIt != checkIt->second.end(); effIt++)
             {
                 int nextCheck; 
@@ -59,8 +59,7 @@ namespace rl
                     addTimeCheck(nextCheck, *effIt);
                 }
             }
-            mChecklist.erase(checkIt);
-            checkIt++;
+            mChecklist.erase(checkIt++);
         }
 	}
 
