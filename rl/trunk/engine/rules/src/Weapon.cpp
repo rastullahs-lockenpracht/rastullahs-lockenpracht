@@ -33,32 +33,6 @@ namespace rl
 	}
 
 
-	const CeGuiString Weapon::getDescription() const
-	{
-		CeGuiString returnString = mName+ "\r\n\r\n" +
-			getFormattedText(mDescription) + "\r\nSchaden: ";
-		// Schadensberechnung
-		if (mTp.first > 0) 
-		{
-			returnString += Ogre::StringConverter::toString(mTp.first) + " W6";
-			if (mTp.second > 0)
-			{
-				returnString +=" + ";
-			}
-		}
-		if (mTp.second > 0)
-		{
-			returnString += Ogre::StringConverter::toString(mTp.second) + " W20";
-		}
-		if (mTp.third > 0) {
-			returnString += " +" + Ogre::StringConverter::toString(mTp.third);
-		}
-		// TP/KK
-		returnString += "\r\nTP/KK: " + Ogre::StringConverter::toString(mTpKk.first) + 
-			"/"+ Ogre::StringConverter::toString(mTpKk.second);
-		return returnString;
-	}
-
 	void Weapon::setTp(int d6, int d20, int mod)
 	{
 		mTp.first = d6;

@@ -27,19 +27,15 @@ namespace rl
     const Ogre::String Armor::PROPERTY_G_RS = "g_rs";
 
 	Armor::Armor(unsigned int id)
-		: Item(id)
+		: Item(id),
+		mGRS(0),
+		mGBE(0)
 	{
 
 	}
 
 	Armor::~Armor(void)
 	{
-	}
-
-	const CeGuiString Armor::getDescription() const
-	{
-		return mName + "\r\n\r\n" + 
-			getFormattedText(mDescription);	
 	}
 
 	int Armor::getKo()

@@ -68,11 +68,9 @@ namespace rl
 		ItemType getItemType() const;
 
 		void setPrice(int price);
-		int getPrice();
-
-		static const CeGuiString getItemTypeString(ItemType type);
+		int getPrice() const;
  
-		const CeGuiString getImageName();
+		const CeGuiString getImageName() const;
 		void setImageName(const CeGuiString name);
 
 		/**
@@ -81,7 +79,7 @@ namespace rl
 		 */
         virtual bool isContainer() const;
 		
-		std::pair<int,int> getSize();
+		std::pair<int,int> getSize() const;
 		void setSize(int width, int height);
 
         virtual void setState(GameObjectState state);
@@ -102,15 +100,7 @@ namespace rl
 		CeGuiString mImageName;
 
 		std::pair<int,int> mSize;
-
-
-		/**
-		* Generiert einen Text mit Zeilenumbrchen, aus dem String.
-		* @param unformattedText Der zu formatierende Text
-		* @return CeGuiString der Text mit eingefgten Enter-symbolen
-		*/
-		static CeGuiString getFormattedText(const CeGuiString &unformattedText);
-    };
+	};
 }
 
 #endif
