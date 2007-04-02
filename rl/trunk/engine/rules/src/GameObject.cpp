@@ -42,6 +42,8 @@ namespace rl
     const Ogre::String GameObject::PROPERTY_MESHFILE = "meshfile"; 
     const Ogre::String GameObject::PROPERTY_GEOMETRY_TYPE = "geometrytype"; 
     const Ogre::String GameObject::PROPERTY_MASS = "mass"; 
+    const Ogre::String GameObject::PROPERTY_ACTIONS = "actions";
+	const Ogre::String GameObject::PROPERTY_DEFAULT_ACTION = "defaultaction";
 
     GameObject::GameObject(unsigned int id)
 		:   mId(id),
@@ -55,7 +57,8 @@ namespace rl
             mPosition(Ogre::Vector3::ZERO),
             mOrientation(Ogre::Quaternion::IDENTITY),
             mMass(0),
-            mGeometryType(PhysicsManager::GT_NONE)
+            mGeometryType(PhysicsManager::GT_NONE),
+			mDefaultAction(DEFAULT_VIEW_OBJECT_ACTION)
     {
         // Standardactions registrieren
 		Action* defaultAction = ActionManager::getSingleton().getAction(DEFAULT_VIEW_OBJECT_ACTION);
@@ -294,7 +297,7 @@ namespace rl
 
 	Action* GameObject::getDefaultAction(Creature* actor) const
 	{
-		return ActionManager::getSingleton().getAction(DEFAULT_VIEW_OBJECT_ACTION);
+		return ActionManager::getSingleton().getAction(mDefaultAction);
 	}
 
     void GameObject::setHighlighted(bool highlight)
@@ -452,6 +455,24 @@ namespace rl
                 }
                 setMass(mass);
             }
+            else if (key == PROPERTY_ACTIONS)
+            {
+				std::vector<Property> vecVal = value.toArray();
+				for (std::vector<Property>::iterator it = vecVal.begin(); it != vecVal.end(); it++)
+				{
+					Action* act = ActionManager::getSingleton().getAction(
+						(*it).toString().c_str());
+
+					if (act != NULL)
+					{
+						addAction(act);
+					}
+				}
+			}
+			else if (key == PROPERTY_DEFAULT_ACTION)
+			{
+				mDefaultAction = value.toString().c_str();
+			}
             else
             {
                 LOG_WARNING(
