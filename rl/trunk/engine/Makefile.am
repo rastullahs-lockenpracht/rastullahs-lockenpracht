@@ -1,2 +1,2 @@
-SUBDIRS = common dialog ai uicomponents ui core rules script startup
+SUBDIRS = common dialog ai ui core rules script startup
 

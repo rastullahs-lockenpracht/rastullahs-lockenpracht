@@ -1,28 +1,25 @@
 /************************************************************************
 	filename: 	ListboxWrappedTextItem.cpp
 	created:	01/8/2006
-	author:		Paul D Turner, Philipp Walser
+	author:		Paul D Turner & The CEGUI Development Team, Philipp Walser
 	
 	purpose:	Implementation of List box text items with WordWrapping
 *************************************************************************/
-/*************************************************************************
-    Crazy Eddie's GUI System (http://www.cegui.org.uk)
-    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*************************************************************************/
+/* This source file is part of Rastullahs Lockenpracht.
+* Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
+* 
+*  This program is free software; you can redistribute it and/or modify
+*  it under the terms of the Perl Artistic License.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  Perl Artistic License for more details.
+*
+*  You should have received a copy of the Perl Artistic License
+*  along with this program; if not you can get it here
+*  http://www.perldoc.com/perl5.6/Artistic.html.
+*/
 #include "ListboxWrappedTextItem.h"
 #include "CEGUIFontManager.h"
 #include "CEGUIFont.h"

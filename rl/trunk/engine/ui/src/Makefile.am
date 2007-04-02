@@ -1,11 +1,10 @@
 INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(CEGUIOGRE_CFLAGS) \
 	$(STLPORT_CFLAGS) $(OIS_CFLAGS) -I../include -I../../common/include  -I../../core/include \
 	-I../../rules/include -I../components/include -I../../dialog/include \
-	-I../../startup/include -I../../uicomponents/include 
+	-I../../startup/include 
 
 lib_LTLIBRARIES = libRlUi.la
 libRlUi_la_LIBADD = \
-    $(top_builddir)/engine/uicomponents/src/libRlUiComponents.la \
     $(RUBY_LIBS) $(LIBS) $(CEGUI_LIBS) $(OGRE_LIBS) $(CEGUIOGRE_LIBS) $(OIS_LIBS)
 
 libRlUi_la_SOURCES = \
@@ -35,6 +34,7 @@ libRlUi_la_SOURCES = \
 	InputManager.cpp \
 	InventoryWindow.cpp \
 	JournalWindow.cpp \
+	ListboxWrappedTextItem.cpp \
 	LogWindow.cpp \
 	MainMenuWindow.cpp \
 	MainMenuEngineWindow.cpp \

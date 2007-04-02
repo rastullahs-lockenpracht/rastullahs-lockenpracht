@@ -8,7 +8,6 @@ rastullah_LDADD = \
     $(top_builddir)/engine/common/src/libRlCommon.la \
     $(top_builddir)/engine/core/src/libRlCore.la \
     $(top_builddir)/engine/ui/src/libRlUi.la \
-    $(top_builddir)/engine/uicomponents/src/libRlUiComponents.la \
     $(top_builddir)/engine/dialog/src/libRlDialog.la \
     $(top_builddir)/engine/rules/src/libRlRules.la \
     $(top_builddir)/engine/script/src/libRlScript.la \

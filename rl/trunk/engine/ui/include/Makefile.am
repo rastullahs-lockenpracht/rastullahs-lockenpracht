@@ -25,12 +25,12 @@ noinst_HEADERS = \
 	InputManager.h \
 	InventoryWindow.h \
 	JournalWindow.h \
+	ListboxWrappedTextItem.h \
 	LogWindow.h \
 	MainMenuWindow.h \
 	MainMenuEngineWindow.h \
 	MessageWindow.h \
 	MovementCharacterController.h \
-	LogWindow.h \
 	ObjectDescriptionWindow.h \
 	PlaylistWindow.h \
 	RenderSystemConfigComponent.h \

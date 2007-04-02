@@ -47,7 +47,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\uicomponents\include;..\common\include;..\dialog\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\ois\includes"
+				AdditionalIncludeDirectories=".\include;;..\common\include;..\dialog\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\ois\includes"
 				PreprocessorDefinitions="WITH_FMOD3;_WINDOWS,_DEBUG,WIN32,RLUI_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -82,7 +82,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCore.lib RlRules.lib RlUiComponents.lib msvcrt-ruby18.lib OgreMain_d.lib OgreGuiRenderer_d.lib CEGUIBase_d.lib xerces-c_2D.lib OgreNewt_d.lib Newton.lib OIS_d.lib"
+				AdditionalDependencies="RlCore.lib RlRules.lib msvcrt-ruby18.lib OgreMain_d.lib OgreGuiRenderer_d.lib CEGUIBase_d.lib xerces-c_2D.lib OgreNewt_d.lib Newton.lib OIS_d.lib"
 				ShowProgress="0"
 				OutputFile="$(OutDir)/RlUI.dll"
 				LinkIncremental="2"
@@ -158,7 +158,7 @@
 				Optimization="3"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;..\uicomponents\include;..\common\include;..\dialog\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\ois\includes"
+				AdditionalIncludeDirectories=".\include;;..\common\include;..\dialog\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\ois\includes"
 				PreprocessorDefinitions="WITH_FMOD3;NDEBUG,_WINDOWS,WIN32,RLUI_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="false"
 				ExceptionHandling="1"
@@ -190,7 +190,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCore.lib RlRules.lib RlUiComponents.lib msvcrt-ruby18.lib OgreMain.lib OgreGuiRenderer.lib CEGUIBase.lib xerces-c_2.lib OgreNewt.lib Newton.lib OIS.lib"
+				AdditionalDependencies="RlCore.lib RlRules.lib msvcrt-ruby18.lib OgreMain.lib OgreGuiRenderer.lib CEGUIBase.lib xerces-c_2.lib OgreNewt.lib Newton.lib OIS.lib"
 				OutputFile="$(OutDir)/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -260,7 +260,7 @@
 				Optimization="3"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;..\uicomponents\include;..\common\include;..\dialog\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\Dependencies\include\;..\..\dependencies\ois\includes"
+				AdditionalIncludeDirectories=".\include;;..\common\include;..\dialog\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\ois\includes"
 				PreprocessorDefinitions="WITH_FMOD3;NDEBUG,_WINDOWS,WIN32,RLUI_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="false"
 				ExceptionHandling="1"
@@ -292,7 +292,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCore.lib RlRules.lib RlUiComponents.lib msvcrt-ruby18.lib OgreMain.lib OgreGuiRenderer.lib CEGUIBase.lib xerces-c_2.lib OgreNewt.lib Newton.lib OIS.lib"
+				AdditionalDependencies="RlCore.lib RlRules.lib msvcrt-ruby18.lib OgreMain.lib OgreGuiRenderer.lib CEGUIBase.lib xerces-c_2.lib OgreNewt.lib Newton.lib OIS.lib"
 				OutputFile="$(OutDir)/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -481,6 +481,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\ListboxWrappedTextItem.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\LogWindow.h"
 					>
 				</File>
@@ -659,6 +663,10 @@
 				</File>
 				<File
 					RelativePath=".\src\JournalWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListboxWrappedTextItem.cpp"
 					>
 				</File>
 				<File
