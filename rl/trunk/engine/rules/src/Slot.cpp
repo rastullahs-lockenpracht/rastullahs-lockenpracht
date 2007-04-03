@@ -36,6 +36,7 @@ namespace rl {
     {
 		if (item == NULL)
 		{
+			mItem->setState(GOS_LOADED);
 			mItem = NULL;
 			return;
 		}

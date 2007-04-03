@@ -174,21 +174,19 @@ namespace rl {
 				if (dragcont->getItemParentContainer() != NULL)
 				{
 					dragcont->getItemParentContainer()->removeItem(item);
-					mInventory->hold(item, targetSlot);
-					dragcont->getParent()->removeChildWindow(dragcont);
-					mSlotWindows[targetSlot]->addChildWindow(dragcont);
-					dragcont->setItemParent(mInventory, targetSlot);
 					///@todo Swap with old content (if there is some)
 				}
 				else if (dragcont->getItemParentSlot() != "")
 				{
 					dragcont->getItemParentInventory()->dropItem(dragcont->getItemParentSlot());
-					mInventory->hold(item, targetSlot);
-					dragcont->getParent()->removeChildWindow(dragcont);
-					mSlotWindows[targetSlot]->addChildWindow(dragcont);
-					dragcont->setItemParent(mInventory, targetSlot);
 					///@todo Swap with old content (if there is some)
 				}
+
+				mInventory->hold(item, targetSlot);
+				dragcont->getParent()->removeChildWindow(dragcont);
+				mSlotWindows[targetSlot]->addChildWindow(dragcont);
+				dragcont->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
+				dragcont->setItemParent(mInventory, targetSlot);
 				
 				return true;
 			}
