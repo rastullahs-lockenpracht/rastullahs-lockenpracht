@@ -58,7 +58,8 @@ namespace rl
             mOrientation(Ogre::Quaternion::IDENTITY),
             mMass(0),
             mGeometryType(PhysicsManager::GT_NONE),
-			mDefaultAction(DEFAULT_VIEW_OBJECT_ACTION)
+			mDefaultAction(DEFAULT_VIEW_OBJECT_ACTION),
+			mState(GOS_LOADED)
     {
         // Standardactions registrieren
 		Action* defaultAction = ActionManager::getSingleton().getAction(DEFAULT_VIEW_OBJECT_ACTION);
@@ -541,7 +542,17 @@ namespace rl
         }
     }
 
-    void GameObject::placeIntoScene()
+	void GameObject::placeIntoScene()
+	{
+		setState(GOS_IN_SCENE);
+	}
+
+	void GameObject::removeFromScene()
+	{
+		setState(GOS_LOADED);
+	}
+
+    void GameObject::doPlaceIntoScene()
     {
         if (mState != GOS_IN_SCENE)
         {
@@ -567,9 +578,9 @@ namespace rl
         }
     }
 
-    void GameObject::removeFromScene()
+    void GameObject::doRemoveFromScene()
     {
-        if (mState != GOS_IN_SCENE)
+        if (mState == GOS_IN_SCENE)
         {
             Actor* actor = mActor;
             mOrientation = actor->getWorldOrientation();
@@ -594,13 +605,13 @@ namespace rl
 
         if (targetstate == GOS_LOADED && mState == GOS_IN_SCENE)
         {
-            //Statechange-Event is triggered in this function
-            removeFromScene();
+            /// Statechange-Event is triggered in this function
+            doRemoveFromScene();
         }
         else if (targetstate == GOS_IN_SCENE && mState == GOS_LOADED)
         {
             //Statechange-Event is triggered in this function
-            placeIntoScene();
+            doPlaceIntoScene();
         }
     }
 

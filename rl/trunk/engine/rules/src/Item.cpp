@@ -98,7 +98,12 @@ namespace rl
 		mSize = pair<int,int>(widthSize,heightSize);
 	}
 
-    void Item::hold()
+	void Item::hold()
+	{
+		setState(GOS_HELD);
+	}
+
+    void Item::doHold()
     {
         setActor(createActor());
         mState = GOS_HELD;
@@ -121,7 +126,7 @@ namespace rl
             }
             else if (mState == GOS_IN_SCENE)
             {
-                removeFromScene();
+                doRemoveFromScene();
                 stateChanged = true;
             }
             else if (mState == GOS_HELD)
@@ -148,7 +153,7 @@ namespace rl
         {
             if (mState == GOS_IN_POSSESSION)
             {
-                removeFromScene();
+                doRemoveFromScene();
                 stateChanged = true;
             }
             if (mState == GOS_HELD)
@@ -161,18 +166,18 @@ namespace rl
         {
             if (mState == GOS_LOADED)
             {
-                hold();
+                doHold();
                 stateChanged = true;
             }
             else if (mState == GOS_IN_SCENE)
             {
                 mActor->removeFromScene();
-                hold();
+                doHold();
                 stateChanged = true;
             }
             else if (mState == GOS_IN_POSSESSION)
             {
-                hold();
+                doHold();
                 stateChanged = true;
             }
         }

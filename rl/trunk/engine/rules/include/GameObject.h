@@ -162,6 +162,9 @@ namespace rl
         Actor* createActor();
         void destroyActor();
 
+		void doPlaceIntoScene();
+		void doRemoveFromScene();
+
 	private:
 		static int sNextGameObjectId;	
 

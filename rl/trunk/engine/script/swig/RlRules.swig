@@ -382,7 +382,7 @@ namespace rl {
         void removeFromScene();
         
         rl::GameObjectState getState() const;
-        virtual void setState(rl::GameObjectState state);
+        void setState(rl::GameObjectState state);
     };
     
     %feature("director") Item;

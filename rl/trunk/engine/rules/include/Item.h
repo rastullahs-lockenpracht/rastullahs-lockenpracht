@@ -100,6 +100,8 @@ namespace rl
 		CeGuiString mImageName;
 
 		std::pair<int,int> mSize;
+
+		void doHold();
 	};
 }
 
