@@ -71,10 +71,10 @@ Logger::Logger(const Ogre::String& logDirectory, const Ogre::String& ogreLogFile
 		fs::create_directory(rastullahLogDirectory);
 	}
 
-	//Log für Ogre
+	//Log fr Ogre
 	LogManager::getSingleton().setDefaultLog(LogManager::getSingleton().createLog(ogreLogFile));
 
-	//Log für RL
+	//Log fr RL
 	mLog = LogManager::getSingleton().createLog(rastullahLogFile);
 }
 
@@ -140,6 +140,7 @@ void Logger::setLogDetail(const Logger::LogLevel level)
 {
 	mLogLevel = level;
 	mLog->setLogDetail(Ogre::LL_BOREME);
+    LogManager::getSingleton().setLogDetail(getOgreLogDetail());
 }
 
 const Logger::LogLevel& Logger::getLogDetail()
@@ -159,6 +160,19 @@ const CEGUI::LoggingLevel Logger::getCeGuiLogDetail() const
 
 	return CEGUI::Errors;
 }
+
+const Ogre::LoggingLevel Logger::getOgreLogDetail() const
+{
+    if (mLogLevel > Logger::LL_ERROR)
+        return Ogre::LL_LOW;
+    else if (mLogLevel > Logger::LL_WARNING)
+        return Ogre::LL_NORMAL;
+    else
+        return Ogre::LL_BOREME;
+
+    return Ogre::LL_LOW;
+}
+
 
 bool Logger::isErrorPresent() const
 {

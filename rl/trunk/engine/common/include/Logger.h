@@ -85,6 +85,8 @@ namespace rl {
 	private:
 		void log(const LogLevel level, const Ogre::String& msg );
 
+        const Ogre::LoggingLevel getOgreLogDetail() const;
+
 		Ogre::Log* mLog;
 		LogLevel mLogLevel;
 		Ogre::String mErrorBuffer;
