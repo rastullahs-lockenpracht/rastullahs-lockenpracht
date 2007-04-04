@@ -22,17 +22,34 @@
 
 namespace rl {
 
-    Slot::Slot(Creature* owner, const CeGuiString& name, const Ogre::String& bone, int itemMask)
-        : mOwner(owner), mName(name), mBone(bone), mItemMask(itemMask), mItem(NULL)
+    Slot::Slot(Creature* owner, const CeGuiString& name, int itemMask)
+        : mOwner(owner), mName(name), mItemMask(itemMask), mItem(NULL)
     {
     }
 
     Slot::~Slot()
     {
-        ///@todo an den richtigen Bone anfügen
     }
 
-    void Slot::setItem(Item* item)
+    Item* Slot::getItem() const
+    {
+        return mItem;
+    }
+
+    bool Slot::isAllowed(Item *item) const
+    {
+        int type = item->getItemType();
+        return (type & mItemMask) == type;
+    }
+
+
+    BoneSlot::BoneSlot(Creature* owner, const CeGuiString& name, int itemMask, const Ogre::String& bone)
+        : Slot(owner, name, itemMask), mBone(bone)
+    {
+    }
+
+
+    void BoneSlot::setItem(Item* item)
     {
 		if (item == NULL)
 		{
@@ -51,21 +68,21 @@ namespace rl {
             mItem = item;
             if (mOwner->getState() == GOS_IN_SCENE)
             {
-                mItem->hold();
+				mItem->setState(GOS_HELD);
                 mOwner->getActor()->attachToSlot(mItem->getActor(), mBone);
             }
         }
     }
 
-    Item* Slot::getItem() const
+
+    SubmeshSlot::SubmeshSlot(Creature* owner, const CeGuiString& name, int itemMask, const Ogre::String& submesh)
+        : Slot(owner, name, itemMask), mSubmesh(submesh)
     {
-        return mItem;
     }
 
-    bool Slot::isAllowed(Item *item) const
-    {
-        int type = item->getItemType();
-        return (type & mItemMask) == type;
-    }
 
+    void SubmeshSlot::setItem(Item* item)
+    {
+        ///@todo: use meshcombiner API
+    }
 } // namespace rl

@@ -26,19 +26,40 @@ class Item;
 class _RlRulesExport Slot
 {
 public:
-    Slot(Creature* owner, const CeGuiString& name, const Ogre::String& bone, int itemMask);
-    ~Slot();
-
-    void setItem(Item* item);
+    virtual void setItem(Item* item) = 0;
     Item* getItem() const;
     bool isAllowed(Item* item) const;
 
-private:
+protected:
+    Slot(Creature* owner, const CeGuiString& name, int itemMask);
+    virtual ~Slot();
+
     Creature* mOwner;
-    CeGuiString mName;
-    Ogre::String mBone;
-    int mItemMask;
     Item* mItem;
+
+private:
+    CeGuiString mName;
+    int mItemMask;
+};
+
+class BoneSlot : public Slot
+{
+public:
+    BoneSlot(Creature* owner, const CeGuiString& name, int itemMask, const Ogre::String& bone);
+    virtual void setItem(Item* item);
+
+private:
+    Ogre::String mBone;
+};
+
+class SubmeshSlot : public Slot
+{
+public:
+    SubmeshSlot(Creature* owner, const CeGuiString& name, int itemMask, const Ogre::String& submesh);
+    virtual void setItem(Item* item);
+
+private:
+    Ogre::String mSubmesh;
 };
 
 } // namespace rl

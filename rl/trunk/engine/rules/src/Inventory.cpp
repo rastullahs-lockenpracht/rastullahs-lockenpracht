@@ -129,7 +129,7 @@ namespace rl
 	{
 		ItemList::iterator it = items.begin();
 
-		unsigned int totalWeight = 0;
+		Ogre::Real totalWeight = 0.0;
 
 		while (it != items.end())
 		{
@@ -155,7 +155,7 @@ namespace rl
 		//ItemList::iterator it = wornItems.begin();
 		//while (it != wornItems.end())
 		//{
-		//	// Beachte nur Rüstungen
+		//	// Beachte nur Rstungen
 		//	if (dynamic_cast<Armor*>(*it) != 0)
 		//	{
 		//		mCurrentRs += (dynamic_cast<Armor*>(*it))->getGRS();
@@ -218,7 +218,7 @@ namespace rl
         {
             Throw(rl::IllegalArgumentException, Ogre::String("Slot '")+name.c_str()+"' already exists.");
         }
-        mSlots[name] = new Slot(mOwner, name, bone, itemMask);
+        mSlots[name] = new BoneSlot(mOwner, name, itemMask, bone);
     }
 
     const Inventory::SlotMap& Inventory::getAllSlots() const

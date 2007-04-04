@@ -92,7 +92,7 @@ public:
 
 private:
 	bool mValuesUpToDate;
-	int mCurrentWeight;
+	Ogre::Real mCurrentWeight;
 	int mCurrentBeByWeight;
 	int mCurrentBe;
 	int mCurrentRs;
