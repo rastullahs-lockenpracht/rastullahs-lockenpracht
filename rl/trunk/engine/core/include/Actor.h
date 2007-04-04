@@ -262,7 +262,7 @@ namespace rl {
         void _update(unsigned long flags = UF_ALL);
 
         /// Setzt diesem Aktor ein Highlight
-        void setHighlighted(bool highlight);
+        void setHighlighted(bool highlight, const CeGuiString& descriptionText = "");
         /// Gibt zurück ob der Aktor gehighlighted ist
         bool isHighlighted() const;
 

@@ -732,7 +732,7 @@ namespace rl {
         _update();
     }
 
-    void Actor::setHighlighted(bool highlight)
+    void Actor::setHighlighted(bool highlight, const CeGuiString& descriptionText)
     {
         if (highlight != mHighlighted)
         {
@@ -744,7 +744,17 @@ namespace rl {
         {
 			if (mSceneNode != NULL)
 			{
-				mDescription = new MovableText(mName + "_desc", mName);
+				String desc;
+				if (descriptionText != "")
+				{
+					desc = descriptionText.c_str();
+				}
+				else
+				{
+					desc = mName;
+				}
+
+				mDescription = new MovableText(mName + "_desc", desc);
 				mDescription->showOnTop(true);
 				mDescription->setAlignment(MovableText::ALIGN_CENTER);
 				if (mActorControlledObject && mActorControlledObject->isMeshObject())

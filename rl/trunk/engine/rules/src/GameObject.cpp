@@ -257,22 +257,25 @@ namespace rl
 	
 	void GameObject::setActor(Actor* actor)
 	{
-        if (mActor != NULL)
-        {
-            mActor->setGameObject(NULL);
-        }
+		if (mActor != actor)
+		{
+			if (mActor != NULL)
+			{
+				mActor->setGameObject(NULL);
+			}
 
-        if (actor != NULL)
-        {
-            if (actor->isInScene())
-            {
-                actor->setPosition(mPosition);
-                actor->setOrientation(mOrientation);
-            }
-		    actor->setGameObject(this);
-        }
-		
-        mActor = actor;
+			if (actor != NULL)
+			{
+				if (actor->isInScene())
+				{
+					actor->setPosition(mPosition);
+					actor->setOrientation(mOrientation);
+				}
+				actor->setGameObject(this);
+			}
+			
+			mActor = actor;
+		}
 	}
 	
 	Actor* GameObject::getActor()
@@ -305,7 +308,7 @@ namespace rl
     {
         if (mHighlightingEnabled && mActor != NULL)
         {
-            mActor->setHighlighted(highlight);
+			mActor->setHighlighted(highlight, getName());
         }
     }
 
@@ -605,14 +608,23 @@ namespace rl
 
         if (targetstate == GOS_LOADED && mState == GOS_IN_SCENE)
         {
-            /// Statechange-Event is triggered in this function
+            // Statechange event is triggered in this function
             doRemoveFromScene();
         }
         else if (targetstate == GOS_IN_SCENE && mState == GOS_LOADED)
         {
-            //Statechange-Event is triggered in this function
+            //Statechange event is triggered in this function
             doPlaceIntoScene();
         }
+		else
+		{
+			LOG_ERROR(
+				Logger::RULES, 
+				"GameObject '" + getName() 
+				+ "' could not change state from "
+				+ Ogre::StringConverter::toString(mState) + " to "
+				+ Ogre::StringConverter::toString(targetstate));
+		}
     }
 
     GameObjectState GameObject::getState() const
