@@ -26,8 +26,8 @@ VS_OUTPUT vs_main_1uv(float4 inPos     : POSITION,
     float3 Light2Dir = normalize(Light2PosOS.xyz - inPos.xyz*Light2PosOS.w);
     float3 EyeDir = normalize(EyePosOS.xyz - inPos.xyz);
 
-    //float3 binormal = cross(inTangent, inNormal);
-    float3 binormal = cross(inNormal, inTangent);
+    float3 binormal = cross(inTangent, inNormal);
+    //float3 binormal = cross(inNormal, inTangent);
     float3x3 TangentSpace;
     TangentSpace[0] = inTangent;
     TangentSpace[1] = binormal;
@@ -59,8 +59,8 @@ VS_OUTPUT vs_main_2uv(float4 inPos     : POSITION,
     float3 Light2Dir = normalize(Light2PosOS.xyz - inPos.xyz*Light2PosOS.w);
     float3 EyeDir = normalize(EyePosOS.xyz - inPos.xyz);
 
-    //float3 binormal = cross(inTangent, inNormal);
-    float3 binormal = cross(inNormal, inTangent);
+    float3 binormal = cross(inTangent, inNormal);
+    //float3 binormal = cross(inNormal, inTangent);
     float3x3 TangentSpace;
     TangentSpace[0] = inTangent;
     TangentSpace[1] = binormal;
@@ -73,6 +73,43 @@ VS_OUTPUT vs_main_2uv(float4 inPos     : POSITION,
 
     return Out;
 }
+
+
+VS_OUTPUT vs_main_3uv(float4 inPos     : POSITION,
+                      float3 inNormal  : NORMAL,
+                      float3 inTangent : TEXCOORD3,
+                      float2 inUV      : TEXCOORD0,
+                      uniform float4 EyePosOS,
+                      uniform float4 Light1PosOS,
+                      uniform float4 Light2PosOS,
+                      uniform float4x4 WorldViewProjMatrix)
+{
+    VS_OUTPUT Out;
+
+    Out.Pos = mul(WorldViewProjMatrix, inPos);
+    Out.UV = inUV;
+
+    float3 Light1Dir = normalize(Light1PosOS.xyz - inPos.xyz*Light1PosOS.w);
+    float3 Light2Dir = normalize(Light2PosOS.xyz - inPos.xyz*Light2PosOS.w);
+    float3 EyeDir = normalize(EyePosOS.xyz - inPos.xyz);
+
+    float3 binormal = cross(inTangent, inNormal);
+    //float3 binormal = cross(inNormal, inTangent);
+    float3x3 TangentSpace;
+    TangentSpace[0] = inTangent;
+    TangentSpace[1] = binormal;
+    TangentSpace[2] = inNormal;
+
+    Out.Half1DirTS  = mul(TangentSpace, normalize(Light1Dir + EyeDir));
+    Out.Half2DirTS  = mul(TangentSpace, normalize(Light2Dir + EyeDir));
+    Out.Light1DirTS = mul(TangentSpace, Light1Dir);
+    Out.Light2DirTS = mul(TangentSpace, Light2Dir);
+
+    return Out;
+}
+
+
+
 
 float4 ps_main(VS_OUTPUT In,
                uniform sampler DiffuseMap : register(s0),
@@ -94,8 +131,8 @@ float4 ps_main(VS_OUTPUT In,
     // Ambient component
     float4 Ambient = MaterialAmbient * AmbientLight;
 
-    float NdotL1 = saturate(dot(Normal.xyz, normalize(In.Light1DirTS)));
-    float NdotL2 = saturate(dot(Normal.xyz, normalize(In.Light2DirTS)));
+    float NdotL1 = (dot(Normal.xyz, normalize(In.Light1DirTS)));
+    float NdotL2 = (dot(Normal.xyz, normalize(In.Light2DirTS)));
     float4 Diffuse1, Diffuse2, Specular1, Specular2;
     
     // We only need to calculate lighting, if surface is facing the light.
@@ -110,6 +147,12 @@ float4 ps_main(VS_OUTPUT In,
                 MaterialSpecularExponent);
         Specular1 = MaterialSpecular * Light1Specular * SpecularAttn;
     }
+    
+    if (NdotL1 <= 0.0)
+    {
+        // Diffuse component
+        Diffuse1 =((MaterialDiffuse*Light1Diffuse * NdotL1)/2.5);
+    }
 
     if (NdotL2 > 0.0)
     {
@@ -122,7 +165,13 @@ float4 ps_main(VS_OUTPUT In,
                 MaterialSpecularExponent);
         Specular2 = MaterialSpecular * Light2Specular * SpecularAttn;
     }
-
-    return TexColour * (Ambient + Diffuse1 + Diffuse2) + Specular1 + Specular2;
+    
+    if (NdotL2 <= 0.0)
+    {
+        // Diffuse component
+        Diffuse2 =((MaterialDiffuse*Light2Diffuse * NdotL2)/2.5);
+    }
+    
+    return (TexColour * (Ambient*1.5 + Diffuse1 + Diffuse2)) + Specular1 + Specular2;
 }
 
