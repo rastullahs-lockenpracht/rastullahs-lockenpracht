@@ -32,7 +32,13 @@ Sound::Sound(const SoundResourcePtr &soundres, SoundDriver* creator)
    mSoundResource(soundres),
    mIsLooping(false),
    mIs3d(false),
-   mTicks(0)
+   mTicks(0),
+   mPosition(Vector3::ZERO),
+   mDirection(Quaternion::IDENTITY),
+   mVelocity(Vector3::ZERO),
+   mPriority(128),
+   mRolloffStartDistance(1.0),
+   mRolloffEndDistance(10000.0)
 {
 }
 

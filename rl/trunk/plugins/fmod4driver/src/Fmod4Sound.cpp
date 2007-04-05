@@ -31,7 +31,7 @@ Fmod4Sound::Fmod4Sound(Fmod4Driver* driver, SoundResourcePtr soundres, SoundType
     mType(type),
     mSound(NULL),
     mDriver(driver),
-    mChannel(NULL)
+    mChannel(NULL)	
 {
     setPriority(128);
 }
