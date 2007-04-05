@@ -97,8 +97,8 @@ namespace rl {
 		void centerWindow();
 		bool destroyWindow();
 
-		void bindClickToCloseWindow(CEGUI::Window* button);
-		void bindCloseToCloseButton();
+		void bindDestroyWindowToClick(CEGUI::Window* button);
+		void bindDestroyWindowToXButton();
 
 		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile, CeGuiString& prefix);
 

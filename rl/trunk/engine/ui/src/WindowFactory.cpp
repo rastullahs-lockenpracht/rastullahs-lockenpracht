@@ -33,6 +33,8 @@
 #include "Exception.h"
 #include "GameLoggerWindow.h"
 #include "GameObject.h"
+#include "GameObjectInfoWindow.h"
+#include "GameObjectPropsWindow.h"
 #include "GameSettings.h"
 #include "InfoPopup.h"
 #include "InGameMenuWindow.h"
@@ -53,7 +55,6 @@
 #include "SubtitleWindow.h"
 #include "UiSubsystem.h"
 #include "WindowManager.h"
-#include "GameObjectWindow.h"
 
 #undef max
 
@@ -176,9 +177,9 @@ namespace rl {
 		mDebugWindow->setVisible(!mDebugWindow->isVisible());
 	}
 
-	void WindowFactory::showGameObjectWindow(GameObject* obj)
+	void WindowFactory::showGameObjectPropsWindow(GameObject* obj)
 	{
-        GameObjectWindow* wnd = new GameObjectWindow();
+        GameObjectPropsWindow* wnd = new GameObjectPropsWindow();
         wnd->initialize(obj);
         wnd->setVisible(true);
 	}
@@ -210,7 +211,7 @@ namespace rl {
                 Ogre::String inventoryWindowType = creat->getInventoryWindowType();
                 if (inventoryWindowType == "")
                 {
-                    inventoryWindowType = "inventory_default.xml"; ///TODO: Extract
+                    inventoryWindowType = "inventory_default.xml"; ///@TODO: Extract
                 }
                 mInventoryWindow = new InventoryWindow(inventoryWindowType, creat->getInventory());
 			    mInventoryWindow->setVisible(true);
@@ -259,9 +260,7 @@ namespace rl {
 
 	void WindowFactory::showDescriptionWindow(GameObject* obj)
 	{
-		MessageWindow* wnd = new MessageWindow();
-		wnd->setText(obj->getDescription());
-		wnd->setVisible(true);
+		(new GameObjectInfoWindow(obj, UiSubsystem::getSingleton().getActiveCharacter()))->setVisible(true);
 	}
 
 	void WindowFactory::toggleCharacterStateWindow()

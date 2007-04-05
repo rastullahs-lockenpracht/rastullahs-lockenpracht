@@ -108,7 +108,7 @@ public:
 	void showCharacterSheet(rl::Person* chara);
 	void showContainerContent(rl::Container* container);
 	void showDescriptionWindow(rl::GameObject* obj);
-	void showGameObjectWindow(rl::GameObject* obj);
+	void showGameObjectPropsWindow(rl::GameObject* obj);
 	void showDialog(rl::DialogCharacter* bot);
 	void showExitConfirmation();
 	void showJournalWindow();

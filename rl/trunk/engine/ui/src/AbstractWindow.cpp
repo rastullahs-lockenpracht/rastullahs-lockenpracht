@@ -262,13 +262,13 @@ namespace rl
 		mWindow->setPosition(CeGuiHelper::asAbsolute(CEGUI::Vector2(x, y)));
 	}
 
-	void AbstractWindow::bindClickToCloseWindow(CEGUI::Window* button)
+	void AbstractWindow::bindDestroyWindowToClick(CEGUI::Window* button)
 	{
 		button->subscribeEvent(Window::EventMouseClick,
 			boost::bind(&AbstractWindow::destroyWindow, this));
 	}
 
-	void AbstractWindow::bindCloseToCloseButton()
+	void AbstractWindow::bindDestroyWindowToXButton()
 	{
 		mWindow->subscribeEvent(FrameWindow::EventCloseClicked,
 			boost::bind(&AbstractWindow::destroyWindow, this));

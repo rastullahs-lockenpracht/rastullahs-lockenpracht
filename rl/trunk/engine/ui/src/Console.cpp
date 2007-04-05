@@ -46,7 +46,7 @@ namespace rl
 			boost::bind(&Console::handleKeyDown, this, _1));
 		mDisplay->moveToFront();
 
-		bindCloseToCloseButton();
+		bindDestroyWindowToXButton();
 
 		mHistory.clear();
         setVisible(false);

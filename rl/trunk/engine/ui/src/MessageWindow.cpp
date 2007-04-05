@@ -26,8 +26,8 @@ MessageWindow::MessageWindow() :
 
 	centerWindow();
 
-	bindCloseToCloseButton();
-	bindClickToCloseWindow(getWindow("MessageWindow/CloseButton"));
+	bindDestroyWindowToXButton();
+	bindDestroyWindowToClick(getWindow("MessageWindow/CloseButton"));
 }
 
 void MessageWindow::setText(const CeGuiString& message)

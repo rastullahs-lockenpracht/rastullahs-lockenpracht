@@ -46,8 +46,8 @@ PlaylistWindow::PlaylistWindow()
     getWindow("PlaylistSheet/ButtonSheet/Quit")->subscribeEvent(
             Window::EventMouseClick, 
             boost::bind(&PlaylistWindow::handleQuit, this));
-    bindClickToCloseWindow(getWindow("PlaylistSheet"));
-	bindCloseToCloseButton();
+    bindDestroyWindowToClick(getWindow("PlaylistSheet"));
+	bindDestroyWindowToXButton();
 
     centerWindow();
 }

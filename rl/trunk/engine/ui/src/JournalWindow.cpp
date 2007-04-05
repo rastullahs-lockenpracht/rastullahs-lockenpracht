@@ -41,7 +41,7 @@ namespace rl {
         mSelectionImageset(),
         mSelectionColour()
     {
-        bindCloseToCloseButton();
+        bindDestroyWindowToXButton();
 
         mQuests = getListbox("JournalWindow/Quests/QuestList");
         mQuests->setMultiselectEnabled(false);

@@ -30,7 +30,7 @@ GameLoggerWindow::GameLoggerWindow() :
 	AbstractWindow("gameloggerwindow.xml", WND_SHOW)
 {
 	mLog = getListbox ("GameLogger/Log");
-	bindCloseToCloseButton();
+	bindDestroyWindowToXButton();
 }
 
 void GameLoggerWindow::logEvent(const CeGuiString& text, const CEGUI::colour color)

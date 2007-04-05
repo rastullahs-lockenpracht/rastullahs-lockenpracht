@@ -32,8 +32,8 @@ namespace rl
 		getWindow("LogWindow/UpdateButton")->subscribeEvent(
 			CEGUI::Window::EventMouseClick,
 			boost::bind(&LogWindow::update, this));
-		bindCloseToCloseButton();
-		bindClickToCloseWindow(getWindow("LogWindow/CloseButton"));
+		bindDestroyWindowToXButton();
+		bindDestroyWindowToClick(getWindow("LogWindow/CloseButton"));
 
 		centerWindow();
 	}

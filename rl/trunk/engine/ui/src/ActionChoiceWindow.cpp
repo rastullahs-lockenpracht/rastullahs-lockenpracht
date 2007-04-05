@@ -102,7 +102,7 @@ namespace rl {
 			createButtons(actionTree, center, RADIUS, 0, 360);
 
 			mButtonCancel = createButton("cancelbutton", center);
-			bindClickToCloseWindow(mButtonCancel);
+			bindDestroyWindowToClick(mButtonCancel);
 			mWindow->addChildWindow(mButtonCancel);
 			
 			LOG_DEBUG2(Logger::UI, 

@@ -31,8 +31,8 @@ CloseConfirmationWindow::CloseConfirmationWindow()
 			this
 		));
 
-    bindCloseToCloseButton();
-	bindClickToCloseWindow(getPushButton("CloseConfirmationWindow/NoButton"));
+    bindDestroyWindowToXButton();
+	bindDestroyWindowToClick(getPushButton("CloseConfirmationWindow/NoButton"));
 	centerWindow();
 }
 

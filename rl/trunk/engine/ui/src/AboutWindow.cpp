@@ -37,8 +37,8 @@ AboutWindow::AboutWindow() :
     getWindow("AboutWindow/ModuleText")->setText(
         CoreSubsystem::getSingleton().getActiveAdventureModule()->getName());
 
-    bindCloseToCloseButton();
-    bindClickToCloseWindow(getWindow("AboutWindow/CloseButton"));
+    bindDestroyWindowToXButton();
+    bindDestroyWindowToClick(getWindow("AboutWindow/CloseButton"));
 
     centerWindow();
 }

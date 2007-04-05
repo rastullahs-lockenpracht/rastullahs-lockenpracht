@@ -42,8 +42,8 @@ CommandMapperWindow::CommandMapperWindow(Creature* actionHolder, CommandMapper* 
 		subscribeEvent(
 			PushButton::EventClicked,
 			boost::bind(&CommandMapperWindow::handleChangeButton, this));
-	bindClickToCloseWindow(getWindow("CommandMapper/CloseButton"));
-	bindCloseToCloseButton();
+	bindDestroyWindowToClick(getWindow("CommandMapper/CloseButton"));
+	bindDestroyWindowToXButton();
 
 	mTabControl = getTabControl("CommandMapper/TabPane");
 
@@ -79,7 +79,7 @@ CommandMapperWindow::CommandMapperWindow(Creature* actionHolder, CommandMapper* 
 			boost::bind(&CommandMapperWindow::handleMouseButton, this, _1));
 	muteWindow(true);
 
-	bindCloseToCloseButton();
+	bindDestroyWindowToXButton();
 
 	centerWindow();
 	refreshContent();

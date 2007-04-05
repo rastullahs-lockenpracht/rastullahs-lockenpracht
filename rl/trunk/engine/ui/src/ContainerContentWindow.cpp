@@ -47,7 +47,7 @@ namespace rl {
 
 		initializeContent();
 
-		bindCloseToCloseButton();
+		bindDestroyWindowToXButton();
 		centerWindow();
 	}
 

@@ -51,7 +51,7 @@ namespace rl
         mMessageText = getWindow("DebugWindow/MessageText");
         mMessageText->moveToFront();
 
-        bindCloseToCloseButton();
+        bindDestroyWindowToXButton();
         registerPage("General Informations");
     }
 
