@@ -1,40 +1,40 @@
-vertex_program NormalMap2Lights1UV_VS_HLSL hlsl
+vertex_program NormalMap2Lights1UVSpec_VS_HLSL hlsl
 {
-    source NormalMap2Lights.hlsl
+    source NormalMapSpecular2Lights.hlsl
     entry_point vs_main_1uv
     target vs_2_0
 }
 
-vertex_program NormalMap2Lights2UV_VS_HLSL hlsl
+vertex_program NormalMap2Lights2UVSpec_VS_HLSL hlsl
 {
-    source NormalMap2Lights.hlsl
+    source NormalMapSpecular2Lights.hlsl
     entry_point vs_main_2uv
     target vs_2_0
 }
 
-vertex_program NormalMap2Lights3UV_VS_HLSL hlsl
+vertex_program NormalMap2Lights3UVSpec_VS_HLSL hlsl
 {
-    source NormalMap2Lights.hlsl
+    source NormalMapSpecular2Lights.hlsl
     entry_point vs_main_3uv
     target vs_2_0
 }
 
 
-fragment_program NormalMap2Lights_PS_HLSL hlsl
+fragment_program NormalMap2LightsSpec_PS_HLSL hlsl
 {
-    source NormalMap2Lights.hlsl
+    source NormalMapSpecular2Lights.hlsl
     entry_point ps_main
     target ps_2_0
 }
 
-material NormalMapMaterial2Lights1UV
+material NormalMapMaterialSpecular2Lights1UV
 {
     technique hlsl
     {
         pass
         {
 	        alpha_rejection greater 128
-            vertex_program_ref NormalMap2Lights1UV_VS_HLSL
+            vertex_program_ref NormalMap2Lights1UVSpec_VS_HLSL
             {
                 param_named_auto WorldViewProjMatrix worldviewproj_matrix
                 param_named_auto Light1PosOS light_position_object_space 0
@@ -42,7 +42,7 @@ material NormalMapMaterial2Lights1UV
                 param_named_auto EyePosOS camera_position_object_space
             }
 
-            fragment_program_ref NormalMap2Lights_PS_HLSL
+            fragment_program_ref NormalMap2LightsSpec_PS_HLSL
             {
                 param_named_auto Light1Diffuse  light_diffuse_colour  0
                 param_named_auto Light1Specular light_specular_colour 0
@@ -52,8 +52,7 @@ material NormalMapMaterial2Lights1UV
 
                 param_named MaterialAmbient float4 0.6 0.6 0.6 1.0
                 param_named MaterialDiffuse float4 0.7 0.7 0.7 1.0
-                param_named MaterialSpecular float4 0.3 0.3 0.3 1.0
-                param_named MaterialSpecularExponent float 32.0
+                param_named MaterialSpecularExponent float 20.0
             }
 			
             // Base diffuse texture map
@@ -66,6 +65,12 @@ material NormalMapMaterial2Lights1UV
             texture_unit normalmap
             {
                 texture_alias normalmap
+            }
+            
+            // Spec map
+            texture_unit specmap
+            {
+                texture_alias specmap
             }
         }
     }
@@ -87,14 +92,14 @@ material NormalMapMaterial2Lights1UV
     }
 }
 
-material NormalMapMaterial2Lights2UV
+material NormalMapMaterialSpecular2Lights2UV
 {
     technique hlsl
     {
         pass
         {
 	        alpha_rejection greater 128
-            vertex_program_ref NormalMap2Lights2UV_VS_HLSL
+            vertex_program_ref NormalMap2Lights2UVSpec_VS_HLSL
             {
                 param_named_auto WorldViewProjMatrix worldviewproj_matrix
                 param_named_auto Light1PosOS light_position_object_space 0
@@ -102,7 +107,7 @@ material NormalMapMaterial2Lights2UV
                 param_named_auto EyePosOS camera_position_object_space
             }
 
-            fragment_program_ref NormalMap2Lights_PS_HLSL
+            fragment_program_ref NormalMap2LightsSpec_PS_HLSL
             {
                 param_named_auto Light1Diffuse  light_diffuse_colour  0
                 param_named_auto Light1Specular light_specular_colour 0
@@ -112,8 +117,7 @@ material NormalMapMaterial2Lights2UV
 
                 param_named MaterialAmbient float4 0.6 0.6 0.6 1.0
                 param_named MaterialDiffuse float4 0.7 0.7 0.7 1.0
-                param_named MaterialSpecular float4 0.3 0.3 0.3 1.0
-                param_named MaterialSpecularExponent float 32.0
+                param_named MaterialSpecularExponent float 20.0
             }
 			
             // Base diffuse texture map
@@ -126,6 +130,12 @@ material NormalMapMaterial2Lights2UV
             texture_unit normalmap
             {
                 texture_alias normalmap
+            }
+            
+            // Spec map
+            texture_unit specmap
+            {
+                texture_alias specmap
             }
         }
     }
@@ -147,14 +157,14 @@ material NormalMapMaterial2Lights2UV
     }
 }
     
-material NormalMapMaterial2Lights3UV
+material NormalMapMaterialSpecular2Lights3UV
 {
     technique hlsl
     {
         pass
         {
 	                    alpha_rejection greater 128
-            vertex_program_ref NormalMap2Lights3UV_VS_HLSL
+            vertex_program_ref NormalMap2Lights3UVSpec_VS_HLSL
             {
                 param_named_auto WorldViewProjMatrix worldviewproj_matrix
                 param_named_auto Light1PosOS light_position_object_space 0
@@ -162,7 +172,7 @@ material NormalMapMaterial2Lights3UV
                 param_named_auto EyePosOS camera_position_object_space
             }
 
-            fragment_program_ref NormalMap2Lights_PS_HLSL
+            fragment_program_ref NormalMap2LightsSpec_PS_HLSL
             {
                 param_named_auto Light1Diffuse  light_diffuse_colour  0
                 param_named_auto Light1Specular light_specular_colour 0
@@ -172,8 +182,7 @@ material NormalMapMaterial2Lights3UV
 
                 param_named MaterialAmbient float4 0.6 0.6 0.6 1.0
                 param_named MaterialDiffuse float4 0.7 0.7 0.7 1.0
-                param_named MaterialSpecular float4 0.3 0.3 0.3 1.0
-                param_named MaterialSpecularExponent float 32.0
+                param_named MaterialSpecularExponent float 20.0
             }
 			
 
@@ -187,6 +196,12 @@ material NormalMapMaterial2Lights3UV
             texture_unit normalmap
             {
                 texture_alias normalmap
+            }
+            
+            // Spec map
+            texture_unit specmap
+            {
+                texture_alias specmap
             }
         }
     }

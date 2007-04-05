@@ -15,6 +15,8 @@ sunlight.getControlledObject().setDirection(-0.17101, -0.873647, 0.969846);
 sunlight.getControlledObject().setCastShadows(false);
 
 sunlight.getControlledObject().setDiffuseColour(1.0,1.0,1.0);
+sunlight.getControlledObject().setSpecularColour(1.0,1.0,1.0);
+
 #sunlight.getControlledObject().setDiffuseColour(0.1,0.1,0.2);
 $SCRIPT.log("Tageslicht erstellt.");
 

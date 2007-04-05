@@ -114,9 +114,9 @@ VS_OUTPUT vs_main_3uv(float4 inPos     : POSITION,
 float4 ps_main(VS_OUTPUT In,
                uniform sampler DiffuseMap : register(s0),
                uniform sampler NormalMap  : register(s1),
+               uniform sampler SpecMap	  : register(s2),
                uniform float4  MaterialAmbient,
                uniform float4  MaterialDiffuse,
-               uniform float4  MaterialSpecular,
                uniform float   MaterialSpecularExponent,
                uniform float4  Light1Diffuse,
                uniform float4  Light1Specular,
@@ -127,6 +127,9 @@ float4 ps_main(VS_OUTPUT In,
     // Read normal from texture. *2-1 to convert it from signed to unsigned.
     float4 Normal = tex2D(NormalMap, In.UV) * 2 - 1;
     float4 TexColour = tex2D(DiffuseMap, In.UV);
+    
+    // Spec
+    float4 SpecColour= tex2D(SpecMap, In.UV);
 
     // Ambient component
     float4 Ambient = MaterialAmbient * AmbientLight;
@@ -145,7 +148,7 @@ float4 ps_main(VS_OUTPUT In,
         float SpecularAttn = pow(saturate(
             dot(Normal.xyz, normalize(In.Half1DirTS))),
                 MaterialSpecularExponent);
-        Specular1 = MaterialSpecular * Light1Specular * SpecularAttn;
+        Specular1 = Light1Specular * SpecularAttn * SpecColour /2;
     }
     
     else
@@ -163,7 +166,7 @@ float4 ps_main(VS_OUTPUT In,
         float SpecularAttn = pow(saturate(
             dot(Normal.xyz, normalize(In.Half2DirTS))),
                 MaterialSpecularExponent);
-        Specular2 = MaterialSpecular * Light2Specular * SpecularAttn;
+        Specular2 = Light2Specular * SpecularAttn * SpecColour /2;
     }
     
     else
