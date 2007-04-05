@@ -4,6 +4,7 @@
     <gameobjectclass>
         <property name="classid" type="STRING" data="Holzscheit"/>
         <property name="baseclass" type="STRING" data="GameObject" />
+        <property name="name" type="STRING" data="Holzscheit"/>        
         <property name="description" type="STRING" data="Greater log of time check. (Very rare)"/>
         <property name="meshfile" type="STRING" data="ver_holzscheit_01.mesh"/>
     </gameobjectclass>
@@ -11,6 +12,7 @@
     <gameobjectclass>
         <property name="classid" type="STRING" data="apple"/>
         <property name="baseclass" type="STRING" data="GameObject" />
+        <property name="name" type="STRING" data="Apfel"/>        
         <property name="description" type="STRING" data="Ein Apfel?"/>
         <property name="meshfile" type="STRING" data="sphere.1m.mesh"/>
         <property name="geometrytype" type="STRING" data="ellipsoid"/>
@@ -50,6 +52,7 @@
     <gameobjectclass>
         <property name="classid" type="STRING" data="switch3way"/>
         <property name="baseclass" type="STRING" data="Switch3Way"/>
+        <property name="name" type="STRING" data="Hebel"/>
         <property name="description" type="STRING" data="Ein Hebel"/>
         <property name="meshfile" type="STRING" data="arc_hebel_01.mesh"/>
         <property name="geometrytype" type="STRING" data="sphere"/>
@@ -58,6 +61,7 @@
     <gameobjectclass>
         <property name="classid" type="STRING" data="shortsword"/>
         <property name="baseclass" type="STRING" data="Weapon" />
+        <property name="name" type="STRING" data="Kurzschwert"/>
         <property name="description" type="STRING" data="Ein ordinäres Kurzschwert - scharf, aber langweilig"/>
         <property name="meshfile" type="STRING" data="waf_kurzschwert_01.mesh"/>
 		<property name="imagename" type="STRING" data="set:ModelThumbnails image:waf_kurzschwert_01"/>
@@ -68,6 +72,7 @@
     <gameobjectclass>
         <property name="classid" type="STRING" data="leather backpack"/>
         <property name="baseclass" type="STRING" data="Container"/> 
+        <property name="name" type="STRING" data="Rucksack"/>
         <property name="description" type="STRING" data="Ein Lederrucksack (oder so)"/>
         <property name="meshfile" type="STRING" data="ins_rucksack.mesh"/>
 		<property name="imagename" type="STRING" data="set:ModelThumbnails image:Rucksack"/>
@@ -84,6 +89,7 @@
     <gameobjectclass>
         <property name="classid" type="STRING" data="ErrorHandling"/>
         <property name="baseclass" type="STRING" data="GameObject" />
+        <property name="name" type="STRING" data="ErrorHandling-TestCase"/>
         <property name="description" type="STRING" data="The ErrorHandling TestCase"/>
         <property name="meshfile" type="STRING" data="arc_hebel_01.mesh"/>
     </gameobjectclass>
@@ -92,6 +98,7 @@
     <gameobjectclass>
         <property name="classid" type="STRING" data="JobSequenceTestChest"/>
         <property name="baseclass" type="STRING" data="GameObject" />
+        <property name="name" type="STRING" data="JobSequence-Truhe"/>
         <property name="description" type="STRING" data="Eine Truhe zum Test der JobSequence"/>
         <property name="meshfile" type="STRING" data="ver_truhe_gross01.mesh"/>
         <property name="geometrytype" type="STRING" data="box"/>
