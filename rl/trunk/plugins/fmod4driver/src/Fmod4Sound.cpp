@@ -162,71 +162,101 @@ void Fmod4Sound::stop()
 
 void Fmod4Sound::setPosition(const Ogre::Vector3& position)
 {
-    FMOD_VECTOR pos;
-    pos.x = position.x;
-    pos.y = position.y;
-    pos.z = -position.z;
-    mChannel->set3DAttributes(&pos, NULL);
+	mPosition = position;
+
+	if (isValid())
+	{
+		FMOD_VECTOR pos;
+		pos.x = position.x;
+		pos.y = position.y;
+		pos.z = -position.z;
+		mChannel->set3DAttributes(&pos, NULL);
+	}
 }
 
 const Ogre::Vector3 Fmod4Sound::getPosition() const
 {
-    FMOD_VECTOR pos;
-    mChannel->get3DAttributes(&pos, NULL);
+	if (isValid())
+	{
+		FMOD_VECTOR pos;
+		mChannel->get3DAttributes(&pos, NULL);
 
-    Vector3 rval;
-    rval.x = pos.x;
-    rval.y = pos.y;
-    rval.z = -pos.z;
+		Vector3 rval;
+		rval.x = pos.x;
+		rval.y = pos.y;
+		rval.z = -pos.z;
 
-    return rval;
+		return rval;
+	}
+
+	return mPosition;
 }
 
 const Ogre::Vector3 Fmod4Sound::getVelocity() const
 {
-    FMOD_VECTOR vel;
-    mChannel->get3DAttributes(NULL, &vel);
+	if (isValid())
+	{
+		FMOD_VECTOR vel;
+		mChannel->get3DAttributes(NULL, &vel);
 
-    Vector3 rval;
-    rval.x = vel.x;
-    rval.y = vel.y;
-    rval.z = -vel.z;
+		Vector3 rval;
+		rval.x = vel.x;
+		rval.y = vel.y;
+		rval.z = -vel.z;
 
-    return rval;
+		return rval;
+	}
+
+	return mVelocity;
 }
 
 void Fmod4Sound::setVelocity(const Ogre::Vector3& velocity)
 {
-    FMOD_VECTOR vel;
-    vel.x = velocity.x;
-    vel.y = velocity.y;
-    vel.z = -velocity.z;
-    mChannel->set3DAttributes(NULL, &vel);
+	mVelocity = velocity;
+
+	if (isValid())
+	{
+		FMOD_VECTOR vel;
+		vel.x = velocity.x;
+		vel.y = velocity.y;
+		vel.z = -velocity.z;
+		mChannel->set3DAttributes(NULL, &vel);
+	}
 }
 
 void Fmod4Sound::setDirection(const Ogre::Quaternion &orientation)
 {
-    FMOD_VECTOR to;
+	mDirection = orientation;
 
-    Vector3 toVec = orientation * Vector3::NEGATIVE_UNIT_Z;
-    to.x = toVec.x;
-    to.y = toVec.y;
-    to.z = -toVec.z;
+	if (isValid())
+	{
+		FMOD_VECTOR to;
 
-    mChannel->set3DConeOrientation(&to);
+		Vector3 toVec = orientation * Vector3::NEGATIVE_UNIT_Z;
+		to.x = toVec.x;
+		to.y = toVec.y;
+		to.z = -toVec.z;
+
+		mChannel->set3DConeOrientation(&to);
+	}
 }
 
 const Ogre::Quaternion Fmod4Sound::getDirection() const
 {
-    FMOD_VECTOR to;
-    mChannel->get3DConeOrientation(&to);
+	if (isValid())
+	{
+		FMOD_VECTOR to;
+		mChannel->get3DConeOrientation(&to);
 
-    Vector3 toVec;
-    toVec.x = to.x;
-    toVec.y = to.y;
-    toVec.z = -to.z;
+		Vector3 toVec;
+		toVec.x = to.x;
+		toVec.y = to.y;
+		toVec.z = -to.z;
 
-    return Vector3::NEGATIVE_UNIT_Z.getRotationTo(toVec);
+		return Vector3::NEGATIVE_UNIT_Z.getRotationTo(toVec);
+	}
+
+	return mDirection;
 }
 
 bool Fmod4Sound::isPaused()
@@ -250,14 +280,22 @@ void Fmod4Sound::pause(bool pause)
 
 void Fmod4Sound::setVolume(float vol)
 {
-    mChannel->setVolume(vol);
+	mVolume = vol;
+	if (isValid())
+	{
+	    mChannel->setVolume(vol);
+	}
 }
 
 const float Fmod4Sound::getVolume() const
 {
-    float vol;
-    mChannel->getVolume(&vol);
-    return vol;
+	if (isValid())
+	{
+		float vol;
+		mChannel->getVolume(&vol);
+		return vol;
+	}
+	return mVolume;
 }
 
 /**
