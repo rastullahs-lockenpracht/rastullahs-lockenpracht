@@ -15,13 +15,13 @@
  */
 
 /**
- * \file GameObjectWindow.h
+ * \file GameObjectPropsWindow.h
  *
  * Declaration of the GameObject window
  */
 
-#ifndef __GameObjectWindow_H__
-#define __GameObjectWindow_H__
+#ifndef __GameObjectPropsWindow_H__
+#define __GameObjectPropsWindow_H__
 
 #include "UiPrerequisites.h"
 #include "AbstractWindow.h"
@@ -37,19 +37,19 @@ namespace rl {
      * This window displays all properties of a game object by looping
      * through the property set of the given object.
      */
-    class _RlUiExport GameObjectWindow : public AbstractWindow
+    class _RlUiExport GameObjectPropsWindow : public AbstractWindow
 	{
 	public:
 
         /**
          * Constructor of the GameObject window
          */
-		GameObjectWindow();
+		GameObjectPropsWindow();
 		
         /**
          * Destructor of the GameObject window
          */
-        virtual ~GameObjectWindow();
+        virtual ~GameObjectPropsWindow();
 
         /**
          * Initializes the window with the specified game object and
@@ -59,7 +59,7 @@ namespace rl {
          */
 		virtual void initialize(GameObject* object);
 	
-	protected:
+	private:
 
         /**
          * Fills the header part of the window with the Name and Description

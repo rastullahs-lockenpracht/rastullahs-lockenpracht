@@ -1,5 +1,5 @@
 <GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
-  	<Window Type="RastullahLook/FrameWindow" Name="GameObjectWindow">
+  	<Window Type="RastullahLook/FrameWindow" Name="GameObjectPropsWindow">
 		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
         <Property Name="UnifiedSize" Value="{{0,400},{0,500}}"/>
 		<Property Name="Text" Value="Spielobjekt Eigenschaften"/>
@@ -7,13 +7,13 @@
 
 		<!-- Headersheet for the name and description -->
 		
-		<Window Type="DefaultGUISheet" Name="GameObjectWindow/HeaderSheet">
+		<Window Type="DefaultGUISheet" Name="GameObjectPropsWindow/HeaderSheet">
       	 	<Property Name="UnifiedPosition" Value="{{0,30},{0,30}}"/>
        	 	<Property Name="UnifiedSize" Value="{{0,350},{0,100}}"/>
        	
        	 	<!-- Name of the object -->
        	 	 	
-			<Window Type="RastullahLook/StaticText" Name="GameObjectWindow/HeaderSheet/Name">
+			<Window Type="RastullahLook/StaticText" Name="GameObjectPropsWindow/HeaderSheet/Name">
       	 		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
        	 		<Property Name="UnifiedSize" Value="{{0,80},{0,25}}"/>
        	 		<Property Name="Text" Value="Name:"/>
@@ -21,7 +21,7 @@
        	 		<Property Name="HorzFormatting" Value="LeftAligned" />
     		</Window>
     		
-    		<Window Type="RastullahLook/StaticText" Name="GameObjectWindow/HeaderSheet/ObjectName">
+    		<Window Type="RastullahLook/StaticText" Name="GameObjectPropsWindow/HeaderSheet/ObjectName">
       	 		<Property Name="UnifiedPosition" Value="{{0,90},{0,0}}"/>
        	 		<Property Name="UnifiedSize" Value="{{0,250},{0,25}}"/>
        	 		<Property Name="Text" Value="n/a"/>
@@ -31,7 +31,7 @@
     		
     		<!-- Description of the object -->
     	
-			<Window Type="RastullahLook/StaticText" Name="GameObjectWindow/HeaderSheet/Description">
+			<Window Type="RastullahLook/StaticText" Name="GameObjectPropsWindow/HeaderSheet/Description">
       	 		<Property Name="UnifiedPosition" Value="{{0,0},{0,30}}"/>
        	 		<Property Name="UnifiedSize" Value="{{0,80},{0,25}}"/>
        	 		<Property Name="Text" Value="Description:"/>
@@ -39,7 +39,7 @@
        	 		<Property Name="HorzFormatting" Value="LeftAligned" />
     		</Window>
     		
-    		<Window Type="RastullahLook/MultiLineEditbox" Name="GameObjectWindow/HeaderSheet/ObjectDescription">
+    		<Window Type="RastullahLook/MultiLineEditbox" Name="GameObjectPropsWindow/HeaderSheet/ObjectDescription">
       	 		<Property Name="ReadOnly" Value="true"/>
             	<Property Name="Disabled" Value="true"/>
     			<Property Name="UnifiedPosition" Value="{{0,90},{0,30}}"/>
@@ -51,14 +51,14 @@
     	
     	<!-- Properties sheet for the properties of the object -->
     	
-		<Window Type="RastullahLook/TabControl" Name="GameObjectWindow/PropertiesTabPane">
+		<Window Type="RastullahLook/TabControl" Name="GameObjectPropsWindow/PropertiesTabPane">
       	 	<Property Name="UnifiedPosition" Value="{{0,30},{0,140}}"/>
        	 	<Property Name="UnifiedSize" Value="{{0,340},{0,300}}"/>
        	 	<Property Name="FrameEnabled" Value="False"/>
        	 	
        		<!-- Table with two columns for the key/value pair -->
        	 	
-       		<Window Type="RastullahLook/MultiColumnList" Name="GameObjectWindow/PropertiesTabControl/MainTable">
+       		<Window Type="RastullahLook/MultiColumnList" Name="GameObjectPropsWindow/PropertiesTabControl/MainTable">
       	 		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
        	 		<Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
        	 		<Property Name="Text" Value="Eigenschaften"/>
@@ -70,7 +70,7 @@
        	</Window>
 		
        	<!-- The Close button -->
-		<Window Type="RastullahLook/Button" Name="GameObjectWindow/CloseButton">
+		<Window Type="RastullahLook/Button" Name="GameObjectPropsWindow/CloseButton">
            	<Property Name="UnifiedPosition" Value="{{0.3,0},{0.9,0}}"/>
            	<Property Name="UnifiedSize" Value="{{0,125},{0,28}}"/>
 			<Property Name="Font" Value="Vera Serif-10"/>

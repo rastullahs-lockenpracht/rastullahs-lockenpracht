@@ -461,7 +461,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\GameObjectWindow.h"
+					RelativePath=".\include\GameObjectInfoWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\GameObjectPropsWindow.h"
 					>
 				</File>
 				<File
@@ -650,7 +654,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\GameObjectWindow.cpp"
+					RelativePath=".\src\GameObjectInfoWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\GameObjectPropsWindow.cpp"
 					>
 				</File>
 				<File

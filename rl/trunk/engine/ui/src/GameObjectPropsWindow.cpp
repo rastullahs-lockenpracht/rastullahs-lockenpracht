@@ -15,7 +15,7 @@
  */
 
 /**
- * \file GameObjectWindow.cpp
+ * \file GameObjectPropsWindow.cpp
  *
  * Implementation of the GameObject window
  */
@@ -25,7 +25,7 @@
 #include <CEGUIWindowManager.h>
 #include <elements/CEGUIListboxTextItem.h>
 
-#include "GameObjectWindow.h"
+#include "GameObjectPropsWindow.h"
 #include "GameObject.h"
 
 using namespace CEGUI;
@@ -34,16 +34,16 @@ namespace rl {
 
     //------------------------------------------------------- Constructor
 
-	GameObjectWindow::GameObjectWindow() :
-        AbstractWindow("gameobjectwindow.xml", WND_MOUSE_INPUT)
+	GameObjectPropsWindow::GameObjectPropsWindow() :
+        AbstractWindow("gameobjectpropswindow.xml", WND_MOUSE_INPUT)
 	{
         // Get access to the tab control
-        mTabPane = getTabControl("GameObjectWindow/PropertiesTabPane");
-        RlAssert(mTabPane != NULL, "GameObjectWindow/PropertiesTabPane is null");
+        mTabPane = getTabControl("GameObjectPropsWindow/PropertiesTabPane");
+        RlAssert(mTabPane != NULL, "GameObjectPropsWindow/PropertiesTabPane is null");
 
         // Get a access to the main Property table
-        mMainTable = getMultiColumnList("GameObjectWindow/PropertiesTabControl/MainTable");
-        RlAssert(mMainTable != NULL, "GameObjectWindow/PropertiesTabPane is null");
+        mMainTable = getMultiColumnList("GameObjectPropsWindow/PropertiesTabControl/MainTable");
+        RlAssert(mMainTable != NULL, "GameObjectPropsWindow/PropertiesTabPane is null");
 
         mMainTable->addColumn( (utf8*)"Key", 0, cegui_reldim(0.3));
         mMainTable->addColumn( (utf8*)"Type", 1, cegui_reldim(0.3));
@@ -51,20 +51,20 @@ namespace rl {
         
         centerWindow();
 
-        bindCloseToCloseButton();
-        bindClickToCloseWindow(getWindow("GameObjectWindow/CloseButton"));
+        bindDestroyWindowToXButton();
+        bindDestroyWindowToClick(getWindow("GameObjectPropsWindow/CloseButton"));
 	    
 	}
 
     //------------------------------------------------------- Destructor
 
-	GameObjectWindow::~GameObjectWindow() 
+	GameObjectPropsWindow::~GameObjectPropsWindow() 
 	{        
 	}
 
     //------------------------------------------------------- initialize
 
-	void GameObjectWindow::initialize( GameObject* object )
+	void GameObjectPropsWindow::initialize( GameObject* object )
 	{
         // Fill header text fields with name and description
         fillHeader(object);    
@@ -149,15 +149,15 @@ namespace rl {
 
     //------------------------------------------------------- fillHeader
 
-    void GameObjectWindow::fillHeader(GameObject* object)
+    void GameObjectPropsWindow::fillHeader(GameObject* object)
     {
-        getWindow("GameObjectWindow/HeaderSheet/ObjectName")->setText(object->getName());
-        getWindow("GameObjectWindow/HeaderSheet/ObjectDescription")->setText(object->getDescription());
+        getWindow("GameObjectPropsWindow/HeaderSheet/ObjectName")->setText(object->getName());
+        getWindow("GameObjectPropsWindow/HeaderSheet/ObjectDescription")->setText(object->getDescription());
     }
 
     //------------------------------------------------------- addPropertyInt
 
-    void GameObjectWindow::addPropertyInt(const Property& prop, 
+    void GameObjectPropsWindow::addPropertyInt(const Property& prop, 
         CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
@@ -189,7 +189,7 @@ namespace rl {
 
     //------------------------------------------------------- addPropertyIntPair
 
-    void GameObjectWindow::addPropertyIntPair(const Property& prop, 
+    void GameObjectPropsWindow::addPropertyIntPair(const Property& prop, 
         CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
@@ -228,7 +228,7 @@ namespace rl {
 
     //------------------------------------------------------- addPropertyIntTriple
 
-    void GameObjectWindow::addPropertyIntTriple(const Property& prop, 
+    void GameObjectPropsWindow::addPropertyIntTriple(const Property& prop, 
         CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
@@ -269,7 +269,7 @@ namespace rl {
 
     //------------------------------------------------------- addPropertyString
 
-    void GameObjectWindow::addPropertyString(const Property& prop, 
+    void GameObjectPropsWindow::addPropertyString(const Property& prop, 
         CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
@@ -301,7 +301,7 @@ namespace rl {
 
     //------------------------------------------------------- addPropertyBool
 
-    void GameObjectWindow::addPropertyBool(const Property& prop, 
+    void GameObjectPropsWindow::addPropertyBool(const Property& prop, 
         CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
@@ -333,7 +333,7 @@ namespace rl {
 
     //------------------------------------------------------- addPropertyReal
 
-    void GameObjectWindow::addPropertyReal(const Property& prop, 
+    void GameObjectPropsWindow::addPropertyReal(const Property& prop, 
         CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
        // Check column count
@@ -368,7 +368,7 @@ namespace rl {
 
     //------------------------------------------------------- addPropertyVector3
 
-    void GameObjectWindow::addPropertyVector3(const Property& prop, 
+    void GameObjectPropsWindow::addPropertyVector3(const Property& prop, 
         CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
@@ -414,7 +414,7 @@ namespace rl {
 
     //------------------------------------------------------- addPropertyQuaternion
 
-    void GameObjectWindow::addPropertyQuaternion(const Property& prop, 
+    void GameObjectPropsWindow::addPropertyQuaternion(const Property& prop, 
         CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
@@ -483,14 +483,14 @@ namespace rl {
 
     //------------------------------------------------------- addPropertyArray
 
-    void GameObjectWindow::addPropertyArray(const Property& prop, const Ogre::String& key)
+    void GameObjectPropsWindow::addPropertyArray(const Property& prop, const Ogre::String& key)
     {
         // Create the new MultiColumnList with two columns
         // Type and Value and set tab text to key
         int tabCount = mTabPane->getTabCount();
         CEGUI::MultiColumnList* newTable = static_cast<CEGUI::MultiColumnList*>
             (CEGUI::WindowManager::getSingleton().createWindow("RastullahLook/MultiColumnList", 
-            "GameObjectWindow/PropertiesTabControl/" + key));
+            "GameObjectPropsWindow/PropertiesTabControl/" + key));
 
         // Set table properties
         newTable->setText(key);

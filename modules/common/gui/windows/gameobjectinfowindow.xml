@@ -1,0 +1,25 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+  	<Window Type="RastullahLook/FrameWindow" Name="GameObjectInfoWindow">
+		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+        <Property Name="UnifiedSize" Value="{{0,300},{0,300}}"/>
+		
+	
+		<Window Type="RastullahLook/StaticImage" Name="GameObjectInfoWindow/Icon">
+      	 	<Property Name="UnifiedPosition" Value="{{0,20},{0,20}}"/>
+       	 	<Property Name="UnifiedSize" Value="{{0,64},{0,64}}"/>
+       	 	<Property Name="FrameEnabled" Value="False"/>       	 	 	
+       	</Window>
+    	
+		<Window Type="RastullahLook/MultiLineEditbox" Name="GameObjectInfoWindow/Description">
+      	 	<Property Name="UnifiedPosition" Value="{{0,20},{0,80}}"/>
+       	 	<Property Name="UnifiedSize" Value="{{0.6,-40},{1.0,-100}}"/>
+       	 	<Property Name="FrameEnabled" Value="False"/>       	 	 	
+       	</Window>
+
+		<Window Type="DefaultGUISheet" Name="GameObjectInfoWindow/ActionButtons">
+      	 	<Property Name="UnifiedPosition" Value="{{0.6,0},{0,80}}"/>
+       	 	<Property Name="UnifiedSize" Value="{{0.4,-20},{1.0,-80}}"/>
+    	</Window>
+    	
+	</Window>
+</GUILayout>

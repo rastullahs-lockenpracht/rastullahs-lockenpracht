@@ -49,7 +49,7 @@ namespace rl {
 	class JournalWindow;
 	class LogWindow;
 	class ObjectDescriptionWindow;
-    class GameObjectWindow;
+    class GameObjectPropsWindow;
 	class Person;
 	class WindowUpdater;
     class MainMenuWindow;
@@ -82,7 +82,7 @@ namespace rl {
 		void showCharacterSheet(Person* chara);
 		void showContainerContent(Container* container);
 		void showDescriptionWindow(GameObject* obj);
-        void showGameObjectWindow(GameObject* obj);
+        void showGameObjectPropsWindow(GameObject* obj);
 		void showDialog(DialogCharacter* bot);
         void showExitConfirmation();
 		bool showInputOptionsMenu(Creature* actionHolder);

@@ -27,7 +27,8 @@ libRlUi_la_SOURCES = \
 	DialogWindow.cpp \
 	FreeFlightCharacterController.cpp \
 	GameLoggerWindow.cpp \
-	GameObjectWindow.cpp \
+	GameObjectInfoWindow.cpp \
+	GameObjectPropsWindow.cpp \
 	GameSettings.cpp \
 	InfoPopup.cpp \
 	InGameMenuWindow.cpp \
