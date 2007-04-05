@@ -22,8 +22,9 @@ class AITestModule < ContentModule
     end
 
     def start()
-        $CORE.loadMap("Octree", "aitest.scene", "aitest", "aitest.rb")
+        $CORE.loadMap("Octree", "aitest.scene", "aitest")
         $World = $CORE.getWorld();
+        load "aitest.rb"
     end
 end
 

@@ -71,7 +71,7 @@ public:
 
     World* getWorld();
     void loadMap(const Ogre::String type, const Ogre::String filename,
-        const Ogre::String module, const Ogre::String startupScript = "");
+        const Ogre::String module);
 
     RubyInterpreter* getRubyInterpreter();
 

@@ -22,7 +22,8 @@ class MinidemoModule < ContentModule
     end
 
     def start()
-        $CORE.loadMap("Octree", "minidemo.scene", "minidemo", "minidemo.rb");
+        $CORE.loadMap("Octree", "minidemo.scene", "minidemo");
+        load "minidemo.rb"
         $World = $CORE.getWorld();
     end
 end

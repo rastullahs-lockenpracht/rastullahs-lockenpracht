@@ -21,8 +21,10 @@ class IntroModule < ContentModule
 
     def start()
         $SCRIPT.log("Loading menu background..")
-        $CORE.loadMap("Octree", "intro.scene", "General", "intro.rb");
+        $CORE.loadMap("Octree", "intro.scene", "General");
+        load "intro.rb"
         $SCRIPT.log("done")
+        
 
         $SCRIPT.log("showMainMenu()..")
         $WF.showMainMenu()

@@ -22,9 +22,9 @@ class CombatTestModule < ContentModule
     end
 
     def start()
-        $CORE.loadMap("Octree", "combattest.scene",
-            "combattest", "combattest.rb")
+        $CORE.loadMap("Octree", "combattest.scene", "combattest")
         $World = $CORE.getWorld();
+        load "combattest.rb"
     end
 end
 

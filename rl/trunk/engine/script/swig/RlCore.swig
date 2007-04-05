@@ -656,7 +656,7 @@ public:
     static CoreSubsystem& getSingleton(void);
     
     void loadMap(const Ogre::String& type, const Ogre::String& filename,
-		const Ogre::String& resourceGroup, const Ogre::String& startupScript = "");
+		const Ogre::String& resourceGroup);
 	void registerModule(ContentModule* module);
     World* getWorld();
     unsigned long getClock();

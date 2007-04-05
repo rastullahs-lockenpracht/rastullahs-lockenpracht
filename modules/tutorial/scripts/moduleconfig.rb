@@ -22,7 +22,8 @@ class TutorialModule < ContentModule
     end
 
     def start()
-        $CORE.loadMap("Octree", "DialogLevel.scene", "tutorial", "tutorial.rb");
+        $CORE.loadMap("Octree", "DialogLevel.scene", "tutorial");
+        load "tutorial.rb"
         $World = $CORE.getWorld();
     end
 end

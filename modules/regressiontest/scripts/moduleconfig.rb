@@ -23,7 +23,8 @@ class RegressionTestModule < ContentModule
 
     def start()
         $CORE.loadMap("Octree", "regressiontest.scene",
-            "regressiontest", "regressiontest.rb")
+            "regressiontest")
+        load "regressiontest.rb"
         $World = $CORE.getWorld();
     end
 end

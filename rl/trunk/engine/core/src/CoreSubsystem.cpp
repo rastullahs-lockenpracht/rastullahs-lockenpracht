@@ -530,10 +530,9 @@ namespace rl
     }
 
     void CoreSubsystem::loadMap(const String type, const String filename,
-        const String module, const String startupScript)
+        const String module)
     {
         mWorld->loadScene(filename, module);
-        if (startupScript.length() > 0) mRubyInterpreter->executeFile(startupScript);
     }
 
     void CoreSubsystem::loadPlugins()
