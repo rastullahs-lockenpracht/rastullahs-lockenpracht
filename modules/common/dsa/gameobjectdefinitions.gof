@@ -2,8 +2,6 @@
 <GameObjectDefinitions>
 
 	<gameobjectclass classid="door" baseclass="Door">
-		<property name="classid" type="STRING" data="door"/>
-		<property name="baseclass" type="STRING" data="Door"/>
 		<property name="description" type="STRING" data="Eine Tür"/>
 		<property name="geometrytype" type="STRING" data="convexhull"/>
 		<property name="meshfile" type="STRING" data="arc_tuer_01.mesh"/>
@@ -13,8 +11,6 @@
 	</gameobjectclass>
 
 	<gameobjectclass classid="hero" baseclass="Hero">
-		<property name="classid" type="STRING" data="hero" />
-		<property name="baseclass" type="STRING" data="Hero" />
 		<property name="geometrytype" type="STRING" data="ellipsoid" />
 		<property name="mass" type="REAL" data="75"/>
 		<property name="inventorywindowtype" type="STRING" data="inventory_human.xml"/>

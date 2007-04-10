@@ -19,6 +19,7 @@
 
 #include "CommonPrerequisites.h"
 
+#include <xercesc/dom/DOMAttr.hpp>
 #include <xercesc/dom/DOMElement.hpp>
 
 namespace rl 
@@ -37,6 +38,7 @@ namespace rl
         std::vector<PropertySet*> getPropertySets();
 
         PropertyEntry processProperty(XERCES_CPP_NAMESPACE::DOMElement* domElem) const;
+		PropertyEntry processProperty(XERCES_CPP_NAMESPACE::DOMAttr* domAttr) const;
 
     private:
         std::vector<PropertySet*> mPropertySets;
