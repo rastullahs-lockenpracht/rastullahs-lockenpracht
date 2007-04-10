@@ -8,9 +8,9 @@
 # value of the argument.  It should have the format: N[.N[.N]] (N is a
 # number between 0 and 999.  Only the first N is mandatory.)
 AC_DEFUN([SWIG_PROG],[
-	AC_PATH_PROG([SWIG],[swig-pantheon])
+	AC_PATH_PROG([SWIG],[swig])
 	if test -z "$SWIG" ; then
-		AC_MSG_ERROR([cannot find 'swig-pantheon' program, you may download it from http://prdownload.berlios.de/dsa-hl/swig-1.3.29-pantheon.7z])
+		AC_MSG_ERROR([cannot find 'swig' program, you may download it from http://prdownload.berlios.de/dsa-hl/swig-1.3.29-pantheon.7z])
 		SWIG='echo "error: SWIG is not installed, you may download it from http://prdownload.berlios.de/dsa-hl/swig-1.3.29-pantheon.7z" ; false'
 	elif test -n "$1" ; then
 		AC_MSG_CHECKING([for SWIG version])

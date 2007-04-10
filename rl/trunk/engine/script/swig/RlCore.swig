@@ -94,6 +94,31 @@ static swig_type_info *ActorControlledObject_dynamic_cast(void **ptr)
 %}
 DYNAMIC_CAST(SWIGTYPE_p_rl__ActorControlledObject, ActorControlledObject_dynamic_cast);
 
+%{
+static swig_type_info *Job_dynamic_cast(void **ptr) {
+    rl::Job **ppJob = reinterpret_cast<rl::Job **>(ptr);
+      
+    
+    rl::PlayAnimationJob *pPlayAnimationJob = dynamic_cast<rl::PlayAnimationJob*>(*ppJob);
+    if(pPlayAnimationJob){
+      *ptr=reinterpret_cast<void*>(pPlayAnimationJob);
+      return SWIGTYPE_p_rl__PlayAnimationJob;
+    }    
+    rl::PlaySound3dJob *pPlaySound3dJob = dynamic_cast<rl::PlaySound3dJob*>(*ppJob);
+    if(pPlaySound3dJob){
+      *ptr=reinterpret_cast<void*>(pPlaySound3dJob);
+      return SWIGTYPE_p_rl__PlaySound3dJob;
+    }    
+    rl::PlaySound2dJob *pPlaySound2dJob = dynamic_cast<rl::PlaySound2dJob*>(*ppJob);
+    if(pPlaySound2dJob){
+      *ptr=reinterpret_cast<void*>(pPlaySound2dJob);
+      return SWIGTYPE_p_rl__PlaySound2dJob;
+    }  
+    
+    return 0;
+}
+%}
+DYNAMIC_CAST(SWIGTYPE_p_rl__Job, Job_dynamic_cast)
 
 class ActorManager {
 private:
@@ -410,7 +435,7 @@ public:
 	bool is3d() const;
 	void set3d( bool is3d );
 
-    /// Gibt zurück ob der Sound geloopt werden soll 
+    /// Gibt zurck ob der Sound geloopt werden soll 
     bool isLooping() const;
     /// Setzt ob der Sound geloopt werden soll 
     void setLooping( bool looping );
@@ -420,7 +445,7 @@ public:
     bool isPaused();
     /// Stoppt den Sound.
     void stop();
-	/// Setzt die Lautstaerke (1.0 = volle Lautstärke)
+	/// Setzt die Lautstaerke (1.0 = volle Lautstrke)
 	void setVolume(float volume = 1.0);
     // Sets the priority of this sound
     void setPriority(const int priority);
@@ -673,7 +698,7 @@ private:
 public:
 	virtual ~Sound();
     
-    /// Name zurückgeben
+    /// Name zurueckgeben
     const Ogre::String& getName() const;
 
     /// Gibt die eingestellte Position der Soundquelle zurueck
@@ -715,7 +740,7 @@ public:
     // Gets the priority of this sound
     virtual const int getPriority() const;
 
-    /// Gibt zurück ob der Sound geloopt werden soll 
+    /// Gibt zurck ob der Sound geloopt werden soll 
     bool isLooping() const;
     /// Setzt ob der Sound geloopt werden soll 
     void setLooping( bool looping );
@@ -724,36 +749,78 @@ public:
     bool isValid() const;
 };
 
-// define as empty at this time. Must not yet be used from within ruby.
+%apply SWIGTYPE *DYNAMIC { Job * };
+
+%feature("director") Job;
 class Job
 {
-private:
-	Job();
+public:
+    /**
+     * Constructor.
+     *
+     *  @param isDiscardable Set this true, if the Job's goal can be reached in a single
+     *         step. For instance if a Job is supposed to slowly close a window by fading
+     *         its alpha to 0, then it is discardable, and Job#discard will just finish
+     *         the process by closing the window.
+     *
+     *  @param destroyWhenDone Set this to true, when the JobScheduler shall delete the
+     *         Job, after execution is finished. This should usually be the case, but
+     *         sometimes it is sensible to pool a number of Jobs for reuse.
+     */
+	Job( bool isDiscardable, bool destroyWhenDone );
+	virtual ~Job();
+	
+	/**
+     * This is the function in which the job is supposed to do whatever it is supposed to do.
+     * This function is called by the JobScheduler at most once per frame. The frequency depends
+     * on the Job's priority given with JobScheduler#addJob.
+     * @param time the frame-time time, since the last call of this function.
+     * @return true, when the job is done, false else. If false is returned. The Job will be
+     * rescheduled for another execution.
+     */
+	virtual bool execute(Ogre::Real time) = 0;
+    private:
+    bool execute(Ogre::Real time);
+    /// Returns whether the job can be removed from the queue by the scheduler,
+    virtual bool isDiscardable();
+
+    /// Finish whatever the Job is doing. It won't get a chance to continue.
+    /// Overloaded functions must *not* call this implementation.
+    virtual void discard();
+
+    // Returns true, if the Job shall be deleted, if the Job is finished. Returns false else.
+    virtual bool destroyWhenDone();
 };
 
 class PlaySound2dJob : public rl::Job
 {
 public:
-
     PlaySound2dJob(const Ogre::String& sound, Ogre::Real volume=1.0f);
     virtual ~PlaySound2dJob();
+
+private:
+    bool execute(Ogre::Real time);
 };
 
 class PlaySound3dJob : public rl::Job
 {
 public:
-
     PlaySound3dJob(const Ogre::String& sound, const Ogre::Vector3& pos, Ogre::Real volume=1.0f);
     virtual ~PlaySound3dJob();
+
+private:
+    bool execute(Ogre::Real time);
 };
 
-class PlayAnimationJob : public Job
+class PlayAnimationJob : public rl::Job
 {
 public:
-
     PlayAnimationJob(Actor* actor, const Ogre::String& anim, bool doLoop=false,
 		bool replaceAllAnims=true);
     virtual ~PlayAnimationJob();
+    
+private:
+    bool execute(Ogre::Real time);
 };
 
 class JobScheduler
