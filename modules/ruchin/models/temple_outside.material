@@ -1,0 +1,31 @@
+
+material temple_outside
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture_alias 0
+				texture arc_Temple_diffuse.png
+			}
+
+			texture_unit
+			{
+				texture_alias 1
+				texture arc_Temple_Dirtmap.png
+				tex_coord_set 1
+			}
+
+			texture_unit
+			{
+				texture_alias 2
+				texture temple_outside_AO.png
+				tex_coord_set 2
+			}
+		}
+
+	}
+
+}

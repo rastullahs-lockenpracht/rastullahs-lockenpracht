@@ -243,6 +243,22 @@
 
 		</node>
 		
+		<node name="temple_outside" id="1" >
+			<position x="122.11" y="0.076957" z="-20.5749" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="temple_outside"
+				id="2"
+				meshFile ="temple_innen.mesh"
+				materialFile="ruchin_terrainlayout19.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		
 		<node name="Statue_02" id="1" >
 			<position x="112.486" y="1.53497" z="-17.18" />
 			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
@@ -273,5 +289,6 @@
   
 
 		</node>
+		
 	</nodes>
 </scene>
