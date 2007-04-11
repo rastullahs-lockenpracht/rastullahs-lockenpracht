@@ -390,10 +390,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\VanityModeCharacterController.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\WindowFactory.h"
 				>
 			</File>
@@ -584,10 +580,6 @@
 			</File>
 			<File
 				RelativePath=".\src\UiSubsystem.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\VanityModeCharacterController.cpp"
 				>
 			</File>
 			<File

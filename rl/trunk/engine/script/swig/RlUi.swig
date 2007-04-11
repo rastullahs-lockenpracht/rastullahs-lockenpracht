@@ -31,7 +31,6 @@ public:
 		CTRL_MOVEMENT,
 		CTRL_DIALOG,
 		CTRL_CUTSCENE,
-        CTRL_VANITY_MODE,
 		CTRL_COMBAT,
 	};
 

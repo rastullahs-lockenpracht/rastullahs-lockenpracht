@@ -44,7 +44,6 @@
 #include "Person.h"
 #include "ScriptWrapper.h"
 #include "SoundManager.h"
-#include "VanityModeCharacterController.h"
 #include "WindowFactory.h"
 #include "WindowManager.h"
 #include "World.h"
@@ -264,11 +263,6 @@ namespace rl {
         else if (type == CharacterController::CTRL_DIALOG)
         {
             mCharacterController = new DialogCharacterController(camera,
-                mCharacter ? mCharacter->getActor() : NULL);
-        }
-        else if (type == CharacterController::CTRL_VANITY_MODE)
-        {
-            mCharacterController = new VanityModeCharacterController(camera,
                 mCharacter ? mCharacter->getActor() : NULL);
         }
         else if (type == CharacterController::CTRL_CUTSCENE)
