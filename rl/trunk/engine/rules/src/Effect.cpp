@@ -83,34 +83,6 @@ namespace rl
 		mQuantifier = quantifier;
 	}
 
-	void Effect::addTag(EffectTag tagId)
-	{
-		// no doubles
-		Tags::const_iterator it = mTags.find(tagId);
-        if (it == mTags.end())
-        {
-			mTags.insert(tagId);
-        }
-	}
-
-	void Effect::removeTag(EffectTag tagId)
-	{
-		Tags::const_iterator it = mTags.find(tagId);
-        if (it != mTags.end())
-        {
-			mTags.erase(tagId);
-        }
-	}
-
-	bool Effect::queryTag(EffectTag tagId)
-	{
-		Tags::const_iterator it = mTags.find(tagId);
-        if (it != mTags.end())
-        {
-			return true;
-        }
-		return false;
-	}
 
 	const int Effect::getStufe()
 	{

@@ -555,9 +555,6 @@ namespace rl {
 		virtual void setDuration(int newDuration);
 		Quantifier getQuantifier();
 		void setQuantifier(Quantifier quantifier);
-		virtual void addTag(EffectTag tagId);
-		virtual void removeTag(EffectTag tagId);
-		virtual bool queryTag(EffectTag tagId);
 		virtual const int getStufe();
 		virtual void increaseStufe();
 		virtual void decreaseStufe();
@@ -590,10 +587,6 @@ namespace rl {
     public:
     
     typedef std::string Wert;
-        // some targets
-    const std::string ALL_EIGENSCHAFTEN = "alle Eigenschaften";
-    const std::string ALL_TALENTE = "alle Talente";
-
         enum Alignment
         {
             ALIGNMENT_ALLY,    ///< Creature fights with the player.
@@ -602,14 +595,24 @@ namespace rl {
         };
         
 
-    static const Wert WERT_MOD_AE = "ModAE";
-    static const Wert WERT_MOD_LE = "ModLE";
-    static const Wert WERT_MOD_AU = "ModAU";
-    static const Wert WERT_MOD_MR = "ModMR";
-    static const Wert WERT_GS = "GS";
-    static const Wert WERT_SOZIALSTATUS = "SO";
-    static const Wert WERT_BE = "BE";
-    static const Wert WERT_KAMPFUNFAEHIGKEITSSCHWELLE ="Kampfunfähigkeitsschwelle"; 
+		// some targets
+		static const std::string Creature::ALL_EIGENSCHAFTEN = "alle Eigenschaften";
+		static const std::string Creature::ALL_TALENTE = "alle Talente";
+		static const Creature::Wert Creature::WERT_MOD_AE = "ModAE";
+		static const Creature::Wert Creature::WERT_MOD_LE = "ModLE";
+		static const Creature::Wert Creature::WERT_MOD_AU = "ModAU";
+		static const Creature::Wert Creature::WERT_MOD_MR = "ModMR";
+		static const Creature::Wert Creature::WERT_MOD_AT = "ModAT";
+		static const Creature::Wert Creature::WERT_MOD_PA = "ModPA";
+		static const Creature::Wert Creature::WERT_MOD_FK = "ModFK";
+		static const Creature::Wert Creature::WERT_GS = "GS";
+		static const Creature::Wert Creature::WERT_SOZIALSTATUS = "SO";
+		static const Creature::Wert Creature::WERT_BE = "BE";
+		static const Creature::Wert Creature::WERT_INI = "INI";
+		static const Creature::Wert Creature::WERT_KAMPFUNFAEHIGKEITSSCHWELLE ="Kampfunfähigkeitsschwelle"; 
+		static const Creature::Wert Creature::WERT_REGENERATION = "Regeneration";
+		
+		
         Creature(unsigned int id);
         virtual ~Creature();
 

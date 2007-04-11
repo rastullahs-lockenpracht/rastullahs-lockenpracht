@@ -109,23 +109,6 @@ namespace rl
 		Quantifier getQuantifier();
         /// @see Quantifier
 		void setQuantifier(Quantifier quantifier);
-		/** 
-         *  Adds a tag to the effect. 
-         *  Tags are describing the type of an Effect, so other Effects can 
-         *  identify it. An example would be 'Poison', as well as 'mineralic 
-         *  poison'.
-         **/
-		virtual void addTag(EffectTag tagId);
-        /**
-         * Removes a tag from the effect.
-         * @see addTag
-         **/
-		virtual void removeTag(EffectTag tagId);
-        /**
-         * Queries the effect for its tags.
-         * @see addTag
-         **/
-		virtual bool queryTag(EffectTag tagId);
         /**
          * Returns the Stufe (level) of the effect.
          **/
