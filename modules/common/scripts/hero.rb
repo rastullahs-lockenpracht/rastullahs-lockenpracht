@@ -15,7 +15,7 @@ class Hero < Person
         setEigenschaft("GE", 12);
         setEigenschaft("KO", 13); #KO
         setEigenschaft("KK", 14); #KK
-        setWert(2, 10); # LE-Mod
+		setWert(Creature::WERT_MOD_LE, 10); # LE-Mod
 
 		$SCRIPT.log("LeP und AuP auffüllen");
         modifyLe(1000, false); # LeP = LE

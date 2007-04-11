@@ -6,7 +6,8 @@ class Paralues < Effect
   end
 
   def getStatus()
-    return (STATUS_PETRIFIED | STATUS_INVULNERABLE | STATUS_DEAF);
+    rval = (STATUS_PETRIFIED | STATUS_INVULNERABLE | STATUS_DEAF);
+    return rval;
   end
     
   def check()

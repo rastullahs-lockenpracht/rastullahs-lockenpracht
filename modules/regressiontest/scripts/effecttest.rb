@@ -45,7 +45,7 @@ class EffectTest < TestCase
     def initialize(center)
         super(center)
         # Define a base box to place everything else on.
-        height = 0.3
+        height = 0.1
         min_base = [-2.0, 0.05, -2.0]
         max_base = [2.0, height, 2.0]
         base = $AM.createBoxPrimitiveActor("EffectTestBase", min_base, max_base,
