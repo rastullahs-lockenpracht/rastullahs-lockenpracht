@@ -325,35 +325,25 @@ material Ruchin_p
 	}
 }
 
-material Ruchin/base
-{
-//lighting off
-	receive_shadows off
-	technique
+material Ruchin/base : NormalMapMaterialSpecular2Lights2UV
 	{
-		pass
-		{
-			ambient 0.8 0.8 0.8 1
-			//ambient 0.0 0.0 0.0 1
-			//ambient vertexcolour
- 
-			//specular 0 0 0 1 10
-			
-			//diffuse 0.9 0.9 0.9 
-			//emissive 0.105882 0.105882 0.105882 1
-			//emissive vertexcolour
-			
-			texture_unit
-			{
-				texture ruchin_atlasmap.dds
-			}
 
-			
-		}
-
-	}
+			set_texture_alias normalmap ruchin_atlas_normal.dds
+			set_texture_alias diffusemap ruchin_atlasmap.dds
+			set_texture_alias specmap ruchin_atlas_spec.dds
 }
 
+material base : NormalMapMaterialSpecular2LightsAO2UV
+{
+	
+
+
+			set_texture_alias normalmap ruchin_atlas_normal.png
+			set_texture_alias diffusemap ruchin_atlasmap.png
+			set_texture_alias specmap ruchin_atlas_spec.png
+			set_texture_alias aomap ruchin_AO_s_n.png
+
+}
 
 
 material Ruchin/Schiefer
