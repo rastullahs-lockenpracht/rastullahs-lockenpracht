@@ -124,7 +124,7 @@ class ToggleDebugVisualisationAction < Action
     else
       $DVM.showAll()
     end
-    @isShown = (@isShown == false)
+    @isShown = (not @isShown)
   end
 end
 
