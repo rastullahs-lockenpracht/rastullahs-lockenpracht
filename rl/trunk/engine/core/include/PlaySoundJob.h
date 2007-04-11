@@ -19,23 +19,19 @@
 
 #include "CorePrerequisites.h"
 #include "Job.h"
+#include "Sound.h"
 
 namespace rl
 {
-    class Sound;
 
     class _RlCoreExport PlaySound2dJob : public Job
     {
     public:
 
-        PlaySound2dJob(const Ogre::String& sound, Ogre::Real volume=1.0f);
+        PlaySound2dJob(const Ogre::String& sound, Ogre::Real volume=1.0f, int priority = Sound::PRIO_MUSIC);
         virtual ~PlaySound2dJob();
 
-        /// Play the sound.
-        /// @return true, when the sound is done playing, false else.
-        /// @todo this return-behaviour is actually a hack to prevent a memory leak.
-        ///       We have to find a way to get rid of the sound automatically, when it is done
-        ///       playing.
+        /// Always returns TRUE, because sound will autodestruct.
         virtual bool execute(Ogre::Real time);
 
     private:
@@ -47,14 +43,10 @@ namespace rl
     {
     public:
 
-        PlaySound3dJob(const Ogre::String& sound, const Ogre::Vector3& pos, Ogre::Real volume=1.0f);
+        PlaySound3dJob(const Ogre::String& sound, const Ogre::Vector3& pos, Ogre::Real volume=1.0f, int priority = Sound::PRIO_SFX_ENVIRONMENT);
         virtual ~PlaySound3dJob();
 
-        /// Play the sound.
-        /// @return true, when the sound is done playing, false else.
-        /// @todo this return-behaviour is actually a hack to prevent a memory leak.
-        ///       We have to find a way to get rid of the sound automatically, when it is done
-        ///       playing.
+        /// Always returns TRUE, because sound will autodestruct.
         virtual bool execute(Ogre::Real time);
 
     private:

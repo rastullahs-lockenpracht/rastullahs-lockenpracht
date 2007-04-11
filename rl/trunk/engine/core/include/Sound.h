@@ -43,6 +43,15 @@ namespace rl {
         public EventCaster<SoundEvent>, public EventSource
     {
     public:
+        // Einige Standardwerte für Soundprioritäten.
+        enum SOUND_PRIORITY {
+            PRIO_SPEECH = 30,
+            PRIO_MUSIC = 75,
+            PRIO_SFX_ENVIRONMENT = 128,
+            PRIO_SFX_OTHER = 175,
+            PRIO_OTHER = 220
+        };
+
         /// Konstruktor
         Sound(const SoundResourcePtr& soundres, SoundDriver* creator);
         /// Destruktor

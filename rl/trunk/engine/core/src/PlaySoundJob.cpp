@@ -24,13 +24,14 @@ using namespace Ogre;
 namespace rl
 {
 
-    PlaySound2dJob::PlaySound2dJob(const String& sound, Real volume)
+    PlaySound2dJob::PlaySound2dJob(const String& sound, Real volume, int priority)
         : Job(false, true), mSound(NULL), mExecuted(false)
     {
         mSound = SoundManager::getSingleton().getActiveDriver()->createSound(sound, ST_SAMPLE);
         mSound->set3d(false);
         mSound->setVolume(volume);
         mSound->setLooping(false);
+        mSound->setPriority(priority);
     }
 
     PlaySound2dJob::~PlaySound2dJob()
@@ -50,7 +51,7 @@ namespace rl
         return true;
     }
 
-    PlaySound3dJob::PlaySound3dJob(const String& sound, const Ogre::Vector3& pos, Real volume)
+    PlaySound3dJob::PlaySound3dJob(const String& sound, const Ogre::Vector3& pos, Real volume, int priority)
         : Job(false, true), mSound(NULL), mExecuted(false)
     {
         mSound = SoundManager::getSingleton().getActiveDriver()->createSound(sound, ST_SAMPLE);
@@ -58,6 +59,7 @@ namespace rl
         mSound->setPosition(pos);
         mSound->setVolume(volume);
         mSound->setLooping(false);
+        mSound->setPriority(priority);
     }
 
     PlaySound3dJob::~PlaySound3dJob()

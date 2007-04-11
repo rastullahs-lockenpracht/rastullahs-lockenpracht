@@ -11,6 +11,7 @@ require 'TimeTest.rb'
 require 'InventoryTest.rb'
 require 'ErrorHandlingTest.rb'
 require 'JobSequenceTest.rb'
+require 'SoundTest.rb'
 require 'effecttest.rb'
 
 # Physik aktivieren
@@ -46,4 +47,5 @@ ErrorHandlingTest.new([-10, 0, 5])
 InventoryTest.new([0, 0, 10])
 JobSequenceTest.new([5, 0, -5])
 EffectTest.new([5, 0, 5])
+SoundTest.new([10, 0, 10])
 $SCRIPT.log("tests initialisiert.");

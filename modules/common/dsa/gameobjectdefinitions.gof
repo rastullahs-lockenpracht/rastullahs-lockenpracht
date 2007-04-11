@@ -16,4 +16,16 @@
 		<property name="inventorywindowtype" type="STRING" data="inventory_human.xml"/>
 	</gameobjectclass>
 
+	<gameobjectclass classid="torch" baseclass="Torch">
+		<property name="classid" type="STRING" data="torch"/>
+		<property name="baseclass" type="STRING" data="Torch"/>
+		<property name="description" type="STRING" data="Eine Fackel"/>
+		<property name="geometrytype" type="STRING" data="convexhull"/>
+		<property name="meshfile" type="STRING" data="ins_fackel_01.mesh"/>
+		<property name="sound" type="STRING" data="feuer_knisternd_01.ogg"/>
+		<property name="lightable" type="BOOL" data="true"/>
+		<property name="lit" type="BOOL" data="true"/>
+	</gameobjectclass>
+
+
 </GameObjectDefinitions>

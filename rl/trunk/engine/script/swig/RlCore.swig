@@ -688,6 +688,15 @@ class Sound
 private:
 	Sound(const SoundResourcePtr& res);
 public:
+    // Einige Standardwerte für Soundprioritäten.
+    enum SOUND_PRIORITY {
+            PRIO_SPEECH = 30,
+            PRIO_MUSIC = 75,
+            PRIO_SFX_ENVIRONMENT = 128,
+            PRIO_SFX_OTHER = 175,
+            PRIO_OTHER = 220
+    };
+
 	virtual ~Sound();
     
     /// Name zurueckgeben
@@ -787,7 +796,7 @@ public:
 class PlaySound2dJob : public rl::Job
 {
 public:
-    PlaySound2dJob(const Ogre::String& sound, Ogre::Real volume=1.0f);
+    PlaySound2dJob(const Ogre::String& sound, Ogre::Real volume=1.0f, int priority = Sound::PRIO_MUSIC);
     virtual ~PlaySound2dJob();
 
 private:
@@ -797,7 +806,7 @@ private:
 class PlaySound3dJob : public rl::Job
 {
 public:
-    PlaySound3dJob(const Ogre::String& sound, const Ogre::Vector3& pos, Ogre::Real volume=1.0f);
+    PlaySound3dJob(const Ogre::String& sound, const Ogre::Vector3& pos, Ogre::Real volume=1.0f, int priority = Sound::PRIO_SFX_ENVIRONMENT);
     virtual ~PlaySound3dJob();
 
 private:

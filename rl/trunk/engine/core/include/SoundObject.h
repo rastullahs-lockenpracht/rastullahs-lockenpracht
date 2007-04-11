@@ -27,7 +27,6 @@ namespace rl {
 
     class Sound;
     
-    
     /** Klasse für alle Soundobjekte, die man an einen Aktor
      *  heften kann. Zwischen Actor und ActorControlledObject
      *  besteht eine 1:1-Beziehung.
