@@ -117,19 +117,19 @@ namespace rl
 			static const std::string ALL_EIGENSCHAFTEN;
 			static const std::string ALL_TALENTE;
 
-    static const Wert WERT_MOD_AE;
-    static const Wert WERT_MOD_LE;
-    static const Wert WERT_MOD_AU;
-    static const Wert WERT_MOD_MR;
-    static const Wert WERT_MOD_AT;
-    static const Wert WERT_MOD_PA;
-    static const Wert WERT_MOD_FK;
-    static const Wert WERT_GS;
-    static const Wert WERT_SOZIALSTATUS;
-    static const Wert WERT_BE;
-    static const Wert WERT_INI;
-    static const Wert WERT_KAMPFUNFAEHIGKEITSSCHWELLE; 
-    static const Wert WERT_REGENERATION;
+            static const Wert WERT_MOD_AE;
+            static const Wert WERT_MOD_LE;
+            static const Wert WERT_MOD_AU;
+            static const Wert WERT_MOD_MR;
+            static const Wert WERT_MOD_AT;
+            static const Wert WERT_MOD_PA;
+            static const Wert WERT_MOD_FK;
+            static const Wert WERT_GS;
+            static const Wert WERT_SOZIALSTATUS;
+            static const Wert WERT_BE;
+            static const Wert WERT_INI;
+            static const Wert WERT_KAMPFUNFAEHIGKEITSSCHWELLE; 
+            static const Wert WERT_REGENERATION;
     			
 			Creature(unsigned int id);
 
