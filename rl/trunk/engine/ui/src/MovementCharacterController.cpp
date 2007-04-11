@@ -128,7 +128,7 @@ namespace rl {
             mCharacterActor->getControlledObject());
         AxisAlignedBox aabb = charMesh->getDefaultSize();
 
-        // wird später neu berechnet in calculateOptimalCameraPosition
+        // wird spï¿½er neu berechnet in calculateOptimalCameraPosition
         mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45f, 0);
 
         // The actor should be controlled manually,
@@ -205,7 +205,7 @@ namespace rl {
     void MovementCharacterController::run(Real elapsedTime)
     {
         //int movement = mCharacterState.mCurrentMovementState;
-        //updateAnimationState(movement); // lasse updateAnimationState das ändern
+        //updateAnimationState(movement); // lasse updateAnimationState das ï¿½dern
         //updateCharacterState(movement, elapsedTime);
         updateCharacterState(elapsedTime);
         updateCameraLookAt(elapsedTime);
@@ -269,7 +269,7 @@ namespace rl {
         Real animSpeed = 1;
         static Real lastSpeed = 1;
         unsigned int animTimesToPlay = 0;
-        Real gs = mCharacter->getWert(Creature::WERT_GS);
+		Real gs = mCharacter->getWert(Creature::WERT_GS);
         static String lastCollisionPose = "";
         String collisionPose = "idle";
 
@@ -816,7 +816,7 @@ namespace rl {
         // ---------------------------- show animation -----------------------------
         if (newAnimation != "")
         {
-            // nur schneller nicht langsamer ausführen!
+            // nur schneller nicht langsamer ausfhren!
             if (animSpeed < 1) animSpeed = 1;
 
             if (lastAnimation != newAnimation)
@@ -845,7 +845,7 @@ namespace rl {
             }
             else
             {
-                if ( lastSpeed != animSpeed ) // Geschwindigkeitsänderung
+                if ( lastSpeed != animSpeed ) // Geschwindigkeitsï¿½derung
                 {
                     MeshAnimation *meshAnim = mesh->getAnimation(newAnimation);
                     meshAnim->setSpeed(animSpeed);
@@ -901,7 +901,7 @@ namespace rl {
         }
         else if( mViewMode == VM_THIRD_PERSON )
         {
-            // Kamera-Größe beziehen
+            // Kamera-Grï¿½e beziehen
             CameraObject* ogreCam = static_cast<CameraObject*>(
                 mCameraActor->getControlledObject());
             AxisAlignedBox aabb = ogreCam->getDefaultSize();
@@ -983,7 +983,7 @@ namespace rl {
             getContactPositionAndNormal(point, normal);
 
             // determine if this contact is with the floor.
-            // Meaning the contact normal has an angle to UNIT_Y of 20° or less.
+            // Meaning the contact normal has an angle to UNIT_Y of 20 or less.
             Degree angle = Math::ACos(normal.dotProduct(Vector3::UNIT_Y));
 
             Vector3 charPos;
@@ -1017,10 +1017,10 @@ namespace rl {
             }
 
 
-            // beinflusst die Sprunghöhe!
-            // der erste Sprung bleibt normal, jeder weitere Sprung ist ungefähr um
-            // die angegebene Zahl höher (eher 2*die angegebene Zahl oder so,
-            // vermutlich wieder framedauer abhängig!)
+            // beinflusst die Sprunghï¿½e!
+            // der erste Sprung bleibt normal, jeder weitere Sprung ist ungefï¿½r um
+            // die angegebene Zahl hï¿½er (eher 2*die angegebene Zahl oder so,
+            // vermutlich wieder framedauer abhï¿½gig!)
             setContactElasticity(0.3f); // was 0.3f
             setContactSoftness(0.01f);
 
@@ -1056,7 +1056,7 @@ namespace rl {
         else
         {
             mCharacterState.mJumpTimer += timestep;
-            static Real timeSinceLastFloorContact(0.0f); // damit kleine Bodenunebenheiten nicht gleich zum "Sprung führen"
+            static Real timeSinceLastFloorContact(0.0f); // damit kleine Bodenunebenheiten nicht gleich zum "Sprung fhren"
             if( !mCharacterState.mHasFloorContact )
                 timeSinceLastFloorContact += timestep;
             else
@@ -1138,7 +1138,7 @@ namespace rl {
                 }
                 else
                 {
-                    Real delay = 2 * PhysicsManager::getSingleton().getMaxTimestep(); // so ist die Beschleunigung unabhängig von der framerate!
+                    Real delay = 2 * PhysicsManager::getSingleton().getMaxTimestep(); // so ist die Beschleunigung unabhï¿½gig von der framerate!
                     if( mCharacterState.mDesiredVel.squaredLength() < currentVel.squaredLength() )
                         delay *= 4;
                     force += mass*(orientation*mCharacterState.mDesiredVel - currentVel) / delay;
@@ -1257,7 +1257,7 @@ namespace rl {
 
 
 
-        // Kamera-Größe beziehen
+        // Kamera-Grï¿½e beziehen
         CameraObject* ogreCam = static_cast<CameraObject*>(
             mCameraActor->getControlledObject());
         AxisAlignedBox camAabb = ogreCam->getDefaultSize();
@@ -1286,9 +1286,9 @@ namespace rl {
             RaycastInfo infoCastOptPos = mRaycast->execute(
                 world,
                 materialId,
-                camPos + camRadius * normToOptCamPos, // Größe der Kamera einbeziehen
+                camPos + camRadius * normToOptCamPos, // Grï¿½e der Kamera einbeziehen
                 optimalCamPos + camRadius * normToOptCamPos,
-                true); // Größe der Kamera einbeziehen
+                true); // Grï¿½e der Kamera einbeziehen
 
             RaycastInfo infoCastChar = mRaycast->execute(
                 world,
@@ -1325,17 +1325,17 @@ namespace rl {
                     RaycastInfo infoCastNewPos;
                     Real delta = lenToOptCamPos/2.0f;
                     Vector3 temp = charPos + delta * normToOptCamPos;
-                    // Annäherung in Schritten, an den Punkt, der von der aktuellen Position aus erreicht werden kann!
+                    // Annï¿½erung in Schritten, an den Punkt, der von der aktuellen Position aus erreicht werden kann!
                     while( delta > 0.05 ) // genauigkeit des gefundenen Punktes
                     {
                         infoCastNewPos = mRaycast->execute(
                             world,
                             materialId,
-                            camPos + camRadius * normToOptCamPos, // Größe der Kamera!
+                            camPos + camRadius * normToOptCamPos, // Grï¿½e der Kamera!
                             temp,
                             true);
                         delta = delta/2.0f;
-                        if( infoCastNewPos.mBody ) // Hindernis gefunden, näher an Char ran
+                        if( infoCastNewPos.mBody ) // Hindernis gefunden, nï¿½er an Char ran
                         {
                             temp = temp - delta * normToOptCamPos;
                         }
@@ -1345,9 +1345,9 @@ namespace rl {
                         }
                     }
 
-                    // Jetzt können wir sicher sein, dass diese Stelle erreichbar ist:
+                    // Jetzt kï¿½nen wir sicher sein, dass diese Stelle erreichbar ist:
                     temp = temp - 0.05 * normToOptCamPos;
-                    // Größe der Kamera einbeziehen
+                    // Grï¿½e der Kamera einbeziehen
                     optimalCamPos = temp - camRadius * normToOptCamPos;
                     // so ab hier kann ganz normal weiter gerechnet werden!
                 }
@@ -1356,7 +1356,7 @@ namespace rl {
 
             static bool isPathfinding (false);
             static unsigned int lastReachableBufPos;
-            // gibt an, ob schon gebufferte Daten für den
+            // gibt an, ob schon gebufferte Daten fr den
             // neuen Weg existieren und dort weitergemacht werden kann,
             // oder ob neu nach einem Weg gesucht werden muss!
             if( infoCastChar.mBody && infoCastOptPos.mBody ) // neue Position und Character nicht erreichbar
@@ -1364,8 +1364,8 @@ namespace rl {
                 // anderen Weg finden
                 // hier werden erstmal nur alte Player-Positionen betrachtet
                 // es wird davon ausgegangen, dass diese "nah" genug aneinanderliegen
-                // und durch "Geraden" miteinander verbunden werden können
-                // durch das spring-Acc-Damping System sollten die Bewegungen trotzdem flüssig
+                // und durch "Geraden" miteinander verbunden werden kï¿½nen
+                // durch das spring-Acc-Damping System sollten die Bewegungen trotzdem flssig
                 // und weich (keine scharfen Kurven) erscheinen
 
                 size_t buffSize = charPositionsBuffer.size();
@@ -1406,12 +1406,12 @@ namespace rl {
                 }
                 else
                 {
-                    LOG_DEBUG(Logger::UI, " Pathfinding der Kamera sollte weitergeführt werden!");
+                    LOG_DEBUG(Logger::UI, " Pathfinding der Kamera sollte weitergefhrt werden!");
 
 
                     // suche von lastReachableBufPos aus der letzten Frame nach neuen erreichbaren Buffer-Positionen
                     unsigned int delta = lastReachableBufPos; // das ist die von der letzten Frame!
-                    while ( delta > 0 ) // delta = 0 braucht nicht überprüft zu werden, wurde oben schon ausgeschlossen!
+                    while ( delta > 0 ) // delta = 0 braucht nicht berprft zu werden, wurde oben schon ausgeschlossen!
                     {
                         RaycastInfo info = mRaycast->execute(
                             world,
@@ -1429,7 +1429,7 @@ namespace rl {
                     // auf zu der ermittelten Position!
                     optimalCamPos = charPositionsBuffer[ (charPositionsBufferIdx - lastReachableBufPos) % buffSize ];
                 }
-                isPathfinding = true; // so zum Testen noch keine Optimierung (doppelte Prüfung gleicher sachen)
+                isPathfinding = true; // so zum Testen noch keine Optimierung (doppelte Prfung gleicher sachen)
             }
             else
             {
@@ -1496,7 +1496,7 @@ namespace rl {
             }
 
 
-            // Kamera-Größe beziehen
+            // Kamera-Grï¿½e beziehen
             CameraObject* ogreCam = static_cast<CameraObject*>(
                 mCameraActor->getControlledObject());
             AxisAlignedBox aabb = ogreCam->getDefaultSize();
@@ -1517,7 +1517,7 @@ namespace rl {
             endRay[0] = targetCamPos; // hier ist nun leider was doppelt,
                                       // dadurch kann aber sichergestellt
                                       // werden, dass kein Objekt direkt
-                                      // hinter dem Helden übersehen wird
+                                      // hinter dem Helden bersehen wird
             startRay[1] = charPos + radiusOffset;
             endRay[1] = targetCamPos + radiusOffset;
             radiusOffset = charOri * Vector3(radius, sinPitchRad, cosPitchRad);
@@ -1730,7 +1730,7 @@ namespace rl {
         Vector3 interpolatedSize;
 
 
-        // Die Größe der beiden Animationen abfragen
+        // Die Grï¿½e der beiden Animationen abfragen
         MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
         aab = mesh->getPoseSize(actAnim);
         size[0] = aab.getMaximum() - aab.getMinimum();
@@ -1738,7 +1738,7 @@ namespace rl {
         aab = mesh->getPoseSize(newAnim);
         size[1] = aab.getMaximum() - aab.getMinimum();
 
-        // interpolierte Größe (linear) berechnen
+        // interpolierte Grï¿½e (linear) berechnen
         interpolatedSize = size[0] + factor*(size[1] - size[0]);
 
         // LookAtOffset berechnen!

@@ -50,3 +50,7 @@
 
 %typemap(directorout) Ogre::String*, Ogre::String&, const Ogre::String*, const Ogre::String&
 "    $result = new Ogre::String(StringValuePtr($1));"
+
+%typemap(argout) Ogre::String, const Ogre::String
+"    $result = rb_str_buf_new2($1.c_str());"
+

@@ -72,7 +72,7 @@ void SteeringVehicle::initialize(void)
 	Vector3 inertia;
 	mActor->getPhysicalThing()->_getBody()->getMassMatrix(mMass, inertia);
 
-//	mSpeed = (float)mCreature->getWert(WERT_GS) / (float)Date::ONE_KAMPFRUNDE * 1000.0f;
+//	mSpeed = (float)mCreature->getWert(Creature::WERT_GS) / (float)Date::ONE_KAMPFRUNDE * 1000.0f;
 
 //  reset SteerLibraryMixin state
 	SimpleVehicle_2::reset ();

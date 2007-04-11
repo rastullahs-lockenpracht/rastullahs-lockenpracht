@@ -29,10 +29,6 @@ namespace rl
 	class _RlRulesExport Effect
 	{
 	public:
-        
-      // some targets
-      static const CeGuiString ALL_EIGENSCHAFTEN;
-      static const CeGuiString ALL_TALENTE;
       
       typedef unsigned long Status;
       static const Status STATUS_NONE           = 1<<0;
@@ -62,6 +58,9 @@ namespace rl
       static const ModTag MODTAG_NONE           = 1 << 0;
       static const ModTag MODTAG_KRANKHEIT      = 1 << 1;
       static const ModTag MODTAG_RECALCULATE    = 1 << 2;
+	  static const ModTag MODTAG_REGENERATION_LE = 1 << 3;
+	  static const ModTag MODTAG_REGENERATION_AE = 1 << 4;
+	  static const ModTag MODTAG_REGENERATION_AU = 1 << 5;
 
       
       // other constants

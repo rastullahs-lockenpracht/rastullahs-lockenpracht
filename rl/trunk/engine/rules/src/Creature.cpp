@@ -38,8 +38,29 @@ namespace rl
 {
     const Ogre::String Creature::CLASS_NAME = "Creature";
     const Ogre::String Creature::PROPERTY_BEHAVIOURS = "behaviours";
-
+    
     const Ogre::String Creature::PROPERTY_INVENTORY_WINDOW_TYPE = "inventorywindowtype"; 
+
+
+    // some targets
+	const std::string Creature::ALL_EIGENSCHAFTEN = "alle Eigenschaften";
+	const std::string Creature::ALL_TALENTE = "alle Talente";
+	const Creature::Wert Creature::WERT_MOD_AE = "ModAE";
+    const Creature::Wert Creature::WERT_MOD_LE = "ModLE";
+    const Creature::Wert Creature::WERT_MOD_AU = "ModAU";
+    const Creature::Wert Creature::WERT_MOD_MR = "ModMR";
+    const Creature::Wert Creature::WERT_MOD_AT = "ModAT";
+    const Creature::Wert Creature::WERT_MOD_PA = "ModPA";
+    const Creature::Wert Creature::WERT_MOD_FK = "ModFK";
+    const Creature::Wert Creature::WERT_GS = "GS";
+    const Creature::Wert Creature::WERT_SOZIALSTATUS = "SO";
+    const Creature::Wert Creature::WERT_BE = "BE";
+    const Creature::Wert Creature::WERT_INI = "INI";
+    const Creature::Wert Creature::WERT_KAMPFUNFAEHIGKEITSSCHWELLE ="Kampfunfähigkeitsschwelle"; 
+    const Creature::Wert Creature::WERT_REGENERATION = "Regeneration";
+    
+    
+
 
     Creature::Creature(unsigned int id)
         : GameObject(id), 
@@ -62,18 +83,9 @@ namespace rl
 		//RlFail("Test");
 		setWert(WERT_MOD_AE, 0);
 		setWert(WERT_MOD_LE, 0);
-		setWert(WERT_MOD_AT, 0);
-		setWert(WERT_MOD_PA, 0);
-		setWert(WERT_MOD_FK, 0);
 		setWert(WERT_MOD_AU, 0);
 		setWert(WERT_MOD_MR, 0);
-		setWert(WERT_MOD_INI, 0);
-		setWert(WERT_SOZIALSTATUS, 0);
-        setWert(WERT_MOD_REGENERATION_LE, 0);
-        setWert(WERT_MOD_REGENERATION_AE, 0);
-        setWert(WERT_MOD_ERSCHOEPFUNGSSCHWELLE, 0);
 		setWert(WERT_GS, 8);
-		setWert(WERT_BE, 0);
         setWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE, 0);
 		mEigenschaften[E_MUT] = 0;
 		mEigenschaften[E_KLUGHEIT] = 0;
@@ -94,10 +106,6 @@ namespace rl
         delete mInventory;
 	delete mEffectManager;
 
-        for( WertMap::iterator it=mWerte.begin();it!=mWerte.end(); it++ )
-            delete it->second;
-        mWerte.clear();
-        mKampftechniken.clear();
         for( SonderfertigkeitMap::iterator it=mSonderfertigkeiten.begin();it!=mSonderfertigkeiten.end(); it++ )
             delete it->second;
         mSonderfertigkeiten.clear();
@@ -105,7 +113,7 @@ namespace rl
 
     int Creature::getAttackeBasis()
     {
-        double es = getEigenschaft(E_MUT, Effect::MODTAG_RECALCULATE) +
+		double es = getEigenschaft(E_MUT, Effect::MODTAG_RECALCULATE) +
             getEigenschaft(E_GEWANDTHEIT, Effect::MODTAG_RECALCULATE) +
               getEigenschaft(E_KOERPERKRAFT, Effect::MODTAG_RECALCULATE);
 
@@ -182,7 +190,13 @@ namespace rl
         {
             Throw(IllegalArgumentException, "Wert nicht gefunden.");
         }
-		return it->second->getValue(getUnmodified);
+        int rval = it->second;
+        if (!getUnmodified)
+        {
+          rval += mEffectManager->getMod(wertId, Effect::MODTYPE_WERTMOD);
+          rval *= mEffectManager->getMod(wertId, Effect::MODTYPE_WERTMULT);
+        }
+		return rval;
 	}
 
 	int Creature::getCurrentBe()
@@ -197,26 +211,12 @@ namespace rl
 		WertMap::iterator it = mWerte.find(wertId);
         if (it == mWerte.end())
         {
-			StateSet* newWert = new StateSet();
-			newWert->setOriginalValue(value);
-			mWerte.insert(make_pair(wertId, newWert));
+			mWerte.insert(make_pair(wertId, value));
         }
 		else
 		{
-			it->second->setOriginalValue(value);
+			it->second = value;
 		}
-	}
-
-	StateSet* Creature::getWertStateSet(Wert wertId)
-	{
-		checkEffects();
-        WertMap::const_iterator it = mWerte.find(wertId);
-        if (it == mWerte.end())
-        {
-            Throw(IllegalArgumentException, 
-                "Wert "+Ogre::StringConverter::toString(wertId)+" not found.");
-        }
-		return it->second;
 	}
 
    void Creature::modifyLe(int mod, bool ignoreMax)
@@ -632,10 +632,10 @@ namespace rl
 
 
         // Vor dem Vergleich hat man den Talentwert übrig.
-		int eBe = DsaManager::getSingleton().getTalent(talentName)->calculateEbe(getWert(WERT_BE));
+		int eBe = DsaManager::getSingleton().getTalent(talentName)->calculateEbe(mEffectManager->getMod(WERT_BE, Effect::MODTYPE_WERTMOD));
 		int taW = getTalent(talentName);
 		int rval = taW - modifier - mEffectManager->getMod(talentName, Effect::MODTYPE_PROBENMOD, spezialisierung)
-            - mEffectManager->getMod(Effect::ALL_TALENTE, Effect::MODTYPE_PROBENMOD, spezialisierung) - eBe;
+            - mEffectManager->getMod(ALL_TALENTE, Effect::MODTYPE_PROBENMOD, spezialisierung) - eBe;
 		// Bei negativen TaP*
 		int handicap = 0;
 		if (rval < 0)
@@ -698,7 +698,7 @@ namespace rl
         else
         {
 			rval = getEigenschaft(eigenschaftName) - 
-                (probe + modifier + mEffectManager->getMod(eigenschaftName, Effect::MODTYPE_PROBENMOD, tag) + mEffectManager->getMod(Effect::ALL_EIGENSCHAFTEN, Effect::MODTYPE_PROBENMOD, tag));
+                (probe + modifier + mEffectManager->getMod(eigenschaftName, Effect::MODTYPE_PROBENMOD, tag) + mEffectManager->getMod(ALL_EIGENSCHAFTEN, Effect::MODTYPE_PROBENMOD, tag));
         }
         return rval;
     }
@@ -736,7 +736,7 @@ namespace rl
 		else
 		{
 			rval = getAttackeBasis() + (*it).second.first - (probe + modifier 
-                + mEffectManager->getMod(Effect::ALL_EIGENSCHAFTEN, Effect::MODTYPE_PROBENMOD) + eBe);
+                + mEffectManager->getMod(ALL_EIGENSCHAFTEN, Effect::MODTYPE_PROBENMOD) + eBe);
 		}
 		if (rval < 0) 
 			return RESULT_MISSERFOLG;
@@ -767,7 +767,7 @@ namespace rl
 		{
 			/// @todo Gute Parade
 			rval = getParadeBasis() + (*it).second.second - (probe + modifier 
-                + mEffectManager->getMod(Effect::ALL_EIGENSCHAFTEN, Effect::MODTYPE_PROBENMOD) + eBe);
+                + mEffectManager->getMod(ALL_EIGENSCHAFTEN, Effect::MODTYPE_PROBENMOD) + eBe);
 		}
 		if (rval < 0) 
 			return RESULT_MISSERFOLG;
@@ -778,8 +778,8 @@ namespace rl
 	int Creature::doInitiativeWurf(bool getMaxInitiave)
 	{
 		int rval = getInitiativeBasis();
-		rval += getWert(WERT_MOD_INI);
-		rval -= getWert(WERT_BE);
+		rval += mEffectManager->getMod(WERT_INI, Effect::MODTYPE_WERTMOD);
+		rval -= mEffectManager->getMod(WERT_BE, Effect::MODTYPE_WERTMOD);
 		if (getMaxInitiave) 
         {
             rval += 6;
@@ -845,10 +845,10 @@ namespace rl
         //Grundregeneration von 1W6
         int regeneratedLe = DsaManager::getSingleton().rollD6();
         //Addiere eventuelle Modifikatoren hinzu
-        regeneratedLe += getWert(WERT_MOD_REGENERATION_LE);
+        regeneratedLe += mEffectManager->getMod(WERT_REGENERATION, Effect::MODTYPE_WERTMOD, Effect::MODTAG_REGENERATION_LE);
         //Bei gelungener KO Probe addiere 1
         if (RESULT_ERFOLG <= doEigenschaftsprobe("KO", 
-            getWertStateSet(WERT_MOD_REGENERATION_LE)->getProbenModifier()))
+            0, Effect::MODTAG_REGENERATION_LE))
         {
             regeneratedLe++;
         }
@@ -861,10 +861,10 @@ namespace rl
         //Grundregeneration von 1W6
         int regeneratedAe = DsaManager::getSingleton().rollD6();
         //Addiere eventuelle Modifikatoren hinzu
-        regeneratedAe += getWert(WERT_MOD_REGENERATION_AE);
+        regeneratedAe += mEffectManager->getMod(WERT_REGENERATION, Effect::MODTYPE_WERTMOD, Effect::MODTAG_REGENERATION_AE);
         //Bei gelungener KO Probe addiere 1
         if (RESULT_ERFOLG <= doEigenschaftsprobe("IN", 
-            getWertStateSet(WERT_MOD_REGENERATION_AE)->getProbenModifier()))
+            0, Effect::MODTAG_REGENERATION_AE))
         {
             regeneratedAe++;
         }
@@ -903,7 +903,7 @@ namespace rl
             //regeneratedAu += getWert(WERT_MOD_REGENERATION_LE);
             //Bei gelungener KO Probe addiere 1
             if (RESULT_ERFOLG <= doEigenschaftsprobe("KO", 
-                getWertStateSet(WERT_MOD_REGENERATION_LE)->getProbenModifier()))
+                0, mEffectManager->getMod(WERT_REGENERATION, Effect::MODTYPE_WERTMOD, Effect::MODTAG_REGENERATION_AU)))
             {
                 modifyAu(6*factor);
             }
@@ -1097,7 +1097,7 @@ namespace rl
             return 0;
 
 
-        int act_gs = getWert(Creature::WERT_GS);
+		int act_gs = getWert(WERT_GS);
         if( modified )
             act_gs -= getCurrentBe();
         if( act_gs < 1 )

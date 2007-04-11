@@ -20,10 +20,7 @@
 
 namespace rl
 {
-  const CeGuiString Effect::ALL_EIGENSCHAFTEN = "alle Eigenschaften";
-  const CeGuiString Effect::ALL_TALENTE = "alle Talente";
- 
-  
+   
 	Effect::Effect(int stufe)
 	{
 		mStufe = stufe;
@@ -160,7 +157,7 @@ namespace rl
         return (DsaManager::getSingleton().getTimestamp() - mStartTime);
 	}
     
-    Effect::Status Effect::getStatus()
+	Effect::Status Effect::getStatus()
     {
       // should be overlaoaded in the specific derivated effects.
       return STATUS_NONE;

@@ -29,6 +29,7 @@
 #include "Talent.h"
 #include "Person.h"
 #include "Kampftechnik.h"
+#include "RulesPrerequisites.h"
 #include "RulesSubsystem.h"
 
 #include "Exception.h"
@@ -272,23 +273,23 @@ namespace rl {
 			
 			AutoChar wertId = wertXml->getAttribute(ID.data());
 			if (strcmp(wertId.data(), "Lebensenergie") == 0)
-                rval->setWert(Creature::WERT_MOD_LE, wert - basis);
+				rval->setWert(rl::Creature::WERT_MOD_LE, wert - basis);
 			else if (strcmp(wertId.data(), "Ausdauer") == 0)
-                rval->setWert(Creature::WERT_MOD_AU, wert - basis);
+                rval->setWert(rl::Creature::WERT_MOD_AU, wert - basis);
 			else if (strcmp(wertId.data(), "AttackeBasis") == 0)
-                rval->setWert(Creature::WERT_MOD_AT, wert - basis);
+                rval->setWert(rl::Creature::WERT_MOD_AT, wert - basis);
 			else if (strcmp(wertId.data(), "ParadeBasis") == 0)
-                rval->setWert(Creature::WERT_MOD_PA, wert - basis);
+                rval->setWert(rl::Creature::WERT_MOD_PA, wert - basis);
 			else if (strcmp(wertId.data(), "FernkampfBasis") == 0)
-                rval->setWert(Creature::WERT_MOD_FK, wert - basis);
+                rval->setWert(rl::Creature::WERT_MOD_FK, wert - basis);
 			else if (strcmp(wertId.data(), "InitiativeBasis") == 0)
-                rval->setWert(Creature::WERT_MOD_INI, wert - basis);
+                rval->setWert(rl::Creature::WERT_INI, wert - basis);
 			else if (strcmp(wertId.data(), "Magieresistenz") == 0)
-                rval->setWert(Creature::WERT_MOD_MR, wert - basis);
+                rval->setWert(rl::Creature::WERT_MOD_MR, wert - basis);
 			else if (strcmp(wertId.data(), "Astralenergie") == 0)
-                rval->setWert(Creature::WERT_MOD_AE, wert - basis);
+                rval->setWert(rl::Creature::WERT_MOD_AE, wert - basis);
 			else if (strcmp(wertId.data(), "Sozialstatus") == 0)
-                rval->setWert(Creature::WERT_SOZIALSTATUS, wert);
+                rval->setWert(rl::Creature::WERT_SOZIALSTATUS, wert);
 		}
 
 		// Talente laden

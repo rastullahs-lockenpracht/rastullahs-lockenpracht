@@ -55,4 +55,3 @@
     "$result = new rl::CeGuiString();
      $result->append( 
 		reinterpret_cast<CEGUI::utf8*>(StringValuePtr($input)) );"
-

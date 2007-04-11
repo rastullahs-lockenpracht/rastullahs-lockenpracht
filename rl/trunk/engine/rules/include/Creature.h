@@ -109,9 +109,29 @@ namespace rl
 
             static const Ogre::String CLASS_NAME;
             static const Ogre::String PROPERTY_BEHAVIOURS;
-        static const Ogre::String PROPERTY_INVENTORY_WINDOW_TYPE;
-        
-            Creature(unsigned int id);
+			static const Ogre::String PROPERTY_INVENTORY_WINDOW_TYPE;
+
+			typedef std::string Wert;
+
+    // some targets
+			static const std::string ALL_EIGENSCHAFTEN;
+			static const std::string ALL_TALENTE;
+
+    static const Wert WERT_MOD_AE;
+    static const Wert WERT_MOD_LE;
+    static const Wert WERT_MOD_AU;
+    static const Wert WERT_MOD_MR;
+    static const Wert WERT_MOD_AT;
+    static const Wert WERT_MOD_PA;
+    static const Wert WERT_MOD_FK;
+    static const Wert WERT_GS;
+    static const Wert WERT_SOZIALSTATUS;
+    static const Wert WERT_BE;
+    static const Wert WERT_INI;
+    static const Wert WERT_KAMPFUNFAEHIGKEITSSCHWELLE; 
+    static const Wert WERT_REGENERATION;
+    			
+			Creature(unsigned int id);
 
             /// Der Standarddestruktor.
             virtual ~Creature();
@@ -131,31 +151,6 @@ namespace rl
                 SFSTATUS_IN_TRAINING = 1,
                 SFSTATUS_OK,
                 SFSTATUS_REQUIREMENTS_NOT_MET /// @todo Wird das ueberhaupt gebraucht?
-        };
-            /**
-              * Identifiziert welcher Wert angesprochen werden soll.
-              * @warning Bei WERT_MOD_* gibt getValue() Unsinn zurueck, da 
-              * der Multiplikator dann auf 0 + modifier multipliziert wird. 
-              * Stattdessen einzeln auf die Modifikatoren zugreifen!
-              * @ingroup CreatureRubyExports
-              **/
-            enum Wert
-            {
-                WERT_MOD_AE = 1, ///< Astralenergie
-                WERT_MOD_LE, ///< Lebensenergie
-                WERT_MOD_AT, ///< Attacke
-                WERT_MOD_PA, ///< Parade
-                WERT_MOD_FK, ///< Fernkampf
-                WERT_MOD_AU, ///< Ausdauer
-                WERT_MOD_MR, ///< Magieresistenz
-                WERT_MOD_INI, ///< Initiative
-                WERT_MOD_REGENERATION_LE, ///< Naechtliche Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die KO-Probe.
-                WERT_MOD_REGENERATION_AE, ///< Astrale Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die IN-Probe.
-                WERT_MOD_ERSCHOEPFUNGSSCHWELLE, ///< Die Modifkitoren von KO bezueglich der Erschoepfungsschwelle.
-                WERT_GS, ///< Geschwindigkeit
-                WERT_SOZIALSTATUS, ///< Sozialstatus
-                WERT_BE, ///< Behinderung
-                WERT_KAMPFUNFAEHIGKEITSSCHWELLE ///< Die Schwelle zur Kampfunfaehigkeit, bei Menschen 5 LE
         };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -251,13 +246,7 @@ namespace rl
              *    gefunden werden.
              **/
             virtual int getWert(Wert wertId, bool getUnmodified = false);
-            /**
-             *  Gibt einen Zeiger auf das ganze Stateset des Basiswerts \a wertId zurueck.
-             *  @param wertID Bezeichnet den Basiswert, von dem das StateSet zurueckgegeben
-             *   werden soll.
-             *  @ingroup CreatureRubyExports
-             **/
-            virtual StateSet* getWertStateSet(Wert wertId);
+
             /**
              *  Gibt der Kreatur @ref abbddea "AP".
              *  @param modifier Kann auch negativ sein (z.B. Borbarad-Moskitos).
@@ -292,7 +281,7 @@ namespace rl
              *   Gross/Kleinschreibung beachtet?).
                    *  @ingroup CreatureRubyExports
              **/
-            virtual int getEigenschaft(const CeGuiString eigenschaftName, Effect::ModTag tag = Effect::MODTAG_NONE);
+			virtual int getEigenschaft(const CeGuiString eigenschaftName, Effect::ModTag tag = Effect::MODTAG_NONE);
             /**
              *  Setzt den Wert der Eigenschaft \a eigenschaftName auf \a value.
              *  @param eigenschaftName Der Name als Abkuerzung (z.B. @ref abbdem "MU", 
@@ -488,7 +477,7 @@ namespace rl
             /**
              * Gets the status of a creature.
              **/
-            Effect::Status getStatus();
+			Effect::Status getStatus();
 
 
             bool isMagic();
@@ -542,12 +531,12 @@ namespace rl
             /**
              *  @overload doAlternativeTalentprobe(const CeGuiString,int,CeGuiString,CeGuiString,CeGuiString)
              **/
-            virtual int doAlternativeTalentprobe(const CeGuiString talentName, Effect::ModTag  spezialisierung,
+		virtual int doAlternativeTalentprobe(const CeGuiString talentName, Effect::ModTag  spezialisierung,
                                                  int modifier, CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name,
                                                  CeGuiString eigenschaft3Name);
             virtual int doTalentprobe(const CeGuiString talentName, int modifier);
 
-            virtual int doTalentprobe(const CeGuiString talentName, Effect::ModTag spezialisierung,
+			virtual int doTalentprobe(const CeGuiString talentName, Effect::ModTag spezialisierung,
                                       int modifier);
             virtual int doAlternativeTalentprobe(const CeGuiString talentName, int modifier,
                                                  CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, CeGuiString eigenschaft3Name);
@@ -564,7 +553,7 @@ namespace rl
             *  @retval RESULT_PATZER bedeutet 20 gewuerfelt.
             *  @ingroup CreatureRubyExports
             */
-            virtual int doEigenschaftsprobe(const CeGuiString eigenschaftName, int modifier = 0, Effect::ModTag tag = Effect::MODTAG_NONE);
+			virtual int doEigenschaftsprobe(const CeGuiString eigenschaftName, int modifier = 0, Effect::ModTag tag = Effect::MODTAG_NONE);
 
             /**
             *  Fuehrt eine Attacke aus. Die Funktion wird von einem Angriffsmanoever 
@@ -796,7 +785,7 @@ namespace rl
              *  Liste der Werte.
              *  @see Wert
              **/
-            typedef std::map<const Wert, StateSet*> WertMap;
+            typedef std::map<const Wert, int> WertMap;
             /**
                    *  Liste der guten Eigenschaften. Besteht aus dem Abkuerzung der 
                    *  Eigenschaft (z.B. @ref abbdem "MU", @ref abbdek "KL") als Schluessel 
