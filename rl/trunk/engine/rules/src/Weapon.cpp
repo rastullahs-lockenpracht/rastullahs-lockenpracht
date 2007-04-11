@@ -26,6 +26,7 @@ namespace rl
 	Weapon::Weapon(unsigned int id)
 		: Item(id)
 	{
+        mQueryFlags |= QUERYFLAG_WEAPON;
 	}
 
 	Weapon::~Weapon()

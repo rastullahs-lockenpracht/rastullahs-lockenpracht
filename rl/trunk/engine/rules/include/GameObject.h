@@ -30,9 +30,13 @@ namespace rl
     class Actor;
     class Creature;
 
-    static const unsigned long QUERYFLAG_CREATURE   = 1;
-    static const unsigned long QUERYFLAG_ITEM       = 2;
-    static const unsigned long QUERYFLAG_STATIC     = 4;
+    static const unsigned long QUERYFLAG_GAMEOBJECT = 1;
+    static const unsigned long QUERYFLAG_CREATURE   = 2;
+    static const unsigned long QUERYFLAG_ITEM       = 4;
+    static const unsigned long QUERYFLAG_CONTAINER  = 8;
+    static const unsigned long QUERYFLAG_WEAPON     = 16;
+    static const unsigned long QUERYFLAG_ARMOR      = 32;
+    static const unsigned long QUERYFLAG_PERSON     = 64;
 
     /**
     * \brief Basisklasse aller spielrelevanten Objekte in RL.
@@ -142,6 +146,8 @@ namespace rl
         virtual void setState(GameObjectState state);
         void placeIntoScene();
         void removeFromScene();
+
+        unsigned long getQueryFlags() const;
 
     protected:
         int mId;

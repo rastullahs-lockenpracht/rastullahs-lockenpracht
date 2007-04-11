@@ -31,7 +31,7 @@ namespace rl
 		mGRS(0),
 		mGBE(0)
 	{
-
+        mQueryFlags |= QUERYFLAG_ARMOR;
 	}
 
 	Armor::~Armor(void)

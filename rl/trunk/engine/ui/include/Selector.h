@@ -31,38 +31,31 @@ namespace rl {
     class _RlUiExport Selector : public DebugVisualisable
     {
     public:
+        typedef std::vector<GameObject*> GameObjectVector;
+
         Selector(unsigned long mask = 0xffffffff);
         virtual ~Selector();
-        virtual void updateSelection() = 0;
+        virtual void updateSelection();
 
         void setSelectionMask(unsigned long mask);
         unsigned long getSelectionMask() const;
 
+        GameObject* getFirstSelectedObject() const;
+        const GameObjectVector& getAllSelectedObjects() const;
+
     protected:
+        GameObjectVector mSelection;
         unsigned long mSelectionMask;
-    };
-
-    /// Superclass for Selectors that select a single GameObject.
-    class _RlUiExport SingleSelector : public Selector
-    {
-    public:
-        SingleSelector(unsigned long mask = 0xffffffff);
-
-        virtual void updateSelection();
-
-        GameObject* getSelectedObject() const;
-
-    protected:
-        GameObject* mSelectedObject;
 
         virtual const ActorVector& doExecuteQuery() = 0;
     };
 
-    /// A Selector that selects the first unoccluded GameObject the ray hits.
-    class _RlUiExport RaySingleSelector : public SingleSelector
+
+    /// A Selector that selects all unoccluded GameObject the ray hits.
+    class _RlUiExport RaySelector : public Selector
     {
     public:
-        RaySingleSelector(unsigned long mask = 0xffffffff);
+        RaySelector(unsigned long mask = 0xffffffff);
 
         void setRay(const Ogre::Vector3& start, const Ogre::Vector3& end);
 
@@ -80,10 +73,10 @@ namespace rl {
 
     /// Selects this GameObject within a half sphere pointing to -Z,
     /// that has the smallest angle difference to the -Z-Axis.
-    class _RlUiExport HalfSphereSingleSelector : public SingleSelector
+    class _RlUiExport HalfSphereSelector : public Selector
     {
     public:
-        HalfSphereSingleSelector(Ogre::SceneManager* smgr, unsigned long mask = 0xffffffff);
+        HalfSphereSelector(Ogre::SceneManager* smgr, unsigned long mask = 0xffffffff);
 
         virtual void updateSelection();
 
@@ -111,6 +104,8 @@ namespace rl {
 
         virtual void doCreatePrimitive();
     };
+
+    typedef std::vector<GameObject*> GameObjectVector;
 
 }
 #endif

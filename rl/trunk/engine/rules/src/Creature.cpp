@@ -57,7 +57,7 @@ namespace rl
         mMovementType(0)
     {
         mEffectManager = new EffectManager();
-        mQueryFlags = QUERYFLAG_CREATURE;
+        mQueryFlags |= QUERYFLAG_CREATURE;
 
 		//RlFail("Test");
 		setWert(WERT_MOD_AE, 0);

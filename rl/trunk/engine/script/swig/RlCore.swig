@@ -476,14 +476,6 @@ private:
 public:	
 	static const Ogre::String DEFAULT_SLOT_NAME;
 
-    enum QueryGroupFlags
-    {
-        QGF_NONE = 0,
-        QGF_DEFAULT = 1,
-        QGF_PLAYER = 2,
-        QGF_ALL = 0xFFFFFFFF
-    };
-
 	const const Ogre::String& getName() const;
 	const Ogre::Vector3& getPosition(void);
 	const Ogre::Quaternion& getOrientation(void);
@@ -547,8 +539,8 @@ public:
 	void pitch(Ogre::Real angleunits);
 	void yaw(Ogre::Real angleunits);
 	
-	unsigned long getQueryMask() const;
-    void setQueryMask( unsigned long mask = 0xFFFFFFFF );
+	unsigned long getQueryFlags() const;
+    void setQueryFlags( unsigned long mask = 0xFFFFFFFF );
     void addQueryFlag( unsigned long flag  );
     void removeQueryFlag( unsigned long flag );
     void setListenerOf (Ogre::SceneNode *node);

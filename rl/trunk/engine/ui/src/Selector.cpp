@@ -37,16 +37,20 @@ namespace rl
         return mSelectionMask;
     }
 
-    //////////////////////////////////////////////////////////////////////////
-
-    SingleSelector::SingleSelector(unsigned long mask) : Selector(mask), mSelectedObject(NULL)
+    GameObject* Selector::getFirstSelectedObject() const
     {
+        return mSelection.empty() ? NULL : mSelection[0];
     }
 
-    void SingleSelector::updateSelection()
+    const GameObjectVector& Selector::getAllSelectedObjects() const
+    {
+        return mSelection;
+    }
+
+    void Selector::updateSelection()
     {
         // Remove old selection
-        mSelectedObject = NULL;
+        mSelection.clear();
 
         // Do the query, results are in proper order
         const ActorVector& actors = doExecuteQuery();
@@ -57,69 +61,63 @@ namespace rl
         {
             Actor* actor = *it;
             GameObject* go = static_cast<GameObject*>(actor->getGameObject());
-            if (go != NULL)
+            if (go != NULL && (go->getQueryFlags() & mSelectionMask))
             {
-                mSelectedObject = go;
-                break;
+                mSelection.push_back(go);
             }
         }
     }
 
-    GameObject* SingleSelector::getSelectedObject() const
-    {
-        return mSelectedObject;
-    }
+    //------------------------------------------------------------------------
 
-    //////////////////////////////////////////////////////////////////////////
-
-    RaySingleSelector::RaySingleSelector(unsigned long mask)
-        : SingleSelector(mask), mQuery(mask)
+    RaySelector::RaySelector(unsigned long mask)
+        : Selector(mask), mQuery(mask)
     {
     }
 
-    void RaySingleSelector::setRay(const Ogre::Vector3& start, const Ogre::Vector3& end)
+    void RaySelector::setRay(const Ogre::Vector3& start, const Ogre::Vector3& end)
     {
         mQuery.setRay(start, end);
     }
 
     // Overrides from DebugVisualisable
-    DebugVisualisableFlag RaySingleSelector::getFlag() const
+    DebugVisualisableFlag RaySelector::getFlag() const
     {
         return DVF_CONTROL;
     }
 
-    void RaySingleSelector::updatePrimitive()
+    void RaySelector::updatePrimitive()
     {
         LineSetPrimitive* lineSet = static_cast<LineSetPrimitive*>(mPrimitive);
         lineSet->clear();
         lineSet->addLine(mQuery.getRayStart(), mQuery.getRayEnd(), ColourValue::Red);
     }
 
-    const ActorVector& RaySingleSelector::doExecuteQuery()
+    const ActorVector& RaySelector::doExecuteQuery()
     {
         return mQuery.execute();
     }
 
-    void RaySingleSelector::doCreatePrimitive()
+    void RaySelector::doCreatePrimitive()
     {
         mPrimitive = new LineSetPrimitive();
     }
 
     //////////////////////////////////////////////////////////////////////////
 
-    HalfSphereSingleSelector::HalfSphereSingleSelector(Ogre::SceneManager* smgr,
+    HalfSphereSelector::HalfSphereSelector(Ogre::SceneManager* smgr,
         unsigned long mask)
-        : SingleSelector(mask),
+        : Selector(mask),
           mQuery(smgr, mask),
           mCheckVisibility(false),
           mReferenceActor(NULL)
     {
     }
 
-    void HalfSphereSingleSelector::updateSelection()
+    void HalfSphereSelector::updateSelection()
     {
         // Remove old selection
-        mSelectedObject = NULL;
+        mSelection.clear();
 
         // Do the query, results are in proper order
         const ActorVector& actors = doExecuteQuery();
@@ -150,7 +148,7 @@ namespace rl
         {
             Actor* actor = *it;
             GameObject* go = static_cast<GameObject*>(actor->getGameObject());
-            if (go != NULL)
+            if (go != NULL && (go->getQueryFlags() & mSelectionMask))
             {
                 if (mCheckVisibility && mReferenceActor)
                 {
@@ -193,13 +191,12 @@ namespace rl
                     if (!isVisible) continue;
                 }
 
-                mSelectedObject = go;
-                break;
+                mSelection.push_back(go);
             }
         }
     }
 
-    void HalfSphereSingleSelector::updatePrimitive()
+    void HalfSphereSelector::updatePrimitive()
     {
         LineSetPrimitive* lineSet = static_cast<LineSetPrimitive*>(mPrimitive);
         lineSet->clear();
@@ -214,38 +211,38 @@ namespace rl
             ColourValue::Blue);
     }
 
-    void HalfSphereSingleSelector::setRadius(Ogre::Real radius)
+    void HalfSphereSelector::setRadius(Ogre::Real radius)
     {
         mQuery.setRadius(radius);
     }
 
-    void HalfSphereSingleSelector::setPosition(const Ogre::Vector3& pos)
+    void HalfSphereSelector::setPosition(const Ogre::Vector3& pos)
     {
         mQuery.setPosition(pos);
     }
 
-    void HalfSphereSingleSelector::setOrientation(const Ogre::Quaternion& ori)
+    void HalfSphereSelector::setOrientation(const Ogre::Quaternion& ori)
     {
         mQuery.setOrientation(ori);
     }
 
-    void HalfSphereSingleSelector::setCheckVisibility(bool check, Actor* reference)
+    void HalfSphereSelector::setCheckVisibility(bool check, Actor* reference)
     {
         mCheckVisibility = check;
         mReferenceActor = reference;
     }
 
-    DebugVisualisableFlag HalfSphereSingleSelector::getFlag() const
+    DebugVisualisableFlag HalfSphereSelector::getFlag() const
     {
         return DVF_CONTROL;
     }
 
-    const ActorVector& HalfSphereSingleSelector::doExecuteQuery()
+    const ActorVector& HalfSphereSelector::doExecuteQuery()
     {
         return mQuery.execute();
     }
 
-    void HalfSphereSingleSelector::doCreatePrimitive()
+    void HalfSphereSelector::doCreatePrimitive()
     {
         mPrimitive = new LineSetPrimitive();
     }

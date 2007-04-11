@@ -35,6 +35,7 @@ namespace rl {
           mCapacity(0.0),
 		  mVolume(std::make_pair(1,1))
     {
+        mQueryFlags |= QUERYFLAG_CONTAINER;
     }
 
     Container::~Container()

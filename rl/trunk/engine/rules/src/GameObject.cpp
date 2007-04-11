@@ -50,7 +50,7 @@ namespace rl
             mName(""),
             mDescription(""),
 			mMeshfile(""),
-            mQueryFlags(0),
+            mQueryFlags(QUERYFLAG_GAMEOBJECT),
 			mHighlightingEnabled(true),
 			mActor(NULL),
             mActions(),
@@ -262,6 +262,7 @@ namespace rl
 			if (mActor != NULL)
 			{
 				mActor->setGameObject(NULL);
+                mActor->setQueryFlags(0);
 			}
 
 			if (actor != NULL)
@@ -270,6 +271,7 @@ namespace rl
 				{
 					actor->setPosition(mPosition);
 					actor->setOrientation(mOrientation);
+                    actor->setQueryFlags(mQueryFlags);
 				}
 				actor->setGameObject(this);
 			}
@@ -630,5 +632,10 @@ namespace rl
     GameObjectState GameObject::getState() const
     {
         return mState;
+    }
+
+    unsigned long GameObject::getQueryFlags() const
+    {
+        return mQueryFlags;
     }
 }

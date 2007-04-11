@@ -44,14 +44,6 @@ namespace rl {
     public:
         static const Ogre::String DEFAULT_SLOT_NAME;
 
-        enum QueryGroupFlags
-        {
-            QGF_NONE = 0,
-            QGF_DEFAULT = 1,
-            QGF_PLAYER = 2,
-            QGF_ALL = 0xFFFFFFFF
-        };
-
         enum UpdateFlags
         {
             UF_NONE = 0,
@@ -129,9 +121,9 @@ namespace rl {
 
 
         /// Gibt die Anfrage-Maske zurück,
-        unsigned long getQueryMask() const;
+        unsigned long getQueryFlags() const;
         /// Setzt die Anfrage-Maske
-        void setQueryMask( unsigned long mask = 0xFFFFFFFF );
+        void setQueryFlags( unsigned long mask = 0xFFFFFFFF );
 
         /// Fügt der Anfrage-Maske ein Flag hinzu
         void addQueryFlag( unsigned long flag  );

@@ -23,6 +23,7 @@ namespace rl {
 	Person::Person(unsigned int id)
     	: Creature(id)
     {
+        mQueryFlags |= QUERYFLAG_PERSON;
 		setWert(WERT_SOZIALSTATUS, 0);
     }
 	

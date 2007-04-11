@@ -145,7 +145,8 @@ namespace rl {
         Ogre::Real mCameraJammedTime;
 
         PhysicsMaterialRaycast* mRaycast;
-        HalfSphereSingleSelector mSelector;
+        HalfSphereSelector mSelector;
+        HalfSphereSelector mCombatSelector;
 
         /// Camera Spring-Damping System (smooth movement) spring-factor
         Ogre::Real mLinearSpringK;
@@ -163,6 +164,7 @@ namespace rl {
         Ogre::Radian mCamMoveAwayRange;
 
         void updateSelection();
+        bool isEnemyNear();
         //void updateCharacterState(int movement, Ogre::Real elapsedTime);
         void updateCharacterState(Ogre::Real elapsedTime);
         void updateCameraLookAt(Ogre::Real elapsedTime);

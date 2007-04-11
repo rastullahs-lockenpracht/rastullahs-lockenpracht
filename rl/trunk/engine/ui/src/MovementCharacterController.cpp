@@ -103,7 +103,8 @@ namespace rl {
         mCameraJammedTime(0.0f),
         mRaycast(new PhysicsMaterialRaycast()),
         mGravitation(),
-        mSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager())
+        mSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager()),
+        mCombatSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager())
     {
         DebugWindow::getSingleton().registerPage(msDebugWindowPageName);
 
@@ -181,7 +182,7 @@ namespace rl {
         }
 
         // Unhighlight selected object, if any.
-        GameObject* go = mSelector.getSelectedObject();
+        GameObject* go = mSelector.getFirstSelectedObject();
         if (go != NULL && go->isHighlighted())
         {
             go->setHighlighted(false);
@@ -1622,20 +1623,34 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
+    bool MovementCharacterController::isEnemyNear()
+    {
+        mCombatSelector.setPosition(mCharacterActor->getWorldPosition());
+        mCombatSelector.setOrientation(mCharacterActor->getWorldOrientation());
+        mCombatSelector.setRadius(10.0);
+        mCombatSelector.updateSelection();
+
+        // TODO implement
+        GameObject* go = mCombatSelector.getFirstSelectedObject();
+
+        return false;
+    }
+
+    //------------------------------------------------------------------------
     void MovementCharacterController::updateSelection()
     {
         InputManager* im = InputManager::getSingletonPtr();
         if( im->isCeguiActive() )
             return;
 
-        GameObject* oldGo = mSelector.getSelectedObject();
+        GameObject* oldGo = mSelector.getFirstSelectedObject();
 
         mSelector.setPosition(mCharacterActor->getWorldPosition());
         mSelector.setOrientation(mCharacterActor->getWorldOrientation());
         mSelector.setRadius(3.0);
         mSelector.updateSelection();
 
-        GameObject* newGo = mSelector.getSelectedObject();
+        GameObject* newGo = mSelector.getFirstSelectedObject();
 
         if (oldGo != NULL && oldGo != newGo)
         {
@@ -1648,13 +1663,13 @@ namespace rl {
         }
 
         // Optionen anzeigen
-        if (im->isMouseButtonDown(OIS::MB_Right) && mSelector.getSelectedObject() != NULL)
+        if (im->isMouseButtonDown(OIS::MB_Right) && newGo != NULL)
         {
-            WindowFactory::getSingleton().showActionChoice(mSelector.getSelectedObject());
+            WindowFactory::getSingleton().showActionChoice(newGo);
         }
-        else if (im->isMouseButtonDown(OIS::MB_Left) && mSelector.getSelectedObject() != NULL)
+        else if (im->isMouseButtonDown(OIS::MB_Left) && newGo != NULL)
         {
-            mSelector.getSelectedObject()->doDefaultAction(mCharacter, NULL);
+            newGo->doDefaultAction(mCharacter, NULL);
         }
     }
 

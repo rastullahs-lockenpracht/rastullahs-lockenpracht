@@ -36,7 +36,7 @@ namespace rl
 		mImageName(""),
 		mSize(pair<int,int>(1,1))
     {
-        mQueryFlags = QUERYFLAG_ITEM;
+        mQueryFlags |= QUERYFLAG_ITEM;
     }
 
     Item::~Item(void)

@@ -58,7 +58,7 @@ namespace rl {
         {
             mPhysicalThing->_setActor(this);
         }
-        setQueryMask( QGF_DEFAULT );
+        setQueryFlags(0);
     }
 
     Actor::~Actor()
@@ -157,26 +157,26 @@ namespace rl {
         return mName;
     }
 
-    unsigned long Actor::getQueryMask() const
+    unsigned long Actor::getQueryFlags() const
     {
         return mActorControlledObject ?
-            mActorControlledObject->getMovableObject()->getQueryFlags() : QGF_NONE;
+            mActorControlledObject->getMovableObject()->getQueryFlags() : 0;
     }
 
-    void Actor::setQueryMask( unsigned long mask )
+    void Actor::setQueryFlags( unsigned long flags )
     {
         if( mActorControlledObject && mActorControlledObject->getMovableObject())
-            mActorControlledObject->getMovableObject()->setQueryFlags( mask );
+            mActorControlledObject->getMovableObject()->setQueryFlags( flags );
     }
 
     void Actor::addQueryFlag( unsigned long flag  )
     {
-        setQueryMask(  getQueryMask() | flag );
+        setQueryFlags(  getQueryFlags() | flag );
     }
 
     void Actor::removeQueryFlag( unsigned long flag )
     {
-        setQueryMask(  getQueryMask() &~ flag );
+        setQueryFlags(  getQueryFlags() &~ flag );
     }
 
     void Actor::setOrientation(const Quaternion& orientation)
