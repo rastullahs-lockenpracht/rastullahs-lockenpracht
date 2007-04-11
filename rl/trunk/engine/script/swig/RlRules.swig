@@ -385,6 +385,8 @@ namespace rl {
         
         rl::GameObjectState getState() const;
         void setState(rl::GameObjectState state);
+        
+        unsigned long getQueryFlags() const;
     };
     
     %feature("director") Item;
@@ -592,6 +594,14 @@ namespace rl {
     const std::string ALL_EIGENSCHAFTEN = "alle Eigenschaften";
     const std::string ALL_TALENTE = "alle Talente";
 
+        enum Alignment
+        {
+            ALIGNMENT_ALLY,    ///< Creature fights with the player.
+            ALIGNMENT_NEUTRAL, ///< Creature doesn't fight for either side.
+            ALIGNMENT_ENEMY    ///< Creature fights against the player.
+        };
+        
+
     static const Wert WERT_MOD_AE = "ModAE";
     static const Wert WERT_MOD_LE = "ModLE";
     static const Wert WERT_MOD_AU = "ModAU";
@@ -649,6 +659,9 @@ namespace rl {
 
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+
+        void setAlignment(Alignment);
+        Alignment getAlignment() const;
    };
    
    %feature("director") Person;

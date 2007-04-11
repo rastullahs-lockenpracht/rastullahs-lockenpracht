@@ -142,6 +142,46 @@ namespace rl
         mLevelOcclusion = occ;
     }
 
+    SphereSceneQuery::SphereSceneQuery(SceneManager* smgr, unsigned long mask)
+        : SceneQuery(mask), mSceneQuery(NULL), mRadius(0.0f)
+    {
+        mSceneQuery = smgr->createSphereQuery(Sphere());
+    }
+
+    const ActorVector& SphereSceneQuery::execute()
+    {
+        // Discard results from last query
+        mResult.clear();
+
+        // Prepare query
+        mSceneQuery->setSphere(Sphere(mPosition, mRadius));
+        mSceneQuery->setQueryMask(mQueryMask);
+
+        // Determine plane facing of the half-sphere ground plain.
+        Vector3 forward = mOrientation * Vector3::NEGATIVE_UNIT_Z;
+
+        const SceneQueryResult& result = mSceneQuery->execute();
+        for (SceneQueryResultMovableList::const_iterator it = result.movables.begin(),
+            end = result.movables.end(); it != end; ++it)
+        {
+            Actor* actor = dynamic_cast<Actor*>((*it)->getUserObject());
+            if (actor != NULL) mResult.push_back(actor);
+        }
+
+        return mResult;
+    }
+
+    void SphereSceneQuery::setRadius(Ogre::Real radius)
+    {
+        mRadius = radius;
+    }
+
+    Ogre::Real SphereSceneQuery::getRadius() const
+    {
+        return mRadius;
+    }
+
+
     //////////////////////////////////////////////////////////////////////////
 
     /// function object for sorting Actors in the query result set

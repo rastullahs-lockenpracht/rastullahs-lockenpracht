@@ -40,17 +40,12 @@ namespace rl {
 
         World() : mSceneMgr(0), mCamera(0), mActiveActor(0), mUniqueNameSeed(0) {}
 
-        /**@todo Klaeren, wer für Zerstoerung von mCamera und mSceneMgr
-        *verantwortlich ist. */
         virtual ~World() {}
 
         virtual Ogre::SceneManager* getSceneManager(void) const;
         virtual void setSceneManager(Ogre::SceneManager* SceneMgr);
 
         virtual Ogre::Camera* getActiveCamera(void) const { return mCamera; };
-
-        Actor* getActiveActor() const;
-        void setActiveActor(Actor* actor);
 
         virtual Ogre::Vector3 getStartPoint() const;
 

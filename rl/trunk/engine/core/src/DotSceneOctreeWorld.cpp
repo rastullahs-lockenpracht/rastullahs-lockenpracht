@@ -59,7 +59,6 @@ namespace rl {
             mCamera->setAutoAspectRatio(true);
 
             actor->placeIntoScene();
-            setActiveActor( actor );
         }
 
         // Ein Viewport, das komplette Fenster

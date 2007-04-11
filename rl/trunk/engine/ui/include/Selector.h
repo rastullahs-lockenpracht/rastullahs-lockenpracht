@@ -104,9 +104,6 @@ namespace rl {
 
         virtual void doCreatePrimitive();
     };
-
-    typedef std::vector<GameObject*> GameObjectVector;
-
 }
 #endif
 

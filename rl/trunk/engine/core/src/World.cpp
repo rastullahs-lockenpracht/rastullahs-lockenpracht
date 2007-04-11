@@ -107,16 +107,6 @@ namespace rl {
         return mSceneMgr->getFogEnd();
     }
 
-	void World::setActiveActor(Actor* actor)
-	{
-		mActiveActor = actor;
-	}
-
-	Actor* World::getActiveActor() const
-	{
-		return mActiveActor;
-	}
-
 	Vector3 World::getStartPoint() const
 	{
         return Vector3::ZERO;

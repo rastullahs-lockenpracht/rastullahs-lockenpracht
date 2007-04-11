@@ -28,6 +28,7 @@
 #include "ConfigurationManager.h"
 #include "CoreSubsystem.h"
 #include "Creature.h"
+#include "CombatCharacterController.h"
 #include "CutsceneCharacterController.h"
 #include "DialogCharacterController.h"
 #include "DsaManager.h"
@@ -199,14 +200,12 @@ namespace rl {
             if (person == NULL)
             {
                 mCharacter = NULL;
-                world->setActiveActor( ActorManager::getSingleton().getActor("DefaultCamera") );
             }
             else
             {
                 ScriptWrapper::getSingleton().owned( person );
                 mCharacter = person;
 
-                world->setActiveActor(person->getActor());
                 mWindowFactory->setActiveCharacter(person);
 
                 mCharacter->getActor()->attach(SoundManager::getSingleton().getListenerActor());
@@ -260,21 +259,26 @@ namespace rl {
         else if (type == CharacterController::CTRL_FREEFLIGHT)
         {
             mCharacterController = new FreeFlightCharacterController(camera,
-                CoreSubsystem::getSingleton().getWorld()->getActiveActor());
+                mCharacter ? mCharacter->getActor() : NULL);
         }
         else if (type == CharacterController::CTRL_DIALOG)
         {
             mCharacterController = new DialogCharacterController(camera,
-                CoreSubsystem::getSingleton().getWorld()->getActiveActor());
+                mCharacter ? mCharacter->getActor() : NULL);
         }
         else if (type == CharacterController::CTRL_VANITY_MODE)
         {
             mCharacterController = new VanityModeCharacterController(camera,
-                CoreSubsystem::getSingleton().getWorld()->getActiveActor());
+                mCharacter ? mCharacter->getActor() : NULL);
         }
         else if (type == CharacterController::CTRL_CUTSCENE)
         {
             mCharacterController = new CutsceneCharacterController(camera);
+        }
+        else if (type == CharacterController::CTRL_COMBAT)
+        {
+            mCharacterController = new CombatCharacterController(camera,
+                mCharacter ? mCharacter->getActor() : NULL);
         }
         else
         {

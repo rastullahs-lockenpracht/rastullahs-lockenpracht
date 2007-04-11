@@ -346,6 +346,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\CombatCharacterController.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\CommandMapper.h"
 				>
 			</File>
@@ -540,6 +544,10 @@
 			>
 			<File
 				RelativePath=".\src\CharacterController.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\CombatCharacterController.cpp"
 				>
 			</File>
 			<File

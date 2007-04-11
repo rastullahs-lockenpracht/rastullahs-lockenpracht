@@ -46,6 +46,7 @@
 #include "LineSetPrimitive.h"
 #include "WindowFactory.h"
 #include "AnimationManager.h"
+#include "UiSubsystem.h"
 
 #include <numeric>
 
@@ -104,7 +105,8 @@ namespace rl {
         mRaycast(new PhysicsMaterialRaycast()),
         mGravitation(),
         mSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager()),
-        mCombatSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager())
+        mCombatSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager(),
+            QUERYFLAG_CREATURE)
     {
         DebugWindow::getSingleton().registerPage(msDebugWindowPageName);
 
@@ -247,6 +249,11 @@ namespace rl {
         }
 
         mCharacterState.mLastMovementState = mCharacterState.mCurrentMovementState;
+
+        if (isEnemyNear())
+        {
+            UiSubsystem::getSingleton().requestCharacterControllerSwitch(CTRL_COMBAT);
+        }
     }
 
     //------------------------------------------------------------------------
@@ -1630,8 +1637,15 @@ namespace rl {
         mCombatSelector.setRadius(10.0);
         mCombatSelector.updateSelection();
 
-        // TODO implement
-        GameObject* go = mCombatSelector.getFirstSelectedObject();
+        const Selector::GameObjectVector& gov = mCombatSelector.getAllSelectedObjects();
+        for (size_t i = 0, end = gov.size(); i < end; ++i)
+        {
+            Creature* creature = dynamic_cast<Creature*>(gov.at(i));
+            if (creature && creature->getAlignment() == Creature::ALIGNMENT_ENEMY)
+            {
+                return true;
+            }
+        }
 
         return false;
     }

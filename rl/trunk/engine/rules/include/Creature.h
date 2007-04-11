@@ -138,6 +138,15 @@ namespace rl
 
 ///////////////////////////////////////////////////////////////////////////////
 // Enums
+            /// Alignment of a Creature towards the player. This determines
+            /// whether a combat is entered.
+            enum Alignment
+            {
+                ALIGNMENT_ALLY,    ///< Creature fights with the player.
+                ALIGNMENT_NEUTRAL, ///< Creature doesn't fight for either side.
+                ALIGNMENT_ENEMY    ///< Creature fights against the player.
+            };
+
             /// Beschreibt die art des zugefuegten Schadens
             enum DamageTag
             {
@@ -749,6 +758,9 @@ namespace rl
             **/
             void setTaktischeBewegung(int type);
 
+            void setAlignment(Alignment);
+            Alignment getAlignment() const;
+
         protected:
            /**
              *  Berechnet den Basiswert von der @ref abbdea "Astralenergie".
@@ -854,6 +866,8 @@ namespace rl
         Ogre::String mInventoryWindowType;
 
             Property mBehaviours;
+
+            Alignment mAlignment;
 
             /**
              *  Sets a the status \a statusVariable. It uses a reference counting

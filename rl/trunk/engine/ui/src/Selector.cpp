@@ -42,7 +42,7 @@ namespace rl
         return mSelection.empty() ? NULL : mSelection[0];
     }
 
-    const GameObjectVector& Selector::getAllSelectedObjects() const
+    const Selector::GameObjectVector& Selector::getAllSelectedObjects() const
     {
         return mSelection;
     }

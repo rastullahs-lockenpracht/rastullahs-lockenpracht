@@ -75,7 +75,8 @@ namespace rl
         mKampftechniken(),
         mSonderfertigkeiten(),
         mErschoepfung(0),
-        mMovementType(0)
+        mMovementType(0),
+        mAlignment(ALIGNMENT_NEUTRAL)
     {
         mEffectManager = new EffectManager();
         mQueryFlags |= QUERYFLAG_CREATURE;
@@ -954,6 +955,16 @@ namespace rl
 		/// @todo Nur einmal pro Aktion ausfuehren
 		mEffectManager->checkEffects();
 	}
+
+    void Creature::setAlignment(Creature::Alignment alignment)
+    {
+        mAlignment = alignment;
+    }
+
+    Creature::Alignment Creature::getAlignment() const
+    {
+        return mAlignment;
+    }
 
     void Creature::setProperty(const Ogre::String &key, const rl::Property &value)
     {

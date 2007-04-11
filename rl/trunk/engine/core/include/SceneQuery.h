@@ -96,6 +96,23 @@ namespace rl
         bool mLevelOcclusion;
     };
 
+    /// This query queries for objects within a sphere.
+    class _RlCoreExport SphereSceneQuery : public SceneQuery
+    {
+    public:
+        SphereSceneQuery(Ogre::SceneManager* smgr, unsigned long mask = 0xffffffff);
+
+        virtual const ActorVector& execute();
+
+        /// Set the radius of the sphere. Value has to be non-negative.
+        void setRadius(Ogre::Real radius);
+        Ogre::Real getRadius() const;
+
+    protected:
+        Ogre::SphereSceneQuery* mSceneQuery;
+        Ogre::Real mRadius;
+    };
+
     /// This query queries for objects within a half-sphere.
     /// The half-sphere's ground plate is on the local XY-plane, with its center
     /// in the origin. The half-sphere expands in the local -Z direction.

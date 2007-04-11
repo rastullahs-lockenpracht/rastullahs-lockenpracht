@@ -24,9 +24,6 @@ namespace rl {
 
 	class Actor;
 
-	/** Diese Klasse 
-	  *  
-	  */
 	class _RlUiExport CutsceneCharacterController : public CharacterController
 	{
 	public:
