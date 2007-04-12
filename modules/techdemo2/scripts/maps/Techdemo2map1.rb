@@ -104,7 +104,7 @@ require 'techdemo2_mapchange.rb'
 mapchangeListener = Td2LevelwechselListener.new("techdemo2map2_01.scene", "Techdemo2", "Techdemo2map2.rb"); 
 
 $SCRIPT.log("Mapchange: MapchangeListener hinzufügen");
-$GameEveMgr.addSphereAreaListener( kugelDings, 10.000, mapchangeListener, Actor::QGF_PLAYER );
+$GameEveMgr.addSphereAreaListener( kugelDings, 10.000, mapchangeListener, RlScript::QUERYFLAG_PLAYER );
 
 
 $SCRIPT.log("map 'Techdemo2' initialisiert.");
