@@ -562,10 +562,9 @@ void TLooseQuadTreeNode<TData,TNode>::split()
 
 	// distribute the data accordingly between the subnodes
 	Ogre::AxisAlignedBox aab;
-	for (typename std::vector<TData>::iterator it = this->mData.begin();
-		it != this->mData.end(); it++)
+	for (size_t i = 0, end = this->mData.size(); i < end; ++i)
 	{
-		insert((*it));
+		insert(this->mData[i]);
 	}
 	// simply erase the data here ...
 	this->mData.clear();
