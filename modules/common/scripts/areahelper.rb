@@ -71,7 +71,7 @@ class AreaHelper
     #
     # @param actorOrPosition The Actor or the Position of the area
     # @param radius The radius of the sphere in meters, default 1.0
-    # @param flags The types of Actors on which the Area will react, default Actor::QGF_ALL
+    # @param flags The types of Actors on which the Area will react, default RlScript::QUERYFLAG_ALL
     # @param inProc The procedure to be called when the Area is entered, default nil
     # @param outProc The procedure to be called when the Area is left, default nil
     # @param inTimes The number of times the Area can be entered before its deleted, default 1
@@ -81,17 +81,17 @@ class AreaHelper
     #
     # @returns The created listener
     #
-    # @example  AreaHelper::createLimitedTimesSphereArea( [0.0,0.0,0.0], 1.0, Actor::QGF_PLAYER, Proc.new {|e| p "enter"}, Proc.new {|e| p "exit"}, -1, 0 )
+    # @example  AreaHelper::createLimitedTimesSphereArea( [0.0,0.0,0.0], 1.0, RlScript::QUERYFLAG_PLAYER, Proc.new {|e| p "enter"}, Proc.new {|e| p "exit"}, -1, 0 )
     #           Creates a Sphere at 0,0,0 which will react on all players, will
     #           be enterable unlimited times, but remove itself on leaving. 
     #           It will print 'enter' on entering, and 'exit' on leaving, 
     #           which will never occur.
-    # @example  AreaHelper::createLimitedTimesSphereArea( [0.0,0.0,0.0], 1.0, Actor::QGF_PLAYER, Proc.new { p "enter" } )
+    # @example  AreaHelper::createLimitedTimesSphereArea( [0.0,0.0,0.0], 1.0, RlScript::QUERYFLAG_PLAYER, Proc.new { p "enter" } )
     #           Creates a Sphere at 0,0,0 which will react on all players, will
     #           be enterable one time.
     #           It will print 'enter' on entering, and does nothing on leaving.
     #
-    def AreaHelper.createLimitedTimesSphereArea( actorOrPosition, radius=1.0, flags=Actor::QGF_ALL, inProc=nil, outProc=nil, inTimes=1, outTimes=1 )
+    def AreaHelper.createLimitedTimesSphereArea( actorOrPosition, radius=1.0, flags=RlScript::QUERYFLAG_ALL, inProc=nil, outProc=nil, inTimes=1, outTimes=1 )
         # We have not yet created an Actor
         actorCreated = false
         # It's an array, possibly a Position
@@ -131,7 +131,7 @@ class AreaHelper
 end
 
 
-# AreaHelper::createLimitedTimesSphereArea( [0.0,0.0,0.0], 1.0, Actor::QGF_PLAYER, Proc.new {|e| p "enter"}, Proc.new {|e| p "exit"}, -1, 0 )
-# AreaHelper::createLimitedTimesSphereArea( [0.0,0.0,0.0], 1.0, Actor::QGF_PLAYER, Proc.new { p "enter" } )
+# AreaHelper::createLimitedTimesSphereArea( [0.0,0.0,0.0], 1.0, RlScript::QUERYFLAG_PLAYER, Proc.new {|e| p "enter"}, Proc.new {|e| p "exit"}, -1, 0 )
+# AreaHelper::createLimitedTimesSphereArea( [0.0,0.0,0.0], 1.0, RlScript::QUERYFLAG_PLAYER, Proc.new { p "enter" } )
 
 

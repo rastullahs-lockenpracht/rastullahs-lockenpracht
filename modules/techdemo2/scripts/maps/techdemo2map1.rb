@@ -63,8 +63,8 @@ $SCRIPT.log("Dorf-Thema fertig");
 $World.setFog( World::FOG_EXP, [0.1,0.08,0.01,0.1], 0.00503, 10.0, 100.0);
 
 $SCRIPT.log("Quests laden");
-load( "Techdemo2_quests.rb" );
-load( "Techdemo2_buch.rb" );
+load( "techdemo2_quests.rb" );
+load( "techdemo2_buch.rb" );
 $SCRIPT.log("Quests geladen");
 
 $SCRIPT.log("SteeringBehaviours laden");
@@ -101,7 +101,7 @@ kugelDings.placeIntoScene( [-56.2, -1.1, -75.0] );
 
 require 'techdemo2_mapchange.rb'
 #Erstellen mit 
-mapchangeListener = Td2LevelwechselListener.new("techdemo2map2_01.scene", "Techdemo2", "Techdemo2map2.rb"); 
+mapchangeListener = Td2LevelwechselListener.new("techdemo2map2_01.scene", "Techdemo2", "techdemo2map2.rb"); 
 
 $SCRIPT.log("Mapchange: MapchangeListener hinzufügen");
 $GameEveMgr.addSphereAreaListener( kugelDings, 10.000, mapchangeListener, RlScript::QUERYFLAG_PLAYER );

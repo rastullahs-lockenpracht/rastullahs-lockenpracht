@@ -176,10 +176,10 @@ class LevelwechselListener < GameAreaListener
 end
  
 #Erstellen mit 
-MapchangeListener = LevelwechselListener.new("techdemo2map1_02.scene", "Techdemo2", "Techdemo2map1.rb"); 
+MapchangeListener = LevelwechselListener.new("techdemo2map1_02.scene", "Techdemo2", "techdemo2map1.rb"); 
 
 $SCRIPT.log("Mapchange: MapchangeListener hinzufügen");
-$GameEveMgr.addSphereAreaListener( kugelDings, 5.000, MapchangeListener, Actor::QGF_PLAYER );
+$GameEveMgr.addSphereAreaListener( kugelDings, 5.000, MapchangeListener, RlScript::QUERYFLAG_PLAYER );
 
 $SCRIPT.log("map 'Techdemo2' initialisiert.");
 $WF.toggleCharacterStateWindow()

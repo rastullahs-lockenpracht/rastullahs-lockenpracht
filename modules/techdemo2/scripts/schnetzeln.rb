@@ -20,7 +20,7 @@ RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest51").setKnown(t
 RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest51").setState(Quest::ASSIGNED)
 
 $SCRIPT.log("FieserAlter wird geladen");
-	$GOM.createGameObjectProxy("SchnetzelDruide").getGameObject().placeIntoScene();
+$GOM.createGameObjectProxy("SchnetzelDruide").getGameObject().placeIntoScene();
 $SCRIPT.log("FieserAlter geladen");
 
 
@@ -94,4 +94,4 @@ $SCRIPT.log("Turmeingang: TurmeingangListener erstellen");
 areaListener = TurmeingangListener.new();
 
 $SCRIPT.log("Turmeingang: TurmeingangListener hinzufügen");
-$GameEveMgr.addSphereAreaListener( turmEingang, 1.000, areaListener, Actor::QGF_PLAYER );
+$GameEveMgr.addSphereAreaListener( turmEingang, 1.000, areaListener, RlScript::QUERYFLAG_PLAYER );
