@@ -6,6 +6,8 @@ libRlRules_la_SOURCES = \
 	Action.cpp \
 	ActionManager.cpp \
 	Armor.cpp \
+	Combat.cpp \
+	CombatManager.cpp \
 	Container.cpp \
 	Creature.cpp \
 	Date.cpp \
