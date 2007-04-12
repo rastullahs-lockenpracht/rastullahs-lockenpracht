@@ -73,6 +73,7 @@ namespace rl {
 		int mNumActionButtons;
 
 		void addActionButton(Action* action);
+		bool handleActivateAction(Action* action) const;
 	};
 }
 

@@ -63,19 +63,13 @@ namespace rl {
 	{
 		mWindow->setProperty("Text", "Eigenschaften von " + mGameObject->getName());
 		mDescription->setText(mGameObject->getDescription());
-		try 
-		{
-			Item* item = dynamic_cast<Item*>(mGameObject);
-			if (item->getImageName() != "")
-			{
-				mIcon->setProperty("Image", item->getImageName());
-			}
-		}
-		catch (std::bad_cast)
-		{
-			//and forget, mGameObject simply is no item in this case
-		}
 
+		Item* item = dynamic_cast<Item*>(mGameObject);
+		if (item != NULL && item->getImageName() != "")
+		{
+			mIcon->setProperty("Image", item->getImageName());
+		}
+		
 		
 		///@todo: Add Action Buttons
 		const ActionVector actions = mGameObject->getValidActions(mCharacter);
@@ -92,8 +86,21 @@ namespace rl {
 		btn->setSize(UVector2(cegui_reldim(1), cegui_absdim(BUTTON_HEIGHT)));
 		btn->setPosition(UVector2(cegui_reldim(0), cegui_absdim((BUTTON_HEIGHT+1) * mNumActionButtons)));
 		btn->setText(action->getDescription());
+		btn->setTooltipText(action->getDescription());
 		mActionButtonsArea->addChildWindow(btn);
 		mNumActionButtons++;
+		btn->subscribeEvent(Window::EventMouseClick, 
+			boost::bind(&GameObjectInfoWindow::handleActivateAction, this, action));
+	}
+
+	bool GameObjectInfoWindow::handleActivateAction(Action* action) const
+	{
+		if (action->canDo(mGameObject, mCharacter))
+		{
+			action->doAction(mGameObject, mCharacter);
+			return true;
+		}
+		return false;
 	}
 
 } // namespace rl
