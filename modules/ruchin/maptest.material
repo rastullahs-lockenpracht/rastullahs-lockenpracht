@@ -11,15 +11,6 @@ material SOLID/TEX/boden_02.png
 		}
 	}
 }
-material default
-{
-	technique
-	{
-		pass
-		{
-		}
-	}
-}
 material SOLID/TEX/nat_baum_rinde.dds
 {
 	technique

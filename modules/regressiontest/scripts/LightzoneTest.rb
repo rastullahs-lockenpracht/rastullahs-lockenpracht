@@ -31,7 +31,7 @@ class LightzoneTest < TestCase
       lzone = Lightzone.new();
       kugelDings = $AM.createEmptyActor( "Light zone center" );
 	    kugelDings.placeIntoScene( center );
-	    $GameEveMgr.addSphereAreaListener( kugelDings, 10.000, lzone, Actor::QGF_PLAYER );
+	    $GameEveMgr.addSphereAreaListener( kugelDings, 10.000, lzone, RlScript::QUERYFLAG_PLAYER );
   end
 end
 
