@@ -95,10 +95,12 @@ namespace rl {
 		const CeGuiString& getNamePrefix() const;
 		
 		void centerWindow();
-		bool destroyWindow();
+		bool destroyWindow();		
+		bool hideWindow();
 
 		void bindDestroyWindowToClick(CEGUI::Window* button);
 		void bindDestroyWindowToXButton();
+		void bindHideWindowToXButton();
 
 		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile, CeGuiString& prefix);
 

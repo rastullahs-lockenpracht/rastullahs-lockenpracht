@@ -274,9 +274,21 @@ namespace rl
 			boost::bind(&AbstractWindow::destroyWindow, this));
 	}
 
+	void AbstractWindow::bindHideWindowToXButton()
+	{
+		mWindow->subscribeEvent(FrameWindow::EventCloseClicked,
+			boost::bind(&AbstractWindow::hideWindow, this));
+	}
+
 	bool AbstractWindow::destroyWindow()
 	{
 		setVisible(false, true);
+		return true;
+	}
+
+	bool AbstractWindow::hideWindow()
+	{
+		setVisible(false);
 		return true;
 	}
 
