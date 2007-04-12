@@ -15,6 +15,7 @@ libRlUi_la_SOURCES = \
 	CharacterSheetWindow.cpp \
 	CharacterStateWindow.cpp \
 	CloseConfirmationWindow.cpp \
+	CombatCharacterController.cpp \
 	CommandMapper.cpp \
 	CommandMapperWindow.cpp \
 	ConfigComponent.cpp \
@@ -49,7 +50,6 @@ libRlUi_la_SOURCES = \
 	SoundDriverConfigComponent.cpp \
 	SubtitleWindow.cpp \
 	UiSubsystem.cpp \
-	VanityModeCharacterController.cpp \
 	WindowFactory.cpp \
 	WindowFadeJob.cpp \
 	WindowManager.cpp
