@@ -14,24 +14,12 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-/* Wrapping Real to ruby and back 
- for Real, const Real, Real&, Real*, const Real*, const Real&
-*/
-%typemap(typecheck) Ogre::Real, const Ogre::Real& = double;
-    
-%typemap(in) Ogre::Real, const Ogre::Real 
-"   $1 = NUM2DBL($input);"
+%apply double { Ogre::Real };  
+%apply const double { const Ogre::Real }; 
 
-%typemap(out) Ogre::Real, const Ogre::Real
-"   $result = rb_float_new($1);"
-
-%typemap(in) Ogre::Real*, Ogre::Real&, const Ogre::Real*, const Ogre::Real&
-"   $1 = NUM2DBL($input);"
-
-%typemap(out) Ogre::Real*, Ogre::Real&,  const Ogre::Real*, const Ogre::Real&
-"   $result = rb_float_new(*$1);"
-
-%typemap(freearg) Ogre::Real*, Ogre::Real&,  const Ogre::Real*, const Ogre::Real&
-"   delete $1;"
-
+%apply double* { Ogre::Real* };  
+%apply const double* { const Ogre::Real* }; 
+ 
+%apply double& { Ogre::Real& }; 
+%apply const double& { const Ogre::Real& };
 
