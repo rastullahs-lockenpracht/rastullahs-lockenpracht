@@ -7,13 +7,12 @@ class SchnelleHeilung < Effect
     setDescription("Verlorene LE wird schneller regeneriert.");
   end
 
-  def apply()
-	  getOwner().getWertStateSet(Creature::WERT_MOD_REGENERATION_LE).modifyModifier(+1);
-	  getOwner().getWertStateSet(Creature::WERT_MOD_REGENERATION_LE).modifyProbenModifier(+1);
-  end
-
-  def remove()
-	  getOwner().getWertStateSet(Creature::WERT_MOD_REGENERATION_LE).modifyModifier(-1);
-	  getOwner().getWertStateSet(Creature::WERT_MOD_REGENERATION_LE).modifyProbenModifier(-1);
+  def getMod(target, type, tag)
+	  if ((target == Creature::WERT_REGENERATION) &&
+	      (type == Effect::MODTYPE_SUM) &&
+	      (tag == Effect::MODTAG_REGENERATION_LE))
+		  return stufe;
+	  end
+	  return 0;
   end
 end

@@ -1,8 +1,10 @@
 require 'testcase.rb'
+load "effects/astraleregeneration.rb"
+load "effects/ausdauernd.rb"
 load "effects/paralues.rb"
 load "effects/resistentgegenkrankheiten.rb"
+load "effects/schnelleheilung.rb"
 load "effects/wunde.rb"
-load "effects/astraleregeneration.rb"
 
 
 class ParaluesAction < Action

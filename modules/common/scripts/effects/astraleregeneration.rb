@@ -9,7 +9,7 @@ class AstraleRegeneration < Effect
 
   def getMod(target, type, tag)
 	if ((target == Creature::WERT_REGENERATION) && 
-	    (type == MODTYPE_WERTMOD) &&
+	    (type == MODTYPE_SUM) &&
 	    (tag == MODTAG_REGENERATION_AE))
 		return stufe;
 	else 
