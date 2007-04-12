@@ -7,13 +7,18 @@ class AstraleRegeneration < Effect
     setDescription("Verlorene AE wird schneller regeneriert.");
   end
 
-  def apply()
-	  getOwner().getWertStateSet(Creature::WERT_MOD_REGENERATION_AE).modifyModifier(+1);
-	  getOwner().getWertStateSet(Creature::WERT_MOD_REGENERATION_AE).modifyProbenModifier(+1);
+  def getMod(target, type, tag)
+	if ((target == Creature::WERT_REGENERATION) && 
+	    (type == MODTYPE_WERTMOD) &&
+	    (tag == MODTAG_REGENERATION_AE))
+		return stufe;
+	else 
+		return 0;
+	end
+
   end
 
-  def remove()
-	  getOwner().getWertStateSet(Creature::WERT_MOD_REGENERATION_AE).modifyModifier(-1);
-	  getOwner().getWertStateSet(Creature::WERT_MOD_REGENERATION_AE).modifyProbenModifier(-1);
+  def check()
+	  return PERMANENT;
   end
 end

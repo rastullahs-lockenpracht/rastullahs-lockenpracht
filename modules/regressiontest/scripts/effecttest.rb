@@ -2,6 +2,7 @@ require 'testcase.rb'
 load "effects/paralues.rb"
 load "effects/resistentgegenkrankheiten.rb"
 load "effects/wunde.rb"
+load "effects/astraleregeneration.rb"
 
 
 class ParaluesAction < Action
@@ -46,7 +47,7 @@ class EffectTest < TestCase
     def initialize(center)
         super(center)
 	# Define a pointer to the hero
-	$h = $UI.getActiveCharacter().getGameObject()
+	$h = $UI.getActiveCharacter()
         # Define a base box to place everything else on.
         height = 0.1
         min_base = [-2.0, 0.05, -2.0]
