@@ -16,7 +16,6 @@
 
 #include "Effect.h"
 #include "DsaManager.h"
-#include "Creature.h"
 
 namespace rl
 {
@@ -24,13 +23,11 @@ namespace rl
 	Effect::Effect(int stufe)
 	{
 		mStufe = stufe;
-		mStartTime = DsaManager::getSingleton().getTimestamp();
 		mQuantifier = QUANTIFIER_MULTIPLE;
 	}
 
 	Effect::~Effect()
 	{
-		disable();
 	}
 
 	const CeGuiString Effect::getName() const
@@ -53,26 +50,6 @@ namespace rl
 		mDescription = description;
 	}
 
-	Creature* Effect::getOwner() const
-	{
-		return mOwner;
-	}
-
-	void Effect::setOwner(Creature* owner)
-	{
-		mOwner = owner;
-	}
-
-	int Effect::getDuration()
-	{
-		return mDuration;
-	}
-
-	void Effect::setDuration(int newDuration)
-	{
-		mDuration = newDuration;
-	}
-
     Effect::Quantifier Effect::getQuantifier()
 	{
 		return mQuantifier;
@@ -91,12 +68,10 @@ namespace rl
 
 	void Effect::increaseStufe()
 	{
-		apply();
 	}
 
 	void Effect::decreaseStufe()
 	{
-		remove();
 	}
 
 	void Effect::enable()
@@ -104,8 +79,6 @@ namespace rl
 		if (!mEnabled)
 		{
 			mEnabled = true;
-			for (int i = 0; i < mStufe; i++)
-				apply();
 		}
 	}
 
@@ -114,8 +87,6 @@ namespace rl
 		if (mEnabled)
 		{
 			mEnabled = false;
-			for (int i = 0; i < mStufe; i++)
-				remove();
 		}
 	}
 
@@ -124,11 +95,6 @@ namespace rl
       return PERMANENT;
     }
 
-	RL_LONGLONG Effect::getTimePassed()
-	{		
-        return (DsaManager::getSingleton().getTimestamp() - mStartTime);
-	}
-    
 	Effect::Status Effect::getStatus()
     {
       // should be overlaoaded in the specific derivated effects.

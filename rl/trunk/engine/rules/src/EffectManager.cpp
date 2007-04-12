@@ -134,7 +134,7 @@ namespace rl
     {
       checkEffects();
       int mod = 0;
-	  if (type == Effect::MODTYPE_WERTMULT) mod = 1;
+	  if (type == Effect::MODTYPE_MULT) mod = 1;
       for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
       {
         mod += (*it)->getMod(target, type, tag);

@@ -276,7 +276,7 @@ namespace rl {
         Real animSpeed = 1;
         static Real lastSpeed = 1;
         unsigned int animTimesToPlay = 0;
-		Real gs = mCharacter->getWert(Creature::WERT_GS);
+		//Real gs = mCharacter->getWert(Creature::WERT_GS);
         static String lastCollisionPose = "";
         String collisionPose = "idle";
 

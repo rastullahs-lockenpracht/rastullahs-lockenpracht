@@ -194,8 +194,8 @@ namespace rl
         int rval = it->second;
         if (!getUnmodified)
         {
-          rval += mEffectManager->getMod(wertId, Effect::MODTYPE_WERTMOD);
-          rval *= mEffectManager->getMod(wertId, Effect::MODTYPE_WERTMULT);
+          rval += mEffectManager->getMod(wertId, Effect::MODTYPE_SUM);
+          rval *= mEffectManager->getMod(wertId, Effect::MODTYPE_MULT);
         }
 		return rval;
 	}
@@ -327,7 +327,7 @@ namespace rl
 			Throw(IllegalArgumentException, "Eigenschaft nicht gefunden.");
 		}
 		int result = it->second;
-        result += mEffectManager->getMod(eigenschaftName, Effect::MODTYPE_WERTMOD, tag);
+        result += mEffectManager->getMod(eigenschaftName, Effect::MODTYPE_SUM, tag);
         return result;
     }
 
@@ -507,7 +507,7 @@ namespace rl
         {
             Throw(IllegalArgumentException, "Nachteil nicht gefunden.");
         }
-		else return it->second + mEffectManager->getMod(nachteilName, Effect::MODTYPE_WERTMOD);
+		else return it->second + mEffectManager->getMod(nachteilName, Effect::MODTYPE_SUM);
     }
 
     int Creature::getSf(const CeGuiString sfName)
@@ -633,7 +633,7 @@ namespace rl
 
 
         // Vor dem Vergleich hat man den Talentwert übrig.
-		int eBe = DsaManager::getSingleton().getTalent(talentName)->calculateEbe(mEffectManager->getMod(WERT_BE, Effect::MODTYPE_WERTMOD));
+		int eBe = DsaManager::getSingleton().getTalent(talentName)->calculateEbe(mEffectManager->getMod(WERT_BE, Effect::MODTYPE_SUM));
 		int taW = getTalent(talentName);
 		int rval = taW - modifier - mEffectManager->getMod(talentName, Effect::MODTYPE_PROBENMOD, spezialisierung)
             - mEffectManager->getMod(ALL_TALENTE, Effect::MODTYPE_PROBENMOD, spezialisierung) - eBe;
@@ -779,8 +779,8 @@ namespace rl
 	int Creature::doInitiativeWurf(bool getMaxInitiave)
 	{
 		int rval = getInitiativeBasis();
-		rval += mEffectManager->getMod(WERT_INI, Effect::MODTYPE_WERTMOD);
-		rval -= mEffectManager->getMod(WERT_BE, Effect::MODTYPE_WERTMOD);
+		rval += mEffectManager->getMod(WERT_INI, Effect::MODTYPE_SUM);
+		rval -= mEffectManager->getMod(WERT_BE, Effect::MODTYPE_SUM);
 		if (getMaxInitiave) 
         {
             rval += 6;
@@ -846,7 +846,7 @@ namespace rl
         //Grundregeneration von 1W6
         int regeneratedLe = DsaManager::getSingleton().rollD6();
         //Addiere eventuelle Modifikatoren hinzu
-        regeneratedLe += mEffectManager->getMod(WERT_REGENERATION, Effect::MODTYPE_WERTMOD, Effect::MODTAG_REGENERATION_LE);
+        regeneratedLe += mEffectManager->getMod(WERT_REGENERATION, Effect::MODTYPE_SUM, Effect::MODTAG_REGENERATION_LE);
         //Bei gelungener KO Probe addiere 1
         if (RESULT_ERFOLG <= doEigenschaftsprobe("KO", 
             0, Effect::MODTAG_REGENERATION_LE))
@@ -862,7 +862,7 @@ namespace rl
         //Grundregeneration von 1W6
         int regeneratedAe = DsaManager::getSingleton().rollD6();
         //Addiere eventuelle Modifikatoren hinzu
-        regeneratedAe += mEffectManager->getMod(WERT_REGENERATION, Effect::MODTYPE_WERTMOD, Effect::MODTAG_REGENERATION_AE);
+        regeneratedAe += mEffectManager->getMod(WERT_REGENERATION, Effect::MODTYPE_SUM, Effect::MODTAG_REGENERATION_AE);
         //Bei gelungener KO Probe addiere 1
         if (RESULT_ERFOLG <= doEigenschaftsprobe("IN", 
             0, Effect::MODTAG_REGENERATION_AE))
@@ -904,7 +904,7 @@ namespace rl
             //regeneratedAu += getWert(WERT_MOD_REGENERATION_LE);
             //Bei gelungener KO Probe addiere 1
             if (RESULT_ERFOLG <= doEigenschaftsprobe("KO", 
-                0, mEffectManager->getMod(WERT_REGENERATION, Effect::MODTYPE_WERTMOD, Effect::MODTAG_REGENERATION_AU)))
+                0, mEffectManager->getMod(WERT_REGENERATION, Effect::MODTYPE_SUM, Effect::MODTAG_REGENERATION_AU)))
             {
                 modifyAu(6*factor);
             }
@@ -933,7 +933,6 @@ namespace rl
 
 	void Creature::addEffect(Effect* effect)
 	{
-		effect->setOwner(this);
 		mEffectManager->addEffect(effect);
 	}
     

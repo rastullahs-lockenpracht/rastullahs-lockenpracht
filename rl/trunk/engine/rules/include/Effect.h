@@ -24,8 +24,6 @@
 
 namespace rl
 {
-	class Creature;
-
 	class _RlRulesExport Effect
 	{
 	public:
@@ -49,9 +47,9 @@ namespace rl
 
         typedef int ModType;
         static const ModType MODTYPE_NONE         = 1 << 0;
-        static const ModType MODTYPE_WERTMOD      = 1 << 1;   ///< Modifies the actual value.
+        static const ModType MODTYPE_SUM      = 1 << 1;   ///< Modifies the actual value.
         static const ModType MODTYPE_PROBENMOD    = 1 << 2;   ///< Modifies the test.
-        static const ModType MODTYPE_WERTMULT     = 1 << 3;   ///< Will be multiplied on the value.
+        static const ModType MODTYPE_MULT     = 1 << 3;   ///< Will be multiplied on the value.
         static const ModType MODTYPE_MAXWERTMOD   = 1 << 4;   ///< Modifies only the maximum of the value.
 
         typedef unsigned long ModTag;
@@ -61,6 +59,7 @@ namespace rl
         static const ModTag MODTAG_REGENERATION_LE = 1 << 3;
         static const ModTag MODTAG_REGENERATION_AE = 1 << 4;
         static const ModTag MODTAG_REGENERATION_AU = 1 << 5;
+        static const ModTag MODTAG_ERSCHOEPFUNGSSCHWELLE = 1 << 6;
 
 
         // other constants
@@ -99,12 +98,6 @@ namespace rl
         void setName(CeGuiString name);
         const CeGuiString getDescription() const;
         void setDescription(CeGuiString description);
-        /// Liefert einen Zeiger auf die Kreatur, auf die dieser Effekt wirkt.
-		Creature* getOwner() const;
-        /// Weist diesen Effekt einer Kreatur zu.
-		void setOwner(Creature* owner);
-		virtual int getDuration();
-		virtual void setDuration(int newDuration);
         /// @see Quantifier
 		Quantifier getQuantifier();
         /// @see Quantifier
@@ -140,31 +133,16 @@ namespace rl
         virtual int getMod(CeGuiString target, ModType type, ModTag tag);
 
 	protected:
-		/// Bringt die Aenderungen ein.
-		virtual void apply() = 0;
-		/// Entfernt die Aenderungen.
-		virtual void remove() = 0;
-		/// Gibt die Zeit seit Beginn des Effekts zurueck.
-		virtual RL_LONGLONG getTimePassed();
-
 		CeGuiString mName;
 		CeGuiString mDescription;
 		/// Dauer desEffekts in Aktionen.
 		int mStufe;
-		RL_LONGLONG mDuration;
 		/// Zeitpunkt des Beginns des Effekts.
 		RL_LONGLONG mStartTime;
 		/// Speichert, ob der Effekt gerade wirksam ist.
 		bool mEnabled;
 		/// Gibt an, wie oft ein Effekt dieses Namens auf einer Kreatur wirken kann.
 		Quantifier mQuantifier;
-
-        /// Liste aller Merkmale dieses Effekts.
-		typedef std::set<EffectTag> Tags;
-		Tags mTags;
-
-        /// Zeiger auf die Kreatur, auf die dieser Effekt wirkt.
-		Creature* mOwner;
 	};
 }
 
