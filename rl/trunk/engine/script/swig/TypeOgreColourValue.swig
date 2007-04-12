@@ -15,24 +15,32 @@
  */
 
 /* Typemaps fuer ColourValue.
- * Ein ColourValue wird einfach auf ein dreielementiges Array abgebildet.
+ * Ein ColourValue wird einfach auf ein vierelementiges Array abgebildet.
  * 
  */
+
+
+%{
+// Helper method for checking the ColourValue
+static int checkRubyColourValue( VALUE input ) 
+{
+   bool correct = 
+       TYPE(input) == T_ARRAY   && 
+       RARRAY(input)->len == 4  &&
+       SWIG_FLOAT_P( RARRAY(input)->ptr[0] ) &&
+       SWIG_FLOAT_P( RARRAY(input)->ptr[1] ) &&
+       SWIG_FLOAT_P( RARRAY(input)->ptr[2] ) &&
+       SWIG_FLOAT_P( RARRAY(input)->ptr[3] );
+
+    return (correct ? 1 : 0);
+}
+%}
 
 %typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) 
    Ogre::ColourValue, const Ogre::ColourValue, 
    Ogre::ColourValue*, Ogre::ColourValue&,
-   const Ogre::ColourValue*, const Ogre::ColourValue&
-{ 
-   bool correct = 
-       TYPE($input) == T_ARRAY   && 
-       RARRAY($input)->len == 4  &&
-       SWIG_FLOAT_P( RARRAY($input)->ptr[0] ) &&
-       SWIG_FLOAT_P( RARRAY($input)->ptr[1] ) &&
-       SWIG_FLOAT_P( RARRAY($input)->ptr[2] ) &&
-       SWIG_FLOAT_P( RARRAY($input)->ptr[3] );
-
-   $1 = correct ? 1 : 0;
+   const Ogre::ColourValue*, const Ogre::ColourValue& { 
+	$1 = checkRubyColourValue($input);
 }
  
 %{
@@ -61,7 +69,7 @@ static void convertRubyToColourValue( VALUE input, Ogre::ColourValue* cv )
 
 %typemap(in) Ogre::ColourValue, const Ogre::ColourValue
 {
-   Ogre::ColourValue vec(0.0, 0.0, 0.0);
+   Ogre::ColourValue vec(0.0, 0.0, 0.0, 0.0);
    convertRubyToColourValue( $input, & vec );
    $1 = vec;
 }
@@ -69,7 +77,7 @@ static void convertRubyToColourValue( VALUE input, Ogre::ColourValue* cv )
 %typemap(in) Ogre::ColourValue*, Ogre::ColourValue&,
    const Ogre::ColourValue*, const Ogre::ColourValue&
 {
-   Ogre::ColourValue* vec = new Ogre::ColourValue(0.0, 0.0, 0.0);
+   Ogre::ColourValue* vec = new Ogre::ColourValue(0.0, 0.0, 0.0, 0.0);
    convertRubyToColourValue(  $input, vec );
    $1 = vec;
 }

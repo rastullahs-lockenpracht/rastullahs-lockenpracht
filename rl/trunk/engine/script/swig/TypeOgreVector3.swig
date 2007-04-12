@@ -19,28 +19,53 @@
  * 
  */
 
-%typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) Ogre::Vector3, const Ogre::Vector3, Ogre::Vector3*, Ogre::Vector3&,
-   const Ogre::Vector3*, const Ogre::Vector3&
+%{
+// Helper method for checking the Vector3
+static int checkRubyVector3( VALUE input ) 
 {
-   $1 = TYPE($input) == T_ARRAY && RARRAY($input)->len == 3 ? 1 : 0;
+   bool correct = 
+       TYPE(input) == T_ARRAY   && 
+       RARRAY(input)->len == 3  &&
+       SWIG_FLOAT_P( RARRAY(input)->ptr[0] ) &&
+       SWIG_FLOAT_P( RARRAY(input)->ptr[1] ) &&
+       SWIG_FLOAT_P( RARRAY(input)->ptr[2] );
+
+    return (correct ? 1 : 0);
+}
+%}
+
+%typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) 
+   Ogre::Vector3, const Ogre::Vector3, 
+   Ogre::Vector3*, Ogre::Vector3&,
+   const Ogre::Vector3*, const Ogre::Vector3& { 
+	$1 = checkRubyVector3($input);
 }
  
-%typemap(in) Ogre::Vector3, const Ogre::Vector3
+%{
+// Helper method for filling the Vector3
+static void convertRubyToVector3( VALUE input, Ogre::Vector3* v ) 
 {
-   Ogre::Vector3 vec(0.0, 0.0, 0.0);
-   int length = RARRAY($input)->len;
-   VALUE* it = RARRAY($input)->ptr;
+   int length = RARRAY(input)->len;
+   VALUE* it = RARRAY(input)->ptr;
    if (length > 0) {
-      vec.x = NUM2DBL(*it);
+      v->x = NUM2DBL(*it);
       it++;
    }
    if (length > 1) {
-      vec.y = NUM2DBL(*it);
+      v->y = NUM2DBL(*it);
       it++;
    }
    if (length > 2) {
-      vec.z = NUM2DBL(*it);
+      v->z = NUM2DBL(*it);
+      it++;
    }
+}
+%}
+
+%typemap(in) Ogre::Vector3, const Ogre::Vector3
+{
+   Ogre::Vector3 vec(0.0, 0.0, 0.0);
+   convertRubyToVector3( $input, & vec );
    $1 = vec;
 }
 
@@ -48,40 +73,33 @@
    const Ogre::Vector3*, const Ogre::Vector3&
 {
    Ogre::Vector3* vec = new Ogre::Vector3(0.0, 0.0, 0.0);
-   int length = RARRAY($input)->len;
-   VALUE* it = RARRAY($input)->ptr;
-   if (length > 0) {
-      vec->x = NUM2DBL(*it);
-      it++;
-   }
-   if (length > 1) {
-      vec->y = NUM2DBL(*it);
-      it++;
-   }
-   if (length > 2) {
-      vec->z = NUM2DBL(*it);
-   }
+   convertRubyToVector3(  $input, vec );
    $1 = vec;
 }
-%typemap(freearg) Ogre::Vector3*, Ogre::Vector3&,
-   const Ogre::Vector3*, const Ogre::Vector3& {
-   delete $1;
+
+%{
+// Helper method for creating the ruby Array
+static VALUE convertVector3ToRuby( const Ogre::Vector3* v ) 
+{
+   VALUE array = rb_ary_new3(3,
+	rb_float_new(v->x), 
+	rb_float_new(v->y), 
+	rb_float_new(v->z) );
+	
+   return array;
 }
+%}
 
 %typemap(out) Ogre::Vector3, const Ogre::Vector3 {
-   VALUE rval = rb_ary_new();
-   rb_ary_push(rval, rb_float_new($1.x));
-   rb_ary_push(rval, rb_float_new($1.y));
-   rb_ary_push(rval, rb_float_new($1.z));
-   $result = rval;
+   $result = convertVector3ToRuby( & $1 );
 }
 
-%typemap(out) Ogre::Vector3*, const Ogre::Vector3*, const Ogre::Vector3&, Ogre::Vector& {
-   VALUE rval = rb_ary_new();
-   rb_ary_push(rval, rb_float_new($1->x));
-   rb_ary_push(rval, rb_float_new($1->y));
-   rb_ary_push(rval, rb_float_new($1->z));
-   $result = rval;
+%typemap(out) Ogre::Vector3*, const Ogre::Vector3*, const Ogre::Vector3&, Ogre::Vector3& {
+   $result = convertVector3ToRuby( $1 );
 } 
 
+
+%typemap(freearg) Ogre::Vector3*, Ogre::Vector3&,
+   const Ogre::Vector3*, const Ogre::Vector3&  
+"   delete $1;"
 

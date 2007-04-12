@@ -145,10 +145,6 @@ namespace Swig {
     static VALUE ceguiException = rb_define_class("CeguiException", rb_eRuntimeError);
     rb_raise(ceguiException, ce.getMessage().c_str());
   }
-  catch (Ogre::Exception& oe) {
-    static VALUE ogreException = rb_define_class("OgreException", rb_eRuntimeError);
-    rb_raise(ogreException, oe.getFullDescription().c_str());
-  }
   catch (Swig::DirectorException&) {
     SWIG_fail; 
   } 
@@ -171,87 +167,6 @@ namespace Swig {
 #pragma warning( disable : 4101 )	
 									
 %}
-
-
-
-
-// These functions will ensure no C++ will have to different Ruby links
-
-// doWithActor( Actor* ) oder andere Director-Methoden Parameter
-%typemap(directorin) SWIGTYPE*
-{
-	// Auf Director testen
-	Swig::Director *resultdirector = 0;
-	resultdirector = dynamic_cast<Swig::Director *>($1);
-    if (resultdirector) {
-        $input = resultdirector->swig_get_self();
-    }
-    else {
-		VALUE val = SWIG_RubyInstanceFor( $1 );
-		
-		// Es gab das SkriptObjekt noch nicht
-		if (NIL_P(val))
-		{
-			$input = SWIG_NewPointerObj((void *) $1, $1_descriptor, 0);		
-		}
-		else	
-			$input = val;
-	}
-} 
-    
-// Actor* getActor oder andere OUTPUT Parameter
-%typemap(out) SWIGTYPE*
-{
-	VALUE val = SWIG_RubyInstanceFor( $1 );
-	
-	// Es gab das SkriptObjekt noch nicht
-	if (NIL_P(val)) {
-		$result = SWIG_NewPointerObj((void *) $1, $1_descriptor, 0);			
-	}
-	else	
-		$result = val;
-} 
-
-// Animation* getActor oder andere OUTPUT Parameter fr DYNAMICs
-%typemap(out) SWIGTYPE* DYNAMIC, SWIGTYPE& DYNAMIC
-{
-	VALUE val = SWIG_RubyInstanceFor( $1 );
-	
-	// Es gab das SkriptObjekt noch nicht
-	if (NIL_P(val))
-	{
-		// Dynamic Cast ausfhren
-		swig_type_info *ty = SWIG_TypeDynamicCast($1_descriptor, (void **) &$1);
-		$result = SWIG_NewPointerObj((void *) $1, ty, 0);		
-	}
-	else	
-		$result = val;
-} 
-
-// doWithAnimation( Animation* ) oder andere Director-Methoden Parameter fr DYNAMICs
-%typemap(directorin) SWIGTYPE* DYNAMIC, SWIGTYPE& DYNAMIC
-{
-	// Auf Director testen
-	Swig::Director *resultdirector = NULL;
-	resultdirector = dynamic_cast<Swig::Director *>($1);
-    if (resultdirector) {
-        $input = resultdirector->swig_get_self();        	
-    }
-    else
-	{
-		VALUE val = SWIG_RubyInstanceFor( $1 );
-		
-		// Es gab das SkriptObjekt noch nicht
-		if (NIL_P(val)) {
-			// Dynamic Cast ausfhren
-			swig_type_info *ty = SWIG_TypeDynamicCast($1_descriptor, (void **) &$1);
-			$input = SWIG_NewPointerObj((void *) $1, ty, 0);		
-		}
-		else	
-			$input = val;
-	}
-} 
-
 
 // Include bodies
 

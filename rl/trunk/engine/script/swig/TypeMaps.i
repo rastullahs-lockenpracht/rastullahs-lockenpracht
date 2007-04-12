@@ -29,5 +29,6 @@
 %include "TypeRlProperty.swig"
 %include "TypeRlTripelInt.swig"
 %include "TypeStdPairIntInt.swig"
+%include "TypeDynamicDirector.swig"
 
 #endif
