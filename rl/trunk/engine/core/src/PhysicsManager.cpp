@@ -394,8 +394,8 @@ namespace rl
     }
 
     OgreNewt::CollisionPtr PhysicsManager::createCollision(
-        Ogre::Entity* entity, const Ogre::String animName,
-        const PhysicsManager::GeometryType& geomType, Ogre::Vector3* offset,
+        Ogre::Entity* entity, const PhysicsManager::GeometryType& geomType, 
+		const Ogre::String animName, Ogre::Vector3* offset,
         Ogre::Quaternion* orientation, const Ogre::Real mass, Ogre::Vector3* inertia)
     {
         // problem here is that a mesh can have different animations with
@@ -685,7 +685,7 @@ namespace rl
 			// calculate the convex hull of the animated mesh
 			rval = CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(
                 PhysicsManager::getSingleton()._getNewtonWorld(),
-				entity, true, *orientation, *offset));
+				entity, entity->hasSkeleton(), *orientation, *offset));
 
 			if (inertia != NULL)
 			{

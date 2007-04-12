@@ -348,7 +348,7 @@ namespace rl
 				}
 
 				// create the collision primitive of the animated mesh
- 				coll = PhysicsManager::getSingleton().createCollision(entity, animName, mGeometryType);
+ 				coll = PhysicsManager::getSingleton().createCollision(entity, mGeometryType, animName);
 
 				// cleanup the temporary mesh
 				delete tempMesh;
@@ -390,8 +390,8 @@ namespace rl
                 Entity* entity = dynamic_cast<MeshObject*>(mPhysicalObject)->getEntity();
                 coll = PhysicsManager::getSingleton().createCollision(
                     entity,
-                    "",
                     mGeometryType,
+                    "",
                     NULL,
                     NULL,
                     mMass,

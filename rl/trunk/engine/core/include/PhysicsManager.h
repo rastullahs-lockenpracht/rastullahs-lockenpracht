@@ -226,8 +226,8 @@ namespace rl {
 		*/
 		OgreNewt::CollisionPtr createCollision(
 			Ogre::Entity* entity,
-            const Ogre::String animName = "",
             const PhysicsManager::GeometryType& geomType = PhysicsManager::GT_NONE,
+            const Ogre::String animName = "",
 			Ogre::Vector3* offset = NULL,
 			Ogre::Quaternion* orientation = NULL,
             const Ogre::Real mass = 0,
