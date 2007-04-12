@@ -19,35 +19,50 @@
  * 
  */
 
-%typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) Ogre::ColourValue, const Ogre::ColourValue, Ogre::ColourValue*, Ogre::ColourValue&,
+%typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) 
+   Ogre::ColourValue, const Ogre::ColourValue, 
+   Ogre::ColourValue*, Ogre::ColourValue&,
    const Ogre::ColourValue*, const Ogre::ColourValue&
-{
-   $1 = TYPE($input) == T_ARRAY && RARRAY($input)->len == 4 ? 1 : 0;
+{ 
+   bool correct = 
+       TYPE($input) == T_ARRAY   && 
+       RARRAY($input)->len == 4  &&
+       SWIG_FLOAT_P( RARRAY($input)->ptr[0] ) &&
+       SWIG_FLOAT_P( RARRAY($input)->ptr[1] ) &&
+       SWIG_FLOAT_P( RARRAY($input)->ptr[2] ) &&
+       SWIG_FLOAT_P( RARRAY($input)->ptr[3] );
+
+   $1 = correct ? 1 : 0;
 }
  
-%typemap(in) Ogre::ColourValue, const Ogre::ColourValue
+%{
+// Helper method for filling the ColourValue
+static void convertRubyToColourValue( VALUE input, Ogre::ColourValue* cv ) 
 {
-   Ogre::ColourValue vec(0.0, 0.0, 0.0);
-   int length = RARRAY($input)->len;
-   VALUE* it = RARRAY($input)->ptr;
+   int length = RARRAY(input)->len;
+   VALUE* it = RARRAY(input)->ptr;
    if (length > 0) {
-      Check_Type(*it, T_FLOAT);
-      vec.r = RFLOAT(*it)->value;
+      cv->r = NUM2DBL(*it);
       it++;
    }
    if (length > 1) {
-      Check_Type(*it, T_FLOAT);
-      vec.g = RFLOAT(*it)->value;
+      cv->g = NUM2DBL(*it);
       it++;
    }
    if (length > 2) {
-      Check_Type(*it, T_FLOAT);
-      vec.b = RFLOAT(*it)->value;
+      cv->b = NUM2DBL(*it);
+      it++;
    }
    if (length > 3) {
-      Check_Type(*it, T_FLOAT);
-      vec.a = RFLOAT(*it)->value;
+      cv->a = NUM2DBL(*it);
    }
+}
+%}
+
+%typemap(in) Ogre::ColourValue, const Ogre::ColourValue
+{
+   Ogre::ColourValue vec(0.0, 0.0, 0.0);
+   convertRubyToColourValue( $input, & vec );
    $1 = vec;
 }
 
@@ -55,48 +70,33 @@
    const Ogre::ColourValue*, const Ogre::ColourValue&
 {
    Ogre::ColourValue* vec = new Ogre::ColourValue(0.0, 0.0, 0.0);
-   int length = RARRAY($input)->len;
-   VALUE* it = RARRAY($input)->ptr;
-   if (length > 0) {
-      vec->r = NUM2DBL(*it);
-      it++;
-   }
-   if (length > 1) {
-      vec->g = NUM2DBL(*it);
-      it++;
-   }
-   if (length > 2) {
-      vec->b = NUM2DBL(*it);
-      it++;
-   }
-   if (length > 3) {
-      vec->a = NUM2DBL(*it);
-   }
+   convertRubyToColourValue(  $input, vec );
    $1 = vec;
 }
-%typemap(freearg) Ogre::ColourValue*, Ogre::ColourValue&,
-   const Ogre::ColourValue*, const Ogre::ColourValue&  
-"   delete $1;"
+
+%{
+// Helper method for creating the ruby Array
+static VALUE convertColourValueToRuby( const Ogre::ColourValue* cv ) 
+{
+   VALUE array = rb_ary_new3(4,
+	rb_float_new(cv->r), 
+	rb_float_new(cv->g), 
+	rb_float_new(cv->b), 
+	rb_float_new(cv->a) );
+	
+   return array;
+}
+%}
 
 %typemap(out) Ogre::ColourValue, const Ogre::ColourValue {
-   VALUE array = rb_ary_new();
-   rb_ary_push(array, rb_float_new($1.r));
-   rb_ary_push(array, rb_float_new($1.g));
-   rb_ary_push(array, rb_float_new($1.b));
-   rb_ary_push(array, rb_float_new($1.a));
-   $result = array;
+   $result = convertColourValueToRuby( & $1 );
 }
 
-%typemap(out) Ogre::ColourValue*, const Ogre::ColourValue*, const Ogre::ColourValue&, Ogre::Vector& {
-   VALUE array = rb_ary_new();
-   rb_ary_push(array, rb_float_new($1->r));
-   rb_ary_push(array, rb_float_new($1->g));
-   rb_ary_push(array, rb_float_new($1->b));
-   rb_ary_push(array, rb_float_new($1->a));
-   $result = array;
+%typemap(out) Ogre::ColourValue*, const Ogre::ColourValue*, const Ogre::ColourValue&, Ogre::ColourValue& {
+   $result = convertColourValueToRuby( $1 );
 } 
+
 
 %typemap(freearg) Ogre::ColourValue*, Ogre::ColourValue&,
    const Ogre::ColourValue*, const Ogre::ColourValue&  
 "   delete $1;"
-

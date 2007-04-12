@@ -18,7 +18,7 @@
 %apply const std::string { const Ogre::String }; 
 
 %apply std::string* { Ogre::String* };  
-%apply const std::string* { const Ogre::String* }; 
+// Not defined yet %apply const std::string* { const Ogre::String* }; 
  
 %apply std::string& { Ogre::String& }; 
 %apply const std::string& { const Ogre::String& };  

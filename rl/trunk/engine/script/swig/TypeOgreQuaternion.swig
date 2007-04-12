@@ -147,45 +147,39 @@
    }   
    $1 = quat;
 }
-%typemap(freearg)  Ogre::Quaternion*, Ogre::Quaternion&,
-   const Ogre::Quaternion*, const Ogre::Quaternion& 
-"   delete $1;"
 
 
-
-
-%typemap(out) Ogre::Quaternion, const Ogre::Quaternion {
+%{
+// Helper method for creating the ruby Array
+static VALUE convertQuaternionToRuby( const Ogre::Quaternion* q ) 
+{
    Ogre::Degree angle;
    Ogre::Vector3 axis;
    
-   $1.ToAngleAxis(angle, axis);
+   q->ToAngleAxis(angle, axis);
    
-   VALUE arrAxis = rb_ary_new();
-   rb_ary_push(arrAxis, rb_float_new(axis.x));
-   rb_ary_push(arrAxis, rb_float_new(axis.y));
-   rb_ary_push(arrAxis, rb_float_new(axis.z));
-   VALUE rval = rb_ary_new();
-   rb_ary_push(rval, arrAxis);
-   rb_ary_push(rval, rb_float_new(angle.valueDegrees()));
-   
-   $result = rval;
+   VALUE arrAxis = rb_ary_new3( 3, 
+       rb_float_new(axis.x), 
+       rb_float_new(axis.y), 
+       rb_float_new(axis.z) );
+
+   VALUE array = rb_ary_new3( 2, 
+       arrAxis, 
+       rb_float_new(angle.valueDegrees()) );
+
+   return array;
+}
+%}
+
+%typemap(out) Ogre::Quaternion, const Ogre::Quaternion {  
+   $result = convertQuaternionToRuby( & $1 );
 }
 
 %typemap(out) Ogre::Quaternion*, const Ogre::Quaternion*, const Ogre::Quaternion&, Ogre::Quaternion& {
-   Ogre::Degree angle;
-   Ogre::Vector3 axis;
-   
-   $1->ToAngleAxis(angle, axis);
-   
-   VALUE arrAxis = rb_ary_new();
-   rb_ary_push(arrAxis, rb_float_new(axis.x));
-   rb_ary_push(arrAxis, rb_float_new(axis.y));
-   rb_ary_push(arrAxis, rb_float_new(axis.z));
-   VALUE rval = rb_ary_new();
-   rb_ary_push(rval, arrAxis);
-   rb_ary_push(rval, rb_float_new(angle.valueDegrees()));
-   
-   $result = rval;
+   $result = convertQuaternionToRuby( $1 );
 } 
 
 
+%typemap(freearg)  Ogre::Quaternion*, Ogre::Quaternion&,
+   const Ogre::Quaternion*, const Ogre::Quaternion& 
+"   delete $1;"

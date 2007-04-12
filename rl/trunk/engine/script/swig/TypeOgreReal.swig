@@ -18,7 +18,7 @@
 %apply const double { const Ogre::Real }; 
 
 %apply double* { Ogre::Real* };  
-%apply const double* { const Ogre::Real* }; 
+// Not defined yet %apply const double* { const Ogre::Real* }; 
  
 %apply double& { Ogre::Real& }; 
 %apply const double& { const Ogre::Real& };
