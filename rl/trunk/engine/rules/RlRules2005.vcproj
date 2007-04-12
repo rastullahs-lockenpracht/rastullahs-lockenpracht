@@ -293,6 +293,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Combat.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\CombatManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Date.cpp"
 				>
 			</File>
@@ -460,6 +468,14 @@
 			</File>
 			<File
 				RelativePath=".\include\ActionManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Combat.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\CombatManager.h"
 				>
 			</File>
 			<File
