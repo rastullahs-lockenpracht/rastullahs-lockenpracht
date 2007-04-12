@@ -142,7 +142,7 @@ namespace rl
     RL_LONGLONG DsaManager::getTimestamp() const
     {
         unsigned long currentClock = GameLoop::getSingleton().getClock();
-        mLastGameTime += mTimeScale * (currentClock - mLastClock);
+        mLastGameTime += (RL_LONGLONG) (mTimeScale * (currentClock - mLastClock));
         mLastClock = currentClock;
 		return mLastGameTime;
     }

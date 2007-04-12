@@ -104,7 +104,7 @@ namespace rl
          */
         virtual void doAction(GameObject* object,
                               Creature* actor,
-                              GameObject* target);
+                              GameObject* target = NULL);
 							  
 		void setGroup(ActionGroup* group);
 		ActionGroup* getGroup() const;
