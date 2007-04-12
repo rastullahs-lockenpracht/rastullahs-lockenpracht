@@ -14,43 +14,12 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-/* Wrapping Strings to ruby and back 
- for String, const String, String&, String*, const String*, const String&
-*/
-%typemap(typecheck) Ogre::String, const Ogre::String & = char *;
+%apply std::string { Ogre::String };  
+%apply const std::string { const Ogre::String }; 
 
-%typemap(in) Ogre::String, const Ogre::String
-"
-    Check_Type($input, T_STRING);
-    $1 = Ogre::String(StringValuePtr($input));
-"
-%typemap(out) Ogre::String, const Ogre::String
-"
-     $result = rb_str_buf_new2($1.c_str());
-"
-%typemap(in) Ogre::String*, Ogre::String&, const Ogre::String*, const Ogre::String&
-"
-    Check_Type($input, T_STRING);
-    $1 = new Ogre::String(StringValuePtr($input));
-"
-%typemap(freearg) Ogre::String*, Ogre::String&, const Ogre::String*, const Ogre::String&
-"   delete $1;"
-
-%typemap(out) Ogre::String*, Ogre::String&, const Ogre::String*, const Ogre::String&
-"    $result = rb_str_buf_new2($1->c_str());"
-
-%typemap(varout) Ogre::String, const Ogre::String
-"    $result = rb_str_buf_new2($1.c_str());"
-
-%typemap(directorin) Ogre::String*, const Ogre::String*
-"    $input = rb_str_buf_new2($1->c_str());"
-
-%typemap(directorin) Ogre::String, Ogre::String&, const Ogre::String, const Ogre::String&
-"    $input = rb_str_buf_new2($1.c_str());"
-
-%typemap(directorout) Ogre::String*, Ogre::String&, const Ogre::String*, const Ogre::String&
-"    $result = new Ogre::String(StringValuePtr($1));"
-
-%typemap(argout) Ogre::String, const Ogre::String
-"    $result = rb_str_buf_new2($1.c_str());"
+%apply std::string* { Ogre::String* };  
+%apply const std::string* { const Ogre::String* }; 
+ 
+%apply std::string& { Ogre::String& }; 
+%apply const std::string& { const Ogre::String& };  
 
