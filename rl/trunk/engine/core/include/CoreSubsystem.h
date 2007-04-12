@@ -46,6 +46,7 @@ class XmlResourceManager;
 class SoundManager;
 class DebugVisualsManager;
 class JobScheduler;
+class LightZoneManager;
 
 typedef _RlCoreExport std::map<Ogre::String, ContentModule*> ModuleMap;
 
@@ -140,6 +141,7 @@ private:
     SoundManager* mSoundManager;
     DebugVisualsManager* mDebugVisualsManager;
     JobScheduler* mJobScheduler;
+	LightZoneManager* mLightZoneManager;
 
     /** Runs the setup methods  */
     bool initializeCoreSubsystem();

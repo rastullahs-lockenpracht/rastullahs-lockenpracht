@@ -33,6 +33,7 @@
 #include "Exception.h"
 #include "GameEventManager.h"
 #include "GameLoop.h"
+#include "LightZone.h"
 #include "Logger.h"
 #include "PhysicsManager.h"
 #include "RubyInterpreter.h"
@@ -72,7 +73,8 @@ namespace rl
         mSoundManager(NULL),
         mDebugVisualsManager(NULL),
         mJobScheduler(NULL),
-        mRenderWindow(NULL)
+        mRenderWindow(NULL),
+		mLightZoneManager(NULL)
     {
         initializeCoreSubsystem();
     }
@@ -81,11 +83,12 @@ namespace rl
     {
         mCoreEventCaster.removeEventListeners();
 
-        delete mWorld;
+        delete mLightZoneManager;
+        delete mGameEventManager;
+		delete mWorld;
         delete mGameLoop;
         delete mJobScheduler;
         delete mActorManager;
-        delete mGameEventManager;
         delete mAnimationManager;
         delete mDebugVisualsManager;
         delete mPhysicsManager;
@@ -267,6 +270,9 @@ namespace rl
         mJobScheduler = new JobScheduler();
         GameLoop::getSingleton().addTask(mJobScheduler, GameLoop::TG_GRAPHICS);
         LOG_MESSAGE(Logger::CORE,"JobScheduler erzeugt");
+
+		mLightZoneManager = new LightZoneManager();
+        LOG_MESSAGE(Logger::CORE,"LightZoneManager erzeugt");
 
         return true;
     }

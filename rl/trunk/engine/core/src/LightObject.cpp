@@ -32,7 +32,7 @@ namespace rl {
 
     Light* LightObject::getLight()
     {
-        return reinterpret_cast<Light*>(mMovableObject);
+        return static_cast<Light*>(mMovableObject);
     }
 
     String LightObject::getObjectType()
@@ -71,4 +71,9 @@ namespace rl {
 	{
 		getLight()->setCastShadows( cast );
 	}
+
+    void LightObject::setVisible(bool enabled)
+    {
+        getLight()->setVisible(enabled);
+    }
 }

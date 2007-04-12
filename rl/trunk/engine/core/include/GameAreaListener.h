@@ -39,12 +39,12 @@ public:
      *  
      * @param anEvent Das verantwortliche Ereignis
      */
-    virtual void areaLeft(GameAreaEvent *anEvent) const = 0;
+    virtual void areaLeft(GameAreaEvent *anEvent) = 0;
     /** Diese Methode wird aufgerufen wenn ein Aktor das Areal betreten hat
     *  
     * @param anEvent Das verantwortliche Ereignis
     */
-    virtual void areaEntered(GameAreaEvent *anEvent) const = 0;
+    virtual void areaEntered(GameAreaEvent *anEvent) = 0;
 
     /// Kümmert sich um das Aufrufen benannter Methoden aus Reasons
     virtual bool eventRaised(GameAreaEvent *anEvent);

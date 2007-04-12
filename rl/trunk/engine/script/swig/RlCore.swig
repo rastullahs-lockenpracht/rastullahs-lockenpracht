@@ -173,8 +173,8 @@ class GameAreaListener
 {
 public:
 	virtual ~GameAreaListener();
-    virtual void areaLeft(rl::GameAreaEvent *anEvent) const = 0;
-    virtual void areaEntered(rl::GameAreaEvent *anEvent) const = 0;
+    virtual void areaLeft(rl::GameAreaEvent *anEvent) = 0;
+    virtual void areaEntered(rl::GameAreaEvent *anEvent) = 0;
 };
 
 class GameAreaType
@@ -835,5 +835,20 @@ public:
 		rl::JobScheduler::JobPriority priority = JobScheduler::JP_NORMAL,
 		Ogre::Real delay=0.0f);
 };
+
+class LightZone
+{
+public:
+	void addLight(Actor* light);
+};
+
+class LightZoneManager
+{
+public:
+	static const LightZoneManager& getSingleton();
+	LightZone* createLightZone(const Ogre::Vector3& position, const Ogre::Real radius, unsigned long queryflags);
+	LightZone* getDefaultLightZone() const;
+};
+
 
 }
