@@ -514,6 +514,7 @@ namespace rl
         {
             Ogre::String actorName = Ogre::StringConverter::toString(mId);
 
+
             Actor* actor = ActorManager::getSingleton().createMeshActor(
                     actorName,
                     mMeshfile.c_str(),
@@ -638,4 +639,9 @@ namespace rl
     {
         return mQueryFlags;
     }
+
+	void GameObject::addQueryFlag(unsigned long queryflag)
+	{
+		mQueryFlags |= queryflag;
+	}
 }

@@ -30,13 +30,15 @@ namespace rl
     class Actor;
     class Creature;
 
-    static const unsigned long QUERYFLAG_GAMEOBJECT = 1;
-    static const unsigned long QUERYFLAG_CREATURE   = 2;
-    static const unsigned long QUERYFLAG_ITEM       = 4;
-    static const unsigned long QUERYFLAG_CONTAINER  = 8;
-    static const unsigned long QUERYFLAG_WEAPON     = 16;
-    static const unsigned long QUERYFLAG_ARMOR      = 32;
-    static const unsigned long QUERYFLAG_PERSON     = 64;
+    static const unsigned long QUERYFLAG_GAMEOBJECT = 1<<1;
+    static const unsigned long QUERYFLAG_CREATURE   = 1<<2;
+    static const unsigned long QUERYFLAG_ITEM       = 1<<3;
+    static const unsigned long QUERYFLAG_CONTAINER  = 1<<4;
+    static const unsigned long QUERYFLAG_WEAPON     = 1<<5;
+    static const unsigned long QUERYFLAG_ARMOR      = 1<<6;
+    static const unsigned long QUERYFLAG_PERSON     = 1<<7;
+
+	static const unsigned long QUERYFLAG_PLAYER     = 1<<8;
 
     /**
     * \brief Basisklasse aller spielrelevanten Objekte in RL.
@@ -99,16 +101,20 @@ namespace rl
 		void setActor(Actor* actor);
 		Actor* getActor();
 
+		/**
+		 * Get all valid actions a character can perfom on this game object
+		 * 
+		 * @param actor the character
+		 * @return a vector of actions
+		 */
         const ActionVector getValidActions(Creature* actor) const;
 		virtual Action* getDefaultAction(Creature* actor) const;
 
-        /** Eine Aktion des Gegenstandes wird ausgeloest.
-         *  @param actionName der Name der auszuloesenden Aktion.
-         *  @param actor der "Benutzer" des Gegenstandes,
-         *         der die Aktion ausgeloest hat, kann auch
-         *         <code>NULL</code> sein, falls die Aktion auf andere Weise
-         *         getriggert wurde.
-         *  @param target Ziel, auf das die Aktion gewirkt wird.
+        /** Trigger an action of this game object
+         *  @param actionName the action's name
+         *  @param actor the "user" of this game object, can be <code>NULL</code> sein, 
+				   if the action wasn't triggered by someone (e.g. by time)
+         *  @param target the action's target (can be <code>NULL</code> if no other game objects are involved)
          */
         void doAction(const CeGuiString actionName,
                       Creature* actor,
@@ -148,6 +154,7 @@ namespace rl
         void removeFromScene();
 
         unsigned long getQueryFlags() const;
+		void addQueryFlag(unsigned long queryflag);
 
     protected:
         int mId;

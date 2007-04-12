@@ -328,6 +328,16 @@ namespace rl {
         GOS_READY
     };
     
+    
+    %constant unsigned long QUERYFLAG_GAMEOBJECT = rl::QUERYFLAG_GAMEOBJECT;
+    %constant unsigned long QUERYFLAG_CREATURE = rl::QUERYFLAG_CREATURE;
+    %constant unsigned long QUERYFLAG_ITEM = rl::QUERYFLAG_ITEM;
+    %constant unsigned long QUERYFLAG_CONTAINER = rl::QUERYFLAG_CONTAINER;
+    %constant unsigned long QUERYFLAG_WEAPON = rl::QUERYFLAG_WEAPON;
+    %constant unsigned long QUERYFLAG_ARMOR = rl::QUERYFLAG_ARMOR;
+    %constant unsigned long QUERYFLAG_PERSON = rl::QUERYFLAG_PERSON;
+	%constant unsigned long QUERYFLAG_PLAYER = rl::QUERYFLAG_PLAYER;
+    
     %feature("director") GameObject;
     class GameObject: public ObjectStateChangeEventSource
     {
@@ -380,13 +390,14 @@ namespace rl {
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
         
-        void placeIntoScene();
+        virtual void placeIntoScene();
         void removeFromScene();
         
         rl::GameObjectState getState() const;
         void setState(rl::GameObjectState state);
         
         unsigned long getQueryFlags() const;
+        void addQueryFlag(unsigned long queryflag);
     };
     
     %feature("director") Item;
@@ -414,6 +425,8 @@ namespace rl {
     
         Item(unsigned int id);
         virtual ~Item();
+        
+        virtual void placeIntoScene();
         
         void setItemType(rl::Item::ItemType itemType);
         rl::Item::ItemType getItemType() const;

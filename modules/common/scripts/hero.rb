@@ -3,9 +3,10 @@ load "embed.rb"
 class Hero < Person
     def initialize(id)
         super(id);
-		setName("Alrike");
-		setDescription("Heldin von Berufung");
-		$SCRIPT.log("Gute Eigenschaften zuweisen...");
+        addQueryFlag(RlScript::QUERYFLAG_PLAYER)
+		    setName("Alrike");
+		    setDescription("Heldin von Berufung");
+		    $SCRIPT.log("Gute Eigenschaften zuweisen...");
 
         setEigenschaft("MU", 12);
         setEigenschaft("KL", 8);
