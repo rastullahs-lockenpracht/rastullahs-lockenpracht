@@ -24,7 +24,7 @@ class HealAction < Action
             when "M"
                lep = -$DM.roll(3, 0)
             when "A"
-               lep = $DM.roll(1, 0) # KL-1, GE-1 für 1h
+               lep = $DM.roll(1, 0) # KL-1, GE-1 fï¿½r 1h
             when "B"
                lep = $DM.roll(2, 0)
             when "C"
@@ -44,11 +44,16 @@ class HealAction < Action
 end
 
 class Heiltrank < Item
-  def initialize(name, beschreibung, model, quality)
-    super(name, beschreibung)
-    trankActor = $AM.createMeshActor( name, model,  0, 0.0 );
-    setActor(trankActor)
-
-    addAction(HealAction.new("drink", "Trinken", quality, 0, 0))
+  
+  def initialize(id)
+    super(id)
+  end
+  
+  def setProperty(key, value)
+    if (key == "quality")
+    	addAction(HealAction.new("drink", "Trinken", value, 0, 0))
+    else
+    	super(key, value)
+    end
   end
 end

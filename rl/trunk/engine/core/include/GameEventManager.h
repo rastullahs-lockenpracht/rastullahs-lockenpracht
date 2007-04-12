@@ -28,6 +28,8 @@
 
 namespace rl {
 
+class PhysicalThing;
+
 typedef std::set<GameAreaEventSource*> GameAreaEventSourceList;
 
 /** GameEventManager
@@ -59,6 +61,8 @@ public:
     */
     void addSphereAreaListener( Actor* actor, Ogre::Real radius,
         GameAreaListener* list, unsigned long queryMask = 0xFFFFFFFF );
+
+	void addMeshAreaListener( Actor* meshactor, GameAreaListener* list, PhysicalThing* testObj );
 
     /** Entfernt an allen Areas diesen Listener
     *

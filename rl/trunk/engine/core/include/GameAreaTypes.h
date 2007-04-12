@@ -17,10 +17,16 @@
 #ifndef __GameAreaTypes_H__
 #define __GameAreaTypes_H__
 
-#include "Actor.h"
 #include "CorePrerequisites.h"
 
+#include <OgreNewt_ContactCallback.h>
+
+#include "Actor.h"
+
 namespace rl {
+
+	class MeshObject;
+	class PhysicalThing;
 
 /** GameAreaType
  * Verwaltet verschiedene Flaechenarten und Methoden die Aktoren innerhalb dieser Flächen zu
@@ -56,7 +62,6 @@ public:
     //virtual setShowDebug() = 0;
     /// Gibt zurück ob ein Debug-Objekt eingeblendet ist
     //virtual bool getShowDebug() const = 0;
-private:
 };
 
 /** GameSphereAreaType
@@ -91,6 +96,30 @@ private:
     /// Die Kugel-Anfrage
     Ogre::SphereSceneQuery* mSphereQuery;
 };
+
+//class _RlCoreExport GameMeshAreaType : public GameAreaType
+//{
+//public:
+//	GameMeshAreaType(MeshObject* mo, PhysicalThing* testObj); ///@todo allow character change
+//	virtual ~GameMeshAreaType();
+//
+//	virtual ActorMap performQuery();
+//
+//	/// Setzt die genaue Position der Anfrage
+//    virtual void setQueryPosition( const Ogre::Vector3& vec );
+//    /// Gibt die Position der Anfrage zurück
+//    virtual const Ogre::Vector3& getQueryPosition() const;   
+//
+//	/// Gibt die Anfrage-Maske zurück, wird in Unterklassen implementiert
+//	virtual unsigned long getQueryMask() const { return 0xFFFFFFFF; }
+//    /// Setzt die Anfrage-Maske, wird in Unterklassen implementiert
+//	virtual void setQueryMask( unsigned long mask = 0xFFFFFFFF ) {}
+//
+//private:
+//	OgreNewt::CollisionPtr mCollision;
+//	PhysicalThing* mTestObj;
+//	Ogre::Vector3 mPosition;
+//};
 
 }
 

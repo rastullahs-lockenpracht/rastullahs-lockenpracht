@@ -32,21 +32,26 @@ end
 
 
 class Waldspinne < Creature
-    def initialize
-	super("Waldspinne", "Eine große Spinne, die sich anscheinend vor irgendetwas ängstigt.")
-	actor = $AM.createMeshActor("Waldspinne", "tie_waldspinne.mesh", PhysicsManager::GT_SPHERE, 0.0)
-	setActor(actor)
-	getActor().placeIntoScene(-20.400, 3.430, -82.000, 1.0, 0.0, 0.0, 0.0)	
-	getActor().setScale(5.0, 5.0, 5.0)
-	@mScareAction = ScareToDeathAction.new()
-	addAction(@mScareAction)
-	@mErschreckenSound = $AM.createSoundSampleActor("ErschreckenSound","erschrecken_buh_01.ogg");
+    def initialize(id)
+		super(id)
+		@mScareAction = ScareToDeathAction.new()
+		addAction(@mScareAction)
+    end
+    
+
+  def initSounds()    
+   	@mErschreckenSound = $AM.createSoundSampleActor("ErschreckenSound","erschrecken_buh_01.ogg");
 	getActor().attach(@mErschreckenSound);
 	@mSpinnenTodSound = $AM.createSoundSampleActor("SpinnenTotSound","spinne_todesschrei_01.ogg");
 	getActor().attach(@mSpinnenTodSound);
-    end
+  end
+  
 
   def getScared(player)
+    if (@mErschreckenSound == nil)
+      initSounds()
+    end
+  
 	#Player erschreckt die Spinne
 	@mErschreckenSound.getControlledObject().play();
 	

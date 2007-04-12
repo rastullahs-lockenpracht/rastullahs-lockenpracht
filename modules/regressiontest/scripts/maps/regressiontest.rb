@@ -13,6 +13,7 @@ require 'ErrorHandlingTest.rb'
 require 'JobSequenceTest.rb'
 require 'SoundTest.rb'
 require 'effecttest.rb'
+require 'LightzoneTest.rb'
 
 # Physik aktivieren
 $PM.setEnabled(true)
@@ -48,4 +49,7 @@ InventoryTest.new([0, 0, 10])
 JobSequenceTest.new([5, 0, -5])
 EffectTest.new([5, 0, 5])
 SoundTest.new([10, 0, 10])
+LightzoneTest.new([20, 0, 0])
+
+
 $SCRIPT.log("tests initialisiert.");

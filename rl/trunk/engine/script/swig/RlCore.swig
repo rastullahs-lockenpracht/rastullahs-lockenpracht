@@ -226,6 +226,8 @@ private:
 public:
     void addSphereAreaListener( rl::Actor* actor, Ogre::Real radius, 
 		rl::GameAreaListener* list, unsigned long queryMask = 0xFFFFFFFF );
+	//void addMeshAreaListener( rl::Actor* meshactor, rl::GameAreaListener* list, rl::PhysicalThing* testObj );
+	
     void removeAreaListener( rl::GameAreaListener* list );
     void removeAllAreas( rl::Actor* actor );
 

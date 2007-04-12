@@ -16,6 +16,16 @@
 		<property name="inventorywindowtype" type="STRING" data="inventory_human.xml"/>
 	</gameobjectclass>
 
+	<gameobjectclass classid="chest" baseclass="Chest">
+	  <property name="name" type="STRING" data="Truhe"/>
+		<property name="description" type="STRING" data="Eine Truhe"/>
+		<property name="geometrytype" type="STRING" data="convexhull"/>
+		<property name="mass" type="REAL" data="0"/>
+		<property name="meshfile" type="STRING" data="ver_truhe_gross01.mesh"/>
+<!--		<property name="sound" type="STRING" data="doorcreak.ogg"/>-->
+	</gameobjectclass>
+
+
 	<gameobjectclass classid="torch" baseclass="Torch">
 		<property name="classid" type="STRING" data="torch"/>
 		<property name="baseclass" type="STRING" data="Torch"/>

@@ -3,9 +3,6 @@ require "switch.rb"
 require "heiltrank_tech.rb"
 
 
-trank = Heiltrank.new( "Trank", "Eine Flasche mit einer geheimnisvollen Fluessigkeit", "obj_heiltrank01.mesh", "A" );
-trank.getActor().placeIntoScene( 155.593017578125, 6.74539489746094, 20.964052734375, 1.0, 0.0, 0.0, 0.0 );
-
 class CaveDoorOpener < ObjectStateChangeListener
 
   def initialize(door, switch)
@@ -46,26 +43,27 @@ class UseTorchAction < Action
 end
 
 class Torch < Item
-  def initialize(name)
-    super("Fackel", "Handelsuebliche Fackel zum Beleuchten der Umgebung");
-
-    torchActor = $AM.createMeshActor( name, "ins_fackel_01.mesh" );
-    $SCRIPT.log("actor erstellt.");
-
-    @fackellicht = $AM.createLightActor("Das Licht der Fackel", LightObject::LT_POINT );
-    @fackellicht.getControlledObject().setCastShadows(false);
-    @fackellicht.getControlledObject().setDiffuseColour(1.0,0.8,0.0);
-    @fackellicht.getControlledObject().setAttenuation(5.0, 0.1,  0.005, 0.0 );
-    
-    torchActor.attachToSlot( @fackellicht, "SLOT_FAR_END" );    
-    
-    setActor(torchActor);
-    $SCRIPT.log("actor gesetzt");
-    
-    setLit(false);
-    
-    addAction(UseTorchAction.new);
-    $SCRIPT.log("Aktion hinzugefuegt.");
+  def initialize(id)
+    super(id)
+  end
+  
+  def placeIntoScene()
+    super()
+    if (@fackellicht == nil)
+      @fackellicht = $AM.createLightActor("Das Licht der Fackel", LightObject::LT_POINT );
+      @fackellicht.getControlledObject().setCastShadows(false);
+      @fackellicht.getControlledObject().setDiffuseColour(1.0,0.8,0.0);
+      @fackellicht.getControlledObject().setAttenuation(5.0, 0.1,  0.005, 0.0 );
+      
+      getActor().attachToSlot( @fackellicht, "SLOT_FAR_END" );    
+      
+      $SCRIPT.log("actor gesetzt");
+      
+      setLit(false);
+      
+      addAction(UseTorchAction.new);
+      $SCRIPT.log("Aktion hinzugefuegt.");
+    end
   end
   
   def setLit(lit)

@@ -1,27 +1,6 @@
 class Rock < GameObject
-  def initialize(name, model, position, orientation, spawned)
-    super(name, "Ein Fels")
-    @mPosition = position
-    @mOrientation = orientation
-    @mModel = model
-    @mSpawned = false
-
-    if (spawned)
-      spawn()
-    end
-  end
-
-  def spawn
-    if ( ! @mSpawned )
-      rockActor = $AM.createMeshActor( getName(), @mModel, PhysicsManager::GT_ELLIPSOID, 3000.0)
-      rockActor.getPhysicalThing().setGravityOverride(true)
-      setActor(rockActor)
-
-      rockActor.placeIntoScene(@mPosition, @mOrientation)
-
-      @mSpawned = true
-      setHighlightingEnabled(false)
-    end
+  def initialize(id)
+    super(id)
   end
 
   def setGravityState(active)
@@ -34,7 +13,7 @@ class Rock < GameObject
   end
 
   def startFalling()
-	setGravityState(true)
+	  setGravityState(true)
   end
 end
 
@@ -61,26 +40,20 @@ end
 
 
 class RockPile < GameObject
-  def initialize(positionPile, orientation, positionParticles)
-    super("Steinhaufen", "Ein großer Steinhaufen")
 
-    @mRockPile = $AM.createMeshActor("Steinhaufen", "Steinhaufen.mesh", PhysicsManager::GT_CONVEXHULL, 0.0)
-    @mRockPile.getPhysicalThing().setGravityOverride(true, 0.0, 0.0, 0.0)
-    @mRockPile.placeIntoScene(positionPile, orientation)
+  def placeIntoScene()
+    super()
 
-    @mPositionPart = positionParticles;
     @mSteinSchlagSound = $AM.createSoundSampleActor("SteinSchlagSound","steinschlag_wenig_zu_vielen.ogg");
     @mSteinSchlagSound.getControlledObject().load();
-    @mSteinSchlagSound.placeIntoScene( 	positionParticles[0], positionParticles[1], positionParticles[2], 1.0, 0.0, 0.0, 0.0 );
+    @mSteinSchlagSound.placeIntoScene( 	getPosition(), [1.0, 0.0, 0.0, 0.0] );
 
-    setActor(@mRockPile)
-    setHighlightingEnabled(false)
   end
 
   def collapse()
     @mDustCloud = $AM.createParticleSystemActor("Steinstaubwolke", "Techdemo/Steinstaubwolke")
     @mSteinSchlagSound.getControlledObject().play();
-    @mDustCloud.placeIntoScene(@mPositionPart);
+    @mDustCloud.placeIntoScene(getPosition());
     @mDustCloud.getControlledObject().setActive(true)
 
     fallAnim = getActor().getControlledObject().startAnimation("Zusammenfallen", 0.5, 1);  

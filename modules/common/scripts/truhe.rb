@@ -37,22 +37,21 @@ class CloseContainerAction < Action
 end
 
 class Chest < Container
-  def initialize(name, isOpen )
-    super(name, "Eine Truhe");
+  def initialize(id)
+    super(id)
 
-    chestActor = $AM.createMeshActor( name, "ver_truhe_gross01.mesh",  0, 0.0 ); 
-    $SCRIPT.log("truhe.rb - Aktor erstellt.");
-    setActor(chestActor);
-    $SCRIPT.log("truhe.rb - Aktor gesetzt");
-    soundActor = $AM.createSoundSampleActor(name+"_knarzen","doorcreak.ogg");
-    chestActor.attachToSlot(soundActor,"Bone01");
-    $SCRIPT.log("truhe.rb - Sound hinzugefuegt");
-
-    @mOpen = isOpen;
-
+    @mOpen = false;
+    
+    # @todo: Make these actions global actions (add to ActionManager)
     addAction(OpenContainerAction.new);
     addAction(CloseContainerAction.new);
     $SCRIPT.log("truhe.rb - Aktionen hinzugefuegt.");
+  end
+  
+  def placeIntoScene()
+    super()
+    soundActor = $AM.createSoundSampleActor(getActor().getName()+"_knarzen","doorcreak.ogg");
+    getActor().attachToSlot(soundActor,"Bone01");    
   end
   
   def setOpen( isOpen )
