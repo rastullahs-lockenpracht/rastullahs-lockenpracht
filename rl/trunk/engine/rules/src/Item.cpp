@@ -109,6 +109,15 @@ namespace rl
         mState = GOS_HELD;
     }
 
+	void Item::doLoose()
+	{
+		if (mActor != NULL)
+		{
+			mActor->detachFromParent();
+			//@todo is mState = GOS_IN_SCENE; after detaching?
+		}
+	}
+
     void Item::setState(GameObjectState targetstate)
     {
         if (mState == targetstate)
@@ -131,7 +140,7 @@ namespace rl
             }
             else if (mState == GOS_HELD)
             {
-                mActor->detachFromParent();
+                doLoose();
                 destroyActor();
                 stateChanged = true;
             }
@@ -140,25 +149,29 @@ namespace rl
         {
             if (mState == GOS_IN_POSSESSION)
             {
+				mState = GOS_LOADED;
                 stateChanged = true;
             }
             if (mState == GOS_HELD)
             {
-                mActor->detachFromParent();
+                doLoose();
                 destroyActor();
-                stateChanged = true;
+                mState = GOS_LOADED;
+				stateChanged = true;
             }
         }
         else if (targetstate == GOS_IN_SCENE)
         {
             if (mState == GOS_IN_POSSESSION)
             {
+                ///@todo remove from parent container?
                 doRemoveFromScene();
                 stateChanged = true;
-            }
+			}
             if (mState == GOS_HELD)
             {
-                mActor->detachFromParent();
+                doLoose();
+				doPlaceIntoScene();
                 stateChanged = true;
             }
         }
@@ -171,7 +184,7 @@ namespace rl
             }
             else if (mState == GOS_IN_SCENE)
             {
-                mActor->removeFromScene();
+                doRemoveFromScene();
                 doHold();
                 stateChanged = true;
             }
@@ -186,11 +199,7 @@ namespace rl
             ///@todo
         }
 
-        if (stateChanged)
-        {
-            mState = targetstate;   
-        }
-        else
+        if (!stateChanged)
         {
             GameObject::setState(targetstate);
         }

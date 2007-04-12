@@ -102,6 +102,7 @@ namespace rl
 		std::pair<int,int> mSize;
 
 		void doHold();
+		void doLoose();
 	};
 }
 
