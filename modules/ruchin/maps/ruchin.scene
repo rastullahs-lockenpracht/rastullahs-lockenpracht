@@ -281,7 +281,7 @@
 			<entity
 				name="Statue_01"
 				id="4"
-				meshFile ="Statue_01.mesh"
+				meshFile ="Statue_02.mesh"
 				materialFile="ruchin_terrainlayout19.material"
 				castsShadow="false"
 			/>
