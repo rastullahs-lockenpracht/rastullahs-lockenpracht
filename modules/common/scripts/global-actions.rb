@@ -20,6 +20,16 @@ class QuitGameAction < Action
   end
 end
 
+class ForceQuitGameAction < Action
+  def initialize
+    super("act_forcequitgame", "Das Spiel ohne Nachfrage beenden")
+  end
+
+  def doAction(object, actor, target)
+    GameLoop.getSingleton().quitGame();
+  end
+end
+
 class ToggleConsoleAction < Action
   def initialize
     super("act_toggleconsole", "Konsole zeigen/verstecken")

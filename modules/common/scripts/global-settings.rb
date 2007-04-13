@@ -30,6 +30,7 @@ class GlobalSettings
       $act25 = ShowNextDebugWindowPageAction.new()
 	  $act26 = ToggleInventoryAction.new()
 	  $act27 = ToggleDebugVisualisationAction.new()
+      $act28 = ForceQuitGameAction.new()
 
       actionManager.registerInGameGlobalAction($act1, $grpView)
       actionManager.registerInGameGlobalAction($act4, $grpView)
@@ -48,6 +49,7 @@ class GlobalSettings
       actionManager.registerInGameGlobalAction($act25, $grpView)
 	  actionManager.registerInGameGlobalAction($act26, $grpView)
 	  actionManager.registerInGameGlobalAction($act27, $grpView)
+	  actionManager.registerInGameGlobalAction($act28, $grpView)
 
       actionManager.registerInGameGlobalAction($act12, $grpOptions)
       actionManager.registerInGameGlobalAction($act13, $grpOptions)
