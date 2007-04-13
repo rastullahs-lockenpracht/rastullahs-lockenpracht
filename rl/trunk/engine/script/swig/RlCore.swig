@@ -752,6 +752,15 @@ public:
     bool isValid() const;
 };
 
+class GameLoop
+{
+private:
+	GameLoop();
+public:      
+	static GameLoop& getSingleton(void);
+	void quitGame();
+};
+
 %apply SWIGTYPE *DYNAMIC { Job * };
 
 %feature("director") Job;

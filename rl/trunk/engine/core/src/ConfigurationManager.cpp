@@ -96,6 +96,7 @@ namespace rl
         mInputSettings.insert(make_pair("mov_sneak", "Strg links"));
         mInputSettings.insert(make_pair("mov_run_lock", "< | >"));
         mInputSettings.insert(make_pair("act_quitgame", "Ctrl+X"));
+		mInputSettings.insert(make_pair("act_forcequitgame", "Alt+F4"));
         mInputSettings.insert(make_pair("act_closecurrentwindow", "Escape"));
         mInputSettings.insert(make_pair("act_toggleconsole", "Tabulator"));
         mInputSettings.insert(make_pair("act_toggledebugwindow", "F2"));
