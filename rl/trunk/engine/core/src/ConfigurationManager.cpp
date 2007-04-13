@@ -79,6 +79,8 @@ namespace rl
         mGraphicSettings.insert(make_pair("Video Mode", "800 x 600"));
         mGraphicSettings.insert(make_pair("Use Static Geometry", "auto"));
         mGraphicSettings.insert(make_pair("Max Anisotropy", "1"));
+		mGraphicSettings.insert(make_pair("Cast Shadows", "yes"));
+		mGraphicSettings.insert(make_pair("Shadow Texture Size", "512"));
 
         // Setup input default values
         mInputSettings.insert(make_pair("Mouse Sensitivity", "4"));

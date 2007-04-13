@@ -24,6 +24,7 @@
 #include <OgreException.h>
 
 #include "CoreSubsystem.h"
+#include "ConfigurationManager.h"
 #include "ActorManager.h"
 #include "Actor.h"
 #include "PhysicsManager.h"
@@ -73,11 +74,7 @@ namespace rl {
         // Alte Szene löschen
         clearScene();
 
-        mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE);
-        mSceneMgr->setShadowTextureSize(1024);
-        mSceneMgr->setShadowColour(ColourValue(0.7, 0.7, 0.7));
-        mSceneMgr->setShadowFarDistance(8.0f);
-        mSceneMgr->setShadowDirLightTextureOffset(0.8f);
+		setCastShadows( true ); 
 
         // Leerer String, keine Map laden
         if( levelName.length()  )
@@ -123,6 +120,37 @@ namespace rl {
 
     void DotSceneOctreeWorld::setCastShadows(bool enabled)
     {
-        mSceneMgr->setShadowTechnique(enabled ? SHADOWTYPE_TEXTURE_MODULATIVE : SHADOWTYPE_NONE);
+		bool castShadows = false;
+
+		if( enabled )
+		{
+			Ogre::String tmp = 
+				ConfigurationManager::getSingleton().getStringSetting(
+					ConfigurationManager::CS_GRAPHICS, "Cast Shadows" );
+			
+			if (tmp == "yes")
+				castShadows = true;
+			else if (tmp == "no")
+				castShadows = false;
+		}
+
+		/// @todo Settings for multiple Shadow-Types?
+		if( castShadows )
+		{
+			int textureSize = 
+				ConfigurationManager::getSingleton().getIntSetting(
+					ConfigurationManager::CS_GRAPHICS, "Shadow Texture Size" );
+			textureSize = std::max( 64, std::min( 4096, textureSize ) );
+
+			mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE);
+			mSceneMgr->setShadowTextureSize( textureSize );
+			mSceneMgr->setShadowColour(ColourValue(0.7, 0.7, 0.7));
+			mSceneMgr->setShadowFarDistance(8.0f);
+			mSceneMgr->setShadowDirLightTextureOffset(0.8f);
+		}
+		else
+		{
+			mSceneMgr->setShadowTechnique( SHADOWTYPE_NONE);
+		}
     }
 }
