@@ -36,9 +36,7 @@ static VALUE getInScriptObject( void* ptr, swig_type_info *type )
 /// @todo unbenutzt???
 // Actor* getActor oder andere OUTPUT Parameter
 %typemap(out) SWIGTYPE*
-{
-	$result = getInScriptObject((void *) $1, $1_descriptor );
-} 
+"   $result = getInScriptObject((void *) $1, $1_descriptor );" 
 
 %{
 static VALUE getDirectorInScriptObject( Swig::Director * dir, void* ptr, swig_type_info *type )
@@ -54,10 +52,7 @@ static VALUE getDirectorInScriptObject( Swig::Director * dir, void* ptr, swig_ty
 /// @todo unbenutzt???
 // doWithActor( Actor* ) oder andere Director-Methoden Parameter
 %typemap(directorin) SWIGTYPE*
-{
-	$input = getDirectorInScriptObject( 
-		dynamic_cast< Swig::Director * >($1), (void *)$1, $1_descriptor);
-} 
+"   $input = getDirectorInScriptObject(dynamic_cast< Swig::Director * >($1), (void *)$1, $1_descriptor);" 
 
 %{
 static VALUE getOutScriptObject( void* ptr, swig_type_info *type )
@@ -78,9 +73,7 @@ static VALUE getOutScriptObject( void* ptr, swig_type_info *type )
 
 // Animation* getActor oder andere OUTPUT Parameter für DYNAMICs
 %typemap(out) SWIGTYPE* DYNAMIC, SWIGTYPE& DYNAMIC
-{
-	getOutScriptObject((void *) $1, $1_descriptor );
-} 
+"   $result = getOutScriptObject((void *) $1, $1_descriptor );"
 
 %{
 static VALUE getDirectorOutScriptObject( Swig::Director * dir, void* ptr, swig_type_info *type )
@@ -94,7 +87,4 @@ static VALUE getDirectorOutScriptObject( Swig::Director * dir, void* ptr, swig_t
 
 // doWithAnimation( Animation* ) oder andere Director-Methoden Parameter fr DYNAMICs
 %typemap(directorin) SWIGTYPE* DYNAMIC, SWIGTYPE& DYNAMIC
-{
-	getDirectorOutScriptObject(
-		dynamic_cast< Swig::Director * >($1), (void *) $1, $1_descriptor );
-} 
+"   $input = getDirectorOutScriptObject(dynamic_cast< Swig::Director * >($1), (void *) $1, $1_descriptor );" 

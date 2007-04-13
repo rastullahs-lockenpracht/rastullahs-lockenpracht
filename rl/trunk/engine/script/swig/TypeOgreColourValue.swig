@@ -39,9 +39,10 @@ static int checkRubyColourValue( VALUE input )
 %typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) 
    Ogre::ColourValue, const Ogre::ColourValue, 
    Ogre::ColourValue*, Ogre::ColourValue&,
-   const Ogre::ColourValue*, const Ogre::ColourValue& { 
+   const Ogre::ColourValue*, const Ogre::ColourValue& 
+%{ 
 	$1 = checkRubyColourValue($input);
-}
+%}
  
 %{
 // Helper method for filling the ColourValue
@@ -96,13 +97,15 @@ static VALUE convertColourValueToRuby( const Ogre::ColourValue* cv )
 }
 %}
 
-%typemap(out) Ogre::ColourValue, const Ogre::ColourValue {
+%typemap(out) Ogre::ColourValue, const Ogre::ColourValue 
+%{
    $result = convertColourValueToRuby( & $1 );
-}
+%}
 
-%typemap(out) Ogre::ColourValue*, const Ogre::ColourValue*, const Ogre::ColourValue&, Ogre::ColourValue& {
+%typemap(out) Ogre::ColourValue*, const Ogre::ColourValue*, const Ogre::ColourValue&, Ogre::ColourValue& 
+%{
    $result = convertColourValueToRuby( $1 );
-} 
+%} 
 
 
 %typemap(freearg) Ogre::ColourValue*, Ogre::ColourValue&,

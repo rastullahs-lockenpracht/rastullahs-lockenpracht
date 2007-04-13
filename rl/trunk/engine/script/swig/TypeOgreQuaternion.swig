@@ -69,9 +69,10 @@ static int checkRubyQuaternion( VALUE input )
 %typemap(typecheck)  
    Ogre::Quaternion, const Ogre::Quaternion, 
    Ogre::Quaternion*, Ogre::Quaternion&,
-   const Ogre::Quaternion*, const Ogre::Quaternion& {
+   const Ogre::Quaternion*, const Ogre::Quaternion& 
+%{
 	$1 = checkRubyQuaternion($input);	
-}
+%}
 
 
 %{
@@ -155,13 +156,15 @@ static VALUE convertQuaternionToRuby( const Ogre::Quaternion* q )
 }
 %}
 
-%typemap(out) Ogre::Quaternion, const Ogre::Quaternion {  
+%typemap(out) Ogre::Quaternion, const Ogre::Quaternion 
+%{  
    $result = convertQuaternionToRuby( & $1 );
-}
+%}
 
-%typemap(out) Ogre::Quaternion*, const Ogre::Quaternion*, const Ogre::Quaternion&, Ogre::Quaternion& {
+%typemap(out) Ogre::Quaternion*, const Ogre::Quaternion*, const Ogre::Quaternion&, Ogre::Quaternion& 
+%{
    $result = convertQuaternionToRuby( $1 );
-} 
+%} 
 
 
 %typemap(freearg)  Ogre::Quaternion*, Ogre::Quaternion&,

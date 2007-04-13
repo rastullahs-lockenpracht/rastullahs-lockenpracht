@@ -83,7 +83,6 @@ void RL_RubyRemoveTracking(void* ptr)
 
 
 // Handling of errors in director methods
-
 %feature("director:except") 
 {
 	RL_handleRubyError( error );
@@ -128,12 +127,7 @@ void RL_handleRubyError( VALUE error )
 
 
 // Converting C++ Exceptions to Ruby Exceptions
-
-namespace Swig {
-	class DirectorException;
-}
-
-%exception {
+%exception %{
   try {
     $action
   }
@@ -145,9 +139,6 @@ namespace Swig {
     static VALUE ceguiException = rb_define_class("CeguiException", rb_eRuntimeError);
     rb_raise(ceguiException, ce.getMessage().c_str());
   }
-  catch (Swig::DirectorException&) {
-    SWIG_fail; 
-  } 
   catch (std::exception& se) {
     static VALUE stdException = rb_define_class("StdException", rb_eRuntimeError);
     rb_raise(stdException, se.what());
@@ -156,16 +147,14 @@ namespace Swig {
     static VALUE unknownException = rb_define_class("UnknownException", rb_eRuntimeError);
     rb_raise(unknownException,"Unbekannte Exception");
   }
-}
-
+%}
 
 
 
 // deaktiviere Warnung ueber unreferenzierte lokale Variable, 
 // da dies in allen erzeugten Exceptionhandlern auftritt
 %{
-#pragma warning( disable : 4101 )	
-									
+#pragma warning( disable : 4101 )									
 %}
 
 // Include bodies

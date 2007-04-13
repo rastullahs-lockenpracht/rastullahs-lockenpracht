@@ -37,9 +37,8 @@ static int checkRubyVector3( VALUE input )
 %typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) 
    Ogre::Vector3, const Ogre::Vector3, 
    Ogre::Vector3*, Ogre::Vector3&,
-   const Ogre::Vector3*, const Ogre::Vector3& { 
-	$1 = checkRubyVector3($input);
-}
+   const Ogre::Vector3*, const Ogre::Vector3& 
+"$1 = checkRubyVector3($input);"
  
 %{
 // Helper method for filling the Vector3
@@ -90,13 +89,11 @@ static VALUE convertVector3ToRuby( const Ogre::Vector3* v )
 }
 %}
 
-%typemap(out) Ogre::Vector3, const Ogre::Vector3 {
-   $result = convertVector3ToRuby( & $1 );
-}
+%typemap(out) Ogre::Vector3, const Ogre::Vector3 
+"   $result = convertVector3ToRuby( & $1 );"
 
-%typemap(out) Ogre::Vector3*, const Ogre::Vector3*, const Ogre::Vector3&, Ogre::Vector3& {
-   $result = convertVector3ToRuby( $1 );
-} 
+%typemap(out) Ogre::Vector3*, const Ogre::Vector3*, const Ogre::Vector3&, Ogre::Vector3& 
+"   $result = convertVector3ToRuby( $1 );" 
 
 
 %typemap(freearg) Ogre::Vector3*, Ogre::Vector3&,
