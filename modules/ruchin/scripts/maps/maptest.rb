@@ -75,16 +75,4 @@ $SCRIPT.log("Türen gesetzt");
 
 ##########################
 
-$SCRIPT.log("Dorf-Thema laden");
-testmaptrack = $AM.createSoundSampleActor( "testmaptrack", "testmaptrack.ogg" ); 
-testmaptrack.getControlledObject().set3d(false);
-$SCRIPT.log(" Loopen");
-testmaptrack.getControlledObject().setLooping( true );
-$SCRIPT.log(" Laden");
-testmaptrack.getControlledObject().load();
-$SCRIPT.log("Dorf-Thema fertig");
-
-testmaptrack.getControlledObject().play();
-
-
 load "particle.rb"
