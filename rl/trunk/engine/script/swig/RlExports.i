@@ -131,10 +131,6 @@ void RL_handleRubyError( VALUE error )
   try {
     $action
   }
-  catch (rl::Exception& re ) {
-    static VALUE rlException = rb_define_class("RlException", rb_eRuntimeError);
-    rb_raise(rlException, re.toString().c_str());
-  }
   catch (CEGUI::Exception& ce) {
     static VALUE ceguiException = rb_define_class("CeguiException", rb_eRuntimeError);
     rb_raise(ceguiException, ce.getMessage().c_str());

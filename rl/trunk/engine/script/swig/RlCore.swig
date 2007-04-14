@@ -676,8 +676,13 @@ public:
     
     void loadMap(const Ogre::String& type, const Ogre::String& filename,
 		const Ogre::String& resourceGroup);
-	void registerModule(ContentModule* module);
-    World* getWorld();
+
+	void registerModule(rl::ContentModule* module);
+
+	rl::ContentModule* getActiveAdventureModule() const;
+    rl::ContentModule* getModule(const Ogre::String& moduleId) const;
+
+    rl::World* getWorld();
     unsigned long getClock();
     void makeScreenshot(const Ogre::String& sName);
     bool isInitialized() const;

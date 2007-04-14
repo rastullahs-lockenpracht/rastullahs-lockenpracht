@@ -98,7 +98,7 @@ namespace rl {
     * @warning Nie direkt ueber throw() werfen,
     *    sondern mittels des Makros Throw().
     */
-   class Exception {
+   class Exception  : public std::exception {
 
    protected:
       std::string mMessage;
@@ -130,13 +130,15 @@ namespace rl {
          return *this;
       }      
 
-      virtual std::string getMessage() { return mMessage; }
-      virtual std::string getFile() { return mFile; }
-      virtual std::string getFunction() { return mFunction; }
-      virtual std::string getType() { return "Exception"; }
-      virtual int getLine() { return mLine; }
+      virtual std::string getMessage() const { return mMessage; }
+      virtual std::string getFile() const { return mFile; }
+      virtual std::string getFunction() const { return mFunction; }
+      virtual std::string getType() const { return "Exception"; }
+      virtual int getLine() const { return mLine; }
 
-      virtual std::string toString()
+	  const char* what() const throw() { return toString().c_str(); }
+
+      virtual std::string toString() const
       {
          std::stringstream lineStream;
 
@@ -161,7 +163,7 @@ namespace rl {
 
       Error(const Error& rhs) : Exception(rhs) {}
 
-      virtual std::string getType() { return "Error"; }
+      virtual std::string getType() const { return "Error"; }
 
    };
 
@@ -173,7 +175,7 @@ namespace rl {
 
       RuntimeException(const RuntimeException& rhs) : Exception(rhs) {}
 
-      virtual std::string getType() { return "RuntimeException"; }
+      virtual std::string getType() const { return "RuntimeException"; }
 
    };
 
@@ -186,7 +188,7 @@ namespace rl {
       NullPointerException(const NullPointerException& rhs)
          : RuntimeException(rhs) {}
 
-      virtual std::string getType() { return "NullPointerException"; }
+      virtual std::string getType() const { return "NullPointerException"; }
 
    };
 
@@ -199,7 +201,7 @@ namespace rl {
       IllegalArgumentException(const IllegalArgumentException& rhs)
          : RuntimeException(rhs) {}
 
-      virtual std::string getType() { return "IllegalArgumentException"; }
+      virtual std::string getType() const { return "IllegalArgumentException"; }
 
    };
 
@@ -212,7 +214,7 @@ namespace rl {
       OperationNotSupportedException(const OperationNotSupportedException& rhs)
          : RuntimeException(rhs) {}
 
-      virtual std::string getType() { return "OperationNotSupportedException"; }
+      virtual std::string getType() const { return "OperationNotSupportedException"; }
 
    };
 
@@ -225,7 +227,7 @@ namespace rl {
       IllegalStateException(const IllegalStateException& rhs)
          : RuntimeException(rhs) {}
 
-      virtual std::string getType() { return "IllegalStateException"; }
+      virtual std::string getType() const { return "IllegalStateException"; }
 
    };
 
@@ -237,7 +239,7 @@ namespace rl {
 
       AssertionFailedError(const AssertionFailedError& rhs) : Error(rhs) {}
 
-      virtual std::string getType() { return "AssertionFailedError"; }
+      virtual std::string getType() const { return "AssertionFailedError"; }
 
    };
 
@@ -250,7 +252,7 @@ namespace rl {
       OutOfRangeException(const OutOfRangeException& rhs)
          : RuntimeException(rhs) {}
 
-      virtual std::string getType() { return "OutOfRangeException"; }
+      virtual std::string getType() const { return "OutOfRangeException"; }
 
    };
 
@@ -263,7 +265,7 @@ namespace rl {
       DuplicateIdException(const DuplicateIdException& rhs)
          : RuntimeException(rhs) {}
 
-      virtual std::string getType() { return "DuplicateIdException"; }
+      virtual std::string getType() const { return "DuplicateIdException"; }
    };
 
    class FileNotFoundException : public RuntimeException {
@@ -275,7 +277,7 @@ namespace rl {
       FileNotFoundException(const FileNotFoundException& rhs)
          : RuntimeException(rhs) {}
 
-      virtual std::string getType() { return "FileNotFoundException"; }
+      virtual std::string getType() const { return "FileNotFoundException"; }
    };
 
    class WrongFormatException : public RuntimeException {
@@ -287,7 +289,7 @@ namespace rl {
       WrongFormatException(const WrongFormatException& rhs)
          : RuntimeException(rhs) {}
 
-      virtual std::string getType() { return "WrongFormatException"; }
+      virtual std::string getType() const { return "WrongFormatException"; }
    };
 
    /**@brief Funktion zum ausgeben einer Nachricht an den Benutzer.
