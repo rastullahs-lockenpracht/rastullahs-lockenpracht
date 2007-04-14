@@ -7,7 +7,7 @@ def PlaySound2d(sound, volume=1.0, priority = Sound::PRIO_MUSIC)
 end
 
 # Play a 3d sound at position pos
-def PlaySound3d(sound, pos, volume=1.0, priority = Sound_PRIO_SFX_ENVIRONMENT)
+def PlaySound3d(sound, pos, volume=1.0, priority = Sound::PRIO_SFX_ENVIRONMENT)
     job = PlaySound3dJob.new(sound, pos, volume, priority)
     $JS.addJob(job)
 end
@@ -17,7 +17,7 @@ def _PlaySound2d(sound, volume=1.0, priority = Sound::PRIO_MUSIC)
 end
 
 # Play a 3d sound at position pos
-def _PlaySound3d(sound, pos, volume=1.0, priority = Sound_PRIO_SFX_ENVIRONMENT)
+def _PlaySound3d(sound, pos, volume=1.0, priority = Sound::PRIO_SFX_ENVIRONMENT)
     PlaySound3dJob.new(sound, pos, volume, priority)
 end
 

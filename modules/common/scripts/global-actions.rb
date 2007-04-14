@@ -194,7 +194,7 @@ class ShowGameObjectWindowAction < Action
   end
   
   def doAction(object, actor, target)
-    $WF.showGameObjectWindow(object)
+    $WF.showGameObjectPropsWindow(object)
   end
   
   def canDo(object, actor)
