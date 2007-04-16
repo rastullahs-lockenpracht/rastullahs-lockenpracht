@@ -117,7 +117,7 @@ namespace rl {
          mFunction(rhs.mFunction),
          mLine(rhs.mLine) {}
 
-      virtual ~Exception() {}
+      virtual ~Exception() throw() {}
 
       Exception& operator=(const Exception& rhs)
       {
