@@ -22,7 +22,10 @@ class TechdemoModule < ContentModule
     end
 
     def start()
-        $CORE.loadMap("Octree", "techdemo_terrain.scene", "techdemo");
+        #$CORE.loadMap("Octree", "techdemo_terrain.scene", "techdemo");
+        p "Loading map with MapLoader"
+        MapLoader.new().loadMap("techdemo_terrain.rlmap.xml", "techdemo");
+        p "Done loading map"
         load "techdemo.rb"
         $World = $CORE.getWorld();
     end

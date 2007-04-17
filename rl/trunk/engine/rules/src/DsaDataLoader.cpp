@@ -22,6 +22,8 @@
 // #include "XdimlLoader.h"
 #include "DsaDataLoader.h"
 
+#include <OgreResourceGroupManager.h>
+
 #include "XmlHelper.h"
 #include "OgreXercesInput.h"
 

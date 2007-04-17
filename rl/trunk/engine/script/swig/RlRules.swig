@@ -37,7 +37,7 @@ namespace rl {
       bool operator<(const Tripel& rhs);     
    };
 	
-		class Date {
+    class Date {
     public:
         static const RL_LONGLONG ONE_SECOND = 1000ULL;
         static const RL_LONGLONG ONE_MINUTE = 60000ULL;
@@ -725,6 +725,13 @@ namespace rl {
 
 		rl::TimerEventSource* getSource() const;
 	};
+    
+    class MapLoader
+    {
+    public:
+        MapLoader();
+        void loadMap(const Ogre::String& mapresource, const Ogre::String& resourceGroup, bool loadGameObjects = true);
+    };
 } // Namespace
 
 %{

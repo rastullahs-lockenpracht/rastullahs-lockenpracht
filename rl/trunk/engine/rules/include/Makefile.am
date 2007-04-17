@@ -16,6 +16,7 @@ noinst_HEADERS = \
 	Item.h \
 	Inventory.h \
 	Kampftechnik.h \
+	MapLoader.h \
 	ObjectStateChangeEvent.h \
 	ObjectStateChangeEventSource.h \
 	ObjectStateChangeListener.h \

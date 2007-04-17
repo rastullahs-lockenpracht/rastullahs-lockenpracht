@@ -24,6 +24,7 @@ libRlRules_la_SOURCES = \
 	Inventory.cpp \
 	JournalEntry.cpp \
 	Kampftechnik.cpp \
+	MapLoader.cpp \
 	ObjectStateChangeEvent.cpp \
 	ObjectStateChangeEventSource.cpp \
 	ObjectStateChangeListener.cpp \
