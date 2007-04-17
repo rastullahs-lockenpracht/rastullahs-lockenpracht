@@ -92,13 +92,21 @@ public:
 
 	/**
 	 * Ermittelt, ob ein DOMElement ein bestimmtes Attribut bestitzt
-	 * um eine Ganzzahl daraus zu machen
 	 *
 	 * @param element Das DOM-Element
 	 * @param name Name des Attributes
 	 * @return <code>true</code>, wenn das Attribut an diesem Element existiert, sonst <code>false</code>
 	 */
 	static bool hasAttribute(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+
+    /**
+	 * Checks whether a DOMNode has a certain name
+	 *
+	 * @param node the DOM node
+	 * @param name the name to check
+	 * @return <code>true</code>, if the DOM node the name <code>name</code>, <code>false</code> otherwise
+	 */
+	static bool hasNodeName(XERCES_CPP_NAMESPACE::DOMNode* node, const char* const name);
 
     /**
 	 * Ermittelt den Text eines DOMElement-Attributes und parst ihn, 

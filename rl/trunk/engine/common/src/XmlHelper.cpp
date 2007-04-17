@@ -64,28 +64,38 @@ DOMElement* XmlHelper::getChildNamed(DOMElement* parent, const char* const name)
 
 CeGuiString XmlHelper::getValueAsString(DOMElement* element)
 {
-	RlAssert(element != NULL, "Element should be not NULL");
+	RlAssert(element != NULL, "Element must not be NULL");
 	return transcodeToString( element->getFirstChild()->getNodeValue() );
 }
 
 utf8* XmlHelper::getValueAsUtf8(DOMElement* element)
 {
-	RlAssert(element != NULL, "Element should be not NULL");
+	RlAssert(element != NULL, "Element must not be NULL");
 	return XmlHelper::transcodeToUtf8(element->getFirstChild()->getNodeValue());
 }
 
 bool XmlHelper::hasAttribute(DOMElement* element,const char* const name)
 {
-	RlAssert(element != NULL, "Element should be not NULL");
-	XMLCh* attrName = XMLString::transcode(name);
+    RlAssert(element != NULL, "Element must not be NULL");
+    XMLCh* attrName = XMLString::transcode(name);
     bool rVal = element->hasAttribute(attrName);
-	XMLString::release(&attrName);
-	return rVal;
+    XMLString::release(&attrName);
+    return rVal;
+}
+
+bool XmlHelper::hasNodeName(DOMNode* node, const char* const name)
+{
+    RlAssert(node != NULL, "node must not be NULL");
+    XMLCh* nodeName = XMLString::transcode(name);
+    int ival = XMLString::compareString(node->getNodeName(), nodeName);
+    bool rVal = (0 == ival);
+    XMLString::release(&nodeName);
+    return rVal;
 }
 
 int XmlHelper::getAttributeValueAsInteger(DOMElement* element,const char* const name)
 {
-	RlAssert(element != NULL, "Element should be not NULL");
+	RlAssert(element != NULL, "Element must not be NULL");
 	XMLCh* attrName = XMLString::transcode(name);
 	const XMLCh* attribute = element->getAttribute(attrName);
 	int rVal = XMLString::parseInt(attribute);
@@ -95,7 +105,7 @@ int XmlHelper::getAttributeValueAsInteger(DOMElement* element,const char* const 
 
 Ogre::Real XmlHelper::getAttributeValueAsReal(DOMElement* element,const char* const name)
 {
-	RlAssert(element != NULL, "Element should be not NULL");
+	RlAssert(element != NULL, "Element must not be NULL");
 	XMLCh* attrName = XMLString::transcode(name);
 	Ogre::Real rVal = Ogre::StringConverter::parseReal(
 		transcodeToString(element->getAttribute(attrName)).c_str() );
@@ -105,7 +115,7 @@ Ogre::Real XmlHelper::getAttributeValueAsReal(DOMElement* element,const char* co
 
 CeGuiString XmlHelper::getAttributeValueAsString(DOMElement* element, const char* const name)
 {
-	RlAssert(element != NULL, "Element should be not NULL");
+	RlAssert(element != NULL, "Element must not be NULL");
 	XMLCh* attrName = XMLString::transcode(name);
 	CeGuiString rVal(transcodeToString(element->getAttribute(attrName)));
 	XMLString::release(&attrName);
@@ -126,7 +136,7 @@ CeGuiString XmlHelper::getAttributeValueAsString(const XERCES_CPP_NAMESPACE::Att
 
 std::string XmlHelper::getAttributeValueAsStdString(DOMElement* element, const char* const name)
 {
-	RlAssert(element != NULL, "Element should be not NULL");
+	RlAssert(element != NULL, "Element must not be NULL");
 	XMLCh* attrName = XMLString::transcode(name);
 	std::string rVal(transcodeToStdString(element->getAttribute(attrName)));
 	XMLString::release(&attrName);
@@ -135,7 +145,7 @@ std::string XmlHelper::getAttributeValueAsStdString(DOMElement* element, const c
 
 bool XmlHelper::getAttributeValueAsBool(DOMElement* element,const char* const name)
 {
-	RlAssert(element != NULL, "Element should be not NULL");
+	RlAssert(element != NULL, "Element must not be NULL");
 	if( XMLString::compareIString(getAttributeValueAsString(element, name).c_str(),"true") == 0  )
 		return true;
 	else
@@ -144,7 +154,7 @@ bool XmlHelper::getAttributeValueAsBool(DOMElement* element,const char* const na
 
 int XmlHelper::getValueAsInteger(DOMElement* element)
 {
-	RlAssert(element != NULL, "Element should be not NULL");
+	RlAssert(element != NULL, "Element must not be NULL");
 	return XMLString::parseInt(element->getFirstChild()->getNodeValue());
 }
 
