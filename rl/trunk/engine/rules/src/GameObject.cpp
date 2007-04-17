@@ -25,6 +25,7 @@
 #include "RulesSubsystem.h"
 #include "GameObjectManager.h"
 #include "CoreSubsystem.h"
+#include "PhysicsManager.h"
 
 using namespace std;
 
@@ -57,7 +58,7 @@ namespace rl
             mPosition(Ogre::Vector3::ZERO),
             mOrientation(Ogre::Quaternion::IDENTITY),
             mMass(0),
-            mGeometryType(PhysicsManager::GT_NONE),
+            mGeometryType(GT_NONE),
 			mDefaultAction(DEFAULT_VIEW_OBJECT_ACTION),
 			mState(GOS_LOADED)
     {
@@ -361,12 +362,12 @@ namespace rl
         return mOrientation;
     }
 
-    const PhysicsManager::GeometryType GameObject::getGeometryType() const
+    const GeometryType GameObject::getGeometryType() const
     {
         return mGeometryType;
     }
 
-    void GameObject::setGeometryType(PhysicsManager::GeometryType type)
+    void GameObject::setGeometryType(GeometryType type)
     {
         mGeometryType = type;
     }

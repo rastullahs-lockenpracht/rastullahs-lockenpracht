@@ -32,7 +32,7 @@ using namespace OgreNewt::CollisionPrimitives;
 namespace rl
 {
 	PhysicalThing::PhysicalThing(
-		PhysicsManager::GeometryType geomType, PhysicalObject* po, Real mass, bool hullModifier)
+		GeometryType geomType, PhysicalObject* po, Real mass, bool hullModifier)
 		:
 		mActor(NULL),
         mBody(NULL),
@@ -230,7 +230,7 @@ namespace rl
         Quaternion orientation;
         mBody->getPositionOrientation(position, orientation);
 
-		if (mGeometryType == PhysicsManager::GT_CONVEXHULL)
+		if (mGeometryType == GT_CONVEXHULL)
 		{
 			Matrix4 transform = node->_getFullTransform().inverse();
 
@@ -286,7 +286,7 @@ namespace rl
 			    &vertices[0], vertices.size()));
 		    mBody->setCollision(collision);
 		}
-		else if (mGeometryType == PhysicsManager::GT_MESH)
+		else if (mGeometryType == GT_MESH)
 		{
 	        CollisionPtr collision(new TreeCollision(
 				PhysicsManager::getSingleton()._getNewtonWorld(), entity, false));
@@ -413,7 +413,7 @@ namespace rl
                 PhysicsManager::getSingleton()._getNewtonWorld(), coll);
 
 			Ogre::Real mass = mMass;
-			if (mass > 0.0 && mGeometryType != PhysicsManager::GT_MESH)
+			if (mass > 0.0 && mGeometryType != GT_MESH)
             {
                 body->setMassMatrix(mass, inertia);
             }

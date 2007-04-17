@@ -23,7 +23,7 @@
 #include "GameObjectState.h"
 #include "ObjectStateChangeEventSource.h"
 #include "Properties.h"
-#include "PhysicsManager.h"
+#include "CoreDefines.h"
 
 namespace rl
 {
@@ -88,8 +88,8 @@ namespace rl
         const CeGuiString getMeshfile() const;
         void setMeshfile(CeGuiString meshfile);
 
-        const PhysicsManager::GeometryType getGeometryType() const;
-        void setGeometryType(PhysicsManager::GeometryType type);
+        const GeometryType getGeometryType() const;
+        void setGeometryType(GeometryType type);
 
         const Ogre::Real getMass() const;
         void setMass(const Ogre::Real mass);
@@ -186,7 +186,7 @@ namespace rl
         Ogre::Quaternion mOrientation;
         Ogre::Real mMass;
 		CeGuiString mDefaultAction;
-        PhysicsManager::GeometryType mGeometryType;
+        GeometryType mGeometryType;
 
 		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin,
             ActionOptionVector::iterator end, const CeGuiString actionName);

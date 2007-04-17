@@ -15,6 +15,8 @@
  */
 #include "Selector.h"
 
+#include "PhysicsManager.h"
+
 using namespace Ogre;
 
 namespace rl

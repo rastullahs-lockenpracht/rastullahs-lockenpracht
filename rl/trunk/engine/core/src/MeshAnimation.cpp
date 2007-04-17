@@ -13,6 +13,12 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "MeshAnimation.h"
+
+#include <OgreAnimation.h>
+#include <OgreAnimationState.h>
+#include <OgreSkeleton.h>
+#include <OgreSkeletonInstance.h>
 
 #include "Exception.h"
 #include "AnimationManager.h"
@@ -20,9 +26,6 @@
 #include "MeshObject.h"
 #include "ScriptWrapper.h"
 
-#include "OgreAnimation.h"
-#include "OgreSkeleton.h"
-#include "MeshAnimation.h"
 
 using namespace Ogre;
 

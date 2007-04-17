@@ -385,6 +385,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\CoreDefines.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\CoreEvents.h"
 				>
 			</File>

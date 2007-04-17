@@ -394,7 +394,7 @@ namespace rl
     }
 
     OgreNewt::CollisionPtr PhysicsManager::createCollision(
-        Ogre::Entity* entity, const PhysicsManager::GeometryType& geomType, 
+        Ogre::Entity* entity, const GeometryType& geomType, 
 		const Ogre::String animName, Ogre::Vector3* offset,
         Ogre::Quaternion* orientation, const Ogre::Real mass, Ogre::Vector3* inertia)
     {
@@ -439,7 +439,7 @@ namespace rl
 
     OgreNewt::CollisionPtr PhysicsManager::createCollision(
         const Ogre::String& name, const Ogre::AxisAlignedBox& aabb,
-        const PhysicsManager::GeometryType& geomType, Ogre::Vector3* offset,
+        const GeometryType& geomType, Ogre::Vector3* offset,
         Ogre::Quaternion* orientation, const Ogre::Real mass, Ogre::Vector3* inertia)
     {
         // result value
@@ -481,7 +481,7 @@ namespace rl
         return mPhysicsCollisionFactory;
     }
 
-	PhysicsManager::GeometryType PhysicsManager::convertStringToGeometryType(const Ogre::String& geomTypeString)
+	GeometryType PhysicsManager::convertStringToGeometryType(const Ogre::String& geomTypeString)
 	{
 		if (geomTypeString == "box")
 			return GT_BOX;
@@ -500,7 +500,7 @@ namespace rl
 		return GT_NONE;
 	}
 
-    Ogre::String PhysicsManager::convertGeometryTypeToString(const PhysicsManager::GeometryType& geomType)
+    Ogre::String PhysicsManager::convertGeometryTypeToString(const GeometryType& geomType)
 	{
         Ogre::String typestr("none");
 
@@ -550,7 +550,7 @@ namespace rl
     */
 
     OgreNewt::CollisionPtr PhysicsCollisionFactory::createCollisionFromAABB(const Ogre::AxisAlignedBox aabb,
-        const PhysicsManager::GeometryType& geomType,
+        const GeometryType& geomType,
         Ogre::Vector3* offset,
         Ogre::Quaternion* orientation,
         const Ogre::Real Mass,
@@ -575,8 +575,8 @@ namespace rl
         }
 
         // check if the geometry type is supported for aabb
-        if (geomType == PhysicsManager::GT_CONVEXHULL || 
-            geomType == PhysicsManager::GT_MESH)
+        if (geomType == GT_CONVEXHULL || 
+            geomType == GT_MESH)
         {
             LOG_MESSAGE(Logger::CORE, 
                 " the geometry type '"+
@@ -592,23 +592,23 @@ namespace rl
 		   desire. Actually this is the bottom middle of our mesh - as the meshes are
 		   always constructed like that.
 	    */
-		if (geomType == PhysicsManager::GT_BOX || forceBox == true)
+		if (geomType == GT_BOX || forceBox == true)
         {
 			rval = createBox(aabb, offset, orientation, Mass, inertia);
         }
-        else if (geomType == PhysicsManager::GT_PYRAMID)
+        else if (geomType == GT_PYRAMID)
         {
             rval = createPyramid(aabb, offset, orientation, Mass, inertia);
         }
-        else if (geomType == PhysicsManager::GT_SPHERE)
+        else if (geomType == GT_SPHERE)
         {
 			rval = createSphere(aabb, offset, orientation, Mass, inertia);
         }
-        else if (geomType == PhysicsManager::GT_ELLIPSOID)
+        else if (geomType == GT_ELLIPSOID)
         {
             rval = createEllipsoid(aabb, offset, orientation, Mass, inertia);
         }
-		else if (geomType == PhysicsManager::GT_CAPSULE)
+		else if (geomType == GT_CAPSULE)
 		{
 			rval = createCapsule(aabb, offset, orientation, Mass, inertia);
 		}
@@ -616,7 +616,7 @@ namespace rl
     }
 
     OgreNewt::CollisionPtr PhysicsCollisionFactory::createCollisionFromEntity(Ogre::Entity* entity,
-        const PhysicsManager::GeometryType& geomType,
+        const GeometryType& geomType,
         Ogre::Vector3* offset,
         Ogre::Quaternion* orientation,
         const Ogre::Real Mass,
@@ -649,27 +649,27 @@ namespace rl
 		   desire. Actually this is the bottom middle of our mesh - as the meshes are
 		   always constructed like that.
 	    */
-		if (geomType == PhysicsManager::GT_BOX || forceBox == true)
+		if (geomType == GT_BOX || forceBox == true)
         {
 			rval = createBox(aabb, offset, orientation, Mass, inertia);
         }
-        else if (geomType == PhysicsManager::GT_PYRAMID)
+        else if (geomType == GT_PYRAMID)
         {
             rval = createPyramid(aabb, offset, orientation, Mass, inertia);
         }
-        else if (geomType == PhysicsManager::GT_SPHERE)
+        else if (geomType == GT_SPHERE)
         {
 			rval = createSphere(aabb, offset, orientation, Mass, inertia);
         }
-        else if (geomType == PhysicsManager::GT_ELLIPSOID)
+        else if (geomType == GT_ELLIPSOID)
         {
             rval = createEllipsoid(aabb, offset, orientation, Mass, inertia);
         }
-		else if (geomType == PhysicsManager::GT_CAPSULE)
+		else if (geomType == GT_CAPSULE)
 		{
 			rval = createCapsule(aabb, offset, orientation, Mass, inertia);
 		}
-        else if (geomType == PhysicsManager::GT_CONVEXHULL)
+        else if (geomType == GT_CONVEXHULL)
         {
             // offset of the collision primitiv
 	    	Ogre::Vector3 object_offset( Ogre::Vector3::ZERO );
@@ -695,7 +695,7 @@ namespace rl
 				size.z*size.z/6.0f) * Mass;
 			}
         }
-        else if (geomType == PhysicsManager::GT_MESH)
+        else if (geomType == GT_MESH)
         {
             if (inertia != NULL)
                 *inertia = Ogre::Vector3::ZERO;

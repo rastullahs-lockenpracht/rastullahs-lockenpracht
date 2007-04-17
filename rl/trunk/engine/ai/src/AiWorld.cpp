@@ -86,8 +86,8 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
     pi.intersect = false;
     RaycastInfo info;
     // versuche bis zu 5 raycasts mit der Mitte und den "Ecken:" oben, unten, links, rechts!
-    // Dadurch ist ungef�hr der Umriss gesichert!
-    // Habe bisher keine elegantere L�sung gefunden
+    // Dadurch ist ungefaehr der Umriss gesichert!
+    // Habe bisher keine elegantere Loesung gefunden
     RaycastType raycastType;
     Vec3 _pos = vehicle.position();
     Vec3 _futPos = vehicle.forward() * 2 + _pos;
@@ -104,9 +104,9 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
     velocityNorm.normalise(); // normalisierte geschwindigkeit (Richtung!)
 
 
-    // Versuchen wir mal das Casten, um das urspr�ngliche SteelingVehicle zu kriegen
+    // Versuchen wir mal das Casten, um das urspruengliche SteelingVehicle zu kriegen
     const SteeringVehicle *steerVec = dynamic_cast<const SteeringVehicle *> (&vehicle);
-    // falls nich geklappt, ist das Ergebnis NULL, das wird sp�ter abgefragt!
+    // falls nich geklappt, ist das Ergebnis NULL, das wird spaeter abgefragt!
 
 
     for( int i = 0; i < 5; i++ )
@@ -117,7 +117,7 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
         AxisAlignedBox aab;
 
 
-        if( raycastType == MIDDLE ) // immer Ausf�hren
+        if( raycastType == MIDDLE ) // immer Ausfuehren
         {
             castPos = pos;
             castFutPos = futPos;
@@ -189,10 +189,10 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
         pi.distance = info.mDistance * (futPos - pos).length();
         pi.surfacePoint = _pos + (vehicle.forward() * pi.distance);
 
-        // Die normale muss zu uns zeigen! k�nnte aber auch in die entgegengesetzte Richtung sein!
+        // Die normale muss zu uns zeigen! koennte aber auch in die entgegengesetzte Richtung sein!
         pi.surfaceNormal = Vec3(info.mNormal.x, info.mNormal.y, info.mNormal.z);
         pi.surfaceNormal.normalize();
-        // jedenfalls gilt daf�r, dass der abstand zwischen surfacePoint+surfaceNormal und _pos minimal sein muss
+        // jedenfalls gilt dafuer, dass der abstand zwischen surfacePoint+surfaceNormal und _pos minimal sein muss
         if( ((pi.surfacePoint + pi.surfaceNormal) - _pos).length() > 
             ((pi.surfacePoint - pi.surfaceNormal) - _pos).length() )
             pi.surfaceNormal = -pi.surfaceNormal;

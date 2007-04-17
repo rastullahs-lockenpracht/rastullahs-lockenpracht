@@ -296,7 +296,7 @@ namespace rl {
         {
             CameraObject* co = new CameraObject(uniquename);
             PhysicalThing* pt = PhysicsManager::getSingleton()
-                .createPhysicalThing(PhysicsManager::GT_SPHERE, co, 
+                .createPhysicalThing(GT_SPHERE, co, 
                 100.0f, true);
             PhysicsManager::getSingleton().createPhysicsProxy(pt, NULL);
 			pt->_getBody()->setMaterialGroupID(
@@ -326,7 +326,7 @@ namespace rl {
     }
 
     Actor* ActorManager::createMeshActor(const String& name, const String& meshname,
-        PhysicsManager::GeometryType geomType, Ogre::Real mass)
+        GeometryType geomType, Ogre::Real mass)
     {
         const String&  uniquename = nextUniqueName(name);
         Actor* actor = NULL;
@@ -368,7 +368,7 @@ namespace rl {
         {
             BoxPrimitive* bp = new BoxPrimitive(size, uniquename, materialName);
             PhysicalThing* pt = PhysicsManager::getSingleton()
-                .createPhysicalThing(PhysicsManager::GT_BOX, bp, mass);
+                .createPhysicalThing(GT_BOX, bp, mass);
 
             actor = new Actor(uniquename, bp, pt);
             mActors.insert(ActorPtrPair(uniquename,actor)); 
@@ -424,17 +424,19 @@ namespace rl {
     {
         String newname = basename;
 
-        int iID = 0;
+        static int id = 0;
 
-        while( this->getActor(newname) != 0 )
+        while( getActor(newname) != NULL )
         {
-            newname = basename + "_" + StringConverter::toString(++iID);
+            newname = basename + "_" + StringConverter::toString(++id);
         }
 
         if( basename != newname )
-            LOG_ERROR(Logger::CORE, "ActorManager - Warnung! '"
+        {
+            LOG_WARNING(Logger::CORE, "ActorManager - Warnung! '"
             + basename
             + "' war schon vergeben! Neuer Name ist '" + newname + "'.");
+        }
 
         return newname;
     }

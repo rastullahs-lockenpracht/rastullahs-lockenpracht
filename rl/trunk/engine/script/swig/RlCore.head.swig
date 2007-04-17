@@ -30,7 +30,7 @@
 #include "ParticleSystemObject.h"
 #include "CoreSubsystem.h"
 #include "PhysicalThing.h"
-#include "PhysicsManager.h"
+#include "CoreDefines.h"
 #include "PhysicsContactListener.h"
 #include "DebugVisualsManager.h"
 #include "GameEventManager.h"

@@ -18,7 +18,6 @@
 
 #include "OpenSteer/Obstacle.h"
 #include <OgreNewt.h>
-#include "PhysicsManager.h"
 
 namespace rl
 {

@@ -25,7 +25,6 @@
 #include "MeshObject.h"
 #include "MovableText.h"
 #include "PhysicalThing.h"
-#include "PhysicsManager.h"
 #include "World.h"
 
 using namespace Ogre;
@@ -112,7 +111,6 @@ namespace rl {
 
     void Actor::setPhysicalThing( PhysicalThing* pt ) 
     {
-        /// @todo ?
         mPhysicalThing = pt;
     }
 

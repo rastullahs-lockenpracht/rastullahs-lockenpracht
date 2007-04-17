@@ -132,7 +132,7 @@ public:
     rl::Actor* createEmptyActor(const Ogre::String& name);
     rl::Actor* createLightActor(const Ogre::String& name, rl::LightObject::LightTypes type );
 	rl::Actor* createMeshActor(const Ogre::String& name, const Ogre::String& meshname,
-		    rl::PhysicsManager::GeometryType geom = rl::PhysicsManager::GT_NONE,
+		    rl::GeometryType geom = rl::GT_NONE,
 		    Ogre::Real density=1.0);
 	rl::Actor* createBoxPrimitiveActor(const Ogre::String& name,
             const Ogre::Vector3& minCorner, const Ogre::Vector3& maxCorner,
@@ -565,7 +565,7 @@ class PhysicalThing
 {
 public:
     PhysicalThing(
-			rl::PhysicsManager::GeometryType geomType,
+			rl::GeometryType geomType,
 			rl::PhysicalObject* po, 
 			Ogre::Real mass, 
 			bool hullModifier = false);
@@ -602,24 +602,26 @@ public:
 
 };
 
+enum GeometryType {
+    GT_NONE = -1,
+    GT_BOX = 0,
+    GT_SPHERE = 1,
+    GT_CAPSULE = 2,
+    GT_MESH = 3,
+    GT_ELLIPSOID = 4,
+    GT_CONVEXHULL = 5
+};
+    
+
+
 class PhysicsManager
 {
 public:
 
-    enum GeometryType {
-        GT_NONE = -1,
-        GT_BOX = 0,
-        GT_SPHERE = 1,
-        GT_CAPSULE = 2,
-        GT_MESH = 3,
-        GT_ELLIPSOID = 4,
-        GT_CONVEXHULL = 5
-    };
-    
     PhysicsManager();
 	static PhysicsManager& getSingleton(void);
     
-    rl::PhysicalThing* createPhysicalThing(rl::PhysicsManager::GeometryType geomType, rl::PhysicalObject* po,
+    rl::PhysicalThing* createPhysicalThing(rl::GeometryType geomType, rl::PhysicalObject* po,
 		Ogre::Real mass);
 
     void removeAndDestroyPhysicalThing(PhysicalThing* thing);

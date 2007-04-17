@@ -38,14 +38,14 @@ namespace rl {
 		/** Constructor storing all passed values.
 		 * It simply initializes all internal variables to meaningful values
 		 * and stores the values passed by the parameters.
-		 * @param geomType PhysicsManager::GeometryType defining collision primitiv type
+		 * @param geomType GeometryType defining collision primitiv type
 		 *				   (box, sphere, etc.)
 		 * @param po PhysicalObject that utilizes this PhysicalThing object
 		 * @param mass Real containing the mass of the physical object in kg
 		 * 
 		 */
 		PhysicalThing(
-			PhysicsManager::GeometryType geomType,
+			GeometryType geomType,
 			PhysicalObject* po, 
 			Ogre::Real mass, 
 			bool hullModifier = false);
@@ -197,7 +197,7 @@ namespace rl {
 		//! the objects mass
 		Ogre::Real mMass;
 		//! the collision primitivs type (box, sphere, ellipsoid, etc.)
-		PhysicsManager::GeometryType mGeometryType;
+		GeometryType mGeometryType;
 		//! the associated tangible object ?
 		PhysicalObject* mPhysicalObject;
 		bool mHullModifier;
@@ -209,7 +209,7 @@ namespace rl {
 		 * That is normally box, sphere, ellipsoid, capsule, convexhull or mesh.
 		 * question: is mesh also userdefined ?
 		 */
-		PhysicsManager::GeometryType getGeometryType() const;
+		GeometryType getGeometryType() const;
 		void setBody(OgreNewt::Body* body);
 	};
 }

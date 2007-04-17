@@ -21,7 +21,7 @@
 #include <vector>
 
 #include "CorePrerequisites.h"
-#include "PhysicsManager.h"
+#include "CoreDefines.h"
 #include "LightObject.h"
 #include "ParticleSystemObject.h"
 
@@ -48,7 +48,7 @@ namespace rl {
         Actor* createCameraActor(const Ogre::String& name);
         Actor* createEmptyActor(const Ogre::String& name);
         Actor* createMeshActor(const Ogre::String& name,const Ogre::String& meshname,
-            PhysicsManager::GeometryType geomType = PhysicsManager::GT_NONE,
+            GeometryType geomType = GT_NONE,
             Ogre::Real mass = 1.0);
         Actor* createParticleSystemActor(const Ogre::String& name, 
             const Ogre::String& partname);

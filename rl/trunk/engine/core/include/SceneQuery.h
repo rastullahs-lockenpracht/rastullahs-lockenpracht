@@ -20,7 +20,6 @@
 #include "CorePrerequisites.h"
 #include "DebugVisualisable.h"
 #include "Actor.h"
-#include "PhysicsManager.h"
 
 #include <OgreNewt_RayCast.h>
 

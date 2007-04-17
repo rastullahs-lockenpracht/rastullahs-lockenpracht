@@ -31,10 +31,9 @@ namespace OgreNewt {
     class World;
 }
 
-
-#include "GameTask.h"
 #include "CorePrerequisites.h"
-
+#include "CoreDefines.h"
+#include "GameTask.h"
 #include "QuadTree.h"
 
 namespace rl {
@@ -76,18 +75,6 @@ namespace rl {
             protected Ogre::Singleton<PhysicsManager>
     {
     public:
-
-        //! differentiates between the different collision primitives
-        enum GeometryType {
-            GT_NONE = -1,
-            GT_BOX = 0,
-            GT_SPHERE = 1,
-            GT_CAPSULE = 2,
-            GT_MESH = 3,
-            GT_ELLIPSOID = 4,
-            GT_CONVEXHULL = 5,
-            GT_PYRAMID = 6
-        };
 
         static const Ogre::Real NEWTON_GRID_WIDTH;
         
@@ -226,7 +213,7 @@ namespace rl {
 		*/
 		OgreNewt::CollisionPtr createCollision(
 			Ogre::Entity* entity,
-            const PhysicsManager::GeometryType& geomType = PhysicsManager::GT_NONE,
+            const GeometryType& geomType = GT_NONE,
             const Ogre::String animName = "",
 			Ogre::Vector3* offset = NULL,
 			Ogre::Quaternion* orientation = NULL,
@@ -253,7 +240,7 @@ namespace rl {
         OgreNewt::CollisionPtr createCollision(
             const Ogre::String& name,
             const Ogre::AxisAlignedBox& aabb,
-            const PhysicsManager::GeometryType& geomType = PhysicsManager::GT_NONE,
+            const GeometryType& geomType = GT_NONE,
             Ogre::Vector3* offset = NULL,
 			Ogre::Quaternion* orientation = NULL,
             const Ogre::Real mass = 0,
@@ -279,7 +266,7 @@ namespace rl {
          * possible in error messages.
          * @param geomType enum giving the collision primitiv.
          */
-        static Ogre::String convertGeometryTypeToString(const PhysicsManager::GeometryType& geomType);
+        static Ogre::String convertGeometryTypeToString(const GeometryType& geomType);
 
     private:
 
@@ -290,7 +277,7 @@ namespace rl {
         struct CollisionInUse
         {
         public:
-            PhysicsManager::GeometryType geomType;  //! primitive type
+            GeometryType geomType;  //! primitive type
             OgreNewt::CollisionPtr colPtr;          //! the collision primitve
         };
 
@@ -394,7 +381,7 @@ namespace rl {
 		 * @param inertia Vector3 returns the inertia coefficients for the created collision primitiv
 		*/
         OgreNewt::CollisionPtr createCollisionFromEntity(Ogre::Entity* entity,
-            const PhysicsManager::GeometryType& geomType,
+            const GeometryType& geomType,
             Ogre::Vector3* offset = NULL, 
             Ogre::Quaternion* orientation = NULL,
             const Ogre::Real Mass = 0,
@@ -416,7 +403,7 @@ namespace rl {
 		 * @param inertia Vector3 returns the inertia coefficients for the created collision primitiv
 		*/
         OgreNewt::CollisionPtr createCollisionFromAABB(const Ogre::AxisAlignedBox aabb,
-            const PhysicsManager::GeometryType& geomType,
+            const GeometryType& geomType,
             Ogre::Vector3* offset = NULL,
             Ogre::Quaternion* orientation = NULL,
             const Ogre::Real Mass = 0,

@@ -16,6 +16,10 @@
 #include "SoundManager.h"
 
 #include <set>
+#include <OgreException.h>
+#include <OgreResourceGroupManager.h>
+#include <OgreRoot.h>
+
 #include "Actor.h"
 #include "ActorManager.h"
 #include "ConfigFile.h"
@@ -24,8 +28,6 @@
 #include "ListenerObject.h"
 #include "SoundDriver.h"
 #include "SoundResource.h"
-#include <OgreException.h>
-#include <OgreResourceGroupManager.h>
 
 #include "NullDriver.h"
 
