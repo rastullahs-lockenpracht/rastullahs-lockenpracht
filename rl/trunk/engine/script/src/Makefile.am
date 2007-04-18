@@ -1,4 +1,4 @@
-INCLUDES = $(CEGUI_CFLAGS) $(RUBY_CFLAGS) $(OGRE_CFLAGS) \
+INCLUDES = $(CEGUI_CFLAGS) $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(OIS_CFLAGS) \
 	$(STLPORT_CFLAGS) -I../include -I../../common/include -I../../core/include \
 	-I../../dialog/include -I../../rules/include -I../../ui/include \
 	-I../../ai/include
