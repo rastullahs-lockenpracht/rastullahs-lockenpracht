@@ -118,6 +118,8 @@ namespace rl {
             delete mXmlPropertyProcessor;
     
             doc->release();
+
+			CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
         }
         else
         {
@@ -208,6 +210,33 @@ namespace rl {
                 }
             }
         }
+
+		GameObjectState state = GOS_LOADED;
+		if (XmlHelper::hasAttribute(gameobjElem, "state"))
+		{
+			Ogre::String stateStr = XmlHelper::getAttributeValueAsStdString(gameobjElem, "state");
+			if (stateStr == "LOADED")
+			{
+				state = GOS_LOADED;
+			}
+			else if (stateStr == "HELD")
+			{
+				state = GOS_HELD;
+			}
+			else if (stateStr == "IN_POSSESSION")
+			{
+				state = GOS_IN_POSSESSION;
+			}
+			else if (stateStr == "IN_SCENE")
+			{
+				state = GOS_IN_SCENE;
+			}
+			else if (stateStr == "READY")
+			{
+				state = GOS_READY;
+			}
+		}
+		gop.getGameObject()->setState(state);
     }
 
     void MapLoader::createEntity(DOMElement* nodeElem, DOMElement* entityElem)
@@ -280,8 +309,8 @@ namespace rl {
         }
         catch(...)
         {
-              LOG_ERROR(Logger::CORE, " Entity '"+meshFile+"' mit dem Namen '"+entName+"' konnte nicht geladen werden.");
-              return;
+	        LOG_ERROR(Logger::RULES, " Entity '"+meshFile+"' mit dem Namen '"+entName+"' konnte nicht geladen werden.");
+            return;
         }
 
         parentNode->attachObject(newEnt);
@@ -358,6 +387,141 @@ namespace rl {
 
         return rval;
     }
+
+	//void MapLoader::createCollision()
+	//{
+ //       // ------- Falls nötig automatisch bodyproxy erstellen -------------
+ //       // (wenn physical_body gesetzt wurde)
+ //       OgreNewt::CollisionPtr collision = OgreNewt::CollisionPtr();
+ //       OgreNewt::World *thisWorld = PhysicsManager::getSingleton()._getNewtonWorld();
+
+ //       if (physical_body.compare("none") != 0)
+ //       {
+ //           const AxisAlignedBox &aab = newEnt->getMesh()->getBounds();
+ //           Ogre::Vector3 size = (aab.getMaximum() - aab.getMinimum()) * parentNode->getScale();
+ //           bool forceBox = false;
+
+ //           if ((size.x < PhysicsManager::NEWTON_GRID_WIDTH ||
+ //                size.y < PhysicsManager::NEWTON_GRID_WIDTH ||
+ //                size.z < PhysicsManager::NEWTON_GRID_WIDTH) &&
+ //                physical_body.compare("convexhull") == 0)
+ //           {
+ //               if (size.x < PhysicsManager::NEWTON_GRID_WIDTH)
+ //                   size.x = PhysicsManager::NEWTON_GRID_WIDTH;
+ //               if (size.y < PhysicsManager::NEWTON_GRID_WIDTH)
+ //                   size.y = PhysicsManager::NEWTON_GRID_WIDTH;
+ //               if (size.z < PhysicsManager::NEWTON_GRID_WIDTH)
+ //                   size.z = PhysicsManager::NEWTON_GRID_WIDTH;
+
+ //               LOG_MESSAGE(Logger::CORE, " Die Entity '"+entName+"' liegt in einer Ebene, verwende 'box' für physical_body '"+physical_body+"' ");
+ //               forceBox = true;
+ //           }
+ //           const Quaternion orientation(0,0,0,0);// = parentNode->getOrientation();
+ //           const Ogre::Vector3 pos = aab.getMinimum()* parentNode->getScale() + (size/2.0);
+
+
+ //           // Prüfen, ob schon ein identischer Proxy erstellt wurde um diesen erneut zu verwenden
+ //           AlreadyUsedCollision &aucol (mAutoCreatedCollisions[meshName]);
+ //           if (aucol.Type.compare(physical_body) == 0  &&
+ //               aucol.Scale == parentNode->getScale() &&
+ //               (!forceBox)) // sicherheitshalber
+ //           {
+ //               collision = aucol.ColPtr;
+ //               LOG_DEBUG(Logger::CORE, " Schon früher erstellten physical_body für Entity '"+entName+"' wieder verwendet. ");
+ //           }
+ //           else
+ //           {
+
+ //               if (physical_body.compare("box") == 0 || forceBox)
+ //               {
+ //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Box(
+ //                                    thisWorld, size, orientation, pos));
+ //                   LOG_DEBUG(Logger::CORE, " physical_body 'box' für Entity '"+entName+"' erstellt. ");
+ //               }
+ //               else if (physical_body.compare("pyramid") == 0)
+ //               {
+ //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Pyramid(
+ //                                   thisWorld, size, orientation, pos));
+ //                   LOG_DEBUG(Logger::CORE, " physical_body 'pyramid' für Entity '"+entName+"' erstellt. ");
+ //               }
+ //               else if (physical_body.compare("sphere") == 0)
+ //               {
+ //                   double radius = std::max(size.x, std::max(size.y, size.z)) / 2.0;
+ //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
+ //                                   thisWorld, Vector3(radius, radius, radius),
+ //                                   orientation, pos));
+ //                   LOG_DEBUG(Logger::CORE, " physical_body 'sphere' für Entity '"+entName+"' erstellt. ");
+ //               }
+ //               else if (physical_body.compare("ellipsoid") == 0)
+ //               {
+ //                   // set the size x/z values to the maximum
+ //                   Ogre::Vector3 s(size/2.0);
+ //                   s.x = std::max(s.x, s.z);
+ //                   s.z = s.x;
+ //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
+ //                                   thisWorld, s,
+ //                                   orientation, pos));
+ //                   LOG_DEBUG(Logger::CORE, " physical_body 'ellipsoid' für Entity '"+entName+"' erstellt. ");
+ //               }
+ //               else if (physical_body.compare("capsule") == 0)
+ //               {
+ //                   double radius = std::max(size.x, size.z) / 2.0;
+ //                   double height = size.y;
+
+ //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Capsule(
+ //                                   thisWorld,
+ //                                   radius,
+ //                                   height,
+ //                                   orientation, pos));
+ //                   LOG_DEBUG(Logger::CORE, " physical_body 'capsule' für Entity '"+entName+"' erstellt. ");
+ //               }
+ //               else if (physical_body.compare("convexhull") == 0)
+ //               {
+ //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(
+ //                                   thisWorld,
+ //                                   newEnt,
+ //                                   false));
+ //                   //orientation, pos));
+ //                   LOG_DEBUG(Logger::CORE, " physical_body 'convexhull' für Entity '"+entName+"' erstellt. ");
+ //               }
+ //               else if (physical_body.compare("mesh") == 0 || physical_body.compare("auto"))
+ //               {
+ //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(
+ //                                   thisWorld, newEnt, false));
+ //                   LOG_DEBUG(Logger::CORE, " physical_body 'mesh' für Entity '"+entName+"' erstellt. ");
+ //               }
+ //               else
+ //                   LOG_MESSAGE(Logger::CORE,
+ //                       " Der bodyproxy_type '"+physical_body+"'(aus userData) der Entity '"+meshName+"' ist ungültig.");
+
+ //               // proxy in die liste der schon erstellten proxies hinzufügen
+ //               aucol.ColPtr = collision;
+ //               aucol.Scale = parentNode->getScale();
+ //               aucol.Type = physical_body;
+ //           }
+ //       }
+
+ //       // zur liste hinzufügen
+ //       if (!collision.isNull())
+ //       {
+ //           mCollisions.push_back(collision);
+ //       }
+
+
+ //       // Zur Physik des Levels hinzufügen
+ //       if (mCollisions.size() > 0)
+ //       {
+ //           PhysicsManager::getSingleton().addLevelGeometry(newEnt, mCollisions);
+ //           LOG_DEBUG(Logger::CORE, " Entity '"+entName+"' in levelGeometry geladen");
+ //       }
+
+
+ //       // wieder aus der liste entfernen, falls mehrere entities hier definiert werden
+ //       if (!collision.isNull())
+ //       {
+ //           mCollisions.pop_back();
+ //       }
+	//}
 
     Ogre::String MapLoader::getRandomName(const Ogre::String& baseName) const
     {

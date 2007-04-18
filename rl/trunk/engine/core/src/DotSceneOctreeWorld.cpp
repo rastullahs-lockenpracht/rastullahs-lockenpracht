@@ -60,13 +60,14 @@ namespace rl {
             mCamera->setAutoAspectRatio(true);
 
             actor->placeIntoScene();
-        }
 
-        // Ein Viewport, das komplette Fenster
-        Viewport* newVp = CoreSubsystem::getSingleton().getRenderWindow()->addViewport(mCamera, 1);
+			// Ein Viewport, das komplette Fenster
+			Viewport* newVp = CoreSubsystem::getSingleton().getRenderWindow()->addViewport(mCamera, 1);
 
-        // Schwarzer Hintergrund
-        newVp->setBackgroundColour(ColourValue(0,0,0));
+			// Schwarzer Hintergrund
+			newVp->setBackgroundColour(ColourValue(0,0,0));
+
+		}
     }
 
     void DotSceneOctreeWorld::loadScene(const String& levelName, const String& module)

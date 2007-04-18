@@ -98,6 +98,8 @@ namespace rl {
 
         /// Returns a name not yet used for an Ogre object.
         Ogre::String getUniqueName();
+
+		virtual void initializeDefaultCamera(void) = 0;
     protected:
         Ogre::SceneManager* mSceneMgr;
         Ogre::Camera* mCamera;
@@ -111,8 +113,7 @@ namespace rl {
         SceneChangeListenerSet mSceneChangeListeners;
 
         World(Ogre::SceneType sceneType);
-        virtual void initializeDefaultCamera(void) = 0;
-
+        
         void fireAfterSceneLoaded();
         void fireBeforeClearScene();
     };

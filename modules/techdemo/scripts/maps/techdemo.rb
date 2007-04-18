@@ -1,9 +1,5 @@
 load "embed.rb"
 
-require 'player.rb'
-require 'hero.rb'
-require 'npc.rb'
-
 # Physik aktivieren
 $PM.setEnabled(true);
 
@@ -46,63 +42,24 @@ $UI.setActiveCharacter($hero)
 
 $World.setFog( World::FOG_EXP, [0.8,0.8,1.0,0.5], 0.00003, 0.4, 1.0);
 
-load "techdemo_umgebung.rb"
-load "techdemo_quests.rb"
-load "techdemo_spinne.rb"
-load "techdemo_hoehle.rb"
 
-$bauer = $GOM.createGameObjectProxy("ArnolfGrossschaedel").getGameObject()
-$bauer.setPosition([29.9182, -0.6554, 9.590])
-$bauer.setOrientation([[0, 1, 0], 280])
-$bauer.placeIntoScene();
+tueroeffner = CaveDoorOpener.new(
+	$GOM.getGameObjectProxy(7).getGameObject(), 
+	$GOM.getGameObjectProxy(8).getGameObject())
 
-$waldspinne = $GOM.createGameObjectProxy("Waldspinne").getGameObject()
-$waldspinne.setPosition([-20.400, 3.430, -82.000])
-$waldspinne.placeIntoScene();
-$waldspinne.getActor().setScale(5.0, 5.0, 5.0)
+truhe = $GOM.getGameObjectProxy(9).getGameObject();
+truhe.addItem($GOM.getGameObjectProxy(10).getGameObject())
 
 
-$hebeltuer = $GOM.createGameObjectProxy("door").getGameObject();
-$hebeltuer.setPosition([141.95, 7.20, 32.55]);
-$hebeltuer.setOrientation([[0, 1, 0], 30]);
-$hebeltuer.setDescription("Eine Tür, allerdings ist keine Klinke vorhanden")
-$hebeltuer.placeIntoScene()
-# $hebeltuer.addActions(false, false)
-
-$hebel = $GOM.createGameObjectProxy("switch3way").getGameObject();
-$hebel.setPosition([114.800, 10.700, 34.750])
-$hebel.setOrientation([[0, 1, 0], 280])
-$hebel.placeIntoScene()
-$hebel.getActor().roll(-90.0);
-$hebel.getActor().yaw(90.0);
-$tueroeffner = CaveDoorOpener.new($hebeltuer, $hebel)
-
-require "truhe.rb"
-$truhe = $GOM.createGameObjectProxy("chest").getGameObject();
-$truhe.setPosition([123.530, 9.500, 47.250])
-$truhe.placeIntoScene();
-$truhe.addItem($GOM.createGameObjectProxy("torch").getGameObject())
-
-require "techdemo_hoehle_eingang.rb"
-
-trank = $GOM.createGameObjectProxy("Heiltrank").getGameObject()
-trank.setPosition([155.59, 6.75, 20.96]);
-trank.placeIntoScene();
-
-luftfels1 = $GOM.createGameObjectProxy("Fels").getGameObject()
-luftfels1.setPosition([105.51, 26.05, 40.35])
-luftfels2 = $GOM.createGameObjectProxy("Fels").getGameObject()
-luftfels2.setPosition([99.82, 21.37, 45.87])
-luftfels3 = $GOM.createGameObjectProxy("Fels").getGameObject()
-luftfels3.setPosition([94.43, 30.1, 44.11])
+luftfels1 = $GOM.getGameObjectProxy(11).getGameObject()
+luftfels2 = $GOM.getGameObjectProxy(12).getGameObject()
+luftfels3 = $GOM.getGameObjectProxy(13).getGameObject()
 
 $SCRIPT.log("Steinschlag: SteinschlagzoneListener erstellen");
 areaListener = SteinschlagzoneListener.new(luftfels1, luftfels2, luftfels3 );
 
-$felshaufen = $GOM.createGameObjectProxy("rockpile").getGameObject()
-$felshaufen.setPosition([94.43, 10.1, 44.11]);
-$felshaufen.placeIntoScene()
-$felshaufen.getActor().getPhysicalThing().setContactListener( 
+felshaufen = $GOM.getGameObjectProxy(14).getGameObject()
+felshaufen.getActor().getPhysicalThing().setContactListener( 
 	RockpileContactListener.new($felshaufen, luftfels1, luftfels2, luftfels3) );
 
 
