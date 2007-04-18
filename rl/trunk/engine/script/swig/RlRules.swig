@@ -442,6 +442,7 @@ namespace rl {
 
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual rl::PropertySet* getAllProperties() const;
         virtual bool isContainer();
     };
     
@@ -471,6 +472,7 @@ namespace rl {
 
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual rl::PropertySet* getAllProperties() const;
     };
     
     %feature("director") Armor;
@@ -482,6 +484,7 @@ namespace rl {
 
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual rl::PropertySet* getAllProperties() const;
     };
     
     %feature("director") Container;
@@ -503,6 +506,7 @@ namespace rl {
 
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual rl::PropertySet* getAllProperties() const;
     };
     
 
@@ -687,6 +691,7 @@ namespace rl {
 
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual rl::PropertySet* getAllProperties() const;
     };
         
     %feature("director") ActionMananger;
