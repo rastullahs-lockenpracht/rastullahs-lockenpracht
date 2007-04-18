@@ -2,6 +2,7 @@ load "embed.rb"
 #require 'actorupdateanimationlistener.rb'
 require 'jobs/soundjobs.rb'
 require 'jobs/animationjobs.rb'
+require 'gameobjectprops.rb'
 
 class OpenDoorAction < Action
   def initialize
@@ -49,17 +50,19 @@ end
 
 class Door < GameObject
   
+  include GameObjectProperties
+  
   def initialize(id)
     super(id);
   end
 
   def setProperty(name, value)
     if (name == "sound")
-      @mSound = value;
+      @_prop_Sound = value;
     elsif (name == "open")
-      @mOpen = value;
+      @_prop_Open = value;
     elsif (name == "openable")
-      @mCanBeOpened = value;
+      @_prop_CanBeOpened = value;
     else
       super(name, value)
     end
@@ -73,31 +76,31 @@ class Door < GameObject
   def addActions()
     @mOpenAction = OpenDoorAction.new()
     @mCloseAction = CloseDoorAction.new()
-    if (@mCanBeOpened)
-    	addAction(@mOpenAction);
-    	addAction(@mCloseAction);
+    if (@_prop_CanBeOpened)
+        addAction(@mOpenAction);
+        addAction(@mCloseAction);
     else
-    	addAction(@mOpenAction, Action::ACT_DISABLED);
-    	addAction(@mCloseAction, Action::ACT_DISABLED);
+        addAction(@mOpenAction, Action::ACT_DISABLED);
+        addAction(@mCloseAction, Action::ACT_DISABLED);
     end
 
-    doAction("opendoor") unless not @mOpen
+    doAction("opendoor") unless not @_prop_Open
   end
   
   def setOpen(isOpen)
-    @mOpen = isOpen
+    @_prop_Open = isOpen
     fireObjectStateChangeEvent();
   end
   
   def isOpen()
-    @mOpen
+    @_prop_Open
   end
   
   def getDefaultAction(actor)
-     if (not @mCanBeOpened)
+     if (not @_prop_CanBeOpened)
        super(actor)
      else
-       if (@mOpen)
+       if (@_prop_Open)
          @mCloseAction
        else
          @mOpenAction
