@@ -19,8 +19,7 @@ module GameObjectProperties
                     instance_variable_get(aPropertyName).to_s + "> added to PropertySet");
           
                 # Add property to the property set
-                #newProp = Property.new(aPropertyValue)
-                #ps.setProperty("#{$'}", newProp)
+                ps.setProperty("#{$'}", aPropertyValue)
             end
         end
         return ps
