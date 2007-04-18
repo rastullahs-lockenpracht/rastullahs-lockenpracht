@@ -33,6 +33,7 @@ namespace rl
 
     /**
      * Representation of a Character that is able to respond in a Dialog
+     * @todo Art der Erstellung ändern, das ist zu kompliziert.
      */
 	class _RlDialogExport DialogCharacter 
 	{
@@ -77,9 +78,9 @@ namespace rl
 		 * calculation of special condition values
 		 * should have a second parameter "patternValue"
 		 */
-		virtual int calcOptionValue(const CeGuiString& optionName)=0;
-		virtual int calcResponseValue(const CeGuiString& responseName)=0;
-		virtual int calcSelectionValue(const CeGuiString& selectionName)=0;
+		virtual int calcOptionValue(const CeGuiString& optionName);
+		virtual int calcResponseValue(const CeGuiString& responseName);
+		virtual int calcSelectionValue(const CeGuiString& selectionName);
 
 		DialogResponse* createResponse(const CeGuiString& input);
 		bool isActive(){ return mActive; }
@@ -141,11 +142,21 @@ namespace rl
 		mNonPlayerCharacter = npc;
 	}
 
-/*	inline DialogScriptObject* DialogCharacter::getScriptObject() const
-	{
-		return mScriptObject;
-	}
-*/
+    /// @todo Magic Number.
+    inline int DialogCharacter::calcOptionValue(const CeGuiString& optionName)
+    {
+        return 4;
+    }
+
+	inline int DialogCharacter::calcResponseValue(const CeGuiString& responseName)
+    {
+        return 4;
+    }
+
+	inline int DialogCharacter::calcSelectionValue(const CeGuiString& selectionName)
+    {
+        return 4;
+    }
 }
 
 #endif

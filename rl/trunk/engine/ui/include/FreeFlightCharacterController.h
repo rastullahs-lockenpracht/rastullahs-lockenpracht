@@ -38,9 +38,11 @@ namespace rl {
 		*  @throw NullPointerException if camera or character is NULL.
 		*  @throw InvalidArgumentException if character is not placed in the scene.
 		*/
-		FreeFlightCharacterController(Actor* camera, Actor* character);
+		FreeFlightCharacterController(CommandMapper* cmdMapper, Actor* camera, Person* character);
 		virtual ~FreeFlightCharacterController();
-		virtual ControllerType getType() const;
+
+        virtual void pause();
+        virtual void resume();
 
 		virtual void run(Ogre::Real elapsedTime);
 

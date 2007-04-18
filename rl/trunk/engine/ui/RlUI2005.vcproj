@@ -429,10 +429,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\CommandMapperWindow.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\ConfigComponent.h"
 					>
 				</File>
@@ -619,10 +615,6 @@
 				</File>
 				<File
 					RelativePath=".\src\CloseConfirmationWindow.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\CommandMapperWindow.cpp"
 					>
 				</File>
 				<File

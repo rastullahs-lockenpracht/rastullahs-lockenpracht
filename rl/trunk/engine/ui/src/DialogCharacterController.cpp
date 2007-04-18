@@ -21,20 +21,24 @@
 #include "Actor.h"
 #include "CameraObject.h"
 #include "CommandMapper.h"
+#include "ConfigurationManager.h"
 #include "CoreSubsystem.h"
+#include "DialogCharacter.h"
+#include "DialogSubsystem.h"
 #include "DialogWindow.h"
 #include "InputManager.h"
 #include "MeshAnimation.h"
 #include "MeshObject.h"
+#include "Person.h"
 #include "PhysicalThing.h"
 #include "Sound.h"
 #include "SoundDriver.h"
 #include "SoundManager.h"
 #include "SoundObject.h"
 #include "SubtitleWindow.h"
+#include "WindowFactory.h"
 #include "WindowManager.h"
 #include "World.h"
-#include "ConfigurationManager.h"
 
 #include <OgreSceneManager.h>
 #include <OgreNewt_Body.h>
@@ -43,8 +47,9 @@ using namespace Ogre;
 
 namespace rl {
 
-    DialogCharacterController::DialogCharacterController(Actor* camera, Actor* character)
-        : CharacterController(camera, character),
+    DialogCharacterController::DialogCharacterController(CommandMapper* cmdMapper,
+        Actor* camera, Person* character)
+        : CharacterController(cmdMapper, camera, character),
         mTargetCameraPosition(Vector3::ZERO),
         mTargetCameraDirection(Vector3::UNIT_Z),
         mCurrFadeTextTime(0),
@@ -58,6 +63,27 @@ namespace rl {
         mTalkAnimation(NULL),
         mSubtitleSpeed(1.0f)
     {
+        mSubtitleSpeed = ConfigurationManager::getSingleton().getRealSetting(
+            "General", "Subtitle Speed");
+
+        mSubtitleWindow = new SubtitleWindow();
+    }
+
+    DialogCharacterController::~DialogCharacterController()
+    {
+        delete mSoundObject;
+    }
+
+    void DialogCharacterController::pause()
+    {
+        mCameraActor->getPhysicalThing()->unfreeze();
+        mCharacterActor->getPhysicalThing()->unfreeze();
+        mDialogWindow->setVisible(false, false);
+        mSubtitleWindow->setVisible(false, false);
+    }
+
+    void DialogCharacterController::resume()
+    {
         mCameraActor->getPhysicalThing()->freeze();
         mCharacterActor->getPhysicalThing()->freeze();
         Camera* ogreCam = static_cast<Camera*>(mCameraActor->_getMovableObject());
@@ -66,35 +92,15 @@ namespace rl {
         ogreCam->setOrientation(Quaternion::IDENTITY);
         mCameraActor->_getSceneNode()->setFixedYawAxis(true);
 
-        mSubtitleSpeed = ConfigurationManager::getSingleton().getRealSetting(ConfigurationManager::CS_GENERAL, "Subtitle Speed");
-    }
+        DialogCharacter* bot = DialogSubsystem::getSingleton().getCurrentDialogCharacter();
+        bot->setDialogCharacter(mCharacter);
+		mDialogPartner = bot->getDialogPartner()->getActor();
 
-    DialogCharacterController::~DialogCharacterController()
-    {
-        mCameraActor->getPhysicalThing()->unfreeze();
-        mCharacterActor->getPhysicalThing()->unfreeze();
-        if (mDialogWindow != NULL)
-        {
-            mDialogWindow->setVisible(false, true);
-            mDialogWindow = NULL;
-        }
-        if (mSubtitleWindow != NULL)
-        {
-            mSubtitleWindow->setVisible(false, true);
-            mSubtitleWindow = NULL;
-        }
-        delete mSoundObject;
-    }
-
-    CharacterController::ControllerType DialogCharacterController::getType() const
-    {
-        return CTRL_DIALOG;
-    }
-
-    void DialogCharacterController::setDialogPartner(Actor* partner)
-    {
-        mDialogPartner = partner;
         resetCamera();
+
+        mDialogWindow = WindowFactory::getSingleton().getDialogWindow();
+        mDialogWindow->initialize(this, bot);
+		mDialogWindow->start();
     }
 
     void DialogCharacterController::run(Real elapsedTime)
@@ -142,16 +148,6 @@ namespace rl {
                 + CeGuiString(mSubtitleWindow->getWindow()->isVisible() ? "vis" : "unvis")
                 + ", Time: "
                 + StringConverter::toString(mCurrFadeTextTime));
-    }
-
-    void DialogCharacterController::setDialogWindow(DialogWindow* dialog)
-    {
-        mDialogWindow = dialog;
-    }
-
-    void DialogCharacterController::setSubtitleWindow(SubtitleWindow* subtitles)
-    {
-        mSubtitleWindow = subtitles;
     }
 
     void DialogCharacterController::toggleViewMode()

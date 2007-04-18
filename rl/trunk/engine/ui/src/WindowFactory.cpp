@@ -21,7 +21,6 @@
 #include "CharacterSheetWindow.h"
 #include "CharacterStateWindow.h"
 #include "CloseConfirmationWindow.h"
-#include "CommandMapperWindow.h"
 #include "Console.h"
 #include "ContainerContentWindow.h"
 #include "CoreSubsystem.h"
@@ -66,10 +65,24 @@ using namespace Ogre;
 namespace rl {
 
 	WindowFactory::WindowFactory()
-		: mShownObject(NULL),
-		  mObjectNameText(NULL),
-          mMainMenuWindow(NULL),
-          mInventoryWindow(NULL)
+		: mGameLogger(NULL),
+		mCharacterStateWindow(NULL),
+        mDialogWindow(NULL),
+		mInGameMenuWindow(NULL),
+		mCharacterSheet(NULL),
+		mJournalWindow(NULL),
+		mInventoryWindow(NULL),
+		mLogWindow(NULL),
+		mDebugWindow(NULL),
+		mConsole(NULL),
+		mInfoPopup(NULL),
+		mObjectNameText(NULL),
+		mShownObject(NULL),
+		mObjectDescriptionWindow(NULL),
+        mDataLoadingProgressWindow(NULL),
+        mMainMenuWindow(NULL),
+        mCloseConfirmationWindow(NULL),
+        mGameSettings(NULL)
     {
     }
 
@@ -142,17 +155,6 @@ namespace rl {
 	void WindowFactory::showContainerContent(Container* container)
 	{
         (new ContainerContentWindow(container))->setVisible(true);
-	}
-
-	bool WindowFactory::showInputOptionsMenu(Creature* actionHolder)
-	{
-		CommandMapperWindow* wnd =
-			new CommandMapperWindow(
-				actionHolder,
-				NULL);
-		wnd->setVisible(true);
-
-		return true;
 	}
 
 	void WindowFactory::showMessageWindow(const CeGuiString& message)
@@ -357,27 +359,6 @@ namespace rl {
 		}
 	}
 
-	void WindowFactory::showDialog(DialogCharacter* bot)
-	{
-		if (bot->getDialogCharacter() == NULL)
-		{
-			bot->setDialogCharacter(UiSubsystem::getSingleton().getActiveCharacter());
-		}
-
-		UiSubsystem::getSingleton().setCharacterController(CharacterController::CTRL_DIALOG);
-		DialogCharacterController* controller =
-			dynamic_cast<DialogCharacterController*>(
-				UiSubsystem::getSingleton().getCharacterController());
-
-		SubtitleWindow* subtitleWnd = new SubtitleWindow();
-		controller->setSubtitleWindow(subtitleWnd);
-		controller->setDialogPartner(bot->getDialogPartner()->getActor());
-
-		DialogWindow* dialogWnd = new DialogWindow(bot, mGameLogger, controller);
-		controller->setDialogWindow(dialogWnd);
-		dialogWnd->start();
-	}
-
 	void WindowFactory::showLogfiles()
 	{
 		(new LogWindow())->setVisible(true);
@@ -394,37 +375,6 @@ namespace rl {
 		{
 			mInfoPopup->showQuestBookChange();
 		}
-	}
-
-	void WindowFactory::showObjectName(GameObject* object)
-	{
-		//static Ogre::String NODENAME = "ObjectDescription";
-
-		//if (object == NULL)
-		//{
-		//	if (mObjectNameText != NULL)
-		//	{
-		//		ActorManager::getSingleton().destroyActor(mObjectNameText);
-		//		mObjectNameText = NULL;
-		//	}
-		//}
-		//else
-		//{
-		//	if (object != mShownObject)
-		//	{
-		//		if (mObjectNameText == NULL)
-		//		{
-		//			mObjectNameText = ActorManager::getSingleton().createTextActor(NODENAME, object->getName());
-		//		}
-		//		else
-		//		{
-		//			dynamic_cast<MovableText*>(mObjectNameText->getControlledObject())
-		//				->setCaption(object->getName().c_str());
-		//			mObjectNameText->removeFromScene();
-		//		}
-		//		object->getActor()->attach(mObjectNameText);
-		//	}
-		//}
 	}
 
 	void WindowFactory::showObjectDescription(GameObject* object)
@@ -464,5 +414,14 @@ namespace rl {
                 + ", "
                 + StringConverter::toString(wnd->getPixelSize().d_height));
         }
+    }
+
+	DialogWindow* WindowFactory::getDialogWindow()
+    {
+        if (mDialogWindow == NULL)
+        {
+            mDialogWindow = new DialogWindow(mGameLogger);
+        }
+        return mDialogWindow;
     }
 }

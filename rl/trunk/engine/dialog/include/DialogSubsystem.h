@@ -72,6 +72,7 @@ namespace rl
 		 * Set the DialogCharacter loaded from ruby
 		 */
 		void setCurrentDialogCharacter(DialogCharacter* bot);
+		DialogCharacter* getCurrentDialogCharacter() const;
 
 	private:
 		void initialize();

@@ -26,8 +26,8 @@ using namespace Ogre;
 
 namespace rl {
 
-	CutsceneCharacterController::CutsceneCharacterController(Actor* camera)
-		: CharacterController(camera, NULL)
+	CutsceneCharacterController::CutsceneCharacterController(CommandMapper* cmdMapper,
+        Actor* camera) : CharacterController(cmdMapper, camera, NULL)
 	{
 		mCameraActor->getPhysicalThing()->freeze();
 		Camera* ogreCam = static_cast<Camera*>(mCameraActor->_getMovableObject());
@@ -40,6 +40,14 @@ namespace rl {
 		mCameraActor->getPhysicalThing()->unfreeze();
 	}
 
+    void CutsceneCharacterController::pause()
+    {
+    }
+
+    void CutsceneCharacterController::resume()
+    {
+    }
+
 	void CutsceneCharacterController::run(Ogre::Real elapsedTime)
 	{
 	}
@@ -50,11 +58,6 @@ namespace rl {
 
     void CutsceneCharacterController::resetCamera()
 	{
-	}
-
-	CharacterController::ControllerType CutsceneCharacterController::getType() const
-	{
-		return CTRL_CUTSCENE;
 	}
 
     void CutsceneCharacterController::setCameraPosition(const Ogre::Vector3& pos)
@@ -75,6 +78,6 @@ namespace rl {
 
     bool CutsceneCharacterController::injectKeyUp(int keycode)
 	{
-		return startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT));		
+		return startAction(mCommandMapper->getControlStateAction(keycode, CST_CUTSCENE));		
 	}
 }

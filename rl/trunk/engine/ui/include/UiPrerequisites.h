@@ -37,4 +37,17 @@
 #   define _RlUiExport
 #endif
 
+// Important types. Probably will have to be relocated, though it is used throughout RlUi.
+namespace rl
+{
+    enum ControlStateType 
+    {
+	    CST_NONE = 1,
+	    CST_FREEFLIGHT,
+	    CST_MOVEMENT,
+	    CST_DIALOG,
+	    CST_CUTSCENE,
+	    CST_COMBAT,
+    };
+}
 #endif

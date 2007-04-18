@@ -101,7 +101,8 @@ namespace rl {
         processNodes(nodes, sceneManager, mSceneNode);
 
         // Find out, if static geometry should be used
-        Ogre::String temp = ConfigurationManager::getSingleton().getStringSetting(ConfigurationManager::CS_GRAPHICS, "Use Static Geometry");
+        Ogre::String temp = ConfigurationManager::getSingleton().getStringSetting(
+            "Video", "Use Static Geometry");
         bool useStaticGeometry;
 
         if (temp == "yes")

@@ -34,10 +34,10 @@ namespace rl {
 	class _RlUiExport DialogWindow : public AbstractWindow
 	{
 	public:
-		DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger, DialogCharacterController* controller);
+		DialogWindow(GameLoggerWindow* gamelogger);
 		~DialogWindow();
 
-		void initialize();
+        void initialize(DialogCharacterController* controller, DialogCharacter* character);
 
 		void getResponse(const CeGuiString& msg);
 		unsigned int count();
@@ -48,7 +48,7 @@ namespace rl {
 
 		void textFinished();
 
-		void start();
+        void start();
 
 	private:
 		enum DialogState

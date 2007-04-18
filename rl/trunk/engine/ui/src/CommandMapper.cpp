@@ -14,41 +14,42 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#include "CommandMapper.h"
-#include "UiSubsystem.h"
-#include "Person.h"
-#include "Exception.h"
 #include "Action.h"
 #include "ActionManager.h"
+#include "CommandMapper.h"
+#include "ConfigurationManager.h"
+#include "Exception.h"
 #include "InputManager.h"
+#include "Person.h"
+#include "UiSubsystem.h"
 #include <OgreConfigFile.h>
 
 using namespace Ogre;
-using namespace std;
 
 namespace rl {
 
     CommandMapper::CommandMapper()
         : mMovementCommands(),
-          mKeyCommandsInCombat(),
-          mKeyCommandsOffCombat(),
-          mKeyCommandsGlobal(),
-          mMouseCommandsInCombat(),
-          mMouseCommandsOffCombat()
+        mKeyGlobalActions(),
+        mKeyMovementControlState(),
+        mKeyFreeflightControlState(),
+        mKeyDialogControlState(),
+        mKeyCombatControlState(),
+        mKeyCutsceneControlState()
     {
+        buildCommandMapping();
     }
 
     CommandMapper::~CommandMapper()
     {
     }
 
-    const CeGuiString& CommandMapper::getAction(int keyCodeOrMouseButton, MapType mapType)
+    const CeGuiString& CommandMapper::getGlobalAction(int keyCodeOrMouseButton)
     {
-        KeyAndMouseCommandMap* commandMap = getCommandMap(mapType);
+        KeyAndMouseCommandMap::const_iterator command =
+            mKeyGlobalActions.find(keyCodeOrMouseButton);
 
-        KeyAndMouseCommandMap::const_iterator command = commandMap->find(keyCodeOrMouseButton);
-
-        if (command != commandMap->end())
+        if (command != mKeyGlobalActions.end())
         {
             return (*command).second;
         }
@@ -57,55 +58,39 @@ namespace rl {
         return NO_ACTION;
     }
 
-
-    void CommandMapper::setMapping(
-            MapType mapType,
-            int code,
-            const CeGuiString& actionName)
+    const CeGuiString& CommandMapper::getControlStateAction(int keyCodeOrMouseButton,
+        ControlStateType type)
     {
-        getCommandMap(mapType)->insert(make_pair(code, actionName));
-    }
+        const KeyAndMouseCommandMap& mapping = getControlStateMapping(type);
 
-    CommandMapper::KeyAndMouseCommandMap* CommandMapper::getCommandMap(MapType mapType)
-    {
-        KeyAndMouseCommandMap* commandMap;
-
-        if (mapType == CMDMAP_KEYMAP_OFF_COMBAT)
-            commandMap = &mKeyCommandsOffCombat;
-        else if (mapType == CMDMAP_KEYMAP_IN_COMBAT)
-            commandMap = &mKeyCommandsInCombat;
-        else if (mapType == CMDMAP_KEYMAP_GLOBAL)
-            commandMap = &mKeyCommandsGlobal;
-        else if (mapType == CMDMAP_MOUSEMAP_OFF_COMBAT)
-            commandMap = &mMouseCommandsOffCombat;
-        else if (mapType == CMDMAP_MOUSEMAP_IN_COMBAT)
-            commandMap = &mMouseCommandsInCombat;
-        else
-            Throw(RuntimeException, "Unknown command map");
-
-        return commandMap;
-    }
-
-    int CommandMapper::getMapping(
-            MapType mapType,
-            const CeGuiString& actionName)
-    {
-        if (mapType == CMDMAP_KEYMAP_MOVEMENT)
+        KeyAndMouseCommandMap::const_iterator command = mapping.find(keyCodeOrMouseButton);
+        if (command != mapping.end())
         {
-            return 0;
+            return (*command).second;
         }
 
-        KeyAndMouseCommandMap* commandMap = getCommandMap(mapType);
+        static CeGuiString NO_ACTION = "";
+        return NO_ACTION;
+    }
 
-        for (KeyAndMouseCommandMap::iterator command = commandMap->begin();
-                command != commandMap->end(); command++)
+    const CommandMapper::KeyAndMouseCommandMap&
+        CommandMapper::getControlStateMapping(ControlStateType type) const
+    {
+        switch (type)
         {
-            CeGuiString name = (*command).second;
-            if (name.compare(actionName) == 0)
-                return (*command).first;
+        case CST_MOVEMENT:
+            return mKeyMovementControlState;
+        case CST_FREEFLIGHT:
+            return mKeyFreeflightControlState;
+        case CST_CUTSCENE:
+            return mKeyCutsceneControlState;
+        case CST_DIALOG:
+            return mKeyDialogControlState;
+        case CST_COMBAT:
+            return mKeyCombatControlState;
+        default:
+            RlAssert1(false && "Unknown ControlStateType");
         }
-
-        return CMDMAP_NO_MAPPING;
     }
 
     int CommandMapper::encodeKey(int scancode, int syskeys)
@@ -142,114 +127,55 @@ namespace rl {
         }
     }
 
-    void CommandMapper::buildCommandMapping(const Ogre::NameValuePairList& keylist)
+    void CommandMapper::buildCommandMapping()
     {
-        /** @Todo: Replace this with something not static */
-        /*
-        mKeyCommandsGlobal[getKeyCode("F10")] = CeGuiString("toggleingameglobalmenu");
-        mKeyCommandsGlobal[getKeyCode("I")] = CeGuiString("toggleinventorywindow");
-        mKeyCommandsGlobal[getKeyCode("J")] = CeGuiString("showjournalwindow");
-        mKeyCommandsGlobal[getKeyCode("C")] = CeGuiString("showcharactersheet");
-        mKeyCommandsGlobal[getKeyCode("O")] = CeGuiString("togglecharacterstatewindow");
-        */
+        ConfigurationManager* cfgMgr = ConfigurationManager::getSingletonPtr();
+        InputManager* inputMgr = InputManager::getSingletonPtr();
 
-        StringVector keys;
+        // First get the movement commands
+        const NameValuePairList& commands = cfgMgr->getSettings("Movement keys");
 
-        // Extract global actions and movement actions from the list
-        for (Ogre::NameValuePairList::const_iterator it = keylist.begin(); it != keylist.end(); it++)
+        for (NameValuePairList::const_iterator it = commands.begin(); it != commands.end(); it++)
         {
             // Split the path at the ',' character
-            keys = Ogre::StringUtil::split(it->second, ",");
+            StringVector keys = Ogre::StringUtil::split(it->second, ",");
 
-            // We got a movement action
-            if (it->first.find("mov_") != std::string::npos)
+            for (size_t i = 0; i < keys.size(); i++)
             {
-                for (size_t i = 0; i < keys.size(); i++)
-                {
-                    mMovementCommands[InputManager::getSingleton().getScanCode(keys[i])] = getMovement(it->first);
-                    LOG_MESSAGE(Logger::UI,
-                        Ogre::String("Key ") + keys[i] + " ("
-                        + StringConverter::toString(InputManager::getSingleton().getScanCode(keys[i]))
-                        + ") is assigned to movement " + it->first +" ("
-                        + StringConverter::toString(getMovement(it->first))+")");
-                }
+                mMovementCommands[inputMgr->getScanCode(keys[i])] = getMovement(it->first);
+                LOG_MESSAGE(Logger::UI,
+                    Ogre::String("Key ") + keys[i] + " ("
+                    + StringConverter::toString(inputMgr->getScanCode(keys[i]))
+                    + ") is assigned to movement " + it->first +" ("
+                    + StringConverter::toString(getMovement(it->first))+")");
             }
 
-            // We got a global action
-            if (it->first.find("act_") != std::string::npos)
+            buildCommandMap(mKeyGlobalActions, cfgMgr->getSettings("Action keys"));
+            buildCommandMap(mKeyMovementControlState, cfgMgr->getSettings("MovementController keys"));
+            buildCommandMap(mKeyFreeflightControlState, cfgMgr->getSettings("FreeflightController keys"));
+            buildCommandMap(mKeyDialogControlState, cfgMgr->getSettings("DialogController keys"));
+            buildCommandMap(mKeyCombatControlState, cfgMgr->getSettings("CombatController keys"));
+            buildCommandMap(mKeyCutsceneControlState, cfgMgr->getSettings("CutsceneController keys"));
+        }
+    }
+
+    void CommandMapper::buildCommandMap(KeyAndMouseCommandMap& cmdMap,
+        const NameValuePairList& values)
+    {
+        for (NameValuePairList::const_iterator it = values.begin(); it != values.end(); it++)
+        {
+            // Split the path at the ',' character
+            StringVector keys = Ogre::StringUtil::split(it->second, ",");
+
+            for (size_t i = 0; i < keys.size(); i++)
             {
-                for (size_t i = 0; i < keys.size(); i++)
-                {
-                    mKeyCommandsGlobal[getKeyCode(keys[i])] = CeGuiString(it->first);
-                    LOG_MESSAGE(Logger::UI,
-                        Ogre::String("Key ") + keys[i] + " (" + StringConverter::toString(getKeyCode(keys[i]))
-                        + ") is assigned to command " + it->first +" globally");
-                }
+                cmdMap[getKeyCode(keys[i])] = CeGuiString(it->first);
+                LOG_MESSAGE(Logger::UI,
+                    Ogre::String("Key ") + keys[i] + " ("
+                    + StringConverter::toString(getKeyCode(keys[i]))
+                    + ") is assigned to command " + it->first + " globally");
             }
         }
-
-        /*
-
-        for (ConfigFile::SettingsIterator it = cfgfile->getSettingsIterator("Global keys");
-            it.hasMoreElements();)
-        {
-            String key = it.peekNextKey();
-            String setting = it.getNext();
-
-            mKeyCommandsGlobal[getKeyCode(key)] = CeGuiString(setting);
-            LOG_MESSAGE(Logger::UI,
-                Ogre::String("Key ") + key    + " (" + StringConverter::toString(getKeyCode(key))
-                + ") is assigned to command " + setting+" globally");
-        }
-
-        for (ConfigFile::SettingsIterator it = cfgfile->getSettingsIterator("Keys off combat");
-            it.hasMoreElements();)
-        {
-            String key = it.peekNextKey();
-            String setting = it.getNext();
-
-            mKeyCommandsOffCombat[getKeyCode(key)] = CeGuiString(setting);
-            LOG_MESSAGE(Logger::UI,
-                Ogre::String("Key ") + key    + " (" + StringConverter::toString(getKeyCode(key))
-                + ") is assigned to command " + setting+" while not in combat");
-        }
-
-        for (ConfigFile::SettingsIterator it = cfgfile->getSettingsIterator("Keys in combat");
-            it.hasMoreElements();)
-        {
-            String key = it.peekNextKey();
-            String setting = it.getNext();
-
-            mKeyCommandsInCombat[getKeyCode(key)] = CeGuiString(setting);
-            LOG_MESSAGE(Logger::UI,
-                Ogre::String("Key ") + key    + " (" + StringConverter::toString(getKeyCode(key))
-                + ") is assigned to command " + setting+" while in combat");
-        }
-
-        for (ConfigFile::SettingsIterator it = cfgfile->getSettingsIterator("Mouse off combat");
-            it.hasMoreElements();)
-        {
-            String key = it.peekNextKey();
-            String setting = it.getNext();
-
-            mMouseCommandsOffCombat[getMouseButtonCode(key)] = CeGuiString(setting);
-            LOG_MESSAGE(Logger::UI,
-                Ogre::String("Mouse Button ") + key    + " (" + StringConverter::toString(getMouseButtonCode(key))
-                + ") is assigned to command " + setting+" while not in combat");
-        }
-
-        for (ConfigFile::SettingsIterator it = cfgfile->getSettingsIterator("Mouse in combat");
-            it.hasMoreElements();)
-        {
-            String key = it.peekNextKey();
-            String setting = it.getNext();
-
-            mMouseCommandsInCombat[getMouseButtonCode(key)] = CeGuiString(setting);
-            LOG_MESSAGE(Logger::UI,
-                Ogre::String("Mouse Button ") + key    + " (" + StringConverter::toString(getMouseButtonCode(key))
-                + ") is assigned to command " + setting+" while in combat");
-        }
-        */
     }
 
     int CommandMapper::getKeyCode(const Ogre::String &keyDescription)
@@ -286,43 +212,43 @@ namespace rl {
 
     MovementState CommandMapper::getMovement(const Ogre::String &movementDescription)
     {
-        if (movementDescription == "mov_move_left")
+        if (movementDescription == "move_left")
         {
             return MOVE_LEFT;
         }
-        else if (movementDescription == "mov_move_right")
+        else if (movementDescription == "move_right")
         {
             return MOVE_RIGHT;
         }
-        else if (movementDescription == "mov_move_forward")
+        else if (movementDescription == "move_forward")
         {
             return MOVE_FORWARD;
         }
-        else if (movementDescription == "mov_move_backward")
+        else if (movementDescription == "move_backward")
         {
             return MOVE_BACKWARD;
         }
-        else if (movementDescription == "mov_turn_left")
+        else if (movementDescription == "turn_left")
         {
             return TURN_LEFT;
         }
-        else if (movementDescription == "mov_turn_right")
+        else if (movementDescription == "turn_right")
         {
             return TURN_RIGHT;
         }
-        else if (movementDescription == "mov_run")
+        else if (movementDescription == "run")
         {
             return MOVE_RUN;
         }
-        else if (movementDescription == "mov_sneak")
+        else if (movementDescription == "sneak")
         {
             return MOVE_SNEAK;
         }
-        else if (movementDescription == "mov_jump")
+        else if (movementDescription == "jump")
         {
             return MOVE_JUMP;
         }
-        else if (movementDescription == "mov_run_lock")
+        else if (movementDescription == "run_lock")
         {
             return MOVE_RUN_LOCK;
         }
@@ -330,4 +256,3 @@ namespace rl {
         return MOVE_NONE;
     }
 }
-

@@ -30,15 +30,16 @@ namespace rl {
 		/**
 		*  @throw NullPointerException if camera is NULL.
 		*/
-		CutsceneCharacterController(Actor* camera);
+		CutsceneCharacterController(CommandMapper* cmdMapper, Actor* camera);
 		virtual ~CutsceneCharacterController();
 
-		virtual ControllerType getType() const;
+        virtual void pause();
+        virtual void resume();
 
-		void run(Ogre::Real elapsedTime);
+		virtual void run(Ogre::Real elapsedTime);
 
-		void toggleViewMode();
-        void resetCamera();
+		virtual void toggleViewMode();
+        virtual void resetCamera();
 
         void setCameraPosition(const Ogre::Vector3& pos);
         void setCameraOrientation(const Ogre::Quaternion& orient);

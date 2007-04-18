@@ -112,7 +112,12 @@ DialogCharacter* DialogSubsystem::loadBot(const CeGuiString& botName, const CeGu
 	AimlBot<CeGuiString>* bot = mCore->loadBot(botName.c_str(), fileName.c_str());
 //  while processing the bot definition, a DialogCharacter should have been created 
 //  through a ruby script and stored in mCurrentBot
-	if(mCurrentBot != NULL && bot != NULL)
+    if (mCurrentBot == NULL)
+    {
+        mCurrentBot = new DialogCharacter();
+    }
+
+	if(bot != NULL)
 	{
 		mCurrentBot->setBot(bot);
 		mCurrentBot->initialize();
@@ -143,6 +148,11 @@ ResourcePtr DialogSubsystem::getXmlResource(const Ogre::String& filename)
 void DialogSubsystem::setCurrentDialogCharacter(DialogCharacter* bot)
 {
 	mCurrentBot = bot;
+}
+
+DialogCharacter* DialogSubsystem::getCurrentDialogCharacter() const
+{
+    return mCurrentBot;
 }
 
 }

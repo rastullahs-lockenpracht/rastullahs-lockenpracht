@@ -39,16 +39,6 @@ namespace rl {
         MOVE_RUN_LOCK = 1<<9
     };
 
-    enum MapType
-    {
-        CMDMAP_KEYMAP_IN_COMBAT,
-        CMDMAP_KEYMAP_OFF_COMBAT,
-        CMDMAP_KEYMAP_MOVEMENT,
-        CMDMAP_KEYMAP_GLOBAL,
-        CMDMAP_MOUSEMAP_IN_COMBAT,
-        CMDMAP_MOUSEMAP_OFF_COMBAT
-    };
-
     const int CMDMAP_NO_MAPPING = -9999999;
 
     class _RlUiExport CommandMapper
@@ -58,17 +48,6 @@ namespace rl {
         CommandMapper();
         ~CommandMapper();
 
-        /**
-         * Creates the key -> action mapping from the key-value list
-         *
-         * @param keylist key-value list of input options
-         */
-        void buildCommandMapping(const Ogre::NameValuePairList& keylist);
-
-        void setMapping(MapType map, int code, const CeGuiString& actionName);
-
-        int getMapping(MapType map, const CeGuiString& actionName);
-
         std::map<CeGuiString, MovementState> getMovements();
 
         static int encodeKey(int scancode, int syskeys);
@@ -76,9 +55,9 @@ namespace rl {
 
         const MovementState getMovement(int keycode) const;
 
-        // Finde die der Taste oder dem Mausbutton zugeordneten Aktion in der
-        // angegebenen CommandMap
-        const CeGuiString& getAction(int keyCodeOrMouseButton, MapType mapType);
+        /// Get the action name assigned to the key.
+        const CeGuiString& getGlobalAction(int keyCodeOrMouseButton);
+        const CeGuiString& getControlStateAction(int keyCodeOrMouseButton, ControlStateType);
 
     private:
 
@@ -87,19 +66,20 @@ namespace rl {
         typedef std::map<int, MovementState> MovementCommandMap;
 
         MovementCommandMap mMovementCommands;
-        KeyAndMouseCommandMap mKeyCommandsInCombat;
-        KeyAndMouseCommandMap mKeyCommandsOffCombat;
-        KeyAndMouseCommandMap mKeyCommandsGlobal;
-        KeyAndMouseCommandMap mMouseCommandsInCombat;
-        KeyAndMouseCommandMap mMouseCommandsOffCombat;
+        KeyAndMouseCommandMap mKeyGlobalActions;
+        KeyAndMouseCommandMap mKeyMovementControlState;
+        KeyAndMouseCommandMap mKeyFreeflightControlState;
+        KeyAndMouseCommandMap mKeyDialogControlState;
+        KeyAndMouseCommandMap mKeyCombatControlState;
+        KeyAndMouseCommandMap mKeyCutsceneControlState;
 
-        std::map<CeGuiString, MovementState> mMovement;
-
-        KeyAndMouseCommandMap* getCommandMap(MapType mapType);
         int getKeyCode(const Ogre::String& keyDescription);
         int getMouseButtonCode(int buttonNum);
         int getMouseButtonCode(const Ogre::String& buttonDescription);
         MovementState getMovement(const Ogre::String& movementDescription);
+        void buildCommandMapping();
+        void buildCommandMap(KeyAndMouseCommandMap& cmdMap, const Ogre::NameValuePairList& values);
+        const KeyAndMouseCommandMap& getControlStateMapping(ControlStateType) const;
     };
 
 }

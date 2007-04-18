@@ -24,6 +24,7 @@
 #include "CoreSubsystem.h"
 #include "Creature.h"
 #include "Exception.h"
+#include "Person.h"
 #include "PhysicalThing.h"
 #include "World.h"
 
@@ -31,27 +32,30 @@ using namespace Ogre;
 
 namespace rl {
 
-	CharacterController::CharacterController(Actor* camera, Actor* character)
-		: GameTask(),
-		mCameraActor(camera),
-		mCharacterActor(character),
-		mCamBody(0),
-		mCharBody(0),
-        mCommandMapper(NULL)
+	CharacterController::CharacterController(CommandMapper* commandMapper,
+        Actor* camera, Person* character)
+		: mCharacter(character),
+        mCameraActor(camera),
+		mCharacterActor(NULL),
+		mCamBody(NULL),
+		mCharBody(NULL),
+        mCommandMapper(commandMapper)
 	{
-		if (mCameraActor == 0)
+		if (mCameraActor == NULL)
 		{
 			Throw(NullPointerException, "Camera must not be NULL.");
 		}
 
-		if (mCharacterActor != NULL)
+		if (mCharacter != NULL)
 		{
-			if (mCharacterActor->_getSceneNode() == NULL)
+            mCharacterActor = mCharacter->getActor();
+            
+			if (mCharacter != NULL && mCharacterActor->_getSceneNode() == NULL)
 			{
 				Throw(IllegalArgumentException,
 					"character has to be placed in the scene beforehand");
 			}
-            if (mCharacterActor->getPhysicalThing() == NULL)
+            if (mCharacter != NULL && mCharacterActor->getPhysicalThing() == NULL)
 			{
 				Throw(IllegalArgumentException,
 					"character must have a physics proxy");
@@ -96,11 +100,6 @@ namespace rl {
     
     }
 
-	void CharacterController::setCommandMapper(CommandMapper* commandMapper)
-	{
-		mCommandMapper = commandMapper;
-	}
-
 	bool CharacterController::startAction(const CeGuiString& actionName, Creature* character)
 	{
 		if (actionName.length() == 0)
@@ -121,11 +120,4 @@ namespace rl {
 
 		return false;
 	}
-
-    const Ogre::String& CharacterController::getName() const
-    {
-        static String NAME = "CharacterController";
-
-        return NAME;
-    }
 }

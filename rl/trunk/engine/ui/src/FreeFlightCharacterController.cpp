@@ -32,8 +32,9 @@ using namespace Ogre;
 
 namespace rl {
 
-	FreeFlightCharacterController::FreeFlightCharacterController(Actor* camera, Actor* character)
-		: CharacterController(camera, character),
+	FreeFlightCharacterController::FreeFlightCharacterController(CommandMapper* cmdMapper,
+        Actor* camera, Person* character)
+		: CharacterController(cmdMapper, camera, character),
 		mMovementSpeed(5.0f),
 		mSpeedRange(0.03f, 90.0f),
 		mSpeedIncrement(0.02f),
@@ -44,15 +45,39 @@ namespace rl {
         mPitchRange(Degree(-89), Degree(89)),
         mCameraUpConstraint(Vector3::ZERO)
 	{
-		mCameraActor->getPhysicalThing()->freeze();
+        mMouseSensitivity = ConfigurationManager::getSingleton().getIntSetting("Input", "Mouse Sensitivity");
+        mInvertedMouse = ConfigurationManager::getSingleton().getBoolSetting("Input", "Mouse Invert");
+	}
+
+	FreeFlightCharacterController::~FreeFlightCharacterController()
+	{
+	}
+
+    void FreeFlightCharacterController::pause()
+    {
+		mCameraActor->getPhysicalThing()->unfreeze();
+        if(mCameraUpConstraint != Vector3::ZERO)
+            mCameraActor->getPhysicalThing()->setUpConstraint(mCameraUpConstraint);
+		mCharacterActor->getPhysicalThing()->unfreeze();
+        mCameraActor->getPhysicalThing()->setPhysicsController(NULL);
+
+        // Char<->Level collision back to default
+        PhysicsManager::getSingleton().resetMaterialPair(
+            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("default"));
+        // Char<->Default collision back to default
+        PhysicsManager::getSingleton().resetMaterialPair(
+            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("level"));
+    }
+
+    void FreeFlightCharacterController::resume()
+    {
+        mCameraActor->getPhysicalThing()->freeze();
         mCameraUpConstraint = mCameraActor->getPhysicalThing()->getUpConstraint();
 		mCharacterActor->getPhysicalThing()->freeze();
-        mMouseSensitivity = ConfigurationManager::getSingleton().getIntSetting(ConfigurationManager::CS_INPUT, "Mouse Sensitivity");
-        mInvertedMouse = ConfigurationManager::getSingleton().getBoolSetting(ConfigurationManager::CS_INPUT, "Mouse Invert");
 
-
-		resetCamera();
-
+        resetCamera();
 
         // The actor should be controlled manually,
         // so let the PM prepare it accordingly
@@ -71,20 +96,7 @@ namespace rl {
 		    mesh->stopAllAnimations();
 		    mesh->startAnimation("idle");
         }
-	}
-
-	FreeFlightCharacterController::~FreeFlightCharacterController()
-	{
-		mCameraActor->getPhysicalThing()->unfreeze();
-        if(mCameraUpConstraint != Vector3::ZERO)
-            mCameraActor->getPhysicalThing()->setUpConstraint(mCameraUpConstraint);
-		mCharacterActor->getPhysicalThing()->unfreeze();
-	}
-
-	CharacterController::ControllerType FreeFlightCharacterController::getType() const
-	{
-		return CTRL_FREEFLIGHT;
-	}
+    }
 
 	void FreeFlightCharacterController::run(Real elapsedTime)
 	{
@@ -230,7 +242,16 @@ namespace rl {
 		}
         else
         {
-            startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT));
+            CeGuiString command = mCommandMapper->getControlStateAction(keycode, CST_FREEFLIGHT);
+            if (command == "back_to_character_movement")
+            {
+                InputManager::getSingleton().popControlState();
+                return true;
+            }
+            else
+            {
+                return startAction(command);
+            }
         }
 			
 		return false;

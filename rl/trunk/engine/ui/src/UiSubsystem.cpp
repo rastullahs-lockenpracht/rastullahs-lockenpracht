@@ -66,9 +66,6 @@ namespace rl {
     }
 
     UiSubsystem::UiSubsystem() :
-        mCharacterController(NULL),
-        mCharacterControllerType(CharacterController::CTRL_NONE),
-        mHero(NULL),
         mCharacter(NULL),
         mInputManager(NULL),
         mWindowFactory(NULL),
@@ -87,9 +84,6 @@ namespace rl {
 
         delete mWindowFactory;
         delete mWindowManager;
-
-        GameLoop::getSingleton().removeTask(mCharacterController);
-        delete mCharacterController;
 
         delete mInputManager;
 
@@ -151,19 +145,7 @@ namespace rl {
         LOG_MESSAGE2(Logger::UI, "InputManager started.",
             "UiSubsystem::initializeUiSubsystem");
 
-        mInputManager->loadKeyMapping(ConfigurationManager::getSingleton().getKeymap());
-        LOG_MESSAGE2(Logger::UI, "Keymap geladen",
-            "UiSubsystem::initializeUiSubsystem");
-        mInputManager->buildCommandMapping(ConfigurationManager::getSingleton().getInputSettings());
-        LOG_MESSAGE2(Logger::UI, "UI-Manager loaded.",
-            "UiSubsystem::initializeUiSubsystem");
-
         mWindowFactory->initialize();
-
-        ///\XXX Not sensible to call setCharacterController each frame.
-        /// A better control over removed and added tasks will resolve this.
-        /// TG_INPUT is a bit of a stretch, but this doesn't fit anywhere else.
-        GameLoop::getSingleton().addTask(this, GameLoop::TG_INPUT);
     }
 
 
@@ -199,6 +181,7 @@ namespace rl {
             if (person == NULL)
             {
                 mCharacter = NULL;
+                mInputManager->clearControlStates();
             }
             else
             {
@@ -210,115 +193,18 @@ namespace rl {
                 mCharacter->getActor()->attach(SoundManager::getSingleton().getListenerActor());
                 LOG_MESSAGE(Logger::UI, "SoundListener attached.");
 
-                setCharacterController(CharacterController::CTRL_MOVEMENT);
+                // Reset control stack for the new Character and set to movement.
+                mInputManager->setControlState(CST_MOVEMENT);
             }
         }
-    }
-
-    void UiSubsystem::requestCharacterControllerSwitch(CharacterController::ControllerType type)
-    {
-        mCharacterControllerType = type;
-    }
-
-    void UiSubsystem::setCharacterController(CharacterController::ControllerType type)
-    {
-        if (mCharacterController != NULL)
-        {
-            if (mCharacterController->getType() == type)
-                return;
-
-            GameLoop::getSingleton().removeTask(mCharacterController);
-            delete mCharacterController;
-            mCharacterController = NULL;
-            LOG_MESSAGE(Logger::UI,
-                "Old CharacterController deleted.");
-        }
-
-           if( type == CharacterController::CTRL_NONE )
-        {
-            mCharacterController = NULL;
-            return;
-        }
-
-        Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
-        if (camera == NULL)
-        {
-            requestCharacterControllerSwitch(type);
-            return;
-        }
-
-        if (type == CharacterController::CTRL_MOVEMENT)
-        {
-            mCharacterController = new MovementCharacterController(camera, mCharacter);
-            if (!PhysicsManager::getSingleton().isEnabled())
-            {
-                PhysicsManager::getSingleton().setEnabled(true);
-            }
-        }
-        else if (type == CharacterController::CTRL_FREEFLIGHT)
-        {
-            mCharacterController = new FreeFlightCharacterController(camera,
-                mCharacter ? mCharacter->getActor() : NULL);
-        }
-        else if (type == CharacterController::CTRL_DIALOG)
-        {
-            mCharacterController = new DialogCharacterController(camera,
-                mCharacter ? mCharacter->getActor() : NULL);
-        }
-        else if (type == CharacterController::CTRL_CUTSCENE)
-        {
-            mCharacterController = new CutsceneCharacterController(camera);
-        }
-        else if (type == CharacterController::CTRL_COMBAT)
-        {
-            mCharacterController = new CombatCharacterController(camera,
-                mCharacter ? mCharacter->getActor() : NULL);
-        }
-        else
-        {
-            Throw(IllegalArgumentException, "Unknown CharacterControllerType.");
-        }
-        mCharacterControllerType = type;
-
-        mInputManager->setCharacterController(mCharacterController);
-
-        LOG_MESSAGE(Logger::UI, "CharacterController created.");
-        GameLoop::getSingleton().addTask(mCharacterController, GameLoop::TG_INPUT);
-        LOG_MESSAGE(Logger::UI, "CharacterController task added.");
-    }
-
-    void UiSubsystem::run(Ogre::Real timeElapsed)
-    {
-        setCharacterController(mCharacterControllerType);
-    }
-
-    CharacterController* UiSubsystem::getCharacterController() const
-    {
-        return mCharacterController;
-    }
-
-    CharacterController::ControllerType UiSubsystem::getCharacterControllerType() const
-    {
-        if (mCharacterController == NULL)
-            return CharacterController::CTRL_NONE;
-
-        return mCharacterController->getType();
     }
 
     void UiSubsystem::onBeforeClearScene()
     {
-        if (mCharacterController != NULL)
-        {
-            setCharacterController(CharacterController::CTRL_NONE);
-            setActiveCharacter(NULL);
-        }
-    }
-
-    const Ogre::String& UiSubsystem::getName() const
-    {
-        static String NAME = "UiSubsystem";
-
-        return NAME;
+        setActiveCharacter(NULL);
+        // Remove control states here too, in case that there has not yet been a
+        // person set active.
+        mInputManager->clearControlStates();
     }
 
     void UiSubsystem::linkKeyToRubyCommand(const CeGuiString &key, const CeGuiString &command)

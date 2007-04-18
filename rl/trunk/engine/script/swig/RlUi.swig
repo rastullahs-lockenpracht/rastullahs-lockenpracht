@@ -24,17 +24,6 @@ class CharacterController
 private:
 	CharacterController(rl::Actor* camera, rl::Actor* character);
 public:
-	enum ControllerType
-	{
-		CTRL_NONE = 1,
-		CTRL_FREEFLIGHT,
-		CTRL_MOVEMENT,
-		CTRL_DIALOG,
-		CTRL_CUTSCENE,
-		CTRL_COMBAT,
-	};
-
-	rl::CharacterController::ControllerType getType();
 
      /**
        *  @throw NullPointerException if camera or character is NULL.
@@ -53,8 +42,6 @@ private:
 public:
 	virtual ~CutsceneCharacterController();
 
-	ControllerType getType() const;
-
 	void toggleViewMode();
     void resetCamera();
 
@@ -72,10 +59,28 @@ public:
 	rl::Person* getActiveCharacter();
 	void setActiveCharacter(rl::Person* chara);
 
-	rl::CharacterController* getCharacterController() const;
-	rl::CharacterController::ControllerType getCharacterControllerType() const;
-	void setCharacterController(rl::CharacterController::ControllerType type);
 	void linkKeyToRubyCommand(const rl::CeGuiString &key, const rl::CeGuiString &command);
+};
+
+enum ControlStateType 
+{
+    CST_NONE = 1,
+    CST_FREEFLIGHT,
+    CST_MOVEMENT,
+    CST_DIALOG,
+    CST_CUTSCENE,
+    CST_COMBAT,
+};
+
+class InputManager
+{
+public:
+    static InputManager& getSingleton(void);
+
+    void pushControlState(rl::ControlStateType);
+    void popControlState();
+private:
+    InputManager();
 };
 
 class GameLoggerWindow
@@ -108,7 +113,6 @@ public:
 	void showContainerContent(rl::Container* container);
 	void showDescriptionWindow(rl::GameObject* obj);
 	void showGameObjectPropsWindow(rl::GameObject* obj);
-	void showDialog(rl::DialogCharacter* bot);
 	void showExitConfirmation();
 	void showJournalWindow();
 	void showLogfiles();

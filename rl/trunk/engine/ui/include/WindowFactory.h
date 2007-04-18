@@ -41,6 +41,7 @@ namespace rl {
 	class DataLoadingProgressWindow;
 	class DebugWindow;
     class DialogCharacter;
+    class DialogWindow;
 	class GameLoggerWindow;
 	class GameObject;
 	class InfoPopup;
@@ -83,15 +84,12 @@ namespace rl {
 		void showContainerContent(Container* container);
 		void showDescriptionWindow(GameObject* obj);
         void showGameObjectPropsWindow(GameObject* obj);
-		void showDialog(DialogCharacter* bot);
         void showExitConfirmation();
-		bool showInputOptionsMenu(Creature* actionHolder);
 		void showJournalWindow();
 		void showLogfiles();
 		void showMessageWindow(const CeGuiString& message);
 		void showMainMenu();
 		void showObjectDescription(GameObject* object);
-		void showObjectName(GameObject* object);
 		void showPlaylist();
 		void showPopupMessage(int popupTypes);
 		/**
@@ -106,7 +104,7 @@ namespace rl {
 		void toggleInGameGlobalMenu();
 		void toggleInventoryWindow();
 
-		InventoryWindow* getInventoryWindow();
+		DialogWindow* getDialogWindow();
 
 		void checkForErrors();
 		GameLoggerWindow* getGameLogger();
@@ -125,6 +123,7 @@ namespace rl {
 
 		GameLoggerWindow* mGameLogger;
 		CharacterStateWindow* mCharacterStateWindow;
+        DialogWindow* mDialogWindow;
 		InGameMenuWindow* mInGameMenuWindow;
 		CharacterSheetWindow* mCharacterSheet;
 		JournalWindow* mJournalWindow;

@@ -23,7 +23,6 @@
 #include <OgreSingleton.h>
 
 #include "CharacterController.h"
-#include "GameTask.h"
 
 // Gar nicht schön, aber ansonsten gibt es unnötige Abhängigkeiten,
 // wenn man die Header hier inkludiert.
@@ -46,7 +45,7 @@ namespace rl {
     class WindowManager;
 
     class _RlUiExport UiSubsystem : public SceneChangeListener,
-        protected Ogre::Singleton<UiSubsystem>, protected GameTask
+        protected Ogre::Singleton<UiSubsystem>
     {
     public:
         static const char* CEGUI_ROOT;
@@ -63,29 +62,9 @@ namespace rl {
         CEGUI::OgreCEGUIRenderer* getGUIRenderer();
         Person* getActiveCharacter() const;
         void setActiveCharacter(Person* person);
-        CharacterController* getCharacterController() const;
-        CharacterController::ControllerType getCharacterControllerType() const;
-
-        /**
-         * Aendert den CharacterController, wird sofort durchgefuehrt
-         * kann Probleme bei Ausfuehrung innerhalb eines Controllers geben,
-         * dann ist @see requestCharacterControllerSwitch empfohlen
-        */
-        void setCharacterController(CharacterController::ControllerType type);
-
-        /**
-         * Aendert den CharacterController nach dem naechsten Frame
-        */
-        void requestCharacterControllerSwitch(CharacterController::ControllerType type);
-
-        void update();
 
         /// from SceneChangeListener
         virtual void onBeforeClearScene();
-
-        virtual void run(Ogre::Real elapsedTime);
-
-        virtual const Ogre::String& getName() const;
 
         void initializeSubsystem();
 
@@ -93,9 +72,6 @@ namespace rl {
         void linkKeyToRubyCommand(const CeGuiString &key, const CeGuiString &command);
 
     private:
-        CharacterController* mCharacterController;
-        CharacterController::ControllerType mCharacterControllerType;
-        GameActor* mHero;
         Person* mCharacter;
 
         // Singletons

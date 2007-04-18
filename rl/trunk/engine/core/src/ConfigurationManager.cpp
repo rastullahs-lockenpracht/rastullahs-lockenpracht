@@ -25,8 +25,6 @@
 
 template<> rl::ConfigurationManager* Ogre::Singleton<rl::ConfigurationManager>::ms_Singleton = 0;
 
-using namespace std;
-
 namespace rl
 {
     ConfigurationManager* ConfigurationManager::getSingletonPtr()
@@ -59,63 +57,67 @@ namespace rl
         mModulesCfgFile = "modules.cfg";
 
         // Setup general default values
-        mGeneralSettings.insert(make_pair("Log Level", "2"));
-        mGeneralSettings.insert(make_pair("Subtitle Speed", "0.0"));
+        addSetting("General", "LogLevel", "2");
+        addSetting("General", "Subtitle Speed", "0.0");
 
         // Setup sound default values
-        mSoundSettings.insert(make_pair("DefaultMusicVolume", "0.4"));
-        mSoundSettings.insert(make_pair("DefaultSoundVolume", "0.9"));
-        mSoundSettings.insert(make_pair("MasterVolume", "1"));
+        addSetting("Sound", "DefaultMusicVolume", "0.4");
+        addSetting("Sound", "DefaultSoundVolume", "0.9");
+        addSetting("Sound", "MasterVolume", "1");
 
         // Setup graphic default values
 #       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-        mGraphicSettings.insert(make_pair("Render System", "Direct3D9 Rendering Subsystem"));
+        addSetting("Video", "Render System", "Direct3D9 Rendering Subsystem");
 #       else
-        mGraphicSettings.insert(make_pair("Render System","OpenGL Rendering Subsystem"));
-        mGraphicSettings.insert(make_pair("RTT Preferred Mode", "FBO"));
+        addSetting("Video", "Render System","OpenGL Rendering Subsystem");
+        addSetting("Video", "RTT Preferred Mode", "FBO");
 #       endif
-        mGraphicSettings.insert(make_pair("Fullscreen", "no"));
-        mGraphicSettings.insert(make_pair("FSAA", "0"));
-        mGraphicSettings.insert(make_pair("Video Mode", "800 x 600"));
-        mGraphicSettings.insert(make_pair("Use Static Geometry", "auto"));
-        mGraphicSettings.insert(make_pair("Max Anisotropy", "1"));
-		mGraphicSettings.insert(make_pair("Cast Shadows", "yes"));
-		mGraphicSettings.insert(make_pair("Shadow Texture Size", "512"));
+        addSetting("Video", "Fullscreen", "no");
+        addSetting("Video", "FSAA", "0");
+        addSetting("Video", "Video Mode", "800 x 600");
+        addSetting("Video", "Use Static Geometry", "auto");
+        addSetting("Video", "Max Anisotropy", "1");
+		addSetting("Video", "Cast Shadows", "yes");
+		addSetting("Video", "Shadow Texture Size", "512");
 
         // Setup input default values
-        mInputSettings.insert(make_pair("Mouse Sensitivity", "4"));
-        mInputSettings.insert(make_pair("Mouse Invert", "no"));
-        mInputSettings.insert(make_pair("mov_turn_left", "Q"));
-        mInputSettings.insert(make_pair("mov_turn_right", "E"));
-        mInputSettings.insert(make_pair("mov_move_left", "A"));
-        mInputSettings.insert(make_pair("mov_move_right", "D"));
-        mInputSettings.insert(make_pair("mov_move_forward", "W"));
-        mInputSettings.insert(make_pair("mov_move_backward", "S"));
-        mInputSettings.insert(make_pair("mov_jump", "Leertaste"));
-        mInputSettings.insert(make_pair("mov_run", "Umschalt links"));
-        mInputSettings.insert(make_pair("mov_sneak", "Strg links"));
-        mInputSettings.insert(make_pair("mov_run_lock", "< | >"));
-        mInputSettings.insert(make_pair("act_quitgame", "Ctrl+X"));
-		mInputSettings.insert(make_pair("act_forcequitgame", "Alt+F4"));
-        mInputSettings.insert(make_pair("act_closecurrentwindow", "Escape"));
-        mInputSettings.insert(make_pair("act_toggleconsole", "Tabulator"));
-        mInputSettings.insert(make_pair("act_toggledebugwindow", "F2"));
-        mInputSettings.insert(make_pair("act_togglegamelogwindow", "F3"));
-        mInputSettings.insert(make_pair("act_toggleviewmode", "F"));
-        mInputSettings.insert(make_pair("act_resetcamera", "0 (Nummernblock)"));
-        mInputSettings.insert(make_pair("act_makescreenshot", "P,Ctrl+P"));
-        mInputSettings.insert(make_pair("act_togglecollisiondebug", "L,Ctrl+L"));
-        mInputSettings.insert(make_pair("act_toggledebugvisualisation", "Ctrl+O"));
-        mInputSettings.insert(make_pair("act_togglevanitymode", "V"));
-        mInputSettings.insert(make_pair("act_usecurrentobjectdefaultaction", "R"));
-        mInputSettings.insert(make_pair("act_toggleinventorywindow", "I"));
-        mInputSettings.insert(make_pair("act_showjournalwindow", "J"));
-        mInputSettings.insert(make_pair("act_showcharactersheet", "C"));
-        mInputSettings.insert(make_pair("act_togglecharacterstatewindow", "O"));
-        mInputSettings.insert(make_pair("act_toggleingameglobalmenu", "F10"));
-        mInputSettings.insert(make_pair("act_togglecharactercontroller", "M"));
-        mInputSettings.insert(make_pair("act_shownextdebugwindowpage", "Ctrl+M"));
-        mInputSettings.insert(make_pair("act_showobjectactions", "U"));
+        addSetting("Input", "Mouse Sensitivity", "4");
+        addSetting("Input", "Mouse Invert", "no");
+
+        addSetting("Movement keys", "turn_left", "Q");
+        addSetting("Movement keys", "turn_right", "E");
+        addSetting("Movement keys", "move_left", "A");
+        addSetting("Movement keys", "move_right", "D");
+        addSetting("Movement keys", "move_forward", "W");
+        addSetting("Movement keys", "move_backward", "S");
+        addSetting("Movement keys", "jump", "Leertaste");
+        addSetting("Movement keys", "run", "Umschalt links");
+        addSetting("Movement keys", "sneak", "Strg links");
+        addSetting("Movement keys", "run_lock", "< | >");
+
+        addSetting("Action keys", "quitgame", "Ctrl+X");
+        addSetting("Action keys", "closecurrentwindow", "Escape");
+        addSetting("Action keys", "toggleconsole", "Tabulator");
+        addSetting("Action keys", "toggledebugwindow", "F2");
+        addSetting("Action keys", "togglegamelogwindow", "F3");
+        addSetting("Action keys", "toggleviewmode", "F");
+        addSetting("Action keys", "resetcamera", "0 (Nummernblock)");
+        addSetting("Action keys", "makescreenshot", "P,Ctrl+P");
+        addSetting("Action keys", "togglecollisiondebug", "L,Ctrl+L");
+        addSetting("Action keys", "toggledebugvisualisation", "Ctrl+O");
+        addSetting("Action keys", "togglevanitymode", "V");
+        addSetting("Action keys", "usecurrentobjectdefaultaction", "R");
+        addSetting("Action keys", "toggleinventorywindow", "I");
+        addSetting("Action keys", "showjournalwindow", "J");
+        addSetting("Action keys", "showcharactersheet", "C");
+        addSetting("Action keys", "togglecharacterstatewindow", "O");
+        addSetting("Action keys", "toggleingameglobalmenu", "F10");
+        addSetting("Action keys", "shownextdebugwindowpage", "Ctrl+M");
+        addSetting("Action keys", "showobjectactions", "U");
+
+        addSetting("FreeflightController keys", "back_to_character_movement", "M");
+
+        addSetting("MovementController keys", "freeflight_mode", "M");
 
         setRastullahCfgPath();
     }
@@ -149,19 +151,17 @@ namespace rl
         return mRastullahLogDirectory;
     }
 
-    Ogre::NameValuePairList ConfigurationManager::getGraphicSettings() const
+    Ogre::NameValuePairList ConfigurationManager::getSettings(const Ogre::String& section) const
     {
-        return mGraphicSettings;
-    }
-
-    Ogre::NameValuePairList ConfigurationManager::getSoundSettings() const
-    {
-        return mSoundSettings;
-    }
-
-    Ogre::NameValuePairList ConfigurationManager::getInputSettings() const
-    {
-        return mInputSettings;
+        SectionMap::const_iterator it = mSettings.find(section);
+        if (it != mSettings.end())
+        {
+            return it->second;
+        }
+        else
+        {
+            return Ogre::NameValuePairList();
+        }
     }
 
     Ogre::StringVector ConfigurationManager::getPluginList() const
@@ -210,97 +210,36 @@ namespace rl
                          "' nicht laden! Defaulteinstellungen werden benutzt.","Configuration");
                 }
 
-                // Set log, modules and OGRE plugin directory
-                if (!configfile->getSetting("LogDirectory", "Paths").empty())
-                {
-                    mRastullahLogDirectory = configfile->getSetting("LogDirectory", "Paths");
-                }
-
-                if (!configfile->getSetting("ModulesDirectory", "Paths").empty())
-                {
-                    mModulesRootDirectory = configfile->getSetting("ModulesDirectory", "Paths");
-                }
-
-                if (!configfile->getSetting("OgrePluginDirectory", "Paths").empty())
-                {
-                    mOgrePluginDirectory = configfile->getSetting("OgrePluginDirectory", "Paths");
-                }
-
-                // Get general settings
                 try
                 {
-                    for (ConfigFile::SettingsIterator it =
-                        configfile->getSettingsIterator("General");
-                        it.hasMoreElements(); it.moveNext())
+                    for (ConfigFile::SectionIterator it = configfile->getSectionIterator();
+                            it.hasMoreElements(); it.moveNext())
                     {
-                        addSetting(CS_GENERAL, it.peekNextKey(), it.peekNextValue());
+                        Ogre::String sectionName = it.peekNextKey();
+                        Ogre::NameValuePairList settings = mSettings[sectionName];
+                        for (ConfigFile::SettingsIterator it =
+                            configfile->getSettingsIterator(sectionName);
+                            it.hasMoreElements(); it.moveNext())
+                        {
+                            settings[it.peekNextKey()] = it.peekNextValue();
+                        }
+                        mSettings[sectionName] = settings;
                     }
                 }
                 catch (Ogre::Exception&)
                 {
                     // Log it as information
                     LOG_WARNING(Logger::CORE, "Configuration File " + cfg_paths[i] +
-                        mRastullahCfgFile +
-                        " does not contain a section 'General'. Defaults will be used.");
-                }
-
-                // Get video settings
-                try
-                {
-                    for (ConfigFile::SettingsIterator it =
-                        configfile->getSettingsIterator("Video");
-                        it.hasMoreElements(); it.moveNext())
-                    {
-                        addSetting(CS_GRAPHICS, it.peekNextKey(), it.peekNextValue());
-                    }
-                }
-                catch (Ogre::Exception&)
-                {
-                    // Log it as information
-                    LOG_WARNING(Logger::CORE, "Configuration File " + cfg_paths[i] +
-                        mRastullahCfgFile +
-                        " does not contain a section 'Video'. Defaults will be used.");
-                }
-
-                // Get sound settings
-                try
-                {
-                    for (ConfigFile::SettingsIterator it =
-                        configfile->getSettingsIterator("Sound");
-                        it.hasMoreElements(); it.moveNext())
-                    {
-                        addSetting(CS_SOUND, it.peekNextKey(), it.peekNextValue());
-                    }
-                }
-                catch (Ogre::Exception&)
-                {
-                    // Log it as information
-                    LOG_WARNING(Logger::CORE, "Configuration File " + cfg_paths[i] +
-                        mRastullahCfgFile +
-                        " does not contain a section 'Video'. Defaults will be used.");
-                }
-
-                // Get input settings
-                try
-                {
-                    for (ConfigFile::SettingsIterator it =
-                        configfile->getSettingsIterator("Input");
-                        it.hasMoreElements(); it.moveNext())
-                    {
-                        addSetting(CS_INPUT, it.peekNextKey(), it.peekNextValue());
-                    }
-                }
-                catch (Ogre::Exception&)
-                {
-                    // Log it as information
-                    LOG_WARNING(Logger::CORE, "Configuration File " + cfg_paths[i] +
-                        mRastullahCfgFile +
-                        " does not contain a section 'Input'. Defaults will be used.");
+                        mRastullahCfgFile + " - Error on parsing.");
                 }
             }
 
             delete configfile;
         }
+
+        mRastullahLogDirectory = findSetting("Paths", "LogDirectory");
+        mModulesRootDirectory = findSetting("Paths", "ModulesDirectory");
+        mOgrePluginDirectory = findSetting("Paths", "OgrePluginDirectory");
 
         if (mRastullahLogDirectory.empty())
         {
@@ -362,22 +301,10 @@ namespace rl
     {
         ConfigFile* cfgfile = new ConfigFile();
 
-        // Create the path list
-        Ogre::NameValuePairList* PathSettings = new Ogre::NameValuePairList();
-        PathSettings->insert(make_pair("ModulesDirectory", mModulesRootDirectory));
-        PathSettings->insert(make_pair("OgrePluginDirectory", mOgrePluginDirectory));
-        PathSettings->insert(make_pair("LogDirectory", mRastullahLogDirectory));
-
-        // Add General settings
-        cfgfile->addSection("General", mGeneralSettings);
-        // Add Path settings
-        cfgfile->addSection("Paths", *PathSettings);
-        // Add Video settings
-        cfgfile->addSection("Video", mGraphicSettings);
-        // Add Sound settings
-        cfgfile->addSection("Sound", mSoundSettings);
-        // Add Input settings
-        cfgfile->addSection("Input", mInputSettings);
+        for (SectionMap::const_iterator it = mSettings.begin(); it != mSettings.end(); ++it)
+        {
+            cfgfile->addSection(it->first, it->second);
+        }
 
 #       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
         cfgfile->save(fs::path("./modules/config/" + mRastullahCfgFile).native_file_string());
@@ -385,121 +312,63 @@ namespace rl
         cfgfile->save(Ogre::String(::getenv("HOME")) + "/.rastullah/" + mRastullahCfgFile);
 #       endif
 
-        // Clean up
-        delete PathSettings;
         delete cfgfile;
     }
 
     Logger::LogLevel ConfigurationManager::getLogLevel() const
     {
-        return static_cast<Logger::LogLevel>(getIntSetting(ConfigurationManager::CS_GENERAL,
+        return static_cast<Logger::LogLevel>(getIntSetting("General",
             "Log Level"));
     }
 
-    Ogre::String ConfigurationManager::getStringSetting(const ConfigurationSection& section,
+    Ogre::String ConfigurationManager::getStringSetting(const Ogre::String& section,
         const Ogre::String& key) const
     {
         // Get the value we are looking for
         return findSetting(section, key);
     }
 
-    int ConfigurationManager::getIntSetting(const ConfigurationSection& section,
+    int ConfigurationManager::getIntSetting(const Ogre::String& section,
         const Ogre::String& key) const
     {
         // Get the value we are looking for
         return Ogre::StringConverter::parseInt(findSetting(section, key));
     }
 
-    bool ConfigurationManager::getBoolSetting(const ConfigurationSection& section,
+    bool ConfigurationManager::getBoolSetting(const Ogre::String& section,
         const Ogre::String& key) const
     {
         // Get the value we are looking for
         return Ogre::StringConverter::parseBool(findSetting(section, key));
     }
 
-    Ogre::Real ConfigurationManager::getRealSetting(const ConfigurationSection& section,
+    Ogre::Real ConfigurationManager::getRealSetting(const Ogre::String& section,
         const Ogre::String& key) const
     {
         // Get the value we are looking for
         return Ogre::StringConverter::parseReal(findSetting(section, key));
     }
 
-    Ogre::String ConfigurationManager::findSetting(const ConfigurationSection& section,
+    Ogre::String ConfigurationManager::findSetting(const Ogre::String& section,
         const Ogre::String& key) const
     {
-        Ogre::NameValuePairList::const_iterator it;
-        const Ogre::NameValuePairList* searchList;
-
-        // Search for the key in the specified section
-        switch (section)
+        SectionMap::const_iterator sectionIt = mSettings.find(section);
+        if (sectionIt != mSettings.end())
         {
-            case CS_GENERAL:
-                searchList = &mGeneralSettings;
-            break;
-            case CS_GRAPHICS:
-                searchList = &mGraphicSettings;
-            break;
-            case CS_SOUND:
-                searchList = &mSoundSettings;
-            break;
-            case CS_INPUT:
-                searchList = &mInputSettings;
-            break;
-            default:
+            Ogre::NameValuePairList::const_iterator it = sectionIt->second.find(key);
 
-            break;
+            if (it != sectionIt->second.end())
+            {
+                return it->second;
+            }
         }
-
-        it = searchList->find(key);
-
-        if (it == searchList->end())
-        {
-            return Ogre::String("");
-        }
-        else
-        {
-            return it->second;
-        }
+        return "";
     }
 
-    void ConfigurationManager::addSetting(const ConfigurationSection& section,
+    void ConfigurationManager::addSetting(const Ogre::String& section,
         const Ogre::String& key, const Ogre::String& value)
     {
-        Ogre::NameValuePairList::iterator it;
-        Ogre::NameValuePairList* addList;
-
-        // Get the section, where the key is inserted
-        switch (section)
-        {
-            case CS_GENERAL:
-                addList = &mGeneralSettings;
-                break;
-            case CS_GRAPHICS:
-                addList = &mGraphicSettings;
-                break;
-            case CS_SOUND:
-                addList = &mSoundSettings;
-                break;
-            case CS_INPUT:
-                addList = &mInputSettings;
-                break;
-            default:
-                break;
-        }
-
-        // Find out, if key exist
-        it = addList->find(key);
-
-        if (it == addList->end())
-        {
-            // Key does not exist, insert
-            addList->insert(make_pair(key, value));
-        }
-        else
-        {
-            // Key does exist, update
-            it->second = value;
-        }
+        mSettings[section][key] = value;
     }
 
     Ogre::String ConfigurationManager::getKeymap() const

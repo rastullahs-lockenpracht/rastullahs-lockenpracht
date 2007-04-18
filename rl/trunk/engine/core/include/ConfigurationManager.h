@@ -44,14 +44,6 @@ namespace rl
     class _RlCoreExport ConfigurationManager : protected Ogre::Singleton<ConfigurationManager>
     {
         public:
-            /// Sections where settings can be queried from
-            enum ConfigurationSection
-            {
-                CS_GENERAL = 1,
-                CS_GRAPHICS,
-                CS_SOUND,
-                CS_INPUT
-            };
 
             ~ConfigurationManager();
 
@@ -133,7 +125,7 @@ namespace rl
              * @param key The key of the key-value pair
              * @param value The value of the key-value pair
              */
-            void addSetting(const ConfigurationSection& section, const Ogre::String& key, const Ogre::String& value);
+            void addSetting(const Ogre::String& section, const Ogre::String& key, const Ogre::String& value);
 
             /**
              * Returns the string value for a specific key in a specific section
@@ -142,7 +134,7 @@ namespace rl
              * @param key The key, for which a value will be returned
              * @return string value for the specific key in the specific section
              */
-            Ogre::String getStringSetting(const ConfigurationSection& section, const Ogre::String& key) const;
+            Ogre::String getStringSetting(const Ogre::String& section, const Ogre::String& key) const;
 
             /**
              * Returns the int value for a specific key in a specific section
@@ -151,7 +143,7 @@ namespace rl
              * @param key The key, for which a value will be returned
              * @return int value for the specific key in the specific section
              */
-            int getIntSetting(const ConfigurationSection& section, const Ogre::String& key) const;
+            int getIntSetting(const Ogre::String& section, const Ogre::String& key) const;
 
             /**
              * Returns the boolean value for a specific key in a specific section
@@ -160,7 +152,7 @@ namespace rl
              * @param key The key, for which a value will be returned
              * @return boolean value for the specific key in the specific section
              */
-            bool getBoolSetting(const ConfigurationSection& section, const Ogre::String& key) const;
+            bool getBoolSetting(const Ogre::String& section, const Ogre::String& key) const;
 
             /**
              * Returns the real value for a specific key in a specific section
@@ -169,28 +161,14 @@ namespace rl
              * @param key The key, for which a value will be returned
              * @return real value for the specific key in the specific section
              */
-            Ogre::Real getRealSetting(const ConfigurationSection& section, const Ogre::String& key) const;
+            Ogre::Real getRealSetting(const Ogre::String& section, const Ogre::String& key) const;
 
             /**
-             * Returns a pointer to the graphical settings for the OGRE renderer
-             *
+             * Returns a pointer to the settings of the named section.
+             * @param section name of the section to get settings of.
              * @return key-value list of graphic settings
              */
-            Ogre::NameValuePairList getGraphicSettings() const;
-
-            /**
-             * Returns a pointer to the sound settings for the Rl::SoundManager
-             *
-             * @return key-value list of sound settings
-             */
-            Ogre::NameValuePairList getSoundSettings() const;
-
-            /**
-             * Returns the input settings for the CommandMapper
-             *
-             * @return key-value list of input settings
-             */
-            Ogre::NameValuePairList getInputSettings() const;
+            Ogre::NameValuePairList getSettings(const Ogre::String& section) const;
 
             /**
              * Returns a list of Ogre plugins specific to the OS
@@ -236,6 +214,7 @@ namespace rl
             void saveConfig() const;
 
         private:
+
             /**
              * Constructs a new ConfigurationManager object.
              *
@@ -276,7 +255,7 @@ namespace rl
              * @param key The key, for which a value will be returned
              * @return value if key exits, otherwise NULL
              */
-            Ogre::String findSetting(const ConfigurationSection& section, const Ogre::String& key) const;
+            Ogre::String findSetting(const Ogre::String& section, const Ogre::String& key) const;
 
             Ogre::String mRastullahCfgFile;           //!< Filename of the Rastullah configuration file
             Ogre::String mOgreLogFile;                //!< Filename of the logfile written by OGRE
@@ -287,12 +266,12 @@ namespace rl
             Ogre::String mRastullahLogDirectory;      //!< Directory where all logfiles are stored
             Ogre::String mRastullahCfgPath;           //!< List of directories containing Rastullah configuration files
             Ogre::String mOgrePluginDirectory;        //!< Directory where OGRE stores its plugins
-            Ogre::NameValuePairList mGeneralSettings; //!< General settings for Rastullah
-            Ogre::NameValuePairList mGraphicSettings; //!< Graphic settings for the OGRE Renderer
-            Ogre::NameValuePairList mSoundSettings;   //!< Sound settings for the Rastullah soundsystem
-            Ogre::NameValuePairList mInputSettings;   //!< Input settings for the Rastullah inputsystem
             Ogre::StringVector mModuleList;           //!< List of Rastullah game modules
             Ogre::StringVector mPluginList;           //!< List of OGRE Plugins, which will be loaded by CoreSubsystem
+
+            typedef std::map<Ogre::String, Ogre::NameValuePairList> SectionMap;
+            /// Stores settings per section in a NameValuePairList
+            SectionMap mSettings;                     
     };
 }
 

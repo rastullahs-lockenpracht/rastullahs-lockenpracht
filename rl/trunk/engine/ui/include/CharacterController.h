@@ -26,47 +26,39 @@ namespace rl {
     class Actor;
 	class CommandMapper;
 	class Creature;
+    class Person;
 
     /**
      * This class handles character control via user input.
      */
-	class _RlUiExport CharacterController : public GameTask
+	class _RlUiExport CharacterController
     {
 	public:
-
-		enum ControllerType 
-		{
-			CTRL_NONE = 1,
-			CTRL_FREEFLIGHT,
-			CTRL_MOVEMENT,
-			CTRL_DIALOG,
-			CTRL_CUTSCENE,
-			CTRL_COMBAT,
-		};
 
         /**
          *  @throw NullPointerException if camera or character is NULL.
          *  @throw InvalidArgumentException if character is not placed in the scene.
          */
-        CharacterController(Actor* camera, Actor* character);
+        CharacterController(CommandMapper* commandMapper, Actor* camera, Person* character);
 		virtual ~CharacterController()= 0;
-
-		void setCommandMapper(CommandMapper* mapper);
-
-		virtual ControllerType getType() const = 0;
 
 		virtual void toggleViewMode() = 0;
 		virtual void resetCamera() = 0;
+
+        virtual void pause() = 0;
+        virtual void resume() = 0;
+
+        virtual void run(Ogre::Real elapsedTime) = 0;
 
 		virtual bool injectMouseDown(int mouseButtonMask) { return false; }
 		virtual bool injectMouseUp(int mouseButtonMask) { return false; }
 		virtual bool injectKeyDown(int keycode) { return false; }
 		virtual bool injectKeyUp(int keycode) { return false; }	
 
-        virtual const Ogre::String& getName() const;
-
 	protected:
 		static bool startAction(const CeGuiString& actionName, Creature* character = NULL);
+
+        Person* mCharacter;
 
         Actor* mCameraActor;
         Actor* mCharacterActor;

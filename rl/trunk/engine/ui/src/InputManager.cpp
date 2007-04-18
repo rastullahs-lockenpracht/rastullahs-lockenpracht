@@ -34,13 +34,17 @@
 #include "ActorManager.h"
 #include "AbstractWindow.h"
 #include "CharacterController.h"
+#include "ConfigurationManager.h"
 #include "CommandMapper.h"
 #include "Console.h"
 #include "CoreSubsystem.h"
+#include "CutsceneCharacterController.h"
 #include "DebugWindow.h"
-#include "DialogWindow.h"
+#include "DialogCharacterController.h"
+#include "FreeFlightCharacterController.h"
 #include "GameLoop.h"
 #include "GameObject.h"
+#include "MovementCharacterController.h"
 #include "RubyInterpreter.h"
 #include "UiSubsystem.h"
 #include "WindowFactory.h"
@@ -62,16 +66,23 @@ namespace rl {
         mKeyMapShift(),
         mKeyMapAlt(),
         mKeyNames(),
-        mCharacterController(NULL),
         mCommandMapper(NULL),
         mInputManager(NULL)
     {
         initializeOis(win);
+
+        loadKeyMapping(ConfigurationManager::getSingleton().getKeymap());
+        LOG_MESSAGE2(Logger::UI, "Keymap geladen", "UiSubsystem::initializeUiSubsystem");
+
+        mCommandMapper = new CommandMapper();
+
         GameLoop::getSingleton().addTask(this, GameLoop::TG_INPUT);
     }
 
     InputManager::~InputManager()
     {
+        clearControlStates();
+
         GameLoop::getSingleton().removeTask(this);
         if( mInputManager )
         {
@@ -139,12 +150,11 @@ namespace rl {
     {
         mMouse->capture();
         mKeyboard->capture();
-    }
 
-    void InputManager::setCharacterController(CharacterController* controller)
-    {
-        mCharacterController = controller;
-        mCharacterController->setCommandMapper(mCommandMapper);
+        if (!mControlStates.empty())
+        {
+            mControlStates.top()->run(elapsedTime);
+        }
     }
 
     bool InputManager::mousePressed(const OIS::MouseEvent & e, MouseButtonID id)
@@ -156,10 +166,10 @@ namespace rl {
         }
         else
         {
-            if (mCharacterController != NULL)
+            if (!mControlStates.empty())
             {
-                mCharacterController->
-                    injectMouseDown(CommandMapper::encodeKey(id, getModifierCode()));
+                mControlStates.top()->injectMouseDown(
+                    CommandMapper::encodeKey(id, getModifierCode()));
             }
         }
         return true;
@@ -180,16 +190,11 @@ namespace rl {
                 static_cast<CEGUI::MouseButton>(id));
             // return true;
         }
-        else
-            /// {
-            /// @todo Furchtbarer Hack. Das Ereignis wird durchgeschliffen, damit
-            /// der DialogCharacterController ne Möglichkeit hat den Text abzubrechen.
-            /// Verantwortlichkeit zwischen DialogWindow und Controller ist arg durcheinander
-            /// und die Tatsache, dass ich das als Kommentar in den InputManager schreibe zeigt,
-            /// dass da noch mehr durcheinander ist. ^^
-            if (mCharacterController != NULL)
-                mCharacterController->injectMouseUp(
-                    CommandMapper::encodeKey(id, getModifierCode()));
+        else if (!mControlStates.empty())
+        {
+            mControlStates.top()->injectMouseUp(
+                CommandMapper::encodeKey(id, getModifierCode()));
+        }
 
         return true;
     }
@@ -296,9 +301,9 @@ namespace rl {
                 }
             }
 
-            if (mCharacterController != NULL)
+            if (!mControlStates.empty())
             {
-                mCharacterController->injectKeyDown(code);
+                mControlStates.top()->injectKeyDown(code);
             }
         }
 
@@ -318,16 +323,16 @@ namespace rl {
         {
             int code = CommandMapper::encodeKey(e.key, getModifierCode());
             Action* action = ActionManager::getSingleton().getInGameGlobalAction(
-                mCommandMapper->getAction(code, CMDMAP_KEYMAP_GLOBAL));
+                mCommandMapper->getGlobalAction(code));
             if (action != NULL)
             {
                 action->doAction(NULL, NULL, NULL);
                 LOG_MESSAGE2(Logger::UI, "    invoked action " + action->getName(), "InputManager::keyReleased");
             }
 
-            if (mCharacterController != NULL)
+            if (!mControlStates.empty())
             {
-                mCharacterController->injectKeyUp(e.key);
+                mControlStates.top()->injectKeyUp(e.key);
                 LOG_MESSAGE2(Logger::UI, "    fed to char controller", "InputManager::keyReleased");
             }
         }
@@ -574,22 +579,12 @@ namespace rl {
         return NO_CHAR;
     }
 
-    void InputManager::buildCommandMapping(const Ogre::NameValuePairList& keylist)
-    {
-        if (mCommandMapper == NULL)
-        {
-            mCommandMapper = new CommandMapper();
-        }
-        mCommandMapper->buildCommandMapping(keylist);
-    }
-
     const Ogre::String& InputManager::getName() const
     {
         static Ogre::String NAME = "InputManager";
 
         return NAME;
     }
-
 
     void InputManager::linkKeyToRubyCommand(const CeGuiString &keyStr, const CeGuiString &command)
     {
@@ -627,4 +622,77 @@ namespace rl {
         LOG_MESSAGE(Logger::UI, ss.str());
     }
 
+    void InputManager::setControlState(ControlStateType controlStateType)
+    {
+        while (!mControlStates.empty())
+        {
+            popControlState();
+        }
+        pushControlState(controlStateType);
+    }
+
+    void InputManager::pushControlState(ControlStateType controlStateType)
+    {
+        Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
+        Person* character = UiSubsystem::getSingleton().getActiveCharacter();
+
+        CharacterController* controller = NULL;
+        switch (controlStateType)
+        {
+        case CST_CUTSCENE:
+            controller = new CutsceneCharacterController(mCommandMapper, camera);
+            break;
+        case CST_MOVEMENT:
+            controller = new MovementCharacterController(mCommandMapper, camera, character);
+            break;
+        case CST_FREEFLIGHT:
+            controller = new FreeFlightCharacterController(mCommandMapper, camera, character);
+            break;
+        case CST_DIALOG:
+            controller = new DialogCharacterController(mCommandMapper, camera, character);
+            break;
+        default:
+            Throw(IllegalStateException, "Unknown controller type.");
+        }
+
+        if (!mControlStates.empty())
+        {
+            mControlStates.top()->pause();
+        }
+        mControlStates.push(controller);
+        mControlStates.top()->resume();
+    }
+
+    void InputManager::popControlState()
+    {
+        CharacterController* controller = mControlStates.top();
+        mControlStates.pop();
+        controller->pause();
+        delete controller;
+
+        if (!mControlStates.empty())
+        {
+            mControlStates.top()->resume();
+        }
+    }
+
+    void InputManager::clearControlStates()
+    {
+        while (!mControlStates.empty())
+        {
+            popControlState();
+        }
+    }
+
+    CharacterController* InputManager::getCharacterController() const
+    {
+        if (!mControlStates.empty())
+        {
+            return mControlStates.top();
+        }
+        else
+        {
+            return NULL;
+        }
+    }
 }

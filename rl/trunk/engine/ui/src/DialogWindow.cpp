@@ -44,14 +44,13 @@ const CeGuiString DialogWindow::DIALOG_START = "1";
 const CeGuiString DialogWindow::DIALOG_END = "DIALOG BEENDET";
 const CeGuiString DialogWindow::DIALOG_EXIT = "EXIT";
 
-DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger,
-                           DialogCharacterController* controller)
+DialogWindow::DialogWindow(GameLoggerWindow* gamelogger)
   : AbstractWindow("dialogwindow.xml", WND_MOUSE_INPUT, false),
-	mBot(bot), 
+	mBot(NULL), 
 	mCurrentResponse(NULL),
     mCurrentResponseText(""),
 	mGameLogger(gamelogger),
-	mController(controller),
+	mController(NULL),
     mState( TALKING_PLAYER_CHARACTER )
 {
 	mImage = getWindow("DialogWindow/Image");
@@ -82,8 +81,10 @@ DialogWindow::~DialogWindow()
 	ResourceGroupManager::getSingleton().removeResourceLocation(voiceFile, voiceFile);
 }
 
-void DialogWindow::initialize()
+void DialogWindow::initialize(DialogCharacterController* controller, DialogCharacter* character)
 {
+    mController = controller;
+    mBot = character;
 	
 	// Add 2 ListboxItems, one for the nsc responses, 
 	// one for the player selections
@@ -114,7 +115,11 @@ void DialogWindow::initialize()
 
 void DialogWindow::start()
 {
-	initialize();
+    if (mBot == NULL || mController == NULL)
+    {
+        Throw(IllegalStateException, "DialogWindow not properly initialized.");
+    }
+
 	mName->setText(mBot->getName());
 	getResponse(DIALOG_START);
 }
@@ -189,11 +194,6 @@ void DialogWindow::textFinished()
 		getResponse(mCurrentResponseText);
 	}
 	
-	if (mState == CLOSING_DIALOG)
-	{
-		handleClose();
-	}
-
     LOG_DEBUG(Logger::UI, 
 				StringConverter::toString(mState)
 				+ " bei textFinished" );
@@ -302,9 +302,8 @@ bool DialogWindow::handleSelectOption()
 
 bool DialogWindow::handleClose()
 {
-	UiSubsystem::getSingleton().requestCharacterControllerSwitch(
-		CharacterController::CTRL_MOVEMENT);
-	destroyWindow();
+	InputManager::getSingleton().popControlState();
+	hideWindow();
 	return true;
 }
 

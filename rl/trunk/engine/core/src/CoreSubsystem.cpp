@@ -181,7 +181,7 @@ namespace rl
         for (it = rsl->begin(); it < rsl->end(); it++)
         {
             if ((*it)->getName() == ConfigurationManager::getSingleton().getStringSetting(
-                ConfigurationManager::CS_GRAPHICS, "Render System"))
+                "Video", "Render System"))
             {
                 // Select and initialise the render system
                 mOgreRoot->setRenderSystem(*it);
@@ -206,15 +206,15 @@ namespace rl
 
         // Get width and height of the RenderWindow from the "Video Mode" setting
         Ogre::String VideoMode = ConfigurationManager::getSingleton().getStringSetting(
-            ConfigurationManager::CS_GRAPHICS, "Video Mode");
+            "Video", "Video Mode");
         int temp = VideoMode.find("x");
         int width = Ogre::StringConverter::parseInt(VideoMode.substr(0, temp));
         int height = Ogre::StringConverter::parseInt(VideoMode.substr(temp + 1, VideoMode.size()));
 
         mRenderWindow = mOgreRoot->createRenderWindow(name.str(), width, height,
             ConfigurationManager::getSingleton().getBoolSetting(
-                ConfigurationManager::CS_GRAPHICS, "Fullscreen"),
-                    &ConfigurationManager::getSingleton().getGraphicSettings());
+                "Video", "Fullscreen"),
+                    &ConfigurationManager::getSingleton().getSettings("Video"));
 
         if (!mRenderWindow)
             return false;
@@ -245,7 +245,7 @@ namespace rl
         MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_TRILINEAR);
         MaterialManager::getSingleton().setDefaultAnisotropy(
             ConfigurationManager::getSingleton().getIntSetting(
-                ConfigurationManager::CS_GRAPHICS, "Max Anisotropy"));
+                "Video", "Max Anisotropy"));
 
 
         mWorld = new DotSceneOctreeWorld();
@@ -543,7 +543,7 @@ namespace rl
 
     void CoreSubsystem::loadPlugins()
     {
-        mSoundManager->applySettings(rl::ConfigurationManager::getSingleton().getSoundSettings());
+        mSoundManager->applySettings(rl::ConfigurationManager::getSingleton().getSettings("Sound"));
         LOG_MESSAGE(Logger::CORE, "Soundeinstellungen geladen");
     }
 

@@ -28,13 +28,7 @@
 #include "FixRubyHeaders.h"
 #include "GameTask.h"
 
-//#include <OgreNoMemoryMacros.h>
-//#include <CEGUI.h>
-//#include <OgreMemoryMacros.h>
-
-//namespace CEGUI {
-//    enum MouseButton;
-//}
+#include <stack>
 
 namespace rl {
 
@@ -50,6 +44,7 @@ namespace rl {
             public OIS::MouseListener
     {
     public:
+
         InputManager(Ogre::RenderWindow* window);
         ~InputManager();
 
@@ -83,11 +78,22 @@ namespace rl {
         typedef std::map<int, CEGUI::utf8> KeyCharMap;
         typedef std::map<int, CeGuiString> KeyNameMap;
 
-        void setCharacterController(CharacterController* controller);
-
         virtual const Ogre::String& getName() const;
 
         void linkKeyToRubyCommand(const CeGuiString &key, const CeGuiString &command);
+
+        // State management
+
+        /// Empties the control state stack and sets the control state to the requested state.
+        void setControlState(ControlStateType);
+        /// Put a new state onto the stack, this state is used for input handling from then on.
+        void pushControlState(ControlStateType);
+        /// Remove the current state from the stack and give control back to the former state.
+        void popControlState();
+        /// Remove all control states.
+        void clearControlStates();
+
+        CharacterController* getCharacterController() const;
 
     private:
         enum { NUM_MOUSE_BUTTON=4, NUM_KEYS=256 };
@@ -121,7 +127,8 @@ namespace rl {
         int mNumActiveWindowsKeyboardInput;
         int mNumActiveWindowsAllInput;
 
-        CharacterController* mCharacterController;
+        typedef std::stack<CharacterController*> ControlStateVector;
+        ControlStateVector mControlStates;
     };
 }
 

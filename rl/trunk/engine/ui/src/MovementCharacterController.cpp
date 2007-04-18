@@ -39,6 +39,7 @@
 #include "MeshObject.h"
 #include "MeshAnimation.h"
 #include "MovementCharacterController.h"
+#include "Person.h"
 #include "PhysicsManager.h"
 #include "PhysicsMaterialRaycast.h"
 #include "PhysicalThing.h"
@@ -73,10 +74,10 @@ namespace rl {
 
     }
 
-    MovementCharacterController::MovementCharacterController(Actor* camera, Creature* character)
-        : CharacterController(camera, character->getActor()),
+    MovementCharacterController::MovementCharacterController(CommandMapper* cmdMapper,
+        Actor* camera, Person* character)
+        : CharacterController(cmdMapper, camera, character),
         mCharacterState(),
-        mCharacter(character),
         mDesiredDistance(2.00),
         mDistanceRange(0.60, 7.00),
         mYaw(0),
@@ -112,8 +113,8 @@ namespace rl {
 
 
         mGravitation = PhysicsManager::getSingleton().getGravity();
-        mMouseSensitivity = ConfigurationManager::getSingleton().getIntSetting(ConfigurationManager::CS_INPUT, "Mouse Sensitivity");
-        mInvertedMouse = ConfigurationManager::getSingleton().getBoolSetting(ConfigurationManager::CS_INPUT, "Mouse Invert");
+        mMouseSensitivity = ConfigurationManager::getSingleton().getIntSetting("Input", "Mouse Sensitivity");
+        mInvertedMouse = ConfigurationManager::getSingleton().getBoolSetting("Input", "Mouse Invert");
 
         // The relationCoefficient determines the relation between spring accel in target direction
         // and damping in velocity direction. 1.0 means equilibrium is reached in optimal time
@@ -133,6 +134,53 @@ namespace rl {
         // wird sp�er neu berechnet in calculateOptimalCameraPosition
         mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45f, 0);
 
+        // We want to check for visibility from char's POV.
+        mSelector.setCheckVisibility(true, mCharacterActor);
+    }
+
+    //------------------------------------------------------------------------
+    MovementCharacterController::~MovementCharacterController()
+    {
+        delete mRaycast;
+
+        if (DebugWindow::getSingletonPtr())
+        {
+            DebugWindow::getSingletonPtr()->unregisterPage(msDebugWindowPageName);
+        }
+
+        // Remove debug scene node from character node, if debugview was used.
+        if (mSceneNode != NULL && mSceneNode->getParent() != NULL)
+        {
+            mCharacterActor->_getSceneNode()->removeChild(mSceneNode);
+        }
+    }
+
+    //------------------------------------------------------------------------
+    void MovementCharacterController::pause()
+    {
+        // actors aren't controlled anymore
+        mCharacterActor->getPhysicalThing()->setPhysicsController(NULL);
+        mCameraActor->getPhysicalThing()->setPhysicsController(NULL);
+        // Char<->Level collision back to default
+        PhysicsManager::getSingleton().resetMaterialPair(
+            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("default"));
+        // Char<->Default collision back to default
+        PhysicsManager::getSingleton().resetMaterialPair(
+            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("level"));
+
+        // Unhighlight selected object, if any.
+        GameObject* go = mSelector.getFirstSelectedObject();
+        if (go != NULL && go->isHighlighted())
+        {
+            go->setHighlighted(false);
+        }
+    }
+
+    //------------------------------------------------------------------------
+    void MovementCharacterController::resume()
+    {
         // The actor should be controlled manually,
         // so let the PM prepare it accordingly
         mCharacterActor->getPhysicalThing()->setMaterialID(
@@ -141,6 +189,7 @@ namespace rl {
         mCameraActor->getPhysicalThing()->setMaterialID(
             PhysicsManager::getSingleton().getMaterialID("character"));
         mCameraActor->getPhysicalThing()->setPhysicsController(this);
+
         // We also handle char<->level, char<->default collision from now on
         PhysicsManager::getSingleton().getMaterialPair(
             PhysicsManager::getSingleton().getMaterialID("character"),
@@ -157,58 +206,11 @@ namespace rl {
         mesh->startAnimation("idle");
 
         setViewMode(VM_THIRD_PERSON);
-
-        // We want to check for visibility from char's POV.
-        mSelector.setCheckVisibility(true, mCharacterActor);
-    }
-
-    //------------------------------------------------------------------------
-    MovementCharacterController::~MovementCharacterController()
-    {
-        delete mRaycast;
-        // actors aren't controlled anymore
-        mCharacterActor->getPhysicalThing()->setPhysicsController(NULL);
-        mCameraActor->getPhysicalThing()->setPhysicsController(NULL);
-        // Char<->Level collision back to default
-        PhysicsManager::getSingleton().resetMaterialPair(
-            PhysicsManager::getSingleton().getMaterialID("character"),
-            PhysicsManager::getSingleton().getMaterialID("default"));
-        // Char<->Default collision back to default
-        PhysicsManager::getSingleton().resetMaterialPair(
-            PhysicsManager::getSingleton().getMaterialID("character"),
-            PhysicsManager::getSingleton().getMaterialID("level"));
-
-        if (DebugWindow::getSingletonPtr())
-        {
-            DebugWindow::getSingletonPtr()->unregisterPage(msDebugWindowPageName);
-        }
-
-        // Unhighlight selected object, if any.
-        GameObject* go = mSelector.getFirstSelectedObject();
-        if (go != NULL && go->isHighlighted())
-        {
-            go->setHighlighted(false);
-        }
-
-        // Remove debug scene node from character node, if debugview was used.
-        if (mSceneNode != NULL && mSceneNode->getParent() != NULL)
-        {
-            mCharacterActor->_getSceneNode()->removeChild(mSceneNode);
-        }
-    }
-
-    //------------------------------------------------------------------------
-    CharacterController::ControllerType MovementCharacterController::getType() const
-    {
-        return CTRL_MOVEMENT;
     }
 
     //------------------------------------------------------------------------
     void MovementCharacterController::run(Real elapsedTime)
     {
-        //int movement = mCharacterState.mCurrentMovementState;
-        //updateAnimationState(movement); // lasse updateAnimationState das �dern
-        //updateCharacterState(movement, elapsedTime);
         updateCharacterState(elapsedTime);
         updateCameraLookAt(elapsedTime);
         updateSelection();
@@ -252,7 +254,7 @@ namespace rl {
 
         if (isEnemyNear())
         {
-            UiSubsystem::getSingleton().requestCharacterControllerSwitch(CTRL_COMBAT);
+            RlAssert1(false && "Not yet implemented");
         }
     }
 
@@ -1848,7 +1850,16 @@ namespace rl {
         }
         else
         {
-            return startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT), mCharacter);
+            CeGuiString command = mCommandMapper->getControlStateAction(keycode, CST_MOVEMENT);
+            if (command == "freeflight_mode")
+            {
+                InputManager::getSingleton().pushControlState(CST_FREEFLIGHT);
+                return true;
+            }
+            else
+            {
+                return startAction(command);
+            }
         }
 
         return false;
@@ -1877,8 +1888,8 @@ namespace rl {
     {
         if (!InputManager::getSingleton().isCeguiActive())
         {
-            return startAction(mCommandMapper->getAction(mouseButtonMask,
-                CMDMAP_MOUSEMAP_OFF_COMBAT), mCharacter);
+            return startAction(mCommandMapper->getControlStateAction(mouseButtonMask,
+                CST_MOVEMENT), mCharacter);
         }
         else
         {

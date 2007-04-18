@@ -20,18 +20,13 @@
 #include "Actor.h"
 
 namespace rl {
-    CombatCharacterController::CombatCharacterController(Actor* camera, Actor* character)
-        : CharacterController(camera, character)
+    CombatCharacterController::CombatCharacterController(CommandMapper* cmdMapper,
+        Actor* camera, Person* character) : CharacterController(cmdMapper, camera, character)
     {
     }
 
 	CombatCharacterController::~CombatCharacterController()
     {
-    }
-
-    CharacterController::ControllerType CombatCharacterController::getType() const
-    {
-        return CTRL_COMBAT;
     }
 
 	void CombatCharacterController::run(Ogre::Real elapsedTime)

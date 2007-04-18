@@ -28,10 +28,8 @@ namespace rl {
 		/**
 		*  @throw NullPointerException if camera is NULL.
 		*/
-		CombatCharacterController(Actor* camera, Actor* character);
+		CombatCharacterController(CommandMapper* cmdMapper, Actor* camera, Person* character);
 		virtual ~CombatCharacterController();
-
-		virtual ControllerType getType() const;
 
 		void run(Ogre::Real elapsedTime);
 

@@ -126,7 +126,7 @@ namespace rl {
 		{
 			Ogre::String tmp = 
 				ConfigurationManager::getSingleton().getStringSetting(
-					ConfigurationManager::CS_GRAPHICS, "Cast Shadows" );
+					"Video", "Cast Shadows" );
 			
 			if (tmp == "yes")
 				castShadows = true;
@@ -139,7 +139,7 @@ namespace rl {
 		{
 			int textureSize = 
 				ConfigurationManager::getSingleton().getIntSetting(
-					ConfigurationManager::CS_GRAPHICS, "Shadow Texture Size" );
+					"Video", "Shadow Texture Size" );
 			textureSize = std::max( 64, std::min( 4096, textureSize ) );
 
 			mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE);

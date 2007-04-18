@@ -49,9 +49,11 @@ namespace rl {
          *  @throw NullPointerException if camera or character is NULL.
          *  @throw InvalidArgumentException if character is not placed in the scene.
          */
-        MovementCharacterController(Actor* camera, Creature* character);
+        MovementCharacterController(CommandMapper* cmdMapper, Actor* camera, Person* character);
         virtual ~MovementCharacterController();
-		virtual ControllerType getType() const;
+
+        virtual void pause();
+        virtual void resume();
 
         void run(Ogre::Real elapsedTime);
 
@@ -116,7 +118,6 @@ namespace rl {
         static Ogre::String msDebugWindowPageName;
 
 		CharacterState mCharacterState;// does only refer to the movement caused by the keyboard
-		Creature* mCharacter;
 
         // camera control params
         /// optimal distance to the character
