@@ -16,11 +16,11 @@
 
 namespace rl {
 
-	// Before first use of GameObject or subclasses!
-	%apply SWIGTYPE *DYNAMIC { rl::GameObject * };
+    // Before first use of GameObject or subclasses!
+    %apply SWIGTYPE *DYNAMIC { rl::GameObject * };
         
 
-					
+                    
    template<typename T>
    class Tripel {
    public:
@@ -36,7 +36,7 @@ namespace rl {
       bool operator==(const Tripel& rhs);
       bool operator<(const Tripel& rhs);     
    };
-	
+    
     class Date {
     public:
         static const RL_LONGLONG ONE_SECOND = 1000ULL;
@@ -84,29 +84,29 @@ namespace rl {
     Date operator+(const RL_LONGLONG&, const Date&);
     Date operator-(const RL_LONGLONG&, const Date&);
 
-	class RulesSubsystem 
+    class RulesSubsystem 
     {
-		public:
- 			static rl::RulesSubsystem& getSingleton();
- 			rl::QuestBook* getQuestBook();
- 			void resetQuestBook();
+        public:
+             static rl::RulesSubsystem& getSingleton();
+             rl::QuestBook* getQuestBook();
+             void resetQuestBook();
     };
   
     class DsaManager {
     public:
         RL_LONGLONG getTimestamp();
         Date getCurrentDate();
-		void setTimestamp(const RL_LONGLONG time);
-		void setCurrentDate(const Date& date);
-		
+        void setTimestamp(const RL_LONGLONG time);
+        void setCurrentDate(const Date& date);
+        
         int rollD20();
         Tripel<int> roll3D20();
         int rollD6();
         int roll(int d6, int d20);
       
-	    static DsaManager& getSingleton();
-	    rl::Talent* getTalent(const rl::CeGuiString name) const;
-	    rl::Person* getPerson(const int id) const;
+        static DsaManager& getSingleton();
+        rl::Talent* getTalent(const rl::CeGuiString name) const;
+        rl::Person* getPerson(const int id) const;
     };
     
     class GameObjectProxy
@@ -146,18 +146,18 @@ namespace rl {
     };
 
 
-	%feature("director") QuestListener; 
-	class QuestListener
-	{
-	public:
-		virtual ~QuestListener();
-		
-		virtual void questStateChanged(rl::QuestEvent* anEvent) = 0;
-		virtual void questPartsDoneChanged(rl::QuestEvent* anEvent) = 0;
-		virtual void questKnownChanged(rl::QuestEvent* anEvent) = 0;
-		virtual void questSubquestAdded(rl::QuestEvent* anEvent) = 0;
-		virtual void journalEntryAdded(rl::JournalEvent* anEvent) = 0;
-	};
+    %feature("director") QuestListener; 
+    class QuestListener
+    {
+    public:
+        virtual ~QuestListener();
+        
+        virtual void questStateChanged(rl::QuestEvent* anEvent) = 0;
+        virtual void questPartsDoneChanged(rl::QuestEvent* anEvent) = 0;
+        virtual void questKnownChanged(rl::QuestEvent* anEvent) = 0;
+        virtual void questSubquestAdded(rl::QuestEvent* anEvent) = 0;
+        virtual void journalEntryAdded(rl::JournalEvent* anEvent) = 0;
+    };
 
     class JournalEntry
     {
@@ -170,61 +170,61 @@ namespace rl {
         rl::CeGuiString getText() const;
     };
     
-	class Quest
-	{
-	public:
-		enum State
-		{
-			OPEN = 0,
-			ASSIGNED,
-			FAILED,
-			SUCCEEDED,
-			COMPLETED
-		};
+    class Quest
+    {
+    public:
+        enum State
+        {
+            OPEN = 0,
+            ASSIGNED,
+            FAILED,
+            SUCCEEDED,
+            COMPLETED
+        };
 
-		Quest(const rl::CeGuiString id, const rl::CeGuiString name, const rl::CeGuiString description);
-		virtual ~Quest();
+        Quest(const rl::CeGuiString id, const rl::CeGuiString name, const rl::CeGuiString description);
+        virtual ~Quest();
 
-		const rl::CeGuiString getId();
-		const rl::CeGuiString getName();
-		const rl::CeGuiString getDescription();
-		int getPartsToDo();
-		void setPartsToDo(int partsToDo);
-		int getPartsDone();
-		void setPartsDone(int partsDone);
-		void increasePartsDone(int parts = 1);
-		void decreasePartsDone(int parts = 1);
+        const rl::CeGuiString getId();
+        const rl::CeGuiString getName();
+        const rl::CeGuiString getDescription();
+        int getPartsToDo();
+        void setPartsToDo(int partsToDo);
+        int getPartsDone();
+        void setPartsDone(int partsDone);
+        void increasePartsDone(int parts = 1);
+        void decreasePartsDone(int parts = 1);
 
-		rl::Quest::State getState();
-		void setState(rl::Quest::State state);
-		bool isKnown();
-		void setKnown(bool known);
+        rl::Quest::State getState();
+        void setState(rl::Quest::State state);
+        bool isKnown();
+        void setKnown(bool known);
 
-		// QuestVector getSubquests();
-		void addSubquest(rl::Quest* quest); 
-	};   
-	
-	class QuestEvent
-	{
-	public:
-		rl::Quest* getQuest();
-	private:
-		QuestEvent( rl::QuestBook* src, int reason );
-	};
-	
-	class QuestBook
-	{
-	public:
-		rl::Quest* getQuest(const rl::CeGuiString id);
-		void addQuest(rl::Quest* quest);
-		
-		void addJournalEntry(rl::JournalEntry* entry);
-		void addJournalEntry(rl::CeGuiString caption, rl::CeGuiString text);
-		
-		void addQuestListener(rl::QuestListener* listener);
-		void removeQuestListener(rl::QuestListener* listener);
-	};
-	
+        // QuestVector getSubquests();
+        void addSubquest(rl::Quest* quest); 
+    };   
+    
+    class QuestEvent
+    {
+    public:
+        rl::Quest* getQuest();
+    private:
+        QuestEvent( rl::QuestBook* src, int reason );
+    };
+    
+    class QuestBook
+    {
+    public:
+        rl::Quest* getQuest(const rl::CeGuiString id);
+        void addQuest(rl::Quest* quest);
+        
+        void addJournalEntry(rl::JournalEntry* entry);
+        void addJournalEntry(rl::CeGuiString caption, rl::CeGuiString text);
+        
+        void addQuestListener(rl::QuestListener* listener);
+        void removeQuestListener(rl::QuestListener* listener);
+    };
+    
     class Talent
     {
     public:
@@ -232,14 +232,14 @@ namespace rl {
                const rl::CeGuiString description,
                const Tripel<rl::CeGuiString>& eigenschaften,
                int ebe,
-			   int gruppe,
-			   const rl::CeGuiString art);
+               int gruppe,
+               const rl::CeGuiString art);
 
         bool operator==(const Talent& rhs) const;
         bool operator<(const Talent& rhs) const;
         rl::CeGuiString getName() const;
         rl::CeGuiString getDescription() const;
-		int getEbe() const;
+        int getEbe() const;
 
         /// Berechnet effektive Behinderung bei gegebener Behinderung;
         int calculateEbe(int be) const;
@@ -247,30 +247,30 @@ namespace rl {
     };
 
     class ActionGroup
-	{
-	public:
-		ActionGroup(rl::CeGuiString name, ActionGroup* parent = NULL);
-		~ActionGroup();
-	
-		const rl::CeGuiString getName() const;
-	};
-	
-	%feature("director") Action;   
+    {
+    public:
+        ActionGroup(rl::CeGuiString name, ActionGroup* parent = NULL);
+        ~ActionGroup();
+    
+        const rl::CeGuiString getName() const;
+    };
+    
+    %feature("director") Action;   
     class Action
     {
     public:
-    	static const int ACT_NORMAL = 1<<0;
-		static const int ACT_INVIS_DESC = 1<<1;
-		static const int ACT_DISABLED = 1<<2;
-		static const int ACT_NEEDS_TALENT = 1<<8;
+        static const int ACT_NORMAL = 1<<0;
+        static const int ACT_INVIS_DESC = 1<<1;
+        static const int ACT_DISABLED = 1<<2;
+        static const int ACT_NEEDS_TALENT = 1<<8;
 
-		static const int TC_NO_TARGET = 0;
-		static const int TC_GAMEOBJECT = 1;
-		static const int TC_CREATURE = 2;
-		static const int TC_ITEM = 3;
-		static const int TC_POINT = 4;
-		static const int TC_RADIUS = 5;
-		static const int TC_POINT_AND_RADIUS = 6;
+        static const int TC_NO_TARGET = 0;
+        static const int TC_GAMEOBJECT = 1;
+        static const int TC_CREATURE = 2;
+        static const int TC_ITEM = 3;
+        static const int TC_POINT = 4;
+        static const int TC_RADIUS = 5;
+        static const int TC_POINT_AND_RADIUS = 6;
     
         Action(const rl::CeGuiString name, const rl::CeGuiString description);
         virtual ~Action();
@@ -284,40 +284,40 @@ namespace rl {
         virtual bool canDo(rl::GameObject* object, rl::Creature* actor) const;
             
         void setGroup(rl::ActionGroup* group);
-		rl::ActionGroup* getGroup() const;
+        rl::ActionGroup* getGroup() const;
     };
     
-	%feature("director") ObjectStateChangeListener; 	 
-	class ObjectStateChangeListener 	 
-	{ 	 
-	public: 	 
-		virtual ~ObjectStateChangeListener(); 	 
-		  	 
-		virtual void objectStateChanged(rl::ObjectStateChangeEvent *anEvent) = 0; 	 
-	};
-		 	 
-		  	 
-	class ObjectStateChangeEventSource 	 
-	{ 	 
-	public: 	 
-		ObjectStateChangeEventSource( ); 	 
-		  	 
-		void addObjectStateChangeListener( rl::ObjectStateChangeListener*  list ); 	 
-		void removeObjectStateChangeListener( rl::ObjectStateChangeListener* list ); 	 
-		bool hasListeners( ) const; 	 
-		rl::GameObject* getObject() const;
-		void fireObjectStateChangeEvent(); 	 
-	}; 	 
-		  	 
-	class ObjectStateChangeEvent 	 
-	{ 	 
-	public: 	 
-		ObjectStateChangeEvent( rl::ObjectStateChangeEventSource* src ); 	 
-		rl::GameObject* getProvokingObject() const; 	 
-		rl::ObjectStateChangeEventSource* getSource() const; 	 
-	};
-		    
-	enum GameObjectState
+    %feature("director") ObjectStateChangeListener;      
+    class ObjectStateChangeListener      
+    {      
+    public:      
+        virtual ~ObjectStateChangeListener();      
+               
+        virtual void objectStateChanged(rl::ObjectStateChangeEvent *anEvent) = 0;      
+    };
+              
+               
+    class ObjectStateChangeEventSource      
+    {      
+    public:      
+        ObjectStateChangeEventSource( );      
+               
+        void addObjectStateChangeListener( rl::ObjectStateChangeListener*  list );      
+        void removeObjectStateChangeListener( rl::ObjectStateChangeListener* list );      
+        bool hasListeners( ) const;      
+        rl::GameObject* getObject() const;
+        void fireObjectStateChangeEvent();      
+    };      
+               
+    class ObjectStateChangeEvent      
+    {      
+    public:      
+        ObjectStateChangeEvent( rl::ObjectStateChangeEventSource* src );      
+        rl::GameObject* getProvokingObject() const;      
+        rl::ObjectStateChangeEventSource* getSource() const;      
+    };
+            
+    enum GameObjectState
     {
         GOS_UNDEFINED = 0,
         GOS_UNLOADED,
@@ -328,6 +328,18 @@ namespace rl {
         GOS_READY
     };
     
+    class PropertyHolder
+    {
+    public:
+        virtual rl::PropertySet* getAllProperties() const = 0;
+    };
+    
+    class PropertySet: public PropertyHolder
+    {
+    public:
+        PropertySet();
+        virtual rl::PropertySet* getAllProperties() const;
+    };
     
     %constant unsigned long QUERYFLAG_GAMEOBJECT = rl::QUERYFLAG_GAMEOBJECT;
     %constant unsigned long QUERYFLAG_CREATURE = rl::QUERYFLAG_CREATURE;
@@ -336,7 +348,7 @@ namespace rl {
     %constant unsigned long QUERYFLAG_WEAPON = rl::QUERYFLAG_WEAPON;
     %constant unsigned long QUERYFLAG_ARMOR = rl::QUERYFLAG_ARMOR;
     %constant unsigned long QUERYFLAG_PERSON = rl::QUERYFLAG_PERSON;
-	%constant unsigned long QUERYFLAG_PLAYER = rl::QUERYFLAG_PLAYER;
+    %constant unsigned long QUERYFLAG_PLAYER = rl::QUERYFLAG_PLAYER;
     
     %feature("director") GameObject;
     class GameObject: public ObjectStateChangeEventSource
@@ -354,7 +366,7 @@ namespace rl {
         virtual void setDescription(rl::CeGuiString description);   
         
         void setActor(rl::Actor* actor);
-		rl::Actor* getActor();
+        rl::Actor* getActor();
 
         void addAction(rl::Action *action, int option = ACT_NORMAL);
         void addActionInGroup(Action* action, ActionGroup* group, int option = ACT_NORMAL);
@@ -363,7 +375,7 @@ namespace rl {
         const std::vector<Action*> getValidActions(rl::Creature *actor) const;        
         void setPosition(const Ogre::Vector3& position);
         void setOrientation(const Ogre::Quaternion& orientation);
-	    const Ogre::Quaternion& getOrientation() const;
+        const Ogre::Quaternion& getOrientation() const;
         const Ogre::Vector3& getPosition() const;
         
         void setMeshfile(rl::CeGuiString meshfile);
@@ -371,24 +383,25 @@ namespace rl {
         virtual Action* getDefaultAction(rl::Creature* actor) const;
         
         void doAction(
-			const rl::CeGuiString actionName, 
-			rl::Creature* actor,
+            const rl::CeGuiString actionName, 
+            rl::Creature* actor,
             rl::GameObject* target);
         void doAction(
-			const rl::CeGuiString actionName);
+            const rl::CeGuiString actionName);
         void doAction(rl::Action* action, rl::Creature* actor,
             rl::GameObject* target);
             
         void doDefaultAction(rl::Creature* actor, rl::GameObject* target);
             
-		static const rl::CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
-		static const rl::CeGuiString DEFAULT_VIEW_OBJECT_ACTION_DEBUG;
-		
-		bool isHighlightingEnabled();
+        static const rl::CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
+        static const rl::CeGuiString DEFAULT_VIEW_OBJECT_ACTION_DEBUG;
+        
+        bool isHighlightingEnabled();
         void setHighlightingEnabled( bool highlightenabled );
         
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual rl::PropertySet* getAllProperties() const;
         
         virtual void placeIntoScene();
         void removeFromScene();
@@ -404,24 +417,24 @@ namespace rl {
     class Item : public rl::GameObject {
     public:
         enum ItemType{
-			ITEMTYPE_WEAPON     = 1 << 0,
-			ITEMTYPE_SHIELD     = 1 << 1,
-			ITEMTYPE_RING       = 1 << 2,
-			ITEMTYPE_GLOVES     = 1 << 3,
-			ITEMTYPE_BRACELET   = 1 << 4,
-			ITEMTYPE_ARMOR      = 1 << 5,
-			ITEMTYPE_CAPE       = 1 << 6,
-			ITEMTYPE_BRACERS    = 1 << 7,
-			ITEMTYPE_BACKPACK   = 1 << 8,
-			ITEMTYPE_BELT       = 1 << 9,
-			ITEMTYPE_NECKLACE   = 1 << 10,
-			ITEMTYPE_HELMET     = 1 << 11,
-			ITEMTYPE_TROUSERS   = 1 << 12,
-			ITEMTYPE_SHINBONE   = 1 << 13,
-			ITEMTYPE_BOOTS      = 1 << 14,
-			ITEMTYPE_OTHER      = 1 << 15,
+            ITEMTYPE_WEAPON     = 1 << 0,
+            ITEMTYPE_SHIELD     = 1 << 1,
+            ITEMTYPE_RING       = 1 << 2,
+            ITEMTYPE_GLOVES     = 1 << 3,
+            ITEMTYPE_BRACELET   = 1 << 4,
+            ITEMTYPE_ARMOR      = 1 << 5,
+            ITEMTYPE_CAPE       = 1 << 6,
+            ITEMTYPE_BRACERS    = 1 << 7,
+            ITEMTYPE_BACKPACK   = 1 << 8,
+            ITEMTYPE_BELT       = 1 << 9,
+            ITEMTYPE_NECKLACE   = 1 << 10,
+            ITEMTYPE_HELMET     = 1 << 11,
+            ITEMTYPE_TROUSERS   = 1 << 12,
+            ITEMTYPE_SHINBONE   = 1 << 13,
+            ITEMTYPE_BOOTS      = 1 << 14,
+            ITEMTYPE_OTHER      = 1 << 15,
             ITEMTYPE_ALL_ITEMS  = ~(0)
-		};
+        };
     
         Item(unsigned int id);
         virtual ~Item();
@@ -441,25 +454,25 @@ namespace rl {
     class Weapon : public rl::Item 
     {
     public:
-		enum Distanzklasse { DK_H=0, DK_N, DK_S, DK_P };
+        enum Distanzklasse { DK_H=0, DK_N, DK_S, DK_P };
 
         Weapon(unsigned int id);
         virtual ~Weapon();
                 
-		void setTp(int d6, int d20, int mod);
-		const Tripel<int>& getTp() const;
-		void setTpKk(int base, int step);
-		const std::pair<int, int>& getTpKk() const;
-		void setBf(int newBf);
-		int getBf();
-		void setIni(int newIni);
-		int getIni();
-		void setWm(std::pair<int, int>& newWm);
-		const std::pair<int,int>& getWm() const;
-		void setDk(Weapon::Distanzklasse newDk);
-		Weapon::Distanzklasse getDk();
-		void setKampftechnik(const rl::CeGuiString newKampftechnik);
-		const rl::CeGuiString getKampftechnik() const;
+        void setTp(int d6, int d20, int mod);
+        const Tripel<int>& getTp() const;
+        void setTpKk(int base, int step);
+        const std::pair<int, int>& getTpKk() const;
+        void setBf(int newBf);
+        int getBf();
+        void setIni(int newIni);
+        int getIni();
+        void setWm(std::pair<int, int>& newWm);
+        const std::pair<int,int>& getWm() const;
+        void setDk(Weapon::Distanzklasse newDk);
+        Weapon::Distanzklasse getDk();
+        void setKampftechnik(const rl::CeGuiString newKampftechnik);
+        const rl::CeGuiString getKampftechnik() const;
 
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
@@ -495,46 +508,46 @@ namespace rl {
 
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
-	};
-	
+    };
+    
 
-	%feature("director") Effect;
-	class Effect
-	{
-	public:	
-		typedef unsigned long Status;
-		static const Status STATUS_NONE           = 1<<0;
-		static const Status STATUS_BLIND          = 1<<1;   ///< The creature can't see anything.
-		static const Status STATUS_DEAD           = 1<<2;   ///< The creature is dead.
-		static const Status STATUS_DEAF           = 1<<3;   ///< The creature can't hear anything.
-		static const Status STATUS_PARALYZED      = 1<<4;   ///< The creature can't move, turn, jump etc.
-		static const Status STATUS_INCAPACITATED  = 1<<5;   ///< The creature can't fight anymore due to serious injuries. The creature can barely move.
-		static const Status STATUS_INVISIBLE      = 1<<6;   ///< The creature can't be seen.
-		static const Status STATUS_INVULNERABLE   = 1<<7;   ///< The creature is immune to any mundane attacks.
-		static const Status STATUS_PETRIFIED      = 1<<8;   ///< The creature is coated with stone and has all the effects of paralyzation
-		static const Status STATUS_SILENCED       = 1<<9;   ///< The creature doesn't make any noises.
-		static const Status STATUS_SLEEPING       = 1<<10;  ///< The creature is asleep.
-		static const Status STATUS_UNCONSCIOUS    = 1<<11;  ///< Like SLEEPING, but more difficult to wake.
+    %feature("director") Effect;
+    class Effect
+    {
+    public:    
+        typedef unsigned long Status;
+        static const Status STATUS_NONE           = 1<<0;
+        static const Status STATUS_BLIND          = 1<<1;   ///< The creature can't see anything.
+        static const Status STATUS_DEAD           = 1<<2;   ///< The creature is dead.
+        static const Status STATUS_DEAF           = 1<<3;   ///< The creature can't hear anything.
+        static const Status STATUS_PARALYZED      = 1<<4;   ///< The creature can't move, turn, jump etc.
+        static const Status STATUS_INCAPACITATED  = 1<<5;   ///< The creature can't fight anymore due to serious injuries. The creature can barely move.
+        static const Status STATUS_INVISIBLE      = 1<<6;   ///< The creature can't be seen.
+        static const Status STATUS_INVULNERABLE   = 1<<7;   ///< The creature is immune to any mundane attacks.
+        static const Status STATUS_PETRIFIED      = 1<<8;   ///< The creature is coated with stone and has all the effects of paralyzation
+        static const Status STATUS_SILENCED       = 1<<9;   ///< The creature doesn't make any noises.
+        static const Status STATUS_SLEEPING       = 1<<10;  ///< The creature is asleep.
+        static const Status STATUS_UNCONSCIOUS    = 1<<11;  ///< Like SLEEPING, but more difficult to wake.
 
-		// Meta stati
-		static const Status STATUS_IMMOBILE = STATUS_PARALYZED | STATUS_SLEEPING | STATUS_UNCONSCIOUS | STATUS_PETRIFIED | STATUS_DEAD;
+        // Meta stati
+        static const Status STATUS_IMMOBILE = STATUS_PARALYZED | STATUS_SLEEPING | STATUS_UNCONSCIOUS | STATUS_PETRIFIED | STATUS_DEAD;
 
-		typedef int ModType;
-		static const ModType MODTYPE_NONE         = 1 << 0;
-		static const ModType MODTYPE_SUM      = 1 << 1;   ///< Modifies the actual value.
-		static const ModType MODTYPE_PROBENMOD    = 1 << 2;   ///< Modifies the test.
-		static const ModType MODTYPE_MULT     = 1 << 3;   ///< Will be multiplied on the value.
-		static const ModType MODTYPE_MAXWERTMOD   = 1 << 4;   ///< Modifies only the maximum of the value.
+        typedef int ModType;
+        static const ModType MODTYPE_NONE         = 1 << 0;
+        static const ModType MODTYPE_SUM      = 1 << 1;   ///< Modifies the actual value.
+        static const ModType MODTYPE_PROBENMOD    = 1 << 2;   ///< Modifies the test.
+        static const ModType MODTYPE_MULT     = 1 << 3;   ///< Will be multiplied on the value.
+        static const ModType MODTYPE_MAXWERTMOD   = 1 << 4;   ///< Modifies only the maximum of the value.
 
-		typedef unsigned long ModTag;
-		static const ModTag MODTAG_NONE           = 1 << 0;
-		static const ModTag MODTAG_KRANKHEIT      = 1 << 1;
-		static const ModTag MODTAG_RECALCULATE    = 1 << 2;
-		static const ModTag MODTAG_REGENERATION_LE = 1 << 3;
-		static const ModTag MODTAG_REGENERATION_AE = 1 << 4;
-		static const ModTag MODTAG_REGENERATION_AU = 1 << 5;
+        typedef unsigned long ModTag;
+        static const ModTag MODTAG_NONE           = 1 << 0;
+        static const ModTag MODTAG_KRANKHEIT      = 1 << 1;
+        static const ModTag MODTAG_RECALCULATE    = 1 << 2;
+        static const ModTag MODTAG_REGENERATION_LE = 1 << 3;
+        static const ModTag MODTAG_REGENERATION_AE = 1 << 4;
+        static const ModTag MODTAG_REGENERATION_AU = 1 << 5;
         static const ModTag MODTAG_ERSCHOEPFUNGSSCHWELLE = 1 << 6;
-	
+    
         enum Quantifier
         {
             QUANTIFIER_MULTIPLE,
@@ -555,36 +568,36 @@ namespace rl {
         static const int PERMANENT = 0;
 
 
-		Effect(int stufe = 1);
-		virtual ~Effect();
+        Effect(int stufe = 1);
+        virtual ~Effect();
 
         const rl::CeGuiString getName() const;
         void setName(rl::CeGuiString name);
         const rl::CeGuiString getDescription() const;
         void setDescription(rl::CeGuiString description);
-		Quantifier getQuantifier();
-		void setQuantifier(Quantifier quantifier);
-		virtual const int getStufe();
-		virtual void increaseStufe();
-		virtual void decreaseStufe();
-		virtual void enable();
-		virtual void disable();
-		virtual RL_LONGLONG check() = 0;
+        Quantifier getQuantifier();
+        void setQuantifier(Quantifier quantifier);
+        virtual const int getStufe();
+        virtual void increaseStufe();
+        virtual void decreaseStufe();
+        virtual void enable();
+        virtual void disable();
+        virtual RL_LONGLONG check() = 0;
 
         virtual Status getStatus();
         virtual int getMod(rl::CeGuiString target, ModType type, ModTag tag);
-	};
-	
-	class Inventory 
-	{
+    };
+    
+    class Inventory 
+    {
     private:
         Inventory(rl::Creature* owner);
-	public:
-	    void addSlot(const rl::CeGuiString& name, const Ogre::String& bone, int itemMask);
-	    rl::Item* getItem(const rl::CeGuiString& slotName) const;
-	    void hold(rl::Item* item, const rl::CeGuiString& slot);
-	    void dropItem(const rl::CeGuiString& slotName);
-	};
+    public:
+        void addSlot(const rl::CeGuiString& name, const Ogre::String& bone, int itemMask);
+        rl::Item* getItem(const rl::CeGuiString& slotName) const;
+        void hold(rl::Item* item, const rl::CeGuiString& slot);
+        void dropItem(const rl::CeGuiString& slotName);
+    };
 
     %feature("director") Creature;
     class Creature : public GameObject {
@@ -599,24 +612,24 @@ namespace rl {
         };
         
 
-		// some targets
-		static const std::string Creature::ALL_EIGENSCHAFTEN = "alle Eigenschaften";
-		static const std::string Creature::ALL_TALENTE = "alle Talente";
-		static const Creature::Wert Creature::WERT_MOD_AE = "ModAE";
-		static const Creature::Wert Creature::WERT_MOD_LE = "ModLE";
-		static const Creature::Wert Creature::WERT_MOD_AU = "ModAU";
-		static const Creature::Wert Creature::WERT_MOD_MR = "ModMR";
-		static const Creature::Wert Creature::WERT_MOD_AT = "ModAT";
-		static const Creature::Wert Creature::WERT_MOD_PA = "ModPA";
-		static const Creature::Wert Creature::WERT_MOD_FK = "ModFK";
-		static const Creature::Wert Creature::WERT_GS = "GS";
-		static const Creature::Wert Creature::WERT_SOZIALSTATUS = "SO";
-		static const Creature::Wert Creature::WERT_BE = "BE";
-		static const Creature::Wert Creature::WERT_INI = "INI";
-		static const Creature::Wert Creature::WERT_KAMPFUNFAEHIGKEITSSCHWELLE ="Kampfunfähigkeitsschwelle"; 
-		static const Creature::Wert Creature::WERT_REGENERATION = "Regeneration";
-		
-		
+        // some targets
+        static const std::string Creature::ALL_EIGENSCHAFTEN = "alle Eigenschaften";
+        static const std::string Creature::ALL_TALENTE = "alle Talente";
+        static const Creature::Wert Creature::WERT_MOD_AE = "ModAE";
+        static const Creature::Wert Creature::WERT_MOD_LE = "ModLE";
+        static const Creature::Wert Creature::WERT_MOD_AU = "ModAU";
+        static const Creature::Wert Creature::WERT_MOD_MR = "ModMR";
+        static const Creature::Wert Creature::WERT_MOD_AT = "ModAT";
+        static const Creature::Wert Creature::WERT_MOD_PA = "ModPA";
+        static const Creature::Wert Creature::WERT_MOD_FK = "ModFK";
+        static const Creature::Wert Creature::WERT_GS = "GS";
+        static const Creature::Wert Creature::WERT_SOZIALSTATUS = "SO";
+        static const Creature::Wert Creature::WERT_BE = "BE";
+        static const Creature::Wert Creature::WERT_INI = "INI";
+        static const Creature::Wert Creature::WERT_KAMPFUNFAEHIGKEITSSCHWELLE ="Kampfunfähigkeitsschwelle"; 
+        static const Creature::Wert Creature::WERT_REGENERATION = "Regeneration";
+        
+        
         Creature(unsigned int id);
         virtual ~Creature();
 
@@ -631,16 +644,16 @@ namespace rl {
         virtual void setEigenschaft(const rl::CeGuiString eigenschaftName, int value);
         virtual void modifyEigenschaft(const rl::CeGuiString eigenschaftName, int mod);
 
-		
+        
         void addTalent(const rl::CeGuiString talentName, int value=0);
         virtual int getTalent(const rl::CeGuiString talentName);
         virtual void setTalent(const rl::CeGuiString talentName, int value);
         virtual void modifyTalent(const rl::CeGuiString talentName, int mod);
-		virtual void addSe(const rl::CeGuiString talentName);
-		
-		void addVorteil(const rl::CeGuiString vorteilName, int value = 0);
-		void addNachteil(const rl::CeGuiString nachteilName, int value = 0);		
-		
+        virtual void addSe(const rl::CeGuiString talentName);
+        
+        void addVorteil(const rl::CeGuiString vorteilName, int value = 0);
+        void addNachteil(const rl::CeGuiString nachteilName, int value = 0);        
+        
         void addKampftechnik(const rl::CeGuiString kampftechnikName, std::pair<int,int> value = make_pair(0,0));
         
         virtual int doTalentprobe(const rl::CeGuiString talentName, int modifier);
@@ -648,7 +661,7 @@ namespace rl {
         
         rl::Inventory* getInventory();
         
-		void addEffect(Effect* effect);
+        void addEffect(Effect* effect);
         void addEffectWithCheckTime(Effect* effect, RL_LONGLONG time);
         void addEffectWithCheckDate(Effect* effect, RL_LONGLONG date);
         
@@ -675,56 +688,56 @@ namespace rl {
    class Person : public Creature
    {
    public:
-	    Person(unsigned int id);
+        Person(unsigned int id);
 
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
-	};
-		
-	%feature("director") ActionMananger;
+    };
+        
+    %feature("director") ActionMananger;
     class ActionManager
     {
     public:
         void registerAction(rl::Action* action);
         void unregisterAction(const rl::CeGuiString actionName);
-		rl::Action* getAction(const rl::CeGuiString actionName) const;
+        rl::Action* getAction(const rl::CeGuiString actionName) const;
 
-		void registerInGameGlobalAction(rl::Action* action, rl::ActionGroup* group);
-	
+        void registerInGameGlobalAction(rl::Action* action, rl::ActionGroup* group);
+    
         static rl::ActionManager& getSingleton();
-	};
-	
-	%feature("director") TimerListener;
-	class TimerListener
-	{
-	public:
-		virtual ~TimerLister();
-	  
-  		virtual void timerFired(rl::TimerEvent* anEvent) = 0;
-	};
-	
-	class TimerEventSource
-	{
-	public:
-		static const RL_LONGLONG NO_REPEAT;
+    };
+    
+    %feature("director") TimerListener;
+    class TimerListener
+    {
+    public:
+        virtual ~TimerLister();
+      
+          virtual void timerFired(rl::TimerEvent* anEvent) = 0;
+    };
+    
+    class TimerEventSource
+    {
+    public:
+        static const RL_LONGLONG NO_REPEAT;
 
-		TimerEventSource( const RL_LONGLONG gameTime, const RL_LONGLONG interval = rl::TimerEventSource::NO_REPEAT );
-		TimerEventSource( const rl::Date dsaTime, const rl::Date interval = rl::TimerEventSource::NO_REPEAT );
-	
-		void addTimerListener( rl::TimerListener* ist );
+        TimerEventSource( const RL_LONGLONG gameTime, const RL_LONGLONG interval = rl::TimerEventSource::NO_REPEAT );
+        TimerEventSource( const rl::Date dsaTime, const rl::Date interval = rl::TimerEventSource::NO_REPEAT );
+    
+        void addTimerListener( rl::TimerListener* ist );
         void removeTimerListener( rl::TimerListener* ist );
-	};
-	
-	class TimerEvent
-	{
-	public:
-		TimerEvent( rl::TimerEventSource* src );
-	
-		Ogre::Real getTime();
-		rl::Date getGameTime();
+    };
+    
+    class TimerEvent
+    {
+    public:
+        TimerEvent( rl::TimerEventSource* src );
+    
+        Ogre::Real getTime();
+        rl::Date getGameTime();
 
-		rl::TimerEventSource* getSource() const;
-	};
+        rl::TimerEventSource* getSource() const;
+    };
     
     class MapLoader
     {
