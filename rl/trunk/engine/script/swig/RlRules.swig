@@ -19,7 +19,6 @@ namespace rl {
     // Before first use of GameObject or subclasses!
     %apply SWIGTYPE *DYNAMIC { rl::GameObject * };
         
-
                     
    template<typename T>
    class Tripel {
@@ -328,16 +327,12 @@ namespace rl {
         GOS_READY
     };
     
-    class PropertyHolder
-    {
-    public:
-        virtual rl::PropertySet* getAllProperties() const = 0;
-    };
-    
-    class PropertySet: public PropertyHolder
+    class PropertySet
     {
     public:
         PropertySet();
+        virtual const rl::Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
         virtual rl::PropertySet* getAllProperties() const;
     };
     
