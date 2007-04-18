@@ -22,6 +22,7 @@ $SCRIPT.log("Hero ready")
 wolf = $GOM.createGameObjectProxy("Wolf").getGameObject()
 wolf.placeIntoScene
 wolf.setPosition [0.0,0.0,-5.0]
+wolf.setAlignment(Creature::ALIGNMENT_ENEMY)
 
 $SCRIPT.log("map 'combattest' initialisiert.")
 

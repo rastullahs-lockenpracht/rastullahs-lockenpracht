@@ -17,6 +17,7 @@ $AI = AgentManager.getSingleton();
 $WPGM = WayPointGraphManager.getSingleton();
 $DVM = DebugVisualsManager.getSingleton();
 $SCRIPT = ScriptSubsystem.getSingleton();
+$IM = InputManager.getSingleton();
 
 $GameEveMgr = GameEventManager.getSingleton();
 $AnimMgr = AnimationManager.getSingleton();

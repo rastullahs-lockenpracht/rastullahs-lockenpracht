@@ -3,7 +3,6 @@
 <aiml-startup version='1.0'>
 	<bot name='TestPerson' voice=''>
 		<learn src='testdialog.aiml'/>
-        <script src='dialog.rb' class='DialogCharTest'/>
 	</bot>
 </aiml-startup>
 

@@ -2,7 +2,7 @@ load 'embed.rb'
 
 class ShowActionMenuAction < Action
   def initialize
-    super("act_showactions", "Aktionen anzeigen")
+    super("showactions", "Aktionen anzeigen")
   end
 
   def doAction(object, actor, target)
@@ -12,7 +12,7 @@ end
 
 class QuitGameAction < Action
   def initialize
-    super("act_quitgame", "Das Spiel beenden")
+    super("quitgame", "Das Spiel beenden")
   end
 
   def doAction(object, actor, target)
@@ -22,7 +22,7 @@ end
 
 class ForceQuitGameAction < Action
   def initialize
-    super("act_forcequitgame", "Das Spiel ohne Nachfrage beenden")
+    super("forcequitgame", "Das Spiel ohne Nachfrage beenden")
   end
 
   def doAction(object, actor, target)
@@ -32,7 +32,7 @@ end
 
 class ToggleConsoleAction < Action
   def initialize
-    super("act_toggleconsole", "Konsole zeigen/verstecken")
+    super("toggleconsole", "Konsole zeigen/verstecken")
   end
 
   def doAction(object, actor, target)
@@ -42,7 +42,7 @@ end
 
 class ToggleDebugWindowAction < Action
   def initialize
-    super("act_toggledebugwindow", "DebugWindow zeigen/verstecken")
+    super("toggledebugwindow", "DebugWindow zeigen/verstecken")
   end
 
   def doAction(object, actor, target)
@@ -52,7 +52,7 @@ end
 
 class ToggleGameLogWindowAction < Action
     def initialize
-        super("act_togglegamelogwindow", "Game Log zeigen/verstecken")
+        super("togglegamelogwindow", "Game Log zeigen/verstecken")
     end
 
     def doAction(object, actor, target)
@@ -62,18 +62,18 @@ end
 
 class ToggleViewModeAction < Action
   def initialize
-    super("act_toggleviewmode", "First/ThirdPerson umschalten")
+    super("toggleviewmode", "First/ThirdPerson umschalten")
   end
 
   def doAction(object, actor, target)
-    gc = $UI.getCharacterController();
+    gc = $IM.getControlState();
     gc.toggleViewMode()
   end
 end
 
 class ToggleInGameGlobalMenuAction < Action
   def initialize
-    super("act_toggleingameglobalmenu", "Spielmenü anzeigen")
+    super("toggleingameglobalmenu", "Spielmenü anzeigen")
   end
 
   def doAction(object, actor, target)
@@ -83,7 +83,7 @@ end
 
 class ToggleInventoryAction < Action
 	def initialize
-		super("act_toggleinventorywindow", "Das Inventar des aktiven Helden anzeigen")
+		super("toggleinventorywindow", "Das Inventar des aktiven Helden anzeigen")
 	end
 
 	def doAction(object, actor, target)
@@ -93,18 +93,18 @@ end
 
 class ResetCameraAction < Action
   def initialize
-    super("act_resetcamera", "Kamera zurücksetzen")
+    super("resetcamera", "Kamera zurücksetzen")
   end
 
   def doAction(object, actor, target)
-    gc = $UI.getCharacterController();
+    gc = $IM.getControlState();
     gc.resetCamera();
   end
 end
 
 class MakeScreenshotAction < Action
   def initialize
-    super("act_makescreenshot", "Screenshot erstellen")
+    super("makescreenshot", "Screenshot erstellen")
   end
 
   def doAction(object, actor, target)
@@ -114,7 +114,7 @@ end
 
 class ToggleCollisionDebugAction < Action
   def initialize
-    super("act_togglecollisiondebug", "Kollisionskörper anzeigen")
+    super("togglecollisiondebug", "Kollisionskörper anzeigen")
   end
 
   def doAction(object, actor, target)
@@ -124,7 +124,7 @@ end
 
 class ToggleDebugVisualisationAction < Action
   def initialize
-    super("act_toggledebugvisualisation", "Debug-Helfer anzeigen")
+    super("toggledebugvisualisation", "Debug-Helfer anzeigen")
     @isShown = false
   end
 
@@ -140,7 +140,7 @@ end
 
 class ToggleCharacterStateWindowAction < Action
     def initialize
-        super("act_togglecharacterstatewindow", "Charakterstatus zeigen/verstecken")
+        super("togglecharacterstatewindow", "Charakterstatus zeigen/verstecken")
     end
 
     def doAction(object, actor, target)
@@ -150,7 +150,7 @@ end
 
 class ShowCharacterSheetAction < Action
   def initialize
-    super("act_showcharactersheet", "Charakterblatt des aktiven Helden anzeigen")
+    super("showcharactersheet", "Charakterblatt des aktiven Helden anzeigen")
   end
 
   def doAction(object, actor, target)
@@ -160,7 +160,7 @@ end
 
 class ShowTargetWindowAction < Action
   def initialize
-    super("act_showtargetwindow", "Zielauswahl")
+    super("showtargetwindow", "Zielauswahl")
   end
 
   def doAction(object, actor, target)
@@ -170,7 +170,7 @@ end
 
 class ShowJournalWindowAction < Action
   def initialize
-    super("act_showjournalwindow", "Tagebuch")
+    super("showjournalwindow", "Tagebuch")
   end
 
   def doAction(object, actor, target)
@@ -204,7 +204,7 @@ end
 
 class ShowAboutWindowAction < Action
   def initialize
-    super("act_showaboutwindow", "Über")
+    super("showaboutwindow", "Über")
   end
 
   def doAction(object, actor, target)
@@ -214,7 +214,7 @@ end
 
 class ShowGameSettingsAction < Action
   def initialize
-    super("act_showgamesettings", "Spieleinstellungen")
+    super("showgamesettings", "Spieleinstellungen")
   end
 
   def doAction(object, actor, target)
@@ -224,7 +224,7 @@ end
 
 class ShowLogfilesAction < Action
   def initialize
-    super("act_showlogfiles", "Logfiles anzeigen")
+    super("showlogfiles", "Logfiles anzeigen")
   end
 
   def doAction(object, actor, target)
@@ -234,7 +234,7 @@ end
 
 class ShowNextDebugWindowPageAction < Action
   def initialize
-    super("act_shownextdebugwindowpage", "Zur nächsten Info-Seite wechseln")
+    super("shownextdebugwindowpage", "Zur nächsten Info-Seite wechseln")
   end
 
   def doAction(object, actor, target)
@@ -244,7 +244,7 @@ end
 
 class CloseCurrentWindowAction < Action
   def initialize
-    super("act_closecurrentwindow", "Oberstes Fenster schliessen")
+    super("closecurrentwindow", "Oberstes Fenster schliessen")
   end
 
   def doAction(object, actor, target)
@@ -252,25 +252,9 @@ class CloseCurrentWindowAction < Action
   end
 end
 
-class ToggleCharacterControllerAction < Action
-  def initialize
-    super("act_togglecharactercontroller",
-        "Freeflight- / Movement-Controller umschalten")
-  end
-
-  def doAction(object, actor, target)
-    cctype = $UI.getCharacterControllerType();
-    if (cctype == CharacterController::CTRL_FREEFLIGHT)
-        $UI.setCharacterController(CharacterController::CTRL_MOVEMENT);
-    elsif (cctype == CharacterController::CTRL_MOVEMENT)
-        $UI.setCharacterController(CharacterController::CTRL_FREEFLIGHT);
-    end
-  end
-end
-
 class ShowContainerContentAction < Action
   def initialize
-    super("act_showcontainercontent", "Inhalt anzeigen")
+    super("showcontainercontent", "Inhalt anzeigen")
   end
   
   def doAction(object, actor, target)

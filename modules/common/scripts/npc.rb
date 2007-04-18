@@ -13,7 +13,7 @@ class TalkAction < Action
     if ( not bot.nil? )
       bot.setPlayerCharacter( actor );
       bot.setNonPlayerCharacter( object );
-      WindowFactory.getSingleton().showDialog(bot);
+      $IM.pushControlState(CST_DIALOG);
     end
   end
 end
