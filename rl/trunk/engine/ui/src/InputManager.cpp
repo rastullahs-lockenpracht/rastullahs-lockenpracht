@@ -151,6 +151,8 @@ namespace rl {
         mMouse->capture();
         mKeyboard->capture();
 
+		System::getSingleton().injectTimePulse(elapsedTime);
+   
         if (!mControlStates.empty())
         {
             mControlStates.top()->run(elapsedTime);
