@@ -37,10 +37,13 @@ class CloseContainerAction < Action
 end
 
 class Chest < Container
+
+  include GameObjectProperties
+  
   def initialize(id)
     super(id)
 
-    @mOpen = false;
+    @_prop_Open = false;
     
     # @todo: Make these actions global actions (add to ActionManager)
     addAction(OpenContainerAction.new);
@@ -55,12 +58,12 @@ class Chest < Container
   end
   
   def setOpen( isOpen )
-    @mOpen = isOpen;
+    @_prop_Open = isOpen;
     fireObjectStateChangeEvent();
   end
 
   def isOpen( )
-    @mOpen;
+    @_prop_Open;
   end
   
   def open()

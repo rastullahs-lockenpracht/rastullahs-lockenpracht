@@ -87,25 +87,28 @@ end
 # TODO Physikalische Attribute etc..
 # TODO Persistenz *schreck*
 class Torch < Item
+
+    include GameObjectProperties
+    
     def initialize(id)
         super(id);
     end
     
     def setLit(lit)
-        @mLit = lit;
+        @_prop_Lit = lit;
     end
     
     def lit?
-        @mLit;
+        @_prop_Lit;
     end
     
     def setProperty(name, value)
         if name == "sound"
-            @mSound = value
+            @_prop_Sound = value
         elsif name == "lit"
-            @mLit = value
+            @_prop_Lit = value
         elsif name == "lightable"
-            @mLightable = value
+            @_prop_Lightable = value
         end
     end
     
@@ -117,21 +120,21 @@ class Torch < Item
     def addActions()
         @mLightAction = LightTorchAction.new
         @mPutoutAction = PutoutTorchAction.new
-        if @mLightable
+        if @_prop_Lightable
             addAction(@mLightAction)
             addAction(@mPutoutAction)
         else
             addAction(@mLightAction, Action::ACT_DISABLED)
             addAction(@mPutoutAction, Action::ACT_DISABLED)
         end
-        doAction("lighttorch") unless @mLit
+        doAction("lighttorch") unless @_prop_Lit
     end
     
     def getDefaultAction(actor)
-        if not @mLightable
+        if not @_prop_Lightable
             super(actor)
         else
-            if @mLit
+            if @_prop_Lit
                 @mPutoutAction
             else
                 @mLightAction

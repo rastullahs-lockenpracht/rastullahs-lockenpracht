@@ -3,6 +3,8 @@ load "embed.rb"
 module GameObjectProperties
   
     def getAllProperties()
+        $SCRIPT.log("Check Ruby GameObject for properties.");
+        
         #  Get all properties from the parent C++ class
         ps = PropertySet.new
         ps = super.getAllProperties()

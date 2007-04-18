@@ -77,6 +77,9 @@ class SwitchMiddleAction < Action
 end
 
 class Switch3Way < GameObject
+
+  include GameObjectProperties
+  
   Switch3Way.const_set( "STATE_OBEN", 0 )
   Switch3Way.const_set( "STATE_MITTE", 1 )
   Switch3Way.const_set( "STATE_UNTEN", 2 )
@@ -84,7 +87,7 @@ class Switch3Way < GameObject
   def initialize( id )
     super(id);
 
-    @state = Switch3Way::STATE_MITTE;
+    @_prop_state = Switch3Way::STATE_MITTE;
     
     addAction(SwitchUpAction.new);
     addAction(SwitchDownAction.new);
@@ -93,13 +96,13 @@ class Switch3Way < GameObject
   end
 
   def getState()
-    @state
+    @_prop_state
   end
 
   def setState( state )
     raise ArgumentError, "State existiert nicht", caller unless ( state >= 0 ) 
 
-    @state = state;
+    @_prop_state = state;
     fireObjectStateChangeEvent();
   end
 
