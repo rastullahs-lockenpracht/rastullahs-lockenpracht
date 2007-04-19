@@ -20,6 +20,16 @@ class QuitGameAction < Action
   end
 end
 
+class SaveLoadGameAction < Action
+  def initialize
+    super("act_saveloadgame", "Das Spiel speichern/laden")
+  end
+
+  def doAction(object, actor, target)
+    $WF.showSaveLoadWindow()
+  end
+end
+
 class ForceQuitGameAction < Action
   def initialize
     super("forcequitgame", "Das Spiel ohne Nachfrage beenden")
@@ -82,13 +92,13 @@ class ToggleInGameGlobalMenuAction < Action
 end
 
 class ToggleInventoryAction < Action
-	def initialize
-		super("toggleinventorywindow", "Das Inventar des aktiven Helden anzeigen")
-	end
+    def initialize
+        super("toggleinventorywindow", "Das Inventar des aktiven Helden anzeigen")
+    end
 
-	def doAction(object, actor, target)
-		$WF.toggleInventoryWindow()
-	end
+    def doAction(object, actor, target)
+        $WF.toggleInventoryWindow()
+    end
 end
 
 class ResetCameraAction < Action
