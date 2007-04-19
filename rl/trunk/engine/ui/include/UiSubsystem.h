@@ -61,15 +61,13 @@ namespace rl {
 
         CEGUI::OgreCEGUIRenderer* getGUIRenderer();
         Person* getActiveCharacter() const;
+        ///@todo function feels misplaced here,
         void setActiveCharacter(Person* person);
 
         /// from SceneChangeListener
         virtual void onBeforeClearScene();
 
         void initializeSubsystem();
-
-        /// this method is here because it is easier to include it in swig here (actually really defined in InputManager)
-        void linkKeyToRubyCommand(const CeGuiString &key, const CeGuiString &command);
 
     private:
         Person* mCharacter;

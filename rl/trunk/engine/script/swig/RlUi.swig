@@ -58,8 +58,6 @@ public:
 
 	rl::Person* getActiveCharacter();
 	void setActiveCharacter(rl::Person* chara);
-
-	void linkKeyToRubyCommand(const rl::CeGuiString &key, const rl::CeGuiString &command);
 };
 
 enum ControlStateType 
@@ -79,6 +77,8 @@ public:
 
     void pushControlState(rl::ControlStateType);
     void popControlState();
+
+	void linkKeyToRubyCommand(const rl::CeGuiString &key, const rl::CeGuiString &command);
 private:
     InputManager();
 };

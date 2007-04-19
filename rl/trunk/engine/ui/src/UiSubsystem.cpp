@@ -206,10 +206,4 @@ namespace rl {
         // person set active.
         mInputManager->clearControlStates();
     }
-
-    void UiSubsystem::linkKeyToRubyCommand(const CeGuiString &key, const CeGuiString &command)
-    {
-        InputManager::getSingleton().linkKeyToRubyCommand(key,command);
-    }
-
 }
