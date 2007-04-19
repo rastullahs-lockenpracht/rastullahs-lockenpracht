@@ -21,7 +21,7 @@
 #include <OgreSingleton.h>
 
 #include <OgreNoMemoryMacros.h>
-#include "FixRubyHeaders.h"		// die Makros sind hier vor Ruby schon definiert
+#include "FixRubyHeaders.h"        // die Makros sind hier vor Ruby schon definiert
 #include <ruby.h>
 #include "FixRubyHeaders.h"
 #include <OgreMemoryMacros.h>
@@ -31,110 +31,112 @@
 
 namespace rl {
 
-	class Actor;
-	class AbstractWindow;
-	class CharacterStateWindow;
-	class CharacterSheetWindow;
-	class Console;
-	class Container;
-	class Creature;
-	class DataLoadingProgressWindow;
-	class DebugWindow;
+    class Actor;
+    class AbstractWindow;
+    class CharacterStateWindow;
+    class CharacterSheetWindow;
+    class Console;
+    class Container;
+    class Creature;
+    class DataLoadingProgressWindow;
+    class DebugWindow;
     class DialogCharacter;
     class DialogWindow;
-	class GameLoggerWindow;
-	class GameObject;
-	class InfoPopup;
-	class InGameMenuWindow;
-	class InventoryWindow;
-	class JournalWindow;
-	class LogWindow;
-	class ObjectDescriptionWindow;
+    class GameLoggerWindow;
+    class GameObject;
+    class InfoPopup;
+    class InGameMenuWindow;
+    class InventoryWindow;
+    class JournalWindow;
+    class LogWindow;
+    class ObjectDescriptionWindow;
     class GameObjectPropsWindow;
-	class Person;
-	class WindowUpdater;
+    class Person;
+    class WindowUpdater;
     class MainMenuWindow;
     class CloseConfirmationWindow;
     class GameSettings;
+    class SaveLoadWindow;
 
-	class _RlUiExport WindowFactory : public Ogre::Singleton<WindowFactory>
-	{
-	public:
-		enum PopupIcon
-		{
-			ICON_ERROR = 1,
-			ICON_QUEST
-		};
+    class _RlUiExport WindowFactory : public Ogre::Singleton<WindowFactory>
+    {
+    public:
+        enum PopupIcon
+        {
+            ICON_ERROR = 1,
+            ICON_QUEST
+        };
 
-		WindowFactory();
-		~WindowFactory();
+        WindowFactory();
+        ~WindowFactory();
 
         void initialize();
 
-		static WindowFactory& getSingleton();
-		static WindowFactory* getSingletonPtr();
+        static WindowFactory& getSingleton();
+        static WindowFactory* getSingletonPtr();
 
-		void setActiveCharacter(Creature* character);
+        void setActiveCharacter(Creature* character);
 
-		void showActionChoice(GameObject* obj);
-		void showAboutWindow();
-		void showCharacterActionChoice();
-		void showCharacterSheet();
-		void showCharacterSheet(Person* chara);
-		void showContainerContent(Container* container);
-		void showDescriptionWindow(GameObject* obj);
+        void showActionChoice(GameObject* obj);
+        void showAboutWindow();
+        void showCharacterActionChoice();
+        void showCharacterSheet();
+        void showCharacterSheet(Person* chara);
+        void showContainerContent(Container* container);
+        void showDescriptionWindow(GameObject* obj);
         void showGameObjectPropsWindow(GameObject* obj);
         void showExitConfirmation();
-		void showJournalWindow();
-		void showLogfiles();
-		void showMessageWindow(const CeGuiString& message);
-		void showMainMenu();
-		void showObjectDescription(GameObject* object);
-		void showPlaylist();
-		void showPopupMessage(int popupTypes);
-		/**
-		 * Creates a GameSettings object and displays its layout file on screen
-		 */
-		void showGameSettings();
+        void showJournalWindow();
+        void showLogfiles();
+        void showMessageWindow(const CeGuiString& message);
+        void showMainMenu();
+        void showObjectDescription(GameObject* object);
+        void showPlaylist();
+        void showSaveLoadWindow();
+        void showPopupMessage(int popupTypes);
+        /**
+         * Creates a GameSettings object and displays its layout file on screen
+         */
+        void showGameSettings();
 
-		void toggleConsole();
-		void toggleDebugWindow();
-		void toggleGameLogWindow();
-		void toggleCharacterStateWindow();
-		void toggleInGameGlobalMenu();
-		void toggleInventoryWindow();
+        void toggleConsole();
+        void toggleDebugWindow();
+        void toggleGameLogWindow();
+        void toggleCharacterStateWindow();
+        void toggleInGameGlobalMenu();
+        void toggleInventoryWindow();
 
-		DialogWindow* getDialogWindow();
+        DialogWindow* getDialogWindow();
 
-		void checkForErrors();
-		GameLoggerWindow* getGameLogger();
+        void checkForErrors();
+        GameLoggerWindow* getGameLogger();
 
-		void update();
+        void update();
 
-		/// Writes Text into the Console or other output media
-		void writeToConsole(std::string text);
-		static VALUE consoleWrite(VALUE self, VALUE str);
+        /// Writes Text into the Console or other output media
+        void writeToConsole(std::string text);
+        static VALUE consoleWrite(VALUE self, VALUE str);
 
         /// Change shown DebugWindow page
         void showNextDebugWindowPage();
 
-	private:
+    private:
         void logAllWindows();
 
-		GameLoggerWindow* mGameLogger;
-		CharacterStateWindow* mCharacterStateWindow;
+        GameLoggerWindow* mGameLogger;
+        CharacterStateWindow* mCharacterStateWindow;
         DialogWindow* mDialogWindow;
-		InGameMenuWindow* mInGameMenuWindow;
-		CharacterSheetWindow* mCharacterSheet;
-		JournalWindow* mJournalWindow;
-		InventoryWindow* mInventoryWindow;
-		LogWindow* mLogWindow;
-		DebugWindow* mDebugWindow;
-		Console* mConsole;
-		InfoPopup* mInfoPopup;
-		Actor* mObjectNameText;
-		GameObject* mShownObject;
-		ObjectDescriptionWindow* mObjectDescriptionWindow;
+        InGameMenuWindow* mInGameMenuWindow;
+        CharacterSheetWindow* mCharacterSheet;
+        JournalWindow* mJournalWindow;
+        InventoryWindow* mInventoryWindow;
+        LogWindow* mLogWindow;
+        DebugWindow* mDebugWindow;
+        Console* mConsole;
+        InfoPopup* mInfoPopup;
+        Actor* mObjectNameText;
+        GameObject* mShownObject;
+        ObjectDescriptionWindow* mObjectDescriptionWindow;
         DataLoadingProgressWindow* mDataLoadingProgressWindow;
         MainMenuWindow* mMainMenuWindow;
         CloseConfirmationWindow* mCloseConfirmationWindow;

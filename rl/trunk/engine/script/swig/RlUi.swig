@@ -22,7 +22,7 @@ namespace rl {
 class CharacterController
 {
 private:
-	CharacterController(rl::Actor* camera, rl::Actor* character);
+    CharacterController(rl::Actor* camera, rl::Actor* character);
 public:
 
      /**
@@ -37,12 +37,12 @@ public:
 class CutsceneCharacterController : public CharacterController
 {
 private:
-   	CutsceneCharacterController(rl::Actor* camera);
+       CutsceneCharacterController(rl::Actor* camera);
 
 public:
-	virtual ~CutsceneCharacterController();
+    virtual ~CutsceneCharacterController();
 
-	void toggleViewMode();
+    void toggleViewMode();
     void resetCamera();
 
     void setCameraPosition(const Ogre::Vector3& pos);
@@ -54,10 +54,10 @@ class UiSubsystem
 {
 public:
     static UiSubsystem& getSingleton(void);
-	void initializeSubsystem();
+    void initializeSubsystem();
 
-	rl::Person* getActiveCharacter();
-	void setActiveCharacter(rl::Person* chara);
+    rl::Person* getActiveCharacter();
+    void setActiveCharacter(rl::Person* chara);
 };
 
 enum ControlStateType 
@@ -78,7 +78,7 @@ public:
     void pushControlState(rl::ControlStateType);
     void popControlState();
 
-	void linkKeyToRubyCommand(const rl::CeGuiString &key, const rl::CeGuiString &command);
+    void linkKeyToRubyCommand(const rl::CeGuiString &key, const rl::CeGuiString &command);
 private:
     InputManager();
 };
@@ -86,51 +86,52 @@ private:
 class GameLoggerWindow
 {
 public:
-	void logDialogEvent(const rl::CeGuiString& speaker, const rl::CeGuiString& text);
-	void logFightEvent(const rl::CeGuiString& text);
-	void logCharacterEvent(const rl::CeGuiString& text);
-	void logMiscEvent(const rl::CeGuiString& text);
+    void logDialogEvent(const rl::CeGuiString& speaker, const rl::CeGuiString& text);
+    void logFightEvent(const rl::CeGuiString& text);
+    void logCharacterEvent(const rl::CeGuiString& text);
+    void logMiscEvent(const rl::CeGuiString& text);
 };
 
 class WindowFactory
 {
 public:
-	enum PopupType
-	{
-		ICON_ERROR = 1,
-		ICON_QUEST
-	};
+    enum PopupType
+    {
+        ICON_ERROR = 1,
+        ICON_QUEST
+    };
 
-	static rl::WindowFactory& getSingleton();
+    static rl::WindowFactory& getSingleton();
 
-	void update();
+    void update();
 
-	void showAboutWindow();
-	void showActionChoice(rl::GameObject* obj);
-	void showCharacterActionChoice();
-	void showCharacterSheet();
-	void showCharacterSheet(rl::Person* chara);
-	void showContainerContent(rl::Container* container);
-	void showDescriptionWindow(rl::GameObject* obj);
-	void showGameObjectPropsWindow(rl::GameObject* obj);
-	void showExitConfirmation();
-	void showJournalWindow();
-	void showLogfiles();
-	void showMainMenu();
-	void showMessageWindow(const rl::CeGuiString& message);
+    void showAboutWindow();
+    void showActionChoice(rl::GameObject* obj);
+    void showCharacterActionChoice();
+    void showCharacterSheet();
+    void showCharacterSheet(rl::Person* chara);
+    void showContainerContent(rl::Container* container);
+    void showDescriptionWindow(rl::GameObject* obj);
+    void showGameObjectPropsWindow(rl::GameObject* obj);
+    void showSaveLoadWindow();
+    void showExitConfirmation();
+    void showJournalWindow();
+    void showLogfiles();
+    void showMainMenu();
+    void showMessageWindow(const rl::CeGuiString& message);
     void showPlaylist();
-	void showPopupMessage(int popupTypes);
-	void showGameSettings();
+    void showPopupMessage(int popupTypes);
+    void showGameSettings();
 
-	void toggleConsole();
-	void toggleDebugWindow();
-	void toggleGameLogWindow();
-	void toggleCharacterStateWindow();
-	void toggleInGameGlobalMenu();
-	void toggleInventoryWindow();
+    void toggleConsole();
+    void toggleDebugWindow();
+    void toggleGameLogWindow();
+    void toggleCharacterStateWindow();
+    void toggleInGameGlobalMenu();
+    void toggleInventoryWindow();
 
-	void checkForErrors();
-	rl::GameLoggerWindow* getGameLogger();
+    void checkForErrors();
+    rl::GameLoggerWindow* getGameLogger();
 
     void showNextDebugWindowPage();
 };
@@ -138,8 +139,8 @@ public:
 class WindowManager
 {
 public:
-	static rl::WindowManager& getSingleton();
-	void closeTopWindow();
+    static rl::WindowManager& getSingleton();
+    void closeTopWindow();
 };
 
 } //namespace rl

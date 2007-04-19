@@ -34,6 +34,7 @@
 #include "GameObject.h"
 #include "GameObjectInfoWindow.h"
 #include "GameObjectPropsWindow.h"
+#include "SaveLoadWindow.h"
 #include "GameSettings.h"
 #include "InfoPopup.h"
 #include "InGameMenuWindow.h"
@@ -64,21 +65,21 @@ using namespace Ogre;
 
 namespace rl {
 
-	WindowFactory::WindowFactory()
-		: mGameLogger(NULL),
-		mCharacterStateWindow(NULL),
+    WindowFactory::WindowFactory()
+        : mGameLogger(NULL),
+        mCharacterStateWindow(NULL),
         mDialogWindow(NULL),
-		mInGameMenuWindow(NULL),
-		mCharacterSheet(NULL),
-		mJournalWindow(NULL),
-		mInventoryWindow(NULL),
-		mLogWindow(NULL),
-		mDebugWindow(NULL),
-		mConsole(NULL),
-		mInfoPopup(NULL),
-		mObjectNameText(NULL),
-		mShownObject(NULL),
-		mObjectDescriptionWindow(NULL),
+        mInGameMenuWindow(NULL),
+        mCharacterSheet(NULL),
+        mJournalWindow(NULL),
+        mInventoryWindow(NULL),
+        mLogWindow(NULL),
+        mDebugWindow(NULL),
+        mConsole(NULL),
+        mInfoPopup(NULL),
+        mObjectNameText(NULL),
+        mShownObject(NULL),
+        mObjectDescriptionWindow(NULL),
         mDataLoadingProgressWindow(NULL),
         mMainMenuWindow(NULL),
         mCloseConfirmationWindow(NULL),
@@ -87,112 +88,119 @@ namespace rl {
     }
 
     void WindowFactory::initialize()
-	{
-		mConsole = new Console();
-		mDebugWindow = new DebugWindow();
-		CoreSubsystem::getSingleton().getRubyInterpreter()->
-			setOutputFunction(
-				(VALUE(*)(...))&WindowFactory::consoleWrite );
+    {
+        mConsole = new Console();
+        mDebugWindow = new DebugWindow();
+        CoreSubsystem::getSingleton().getRubyInterpreter()->
+            setOutputFunction(
+                (VALUE(*)(...))&WindowFactory::consoleWrite );
 
-		mLogWindow = new LogWindow();
+        mLogWindow = new LogWindow();
 
-		mGameLogger = new GameLoggerWindow();
-		mCharacterStateWindow = new CharacterStateWindow();
-		mInGameMenuWindow = new InGameMenuWindow();
-		mCharacterSheet = new CharacterSheetWindow();
-		mJournalWindow = new JournalWindow();
-		mInfoPopup = new InfoPopup();
-		mObjectDescriptionWindow = new ObjectDescriptionWindow();
+        mGameLogger = new GameLoggerWindow();
+        mCharacterStateWindow = new CharacterStateWindow();
+        mInGameMenuWindow = new InGameMenuWindow();
+        mCharacterSheet = new CharacterSheetWindow();
+        mJournalWindow = new JournalWindow();
+        mInfoPopup = new InfoPopup();
+        mObjectDescriptionWindow = new ObjectDescriptionWindow();
         mCloseConfirmationWindow = NULL;
         mGameSettings = NULL;
 
-		RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mJournalWindow);
-		RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mInfoPopup);
+        RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mJournalWindow);
+        RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mInfoPopup);
         mDataLoadingProgressWindow = new DataLoadingProgressWindow();
-		CoreSubsystem::getSingleton().addCoreEventListener(mDataLoadingProgressWindow);
+        CoreSubsystem::getSingleton().addCoreEventListener(mDataLoadingProgressWindow);
         mMainMenuWindow = new MainMenuWindow( new MainMenuEngineWindow() );
 
         logAllWindows();
-	}
+    }
 
-	WindowFactory::~WindowFactory()
-	{
-		delete mLogWindow;
-		delete mObjectDescriptionWindow;
+    WindowFactory::~WindowFactory()
+    {
+        delete mLogWindow;
+        delete mObjectDescriptionWindow;
 
         CoreSubsystem::getSingleton().removeCoreEventListener(mDataLoadingProgressWindow);
         delete mDataLoadingProgressWindow;
 
-		delete mJournalWindow;
-		delete mGameLogger;
-		delete mCharacterSheet;
-		delete mInGameMenuWindow;
-		delete mInventoryWindow;
-		delete mCharacterStateWindow;
-		delete mInfoPopup;
-		delete mDebugWindow;
-		delete mConsole;
+        delete mJournalWindow;
+        delete mGameLogger;
+        delete mCharacterSheet;
+        delete mInGameMenuWindow;
+        delete mInventoryWindow;
+        delete mCharacterStateWindow;
+        delete mInfoPopup;
+        delete mDebugWindow;
+        delete mConsole;
         delete mMainMenuWindow;
         delete mCloseConfirmationWindow;
         delete mGameSettings;
-	}
+    }
 
-	WindowFactory& WindowFactory::getSingleton()
-	{
-		return Ogre::Singleton<WindowFactory>::getSingleton();
-	}
+    WindowFactory& WindowFactory::getSingleton()
+    {
+        return Ogre::Singleton<WindowFactory>::getSingleton();
+    }
 
-	WindowFactory* WindowFactory::getSingletonPtr()
-	{
-		return Ogre::Singleton<WindowFactory>::getSingletonPtr();
-	}
+    WindowFactory* WindowFactory::getSingletonPtr()
+    {
+        return Ogre::Singleton<WindowFactory>::getSingletonPtr();
+    }
 
-	void WindowFactory::showCharacterActionChoice()
-	{
-		showActionChoice(UiSubsystem::getSingleton().getActiveCharacter());
-	}
+    void WindowFactory::showCharacterActionChoice()
+    {
+        showActionChoice(UiSubsystem::getSingleton().getActiveCharacter());
+    }
 
-	void WindowFactory::showContainerContent(Container* container)
-	{
+    void WindowFactory::showContainerContent(Container* container)
+    {
         (new ContainerContentWindow(container))->setVisible(true);
-	}
+    }
 
-	void WindowFactory::showMessageWindow(const CeGuiString& message)
-	{
-		MessageWindow* w = new MessageWindow();
-		w->setText(message);
-		w->setVisible(true);
-	}
+    void WindowFactory::showMessageWindow(const CeGuiString& message)
+    {
+        MessageWindow* w = new MessageWindow();
+        w->setText(message);
+        w->setVisible(true);
+    }
 
-	void WindowFactory::showMainMenu()
-	{
-		mMainMenuWindow->setVisible(true);
-	}
+    void WindowFactory::showMainMenu()
+    {
+        mMainMenuWindow->setVisible(true);
+    }
 
-	void WindowFactory::toggleConsole()
-	{
-		mConsole->setVisible(!mConsole->isVisible());
-	}
+    void WindowFactory::toggleConsole()
+    {
+        mConsole->setVisible(!mConsole->isVisible());
+    }
 
-	void WindowFactory::toggleDebugWindow()
-	{
-		mDebugWindow->setVisible(!mDebugWindow->isVisible());
-	}
+    void WindowFactory::toggleDebugWindow()
+    {
+        mDebugWindow->setVisible(!mDebugWindow->isVisible());
+    }
 
-	void WindowFactory::showGameObjectPropsWindow(GameObject* obj)
-	{
+    void WindowFactory::showGameObjectPropsWindow(GameObject* obj)
+    {
         GameObjectPropsWindow* wnd = new GameObjectPropsWindow();
         wnd->initialize(obj);
         wnd->setVisible(true);
-	}
+    }
+    
+    void WindowFactory::showSaveLoadWindow()
+    {
+        SaveLoadWindow* wnd = new SaveLoadWindow();
+        wnd->initialize();
+        wnd->setVisible(true);
+    }
 
-	void WindowFactory::toggleGameLogWindow()
-	{
-		mGameLogger->setVisible(!mGameLogger->isVisible());
-	}
+    void WindowFactory::toggleGameLogWindow()
+    {
+        mGameLogger->setVisible(!mGameLogger->isVisible());
+    }
 
-	void WindowFactory::toggleInventoryWindow()
-	{
+    void WindowFactory::toggleInventoryWindow()
+    {
         if (mInventoryWindow != NULL && mInventoryWindow->isVisible())
         {
             mInventoryWindow->setVisible(false, true);
@@ -206,7 +214,7 @@ namespace rl {
                 mInventoryWindow = NULL;
             }
 
-		    if (UiSubsystem::getSingleton().getActiveCharacter() != NULL)
+            if (UiSubsystem::getSingleton().getActiveCharacter() != NULL)
             {
                 Creature* creat = UiSubsystem::getSingleton().getActiveCharacter();
 
@@ -216,69 +224,69 @@ namespace rl {
                     inventoryWindowType = "inventory_default.xml"; ///@TODO: Extract
                 }
                 mInventoryWindow = new InventoryWindow(inventoryWindowType, creat->getInventory());
-			    mInventoryWindow->setVisible(true);
-		    }
+                mInventoryWindow->setVisible(true);
+            }
         }
-	}
+    }
 
 
-	void WindowFactory::showCharacterSheet()
-	{
-		if (mCharacterSheet->isVisible())
-		{
-			mCharacterSheet->setCharacter(NULL);
-			mCharacterSheet->setVisible(false);
-		}
-		else
-		{
-			mCharacterSheet->setCharacter(UiSubsystem::getSingleton().getActiveCharacter());
-			mCharacterSheet->setVisible(true);
-		}
-	}
+    void WindowFactory::showCharacterSheet()
+    {
+        if (mCharacterSheet->isVisible())
+        {
+            mCharacterSheet->setCharacter(NULL);
+            mCharacterSheet->setVisible(false);
+        }
+        else
+        {
+            mCharacterSheet->setCharacter(UiSubsystem::getSingleton().getActiveCharacter());
+            mCharacterSheet->setVisible(true);
+        }
+    }
 
-	void WindowFactory::showJournalWindow()
-	{
-		if (mJournalWindow->isVisible())
-		{
-			mJournalWindow->setVisible(false);
-		}
-		else
-		{
-			mJournalWindow->setVisible(true);
-		}
-	}
+    void WindowFactory::showJournalWindow()
+    {
+        if (mJournalWindow->isVisible())
+        {
+            mJournalWindow->setVisible(false);
+        }
+        else
+        {
+            mJournalWindow->setVisible(true);
+        }
+    }
 
-	void WindowFactory::showAboutWindow()
-	{
-		(new AboutWindow())->setVisible(true);
-	}
+    void WindowFactory::showAboutWindow()
+    {
+        (new AboutWindow())->setVisible(true);
+    }
 
-	void WindowFactory::showCharacterSheet(Person* chara)
-	{
-		CharacterSheetWindow* wnd = new CharacterSheetWindow();
-		wnd->setCharacter(chara);
-		wnd->setVisible(true);
-	}
+    void WindowFactory::showCharacterSheet(Person* chara)
+    {
+        CharacterSheetWindow* wnd = new CharacterSheetWindow();
+        wnd->setCharacter(chara);
+        wnd->setVisible(true);
+    }
 
-	void WindowFactory::showDescriptionWindow(GameObject* obj)
-	{
-		(new GameObjectInfoWindow(obj, UiSubsystem::getSingleton().getActiveCharacter()))->setVisible(true);
-	}
+    void WindowFactory::showDescriptionWindow(GameObject* obj)
+    {
+        (new GameObjectInfoWindow(obj, UiSubsystem::getSingleton().getActiveCharacter()))->setVisible(true);
+    }
 
-	void WindowFactory::toggleCharacterStateWindow()
-	{
-		mCharacterStateWindow->setVisible(!mCharacterStateWindow->isVisible());
-	}
+    void WindowFactory::toggleCharacterStateWindow()
+    {
+        mCharacterStateWindow->setVisible(!mCharacterStateWindow->isVisible());
+    }
 
-	void WindowFactory::toggleInGameGlobalMenu()
-	{
-		mInGameMenuWindow->setVisible(!mInGameMenuWindow->isVisible());
-	}
+    void WindowFactory::toggleInGameGlobalMenu()
+    {
+        mInGameMenuWindow->setVisible(!mInGameMenuWindow->isVisible());
+    }
 
-	GameLoggerWindow* WindowFactory::getGameLogger()
-	{
-		return mGameLogger;
-	}
+    GameLoggerWindow* WindowFactory::getGameLogger()
+    {
+        return mGameLogger;
+    }
 
     void WindowFactory::showPlaylist()
     {
@@ -286,113 +294,113 @@ namespace rl {
         wnd->setVisible(true);
     }
 
-	void WindowFactory::checkForErrors()
-	{
-		if (Logger::getSingleton().isErrorPresent())
-		{
-			mLogWindow->setVisible(true);
-			Logger::getSingleton().resetErrorState();
-		}
-	}
+    void WindowFactory::checkForErrors()
+    {
+        if (Logger::getSingleton().isErrorPresent())
+        {
+            mLogWindow->setVisible(true);
+            Logger::getSingleton().resetErrorState();
+        }
+    }
 
-	void WindowFactory::update()
-	{
-		mInGameMenuWindow->update();
-	}
+    void WindowFactory::update()
+    {
+        mInGameMenuWindow->update();
+    }
 
-	void WindowFactory::showExitConfirmation()
+    void WindowFactory::showExitConfirmation()
     {
         if( mCloseConfirmationWindow != NULL )
             delete mCloseConfirmationWindow;
 
         mCloseConfirmationWindow = new CloseConfirmationWindow();
-		LOG_MESSAGE2(Logger::UI, "Start", "UiSubsystem::requestExit");
-		mCloseConfirmationWindow->setVisible(true);
-	}
+        LOG_MESSAGE2(Logger::UI, "Start", "UiSubsystem::requestExit");
+        mCloseConfirmationWindow->setVisible(true);
+    }
 
-	void WindowFactory::writeToConsole(Ogre::String text)
-	{
+    void WindowFactory::writeToConsole(Ogre::String text)
+    {
         if (mConsole != NULL)
         {
-		    mConsole->write(text);
+            mConsole->write(text);
         }
         else
         {
             LOG_MESSAGE("Console", text);
         }
-	}
+    }
 
-	VALUE WindowFactory::consoleWrite(VALUE self, VALUE str)
-	{
+    VALUE WindowFactory::consoleWrite(VALUE self, VALUE str)
+    {
         CeGuiString text = RubyInterpreter::val2ceguistr(str);
 
-		if (WindowFactory::getSingleton().mConsole != NULL)
+        if (WindowFactory::getSingleton().mConsole != NULL)
         {
             WindowFactory::getSingleton().mConsole->
-				write(text + " \n");
+                write(text + " \n");
         }
         else
         {
             LOG_MESSAGE("Console", text);
         }
-		return Qnil;
-	}
+        return Qnil;
+    }
 
-	void WindowFactory::setActiveCharacter(Creature* character)
-	{
-		mCharacterStateWindow->setCharacter(character);
-		mCharacterStateWindow->update();
-		LOG_MESSAGE(Logger::UI, "CharacterStateWindow updated");
-	}
+    void WindowFactory::setActiveCharacter(Creature* character)
+    {
+        mCharacterStateWindow->setCharacter(character);
+        mCharacterStateWindow->update();
+        LOG_MESSAGE(Logger::UI, "CharacterStateWindow updated");
+    }
 
-	void WindowFactory::showActionChoice(GameObject* obj)
-	{
-		ActionChoiceWindow* w = new ActionChoiceWindow(UiSubsystem::getSingleton().getActiveCharacter());
-		int numActions = w->showActionsOfObject(obj);
-		if (numActions > 0)
-		{
-			w->setVisible(true);
-		}
-		else
-		{
-			WindowManager::getSingleton().destroyWindow(w);
-		}
-	}
+    void WindowFactory::showActionChoice(GameObject* obj)
+    {
+        ActionChoiceWindow* w = new ActionChoiceWindow(UiSubsystem::getSingleton().getActiveCharacter());
+        int numActions = w->showActionsOfObject(obj);
+        if (numActions > 0)
+        {
+            w->setVisible(true);
+        }
+        else
+        {
+            WindowManager::getSingleton().destroyWindow(w);
+        }
+    }
 
-	void WindowFactory::showLogfiles()
-	{
-		(new LogWindow())->setVisible(true);
-	}
+    void WindowFactory::showLogfiles()
+    {
+        (new LogWindow())->setVisible(true);
+    }
 
-	void WindowFactory::showPopupMessage(int popupTypes)
-	{
-		if (popupTypes & WindowFactory::ICON_ERROR)
-		{
-			mInfoPopup->showError();
-		}
+    void WindowFactory::showPopupMessage(int popupTypes)
+    {
+        if (popupTypes & WindowFactory::ICON_ERROR)
+        {
+            mInfoPopup->showError();
+        }
 
-		if (popupTypes & WindowFactory::ICON_QUEST)
-		{
-			mInfoPopup->showQuestBookChange();
-		}
-	}
+        if (popupTypes & WindowFactory::ICON_QUEST)
+        {
+            mInfoPopup->showQuestBookChange();
+        }
+    }
 
-	void WindowFactory::showObjectDescription(GameObject* object)
-	{
-		mObjectDescriptionWindow->show(object);
-	}
+    void WindowFactory::showObjectDescription(GameObject* object)
+    {
+        mObjectDescriptionWindow->show(object);
+    }
 
     void WindowFactory::showNextDebugWindowPage()
     {
         mDebugWindow->showNextPage();
     }
 
-	void WindowFactory::showGameSettings()
-	{
-		// Create the game settings window and show it
-		mGameSettings = new GameSettings();
-		mGameSettings->setVisible(true);
-	}
+    void WindowFactory::showGameSettings()
+    {
+        // Create the game settings window and show it
+        mGameSettings = new GameSettings();
+        mGameSettings->setVisible(true);
+    }
 
     void WindowFactory::logAllWindows()
     {
@@ -416,7 +424,7 @@ namespace rl {
         }
     }
 
-	DialogWindow* WindowFactory::getDialogWindow()
+    DialogWindow* WindowFactory::getDialogWindow()
     {
         if (mDialogWindow == NULL)
         {
