@@ -362,7 +362,12 @@ namespace rl {
         const Ogre::String& materialName, Ogre::Real mass)
     {
         const String uniquename = nextUniqueName(name);
-        AxisAlignedBox size = AxisAlignedBox(minCorner, maxCorner);
+        // Make sure that min/maxCorners are valid. Since this is called by scripters, be lenient.
+        Vector3 minC = minCorner;
+        minC.makeFloor(maxCorner);
+        Vector3 maxC = maxCorner;
+        maxC.makeCeil(minCorner);
+        AxisAlignedBox size = AxisAlignedBox(minC, maxC);
         Actor* actor = NULL;
         try
         {
