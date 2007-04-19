@@ -39,7 +39,7 @@ $SCRIPT.log("Hero ready")
 $SCRIPT.log("map 'regressiontest' initialisiert.");
 
 $debugkeys = DebugKeys.new();
-$UI.linkKeyToRubyCommand('G',"$debugkeys.toggleWP()");
+$IM.linkKeyToRubyCommand('G',"$debugkeys.toggleWP()");
 
 $SCRIPT.log("debug keys are set up");
 
@@ -60,7 +60,7 @@ NpcCapsuleTest.new([0, 0, 5])
 #$MyAS = AStarTest1.new([0, 0, 0])
 #$MyAS.create()
 #$MyAS.initastar()
-#$UI.linkKeyToRubyCommand('H',"$MyAS.calcFromTo([9.3,8.2,-10,-3])");
+#$IM.linkKeyToRubyCommand('H',"$MyAS.calcFromTo([9.3,8.2,-10,-3])");
 
 wolf = $GOM.createGameObjectProxy("Wolf").getGameObject()
 wolf.placeIntoScene

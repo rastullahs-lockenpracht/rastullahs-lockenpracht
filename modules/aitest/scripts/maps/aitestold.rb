@@ -42,7 +42,7 @@ $SCRIPT.log("Hero ready")
 $SCRIPT.log("map 'aitest' initialisiert.");
 
 $debugkeys = DebugKeys.new();
-$UI.linkKeyToRubyCommand('G',"$debugkeys.toggleWP()");
+$IM.linkKeyToRubyCommand('G',"$debugkeys.toggleWP()");
 
 $SCRIPT.log("debug keys are set up");
 
