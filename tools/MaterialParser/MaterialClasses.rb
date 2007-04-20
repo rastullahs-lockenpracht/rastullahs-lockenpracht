@@ -13,7 +13,8 @@ class AttributedObject
         @attributes = []
     end
 
-    def addAttribute( name, *attributes )
+    def addAttribute( name, attributes )
+        attributes.pop
         @attributes.push( Attribute.new( name, attributes ) )
     end
 

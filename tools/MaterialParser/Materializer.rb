@@ -3,7 +3,7 @@ require "MaterialParser.rb"
 require "pp.rb"
 
 
-basePath = "E:/RL/rl/rl_dist/modules/"
+basePath = "E:/Programmieren/ms_vs/rl/trunk/rl_dist/modules/"
 Dir.chdir( basePath )
 allMaterials = Dir['**/*.material']
 
@@ -15,9 +15,9 @@ allMaterials.each { |filename|
     begin
         mp.parseString( parseMe )
     rescue RuntimeError => error
-        print error
+        print error.to_s
         print "\n"
-        print  basePath+filename+":0:"+error
+        print  basePath+filename+":0:"+error.to_s
         break
     end
 }
