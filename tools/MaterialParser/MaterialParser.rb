@@ -9,17 +9,19 @@ class MaterialParser
         @materials = []     
 	end
 
-	def parseFile( file )
+	def parseFile( filename )
+        parseMe = File.new( filename ).read
+        parseString( parseMe, filename )
 	end
 
     def addMaterial( mat )
         @materials.push( mat )
     end
 
-    def parseString( string )
+    def parseString( string, filename )
         mp = self;
 
-        mat = Material.new
+        mat = Material.new( filename )
         tec = Technique.new
         pa = Pass.new
         tu = TextureUnit.new
@@ -46,8 +48,8 @@ class MaterialParser
             end
 
             start :skript do
-                match('material', :string, :newlines, '{', :material, '}' ) {|_,n| mat.name = n; mp.addMaterial(mat);mat = Material.new }
-                match('material', :string, ':', :string, :newlines, '{', :material, '}' ) {|_,n,_,b| mat.name = n; mat.basename = b; mp.addMaterial(mat); mat = Material.new }
+                match('material', :string, :newlines, '{', :material, '}' ) {|_,n| mat.name = n; mp.addMaterial(mat);mat = Material.new( filename ) }
+                match('material', :string, ':', :string, :newlines, '{', :material, '}' ) {|_,n,_,b| mat.name = n; mat.basename = b; mp.addMaterial(mat); mat = Material.new( filename ) }
 
                 match( ::NEWLINE )
                 match(:skript, :skript ) 

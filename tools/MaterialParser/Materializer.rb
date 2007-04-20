@@ -11,15 +11,17 @@ allMaterials = Dir['**/*.material']
 mp = MaterialParser.new( )
 
 allMaterials.each { |filename|
-    parseMe = File.new( filename ).read
-    begin
-        mp.parseString( parseMe )
+    begin 
+        mp.parseFile( filename )
     rescue RuntimeError => error
         print error.to_s
         print "\n"
         print  basePath+filename+":0:"+error.to_s
         break
     end
+
+    pp mp
+    exit
 }
 
 #pp mp

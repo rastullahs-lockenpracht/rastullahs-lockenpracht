@@ -28,14 +28,15 @@ class AttributedObject
 end
 
 class Material < AttributedObject
-    attr_reader :techniques, :name, :basename
-    attr_writer :techniques, :name, :basename
+    attr_reader :techniques, :name, :basename, :filename
+    attr_writer :techniques, :name, :basename, :filename
 
-    def initialize( )
+    def initialize( filename )
         super()
         @techniques = []
         @name = nil
         @basename = nil
+        @filename = filename
     end
 
     def addTechnique( tech )
