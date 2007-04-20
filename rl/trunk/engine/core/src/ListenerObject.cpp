@@ -100,7 +100,7 @@ ListenerMovable* ListenerObject::getListener() const
  * @author JoSch
  * @date 03-16-2005
  */   
-String ListenerObject::getObjectType()
+String ListenerObject::getObjectType() const
 {
     return "ListenerObject";
 }

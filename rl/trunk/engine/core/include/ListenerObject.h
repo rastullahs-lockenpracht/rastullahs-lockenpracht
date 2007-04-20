@@ -51,7 +51,7 @@ namespace rl {
         /// Nur schon gebrauchsfertig gecastet.
         ListenerMovable* getListener() const;
         
-        virtual Ogre::String getObjectType();
+        virtual Ogre::String getObjectType() const;
 
 		virtual bool isMeshObject();        
     };

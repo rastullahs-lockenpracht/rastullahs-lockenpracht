@@ -60,7 +60,7 @@ SoundObject::~SoundObject()
  * @author JoSch
  * @date 03-11-2005
  */   
-bool SoundObject::isMeshObject()
+bool SoundObject::isMeshObject() const
 {
 	return false;
 }
@@ -110,7 +110,7 @@ void SoundObject::pause(bool pausing)
     getSound()->pause(pausing);
 }
 
-bool SoundObject::isPaused()
+bool SoundObject::isPaused() const
 {
     return getSound()->isPaused();
 }
@@ -171,7 +171,7 @@ Sound* SoundObject::getSound() const
  * @author JoSch
  * @date 03-11-2005
  */   
-String SoundObject::getObjectType()
+String SoundObject::getObjectType() const
 {
     return "SoundObject";
 }

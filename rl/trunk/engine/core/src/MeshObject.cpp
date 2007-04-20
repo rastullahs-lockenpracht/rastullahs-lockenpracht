@@ -97,12 +97,12 @@ namespace rl {
 		}
 	}
 
-	const Ogre::String &MeshObject::getMeshName()
+	const Ogre::String &MeshObject::getMeshName() const
 	{
 		return mMeshName;
 	}
 
-    bool MeshObject::hasAnimation(const String& animName)
+    bool MeshObject::hasAnimation(const String& animName) const
     {
         AnimationStateSet* animStates = getEntity()->getAllAnimationStates();
         return animStates->hasAnimationState(animName);
@@ -192,7 +192,7 @@ namespace rl {
         }
     }
 
-    String MeshObject::getObjectType()
+    String MeshObject::getObjectType() const
     {
         return "MeshObject";
     }
@@ -376,7 +376,7 @@ namespace rl {
         }
     }
 
-    bool MeshObject::isMeshObject()
+    bool MeshObject::isMeshObject() const
     {
         return true;
     }

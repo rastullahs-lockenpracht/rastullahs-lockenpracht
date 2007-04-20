@@ -45,17 +45,16 @@ namespace rl {
         }
     }
     
-    Actor* ActorControlledObject::getActor()
+    Actor* ActorControlledObject::getActor() const
     {
         if (mMovableObject != NULL)
         {
-            UserDefinedObject* m = mMovableObject->getUserObject();
-            return m != NULL ? reinterpret_cast<Actor*>(m) : NULL;
+            return static_cast<Actor*>(mMovableObject->getUserObject());
         }
         return NULL;
     }
     
-    MovableObject* ActorControlledObject::getMovableObject()
+    MovableObject* ActorControlledObject::getMovableObject() const
     {
         return mMovableObject;
     }
@@ -95,7 +94,7 @@ namespace rl {
         catch(...) { return false; }
     }
 
-	bool ActorControlledObject::isMeshObject()
+	bool ActorControlledObject::isMeshObject() const
 	{
 		return false;
 	}

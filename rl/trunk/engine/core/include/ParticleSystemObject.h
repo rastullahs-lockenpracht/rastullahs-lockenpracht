@@ -31,11 +31,11 @@ namespace rl {
 
         /// Wie ActorControlledObject::getMovableObject()
         /// Nur schon gebrauchsfertig gecastet.
-        Ogre::ParticleSystem* getParticleSystem();
+        Ogre::ParticleSystem* getParticleSystem() const;
 
 		void setActive(bool active);
 
-        virtual Ogre::String getObjectType();
+        virtual Ogre::String getObjectType() const;
     };
 }
 #endif

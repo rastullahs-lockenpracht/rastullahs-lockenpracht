@@ -34,18 +34,21 @@ namespace rl {
 
         /// Wie ActorControlledObject::getMovableObject()
         /// Nur schon gebrauchsfertig gecastet.
-        Ogre::Light* getLight();
+        Ogre::Light* getLight() const;
 
-        virtual Ogre::String getObjectType();
+        virtual Ogre::String getObjectType() const;
         
         void setAttenuation(Ogre::Real range, Ogre::Real constant,
             Ogre::Real linear, Ogre::Real quadric);
         void setDiffuseColour(Ogre::Real red, Ogre::Real green, Ogre::Real blue);
-        void setDirection(Ogre::Real x, Ogre::Real y, Ogre::Real z);
+        void setDiffuseColour(const Ogre::ColourValue& colour);
         void setSpecularColour(Ogre::Real red, Ogre::Real green, Ogre::Real blue);
-		void setSpotlightRange( Ogre::Real innerAngle, Ogre::Real outerAngle,
+        void setSpecularColour(const Ogre::ColourValue& colour);
+        void setDirection(Ogre::Real x, Ogre::Real y, Ogre::Real z);
+        void setDirection(const Ogre::Vector3& direction);
+		void setSpotlightRange(Ogre::Real innerAngle, Ogre::Real outerAngle,
 			Ogre::Real falloff = 1.0);
-		void setCastShadows( bool cast );
+		void setCastShadows(bool castShadows);
         void setVisible(bool enabled);
     };
 }

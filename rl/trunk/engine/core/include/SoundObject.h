@@ -50,7 +50,7 @@ namespace rl {
         Sound* getSound() const;
         
         
-        virtual Ogre::String getObjectType();
+        virtual Ogre::String getObjectType() const;
 
 		bool is3d() const;
 		void set3d( bool is3d );
@@ -62,7 +62,7 @@ namespace rl {
         /// Pausiert den Sound.
         void pause(bool pausing);
         /// Ist der Sound pausiert?
-        bool isPaused();
+        bool isPaused() const;
         /// Stoppt den Sound.
         virtual void stop();
 		/// Setzt die Lautstaerke (1.0 = volle Lautstärke)
@@ -86,7 +86,7 @@ namespace rl {
         /// Pausieren den Sound
         void pause();
 
-		virtual bool isMeshObject();
+		virtual bool isMeshObject() const;
     };
 }
 #endif

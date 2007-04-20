@@ -30,12 +30,12 @@ namespace rl {
         mMovableObject = light;
     }
 
-    Light* LightObject::getLight()
+    Light* LightObject::getLight() const
     {
         return static_cast<Light*>(mMovableObject);
     }
 
-    String LightObject::getObjectType()
+    String LightObject::getObjectType() const
     {
         return "LightObject";
     }
@@ -43,12 +43,17 @@ namespace rl {
     void LightObject::setAttenuation( Real range, Real constant, Real linear,
         Real quadric)
     {
-        getLight()->setAttenuation( range, constant, linear, quadric );
+        getLight()->setAttenuation(range, constant, linear, quadric);
     }
 
-    void LightObject::setDiffuseColour( Real red, Real green, Real blue)
+    void LightObject::setDiffuseColour(Real red, Real green, Real blue)
     {
         getLight()->setDiffuseColour(red,green,blue);
+    }
+
+    void LightObject::setDiffuseColour(const Ogre::ColourValue& colour)
+    {
+        getLight()->setDiffuseColour(colour);
     }
 
     void LightObject::setDirection( Real x, Real y, Real z)
@@ -56,7 +61,17 @@ namespace rl {
         getLight()->setDirection(x,y,z);
     }
 
-    void LightObject::setSpecularColour( Real red, Real green, Real blue)
+    void LightObject::setDirection(const Vector3& direction)
+    {
+        getLight()->setDirection(direction);
+    }
+
+    void LightObject::setSpecularColour(const Ogre::ColourValue& colour)
+    {
+        getLight()->setSpecularColour(colour);
+    }
+
+    void LightObject::setSpecularColour(Real red, Real green, Real blue)
     {
         getLight()->setSpecularColour(red,green,blue);
     }

@@ -43,7 +43,7 @@ namespace rl {
             const Ogre::ColourValue& colour);
 
         /// Returns "LineSetPrimitive" for this class.
-        virtual Ogre::String getObjectType() { return "LineSetPrimitive"; }
+        virtual Ogre::String getObjectType() const { return "LineSetPrimitive"; }
 
     protected:
         virtual void updatePrimitive();

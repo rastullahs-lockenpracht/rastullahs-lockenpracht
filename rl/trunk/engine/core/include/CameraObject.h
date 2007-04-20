@@ -35,7 +35,7 @@ namespace rl {
 
 		Ogre::AxisAlignedBox getDefaultSize() const;
 
-        virtual Ogre::String getObjectType();
+        virtual Ogre::String getObjectType() const;
     };
 }
 #endif

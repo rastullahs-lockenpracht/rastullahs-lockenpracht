@@ -35,12 +35,12 @@ namespace rl {
 		mMovableObject = part;
 	}
 
-	ParticleSystem* ParticleSystemObject::getParticleSystem()
+	ParticleSystem* ParticleSystemObject::getParticleSystem() const
 	{
 		return static_cast<ParticleSystem*>(mMovableObject);
 	}
 
-	String ParticleSystemObject::getObjectType()
+	String ParticleSystemObject::getObjectType() const
 	{
 		return "ParticleSystemObject";
 	}

@@ -45,7 +45,7 @@ namespace rl {
         return static_cast<Camera*>(mMovableObject);
     }
 
-    String CameraObject::getObjectType()
+    String CameraObject::getObjectType() const
     {
         return "CameraObject";
     }

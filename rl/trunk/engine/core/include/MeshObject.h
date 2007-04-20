@@ -41,7 +41,7 @@ namespace rl {
         Ogre::AxisAlignedBox getPoseSize(const Ogre::String& animationName);
         
 		/// Returns whether a mesh has an animation called animName or not.
-        bool hasAnimation(const Ogre::String& animName);
+        bool hasAnimation(const Ogre::String& animName) const;
 
 		/** Returns a MeshAnimation for the given animation name.
          *  Either returns an already created MeshAnimation or creates it ad-hoc in a paused state.
@@ -86,9 +86,9 @@ namespace rl {
 		 */
 		MeshObject *createPosedCopy(const Ogre::String& animName);
 
-		const Ogre::String &getMeshName();
+		const Ogre::String &getMeshName() const;
 
-		virtual bool isMeshObject();
+		virtual bool isMeshObject() const;
 
         /// Per Skeleton-Blend-Setting
         bool getBlendCumulative(void) const;
@@ -96,7 +96,7 @@ namespace rl {
 
         void setHighlighted( bool highlight );
         
-        virtual Ogre::String getObjectType();
+        virtual Ogre::String getObjectType() const;
     private:
 		Ogre::String mMeshName;
         Ogre::AxisAlignedBox mSize;

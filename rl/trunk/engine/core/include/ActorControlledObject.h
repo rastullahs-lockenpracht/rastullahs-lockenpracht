@@ -48,7 +48,7 @@ namespace rl {
          * auch ActorControlledObject::_setActor() aufrufen.
          */
         virtual void _setActor(Actor* actor);
-        virtual Actor* getActor();
+        virtual Actor* getActor() const;
         
         virtual void _attachSceneNode(Ogre::SceneNode* node);
         virtual void _detachSceneNode(Ogre::SceneNode* node);
@@ -65,17 +65,17 @@ namespace rl {
         virtual void _update();
         
         /** Liefert das gekapselte Ogre::MovableObject. */
-        Ogre::MovableObject* getMovableObject();
+        Ogre::MovableObject* getMovableObject() const;
         
         /** Liefert die Typenbezeichnung der konkreten Klasse.
          * Sollte dem Typnamen entsprechen.
          */
-        virtual Ogre::String getObjectType() = 0;
+        virtual Ogre::String getObjectType() const = 0;
 
         /** Ermöglicht ein Highlighten des ActorControlled */
         virtual void setHighlighted( bool highlight ) {};
 
-		virtual bool isMeshObject();
+		virtual bool isMeshObject() const;
     protected:
         Ogre::MovableObject* mMovableObject;
     };

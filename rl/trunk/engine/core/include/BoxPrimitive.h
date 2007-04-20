@@ -40,7 +40,7 @@ namespace rl {
         Ogre::AxisAlignedBox getSize();
 
         /// Returns "BoxPrimitive" for this class.
-        virtual Ogre::String getObjectType() { return "BoxPrimitive"; }
+        virtual Ogre::String getObjectType() const { return "BoxPrimitive"; }
     protected:
         virtual void updatePrimitive();
 
