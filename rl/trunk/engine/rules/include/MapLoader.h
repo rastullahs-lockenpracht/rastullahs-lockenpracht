@@ -53,7 +53,8 @@ namespace rl {
         void processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects);
         Ogre::Vector3 processVector3(XERCES_CPP_NAMESPACE::DOMElement* nodeElem) const;
         Ogre::Quaternion processQuaternion(XERCES_CPP_NAMESPACE::DOMElement* nodeElem) const;
-
+        Ogre::ColourValue processColour(XERCES_CPP_NAMESPACE::DOMElement* colElem) const;
+        
         void createGameObject(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, XERCES_CPP_NAMESPACE::DOMElement* gameobjElem) const;
         void createSound(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, XERCES_CPP_NAMESPACE::DOMElement* gameobjElem) const;
         void createLight(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, XERCES_CPP_NAMESPACE::DOMElement* gameobjElem) const;

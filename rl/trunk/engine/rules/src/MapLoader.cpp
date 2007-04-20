@@ -286,6 +286,7 @@ namespace rl {
             LOG_WARNING(Logger::RULES, "No orientation given for entity, used Identity");
         }
 
+        ///@todo static geometry groups
         SceneNode* parentNode = mSceneNode->createChildSceneNode(entName, position, orientation);
 
         ResourceGroupManager& resGroupMgr = ResourceGroupManager::getSingleton();
@@ -322,7 +323,7 @@ namespace rl {
         }
     }
 
-    void MapLoader::createSound(DOMElement* nodeElem, DOMElement* gameobjElem) const
+    void MapLoader::createSound(DOMElement* nodeElem, DOMElement* soundElem) const
     {
         LOG_DEBUG(Logger::RULES, 
             "Processing sound node " 
@@ -331,12 +332,113 @@ namespace rl {
         ///@todo create sound
     }
 
-    void MapLoader::createLight(DOMElement* nodeElem, DOMElement* gameobjElem) const
+    void MapLoader::createLight(DOMElement* nodeElem, DOMElement* lightElem) const
     {
         LOG_DEBUG(Logger::RULES, 
             "Processing light node " 
                 + XmlHelper::getAttributeValueAsStdString(nodeElem, "name"));
+                
+        Ogre::String name = XmlHelper::getAttributeValueAsStdString(lightElem, "name");
+        Ogre::String stype = XmlHelper::getAttributeValueAsStdString(lightElem, "type");
+        bool visible = XmlHelper::getAttributeValueAsBool(lightElem, "visible");
+        bool shadowCaster = XmlHelper::getAttributeValueAsBool(lightElem, "castShadows");
         
+        LightObject::LightTypes type = LightObject::LT_DIRECTIONAL;
+        if (stype == "point")
+        {
+            type = LightObject::LT_POINT;
+        }
+        else if (stype == "directional")
+        {
+            type = LightObject::LT_DIRECTIONAL;
+        }
+        else if (stype == "spot")
+        {
+            type = LightObject::LT_SPOTLIGHT;
+        }
+        else
+        {
+            LOG_ERROR(Logger::RULES, "Could not create light.");
+            return;
+        }
+        Actor* lightActor = ActorManager::getSingleton().createLightActor(name, type);
+
+        DOMElement* posElem = XmlHelper::getChildNamed(nodeElem, "position");
+        if (posElem != NULL)
+        {
+            lightActor->placeIntoScene(processVector3(posElem));
+        }
+        else
+        {
+            lightActor->placeIntoScene(Vector3::ZERO);
+        }
+
+        LightObject* light = static_cast<LightObject*>(lightActor->getControlledObject());
+
+        light->setCastShadows(shadowCaster);
+        light->setVisible(visible);
+        
+        DOMElement* diffElem = XmlHelper::getChildNamed(lightElem, "colourDiffuse");
+        if (diffElem != NULL)
+        {
+            light->setDiffuseColour(processColour(diffElem));
+        }
+        
+        DOMElement* specElem = XmlHelper::getChildNamed(lightElem, "colourSpecular");
+        if (specElem != NULL)
+        {
+            light->setSpecularColour(processColour(specElem));
+        }
+
+        DOMElement* attElem = XmlHelper::getChildNamed(lightElem, "lightAttenuation");
+        if (attElem != NULL)
+        {
+            if (XmlHelper::hasAttribute(attElem, "range")
+                && XmlHelper::hasAttribute(attElem, "constant")
+                && XmlHelper::hasAttribute(attElem, "linear") 
+                && XmlHelper::hasAttribute(attElem, "quadratic"))
+            {
+                Ogre::Real range = XmlHelper::getAttributeValueAsReal(attElem, "range");
+                Ogre::Real constant = XmlHelper::getAttributeValueAsReal(attElem, "constant");
+                Ogre::Real linear = XmlHelper::getAttributeValueAsReal(attElem, "linear");
+                Ogre::Real quadratic = XmlHelper::getAttributeValueAsReal(attElem, "quadratic");
+
+                light->setAttenuation(range, constant, linear, quadratic);
+            }
+        }
+        ///@todo default attenuation?
+
+        if (stype == "directional")
+        {
+            DOMElement* dirElem = XmlHelper::getChildNamed(lightElem, "direction");
+            if (dirElem != NULL)
+            {
+                light->setDirection(processVector3(dirElem));
+            }
+            else
+            {
+                light->setDirection(Vector3::NEGATIVE_UNIT_Y);
+            }
+        }
+        else if (stype == "spot")
+        {
+            DOMElement* rangeElem = XmlHelper::getChildNamed(lightElem, "spotlightrange");
+            if (rangeElem != NULL)
+            {
+                Ogre::Real innerAngle = XmlHelper::getAttributeValueAsReal(rangeElem, "inner");
+                Ogre::Real outerAngle = XmlHelper::getAttributeValueAsReal(rangeElem, "outer");
+                if (XmlHelper::hasAttribute(rangeElem, "falloff"))
+                {
+                    light->setSpotlightRange(
+                        innerAngle, outerAngle, XmlHelper::getAttributeValueAsReal(rangeElem, "falloff"));
+                }
+                else
+                {
+                    light->setSpotlightRange(innerAngle, outerAngle);
+                }
+            }
+        }
+
         ///@todo create light
     }
 
@@ -387,10 +489,35 @@ namespace rl {
 
         return rval;
     }
+    
+    ColourValue MapLoader::processColour(DOMElement* colElem) const
+    {
+        ColourValue rval(1, 1, 1, 1);
+        if (colElem != NULL)
+        {
+            if (XmlHelper::hasAttribute(colElem, "r"))
+            {
+                rval.r = XmlHelper::getAttributeValueAsReal(colElem, "r");
+            }
+            if (XmlHelper::hasAttribute(colElem, "g"))
+            {
+                rval.g = XmlHelper::getAttributeValueAsReal(colElem, "g");
+            }
+            if (XmlHelper::hasAttribute(colElem, "b"))
+            {
+                rval.b = XmlHelper::getAttributeValueAsReal(colElem, "b");
+            }
+            if (XmlHelper::hasAttribute(colElem, "a"))
+            {
+                rval.a = XmlHelper::getAttributeValueAsReal(colElem, "a");
+            }
+        }
+        return rval;
+    }
 
 	//void MapLoader::createCollision()
 	//{
- //       // ------- Falls nötig automatisch bodyproxy erstellen -------------
+ //       // ------- Falls nÃ¶tig automatisch bodyproxy erstellen -------------
  //       // (wenn physical_body gesetzt wurde)
  //       OgreNewt::CollisionPtr collision = OgreNewt::CollisionPtr();
  //       OgreNewt::World *thisWorld = PhysicsManager::getSingleton()._getNewtonWorld();
@@ -413,21 +540,21 @@ namespace rl {
  //               if (size.z < PhysicsManager::NEWTON_GRID_WIDTH)
  //                   size.z = PhysicsManager::NEWTON_GRID_WIDTH;
 
- //               LOG_MESSAGE(Logger::CORE, " Die Entity '"+entName+"' liegt in einer Ebene, verwende 'box' für physical_body '"+physical_body+"' ");
+ //               LOG_MESSAGE(Logger::CORE, " Die Entity '"+entName+"' liegt in einer Ebene, verwende 'box' fÃ¼r physical_body '"+physical_body+"' ");
  //               forceBox = true;
  //           }
  //           const Quaternion orientation(0,0,0,0);// = parentNode->getOrientation();
  //           const Ogre::Vector3 pos = aab.getMinimum()* parentNode->getScale() + (size/2.0);
 
 
- //           // Prüfen, ob schon ein identischer Proxy erstellt wurde um diesen erneut zu verwenden
+ //           // PrÃ¼fen, ob schon ein identischer Proxy erstellt wurde um diesen erneut zu verwenden
  //           AlreadyUsedCollision &aucol (mAutoCreatedCollisions[meshName]);
  //           if (aucol.Type.compare(physical_body) == 0  &&
  //               aucol.Scale == parentNode->getScale() &&
  //               (!forceBox)) // sicherheitshalber
  //           {
  //               collision = aucol.ColPtr;
- //               LOG_DEBUG(Logger::CORE, " Schon früher erstellten physical_body für Entity '"+entName+"' wieder verwendet. ");
+ //               LOG_DEBUG(Logger::CORE, " Schon frÃ¼her erstellten physical_body fÃ¼r Entity '"+entName+"' wieder verwendet. ");
  //           }
  //           else
  //           {
@@ -436,13 +563,13 @@ namespace rl {
  //               {
  //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Box(
  //                                    thisWorld, size, orientation, pos));
- //                   LOG_DEBUG(Logger::CORE, " physical_body 'box' für Entity '"+entName+"' erstellt. ");
+ //                   LOG_DEBUG(Logger::CORE, " physical_body 'box' fÃ¼r Entity '"+entName+"' erstellt. ");
  //               }
  //               else if (physical_body.compare("pyramid") == 0)
  //               {
  //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Pyramid(
  //                                   thisWorld, size, orientation, pos));
- //                   LOG_DEBUG(Logger::CORE, " physical_body 'pyramid' für Entity '"+entName+"' erstellt. ");
+ //                   LOG_DEBUG(Logger::CORE, " physical_body 'pyramid' fÃ¼r Entity '"+entName+"' erstellt. ");
  //               }
  //               else if (physical_body.compare("sphere") == 0)
  //               {
@@ -450,7 +577,7 @@ namespace rl {
  //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
  //                                   thisWorld, Vector3(radius, radius, radius),
  //                                   orientation, pos));
- //                   LOG_DEBUG(Logger::CORE, " physical_body 'sphere' für Entity '"+entName+"' erstellt. ");
+ //                   LOG_DEBUG(Logger::CORE, " physical_body 'sphere' fÃ¼r Entity '"+entName+"' erstellt. ");
  //               }
  //               else if (physical_body.compare("ellipsoid") == 0)
  //               {
@@ -461,7 +588,7 @@ namespace rl {
  //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
  //                                   thisWorld, s,
  //                                   orientation, pos));
- //                   LOG_DEBUG(Logger::CORE, " physical_body 'ellipsoid' für Entity '"+entName+"' erstellt. ");
+ //                   LOG_DEBUG(Logger::CORE, " physical_body 'ellipsoid' fÃ¼r Entity '"+entName+"' erstellt. ");
  //               }
  //               else if (physical_body.compare("capsule") == 0)
  //               {
@@ -473,7 +600,7 @@ namespace rl {
  //                                   radius,
  //                                   height,
  //                                   orientation, pos));
- //                   LOG_DEBUG(Logger::CORE, " physical_body 'capsule' für Entity '"+entName+"' erstellt. ");
+ //                   LOG_DEBUG(Logger::CORE, " physical_body 'capsule' fÃ¼r Entity '"+entName+"' erstellt. ");
  //               }
  //               else if (physical_body.compare("convexhull") == 0)
  //               {
@@ -482,33 +609,33 @@ namespace rl {
  //                                   newEnt,
  //                                   false));
  //                   //orientation, pos));
- //                   LOG_DEBUG(Logger::CORE, " physical_body 'convexhull' für Entity '"+entName+"' erstellt. ");
+ //                   LOG_DEBUG(Logger::CORE, " physical_body 'convexhull' fÃ¼r Entity '"+entName+"' erstellt. ");
  //               }
  //               else if (physical_body.compare("mesh") == 0 || physical_body.compare("auto"))
  //               {
  //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(
  //                                   thisWorld, newEnt, false));
- //                   LOG_DEBUG(Logger::CORE, " physical_body 'mesh' für Entity '"+entName+"' erstellt. ");
+ //                   LOG_DEBUG(Logger::CORE, " physical_body 'mesh' fÃ¼r Entity '"+entName+"' erstellt. ");
  //               }
  //               else
  //                   LOG_MESSAGE(Logger::CORE,
- //                       " Der bodyproxy_type '"+physical_body+"'(aus userData) der Entity '"+meshName+"' ist ungültig.");
+ //                       " Der bodyproxy_type '"+physical_body+"'(aus userData) der Entity '"+meshName+"' ist ungÃ¼ltig.");
 
- //               // proxy in die liste der schon erstellten proxies hinzufügen
+ //               // proxy in die liste der schon erstellten proxies hinzufÃ¼gen
  //               aucol.ColPtr = collision;
  //               aucol.Scale = parentNode->getScale();
  //               aucol.Type = physical_body;
  //           }
  //       }
 
- //       // zur liste hinzufügen
+ //       // zur liste hinzufÃ¼gen
  //       if (!collision.isNull())
  //       {
  //           mCollisions.push_back(collision);
  //       }
 
 
- //       // Zur Physik des Levels hinzufügen
+ //       // Zur Physik des Levels hinzufÃ¼gen
  //       if (mCollisions.size() > 0)
  //       {
  //           PhysicsManager::getSingleton().addLevelGeometry(newEnt, mCollisions);

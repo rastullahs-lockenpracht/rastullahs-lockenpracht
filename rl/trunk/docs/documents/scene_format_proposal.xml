@@ -29,7 +29,7 @@
 			/>
       
       <!-- Definition der Physikproxies -->
-	    <collisions>
+	    <collisions type="custom">
 	       <!-- collision proxy consists of a box and a sphere -->
 	       <collision type="box">
 	          <scale x="-97.544470" y="127.113457" z="748.685760"/>
@@ -46,14 +46,12 @@
     <!-- Light -->
     <node name="Omni02">
 			<position x="-196.095" y="-90.1458" z="563.122" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 
 			<light
 				name="Omni02"
-				type="point"
+				type="point" 
 				visible="true" 
-				castShadows="false" >
-				<position x="0.0" y="0.0" z="0.0" />
+				castShadows="false" > <!-- type is point|spot|directional -->
 				<colourDiffuse r="0.3" g="0.3" b="0.3" />
 				<colourSpecular r="0.3" g="0.3" b="0.3" />
 				<lightAttenuation
@@ -62,7 +60,13 @@
 					linear="0.0"
 					quadratic="0.0"
 				/>
-				<!-- Spot und Directional-->
+				
+				<!-- nur bei type="spot" -->
+				<spotlightrange inner="10" outer="20" falloff="1" />
+				<direction x="0" y="-1" z="0.5" />
+				
+				<!-- nur bei type="directional" -->
+				<direction x="0" y="-1" z="0.5" />
 			</light>
 		</node>
 		

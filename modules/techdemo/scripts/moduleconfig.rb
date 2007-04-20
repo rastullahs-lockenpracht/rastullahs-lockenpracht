@@ -37,6 +37,7 @@ class TechdemoModule < ContentModule
         p "Loading map with MapLoader"
         # MapLoader.new().loadMap("techdemo_terrain.rlmap.xml", "techdemo");
         MapLoader.new().loadMap("techdemo_gameobjects.rlmap.xml", "techdemo");
+        MapLoader.new().loadMap("techdemo_lights.rlmap.xml", "techdemo");
         p "Done loading map"
         
         load "techdemo.rb"

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<rastullahmap formatVersion="0.4.0">
+	<nodes>
+		<node>
+			<position x="-10.0" y="1" z="-5.0"/>
+      <light name="light1" type="point" visible="true" castShadows="false">
+        <colourDiffuse r="1" g="0" b="0" />
+				<colourSpecular r="1" g="0" b="0" />
+				<lightAttenuation
+					range="5.0"
+					constant="1.0"
+					linear="0.0"
+					quadratic="0.0"
+				/>
+      </light>
+		</node>
+		<node>
+			<position x="-12.0" y="1" z="-5.0"/>
+      <light name="light2" type="spot" visible="true" castShadows="false">
+        <colourDiffuse r="0" g="1" b="0" />
+				<colourSpecular r="0" g="1" b="0" />
+				<lightAttenuation
+					range="10.0"
+					constant="1.0"
+					linear="0.0"
+					quadratic="0.0"
+				/>
+				<spotlightrange inner="10" outer="20" falloff="1" />
+				<direction x="0" y="-1" z="0.5" />
+      </light>
+		</node>
+<!--		<node>
+      <light name="light3" type="directional" visible="true" castShadows="false">
+        <colourDiffuse r="0" g="0" b="1" />
+				<colourSpecular r="0" g="0" b="1" />
+				<direction x="1" y="-1" z="0" />
+      </light>
+		</node>-->
+	</nodes>
+</rastullahmap>
