@@ -38,9 +38,6 @@ namespace rl {
 
 		virtual void run(Ogre::Real elapsedTime);
 
-		virtual void toggleViewMode();
-        virtual void resetCamera();
-
         void setCameraPosition(const Ogre::Vector3& pos);
         void setCameraOrientation(const Ogre::Quaternion& orient);
         void lookAt(const Ogre::Vector3& point);

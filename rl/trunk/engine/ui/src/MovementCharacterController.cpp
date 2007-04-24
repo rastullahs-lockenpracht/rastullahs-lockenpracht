@@ -1856,6 +1856,16 @@ namespace rl {
                 InputManager::getSingleton().pushControlState(CST_FREEFLIGHT);
                 return true;
             }
+            else if (command == "reset_camera")
+            {
+                resetCamera();
+                return true;
+            }
+            else if (command == "toggle_view_mode")
+            {
+                toggleViewMode();
+                return true;
+            }
             else
             {
                 return startAction(command);
@@ -1868,19 +1878,7 @@ namespace rl {
     //------------------------------------------------------------------------
     bool MovementCharacterController::injectMouseDown(int mouseButtonMask)
     {
-      //  if (!im->isCeguiActive())
-      //  {
-            //updateSelection();
-      //      if (im->isMouseButtonDown(1) && mSelector.getSelectedObject() != NULL)
-      //      {
-      //          WindowFactory::getSingleton().showActionChoice(mSelector.getSelectedObject());
-      //      }
-      //      else if (im->isMouseButtonDown(0) && mSelector.getSelectedObject() != NULL)
-      //      {
-      //          mSelector.getSelectedObject()->doDefaultAction(mCharacter, NULL);
-      //      }
-      //  }
-      return false;
+        return false;
     }
 
     //------------------------------------------------------------------------

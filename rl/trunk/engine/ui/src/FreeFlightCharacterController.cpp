@@ -186,7 +186,7 @@ namespace rl {
         mCameraActor->pitch(pitch.valueDegrees());
     }
 
-	void FreeFlightCharacterController::toggleViewMode()
+	void FreeFlightCharacterController::toggleCameraCollision()
 	{
 		// with or without collision?
         // be careful to enable collision if beeing in another collision
@@ -248,7 +248,12 @@ namespace rl {
                 InputManager::getSingleton().popControlState();
                 return true;
             }
-            else
+            if (command == "toggle_camera_collision")
+            {
+                toggleCameraCollision();
+                return true;
+            }
+            else 
             {
                 return startAction(command);
             }

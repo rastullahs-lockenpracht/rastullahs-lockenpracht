@@ -33,9 +33,6 @@ namespace rl {
 
 		void run(Ogre::Real elapsedTime);
 
-		void toggleViewMode();
-        void resetCamera();
-
         virtual bool injectKeyUp(int keycode);
     private:
 	};

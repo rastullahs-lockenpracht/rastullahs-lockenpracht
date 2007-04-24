@@ -96,7 +96,7 @@ namespace rl {
         bot->setDialogCharacter(mCharacter);
 		mDialogPartner = bot->getDialogPartner()->getActor();
 
-        resetCamera();
+        recalculateCamera( mDialogPartner, mCharacterActor );
 
         mDialogWindow = WindowFactory::getSingleton().getDialogWindow();
         mDialogWindow->initialize(this, bot);
@@ -148,16 +148,6 @@ namespace rl {
                 + CeGuiString(mSubtitleWindow->getWindow()->isVisible() ? "vis" : "unvis")
                 + ", Time: "
                 + StringConverter::toString(mCurrFadeTextTime));
-    }
-
-    void DialogCharacterController::toggleViewMode()
-    {
-        /// @todo Krasser Gesichtszoom? Halbtotale... usw?
-    }
-
-    void DialogCharacterController::resetCamera()
-    {
-        recalculateCamera( mDialogPartner, mCharacterActor );
     }
 
     void DialogCharacterController::recalculateCamera( Actor* speaker, Actor* listener )

@@ -42,9 +42,6 @@ namespace rl {
         CharacterController(CommandMapper* commandMapper, Actor* camera, Person* character);
 		virtual ~CharacterController()= 0;
 
-		virtual void toggleViewMode() = 0;
-		virtual void resetCamera() = 0;
-
         virtual void pause() = 0;
         virtual void resume() = 0;
 

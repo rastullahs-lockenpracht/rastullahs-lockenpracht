@@ -149,14 +149,14 @@ namespace rl {
                     + ") is assigned to movement " + it->first +" ("
                     + StringConverter::toString(getMovement(it->first))+")");
             }
-
-            buildCommandMap(mKeyGlobalActions, cfgMgr->getSettings("Action keys"));
-            buildCommandMap(mKeyMovementControlState, cfgMgr->getSettings("MovementController keys"));
-            buildCommandMap(mKeyFreeflightControlState, cfgMgr->getSettings("FreeflightController keys"));
-            buildCommandMap(mKeyDialogControlState, cfgMgr->getSettings("DialogController keys"));
-            buildCommandMap(mKeyCombatControlState, cfgMgr->getSettings("CombatController keys"));
-            buildCommandMap(mKeyCutsceneControlState, cfgMgr->getSettings("CutsceneController keys"));
         }
+
+        buildCommandMap(mKeyGlobalActions, cfgMgr->getSettings("Action keys"));
+        buildCommandMap(mKeyMovementControlState, cfgMgr->getSettings("MovementController keys"));
+        buildCommandMap(mKeyFreeflightControlState, cfgMgr->getSettings("FreeflightController keys"));
+        buildCommandMap(mKeyDialogControlState, cfgMgr->getSettings("DialogController keys"));
+        buildCommandMap(mKeyCombatControlState, cfgMgr->getSettings("CombatController keys"));
+        buildCommandMap(mKeyCutsceneControlState, cfgMgr->getSettings("CutsceneController keys"));
     }
 
     void CommandMapper::buildCommandMap(KeyAndMouseCommandMap& cmdMap,

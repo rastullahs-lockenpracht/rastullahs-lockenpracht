@@ -33,14 +33,6 @@ namespace rl {
     {
     }
 
-	void CombatCharacterController::toggleViewMode()
-    {
-    }
-
-    void CombatCharacterController::resetCamera()
-    {
-    }
-
     bool CombatCharacterController::injectKeyUp(int keycode)
     {
         return false;

@@ -314,7 +314,8 @@ namespace rl {
 
     bool InputManager::keyReleased(const OIS::KeyEvent& e)
     {
-        LOG_MESSAGE2(Logger::UI, "Key released: " + mKeyboard->getAsString(e.key) , "InputManager::keyReleased");
+        LOG_MESSAGE2(Logger::UI, "Key released: " + mKeyboard->getAsString(e.key) ,
+            "InputManager::keyReleased");
         if (sendKeyToCeGui(e))
         {
             CEGUI::System& cegui = CEGUI::System::getSingleton();
@@ -329,13 +330,15 @@ namespace rl {
             if (action != NULL)
             {
                 action->doAction(NULL, NULL, NULL);
-                LOG_MESSAGE2(Logger::UI, "    invoked action " + action->getName(), "InputManager::keyReleased");
+                LOG_MESSAGE2(Logger::UI, "    invoked action " + action->getName(),
+                    "InputManager::keyReleased");
             }
 
             if (!mControlStates.empty())
             {
                 mControlStates.top()->injectKeyUp(e.key);
-                LOG_MESSAGE2(Logger::UI, "    fed to char controller", "InputManager::keyReleased");
+                LOG_MESSAGE2(Logger::UI, "    fed to char controller",
+                    "InputManager::keyReleased");
             }
         }
 

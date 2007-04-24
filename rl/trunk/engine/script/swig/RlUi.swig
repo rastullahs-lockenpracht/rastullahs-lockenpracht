@@ -24,14 +24,6 @@ class CharacterController
 private:
     CharacterController(rl::Actor* camera, rl::Actor* character);
 public:
-
-     /**
-       *  @throw NullPointerException if camera or character is NULL.
-       *  @throw InvalidArgumentException if character is not placed in the scene.
-       */
-    void toggleViewMode();
-    void resetCamera();
-
 };
 
 class CutsceneCharacterController : public CharacterController
@@ -41,9 +33,6 @@ private:
 
 public:
     virtual ~CutsceneCharacterController();
-
-    void toggleViewMode();
-    void resetCamera();
 
     void setCameraPosition(const Ogre::Vector3& pos);
     void setCameraOrientation(const Ogre::Quaternion& orient);

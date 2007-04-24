@@ -46,11 +46,11 @@ namespace rl {
 
 		virtual void run(Ogre::Real elapsedTime);
 
-		void toggleViewMode();
-		void resetCamera();
-
 		bool injectKeyDown(int keycode);
 		bool injectKeyUp(int keycode);
+
+	    void toggleCameraCollision();
+	    void resetCamera();
 
         /// This is the OgreNewt contact process callback for the combination
         /// Character <-> Level

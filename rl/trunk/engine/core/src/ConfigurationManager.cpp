@@ -100,12 +100,9 @@ namespace rl
         addSetting("Action keys", "toggleconsole", "Tabulator");
         addSetting("Action keys", "toggledebugwindow", "F2");
         addSetting("Action keys", "togglegamelogwindow", "F3");
-        addSetting("Action keys", "toggleviewmode", "F");
-        addSetting("Action keys", "resetcamera", "0 (Nummernblock)");
         addSetting("Action keys", "makescreenshot", "P,Ctrl+P");
         addSetting("Action keys", "togglecollisiondebug", "L,Ctrl+L");
         addSetting("Action keys", "toggledebugvisualisation", "Ctrl+O");
-        addSetting("Action keys", "togglevanitymode", "V");
         addSetting("Action keys", "usecurrentobjectdefaultaction", "R");
         addSetting("Action keys", "toggleinventorywindow", "I");
         addSetting("Action keys", "showjournalwindow", "J");
@@ -116,8 +113,11 @@ namespace rl
         addSetting("Action keys", "showobjectactions", "U");
 
         addSetting("FreeflightController keys", "back_to_character_movement", "M");
+        addSetting("FreeflightController keys", "toggle_camera_collision", "F");
 
         addSetting("MovementController keys", "freeflight_mode", "M");
+        addSetting("MovementController keys", "toggle_view_mode", "F");
+        addSetting("MovementController keys", "reset_camera", "0 (Nummernblock)");
 
         setRastullahCfgPath();
     }

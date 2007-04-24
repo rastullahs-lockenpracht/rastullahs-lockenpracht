@@ -52,14 +52,6 @@ namespace rl {
 	{
 	}
 
-	void CutsceneCharacterController::toggleViewMode()
-	{
-	}
-
-    void CutsceneCharacterController::resetCamera()
-	{
-	}
-
     void CutsceneCharacterController::setCameraPosition(const Ogre::Vector3& pos)
     {
         mCameraActor->setPosition(pos);

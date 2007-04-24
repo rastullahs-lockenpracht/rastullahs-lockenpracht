@@ -57,11 +57,6 @@ namespace rl {
 		/// @override
 		virtual void run(Ogre::Real elapsedTime);
 
-		/// @override
-		virtual void toggleViewMode();
-		/// @override 
-		virtual void resetCamera();
-
 		/// Setzt den Dialogpartner (Diealogführenden Spieler-Actor)
 		void setDialogPartner(Actor* partner);
 
