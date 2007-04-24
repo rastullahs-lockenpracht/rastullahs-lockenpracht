@@ -70,17 +70,6 @@ class ToggleGameLogWindowAction < Action
     end
 end
 
-class ToggleViewModeAction < Action
-  def initialize
-    super("toggleviewmode", "First/ThirdPerson umschalten")
-  end
-
-  def doAction(object, actor, target)
-    gc = $IM.getControlState();
-    gc.toggleViewMode()
-  end
-end
-
 class ToggleInGameGlobalMenuAction < Action
   def initialize
     super("toggleingameglobalmenu", "Spielmenü anzeigen")
@@ -99,17 +88,6 @@ class ToggleInventoryAction < Action
     def doAction(object, actor, target)
         $WF.toggleInventoryWindow()
     end
-end
-
-class ResetCameraAction < Action
-  def initialize
-    super("resetcamera", "Kamera zurücksetzen")
-  end
-
-  def doAction(object, actor, target)
-    gc = $IM.getControlState();
-    gc.resetCamera();
-  end
 end
 
 class MakeScreenshotAction < Action
