@@ -4,6 +4,7 @@ NEWLINE = "_NEWLINE_"
 
 class MaterialParser
     attr_reader :materials
+    include Enumerable
 
 	def initialize
         @materials = []     
@@ -18,10 +19,16 @@ class MaterialParser
         @materials.push( mat )
     end
 
+    def each
+        @materials.each do
+            yield
+        end
+    end
+
     def parseString( string, filename )
         mp = self;
 
-        mat = Material.new( filename )
+        mat = Material.new( filename, true )
         tec = Technique.new
         pa = Pass.new
         tu = TextureUnit.new
@@ -48,8 +55,8 @@ class MaterialParser
             end
 
             start :skript do
-                match('material', :string, :newlines, '{', :material, '}' ) {|_,n| mat.name = n; mp.addMaterial(mat);mat = Material.new( filename ) }
-                match('material', :string, ':', :string, :newlines, '{', :material, '}' ) {|_,n,_,b| mat.name = n; mat.basename = b; mp.addMaterial(mat); mat = Material.new( filename ) }
+                match('material', :string, :newlines, '{', :material, '}' ) {|_,n| mat.name = n; mp.addMaterial(mat);mat = Material.new( filename, false ) }
+                match('material', :string, ':', :string, :newlines, '{', :material, '}' ) {|_,n,_,b| mat.name = n; mat.basename = b; mp.addMaterial(mat); mat = Material.new( filename, false ) }
 
                 match( ::NEWLINE )
                 match(:skript, :skript ) 

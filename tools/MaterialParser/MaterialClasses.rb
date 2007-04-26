@@ -1,3 +1,5 @@
+TAB = "\t"
+
 class Attribute 
     attr_reader :name, :value
     attr_writer :name, :value
@@ -25,22 +27,44 @@ class AttributedObject
         }
         return rets
     end
+
+    def to_s
+        temparr = []
+        @attributes.each { |att| 
+            temparr << TAB << att.name << " " << att.value.join( " " ) << "\n"
+        }
+        temparr.join
+    end
 end
 
 class Material < AttributedObject
-    attr_reader :techniques, :name, :basename, :filename
+    attr_reader :techniques, :name, :basename, :filename, :firstinfile
     attr_writer :techniques, :name, :basename, :filename
 
-    def initialize( filename )
+    def initialize( filename, firstinfile )
         super()
         @techniques = []
         @name = nil
         @basename = nil
         @filename = filename
+        @firstinfile = firstinfile
     end
 
     def addTechnique( tech )
         @techniques.push( tech )
+    end
+    
+    def to_s
+        temparr = []
+        
+        temparr << "material" << " " << @name
+        temparr << " : " << @basename unless @basename.nil?
+        temparr << "\n{\n"
+        temparr << super()
+        @techniques.each { |su| temparr << su.to_s.gsub(/^/, TAB ) }
+        temparr << "}\n"
+
+        temparr.join
     end
 end
 
@@ -53,11 +77,24 @@ class Technique < AttributedObject
         @passes = []
         @name = nil
     end
+
+    def to_s
+        temparr = []
+        
+        temparr << "technique"
+        temparr << " " << @name unless @name.nil?
+        temparr << "\n{\n"
+        temparr << super()
+        @passes.each { |su| temparr << su.to_s.gsub(/^/, TAB ) }
+        temparr << "}\n"
+
+        temparr.join
+    end
 end
 
 class Pass < AttributedObject
-    attr_reader :tus, :vprs, :scvprs, :fprs,:name
-    attr_writer :tus, :vprs, :scvprs, :fprs,:name
+    attr_reader :tus, :vprs, :scvprs, :fprs, :name
+    attr_writer :tus, :vprs, :scvprs, :fprs, :name
 
     def initialize( )
         super()
@@ -67,44 +104,108 @@ class Pass < AttributedObject
         @fprs = []
         @name = nil
     end
+
+    def to_s
+        temparr = []
+        
+        temparr << "pass"
+        temparr << " " << @name unless @name.nil?
+        temparr << "\n{\n"
+        temparr << super()
+        @tus.each { |su| temparr << su.to_s.gsub(/^/, TAB ) }
+        @vprs.each { |su| temparr << su.to_s.gsub(/^/, TAB ) }
+        @scvprs.each { |su| temparr << su.to_s.gsub(/^/, TAB ) }
+        @fprs.each { |su| temparr << su.to_s.gsub(/^/, TAB ) }
+        temparr << "}\n"
+
+        temparr.join
+    end
 end
 
 class TextureUnit < AttributedObject
-    attr_reader :texture, :name
-    attr_writer :texture, :name
+    attr_reader :name
+    attr_writer :name
 
     def initialize( )
         super()
         @name = nil
+    end
+
+    def to_s
+        temparr = []
+        
+        temparr << "texture_unit"
+        temparr << " " << @name unless @name.nil?
+        temparr << "\n{\n"
+        temparr << super()
+        temparr << "}\n"
+
+        temparr.join
     end
 end
 
 class VertexProgramRef < AttributedObject
-    attr_reader :texture, :name
-    attr_writer :texture, :name
+    attr_reader :name
+    attr_writer :name
 
     def initialize( )
         super()
         @name = nil
+    end
+
+    def to_s
+        temparr = []
+        
+        temparr << "vertex_program_ref"
+        temparr << " " << @name unless @name.nil?
+        temparr << "\n{\n"
+        temparr << super()
+        temparr << "}\n"
+
+        temparr.join
     end
 end
 
 class ShadowCasterVertexProgramRef < AttributedObject
-    attr_reader :texture, :name
-    attr_writer :texture, :name
+    attr_reader :name
+    attr_writer :name
 
     def initialize( )
         super()
         @name = nil
     end
+
+    def to_s
+        temparr = []
+        
+        temparr << "shadow_caster_vertex_program_ref"
+        temparr << " " << @name unless @name.nil?
+        temparr << "\n{\n"
+        temparr << super()
+        temparr << "}\n"
+
+        temparr.join
+    end
 end
 
 class FragmentProgramRef < AttributedObject
-    attr_reader :texture, :name
-    attr_writer :texture, :name
+    attr_reader :name
+    attr_writer :name
 
     def initialize( )
         super()
         @name = nil
+    end
+
+    def to_s
+        temparr = []
+        
+        temparr << "fragment_program_ref"
+        temparr << " " << @name unless @name.nil?
+        temparr << "\n{\n"
+        temparr << super()
+        temparr << "}\n"
+
+        temparr.join
     end
 end
