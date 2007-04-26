@@ -153,7 +153,7 @@
 
 			<!-- Name of the ruby class, an instance will be created -->
 			<trigger classname="DoomsDayDevice" > 
-			    <!-- Parameters are properties -->
+				<!-- Parameters are properties -->
 				<property name="message" type="STRING" data="You triggered the dooms day device!" />
 			</trigger>
 
@@ -170,12 +170,5 @@
 		<skydomesettings curvature="10" tiling = "8" />
 	</sky>
 
-
-	<!-- Move to module settings? Shouldn't be location-specific... -->
-	<roleplaysettings>
-		<party>
-			<member id="4" />
-		</party>
-	</roleplaysettings>
 
 </rastullahmap>
