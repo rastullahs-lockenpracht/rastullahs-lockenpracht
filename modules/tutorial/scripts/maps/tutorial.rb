@@ -34,6 +34,6 @@ load( "tutorial_quests.rb" );
 $SCRIPT.log("Quests geladen");
 
 $SCRIPT.log("NSCs laden");
-load ("steering.rb");
-load( "nscs.rb" );
+load "steering.rb";
+load "nscs.rb";
 $SCRIPT.log("NSCs geladen");
