@@ -9,8 +9,8 @@ public class SceneNode
 	private Vector3 mPosition;
 	private Quaternion mRotation;
 	private Vector3 mScale;
-	private Entity mEntity;
 	private NodeUserData mUserData;
+	private String mId;
 
 	public NodeUserData getUserData()
 	{
@@ -25,16 +25,6 @@ public class SceneNode
 	public SceneNode(String name)
 	{
 		mName = name;
-	}
-
-	public Entity getEntity()
-	{
-		return mEntity;
-	}
-
-	public void setEntity(Entity entity)
-	{
-		mEntity = entity;
 	}
 
 	public String getName()
@@ -77,27 +67,6 @@ public class SceneNode
 		mScale = scale;
 	}
 
-	public String toXML()
-	{
-		StringBuffer buf = new StringBuffer();
-		if (mName != null && !mName.equals(""))
-			buf.append("        <node name=\"" + mName + "\">\n");
-		else
-			buf.append("        <node>\n");
-		if (mPosition != null)
-			buf.append("            " + mPosition.toXML("position") + "\n");
-		if (mRotation != null)
-			buf.append("            " + mRotation.toXML("rotation") + "\n");
-		if (mScale != null)
-			buf.append("            " + mScale.toXML("scale") + "\n");
-		if (mEntity != null)
-			buf.append("            " + mEntity.toXML() + "\n");
-		if (mUserData != null)
-			buf.append(mUserData.toXML());
-		buf.append("        </node>");
-		return buf.toString();
-	}
-
 	public void scale(float factor)
 	{
 		if (mPosition != null)
@@ -109,14 +78,14 @@ public class SceneNode
 	@Override
 	public String toString()
 	{
-		StringBuffer buf = new StringBuffer();
 		if (mName != null && !mName.equals(""))
-			buf.append(mName);
+		{
+			return mName;
+		}
 		else
-			buf.append("n.n.");
-		if (mEntity != null)
-			buf.append(", " + mEntity.getMeshFile());
-		return buf.toString();
+		{
+			return "n.n.";
+		}
 	}
 
 	public void setPhysicsProxy(String proxyType)
@@ -126,5 +95,15 @@ public class SceneNode
 			mUserData = new NodeUserData();
 		}
 		mUserData.setPhysicalBody(proxyType);
+	}
+
+	public String getId()
+	{
+		return mId;
+	}
+
+	public void setId(String id)
+	{
+		mId = id;
 	}
 }

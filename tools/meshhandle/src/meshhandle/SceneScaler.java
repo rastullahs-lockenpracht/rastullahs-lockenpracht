@@ -4,12 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 import javax.xml.parsers.ParserConfigurationException;
-
-import meshhandle.io.xml.SceneLoader;
+import meshhandle.io.xml.scene.SceneFormat2Loader;
+import meshhandle.io.xml.scene.SceneFormat2Writer;
 import meshhandle.model.scene.Scene;
-
 import org.xml.sax.SAXException;
 
 public class SceneScaler {
@@ -44,10 +42,10 @@ public class SceneScaler {
         }
 
         System.out.println("processing " + inputFile);
-        Scene scene = SceneLoader.readScene(inputFile);
+        Scene scene = new SceneFormat2Loader().readScene(inputFile);
         scene.scale(factor);
         FileWriter outFile = new FileWriter(outputFile, false);
-        outFile.write(scene.toXML());
+        new SceneFormat2Writer(outFile).write(scene);
         outFile.flush();
     }
 }

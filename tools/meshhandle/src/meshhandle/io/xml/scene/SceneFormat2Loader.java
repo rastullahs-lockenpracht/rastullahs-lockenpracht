@@ -1,34 +1,34 @@
-package meshhandle.io.xml;
+package meshhandle.io.xml.scene;
 
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
-import meshhandle.data.Quaternion;
-import meshhandle.data.Vector3;
+import meshhandle.io.xml.XMLLoader;
 import meshhandle.model.scene.Entity;
+import meshhandle.model.scene.Light;
 import meshhandle.model.scene.NodeUserData;
 import meshhandle.model.scene.Scene;
 import meshhandle.model.scene.SceneNode;
 import meshhandle.model.scene.SceneUserData;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class SceneLoader extends XMLLoader
+public class SceneFormat2Loader extends XMLLoader implements ISceneLoader
 {
-	public static Scene readScene(String fileName)
+	public Scene readScene(String fileName)
 			throws ParserConfigurationException, SAXException, IOException
 	{
 		Document doc = readDocument(fileName);
-		Element sceneElem = (Element)doc.getElementsByTagName("scene").item(0);
-		Scene scene = new Scene(sceneElem.getAttribute("formatVersion"));
+		Element sceneElem = (Element)doc.getFirstChild();
+		Scene scene = new Scene();
 		NodeList nodeNodeList = sceneElem.getElementsByTagName("node");
 		for (int idx = 0; idx < nodeNodeList.getLength(); idx++)
 		{
 			SceneNode scenenode = processNode((Element)nodeNodeList.item(idx));
 			scene.addNode(scenenode);
 		}
-		nodeNodeList = sceneElem.getElementsByTagName("userData");
 		for (int idx = 0; idx < nodeNodeList.getLength(); idx++)
 		{
 			Element elem = (Element)nodeNodeList.item(idx);
@@ -41,7 +41,12 @@ public class SceneLoader extends XMLLoader
 		return scene;
 	}
 
-	private static SceneUserData processSceneUserData(Element userDataElem)
+	public String getFormatVersion()
+	{
+		return "0.2.0";
+	}
+	
+	protected SceneUserData processSceneUserData(Element userDataElem)
 	{
 		SceneUserData sceneUserData = new SceneUserData();
 		NodeList nl = userDataElem.getElementsByTagName("property");
@@ -57,34 +62,37 @@ public class SceneLoader extends XMLLoader
 		return sceneUserData;
 	}
 
-	private static SceneNode processNode(Element sceneNodeElem)
+	protected SceneNode processNode(Element sceneNodeElem)
 	{
-		SceneNode scenenode = new SceneNode(sceneNodeElem.getAttribute("name"));
-		Element elem = (Element)sceneNodeElem.getElementsByTagName("position")
+		SceneNode scenenode = null;
+		
+		Element elem = (Element)sceneNodeElem.getElementsByTagName("entity").item(0);
+		if (elem != null)
+		{
+			scenenode = processEntity(elem);
+		}
+
+		elem = (Element)sceneNodeElem.getElementsByTagName("light").item(0);
+		if (elem != null)
+		{
+			scenenode = processLight(elem);
+		}
+
+		elem = (Element)sceneNodeElem.getElementsByTagName("position")
 				.item(0);
 		if (elem != null)
 		{
-			scenenode.setPosition(Vector3.createFromXML(elem));
+			scenenode.setPosition(processVector3(elem));
 		}
 		elem = (Element)sceneNodeElem.getElementsByTagName("scale").item(0);
 		if (elem != null)
 		{
-			scenenode.setScale(Vector3.createFromXML(elem));
+			scenenode.setScale(processVector3(elem));
 		}
 		elem = (Element)sceneNodeElem.getElementsByTagName("rotation").item(0);
 		if (elem != null)
 		{
-			scenenode.setRotation(Quaternion.createFromXML(elem));
-		}
-		elem = (Element)sceneNodeElem.getElementsByTagName("entity").item(0);
-		if (elem != null)
-		{
-			scenenode.setEntity(processEntity(elem));
-		}
-		elem = (Element)sceneNodeElem.getElementsByTagName("entity").item(0);
-		if (elem != null)
-		{
-			scenenode.setEntity(processEntity(elem));
+			scenenode.setRotation(processQuaternion(elem));
 		}
 		elem = (Element)sceneNodeElem.getElementsByTagName("userdata").item(0);
 		if (elem != null)
@@ -94,7 +102,7 @@ public class SceneLoader extends XMLLoader
 		return scenenode;
 	}
 
-	private static Entity processEntity(Element elem)
+	protected Entity processEntity(Element elem)
 	{
 		String name = elem.getAttribute("name");
 		String file = elem.getAttribute("meshFile");
@@ -103,14 +111,47 @@ public class SceneLoader extends XMLLoader
 		{
 			entity.setId(elem.getAttribute("id"));
 		}
-		if (elem.hasAttribute("castsShadows"))
+		if (elem.hasAttribute("castShadow"))
 		{
-			entity.setCastsShadows(Boolean.valueOf(elem.getAttribute("castsShadows")));
+			entity.setCastShadow(Boolean.valueOf(elem.getAttribute("castShadow")));
 		}
 		return entity;
 	}
+	
+	protected Light processLight(Element elem)
+	{
+		String name = elem.getAttribute("name");
+		Light light = new Light(name);
+		
+		if (elem.hasAttribute("id"))
+		{
+			light.setId(elem.getAttribute("id"));
+		}
 
-	private static NodeUserData processNodeUserData(Element userDataElem)
+		String type = elem.getAttribute("type");
+		light.setType(type);
+		
+		if (elem.hasAttribute("visible"))
+		{
+			boolean visible = Boolean.parseBoolean(elem.getAttribute("visible"));
+			light.setVisible(visible);
+		}
+		
+		Node diffColElem = elem.getElementsByTagName("colourDiffuse").item(0);
+		if (diffColElem != null)
+		{
+			light.setDiffuseColour(processColourValue(diffColElem));
+		}
+		Node specColElem = elem.getElementsByTagName("colourSpecular").item(0);
+		if (specColElem != null)
+		{
+			light.setDiffuseColour(processColourValue(specColElem));
+		}
+		
+		return light;
+	}
+
+	protected NodeUserData processNodeUserData(Element userDataElem)
 	{
 		NodeUserData nodeUserData = new NodeUserData();
 		NodeList nl = userDataElem.getElementsByTagName("property");

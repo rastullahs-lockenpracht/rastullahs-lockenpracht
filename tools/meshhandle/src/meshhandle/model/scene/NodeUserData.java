@@ -12,7 +12,6 @@ public class NodeUserData {
 
 	public String toXML() {
 		StringBuffer buf = new StringBuffer();
-		buf.append("            <userdata>\n");
 		if (mStaticGeomGroup != null) {
 			buf
 					.append(
@@ -31,7 +30,6 @@ public class NodeUserData {
 							"                <property type=\"FLOAT\" name=\"renderingdistance\" data=\"")
 					.append(mRenderingDistance).append("\"/>\n");
 		}
-		buf.append("            </userdata>\n");
 		return buf.toString();
 	}
 

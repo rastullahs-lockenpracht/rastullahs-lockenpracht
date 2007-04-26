@@ -1,10 +1,7 @@
 package meshhandle.io.xml;
 
 import java.io.IOException;
-
 import javax.xml.parsers.ParserConfigurationException;
-
-import meshhandle.data.Vector3;
 import meshhandle.model.mesh.Face;
 import meshhandle.model.mesh.Mesh;
 import meshhandle.model.mesh.Submesh;
@@ -13,7 +10,6 @@ import meshhandle.model.mesh.Texture;
 import meshhandle.model.mesh.Vertex;
 import meshhandle.model.mesh.VertexBoneAssignment;
 import meshhandle.model.mesh.VertexBufferData;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -26,7 +22,7 @@ public class MeshLoader extends XMLLoader {
 		return face;
 	}
 
-	private static Submesh processSubmesh(Element submeshElem) {
+	private Submesh processSubmesh(Element submeshElem) {
 		Submesh submesh = new Submesh();
 		submesh.setMaterial(submeshElem.getAttribute("material"));
 		submesh.setUse32bitIndices(submeshElem.getAttribute("use32bitindexes")
@@ -79,17 +75,17 @@ public class MeshLoader extends XMLLoader {
 		return texture;
 	}
 
-	private static Vertex processVertex(Element vertElem) {
+	private Vertex processVertex(Element vertElem) {
 		Vertex vert = new Vertex();
 		Element normalElem = (Element) vertElem.getElementsByTagName("normal")
 				.item(0);
 		if (normalElem != null) {
-			vert.setNormal(Vector3.createFromXML(normalElem));
+			vert.setNormal(processVector3(normalElem));
 		}
 		Element positionElem = (Element) vertElem.getElementsByTagName(
 				"position").item(0);
 		if (positionElem != null) {
-			vert.setPosition(Vector3.createFromXML(positionElem));
+			vert.setPosition(processVector3(positionElem));
 		}
 		NodeList texCoordElems = vertElem.getElementsByTagName("texcoord");
 		for (int idx = 0; idx < texCoordElems.getLength(); idx++) {
@@ -123,7 +119,7 @@ public class MeshLoader extends XMLLoader {
 		return assignment;
 	}
 
-	private static VertexBufferData processVertexBuffer(Element vertexBufferElem) {
+	private VertexBufferData processVertexBuffer(Element vertexBufferElem) {
 		VertexBufferData vertexbuffer = new VertexBufferData();
 		vertexbuffer.setNormals(vertexBufferElem.getAttribute("normals")
 				.equals("true"));
@@ -161,7 +157,7 @@ public class MeshLoader extends XMLLoader {
 		return vertexbuffer;
 	}
 
-	public static Mesh readMesh(String fileName)
+	public Mesh readMesh(String fileName)
 			throws ParserConfigurationException, SAXException, IOException {
 		Document doc = readDocument(fileName);
 

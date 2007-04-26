@@ -1,46 +1,17 @@
 package meshhandle.model.scene;
 
-public class Entity
+public class Entity extends SceneNode
 {
 	private final String mName;
 	private final String mMeshFile;
-	private Boolean mCastsShadows;
+	private Boolean mCastShadow;
 	private String mId;
 
 	public Entity(String name, String meshFile)
 	{
+		super(name);
 		mName = name;
 		mMeshFile = meshFile;
-	}
-
-	public String toXML()
-	{
-		StringBuffer buf = new StringBuffer();
-		buf.append("<entity");
-		if (mName != null && !mName.equals(""))
-		{
-			buf.append(" name=\"" + mName + "\""); 
-		}
-		if (mId != null && !mId.equals(""))
-		{
-			buf.append(" id=\"" + mId + "\""); 
-		}
-		buf.append(" meshFile=\"" + mMeshFile + "\"");
-		
-		if (mCastsShadows != null)
-		{
-			if (mCastsShadows == true)
-			{
-				buf.append(" castsShadows=\"true\"");
-			}
-			else if (mCastsShadows == false)
-			{
-				buf.append(" castsShadows=\"false\"");
-			}
-		}
-		buf.append("/>");
-		
-		return buf.toString();
 	}
 
 	public String getMeshFile()
@@ -53,14 +24,14 @@ public class Entity
 		return mName;
 	}
 
-	public Boolean getCastsShadows()
+	public Boolean getCastShadow()
 	{
-		return mCastsShadows;
+		return mCastShadow;
 	}
 
-	public void setCastsShadows(Boolean castsShadows)
+	public void setCastShadow(Boolean castShadow)
 	{
-		mCastsShadows = castsShadows;
+		mCastShadow = castShadow;
 	}
 
 	public String getId()
@@ -71,5 +42,11 @@ public class Entity
 	public void setId(String id)
 	{
 		mId = id;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return super.toString() + " (" + mMeshFile + ")";
 	}
 }

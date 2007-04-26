@@ -44,7 +44,7 @@ public class SkeletonScaler {
         }
 
         System.out.println("processing " + inputFile);
-        Skeleton skel = SkeletonLoader.readSkeleton(inputFile);
+        Skeleton skel = new SkeletonLoader().readSkeleton(inputFile);
         skel.scale(factor);
         FileWriter outFile = new FileWriter(outputFile, false);
         outFile.write(skel.toXML());

@@ -44,7 +44,7 @@ public class MeshScaler {
         }
 
         System.out.println("processing " + inputFile);
-        Mesh mesh = MeshLoader.readMesh(inputFile);
+        Mesh mesh = new MeshLoader().readMesh(inputFile);
         mesh.scale(factor);
         FileWriter outFile = new FileWriter(outputFile, false);
         outFile.write(mesh.toXML());

@@ -23,7 +23,7 @@ public class ImExportTest {
 	 */
 	public static void main(String[] args) {
 		try {
-			Mesh testmesh = MeshLoader
+			Mesh testmesh = new MeshLoader()
 					.readMesh("D:/Eigene Dateien/Java/meshhandle2/Mr_Cylinder.mesh.xml");
 			FileWriter writer = new FileWriter(
 					"D:/Eigene Dateien/Java/meshhandle2/Mr_Cylinder2.mesh.xml");
@@ -70,7 +70,7 @@ public class ImExportTest {
 			e.printStackTrace();
 		}
 		try {
-			Skeleton testskel = SkeletonLoader
+			Skeleton testskel = new SkeletonLoader()
 					.readSkeleton("D:/Eigene Dateien/Java/meshhandle2/Mr_Cylinder_mesh.skeleton.xml");
 			FileWriter writer = new FileWriter(
 					"D:/Eigene Dateien/Java/meshhandle2/Mr_Cylinder2_mesh.skeleton.xml");

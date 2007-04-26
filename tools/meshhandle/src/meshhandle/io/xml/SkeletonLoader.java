@@ -1,17 +1,13 @@
 package meshhandle.io.xml;
 
 import java.io.IOException;
-
 import javax.xml.parsers.ParserConfigurationException;
-
-import meshhandle.data.Vector3;
 import meshhandle.model.skeleton.Animation;
 import meshhandle.model.skeleton.AnimationLink;
 import meshhandle.model.skeleton.AnimationTrack;
 import meshhandle.model.skeleton.Bone;
 import meshhandle.model.skeleton.Keyframe;
 import meshhandle.model.skeleton.Skeleton;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -20,7 +16,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class SkeletonLoader extends XMLLoader {
-    public static Skeleton readSkeleton(String filename) throws SAXException,
+    public Skeleton readSkeleton(String filename) throws SAXException,
             ParserConfigurationException, IOException {
         Document document = readDocument(filename);
 
@@ -38,16 +34,16 @@ public class SkeletonLoader extends XMLLoader {
         return skel;
     }
 
-	private static void processBones(Skeleton skel, Element bonesNode) {
+	private void processBones(Skeleton skel, Element bonesNode) {
         NodeList bonesList = bonesNode.getElementsByTagName("bone");
         for (int idx = 0; idx < bonesList.getLength(); idx++) {
             Element boneNode = (Element) bonesList.item(idx);
             Bone bone = new Bone(Integer.parseInt(boneNode.getAttributes()
                     .getNamedItem("id").getNodeValue()), boneNode
                     .getAttributes().getNamedItem("name").getNodeValue());
-            bone.setPosition(Vector3.createFromXML(boneNode
+            bone.setPosition(processVector3(boneNode
                     .getElementsByTagName("position").item(0)));
-            bone.setRotationAxis(Vector3.createFromXML(boneNode
+            bone.setRotationAxis(processVector3(boneNode
                     .getElementsByTagName("axis").item(0)));
             bone.setRotationAngle(Float.parseFloat(boneNode
                     .getElementsByTagName("rotation").item(0).getAttributes()
@@ -56,7 +52,7 @@ public class SkeletonLoader extends XMLLoader {
         }
     }
 
-    private static void processBoneHierarchy(Skeleton skel,
+    private void processBoneHierarchy(Skeleton skel,
             Element hierarchyNode) {
         NodeList parentRelList = hierarchyNode
                 .getElementsByTagName("boneparent");
@@ -69,7 +65,7 @@ public class SkeletonLoader extends XMLLoader {
         }
     }
 
-    private static void processAnimations(Skeleton skel, Element animationsNode) {
+    private void processAnimations(Skeleton skel, Element animationsNode) {
     	if (animationsNode != null)
     	{
 	        NodeList animationList = animationsNode
@@ -86,7 +82,7 @@ public class SkeletonLoader extends XMLLoader {
 
     }
 
-    private static void processAnimationTracks(Animation anim,
+    private void processAnimationTracks(Animation anim,
             NodeList trackList) {
         for (int idx = 0; idx < trackList.getLength(); idx++) {
             Element trackElem = (Element) trackList.item(idx);
@@ -97,7 +93,7 @@ public class SkeletonLoader extends XMLLoader {
         }
     }
 
-    private static void processKeyFrames(AnimationTrack track,
+    private void processKeyFrames(AnimationTrack track,
             NodeList keyframeList) {
         for (int idx = 0; idx < keyframeList.getLength(); idx++) {
             Element keyframeElem = (Element) keyframeList.item(idx);
@@ -112,7 +108,7 @@ public class SkeletonLoader extends XMLLoader {
             if (rotateElem != null) {
                 keyframe.setRotationAngle(Float.parseFloat(rotateElem
                         .getAttributes().getNamedItem("angle").getNodeValue()));
-                keyframe.setRotationAxis(Vector3.createFromXML(keyframeElem
+                keyframe.setRotationAxis(processVector3(keyframeElem
                         .getElementsByTagName("axis").item(0)));
             }
 
@@ -120,20 +116,20 @@ public class SkeletonLoader extends XMLLoader {
                     .getElementsByTagName("translate").item(0);
 
             if (translateElem != null) {
-                keyframe.setTranslation(Vector3.createFromXML(translateElem));
+                keyframe.setTranslation(processVector3(translateElem));
             }
 
             Element scaleElem = (Element) keyframeElem.getElementsByTagName(
                     "scale").item(0);
 
             if (scaleElem != null) {
-                keyframe.setScale(Vector3.createFromXML(scaleElem));
+                keyframe.setScale(processVector3(scaleElem));
             }
             track.addKeyframe(keyframe);
         }
     }
 
-    private static void processAnimationLinks(Skeleton skel, Element animationLinksElement) {
+    private void processAnimationLinks(Skeleton skel, Element animationLinksElement) {
     	if (animationLinksElement != null)
     	{
     		NodeList keyframeList = animationLinksElement.getElementsByTagName("animationlink");

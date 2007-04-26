@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import meshhandle.model.scene.Entity;
 import meshhandle.model.scene.Scene;
 import meshhandle.model.scene.SceneNode;
 
@@ -64,10 +66,11 @@ public class Module
 		{
 			for (SceneNode curSceneNode : curScene.getNodes())
 			{
-				if (curSceneNode.getEntity() != null
-					&& curSceneNode.getEntity().getMeshFile() != null)
+				if (curSceneNode instanceof Entity)
 				{
-					mMeshFiles.add(curSceneNode.getEntity().getMeshFile());
+					String meshfile = ((Entity)curSceneNode).getMeshFile();
+					if (meshfile != null)
+					mMeshFiles.add(meshfile);
 				}
 			}
 		}

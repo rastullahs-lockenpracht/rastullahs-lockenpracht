@@ -11,7 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -24,11 +23,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.xml.parsers.ParserConfigurationException;
-
-import meshhandle.io.xml.SceneLoader;
+import meshhandle.io.xml.scene.SceneFormat2Loader;
+import meshhandle.io.xml.scene.SceneFormat2Writer;
 import meshhandle.model.scene.Scene;
 import meshhandle.model.scene.SceneNode;
-
 import org.xml.sax.SAXException;
 
 public class SceneEditor extends JFrame implements ActionListener {
@@ -193,7 +191,7 @@ public class SceneEditor extends JFrame implements ActionListener {
 			{
 				try 
 				{
-					mScene = SceneLoader.readScene(mDotsceneChooser.getSelectedFile().getAbsolutePath());
+					mScene = new SceneFormat2Loader().readScene(mDotsceneChooser.getSelectedFile().getAbsolutePath());
 					mSceneTree.setModel(new DefaultTreeModel(SceneTreeCreator.createSceneTree(mScene)));
 				} 
 				catch (ParserConfigurationException e) 
@@ -217,7 +215,7 @@ public class SceneEditor extends JFrame implements ActionListener {
 				try 
 				{
 					FileWriter outFile = new FileWriter(mDotsceneChooser.getSelectedFile(), false);
-			        outFile.write(mScene.toXML());
+					new SceneFormat2Writer(outFile).write(mScene);
 			        outFile.flush();
 			        outFile.close();
 				}

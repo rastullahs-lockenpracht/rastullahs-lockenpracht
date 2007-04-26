@@ -34,7 +34,12 @@ public class SceneTreeCreator
 		{
 			DefaultMutableTreeNode meshFileNode = null;
 
-			Entity ent = node.getEntity();
+			Entity ent = null;
+			if (node instanceof Entity)
+			{
+				ent = (Entity)node;
+			}
+			
 			if (ent == null) 
 			{
 				meshFileNode = new DefaultMutableTreeNode("No meshfile");
@@ -43,14 +48,14 @@ public class SceneTreeCreator
 			else 
 			{
 				meshFileNode = entityMap.get(ent.getMeshFile());
+				if (meshFileNode == null)
+				{
+					meshFileNode = new DefaultMutableTreeNode(ent.getMeshFile());
+					root.add(meshFileNode);
+					entityMap.put(ent.getMeshFile(), meshFileNode);
+				}
 			}
 			
-			if (meshFileNode == null)
-			{
-				meshFileNode = new DefaultMutableTreeNode(node.getEntity().getMeshFile());
-				root.add(meshFileNode);
-				entityMap.put(node.getEntity().getMeshFile(), meshFileNode);
-			}
 			meshFileNode.add(new DefaultMutableTreeNode(node));
 		}
 		

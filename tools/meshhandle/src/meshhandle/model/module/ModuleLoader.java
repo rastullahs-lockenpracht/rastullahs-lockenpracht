@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import meshhandle.io.plaintext.RubyFileLoader;
-import meshhandle.io.xml.SceneLoader;
+import meshhandle.io.xml.scene.SceneFormat2Loader;
 import meshhandle.model.scene.Scene;
 import org.xml.sax.SAXException;
 
@@ -54,7 +54,7 @@ public class ModuleLoader
 			try
 			{
 				System.out.print("Processing "+mod.getPath() + "/maps/" + sceneFile);
-				Scene scene = SceneLoader.readScene(
+				Scene scene = new SceneFormat2Loader().readScene(
 						mod.getPath() + "/maps/" + sceneFile);
 				list.add(scene);
 				System.out.println(" done");

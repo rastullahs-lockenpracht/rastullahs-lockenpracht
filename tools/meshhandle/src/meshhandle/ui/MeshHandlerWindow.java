@@ -365,7 +365,7 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 			}
 			try {
 				String modelPath = oldModel.getAbsolutePath() + ".xml";
-				model = MeshLoader.readMesh(modelPath);
+				model = new MeshLoader().readMesh(modelPath);
 			} catch (Exception e1) {
 				loggen("Fehler beim Einlesen der .mesh.xml. (Siehe Konsole)");
 				e1.printStackTrace();
@@ -386,7 +386,7 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 									+ model.getSkeletonLink())) {
 				loggen(" .skeleton.xml erzeugt.");
 				try {
-					skeleton = SkeletonLoader
+					skeleton = new SkeletonLoader()
 							.readSkeleton(oldModel.getAbsolutePath()
 									.substring(
 											0,

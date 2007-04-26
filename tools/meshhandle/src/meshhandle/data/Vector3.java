@@ -1,7 +1,5 @@
 package meshhandle.data;
 
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 
 public class Vector3 {
     private float mX, mY, mZ;
@@ -40,14 +38,6 @@ public class Vector3 {
         mX *= factor;
         mY *= factor;
         mZ *= factor;
-    }
-
-    public static Vector3 createFromXML(Node node) {
-        NamedNodeMap attrs = node.getAttributes();
-        return new Vector3(Float.parseFloat(attrs.getNamedItem("x")
-                .getNodeValue()), Float.parseFloat(attrs.getNamedItem("y")
-                .getNodeValue()), Float.parseFloat(attrs.getNamedItem("z")
-                .getNodeValue()));
     }
 
     public String toXML(String nodeName) {
