@@ -117,7 +117,7 @@ namespace rl {
             "CEGUI System initialized.", "UiSubsystem::initializeUiSubsystem");
 
         // load scheme and set up defaults
-        ///@todo Hier sollte was Lookunabh�ngiges rein!!! FIXME TODO BUG!
+        ///@todo Hier sollte was Lookunabhaengiges rein!!! FIXME TODO BUG!
         System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook-Images",
             (utf8*)"MouseArrow");
         LOG_MESSAGE2(Logger::UI, "Mouse arrow loaded.",
@@ -167,7 +167,7 @@ namespace rl {
             SoundManager::getSingleton().createListenerActor();
         }
 
-        // Nur wenn es sich ver�ndert hat
+        // Nur wenn es sich veraendert hat
         if( person != mCharacter )
         {
             if( mCharacter != NULL )

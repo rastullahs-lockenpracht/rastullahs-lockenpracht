@@ -154,6 +154,8 @@ namespace rl {
 					 cegui_absdim(item->getSize().second*30))); 
 		itemhandler->setTooltipText(item->getName());
 		itemhandler->addChildWindow(itemWindow);
+
+		itemhandler->setTooltipText(item->getName());
 		
 		return itemhandler;
 	}
