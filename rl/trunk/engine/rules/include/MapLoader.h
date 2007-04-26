@@ -53,7 +53,9 @@ namespace rl {
         Ogre::String mResourceGroup;
 
         void setRootSceneNode(Ogre::SceneNode* node);
-        void processNodes(XERCES_CPP_NAMESPACE::DOMElement* docElem, bool loadGameObjects);
+        void processSceneNodes(XERCES_CPP_NAMESPACE::DOMElement* nodesElem, bool loadGameObjects);
+        void processZones(XERCES_CPP_NAMESPACE::DOMElement* zonesElem);
+		void processSkySettings(XERCES_CPP_NAMESPACE::DOMElement* skyElem);
     };
 
 } // namespace rl

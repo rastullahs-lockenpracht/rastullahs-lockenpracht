@@ -67,7 +67,6 @@ namespace rl {
     }
 
     //Enables / disables a 'sky dome' i.e.
-	///@todo eventuell in BSPWorld ueberschreiben
     void World::setSkyDome(bool enable, const String &materialName,
         Real curvature, Real tiling, Real distance, bool drawFirst)
     {   

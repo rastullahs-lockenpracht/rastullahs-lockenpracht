@@ -9,20 +9,11 @@ class LightzoneTest < TestCase
       min_base = [-3, 0.05, -3]
       max_base = [3, height, 3]
       base = $AM.createBoxPrimitiveActor("LightzoneTestBase",
-                                         min_base, max_base, "alpha_green")
+                                         min_base, max_base, "alpha_gray")
       base.placeIntoScene(center);
+	  
+	  MapLoader.new("regressiontest").loadMap("regressiontest_lights.rlmap.xml")
 
-      sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
-      sunlight.getControlledObject().setDirection(0.7, -2.0, 0.8);
-      sunlight.getControlledObject().setDiffuseColour(1, 1, 1);
-      ZoneManager.getSingleton().getDefaultZone().addLight(sunlight)
-
-      interiorlight = $AM.createLightActor("interiorlight", LightObject::LT_POINT);
-      interiorlight.getControlledObject().setDiffuseColour(1, 0, 0);
-      interiorlight.placeIntoScene(center);
-      interiorlight.setVisible(false)
-      lzone = ZoneManager.getSingleton().createZone(center, 3, RlScript::QUERYFLAG_PLAYER);
-      lzone.addLight(interiorlight)
   end
 end
 

@@ -30,16 +30,18 @@ namespace rl
 
         Zone* createZone(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Real radius, unsigned long queryflags);
 		Zone* getDefaultZone() const;
+		Zone* getZone(const Ogre::String& name) const;
 
 		void areaLeft(Zone* zone);
 	    void areaEntered(Zone* zone);
 		
 	private:
-		std::vector<Zone*> mZones;
+		std::map<const Ogre::String, Zone*> mZones;
 		std::list<Zone*> mActiveZones;
 		Zone* mDefaultZone;
 
 		void switchLights();
+		void switchSounds();
 	};
 }
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<rastullahmap formatVersion="0.4.0">
+	<nodes>
+		<gameobject class="builtin_go" id="10" state="IN_SCENE">
+			<position x="-5.0" y="0" z="-10.0" />
+		</gameobject>
+		<gameobject class="custom_go" id="11" state="IN_SCENE">
+			<position x="-5.0" y="0" z="-11.0" />
+		</gameobject>
+	</nodes>
+</rastullahmap>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <rastullahmap formatVersion="0.4.0">
 	<nodes>
-		<light name="light1" type="point" visible="true"
+		<light name="red pointlight" type="point" visible="false"
 			castShadows="false">
 			<position x="-10.0" y="1" z="-5.0" />
 			<colourDiffuse r="1" g="0" b="0" />
@@ -9,7 +9,7 @@
 			<lightAttenuation range="5.0" constant="1.0" linear="0.0"
 				quadratic="0.0" />
 		</light>
-		<light name="light2" type="spot" visible="true"
+		<light name="green spotlight" type="spot" visible="false"
 			castShadows="false">
 			<position x="-12.0" y="1" z="-5.0" />
 			<colourDiffuse r="0" g="1" b="0" />
@@ -19,10 +19,22 @@
 			<spotlightrange inner="10" outer="20" falloff="1" />
 			<direction x="0" y="-1" z="0.5" />
 		</light>
-		<!--  <light name="light3" type="directional" visible="true" castShadows="false">
+		<light name="blue sun" type="directional" visible="true" castShadows="false">
 			<colourDiffuse r="0" g="0" b="1" />
 			<colourSpecular r="0" g="0" b="1" />
 			<direction x="1" y="-1" z="0" />
-			</light> -->
+		</light>
 	</nodes>
+	<zones>
+		<zone type="default">
+			<light name="blue sun"/>
+		</zone>
+		<zone type="sphere" name="Testzone">
+			<center x="-10" y="0" z="-5"/>
+			<radius r="3"/>
+			<light name="red pointlight"/>
+			<light name="green spotlight"/>
+			<sound name="lachen.ogg"/>
+		</zone>
+	</zones>
 </rastullahmap>

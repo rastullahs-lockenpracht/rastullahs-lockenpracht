@@ -163,12 +163,11 @@
 
 
 	<!-- Sky Box -->
-	<sky type="box" material="ruchinsky" drawfirst="true" />
+	<sky type="box" material="ruchinsky" drawfirst="true" distance="600"/>
 
 	<!-- Sky Dome -->
 	<sky type="dome" material="ruchinsky" drawfirst="true">
 		<skydomesettings curvature="10" tiling = "8" />
 	</sky>
-
 
 </rastullahmap>

@@ -91,6 +91,15 @@ public:
 	static int getValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element);
 
 	/**
+	 * Processes an element node of shape <any_node_name x="0" y="0" z="0"/>
+	 * into a three component Ogre vector
+	 *
+	 * @param element The DOM element
+	 * @return the vector
+	 */
+	static Ogre::Vector3 getValueAsVector3(XERCES_CPP_NAMESPACE::DOMElement* element);
+
+	/**
 	 * Ermittelt, ob ein DOMElement ein bestimmtes Attribut bestitzt
 	 *
 	 * @param element Das DOM-Element

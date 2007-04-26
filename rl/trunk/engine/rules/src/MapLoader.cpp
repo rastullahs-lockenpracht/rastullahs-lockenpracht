@@ -27,6 +27,7 @@
 #include "ContentModule.h"
 #include "CoreSubsystem.h"
 #include "EntityNodeProcessor.h"
+#include "GameObjectConstants.h"
 #include "GameObjectNodeProcessor.h"
 #include "LightNodeProcessor.h"
 #include "PropertyReader.h"
@@ -35,6 +36,8 @@
 #include "XmlHelper.h"
 #include "XmlResource.h"
 #include "XmlResourceManager.h"
+#include "Zone.h"
+#include "ZoneManager.h"
 
 using namespace Ogre;
 using namespace XERCES_CPP_NAMESPACE;
@@ -104,10 +107,9 @@ namespace rl {
                         
             LOG_MESSAGE(Logger::RULES, "Processing nodes");
             
-            processNodes(dataDocumentContent, loadGameObjects);
-            ///@todo process zones
-            ///@todo skies
-            
+            processSceneNodes(XmlHelper::getChildNamed(dataDocumentContent, "nodes"), loadGameObjects);
+            processZones(XmlHelper::getChildNamed(dataDocumentContent, "zones"));
+            processSkySettings(XmlHelper::getChildNamed(dataDocumentContent, "sky"));
             
             LOG_MESSAGE(Logger::RULES, "Map loaded");
     
@@ -123,13 +125,15 @@ namespace rl {
 		XMLPlatformUtils::Terminate();
     }
 
-    void MapLoader::processNodes(DOMElement* dataDocumentContent, bool loadGameObjects)
+    void MapLoader::processSceneNodes(DOMElement* nodesElem, bool loadGameObjects)
     {
-        DOMElement* nodesElem = XmlHelper::getChildNamed(dataDocumentContent, "nodes");
-        DOMNodeList* nodeNodes = nodesElem->getChildNodes();
-        for (XMLSize_t idx = 0; idx < nodeNodes->getLength(); idx++)
+		if (nodesElem == NULL)
+		{
+			return;
+		}
+
+        for (DOMNode* cur = nodesElem->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
         {
-            DOMNode* cur = nodeNodes->item(idx);
             if (cur->getNodeType() == DOMNode::ELEMENT_NODE)
             {
                 DOMElement* curElem = static_cast<DOMElement*>(cur);
@@ -149,6 +153,145 @@ namespace rl {
         }
     }
 
+	void MapLoader::processZones(xercesc_2_7::DOMElement *zonesElem)
+	{
+		if (zonesElem == NULL)
+		{
+			return; // no zones
+		}
+
+        for (DOMNode* cur = zonesElem->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+        {
+            if (cur->getNodeType() == DOMNode::ELEMENT_NODE
+				&& XmlHelper::hasNodeName(cur, "zone"))
+            {
+				DOMElement* curZoneElem = static_cast<DOMElement*>(cur);
+				if (XmlHelper::hasAttribute(curZoneElem, "type"))
+				{
+					Ogre::String type = XmlHelper::getAttributeValueAsStdString(curZoneElem, "type");
+					Zone* zone = NULL;
+					if (type == "default")
+					{
+						zone = ZoneManager::getSingleton().getDefaultZone();
+					}
+					else if (type == "mesh")
+					{
+						///@todo: zone = ZoneManager::getSingleton().createZone(...);
+					}
+					else if (type == "sphere")
+					{						
+						Vector3 center = Vector3::ZERO;
+						DOMElement* centerElem = XmlHelper::getChildNamed(curZoneElem, "center");
+						if (centerElem != NULL)
+						{
+							center = XmlHelper::getValueAsVector3(centerElem);
+						}
+
+						Real radius = 1;
+						DOMElement* radiusElem = XmlHelper::getChildNamed(curZoneElem, "radius");
+						if (radiusElem != NULL)
+						{
+							radius = XmlHelper::getAttributeValueAsReal(radiusElem, "r");
+						}
+
+						Ogre::String name = XmlHelper::getAttributeValueAsStdString(curZoneElem, "name");
+
+						zone = ZoneManager::getSingleton().createZone(
+							name, center, radius, QUERYFLAG_PLAYER);
+					}
+
+					if (zone != NULL)
+					{
+						for (DOMNode* cur = curZoneElem->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+						{
+							if (cur->getNodeType() == DOMNode::ELEMENT_NODE)
+							{
+								DOMElement* curElem = static_cast<DOMElement*>(cur);
+								if (XmlHelper::hasNodeName(curElem, "light"))
+								{
+									Ogre::String name = XmlHelper::getAttributeValueAsStdString(curElem, "name");
+									zone->addLight(ActorManager::getSingleton().getActor(name));
+								}
+								else if (XmlHelper::hasNodeName(curElem, "sound"))
+								{
+									Ogre::String name = XmlHelper::getAttributeValueAsStdString(curElem, "name");
+									zone->addSound(name);
+								}
+							}
+						}
+					}
+					else
+					{
+						LOG_ERROR(Logger::RULES, "Zone of type '"+type+"' could not be processes.");
+					}
+				}
+				else
+				{
+					LOG_ERROR(Logger::RULES, "<zone> element must have attribute 'type'.");
+				}
+			}
+		}
+	}
+
+	void MapLoader::processSkySettings(XERCES_CPP_NAMESPACE::DOMElement* skyElem)
+	{
+        if (skyElem == NULL)
+		{
+			return;
+		}
+
+		if (!XmlHelper::hasAttribute(skyElem, "material") 
+			|| !XmlHelper::hasAttribute(skyElem, "type"))
+		{
+			LOG_ERROR(Logger::RULES, "<sky> element must have at least attributes 'type' and 'material'.");
+		}
+		else
+		{
+			Ogre::String type = XmlHelper::getAttributeValueAsStdString(skyElem, "type");
+			Ogre::String material = XmlHelper::getAttributeValueAsStdString(skyElem, "material");
+
+			bool drawFirst = true;
+			if (XmlHelper::hasAttribute(skyElem, "drawfirst"))
+			{
+				drawFirst = XmlHelper::getAttributeValueAsBool(skyElem, "drawfirst");
+			}
+			
+			Ogre::Real distance = 5000;
+			if (XmlHelper::hasAttribute(skyElem, "distance"))
+			{
+				drawFirst = XmlHelper::getAttributeValueAsBool(skyElem, "distance");
+			}				
+
+			if (type == "dome")
+			{
+				Ogre::Real curvature = 10;
+				Ogre::Real tiling = 8;
+
+				DOMElement* domeSettings = XmlHelper::getChildNamed(skyElem, "skydomesettings");
+				if (domeSettings != NULL)
+				{
+					if (XmlHelper::hasAttribute(domeSettings, "curvature"))
+					{
+						curvature = XmlHelper::getAttributeValueAsReal(domeSettings, "curvature");
+					}
+					if (XmlHelper::hasAttribute(domeSettings, "tiling"))
+					{
+						curvature = XmlHelper::getAttributeValueAsReal(domeSettings, "tiling");
+					}
+				}
+				CoreSubsystem::getSingleton().getWorld()->setSkyDome(
+					true, material, curvature, tiling, distance, drawFirst);
+			}
+			else if (type == "box")
+			{
+				CoreSubsystem::getSingleton().getWorld()->setSkyBox(true, material, distance, drawFirst);
+			}
+			else if (type == "plane")
+			{
+				LOG_ERROR(Logger::RULES, "Sky Plane is not implemented yet.");
+			}
+		}
+	}
 
     void MapLoader::setRootSceneNode(SceneNode* node)
     {

@@ -28,18 +28,18 @@ namespace rl
 	ZoneManager::ZoneManager()
 		: Ogre::Singleton<ZoneManager>()
 	{
-		// the default light zone is active when no other Zone is active
+		// the default zone is active when no other Zone is active
 		mDefaultZone = new Zone();
-		mZones.push_back(mDefaultZone);
 		mActiveZones.push_front(mDefaultZone); 
 	}
 
 	ZoneManager::~ZoneManager()
 	{
-		for (std::vector<Zone*>::iterator it = mZones.begin(); it != mZones.end(); ++it)
+		for (std::map<const Ogre::String, Zone*>::iterator it = mZones.begin(); it != mZones.end(); ++it)
 		{
-			delete *it;
+			delete (*it).second;
 		}
+		delete mDefaultZone;
 	}
 
 	Zone* ZoneManager::getDefaultZone() const
@@ -47,10 +47,24 @@ namespace rl
 		return mDefaultZone;
 	}
 
+	Zone* ZoneManager::getZone(const Ogre::String& name) const
+	{
+		std::map<const Ogre::String, Zone*>::const_iterator it = mZones.find(name);
+		if (it == mZones.end())
+		{
+			LOG_ERROR(Logger::CORE, "Zone '"+name+"' not found.");
+			return NULL;
+		}
+		else
+		{
+			return (*it).second;
+		}
+	}
+
     Zone* ZoneManager::createZone(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Real radius, unsigned long queryflags)
 	{
 		Zone* lz = new Zone();
-		mZones.push_back(lz);
+		mZones[name] = lz;
 
 		Actor* kugelDings = ActorManager::getSingleton().createEmptyActor("Light zone center");
 		kugelDings->placeIntoScene(position);
@@ -63,12 +77,14 @@ namespace rl
 	{
 		mActiveZones.remove(zone);
 		switchLights();
+		switchSounds();
 	}
 
 	void ZoneManager::areaEntered(Zone* zone)
 	{
 		mActiveZones.push_front(zone);
 		switchLights();
+		switchSounds();
 	}
 
 	void ZoneManager::switchLights()
@@ -83,15 +99,58 @@ namespace rl
 			(*it)->setVisible(true);
 		}
 
-		for (std::vector<Zone*>::const_iterator it = mZones.begin(); it != mZones.end(); it++)
+		for (std::map<const Ogre::String, Zone*>::const_iterator itZones = mZones.begin(); itZones != mZones.end(); itZones++)
 		{
-			std::vector<Actor*> curLights = (*it)->getLights();
-			for (std::vector<Actor*>::const_iterator it = curLights.begin(); it != curLights.end(); it++)
+			std::vector<Actor*> curLights = (*itZones).second->getLights();
+			for (std::vector<Actor*>::const_iterator itLights = curLights.begin(); itLights != curLights.end(); itLights++)
 			{
-				if (activeLights.find(*it) == activeLights.end())
+				if (activeLights.find(*itLights) == activeLights.end())
 				{
-					(*it)->setVisible(false);
+					(*itLights)->setVisible(false);
 				}
+			}
+		}
+
+		std::vector<Actor*> defLights = mDefaultZone->getLights();
+		for (std::vector<Actor*>::const_iterator itLights = defLights.begin(); itLights != defLights.end(); itLights++)
+		{
+			if (activeLights.find(*itLights) == activeLights.end())
+			{
+				(*itLights)->setVisible(false);
+			}
+		}
+	}
+	
+	void ZoneManager::switchSounds()
+	{
+		Zone* currentZone = mActiveZones.front();
+		std::set<Ogre::String> activeSounds;
+
+		std::vector<Ogre::String> curSounds = currentZone->getSounds();
+		for (std::vector<Ogre::String>::const_iterator it = curSounds.begin(); it != curSounds.end(); it++)
+		{
+			activeSounds.insert(*it);
+			///@todo switch sound on
+		}
+
+		for (std::map<const Ogre::String, Zone*>::const_iterator itZones = mZones.begin(); itZones != mZones.end(); itZones++)
+		{
+			std::vector<Ogre::String> curSounds = (*itZones).second->getSounds();
+			for (std::vector<Ogre::String>::const_iterator itSounds = curSounds.begin(); itSounds != curSounds.end(); itSounds++)
+			{
+				if (activeSounds.find(*itSounds) == activeSounds.end())
+				{
+					//@todo switch sound off
+				}
+			}
+		}
+
+		std::vector<Ogre::String> defSounds = mDefaultZone->getSounds();
+		for (std::vector<Ogre::String>::const_iterator itSounds = defSounds.begin(); itSounds != defSounds.end(); itSounds++)
+		{
+			if (activeSounds.find(*itSounds) == activeSounds.end())
+			{
+				//@todo switch sound off
 			}
 		}
 	}

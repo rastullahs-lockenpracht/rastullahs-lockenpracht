@@ -13,7 +13,7 @@ require 'ErrorHandlingTest.rb'
 require 'JobSequenceTest.rb'
 require 'SoundTest.rb'
 require 'effecttest.rb'
-#require 'LightzoneTest.rb'
+require 'LightzoneTest.rb'
 require 'MapLoadingTest.rb'
 
 # Physik aktivieren
@@ -26,7 +26,8 @@ $hero = $GOM.createGameObjectProxy("hero", 1);
 
 $SCRIPT.log("Place hero into scene")
 #$hero.getGameObject().setPosition([0.0, 1.0, 0.0]);
-$hero.getGameObject().placeIntoScene()
+$hero.getGameObject().setState(GOS_IN_SCENE)
+
 
 
 $SCRIPT.log("Prepare hero for being the active character")
@@ -50,8 +51,8 @@ InventoryTest.new([0, 0, 10])
 JobSequenceTest.new([5, 0, -5])
 EffectTest.new([5, 0, 5])
 SoundTest.new([10, 0, 10])
-#LightzoneTest.new([20, 0, 0])
-MapLoadingTest.new([-10, 0, -5])
+LightzoneTest.new([-10, 0, -5])
+MapLoadingTest.new([-5, 0, -10])
 
 
 $SCRIPT.log("tests initialisiert.");

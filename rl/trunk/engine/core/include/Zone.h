@@ -40,7 +40,7 @@ namespace rl {
 
 	private:
 		std::vector<Actor*> mLights;
-		std::vector<Actor*> mSounds;
+		std::vector<Ogre::String> mSounds;
 	};
 
 }

@@ -41,23 +41,19 @@ DOMElement* XmlHelper::getChildNamed(DOMElement* parent, const char* const name)
 	if( parent == NULL )
 		Throw( NullPointerException, "parent darf nicht NULL sein" );
 
-	DOMNodeList* nodes = parent->getChildNodes();
-	XMLCh* nameXml = XMLString::transcode(name);
+	AutoXMLCh nameXml = name;
 
 	DOMElement* rval = 0;
 	
-	for (unsigned int idx = 0; idx < nodes->getLength(); idx++)
+	for (DOMNode* cur = parent->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
 	{
-		DOMNode* item = nodes->item(idx);
-		if (item->getNodeType() == DOMNode::ELEMENT_NODE &&
-			XMLString::compareString(item->getNodeName(), nameXml)==0 )
+		if (cur->getNodeType() == DOMNode::ELEMENT_NODE &&
+			XMLString::compareString(cur->getNodeName(), nameXml.data()) == 0)
 		{
-			rval = static_cast<DOMElement*>(item);
+			rval = static_cast<DOMElement*>(cur);
 			break;
 		}
 	}
-
-	XMLString::release(&nameXml);
 
 	return rval;
 }
@@ -156,6 +152,20 @@ int XmlHelper::getValueAsInteger(DOMElement* element)
 {
 	RlAssert(element != NULL, "Element must not be NULL");
 	return XMLString::parseInt(element->getFirstChild()->getNodeValue());
+}
+
+Ogre::Vector3 XmlHelper::getValueAsVector3(DOMElement* element)
+{
+	RlAssert(element != NULL, "Element must not be NULL");
+	RlAssert(
+		hasAttribute(element, "x") 
+		&& hasAttribute(element, "y") 
+		&& hasAttribute(element, "z"),
+		"Element must have attributes x, y and z");
+	return Ogre::Vector3(
+		getAttributeValueAsReal(element, "x"),
+		getAttributeValueAsReal(element, "y"),
+		getAttributeValueAsReal(element, "z"));
 }
 
 utf8* XmlHelper::transcodeToUtf8(const XMLCh* const string16)

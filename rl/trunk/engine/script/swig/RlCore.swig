@@ -856,6 +856,7 @@ class Zone
 {
 public:
 	void addLight(Actor* light);
+	void addSound(const Ogre::String& sound);
 };
 
 class ZoneManager
@@ -864,6 +865,7 @@ public:
 	static const ZoneManager& getSingleton();
 	Zone* createZone(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Real radius, unsigned long queryflags);
 	Zone* getDefaultZone() const;
+	Zone* getZone(const Ogre::String& name) const;
 };
 
 

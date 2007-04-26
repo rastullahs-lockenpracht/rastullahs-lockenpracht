@@ -41,12 +41,29 @@ namespace rl
 
 	void Zone::addLight(Actor* lo)
 	{
-		mLights.push_back(lo);
+		if (lo != NULL)
+		{
+			mLights.push_back(lo);
+		}
+	}
+
+	void Zone::addSound(const Ogre::String& sound)
+	{
+		if (sound.length() > 0)
+		{
+			mSounds.push_back(sound);
+		}
 	}
 
 	std::vector<Actor*> Zone::getLights() const
 	{
 		std::vector<Actor*> rval(mLights);
+		return rval;
+	}
+	
+	std::vector<Ogre::String> Zone::getSounds() const
+	{
+		std::vector<Ogre::String> rval(mSounds);
 		return rval;
 	}
 
