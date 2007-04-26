@@ -461,10 +461,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\LightZone.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\LineSetPrimitive.h"
 				>
 			</File>
@@ -574,6 +570,14 @@
 			</File>
 			<File
 				RelativePath=".\include\World.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Zone.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ZoneManager.h"
 				>
 			</File>
 			<Filter
@@ -702,10 +706,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\LightZone.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\LineSetPrimitive.cpp"
 				>
 			</File>
@@ -803,6 +803,14 @@
 			</File>
 			<File
 				RelativePath=".\src\World.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Zone.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ZoneManager.cpp"
 				>
 			</File>
 			<Filter

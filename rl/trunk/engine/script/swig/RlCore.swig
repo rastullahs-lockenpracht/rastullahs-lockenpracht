@@ -852,18 +852,18 @@ public:
 		Ogre::Real delay=0.0f);
 };
 
-class LightZone
+class Zone
 {
 public:
 	void addLight(Actor* light);
 };
 
-class LightZoneManager
+class ZoneManager
 {
 public:
-	static const LightZoneManager& getSingleton();
-	LightZone* createLightZone(const Ogre::Vector3& position, const Ogre::Real radius, unsigned long queryflags);
-	LightZone* getDefaultLightZone() const;
+	static const ZoneManager& getSingleton();
+	Zone* createZone(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Real radius, unsigned long queryflags);
+	Zone* getDefaultZone() const;
 };
 
 

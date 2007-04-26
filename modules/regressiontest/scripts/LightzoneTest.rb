@@ -15,13 +15,13 @@ class LightzoneTest < TestCase
       sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
       sunlight.getControlledObject().setDirection(0.7, -2.0, 0.8);
       sunlight.getControlledObject().setDiffuseColour(1, 1, 1);
-      LightZoneManager.getSingleton().getDefaultLightZone().addLight(sunlight)
+      ZoneManager.getSingleton().getDefaultZone().addLight(sunlight)
 
       interiorlight = $AM.createLightActor("interiorlight", LightObject::LT_POINT);
       interiorlight.getControlledObject().setDiffuseColour(1, 0, 0);
       interiorlight.placeIntoScene(center);
       interiorlight.setVisible(false)
-      lzone = LightZoneManager.getSingleton().createLightZone(center, 3, RlScript::QUERYFLAG_PLAYER);
+      lzone = ZoneManager.getSingleton().createZone(center, 3, RlScript::QUERYFLAG_PLAYER);
       lzone.addLight(interiorlight)
   end
 end

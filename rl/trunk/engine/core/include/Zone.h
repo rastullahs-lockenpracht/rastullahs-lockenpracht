@@ -13,8 +13,8 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#ifndef __LightZone_H__
-#define __LightZone_H__
+#ifndef __Zone_H__
+#define __Zone_H__
 
 #include "CorePrerequisites.h"
 
@@ -24,42 +24,25 @@ namespace rl {
 
 	class LightObject;
 
-	///@todo: Inheritance is wrong, LightZone should be a GameAreaEventSource, LightZoneManager a GameAreaListener
-	class _RlCoreExport LightZone : public GameAreaListener
+	///@todo: Inheritance is wrong, Zone should be a GameAreaEventSource, ZoneManager a GameAreaListener
+	class _RlCoreExport Zone : public GameAreaListener
 	{
 	public:
-		LightZone();
+		Zone();
 
 		void addLight(Actor* light);
+        void addSound(const Ogre::String& name);
 		std::vector<Actor*> getLights() const;
+        std::vector<Ogre::String> getSounds() const;
 
 		virtual void areaLeft(GameAreaEvent *anEvent);
 	    virtual void areaEntered(GameAreaEvent *anEvent);
 
 	private:
 		std::vector<Actor*> mLights;
-	};
-
-	class _RlCoreExport LightZoneManager : public Ogre::Singleton<LightZoneManager>
-	{
-	public:
-		LightZoneManager();
-		~LightZoneManager();
-
-		LightZone* createLightZone(const Ogre::Vector3& position, const Ogre::Real radius, unsigned long queryflags);
-		LightZone* getDefaultLightZone() const;
-
-		void areaLeft(LightZone* zone);
-	    void areaEntered(LightZone* zone);
-		
-	private:
-		std::vector<LightZone*> mLightZones;
-		std::list<LightZone*> mActiveLightZones;
-		LightZone* mDefaultLightZone;
-
-		void switchLights();
+		std::vector<Actor*> mSounds;
 	};
 
 }
 
-#endif // __LightZone_H__
+#endif // __Zone_H__

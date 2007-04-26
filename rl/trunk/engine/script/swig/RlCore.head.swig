@@ -55,7 +55,8 @@
 #include "JobListener.h"
 #include "PlaySoundJob.h"
 #include "PlayAnimationJob.h"
-#include "LightZone.h"
+#include "Zone.h"
+#include "ZoneManager.h"
 #undef message
 #undef send
 %}

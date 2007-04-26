@@ -32,7 +32,6 @@ libRlCore_la_SOURCES = \
 	Job.cpp \
 	JobScheduler.cpp \
 	LightObject.cpp \
-	LightZone.cpp \
 	LineSetPrimitive.cpp \
 	ListenerObject.cpp \
 	ListenerMovable.cpp \
@@ -58,6 +57,8 @@ libRlCore_la_SOURCES = \
 	SoundResource.cpp \
 	TrackAnimation.cpp \
 	World.cpp \
+	Zone.cpp \
+	ZoneManager.cpp \
 	nulldriver/NullDriver.cpp \
 	nulldriver/NullListener.cpp \
 	nulldriver/NullSound.cpp

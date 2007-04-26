@@ -27,7 +27,6 @@
 	JobListener.h \
 	JobScheduler.h \
 	LightObject.h \
-	LightZone.h \
 	LineSetPrimitive.h \
 	ListenerMovable.h \
 	ListenerObject.h \
@@ -56,6 +55,8 @@
 	SoundResource.h \
 	TrackAnimation.h \
 	World.h \
+	Zone.h \
+	ZoneManager.h \
 	nulldriver/NullDriver.h \
 	nulldriver/NullSound.h \
 	nulldriver/NullListener.h 
