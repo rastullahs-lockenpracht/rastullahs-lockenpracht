@@ -1,6 +1,6 @@
 require "MaterialClasses.rb"
 
-NEWLINE = "_NEWLINE_"
+NEWLINE = Newline.new
 
 class MaterialParser
     attr_reader :materials
@@ -12,7 +12,7 @@ class MaterialParser
 
 	def parseFile( filename )
         parseMe = File.new( filename ).read
-        parseString( parseMe, filename )
+        return parseString( parseMe, filename )
 	end
 
     def addMaterial( mat )
@@ -40,11 +40,9 @@ class MaterialParser
             # Whitespaces und Kommentare werden ignoriert
             token(/^\s*\/\/*.*$/)
             token(/\s*\n/) { ::NEWLINE }
-            token(/[\s\n]+/)   
-            # Integer
-            token(/\b[-+]?\d+\b/) {|m| m.to_i }
-            # Float
-            token(/\b\d+(\.\d+)?\b/) {|m| m.to_f }            
+            token(/[\s\n]+/)  
+            # Float/Integer
+            token(/\b[-+]?\d+(\.\d+)?\b/) {|m| m.to_f }   
             # Wortzeichen
             token(/[^\s:]+/) {|m| m.to_s }
             # Einzelne Zeichen
@@ -105,15 +103,19 @@ class MaterialParser
                 match('point_size', :int, ::NEWLINE ) {|n,*a| save_attr(pa,n,a) }
                 match('point_size_attenuation', :string, ::NEWLINE ) {|n,*a| save_attr(pa,n,a) }
                 match('lighting', :string, ::NEWLINE ) {|n,*a| save_attr(pa,n,a) }
+                match('scene_blend', :string, :string, ::NEWLINE ) {|n,*a| save_attr(pa,n,a) }
                 match('scene_blend', :string, ::NEWLINE ) {|n,*a| save_attr(pa,n,a) }
                 match('shading', :string, ::NEWLINE ) {|n,*a| save_attr(pa,n,a) }
                 match('ambient', :color, ::NEWLINE ) {|n,*a| save_attr(pa,n,a) }
+                match('emissive', :color, ::NEWLINE ) {|n,*a| save_attr(pa,n,a) }
                 match('diffuse', :color, ::NEWLINE ) {|n,*a| save_attr(pa,n,a) }
                 match('specular', :color, ::NEWLINE ) {|n,*a| save_attr(pa,n,a) }
                 match('cull_hardware', :string, ::NEWLINE) {|n,*a| save_attr(pa,n,a) }
                 match('cull_software', :string, ::NEWLINE ) {|n,*a| save_attr(pa,n,a) }
                 match('depth_func', :string, ::NEWLINE ) {|n,*a| save_attr(pa,n,a) }
+                match('fog_override', :string, ::NEWLINE ) {|n,*a| save_attr(pa,n,a) }
                 match('fog_override', :string, :string, ::NEWLINE ) {|n,*a| save_attr(pa,n,a) }
+                match('fog_override', :string, :string, :float, :float, :float, :float, :float, :float, ::NEWLINE ) {|n,*a| save_attr(pa,n,a) }
 
                 match( ::NEWLINE )
                 match(:pass, :pass ) 
@@ -121,7 +123,7 @@ class MaterialParser
 
             rule :texture_unit do                 
                 match('texture', :string, ::NEWLINE ) {|n,*a| save_attr(tu,n,a) }
-                match('texture_alias', :int, ::NEWLINE ) {|n,*a| save_attr(tu,n,a) }
+                match('texture_alias', :string, ::NEWLINE ) {|n,*a| save_attr(tu,n,a) }
                 match('tex_coord_set', :int, ::NEWLINE ) {|n,*a| save_attr(tu,n,a) } 
                 match('scale', :float, :float, ::NEWLINE ) {|n,*a| save_attr(tu,n,a) }
                 match('scroll_anim', :float, :float, ::NEWLINE ) {|n,*a| save_attr(tu,n,a) }
@@ -134,54 +136,64 @@ class MaterialParser
                 match('colour_op_ex', :string, :string, :string, :float, :float, :float, ::NEWLINE  ) {|n,*a| save_attr(tu,n,a) } 
                 match('colour_op_ex', :string, :string, :string, ::NEWLINE ) {|n,*a| save_attr(tu,n,a) } 
                 match('alpha_op_ex', :string, :string, :string, :float, ::NEWLINE ) {|n,*a| save_attr(tu,n,a) } 
+                match('alpha_op_ex', :string, :string, :string, ::NEWLINE ) {|n,*a| save_attr(tu,n,a) } 
 
                 match( ::NEWLINE )
                 match(:texture_unit, :texture_unit ) 
             end
 
             rule :vertex_program_ref do
-                match('param_named_auto', :string, :string, :int ) {|n,*a| save_attr(vpr,n,a) }
-                match('param_named_auto', :string, :string ) {|n,*a| save_attr(vpr,n,a) }
-                
+                match('param_named', :string, :params, ::NEWLINE ) {|n,*a| save_attr(vpr,n,a) }
+                match('param_named_auto', :string, :params, ::NEWLINE ) {|n,*a| save_attr(vpr,n,a) }
+
                 match( ::NEWLINE )
                 match(:vertex_program_ref, :vertex_program_ref ) 
             end
              
             rule :shadow_caster_vertex_program_ref do
-                match('param_named_auto', :string, :string, :int ) {|n,*a| save_attr(scvpr,n,a) }
-                match('param_named_auto', :string, :string ) {|n,*a| save_attr(scvpr,n,a) }
-                
+                match('param_named', :string, :params, ::NEWLINE ) {|n,*a| save_attr(scvpr,n,a) }
+                match('param_named_auto', :string, :params, ::NEWLINE ) {|n,*a| save_attr(scvpr,n,a) }
+
                 match( ::NEWLINE )
                 match(:shadow_caster_vertex_program_ref, :shadow_caster_vertex_program_ref ) 
             end
 
             rule :fragment_program_ref do
-                match('param_named', :string, :string, :float ) {|n,*a| save_attr(fpr,n,a) }
-                match('param_named', :string, :string, :int ) {|n,*a| save_attr(fpr,n,a) }
-                
+                match('param_named', :string, :params, ::NEWLINE ) {|n,*a| save_attr(fpr,n,a) }
+                match('param_named_auto', :string, :params, ::NEWLINE  ) {|n,*a| save_attr(fpr,n,a) }
+
                 match( ::NEWLINE )
                 match(:fragment_program_ref, :fragment_program_ref ) 
             end
 
-            rule :color do
-                match(:float, :float, :float, :float )
-                match(:float, :float, :float )
-                match('vertexcolour')
+            rule :params do                 
+                match( 'float4', :float, :float, :float, :float ) {|*a| a.join(" ") }
+                match( 'float', :float ) {|*a| a.join(" ") }
+                match( :string, :int ) {|*a| a.join(" ") }
+                match( :string ) {|s| s }
             end
 
-            rule :string do
+            rule :color do 
+                match(:float, :float, :float, :float, :float ) {|*a| a.join(" ") }
+                match(:float, :float, :float, :float ) {|*a| a.join(" ") }
+                match(:float, :float, :float ) {|*a| a.join(" ") }
+                match('vertexcolour') 
+            end
+
+            rule :string do                
+                match(Float) {|f| String(f) }
+                match(Integer) {|i| String(i) }
                 match(String)
-                match(Float) {|f| return String(f) }
-                match(Integer) {|i| return String(i) }
             end
 
             rule :float do
                 match(Float)
-                match(Integer) {|i| return Float(i) }
+                match(Integer) {|i| Float(i) }
             end
 
             rule :int do
                 match(Integer)
+                match(Float) {|f| Integer(f) }
             end
 
             rule :newlines do 
@@ -190,6 +202,6 @@ class MaterialParser
             end
         end
 
-        parser.parse( string )
+        return parser.parse( string )
     end
 end

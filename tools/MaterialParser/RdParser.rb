@@ -28,7 +28,8 @@ class RDParser
      @expected = []
      result = @start.parse
      if @pos != @tokens.size
-       raise "Parse error. expected: '#{@expected.join(', ')}', found '#{@tokens[@max_pos]}'"
+        tem = "History [ " + @tokens.slice( @max_pos-5, 5 ).join(", ") + " ] ";
+        raise "Parse error. expected: '#{@expected.join(', ')}', found '#{@tokens[@max_pos]}'. #{tem}"
      end
      return result
    end

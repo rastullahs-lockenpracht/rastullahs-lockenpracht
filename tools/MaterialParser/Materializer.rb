@@ -12,6 +12,8 @@ basePath = "E:/Programmieren/ms_vs/rl/trunk/rl_dist/modules/"
 Dir.chdir( basePath )
 materialFiles = Dir['**/*.material']
 
+print "Found #{materialFiles.size} different material-files.\n"
+
 # Load all material files and parse them
 materialFiles.each { |filename|
     begin 
@@ -20,6 +22,8 @@ materialFiles.each { |filename|
         print error.to_s
         print "\n"
         print basePath+filename+":0:"+error.to_s
+        print "\n"
+        break
     end
 }
 
@@ -29,7 +33,7 @@ materials = mp.materials
 # Collect some infos...
 numfiles = 0
 materials.each {|m| numfiles+=1 unless not m.firstinfile }
-print "Found #{materials.size} different materials in #{numfiles} files.\n\n"
+print "Parsed #{materials.size} different materials in #{numfiles} files.\n\n"
 
 # Save the materials
 materials.each {|m| 

@@ -10,6 +10,12 @@ class Attribute
     end
 end
 
+class Newline
+    def to_s
+        "__NEWLINE__"
+    end
+end
+
 class AttributedObject
     def initialize
         @attributes = []
