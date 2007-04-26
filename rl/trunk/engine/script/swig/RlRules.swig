@@ -406,6 +406,8 @@ namespace rl {
         
         unsigned long getQueryFlags() const;
         void addQueryFlag(unsigned long queryflag);
+        
+        virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
     };
     
     %feature("director") Item;
@@ -444,6 +446,8 @@ namespace rl {
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
         virtual rl::PropertySet* getAllProperties() const;
         virtual bool isContainer();
+        
+        virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
     };
     
     %feature("director") Weapon;
@@ -473,6 +477,8 @@ namespace rl {
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
         virtual rl::PropertySet* getAllProperties() const;
+        
+        virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
     };
     
     %feature("director") Armor;
@@ -485,6 +491,8 @@ namespace rl {
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
         virtual rl::PropertySet* getAllProperties() const;
+        
+        virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
     };
     
     %feature("director") Container;
@@ -507,6 +515,8 @@ namespace rl {
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
         virtual rl::PropertySet* getAllProperties() const;
+        
+        virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
     };
     
 
@@ -681,6 +691,8 @@ namespace rl {
 
         void setAlignment(Alignment);
         Alignment getAlignment() const;
+        
+        virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
    };
    
    %feature("director") Person;
@@ -692,6 +704,8 @@ namespace rl {
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
         virtual rl::PropertySet* getAllProperties() const;
+        
+        virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
     };
         
     %feature("director") ActionMananger;

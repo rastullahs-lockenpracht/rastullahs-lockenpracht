@@ -41,13 +41,12 @@ end
 
 class RockPile < GameObject
 
-  def placeIntoScene()
-    super()
-
-    @mSteinSchlagSound = $AM.createSoundSampleActor("SteinSchlagSound","steinschlag_wenig_zu_vielen.ogg");
-    @mSteinSchlagSound.getControlledObject().load();
-    @mSteinSchlagSound.placeIntoScene( 	getPosition(), [1.0, 0.0, 0.0, 0.0] );
-
+  def onStateChange(oldState, newState)
+    if (newState == RlScript::GOS_IN_SCENE)
+	  @mSteinSchlagSound = $AM.createSoundSampleActor("SteinSchlagSound","steinschlag_wenig_zu_vielen.ogg");
+      @mSteinSchlagSound.getControlledObject().load();
+      @mSteinSchlagSound.placeIntoScene( 	getPosition(), [1.0, 0.0, 0.0, 0.0] );
+    end
   end
 
   def collapse()

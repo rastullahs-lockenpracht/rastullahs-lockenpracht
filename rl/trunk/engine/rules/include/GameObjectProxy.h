@@ -18,7 +18,7 @@
 #define __GAMEOBJECTPROXY_H__
 
 #include "RulesPrerequisites.h"
-#include "GameObjectState.h"
+#include "GameObjectConstants.h"
 #include "Properties.h"
 
 namespace rl

@@ -20,7 +20,7 @@
 #include "RulesPrerequisites.h"
 
 #include "Action.h"
-#include "GameObjectState.h"
+#include "GameObjectConstants.h"
 #include "ObjectStateChangeEventSource.h"
 #include "Properties.h"
 #include "CoreDefines.h"
@@ -29,16 +29,6 @@ namespace rl
 {
     class Actor;
     class Creature;
-
-    static const unsigned long QUERYFLAG_GAMEOBJECT = 1<<1;
-    static const unsigned long QUERYFLAG_CREATURE   = 1<<2;
-    static const unsigned long QUERYFLAG_ITEM       = 1<<3;
-    static const unsigned long QUERYFLAG_CONTAINER  = 1<<4;
-    static const unsigned long QUERYFLAG_WEAPON     = 1<<5;
-    static const unsigned long QUERYFLAG_ARMOR      = 1<<6;
-    static const unsigned long QUERYFLAG_PERSON     = 1<<7;
-
-	static const unsigned long QUERYFLAG_PLAYER     = 1<<8;
 
     /**
     * \brief Basisklasse aller spielrelevanten Objekte in RL.
@@ -155,6 +145,8 @@ namespace rl
 
         unsigned long getQueryFlags() const;
 		void addQueryFlag(unsigned long queryflag);
+
+		virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
 
     protected:
         int mId;

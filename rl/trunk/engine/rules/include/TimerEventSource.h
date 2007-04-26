@@ -25,14 +25,13 @@
 
 namespace rl {
 
-class GameObject;
 class TimerListener;
 class TimerEvent;
 
 /** 
  * TimerEventSource
  *
- *  @see TimerEvent, TimerListener, GameObject
+ *  @see TimerEvent, TimerListener
  */
 class _RlRulesExport TimerEventSource : public virtual EventSource
 {

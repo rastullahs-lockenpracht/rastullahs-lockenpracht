@@ -573,6 +573,7 @@ namespace rl
                 GameObjectState tmpState = mState;
                 mState = GOS_IN_SCENE;
                 GameObjectManager::getSingleton().gameObjectStateChanged(this, tmpState, mState);
+				onStateChange(tmpState, GOS_IN_SCENE);
             }
             else {
                 LOG_ERROR(
@@ -630,6 +631,10 @@ namespace rl
 				+ Ogre::StringConverter::toString(targetstate));
 		}
     }
+
+	void GameObject::onStateChange(GameObjectState oldState, GameObjectState newState)
+	{
+	}
 
     GameObjectState GameObject::getState() const
     {
