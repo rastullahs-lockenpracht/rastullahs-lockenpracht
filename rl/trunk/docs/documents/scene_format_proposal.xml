@@ -3,33 +3,31 @@
   <nodes>
   
     <!-- Static mesh -->
-		<node name="nat_grasplane_01">
-			<position x="5.7285" y="-7.94034" z="18.4169" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
-			<entity
+		<entity
 				name="nat_grasplane_01"
 				meshFile ="nat_grasplane_01.mesh"
-				receivesShadow="true"
-			/>
-      <property type="INT" name="staticgeom_group" data="0"/>
-      <property type="STRING" name="physical_body" data="none"/>
-      <property type="FLOAT" name="renderingdistance" data="20000"/>
-    </node>
-
-    <!-- static mesh with custom collision-->
-		<node name="nat_tree_01">
+				receivesShadow="true">
 			<position x="5.7285" y="-7.94034" z="18.4169" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
-			<entity
+      <staticgeometrygroup id="0"/>
+      <physicsproxy type="none"/> <!-- type is none|box|sphere|ellipsoid|mesh|convexhull|custom -->
+      <renderingdistance data="20000"/>
+    </entity>
+
+    <!-- static mesh with custom collision-->
+		<entity
 				name="nat_tree_01"
 				meshFile ="nat_tree_01.mesh"
-				castShadow="true"
-			/>
+				castShadow="true">
+  		<position x="5.7285" y="-7.94034" z="18.4169" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
+	    
+      <!-- Physics proxy --> 
+	    <physicsproxy type="custom"> <!-- type is none|box|sphere|ellipsoid|mesh|convexhull|custom -->
       
-      <!-- Definition der Physikproxies -->
-	    <collisions type="custom">
+         <!-- for type="custom" only --> 
 	       <!-- collision proxy consists of a box and a sphere -->
 	       <collision type="box">
 	          <scale x="-97.544470" y="127.113457" z="748.685760"/>
@@ -40,67 +38,60 @@
 		        <radius r="10"/>
 		        <center x="141.95" y="7.20" z="32.55"/>
 		      </collision>
-	    </collisions>
-    </node>    
+	    </physicsproxy>
+    </entity>    
       
     <!-- Light -->
-    <node name="Omni02">
-			<position x="-196.095" y="-90.1458" z="563.122" />
-
-			<light
-				name="Omni02"
+    <light name="Omni02"
 				type="point" 
 				visible="true" 
 				castShadows="false" > <!-- type is point|spot|directional -->
-				<colourDiffuse r="0.3" g="0.3" b="0.3" />
-				<colourSpecular r="0.3" g="0.3" b="0.3" />
-				<lightAttenuation
-					range="200.0"
-					constant="1.0"
-					linear="0.0"
-					quadratic="0.0"
-				/>
+			<position x="-196.095" y="-90.1458" z="563.122" />
+
+		  <colourDiffuse r="0.3" g="0.3" b="0.3" />
+			<colourSpecular r="0.3" g="0.3" b="0.3" />
+			<lightAttenuation
+				range="200.0"
+				constant="1.0"
+				linear="0.0"
+				quadratic="0.0"
+			/>
 				
-				<!-- nur bei type="spot" -->
-				<spotlightrange inner="10" outer="20" falloff="1" />
-				<direction x="0" y="-1" z="0.5" />
+			<!-- nur bei type="spot" -->
+			<spotlightrange inner="10" outer="20" falloff="1" />
+			<direction x="0" y="-1" z="0.5" />
 				
-				<!-- nur bei type="directional" -->
-				<direction x="0" y="-1" z="0.5" />
-			</light>
-		</node>
+			<!-- nur bei type="directional" -->
+			<direction x="0" y="-1" z="0.5" />
+		</light>
+
 		
 		<!-- 3D Sound -->
-		<node name="plaetschern.ogg" id="656" >
+		<sound name="Bachplaetschern" file = "plaetschern.ogg" volume = "1.0">
+				
 			<position x="5.7285" y="-7.94034" z="18.4169" />
-			<sound
-				name="bla"
-				id="4711"
-				file = "plaetschern.ogg"
-				volume = "1.0">
-				<direction qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-				<!-- Speed / Falloff -->
-			</sound>
-		</node>
+			
+	  	<direction qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<!-- Speed / Falloff -->
+  	</sound>
+
 		
 		<!-- GameObject -->
-		<node name="Bauer" id="0815">
-		  <position x="29.9182" y="-0.6554" z="9.590"/>
+      
+		<gameobject name="Bauer" class="ArnolfGrossschaedel" state="IN_SCENE" id="4">
+		  <!-- state is one of IN_SCENE, LOADED, HELD, IN_POSSESSION, READIED -->
+      <position x="29.9182" y="-0.6554" z="9.590"/>
 		  <rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-		  <gameobject class="ArnolfGrossschaedel" state="IN_SCENE" id="4"> 
-      <!-- state is one of IN_SCENE, LOADED, HELD, IN_POSSESSION, READIED -->
-		  </gameobject>
-		</node>
+    </gameobject>
 		
 		<!-- GameObject with custom property -->
-		<node name="Höhlentür" id="0816">
+		<gameobject name="Höhlentür" class="door" state="IN_SCENE"> <!-- id is generated if it is not set -->
 		  <position x="141.95" y="7.20" z="32.55"/>
 		  <rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-		  <gameobject class="door" state="IN_SCENE"> <!-- id is generated if it is not set -->
+		  
 		    <!-- properties can be found in .gof files -->
-		    <property name="description" type="STRING" data="Eine Tür, allerdings ist keine Klinke vorhanden"/>
-		  </gameobject>
-		</node>
+	    <property name="description" type="STRING" data="Eine Tür, allerdings ist keine Klinke vorhanden"/>
+	  </gameobject>
   </nodes>
   
   <waypoints>
@@ -114,8 +105,8 @@
   <zones>
     <!-- TODO: Trigger-Zonen -->
     <zone type="default">
-      <light name="sunlight"/>
-      <sound name="defaultsoundtrack" /> <!-- name is processed by a ruby script -->
+      <light name="sunlight"/> <!-- light must be one of the lights in the nodes section -->
+      <sound name="defaultsoundtrack" /> <!-- name is processed by the soundmanager or a ruby script -->
     </zone>
     <zone type="mesh" name="temple interior">
       <node name="nat_tree_01"/>

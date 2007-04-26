@@ -21,44 +21,39 @@
 #include "RulesPrerequisites.h"
 
 #include <OgreSceneNode.h>
+#include <list>
 
 namespace rl {
 
+    class AbstractMapNodeProcessor;
     class XmlPropertyReader;
 
     class _RlRulesExport MapLoader 
     {
     public:
-        MapLoader();
+        MapLoader(const Ogre::String& resourceGroup);
+        ~MapLoader();
 
         /** Loads a Rastullahs Lockenpracht map
         *
         * @param mapresource the name of the map file resource
         * @param loadGameObjects set <code>false</code> if the MapLoader should not load the GameObjects of the map file (e.g. when loading a saved game)
         */
-        void loadMap(const Ogre::String& mapresource, const Ogre::String& resourceGroup, bool loadGameObjects = true);
+        void loadMap(const Ogre::String& mapresource, bool loadGameObjects = true);
 
     private:
         enum {ENTITIES, GAMEOBJECTS, SOUNDS, LIGHTS};
     
         XmlPropertyReader* mXmlPropertyProcessor;
         int mStatistics[4];
+        std::list<AbstractMapNodeProcessor*> mNodeProcessors;
 
-        Ogre::SceneNode* mSceneNode;
-		/// Alle statischen GeometrieNodes
-		std::map<int,Ogre::SceneNode*> mStaticNodes;
+        Ogre::SceneNode* mRootSceneNode;
+        /// Alle statischen GeometrieNodes
         Ogre::String mResourceGroup;
 
-        Ogre::String getRandomName(const Ogre::String& baseName) const;
-        void processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects);
-        Ogre::Vector3 processVector3(XERCES_CPP_NAMESPACE::DOMElement* nodeElem) const;
-        Ogre::Quaternion processQuaternion(XERCES_CPP_NAMESPACE::DOMElement* nodeElem) const;
-        Ogre::ColourValue processColour(XERCES_CPP_NAMESPACE::DOMElement* colElem) const;
-        
-        void createGameObject(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, XERCES_CPP_NAMESPACE::DOMElement* gameobjElem) const;
-        void createSound(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, XERCES_CPP_NAMESPACE::DOMElement* gameobjElem) const;
-        void createLight(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, XERCES_CPP_NAMESPACE::DOMElement* gameobjElem) const;
-        void createEntity(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, XERCES_CPP_NAMESPACE::DOMElement* gameobjElem);
+        void setRootSceneNode(Ogre::SceneNode* node);
+        void processNodes(XERCES_CPP_NAMESPACE::DOMElement* docElem, bool loadGameObjects);
     };
 
 } // namespace rl

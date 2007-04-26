@@ -742,8 +742,8 @@ namespace rl {
     class MapLoader
     {
     public:
-        MapLoader();
-        void loadMap(const Ogre::String& mapresource, const Ogre::String& resourceGroup, bool loadGameObjects = true);
+        MapLoader(const Ogre::String& resourceGroup);
+        void loadMap(const Ogre::String& mapresource, bool loadGameObjects = true);
     };
 } // Namespace
 

@@ -24,7 +24,6 @@ libRlRules_la_SOURCES = \
 	Inventory.cpp \
 	JournalEntry.cpp \
 	Kampftechnik.cpp \
-	MapLoader.cpp \
 	ObjectStateChangeEvent.cpp \
 	ObjectStateChangeEventSource.cpp \
 	ObjectStateChangeListener.cpp \
@@ -45,4 +44,10 @@ libRlRules_la_SOURCES = \
 	TimerListener.cpp \
 	TimerManager.cpp  \
 	Weapon.cpp \
-	ZauberStateSet.cpp
+	ZauberStateSet.cpp \
+	AbstractMapNodeProcessor.cpp \
+	EntityNodeProcessor.cpp \
+	GameObjectNodeProcessor.cpp \
+	LightNodeProcessor.cpp \
+	MapLoader.cpp \
+	SoundNodeProcessor.cpp

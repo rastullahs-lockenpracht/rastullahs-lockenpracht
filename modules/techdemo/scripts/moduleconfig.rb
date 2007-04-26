@@ -32,12 +32,14 @@ class TechdemoModule < ContentModule
 		require "truhe.rb"
 		require "techdemo_hoehle_eingang.rb"
 
-        $CORE.loadMap("Octree", "techdemo_terrain.scene", "techdemo");
+        # $CORE.loadMap("Octree", "techdemo_terrain.scene", "techdemo");
         
         p "Loading map with MapLoader"
-        # MapLoader.new().loadMap("techdemo_terrain.rlmap.xml", "techdemo");
-        MapLoader.new().loadMap("techdemo_gameobjects.rlmap.xml", "techdemo");
-        MapLoader.new().loadMap("techdemo_lights.rlmap.xml", "techdemo");
+        
+        loader = MapLoader.new("techdemo")
+        loader.loadMap("techdemo_terrain.rlmap.xml");
+        loader.loadMap("techdemo_gameobjects.rlmap.xml");
+        loader.loadMap("techdemo_lights.rlmap.xml");
         p "Done loading map"
         
         load "techdemo.rb"

@@ -16,7 +16,6 @@ noinst_HEADERS = \
 	Item.h \
 	Inventory.h \
 	Kampftechnik.h \
-	MapLoader.h \
 	ObjectStateChangeEvent.h \
 	ObjectStateChangeEventSource.h \
 	ObjectStateChangeListener.h \
@@ -38,4 +37,10 @@ noinst_HEADERS = \
 	TimerListener.h \
 	TimerManager.h \
 	Weapon.h \
-	ZauberStateSet.h
+	ZauberStateSet.h \
+	AbstractMapNodeProcessor.h \
+	EntityNodeProcessor.h \
+	GameObjectNodeProcessor.h \
+	LightNodeProcessor.h \
+	MapLoader.h \
+	SoundNodeProcessor.h
