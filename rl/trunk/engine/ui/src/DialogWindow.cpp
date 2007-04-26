@@ -76,9 +76,6 @@ DialogWindow::~DialogWindow()
 {
 	delete mCurrentResponse;
 	mCurrentResponse = NULL;
-
-	Ogre::String voiceFile = mBot->getVoiceFile().c_str();
-	ResourceGroupManager::getSingleton().removeResourceLocation(voiceFile, voiceFile);
 }
 
 void DialogWindow::initialize(DialogCharacterController* controller, DialogCharacter* character)

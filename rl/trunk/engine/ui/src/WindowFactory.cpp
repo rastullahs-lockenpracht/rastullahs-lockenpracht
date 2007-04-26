@@ -69,6 +69,7 @@ namespace rl {
         : mGameLogger(NULL),
         mCharacterStateWindow(NULL),
         mDialogWindow(NULL),
+        mSubtitleWindow(NULL),
         mInGameMenuWindow(NULL),
         mCharacterSheet(NULL),
         mJournalWindow(NULL),
@@ -118,12 +119,11 @@ namespace rl {
 
     WindowFactory::~WindowFactory()
     {
+        CoreSubsystem::getSingleton().removeCoreEventListener(mDataLoadingProgressWindow);
+
         delete mLogWindow;
         delete mObjectDescriptionWindow;
-
-        CoreSubsystem::getSingleton().removeCoreEventListener(mDataLoadingProgressWindow);
         delete mDataLoadingProgressWindow;
-
         delete mJournalWindow;
         delete mGameLogger;
         delete mCharacterSheet;
@@ -136,6 +136,8 @@ namespace rl {
         delete mMainMenuWindow;
         delete mCloseConfirmationWindow;
         delete mGameSettings;
+        delete mDialogWindow;
+        delete mSubtitleWindow;
     }
 
     WindowFactory& WindowFactory::getSingleton()
@@ -431,5 +433,14 @@ namespace rl {
             mDialogWindow = new DialogWindow(mGameLogger);
         }
         return mDialogWindow;
+    }
+
+    SubtitleWindow* WindowFactory::getSubtitleWindow()
+    {
+        if (mSubtitleWindow == NULL)
+        {
+            mSubtitleWindow = new SubtitleWindow();
+        }
+        return mSubtitleWindow;
     }
 }

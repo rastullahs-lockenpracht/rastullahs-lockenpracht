@@ -35,6 +35,7 @@ namespace rl {
     class AbstractWindow;
     class CharacterStateWindow;
     class CharacterSheetWindow;
+    class CloseConfirmationWindow;
     class Console;
     class Container;
     class Creature;
@@ -44,19 +45,19 @@ namespace rl {
     class DialogWindow;
     class GameLoggerWindow;
     class GameObject;
+    class GameObjectPropsWindow;
+    class GameSettings;
     class InfoPopup;
     class InGameMenuWindow;
     class InventoryWindow;
     class JournalWindow;
     class LogWindow;
-    class ObjectDescriptionWindow;
-    class GameObjectPropsWindow;
-    class Person;
-    class WindowUpdater;
     class MainMenuWindow;
-    class CloseConfirmationWindow;
-    class GameSettings;
+    class ObjectDescriptionWindow;
+    class Person;
     class SaveLoadWindow;
+    class SubtitleWindow;
+    class WindowUpdater;
 
     class _RlUiExport WindowFactory : public Ogre::Singleton<WindowFactory>
     {
@@ -107,6 +108,7 @@ namespace rl {
         void toggleInventoryWindow();
 
         DialogWindow* getDialogWindow();
+        SubtitleWindow* getSubtitleWindow();
 
         void checkForErrors();
         GameLoggerWindow* getGameLogger();
@@ -126,6 +128,7 @@ namespace rl {
         GameLoggerWindow* mGameLogger;
         CharacterStateWindow* mCharacterStateWindow;
         DialogWindow* mDialogWindow;
+        SubtitleWindow* mSubtitleWindow;
         InGameMenuWindow* mInGameMenuWindow;
         CharacterSheetWindow* mCharacterSheet;
         JournalWindow* mJournalWindow;

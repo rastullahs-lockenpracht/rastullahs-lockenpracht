@@ -176,8 +176,6 @@ namespace rl {
                 mCharacter->getActor()->detach(SoundManager::getSingleton().getListenerActor());
             }
 
-            World* world = CoreSubsystem::getSingletonPtr()->getWorld();
-
             if (person == NULL)
             {
                 mCharacter = NULL;

@@ -127,8 +127,12 @@ namespace rl {
         int mNumActiveWindowsKeyboardInput;
         int mNumActiveWindowsAllInput;
 
-        typedef std::stack<CharacterController*> ControlStateVector;
-        ControlStateVector mControlStates;
+        typedef std::stack<CharacterController*> ControlStateStack;
+        typedef std::vector<CharacterController*> ControlStateVector;
+        ControlStateStack mControlStates;
+        /// Stored for delay deletion, since else a state can be deleted while
+        /// still in its run() function.
+        ControlStateVector mFinishedControlStates;
     };
 }
 

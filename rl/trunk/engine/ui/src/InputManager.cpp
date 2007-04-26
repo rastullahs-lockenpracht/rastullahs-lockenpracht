@@ -152,6 +152,14 @@ namespace rl {
         mKeyboard->capture();
 
 		System::getSingleton().injectTimePulse(elapsedTime);
+
+        // delete finished control states
+        for (ControlStateVector::iterator it = mFinishedControlStates.begin();
+            it != mFinishedControlStates.end(); ++it)
+        {
+            delete *it;
+        }
+        mFinishedControlStates.clear();
    
         if (!mControlStates.empty())
         {
@@ -673,7 +681,7 @@ namespace rl {
         CharacterController* controller = mControlStates.top();
         mControlStates.pop();
         controller->pause();
-        delete controller;
+        mFinishedControlStates.push_back(controller);
 
         if (!mControlStates.empty())
         {

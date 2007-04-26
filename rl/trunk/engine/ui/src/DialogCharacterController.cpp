@@ -66,7 +66,6 @@ namespace rl {
         mSubtitleSpeed = ConfigurationManager::getSingleton().getRealSetting(
             "General", "Subtitle Speed");
 
-        mSubtitleWindow = new SubtitleWindow();
     }
 
     DialogCharacterController::~DialogCharacterController()
@@ -97,6 +96,8 @@ namespace rl {
 		mDialogPartner = bot->getDialogPartner()->getActor();
 
         recalculateCamera( mDialogPartner, mCharacterActor );
+
+        mSubtitleWindow = WindowFactory::getSingleton().getSubtitleWindow();
 
         mDialogWindow = WindowFactory::getSingleton().getDialogWindow();
         mDialogWindow->initialize(this, bot);
@@ -137,7 +138,7 @@ namespace rl {
             {
                 mSoundObject->stop();
             }
-            mSubtitleWindow->setVisible(false);
+            mSubtitleWindow->setVisible(false, false);
             mDialogWindow->textFinished();
         }
 
