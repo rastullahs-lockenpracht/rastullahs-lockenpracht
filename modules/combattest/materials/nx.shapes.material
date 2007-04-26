@@ -37,7 +37,7 @@ material nx.sphere
 		{
 			shading phong
 			ambient 0 1.0 0.8
-			diffuse 0 1.0 0.0.77
+			diffuse 0 1.0 0.77
 			specular 0 0.5 0.25 0.5
 			shading phong
 		}
