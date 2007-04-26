@@ -91,7 +91,7 @@ public:
     /// Uses GameLoop::getClock internally, function is here to allow access from ruby.
     unsigned long getClock();
 
-    /** Saves a timestamped jpg Screenshot
+    /** Saves a timestamped png Screenshot
         @param sName The filename (extended with the timestamp)
     */
     void makeScreenshot(const Ogre::String& sName);

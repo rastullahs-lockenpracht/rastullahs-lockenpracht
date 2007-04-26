@@ -522,7 +522,7 @@ namespace rl
 
     void CoreSubsystem::makeScreenshot( const String& sName )
     {
-        mRenderWindow->writeContentsToTimestampedFile(sName, ".jpg");
+        mRenderWindow->writeContentsToTimestampedFile(sName, ".png");
     }
 
     ContentModule* CoreSubsystem::getActiveAdventureModule() const
