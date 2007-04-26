@@ -18,7 +18,7 @@ class SpiderDieAnimationListener < AnimationListener
 
 	def animationFinished(anEvent)
 		$SCRIPT.log("SpiderDie animationFinished.");
-		anEvent.getAnimation().getMeshObject().getActor().getGameObject().die(@mPlayer)
+		anEvent.getAnimation().getMeshObject().getActor().die(@mPlayer)
 	end
 	
 	def animationPaused(anEvent)

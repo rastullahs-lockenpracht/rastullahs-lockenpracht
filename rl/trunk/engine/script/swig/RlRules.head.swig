@@ -30,7 +30,6 @@
 #include "EigenschaftenStateSet.h"
 #include "GameObject.h"
 #include "GameObjectManager.h"
-#include "GameObjectProxy.h"
 #include "Inventory.h"
 #include "Item.h"
 #include "MapLoader.h"

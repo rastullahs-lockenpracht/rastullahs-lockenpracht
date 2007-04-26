@@ -4,7 +4,7 @@ load( "npc.rb" );
 
 print( "Bauer wird geladen" );
 
-bower = $GOM.createGameObjectProxy("Bauer").getGameObject();
+bower = $GOM.createGameObject("Bauer");
 bower.placeIntoScene()
 
 bowerAnim = bower.getActor().getControlledObject().startAnimation("reden");

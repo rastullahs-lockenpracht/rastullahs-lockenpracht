@@ -51,5 +51,5 @@ class BuchDerKultur < Item
     end
 end
 
-buchDK = $GOM.createGameObjectProxy("Buch der Kultur").getGameObject();
+buchDK = $GOM.createGameObject("Buch der Kultur");
 buchDK.placeIntoScene();

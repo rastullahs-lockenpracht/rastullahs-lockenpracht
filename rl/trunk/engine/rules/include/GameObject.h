@@ -46,10 +46,14 @@ namespace rl
     {
     public:
     	typedef std::vector<std::pair<Action*, int> > ActionOptionVector;
-
+		static const unsigned int NO_OBJECT_ID = 0;
+        
         static const Ogre::String CLASS_NAME;
 
-        static const Ogre::String PROPERTY_POSITION; 
+        static const Ogre::String PROPERTY_CLASS_ID;
+        static const Ogre::String PROPERTY_OBJECT_ID;
+        static const Ogre::String PROPERTY_BASE_CLASS;
+		static const Ogre::String PROPERTY_POSITION; 
         static const Ogre::String PROPERTY_ORIENTATION; 
         static const Ogre::String PROPERTY_NAME;
         static const Ogre::String PROPERTY_DESCRIPTION; 

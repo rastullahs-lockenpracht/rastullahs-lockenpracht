@@ -17,5 +17,5 @@ print( "Definiere Listener" );
 #agent.addSteeringBehaviour(DefaultWanderBehaviour.new);
 #agent.addSteeringBehaviour(AvoidObstaclesBehaviour.new);
 #agent.addSteeringBehaviour(DialogBehaviour.new($heroVehicle));
-$GOM.createGameObjectProxy("Forrest").getGameObject().placeIntoScene();
+$GOM.createGameObject("Forrest").placeIntoScene();
 print("Forrest fertig geladen");

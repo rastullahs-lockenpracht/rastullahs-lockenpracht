@@ -7,7 +7,7 @@ require 'hero.rb'
 $PM.setEnabled(true);
 
 $SCRIPT.log("Held erstellen");
-$hero = $GOM.createGameObjectProxy("hero", 1).getGameObject();
+$hero = $GOM.createGameObject("hero", 1);
 $hero.placeIntoScene()
 PlayerSettings.preparePlayer($hero)
 $UI.setActiveCharacter($hero)

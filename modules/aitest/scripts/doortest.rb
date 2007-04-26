@@ -38,21 +38,21 @@ class DoorTest < TestCase
         base.placeIntoScene(center);
 
         # The door with the door knob
-        door1 = $GOM.createGameObjectProxy("door").getGameObject();
+        door1 = $GOM.createGameObject("door");
 	door1.setDescription("Eine Holztuer");
 	door1.setPosition(rel_pos([1.5, height, 0.0]));
         # Place door and add door actions. Initially the door is not open but can be opened.
         door1.placeIntoScene()
 
         # The door without a working door knob, to be opened with
-        door2 = $GOM.createGameObjectProxy("door").getGameObject();
+        door2 = $GOM.createGameObject("door");
 	door2.setDescription("Eine Holztuer.\nDiese Tuer hat weder Klinke noch Schloesser");
 	door2.setPosition(rel_pos([-1.5, height, 0.0]));
         # Place door and add door actions. Initially door is not open and cannot be opened.
         door2.placeIntoScene()
 
         # The switch to open the second door
-        switch = $GOM.createGameObjectProxy("switch3way").getGameObject();
+        switch = $GOM.createGameObject("switch3way");
         switch.setPosition(rel_pos([2.25, height, 2.0]));
 	switch.placeIntoScene();
 

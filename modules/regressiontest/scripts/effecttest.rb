@@ -18,7 +18,7 @@ class ParaluesAction < Action
   
   def doAction(go, user, target)
      p "Du wirst versteinert.";
-     $hero.getGameObject().addEffectWithCheckTime($paralueseffect, 1 * Date::ONE_SPIELRUNDE);
+     $hero.addEffectWithCheckTime($paralueseffect, 1 * Date::ONE_SPIELRUNDE);
      p "Du solltest dich jetzt eine Weile nicht mehr bewegen können.";
   end
 end
@@ -34,12 +34,12 @@ class ResistenzAction < Action
   
   def doAction(go, user, target)
      p "KO normal: " 
-     p $hero.getGameObject().getEigenschaft("KO");
+     p $hero.getEigenschaft("KO");
      p "Du wirst resistent gegen Krankheiten.";
-     $hero.getGameObject().addEffect($resistenzeffect);
+     $hero.addEffect($resistenzeffect);
      p "Effekt angewendet.";
      p "KO gegen Krankheiten: " 
-     p $hero.getGameObject().getEigenschaft("KO", Effect::MODTAG_KRANKHEIT);
+     p $hero.getEigenschaft("KO", Effect::MODTAG_KRANKHEIT);
   end
 end
 
@@ -58,7 +58,7 @@ class EffectTest < TestCase
                                           "alpha_yellow")
         base.placeIntoScene(center);
 
-        bottich = $GOM.createGameObjectProxy("EffectTest").getGameObject();
+        bottich = $GOM.createGameObject("EffectTest");
         bottich.addAction(ParaluesAction.new());
         bottich.addAction(ResistenzAction.new());
         bottich.placeIntoScene();

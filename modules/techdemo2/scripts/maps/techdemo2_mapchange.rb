@@ -15,7 +15,7 @@ class Td2LevelwechselListener < GameAreaListener
 		if (questBook.getQuest("aufenthaltsort").getState() == Quest::SUCCEEDED && 
 			(questBook.getQuest("hauptquest42").getState() == Quest::ASSIGNED || 
 			 questBook.getQuest("hauptquest41").getState() == Quest::ASSIGNED) )
-			$AM.getActor("Held").getGameObject().detachWeapon();  
+			$AM.getActor("Held").detachWeapon();  
 			$CORE.loadMap("Octree", @targetScene, @resourcegrp, @targetRbFile); 
 		else
 			$WF.showMessageWindow( "Ihr wisst noch nicht wohin ihr wollt - und was ihr an diesem Ort suchen wollt. Findet es erst heraus!" );

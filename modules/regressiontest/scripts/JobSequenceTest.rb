@@ -38,8 +38,8 @@ class JobSequenceTest < TestCase
                                            min_base, max_base, "alpha_green")
         base.placeIntoScene(center);
 
-        chest = $GOM.createGameObjectProxy(
-            "JobSequenceTestChest").getGameObject();
+        chest = $GOM.createGameObject(
+            "JobSequenceTestChest");
         chest.addAction(JobSequenceTestAction.new());
         chest.placeIntoScene();
         chest.setPosition(rel_pos([0.0, height, 0.0]));

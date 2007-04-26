@@ -19,6 +19,6 @@ print( "Definiere Listener" );
 ##agent.addSteeringBehaviour(AvoidObstaclesBehaviour.new);
 #agent.addSteeringBehaviour(DialogBehaviour.new($heroVehicle));
 
-$GOM.createGameObjectProxy("Jarn").getGameObject().placeIntoScene();
+$GOM.createGameObject("Jarn").placeIntoScene();
 
 print("Jarn Bot fertig geladen");

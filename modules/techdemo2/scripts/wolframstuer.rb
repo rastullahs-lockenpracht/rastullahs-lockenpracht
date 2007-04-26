@@ -30,7 +30,7 @@ print( "Wolframs Tür wird geladen" );
 
 print( "Definiere Listener" );
 
-wolframstuer = $GOM.createGameObjectProxy("WolframsTuer").getGameObject()
+wolframstuer = $GOM.createGameObject("WolframsTuer")
 wolframstuer.placeIntoScene();
 wolframstuer.addAction(TurTalkAction.new())
 

@@ -7,19 +7,19 @@ $PM.setEnabled(true)
 $SCRIPT.log("init map 'regressiontest'...")
 
 $SCRIPT.log("Create hero")
-$hero = $GOM.createGameObjectProxy("hero", 1);
+$hero = $GOM.createGameObject("hero", 1);
 
 $SCRIPT.log("Place hero into scene")
-$hero.getGameObject().placeIntoScene()
+$hero.placeIntoScene()
 
 $SCRIPT.log("Prepare hero for being the active character")
-PlayerSettings.preparePlayer($hero.getGameObject())
+PlayerSettings.preparePlayer($hero)
 
 $SCRIPT.log("Set hero as active character")
-$UI.setActiveCharacter($hero.getGameObject())
+$UI.setActiveCharacter($hero)
 $SCRIPT.log("Hero ready")
 
-wolf = $GOM.createGameObjectProxy("Wolf").getGameObject()
+wolf = $GOM.createGameObject("Wolf")
 wolf.placeIntoScene
 wolf.setPosition [0.0,0.0,-5.0]
 wolf.setAlignment(Creature::ALIGNMENT_ENEMY)

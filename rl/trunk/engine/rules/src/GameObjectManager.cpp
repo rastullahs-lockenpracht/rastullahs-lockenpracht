@@ -21,7 +21,6 @@
 #include "Creature.h"
 #include "Exception.h"
 #include "GameObject.h"
-#include "GameObjectProxy.h"
 #include "Item.h"
 #include "Person.h"
 #include "Properties.h"
@@ -40,7 +39,6 @@ namespace rl
     {
         mGeneratedId = 1<<16;
         mGameObjects.clear();
-        mGameObjectProxys.clear();
 
         mScriptPatterns.push_back("*.gof");
         Ogre::ResourceGroupManager::getSingleton()._registerScriptLoader(this);
@@ -69,50 +67,19 @@ namespace rl
         for(std::vector<PropertySet*>::iterator it = psset.begin(); it != psset.end(); it++)
         {
             PropertySet* curPs = *it;
-            Ogre::String classId = curPs->getProperty(GameObjectProxy::PROPERTY_CLASS_ID).toString().c_str();
+            Ogre::String classId = curPs->getProperty(GameObject::PROPERTY_CLASS_ID).toString().c_str();
             mClassProperties[classId] = curPs;
         }
         delete propReader;
 
     }
 
-    GameObjectProxy& GameObjectManager::createGameObjectProxy(
-        const Ogre::String& classId, 
-        unsigned int id)
+    GameObject* GameObjectManager::getGameObject(unsigned int id) const
     {
+        std::map<unsigned int, GameObject*>::const_iterator it 
+                = mGameObjects.find(id);
 
-		unsigned int goId = GameObjectProxy::NO_OBJECT_ID;
-
-        if (id != GameObjectProxy::NO_OBJECT_ID)
-        {
-            GameObjectProxy* gopInMap = getGameObjectProxy(id);
-
-            if (gopInMap != NULL)
-            {
-                return *gopInMap;
-            }
-            else
-            {
-                goId = id;
-            }
-        }
-        else
-        {
-            goId = generateId();
-        }
-
-        GameObjectProxy* gop = new GameObjectProxy(classId, goId);
-
-        mGameObjectProxys[goId] = gop;
-        return *gop;
-    }
-
-    GameObjectProxy* GameObjectManager::getGameObjectProxy(unsigned int id) const
-    {
-        std::map<unsigned int, GameObjectProxy*>::const_iterator it 
-                = mGameObjectProxys.find(id);
-
-        if (it != mGameObjectProxys.end())
+        if (it != mGameObjects.end())
         {
             return (*it).second;
         }
@@ -125,18 +92,39 @@ namespace rl
         return mGeneratedId++;
     }
 
-    GameObject* GameObjectManager::createGameObject(const rl::GameObjectProxy *proxy)
+    GameObject* GameObjectManager::createGameObject(
+		const Ogre::String& classId, unsigned int id)
     {
-        PropertySet* ps = getClassProperties(proxy->getClassId());
-        Ogre::String classname =  ps->getProperty(GameObjectProxy::PROPERTY_BASE_CLASS).toString().c_str();
+		unsigned int goId;
+
+		if (id != GameObject::NO_OBJECT_ID)
+        {
+            GameObject* goInMap = getGameObject(id);
+
+            if (goInMap != NULL)
+            {
+                return goInMap;
+            }
+            else
+            {
+                goId = id;
+            }
+        }
+        else
+        {
+            goId = generateId();
+        }
+
+        PropertySet* ps = getClassProperties(classId);
+        Ogre::String classname =  ps->getProperty(GameObject::PROPERTY_BASE_CLASS).toString().c_str();
 
         GameObject* go = mGameObjectFactory
             ->createGameObject(
                 classname, 
-                proxy->getId());
+                goId);
         
         go->setProperties(ps);
-        mGameObjects[proxy] = go;
+        mGameObjects[goId] = go;
         return go;
     }
 

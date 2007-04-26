@@ -27,7 +27,6 @@
 namespace rl
 {
     class GameObject;
-    class GameObjectProxy;
     class PropertySet;
 
     class _RlRulesExport GameObjectFactory
@@ -48,9 +47,8 @@ namespace rl
         GameObjectManager();
         ~GameObjectManager();
 
-        GameObjectProxy& createGameObjectProxy(const Ogre::String& classId, unsigned int id = 0);
-        GameObjectProxy* getGameObjectProxy(unsigned int id) const;
-        GameObject* createGameObject(const GameObjectProxy* proxy);
+        GameObject* getGameObject(unsigned int id) const;
+        GameObject* createGameObject(const Ogre::String& classId, unsigned int id = 0);
         void setGameObjectFactory(GameObjectFactory* gof);
         void loadProperties(const Ogre::String& module);
 
@@ -72,8 +70,7 @@ namespace rl
 
         Ogre::StringVector mScriptPatterns;
 
-        std::map<unsigned int, GameObjectProxy*> mGameObjectProxys;
-        std::map<const GameObjectProxy*, GameObject*> mGameObjects;
+        std::map<unsigned int, GameObject*> mGameObjects;
         ClassPropertyMap mClassProperties;
         unsigned int mGeneratedId;
         GameObjectFactory* mGameObjectFactory;

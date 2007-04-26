@@ -108,21 +108,6 @@ namespace rl {
         rl::Person* getPerson(const int id) const;
     };
     
-    class GameObjectProxy
-    {
-    private:
-        GameObjectProxy(const Ogre::String& classid, unsigned int id);
-        
-    public:       
-        rl::GameObject* getGameObject();
-
-        unsigned int getId() const;
-        const Ogre::String& getClassId() const;
-        
-        void load();
-        void unload();
-    };
-    
     %feature("director") GameObjectFactory; 
     class GameObjectFactory
     {
@@ -136,8 +121,8 @@ namespace rl {
     {
     public:
         static rl::GameObjectManager& getSingleton();
-        rl::GameObjectProxy& createGameObjectProxy(const Ogre::String& classId, unsigned int id = 0);
-        rl::GameObjectProxy* getGameObjectProxy(unsigned int id) const;
+        rl::GameObject* createGameObject(const Ogre::String& classId, unsigned int id = 0);
+        rl::GameObject* getGameObject(unsigned int id) const;
         void setGameObjectFactory(rl::GameObjectFactory* gof);
 
     private:

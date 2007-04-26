@@ -12,8 +12,8 @@ class NpcCapsuleTest < TestCase
                                            min_base, max_base, "alpha_red")
         base.placeIntoScene(center);
 
-        npc1proxy = $GOM.createGameObjectProxy("TestPersonCapsule");
-        npc1 = npc1proxy.getGameObject();
+        npc1proxy = $GOM.createGameObject("TestPersonCapsule");
+        npc1 = npc1proxy;
         npc1.setPosition(rel_pos([0.0, height, 0.0]));
 
         npc1.placeIntoScene();

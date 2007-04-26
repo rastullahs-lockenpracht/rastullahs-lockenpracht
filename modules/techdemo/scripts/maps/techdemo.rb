@@ -16,7 +16,7 @@ techdemoWelt.getControlledObject().play();
 $SCRIPT.log("Welten-Thema fertig");
 
 $SCRIPT.log("Get hero")
-$hero = $GOM.createGameObjectProxy("hero", 1).getGameObject();
+$hero = $GOM.createGameObject("hero", 1);
 $hero.setPosition([0, 0.7, 0]);
 $hero.placeIntoScene();
 
@@ -28,27 +28,22 @@ $UI.setActiveCharacter($hero)
 
 $World.setFog( World::FOG_EXP, [0.8,0.8,1.0,0.5], 0.00003, 0.4, 1.0);
 
-p "This should not be nil since this GO is placed into scene: " + $GOM.getGameObjectProxy(7).getGameObject().getActor()
-
 tueroeffner = CaveDoorOpener.new(
-	$GOM.getGameObjectProxy(7).getGameObject(), 
-	$GOM.getGameObjectProxy(8).getGameObject())
+	$GOM.getGameObject(7), 
+	$GOM.getGameObject(8))
 
-truhe = $GOM.getGameObjectProxy(9).getGameObject();
-truhe.addItem($GOM.getGameObjectProxy(10).getGameObject())
+truhe = $GOM.getGameObject(9);
+truhe.addItem($GOM.getGameObject(10))
 
 
-luftfels1 = $GOM.getGameObjectProxy(11).getGameObject()
-luftfels2 = $GOM.getGameObjectProxy(12).getGameObject()
-luftfels3 = $GOM.getGameObjectProxy(13).getGameObject()
+luftfels1 = $GOM.getGameObject(11)
+luftfels2 = $GOM.getGameObject(12)
+luftfels3 = $GOM.getGameObject(13)
 
 $SCRIPT.log("Steinschlag: SteinschlagzoneListener erstellen");
 areaListener = SteinschlagzoneListener.new(luftfels1, luftfels2, luftfels3 );
 
-felshaufen = $GOM.getGameObjectProxy(14).getGameObject()
-p felshaufen
-p felshaufen.getActor()
-p felshaufen.getActor().getPhysicalThing()
+felshaufen = $GOM.getGameObject(14)
 felshaufen.getActor().getPhysicalThing().setContactListener( 
 	RockpileContactListener.new($felshaufen, luftfels1, luftfels2, luftfels3) );
 

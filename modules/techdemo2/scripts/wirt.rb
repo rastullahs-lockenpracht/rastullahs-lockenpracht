@@ -6,7 +6,7 @@ print( "Wirt wird geladen" );
 
 print( "Definiere Listener" );
 
-wirt = $GOM.createGameObjectProxy("Wirt").getGameObject();
+wirt = $GOM.createGameObject("Wirt");
 wirt.placeIntoScene()
  
 wirtAnim = wirt.getActor().getControlledObject().startAnimation("reden");

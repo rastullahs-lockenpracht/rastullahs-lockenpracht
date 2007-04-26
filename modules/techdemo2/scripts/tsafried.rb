@@ -6,6 +6,6 @@ print( "Tsafried Bot wird geladen" );
 
 print( "Definiere Listener" );
 
-$GOM.createGameObjectProxy("Tsafried").getGameObject().placeIntoScene();
+$GOM.createGameObject("Tsafried").placeIntoScene();
 
 print( "Tsafried Bot fertig geladen" );

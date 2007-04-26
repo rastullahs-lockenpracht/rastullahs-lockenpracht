@@ -10,7 +10,7 @@ $PM.setEnabled(true);
 $SCRIPT.log("init map 'Techdemo2'...");
 
 $SCRIPT.log("Held erstellen");
-$hero = $GOM.createGameObjectProxy("hero", 1).getGameObject();
+$hero = $GOM.createGameObject("hero", 1);
 $hero.placeIntoScene()
 PlayerSettings.preparePlayer($hero)
 $UI.setActiveCharacter($hero)
@@ -34,13 +34,13 @@ $SCRIPT.log("Tageslicht erstellt.");
 
 
 $SCRIPT.log("Türen einsetzen");
-door1 = $GOM.createGameObjectProxy("door").getGameObject()
+door1 = $GOM.createGameObject("door")
 door1.setMeshfile("arc_door_02.mesh");
 door1.setPosition([-12.9124, -6.86492, 13.7133]);
 door1.setOrientation([0, -120, 0]);
 door1.setDescription("Eine Holztür");
 
-door2 = $GOM.createGameObjectProxy("door").getGameObject()
+door2 = $GOM.createGameObject("door")
 door2.setMeshfile("arc_door_02.mesh");
 door2.setPosition([-34.6458, -6.2058, 14.9355]);
 door2.setOrientation([0, -212.5, 0]);

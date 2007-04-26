@@ -19,7 +19,7 @@ wolfnum = 1
 
 # Die Positionen durchgehen
 positions.each { |pos|
-    se = $GOM.createGameObjectProxy("Wolf").getGameObject();
+    se = $GOM.createGameObject("Wolf");
     
     se.setPosition(pos);
     se.getActor().placeIntoScene();

@@ -19,7 +19,7 @@ print( "Wolfram Bot wird geladen" );
 
 print( "Definiere Listener" );
 
-$GOM.createGameObjectProxy("Wolfram").getGameObject().placeIntoScene();
+$GOM.createGameObject("Wolfram").placeIntoScene();
 
 tuer = $AM.getActor("WolframsTuer")
 tuer.getControlledObject().startAnimation("auf",1.0,1)

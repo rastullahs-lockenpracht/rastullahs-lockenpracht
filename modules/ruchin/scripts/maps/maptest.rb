@@ -35,7 +35,7 @@ $World.setFog( World::FOG_EXP, [0.4,0.5,0.6,0.7], 0.00219, 0.5, 1.0);
 
 
 $SCRIPT.log("Create hero")
-$hero = $GOM.createGameObjectProxy("hero", 1).getGameObject();
+$hero = $GOM.createGameObject("hero", 1);
 
 $SCRIPT.log("Place hero into scene")
 $hero.placeIntoScene();

@@ -1,11 +1,11 @@
-#<!-- Script fürs Schwert mit Geräusch und Musikwechsel auf Kampf! kampf.rb-->
+#<!-- Script fï¿½rs Schwert mit Gerï¿½usch und Musikwechsel auf Kampf! kampf.rb-->
 
 #Musik zum Kampf wechseln
 
 	$AM.getActor("techdemoDruidenWald").getControlledObject().stop()
 	$AM.getActor("kampfMusik").getControlledObject().play()
 
-#Geräusch
+#Gerï¿½usch
 	@mSchwertziehenSound = $AM.createSoundSampleActor("Schwertziehen","schwert.ogg");
 	@mSchwertziehenSound.getControlledObject().set3d(false);
 	@mSchwertziehenSound.getControlledObject().load();
@@ -27,6 +27,6 @@
 	 end 
 	end
 
-	held = $AM.getActor("Held").getGameObject();
+	held = $AM.getActor("Held");
 	schwertH = Kurzschwert.new()
 	held.addWeapon(schwertH)

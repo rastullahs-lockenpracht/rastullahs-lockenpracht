@@ -24,18 +24,18 @@ $PM.setEnabled(true)
 $SCRIPT.log("init map 'aitest'...")
 
 $SCRIPT.log("Create hero")
-$hero = $GOM.createGameObjectProxy("hero", 1);
+$hero = $GOM.createGameObject("hero", 1);
 
 $SCRIPT.log("Place hero into scene")
-#$hero.getGameObject().setPosition([1.0, 0.0, 0.0]);
-$hero.getGameObject().placeIntoScene()
+#$hero.setPosition([1.0, 0.0, 0.0]);
+$hero.placeIntoScene()
 
 
 $SCRIPT.log("Prepare hero for being the active character")
-PlayerSettings.preparePlayer($hero.getGameObject())
+PlayerSettings.preparePlayer($hero)
 
 $SCRIPT.log("Set hero as active character")
-$UI.setActiveCharacter($hero.getGameObject())
+$UI.setActiveCharacter($hero)
 
 $SCRIPT.log("Hero ready")
 

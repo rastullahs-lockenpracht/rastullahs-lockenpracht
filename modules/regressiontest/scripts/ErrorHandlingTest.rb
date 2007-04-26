@@ -28,7 +28,7 @@ class ErrorHandlingTest < TestCase
                                           "alpha_orange")
         base.placeIntoScene(center);
 
-        eh = $GOM.createGameObjectProxy("ErrorHandling").getGameObject();
+        eh = $GOM.createGameObject("ErrorHandling");
         eh.addAction(DirectorErrorAction.new());
         eh.placeIntoScene();
         eh.setPosition(rel_pos([0.0, height, 0.0]));

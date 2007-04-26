@@ -19,7 +19,7 @@ RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest52").setKnown(t
 RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest52").setState(Quest::ASSIGNED)
 
 $SCRIPT.log("NetterAlter wird geladen");
-  $GOM.createGameObjectProxy("RettungsDruide").getGameObject().placeIntoScene();
+  $GOM.createGameObject("RettungsDruide").placeIntoScene();
 $SCRIPT.log("NetterAlter geladen");
 
 

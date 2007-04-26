@@ -31,7 +31,7 @@ class TimeTest < TestCase
                                           "alpha_orange")
         base.placeIntoScene(center);
 
-        scheit = $GOM.createGameObjectProxy("Holzscheit").getGameObject();
+        scheit = $GOM.createGameObject("Holzscheit");
         scheit.addAction(TimeCheckAction.new());
         scheit.placeIntoScene();
         scheit.setPosition(rel_pos([0.0, height, 0.0]));

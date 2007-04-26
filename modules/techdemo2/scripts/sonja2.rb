@@ -8,7 +8,7 @@ load( "npc.rb" );
 
 print( "Sonjversion Map2 wird geladen" );
 print( "Definiere Listener" );
-$GOM.createGameObjectProxy("Sonj").getGameObject().placeIntoScene();
+$GOM.createGameObject("Sonj").placeIntoScene();
 print( "Sonja version Map2 fertig geladen" );
 
 #Musik

@@ -19,7 +19,6 @@
 
 #include "GameObject.h"
 #include "GameObjectManager.h"
-#include "GameObjectProxy.h"
 #include "PropertyReader.h"
 #include "XmlHelper.h"
 
@@ -41,27 +40,27 @@ namespace rl
         
         Ogre::String classname = XmlHelper::getAttributeValueAsStdString(nodeElem, "class");
         
-        unsigned int goid = GameObjectProxy::NO_OBJECT_ID;
+        unsigned int goid = GameObject::NO_OBJECT_ID;
 
         if (XmlHelper::hasAttribute(nodeElem, "id"))
         {
             goid = XmlHelper::getAttributeValueAsInteger(nodeElem, "id");
         }
 
-        GameObjectProxy gop = GameObjectManager::getSingleton().createGameObjectProxy(classname, goid);
+        GameObject* go = GameObjectManager::getSingleton().createGameObject(classname, goid);
 
         DOMElement* posElem = XmlHelper::getChildNamed(nodeElem, "position");
         if (posElem != NULL)
         {
             Vector3 pos = processVector3(posElem);
-            gop.getGameObject()->setPosition(pos);
+            go->setPosition(pos);
         }
 
         DOMElement* oriElem = XmlHelper::getChildNamed(nodeElem, "rotation");
         if (oriElem != NULL)
         {
             Quaternion ori = processQuaternion(oriElem);
-            gop.getGameObject()->setOrientation(ori);
+            go->setOrientation(ori);
         }
 
         DOMNodeList* goElChildNodes = nodeElem->getChildNodes();
@@ -74,7 +73,7 @@ namespace rl
                 PropertyEntry propEntry = getXmlPropertyReader()->processProperty(static_cast<DOMElement*>(cur));
                 if (propEntry.first != "")
                 {
-                    gop.getGameObject()->setProperty(propEntry.first, propEntry.second);
+                    go->setProperty(propEntry.first, propEntry.second);
                 }
             }
         }
@@ -104,7 +103,7 @@ namespace rl
 				state = GOS_READY;
 			}
 		}
-		gop.getGameObject()->setState(state);
+		go->setState(state);
 
         return true;
     }
