@@ -29,7 +29,7 @@ namespace rl
 		: Ogre::Singleton<ZoneManager>()
 	{
 		// the default zone is active when no other Zone is active
-		mDefaultZone = new Zone();
+		mDefaultZone = new Zone(NULL);
 		mActiveZones.push_front(mDefaultZone); 
 	}
 
@@ -37,8 +37,10 @@ namespace rl
 	{
 		for (std::map<const Ogre::String, Zone*>::iterator it = mZones.begin(); it != mZones.end(); ++it)
 		{
-			delete (*it).second;
+			Zone* curZone = (*it).second;
+			GameEventManager::getSingleton().removeAreaListener(curZone);
 		}
+		GameEventManager::getSingleton().removeQueuedDeletionSources();
 		delete mDefaultZone;
 	}
 
@@ -63,11 +65,11 @@ namespace rl
 
     Zone* ZoneManager::createZone(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Real radius, unsigned long queryflags)
 	{
-		Zone* lz = new Zone();
-		mZones[name] = lz;
 
 		Actor* kugelDings = ActorManager::getSingleton().createEmptyActor("Light zone center");
 		kugelDings->placeIntoScene(position);
+		Zone* lz = new Zone(kugelDings);
+		mZones[name] = lz;
 		GameEventManager::getSingleton().addSphereAreaListener(kugelDings, radius, lz, queryflags);
 
 		return lz;

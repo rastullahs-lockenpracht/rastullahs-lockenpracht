@@ -854,6 +854,8 @@ public:
 
 class Zone
 {
+private:
+	Zone(Actor* actor);
 public:
 	void addLight(Actor* light);
 	void addSound(const Ogre::String& sound);

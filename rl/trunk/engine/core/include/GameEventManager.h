@@ -85,9 +85,9 @@ public:
 
     virtual const Ogre::String& getName() const;
 
-private:
 	void removeQueuedDeletionSources();
 
+private:
     GameAreaEventSourceList mAreaEventSources;
 	GameAreaEventSourceList mQueuedDeletionSources;
 };

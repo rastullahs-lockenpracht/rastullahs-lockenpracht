@@ -22,18 +22,21 @@
 
 namespace rl {
 
+	class Actor;
 	class LightObject;
 
 	///@todo: Inheritance is wrong, Zone should be a GameAreaEventSource, ZoneManager a GameAreaListener
 	class _RlCoreExport Zone : public GameAreaListener
 	{
 	public:
-		Zone();
+		Zone(Actor* actor);
 
 		void addLight(Actor* light);
         void addSound(const Ogre::String& name);
 		std::vector<Actor*> getLights() const;
         std::vector<Ogre::String> getSounds() const;
+
+		Actor* getActor() const;
 
 		virtual void areaLeft(GameAreaEvent *anEvent);
 	    virtual void areaEntered(GameAreaEvent *anEvent);
@@ -41,6 +44,7 @@ namespace rl {
 	private:
 		std::vector<Actor*> mLights;
 		std::vector<Ogre::String> mSounds;
+		Actor* mActor;
 	};
 
 }

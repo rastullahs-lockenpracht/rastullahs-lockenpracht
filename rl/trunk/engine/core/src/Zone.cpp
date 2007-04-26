@@ -24,9 +24,15 @@
 namespace rl 
 {
 
-	Zone::Zone()
-		: GameAreaListener()
+	Zone::Zone(Actor* actor)
+	 : GameAreaListener(),
+	   mActor(actor)
 	{
+	}
+
+	Actor* Zone::getActor() const
+	{
+		return mActor;
 	}
 
 	void Zone::areaLeft(GameAreaEvent *anEvent)
