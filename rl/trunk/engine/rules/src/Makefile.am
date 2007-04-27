@@ -19,7 +19,6 @@ libRlRules_la_SOURCES = \
 	EigenschaftenStateSet.cpp \
 	GameObject.cpp \
 	GameObjectManager.cpp \
-	GameObjectProxy.cpp \
 	Item.cpp \
 	Inventory.cpp \
 	JournalEntry.cpp \
