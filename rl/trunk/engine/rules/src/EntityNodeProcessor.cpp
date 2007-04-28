@@ -17,8 +17,10 @@
 
 #include <OgreEntity.h>
 #include <OgreMeshManager.h>
+#include <OgreNewt_CollisionPrimitives.h>
 
 #include "CoreSubsystem.h"
+#include "PhysicsManager.h"
 #include "World.h"
 #include "XmlHelper.h"
 
@@ -46,13 +48,13 @@ namespace rl
             "Processing entity node " 
                 + entName);
 
-        if (!XmlHelper::hasAttribute(nodeElem, "meshFile"))
+        if (!XmlHelper::hasAttribute(nodeElem, "meshfile"))
         {
-            LOG_ERROR(Logger::RULES, "Entity node defines no meshfile");
+            LOG_ERROR(Logger::RULES, "Entity node defines no meshfile attribute");
             return false;
         }
         
-        Ogre::String meshFile = XmlHelper::getAttributeValueAsStdString(nodeElem, "meshFile");
+        Ogre::String meshFile = XmlHelper::getAttributeValueAsStdString(nodeElem, "meshfile");
         if (entName == "")
         {
             entName = getRandomName(meshFile);
@@ -106,6 +108,8 @@ namespace rl
             // If not, it is now loaded implicitly from the default group
             newEnt = CoreSubsystem::getSingleton().getWorld()
                         ->getSceneManager()->createEntity(entName, meshFile);
+
+            LOG_DEBUG(Logger::RULES, " Loaded meshfile "+meshFile);
         }
         catch(...)
         {
@@ -114,6 +118,7 @@ namespace rl
         }
 
         parentNode->attachObject(newEnt);
+        createCollision(newEnt, meshFile, XmlHelper::getChildNamed(nodeElem, "physicsproxy"));
 
         DOMElement* scaleElem = XmlHelper::getChildNamed(nodeElem, "scale");
         if (scaleElem != NULL)
@@ -124,139 +129,153 @@ namespace rl
         return true;
     }
 
-    	//void EntityNodeProcessor::createCollision()
-	//{
- //       // ------- Falls n�tig automatisch bodyproxy erstellen -------------
- //       // (wenn physical_body gesetzt wurde)
- //       OgreNewt::CollisionPtr collision = OgreNewt::CollisionPtr();
- //       OgreNewt::World *thisWorld = PhysicsManager::getSingleton()._getNewtonWorld();
+    void EntityNodeProcessor::createCollision(Entity* entity, Ogre::String meshName, DOMElement* physicsProxyElem)
+	{
+        std::vector<OgreNewt::CollisionPtr> collisions;
+        
+        Ogre::String physicsProxyType;
+        if (physicsProxyElem == NULL || !XmlHelper::hasAttribute(physicsProxyElem, "type"))
+        {
+            physicsProxyType = "auto";
+        }
+        else
+        {
+            physicsProxyType = XmlHelper::getAttributeValueAsStdString(physicsProxyElem, "type");
+        }
 
- //       if (physical_body.compare("none") != 0)
- //       {
- //           const AxisAlignedBox &aab = newEnt->getMesh()->getBounds();
- //           Ogre::Vector3 size = (aab.getMaximum() - aab.getMinimum()) * parentNode->getScale();
- //           bool forceBox = false;
+        // ------- Falls noetig automatisch bodyproxy erstellen -------------
+        // (wenn physicsProxyType gesetzt wurde)
+        OgreNewt::CollisionPtr collision = OgreNewt::CollisionPtr();
+        OgreNewt::World *thisWorld = PhysicsManager::getSingleton()._getNewtonWorld();
 
- //           if ((size.x < PhysicsManager::NEWTON_GRID_WIDTH ||
- //                size.y < PhysicsManager::NEWTON_GRID_WIDTH ||
- //                size.z < PhysicsManager::NEWTON_GRID_WIDTH) &&
- //                physical_body.compare("convexhull") == 0)
- //           {
- //               if (size.x < PhysicsManager::NEWTON_GRID_WIDTH)
- //                   size.x = PhysicsManager::NEWTON_GRID_WIDTH;
- //               if (size.y < PhysicsManager::NEWTON_GRID_WIDTH)
- //                   size.y = PhysicsManager::NEWTON_GRID_WIDTH;
- //               if (size.z < PhysicsManager::NEWTON_GRID_WIDTH)
- //                   size.z = PhysicsManager::NEWTON_GRID_WIDTH;
+        if (physicsProxyType == "custom")
+        {
+            ///@todo create physics proxy from custom collision primitives which are defined in children elements of <code>physicsProxyElem<code>
+        }
+        else if (physicsProxyType == "none")
+        {
+            LOG_DEBUG(Logger::RULES, "No physics proxy for entity '"+entity->getName()+"'.");
+        }
+        else
+        {
+            const AxisAlignedBox &aab = entity->getMesh()->getBounds();
+            Ogre::Node* parentNode = entity->getParentNode();
+            Ogre::Vector3 size = (aab.getMaximum() - aab.getMinimum()) * parentNode->getScale();
+            bool forceBox = false;
 
- //               LOG_MESSAGE(Logger::CORE, " Die Entity '"+entName+"' liegt in einer Ebene, verwende 'box' f�r physical_body '"+physical_body+"' ");
- //               forceBox = true;
- //           }
- //           const Quaternion orientation(0,0,0,0);// = parentNode->getOrientation();
- //           const Ogre::Vector3 pos = aab.getMinimum()* parentNode->getScale() + (size/2.0);
+            if ((size.x < PhysicsManager::NEWTON_GRID_WIDTH ||
+                 size.y < PhysicsManager::NEWTON_GRID_WIDTH ||
+                 size.z < PhysicsManager::NEWTON_GRID_WIDTH) &&
+                 physicsProxyType == "convexhull")
+            {
+                if (size.x < PhysicsManager::NEWTON_GRID_WIDTH)
+                    size.x = PhysicsManager::NEWTON_GRID_WIDTH;
+                if (size.y < PhysicsManager::NEWTON_GRID_WIDTH)
+                    size.y = PhysicsManager::NEWTON_GRID_WIDTH;
+                if (size.z < PhysicsManager::NEWTON_GRID_WIDTH)
+                    size.z = PhysicsManager::NEWTON_GRID_WIDTH;
 
-
- //           // Pr�fen, ob schon ein identischer Proxy erstellt wurde um diesen erneut zu verwenden
- //           AlreadyUsedCollision &aucol (mAutoCreatedCollisions[meshName]);
- //           if (aucol.Type.compare(physical_body) == 0  &&
- //               aucol.Scale == parentNode->getScale() &&
- //               (!forceBox)) // sicherheitshalber
- //           {
- //               collision = aucol.ColPtr;
- //               LOG_DEBUG(Logger::CORE, " Schon fr�her erstellten physical_body f�r Entity '"+entName+"' wieder verwendet. ");
- //           }
- //           else
- //           {
-
- //               if (physical_body.compare("box") == 0 || forceBox)
- //               {
- //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Box(
- //                                    thisWorld, size, orientation, pos));
- //                   LOG_DEBUG(Logger::CORE, " physical_body 'box' f�r Entity '"+entName+"' erstellt. ");
- //               }
- //               else if (physical_body.compare("pyramid") == 0)
- //               {
- //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Pyramid(
- //                                   thisWorld, size, orientation, pos));
- //                   LOG_DEBUG(Logger::CORE, " physical_body 'pyramid' f�r Entity '"+entName+"' erstellt. ");
- //               }
- //               else if (physical_body.compare("sphere") == 0)
- //               {
- //                   double radius = std::max(size.x, std::max(size.y, size.z)) / 2.0;
- //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
- //                                   thisWorld, Vector3(radius, radius, radius),
- //                                   orientation, pos));
- //                   LOG_DEBUG(Logger::CORE, " physical_body 'sphere' f�r Entity '"+entName+"' erstellt. ");
- //               }
- //               else if (physical_body.compare("ellipsoid") == 0)
- //               {
- //                   // set the size x/z values to the maximum
- //                   Ogre::Vector3 s(size/2.0);
- //                   s.x = std::max(s.x, s.z);
- //                   s.z = s.x;
- //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
- //                                   thisWorld, s,
- //                                   orientation, pos));
- //                   LOG_DEBUG(Logger::CORE, " physical_body 'ellipsoid' f�r Entity '"+entName+"' erstellt. ");
- //               }
- //               else if (physical_body.compare("capsule") == 0)
- //               {
- //                   double radius = std::max(size.x, size.z) / 2.0;
- //                   double height = size.y;
-
- //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Capsule(
- //                                   thisWorld,
- //                                   radius,
- //                                   height,
- //                                   orientation, pos));
- //                   LOG_DEBUG(Logger::CORE, " physical_body 'capsule' f�r Entity '"+entName+"' erstellt. ");
- //               }
- //               else if (physical_body.compare("convexhull") == 0)
- //               {
- //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(
- //                                   thisWorld,
- //                                   newEnt,
- //                                   false));
- //                   //orientation, pos));
- //                   LOG_DEBUG(Logger::CORE, " physical_body 'convexhull' f�r Entity '"+entName+"' erstellt. ");
- //               }
- //               else if (physical_body.compare("mesh") == 0 || physical_body.compare("auto"))
- //               {
- //                   collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(
- //                                   thisWorld, newEnt, false));
- //                   LOG_DEBUG(Logger::CORE, " physical_body 'mesh' f�r Entity '"+entName+"' erstellt. ");
- //               }
- //               else
- //                   LOG_MESSAGE(Logger::CORE,
- //                       " Der bodyproxy_type '"+physical_body+"'(aus userData) der Entity '"+meshName+"' ist ung�ltig.");
-
- //               // proxy in die liste der schon erstellten proxies hinzuf�gen
- //               aucol.ColPtr = collision;
- //               aucol.Scale = parentNode->getScale();
- //               aucol.Type = physical_body;
- //           }
- //       }
-
- //       // zur liste hinzuf�gen
- //       if (!collision.isNull())
- //       {
- //           mCollisions.push_back(collision);
- //       }
+                LOG_MESSAGE(Logger::RULES, "Entity '"+entity->getName()+"' is planar, using 'box' as instead of '"+physicsProxyType+"'.");
+                forceBox = true;
+            }
+            const Quaternion orientation(0,0,0,0);// = parentNode->getOrientation();
+            const Ogre::Vector3 pos = aab.getMinimum() * parentNode->getScale() + (size/2.0);
 
 
- //       // Zur Physik des Levels hinzuf�gen
- //       if (mCollisions.size() > 0)
- //       {
- //           PhysicsManager::getSingleton().addLevelGeometry(newEnt, mCollisions);
- //           LOG_DEBUG(Logger::CORE, " Entity '"+entName+"' in levelGeometry geladen");
- //       }
+            // Pruefen, ob schon ein identischer Proxy erstellt wurde um diesen erneut zu verwenden
+            AlreadyUsedCollision &aucol (mAutoCreatedCollisions[meshName]);
+            if (aucol.Type == physicsProxyType  &&
+                aucol.Scale == parentNode->getScale() &&
+                (!forceBox)) // sicherheitshalber
+            {
+                collision = aucol.ColPtr;
+                LOG_DEBUG(Logger::RULES, " Reused physical body for entity '"+entity->getName()+"'.");
+            }
+            else
+            {
+                if (physicsProxyType == "box" || forceBox)
+                {
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Box(
+                                     thisWorld, size, orientation, pos));
+                    LOG_DEBUG(Logger::RULES, "Created physics proxy type 'box' for entity '"+entity->getName()+"'.");
+                }
+                else if (physicsProxyType == "pyramid")
+                {
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Pyramid(
+                                    thisWorld, size, orientation, pos));
+                    LOG_DEBUG(Logger::RULES, "Created physics proxy type 'pyramid' for entity '"+entity->getName()+"'.");
+                }
+                else if (physicsProxyType == "sphere")
+                {
+                    double radius = std::max(size.x, std::max(size.y, size.z)) / 2.0;
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
+                                    thisWorld, Vector3(radius, radius, radius),
+                                    orientation, pos));
+                    LOG_DEBUG(Logger::RULES, "Created physics proxy type 'sphere' for entity '"+entity->getName()+"'.");
+                }
+                else if (physicsProxyType == "ellipsoid")
+                {
+                    // set the size x/z values to the maximum
+                    Ogre::Vector3 s(size/2.0);
+                    s.x = std::max(s.x, s.z);
+                    s.z = s.x;
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
+                                    thisWorld, s,
+                                    orientation, pos));
+                    LOG_DEBUG(Logger::RULES, "Created physics proxy type 'ellipsoid' for entity '"+entity->getName()+"'.");
+                }
+                else if (physicsProxyType == "capsule")
+                {
+                    double radius = std::max(size.x, size.z) / 2.0;
+                    double height = size.y;
+
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Capsule(
+                                    thisWorld,
+                                    radius,
+                                    height,
+                                    orientation, pos));
+                    LOG_DEBUG(Logger::RULES, "Created physics proxy type 'capsule' for entity '"+entity->getName()+"'.");
+                }
+                else if (physicsProxyType == "convexhull")
+                {
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(
+                                    thisWorld,
+                                    entity,
+                                    false));
+                    //orientation, pos));
+                    LOG_DEBUG(Logger::RULES, "Created physics proxy type 'convexhull' for entity '"+entity->getName()+"'.");
+                }
+                else if (physicsProxyType == "mesh" || physicsProxyType == "auto")
+                {
+                    collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(
+                                    thisWorld, entity, false));
+                    LOG_DEBUG(Logger::RULES, "Created physics proxy type 'mesh' for entity '"+entity->getName()+"'.");
+                }
+                else
+                {
+                    LOG_ERROR(Logger::RULES,
+                        "Physics proxy type '"+physicsProxyType+"' of entity '"+entity->getName()+"' is unknown.");
+                    return;
+                }
+
+                aucol.ColPtr = collision;
+                aucol.Scale = parentNode->getScale();
+                aucol.Type = physicsProxyType;
+            }
+        }
+
+        if (!collision.isNull())
+        {
+            collisions.push_back(collision);
+        }
 
 
- //       // wieder aus der liste entfernen, falls mehrere entities hier definiert werden
- //       if (!collision.isNull())
- //       {
- //           mCollisions.pop_back();
- //       }
-	//}
+        // Add to physics of map
+        if (collisions.size() > 0)
+        {
+            PhysicsManager::getSingleton().addLevelGeometry(entity, collisions);
+            LOG_DEBUG(Logger::RULES, " Entity '"+entity->getName()+"' in levelGeometry geladen");
+        }
+	}
 
 }
