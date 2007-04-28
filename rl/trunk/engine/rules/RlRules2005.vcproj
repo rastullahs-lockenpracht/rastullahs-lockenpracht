@@ -377,6 +377,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\SelectionHelper.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Selector.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Slot.cpp"
 				>
 			</File>
@@ -592,6 +600,14 @@
 			</File>
 			<File
 				RelativePath=".\include\RulesSubsystem.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SelectionHelper.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Selector.h"
 				>
 			</File>
 			<File

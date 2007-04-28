@@ -17,7 +17,7 @@
 #ifndef __RL_SELECTOR_H__
 #define __RL_SELECTOR_H__
 
-#include "UiPrerequisites.h"
+#include "RulesPrerequisites.h"
 #include "SceneQuery.h"
 #include "GameObject.h"
 #include "LineSetPrimitive.h"
@@ -28,7 +28,7 @@ namespace rl {
     /// Superclass for all Selectors in RL.
     /// Selectors provide a way to query for GameObjects in a game.
     /// Either in the scene, or inventory, or anywhere else.
-    class _RlUiExport Selector : public DebugVisualisable
+    class _RlRulesExport Selector : public DebugVisualisable
     {
     public:
         typedef std::vector<GameObject*> GameObjectVector;
@@ -52,7 +52,7 @@ namespace rl {
 
 
     /// A Selector that selects all unoccluded GameObject the ray hits.
-    class _RlUiExport RaySelector : public Selector
+    class _RlRulesExport RaySelector : public Selector
     {
     public:
         RaySelector(unsigned long mask = 0xffffffff);
@@ -73,7 +73,7 @@ namespace rl {
 
     /// Selects this GameObject within a half sphere pointing to -Z,
     /// that has the smallest angle difference to the -Z-Axis.
-    class _RlUiExport HalfSphereSelector : public Selector
+    class _RlRulesExport HalfSphereSelector : public Selector
     {
     public:
         HalfSphereSelector(Ogre::SceneManager* smgr, unsigned long mask = 0xffffffff);
@@ -86,9 +86,9 @@ namespace rl {
 
         void setOrientation(const Ogre::Quaternion& ori);
 
-        /// If check is true, visibility is checked from the POV of the Actor reference
-        /// This is currently done by casting a ray from the Actor to the candidate GOs
-        void setCheckVisibility(bool check, Actor* reference = NULL);
+        /// If check is true, visibility is checked from the POV of the GameObject reference
+        /// This is currently done by casting a ray from the GameObject to the candidate GOs
+        void setCheckVisibility(bool check, GameObject* reference = NULL);
 
         // Overrides from DebugVisualisable
 
@@ -98,7 +98,7 @@ namespace rl {
     protected:
         HalfSphereSceneQuery mQuery;
         bool mCheckVisibility;
-        Actor* mReferenceActor;
+        GameObject* mReferenceGo;
 
         virtual const ActorVector& doExecuteQuery();
 

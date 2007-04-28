@@ -135,7 +135,7 @@ namespace rl {
         mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45f, 0);
 
         // We want to check for visibility from char's POV.
-        mSelector.setCheckVisibility(true, mCharacterActor);
+        mSelector.setCheckVisibility(true, mCharacter);
     }
 
     //------------------------------------------------------------------------

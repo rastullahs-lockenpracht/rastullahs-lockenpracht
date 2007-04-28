@@ -16,12 +16,18 @@
 
 #include "CombatCharacterController.h"
 
-#include "Creature.h"
 #include "Actor.h"
+#include "Combat.h"
+#include "CombatManager.h"
+#include "Creature.h"
+#include "PhysicalThing.h"
 
 namespace rl {
     CombatCharacterController::CombatCharacterController(CommandMapper* cmdMapper,
-        Actor* camera, Person* character) : CharacterController(cmdMapper, camera, character)
+        Actor* camera, Person* character)
+        : CharacterController(cmdMapper, camera, character),
+          mCombatManager(CombatManager::getSingletonPtr()),
+          mCombat(NULL)
     {
     }
 
@@ -29,8 +35,49 @@ namespace rl {
     {
     }
 
+    void CombatCharacterController::resume()
+    {
+        mCameraActor->getPhysicalThing()->freeze();
+        mCharacterActor->getPhysicalThing()->freeze();
+
+        // Is there a combat running already?
+        if (mCombatManager->getCurrentCombat() != NULL)
+        {
+            // Yes, set this one as active.
+            mCombat = mCombatManager->getCurrentCombat();
+        }
+        else
+        {
+            // No, test, if we can start one.
+        }
+    }
+
+    void CombatCharacterController::pause()
+    {
+        mCameraActor->getPhysicalThing()->unfreeze();
+        mCharacterActor->getPhysicalThing()->unfreeze();
+
+        // reset current combat, in order to avoid a potential dangling pointer
+        mCombat = NULL;
+    }
+
 	void CombatCharacterController::run(Ogre::Real elapsedTime)
     {
+    }
+
+	bool CombatCharacterController::injectMouseDown(int mouseButtonMask)
+    {
+        return false;
+    }
+
+    bool CombatCharacterController::injectMouseUp(int mouseButtonMask)
+    {
+        return false;
+    }
+
+    bool CombatCharacterController::injectKeyDown(int keycode)
+    {
+        return false;
     }
 
     bool CombatCharacterController::injectKeyUp(int keycode)

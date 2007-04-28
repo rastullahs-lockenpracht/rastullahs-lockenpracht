@@ -25,6 +25,7 @@ namespace rl
 {
 	class QuestBook;
     class ActionManager;
+    class CombatManager;
     class DsaManager;
     class TimerManager;
     class XdimlLoader;
@@ -41,6 +42,7 @@ namespace rl
 	private:
 		QuestBook* mQuestBook;
         ActionManager* mActionManager;
+        CombatManager* mCombatManager;
         DsaManager* mDsaManager;
         TimerManager* mTimerManager;
         XdimlLoader* mXdimlLoader;

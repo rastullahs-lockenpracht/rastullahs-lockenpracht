@@ -16,6 +16,7 @@
 
 #include "RulesSubsystem.h"
 #include "ActionManager.h"
+#include "CombatManager.h"
 #include "DsaManager.h"
 //#include "XdimlLoader.h"
 #include "DsaDataLoader.h"
@@ -31,6 +32,7 @@ namespace rl
     RulesSubsystem::RulesSubsystem()
 		: mQuestBook(NULL),
         mActionManager(NULL),
+        mCombatManager(NULL),
         mDsaManager(NULL),
         mTimerManager(NULL),
         mXdimlLoader(NULL)
@@ -42,6 +44,8 @@ namespace rl
         //Singletons erzeugen
         mActionManager = new ActionManager(); 
 		LOG_MESSAGE(Logger::RULES, "ActionManager erzeugt");
+        mCombatManager = new CombatManager(); 
+		LOG_MESSAGE(Logger::RULES, "CombatManager erzeugt");
         mDsaManager = new DsaManager();
 		LOG_MESSAGE(Logger::RULES, "DsaManager erzeugt");
 		mTimerManager = new TimerManager(); 
@@ -62,6 +66,7 @@ namespace rl
         delete mQuestBook;
         delete mTimerManager;
         delete mDsaManager;
+        delete mCombatManager;
         delete mActionManager;
         delete mXdimlLoader;
         delete GameObjectManager::getSingletonPtr();

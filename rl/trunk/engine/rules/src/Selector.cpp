@@ -14,6 +14,7 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 #include "Selector.h"
+#include "SelectionHelper.h"
 
 #include "PhysicsManager.h"
 
@@ -112,7 +113,7 @@ namespace rl
         : Selector(mask),
           mQuery(smgr, mask),
           mCheckVisibility(false),
-          mReferenceActor(NULL)
+          mReferenceGo(NULL)
     {
     }
 
@@ -124,26 +125,6 @@ namespace rl
         // Do the query, results are in proper order
         const ActorVector& actors = doExecuteQuery();
 
-        // Prepare visibility check
-        Ogre::Vector3 refPos = Ogre::Vector3::ZERO;
-        if (mCheckVisibility && mReferenceActor)
-        {
-            ActorControlledObject* obj = mReferenceActor->getControlledObject();
-            PhysicalObject* physical = dynamic_cast<PhysicalObject*>(obj);
-            if (physical)
-            {
-                // Take AABB center as reference point for physicals
-                refPos = mReferenceActor->getWorldPosition() +
-                    mReferenceActor->getWorldOrientation() *
-                        physical->getDefaultSize().getCenter();
-            }
-            else
-            {
-                // Else just take the actors world position
-                refPos = mReferenceActor->getWorldPosition();
-            }
-        }
-
         // Set selection to first result with a GameObject attached.
         for (ActorVector::const_iterator it = actors.begin(), end = actors.end();
             it != end; ++it)
@@ -152,47 +133,14 @@ namespace rl
             GameObject* go = static_cast<GameObject*>(actor->getGameObject());
             if (go != NULL && (go->getQueryFlags() & mSelectionMask))
             {
-                if (mCheckVisibility && mReferenceActor)
+                // Is this GO seen when we need it to be seen?
+                if (mCheckVisibility && mReferenceGo &&
+                    !SelectionHelper::checkLineOfSight(mReferenceGo, go))
                 {
-                    // Visiblity check via a raycast. Not ideal, but best option we have.
-
-                    // Determine target's position based on controlled object's type
-                    Ogre::Vector3 targetPos = actor->getWorldPosition();
-                    ActorControlledObject* obj = mReferenceActor->getControlledObject();
-                    PhysicalObject* physical = dynamic_cast<PhysicalObject*>(obj);
-                    if (physical)
-                    {
-                        // Take AABB center as reference point for physicals
-                        targetPos += actor->getWorldOrientation() *
-                            physical->getDefaultSize().getCenter();
-                    }
-                    
-                    // Setup and execute raycast. Set result to be ordered by distance
-                    OgreNewt::BasicRaycast raycast = OgreNewt::BasicRaycast(
-                        PhysicsManager::getSingleton()._getNewtonWorld(),
-                        refPos, targetPos, true);
-
-                    // inspect results
-                    // the reference actor is filtered out
-                    // if the first of the other hit bodies is not the actor, it is ommitted.
-                    bool isVisible = true;
-                    for (int i = 0, num = raycast.getHitCount(); i < num; ++i)
-                    {
-                        OgreNewt::BasicRaycast::BasicRaycastInfo info = raycast.getInfoAt(i);
-                        OgreNewt::Body* body = info.mBody;
-                        if (body != NULL)
-                        {
-                            Actor* hitActor = static_cast<Actor*>(body->getUserData());
-                            isVisible = hitActor == actor || hitActor == mReferenceActor;
-                            if (!isVisible) break;
-                        }
-                    }
-
-                    // Actor not seen from reference actor and thus ommitted,
-                    // check next result.
-                    if (!isVisible) continue;
+                    // Nope, check next.
+                    continue;
                 }
-
+                // Ok, LoS either not needed or given.
                 mSelection.push_back(go);
             }
         }
@@ -228,10 +176,10 @@ namespace rl
         mQuery.setOrientation(ori);
     }
 
-    void HalfSphereSelector::setCheckVisibility(bool check, Actor* reference)
+    void HalfSphereSelector::setCheckVisibility(bool check, GameObject* reference)
     {
         mCheckVisibility = check;
-        mReferenceActor = reference;
+        mReferenceGo = reference;
     }
 
     DebugVisualisableFlag HalfSphereSelector::getFlag() const
