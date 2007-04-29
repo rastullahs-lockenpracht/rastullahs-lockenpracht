@@ -29,23 +29,23 @@ namespace rl {
 	CutsceneCharacterController::CutsceneCharacterController(CommandMapper* cmdMapper,
         Actor* camera) : CharacterController(cmdMapper, camera, NULL)
 	{
-		mCameraActor->getPhysicalThing()->freeze();
-		Camera* ogreCam = static_cast<Camera*>(mCameraActor->_getMovableObject());
-		ogreCam->setFixedYawAxis(true);
-		mCameraActor->_getSceneNode()->setFixedYawAxis(true);
 	}
 
 	CutsceneCharacterController::~CutsceneCharacterController()
 	{
-		mCameraActor->getPhysicalThing()->unfreeze();
 	}
 
     void CutsceneCharacterController::pause()
     {
+		mCameraActor->getPhysicalThing()->unfreeze();
     }
 
     void CutsceneCharacterController::resume()
     {
+		mCameraActor->getPhysicalThing()->freeze();
+		Camera* ogreCam = static_cast<Camera*>(mCameraActor->_getMovableObject());
+		ogreCam->setFixedYawAxis(true);
+		mCameraActor->_getSceneNode()->setFixedYawAxis(true);
     }
 
 	void CutsceneCharacterController::run(Ogre::Real elapsedTime)
