@@ -142,9 +142,9 @@ namespace rl
             /// whether a combat is entered.
             enum Alignment
             {
-                ALIGNMENT_ALLY,    ///< Creature fights with the player.
-                ALIGNMENT_NEUTRAL, ///< Creature doesn't fight for either side.
-                ALIGNMENT_ENEMY    ///< Creature fights against the player.
+                ALIGNMENT_ALLY    = 1, ///< Creature fights with the player.
+                ALIGNMENT_NEUTRAL = 2, ///< Creature doesn't fight for either side.
+                ALIGNMENT_ENEMY   = 4  ///< Creature fights against the player.
             };
 
             /// Beschreibt die art des zugefuegten Schadens

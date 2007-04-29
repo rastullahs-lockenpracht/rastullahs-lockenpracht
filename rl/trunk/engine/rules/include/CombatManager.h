@@ -39,7 +39,7 @@ namespace rl
         /// @param character the player character
         /// @param firstOpponent the opponent, that caused the combat.
         /// @throw IllegalStateException if there is already a combat running.
-        void startCombat(Creature* character, Creature* firstOpponent);
+        Combat* startCombat(Creature* character, Creature* firstOpponent);
 
         /// Return the combat currently running, NULL if there is none.
         Combat* getCurrentCombat() const;

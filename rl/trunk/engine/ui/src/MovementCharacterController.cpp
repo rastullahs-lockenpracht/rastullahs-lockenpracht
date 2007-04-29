@@ -134,13 +134,15 @@ namespace rl {
         // wird sp�er neu berechnet in calculateOptimalCameraPosition
         mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45f, 0);
 
-        // We want to check for visibility from char's POV.
-        mSelector.setCheckVisibility(true, mCharacter);
+        CreatureSelectionFilter* filter = new CreatureSelectionFilter();
+        filter->setAlignmentMask(Creature::ALIGNMENT_ENEMY);
+        mCombatSelector.setFilter(filter);
     }
 
     //------------------------------------------------------------------------
     MovementCharacterController::~MovementCharacterController()
     {
+        delete mCombatSelector.getFilter();
         delete mRaycast;
 
         if (DebugWindow::getSingletonPtr())
@@ -181,6 +183,16 @@ namespace rl {
     //------------------------------------------------------------------------
     void MovementCharacterController::resume()
     {
+        // We want to check for visibility from char's POV.
+        mSelector.setCheckVisibility(true, mCharacter);
+        mSelector.track(mCharacter);
+        mSelector.setRadius(3.0);
+
+        // Same for combat selector
+        mCombatSelector.setCheckVisibility(true, mCharacter);
+        mCombatSelector.track(mCharacter);
+        mCombatSelector.setRadius(10.0);
+
         // The actor should be controlled manually,
         // so let the PM prepare it accordingly
         mCharacterActor->getPhysicalThing()->setMaterialID(
@@ -254,7 +266,7 @@ namespace rl {
 
         if (isEnemyNear())
         {
-            RlAssert1(false && "Not yet implemented");
+            InputManager::getSingleton().pushControlState(CST_COMBAT);
         }
     }
 
@@ -1634,9 +1646,6 @@ namespace rl {
     //------------------------------------------------------------------------
     bool MovementCharacterController::isEnemyNear()
     {
-        mCombatSelector.setPosition(mCharacterActor->getWorldPosition());
-        mCombatSelector.setOrientation(mCharacterActor->getWorldOrientation());
-        mCombatSelector.setRadius(10.0);
         mCombatSelector.updateSelection();
 
         const Selector::GameObjectVector& gov = mCombatSelector.getAllSelectedObjects();
@@ -1661,9 +1670,6 @@ namespace rl {
 
         GameObject* oldGo = mSelector.getFirstSelectedObject();
 
-        mSelector.setPosition(mCharacterActor->getWorldPosition());
-        mSelector.setOrientation(mCharacterActor->getWorldOrientation());
-        mSelector.setRadius(3.0);
         mSelector.updateSelection();
 
         GameObject* newGo = mSelector.getFirstSelectedObject();

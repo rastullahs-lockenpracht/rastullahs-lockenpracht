@@ -43,7 +43,7 @@ namespace rl
     {
     }
 
-    void CombatManager::startCombat(Creature* character, Creature* firstOpponent)
+    Combat* CombatManager::startCombat(Creature* character, Creature* firstOpponent)
     {
         if (mCurrentCombat != NULL)
         {
@@ -52,7 +52,8 @@ namespace rl
 
         mCurrentCombat = new Combat(character);
         mCurrentCombat->addOpponent(firstOpponent);
-        // TODO, add further opponents if found
+
+        return mCurrentCombat;
     }
 
     Combat* CombatManager::getCurrentCombat() const

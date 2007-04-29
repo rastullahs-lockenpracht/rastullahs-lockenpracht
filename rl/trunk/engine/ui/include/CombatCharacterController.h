@@ -18,7 +18,9 @@
 #define __CombatCharacterController_H__
 
 #include "UiPrerequisites.h"
+
 #include "CharacterController.h"
+#include "Selector.h"
 
 namespace rl {
 
@@ -48,6 +50,7 @@ namespace rl {
         CombatManager* mCombatManager;
         // Current combat that is controlled.
         Combat* mCombat;
+        HalfSphereSelector mEnemySelector;
 	};
 }
 #endif

@@ -19,20 +19,31 @@
 #include "Actor.h"
 #include "Combat.h"
 #include "CombatManager.h"
+#include "CoreSubsystem.h"
 #include "Creature.h"
+#include "InputManager.h"
+#include "Person.h"
 #include "PhysicalThing.h"
+#include "Selector.h"
+#include "World.h"
 
 namespace rl {
     CombatCharacterController::CombatCharacterController(CommandMapper* cmdMapper,
         Actor* camera, Person* character)
         : CharacterController(cmdMapper, camera, character),
           mCombatManager(CombatManager::getSingletonPtr()),
-          mCombat(NULL)
+          mCombat(NULL),
+          mEnemySelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager(),
+            QUERYFLAG_CREATURE)
     {
+        CreatureSelectionFilter* filter = new CreatureSelectionFilter();
+        filter->setAlignmentMask(Creature::ALIGNMENT_ENEMY);
+        mEnemySelector.setFilter(filter);
     }
 
 	CombatCharacterController::~CombatCharacterController()
     {
+        delete mEnemySelector.getFilter();
     }
 
     void CombatCharacterController::resume()
@@ -40,15 +51,38 @@ namespace rl {
         mCameraActor->getPhysicalThing()->freeze();
         mCharacterActor->getPhysicalThing()->freeze();
 
+        // Set reference to character
+        mEnemySelector.setCheckVisibility(true, mCharacter);
+        mEnemySelector.track(mCharacter);
+        mEnemySelector.setRadius(10.0);
+
         // Is there a combat running already?
         if (mCombatManager->getCurrentCombat() != NULL)
         {
-            // Yes, set this one as active.
+            // Yes. Set this one as active.
             mCombat = mCombatManager->getCurrentCombat();
         }
         else
         {
-            // No, test, if we can start one.
+            // No. Test, if we can start one.
+            mEnemySelector.updateSelection();
+            const Selector::GameObjectVector& enemies = mEnemySelector.getAllSelectedObjects();
+            if (!enemies.empty())
+            {
+                // There are enemies in vicinity, so start a new combat and set it up properly.
+                mCombat = mCombatManager->startCombat(mCharacter,
+                    static_cast<Creature*>(enemies[0]));
+                for (size_t i = 1; i < enemies.size(); ++i)
+                {
+                    mCombat->addOpponent(static_cast<Creature*>(enemies[i]));
+                }
+            }
+            else
+            {
+                // Oops. Nothing to fight. Pop self.
+                InputManager::getSingleton().popControlState();
+                return;
+            }
         }
     }
 

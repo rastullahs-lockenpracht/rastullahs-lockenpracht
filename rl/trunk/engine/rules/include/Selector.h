@@ -20,10 +20,33 @@
 #include "RulesPrerequisites.h"
 #include "SceneQuery.h"
 #include "GameObject.h"
+#include "Creature.h"
 #include "LineSetPrimitive.h"
 #include "DebugVisualisable.h"
 
 namespace rl {
+
+    class _RlRulesExport SelectionFilter
+    {
+    public:
+        virtual ~SelectionFilter() {}
+        /// Return true, if the GameObject passes the filter, false else.
+        virtual bool pass(GameObject*) const = 0;
+    };
+
+    class _RlRulesExport CreatureSelectionFilter : public SelectionFilter
+    {
+    public:
+        CreatureSelectionFilter();
+
+        void setAlignmentMask(unsigned int);
+
+        /// Return true, if the GameObject is a Creature with properties as set in the filter.
+        virtual bool pass(GameObject*) const;
+    private:
+        /// Only have alignment here. Can be mademore generic, if needed later on.
+        unsigned int mAlignment;
+    };
 
     /// Superclass for all Selectors in RL.
     /// Selectors provide a way to query for GameObjects in a game.
@@ -40,14 +63,21 @@ namespace rl {
         void setSelectionMask(unsigned long mask);
         unsigned long getSelectionMask() const;
 
+        /// Set an additional filter to narrow down selection. Set NULL, to unset filtering.
+        void setFilter(SelectionFilter*);
+        SelectionFilter* getFilter() const;
+
         GameObject* getFirstSelectedObject() const;
         const GameObjectVector& getAllSelectedObjects() const;
 
     protected:
         GameObjectVector mSelection;
         unsigned long mSelectionMask;
+        SelectionFilter* mFilter;
 
         virtual const ActorVector& doExecuteQuery() = 0;
+        /// Apply the filter if set, or just return true, if no selection filter is set.
+        virtual bool filter(GameObject*);
     };
 
 
@@ -86,6 +116,10 @@ namespace rl {
 
         void setOrientation(const Ogre::Quaternion& ori);
 
+        /// Instead of using transform set with setPosition/Orientation, use the
+        /// GameObject's transform. Set to NULL to disable tracking.
+        void track(GameObject* go);
+
         /// If check is true, visibility is checked from the POV of the GameObject reference
         /// This is currently done by casting a ray from the GameObject to the candidate GOs
         void setCheckVisibility(bool check, GameObject* reference = NULL);
@@ -98,7 +132,8 @@ namespace rl {
     protected:
         HalfSphereSceneQuery mQuery;
         bool mCheckVisibility;
-        GameObject* mReferenceGo;
+        GameObject* mLoSReferenceGo;
+        GameObject* mTrackedGo;
 
         virtual const ActorVector& doExecuteQuery();
 

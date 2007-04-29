@@ -34,8 +34,9 @@
 #include "ActorManager.h"
 #include "AbstractWindow.h"
 #include "CharacterController.h"
-#include "ConfigurationManager.h"
+#include "CombatCharacterController.h"
 #include "CommandMapper.h"
+#include "ConfigurationManager.h"
 #include "Console.h"
 #include "CoreSubsystem.h"
 #include "CutsceneCharacterController.h"
@@ -663,6 +664,9 @@ namespace rl {
             break;
         case CST_DIALOG:
             controller = new DialogCharacterController(mCommandMapper, camera, character);
+            break;
+        case CST_COMBAT:
+            controller = new CombatCharacterController(mCommandMapper, camera, character);
             break;
         default:
             Throw(IllegalStateException, "Unknown controller type.");

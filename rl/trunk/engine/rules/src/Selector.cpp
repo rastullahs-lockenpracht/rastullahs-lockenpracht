@@ -22,12 +22,44 @@ using namespace Ogre;
 
 namespace rl
 {
-    Selector::Selector(unsigned long mask) : mSelectionMask(mask)
+    CreatureSelectionFilter::CreatureSelectionFilter()
+        : mAlignment(Creature::ALIGNMENT_ALLY |
+                     Creature::ALIGNMENT_NEUTRAL |
+                     Creature::ALIGNMENT_ENEMY)
+    {
+    }
+
+    void CreatureSelectionFilter::setAlignmentMask(unsigned int mask)
+    {
+        mAlignment = mask;
+    }
+
+    bool CreatureSelectionFilter::pass(GameObject* go) const
+    {
+        Creature* creature = dynamic_cast<Creature*>(go);
+        if (creature != NULL)
+        {
+            return (mAlignment & creature->getAlignment()) != 0;
+        }
+        return false;
+    }
+
+    Selector::Selector(unsigned long mask) : mSelection(), mSelectionMask(mask), mFilter(NULL)
     {
     }
 
     Selector::~Selector()
     {
+    }
+
+    void Selector::setFilter(SelectionFilter* filter)
+    {
+        mFilter = filter;
+    }
+
+    SelectionFilter* Selector::getFilter() const
+    {
+        return mFilter;
     }
 
     void Selector::setSelectionMask(unsigned long mask)
@@ -64,11 +96,16 @@ namespace rl
         {
             Actor* actor = *it;
             GameObject* go = static_cast<GameObject*>(actor->getGameObject());
-            if (go != NULL && (go->getQueryFlags() & mSelectionMask))
+            if (go != NULL && (go->getQueryFlags() & mSelectionMask) && filter(go))
             {
                 mSelection.push_back(go);
             }
         }
+    }
+
+    bool Selector::filter(GameObject* go)
+    {
+        return mFilter == NULL || mFilter->pass(go);
     }
 
     //------------------------------------------------------------------------
@@ -113,7 +150,7 @@ namespace rl
         : Selector(mask),
           mQuery(smgr, mask),
           mCheckVisibility(false),
-          mReferenceGo(NULL)
+          mLoSReferenceGo(NULL)
     {
     }
 
@@ -121,6 +158,20 @@ namespace rl
     {
         // Remove old selection
         mSelection.clear();
+
+        // Auto tracking enabled?
+        if (mTrackedGo != NULL)
+        {
+            // If not in scene, then we're done
+            if ((mTrackedGo->getState() & GOS_IN_SCENE) == 0)
+            {
+                return;
+            }
+
+            // Set query transform according to position and orientation of tracked GO.
+            setPosition(mTrackedGo->getPosition());
+            setOrientation(mTrackedGo->getOrientation());
+        }
 
         // Do the query, results are in proper order
         const ActorVector& actors = doExecuteQuery();
@@ -134,14 +185,17 @@ namespace rl
             if (go != NULL && (go->getQueryFlags() & mSelectionMask))
             {
                 // Is this GO seen when we need it to be seen?
-                if (mCheckVisibility && mReferenceGo &&
-                    !SelectionHelper::checkLineOfSight(mReferenceGo, go))
+                if (mCheckVisibility && mLoSReferenceGo &&
+                    !SelectionHelper::checkLineOfSight(mLoSReferenceGo, go))
                 {
                     // Nope, check next.
                     continue;
                 }
-                // Ok, LoS either not needed or given.
-                mSelection.push_back(go);
+                else if (filter(go))
+                {
+                    // Ok, LoS either not needed or given.
+                    mSelection.push_back(go);
+                }
             }
         }
     }
@@ -179,7 +233,12 @@ namespace rl
     void HalfSphereSelector::setCheckVisibility(bool check, GameObject* reference)
     {
         mCheckVisibility = check;
-        mReferenceGo = reference;
+        mLoSReferenceGo = reference;
+    }
+
+    void HalfSphereSelector::track(GameObject* go)
+    {
+        mTrackedGo = go;
     }
 
     DebugVisualisableFlag HalfSphereSelector::getFlag() const
