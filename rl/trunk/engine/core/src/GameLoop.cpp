@@ -110,34 +110,39 @@ namespace rl {
         // Loop until game exit is requested.
         while (!mQuitRequested)
         {
-            // Calculate frame time. This time is smoothed and capped.
-            unsigned long elapsedTime = mTimer->getMilliseconds();
-            Real frameTime = 0.001f * (Real) smoothFrameTime(elapsedTime - mGameTime);
-            mGameTime = elapsedTime;
-            if (frameTime > mMaxFrameTime) frameTime = mMaxFrameTime;
+            _executeOneRenderLoop();
+        }
+    }
 
-			// Let Ogre handle Windows/XServer events.
-            WindowEventUtilities::messagePump();
+    void GameLoop::_executeOneRenderLoop()
+    {
+        // Calculate frame time. This time is smoothed and capped.
+        unsigned long elapsedTime = mTimer->getMilliseconds();
+        Real frameTime = 0.001f * (Real) smoothFrameTime(elapsedTime - mGameTime);
+        mGameTime = elapsedTime;
+        if (frameTime > mMaxFrameTime) frameTime = mMaxFrameTime;
 
-            // Render the next frame
-            Root::getSingleton().renderOneFrame();
+		// Let Ogre handle Windows/XServer events.
+        WindowEventUtilities::messagePump();
 
-            // Execute all tasks in order.
-            for (size_t i = 0; i < mTaskLists.size(); ++i)
+        // Render the next frame
+        Root::getSingleton().renderOneFrame();
+
+        // Execute all tasks in order.
+        for (size_t i = 0; i < mTaskLists.size(); ++i)
+        {
+            GameTaskList* tasks = mTaskLists[i];
+            for (GameTaskList::iterator it = tasks->begin(); it != tasks->end(); ++it)
             {
-                GameTaskList* tasks = mTaskLists[i];
-                for (GameTaskList::iterator it = tasks->begin(); it != tasks->end(); ++it)
+                if (it->valid && !(it->task->isPaused()))
                 {
-                    if (it->valid && !(it->task->isPaused()))
-                    {
-                        it->task->run(frameTime);
-                    }
+                    it->task->run(frameTime);
                 }
             }
-
-            // Update task list, if needed.
-            updateTaskList();
         }
+
+        // Update task list, if needed.
+        updateTaskList();
     }
 
     void GameLoop::updateTaskList()

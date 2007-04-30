@@ -437,10 +437,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\DataLoadingProgressWindow.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\DebugWindow.h"
 					>
 				</File>
@@ -506,6 +502,10 @@
 				</File>
 				<File
 					RelativePath=".\include\PlaylistWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ProgressWindow.h"
 					>
 				</File>
 				<File
@@ -626,10 +626,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\DataLoadingProgressWindow.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\DebugWindow.cpp"
 					>
 				</File>
@@ -695,6 +691,10 @@
 				</File>
 				<File
 					RelativePath=".\src\PlaylistWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ProgressWindow.cpp"
 					>
 				</File>
 				<File

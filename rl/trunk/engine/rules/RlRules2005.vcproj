@@ -460,34 +460,6 @@
 					>
 				</File>
 			</Filter>
-			<Filter
-				Name="map loading"
-				>
-				<File
-					RelativePath=".\src\AbstractMapNodeProcessor.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\EntityNodeProcessor.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\GameObjectNodeProcessor.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\LightNodeProcessor.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\MapLoader.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\SoundNodeProcessor.cpp"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Headerdateien"
@@ -687,34 +659,6 @@
 				</File>
 				<File
 					RelativePath=".\include\Weapon.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="map loading"
-				>
-				<File
-					RelativePath=".\src\AbstractMapNodeProcessor.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\EntityNodeProcessor.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\GameObjectNodeProcessor.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\LightNodeProcessor.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\MapLoader.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\SoundNodeProcessor.h"
 					>
 				</File>
 			</Filter>

@@ -22,4 +22,11 @@ namespace rl {
 
 		void log(const rl::CeGuiString& message);
 	};
+	  
+    class MapLoader
+    {
+    public:
+        MapLoader(const Ogre::String& resourceGroup);
+        void loadMap(const Ogre::String& mapresource, bool loadGameObjects = true);
+    };
 }

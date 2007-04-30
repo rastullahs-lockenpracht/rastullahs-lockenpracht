@@ -737,13 +737,6 @@ namespace rl {
 
         rl::TimerEventSource* getSource() const;
     };
-    
-    class MapLoader
-    {
-    public:
-        MapLoader(const Ogre::String& resourceGroup);
-        void loadMap(const Ogre::String& mapresource, bool loadGameObjects = true);
-    };
 } // Namespace
 
 %{

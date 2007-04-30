@@ -32,7 +32,6 @@
 #include "GameObjectManager.h"
 #include "Inventory.h"
 #include "Item.h"
-#include "MapLoader.h"
 #include "ObjectStateChangeEventSource.h"
 #include "ObjectStateChangeEvent.h"
 #include "ObjectStateChangeListener.h"

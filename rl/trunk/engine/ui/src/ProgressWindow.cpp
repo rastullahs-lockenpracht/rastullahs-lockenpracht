@@ -14,38 +14,31 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#include "DataLoadingProgressWindow.h"
+#include "ProgressWindow.h"
 
 namespace rl {
 
-DataLoadingProgressWindow::DataLoadingProgressWindow()
-: AbstractWindow("dataloadingprogresswindow.xml", AbstractWindow::WND_SHOW, false)
+ProgressWindow::ProgressWindow()
+: AbstractWindow("progresswindow.xml", AbstractWindow::WND_SHOW, false, true)
 {
-	mProgressBar = getProgressBar("DataLoadingProgressWindow/ProgressBar");
+	mProgressBar = getProgressBar("ProgressWindow/ProgressBar");
+    mText = getWindow("ProgressWindow/Text");
 	centerWindow();
 }
 
-DataLoadingProgressWindow::~DataLoadingProgressWindow()
+ProgressWindow::~ProgressWindow()
 {
 }
 
-bool DataLoadingProgressWindow::dataLoadedEventRaised(rl::DataLoadedEvent *anEvent)
+void ProgressWindow::setText(const Ogre::String& text)
 {
-	float percent = anEvent->getPercentLoaded();
+    mText->setText(text);
+}
 
-	mProgressBar->setProgress(percent/100.0);
-
-	if (percent == 100.0)
-	{
-		destroyWindow();
-	}
-	else if (percent != 100.0
-		&& !isVisible())
-	{
-		setVisible(true);
-	}
-
-	return true;
+void ProgressWindow::setProgress(Ogre::Real percentage)
+{
+	mProgressBar->setProgress(percentage);
+    mProgressBar->setText(Ogre::StringConverter::toString(percentage * 100, 0) + "%");
 }
 
 }

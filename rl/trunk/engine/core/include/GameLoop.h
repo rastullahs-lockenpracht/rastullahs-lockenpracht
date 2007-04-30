@@ -65,6 +65,10 @@ public:
 
     /// Main loop of RL.
     void loop();
+
+    /// Execute the render loop for one frame (for internal use only)
+    /// @see CoreSubsystem
+    void _executeOneRenderLoop();
       
     static GameLoop & getSingleton(void);
 	static GameLoop * getSingletonPtr(void);

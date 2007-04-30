@@ -30,6 +30,7 @@
 #include "GameObjectConstants.h"
 #include "GameObjectNodeProcessor.h"
 #include "LightNodeProcessor.h"
+#include "ProgressWindow.h"
 #include "PropertyReader.h"
 #include "SoundNodeProcessor.h"
 #include "World.h"
@@ -49,7 +50,8 @@ namespace rl {
     
     MapLoader::MapLoader(const Ogre::String& resourceGroup)
         : mRootSceneNode(NULL),
-          mResourceGroup(resourceGroup)
+          mResourceGroup(resourceGroup),
+          mPercentageWindow(NULL)
     {
         mXmlPropertyProcessor = new XmlPropertyReader();
 
@@ -67,6 +69,7 @@ namespace rl {
             delete *it;
         }
         delete mXmlPropertyProcessor;
+        delete mPercentageWindow;
     }
 
     void MapLoader::loadMap(const Ogre::String& mapresource, bool loadGameObjects)
@@ -102,9 +105,8 @@ namespace rl {
             DOMDocument* doc = parser->getDocument();
             DOMElement* dataDocumentContent = doc->getDocumentElement();
             
+			CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
             
-            ///@todo process map file DOM ;)        
-                        
             LOG_MESSAGE(Logger::RULES, "Processing nodes");
             
             processSceneNodes(XmlHelper::getChildNamed(dataDocumentContent, "nodes"), loadGameObjects);
@@ -132,8 +134,20 @@ namespace rl {
 			return;
 		}
 
-        for (DOMNode* cur = nodesElem->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+        setLoadingPercentage(0, "Loading map nodes");
+        Ogre::Real numChildren = nodesElem->getChildNodes()->getLength();
+        int count = 0;
+
+        for (DOMNode* cur = nodesElem->getFirstChild(); 
+            cur != NULL; 
+            cur = cur->getNextSibling(), count += 1)
         {
+            if (count % 250 == 0)
+            {
+                setLoadingPercentage(count/numChildren, 
+                    Ogre::StringConverter::toString(count/numChildren*100.0f, 0) + "%");
+            }
+
             if (cur->getNodeType() == DOMNode::ELEMENT_NODE)
             {
                 DOMElement* curElem = static_cast<DOMElement*>(cur);
@@ -300,6 +314,29 @@ namespace rl {
             it != mNodeProcessors.end(); ++it)
         {
             (*it)->setRootSceneNode(node);
+        }
+    }
+
+    void MapLoader::setLoadingPercentage(Ogre::Real percentage, const Ogre::String& text)
+    {
+        if (mPercentageWindow == NULL)
+        {
+            mPercentageWindow = new ProgressWindow();
+            mPercentageWindow->setVisible(true);
+        }
+
+        mPercentageWindow->setProgress(percentage);
+        if (text != "")
+        {
+            mPercentageWindow->setText(text);
+        }
+
+        CoreSubsystem::getSingleton().renderOneFrame();
+
+        if (percentage >= 0.99)
+        {
+            mPercentageWindow->setVisible(false, true);
+            mPercentageWindow = NULL;
         }
     }
     

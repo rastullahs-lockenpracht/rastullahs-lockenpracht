@@ -66,6 +66,9 @@ public:
     /** Starts the Game */
     void startCore();
 
+    /** Renders one frame (for internal use) */
+    void renderOneFrame();
+
     /** Returns the Singleton */
     //static CoreSubsystem & getSingleton();
     //static CoreSubsystem * getSingletonPtr();

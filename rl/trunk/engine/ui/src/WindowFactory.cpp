@@ -24,7 +24,6 @@
 #include "Console.h"
 #include "ContainerContentWindow.h"
 #include "CoreSubsystem.h"
-#include "DataLoadingProgressWindow.h"
 #include "DebugWindow.h"
 #include "DialogCharacter.h"
 #include "DialogCharacterController.h"
@@ -81,7 +80,6 @@ namespace rl {
         mObjectNameText(NULL),
         mShownObject(NULL),
         mObjectDescriptionWindow(NULL),
-        mDataLoadingProgressWindow(NULL),
         mMainMenuWindow(NULL),
         mCloseConfirmationWindow(NULL),
         mGameSettings(NULL)
@@ -110,8 +108,6 @@ namespace rl {
 
         RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mJournalWindow);
         RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mInfoPopup);
-        mDataLoadingProgressWindow = new DataLoadingProgressWindow();
-        CoreSubsystem::getSingleton().addCoreEventListener(mDataLoadingProgressWindow);
         mMainMenuWindow = new MainMenuWindow( new MainMenuEngineWindow() );
 
         logAllWindows();
@@ -119,11 +115,8 @@ namespace rl {
 
     WindowFactory::~WindowFactory()
     {
-        CoreSubsystem::getSingleton().removeCoreEventListener(mDataLoadingProgressWindow);
-
         delete mLogWindow;
         delete mObjectDescriptionWindow;
-        delete mDataLoadingProgressWindow;
         delete mJournalWindow;
         delete mGameLogger;
         delete mCharacterSheet;

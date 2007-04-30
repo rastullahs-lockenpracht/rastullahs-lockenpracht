@@ -18,7 +18,7 @@
 
 #include <xercesc/dom/DOMElement.hpp>
 
-#include "RulesPrerequisites.h"
+#include "ScriptPrerequisites.h"
 
 #include <OgreSceneNode.h>
 #include <list>
@@ -26,9 +26,10 @@
 namespace rl {
 
     class AbstractMapNodeProcessor;
+    class ProgressWindow;
     class XmlPropertyReader;
 
-    class _RlRulesExport MapLoader 
+    class _RlScriptExport MapLoader 
     {
     public:
         MapLoader(const Ogre::String& resourceGroup);
@@ -51,11 +52,13 @@ namespace rl {
         Ogre::SceneNode* mRootSceneNode;
         /// Alle statischen GeometrieNodes
         Ogre::String mResourceGroup;
+        ProgressWindow* mPercentageWindow;
 
         void setRootSceneNode(Ogre::SceneNode* node);
         void processSceneNodes(XERCES_CPP_NAMESPACE::DOMElement* nodesElem, bool loadGameObjects);
         void processZones(XERCES_CPP_NAMESPACE::DOMElement* zonesElem);
 		void processSkySettings(XERCES_CPP_NAMESPACE::DOMElement* skyElem);
+        void setLoadingPercentage(Ogre::Real percentage, const Ogre::String& text = "");
     };
 
 } // namespace rl

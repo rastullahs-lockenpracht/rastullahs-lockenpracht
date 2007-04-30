@@ -14,24 +14,26 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef __DataLoadingProgressWindow_H__
-#define __DataLoadingProgressWindow_H__
+#ifndef __ProgressWindow_H__
+#define __ProgressWindow_H__
 
 #include "UiPrerequisites.h"
 #include "AbstractWindow.h"
-#include "CoreEvents.h"
 
 namespace rl {
 
-	class _RlUiExport DataLoadingProgressWindow : public AbstractWindow, public CoreEventListener
+	class _RlUiExport ProgressWindow : public AbstractWindow
 	{
 	public:
-		DataLoadingProgressWindow();
-		virtual ~DataLoadingProgressWindow();
+		ProgressWindow();
+		virtual ~ProgressWindow();
 
-		bool dataLoadedEventRaised(DataLoadedEvent* anEvent);
+        void setText(const Ogre::String& text);
+        void setProgress(Ogre::Real percentage);
+
 	private:
 		CEGUI::ProgressBar* mProgressBar;
+        CEGUI::Window* mText;
 	};
 
 } // namespace rl

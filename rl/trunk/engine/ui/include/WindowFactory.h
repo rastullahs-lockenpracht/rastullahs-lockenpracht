@@ -39,7 +39,6 @@ namespace rl {
     class Console;
     class Container;
     class Creature;
-    class DataLoadingProgressWindow;
     class DebugWindow;
     class DialogCharacter;
     class DialogWindow;
@@ -140,7 +139,6 @@ namespace rl {
         Actor* mObjectNameText;
         GameObject* mShownObject;
         ObjectDescriptionWindow* mObjectDescriptionWindow;
-        DataLoadingProgressWindow* mDataLoadingProgressWindow;
         MainMenuWindow* mMainMenuWindow;
         CloseConfirmationWindow* mCloseConfirmationWindow;
         GameSettings* mGameSettings;

@@ -1,10 +1,10 @@
 <GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
-    <Window Type="RastullahLook/FrameWindow" Name="DataLoadingProgressWindow">
+    <Window Type="RastullahLook/FrameWindow" Name="ProgressWindow">
         <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
         <Property Name="UnifiedSize" Value="{{0,400},{0,171}}"/>
 		<Property Name="Text" Value="Bitte warten"/>
 
-		<Window Type="RastullahLook/StaticText" Name="DataLoadingProgressWindow/Text">
+		<Window Type="RastullahLook/StaticText" Name="ProgressWindow/Text">
             <Property Name="UnifiedPosition" Value="{{0,15},{0,26}}"/>
             <Property Name="UnifiedSize" Value="{{0,370},{0,50}}"/>
 			<Property Name="FrameEnabled" Value="False"/>
@@ -12,7 +12,7 @@
             <Property Name="HorzFormatting" Value="WordWrapCentred" />
 		</Window>
 
-		<Window Type="RastullahLook/ProgressBar" Name="DataLoadingProgressWindow/ProgressBar">
+		<Window Type="RastullahLook/ProgressBar" Name="ProgressWindow/ProgressBar">
             <Property Name="UnifiedPosition" Value="{{0,15},{0,100}}"/>
             <Property Name="UnifiedSize" Value="{{0,370},{0,50}}"/>
 		</Window>

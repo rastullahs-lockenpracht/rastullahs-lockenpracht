@@ -18,7 +18,7 @@
 
 #include <xercesc/dom/DOMElement.hpp>
 
-#include "RulesPrerequisites.h"
+#include "ScriptPrerequisites.h"
 
 #include <OgreEntity.h>
 #include <OgreNewt_Collision.h>

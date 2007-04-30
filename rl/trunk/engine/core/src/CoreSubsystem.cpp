@@ -130,6 +130,11 @@ namespace rl
         //mRubyInterpreter->finalizeInterpreter();
     }
 
+    void CoreSubsystem::renderOneFrame()
+    {
+        mGameLoop->_executeOneRenderLoop();
+    }
+
     void CoreSubsystem::setDeveloperMode(bool developerMode)
     {
         mDeveloperMode = developerMode;

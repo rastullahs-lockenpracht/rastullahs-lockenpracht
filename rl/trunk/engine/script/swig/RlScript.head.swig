@@ -16,5 +16,6 @@
 
 %{
 //----------- Includes - Script -----------
+#include "MapLoader.h"
 #include "ScriptSubsystem.h"
 %}
