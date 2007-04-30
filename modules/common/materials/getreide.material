@@ -7,6 +7,11 @@ material ALPHA/getreide.png : windy_grass
 	{
 		pass
 		{
+			vertex_program_ref WindyGrassVS_HLSL
+			{
+				param_named fMaxMovementFactor float 0.001
+			}
+			
 			alpha_rejection greater 215
 
 			texture_unit
