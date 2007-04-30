@@ -16,9 +16,7 @@ techdemoWelt.getControlledObject().play();
 $SCRIPT.log("Welten-Thema fertig");
 
 $SCRIPT.log("Get hero")
-$hero = $GOM.createGameObject("hero", 1);
-$hero.setPosition([0, 0.7, 0]);
-$hero.placeIntoScene();
+$hero = $GOM.getGameObject(1);
 
 $SCRIPT.log("Prepare hero for being the active character")
 PlayerSettings.preparePlayer($hero)

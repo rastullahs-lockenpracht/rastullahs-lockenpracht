@@ -32,16 +32,12 @@ class TechdemoModule < ContentModule
 		require "truhe.rb"
 		require "techdemo_hoehle_eingang.rb"
 
-		#@todo: Remove when physics is working
-        #$CORE.loadMap("Octree", "techdemo_terrain.scene", "techdemo");
-        
         p "Loading map with MapLoader"
         
         loader = MapLoader.new("techdemo")
         
-		#@todo: Activate when physics is working
         loader.loadMap("techdemo_terrain.rlmap.xml");
-        loader.loadMap("techdemo_all_except_terrain.rlmap.xml");
+        #loader.loadMap("techdemo_all_except_terrain.rlmap.xml");
         p "Done loading map"
         
         load "techdemo.rb"
