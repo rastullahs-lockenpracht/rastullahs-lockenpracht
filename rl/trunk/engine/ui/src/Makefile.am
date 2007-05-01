@@ -21,7 +21,6 @@ libRlUi_la_SOURCES = \
     ContainerContentWindow.cpp \
     Console.cpp \
     CutsceneCharacterController.cpp \
-    DataLoadingProgressWindow.cpp \
     DebugWindow.cpp \
     DialogCharacterController.cpp \
     DialogWindow.cpp \
@@ -45,8 +44,8 @@ libRlUi_la_SOURCES = \
     MovementCharacterController.cpp \
     ObjectDescriptionWindow.cpp \
     PlaylistWindow.cpp \
+    ProgressWindow.cpp \
     RenderSystemConfigComponent.cpp \
-    Selector.cpp \
     SoundDriverConfigComponent.cpp \
     SubtitleWindow.cpp \
     UiSubsystem.cpp \

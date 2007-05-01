@@ -32,6 +32,8 @@ libRlRules_la_SOURCES = \
 	QuestEvent.cpp \
 	QuestListener.cpp \
 	RulesSubsystem.cpp \
+	SelectionHelper.cpp \
+	Selector.cpp \
 	Slot.cpp \
 	SonderfertigkeitenStateSet.cpp \
 	StateSet.cpp \
@@ -43,10 +45,4 @@ libRlRules_la_SOURCES = \
 	TimerListener.cpp \
 	TimerManager.cpp  \
 	Weapon.cpp \
-	ZauberStateSet.cpp \
-	AbstractMapNodeProcessor.cpp \
-	EntityNodeProcessor.cpp \
-	GameObjectNodeProcessor.cpp \
-	LightNodeProcessor.cpp \
-	MapLoader.cpp \
-	SoundNodeProcessor.cpp
+	ZauberStateSet.cpp

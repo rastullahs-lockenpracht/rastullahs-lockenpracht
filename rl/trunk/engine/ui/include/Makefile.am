@@ -12,7 +12,6 @@ noinst_HEADERS = \
     Console.h \
     ContainerContentWindow.h \
     CutsceneCharacterController.h \
-    DataLoadingProgressWindow.h \
     DebugWindow.h \
     DialogWindow.h \
     DialogCharacterController.h \
@@ -36,8 +35,8 @@ noinst_HEADERS = \
     MovementCharacterController.h \
     ObjectDescriptionWindow.h \
     PlaylistWindow.h \
+    ProgressWindow.h \
     RenderSystemConfigComponent.h \
-    Selector.h \
     SoundDriverConfigComponent.h \
     SubtitleWindow.h \
     UiPrerequisites.h \

@@ -16,4 +16,10 @@ libRlScript_la_LDFLAGS = \
 libRlScript_la_SOURCES = \
   ScriptSubsystem.cpp \
   ScriptObjectMarker.cpp \
-	../swig/RlExports.cxx 
+	../swig/RlExports.cxx \
+	AbstractMapNodeProcessor.cpp \
+	EntityNodeProcessor.cpp \
+	GameObjectNodeProcessor.cpp \
+	LightNodeProcessor.cpp \
+	MapLoader.cpp \
+	SoundNodeProcessor.cpp

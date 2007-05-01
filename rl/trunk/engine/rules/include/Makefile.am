@@ -26,6 +26,8 @@ noinst_HEADERS = \
 	QuestListener.h \
 	RulesPrerequisites.h \
 	RulesSubsystem.h \
+	SelectionHelper.h \
+	Selector.h \
 	StateSet.h \
 	SonderfertigkeitenStateSet.h \
 	Talent.h \
@@ -37,10 +39,4 @@ noinst_HEADERS = \
 	TimerListener.h \
 	TimerManager.h \
 	Weapon.h \
-	ZauberStateSet.h \
-	AbstractMapNodeProcessor.h \
-	EntityNodeProcessor.h \
-	GameObjectNodeProcessor.h \
-	LightNodeProcessor.h \
-	MapLoader.h \
-	SoundNodeProcessor.h
+	ZauberStateSet.h
