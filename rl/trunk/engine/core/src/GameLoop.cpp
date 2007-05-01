@@ -29,17 +29,8 @@ using namespace Ogre;
 
 template<> rl::GameLoop* Singleton<rl::GameLoop>::ms_Singleton = 0;
 
-namespace rl {
-
-    GameLoop* GameLoop::getSingletonPtr(void)
-    {
-        return Singleton<GameLoop>::getSingletonPtr();
-    }
-    GameLoop& GameLoop::getSingleton(void)
-    {
-        return Singleton<GameLoop>::getSingleton();
-    }
-
+namespace rl 
+{
     GameLoop::GameLoop()
         : mTaskLists(),
           mAddedTasks(),
@@ -49,14 +40,15 @@ namespace rl {
           mLastTimes(),
           mSmoothPeriod(500),
           mMaxFrameTime(0.250f),
-          mQuitRequested(false)
+          mQuitRequested(false),
+		  mPaused(false)
     {
         // create five task lists, one for each taskgroup
-        mTaskLists.push_back(new GameTaskList);
-        mTaskLists.push_back(new GameTaskList);
-        mTaskLists.push_back(new GameTaskList);
-        mTaskLists.push_back(new GameTaskList);
-        mTaskLists.push_back(new GameTaskList);
+        mTaskLists.push_back(new GameTaskList());
+        mTaskLists.push_back(new GameTaskList());
+        mTaskLists.push_back(new GameTaskList());
+        mTaskLists.push_back(new GameTaskList());
+        mTaskLists.push_back(new GameTaskList());
 
         mTimer = new Timer();
     }
@@ -114,6 +106,16 @@ namespace rl {
         }
     }
 
+	bool GameLoop::isPaused() const
+	{
+		return mPaused;
+	}
+
+	void GameLoop::setPaused(bool paused)
+	{
+		mPaused = paused;
+	}
+
     void GameLoop::_executeOneRenderLoop()
     {
         // Calculate frame time. This time is smoothed and capped.
@@ -134,9 +136,9 @@ namespace rl {
             GameTaskList* tasks = mTaskLists[i];
             for (GameTaskList::iterator it = tasks->begin(); it != tasks->end(); ++it)
             {
-                if (it->valid && !(it->task->isPaused()))
+                if (it->valid && !(it->task->isPaused()) && !isPaused())
                 {
-                    it->task->run(frameTime);
+					it->task->run(frameTime);
                 }
             }
         }

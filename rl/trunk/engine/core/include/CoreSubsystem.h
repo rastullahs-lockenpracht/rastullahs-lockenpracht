@@ -69,10 +69,6 @@ public:
     /** Renders one frame (for internal use) */
     void renderOneFrame();
 
-    /** Returns the Singleton */
-    //static CoreSubsystem & getSingleton();
-    //static CoreSubsystem * getSingletonPtr();
-
     World* getWorld();
     void loadMap(const Ogre::String type, const Ogre::String filename,
         const Ogre::String module);
@@ -116,6 +112,10 @@ public:
      * @return pointer to render window
      */
     Ogre::RenderWindow* getRenderWindow();
+
+	/// Sets the pause state of the game
+	/// @param paused <code>true</code> if the game should be paused, <code>false</code> if it should be continued
+	void setPaused(bool paused);
 
 private:
     World* mWorld;

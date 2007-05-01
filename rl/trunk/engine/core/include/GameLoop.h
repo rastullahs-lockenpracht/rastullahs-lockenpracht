@@ -31,7 +31,7 @@ class GameTask;
 /// GameLoop::loop is called immediately after RL has been initialised.
 /// GameLoop is dumb, it only calls added tasks in the set order.
 /// No game logic whatsoever is handled here.
-class _RlCoreExport GameLoop : protected Ogre::Singleton<GameLoop>
+class _RlCoreExport GameLoop : public Ogre::Singleton<GameLoop>
 {
 public:
     /// Groups a task can belong to. Tasks are executed in the order listed.
@@ -60,6 +60,13 @@ public:
 	/// Request the game to quit. The current task loop will finish though.
 	void quitGame();
 
+	/// Returns <code>true</code> if the game is paused
+	bool isPaused() const;
+
+	/// Sets the pause state of the game
+	/// @param paused <code>true</code> if the game should be paused, <code>false</code> if it should be continued
+	void setPaused(bool paused);
+
     /// Returns time since game started in Milliseconds.
     unsigned long getClock() const;
 
@@ -70,9 +77,6 @@ public:
     /// @see CoreSubsystem
     void _executeOneRenderLoop();
       
-    static GameLoop & getSingleton(void);
-	static GameLoop * getSingletonPtr(void);
-
 private:
     /// Internal struct for storing the tasks in the queue.
     /// Contains additional meta-information useful for scheduling.
@@ -115,6 +119,7 @@ private:
     /// Time cap for frame time, to prevent interpolation problems during spikes.
     Ogre::Real mMaxFrameTime;
 	bool mQuitRequested;
+	bool mPaused;
 
     /// Averages frame rate over mSmoothPeriod milliseconds.
     /// Steadies Controls and Physics a bit.

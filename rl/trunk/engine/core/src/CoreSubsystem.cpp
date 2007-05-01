@@ -155,6 +155,11 @@ namespace rl
         return mRenderWindow;
     }
 
+	void CoreSubsystem::setPaused(bool paused)
+	{
+		mGameLoop->setPaused(paused);
+	}
+
     bool CoreSubsystem::initializeCoreSubsystem()
     {
         // By not specifying the first two parameters, OGRE will not try

@@ -43,10 +43,7 @@ namespace rl {
         void loadMap(const Ogre::String& mapresource, bool loadGameObjects = true);
 
     private:
-        enum {ENTITIES, GAMEOBJECTS, SOUNDS, LIGHTS};
-    
         XmlPropertyReader* mXmlPropertyProcessor;
-        int mStatistics[4];
         std::list<AbstractMapNodeProcessor*> mNodeProcessors;
 
         Ogre::SceneNode* mRootSceneNode;

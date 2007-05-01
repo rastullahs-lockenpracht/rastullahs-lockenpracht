@@ -106,6 +106,7 @@ namespace rl {
             DOMElement* dataDocumentContent = doc->getDocumentElement();
             
 			CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
+			CoreSubsystem::getSingleton().setPaused(true);
             
             LOG_MESSAGE(Logger::RULES, "Processing nodes");
             
@@ -118,6 +119,7 @@ namespace rl {
             doc->release();
 
 			CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
+			CoreSubsystem::getSingleton().setPaused(false);
         }
         else
         {
@@ -140,14 +142,8 @@ namespace rl {
 
         for (DOMNode* cur = nodesElem->getFirstChild(); 
             cur != NULL; 
-            cur = cur->getNextSibling(), count += 1)
+            cur = cur->getNextSibling())
         {
-            if (count % 250 == 0)
-            {
-                setLoadingPercentage(count/numChildren, 
-                    Ogre::StringConverter::toString(count/numChildren*100.0f, 0) + "%");
-            }
-
             if (cur->getNodeType() == DOMNode::ELEMENT_NODE)
             {
                 DOMElement* curElem = static_cast<DOMElement*>(cur);
@@ -163,6 +159,13 @@ namespace rl {
                     LOG_WARNING(Logger::RULES,
                         "Node " + XmlHelper::transcodeToString(curElem->getNodeName()) + " could not be processed.");
                 }
+            }
+
+			count += 1;
+            if (count % 250 == 0)
+            {
+                setLoadingPercentage(count/numChildren, 
+                    Ogre::StringConverter::toString(count/numChildren*100.0f, 0) + "%");
             }
         }
     }
