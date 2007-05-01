@@ -25,16 +25,6 @@ template<> rl::ScriptObjectMarker* Ogre::Singleton<rl::ScriptObjectMarker>::ms_S
 
 namespace rl {
 
-    ScriptObjectMarker& ScriptObjectMarker::getSingleton()
-    {
-        return Ogre::Singleton<ScriptObjectMarker>::getSingleton();
-    }
-
-    ScriptObjectMarker* ScriptObjectMarker::getSingletonPtr()
-    {
-        return Ogre::Singleton<ScriptObjectMarker>::getSingletonPtr();
-    }
-
     ScriptObjectMarker::ScriptObjectMarker() :
         m_RubyRefCountMap()
     {

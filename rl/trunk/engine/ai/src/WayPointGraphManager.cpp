@@ -24,19 +24,10 @@ template<> rl::WayPointGraphManager* Singleton<rl::WayPointGraphManager>::ms_Sin
 
 namespace rl {
 
-WayPointGraphManager& WayPointGraphManager::getSingleton(void)
-{
-	return Singleton<WayPointGraphManager>::getSingleton();
-}
-
-WayPointGraphManager* WayPointGraphManager::getSingletonPtr(void)
-{
-	return Singleton<WayPointGraphManager>::getSingletonPtr();
-}
-
 WayPointGraphManager::WayPointGraphManager()
 {
 }
+
 WayPointGraphManager::~WayPointGraphManager()
 {
 	removeAllWayPointGraphs();

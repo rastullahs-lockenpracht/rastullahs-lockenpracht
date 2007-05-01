@@ -38,7 +38,7 @@ typedef std::set<GameAreaEventSource*> GameAreaEventSourceList;
  */
 class _RlCoreExport GameEventManager
   : public GameTask,
-    protected Ogre::Singleton<GameEventManager>
+    public Ogre::Singleton<GameEventManager>
 {
 public:
     /** Default Constructor */
@@ -77,11 +77,6 @@ public:
       * @param actor Der Actor der GameAreaEventSource
       */
     void removeAllAreas( Actor* actor );
-
-    /// Singleton
-    static GameEventManager & getSingleton(void);
-    /// Singleton
-    static GameEventManager * getSingletonPtr(void);
 
     virtual const Ogre::String& getName() const;
 

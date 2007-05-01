@@ -37,16 +37,6 @@ using CEGUI::utf8;
 
 namespace rl
 {
-    DsaManager& DsaManager::getSingleton(void)
-    {
-        return Ogre::Singleton<DsaManager>::getSingleton();
-    }
-
-    DsaManager* DsaManager::getSingletonPtr(void)
-    {
-        return Ogre::Singleton<DsaManager>::getSingletonPtr();
-    }
-
     DsaManager::DsaManager()
         : mLastGameTime(0),
         mLastClock(0),

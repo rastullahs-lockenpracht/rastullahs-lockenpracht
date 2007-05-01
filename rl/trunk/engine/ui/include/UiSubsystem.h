@@ -45,7 +45,7 @@ namespace rl {
     class WindowManager;
 
     class _RlUiExport UiSubsystem : public SceneChangeListener,
-        protected Ogre::Singleton<UiSubsystem>
+        public Ogre::Singleton<UiSubsystem>
     {
     public:
         static const char* CEGUI_ROOT;
@@ -54,10 +54,6 @@ namespace rl {
         UiSubsystem();
         /** Default Deconstructor */
         virtual ~UiSubsystem();
-
-        /** Returns the Singleton */
-        static UiSubsystem & getSingleton(void);
-        static UiSubsystem * getSingletonPtr(void);
 
         CEGUI::OgreCEGUIRenderer* getGUIRenderer();
         Person* getActiveCharacter() const;

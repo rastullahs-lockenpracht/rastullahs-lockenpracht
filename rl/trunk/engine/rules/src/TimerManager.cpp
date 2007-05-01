@@ -31,16 +31,6 @@ template<> rl::TimerManager* Singleton<rl::TimerManager>::ms_Singleton = 0;
 
 namespace rl {
 
-	TimerManager& TimerManager::getSingleton()
-	{
-		return Singleton<TimerManager>::getSingleton();
-	}
-
-	TimerManager* TimerManager::getSingletonPtr()
-	{
-		return Singleton<TimerManager>::getSingletonPtr();
-	}
-
 	TimerManager::TimerManager() :
 		mTimers()
 	{

@@ -39,9 +39,6 @@ namespace rl {
 		WindowManager();
 		~WindowManager();
 
-		static WindowManager& getSingleton();
-		static WindowManager* getSingletonPtr();
-
 		void registerWindow(AbstractWindow* window);
 		void destroyWindow(AbstractWindow* window);
 		void closeTopWindow();

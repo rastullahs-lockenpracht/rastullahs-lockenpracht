@@ -48,9 +48,6 @@ namespace rl {
         InputManager(Ogre::RenderWindow* window);
         ~InputManager();
 
-        static InputManager & getSingleton(void);
-        static InputManager * getSingletonPtr(void);
-
         bool isMouseButtonDown( OIS::MouseButtonID buttonID );
 
         Ogre::Real getMouseRelativeX(void) const;

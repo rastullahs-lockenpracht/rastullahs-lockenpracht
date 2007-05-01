@@ -29,9 +29,6 @@ namespace rl
     class _RlRulesExport CombatManager : public Ogre::Singleton<CombatManager>
     {
     public:
-        static CombatManager& getSingleton(void);
-        static CombatManager* getSingletonPtr(void);
-
        CombatManager();
         ~CombatManager();
 

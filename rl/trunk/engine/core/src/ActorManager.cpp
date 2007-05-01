@@ -40,16 +40,6 @@ template<> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
 
 namespace rl {
 
-    ActorManager& ActorManager::getSingleton(void)
-    {
-        return Singleton<ActorManager>::getSingleton();
-    }
-
-    ActorManager* ActorManager::getSingletonPtr(void)
-    {
-        return Singleton<ActorManager>::getSingletonPtr();
-    }
-
     ActorManager::ActorManager()
         : mActors(),
         mWorld(CoreSubsystem::getSingleton().getWorld()),

@@ -29,16 +29,6 @@ template<> rl::AiSubsystem* Singleton<rl::AiSubsystem>::ms_Singleton = 0;
 
 namespace rl {
 
-AiSubsystem& AiSubsystem::getSingleton(void)
-{
-    return Singleton<AiSubsystem>::getSingleton();
-}
-
-AiSubsystem* AiSubsystem::getSingletonPtr(void)
-{
-    return Singleton<AiSubsystem>::getSingletonPtr();
-}
-
 AiSubsystem::AiSubsystem(void)
     : mAgentManager(NULL),
 	  mWayPointGraphManager(NULL),

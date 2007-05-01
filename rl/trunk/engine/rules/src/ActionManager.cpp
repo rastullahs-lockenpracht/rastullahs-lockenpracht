@@ -44,16 +44,6 @@ namespace rl
 		return end;
 	}
 
-    ActionManager& ActionManager::getSingleton(void)
-    {
-    return Singleton<ActionManager>::getSingleton();
-    }
-
-    ActionManager* ActionManager::getSingletonPtr(void)
-    {
-        return Singleton<ActionManager>::getSingletonPtr();
-    }
-
     ActionManager::ActionManager()
     {
     }

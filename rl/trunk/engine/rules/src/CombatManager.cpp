@@ -25,15 +25,6 @@ template<> rl::CombatManager* Singleton<rl::CombatManager>::ms_Singleton = 0;
 
 namespace rl
 {
-    CombatManager& CombatManager::getSingleton(void)
-    {
-        return Singleton<CombatManager>::getSingleton();
-    }
-
-    CombatManager* CombatManager::getSingletonPtr(void)
-    {
-        return Singleton<CombatManager>::getSingletonPtr();
-    }
 
     CombatManager::CombatManager() : mCurrentCombat(NULL)
     {

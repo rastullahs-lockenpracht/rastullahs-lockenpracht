@@ -51,10 +51,6 @@ namespace rl
         JobScheduler();
         virtual ~JobScheduler();
 
-        // Singleton Stuff
-        static JobScheduler& getSingleton(void);
-        static JobScheduler* getSingletonPtr(void);
-
         /**
          * Adds a Job to the scheduler.
          * @param job The job to be added.

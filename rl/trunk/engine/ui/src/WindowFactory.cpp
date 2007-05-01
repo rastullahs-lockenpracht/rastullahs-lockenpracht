@@ -133,16 +133,6 @@ namespace rl {
         delete mSubtitleWindow;
     }
 
-    WindowFactory& WindowFactory::getSingleton()
-    {
-        return Ogre::Singleton<WindowFactory>::getSingleton();
-    }
-
-    WindowFactory* WindowFactory::getSingletonPtr()
-    {
-        return Ogre::Singleton<WindowFactory>::getSingletonPtr();
-    }
-
     void WindowFactory::showCharacterActionChoice()
     {
         showActionChoice(UiSubsystem::getSingleton().getActiveCharacter());

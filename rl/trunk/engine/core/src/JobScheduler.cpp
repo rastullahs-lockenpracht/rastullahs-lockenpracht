@@ -25,16 +25,6 @@ template<> rl::JobScheduler* Singleton<rl::JobScheduler>::ms_Singleton = 0;
 
 namespace rl
 {
-    JobScheduler& JobScheduler::getSingleton(void)
-    {
-        return Singleton<JobScheduler>::getSingleton();
-    }
-
-    JobScheduler* JobScheduler::getSingletonPtr(void)
-    {
-        return Singleton<JobScheduler>::getSingletonPtr();
-    }
-
     JobScheduler::JobScheduler()
         : mJobQueue(), mRemovedJobs(), mTokenThreshold(JP_NORMAL), mTicketCounter(0)
     {

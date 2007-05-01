@@ -46,7 +46,7 @@ namespace rl
 	 * to do its ai stuff (path finding, movement, decission making).
 	 */
 	class _RlAiExport AgentManager
-		: protected Ogre::Singleton<AgentManager>,
+		: public Ogre::Singleton<AgentManager>,
 		  public GameTask,
           public GameObjectStateListener
   	//	  public PhysicsController,
@@ -64,11 +64,6 @@ namespace rl
 			AGENT_STD_NPC = 1,	//!< when the agent is a nonplayercharacter
 			AGENT_FLOCKING = 2	//!< hmm, possibly for groups behaviour of NPCs
 		};
-
-		//! returns the agentmanager object
-		static AgentManager& getSingleton(void);
-		//! returns a pointer to the agentmanager object
-        static AgentManager* getSingletonPtr(void);
 
 		//! defines a std::vector list of Vehicle objects for OpenSteer
 		typedef std::vector<SteeringVehicle*> VehicleList;

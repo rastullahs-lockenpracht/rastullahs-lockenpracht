@@ -43,26 +43,6 @@ template<> rl::SoundManager* Singleton<rl::SoundManager>::ms_Singleton = 0;
 namespace rl
 {
     /**
-     * @return Eine Referenz auf das Singleton-Objekt.
-     * @author JoSch
-     * @date 04-26-2004
-     */
-    SoundManager& SoundManager::getSingleton()
-    {
-        return Singleton<SoundManager>::getSingleton();
-    }
-
-    /**
-     * @return Ein Zeiger auf das Singleton-Objekt.
-     * @author JoSch
-     * @date 04-26-2004
-     */
-    SoundManager* SoundManager::getSingletonPtr()
-    {
-        return Singleton<SoundManager>::getSingletonPtr();
-    }
-
-    /**
      * Standardkonstruktor
      * @author JoSch
      * @date 01-27-2005

@@ -55,16 +55,6 @@ using namespace Ogre;
 namespace rl {
     const char* UiSubsystem::CEGUI_ROOT = "RootWindow";
 
-    UiSubsystem& UiSubsystem::getSingleton(void)
-    {
-        return Singleton<UiSubsystem>::getSingleton();
-    }
-
-    UiSubsystem* UiSubsystem::getSingletonPtr(void)
-    {
-        return Singleton<UiSubsystem>::getSingletonPtr();
-    }
-
     UiSubsystem::UiSubsystem() :
         mCharacter(NULL),
         mInputManager(NULL),

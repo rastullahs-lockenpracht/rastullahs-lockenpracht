@@ -344,16 +344,6 @@ void AnimationManager::run(Ogre::Real timePassed)
     }
 }
 
-AnimationManager& AnimationManager::getSingleton(void)
-{
-    return Ogre::Singleton<AnimationManager>::getSingleton();
-}
-
-AnimationManager* AnimationManager::getSingletonPtr(void)
-{
-    return Ogre::Singleton<AnimationManager>::getSingletonPtr();
-}
-
 const Ogre::String& AnimationManager::getName() const
 {
     static Ogre::String NAME = "AnimationManager";

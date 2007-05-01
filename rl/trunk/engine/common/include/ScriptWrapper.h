@@ -30,7 +30,7 @@ namespace rl {
 		virtual void disowned( void* ptr ) = 0;
     };
 
-    class _RlCommonExport ScriptWrapper : protected Ogre::Singleton<ScriptWrapper>
+    class _RlCommonExport ScriptWrapper : public Ogre::Singleton<ScriptWrapper>
     {
     public:
         ScriptWrapper();
@@ -44,9 +44,6 @@ namespace rl {
 		void deleted( void* ptr );
 		void owned( void* ptr );
         void disowned( void* ptr );
-        /** Returns the Singleton */
-        static ScriptWrapper & getSingleton(void);
-        static ScriptWrapper * getSingletonPtr(void);  
     private:
         ScriptWrapperInstance* m_ScriptWrapperInstance;
     };

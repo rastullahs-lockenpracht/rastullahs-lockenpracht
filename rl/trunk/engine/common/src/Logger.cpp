@@ -38,16 +38,6 @@ const char* rl::Logger::LEVEL_TEXT[6] =
 namespace rl
 {
 
-Logger& Logger::getSingleton(void)
-{
-    return Singleton<Logger>::getSingleton();
-}
-
-Logger* Logger::getSingletonPtr(void)
-{
-    return Singleton<Logger>::getSingletonPtr();
-}
-
 Logger::Logger(const Ogre::String& logDirectory, const Ogre::String& ogreLogFile, const Ogre::String& rastullahLogFile)
     : mLog(0),
       mLogLevel(LL_ERROR),

@@ -72,9 +72,6 @@ namespace rl {
 
         void initialize();
 
-        static WindowFactory& getSingleton();
-        static WindowFactory* getSingletonPtr();
-
         void setActiveCharacter(Creature* character);
 
         void showActionChoice(GameObject* obj);

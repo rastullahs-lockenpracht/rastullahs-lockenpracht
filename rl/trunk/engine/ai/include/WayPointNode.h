@@ -33,7 +33,7 @@ namespace rl
 		enum WayPointNodeType 
 		{
 			WP_UNKNOWN = 0,			//!< initial type - shouldn't be used
-			WP_EXTERIOR = 1,		//!< when the node is 'outdoors'
+			WP_EXTERIOR = 1 << 0,	//!< when the node is 'outdoors'
 			WP_INTERIOR = 1 << 1,	//!< when the node is inside (a building)
 		};
 		//! defines a weighted edge with a distance weigth

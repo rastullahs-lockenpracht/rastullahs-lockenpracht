@@ -33,15 +33,12 @@
 
 
 namespace rl {
-    class _RlScriptExport ScriptObjectMarker : protected Ogre::Singleton<ScriptObjectMarker>, 
+    class _RlScriptExport ScriptObjectMarker : public Ogre::Singleton<ScriptObjectMarker>, 
         protected ScriptWrapperInstance
     {
     public:
         ScriptObjectMarker();
         ~ScriptObjectMarker();
-
-        static ScriptObjectMarker& getSingleton();
-        static ScriptObjectMarker* getSingletonPtr();
 
         virtual void owned( void* ptr );
         virtual void disowned( void* ptr );

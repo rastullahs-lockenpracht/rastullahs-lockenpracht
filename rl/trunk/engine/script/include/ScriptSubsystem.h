@@ -29,9 +29,6 @@ namespace rl {
         ScriptSubsystem();
         virtual ~ScriptSubsystem();
 
-        static ScriptSubsystem& getSingleton();
-        static ScriptSubsystem* getSingletonPtr();
-
         void log(const CeGuiString& message);
 
     private:

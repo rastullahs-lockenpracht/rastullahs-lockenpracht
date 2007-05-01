@@ -51,10 +51,6 @@ typedef std::list<SoundDriver*> DriverList;
             public Ogre::Singleton<SoundManager>, public GameTask
     {
     public:
-        /// Gibt das Singleton zurueck.
-        static SoundManager& getSingleton();
-        /// Gibt einen Zeiger auf das Singleton zurueck.
-        static SoundManager* getSingletonPtr();
         /// Eine Resource erzeugen
         /// Konstruktor
         SoundManager();

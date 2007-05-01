@@ -72,7 +72,7 @@ namespace rl {
      */
     class _RlCoreExport PhysicsManager
         :   public GameTask,
-            protected Ogre::Singleton<PhysicsManager>
+            public Ogre::Singleton<PhysicsManager>
     {
     public:
 
@@ -119,10 +119,6 @@ namespace rl {
 
         bool isEnabled() const;
         void setEnabled(bool enabled);
-
-        // Singleton Stuff
-        static PhysicsManager & getSingleton(void);
-        static PhysicsManager * getSingletonPtr(void);
 
 		/// Levelgeometrie hinzufügen
         void addLevelGeometry(Ogre::Entity* ent, const std::vector<OgreNewt::CollisionPtr> &collisions);

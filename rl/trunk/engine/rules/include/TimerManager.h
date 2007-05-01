@@ -35,9 +35,6 @@ class TimerEventSource;
 class _RlRulesExport TimerManager : public GameTask, public Ogre::Singleton<TimerManager>
 {
 public:
-	static TimerManager& getSingleton();
-	static TimerManager* getSingletonPtr();
-
 	TimerManager();
 	virtual ~TimerManager();
 

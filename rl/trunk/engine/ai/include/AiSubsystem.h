@@ -35,19 +35,14 @@ namespace rl
 		  public SceneChangeListener
 	{
 	public:
-		//! returns the aisubsystem object.
-		static AiSubsystem & getSingleton(void);
-		//! returns a pointer to the aisubsystem object.
-        static AiSubsystem * getSingletonPtr(void);
-
 		//! default constructor
-		AiSubsystem(void);
+		AiSubsystem();
 		/** explicit virtual destructor.
 		 * Unregisters Scene listener, makes AgentManager drop all Agents,
 		 * unregisters AgentManager from GameLoop,
 		 * deletes AgentManager, WayPointGraphManager and AiWorld
 		 */
-		virtual ~AiSubsystem(void);
+		virtual ~AiSubsystem();
 		
 		/** Returns the stored world object representing storing obstacles.
 		 */

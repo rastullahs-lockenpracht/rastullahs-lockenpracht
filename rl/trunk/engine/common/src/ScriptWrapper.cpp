@@ -22,16 +22,6 @@ template<> rl::ScriptWrapper* Singleton<rl::ScriptWrapper>::ms_Singleton = 0;
 
 namespace rl {
 
-    ScriptWrapper& ScriptWrapper::getSingleton(void)
-	{
-		return Singleton<ScriptWrapper>::getSingleton();
-	}
-
-	ScriptWrapper* ScriptWrapper::getSingletonPtr(void)
-	{
-		return Singleton<ScriptWrapper>::getSingletonPtr();
-	}
-
     ScriptWrapper::ScriptWrapper()
         : m_ScriptWrapperInstance( NULL )
     {

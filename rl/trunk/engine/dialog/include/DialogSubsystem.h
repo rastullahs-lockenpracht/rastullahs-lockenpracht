@@ -38,9 +38,6 @@ namespace rl
 		public Ogre::Singleton<DialogSubsystem>
 	{
 	public:
-		static DialogSubsystem & getSingleton(void);
-        static DialogSubsystem * getSingletonPtr(void);
-
 		DialogSubsystem();
 		virtual ~DialogSubsystem();
 		

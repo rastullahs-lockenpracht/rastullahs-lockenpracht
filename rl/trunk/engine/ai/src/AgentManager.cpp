@@ -33,16 +33,6 @@ struct FindAgentByControlledCreature : public std::binary_function<Agent*, Creat
     }
 };
 
-AgentManager& AgentManager::getSingleton(void)
-{
-    return Singleton<AgentManager>::getSingleton();
-}
-
-AgentManager* AgentManager::getSingletonPtr(void)
-{
-    return Singleton<AgentManager>::getSingletonPtr();
-}
-
 AgentManager::AgentManager(void)
     : mBehaviourFactory(NULL), mAllNeighbors(), mAgents(), mPlayer(NULL)
 {

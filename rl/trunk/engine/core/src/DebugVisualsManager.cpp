@@ -24,16 +24,6 @@ template<> rl::DebugVisualsManager* Singleton<rl::DebugVisualsManager>::ms_Singl
 
 namespace rl
 {
-    DebugVisualsManager& DebugVisualsManager::getSingleton(void)
-    {
-        return Singleton<DebugVisualsManager>::getSingleton();
-    }
-
-    DebugVisualsManager* DebugVisualsManager::getSingletonPtr(void)
-    {
-        return Singleton<DebugVisualsManager>::getSingletonPtr();
-    }
-
     DebugVisualsManager::DebugVisualsManager() : mVisualisables()
     {
     }

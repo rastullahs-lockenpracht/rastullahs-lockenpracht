@@ -33,7 +33,7 @@ namespace rl {
     typedef std::map<const Ogre::String,Actor*> ActorPtrMap;
     typedef std::pair<const Ogre::String,Actor*> ActorPtrPair;
 
-    class _RlCoreExport ActorManager : protected Ogre::Singleton<ActorManager>
+    class _RlCoreExport ActorManager : public Ogre::Singleton<ActorManager>
     {
     public:
         ActorManager( );
@@ -68,10 +68,6 @@ namespace rl {
         // View Distance
         Ogre::Real getDefaultActorRenderingDistance() const;
         void setDefaultActorRenderingDistance( Ogre::Real dist );
-
-        /** Returns the Singleton */
-        static ActorManager & getSingleton(void);
-        static ActorManager * getSingletonPtr(void);        
 
     private:
         ActorPtrMap mActors;

@@ -78,14 +78,4 @@ namespace rl {
 		mWindowList.push_back(window);
 		return true;
 	}
-
-	WindowManager& WindowManager::getSingleton()
-	{
-		return Ogre::Singleton<WindowManager>::getSingleton();
-	}
-
-	WindowManager* WindowManager::getSingletonPtr()
-	{
-		return Ogre::Singleton<WindowManager>::getSingletonPtr();
-	}
 }

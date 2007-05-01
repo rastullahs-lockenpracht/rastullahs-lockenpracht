@@ -32,15 +32,10 @@ namespace rl
 	 * are many waypoints. At the moment this not something to consider.
 	 */
 	class _RlAiExport WayPointGraphManager 
-		: protected Ogre::Singleton<WayPointGraphManager>
+		: public Ogre::Singleton<WayPointGraphManager>
 	{
 
 	public:
-		//! returns the agentmanager object
-		static WayPointGraphManager& getSingleton(void);
-		//! returns a pointer to the agentmanager object
-        static WayPointGraphManager* getSingletonPtr(void);
-
 		/** Constructor
 		 */
 		WayPointGraphManager();

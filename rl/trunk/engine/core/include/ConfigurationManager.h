@@ -41,7 +41,7 @@ namespace rl
      * configuration files. If no configuration file is available, sane default values are
      * provided so that Rastullah will work properly on most systems.
      */
-    class _RlCoreExport ConfigurationManager : protected Ogre::Singleton<ConfigurationManager>
+    class _RlCoreExport ConfigurationManager : public Ogre::Singleton<ConfigurationManager>
     {
         public:
 

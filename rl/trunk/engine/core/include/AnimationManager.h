@@ -40,7 +40,7 @@ class MeshObject;
 */
 class _RlCoreExport AnimationManager
   : public GameTask,
-    protected Ogre::Singleton<AnimationManager>
+    public Ogre::Singleton<AnimationManager>
 {
 public:
 	/// Interpolations-Modus, Spline ist besser, braucht auch mehr Perfomance
@@ -129,10 +129,6 @@ public:
     virtual void run(Ogre::Real timePassed);
     virtual const Ogre::String& getName() const;
 
-	/// Singleton
-    static AnimationManager & getSingleton(void);
-	/// Singleton
-	static AnimationManager * getSingletonPtr(void);
 private:
     static void stopAnimation( BaseAnimation* anim );
 

@@ -66,16 +66,6 @@ namespace rl
 		return body->getCollision()->getAABB();
 	}
 
-    PhysicsManager& PhysicsManager::getSingleton(void)
-    {
-        return Singleton<PhysicsManager>::getSingleton();
-    }
-
-    PhysicsManager* PhysicsManager::getSingletonPtr(void)
-    {
-        return Singleton<PhysicsManager>::getSingletonPtr();
-    }
-
     PhysicsManager::PhysicsManager( )
         : mEnabled(false),
         mNewtonDebugger(),

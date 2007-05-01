@@ -24,16 +24,6 @@ template<> rl::GameEventManager* Ogre::Singleton<rl::GameEventManager>::ms_Singl
 
 namespace rl {
 
-    GameEventManager& GameEventManager::getSingleton(void)
-    {
-        return Ogre::Singleton<GameEventManager>::getSingleton();
-    }
-
-    GameEventManager* GameEventManager::getSingletonPtr(void)
-    {
-        return Ogre::Singleton<GameEventManager>::getSingletonPtr();
-    }
-
     GameEventManager::GameEventManager( ) :
         mAreaEventSources(),
 		mQueuedDeletionSources()

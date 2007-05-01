@@ -51,9 +51,6 @@ namespace rl
 			RULE_DISTANZKLASSEN
 		};
 
-        static DsaManager& getSingleton(void);
-        static DsaManager* getSingletonPtr(void);
-
         /** Default Constructor */
         DsaManager();
         /** Default Deconstructor */

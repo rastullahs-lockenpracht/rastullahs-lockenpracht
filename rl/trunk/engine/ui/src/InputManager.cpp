@@ -94,16 +94,6 @@ namespace rl {
         }
     }
 
-    InputManager& InputManager::getSingleton()
-    {
-        return Singleton<InputManager>::getSingleton();
-    }
-
-    InputManager* InputManager::getSingletonPtr()
-    {
-        return Singleton<InputManager>::getSingletonPtr();
-    }
-
     void InputManager::initializeOis(RenderWindow* win)
     {
         // BEGIN INPUT INITIALIZATION
@@ -118,7 +108,7 @@ namespace rl {
             pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_EXCLUSIVE")));
             pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
         #elif OGRE_PLATFORM == OGRE_PLATFORM_LINUX
-        //    pl.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
+            pl.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
         //    pl.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
         #endif
 

@@ -53,10 +53,6 @@ namespace rl {
 		Logger(const Ogre::String& logDirectory, const Ogre::String& ogreLogFile, const Ogre::String& rastullahLogFile);
 		virtual ~Logger();
 
-        // Singleton Stuff
-        static Logger & getSingleton(void);
-        static Logger * getSingletonPtr(void);
-
 		void log(
 			const LogLevel level,
 			const Ogre::String& component,

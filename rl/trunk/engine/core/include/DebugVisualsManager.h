@@ -37,10 +37,6 @@ namespace rl {
         DebugVisualsManager();
         virtual ~DebugVisualsManager();
 
-        // Singleton Stuff
-        static DebugVisualsManager& getSingleton(void);
-        static DebugVisualsManager* getSingletonPtr(void);
-
         /// Shows all visualisables, whose flags are set.
         /// @param flags Flags to compare to.
         void show(unsigned long flags);
