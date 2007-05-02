@@ -131,7 +131,7 @@ namespace rl {
             mCharacterActor->getControlledObject());
         AxisAlignedBox aabb = charMesh->getDefaultSize();
 
-        // wird sp�er neu berechnet in calculateOptimalCameraPosition
+        // this will be recalculated in calculateOptimalCameraPosition
         mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45f, 0);
 
         CreatureSelectionFilter* filter = new CreatureSelectionFilter();
@@ -1178,6 +1178,7 @@ namespace rl {
 
 
 
+
             // Calculate angular velocity
             // We first need the yaw rotation from actual yaw to desired yaw
             Vector3 src = orientation*Vector3::NEGATIVE_UNIT_Z;
@@ -1186,13 +1187,15 @@ namespace rl {
             dst.y = 0;
             Radian yaw = src.getRotationTo(dst).getYaw();
 
-
+/*
             // was soll dieser komische Fehler?
             // wenn yaw 0 sein sollte, wird er manchmal zu -90 grad, find ich nich nett
             if( (yaw.valueDegrees() - (-90)) < 0.5 )
                 if( src.directionEquals(-dst, Degree(45)) )
                     yaw = Degree(0);
-
+*/
+            if( src.directionEquals(dst, Degree(1)))
+                yaw = Degree(0);
 
             // Calculate omega in order to go this rotation in mMaxDelay seconds.
             // Real newOmega = yaw.valueRadians() / mMaxDelay;
@@ -1202,7 +1205,11 @@ namespace rl {
             // sollte nicht direkt gesetzt werden!
             Vector3 springAcc = -mRotLinearSpringK*diff - mRotLinearDampingK * omega;
             //body->setOmega(Vector3(0, newOmega, 0)); // omega sollte nicht direkt gesetzt werden
-            body->setTorque( mass * springAcc );
+//            body->setTorque( mass * springAcc );
+
+            // All this doesn't work correctly with the new version of ogre
+            // So we set the orientation directly until the problem is solved
+            mCharacterActor->setOrientation(Quaternion(mYaw, Vector3::UNIT_Y));
         }
 
 
