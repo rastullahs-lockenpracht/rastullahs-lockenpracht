@@ -1062,6 +1062,8 @@ namespace rl
         else if( (movementType & BEWEGUNG_HOCHSPRUNG) || (movementType & BEWEGUNG_WEITSPRUNG) )
         {
             // if( getragenes Gewicht > KK ) return false
+            if( getAu() < 6.0 || getAu() < getAuBasis()/3.0 )
+                return false;
         }
 
 
@@ -1173,6 +1175,10 @@ namespace rl
                     velocity -= mod*(getAu() / getAuBasis() * 3.0) * getEigenschaft("GE") / 5.0;
             }
             if( movementType & BEWEGUNG_SCHLEICHEN )
+            {
+                velocity *= 0.3;
+            }
+            if( movementType & BEWEGUNG_RUECKWAERTS )
             {
                 velocity *= 0.3;
             }
