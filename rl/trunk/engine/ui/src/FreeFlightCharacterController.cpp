@@ -43,7 +43,9 @@ namespace rl {
         mDesiredVelocity(Vector3::ZERO),
         mCollisionsEnabled(false),
         mPitchRange(Degree(-89), Degree(89)),
-        mCameraUpConstraint(Vector3::ZERO)
+        mCameraUpConstraint(Vector3::ZERO),
+        mYaw(Degree(0)),
+        mPitch(Degree(0))
 	{
         mMouseSensitivity = ConfigurationManager::getSingleton().getIntSetting("Input", "Mouse Sensitivity");
         mInvertedMouse = ConfigurationManager::getSingleton().getBoolSetting("Input", "Mouse Invert");
@@ -156,34 +158,34 @@ namespace rl {
 		}
 
 
-        Radian yaw;
         if (movement & TURN_LEFT)
-            yaw = elapsedTime * Degree(120.0f);
+            mYaw += elapsedTime * Degree(120.0f);
         if (movement & TURN_RIGHT)
-            yaw = -elapsedTime * Degree(120.0f);
+            mYaw -= elapsedTime * Degree(120.0f);
 
         // mouse
         if( !(movement & TURN_LEFT || movement & TURN_RIGHT) )
         {
-            yaw = -mMouseSensitivity * Degree(im->getMouseRelativeX() / 10);
+            mYaw -= mMouseSensitivity * Degree(im->getMouseRelativeX() / 10);
         }
-        while (yaw.valueDegrees() > 360.0f) yaw -= Degree(360.0f);
-        while (yaw.valueDegrees() < -360.0f) yaw += Degree(360.0f);
+        while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
+        while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
 
-        Radian pitch;
+
         if (mInvertedMouse)
-            pitch = mMouseSensitivity * Degree(im->getMouseRelativeY() / 4);
+            mPitch += mMouseSensitivity * Degree(im->getMouseRelativeY() / 4);
         else
-            pitch = -mMouseSensitivity * Degree(im->getMouseRelativeY() / 4);
+            mPitch -= mMouseSensitivity * Degree(im->getMouseRelativeY() / 4);
 
-        while (pitch.valueDegrees() > 360.0f) pitch -= Degree(360.0f);
-        while (pitch.valueDegrees() < -360.0f) pitch += Degree(360.0f);
-        if (pitch < mPitchRange.first) pitch = mPitchRange.first;
-        if (pitch > mPitchRange.second) pitch = mPitchRange.second;
+        while (mPitch.valueDegrees() > 360.0f) mPitch -= Degree(360.0f);
+        while (mPitch.valueDegrees() < -360.0f) mPitch += Degree(360.0f);
+        if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
+        if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
 
+        mCameraActor->setOrientation(Quaternion::IDENTITY);
         mCameraActor->getPhysicalThing()->clearUpConstraint();
-        mCameraActor->yaw(yaw.valueDegrees());
-        mCameraActor->pitch(pitch.valueDegrees());
+        mCameraActor->yaw(mYaw.valueDegrees());
+        mCameraActor->pitch(mPitch.valueDegrees());
     }
 
 	void FreeFlightCharacterController::toggleCameraCollision()
@@ -212,6 +214,8 @@ namespace rl {
 		    mCameraActor->setOrientation( Quaternion::IDENTITY );
             mCameraActor->setPosition( Vector3::ZERO );
         }
+        mYaw = Degree(0);
+        mPitch = Degree(0);
 	}
 
 	bool FreeFlightCharacterController::injectKeyDown(int keycode)
