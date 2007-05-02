@@ -30,9 +30,13 @@
 #include "GameObjectConstants.h"
 #include "GameObjectNodeProcessor.h"
 #include "LightNodeProcessor.h"
+#include "ParticleSystemNodeProcessor.h"
 #include "ProgressWindow.h"
 #include "PropertyReader.h"
+#include "ScriptSubsystem.h"
 #include "SoundNodeProcessor.h"
+#include "Trigger.h"
+#include "TriggerFactory.h"
 #include "World.h"
 #include "XmlHelper.h"
 #include "XmlResource.h"
@@ -59,6 +63,7 @@ namespace rl {
         mNodeProcessors.push_back(new GameObjectNodeProcessor());
         mNodeProcessors.push_back(new SoundNodeProcessor());
         mNodeProcessors.push_back(new LightNodeProcessor());
+		mNodeProcessors.push_back(new ParticleSystemNodeProcessor());
     }
 
     MapLoader::~MapLoader()
@@ -106,6 +111,7 @@ namespace rl {
             DOMElement* dataDocumentContent = doc->getDocumentElement();
             
 			CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
+			///@todo: Window jobs don't work if Core is paused, think about solution 
 			CoreSubsystem::getSingleton().setPaused(true);
             
             LOG_MESSAGE(Logger::RULES, "Processing nodes");
@@ -119,6 +125,7 @@ namespace rl {
             doc->release();
 
 			CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
+			///@todo: Window jobs don't work if Core is paused, think about solution 
 			CoreSubsystem::getSingleton().setPaused(false);
         }
         else
@@ -168,6 +175,8 @@ namespace rl {
                     Ogre::StringConverter::toString(count/numChildren*100.0f, 0) + "%");
             }
         }
+
+		setLoadingPercentage(1);
     }
 
 	void MapLoader::processZones(xercesc_2_7::DOMElement *zonesElem)
@@ -233,6 +242,16 @@ namespace rl {
 								{
 									Ogre::String name = XmlHelper::getAttributeValueAsStdString(curElem, "name");
 									zone->addSound(name);
+								}
+								else if (XmlHelper::hasNodeName(curElem, "trigger"))
+								{
+									Ogre::String classname = 
+										XmlHelper::getAttributeValueAsStdString(curElem, "classname");
+
+									Trigger* trigger = ScriptSubsystem::getSingleton().getTriggerFactory()
+										->createTrigger(classname);
+
+									///@todo trigger properties
 								}
 							}
 						}
@@ -336,7 +355,7 @@ namespace rl {
 
         CoreSubsystem::getSingleton().renderOneFrame();
 
-        if (percentage >= 0.99)
+        if (percentage == 1)
         {
             mPercentageWindow->setVisible(false, true);
             mPercentageWindow = NULL;

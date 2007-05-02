@@ -20,7 +20,9 @@
 #include "ScriptPrerequisites.h"
 #include "OgreSingleton.h"
 
-namespace rl {
+namespace rl 
+{
+	class TriggerFactory;
     class ScriptObjectMarker;
 
     class _RlScriptExport ScriptSubsystem : public Ogre::Singleton<ScriptSubsystem>
@@ -30,9 +32,13 @@ namespace rl {
         virtual ~ScriptSubsystem();
 
         void log(const CeGuiString& message);
+		void setTriggerFactory(TriggerFactory* factory);
+		TriggerFactory* getTriggerFactory() const;
 
     private:
         ScriptObjectMarker* mScriptObjectMarker;
+		TriggerFactory* mTriggerFactory;
+
         void initializeScriptSubsystem();
     };
 }

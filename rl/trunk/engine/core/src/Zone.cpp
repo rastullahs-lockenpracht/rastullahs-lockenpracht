@@ -18,8 +18,8 @@
 #include "ActorManager.h"
 #include "GameAreaEvent.h"
 #include "GameEventManager.h"
+#include "Trigger.h"
 #include "ZoneManager.h"
-
 
 namespace rl 
 {
@@ -38,11 +38,35 @@ namespace rl
 	void Zone::areaLeft(GameAreaEvent *anEvent)
 	{
 		ZoneManager::getSingleton().areaLeft(this);
+
+		std::list<Trigger*> toDelete;
+		for (std::list<Trigger*>::iterator it = mTriggers.begin(); it != mTriggers.end(); ++it)
+		{
+			bool remove = (*it)->deactivate();
+			if (remove)
+			{
+				toDelete.push_back(*it);
+			}
+		}
+
+		deleteTriggers(toDelete);
 	}
 
     void Zone::areaEntered(GameAreaEvent *anEvent)
 	{		
 		ZoneManager::getSingleton().areaEntered(this);
+
+		std::list<Trigger*> toDelete;
+		for (std::list<Trigger*>::iterator it = mTriggers.begin(); it != mTriggers.end(); ++it)
+		{
+			bool remove = (*it)->activate();
+			if (remove)
+			{
+				toDelete.push_back(*it);
+			}
+		}
+
+		deleteTriggers(toDelete);
 	}
 
 	void Zone::addLight(Actor* lo)
@@ -61,16 +85,29 @@ namespace rl
 		}
 	}
 
-	std::vector<Actor*> Zone::getLights() const
+	std::list<Actor*> Zone::getLights() const
 	{
-		std::vector<Actor*> rval(mLights);
+		std::list<Actor*> rval(mLights);
 		return rval;
 	}
 	
-	std::vector<Ogre::String> Zone::getSounds() const
+	std::list<Ogre::String> Zone::getSounds() const
 	{
-		std::vector<Ogre::String> rval(mSounds);
+		std::list<Ogre::String> rval(mSounds);
 		return rval;
 	}
 
+
+	void Zone::deleteTriggers(const std::list<Trigger*>& toDelete)
+	{
+		for (std::list<Trigger*>::const_iterator it = toDelete.begin(); 
+			it != toDelete.end(); ++it)
+		{
+			const Trigger* cur = *it;
+
+			std::list<Trigger*>::iterator trigIt = 
+				std::find(mTriggers.begin(), mTriggers.end(), cur);
+			mTriggers.erase(trigIt);
+		}
+	}
 }

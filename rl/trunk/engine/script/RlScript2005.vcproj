@@ -309,6 +309,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\ParticleSystemNodeProcessor.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\SoundNodeProcessor.cpp"
 					>
 				</File>
@@ -329,6 +333,10 @@
 			</File>
 			<File
 				RelativePath=".\include\ScriptSubsystem.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\TriggerFactory.h"
 				>
 			</File>
 			<Filter
@@ -352,6 +360,10 @@
 				</File>
 				<File
 					RelativePath=".\include\MapLoader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ParticleSystemNodeProcessor.h"
 					>
 				</File>
 				<File

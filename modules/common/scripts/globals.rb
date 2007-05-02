@@ -65,4 +65,16 @@ end
 rbf = RubyBehaviourFactory.new();
 $AI.setBehaviourFactory(rbf);
 
+class RubyTriggerFactory < TriggerFactory
+  def initialize()
+    super();
+  end
+
+  def createTrigger(classname)
+    return Module.const_get(classname).new();
+  end
+end
+
+ScriptSubsystem.getSingleton().setTriggerFactory(RubyTriggerFactory.new())
+
 require( "questsound.rb" );

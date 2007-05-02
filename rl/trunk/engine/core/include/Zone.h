@@ -24,6 +24,7 @@ namespace rl {
 
 	class Actor;
 	class LightObject;
+	class Trigger;
 
 	///@todo: Inheritance is wrong, Zone should be a GameAreaEventSource, ZoneManager a GameAreaListener
 	class _RlCoreExport Zone : public GameAreaListener
@@ -33,8 +34,10 @@ namespace rl {
 
 		void addLight(Actor* light);
         void addSound(const Ogre::String& name);
-		std::vector<Actor*> getLights() const;
-        std::vector<Ogre::String> getSounds() const;
+		void addTrigger(Trigger* trigger);
+		std::list<Actor*> getLights() const;
+        std::list<Ogre::String> getSounds() const;
+		std::list<Trigger*> getTriggers() const;
 
 		Actor* getActor() const;
 
@@ -42,9 +45,12 @@ namespace rl {
 	    virtual void areaEntered(GameAreaEvent *anEvent);
 
 	private:
-		std::vector<Actor*> mLights;
-		std::vector<Ogre::String> mSounds;
+		std::list<Actor*> mLights;
+		std::list<Ogre::String> mSounds;
+		std::list<Trigger*> mTriggers;
 		Actor* mActor;
+
+		void deleteTriggers(const std::list<Trigger*>& toDelete);
 	};
 
 }

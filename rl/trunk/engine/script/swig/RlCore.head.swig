@@ -44,6 +44,7 @@
 #include "MeshAnimation.h"
 #include "FadeAnimation.h"
 #include "TrackAnimation.h"
+#include "Trigger.h"
 #include "GameLoop.h"
 #include "World.h"
 #include "ContentModule.h"

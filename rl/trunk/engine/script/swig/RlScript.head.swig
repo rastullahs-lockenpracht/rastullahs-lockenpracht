@@ -18,4 +18,5 @@
 //----------- Includes - Script -----------
 #include "MapLoader.h"
 #include "ScriptSubsystem.h"
+#include "TriggerFactory.h"
 %}

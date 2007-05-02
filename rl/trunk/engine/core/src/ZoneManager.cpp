@@ -94,8 +94,8 @@ namespace rl
 		Zone* currentZone = mActiveZones.front();
 		std::set<Actor*> activeLights;
 
-		std::vector<Actor*> curLights = currentZone->getLights();
-		for (std::vector<Actor*>::const_iterator it = curLights.begin(); it != curLights.end(); it++)
+		std::list<Actor*> curLights = currentZone->getLights();
+		for (std::list<Actor*>::const_iterator it = curLights.begin(); it != curLights.end(); it++)
 		{
 			activeLights.insert(*it);
 			(*it)->setVisible(true);
@@ -103,8 +103,8 @@ namespace rl
 
 		for (std::map<const Ogre::String, Zone*>::const_iterator itZones = mZones.begin(); itZones != mZones.end(); itZones++)
 		{
-			std::vector<Actor*> curLights = (*itZones).second->getLights();
-			for (std::vector<Actor*>::const_iterator itLights = curLights.begin(); itLights != curLights.end(); itLights++)
+			std::list<Actor*> curLights = (*itZones).second->getLights();
+			for (std::list<Actor*>::const_iterator itLights = curLights.begin(); itLights != curLights.end(); itLights++)
 			{
 				if (activeLights.find(*itLights) == activeLights.end())
 				{
@@ -113,8 +113,8 @@ namespace rl
 			}
 		}
 
-		std::vector<Actor*> defLights = mDefaultZone->getLights();
-		for (std::vector<Actor*>::const_iterator itLights = defLights.begin(); itLights != defLights.end(); itLights++)
+		std::list<Actor*> defLights = mDefaultZone->getLights();
+		for (std::list<Actor*>::const_iterator itLights = defLights.begin(); itLights != defLights.end(); itLights++)
 		{
 			if (activeLights.find(*itLights) == activeLights.end())
 			{
@@ -128,8 +128,8 @@ namespace rl
 		Zone* currentZone = mActiveZones.front();
 		std::set<Ogre::String> activeSounds;
 
-		std::vector<Ogre::String> curSounds = currentZone->getSounds();
-		for (std::vector<Ogre::String>::const_iterator it = curSounds.begin(); it != curSounds.end(); it++)
+		std::list<Ogre::String> curSounds = currentZone->getSounds();
+		for (std::list<Ogre::String>::const_iterator it = curSounds.begin(); it != curSounds.end(); it++)
 		{
 			activeSounds.insert(*it);
 			///@todo switch sound on
@@ -137,8 +137,8 @@ namespace rl
 
 		for (std::map<const Ogre::String, Zone*>::const_iterator itZones = mZones.begin(); itZones != mZones.end(); itZones++)
 		{
-			std::vector<Ogre::String> curSounds = (*itZones).second->getSounds();
-			for (std::vector<Ogre::String>::const_iterator itSounds = curSounds.begin(); itSounds != curSounds.end(); itSounds++)
+			std::list<Ogre::String> curSounds = (*itZones).second->getSounds();
+			for (std::list<Ogre::String>::const_iterator itSounds = curSounds.begin(); itSounds != curSounds.end(); itSounds++)
 			{
 				if (activeSounds.find(*itSounds) == activeSounds.end())
 				{
@@ -147,8 +147,8 @@ namespace rl
 			}
 		}
 
-		std::vector<Ogre::String> defSounds = mDefaultZone->getSounds();
-		for (std::vector<Ogre::String>::const_iterator itSounds = defSounds.begin(); itSounds != defSounds.end(); itSounds++)
+		std::list<Ogre::String> defSounds = mDefaultZone->getSounds();
+		for (std::list<Ogre::String>::const_iterator itSounds = defSounds.begin(); itSounds != defSounds.end(); itSounds++)
 		{
 			if (activeSounds.find(*itSounds) == activeSounds.end())
 			{

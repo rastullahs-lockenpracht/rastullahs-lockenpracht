@@ -24,7 +24,8 @@ template<> rl::ScriptSubsystem* Singleton<rl::ScriptSubsystem>::ms_Singleton = N
 
 namespace rl {
 
-    ScriptSubsystem::ScriptSubsystem() : mScriptObjectMarker(NULL)
+    ScriptSubsystem::ScriptSubsystem()
+		: mScriptObjectMarker(NULL), mTriggerFactory(NULL)
     {
         mScriptObjectMarker = new ScriptObjectMarker();	
     }
@@ -38,5 +39,15 @@ namespace rl {
     {
         LOG_MESSAGE(Logger::SCRIPT, message);
     }
+
+	TriggerFactory* ScriptSubsystem::getTriggerFactory() const
+	{
+		return mTriggerFactory;
+	}
+
+	void ScriptSubsystem::setTriggerFactory(TriggerFactory* factory)
+	{
+		mTriggerFactory = factory;
+	}
 
 }

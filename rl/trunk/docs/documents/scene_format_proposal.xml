@@ -98,6 +98,9 @@
 			<!-- properties can be found in .gof files -->
 			<property name="description" type="STRING" data="Eine Tür, allerdings ist keine Klinke vorhanden" />
 		</gameobject>
+		
+		<!-- Particle system -->
+		<particlesystem name="Steinstaubwolke" material="Techdemo/Steinstaubwolke" active="true"/>
 
 	</nodes>
 
@@ -161,13 +164,18 @@
 		</zone>
 	</zones>
 
+        <environment>
+        	<!-- Sky Box -->
+        	<sky type="box" material="ruchinsky" drawfirst="true" distance="600"/>
+        
+        	<!-- Sky Dome -->
+        	<sky type="dome" material="ruchinsky" drawfirst="true">
+        		<skydomesettings curvature="10" tiling = "8" />
+        	</sky>
 
-	<!-- Sky Box -->
-	<sky type="box" material="ruchinsky" drawfirst="true" distance="600"/>
+        	<fog type="exp" expdensity="0.001" />
 
-	<!-- Sky Dome -->
-	<sky type="dome" material="ruchinsky" drawfirst="true">
-		<skydomesettings curvature="10" tiling = "8" />
-	</sky>
+        	<fog type="linear" start="0.0" end="1.0"/>
+       	</environment>
 
 </rastullahmap>

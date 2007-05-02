@@ -569,6 +569,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\Trigger.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\World.h"
 				>
 			</File>

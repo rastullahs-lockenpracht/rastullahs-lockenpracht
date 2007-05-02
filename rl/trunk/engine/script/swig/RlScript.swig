@@ -14,13 +14,15 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-namespace rl {
+namespace rl 
+{
 	class ScriptSubsystem
 	{
 	public:
 		static rl::ScriptSubsystem& getSingleton();
 
 		void log(const rl::CeGuiString& message);
+		void setTriggerFactory(rl::TriggerFactory* factory);
 	};
 	  
     class MapLoader
@@ -29,4 +31,10 @@ namespace rl {
         MapLoader(const Ogre::String& resourceGroup);
         void loadMap(const Ogre::String& mapresource, bool loadGameObjects = true);
     };
+    
+    class TriggerFactory
+	{
+	public:
+		virtual rl::Trigger* createTrigger(const Ogre::String& classname) = 0;
+	};
 }

@@ -870,5 +870,15 @@ public:
 	Zone* getZone(const Ogre::String& name) const;
 };
 
+class  Trigger
+{
+public:
+	virtual bool activate() = 0;
+	virtual bool deactivate() = 0;
+	virtual const rl::Property getProperty(const Ogre::String& key) const = 0;
+    virtual void setProperty(const Ogre::String& key, const rl::Property& value) = 0;
+    virtual rl::PropertySet* getAllProperties() const = 0;
+    virtual void setProperties(const rl::PropertySet* props);
+};
 
 }
