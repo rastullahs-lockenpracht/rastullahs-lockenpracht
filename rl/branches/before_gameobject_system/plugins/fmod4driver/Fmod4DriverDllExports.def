@@ -1,4 +1,0 @@
-LIBRARY	"RlFmod4Driver.dll"
-EXPORTS	
-	dllStartPlugin
-	dllStopPlugin
