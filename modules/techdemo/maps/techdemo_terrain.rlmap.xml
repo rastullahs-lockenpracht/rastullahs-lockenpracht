@@ -30613,7 +30613,10 @@
         </light>
   </nodes>
 
-  	<sky type="box" material="rl/dsa07" range="10000"/>
+  <environment>
+  	<sky type="box" material="rl/dsa07" distance="2500"/>
+  </environment>
+
 	<zones>
 		<zone type="default">
 			<light name="sunlight"/>
