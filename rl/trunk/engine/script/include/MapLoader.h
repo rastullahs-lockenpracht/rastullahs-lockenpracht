@@ -53,8 +53,6 @@ namespace rl {
 
         void setRootSceneNode(Ogre::SceneNode* node);
         void processSceneNodes(XERCES_CPP_NAMESPACE::DOMElement* nodesElem, bool loadGameObjects);
-        void processZones(XERCES_CPP_NAMESPACE::DOMElement* zonesElem);
-		void processSkySettings(XERCES_CPP_NAMESPACE::DOMElement* skyElem);
         void setLoadingPercentage(Ogre::Real percentage, const Ogre::String& text = "");
     };
 

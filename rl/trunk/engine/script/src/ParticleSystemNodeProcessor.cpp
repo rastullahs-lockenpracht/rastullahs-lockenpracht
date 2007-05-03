@@ -33,23 +33,28 @@ namespace rl
 			return false;
 		}
 
-		LOG_DEBUG(Logger::RULES, 
-            "Processing particle system node " 
-                + XmlHelper::getAttributeValueAsStdString(nodeElem, "name"));
-
-		if (XmlHelper::hasAttribute(nodeElem, "name") && XmlHelper::hasAttribute(nodeElem, "material"))
+		if (!XmlHelper::hasAttribute(nodeElem, "material"))
 		{
-			Ogre::String name = XmlHelper::getAttributeValueAsStdString(nodeElem, "name");
-			Ogre::String material = XmlHelper::getAttributeValueAsStdString(nodeElem, "material");
-
-			Actor* part = ActorManager::getSingleton().createParticleSystemActor(
-				name, material);
-
-			if (XmlHelper::hasAttribute(nodeElem, "active"))
-			{
-				bool active = XmlHelper::getAttributeValueAsBool(nodeElem, "active");
-				static_cast<ParticleSystemObject*>(part->getControlledObject())->setActive(active);
-			}
+			LOG_WARNING(Logger::SCRIPT, "Particle system nodes must at least have the attribute 'material'.");
+			return false;
 		}
+
+		Ogre::String name = XmlHelper::getAttributeValueAsStdString(nodeElem, "name");
+
+		LOG_DEBUG(Logger::SCRIPT, 
+            "Processing particle system node " + name);
+
+		Ogre::String material = XmlHelper::getAttributeValueAsStdString(nodeElem, "material");
+
+		Actor* part = ActorManager::getSingleton().createParticleSystemActor(
+			name, material);
+
+		if (XmlHelper::hasAttribute(nodeElem, "active"))
+		{
+			bool active = XmlHelper::getAttributeValueAsBool(nodeElem, "active");
+			static_cast<ParticleSystemObject*>(part->getControlledObject())->setActive(active);
+		}
+
+		return true;
 	}
 }

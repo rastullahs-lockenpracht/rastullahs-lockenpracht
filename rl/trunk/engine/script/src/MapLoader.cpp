@@ -22,27 +22,21 @@
 #include <OgreResourceManager.h>
 
 #include "AbstractMapNodeProcessor.h"
-#include "Actor.h"
-#include "ActorManager.h"
-#include "ContentModule.h"
 #include "CoreSubsystem.h"
 #include "EntityNodeProcessor.h"
-#include "GameObjectConstants.h"
+#include "EnvironmentProcessor.h"
 #include "GameObjectNodeProcessor.h"
 #include "LightNodeProcessor.h"
 #include "ParticleSystemNodeProcessor.h"
 #include "ProgressWindow.h"
 #include "PropertyReader.h"
-#include "ScriptSubsystem.h"
 #include "SoundNodeProcessor.h"
-#include "Trigger.h"
-#include "TriggerFactory.h"
+#include "WaypointProcessor.h"
 #include "World.h"
 #include "XmlHelper.h"
 #include "XmlResource.h"
 #include "XmlResourceManager.h"
-#include "Zone.h"
-#include "ZoneManager.h"
+#include "ZoneProcessor.h"
 
 using namespace Ogre;
 using namespace XERCES_CPP_NAMESPACE;
@@ -111,22 +105,27 @@ namespace rl {
             DOMElement* dataDocumentContent = doc->getDocumentElement();
             
 			CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
-			///@todo: Window jobs don't work if Core is paused, think about solution 
-			CoreSubsystem::getSingleton().setPaused(true);
+			///@todo: Window fade jobs don't work if Core is paused, think about solution for: CoreSubsystem::getSingleton().setPaused(true);
             
             LOG_MESSAGE(Logger::RULES, "Processing nodes");
             
             processSceneNodes(XmlHelper::getChildNamed(dataDocumentContent, "nodes"), loadGameObjects);
-            processZones(XmlHelper::getChildNamed(dataDocumentContent, "zones"));
-            processSkySettings(XmlHelper::getChildNamed(dataDocumentContent, "sky"));
+            
+			ZoneProcessor zp;
+			zp.processNode(XmlHelper::getChildNamed(dataDocumentContent, "zones"), loadGameObjects);
+			
+			EnvironmentProcessor ep;
+			ep.processNode(XmlHelper::getChildNamed(dataDocumentContent, "environment"), loadGameObjects);
+            
+			WaypointProcessor wp;
+			wp.processNode(XmlHelper::getChildNamed(dataDocumentContent, "waypoints"), loadGameObjects);
             
             LOG_MESSAGE(Logger::RULES, "Map loaded");
     
             doc->release();
 
 			CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
-			///@todo: Window jobs don't work if Core is paused, think about solution 
-			CoreSubsystem::getSingleton().setPaused(false);
+			///@todo: Window fade jobs don't work if Core is paused, think about solution for: CoreSubsystem::getSingleton().setPaused(false);
         }
         else
         {
@@ -178,156 +177,6 @@ namespace rl {
 
 		setLoadingPercentage(1);
     }
-
-	void MapLoader::processZones(xercesc_2_7::DOMElement *zonesElem)
-	{
-		if (zonesElem == NULL)
-		{
-			return; // no zones
-		}
-
-        for (DOMNode* cur = zonesElem->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
-        {
-            if (cur->getNodeType() == DOMNode::ELEMENT_NODE
-				&& XmlHelper::hasNodeName(cur, "zone"))
-            {
-				DOMElement* curZoneElem = static_cast<DOMElement*>(cur);
-				if (XmlHelper::hasAttribute(curZoneElem, "type"))
-				{
-					Ogre::String type = XmlHelper::getAttributeValueAsStdString(curZoneElem, "type");
-					Zone* zone = NULL;
-					if (type == "default")
-					{
-						zone = ZoneManager::getSingleton().getDefaultZone();
-					}
-					else if (type == "mesh")
-					{
-						///@todo: zone = ZoneManager::getSingleton().createZone(...);
-					}
-					else if (type == "sphere")
-					{						
-						Vector3 center = Vector3::ZERO;
-						DOMElement* centerElem = XmlHelper::getChildNamed(curZoneElem, "center");
-						if (centerElem != NULL)
-						{
-							center = XmlHelper::getValueAsVector3(centerElem);
-						}
-
-						Real radius = 1;
-						DOMElement* radiusElem = XmlHelper::getChildNamed(curZoneElem, "radius");
-						if (radiusElem != NULL)
-						{
-							radius = XmlHelper::getAttributeValueAsReal(radiusElem, "r");
-						}
-
-						Ogre::String name = XmlHelper::getAttributeValueAsStdString(curZoneElem, "name");
-
-						zone = ZoneManager::getSingleton().createZone(
-							name, center, radius, QUERYFLAG_PLAYER);
-					}
-
-					if (zone != NULL)
-					{
-						for (DOMNode* cur = curZoneElem->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
-						{
-							if (cur->getNodeType() == DOMNode::ELEMENT_NODE)
-							{
-								DOMElement* curElem = static_cast<DOMElement*>(cur);
-								if (XmlHelper::hasNodeName(curElem, "light"))
-								{
-									Ogre::String name = XmlHelper::getAttributeValueAsStdString(curElem, "name");
-									zone->addLight(ActorManager::getSingleton().getActor(name));
-								}
-								else if (XmlHelper::hasNodeName(curElem, "sound"))
-								{
-									Ogre::String name = XmlHelper::getAttributeValueAsStdString(curElem, "name");
-									zone->addSound(name);
-								}
-								else if (XmlHelper::hasNodeName(curElem, "trigger"))
-								{
-									Ogre::String classname = 
-										XmlHelper::getAttributeValueAsStdString(curElem, "classname");
-
-									Trigger* trigger = ScriptSubsystem::getSingleton().getTriggerFactory()
-										->createTrigger(classname);
-
-									///@todo trigger properties
-								}
-							}
-						}
-					}
-					else
-					{
-						LOG_ERROR(Logger::RULES, "Zone of type '"+type+"' could not be processes.");
-					}
-				}
-				else
-				{
-					LOG_ERROR(Logger::RULES, "<zone> element must have attribute 'type'.");
-				}
-			}
-		}
-	}
-
-	void MapLoader::processSkySettings(XERCES_CPP_NAMESPACE::DOMElement* skyElem)
-	{
-        if (skyElem == NULL)
-		{
-			return;
-		}
-
-		if (!XmlHelper::hasAttribute(skyElem, "material") 
-			|| !XmlHelper::hasAttribute(skyElem, "type"))
-		{
-			LOG_ERROR(Logger::RULES, "<sky> element must have at least attributes 'type' and 'material'.");
-		}
-		else
-		{
-			Ogre::String type = XmlHelper::getAttributeValueAsStdString(skyElem, "type");
-			Ogre::String material = XmlHelper::getAttributeValueAsStdString(skyElem, "material");
-
-			bool drawFirst = true;
-			if (XmlHelper::hasAttribute(skyElem, "drawfirst"))
-			{
-				drawFirst = XmlHelper::getAttributeValueAsBool(skyElem, "drawfirst");
-			}
-			
-			Ogre::Real distance = 5000;
-			if (XmlHelper::hasAttribute(skyElem, "distance"))
-			{
-				drawFirst = XmlHelper::getAttributeValueAsBool(skyElem, "distance");
-			}				
-
-			if (type == "dome")
-			{
-				Ogre::Real curvature = 10;
-				Ogre::Real tiling = 8;
-
-				DOMElement* domeSettings = XmlHelper::getChildNamed(skyElem, "skydomesettings");
-				if (domeSettings != NULL)
-				{
-					if (XmlHelper::hasAttribute(domeSettings, "curvature"))
-					{
-						curvature = XmlHelper::getAttributeValueAsReal(domeSettings, "curvature");
-					}
-					if (XmlHelper::hasAttribute(domeSettings, "tiling"))
-					{
-						curvature = XmlHelper::getAttributeValueAsReal(domeSettings, "tiling");
-					}
-				}
-				CoreSubsystem::getSingleton().getWorld()->setSkyDome(
-					true, material, curvature, tiling, distance, drawFirst);
-			}
-			else if (type == "box")
-			{
-				CoreSubsystem::getSingleton().getWorld()->setSkyBox(true, material, distance, drawFirst);
-			}
-			else if (type == "plane")
-			{
-				LOG_ERROR(Logger::RULES, "Sky Plane is not implemented yet.");
-			}
-		}
-	}
 
     void MapLoader::setRootSceneNode(SceneNode* node)
     {

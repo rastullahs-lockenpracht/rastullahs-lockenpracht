@@ -108,16 +108,16 @@
 	<!-- Waypoints -->
 	<waypoints>
 
-		<waypoint name="temple entrance">
+		<landmark name="temple entrance">
 			<position x="5.7285" y="-7.94034" z="18.4169" />
-		</waypoint>
+		</landmark>
 
-		<waypointlist name="bauerrogalfsbetrunkenerheimweg" >
-			<waypoint name="kneipe" />
-			<waypoint name="kirche" />
-			<waypoint name="feldweg" />
-			<waypoint name="graben" />
-		</waypointlist>
+		<landmarkpath name="bauerrogalfsbetrunkenerheimweg" >
+			<landmark name="kneipe" />
+			<landmark name="kirche" />
+			<landmark name="feldweg" />
+			<landmark name="graben" />
+		</landmarkpath>
 
 	</waypoints>
 
@@ -155,7 +155,7 @@
 			<center x="141.95" y="7.20" z="32.55" />
 
 			<!-- Name of the ruby class, an instance will be created -->
-			<trigger classname="DoomsDayDevice" > 
+			<trigger classname="DoomsDayDevice" >
 				<!-- Parameters are properties -->
 				<property name="message" type="STRING" data="You triggered the dooms day device!" />
 			</trigger>
@@ -167,7 +167,7 @@
         <environment>
         	<!-- Sky Box -->
         	<sky type="box" material="ruchinsky" drawfirst="true" distance="600"/>
-        
+
         	<!-- Sky Dome -->
         	<sky type="dome" material="ruchinsky" drawfirst="true">
         		<skydomesettings curvature="10" tiling = "8" />

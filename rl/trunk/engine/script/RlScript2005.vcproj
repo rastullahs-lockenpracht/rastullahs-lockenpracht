@@ -297,6 +297,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\EnvironmentProcessor.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\GameObjectNodeProcessor.cpp"
 					>
 				</File>
@@ -314,6 +318,14 @@
 				</File>
 				<File
 					RelativePath=".\src\SoundNodeProcessor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WaypointProcessor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ZoneProcessor.cpp"
 					>
 				</File>
 			</Filter>
@@ -351,6 +363,37 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\EnvironmentProcessor.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release with Symbols|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath=".\include\GameObjectNodeProcessor.h"
 					>
 				</File>
@@ -369,6 +412,41 @@
 				<File
 					RelativePath=".\include\SoundNodeProcessor.h"
 					>
+				</File>
+				<File
+					RelativePath=".\include\WaypointProcessor.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ZoneProcessor.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release with Symbols|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 		</Filter>
