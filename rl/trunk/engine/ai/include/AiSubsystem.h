@@ -24,8 +24,11 @@ namespace rl
 {
 	class Agent;
 	class AgentManager;
-	class WayPointGraphManager;
 	class AiWorld;
+	class Landmark;
+	class LandmarkPath;
+	class WayPointGraphManager;
+
 
 	/** Central core of AI
 	 * Handles creation of all AI related object Managers.
@@ -50,10 +53,26 @@ namespace rl
 
 		/** Trigger function triggered after scene load.
 		 */
-		void onAfterSceneLoaded();
+		virtual void onAfterSceneLoaded();
+
 		/** Trigger function triggered before scene load.
 		 */
-        void onBeforeClearScene();
+        virtual void onBeforeClearScene();
+
+		/** Creates an named LandmarkPath.
+		 * @param name the path's name
+		 */
+		LandmarkPath* createLandmarkPath(const Ogre::String& name);
+
+		LandmarkPath* getLandmarkPath(const Ogre::String& name) const;
+
+		/** Creates an named Landmark.
+		 * @param name the landmark's name
+		 */
+		Landmark* createLandmark(const Ogre::String& name, const Ogre::Vector3& position);
+
+		Landmark* getLandmark(const Ogre::String& name) const;
+
 	private:
 		/** Initializes the AI subsystem.
 		 * Creates AiWorld and AgentManager, registers a scene listener,
@@ -61,12 +80,27 @@ namespace rl
 		 */
 		void initialize();
 
+		/** Removes all registered LandmarkPaths
+		 * Clears all internal lists and deallocates the memory of the 
+		 * stored objects.
+		 */
+		void removeAllLandmarkPaths();
+
+		/** Removes all registered Landmarkss
+		 * Clears all internal lists and deallocates the memory of the 
+		 * stored objects.
+		 */
+		void removeAllLandmarks();
+
 		//! single AgentManager object
 		AgentManager* mAgentManager;
 		//! single WayPointGraphManager object
 		WayPointGraphManager *mWayPointGraphManager;
 		//! AiWorld representation - WIP!!! (object to changes)
 		AiWorld* mWorld;
+
+		std::map<Ogre::String, LandmarkPath*> mLandmarkPaths;
+		std::map<Ogre::String, Landmark*> mLandmarks;
 	};
 
 	inline AiWorld* AiSubsystem::getWorld()

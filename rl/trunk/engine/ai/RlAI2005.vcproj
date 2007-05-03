@@ -325,6 +325,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Landmark.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\LandmarkPath.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\PhysicalObstacle.cpp"
 				>
 			</File>
@@ -400,6 +408,14 @@
 			</File>
 			<File
 				RelativePath=".\include\FuzzyStateMachine.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Landmark.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\LandmarkPath.h"
 				>
 			</File>
 			<File

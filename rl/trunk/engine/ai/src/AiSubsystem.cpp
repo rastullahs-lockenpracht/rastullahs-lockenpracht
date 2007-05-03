@@ -14,12 +14,15 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 #include "AiSubsystem.h"
+
 #include "AiWorld.h"
 #include "AgentManager.h"
-#include "WayPointGraphManager.h"
-#include "Logger.h"
-#include "GameLoop.h"
 #include "CoreSubsystem.h"
+#include "GameLoop.h"
+#include "Landmark.h"
+#include "LandmarkPath.h"
+#include "Logger.h"
+#include "WayPointGraphManager.h"
 #include "World.h"
 
 using namespace Ogre;
@@ -45,6 +48,8 @@ AiSubsystem::~AiSubsystem(void)
 	GameLoop::getSingleton().removeTask(AgentManager::getSingletonPtr());
     AgentManager::getSingleton().removeAllAgents();
     mWorld->removeAllObstacles();
+	removeAllLandmarkPaths();
+	removeAllLandmarks();
     delete mAgentManager;
 	delete mWayPointGraphManager;
     delete mWorld;
@@ -94,5 +99,64 @@ void AiSubsystem::onAfterSceneLoaded()
     addObstacle(o);
 */
 }
+
+Landmark* AiSubsystem::createLandmark(const Ogre::String& name, const Ogre::Vector3& position)
+{
+	Landmark* lm = new Landmark(name, position);
+	mLandmarks[name] = lm;
+	return lm;
+}
+
+Landmark* AiSubsystem::getLandmark(const Ogre::String& name) const
+{
+	std::map<Ogre::String, Landmark*>::const_iterator it = mLandmarks.find(name);
+
+	if (it == mLandmarks.end())
+	{
+		return NULL;
+	}
+	return (*it).second;
+}
+
+LandmarkPath* AiSubsystem::createLandmarkPath(const Ogre::String& name)
+{
+	LandmarkPath* path = new LandmarkPath(name);
+	mLandmarkPaths[name] = path;
+	return path;
+}
+
+LandmarkPath* AiSubsystem::getLandmarkPath(const Ogre::String& name) const
+{
+	std::map<Ogre::String, LandmarkPath*>::const_iterator it = mLandmarkPaths.find(name);
+
+	if (it == mLandmarkPaths.end())
+	{
+		return NULL;
+	}
+	return (*it).second;
+}
+
+void AiSubsystem::removeAllLandmarkPaths()
+{
+	for (std::map<Ogre::String, LandmarkPath*>::iterator it = mLandmarkPaths.begin(); 
+		it != mLandmarkPaths.end(); it++)
+	{
+		delete (*it).second;
+	}
+
+	mLandmarkPaths.clear();
+}
+
+void AiSubsystem::removeAllLandmarks()
+{
+	for (std::map<Ogre::String, Landmark*>::iterator it = mLandmarks.begin(); 
+		it != mLandmarks.end(); it++)
+	{
+		delete (*it).second;
+	}
+
+	mLandmarks.clear();
+}
+
 
 }

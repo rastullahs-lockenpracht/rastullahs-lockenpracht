@@ -17,7 +17,6 @@
 #define __RlAI_WayPointNode_H__
 
 #include "AiPrerequisites.h"
-#include "OgreVector3.h"
 
 namespace rl
 {
