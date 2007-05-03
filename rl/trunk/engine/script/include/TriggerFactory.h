@@ -25,6 +25,7 @@ namespace rl
 	class _RlScriptExport TriggerFactory
 	{
 	public:
+		virtual ~TriggerFactory() {}
 		virtual Trigger* createTrigger(const Ogre::String& classname) = 0;
 	};
 }
