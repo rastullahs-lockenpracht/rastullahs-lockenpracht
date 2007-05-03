@@ -31,10 +31,12 @@ namespace rl
         MapLoader(const Ogre::String& resourceGroup);
         void loadMap(const Ogre::String& mapresource, bool loadGameObjects = true);
     };
-    
+ 
+	%feature("director") TriggerFactory;    
     class TriggerFactory
 	{
 	public:
+		virtual ~TriggerFactory();
 		virtual rl::Trigger* createTrigger(const Ogre::String& classname) = 0;
 	};
 }

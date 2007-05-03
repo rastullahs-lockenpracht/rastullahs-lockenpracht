@@ -37,44 +37,6 @@ end
 $hpw = HeroPosWriter.new()
 print "Aktuelle Spielerposition in Log schreiben mit '$hpw.writePos'"
 
-class RubyGameObjectFactory < GameObjectFactory
-  def initialize()
-    super();
-  end
-
-  def createRubyGameObject(classname, id)
-    return Module.const_get(classname).new(id);
-  end
-end
-
-rgof = RubyGameObjectFactory.new();
-$GOM.setGameObjectFactory(rgof);
-
 require 'steering.rb'
-
-class RubyBehaviourFactory < BehaviourFactory
-  def initialize()
-    super();
-  end
-
-  def createBehaviour(classname)
-    return Module.const_get(classname).new();
-  end
-end
-
-rbf = RubyBehaviourFactory.new();
-$AI.setBehaviourFactory(rbf);
-
-class RubyTriggerFactory < TriggerFactory
-  def initialize()
-    super();
-  end
-
-  def createTrigger(classname)
-    return Module.const_get(classname).new();
-  end
-end
-
-ScriptSubsystem.getSingleton().setTriggerFactory(RubyTriggerFactory.new())
-
-require( "questsound.rb" );
+require 'initialize_factories.rb'
+require "questsound.rb"
