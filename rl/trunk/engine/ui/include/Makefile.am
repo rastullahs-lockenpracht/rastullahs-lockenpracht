@@ -2,6 +2,7 @@ noinst_HEADERS = \
     AboutWindow.h \
     ActionChoiceWindow.h \
     AbstractWindow.h \
+    CeGuiHelper.h \
     CharacterController.h \
     CharacterSheetWindow.h \
     CharacterStateWindow.h \
@@ -37,6 +38,7 @@ noinst_HEADERS = \
     PlaylistWindow.h \
     ProgressWindow.h \
     RenderSystemConfigComponent.h \
+    SaveLoadWindow.h \
     SoundDriverConfigComponent.h \
     SubtitleWindow.h \
     UiPrerequisites.h \

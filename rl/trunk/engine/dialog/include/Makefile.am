@@ -7,9 +7,11 @@ noinst_HEADERS = \
 	DialogOption.h \
 	DialogPrerequisites.h \
 	DialogResponse.h \
+	DialogScriptProcessor.h \
 	DialogSubsystem.h \
 	ScriptProcessor.h \
 	predicates/CreaturePredicates.h \
+	predicates/EigenschaftsWertPredicates.h \
 	predicates/EigenschaftsProbePredicates.h \
 	predicates/QuestKnownPredicates.h \
 	predicates/QuestPartsPredicates.h \

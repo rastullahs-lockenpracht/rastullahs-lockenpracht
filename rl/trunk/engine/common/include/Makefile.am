@@ -12,17 +12,13 @@ noinst_HEADERS =
 	Logger.h \
 	MathUtil.h \
 	OgreXercesInput.h \
-	Playlist.h \
-	SimplePlaylist.h \
-        Properties.cpp \
-        Property.cpp \
-        RastullahPrerequisites.h \
-        ScriptWrapper.h \
+    Properties.h \
+    Property.h \
+    PropertyReader.h \
+    RastullahPrerequisites.h \
+    ScriptWrapper.h \
 	Sleep.h \
 	Tripel.h \
 	XmlHelper.h \
 	XmlResource.h \
 	XmlResourceManager.h
-	
-	
-	

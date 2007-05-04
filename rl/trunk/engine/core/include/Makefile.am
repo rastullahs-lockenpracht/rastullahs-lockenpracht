@@ -9,6 +9,7 @@
 	CameraObject.h \
 	ConfigurationManager.h \
 	ContentModule.h \
+	CoreDefines.h \
 	CoreEvents.h \
 	CorePrerequisites.h \
 	CoreSubsystem.h \
@@ -54,6 +55,7 @@
 	SoundObject.h \
 	SoundResource.h \
 	TrackAnimation.h \
+	Trigger.h \
 	World.h \
 	Zone.h \
 	ZoneManager.h \

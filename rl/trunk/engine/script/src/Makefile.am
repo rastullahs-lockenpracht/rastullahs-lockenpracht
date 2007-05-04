@@ -14,12 +14,16 @@ libRlScript_la_LDFLAGS = \
     -Wl,--defsym -Wl,Init_libRlScript=Init_RlScript
 	
 libRlScript_la_SOURCES = \
-  ScriptSubsystem.cpp \
-  ScriptObjectMarker.cpp \
-	../swig/RlExports.cxx \
 	AbstractMapNodeProcessor.cpp \
 	EntityNodeProcessor.cpp \
+	EnvironmentProcessor.cpp \
 	GameObjectNodeProcessor.cpp \
 	LightNodeProcessor.cpp \
 	MapLoader.cpp \
-	SoundNodeProcessor.cpp
+	ParticleSystemNodeProcessor.cpp \
+	ScriptSubsystem.cpp \
+	ScriptObjectMarker.cpp \
+	SoundNodeProcessor.cpp \
+	WaypointProcessor.cpp \
+	ZoneProcessor.cpp \
+	../swig/RlExports.cxx 

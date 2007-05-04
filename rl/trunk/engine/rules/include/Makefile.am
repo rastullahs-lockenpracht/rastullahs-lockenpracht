@@ -1,6 +1,7 @@
 noinst_HEADERS = \
 	Action.h \
 	ActionManager.h \
+	Armor.h \
 	Combat.h \
 	CombatManager.h \
 	Container.h \
@@ -13,8 +14,11 @@ noinst_HEADERS = \
 	Eigenschaft.h \
 	EigenschaftenStateSet.h \
 	GameObject.h \
+	GameObjectConstants.h \
+	GameObjectStateListener.h \
 	Item.h \
 	Inventory.h \
+	JournalEntry.h \
 	Kampftechnik.h \
 	ObjectStateChangeEvent.h \
 	ObjectStateChangeEventSource.h \
@@ -28,6 +32,7 @@ noinst_HEADERS = \
 	RulesSubsystem.h \
 	SelectionHelper.h \
 	Selector.h \
+	Slot.h \
 	StateSet.h \
 	SonderfertigkeitenStateSet.h \
 	Talent.h \

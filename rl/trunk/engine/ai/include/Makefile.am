@@ -3,6 +3,7 @@ noinst_HEADERS =
 	AgentManager.h \
 	AiPrerequisites.h \
 	AiSubsystem.h \
+	AiWorld.h \
 	AStarCosts.h \
 	AStar.h \
 	AStarHeuristic.h \
@@ -10,7 +11,10 @@ noinst_HEADERS =
 	AStarWayPointNode.h \
 	FuzzyState.h \
 	FuzzyStateMachine.h \
+	Landmark.h \
+	LandmarkPath.h \
 	PhysicalObstacle.h \
+	PlayerVehicle.h \
 	SteeringMachine.h \
 	SteeringVehicle.h \
 	WayPointNode.h \

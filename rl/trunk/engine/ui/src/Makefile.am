@@ -28,7 +28,6 @@ libRlUi_la_SOURCES = \
     GameLoggerWindow.cpp \
     GameObjectInfoWindow.cpp \
     GameObjectPropsWindow.cpp \
-    SaveLoadWindow.cpp \
     GameSettings.cpp \
     InfoPopup.cpp \
     InGameMenuWindow.cpp \
@@ -46,6 +45,8 @@ libRlUi_la_SOURCES = \
     PlaylistWindow.cpp \
     ProgressWindow.cpp \
     RenderSystemConfigComponent.cpp \
+    SaveLoadWindow.cpp \
+    SoundConfig.cpp \
     SoundDriverConfigComponent.cpp \
     SubtitleWindow.cpp \
     UiSubsystem.cpp \

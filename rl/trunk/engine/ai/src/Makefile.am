@@ -15,6 +15,8 @@ libRlAi_la_SOURCES = \
 	AStarWayPointNode.cpp \
 	FuzzyState.cpp \
 	FuzzyStateMachine.cpp \
+	Landmark.cpp \
+	LandmarkPath.cpp \
 	PhysicalObstacle.cpp \
 	PlayerVehicle.cpp \
 	SteeringVehicle.cpp \
