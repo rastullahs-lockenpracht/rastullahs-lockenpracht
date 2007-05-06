@@ -15,6 +15,14 @@
 			<physicsproxy type="none" /> <!-- type is none|box|sphere|ellipsoid|mesh|convexhull|custom -->
 			<renderingdistance data="20000" />
 
+			<!-- active animations and tracks -->
+            <animation type="track" name="eagle_path_1" active="false"/>
+            <animation type="track" name="eagle_path_2" active="false">
+                       <keyframe framenr="1">
+                                 <translation x="0" y="1" z="2"/>
+                                 <rotation qx="0.000000" qy="-0.975135" qz="0.000000" qw="0.221611"/>
+                       </keyframe>
+            <animation type="mesh" name="fly"/>
 		</entity>
 
 		<!-- static mesh with custom collision-->
@@ -42,7 +50,6 @@
 					<center x="141.95" y="7.20" z="32.55" />
 				</collision>
 			</physicsproxy>
-
 		</entity>
 
 
