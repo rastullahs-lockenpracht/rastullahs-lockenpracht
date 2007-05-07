@@ -68,10 +68,10 @@ namespace rl
         // Preconditions: time > 0, effect != NULL
         if (time <= 0) Throw(IllegalArgumentException, "time parameter is <= 0!");
         if (effect == NULL) Throw(IllegalArgumentException, "effect pointer is NULL!");
-        // Hole aktuelle ingame Zeit und addiere time darauf
+        // Get current ingame time and add timeUntilCheck
         RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
         RL_LONGLONG timeForCheck = now + timeUntilCheck;
-        // Fuege die Summe und Effekt in die Checklist ein
+        // Insert Sum and effect into the checklist
         mChecklist[timeForCheck].insert(effect);
     }
     
@@ -81,7 +81,7 @@ namespace rl
         RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
         if (date <= now) Throw(IllegalArgumentException, "date lies in the past!");
         if (effect == NULL) Throw(IllegalArgumentException, "effect pointer is NULL!");
-        // Fuege Datum und Effekt in die Checklist ein
+        // Insert date and effect into the checklist
         mChecklist[date].insert(effect);
     }
 
@@ -113,11 +113,25 @@ namespace rl
     
     void EffectManager::removeEffect(Effect* effect)
     {
-      effect->disable();
       mEffects.erase(effect);
       ScriptWrapper::getSingleton().disowned(effect);
       ///@todo also remove from the check lists?
     }
+
+    void EffectManager::removeEffect(CeGuiString name)
+    {
+		for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
+		{
+            if ((*it)->getName() == name)
+            {
+                ScriptWrapper::getSingleton().disowned(*it);
+                mEffects.erase(it);
+                return;
+            }
+        }
+    }
+
+
     
     Effect::Status EffectManager::getStatus()
     {

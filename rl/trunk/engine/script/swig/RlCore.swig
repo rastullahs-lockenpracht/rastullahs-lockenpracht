@@ -842,6 +842,15 @@ private:
     bool execute(Ogre::Real time);
 };
 
+class LightFadeJob : public rl::Job
+{
+public:
+    LightFadeJob(LightObject* lightObject, const Ogre::ColourValue& targetDiffuse, 
+        const Ogre::ColourValue& targetSpecular, Ogre::Real duration = 1.0f);
+
+    virtual bool execute(Ogre::Real time);
+};
+
 class JobScheduler
 {
 public:

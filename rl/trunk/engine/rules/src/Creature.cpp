@@ -802,10 +802,13 @@ namespace rl
             tp = 0;
         }
         ///@todo auf Verletzlichkeiten und Immunitaeten achten
-        if ((damageType&LEDAMAGE_FIRE) == LEDAMAGE_FIRE) CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Fire!\"");
-        if ((damageType&LEDAMAGE_WATER) == LEDAMAGE_WATER) CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Water!\"");
-        if ((damageType&LEDAMAGE_DEMONIC) == LEDAMAGE_DEMONIC) CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Demons!\"");
-        if ((damageType&LEDAMAGE_TP_A) == LEDAMAGE_TP_A)
+        if ((damageType & LEDAMAGE_FIRE) == LEDAMAGE_FIRE) 
+            CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Fire!\"");
+        if ((damageType & LEDAMAGE_WATER) == LEDAMAGE_WATER) 
+            CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Water!\"");
+        if ((damageType & LEDAMAGE_DEMONIC) == LEDAMAGE_DEMONIC) 
+            CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Demons!\"");
+        if ((damageType & LEDAMAGE_TP_A) == LEDAMAGE_TP_A)
         {
             damageAu(tp, AUDAMAGE_NORMAL);
             tp = (int)floor(tp/2.);

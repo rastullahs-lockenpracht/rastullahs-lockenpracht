@@ -457,6 +457,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\LightFadeJob.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\LightObject.h"
 				>
 			</File>
@@ -703,6 +707,10 @@
 			</File>
 			<File
 				RelativePath=".\src\JobScheduler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\LightFadeJob.cpp"
 				>
 			</File>
 			<File

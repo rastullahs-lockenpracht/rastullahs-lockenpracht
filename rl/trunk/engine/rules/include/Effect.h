@@ -78,17 +78,6 @@ namespace rl
             QUANTIFIER_UNIQUE_BUT_CUMULATIVE
         };
 
-        /**
-         *  Spezifiziert bestimmte Merkmale eines Effekts und erlaubt damit darauf zu
-         *  reagieren.
-         *  @warning Das Konzept ist nur ein Prototyp und kann jederzeit verworfen 
-         *   werden.
-         **/
-        enum EffectTag
-        {
-            EFFECTTAG_NONE,
-            EFFECTTAG_KRANKHEIT
-        };
 
         /// Setzt den Quantifier standardmaessig auf QUANTIFIER_MULTIPLE.
 		Effect(int stufe = 1);

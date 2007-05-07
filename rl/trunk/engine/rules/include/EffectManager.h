@@ -40,7 +40,7 @@ namespace rl
 		~EffectManager();
 
         /**
-         *  Ueberprueft die Effekte auf Veraenderungen.
+         *  Checks effects for changes.
          **/
 		void checkEffects();
         /** 
@@ -69,7 +69,11 @@ namespace rl
          **/
 		void addEffect(Effect* effect);
         
+        /// Removes effects by pointer.
         void removeEffect(Effect* effect);
+
+        /// Removes effects by name.
+        void removeEffect(CeGuiString name);
         
         /**
          * Checks the effects for the given status.
@@ -88,12 +92,6 @@ namespace rl
         /// Eine einfache Menge von Effekten
 		typedef std::set<Effect*> Effects;
 		Effects mEffects;
-        /**
-         * Eine Liste von Tags und Effekten die auf das hinzufuegen
-         * eines Effekts mit diesem Tag reagieren.
-         **/
-        typedef std::map<Effect::EffectTag, Effects> Watchlist;
-		Watchlist mWatchlist;
         /**
          * Eine Liste die wiedergibt, wann welcher Effekt
          * ueberprueft werden muss.

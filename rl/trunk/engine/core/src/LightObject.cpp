@@ -56,6 +56,11 @@ namespace rl {
         getLight()->setDiffuseColour(colour);
     }
 
+    Ogre::ColourValue LightObject::getDiffuseColour() const
+    {
+        return getLight()->getDiffuseColour();
+    }
+
     void LightObject::setDirection( Real x, Real y, Real z)
     {
         getLight()->setDirection(x,y,z);
@@ -74,6 +79,11 @@ namespace rl {
     void LightObject::setSpecularColour(Real red, Real green, Real blue)
     {
         getLight()->setSpecularColour(red,green,blue);
+    }
+
+    Ogre::ColourValue LightObject::getSpecularColour() const
+    {
+        return getLight()->getSpecularColour();
     }
 
 	void LightObject::setSpotlightRange( Real innerAngle, Real outerAngle,

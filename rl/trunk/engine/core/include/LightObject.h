@@ -42,8 +42,10 @@ namespace rl {
             Ogre::Real linear, Ogre::Real quadric);
         void setDiffuseColour(Ogre::Real red, Ogre::Real green, Ogre::Real blue);
         void setDiffuseColour(const Ogre::ColourValue& colour);
+        Ogre::ColourValue getDiffuseColour() const;
         void setSpecularColour(Ogre::Real red, Ogre::Real green, Ogre::Real blue);
         void setSpecularColour(const Ogre::ColourValue& colour);
+        Ogre::ColourValue getSpecularColour() const;
         void setDirection(Ogre::Real x, Ogre::Real y, Ogre::Real z);
         void setDirection(const Ogre::Vector3& direction);
 		void setSpotlightRange(Ogre::Real innerAngle, Ogre::Real outerAngle,

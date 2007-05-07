@@ -22,7 +22,7 @@
 namespace rl
 {
     /** A Job is an independent executional entity, that encapsules a singe specific task
-     *  of a some finite duration.
+     *  of some finite duration.
      *  If you want some task to be executed every frame over the length of the game,
      *  use GameTask instead.<br>
      *  A Job is registered with the JobScheduler using JobScheduler#addJob.

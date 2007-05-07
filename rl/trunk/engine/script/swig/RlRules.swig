@@ -549,14 +549,7 @@ namespace rl {
             QUANTIFIER_UNIQUE_BUT_PROLONGABLE,
             QUANTIFIER_UNIQUE_BUT_CUMULATIVE
         };
-
-        enum EffectTag
-        {
-            EFFECTTAG_NONE,
-            EFFECTTAG_KRANKHEIT
-        };
         
-
       // other constants
         static const int REMOVE = -1;
         static const int PERMANENT = 0;
