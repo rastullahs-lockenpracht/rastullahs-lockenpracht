@@ -17,6 +17,7 @@
 
 #include <OgreRoot.h>
 #include <OgreWindowEventUtilities.h>
+#include <OgreRenderWindow.h>
 
 #include "GameTask.h"
 #include "CoreSubsystem.h"
@@ -100,7 +101,7 @@ namespace rl
         mGameTime = mTimer->getMilliseconds() - 50;
 
         // Loop until game exit is requested.
-        while (!mQuitRequested)
+        while (!mQuitRequested && !CoreSubsystem::getSingleton().getRenderWindow()->isClosed())
         {
             _executeOneRenderLoop();
         }
