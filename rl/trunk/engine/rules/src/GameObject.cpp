@@ -469,12 +469,16 @@ namespace rl
 				std::vector<Property> vecVal = value.toArray();
 				for (std::vector<Property>::iterator it = vecVal.begin(); it != vecVal.end(); it++)
 				{
-					Action* act = ActionManager::getSingleton().getAction(
-						(*it).toString().c_str());
+					Ogre::String actionName = (*it).toString().c_str();
+					Action* act = ActionManager::getSingleton().getAction(actionName);
 
 					if (act != NULL)
 					{
 						addAction(act);
+					}
+					else
+					{
+						LOG_ERROR(Logger::RULES, "'"+actionName+"' not registered at ActionManager.");
 					}
 				}
 			}
