@@ -80,7 +80,7 @@ namespace rl {
         mCharacterState(),
         mDesiredDistance(2.00),
         mDistanceRange(0.60, 7.00),
-        mYaw(0),
+        mYaw(180),
         mCamYaw(0),
         mCamVirtualYaw(0),
         mPitch(20),
@@ -835,7 +835,7 @@ namespace rl {
 
 
         // ---------------------------- show animation -----------------------------
-        if (newAnimation != "")
+        if (newAnimation != "" && newAnimation != "drehen_links" && newAnimation != "drehen_rechts" )
         {
             // nur schneller nicht langsamer ausfhren!
             if (animSpeed < 1) animSpeed = 1;
@@ -1181,35 +1181,21 @@ namespace rl {
 
             // Calculate angular velocity
             // We first need the yaw rotation from actual yaw to desired yaw
-            Vector3 src = orientation*Vector3::NEGATIVE_UNIT_Z;
+            Vector3 src = orientation*Vector3::UNIT_Z;
             src.y = 0;
             Vector3 dst = Quaternion(mYaw, Vector3::UNIT_Y)*Vector3::UNIT_Z;
             dst.y = 0;
-            Radian yaw = src.getRotationTo(dst).getYaw();
+            Radian yaw = src.getRotationTo(dst, Vector3::UNIT_Y).getYaw();
 
-/*
-            // was soll dieser komische Fehler?
-            // wenn yaw 0 sein sollte, wird er manchmal zu -90 grad, find ich nich nett
-            if( (yaw.valueDegrees() - (-90)) < 0.5 )
-                if( src.directionEquals(-dst, Degree(45)) )
-                    yaw = Degree(0);
-*/
-            if( src.directionEquals(dst, Degree(1)))
-                yaw = Degree(0);
 
-            // Calculate omega in order to go this rotation in mMaxDelay seconds.
-            // Real newOmega = yaw.valueRadians() / mMaxDelay;
+            // using a spring system to apply the rotation
             Vector3 diff = Vector3(0, yaw.valueRadians(), 0);
             Vector3 omega = mCharBody->getOmega();
             omega.x = omega.z = 0;
-            // sollte nicht direkt gesetzt werden!
-            Vector3 springAcc = -mRotLinearSpringK*diff - mRotLinearDampingK * omega;
+            // should not set directly orientation!
+            Vector3 springAcc = mRotLinearSpringK*diff - mRotLinearDampingK * omega;
             //body->setOmega(Vector3(0, newOmega, 0)); // omega sollte nicht direkt gesetzt werden
-//            body->setTorque( mass * springAcc );
-
-            // All this doesn't work correctly with the new version of ogre
-            // So we set the orientation directly until the problem is solved
-            mCharacterActor->setOrientation(Quaternion(mYaw, Vector3::UNIT_Y));
+            body->setTorque( mass * springAcc );
         }
 
 
