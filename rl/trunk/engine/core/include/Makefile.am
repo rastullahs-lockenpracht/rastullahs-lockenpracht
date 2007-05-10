@@ -27,6 +27,7 @@
 	Job.h \
 	JobListener.h \
 	JobScheduler.h \
+	LightFadeJob.h \
 	LightObject.h \
 	LineSetPrimitive.h \
 	ListenerMovable.h \

@@ -32,6 +32,7 @@ libRlCore_la_SOURCES = \
 	Job.cpp \
 	JobScheduler.cpp \
 	LightObject.cpp \
+	LightFadeJob.cpp \
 	LineSetPrimitive.cpp \
 	ListenerObject.cpp \
 	ListenerMovable.cpp \
