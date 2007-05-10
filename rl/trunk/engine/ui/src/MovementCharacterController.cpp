@@ -137,6 +137,8 @@ namespace rl {
         CreatureSelectionFilter* filter = new CreatureSelectionFilter();
         filter->setAlignmentMask(Creature::ALIGNMENT_ENEMY);
         mCombatSelector.setFilter(filter);
+
+        mSelector.setFilter(new InSceneSelectionFilter());
     }
 
     //------------------------------------------------------------------------

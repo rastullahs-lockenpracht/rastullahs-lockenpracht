@@ -44,6 +44,19 @@ namespace rl
         return false;
     }
 
+    InSceneSelectionFilter::InSceneSelectionFilter()
+    {
+    }
+
+    bool InSceneSelectionFilter::pass(GameObject* go) const
+    {
+        if (go->getState() == GOS_IN_SCENE)
+        {
+            return true;
+        }
+        return false;
+    }
+
     Selector::Selector(unsigned long mask) : mSelection(), mSelectionMask(mask), mFilter(NULL)
     {
     }

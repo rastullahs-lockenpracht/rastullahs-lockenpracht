@@ -48,6 +48,15 @@ namespace rl {
         unsigned int mAlignment;
     };
 
+    class _RlRulesExport InSceneSelectionFilter : public SelectionFilter
+    {
+    public:
+        InSceneSelectionFilter();
+
+        /// Return true, if the GameObject is in scene with properties as set in the filter.
+        virtual bool pass(GameObject*) const;
+    };
+
     /// Superclass for all Selectors in RL.
     /// Selectors provide a way to query for GameObjects in a game.
     /// Either in the scene, or inventory, or anywhere else.
