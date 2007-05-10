@@ -57,7 +57,7 @@ namespace rl
         mModulesCfgFile = "modules.cfg";
 
         // Setup general default values
-        addSetting("General", "LogLevel", "2");
+        addSetting("General", "Log Level", "2");
         addSetting("General", "Subtitle Speed", "0.0");
 
         // Setup sound default values
