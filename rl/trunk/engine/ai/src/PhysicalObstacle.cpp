@@ -25,8 +25,10 @@ using namespace Ogre;
 
 namespace rl {
     PhysicalObstacle::PhysicalObstacle(PhysicalThing *thing)
+		: mPhysicalThing(thing),
+		  mObstacle(NULL)
     {
-        setPhysicalThing(thing);
+        _update();
     }
      
     PhysicalObstacle::~PhysicalObstacle()

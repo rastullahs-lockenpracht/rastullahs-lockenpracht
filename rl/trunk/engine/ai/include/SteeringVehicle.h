@@ -325,10 +325,10 @@ namespace rl
 
 		/** retrieves the neighbours of this SteeringVehicle
 		 */
-		OpenSteer::AVGroup getNeighbors();
+		OpenSteer::AVGroup getNeighbors() const;
 		/** retrieves the obstacles
 		 */
-		OpenSteer::ObstacleGroup getObstacles();
+		const OpenSteer::ObstacleGroup& getObstacles() const;
 
 	//    float _mass;       // mass (defaults to unity so acceleration=force)
     //   float _radius;     // size of bounding sphere, for obstacle avoidance, etc.

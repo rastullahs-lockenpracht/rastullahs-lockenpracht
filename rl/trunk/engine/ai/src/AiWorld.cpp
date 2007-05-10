@@ -56,7 +56,7 @@ void AiWorld::addObstacle(Obstacle* obstacle)
 	mObstacles.push_back(obstacle);	
 }
 
-ObstacleGroup AiWorld::getSteeringObstacles()
+const ObstacleGroup& AiWorld::getSteeringObstacles()
 {
 	return mObstacles;
 }

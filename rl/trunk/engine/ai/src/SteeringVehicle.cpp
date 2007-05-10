@@ -260,11 +260,11 @@ void SteeringVehicle::setAnimation(const CeGuiString& name)
 }
 
 
-AVGroup SteeringVehicle::getNeighbors()
+AVGroup SteeringVehicle::getNeighbors() const
 {
 	AVGroup group;
 	AgentManager::VehicleList list = AgentManager::getSingleton().getNeighbors(NULL);
-	AgentManager::VehicleList::iterator itr = list.begin();
+	AgentManager::VehicleList::const_iterator itr = list.begin();
 	for(; itr != list.end(); ++itr)
 	{
 		if( (*itr) != this )
@@ -359,7 +359,7 @@ float SteeringVehicle::setMaxSpeed (float ms)
 	return _maxSpeed = ms;
 }
 
-ObstacleGroup SteeringVehicle::getObstacles()
+const ObstacleGroup& SteeringVehicle::getObstacles() const
 {
 	return AiSubsystem::getSingleton().getWorld()->getSteeringObstacles();
 }

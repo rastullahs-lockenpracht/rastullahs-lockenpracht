@@ -36,7 +36,7 @@ namespace rl {
             PhysicalObstacle(PhysicalThing *thing);
 			/** explicit default destructor
 			 */
-            virtual ~PhysicalObstacle();
+            ~PhysicalObstacle();
             /** returns the associated OpenSteer::Obstacle.
 			 */
             OpenSteer::Obstacle *getObstacle() const;

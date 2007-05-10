@@ -35,7 +35,7 @@ namespace rl
 
 		/** Returns a list of obstacles for OpenSteer.
 		 */
-		OpenSteer::ObstacleGroup getSteeringObstacles();
+		const OpenSteer::ObstacleGroup& getSteeringObstacles();
 		/** Adds an obstacle to the internal list of obstacles
 		 */
 		void addObstacle(OpenSteer::Obstacle* obstacle);
