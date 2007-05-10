@@ -178,11 +178,18 @@ namespace rl
             if( charObj != NULL )
             {
                 Ogre::Vector3 pos = charObj->getMovableObject()->getParentNode()->getWorldPosition();
+                Ogre::Quaternion ori = charObj->getMovableObject()->getParentNode()->getWorldOrientation();
 
                 textSt += "\nPlayer Position [ "
                     + StringConverter::toString(pos.x,2,0,32,std::ios_base::fixed)+", "
                     + StringConverter::toString(pos.y,2,0,32,std::ios_base::fixed)+", "
                     + StringConverter::toString(pos.z,2,0,32,std::ios_base::fixed)+" ]";
+
+                textSt += "\nPlayer Orientation [ "
+                    + StringConverter::toString(ori.w,4,0,32,std::ios_base::fixed)+", "
+                    + StringConverter::toString(ori.x,2,0,32,std::ios_base::fixed)+", "
+                    + StringConverter::toString(ori.y,2,0,32,std::ios_base::fixed)+", "
+                    + StringConverter::toString(ori.z,2,0,32,std::ios_base::fixed)+" ]";
             }
         }
 
