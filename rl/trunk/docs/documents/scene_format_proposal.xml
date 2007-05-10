@@ -180,9 +180,18 @@
         		<skydomesettings curvature="10" tiling = "8" />
         	</sky>
 
-        	<fog type="exp" expdensity="0.001" />
+        	<fog type="exp" density="0.001">
+        	     <colour r="0.3" g="0.3" b="0.3" />
+        	</fog>
 
-        	<fog type="linear" start="0.0" end="1.0"/>
+        	<fog type="exp2" density="0.001">
+        	     <colour r="0.3" g="0.3" b="0.3" />
+        	</fog>
+
+        	<fog type="linear" start="0.0" end="1.0">
+        	     <colour r="0.5" g="0.5" b="0.5" />
+        	</fog>
+
        	</environment>
 
 </rastullahmap>

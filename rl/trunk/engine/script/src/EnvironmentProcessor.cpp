@@ -104,6 +104,65 @@ namespace rl
 	void EnvironmentProcessor::processFogSettings(XERCES_CPP_NAMESPACE::DOMElement* fogElem)
 	{
 		///@todo process fog node
-	}
+		if (!XmlHelper::hasAttribute(fogElem, "material"))
+		{
+			LOG_ERROR(
+				Logger::RULES, 
+				"<fog> element must have at least the attribute 'type'.");
+			return;
+		}
 
+		DOMElement* colourElem = XmlHelper::getChildNamed(fogElem, "colour");
+		if (colourElem == NULL)
+		{
+			LOG_ERROR(Logger::RULES, "No fog colour set.");
+			return;
+		}
+		ColourValue fogColour = processColour(colourElem);
+
+		Ogre::String type = XmlHelper::getAttributeValueAsStdString(fogElem, "type");
+		if (type == "exp" || type == "exp2")
+		{
+			if (XmlHelper::hasAttribute(fogElem, "density"))
+			{
+				Ogre::Real density = XmlHelper::getAttributeValueAsReal(fogElem, "density");
+				if (type == "exp")
+				{
+					CoreSubsystem::getSingleton().getWorld()->setFog(
+						World::FOG_EXP, fogColour, density);
+				}
+				else if (type == "exp2")
+				{
+					CoreSubsystem::getSingleton().getWorld()->setFog(
+						World::FOG_EXP2, fogColour, density);
+				}
+			}
+			else
+			{
+				LOG_ERROR(
+					Logger::RULES, type + " fog needs attribute 'density'.");
+			}
+		}
+		else if (type == "linear")
+		{
+			if (XmlHelper::hasAttribute(fogElem, "start")
+				&& XmlHelper::hasAttribute(fogElem, "end"))
+			{
+				Ogre::Real start = XmlHelper::getAttributeValueAsReal(fogElem, "start");
+				Ogre::Real end = XmlHelper::getAttributeValueAsReal(fogElem, "end");
+				CoreSubsystem::getSingleton().getWorld()->setFog(
+					World::FOG_LINEAR, fogColour, 0, start, end);
+			}
+			else
+			{
+				LOG_ERROR(
+					Logger::RULES, "linear fog needs attributes 'start' and 'end'.");
+			}
+		}
+		else
+		{
+			LOG_ERROR(
+				Logger::RULES, type + " is an unknown fog type.");
+		}
+	}
 }

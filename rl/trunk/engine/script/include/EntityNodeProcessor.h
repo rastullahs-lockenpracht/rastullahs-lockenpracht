@@ -47,7 +47,8 @@ namespace rl
         Ogre::String mResourceGroup;
 
         void createCollision(Ogre::Entity* entity, Ogre::String meshFile, XERCES_CPP_NAMESPACE::DOMElement* physicsProxyElem);
-    };
+		void processAnimation(Ogre::Entity* entity, xercesc_2_7::DOMElement *animationElem);
+	};
 }
 
 #endif // __EntityNodeProcessor_H__

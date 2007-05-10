@@ -18,6 +18,7 @@
 #include <OgreEntity.h>
 #include <OgreMeshManager.h>
 #include <OgreNewt_CollisionPrimitives.h>
+#include <xercesc/dom/DOM.hpp>
 
 #include "CoreSubsystem.h"
 #include "PhysicsManager.h"
@@ -125,6 +126,17 @@ namespace rl
         {
             parentNode->scale(processVector3(scaleElem));
         }
+
+		AutoXMLCh animation("animation");
+		DOMNodeList* list = nodeElem->getElementsByTagName(animation.data());
+		for (XMLSize_t idx = 0; idx < list->getLength(); idx++)
+		{
+			DOMNode* cur = list->item(idx);
+			if (cur->getNodeType() == DOMNode::ELEMENT_NODE)
+			{
+				processAnimation(newEnt, static_cast<DOMElement*>(cur));
+			}
+		}
         
         return true;
     }
@@ -276,6 +288,11 @@ namespace rl
             PhysicsManager::getSingleton().addLevelGeometry(entity, collisions);
             LOG_DEBUG(Logger::RULES, " Entity '"+entity->getName()+"' in levelGeometry geladen");
         }
+	}
+
+	void EntityNodeProcessor::processAnimation(Ogre::Entity* entity, xercesc_2_7::DOMElement *animationElem)
+	{
+		///@todo EntityNodeProcessor::processAnimation
 	}
 
 }
