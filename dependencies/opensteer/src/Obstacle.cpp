@@ -98,7 +98,8 @@ firstPathIntersectionWithObstacleGroup (const AbstractVehicle& vehicle,
     // future path, select the one whose point of intersection is nearest
     next.intersect = false;
     nearest.intersect = false;
-    for (ObstacleIterator o = obstacles.begin(); o != obstacles.end(); o++)
+    ObstacleIterator o;
+    for (o = obstacles.begin(); o != obstacles.end(); o++)
     {
         // find nearest point (if any) where vehicle path intersects obstacle
         // o, storing the results in PathIntersection object "next"
