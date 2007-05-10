@@ -18,7 +18,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="..\lib"
-			IntermediateDirectory=".\obj"
+			IntermediateDirectory=".\obj\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
@@ -91,7 +91,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="..\lib"
-			IntermediateDirectory=".\obj"
+			IntermediateDirectory=".\obj\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
