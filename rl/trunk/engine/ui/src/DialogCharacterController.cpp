@@ -75,6 +75,18 @@ namespace rl {
 
     void DialogCharacterController::pause()
     {
+        if(mDialogPartner)
+        {
+            MeshObject* mesh = dynamic_cast<MeshObject*>(mDialogPartner->getControlledObject());
+            if (mesh != NULL)
+            {
+                mesh->stopAllAnimations();
+                if (mesh->hasAnimation("idle"))
+                {
+                    mTalkAnimation = mesh->startAnimation("idle");
+                }
+            }
+        }
         mCameraActor->getPhysicalThing()->unfreeze();
         mCharacterActor->getPhysicalThing()->unfreeze();
         mDialogWindow->setVisible(false, false);
