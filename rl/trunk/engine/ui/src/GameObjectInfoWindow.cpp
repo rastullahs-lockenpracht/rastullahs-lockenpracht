@@ -75,7 +75,11 @@ namespace rl {
 		const ActionVector actions = mGameObject->getValidActions(mCharacter);
 		for (ActionVector::const_iterator it = actions.begin(); it != actions.end(); it++)
 		{
-			addActionButton(*it);
+            if ((*it)->getName() != GameObject::DEFAULT_VIEW_OBJECT_ACTION 
+                && (*it)->getName() != GameObject::DEFAULT_VIEW_OBJECT_ACTION_DEBUG)
+            {
+                addActionButton(*it);
+            }
 		}
 	}
 
