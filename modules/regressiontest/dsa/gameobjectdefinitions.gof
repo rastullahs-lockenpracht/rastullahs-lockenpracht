@@ -66,9 +66,9 @@
         <property name="volume" type="INTPAIR" data="8,6"/>
         <property name="size" type="INTPAIR" data="2,2"/>
         <property name="actions" type="ARRAY">
-        	<property type="STRING" data="act_showcontainercontent"/>
+        	<property type="STRING" data="showcontainercontent"/>
         </property>
-        <property name="defaultaction" type="STRING" data="act_showcontainercontent"/>
+        <property name="defaultaction" type="STRING" data="showcontainercontent"/>
     </gameobjectclass>
 
     <!-- ErrorHandlingTest -->
