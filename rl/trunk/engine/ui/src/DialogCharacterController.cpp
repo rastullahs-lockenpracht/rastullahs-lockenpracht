@@ -95,6 +95,8 @@ namespace rl {
 
     void DialogCharacterController::resume()
     {
+        mCharacterActor->setVisible(true);
+
         mCameraActor->getPhysicalThing()->freeze();
         mCharacterActor->getPhysicalThing()->freeze();
         Camera* ogreCam = static_cast<Camera*>(mCameraActor->_getMovableObject());
