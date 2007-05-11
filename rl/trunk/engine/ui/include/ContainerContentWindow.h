@@ -38,6 +38,8 @@ namespace rl {
 		static int sItemCount;
 
 		bool handleItemDroppedOnContainer(const CEGUI::EventArgs& evt);
+        bool handleItemMouseClick(const CEGUI::EventArgs& evt, Item* item);
+        bool handleItemDoubleClick(const CEGUI::EventArgs& evt, Item* item);
 		void initializeContent();
 		CEGUI::Window* createItemWindow(Item* item);
 	};

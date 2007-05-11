@@ -24,6 +24,7 @@
 #include "Container.h"
 #include "InventoryWindow.h"
 #include "ItemDragContainer.h"
+#include "WindowFactory.h"
 
 using namespace CEGUI;
 
@@ -64,6 +65,14 @@ namespace rl {
 				UVector2(
 					cegui_absdim(pos.first*30),
 					cegui_absdim(pos.second*30)));
+
+            itemWindow->subscribeEvent(
+                Window::EventMouseClick,
+                boost::bind(&ContainerContentWindow::handleItemMouseClick, this, _1, item));
+
+            itemWindow->subscribeEvent(
+                Window::EventMouseDoubleClick,
+                boost::bind(&ContainerContentWindow::handleItemDoubleClick, this, _1, item));
 
 			mContentWindow->addChildWindow(itemWindow);
 		}
@@ -152,4 +161,32 @@ namespace rl {
 
 		return itemhandler;
 	}
+
+    bool ContainerContentWindow::handleItemMouseClick(const EventArgs& evt, Item* item)
+    {
+        const MouseEventArgs& mevt = static_cast<const MouseEventArgs&>(evt);
+        if (mevt.button == RightButton)
+        {
+            WindowFactory::getSingleton().showActionChoice(item);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    bool ContainerContentWindow::handleItemDoubleClick(const EventArgs& evt, Item* item)
+    {
+        const MouseEventArgs& mevt = static_cast<const MouseEventArgs&>(evt);
+        if (mevt.button == LeftButton)
+        {
+            item->doDefaultAction(NULL,NULL);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
