@@ -993,7 +993,7 @@ namespace rl {
             if( mViewMode == VM_FIRST_PERSON )
                 return 0;
 
-            setContactSoftness(1.0f);  // "weiche" Collision
+            setContactSoftness(1.0f);
             setContactElasticity(0.0f);
 
             return 1;
@@ -1018,34 +1018,38 @@ namespace rl {
             AxisAlignedBox CharAab = mCharBody->getCollision()->getAABB();
             Real CharHeight = CharAab.getMaximum().y - CharAab.getMinimum().y;
             Real stepHeight = point.y - charPos.y;
-            if( stepHeight < 0.4f && mCharacterState.mHasFloorContact ||
-                stepHeight < 0.1f )
+/*
+            if( stepHeight < 0.5f && mCharacterState.mHasFloorContact ||
+                stepHeight < 0.2f )
+*/
+            if( stepHeight < 0.5f )
                 isFloorCollision = true;
 
             if ( isFloorCollision )
             {
                 mCharacterState.mHasFloorContact = true;
+                if(stepHeight > 0.1f)
+                    setContactNormalAcceleration(10);
+                setContactElasticity(0.0f);
             }
             else
             {
-
-                Vector3 velocity = mCharBody->getVelocity();
+                // what is the aim of this, this does nothing without an setContactTangentAcceleration, doesn't it?
+                //Vector3 velocity = mCharBody->getVelocity();
 
                 // calculate char velocity perpendicular to the contact normal
-                Vector3 tangentVel = velocity - normal * (normal.dotProduct(velocity));
+                //Vector3 tangentVel = velocity - normal * (normal.dotProduct(velocity));
 
                 // align the tangent at the contact point with the
                 // tangent velocity vector of the char
-                rotateTangentDirections(tangentVel);
+                //rotateTangentDirections(tangentVel);
+                
             }
 
 
-            // beinflusst die Sprungh�e!
-            // der erste Sprung bleibt normal, jeder weitere Sprung ist ungef�r um
-            // die angegebene Zahl h�er (eher 2*die angegebene Zahl oder so,
-            // vermutlich wieder framedauer abh�gig!)
-            setContactElasticity(0.3f); // was 0.3f
-            setContactSoftness(0.01f);
+            // perhaps ContactElasticity and ContactSoftness should not be overwritten
+            //setContactElasticity(?);
+            //setContactSoftness(?);
 
             setContactFrictionState(1, 0);
             setContactFrictionState(1, 1);
