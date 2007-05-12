@@ -28,19 +28,19 @@ namespace rl {
 	{    
         if( mesh->getSkeleton().isNull() )
         {
-            MeshCombiner::getSingleton().log( "Skipped: " + mesh->getName() + " has no skeleton" );
-            return;
+			log( "Skipped: " + mesh->getName() + " has no skeleton" );
+		    return;
         }
 
         if( m_BaseSkeleton.isNull() )
         {
             m_BaseSkeleton = mesh->getSkeleton();                    
-            MeshCombiner::getSingleton().log( "Set: base skeleton (" + m_BaseSkeleton->getName()+")" );
+            log( "Set: base skeleton (" + m_BaseSkeleton->getName()+")" );
         }
 
         if( mesh->getSkeleton() != m_BaseSkeleton )
         {
-            MeshCombiner::getSingleton().log( "Skipped: " + mesh->getName() + " has other skeleton ("+ mesh->getSkeleton()->getName() +")" );
+	        log( "Skipped: " + mesh->getName() + " has other skeleton ("+ mesh->getSkeleton()->getName() +")" );
             return;
         }
 
@@ -62,7 +62,7 @@ namespace rl {
 
     MeshPtr MergeMesh::bake()
     {    
-        MeshCombiner::getSingleton().log( 
+        log( 
              "Baking: New Mesh started" );
 
         MeshPtr mp = MeshManager::getSingleton().
@@ -73,7 +73,7 @@ namespace rl {
         for( std::vector< Ogre::MeshPtr >::iterator it = m_Meshes.begin();
              it != m_Meshes.end(); ++it )
         {   
-            MeshCombiner::getSingleton().log( 
+            log( 
                 "Baking: adding submeshes for " + (*it)->getName() );
 
             // insert all submeshes
@@ -102,38 +102,39 @@ namespace rl {
                 
                     // build bone assignments
                     SubMesh::BoneAssignmentIterator bit = sub->getBoneAssignmentIterator();
-                    while( bit.hasMoreElements() )
+                    while (bit.hasMoreElements())
                     {
                         VertexBoneAssignment vba = bit.getNext();
-                        newsub->addBoneAssignment( vba );
+                        newsub->addBoneAssignment(vba);
                     }
                 }
 
                 newsub->setMaterialName( sub->getMaterialName() );
 
-                MeshCombiner::getSingleton().log(  
-                    "Baking: adding submesh '" + name + "'  with material " + sub->getMaterialName() );
+                log("Baking: adding submesh '" + name + "'  with material " + sub->getMaterialName());
             } 
 
             // sharedvertices
-            if( (*it)->sharedVertexData != NULL )
+            if ((*it)->sharedVertexData)
             {
                 /// @todo merge with existing sharedVertexData
-                mp->sharedVertexData = (*it)->sharedVertexData->clone();
+                if (!mp->sharedVertexData)
+				{
+					mp->sharedVertexData = (*it)->sharedVertexData->clone();
+				}
 
                 Mesh::BoneAssignmentIterator bit = (*it)->getBoneAssignmentIterator();
-                while( bit.hasMoreElements() )
+                while (bit.hasMoreElements())
                 {
                     VertexBoneAssignment vba = bit.getNext();
-                    mp->addBoneAssignment( vba );
+                    mp->addBoneAssignment(vba);
                 }
             }
 
-            MeshCombiner::getSingleton().log( 
-                "Baking: adding bounds for " + (*it)->getName() );
+            log("Baking: adding bounds for " + (*it)->getName());
 
             // add bounds
-            totalBounds.merge( (*it)->getBounds() );
+            totalBounds.merge((*it)->getBounds());
         }           
         mp->_setBounds( totalBounds );
 
@@ -143,7 +144,7 @@ namespace rl {
         /// @todo add parameters
         mp->buildEdgeList();
 
-        MeshCombiner::getSingleton().log( 
+        log( 
             "Baking: Finished" );
 
         return mp;
@@ -197,5 +198,13 @@ namespace rl {
                     VertexDeclaration* decl = newsub->vertexData->vertexDeclaration;
                     VertexBufferBinding* bind = newsub->vertexData->vertexBufferBinding;*/
 
+
+	void MergeMesh::log(const Ogre::String& message) const
+	{
+		if (MeshCombiner::getSingletonPtr())
+		{
+			MeshCombiner::getSingleton().log(message);
+		}
+	}
 }
 
