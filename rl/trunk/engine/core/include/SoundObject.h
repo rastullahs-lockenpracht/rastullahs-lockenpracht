@@ -27,7 +27,7 @@ namespace rl {
 
     class Sound;
     
-    /** Klasse für alle Soundobjekte, die man an einen Aktor
+    /** Klasse fr alle Soundobjekte, die man an einen Aktor
      *  heften kann. Zwischen Actor und ActorControlledObject
      *  besteht eine 1:1-Beziehung.
      */
@@ -39,9 +39,9 @@ namespace rl {
         
         /**
          * Interne Methode. Wird vom Aktor aufgerufen, wenn sich dessen
-         * Status geändert hat. (Position, Orientierung, etc)
+         * Status gendert hat. (Position, Orientierung, etc)
          * Die Standardimplementierung macht nichts, kann aber
-         * von abgeleiteten Klassen überschrieben werden.
+         * von abgeleiteten Klassen berschrieben werden.
          */
         virtual void _update();
         
@@ -55,7 +55,7 @@ namespace rl {
 		bool is3d() const;
 		void set3d( bool is3d );
 
-        /// Gibt zurück ob der Sound geloopt werden soll 
+        /// Gibt zurck ob der Sound geloopt werden soll 
         bool isLooping() const;
         /// Setzt ob der Sound geloopt werden soll 
         void setLooping( bool looping );
@@ -65,7 +65,7 @@ namespace rl {
         bool isPaused() const;
         /// Stoppt den Sound.
         virtual void stop();
-		/// Setzt die Lautstaerke (1.0 = volle Lautstärke)
+		/// Setzt die Lautstaerke (1.0 = volle Lautstrke)
 		void setVolume(float volume = 1.0);
         // Sets the priority of this sound
         void setPriority(const int priority);
@@ -74,12 +74,12 @@ namespace rl {
 
 		float getLength() const;
 
-		/// Lädt den Ton
+		/// Ldt den Ton
 		virtual void load();
-        /// Entlädt den Sound.
+        /// Entldt den Sound.
         virtual void unload();
         
-        void play();
+        void play(bool destroyWhenDone=false);
 
         /// Starte den Sound
         void start();

@@ -22,6 +22,7 @@ $IM = InputManager.getSingleton();
 $GameEveMgr = GameEventManager.getSingleton();
 $AnimMgr = AnimationManager.getSingleton();
 $GOM = GameObjectManager.getSingleton();
+$SM = SoundManager.getSingleton();
 
 class HeroPosWriter
   def initialize()

@@ -347,5 +347,45 @@ const Ogre::String& SoundManager::getName() const
     return NAME;
 }
 
+/**
+ * @author JoSch
+ * @date 20-04-2007
+ * Delegate sound creation to active driver
+ */
+Sound* SoundManager::createSound(const Ogre::String& res, SoundType type)
+{
+    if (getActiveDriver() != NULL)
+    {
+        return getActiveDriver()->createSound(res, type);
+    }
+    return NULL;
+}
+    
+/**
+ * @author JoSch
+ * @date 20-04-2007
+ * Delegate sound creation to active driver
+ */
+Sound* SoundManager::createSound(const SoundResourcePtr& res, SoundType type)
+{
+    if (getActiveDriver() != NULL)
+    {
+        return getActiveDriver()->createSound(res, type);
+    }
+    return NULL;
+}
+
+/**
+ * @author JoSch
+ * @date 20-04-2007
+ * Delegate sound destruction to active driver
+ */
+void SoundManager::destroySound(Sound* sound)
+{
+    if (getActiveDriver() != NULL)
+    {
+        getActiveDriver()->destroySound(sound);
+    }
+}
 
 }

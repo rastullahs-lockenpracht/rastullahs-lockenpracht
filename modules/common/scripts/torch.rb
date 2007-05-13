@@ -5,11 +5,14 @@
 # einiger Klassen für Instanzen anderer Klassen nachgenutzt werden?
 # Inwiefern ist Deferred Construction sinnvoll?
 load "embed.rb"
+require 'gameobjectprops.rb'
+require 'jobs/soundjobs.rb'
+require 'jobs/animationjobs.rb'
 
 # Die Aktion für das Anzünden der Fackel.
 class LightTorchAction < Action
-    def initialize
-        super("Anzünden", "Die Fackel anzünden für mehr Licht und so.");
+    def initialize()
+        super("lighttorch", "Die Fackel anzünden für mehr Licht und so.");
     end
     
     # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
@@ -29,9 +32,8 @@ class LightTorchAction < Action
         # an der Stelle nur dumm und macht was Ruby sagt.
         
         torchActor = torch.getActor();
-        torchActor.getChildBySlotAndIndex(Slots.SLOT_FAR_END, 0).activate();
-        torchActor.getChildByName("TorchSparks").activate();
-        torchActor.getChildByName("TorchCrackle").activate();
+        #torchActor.getChildByName("TorchSparks").activate();
+        #torchActor.getChildByName("TorchCrackle").activate();
         # Activation sollte folgendermaßen geregelt sein:
         #       ist Child activated, so wird er angezeigt/erklingt
         #       wenn Parent-Activation true ist, sonst nicht
@@ -40,7 +42,8 @@ class LightTorchAction < Action
         
         #TODO timer setzen, damit die Fackel nach Ablauf ihrer Lebensdauer
         # ausgeht.
-        
+        torch.sound.getSound().setPosition(torchActor.getPosition())
+        torch.sound.play()
         torch.setLit(true);
     end
 end
@@ -48,7 +51,7 @@ end
 # Die Aktion für das Löschen der Fackel.
 class PutoutTorchAction < Action
     def initialize
-        super("Löschen", "Die Fackel löschen für Verstecken und so.");
+        super("putouttorch", "Die Fackel löschen für Verstecken und so.");
     end
     
     # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
@@ -68,9 +71,8 @@ class PutoutTorchAction < Action
         # an der Stelle nur dumm und macht was Ruby sagt.
         
         torchActor = torch.getActor();
-        torchActor.getChildBySlotAndIndex(Slots.SLOT_FAR_END, 0).deactivate();
-        torchActor.getChildByName("TorchSparks").deactivate();
-        torchActor.getChildByName("TorchCrackle").deactivate();
+        #torchActor.getChildByName("TorchSparks").deactivate();
+        #torchActor.getChildByName("TorchCrackle").deactivate();
         # Activation sollte folgendermaßen geregelt sein:
         #       ist Child activated, so wird er angezeigt/erklingt
         #       wenn Parent-Activation true ist, sonst nicht
@@ -79,27 +81,30 @@ class PutoutTorchAction < Action
         
         #TODO timer setzen, damit die Fackel nach Ablauf ihrer Lebensdauer
         # ausgeht.
-        
+        torch.sound.stop();
         torch.setLit(false);
     end
 end
 
 # TODO Physikalische Attribute etc..
 # TODO Persistenz *schreck*
-class Torch < Item
-
+class Torch < GameObject
     include GameObjectProperties
     
     def initialize(id)
-        super(id);
+        super(id)
     end
     
     def setLit(lit)
-        @_prop_Lit = lit;
+        @_prop_Lit = lit
     end
     
     def lit?
-        @_prop_Lit;
+        @_prop_Lit
+    end
+    
+    def sound
+        @_prop_Sound
     end
     
     def setProperty(name, value)
@@ -109,11 +114,17 @@ class Torch < Item
             @_prop_Lit = value
         elsif name == "lightable"
             @_prop_Lightable = value
+        else
+            super(name, value)
         end
     end
     
     def placeIntoScene()
         super()
+        sound = $SM.createSound("feuer_knisternd_01.ogg")
+        sound.setLooping(true)
+        sound.set3d(true)
+        @_prop_Sound = SoundObject.new(sound, getId().to_s())
         addActions()
     end
     

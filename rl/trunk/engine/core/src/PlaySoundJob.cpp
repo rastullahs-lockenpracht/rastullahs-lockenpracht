@@ -27,7 +27,7 @@ namespace rl
     PlaySound2dJob::PlaySound2dJob(const String& sound, Real volume, int priority)
         : Job(false, true), mSound(NULL), mExecuted(false)
     {
-        mSound = SoundManager::getSingleton().getActiveDriver()->createSound(sound, ST_SAMPLE);
+        mSound = SoundManager::getSingleton().createSound(sound, ST_SAMPLE);
         mSound->set3d(false);
         mSound->setVolume(volume);
         mSound->setLooping(false);
@@ -40,7 +40,7 @@ namespace rl
         // because else the sound gets destroyed automatically.
         if(!mExecuted)
         {
-            SoundManager::getSingleton().getActiveDriver()->destroySound(mSound);
+            SoundManager::getSingleton().destroySound(mSound);
         }
     }
 
@@ -54,7 +54,7 @@ namespace rl
     PlaySound3dJob::PlaySound3dJob(const String& sound, const Ogre::Vector3& pos, Real volume, int priority)
         : Job(false, true), mSound(NULL), mExecuted(false)
     {
-        mSound = SoundManager::getSingleton().getActiveDriver()->createSound(sound, ST_SAMPLE);
+        mSound = SoundManager::getSingleton().createSound(sound, ST_SAMPLE);
         mSound->set3d(true);
         mSound->setPosition(pos);
         mSound->setVolume(volume);
@@ -68,7 +68,7 @@ namespace rl
         // because else the sound gets destroyed automatically.
         if(!mExecuted)
         {
-            SoundManager::getSingleton().getActiveDriver()->destroySound(mSound);
+            SoundManager::getSingleton().destroySound(mSound);
         }
     }
 

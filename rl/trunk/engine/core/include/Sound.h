@@ -43,7 +43,7 @@ namespace rl {
         public EventCaster<SoundEvent>, public EventSource
     {
     public:
-        // Einige Standardwerte für Soundprioritäten.
+        // Einige Standardwerte fÃ¼r SoundprioritÃ¤ten.
         enum SOUND_PRIORITY {
             PRIO_SPEECH = 30,
             PRIO_MUSIC = 75,

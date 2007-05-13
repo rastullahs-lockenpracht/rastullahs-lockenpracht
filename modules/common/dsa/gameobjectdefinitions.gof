@@ -27,8 +27,6 @@
 
 
 	<gameobjectclass classid="torch" baseclass="Torch">
-		<property name="classid" type="STRING" data="torch"/>
-		<property name="baseclass" type="STRING" data="Torch"/>
 		<property name="description" type="STRING" data="Eine Fackel"/>
 		<property name="geometrytype" type="STRING" data="convexhull"/>
 		<property name="meshfile" type="STRING" data="ins_fackel_01.mesh"/>

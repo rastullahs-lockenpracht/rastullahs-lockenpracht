@@ -430,7 +430,10 @@ public:
 class SoundObject : public ActorControlledObject
 {
 public:
-	void play( );
+    SoundObject(rl::Sound *sound, const Ogre::String &name);
+    virtual ~SoundObject();
+    
+  	void play(bool destroyWhenDone=false);
 
 	void load();
 	void unload();
@@ -697,7 +700,7 @@ class Sound
 private:
 	Sound(const SoundResourcePtr& res);
 public:
-    // Einige Standardwerte für Soundprioritäten.
+    // Einige Standardwerte fr Soundprioritten.
     enum SOUND_PRIORITY {
             PRIO_SPEECH = 30,
             PRIO_MUSIC = 75,
@@ -757,6 +760,19 @@ public:
     
     // Sind wir gueltig
     bool isValid() const;
+    
+    bool is3d();
+    void set3d(bool is3d);
+};
+
+class SoundManager
+{
+public:
+
+    SoundManager();
+    static SoundManager& getSingleton(void);
+    Sound* createSound(const Ogre::String& res, rl::SoundType type=ST_SAMPLE);
+    void destroySound(Sound*);
 };
 
 class GameLoop

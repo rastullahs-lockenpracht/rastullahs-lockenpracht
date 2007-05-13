@@ -50,7 +50,7 @@ ErrorHandlingTest.new([-10, 0, 5])
 InventoryTest.new([0, 0, 10])
 JobSequenceTest.new([5, 0, -5])
 EffectTest.new([5, 0, 5])
-SoundTest.new([10, 0, 10])
+SoundTest.new([15, 0, 10])
 LightzoneTest.new([-10, 0, -5])
 MapLoadingTest.new([-5, 0, -10])
 

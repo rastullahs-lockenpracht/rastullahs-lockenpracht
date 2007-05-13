@@ -30,7 +30,7 @@ using namespace Ogre;
 namespace rl {
    
 /**
- * @param sound. Der Sound, Besitz wird übernommen.
+ * @param sound. Der Sound, Besitz wird bernommen.
  * @author JoSch
  * @date 03-11-2005
  */   
@@ -96,9 +96,9 @@ void SoundObject::_update()
     }
 }
 
-void SoundObject::play( )
+void SoundObject::play(bool destroyWhenDone)
 {
-    getSound()->play();
+    getSound()->play(destroyWhenDone);
     if (is3d())
     {
 	   _update();

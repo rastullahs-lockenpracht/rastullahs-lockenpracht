@@ -25,12 +25,12 @@
 #include <list>
 
 #include "GameTask.h"
+#include "SoundDriver.h"
 
 namespace rl {
 
 class Actor;
 class ListenerObject;
-class SoundDriver;
 class SoundManager;
 class SoundUpdateTask;
 
@@ -56,7 +56,7 @@ typedef std::list<SoundDriver*> DriverList;
         SoundManager();
         virtual ~SoundManager();
 
-        /// Den aktiven Listener zurückgeben.
+        /// Den aktiven Listener zurckgeben.
         ListenerObject* getListener() const;
         /// Creates the listener actor.
         Actor* createListenerActor();
@@ -87,7 +87,7 @@ typedef std::list<SoundDriver*> DriverList;
 
         /// 3D-Sound aktualisieren.
         void update();
-        /// Den aktiven Treiber zurückgeben.
+        /// Den aktiven Treiber zurckgeben.
         SoundDriver* getActiveDriver() const;
         /// Den aktiven Treiber setzen.
         void setActiveDriver(SoundDriver *driver);
@@ -100,6 +100,11 @@ typedef std::list<SoundDriver*> DriverList;
         virtual void run( Ogre::Real elapsedTime );
 
         virtual const Ogre::String& getName() const;
+        
+        // Delegate sound creation to the driver
+        Sound* createSound(const Ogre::String& res, SoundType type=ST_SAMPLE);
+        Sound* createSound(const SoundResourcePtr& res, SoundType type=ST_SAMPLE);
+        void destroySound(Sound*);
 
     protected:
         virtual Ogre::Resource* createImpl(const Ogre::String& name, Ogre::ResourceHandle handle,
