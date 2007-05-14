@@ -86,6 +86,22 @@ namespace rl
 
         return NULL;
     }
+     
+    std::list<const GameObject*> GameObjectManager::getAllGameObjects() const
+    {
+        std::list<const GameObject*> gos;      
+        std::map<unsigned int, GameObject*>::const_iterator it;
+        
+        //
+        //    Run through all GOs and put them into the list
+        //
+        for( it=mGameObjects.begin(); it!=mGameObjects.end(); ++it )
+        {
+            gos.push_back(it->second);
+        }
+        
+        return gos;
+    }
 
     unsigned int GameObjectManager::generateId()
     {
@@ -93,11 +109,11 @@ namespace rl
     }
 
     GameObject* GameObjectManager::createGameObject(
-		const Ogre::String& classId, unsigned int id)
+        const Ogre::String& classId, unsigned int id)
     {
-		unsigned int goId;
+        unsigned int goId;
 
-		if (id != GameObject::NO_OBJECT_ID)
+        if (id != GameObject::NO_OBJECT_ID)
         {
             GameObject* goInMap = getGameObject(id);
 
