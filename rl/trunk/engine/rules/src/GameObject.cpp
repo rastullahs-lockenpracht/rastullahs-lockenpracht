@@ -31,7 +31,7 @@ using namespace std;
 
 namespace rl
 {
-	const CeGuiString GameObject::DEFAULT_VIEW_OBJECT_ACTION = "viewobject";
+    const CeGuiString GameObject::DEFAULT_VIEW_OBJECT_ACTION = "viewobject";
     const CeGuiString GameObject::DEFAULT_VIEW_OBJECT_ACTION_DEBUG = "viewobjectdebug";
 
     const Ogre::String GameObject::CLASS_NAME = "GameObject";
@@ -46,27 +46,27 @@ namespace rl
     const Ogre::String GameObject::PROPERTY_GEOMETRY_TYPE = "geometrytype"; 
     const Ogre::String GameObject::PROPERTY_MASS = "mass"; 
     const Ogre::String GameObject::PROPERTY_ACTIONS = "actions";
-	const Ogre::String GameObject::PROPERTY_DEFAULT_ACTION = "defaultaction";
+    const Ogre::String GameObject::PROPERTY_DEFAULT_ACTION = "defaultaction";
 
     GameObject::GameObject(unsigned int id)
-		:   mId(id),
+        :   mId(id),
             mName(""),
             mDescription(""),
-			mMeshfile(""),
+            mMeshfile(""),
             mQueryFlags(QUERYFLAG_GAMEOBJECT),
-			mHighlightingEnabled(true),
-			mActor(NULL),
+            mHighlightingEnabled(true),
+            mActor(NULL),
             mActions(),
             mPosition(Ogre::Vector3::ZERO),
             mOrientation(Ogre::Quaternion::IDENTITY),
             mMass(0),
             mGeometryType(GT_NONE),
-			mDefaultAction(DEFAULT_VIEW_OBJECT_ACTION),
-			mState(GOS_LOADED)
+            mDefaultAction(DEFAULT_VIEW_OBJECT_ACTION),
+            mState(GOS_LOADED)
     {
         // Standardactions registrieren
-		Action* defaultAction = ActionManager::getSingleton().getAction(DEFAULT_VIEW_OBJECT_ACTION);
-		if (defaultAction != NULL)
+        Action* defaultAction = ActionManager::getSingleton().getAction(DEFAULT_VIEW_OBJECT_ACTION);
+        if (defaultAction != NULL)
         {
             addAction(defaultAction);
         }
@@ -76,30 +76,40 @@ namespace rl
         //if( CoreSubsystem::getSingleton().getDeveloperMode() )
         //{
             defaultAction = ActionManager::getSingleton().getAction(DEFAULT_VIEW_OBJECT_ACTION_DEBUG);
-		    if (defaultAction != NULL)
+            if (defaultAction != NULL)
             {
                 addAction(defaultAction);
             }
         //}
 
-		// Eventsource erzeugen
-		setObject(this);
+        // Eventsource erzeugen
+        setObject(this);
     }
 
     GameObject::~GameObject(void)
     {
-	}
+    }
 
-	GameObject* GameObject::clone()
-	{
-		Throw(OperationNotSupportedException, "clone not yet implemented.");
-	}
+    GameObject* GameObject::clone()
+    {
+        Throw(OperationNotSupportedException, "clone not yet implemented.");
+    }
 
     int GameObject::getId() const
     {
         return mId;
     }
 
+    const Ogre::String GameObject::getClassName() const
+    {
+        return mClassName;
+    }
+    
+    void GameObject::setClassName(Ogre::String classname)
+    {
+        mClassName = classname;
+    }
+        
     const CeGuiString GameObject::getName() const
     {
         return mName;
@@ -137,41 +147,41 @@ namespace rl
             Throw(NullPointerException, "Parameter action ist NULL.");
         }
 
-		mActions.push_back(make_pair(action, option));	
-		LOG_MESSAGE(Logger::RULES,
-			"Bei GameObject #"+Ogre::StringConverter::toString(mId)+
-			" ("+getName()+") wurde Aktion "+action->getName().c_str()+" hinzugefügt.");
+        mActions.push_back(make_pair(action, option));    
+        LOG_MESSAGE(Logger::RULES,
+            "Bei GameObject #"+Ogre::StringConverter::toString(mId)+
+            " ("+getName()+") wurde Aktion "+action->getName().c_str()+" hinzugefügt.");
     }
 
-	void GameObject::addActionInGroup(Action* action, ActionGroup* group, int option)
+    void GameObject::addActionInGroup(Action* action, ActionGroup* group, int option)
     {
         addAction(action, option);
-		action->setGroup(group);
-	}
+        action->setGroup(group);
+    }
 
     void GameObject::removeAction(Action* action)
     {
-		ActionOptionVector::iterator it = findAction(mActions.begin(), mActions.end(), action);
+        ActionOptionVector::iterator it = findAction(mActions.begin(), mActions.end(), action);
         if (it != mActions.end())
         {
             mActions.erase(it);
         }
     }
-	
+    
     const ActionVector GameObject::getValidActions(Creature* actor) const
     {
-		ActionVector actions;
-		for (ActionOptionVector::const_iterator it = mActions.begin(); it != mActions.end(); ++it)
-		{
-			LOG_MESSAGE(Logger::RULES, "Untersuche Aktion "+(*it).first->getName());
-			if ((*it).second == Action::ACT_DISABLED)
-				continue;
-			//if ((*it).second > ACT_NEEDS_TALENT)
-			if (actor != NULL && !(*it).first->canDo(const_cast<GameObject*>(this), actor)) // Aktion nicht möglich
-				continue;
-				
-			actions.push_back((*it).first);
-		}
+        ActionVector actions;
+        for (ActionOptionVector::const_iterator it = mActions.begin(); it != mActions.end(); ++it)
+        {
+            LOG_MESSAGE(Logger::RULES, "Untersuche Aktion "+(*it).first->getName());
+            if ((*it).second == Action::ACT_DISABLED)
+                continue;
+            //if ((*it).second > ACT_NEEDS_TALENT)
+            if (actor != NULL && !(*it).first->canDo(const_cast<GameObject*>(this), actor)) // Aktion nicht möglich
+                continue;
+                
+            actions.push_back((*it).first);
+        }
         return actions;
     }
 
@@ -179,10 +189,10 @@ namespace rl
                               Creature* actor,
                               GameObject* target)
     {
-		ActionOptionVector::const_iterator it = 
+        ActionOptionVector::const_iterator it = 
             findAction(mActions.begin(), mActions.end(), actionName);
 
-		if (it == mActions.end())
+        if (it == mActions.end())
         {
             LOG_ERROR(
                 Logger::RULES, 
@@ -190,22 +200,22 @@ namespace rl
         }
         else
         {
-		    doAction((*it).first, actor, target);
+            doAction((*it).first, actor, target);
         }
     }
 
-	void GameObject::doAction(const CeGuiString actionName)
-	{
-		doAction(actionName, NULL, NULL);
-	}
+    void GameObject::doAction(const CeGuiString actionName)
+    {
+        doAction(actionName, NULL, NULL);
+    }
 
-	void GameObject::doAction(Action* action,
+    void GameObject::doAction(Action* action,
                               Creature* actor,
                               GameObject* target)
-	{
-		action->doAction(this, actor, target);
-	}
-	
+    {
+        action->doAction(this, actor, target);
+    }
+    
     void GameObject::doDefaultAction(Creature* actor, GameObject* target)
     {
         Action* action = getDefaultAction(actor);
@@ -221,72 +231,72 @@ namespace rl
         }
     }
 
-	bool GameObject::activateAction(Action* action,
+    bool GameObject::activateAction(Action* action,
                       Creature* actor,
                       GameObject* target)
-	{
-		doAction(action, actor, target);
-		return true;
-	}
+    {
+        doAction(action, actor, target);
+        return true;
+    }
 
-	GameObject::ActionOptionVector::iterator 
-		GameObject::findAction(
-			GameObject::ActionOptionVector::iterator begin, 
-			GameObject::ActionOptionVector::iterator end, 
-			const CeGuiString actionName)
-	{
-		for (ActionOptionVector::iterator iter = begin; iter != end; ++iter)
-		{
-			Action* action = (*iter).first;
+    GameObject::ActionOptionVector::iterator 
+        GameObject::findAction(
+            GameObject::ActionOptionVector::iterator begin, 
+            GameObject::ActionOptionVector::iterator end, 
+            const CeGuiString actionName)
+    {
+        for (ActionOptionVector::iterator iter = begin; iter != end; ++iter)
+        {
+            Action* action = (*iter).first;
 
-			if (action->getName().compare(actionName) == 0)
-				return iter;
-		}
-		return end;
-	}
+            if (action->getName().compare(actionName) == 0)
+                return iter;
+        }
+        return end;
+    }
 
-	GameObject::ActionOptionVector::iterator 
-		GameObject::findAction(
-			GameObject::ActionOptionVector::iterator begin, 
-			GameObject::ActionOptionVector::iterator end, 
-			const Action* action)
-	{
-		for (ActionOptionVector::iterator iter = begin; iter != end; ++iter)
-			if ((*iter).first == action)
-				return iter;
+    GameObject::ActionOptionVector::iterator 
+        GameObject::findAction(
+            GameObject::ActionOptionVector::iterator begin, 
+            GameObject::ActionOptionVector::iterator end, 
+            const Action* action)
+    {
+        for (ActionOptionVector::iterator iter = begin; iter != end; ++iter)
+            if ((*iter).first == action)
+                return iter;
 
-		return end;
-	}
-	
-	void GameObject::setActor(Actor* actor)
-	{
-		if (mActor != actor)
-		{
-			if (mActor != NULL)
-			{
-				mActor->setGameObject(NULL);
+        return end;
+    }
+    
+    void GameObject::setActor(Actor* actor)
+    {
+        if (mActor != actor)
+        {
+            if (mActor != NULL)
+            {
+                mActor->setGameObject(NULL);
                 mActor->setQueryFlags(0);
-			}
+            }
 
-			if (actor != NULL)
-			{
-				if (actor->isInScene())
-				{
-					actor->setPosition(mPosition);
-					actor->setOrientation(mOrientation);
+            if (actor != NULL)
+            {
+                if (actor->isInScene())
+                {
+                    actor->setPosition(mPosition);
+                    actor->setOrientation(mOrientation);
                     actor->setQueryFlags(mQueryFlags);
-				}
-				actor->setGameObject(this);
-			}
-			
-			mActor = actor;
-		}
-	}
-	
-	Actor* GameObject::getActor()
-	{
-		return mActor;
-	}
+                }
+                actor->setGameObject(this);
+            }
+            
+            mActor = actor;
+        }
+    }
+    
+    Actor* GameObject::getActor()
+    {
+        return mActor;
+    }
 
     bool GameObject::isHighlightingEnabled()
     {
@@ -304,16 +314,16 @@ namespace rl
         mHighlightingEnabled = highlightenabled;
     }
 
-	Action* GameObject::getDefaultAction(Creature* actor) const
-	{
-		return ActionManager::getSingleton().getAction(mDefaultAction);
-	}
+    Action* GameObject::getDefaultAction(Creature* actor) const
+    {
+        return ActionManager::getSingleton().getAction(mDefaultAction);
+    }
 
     void GameObject::setHighlighted(bool highlight)
     {
         if (mHighlightingEnabled && mActor != NULL)
         {
-			mActor->setHighlighted(highlight, getName());
+            mActor->setHighlighted(highlight, getName());
         }
     }
 
@@ -449,7 +459,7 @@ namespace rl
             }
             else if (key == PROPERTY_GEOMETRY_TYPE)
             {
-				setGeometryType(PhysicsManager::convertStringToGeometryType(value.toString().c_str()));			
+                setGeometryType(PhysicsManager::convertStringToGeometryType(value.toString().c_str()));            
             }
             else if (key == PROPERTY_MASS)
             {
@@ -466,26 +476,26 @@ namespace rl
             }
             else if (key == PROPERTY_ACTIONS)
             {
-				std::vector<Property> vecVal = value.toArray();
-				for (std::vector<Property>::iterator it = vecVal.begin(); it != vecVal.end(); it++)
-				{
-					Ogre::String actionName = (*it).toString().c_str();
-					Action* act = ActionManager::getSingleton().getAction(actionName);
+                std::vector<Property> vecVal = value.toArray();
+                for (std::vector<Property>::iterator it = vecVal.begin(); it != vecVal.end(); it++)
+                {
+                    Ogre::String actionName = (*it).toString().c_str();
+                    Action* act = ActionManager::getSingleton().getAction(actionName);
 
-					if (act != NULL)
-					{
-						addAction(act);
-					}
-					else
-					{
-						LOG_ERROR(Logger::RULES, "'"+actionName+"' not registered at ActionManager.");
-					}
-				}
-			}
-			else if (key == PROPERTY_DEFAULT_ACTION)
-			{
-				mDefaultAction = value.toString().c_str();
-			}
+                    if (act != NULL)
+                    {
+                        addAction(act);
+                    }
+                    else
+                    {
+                        LOG_ERROR(Logger::RULES, "'"+actionName+"' not registered at ActionManager.");
+                    }
+                }
+            }
+            else if (key == PROPERTY_DEFAULT_ACTION)
+            {
+                mDefaultAction = value.toString().c_str();
+            }
             else
             {
                 LOG_WARNING(
@@ -555,15 +565,15 @@ namespace rl
         }
     }
 
-	void GameObject::placeIntoScene()
-	{
-		setState(GOS_IN_SCENE);
-	}
+    void GameObject::placeIntoScene()
+    {
+        setState(GOS_IN_SCENE);
+    }
 
-	void GameObject::removeFromScene()
-	{
-		setState(GOS_LOADED);
-	}
+    void GameObject::removeFromScene()
+    {
+        setState(GOS_LOADED);
+    }
 
     void GameObject::doPlaceIntoScene()
     {
@@ -579,7 +589,7 @@ namespace rl
                 GameObjectState tmpState = mState;
                 mState = GOS_IN_SCENE;
                 GameObjectManager::getSingleton().gameObjectStateChanged(this, tmpState, mState);
-				onStateChange(tmpState, GOS_IN_SCENE);
+                onStateChange(tmpState, GOS_IN_SCENE);
             }
             else {
                 LOG_ERROR(
@@ -627,20 +637,20 @@ namespace rl
             //Statechange event is triggered in this function
             doPlaceIntoScene();
         }
-		else
-		{
-			LOG_ERROR(
-				Logger::RULES, 
-				"GameObject '" + getName() 
-				+ "' could not change state from "
-				+ Ogre::StringConverter::toString(mState) + " to "
-				+ Ogre::StringConverter::toString(targetstate));
-		}
+        else
+        {
+            LOG_ERROR(
+                Logger::RULES, 
+                "GameObject '" + getName() 
+                + "' could not change state from "
+                + Ogre::StringConverter::toString(mState) + " to "
+                + Ogre::StringConverter::toString(targetstate));
+        }
     }
 
-	void GameObject::onStateChange(GameObjectState oldState, GameObjectState newState)
-	{
-	}
+    void GameObject::onStateChange(GameObjectState oldState, GameObjectState newState)
+    {
+    }
 
     GameObjectState GameObject::getState() const
     {
@@ -652,8 +662,8 @@ namespace rl
         return mQueryFlags;
     }
 
-	void GameObject::addQueryFlag(unsigned long queryflag)
-	{
-		mQueryFlags |= queryflag;
-	}
+    void GameObject::addQueryFlag(unsigned long queryflag)
+    {
+        mQueryFlags |= queryflag;
+    }
 }

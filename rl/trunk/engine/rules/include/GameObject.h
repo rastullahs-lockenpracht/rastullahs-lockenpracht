@@ -45,34 +45,37 @@ namespace rl
           public PropertyHolder
     {
     public:
-    	typedef std::vector<std::pair<Action*, int> > ActionOptionVector;
-		static const unsigned int NO_OBJECT_ID = 0;
+        typedef std::vector<std::pair<Action*, int> > ActionOptionVector;
+        static const unsigned int NO_OBJECT_ID = 0;
         
         static const Ogre::String CLASS_NAME;
 
         static const Ogre::String PROPERTY_CLASS_ID;
         static const Ogre::String PROPERTY_OBJECT_ID;
         static const Ogre::String PROPERTY_BASE_CLASS;
-		static const Ogre::String PROPERTY_POSITION; 
+        static const Ogre::String PROPERTY_POSITION; 
         static const Ogre::String PROPERTY_ORIENTATION; 
         static const Ogre::String PROPERTY_NAME;
         static const Ogre::String PROPERTY_DESCRIPTION; 
         static const Ogre::String PROPERTY_MESHFILE; 
         static const Ogre::String PROPERTY_GEOMETRY_TYPE; 
         static const Ogre::String PROPERTY_MASS; 
-		static const Ogre::String PROPERTY_ACTIONS; 
-		static const Ogre::String PROPERTY_DEFAULT_ACTION;
+        static const Ogre::String PROPERTY_ACTIONS; 
+        static const Ogre::String PROPERTY_DEFAULT_ACTION;
 
-		static const CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
+        static const CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
         static const CeGuiString DEFAULT_VIEW_OBJECT_ACTION_DEBUG;
 
         GameObject(unsigned int id);
         virtual ~GameObject();
 
-		virtual GameObject* clone();
+        virtual GameObject* clone();
 
         int getId() const;
 
+        const Ogre::String getClassName() const;
+        void setClassName(Ogre::String classname);
+        
         const CeGuiString getName() const;
         void setName(CeGuiString name);
 
@@ -88,39 +91,39 @@ namespace rl
         const Ogre::Real getMass() const;
         void setMass(const Ogre::Real mass);
 
-		void addAction(Action* action, int option = Action::ACT_NORMAL);
+        void addAction(Action* action, int option = Action::ACT_NORMAL);
         void addActionInGroup(Action* action, ActionGroup* group, int option = Action::ACT_NORMAL);
         void removeAction(Action* action);
-	
-		void setActor(Actor* actor);
-		Actor* getActor();
+    
+        void setActor(Actor* actor);
+        Actor* getActor();
 
-		/**
-		 * Get all valid actions a character can perfom on this game object
-		 * 
-		 * @param actor the character
-		 * @return a vector of actions
-		 */
+        /**
+         * Get all valid actions a character can perfom on this game object
+         * 
+         * @param actor the character
+         * @return a vector of actions
+         */
         const ActionVector getValidActions(Creature* actor) const;
-		virtual Action* getDefaultAction(Creature* actor) const;
+        virtual Action* getDefaultAction(Creature* actor) const;
 
         /** Trigger an action of this game object
          *  @param actionName the action's name
          *  @param actor the "user" of this game object, can be <code>NULL</code> sein, 
-				   if the action wasn't triggered by someone (e.g. by time)
+                   if the action wasn't triggered by someone (e.g. by time)
          *  @param target the action's target (can be <code>NULL</code> if no other game objects are involved)
          */
         void doAction(const CeGuiString actionName,
                       Creature* actor,
                       GameObject* target);
 
-		void doAction(const CeGuiString actionName);
+        void doAction(const CeGuiString actionName);
 
-		void doAction(Action* action,
+        void doAction(Action* action,
                       Creature* actor,
                       GameObject* target);
-					  
-		bool activateAction(Action* action,
+                      
+        bool activateAction(Action* action,
                       Creature* actor,
                       GameObject* target);
 
@@ -128,7 +131,7 @@ namespace rl
 
         void setPosition(const Ogre::Vector3& position);
         void setOrientation(const Ogre::Quaternion& orientation);
-	    const Ogre::Quaternion& getOrientation() const;
+        const Ogre::Quaternion& getOrientation() const;
         const Ogre::Vector3& getPosition() const;
 
         /// Soll der Aktor überhaupt leuchten?
@@ -148,9 +151,9 @@ namespace rl
         void removeFromScene();
 
         unsigned long getQueryFlags() const;
-		void addQueryFlag(unsigned long queryflag);
+        void addQueryFlag(unsigned long queryflag);
 
-		virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
+        virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
 
     protected:
         int mId;
@@ -159,6 +162,7 @@ namespace rl
         CeGuiString mName;
         CeGuiString mDescription;
         CeGuiString mMeshfile;
+        Ogre::String mClassName;
         
         Actor* mActor;
         
@@ -171,23 +175,23 @@ namespace rl
         Actor* createActor();
         void destroyActor();
 
-		void doPlaceIntoScene();
-		void doRemoveFromScene();
+        void doPlaceIntoScene();
+        void doRemoveFromScene();
 
-	private:
-		static int sNextGameObjectId;	
+    private:
+        static int sNextGameObjectId;    
 
-		ActionOptionVector mActions;
+        ActionOptionVector mActions;
         Ogre::Vector3 mPosition;
         Ogre::Quaternion mOrientation;
         Ogre::Real mMass;
-		CeGuiString mDefaultAction;
+        CeGuiString mDefaultAction;
         GeometryType mGeometryType;
 
-		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin,
+        ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin,
             ActionOptionVector::iterator end, const CeGuiString actionName);
-		ActionOptionVector::iterator findAction(ActionOptionVector::iterator
-            begin, ActionOptionVector::iterator end, const Action* action);	
+        ActionOptionVector::iterator findAction(ActionOptionVector::iterator
+            begin, ActionOptionVector::iterator end, const Action* action);    
     };
 }
 
