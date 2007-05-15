@@ -56,6 +56,10 @@ namespace rl {
         virtual void initialize();
         
     private:
+        bool handleLoadEvent();
+        bool handleSaveEvent();
+        bool handleDeleteEvent();
+        
         CEGUI::MultiColumnList     *mSaveGameTable;     //!< SaveGame table
         CEGUI::Editbox             *mFilename;         //!< Filename for the savegame 
     };

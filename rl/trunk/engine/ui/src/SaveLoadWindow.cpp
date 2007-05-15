@@ -24,6 +24,8 @@
 #include <CEGUIWindowManager.h>
 #include <elements/CEGUIListboxTextItem.h>
 #include <Exception.h>
+#include <GameObjectManager.h>
+#include <GameObject.h>
 
 #include "SaveLoadWindow.h"
 
@@ -49,6 +51,27 @@ namespace rl {
         
         centerWindow();
 
+        getPushButton("SaveLoadWindow/ButtonSheet/LoadButton")->subscribeEvent(
+        CEGUI::Window::EventMouseClick,
+        boost::bind(
+            &SaveLoadWindow::handleLoadEvent,
+            this
+        ));
+        
+        getPushButton("SaveLoadWindow/ButtonSheet/SaveButton")->subscribeEvent(
+        CEGUI::Window::EventMouseClick,
+        boost::bind(
+            &SaveLoadWindow::handleSaveEvent,
+            this
+        ));
+        
+        getPushButton("SaveLoadWindow/ButtonSheet/DeleteButton")->subscribeEvent(
+        CEGUI::Window::EventMouseClick,
+        boost::bind(
+            &SaveLoadWindow::handleDeleteEvent,
+            this
+        ));
+        
         bindDestroyWindowToXButton();
         bindDestroyWindowToClick(getWindow("SaveLoadWindow/ButtonSheet/CancelButton"));
         
@@ -66,6 +89,43 @@ namespace rl {
     {
         //mSaveGameTable->autoSizeColumnHeader(0);
         //mSaveGameTable->autoSizeColumnHeader(1);
+    }
+    
+    //------------------------------------------------------- LoadEvent
+
+    bool SaveLoadWindow::handleLoadEvent() 
+    {
+        LOG_MESSAGE(Logger::UI, "Load Button pressed");
+        return true;        
+    }
+    
+    //------------------------------------------------------- SaveEvent
+
+    bool SaveLoadWindow::handleSaveEvent() 
+    {
+        LOG_MESSAGE(Logger::UI, "Save Button pressed");
+        
+        std::list<const GameObject*>::const_iterator it;
+        std::list<const GameObject*> gos;
+        gos = GameObjectManager::getSingleton().getAllGameObjects();
+        
+        LOG_MESSAGE(Logger::UI, "Following GOs must be saved:");
+        for( it=gos.begin(); it!=gos.end(); ++it )
+        {
+            //const CeGuiString test = (*it)->getName();
+            LOG_MESSAGE(Logger::UI, "Class: " + (*it)->getClassName() +
+                " Name: " + (*it)->getName());    
+        }
+        
+        return true;        
+    }
+
+    //------------------------------------------------------- DeleteEvent
+
+    bool SaveLoadWindow::handleDeleteEvent() 
+    {
+        LOG_MESSAGE(Logger::UI, "Delete Button pressed");
+        return true;
     }
 
 } // namespace rl
