@@ -139,7 +139,7 @@ namespace rl
                 classname, 
                 goId);
         
-        go->setClassName(classname);
+        go->setClassId(classId);
         go->setProperties(ps);
         mGameObjects[goId] = go;
         return go;

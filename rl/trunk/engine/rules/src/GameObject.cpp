@@ -100,14 +100,14 @@ namespace rl
         return mId;
     }
 
-    const Ogre::String GameObject::getClassName() const
+    const Ogre::String GameObject::getClassId() const
     {
-        return mClassName;
+        return mClassId;
     }
     
-    void GameObject::setClassName(Ogre::String classname)
+    void GameObject::setClassId(Ogre::String classId)
     {
-        mClassName = classname;
+        mClassId = classId;
     }
         
     const CeGuiString GameObject::getName() const

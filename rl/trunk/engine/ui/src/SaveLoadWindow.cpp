@@ -113,7 +113,7 @@ namespace rl {
         for( it=gos.begin(); it!=gos.end(); ++it )
         {
             //const CeGuiString test = (*it)->getName();
-            LOG_MESSAGE(Logger::UI, "Class: " + (*it)->getClassName() +
+            LOG_MESSAGE(Logger::UI, "ClassId: " + (*it)->getClassId() +
                 " Name: " + (*it)->getName());    
         }
         
