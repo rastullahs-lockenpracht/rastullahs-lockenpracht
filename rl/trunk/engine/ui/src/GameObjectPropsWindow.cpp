@@ -75,7 +75,7 @@ namespace rl {
         int row = 0;
         //  Iterate through all properties and add a row for
         //  every Entry
-        for( PropertyMap::const_iterator propIter = props->begin();
+        for( PropertySetMap::const_iterator propIter = props->begin();
             propIter != props->end(); propIter++ )
         {
             Ogre::String key = propIter->first;

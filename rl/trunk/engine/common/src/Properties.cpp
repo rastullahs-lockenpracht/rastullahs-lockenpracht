@@ -25,7 +25,7 @@ namespace rl {
 
     void PropertyHolder::setProperties(const PropertySet* props)
     {
-        for (PropertyMap::const_iterator it = props->begin();
+        for (PropertySetMap::const_iterator it = props->begin();
             it != props->end(); it++)
         {
             setProperty((*it).first, (*it).second);
@@ -47,7 +47,7 @@ namespace rl {
 
     const Property PropertySet::getProperty(const Ogre::String& key) const
     {
-        PropertyMap::const_iterator it = mProperties.find(key);
+        PropertySetMap::const_iterator it = mProperties.find(key);
         if (it == mProperties.end())
         {
             Throw(rl::RuntimeException, "Property "+key+" not found.");
@@ -66,12 +66,12 @@ namespace rl {
         return new PropertySet(this);
     }
 
-    const PropertyMap::const_iterator PropertySet::begin() const
+    const PropertySetMap::const_iterator PropertySet::begin() const
     {
         return mProperties.begin();
     }
 
-    const PropertyMap::const_iterator PropertySet::end() const
+    const PropertySetMap::const_iterator PropertySet::end() const
     {
         return mProperties.end();
     }

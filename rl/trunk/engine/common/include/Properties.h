@@ -18,12 +18,13 @@
 
 #include "CommonPrerequisites.h"
 #include "Property.h"
-
+ 
 namespace rl {
 
     class PropertySet;
     class PropertySetPtr;
-    typedef std::map<const Ogre::String, Property> PropertyMap;
+
+    typedef std::map<const Ogre::String, Property> PropertySetMap;
 
     class _RlCommonExport PropertyHolder
     {
@@ -43,11 +44,11 @@ namespace rl {
         virtual const Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const Property& value);
         virtual PropertySet* getAllProperties() const;
-        const PropertyMap::const_iterator begin() const;
-        const PropertyMap::const_iterator end() const;
+        const PropertySetMap::const_iterator begin() const;
+        const PropertySetMap::const_iterator end() const;
         
     private:
-        PropertyMap mProperties;
+        PropertySetMap mProperties;
 	};
 
     class _RlCommonExport PropertySetPtr :

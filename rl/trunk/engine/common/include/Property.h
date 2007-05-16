@@ -20,6 +20,7 @@
 
 #include <boost/any.hpp>
 #include <OgreSharedPtr.h>
+#include <map>
 
 #include "Exception.h"
 #include "Tripel.h"
@@ -64,11 +65,14 @@ namespace rl {
         } \
     }
 
+	class Property;
+
+	typedef std::map<CeGuiString, Property> PropertyMap;
 
     class _RlCommonExport Property
     {
     public:
-        Property();
+		Property();
 
         PropertyMethod(Bool, const bool&);
         PropertyMethod(String, const CeGuiString&);
@@ -79,6 +83,7 @@ namespace rl {
         PropertyMethod(IntTriple, const Tripel<int>);
         PropertyMethod(IntPair, const IntPair);
 		PropertyMethod(Array, const std::vector<Property>);
+		PropertyMethod(Map, const PropertyMap);
 
     private:
         boost::any mValue;

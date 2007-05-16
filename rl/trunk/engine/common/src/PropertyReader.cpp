@@ -193,16 +193,14 @@ PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElemen
 	else if (type == "ARRAY")
 	{
 		std::vector<Property> vecVal;
-		DOMNode* curChild = domElem->getFirstChild();
-		while (curChild != NULL)
+		for (DOMNode* curChild  = domElem->getFirstChild(); curChild != NULL;
+			curChild = curChild->getNextSibling())
 		{
 			if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
 			{
 				PropertyEntry entry = processProperty(static_cast<DOMElement*>(curChild));
 				vecVal.push_back(entry.second);
 			}
-
-			curChild = curChild->getNextSibling();
 		}
 		prop = Property(vecVal);
 	}
@@ -219,6 +217,21 @@ PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElemen
         }
         prop = Property(intpairVal);
     }
+	else if (type == "MAP")
+	{
+		PropertyMap mapVal;
+		for (DOMNode* curChild  = domElem->getFirstChild(); curChild != NULL;
+			curChild = curChild->getNextSibling());
+		{
+			if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
+			{
+				CeGuiString key = XmlHelper::getAttributeValueAsString(curChild, "name");
+				PropertyEntry entry = processProperty(static_cast<DOMElement*>(curChild));
+				mapVal[key] = entry.second;
+			}
+		}
+		prop = Property(mapVal);
+	}
 
     return std::make_pair(key, prop);
 }
