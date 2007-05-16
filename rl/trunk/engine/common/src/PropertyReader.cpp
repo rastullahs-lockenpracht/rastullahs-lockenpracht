@@ -221,7 +221,7 @@ PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElemen
 	{
 		PropertyMap mapVal;
 		for (DOMNode* curChild  = domElem->getFirstChild(); curChild != NULL;
-			curChild = curChild->getNextSibling());
+			curChild = curChild->getNextSibling())
 		{
 			if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
 			{
