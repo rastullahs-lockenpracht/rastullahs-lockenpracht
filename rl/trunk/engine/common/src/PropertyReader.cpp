@@ -225,8 +225,9 @@ PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElemen
 		{
 			if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
 			{
-				CeGuiString key = XmlHelper::getAttributeValueAsString(curChild, "name");
-				PropertyEntry entry = processProperty(static_cast<DOMElement*>(curChild));
+				DOMElement* curElem = static_cast<DOMElement*>(curChild);
+				CeGuiString key = XmlHelper::getAttributeValueAsString(curElem, "name");
+				PropertyEntry entry = processProperty(curElem);
 				mapVal[key] = entry.second;
 			}
 		}
