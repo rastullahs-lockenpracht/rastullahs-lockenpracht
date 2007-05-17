@@ -86,6 +86,8 @@ namespace rl
         const CeGuiString getMeshfile() const;
         void setMeshfile(CeGuiString meshfile);
 
+		const MeshPartMap& getMeshParts() const;
+
         const GeometryType getGeometryType() const;
         void setGeometryType(GeometryType type);
 

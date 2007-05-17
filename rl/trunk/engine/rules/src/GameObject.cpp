@@ -142,6 +142,11 @@ namespace rl
         mMeshfile = meshfile;
     }
 
+	const MeshPartMap& GameObject::getMeshParts() const
+	{
+		return mMeshParts;
+	}
+
     void GameObject::addAction(Action* action, int option)
     {
         if (action == NULL)

@@ -84,15 +84,33 @@ namespace rl {
 
     void SubmeshSlot::setItem(Item* item)
     {
-		///@todo: move to actor
+		//@todo: move to actor
 		MergeableMeshObject* mmo = dynamic_cast<MergeableMeshObject*>(
 			mOwner->getActor()->getControlledObject());
 		if (mmo != NULL)
 		{
-			item->setState(GOS_IN_POSSESSION);
-			mmo->replaceSubmesh(
-				mSubmesh, 
-				item->getMeshfile().c_str());
+			if (item == NULL)
+			{
+				MeshPartMap::const_iterator it = mOwner->getMeshParts().find(mSubmesh);
+				if (it != mOwner->getMeshParts().end())
+				{
+					mmo->replaceSubmesh(
+						mSubmesh,
+						(*it).second);
+				}
+				mItem = NULL;
+			}
+			else
+			{
+				if (isAllowed(item))
+				{			
+					item->setState(GOS_IN_POSSESSION);
+					mmo->replaceSubmesh(
+						mSubmesh, 
+						item->getMeshfile().c_str());
+					mItem = item;
+				}
+			}
 		}
     }
 } // namespace rl

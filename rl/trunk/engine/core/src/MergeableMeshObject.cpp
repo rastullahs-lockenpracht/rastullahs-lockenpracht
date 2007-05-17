@@ -93,7 +93,19 @@ namespace rl
 
 	void MergeableMeshObject::removeSubmesh(const Ogre::String& partToRemove)
 	{
-		///@todo MergeableMeshObject::removeSubmesh
+		MeshPartMap::iterator it = mMeshes.find(partToRemove);
+		if (it != mMeshes.end())
+		{
+			mMeshes.erase(it);
+		}
+		else
+		{
+			LOG_ERROR(
+				Logger::CORE, 
+				"Could not remove part '"
+				 + partToRemove + "' from mergeable mesh '"
+				 + getMeshName() + "'. Part not found.");
+		}
 	}
 
 	void MergeableMeshObject::switchTo(const MeshPtr& newMesh)
