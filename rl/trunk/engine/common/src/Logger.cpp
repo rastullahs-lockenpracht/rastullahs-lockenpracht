@@ -179,4 +179,9 @@ const Ogre::String& Logger::getErrorLog() const
 	return mErrorBuffer;
 }
 
+Ogre::Log* Logger::_getLog() const
+{
+	return mLog;
+}
+
 }

@@ -47,7 +47,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;.\include\nulldriver;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\OgreNewt\include\OgreNewt;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Dependencies\include"
+				AdditionalIncludeDirectories=".\include;.\include\nulldriver;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\OgreNewt\include\OgreNewt;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\meshmagick\include"
 				PreprocessorDefinitions="WITH_FMOD3;_WINDOWS,_DEBUG,WIN32,RLCORE_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -82,12 +82,12 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCommon.lib msvcrt-ruby18.lib OgreNewt_d.lib OgreMain_d.lib xerces-c_2D.lib CEGUIBase_d.lib Newton.lib"
+				AdditionalDependencies="RlCommon.lib msvcrt-ruby18.lib OgreNewt_d.lib OgreMain_d.lib xerces-c_2D.lib CEGUIBase_d.lib Newton.lib meshmagick_d.lib"
 				ShowProgress="0"
 				OutputFile="./lib/$(ConfigurationName)/RlCore.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;&quot;..\..\dependencies\ogrenewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
+				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;&quot;..\..\dependencies\ogrenewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll;..\..\dependencies\meshmagick\lib"
 				IgnoreDefaultLibraryNames=""
 				TypeLibraryFile="$(OutDir)\RlCore.lib"
 				GenerateDebugInformation="true"
@@ -159,7 +159,7 @@
 				Optimization="3"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;.\include\nulldriver;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\OgreNewt\include\OgreNewt;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Dependencies\include"
+				AdditionalIncludeDirectories=".\include;.\include\nulldriver;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\OgreNewt\include\OgreNewt;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\meshmagick\include"
 				PreprocessorDefinitions="WITH_FMOD3;NDEBUG,_WINDOWS,WIN32,RLCORE_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="false"
 				ExceptionHandling="1"
@@ -193,11 +193,11 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCommon.lib msvcrt-ruby18.lib OgreNewt.lib xerces-c_2.lib CEGUIBase.lib OgreMain.lib Newton.lib"
+				AdditionalDependencies="RlCommon.lib msvcrt-ruby18.lib OgreNewt.lib xerces-c_2.lib CEGUIBase.lib OgreMain.lib Newton.lib meshmagick.lib"
 				OutputFile="./lib/$(ConfigurationName)/RlCore.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;&quot;..\..\dependencies\ogrenewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
+				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;&quot;..\..\dependencies\ogrenewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll;..\..\dependencies\meshmagick\lib"
 				TypeLibraryFile="$(OutDir)\RlCore.lib"
 				ProgramDatabaseFile=""
 				SubSystem="2"
@@ -264,7 +264,7 @@
 				Optimization="3"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;.\include\nulldriver;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\OgreNewt\include\OgreNewt;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Dependencies\include"
+				AdditionalIncludeDirectories=".\include;.\include\nulldriver;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\OgreNewt\include\OgreNewt;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\meshmagick\include"
 				PreprocessorDefinitions="WITH_FMOD3;NDEBUG,_WINDOWS,WIN32,RLCORE_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="false"
 				ExceptionHandling="1"
@@ -298,11 +298,11 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCommon.lib msvcrt-ruby18.lib OgreNewt.lib xerces-c_2.lib CEGUIBase.lib OgreMain.lib Newton.lib"
+				AdditionalDependencies="RlCommon.lib msvcrt-ruby18.lib OgreNewt.lib xerces-c_2.lib CEGUIBase.lib OgreMain.lib Newton.lib meshmagick.lib"
 				OutputFile="$(OutDir)/RlCore.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\common\lib\Release;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\ogrenewt\lib\Release;..\..\dependencies\NewtonSDK\sdk\dll"
+				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;&quot;..\..\dependencies\ogrenewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll;..\..\dependencies\meshmagick\lib"
 				TypeLibraryFile="$(OutDir)\RlCore.lib"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(TargetDir)$(TargetName).pdb"
@@ -457,10 +457,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\LightFadeJob.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\LightObject.h"
 				>
 			</File>
@@ -474,6 +470,10 @@
 			</File>
 			<File
 				RelativePath=".\include\ListenerObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\MergeableMeshObject.h"
 				>
 			</File>
 			<File
@@ -710,10 +710,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\LightFadeJob.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\LightObject.cpp"
 				>
 			</File>
@@ -727,6 +723,10 @@
 			</File>
 			<File
 				RelativePath=".\src\ListenerObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\MergeableMeshObject.cpp"
 				>
 			</File>
 			<File

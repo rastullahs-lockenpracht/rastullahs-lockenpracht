@@ -78,6 +78,8 @@ namespace rl {
 		bool isErrorPresent() const;
 		void resetErrorState();
 		const Ogre::String& getErrorLog() const;
+
+		Ogre::Log* _getLog() const;
 	private:
 		void log(const LogLevel level, const Ogre::String& msg );
 

@@ -32,7 +32,7 @@ namespace rl {
 
     typedef std::map<const Ogre::String,Actor*> ActorPtrMap;
     typedef std::pair<const Ogre::String,Actor*> ActorPtrPair;
-
+	
     class _RlCoreExport ActorManager : public Ogre::Singleton<ActorManager>
     {
     public:
@@ -47,7 +47,12 @@ namespace rl {
         Actor* createListenerActor(const Ogre::String& name);
         Actor* createCameraActor(const Ogre::String& name);
         Actor* createEmptyActor(const Ogre::String& name);
-        Actor* createMeshActor(const Ogre::String& name,const Ogre::String& meshname,
+        Actor* createMeshActor(const Ogre::String& name, const Ogre::String& meshname,
+            GeometryType geomType = GT_NONE,
+            Ogre::Real mass = 1.0,
+			bool mergeable = false);
+		Actor* createMeshActor(const Ogre::String& name, const Ogre::String& basemeshname, 
+			const MeshPartMap& meshname,
             GeometryType geomType = GT_NONE,
             Ogre::Real mass = 1.0);
         Actor* createParticleSystemActor(const Ogre::String& name, 

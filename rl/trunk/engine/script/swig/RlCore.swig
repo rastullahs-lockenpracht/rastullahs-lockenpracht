@@ -64,6 +64,11 @@ static swig_type_info *ActorControlledObject_dynamic_cast(void **ptr)
     rl::ActorControlledObject **ppActorControlledObject =
         reinterpret_cast<rl::ActorControlledObject**>(ptr);
 
+    rl::MergeableMeshObject *pMergeableMeshObject=dynamic_cast<rl::MergeableMeshObject*>(*ppActorControlledObject);
+    if (pMergeableMeshObject) {
+        *ptr=reinterpret_cast<void*>(pMergeableMeshObject);
+        return SWIGTYPE_p_rl__MergeableMeshObject;
+    }
     rl::MeshObject *pMeshObject=dynamic_cast<rl::MeshObject*>(*ppActorControlledObject);
     if (pMeshObject) {
         *ptr=reinterpret_cast<void*>(pMeshObject);
@@ -133,7 +138,8 @@ public:
     rl::Actor* createLightActor(const Ogre::String& name, rl::LightObject::LightTypes type );
 	rl::Actor* createMeshActor(const Ogre::String& name, const Ogre::String& meshname,
 		    rl::GeometryType geom = rl::GT_NONE,
-		    Ogre::Real density=1.0);
+		    Ogre::Real mass = 0.0,
+		    bool mergeable = false);
 	rl::Actor* createBoxPrimitiveActor(const Ogre::String& name,
             const Ogre::Vector3& minCorner, const Ogre::Vector3& maxCorner,
             const Ogre::String& materialName = "", Ogre::Real mass = 0.0);
@@ -384,11 +390,11 @@ public:
     rl::Actor* getActor();
 };
 
-class PhysicalObject : public ActorControlledObject
+class PhysicalObject : public rl::ActorControlledObject
 {
 };
 
-class MeshObject : public PhysicalObject
+class MeshObject : public rl::PhysicalObject
 {
 private:
     MeshObject(const Ogre::String& name, const Ogre::String& meshname);
@@ -409,7 +415,18 @@ public:
     bool getCastShadows (void) const;    
 };
 
-class LightObject : public ActorControlledObject
+class MergeableMeshObject : public rl::MeshObject
+{
+private:
+    MergeableMeshObject(const Ogre::String& name, const Ogre::String& meshname);
+public:
+	void addSubmesh(const Ogre::String& meshname, const Ogre::String& meshfile);
+	void removeSubmesh(const Ogre::String& submeshToRemove);
+	void replaceSubmesh(const Ogre::String& submeshToReplace, const Ogre::String& substituteMeshname);
+	void setBaseMeshPart(const Ogre::String& partname);
+};
+
+class LightObject : public rl::ActorControlledObject
 {
 private:
     LightObject(const Ogre::String& name, rl::LightObject::LightTypes type);
@@ -427,7 +444,7 @@ public:
 };
 
 
-class SoundObject : public ActorControlledObject
+class SoundObject : public rl::ActorControlledObject
 {
 public:
     SoundObject(rl::Sound *sound, const Ogre::String &name);
@@ -460,7 +477,7 @@ public:
 	rl::Sound* getSound();
 };
 
-class ParticleSystemObject : public ActorControlledObject
+class ParticleSystemObject : public rl::ActorControlledObject
 {
 public:
      void setActive(bool active);
@@ -468,7 +485,7 @@ private:
 	 ParticleSystemObject(const Ogre::String& name, const Ogre::String& partSys );
 };
 
-class CameraObject : public PhysicalObject
+class CameraObject : public rl::PhysicalObject
 {
 private:
     CameraObject(const Ogre::String& name);
@@ -858,14 +875,14 @@ private:
     bool execute(Ogre::Real time);
 };
 
-class LightFadeJob : public rl::Job
-{
-public:
-    LightFadeJob(LightObject* lightObject, const Ogre::ColourValue& targetDiffuse, 
-        const Ogre::ColourValue& targetSpecular, Ogre::Real duration = 1.0f);
-
-    virtual bool execute(Ogre::Real time);
-};
+//class LightFadeJob : public rl::Job
+//{
+//public:
+//    LightFadeJob(LightObject* lightObject, const Ogre::ColourValue& targetDiffuse, 
+//        const Ogre::ColourValue& targetSpecular, Ogre::Real duration = 1.0f);
+//
+//    virtual bool execute(Ogre::Real time);
+//};
 
 class JobScheduler
 {

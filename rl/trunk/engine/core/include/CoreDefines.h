@@ -30,6 +30,7 @@ namespace rl {
         GT_PYRAMID = 6
     };
 
+	typedef std::map<Ogre::String, Ogre::String> MeshPartMap;
 }
 
 #endif // __CoreConstants_H__

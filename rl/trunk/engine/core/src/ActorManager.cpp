@@ -23,6 +23,7 @@
 #include "LightObject.h"
 #include "ListenerMovable.h"
 #include "ListenerObject.h"
+#include "MergeableMeshObject.h"
 #include "MeshObject.h"
 #include "BoxPrimitive.h"
 #include "MovableText.h"
@@ -315,17 +316,73 @@ namespace rl {
         return actor;
     }
 
+    Actor* ActorManager::createMeshActor(const String& name, const Ogre::String& basemeshname, 
+		const MeshPartMap& meshparts, GeometryType geomType, Ogre::Real mass)
+	{
+		if (meshparts.empty())
+		{
+			return NULL;
+		}
+
+        const String&  uniquename = nextUniqueName(name);
+        Actor* actor = NULL;
+
+        try
+        {
+			
+			MergeableMeshObject* mmo = new MergeableMeshObject(uniquename, basemeshname);
+
+			for (MeshPartMap::const_iterator partIt = meshparts.begin(); partIt != meshparts.end(); ++partIt)
+			{
+				if (partIt->second == basemeshname)
+				{
+					mmo->setBaseMeshPart(partIt->first);
+				}
+				mmo->addSubmesh(partIt->first, partIt->second);
+			}
+		
+			PhysicalThing* pt = PhysicsManager::getSingleton()
+				.createPhysicalThing(geomType, mmo, mass);
+
+			actor = new Actor(uniquename, mmo, pt);
+			mActors.insert(ActorPtrPair(uniquename,actor)); 
+		}
+        catch (Ogre::Exception& e)
+        {
+            LOG_ERROR(Logger::CORE, "ActorManager - Mesh parts for actor '"
+                + uniquename + "' could not be created. Reason: "
+                + e.getFullDescription());
+        }
+        catch (rl::Exception& e)
+        {
+            LOG_ERROR(Logger::CORE, "ActorManager - Mesh parts for actor '"
+                + uniquename + "' could not be created. Reason: "
+                + e.getMessage());
+        }
+        return actor;
+	}
+
+
     Actor* ActorManager::createMeshActor(const String& name, const String& meshname,
-        GeometryType geomType, Ogre::Real mass)
+        GeometryType geomType, Ogre::Real mass, bool mergeable)
     {
         const String&  uniquename = nextUniqueName(name);
         Actor* actor = NULL;
 
         try
         {
-            MeshObject* mo = new MeshObject(uniquename, meshname);
+			MeshObject* mo = NULL;
+
+			if (mergeable)
+			{
+				mo = new MergeableMeshObject(uniquename, meshname);
+			}
+			else
+			{
+				mo = new MeshObject(uniquename, meshname);
+			}
             PhysicalThing* pt = PhysicsManager::getSingleton()
-                .createPhysicalThing( geomType, mo, mass);
+                .createPhysicalThing(geomType, mo, mass);
 
             actor = new Actor(uniquename, mo, pt);
             mActors.insert(ActorPtrPair(uniquename,actor)); 

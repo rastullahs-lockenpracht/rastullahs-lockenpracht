@@ -21,6 +21,7 @@
 #include "ActorManager.h"
 #include "Actor.h"
 #include "MeshObject.h"
+#include "MergeableMeshObject.h"
 #include "SoundObject.h"
 #include "SoundManager.h"
 #include "ListenerObject.h"
@@ -58,7 +59,7 @@
 #include "PlayAnimationJob.h"
 #include "Zone.h"
 #include "ZoneManager.h"
-#include "LightFadeJob.h"
+//#include "LightFadeJob.h"
 #undef message
 #undef send
 %}

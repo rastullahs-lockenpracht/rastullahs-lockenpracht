@@ -66,3 +66,6 @@ copy "%RL_ROOT%\Dependencies\ois\dll\OIS_d.dll" "%RL_DIST%"
 
 copy "%RL_ROOT%\Dependencies\cppunit\lib\cppunit_dll.dll" "%RL_DIST%"
 copy "%RL_ROOT%\Dependencies\cppunit\lib\cppunitd_dll.dll" "%RL_DIST%"
+
+copy "%RL_ROOT%\Dependencies\meshmagick\lib\*.dll" "%RL_DIST%"
+

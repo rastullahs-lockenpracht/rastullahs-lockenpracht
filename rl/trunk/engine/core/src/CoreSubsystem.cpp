@@ -23,6 +23,7 @@
 #include <OgreConfigFile.h>
 #include <OgreMeshManager.h>
 #include <OgreBillboardParticleRenderer.h>
+#include <OgreEnvironment.h>
 
 #include "ActorManager.h"
 #include "AnimationManager.h"
@@ -83,6 +84,7 @@ namespace rl
     {
         mCoreEventCaster.removeEventListeners();
 
+		delete meshmagick::OgreEnvironment::getSingletonPtr();
         delete mZoneManager;
         delete mGameEventManager;
 		delete mWorld;
@@ -283,6 +285,9 @@ namespace rl
 
 		mZoneManager = new ZoneManager();
         LOG_MESSAGE(Logger::CORE,"ZoneManager erzeugt");
+
+		new meshmagick::OgreEnvironment();
+		meshmagick::OgreEnvironment::getSingleton().initialize(false, Logger::getSingleton()._getLog());
 
         return true;
     }

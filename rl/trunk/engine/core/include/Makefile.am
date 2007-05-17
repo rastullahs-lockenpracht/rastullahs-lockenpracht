@@ -32,6 +32,7 @@
 	LineSetPrimitive.h \
 	ListenerMovable.h \
 	ListenerObject.h \
+	MergeableMeshObject.h \
 	MeshAnimation.h \
 	MeshObject.h \
 	MovableText.h \

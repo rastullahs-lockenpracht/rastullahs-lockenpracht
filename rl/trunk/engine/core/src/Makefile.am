@@ -1,10 +1,10 @@
 # Default values, if configuration file is missing (hard coded)
 AM_CPPFLAGS = -DRL_MODULEDIR=\"$(RL_MODULEDIR)\" -DOGRE_PLUGINDIR=\"$(OGRE_PLUGINDIR)\"
 
-INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../common/include -I../include/nulldriver
+INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../common/include -I../include/nulldriver $(meshmagick_CFLAGS)
 
 lib_LTLIBRARIES = libRlCore.la
-libRlCore_la_LDFLAGS = $(OGRE_LIBS) $(CEGUI_LIBS) $(RUBY_LIBS) $(LIBS)
+libRlCore_la_LDFLAGS = $(OGRE_LIBS) $(CEGUI_LIBS) $(RUBY_LIBS) $(LIBS) -lmeshmagick
 libRlCore_la_SOURCES = \
 	Actor.cpp \
 	ActorControlledObject.cpp \
@@ -36,6 +36,7 @@ libRlCore_la_SOURCES = \
 	LineSetPrimitive.cpp \
 	ListenerObject.cpp \
 	ListenerMovable.cpp \
+	MergeableMeshObject.cpp \
 	MeshAnimation.cpp \
 	MeshObject.cpp \
 	MovableText.cpp \
