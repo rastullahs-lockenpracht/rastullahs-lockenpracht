@@ -43,6 +43,7 @@ namespace rl
     const Ogre::String GameObject::PROPERTY_NAME = "name"; 
     const Ogre::String GameObject::PROPERTY_DESCRIPTION = "description"; 
     const Ogre::String GameObject::PROPERTY_MESHFILE = "meshfile"; 
+	const Ogre::String GameObject::PROPERTY_MESHPARTS = "meshparts"; 
     const Ogre::String GameObject::PROPERTY_GEOMETRY_TYPE = "geometrytype"; 
     const Ogre::String GameObject::PROPERTY_MASS = "mass"; 
     const Ogre::String GameObject::PROPERTY_ACTIONS = "actions";
@@ -53,6 +54,7 @@ namespace rl
             mName(""),
             mDescription(""),
             mMeshfile(""),
+			mMeshParts(),
             mQueryFlags(QUERYFLAG_GAMEOBJECT),
             mHighlightingEnabled(true),
             mActor(NULL),
@@ -425,6 +427,16 @@ namespace rl
         {
             prop.setValue(mMass);
         }
+		else if (key == PROPERTY_MESHPARTS)
+		{
+			PropertyMap map;
+			for (MeshPartMap::const_iterator
+					it = mMeshParts.begin(); it != mMeshParts.end(); ++it)
+			{
+				map[(*it).first] = Property((*it).second);
+			}
+			prop.setValue(map);
+		}
         else
         {
             Throw(IllegalArgumentException, key + " is not a property of this gameobject ("+mName.c_str()+")");
@@ -456,6 +468,15 @@ namespace rl
             else if (key == PROPERTY_MESHFILE)
             {
                 setMeshfile(value.toString());
+            }
+            else if (key == PROPERTY_MESHPARTS)
+            {
+				PropertyMap map = value.toMap();
+				for (PropertyMap::const_iterator 
+					it = map.begin(); it != map.end(); ++it)
+				{
+					mMeshParts[(*it).first.c_str()] = (*it).second.toString().c_str();
+				}
             }
             else if (key == PROPERTY_GEOMETRY_TYPE)
             {
@@ -519,6 +540,7 @@ namespace rl
         ps->setProperty(PROPERTY_POSITION, Property(getPosition()));
         ps->setProperty(PROPERTY_ORIENTATION, Property(getOrientation()));
         ps->setProperty(PROPERTY_MESHFILE, Property(mMeshfile));
+        ps->setProperty(PROPERTY_MESHPARTS, getProperty(PROPERTY_MESHPARTS));
         ps->setProperty(PROPERTY_GEOMETRY_TYPE, Property(mGeometryType));
         ps->setProperty(PROPERTY_MASS, Property(mMass));
 
@@ -530,24 +552,40 @@ namespace rl
         if (mActor == NULL)
         {
             Ogre::String actorName = Ogre::StringConverter::toString(mId);
+			Actor* actor = NULL;
 
+			if (mMeshfile.empty() && mMeshParts.empty())
+			{
+				LOG_ERROR(
+					Logger::RULES, 
+					"Neither mesh file nor mesh parts are set on gameobject '" + getName()
+					+ "' (id: " + getId() + "). Can't create actor!");
+			}
+			else if (!mMeshParts.empty())
+			{
+				actor = ActorManager::getSingleton().createMeshActor(
+						actorName,
+						mMeshfile.c_str(),
+						mMeshParts,
+						mGeometryType,
+						mMass);
+			}
+			else
+			{
+				actor = ActorManager::getSingleton().createMeshActor(
+						actorName,
+						mMeshfile.c_str(),
+						mGeometryType,
+						mMass);
+			}
 
-            Actor* actor = ActorManager::getSingleton().createMeshActor(
-                    actorName,
-                    mMeshfile.c_str(),
-                    mGeometryType,
-                    mMass);
-
-            if (actor == NULL)
-            {
-                LOG_ERROR(
-                    Logger::RULES, 
-                    "Error creating actor '"
-                    + actorName
-                    + "' with mesh file "
-                    + mMeshfile);
-            }
-
+			if (actor == NULL)
+			{
+				LOG_ERROR(
+					Logger::RULES, 
+					"Error creating actor '"
+					+ actorName	+ "'.");
+			}
             return actor;
         }
         else

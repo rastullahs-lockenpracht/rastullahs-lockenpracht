@@ -58,7 +58,8 @@ namespace rl
         static const Ogre::String PROPERTY_NAME;
         static const Ogre::String PROPERTY_DESCRIPTION; 
         static const Ogre::String PROPERTY_MESHFILE; 
-        static const Ogre::String PROPERTY_GEOMETRY_TYPE; 
+  		static const Ogre::String PROPERTY_MESHPARTS; 
+		static const Ogre::String PROPERTY_GEOMETRY_TYPE; 
         static const Ogre::String PROPERTY_MASS; 
         static const Ogre::String PROPERTY_ACTIONS; 
         static const Ogre::String PROPERTY_DEFAULT_ACTION;
@@ -162,6 +163,7 @@ namespace rl
         CeGuiString mName;
         CeGuiString mDescription;
         CeGuiString mMeshfile;
+		MeshPartMap mMeshParts;
         Ogre::String mClassId;
         
         Actor* mActor;
