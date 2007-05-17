@@ -20,6 +20,7 @@
 #include "RulesPrerequisites.h"
 
 #include "Container.h"
+#include "Properties.h"
 
 namespace rl {
 
@@ -30,12 +31,11 @@ namespace rl {
 /**
  * @brief Verwaltet das Inventar des Charakters
  */
-class _RlRulesExport Inventory
+class _RlRulesExport Inventory : public PropertyHolder
 {
 public:
-///////////////////////////////////////////////////////////////////////////////
-// Typedefs
 
+	static const Ogre::String PROPERTY_CONTENT;
 	/** 
 	* @brief Eine Liste mit Zeigern auf Items
 	**/
@@ -49,8 +49,6 @@ public:
 	Inventory(Creature* owner);
 	virtual ~Inventory();
 
-///////////////////////////////////////////////////////////////////////////////
-// Methoden
 
 	/**
 	* Liefert alle Items im Inventar inm einer Liste
@@ -85,10 +83,14 @@ public:
     void ready(Item* item);
 
     Item* getItem(const CeGuiString& slotName) const;
-    void addSlot(const CeGuiString& name, const Ogre::String& bone, int itemMask);
+    void addSlot(const CeGuiString& name, const Ogre::String& meshpartname, int itemMask, bool boneSlot = true);
     const SlotMap& getAllSlots() const;
 
 	Creature* getOwner() const;
+
+	virtual const Property getProperty(const Ogre::String& key) const;
+    virtual void setProperty(const Ogre::String& key, const Property& value);
+    virtual PropertySet* getAllProperties() const;
 
 private:
 	bool mValuesUpToDate;

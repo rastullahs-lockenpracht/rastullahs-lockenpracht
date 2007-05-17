@@ -24,11 +24,14 @@
 #include "Creature.h"
 #include "Eigenschaft.h"
 #include "Slot.h"
+#include "GameObjectManager.h"
 
 using namespace std;
 
 namespace rl
 {
+
+	const Ogre::String Inventory::PROPERTY_CONTENT = "content";
 
     /**
        Just to remember all parts of the inventory
@@ -212,17 +215,75 @@ namespace rl
     {
     }
 
-    void Inventory::addSlot(const CeGuiString& name, const Ogre::String& bone, int itemMask)
+    void Inventory::addSlot(const CeGuiString& name, const Ogre::String& meshpartname, int itemMask, bool boneSlot)
     {
         if (mSlots.find(name) != mSlots.end())
         {
             Throw(rl::IllegalArgumentException, Ogre::String("Slot '")+name.c_str()+"' already exists.");
         }
-        mSlots[name] = new BoneSlot(mOwner, name, itemMask, bone);
+
+		if (boneSlot)
+		{
+			mSlots[name] = new BoneSlot(mOwner, name, itemMask, meshpartname);
+		}
+		else
+		{
+			mSlots[name] = new SubmeshSlot(mOwner, name, itemMask, meshpartname);
+		}
     }
 
     const Inventory::SlotMap& Inventory::getAllSlots() const
     {
         return mSlots;
     }
+
+	const Property Inventory::getProperty(const Ogre::String& key) const
+	{
+		Property prop;
+		if (key == Inventory::PROPERTY_CONTENT)
+		{
+			PropertyMap contentProp;
+
+			SlotMap slots = getAllSlots();
+			for (SlotMap::const_iterator it = slots.begin(); it != slots.end(); ++it)
+			{
+				Slot* curSlot = (*it).second;
+				if (curSlot->getItem())
+				{
+					contentProp[(*it).first] = 
+						GameObjectManager::getSingleton().toProperty(curSlot->getItem());
+				}
+			}
+
+			prop.setValue(contentProp);
+		}
+		return prop;
+	}
+    
+	void Inventory::setProperty(const Ogre::String& key, const Property& value)
+	{
+		if (key == Inventory::PROPERTY_CONTENT)
+		{
+			PropertyMap bonesContent = value.toMap();
+			for (PropertyMap::const_iterator it = bonesContent.begin();
+				it != bonesContent.end(); ++it)
+			{
+				Item* item = dynamic_cast<Item*>(
+					GameObjectManager::getSingleton().createGameObjectFromProperty(
+						(*it).second));
+				if (item)
+				{
+					hold(item, (*it).first);
+				}
+			}
+		}
+	}
+
+    PropertySet* Inventory::getAllProperties() const
+	{
+		PropertySet* ps = new PropertySet();
+		ps->setProperty(Inventory::PROPERTY_CONTENT, getProperty(Inventory::PROPERTY_CONTENT));
+		return ps;
+	}
+
 }

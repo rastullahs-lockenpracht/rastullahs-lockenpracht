@@ -535,10 +535,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\MapLoader.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\ObjectStateChangeEvent.h"
 				>
 			</File>

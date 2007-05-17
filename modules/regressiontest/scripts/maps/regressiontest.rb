@@ -15,6 +15,7 @@ require 'SoundTest.rb'
 require 'effecttest.rb'
 require 'LightzoneTest.rb'
 require 'MapLoadingTest.rb'
+require 'MergeableMeshTest.rb'
 
 # Physik aktivieren
 $PM.setEnabled(true)
@@ -38,21 +39,22 @@ $UI.setActiveCharacter($hero)
 
 $SCRIPT.log("Hero ready")
 
-$SCRIPT.log("map 'regressiontest' initialisiert.");
+$SCRIPT.log("begin tests.");
 
-DoorTest.new([0.0, 0.0, -5.0])
-#GameObjectCreationTest.new([5, 0, 0])
-#GameObjectStatesTest.new([0, 0, 5])
-NpcTest.new([-5, 0, 5])
-NpcCapsuleTest.new([0, 0, 5])
-TimeTest.new([-5, 0, -5])
+         DoorTest.new([0, 0, -5])
+          NpcTest.new([-5, 0, 5])
+   NpcCapsuleTest.new([0, 0, 5])
+         TimeTest.new([-5, 0, -5])
 ErrorHandlingTest.new([-10, 0, 5])
-InventoryTest.new([0, 0, 10])
-JobSequenceTest.new([5, 0, -5])
-EffectTest.new([5, 0, 5])
-SoundTest.new([15, 0, 10])
-LightzoneTest.new([-10, 0, -5])
-MapLoadingTest.new([-5, 0, -10])
+    InventoryTest.new([0, 0, 10])
+  JobSequenceTest.new([5, 0, -5])
+       EffectTest.new([5, 0, 5])
+        SoundTest.new([10, 0, 10])
+    LightzoneTest.new([-10, 0, -5])
+   MapLoadingTest.new([-5, 0, -10])
+MergeableMeshTest.new([10, 0, 0])
 
 
 $SCRIPT.log("tests initialisiert.");
+
+$SCRIPT.log("map 'regressiontest' initialisiert.");

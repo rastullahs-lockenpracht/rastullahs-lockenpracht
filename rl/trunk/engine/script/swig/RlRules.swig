@@ -580,7 +580,7 @@ namespace rl {
     private:
         Inventory(rl::Creature* owner);
     public:
-        void addSlot(const rl::CeGuiString& name, const Ogre::String& bone, int itemMask);
+		void addSlot(const rl::CeGuiString& name, const Ogre::String& meshpartname, int itemMask, bool boneSlot = true);
         rl::Item* getItem(const rl::CeGuiString& slotName) const;
         void hold(rl::Item* item, const rl::CeGuiString& slot);
         void dropItem(const rl::CeGuiString& slotName);

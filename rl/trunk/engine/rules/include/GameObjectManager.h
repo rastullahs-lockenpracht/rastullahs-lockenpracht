@@ -27,6 +27,7 @@
 namespace rl
 {
     class GameObject;
+	class Property;
     class PropertySet;
 
     class _RlRulesExport GameObjectFactory
@@ -49,6 +50,8 @@ namespace rl
 
         GameObject* getGameObject(unsigned int id) const;
         GameObject* createGameObject(const Ogre::String& classId, unsigned int id = 0);
+		GameObject* createGameObjectFromProperty(const Property& goProp);
+		Property toProperty(const GameObject* const co) const;
         std::list<const GameObject*> getAllGameObjects() const;
         void setGameObjectFactory(GameObjectFactory* gof);
         void loadProperties(const Ogre::String& module);

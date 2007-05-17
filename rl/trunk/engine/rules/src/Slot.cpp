@@ -19,6 +19,7 @@
 #include "Creature.h"
 #include "Item.h"
 #include "MeshObject.h"
+#include "MergeableMeshObject.h"
 
 namespace rl {
 
@@ -83,6 +84,15 @@ namespace rl {
 
     void SubmeshSlot::setItem(Item* item)
     {
-        ///@todo: use meshcombiner API
+		///@todo: move to actor
+		MergeableMeshObject* mmo = dynamic_cast<MergeableMeshObject*>(
+			mOwner->getActor()->getControlledObject());
+		if (mmo != NULL)
+		{
+			item->setState(GOS_IN_POSSESSION);
+			mmo->replaceSubmesh(
+				mSubmesh, 
+				item->getMeshfile().c_str());
+		}
     }
 } // namespace rl

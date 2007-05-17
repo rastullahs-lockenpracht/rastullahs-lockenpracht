@@ -15,6 +15,8 @@
 */
 #include "GameObjectManager.h"
 
+#include <CEGUIPropertyHelper.h>
+
 #include "Armor.h"
 #include "CoreSubsystem.h"
 #include "Container.h"
@@ -144,6 +146,27 @@ namespace rl
         mGameObjects[goId] = go;
         return go;
     }
+
+	GameObject* GameObjectManager::createGameObjectFromProperty(const Property& goProp)
+	{
+		CeGuiString serializedString = goProp.toString();
+
+		CeGuiString::size_type posDivider = serializedString.find("|");
+		
+		if (posDivider != CeGuiString::npos)
+		{
+			Ogre::String classId(serializedString.substr(0, posDivider).c_str());
+			unsigned int goid = CEGUI::PropertyHelper::stringToUint(serializedString.substr(posDivider));
+			return createGameObject(classId, goid);
+		}
+		
+		return NULL;
+	}
+
+	Property GameObjectManager::toProperty(const GameObject* const go) const
+	{
+		return Property(go->getClassId() + "|" + CEGUI::PropertyHelper::uintToString(go->getId()));
+	}
 
     PropertySet* GameObjectManager::getClassProperties(const Ogre::String& classId)
     {
