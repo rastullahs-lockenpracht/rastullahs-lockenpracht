@@ -1,0 +1,18 @@
+
+material men_human_female_feet_boots_01
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture obj_boots01.png
+				tex_coord_set 1
+			}
+		}
+
+	}
+
+}

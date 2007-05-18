@@ -1,0 +1,17 @@
+
+material men_human_female_armor_kroetenhaut
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture obj_kroetenhaut.png
+			}
+		}
+
+	}
+
+}

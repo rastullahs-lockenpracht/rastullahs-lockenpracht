@@ -1,0 +1,17 @@
+
+material men_human_female_armor_garethplatte
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture obj_plattediffuse.png
+			}
+		}
+
+	}
+
+}

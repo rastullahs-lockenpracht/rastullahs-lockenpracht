@@ -1,0 +1,17 @@
+
+material men_human_female_legs_pants_01_long
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture obj_pants01.png
+			}
+		}
+
+	}
+
+}
