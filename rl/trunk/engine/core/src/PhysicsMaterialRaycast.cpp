@@ -28,7 +28,25 @@ namespace rl {
     RaycastInfo PhysicsMaterialRaycast::execute(OgreNewt::World* world, const MaterialID* material,
         const Vector3& start, const Vector3& end, bool invertmat)
     {
+        mMaterialVector = NULL;
         mMaterial = material;
+        mInvertMat = invertmat;
+
+        mInfo.mBody = 0;
+        mInfo.mDistance = 1.1;
+        mInfo.mNormal = Vector3::ZERO;
+        
+        mGetNearest = false;
+        go(world, start, end);
+        
+        return mInfo;
+    }
+
+    RaycastInfo PhysicsMaterialRaycast::execute(OgreNewt::World* world, const MaterialVector* materials,
+        const Vector3& start, const Vector3& end, bool invertmat)
+    {
+        mMaterialVector = materials;
+        mMaterial = NULL;
         mInvertMat = invertmat;
 
         mInfo.mBody = 0;
@@ -43,21 +61,56 @@ namespace rl {
 
     bool PhysicsMaterialRaycast::userCallback(Body* body, Ogre::Real distance, const Ogre::Vector3& normal, int collisionID)
     {
-        if( mMaterial == NULL )
+        if( body->getMaterialGroupID() == NULL )
         {
             mInfo.mBody = body;
             mInfo.mDistance = distance;
             mInfo.mNormal = normal;
             mGetNearest = true;
+            LOG_MESSAGE(Logger::CORE, "Warning PhysicsMaterialRaycast found body without material (getMaterialGroupId() == NULL)!");
         }
-        else if (body->getMaterialGroupID() && 
-            (body->getMaterialGroupID()->getID() == mMaterial->getID() && !mInvertMat ||
-             body->getMaterialGroupID()->getID() != mMaterial->getID() && mInvertMat))
+        else
         {
-            mInfo.mBody = body;
-            mInfo.mDistance = distance;
-            mInfo.mNormal = normal;
-            mGetNearest = true;
+            if( mMaterial == NULL && mMaterialVector == NULL)
+            {
+                mInfo.mBody = body;
+                mInfo.mDistance = distance;
+                mInfo.mNormal = normal;
+                mGetNearest = true;
+            }
+            else if( mMaterial != NULL )
+            {
+                if (body->getMaterialGroupID()->getID() == mMaterial->getID() && !mInvertMat ||
+                    body->getMaterialGroupID()->getID() != mMaterial->getID() && mInvertMat)
+                {
+                    mInfo.mBody = body;
+                    mInfo.mDistance = distance;
+                    mInfo.mNormal = normal;
+                    mGetNearest = true;
+                }
+            }
+            else // mMaterialVector != NULL
+            {
+                bool found = false;
+
+                MaterialVector::const_iterator iter;
+                for(iter = mMaterialVector->begin(); iter != mMaterialVector->end(); iter++)
+                {
+                    if (body->getMaterialGroupID()->getID() == (*iter)->getID())
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if( found && !mInvertMat || !found && mInvertMat )
+                {
+                    mInfo.mBody = body;
+                    mInfo.mDistance = distance;
+                    mInfo.mNormal = normal;
+                    mGetNearest = true;
+                }
+            }
         }
         return mGetNearest;
     }
