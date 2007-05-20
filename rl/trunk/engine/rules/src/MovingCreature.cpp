@@ -638,14 +638,14 @@ namespace rl
         }
         virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep) 
         {
+            Real mass;
+            Vector3 inertia;
+            OgreNewt::Body *body = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody();
+            body->getMassMatrix(mass, inertia);
+
             if( mJumpNow )
             {
                 mJumpNow = false;
-
-                Real mass;
-                Vector3 inertia;
-                OgreNewt::Body *body = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody();
-                body->getMassMatrix(mass, inertia);
 
                 Real m = mass;
                 Real g = PhysicsManager::getSingleton().getGravity().length();
@@ -657,6 +657,9 @@ namespace rl
                     0);
                 mMovingCreature->setAbstractLocation( MovingCreature::AL_AIRBORNE );
             }
+
+            Vector3 omega = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody()->getOmega();
+            torque = -omega / PhysicsManager::getSingleton().getMaxTimestep() * 2 * mass;
         }
         virtual bool run(Ogre::Real elapsedTime,  Ogre::Vector3 direction, Ogre::Vector3 rotation)
         {
@@ -710,6 +713,7 @@ namespace rl
         }
         virtual bool isRotationPossible(Ogre::Vector3 &rotation) const
         {
+            rotation = Vector3::ZERO;
             return false;
         }
         virtual bool canChangeToMovement(MovingCreature::MovementType id)
@@ -796,15 +800,14 @@ namespace rl
         }
         virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep) 
         {
+            Real mass;
+            Vector3 inertia;
+            OgreNewt::Body *body = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody();
+            body->getMassMatrix(mass, inertia);
+
             if( mJumpNow )
             {
                 mJumpNow = false;
-
-                Real mass;
-                Vector3 inertia;
-                OgreNewt::Body *body = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody();
-                body->getMassMatrix(mass, inertia);
-
 
                 Real m = mass;
                 Real g = PhysicsManager::getSingleton().getGravity().length();
@@ -822,6 +825,9 @@ namespace rl
                 force += Vector3(0,jumpForcezy,-jumpForcezy);
                 mMovingCreature->setAbstractLocation( MovingCreature::AL_AIRBORNE );
             }
+
+            Vector3 omega = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody()->getOmega();
+            torque = -omega / PhysicsManager::getSingleton().getMaxTimestep() * 2 * mass;
         }
         virtual bool run(Ogre::Real elapsedTime,  Ogre::Vector3 direction, Ogre::Vector3 rotation)
         {
@@ -875,6 +881,7 @@ namespace rl
         }
         virtual bool isRotationPossible(Ogre::Vector3 &rotation) const
         {
+            rotation = Vector3::ZERO;
             return false;
         }
         virtual bool canChangeToMovement(MovingCreature::MovementType id)

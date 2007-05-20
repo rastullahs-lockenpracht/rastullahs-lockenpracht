@@ -348,7 +348,8 @@ namespace rl {
                     direction,
                     Vector3(0, rotation.valueRadians(), 0) );
             }
-            else if( movement & MOVE_JUMP )
+            else if( movement & MOVE_JUMP && 
+                mMovingCreature->getMovementFromId(MovingCreature::MT_HOCHSPRUNG)->isPossible() )
             {
                 MovingCreature::MovementType type = MovingCreature::MT_HOCHSPRUNG;
                 Vector3 direction = Vector3::UNIT_Y;
