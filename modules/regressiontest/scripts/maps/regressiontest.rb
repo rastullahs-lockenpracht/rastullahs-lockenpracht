@@ -22,16 +22,8 @@ $PM.setEnabled(true)
 
 $SCRIPT.log("init map 'regressiontest'...")
 
-$SCRIPT.log("Create hero")
-$hero = $GOM.createGameObject("hero", 1);
-
-$SCRIPT.log("Place hero into scene")
-#$hero.setPosition([0.0, 1.0, 0.0]);
-$hero.setState(GOS_IN_SCENE)
-
-
-
 $SCRIPT.log("Prepare hero for being the active character")
+$hero = $GOM.getGameObject(1);
 PlayerSettings.preparePlayer($hero)
 
 $SCRIPT.log("Set hero as active character")
