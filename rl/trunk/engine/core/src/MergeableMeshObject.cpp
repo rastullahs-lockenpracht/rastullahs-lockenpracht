@@ -97,6 +97,7 @@ namespace rl
 		if (it != mMeshes.end())
 		{
 			mMeshes.erase(it);
+			updateMesh();
 		}
 		else
 		{

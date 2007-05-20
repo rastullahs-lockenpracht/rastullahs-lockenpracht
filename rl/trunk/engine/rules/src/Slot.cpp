@@ -84,31 +84,38 @@ namespace rl {
 
     void SubmeshSlot::setItem(Item* item)
     {
-		//@todo: move to actor
-		MergeableMeshObject* mmo = dynamic_cast<MergeableMeshObject*>(
-			mOwner->getActor()->getControlledObject());
-		if (mmo != NULL)
+		///@todo: what to do if actor is null?
+		if (mOwner->getActor() != NULL)
 		{
-			if (item == NULL)
+			MergeableMeshObject* mmo = dynamic_cast<MergeableMeshObject*>(
+				mOwner->getActor()->getControlledObject());
+			if (mmo != NULL)
 			{
-				MeshPartMap::const_iterator it = mOwner->getMeshParts().find(mSubmesh);
-				if (it != mOwner->getMeshParts().end())
+				if (item == NULL)
 				{
-					mmo->replaceSubmesh(
-						mSubmesh,
-						(*it).second);
+					MeshPartMap::const_iterator it = mOwner->getMeshParts().find(mSubmesh);
+					if (it != mOwner->getMeshParts().end())
+					{
+						mmo->replaceSubmesh(
+							mSubmesh,
+							(*it).second);
+					}
+					else
+					{
+						mmo->removeSubmesh(mSubmesh);
+					}
+					mItem = NULL;
 				}
-				mItem = NULL;
-			}
-			else
-			{
-				if (isAllowed(item))
-				{			
-					item->setState(GOS_IN_POSSESSION);
-					mmo->replaceSubmesh(
-						mSubmesh, 
-						item->getMeshfile().c_str());
-					mItem = item;
+				else
+				{
+					if (isAllowed(item))
+					{			
+						item->setState(GOS_IN_POSSESSION);
+						mmo->replaceSubmesh(
+							mSubmesh, 
+							item->getMeshfile().c_str());
+						mItem = item;
+					}
 				}
 			}
 		}
