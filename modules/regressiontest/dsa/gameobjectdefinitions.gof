@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <GameObjectDefinitions>
 
+    <gameobjectclass classid="mckhero" baseclass="MCKHero">
+		<property name="geometrytype" type="STRING" data="ellipsoid" />
+		<property name="mass" type="REAL" data="75"/>
+		<property name="inventorywindowtype" type="STRING" data="inventory_human.xml"/>
+        <property name="meshfile" type="STRING" data="men_human_female_torso.mesh"/>
+        <property name="meshparts" type="MAP">
+            <property name="torso" type="STRING" data="men_human_female_torso.mesh"/>
+            <property name="hand" type="STRING" data="men_human_female_hand_nude.mesh"/>
+            <property name="head" type="STRING" data="men_human_female_head_02.mesh"/>
+            <property name="hair" type="STRING" data="men_human_female_hair_long_01_normal.mesh"/>
+            <property name="leg" type="STRING" data="men_human_female_leg_pants_01_long.mesh"/>
+            <property name="feet" type="STRING" data="men_human_female_feet_boots_01.mesh"/>
+        </property>
+	</gameobjectclass>
+
     <gameobjectclass classid="Holzscheit" baseclass="GameObject">
         <property name="name" type="STRING" data="Holzscheit"/>        
         <property name="description" type="STRING" data="Greater log of time check. (Very rare)"/>

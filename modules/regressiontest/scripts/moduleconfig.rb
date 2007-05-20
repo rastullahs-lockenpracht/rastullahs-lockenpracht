@@ -22,9 +22,10 @@ class RegressionTestModule < ContentModule
     end
 
     def start()
+        require "mckhero.rb"
+        require "hero.rb"
         MapLoader.new("regressiontest").loadMap("regressiontest.scene")
         load "regressiontest.rb"
-        $World = $CORE.getWorld();
     end
 end
 
