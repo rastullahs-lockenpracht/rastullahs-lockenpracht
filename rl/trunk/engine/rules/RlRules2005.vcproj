@@ -345,6 +345,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\MovingCreature.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\MovingCreatureManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ObjectStateChangeEvent.cpp"
 				>
 			</File>
@@ -532,6 +540,14 @@
 			</File>
 			<File
 				RelativePath=".\include\Kampftechnik.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\MovingCreature.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\MovingCreatureManager.h"
 				>
 			</File>
 			<File

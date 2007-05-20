@@ -27,6 +27,7 @@ namespace rl
     class ActionManager;
     class CombatManager;
     class DsaManager;
+    class MovingCreatureManager;
     class TimerManager;
     class XdimlLoader;
 
@@ -44,6 +45,7 @@ namespace rl
         ActionManager* mActionManager;
         CombatManager* mCombatManager;
         DsaManager* mDsaManager;
+        MovingCreatureManager *mMovingCreatureManager;
         TimerManager* mTimerManager;
         XdimlLoader* mXdimlLoader;
     };

@@ -19,6 +19,7 @@
 
 #include "UiPrerequisites.h"
 #include "GameTask.h"
+#include "MovingCreature.h"
 #include "PhysicsController.h"
 #include "PhysicsGenericContactCallback.h"
 #include "CharacterController.h"
@@ -85,34 +86,16 @@ namespace rl {
 
     protected:
         virtual void doCreatePrimitive();
+        MovingCreature *mMovingCreature;
 
     private:
 
 		/// private struct for holding state info of the controller
 		struct CharacterState
 		{
-            //typedef enum {Stand, Crouch, StandToCrouch, CrouchToStand, Falling, Jumping, StartJump, EndJump} Pose;
-			CharacterState();
-            //Pose mPose;
-			bool mIsAirBorne;
-            bool mHasFloorContact;
-			//bool mStartJumpLong;
-            //bool mStartJumpHigh;
-            bool mStartJump;
-            Ogre::Real mJumpWidthHeight;
-
-			Ogre::Real mJumpTimer;
-
-			Ogre::Vector3 mDesiredVel;
-
+            CharacterState();
 			int mCurrentMovementState;
 			int mLastMovementState;
-            bool beginSneak;
-            bool endSneak;
-            bool beginJump;
-            bool endJump;
-            enum {HOCHSPRUNG, WEITSPRUNG /*, PRAEZISER_SPRUNG*/}
-                        jumpType;
 		};
 
         static Ogre::String msDebugWindowPageName;
@@ -123,7 +106,6 @@ namespace rl {
         /// optimal distance to the character
         Ogre::Real mDesiredDistance;
         std::pair<Ogre::Real, Ogre::Real> mDistanceRange;
-        Ogre::Degree mYaw;
         Ogre::Degree mCamYaw; // für VM_FREE_CAMERA
         Ogre::Degree mCamVirtualYaw; // helps to simulate strafe+forward/backward movement
         Ogre::Degree mPitch;
@@ -134,9 +116,6 @@ namespace rl {
         Ogre::Radian mRotationSpeed;
         Ogre::Real mMouseSensitivity;
         bool mInvertedMouse; // like in old games
-        Ogre::Real mSpeedModifier;
-
-		Ogre::Vector3 mGravitation;
 
         ViewMode mViewMode;
 
@@ -149,14 +128,12 @@ namespace rl {
         HalfSphereSelector mSelector;
         HalfSphereSelector mCombatSelector;
 
+
         /// Camera Spring-Damping System (smooth movement) spring-factor
         Ogre::Real mLinearSpringK;
         /// Camera Spring-Damping System (smooth movement) damping-factor
         Ogre::Real mLinearDampingK;
-        /// Character rotation Spring-Damping System (smooth movement) spring-factor
-        Ogre::Real mRotLinearSpringK;
-        /// Character rotation Spring-Damping System (smooth movement) spring-factor
-        Ogre::Real mRotLinearDampingK;
+
         /// with this velocity the optimal Position of the cam moves away from the char
         Ogre::Real mCamMoveAwayVelocity;
         /// if there was no collision of the cam for this time, the cam can securely move backward
@@ -166,12 +143,13 @@ namespace rl {
 
         void updateSelection();
         bool isEnemyNear();
-        //void updateCharacterState(int movement, Ogre::Real elapsedTime);
-        void updateCharacterState(Ogre::Real elapsedTime);
-        void updateCameraLookAt(Ogre::Real elapsedTime);
-        //void updateAnimationState(int &movement); // this can also modify movement, if needed
 
-        void interpolateAnimationLookAtOffset(std::string actAnim, std::string newAnim, Ogre::Real factor);
+
+        void updateCameraLookAt(Ogre::Real elapsedTime);
+
+        void updateCharacter(Ogre::Real elapsedTime);
+
+        //void interpolateAnimationLookAtOffset(std::string actAnim, std::string newAnim, Ogre::Real factor);
 
 
         /** Does all camera-stuff, moves the camera to the right position 

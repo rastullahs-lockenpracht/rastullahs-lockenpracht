@@ -21,6 +21,7 @@
 //#include "XdimlLoader.h"
 #include "DsaDataLoader.h"
 #include "Logger.h"
+#include "MovingCreatureManager.h"
 #include "TimerManager.h"
 #include "GameObjectManager.h"
 #include "QuestBook.h"
@@ -34,6 +35,7 @@ namespace rl
         mActionManager(NULL),
         mCombatManager(NULL),
         mDsaManager(NULL),
+        mMovingCreatureManager(NULL),
         mTimerManager(NULL),
         mXdimlLoader(NULL)
     {
@@ -48,7 +50,9 @@ namespace rl
 		LOG_MESSAGE(Logger::RULES, "CombatManager erzeugt");
         mDsaManager = new DsaManager();
 		LOG_MESSAGE(Logger::RULES, "DsaManager erzeugt");
-		mTimerManager = new TimerManager(); 
+        mMovingCreatureManager = new MovingCreatureManager();
+		LOG_MESSAGE(Logger::RULES, "MovingCreatureManager erzeugt");
+        mTimerManager = new TimerManager(); 
 		LOG_MESSAGE(Logger::RULES, "TimerManager erzeugt");
 		resetQuestBook();
 		LOG_MESSAGE(Logger::RULES, "Questverwaltung erzeugt");
@@ -66,6 +70,7 @@ namespace rl
         delete mQuestBook;
         delete mTimerManager;
         delete mDsaManager;
+        delete mMovingCreatureManager;
         delete mCombatManager;
         delete mActionManager;
         delete mXdimlLoader;
