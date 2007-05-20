@@ -329,7 +329,7 @@ namespace rl
             CollisionMap::iterator it = mPoseCollisions.find(animName);
             if (it == mPoseCollisions.end())
             {
-                Entity* entity = dynamic_cast<MeshObject*>(mPhysicalObject)->getEntity();
+                Entity* entity = meshObject->getEntity();
                 MeshObject *tempMesh = NULL;
 
                 // the problem fixed and it's source:
@@ -340,9 +340,9 @@ namespace rl
 
 				// check if this is a 'animated' state we have to create the convex hull for ...
 
-				if (animName != "") {
+				if (animName != "" && meshObject->hasAnimation(animName)) {
 					// Duplicating the MeshObject and animate it into the animName pose
-					tempMesh = dynamic_cast<MeshObject*>(mPhysicalObject)->createPosedCopy(animName);
+					tempMesh = meshObject->createPosedCopy(animName);
 
 					entity = tempMesh->getEntity();
 				}
