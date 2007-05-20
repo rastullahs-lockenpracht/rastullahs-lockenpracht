@@ -143,8 +143,9 @@ namespace rl {
         }
         catch(Ogre::Exception&) 
         {
-            Throw(IllegalArgumentException,
+			LOG_ERROR(Logger::CORE,
                 animName + " is not a valid AnimationState of " + mMeshName + ".");
+			return NULL;
         }
 
         return AnimationManager::getSingleton().addMeshAnimation(
