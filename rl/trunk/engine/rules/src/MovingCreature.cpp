@@ -73,6 +73,7 @@ namespace rl
             if(vel.squaredLength() > mVelocity.squaredLength())
                 delay *= 1.5;
             force = mass * (mVelocity - vel) / delay;
+            force.y = 0;
         }
         virtual bool run(Ogre::Real elapsedTime,  Ogre::Vector3 direction, Ogre::Vector3 rotation)
         {
@@ -292,7 +293,7 @@ namespace rl
                     mMovingCreature->getCreature()->getAu() > 6;
             else
                 return Gehen::isPossible() &&
-                    mMovingCreature->getCreature()->getAu() > 10;
+                    mMovingCreature->getCreature()->getAu() > 8;
         }
         virtual bool run(Ogre::Real elapsedTime, Ogre::Vector3 direction, Ogre::Vector3 rotation)
         {
@@ -366,7 +367,7 @@ namespace rl
             else
                 return Gehen::isPossible() &&
                     mMovingCreature->getCreature()->getAu() > mMovingCreature->getCreature()->getAuMax() * 0.5 &&
-                    mMovingCreature->getCreature()->getAu() > 10;
+                    mMovingCreature->getCreature()->getAu() > 8;
         }
         virtual bool run(Ogre::Real elapsedTime, Ogre::Vector3 direction, Ogre::Vector3 rotation)
         {
@@ -631,7 +632,7 @@ namespace rl
             else
                 return 
                 mMovingCreature->getAbstractLocation() == MovingCreature::AL_FLOOR &&
-                mMovingCreature->getCreature()->getAu() > 10 &&
+                mMovingCreature->getCreature()->getAu() > 8 &&
                 mMovingCreature->getCreature()->getAu() > mMovingCreature->getCreature()->getAuMax()/3.0 &&
                 !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
         }
@@ -688,11 +689,11 @@ namespace rl
             if( mState == DOWNTOUP )
             {
                 mTimer += elapsedTime;
-                if( mTimer >= 0.5f )
+                if( mTimer >= 0.25f )
                 {
                     mState = UP;
                     mMovingCreature->setAbstractLocation(MovingCreature::AL_AIRBORNE);
-                    //mMovingCreature->setAnimation("idle_sprung");
+                    //mMovingCreature->setAnimation("idle_sprung"); // we also don't need this animation!
                     mJumpNow = true;
                     mTimer = 0;
                 }
@@ -789,7 +790,7 @@ namespace rl
             else
                 return 
                 mMovingCreature->getAbstractLocation() == MovingCreature::AL_FLOOR &&
-                mMovingCreature->getCreature()->getAu() > 10 &&
+                mMovingCreature->getCreature()->getAu() > 8 &&
                 mMovingCreature->getCreature()->getAu() > mMovingCreature->getCreature()->getAuMax()/3.0 &&
                 !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
         }
@@ -853,7 +854,7 @@ namespace rl
             if( mState == DOWNTOUP )
             {
                 mTimer += elapsedTime;
-                if( mTimer >= 0.5f )
+                if( mTimer >= 0.3f )
                 {
                     mState = UP;
                     mMovingCreature->setAbstractLocation(MovingCreature::AL_AIRBORNE);
