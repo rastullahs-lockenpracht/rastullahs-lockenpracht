@@ -23,6 +23,8 @@ libRlRules_la_SOURCES = \
 	Inventory.cpp \
 	JournalEntry.cpp \
 	Kampftechnik.cpp \
+	MovingCreatureManager.cpp \
+	MovingCreature.cpp \
 	ObjectStateChangeEvent.cpp \
 	ObjectStateChangeEventSource.cpp \
 	ObjectStateChangeListener.cpp \

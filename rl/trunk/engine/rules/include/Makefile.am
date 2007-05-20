@@ -20,6 +20,8 @@ noinst_HEADERS = \
 	Inventory.h \
 	JournalEntry.h \
 	Kampftechnik.h \
+	MovingCreatureManager.h \
+	MovingCreature.h \
 	ObjectStateChangeEvent.h \
 	ObjectStateChangeEventSource.h \
 	ObjectStateChangeListener.h \
