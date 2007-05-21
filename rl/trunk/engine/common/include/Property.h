@@ -63,11 +63,57 @@ namespace rl {
                 rl::WrongFormatException, \
                 "Wrong property type for to##Name (type is "+ Ogre::String(mValue.type().name())+") " + (mValue.empty()?"EMPTY!":"not empty")); \
         } \
+    }\
+    operator Type() const \
+    {\
+        return to##Name();\
     }
 
 	class Property;
 
+	typedef std::vector<Property> PropertyVector;
 	typedef std::map<CeGuiString, Property> PropertyMap;
+
+    template<typename T> PropertyMap convertToPropertyMap(const std::map<const CeGuiString, typename T>& input)
+    {
+        PropertyMap map;
+        for (std::map<const CeGuiString, typename T>::const_iterator it =
+            input.begin(); it != input.end(); ++it)
+        {
+            map[it->first] = Property(it->second);
+        }
+        return map;
+    }
+
+    template<typename T> PropertyMap convertToPropertyMap(const std::map<const Ogre::String, typename T>& input)
+    {
+        PropertyMap map;
+        for (std::map<const Ogre::String, typename T>::const_iterator it =
+            input.begin(); it != input.end(); ++it)
+        {
+            map[it->first] = Property(it->second);
+        }
+        return map;
+    }
+
+    template<typename T> void convertToMap(
+        const PropertyMap& propmap, std::map<const Ogre::String, typename T>& output)
+    {
+        for (PropertyMap::const_iterator it = propmap.begin(); it != propmap.end(); ++it)
+        {
+            output[it->first.c_str()] = it->second;
+        }
+    }
+    
+    template<typename T> void convertToMap(
+        const PropertyMap& propmap, std::map<const CeGuiString, typename T>& output)
+    {
+        for (PropertyMap::const_iterator it = propmap.begin(); it != propmap.end(); ++it)
+        {
+            output[it->first] = it->second;
+        }
+    }
+    
 
     class _RlCommonExport Property
     {
@@ -82,7 +128,7 @@ namespace rl {
         PropertyMethod(Quaternion, const Ogre::Quaternion&);
         PropertyMethod(IntTriple, const Tripel<int>);
         PropertyMethod(IntPair, const IntPair);
-		PropertyMethod(Array, const std::vector<Property>);
+		PropertyMethod(Array, const PropertyVector);
 		PropertyMethod(Map, const PropertyMap);
 
     private:
