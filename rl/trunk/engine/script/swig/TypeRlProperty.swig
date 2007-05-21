@@ -131,9 +131,9 @@ VALUE convertPropertyToValue(rl::Property input)
     }
     else if (input.isArray())
     {
-		std::vector<rl::Property> vec = input.toArray();
+		PropertyVector vec = input.toArray();
 		VALUE rval = rb_ary_new();
-		for (std::vector<rl::Property>::const_iterator it = vec.begin();
+		for (PropertyVector::const_iterator it = vec.begin();
 			it != vec.end(); it++)
 		{
 			rb_ary_push(rval, rl::convertPropertyToValue(*it));

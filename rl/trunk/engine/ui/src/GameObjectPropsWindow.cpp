@@ -510,12 +510,11 @@ namespace rl {
         mTabPane->addTab(newTable);
 
         // Get access to the vector
-        std::vector<Property> vProp = prop.toArray();
-        std::vector<Property>::iterator it;
-
+        PropertyVector vProp = prop.toArray();
+        
         // Iterate through the vector entries and add them
         // to the table
-        for(it = vProp.begin(); it != vProp.end(); it++)
+        for(PropertyVector::const_iterator it = vProp.begin(); it != vProp.end(); it++)
         {
             // Check for Int
             if( it->isInt() )

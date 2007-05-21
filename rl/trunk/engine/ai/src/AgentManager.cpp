@@ -151,11 +151,11 @@ void AgentManager::gameObjectStateChanged(GameObject* go, GameObjectState oldSta
         Property behaviorProperty = creature->getProperty(Creature::PROPERTY_BEHAVIOURS);
         if (behaviorProperty.isArray())
         {
-            std::vector<Property> behaviors = behaviorProperty.toArray();
+            PropertyVector behaviors = behaviorProperty.toArray();
             if (!behaviors.empty())
             {
                 Agent* agent = createAgent(AGENT_STD_NPC, creature);
-                for (std::vector<Property>::const_iterator it = behaviors.begin(),
+                for (PropertyVector::const_iterator it = behaviors.begin(),
                     end = behaviors.end(); it != end; ++it)
                 {
                     if (it->isString())
