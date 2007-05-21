@@ -15,20 +15,26 @@
  */
 
 #include "Container.h"
-#include "Exception.h"
-#include "Item.h"
+
 #include <algorithm>
+
+#include "Exception.h"
+#include "GameObjectManager.h"
+#include "Item.h"
 
 using namespace std;
 
 namespace rl {
 
-	const std::pair<unsigned int, unsigned int> Container::NO_SPACE_FOR_ITEM = make_pair(1999999999, 1999999999);
+	const UintPair Container::NO_SPACE_FOR_ITEM = make_pair(1999999999, 1999999999);
 
     const Ogre::String Container::CLASS_NAME = "Container";
 
     const Ogre::String Container::PROPERTY_CAPACITY = "capacity";
     const Ogre::String Container::PROPERTY_VOLUME = "volume";
+	const Ogre::String Container::PROPERTY_CONTENT = "content";
+    const Ogre::String Container::PROPERTY_CONTENT_OBJECTS = "objects";
+    const Ogre::String Container::PROPERTY_CONTENT_POSITIONS = "positions";
 
     Container::Container(unsigned int id)
         : Item(id),
@@ -67,7 +73,7 @@ namespace rl {
         Ogre::Real rval = 0;
         for (ItemSet::const_iterator it = mItems.begin(); it != mItems.end(); it++)
         {
-            rval += (*it)->getWeight();
+            rval += (*it)->getMass();
         }
         return rval;
     }
@@ -84,12 +90,23 @@ namespace rl {
 
     bool Container::addItem(Item* item)
     {
+        return addItem(item, findPositionWithEnoughSpace(item->getSize()));
+    }
+
+    bool Container::addItem(Item* item, UintPair position)
+    {
         if(item == NULL)
         {
             Throw(NullPointerException, "Item ist null.");
         }
 
-        pair<unsigned int, unsigned int> pos = findPositionWithEnoughSpace(item->getSize());
+
+        UintPair pos = position;
+		if (!canPlaceAt(item, pos.first, pos.second))
+		{		
+			pos = findPositionWithEnoughSpace(item->getSize());
+		}
+
 		if (pos != NO_SPACE_FOR_ITEM)
 		{
 			mItemPositions[item] = pos;
@@ -169,9 +186,9 @@ namespace rl {
         mItemPositions[item] = make_pair(xPos, yPos);
     }
 
-	std::pair<unsigned int, unsigned int> Container::getItemPosition(Item* item) const
+	UintPair Container::getItemPosition(Item* item) const
     {
-		std::map<Item*, std::pair<unsigned int, unsigned int> >::const_iterator it = 
+		std::map<Item*, UintPair >::const_iterator it = 
 			mItemPositions.find(item);
         if (it == mItemPositions.end())
         {
@@ -181,7 +198,7 @@ namespace rl {
 		return (*it).second;
     }
 
-    pair<unsigned int, unsigned int> Container::findPositionWithEnoughSpace(pair<unsigned int, unsigned int> space) const
+    UintPair Container::findPositionWithEnoughSpace(UintPair space) const
     {
 		for (unsigned int x = 0; x < mVolume.first; x++)
         {
@@ -225,11 +242,11 @@ namespace rl {
 
     Item* Container::getItemAt(unsigned int x, unsigned int y) const
     {
-        for (map<Item*, pair<unsigned int, unsigned int> >::const_iterator iter = mItemPositions.begin(); 
+        for (map<Item*, UintPair >::const_iterator iter = mItemPositions.begin(); 
             iter != mItemPositions.end(); iter++)
         {
             Item* item = (*iter).first;
-            pair<unsigned int, unsigned int> pos = (*iter).second;
+            UintPair pos = (*iter).second;
 
             if (pos.first <= x 
                 && pos.second <= y 
@@ -243,9 +260,9 @@ namespace rl {
         return NULL;
     }
 
-    Ogre::Real Container::getWeight() const
+    Ogre::Real Container::getMass() const
     {
-        return mWeight + getContentWeight();
+		return Item::getMass() + getContentWeight();
     }
 
     void Container::setProperty(const Ogre::String &key, const rl::Property &value)
@@ -265,6 +282,23 @@ namespace rl {
         {
             mVolume = value.toIntPair();
         }
+		else if (key == Container::PROPERTY_CONTENT)
+        {
+			PropertyMap contentMap = value.toMap();
+			PropertyVector objects = contentMap[Container::PROPERTY_CONTENT_OBJECTS].toArray();
+			PropertyVector positions = contentMap[Container::PROPERTY_CONTENT_POSITIONS].toArray();
+
+			for (size_t idx = 0; idx < objects.size(); ++idx)
+			{
+				Property curObjProp = objects[idx];
+				UintPair curObjPos = positions[idx].toIntPair();
+
+				Item* cur = dynamic_cast<Item*>(
+					GameObjectManager::getSingleton().createGameObjectFromProperty(curObjProp));
+
+				addItem(cur, curObjPos);				
+			}
+        }
         else
         {
             Item::setProperty(key, value);
@@ -281,6 +315,25 @@ namespace rl {
         {
             return Property(make_pair((int)mVolume.first, (int)mVolume.second));
         }
+		else if (key == Container::PROPERTY_CONTENT)
+        {
+			PropertyVector positions;
+			PropertyVector objects;
+
+			for (ItemSet::const_iterator it = mItems.begin(); it != mItems.end(); ++it)
+			{
+				Item* cur = *it;
+				UintPair pos = getItemPosition(cur);
+				objects.push_back(GameObjectManager::getSingleton().toProperty(cur));
+				positions.push_back(Property(pos));
+			}
+
+			PropertyMap contentMap;
+			contentMap[Container::PROPERTY_CONTENT_OBJECTS] = objects;
+			contentMap[Container::PROPERTY_CONTENT_POSITIONS] = positions;
+
+			return Property(contentMap);			
+        }
         else
         {
             return Item::getProperty(key);
@@ -292,6 +345,7 @@ namespace rl {
         PropertySet* ps = Item::getAllProperties();
         ps->setProperty(Container::PROPERTY_CAPACITY, Property(mCapacity));
         ps->setProperty(Container::PROPERTY_VOLUME, Property(make_pair((int)mVolume.first, (int)mVolume.second)));
+		ps->setProperty(Container::PROPERTY_CONTENT, getProperty(Container::PROPERTY_CONTENT));
 
         return ps;
     }

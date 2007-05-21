@@ -31,7 +31,6 @@ namespace rl
 
     Item::Item(unsigned int id)
         : GameObject(id),
-		mWeight(0),
 		mItemType(ITEMTYPE_OTHER),
 		mImageName(""),
 		mSize(pair<int,int>(1,1))
@@ -43,16 +42,6 @@ namespace rl
     {
     }
 	
-    void Item::setWeight(Ogre::Real weight)
-    {
-        mWeight = weight;
-    }
-
-    Ogre::Real Item::getWeight() const
-    {
-        return mWeight;
-    }
-
 	void Item::setItemType(ItemType itemType)
 	{
 		mItemType = itemType;
@@ -71,16 +60,6 @@ namespace rl
 	const CeGuiString Item::getImageName() const
 	{
 		return mImageName;
-	}
-
-	void Item::setPrice(int price)
-	{
-		mPrice = price;
-	}
-	
-	int Item::getPrice() const
-	{
-		return mPrice;
 	}
 
 	bool Item::isContainer() const

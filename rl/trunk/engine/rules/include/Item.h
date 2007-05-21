@@ -61,15 +61,9 @@ namespace rl
 		Item(unsigned int id);
         virtual ~Item(void);
 
-	    void setWeight(Ogre::Real weight);
-        Ogre::Real getWeight() const;
-
 		void setItemType(ItemType itemType);
 		ItemType getItemType() const;
 
-		void setPrice(int price);
-		int getPrice() const;
- 
 		const CeGuiString getImageName() const;
 		void setImageName(const CeGuiString name);
 
@@ -90,12 +84,7 @@ namespace rl
         virtual PropertySet* getAllProperties() const;
 
     protected:
-        /// Masse in Unzen.
-        Ogre::Real mWeight;
 		ItemType mItemType;
-
-		// Der Standard-Preis (kann variiert werden) in Silbertalern
-		unsigned int mPrice;
 
 		CeGuiString mImageName;
 

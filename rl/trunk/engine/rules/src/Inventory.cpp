@@ -136,7 +136,7 @@ namespace rl
 
 		while (it != items.end())
 		{
-			totalWeight += (*it)->getWeight();
+			totalWeight += (*it)->getMass();
 
 			it++;
 		}

@@ -110,6 +110,20 @@ namespace rl
             static const Ogre::String CLASS_NAME;
             static const Ogre::String PROPERTY_BEHAVIOURS;
 			static const Ogre::String PROPERTY_INVENTORY_WINDOW_TYPE;
+            static const Ogre::String PROPERTY_CURRENT_LE;
+            static const Ogre::String PROPERTY_CURRENT_AE;
+            static const Ogre::String PROPERTY_CURRENT_AU;
+            static const Ogre::String PROPERTY_CURRENT_FATIGUE;
+            static const Ogre::String PROPERTY_EFFECTS;
+            static const Ogre::String PROPERTY_EIGENSCHAFTEN;
+            static const Ogre::String PROPERTY_TALENTE;
+            static const Ogre::String PROPERTY_KAMPFTECHNIKEN;
+            static const Ogre::String PROPERTY_VORTEILE;
+            static const Ogre::String PROPERTY_NACHTEILE;
+            static const Ogre::String PROPERTY_SF;
+            static const Ogre::String PROPERTY_WERTE;
+            static const Ogre::String PROPERTY_AP;
+            static const Ogre::String PROPERTY_INVENTORY;
 
 			typedef std::string Wert;
 
@@ -768,7 +782,6 @@ namespace rl
             /// Verwaltet die Effekte die auf die Kreatur wirken.
             EffectManager* mEffectManager;
             /// Zeigt auf die gerade aktive Waffe.
-            Weapon* mActiveWeapon;
             EigenschaftMap mEigenschaften;
             TalentMap mTalente;
             KampftechnikMap mKampftechniken;
@@ -779,7 +792,7 @@ namespace rl
             Ap mAp;
             /// Zeigt auf das Inventar der Kreatur.
             Inventory* mInventory;
-        Ogre::String mInventoryWindowType;
+            Ogre::String mInventoryWindowType;
 
             Property mBehaviours;
 

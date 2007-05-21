@@ -22,9 +22,23 @@ using namespace std;
 namespace rl
 {
     const Ogre::String Weapon::CLASS_NAME = "Weapon";
+    const Ogre::String Weapon::PROPERTY_TP = "TP";
+    const Ogre::String Weapon::PROPERTY_TP_KK = "TPKK";
+    const Ogre::String Weapon::PROPERTY_TP_BF = "BF";
+    const Ogre::String Weapon::PROPERTY_TP_INI = "INI";
+    const Ogre::String Weapon::PROPERTY_TP_WM = "WM";
+    const Ogre::String Weapon::PROPERTY_TP_DK = "DK";
+    const Ogre::String Weapon::PROPERTY_TP_KAMPFTECHNIK = "KT";
 
 	Weapon::Weapon(unsigned int id)
-		: Item(id)
+		: Item(id),
+        mTp(0, 0, 0),
+		mTpKk(0, 0),
+		mBf(0),
+		mIni(0),
+		mWm(0, 0),
+        mDk(DK_H),
+        mKampftechnik("")
 	{
         mQueryFlags |= QUERYFLAG_WEAPON;
 	}
@@ -62,7 +76,7 @@ namespace rl
 		mBf = newBf;
 	}
 
-	int Weapon::getBf()
+	int Weapon::getBf() const
 	{
 		return mBf;
 	}
@@ -72,7 +86,7 @@ namespace rl
 		mIni = newIni;
 	}
 
-	int Weapon::getIni()
+	int Weapon::getIni() const
 	{
 		return mIni;
 	}
@@ -87,15 +101,20 @@ namespace rl
 		return mWm;
 	}
 
-	void Weapon::setDk(Weapon::Distanzklasse newDk)
+	void Weapon::setDk(int newDk)
 	{
 		mDk = newDk;
 	}
 
-	Weapon::Distanzklasse Weapon::getDk()
+	int Weapon::getDk() const
 	{
 		return mDk;
 	}
+
+    bool Weapon::hasDk(Weapon::Distanzklasse newDk) const
+    {
+        return (mDk & newDk) == newDk;
+    }
 
 	void Weapon::setKampftechnik(const CeGuiString newKampftechnik)
 	{
@@ -109,36 +128,87 @@ namespace rl
 
     void Weapon::setProperty(const Ogre::String &key, const rl::Property &value)
     {
-        //if (key == Weapon::PROPERTY_IMAGENAME)
-        //{
-        //    mImageName = value.toString();
-        //}
-        //else
-        //{
+        if (key == Weapon::PROPERTY_TP)
+        {
+            mTp = value.toIntTriple();
+        }
+        else if (key == Weapon::PROPERTY_TP_KK)
+        {
+            mTpKk = value.toIntPair();
+        }
+        else if (key == Weapon::PROPERTY_TP_BF)
+        {
+            mBf = value.toInt();
+        }
+        else if (key == Weapon::PROPERTY_TP_INI)
+        {
+            mIni = value.toInt();
+        }
+        else if (key == Weapon::PROPERTY_TP_WM)
+        {
+            mWm = value.toIntPair();
+        }
+        else if (key == Weapon::PROPERTY_TP_DK)
+        {
+            mDk = value.toInt();
+        }
+        else if (key == Weapon::PROPERTY_TP_KAMPFTECHNIK)
+        {
+            mKampftechnik = value.toString();
+        }
+        else 
+        {
             Item::setProperty(key, value);
-        //}
+        }
     }
 
     const Property Weapon::getProperty(const Ogre::String &key) const
     {
-        //if (key == Item::PROPERTY_IMAGENAME)
-        //{
-        //    return Property(mImageName);
-        //}
-        //else
-        //{
+        if (key == Weapon::PROPERTY_TP)
+        {
+            return Property(mTp);
+        }
+        else if (key == Weapon::PROPERTY_TP_KK)
+        {
+            return Property(mTpKk);
+        }
+        else if (key == Weapon::PROPERTY_TP_BF)
+        {
+            return Property(mBf);
+        }
+        else if (key == Weapon::PROPERTY_TP_INI)
+        {
+            return Property(mIni);
+        }
+        else if (key == Weapon::PROPERTY_TP_WM)
+        {
+            return Property(mWm);
+        }
+        else if (key == Weapon::PROPERTY_TP_DK)
+        {
+            return Property(mDk);
+        }
+        else if (key == Weapon::PROPERTY_TP_KAMPFTECHNIK)
+        {
+            return Property(mKampftechnik);
+        }
+        else
+        {
             return Item::getProperty(key);
-        //}
+        }
     }
 
     PropertySet* Weapon::getAllProperties() const
     {
         PropertySet* ps = Item::getAllProperties();
-        //ps->setProperty(Item::PROPERTY_IMAGENAME, Property(mImageName));
-        //ps->setProperty(Item::PROPERTY_SIZE, Property(mSize));
+        ps->setProperty(Weapon::PROPERTY_TP, Property(mTp));
+        ps->setProperty(Weapon::PROPERTY_TP_KK, Property(mTpKk));
+        ps->setProperty(Weapon::PROPERTY_TP_BF, Property(mBf));
+        ps->setProperty(Weapon::PROPERTY_TP_INI, Property(mIni));
+        ps->setProperty(Weapon::PROPERTY_TP_WM, Property(mWm));
+        ps->setProperty(Weapon::PROPERTY_TP_DK, Property(mDk));
+        ps->setProperty(Weapon::PROPERTY_TP_KAMPFTECHNIK, Property(mKampftechnik));
 
         return ps;
     }
-
 }
-

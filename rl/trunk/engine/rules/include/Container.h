@@ -24,6 +24,7 @@
 namespace rl
 {
     typedef std::set<Item*> ItemSet;
+	typedef std::pair<unsigned int, unsigned int> UintPair;
 
     /// Behaelter fr Items.
     class _RlRulesExport Container : public Item
@@ -34,26 +35,36 @@ namespace rl
         static const Ogre::String PROPERTY_VOLUME;
         static const Ogre::String PROPERTY_CAPACITY;
         static const Ogre::String PROPERTY_CONTENT;
+        static const Ogre::String PROPERTY_CONTENT_OBJECTS;
+        static const Ogre::String PROPERTY_CONTENT_POSITIONS;
 
+		/** Creates a new container
+		 * @param id the gameobject ID
+		 */
         Container(unsigned int id);
         virtual ~Container(void);
 
-        /// Fassungsvermoegen in Unzen
+		/// Get the weight capacity (in Stein)
         Ogre::Real getCapacity() const;
 
-        /// Fassungsvermoegen in Unzen
+		/// Set the weight capacity (in Stein)
         void setCapacity(Ogre::Real capacity);
 
-		// Volumen in x (breite) * y (hoehe)
+		/// Set the "volume" to x (width) * y (height) spaces
 		void setVolume(unsigned int x, unsigned int y);
-        std::pair<unsigned int, unsigned int> getVolume() const;
 
-        /// ist dieser Gegenstand ein Container
+		/// Get the container's "volume" spaces
+		UintPair getVolume() const;
+
+        /** Returns whether this item is a container
+		 * @return always <code>true</code>
+		 */
         virtual bool isContainer() const;
 
 		/// Liefert Gesamtgewicht des Inhalts.
         Ogre::Real getContentWeight() const;
-        virtual Ogre::Real getWeight() const;
+
+		virtual Ogre::Real getMass() const;
 
 		/**
 		 * Add an item to the container's content
@@ -61,6 +72,7 @@ namespace rl
 		 * @return <code>true</code> if adding was successful, <code>false</code> otherwise (e.g. not enough space)
 		 */
         bool addItem(Item* item);
+		bool addItem(Item* item, UintPair position);
         void removeItem(Item* item);
 
         ItemSet getItems() const;
@@ -72,14 +84,14 @@ namespace rl
         void putItemAt(Item* item, unsigned int x, unsigned int y);
         bool canPlaceAt(Item* item, unsigned int xPos, unsigned int yPos) const;
         void setItemPosition(Item* item, unsigned int xPos, unsigned int yPos);
-        std::pair<unsigned int,unsigned int> getItemPosition(Item* item) const;
+        UintPair getItemPosition(Item* item) const;
 
         virtual const Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const Property& value);
         virtual PropertySet* getAllProperties() const;
 
     private:
-		static const std::pair<unsigned int, unsigned int> NO_SPACE_FOR_ITEM;
+		static const UintPair NO_SPACE_FOR_ITEM;
 
         Ogre::Real mCapacity;
 		std::pair<unsigned int,unsigned int> mVolume;
@@ -90,10 +102,14 @@ namespace rl
 
         ItemSet mItems;
 
-        std::map<Item*, std::pair<unsigned int, unsigned int> > mItemPositions;
+        std::map<Item*, UintPair> mItemPositions;
 
-        std::pair<unsigned int, unsigned int> findPositionWithEnoughSpace(std::pair<unsigned int, unsigned int> space) const;
-        bool checkSpace(unsigned int xStart, unsigned int yStart, std::pair<unsigned int,unsigned int> space) const;
+        std::pair<unsigned int, unsigned int> 
+			findPositionWithEnoughSpace(UintPair space) const;
+        bool checkSpace(
+			unsigned int xStart, 
+			unsigned int yStart, 
+			UintPair space) const;
     };
 }
 

@@ -22,37 +22,44 @@
 
 namespace rl
 {
-	/// Objekte die sich mit Kampffertigkeiten einsetzen lassen
+	/// Weapons are objects which can be used with combat talents
 	class _RlRulesExport Weapon : public Item
 	{
 	public:
 		enum Distanzklasse 
 		{
-			DK_H=0,
-			DK_N,
-			DK_S,
-			DK_P
+			DK_H = 0,
+			DK_N = 1,
+			DK_S = 2,
+			DK_P = 4
 		};
 
         static const Ogre::String CLASS_NAME;
 
+        static const Ogre::String PROPERTY_TP;
+        static const Ogre::String PROPERTY_TP_KK;
+        static const Ogre::String PROPERTY_TP_BF;
+        static const Ogre::String PROPERTY_TP_INI;
+        static const Ogre::String PROPERTY_TP_WM;
+        static const Ogre::String PROPERTY_TP_DK;
+        static const Ogre::String PROPERTY_TP_KAMPFTECHNIK;
+
 		Weapon (unsigned int id);
         virtual ~Weapon(void);
-
-		const CeGuiString getDescription() const;
 
 		void setTp(int d6, int d20, int mod);
 		const Tripel<int>& getTp() const;
 		void setTpKk(int base, int step);
 		const std::pair<int, int>& getTpKk() const;
 		void setBf(int newBf);
-		int getBf();
+		int getBf() const;
 		void setIni(int newIni);
-		int getIni();
+		int getIni() const;
 		void setWm(std::pair<int, int>& newWm);
 		const std::pair<int,int>& getWm() const;
-		void setDk(Distanzklasse newDk);
-		Distanzklasse getDk();
+		void setDk(int newDk);
+		int getDk() const;
+        bool hasDk(Distanzklasse dk) const;
 		void setKampftechnik(const CeGuiString newKampftechnik);
 		const CeGuiString getKampftechnik() const;
 
@@ -66,7 +73,7 @@ namespace rl
 		int mBf;
 		int mIni;
 		std::pair<int, int> mWm;
-		Distanzklasse mDk;
+		int mDk;
 		CeGuiString mKampftechnik;
 	};
 }

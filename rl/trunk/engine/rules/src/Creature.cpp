@@ -37,10 +37,23 @@ using namespace std;
 namespace rl
 {
     const Ogre::String Creature::CLASS_NAME = "Creature";
-    const Ogre::String Creature::PROPERTY_BEHAVIOURS = "behaviours";
-    
-    const Ogre::String Creature::PROPERTY_INVENTORY_WINDOW_TYPE = "inventorywindowtype"; 
 
+    const Ogre::String Creature::PROPERTY_BEHAVIOURS = "behaviours";
+    const Ogre::String Creature::PROPERTY_INVENTORY_WINDOW_TYPE = "inventorywindowtype"; 
+    const Ogre::String Creature::PROPERTY_CURRENT_LE;
+    const Ogre::String Creature::PROPERTY_CURRENT_AE;
+    const Ogre::String Creature::PROPERTY_CURRENT_AU;
+    const Ogre::String Creature::PROPERTY_CURRENT_FATIGUE;
+    const Ogre::String Creature::PROPERTY_EFFECTS;
+    const Ogre::String Creature::PROPERTY_EIGENSCHAFTEN;
+    const Ogre::String Creature::PROPERTY_TALENTE;
+    const Ogre::String Creature::PROPERTY_KAMPFTECHNIKEN;
+    const Ogre::String Creature::PROPERTY_VORTEILE;
+    const Ogre::String Creature::PROPERTY_NACHTEILE;
+    const Ogre::String Creature::PROPERTY_SF;
+    const Ogre::String Creature::PROPERTY_WERTE;
+    const Ogre::String Creature::PROPERTY_AP;
+    const Ogre::String Creature::PROPERTY_INVENTORY;
 
     // some targets
 	const std::string Creature::ALL_EIGENSCHAFTEN = "alle Eigenschaften";
@@ -67,7 +80,6 @@ namespace rl
 		mCurrentLe(0),
         mCurrentAu(0),
         mCurrentAe(0),
-	mActiveWeapon(NULL),
 		mInventory(NULL),
 		mEigenschaften(),
 		mWerte(),
@@ -978,6 +990,70 @@ namespace rl
         {
             mInventoryWindowType = value.toString().c_str();
         }
+        else if (key == Creature::PROPERTY_CURRENT_LE)
+        {
+            mCurrentLe = value.toInt();
+        }
+        else if (key == Creature::PROPERTY_CURRENT_AE)
+        {
+            mCurrentAe = value.toInt();
+        }
+        else if (key == Creature::PROPERTY_CURRENT_AU)
+        {
+            mCurrentAu = value.toInt();
+        }
+        else if (key == Creature::PROPERTY_CURRENT_FATIGUE)
+        {
+            mErschoepfung = value.toInt();
+        }
+        //else if (key == Creature::PROPERTY_EFFECTS)
+        //{
+        //    mEffectManager->setProperty(Creature::PROPERTY_EFFECTS, value);
+        //}
+        else if (key == Creature::PROPERTY_EIGENSCHAFTEN)
+        {
+            mEigenschaften.clear();
+            convertToMap(value.toMap(), mEigenschaften);
+        }
+        else if (key == Creature::PROPERTY_TALENTE)
+        {
+            mTalente.clear();
+            convertToMap(value.toMap(), mTalente);
+        }
+        else if (key == Creature::PROPERTY_KAMPFTECHNIKEN)
+        {
+            mKampftechniken.clear();
+            convertToMap(value.toMap(), mKampftechniken);
+        }
+        else if (key == Creature::PROPERTY_VORTEILE)
+        {
+            mVorteile.clear();
+            convertToMap(value.toMap(), mVorteile);
+        }
+        else if (key == Creature::PROPERTY_NACHTEILE)
+        {
+            mNachteile.clear();
+            convertToMap(value.toMap(), mNachteile);
+        }
+//        else if (key == Creature::PROPERTY_SF)
+//        {
+            ///@todo Sonderfertigkeiten
+//        }
+        else if (key == Creature::PROPERTY_WERTE)
+        {
+            mWerte.clear();
+            convertToMap(value.toMap(), mWerte);
+        }
+        else if (key == Creature::PROPERTY_AP)
+        {
+            IntPair ip = value.toIntPair();
+            mAp.total = ip.first;
+            mAp.used = ip.second;
+        }
+        else if (key == Creature::PROPERTY_INVENTORY)
+        {
+            mInventory->setProperty(Inventory::PROPERTY_CONTENT, value);
+        }
         else
         {
             GameObject::setProperty(key, value);
@@ -994,6 +1070,68 @@ namespace rl
         {
             return Property(mInventoryWindowType);
         }
+        else if (key == Creature::PROPERTY_CURRENT_LE)
+        {
+            return Property(mCurrentLe);
+        }
+        else if (key == Creature::PROPERTY_CURRENT_AE)
+        {
+            return Property(mCurrentAe);
+        }
+        else if (key == Creature::PROPERTY_CURRENT_AU)
+        {
+            return Property(mCurrentAu);
+        }
+        else if (key == Creature::PROPERTY_CURRENT_FATIGUE)
+        {
+            return Property(mErschoepfung);
+        }
+        //else if (key == Creature::PROPERTY_EFFECTS)
+        //{
+        //    return Property(mEffectManager->getProperty(Creature::PROPERTY_EFFECTS));
+        //}
+        else if (key == Creature::PROPERTY_EIGENSCHAFTEN)
+        {
+            PropertyMap map = rl::convertToPropertyMap(mEigenschaften);
+            return Property(map);
+        }
+        else if (key == Creature::PROPERTY_TALENTE)
+        {
+            PropertyMap map = rl::convertToPropertyMap(mTalente);
+            return Property(map);
+        }
+        else if (key == Creature::PROPERTY_KAMPFTECHNIKEN)
+        {
+            PropertyMap map = rl::convertToPropertyMap(mKampftechniken);
+            return Property(map);
+        }
+        else if (key == Creature::PROPERTY_VORTEILE)
+        {
+            PropertyMap map = rl::convertToPropertyMap(mVorteile);
+            return Property(map);
+        }
+        else if (key == Creature::PROPERTY_NACHTEILE)
+        {
+            PropertyMap map = rl::convertToPropertyMap(mNachteile);
+            return Property(map);
+        }
+//        else if (key == Creature::PROPERTY_SF)
+//        {
+            ///@todo Sonderfertigkeiten
+//        }
+        else if (key == Creature::PROPERTY_WERTE)
+        {
+            PropertyMap map = rl::convertToPropertyMap(mWerte);
+            return Property(map);
+        }
+        else if (key == Creature::PROPERTY_AP)
+        {
+            return Property(make_pair(mAp.total, mAp.used));
+        }
+        else if (key == Creature::PROPERTY_INVENTORY)
+        {
+            return mInventory->getProperty(Inventory::PROPERTY_CONTENT);
+        }
         else
         {
             return GameObject::getProperty(key);
@@ -1005,6 +1143,20 @@ namespace rl
         PropertySet* ps = GameObject::getAllProperties();
         ps->setProperty(Creature::PROPERTY_BEHAVIOURS, mBehaviours);
         ps->setProperty(Creature::PROPERTY_INVENTORY_WINDOW_TYPE, Property(mInventoryWindowType));
+        ps->setProperty(Creature::PROPERTY_CURRENT_LE, getProperty(Creature::PROPERTY_CURRENT_LE));
+        ps->setProperty(Creature::PROPERTY_CURRENT_AE, getProperty(Creature::PROPERTY_CURRENT_AE));
+        ps->setProperty(Creature::PROPERTY_CURRENT_AU, getProperty(Creature::PROPERTY_CURRENT_AU));
+        ps->setProperty(Creature::PROPERTY_CURRENT_FATIGUE, getProperty(Creature::PROPERTY_CURRENT_FATIGUE));
+        //ps->setProperty(Creature::PROPERTY_EFFECTS, getProperty(Creature::PROPERTY_EFFECTS));
+        ps->setProperty(Creature::PROPERTY_EIGENSCHAFTEN, getProperty(Creature::PROPERTY_EIGENSCHAFTEN));
+        ps->setProperty(Creature::PROPERTY_TALENTE, getProperty(Creature::PROPERTY_TALENTE));
+        ps->setProperty(Creature::PROPERTY_KAMPFTECHNIKEN, getProperty(Creature::PROPERTY_KAMPFTECHNIKEN));
+        ps->setProperty(Creature::PROPERTY_VORTEILE, getProperty(Creature::PROPERTY_VORTEILE));
+        ps->setProperty(Creature::PROPERTY_NACHTEILE, getProperty(Creature::PROPERTY_NACHTEILE));
+        //ps->setProperty(Creature::PROPERTY_SF, getProperty(Creature::PROPERTY_SF));
+        ps->setProperty(Creature::PROPERTY_WERTE, getProperty(Creature::PROPERTY_WERTE));
+        ps->setProperty(Creature::PROPERTY_AP, getProperty(Creature::PROPERTY_AP));
+        ps->setProperty(Creature::PROPERTY_INVENTORY, getProperty(Creature::PROPERTY_INVENTORY));
 
         return ps;
     }
