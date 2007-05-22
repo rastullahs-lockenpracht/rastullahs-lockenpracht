@@ -14,4 +14,14 @@
     	<property type="STRING" data="AvoidObstaclesBehaviour"/>
     </property>
   </gameobjectclass>
+  <gameobjectclass classid="Wolf2" baseclass="Creature">
+    <property name="classid" type="STRING" data="Wolf2"/>
+    <property name="baseclass" type="STRING" data="Creature"/>
+    <property name="name" type="STRING" data="Wolf"/>
+    <property name="description" type="STRING" data="Ein gefährlicher, ganz gefährlicher, wirklich extrem gefährlicher Wolf. Aber er hat ein schwaches Herz."/>
+    <property name="description_dead" type="STRING" data="Ein sehr toter Wolf"/>
+    <property name="meshfile" type="STRING" data="tie_wolf_01.mesh"/>
+    <property name="mass" type="REAL" data="30"/>
+    <property name="geometrytype" type="STRING" data="sphere"/>
+  </gameobjectclass>
 </GameObjectDefinitions>

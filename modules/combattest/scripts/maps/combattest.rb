@@ -1,3 +1,5 @@
+load 'embed.rb'
+
 require 'player.rb'
 require 'hero.rb'
 
@@ -23,6 +25,15 @@ wolf = $GOM.createGameObject("Wolf")
 wolf.placeIntoScene
 wolf.setPosition [0.0,0.0,-5.0]
 wolf.setAlignment(Creature::ALIGNMENT_ENEMY)
+
+wolf2 = $GOM.createGameObject("Wolf2")
+wolf2.placeIntoScene
+wolf2.setPosition [0.0,0.0,-3.0]
+wolf2.setAlignment(Creature::ALIGNMENT_ENEMY)
+
+_movingCreature = MovingCreature.new(wolf2)
+
+_job = CreatureWalkPathJob.new("TestWalkJob", _movingCreature, Landmark.new("point", [2.0, 0.0, -10.0]))
 
 $SCRIPT.log("map 'combattest' initialisiert.")
 
