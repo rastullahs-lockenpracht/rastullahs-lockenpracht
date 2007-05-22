@@ -13,6 +13,7 @@ libRlAi_la_SOURCES = \
 	AStarHeuristic.cpp \
 	AStarNodePool.cpp \
 	AStarWayPointNode.cpp \
+	CreatureWalkPathJob.cpp \
 	FuzzyState.cpp \
 	FuzzyStateMachine.cpp \
 	Landmark.cpp \

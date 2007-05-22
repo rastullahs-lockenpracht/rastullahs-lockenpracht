@@ -9,6 +9,7 @@ noinst_HEADERS =
 	AStarHeuristic.h \
 	AStarNodePool.h \
 	AStarWayPointNode.h \
+	CreatureWalkPathJob.h \
 	FuzzyState.h \
 	FuzzyStateMachine.h \
 	Landmark.h \
