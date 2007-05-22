@@ -36,7 +36,7 @@ namespace rl
     class Stehen : public AbstractMovement
     {
     public:
-        Stehen(MovingCreature *creature) : AbstractMovement(creature), mVelocity(Vector3::ZERO) {}
+        Stehen(MovingCreature *creature) : AbstractMovement(creature), mVelocity(Vector3::ZERO), mRotationMovement(NULL) {}
         virtual MovingCreature::MovementType getId() const {return MovingCreature::MT_STEHEN;}
         virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_NONE;}
         virtual void activate()
@@ -117,19 +117,18 @@ namespace rl
         }
     protected:
         Ogre::Vector3 mVelocity;
+        mutable AbstractMovement *mRotationMovement;
         virtual AbstractMovement* getRotationMovement() const
         {
-            static AbstractMovement *stehen_drehen(NULL);
-
-            if( stehen_drehen == NULL)
+            if( mRotationMovement == NULL)
             {                
-                stehen_drehen = mMovingCreature->getMovementFromId(MovingCreature::MT_DREHEN);
+                mRotationMovement = mMovingCreature->getMovementFromId(MovingCreature::MT_DREHEN);
             }
-            if( stehen_drehen == NULL )
+            if( mRotationMovement == NULL )
             {
                 Throw(NullPointerException, "Konnte Movement mit der Id MT_STEHEN_DREHEN nicht finden.");
             }
-            return stehen_drehen;
+            return mRotationMovement;
         }
     };
 
@@ -917,7 +916,11 @@ namespace rl
         mAbstractLocation(AL_AIRBORNE),
         mMovement(NULL),
         mDirection(Vector3::ZERO),
-        mRotation(Vector3::ZERO)
+        mRotation(Vector3::ZERO),
+        mLastAnimationName(""),
+        mLastCollisionName(""),
+        mLastAnimationSpeed(1),
+        mLastFloorContact(0)
     {
         MovingCreatureManager::getSingleton().add(this);
         
@@ -999,37 +1002,34 @@ namespace rl
 
     void MovingCreature::setAnimation(const Ogre::String &name, Ogre::Real speed, unsigned int timesToPlay, const Ogre::String &collisionName)
     {
-        static Ogre::String lastName("");
-        static Ogre::String lastCollisionName("");
-        static Real lastSpeed(1);
         MeshObject* mesh = dynamic_cast<MeshObject*>(mCreature->getActor()->getControlledObject());
         PhysicalThing* pt = mCreature->getActor()->getPhysicalThing();
         
-        if( lastName != name)
+        if( mLastAnimationName != name)
         {
             const Ogre::String *pCollisionName = &collisionName;
             if( collisionName == "" )
                 pCollisionName = &name;
 
-            if( *pCollisionName != lastCollisionName )
+            if( *pCollisionName != mLastCollisionName )
             {
                 pt->fitToPose(*pCollisionName);
-                lastCollisionName = *pCollisionName;
+                mLastCollisionName = *pCollisionName;
             }
             mesh->stopAllAnimations();
 
 
             mesh->startAnimation(name, speed, timesToPlay);
-            lastName = name;
-            lastSpeed = speed;
+            mLastAnimationName = name;
+            mLastAnimationSpeed = speed;
         }
         else
         {
-            if( lastSpeed != speed )
+            if( mLastAnimationSpeed != speed )
             {
                 MeshAnimation *meshAnim = mesh->getAnimation(name);
                 meshAnim->setSpeed(speed);
-                lastSpeed = speed;
+                mLastAnimationSpeed = speed;
             }
         }
     }
@@ -1115,19 +1115,18 @@ namespace rl
         if( stepHeight < 0.5f )
             isFloorCollision = true;
 
-        static Real lastFloorContact(0.0f);
         if ( isFloorCollision )
         {
             setAbstractLocation(AL_FLOOR);
             if(stepHeight > 0.1f)
                 setContactNormalAcceleration(10);
             setContactElasticity(0.0f);
-            lastFloorContact = 0.0f;
+            mLastFloorContact = 0.0f;
         }
         else
         {
-            lastFloorContact += PhysicsManager::getSingleton()._getNewtonWorld()->getTimeStep();
-            if(lastFloorContact >= 2.2f || getAbstractLocation() == AL_AIRBORNE)
+            mLastFloorContact += PhysicsManager::getSingleton()._getNewtonWorld()->getTimeStep();
+            if(mLastFloorContact >= 2.2f || getAbstractLocation() == AL_AIRBORNE)
                 setAbstractLocation(AL_AIRBORNE);
         }
 

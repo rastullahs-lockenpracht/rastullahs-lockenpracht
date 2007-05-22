@@ -143,7 +143,6 @@ namespace rl
         Creature *mCreature;
         AbstractLocation mAbstractLocation;
         
-        
         AbstractMovement *mMovement;
         Ogre::Vector3 mDirection;
         Ogre::Vector3 mRotation;
@@ -153,6 +152,16 @@ namespace rl
 
         // in order to copy the contactcallback members correctly;
         friend class MovingCreatureManager;
+
+    private:
+        // only used in setAnimation
+        Ogre::String mLastAnimationName;
+        Ogre::String mLastCollisionName;
+        Ogre::Real mLastAnimationSpeed;
+
+        // only used in userProcess
+        Ogre::Real mLastFloorContact;
+
     };
 
     /// this is the base class of all movements
