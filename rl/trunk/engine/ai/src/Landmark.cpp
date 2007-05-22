@@ -21,4 +21,14 @@ namespace rl
 		: mName(name), mPosition(position)
 	{
 	}
+
+    const Ogre::String& Landmark::getName() const
+    {
+        return mName;
+    }
+
+    const Ogre::Vector3& Landmark::getPosition() const
+    {
+        return mPosition;
+    }
 }

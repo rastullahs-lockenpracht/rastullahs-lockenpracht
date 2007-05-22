@@ -245,6 +245,33 @@ namespace rl
 		rl::WayPointGraph* createWayPointGraph();
 	};
 	
+	class Landmark
+	{
+	public:
+		Landmark(const Ogre::String& name, const Ogre::Vector3& position);
+		const Ogre::String& getName() const;
+		const Ogre::Vector3& getPosition() const;
+	};
+	
+	class LandmarkPath
+	{
+	public:
+		typedef std::deque<Landmark*> LandmarkList;
+		LandmarkPath(const Ogre::String& name);
+
+		void addPoint(const Ogre::String& name, const Ogre::Vector3& position);
+		void addPoint(Landmark* lm);
+        LandmarkList getPoints();
+	};
+	
+	class CreatureWalkPathJob : public Job
+    {
+    public:
+        CreatureWalkPathJob(const Ogre::String& name, MovingCreature* movingCreature, Landmark* startLandmark);
+
+        void addLandmark(const Ogre::String& name, const Ogre::Vector3& position);
+        void addLandmark(Landmark* lm);
+    };
 } // Namespace
 
 %{

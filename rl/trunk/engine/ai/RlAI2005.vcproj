@@ -325,6 +325,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\CreatureWalkPathJob.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Landmark.cpp"
 				>
 			</File>
@@ -400,6 +404,10 @@
 			</File>
 			<File
 				RelativePath=".\include\AStarWayPointNode.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\CreatureWalkPathJob.h"
 				>
 			</File>
 			<File

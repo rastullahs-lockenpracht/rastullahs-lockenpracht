@@ -730,6 +730,58 @@ namespace rl {
 
         rl::TimerEventSource* getSource() const;
     };
+    
+    class AbstractMovement;
+    class MovingCreatureManager;
+
+    class MovingCreature : public PhysicsController, PhysicsGenericContactCallback
+    {
+    public:
+        MovingCreature(Creature *character); 
+        
+        typedef enum
+        {
+            // these movements can be used
+            MT_NONE,
+            MT_STEHEN,
+            MT_GEHEN,
+            MT_JOGGEN,
+            MT_LAUFEN,
+            MT_RENNEN,
+            MT_RUECKWAERTS_GEHEN,
+            MT_RUECKWAERTS_JOGGEN,
+            MT_SEITWAERTS_GEHEN,
+            MT_SCHLEICHEN,
+            MT_HOCHSPRUNG,
+            MT_WEITSPRUNG,
+            // these movements are only for internal purposes and should not be used directly
+            // instead use one of the movements above
+            MT_DREHEN
+        } MovementType;
+        
+        typedef enum { 
+            AL_AIRBORNE,
+            AL_FLOOR
+        } AbstractLocation;
+        
+        Creature *getCreature();
+        void setAbstractLocation(AbstractLocation type);
+        AbstractLocation getAbstractLocation() const;
+        bool setMovement(MovementType type, Ogre::Vector3 direction, Ogre::Vector3 rotation);
+        MovementType getMovementId() const;
+        Ogre::Vector3 getDirection() const;
+        Ogre::Vector3 getRotation() const;
+        AbstractMovement *getMovement();
+        AbstractMovement *getMovementFromId(MovementType id);
+        int getCurrentGS() const;
+        Ogre::Vector3 getVelocity() const;
+        Ogre::Vector3 getOmega() const;
+        void setAnimation(const Ogre::String &name, 
+                          Ogre::Real speed = 1, 
+                          unsigned int timesToPlay = 0, 
+                          const Ogre::String &collisionName = ""
+                          );
+    };
 } // Namespace
 
 %{

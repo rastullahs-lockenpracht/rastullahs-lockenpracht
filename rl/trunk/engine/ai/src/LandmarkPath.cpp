@@ -38,4 +38,9 @@ namespace rl
 	{
 		mPoints.push_back(lm);
 	}
+
+    LandmarkPath::LandmarkList LandmarkPath::getPoints()
+    {
+        return mPoints;
+    }
 }

@@ -30,4 +30,7 @@
 #include "WayPointNode.h"
 #include "WayPointGraph.h"
 #include "WayPointGraphManager.h"
+#include "Landmark.h"
+#include "LandmarkPath.h"
+#include "CreatureWalkPathJob.h"
 %}

@@ -50,4 +50,5 @@
 #include "TimerListener.h"
 #include "Tripel.h"
 #include "Weapon.h"
+#include "MovingCreature.h"
 %}

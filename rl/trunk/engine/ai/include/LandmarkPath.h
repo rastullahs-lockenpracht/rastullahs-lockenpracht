@@ -25,14 +25,17 @@ namespace rl
 	class _RlAiExport LandmarkPath
 	{
 	public:
+        typedef std::deque<Landmark*> LandmarkList;
+
 		LandmarkPath(const Ogre::String& name);
 		~LandmarkPath();
 
 		void addPoint(const Ogre::String& name, const Ogre::Vector3& position);
 		void addPoint(Landmark* lm);
-
+        
+        LandmarkList getPoints();
 	private:
-		std::list<Landmark*> mPoints;
+		LandmarkList mPoints;
 		Ogre::String mName;
 	};
 }
