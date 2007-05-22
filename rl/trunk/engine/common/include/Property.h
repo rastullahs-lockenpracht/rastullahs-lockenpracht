@@ -71,50 +71,9 @@ namespace rl {
 
 	class Property;
 
-	typedef std::vector<Property> PropertyVector;
-	typedef std::map<CeGuiString, Property> PropertyMap;
-
-    template<typename T> PropertyMap convertToPropertyMap(const std::map<const CeGuiString, typename T>& input)
-    {
-        PropertyMap map;
-        for (std::map<const CeGuiString, typename T>::const_iterator it =
-            input.begin(); it != input.end(); ++it)
-        {
-            map[it->first] = Property(it->second);
-        }
-        return map;
-    }
-
-    template<typename T> PropertyMap convertToPropertyMap(const std::map<const Ogre::String, typename T>& input)
-    {
-        PropertyMap map;
-        for (std::map<const Ogre::String, typename T>::const_iterator it =
-            input.begin(); it != input.end(); ++it)
-        {
-            map[it->first] = Property(it->second);
-        }
-        return map;
-    }
-
-    template<typename T> void convertToMap(
-        const PropertyMap& propmap, std::map<const Ogre::String, typename T>& output)
-    {
-        for (PropertyMap::const_iterator it = propmap.begin(); it != propmap.end(); ++it)
-        {
-            output[it->first.c_str()] = it->second;
-        }
-    }
+    typedef std::vector<Property> PropertyVector;
+    typedef std::map<CeGuiString, Property> PropertyMap;
     
-    template<typename T> void convertToMap(
-        const PropertyMap& propmap, std::map<const CeGuiString, typename T>& output)
-    {
-        for (PropertyMap::const_iterator it = propmap.begin(); it != propmap.end(); ++it)
-        {
-            output[it->first] = it->second;
-        }
-    }
-    
-
     class _RlCommonExport Property
     {
     public:
@@ -145,6 +104,47 @@ namespace rl {
     protected:
         void destroy() { Ogre::SharedPtr<Property>::destroy(); }
     };
+
+    template<typename T> PropertyMap convertToPropertyMap(const std::map<const CeGuiString, T>& input)
+    {
+        PropertyMap map;
+        for (typename std::map<const CeGuiString, T>::const_iterator it =
+            input.begin(); it != input.end(); ++it)
+        {
+            map[it->first] = Property(it->second);
+        }
+        return map;
+    }
+
+    template<typename T> PropertyMap convertToPropertyMap(const std::map<const Ogre::String, T>& input)
+    {
+        PropertyMap map;
+        for (typename std::map<const Ogre::String, T>::const_iterator it =
+            input.begin(); it != input.end(); ++it)
+        {
+            map[it->first] = Property(it->second);
+        }
+        return map;
+    }
+
+    template<typename T> void convertToMap(
+        const PropertyMap& propmap, std::map<const Ogre::String, T>& output)
+    {
+        for (PropertyMap::const_iterator it = propmap.begin(); it != propmap.end(); ++it)
+        {
+            output[it->first.c_str()] = it->second;
+        }
+    }
+    
+    template<typename T> void convertToMap(
+        const PropertyMap& propmap, std::map<const CeGuiString, T>& output)
+    {
+        for (PropertyMap::const_iterator it = propmap.begin(); it != propmap.end(); ++it)
+        {
+            output[it->first] = it->second;
+        }
+    }
+    
 
 } // namespace rl
 
