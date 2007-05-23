@@ -69,7 +69,7 @@ VS_OUTPUT vs_main( float4 Position : POSITION0,
    LightDir1 /= Dist1;
    
    float DistAttn1 = saturate(1/(Light_Attenuation1.y +
-                                Light_Attenuation1.z * Dist0 +
+                                Light_Attenuation1.z * Dist1 +
                                 Light_Attenuation1.w * Dist1 * Dist1));
    float AngleAttn1= saturate(dot(Normal,LightDir1));
    
