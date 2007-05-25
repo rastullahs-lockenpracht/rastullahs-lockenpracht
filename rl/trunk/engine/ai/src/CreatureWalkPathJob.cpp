@@ -74,14 +74,14 @@ namespace rl
     void CreatureWalkPathJob::updateCreature(Ogre::Real time)
     {
         //executes the movements from movingCreature on the creature
-        Quaternion rotation;
-        Vector3 translation;
+        Ogre::Quaternion rotation;
+        Ogre::Vector3 translation;
 
         //@todo: calculate translation and rotation
-        AbstractMovement* _rotate = mMovingCreature->getMovementId(MovingCreature::MT_DREHEN);
-        Real baseVelRot = 0;
-        AbstractMovement* _translate = mMovingCreature->getMovementId(MovingCreature::MT_JOGGEN);
-        Real baseVelTrans = 0;
+        AbstractMovement* _rotate = mMovingCreature->getMovementFromId(MovingCreature::MT_DREHEN);
+        Ogre::Real baseVelRot = 0;
+        AbstractMovement* _translate = mMovingCreature->getMovementFromId(MovingCreature::MT_JOGGEN);
+        Ogre::Real baseVelTrans = 0;
 
         if(_rotate->calculateBaseVelocity(baseVelRot))
         {
@@ -92,6 +92,7 @@ namespace rl
             //@todo
         }
         //make sure that the creature can't fail the landmark
+        Ogre::Vector3 diffTrack = mNextLandmark->getPosition() - mCurrentLandmark->getPosition();
         if(diffTrack.dotProduct(mNextLandmark->getPosition()-mMovingCreature->getCreature()->getPosition()) < 0)
             mMovingCreature->getCreature()->setPosition(mNextLandmark->getPosition());
     }
