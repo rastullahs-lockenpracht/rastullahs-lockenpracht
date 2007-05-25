@@ -21,6 +21,7 @@ namespace rl
     CreatureWalkPathJob::CreatureWalkPathJob(const Ogre::String& name, MovingCreature* movingCreature, Landmark* startLandmark) : Job(true, true), 
         mLandmarkPath("LandmarkPath" + name)
     {
+        //the moving creature moves from the current position to the landmark
         mMovingCreature = movingCreature;
         //addLandmark(startLandmark);
         mCurrentLandmark = new Landmark(name + "_startup",mMovingCreature->getCreature()->getPosition());
@@ -48,10 +49,10 @@ namespace rl
             {
 
             }*/
-            mMovingCreature->setMovement(MovingCreature::MT_GEHEN,diffTrack,Ogre::Vector3(0,0,0));
-            if(diffTrack.dotProduct(mNextLandmark->getPosition()-mMovingCreature->getCreature()->getPosition()))
-                mMovingCreature->getCreature()->setPosition(mNextLandmark->getPosition());        
+            mMovingCreature->setMovement(MovingCreature::MT_GEHEN,diffTrack,Ogre::Vector3(0,0,0));        
         }
+
+        updateCreature(time);
         return false;
     }
 
@@ -63,5 +64,35 @@ namespace rl
     void CreatureWalkPathJob::addLandmark(Landmark* lm)
     {
         mLandmarkPath.addPoint(lm);
+    }
+
+    MovingCreature* CreatureWalkPathJob::getMovingCreature()
+    {
+        return mMovingCreature;
+    }
+
+    void CreatureWalkPathJob::updateCreature(Ogre::Real time)
+    {
+        //executes the movements from movingCreature on the creature
+        Quaternion rotation;
+        Vector3 translation;
+
+        //@todo: calculate translation and rotation
+        AbstractMovement* _rotate = mMovingCreature->getMovementId(MovingCreature::MT_DREHEN);
+        Real baseVelRot = 0;
+        AbstractMovement* _translate = mMovingCreature->getMovementId(MovingCreature::MT_JOGGEN);
+        Real baseVelTrans = 0;
+
+        if(_rotate->calculateBaseVelocity(baseVelRot))
+        {
+            //@todo
+        }
+        if(_translate->calculateBaseVelocity(baseVelTrans))
+        {
+            //@todo
+        }
+        //make sure that the creature can't fail the landmark
+        if(diffTrack.dotProduct(mNextLandmark->getPosition()-mMovingCreature->getCreature()->getPosition()) < 0)
+            mMovingCreature->getCreature()->setPosition(mNextLandmark->getPosition());
     }
 }

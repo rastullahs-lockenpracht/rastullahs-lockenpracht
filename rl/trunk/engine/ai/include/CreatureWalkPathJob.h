@@ -30,14 +30,30 @@ namespace rl
     class _RlAiExport CreatureWalkPathJob : public Job
     {
     public:
+       /** Constructor
+        * @param name the name of the Job
+        * @param movingCreature the job has to know a moving creature
+        * @param startLandmark first landmark, the moving creature has to go to
+        */
         CreatureWalkPathJob(const Ogre::String& name, MovingCreature* movingCreature, Landmark* startLandmark);
+        //destructor
         virtual ~CreatureWalkPathJob();
 
+        //adds an additional landmark the moving creature has to go to
         void addLandmark(const Ogre::String& name, const Ogre::Vector3& position);
         void addLandmark(Landmark* lm);
 
+       /**
+        * This function is not intented to be called directly
+        * @retval false, if the job is not done
+        */
         virtual bool execute(Ogre::Real time);
+
+        // @retval the moving creature controlled by this object
+        MovingCreature* getMovingCreature();
     private:
+        void updateCreature(Ogre::Real time);
+
         LandmarkPath mLandmarkPath;
         Ogre::String mName;
         MovingCreature* mMovingCreature;

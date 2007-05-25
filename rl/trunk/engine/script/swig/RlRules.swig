@@ -731,9 +731,6 @@ namespace rl {
         rl::TimerEventSource* getSource() const;
     };
     
-    class AbstractMovement;
-    class MovingCreatureManager;
-
     class MovingCreature : public PhysicsController, PhysicsGenericContactCallback
     {
     public:
@@ -759,21 +756,11 @@ namespace rl {
             MT_DREHEN
         } MovementType;
         
-        typedef enum { 
-            AL_AIRBORNE,
-            AL_FLOOR
-        } AbstractLocation;
-        
         Creature *getCreature();
-        void setAbstractLocation(AbstractLocation type);
-        AbstractLocation getAbstractLocation() const;
         bool setMovement(MovementType type, Ogre::Vector3 direction, Ogre::Vector3 rotation);
         MovementType getMovementId() const;
         Ogre::Vector3 getDirection() const;
         Ogre::Vector3 getRotation() const;
-        AbstractMovement *getMovement();
-        AbstractMovement *getMovementFromId(MovementType id);
-        int getCurrentGS() const;
         Ogre::Vector3 getVelocity() const;
         Ogre::Vector3 getOmega() const;
         void setAnimation(const Ogre::String &name, 
