@@ -779,8 +779,7 @@ namespace rl {
         void setAnimation(const Ogre::String &name, 
                           Ogre::Real speed = 1, 
                           unsigned int timesToPlay = 0, 
-                          const Ogre::String &collisionName = ""
-                          );
+                          const Ogre::String &collisionName = "");
     };
 } // Namespace
 
@@ -791,32 +790,32 @@ static swig_type_info *GameObject_dynamic_cast(void **ptr)
 
     rl::Person *pPerson=dynamic_cast<rl::Person*>(*ppGameObject);
     if (pPerson) {
-        *ptr=reinterpret_cast<void*>(pPerson);
+        *ptr=pPerson;
         return SWIGTYPE_p_rl__Person;
     }
     rl::Creature *pCreature=dynamic_cast<rl::Creature*>(*ppGameObject);
     if (pCreature) {
-        *ptr=reinterpret_cast<void*>(pCreature);
+        *ptr=pCreature;
         return SWIGTYPE_p_rl__Creature;
     }
     rl::Weapon *pWeapon=dynamic_cast<rl::Weapon*>(*ppGameObject);
     if (pWeapon) {
-        *ptr=reinterpret_cast<void*>(pWeapon);
+        *ptr=pWeapon;
         return SWIGTYPE_p_rl__Weapon;
     }
     rl::Armor *pArmor=dynamic_cast<rl::Armor*>(*ppGameObject);
     if (pArmor) {
-        *ptr=reinterpret_cast<void*>(pArmor);
+        *ptr=pArmor;
         return SWIGTYPE_p_rl__Armor;
     }
     rl::Container *pContainer=dynamic_cast<rl::Container*>(*ppGameObject);
     if (pContainer) {
-        *ptr=reinterpret_cast<void*>(pContainer);
+        *ptr=pContainer;
         return SWIGTYPE_p_rl__Container;
     }
     rl::Item *pItem=dynamic_cast<rl::Item*>(*ppGameObject);
     if (pItem) {
-        *ptr=reinterpret_cast<void*>(pItem);
+        *ptr=pItem;
         return SWIGTYPE_p_rl__Item;
     }
     return 0;

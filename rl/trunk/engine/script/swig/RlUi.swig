@@ -143,7 +143,7 @@ static swig_type_info *CharacterController_dynamic_cast(void **ptr)
     rl::CutsceneCharacterController *pCutSceneCC =
         dynamic_cast<rl::CutsceneCharacterController*>(*ppCharacterController);
     if (pCutSceneCC != NULL) {
-        *ptr=reinterpret_cast<void*>(pCutSceneCC);
+        *ptr=pCutSceneCC;
         return SWIGTYPE_p_rl__CutsceneCharacterController;
     }
     return 0;

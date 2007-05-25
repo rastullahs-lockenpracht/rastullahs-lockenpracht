@@ -44,10 +44,11 @@ void XmlResource::loadImpl()
 	DataStreamPtr ds = Ogre::ResourceGroupManager::getSingleton().openResource(mName, mGroup);
 	mSize = ds->size();
 	
-	mCharBuffer = new char[mSize];
+	mCharBuffer = new XMLByte[mSize];
 	ds->read(mCharBuffer, mSize);
 
-	mXmlBuffer = new MemBufInputSource(reinterpret_cast<XMLByte*>(mCharBuffer),
+	mXmlBuffer = new MemBufInputSource(
+        mCharBuffer,
 	    static_cast<const unsigned int>(mSize), "rl::XmlResourceManager");
 }
 

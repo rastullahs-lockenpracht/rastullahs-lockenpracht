@@ -67,7 +67,7 @@ namespace rl {
 
     Entity* MeshObject::getEntity() const
     {
-        return reinterpret_cast<Entity*>(mMovableObject);
+        return static_cast<Entity*>(mMovableObject);
     }
 
     AxisAlignedBox MeshObject::getDefaultSize() const

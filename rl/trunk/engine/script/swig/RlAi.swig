@@ -280,27 +280,27 @@ static swig_type_info *AStarHeuristic_dynamic_cast(void **ptr)
     rl::AStarHeuristic **ppAStarHeuristic = reinterpret_cast<rl::AStarHeuristic**>(ptr);
 
     rl::ManhattanDistance *pManhattanDistance=dynamic_cast<rl::ManhattanDistance*>(*ppAStarHeuristic);
-    if( pManhattanDistance )
+    if (pManhattanDistance)
     {
-        *ptr=reinterpret_cast<void*>(pManhattanDistance);
+        *ptr=pManhattanDistance;
         return SWIGTYPE_p_rl__ManhattanDistance;
     }
     rl::DiagonalDistance *pDiagonalDistance=dynamic_cast<rl::DiagonalDistance*>(*ppAStarHeuristic);
-    if( pDiagonalDistance )
+    if (pDiagonalDistance)
     {
-        *ptr=reinterpret_cast<void*>(pDiagonalDistance);
+        *ptr=pDiagonalDistance;
         return SWIGTYPE_p_rl__DiagonalDistance;
     }
     rl::EuclideanDistance *pEuclideanDistance=dynamic_cast<rl::EuclideanDistance*>(*ppAStarHeuristic);
-    if( pEuclideanDistance )
+    if (pEuclideanDistance)
     {
-        *ptr=reinterpret_cast<void*>(pEuclideanDistance);
+        *ptr=pEuclideanDistance;
         return SWIGTYPE_p_rl__EuclideanDistance;
     }
     rl::EuclideanDistanceSquared *pEuclideanDistanceSquared=dynamic_cast<rl::EuclideanDistanceSquared*>(*ppAStarHeuristic);
-    if( pEuclideanDistanceSquared )
+    if (pEuclideanDistanceSquared)
     {
-        *ptr=reinterpret_cast<void*>(pEuclideanDistanceSquared);
+        *ptr=pEuclideanDistanceSquared;
         return SWIGTYPE_p_rl__EuclideanDistanceSquared;
     }
    
@@ -316,9 +316,9 @@ static swig_type_info *AStarCosts_dynamic_cast(void **ptr)
     rl::AStarCosts **ppAStarCosts = reinterpret_cast<rl::AStarCosts**>(ptr);
 
     rl::AStarCostsDefault *pAStarCostsDefault=dynamic_cast<rl::AStarCostsDefault*>(*ppAStarCosts);
-    if( pAStarCostsDefault )
+    if (pAStarCostsDefault)
     {
-        *ptr=reinterpret_cast<void*>(pAStarCostsDefault);
+        *ptr=pAStarCostsDefault;
         return SWIGTYPE_p_rl__AStarCostsDefault;
     }
    

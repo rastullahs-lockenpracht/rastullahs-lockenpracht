@@ -20,8 +20,8 @@ static swig_type_info *GameAreaType_dynamic_cast(void **ptr) {
     rl::GameAreaType **ppGameAreaType = reinterpret_cast<rl::GameAreaType **>(ptr);
     
     rl::GameSphereAreaType *pGameSphereAreaType = dynamic_cast<rl::GameSphereAreaType*>(*ppGameAreaType);
-    if(pGameSphereAreaType){
-      *ptr=reinterpret_cast<void*>(pGameSphereAreaType);
+    if (pGameSphereAreaType){
+      *ptr=pGameSphereAreaType;
       return SWIGTYPE_p_rl__GameSphereAreaType;
     }    
     
@@ -37,18 +37,18 @@ static swig_type_info *BaseAnimation_dynamic_cast(void **ptr) {
     rl::BaseAnimation **ppBaseAnimation = reinterpret_cast<rl::BaseAnimation **>(ptr);
     
     rl::FadeAnimation *pFadeAnimation = dynamic_cast<rl::FadeAnimation*>(*ppBaseAnimation);
-    if(pFadeAnimation){
-      *ptr=reinterpret_cast<void*>(pFadeAnimation);
+    if (pFadeAnimation){
+      *ptr=pFadeAnimation;
       return SWIGTYPE_p_rl__FadeAnimation;
     }    
     rl::MeshAnimation *pMeshAnimation = dynamic_cast<rl::MeshAnimation*>(*ppBaseAnimation);
-    if(pMeshAnimation){
-      *ptr=reinterpret_cast<void*>(pMeshAnimation);
+    if (pMeshAnimation){
+      *ptr=pMeshAnimation;
       return SWIGTYPE_p_rl__MeshAnimation;
     }    
     rl::TrackAnimation *pTrackAnimation = dynamic_cast<rl::TrackAnimation*>(*ppBaseAnimation);
-    if(pTrackAnimation){
-      *ptr=reinterpret_cast<void*>(pTrackAnimation);
+    if (pTrackAnimation){
+      *ptr=pTrackAnimation;
       return SWIGTYPE_p_rl__TrackAnimation;
     }  
     
@@ -66,32 +66,32 @@ static swig_type_info *ActorControlledObject_dynamic_cast(void **ptr)
 
     rl::MergeableMeshObject *pMergeableMeshObject=dynamic_cast<rl::MergeableMeshObject*>(*ppActorControlledObject);
     if (pMergeableMeshObject) {
-        *ptr=reinterpret_cast<void*>(pMergeableMeshObject);
+        *ptr=pMergeableMeshObject;
         return SWIGTYPE_p_rl__MergeableMeshObject;
     }
     rl::MeshObject *pMeshObject=dynamic_cast<rl::MeshObject*>(*ppActorControlledObject);
     if (pMeshObject) {
-        *ptr=reinterpret_cast<void*>(pMeshObject);
+        *ptr=pMeshObject;
         return SWIGTYPE_p_rl__MeshObject;
     }
     rl::CameraObject *pCameraObject=dynamic_cast<rl::CameraObject*>(*ppActorControlledObject);
     if (pCameraObject) {
-        *ptr=reinterpret_cast<void*>(pCameraObject);
+        *ptr=pCameraObject;
         return SWIGTYPE_p_rl__CameraObject;
     }
     rl::LightObject *pLightObject=dynamic_cast<rl::LightObject*>(*ppActorControlledObject);
     if (pLightObject) {
-        *ptr=reinterpret_cast<void*>(pLightObject);
+        *ptr=pLightObject;
         return SWIGTYPE_p_rl__LightObject;
     }
     rl::ParticleSystemObject *pParticleSystemObject=dynamic_cast<rl::ParticleSystemObject*>(*ppActorControlledObject);
     if (pParticleSystemObject) {
-        *ptr=reinterpret_cast<void*>(pParticleSystemObject);
+        *ptr=pParticleSystemObject;
         return SWIGTYPE_p_rl__ParticleSystemObject;
     }
     rl::SoundObject *pSoundObject=dynamic_cast<rl::SoundObject*>(*ppActorControlledObject);
     if (pSoundObject) {
-        *ptr=reinterpret_cast<void*>(pSoundObject);
+        *ptr=pSoundObject;
         return SWIGTYPE_p_rl__SoundObject;
     }
     return 0;
@@ -105,18 +105,18 @@ static swig_type_info *Job_dynamic_cast(void **ptr) {
       
     
     rl::PlayAnimationJob *pPlayAnimationJob = dynamic_cast<rl::PlayAnimationJob*>(*ppJob);
-    if(pPlayAnimationJob){
-      *ptr=reinterpret_cast<void*>(pPlayAnimationJob);
+    if (pPlayAnimationJob){
+      *ptr=pPlayAnimationJob;
       return SWIGTYPE_p_rl__PlayAnimationJob;
     }    
     rl::PlaySound3dJob *pPlaySound3dJob = dynamic_cast<rl::PlaySound3dJob*>(*ppJob);
-    if(pPlaySound3dJob){
-      *ptr=reinterpret_cast<void*>(pPlaySound3dJob);
+    if (pPlaySound3dJob){
+      *ptr=pPlaySound3dJob;
       return SWIGTYPE_p_rl__PlaySound3dJob;
     }    
     rl::PlaySound2dJob *pPlaySound2dJob = dynamic_cast<rl::PlaySound2dJob*>(*ppJob);
-    if(pPlaySound2dJob){
-      *ptr=reinterpret_cast<void*>(pPlaySound2dJob);
+    if (pPlaySound2dJob){
+      *ptr=pPlaySound2dJob;
       return SWIGTYPE_p_rl__PlaySound2dJob;
     }  
     
