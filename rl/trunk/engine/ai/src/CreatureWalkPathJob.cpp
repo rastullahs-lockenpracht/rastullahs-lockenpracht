@@ -23,10 +23,8 @@ namespace rl
     {
         //the moving creature moves from the current position to the landmark
         mMovingCreature = movingCreature;
-        //addLandmark(startLandmark);
         mCurrentLandmark = new Landmark(name + "_startup",mMovingCreature->getCreature()->getPosition());
         mNextLandmark = startLandmark;
-        //mMovingCreature->getCreature()->setPosition(startLandmark->getPosition());
     }
 
     CreatureWalkPathJob::~CreatureWalkPathJob()
@@ -35,24 +33,26 @@ namespace rl
 
     bool CreatureWalkPathJob::execute(Ogre::Real time)
     {
-        if (mLandmarkPath.getPoints().size() > 0 && mMovingCreature->getCreature()->getPosition() == mNextLandmark->getPosition())
+        if (mMovingCreature->getCreature()->getPosition() == mNextLandmark->getPosition())
         {
-            mCurrentLandmark = mNextLandmark;
-            mNextLandmark = mLandmarkPath.getPoints().front();
-            mLandmarkPath.getPoints().pop_front();
-        }
-        else if (mMovingCreature->getCreature()->getPosition() != mNextLandmark->getPosition())
-        {
-            Ogre::Vector3 creatureViewVector = mMovingCreature->getCreature()->getOrientation() * Ogre::Vector3::NEGATIVE_UNIT_Z;
-            Ogre::Vector3 diffTrack = mNextLandmark->getPosition() - mCurrentLandmark->getPosition();
-            /*if (diffTrack.dotProduct(creatureViewVector) < 0.5)
+            if (mLandmarkPath.getPoints().size())
             {
-
-            }*/
-            mMovingCreature->setMovement(MovingCreature::MT_GEHEN,diffTrack,Ogre::Vector3(0,0,0));        
+                mCurrentLandmark = mNextLandmark;
+                mNextLandmark = mLandmarkPath.getPoints().front();
+                mLandmarkPath.getPoints().pop_front();
+            }
+            else
+            {
+                mCurrentLandmark = mNextLandmark;
+                //@todo
+            }
+            
+        }
+        else if (mCurrentLandmark != mNextLandmark)
+        {
+            updateCreature(time);
         }
 
-        updateCreature(time);
         return false;
     }
 
@@ -73,27 +73,35 @@ namespace rl
 
     void CreatureWalkPathJob::updateCreature(Ogre::Real time)
     {
-        //executes the movements from movingCreature on the creature
-        Ogre::Quaternion rotation;
-        Ogre::Vector3 translation;
-
+        LOG_MESSAGE("JOB","CreatureWalkPathJob::updateCreature");
         //@todo: calculate translation and rotation
-        AbstractMovement* _rotate = mMovingCreature->getMovementFromId(MovingCreature::MT_DREHEN);
+        AbstractMovement* rotate = mMovingCreature->getMovementFromId(MovingCreature::MT_DREHEN);
         Ogre::Real baseVelRot = 0;
-        AbstractMovement* _translate = mMovingCreature->getMovementFromId(MovingCreature::MT_JOGGEN);
+        AbstractMovement* translate = mMovingCreature->getMovementFromId(MovingCreature::MT_RENNEN);
         Ogre::Real baseVelTrans = 0;
+        Ogre::Radian rotation(time) ;
+        Ogre::Vector3 direction = Ogre::Vector3(0,0,0);
 
-        if(_rotate->calculateBaseVelocity(baseVelRot))
+        if(rotate->calculateBaseVelocity(baseVelRot))
         {
+            Ogre::Vector3 creatureViewVector = mMovingCreature->getCreature()->getOrientation() * Ogre::Vector3::NEGATIVE_UNIT_Z;
+            Ogre::Radian baseVelRotRad(baseVelRot * 2 * Ogre::Math::PI);
             //@todo
         }
-        if(_translate->calculateBaseVelocity(baseVelTrans))
-        {
+        //if(translate->calculateBaseVelocity(baseVelTrans))
+        //{
+        direction = mNextLandmark->getPosition() - mCurrentLandmark->getPosition();
             //@todo
-        }
+        //}
+
+        LOG_MESSAGE("Movement", "Vec3 " + Ogre::StringConverter::toString(direction) 
+            + " Set Movement " + Ogre::StringConverter::toString(
+            mMovingCreature->setMovement(MovingCreature::MT_GEHEN, direction, Ogre::Vector3(0,rotation.valueRadians(),0))));
+        //mMovingCreature->setAnimation("rennen");
+
         //make sure that the creature can't fail the landmark
-        Ogre::Vector3 diffTrack = mNextLandmark->getPosition() - mCurrentLandmark->getPosition();
-        if(diffTrack.dotProduct(mNextLandmark->getPosition()-mMovingCreature->getCreature()->getPosition()) < 0)
+        //Ogre::Vector3 diffTrack = mNextLandmark->getPosition() - mCurrentLandmark->getPosition();
+        if(direction.dotProduct(mNextLandmark->getPosition()-mMovingCreature->getCreature()->getPosition()) < 0)
             mMovingCreature->getCreature()->setPosition(mNextLandmark->getPosition());
     }
 }
