@@ -33,7 +33,8 @@ namespace rl
 
     bool CreatureWalkPathJob::execute(Ogre::Real time)
     {
-        if (mMovingCreature->getCreature()->getPosition() == mNextLandmark->getPosition())
+        if (mMovingCreature->getCreature()->getActor()->getPosition().x == mNextLandmark->getPosition().x 
+            && mMovingCreature->getCreature()->getActor()->getPosition().y == mNextLandmark->getPosition().y)
         {
             if (mLandmarkPath.getPoints().size())
             {
@@ -73,35 +74,30 @@ namespace rl
 
     void CreatureWalkPathJob::updateCreature(Ogre::Real time)
     {
-        LOG_MESSAGE("JOB","CreatureWalkPathJob::updateCreature");
-        //@todo: calculate translation and rotation
-        AbstractMovement* rotate = mMovingCreature->getMovementFromId(MovingCreature::MT_DREHEN);
-        Ogre::Real baseVelRot = 0;
-        AbstractMovement* translate = mMovingCreature->getMovementFromId(MovingCreature::MT_RENNEN);
-        Ogre::Real baseVelTrans = 0;
-        Ogre::Radian rotation(time) ;
-        Ogre::Vector3 direction = Ogre::Vector3(0,0,0);
+        //Max AU ist 0, deswegen erstmal vorläufig:
+        if(mMovingCreature->getCreature()->getAu() < 2.0f)
+            mMovingCreature->getCreature()->modifyAu(2,true);
 
-        if(rotate->calculateBaseVelocity(baseVelRot))
+        Ogre::Vector3 direction = mNextLandmark->getPosition() - mCurrentLandmark->getPosition();
+
+        Ogre::Vector3 creatureViewVector = mMovingCreature->getCreature()->getActor()->getOrientation() * Ogre::Vector3::NEGATIVE_UNIT_Z;
+        if(creatureViewVector.normalisedCopy().dotProduct(direction.normalisedCopy())  < 0.99)
         {
-            Ogre::Vector3 creatureViewVector = mMovingCreature->getCreature()->getOrientation() * Ogre::Vector3::NEGATIVE_UNIT_Z;
-            Ogre::Radian baseVelRotRad(baseVelRot * 2 * Ogre::Math::PI);
-            //@todo
+            //rotate until creature looks into the direction it wants to go to
+            //@todo: rotate
+            Ogre::Real rotate = Ogre::Math::ACos(creatureViewVector.normalisedCopy().dotProduct(direction.normalisedCopy())).valueRadians();
+            mMovingCreature->setMovement(MovingCreature::MT_STEHEN, Ogre::Vector3(0,0,0),Ogre::Vector3(0,rotate,0));
+            //bool result = mMovingCreature->setMovement(MovingCreature::MT_STEHEN, Ogre::Vector3(0,0,0), Ogre::Vector3(0,0.5,0));
         }
-        //if(translate->calculateBaseVelocity(baseVelTrans))
-        //{
-        direction = mNextLandmark->getPosition() - mCurrentLandmark->getPosition();
-            //@todo
-        //}
-
-        LOG_MESSAGE("Movement", "Vec3 " + Ogre::StringConverter::toString(direction) 
-            + " Set Movement " + Ogre::StringConverter::toString(
-            mMovingCreature->setMovement(MovingCreature::MT_GEHEN, direction, Ogre::Vector3(0,rotation.valueRadians(),0))));
-        //mMovingCreature->setAnimation("rennen");
+        else
+        {
+            //move creature to the target
+            mMovingCreature->setMovement(MovingCreature::MT_GEHEN, direction, Ogre::Vector3(0,0,0));
+        }
 
         //make sure that the creature can't fail the landmark
         //Ogre::Vector3 diffTrack = mNextLandmark->getPosition() - mCurrentLandmark->getPosition();
-        if(direction.dotProduct(mNextLandmark->getPosition()-mMovingCreature->getCreature()->getPosition()) < 0)
-            mMovingCreature->getCreature()->setPosition(mNextLandmark->getPosition());
+        if(direction.dotProduct(mNextLandmark->getPosition()-mMovingCreature->getCreature()->getActor()->getPosition()) < 0)
+            mMovingCreature->getCreature()->getActor()->setPosition(mNextLandmark->getPosition());
     }
 }
