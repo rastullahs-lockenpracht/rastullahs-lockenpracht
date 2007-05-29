@@ -14,6 +14,7 @@
     	<property type="STRING" data="AvoidObstaclesBehaviour"/>
     </property>
   </gameobjectclass>
+  
   <gameobjectclass classid="Wolf2" baseclass="Creature">
     <property name="classid" type="STRING" data="Wolf2"/>
     <property name="baseclass" type="STRING" data="Creature"/>

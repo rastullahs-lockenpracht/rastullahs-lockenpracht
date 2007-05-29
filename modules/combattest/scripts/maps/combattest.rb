@@ -1,5 +1,6 @@
 load 'embed.rb'
 
+require 'globals.rb'
 require 'player.rb'
 require 'hero.rb'
 
@@ -9,7 +10,7 @@ $PM.setEnabled(true)
 $SCRIPT.log("init map 'regressiontest'...")
 
 $SCRIPT.log("Create hero")
-$hero = $GOM.createGameObject("hero", 1);
+$hero = $GOM.createGameObject("hero", 1)
 
 $SCRIPT.log("Place hero into scene")
 $hero.placeIntoScene()
@@ -31,9 +32,12 @@ wolf2.placeIntoScene
 wolf2.setPosition [0.0,0.0,-3.0]
 wolf2.setAlignment(Creature::ALIGNMENT_ENEMY)
 
-_movingCreature = MovingCreature.new(wolf2)
+movingCreature = MovingCreature.new(wolf2)
 
-_job = CreatureWalkPathJob.new("TestWalkJob", _movingCreature, Landmark.new("point", [2.0, 0.0, -10.0]))
+job = CreatureWalkPathJob.new("TestWalkJob", movingCreature, Landmark.new("point", [0.0, 0.0, -10.0]))
+job.addLandmark("1",[5.0,0.0,-20.0])
+job.addLandmark("2",[5.0,0.0,-15.0])
+$JS.addJob(job);
 
 $SCRIPT.log("map 'combattest' initialisiert.")
 
