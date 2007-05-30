@@ -65,12 +65,15 @@ namespace rl {
 
         // Char<->Level collision back to default
         PhysicsManager::getSingleton().resetMaterialPair(
-            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("camera"),
             PhysicsManager::getSingleton().getMaterialID("default"));
         // Char<->Default collision back to default
         PhysicsManager::getSingleton().resetMaterialPair(
-            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("camera"),
             PhysicsManager::getSingleton().getMaterialID("level"));
+        PhysicsManager::getSingleton().resetMaterialPair(
+            PhysicsManager::getSingleton().getMaterialID("camera"),
+            PhysicsManager::getSingleton().getMaterialID("character"));
     }
 
     void FreeFlightCharacterController::resume()
@@ -86,11 +89,14 @@ namespace rl {
         mCameraActor->getPhysicalThing()->setPhysicsController(this);
         // We also handle char<->level, char<->default collision from now on (camera=char!)
         PhysicsManager::getSingleton().getMaterialPair(
-            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("camera"),
             PhysicsManager::getSingleton().getMaterialID("default"))->setContactCallback(this);
         PhysicsManager::getSingleton().getMaterialPair(
-            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("camera"),
             PhysicsManager::getSingleton().getMaterialID("level"))->setContactCallback(this);
+        PhysicsManager::getSingleton().getMaterialPair(
+            PhysicsManager::getSingleton().getMaterialID("camera"),
+            PhysicsManager::getSingleton().getMaterialID("character"))->setContactCallback(this);
 
         MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
         if( mesh != NULL )
