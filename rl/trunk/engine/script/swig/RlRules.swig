@@ -731,7 +731,7 @@ namespace rl {
         rl::TimerEventSource* getSource() const;
     };
     
-    class MovingCreature : public PhysicsController, PhysicsGenericContactCallback
+    class MovingCreature
     {
     public:
         MovingCreature(Creature *character); 
