@@ -2,6 +2,7 @@ load "embed.rb"
 $World = $CORE.getWorld()
 require 'player.rb'
 require 'hero.rb'
+require 'mckhero.rb'
 require 'door.rb'
 
 # Physik aktivieren
@@ -35,7 +36,8 @@ $World.setFog( World::FOG_EXP, [0.4,0.5,0.6,0.7], 0.00219, 0.5, 1.0);
 
 
 $SCRIPT.log("Create hero")
-$hero = $GOM.createGameObject("hero", 1);
+#$hero = $GOM.createGameObject("hero", 1);
+$hero = $GOM.createGameObject("mckhero", 1);
 
 $SCRIPT.log("Place hero into scene")
 $hero.placeIntoScene();
