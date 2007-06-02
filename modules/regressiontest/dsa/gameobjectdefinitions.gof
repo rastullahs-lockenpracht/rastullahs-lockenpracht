@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <GameObjectDefinitions>
 
-    <gameobjectclass classid="mckhero" baseclass="MCKHero">
-		<property name="geometrytype" type="STRING" data="ellipsoid" />
-		<property name="mass" type="REAL" data="75"/>
-		<property name="inventorywindowtype" type="STRING" data="inventory_human.xml"/>
+    <gameobjectclass classid="mckhero"  baseclass="MCKHero">
+        <property name="geometrytype" type="STRING" data="ellipsoid" />
+        <property name="mass" type="REAL" data="75"/>
+        <property name="inventorywindowtype" type="STRING" data="inventory_human.xml"/>
         <property name="meshfile" type="STRING" data="men_human_female_torso.mesh"/>
+        <property name="geometrytype" type="STRING" data="ellipsoid"/>
         <property name="meshparts" type="MAP">
             <property name="torso" type="STRING" data="men_human_female_torso.mesh"/>
             <property name="hand" type="STRING" data="men_human_female_hand_nude.mesh"/>
@@ -14,16 +15,16 @@
             <property name="leg" type="STRING" data="men_human_female_leg_pants_01_long.mesh"/>
             <property name="feet" type="STRING" data="men_human_female_feet_boots_01.mesh"/>
         </property>
-	</gameobjectclass>
+    </gameobjectclass>
 
     <gameobjectclass classid="Holzscheit" baseclass="GameObject">
-        <property name="name" type="STRING" data="Holzscheit"/>        
+        <property name="name" type="STRING" data="Holzscheit"/>
         <property name="description" type="STRING" data="Greater log of time check. (Very rare)"/>
         <property name="meshfile" type="STRING" data="ver_holzscheit_01.mesh"/>
     </gameobjectclass>
 
     <gameobjectclass classid="apple" baseclass="GameObject">
-        <property name="name" type="STRING" data="Apfel"/>        
+        <property name="name" type="STRING" data="Apfel"/>
         <property name="description" type="STRING" data="Ein Apfel?"/>
         <property name="meshfile" type="STRING" data="sphere.1m.mesh"/>
         <property name="geometrytype" type="STRING" data="ellipsoid"/>
@@ -67,21 +68,21 @@
         <property name="name" type="STRING" data="Kurzschwert"/>
         <property name="description" type="STRING" data="Ein ordinäres Kurzschwert - scharf, aber langweilig"/>
         <property name="meshfile" type="STRING" data="waf_kurzschwert_01.mesh"/>
-		<property name="imagename" type="STRING" data="set:ModelThumbnails image:waf_kurzschwert_01"/>
-		<property name="mass" type="REAL" data="3.0"/>
-		<property name="size" type="INTPAIR" data="2,4"/>
+        <property name="imagename" type="STRING" data="set:ModelThumbnails image:waf_kurzschwert_01"/>
+        <property name="mass" type="REAL" data="3.0"/>
+        <property name="size" type="INTPAIR" data="2,4"/>
     </gameobjectclass>
 
     <gameobjectclass classid="leather backpack" baseclass="Container">
         <property name="name" type="STRING" data="Rucksack"/>
         <property name="description" type="STRING" data="Ein Lederrucksack (oder so)"/>
         <property name="meshfile" type="STRING" data="ins_rucksack.mesh"/>
-		<property name="imagename" type="STRING" data="set:ModelThumbnails image:Rucksack"/>
+        <property name="imagename" type="STRING" data="set:ModelThumbnails image:Rucksack"/>
         <property name="capacity" type="REAL" data="20.0"/>
         <property name="volume" type="INTPAIR" data="8,6"/>
         <property name="size" type="INTPAIR" data="2,2"/>
         <property name="actions" type="ARRAY">
-        	<property type="STRING" data="showcontainercontent"/>
+        <property type="STRING" data="showcontainercontent"/>
         </property>
         <property name="defaultaction" type="STRING" data="showcontainercontent"/>
     </gameobjectclass>
@@ -100,7 +101,7 @@
         <property name="meshfile" type="STRING" data="ver_truhe_gross01.mesh"/>
         <property name="geometrytype" type="STRING" data="box"/>
     </gameobjectclass>
-    
+
     <!-- EffectTest -->
     <gameobjectclass classid="EffectTest" baseclass="GameObject">
         <property name="name" type="STRING" data="Bottich der Versteinerung"/>

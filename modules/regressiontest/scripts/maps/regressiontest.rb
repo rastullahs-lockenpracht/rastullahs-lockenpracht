@@ -23,7 +23,8 @@ $PM.setEnabled(true)
 $SCRIPT.log("init map 'regressiontest'...")
 
 $SCRIPT.log("Prepare hero for being the active character")
-$hero = $GOM.getGameObject(1);
+#$hero = $GOM.getGameObject(1); # single mesh hero
+$hero = $GOM.getGameObject(10); # construction kit hero
 PlayerSettings.preparePlayer($hero)
 
 $SCRIPT.log("Set hero as active character")

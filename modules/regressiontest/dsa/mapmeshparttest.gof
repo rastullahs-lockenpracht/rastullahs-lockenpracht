@@ -5,6 +5,7 @@
         <property name="name" type="STRING" data="M.C.K. Test object"/>
         <property name="description" type="STRING" data="This is the testing object for the M.C.K."/>
         <property name="meshfile" type="STRING" data="men_human_female_torso.mesh"/>
+        <property name="geometrytype" type="STRING" data="ellipsoid"/>
         <property name="meshparts" type="MAP">
             <property name="torso" type="STRING" data="men_human_female_torso.mesh"/>
             <property name="hand" type="STRING" data="men_human_female_hand_nude.mesh"/>
@@ -19,6 +20,7 @@
         <property name="name" type="STRING" data="M.C.K. Test creature"/>
         <property name="description" type="STRING" data="This is the testing creature for the M.C.K."/>
         <property name="meshfile" type="STRING" data="men_human_female_torso.mesh"/>
+        <property name="geometrytype" type="STRING" data="ellipsoid"/>
         <property name="meshparts" type="MAP">
             <property name="torso" type="STRING" data="men_human_female_torso.mesh"/>
             <property name="hand" type="STRING" data="men_human_female_hand_nude.mesh"/>
@@ -33,12 +35,14 @@
         <property name="name" type="STRING" data="M.C.K. Test item I"/>
         <property name="description" type="STRING" data="This is the 1st testing item for the M.C.K."/>
         <property name="meshfile" type="STRING" data="men_human_female_armor_garethplatte.mesh"/>
+        <property name="geometrytype" type="STRING" data="ellipsoid"/>
     </gameobjectclass>
 
     <gameobjectclass classid="mesh construction kit test item 2" baseclass="Item">
         <property name="name" type="STRING" data="M.C.K. Test item II"/>
         <property name="description" type="STRING" data="This is the 2nd testing item for the M.C.K."/>
         <property name="meshfile" type="STRING" data="men_human_female_armor_kroetenhaut.mesh"/>
+        <property name="geometrytype" type="STRING" data="ellipsoid"/>
     </gameobjectclass>
 
 </GameObjectDefinitions>
