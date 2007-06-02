@@ -377,37 +377,8 @@ namespace rl
 	{
 		if (mBody == NULL) 
 		{
-            OgreNewt::CollisionPtr coll;
             Vector3 inertia;
-
-            // there is a difference between a meshobject and a 'normal' object
-            // because a meshobject has got a mesh entity and therefore a it is
-            // likely that there will be more than one object with those collision 
-            // primitives, so they need to get cached.
-
-            if (mPhysicalObject->isMeshObject())
-            {
-                Entity* entity = dynamic_cast<MeshObject*>(mPhysicalObject)->getEntity();
-                coll = PhysicsManager::getSingleton().createCollision(
-                    entity,
-                    mGeometryType,
-                    "",
-                    NULL,
-                    NULL,
-                    mMass,
-                    &inertia);
-            }
-            else
-            {
-                const AxisAlignedBox& aabb = mPhysicalObject->getDefaultSize();
-                coll = PhysicsManager::getSingleton().getCollisionFactory()->createCollisionFromAABB(
-                    aabb,
-                    mGeometryType,
-                    NULL,
-                    NULL,
-                    mMass,
-                    &inertia);
-            }
+            OgreNewt::CollisionPtr coll = createCollision(mPhysicalObject, inertia);
 
 			OgreNewt::Body* body = new OgreNewt::Body(
                 PhysicsManager::getSingleton()._getNewtonWorld(), coll);
@@ -423,6 +394,59 @@ namespace rl
             setBody(body);
         }
 	}
+
+    OgreNewt::CollisionPtr PhysicalThing::createCollision(PhysicalObject* po, Vector3& inertia) const
+    {
+        OgreNewt::CollisionPtr coll;
+
+        // there is a difference between a meshobject and a 'normal' object
+        // because a meshobject has got a mesh entity and therefore a it is
+        // likely that there will be more than one object with those collision 
+        // primitives, so they need to get cached.
+
+        if (mPhysicalObject->isMeshObject())
+        {
+            Entity* entity = static_cast<MeshObject*>(mPhysicalObject)->getEntity();
+            coll = PhysicsManager::getSingleton().createCollision(
+                entity,
+                mGeometryType,
+                "",
+                NULL,
+                NULL,
+                mMass,
+                &inertia);
+        }
+        else
+        {
+            const AxisAlignedBox& aabb = mPhysicalObject->getDefaultSize();
+            coll = PhysicsManager::getSingleton().getCollisionFactory()->createCollisionFromAABB(
+                aabb,
+                mGeometryType,
+                NULL,
+                NULL,
+                mMass,
+                &inertia);
+        }
+
+        return coll;
+    }
+
+    void PhysicalThing::updatePhysicsProxy()
+    {
+        if (mBody)
+        {
+            mPoseCollisions.clear();
+
+            Vector3 inertia;
+            
+            // update the collision
+		    mBody->setCollision(createCollision(mPhysicalObject, inertia));
+		    if (mMass > 0.0 && mGeometryType != GT_MESH)
+            {
+                mBody->setMassMatrix(mMass, inertia);
+            }
+        }
+    }
 
     PhysicsController* PhysicalThing::getPhysicsController() const
     {

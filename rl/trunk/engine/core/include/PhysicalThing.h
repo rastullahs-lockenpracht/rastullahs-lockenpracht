@@ -126,6 +126,7 @@ namespace rl {
         void setMass(Ogre::Real mass);
 
 		void createPhysicsProxy(Ogre::SceneNode* node);
+        void updatePhysicsProxy();
 
         /** Called to update the collision of the physical thing, in order to adapt
          *  to a new animation state.
@@ -211,6 +212,8 @@ namespace rl {
 		 */
 		GeometryType getGeometryType() const;
 		void setBody(OgreNewt::Body* body);
+
+        OgreNewt::CollisionPtr createCollision(PhysicalObject* po, Ogre::Vector3& inertia) const;
 	};
 }
 

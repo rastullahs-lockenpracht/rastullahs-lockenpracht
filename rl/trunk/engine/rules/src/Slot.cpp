@@ -20,6 +20,7 @@
 #include "Item.h"
 #include "MeshObject.h"
 #include "MergeableMeshObject.h"
+#include "PhysicalThing.h"
 
 namespace rl {
 
@@ -118,6 +119,12 @@ namespace rl {
 					}
 				}
 			}
+
+            if (mOwner->getActor() 
+                && mOwner->getActor()->getPhysicalThing())
+            {
+                mOwner->getActor()->getPhysicalThing()->updatePhysicsProxy();
+            }
 		}
     }
 } // namespace rl
