@@ -22,6 +22,7 @@
 #include "CoreSubsystem.h"
 #include "Exception.h"
 #include "GameEventManager.h"
+#include "MergeableMeshObject.h"
 #include "MeshObject.h"
 #include "MovableText.h"
 #include "PhysicalThing.h"
@@ -856,5 +857,38 @@ namespace rl {
     bool Actor::isInScene() const
     {
         return mSceneNode != NULL || mBone != NULL;
+    }
+
+    void Actor::merge(Actor* actor, const Ogre::String& slot)
+    {
+        if (!getControlledObject()
+            || !getControlledObject()->isMeshObject()
+            || (actor
+                && (!actor->getControlledObject()
+                    || !actor->getControlledObject()->isMeshObject())))
+        {
+            LOG_ERROR(Logger::CORE, "Both actors must have a meshobject");
+            return;
+        }
+
+        MergeableMeshObject* baseMmo = dynamic_cast<MergeableMeshObject*>(mActorControlledObject);
+        if (!baseMmo)
+        {
+            LOG_ERROR(Logger::CORE, "Current actor '"+mName+"' is not mergeable.");
+        }
+
+        if (actor != NULL)
+        {
+            MeshObject* moToAdd = dynamic_cast<MeshObject*>(actor->getControlledObject());
+            actor->removeFromScene();
+            baseMmo->replaceSubmesh(slot, moToAdd->getMeshName());
+        }
+        else
+        {
+            baseMmo->removeSubmesh(slot);
+            ///@todo: Place removed child into scene
+        }
+
+        mPhysicalThing->updatePhysicsProxy();
     }
 }

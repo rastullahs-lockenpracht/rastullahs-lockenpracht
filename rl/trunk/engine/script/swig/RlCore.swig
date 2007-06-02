@@ -551,7 +551,9 @@ public:
             const Ogre::Radian& offsetRotation=Ogre::Radian(0) );
                     
     void detach(rl::Actor* actor);
-    
+
+    void merge(Actor* actor, const Ogre::String& slot);
+
     rl::Actor* getChildByName(const Ogre::String& name ) const;
     
     void setVisible( bool vis, bool cascade = true );

@@ -242,7 +242,9 @@ namespace rl {
         void detach(Actor* actor);
 
         /// Entfernt alle Kinder vom Node
-        void detachAllChildren( );
+        void detachAllChildren();
+
+        void merge(Actor* actor, const Ogre::String& slot);
 
         /**
          * Entfernt den Aktor von seinem Elternaktor
