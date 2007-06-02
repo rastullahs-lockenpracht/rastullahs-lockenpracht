@@ -80,6 +80,20 @@ rl::Property convertValueToProperty(VALUE input)
 			}
         }
     }
+    else if (TYPE(input) == T_HASH)
+    {
+        PropertyMap pmap;
+        VALUE keys = rb_funcall(input,rb_intern("keys"),0);
+        unsigned int size = RARRAY_LEN(keys);
+        for (unsigned int i=0; i<size; i++) 
+        {
+            VALUE key = RARRAY_PTR(keys)[i];
+            VALUE val = rb_hash_aref(input, key);
+            pmap[rl::CeGuiString(StringValuePtr(key))] 
+                = rl::convertValueToProperty(val);
+        }
+        rval.setValue(pmap);
+    }
     
     return rval;
 }
@@ -140,6 +154,20 @@ VALUE convertPropertyToValue(rl::Property input)
 		}
 		return rval;
     }
+    else if (input.isMap())
+    {
+        PropertyMap pmap = input.toMap();
+        VALUE rval = rb_hash_new();
+        for (PropertyMap::const_iterator it = pmap.begin(); 
+            it != pmap.end(); ++it) 
+        {
+            rb_hash_aset(
+                rval,
+                rb_str_buf_new2(it->first.c_str()),
+                rl::convertPropertyToValue(it->second));
+        }
+        return rval;
+    }
 
     return Qnil;
 }
@@ -155,7 +183,8 @@ VALUE convertPropertyToValue(rl::Property input)
 	    || TYPE($input) == T_STRING
 	    || TYPE($input) == T_TRUE 
 	    || TYPE($input) == T_FALSE
-	    || TYPE($input == T_ARRAY) 
+	    || TYPE($input) == T_HASH
+	    || TYPE($input) == T_ARRAY) 
     {
         return 1;
     }
