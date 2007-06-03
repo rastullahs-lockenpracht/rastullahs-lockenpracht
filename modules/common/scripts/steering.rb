@@ -17,7 +17,6 @@ class DefaultWanderBehaviour < SteeringBehaviour
 	
 	def activate()
 		$SCRIPT.log("Activate Wandering");
-		getController().setAnimation("gehen");
 	end
 		
 	def update(elapsedTime)
