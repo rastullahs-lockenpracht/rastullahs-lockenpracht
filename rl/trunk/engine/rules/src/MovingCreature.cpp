@@ -27,6 +27,7 @@
 
 
 
+
 using namespace Ogre;
 using namespace std;
 
@@ -83,9 +84,8 @@ namespace rl
             mVelocity = direction * velocity;
             applyAuChanges(elapsedTime);
             setAnimation(elapsedTime);
-            if( rotation != Vector3::ZERO )
-                if( getRotationMovement()->isPossible() )
-                    return getRotationMovement()->run(elapsedTime, direction, rotation);
+            if( getRotationMovement()->isPossible() )
+                return getRotationMovement()->run(elapsedTime, direction, rotation);
             return false;
         }
         virtual void setAnimation(Ogre::Real elapsedTime)
@@ -151,7 +151,7 @@ namespace rl
         virtual bool isPossible() const
         {
             return 
-                mMovingCreature->getAbstractLocation() == MovingCreature::AL_FLOOR &&
+                mMovingCreature->getAbstractLocation() == MovingCreature::AL_FLOOR;// &&
                 mMovingCreature->getCreature()->getAu() > 1 &&
                 !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
         }
@@ -169,7 +169,9 @@ namespace rl
             OgreNewt::Body *body = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody();
             body->getMassMatrix(mass, inertia);
 
-            Quaternion orientation = mMovingCreature->getCreature()->getActor()->getWorldOrientation();
+            Quaternion orientation;
+            Vector3 position;
+            body->getPositionOrientation(position, orientation);
             // Calculate angular velocity
             // We first need the yaw rotation from actual yaw to desired yaw
             Vector3 src = orientation*Vector3::UNIT_Z;
@@ -180,7 +182,7 @@ namespace rl
 
             // using a spring system to apply the rotation
             Vector3 diff = Vector3(0, yaw.valueRadians(), 0);
-            Vector3 omega = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody()->getOmega();
+            Vector3 omega = body->getOmega();
             omega.x = omega.z = 0;
             Vector3 springAcc = mRotLinearSpringK*diff - mRotLinearDampingK * omega;
             torque = mass * springAcc;
@@ -530,9 +532,8 @@ namespace rl
                 else
                     mMovingCreature->setAnimation("hocke_gehen");
                 applyAuChanges(elapsedTime);
-                if( rotation != Vector3::ZERO )
-                    if( getRotationMovement()->isPossible() )
-                        getRotationMovement()->run(elapsedTime, direction, rotation);
+                if( getRotationMovement()->isPossible() )
+                    getRotationMovement()->run(elapsedTime, direction, rotation);
             }
             else
                 mVelocity = Vector3::ZERO;
