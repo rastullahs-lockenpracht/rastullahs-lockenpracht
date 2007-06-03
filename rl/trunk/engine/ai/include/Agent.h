@@ -16,7 +16,6 @@
 #ifndef __RlAI_Agent_H__
 #define __RlAI_Agent_H__
 
-#include "PhysicsController.h"
 #include "FuzzyState.h"
 #include "AgentManager.h"
 
@@ -36,7 +35,6 @@ namespace rl
 	 * and decission making (behaviours)
 	 */
 	class _RlAiExport Agent 
-		: public PhysicsController
 	{
 	public:
 		/** Constructor by Creature object.
@@ -104,7 +102,8 @@ namespace rl
 		 * applied to the creature stored.
 		 * @param thing PhysicalThing that is responsible for the creature.
 		 */
-		virtual void OnApplyForceAndTorque(PhysicalThing* thing);
+        // physcs handled by movingcreature
+		//virtual void OnApplyForceAndTorque(PhysicalThing* thing);
 
 	protected:
 		//! stores the type of the agent (Player, NPC, ...)

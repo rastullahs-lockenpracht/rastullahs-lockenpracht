@@ -52,14 +52,16 @@ Agent* AgentManager::createAgent(AgentType type, Creature* character)
 	SteeringVehicle* vehicle = NULL;
 	if(type == AGENT_PLAYER)
 	{
-		vehicle = new PlayerVehicle(character->getActor());
+		vehicle = new PlayerVehicle(character);
 	}
+
     Agent* agent = new Agent(character, vehicle);
 	agent->setType(type);
 	if(type == AGENT_PLAYER)
 	{
 		mPlayer = agent;
 	}
+
 
 	addAgent(agent);
     return agent;

@@ -29,7 +29,7 @@ namespace rl
 	class SteeringVehicle
 	{
 	public:
-		SteeringVehicle(rl::Agent* agent, rl::Actor* character);
+		SteeringVehicle(rl::Agent* agent, rl::Creature* character);
 		
 		void addForce(const Ogre::Vector3& force);
 
@@ -56,8 +56,6 @@ namespace rl
 		bool isAhead(rl::Agent* agent, const float threshold);
 		
 		bool needAvoidance(const float minTimeToCollision);
-		
-		void setAnimation(rl::CeGuiString& name);
 	};
 	
 	%feature("director") SteeringBehaviour;

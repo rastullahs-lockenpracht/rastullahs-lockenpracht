@@ -21,7 +21,7 @@
 namespace rl
 {
 	class Agent;
-	class Actor;
+	class Creature;
 	/** Represents the player as a vehicle.
 	 */
 	class PlayerVehicle :
@@ -31,7 +31,7 @@ namespace rl
 		/** Constructor
 		 * @param Actor gives the Actor representing the Player
 		 */
-		PlayerVehicle(Actor* character);
+		PlayerVehicle(Creature* character);
 		/** explicit destructor
 		 */
 		virtual ~PlayerVehicle(void);
@@ -44,7 +44,11 @@ namespace rl
 		 * @param currentTime const float current time
 		 * @param elapsedTime const float elapsed time since last call
 		 */
-		virtual void update(const float currentTime, const float elapsedTime);
+        // same as SteeringVehicle if mMovingCreature is not set
+		//virtual void update(const float currentTime, const float elapsedTime);
+    protected:
+        virtual void createMovingCreature() {}
+        virtual void destroyMovingCreature() {}
 	};
 }
 

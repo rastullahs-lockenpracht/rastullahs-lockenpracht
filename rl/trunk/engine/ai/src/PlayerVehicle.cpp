@@ -15,6 +15,7 @@
  */
 #include "PlayerVehicle.h"
 #include "Actor.h"
+#include "Creature.h"
 #include "MeshObject.h"
 #include "PhysicalThing.h"
 
@@ -23,7 +24,7 @@ using namespace Ogre;
 
 namespace rl {
 
-PlayerVehicle::PlayerVehicle(Actor* character)
+PlayerVehicle::PlayerVehicle(Creature* character)
 	: SteeringVehicle(NULL, character)
 {
 }
@@ -31,10 +32,10 @@ PlayerVehicle::PlayerVehicle(Actor* character)
 PlayerVehicle::~PlayerVehicle(void)
 {
 }
-
+/*
 void PlayerVehicle::update(const float currentTime, const float elapsedTime)
 {
-	PhysicalThing* pt = mActor->getPhysicalThing();
+	PhysicalThing* pt = mCreature->getActor()->getPhysicalThing();
 	OgreNewt::Body* body = NULL;
 	if(pt) pt->_getBody();
 	if(body)
@@ -61,5 +62,5 @@ void PlayerVehicle::update(const float currentTime, const float elapsedTime)
 	}
 	mCurrentForce = Ogre::Vector3::ZERO;
 }
-
+*/
 }

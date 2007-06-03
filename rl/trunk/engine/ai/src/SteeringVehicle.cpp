@@ -18,7 +18,9 @@
 #include "AiWorld.h" 
 #include "Agent.h"
 #include "Actor.h"
+#include "Creature.h"
 #include "MeshObject.h"
+#include "MovingCreature.h"
 #include "PhysicalThing.h"
 
 using namespace Ogre;
@@ -26,25 +28,43 @@ using namespace OpenSteer;
 
 namespace rl {
 
-SteeringVehicle::SteeringVehicle(Agent* parent, Actor* character)
+SteeringVehicle::SteeringVehicle(Agent* parent, Creature* character)
 	: _maxForce(1.0f),
       _maxSpeed(1.0f),
-      mMass(),
+      //mMass(),
       mRadius(),
       mSpeed(1.0f),
 	  mCurrentForce(Vector3::ZERO), 
 	  mCurrentVelocity(Vector3::ZERO),
 	  mForwardVector(Vector3::NEGATIVE_UNIT_Z),
-      mYaw(115),
+      //mYaw(115),
 	  mParent(parent),
-	  mActor(character),
+	  mCreature(character),
+      mMovingCreature(NULL),
       mHeight(0)
 {
 	initialize();
+
+    createMovingCreature();
 }
 
 SteeringVehicle::~SteeringVehicle(void)
 {
+    destroyMovingCreature();
+}
+
+void SteeringVehicle::createMovingCreature()
+{
+    if( mMovingCreature == NULL )
+    {
+        mMovingCreature = new MovingCreature(mCreature);
+    }
+}
+
+void SteeringVehicle::destroyMovingCreature()
+{
+    if( mMovingCreature != NULL )
+        delete mMovingCreature;
 }
 
 void SteeringVehicle::resetLocalSpace()
@@ -52,11 +72,11 @@ void SteeringVehicle::resetLocalSpace()
 	setForward(Vec3(mForwardVector.x, mForwardVector.y, mForwardVector.z));
 	setSide(localRotateForwardToSide(forward()));
 	setUp(OpenSteer::Vec3(0, 1, 0));
-	Vector3 pos = mActor->getPosition();
+	Vector3 pos = mCreature->getActor()->getPosition();
 	setPosition(Vec3(pos.x, pos.y, pos.z));
-	Vector3 src = mActor->getOrientation()*Vector3::NEGATIVE_UNIT_Z;
-	Quaternion orientation = mActor->getOrientation();
-	mYaw = orientation.getYaw();
+	Vector3 src = mCreature->getActor()->getOrientation()*Vector3::NEGATIVE_UNIT_Z;
+	//Quaternion orientation = mCreature->getActor()->getOrientation();
+	//mYaw = orientation.getYaw();
 
 //  regenerate local space (by default: align vehicle's forward axis with
 //  new velocity, but this behavior may be overridden by derived classes.)
@@ -68,9 +88,9 @@ void SteeringVehicle::initialize(void)
 //  reset LocalSpace state
 	resetLocalSpace();
 	
-//	mActor->_getSceneNode()->setOrientation(Ogre::Quaternion::IDENTITY);
-	Vector3 inertia;
-	mActor->getPhysicalThing()->_getBody()->getMassMatrix(mMass, inertia);
+//	mCreature->getActor()->_getSceneNode()->setOrientation(Ogre::Quaternion::IDENTITY);
+	//Vector3 inertia;
+	//mCreature->getActor()->getPhysicalThing()->_getBody()->getMassMatrix(mMass, inertia);
 
 //	mSpeed = (float)mCreature->getWert(Creature::WERT_GS) / (float)Date::ONE_KAMPFRUNDE * 1000.0f;
 
@@ -105,67 +125,77 @@ void SteeringVehicle::addForce(const Ogre::Vector3& force)
 
 void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 {
-	OgreNewt::Body* body = mActor->getPhysicalThing()->_getBody();
-//  get the charater mass
-	Vector3 inertia;
-	body->getMassMatrix(mMass, inertia);
+// from PlayerVehicle
+// since physics schould by handled by movingcreature
 
-//  apply gravity
-	Vector3 force = mMass * PhysicsManager::getSingleton().getGravity();
+	OgreNewt::Body* body = mCreature->getActor()->getPhysicalThing()->_getBody();
 
-//  Get the velocity vector
-	mCurrentVelocity = body->getVelocity();
-
-//  setSpeed(mCurrentVelocity.length());
-	Vec3 newVelocity(mCurrentVelocity.x, mCurrentVelocity.y, mCurrentVelocity.z);
-//  enforce speed limit
-//  newVelocity = newVelocity.truncateLength(maxSpeed ());
-//  update speed 
-    setSpeed (newVelocity.length());
-
-//  Gravity is applied above, so not needed here
-//  prevent adding a counter force against gravity
-	if (mCurrentVelocity.y < 0.0f) mCurrentVelocity.y = 0.0f;
-
-
-//	Vec3 aforce = adjustRawSteeringForce(Vec3(mCurrentForce.x, mCurrentForce.y, mCurrentForce.z)); 
-//	aforce = aforce.truncateLength (maxForce());
-//	aforce *=-1; // need for newton ?
-//	mCurrentForce = Vector3(aforce.x, aforce.y, aforce.z);
-	Vector3 temp;
+    Vector3 position;
 	Quaternion orientation;
-	body->getPositionOrientation(temp, orientation);
-	setPosition(Vec3(temp.x, temp.y, temp.z));
-	
-//	if(mCurrentForce.x != 0.0f)
-//	{
-	// Calculate angular velocity
-		mYaw -= Degree(mCurrentForce.x * 60.0f * elapsedTime);
+	body->getPositionOrientation(position, orientation);
+	setPosition(Vec3(position.x, position.y, position.z));
 
-		while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
-		while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
-	//  We first need the yaw rotation from actual yaw to desired yaw
-		Vector3 src = orientation*Vector3::NEGATIVE_UNIT_Z;
-		src.y = 0.0f;
-		temp = Quaternion(mYaw, Vector3::UNIT_Y)*Vector3::NEGATIVE_UNIT_Z;
-		temp.y = 0.0f;
-		Radian yaw = src.getRotationTo(temp).getYaw();
+    //  Get the velocity vector
+	mCurrentVelocity = body->getVelocity();
+	//  enforce speed limit
+	//  newVelocity = newVelocity.truncateLength (maxSpeed ());
+	//  update speed
+	setSpeed(mCurrentVelocity.length());
+	Vec3 newVelocity(mCurrentVelocity.x, mCurrentVelocity.y, mCurrentVelocity.z);
 
-	//  Calculate omega in order to go this rotation in mMaxDelay seconds.
-		Real newOmega = yaw.valueRadians() / (1.0f/30.0f);
-		body->setOmega(Vector3(0.0f, newOmega, 0.0f));
+    //  regenerate local space (by default: align vehicle's forward axis with
+    //  new velocity, but this behavior may be overridden by derived classes.)
+	if (speed() > 0) regenerateOrthonormalBasisUF (newVelocity / speed());
 
-		mCurrentForce.x = 0.0f;
-//	}
-	if(elapsedTime > 0.0f)
-	{
-		force += mMass*(orientation * mCurrentForce - mCurrentVelocity) / elapsedTime;
-	}
-	body->setForce(force);
+// end of inserting from playervehicle
 
-//  regenerate local space (by default: align vehicle's forward axis with
-//  new velocity, but this behavior may be overridden by derived classes.)
-	if (speed() > 0) regenerateOrthonormalBasisUF ( Vec3(temp.x, temp.y, temp.z) );
+
+
+// only process if mMovingCreature not NULL
+    if( mMovingCreature == NULL )
+    {
+        mCurrentForce = Vector3::ZERO;
+        return;
+    }
+    
+// calculate the result of the force    
+    Vector3 result = mCurrentForce;// + mCurrentVelocity;
+
+// @todo remove this
+if( mCreature->getAu() <= 6 )
+    mCreature->modifyAu(20,true);
+
+
+    AbstractMovement *mov_drehen = mMovingCreature->getMovementFromId(MovingCreature::MT_DREHEN);
+    Real vel_drehen(0);
+    Radian max_drehen = Degree(0);
+    if( mov_drehen->calculateBaseVelocity(vel_drehen) )
+    {
+        max_drehen = Degree(vel_drehen * 360 * elapsedTime);
+    }
+
+    Ogre::Vector3 creatureDirection = orientation * Ogre::Vector3::NEGATIVE_UNIT_Z;
+    Radian yaw(0);
+    creatureDirection.y = result.y = 0;
+    yaw = creatureDirection.getRotationTo(result, Ogre::Vector3::UNIT_Y).getYaw();
+    if( yaw > Radian(0) && yaw > max_drehen )
+        yaw = max_drehen;
+    if( yaw < Radian(0) && yaw < -max_drehen )
+        yaw = -max_drehen;
+    // old version was -Degree(mCurrentForce.x * 60 * elapsedTime);
+    // should this really depend from the timestep!?!
+
+    Ogre::Vector3 direction(Ogre::Vector3::ZERO);
+    Ogre::Vector3 rotation(0,yaw.valueRadians(),0);
+    MovingCreature::MovementType movement = MovingCreature::MT_STEHEN;
+    if( result != Ogre::Vector3::ZERO )
+    {
+        direction.z = -1;
+        movement = MovingCreature::MT_GEHEN;
+    }
+
+
+    mMovingCreature->setMovement(movement, direction, rotation);
 
 	mCurrentForce = Ogre::Vector3::ZERO;
 }
@@ -182,7 +212,7 @@ Vector3 SteeringVehicle::calcSeek(const Vector3& target)
 	Vec3 rVal = steerForSeek(Vec3(target.x, target.y, target.z)).setYtoZero();
 	rVal = rVal.normalize();
 	//rVal *= -0.1; //adjustment for newton
-	rVal.z=0;
+	//rVal.z=0;
 	return Vector3(rVal.x, rVal.y, rVal.z);
 }
 
@@ -247,17 +277,20 @@ bool SteeringVehicle::needAvoidance(const float minTimeToCollision)
 	return true;
 }
 
+/*
+// already in moveingcreature
 void SteeringVehicle::setAnimation(const CeGuiString& name)
 {
-	MeshObject* mesh = dynamic_cast<MeshObject*>(mActor->getControlledObject());
+	MeshObject* mesh = dynamic_cast<MeshObject*>(mCreature->getActor()->getControlledObject());
 	mesh->stopAllAnimations();
     try
     {
 	    mesh->startAnimation(name.c_str());
-	    mActor->getPhysicalThing()->fitToPose(name.c_str());
+	    mCreature->getActor()->getPhysicalThing()->fitToPose(name.c_str());
     }
     catch( ... ) { }
 }
+*/
 
 
 AVGroup SteeringVehicle::getNeighbors() const
@@ -288,7 +321,7 @@ Vector3 SteeringVehicle::getPosition()
 
 float SteeringVehicle::mass (void) const 
 {
-	return mMass;
+    return mCreature->getActor()->getPhysicalThing()->getMass();
 }
 
 float SteeringVehicle::setMass (float m) 
@@ -334,7 +367,7 @@ float SteeringVehicle::setHeight (float h)
 
 const Actor* SteeringVehicle::getActor(void) const  
 { 
-	return mActor; 
+	return mCreature->getActor(); 
 }
 
 float SteeringVehicle::maxForce (void) const 

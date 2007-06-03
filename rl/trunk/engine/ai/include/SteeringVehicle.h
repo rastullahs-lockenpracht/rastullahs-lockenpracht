@@ -41,6 +41,7 @@ namespace rl
 	class Actor;
 	class Agent;
 	class PhysicalThing;
+    class MovingCreature;
 //	class PerceptionPool;
 
 	/**
@@ -57,7 +58,7 @@ namespace rl
 		 * @param parent Agent owning this vehicle
 		 * @param character Actor controlled by Agent
 		 */
-		SteeringVehicle(Agent* parent, Actor* character);
+		SteeringVehicle(Agent* parent, Creature* character);
 		/** explicit virtual destructor.
 		 */
 		virtual ~SteeringVehicle(void);
@@ -132,10 +133,11 @@ namespace rl
 		 * @param minTimeToCollision minimum time to next collision
 		 */
 		bool needAvoidance(const float minTimeToCollision);
-		/** Sets the animation of the actors mesh to a new keyframe.
+		
+        /** Sets the animation of the actors mesh to a new keyframe.
 		 * @param name of the animation to set the mesh of the actor to.
 		 */
-		void setAnimation(const CeGuiString& name);
+		//void setAnimation(const CeGuiString& name);
 	
 		/* TODO:
 		calcFollowPath
@@ -323,6 +325,9 @@ namespace rl
 		 */
 		void initialize();
 
+        virtual void createMovingCreature(); // permit PlayerVehicle to override this functions!
+        virtual void destroyMovingCreature();
+
 		/** retrieves the neighbours of this SteeringVehicle
 		 */
 		OpenSteer::AVGroup getNeighbors() const;
@@ -353,7 +358,7 @@ namespace rl
         OpenSteer::Vec3 _smoothedAcceleration;
 	*/	
 		//! mass of the steering vehicle retrieved from Newton body (is this really necessary ?)
-		Ogre::Real mMass;
+		//Ogre::Real mMass;
 		//! radius of for the bounding sphere (use newton to get this from)
 		Ogre::Real mRadius;
 		//! speed of the vehicle
@@ -369,12 +374,14 @@ namespace rl
 		//! direction vector
 		Ogre::Vector3 mForwardVector;
 		//! the yaw angle in radians
-		Ogre::Radian mYaw;
+		//Ogre::Radian mYaw;
 
 		//! Agent using this vehicle
 		Agent* mParent;
-		//! Actor object steered by this vehicle (and controlled by Agent).
-		Actor* mActor;
+        //! Creature object steered by this vehicle (and controlled by Agent).
+        Creature* mCreature;
+
+        MovingCreature* mMovingCreature;
 
         // measure path curvature (1/turning-radius), maintain smoothed version
       //  void measurePathCurvature (const float elapsedTime);

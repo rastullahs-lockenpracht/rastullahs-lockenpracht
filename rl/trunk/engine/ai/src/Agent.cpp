@@ -58,8 +58,8 @@ Agent::Agent(DialogCharacter* character)
 
 Agent::~Agent(void)
 {
-    if(mType == AgentManager::AGENT_STD_NPC)
-        mCreature->getActor()->getPhysicalThing()->setPhysicsController( NULL );
+    //if(mType == AgentManager::AGENT_STD_NPC)
+    //    mCreature->getActor()->getPhysicalThing()->setPhysicsController( NULL );
 
     delete mVehicle;
     delete mBehaviour;
@@ -81,7 +81,7 @@ void Agent::initialize()
 	if(mVehicle == NULL)
 	{
 		mType = AgentManager::AGENT_STD_NPC;
-		mVehicle = new SteeringVehicle(this, mCreature->getActor());
+		mVehicle = new SteeringVehicle(this, mCreature);
 	}
     LOG_MESSAGE(Logger::AI, 
         "created SteeringVehicle for Agent");
@@ -91,12 +91,15 @@ void Agent::initialize()
         "created SteeringMachine for Agent");
 //  a perceptron should be the controller, and the perceptron calculates
 //  the steering force with the help of different steering behaviours
+/*
+// physic handled by movingcreature
 	if(mType == AgentManager::AGENT_STD_NPC)
 	{
 		mCreature->getActor()->getPhysicalThing()->setPhysicsController(this);
         LOG_MESSAGE(Logger::AI, 
 			"added Agent to PhysicsManager as PhysicsController");
 	}
+*/
 }
 
 void Agent::addSteeringBehaviour(SteeringBehaviour* behaviour)
@@ -123,12 +126,16 @@ void Agent::update(const float elapsedTime)
     mVehicle->update(0.0f, elapsedTime);
 }
 
+
+/*
+// physics handled in movingcreature
 void Agent::OnApplyForceAndTorque(PhysicalThing* thing)
 {
 	OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
 	Real elapsedTime = world->getTimeStep();
 	update(elapsedTime);
 }
+*/
 
 bool Agent::isDialogActive()
 {
