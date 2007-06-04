@@ -63,7 +63,6 @@ class DefaultIdleBehaviour < SteeringBehaviour
 	
 	def activate()
 		$SCRIPT.log("Activate Idle");
-		getController().setAnimation("idle");
 	end
 		
 	def update(elapsedTime)
