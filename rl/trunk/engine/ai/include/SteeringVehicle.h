@@ -360,12 +360,12 @@ namespace rl
 		//! mass of the steering vehicle retrieved from Newton body (is this really necessary ?)
 		//Ogre::Real mMass;
 		//! radius of for the bounding sphere (use newton to get this from)
-		Ogre::Real mRadius;
+		//Ogre::Real mRadius;
 		//! speed of the vehicle
 		Ogre::Real mSpeed;	
 
 		//! height of the vehicle ? (use newton to get this)
-        float mHeight;
+        //float mHeight;
 
 		//! current force 
 		Ogre::Vector3 mCurrentForce;

@@ -32,7 +32,7 @@ SteeringVehicle::SteeringVehicle(Agent* parent, Creature* character)
 	: _maxForce(1.0f),
       _maxSpeed(1.0f),
       //mMass(),
-      mRadius(),
+      //mRadius(),
       mSpeed(1.0f),
 	  mCurrentForce(Vector3::ZERO), 
 	  mCurrentVelocity(Vector3::ZERO),
@@ -40,8 +40,8 @@ SteeringVehicle::SteeringVehicle(Agent* parent, Creature* character)
       //mYaw(115),
 	  mParent(parent),
 	  mCreature(character),
-      mMovingCreature(NULL),
-      mHeight(0)
+      mMovingCreature(NULL)
+      //mHeight(0)
 {
 	initialize();
 
@@ -97,7 +97,7 @@ void SteeringVehicle::initialize(void)
 //  reset SteerLibraryMixin state
 	SimpleVehicle_2::reset ();
 
-	setRadius (0.5f);     // size of bounding sphere
+//	setRadius (0.5f);     // size of bounding sphere
 
 	setMaxForce (1.0f);   // steering force is clipped to this magnitude
 	setMaxSpeed (1.0f);   // velocity is clipped to this magnitude
@@ -174,7 +174,8 @@ if( mCreature->getAu() <= 6 )
         max_drehen = Degree(vel_drehen * 360 * elapsedTime);
     }
 
-    Ogre::Vector3 creatureDirection = orientation * Ogre::Vector3::NEGATIVE_UNIT_Z;
+    Ogre::Quaternion future_orientation(mMovingCreature->getYaw(), Ogre::Vector3::UNIT_Y);
+    Ogre::Vector3 creatureDirection = future_orientation * Ogre::Vector3::NEGATIVE_UNIT_Z;
     Radian yaw(0);
     creatureDirection.y = result.y = 0;
     yaw = creatureDirection.getRotationTo(result, Ogre::Vector3::UNIT_Y).getYaw();
@@ -343,26 +344,27 @@ float SteeringVehicle::setSpeed (float s)
 
 float SteeringVehicle::radius (void) const 
 {
-	// TODO: this should be handled by size of NewtonBody
-	return mRadius;
+	// this is only the radius in x axis, but i think, this is the value that should be used here
+    Ogre::AxisAlignedBox aab = mCreature->getActor()->getPhysicalThing()->_getBody()->getCollision()->getAABB();
+    return (aab.getMaximum().x - aab.getMinimum().x)/2;
 }
 
 float SteeringVehicle::setRadius (float m) 
 {
-	// TODO: this should be handled by size of NewtonBody
-	return mRadius = m;
+	// don't set mass here TODO: throw exception
+	return 1;
 }
 
 float SteeringVehicle::height (void) const 
 {
-	// TODO: this should be handled by height of NewtonBody
-	return mHeight;
+    Ogre::AxisAlignedBox aab = mCreature->getActor()->getPhysicalThing()->_getBody()->getCollision()->getAABB();
+    return aab.getMaximum().y - aab.getMinimum().y;
 }
 
 float SteeringVehicle::setHeight (float h) 
 {
-	// TODO: this should be handled by height of NewtonBody
-	return mHeight = h;
+	// don't set mass here TODO: throw exception
+	return 1;
 }
 
 const Actor* SteeringVehicle::getActor(void) const  

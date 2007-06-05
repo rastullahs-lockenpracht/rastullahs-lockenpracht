@@ -73,7 +73,8 @@ void AiWorld::removeAllObstacles()
 
 NewtonWorldAsObstacle::NewtonWorldAsObstacle(void)
 {
-    mLevelMaterial = PhysicsManager::getSingleton().getMaterialID("level");
+    mMaterialsToConsider.push_back(PhysicsManager::getSingleton().getMaterialID("level"));
+    mMaterialsToConsider.push_back(PhysicsManager::getSingleton().getMaterialID("default"));
     mNewtonWorld = PhysicsManager::getSingleton()._getNewtonWorld();
 }
 
@@ -90,7 +91,7 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
     // Habe bisher keine elegantere Loesung gefunden
     RaycastType raycastType;
     Vec3 _pos = vehicle.position();
-    Vec3 _futPos = vehicle.forward() * 2 + _pos;
+    Vec3 _futPos = vehicle.forward() * 5 + _pos;
 
 
     if( _pos == _futPos )
@@ -105,10 +106,11 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
 
 
     // Versuchen wir mal das Casten, um das urspruengliche SteelingVehicle zu kriegen
-    const SteeringVehicle *steerVec = dynamic_cast<const SteeringVehicle *> (&vehicle);
+    const SteeringVehicle *steerVec = static_cast<const SteeringVehicle *> (&vehicle);
     // falls nich geklappt, ist das Ergebnis NULL, das wird spaeter abgefragt!
 
 
+    bool foundObstacle(false);
     for( int i = 0; i < 5; i++ )
     {
         Ogre::Vector3 castPos, castFutPos;  // die Koordinaten, die zum Casten verwendet werden
@@ -168,21 +170,29 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
         // so alles richtig gesetzt!
         info = materialRaycast.execute(
             mNewtonWorld,
-            mLevelMaterial,
+            &mMaterialsToConsider,
             castPos,
             castFutPos);
 
 
         if( info.mBody )
-            break;
+        {
+            if( !info.mNormal.directionEquals(Ogre::Vector3::UNIT_Y, Degree(20)) )
+            {
+                foundObstacle = true;
+                break;
+            }
+        }
     }
+
+    if( !foundObstacle )
+        return;
 
 
     switch(raycastType)
     {
     case NONE:
         return;
-    case MIDDLE:
     default:
         pi.intersect = true;
         pi.obstacle = this;

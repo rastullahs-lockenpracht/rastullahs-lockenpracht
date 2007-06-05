@@ -18,6 +18,7 @@
 
 #include "OpenSteer/Obstacle.h"
 #include <OgreNewt.h>
+#include <vector>
 
 namespace rl
 {
@@ -74,7 +75,7 @@ namespace rl
             BOTTOM
         };
 		//! newton material id
-        const OgreNewt::MaterialID *mLevelMaterial;
+        std::vector<const OgreNewt::MaterialID *> mMaterialsToConsider;
 		//! newton world
         OgreNewt::World *mNewtonWorld;
     };
