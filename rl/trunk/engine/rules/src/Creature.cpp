@@ -40,20 +40,20 @@ namespace rl
 
     const Ogre::String Creature::PROPERTY_BEHAVIOURS = "behaviours";
     const Ogre::String Creature::PROPERTY_INVENTORY_WINDOW_TYPE = "inventorywindowtype"; 
-    const Ogre::String Creature::PROPERTY_CURRENT_LE;
-    const Ogre::String Creature::PROPERTY_CURRENT_AE;
-    const Ogre::String Creature::PROPERTY_CURRENT_AU;
-    const Ogre::String Creature::PROPERTY_CURRENT_FATIGUE;
-    const Ogre::String Creature::PROPERTY_EFFECTS;
-    const Ogre::String Creature::PROPERTY_EIGENSCHAFTEN;
-    const Ogre::String Creature::PROPERTY_TALENTE;
-    const Ogre::String Creature::PROPERTY_KAMPFTECHNIKEN;
-    const Ogre::String Creature::PROPERTY_VORTEILE;
-    const Ogre::String Creature::PROPERTY_NACHTEILE;
-    const Ogre::String Creature::PROPERTY_SF;
-    const Ogre::String Creature::PROPERTY_WERTE;
-    const Ogre::String Creature::PROPERTY_AP;
-    const Ogre::String Creature::PROPERTY_INVENTORY;
+    const Ogre::String Creature::PROPERTY_CURRENT_LE = "current_le";
+    const Ogre::String Creature::PROPERTY_CURRENT_AE = "current_ae";
+    const Ogre::String Creature::PROPERTY_CURRENT_AU = "current_au";
+    const Ogre::String Creature::PROPERTY_CURRENT_FATIGUE = "current_fatigue";
+    const Ogre::String Creature::PROPERTY_EFFECTS = "effects";
+    const Ogre::String Creature::PROPERTY_EIGENSCHAFTEN = "eigenschaften";
+    const Ogre::String Creature::PROPERTY_TALENTE = "talente";
+    const Ogre::String Creature::PROPERTY_KAMPFTECHNIKEN = "kampftechniken";
+    const Ogre::String Creature::PROPERTY_VORTEILE = "vorteile";
+    const Ogre::String Creature::PROPERTY_NACHTEILE = "nachteile";
+    const Ogre::String Creature::PROPERTY_SF = "sonderfertigkeiten";
+    const Ogre::String Creature::PROPERTY_WERTE = "werte";
+    const Ogre::String Creature::PROPERTY_AP = "ap";
+    const Ogre::String Creature::PROPERTY_INVENTORY = "inventory";
 
     // some targets
 	const std::string Creature::ALL_EIGENSCHAFTEN = "alle Eigenschaften";
