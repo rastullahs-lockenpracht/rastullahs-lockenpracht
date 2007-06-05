@@ -24,5 +24,17 @@
     <property name="meshfile" type="STRING" data="tie_wolf_01.mesh"/>
     <property name="mass" type="REAL" data="30"/>
     <property name="geometrytype" type="STRING" data="sphere"/>
+	<property name="eigenschaften" type="MAP">
+			<property name="MU" type="INT" data="12"/>
+			<property name="KL" type="INT" data="8"/>
+			<property name="IN" type="INT" data="9"/>
+			<property name="CH" type="INT" data="10"/>
+			<property name="FF" type="INT" data="11"/>
+			<property name="GE" type="INT" data="12"/>
+			<property name="KO" type="INT" data="13"/>
+			<property name="KK" type="INT" data="14"/>
+		</property>
+		<property name="talente" type="MAP">
+			<property name="Athletik" type="INT" data="3"/>
   </gameobjectclass>
 </GameObjectDefinitions>

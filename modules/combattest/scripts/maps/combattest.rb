@@ -22,19 +22,21 @@ $SCRIPT.log("Set hero as active character")
 $UI.setActiveCharacter($hero)
 $SCRIPT.log("Hero ready")
 
-wolf = $GOM.createGameObject("Wolf")
-wolf.placeIntoScene
-wolf.setPosition [0.0,0.0,-5.0]
-wolf.setAlignment(Creature::ALIGNMENT_ENEMY)
+#wolf = $GOM.createGameObject("Wolf")
+#wolf.placeIntoScene
+#wolf.setPosition [0.0,0.0,-6.0]
+#wolf.setAlignment(Creature::ALIGNMENT_ENEMY)
 
 wolf2 = $GOM.createGameObject("Wolf2")
 wolf2.placeIntoScene
 wolf2.setPosition [0.0,0.0,-3.0]
 wolf2.setAlignment(Creature::ALIGNMENT_ENEMY)
+wolf2.modifyAu(1000)
+#wolf2.setWert("ModAU", 10)
 
 movingCreature = MovingCreature.new(wolf2)
 
-job = CreatureWalkPathJob.new("TestWalkJob", movingCreature, Landmark.new("point", [0.0, 0.0, -10.0]))
+job = CreatureWalkPathJob.new("TestWalkJob", movingCreature, Landmark.new("point", [5.0, 0.0, -10.0]))
 job.addLandmark("1",[5.0,0.0,-20.0])
 job.addLandmark("2",[5.0,0.0,-15.0])
 $JS.addJob(job);
