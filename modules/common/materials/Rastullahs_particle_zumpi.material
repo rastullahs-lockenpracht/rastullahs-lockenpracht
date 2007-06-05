@@ -10,7 +10,7 @@ material fackel
 
 			texture_unit
 			{
-				texture flamme.dds
+				texture flaretrail.dds
 			
 			}
 		}

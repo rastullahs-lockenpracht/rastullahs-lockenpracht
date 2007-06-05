@@ -1,3 +1,4 @@
+require 'util/vector_util.rb'
 require 'testcase.rb'
 require 'torch.rb'
 

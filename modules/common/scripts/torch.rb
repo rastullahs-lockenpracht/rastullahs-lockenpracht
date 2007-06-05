@@ -22,6 +22,8 @@ class LightTorchAction < Action
     end
     
     def doAction(torch, user, target)
+        p torch.lit?
+        return if torch.lit?
         # Fackel hat ein Licht am Slot SLOT_FAR_END
         # Man könnte es auch so machen, dass dieses Licht jetzt
         # erzeugt und angeheftet wird. Spräche einiges dafür.
@@ -44,6 +46,7 @@ class LightTorchAction < Action
         # ausgeht.
         torch.sound.getSound().setPosition(torchActor.getPosition())
         torch.sound.play()
+        torch.flammen.getControlledObject().setActive(true)
         torch.setLit(true);
     end
 end
@@ -61,6 +64,7 @@ class PutoutTorchAction < Action
     end
     
     def doAction(torch, user, target)
+        return unless torch.lit?
         # Fackel hat ein Licht am Slot SLOT_FAR_END
         # Man könnte es auch so machen, dass dieses Licht jetzt
         # erzeugt und angeheftet wird. Spräche einiges dafür.
@@ -82,6 +86,7 @@ class PutoutTorchAction < Action
         #TODO timer setzen, damit die Fackel nach Ablauf ihrer Lebensdauer
         # ausgeht.
         torch.sound.stop();
+        torch.flammen.getControlledObject().setActive(false)
         torch.setLit(false);
     end
 end
@@ -90,9 +95,13 @@ end
 # TODO Persistenz *schreck*
 class Torch < GameObject
     include GameObjectProperties
+    attr_reader :flammen
     
     def initialize(id)
         super(id)
+        @flammen = $AM.createParticleSystemActor("torch" + id.to_s, "flammen")
+        @flammen.getControlledObject().setActive(false)
+        setLit(false)
     end
     
     def setLit(lit)
@@ -125,6 +134,7 @@ class Torch < GameObject
         sound.setLooping(true)
         sound.set3d(true)
         @_prop_Sound = SoundObject.new(sound, getId().to_s())
+        getActor().attachToSlot(@flammen, "SLOT_FAR_END")
         addActions()
     end
     
@@ -138,7 +148,7 @@ class Torch < GameObject
             addAction(@mLightAction, Action::ACT_DISABLED)
             addAction(@mPutoutAction, Action::ACT_DISABLED)
         end
-        doAction("lighttorch") unless @_prop_Lit
+        doAction("putouttorch") if @_prop_Lit
     end
     
     def getDefaultAction(actor)

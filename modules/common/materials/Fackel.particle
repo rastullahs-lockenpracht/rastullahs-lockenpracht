@@ -2,7 +2,7 @@
 flammen
 {
 	quota	10
-	material	feuer
+	material	fackel
 	particle_width	20.66
 	particle_height	23.12
 	cull_each	false
