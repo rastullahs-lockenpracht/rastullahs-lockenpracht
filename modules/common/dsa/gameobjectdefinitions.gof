@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <GameObjectDefinitions>
 
 	<gameobjectclass classid="door" baseclass="Door">
@@ -14,6 +14,23 @@
 		<property name="geometrytype" type="STRING" data="ellipsoid" />
 		<property name="mass" type="REAL" data="75"/>
 		<property name="inventorywindowtype" type="STRING" data="inventory_human.xml"/>
+		<property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+		<property name="name" type="STRING" data="Alrike"/>
+		<property name="description" type="STRING" data="Heldin von Berufung"/>
+		<property name="eigenschaften" type="MAP">
+			<property name="MU" type="INT" data="12"/>
+			<property name="KL" type="INT" data="8"/>
+			<property name="IN" type="INT" data="9"/>
+			<property name="CH" type="INT" data="10"/>
+			<property name="FF" type="INT" data="11"/>
+			<property name="GE" type="INT" data="12"/>
+			<property name="KO" type="INT" data="13"/>
+			<property name="KK" type="INT" data="14"/>
+		</property>
+		<property name="talente" type="MAP">
+			<property name="Athletik" type="INT" data="3"/>
+<!--			<property name="Körperbeherrschung" type="INT" data="3"/>-->
+		</property>
 	</gameobjectclass>
 
 	<gameobjectclass classid="chest" baseclass="Chest">
