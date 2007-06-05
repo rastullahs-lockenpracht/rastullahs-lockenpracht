@@ -60,6 +60,8 @@ namespace rl
 
         Landmark* mCurrentLandmark;
         Landmark* mNextLandmark;
+
+        bool mNextLandmarkRequested;
     };
 }
 
