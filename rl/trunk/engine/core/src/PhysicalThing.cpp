@@ -382,6 +382,7 @@ namespace rl
 
 			OgreNewt::Body* body = new OgreNewt::Body(
                 PhysicsManager::getSingleton()._getNewtonWorld(), coll);
+            body->setMaterialGroupID(PhysicsManager::getSingleton().getMaterialID("default"));
 
 			Ogre::Real mass = mMass;
 			if (mass > 0.0 && mGeometryType != GT_MESH)
