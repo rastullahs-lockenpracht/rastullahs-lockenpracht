@@ -402,8 +402,10 @@ namespace rl {
         ptbuf->unlock();
 
         // update AABB/Sphere radius
-        mAABB = Ogre::AxisAlignedBox(min, max);
-        mRadius = Ogre::Math::Sqrt(maxSquaredRadius);
+        mAABB = Ogre::AxisAlignedBox(min/(300*currPos.x), max/(300*currPos.x));
+        //mAABB = Ogre::AxisAlignedBox(Vector3(0.001,0.001,0.001),Vector3(0.01, 0.01, 0.01));
+
+        mRadius = Ogre::Math::Sqrt(maxSquaredRadius)/(300*currPos.x);
 
         if (mUpdateColours)
         {
