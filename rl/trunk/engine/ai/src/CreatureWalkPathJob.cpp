@@ -83,8 +83,6 @@ namespace rl
             return;
         }
 
-        LOG_MESSAGE("",Ogre::StringConverter::toString(direction.squaredLength()));
-
         Ogre::Vector3 creatureViewVector = mMovingCreature->getCreature()->getActor()->getOrientation() * Ogre::Vector3::NEGATIVE_UNIT_Z;
         creatureViewVector.y = 0;
         Ogre::Quaternion rotation = creatureViewVector.getRotationTo(direction, Ogre::Vector3::UNIT_Y);
