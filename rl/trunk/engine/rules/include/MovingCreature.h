@@ -139,6 +139,10 @@ namespace rl
                           );
 
 
+        /// this method will return the yaw, the creature tries to turn to, if a rotation-movement is activated. if not, it will return the current yaw
+        Ogre::Radian getYaw();
+
+
     protected:
         Creature *mCreature;
         AbstractLocation mAbstractLocation;
@@ -169,7 +173,7 @@ namespace rl
         public OgreNewt::ContactCallback
     {
     public:
-        AbstractMovement(MovingCreature *movingCreature) : mMovingCreature(movingCreature) {}
+        AbstractMovement(MovingCreature *movingCreature) : mMovingCreature(movingCreature), mActive(false) {}
 
         /// returns the id of this movement
         virtual MovingCreature::MovementType getId() const = 0;
@@ -224,13 +228,15 @@ namespace rl
         /**
          * this function is called if this movement is activated.
          * it can be used to determine if a new "Talentprobe" is needed
+         * if you ovveride it, please make sure to call the base class method
          */
-        virtual void activate() {}
+        virtual void activate() {mActive = true;}
 
         /**
          * this function is called every time this movement is deactivated.
+         * if you ovveride it, please make sure to call the base class method
          */
-        virtual void deactivate() {}
+        virtual void deactivate() {mActive = false;}
 
         /**
          * this method is used to get to know if a movement can be used with a certain direction
@@ -246,8 +252,15 @@ namespace rl
          */
         virtual bool isRotationPossible(Ogre::Vector3 &rotation) const = 0;
 
+
+        /// this can return true even though movingcreature doesn't call this movement, but another that is using this movement
+        bool isActive() const {return mActive;}
+
+        /// this method is used to return the yaw value of rotation movemenrts etc
+        virtual Ogre::Real getMovementDefinedValue() {return 0;}
     protected:
         MovingCreature *mMovingCreature;
+        bool mActive;
     };
 }
 #endif

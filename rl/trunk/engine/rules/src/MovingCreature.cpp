@@ -42,10 +42,12 @@ namespace rl
         virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_NONE;}
         virtual void activate()
         {
+            AbstractMovement::activate();
             getRotationMovement()->activate();
         }
         virtual void deactivate()
         {
+            AbstractMovement::deactivate();
             getRotationMovement()->deactivate();
         }
         virtual bool calculateBaseVelocity(Real &velocity)
@@ -157,10 +159,12 @@ namespace rl
         }
         virtual void activate()
         {
+            AbstractMovement::activate();
             mYaw = mMovingCreature->getCreature()->getActor()->getWorldOrientation().getYaw();
         }
         virtual void deactivate()
         {
+            AbstractMovement::deactivate();
         }
         virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep) 
         {
@@ -209,6 +213,7 @@ namespace rl
     protected:
         Ogre::Radian mYaw;
         Ogre::Real mRotLinearDampingK, mRotLinearSpringK;
+        virtual Real getMovementDefinedValue() {return mYaw.valueRadians();}
     };
 
 
@@ -311,6 +316,7 @@ namespace rl
         }
         virtual void activate()
         {
+            AbstractMovement::activate();
             doTalentProbeIfNecessary();
         }
         virtual void doTalentProbeIfNecessary()
@@ -387,6 +393,7 @@ namespace rl
         }
         virtual void activate()
         {
+            AbstractMovement::activate();
             doTalentProbeIfNecessary();
         }
         virtual void doTalentProbeIfNecessary()
@@ -543,6 +550,7 @@ namespace rl
         virtual void setAnimation(Ogre::Real elapsedTime) {} // is not used
         virtual void activate()
         {
+            AbstractMovement::activate();
             mState = UPTODOWN;
             mMovingCreature->setAnimation("idle_zu_hocke",1,1,"idle");
             mTimer = 0;
@@ -574,6 +582,7 @@ namespace rl
         virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_STEHEN;}
         virtual void activate()
         {
+            AbstractMovement::activate();
             mState = DOWNTOUP;
             mMovingCreature->setAnimation("idle_absprung",1,1,"idle");
             mTimer = 0;
@@ -605,6 +614,7 @@ namespace rl
         }
         virtual void deactivate()
         {
+            AbstractMovement::deactivate();
         }
         virtual bool calculateBaseVelocity(Real &velocity)
         {
@@ -736,6 +746,7 @@ namespace rl
         virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_STEHEN;}
         virtual void activate()
         {
+            AbstractMovement::activate();
             mState = DOWNTOUP;
             mMovingCreature->setAnimation("rennen_absprung",1,1,"rennen");
             mTimer = 0;
@@ -767,6 +778,7 @@ namespace rl
         }
         virtual void deactivate()
         {
+            AbstractMovement::deactivate();
         }
         virtual bool calculateBaseVelocity(Real &velocity)
         {
@@ -1198,5 +1210,22 @@ namespace rl
         }
 
         return false;
+    }
+
+
+
+    Ogre::Radian MovingCreature::getYaw()
+    {
+        Radian yaw = mCreature->getActor()->getWorldOrientation().getYaw();
+
+        AbstractMovement *drehen = getMovementFromId(MT_DREHEN);
+        
+        if( drehen == NULL )
+            return yaw;
+
+        if( !drehen->isActive() )
+            return yaw;
+
+        return Radian(drehen->getMovementDefinedValue());
     }
 }
