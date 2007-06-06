@@ -20,6 +20,7 @@
 #include "DsaManager.h"
 //#include "XdimlLoader.h"
 #include "DsaDataLoader.h"
+#include "EffectFactory.h"
 #include "Logger.h"
 #include "MovingCreatureManager.h"
 #include "TimerManager.h"
@@ -61,6 +62,7 @@ namespace rl
 		mXdimlLoader = new XdimlLoader();
 		LOG_MESSAGE(Logger::RULES, "Basisdaten geladen");
 		
+        new EffectFactoryManager();
         new GameObjectManager();
 		LOG_MESSAGE(Logger::RULES, "Erzeugen abgeschlossen");		
     }
@@ -75,6 +77,7 @@ namespace rl
         delete mActionManager;
         delete mXdimlLoader;
         delete GameObjectManager::getSingletonPtr();
+        delete EffectFactoryManager::getSingletonPtr();
     }
 
 	QuestBook* RulesSubsystem::getQuestBook()

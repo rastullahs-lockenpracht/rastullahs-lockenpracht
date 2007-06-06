@@ -379,6 +379,11 @@ namespace rl {
         bool isHighlightingEnabled();
         void setHighlightingEnabled( bool highlightenabled );
         
+        void addEffect(rl::Effect* effect);
+        void addEffectWithCheckTime(rl::Effect* effect, RL_LONGLONG time);
+        void addEffectWithCheckDate(rl::Effect* effect, RL_LONGLONG date);
+        void removeEffect(rl::Effect* effect);
+        
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
         virtual rl::PropertySet* getAllProperties() const;
@@ -573,6 +578,23 @@ namespace rl {
 
         virtual Status getStatus();
         virtual int getMod(rl::CeGuiString target, ModType type, ModTag tag);
+
+        virtual const rl::Property getProperty(const Ogre::String& key) const = 0;
+        virtual void setProperty(const Ogre::String& key, const rl::Property& value) = 0;
+        virtual rl::PropertySet* getAllProperties() const = 0;
+    };
+
+    class EffectFactory
+    {
+    public:
+        virtual rl::Effect* createEffect(const Ogre::String& name, int stufe) = 0;
+    };
+
+    class EffectFactoryManager
+    {
+    public:
+        void setEffectFactory(rl::EffectFactory* factory);
+        static rl::EffectFactoryManager& getSingleton();
     };
     
     class Inventory 
@@ -647,10 +669,6 @@ namespace rl {
         virtual int doEigenschaftsprobe(const rl::CeGuiString eigenschaftName, int modifier);
         
         rl::Inventory* getInventory();
-        
-        void addEffect(Effect* effect);
-        void addEffectWithCheckTime(Effect* effect, RL_LONGLONG time);
-        void addEffectWithCheckDate(Effect* effect, RL_LONGLONG date);
         
         void damageLe(int tp, int damageType = LEDAMAGE_NORMAL);
         static const int LEDAMAGE_NORMAL = 0;
