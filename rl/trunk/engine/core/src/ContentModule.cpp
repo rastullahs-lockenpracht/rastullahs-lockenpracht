@@ -23,6 +23,7 @@
 #include "CoreSubsystem.h"
 #include "RubyInterpreter.h"
 #include "SoundManager.h"
+#include "World.h"
 
 using namespace Ogre;
 
@@ -175,6 +176,7 @@ namespace rl
     void ContentModule::unload()
     {
         //TODO: unloadModule
+        CoreSubsystem::getSingleton().getWorld()->clearScene();
         mLoaded = false;
     }
 
