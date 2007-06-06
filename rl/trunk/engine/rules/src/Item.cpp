@@ -33,7 +33,8 @@ namespace rl
         : GameObject(id),
 		mItemType(ITEMTYPE_OTHER),
 		mImageName(""),
-		mSize(pair<int,int>(1,1))
+		mSize(pair<int,int>(1,1)),
+        mOwner(NULL)
     {
         mQueryFlags |= QUERYFLAG_ITEM;
     }
@@ -232,5 +233,15 @@ namespace rl
         ps->setProperty(Item::PROPERTY_ITEMTYPE, Property(mItemType));
 
         return ps;
+    }
+
+    void Item::setOwner(GameObject* owner)
+    {
+        mOwner = owner;
+    }
+
+    GameObject* Item::getOwner() const
+    {
+        return mOwner;
     }
 }

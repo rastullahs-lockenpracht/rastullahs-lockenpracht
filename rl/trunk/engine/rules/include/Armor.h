@@ -21,6 +21,8 @@
 
 namespace rl
 {
+    class Effect;
+
 	/// Objekte die sich mit Kampffertigkeiten einsetzen lassen
 	class _RlRulesExport Armor : public Item
 	{
@@ -71,6 +73,8 @@ namespace rl
         virtual void setProperty(const Ogre::String& key, const Property& value);
         virtual PropertySet* getAllProperties() const;
 
+        virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
+
 	private:
 		// Rüstungsschutz
 		// Kopf
@@ -96,6 +100,8 @@ namespace rl
 		int mGRS;
 		// Gesamtbehinderung nach einfachem Modell
 		int mGBE;
+
+        Effect* mRsEffect;
 	};
 }
 #endif //__ARMOR_H__

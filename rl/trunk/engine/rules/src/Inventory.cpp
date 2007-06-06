@@ -175,7 +175,9 @@ namespace rl
         {
             Throw(rl::IllegalArgumentException, Ogre::String("Slot '")+slotName.c_str()+"' doesn't exist.");
         }
-        (*slotIter).second->setItem(NULL);
+        slotIter->second->getItem()->setOwner(NULL);
+        slotIter->second->setItem(NULL);
+
 	}
 
     void Inventory::hold(Item* item, const CeGuiString& slotName)
@@ -186,7 +188,8 @@ namespace rl
             Throw(rl::IllegalArgumentException, Ogre::String("Slot '")+slotName.c_str()+"' doesn't exist.");
         }
         
-        (*slotIter).second->setItem(item);
+        slotIter->second->setItem(item);
+        item->setOwner(getOwner());
     }
 
 	bool Inventory::canHold(Item* item, const CeGuiString& slotName) const
@@ -197,7 +200,7 @@ namespace rl
             Throw(rl::IllegalArgumentException, Ogre::String("Slot '")+slotName.c_str()+"' doesn't exist.");
         }
         
-		return (*slotIter).second->isAllowed(item);
+		return slotIter->second->isAllowed(item);
     }
 
     Item* Inventory::getItem(const CeGuiString& slotName) const

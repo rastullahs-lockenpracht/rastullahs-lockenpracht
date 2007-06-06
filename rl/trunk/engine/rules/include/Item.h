@@ -79,16 +79,18 @@ namespace rl
         virtual void setState(GameObjectState state);
         void hold();
 
+        void setOwner(GameObject* go);
+        GameObject* getOwner() const;
+
         virtual const Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const Property& value);
         virtual PropertySet* getAllProperties() const;
 
     protected:
 		ItemType mItemType;
-
 		CeGuiString mImageName;
-
 		std::pair<int,int> mSize;
+        GameObject* mOwner;
 
 		void doHold();
 		void doLoose();

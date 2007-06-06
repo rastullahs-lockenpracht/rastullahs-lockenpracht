@@ -13,9 +13,12 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-
-#include "DsaManager.h"
 #include "Armor.h"
+
+#include "Creature.h"
+#include "DsaManager.h"
+#include "Effect.h"
+#include "EffectFactory.h"
 
 using namespace std;
 
@@ -29,7 +32,8 @@ namespace rl
 	Armor::Armor(unsigned int id)
 		: Item(id),
 		mGRS(0),
-		mGBE(0)
+		mGBE(0),
+        mRsEffect(NULL)
 	{
         mQueryFlags |= QUERYFLAG_ARMOR;
 	}
@@ -141,6 +145,32 @@ namespace rl
         else
         {
             Item::setProperty(key, value);
+        }
+    }
+
+    void Armor::onStateChange(GameObjectState oldState, GameObjectState newState)
+    {
+        if (oldState != newState)
+        {
+            if (newState == GOS_HELD)
+            {
+                if (getOwner())
+                {
+                    mRsEffect = EffectFactoryManager::getSingleton().createEffect(
+                        "Ruestung");
+                    mRsEffect->setProperty(Armor::PROPERTY_G_BE, Property(mGBE));
+                    mRsEffect->setProperty(Armor::PROPERTY_G_RS, Property(mGRS));
+                    getOwner()->addEffect(mRsEffect);
+                }
+            }
+            else if (oldState == GOS_HELD)
+            {
+                if (getOwner())
+                {
+                    getOwner()->removeEffect(mRsEffect);
+                    delete mRsEffect;
+                }
+            }
         }
     }
 
