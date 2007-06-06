@@ -51,7 +51,7 @@ namespace rl
 	 *
 	 * Maybe this should be used as interface instead of AbstractVehicle
 	 */
-	class _RlAiExport SteeringVehicle : protected SimpleVehicle_2
+	class _RlAiExport SteeringVehicle : public SimpleVehicle_2
 	{
 	public:
 		/** Constructor.

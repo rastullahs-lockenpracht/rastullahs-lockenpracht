@@ -82,7 +82,7 @@ namespace rl
 
         /// Setzt den Quantifier standardmaessig auf QUANTIFIER_MULTIPLE.
 		Effect(int stufe = 1);
-        virtual ~Effect() = 0 {};
+        virtual ~Effect() {}
 
         const CeGuiString getName() const;
         void setName(CeGuiString name);

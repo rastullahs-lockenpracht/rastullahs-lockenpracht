@@ -78,7 +78,7 @@ namespace rl {
 		setCastShadows( true ); 
 
         // Leerer String, keine Map laden
-        if( levelName.length()  )
+        if (levelName.length() != 0)
         {
             /// TODO - In den Sky-Sonnenpart verschieben
             mSceneMgr->setAmbientLight(ColourValue(0.55, 0.55, 0.55));
@@ -99,7 +99,9 @@ namespace rl {
             }
         }
         else
+        {
             mSceneFile = "";
+        }
 
         initializeDefaultCamera();
         fireAfterSceneLoaded();

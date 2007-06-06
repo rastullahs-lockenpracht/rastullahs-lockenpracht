@@ -10,6 +10,7 @@ noinst_HEADERS = \
 	DsaDataLoader.h \
 	DsaManager.h \
 	Effect.h \
+	EffectFactory.h \
 	EffectManager.h \
 	Eigenschaft.h \
 	EigenschaftenStateSet.h \
