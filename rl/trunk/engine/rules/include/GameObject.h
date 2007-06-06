@@ -29,6 +29,8 @@ namespace rl
 {
     class Actor;
     class Creature;
+    class Effect;
+    class EffectManager;
 
     /**
     * \brief Basisklasse aller spielrelevanten Objekte in RL.
@@ -69,8 +71,6 @@ namespace rl
 
         GameObject(unsigned int id);
         virtual ~GameObject();
-
-        virtual GameObject* clone();
 
         int getId() const;
 
@@ -158,6 +158,16 @@ namespace rl
 
         virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
 
+        /**
+         * Laesst einen Effekt auf der Kreatur wirken.
+         * @param effect Zeiger auf den Effekt.
+         * @ingroup CreatureRubyExports
+         **/
+        void addEffect(Effect* effect);
+        void addEffectWithCheckTime(Effect* effect, RL_LONGLONG time);
+        void addEffectWithCheckDate(Effect* effect, RL_LONGLONG date);
+        void removeEffect(Effect* effect);
+
     protected:
         int mId;
         GameObjectState mState;
@@ -176,11 +186,19 @@ namespace rl
         /// Soll das GameObject überhaupt leuchten?
         bool mHighlightingEnabled;
 
+        /// Verwaltet die Effekte die auf die Kreatur wirken.
+        EffectManager* mEffectManager;
+
         Actor* createActor();
         void destroyActor();
 
         void doPlaceIntoScene();
         void doRemoveFromScene();
+
+        /**
+         * Ueberprueft die wirkenden Effekte auf Lebendigkeit
+         **/
+        void checkEffects();
 
     private:
         static int sNextGameObjectId;    

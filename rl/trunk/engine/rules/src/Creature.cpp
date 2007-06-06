@@ -18,8 +18,8 @@
 #include "Actor.h"
 #include "Container.h"
 #include "DsaManager.h"
-#include "EffectManager.h"
 #include "Eigenschaft.h"
+#include "EffectManager.h"
 #include "Exception.h"
 #include "Inventory.h"
 #include "Kampftechnik.h"
@@ -90,10 +90,8 @@ namespace rl
         mMovementType(0),
         mAlignment(ALIGNMENT_NEUTRAL)
     {
-        mEffectManager = new EffectManager();
         mQueryFlags |= QUERYFLAG_CREATURE;
 
-		//RlFail("Test");
 		setWert(WERT_MOD_AE, 0);
 		setWert(WERT_MOD_LE, 0);
 		setWert(WERT_MOD_AU, 0);
@@ -109,15 +107,12 @@ namespace rl
 		mEigenschaften[E_KONSTITUTION] = 0;
 		mEigenschaften[E_KOERPERKRAFT] = 0;
 
-        mEffectManager = new EffectManager();
-
 		mInventory = new Inventory(this);
     }
 
 	Creature::~Creature()
     {
         delete mInventory;
-	delete mEffectManager;
 
         for( SonderfertigkeitMap::iterator it=mSonderfertigkeiten.begin();it!=mSonderfertigkeiten.end(); it++ )
             delete it->second;
@@ -931,9 +926,6 @@ namespace rl
                 modifyAu((regeneratedAu-modifier)*factor);
             }
 
-
-
-
             if( getAu() == getAuMax() )
             {
                 lastSpielrunde = 0;
@@ -945,30 +937,6 @@ namespace rl
         float regeneratedAuPerTime = float(regeneratedAu-modifier)/Date::ONE_SPIELRUNDE * Date::ONE_SECOND * time;
         modifyAu(regeneratedAuPerTime*factor);
     }
-
-	void Creature::addEffect(Effect* effect)
-	{
-		mEffectManager->addEffect(effect);
-	}
-    
-    void Creature::addEffectWithCheckTime(Effect* effect, RL_LONGLONG time)
-    {
-      addEffect(effect);
-      mEffectManager->addTimeCheck(time, effect);
-    }
-    
-    void Creature::addEffectWithCheckDate(Effect* effect, RL_LONGLONG date)
-    {
-      addEffect(effect);
-      mEffectManager->addDateCheck(date, effect);
-    }
-
-
-	void Creature::checkEffects()
-	{
-		/// @todo Nur einmal pro Aktion ausfuehren
-		mEffectManager->checkEffects();
-	}
 
     void Creature::setAlignment(Creature::Alignment alignment)
     {

@@ -29,7 +29,6 @@
 namespace rl
 {
     class Container;
-    class EffectManager;
     class Inventory;
     class Item;
     class Weapon;
@@ -675,14 +674,6 @@ namespace rl
              **/
             void regenerateAu(int modifier = 0, float factor = 1, float time = Date::ONE_SPIELRUNDE);
 
-            /**
-             * Laesst einen Effekt auf der Kreatur wirken.
-             * @param effect Zeiger auf den Effekt.
-             * @ingroup CreatureRubyExports
-             **/
-            void addEffect(Effect* effect);
-            void addEffectWithCheckTime(Effect* effect, RL_LONGLONG time);
-            void addEffectWithCheckDate(Effect* effect, RL_LONGLONG date);
 
             virtual const Property getProperty(const Ogre::String& key) const;
             virtual void setProperty(const Ogre::String& key, const Property& value);
@@ -715,10 +706,6 @@ namespace rl
             virtual int getCurrentBe();
 
 
-            /**
-             * Ueberprueft die wirkenden Effekte auf Lebendigkeit
-             **/
-            void checkEffects();
 
         private:
 ///////////////////////////////////////////////////////////////////////////////
@@ -779,8 +766,6 @@ namespace rl
             /// Zuletzt zugewiesene Bewegungsart
             int mMovementType;
 
-            /// Verwaltet die Effekte die auf die Kreatur wirken.
-            EffectManager* mEffectManager;
             /// Zeigt auf die gerade aktive Waffe.
             EigenschaftMap mEigenschaften;
             TalentMap mTalente;

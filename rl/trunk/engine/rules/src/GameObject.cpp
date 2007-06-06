@@ -19,6 +19,7 @@
 #include "ActionManager.h"
 #include "Actor.h"
 #include "ActorManager.h"
+#include "EffectManager.h"
 #include "Exception.h"
 #include "ObjectStateChangeEventSource.h"
 #include "Property.h"
@@ -66,6 +67,8 @@ namespace rl
             mDefaultAction(DEFAULT_VIEW_OBJECT_ACTION),
             mState(GOS_LOADED)
     {
+        mEffectManager = new EffectManager();
+
         // Standardactions registrieren
         Action* defaultAction = ActionManager::getSingleton().getAction(DEFAULT_VIEW_OBJECT_ACTION);
         if (defaultAction != NULL)
@@ -90,11 +93,7 @@ namespace rl
 
     GameObject::~GameObject(void)
     {
-    }
-
-    GameObject* GameObject::clone()
-    {
-        Throw(OperationNotSupportedException, "clone not yet implemented.");
+    	delete mEffectManager;
     }
 
     int GameObject::getId() const
@@ -401,6 +400,34 @@ namespace rl
         mMass = mass;
     }
 
+    void GameObject::addEffect(Effect* effect)
+	{
+		mEffectManager->addEffect(effect);
+	}
+    
+    void GameObject::addEffectWithCheckTime(Effect* effect, RL_LONGLONG time)
+    {
+      addEffect(effect);
+      mEffectManager->addTimeCheck(time, effect);
+    }
+    
+    void GameObject::addEffectWithCheckDate(Effect* effect, RL_LONGLONG date)
+    {
+      addEffect(effect);
+      mEffectManager->addDateCheck(date, effect);
+    }
+
+	void GameObject::checkEffects()
+	{
+		/// @todo Nur einmal pro Aktion ausfuehren
+		mEffectManager->checkEffects();
+	}
+
+    void GameObject::removeEffect(Effect* effect)
+	{
+		mEffectManager->removeEffect(effect);
+	}
+    
     const Property GameObject::getProperty(const Ogre::String& key) const
     {
         Property prop;
