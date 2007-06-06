@@ -19,12 +19,13 @@
 
 #include "RulesPrerequisites.h"
 #include "Date.h"
+#include "Properties.h"
 #include <set>
 
 
 namespace rl
 {
-	class _RlRulesExport Effect
+    class _RlRulesExport Effect : public PropertyHolder
 	{
 	public:
       
@@ -81,7 +82,7 @@ namespace rl
 
         /// Setzt den Quantifier standardmaessig auf QUANTIFIER_MULTIPLE.
 		Effect(int stufe = 1);
-		virtual ~Effect();
+        virtual ~Effect() = 0 {};
 
         const CeGuiString getName() const;
         void setName(CeGuiString name);

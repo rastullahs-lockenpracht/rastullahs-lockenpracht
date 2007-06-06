@@ -26,10 +26,6 @@ namespace rl
 		mQuantifier = QUANTIFIER_MULTIPLE;
 	}
 
-	Effect::~Effect()
-	{
-	}
-
 	const CeGuiString Effect::getName() const
 	{
 		return mName;
