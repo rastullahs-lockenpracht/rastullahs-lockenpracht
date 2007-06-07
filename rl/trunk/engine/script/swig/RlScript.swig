@@ -39,4 +39,21 @@ namespace rl
 		virtual ~TriggerFactory();
 		virtual rl::Trigger* createTrigger(const Ogre::String& classname) = 0;
 	};
+
+	%feature("director") UnifiedFactory;    
+    class UnifiedFactory :
+        public rl::TriggerFactory, 
+        public rl::EffectFactory, 
+        public rl::GameObjectFactory,
+        public rl::BehaviourFactory
+    {
+    public:
+        virtual ~UnifiedFactory() {}
+
+		virtual rl::Trigger* createTrigger(const Ogre::String& classname) = 0;
+        virtual rl::Effect* createEffect(const Ogre::String& name, int stufe) = 0;
+        virtual rl::GameObject* createRubyGameObject(const Ogre::String& classname, unsigned int id) = 0;
+        virtual rl::SteeringBehaviour* createBehaviour(const Ogre::String& classname) = 0;
+    };
+
 }

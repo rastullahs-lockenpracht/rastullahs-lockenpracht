@@ -19,4 +19,5 @@
 #include "MapLoader.h"
 #include "ScriptSubsystem.h"
 #include "TriggerFactory.h"
+#include "UnifiedFactory.h"
 %}

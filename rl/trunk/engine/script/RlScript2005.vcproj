@@ -351,6 +351,10 @@
 				RelativePath=".\include\TriggerFactory.h"
 				>
 			</File>
+			<File
+				RelativePath=".\include\UnifiedFactory.h"
+				>
+			</File>
 			<Filter
 				Name="map loading"
 				>
