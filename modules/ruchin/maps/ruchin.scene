@@ -166,7 +166,7 @@
 
 		</node>
 		<node name="dome_clouds_near" id="23" >
-			<position x="87.9637" y="196.696" z="-30.5118" />
+			<position x="0.0" y="0.0" z="0.0" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="5.08402" y="4.00516" z="4.00516" />
 			<entity
@@ -181,7 +181,7 @@
 
 		</node>
 		<node name="dome_clouds_far" id="25" >
-			<position x="119.321" y="358.829" z="-87.2079" />
+			<position x="0.0" y="0.0" z="0.0" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.7353" y="1.7353" z="1.7353" />
 			<entity
@@ -290,5 +290,20 @@
 
 		</node>
 		
+		<node name="Terrain" id="3" >
+			<position x="0.0" y="0.0" z="0.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="0.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="Statue_01"
+				id="4"
+				meshFile ="ruchin_terrain.mesh"
+				materialFile="ruchin_terrain.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
 	</nodes>
 </scene>

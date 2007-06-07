@@ -151,8 +151,8 @@ material 08_-_Default
 	{
 		pass
 		{
-		 fog_override true
-			ambient 0.545098 0.545098 0.545098 1
+		 //fog_override true
+			ambient 1.0 1.0 1.0 1
 
 			scene_blend alpha_blend 
 
