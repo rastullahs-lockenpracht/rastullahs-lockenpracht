@@ -72,7 +72,7 @@ namespace rl
             body->getMassMatrix(mass, inertia);
 
             Vector3 vel = mMovingCreature->getVelocity();
-            Real delay (2 * PhysicsManager::getSingleton().getMaxTimestep());
+            Real delay = 0.05;//(2 * PhysicsManager::getSingleton().getMaxTimestep());
             if(vel.squaredLength() > mVelocity.squaredLength())
                 delay *= 1.5;
             force = mass * (mVelocity - vel) / delay;
@@ -225,7 +225,7 @@ namespace rl
         virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_STEHEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
-            velocity = mMovingCreature->getCurrentGS() / 8.0f; 
+            velocity = mMovingCreature->getCurrentGS() / 3.6f * 0.7f; 
             return isPossible();
         }
         virtual bool isPossible() const
@@ -254,7 +254,11 @@ namespace rl
         }
         virtual void setAnimation(Ogre::Real elapsedTime)
         {
-            mMovingCreature->setAnimation("Walk");
+            Real step = 1.49; // the width of a step
+            //MeshObject* charMesh = dynamic_cast<MeshObject*>(mMovingCreature->getCreature()->getActor()->getControlledObject());
+            //Real length = charMesh->getAnimation("Run")->getLength();
+            Real length = 5./3.;
+            mMovingCreature->setAnimation("Walk", -mMovingCreature->getVelocity().z / (step / length) );
         }
     };
 
@@ -266,7 +270,7 @@ namespace rl
         virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_GEHEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
-            velocity = mMovingCreature->getCurrentGS() / 3.8f; 
+            velocity = mMovingCreature->getCurrentGS() / 2.8f; 
             return isPossible();
         }
         virtual bool isPossible() const
@@ -277,7 +281,14 @@ namespace rl
         virtual void applyAuChanges(Ogre::Real elapsedTime) {} // empty
         virtual void setAnimation(Ogre::Real elapsedTime)
         {
-            mMovingCreature->setAnimation("Run");
+            Real step = 2.835; // the width of a step
+            // if the persons runs, the feet don't touch always the ground, so this value must be bigger
+            // trynerror:
+            step += 0.5;
+            //MeshObject* charMesh = dynamic_cast<MeshObject*>(mMovingCreature->getCreature()->getActor()->getControlledObject());
+            //Real length = charMesh->getAnimation("Run")->getLength();
+            Real length = 5./3.;
+            mMovingCreature->setAnimation("Run", -mMovingCreature->getVelocity().z / (step / length) );
         }
     };
 
@@ -312,7 +323,14 @@ namespace rl
         }
         virtual void setAnimation(Ogre::Real elapsedTime)
         {
-            mMovingCreature->setAnimation("Run");
+            Real step = 2.835; // the width of a step
+            // if the persons runs, the feet don't touch always the ground, so this value must be bigger
+            // trynerror:
+            step += 0.5;
+            //MeshObject* charMesh = dynamic_cast<MeshObject*>(mMovingCreature->getCreature()->getActor()->getControlledObject());
+            //Real length = charMesh->getAnimation("Run")->getLength();
+            Real length = 5./3.;
+            mMovingCreature->setAnimation("Run", -mMovingCreature->getVelocity().z / (step / length) );
         }
         virtual void activate()
         {
@@ -389,7 +407,14 @@ namespace rl
         }
         virtual void setAnimation(Ogre::Real elapsedTime)
         {
-            mMovingCreature->setAnimation("Run");
+            Real step = 2.835; // the width of a step
+            // if the persons runs, the feet don't touch always the ground, so this value must be bigger
+            // trynerror:
+            step += 1.5;
+            //MeshObject* charMesh = dynamic_cast<MeshObject*>(mMovingCreature->getCreature()->getActor()->getControlledObject());
+            //Real length = charMesh->getAnimation("Run")->getLength();
+            Real length = 5./3.;
+            mMovingCreature->setAnimation("Run", -mMovingCreature->getVelocity().z / (step / length) );
         }
         virtual void activate()
         {
@@ -1030,7 +1055,6 @@ namespace rl
                 mLastCollisionName = *pCollisionName;
             }
             mesh->stopAllAnimations();
-
 
             mesh->startAnimation(name, speed, timesToPlay);
             mLastAnimationName = name;
