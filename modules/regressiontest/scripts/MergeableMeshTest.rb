@@ -6,8 +6,17 @@ class MergeableMeshTest < TestCase
 
         $SCRIPT.log(">MergeableMeshTest Start");
 
+        $SCRIPT.log(">>MergeableMeshTest Actor Start");
         testMergeableActor();
+        $SCRIPT.log(">>MergeableMeshTest Actor End");
+
+        $SCRIPT.log(">>MergeableMeshTest Slots Start");
         testMergeableSlots();
+        $SCRIPT.log(">>MergeableMeshTest Slots End");
+
+        $SCRIPT.log(">>MergeableMeshTest Inventory Start");
+        testMergeableInventory();
+        $SCRIPT.log(">>MergeableMeshTest Inventory End");
 
         $SCRIPT.log(">MergeableMeshTest End");
     end
@@ -89,5 +98,10 @@ class MergeableMeshTest < TestCase
       actorToAdd4 = $AM.createMeshActor("", "men_human_female_head_02.mesh")
       actorToAdd2.placeIntoScene(rel_pos([4.5, 0, 2]))
       baseActor4.merge(actorToAdd4, "head")
+    end
+    
+    def testMergeableInventory()
+      testObj = $GOM.createGameObject("kroetenhaut")
+      $hero.getInventory().hold(testObj, "Armor")
     end
 end

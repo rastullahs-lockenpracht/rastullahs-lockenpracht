@@ -45,4 +45,14 @@
         <property name="geometrytype" type="STRING" data="ellipsoid"/>
     </gameobjectclass>
 
+    <gameobjectclass classid="kroetenhaut" baseclass="Armor">
+        <property name="name" type="STRING" data="Kroetenhaut"/>
+        <property name="description" type="STRING" data="Eine Ruestung aus mit Nieten verstaerktem Leder"/>
+        <property name="meshfile" type="STRING" data="men_human_female_armor_kroetenhaut.mesh"/>
+        <property name="geometrytype" type="STRING" data="ellipsoid"/>
+        <property name="g_be" type="INT" data="2"/>
+        <property name="g_rs" type="INT" data="3"/>
+		<property name="itemtype" type="INT" data="32"/>
+    </gameobjectclass>
+
 </GameObjectDefinitions>

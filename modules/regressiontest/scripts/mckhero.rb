@@ -31,13 +31,13 @@ class MCKHero < Person
 
 	$SCRIPT.log("Inventar konfigurieren.");
 	inv = getInventory();
-	inv.addSlot("Left Ring", "l_finger_2", Item::ITEMTYPE_RING);
-	inv.addSlot("Right Ring", "r_finger_2", Item::ITEMTYPE_RING);
-	inv.addSlot("Left Hand", "l_hand", Item::ITEMTYPE_ALL_ITEMS);
-	inv.addSlot("Right Hand", "r_hand", Item::ITEMTYPE_ALL_ITEMS);
-	inv.addSlot("Head", "head", Item::ITEMTYPE_HELMET, false);
-	inv.addSlot("Back", "hals", Item::ITEMTYPE_ALL_ITEMS);
-        inv.addSlot("Armor", "torso", Item::ITEMTYPE_ARMOR, false);
+	inv.addSlot("Left Ring", "Bip01 L Finger21", Item::ITEMTYPE_RING);
+	inv.addSlot("Right Ring", "Bip01 R Finger21", Item::ITEMTYPE_RING);
+	inv.addSlot("Left Hand", "Bip01 L SlotHand", Item::ITEMTYPE_ALL_ITEMS);
+	inv.addSlot("Right Hand", "Bip01 R SlotHand", Item::ITEMTYPE_ALL_ITEMS);
+	inv.addSlot("Head", "Bip01 Head", Item::ITEMTYPE_HELMET, false);
+	inv.addSlot("Back", "back", Item::ITEMTYPE_ALL_ITEMS, false);
+    inv.addSlot("Armor", "armor", Item::ITEMTYPE_ARMOR, false);
 
 	#addSounds()
         $SCRIPT.log("done.");
