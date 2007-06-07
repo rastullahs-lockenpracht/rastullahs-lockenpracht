@@ -100,7 +100,7 @@ namespace rl
                 if( omegaY < Degree(-20).valueRadians() )
                     mMovingCreature->setAnimation("drehen_rechts");
                 else
-                    mMovingCreature->setAnimation("idle");                            
+                    mMovingCreature->setAnimation("Idle");                            
             }
         }
         virtual void applyAuChanges(Ogre::Real elapsedTime)
@@ -225,7 +225,7 @@ namespace rl
         virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_STEHEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
-            velocity = mMovingCreature->getCurrentGS() / 3.6f; 
+            velocity = mMovingCreature->getCurrentGS() / 8.0f; 
             return isPossible();
         }
         virtual bool isPossible() const
@@ -254,7 +254,7 @@ namespace rl
         }
         virtual void setAnimation(Ogre::Real elapsedTime)
         {
-            mMovingCreature->setAnimation("gehen");
+            mMovingCreature->setAnimation("Walk");
         }
     };
 
@@ -266,7 +266,7 @@ namespace rl
         virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_GEHEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
-            velocity = mMovingCreature->getCurrentGS() / 2.8f; 
+            velocity = mMovingCreature->getCurrentGS() / 3.8f; 
             return isPossible();
         }
         virtual bool isPossible() const
@@ -277,7 +277,7 @@ namespace rl
         virtual void applyAuChanges(Ogre::Real elapsedTime) {} // empty
         virtual void setAnimation(Ogre::Real elapsedTime)
         {
-            mMovingCreature->setAnimation("rennen");
+            mMovingCreature->setAnimation("Run");
         }
     };
 
@@ -312,7 +312,7 @@ namespace rl
         }
         virtual void setAnimation(Ogre::Real elapsedTime)
         {
-            mMovingCreature->setAnimation("rennen");
+            mMovingCreature->setAnimation("Run");
         }
         virtual void activate()
         {
@@ -389,7 +389,7 @@ namespace rl
         }
         virtual void setAnimation(Ogre::Real elapsedTime)
         {
-            mMovingCreature->setAnimation("rennen");
+            mMovingCreature->setAnimation("Run");
         }
         virtual void activate()
         {
@@ -460,7 +460,7 @@ namespace rl
         }
         virtual void setAnimation(Ogre::Real elapsedTime)
         {
-            mMovingCreature->setAnimation("rennen");
+            mMovingCreature->setAnimation("Run");
         }
     };
 
@@ -552,7 +552,7 @@ namespace rl
         {
             AbstractMovement::activate();
             mState = UPTODOWN;
-            mMovingCreature->setAnimation("idle_zu_hocke",1,1,"idle");
+            mMovingCreature->setAnimation("idle_zu_hocke",1,1,"Idle");
             mTimer = 0;
         }
         virtual bool canChangeToMovement(MovingCreature::MovementType id)
@@ -564,7 +564,7 @@ namespace rl
             if( mState == DOWN )
             {
                 mState = DOWNTOUP;
-                mMovingCreature->setAnimation("hocke_zu_stehen",1,1,"idle");
+                mMovingCreature->setAnimation("hocke_zu_stehen",1,1,"Idle");
                 mTimer = 0;
             }
         }
@@ -584,7 +584,7 @@ namespace rl
         {
             AbstractMovement::activate();
             mState = DOWNTOUP;
-            mMovingCreature->setAnimation("idle_absprung",1,1,"idle");
+            mMovingCreature->setAnimation("idle_absprung",1,1,"Idle");
             mTimer = 0;
             calculateBaseVelocity(mHeight);
 
@@ -695,7 +695,7 @@ namespace rl
                 else if( mMovingCreature->getAbstractLocation() != MovingCreature::AL_AIRBORNE )
                 {
                     mState = UPTODOWN;
-                    mMovingCreature->setAnimation("idle_sprung_landung", 1, 1, "idle");
+                    mMovingCreature->setAnimation("idle_sprung_landung", 1, 1, "Idle");
                     mTimer = 0;
                 }
             }
@@ -748,7 +748,7 @@ namespace rl
         {
             AbstractMovement::activate();
             mState = DOWNTOUP;
-            mMovingCreature->setAnimation("rennen_absprung",1,1,"rennen");
+            mMovingCreature->setAnimation("rennen_absprung",1,1,"Run");
             mTimer = 0;
             calculateBaseVelocity(mWidth);
 
@@ -865,7 +865,7 @@ namespace rl
                 else if( mMovingCreature->getAbstractLocation() != MovingCreature::AL_AIRBORNE )
                 {
                     mState = UPTODOWN;
-                    mMovingCreature->setAnimation("rennen_sprung_landung", 1, 1, "rennen");
+                    mMovingCreature->setAnimation("rennen_sprung_landung", 1, 1, "Run");
                     mTimer = 0;
                 }
             }
