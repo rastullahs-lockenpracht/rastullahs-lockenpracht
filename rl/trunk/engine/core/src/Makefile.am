@@ -36,6 +36,7 @@ libRlCore_la_SOURCES = \
 	LineSetPrimitive.cpp \
 	ListenerObject.cpp \
 	ListenerMovable.cpp \
+	LinearSoundFadeFunctor.cpp \
 	MergeableMeshObject.cpp \
 	MeshAnimation.cpp \
 	MeshObject.cpp \
@@ -57,6 +58,8 @@ libRlCore_la_SOURCES = \
 	Sound.cpp \
 	SoundEvents.cpp \
 	SoundResource.cpp \
+	SoundFadeJob.cpp \
+	SoundFadeFunctor.cpp \
 	TrackAnimation.cpp \
 	World.cpp \
 	Zone.cpp \

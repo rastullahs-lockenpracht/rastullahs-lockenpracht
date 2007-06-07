@@ -30,6 +30,7 @@
 	LightFadeJob.h \
 	LightObject.h \
 	LineSetPrimitive.h \
+	LinearSoundFadeFunctor.h \
 	ListenerMovable.h \
 	ListenerObject.h \
 	MergeableMeshObject.h \
@@ -56,6 +57,8 @@
 	SoundManager.h \
 	SoundObject.h \
 	SoundResource.h \
+	SoundFadeJob.h \
+	SoundFadeFunctor.h \
 	TrackAnimation.h \
 	Trigger.h \
 	World.h \

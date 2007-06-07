@@ -60,6 +60,10 @@
 #include "Zone.h"
 #include "ZoneManager.h"
 //#include "LightFadeJob.h"
+#include "SoundFadeJob.h"
+#include "SoundFadeFunctor.h"
+#include "LinearSoundFadeFunctor.h"
+
 #undef message
 #undef send
 %}

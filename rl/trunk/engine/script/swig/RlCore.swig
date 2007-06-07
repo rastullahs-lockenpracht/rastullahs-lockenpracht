@@ -925,4 +925,30 @@ public:
     virtual void setProperties(const rl::PropertySet* props);
 };
 
+class SoundFadeJob : public rl::Job
+{
+public:
+    SoundFadeJob(SoundObject* soundObject, rl::SoundFadeFunctor* functor, bool destroyWhenDone);
+
+    virtual bool execute(Ogre::Real time);
+    virtual void discard();
+};
+
+class SoundFadeFunctor
+{
+public:
+    SoundFadeFunctor(int startvolume, int endvolume, Ogre::Real duration);
+
+    virtual int operator()(Ogre::Real time, rl::SoundObject* sound) = 0;
+};
+
+class LinearSoundFadeFunctor : public rl::SoundFadeFunctor
+{
+public:
+    LinearSoundFadeFunctor(int startvolume, int endvolume, Ogre::Real duration);
+
+    virtual int operator()(Ogre::Real time, rl::SoundObject* sound);
+};
+
+
 }
