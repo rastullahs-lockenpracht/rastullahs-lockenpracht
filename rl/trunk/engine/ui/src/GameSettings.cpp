@@ -26,7 +26,7 @@
 namespace rl
 {
     GameSettings::GameSettings()
-        : AbstractWindow("gamesettings.xml", WND_MOUSE_INPUT)
+        : AbstractWindow("gamesettings.xml", WIT_MOUSE_INPUT)
     {
         // Register sound driver components
         std::list<SoundDriver*> soundDriverList = SoundManager::getSingleton().getDriverList();

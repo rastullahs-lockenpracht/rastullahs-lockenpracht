@@ -29,7 +29,7 @@ using namespace CEGUI;
 namespace rl {
 
     JournalWindow::JournalWindow()
-        : AbstractWindow("journalwindow.xml", WND_MOUSE_INPUT),
+        : AbstractWindow("journalwindow.xml", WIT_MOUSE_INPUT),
         mQuests(0),
         mQuestTitle(0),
         mQuestState(0),

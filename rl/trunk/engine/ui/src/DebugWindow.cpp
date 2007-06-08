@@ -35,7 +35,7 @@ template<> rl::DebugWindow* Ogre::Singleton<rl::DebugWindow>::ms_Singleton = 0;
 
 namespace rl
 {
-    DebugWindow::DebugWindow() : AbstractWindow("debugwindow.xml", WND_SHOW),
+    DebugWindow::DebugWindow() : AbstractWindow("debugwindow.xml", WIT_NONE),
           mMessageText(),
           mPageCaption(),
           mPageText(),

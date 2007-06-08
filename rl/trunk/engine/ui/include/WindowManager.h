@@ -45,8 +45,17 @@ namespace rl {
 		bool handleMovedToFront(AbstractWindow* window);
 		bool handleMovedToBack(AbstractWindow* window);
 
+        /// Returns the combined input mask of all open windows
+        int getWindowInputMask() const;
+
+        /// Callback for Windows, called when there visibility is changed.
+        void _visiblityChanged(AbstractWindow* window, bool isVisible);
+
 	private:
 		std::list<AbstractWindow*> mWindowList;
+
+        unsigned short mNumActiveWindowsMouseInput;
+        unsigned short mNumActiveWindowsKeyboardInput;
 	};
 }
 

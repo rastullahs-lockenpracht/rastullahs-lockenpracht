@@ -21,7 +21,7 @@
 namespace rl
 {
 	ObjectDescriptionWindow::ObjectDescriptionWindow()
-		: AbstractWindow("objectdescriptionwindow.xml", WND_SHOW)
+		: AbstractWindow("objectdescriptionwindow.xml", WIT_NONE)
 	{
 		mDescription = getMultiLineEditbox("ObjectDescriptionWindow/Text");
 	}

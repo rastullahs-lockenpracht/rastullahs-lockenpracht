@@ -21,6 +21,7 @@
 #include "CharacterSheetWindow.h"
 #include "CharacterStateWindow.h"
 #include "CloseConfirmationWindow.h"
+#include "CombatWindow.h"
 #include "Console.h"
 #include "ContainerContentWindow.h"
 #include "CoreSubsystem.h"
@@ -82,7 +83,8 @@ namespace rl {
         mObjectDescriptionWindow(NULL),
         mMainMenuWindow(NULL),
         mCloseConfirmationWindow(NULL),
-        mGameSettings(NULL)
+        mGameSettings(NULL),
+        mCombatWindow(NULL)
     {
     }
 
@@ -103,8 +105,6 @@ namespace rl {
         mJournalWindow = new JournalWindow();
         mInfoPopup = new InfoPopup();
         mObjectDescriptionWindow = new ObjectDescriptionWindow();
-        mCloseConfirmationWindow = NULL;
-        mGameSettings = NULL;
 
         RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mJournalWindow);
         RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mInfoPopup);
@@ -131,6 +131,7 @@ namespace rl {
         delete mGameSettings;
         delete mDialogWindow;
         delete mSubtitleWindow;
+        delete mCombatWindow;
     }
 
     void WindowFactory::showCharacterActionChoice()
@@ -425,5 +426,14 @@ namespace rl {
             mSubtitleWindow = new SubtitleWindow();
         }
         return mSubtitleWindow;
+    }
+
+    CombatWindow* WindowFactory::getCombatWindow()
+    {
+        if (mCombatWindow == NULL)
+        {
+            mCombatWindow = new CombatWindow();
+        }
+        return mCombatWindow;
     }
 }

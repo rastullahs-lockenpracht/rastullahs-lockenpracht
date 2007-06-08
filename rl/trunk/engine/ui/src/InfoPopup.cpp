@@ -22,7 +22,7 @@ using namespace CEGUI;
 namespace rl {
 
 	InfoPopup::InfoPopup()
-		: AbstractWindow("infopopup.xml", AbstractWindow::WND_SHOW, false)
+		: AbstractWindow("infopopup.xml", AbstractWindow::WIT_NONE, false)
 	{
 		mErrorIcon = getWindow("InfoPopup/ErrorIcon");
 		mQuestIcon = getWindow("InfoPopup/QuestIcon");

@@ -15,6 +15,7 @@
 */
 
 #include "FreeFlightCharacterController.h"
+
 #include "CoreSubsystem.h"
 #include "ConfigurationManager.h"
 #include "Exception.h"
@@ -34,7 +35,7 @@ namespace rl {
 
 	FreeFlightCharacterController::FreeFlightCharacterController(CommandMapper* cmdMapper,
         Actor* camera, Person* character)
-		: CharacterController(cmdMapper, camera, character),
+		: CharacterController(cmdMapper, camera, character, CST_FREEFLIGHT),
 		mMovementSpeed(5.0f),
 		mSpeedRange(0.03f, 90.0f),
 		mSpeedIncrement(0.02f),
@@ -108,6 +109,8 @@ namespace rl {
 
 	void FreeFlightCharacterController::run(Real elapsedTime)
 	{
+        if (isCeguiActive()) return;
+
 		InputManager* im = InputManager::getSingletonPtr();
 
 		// Fetch current movement state
@@ -224,26 +227,22 @@ namespace rl {
         mPitch = Degree(0);
 	}
 
-	bool FreeFlightCharacterController::injectKeyDown(int keycode)
+    bool FreeFlightCharacterController::keyPressed(const OIS::KeyEvent& evt)
 	{
-        int scancode;
-        mCommandMapper->decodeKey(keycode, &scancode, NULL);
-        int movement = mCommandMapper->getMovement(scancode);
-
+        int movement = mCommandMapper->getMovement(evt.key);
 
 		if (movement != MOVE_NONE)
 		{
 			mCurrentMovementState |= movement;
 			return true;
 		}
+
 		return false;
 	}
 
-	bool FreeFlightCharacterController::injectKeyUp(int keycode)
+    bool FreeFlightCharacterController::keyReleased(const OIS::KeyEvent& evt)
 	{
-        int scancode;
-        mCommandMapper->decodeKey(keycode, &scancode, NULL);
-        int movement = mCommandMapper->getMovement(scancode);
+        int movement = mCommandMapper->getMovement(evt.key);
 
 		if (movement != MOVE_NONE)
 		{
@@ -252,6 +251,8 @@ namespace rl {
 		}
         else
         {
+            InputManager* im = InputManager::getSingletonPtr();
+            int keycode = CommandMapper::encodeKey(evt.key, im->getModifierCode());
             CeGuiString command = mCommandMapper->getControlStateAction(keycode, CST_FREEFLIGHT);
             if (command == "back_to_character_movement")
             {
@@ -265,13 +266,10 @@ namespace rl {
             }
             else 
             {
-                return startAction(command);
+                return CharacterController::keyReleased(evt);
             }
         }
-			
-		return false;
 	}
-
 
     int FreeFlightCharacterController::userProcess()
     {

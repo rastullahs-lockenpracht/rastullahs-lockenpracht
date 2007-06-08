@@ -425,6 +425,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\CombatWindow.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\ConfigComponent.h"
 					>
 				</File>
@@ -611,6 +615,10 @@
 				</File>
 				<File
 					RelativePath=".\src\CloseConfirmationWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\CombatWindow.cpp"
 					>
 				</File>
 				<File

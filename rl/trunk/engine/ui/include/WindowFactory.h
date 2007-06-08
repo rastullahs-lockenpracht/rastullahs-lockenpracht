@@ -36,6 +36,7 @@ namespace rl {
     class CharacterStateWindow;
     class CharacterSheetWindow;
     class CloseConfirmationWindow;
+    class CombatWindow;
     class Console;
     class Container;
     class Creature;
@@ -105,6 +106,7 @@ namespace rl {
 
         DialogWindow* getDialogWindow();
         SubtitleWindow* getSubtitleWindow();
+        CombatWindow* getCombatWindow();
 
         void checkForErrors();
         GameLoggerWindow* getGameLogger();
@@ -139,6 +141,7 @@ namespace rl {
         MainMenuWindow* mMainMenuWindow;
         CloseConfirmationWindow* mCloseConfirmationWindow;
         GameSettings* mGameSettings;
+        CombatWindow* mCombatWindow;
     };
 }
 

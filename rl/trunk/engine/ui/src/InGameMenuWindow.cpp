@@ -33,7 +33,7 @@ using std::map;
 namespace rl {
 
 InGameMenuWindow::InGameMenuWindow()
-: AbstractWindow("ingamemenuwindow.xml", WND_MOUSE_INPUT)
+: AbstractWindow("ingamemenuwindow.xml", WIT_MOUSE_INPUT)
 {
 	update();
 }

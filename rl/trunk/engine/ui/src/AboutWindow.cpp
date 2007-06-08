@@ -22,7 +22,7 @@ using namespace CEGUI;
 namespace rl {
 
 AboutWindow::AboutWindow() :
-    AbstractWindow("aboutwindow.xml", WND_MOUSE_INPUT)
+    AbstractWindow("aboutwindow.xml", WIT_MOUSE_INPUT)
 {
     getWindow("AboutWindow/Text")->setText("Rastullahs Lockenpracht\n\nCopyright 2003-2007 Team Pantheon\
 \n\nBenutzte Bibliotheken: Ogre, fmod, Newton, boost, ...");

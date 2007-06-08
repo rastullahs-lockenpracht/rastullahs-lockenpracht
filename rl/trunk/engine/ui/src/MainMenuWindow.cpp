@@ -31,7 +31,7 @@ using namespace Ogre;
 namespace rl {
 
 	MainMenuWindow::MainMenuWindow(MainMenuEngineWindow* enginewindow) :
-		AbstractWindow("mainmenuwindow.xml", WND_MOUSE_INPUT, false, false),
+		AbstractWindow("mainmenuwindow.xml", WIT_MOUSE_INPUT, false, false),
 		mActiveModule(NULL),
 		mEngineWindow(enginewindow)
 	{

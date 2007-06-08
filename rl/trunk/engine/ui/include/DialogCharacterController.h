@@ -61,13 +61,12 @@ namespace rl {
 		void setDialogPartner(Actor* partner);
 
 		/// Antwort eines der Dialogführenden
-		void response(
-			Actor* actor, const CeGuiString& text, const Ogre::String& soundFile = "");
+		void response(Actor* actor, const CeGuiString& text, const Ogre::String& soundFile = "");
 
 		void setDialogWindow(DialogWindow* dialog);
 		void setSubtitleWindow(SubtitleWindow* subtitles);
 	
-		bool injectMouseUp(int mouseButtonMask);
+        virtual bool mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id);
 	private:
 		/// Die Zielkameraposition in lokalen Koordinaten
 		Ogre::Vector3 mTargetCameraPosition;

@@ -31,7 +31,7 @@ using CEGUI::ListboxWrappedTextItem; using CEGUI::TextFormatting;
 namespace rl 
 {
 	Console::Console() : 
-		AbstractWindow("console.xml", WND_KEYBOARD_INPUT)
+		AbstractWindow("console.xml", WIT_KEYBOARD_INPUT)
 	{
 		using namespace CEGUI;
 		

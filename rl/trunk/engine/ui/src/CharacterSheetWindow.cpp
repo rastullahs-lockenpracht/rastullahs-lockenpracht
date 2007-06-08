@@ -33,7 +33,7 @@ using namespace Ogre;
 namespace rl {
 
 CharacterSheetWindow::CharacterSheetWindow()
-	: AbstractWindow("charactersheet.xml", WND_MOUSE_INPUT)
+	: AbstractWindow("charactersheet.xml", WIT_MOUSE_INPUT)
 {
 	mTalentTable = getMultiColumnList("CharacterSheet/TalentSheet/Table");
 	mTalentTable->addColumn((utf8*)"Talent", 0, cegui_reldim(0.5));

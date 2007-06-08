@@ -169,11 +169,12 @@ namespace rl {
 
             for (size_t i = 0; i < keys.size(); i++)
             {
-                cmdMap[getKeyCode(keys[i])] = CeGuiString(it->first);
+                int keycode = getKeyCode(keys[i]);
+                cmdMap[keycode] = CeGuiString(it->first);
                 LOG_MESSAGE(Logger::UI,
                     Ogre::String("Key ") + keys[i] + " ("
-                    + StringConverter::toString(getKeyCode(keys[i]))
-                    + ") is assigned to command " + it->first + " globally");
+                    + StringConverter::toString(keycode)
+                    + ") is assigned to command " + it->first);
             }
         }
     }

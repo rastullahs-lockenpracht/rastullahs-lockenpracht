@@ -38,7 +38,7 @@ namespace rl {
 	const int MAX_NUM_SUBACTIONS = 7;
 
 	ActionChoiceWindow::ActionChoiceWindow(Person* actor)
-		:	AbstractWindow("actionchoicewindow.xml", WND_MOUSE_INPUT),
+		:	AbstractWindow("actionchoicewindow.xml", WIT_MOUSE_INPUT),
 			mActor(actor)
 	{
 		mHint = getWindow("ActionChoiceWindow/Hint");

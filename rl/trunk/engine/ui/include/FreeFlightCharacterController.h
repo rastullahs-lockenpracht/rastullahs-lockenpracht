@@ -46,8 +46,8 @@ namespace rl {
 
 		virtual void run(Ogre::Real elapsedTime);
 
-		bool injectKeyDown(int keycode);
-		bool injectKeyUp(int keycode);
+        virtual bool keyPressed(const OIS::KeyEvent& evt);
+        virtual bool keyReleased(const OIS::KeyEvent& evt);
 
 	    void toggleCameraCollision();
 	    void resetCamera();

@@ -14,31 +14,19 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#include "ProgressWindow.h"
+#ifndef __CombatWindow_H__
+#define __CombatWindow_H__
+
+#include "UiPrerequisites.h"
+#include "AbstractWindow.h"
 
 namespace rl {
-
-ProgressWindow::ProgressWindow()
-: AbstractWindow("progresswindow.xml", WIT_NONE, false, true)
-{
-	mProgressBar = getProgressBar("ProgressWindow/ProgressBar");
-    mText = getWindow("ProgressWindow/Text");
-	centerWindow();
+	
+	class _RlUiExport CombatWindow : public AbstractWindow
+	{
+	public:
+		CombatWindow();
+	};
 }
 
-ProgressWindow::~ProgressWindow()
-{
-}
-
-void ProgressWindow::setText(const Ogre::String& text)
-{
-    mText->setText(text);
-}
-
-void ProgressWindow::setProgress(Ogre::Real percentage)
-{
-	mProgressBar->setProgress(percentage);
-    mProgressBar->setText(Ogre::StringConverter::toString(percentage * 100, 0) + "%");
-}
-
-}
+#endif

@@ -35,7 +35,7 @@ namespace rl {
     //------------------------------------------------------- Constructor
 
 	GameObjectPropsWindow::GameObjectPropsWindow() :
-        AbstractWindow("gameobjectpropswindow.xml", WND_MOUSE_INPUT)
+        AbstractWindow("gameobjectpropswindow.xml", WIT_MOUSE_INPUT)
 	{
         // Get access to the tab control
         mTabPane = getTabControl("GameObjectPropsWindow/PropertiesTabPane");

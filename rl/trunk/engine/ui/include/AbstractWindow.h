@@ -43,13 +43,13 @@ namespace rl {
 	{
 	public:
 
-		enum WindowType
+		enum WindowInputType
 		{
-			WND_SHOW,
-			WND_MOUSE_INPUT,
-			WND_KEYBOARD_INPUT,
-			WND_ALL_INPUT,
+			WIT_NONE = 0x00,
+			WIT_MOUSE_INPUT = 0x01,
+			WIT_KEYBOARD_INPUT = 0x02
 		};
+
 		virtual ~AbstractWindow();	
 
 		CEGUI::Window* getWindow();
@@ -72,7 +72,7 @@ namespace rl {
 		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile);
 		static CEGUI::Window* getRoot();
 
-		WindowType getWindowType();
+		int getWindowInputType();
 
         virtual bool isVisible();
         virtual void setVisible(bool visible, bool destroyAfterHide = false);
@@ -88,7 +88,7 @@ namespace rl {
 	protected:
 		AbstractWindow(
 			const CeGuiString& xmlfile, 
-			WindowType type, 
+			int inputType, 
 			bool closeOnEscape = true,
 			bool modal = false);
 
@@ -112,7 +112,7 @@ namespace rl {
 
 	private:
 		
-		WindowType mWindowType;
+		int mWindowInputType;
 		CeGuiString mNamePrefix;
 		CeGuiString mName;
 		bool mModal;

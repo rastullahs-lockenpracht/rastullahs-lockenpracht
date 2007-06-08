@@ -27,7 +27,7 @@ using namespace Ogre;
 namespace rl {
 
 	CutsceneCharacterController::CutsceneCharacterController(CommandMapper* cmdMapper,
-        Actor* camera) : CharacterController(cmdMapper, camera, NULL)
+        Actor* camera) : CharacterController(cmdMapper, camera, NULL, CST_CUTSCENE)
 	{
 	}
 
@@ -67,9 +67,4 @@ namespace rl {
         dynamic_cast<Ogre::Camera*>(mCameraActor->getControlledObject()->getMovableObject())
             ->lookAt(point);
     }
-
-    bool CutsceneCharacterController::injectKeyUp(int keycode)
-	{
-		return startAction(mCommandMapper->getControlStateAction(keycode, CST_CUTSCENE));		
-	}
 }

@@ -20,7 +20,7 @@ using namespace CEGUI;
 namespace rl {
 
 MessageWindow::MessageWindow() :
-	AbstractWindow("messagewindow.xml", WND_MOUSE_INPUT)
+	AbstractWindow("messagewindow.xml", WIT_MOUSE_INPUT)
 {
 	mTextField = getWindow("MessageWindow/Text");
 

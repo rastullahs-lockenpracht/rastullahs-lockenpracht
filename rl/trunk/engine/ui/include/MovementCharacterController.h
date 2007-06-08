@@ -75,10 +75,9 @@ namespace rl {
         */
         void resetCamera();
 
-		virtual bool injectMouseDown(int mouseButtonMask);
-		virtual bool injectMouseUp(int mouseButtonMask);
-		virtual bool injectKeyDown(int keycode);
-		virtual bool injectKeyUp(int keycode);		
+        virtual bool mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id);
+        virtual bool keyPressed(const OIS::KeyEvent& evt);
+        virtual bool keyReleased(const OIS::KeyEvent& evt);
 
         // Overrides from DebugVisualisable
         virtual DebugVisualisableFlag getFlag() const;

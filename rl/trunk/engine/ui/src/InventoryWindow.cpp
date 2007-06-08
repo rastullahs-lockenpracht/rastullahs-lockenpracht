@@ -32,7 +32,7 @@ namespace rl {
 	const Ogre::String InventoryWindow::SLOTNAME = "slotname";
 
     InventoryWindow::InventoryWindow(const Ogre::String& inventoryWindow, Inventory* inventory)
-        : AbstractWindow(inventoryWindow, AbstractWindow::WND_MOUSE_INPUT)
+        : AbstractWindow(inventoryWindow, AbstractWindow::WIT_MOUSE_INPUT)
     {
         mInventory = inventory;
 

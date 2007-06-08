@@ -33,7 +33,7 @@ namespace rl {
 	int ContainerContentWindow::sItemCount = 0;
 
 	ContainerContentWindow::ContainerContentWindow(Container* container) 
-		: AbstractWindow("containercontentwindow.xml", WND_MOUSE_INPUT),
+		: AbstractWindow("containercontentwindow.xml", WIT_MOUSE_INPUT),
 		mContainer(container)
 	{
 		mContentWindow = getWindow("ContainerContentWindow/Content");

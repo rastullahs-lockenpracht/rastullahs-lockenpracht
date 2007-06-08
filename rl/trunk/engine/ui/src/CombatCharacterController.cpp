@@ -19,26 +19,32 @@
 #include "Actor.h"
 #include "Combat.h"
 #include "CombatManager.h"
+#include "CombatWindow.h"
 #include "CoreSubsystem.h"
 #include "Creature.h"
 #include "InputManager.h"
+#include "MeshObject.h"
 #include "Person.h"
 #include "PhysicalThing.h"
 #include "Selector.h"
+#include "WindowFactory.h"
 #include "World.h"
 
 namespace rl {
     CombatCharacterController::CombatCharacterController(CommandMapper* cmdMapper,
         Actor* camera, Person* character)
-        : CharacterController(cmdMapper, camera, character),
+        : CharacterController(cmdMapper, camera, character, CST_COMBAT),
           mCombatManager(CombatManager::getSingletonPtr()),
           mCombat(NULL),
+          mCombatWindow(NULL),
           mEnemySelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager(),
             QUERYFLAG_CREATURE)
     {
         CreatureSelectionFilter* filter = new CreatureSelectionFilter();
         filter->setAlignmentMask(Creature::ALIGNMENT_ENEMY);
         mEnemySelector.setFilter(filter);
+
+        mCombatWindow = WindowFactory::getSingleton().getCombatWindow();
     }
 
 	CombatCharacterController::~CombatCharacterController()
@@ -50,6 +56,10 @@ namespace rl {
     {
         mCameraActor->getPhysicalThing()->freeze();
         mCharacterActor->getPhysicalThing()->freeze();
+
+        ///\todo Richtig machen, nur temporär Ani hier setzen.
+        static_cast<MeshObject*>(mCharacterActor->getControlledObject())
+            ->startAnimation("kampf_schwerter_idle");
 
         // Set reference to character
         mEnemySelector.setCheckVisibility(true, mCharacter);
@@ -84,12 +94,16 @@ namespace rl {
                 return;
             }
         }
+        mCombatWindow->setVisible(true);
     }
 
     void CombatCharacterController::pause()
     {
+        mCombatWindow->setVisible(false);
+
         mCameraActor->getPhysicalThing()->unfreeze();
         mCharacterActor->getPhysicalThing()->unfreeze();
+        static_cast<MeshObject*>(mCharacterActor->getControlledObject())->stopAllAnimations();
 
         // reset current combat, in order to avoid a potential dangling pointer
         mCombat = NULL;
@@ -97,25 +111,5 @@ namespace rl {
 
 	void CombatCharacterController::run(Ogre::Real elapsedTime)
     {
-    }
-
-	bool CombatCharacterController::injectMouseDown(int mouseButtonMask)
-    {
-        return false;
-    }
-
-    bool CombatCharacterController::injectMouseUp(int mouseButtonMask)
-    {
-        return false;
-    }
-
-    bool CombatCharacterController::injectKeyDown(int keycode)
-    {
-        return false;
-    }
-
-    bool CombatCharacterController::injectKeyUp(int keycode)
-    {
-        return false;
     }
 }

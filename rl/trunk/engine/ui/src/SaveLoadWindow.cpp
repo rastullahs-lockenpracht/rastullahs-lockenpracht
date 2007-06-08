@@ -36,7 +36,7 @@ namespace rl {
     //------------------------------------------------------- Constructor
 
     SaveLoadWindow::SaveLoadWindow() :
-        AbstractWindow("saveloadwindow.xml", WND_MOUSE_INPUT)
+        AbstractWindow("saveloadwindow.xml", WIT_MOUSE_INPUT)
     {
         // Get a access to the filename edit box
         mFilename = getEditbox("SaveLoadWindow/FileSheet/Filename");

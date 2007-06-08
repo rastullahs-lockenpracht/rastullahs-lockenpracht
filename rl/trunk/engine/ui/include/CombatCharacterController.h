@@ -24,8 +24,9 @@
 
 namespace rl {
 
-    class CombatManager;
     class Combat;
+    class CombatManager;
+    class CombatWindow;
 
 	class _RlUiExport CombatCharacterController : public CharacterController
 	{
@@ -41,15 +42,11 @@ namespace rl {
 
 		void run(Ogre::Real elapsedTime);
 
-		virtual bool injectMouseDown(int mouseButtonMask);
-		virtual bool injectMouseUp(int mouseButtonMask);
-		virtual bool injectKeyDown(int keycode);
-		virtual bool injectKeyUp(int keycode);
-
     private:
         CombatManager* mCombatManager;
         // Current combat that is controlled.
         Combat* mCombat;
+        CombatWindow* mCombatWindow;
         HalfSphereSelector mEnemySelector;
 	};
 }

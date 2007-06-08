@@ -28,7 +28,10 @@ using namespace CEGUI;
 
 namespace rl {
 
-	WindowManager::WindowManager()
+    WindowManager::WindowManager()
+        : mWindowList(),
+          mNumActiveWindowsMouseInput(0),
+          mNumActiveWindowsKeyboardInput(0)
 	{
 	}
 
@@ -78,4 +81,33 @@ namespace rl {
 		mWindowList.push_back(window);
 		return true;
 	}
+
+    void WindowManager::_visiblityChanged(AbstractWindow* window, bool isVisible)
+    {
+        if (window->getWindowInputType() & AbstractWindow::WIT_MOUSE_INPUT)
+        {
+            mNumActiveWindowsMouseInput += isVisible ? +1 : -1;
+        }
+        else if (window->getWindowInputType() & AbstractWindow::WIT_KEYBOARD_INPUT)
+        {
+            mNumActiveWindowsKeyboardInput += isVisible ? +1 : -1;
+        }
+
+        if (mNumActiveWindowsMouseInput == 1)
+        {
+            CEGUI::MouseCursor::getSingleton().show();
+        }
+        else if (mNumActiveWindowsMouseInput == 0)
+        {
+            CEGUI::MouseCursor::getSingleton().hide();
+        }
+    }
+
+    int WindowManager::getWindowInputMask() const
+    {
+        int mask = 0;
+        mask |= mNumActiveWindowsMouseInput > 0 ? AbstractWindow::WIT_MOUSE_INPUT : 0;
+        mask |= mNumActiveWindowsKeyboardInput > 0 ? AbstractWindow::WIT_KEYBOARD_INPUT : 0;
+        return mask;
+    }
 }

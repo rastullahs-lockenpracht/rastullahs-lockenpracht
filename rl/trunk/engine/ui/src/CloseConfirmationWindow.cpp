@@ -22,7 +22,7 @@
 namespace rl {
 
 CloseConfirmationWindow::CloseConfirmationWindow()
-: AbstractWindow("closeconfirmationwindow.xml", AbstractWindow::WND_ALL_INPUT, true, true)
+: AbstractWindow("closeconfirmationwindow.xml", WIT_MOUSE_INPUT | WIT_KEYBOARD_INPUT, true, true)
 {
 	getPushButton("CloseConfirmationWindow/YesButton")->subscribeEvent(
 		CEGUI::Window::EventMouseClick,

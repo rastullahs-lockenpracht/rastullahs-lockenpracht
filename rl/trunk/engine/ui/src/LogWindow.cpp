@@ -23,7 +23,7 @@
 namespace rl
 {
 	LogWindow::LogWindow()
-		: AbstractWindow("logwindow.xml", WND_MOUSE_INPUT)
+		: AbstractWindow("logwindow.xml", WIT_MOUSE_INPUT)
 	{
 		mRastullahLog = getMultiLineEditbox("LogWindow/RastullahLog/Text");
 		mOgreLog = getMultiLineEditbox("LogWindow/OgreLog/Text");

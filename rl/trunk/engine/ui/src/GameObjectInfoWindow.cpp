@@ -35,7 +35,7 @@ namespace rl {
     //------------------------------------------------------- Constructor
 
 	GameObjectInfoWindow::GameObjectInfoWindow(GameObject* go, Creature* character) 
-	 :  AbstractWindow("gameobjectinfowindow.xml", WND_MOUSE_INPUT),
+	 :  AbstractWindow("gameobjectinfowindow.xml", WIT_MOUSE_INPUT),
 		mGameObject(go),
 		mCharacter(character),
 		mNumActionButtons(0)

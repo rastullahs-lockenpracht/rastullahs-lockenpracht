@@ -49,7 +49,7 @@ namespace rl {
 
     DialogCharacterController::DialogCharacterController(CommandMapper* cmdMapper,
         Actor* camera, Person* character)
-        : CharacterController(cmdMapper, camera, character),
+        : CharacterController(cmdMapper, camera, character, CST_DIALOG),
         mTargetCameraPosition(Vector3::ZERO),
         mTargetCameraDirection(Vector3::UNIT_Z),
         mCurrFadeTextTime(0),
@@ -281,10 +281,11 @@ namespace rl {
         }
     }
 
-    bool DialogCharacterController::injectMouseUp(int mouseButtonMask)
+    bool DialogCharacterController::mouseReleased(const OIS::MouseEvent& evt,
+        OIS::MouseButtonID id)
     {
 
-        if( mTextShown && (mCurrFadeTextTime+0.25)<mTotalFadeTextTime )
+        if (mTextShown && (mCurrFadeTextTime + 0.25) < mTotalFadeTextTime)
         {
             mCurrFadeTextTime = -1;
 

@@ -19,7 +19,11 @@
 
 #include "UiPrerequisites.h"
 #include "GameTask.h"
+
 #include <OgreNewt.h>
+
+#include <OISMouse.h>
+#include <OISKeyboard.h>
 
 namespace rl {
 
@@ -31,7 +35,7 @@ namespace rl {
     /**
      * This class handles character control via user input.
      */
-	class _RlUiExport CharacterController
+    class _RlUiExport CharacterController : public OIS::KeyListener, public OIS::MouseListener
     {
 	public:
 
@@ -39,7 +43,8 @@ namespace rl {
          *  @throw NullPointerException if camera or character is NULL.
          *  @throw InvalidArgumentException if character is not placed in the scene.
          */
-        CharacterController(CommandMapper* commandMapper, Actor* camera, Person* character);
+        CharacterController(CommandMapper* commandMapper, Actor* camera, Person* character,
+            ControlStateType type);
 		virtual ~CharacterController()= 0;
 
         virtual void pause() = 0;
@@ -47,13 +52,23 @@ namespace rl {
 
         virtual void run(Ogre::Real elapsedTime) = 0;
 
-		virtual bool injectMouseDown(int mouseButtonMask) { return false; }
-		virtual bool injectMouseUp(int mouseButtonMask) { return false; }
-		virtual bool injectKeyDown(int keycode) { return false; }
-		virtual bool injectKeyUp(int keycode) { return false; }	
+        virtual bool mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id);
+        virtual bool mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id);
+        virtual bool mouseMoved(const OIS::MouseEvent& evt);
+        virtual bool keyPressed(const OIS::KeyEvent& evt);
+        virtual bool keyReleased(const OIS::KeyEvent& evt);
 
 	protected:
 		static bool startAction(const CeGuiString& actionName, Creature* character = NULL);
+
+        /// Returns true, if there is at least one window open,
+        /// that requires keyboard and/or mouse input. 
+        bool isCeguiActive() const;
+
+        /// Returns true, if the key event should be injected into CEGUI
+        /// This is the case, if an open window requests key input and it is
+        /// an input or navigation key.
+        bool CharacterController::sendKeyToCeGui(const OIS::KeyEvent& evt) const;
 
         Person* mCharacter;
 
@@ -64,6 +79,8 @@ namespace rl {
         OgreNewt::Body* mCharBody;
 
 		CommandMapper* mCommandMapper;
+
+        ControlStateType mType;
     };
 }
 #endif

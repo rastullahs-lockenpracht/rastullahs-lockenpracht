@@ -60,9 +60,6 @@ template<> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
 namespace rl {
 
     InputManager::InputManager(Ogre::RenderWindow* win) :
-        mNumActiveWindowsMouseInput(0),
-        mNumActiveWindowsKeyboardInput(0),
-        mNumActiveWindowsAllInput(0),
         mKeyMapNormal(),
         mKeyMapShift(),
         mKeyMapAlt(),
@@ -131,9 +128,6 @@ namespace rl {
         mMouse->getMouseState().width = width;
         mMouse->getMouseState().height = height;
 
-        mKeyboard->setEventCallback(this);
-        mMouse->setEventCallback(this);
-
         LOG_DEBUG(Logger::UI, "Done initializing input manager.");
     }
 
@@ -158,190 +152,25 @@ namespace rl {
         }
     }
 
-    bool InputManager::mousePressed(const OIS::MouseEvent & e, MouseButtonID id)
-    {
-        if (isCeguiActive())
-        {
-            System::getSingleton().injectMouseButtonDown(
-                static_cast<CEGUI::MouseButton>(id));
-        }
-        else
-        {
-            if (!mControlStates.empty())
-            {
-                mControlStates.top()->injectMouseDown(
-                    CommandMapper::encodeKey(id, getModifierCode()));
-            }
-        }
-        return true;
-    }
-
     bool InputManager::isMouseButtonDown( OIS::MouseButtonID buttonID )
     {
         OIS::MouseState ms = mMouse->getMouseState();
         return ms.buttonDown( buttonID );
     }
 
-
-    bool InputManager::mouseReleased(const OIS::MouseEvent & arg, MouseButtonID id)
-    {
-        if (isCeguiActive())
-        {
-            System::getSingleton().injectMouseButtonUp(
-                static_cast<CEGUI::MouseButton>(id));
-            // return true;
-        }
-        else if (!mControlStates.empty())
-        {
-            mControlStates.top()->injectMouseUp(
-                CommandMapper::encodeKey(id, getModifierCode()));
-        }
-
-        return true;
-    }
-
-    bool InputManager::mouseMoved(const OIS::MouseEvent &arg)
-    {
-        if (isCeguiActive())
-        {
-            CEGUI::Renderer* renderer  = System::getSingleton().getRenderer();
-            System::getSingleton().injectMouseMove(arg.state.X.rel, arg.state.Y.rel);
-
-            return true;
-        }
-        return false;
-    }
-
     Ogre::Real InputManager::getMouseRelativeX() const
     {
-        if (isCeguiActive())
-        {
-            return 0;
-            return mSavedMouseState.x;
-        }
         return (float)mMouse->getMouseState().X.rel;
     }
 
     Ogre::Real InputManager::getMouseRelativeY() const
     {
-        if (isCeguiActive())
-        {
-            return 0;
-            return mSavedMouseState.y;
-        }
         return (float)mMouse->getMouseState().Y.rel;
     }
 
     Ogre::Real InputManager::getMouseRelativeZ() const
     {
-        if (isCeguiActive())
-        {
-            return 0;
-            return mSavedMouseState.z;
-        }
         return (float)mMouse->getMouseState().Z.rel;
-    }
-
-    bool InputManager::sendKeyToCeGui(const OIS::KeyEvent& e) const
-    {
-        // Fenster, die alle Inputs wollen
-        if (mNumActiveWindowsAllInput > 0)
-        {
-            return true;
-        }
-
-        // Wenn kein Fenster mit Tastatureingabe aktiv ist, kriegt CEGUI keine KeyEvents
-        if (mNumActiveWindowsKeyboardInput == 0)
-        {
-            return false;
-        }
-
-        // ---- Tastatureingabe gefordert ----
-
-        // Tasten, die Zeichen liefern sollen an CEGUI gesendet werden
-        if (getKeyChar(e.key, getModifierCode()) != 0)
-        {
-            return true;
-        }
-
-        if (e.key == OIS::KC_RETURN
-            || e.key == OIS::KC_HOME || e.key == OIS::KC_END
-            || e.key == OIS::KC_LEFT || e.key == OIS::KC_RIGHT
-            || e.key == OIS::KC_BACK || e.key == OIS::KC_DELETE
-            || e.key == OIS::KC_UP   || e.key == OIS::KC_DOWN
-            || e.key == OIS::KC_RMENU)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    bool InputManager::keyPressed(const OIS::KeyEvent& e)
-    {
-        if (sendKeyToCeGui(e))
-        {   // Send all events to CEGUI
-            CEGUI::System& cegui = CEGUI::System::getSingleton();
-            cegui.injectKeyDown(e.key);
-            cegui.injectChar(getKeyChar(e.key, getModifierCode()));
-        }
-        else
-        {
-            int code = CommandMapper::encodeKey(e.key, getModifierCode());
-
-            // is there a ruby script command linked?
-            KeyCommandMap::iterator it;
-            it = mKeyRubyCommand.find(code);
-            if( it != mKeyRubyCommand.end() )
-            {
-                if( it->second.length() > 0 )
-                {
-                    bool error = CoreSubsystem::getSingleton().getRubyInterpreter()->execute(it->second.c_str());
-                    LOG_MESSAGE(Logger::UI, " (keyboard shortcut) execution of ruby command '" + it->second + "' " + (error == false ? "success." : "failure."));
-                    return true;
-                }
-            }
-
-            if (!mControlStates.empty())
-            {
-                mControlStates.top()->injectKeyDown(code);
-            }
-        }
-
-        return true;
-    }
-
-    bool InputManager::keyReleased(const OIS::KeyEvent& e)
-    {
-        LOG_MESSAGE2(Logger::UI, "Key released: " + mKeyboard->getAsString(e.key) ,
-            "InputManager::keyReleased");
-        if (sendKeyToCeGui(e))
-        {
-            CEGUI::System& cegui = CEGUI::System::getSingleton();
-            cegui.injectKeyUp(e.key);
-            LOG_MESSAGE2(Logger::UI, "    fed to cegui", "InputManager::keyReleased");
-        }
-        else
-        {
-            int code = CommandMapper::encodeKey(e.key, getModifierCode());
-            Action* action = ActionManager::getSingleton().getInGameGlobalAction(
-                mCommandMapper->getGlobalAction(code));
-            if (action != NULL)
-            {
-                action->doAction(NULL, NULL, NULL);
-                LOG_MESSAGE2(Logger::UI, "    invoked action " + action->getName(),
-                    "InputManager::keyReleased");
-            }
-
-            if (!mControlStates.empty())
-            {
-                mControlStates.top()->injectKeyUp(e.key);
-                LOG_MESSAGE2(Logger::UI, "    fed to char controller",
-                    "InputManager::keyReleased");
-            }
-        }
-
-        return true;
     }
 
     CeGuiString InputManager::getKeyName(int combinedKeyCode)
@@ -407,71 +236,6 @@ namespace rl {
         if (mKeyboard->isModifierDown(OIS::Keyboard::Shift)) rval |= SHIFT_MASK;
 
         return rval;
-    }
-
-    void InputManager::registerAbstractWindow(AbstractWindow* window)
-    {
-        if (window->getWindowType() == AbstractWindow::WND_SHOW)
-            return;
-
-        bool active = isCeguiActive();
-
-        if (window->getWindowType() == AbstractWindow::WND_MOUSE_INPUT)
-        {
-            mNumActiveWindowsMouseInput++;
-        }
-        else if (window->getWindowType() == AbstractWindow::WND_KEYBOARD_INPUT)
-        {
-            mNumActiveWindowsKeyboardInput++;
-        }
-        else if (window->getWindowType() == AbstractWindow::WND_ALL_INPUT)
-        {
-            mNumActiveWindowsAllInput++;
-        }
-
-        if (!active && isCeguiActive()) // war nicht aktiv, sollte jetzt aktiv sein -> anschalten
-        {
-            mSavedMouseState.x = mMouse->getMouseState().X.rel;
-            mSavedMouseState.y = mMouse->getMouseState().Y.rel;
-            mSavedMouseState.z = mMouse->getMouseState().Z.rel;
-            CEGUI::MouseCursor::getSingleton().show();
-        }
-    }
-
-    void InputManager::unregisterAbstractWindow(AbstractWindow* window)
-    {
-        if (window->getWindowType() == AbstractWindow::WND_SHOW)
-        {
-            return;
-        }
-
-        bool active = isCeguiActive();
-
-        if (window->getWindowType() == AbstractWindow::WND_MOUSE_INPUT)
-        {
-            mNumActiveWindowsMouseInput--;
-        }
-        else if (window->getWindowType() == AbstractWindow::WND_KEYBOARD_INPUT)
-        {
-            mNumActiveWindowsKeyboardInput--;
-        }
-        else if (window->getWindowType() == AbstractWindow::WND_ALL_INPUT)
-        {
-            mNumActiveWindowsAllInput--;
-        }
-
-        if (active && !isCeguiActive()) // war aktiv, sollte nicht mehr aktiv sein -> ausschalten
-        {
-            CEGUI::MouseCursor::getSingleton().hide();
-        }
-    }
-
-    bool InputManager::isCeguiActive() const
-    {
-        return
-            mNumActiveWindowsKeyboardInput > 0 ||
-            mNumActiveWindowsMouseInput > 0 ||
-            mNumActiveWindowsAllInput > 0;
     }
 
     void InputManager::loadKeyMapping(const Ogre::String& filename)
@@ -666,6 +430,10 @@ namespace rl {
         {
             mControlStates.top()->pause();
         }
+
+        mKeyboard->setEventCallback(controller);
+        mMouse->setEventCallback(controller);
+
         mControlStates.push(controller);
         mControlStates.top()->resume();
     }
@@ -679,7 +447,15 @@ namespace rl {
 
         if (!mControlStates.empty())
         {
-            mControlStates.top()->resume();
+            CharacterController* newController = mControlStates.top();
+            mKeyboard->setEventCallback(newController);
+            mMouse->setEventCallback(newController);
+            newController->resume();
+        }
+        else
+        {
+            mKeyboard->setEventCallback(NULL);
+            mMouse->setEventCallback(NULL);
         }
     }
 

@@ -23,7 +23,6 @@
 #include "UiSubsystem.h"
 #include "AbstractWindow.h"
 #include "CeGuiHelper.h"
-#include "InputManager.h"
 #include "WindowManager.h"
 #include "WindowFadeJob.h"
 #include "JobScheduler.h"
@@ -37,10 +36,10 @@ namespace rl
 
 	int AbstractWindow::sNumAbstractWindows = 0;
 
-	AbstractWindow::AbstractWindow(const CeGuiString& xmlfile, WindowType type, bool closeOnEscape, bool modal)
+	AbstractWindow::AbstractWindow(const CeGuiString& xmlfile, int inputType, bool closeOnEscape, bool modal)
 	: mVisible(false),
 		mModal(modal),
-		mWindowType(type),
+		mWindowInputType(inputType),
 		mCloseOnEscape(closeOnEscape)
 	{
         LOG_MESSAGE(Logger::UI, 
@@ -117,18 +116,17 @@ namespace rl
 		{
 			if (visible)
 			{
-				InputManager::getSingleton().registerAbstractWindow(this);
                 JobScheduler::getSingleton().addJob(
                     new WindowFadeJob(this, WindowFadeJob::FADE_IN, mNormalAlpha));
 			}
 			else
 			{
-				InputManager::getSingleton().unregisterAbstractWindow(this);
                 JobScheduler::getSingleton().addJob(
                     new WindowFadeJob(this,
                     destroy ? WindowFadeJob::FADE_OUT_AND_DESTROY : WindowFadeJob::FADE_OUT,
                     0.0f));
 			}
+            WindowManager::getSingleton()._visiblityChanged(this, visible);
             mVisible = visible;
 		}
 	}
@@ -148,9 +146,9 @@ namespace rl
 		return mCloseOnEscape;
 	}
 
-	AbstractWindow::WindowType AbstractWindow::getWindowType()
+	int AbstractWindow::getWindowInputType()
 	{
-		return mWindowType;
+		return mWindowInputType;
 	}
 
 	CEGUI::Window* AbstractWindow::getRoot()

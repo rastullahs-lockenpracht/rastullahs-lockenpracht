@@ -31,7 +31,7 @@ namespace rl
 {
 
 	SoundConfig::SoundConfig()
-		: AbstractWindow("soundconfig.xml", WND_ALL_INPUT),
+		: AbstractWindow("soundconfig.xml", WIT_MOUSE_INPUT | WIT_KEYBOARD_INPUT),
 		mDriverBox(NULL),
 		mVolumeSound(0),
 		mVolumeMusic(0),

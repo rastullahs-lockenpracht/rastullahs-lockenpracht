@@ -39,9 +39,7 @@ namespace rl {
 
     class _RlUiExport InputManager
         :    public Ogre::Singleton<InputManager>,
-            public GameTask,
-            public OIS::KeyListener,
-            public OIS::MouseListener
+            public GameTask
     {
     public:
 
@@ -55,16 +53,6 @@ namespace rl {
         Ogre::Real getMouseRelativeZ(void) const;
 
         void run(Ogre::Real elapsedTime);
-
-        void registerAbstractWindow(AbstractWindow* window);
-        void unregisterAbstractWindow(AbstractWindow* window);
-        bool isCeguiActive() const;
-
-        virtual bool mousePressed(const OIS::MouseEvent & arg, OIS::MouseButtonID id);
-        virtual bool mouseReleased(const OIS::MouseEvent & arg, OIS::MouseButtonID id);
-        virtual bool mouseMoved(const OIS::MouseEvent &arg);
-        virtual bool keyPressed(const OIS::KeyEvent &arg);
-        virtual bool keyReleased(const OIS::KeyEvent &arg);
 
         CeGuiString getKeyName(int scancode, int syskeys);
         CeGuiString getKeyName(int combinedKeyCode);
@@ -92,14 +80,14 @@ namespace rl {
 
         CharacterController* getCharacterController() const;
 
+        int getModifierCode() const;
+        const CEGUI::utf8& getKeyChar(int keycode, int modifiers) const;
+
     private:
         enum { NUM_MOUSE_BUTTON=4, NUM_KEYS=256 };
         enum Modifiers {ALT_MASK = 1, CTRL_MASK = 2, SHIFT_MASK = 4, SUPER_MASK = 8};
 
         void initializeOis(Ogre::RenderWindow* wnd);
-        bool sendKeyToCeGui(const OIS::KeyEvent& e) const;
-        int getModifierCode() const;
-        const CEGUI::utf8& getKeyChar(int keycode, int modifiers) const;
 
         Ogre::Vector3 mSavedMouseState;
 
@@ -119,10 +107,6 @@ namespace rl {
 
         typedef std::map<int, CeGuiString> KeyCommandMap;
         KeyCommandMap mKeyRubyCommand;
-
-        int mNumActiveWindowsMouseInput;
-        int mNumActiveWindowsKeyboardInput;
-        int mNumActiveWindowsAllInput;
 
         typedef std::stack<CharacterController*> ControlStateStack;
         typedef std::vector<CharacterController*> ControlStateVector;

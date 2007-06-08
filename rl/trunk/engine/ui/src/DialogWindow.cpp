@@ -45,7 +45,7 @@ const CeGuiString DialogWindow::DIALOG_END = "DIALOG BEENDET";
 const CeGuiString DialogWindow::DIALOG_EXIT = "EXIT";
 
 DialogWindow::DialogWindow(GameLoggerWindow* gamelogger)
-  : AbstractWindow("dialogwindow.xml", WND_MOUSE_INPUT, false),
+  : AbstractWindow("dialogwindow.xml", WIT_MOUSE_INPUT, false),
 	mBot(NULL), 
 	mCurrentResponse(NULL),
     mCurrentResponseText(""),

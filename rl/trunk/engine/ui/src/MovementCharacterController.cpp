@@ -67,7 +67,7 @@ namespace rl {
 
     MovementCharacterController::MovementCharacterController(CommandMapper* cmdMapper,
         Actor* camera, Person* character)
-        : CharacterController(cmdMapper, camera, character),
+        : CharacterController(cmdMapper, camera, character, CST_MOVEMENT),
         mMovingCreature(NULL),
         mCharacterState(),
         mDesiredDistance(2.00),
@@ -225,6 +225,8 @@ namespace rl {
     //------------------------------------------------------------------------
     void MovementCharacterController::run(Real elapsedTime)
     {
+        if (isCeguiActive()) return;
+
         InputManager* im = InputManager::getSingletonPtr();
 
         updateCharacter(elapsedTime);
@@ -306,7 +308,7 @@ namespace rl {
                     rotation = -elapsedTime * baseVel;
 
                 // mouse
-                if( !im->isCeguiActive() && mViewMode == VM_FIRST_PERSON || mViewMode == VM_THIRD_PERSON )
+                if( !isCeguiActive() && mViewMode == VM_FIRST_PERSON || mViewMode == VM_THIRD_PERSON )
                 {
                     if( !(movement & TURN_LEFT || movement & TURN_RIGHT) )
                     {
@@ -431,7 +433,7 @@ namespace rl {
             mDesiredDistance = mDistanceRange.second;
         }
 
-        if( !im->isCeguiActive() && mViewMode == VM_FREE_CAMERA )
+        if( !isCeguiActive() && mViewMode == VM_FREE_CAMERA )
         {
             mCamYaw -= 2 * mMouseSensitivity / 4.0 * mRotationSpeed * Degree(im->getMouseRelativeX() / 15);
 
@@ -509,7 +511,6 @@ namespace rl {
             }
         }
     }
-
 
     // -------------------------------------------------------------
     // character collision moved to MovingCreature(Manager)
@@ -994,9 +995,9 @@ namespace rl {
     //------------------------------------------------------------------------
     void MovementCharacterController::updateSelection()
     {
+        if (isCeguiActive()) return;
+
         InputManager* im = InputManager::getSingletonPtr();
-        if( im->isCeguiActive() )
-            return;
 
         GameObject* oldGo = mSelector.getFirstSelectedObject();
 
@@ -1146,11 +1147,11 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    bool MovementCharacterController::injectKeyDown(int keycode)
+    bool MovementCharacterController::keyPressed(const OIS::KeyEvent& evt)
     {
-        int scancode;
-        mCommandMapper->decodeKey(keycode, &scancode, NULL);
-        int movement = mCommandMapper->getMovement(scancode);
+        if (CharacterController::keyPressed(evt)) return true;
+
+        int movement = mCommandMapper->getMovement(evt.key);
 
         if (movement & MOVE_RUN_LOCK) // dieses einrasten lassen
         {
@@ -1166,11 +1167,15 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    bool MovementCharacterController::injectKeyUp(int keycode)
+    bool MovementCharacterController::keyReleased(const OIS::KeyEvent& evt)
     {
-        int scancode;
-        mCommandMapper->decodeKey(keycode, &scancode, NULL);
-        int movement = mCommandMapper->getMovement(scancode);
+        // CEGUI is handled by base class, so hand it down if necessary.
+        if (sendKeyToCeGui(evt))
+        {
+            return CharacterController::keyReleased(evt);
+        }
+
+        int movement = mCommandMapper->getMovement(evt.key);
 
         if (movement != MOVE_NONE)
         {
@@ -1179,6 +1184,8 @@ namespace rl {
         }
         else
         {
+            InputManager* im = InputManager::getSingletonPtr();
+            int keycode = CommandMapper::encodeKey(evt.key, im->getModifierCode());
             CeGuiString command = mCommandMapper->getControlStateAction(keycode, CST_MOVEMENT);
             if (command == "freeflight_mode")
             {
@@ -1197,7 +1204,8 @@ namespace rl {
             }
             else
             {
-                return startAction(command);
+                // Nothing we handle here, see if base class can make something of this input.
+                return CharacterController::keyReleased(evt);
             }
         }
 
@@ -1205,22 +1213,19 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    bool MovementCharacterController::injectMouseDown(int mouseButtonMask)
+    bool MovementCharacterController::mouseReleased(const OIS::MouseEvent& evt,
+        OIS::MouseButtonID id)
     {
-        return false;
-    }
-
-    //------------------------------------------------------------------------
-    bool MovementCharacterController::injectMouseUp(int mouseButtonMask)
-    {
-        if (!InputManager::getSingleton().isCeguiActive())
+        if (!isCeguiActive())
         {
+            InputManager* im = InputManager::getSingletonPtr();
+            int mouseButtonMask = CommandMapper::encodeKey(id, im->getModifierCode());
             return startAction(mCommandMapper->getControlStateAction(mouseButtonMask,
                 CST_MOVEMENT), mCharacter);
         }
         else
         {
-            return false;
+            return CharacterController::mouseReleased(evt, id);
         }
     }
 
