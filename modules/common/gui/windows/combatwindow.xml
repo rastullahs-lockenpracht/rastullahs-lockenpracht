@@ -1,51 +1,13 @@
 <GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
-    <Window Type="DefaultWindow" Name="CombatWindow">
-        <Property Name="RelativeXPosition" Value="0.0"/>
-        <Property Name="RelativeYPosition" Value="0.0"/>
-        <Property Name="RelativeWidth" Value="1.0"/>
-        <Property Name="RelativeHeight" Value="1.0"/>
+    <Window Type="DefaultGUISheet" Name="CombatGui">
+		<Property Name="UnifiedPosition" Value="{{0.0,0},{0.0,0}}" />	
+		<Property Name="UnifiedSize" Value="{{1.0,0.0},{1.0,0}}" />
 
-		<Window Type="RastullahLook/Listbox" Name="CombatWindow/ActionOptions">
-			<Property Name="AbsoluteXPosition" Value="50"/>
-			<Property Name="AbsoluteYPosition" Value="100"/>
-			<Property Name="AbsoluteWidth" Value="200"/>
-			<Property Name="AbsoluteHeight" Value="100"/>
-			<Property Name="DefaultSelectionColour" Value="00E4D243" />
+		<Window Type="RastullahLook/MultiLineEditbox" Name="CombatGui/Info">
+    		<Property Name="UnifiedPosition" Value="{{0.05,0},{0.75,0}}" />	
+	    	<Property Name="UnifiedSize" Value="{{0.9,0},{0.2,0}}" />
+			<Property Name="Font" Value="Vera Serif-10" />
+			<Property Name="Text" Value="Here there be important message." />
 		</Window>
-
-		<Window Type="RastullahLook/Listbox" Name="CombatWindow/AttackTargets">
-			<Property Name="AbsoluteXPosition" Value="50"/>
-			<Property Name="AbsoluteYPosition" Value="210"/>
-			<Property Name="AbsoluteWidth" Value="200"/>
-			<Property Name="AbsoluteHeight" Value="100"/>
-			<Property Name="NormalTextColour" Value="FF000000" />
-			<Property Name="DefaultSelectionColour" Value="00E4D243" />
-		</Window>
-
-		<Window Type="RastullahLook/Listbox" Name="CombatWindow/PareeTargets">
-			<Property Name="AbsoluteXPosition" Value="50"/>
-			<Property Name="AbsoluteYPosition" Value="330"/>
-			<Property Name="AbsoluteWidth" Value="200"/>
-			<Property Name="AbsoluteHeight" Value="100"/>
-			<Property Name="NormalTextColour" Value="FF000000" />
-			<Property Name="DefaultSelectionColour" Value="00E4D243" />
-		</Window>
-
-		<Window Type="RastullahLook/Button" Name="CombatWindow/Confirm">
-			<Property Name="Text" Value="Ausführen"/>
-			<Property Name="AbsoluteXPosition" Value="50"/>
-			<Property Name="AbsoluteYPosition" Value="450"/>
-			<Property Name="AbsoluteWidth" Value="150"/>
-			<Property Name="AbsoluteHeight" Value="30"/>
-			<Property Name="NormalTextColour" Value="FF000000" />
-		</Window>
-
-		<Window Type="RastullahLook/StaticText" Name="CombatWindow/DebugMessage">
-	        <Property Name="RelativeXPosition" Value="0.5"/>
-		    <Property Name="RelativeYPosition" Value="0.0"/>
-			<Property Name="RelativeWidth" Value="0.45"/>
-			<Property Name="RelativeHeight" Value="0.5"/>
-		</Window>
-
-    </Window>
+	</Window>
 </GUILayout>
