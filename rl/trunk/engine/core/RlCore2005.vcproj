@@ -461,6 +461,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\LinearSoundFadeFunctor.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\LineSetPrimitive.h"
 				>
 			</File>
@@ -554,6 +558,14 @@
 			</File>
 			<File
 				RelativePath=".\include\SoundEvents.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SoundFadeFunctor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SoundFadeJob.h"
 				>
 			</File>
 			<File
@@ -714,6 +726,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\LinearSoundFadeFunctor.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\LineSetPrimitive.cpp"
 				>
 			</File>
@@ -795,6 +811,14 @@
 			</File>
 			<File
 				RelativePath=".\src\SoundEvents.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SoundFadeFunctor.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SoundFadeJob.cpp"
 				>
 			</File>
 			<File
