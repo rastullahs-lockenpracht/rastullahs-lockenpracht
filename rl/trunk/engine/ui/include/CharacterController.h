@@ -68,7 +68,7 @@ namespace rl {
         /// Returns true, if the key event should be injected into CEGUI
         /// This is the case, if an open window requests key input and it is
         /// an input or navigation key.
-        bool CharacterController::sendKeyToCeGui(const OIS::KeyEvent& evt) const;
+        bool sendKeyToCeGui(const OIS::KeyEvent& evt) const;
 
         Person* mCharacter;
 
