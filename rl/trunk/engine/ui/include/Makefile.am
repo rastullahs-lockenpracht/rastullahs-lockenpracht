@@ -8,6 +8,7 @@ noinst_HEADERS = \
     CharacterStateWindow.h \
     CloseConfirmationWindow.h \
     CombatCharacterController.h \
+	CombatWindow.h \
     CommandMapper.h \
     ConfigComponent.h \
     Console.h \
