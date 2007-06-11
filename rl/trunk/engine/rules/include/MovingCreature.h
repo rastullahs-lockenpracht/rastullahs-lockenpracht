@@ -31,6 +31,7 @@ namespace rl
 {
     class AbstractMovement;
     class MovingCreatureManager;
+    class MeshAnimation;
 
     /** 
      * This class provides an interface to control the movement of a creature.
@@ -132,15 +133,19 @@ namespace rl
         int getCurrentGS() const;
         Ogre::Vector3 getVelocity() const; // in local axes
         Ogre::Vector3 getOmega() const;
-        void setAnimation(const Ogre::String &name, 
+        MeshAnimation *setAnimation(const Ogre::String &name, 
                           Ogre::Real speed = 1, 
                           unsigned int timesToPlay = 0, 
-                          const Ogre::String &collisionName = "" // the name of the animation the collision is based on
+                          const Ogre::String &collisionName = "", // the name of the animation the collision is based on
+                          Ogre::Real weight = 1 // the weight of the animation, the weight of the last animation is set to 1-weight
                           );
 
 
         /// this method will return the yaw, the creature tries to turn to, if a rotation-movement is activated. if not, it will return the current yaw
         Ogre::Radian getYaw();
+        Ogre::Real getLastMovementChange() const { return mLastMovementChange; }
+        MovementType getLastMovementType() const { return mLastMovementType; }
+        Ogre::Real getAnimationTimePlayed() const; // this is a relative value between 0 and 1
 
 
     protected:
@@ -148,6 +153,8 @@ namespace rl
         AbstractLocation mAbstractLocation;
         
         AbstractMovement *mMovement;
+        MovementType mLastMovementType;
+        Ogre::Real mLastMovementChange;
         Ogre::Vector3 mDirection;
         Ogre::Vector3 mRotation;
 
@@ -162,6 +169,7 @@ namespace rl
         Ogre::String mLastAnimationName;
         Ogre::String mLastCollisionName;
         Ogre::Real mLastAnimationSpeed;
+        Ogre::String mStillWeightedAnimationName;
 
         // only used in userProcess
         Ogre::Real mLastFloorContact;

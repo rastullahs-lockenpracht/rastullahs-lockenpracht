@@ -189,14 +189,23 @@ namespace rl
             Vector3 omega = body->getOmega();
             omega.x = omega.z = 0;
             Vector3 springAcc = mRotLinearSpringK*diff - mRotLinearDampingK * omega;
-            torque = mass * springAcc;
+
+            /// @ todo change this
+            //torque = springAcc * inertia; // this would be correct
+            torque = springAcc * mass * 40;
         }
         virtual bool run(Ogre::Real elapsedTime,  Ogre::Vector3 direction, Ogre::Vector3 rotation)
         {
             mYaw += Radian(rotation.y);
             while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
             while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
-            return rotation.y != 0.0f;
+            
+            OgreNewt::Body *body = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody();
+            Quaternion orientation;
+            Vector3 position;
+            body->getPositionOrientation(position, orientation);
+
+            return orientation.getYaw() != mYaw;
         }
         virtual bool isDirectionPossible(Ogre::Vector3 &direction) const
         {
@@ -207,8 +216,8 @@ namespace rl
         virtual bool isRotationPossible(Ogre::Vector3 &rotation) const
         {
             Vector3 oldRotation(rotation);
-            rotation.x = rotation.y = 0;
-            return oldRotation.x == 0 && oldRotation.y == 0;
+            rotation.x = rotation.z = 0;
+            return oldRotation.x == 0 && oldRotation.z == 0;
         }
     protected:
         Ogre::Radian mYaw;
@@ -258,7 +267,35 @@ namespace rl
             //MeshObject* charMesh = dynamic_cast<MeshObject*>(mMovingCreature->getCreature()->getActor()->getControlledObject());
             //Real length = charMesh->getAnimation("Run")->getLength();
             Real length = 5./3.;
-            mMovingCreature->setAnimation("Walk", -mMovingCreature->getVelocity().z / (step / length) );
+            Real weight = 1;
+            Real relTimeOffset = 0;
+            
+            switch( mMovingCreature->getLastMovementType() )
+            {
+            case MovingCreature::MT_NONE:
+                break;
+            case MovingCreature::MT_STEHEN:
+                relTimeOffset = 0.25;
+                break;
+            case MovingCreature::MT_JOGGEN:
+            case MovingCreature::MT_LAUFEN:
+            case MovingCreature::MT_RENNEN:
+                relTimeOffset = mMovingCreature->getAnimationTimePlayed();
+                if( mMovingCreature->getLastMovementChange() < 1.0f )
+                    weight = mMovingCreature->getLastMovementChange() / 1.0f;
+                break;
+            default:
+                break;
+            }
+
+
+            // apply relTimeOffset only once
+            if( mMovingCreature->getLastMovementChange() > elapsedTime )
+                relTimeOffset = 0;
+
+            MeshAnimation *meshAnim = mMovingCreature->setAnimation("Walk", -mMovingCreature->getVelocity().z / (step / length), 0, "Walk", weight );
+            if( meshAnim != NULL )
+                meshAnim->doAddTime(relTimeOffset*meshAnim->getLength());
         }
     };
 
@@ -953,11 +990,14 @@ namespace rl
         mCreature(creature),
         mAbstractLocation(AL_AIRBORNE),
         mMovement(NULL),
+        mLastMovementType(MT_NONE),
+        mLastMovementChange(0),
         mDirection(Vector3::ZERO),
         mRotation(Vector3::ZERO),
         mLastAnimationName(""),
         mLastCollisionName(""),
         mLastAnimationSpeed(1),
+        mStillWeightedAnimationName(""),
         mLastFloorContact(0)
     {
         MovingCreatureManager::getSingleton().add(this);
@@ -1038,10 +1078,11 @@ namespace rl
         return max(act_gs,1);
     }
 
-    void MovingCreature::setAnimation(const Ogre::String &name, Ogre::Real speed, unsigned int timesToPlay, const Ogre::String &collisionName)
+    MeshAnimation *MovingCreature::setAnimation(const Ogre::String &name, Ogre::Real speed, unsigned int timesToPlay, const Ogre::String &collisionName, Real weight)
     {
         MeshObject* mesh = dynamic_cast<MeshObject*>(mCreature->getActor()->getControlledObject());
         PhysicalThing* pt = mCreature->getActor()->getPhysicalThing();
+        MeshAnimation *meshAnim(NULL);
         
         if( mLastAnimationName != name)
         {
@@ -1054,21 +1095,76 @@ namespace rl
                 pt->fitToPose(*pCollisionName);
                 mLastCollisionName = *pCollisionName;
             }
-            mesh->stopAllAnimations();
 
-            mesh->startAnimation(name, speed, timesToPlay);
-            mLastAnimationName = name;
-            mLastAnimationSpeed = speed;
-        }
-        else
-        {
-            if( mLastAnimationSpeed != speed )
+
+            if ( mStillWeightedAnimationName != "" )
             {
-                MeshAnimation *meshAnim = mesh->getAnimation(name);
-                meshAnim->setSpeed(speed);
+                mesh->stopAnimation(mStillWeightedAnimationName);
+                mStillWeightedAnimationName = "";
+            }
+
+
+            if( mesh->hasAnimation(mLastAnimationName) )
+            {
+                if ( weight == 1 )
+                    mesh->stopAnimation(mLastAnimationName);
+                else
+                {
+                    MeshAnimation *lastAnimation = mesh->getAnimation(mLastAnimationName);
+                    if( lastAnimation != NULL )
+                    {
+                        mStillWeightedAnimationName = mLastAnimationName;
+                        lastAnimation->setWeight(1-weight);
+                    }
+                }
+            }
+
+            meshAnim = mesh->startAnimation(name, speed, timesToPlay);
+            if( meshAnim )
+            {
+                meshAnim->setWeight(weight);
+                mLastAnimationName = name;
                 mLastAnimationSpeed = speed;
             }
         }
+        else
+        {
+            meshAnim = mesh->getAnimation(name);
+            if( mLastAnimationSpeed != speed )
+            {
+                meshAnim->setSpeed(speed);
+                mLastAnimationSpeed = speed;
+                meshAnim->setWeight(weight);
+            }
+            if( mStillWeightedAnimationName != "" )
+            {
+                MeshAnimation *lastAnimation = mesh->getAnimation(mStillWeightedAnimationName);
+                if( lastAnimation !=  NULL )
+                {
+                    lastAnimation->setWeight(1-weight);
+                    if( weight == 1 )
+                    {
+                        mesh->stopAnimation(mStillWeightedAnimationName);
+                        mStillWeightedAnimationName = "";
+                    }
+                }
+                else
+                {
+                    mStillWeightedAnimationName = "";
+                }
+            }
+        }
+
+        return meshAnim;
+    }
+
+    Ogre::Real MovingCreature::getAnimationTimePlayed() const
+    {
+        MeshObject* mesh = dynamic_cast<MeshObject*>(mCreature->getActor()->getControlledObject());
+        MeshAnimation *meshAnim = mesh->getAnimation(mLastAnimationName);
+        if( meshAnim != NULL )
+            return meshAnim->getTimePlayed()/meshAnim->getLength();
+        return 0;
     }
 
     Ogre::Vector3 MovingCreature::getVelocity() const
@@ -1087,6 +1183,7 @@ namespace rl
     {
         if(mMovement != NULL)
         {
+            mLastMovementChange += elapsedTime;
             if( !mMovement->isPossible() )
             {
                 setMovement(mMovement->getFallBackMovement(), mDirection, mRotation);
@@ -1221,12 +1318,20 @@ namespace rl
             if(movement->isPossible())
             {
                 MovingCreatureManager::getSingleton().setActive(this); // runs the old movement if idle!
-                if(mMovement != NULL)
+                if(mMovement == NULL)
+                {
+                    mLastMovementType = MT_NONE;
+                }
+                else
+                {
+                    mLastMovementType = mMovement->getId();
                     mMovement->deactivate();
+                }
                 mMovement = movement;
                 mMovement->activate();
                 mDirection = direction;
                 mRotation = rotation;
+                mLastMovementChange = 0;
                 return true;
             }
 
