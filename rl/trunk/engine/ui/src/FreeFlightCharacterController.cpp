@@ -98,13 +98,6 @@ namespace rl {
         PhysicsManager::getSingleton().getMaterialPair(
             PhysicsManager::getSingleton().getMaterialID("camera"),
             PhysicsManager::getSingleton().getMaterialID("character"))->setContactCallback(this);
-
-        MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
-        if( mesh != NULL )
-        {
-		    mesh->stopAllAnimations();
-		    mesh->startAnimation("idle");
-        }
     }
 
 	void FreeFlightCharacterController::run(Real elapsedTime)

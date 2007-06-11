@@ -192,11 +192,8 @@ namespace rl {
         mCombatSelector.track(mCharacter);
         mCombatSelector.setRadius(10.0);
 
-        // The actor should be controlled manually,
-        // so let the PM prepare it accordingly
-        //mCharacterActor->getPhysicalThing()->setMaterialID(
-        //    PhysicsManager::getSingleton().getMaterialID("character"));
-        //mCharacterActor->getPhysicalThing()->setPhysicsController(this);
+
+        // control camera
         mCameraActor->getPhysicalThing()->setMaterialID(
             PhysicsManager::getSingleton().createMaterialID("camera"));
         mCameraActor->getPhysicalThing()->setPhysicsController(this);
@@ -211,13 +208,6 @@ namespace rl {
         PhysicsManager::getSingleton().createMaterialPair(
             PhysicsManager::getSingleton().getMaterialID("camera"),
             PhysicsManager::getSingleton().getMaterialID("character"))->setContactCallback(this);
-
-        // Fit Collision proxy to idle anim
-        mCharacterActor->getPhysicalThing()->fitToPose("idle");
-
-        //MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
-        //mesh->stopAllAnimations();
-        //mesh->startAnimation("idle");
 
         setViewMode(VM_THIRD_PERSON);
     }
@@ -390,7 +380,7 @@ namespace rl {
             else if (movement & MOVE_BACKWARD )
             {
                 MovingCreature::MovementType type = MovingCreature::MT_RUECKWAERTS_GEHEN;
-                if( movement & MOVE_RUN )
+                if( !(movement & MOVE_RUN) )
                     type = MovingCreature::MT_RUECKWAERTS_JOGGEN;
                 mMovingCreature->setMovement(
                     type,
@@ -517,6 +507,7 @@ namespace rl {
     int MovementCharacterController::userProcess()
     {
         // only camera collision
+        return 0;
     
         if( mViewMode == VM_FIRST_PERSON )
             return 0;
@@ -1032,7 +1023,15 @@ namespace rl {
         mViewMode = mode;
 
         MeshObject* charMesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
-        AxisAlignedBox aabb = charMesh->getDefaultSize();
+        AxisAlignedBox aabb;
+        try
+        {
+            aabb = charMesh->getPoseSize("Idle");
+        }
+        catch(...)
+        {
+            aabb = charMesh->getDefaultSize();
+        }
         if (mode == VM_FIRST_PERSON)
         {
             mLookAtOffset = Vector3(
