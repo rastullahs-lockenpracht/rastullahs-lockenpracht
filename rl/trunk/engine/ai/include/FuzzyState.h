@@ -37,7 +37,7 @@ namespace rl
 		 * @param controller sets the controller object
 		 */
 		FuzzyState<Controller>(FuzzyState* parent, Controller* controller)
-			: mActivationLevel(), mParent(parent), mController(controller) {}
+			: mActivationLevel(1.0), mParent(parent), mController(controller) {}
 
 		/** explicit virtual destructor
 		 */

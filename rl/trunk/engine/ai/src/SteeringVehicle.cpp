@@ -40,7 +40,10 @@ SteeringVehicle::SteeringVehicle(Agent* parent, Creature* character)
       //mYaw(115),
 	  mParent(parent),
 	  mCreature(character),
-      mMovingCreature(NULL)
+      mMovingCreature(NULL),
+      mDebugSteer(Vector3::ZERO),
+      mDebugWander(Vector3::ZERO),
+      mDebugAvoidObstacles(Vector3::ZERO)
       //mHeight(0)
 {
 	initialize();
@@ -145,7 +148,10 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 
     //  regenerate local space (by default: align vehicle's forward axis with
     //  new velocity, but this behavior may be overridden by derived classes.)
-	if (speed() > 0) regenerateOrthonormalBasisUF (newVelocity / speed());
+    // use future orientation or not??
+    orientation = Quaternion(mMovingCreature->getYaw(), Ogre::Vector3::UNIT_Y);
+    Vector3 newUnitForward = orientation*Vector3::NEGATIVE_UNIT_Z;
+    regenerateOrthonormalBasisUF (Vec3(newUnitForward.x,newUnitForward.y,newUnitForward.z));
 
 // end of inserting from playervehicle
 
@@ -160,6 +166,8 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
     
 // calculate the result of the force    
     Vector3 result = mCurrentForce;// + mCurrentVelocity;
+
+     mDebugSteer = mCurrentForce;
 
 // @todo remove this
 if( mCreature->getAu() <= 6 )
@@ -204,55 +212,47 @@ if( mCreature->getAu() <= 6 )
 Vector3 SteeringVehicle::calcWander(const float elapsedTime)
 {
 	Vec3 rVal(mForwardVector.x, mForwardVector.y, mForwardVector.z);
-	rVal += steerForWander(elapsedTime).setYtoZero();
-	return Vector3(rVal.x, rVal.y, rVal.z);
+	
+    rVal += steerForWander(elapsedTime/12.0f).setYtoZero();
+
+    Vector3 steering(rVal.x, rVal.y, rVal.z);
+    mDebugWander = steering;
+	return steering;
 }
 
 Vector3 SteeringVehicle::calcSeek(const Vector3& target)
 {
 	Vec3 rVal = steerForSeek(Vec3(target.x, target.y, target.z)).setYtoZero();
-	rVal = rVal.normalize();
-	//rVal *= -0.1; //adjustment for newton
-	//rVal.z=0;
-	return Vector3(rVal.x, rVal.y, rVal.z);
+    Vector3 steering(rVal.x, rVal.y, rVal.z);
+	return steering;
 }
 
 Vector3 SteeringVehicle::calcFlee(const Vector3& target)
 {
 	Vec3 rVal = steerForFlee(Vec3(target.x, target.y, target.z)).setYtoZero();
-	rVal *= -0.1;
-	return Vector3(rVal.x, rVal.y, rVal.z);
+    Vector3 steering(rVal.x, rVal.y, rVal.z);
+	return steering;
 }
 
 Vector3 SteeringVehicle::calcPursuit(Agent* agent)
 {
 	Vec3 rVal = steerForPursuit(*(agent->getVehicle())).setYtoZero();
-	rVal = rVal.normalize();
-	rVal.z = 0;
-	return Vector3(rVal.x, rVal.y, rVal.z);
+    Vector3 steering(rVal.x, rVal.y, rVal.z);
+	return steering;
 }
 
 Vector3 SteeringVehicle::calcAvoidObstacles(const float minTimeToCollision)
 {
     ObstacleGroup obstacles = getObstacles();
 	Vec3 rVal = steerToAvoidObstacles(minTimeToCollision, obstacles).setYtoZero();
-	if(rVal.x != 0.0f || rVal.z != 0.0f)
-	{
-		rVal = rVal;
-	}
-	rVal = rVal.normalize();
-	//rVal *= 0.0001;
-	return Vector3(rVal.x, rVal.y, rVal.z);
+    Vector3 steering(rVal.x, rVal.y, rVal.z);
+    mDebugAvoidObstacles = steering;
+	return steering;
 }
 
 Vector3 SteeringVehicle::calcAvoidNeighbors(const float minTimeToCollision)
 {
 	Vec3 rVal = steerToAvoidNeighbors(minTimeToCollision, getNeighbors()).setYtoZero();
-	if(rVal.x != 0.0f || rVal.z != 0.0f)
-	{
-		rVal = rVal;
-	}
-//	rVal *= -1;
 	return Vector3(rVal.x, rVal.y, rVal.z);
 }
 		
@@ -444,4 +444,44 @@ void SteeringVehicle::measurePathCurvature (const float elapsedTime)
 }
 */
 
+
+
+
+// methods from debugvisualisable
+DebugVisualisableFlag SteeringVehicle::getFlag() const
+{
+    return DVF_BOT;
+}
+
+void SteeringVehicle::updatePrimitive()
+{
+    if (mSceneNode->getParent() == NULL)
+    {
+        mCreature->getActor()->_getSceneNode()->addChild(mSceneNode);
+    }
+
+    LineSetPrimitive* lineSet = static_cast<LineSetPrimitive*>(mPrimitive);
+    lineSet->clear();
+    
+    if(mDebugSteer != Vector3::ZERO)
+    {
+        lineSet->addLine(Vector3::UNIT_Y*2, Vector3::UNIT_Y*2 + mDebugSteer.normalisedCopy()*0.5, ColourValue::Black);
+        mDebugSteer = Vector3::ZERO;
+    }
+    if(mDebugWander != Vector3::ZERO)
+    {
+        lineSet->addLine(Vector3::UNIT_Y*2, Vector3::UNIT_Y*2 + mDebugWander.normalisedCopy()*0.5, ColourValue::Green);
+        mDebugWander = Vector3::ZERO;
+    }
+    if(mDebugAvoidObstacles != Vector3::ZERO)
+    {
+        lineSet->addLine(Vector3::UNIT_Y*2, Vector3::UNIT_Y*2 + mDebugAvoidObstacles.normalisedCopy()*0.5, ColourValue::Red);
+        mDebugAvoidObstacles = Vector3::ZERO;
+    }
+}
+
+void SteeringVehicle::doCreatePrimitive()
+{
+    mPrimitive = new LineSetPrimitive();
+}
 }

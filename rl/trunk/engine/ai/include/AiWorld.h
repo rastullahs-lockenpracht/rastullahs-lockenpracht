@@ -17,6 +17,7 @@
 #define __RlAI_World_H__
 
 #include "OpenSteer/Obstacle.h"
+#include "DebugVisualisable.h"
 #include <OgreNewt.h>
 #include <vector>
 
@@ -51,7 +52,8 @@ namespace rl
 
     /** Wrapper für Newton-World
 	 */
-    class NewtonWorldAsObstacle : public OpenSteer::Obstacle
+    class NewtonWorldAsObstacle : public OpenSteer::Obstacle,
+        public DebugVisualisable
     {
     public:
 		/** default constructor.
@@ -63,6 +65,16 @@ namespace rl
 		 */
         virtual void findIntersectionWithVehiclePath (const OpenSteer::AbstractVehicle& vehicle,
                                               PathIntersection& pi) const;
+        
+        // derived from debugvisualisable
+        virtual DebugVisualisableFlag getFlag() const;
+        virtual void updatePrimitive();
+    protected:
+        // derived from debugvisualisable
+        virtual void doCreatePrimitive();
+        typedef std::pair<Ogre::Vector3,Ogre::Vector3> Vector3Pair;
+        mutable std::vector< Vector3Pair > mDebugRaycasts;
+
     private:
 		//! different types of raycasting directions
         enum RaycastType

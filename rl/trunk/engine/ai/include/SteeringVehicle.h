@@ -18,6 +18,8 @@
 
 #include "AiPrerequisites.h"
 #include "AgentManager.h"
+#include "DebugVisualisable.h"
+#include "LineSetPrimitive.h"
 #include "OgreVector3.h"
 #include "OpenSteer/SteerLibrary.h"
 
@@ -51,7 +53,8 @@ namespace rl
 	 *
 	 * Maybe this should be used as interface instead of AbstractVehicle
 	 */
-	class _RlAiExport SteeringVehicle : public SimpleVehicle_2
+        class _RlAiExport SteeringVehicle : public SimpleVehicle_2,
+                                            public DebugVisualisable
 	{
 	public:
 		/** Constructor.
@@ -320,6 +323,11 @@ namespace rl
 		 * @returns Actor that is controlled by the SteeringVehicle
 		 */
         const Actor* getActor(void) const;
+
+
+        // derived from debugvisualisable
+        virtual DebugVisualisableFlag getFlag() const;
+        virtual void updatePrimitive();
 	protected:
 		/** initializes
 		 */
@@ -385,6 +393,14 @@ namespace rl
 
         // measure path curvature (1/turning-radius), maintain smoothed version
       //  void measurePathCurvature (const float elapsedTime);
-	};
+
+
+        // derived from debugvisualisable
+        virtual void doCreatePrimitive();
+
+        Ogre::Vector3 mDebugSteer;
+        Ogre::Vector3 mDebugWander;
+        Ogre::Vector3 mDebugAvoidObstacles;
+    };
 }
 #endif
