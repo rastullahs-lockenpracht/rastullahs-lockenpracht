@@ -411,6 +411,55 @@ namespace rl
             } else {
                 // found it
                 rval = usedcol.colPtr;
+                
+
+                if( inertia )
+                {
+                    // we must set inertia here, the calling function doesn't know we are not creating a new collision
+                    Ogre::AxisAlignedBox aabb(entity->getBoundingBox());
+                    Vector3 size( aabb.getSize() );
+                    switch(usedcol.geomType)
+                    {
+                    case GT_BOX: // from createBox
+                        *inertia = OgreNewt::MomentOfInertia::CalcBoxSolid(mass, aabb.getSize());
+                        break;
+                    case GT_CAPSULE: // from createCapsule
+                        {
+                            double radius = std::max(size.x, size.z) / 2.0;
+                            double sradius = radius*radius;
+                            *inertia = Vector3(sradius, size.y*size.y, sradius) * mass;
+                        }
+                        break;
+                    case GT_CONVEXHULL: // from createCollisionFromEntity
+				        *inertia = Vector3(
+				        size.x*size.x/6.0f,
+				        size.y*size.y/6.0f,
+			            size.z*size.z/6.0f) * mass;
+                        break;
+                    case GT_ELLIPSOID: // from createEllipsoid
+                        {
+                            Vector3 s(size/2.0);
+                            s.x = std::max(s.x, s.z);
+                            s.z = s.x;
+                            *inertia = Vector3(s.x*s.x, s.y*s.y, s.z*s.z) * mass;
+                        }
+                        break;
+                    case GT_MESH:
+                    case GT_NONE:
+                        *inertia = Ogre::Vector3::ZERO;
+                        break;
+                    case GT_PYRAMID: // createPyramid
+                        *inertia = Ogre::Vector3(size.x,size.y/2.0f, size.z) * mass;
+                        break;
+                    case GT_SPHERE:
+                        {
+                            double radius = std::max(size.x, std::max(size.y, size.z)) / 2.0;
+                            //*inertia = OgreNewt::MomentOfInertia::CalcSphereSolid(Mass,radius);
+                            *inertia = mass * Vector3(radius*radius, radius*radius, radius*radius);
+                        }
+                        break;
+                    }
+                }
             }
         }
         

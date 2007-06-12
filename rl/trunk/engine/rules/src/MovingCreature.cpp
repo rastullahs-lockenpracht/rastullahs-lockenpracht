@@ -191,8 +191,8 @@ namespace rl
             Vector3 springAcc = mRotLinearSpringK*diff - mRotLinearDampingK * omega;
 
             /// @ todo change this
-            //torque = springAcc * inertia; // this would be correct
-            torque = springAcc * mass * 40;
+            torque = springAcc * inertia; // this would be correct
+            //torque = springAcc * mass * 40;
         }
         virtual bool run(Ogre::Real elapsedTime,  Ogre::Vector3 direction, Ogre::Vector3 rotation)
         {
