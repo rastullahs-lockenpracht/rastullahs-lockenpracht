@@ -22,6 +22,8 @@
 #include "CharacterController.h"
 #include "Selector.h"
 
+#include <OgreRectangle.h>
+
 namespace rl {
 
     class Combat;
@@ -48,6 +50,13 @@ namespace rl {
         Combat* mCombat;
         CombatWindow* mCombatWindow;
         HalfSphereSelector mEnemySelector;
+
+        Ogre::Camera* mCamera;
+
+        /// Little Helper-MO for visualisation for everything that is difficult with cegui.
+        Ogre::ManualObject* mHud;
+
+        Ogre::Rectangle getScreenRectFromWorldAABB(const Ogre::AxisAlignedBox& aabb) const;
 	};
 }
 #endif

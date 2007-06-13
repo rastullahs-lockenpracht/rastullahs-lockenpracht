@@ -45,4 +45,14 @@ namespace rl
     {
         mAllies.erase(creature);
     }
+
+    const Combat::CreatureSet& Combat::getAllOpponents() const
+    {
+        return mOpponents;
+    }
+
+    const Combat::CreatureSet& Combat::getAllAllies() const
+    {
+        return mAllies;
+    }
 }

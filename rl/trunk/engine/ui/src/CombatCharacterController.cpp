@@ -30,6 +30,9 @@
 #include "WindowFactory.h"
 #include "World.h"
 
+#include <OgreManualObject.h>
+using namespace Ogre;
+
 namespace rl {
     CombatCharacterController::CombatCharacterController(CommandMapper* cmdMapper,
         Actor* camera, Person* character)
@@ -38,13 +41,26 @@ namespace rl {
           mCombat(NULL),
           mCombatWindow(NULL),
           mEnemySelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager(),
-            QUERYFLAG_CREATURE)
+            QUERYFLAG_CREATURE),
+          mCamera(NULL)
     {
         CreatureSelectionFilter* filter = new CreatureSelectionFilter();
         filter->setAlignmentMask(Creature::ALIGNMENT_ENEMY);
         mEnemySelector.setFilter(filter);
 
         mCombatWindow = WindowFactory::getSingleton().getCombatWindow();
+        mCamera = static_cast<Ogre::Camera*>(mCameraActor->_getMovableObject());
+
+        // Initialise HUD-MO. Put it into 2D mode and make sure it is always rendered.
+        SceneManager* sceneMgr = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
+        mHud = sceneMgr->createManualObject("__COMBAT_HUD__");
+        mHud->setUseIdentityProjection(true);
+        mHud->setUseIdentityView(true);
+        AxisAlignedBox infiniteAabb;
+        infiniteAabb.setInfinite();
+        mHud->setBoundingBox(infiniteAabb);
+        mHud->setRenderQueueGroup(RENDER_QUEUE_OVERLAY);
+        sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(mHud);
     }
 
 	CombatCharacterController::~CombatCharacterController()
@@ -111,5 +127,54 @@ namespace rl {
 
 	void CombatCharacterController::run(Ogre::Real elapsedTime)
     {
+        // HUD aktualisieren.
+        mHud->clear();
+        
+        mHud->begin("BaseWhiteNoLighting", RenderOperation::OT_TRIANGLE_LIST);
+        const Combat::CreatureSet& opponents = mCombat->getAllOpponents();
+        for (Combat::CreatureSet::const_iterator it = opponents.begin(), end = opponents.end();
+            it != end; ++it)
+        {
+            MeshObject* mesh = dynamic_cast<MeshObject*>((*it)->getActor()->getControlledObject());
+            Ogre::Rectangle rec = getScreenRectFromWorldAABB(mesh->getDefaultSize());
+            mHud->position(rec.left,  rec.top,    0.0f);
+            mHud->position(rec.left,  rec.bottom, 0.0f);
+            mHud->position(rec.right, rec.top,    0.0f);
+
+            mHud->position(rec.right, rec.top,    0.0f);
+            mHud->position(rec.left,  rec.bottom, 0.0f);
+            mHud->position(rec.right, rec.bottom, 0.0f);
+        }
+        mHud->end();
+    }
+
+    Ogre::Rectangle CombatCharacterController::getScreenRectFromWorldAABB(
+        const AxisAlignedBox& aabb) const
+    {
+        // Initialise each to the value of the opposite side, so that min/max work smoothly.
+        Real left = 1.0f, bottom = 1.0f, right = -1.0f, top = -1.0f;
+
+        const Matrix4& viewMatrix = mCamera->getViewMatrix(true);
+        const Matrix4& projMatrix = mCamera->getProjectionMatrix();
+
+        // Determine screen pos of all corners and widen the rect if needed
+        const Vector3* corners = aabb.getAllCorners();
+        for (size_t i = 0; i < 8; ++i)
+        {
+            Vector3 eyeSpacePos = viewMatrix.transformAffine(corners[i]);
+
+            // ignore point, if it is behind the cam.
+            if (eyeSpacePos.z > 0) continue;
+
+            Vector3 screenSpacePos =  projMatrix * eyeSpacePos;
+
+            left   = std::min(left,   screenSpacePos.x);
+            right  = std::max(right,  screenSpacePos.x);
+            bottom = std::min(bottom, screenSpacePos.y);
+            top    = std::max(top,    screenSpacePos.y);
+        }
+
+        Ogre::Rectangle rval = {left,top, right, bottom};
+        return rval;
     }
 }

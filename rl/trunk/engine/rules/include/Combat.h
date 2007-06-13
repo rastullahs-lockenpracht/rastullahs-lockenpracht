@@ -28,6 +28,8 @@ namespace rl
     class _RlRulesExport Combat
     {
     public:
+        typedef std::set<Creature*> CreatureSet;
+
         Combat(Creature* character);
         ~Combat();
 
@@ -37,8 +39,10 @@ namespace rl
         void addAlly(Creature*);
         void removeAlly(Creature*);
 
+        const CreatureSet& getAllOpponents() const;
+        const CreatureSet& getAllAllies() const;
+
     private:
-        typedef std::set<Creature*> CreatureSet;
         Creature* mCharacter;
         CreatureSet mOpponents;
         CreatureSet mAllies;
