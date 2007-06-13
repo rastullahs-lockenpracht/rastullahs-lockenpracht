@@ -130,20 +130,23 @@ namespace rl {
         // HUD aktualisieren.
         mHud->clear();
         
-        mHud->begin("BaseWhiteNoLighting", RenderOperation::OT_TRIANGLE_LIST);
+        mHud->begin("BaseWhiteNoLighting", RenderOperation::OT_LINE_STRIP);
         const Combat::CreatureSet& opponents = mCombat->getAllOpponents();
         for (Combat::CreatureSet::const_iterator it = opponents.begin(), end = opponents.end();
             it != end; ++it)
         {
-            MeshObject* mesh = dynamic_cast<MeshObject*>((*it)->getActor()->getControlledObject());
-            Ogre::Rectangle rec = getScreenRectFromWorldAABB(mesh->getDefaultSize());
+            Ogre::Rectangle rec = getScreenRectFromWorldAABB(
+                (*it)->getActor()->_getSceneNode()->_getWorldAABB());
             mHud->position(rec.left,  rec.top,    0.0f);
             mHud->position(rec.left,  rec.bottom, 0.0f);
             mHud->position(rec.right, rec.top,    0.0f);
-
-            mHud->position(rec.right, rec.top,    0.0f);
-            mHud->position(rec.left,  rec.bottom, 0.0f);
             mHud->position(rec.right, rec.bottom, 0.0f);
+
+            mHud->index(0);
+            mHud->index(1);
+            mHud->index(3);
+            mHud->index(2);
+            mHud->index(0);
         }
         mHud->end();
     }
