@@ -325,7 +325,33 @@ namespace rl
             //MeshObject* charMesh = dynamic_cast<MeshObject*>(mMovingCreature->getCreature()->getActor()->getControlledObject());
             //Real length = charMesh->getAnimation("Run")->getLength();
             Real length = 5./3.;
-            mMovingCreature->setAnimation("Run", -mMovingCreature->getVelocity().z / (step / length) );
+            Real weight = 1;
+            Real relTimeOffset = 0;
+
+
+            switch( mMovingCreature->getLastMovementType() )
+            {
+            case MovingCreature::MT_NONE:
+                break;
+            case MovingCreature::MT_STEHEN:
+                relTimeOffset = 0.25;
+                break;
+            case MovingCreature::MT_GEHEN:
+                relTimeOffset = mMovingCreature->getAnimationTimePlayed();
+                if( mMovingCreature->getLastMovementChange() < 0.5f )
+                    weight = mMovingCreature->getLastMovementChange() / 0.5f;
+                break;
+            default:
+                break;
+            }
+
+            // apply relTimeOffset only once
+            if( mMovingCreature->getLastMovementChange() > elapsedTime )
+                relTimeOffset = 0;
+
+            MeshAnimation *meshAnim = mMovingCreature->setAnimation("Run", -mMovingCreature->getVelocity().z / (step / length), 0, "Run", weight );
+            if( meshAnim != NULL )
+                meshAnim->doAddTime(relTimeOffset*meshAnim->getLength());
         }
     };
 
@@ -367,7 +393,33 @@ namespace rl
             //MeshObject* charMesh = dynamic_cast<MeshObject*>(mMovingCreature->getCreature()->getActor()->getControlledObject());
             //Real length = charMesh->getAnimation("Run")->getLength();
             Real length = 5./3.;
-            mMovingCreature->setAnimation("Run", -mMovingCreature->getVelocity().z / (step / length) );
+            Real weight = 1;
+            Real relTimeOffset = 0;
+
+
+            switch( mMovingCreature->getLastMovementType() )
+            {
+            case MovingCreature::MT_NONE:
+                break;
+            case MovingCreature::MT_STEHEN:
+                relTimeOffset = 0.25;
+                break;
+            case MovingCreature::MT_GEHEN:
+                relTimeOffset = mMovingCreature->getAnimationTimePlayed();
+                if( mMovingCreature->getLastMovementChange() < 0.5f )
+                    weight = mMovingCreature->getLastMovementChange() / 0.5f;
+                break;
+            default:
+                break;
+            }
+
+            // apply relTimeOffset only once
+            if( mMovingCreature->getLastMovementChange() > elapsedTime )
+                relTimeOffset = 0;
+
+            MeshAnimation *meshAnim = mMovingCreature->setAnimation("Run", -mMovingCreature->getVelocity().z / (step / length), 0, "Run", weight );
+            if( meshAnim != NULL )
+                meshAnim->doAddTime(relTimeOffset*meshAnim->getLength());
         }
         virtual void activate()
         {
@@ -451,7 +503,33 @@ namespace rl
             //MeshObject* charMesh = dynamic_cast<MeshObject*>(mMovingCreature->getCreature()->getActor()->getControlledObject());
             //Real length = charMesh->getAnimation("Run")->getLength();
             Real length = 5./3.;
-            mMovingCreature->setAnimation("Run", -mMovingCreature->getVelocity().z / (step / length) );
+            Real weight = 1;
+            Real relTimeOffset = 0;
+
+
+            switch( mMovingCreature->getLastMovementType() )
+            {
+            case MovingCreature::MT_NONE:
+                break;
+            case MovingCreature::MT_STEHEN:
+                relTimeOffset = 0.25;
+                break;
+            case MovingCreature::MT_GEHEN:
+                relTimeOffset = mMovingCreature->getAnimationTimePlayed();
+                if( mMovingCreature->getLastMovementChange() < 0.5f )
+                    weight = mMovingCreature->getLastMovementChange() / 0.5f;
+                break;
+            default:
+                break;
+            }
+
+            // apply relTimeOffset only once
+            if( mMovingCreature->getLastMovementChange() > elapsedTime )
+                relTimeOffset = 0;
+
+            MeshAnimation *meshAnim = mMovingCreature->setAnimation("Run", -mMovingCreature->getVelocity().z / (step / length), 0, "Run", weight );
+            if( meshAnim != NULL )
+                meshAnim->doAddTime(relTimeOffset*meshAnim->getLength());
         }
         virtual void activate()
         {
@@ -803,7 +881,11 @@ namespace rl
     class Weitsprung : public AbstractMovement
     {
     public:
-        Weitsprung(MovingCreature *creature) : AbstractMovement(creature), mState(DOWN), mWidth(0), mJumpNow(false), mTimer(0) {}
+        Weitsprung(MovingCreature *creature) : 
+          AbstractMovement(creature), mState(DOWN), mWidth(0),
+              mJumpNow(false), mTimer(0), mApplyForceTime(0.12),
+              mApplyForceTimer(0), mLastForce(Vector3::ZERO),
+              mVelocityBeforeJump(0), mTanJumpAngle(Math::Tan(Degree(17))) {}
         virtual MovingCreature::MovementType getId() const {return MovingCreature::MT_WEITSPRUNG;}
         virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_STEHEN;}
         virtual void activate()
@@ -816,6 +898,20 @@ namespace rl
 
             try
             {
+                // the person will only achieve this width if it is running
+                // retrieve run movement
+                AbstractMovement *run = mMovingCreature->getMovementFromId(MovingCreature::MT_RENNEN);
+                if( run != NULL )
+                {
+                    Real vel(0);
+                    run->calculateBaseVelocity(vel);
+                    Real factor = -mMovingCreature->getVelocity().z / vel;
+                    factor = std::max(Real(0),factor);
+                    // without moving before, the width will be 1/3
+                    mWidth = mWidth/3. + mWidth * 2./3. * factor; 
+                }
+
+
                 int taw = mMovingCreature->getCreature()->doTalentprobe("Athletik", 0);
                 if( taw > 0 )
                 {
@@ -879,25 +975,67 @@ namespace rl
             OgreNewt::Body *body = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody();
             body->getMassMatrix(mass, inertia);
 
-            if( mJumpNow )
-            {
-                mJumpNow = false;
 
-                Real m = mass;
-                Real g = PhysicsManager::getSingleton().getGravity().length();
-                Real v0 = mMovingCreature->getVelocity().length();
-                Real t = timestep;
-                Real s = mWidth;
-                Real jumpForcezy = 
-                    m*g/4 - v0*m /2 /t + 
-                    Math::Sqrt( 
-                        v0*v0 * m*m  -
-                        v0 * m*m *g *t +
-                        m*m * g*g * t*t /4 +
-                        2 * s * m*m *g
-                               )/2/t;
-                force += Vector3(0,jumpForcezy,-jumpForcezy);
-                mMovingCreature->setAbstractLocation( MovingCreature::AL_AIRBORNE );
+            if( mJumpNow && timestep != 0 )
+            {
+                mApplyForceTimer += timestep;
+
+                if( mApplyForceTimer == timestep // first time
+                    && mApplyForceTimer < mApplyForceTime )// this is handled below
+                {
+                    Real t1 = mApplyForceTime;
+                    Real sx = mWidth;
+                    Real g = -PhysicsManager::getSingleton().getGravity().y;
+                    Real v0 = mVelocityBeforeJump;
+                    Real ax = 0;
+                    Real ay = 0;
+
+                    if( t1 != 0 || 2 * sx >= v0 * t1 )
+                    {
+                        Real v1x = ( sx - v0 * t1 / 2 ) / ( Math::Sqrt( mTanJumpAngle * (2*sx /g - v0 * t1/g) ) + t1/2);
+                        Real v1y = mTanJumpAngle * v1x;
+                        ax =  (v1x - v0) / t1;
+                        ay = v1y/t1 + g;
+                    }
+                    
+                    mLastForce.x = 0;
+                    mLastForce.y = ay * mass;
+                    mLastForce.z = -ax * mass;
+                }
+
+                if( mApplyForceTimer < mApplyForceTime )
+                {
+                    force = mLastForce;
+                }
+                else
+                {
+                    mJumpNow = false;
+                    // adoption of the formula to our real jump time
+                    Real t1 = mApplyForceTimer;
+                    Real sx = mWidth;
+                    Real g = -PhysicsManager::getSingleton().getGravity().y;
+                    Real v0 = mVelocityBeforeJump;
+                    Real ax = 0;
+                    Real ay = 0;
+
+                    if( t1 != 0 || 2 * sx >= v0 * t1 )
+                    {
+                        Real v1x = ( sx - v0 * t1 / 2 ) / ( Math::Sqrt( mTanJumpAngle * (2*sx /g - v0 * t1/g) ) + t1/2);
+                        Real v1y = mTanJumpAngle * v1x;
+
+std::ostringstream oss;
+oss << "v0: " << v0 << "    v1x: " << v1x << "    timediff: " << mApplyForceTimer - mApplyForceTime;
+LOG_MESSAGE(Logger::RULES, oss.str());
+
+                        Vector3 v_now = mMovingCreature->getVelocity();
+                        ax =  (v1x - -v_now.z) / timestep;
+                        ay = (v1y- v_now.y)/timestep + g;
+                    }
+                    
+                    force.x = 0;
+                    force.y = ay * mass;
+                    force.z = -ax * mass;
+                }
             }
 
             Vector3 omega = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody()->getOmega();
@@ -912,7 +1050,7 @@ namespace rl
             if( mState == UPTODOWN )
             {
                 mTimer += elapsedTime;
-                if( mTimer >= 0.5f )
+                if( mTimer >= 0.2f )
                 {
                     mState = DOWN;
                 }
@@ -940,6 +1078,8 @@ namespace rl
                     mMovingCreature->setAbstractLocation(MovingCreature::AL_AIRBORNE);
                     //mMovingCreature->setAnimation("rennen_sprung");
                     mJumpNow = true;
+                    mApplyForceTimer = 0;
+                    mVelocityBeforeJump = -mMovingCreature->getVelocity().z;
                     mTimer = 0;
                 }
             }
@@ -967,6 +1107,11 @@ namespace rl
         Ogre::Real mWidth;
         bool mJumpNow;
         Ogre::Real mTimer;
+        Ogre::Real mApplyForceTime;
+        Ogre::Real mApplyForceTimer;
+        Ogre::Vector3 mLastForce;
+        Ogre::Real mVelocityBeforeJump;
+        Ogre::Real mTanJumpAngle;
     };
 
 
