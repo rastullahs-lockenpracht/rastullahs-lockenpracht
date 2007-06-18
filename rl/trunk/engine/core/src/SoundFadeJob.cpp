@@ -17,6 +17,7 @@
 #include "SoundFadeJob.h"
 #include "SoundFadeFunctor.h"
 #include "SoundObject.h"
+#include "Sound.h"
 
 namespace rl
 {
@@ -26,11 +27,12 @@ namespace rl
         mSoundFadeFunctor(fadeFunctor),
         mTime(0)
     {
+        mStartVolume = mSoundObject->getSound()->getVolume();
     }
 
     bool SoundFadeJob::execute(Ogre::Real time)
     {
-        // Precondition: mLightObject != NULL
+        // Precondition: mSoundObject != NULL
         if (mSoundObject == NULL)
         {
             discard();
@@ -39,10 +41,10 @@ namespace rl
 
         // add passed time to total time
         mTime += time;
-        int volume = (*mSoundFadeFunctor)(mTime, mSoundObject);
+        Ogre::Real volume = (*mSoundFadeFunctor)(mTime) * mStartVolume;
 
         // Are we done now?
-        if (volume < 0)
+        if (volume <= 0.0)
         {
             discard();
             return true;
@@ -54,7 +56,7 @@ namespace rl
 
     void SoundFadeJob::discard()
     {
-        mSoundObject->setVolume(0);
+        mSoundObject->setVolume(0.0);
         mSoundObject->stop();
     }
 

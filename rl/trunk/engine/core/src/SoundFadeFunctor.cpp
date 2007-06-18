@@ -19,12 +19,9 @@
 
 namespace rl
 {
-    SoundFadeFunctor::SoundFadeFunctor(int startvolume, int endvolume, Ogre::Real duration) :
-        mDuration(duration),
-        mEndVolume(endvolume),
-        mStartVolume(startvolume)
+    SoundFadeFunctor::SoundFadeFunctor(Ogre::Real duration) :
+        mDuration(duration)
     {
-        mDiff = mEndVolume - mStartVolume;
     }
 
 

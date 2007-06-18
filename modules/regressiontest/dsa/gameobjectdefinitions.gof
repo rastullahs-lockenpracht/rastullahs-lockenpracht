@@ -94,6 +94,13 @@
         <property name="meshfile" type="STRING" data="arc_hebel_01.mesh"/>
     </gameobjectclass>
 
+    <!-- SoundTest -->
+    <gameobjectclass classid="SoundFadeTest" baseclass="GameObject">
+        <property name="name" type="STRING" data="SoundFadeTest"/>
+        <property name="description" type="STRING" data="The Sound Fading TestCase"/>
+        <property name="meshfile" type="STRING" data="arc_hebel_01.mesh"/>
+    </gameobjectclass>
+
     <!-- JobSequenceTest -->
     <gameobjectclass classid="JobSequenceTestChest" baseclass="GameObject">
         <property name="name" type="STRING" data="JobSequence-Truhe"/>

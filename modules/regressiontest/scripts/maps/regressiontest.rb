@@ -34,17 +34,17 @@ $SCRIPT.log("Hero ready")
 
 $SCRIPT.log("begin tests.");
 
-#         DoorTest.new([0, 0, -5])
-#          NpcTest.new([-5, 0, 5])
-#   NpcCapsuleTest.new([0, 0, 5])
-#         TimeTest.new([-5, 0, -5])
-#ErrorHandlingTest.new([-10, 0, 5])
-#    InventoryTest.new([0, 0, 10])
-#  JobSequenceTest.new([5, 0, -5])
-#       EffectTest.new([5, 0, 5])
-#        SoundTest.new([10, 0, 10])
-#    LightzoneTest.new([-10, 0, -5])
-#   MapLoadingTest.new([-5, 0, -10])
+         DoorTest.new([0, 0, -5])
+          NpcTest.new([-5, 0, 5])
+   NpcCapsuleTest.new([0, 0, 5])
+         TimeTest.new([-5, 0, -5])
+ErrorHandlingTest.new([-10, 0, 5])
+    InventoryTest.new([0, 0, 10])
+  JobSequenceTest.new([5, 0, -5])
+       EffectTest.new([5, 0, 5])
+        SoundTest.new([10, 0, 10])
+    LightzoneTest.new([-10, 0, -5])
+   MapLoadingTest.new([-5, 0, -10])
 MergeableMeshTest.new([10, 0, 0])
 
 

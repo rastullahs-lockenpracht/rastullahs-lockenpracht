@@ -40,6 +40,8 @@ namespace rl {
         SoundObject* mSoundObject;
         /// The time passed since job start.
         Ogre::Real mTime;
+        /// The starting volume for this job.
+        Ogre::Real mStartVolume;
         /// Functor which calculates the fading curve.
         SoundFadeFunctor* mSoundFadeFunctor;
     };

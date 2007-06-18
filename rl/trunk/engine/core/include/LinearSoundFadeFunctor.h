@@ -26,10 +26,13 @@ namespace rl {
     class _RlCoreExport LinearSoundFadeFunctor : public SoundFadeFunctor
     {
     public:
-        LinearSoundFadeFunctor(int startvolume, int endvolume, Ogre::Real duration);
+        LinearSoundFadeFunctor(Ogre::Real duration, bool up);
 
-        virtual int operator()(Ogre::Real time, SoundObject* sound);
+        virtual Ogre::Real operator()(Ogre::Real time);
 
+    private:
+        // Curve goes up?
+        bool mUp;
     };
 }
 

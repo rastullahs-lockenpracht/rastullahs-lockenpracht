@@ -12,7 +12,7 @@ require 'jobs/animationjobs.rb'
 # Die Aktion für das Anzünden der Fackel.
 class LightTorchAction < Action
     def initialize()
-        super("lighttorch", "Die Fackel anzünden für mehr Licht und so.");
+        super("lighttorch", "Die Fackel anzünden für mehr Licht und so.")
     end
     
     # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
@@ -22,7 +22,6 @@ class LightTorchAction < Action
     end
     
     def doAction(torch, user, target)
-        p torch.lit?
         return if torch.lit?
         # Fackel hat ein Licht am Slot SLOT_FAR_END
         # Man könnte es auch so machen, dass dieses Licht jetzt
@@ -54,7 +53,7 @@ end
 # Die Aktion für das Löschen der Fackel.
 class PutoutTorchAction < Action
     def initialize
-        super("putouttorch", "Die Fackel löschen für Verstecken und so.");
+        super("putouttorch", "Die Fackel löschen für Verstecken und so.")
     end
     
     # Die Methode prüft, ob die Aktion überhaupt angeboten wird.

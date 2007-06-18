@@ -19,19 +19,20 @@
 
 namespace rl
 {
-    LinearSoundFadeFunctor::LinearSoundFadeFunctor(int startvolume, int endvolume, Ogre::Real duration) :
-        SoundFadeFunctor(startvolume, endvolume, duration)
+    LinearSoundFadeFunctor::LinearSoundFadeFunctor(Ogre::Real duration, bool up) :
+        SoundFadeFunctor(duration),
+        mUp(up)
     {
     }
 
-    int LinearSoundFadeFunctor::operator()(Ogre::Real time, SoundObject* sound)
+    Ogre::Real LinearSoundFadeFunctor::operator()(Ogre::Real time)
     {
         Ogre::Real factor = time / mDuration;
         if (factor > 1.0)
         {
             return -1; // Done
         } else {
-            return floor(mStartVolume + factor * mDiff);
+            return factor * (mUp ? 1.0 : -1.0);
         }
     }  
     

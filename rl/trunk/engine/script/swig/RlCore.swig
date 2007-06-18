@@ -934,20 +934,22 @@ public:
     virtual void discard();
 };
 
+%rename(getVolume) rl::SoundFadeFunctor::operator();
 class SoundFadeFunctor
 {
 public:
-    SoundFadeFunctor(int startvolume, int endvolume, Ogre::Real duration);
+    SoundFadeFunctor(Ogre::Real duration);
 
-    virtual int operator()(Ogre::Real time, rl::SoundObject* sound) = 0;
+    virtual Ogre::Real operator()(Ogre::Real time) = 0;
 };
 
+%rename(getVolume) rl::LinearSoundFadeFunctor::operator();
 class LinearSoundFadeFunctor : public rl::SoundFadeFunctor
 {
 public:
-    LinearSoundFadeFunctor(int startvolume, int endvolume, Ogre::Real duration);
+    LinearSoundFadeFunctor(Ogre::Real duration, bool up);
 
-    virtual int operator()(Ogre::Real time, rl::SoundObject* sound);
+    virtual Ogre::Real operator()(Ogre::Real time);
 };
 
 
