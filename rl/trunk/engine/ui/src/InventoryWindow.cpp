@@ -20,6 +20,7 @@
 #include <CEGUIImagesetManager.h>
 #include <CEGUIWindowManager.h>
 
+#include "Creature.h"
 #include "ItemDragContainer.h"
 #include "WindowFactory.h"
 
@@ -37,6 +38,7 @@ namespace rl {
         mInventory = inventory;
 
         //mSquareSize = ...;
+		mWorldBackground = getWindow("InventoryWindow/Background");
 
         createSlotWindows(inventory);
         initInventoryWindow(inventory);
@@ -115,6 +117,9 @@ namespace rl {
 				}
             }
         }
+		mWorldBackground->setDragDropTarget(true);
+		mWorldBackground->subscribeEvent(Window::EventDragDropItemDropped, 
+			boost::bind(&InventoryWindow::handleItemDroppedOnWorld, this, _1));
     }
 
 	Window* InventoryWindow::createItemWindow(const CeGuiString& slotName, Item* item)
@@ -198,6 +203,49 @@ namespace rl {
 			}
 		}
 
+		return false;
+	}
+
+	bool InventoryWindow::handleItemDroppedOnWorld(const EventArgs& evt)
+	{
+		const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
+		if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
+		{
+			ItemDragContainer* dragcont = static_cast<ItemDragContainer*>(
+				evtArgs.dragDropItem);
+			Item* item = dragcont->getItem();
+			Vector2 targetPosWindow = dragcont->getPosition().asRelative(
+				getRoot()->getPixelSize());
+
+			if (dragcont->getItemParentContainer() != NULL)
+			{
+				dragcont->getItemParentContainer()->removeItem(item);
+				dragcont->getParent()->removeChildWindow(dragcont);
+				CEGUI::WindowManager::getSingleton().destroyWindow(dragcont);
+
+			}
+			else if (dragcont->getItemParentSlot() != "")
+			{
+				dragcont->getItemParentInventory()->dropItem(dragcont->getItemParentSlot());
+
+				dragcont->getParent()->removeChildWindow(dragcont);
+				CEGUI::WindowManager::getSingleton().destroyWindow(dragcont);
+			}
+
+			Ogre::Vector3 targetPosWorldSpace = 
+				mInventory->getOwner()->getPosition() 
+				+ mInventory->getOwner()->getOrientation()
+				* Ogre::Vector3(1-targetPosWindow.d_x, 1-targetPosWindow.d_y, -1); ///@todo check why coordinates are negative
+			item->placeIntoScene();
+			item->setPosition(targetPosWorldSpace);
+
+			LOG_DEBUG(Logger::UI,
+				"Dropped item "+item->getName()
+				+" to position "+Ogre::StringConverter::toString(targetPosWorldSpace));
+			
+			return true;
+
+		}
 		return false;
 	}
 
