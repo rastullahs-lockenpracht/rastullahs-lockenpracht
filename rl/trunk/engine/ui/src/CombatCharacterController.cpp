@@ -17,6 +17,7 @@
 #include "CombatCharacterController.h"
 
 #include "Actor.h"
+#include "CameraObject.h"
 #include "Combat.h"
 #include "CombatManager.h"
 #include "CombatWindow.h"
@@ -49,7 +50,7 @@ namespace rl {
         mEnemySelector.setFilter(filter);
 
         mCombatWindow = WindowFactory::getSingleton().getCombatWindow();
-        mCamera = static_cast<Ogre::Camera*>(mCameraActor->_getMovableObject());
+        mCamera = static_cast<CameraObject*>(mCameraActor->getControlledObject());
 
         // Initialise HUD-MO. Put it into 2D mode and make sure it is always rendered.
         SceneManager* sceneMgr = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
@@ -157,19 +158,12 @@ namespace rl {
         // Initialise each to the value of the opposite side, so that min/max work smoothly.
         Real left = 1.0f, bottom = 1.0f, right = -1.0f, top = -1.0f;
 
-        const Matrix4& viewMatrix = mCamera->getViewMatrix(true);
-        const Matrix4& projMatrix = mCamera->getProjectionMatrix();
-
         // Determine screen pos of all corners and widen the rect if needed
         const Vector3* corners = aabb.getAllCorners();
         for (size_t i = 0; i < 8; ++i)
         {
-            Vector3 eyeSpacePos = viewMatrix.transformAffine(corners[i]);
-
-            // ignore point, if it is behind the cam.
-            if (eyeSpacePos.z > 0) continue;
-
-            Vector3 screenSpacePos =  projMatrix * eyeSpacePos;
+			Vector3 screenSpacePos = mCamera->getPointOnScreen(corners[i]);
+            if (screenSpacePos.z > 0) continue; // Behind camera
 
             left   = std::min(left,   screenSpacePos.x);
             right  = std::max(right,  screenSpacePos.x);

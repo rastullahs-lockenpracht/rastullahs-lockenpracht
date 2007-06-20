@@ -26,6 +26,7 @@
 
 namespace rl {
 
+	class CameraObject;
     class Combat;
     class CombatManager;
     class CombatWindow;
@@ -51,7 +52,7 @@ namespace rl {
         CombatWindow* mCombatWindow;
         HalfSphereSelector mEnemySelector;
 
-        Ogre::Camera* mCamera;
+        CameraObject* mCamera;
 
         /// Little Helper-MO for visualisation for everything that is difficult with cegui.
         Ogre::ManualObject* mHud;

@@ -30,12 +30,29 @@ namespace rl {
         CameraObject(const Ogre::String& name);
         ~CameraObject();
 
-        /// Wie ActorControlledObject::getMovableObject, nur schon gebrauchsfertig gecastet.
+        /** 
+		 * Returns the Ogre camera
+		 * @return the camera
+		 */
         Ogre::Camera* getCamera() const;
 
+		/**
+		 * Returns the size of the bounding box
+		 * Note: an Ogre camera has no size, this method returns the size of
+		 * the physics proxy to prevent camera vs wall/object collisions
+		 */
 		Ogre::AxisAlignedBox getDefaultSize() const;
 
         virtual Ogre::String getObjectType() const;
+
+		/** 
+		 * Transforms a point in world space into the (2D) screen space
+		 * @param worldCoords point in world space
+		 * @return the corresponding position on the screen. x,y are in [0,1].
+		 * The z component is the z value from the eye space, this allows checking
+		 * whether a point was behind the camera (z>0 in this case)
+		 */
+		Ogre::Vector3 getPointOnScreen(const Ogre::Vector3& worldCoords) const;
     };
 }
 #endif

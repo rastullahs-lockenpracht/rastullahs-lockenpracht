@@ -55,4 +55,17 @@ namespace rl {
         Real r = getCamera()->getNearClipDistance();
         return AxisAlignedBox(2.0*Vector3(-r, -r, -r), 2.0*Vector3(r, r, r));
     }
+
+	Vector3 CameraObject::getPointOnScreen(const Ogre::Vector3& worldCoords) const
+	{
+		const Camera* camera = getCamera();
+        const Matrix4& viewMatrix = camera->getViewMatrix(true);
+        const Matrix4& projMatrix = camera->getProjectionMatrix();
+
+        Vector3 eyeSpacePos = viewMatrix.transformAffine(worldCoords);
+        Vector3 screenSpacePos =  projMatrix * eyeSpacePos;
+		screenSpacePos.z = eyeSpacePos.z;
+
+        return screenSpacePos;
+	}
 }
