@@ -5,7 +5,7 @@ class InventoryTest < TestCase
   def initialize(center)
     super(center)
 
-    hero = $GOM.getGameObject(1);
+    hero = $UI.getActiveCharacter();
     backpack = $GOM.createGameObject("leather backpack");
     #backpack.addAction(ShowContainerContentAction.new());
     #backpack.setPosition(center);
