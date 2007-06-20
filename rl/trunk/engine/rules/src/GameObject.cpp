@@ -697,15 +697,19 @@ namespace rl
             return;
         }
 
+        GameObjectState oldState = mState;
+
         if (targetstate == GOS_LOADED && mState == GOS_IN_SCENE)
         {
             // Statechange event is triggered in this function
             doRemoveFromScene();
+            onStateChange(oldState, targetstate);
         }
         else if (targetstate == GOS_IN_SCENE && mState == GOS_LOADED)
         {
             //Statechange event is triggered in this function
             doPlaceIntoScene();
+            onStateChange(oldState, targetstate);
         }
         else
         {

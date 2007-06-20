@@ -106,6 +106,7 @@ namespace rl
         }
 
         bool stateChanged = false;
+        GameObjectState oldState = mState;
 
         if (targetstate == GOS_IN_POSSESSION)
         {
@@ -179,7 +180,11 @@ namespace rl
             ///@todo
         }
 
-        if (!stateChanged)
+        if (stateChanged)
+        {
+            onStateChange(oldState, targetstate);
+        }
+        else
         {
             GameObject::setState(targetstate);
         }
