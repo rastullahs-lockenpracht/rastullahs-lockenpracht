@@ -90,8 +90,8 @@ namespace rl
 		delete mWorld;
         delete mGameLoop;
         delete mJobScheduler;
-        delete mActorManager;
         delete mAnimationManager;
+        delete mActorManager;
         delete mDebugVisualsManager;
         delete mPhysicsManager;
         delete mXmlResourceManager;
