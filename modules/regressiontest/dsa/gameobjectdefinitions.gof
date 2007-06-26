@@ -85,6 +85,7 @@
         <property name="imagename" type="STRING" data="set:ModelThumbnails image:waf_kurzschwert_01"/>
         <property name="mass" type="REAL" data="3.0"/>
         <property name="size" type="INTPAIR" data="2,4"/>
+		<property name="geometrytype" type="STRING" data="box"/>
     </gameobjectclass>
 
     <gameobjectclass classid="leather backpack" baseclass="Container">
@@ -130,5 +131,14 @@
         <property name="meshfile" type="STRING" data="ver_essigbottich_01.mesh"/>
         <property name="geometrytype" type="STRING" data="box"/>
     </gameobjectclass>
+
+	<!-- SelectorTest -->
+    <gameobjectclass classid="SelectorTest" baseclass="Item">
+        <property name="name" type="STRING" data="Bottich der Auswahl"/>
+        <property name="description" type="STRING" data="Der Essigbottich des Auswahltests, harmlos :)"/>
+        <property name="meshfile" type="STRING" data="ver_essigbottich_01.mesh"/>
+        <property name="geometrytype" type="STRING" data="box"/>
+    </gameobjectclass>
+
 
 </GameObjectDefinitions>
