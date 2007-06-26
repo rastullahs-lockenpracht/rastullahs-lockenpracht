@@ -45,7 +45,7 @@ namespace rl {
     class DialogWindow;
     class GameLoggerWindow;
     class GameObject;
-    class GameObjectPropsWindow;
+    class PropertiesWindow;
     class GameSettings;
     class InfoPopup;
     class InGameMenuWindow;
@@ -82,7 +82,7 @@ namespace rl {
         void showCharacterSheet(Person* chara);
         void showContainerContent(Container* container);
         void showDescriptionWindow(GameObject* obj);
-        void showGameObjectPropsWindow(GameObject* obj);
+        void showPropertiesWindow(GameObject* obj);
         void showExitConfirmation();
         void showJournalWindow();
         void showLogfiles();

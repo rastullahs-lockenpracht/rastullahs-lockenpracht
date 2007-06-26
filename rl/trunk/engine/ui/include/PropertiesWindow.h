@@ -15,66 +15,71 @@
  */
 
 /**
- * \file GameObjectPropsWindow.h
+ * \file PropertiesWindow.h
  *
- * Declaration of the GameObject window
+ * Declaration of the Property window
  */
 
-#ifndef __GameObjectPropsWindow_H__
-#define __GameObjectPropsWindow_H__
+#ifndef __PropertiesWindow_H__
+#define __PropertiesWindow_H__
 
 #include "UiPrerequisites.h"
 #include "AbstractWindow.h"
 
 namespace rl {
 
-	class GameObject;
     class Property;
+	class PropertyHolder;
 
     /**
-     * The GameObject window class
+     * The Property window class
      *
      * This window displays all properties of a game object by looping
      * through the property set of the given object.
      */
-    class _RlUiExport GameObjectPropsWindow : public AbstractWindow
+    class _RlUiExport PropertiesWindow : public AbstractWindow
 	{
 	public:
 
         /**
-         * Constructor of the GameObject window
+         * Constructor of the Property window
          */
-		GameObjectPropsWindow();
+		PropertiesWindow(PropertyHolder* ph);
 		
         /**
-         * Destructor of the GameObject window
+         * Destructor of the Property window
          */
-        virtual ~GameObjectPropsWindow();
+        virtual ~PropertiesWindow();
 
-        /**
-         * Initializes the window with the specified game object and
-         * fills the window with the properties of the GameObject.
-         *
-         * @param object The GameObject to be displayed
-         */
-		virtual void initialize(GameObject* object);
+		/**
+		 * Refreshes the shown data
+		 */
+		void update();
 	
 	private:
 
         /**
-         * Fills the header part of the window with the Name and Description
-         * property of the GameObject.
+         * Initializes the window with the specified game object and
+         * fills the window with the properties of the PropertyHolder.
          *
-         * @param object The GameObject to be displayed
+         * @param object The PropertyHolder to be displayed
          */
-        virtual void fillHeader(GameObject* object);
+		void initialize(PropertyHolder* object);
+
+		/**
+         * Fills the header part of the window with the Name and Description
+         * property of the PropertyHolder.
+         *
+         * @param object The PropertyHolder to be displayed
+         */
+        void fillHeader(PropertyHolder* object);
  
         /**
          * Adds an Int value to the property table.
          *
          * @param key The property to add.
          */
-        virtual void addPropertyInt(const Property& prop, 
+        void addPropertyInt(const Property& prop, 
             CEGUI::MultiColumnList* table,
             const Ogre::String& key = "");
 
@@ -83,7 +88,7 @@ namespace rl {
          *
          * @param key The property to add.
          */
-        virtual void addPropertyIntPair(const Property& prop, 
+        void addPropertyIntPair(const Property& prop, 
             CEGUI::MultiColumnList* table,
             const Ogre::String& key = "");
 
@@ -92,7 +97,7 @@ namespace rl {
          *
          * @param key The property to add.
          */
-        virtual void addPropertyIntTriple(const Property& prop, 
+        void addPropertyIntTriple(const Property& prop, 
             CEGUI::MultiColumnList* table,
             const Ogre::String& key = "");
 
@@ -101,7 +106,7 @@ namespace rl {
          *
          * @param key The property to add.
          */
-        virtual void addPropertyString(const Property& prop, 
+        void addPropertyString(const Property& prop, 
             CEGUI::MultiColumnList* table,
             const Ogre::String& key = "");
 
@@ -110,7 +115,7 @@ namespace rl {
          *
          * @param key The property to add.
          */
-        virtual void addPropertyBool(const Property& prop, 
+        void addPropertyBool(const Property& prop, 
             CEGUI::MultiColumnList* table,
             const Ogre::String& key = "");
 
@@ -119,7 +124,7 @@ namespace rl {
          *
          * @param key The property to add.
          */
-        virtual void addPropertyReal(const Property& prop, 
+        void addPropertyReal(const Property& prop, 
             CEGUI::MultiColumnList* table,
             const Ogre::String& key = "");
 
@@ -128,7 +133,7 @@ namespace rl {
          *
          * @param key The property to add.
          */
-        virtual void addPropertyVector3(const Property& prop, 
+        void addPropertyVector3(const Property& prop, 
             CEGUI::MultiColumnList* table,
             const Ogre::String& key = "");
 
@@ -137,7 +142,7 @@ namespace rl {
          *
          * @param key The property to add.
          */
-        virtual void addPropertyQuaternion(const Property& prop, 
+        void addPropertyQuaternion(const Property& prop, 
             CEGUI::MultiColumnList* table,
             const Ogre::String& key = "");
 
@@ -147,12 +152,13 @@ namespace rl {
          *
          * @param key The property to add.
          */
-        virtual void addPropertyArray(const Property& prop,
+        void addPropertyArray(const Property& prop,
             const Ogre::String& key = "");
 
         
         CEGUI::TabControl *mTabPane;        //!< TabControl for the property tabs
-        CEGUI::MultiColumnList *mMainTable; //!< Main table for the GameObject properties 
+        CEGUI::MultiColumnList *mMainTable; //!< Main table for the PropertyHolder properties 
+		PropertyHolder* mObject;
 	};
 }
 

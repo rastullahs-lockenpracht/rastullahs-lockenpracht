@@ -457,10 +457,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\GameObjectPropsWindow.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\InfoPopup.h"
 					>
 				</File>
@@ -510,6 +506,10 @@
 				</File>
 				<File
 					RelativePath=".\include\ProgressWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\PropertiesWindow.h"
 					>
 				</File>
 				<File
@@ -650,10 +650,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\GameObjectPropsWindow.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\InfoPopup.cpp"
 					>
 				</File>
@@ -703,6 +699,10 @@
 				</File>
 				<File
 					RelativePath=".\src\ProgressWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\PropertiesWindow.cpp"
 					>
 				</File>
 				<File

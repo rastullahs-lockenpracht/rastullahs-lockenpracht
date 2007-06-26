@@ -33,7 +33,7 @@
 #include "GameLoggerWindow.h"
 #include "GameObject.h"
 #include "GameObjectInfoWindow.h"
-#include "GameObjectPropsWindow.h"
+#include "PropertiesWindow.h"
 #include "SaveLoadWindow.h"
 #include "GameSettings.h"
 #include "InfoPopup.h"
@@ -166,10 +166,9 @@ namespace rl {
         mDebugWindow->setVisible(!mDebugWindow->isVisible());
     }
 
-    void WindowFactory::showGameObjectPropsWindow(GameObject* obj)
+    void WindowFactory::showPropertiesWindow(GameObject* obj)
     {
-        GameObjectPropsWindow* wnd = new GameObjectPropsWindow();
-        wnd->initialize(obj);
+        PropertiesWindow* wnd = new PropertiesWindow(obj);
         wnd->setVisible(true);
     }
     
