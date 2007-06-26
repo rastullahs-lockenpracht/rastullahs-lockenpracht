@@ -111,6 +111,9 @@ namespace rl
 
 	void MergeableMeshObject::switchTo(const MeshPtr& newMesh)
 	{
+		//@todo reactivate running animations?
+		stopAllAnimations();
+
 		Entity* oldEnt = getEntity();
 		Entity* newEnt = CoreSubsystem::getSingletonPtr()->getWorld()
 			->getSceneManager()->createEntity(oldEnt->getName()+"_", newMesh->getName());
