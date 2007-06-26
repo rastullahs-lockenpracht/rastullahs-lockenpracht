@@ -22,6 +22,7 @@
 #include "Actor.h"
 
 #include <OgreNewt_RayCast.h>
+#include <OgreSceneQuery.h>
 
 namespace rl
 {
@@ -93,6 +94,18 @@ namespace rl
         Ogre::Vector3 mRayStart;
         Ogre::Vector3 mRayEnd;
         bool mLevelOcclusion;
+    };
+
+    /// This query uses Ogre's AABB based approach.
+    class _RlCoreExport OgreRaySceneQuery : public RaySceneQuery, public Ogre::RaySceneQueryListener
+    {
+    public:
+        OgreRaySceneQuery(unsigned long mask = 0xffffffff);
+
+        virtual const ActorVector& execute();
+
+		virtual bool queryResult(Ogre::MovableObject* obj, Ogre::Real distance);
+		virtual bool queryResult(Ogre::SceneQuery::WorldFragment* fragment, Ogre::Real distance);
     };
 
     /// This query queries for objects within a sphere.

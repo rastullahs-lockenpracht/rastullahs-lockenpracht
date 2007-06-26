@@ -17,6 +17,9 @@
 #include "SceneQuery.h"
 
 #include "PhysicsManager.h"
+#include "CoreSubsystem.h"
+#include "World.h"
+#include <OgreSceneManager.h>
 
 using namespace Ogre;
 
@@ -254,4 +257,41 @@ namespace rl
     {
         return mRadius;
     }
+
+    OgreRaySceneQuery::OgreRaySceneQuery(unsigned long mask)
+        : RaySceneQuery(mask)
+    {
+    }
+
+    const ActorVector& OgreRaySceneQuery::execute()
+    {
+        // Clear last results
+        mResult.clear();
+
+		Ray ray(getRayStart(), (getRayEnd() - getRayStart()).normalisedCopy());
+		
+		Ogre::RaySceneQuery* query = CoreSubsystem::getSingleton().getWorld()->getSceneManager()
+			->createRayQuery(ray, getQueryMask());
+
+		query->execute(this);
+
+        return mResult;
+    }
+
+	bool OgreRaySceneQuery::queryResult(
+		Ogre::MovableObject* obj, Ogre::Real distance)
+	{
+        Actor* actor = dynamic_cast<Actor*>(obj->getUserObject());
+        if (actor != NULL)
+		{
+			mResult.push_back(actor);
+		}
+		return true;
+	}
+	
+	bool OgreRaySceneQuery::queryResult(
+		Ogre::SceneQuery::WorldFragment* fragment, Ogre::Real distance)
+	{
+		return true;
+	}
 }

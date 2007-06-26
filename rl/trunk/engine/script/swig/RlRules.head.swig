@@ -42,6 +42,7 @@
 #include "QuestEvent.h"
 #include "QuestListener.h"
 #include "RulesSubsystem.h"
+#include "Selector.h"
 #include "SonderfertigkeitenStateSet.h"
 #include "StateSet.h"
 #include "Talent.h"

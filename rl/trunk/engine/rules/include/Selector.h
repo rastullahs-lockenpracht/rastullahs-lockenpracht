@@ -78,6 +78,7 @@ namespace rl {
 
         GameObject* getFirstSelectedObject() const;
         const GameObjectVector& getAllSelectedObjects() const;
+		unsigned int getSelectionCount() const;
 
     protected:
         GameObjectVector mSelection;
@@ -94,7 +95,8 @@ namespace rl {
     class _RlRulesExport RaySelector : public Selector
     {
     public:
-        RaySelector(unsigned long mask = 0xffffffff);
+        RaySelector(unsigned long mask = 0xffffffff, bool useOgreQuery = false);
+		~RaySelector();
 
         void setRay(const Ogre::Vector3& start, const Ogre::Vector3& end);
 
@@ -104,7 +106,7 @@ namespace rl {
         virtual void updatePrimitive();
 
     protected:
-        RaySceneQuery mQuery;
+        RaySceneQuery* mQuery;
 
         virtual const ActorVector& doExecuteQuery();
         virtual void doCreatePrimitive();
@@ -116,6 +118,7 @@ namespace rl {
     {
     public:
         HalfSphereSelector(Ogre::SceneManager* smgr, unsigned long mask = 0xffffffff);
+		HalfSphereSelector(unsigned long mask = 0xffffffff);
 
         virtual void updateSelection();
 

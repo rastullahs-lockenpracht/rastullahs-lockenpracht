@@ -16,7 +16,9 @@
 #include "Selector.h"
 #include "SelectionHelper.h"
 
+#include "CoreSubsystem.h"
 #include "PhysicsManager.h"
+#include "World.h"
 
 using namespace Ogre;
 
@@ -57,7 +59,8 @@ namespace rl
         return false;
     }
 
-    Selector::Selector(unsigned long mask) : mSelection(), mSelectionMask(mask), mFilter(NULL)
+    Selector::Selector(unsigned long mask) 
+		: DebugVisualisable(), mSelection(), mSelectionMask(mask), mFilter(NULL)
     {
     }
 
@@ -95,6 +98,11 @@ namespace rl
         return mSelection;
     }
 
+	unsigned int Selector::getSelectionCount() const
+	{
+		return mSelection.size();
+	}
+
     void Selector::updateSelection()
     {
         // Remove old selection
@@ -123,14 +131,22 @@ namespace rl
 
     //------------------------------------------------------------------------
 
-    RaySelector::RaySelector(unsigned long mask)
-        : Selector(mask), mQuery(mask)
+    RaySelector::RaySelector(unsigned long mask, bool useOgreQuery)
+        : Selector(mask)
     {
+		if (useOgreQuery)
+		{
+			mQuery = new OgreRaySceneQuery(mask);
+		}
+		else
+		{
+			mQuery = new RaySceneQuery(mask);
+		}
     }
 
     void RaySelector::setRay(const Ogre::Vector3& start, const Ogre::Vector3& end)
     {
-        mQuery.setRay(start, end);
+        mQuery->setRay(start, end);
     }
 
     // Overrides from DebugVisualisable
@@ -143,18 +159,23 @@ namespace rl
     {
         LineSetPrimitive* lineSet = static_cast<LineSetPrimitive*>(mPrimitive);
         lineSet->clear();
-        lineSet->addLine(mQuery.getRayStart(), mQuery.getRayEnd(), ColourValue::Red);
+        lineSet->addLine(mQuery->getRayStart(), mQuery->getRayEnd(), ColourValue::Red);
     }
 
     const ActorVector& RaySelector::doExecuteQuery()
     {
-        return mQuery.execute();
+        return mQuery->execute();
     }
 
     void RaySelector::doCreatePrimitive()
     {
         mPrimitive = new LineSetPrimitive();
     }
+
+	RaySelector::~RaySelector()
+	{
+		delete mQuery;
+	}
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -163,7 +184,17 @@ namespace rl
         : Selector(mask),
           mQuery(smgr, mask),
           mCheckVisibility(false),
-          mLoSReferenceGo(NULL)
+          mLoSReferenceGo(NULL),
+		  mTrackedGo(NULL)
+    {
+    }
+
+    HalfSphereSelector::HalfSphereSelector(unsigned long mask)
+        : Selector(mask),
+		  mQuery(CoreSubsystem::getSingleton().getWorld()->getSceneManager(), mask),
+          mCheckVisibility(false),
+          mLoSReferenceGo(NULL),
+		  mTrackedGo(NULL)
     {
     }
 

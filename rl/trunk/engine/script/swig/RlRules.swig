@@ -14,11 +14,13 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
+// %template(GameObjectVector) std::vector< rl::GameObject* >;         
+
 namespace rl {
 
     // Before first use of GameObject or subclasses!
     %apply SWIGTYPE *DYNAMIC { rl::GameObject * };
-        
+
                     
    template<typename T>
    class Tripel {
@@ -786,9 +788,68 @@ namespace rl {
                           unsigned int timesToPlay = 0, 
                           const Ogre::String &collisionName = "");
     };
+
+	// Before first use of Selector or subclasses!
+    %apply SWIGTYPE *DYNAMIC { rl::Selector* };
+
+	class Selector : public DebugVisualisable
+    {
+    public:
+        Selector(unsigned long mask = 0xffffffff);
+        virtual void updateSelection();
+
+        void setSelectionMask(unsigned long mask);
+        unsigned long getSelectionMask() const;
+
+        GameObject* getFirstSelectedObject() const;
+		const std::vector<GameObject*>& getAllSelectedObjects() const;
+		unsigned int getSelectionCount() const;
+
+		virtual void updatePrimitive() = 0;
+    };
+
+
+    /// A Selector that selects all unoccluded GameObject the ray hits.
+    class RaySelector : public Selector
+    {
+    public:
+        RaySelector(unsigned long mask = 0xffffffff, bool useOgreQuery = false);
+        void setRay(const Ogre::Vector3& start, const Ogre::Vector3& end);
+		virtual void updatePrimitive();
+    };
+
+    /// Selects this GameObject within a half sphere pointing to -Z,
+    /// that has the smallest angle difference to the -Z-Axis.
+    class HalfSphereSelector : public Selector
+    {
+    public:
+        HalfSphereSelector(unsigned long mask = 0xffffffff);
+	    void setRadius(Ogre::Real radius);
+        void setPosition(const Ogre::Vector3& pos);
+        void setOrientation(const Ogre::Quaternion& ori);
+		virtual void updatePrimitive();
+	};
+
 } // Namespace
 
 %{
+static swig_type_info *Selector_dynamic_cast(void **ptr)
+{
+	rl::Selector **ppSelector = reinterpret_cast<rl::Selector**>(ptr);
+	rl::HalfSphereSelector *pHalfSphereSel = dynamic_cast<rl::HalfSphereSelector*>(*ppSelector);
+	if (pHalfSphereSel)
+	{
+		*ptr = pHalfSphereSel;
+		return SWIGTYPE_p_rl__HalfSphereSelector;
+	}
+	rl::RaySelector *pRaySel = dynamic_cast<rl::RaySelector*>(*ppSelector);
+	if (pRaySel)
+	{
+		*ptr = pRaySel;
+		return SWIGTYPE_p_rl__RaySelector;
+	}
+}
+	
 static swig_type_info *GameObject_dynamic_cast(void **ptr)
 {
     rl::GameObject **ppGameObject = reinterpret_cast<rl::GameObject**>(ptr);
