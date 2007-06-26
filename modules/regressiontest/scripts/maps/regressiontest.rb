@@ -16,6 +16,7 @@ require 'effecttest.rb'
 require 'LightzoneTest.rb'
 require 'MapLoadingTest.rb'
 require 'MergeableMeshTest.rb'
+require 'SelectorTest.rb'
 
 # Physik aktivieren
 $PM.setEnabled(true)
@@ -34,19 +35,19 @@ $SCRIPT.log("Hero ready")
 
 $SCRIPT.log("begin tests.");
 
-         DoorTest.new([0, 0, -5])
-          NpcTest.new([-5, 0, 5])
-   NpcCapsuleTest.new([0, 0, 5])
-         TimeTest.new([-5, 0, -5])
-ErrorHandlingTest.new([-10, 0, 5])
-    InventoryTest.new([0, 0, 10])
-  JobSequenceTest.new([5, 0, -5])
-       EffectTest.new([5, 0, 5])
-        SoundTest.new([10, 0, 10])
-    LightzoneTest.new([-10, 0, -5])
-   MapLoadingTest.new([-5, 0, -10])
-MergeableMeshTest.new([10, 0, 0])
-
+         DoorTest.new([0, 0, -5]).run()
+          NpcTest.new([-5, 0, 5]).run()
+   NpcCapsuleTest.new([0, 0, 5]).run()
+         TimeTest.new([-5, 0, -5]).run()
+ErrorHandlingTest.new([-10, 0, 5]).run()
+    InventoryTest.new([0, 0, 10]).run()
+  JobSequenceTest.new([5, 0, -5]).run()
+       EffectTest.new([5, 0, 5]).run()
+        SoundTest.new([10, 0, 10]).run()
+    LightzoneTest.new([-10, 0, -5]).run()
+   MapLoadingTest.new([-5, 0, -10]).run()
+MergeableMeshTest.new([10, 0, 0]).run()
+     SelectorTest.new([5, 0, 0]).run()
 
 $SCRIPT.log("tests initialisiert.");
 

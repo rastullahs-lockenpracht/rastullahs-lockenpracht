@@ -1,9 +1,7 @@
 require 'testcase.rb'
 
 class GameObjectStatesTest < TestCase
-  def initialize(center)
-    super(center)
-
+  def execute()
     appl2 = $GOM.createGameObject("apple", 15);
     p "appl2 created"
     appl2.placeIntoScene();

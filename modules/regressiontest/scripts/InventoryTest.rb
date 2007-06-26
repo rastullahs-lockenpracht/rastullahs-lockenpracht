@@ -2,9 +2,7 @@ require 'testcase.rb'
 require 'npc.rb'
 
 class InventoryTest < TestCase
-  def initialize(center)
-    super(center)
-
+  def execute()
     hero = $UI.getActiveCharacter();
     backpack = $GOM.createGameObject("leather backpack");
     #backpack.addAction(ShowContainerContentAction.new());

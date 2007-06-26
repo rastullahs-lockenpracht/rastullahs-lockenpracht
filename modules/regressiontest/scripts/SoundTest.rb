@@ -29,13 +29,11 @@ class SoundTest < TestCase
   @@height = 0.30
   @@radius = 5
   
-  def initialize(center)
-    super(center)
-    
+  def execute()
     min_base = [-@@radius, 0.05, -@@radius]
     max_base = [@@radius, @@height, @@radius]
     base = $AM.createBoxPrimitiveActor("SoundTestBase", min_base, max_base, "alpha_blue")
-    base.placeIntoScene(center)
+    base.placeIntoScene(getCenter())
     
     eh = $GOM.createGameObject("SoundFadeTest")
     eh.addAction(SoundFadeAction.new())

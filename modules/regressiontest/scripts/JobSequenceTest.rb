@@ -27,16 +27,14 @@ class JobSequenceTestAction < Action
 end
 
 class JobSequenceTest < TestCase
-    def initialize(center)
-        super(center)
-
+    def execute()
         # Define a base box to place everything else on.
         height = 0.3
         min_base = [-2.0, 0.05, -2.0]
         max_base = [2.0, height, 2.0]
         base = $AM.createBoxPrimitiveActor("JobSequenceTestBase",
                                            min_base, max_base, "alpha_green")
-        base.placeIntoScene(center);
+        base.placeIntoScene(getCenter());
 
         chest = $GOM.createGameObject(
             "JobSequenceTestChest");

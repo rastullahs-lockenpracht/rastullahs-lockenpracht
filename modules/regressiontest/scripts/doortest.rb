@@ -27,15 +27,13 @@ end
 # Test case for Doors. Tests basic GameObject interaction,
 # ObjectStateChange event handling and physical collision updates.
 class DoorTest < TestCase
-    def initialize(center)
-        super(center)
-
+    def execute()
         # Define a base box to place everything else on.
         height = 0.3
         min_base = [-3.0, 0.05, -3.0]
         max_base = [3.0, height, 3.0]
         base = $AM.createBoxPrimitiveActor("DoorTestBase", min_base, max_base)
-        base.placeIntoScene(center);
+        base.placeIntoScene(getCenter());
 
         # The door with the door knob
         door1 = $GOM.createGameObject("door");

@@ -46,17 +46,17 @@ end
 
 # Test case for weffects. 
 class EffectTest < TestCase
-    def initialize(center)
-        super(center)
-	# Define a pointer to the hero
-	$h = $UI.getActiveCharacter()
+    def execute()
+	
+		# Define a pointer to the hero
+		$h = $UI.getActiveCharacter()
         # Define a base box to place everything else on.
         height = 0.1
         min_base = [-2.0, 0.05, -2.0]
         max_base = [2.0, height, 2.0]
         base = $AM.createBoxPrimitiveActor("EffectTestBase", min_base, max_base,
                                           "alpha_yellow")
-        base.placeIntoScene(center);
+        base.placeIntoScene(getCenter());
 
         bottich = $GOM.createGameObject("EffectTest");
         bottich.addAction(ParaluesAction.new());

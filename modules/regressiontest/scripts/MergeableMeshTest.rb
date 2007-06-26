@@ -1,9 +1,7 @@
 require 'globals.rb'
 
 class MergeableMeshTest < TestCase
-    def initialize(center)
-        super(center)
-
+    def execute()
         $SCRIPT.log(">MergeableMeshTest Start");
 
         $SCRIPT.log(">>MergeableMeshTest Actor Start");

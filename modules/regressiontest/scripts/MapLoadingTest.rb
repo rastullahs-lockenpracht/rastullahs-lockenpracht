@@ -4,10 +4,8 @@ class GameObjectDerived < GameObject
 end
 
 class MapLoadingTest < TestCase
-    def initialize(center)
-        super(center)
-
-		loader = MapLoader.new("regressiontest");
+    def execute()
+        loader = MapLoader.new("regressiontest");
         loader.loadMap("regressiontest_maploadingtest.rlmap.xml");
         
 		p "--- Built-in GO class, created by MapLoader ---"
