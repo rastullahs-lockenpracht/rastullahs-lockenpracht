@@ -16,7 +16,9 @@ require 'effecttest.rb'
 require 'LightzoneTest.rb'
 require 'MapLoadingTest.rb'
 require 'MergeableMeshTest.rb'
+require 'WalkJobTest.rb'
 require 'SelectorTest.rb'
+
 
 # Physik aktivieren
 $PM.setEnabled(true)
@@ -48,6 +50,7 @@ ErrorHandlingTest.new([-10, 0, 5]).run()
    MapLoadingTest.new([-5, 0, -10]).run()
 MergeableMeshTest.new([10, 0, 0]).run()
      SelectorTest.new([5, 0, 0]).run()
+	  WalkJobTest.new().run()
 
 $SCRIPT.log("tests initialisiert.");
 
