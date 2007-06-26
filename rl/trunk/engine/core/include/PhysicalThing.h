@@ -127,6 +127,7 @@ namespace rl {
 
 		void createPhysicsProxy(Ogre::SceneNode* node);
         void updatePhysicsProxy();
+		void destroyPhysicsProxy();
 
         /** Called to update the collision of the physical thing, in order to adapt
          *  to a new animation state.

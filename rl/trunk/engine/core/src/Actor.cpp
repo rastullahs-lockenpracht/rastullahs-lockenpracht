@@ -403,7 +403,15 @@ namespace rl {
             Throw(IllegalStateException,
             "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
 
-        if( mActorControlledObject && mSceneNode && mActorControlledObject->getMovableObject())
+		if (mPhysicalThing)
+        {
+			PhysicsManager::getSingleton().destroyPhysicsProxy(
+				mPhysicalThing);
+		}
+
+        if( mActorControlledObject 
+			&& mSceneNode 
+			&& mActorControlledObject->getMovableObject())
         {
             mSceneNode->detachObject(
                 mActorControlledObject->getMovableObject());
@@ -688,13 +696,13 @@ namespace rl {
         }
 
         // Falls ein noch nicht befestigtes MovableObject vorhanden, dieses attachen
-        if( mActorControlledObject != NULL && !mActorControlledObject->isAttached() )
+        if (mActorControlledObject != NULL && !mActorControlledObject->isAttached() )
         {
             mActorControlledObject->_attachSceneNode(mSceneNode);
         }
 
         // Physikverknüpfung anpassen
-        if( mPhysicalThing != NULL && mActorControlledObject != NULL )
+        if (mPhysicalThing && mActorControlledObject)
         {
             PhysicsManager::getSingleton().createPhysicsProxy(mPhysicalThing, mSceneNode);
 

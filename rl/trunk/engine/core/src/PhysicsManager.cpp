@@ -273,6 +273,17 @@ namespace rl
 		mPhysicalThings.push_back(pt);
 	}
 
+	void PhysicsManager::destroyPhysicsProxy(PhysicalThing* pt)
+	{
+        vector<PhysicalThing*>::iterator it = find(mPhysicalThings.begin(),
+            mPhysicalThings.end(), pt);
+		if (it != mPhysicalThings.end())
+		{
+			mPhysicalThings.erase(it);
+		}
+		pt->destroyPhysicsProxy();
+	}
+
     void PhysicsManager::clearLevelGeometry(  )
     {
 		mLevelBodiesQuadTree.removeAll();

@@ -52,7 +52,7 @@ namespace rl
 
     PhysicalThing::~PhysicalThing()
 	{
-		// missing removal of list of collision objects here ...
+		//@todo missing removal of list of collision objects here ...
 		delete mBody;
 		mBody = NULL;
     }
@@ -122,10 +122,13 @@ namespace rl
 
     void PhysicalThing::_update()
     {
-        mBody->setPositionOrientation(
-			mActor->_getSceneNode()->getWorldPosition(),
-			mActor->_getSceneNode()->getWorldOrientation());
-		mActor->_update(Actor::UF_ALL & ~Actor::UF_PHYSICAL_THING);
+		if (mBody && mActor)
+		{
+			mBody->setPositionOrientation(
+				mActor->_getSceneNode()->getWorldPosition(),
+				mActor->_getSceneNode()->getWorldOrientation());
+			mActor->_update(Actor::UF_ALL & ~Actor::UF_PHYSICAL_THING);
+		}
     }
 
     void PhysicalThing::_setActor(Actor* actor)
@@ -373,9 +376,15 @@ namespace rl
         }
     }
 
+	void PhysicalThing::destroyPhysicsProxy()
+	{
+		delete mBody;
+		mBody = NULL;
+	}
+
     void PhysicalThing::createPhysicsProxy(SceneNode* node)
 	{
-		if (mBody == NULL) 
+		if (!mBody) 
 		{
             Vector3 inertia;
             OgreNewt::CollisionPtr coll = createCollision(mPhysicalObject, inertia);

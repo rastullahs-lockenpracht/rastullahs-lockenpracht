@@ -108,6 +108,12 @@ namespace rl {
 		 */
 		void createPhysicsProxy(PhysicalThing* pt, Ogre::SceneNode* node);
 
+		/**
+		 * Removes the physics proxy
+		 * @param pt the physics proxy wrapper; is not deleted
+		 */
+		void destroyPhysicsProxy(PhysicalThing* pt);
+
         //PhysicalThing* createConvexHullPhysicalThing(Ogre::Entity*, Ogre::Real mass = 0.0f,
         //    const Ogre::Vector3& inertiaCoefficients = Ogre::Vector3(1.0f, 1.0f, 1.0f));
 
