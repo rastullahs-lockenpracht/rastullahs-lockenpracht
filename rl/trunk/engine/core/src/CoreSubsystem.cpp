@@ -92,11 +92,11 @@ namespace rl
         delete mJobScheduler;
         delete mAnimationManager;
         delete mActorManager;
-        delete mDebugVisualsManager;
         delete mPhysicsManager;
         delete mXmlResourceManager;
         delete mScriptWrapper;
-        delete ConfigurationManager::getSingletonPtr();
+        delete mDebugVisualsManager;
+		delete ConfigurationManager::getSingletonPtr();
         delete mSoundManager;
         delete mOgreRoot;
         delete mRubyInterpreter;

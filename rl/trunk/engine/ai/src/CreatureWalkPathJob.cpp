@@ -45,6 +45,7 @@ namespace rl
             else
             {
                 mCurrentLandmark = mNextLandmark;
+                ///@todo
             }
         }
 

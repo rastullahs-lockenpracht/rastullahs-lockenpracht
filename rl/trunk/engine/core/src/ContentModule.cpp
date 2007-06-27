@@ -119,7 +119,7 @@ namespace rl
             addSearchPath(moduleDir + "/models/"+*it, resourceGroup);
         }
 
-        addSearchPath(moduleDir + "/sound", resourceGroup); //@todo ueber Verzeichnisnamen nachdenken
+        addSearchPath(moduleDir + "/sound", resourceGroup); ///@todo ueber Verzeichnisnamen nachdenken
         StringVector soundLoc = getSoundLocations();
         for (StringVector::iterator it = soundLoc.begin(); it != soundLoc.end(); ++it)
         {

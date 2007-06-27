@@ -743,7 +743,7 @@ namespace rl {
     {
         if (highlight != mHighlighted)
         {
-            //@todo: blue ring or something signifies the highlighted object
+            ///@todo: blue ring or something signifies the highlighted object
             //getControlledObject()->setHighlighted(highlight);
             mHighlighted = highlight;
         }

@@ -86,7 +86,7 @@ void CharacterSheetWindow::setCharacter(Person* person)
 
 void CharacterSheetWindow::update()
 {
-	///@TODO: Daten updaten
+	///@todo: Daten updaten
 	updateTalents();
 	/*if (mCharacter->isMagic())
 		updateMagic();*/

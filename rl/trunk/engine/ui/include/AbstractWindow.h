@@ -39,6 +39,9 @@ namespace rl {
 
 	class WindowUpdateTask;
 
+	/**
+	 * This is the base class for all UI windows
+	 */
 	class _RlUiExport AbstractWindow
 	{
 	public:
@@ -52,6 +55,13 @@ namespace rl {
 
 		virtual ~AbstractWindow();	
 
+		/// creates a CEGUI window from an XML file, should only be used to load window parts (e.g. buttons)
+		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile);
+		
+		/// gets the CEGUI root
+		static CEGUI::Window* getRoot();
+
+		/// gets the wrapped CEGUI window
 		CEGUI::Window* getWindow();
 
 		CEGUI::Window* getWindow(const char* name, const char* requiredClass = NULL);
@@ -68,9 +78,6 @@ namespace rl {
         CEGUI::ScrollablePane* getScrollablePane(const char* name);
 		CEGUI::Slider* getSlider(const char* name);
 		CEGUI::TabControl* getTabControl(const char* name);
-
-		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile);
-		static CEGUI::Window* getRoot();
 
 		int getWindowInputType();
 

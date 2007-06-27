@@ -48,7 +48,7 @@ namespace rl
 
     GameObjectManager::~GameObjectManager()
     {
-        ///@TODO: Delete all game objects, delete all class properties
+        ///@todo: Delete all game objects, delete all class properties
     }
 
     const Ogre::StringVector& GameObjectManager::getScriptPatterns() const

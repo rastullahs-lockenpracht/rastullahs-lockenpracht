@@ -111,7 +111,7 @@ namespace rl
 
 	void MergeableMeshObject::switchTo(const MeshPtr& newMesh)
 	{
-		//@todo reactivate running animations?
+		///@todo reactivate running animations?
 		stopAllAnimations();
 
 		Entity* oldEnt = getEntity();

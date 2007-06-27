@@ -94,7 +94,7 @@ namespace rl
 		if (mActor != NULL)
 		{
 			mActor->detachFromParent();
-			//@todo is mState = GOS_IN_SCENE; after detaching?
+			///@todo is mState = GOS_IN_SCENE; after detaching?
 		}
 	}
 
