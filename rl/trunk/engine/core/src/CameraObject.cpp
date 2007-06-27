@@ -15,6 +15,9 @@
 */
 
 #include "CameraObject.h"
+
+#include <OgreRay.h>
+
 #include "Actor.h"
 #include "CoreSubsystem.h"
 #include "World.h"
@@ -67,5 +70,32 @@ namespace rl {
 		screenSpacePos.z = eyeSpacePos.z;
 
         return screenSpacePos;
+	}
+
+	Vector3 CameraObject::getPointOnCeGuiScreen(const Ogre::Vector3& worldCoords) const
+	{
+		//see Ogre::Camera::getCameraToViewportRay(Real, Real)
+		//		Real nx = (2.0f * screenX) - 1.0f;
+		//		Real ny = 1.0f - (2.0f * screenY);
+		// -> screenX = (nx + 1.0f) / 2.0f
+		// -> screenY = (1.0f - ny) / 2.0f
+
+		Vector3 screenSpacePos = getPointOnScreen(worldCoords);
+		screenSpacePos.x = (screenSpacePos.x + 1.0f) / 2.0f;
+		screenSpacePos.y = (1.0f - screenSpacePos.y) / 2.0f;
+		return screenSpacePos;
+	}
+
+	Vector3 CameraObject::getDirectionFromScreenPosition(
+		const Real& x, const Real& y) const
+	{
+		Ray ray = getCamera()->getCameraToViewportRay(x, y);
+		return ray.getDirection();
+	}
+
+	Ray CameraObject::getCameraToViewportRay(
+		const Real& x, const Real& y) const
+	{
+		return getCamera()->getCameraToViewportRay(x, y);
 	}
 }

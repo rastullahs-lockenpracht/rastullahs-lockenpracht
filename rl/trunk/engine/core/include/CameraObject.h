@@ -48,11 +48,33 @@ namespace rl {
 		/** 
 		 * Transforms a point in world space into the (2D) screen space
 		 * @param worldCoords point in world space
-		 * @return the corresponding position on the screen. x,y are in [0,1].
+		 * @return the corresponding position on the screen in Ogre screen coordinates; x,y are in [-1,1].
 		 * The z component is the z value from the eye space, this allows checking
 		 * whether a point was behind the camera (z>0 in this case)
 		 */
 		Ogre::Vector3 getPointOnScreen(const Ogre::Vector3& worldCoords) const;
-    };
+	
+		/** 
+		 * Transforms a point in world space into the (2D) screen space
+		 * @param worldCoords point in world space
+		 * @return the corresponding position on the screen in CEGUI screen coordinates. x,y are in [0,1].
+		 * The z component is the z value from the eye space, this allows checking
+		 * whether a point was behind the camera (z>0 in this case)
+		 */
+		Ogre::Vector3 getPointOnCeGuiScreen(const Ogre::Vector3& worldCoords) const;
+
+		/**
+		 * Calculates the direction of the ray originating at the camera and 
+		 * directing at a point on the screen
+		 * @param x x coordinate on screen
+		 * @param y y coordinate on screen
+		 * @return the ray direction
+		 */
+		Ogre::Vector3 CameraObject::getDirectionFromScreenPosition(
+			const Ogre::Real& x, const Ogre::Real& y) const;
+
+		Ogre::Ray getCameraToViewportRay(
+			const Ogre::Real& x, const Ogre::Real& y) const;
+	};
 }
 #endif
