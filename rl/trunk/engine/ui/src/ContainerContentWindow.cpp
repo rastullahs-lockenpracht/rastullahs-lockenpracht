@@ -22,6 +22,7 @@
 #include <CEGUIWindowManager.h>
 
 #include "Container.h"
+#include "Inventory.h"
 #include "InventoryWindow.h"
 #include "ItemDragContainer.h"
 #include "WindowFactory.h"

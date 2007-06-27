@@ -20,8 +20,14 @@
 #include <CEGUIImagesetManager.h>
 #include <CEGUIWindowManager.h>
 
+#include "Actor.h"
+#include "ActorManager.h"
+#include "CameraObject.h"
 #include "Creature.h"
+#include "Inventory.h"
+#include "Item.h"
 #include "ItemDragContainer.h"
+#include "Selector.h"
 #include "WindowFactory.h"
 
 using namespace CEGUI;
@@ -110,19 +116,26 @@ namespace rl {
             if (item != NULL)
             {
                 LOG_MESSAGE(Logger::UI, slotName + " - " + item->getDescription());
-				Window* itemWindow = createItemWindow(slotName, item);
+				Window* itemWindow = createItemDragContainer(item, slotName);
 				if (itemWindow != NULL)
 				{
 					slotWindow->addChildWindow(itemWindow);
 				}
             }
         }
+
 		mWorldBackground->setDragDropTarget(true);
 		mWorldBackground->subscribeEvent(Window::EventDragDropItemDropped, 
 			boost::bind(&InventoryWindow::handleItemDroppedOnWorld, this, _1));
+		mWorldBackground->subscribeEvent(Window::EventMouseMove, 
+			boost::bind(&InventoryWindow::handleMouseMovedInWorld, this, _1));
+		mWorldBackground->subscribeEvent(Window::EventKeyDown, 
+			boost::bind(&InventoryWindow::handleKeys, this, _1, true));
+		mWorldBackground->subscribeEvent(Window::EventKeyUp, 
+			boost::bind(&InventoryWindow::handleKeys, this, _1, false));
     }
 
-	Window* InventoryWindow::createItemWindow(const CeGuiString& slotName, Item* item)
+	ItemDragContainer* InventoryWindow::createItemDragContainer(Item* item, const CeGuiString& slotName)
 	{
         CeGuiString icon = item->getImageName();
 
@@ -131,37 +144,49 @@ namespace rl {
 			icon = ICON_UNKNOWN_ITEM;
 		}
 
-        LOG_MESSAGE("IW", icon);
-        Window* itemWindow = 
-	        CEGUI::WindowManager::getSingletonPtr()->createWindow(
-		    "RastullahLook/StaticImage", 
-            mWindow->getName() + "/" + slotName + "/" + icon);
-        itemWindow->setProperty("Image", icon);
-        itemWindow->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
-        itemWindow->setSize(
-            UVector2(cegui_absdim(item->getSize().first*30),
-                     cegui_absdim(item->getSize().second*30)));
+		CeGuiString itemWindowName = mWindow->getName() + "/" + slotName + "/" + icon + item->getId();
+		CeGuiString dragContainerName = itemWindowName+"_DragContainer";
+		ItemDragContainer* itemhandler = NULL;
 
-		itemWindow->subscribeEvent(
-			Window::EventMouseClick,
-			boost::bind(&InventoryWindow::handleItemMouseClick, this, _1, item));
+		DndContainerMap::iterator it = mDragContainers.find(dragContainerName);
+		if (it != mDragContainers.end())
+		{
+			itemhandler = it->second;
+			return NULL; ///@todo just a test
+		}
+		else
+		{
+	        Window* itemWindow = CEGUI::WindowManager::getSingletonPtr()->createWindow(
+				"RastullahLook/StaticImage", 
+				itemWindowName);
+			itemWindow->setProperty("Image", icon);
 
-		itemWindow->subscribeEvent(
-			Window::EventMouseDoubleClick,
-			boost::bind(&InventoryWindow::handleItemDoubleClick, this, _1, item));
-		
-		ItemDragContainer* itemhandler = new ItemDragContainer(item, "DragContainer_"+itemWindow->getName());
-		itemhandler->setItemParent(mInventory, slotName);
+			itemWindow->subscribeEvent(
+				Window::EventMouseClick,
+				boost::bind(&InventoryWindow::handleItemMouseClick, this, _1, item));
 
-		itemhandler->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
-		itemhandler->setSize(
-			UVector2(cegui_absdim(item->getSize().first*30),
-					 cegui_absdim(item->getSize().second*30))); 
-		itemhandler->setTooltipText(item->getName());
-		itemhandler->addChildWindow(itemWindow);
+			itemWindow->subscribeEvent(
+				Window::EventMouseDoubleClick,
+				boost::bind(&InventoryWindow::handleItemDoubleClick, this, _1, item));
+			
+			itemhandler = new ItemDragContainer(item, dragContainerName);
+			if (slotName != "")
+			{
+				itemhandler->setItemParent(mInventory, slotName);
+			}
 
-		itemhandler->setTooltipText(item->getName());
-		
+			itemhandler->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
+			itemhandler->setSize(
+				UVector2(cegui_absdim(item->getSize().first*30),
+						 cegui_absdim(item->getSize().second*30))); 
+			itemhandler->setTooltipText(item->getName());
+			itemhandler->setContentWindow(itemWindow);
+
+			itemhandler->setTooltipText(item->getName());
+
+			mDragContainers[dragContainerName] = itemhandler;
+		}
+
 		return itemhandler;
 	}
 
@@ -187,6 +212,11 @@ namespace rl {
 				{
 					dragcont->getItemParentInventory()->dropItem(dragcont->getItemParentSlot());
 					///@todo Swap with old content (if there is some)
+				}
+				else
+				{
+					dragcont->removeEvent(Window::EventMouseLeaves);
+					mDragContainers.erase(dragcont->getName());
 				}
 
 				mInventory->hold(item, targetSlot);
@@ -249,6 +279,60 @@ namespace rl {
 		return false;
 	}
 
+	bool InventoryWindow::handleMouseMovedInWorld(const EventArgs& evt)
+	{
+		const MouseEventArgs& mevt = static_cast<const MouseEventArgs&>(evt);
+
+		Actor* cameraActor = ActorManager::getSingleton().getActor("DefaultCamera");
+		CameraObject* camera = static_cast<CameraObject*>(cameraActor->getControlledObject());
+
+		CEGUI::Point mousePos = mevt.position;
+		mousePos.d_x /= getRoot()->getPixelSize().d_width;
+		mousePos.d_y /= getRoot()->getPixelSize().d_height;
+		static RaySelector sel(QUERYFLAG_ITEM, true);
+		Ogre::Ray camToWorld = camera->getCameraToViewportRay(
+			mousePos.d_x, mousePos.d_y); 
+		Ogre::Vector3 rayStart = camera->getCamera()->getWorldPosition();
+		Ogre::Vector3 rayDir = camera->getDirectionFromScreenPosition(
+			mousePos.d_x, mousePos.d_y); 
+		sel.setRay(camToWorld.getOrigin(), camToWorld.getPoint(3));
+
+		sel.updateSelection();
+		Selector::GameObjectVector objs = sel.getAllSelectedObjects();
+		
+		///@todo select, ...
+		if (!objs.empty())
+		{
+			LOG_MESSAGE(Logger::UI, 
+				"Selected "+Ogre::StringConverter::toString(objs.size())+" items.");
+			for (Selector::GameObjectVector::const_iterator it = objs.begin();
+				it != objs.end(); ++it)
+			{
+				LOG_MESSAGE(Logger::UI, 
+					"Selected " + (*it)->getDescription());
+
+				ItemDragContainer* cont = 
+					createItemDragContainer(static_cast<Item*>(*it));
+				if (cont)
+				{
+					mWorldBackground->addChildWindow(cont);
+					cont->setVisible(true);
+					
+					Ogre::Vector3 pos = camera->getPointOnCeGuiScreen((*it)->getPosition());
+					cont->setPosition(UVector2(UDim(pos.x, 0), UDim(pos.y, 0)));
+
+					cont->subscribeEvent(
+						Window::EventMouseLeaves,
+						boost::bind(&InventoryWindow::destroyDragContainer, this, cont));
+				}
+			}
+		}
+
+		//camera->getPointOnScreen(
+
+		return true;
+	}
+
 	bool InventoryWindow::handleItemMouseClick(const EventArgs& evt, Item* item)
 	{
 		const MouseEventArgs& mevt = static_cast<const MouseEventArgs&>(evt);
@@ -277,4 +361,65 @@ namespace rl {
 		}
 	}
 
+	bool InventoryWindow::handleKeys(const CEGUI::EventArgs &evt, bool down)
+	{
+		const KeyEventArgs& kevt = static_cast<const KeyEventArgs&>(evt);
+		if (kevt.scancode == CEGUI::Key::Tab)
+		{
+			if (down)
+			{
+				Actor* cameraActor = ActorManager::getSingleton().getActor("DefaultCamera");
+				CameraObject* camera = static_cast<CameraObject*>(cameraActor->getControlledObject());
+
+				HalfSphereSelector sel(QUERYFLAG_ITEM);
+				sel.setPosition(cameraActor->getWorldPosition());
+				sel.setOrientation(cameraActor->getWorldOrientation());
+				sel.setRadius(2.0);
+				
+				sel.updateSelection();
+				Selector::GameObjectVector v = sel.getAllSelectedObjects();
+				for (Selector::GameObjectVector::iterator 
+					it = v.begin(); it != v.end(); ++it)
+				{
+					ItemDragContainer* cont = 
+						createItemDragContainer(static_cast<Item*>(*it));
+
+					if (cont)
+					{
+						mWorldBackground->addChildWindow(cont);
+						
+						Ogre::Vector3 pos = camera->getPointOnCeGuiScreen((*it)->getPosition());
+						UVector2 posCont = UVector2(UDim(pos.x, 0), UDim(pos.y, 0));
+						posCont -= cont->getSize() / UVector2(UDim(2, 2), UDim(2, 2));
+						cont->setPosition(posCont);
+
+						cont->subscribeEvent(
+							Window::EventMouseLeaves,
+							boost::bind(&InventoryWindow::destroyDragContainer, this, cont));
+					}
+				}
+			}
+			else
+			{
+				while (!mDragContainers.empty())
+				{
+					destroyDragContainer(mDragContainers.begin()->second);
+				}
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	bool InventoryWindow::destroyDragContainer(rl::ItemDragContainer* cont)
+	{
+		mWorldBackground->removeChildWindow(cont);
+		CEGUI::WindowManager::getSingleton().destroyWindow(cont->getContentWindow());
+		mDragContainers.erase(cont->getName());
+		delete cont;
+
+		return true;
+	}
 }

@@ -38,6 +38,8 @@ namespace rl
 		const CeGuiString& getItemParentSlot() const;
 		Inventory* getItemParentInventory() const;
 		Item* getItem() const;
+		CEGUI::Window* getContentWindow() const;
+		void setContentWindow(CEGUI::Window* window);
 
 	protected:
 		virtual bool testClassName_impl(const CEGUI::String& class_name) const;
@@ -47,6 +49,7 @@ namespace rl
 		Container* mParentContainer;
 		CeGuiString mParentSlot;
 		Inventory* mInventory;
+		CEGUI::Window* mContentWindow;
 	};
 
 } // namespace rl

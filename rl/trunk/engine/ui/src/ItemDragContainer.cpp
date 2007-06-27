@@ -64,4 +64,20 @@ namespace rl {
 	{
 		return mItem;
 	}
+
+	CEGUI::Window* ItemDragContainer::getContentWindow() const
+	{
+		return mContentWindow;
+	}
+
+	void ItemDragContainer::setContentWindow(CEGUI::Window* window)
+	{
+		if (window)
+		{
+			window->setPosition(CEGUI::UVector2(cegui_reldim(0), cegui_reldim(0)));
+			window->setSize(CEGUI::UVector2(cegui_reldim(1), cegui_reldim(1)));
+			addChildWindow(window);
+		}
+		mContentWindow = window;
+	}
 }

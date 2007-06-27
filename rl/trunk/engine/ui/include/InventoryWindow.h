@@ -18,36 +18,43 @@
 #define __InventoryWindow_H__
 
 #include "UiPrerequisites.h"
+
 #include "AbstractWindow.h"
-#include "Inventory.h"
-#include "GameTask.h"
 
 namespace rl {
 
     class Inventory;
+	class Item;
+	class ItemDragContainer;
 
 	class _RlUiExport InventoryWindow : public AbstractWindow
 	{
 	public:
-		InventoryWindow(const Ogre::String& inventoryWindow, Inventory* inventory);
-		~InventoryWindow();
-
 		static const Ogre::String ICON_UNKNOWN_ITEM;
 		static const Ogre::String SLOTNAME;
 
+		InventoryWindow(const Ogre::String& inventoryWindow, Inventory* inventory);
+		~InventoryWindow();
+
     private:
-        Inventory* mInventory;
+		typedef std::map<CeGuiString, ItemDragContainer*> DndContainerMap;
+
+		Inventory* mInventory;
         std::map<CeGuiString, CEGUI::Window*> mSlotWindows;
 		CEGUI::Window* mWorldBackground;
+		DndContainerMap mDragContainers;
 
-        void createSlotWindows(Inventory* inventory);
+		void createSlotWindows(Inventory* inventory);
         void initInventoryWindow(Inventory* inventory);
 
-		CEGUI::Window* createItemWindow(const CeGuiString& containerName, Item* item);
+		ItemDragContainer* createItemDragContainer(Item* item, const CeGuiString& containerName = "");
 		bool handleItemDroppedOnSlot(const CEGUI::EventArgs& evt);
 		bool handleItemDroppedOnWorld(const CEGUI::EventArgs& evt);
 		bool handleItemMouseClick(const CEGUI::EventArgs& evt, Item* item);
 		bool handleItemDoubleClick(const CEGUI::EventArgs& evt, Item* item);
+		bool handleMouseMovedInWorld(const CEGUI::EventArgs& evt);
+		bool handleKeys(const CEGUI::EventArgs& evt, bool down);
+		bool destroyDragContainer(ItemDragContainer* cont);
     };
 }
 
