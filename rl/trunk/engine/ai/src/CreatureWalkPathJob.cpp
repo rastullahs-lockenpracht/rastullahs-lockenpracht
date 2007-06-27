@@ -45,7 +45,6 @@ namespace rl
             else
             {
                 mCurrentLandmark = mNextLandmark;
-                //@todo
             }
         }
 
@@ -72,6 +71,9 @@ namespace rl
     void CreatureWalkPathJob::updateCreature(Ogre::Real time)
     {
         static bool updatedDirection(false);
+        static Ogre::Real timeSinceLastRotation = 0;
+
+        timeSinceLastRotation += time;
 
         Ogre::Vector3 direction = mNextLandmark->getPosition() - mMovingCreature->getCreature()->getActor()->getPosition();
         direction.y = 0;
@@ -89,10 +91,12 @@ namespace rl
         Ogre::Radian yaw = rotation.getYaw();
         Ogre::Vector3 usedRotation(Ogre::Vector3::ZERO);
         
-        if(!updatedDirection)
+        if(!updatedDirection || (direction.squaredLength() > 0.04 && timeSinceLastRotation > 1 &&
+            direction.normalisedCopy().dotProduct(creatureViewVector.normalisedCopy()) < 0.9))
         {
             usedRotation.y = yaw.valueRadians();
             updatedDirection = true;
+            timeSinceLastRotation = 0;
         }
 
         mMovingCreature->setMovement(MovingCreature::MT_GEHEN, Ogre::Vector3::NEGATIVE_UNIT_Z, usedRotation);
