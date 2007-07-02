@@ -33,7 +33,7 @@
 #include "Actor.h"
 #include "ActorManager.h"
 #include "AbstractWindow.h"
-#include "CharacterController.h"
+#include "ControlState.h"
 #include "CombatCharacterController.h"
 #include "CommandMapper.h"
 #include "ConfigurationManager.h"
@@ -404,7 +404,7 @@ namespace rl {
         Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
         Person* character = UiSubsystem::getSingleton().getActiveCharacter();
 
-        CharacterController* controller = NULL;
+        ControlState* controller = NULL;
         switch (controlStateType)
         {
         case CST_CUTSCENE:
@@ -440,14 +440,14 @@ namespace rl {
 
     void InputManager::popControlState()
     {
-        CharacterController* controller = mControlStates.top();
+        ControlState* controller = mControlStates.top();
         mControlStates.pop();
         controller->pause();
         mFinishedControlStates.push_back(controller);
 
         if (!mControlStates.empty())
         {
-            CharacterController* newController = mControlStates.top();
+            ControlState* newController = mControlStates.top();
             mKeyboard->setEventCallback(newController);
             mMouse->setEventCallback(newController);
             newController->resume();
@@ -467,7 +467,7 @@ namespace rl {
         }
     }
 
-    CharacterController* InputManager::getCharacterController() const
+    ControlState* InputManager::getCharacterController() const
     {
         if (!mControlStates.empty())
         {

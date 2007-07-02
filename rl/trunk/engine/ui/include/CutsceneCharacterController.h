@@ -18,13 +18,13 @@
 #define __CutsceneCharacterController_H__
 
 #include "UiPrerequisites.h"
-#include "CharacterController.h"
+#include "ControlState.h"
 
 namespace rl {
 
 	class Actor;
 
-	class _RlUiExport CutsceneCharacterController : public CharacterController
+	class _RlUiExport CutsceneCharacterController : public ControlState
 	{
 	public:
 		/**

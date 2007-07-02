@@ -34,7 +34,7 @@ namespace rl {
 
     class AbstractWindow;
     class GameObject;
-    class CharacterController;
+    class ControlState;
     class CommandMapper;
 
     class _RlUiExport InputManager
@@ -78,7 +78,7 @@ namespace rl {
         /// Remove all control states.
         void clearControlStates();
 
-        CharacterController* getCharacterController() const;
+        ControlState* getCharacterController() const;
 
         int getModifierCode() const;
         const CEGUI::utf8& getKeyChar(int keycode, int modifiers) const;
@@ -108,8 +108,8 @@ namespace rl {
         typedef std::map<int, CeGuiString> KeyCommandMap;
         KeyCommandMap mKeyRubyCommand;
 
-        typedef std::stack<CharacterController*> ControlStateStack;
-        typedef std::vector<CharacterController*> ControlStateVector;
+        typedef std::stack<ControlState*> ControlStateStack;
+        typedef std::vector<ControlState*> ControlStateVector;
         ControlStateStack mControlStates;
         /// Stored for delay deletion, since else a state can be deleted while
         /// still in its run() function.

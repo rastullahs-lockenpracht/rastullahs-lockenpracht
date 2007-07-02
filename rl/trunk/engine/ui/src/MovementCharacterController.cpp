@@ -67,7 +67,7 @@ namespace rl {
 
     MovementCharacterController::MovementCharacterController(CommandMapper* cmdMapper,
         Actor* camera, Person* character)
-        : CharacterController(cmdMapper, camera, character, CST_MOVEMENT),
+        : ControlState(cmdMapper, camera, character, CST_MOVEMENT),
         mMovingCreature(NULL),
         mCharacterState(),
         mDesiredDistance(2.00),
@@ -1148,7 +1148,7 @@ namespace rl {
     //------------------------------------------------------------------------
     bool MovementCharacterController::keyPressed(const OIS::KeyEvent& evt)
     {
-        if (CharacterController::keyPressed(evt)) return true;
+        if (ControlState::keyPressed(evt)) return true;
 
         int movement = mCommandMapper->getMovement(evt.key);
 
@@ -1171,7 +1171,7 @@ namespace rl {
         // CEGUI is handled by base class, so hand it down if necessary.
         if (sendKeyToCeGui(evt))
         {
-            return CharacterController::keyReleased(evt);
+            return ControlState::keyReleased(evt);
         }
 
         int movement = mCommandMapper->getMovement(evt.key);
@@ -1204,7 +1204,7 @@ namespace rl {
             else
             {
                 // Nothing we handle here, see if base class can make something of this input.
-                return CharacterController::keyReleased(evt);
+                return ControlState::keyReleased(evt);
             }
         }
 
@@ -1224,7 +1224,7 @@ namespace rl {
         }
         else
         {
-            return CharacterController::mouseReleased(evt, id);
+            return ControlState::mouseReleased(evt, id);
         }
     }
 

@@ -49,7 +49,7 @@ namespace rl {
 
     DialogCharacterController::DialogCharacterController(CommandMapper* cmdMapper,
         Actor* camera, Person* character)
-        : CharacterController(cmdMapper, camera, character, CST_DIALOG),
+        : ControlState(cmdMapper, camera, character, CST_DIALOG),
         mTargetCameraPosition(Vector3::ZERO),
         mTargetCameraDirection(Vector3::UNIT_Z),
         mCurrFadeTextTime(0),

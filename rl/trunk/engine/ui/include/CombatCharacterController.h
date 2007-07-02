@@ -19,7 +19,7 @@
 
 #include "UiPrerequisites.h"
 
-#include "CharacterController.h"
+#include "ControlState.h"
 #include "Selector.h"
 
 #include <OgreRectangle.h>
@@ -31,7 +31,7 @@ namespace rl {
     class CombatManager;
     class CombatWindow;
 
-	class _RlUiExport CombatCharacterController : public CharacterController
+	class _RlUiExport CombatCharacterController : public ControlState
 	{
 	public:
 		/**

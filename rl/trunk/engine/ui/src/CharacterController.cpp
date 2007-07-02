@@ -13,7 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
-#include "CharacterController.h"
+#include "ControlState.h"
 
 #include <OgreSceneManager.h>
 
@@ -36,7 +36,7 @@ using namespace Ogre;
 
 namespace rl {
 
-	CharacterController::CharacterController(CommandMapper* commandMapper,
+	ControlState::ControlState(CommandMapper* commandMapper,
         Actor* camera, Person* character, ControlStateType type)
 		: mCharacter(character),
         mCameraActor(camera),
@@ -100,12 +100,12 @@ namespace rl {
             PhysicsManager::getSingleton().getMaterialID("character"))->setDefaultCollidable(0);
 	}
     
-    CharacterController::~CharacterController()
+    ControlState::~ControlState()
     {
     
     }
 
-	bool CharacterController::startAction(const CeGuiString& actionName, Creature* character)
+	bool ControlState::startAction(const CeGuiString& actionName, Creature* character)
 	{
 		if (actionName.length() == 0)
 		{
@@ -124,7 +124,7 @@ namespace rl {
 		return true;
 	}
 
-    bool CharacterController::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
+    bool ControlState::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
     {
         if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT)
         {
@@ -138,7 +138,7 @@ namespace rl {
         }
     }
 
-    bool CharacterController::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
+    bool ControlState::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
     {
         if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT)
         {
@@ -151,7 +151,7 @@ namespace rl {
         }
     }
 
-    bool CharacterController::mouseMoved(const OIS::MouseEvent& evt)
+    bool ControlState::mouseMoved(const OIS::MouseEvent& evt)
     {
         if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT)
         {
@@ -165,7 +165,7 @@ namespace rl {
         }
     }
 
-    bool CharacterController::keyPressed(const OIS::KeyEvent& evt)
+    bool ControlState::keyPressed(const OIS::KeyEvent& evt)
     {
         InputManager* im = InputManager::getSingletonPtr();
 
@@ -181,7 +181,7 @@ namespace rl {
         }
     }
 
-    bool CharacterController::keyReleased(const OIS::KeyEvent& evt)
+    bool ControlState::keyReleased(const OIS::KeyEvent& evt)
     {
         InputManager* im = InputManager::getSingletonPtr();
 
@@ -207,12 +207,12 @@ namespace rl {
         }
     }
 
-    bool CharacterController::isCeguiActive() const
+    bool ControlState::isCeguiActive() const
     {
         return WindowManager::getSingleton().getWindowInputMask() != 0;
     }
 
-    bool CharacterController::sendKeyToCeGui(const OIS::KeyEvent& evt) const
+    bool ControlState::sendKeyToCeGui(const OIS::KeyEvent& evt) const
     {
         InputManager* im = InputManager::getSingletonPtr();
 

@@ -35,7 +35,7 @@ namespace rl {
     /**
      * This class handles character control via user input.
      */
-    class _RlUiExport CharacterController : public OIS::KeyListener, public OIS::MouseListener
+    class _RlUiExport ControlState : public OIS::KeyListener, public OIS::MouseListener
     {
 	public:
 
@@ -43,9 +43,9 @@ namespace rl {
          *  @throw NullPointerException if camera or character is NULL.
          *  @throw InvalidArgumentException if character is not placed in the scene.
          */
-        CharacterController(CommandMapper* commandMapper, Actor* camera, Person* character,
+        ControlState(CommandMapper* commandMapper, Actor* camera, Person* character,
             ControlStateType type);
-		virtual ~CharacterController()= 0;
+		virtual ~ControlState()= 0;
 
         virtual void pause() = 0;
         virtual void resume() = 0;

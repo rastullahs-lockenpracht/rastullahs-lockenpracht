@@ -18,7 +18,7 @@
 #define __DialogCharacterController_H__
 
 #include "UiPrerequisites.h"
-#include "CharacterController.h"
+#include "ControlState.h"
 
 #include <OgreCamera.h>
 
@@ -33,7 +33,7 @@ namespace rl {
 	/** Diese Klasse 
 	  *  
 	  */
-	class _RlUiExport DialogCharacterController : public CharacterController
+	class _RlUiExport DialogCharacterController : public ControlState
 	{
 	public:
         enum DialogMode

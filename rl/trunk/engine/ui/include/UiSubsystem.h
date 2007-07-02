@@ -22,7 +22,7 @@
 
 #include <OgreSingleton.h>
 
-#include "CharacterController.h"
+#include "ControlState.h"
 
 // Gar nicht schön, aber ansonsten gibt es unnötige Abhängigkeiten,
 // wenn man die Header hier inkludiert.

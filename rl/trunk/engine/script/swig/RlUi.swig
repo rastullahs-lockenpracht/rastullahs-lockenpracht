@@ -16,17 +16,17 @@
 
 namespace rl {
 
-%apply SWIGTYPE *DYNAMIC { rl::CharacterController * };
+%apply SWIGTYPE *DYNAMIC { rl::ControlState * };
 
-%feature("director") CharacterController;
-class CharacterController
+%feature("director") ControlState;
+class ControlState
 {
 private:
-    CharacterController(rl::Actor* camera, rl::Actor* character);
+    ControlState(rl::Actor* camera, rl::Actor* character);
 public:
 };
 
-class CutsceneCharacterController : public CharacterController
+class CutsceneCharacterController : public ControlState
 {
 private:
        CutsceneCharacterController(rl::Actor* camera);
@@ -137,8 +137,8 @@ public:
 %{
 static swig_type_info *CharacterController_dynamic_cast(void **ptr)
 {
-    rl::CharacterController **ppCharacterController =
-        reinterpret_cast<rl::CharacterController**>(ptr);
+    rl::ControlState **ppCharacterController =
+        reinterpret_cast<rl::ControlState**>(ptr);
 
     rl::CutsceneCharacterController *pCutSceneCC =
         dynamic_cast<rl::CutsceneCharacterController*>(*ppCharacterController);

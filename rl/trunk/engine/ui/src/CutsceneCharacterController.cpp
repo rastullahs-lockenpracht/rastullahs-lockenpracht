@@ -27,7 +27,7 @@ using namespace Ogre;
 namespace rl {
 
 	CutsceneCharacterController::CutsceneCharacterController(CommandMapper* cmdMapper,
-        Actor* camera) : CharacterController(cmdMapper, camera, NULL, CST_CUTSCENE)
+        Actor* camera) : ControlState(cmdMapper, camera, NULL, CST_CUTSCENE)
 	{
 	}
 

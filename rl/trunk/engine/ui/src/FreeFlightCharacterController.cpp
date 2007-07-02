@@ -35,7 +35,7 @@ namespace rl {
 
 	FreeFlightCharacterController::FreeFlightCharacterController(CommandMapper* cmdMapper,
         Actor* camera, Person* character)
-		: CharacterController(cmdMapper, camera, character, CST_FREEFLIGHT),
+		: ControlState(cmdMapper, camera, character, CST_FREEFLIGHT),
 		mMovementSpeed(5.0f),
 		mSpeedRange(0.03f, 90.0f),
 		mSpeedIncrement(0.02f),
@@ -259,7 +259,7 @@ namespace rl {
             }
             else 
             {
-                return CharacterController::keyReleased(evt);
+                return ControlState::keyReleased(evt);
             }
         }
 	}

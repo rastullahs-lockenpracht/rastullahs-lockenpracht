@@ -22,7 +22,7 @@
 #include "MovingCreature.h"
 #include "PhysicsController.h"
 #include "PhysicsGenericContactCallback.h"
-#include "CharacterController.h"
+#include "ControlState.h"
 #include "DebugVisualisable.h"
 #include "Selector.h"
 
@@ -39,7 +39,7 @@ namespace rl {
      * This class handles character control via user input.
      */
     class _RlUiExport MovementCharacterController
-	  : public CharacterController,
+	  : public ControlState,
 		public PhysicsController,
         public PhysicsGenericContactCallback,
         public DebugVisualisable

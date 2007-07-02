@@ -18,7 +18,7 @@
 #define __FreeFlightCharacterController_H__
 
 #include "UiPrerequisites.h"
-#include "CharacterController.h"
+#include "ControlState.h"
 #include "PhysicsController.h"
 #include "PhysicsGenericContactCallback.h"
 #include <OgreNewt.h>
@@ -29,7 +29,7 @@ namespace rl {
 	* This class provides a no-clip free fly controller.
 	*/
 	class _RlUiExport FreeFlightCharacterController : 
-        public CharacterController,
+        public ControlState,
         public PhysicsController,
         public PhysicsGenericContactCallback
 	{

@@ -37,7 +37,7 @@ using namespace Ogre;
 namespace rl {
     CombatCharacterController::CombatCharacterController(CommandMapper* cmdMapper,
         Actor* camera, Person* character)
-        : CharacterController(cmdMapper, camera, character, CST_COMBAT),
+        : ControlState(cmdMapper, camera, character, CST_COMBAT),
           mCombatManager(CombatManager::getSingletonPtr()),
           mCombat(NULL),
           mCombatWindow(NULL),
