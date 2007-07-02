@@ -26,7 +26,6 @@ namespace rl
 	class DialogCharacter;
 	class Creature;
 	class Actor;
-//	class PerceptionPool;
 
 	/** Represents a single entity that has got AI.
 	 * Instantiated objects are normally registered with AgentManager.
@@ -46,10 +45,6 @@ namespace rl
 		 * @param vehicle SteeringVehicle object for the specified creature
 		 */
 		Agent(Creature* character, SteeringVehicle* vehicle);
-
-		/** deprecated
-		 */
-		Agent(DialogCharacter* character);
 
 		/** explicit virtual destructor
 		 */
@@ -93,18 +88,6 @@ namespace rl
 		 */
         Creature* getControlledCreature() const;
 
-//		PerceptionPool* getPerceptionPool();
-
-		//! deprecated - for DialogBot
-		bool isDialogActive();
-
-		/** Function invoked by PhysicsManager whenever force/torque is to be
-		 * applied to the creature stored.
-		 * @param thing PhysicalThing that is responsible for the creature.
-		 */
-        // physcs handled by movingcreature
-		//virtual void OnApplyForceAndTorque(PhysicalThing* thing);
-
 	protected:
 		//! stores the type of the agent (Player, NPC, ...)
 		AgentManager::AgentType mType;
@@ -114,10 +97,6 @@ namespace rl
 		SteeringVehicle* mVehicle;
 		//! stores the creature whose AI is simulated
 		Creature* mCreature;
-
-		//! deprecated - for DialogBot
-		DialogCharacter* mDialogBot;
-//		PerceptionPool* mPerceptionPool;
 	};
 
 	inline AgentManager::AgentType Agent::getType()

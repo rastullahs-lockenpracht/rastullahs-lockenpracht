@@ -67,13 +67,6 @@ Agent* AgentManager::createAgent(AgentType type, Creature* character)
     return agent;
 }
 
-Agent* AgentManager::createAgent(DialogCharacter* character)
-{
-	Agent* agent = new Agent(character);
-	addAgent(agent);
-	return agent;
-}
-
 void AgentManager::destroyAgent(Agent* agent)
 {
     AgentList::iterator it = std::find(mAgents.begin(), mAgents.end(), agent);
@@ -96,12 +89,6 @@ AgentManager::VehicleList AgentManager::getNeighbors(Agent* agent)
 {
 	return mAllNeighbors;
 }
-/*
-void AgentManager::OnApplyForceAndTorque(PhysicalThing* thing)
-{
-    //	steerToAvoidNeighbors (10.0, const AVGroup& others);
-}
-*/
 
 void AgentManager::run( Ogre::Real elapsedTime ) 
 {

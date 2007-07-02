@@ -22,7 +22,6 @@
 #include "ScriptWrapper.h"
 #include "SteeringVehicle.h"
 #include "SteeringMachine.h"
-//#include "PerceptionPool.h"
 
 using namespace Ogre;
 using namespace OpenSteer;
@@ -30,54 +29,41 @@ using namespace OpenSteer;
 namespace rl {
 
 Agent::Agent(Creature* character)
-	: mType(AgentManager::AGENT_NONE), mBehaviour(NULL), mVehicle(NULL), mDialogBot(NULL), 
+	: mType(AgentManager::AGENT_NONE),
+      mBehaviour(NULL),
+      mVehicle(NULL),
 	  mCreature(character)
-//	  mPerceptionPool(new PerceptionPool())
 {
 	initialize();
 	ScriptWrapper::getSingleton().owned(character);
 }
 
 Agent::Agent(Creature* character, SteeringVehicle* vehicle)
-	: mType(AgentManager::AGENT_NONE), mBehaviour(NULL), mVehicle(vehicle), 
-	  mDialogBot(NULL), mCreature(character)
-//	  mPerceptionPool(new PerceptionPool())
+	: mType(AgentManager::AGENT_NONE),
+      mBehaviour(NULL),
+      mVehicle(vehicle), 
+	  mCreature(character)
 {
 	initialize();
-}
-
-Agent::Agent(DialogCharacter* character)
-	: mType(AgentManager::AGENT_STD_NPC), mBehaviour(NULL), mVehicle(NULL),
-	  mDialogBot(character),  mCreature(NULL)
-//	  mPerceptionPool(new PerceptionPool())
-{
-    mCreature = character->getNonPlayerCharacter();
-	initialize();
-	ScriptWrapper::getSingleton().owned(character);
 }
 
 Agent::~Agent(void)
 {
-    //if(mType == AgentManager::AGENT_STD_NPC)
-    //    mCreature->getActor()->getPhysicalThing()->setPhysicsController( NULL );
-
     delete mVehicle;
     delete mBehaviour;
 	if (mCreature != NULL)
 		ScriptWrapper::getSingleton().disowned(mCreature);
-	if (mDialogBot != NULL)
-		ScriptWrapper::getSingleton().disowned(mDialogBot);
-//	delete mPerceptionPool;
 }
 
 void Agent::initialize()
 {
-//  an agent needs a creature it refers to
+    //  an agent needs a creature it refers to
 	if(mCreature == NULL)
 	{
 		Throw(NullPointerException, "Agent has no creature");
 	}
-//  if there is no vehicle, create a standard vehicle
+
+    //  if there is no vehicle, create a standard vehicle
 	if(mVehicle == NULL)
 	{
 		mType = AgentManager::AGENT_STD_NPC;
@@ -89,17 +75,6 @@ void Agent::initialize()
 	mBehaviour = new SteeringMachine(NULL, mVehicle);
     LOG_MESSAGE(Logger::AI, 
         "created SteeringMachine for Agent");
-//  a perceptron should be the controller, and the perceptron calculates
-//  the steering force with the help of different steering behaviours
-/*
-// physic handled by movingcreature
-	if(mType == AgentManager::AGENT_STD_NPC)
-	{
-		mCreature->getActor()->getPhysicalThing()->setPhysicsController(this);
-        LOG_MESSAGE(Logger::AI, 
-			"added Agent to PhysicsManager as PhysicsController");
-	}
-*/
 }
 
 void Agent::addSteeringBehaviour(SteeringBehaviour* behaviour)
@@ -118,33 +93,11 @@ void Agent::clearSteeringBehaviours()
         "Cleared all SteeringBehaviours for Agent");
 }
 
-
 void Agent::update(const float elapsedTime)
 {
 	mBehaviour->update(elapsedTime);
-//  currentTime not needed yet, only elapsedTime
+    //  currentTime not needed yet, only elapsedTime
     mVehicle->update(0.0f, elapsedTime);
-}
-
-
-/*
-// physics handled in movingcreature
-void Agent::OnApplyForceAndTorque(PhysicalThing* thing)
-{
-	OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
-	Real elapsedTime = world->getTimeStep();
-	update(elapsedTime);
-}
-*/
-
-bool Agent::isDialogActive()
-{
-	if(mDialogBot == NULL)
-	{
-		// Throw(NullPointerException, "No Dialogbot found");
-        return false;
-	}
-	return mDialogBot->isActive();
 }
 
 Creature* Agent::getControlledCreature() const

@@ -47,8 +47,6 @@ namespace rl
 		
 		Ogre::Vector3 calcSteerTargetSpeed(const float targetSpeed);
 		
-		bool isDialogActive();
-		
 		float calcDistance(const Ogre::Vector3& vec1, const Ogre::Vector3& vec2);
 		
 		Ogre::Vector3 getPosition();
@@ -86,7 +84,6 @@ namespace rl
 		virtual ~Agent();
 		void addSteeringBehaviour(rl::SteeringBehaviour* behaviour);
 		void clearSteeringBehaviours();
-		bool isDialogActive();
 	};
 	class AiSubsystem 
 	{
@@ -117,7 +114,6 @@ namespace rl
 		
 		static AgentManager& getSingleton(void);
 		rl::Agent* createAgent(rl::AgentManager::AgentType type, rl::Creature* character);
-		rl::Agent* createAgent(rl::DialogCharacter* character);
 		
         virtual void setBehaviourFactory(BehaviourFactory* factory);
 	};

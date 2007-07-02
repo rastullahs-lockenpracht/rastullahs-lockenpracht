@@ -31,20 +31,16 @@ namespace rl {
 SteeringVehicle::SteeringVehicle(Agent* parent, Creature* character)
 	: _maxForce(1.0f),
       _maxSpeed(1.0f),
-      //mMass(),
-      //mRadius(),
       mSpeed(1.0f),
 	  mCurrentForce(Vector3::ZERO), 
 	  mCurrentVelocity(Vector3::ZERO),
 	  mForwardVector(Vector3::NEGATIVE_UNIT_Z),
-      //mYaw(115),
 	  mParent(parent),
 	  mCreature(character),
       mMovingCreature(NULL),
       mDebugSteer(Vector3::ZERO),
       mDebugWander(Vector3::ZERO),
       mDebugAvoidObstacles(Vector3::ZERO)
-      //mHeight(0)
 {
 	initialize();
 
@@ -78,47 +74,22 @@ void SteeringVehicle::resetLocalSpace()
 	Vector3 pos = mCreature->getActor()->getPosition();
 	setPosition(Vec3(pos.x, pos.y, pos.z));
 	Vector3 src = mCreature->getActor()->getOrientation()*Vector3::NEGATIVE_UNIT_Z;
-	//Quaternion orientation = mCreature->getActor()->getOrientation();
-	//mYaw = orientation.getYaw();
 
-//  regenerate local space (by default: align vehicle's forward axis with
-//  new velocity, but this behavior may be overridden by derived classes.)
+    // regenerate local space (by default: align vehicle's forward axis with
+    // new velocity, but this behavior may be overridden by derived classes.)
 	regenerateOrthonormalBasisUF ( Vec3(src.x, src.y, src.z) );
 }
 
 void SteeringVehicle::initialize(void)
 {
-//  reset LocalSpace state
+    // reset LocalSpace state
 	resetLocalSpace();
 	
-//	mCreature->getActor()->_getSceneNode()->setOrientation(Ogre::Quaternion::IDENTITY);
-	//Vector3 inertia;
-	//mCreature->getActor()->getPhysicalThing()->_getBody()->getMassMatrix(mMass, inertia);
-
-//	mSpeed = (float)mCreature->getWert(Creature::WERT_GS) / (float)Date::ONE_KAMPFRUNDE * 1000.0f;
-
-//  reset SteerLibraryMixin state
+    // reset SteerLibraryMixin state
 	SimpleVehicle_2::reset ();
-
-//	setRadius (0.5f);     // size of bounding sphere
 
 	setMaxForce (1.0f);   // steering force is clipped to this magnitude
 	setMaxSpeed (1.0f);   // velocity is clipped to this magnitude
-
-//  reset bookkeeping to do running averages of these quanities
-//	resetSmoothedPosition ();
-//	resetSmoothedCurvature ();
-//	resetSmoothedAcceleration ();
-}
-/*
-PerceptionPool* SteeringVehicle::getPerceptionPool()
-{
-  return mParent->getPerceptionPool();
-}
-*/
-bool SteeringVehicle::isDialogActive()
-{
-	return mParent->isDialogActive();
 }
 
 void SteeringVehicle::addForce(const Ogre::Vector3& force)
@@ -128,8 +99,8 @@ void SteeringVehicle::addForce(const Ogre::Vector3& force)
 
 void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 {
-// from PlayerVehicle
-// since physics schould by handled by movingcreature
+    // from PlayerVehicle
+    // since physics schould by handled by movingcreature
 
 	OgreNewt::Body* body = mCreature->getActor()->getPhysicalThing()->_getBody();
 
@@ -153,11 +124,11 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
     Vector3 newUnitForward = orientation*Vector3::NEGATIVE_UNIT_Z;
     regenerateOrthonormalBasisUF (Vec3(newUnitForward.x,newUnitForward.y,newUnitForward.z));
 
-// end of inserting from playervehicle
+    // end of inserting from playervehicle
 
 
 
-// only process if mMovingCreature not NULL
+    // only process if mMovingCreature not NULL
     if( mMovingCreature == NULL )
     {
         mCurrentForce = Vector3::ZERO;
@@ -169,9 +140,9 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 
      mDebugSteer = mCurrentForce;
 
-// @todo remove this
-if( mCreature->getAu() <= 6 )
-    mCreature->modifyAu(20,true);
+    // @todo remove this
+    if( mCreature->getAu() <= 6 )
+        mCreature->modifyAu(20,true);
 
 
     AbstractMovement *mov_drehen = mMovingCreature->getMovementFromId(MovingCreature::MT_DREHEN);
@@ -191,8 +162,6 @@ if( mCreature->getAu() <= 6 )
         yaw = max_drehen;
     if( yaw < Radian(0) && yaw < -max_drehen )
         yaw = -max_drehen;
-    // old version was -Degree(mCurrentForce.x * 60 * elapsedTime);
-    // should this really depend from the timestep!?!
 
     Ogre::Vector3 direction(Ogre::Vector3::ZERO);
     Ogre::Vector3 rotation(0,yaw.valueRadians(),0);
@@ -277,22 +246,6 @@ bool SteeringVehicle::needAvoidance(const float minTimeToCollision)
 	}
 	return true;
 }
-
-/*
-// already in moveingcreature
-void SteeringVehicle::setAnimation(const CeGuiString& name)
-{
-	MeshObject* mesh = dynamic_cast<MeshObject*>(mCreature->getActor()->getControlledObject());
-	mesh->stopAllAnimations();
-    try
-    {
-	    mesh->startAnimation(name.c_str());
-	    mCreature->getActor()->getPhysicalThing()->fitToPose(name.c_str());
-    }
-    catch( ... ) { }
-}
-*/
-
 
 AVGroup SteeringVehicle::getNeighbors() const
 {
@@ -425,27 +378,6 @@ Vec3 SteeringVehicle::adjustRawSteeringForce(const Vec3& force)
         return limitMaxDeviationAngle (force, cosine, forward());
     }
 }
-/*
-void SteeringVehicle::measurePathCurvature (const float elapsedTime)
-{
-    if (elapsedTime > 0)
-    {
-        const Vec3 dP = _lastPosition - position ();
-        const Vec3 dF = (_lastForward - forward ()) / dP.length ();
-        const Vec3 lateral = dF.perpendicularComponent (forward ());
-        const float sign = (lateral.dot (side ()) < 0) ? 1.0f : -1.0f;
-        _curvature = lateral.length() * sign;
-        blendIntoAccumulator (elapsedTime * 4.0f,
-                              _curvature,
-                              _smoothedCurvature);
-        _lastForward = forward ();
-        _lastPosition = position ();
-    }
-}
-*/
-
-
-
 
 // methods from debugvisualisable
 DebugVisualisableFlag SteeringVehicle::getFlag() const

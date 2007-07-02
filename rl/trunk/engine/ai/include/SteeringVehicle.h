@@ -44,7 +44,6 @@ namespace rl
 	class Agent;
 	class PhysicalThing;
     class MovingCreature;
-//	class PerceptionPool;
 
 	/**
 	 * Realises steering for NPCs
@@ -136,12 +135,7 @@ namespace rl
 		 * @param minTimeToCollision minimum time to next collision
 		 */
 		bool needAvoidance(const float minTimeToCollision);
-		
-        /** Sets the animation of the actors mesh to a new keyframe.
-		 * @param name of the animation to set the mesh of the actor to.
-		 */
-		//void setAnimation(const CeGuiString& name);
-	
+			
 		/* TODO:
 		calcFollowPath
 		calcStayOnPath
@@ -153,13 +147,6 @@ namespace rl
 		Vector3 calcCohesion(AVGroup&);
 		*/
 				
-//		PerceptionPool* getPerceptionPool();
-
-		/** tests if a dialog is active with the creature
-		 * @returns true when dialog is active, otherwise false
-		 */
-		bool isDialogActive();
-
 		/** calculates euklidian distance between two vectors
 		 * @param vec1 first vector
 		 * @param vec2 second vector
@@ -256,74 +243,17 @@ namespace rl
 		 */
 		float setMaxSpeed (float ms);
 
-
 		/**
 		 * adjust the steering force passed to applySteeringForce.
          * allows a specific vehicle class to redefine this adjustment.
          * default is to disallow backward-facing steering at low speed.
 		 */
 		virtual OpenSteer::Vec3 adjustRawSteeringForce (const OpenSteer::Vec3& force);
-                                            // const float elapsedTime);
-
-		/**
-		 * apply a given steering force to our momentum,
-		 * adjusting our orientation to maintain velocity-alignment.
-		 */
-	//	void applySteeringForce(const OpenSteer::Vec3& force, const float elapsedTime);
-	//	void applySteeringForce(const Ogre::Vector3& force, const float elapsedTime);
-		
-		
-
-		/**
-		 * the default version: keep FORWARD parallel to velocity, change
-         * UP as little as possible.
-		 */
-  /*      virtual void regenerateLocalSpace (const OpenSteer::Vec3& newVelocity,
-                                           const float elapsedTime);
-		*/
-		
-		// get instantaneous curvature (since last update)
-/*		float curvature (void) {return _curvature;}
-
-		// get/reset smoothedCurvature, smoothedAcceleration and smoothedPosition
-		float smoothedCurvature (void) {return _smoothedCurvature;}
-		
-		float resetSmoothedCurvature (float value = 0)
-		{
-			_lastForward = OpenSteer::Vec3::zero;
-			_lastPosition = OpenSteer::Vec3::zero;
-			return _smoothedCurvature = _curvature = value;
-		}
-		
-		OpenSteer::Vec3 smoothedAcceleration (void) {return _smoothedAcceleration;}
-		
-		OpenSteer::Vec3 resetSmoothedAcceleration (const OpenSteer::Vec3& value = OpenSteer::Vec3::zero)
-		{
-			return _smoothedAcceleration = value;
-		}
-		
-		OpenSteer::Vec3 smoothedPosition (void) {return _smoothedPosition;}
-		
-		OpenSteer::Vec3 resetSmoothedPosition (const OpenSteer::Vec3& value = OpenSteer::Vec3::zero)
-		{
-			return _smoothedPosition = value;
-		}
-
-		// set a random "2D" heading: set local Up to global Y, then effectively
-		// rotate about it by a random angle (pick random forward, derive side).
-		void randomizeHeadingOnXZPlane (void)
-		{
-			setUp (OpenSteer::Vec3::up);
-			setForward (RandomUnitVectorOnXZPlane ());
-			setSide (localRotateForwardToSide (forward()));
-		}
-		*/
 
 		/** retrieve the controlled Actor
 		 * @returns Actor that is controlled by the SteeringVehicle
 		 */
         const Actor* getActor(void) const;
-
 
         // derived from debugvisualisable
         virtual DebugVisualisableFlag getFlag() const;
@@ -343,11 +273,6 @@ namespace rl
 		 */
 		const OpenSteer::ObstacleGroup& getObstacles() const;
 
-	//    float _mass;       // mass (defaults to unity so acceleration=force)
-    //   float _radius;     // size of bounding sphere, for obstacle avoidance, etc.
-    //    float _speed;      // speed along Forward direction.  Because local space
-                           // is velocity-aligned, velocity = Forward * Speed
-		
 		/** the maximum steering force this vehicle can apply.
          * steering force is clipped to this magnitude.
 		 */
@@ -357,23 +282,8 @@ namespace rl
 		 */
         float _maxSpeed;
 
-     /*   float _curvature;
-		float _smoothedCurvature;
-
-		OpenSteer::Vec3 _lastForward;
-        OpenSteer::Vec3 _lastPosition;
-        OpenSteer::Vec3 _smoothedPosition;
-        OpenSteer::Vec3 _smoothedAcceleration;
-	*/	
-		//! mass of the steering vehicle retrieved from Newton body (is this really necessary ?)
-		//Ogre::Real mMass;
-		//! radius of for the bounding sphere (use newton to get this from)
-		//Ogre::Real mRadius;
 		//! speed of the vehicle
 		Ogre::Real mSpeed;	
-
-		//! height of the vehicle ? (use newton to get this)
-        //float mHeight;
 
 		//! current force 
 		Ogre::Vector3 mCurrentForce;
@@ -390,10 +300,6 @@ namespace rl
         Creature* mCreature;
 
         MovingCreature* mMovingCreature;
-
-        // measure path curvature (1/turning-radius), maintain smoothed version
-      //  void measurePathCurvature (const float elapsedTime);
-
 
         // derived from debugvisualisable
         virtual void doCreatePrimitive();

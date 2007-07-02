@@ -18,7 +18,6 @@
 
 #include <OgreSingleton.h>
 #include "AiPrerequisites.h"
-//#include "PhysicsController.h"
 #include "GameTask.h"
 #include "GameObjectStateListener.h"
 #include "FuzzyState.h"
@@ -49,7 +48,6 @@ namespace rl
 		: public Ogre::Singleton<AgentManager>,
 		  public GameTask,
           public GameObjectStateListener
-  	//	  public PhysicsController,
 		  
 	{
 	public:
@@ -79,10 +77,6 @@ namespace rl
 		 * @param character the associated creature
 		 */
 		Agent* createAgent(AgentType type, Creature* character);
-
-		//! deprecated - should be removed in the long run.
-		//! Hint: it's deprecated
-		Agent* createAgent(DialogCharacter* character);
 
         //! Destroys an Agent and all its behaviours. (if any)
         void destroyAgent(Agent*);
