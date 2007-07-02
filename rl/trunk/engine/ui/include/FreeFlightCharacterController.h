@@ -28,7 +28,7 @@ namespace rl {
 	/**
 	* This class provides a no-clip free fly controller.
 	*/
-	class _RlUiExport FreeFlightCharacterController : 
+	class _RlUiExport FreeflightControlState : 
         public ControlState,
         public PhysicsController,
         public PhysicsGenericContactCallback
@@ -38,8 +38,8 @@ namespace rl {
 		*  @throw NullPointerException if camera or character is NULL.
 		*  @throw InvalidArgumentException if character is not placed in the scene.
 		*/
-		FreeFlightCharacterController(CommandMapper* cmdMapper, Actor* camera, Person* character);
-		virtual ~FreeFlightCharacterController();
+		FreeflightControlState(CommandMapper* cmdMapper, Actor* camera, Person* character);
+		virtual ~FreeflightControlState();
 
         virtual void pause();
         virtual void resume();

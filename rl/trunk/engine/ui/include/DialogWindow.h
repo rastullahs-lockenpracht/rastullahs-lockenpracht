@@ -28,7 +28,7 @@ namespace rl {
 
 	class DialogCharacter;
 	class DialogResponse;
-	class DialogCharacterController;
+	class DialogControlState;
 	class GameLoggerWindow;
 
 	class _RlUiExport DialogWindow : public AbstractWindow
@@ -37,7 +37,7 @@ namespace rl {
 		DialogWindow(GameLoggerWindow* gamelogger);
 		~DialogWindow();
 
-        void initialize(DialogCharacterController* controller, DialogCharacter* character);
+        void initialize(DialogControlState* controller, DialogCharacter* character);
 
 		void getResponse(const CeGuiString& msg);
 		unsigned int count();
@@ -66,7 +66,7 @@ namespace rl {
 		CEGUI::Listbox* mQuestion;
 		CEGUI::Window* mName;
 		GameLoggerWindow* mGameLogger;
-		DialogCharacterController* mController;
+		DialogControlState* mController;
 		DialogState mState;
 		CeGuiString mCurrentResponseText;
 				

@@ -14,7 +14,7 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#include "CombatCharacterController.h"
+#include "CombatControlState.h"
 
 #include "Actor.h"
 #include "CameraObject.h"
@@ -35,7 +35,7 @@
 using namespace Ogre;
 
 namespace rl {
-    CombatCharacterController::CombatCharacterController(CommandMapper* cmdMapper,
+    CombatControlState::CombatControlState(CommandMapper* cmdMapper,
         Actor* camera, Person* character)
         : ControlState(cmdMapper, camera, character, CST_COMBAT),
           mCombatManager(CombatManager::getSingletonPtr()),
@@ -64,12 +64,12 @@ namespace rl {
         sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(mHud);
     }
 
-	CombatCharacterController::~CombatCharacterController()
+	CombatControlState::~CombatControlState()
     {
         delete mEnemySelector.getFilter();
     }
 
-    void CombatCharacterController::resume()
+    void CombatControlState::resume()
     {
         mCameraActor->getPhysicalThing()->freeze();
         mCharacterActor->getPhysicalThing()->freeze();
@@ -114,7 +114,7 @@ namespace rl {
         mCombatWindow->setVisible(true);
     }
 
-    void CombatCharacterController::pause()
+    void CombatControlState::pause()
     {
         mCombatWindow->setVisible(false);
 
@@ -126,7 +126,7 @@ namespace rl {
         mCombat = NULL;
     }
 
-	void CombatCharacterController::run(Ogre::Real elapsedTime)
+	void CombatControlState::run(Ogre::Real elapsedTime)
     {
         // HUD aktualisieren.
         mHud->clear();
@@ -152,7 +152,7 @@ namespace rl {
         mHud->end();
     }
 
-    Ogre::Rectangle CombatCharacterController::getScreenRectFromWorldAABB(
+    Ogre::Rectangle CombatControlState::getScreenRectFromWorldAABB(
         const AxisAlignedBox& aabb) const
     {
         // Initialise each to the value of the opposite side, so that min/max work smoothly.

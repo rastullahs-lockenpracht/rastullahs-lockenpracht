@@ -25,7 +25,7 @@
 #include "DialogCharacter.h"
 #include "DialogResponse.h"
 #include "DialogOption.h"
-#include "DialogCharacterController.h"
+#include "DialogControlState.h"
 #include "GameLoggerWindow.h"
 #include "InputManager.h"
 #include "ListboxWrappedTextItem.h"
@@ -78,7 +78,7 @@ DialogWindow::~DialogWindow()
 	mCurrentResponse = NULL;
 }
 
-void DialogWindow::initialize(DialogCharacterController* controller, DialogCharacter* character)
+void DialogWindow::initialize(DialogControlState* controller, DialogCharacter* character)
 {
     mController = controller;
     mBot = character;

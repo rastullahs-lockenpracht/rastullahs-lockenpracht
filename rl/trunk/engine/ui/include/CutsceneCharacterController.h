@@ -24,14 +24,14 @@ namespace rl {
 
 	class Actor;
 
-	class _RlUiExport CutsceneCharacterController : public ControlState
+	class _RlUiExport CutsceneControlState : public ControlState
 	{
 	public:
 		/**
 		*  @throw NullPointerException if camera is NULL.
 		*/
-		CutsceneCharacterController(CommandMapper* cmdMapper, Actor* camera);
-		virtual ~CutsceneCharacterController();
+		CutsceneControlState(CommandMapper* cmdMapper, Actor* camera);
+		virtual ~CutsceneControlState();
 
         virtual void pause();
         virtual void resume();

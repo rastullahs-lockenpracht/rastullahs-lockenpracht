@@ -15,7 +15,7 @@
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
 
-#include "DialogCharacterController.h"
+#include "DialogControlState.h"
 #include "Exception.h"
 
 #include "Actor.h"
@@ -47,7 +47,7 @@ using namespace Ogre;
 
 namespace rl {
 
-    DialogCharacterController::DialogCharacterController(CommandMapper* cmdMapper,
+    DialogControlState::DialogControlState(CommandMapper* cmdMapper,
         Actor* camera, Person* character)
         : ControlState(cmdMapper, camera, character, CST_DIALOG),
         mTargetCameraPosition(Vector3::ZERO),
@@ -68,12 +68,12 @@ namespace rl {
 
     }
 
-    DialogCharacterController::~DialogCharacterController()
+    DialogControlState::~DialogControlState()
     {
         delete mSoundObject;
     }
 
-    void DialogCharacterController::pause()
+    void DialogControlState::pause()
     {
         if(mDialogPartner)
         {
@@ -93,7 +93,7 @@ namespace rl {
         mSubtitleWindow->setVisible(false, false);
     }
 
-    void DialogCharacterController::resume()
+    void DialogControlState::resume()
     {
         mCharacterActor->setVisible(true);
 
@@ -118,7 +118,7 @@ namespace rl {
 		mDialogWindow->start();
     }
 
-    void DialogCharacterController::run(Real elapsedTime)
+    void DialogControlState::run(Real elapsedTime)
     {
         if( elapsedTime <= 0.0 )
             return;
@@ -165,7 +165,7 @@ namespace rl {
                 + StringConverter::toString(mCurrFadeTextTime));
     }
 
-    void DialogCharacterController::recalculateCamera( Actor* speaker, Actor* listener )
+    void DialogControlState::recalculateCamera( Actor* speaker, Actor* listener )
     {
         // Position camera at position between char and dialog partner
         Vector3 charEyes = speaker->getWorldPosition();
@@ -205,13 +205,13 @@ namespace rl {
         mTargetCameraDirection = ( partEyes - mTargetCameraPosition ).normalisedCopy();
     }
 
-    float DialogCharacterController::getShowTextLength(const CeGuiString& text) const
+    float DialogControlState::getShowTextLength(const CeGuiString& text) const
     {
         return 0.019f * text.length() + // Zeit fürs Text lesen
                0.25f;                   // Fade in
     }
 
-    void DialogCharacterController::response(
+    void DialogControlState::response(
         Actor* actor, const CeGuiString& text, const Ogre::String& soundFile)
     {
         if( actor == mDialogPartner )
@@ -281,7 +281,7 @@ namespace rl {
         }
     }
 
-    bool DialogCharacterController::mouseReleased(const OIS::MouseEvent& evt,
+    bool DialogControlState::mouseReleased(const OIS::MouseEvent& evt,
         OIS::MouseButtonID id)
     {
 

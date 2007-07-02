@@ -34,18 +34,18 @@
 #include "ActorManager.h"
 #include "AbstractWindow.h"
 #include "ControlState.h"
-#include "CombatCharacterController.h"
+#include "CombatControlState.h"
 #include "CommandMapper.h"
 #include "ConfigurationManager.h"
 #include "Console.h"
 #include "CoreSubsystem.h"
-#include "CutsceneCharacterController.h"
+#include "CutsceneControlState.h"
 #include "DebugWindow.h"
-#include "DialogCharacterController.h"
-#include "FreeFlightCharacterController.h"
+#include "DialogControlState.h"
+#include "FreeflightControlState.h"
 #include "GameLoop.h"
 #include "GameObject.h"
-#include "MovementCharacterController.h"
+#include "MovementControlState.h"
 #include "RubyInterpreter.h"
 #include "UiSubsystem.h"
 #include "WindowFactory.h"
@@ -408,19 +408,19 @@ namespace rl {
         switch (controlStateType)
         {
         case CST_CUTSCENE:
-            controller = new CutsceneCharacterController(mCommandMapper, camera);
+            controller = new CutsceneControlState(mCommandMapper, camera);
             break;
         case CST_MOVEMENT:
-            controller = new MovementCharacterController(mCommandMapper, camera, character);
+            controller = new MovementControlState(mCommandMapper, camera, character);
             break;
         case CST_FREEFLIGHT:
-            controller = new FreeFlightCharacterController(mCommandMapper, camera, character);
+            controller = new FreeflightControlState(mCommandMapper, camera, character);
             break;
         case CST_DIALOG:
-            controller = new DialogCharacterController(mCommandMapper, camera, character);
+            controller = new DialogControlState(mCommandMapper, camera, character);
             break;
         case CST_COMBAT:
-            controller = new CombatCharacterController(mCommandMapper, camera, character);
+            controller = new CombatControlState(mCommandMapper, camera, character);
             break;
         default:
             Throw(IllegalStateException, "Unknown controller type.");

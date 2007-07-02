@@ -14,7 +14,7 @@
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
 
-#include "FreeFlightCharacterController.h"
+#include "FreeflightControlState.h"
 
 #include "CoreSubsystem.h"
 #include "ConfigurationManager.h"
@@ -33,7 +33,7 @@ using namespace Ogre;
 
 namespace rl {
 
-	FreeFlightCharacterController::FreeFlightCharacterController(CommandMapper* cmdMapper,
+	FreeflightControlState::FreeflightControlState(CommandMapper* cmdMapper,
         Actor* camera, Person* character)
 		: ControlState(cmdMapper, camera, character, CST_FREEFLIGHT),
 		mMovementSpeed(5.0f),
@@ -52,11 +52,11 @@ namespace rl {
         mInvertedMouse = ConfigurationManager::getSingleton().getBoolSetting("Input", "Mouse Invert");
 	}
 
-	FreeFlightCharacterController::~FreeFlightCharacterController()
+	FreeflightControlState::~FreeflightControlState()
 	{
 	}
 
-    void FreeFlightCharacterController::pause()
+    void FreeflightControlState::pause()
     {
 		mCameraActor->getPhysicalThing()->unfreeze();
         if(mCameraUpConstraint != Vector3::ZERO)
@@ -77,7 +77,7 @@ namespace rl {
             PhysicsManager::getSingleton().getMaterialID("character"));
     }
 
-    void FreeFlightCharacterController::resume()
+    void FreeflightControlState::resume()
     {
         mCameraActor->getPhysicalThing()->freeze();
         mCameraUpConstraint = mCameraActor->getPhysicalThing()->getUpConstraint();
@@ -100,7 +100,7 @@ namespace rl {
             PhysicsManager::getSingleton().getMaterialID("character"))->setContactCallback(this);
     }
 
-	void FreeFlightCharacterController::run(Real elapsedTime)
+	void FreeflightControlState::run(Real elapsedTime)
 	{
         if (isCeguiActive()) return;
 
@@ -190,14 +190,14 @@ namespace rl {
         mCameraActor->pitch(mPitch.valueDegrees());
     }
 
-	void FreeFlightCharacterController::toggleCameraCollision()
+	void FreeflightControlState::toggleCameraCollision()
 	{
 		// with or without collision?
         // be careful to enable collision if beeing in another collision
         mCollisionsEnabled = !mCollisionsEnabled;
 	}
 
-	void FreeFlightCharacterController::resetCamera()
+	void FreeflightControlState::resetCamera()
 	{
 		// Position camera at char position
         if( mCharacterActor != NULL )
@@ -220,7 +220,7 @@ namespace rl {
         mPitch = Degree(0);
 	}
 
-    bool FreeFlightCharacterController::keyPressed(const OIS::KeyEvent& evt)
+    bool FreeflightControlState::keyPressed(const OIS::KeyEvent& evt)
 	{
         int movement = mCommandMapper->getMovement(evt.key);
 
@@ -233,7 +233,7 @@ namespace rl {
 		return false;
 	}
 
-    bool FreeFlightCharacterController::keyReleased(const OIS::KeyEvent& evt)
+    bool FreeflightControlState::keyReleased(const OIS::KeyEvent& evt)
 	{
         int movement = mCommandMapper->getMovement(evt.key);
 
@@ -264,7 +264,7 @@ namespace rl {
         }
 	}
 
-    int FreeFlightCharacterController::userProcess()
+    int FreeflightControlState::userProcess()
     {
         if (m_body0 == mCamBody || m_body1 == mCamBody)
         {
@@ -285,7 +285,7 @@ namespace rl {
 
 
 
-    void FreeFlightCharacterController::OnApplyForceAndTorque(PhysicalThing* thing)
+    void FreeflightControlState::OnApplyForceAndTorque(PhysicalThing* thing)
     {
         OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
         OgreNewt::Body* body = thing->_getBody();

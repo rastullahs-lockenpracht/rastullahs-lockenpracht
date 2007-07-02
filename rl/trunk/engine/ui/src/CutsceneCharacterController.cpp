@@ -15,7 +15,7 @@
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
 
-#include "CutsceneCharacterController.h"
+#include "CutsceneControlState.h"
 #include "Exception.h"
 #include "Actor.h"
 #include "CameraObject.h"
@@ -26,21 +26,21 @@ using namespace Ogre;
 
 namespace rl {
 
-	CutsceneCharacterController::CutsceneCharacterController(CommandMapper* cmdMapper,
+	CutsceneControlState::CutsceneControlState(CommandMapper* cmdMapper,
         Actor* camera) : ControlState(cmdMapper, camera, NULL, CST_CUTSCENE)
 	{
 	}
 
-	CutsceneCharacterController::~CutsceneCharacterController()
+	CutsceneControlState::~CutsceneControlState()
 	{
 	}
 
-    void CutsceneCharacterController::pause()
+    void CutsceneControlState::pause()
     {
 		mCameraActor->getPhysicalThing()->unfreeze();
     }
 
-    void CutsceneCharacterController::resume()
+    void CutsceneControlState::resume()
     {
 		mCameraActor->getPhysicalThing()->freeze();
 		Camera* ogreCam = static_cast<Camera*>(mCameraActor->_getMovableObject());
@@ -48,21 +48,21 @@ namespace rl {
 		mCameraActor->_getSceneNode()->setFixedYawAxis(true);
     }
 
-	void CutsceneCharacterController::run(Ogre::Real elapsedTime)
+	void CutsceneControlState::run(Ogre::Real elapsedTime)
 	{
 	}
 
-    void CutsceneCharacterController::setCameraPosition(const Ogre::Vector3& pos)
+    void CutsceneControlState::setCameraPosition(const Ogre::Vector3& pos)
     {
         mCameraActor->setPosition(pos);
     }
 
-    void CutsceneCharacterController::setCameraOrientation(const Ogre::Quaternion& orient)
+    void CutsceneControlState::setCameraOrientation(const Ogre::Quaternion& orient)
     {
         mCameraActor->setOrientation(orient);
     }
 
-    void CutsceneCharacterController::lookAt(const Ogre::Vector3& point)
+    void CutsceneControlState::lookAt(const Ogre::Vector3& point)
     {
         dynamic_cast<Ogre::Camera*>(mCameraActor->getControlledObject()->getMovableObject())
             ->lookAt(point);

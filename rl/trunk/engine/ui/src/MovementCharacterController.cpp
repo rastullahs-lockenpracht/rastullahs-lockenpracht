@@ -14,7 +14,7 @@
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
 
-#include "MovementCharacterController.h"
+#include "MovementControlState.h"
 
 #include <OgreSceneManager.h>
 #include <OgreAxisAlignedBox.h>
@@ -39,7 +39,7 @@
 #include "Logger.h"
 #include "MeshObject.h"
 #include "MeshAnimation.h"
-#include "MovementCharacterController.h"
+#include "MovementControlState.h"
 #include "Person.h"
 #include "PhysicsManager.h"
 #include "PhysicsMaterialRaycast.h"
@@ -56,16 +56,16 @@ using namespace Ogre;
 
 namespace rl {
 
-    String MovementCharacterController::msDebugWindowPageName = "MovementCharacterController";
+    String MovementControlState::msDebugWindowPageName = "MovementControlState";
 
-    MovementCharacterController::CharacterState::CharacterState()
+    MovementControlState::CharacterState::CharacterState()
         :
         mCurrentMovementState(MOVE_NONE),
         mLastMovementState(MOVE_NONE)
     {
     }
 
-    MovementCharacterController::MovementCharacterController(CommandMapper* cmdMapper,
+    MovementControlState::MovementControlState(CommandMapper* cmdMapper,
         Actor* camera, Person* character)
         : ControlState(cmdMapper, camera, character, CST_MOVEMENT),
         mMovingCreature(NULL),
@@ -126,7 +126,7 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    MovementCharacterController::~MovementCharacterController()
+    MovementControlState::~MovementControlState()
     {
         delete mCombatSelector.getFilter();
         delete mRaycast;
@@ -144,7 +144,7 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    void MovementCharacterController::pause()
+    void MovementControlState::pause()
     {
         if( mMovingCreature != NULL )
         {
@@ -177,7 +177,7 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    void MovementCharacterController::resume()
+    void MovementControlState::resume()
     {
         if( mMovingCreature == NULL )
             mMovingCreature = new MovingCreature(mCharacter);
@@ -213,7 +213,7 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    void MovementCharacterController::run(Real elapsedTime)
+    void MovementControlState::run(Real elapsedTime)
     {
         if (isCeguiActive()) return;
 
@@ -279,7 +279,7 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    void MovementCharacterController::updateCharacter(Ogre::Real elapsedTime)
+    void MovementControlState::updateCharacter(Ogre::Real elapsedTime)
     {
         InputManager* im = InputManager::getSingletonPtr();
         if( mMovingCreature != NULL )
@@ -408,7 +408,7 @@ namespace rl {
     }
 
     // ------------------------------------------------------------------------
-    void MovementCharacterController::updateCameraLookAt(Ogre::Real elapsedTime)
+    void MovementControlState::updateCameraLookAt(Ogre::Real elapsedTime)
     {
         InputManager* im = InputManager::getSingletonPtr();
 
@@ -504,7 +504,7 @@ namespace rl {
 
     // -------------------------------------------------------------
     // character collision moved to MovingCreature(Manager)
-    int MovementCharacterController::userProcess()
+    int MovementControlState::userProcess()
     {
         // only camera collision
         return 0;
@@ -520,7 +520,7 @@ namespace rl {
 
     //------------------------------------------------------------------------
     // character callback moved to MovingCreature
-    void MovementCharacterController::OnApplyForceAndTorque(PhysicalThing* thing)
+    void MovementControlState::OnApplyForceAndTorque(PhysicalThing* thing)
     {
         OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
         Real timestep = world->getTimeStep();
@@ -557,7 +557,7 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    void MovementCharacterController::calculateCamera(const Ogre::Real& timestep)
+    void MovementControlState::calculateCamera(const Ogre::Real& timestep)
     {
         Vector3 charPos = mCharacter->getActor()->getWorldPosition();
         Quaternion charOri = mCharacter->getActor()->getWorldOrientation();
@@ -803,7 +803,7 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    Ogre::Vector3 MovementCharacterController::calculateOptimalCameraPosition(bool SlowlyMoveBackward, const Real &timestep)
+    Ogre::Vector3 MovementControlState::calculateOptimalCameraPosition(bool SlowlyMoveBackward, const Real &timestep)
     {
         Vector3 targetCamPos;
 
@@ -966,7 +966,7 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    bool MovementCharacterController::isEnemyNear()
+    bool MovementControlState::isEnemyNear()
     {
         mCombatSelector.updateSelection();
 
@@ -984,7 +984,7 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    void MovementCharacterController::updateSelection()
+    void MovementControlState::updateSelection()
     {
         if (isCeguiActive()) return;
 
@@ -1018,7 +1018,7 @@ namespace rl {
     }
 
 
-    void MovementCharacterController::setViewMode(ViewMode mode)
+    void MovementControlState::setViewMode(ViewMode mode)
     {
         mViewMode = mode;
 
@@ -1077,7 +1077,7 @@ namespace rl {
     //------------------------------------------------------------------------
 /*
     // not used at the moment!
-    void MovementCharacterController::interpolateAnimationLookAtOffset(std::string actAnim, std::string newAnim, Ogre::Real factor)
+    void MovementControlState::interpolateAnimationLookAtOffset(std::string actAnim, std::string newAnim, Ogre::Real factor)
     {
         AxisAlignedBox aab;
         Vector3 size[2];
@@ -1112,13 +1112,13 @@ namespace rl {
 */
 
     //------------------------------------------------------------------------
-    MovementCharacterController::ViewMode MovementCharacterController::getViewMode()
+    MovementControlState::ViewMode MovementControlState::getViewMode()
     {
         return mViewMode;
     }
 
     //------------------------------------------------------------------------
-    void MovementCharacterController::toggleViewMode()
+    void MovementControlState::toggleViewMode()
     {
         if (getViewMode() == VM_THIRD_PERSON)
             setViewMode(VM_FIRST_PERSON);
@@ -1129,7 +1129,7 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    void MovementCharacterController::resetCamera()
+    void MovementControlState::resetCamera()
     {
         Vector3 camPos;
         Quaternion camOri;
@@ -1146,7 +1146,7 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    bool MovementCharacterController::keyPressed(const OIS::KeyEvent& evt)
+    bool MovementControlState::keyPressed(const OIS::KeyEvent& evt)
     {
         if (ControlState::keyPressed(evt)) return true;
 
@@ -1166,7 +1166,7 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    bool MovementCharacterController::keyReleased(const OIS::KeyEvent& evt)
+    bool MovementControlState::keyReleased(const OIS::KeyEvent& evt)
     {
         // CEGUI is handled by base class, so hand it down if necessary.
         if (sendKeyToCeGui(evt))
@@ -1212,7 +1212,7 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    bool MovementCharacterController::mouseReleased(const OIS::MouseEvent& evt,
+    bool MovementControlState::mouseReleased(const OIS::MouseEvent& evt,
         OIS::MouseButtonID id)
     {
         if (!isCeguiActive())
@@ -1229,13 +1229,13 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    DebugVisualisableFlag MovementCharacterController::getFlag() const
+    DebugVisualisableFlag MovementControlState::getFlag() const
     {
         return DVF_CONTROL;
     }
 
     //------------------------------------------------------------------------
-    void MovementCharacterController::updatePrimitive()
+    void MovementControlState::updatePrimitive()
     {
         if (mSceneNode->getParent() == NULL)
         {
@@ -1248,7 +1248,7 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    void MovementCharacterController::doCreatePrimitive()
+    void MovementControlState::doCreatePrimitive()
     {
         mPrimitive = new LineSetPrimitive();
     }

@@ -342,15 +342,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\CharacterController.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\CombatCharacterController.h"
 				>
 			</File>
 			<File
 				RelativePath=".\include\CommandMapper.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ControlState.h"
 				>
 			</File>
 			<File
@@ -539,15 +539,15 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath=".\src\CharacterController.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\CombatCharacterController.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\CommandMapper.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ControlState.cpp"
 				>
 			</File>
 			<File

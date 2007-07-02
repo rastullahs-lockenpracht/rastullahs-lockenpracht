@@ -33,7 +33,7 @@ namespace rl {
 	/** Diese Klasse 
 	  *  
 	  */
-	class _RlUiExport DialogCharacterController : public ControlState
+	class _RlUiExport DialogControlState : public ControlState
 	{
 	public:
         enum DialogMode
@@ -47,9 +47,9 @@ namespace rl {
 		*  @throw NullPointerException if camera or character is NULL.
 		*  @throw InvalidArgumentException if character is not placed in the scene.
 		*/
-		DialogCharacterController(CommandMapper* cmdMapper, Actor* camera, Person* character);
+		DialogControlState(CommandMapper* cmdMapper, Actor* camera, Person* character);
 		/// Dtor 
-		virtual ~DialogCharacterController();
+		virtual ~DialogControlState();
 
         virtual void pause();
         virtual void resume();

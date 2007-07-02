@@ -20,7 +20,7 @@
 
 #include "ControlState.h"
 #include "CommandMapper.h"
-#include "CutsceneCharacterController.h"
+#include "CutsceneControlState.h"
 #include "GameLoggerWindow.h"
 #include "InputManager.h"
 #include "UiPrerequisites.h"

@@ -38,7 +38,7 @@ namespace rl {
     /**
      * This class handles character control via user input.
      */
-    class _RlUiExport MovementCharacterController
+    class _RlUiExport MovementControlState
 	  : public ControlState,
 		public PhysicsController,
         public PhysicsGenericContactCallback,
@@ -50,8 +50,8 @@ namespace rl {
          *  @throw NullPointerException if camera or character is NULL.
          *  @throw InvalidArgumentException if character is not placed in the scene.
          */
-        MovementCharacterController(CommandMapper* cmdMapper, Actor* camera, Person* character);
-        virtual ~MovementCharacterController();
+        MovementControlState(CommandMapper* cmdMapper, Actor* camera, Person* character);
+        virtual ~MovementControlState();
 
         virtual void pause();
         virtual void resume();

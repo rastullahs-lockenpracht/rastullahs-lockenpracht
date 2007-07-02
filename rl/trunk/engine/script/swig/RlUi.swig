@@ -26,13 +26,13 @@ private:
 public:
 };
 
-class CutsceneCharacterController : public ControlState
+class CutsceneControlState : public ControlState
 {
 private:
-       CutsceneCharacterController(rl::Actor* camera);
+       CutsceneControlState(rl::Actor* camera);
 
 public:
-    virtual ~CutsceneCharacterController();
+    virtual ~CutsceneControlState();
 
     void setCameraPosition(const Ogre::Vector3& pos);
     void setCameraOrientation(const Ogre::Quaternion& orient);
@@ -140,8 +140,8 @@ static swig_type_info *CharacterController_dynamic_cast(void **ptr)
     rl::ControlState **ppCharacterController =
         reinterpret_cast<rl::ControlState**>(ptr);
 
-    rl::CutsceneCharacterController *pCutSceneCC =
-        dynamic_cast<rl::CutsceneCharacterController*>(*ppCharacterController);
+    rl::CutsceneControlState *pCutSceneCC =
+        dynamic_cast<rl::CutsceneControlState*>(*ppCharacterController);
     if (pCutSceneCC != NULL) {
         *ptr=pCutSceneCC;
         return SWIGTYPE_p_rl__CutsceneCharacterController;

@@ -31,14 +31,14 @@ namespace rl {
     class CombatManager;
     class CombatWindow;
 
-	class _RlUiExport CombatCharacterController : public ControlState
+	class _RlUiExport CombatControlState : public ControlState
 	{
 	public:
 		/**
 		*  @throw NullPointerException if camera is NULL.
 		*/
-		CombatCharacterController(CommandMapper* cmdMapper, Actor* camera, Person* character);
-		virtual ~CombatCharacterController();
+		CombatControlState(CommandMapper* cmdMapper, Actor* camera, Person* character);
+		virtual ~CombatControlState();
 
         virtual void pause();
         virtual void resume();
