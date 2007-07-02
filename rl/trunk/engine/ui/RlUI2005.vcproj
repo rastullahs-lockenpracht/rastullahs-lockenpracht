@@ -342,7 +342,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\CombatCharacterController.h"
+				RelativePath=".\include\CombatControlState.h"
 				>
 			</File>
 			<File
@@ -354,15 +354,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\CutsceneCharacterController.h"
+				RelativePath=".\include\CutsceneControlState.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\DialogCharacterController.h"
+				RelativePath=".\include\DialogControlState.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\FreeFlightCharacterController.h"
+				RelativePath=".\include\FreeflightControlState.h"
 				>
 			</File>
 			<File
@@ -374,7 +374,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\MovementCharacterController.h"
+				RelativePath=".\include\MovementControlState.h"
 				>
 			</File>
 			<File
@@ -539,7 +539,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath=".\src\CombatCharacterController.cpp"
+				RelativePath=".\src\CombatControlState.cpp"
 				>
 			</File>
 			<File
@@ -551,15 +551,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\CutsceneCharacterController.cpp"
+				RelativePath=".\src\CutsceneControlState.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\DialogCharacterController.cpp"
+				RelativePath=".\src\DialogControlState.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FreeFlightCharacterController.cpp"
+				RelativePath=".\src\FreeflightControlState.cpp"
 				>
 			</File>
 			<File
@@ -571,7 +571,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\MovementCharacterController.cpp"
+				RelativePath=".\src\MovementControlState.cpp"
 				>
 			</File>
 			<File
