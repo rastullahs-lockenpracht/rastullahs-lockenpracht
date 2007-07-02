@@ -19,7 +19,7 @@
 
 #include "UiPrerequisites.h"
 #include "GameTask.h"
-#include "MovingCreature.h"
+#include "CreatureController.h"
 #include "PhysicsController.h"
 #include "PhysicsGenericContactCallback.h"
 #include "ControlState.h"
@@ -85,7 +85,7 @@ namespace rl {
 
     protected:
         virtual void doCreatePrimitive();
-        MovingCreature *mMovingCreature;
+        CreatureController *mMovingCreature;
 
     private:
 

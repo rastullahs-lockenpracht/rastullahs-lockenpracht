@@ -180,7 +180,7 @@ namespace rl {
     void MovementControlState::resume()
     {
         if( mMovingCreature == NULL )
-            mMovingCreature = new MovingCreature(mCharacter);
+            mMovingCreature = new CreatureController(mCharacter);
 
         // We want to check for visibility from char's POV.
         mSelector.setCheckVisibility(true, mCharacter);
@@ -287,7 +287,7 @@ namespace rl {
             int movement = mCharacterState.mCurrentMovementState;
             Degree rotation(0);
 
-            AbstractMovement *drehen = mMovingCreature->getMovementFromId(MovingCreature::MT_DREHEN);
+            AbstractMovement *drehen = mMovingCreature->getMovementFromId(CreatureController::MT_DREHEN);
             Real baseVelocity = 0;
             if( drehen->calculateBaseVelocity(baseVelocity) )
             {
@@ -336,18 +336,18 @@ namespace rl {
                 else if( movement & MOVE_BACKWARD)
                     direction.z = 1;
                 mMovingCreature->setMovement(
-                    MovingCreature::MT_SCHLEICHEN,
+                    CreatureController::MT_SCHLEICHEN,
                     direction,
                     Vector3(0, rotation.valueRadians(), 0) );
             }
             else if( movement & MOVE_JUMP && 
-                mMovingCreature->getMovementFromId(MovingCreature::MT_HOCHSPRUNG)->isPossible() )
+                mMovingCreature->getMovementFromId(CreatureController::MT_HOCHSPRUNG)->isPossible() )
             {
-                MovingCreature::MovementType type = MovingCreature::MT_HOCHSPRUNG;
+                CreatureController::MovementType type = CreatureController::MT_HOCHSPRUNG;
                 Vector3 direction = Vector3::UNIT_Y;
                 if( movement & MOVE_FORWARD )
                 {
-                    type = MovingCreature::MT_WEITSPRUNG;
+                    type = CreatureController::MT_WEITSPRUNG;
                     direction += Vector3::NEGATIVE_UNIT_Z;
                 }
                 mMovingCreature->setMovement(
@@ -357,20 +357,20 @@ namespace rl {
             }
             else if( movement & MOVE_FORWARD )
             {
-                MovingCreature::MovementType type = MovingCreature::MT_GEHEN;
+                CreatureController::MovementType type = CreatureController::MT_GEHEN;
                 if( movement & MOVE_RUN_LOCK )
                 {
                     if( movement & MOVE_RUN )
-                        type = MovingCreature::MT_RENNEN;
+                        type = CreatureController::MT_RENNEN;
                     else
-                        type = MovingCreature::MT_LAUFEN;
+                        type = CreatureController::MT_LAUFEN;
                 }
                 else
                 {
                     if( movement & MOVE_RUN )
-                        type = MovingCreature::MT_GEHEN;
+                        type = CreatureController::MT_GEHEN;
                     else
-                        type = MovingCreature::MT_JOGGEN;
+                        type = CreatureController::MT_JOGGEN;
                 }
                 mMovingCreature->setMovement(
                     type,
@@ -379,9 +379,9 @@ namespace rl {
             }
             else if (movement & MOVE_BACKWARD )
             {
-                MovingCreature::MovementType type = MovingCreature::MT_RUECKWAERTS_GEHEN;
+                CreatureController::MovementType type = CreatureController::MT_RUECKWAERTS_GEHEN;
                 if( !(movement & MOVE_RUN) )
-                    type = MovingCreature::MT_RUECKWAERTS_JOGGEN;
+                    type = CreatureController::MT_RUECKWAERTS_JOGGEN;
                 mMovingCreature->setMovement(
                     type,
                     Vector3(0,0,1), 
@@ -393,14 +393,14 @@ namespace rl {
                 if( movement & MOVE_LEFT )
                     direction = Vector3::NEGATIVE_UNIT_X;
                 mMovingCreature->setMovement(
-                    MovingCreature::MT_SEITWAERTS_GEHEN,
+                    CreatureController::MT_SEITWAERTS_GEHEN,
                     direction, 
                     Vector3(0, rotation.valueRadians(), 0) );
             }
             else
             {
                 mMovingCreature->setMovement(
-                    MovingCreature::MT_STEHEN, 
+                    CreatureController::MT_STEHEN, 
                     Vector3(0,0,0),
                     Vector3(0, rotation.valueRadians(), 0) );
             }
@@ -503,7 +503,7 @@ namespace rl {
     }
 
     // -------------------------------------------------------------
-    // character collision moved to MovingCreature(Manager)
+    // character collision moved to CreatureController(Manager)
     int MovementControlState::userProcess()
     {
         // only camera collision
@@ -519,7 +519,7 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    // character callback moved to MovingCreature
+    // character callback moved to CreatureController
     void MovementControlState::OnApplyForceAndTorque(PhysicalThing* thing)
     {
         OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
@@ -530,7 +530,7 @@ namespace rl {
 
 
 
-        ///@todo move to MovingCreature?
+        ///@todo move to CreatureController?
         SceneNode* node = mCharacterActor->_getSceneNode();
         std::ostringstream ss;
         Vector3 bodpos, playpos = node->getPosition();
@@ -550,7 +550,7 @@ namespace rl {
             << "camera actor : " << mCameraActor->getWorldPosition() << std::endl
             << "camera body pos : " << bodpos << std::endl
             << "camera distance : " << mDesiredDistance << std::endl
-            << "is airborne: " << (mMovingCreature->getAbstractLocation() == MovingCreature::AL_AIRBORNE ? "true" : "false") << std::endl;
+            << "is airborne: " << (mMovingCreature->getAbstractLocation() == CreatureController::AL_AIRBORNE ? "true" : "false") << std::endl;
 
         LOG_DEBUG(Logger::UI, ss.str());
         DebugWindow::getSingleton().setPageText(msDebugWindowPageName, ss.str());

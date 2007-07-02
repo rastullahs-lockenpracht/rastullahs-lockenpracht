@@ -135,18 +135,18 @@ public:
 } //namespace rl
 
 %{
-static swig_type_info *CharacterController_dynamic_cast(void **ptr)
+static swig_type_info *ControlState_dynamic_cast(void **ptr)
 {
-    rl::ControlState **ppCharacterController =
+    rl::ControlState **ppControlState =
         reinterpret_cast<rl::ControlState**>(ptr);
 
-    rl::CutsceneControlState *pCutSceneCC =
-        dynamic_cast<rl::CutsceneControlState*>(*ppCharacterController);
-    if (pCutSceneCC != NULL) {
-        *ptr=pCutSceneCC;
-        return SWIGTYPE_p_rl__CutsceneCharacterController;
+    rl::CutsceneControlState *pCutSceneCS =
+        dynamic_cast<rl::CutsceneControlState*>(*ppControlState);
+    if (pCutSceneCS != NULL) {
+        *ptr=pCutSceneCS;
+        return SWIGTYPE_p_rl__CutsceneControlState;
     }
     return 0;
 }
 %}
-DYNAMIC_CAST(SWIGTYPE_p_rl__CharacterController, CharacterController_dynamic_cast);
+DYNAMIC_CAST(SWIGTYPE_p_rl__ControlState, ControlState_dynamic_cast);

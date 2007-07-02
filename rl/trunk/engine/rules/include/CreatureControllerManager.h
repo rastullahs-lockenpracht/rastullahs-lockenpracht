@@ -28,29 +28,29 @@
 
 namespace rl
 {
-    class MovingCreature;
+    class CreatureController;
 
-    class _RlRulesExport MovingCreatureManager : 
+    class _RlRulesExport CreatureControllerManager : 
         public GameTask,
-        public Ogre::Singleton<MovingCreatureManager>,
+        public Ogre::Singleton<CreatureControllerManager>,
         public PhysicsGenericContactCallback
     {
     public:
-        MovingCreatureManager();
-        ~MovingCreatureManager();
+        CreatureControllerManager();
+        ~CreatureControllerManager();
 
         /**
          * adds a new movingCreature, this function is not intended to be used directly; 
-         * each MovingCreature is automatically added. a creature is always added in a
+         * each CreatureController is automatically added. a creature is always added in a
          * idle state
          */
-        void add(MovingCreature *movingCreature);
+        void add(CreatureController *movingCreature);
 
         /**
          * removes a movingCreature, this function is not intended to be used directly, 
          * destroy the movingCreature instead.
          */
-        void remove(MovingCreature *movingCreature);
+        void remove(CreatureController *movingCreature);
 
         void run(Ogre::Real elapsedTime);
 
@@ -59,14 +59,14 @@ namespace rl
          * frame. This must be the case, if the creature is moving. If a creature is in an
          * idle state, it is only updated less often
          */
-        void setActive(MovingCreature* movingCreature);
+        void setActive(CreatureController* movingCreature);
 
         const Ogre::String & getName() const {return mName;}
 
         // Newton Contact Callback
         int userProcess();
     protected:
-        typedef std::vector<MovingCreature*> MovingCreatureVector;
+        typedef std::vector<CreatureController*> MovingCreatureVector;
         MovingCreatureVector mActiveCreatures;
         MovingCreatureVector mIdleCreatures;
         MovingCreatureVector mAddToActiveCreatures;
@@ -74,7 +74,7 @@ namespace rl
         Ogre::Real mTimeSinceLastIdleUpdate;
         Ogre::String mName;
 
-        typedef std::map<OgreNewt::Body*,MovingCreature*> MovingCreatureBodyMap;
+        typedef std::map<OgreNewt::Body*,CreatureController*> MovingCreatureBodyMap;
         MovingCreatureBodyMap mMovingCreatureFromBody;
     };
 }

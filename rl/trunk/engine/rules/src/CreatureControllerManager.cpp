@@ -20,23 +20,23 @@
 #include "GameTask.h"
 #include "GameLoop.h"
 #include "Exception.h"
-#include "MovingCreatureManager.h"
-#include "MovingCreature.h"
+#include "CreatureControllerManager.h"
+#include "CreatureController.h"
 
 
 using namespace Ogre;
 using namespace std;
 
 
-template<> rl::MovingCreatureManager* Singleton<rl::MovingCreatureManager>::ms_Singleton = 0;
+template<> rl::CreatureControllerManager* Singleton<rl::CreatureControllerManager>::ms_Singleton = 0;
 
 
 namespace rl
 {
-    MovingCreatureManager::MovingCreatureManager() :
+    CreatureControllerManager::CreatureControllerManager() :
             mUpdateIdleTime(1.0f),
             mTimeSinceLastIdleUpdate(0.0f),
-            mName("MovingCreatureManager")
+            mName("CreatureControllerManager")
     {
         GameLoop::getSingleton().addTask(this, GameLoop::TG_LOGIC);
 
@@ -51,7 +51,7 @@ namespace rl
         physicsManager->createMaterialPair(char_mat, level_mat)->setContactCallback(this);
     }
 
-    MovingCreatureManager::~MovingCreatureManager()
+    CreatureControllerManager::~CreatureControllerManager()
     {
         PhysicsManager *physicsManager = PhysicsManager::getSingletonPtr();
         const OgreNewt::MaterialID *char_mat = physicsManager->getMaterialID("character");
@@ -66,7 +66,7 @@ namespace rl
         GameLoop::getSingleton().removeTask(this);
     }
 
-    void MovingCreatureManager::add(MovingCreature *movingCreature)
+    void CreatureControllerManager::add(CreatureController *movingCreature)
     {
         if(movingCreature == NULL)
         {
@@ -78,14 +78,14 @@ namespace rl
         {
             if( (*iter) == movingCreature )
             {
-                Throw(IllegalArgumentException, "MovingCreature wird schon vom MovingCreatureManager verwaltet.");
+                Throw(IllegalArgumentException, "CreatureController wird schon vom CreatureControllerManager verwaltet.");
             }
         }
         for(iter = mActiveCreatures.begin(); iter != mActiveCreatures.end(); iter++)
         {
             if( (*iter) == movingCreature )
             {
-                Throw(IllegalArgumentException, "MovingCreature wird schon vom MovingCreatureManager verwaltet.");
+                Throw(IllegalArgumentException, "CreatureController wird schon vom CreatureControllerManager verwaltet.");
             }
         }
 
@@ -96,7 +96,7 @@ namespace rl
     }
 
 
-    void MovingCreatureManager::remove(MovingCreature *movingCreature)
+    void CreatureControllerManager::remove(CreatureController *movingCreature)
     {
         if(movingCreature == NULL)
         {
@@ -108,7 +108,7 @@ namespace rl
 
         if( body_iter == mMovingCreatureFromBody.end() )
         {
-            Throw(IllegalArgumentException, "MovingCreature wird nicht vom MovingCreatureManager verwaltet.");
+            Throw(IllegalArgumentException, "CreatureController wird nicht vom CreatureControllerManager verwaltet.");
         }
 
         mMovingCreatureFromBody.erase(body_iter);
@@ -141,10 +141,10 @@ namespace rl
         }
 
 
-        Throw(IllegalArgumentException, "MovingCreature wird nicht vom MovingCreatureManager verwaltet.");
+        Throw(IllegalArgumentException, "CreatureController wird nicht vom CreatureControllerManager verwaltet.");
     }
 
-    void MovingCreatureManager::run(Real elapsedTime)
+    void CreatureControllerManager::run(Real elapsedTime)
     {
         mTimeSinceLastIdleUpdate += elapsedTime;
 
@@ -166,7 +166,7 @@ namespace rl
     }
 
 
-    void MovingCreatureManager::setActive(MovingCreature* movingCreature)
+    void CreatureControllerManager::setActive(CreatureController* movingCreature)
     {
         if(movingCreature == NULL)
         {
@@ -194,17 +194,17 @@ namespace rl
         {
             if( *iter == movingCreature )
             {
-                LOG_DEBUG(Logger::RULES, "Die angegebene MovingCreature ist schon aktiv.");
+                LOG_DEBUG(Logger::RULES, "Die angegebene CreatureController ist schon aktiv.");
                 return;
             }
         }
 
 
-        Throw(IllegalArgumentException, "MovingCreature wird nicht vom MovingCreatureManager verwaltet.");
+        Throw(IllegalArgumentException, "CreatureController wird nicht vom CreatureControllerManager verwaltet.");
     }
 
 
-    int MovingCreatureManager::userProcess()
+    int CreatureControllerManager::userProcess()
     {
         MovingCreatureBodyMap::iterator iter;
         iter = mMovingCreatureFromBody.find(m_body0);

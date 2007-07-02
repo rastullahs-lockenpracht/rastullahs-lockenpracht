@@ -751,10 +751,10 @@ namespace rl {
         rl::TimerEventSource* getSource() const;
     };
     
-    class MovingCreature
+    class CreatureController
     {
     public:
-        MovingCreature(Creature *character); 
+        CreatureController(Creature *character); 
         
         typedef enum
         {

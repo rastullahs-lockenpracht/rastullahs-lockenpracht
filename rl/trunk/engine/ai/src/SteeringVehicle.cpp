@@ -20,7 +20,7 @@
 #include "Actor.h"
 #include "Creature.h"
 #include "MeshObject.h"
-#include "MovingCreature.h"
+#include "CreatureController.h"
 #include "PhysicalThing.h"
 
 using namespace Ogre;
@@ -56,7 +56,7 @@ void SteeringVehicle::createMovingCreature()
 {
     if( mMovingCreature == NULL )
     {
-        mMovingCreature = new MovingCreature(mCreature);
+        mMovingCreature = new CreatureController(mCreature);
     }
 }
 
@@ -145,7 +145,7 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
         mCreature->modifyAu(20,true);
 
 
-    AbstractMovement *mov_drehen = mMovingCreature->getMovementFromId(MovingCreature::MT_DREHEN);
+    AbstractMovement *mov_drehen = mMovingCreature->getMovementFromId(CreatureController::MT_DREHEN);
     Real vel_drehen(0);
     Radian max_drehen = Degree(0);
     if( mov_drehen->calculateBaseVelocity(vel_drehen) )
@@ -165,11 +165,11 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 
     Ogre::Vector3 direction(Ogre::Vector3::ZERO);
     Ogre::Vector3 rotation(0,yaw.valueRadians(),0);
-    MovingCreature::MovementType movement = MovingCreature::MT_STEHEN;
+    CreatureController::MovementType movement = CreatureController::MT_STEHEN;
     if( result != Ogre::Vector3::ZERO )
     {
         direction.z = -1;
-        movement = MovingCreature::MT_GEHEN;
+        movement = CreatureController::MT_GEHEN;
     }
 
 

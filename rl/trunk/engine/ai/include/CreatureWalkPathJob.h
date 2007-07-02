@@ -23,7 +23,7 @@
 #include "LandmarkPath.h"
 
 #include "Job.h"
-#include "MovingCreature.h"
+#include "CreatureController.h"
 
 namespace rl
 {
@@ -35,7 +35,7 @@ namespace rl
         * @param movingCreature the job has to know a moving creature
         * @param startLandmark first landmark, the moving creature has to go to
         */
-        CreatureWalkPathJob(const Ogre::String& name, MovingCreature* movingCreature, Landmark* startLandmark);
+        CreatureWalkPathJob(const Ogre::String& name, CreatureController* movingCreature, Landmark* startLandmark);
         //destructor
         virtual ~CreatureWalkPathJob();
 
@@ -50,13 +50,13 @@ namespace rl
         virtual bool execute(Ogre::Real time);
 
         // @retval the moving creature controlled by this object
-        MovingCreature* getMovingCreature();
+        CreatureController* getMovingCreature();
     private:
         void updateCreature(Ogre::Real time);
 
         LandmarkPath mLandmarkPath;
         Ogre::String mName;
-        MovingCreature* mMovingCreature;
+        CreatureController* mMovingCreature;
 
         Landmark* mCurrentLandmark;
         Landmark* mNextLandmark;

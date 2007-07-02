@@ -43,7 +43,7 @@ namespace rl
 	class Actor;
 	class Agent;
 	class PhysicalThing;
-    class MovingCreature;
+    class CreatureController;
 
 	/**
 	 * Realises steering for NPCs
@@ -299,7 +299,7 @@ namespace rl
         //! Creature object steered by this vehicle (and controlled by Agent).
         Creature* mCreature;
 
-        MovingCreature* mMovingCreature;
+        CreatureController* mMovingCreature;
 
         // derived from debugvisualisable
         virtual void doCreatePrimitive();

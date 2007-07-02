@@ -20,8 +20,8 @@
 #include "DsaManager.h"
 #include "MeshAnimation.h"
 #include "MeshObject.h"
-#include "MovingCreature.h"
-#include "MovingCreatureManager.h"
+#include "CreatureController.h"
+#include "CreatureControllerManager.h"
 #include "PhysicsManager.h"
 #include "PhysicalThing.h"
 
@@ -37,9 +37,9 @@ namespace rl
     class Stehen : public AbstractMovement
     {
     public:
-        Stehen(MovingCreature *creature) : AbstractMovement(creature), mVelocity(Vector3::ZERO), mRotationMovement(NULL) {}
-        virtual MovingCreature::MovementType getId() const {return MovingCreature::MT_STEHEN;}
-        virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_NONE;}
+        Stehen(CreatureController *creature) : AbstractMovement(creature), mVelocity(Vector3::ZERO), mRotationMovement(NULL) {}
+        virtual CreatureController::MovementType getId() const {return CreatureController::MT_STEHEN;}
+        virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_NONE;}
         virtual void activate()
         {
             AbstractMovement::activate();
@@ -58,7 +58,7 @@ namespace rl
         virtual bool isPossible() const
         {
             return 
-                mMovingCreature->getAbstractLocation() == MovingCreature::AL_FLOOR &&
+                mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
                 mMovingCreature->getCreature()->getAu() > 0 &&
                 !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_DEAD | Effect::STATUS_UNCONSCIOUS | Effect::STATUS_SLEEPING));
         }
@@ -124,7 +124,7 @@ namespace rl
         {
             if( mRotationMovement == NULL)
             {                
-                mRotationMovement = mMovingCreature->getMovementFromId(MovingCreature::MT_DREHEN);
+                mRotationMovement = mMovingCreature->getMovementFromId(CreatureController::MT_DREHEN);
             }
             if( mRotationMovement == NULL )
             {
@@ -137,14 +137,14 @@ namespace rl
     class Drehen : public AbstractMovement
     {
     public:
-        Drehen(MovingCreature *creature) : AbstractMovement(creature), mYaw(0)
+        Drehen(CreatureController *creature) : AbstractMovement(creature), mYaw(0)
         {
             mRotLinearSpringK = 600.0f;
             Real relationCoefficient = 1.0f;
             mRotLinearDampingK = relationCoefficient * 2.0f * Math::Sqrt(mRotLinearSpringK);
         }
-        virtual MovingCreature::MovementType getId() const {return MovingCreature::MT_DREHEN;}
-        virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_NONE;}
+        virtual CreatureController::MovementType getId() const {return CreatureController::MT_DREHEN;}
+        virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_NONE;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
             velocity = 0.3f;
@@ -153,7 +153,7 @@ namespace rl
         virtual bool isPossible() const
         {
             return 
-                mMovingCreature->getAbstractLocation() == MovingCreature::AL_FLOOR;// &&
+                mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR;// &&
                 mMovingCreature->getCreature()->getAu() > 1 &&
                 !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
         }
@@ -229,9 +229,9 @@ namespace rl
     class Gehen : public Stehen
     {
     public:
-        Gehen(MovingCreature *creature) : Stehen(creature) {}
-        virtual MovingCreature::MovementType getId() const {return MovingCreature::MT_GEHEN;}
-        virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_STEHEN;}
+        Gehen(CreatureController *creature) : Stehen(creature) {}
+        virtual CreatureController::MovementType getId() const {return CreatureController::MT_GEHEN;}
+        virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_STEHEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
             velocity = mMovingCreature->getCurrentGS() / 3.6f * 0.7f; 
@@ -240,7 +240,7 @@ namespace rl
         virtual bool isPossible() const
         {
             return 
-                mMovingCreature->getAbstractLocation() == MovingCreature::AL_FLOOR && 
+                mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR && 
                 mMovingCreature->getCreature()->getAu() > 1 &&
                 !(mMovingCreature->getCreature()->getStatus() & Effect::STATUS_IMMOBILE);
         }
@@ -272,14 +272,14 @@ namespace rl
             
             switch( mMovingCreature->getLastMovementType() )
             {
-            case MovingCreature::MT_NONE:
+            case CreatureController::MT_NONE:
                 break;
-            case MovingCreature::MT_STEHEN:
+            case CreatureController::MT_STEHEN:
                 relTimeOffset = 0.25;
                 break;
-            case MovingCreature::MT_JOGGEN:
-            case MovingCreature::MT_LAUFEN:
-            case MovingCreature::MT_RENNEN:
+            case CreatureController::MT_JOGGEN:
+            case CreatureController::MT_LAUFEN:
+            case CreatureController::MT_RENNEN:
                 relTimeOffset = mMovingCreature->getAnimationTimePlayed();
                 if( mMovingCreature->getLastMovementChange() < 1.0f )
                     weight = mMovingCreature->getLastMovementChange() / 1.0f;
@@ -302,9 +302,9 @@ namespace rl
     class Joggen : public Gehen
     {
     public:
-        Joggen(MovingCreature *creature) : Gehen(creature) {}
-        virtual MovingCreature::MovementType getId() const {return MovingCreature::MT_JOGGEN;}
-        virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_GEHEN;}
+        Joggen(CreatureController *creature) : Gehen(creature) {}
+        virtual CreatureController::MovementType getId() const {return CreatureController::MT_JOGGEN;}
+        virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_GEHEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
             velocity = mMovingCreature->getCurrentGS() / 2.8f; 
@@ -331,12 +331,12 @@ namespace rl
 
             switch( mMovingCreature->getLastMovementType() )
             {
-            case MovingCreature::MT_NONE:
+            case CreatureController::MT_NONE:
                 break;
-            case MovingCreature::MT_STEHEN:
+            case CreatureController::MT_STEHEN:
                 relTimeOffset = 0.25;
                 break;
-            case MovingCreature::MT_GEHEN:
+            case CreatureController::MT_GEHEN:
                 relTimeOffset = mMovingCreature->getAnimationTimePlayed();
                 if( mMovingCreature->getLastMovementChange() < 0.5f )
                     weight = mMovingCreature->getLastMovementChange() / 0.5f;
@@ -358,9 +358,9 @@ namespace rl
     class Laufen : public Gehen
     {
     public:
-        Laufen(MovingCreature *creature) : Gehen(creature), mTimePerAu(1), mLastProbe(0) {}
-        virtual MovingCreature::MovementType getId() const {return MovingCreature::MT_LAUFEN;}
-        virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_JOGGEN;}
+        Laufen(CreatureController *creature) : Gehen(creature), mTimePerAu(1), mLastProbe(0) {}
+        virtual CreatureController::MovementType getId() const {return CreatureController::MT_LAUFEN;}
+        virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_JOGGEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
             velocity = mMovingCreature->getCurrentGS() / 2.0f; 
@@ -399,12 +399,12 @@ namespace rl
 
             switch( mMovingCreature->getLastMovementType() )
             {
-            case MovingCreature::MT_NONE:
+            case CreatureController::MT_NONE:
                 break;
-            case MovingCreature::MT_STEHEN:
+            case CreatureController::MT_STEHEN:
                 relTimeOffset = 0.25;
                 break;
-            case MovingCreature::MT_GEHEN:
+            case CreatureController::MT_GEHEN:
                 relTimeOffset = mMovingCreature->getAnimationTimePlayed();
                 if( mMovingCreature->getLastMovementChange() < 0.5f )
                     weight = mMovingCreature->getLastMovementChange() / 0.5f;
@@ -464,9 +464,9 @@ namespace rl
     class Rennen : public Gehen
     {
     public:
-        Rennen(MovingCreature *creature) : Gehen(creature), mVelocityImprovement(0), mLastProbe(0) {}
-        virtual MovingCreature::MovementType getId() const {return MovingCreature::MT_RENNEN;}
-        virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_LAUFEN;}
+        Rennen(CreatureController *creature) : Gehen(creature), mVelocityImprovement(0), mLastProbe(0) {}
+        virtual CreatureController::MovementType getId() const {return CreatureController::MT_RENNEN;}
+        virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_LAUFEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
             velocity = mMovingCreature->getCurrentGS(); 
@@ -509,12 +509,12 @@ namespace rl
 
             switch( mMovingCreature->getLastMovementType() )
             {
-            case MovingCreature::MT_NONE:
+            case CreatureController::MT_NONE:
                 break;
-            case MovingCreature::MT_STEHEN:
+            case CreatureController::MT_STEHEN:
                 relTimeOffset = 0.25;
                 break;
-            case MovingCreature::MT_GEHEN:
+            case CreatureController::MT_GEHEN:
                 relTimeOffset = mMovingCreature->getAnimationTimePlayed();
                 if( mMovingCreature->getLastMovementChange() < 0.5f )
                     weight = mMovingCreature->getLastMovementChange() / 0.5f;
@@ -573,9 +573,9 @@ namespace rl
     class RueckwaertsGehen : public Gehen
     {
     public:
-        RueckwaertsGehen(MovingCreature *creature) : Gehen(creature) {}
-        virtual MovingCreature::MovementType getId() const {return MovingCreature::MT_RUECKWAERTS_GEHEN;}
-        virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_STEHEN;}
+        RueckwaertsGehen(CreatureController *creature) : Gehen(creature) {}
+        virtual CreatureController::MovementType getId() const {return CreatureController::MT_RUECKWAERTS_GEHEN;}
+        virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_STEHEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
             velocity = mMovingCreature->getCurrentGS() / 4.0; 
@@ -590,9 +590,9 @@ namespace rl
     class RueckwaertsJoggen : public Joggen
     {
     public:
-        RueckwaertsJoggen(MovingCreature *creature) : Joggen(creature) {}
-        virtual MovingCreature::MovementType getId() const {return MovingCreature::MT_RUECKWAERTS_JOGGEN;}
-        virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_RUECKWAERTS_GEHEN;}
+        RueckwaertsJoggen(CreatureController *creature) : Joggen(creature) {}
+        virtual CreatureController::MovementType getId() const {return CreatureController::MT_RUECKWAERTS_JOGGEN;}
+        virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_RUECKWAERTS_GEHEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
             velocity = mMovingCreature->getCurrentGS() / 3.2; 
@@ -608,9 +608,9 @@ namespace rl
     class SeitwaertsGehen : public Gehen
     {
     public:
-        SeitwaertsGehen(MovingCreature *creature) : Gehen(creature), mLeft(true) {}
-        virtual MovingCreature::MovementType getId() const {return MovingCreature::MT_SEITWAERTS_GEHEN;}
-        virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_STEHEN;}
+        SeitwaertsGehen(CreatureController *creature) : Gehen(creature), mLeft(true) {}
+        virtual CreatureController::MovementType getId() const {return CreatureController::MT_SEITWAERTS_GEHEN;}
+        virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_STEHEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
             velocity = mMovingCreature->getCurrentGS() / 4.0; 
@@ -641,9 +641,9 @@ namespace rl
     class Schleichen : public Gehen
     {
     public:
-        Schleichen(MovingCreature *creature) : Gehen(creature), mState(UP), mTimer(0) {}
-        virtual MovingCreature::MovementType getId() const {return MovingCreature::MT_SCHLEICHEN;}
-        virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_STEHEN;}
+        Schleichen(CreatureController *creature) : Gehen(creature), mState(UP), mTimer(0) {}
+        virtual CreatureController::MovementType getId() const {return CreatureController::MT_SCHLEICHEN;}
+        virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_STEHEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
             velocity = mMovingCreature->getCurrentGS() / 6.0; 
@@ -659,7 +659,7 @@ namespace rl
             }
             if( mState == UP )
             {
-                mMovingCreature->setMovement(MovingCreature::MT_STEHEN, direction, rotation);
+                mMovingCreature->setMovement(CreatureController::MT_STEHEN, direction, rotation);
             }
             if( mState == DOWNTOUP )
             {
@@ -695,11 +695,11 @@ namespace rl
             mMovingCreature->setAnimation("idle_zu_hocke",1,1,"Idle");
             mTimer = 0;
         }
-        virtual bool canChangeToMovement(MovingCreature::MovementType id)
+        virtual bool canChangeToMovement(CreatureController::MovementType id)
         {
             return mState == UP;
         }
-        virtual void requestChangeToMovement(MovingCreature::MovementType id)
+        virtual void requestChangeToMovement(CreatureController::MovementType id)
         {
             if( mState == DOWN )
             {
@@ -717,9 +717,9 @@ namespace rl
     class Hochsprung : public AbstractMovement
     {
     public:
-        Hochsprung(MovingCreature *creature) : AbstractMovement(creature), mState(DOWN), mHeight(0), mJumpNow(false), mTimer(0) {}
-        virtual MovingCreature::MovementType getId() const {return MovingCreature::MT_HOCHSPRUNG;}
-        virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_STEHEN;}
+        Hochsprung(CreatureController *creature) : AbstractMovement(creature), mState(DOWN), mHeight(0), mJumpNow(false), mTimer(0) {}
+        virtual CreatureController::MovementType getId() const {return CreatureController::MT_HOCHSPRUNG;}
+        virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_STEHEN;}
         virtual void activate()
         {
             AbstractMovement::activate();
@@ -775,13 +775,13 @@ namespace rl
         {
             if( mMovingCreature->getMovement() == this )
                 return
-                    (mMovingCreature->getAbstractLocation() == MovingCreature::AL_FLOOR ||
-                    mMovingCreature->getAbstractLocation() == MovingCreature::AL_AIRBORNE) &&
+                    (mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR ||
+                    mMovingCreature->getAbstractLocation() == CreatureController::AL_AIRBORNE) &&
                     mMovingCreature->getCreature()->getAu() > 6 &&
                     !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
             else
                 return 
-                mMovingCreature->getAbstractLocation() == MovingCreature::AL_FLOOR &&
+                mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
                 mMovingCreature->getCreature()->getAu() > 8 &&
                 mMovingCreature->getCreature()->getAu() > mMovingCreature->getCreature()->getAuMax()/3.0 &&
                 !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
@@ -805,7 +805,7 @@ namespace rl
                 force = Vector3(0,
                     jumpForce,
                     0);
-                mMovingCreature->setAbstractLocation( MovingCreature::AL_AIRBORNE );
+                mMovingCreature->setAbstractLocation( CreatureController::AL_AIRBORNE );
             }
 
             Vector3 omega = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody()->getOmega();
@@ -815,7 +815,7 @@ namespace rl
         {
             if( mState == DOWN )
             {
-                mMovingCreature->setMovement(MovingCreature::MT_STEHEN, direction, rotation);
+                mMovingCreature->setMovement(CreatureController::MT_STEHEN, direction, rotation);
             }
             if( mState == UPTODOWN )
             {
@@ -830,9 +830,9 @@ namespace rl
                 mTimer += elapsedTime;
                 if( mTimer < 0.5f )
                 {
-                    mMovingCreature->setAbstractLocation( MovingCreature::AL_AIRBORNE );
+                    mMovingCreature->setAbstractLocation( CreatureController::AL_AIRBORNE );
                 }
-                else if( mMovingCreature->getAbstractLocation() != MovingCreature::AL_AIRBORNE )
+                else if( mMovingCreature->getAbstractLocation() != CreatureController::AL_AIRBORNE )
                 {
                     mState = UPTODOWN;
                     mMovingCreature->setAnimation("idle_sprung_landung", 1, 1, "Idle");
@@ -845,7 +845,7 @@ namespace rl
                 if( mTimer >= 0.25f )
                 {
                     mState = UP;
-                    mMovingCreature->setAbstractLocation(MovingCreature::AL_AIRBORNE);
+                    mMovingCreature->setAbstractLocation(CreatureController::AL_AIRBORNE);
                     //mMovingCreature->setAnimation("idle_sprung"); // we also don't need this animation!
                     mJumpNow = true;
                     mTimer = 0;
@@ -866,7 +866,7 @@ namespace rl
             rotation = Vector3::ZERO;
             return false;
         }
-        virtual bool canChangeToMovement(MovingCreature::MovementType id)
+        virtual bool canChangeToMovement(CreatureController::MovementType id)
         {
             return mState == DOWN;
         }
@@ -881,13 +881,13 @@ namespace rl
     class Weitsprung : public AbstractMovement
     {
     public:
-        Weitsprung(MovingCreature *creature) : 
+        Weitsprung(CreatureController *creature) : 
           AbstractMovement(creature), mState(DOWN), mWidth(0),
               mJumpNow(false), mTimer(0), mApplyForceTime(0.12),
               mApplyForceTimer(0), mLastForce(Vector3::ZERO),
               mVelocityBeforeJump(0), mTanJumpAngle(Math::Tan(Degree(17))) {}
-        virtual MovingCreature::MovementType getId() const {return MovingCreature::MT_WEITSPRUNG;}
-        virtual MovingCreature::MovementType getFallBackMovement() const {return MovingCreature::MT_STEHEN;}
+        virtual CreatureController::MovementType getId() const {return CreatureController::MT_WEITSPRUNG;}
+        virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_STEHEN;}
         virtual void activate()
         {
             AbstractMovement::activate();
@@ -900,7 +900,7 @@ namespace rl
             {
                 // the person will only achieve this width if it is running
                 // retrieve run movement
-                AbstractMovement *run = mMovingCreature->getMovementFromId(MovingCreature::MT_RENNEN);
+                AbstractMovement *run = mMovingCreature->getMovementFromId(CreatureController::MT_RENNEN);
                 if( run != NULL )
                 {
                     Real vel(0);
@@ -957,13 +957,13 @@ namespace rl
         {
             if( mMovingCreature->getMovement() == this )
                 return
-                    (mMovingCreature->getAbstractLocation() == MovingCreature::AL_FLOOR ||
-                    mMovingCreature->getAbstractLocation() == MovingCreature::AL_AIRBORNE) &&
+                    (mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR ||
+                    mMovingCreature->getAbstractLocation() == CreatureController::AL_AIRBORNE) &&
                     mMovingCreature->getCreature()->getAu() > 6 &&
                     !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
             else
                 return 
-                mMovingCreature->getAbstractLocation() == MovingCreature::AL_FLOOR &&
+                mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
                 mMovingCreature->getCreature()->getAu() > 8 &&
                 mMovingCreature->getCreature()->getAu() > mMovingCreature->getCreature()->getAuMax()/3.0 &&
                 !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
@@ -1045,7 +1045,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
         {
             if( mState == DOWN )
             {
-                mMovingCreature->setMovement(MovingCreature::MT_STEHEN, direction, rotation);
+                mMovingCreature->setMovement(CreatureController::MT_STEHEN, direction, rotation);
             }
             if( mState == UPTODOWN )
             {
@@ -1060,9 +1060,9 @@ LOG_MESSAGE(Logger::RULES, oss.str());
                 mTimer += elapsedTime;
                 if( mTimer < 0.5f )
                 {
-                    mMovingCreature->setAbstractLocation( MovingCreature::AL_AIRBORNE );
+                    mMovingCreature->setAbstractLocation( CreatureController::AL_AIRBORNE );
                 }
-                else if( mMovingCreature->getAbstractLocation() != MovingCreature::AL_AIRBORNE )
+                else if( mMovingCreature->getAbstractLocation() != CreatureController::AL_AIRBORNE )
                 {
                     mState = UPTODOWN;
                     mMovingCreature->setAnimation("rennen_sprung_landung", 1, 1, "Run");
@@ -1075,7 +1075,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
                 if( mTimer >= 0.3f )
                 {
                     mState = UP;
-                    mMovingCreature->setAbstractLocation(MovingCreature::AL_AIRBORNE);
+                    mMovingCreature->setAbstractLocation(CreatureController::AL_AIRBORNE);
                     //mMovingCreature->setAnimation("rennen_sprung");
                     mJumpNow = true;
                     mApplyForceTimer = 0;
@@ -1098,7 +1098,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
             rotation = Vector3::ZERO;
             return false;
         }
-        virtual bool canChangeToMovement(MovingCreature::MovementType id)
+        virtual bool canChangeToMovement(CreatureController::MovementType id)
         {
             return mState == DOWN;
         }
@@ -1131,7 +1131,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
 
 
 
-    MovingCreature::MovingCreature(Creature *creature) :
+    CreatureController::CreatureController(Creature *creature) :
         mCreature(creature),
         mAbstractLocation(AL_AIRBORNE),
         mMovement(NULL),
@@ -1145,7 +1145,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
         mStillWeightedAnimationName(""),
         mLastFloorContact(0)
     {
-        MovingCreatureManager::getSingleton().add(this);
+        CreatureControllerManager::getSingleton().add(this);
         
         const OgreNewt::MaterialID *material = PhysicsManager::getSingleton().getMaterialID("character");
         mCreature->getActor()->getPhysicalThing()->setMaterialID(material);
@@ -1195,7 +1195,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
         mMovementMap.insert(movementPair);
     }
 
-    MovingCreature::~MovingCreature()
+    CreatureController::~CreatureController()
     {
         MovementMap::iterator iter;
         for(iter = mMovementMap.begin(); iter != mMovementMap.end(); iter++)
@@ -1204,10 +1204,10 @@ LOG_MESSAGE(Logger::RULES, oss.str());
 
         mCreature->getActor()->getPhysicalThing()->setPhysicsController(NULL);
 
-        MovingCreatureManager::getSingleton().remove(this);
+        CreatureControllerManager::getSingleton().remove(this);
     }
 
-    MovingCreature::MovementType MovingCreature::getMovementId() const
+    CreatureController::MovementType CreatureController::getMovementId() const
     {
         if (mMovement == NULL) 
             return MT_NONE; 
@@ -1215,7 +1215,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
             return mMovement->getId();
     }
 
-    int MovingCreature::getCurrentGS() const
+    int CreatureController::getCurrentGS() const
     {
         int act_gs = mCreature->getWert(Creature::WERT_GS);
         ///@todo wy does this not work
@@ -1223,7 +1223,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
         return max(act_gs,1);
     }
 
-    MeshAnimation *MovingCreature::setAnimation(const Ogre::String &name, Ogre::Real speed, unsigned int timesToPlay, const Ogre::String &collisionName, Real weight)
+    MeshAnimation *CreatureController::setAnimation(const Ogre::String &name, Ogre::Real speed, unsigned int timesToPlay, const Ogre::String &collisionName, Real weight)
     {
         MeshObject* mesh = dynamic_cast<MeshObject*>(mCreature->getActor()->getControlledObject());
         PhysicalThing* pt = mCreature->getActor()->getPhysicalThing();
@@ -1303,7 +1303,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
         return meshAnim;
     }
 
-    Ogre::Real MovingCreature::getAnimationTimePlayed() const
+    Ogre::Real CreatureController::getAnimationTimePlayed() const
     {
         MeshObject* mesh = dynamic_cast<MeshObject*>(mCreature->getActor()->getControlledObject());
         MeshAnimation *meshAnim = mesh->getAnimation(mLastAnimationName);
@@ -1312,19 +1312,19 @@ LOG_MESSAGE(Logger::RULES, oss.str());
         return 0;
     }
 
-    Ogre::Vector3 MovingCreature::getVelocity() const
+    Ogre::Vector3 CreatureController::getVelocity() const
     {
         return 
             mCreature->getActor()->getPhysicalThing()->getOrientation().Inverse() *
             mCreature->getActor()->getPhysicalThing()->_getBody()->getVelocity();
     }
 
-    Ogre::Vector3 MovingCreature::getOmega() const
+    Ogre::Vector3 CreatureController::getOmega() const
     {
         return mCreature->getActor()->getPhysicalThing()->_getBody()->getOmega();
     }
 
-    bool MovingCreature::run(Real elapsedTime)
+    bool CreatureController::run(Real elapsedTime)
     {
         if(mMovement != NULL)
         {
@@ -1343,7 +1343,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
         return false;
     }
 
-    void MovingCreature::OnApplyForceAndTorque(PhysicalThing* thing)
+    void CreatureController::OnApplyForceAndTorque(PhysicalThing* thing)
     {
         Vector3 force, torque;
         OgreNewt::Body *body = thing->_getBody();
@@ -1371,7 +1371,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
         body->setTorque(torque);
     }
 
-    int MovingCreature::userProcess()
+    int CreatureController::userProcess()
     {
         // own collision handling (floor, in order to get information for mAbstractLocation)
         Vector3 point;
@@ -1422,7 +1422,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
         return 1;
     }
 
-    AbstractMovement *MovingCreature::getMovementFromId(MovingCreature::MovementType id)
+    AbstractMovement *CreatureController::getMovementFromId(CreatureController::MovementType id)
     {
         MovementMap::iterator iter = mMovementMap.find(id);
         if(iter == mMovementMap.end())
@@ -1433,13 +1433,13 @@ LOG_MESSAGE(Logger::RULES, oss.str());
     }
 
 
-    bool MovingCreature::setMovement(MovementType type, Vector3 direction, Vector3 rotation)
+    bool CreatureController::setMovement(MovementType type, Vector3 direction, Vector3 rotation)
     {
         if( mMovement != NULL )
         {
             if( mMovement->getId() == type )
             {
-                MovingCreatureManager::getSingleton().setActive(this);
+                CreatureControllerManager::getSingleton().setActive(this);
                 mDirection = direction;
                 mRotation = rotation;
                 return true;
@@ -1462,7 +1462,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
         {
             if(movement->isPossible())
             {
-                MovingCreatureManager::getSingleton().setActive(this); // runs the old movement if idle!
+                CreatureControllerManager::getSingleton().setActive(this); // runs the old movement if idle!
                 if(mMovement == NULL)
                 {
                     mLastMovementType = MT_NONE;
@@ -1488,7 +1488,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
 
 
 
-    Ogre::Radian MovingCreature::getYaw()
+    Ogre::Radian CreatureController::getYaw()
     {
         Radian yaw = mCreature->getActor()->getWorldOrientation().getYaw();
 

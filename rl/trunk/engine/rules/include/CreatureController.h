@@ -30,14 +30,14 @@
 namespace rl
 {
     class AbstractMovement;
-    class MovingCreatureManager;
+    class CreatureControllerManager;
     class MeshAnimation;
 
     /** 
      * This class provides an interface to control the movement of a creature.
      * It handles all nessessary things like animations and calculates the movement speed.
      */
-    class _RlRulesExport MovingCreature :
+    class _RlRulesExport CreatureController :
         public PhysicsController,
         public PhysicsGenericContactCallback
     {
@@ -46,12 +46,12 @@ namespace rl
 		 * @param creature the creature of the bot/char
 		 * @param actor the actor of the bot/char
 		 */
-        MovingCreature(Creature *character);
-        ~MovingCreature();
+        CreatureController(Creature *character);
+        ~CreatureController();
 
         /**
          * This function is not intented to be called directly
-         * @retval true, if this MovingCreature still needs to be called every frame
+         * @retval true, if this CreatureController still needs to be called every frame
          */
         bool run(Ogre::Real elapsedTime);
 
@@ -162,7 +162,7 @@ namespace rl
         MovementMap mMovementMap;
 
         // in order to copy the contactcallback members correctly;
-        friend class MovingCreatureManager;
+        friend class CreatureControllerManager;
 
     private:
         // only used in setAnimation
@@ -181,13 +181,13 @@ namespace rl
         public OgreNewt::ContactCallback
     {
     public:
-        AbstractMovement(MovingCreature *movingCreature) : mMovingCreature(movingCreature), mActive(false) {}
+        AbstractMovement(CreatureController *movingCreature) : mMovingCreature(movingCreature), mActive(false) {}
 
         /// returns the id of this movement
-        virtual MovingCreature::MovementType getId() const = 0;
+        virtual CreatureController::MovementType getId() const = 0;
 
         /// returns the id of the movement that is used, if this movement isn't possible (any more)
-        virtual MovingCreature::MovementType getFallBackMovement() const = 0;
+        virtual CreatureController::MovementType getFallBackMovement() const = 0;
 
         /**
          * this method calculates the basis velocity (without any changes due to Talentproben etc)
@@ -208,7 +208,7 @@ namespace rl
         virtual int userProcess(OgreNewt::Body *body0, OgreNewt::Body *body1) {return 1;}
 
         /**
-         * this method is called by OnApplyTorqueAndForceCallback of the MovingCreature
+         * this method is called by OnApplyTorqueAndForceCallback of the CreatureController
          * the PhysicalThing can be acquired via the Creature
          */
         virtual void calculateForceAndTorque(Ogre::Vector3 &force, Ogre::Vector3 &torque, Ogre::Real timestep) = 0;
@@ -216,12 +216,12 @@ namespace rl
         /**
          * this method indicates if it is possible to change to the specified movement at this moment
          */
-        virtual bool canChangeToMovement(MovingCreature::MovementType id) {return true;}
+        virtual bool canChangeToMovement(CreatureController::MovementType id) {return true;}
 
         /**
          * this signifies that someone tried to change to another movement, but this was not possible (due to canChangeToMovement returning false)
          */
-        virtual void requestChangeToMovement(MovingCreature::MovementType id) {}
+        virtual void requestChangeToMovement(CreatureController::MovementType id) {}
 
         /**
          * here all the stuff not (directly) relating the physics should be done
@@ -229,7 +229,7 @@ namespace rl
          * Creature is in an active moving state. It is important to handle all 
          * "Talentproben" etc here and not in the physics function!
          * The parameter direction an rotation don't need to obey the rules from isDirectionPossible and isRotationPossible
-         * @retval true indicates that the creature should remain active (in order to activate it use MovingCreatureManager::setActive)
+         * @retval true indicates that the creature should remain active (in order to activate it use CreatureControllerManager::setActive)
          */
         virtual bool run(Ogre::Real elapsedTime,  Ogre::Vector3 direction, Ogre::Vector3 rotation) = 0;
 
@@ -267,7 +267,7 @@ namespace rl
         /// this method is used to return the yaw value of rotation movemenrts etc
         virtual Ogre::Real getMovementDefinedValue() {return 0;}
     protected:
-        MovingCreature *mMovingCreature;
+        CreatureController *mMovingCreature;
         bool mActive;
     };
 }

@@ -18,7 +18,7 @@
 
 namespace rl
 {
-    CreatureWalkPathJob::CreatureWalkPathJob(const Ogre::String& name, MovingCreature* movingCreature, Landmark* startLandmark) 
+    CreatureWalkPathJob::CreatureWalkPathJob(const Ogre::String& name, CreatureController* movingCreature, Landmark* startLandmark) 
         : Job(true, true), mLandmarkPath("LandmarkPath" + name), mNextLandmarkRequested(false)
     {
         //the moving creature moves from the current position to the landmark
@@ -64,7 +64,7 @@ namespace rl
         mLandmarkPath.addPoint(lm);
     }
 
-    MovingCreature* CreatureWalkPathJob::getMovingCreature()
+    CreatureController* CreatureWalkPathJob::getMovingCreature()
     {
         return mMovingCreature;
     }
@@ -80,7 +80,7 @@ namespace rl
         direction.y = 0;
         if( direction.squaredLength() < 0.04 )
         {
-            mMovingCreature->setMovement(MovingCreature::MT_STEHEN, Ogre::Vector3::ZERO, Ogre::Vector3::ZERO);
+            mMovingCreature->setMovement(CreatureController::MT_STEHEN, Ogre::Vector3::ZERO, Ogre::Vector3::ZERO);
             mNextLandmarkRequested = true;
             updatedDirection = false;
             return;
@@ -100,6 +100,6 @@ namespace rl
             timeSinceLastRotation = 0;
         }
 
-        mMovingCreature->setMovement(MovingCreature::MT_GEHEN, Ogre::Vector3::NEGATIVE_UNIT_Z, usedRotation);
+        mMovingCreature->setMovement(CreatureController::MT_GEHEN, Ogre::Vector3::NEGATIVE_UNIT_Z, usedRotation);
     }
 }

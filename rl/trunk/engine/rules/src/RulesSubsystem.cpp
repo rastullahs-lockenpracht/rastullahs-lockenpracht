@@ -22,7 +22,7 @@
 #include "DsaDataLoader.h"
 #include "EffectFactory.h"
 #include "Logger.h"
-#include "MovingCreatureManager.h"
+#include "CreatureControllerManager.h"
 #include "TimerManager.h"
 #include "GameObjectManager.h"
 #include "QuestBook.h"
@@ -51,8 +51,8 @@ namespace rl
 		LOG_MESSAGE(Logger::RULES, "CombatManager erzeugt");
         mDsaManager = new DsaManager();
 		LOG_MESSAGE(Logger::RULES, "DsaManager erzeugt");
-        mMovingCreatureManager = new MovingCreatureManager();
-		LOG_MESSAGE(Logger::RULES, "MovingCreatureManager erzeugt");
+        mMovingCreatureManager = new CreatureControllerManager();
+		LOG_MESSAGE(Logger::RULES, "CreatureControllerManager erzeugt");
         mTimerManager = new TimerManager(); 
 		LOG_MESSAGE(Logger::RULES, "TimerManager erzeugt");
 		resetQuestBook();
