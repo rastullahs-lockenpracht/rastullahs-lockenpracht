@@ -52,6 +52,7 @@ namespace rl {
 
     InventoryWindow::~InventoryWindow()
     {
+		mWorldBackground->removeAllEvents();
     }
 
     void InventoryWindow::createSlotWindows(Inventory* inventory)
@@ -244,28 +245,35 @@ namespace rl {
 			ItemDragContainer* dragcont = static_cast<ItemDragContainer*>(
 				evtArgs.dragDropItem);
 			Item* item = dragcont->getItem();
-			Vector2 targetPosWindow = dragcont->getPosition().asRelative(
-				getRoot()->getPixelSize());
+			Ogre::Vector3 targetPosWindow( 
+				dragcont->getPixelRect().d_left / getRoot()->getPixelSize().d_width,
+				dragcont->getPixelRect().d_top / getRoot()->getPixelSize().d_height,
+				-1);
 
 			if (dragcont->getItemParentContainer() != NULL)
 			{
 				dragcont->getItemParentContainer()->removeItem(item);
 				dragcont->getParent()->removeChildWindow(dragcont);
+				CEGUI::WindowManager::getSingleton().destroyWindow(dragcont->getContentWindow());
 				CEGUI::WindowManager::getSingleton().destroyWindow(dragcont);
-
 			}
 			else if (dragcont->getItemParentSlot() != "")
 			{
 				dragcont->getItemParentInventory()->dropItem(dragcont->getItemParentSlot());
 
 				dragcont->getParent()->removeChildWindow(dragcont);
+				CEGUI::WindowManager::getSingleton().destroyWindow(dragcont->getContentWindow());
 				CEGUI::WindowManager::getSingleton().destroyWindow(dragcont);
+			}
+			else
+			{
+				destroyDragContainer(dragcont);
 			}
 
 			Ogre::Vector3 targetPosWorldSpace = 
 				mInventory->getOwner()->getPosition() 
 				+ mInventory->getOwner()->getOrientation()
-				* Ogre::Vector3(1-targetPosWindow.d_x, 1-targetPosWindow.d_y, -1); ///@todo check why coordinates are negative
+				* targetPosWindow; ///@todo check why coordinates are negative
 			item->placeIntoScene();
 			item->setPosition(targetPosWorldSpace);
 
