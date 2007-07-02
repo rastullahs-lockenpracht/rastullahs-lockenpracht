@@ -37,6 +37,14 @@ namespace rl {
 
 	WindowManager::~WindowManager()
 	{
+		for(std::list<AbstractWindow*>::iterator it = mWindowList.begin(); it != mWindowList.end(); it++)
+		{
+			AbstractWindow* window = *it;
+			LOG_MESSAGE(Logger::UI, "Delete window "+window->getName());
+			//AbstractWindow::getRoot()->removeChildWindow(window->getWindow());
+			//CEGUI::WindowManager::getSingleton().destroyWindow(window->getWindow());
+		}
+		mWindowList.clear();
 	}
 	
 	void WindowManager::registerWindow(AbstractWindow* window)
@@ -44,15 +52,14 @@ namespace rl {
 		mWindowList.push_back(window);
 	}
 
-	void WindowManager::destroyWindow(AbstractWindow* window)
+	void WindowManager::unregisterWindow(AbstractWindow* window)
 	{
 		mWindowList.remove(window);
-		window->getWindow()->hide();
-		AbstractWindow::getRoot()->removeChildWindow(window->getWindow());
-		CEGUI::WindowManager::getSingleton().destroyWindow(window->getWindow());
+	}
 
-		///@todo memory leak, aber destroyWindow macht sonst Probleme (heap corruption)
-		//delete window;		
+	void WindowManager::destroyWindow(AbstractWindow* window)
+	{
+		delete window;
 	}
 
 	void WindowManager::closeTopWindow()

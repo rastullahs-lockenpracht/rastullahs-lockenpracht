@@ -40,6 +40,7 @@ namespace rl {
 		~WindowManager();
 
 		void registerWindow(AbstractWindow* window);
+		void unregisterWindow(AbstractWindow* window);
 		void destroyWindow(AbstractWindow* window);
 		void closeTopWindow();
 		bool handleMovedToFront(AbstractWindow* window);

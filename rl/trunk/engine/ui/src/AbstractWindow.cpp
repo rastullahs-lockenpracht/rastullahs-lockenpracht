@@ -76,6 +76,11 @@ namespace rl
 
 	AbstractWindow::~AbstractWindow()
 	{
+		mWindow->hide();
+		mWindow->removeAllEvents();
+		WindowManager::getSingleton().unregisterWindow(this);
+		getRoot()->removeChildWindow(mWindow);
+		CEGUI::WindowManager::getSingleton().destroyWindow(mWindow);
 	}
 
 	CEGUI::Window* AbstractWindow::loadWindow(const CeGuiString& xmlfile)
