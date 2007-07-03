@@ -12,6 +12,7 @@ class LightzoneTest < TestCase
 	  
 	  MapLoader.new("regressiontest").loadMap("regressiontest_lights.rlmap.xml")
 
+	  $SCRIPT.log("LightzoneTest initialisiert")
   end
 end
 

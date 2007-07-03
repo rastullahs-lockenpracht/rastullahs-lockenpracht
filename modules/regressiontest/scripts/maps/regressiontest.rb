@@ -50,7 +50,7 @@ ErrorHandlingTest.new([-10, 0, 5]).run()
    MapLoadingTest.new([-5, 0, -10]).run()
 MergeableMeshTest.new([10, 0, 0]).run()
      SelectorTest.new([5, 0, 0]).run()
-	  WalkJobTest.new([0.0,0.0,-3.0]).run()
+	  WalkJobTest.new([0.0,0.0,0.0]).run()
 
 $SCRIPT.log("tests initialisiert.");
 

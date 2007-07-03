@@ -37,5 +37,7 @@ class MapLoadingTest < TestCase
         p custom2
         p custom2
         p custom2.getActor()
+		
+		$SCRIPT.log("MapLoadingTest initialisiert")
     end
 end
