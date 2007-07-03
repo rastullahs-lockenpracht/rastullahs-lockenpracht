@@ -48,11 +48,14 @@ namespace rl {
 
         createSlotWindows(inventory);
         initInventoryWindow(inventory);
+
+		mMouseSelector = new RaySelector(QUERYFLAG_ITEM, true);
     }
 
     InventoryWindow::~InventoryWindow()
     {
 		mWorldBackground->removeAllEvents();
+		delete mMouseSelector;
     }
 
     void InventoryWindow::createSlotWindows(Inventory* inventory)
@@ -297,16 +300,15 @@ namespace rl {
 		CEGUI::Point mousePos = mevt.position;
 		mousePos.d_x /= getRoot()->getPixelSize().d_width;
 		mousePos.d_y /= getRoot()->getPixelSize().d_height;
-		static RaySelector sel(QUERYFLAG_ITEM, true);
 		Ogre::Ray camToWorld = camera->getCameraToViewportRay(
 			mousePos.d_x, mousePos.d_y); 
 		Ogre::Vector3 rayStart = camera->getCamera()->getWorldPosition();
 		Ogre::Vector3 rayDir = camera->getDirectionFromScreenPosition(
 			mousePos.d_x, mousePos.d_y); 
-		sel.setRay(camToWorld.getOrigin(), camToWorld.getPoint(3));
 
-		sel.updateSelection();
-		Selector::GameObjectVector objs = sel.getAllSelectedObjects();
+		mMouseSelector->setRay(camToWorld.getOrigin(), camToWorld.getPoint(3));
+		mMouseSelector->updateSelection();
+		Selector::GameObjectVector objs = mMouseSelector->getAllSelectedObjects();
 		
 		///@todo select, ...
 		if (!objs.empty())
@@ -423,10 +425,10 @@ namespace rl {
 
 	bool InventoryWindow::destroyDragContainer(rl::ItemDragContainer* cont)
 	{
+		cont->removeAllEvents();
 		mWorldBackground->removeChildWindow(cont);
-		CEGUI::WindowManager::getSingleton().destroyWindow(cont->getContentWindow());
 		mDragContainers.erase(cont->getName());
-		delete cont;
+		CEGUI::WindowManager::getSingleton().destroyWindow(cont->getContentWindow());
 
 		return true;
 	}

@@ -26,10 +26,12 @@ namespace rl {
     class Inventory;
 	class Item;
 	class ItemDragContainer;
+	class RaySelector;
 
 	class _RlUiExport InventoryWindow : public AbstractWindow
 	{
 	public:
+		///@todo where to put this, it is used in ContainerContentWindow too
 		static const Ogre::String ICON_UNKNOWN_ITEM;
 		static const Ogre::String SLOTNAME;
 
@@ -43,6 +45,7 @@ namespace rl {
         std::map<CeGuiString, CEGUI::Window*> mSlotWindows;
 		CEGUI::Window* mWorldBackground;
 		DndContainerMap mDragContainers;
+		RaySelector* mMouseSelector;
 
 		void createSlotWindows(Inventory* inventory);
         void initInventoryWindow(Inventory* inventory);
