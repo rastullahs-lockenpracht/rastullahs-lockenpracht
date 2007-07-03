@@ -30,7 +30,9 @@ namespace rl
 	class ItemDragContainer : public CEGUI::DragContainer
 	{
 	public:
-		ItemDragContainer(Item* item, const CeGuiString& name);
+		static const Ogre::String ICON_UNKNOWN_ITEM;
+		
+		~ItemDragContainer();
 		
 		void setItemParent(Container* container);
 		void setItemParent(Inventory* inventory, const CeGuiString& slotname);
@@ -39,9 +41,11 @@ namespace rl
 		Inventory* getItemParentInventory() const;
 		Item* getItem() const;
 		CEGUI::Window* getContentWindow() const;
-		void setContentWindow(CEGUI::Window* window);
-
+	
 	protected:
+		CEGUI::Window* mContentWindow;
+		
+		ItemDragContainer(Item* item, const CeGuiString& name);
 		virtual bool testClassName_impl(const CEGUI::String& class_name) const;
 
 	private:
@@ -49,7 +53,6 @@ namespace rl
 		Container* mParentContainer;
 		CeGuiString mParentSlot;
 		Inventory* mInventory;
-		CEGUI::Window* mContentWindow;
 	};
 
 } // namespace rl

@@ -57,7 +57,10 @@ namespace rl {
 
 		/// creates a CEGUI window from an XML file, should only be used to load window parts (e.g. buttons)
 		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile);
-		
+
+		/// creates a CEGUI window from an XML file, should only be used to load window parts (e.g. buttons)
+		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile, CeGuiString& prefix);
+
 		/// gets the CEGUI root
 		static CEGUI::Window* getRoot();
 
@@ -108,8 +111,6 @@ namespace rl {
 		void bindDestroyWindowToClick(CEGUI::Window* button);
 		void bindDestroyWindowToXButton();
 		void bindHideWindowToXButton();
-
-		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile, CeGuiString& prefix);
 
 		const CeGuiString& getUserDataType(CEGUI::Window* window) const;
 		void setUserDataType(CEGUI::Window* window, const CeGuiString& typeDescription) const;

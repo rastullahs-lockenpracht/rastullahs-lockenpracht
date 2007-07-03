@@ -34,6 +34,8 @@ libRlUi_la_SOURCES = \
     InputManager.cpp \
     InventoryWindow.cpp \
     ItemDragContainer.cpp \
+    ItemDescriptionDragContainer.cpp \
+    ItemIconDragContainer.cpp \
     JournalWindow.cpp \
     ListboxWrappedTextItem.cpp \
     LogWindow.cpp \

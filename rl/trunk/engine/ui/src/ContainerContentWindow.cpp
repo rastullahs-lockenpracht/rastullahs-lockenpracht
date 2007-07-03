@@ -23,8 +23,7 @@
 
 #include "Container.h"
 #include "Inventory.h"
-#include "InventoryWindow.h"
-#include "ItemDragContainer.h"
+#include "ItemIconDragContainer.h"
 #include "WindowFactory.h"
 
 using namespace CEGUI;
@@ -133,32 +132,26 @@ namespace rl {
 
 		if (icon == "")
 		{
-			icon = InventoryWindow::ICON_UNKNOWN_ITEM;
+			icon = ItemDragContainer::ICON_UNKNOWN_ITEM;
 		}
 
-        LOG_MESSAGE("IW", icon);
-        Window* itemWindow = 
-	        CEGUI::WindowManager::getSingletonPtr()->createWindow(
-		    "RastullahLook/StaticImage", 
-			mWindow->getName() + "/" + icon 
-			+ "/" + CEGUI::PropertyHelper::intToString(sItemCount++));
-        itemWindow->setProperty("Image", icon);
-        itemWindow->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
-        itemWindow->setSize(
-            UVector2(cegui_absdim(item->getSize().first*30),
-                     cegui_absdim(item->getSize().second*30)));
+   //     LOG_MESSAGE("IW", icon);
+   //     Window* itemWindow = 
+	  //      CEGUI::WindowManager::getSingletonPtr()->createWindow(
+		 //   "RastullahLook/StaticImage", 
+			//mWindow->getName() + "/" + icon 
+			//+ "/" + CEGUI::PropertyHelper::intToString(sItemCount++));
+   //     itemWindow->setProperty("Image", icon);
+   //     itemWindow->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
+   //     itemWindow->setSize(UVector2(cegui_reldim(1), cegui_reldim(1)));
+		CeGuiString dragContainerName = 
+			mWindow->getName() +  "/item/" 
+			+ Ogre::StringConverter::toString(item->getId())+"_DragContainer";
 
-		ItemDragContainer* itemhandler = new ItemDragContainer(item, 
-			"DragContainer_"+itemWindow->getName());
+		ItemDragContainer* itemhandler = new ItemIconDragContainer(item, 
+			dragContainerName);
 		itemhandler->setItemParent(mContainer);
 		itemhandler->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
-		itemhandler->setSize(
-			UVector2(cegui_absdim(item->getSize().first*30),
-					 cegui_absdim(item->getSize().second*30))); 
-		itemhandler->setUserData(item);
-		itemhandler->setTooltipText(item->getName());
-		itemhandler->addChildWindow(itemWindow);
-		
 
 		return itemhandler;
 	}

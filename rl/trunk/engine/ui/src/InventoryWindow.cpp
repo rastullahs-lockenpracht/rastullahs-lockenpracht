@@ -26,16 +26,17 @@
 #include "Creature.h"
 #include "Inventory.h"
 #include "Item.h"
-#include "ItemDragContainer.h"
+#include "ItemDescriptionDragContainer.h"
+#include "ItemIconDragContainer.h"
 #include "Selector.h"
 #include "WindowFactory.h"
 
 using namespace CEGUI;
+using namespace Ogre;
 using namespace std;
 
 namespace rl {
 
-	const Ogre::String InventoryWindow::ICON_UNKNOWN_ITEM = "set:ModelThumbnails image:item_unknown";
 	const Ogre::String InventoryWindow::SLOTNAME = "slotname";
 
     InventoryWindow::InventoryWindow(const Ogre::String& inventoryWindow, Inventory* inventory)
@@ -120,7 +121,7 @@ namespace rl {
             if (item != NULL)
             {
                 LOG_MESSAGE(Logger::UI, slotName + " - " + item->getDescription());
-				Window* itemWindow = createItemDragContainer(item, slotName);
+				Window* itemWindow = createItemDragContainer(item, false, slotName);
 				if (itemWindow != NULL)
 				{
 					slotWindow->addChildWindow(itemWindow);
@@ -139,31 +140,33 @@ namespace rl {
 			boost::bind(&InventoryWindow::handleKeys, this, _1, false));
     }
 
-	ItemDragContainer* InventoryWindow::createItemDragContainer(Item* item, const CeGuiString& slotName)
+	ItemDragContainer* InventoryWindow::createItemDragContainer(
+		Item* item, bool showdescription, const CeGuiString& slotName)
 	{
-        CeGuiString icon = item->getImageName();
-
-		if (icon == "")
-		{
-			icon = ICON_UNKNOWN_ITEM;
-		}
-
-		CeGuiString itemWindowName = mWindow->getName() + "/" + slotName + "/" + icon + item->getId();
-		CeGuiString dragContainerName = itemWindowName+"_DragContainer";
+		CeGuiString dragContainerName = 
+			mWindow->getName() +  "/item/" 
+			+ Ogre::StringConverter::toString(item->getId())+"_DragContainer";
 		ItemDragContainer* itemhandler = NULL;
 
 		DndContainerMap::iterator it = mDragContainers.find(dragContainerName);
 		if (it != mDragContainers.end())
 		{
-			itemhandler = it->second;
+			//itemhandler = it->second;
 			return NULL; ///@todo just a test
 		}
 		else
 		{
-	        Window* itemWindow = CEGUI::WindowManager::getSingletonPtr()->createWindow(
-				"RastullahLook/StaticImage", 
-				itemWindowName);
-			itemWindow->setProperty("Image", icon);
+			if (showdescription)
+				itemhandler = new ItemDescriptionDragContainer(item, dragContainerName);
+			else
+				itemhandler = new ItemIconDragContainer(item, dragContainerName);
+
+			if (slotName != "")
+			{
+				itemhandler->setItemParent(mInventory, slotName);
+			}
+
+			Window* itemWindow = itemhandler->getContentWindow();
 
 			itemWindow->subscribeEvent(
 				Window::EventMouseClick,
@@ -172,21 +175,8 @@ namespace rl {
 			itemWindow->subscribeEvent(
 				Window::EventMouseDoubleClick,
 				boost::bind(&InventoryWindow::handleItemDoubleClick, this, _1, item));
-			
-			itemhandler = new ItemDragContainer(item, dragContainerName);
-			if (slotName != "")
-			{
-				itemhandler->setItemParent(mInventory, slotName);
-			}
 
 			itemhandler->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
-			itemhandler->setSize(
-				UVector2(cegui_absdim(item->getSize().first*30),
-						 cegui_absdim(item->getSize().second*30))); 
-			itemhandler->setTooltipText(item->getName());
-			itemhandler->setContentWindow(itemWindow);
-
-			itemhandler->setTooltipText(item->getName());
 
 			mDragContainers[dragContainerName] = itemhandler;
 		}
@@ -322,14 +312,19 @@ namespace rl {
 					"Selected " + (*it)->getDescription());
 
 				ItemDragContainer* cont = 
-					createItemDragContainer(static_cast<Item*>(*it));
+					createItemDragContainer(static_cast<Item*>(*it), true);
 				if (cont)
 				{
 					mWorldBackground->addChildWindow(cont);
 					cont->setVisible(true);
 					
-					Ogre::Vector3 pos = camera->getPointOnCeGuiScreen((*it)->getPosition());
-					cont->setPosition(UVector2(UDim(pos.x, 0), UDim(pos.y, 0)));
+					Ogre::Rectangle aabb = getCeGuiRectFromWorldAABB(camera,
+							(*it)->getActor()->_getSceneNode()->_getWorldAABB());
+					UVector2 posCont = UVector2(
+							UDim((aabb.left+aabb.right)/2.0, 0), 
+							UDim((aabb.top+aabb.bottom)/2.0, 0));
+					posCont -= cont->getSize() / UVector2(UDim(2, 2), UDim(2, 2));
+					cont->setPosition(posCont);
 
 					cont->subscribeEvent(
 						Window::EventMouseLeaves,
@@ -392,14 +387,17 @@ namespace rl {
 					it = v.begin(); it != v.end(); ++it)
 				{
 					ItemDragContainer* cont = 
-						createItemDragContainer(static_cast<Item*>(*it));
+						createItemDragContainer(static_cast<Item*>(*it), true);
 
 					if (cont)
 					{
 						mWorldBackground->addChildWindow(cont);
 						
-						Ogre::Vector3 pos = camera->getPointOnCeGuiScreen((*it)->getPosition());
-						UVector2 posCont = UVector2(UDim(pos.x, 0), UDim(pos.y, 0));
+						Ogre::Rectangle aabb = getCeGuiRectFromWorldAABB(camera,
+							(*it)->getActor()->_getSceneNode()->_getWorldAABB());
+						UVector2 posCont = UVector2(
+							UDim((aabb.left+aabb.right)/2.0, 0), 
+							UDim((aabb.top+aabb.bottom)/2.0, 0));
 						posCont -= cont->getSize() / UVector2(UDim(2, 2), UDim(2, 2));
 						cont->setPosition(posCont);
 
@@ -432,4 +430,28 @@ namespace rl {
 
 		return true;
 	}
+
+	Ogre::Rectangle InventoryWindow::getCeGuiRectFromWorldAABB(
+		CameraObject* camera,
+        const AxisAlignedBox& aabb) const
+    {
+        // Initialise each to the value of the opposite side, so that min/max work smoothly.
+        Real left = 1.0f, bottom = 1.0f, right = -1.0f, top = -1.0f;
+
+        // Determine screen pos of all corners and widen the rect if needed
+		const Ogre::Vector3* corners = aabb.getAllCorners();
+        for (size_t i = 0; i < 8; ++i)
+        {
+			Ogre::Vector3 screenSpacePos = camera->getPointOnCeGuiScreen(corners[i]);
+            if (screenSpacePos.z > 0) continue; // Behind camera
+
+            left   = std::min(left,   screenSpacePos.x);
+            right  = std::max(right,  screenSpacePos.x);
+            bottom = std::min(bottom, screenSpacePos.y);
+            top    = std::max(top,    screenSpacePos.y);
+        }
+
+        Ogre::Rectangle rval = {left,top, right, bottom};
+        return rval;
+    }
 }

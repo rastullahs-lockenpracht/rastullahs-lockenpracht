@@ -27,6 +27,8 @@ noinst_HEADERS = \
     InputManager.h \
     InventoryWindow.h \
     ItemDragContainer.h \
+    ItemDescriptionDragContainer.h \
+    ItemIconDragContainer.h \
     JournalWindow.h \
     ListboxWrappedTextItem.h \
     LogWindow.h \

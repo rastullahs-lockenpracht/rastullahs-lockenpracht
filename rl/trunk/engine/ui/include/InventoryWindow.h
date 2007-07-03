@@ -19,10 +19,13 @@
 
 #include "UiPrerequisites.h"
 
+#include <OgreRectangle.h>
+
 #include "AbstractWindow.h"
 
 namespace rl {
 
+	class CameraObject;
     class Inventory;
 	class Item;
 	class ItemDragContainer;
@@ -31,8 +34,6 @@ namespace rl {
 	class _RlUiExport InventoryWindow : public AbstractWindow
 	{
 	public:
-		///@todo where to put this, it is used in ContainerContentWindow too
-		static const Ogre::String ICON_UNKNOWN_ITEM;
 		static const Ogre::String SLOTNAME;
 
 		InventoryWindow(const Ogre::String& inventoryWindow, Inventory* inventory);
@@ -50,7 +51,7 @@ namespace rl {
 		void createSlotWindows(Inventory* inventory);
         void initInventoryWindow(Inventory* inventory);
 
-		ItemDragContainer* createItemDragContainer(Item* item, const CeGuiString& containerName = "");
+		ItemDragContainer* createItemDragContainer(Item* item, bool showdescription, const CeGuiString& containerName = "");
 		bool handleItemDroppedOnSlot(const CEGUI::EventArgs& evt);
 		bool handleItemDroppedOnWorld(const CEGUI::EventArgs& evt);
 		bool handleItemMouseClick(const CEGUI::EventArgs& evt, Item* item);
@@ -58,6 +59,10 @@ namespace rl {
 		bool handleMouseMovedInWorld(const CEGUI::EventArgs& evt);
 		bool handleKeys(const CEGUI::EventArgs& evt, bool down);
 		bool destroyDragContainer(ItemDragContainer* cont);
+
+		Ogre::Rectangle getCeGuiRectFromWorldAABB(
+			CameraObject* camera,
+			const Ogre::AxisAlignedBox& aabb) const;
     };
 }
 

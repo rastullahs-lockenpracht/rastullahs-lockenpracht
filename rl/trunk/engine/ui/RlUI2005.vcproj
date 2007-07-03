@@ -469,7 +469,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\ItemDescriptionDragContainer.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\ItemDragContainer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ItemIconDragContainer.h"
 					>
 				</File>
 				<File
@@ -662,7 +670,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\ItemDescriptionDragContainer.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\ItemDragContainer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ItemIconDragContainer.cpp"
 					>
 				</File>
 				<File

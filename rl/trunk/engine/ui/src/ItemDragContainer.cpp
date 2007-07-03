@@ -15,14 +15,29 @@
  */
 #include "ItemDragContainer.h"
 
+#include <CEGUIWindowManager.h>
+
+#include "AbstractWindow.h"
+#include "Item.h"
+
 namespace rl {
+	const Ogre::String ItemDragContainer::ICON_UNKNOWN_ITEM = "set:ModelThumbnails image:item_unknown";
 
 	ItemDragContainer::ItemDragContainer(Item* item, const CeGuiString& name)
 		: CEGUI::DragContainer("DragContainer", name),
 		mItem(item),
 		mParentContainer(NULL),
-		mParentSlot("")
+		mParentSlot(""),
+		mContentWindow(NULL)
 	{
+	}
+
+	ItemDragContainer::~ItemDragContainer()
+	{
+		removeAllEvents();
+		mContentWindow->removeAllEvents();
+		removeChildWindow(mContentWindow);
+		CEGUI::WindowManager::getSingleton().destroyWindow(mContentWindow);
 	}
 		
 	void ItemDragContainer::setItemParent(Container* container)
@@ -68,16 +83,5 @@ namespace rl {
 	CEGUI::Window* ItemDragContainer::getContentWindow() const
 	{
 		return mContentWindow;
-	}
-
-	void ItemDragContainer::setContentWindow(CEGUI::Window* window)
-	{
-		if (window)
-		{
-			window->setPosition(CEGUI::UVector2(cegui_reldim(0), cegui_reldim(0)));
-			window->setSize(CEGUI::UVector2(cegui_reldim(1), cegui_reldim(1)));
-			addChildWindow(window);
-		}
-		mContentWindow = window;
 	}
 }
