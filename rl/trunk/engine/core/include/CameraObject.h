@@ -70,7 +70,7 @@ namespace rl {
 		 * @param y y coordinate on screen
 		 * @return the ray direction
 		 */
-		Ogre::Vector3 CameraObject::getDirectionFromScreenPosition(
+		Ogre::Vector3 getDirectionFromScreenPosition(
 			const Ogre::Real& x, const Ogre::Real& y) const;
 
 		Ogre::Ray getCameraToViewportRay(

@@ -6,6 +6,8 @@ noinst_HEADERS = \
 	CombatManager.h \
 	Container.h \
 	Creature.h \
+	CreatureController.h \
+	CreatureControllerManager.h \
 	Date.h \
 	DsaDataLoader.h \
 	DsaManager.h \
@@ -21,8 +23,6 @@ noinst_HEADERS = \
 	Inventory.h \
 	JournalEntry.h \
 	Kampftechnik.h \
-	MovingCreatureManager.h \
-	MovingCreature.h \
 	ObjectStateChangeEvent.h \
 	ObjectStateChangeEventSource.h \
 	ObjectStateChangeListener.h \

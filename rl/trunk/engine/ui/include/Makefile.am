@@ -3,24 +3,23 @@ noinst_HEADERS = \
     ActionChoiceWindow.h \
     AbstractWindow.h \
     CeGuiHelper.h \
-    CharacterController.h \
     CharacterSheetWindow.h \
     CharacterStateWindow.h \
     CloseConfirmationWindow.h \
-    CombatCharacterController.h \
+    CombatControlState.h \
 	CombatWindow.h \
     CommandMapper.h \
     ConfigComponent.h \
     Console.h \
     ContainerContentWindow.h \
-    CutsceneCharacterController.h \
+    ControlState.h \
+    CutsceneControlState.h \
     DebugWindow.h \
     DialogWindow.h \
-    DialogCharacterController.h \
-    FreeFlightCharacterController.h \
+    DialogControlState.h \
+    FreeflightControlState.h \
     GameLoggerWindow.h \
     GameObjectInfoWindow.h \
-    GameObjectPropsWindow.h \
     SaveLoadWindow.h \
     GameSettings.h \
     InfoPopup.h \
@@ -34,10 +33,11 @@ noinst_HEADERS = \
     MainMenuWindow.h \
     MainMenuEngineWindow.h \
     MessageWindow.h \
-    MovementCharacterController.h \
+    MovementControlState.h \
     ObjectDescriptionWindow.h \
     PlaylistWindow.h \
     ProgressWindow.h \
+    PropertiesWindow.h \
     RenderSystemConfigComponent.h \
     SaveLoadWindow.h \
     SoundDriverConfigComponent.h \

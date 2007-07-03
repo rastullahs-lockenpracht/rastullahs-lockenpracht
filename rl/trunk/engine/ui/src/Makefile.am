@@ -11,24 +11,23 @@ libRlUi_la_SOURCES = \
     AboutWindow.cpp \
     ActionChoiceWindow.cpp \
     AbstractWindow.cpp \
-    CharacterController.cpp \
     CharacterSheetWindow.cpp \
     CharacterStateWindow.cpp \
     CloseConfirmationWindow.cpp \
-    CombatCharacterController.cpp \
+    CombatControlState.cpp \
 	CombatWindow.cpp \
     CommandMapper.cpp \
     ConfigComponent.cpp \
     ContainerContentWindow.cpp \
+    ControlState.cpp \
     Console.cpp \
-    CutsceneCharacterController.cpp \
+    CutsceneControlState.cpp \
     DebugWindow.cpp \
-    DialogCharacterController.cpp \
+    DialogControlState.cpp \
     DialogWindow.cpp \
-    FreeFlightCharacterController.cpp \
+    FreeflightControlState.cpp \
     GameLoggerWindow.cpp \
     GameObjectInfoWindow.cpp \
-    GameObjectPropsWindow.cpp \
     GameSettings.cpp \
     InfoPopup.cpp \
     InGameMenuWindow.cpp \
@@ -41,10 +40,11 @@ libRlUi_la_SOURCES = \
     MainMenuWindow.cpp \
     MainMenuEngineWindow.cpp \
     MessageWindow.cpp \
-    MovementCharacterController.cpp \
+    MovementControlState.cpp \
     ObjectDescriptionWindow.cpp \
     PlaylistWindow.cpp \
     ProgressWindow.cpp \
+    PropertiesWindow.cpp \
     RenderSystemConfigComponent.cpp \
     SaveLoadWindow.cpp \
     SoundConfig.cpp \
