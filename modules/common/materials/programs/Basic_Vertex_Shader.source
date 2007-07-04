@@ -51,7 +51,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    float3 EyeVect = normalize(Input.Position - vViewPosition);
    float3 HalfVect = normalize(LightDir - EyeVect);
    
-   float SpecAttn = Light1_spec_power * pow(clamp(dot(Input.Normal,HalfVect),0,1),32);
+   float SpecAttn = Light1_color * Light1_spec_power * pow(clamp(dot(Input.Normal,HalfVect),0,1),32);
    
    float DistAttn = clamp(1/ (Light1_attenuation.y +
                               Light1_attenuation.z * Dist +
@@ -71,7 +71,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    
    HalfVect = normalize(LightDir - EyeVect);
    
-   SpecAttn = Light2_spec_power * pow(clamp(dot(Input.Normal,HalfVect),0,1),32);
+   SpecAttn = Light2_color *Light2_spec_power * pow(clamp(dot(Input.Normal,HalfVect),0,1),32);
    
    DistAttn = clamp(1/ (Light2_attenuation.y +
                         Light2_attenuation.z * Dist +
