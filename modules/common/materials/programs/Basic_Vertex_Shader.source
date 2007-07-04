@@ -5,6 +5,11 @@ float4 Light1_attenuation;
 float4 Light1_position;
 float4 Light1_color;
 float4 Light1_spec_power;
+
+float4 Light2_attenuation;
+float4 Light2_position;
+float4 Light2_color;
+float4 Light2_spec_power;
 float4 vViewPosition;
 
 struct VS_INPUT 
@@ -54,6 +59,26 @@ VS_OUTPUT vs_main( VS_INPUT Input )
                           ,0,1);
    
    Output.Color += (Light1_color * DistAttn * AngleAttn) + SpecAttn;
+   
+   
+   // Light2
+   
+   LightDir = Light2_position - Input.Position * Light2_position.w;
+   Dist = length(LightDir);
+   LightDir = LightDir / Dist;
+   
+   AngleAttn = saturate( dot(Input.Normal ,LightDir));
+   
+   HalfVect = normalize(LightDir - EyeVect);
+   
+   SpecAttn = Light2_spec_power * pow(clamp(dot(Input.Normal,HalfVect),0,1),32);
+   
+   DistAttn = clamp(1/ (Light2_attenuation.y +
+                        Light2_attenuation.z * Dist +
+                        Light2_attenuation.w * Dist * Dist)
+                        ,0,1);
+   
+   Output.Color += (Light2_color * DistAttn * AngleAttn) + SpecAttn;
    
    Output.Texcoord = Input.Texcoord;
    Output.Texcoord1 = Input.Texcoord1;
