@@ -1,17 +1,6 @@
 
-material men_human_female_legs_pants_01_long
+material men_human_female_legs_pants_01_long : Basic_Vertex_Shader
 {
-	technique
-	{
-		pass
-		{
-
-			texture_unit
-			{
-				texture obj_pants01.png
-			}
-		}
-
-	}
+set_texture_alias diffuse obj_pants01.png
 
 }

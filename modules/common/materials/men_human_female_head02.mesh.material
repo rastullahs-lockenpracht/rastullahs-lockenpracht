@@ -1,17 +1,6 @@
 
-material men_human_female_head_02
+material men_human_female_head_02 : Basic_Vertex_Shader
 {
-	technique
-	{
-		pass
-		{
-
-			texture_unit
-			{
-				texture men_human_female_head02.png
-			}
-		}
-
-	}
+set_texture_alias diffuse men_human_female_head02.png
 
 }

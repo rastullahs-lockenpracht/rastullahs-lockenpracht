@@ -1,17 +1,5 @@
 
-material men_human_female_hair_long_01_normal
+material men_human_female_hair_long_01_normal : Basic_Vertex_Shader_Alpha
 {
-	technique
-	{
-		pass
-		{
-
-			texture_unit
-			{
-				texture men_human_female_hair_long_01.png
-			}
-		}
-
-	}
-
+set_texture_alias diffuse men_human_female_hair_long_01.png
 }

@@ -1,18 +1,5 @@
-
-material men_human_female_torso
+material men_human_female_torso : Torso_Vertex_Shader
 {
-	technique
-	{
-		pass
-		{
-
-			texture_unit
-			{
-				texture obj_shortsleeve02_diffuse.png
-				tex_coord_set 1
-			}
-		}
-
-	}
-
+	set_texture_alias skin rl_mensch_female.png
+	set_texture_alias cloth obj_shortsleeve02_diffuse.png
 }

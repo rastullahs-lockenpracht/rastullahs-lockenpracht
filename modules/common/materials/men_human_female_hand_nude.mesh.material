@@ -1,17 +1,6 @@
 
-material men_human_female_hand_nude
+material men_human_female_hand_nude : Basic_Vertex_Shader
 {
-	technique
-	{
-		pass
-		{
-
-			texture_unit
-			{
-				texture men_human_female_hand.png
-			}
-		}
-
-	}
+set_texture_alias diffuse rl_mensch_female.png
 
 }

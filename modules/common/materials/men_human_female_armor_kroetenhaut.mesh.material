@@ -1,17 +1,5 @@
 
-material men_human_female_armor_kroetenhaut
+material men_human_female_armor_kroetenhaut : Basic_Vertex_Shader
 {
-	technique
-	{
-		pass
-		{
-
-			texture_unit
-			{
-				texture obj_kroetenhaut.png
-			}
-		}
-
-	}
-
+set_texture_alias diffuse obj_kroetenhaut.png
 }
