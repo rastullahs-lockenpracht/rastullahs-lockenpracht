@@ -1,17 +1,5 @@
 
-material men_human_female_backpack_leather_01
+material men_human_female_backpack_leather_01: Basic_Vertex_Shader
 {
-	technique
-	{
-		pass
-		{
-			texture_unit
-			{
-
-				texture men_human_female_backpack_leather_01_diffuse.png
-			}
-		}
-
-	}
-
+set_texture_alias diffuse men_human_female_backpack_leather_01_diffuse.png
 }
