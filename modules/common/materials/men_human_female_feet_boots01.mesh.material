@@ -1,5 +1,5 @@
 
-material men_human_female_feet_boots_01 : Basic_Vertex_Shader
+material men_human_female_feet_boots_01 : Basic_Vertex_ShaderUV1
 {
 set_texture_alias diffuse obj_boots01.png
 			//	tex_coord_set 1
