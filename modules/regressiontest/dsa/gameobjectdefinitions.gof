@@ -91,7 +91,7 @@
     <gameobjectclass classid="leather backpack" baseclass="Container">
         <property name="name" type="STRING" data="Rucksack"/>
         <property name="description" type="STRING" data="Ein Lederrucksack (oder so)"/>
-        <property name="meshfile" type="STRING" data="ins_rucksack.mesh"/>
+        <property name="meshfile" type="STRING" data="men_human_female_backpack_leather_01.mesh"/>
         <property name="imagename" type="STRING" data="set:ModelThumbnails image:Rucksack"/>
         <property name="capacity" type="REAL" data="20.0"/>
         <property name="volume" type="INTPAIR" data="8,6"/>

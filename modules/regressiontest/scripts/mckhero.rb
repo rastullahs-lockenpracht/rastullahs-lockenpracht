@@ -36,8 +36,8 @@ class MCKHero < Person
 	inv.addSlot("Left Hand", "Bip01 L SlotHand", Item::ITEMTYPE_ALL_ITEMS);
 	inv.addSlot("Right Hand", "Bip01 R SlotHand", Item::ITEMTYPE_ALL_ITEMS);
 	inv.addSlot("Head", "Bip01 Head", Item::ITEMTYPE_HELMET, false);
-	#inv.addSlot("Back", "back", Item::ITEMTYPE_ALL_ITEMS, false);
-	inv.addSlot("Back", "Bip01 Neck", Item::ITEMTYPE_ALL_ITEMS);
+	inv.addSlot("Back", "back", Item::ITEMTYPE_ALL_ITEMS, false);
+	#inv.addSlot("Back", "Bip01 Neck", Item::ITEMTYPE_ALL_ITEMS);
     inv.addSlot("Armor", "armor", Item::ITEMTYPE_ARMOR, false);
 
 	#addSounds()
