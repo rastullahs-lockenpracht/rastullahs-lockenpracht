@@ -1,0 +1,17 @@
+
+material men_human_female_backpack_leather_01
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+
+				texture men_human_female_backpack_leather_01_diffuse.png
+			}
+		}
+
+	}
+
+}
