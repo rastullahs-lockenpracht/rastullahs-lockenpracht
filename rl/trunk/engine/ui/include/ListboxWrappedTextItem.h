@@ -28,7 +28,7 @@
 
 namespace CEGUI {
 
-class ListboxWrappedTextItem : public ListboxItem
+class ListboxWrappedTextItem : public ListboxTextItem
 {
 public:
 	/*************************************************************************

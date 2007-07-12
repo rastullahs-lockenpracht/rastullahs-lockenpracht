@@ -26,60 +26,31 @@
 
 namespace rl {
 
-	class DialogCharacter;
-	class DialogResponse;
 	class DialogControlState;
-	class GameLoggerWindow;
 
 	class _RlUiExport DialogWindow : public AbstractWindow
 	{
 	public:
-		DialogWindow(GameLoggerWindow* gamelogger);
-		~DialogWindow();
+		DialogWindow(DialogControlState* controller);
 
-        void initialize(DialogControlState* controller, DialogCharacter* character);
-
-		void getResponse(const CeGuiString& msg);
-		unsigned int count();
-		void setCallback(Ogre::String function);
-		void setName(Ogre::String name);
-		void setImage(Ogre::String imageset, Ogre::String image);
-		int getSelectedOption();
-
-		void textFinished();
-
-        void start();
+		void setName(const CeGuiString& name);
+		void setImage(const CeGuiString& imageset, const CeGuiString& image);
+		void setAvailableOptions(const CeGuiStringVector& options);
+		void setChosenOption(const CeGuiString& option);
+		void setResponse(const CeGuiString& response);
+		void setDialogEnd();
+		int getSelectedOptionIndex() const;
 
 	private:
-		enum DialogState
-		{
-			CHOOSING_OPTION = 1,
-			TALKING_PARTNER_CHARACTER,
-			TALKING_PLAYER_CHARACTER,
-			CLOSING_DIALOG
-		};
+		static const CEGUI::colour COLOR_PLAYER_CHARACTER;
+		static const CEGUI::colour COLOR_NON_PLAYER_CHARACTER;
 
-		DialogCharacter* mBot;
-		DialogResponse* mCurrentResponse;
 		CEGUI::Listbox* mDialogOptions;
 		CEGUI::Window* mImage;
 		CEGUI::Listbox* mQuestion;
 		CEGUI::Window* mName;
-		GameLoggerWindow* mGameLogger;
-		DialogControlState* mController;
-		DialogState mState;
-		CeGuiString mCurrentResponseText;
-				
-		bool handleSelectOption();	
-		bool handleClose();
-		bool requestClose();
-		void getOptions(const CeGuiString& question);
-
-		static const CEGUI::colour COLOR_PLAYER_CHARACTER;
-		static const CEGUI::colour COLOR_NON_PLAYER_CHARACTER;
-		static const CeGuiString DIALOG_START;
-		static const CeGuiString DIALOG_EXIT;
-		static const CeGuiString DIALOG_END;
+		CEGUI::ListboxTextItem* mPlayerText;
+		CEGUI::ListboxTextItem* mNscText;
 	};
 
 }

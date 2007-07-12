@@ -42,7 +42,7 @@ namespace CEGUI
     ListboxWrappedTextItem::ListboxWrappedTextItem(const String& text, int padding,
         bool draw_bullet, uint item_id,
         void* item_data, bool disabled, bool auto_delete) :
-    ListboxItem(text, item_id, item_data, disabled, auto_delete),
+    ListboxTextItem(text, item_id, item_data, disabled, auto_delete),
         d_textCols(DefaultTextColour, DefaultTextColour, DefaultTextColour, DefaultTextColour),
         d_padding(padding), d_draw_bullet(draw_bullet),
         d_font(0), d_textFormatting(WordWrapLeftAligned)

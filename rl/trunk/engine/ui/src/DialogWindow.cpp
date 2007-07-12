@@ -34,291 +34,113 @@
 
 namespace rl {
 
-using namespace Ogre;
-using namespace CEGUI;
+	using namespace Ogre;
+	using namespace CEGUI;
 
-const CEGUI::colour DialogWindow::COLOR_PLAYER_CHARACTER(	 0xFFFF7F7F);
-const CEGUI::colour DialogWindow::COLOR_NON_PLAYER_CHARACTER(0xFFFFFF7F);
+	const CEGUI::colour DialogWindow::COLOR_PLAYER_CHARACTER(	 0xFFFF7F7F);
+	const CEGUI::colour DialogWindow::COLOR_NON_PLAYER_CHARACTER(0xFFFFFF7F);
 
-const CeGuiString DialogWindow::DIALOG_START = "1";
-const CeGuiString DialogWindow::DIALOG_END = "DIALOG BEENDET";
-const CeGuiString DialogWindow::DIALOG_EXIT = "EXIT";
-
-DialogWindow::DialogWindow(GameLoggerWindow* gamelogger)
-  : AbstractWindow("dialogwindow.xml", WIT_MOUSE_INPUT, false),
-	mBot(NULL), 
-	mCurrentResponse(NULL),
-    mCurrentResponseText(""),
-	mGameLogger(gamelogger),
-	mController(NULL),
-    mState( TALKING_PLAYER_CHARACTER )
-{
-	mImage = getWindow("DialogWindow/Image");
-	mName = getWindow("DialogWindow/Name");
-	mQuestion = getListbox("DialogWindow/Question");
-	mDialogOptions = getListbox("DialogWindow/OptionList");
-
-	mWindow->subscribeEvent(
-		FrameWindow::EventCloseClicked, // Verstecken, falls Close geklickt wird
-		boost::bind(&DialogWindow::requestClose, this)); //TODO: als Abbrechen werten 
-
-	mDialogOptions->subscribeEvent(
-		Listbox::EventSelectionChanged, 
-		boost::bind(&DialogWindow::handleSelectOption, this));
-	mDialogOptions->moveToFront();
-	mDialogOptions->setClippedByParent(true);
-	mDialogOptions->setShowHorzScrollbar(false);
-	mDialogOptions->setShowVertScrollbar(false);
-	mDialogOptions->setMultiselectEnabled(false);
-}
-
-DialogWindow::~DialogWindow()
-{
-	delete mCurrentResponse;
-	mCurrentResponse = NULL;
-}
-
-void DialogWindow::initialize(DialogControlState* controller, DialogCharacter* character)
-{
-    mController = controller;
-    mBot = character;
-	
-	// Add 2 ListboxItems, one for the nsc responses, 
-	// one for the player selections
-	ListboxWrappedTextItem* item = new ListboxWrappedTextItem("", 6);
-	item->setTextColours(COLOR_PLAYER_CHARACTER);
-	mQuestion->addItem(item);
-	item = new ListboxWrappedTextItem("", 0);
-	item->setTextColours(COLOR_NON_PLAYER_CHARACTER);
-	mQuestion->addItem(item);
-	item = NULL;
-
-	
-	Ogre::String voiceFile = mBot->getVoiceFile().c_str();
-	if (voiceFile != "")
+	DialogWindow::DialogWindow(DialogControlState* controller)
+	  : AbstractWindow("dialogwindow.xml", WIT_MOUSE_INPUT, false)
 	{
-		if (voiceFile.find(".zip") != Ogre::String::npos)
-		{
-			ResourceGroupManager::getSingleton().addResourceLocation(
-				voiceFile, "Zip", voiceFile);
-		}
-		else
-		{
-			ResourceGroupManager::getSingleton().addResourceLocation(
-           		voiceFile, "FileSystem", voiceFile);
-		}
-	}
-}
+		mImage = getWindow("DialogWindow/Image");
+		mName = getWindow("DialogWindow/Name");
+		mQuestion = getListbox("DialogWindow/Question");
+		mDialogOptions = getListbox("DialogWindow/OptionList");
 
-void DialogWindow::start()
-{
-    if (mBot == NULL || mController == NULL)
-    {
-        Throw(IllegalStateException, "DialogWindow not properly initialized.");
-    }
+		mWindow->subscribeEvent(
+			FrameWindow::EventCloseClicked, // Verstecken, falls Close geklickt wird
+			boost::bind(&DialogControlState::requestDialogClose, controller)); //TODO: als Abbrechen werten 
 
-	mName->setText(mBot->getName());
-	getResponse(DIALOG_START);
-}
+		mDialogOptions->subscribeEvent(
+			Listbox::EventSelectionChanged, 
+			boost::bind(&DialogControlState::handleDialogSelectOption, controller));
 
-void DialogWindow::getResponse(const CeGuiString& msg)
-{
-	delete mCurrentResponse;
-	mCurrentResponse = mBot->createResponse(msg);
-	
-    if(mBot->hasExitRequest())
-    {
-        mQuestion->getListboxItemFromIndex(0)->setText(DIALOG_END);
-		mQuestion->getListboxItemFromIndex(1)->setText("");
-		mState = CLOSING_DIALOG;
-        handleClose();
-        return;
-    }
-	if(mCurrentResponse == NULL)
-	{
-		mQuestion->getListboxItemFromIndex(0)->setText(DIALOG_END);
-		mQuestion->getListboxItemFromIndex(1)->setText("");
-		mState = CLOSING_DIALOG;
-	//	�bergangsl�sung, wenn gerade kein sprecher aktiv ist wird 
-	//	nicht nicht textFinished aufgerufen
-    //  hier m�sste wahrscheinlich requestClose auftauchen
-		handleClose();
-		return;
+		mDialogOptions->moveToFront();
+		mDialogOptions->setClippedByParent(true);
+		mDialogOptions->setShowHorzScrollbar(false);
+		mDialogOptions->setShowVertScrollbar(false);
+		mDialogOptions->setMultiselectEnabled(false);
+
+		// Add 2 ListboxItems, one for the nsc responses, 
+		// one for the player selections
+		mPlayerText = new ListboxWrappedTextItem("", 6);
+		mPlayerText->setTextColours(COLOR_PLAYER_CHARACTER);
+		mQuestion->addItem(mPlayerText);
+
+		mNscText = new ListboxWrappedTextItem("", 0);
+		mNscText->setTextColours(COLOR_NON_PLAYER_CHARACTER);
+		mQuestion->addItem(mNscText);
 	}
 
-	DialogResponse::Responses responses = mCurrentResponse->getResponses();
-	CeGuiString responseSound = "null.ogg";
-	CeGuiString responseText;
-	if(!responses.empty())
+	void DialogWindow::setImage(const CeGuiString& imageset, const CeGuiString& image)
 	{
-		responseSound = responses.begin()->first;
-		responseText = responses.begin()->second;
-		responseText.c_str();
-		responseSound.c_str();	
+		mImage->setProperty("Image", "set:" + imageset + " image:" + image);
 	}
 
-	mController->response(
-			mBot->getDialogPartner()->getActor(), 
-			responseText, responseSound.c_str());
-
-	if(!responseText.empty())
+	void DialogWindow::setName(const CeGuiString& name)
 	{
-		mQuestion->getListboxItemFromIndex(1)->
-			setText(mBot->getName() + ": " + responseText);
-		mQuestion->handleUpdatedItemData();
-
-		mGameLogger->logDialogEvent(mBot->getName(), responseText);
-		LOG_MESSAGE(Logger::DIALOG, mBot->getName() + " says: " + responseText);
+		mName->setText(name);
 	}
 
-	setVisible(false);
-	mState = TALKING_PARTNER_CHARACTER;
-	mCurrentResponseText = msg;
-
-}
-
-void DialogWindow::textFinished()
-{
-	if (mState == TALKING_PARTNER_CHARACTER)
+	void DialogWindow::setDialogEnd()
 	{
-		getOptions(mCurrentResponseText);
-		setVisible(true);
-		mState = CHOOSING_OPTION;
+		setChosenOption("Ende");
+		setResponse("");
 	}
-	
-	if (mState == TALKING_PLAYER_CHARACTER)
-	{
-		getResponse(mCurrentResponseText);
-	}
-	
-    LOG_DEBUG(Logger::UI, 
-				StringConverter::toString(mState)
-				+ " bei textFinished" );
-}
 
-void DialogWindow::getOptions(const CeGuiString& question)
-{
-	if(mCurrentResponse == NULL)
+	void DialogWindow::setAvailableOptions(const CeGuiStringVector& options)
 	{
-		Throw(rl::IllegalStateException, "mCurrentResponse must not be NULL.");
-		return;
-	}
-	
-	DialogResponse::DialogOptions options = mCurrentResponse->getDialogOptions();
-	
-	if(options.empty())
-	{
-		mQuestion->getListboxItemFromIndex(0)->setText(DIALOG_END);
-		mQuestion->getListboxItemFromIndex(1)->setText("");
-		handleClose();
-		return;
-	}
-	
-	//mDialogOptions->clearAllSelections();
+		unsigned int i = 0;
+		for(CeGuiStringVector::const_iterator itr = options.begin(); 
+			itr != options.end(); ++itr)
+		{	
+			ListboxWrappedTextItem* item = NULL;
+			if(i < mDialogOptions->getItemCount())
+			{
+				item = static_cast<ListboxWrappedTextItem*>(
+					mDialogOptions->getListboxItemFromIndex(i));
+				item->setText(*itr);
+			}
+			else
+			{
+				item =	new ListboxWrappedTextItem(*itr, 6, true);
+				mDialogOptions->addItem(item);
+			}
 
-	unsigned int i = 0;
-	for(DialogResponse::DialogOptions::const_iterator itr = options.begin(); 
-		itr != options.end(); ++itr)
-	{	
-		CeGuiString currentResponse = (*itr)->getText();
-	    LOG_MESSAGE(Logger::UI, 
-			"Player says: " + currentResponse);
-		if(i < mDialogOptions->getItemCount())
-		{
-			ListboxWrappedTextItem* item = 
-				static_cast <ListboxWrappedTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
-			item->setUserData(*itr);
-			item->setText(currentResponse);
 			item->setTextFormatting(CEGUI::WordWrapLeftAligned);
 			mDialogOptions->handleUpdatedItemData();
+
+			++i;
+		}
+		while(i < mDialogOptions->getItemCount())
+		{
+			mDialogOptions->removeItem(mDialogOptions->getListboxItemFromIndex(i));
+		}	
+	}
+
+	int DialogWindow::getSelectedOptionIndex() const
+	{
+		CEGUI::ListboxItem* curr = mDialogOptions->getFirstSelectedItem();
+		if (curr)
+		{
+			return mDialogOptions->getItemIndex(curr);
 		}
 		else
 		{
-			ListboxWrappedTextItem* item = 
-				new ListboxWrappedTextItem((*itr)->getText(), 6, true);
-			item->setUserData(*itr);
-			item->setTextFormatting(CEGUI::WordWrapLeftAligned);
-			mDialogOptions->addItem(item);
-		}
-
-		++i;
-	}
-	while(i < mDialogOptions->getItemCount())
-	{
-		mDialogOptions->removeItem(mDialogOptions->getListboxItemFromIndex(i));
-	}	
-}
-
-unsigned int DialogWindow::count()
-{
-	return mDialogOptions->getItemCount();
-}
-
-void DialogWindow::setCallback(Ogre::String function)
-{
-	// TO DO: DialogWindow::setCallback(string function)
-}
-
-int DialogWindow::getSelectedOption()
-{
-	// TO DO: DialogWindow::getSelectedOption()
-	return 0;
-}
-
-bool DialogWindow::handleSelectOption()
-{
-	DebugWindow::getSingleton().setMessageText(StringConverter::toString(getSelectedOption()));
-	ListboxWrappedTextItem* item = 
-		static_cast<ListboxWrappedTextItem*>(mDialogOptions->getFirstSelectedItem());
-	if(item != NULL)
-	{
-		DialogOption* option = static_cast<DialogOption*>(item->getUserData());
-		option->processSelection();
-		mCurrentResponseText = option->getPattern();
-		CeGuiString selectedOption = option->getText();
-		if(mCurrentResponseText != "0" && mCurrentResponseText != "666")
-		{
-			if(!selectedOption.empty())
-			{
-				mState = TALKING_PLAYER_CHARACTER;
-				mGameLogger->logDialogEvent("Held", selectedOption);
-				LOG_MESSAGE(Logger::DIALOG,
-                    "Player says: " + selectedOption);
-				mQuestion->getListboxItemFromIndex(0)->setText("Held: " + selectedOption);	
-				mController->response(
-					mBot->getDialogCharacter()->getActor(), 
-					selectedOption, 
-					option->getId().c_str());			
-				setVisible(false);
-			}
+			return -1;
 		}
 	}
-	
-	return true;
-}
 
-bool DialogWindow::handleClose()
-{
-	InputManager::getSingleton().popControlState();
-	hideWindow();
-	return true;
-}
+	void DialogWindow::setChosenOption(const CeGuiString& option)
+	{
+		mPlayerText->setText("Held: " + option);
+	}
 
-bool DialogWindow::requestClose()
-{
-//	handleClose is called automatically 
-	getResponse(DIALOG_EXIT);
-	return true;
-}
-
-void DialogWindow::setImage(Ogre::String imageset, Ogre::String image)
-{
-    mImage->setProperty("Image", "set:" + imageset + " image:" + image);
-}
-
-void DialogWindow::setName(Ogre::String name)
-{
-	mName->setProperty("Text", name);
-}
+	void DialogWindow::setResponse(const CeGuiString& response)
+	{
+		mNscText->setText(mName->getText() + ": " + response);
+		mQuestion->handleUpdatedItemData();
+	}
 
 }

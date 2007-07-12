@@ -68,8 +68,6 @@ namespace rl {
     WindowFactory::WindowFactory()
         : mGameLogger(NULL),
         mCharacterStateWindow(NULL),
-        mDialogWindow(NULL),
-        mSubtitleWindow(NULL),
         mInGameMenuWindow(NULL),
         mCharacterSheet(NULL),
         mJournalWindow(NULL),
@@ -129,8 +127,6 @@ namespace rl {
         delete mMainMenuWindow;
         delete mCloseConfirmationWindow;
         delete mGameSettings;
-        delete mDialogWindow;
-        delete mSubtitleWindow;
         delete mCombatWindow;
     }
 
@@ -407,24 +403,6 @@ namespace rl {
                 + ", "
                 + StringConverter::toString(wnd->getPixelSize().d_height));
         }
-    }
-
-    DialogWindow* WindowFactory::getDialogWindow()
-    {
-        if (mDialogWindow == NULL)
-        {
-            mDialogWindow = new DialogWindow(mGameLogger);
-        }
-        return mDialogWindow;
-    }
-
-    SubtitleWindow* WindowFactory::getSubtitleWindow()
-    {
-        if (mSubtitleWindow == NULL)
-        {
-            mSubtitleWindow = new SubtitleWindow();
-        }
-        return mSubtitleWindow;
     }
 
     CombatWindow* WindowFactory::getCombatWindow()

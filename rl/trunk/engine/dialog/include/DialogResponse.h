@@ -38,7 +38,7 @@ namespace rl
 	public:
 		typedef std::map<int, CeGuiString> Options;
 		typedef std::list<std::pair<CeGuiString, CeGuiString> > Responses;
-		typedef std::list<DialogOption*> DialogOptions;
+		typedef std::vector<DialogOption*> DialogOptions;
 
 		DialogResponse( const CeGuiString& input, 
 						const CeGuiString& response,
@@ -67,7 +67,7 @@ namespace rl
 		Options mSelectableOptions;
 		
 		Responses mResponses;
-		std::list<DialogOption*> mOptions;
+		DialogOptions mOptions;
 		AimlBot<CeGuiString>* mBot;
 
 		NaturalLanguageProcessor* mNlp;

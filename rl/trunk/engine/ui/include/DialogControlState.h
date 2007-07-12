@@ -25,7 +25,10 @@
 namespace rl {
 
 	class Actor;
+	class DialogCharacter;
+	class DialogResponse;
 	class DialogWindow;
+	class GameLoggerWindow;
 	class MeshAnimation;
 	class SoundObject;
 	class SubtitleWindow;
@@ -63,10 +66,12 @@ namespace rl {
 		/// Antwort eines der Dialogführenden
 		void response(Actor* actor, const CeGuiString& text, const Ogre::String& soundFile = "");
 
-		void setDialogWindow(DialogWindow* dialog);
-		void setSubtitleWindow(SubtitleWindow* subtitles);
-	
         virtual bool mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id);
+
+		bool handleDialogSelectOption();	
+		bool handleDialogClose();
+		bool requestDialogClose();
+
 	private:
 		/// Die Zielkameraposition in lokalen Koordinaten
 		Ogre::Vector3 mTargetCameraPosition;
@@ -100,6 +105,37 @@ namespace rl {
 	
 		float getShowTextLength(const CeGuiString& text) const;
         void recalculateCamera( Actor* speaker, Actor* listener );
+
+		enum DialogState
+		{
+			CHOOSING_OPTION = 1,
+			TALKING_PARTNER_CHARACTER,
+			TALKING_PLAYER_CHARACTER,
+			CLOSING_DIALOG
+		};
+
+		DialogCharacter* mBot;
+		DialogResponse* mCurrentResponse;
+		GameLoggerWindow* mGameLogger;
+		DialogState mState;
+		CeGuiString mCurrentResponseText;
+				
+		void getOptions(const CeGuiString& question);
+
+		static const CeGuiString DIALOG_START;
+		static const CeGuiString DIALOG_EXIT;
+		static const CeGuiString DIALOG_END;
+
+		void getResponse(const CeGuiString& msg);
+		unsigned int count();
+		void setCallback(Ogre::String function);
+		int getSelectedOption();
+
+		void initialize(DialogCharacter* bot);
+		void textFinished();
+
+        void start();
+
 	};
 }
 #endif
