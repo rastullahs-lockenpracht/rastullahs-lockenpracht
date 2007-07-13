@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 #include "TimerEventSource.h"
 
@@ -38,7 +39,7 @@ namespace rl {
 		mDsaTime(0L),
 		mDsaTimeLastCall(0L),
 		mDsaTimeRepeatInterval(0L)
-	{ 
+	{
 		TimerManager::getSingleton().registerTimerEventSource(this);
 	}
 
@@ -51,22 +52,22 @@ namespace rl {
 		mDsaTime(time),
 		mDsaTimeRepeatInterval(repeat),
 		mDsaTimeLastCall(0L)
-	{       
+	{
 		TimerManager::getSingleton().registerTimerEventSource(this);
 	}
 
-    TimerEventSource::~TimerEventSource() 
+    TimerEventSource::~TimerEventSource()
     {
 		TimerManager::getSingleton().unregisterTimerEventSource(this);
 
 		// Alle TimerListener
-		EventCaster<TimerEvent>::EventSet evSet 
+		EventCaster<TimerEvent>::EventSet evSet
 			= mTimerEventCaster.getEventSet();
-		EventCaster<TimerEvent>::EventSet::iterator citer 
+		EventCaster<TimerEvent>::EventSet::iterator citer
 			= evSet.begin();
-		for (citer; citer != evSet.end(); ) 
+		for (citer; citer != evSet.end(); )
 		{
-			EventListener<TimerEvent>* ev = *citer; 
+			EventListener<TimerEvent>* ev = *citer;
 			TimerListener* al = dynamic_cast<TimerListener*>( ev );
 			ScriptWrapper::getSingleton().disowned( al );
 			citer++;
@@ -74,7 +75,7 @@ namespace rl {
         mTimerEventCaster.removeEventListeners();
     }
 
-    
+
 	void TimerEventSource::fireTimerEvent()
 	{
 		TimerEvent* evt = new TimerEvent(this);

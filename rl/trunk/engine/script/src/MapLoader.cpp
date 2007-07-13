@@ -13,6 +13,8 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
+
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/util/PlatformUtils.hpp>
@@ -45,7 +47,7 @@ using std::list;
 namespace rl {
 
     using XERCES_CPP_NAMESPACE::DOMDocument; //XXX: for VS 2003/2005
-    
+
     MapLoader::MapLoader(const Ogre::String& resourceGroup)
         : mRootSceneNode(NULL),
           mResourceGroup(resourceGroup),
@@ -62,7 +64,7 @@ namespace rl {
 
     MapLoader::~MapLoader()
     {
-        for (list<AbstractMapNodeProcessor*>::const_iterator it = mNodeProcessors.begin(); 
+        for (list<AbstractMapNodeProcessor*>::const_iterator it = mNodeProcessors.begin();
             it != mNodeProcessors.end(); ++it)
         {
             delete *it;
@@ -81,7 +83,7 @@ namespace rl {
 
         parser->setValidationScheme(XercesDOMParser::Val_Auto);    // optional.
         parser->setDoNamespaces(true);    // optional
-		
+
         XmlPtr res = XmlResourceManager::getSingleton().getByName(mapresource);
         if (res.isNull())
         {
@@ -93,35 +95,35 @@ namespace rl {
             }
             res = XmlResourceManager::getSingleton().create(mapresource, group);
         }
-                
+
         if (!res.isNull())
         {
             res->parseBy(parser);
-    
+
             setRootSceneNode(CoreSubsystem::getSingleton().getWorld()
                     ->getSceneManager()->getRootSceneNode()->createChildSceneNode(mapresource));
 
             DOMDocument* doc = parser->getDocument();
             DOMElement* dataDocumentContent = doc->getDocumentElement();
-            
+
 			CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
 			///@todo: Window fade jobs don't work if Core is paused, think about solution for: CoreSubsystem::getSingleton().setPaused(true);
-            
+
             LOG_MESSAGE(Logger::RULES, "Processing nodes");
-            
+
             processSceneNodes(XmlHelper::getChildNamed(dataDocumentContent, "nodes"), loadGameObjects);
-            
+
 			ZoneProcessor zp;
 			zp.processNode(XmlHelper::getChildNamed(dataDocumentContent, "zones"), loadGameObjects);
-			
+
 			EnvironmentProcessor ep;
 			ep.processNode(XmlHelper::getChildNamed(dataDocumentContent, "environment"), loadGameObjects);
-            
+
 			WaypointProcessor wp;
 			wp.processNode(XmlHelper::getChildNamed(dataDocumentContent, "waypoints"), loadGameObjects);
-            
+
             LOG_MESSAGE(Logger::RULES, "Map loaded");
-    
+
             doc->release();
 
 			CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
@@ -131,7 +133,7 @@ namespace rl {
         {
             LOG_ERROR(Logger::RULES, "Map resource '" + mapresource + "' not found");
         }
-       
+
 		XMLPlatformUtils::Terminate();
     }
 
@@ -146,8 +148,8 @@ namespace rl {
         Ogre::Real numChildren = nodesElem->getChildNodes()->getLength();
         int count = 0;
 
-        for (DOMNode* cur = nodesElem->getFirstChild(); 
-            cur != NULL; 
+        for (DOMNode* cur = nodesElem->getFirstChild();
+            cur != NULL;
             cur = cur->getNextSibling())
         {
             if (cur->getNodeType() == DOMNode::ELEMENT_NODE)
@@ -159,7 +161,7 @@ namespace rl {
                 {
                     ++it;
                 }
-                
+
                 if (it == mNodeProcessors.end())
                 {
                     LOG_WARNING(Logger::RULES,
@@ -170,7 +172,7 @@ namespace rl {
 			count += 1;
             if (count % 250 == 0)
             {
-                setLoadingPercentage(count/numChildren, 
+                setLoadingPercentage(count/numChildren,
                     Ogre::StringConverter::toString(count/numChildren*100.0f, 0) + "%");
             }
         }
@@ -181,7 +183,7 @@ namespace rl {
     void MapLoader::setRootSceneNode(SceneNode* node)
     {
         mRootSceneNode = node;
-        for (list<AbstractMapNodeProcessor*>::const_iterator it = mNodeProcessors.begin(); 
+        for (list<AbstractMapNodeProcessor*>::const_iterator it = mNodeProcessors.begin();
             it != mNodeProcessors.end(); ++it)
         {
             (*it)->setRootSceneNode(node);
@@ -210,5 +212,5 @@ namespace rl {
             mPercentageWindow = NULL;
         }
     }
-    
+
 } // namespace rl

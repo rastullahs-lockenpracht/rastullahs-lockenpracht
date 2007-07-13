@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
+
 #include "ContainerContentWindow.h"
 
 #include <boost/bind.hpp>
@@ -32,7 +34,7 @@ namespace rl {
 
 	int ContainerContentWindow::sItemCount = 0;
 
-	ContainerContentWindow::ContainerContentWindow(Container* container) 
+	ContainerContentWindow::ContainerContentWindow(Container* container)
 		: AbstractWindow("containercontentwindow.xml", WIT_MOUSE_INPUT),
 		mContainer(container)
 	{
@@ -102,7 +104,7 @@ namespace rl {
 						cegui_absdim(pos.second*30)));
 				dragcont->setItemParent(mContainer);
 
-				///@todo Swap with old content (if there is some)				
+				///@todo Swap with old content (if there is some)
 			}
 			else if (dragcont->getItemParentSlot() != "")
 			{
@@ -118,9 +120,9 @@ namespace rl {
 						cegui_absdim(pos.second*30)));
 				dragcont->setItemParent(mContainer);
 
-				///@todo Swap with old content (if there is some)				
+				///@todo Swap with old content (if there is some)
 			}
-			
+
 			return true;
 		}
 		return false;
@@ -136,19 +138,19 @@ namespace rl {
 		}
 
    //     LOG_MESSAGE("IW", icon);
-   //     Window* itemWindow = 
+   //     Window* itemWindow =
 	  //      CEGUI::WindowManager::getSingletonPtr()->createWindow(
-		 //   "RastullahLook/StaticImage", 
-			//mWindow->getName() + "/" + icon 
+		 //   "RastullahLook/StaticImage",
+			//mWindow->getName() + "/" + icon
 			//+ "/" + CEGUI::PropertyHelper::intToString(sItemCount++));
    //     itemWindow->setProperty("Image", icon);
    //     itemWindow->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
    //     itemWindow->setSize(UVector2(cegui_reldim(1), cegui_reldim(1)));
-		CeGuiString dragContainerName = 
-			mWindow->getName() +  "/item/" 
+		CeGuiString dragContainerName =
+			mWindow->getName() +  "/item/"
 			+ Ogre::StringConverter::toString(item->getId())+"_DragContainer";
 
-		ItemDragContainer* itemhandler = new ItemIconDragContainer(item, 
+		ItemDragContainer* itemhandler = new ItemIconDragContainer(item,
 			dragContainerName);
 		itemhandler->setItemParent(mContainer);
 		itemhandler->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));

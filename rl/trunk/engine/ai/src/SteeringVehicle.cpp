@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
  *
@@ -13,9 +13,11 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include "stdinc.h" //precompiled header
+
 #include "SteeringVehicle.h"
 #include "AiSubsystem.h"
-#include "AiWorld.h" 
+#include "AiWorld.h"
 #include "Agent.h"
 #include "Actor.h"
 #include "Creature.h"
@@ -32,7 +34,7 @@ SteeringVehicle::SteeringVehicle(Agent* parent, Creature* character)
 	: _maxForce(1.0f),
       _maxSpeed(1.0f),
       mSpeed(1.0f),
-	  mCurrentForce(Vector3::ZERO), 
+	  mCurrentForce(Vector3::ZERO),
 	  mCurrentVelocity(Vector3::ZERO),
 	  mForwardVector(Vector3::NEGATIVE_UNIT_Z),
 	  mParent(parent),
@@ -84,7 +86,7 @@ void SteeringVehicle::initialize(void)
 {
     // reset LocalSpace state
 	resetLocalSpace();
-	
+
     // reset SteerLibraryMixin state
 	SimpleVehicle_2::reset ();
 
@@ -134,8 +136,8 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
         mCurrentForce = Vector3::ZERO;
         return;
     }
-    
-// calculate the result of the force    
+
+// calculate the result of the force
     Vector3 result = mCurrentForce;// + mCurrentVelocity;
 
      mDebugSteer = mCurrentForce;
@@ -181,7 +183,7 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 Vector3 SteeringVehicle::calcWander(const float elapsedTime)
 {
 	Vec3 rVal(mForwardVector.x, mForwardVector.y, mForwardVector.z);
-	
+
     rVal += steerForWander(elapsedTime/12.0f).setYtoZero();
 
     Vector3 steering(rVal.x, rVal.y, rVal.z);
@@ -224,7 +226,7 @@ Vector3 SteeringVehicle::calcAvoidNeighbors(const float minTimeToCollision)
 	Vec3 rVal = steerToAvoidNeighbors(minTimeToCollision, getNeighbors()).setYtoZero();
 	return Vector3(rVal.x, rVal.y, rVal.z);
 }
-		
+
 Vector3 SteeringVehicle::calcSteerTargetSpeed(const float targetSpeed)
 {
 	return Vector3();
@@ -273,75 +275,75 @@ Vector3 SteeringVehicle::getPosition()
 	return Vector3(position().x, position().y, position().z);
 }
 
-float SteeringVehicle::mass (void) const 
+float SteeringVehicle::mass (void) const
 {
     return mCreature->getActor()->getPhysicalThing()->getMass();
 }
 
-float SteeringVehicle::setMass (float m) 
+float SteeringVehicle::setMass (float m)
 {
 	// don't set mass here TODO: throw exception
 
 	return 1;
-} 
+}
 
-float SteeringVehicle::speed (void) const 
+float SteeringVehicle::speed (void) const
 {
 	return mSpeed;
 }
 
-float SteeringVehicle::setSpeed (float s) 
+float SteeringVehicle::setSpeed (float s)
 {
 	return mSpeed = s;
 }
 
-float SteeringVehicle::radius (void) const 
+float SteeringVehicle::radius (void) const
 {
 	// this is only the radius in x axis, but i think, this is the value that should be used here
     Ogre::AxisAlignedBox aab = mCreature->getActor()->getPhysicalThing()->_getBody()->getCollision()->getAABB();
     return (aab.getMaximum().x - aab.getMinimum().x)/2;
 }
 
-float SteeringVehicle::setRadius (float m) 
+float SteeringVehicle::setRadius (float m)
 {
 	// don't set mass here TODO: throw exception
 	return 1;
 }
 
-float SteeringVehicle::height (void) const 
+float SteeringVehicle::height (void) const
 {
     Ogre::AxisAlignedBox aab = mCreature->getActor()->getPhysicalThing()->_getBody()->getCollision()->getAABB();
     return aab.getMaximum().y - aab.getMinimum().y;
 }
 
-float SteeringVehicle::setHeight (float h) 
+float SteeringVehicle::setHeight (float h)
 {
 	// don't set mass here TODO: throw exception
 	return 1;
 }
 
-const Actor* SteeringVehicle::getActor(void) const  
-{ 
-	return mCreature->getActor(); 
+const Actor* SteeringVehicle::getActor(void) const
+{
+	return mCreature->getActor();
 }
 
-float SteeringVehicle::maxForce (void) const 
+float SteeringVehicle::maxForce (void) const
 {
 	return 10000.0f;
-} 
+}
 
-float SteeringVehicle::setMaxForce (float mf) 
+float SteeringVehicle::setMaxForce (float mf)
 {
 	 // TODO: should not be set here, throw excpetion or so
 	return _maxForce = mf;
 }
 
-float SteeringVehicle::maxSpeed (void) const 
+float SteeringVehicle::maxSpeed (void) const
 {
-	return 100000; 
+	return 100000;
 }
 
-float SteeringVehicle::setMaxSpeed (float ms) 
+float SteeringVehicle::setMaxSpeed (float ms)
 {
 	 // TODO: should not be set here, throw excpetion or so
 	return _maxSpeed = ms;
@@ -394,7 +396,7 @@ void SteeringVehicle::updatePrimitive()
 
     LineSetPrimitive* lineSet = static_cast<LineSetPrimitive*>(mPrimitive);
     lineSet->clear();
-    
+
     if(mDebugSteer != Vector3::ZERO)
     {
         lineSet->addLine(Vector3::UNIT_Y*2, Vector3::UNIT_Y*2 + mDebugSteer.normalisedCopy()*0.5, ColourValue::Black);

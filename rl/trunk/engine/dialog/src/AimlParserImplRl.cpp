@@ -1,3 +1,6 @@
+
+#include "stdinc.h"
+
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/sax/HandlerBase.hpp>
@@ -31,7 +34,7 @@ XmlDocument<CeGuiString>* AimlParserImplRl::parse(const CeGuiString& fileName)
 	XmlPtr res = getXmlResource(fileName);
 
     bool result = res->parseBy(&parser);
-    
+
     if(result)
     {
         XERCES_CPP_NAMESPACE::DOMDocument* doc = parser.getDocument();

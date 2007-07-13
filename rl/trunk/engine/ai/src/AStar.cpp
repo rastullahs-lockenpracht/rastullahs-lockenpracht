@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include "stdinc.h" //precompiled header
+
 #include "AStar.h"
 #include "AStarWayPointNode.h"
 #include "AStarHeuristic.h"
@@ -119,7 +121,7 @@ void AStar::searchFromTo(AStarPath& resultPath, const Ogre::Vector3& StartPos,
 }
 
 /*
-The A* algorithm, stripped of all the code, is fairly simple. 
+The A* algorithm, stripped of all the code, is fairly simple.
 There are two sets, OPEN and CLOSED. The OPEN set contains those nodes that are candidates for examining.
 Initially, the OPEN set contains just one element: the starting position.
 The CLOSED set contains those nodes that have already been examined.
@@ -129,7 +131,7 @@ a pointer to its parent node so that we can determine how it was found.
 
 There is a main loop that repeatedly pulls out the best node n in OPEN
 (the node with the lowest f value) and examines it. If n is the goal, then we're done.
-Otherwise, node n is removed from OPEN and added to CLOSED. 
+Otherwise, node n is removed from OPEN and added to CLOSED.
 Then, its neighbors n' are examined. A neighbor that is in CLOSED has already
 been seen, so we don't need to look at it (*). A neighbor that is in OPEN is
 scheduled to be looked at, so we don't need to look at it now (*). Otherwise,
@@ -197,8 +199,8 @@ void AStar::search(AStarPath& resultPath)
 
 			AStarSet::iterator ASit;
 			// now check if the node is already in Open
-			
-			if ( (ASit = searchSet(mOpen, ASubNode)) != mOpen.end() ) 
+
+			if ( (ASit = searchSet(mOpen, ASubNode)) != mOpen.end() )
 			{
 				AStarWayPointNode* ASfound = (*ASit);
 				// check if current g is better
@@ -212,9 +214,9 @@ void AStar::search(AStarPath& resultPath)
 				}
 				// anyway the newly created node isn't needed
 				delete ASubNode;
-			
+
 			}  // now check if the node is already in Closed
-			else if ( (ASit = searchSet(mClosed, ASubNode)) != mClosed.end()) 
+			else if ( (ASit = searchSet(mClosed, ASubNode)) != mClosed.end())
 			{
 				AStarWayPointNode* ASfound = (*ASit);
 				// (check if current g is better, then reopen)
@@ -231,8 +233,8 @@ void AStar::search(AStarPath& resultPath)
 				}
 				// anyway the newly created node isn't needed
 				delete ASubNode;
-			} 
-			else 
+			}
+			else
 			{
 				// neither in Open nor Closed, so add it to Open
 				mOpen.push_back( ASubNode );
@@ -248,10 +250,10 @@ AStar::AStarSet::iterator AStar::searchSet(AStarSet& Set, AStarWayPointNode* Nod
 {
 	AStarSet::iterator it;
 
-    /* try binary search - but keep in mind this compares the F and not G&H values 
+    /* try binary search - but keep in mind this compares the F and not G&H values
      * so this is not going to work at the moment with the current sortMethod ...
      */
-    
+
     //AStarWayPointNode* help = NULL;
     //bool found = std::binary_search(Set.begin(), Set.end(), Node, AStarWayPointNode::SortMethod);
     //while (it != Set.end())
@@ -261,9 +263,9 @@ AStar::AStarSet::iterator AStar::searchSet(AStarSet& Set, AStarWayPointNode* Nod
         // otherwise continue binary search
         //it = std::binary_search(it, Set.end(), Node, AStarWayPointNode::SortMethod);
     //}
-    
-    
-	for (it = Set.begin(); it != Set.end(); it++) 
+
+
+	for (it = Set.begin(); it != Set.end(); it++)
 	{
         if ( (*it)->EqualPosition(Node) )
 			return it;
@@ -288,7 +290,7 @@ void AStar::createPrimitive(const AStarPath& searchPath)
 
     Ogre::Vector3 From;
     Ogre::Vector3 To;
-    for (it++ ; it != searchPath.end(); it++) 
+    for (it++ ; it != searchPath.end(); it++)
     {
         pit = it - 1;
         From = (*pit) + Ogre::Vector3(0,0.5,0);

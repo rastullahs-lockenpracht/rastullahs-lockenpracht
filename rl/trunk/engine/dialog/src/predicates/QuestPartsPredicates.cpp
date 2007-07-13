@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include "stdinc.h" //precompiled header
+
 #include "QuestPartsPredicates.h"
 
 #include <CEGUIPropertyHelper.h>
@@ -75,7 +77,7 @@ void QuestPartsPredicates::setPredicate(const CeGuiString& name, const CeGuiStri
 	else if (value.substr(0, INCREASE.length()) == INCREASE)
 	{
 		int parts = PropertyHelper::stringToInt(value.substr(INCREASE.length()));
-		quest->increasePartsDone(parts);		
+		quest->increasePartsDone(parts);
 	}
 	else if (value == DECREASE)
 	{

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 
 #include "RubyInterpreter.h"
@@ -33,7 +34,7 @@ namespace rl {
 
 RubyInterpreter::RubyInterpreter()
 {
-    
+
 }
 
 RubyInterpreter::~RubyInterpreter()
@@ -65,12 +66,12 @@ void RubyInterpreter::initializeInterpreter()
         addSearchPath(mod->getDirectory() + "/scripts");
         addSearchPath(mod->getDirectory() + "/scripts/maps");
     }
-    
+
     ruby_init_loadpath();
     //Skriptname
     ruby_script("Rastullah");
     // Fuer Ruby .dll oder .so dazu laden
-    
+
     loadProtected(&RubyInterpreter::loadDlls, 0, "Ruby error while loading dlls");
 }
 
@@ -114,7 +115,7 @@ void RubyInterpreter::loadProtected(ProtectedMethod func, VALUE val, const std::
 
 void RubyInterpreter::logRubyErrors(const std::string& intro, int errorcode)
 {
-    if(errorcode != 0) 
+    if(errorcode != 0)
     {
         VALUE info = rb_inspect(ruby_errinfo);
         rb_backtrace();
@@ -157,8 +158,8 @@ CeGuiString RubyInterpreter::val2ceguistr(const VALUE rval)
     return CeGuiString(
         (CEGUI::utf8*)STR2CSTR(
             rb_funcall(
-                rval, 
-                rb_intern("to_s"), 
+                rval,
+                rb_intern("to_s"),
                 0)));
 }
 

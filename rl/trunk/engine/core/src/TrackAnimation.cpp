@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 #include "TrackAnimation.h"
 
@@ -24,7 +25,7 @@
 
 namespace rl {
 
-TrackAnimation::TrackAnimation( const Ogre::String& name, Actor *act, Ogre::Real length ) :	
+TrackAnimation::TrackAnimation( const Ogre::String& name, Actor *act, Ogre::Real length ) :
 	BaseAnimation(length,1.0,0,true),
 	mActor(act)
 {
@@ -36,7 +37,7 @@ TrackAnimation::TrackAnimation( const Ogre::String& name, Actor *act, Ogre::Real
 		mAnimation = mgr->createAnimation(name, length );
 	}
 	catch( Ogre::Exception& ) { Throw(RuntimeException, "Eine Animation mit dem Namen '"+name+"' war schon vorhanden." ); }
-	
+
 	act->_getSceneNode()->setInitialState();
 	mAnimationTrack = mAnimation->createNodeTrack(0, act->_getSceneNode() );
 	setAnimationState( mgr->createAnimationState(name) );
@@ -58,10 +59,10 @@ void TrackAnimation::setAnimationState( Ogre::AnimationState* animState )
 		Throw( NullPointerException,"Ogre::AnimationState darf nicht null sein" );
 
 	mAnimState = animState;
-	
+
 	if( mTimesToPlay != 1 )
 		mAnimState->setLoop( true );
-	
+
 	// Wenn die Zeit negativ ist, beginnen wir am Ende
 	if( mSpeed < 0 )
 		mAnimState->setTimePosition( mAnimState->getLength() );
@@ -110,7 +111,7 @@ void TrackAnimation::setKeyFrameRotation( Ogre::Real timePos, Ogre::Real xRotAxi
 	Ogre::TransformKeyFrame* frame = getKeyFrameAtTimePos( timePos );
 
 	if( frame != NULL )
-		frame->setRotation( Ogre::Quaternion(  Ogre::Radian( Ogre::Degree(angleUnits)), 
+		frame->setRotation( Ogre::Quaternion(  Ogre::Radian( Ogre::Degree(angleUnits)),
 				Ogre::Vector3(xRotAxis,yRotAxis,zRotAxis) ) );
 }
 
@@ -124,25 +125,25 @@ void TrackAnimation::setKeyFrameScale( Ogre::Real timePos, Ogre::Real xScale, Og
 
 void TrackAnimation::setInterpolationMode( AnimationManager::InterpolationMode im )
 {
-	mAnimation->setInterpolationMode( 
+	mAnimation->setInterpolationMode(
 		Ogre::Animation::InterpolationMode( im ) );
 }
 
 AnimationManager::InterpolationMode TrackAnimation::getInterpolationMode() const
 {
-	return AnimationManager::InterpolationMode( 
+	return AnimationManager::InterpolationMode(
 		mAnimation->getInterpolationMode() );
 }
 
 void TrackAnimation::setRotationInterpolationMode( AnimationManager::RotationInterpolationMode im )
 {
-	mAnimation->setRotationInterpolationMode( 
+	mAnimation->setRotationInterpolationMode(
 		Ogre::Animation::RotationInterpolationMode( im ) );
 }
 
 AnimationManager::RotationInterpolationMode TrackAnimation::getRotationInterpolationMode() const
 {
-	return AnimationManager::RotationInterpolationMode( 
+	return AnimationManager::RotationInterpolationMode(
 		mAnimation->getRotationInterpolationMode() );
 }
 

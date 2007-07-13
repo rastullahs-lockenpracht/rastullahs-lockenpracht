@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include "stdinc.h" //precompiled header
+
 #include "Selector.h"
 #include "SelectionHelper.h"
 
@@ -59,7 +61,7 @@ namespace rl
         return false;
     }
 
-    Selector::Selector(unsigned long mask) 
+    Selector::Selector(unsigned long mask)
 		: DebugVisualisable(), mSelection(), mSelectionMask(mask), mFilter(NULL)
     {
     }

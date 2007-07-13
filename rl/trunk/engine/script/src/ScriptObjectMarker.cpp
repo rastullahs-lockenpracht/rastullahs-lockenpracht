@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -13,6 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
 
 #include "ScriptObjectMarker.h"
 
@@ -63,11 +64,11 @@ namespace rl {
         unsigned int refCount = 1;
 
         // Es gab schon einen RefCount, dann diesen hochzählen
-        if( iter != m_RubyRefCountMap.end() )         
+        if( iter != m_RubyRefCountMap.end() )
             refCount = iter->second + 1;
 
         // In Liste einfügen
-        m_RubyRefCountMap.insert( ValueCountPair( val, refCount ) ); 
+        m_RubyRefCountMap.insert( ValueCountPair( val, refCount ) );
 
         // refCount wurde 1, beim GC anmelden
         if( refCount == 1 )
@@ -80,16 +81,16 @@ namespace rl {
     void ScriptObjectMarker::disowned( void* ptr )
     {
         VALUE val = RL_RubyInstanceFor(ptr);
-        
+
         // Hat kein Skript Equivalent, muss nicht verwaltet werden
         if( val == Qnil )
             return;
 
         ValueCountMap::iterator iter = m_RubyRefCountMap.find( val );
         // Gibt es überhaupt noch einen RefCount?
-        if( iter == m_RubyRefCountMap.end() )   
+        if( iter == m_RubyRefCountMap.end() )
             return;
-        
+
         // Alter RefCount
         unsigned int refCount = iter->second;
 
@@ -99,7 +100,7 @@ namespace rl {
             // Herunterzählen
             refCount = refCount--;
             // Neu einspeichern
-            m_RubyRefCountMap.insert( ValueCountPair(val, refCount ) ); 
+            m_RubyRefCountMap.insert( ValueCountPair(val, refCount ) );
         }
         // Null geworden
         if( refCount <= 1 )
@@ -135,7 +136,7 @@ namespace rl {
 			test->basic.klass = rb_cNilClass;
 			// Nicht löschen, ist der ptr
 			test->data = NULL;
-			
+
         }
         catch (IllegalArgumentException& ) {}
     }

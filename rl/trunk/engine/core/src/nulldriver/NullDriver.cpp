@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h"
+
 #include "NullDriver.h"
 #include "NullSound.h"
 #include "NullListener.h"

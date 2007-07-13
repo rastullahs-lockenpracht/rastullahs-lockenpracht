@@ -13,6 +13,8 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
+
 #include "AbstractMapNodeProcessor.h"
 
 #include <OgreColourValue.h>
@@ -30,7 +32,7 @@ namespace rl
       mXmlPropertyReader()
     {
     }
-    
+
     AbstractMapNodeProcessor::~AbstractMapNodeProcessor()
     {
         delete mXmlPropertyReader;
@@ -83,7 +85,7 @@ namespace rl
 
         return rval;
     }
-    
+
     ColourValue AbstractMapNodeProcessor::processColour(DOMElement* colElem) const
     {
         ColourValue rval(1, 1, 1, 1);
@@ -117,7 +119,7 @@ namespace rl
         rval << baseName << "_" << ++ival;
         return rval.str();
     }
-    
+
     void AbstractMapNodeProcessor::setRootSceneNode(Ogre::SceneNode* node)
     {
         mRootSceneNode = node;
@@ -127,7 +129,7 @@ namespace rl
     {
         return mRootSceneNode;
     }
-    
+
     XmlPropertyReader* AbstractMapNodeProcessor::getXmlPropertyReader() const
     {
         return mXmlPropertyReader;

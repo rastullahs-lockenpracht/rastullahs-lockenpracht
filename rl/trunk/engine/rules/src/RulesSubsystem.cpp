@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 #include "RulesSubsystem.h"
 #include "ActionManager.h"
@@ -45,15 +46,15 @@ namespace rl
         srand(static_cast<unsigned int>(time(NULL)));
 
         //Singletons erzeugen
-        mActionManager = new ActionManager(); 
+        mActionManager = new ActionManager();
 		LOG_MESSAGE(Logger::RULES, "ActionManager erzeugt");
-        mCombatManager = new CombatManager(); 
+        mCombatManager = new CombatManager();
 		LOG_MESSAGE(Logger::RULES, "CombatManager erzeugt");
         mDsaManager = new DsaManager();
 		LOG_MESSAGE(Logger::RULES, "DsaManager erzeugt");
         mMovingCreatureManager = new CreatureControllerManager();
 		LOG_MESSAGE(Logger::RULES, "CreatureControllerManager erzeugt");
-        mTimerManager = new TimerManager(); 
+        mTimerManager = new TimerManager();
 		LOG_MESSAGE(Logger::RULES, "TimerManager erzeugt");
 		resetQuestBook();
 		LOG_MESSAGE(Logger::RULES, "Questverwaltung erzeugt");
@@ -61,12 +62,12 @@ namespace rl
 		//Daten laden
 		mXdimlLoader = new XdimlLoader();
 		LOG_MESSAGE(Logger::RULES, "Basisdaten geladen");
-		
+
         new EffectFactoryManager();
         new GameObjectManager();
-		LOG_MESSAGE(Logger::RULES, "Erzeugen abgeschlossen");		
+		LOG_MESSAGE(Logger::RULES, "Erzeugen abgeschlossen");
     }
-	
+
 	RulesSubsystem::~RulesSubsystem()
     {
         delete mQuestBook;

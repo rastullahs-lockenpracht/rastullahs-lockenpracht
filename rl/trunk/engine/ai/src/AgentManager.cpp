@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include "stdinc.h" //precompiled header
+
 #include "AgentManager.h"
 #include "Agent.h"
 #include "PlayerVehicle.h"
@@ -80,7 +82,7 @@ void AgentManager::destroyAgent(Agent* agent)
 void AgentManager::addAgent(Agent* agent)
 {
 	mAgents.push_back(agent);
-    LOG_MESSAGE(Logger::AI, 
+    LOG_MESSAGE(Logger::AI,
         "created AI Agent");
 	mAllNeighbors.push_back(agent->getVehicle());
 }
@@ -90,7 +92,7 @@ AgentManager::VehicleList AgentManager::getNeighbors(Agent* agent)
 	return mAllNeighbors;
 }
 
-void AgentManager::run( Ogre::Real elapsedTime ) 
+void AgentManager::run( Ogre::Real elapsedTime )
 {
     //	update agents
     for(AgentList::iterator itr = mAgents.begin(); itr != mAgents.end(); ++itr)

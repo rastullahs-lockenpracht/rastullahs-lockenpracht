@@ -13,6 +13,8 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
+
 #include "LightNodeProcessor.h"
 
 #include "XmlHelper.h"
@@ -32,15 +34,15 @@ namespace rl
             return false;
         }
 
-        LOG_DEBUG(Logger::RULES, 
-            "Processing light node " 
+        LOG_DEBUG(Logger::RULES,
+            "Processing light node "
                 + XmlHelper::getAttributeValueAsStdString(nodeElem, "name"));
-                
+
         Ogre::String name = XmlHelper::getAttributeValueAsStdString(nodeElem, "name");
         Ogre::String stype = XmlHelper::getAttributeValueAsStdString(nodeElem, "type");
         bool visible = XmlHelper::getAttributeValueAsBool(nodeElem, "visible");
         bool shadowCaster = XmlHelper::getAttributeValueAsBool(nodeElem, "castShadows");
-        
+
         LightObject::LightTypes type = LightObject::LT_DIRECTIONAL;
         if (stype == "point")
         {
@@ -75,13 +77,13 @@ namespace rl
 
         light->setCastShadows(shadowCaster);
         light->setVisible(visible);
-        
+
         DOMElement* diffElem = XmlHelper::getChildNamed(nodeElem, "colourDiffuse");
         if (diffElem != NULL)
         {
             light->setDiffuseColour(processColour(diffElem));
         }
-        
+
         DOMElement* specElem = XmlHelper::getChildNamed(nodeElem, "colourSpecular");
         if (specElem != NULL)
         {
@@ -93,7 +95,7 @@ namespace rl
         {
             if (XmlHelper::hasAttribute(attElem, "range")
                 && XmlHelper::hasAttribute(attElem, "constant")
-                && XmlHelper::hasAttribute(attElem, "linear") 
+                && XmlHelper::hasAttribute(attElem, "linear")
                 && XmlHelper::hasAttribute(attElem, "quadratic"))
             {
                 Ogre::Real range = XmlHelper::getAttributeValueAsReal(attElem, "range");

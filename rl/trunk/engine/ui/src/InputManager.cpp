@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
+
 #include "InputManager.h"
 
 #include <xercesc/parsers/XercesDOMParser.hpp>
@@ -145,7 +147,7 @@ namespace rl {
             delete *it;
         }
         mFinishedControlStates.clear();
-   
+
         if (!mControlStates.empty())
         {
             mControlStates.top()->run(elapsedTime);

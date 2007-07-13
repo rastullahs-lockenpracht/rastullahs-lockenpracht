@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include "stdinc.h" //precompiled header
+
 #include "WayPointNode.h"
 
 using namespace std;
@@ -30,16 +32,16 @@ WayPointNode::~WayPointNode()
 	mNeighbours.clear();
 }
 
-void WayPointNode::addNeighbour(const WayPointNode* neighbour) 
+void WayPointNode::addNeighbour(const WayPointNode* neighbour)
 {
 	WayPointWeightNodeList::iterator it;
 
 	// test if neighbour not already added
 	for (it = mNeighbours.begin(); it != mNeighbours.end(); it++) {
 		// already added
-		if ( (*it).second == neighbour ) 
+		if ( (*it).second == neighbour )
 			return;
-		
+
 	}
 
 	// calculate cost to neighbour

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -13,6 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
 
 #include "SoundFadeJob.h"
 #include "SoundFadeFunctor.h"
@@ -50,7 +51,7 @@ namespace rl
             return true;
         }
         mSoundObject->setVolume(volume);
-        
+
         return false;
     }
 

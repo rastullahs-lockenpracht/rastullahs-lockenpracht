@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -13,6 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
 
 #include "PhysicsManager.h"
 
@@ -61,7 +62,7 @@ namespace rl
 	}
 
 
-	const Ogre::AxisAlignedBox LQTBodies::getAABB(OgreNewt::Body* body) 
+	const Ogre::AxisAlignedBox LQTBodies::getAABB(OgreNewt::Body* body)
 	{
 		return body->getCollision()->getAABB();
 	}
@@ -120,7 +121,7 @@ namespace rl
         {
             // default material has been provided by OgreNewt, therefore it
             // it must not be deleted here
-            if ((*it).first != "default") 
+            if ((*it).first != "default")
                 delete (*it).second;
         }
         mMaterials.clear();
@@ -133,7 +134,7 @@ namespace rl
     void PhysicsManager::run(Real elapsedTime)
     {
         // do nothing, if not enabled
-        if (!mEnabled) 
+        if (!mEnabled)
 			return;
 
         // does not need to be executed each frame!
@@ -241,15 +242,15 @@ namespace rl
                 continue;
 
             OgreNewt::CollisionPtr collision = collisions[i];
-            
+
 		    OgreNewt::Body* body = new OgreNewt::Body(mWorld, collision );
-            
+
 
             body->attachToNode(node);
             body->setPositionOrientation(node->getWorldPosition(),
                 node->getWorldOrientation());
             body->setMaterialGroupID(getMaterialID("level"));
-			
+
 			mLevelBodiesQuadTree.add(body);
             //mLevelBodies.push_back(body);
         }
@@ -395,7 +396,7 @@ namespace rl
     }
 
     OgreNewt::CollisionPtr PhysicsManager::createCollision(
-        Ogre::Entity* entity, const GeometryType& geomType, 
+        Ogre::Entity* entity, const GeometryType& geomType,
 		const Ogre::String animName, Ogre::Vector3* offset,
         Ogre::Quaternion* orientation, const Ogre::Real mass, Ogre::Vector3* inertia)
     {
@@ -406,7 +407,7 @@ namespace rl
 
         // result value
         CollisionPtr rval;
-		
+
         // check if there is a collision primitiv for the specified mesh object
         CollisionInUse &usedcol (mCollisionPrimitives[collisionName]);
         // log some performance warning if collisionname is equal, but geomtype different ?
@@ -422,7 +423,7 @@ namespace rl
             } else {
                 // found it
                 rval = usedcol.colPtr;
-                
+
 
                 if( inertia )
                 {
@@ -473,7 +474,7 @@ namespace rl
                 }
             }
         }
-        
+
         if (rval.isNull())
         {
             // if there is none, then create a new collision object
@@ -494,7 +495,7 @@ namespace rl
     {
         // result value
         CollisionPtr rval;
-		
+
         // check if there is a collision primitiv for the specified mesh object
         CollisionInUse &usedcol (mCollisionPrimitives[name]);
         // log some performance warning if collisionname is equal, but geomtype different ?
@@ -512,7 +513,7 @@ namespace rl
                 rval = usedcol.colPtr;
             }
         }
-        
+
         if (rval.isNull())
         {
             // if there is none, then create a new collision object
@@ -577,7 +578,7 @@ namespace rl
             size.y < PhysicsManager::NEWTON_GRID_WIDTH ||
             size.z < PhysicsManager::NEWTON_GRID_WIDTH )
             return false;
-        return true;            
+        return true;
     }
 
     void PhysicsCollisionFactory::correctSize(Ogre::Vector3& size)
@@ -604,13 +605,13 @@ namespace rl
         Ogre::Vector3* offset,
         Ogre::Quaternion* orientation,
         const Ogre::Real Mass,
-        Ogre::Vector3* inertia) 
+        Ogre::Vector3* inertia)
     {
         // size of the mesh
         Vector3 size( aabb.getSize() );
         // type for the collision primitiv (can change internally here)
         bool forceBox (false);
-		
+
         // result value
         CollisionPtr rval;
 
@@ -618,17 +619,17 @@ namespace rl
         if (checkSize(size) == false )
         {
             correctSize(size);
-            LOG_MESSAGE(Logger::CORE, 
+            LOG_MESSAGE(Logger::CORE,
                 " AABB is too small, using 'box' instead of primitiv '" +
                 PhysicsManager::convertGeometryTypeToString(geomType));
             forceBox = true;
         }
 
         // check if the geometry type is supported for aabb
-        if (geomType == GT_CONVEXHULL || 
+        if (geomType == GT_CONVEXHULL ||
             geomType == GT_MESH)
         {
-            LOG_MESSAGE(Logger::CORE, 
+            LOG_MESSAGE(Logger::CORE,
                 " the geometry type '"+
                 PhysicsManager::convertGeometryTypeToString(geomType)+
                 "' is not supported for aabb, fail back to box");
@@ -670,7 +671,7 @@ namespace rl
         Ogre::Vector3* offset,
         Ogre::Quaternion* orientation,
         const Ogre::Real Mass,
-        Ogre::Vector3* inertia) 
+        Ogre::Vector3* inertia)
     {
         // bounding box of the mesh
         const Ogre::AxisAlignedBox aabb(entity->getBoundingBox());
@@ -678,7 +679,7 @@ namespace rl
         Vector3 size( aabb.getSize() );
         // type for the collision primitiv (can change internally here)
         bool forceBox (false);
-		
+
         // result value
         CollisionPtr rval;
 
@@ -725,7 +726,7 @@ namespace rl
 	    	Ogre::Vector3 object_offset( Ogre::Vector3::ZERO );
             // orientation of the collision primitiv
 		    Ogre::Quaternion object_orientation = Ogre::Quaternion::IDENTITY;
-				
+
             // set offset/orientation when they are null
 			if (! offset)
 				offset = &object_offset;
@@ -838,7 +839,7 @@ namespace rl
 		Ogre::Vector3 object_offset(0,radius,0);
         // orientation of the collision primitiv
 		Ogre::Quaternion object_orientation = Ogre::Quaternion::IDENTITY;
-        
+
 		// set offset/orientation when they are null
 		if (! offset)
 			offset = &object_offset;
@@ -871,7 +872,7 @@ namespace rl
 		Ogre::Quaternion object_orientation = Ogre::Quaternion::IDENTITY;
 
 		// set offset/orientation when they are null
-		if (! offset) 
+		if (! offset)
 			offset = &object_offset;
 		if (! orientation)
 			orientation = &object_orientation;
@@ -903,7 +904,7 @@ namespace rl
 		// set offset/orientation when they are null
 		if (! offset)
     		offset = &object_offset;
-		if (! orientation) 
+		if (! orientation)
 			orientation = &object_orientation;
         if (inertia) {
             double sradius = radius*radius;

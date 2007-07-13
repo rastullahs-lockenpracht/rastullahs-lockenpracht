@@ -40,16 +40,18 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="-Zm130"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;..\core\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\boost\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;RLRULES_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;RLRULES_EXPORTS;_CRT_SECURE_NO_DEPRECATE;RL_USE_PCH"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				SmallerTypeCheck="true"
 				RuntimeLibrary="3"
 				BufferSecurityCheck="false"
 				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="stdinc.h"
 				AssemblerListingLocation=".\obj\Debug/"
 				ObjectFile=".\obj\Debug/"
 				WarningLevel="3"
@@ -131,11 +133,13 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="-Zm130"
 				AdditionalIncludeDirectories=".\include;..\core\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\boost\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk"
-				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;RLRULES_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
+				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;RLRULES_EXPORTS;_CRT_SECURE_NO_DEPRECATE;RL_USE_PCH"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="stdinc.h"
 				AssemblerListingLocation=".\obj\Release/"
 				ObjectFile=".\obj\Release/"
 				WarningLevel="3"
@@ -215,11 +219,13 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="-Zm130"
 				AdditionalIncludeDirectories=".\include;..\core\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\boost\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk"
-				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;RLRULES_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
+				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;RLRULES_EXPORTS;_CRT_SECURE_NO_DEPRECATE;RL_USE_PCH"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="stdinc.h"
 				AssemblerListingLocation=".\obj\Release/"
 				ObjectFile=".\obj\Release/"
 				WarningLevel="3"
@@ -407,6 +413,34 @@
 			<File
 				RelativePath=".\src\StateSet.cpp"
 				>
+			</File>
+			<File
+				RelativePath=".\src\stdinc.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release with Symbols|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\src\Talent.cpp"
@@ -612,6 +646,10 @@
 			</File>
 			<File
 				RelativePath=".\include\StateSet.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\stdinc.h"
 				>
 			</File>
 			<File

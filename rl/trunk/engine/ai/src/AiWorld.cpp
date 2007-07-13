@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include "stdinc.h" //precompiled header
+
 #include "AiWorld.h"
 #include "PhysicsManager.h"
 #include "LineSetPrimitive.h"
@@ -56,7 +58,7 @@ AiWorld::~AiWorld(void)
 
 void AiWorld::addObstacle(Obstacle* obstacle)
 {
-	mObstacles.push_back(obstacle);	
+	mObstacles.push_back(obstacle);
 }
 
 const ObstacleGroup& AiWorld::getSteeringObstacles()
@@ -216,7 +218,7 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
         pi.surfaceNormal = Vec3(infoNearest.mNormal.x, infoNearest.mNormal.y, infoNearest.mNormal.z);
 /*        pi.surfaceNormal.normalize();
         // jedenfalls gilt dafuer, dass der abstand zwischen surfacePoint+surfaceNormal und _pos minimal sein muss
-        if( ((pi.surfacePoint + pi.surfaceNormal) - _pos).length() > 
+        if( ((pi.surfacePoint + pi.surfaceNormal) - _pos).length() >
             ((pi.surfacePoint - pi.surfaceNormal) - _pos).length() )
             pi.surfaceNormal = -pi.surfaceNormal;
 */        pi.vehicleOutside = true; // egal?
@@ -239,7 +241,7 @@ void NewtonWorldAsObstacle::updatePrimitive()
 {
     if( mSceneNode->getParent() == NULL )
     {
-        SceneManager* mgr = 
+        SceneManager* mgr =
             CoreSubsystem::getSingletonPtr()->getWorld()->getSceneManager();
         mgr->getRootSceneNode()->addChild(mSceneNode);
     }

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 #include "AnimationListener.h"
 
@@ -21,7 +22,7 @@
 
 namespace rl {
 
-AnimationEvent::AnimationEvent( BaseAnimation* anim, const unsigned int reason ) : 
+AnimationEvent::AnimationEvent( BaseAnimation* anim, const unsigned int reason ) :
 	EventObject(anim,reason)
 {}
 
@@ -36,7 +37,7 @@ AnimationListener::~AnimationListener()
 
 }
 
-bool AnimationListener::eventRaised( AnimationEvent* anEvent ) 
+bool AnimationListener::eventRaised( AnimationEvent* anEvent )
 {
     switch( anEvent->getReason() )
     {
@@ -64,7 +65,7 @@ bool AnimationListener::eventRaised( AnimationEvent* anEvent )
 }
 
 
-AnimationFrameEvent::AnimationFrameEvent( BaseAnimation* anim,  const unsigned int reason, const Ogre::Real& frameNumber ) : 
+AnimationFrameEvent::AnimationFrameEvent( BaseAnimation* anim,  const unsigned int reason, const Ogre::Real& frameNumber ) :
 EventObject(anim,reason)
 {
 	mFrameNumber = frameNumber;

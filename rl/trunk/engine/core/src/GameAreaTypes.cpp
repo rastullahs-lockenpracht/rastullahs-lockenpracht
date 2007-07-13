@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 #include "GameAreaTypes.h"
 
@@ -55,19 +56,19 @@ namespace rl {
     {
         SceneQueryResult rs = mSphereQuery->execute();
         SceneQueryResultMovableList movList = rs.movables;
-        
+
         ActorMap retMap;
-        
+
         // Durch die Ergebnis Liste iterieren
         SceneQueryResultMovableList::iterator it;
-        for (it = movList.begin(); it != movList.end(); ++it) 
+        for (it = movList.begin(); it != movList.end(); ++it)
         {
-            MovableObject* mov = *it;  
+            MovableObject* mov = *it;
             if( mov->getUserObject() != NULL )
             {
                 // Zur Zeit sind die einzigen an Movables geknüpfte Objekte Actoren
                 Actor* act = dynamic_cast<Actor*>( mov->getUserObject() );
-                retMap.insert(ActorPair(act->getName(),act)); 
+                retMap.insert(ActorPair(act->getName(),act));
             }
         }
 
@@ -79,7 +80,7 @@ namespace rl {
         return mSphereQuery->getQueryMask();
     }
 
-    void GameSphereAreaType::setQueryMask( unsigned long mask ) 
+    void GameSphereAreaType::setQueryMask( unsigned long mask )
     {
         mSphereQuery->setQueryMask( mask );
     }

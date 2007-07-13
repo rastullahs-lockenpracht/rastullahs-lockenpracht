@@ -13,6 +13,8 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
+
 #include "SoundManager.h"
 
 #include <set>
@@ -360,7 +362,7 @@ Sound* SoundManager::createSound(const Ogre::String& res, SoundType type)
     }
     return NULL;
 }
-    
+
 /**
  * @author JoSch
  * @date 20-04-2007

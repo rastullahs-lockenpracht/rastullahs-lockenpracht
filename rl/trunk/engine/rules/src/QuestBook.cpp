@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 #include "QuestBook.h"
 #include "Quest.h"
@@ -36,7 +37,7 @@ QuestBook::QuestBook()
 QuestBook::~QuestBook()
 {
 	delete mRootQuest;
-    for( vector<JournalEntry*>::iterator it = mJournalEntries.begin(); 
+    for( vector<JournalEntry*>::iterator it = mJournalEntries.begin();
         it != mJournalEntries.end(); it++ )
         delete (*it);
     mJournalEntries.clear();
@@ -91,7 +92,7 @@ void QuestBook::addQuestListener(QuestListener* listener)
         Throw(AssertionFailedError, "listener registration inconsistent");
     }
 	else if (!mJournalEventCaster.containsListener(listener))
-    {    
+    {
 		mJournalEventCaster.addEventListener(listener);
 		mQuestEventCaster.addEventListener(listener);
         ScriptWrapper::getSingleton().owned( listener );
@@ -105,7 +106,7 @@ void QuestBook::removeQuestListener(QuestListener* listener)
     {
         Throw(AssertionFailedError, "listener registration inconsistent");
     }
-	else if (mJournalEventCaster.containsListener( listener )) 
+	else if (mJournalEventCaster.containsListener( listener ))
     {
 	    mJournalEventCaster.removeEventListener(listener);
 	    mQuestEventCaster.removeEventListener(listener);

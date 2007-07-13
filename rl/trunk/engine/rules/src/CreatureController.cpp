@@ -13,7 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
-
+#include "stdinc.h" //precompiled header
 
 #include "Actor.h"
 #include "Creature.h"
@@ -52,17 +52,17 @@ namespace rl
         }
         virtual bool calculateBaseVelocity(Real &velocity)
         {
-            velocity = 0.0f; 
+            velocity = 0.0f;
             return isPossible();
         }
         virtual bool isPossible() const
         {
-            return 
+            return
                 mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
                 mMovingCreature->getCreature()->getAu() > 0 &&
                 !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_DEAD | Effect::STATUS_UNCONSCIOUS | Effect::STATUS_SLEEPING));
         }
-        virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep) 
+        virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep)
         {
             getRotationMovement()->calculateForceAndTorque(force, torque, timestep);
 
@@ -100,7 +100,7 @@ namespace rl
                 if( omegaY < Degree(-20).valueRadians() )
                     mMovingCreature->setAnimation("drehen_rechts");
                 else
-                    mMovingCreature->setAnimation("Idle");                            
+                    mMovingCreature->setAnimation("Idle");
             }
         }
         virtual void applyAuChanges(Ogre::Real elapsedTime)
@@ -123,7 +123,7 @@ namespace rl
         virtual AbstractMovement* getRotationMovement() const
         {
             if( mRotationMovement == NULL)
-            {                
+            {
                 mRotationMovement = mMovingCreature->getMovementFromId(CreatureController::MT_DREHEN);
             }
             if( mRotationMovement == NULL )
@@ -152,7 +152,7 @@ namespace rl
         }
         virtual bool isPossible() const
         {
-            return 
+            return
                 mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR;// &&
                 mMovingCreature->getCreature()->getAu() > 1 &&
                 !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
@@ -166,7 +166,7 @@ namespace rl
         {
             AbstractMovement::deactivate();
         }
-        virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep) 
+        virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep)
         {
             Real mass;
             Vector3 inertia;
@@ -199,7 +199,7 @@ namespace rl
             mYaw += Radian(rotation.y);
             while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
             while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
-            
+
             OgreNewt::Body *body = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody();
             Quaternion orientation;
             Vector3 position;
@@ -234,13 +234,13 @@ namespace rl
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_STEHEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
-            velocity = mMovingCreature->getCurrentGS() / 3.6f * 0.7f; 
+            velocity = mMovingCreature->getCurrentGS() / 3.6f * 0.7f;
             return isPossible();
         }
         virtual bool isPossible() const
         {
-            return 
-                mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR && 
+            return
+                mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
                 mMovingCreature->getCreature()->getAu() > 1 &&
                 !(mMovingCreature->getCreature()->getStatus() & Effect::STATUS_IMMOBILE);
         }
@@ -269,7 +269,7 @@ namespace rl
             Real length = 5./3.;
             Real weight = 1;
             Real relTimeOffset = 0;
-            
+
             switch( mMovingCreature->getLastMovementType() )
             {
             case CreatureController::MT_NONE:
@@ -307,7 +307,7 @@ namespace rl
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_GEHEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
-            velocity = mMovingCreature->getCurrentGS() / 2.8f; 
+            velocity = mMovingCreature->getCurrentGS() / 2.8f;
             return isPossible();
         }
         virtual bool isPossible() const
@@ -363,7 +363,7 @@ namespace rl
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_JOGGEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
-            velocity = mMovingCreature->getCurrentGS() / 2.0f; 
+            velocity = mMovingCreature->getCurrentGS() / 2.0f;
             return isPossible();
         }
         virtual bool isPossible() const
@@ -469,7 +469,7 @@ namespace rl
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_LAUFEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
-            velocity = mMovingCreature->getCurrentGS(); 
+            velocity = mMovingCreature->getCurrentGS();
             return isPossible();
         }
         virtual bool isPossible() const
@@ -578,7 +578,7 @@ namespace rl
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_STEHEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
-            velocity = mMovingCreature->getCurrentGS() / 4.0; 
+            velocity = mMovingCreature->getCurrentGS() / 4.0;
             return isPossible();
         }
         virtual void setAnimation(Ogre::Real elapsedTime)
@@ -595,7 +595,7 @@ namespace rl
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_RUECKWAERTS_GEHEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
-            velocity = mMovingCreature->getCurrentGS() / 3.2; 
+            velocity = mMovingCreature->getCurrentGS() / 3.2;
             return isPossible();
         }
         virtual void setAnimation(Ogre::Real elapsedTime)
@@ -613,7 +613,7 @@ namespace rl
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_STEHEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
-            velocity = mMovingCreature->getCurrentGS() / 4.0; 
+            velocity = mMovingCreature->getCurrentGS() / 4.0;
             return isPossible();
         }
         virtual bool isDirectionPossible(Ogre::Vector3 &direction) const
@@ -646,7 +646,7 @@ namespace rl
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_STEHEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
-            velocity = mMovingCreature->getCurrentGS() / 6.0; 
+            velocity = mMovingCreature->getCurrentGS() / 6.0;
             return isPossible();
         }
         virtual bool run(Ogre::Real elapsedTime, Ogre::Vector3 direction, Ogre::Vector3 rotation)
@@ -758,7 +758,7 @@ namespace rl
         }
         virtual bool calculateBaseVelocity(Real &velocity)
         {
-            velocity = (mMovingCreature->getCreature()->getEigenschaft("GE") + 
+            velocity = (mMovingCreature->getCreature()->getEigenschaft("GE") +
                         mMovingCreature->getCreature()->getEigenschaft("KK")) / 4.0 / 5.0;
 
             // steht nicht in den Regeln aber finde ich sinnvoll
@@ -780,13 +780,13 @@ namespace rl
                     mMovingCreature->getCreature()->getAu() > 6 &&
                     !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
             else
-                return 
+                return
                 mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
                 mMovingCreature->getCreature()->getAu() > 8 &&
                 mMovingCreature->getCreature()->getAu() > mMovingCreature->getCreature()->getAuMax()/3.0 &&
                 !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
         }
-        virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep) 
+        virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep)
         {
             Real mass;
             Vector3 inertia;
@@ -881,7 +881,7 @@ namespace rl
     class Weitsprung : public AbstractMovement
     {
     public:
-        Weitsprung(CreatureController *creature) : 
+        Weitsprung(CreatureController *creature) :
           AbstractMovement(creature), mState(DOWN), mWidth(0),
               mJumpNow(false), mTimer(0), mApplyForceTime(0.12),
               mApplyForceTimer(0), mLastForce(Vector3::ZERO),
@@ -908,7 +908,7 @@ namespace rl
                     Real factor = -mMovingCreature->getVelocity().z / vel;
                     factor = std::max(Real(0),factor);
                     // without moving before, the width will be 1/3
-                    mWidth = mWidth/3. + mWidth * 2./3. * factor; 
+                    mWidth = mWidth/3. + mWidth * 2./3. * factor;
                 }
 
 
@@ -940,7 +940,7 @@ namespace rl
         }
         virtual bool calculateBaseVelocity(Real &velocity)
         {
-            velocity = (mMovingCreature->getCreature()->getEigenschaft("GE") + 
+            velocity = (mMovingCreature->getCreature()->getEigenschaft("GE") +
                         mMovingCreature->getCreature()->getEigenschaft("KK")) / 5.0;
 
             // steht nicht in den Regeln aber finde ich sinnvoll
@@ -962,13 +962,13 @@ namespace rl
                     mMovingCreature->getCreature()->getAu() > 6 &&
                     !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
             else
-                return 
+                return
                 mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
                 mMovingCreature->getCreature()->getAu() > 8 &&
                 mMovingCreature->getCreature()->getAu() > mMovingCreature->getCreature()->getAuMax()/3.0 &&
                 !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
         }
-        virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep) 
+        virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep)
         {
             Real mass;
             Vector3 inertia;
@@ -997,7 +997,7 @@ namespace rl
                         ax =  (v1x - v0) / t1;
                         ay = v1y/t1 + g;
                     }
-                    
+
                     mLastForce.x = 0;
                     mLastForce.y = ay * mass;
                     mLastForce.z = -ax * mass;
@@ -1031,7 +1031,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
                         ax =  (v1x - -v_now.z) / timestep;
                         ay = (v1y- v_now.y)/timestep + g;
                     }
-                    
+
                     force.x = 0;
                     force.y = ay * mass;
                     force.z = -ax * mass;
@@ -1146,7 +1146,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
         mLastFloorContact(0)
     {
         CreatureControllerManager::getSingleton().add(this);
-        
+
         const OgreNewt::MaterialID *material = PhysicsManager::getSingleton().getMaterialID("character");
         mCreature->getActor()->getPhysicalThing()->setMaterialID(material);
 
@@ -1209,9 +1209,9 @@ LOG_MESSAGE(Logger::RULES, oss.str());
 
     CreatureController::MovementType CreatureController::getMovementId() const
     {
-        if (mMovement == NULL) 
-            return MT_NONE; 
-        else 
+        if (mMovement == NULL)
+            return MT_NONE;
+        else
             return mMovement->getId();
     }
 
@@ -1228,7 +1228,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
         MeshObject* mesh = dynamic_cast<MeshObject*>(mCreature->getActor()->getControlledObject());
         PhysicalThing* pt = mCreature->getActor()->getPhysicalThing();
         MeshAnimation *meshAnim(NULL);
-        
+
         if( mLastAnimationName != name)
         {
             const Ogre::String *pCollisionName = &collisionName;
@@ -1314,7 +1314,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
 
     Ogre::Vector3 CreatureController::getVelocity() const
     {
-        return 
+        return
             mCreature->getActor()->getPhysicalThing()->getOrientation().Inverse() *
             mCreature->getActor()->getPhysicalThing()->_getBody()->getVelocity();
     }
@@ -1493,7 +1493,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
         Radian yaw = mCreature->getActor()->getWorldOrientation().getYaw();
 
         AbstractMovement *drehen = getMovementFromId(MT_DREHEN);
-        
+
         if( drehen == NULL )
             return yaw;
 

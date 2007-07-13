@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -13,6 +13,8 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
+
 #include "MeshObject.h"
 
 #include <OgreAnimationState.h>
@@ -62,7 +64,7 @@ namespace rl {
             stopAllAnimations();
             CoreSubsystem::getSingletonPtr()->getWorld()
                 ->getSceneManager()->destroyEntity( getEntity() );
-        }		
+        }
     }
 
     Entity* MeshObject::getEntity() const
@@ -74,7 +76,7 @@ namespace rl {
     {
         return mSize;
     }
-    
+
     AxisAlignedBox MeshObject::getPoseSize(const String& animationName)
 	{
 		PoseMap::iterator it = mPoseSizes.find(animationName);
@@ -117,7 +119,7 @@ namespace rl {
 		{
 			animState = getEntity()->getAnimationState(animName);
 		}
-		catch(Ogre::Exception&) 
+		catch(Ogre::Exception&)
 		{
             Throw(IllegalArgumentException,
                 animName + " is not a valid AnimationState of " + mMeshName + ".");
@@ -141,7 +143,7 @@ namespace rl {
         {
             animState = getEntity()->getAnimationState(animName);
         }
-        catch(Ogre::Exception&) 
+        catch(Ogre::Exception&)
         {
 			LOG_ERROR(Logger::CORE,
                 animName + " is not a valid AnimationState of " + mMeshName + ".");
@@ -166,14 +168,14 @@ namespace rl {
 		{
 			animState = getEntity()->getAnimationState(animName);
 		}
-		catch(Ogre::Exception&) 
-		{ 
+		catch(Ogre::Exception&)
+		{
             Throw(IllegalArgumentException,
                 animName + " is not a valid AnimationState of " + mMeshName + ".");
 		}
 		AnimationManager::getSingleton().removeAnimation(animState);
 	}
-    
+
     void MeshObject::stopAllAnimations( )
     {
         if (getEntity() == NULL) // Entity schon abgebaut?
@@ -185,11 +187,11 @@ namespace rl {
         {
             AnimationStateIterator iter = animStates->getAnimationStateIterator();
 
-            while (iter.hasMoreElements()) 
+            while (iter.hasMoreElements())
             {
-                AnimationState* state = iter.getNext(); 
+                AnimationState* state = iter.getNext();
                 stopAnimation( state->getAnimationName() );
-            } 
+            }
         }
     }
 
@@ -301,7 +303,7 @@ namespace rl {
 
 		unsigned char* data = static_cast<unsigned char*>(
 			vb->lock(Ogre::HardwareBuffer::HBL_READ_ONLY));
-		
+
 		for (size_t i = 0; i < vd->vertexCount; ++i)
 		{
 			float* v;
@@ -314,7 +316,7 @@ namespace rl {
 
 		return aabb;
     }
-    
+
     void MeshObject::setCastShadows (bool enabled)
     {
         getEntity()->setCastShadows(enabled);
@@ -341,7 +343,7 @@ namespace rl {
             // TODO - optimieren, nur wenn der Typ ver�ndert wird
             //if(StringUtil::endsWith(subent->getMaterialName(),nameExtension)
             // == highlight )
-            //  continue;  
+            //  continue;
 
             if (ent->isHardwareAnimationEnabled())
             {
@@ -353,7 +355,7 @@ namespace rl {
 
             // Highlight setzen
             if( highlight )
-            {           	 
+            {
                 MaterialPtr material = MaterialManager::getSingleton().getByName( oldMaterial->getName()+nameExtension );
 
                 if( material.isNull() )
@@ -362,7 +364,7 @@ namespace rl {
 
                     material->setAmbient(1.0, 1.0, 1.0);
                     material->setDiffuse(1.0, 1.0, 1.0, 1.0);
-                    material->setSelfIllumination(0.4, 0.4, 0.4); 
+                    material->setSelfIllumination(0.4, 0.4, 0.4);
                 }
 
                 subent->setMaterialName(material->getName());
@@ -372,7 +374,7 @@ namespace rl {
             {
                 String matName = oldMaterial->getName();
                 matName = matName.erase(matName.length() - nameExtension.length(), nameExtension.length() );
-                subent->setMaterialName( matName );				
+                subent->setMaterialName( matName );
             }
         }
     }

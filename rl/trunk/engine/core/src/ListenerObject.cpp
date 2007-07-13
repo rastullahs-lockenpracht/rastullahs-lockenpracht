@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -13,6 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
 
 #include "ListenerObject.h"
 #include "Actor.h"
@@ -23,12 +24,12 @@
 using namespace Ogre;
 
 namespace rl {
-   
+
 /**
  * @param listener. Der Listener, Besitz wird übernommen.
  * @author JoSch
  * @date 03-16-2005
- */   
+ */
 ListenerObject::ListenerObject(ListenerMovable *listener) : ActorControlledObject()
 {
     mMovableObject = dynamic_cast<MovableObject*>(listener);
@@ -37,7 +38,7 @@ ListenerObject::ListenerObject(ListenerMovable *listener) : ActorControlledObjec
 /**
  * @author JoSch
  * @date 03-16-2005
- */   
+ */
 ListenerObject::~ListenerObject()
 {
     if (mMovableObject)
@@ -50,7 +51,7 @@ ListenerObject::~ListenerObject()
  * @return Immer false, weil kein Meshobjekt.
  * @author JoSch
  * @date 03-16-2005
- */   
+ */
 bool ListenerObject::isMeshObject()
 {
 	return false;
@@ -59,7 +60,7 @@ bool ListenerObject::isMeshObject()
 /**
  * @author JoSch
  * @date 03-16-2005
- */   
+ */
 void ListenerObject::_update()
 {
     ActorControlledObject::_update();
@@ -89,7 +90,7 @@ void ListenerObject::_update()
  * @param Der bewegbare Listener
  * @author JoSch
  * @date 03-16-2005
- */   
+ */
 ListenerMovable* ListenerObject::getListener() const
 {
     return static_cast<ListenerMovable*>(mMovableObject);
@@ -99,7 +100,7 @@ ListenerMovable* ListenerObject::getListener() const
  * @return Immer "ListenerObject"
  * @author JoSch
  * @date 03-16-2005
- */   
+ */
 String ListenerObject::getObjectType() const
 {
     return "ListenerObject";

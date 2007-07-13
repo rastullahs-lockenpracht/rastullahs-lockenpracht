@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
+
 #include "Console.h"
 
 #include <boost/bind.hpp>
@@ -28,21 +30,21 @@ using CEGUI::utf8; using CEGUI::ListboxTextItem;
 using CEGUI::KeyEventArgs; using CEGUI::Key; using CEGUI::colour;
 using CEGUI::ListboxWrappedTextItem; using CEGUI::TextFormatting;
 
-namespace rl 
+namespace rl
 {
-	Console::Console() : 
+	Console::Console() :
 		AbstractWindow("console.xml", WIT_KEYBOARD_INPUT)
 	{
 		using namespace CEGUI;
-		
+
 		mDisplay = getListbox("Console/Display");
 		mCommandLine = getEditbox("Console/Inputbox");
 
 		mWindow->subscribeEvent(
-			FrameWindow::EventKeyDown, 
+			FrameWindow::EventKeyDown,
 			boost::bind(&Console::handleKeyDown, this, _1));
 		mCommandLine->subscribeEvent(
-			Editbox::EventKeyDown, 
+			Editbox::EventKeyDown,
 			boost::bind(&Console::handleKeyDown, this, _1));
 		mDisplay->moveToFront();
 
@@ -58,7 +60,7 @@ namespace rl
 		{
 			mCommandLine->activate();
 		}
-		
+
 		AbstractWindow::setVisible(visible, destroy);
 	}
 
@@ -80,7 +82,7 @@ namespace rl
 			CeGuiString command = mCommandLine->getText();
 			CeGuiString printCommand = ">" + command;
 			appendTextRow(printCommand, 0xFF7FFF7F);
-				
+
 			mPrompt = CoreSubsystem::getSingleton().getRubyInterpreter()->execute(command.c_str());
 
 			mHistory.push_back(command);
@@ -88,14 +90,14 @@ namespace rl
 			mCommandLine->setText((utf8*)"");
 			return true;
 		}
-		
-		return false;		
+
+		return false;
 	}
 
 	void Console::write(const CeGuiString& output)
-	{        
+	{
 		CeGuiString temp;
-        if( output.substr(output.length() - 2).compare("\n") == 0 ) 
+        if( output.substr(output.length() - 2).compare("\n") == 0 )
             temp = output.substr( 0, output.length() - 1 );
 		else
 			temp = output;
@@ -149,7 +151,7 @@ namespace rl
 		//mDisplay->addItem(item);
 		//mDisplay->ensureItemIsVisible(item); // scroll to bottom;*/
 	}
-	
+
 	void Console::setRubyInterpreter(RubyInterpreter* RubyInterpreter)
 	{
 		mRubyInterpreter = RubyInterpreter;
@@ -160,7 +162,7 @@ namespace rl
 	{
 		if (mHistory.size() == 0)
 			return;
-		
+
 		if (mHistoryMarker + skip < 0)
 			mHistoryMarker = 0;
 		else if (mHistoryMarker + skip > mHistory.size())

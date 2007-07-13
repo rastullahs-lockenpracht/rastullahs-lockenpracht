@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include "stdinc.h" //precompiled header
+
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/framework/MemBufInputSource.hpp>
 #include <xercesc/dom/DOM.hpp>
@@ -28,23 +30,23 @@
 
 namespace rl
 {
-	DialogResponse::DialogResponse( const CeGuiString& input, 
+	DialogResponse::DialogResponse( const CeGuiString& input,
 									const CeGuiString& response,
 									const Options& currentOptions,
 									const Options& selectableOptions,
 									NaturalLanguageProcessor* nlp)
-		:	mInput(input), 
-			mResponse(response), 
+		:	mInput(input),
+			mResponse(response),
 			mCurrentOptions(currentOptions),
-			mSelectableOptions(selectableOptions), 
+			mSelectableOptions(selectableOptions),
 			mNlp(nlp)
 	{
 	}
 
-	DialogResponse::DialogResponse( const Responses &responses, 
+	DialogResponse::DialogResponse( const Responses &responses,
 									const DialogOptions &options,
 									AimlBot<CeGuiString>* bot)
-		: mResponses(responses), 
+		: mResponses(responses),
 		  mOptions(options),
 		  mBot(bot)
 	{

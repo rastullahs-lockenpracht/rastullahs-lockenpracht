@@ -5,6 +5,8 @@
 //-----------------------------------------------------------
 // Modified by Daniel Wickert, 2006
 
+#include "stdinc.h"
+
 #include "MovableText.h"
 #include "Exception.h"
 

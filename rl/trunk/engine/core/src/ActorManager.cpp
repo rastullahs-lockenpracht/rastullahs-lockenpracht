@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -13,6 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
 
 #include "ActorManager.h"
 
@@ -68,10 +69,10 @@ namespace rl {
         return mActorRenderingDistance;
     }
 
-    void ActorManager::setDefaultActorRenderingDistance( Ogre::Real dist ) 
+    void ActorManager::setDefaultActorRenderingDistance( Ogre::Real dist )
     {
         for (ActorPtrMap::iterator it = mActors.begin();
-            it != mActors.end();) 
+            it != mActors.end();)
         {
             Actor* actor = it->second;
 
@@ -79,7 +80,7 @@ namespace rl {
             if( actor->getRenderingDistance() == mActorRenderingDistance )
             {
                 actor->setRenderingDistance( dist );
-            } 
+            }
 
             ++it;
         }
@@ -141,12 +142,12 @@ namespace rl {
 
     void ActorManager::destroyAllActors()
     {
-        for (ActorPtrMap::iterator it = mActors.begin(); it != mActors.end();) 
+        for (ActorPtrMap::iterator it = mActors.begin(); it != mActors.end();)
         {
             Actor* actor = it->second;
-            mActors.erase(it++);  
+            mActors.erase(it++);
             doDestroyActor(actor);
-        }		
+        }
     }
 
     Actor* ActorManager::createLightActor(const String& name, rl::LightObject::LightTypes type )
@@ -160,7 +161,7 @@ namespace rl {
             LightObject* lo = new LightObject(uniquename, type);
 
             actor = new Actor(uniquename, lo);
-            mActors.insert(ActorPtrPair(uniquename,actor)); 
+            mActors.insert(ActorPtrPair(uniquename,actor));
         }
         catch (Ogre::Exception& e)
         {
@@ -189,7 +190,7 @@ namespace rl {
                 createSound(soundfile, ST_SAMPLE);
             SoundObject* so = new SoundObject(sm, soundfile);
             actor = new Actor(uniquename, so);
-            mActors.insert(ActorPtrPair(uniquename,actor));  
+            mActors.insert(ActorPtrPair(uniquename,actor));
         }
         catch (Ogre::Exception& e)
         {
@@ -219,7 +220,7 @@ namespace rl {
             SoundObject* so = new SoundObject(sm, soundfile);
 
             actor = new Actor(uniquename, so);
-            mActors.insert(ActorPtrPair(uniquename,actor)); 
+            mActors.insert(ActorPtrPair(uniquename,actor));
         }
         catch (Ogre::Exception& e)
         {
@@ -249,7 +250,7 @@ namespace rl {
             ListenerObject* lo = new ListenerObject(lm);
 
             actor = new Actor(uniquename, lo);
-            mActors.insert(ActorPtrPair(uniquename,actor)); 
+            mActors.insert(ActorPtrPair(uniquename,actor));
         }
         catch (Ogre::Exception& e)
         {
@@ -274,7 +275,7 @@ namespace rl {
         const String&  uniquename = nextUniqueName(name);
 
         Actor* actor = new Actor(uniquename);
-        mActors.insert(ActorPtrPair(uniquename,actor)); 
+        mActors.insert(ActorPtrPair(uniquename,actor));
 
         return actor;
     }
@@ -287,14 +288,14 @@ namespace rl {
         {
             CameraObject* co = new CameraObject(uniquename);
             PhysicalThing* pt = PhysicsManager::getSingleton()
-                .createPhysicalThing(GT_SPHERE, co, 
+                .createPhysicalThing(GT_SPHERE, co,
                 100.0f, true);
             PhysicsManager::getSingleton().createPhysicsProxy(pt, NULL);
 			pt->_getBody()->setMaterialGroupID(
                 PhysicsManager::getSingleton().getMaterialID("character"));
             actor = new Actor(uniquename, co, pt);
 
-            mActors.insert(ActorPtrPair(uniquename,actor)); 
+            mActors.insert(ActorPtrPair(uniquename,actor));
         }
         catch (Ogre::Exception& e)
         {
@@ -316,7 +317,7 @@ namespace rl {
         return actor;
     }
 
-    Actor* ActorManager::createMeshActor(const String& name, const Ogre::String& basemeshname, 
+    Actor* ActorManager::createMeshActor(const String& name, const Ogre::String& basemeshname,
 		const MeshPartMap& meshparts, GeometryType geomType, Ogre::Real mass)
 	{
 		if (meshparts.empty())
@@ -329,7 +330,7 @@ namespace rl {
 
         try
         {
-			
+
 			MergeableMeshObject* mmo = new MergeableMeshObject(uniquename, basemeshname);
 
 			for (MeshPartMap::const_iterator partIt = meshparts.begin(); partIt != meshparts.end(); ++partIt)
@@ -340,12 +341,12 @@ namespace rl {
 				}
 				mmo->addSubmesh(partIt->first, partIt->second);
 			}
-		
+
 			PhysicalThing* pt = PhysicsManager::getSingleton()
 				.createPhysicalThing(geomType, mmo, mass);
 
 			actor = new Actor(uniquename, mmo, pt);
-			mActors.insert(ActorPtrPair(uniquename,actor)); 
+			mActors.insert(ActorPtrPair(uniquename,actor));
 		}
         catch (Ogre::Exception& e)
         {
@@ -385,7 +386,7 @@ namespace rl {
                 .createPhysicalThing(geomType, mo, mass);
 
             actor = new Actor(uniquename, mo, pt);
-            mActors.insert(ActorPtrPair(uniquename,actor)); 
+            mActors.insert(ActorPtrPair(uniquename,actor));
         }
         catch (Ogre::Exception& e)
         {
@@ -423,7 +424,7 @@ namespace rl {
                 .createPhysicalThing(GT_BOX, bp, mass);
 
             actor = new Actor(uniquename, bp, pt);
-            mActors.insert(ActorPtrPair(uniquename,actor)); 
+            mActors.insert(ActorPtrPair(uniquename,actor));
         }
         catch (Ogre::Exception& e)
         {
@@ -450,7 +451,7 @@ namespace rl {
             ParticleSystemObject* po = new ParticleSystemObject(uniquename, partname);
 
             actor = new Actor(uniquename, po, 0);
-            mActors.insert(ActorPtrPair(uniquename,actor)); 
+            mActors.insert(ActorPtrPair(uniquename,actor));
         }
         catch (Ogre::Exception& e)
         {

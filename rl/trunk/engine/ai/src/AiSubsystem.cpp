@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include "stdinc.h" //precompiled header
+
 #include "AiSubsystem.h"
 
 #include "AiWorld.h"
@@ -138,7 +140,7 @@ LandmarkPath* AiSubsystem::getLandmarkPath(const Ogre::String& name) const
 
 void AiSubsystem::removeAllLandmarkPaths()
 {
-	for (std::map<Ogre::String, LandmarkPath*>::iterator it = mLandmarkPaths.begin(); 
+	for (std::map<Ogre::String, LandmarkPath*>::iterator it = mLandmarkPaths.begin();
 		it != mLandmarkPaths.end(); it++)
 	{
 		delete (*it).second;
@@ -149,7 +151,7 @@ void AiSubsystem::removeAllLandmarkPaths()
 
 void AiSubsystem::removeAllLandmarks()
 {
-	for (std::map<Ogre::String, Landmark*>::iterator it = mLandmarks.begin(); 
+	for (std::map<Ogre::String, Landmark*>::iterator it = mLandmarks.begin();
 		it != mLandmarks.end(); it++)
 	{
 		delete (*it).second;

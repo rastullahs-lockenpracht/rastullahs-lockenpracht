@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
+
 #include "Creature.h"
 
 #include "Actor.h"
@@ -39,7 +41,7 @@ namespace rl
     const Ogre::String Creature::CLASS_NAME = "Creature";
 
     const Ogre::String Creature::PROPERTY_BEHAVIOURS = "behaviours";
-    const Ogre::String Creature::PROPERTY_INVENTORY_WINDOW_TYPE = "inventorywindowtype"; 
+    const Ogre::String Creature::PROPERTY_INVENTORY_WINDOW_TYPE = "inventorywindowtype";
     const Ogre::String Creature::PROPERTY_CURRENT_LE = "current_le";
     const Ogre::String Creature::PROPERTY_CURRENT_AE = "current_ae";
     const Ogre::String Creature::PROPERTY_CURRENT_AU = "current_au";
@@ -69,14 +71,14 @@ namespace rl
     const Creature::Wert Creature::WERT_SOZIALSTATUS = "SO";
     const Creature::Wert Creature::WERT_BE = "BE";
     const Creature::Wert Creature::WERT_INI = "INI";
-    const Creature::Wert Creature::WERT_KAMPFUNFAEHIGKEITSSCHWELLE ="Kampfunfähigkeitsschwelle"; 
+    const Creature::Wert Creature::WERT_KAMPFUNFAEHIGKEITSSCHWELLE ="Kampfunfähigkeitsschwelle";
     const Creature::Wert Creature::WERT_REGENERATION = "Regeneration";
-    
-    
+
+
 
 
     Creature::Creature(unsigned int id)
-        : GameObject(id), 
+        : GameObject(id),
 		mCurrentLe(0),
         mCurrentAu(0),
         mCurrentAe(0),
@@ -259,7 +261,7 @@ namespace rl
     {
         return mCurrentLe;
     }
-    
+
     int Creature::getLeMax()
     {
 		return getLeBasis() + getWert(WERT_MOD_LE);
@@ -277,7 +279,7 @@ namespace rl
     {
         return mCurrentAe;
     }
-    
+
     int Creature::getAeMax()
     {
 		return isMagic()?getAeBasis() + getWert(WERT_MOD_AE):0;
@@ -299,7 +301,7 @@ namespace rl
     {
         return mCurrentAu;
     }
-    
+
     int Creature::getAuMax()
     {
 		return getAuBasis() + getWert(WERT_MOD_AU);
@@ -309,17 +311,17 @@ namespace rl
     {
         mAp.total += modifier;
     }
-    
+
     int Creature::getAp()
     {
         return mAp.total;
     }
-    
+
     void Creature::modifyUsedAp(int modifier)
     {
         mAp.used += modifier;
     }
-    
+
     int Creature::getUsedAp()
     {
         return mAp.used;
@@ -362,7 +364,7 @@ namespace rl
         if (it == mTalente.end())
         {
             Talent::AusweichTalente ausweichTalente;
-            ausweichTalente = 
+            ausweichTalente =
                 DsaManager::getSingleton().getTalent(talentName)->getAusweichTalente();
             Talent::AusweichTalente::const_iterator ausweichIt = ausweichTalente.begin();
             if (ausweichIt == ausweichTalente.end())
@@ -372,7 +374,7 @@ namespace rl
             int rval = getTalent(ausweichIt->first) - ausweichIt->second;
             for (ausweichIt++; ausweichIt != ausweichTalente.end(); ausweichIt++)
             {
-                int tempAusweichTaw = getTalent(ausweichIt->first) 
+                int tempAusweichTaw = getTalent(ausweichIt->first)
                     - ausweichIt->second;
                 if (tempAusweichTaw > rval) rval = tempAusweichTaw;
             }
@@ -436,11 +438,11 @@ namespace rl
 		KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
 		if (it != mKampftechniken.end())
 		{
-			Throw(IllegalArgumentException, 
+			Throw(IllegalArgumentException,
 				"Kampftechnik schon in mKampftechniken enthalten.");
 		}
 		//ueberpruefe ob es die Kampftechnik ueberhaupt gibt
-		DsaManager::getSingleton().getKampftechnik(kampftechnikName); 
+		DsaManager::getSingleton().getKampftechnik(kampftechnikName);
 		mKampftechniken[kampftechnikName] = value;
 		fireObjectStateChangeEvent();
 	}
@@ -598,7 +600,7 @@ namespace rl
 		int modifier, CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, CeGuiString eigenschaft3Name)
     {
         Talent* talent = DsaManager::getSingleton().getTalent(talentName);
-		if (((talent->getArt() == TALENT_ART_SPEZIAL) && (getTalent(talentName) < TALENT_MIN_TAW_FOR_SPEZIAL)) || 
+		if (((talent->getArt() == TALENT_ART_SPEZIAL) && (getTalent(talentName) < TALENT_MIN_TAW_FOR_SPEZIAL)) ||
 			((talent->getArt() == TALENT_ART_BERUF) && (getTalent(talentName) < TALENT_MIN_TAW_FOR_BERUF)))
 		{
           /// @todo Find proper return value. Prompt an error message?
@@ -611,28 +613,28 @@ namespace rl
         Tripel<int> probe(DsaManager::getSingleton().roll3D20());
 
 		// Glueckliche
-		if ( (probe.first == 1) && (probe.second == 1) && (probe.third == 1) ) 
+		if ( (probe.first == 1) && (probe.second == 1) && (probe.third == 1) )
 		{
 			// BasisBoxS. 72 Der Wert wird sofort um 1 angehoben
-			modifyTalent(talentName, +1); 
+			modifyTalent(talentName, +1);
 			return RESULT_SPEKT_AUTOERFOLG;
 		}
-		if ( ((probe.first == 1) && (probe.second == 1)) || 
+		if ( ((probe.first == 1) && (probe.second == 1)) ||
 			 ((probe.first == 1) && (probe.third == 1)) ||
-			 ((probe.second == 1) && (probe.third == 1))) 
+			 ((probe.second == 1) && (probe.third == 1)))
 		{
 			addSe(talentName);
 			return RESULT_AUTOERFOLG;
 		}
 		// Patzer
-		if ((probe.first == 20) && (probe.second == 20) && (probe.third == 20)) 
+		if ((probe.first == 20) && (probe.second == 20) && (probe.third == 20))
 		{
 			addSe(talentName);
-			return RESULT_SPEKT_AUTOMISSERFOLG; 
+			return RESULT_SPEKT_AUTOMISSERFOLG;
 		}
-		if ( ((probe.first == 20) && (probe.second == 20)) || 
+		if ( ((probe.first == 20) && (probe.second == 20)) ||
 			 ((probe.first == 20) && (probe.third == 20)) ||
-			 ((probe.second == 20) && (probe.third == 20))) 
+			 ((probe.second == 20) && (probe.third == 20)))
 		{
 			addSe(talentName);
 			return RESULT_AUTOMISSERFOLG;
@@ -667,7 +669,7 @@ namespace rl
         return rval;
     }
 
-    int Creature::doAlternativeTalentprobe(const CeGuiString talentName, int modifier, 
+    int Creature::doAlternativeTalentprobe(const CeGuiString talentName, int modifier,
 		CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, CeGuiString eigenschaft3Name)
     {
 		return doAlternativeTalentprobe(talentName, Effect::MODTAG_NONE, modifier, eigenschaft1Name,
@@ -678,7 +680,7 @@ namespace rl
     {
         Talent* talent = DsaManager::getSingleton().getTalent(talentName);
         EigenschaftTripel et(talent->getEigenschaften());
-		return doAlternativeTalentprobe(talentName, spezialisierung, modifier, 
+		return doAlternativeTalentprobe(talentName, spezialisierung, modifier,
 			et.first, et. second, et.third);
 	}
 
@@ -686,7 +688,7 @@ namespace rl
     {
         Talent* talent = DsaManager::getSingleton().getTalent(talentName);
         EigenschaftTripel et(talent->getEigenschaften());
-		return doAlternativeTalentprobe(talentName, Effect::MODTAG_NONE, modifier, et.first, 
+		return doAlternativeTalentprobe(talentName, Effect::MODTAG_NONE, modifier, et.first,
 			et. second, et.third);
 	}
 
@@ -705,13 +707,13 @@ namespace rl
         }
         else
         {
-			rval = getEigenschaft(eigenschaftName) - 
+			rval = getEigenschaft(eigenschaftName) -
                 (probe + modifier + mEffectManager->getMod(eigenschaftName, Effect::MODTYPE_PROBENMOD, tag) + mEffectManager->getMod(ALL_EIGENSCHAFTEN, Effect::MODTYPE_PROBENMOD, tag));
         }
         return rval;
     }
 
-	
+
 	Inventory* Creature::getInventory() const
 	{
 		return mInventory;
@@ -721,7 +723,7 @@ namespace rl
     {
         return mInventoryWindowType;
     }
-	
+
 	int Creature::doAttacke(const CeGuiString kampftechnikName, int modifier)
 	{
 		KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
@@ -743,12 +745,12 @@ namespace rl
 		}
 		else
 		{
-			rval = getAttackeBasis() + (*it).second.first - (probe + modifier 
+			rval = getAttackeBasis() + (*it).second.first - (probe + modifier
                 + mEffectManager->getMod(ALL_EIGENSCHAFTEN, Effect::MODTYPE_PROBENMOD) + eBe);
 		}
-		if (rval < 0) 
+		if (rval < 0)
 			return RESULT_MISSERFOLG;
-		else 
+		else
 			return RESULT_ERFOLG;
 	}
 
@@ -774,12 +776,12 @@ namespace rl
 		else
 		{
 			/// @todo Gute Parade
-			rval = getParadeBasis() + (*it).second.second - (probe + modifier 
+			rval = getParadeBasis() + (*it).second.second - (probe + modifier
                 + mEffectManager->getMod(ALL_EIGENSCHAFTEN, Effect::MODTYPE_PROBENMOD) + eBe);
 		}
-		if (rval < 0) 
+		if (rval < 0)
 			return RESULT_MISSERFOLG;
-		else 
+		else
 			return RESULT_ERFOLG;
 	}
 
@@ -788,7 +790,7 @@ namespace rl
 		int rval = getInitiativeBasis();
 		rval += mEffectManager->getMod(WERT_INI, Effect::MODTYPE_SUM);
 		rval -= mEffectManager->getMod(WERT_BE, Effect::MODTYPE_SUM);
-		if (getMaxInitiave) 
+		if (getMaxInitiave)
         {
             rval += 6;
         }
@@ -804,16 +806,16 @@ namespace rl
 	{
         /**@todo Was tun bei negativen TP? Exception? Fehlermeldung? Stillschweigend
              auf 0 setzen?*/
-        if (tp < 0) 
+        if (tp < 0)
         {
             tp = 0;
         }
         ///@todo auf Verletzlichkeiten und Immunitaeten achten
-        if ((damageType & LEDAMAGE_FIRE) == LEDAMAGE_FIRE) 
+        if ((damageType & LEDAMAGE_FIRE) == LEDAMAGE_FIRE)
             CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Fire!\"");
-        if ((damageType & LEDAMAGE_WATER) == LEDAMAGE_WATER) 
+        if ((damageType & LEDAMAGE_WATER) == LEDAMAGE_WATER)
             CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Water!\"");
-        if ((damageType & LEDAMAGE_DEMONIC) == LEDAMAGE_DEMONIC) 
+        if ((damageType & LEDAMAGE_DEMONIC) == LEDAMAGE_DEMONIC)
             CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Demons!\"");
         if ((damageType & LEDAMAGE_TP_A) == LEDAMAGE_TP_A)
         {
@@ -858,7 +860,7 @@ namespace rl
         //Addiere eventuelle Modifikatoren hinzu
         regeneratedLe += mEffectManager->getMod(WERT_REGENERATION, Effect::MODTYPE_SUM, Effect::MODTAG_REGENERATION_LE);
         //Bei gelungener KO Probe addiere 1
-        if (RESULT_ERFOLG <= doEigenschaftsprobe("KO", 
+        if (RESULT_ERFOLG <= doEigenschaftsprobe("KO",
             0, Effect::MODTAG_REGENERATION_LE))
         {
             regeneratedLe++;
@@ -874,7 +876,7 @@ namespace rl
         //Addiere eventuelle Modifikatoren hinzu
         regeneratedAe += mEffectManager->getMod(WERT_REGENERATION, Effect::MODTYPE_SUM, Effect::MODTAG_REGENERATION_AE);
         //Bei gelungener KO Probe addiere 1
-        if (RESULT_ERFOLG <= doEigenschaftsprobe("IN", 
+        if (RESULT_ERFOLG <= doEigenschaftsprobe("IN",
             0, Effect::MODTAG_REGENERATION_AE))
         {
             regeneratedAe++;
@@ -888,7 +890,7 @@ namespace rl
         // das Ganze nur jede Spielrunde machen
         static float lastSpielrunde = 0;
         static int regeneratedAu = DsaManager::getSingleton().rollD6()
-                + DsaManager::getSingleton().rollD6() 
+                + DsaManager::getSingleton().rollD6()
                 + DsaManager::getSingleton().rollD6();
         lastSpielrunde += time;
 
@@ -908,17 +910,17 @@ namespace rl
             ///@todo Gibt es etwas das die Regeneration permanent modifiziert?
             //Grundregeneration von 3W6
             regeneratedAu = DsaManager::getSingleton().rollD6()
-                + DsaManager::getSingleton().rollD6() 
+                + DsaManager::getSingleton().rollD6()
                 + DsaManager::getSingleton().rollD6();
             //Addiere eventuelle Modifikatoren hinzu
             //regeneratedAu += getWert(WERT_MOD_REGENERATION_LE);
             //Bei gelungener KO Probe addiere 1
-            if (RESULT_ERFOLG <= doEigenschaftsprobe("KO", 
+            if (RESULT_ERFOLG <= doEigenschaftsprobe("KO",
                 0, mEffectManager->getMod(WERT_REGENERATION, Effect::MODTYPE_SUM, Effect::MODTAG_REGENERATION_AU)))
             {
                 modifyAu(6*factor);
             }
-            
+
             if( lastSpielrunde >= Date::ONE_SPIELRUNDE ) // mehrere Runden auf einmal
             {
                 //modifiziere die aktuellen AU

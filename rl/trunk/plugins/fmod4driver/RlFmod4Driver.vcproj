@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="RlFmod4Driver"
 	ProjectGUID="{A2DD1E40-4D80-44C5-B04E-1B1C4B07131C}"
+	RootNamespace="RlFmod4Driver"
 	>
 	<Platforms>
 		<Platform
@@ -298,6 +299,10 @@
 			</File>
 			<File
 				RelativePath=".\include\Fmod4Sound.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\engine\core\include\stdinc.h"
 				>
 			</File>
 		</Filter>

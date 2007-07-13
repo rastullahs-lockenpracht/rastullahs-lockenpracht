@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include "stdinc.h" //precompiled header
+
 #include "WayPointGraph.h"
 #include "WayPointNode.h"
 #include <algorithm>
@@ -56,7 +58,7 @@ WayPointNode* WayPointGraph::addWayPoint(const Ogre::Vector3& position, const Wa
 {
 	WayPointNodeList::iterator it;
 
-	for (it = mNodeList.begin(); it != mNodeList.end(); it++) 
+	for (it = mNodeList.begin(); it != mNodeList.end(); it++)
 	{
 		// equal to some waypoint already added ...
 		if ( (*it)->getPosition() == position )
@@ -64,7 +66,7 @@ WayPointNode* WayPointGraph::addWayPoint(const Ogre::Vector3& position, const Wa
 	}
 
 	return rawAddWayPoint(position, type);
-	
+
 }
 
 WayPointNode* WayPointGraph::rawAddWayPoint(const Ogre::Vector3& position, const WayPointNode::WayPointNodeType type)
@@ -92,16 +94,16 @@ void WayPointGraph::addDirectedConnection(WayPointNode* wp1, const WayPointNode*
 void WayPointGraph::load (const Ogre::String& filename)
 {
 	// fetch modules directory
-	Ogre::String modulespath( 
+	Ogre::String modulespath(
 		ConfigurationManager::getSingleton().getModulesRootDirectory());
 	Ogre::String fullfilename(modulespath + "/" + filename);
-	
+
 	// check if the file exists
 	if (! boost::filesystem::exists(boost::filesystem::path(fullfilename)) )
 		Throw(FileNotFoundException, fullfilename);
 
 	std::ifstream input(fullfilename.c_str(), ios::binary);
-	
+
 	if (input.fail())
 		Throw(Error, filename+": couldn't open");
 	if (input.eof())
@@ -128,7 +130,7 @@ void WayPointGraph::load (const Ogre::String& filename)
 	Ogre::Vector3 Position;
 	WayPointNode::WayPointNodeType type;
 	unsigned int count = 0;
-	while (!input.eof() && count < numberOfNodes) 
+	while (!input.eof() && count < numberOfNodes)
 	{
 		input.read((char *) &Position, sizeof(Position));
 		if (input.eof())
@@ -153,7 +155,7 @@ void WayPointGraph::load (const Ogre::String& filename)
 
 	// read in the connections
 	count=0;
-	while (!input.eof() && count < numberOfNodes) 
+	while (!input.eof() && count < numberOfNodes)
 	{
 		input.read((char *) &nrOfConnections, sizeof(nrOfConnections));
 		if (input.eof())
@@ -168,7 +170,7 @@ void WayPointGraph::load (const Ogre::String& filename)
 		count++;
 		input.getline(line, sizeof(line));
 	}
-	if (count != numberOfNodes) 
+	if (count != numberOfNodes)
 		Throw(Error, filename+": couldn't read expeced number of connections");
 
 	input.close();
@@ -180,9 +182,9 @@ void WayPointGraph::save (const Ogre::String& filename) const
 	unsigned int count;
 	WayPointNodeList::const_iterator it;
 	std::map<const WayPointNode*, unsigned int> IndexList;
-	
+
 	// fetch modules directory
-	Ogre::String modulespath( 
+	Ogre::String modulespath(
 		ConfigurationManager::getSingleton().getModulesRootDirectory());
 	Ogre::String fullfilename(modulespath + "/" + filename);
 
@@ -203,7 +205,7 @@ void WayPointGraph::save (const Ogre::String& filename) const
 	count = 0;
 	Ogre::Vector3 Position;
 	WayPointNode::WayPointNodeType type;
-	for (it = mNodeList.begin(); it != mNodeList.end(); it++) 
+	for (it = mNodeList.begin(); it != mNodeList.end(); it++)
 	{
 		// write waypoint to file
 		Position = (*it)->getPosition();
@@ -219,16 +221,16 @@ void WayPointGraph::save (const Ogre::String& filename) const
 
 	// save the index-index pairs for the connections between the nodes
 	count = 0;
-	for (it = mNodeList.begin(); it != mNodeList.end(); it++) 
+	for (it = mNodeList.begin(); it != mNodeList.end(); it++)
 	{
 		const WayPointNode::WayPointWeightNodeList subnodes = (*it)->getNeighbours();
 		WayPointNode::WayPointWeightNodeList::size_type subnodessize = subnodes.size();
 		WayPointNode::WayPointWeightNodeList::const_iterator nit;
 		std::map<const WayPointNode*, unsigned int>::iterator itIndex;
-		
+
 		output.write((char *) &(subnodessize), sizeof(subnodessize));
 		// iteratte through the neighbours
-		for (nit = subnodes.begin(); nit != subnodes.end(); nit++) 
+		for (nit = subnodes.begin(); nit != subnodes.end(); nit++)
 		{
 			itIndex = IndexList.find( (*nit).second );
 			output.write((char *) &((*itIndex).second), sizeof((*itIndex).second));
@@ -257,13 +259,13 @@ const WayPointNode* WayPointGraph::getNearestWayPoint(const Ogre::Vector3& posit
 	nearestVec = position - (*it)->getPosition();
 	nearestDistance = nearestVec.length();
 	nearestWayPoint = (*it);
-	
+
 	// search the full list for points that are nearer
-	for (it = mNodeList.begin(); it != mNodeList.end(); it++) 
+	for (it = mNodeList.begin(); it != mNodeList.end(); it++)
 	{
 		// calculate distance
 		nearestVec = position - (*it)->getPosition();
-		
+
 		// test if distance is smaller than the smallest seen until now
 		if ( nearestDistance > nearestVec.length() )
 		{
@@ -328,7 +330,7 @@ void WayPointGraph::updatePrimitive()
 		const WayPointNode::WayPointWeightNodeList subnodes = (*it)->getNeighbours();
 		WayPointNode::WayPointWeightNodeList::const_iterator nit;
 
-		for (nit = subnodes.begin(); nit != subnodes.end(); nit++) 
+		for (nit = subnodes.begin(); nit != subnodes.end(); nit++)
 		{
 			/*bool found = false;
 			while ( (edgeListIt = edgeList.find( (*nit).second )) != edgeList.end() )

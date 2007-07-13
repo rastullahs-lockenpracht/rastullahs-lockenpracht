@@ -13,6 +13,8 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
+
 #include "GameObjectNodeProcessor.h"
 
 #include <xercesc/dom/DOM.hpp>
@@ -33,13 +35,13 @@ namespace rl
         {
             return false;
         }
-    
-        LOG_DEBUG(Logger::RULES, 
-            "Processing game object node " 
+
+        LOG_DEBUG(Logger::RULES,
+            "Processing game object node "
                 + XmlHelper::getAttributeValueAsStdString(nodeElem, "name"));
-        
+
         Ogre::String classname = XmlHelper::getAttributeValueAsStdString(nodeElem, "class");
-        
+
         unsigned int goid = GameObject::NO_OBJECT_ID;
 
         if (XmlHelper::hasAttribute(nodeElem, "id"))
@@ -67,7 +69,7 @@ namespace rl
         for (XMLSize_t idx = 0; idx < goElChildNodes->getLength(); idx++)
         {
             DOMNode* cur = goElChildNodes->item(idx);
-            if (cur->getNodeType() == DOMNode::ENTITY_NODE 
+            if (cur->getNodeType() == DOMNode::ENTITY_NODE
                 && XmlHelper::hasNodeName(cur, "property"))
             {
                 PropertyEntry propEntry = getXmlPropertyReader()->processProperty(static_cast<DOMElement*>(cur));

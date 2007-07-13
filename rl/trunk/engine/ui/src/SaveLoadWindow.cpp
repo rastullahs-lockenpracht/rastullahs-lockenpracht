@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 /**
  * \file SaveLoadWindow.cpp
@@ -41,14 +42,14 @@ namespace rl {
         // Get a access to the filename edit box
         mFilename = getEditbox("SaveLoadWindow/FileSheet/Filename");
         RlAssert(mFilename != NULL, "SaveLoadWindow/FileSheet/File is null");
-        
+
         // Get a access to the savegame table
         mSaveGameTable = getMultiColumnList("SaveLoadWindow/FileSheet/SaveGameTable");
         RlAssert(mSaveGameTable != NULL, "SaveLoadWindow/FileSheet/SaveGameTable is null");
 
         mSaveGameTable->addColumn( (utf8*)"Filename", 0, cegui_reldim(0.7));
         mSaveGameTable->addColumn( (utf8*)"Date", 1, cegui_reldim(0.3));
-        
+
         centerWindow();
 
         getPushButton("SaveLoadWindow/ButtonSheet/LoadButton")->subscribeEvent(
@@ -57,30 +58,30 @@ namespace rl {
             &SaveLoadWindow::handleLoadEvent,
             this
         ));
-        
+
         getPushButton("SaveLoadWindow/ButtonSheet/SaveButton")->subscribeEvent(
         CEGUI::Window::EventMouseClick,
         boost::bind(
             &SaveLoadWindow::handleSaveEvent,
             this
         ));
-        
+
         getPushButton("SaveLoadWindow/ButtonSheet/DeleteButton")->subscribeEvent(
         CEGUI::Window::EventMouseClick,
         boost::bind(
             &SaveLoadWindow::handleDeleteEvent,
             this
         ));
-        
+
         bindDestroyWindowToXButton();
         bindDestroyWindowToClick(getWindow("SaveLoadWindow/ButtonSheet/CancelButton"));
-        
+
     }
 
     //------------------------------------------------------- Destructor
 
-    SaveLoadWindow::~SaveLoadWindow() 
-    {        
+    SaveLoadWindow::~SaveLoadWindow()
+    {
     }
 
     //------------------------------------------------------- initialize
@@ -90,39 +91,39 @@ namespace rl {
         //mSaveGameTable->autoSizeColumnHeader(0);
         //mSaveGameTable->autoSizeColumnHeader(1);
     }
-    
+
     //------------------------------------------------------- LoadEvent
 
-    bool SaveLoadWindow::handleLoadEvent() 
+    bool SaveLoadWindow::handleLoadEvent()
     {
         LOG_MESSAGE(Logger::UI, "Load Button pressed");
-        return true;        
+        return true;
     }
-    
+
     //------------------------------------------------------- SaveEvent
 
-    bool SaveLoadWindow::handleSaveEvent() 
+    bool SaveLoadWindow::handleSaveEvent()
     {
         LOG_MESSAGE(Logger::UI, "Save Button pressed");
-        
+
         std::list<const GameObject*>::const_iterator it;
         std::list<const GameObject*> gos;
         gos = GameObjectManager::getSingleton().getAllGameObjects();
-        
+
         LOG_MESSAGE(Logger::UI, "Following GOs must be saved:");
         for( it=gos.begin(); it!=gos.end(); ++it )
         {
             //const CeGuiString test = (*it)->getName();
             LOG_MESSAGE(Logger::UI, "ClassId: " + (*it)->getClassId() +
-                " Name: " + (*it)->getName());    
+                " Name: " + (*it)->getName());
         }
-        
-        return true;        
+
+        return true;
     }
 
     //------------------------------------------------------- DeleteEvent
 
-    bool SaveLoadWindow::handleDeleteEvent() 
+    bool SaveLoadWindow::handleDeleteEvent()
     {
         LOG_MESSAGE(Logger::UI, "Delete Button pressed");
         return true;

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
+
 #include <boost/bind.hpp>
 
 #include "UiPrerequisites.h"
@@ -35,16 +37,16 @@ PlaylistWindow::PlaylistWindow()
 	mPlaylistTable->addColumn((utf8*)"Name", 0, cegui_reldim(0.5));
 	mPlaylistTable->addColumn((utf8*)"Dauer", 1, cegui_reldim(0.3));
 	mPlaylistTable->setUserSortControlEnabled(false);
-	
+
     /* getWindow("PlaylistWindow")->subscribeEvent(
-            Window::EventMouseClick, 
+            Window::EventMouseClick,
             boost::bind(&MainMenuWindow::handleChooseModules, this)); */
 
     getWindow("PlaylistSheet/ButtonSheet/Play")->subscribeEvent(
-            Window::EventMouseClick, 
+            Window::EventMouseClick,
             boost::bind(&PlaylistWindow::handlePlay, this));
     getWindow("PlaylistSheet/ButtonSheet/Quit")->subscribeEvent(
-            Window::EventMouseClick, 
+            Window::EventMouseClick,
             boost::bind(&PlaylistWindow::handleQuit, this));
     bindDestroyWindowToClick(getWindow("PlaylistSheet"));
 	bindDestroyWindowToXButton();

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include "stdinc.h" //precompiled header
+
 #include <xercesc/util/PlatformUtils.hpp>
 
 #include "XmlHelper.h"
@@ -47,8 +49,8 @@ DialogSubsystem::DialogSubsystem()
 	LOG_MESSAGE(Logger::DIALOG, "Init Ende");
 }
 
-DialogSubsystem::~DialogSubsystem() 
-{  
+DialogSubsystem::~DialogSubsystem()
+{
 	delete mCore;
 	delete mContextInterpreter;
 
@@ -65,17 +67,17 @@ void DialogSubsystem::initialize()
 #if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
     setlocale(LC_ALL, "C");
 #endif
-    
+
 	mCore->setParser(new AimlParserImplRl());
 	mCore->getBotInterpreter().addProcessor(new DialogScriptProcessor());
 	mCore->getAimlInterpreter().addProcessor(new ScriptProcessor());
 //  Initialize Xerces if this wasn't done already
-	try 
+	try
 	{
         XMLPlatformUtils::Initialize();
 		XmlHelper::initializeTranscoder();
     }
-    catch (const XMLException& exc) 
+    catch (const XMLException& exc)
 	{
 		char* excmsg = XMLString::transcode(exc.getMessage());
 		std::string excs="Exception while initializing Xerces: ";
@@ -100,7 +102,7 @@ DialogCharacter* DialogSubsystem::loadBot(const CeGuiString& botName, const CeGu
 {
 	mCurrentBot = NULL;
 	AimlBot<CeGuiString>* bot = mCore->loadBot(botName.c_str(), fileName.c_str());
-//  while processing the bot definition, a DialogCharacter should have been created 
+//  while processing the bot definition, a DialogCharacter should have been created
 //  through a ruby script and stored in mCurrentBot
     if (mCurrentBot == NULL)
     {

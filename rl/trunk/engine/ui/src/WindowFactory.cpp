@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
+
 #include "WindowFactory.h"
 
 #include "AboutWindow.h"
@@ -167,7 +169,7 @@ namespace rl {
         PropertiesWindow* wnd = new PropertiesWindow(obj);
         wnd->setVisible(true);
     }
-    
+
     void WindowFactory::showSaveLoadWindow()
     {
         SaveLoadWindow* wnd = new SaveLoadWindow();

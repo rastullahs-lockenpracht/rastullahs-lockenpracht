@@ -14,6 +14,8 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html
  */
 
+#include "stdinc.h" //precompiled header
+
 #include "Property.h"
 
 #include "Exception.h"

@@ -13,6 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
 
 #include "WaypointProcessor.h"
 
@@ -57,11 +58,11 @@ namespace rl
 				Ogre::String name;
 
 				LandmarkPath* path = AiSubsystem::getSingleton().createLandmarkPath(name);
-				
-				for (DOMNode* curPathChild = nodeElem->getFirstChild(); 
+
+				for (DOMNode* curPathChild = nodeElem->getFirstChild();
 					curPathChild != NULL; curPathChild = curPathChild->getNextSibling())
 				{
-					if (curPathChild->getNodeType() == DOMNode::ELEMENT_NODE 
+					if (curPathChild->getNodeType() == DOMNode::ELEMENT_NODE
 						&& XmlHelper::hasNodeName(curPathChild, "landmark"))
 					{
 						DOMElement* curLmElem = static_cast<DOMElement*>(curPathChild);

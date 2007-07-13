@@ -13,6 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
 
 #include "ZoneProcessor.h"
 
@@ -57,7 +58,7 @@ namespace rl
 						///@todo: zone = ZoneManager::getSingleton().createZone(...);
 					}
 					else if (type == "sphere")
-					{						
+					{
 						Vector3 center = Vector3::ZERO;
 						DOMElement* centerElem = XmlHelper::getChildNamed(curZoneElem, "center");
 						if (centerElem != NULL)
@@ -97,7 +98,7 @@ namespace rl
 								}
 								else if (XmlHelper::hasNodeName(curElem, "trigger"))
 								{
-									Ogre::String classname = 
+									Ogre::String classname =
 										XmlHelper::getAttributeValueAsStdString(curElem, "classname");
 
 									Trigger* trigger = ScriptSubsystem::getSingleton().getTriggerFactory()

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -13,13 +13,15 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
+
 #include "ListenerMovable.h"
 
 using namespace Ogre;
 
 
 namespace rl {
- 
+
 String ListenerMovable::msMovableType = "ListenerMovable";
 AxisAlignedBox ListenerMovable::msAABox = AxisAlignedBox(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5);
 
@@ -38,7 +40,7 @@ ListenerMovable::ListenerMovable(const String &name):
     setVelocity(Vector3(0.0, 0.0, 0.0));
     setOrientation(Quaternion(0.0, 0.0, 1.0));
 }
- 
+
 /**
  * @author JoSch
  * @date 03-12-2005
@@ -81,7 +83,7 @@ void ListenerMovable::_notifyCurrentCamera(Camera *cam)
  * @author JoSch
  * @date 03-11-2005
  */
-const AxisAlignedBox& ListenerMovable::getBoundingBox() const 
+const AxisAlignedBox& ListenerMovable::getBoundingBox() const
 {
     return msAABox;
 }

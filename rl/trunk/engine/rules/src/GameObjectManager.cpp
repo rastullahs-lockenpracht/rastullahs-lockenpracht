@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -13,6 +13,8 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
+
 #include "GameObjectManager.h"
 
 #include <CEGUIPropertyHelper.h>
@@ -31,7 +33,7 @@
 #include "RubyInterpreter.h"
 #include "Weapon.h"
 
-template<> rl::GameObjectManager* 
+template<> rl::GameObjectManager*
     Ogre::Singleton<rl::GameObjectManager>::ms_Singleton = NULL;
 
 namespace rl
@@ -78,7 +80,7 @@ namespace rl
 
     GameObject* GameObjectManager::getGameObject(unsigned int id) const
     {
-        std::map<unsigned int, GameObject*>::const_iterator it 
+        std::map<unsigned int, GameObject*>::const_iterator it
                 = mGameObjects.find(id);
 
         if (it != mGameObjects.end())
@@ -88,12 +90,12 @@ namespace rl
 
         return NULL;
     }
-     
+
     std::list<const GameObject*> GameObjectManager::getAllGameObjects() const
     {
-        std::list<const GameObject*> gos;      
+        std::list<const GameObject*> gos;
         std::map<unsigned int, GameObject*>::const_iterator it;
-        
+
         //
         //    Run through all GOs and put them into the list
         //
@@ -101,7 +103,7 @@ namespace rl
         {
             gos.push_back(it->second);
         }
-        
+
         return gos;
     }
 
@@ -138,9 +140,9 @@ namespace rl
 
         GameObject* go = mGameObjectFactory
             ->createGameObject(
-                classname, 
+                classname,
                 goId);
-        
+
         go->setClassId(classId);
         go->setProperties(ps);
         mGameObjects[goId] = go;
@@ -152,14 +154,14 @@ namespace rl
 		CeGuiString serializedString = goProp.toString();
 
 		CeGuiString::size_type posDivider = serializedString.find("|");
-		
+
 		if (posDivider != CeGuiString::npos)
 		{
 			Ogre::String classId(serializedString.substr(0, posDivider).c_str());
 			unsigned int goid = CEGUI::PropertyHelper::stringToUint(serializedString.substr(posDivider));
 			return createGameObject(classId, goid);
 		}
-		
+
 		return NULL;
 	}
 
@@ -175,7 +177,7 @@ namespace rl
         {
             Throw(rl::Exception, "No properties found for classId "+classId);
         }
-        return (*it).second; 
+        return (*it).second;
     }
 
     void GameObjectManager::setGameObjectFactory(GameObjectFactory* gof)

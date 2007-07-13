@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
+
 #include "UiPrerequisites.h"
 
 #include "Creature.h"
@@ -26,7 +28,7 @@ CEGUI::colour GameLoggerWindow::COLOR_DIALOG(    0xFFFF7FFF);
 CEGUI::colour GameLoggerWindow::COLOR_FIGHT(     0xFFFFFF7F);
 CEGUI::colour GameLoggerWindow::COLOR_MISC(      0xFFFFFFFF);
 
-GameLoggerWindow::GameLoggerWindow() : 
+GameLoggerWindow::GameLoggerWindow() :
 	AbstractWindow("gameloggerwindow.xml", WIT_NONE)
 {
 	mLog = getListbox ("GameLogger/Log");

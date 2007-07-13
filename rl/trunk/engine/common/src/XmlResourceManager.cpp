@@ -14,6 +14,8 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
+#include "stdinc.h" //precompiled header
+
 #include "XmlResourceManager.h"
 
 using namespace Ogre;

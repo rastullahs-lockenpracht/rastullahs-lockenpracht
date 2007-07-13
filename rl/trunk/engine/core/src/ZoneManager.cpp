@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -13,6 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
 
 #include "ZoneManager.h"
 
@@ -23,14 +24,14 @@
 
 template<> rl::ZoneManager* Ogre::Singleton<rl::ZoneManager>::ms_Singleton = 0;
 
-namespace rl 
+namespace rl
 {
 	ZoneManager::ZoneManager()
 		: Ogre::Singleton<ZoneManager>()
 	{
 		// the default zone is active when no other Zone is active
 		mDefaultZone = new Zone(NULL);
-		mActiveZones.push_front(mDefaultZone); 
+		mActiveZones.push_front(mDefaultZone);
 	}
 
 	ZoneManager::~ZoneManager()
@@ -122,7 +123,7 @@ namespace rl
 			}
 		}
 	}
-	
+
 	void ZoneManager::switchSounds()
 	{
 		Zone* currentZone = mActiveZones.front();

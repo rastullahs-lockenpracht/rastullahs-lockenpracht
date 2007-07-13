@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 #include "AnimationManager.h"
 
@@ -27,16 +28,16 @@
 
 template<> rl::AnimationManager* Ogre::Singleton<rl::AnimationManager>::ms_Singleton = 0;
 
-namespace rl 
+namespace rl
 {
 
-AnimationManager::AnimationManager( ) : 
+AnimationManager::AnimationManager( ) :
     mStateAnimationMap(),
     mFadeAnimSet(),
     mGlobalAnimationSpeed( 1.0f )
 {
 }
-    
+
 AnimationManager::~AnimationManager( )
 {
     removeAllAnimations();
@@ -54,35 +55,35 @@ Ogre::Real AnimationManager::getGlobalAnimationSpeed( ) const
 
 void AnimationManager::setDefaultInterpolationMode( AnimationManager::InterpolationMode im )
 {
-    Ogre::Animation::setDefaultInterpolationMode( 
+    Ogre::Animation::setDefaultInterpolationMode(
         Ogre::Animation::InterpolationMode( im ) );
 }
 
-AnimationManager::InterpolationMode 
+AnimationManager::InterpolationMode
     AnimationManager::getDefaultInterpolationMode() const
 {
-    return AnimationManager::InterpolationMode( 
+    return AnimationManager::InterpolationMode(
         Ogre::Animation::getDefaultInterpolationMode() );
 }
 
 void AnimationManager::setDefaultRotationInterpolationMode(
     AnimationManager::RotationInterpolationMode rim )
 {
-    Ogre::Animation::setDefaultRotationInterpolationMode( 
+    Ogre::Animation::setDefaultRotationInterpolationMode(
         Ogre::Animation::RotationInterpolationMode( rim ) );
 }
 
-AnimationManager::RotationInterpolationMode 
+AnimationManager::RotationInterpolationMode
     AnimationManager::getDefaultRotationInterpolationMode() const
 {
-    return AnimationManager::RotationInterpolationMode( 
+    return AnimationManager::RotationInterpolationMode(
         Ogre::Animation::getDefaultRotationInterpolationMode() );
 }
 
-MeshAnimation* AnimationManager::addMeshAnimation(Ogre::AnimationState* animState, 
+MeshAnimation* AnimationManager::addMeshAnimation(Ogre::AnimationState* animState,
     MeshObject* mesh, Ogre::Real speed, unsigned int timesToPlay, bool paused )
 {
-    StateAnimMap::iterator iter = 
+    StateAnimMap::iterator iter =
         mStateAnimationMap.find(animState);
 
     MeshAnimation* anim = 0;
@@ -107,7 +108,7 @@ MeshAnimation* AnimationManager::addMeshAnimation(Ogre::AnimationState* animStat
     return anim;
 }
 
-TrackAnimation* AnimationManager::createTrackAnimation(Actor* actor, 
+TrackAnimation* AnimationManager::createTrackAnimation(Actor* actor,
     const Ogre::String& name, Ogre::Real length )
 {
     if( actor == 0 )
@@ -115,7 +116,7 @@ TrackAnimation* AnimationManager::createTrackAnimation(Actor* actor,
 
     ///@todo Namen abfangen
     TrackAnimation* trackAnim = new TrackAnimation(name,actor,length);
-    mStateAnimationMap.insert(std::pair<Ogre::AnimationState*,BaseAnimation*>( 
+    mStateAnimationMap.insert(std::pair<Ogre::AnimationState*,BaseAnimation*>(
         trackAnim->getAnimationState(),trackAnim));
 
     return trackAnim;
@@ -123,7 +124,7 @@ TrackAnimation* AnimationManager::createTrackAnimation(Actor* actor,
 
 BaseAnimation* AnimationManager::getAnimation(Ogre::AnimationState* animState) const
 {
-    StateAnimMap::const_iterator iter = 
+    StateAnimMap::const_iterator iter =
         mStateAnimationMap.find(animState);
 
     if( iter == mStateAnimationMap.end() )
@@ -132,33 +133,33 @@ BaseAnimation* AnimationManager::getAnimation(Ogre::AnimationState* animState) c
         return iter->second;
 }
 
-void AnimationManager::removeTrackAnimation( Actor* act, const Ogre::String& name ) 
+void AnimationManager::removeTrackAnimation( Actor* act, const Ogre::String& name )
 {
     StateAnimMap::iterator it;
-    for( it = mStateAnimationMap.begin(); it != mStateAnimationMap.end();) 
+    for( it = mStateAnimationMap.begin(); it != mStateAnimationMap.end();)
     {
         TrackAnimation* anim = dynamic_cast<TrackAnimation*>( it->second );
-        
-        if ( anim != 0 && 
-             anim->getActor() == act && 
-             anim->getName() == name ) 
+
+        if ( anim != 0 &&
+             anim->getActor() == act &&
+             anim->getName() == name )
         {
             AnimationManager::stopAnimation(anim);
             ScriptWrapper::getSingleton().deleted( anim );
             delete anim;
             mStateAnimationMap.erase(it++); // ++i geht nicht
-        } 
-        else 
+        }
+        else
         {
            ++it; // Oder i++
-        } 
+        }
     }
 }
 
 bool AnimationManager::isStillInUse( BaseAnimation* anim ) const
 {
     FadeAnimSet::const_iterator it;
-    for( it = mFadeAnimSet.begin(); it != mFadeAnimSet.end(); it++) 
+    for( it = mFadeAnimSet.begin(); it != mFadeAnimSet.end(); it++)
     {
         if( (*it)->containsAnimation(anim) )
             return true;
@@ -167,32 +168,32 @@ bool AnimationManager::isStillInUse( BaseAnimation* anim ) const
     return false;
 }
 
-void AnimationManager::removeAllTrackAnimations( Actor* act ) 
+void AnimationManager::removeAllTrackAnimations( Actor* act )
 {
     StateAnimMap::iterator it;
-    for( it = mStateAnimationMap.begin(); it != mStateAnimationMap.end();) 
+    for( it = mStateAnimationMap.begin(); it != mStateAnimationMap.end();)
     {
         TrackAnimation* anim = dynamic_cast<TrackAnimation*>( it->second );
-        
-        if ( anim != 0 && anim->getActor() == act ) 
+
+        if ( anim != 0 && anim->getActor() == act )
         {
             AnimationManager::stopAnimation(anim);
             ScriptWrapper::getSingleton().deleted( anim );
             delete anim;
             mStateAnimationMap.erase(it++); // ++i geht nicht
-        } 
-        else 
+        }
+        else
         {
            ++it; // Oder i++
-        } 
+        }
     }
 }
 
-void AnimationManager::removeAllAnimations() 
+void AnimationManager::removeAllAnimations()
 {
     {
     FadeAnimSet::iterator it;
-    for( it = mFadeAnimSet.begin(); it != mFadeAnimSet.end();) 
+    for( it = mFadeAnimSet.begin(); it != mFadeAnimSet.end();)
     {
         FadeAnimation* anim = *it;
         AnimationManager::stopAnimation(anim);
@@ -204,7 +205,7 @@ void AnimationManager::removeAllAnimations()
     }
     {
     StateAnimMap::iterator it;
-    for( it = mStateAnimationMap.begin(); it != mStateAnimationMap.end();) 
+    for( it = mStateAnimationMap.begin(); it != mStateAnimationMap.end();)
     {
         BaseAnimation* anim = it->second;
         AnimationManager::stopAnimation(anim);
@@ -218,7 +219,7 @@ void AnimationManager::removeAllAnimations()
 
 void AnimationManager::removeAnimation(Ogre::AnimationState* animState)
 {
-    StateAnimMap::iterator iter = 
+    StateAnimMap::iterator iter =
         mStateAnimationMap.find(animState);
 
     if( iter != mStateAnimationMap.end() )
@@ -230,7 +231,7 @@ void AnimationManager::removeAnimation(Ogre::AnimationState* animState)
             return;
 
         AnimationManager::stopAnimation(anim);
-        mStateAnimationMap.erase(iter);      
+        mStateAnimationMap.erase(iter);
         ScriptWrapper::getSingleton().deleted( anim );
         delete anim;
     }
@@ -243,7 +244,7 @@ FadeAnimation* AnimationManager::fadeAnimation( MeshAnimation* from, MeshAnimati
     RlAssert( time > 0.0, "Time must be greater then zero");
 
     FadeAnimation* anim = new FadeAnimation();
-    
+
     anim->addAnimation(from,0.0,time,1.0,0.0);
     anim->addAnimation(  to,0.0,time,0.0,1.0);
     anim->setPaused(false);
@@ -253,7 +254,7 @@ FadeAnimation* AnimationManager::fadeAnimation( MeshAnimation* from, MeshAnimati
     return anim;
 }
 
-FadeAnimation* AnimationManager::fadeAnimation( MeshAnimation* fromLoop, 
+FadeAnimation* AnimationManager::fadeAnimation( MeshAnimation* fromLoop,
     MeshAnimation* blendAnim, MeshAnimation* toLoop, Ogre::Real loopDuration )
 {
     RlAssert( fromLoop != NULL, "StartAnimation must not be NULL!" );
@@ -262,7 +263,7 @@ FadeAnimation* AnimationManager::fadeAnimation( MeshAnimation* fromLoop,
     RlAssert( loopDuration > 0.0, "Time must be greater then zero");
 
     FadeAnimation* anim = new FadeAnimation();
-    
+
     if( loopDuration <= 0.0 )
         loopDuration = blendAnim->getLength();
 
@@ -282,11 +283,11 @@ void AnimationManager::stopAnimation( BaseAnimation* anim )
     anim->resetTimesPlayed();
     anim->setTimesToPlay(1);
     anim->setSpeed(1.0);
-    anim->setPaused(true);    
+    anim->setPaused(true);
 }
 
 // @todo Check ob das das selbe MeshObject ist
-MeshAnimation* AnimationManager::replaceAnimation(MeshAnimation* oldAnim,  
+MeshAnimation* AnimationManager::replaceAnimation(MeshAnimation* oldAnim,
     Ogre::AnimationState* newAnimState, Ogre::Real speed, unsigned int timesToPlay )
 {
     removeAnimation( oldAnim );
@@ -318,18 +319,18 @@ void AnimationManager::removeAnimation(TrackAnimation* anim)
 void AnimationManager::run(Ogre::Real timePassed)
 {
     // Zuerst faden (Weights modifizieren)
-    for (FadeAnimSet::iterator it = mFadeAnimSet.begin(); 
+    for (FadeAnimSet::iterator it = mFadeAnimSet.begin();
             it != mFadeAnimSet.end(); )
     {
         FadeAnimation* anim = *it;
         anim->addTime(timePassed*mGlobalAnimationSpeed);
 
-        if( anim->isDeleteOnFinish() && 
+        if( anim->isDeleteOnFinish() &&
             anim->getTimePlayed() > anim->getLength()  )
         {
            AnimationManager::stopAnimation(anim);
            ScriptWrapper::getSingleton().deleted( anim );
-           delete anim;           
+           delete anim;
            mFadeAnimSet.erase(it++);
         }
         else
@@ -337,7 +338,7 @@ void AnimationManager::run(Ogre::Real timePassed)
     }
 
     // Dann normal animieren
-    for (StateAnimMap::iterator it = mStateAnimationMap.begin(); 
+    for (StateAnimMap::iterator it = mStateAnimationMap.begin();
             it != mStateAnimationMap.end(); it++)
     {
         it->second->addTime(timePassed*mGlobalAnimationSpeed);

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Perl Artistic License.
 *
@@ -13,12 +13,14 @@
 *  along with this program; if not you can get it here
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
+#include "stdinc.h" //precompiled header
+
 
 #include "CreatureWalkPathJob.h"
 
 namespace rl
 {
-    CreatureWalkPathJob::CreatureWalkPathJob(const Ogre::String& name, CreatureController* movingCreature, Landmark* startLandmark) 
+    CreatureWalkPathJob::CreatureWalkPathJob(const Ogre::String& name, CreatureController* movingCreature, Landmark* startLandmark)
         : Job(true, true), mLandmarkPath("LandmarkPath" + name), mNextLandmarkRequested(false)
     {
         //the moving creature moves from the current position to the landmark
@@ -91,7 +93,7 @@ namespace rl
         Ogre::Quaternion rotation = creatureViewVector.getRotationTo(direction, Ogre::Vector3::UNIT_Y);
         Ogre::Radian yaw = rotation.getYaw();
         Ogre::Vector3 usedRotation(Ogre::Vector3::ZERO);
-        
+
         if(!updatedDirection || (direction.squaredLength() > 0.04 && timeSinceLastRotation > 1 &&
             direction.normalisedCopy().dotProduct(creatureViewVector.normalisedCopy()) < 0.9))
         {

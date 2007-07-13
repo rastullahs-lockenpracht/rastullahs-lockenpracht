@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 #include "Container.h"
 
@@ -103,7 +104,7 @@ namespace rl {
 
         UintPair pos = position;
 		if (!canPlaceAt(item, pos.first, pos.second))
-		{		
+		{
 			pos = findPositionWithEnoughSpace(item->getSize());
 		}
 
@@ -148,7 +149,7 @@ namespace rl {
 		bool free = true;
 
         // Es wird versucht, das Item außerhalb des Containers zu platzieren
-        if (xPos + xSize > mVolume.first 
+        if (xPos + xSize > mVolume.first
             || yPos + ySize > mVolume.second)
         {
             return false;
@@ -160,19 +161,19 @@ namespace rl {
             {
                 LOG_DEBUG2(Logger::RULES,
 					Ogre::String("Checking Point in Backpack: Point x:")
-					+ Ogre::StringConverter::toString(x) 
+					+ Ogre::StringConverter::toString(x)
 					+ ", Point y:"
 					+ Ogre::StringConverter::toString(y),
                     "Container::canPlaceAt()");
 
                 if (getItemAt(x, y) != item)
-                {				
+                {
                     // Siehe nach, ob ein anderes Item im Weg ist
 					return false;
 				}
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -188,7 +189,7 @@ namespace rl {
 
 	UintPair Container::getItemPosition(Item* item) const
     {
-		std::map<Item*, UintPair >::const_iterator it = 
+		std::map<Item*, UintPair >::const_iterator it =
 			mItemPositions.find(item);
         if (it == mItemPositions.end())
         {
@@ -216,7 +217,7 @@ namespace rl {
     bool Container::checkSpace(unsigned int xStart, unsigned int yStart, pair<unsigned int,unsigned int> space) const
     {
 		// Falls Kästchen nicht mehr im Rucksack, ist auch kein Platz mehr :)
-        if ((xStart+space.first) > mVolume.first 
+        if ((xStart+space.first) > mVolume.first
             || (yStart+space.second) > mVolume.second)
         {
 			return false;
@@ -228,7 +229,7 @@ namespace rl {
             {
                 if (!isFree(xStart+x, yStart+y))
                 {
-                    return false;				
+                    return false;
                 }
 			}
 		}
@@ -242,14 +243,14 @@ namespace rl {
 
     Item* Container::getItemAt(unsigned int x, unsigned int y) const
     {
-        for (map<Item*, UintPair >::const_iterator iter = mItemPositions.begin(); 
+        for (map<Item*, UintPair >::const_iterator iter = mItemPositions.begin();
             iter != mItemPositions.end(); iter++)
         {
             Item* item = (*iter).first;
             UintPair pos = (*iter).second;
 
-            if (pos.first <= x 
-                && pos.second <= y 
+            if (pos.first <= x
+                && pos.second <= y
                 && x < pos.first + item->getSize().first
                 && y < pos.second + item->getSize().second)
             {
@@ -296,7 +297,7 @@ namespace rl {
 				Item* cur = dynamic_cast<Item*>(
 					GameObjectManager::getSingleton().createGameObjectFromProperty(curObjProp));
 
-				addItem(cur, curObjPos);				
+				addItem(cur, curObjPos);
 			}
         }
         else
@@ -332,7 +333,7 @@ namespace rl {
 			contentMap[Container::PROPERTY_CONTENT_OBJECTS] = objects;
 			contentMap[Container::PROPERTY_CONTENT_POSITIONS] = positions;
 
-			return Property(contentMap);			
+			return Property(contentMap);
         }
         else
         {

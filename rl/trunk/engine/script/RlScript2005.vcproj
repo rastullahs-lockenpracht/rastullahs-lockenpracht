@@ -39,16 +39,18 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="-Zm130"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\dialog\include;..\rules\include;..\ai\include;..\ui\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\opensteer\include;..\..\dependencies\ois\includes"
-				PreprocessorDefinitions="WITH_FMOD3;WIN32;_DEBUG;_WINDOWS;_USRDLL;RLSCRIPT_EXPORTS;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES"
+				PreprocessorDefinitions="WITH_FMOD3;WIN32;_DEBUG;_WINDOWS;_USRDLL;RLSCRIPT_EXPORTS;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES;RL_USE_PCH"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				SmallerTypeCheck="true"
 				RuntimeLibrary="3"
 				BufferSecurityCheck="false"
 				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="stdinc.h"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
@@ -128,11 +130,13 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="-Zm130"
 				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\dialog\include;..\rules\include;..\ai\include;..\ui\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\opensteer\include;..\..\dependencies\ois\includes"
-				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;_USRDLL;RLSCRIPT_EXPORTS;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES"
+				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;_USRDLL;RLSCRIPT_EXPORTS;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES;RL_USE_PCH"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="stdinc.h"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
@@ -210,11 +214,13 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="-Zm130"
 				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\dialog\include;..\rules\include;..\ai\include;..\ui\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\opensteer\include;..\..\dependencies\ois\includes"
-				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;_USRDLL;RLSCRIPT_EXPORTS;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES"
+				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;_USRDLL;RLSCRIPT_EXPORTS;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES;RL_USE_PCH"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="stdinc.h"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
@@ -285,6 +291,34 @@
 				RelativePath=".\src\ScriptSubsystem.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\stdinc.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release with Symbols|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+			</File>
 			<Filter
 				Name="map loading"
 				>
@@ -348,6 +382,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\stdinc.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\TriggerFactory.h"
 				>
 			</File>
@@ -373,27 +411,21 @@
 						Name="Debug|Win32"
 						>
 						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\$(InputName)1.obj"
-							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+							Name="VCCustomBuildTool"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\$(InputName)1.obj"
-							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+							Name="VCCustomBuildTool"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release with Symbols|Win32"
 						>
 						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\$(InputName)1.obj"
-							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+							Name="VCCustomBuildTool"
 						/>
 					</FileConfiguration>
 				</File>
@@ -428,27 +460,21 @@
 						Name="Debug|Win32"
 						>
 						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\$(InputName)1.obj"
-							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+							Name="VCCustomBuildTool"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\$(InputName)1.obj"
-							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+							Name="VCCustomBuildTool"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release with Symbols|Win32"
 						>
 						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\$(InputName)1.obj"
-							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+							Name="VCCustomBuildTool"
 						/>
 					</FileConfiguration>
 				</File>
@@ -497,6 +523,30 @@
 			<File
 				RelativePath=".\swig\RlExports_wrap.cxx"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release with Symbols|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\swig\RlExports_wrap.h"

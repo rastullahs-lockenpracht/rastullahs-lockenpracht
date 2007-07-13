@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
+
 #include "InGameMenuWindow.h"
 
 #include <boost/bind.hpp>
@@ -44,8 +46,8 @@ InGameMenuWindow::~InGameMenuWindow()
 
 void InGameMenuWindow::createMenu(MenuBase* menu)
 {
-	CEGUI::WindowManager* windowMan = CEGUI::WindowManager::getSingletonPtr(); 
-				
+	CEGUI::WindowManager* windowMan = CEGUI::WindowManager::getSingletonPtr();
+
 	const ActionVector actions = ActionManager::getSingleton().getInGameGlobalActions();
 	map<CeGuiString, PopupMenu*> menuGroups;
 
@@ -62,13 +64,13 @@ void InGameMenuWindow::createMenu(MenuBase* menu)
 				menuGrp = (*grpIter).second;
 			}
 			else
-			{				
+			{
 				MenuItem* grpItem = static_cast<MenuItem*>(windowMan->createWindow("RastullahLook/MenuItem", getNamePrefix()+"IngameMenu/"+group->getName()));
 				grpItem->setText(group->getName());
 				menu->addChildWindow(grpItem);
 
 				menuGrp = static_cast<PopupMenu*>(windowMan->createWindow("RastullahLook/PopupMenu", getNamePrefix()+"IngameMenu/Menu"+group->getName()));
-				grpItem->addChildWindow(menuGrp);				
+				grpItem->addChildWindow(menuGrp);
 
 				menuGroups[group->getName()] = menuGrp;
 			}
@@ -85,10 +87,10 @@ void InGameMenuWindow::createMenu(MenuBase* menu)
 void InGameMenuWindow::setAction(MenuItem* item, Action* action)
 {
 	item->subscribeEvent(
-		MenuItem::EventClicked, 
+		MenuItem::EventClicked,
 		boost::bind(
-			&InGameMenuWindow::handleAction, 
-			this, 
+			&InGameMenuWindow::handleAction,
+			this,
 			action));
 }
 
@@ -97,13 +99,13 @@ bool InGameMenuWindow::handleAction(Action* action)
 	action->doAction(NULL, NULL, NULL);
 
 	setVisible(false);
-	
+
 	return true;
 }
 
 void InGameMenuWindow::update()
 {
-	createMenu(getMenu("InGameMenu/Menubar"));	
+	createMenu(getMenu("InGameMenu/Menubar"));
 }
 
 }

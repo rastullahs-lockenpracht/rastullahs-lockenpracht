@@ -14,6 +14,8 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
+#include "stdinc.h" //precompiled header
+
 #include <xercesc/dom/DOM.hpp>
 
 #include "XmlHelper.h"

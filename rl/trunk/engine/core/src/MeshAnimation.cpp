@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
+
 #include "MeshAnimation.h"
 
 #include <OgreAnimation.h>
@@ -34,11 +36,11 @@ namespace rl {
 MeshAnimation::MeshAnimation( Ogre::AnimationState* animState, MeshObject* mesh,
                      Ogre::Real speed, unsigned int timesToPlay, bool paused ) :
     BaseAnimation( animState->getLength(), speed, timesToPlay, paused ),
-    mMeshObject( mesh )     
+    mMeshObject( mesh )
 {
 	setAnimationState(animState);
-    
-    mAnimation = 
+
+    mAnimation =
         static_cast<Entity*>(mMeshObject->getMovableObject())->getSkeleton()
         ->getAnimation(animState->getAnimationName());
 }
@@ -55,10 +57,10 @@ void MeshAnimation::setAnimationState( Ogre::AnimationState* animState )
 		Throw( NullPointerException,"Ogre::AnimationState darf nicht null sein" );
 
 	mAnimState = animState;
-	
+
 	if( mTimesToPlay != 1 )
 		mAnimState->setLoop( true );
-	
+
 	// Wenn die Zeit negativ ist, beginnen wir am Ende
 	if( mSpeed < 0 )
 		mAnimState->setTimePosition( mAnimState->getLength() );
@@ -66,7 +68,7 @@ void MeshAnimation::setAnimationState( Ogre::AnimationState* animState )
 	mAnimState->setEnabled( true );
 }
 
-void MeshAnimation::setSpeed( Ogre::Real speed ) 
+void MeshAnimation::setSpeed( Ogre::Real speed )
 {
 	// Eventuell auf Anfang/Ende setzen
 	if( speed < 0 && mAnimState->getTimePosition() == 0 )

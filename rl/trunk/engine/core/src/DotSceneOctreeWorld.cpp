@@ -13,6 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
 
 // Xerces geht vor allen Ogre includes...
 #include "XmlResourceManager.h"
@@ -75,7 +76,7 @@ namespace rl {
         // Alte Szene löschen
         clearScene();
 
-		setCastShadows( true ); 
+		setCastShadows( true );
 
         // Leerer String, keine Map laden
         if (levelName.length() != 0)
@@ -127,10 +128,10 @@ namespace rl {
 
 		if( enabled )
 		{
-			Ogre::String tmp = 
+			Ogre::String tmp =
 				ConfigurationManager::getSingleton().getStringSetting(
 					"Video", "Cast Shadows" );
-			
+
 			if (tmp == "yes")
 				castShadows = true;
 			else if (tmp == "no")
@@ -140,7 +141,7 @@ namespace rl {
 		/// @todo Settings for multiple Shadow-Types?
 		if( castShadows )
 		{
-			int textureSize = 
+			int textureSize =
 				ConfigurationManager::getSingleton().getIntSetting(
 					"Video", "Shadow Texture Size" );
 			textureSize = std::max( 64, std::min( 4096, textureSize ) );

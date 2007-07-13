@@ -2,12 +2,12 @@
 	filename: 	ListboxWrappedTextItem.cpp
 	created:	01/8/2006
 	author:		Paul D Turner & The CEGUI Development Team, Philipp Walser
-	
+
 	purpose:	Implementation of List box text items with WordWrapping
 *************************************************************************/
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Perl Artistic License.
 *
@@ -20,6 +20,8 @@
 *  along with this program; if not you can get it here
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
+#include "stdinc.h" //precompiled header
+
 #include "ListboxWrappedTextItem.h"
 #include "CEGUIFontManager.h"
 #include "CEGUIFont.h"
@@ -121,7 +123,7 @@ namespace CEGUI
             formatRect.setSize(size);
             uint lines = font->getFormattedLineCount(d_itemText, formatRect, d_textFormatting);
             size.d_height *= lines;
-            size.d_height += d_padding;		
+            size.d_height += d_padding;
         }
 
         return size;
@@ -153,11 +155,11 @@ namespace CEGUI
             finalPos.d_y -= PixelAligned((font->getLineSpacing() - font->getBaseline()) * 0.5f);
             Rect draw_area = Rect(finalPos.d_x, finalPos.d_y,
                 clipper.d_right, finalPos.d_y);
-            font->drawText(ds_bullet, draw_area, finalPos.d_z, clipper, d_textFormatting, 
+            font->drawText(ds_bullet, draw_area, finalPos.d_z, clipper, d_textFormatting,
                 getModulateAlphaColourRect(d_textCols, alpha));
             draw_area.d_left += left_offset;
-            font->drawText(d_itemText, draw_area, finalPos.d_z, clipper, d_textFormatting, 
-                getModulateAlphaColourRect(d_textCols, alpha));  
+            font->drawText(d_itemText, draw_area, finalPos.d_z, clipper, d_textFormatting,
+                getModulateAlphaColourRect(d_textCols, alpha));
         }
 
     }
@@ -193,7 +195,7 @@ namespace CEGUI
 
 
     /*************************************************************************
-    Set the colours used for text rendering.	
+    Set the colours used for text rendering.
     *************************************************************************/
     void ListboxWrappedTextItem::setTextColours(colour top_left_colour,
         colour top_right_colour,

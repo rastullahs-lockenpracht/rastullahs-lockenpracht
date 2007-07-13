@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include "stdinc.h" //precompiled header
+
 #include "MergeableMeshObject.h"
 
 #include <MeshMergeTool.h>
@@ -59,7 +61,7 @@ namespace rl
 		if (mCombinedMeshName != newMeshName)
 		{
 			MeshPtr newMesh = MeshManager::getSingleton().getByName(newMeshName);
-			
+
 			if (newMesh.isNull())
 			{
 				MeshMergeTool mm;
@@ -69,7 +71,7 @@ namespace rl
 					MeshPtr meshToAdd = MeshManager::getSingleton().load(curMeshfile, "regressiontest"); ///@todo this is just for testing
 					mm.addMesh(meshToAdd);
 				}
-				
+
 				newMesh = mm.bake(newMeshName);
 			}
 
@@ -102,7 +104,7 @@ namespace rl
 		else
 		{
 			LOG_ERROR(
-				Logger::CORE, 
+				Logger::CORE,
 				"Could not remove part '"
 				 + partToRemove + "' from mergeable mesh '"
 				 + getMeshName() + "'. Part not found.");
@@ -117,7 +119,7 @@ namespace rl
 		Entity* oldEnt = getEntity();
 		Entity* newEnt = CoreSubsystem::getSingletonPtr()->getWorld()
 			->getSceneManager()->createEntity(oldEnt->getName()+"_", newMesh->getName());
-		
+
 		Node* parentNode = oldEnt->getParentNode();
 		if (parentNode != NULL)
 		{

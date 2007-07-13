@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,13 +13,14 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 #include "Action.h"
 #include "Exception.h"
 
 namespace rl
 {
-    Action::Action(const CeGuiString name, const CeGuiString description) 
+    Action::Action(const CeGuiString name, const CeGuiString description)
 		: mName(name),
           mDescription(description),
 		  mGroup(NULL)
@@ -56,64 +57,64 @@ namespace rl
         // Im Zweifel klappts halt. :)
         return true;
     }
-    
+
     void Action::doAction(GameObject* object,
                           Creature* actor,
                           GameObject* target)
     {
         // Muss ueberschrieben werden, sonst passiert nix.
     }
-	
+
 	void Action::setGroup(ActionGroup* group)
 	{
 		mGroup = group;
 	}
-	
+
 	ActionGroup* Action::getGroup() const
 	{
 		return mGroup;
 	}
-	
+
 	ActionGroup::ActionGroup(CeGuiString name, ActionGroup* parent)
 	{
 		mParent = parent;
 		mName = name;
-		
+
 		if (parent != NULL)
 			parent->addChild(this);
 	}
-	
+
 	ActionGroup::~ActionGroup()
 	{
 		if (mParent != NULL)
 			mParent->removeChild(this);
-		
+
 		for (ChildrenList::iterator it = mChildren.begin(); it != mChildren.end(); it++)
 			(*it)->removeParent();
 	}
-	
+
 	const CeGuiString ActionGroup::getName() const
 	{
 		return mName;
 	}
-	
+
 	const ActionGroup* const ActionGroup::getParent() const
 	{
 		return mParent;
 	}
-	
+
 	void ActionGroup::addChild(ActionGroup* child)
 	{
 		mChildren.insert(child);
 	}
-	
+
 	void ActionGroup::removeChild(ActionGroup* child)
 	{
 		ChildrenList::iterator it = mChildren.find(child);
 		if (it != mChildren.end())
 			mChildren.erase(it);
 	}
-	
+
 	void ActionGroup::removeParent()
 	{
 		mParent = NULL;

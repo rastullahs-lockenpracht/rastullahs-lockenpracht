@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
+
 #include <vector>
 #include <map>
 
@@ -28,15 +30,15 @@
 
 namespace rl {
 
-const CeGuiString	Quest::STATE_NAMES[5] = 
-		{	"OPEN",		
-            "ASSIGNED",	
-            "FAILED", 
-            "SUCCEEDED", 
+const CeGuiString	Quest::STATE_NAMES[5] =
+		{	"OPEN",
+            "ASSIGNED",
+            "FAILED",
+            "SUCCEEDED",
             "COMPLETED"};
 
-const CeGuiString	Quest::KNOWN_NAMES[2] = 
-		{	"UNKNOWN",	
+const CeGuiString	Quest::KNOWN_NAMES[2] =
+		{	"UNKNOWN",
             "KNOWN"};
 
 const Ogre::String Quest::PROP_NAME = "str_name";
@@ -60,7 +62,7 @@ Quest::Quest(const CeGuiString id, const CeGuiString name, const CeGuiString des
 
 Quest::~Quest()
 {
-    for( QuestVector::iterator it = mSubquests.begin(); 
+    for( QuestVector::iterator it = mSubquests.begin();
         it != mSubquests.end(); it++ )
            ScriptWrapper::getSingleton().disowned( (*it) );
     mSubquests.clear();
@@ -99,11 +101,11 @@ int Quest::getPartsDone() const
 		return mPartsDone;
 
 	int done = 0;
-	for(QuestVector::const_iterator it = mSubquests.begin(); 
+	for(QuestVector::const_iterator it = mSubquests.begin();
 		it != mSubquests.end(); it++)
 	{
 		Quest* cur = (*it);
-		if (cur->getState() == Quest::COMPLETED 
+		if (cur->getState() == Quest::COMPLETED
 			|| cur->getState() == Quest::SUCCEEDED)
 			done++;
 	}
@@ -244,15 +246,15 @@ void Quest::setQuestBook(QuestBook* questBook)
 
 Quest::State Quest::getStateFromName(const CeGuiString stateName)
 {
-	if (stateName == Quest::STATE_NAMES[Quest::OPEN]) 
+	if (stateName == Quest::STATE_NAMES[Quest::OPEN])
 		return Quest::OPEN;
-	else if (stateName == Quest::STATE_NAMES[Quest::FAILED]) 
+	else if (stateName == Quest::STATE_NAMES[Quest::FAILED])
 		return Quest::FAILED;
-	else if (stateName == Quest::STATE_NAMES[Quest::COMPLETED]) 
+	else if (stateName == Quest::STATE_NAMES[Quest::COMPLETED])
 		return Quest::COMPLETED;
-	else if (stateName == Quest::STATE_NAMES[Quest::SUCCEEDED]) 
+	else if (stateName == Quest::STATE_NAMES[Quest::SUCCEEDED])
 		return Quest::SUCCEEDED;
-	else if (stateName == Quest::STATE_NAMES[Quest::ASSIGNED]) 
+	else if (stateName == Quest::STATE_NAMES[Quest::ASSIGNED])
 		return Quest::ASSIGNED;
 
 	const char* msg = (stateName + " is no valid quest state.").c_str();
@@ -267,7 +269,7 @@ bool Quest::getKnownFromName(const CeGuiString knownName)
 		return true;
 
 	Throw(
-		IllegalArgumentException, 
+		IllegalArgumentException,
 		(knownName + " is no valid quest known state.").c_str());
 }
 
@@ -332,7 +334,7 @@ void Quest::setProperty(const Ogre::String& key, const Property& value)
 PropertySet* Quest::getAllProperties() const
 {
     PropertySet* ps = PropertySet::getAllProperties();
-    
+
     ps->setProperty(PROP_NAME, Property(mName));
     ps->setProperty(PROP_DESCRIPTION, Property(mDescription));
     ps->setProperty(PROP_KNOWN, Property(mKnown));

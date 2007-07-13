@@ -1,3 +1,6 @@
+
+#include "stdinc.h"
+
 #include "Talentgruppe.h"
 
 namespace rl

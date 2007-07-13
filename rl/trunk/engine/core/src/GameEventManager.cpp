@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 #include "GameEventManager.h"
 #include "GameAreaTypes.h"
@@ -28,13 +29,13 @@ namespace rl {
         mAreaEventSources(),
 		mQueuedDeletionSources()
     {
-        
+
     }
 
     GameEventManager::~GameEventManager( )
     {
         GameAreaEventSourceList::iterator it;
-        for( it = mAreaEventSources.begin(); it != mAreaEventSources.end();++it) 
+        for( it = mAreaEventSources.begin(); it != mAreaEventSources.end();++it)
         {
             GameAreaEventSource* gam = *it;
 			ScriptWrapper::getSingleton().deleted( gam );
@@ -57,20 +58,20 @@ namespace rl {
         mAreaEventSources.insert( gam );
 		ScriptWrapper::getSingleton().owned( gam );
         // Und Listener anhängen
-        gam->addAreaListener( list );        
+        gam->addAreaListener( list );
     }
 
     void GameEventManager::removeAreaListener( GameAreaListener* list )
     {
         GameAreaEventSourceList::iterator it;
-        for( it = mAreaEventSources.begin(); it != mAreaEventSources.end();) 
+        for( it = mAreaEventSources.begin(); it != mAreaEventSources.end();)
         {
             GameAreaEventSource* gam = *it;
             gam->removeAreaListener( list );
 
             // Sind alle Listener weggeworfen?
             if( !gam->hasListeners() )
-            {          
+            {
 				// Später löschen
 				mQueuedDeletionSources.insert( gam );
             }
@@ -83,17 +84,17 @@ namespace rl {
     void GameEventManager::removeAllAreas( Actor* actor )
     {
         GameAreaEventSourceList::iterator it;
-        for( it = mAreaEventSources.begin(); it != mAreaEventSources.end();) 
+        for( it = mAreaEventSources.begin(); it != mAreaEventSources.end();)
         {
             GameAreaEventSource* gam = *it;
 
             // Ist das der Actor?
             if( gam->getActor() == actor )
-            {     
+            {
 				// Später löschen
                 mQueuedDeletionSources.insert( gam );
             }
-            
+
             // Iterieren
             ++it;
         }
@@ -114,7 +115,7 @@ namespace rl {
 			// Das Objekt löschen
 			delete gam;
 		}
-		
+
 	}
 
     void GameEventManager::run( Ogre::Real elapsedTime )
@@ -122,7 +123,7 @@ namespace rl {
         removeQueuedDeletionSources();
 
         GameAreaEventSourceList::iterator it;
-        for( it = mAreaEventSources.begin(); it != mAreaEventSources.end();++it) 
+        for( it = mAreaEventSources.begin(); it != mAreaEventSources.end();++it)
         {
             GameAreaEventSource* gam = *it;
             gam->performQuery( elapsedTime );

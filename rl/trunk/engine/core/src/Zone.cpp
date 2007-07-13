@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -13,6 +13,8 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
+
 #include "Zone.h"
 
 #include "ActorManager.h"
@@ -21,7 +23,7 @@
 #include "Trigger.h"
 #include "ZoneManager.h"
 
-namespace rl 
+namespace rl
 {
 
 	Zone::Zone(Actor* actor)
@@ -53,7 +55,7 @@ namespace rl
 	}
 
     void Zone::areaEntered(GameAreaEvent *anEvent)
-	{		
+	{
 		ZoneManager::getSingleton().areaEntered(this);
 
 		std::list<Trigger*> toDelete;
@@ -90,7 +92,7 @@ namespace rl
 		std::list<Actor*> rval(mLights);
 		return rval;
 	}
-	
+
 	std::list<Ogre::String> Zone::getSounds() const
 	{
 		std::list<Ogre::String> rval(mSounds);
@@ -100,12 +102,12 @@ namespace rl
 
 	void Zone::deleteTriggers(const std::list<Trigger*>& toDelete)
 	{
-		for (std::list<Trigger*>::const_iterator it = toDelete.begin(); 
+		for (std::list<Trigger*>::const_iterator it = toDelete.begin();
 			it != toDelete.end(); ++it)
 		{
 			const Trigger* cur = *it;
 
-			std::list<Trigger*>::iterator trigIt = 
+			std::list<Trigger*>::iterator trigIt =
 				std::find(mTriggers.begin(), mTriggers.end(), cur);
 			mTriggers.erase(trigIt);
 		}

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 #include "FadeAnimation.h"
 
@@ -23,21 +24,21 @@
 #include "ScriptWrapper.h"
 #include "AnimationManager.h"
 
-namespace rl 
+namespace rl
 {
 
 
-AnimationFadeOptions::AnimationFadeOptions( MeshAnimation* anim, Ogre::Real timeStart, 
+AnimationFadeOptions::AnimationFadeOptions( MeshAnimation* anim, Ogre::Real timeStart,
             Ogre::Real timeEnd, Ogre::Real weightStart, Ogre::Real weightEnd )
 {
     mAnimation = anim;
-    mTimeStart = timeStart; 
+    mTimeStart = timeStart;
     mTimeEnd = timeEnd;
     mWeightStart = weightStart;
     mWeightEnd = weightEnd;
 }
 
-FadeAnimation::FadeAnimation() : 
+FadeAnimation::FadeAnimation() :
     BaseAnimation(0.0, 1.0, 1, true ),
 	mDeleteOnFinish( true ),
     mDeleteAnimationsOnFinish( false ),
@@ -46,14 +47,14 @@ FadeAnimation::FadeAnimation() :
 {
 }
 
-FadeAnimation::~FadeAnimation() 
+FadeAnimation::~FadeAnimation()
 {
     for (FadeOptionsSet::iterator it = mFadeOptions.begin();
-            it != mFadeOptions.end(); ) 
+            it != mFadeOptions.end(); )
     {
         AnimationFadeOptions* afo = *it;
 
-        if( mDeleteAnimationsOnFinish && 
+        if( mDeleteAnimationsOnFinish &&
             afo->getAnimation()->getWeight() == 0.0 )
             AnimationManager::getSingleton().removeAnimation( afo->getAnimation() );
 
@@ -65,7 +66,7 @@ FadeAnimation::~FadeAnimation()
     mFadeOptions.clear();
 }
 
-void FadeAnimation::addAnimation( MeshAnimation* anim, Ogre::Real timeStart, 
+void FadeAnimation::addAnimation( MeshAnimation* anim, Ogre::Real timeStart,
     Ogre::Real timeEnd, Ogre::Real weightStart, Ogre::Real weightEnd )
 {
     anim->doAddTime(0.0);
@@ -82,16 +83,16 @@ void FadeAnimation::addAnimation( MeshAnimation* anim, Ogre::Real timeStart,
 void FadeAnimation::removeAnimation( MeshAnimation* anim )
 {
     for (FadeOptionsSet::iterator it = mFadeOptions.begin();
-            it != mFadeOptions.end(); ) 
+            it != mFadeOptions.end(); )
     {
-        if( (*it)->getAnimation() == anim ) 
+        if( (*it)->getAnimation() == anim )
         {
             AnimationFadeOptions* afo = *it;
             ScriptWrapper::getSingleton().deleted( afo );
             mFadeOptions.erase(it++);
             delete afo;
-        } 
-        else 
+        }
+        else
            ++it;
     }
 }
@@ -109,9 +110,9 @@ void FadeAnimation::setDeleteOnFinish( bool deleteOnFinish )
 bool FadeAnimation::containsAnimation( BaseAnimation* anim ) const
 {
     for (FadeOptionsSet::const_iterator it = mFadeOptions.begin();
-            it != mFadeOptions.end(); it++ ) 
+            it != mFadeOptions.end(); it++ )
     {
-        if( (*it)->getAnimation() == anim ) 
+        if( (*it)->getAnimation() == anim )
             return true;
     }
 
@@ -120,13 +121,13 @@ bool FadeAnimation::containsAnimation( BaseAnimation* anim ) const
 
 /// FIXME - was macht Rückwärts?
 void FadeAnimation::doAddTime( Ogre::Real timePassed )
-{        
+{
     for( FadeOptionsSet::iterator it = mFadeOptions.begin();
-            it != mFadeOptions.end(); it++ ) 
+            it != mFadeOptions.end(); it++ )
     {
         AnimationFadeOptions* afo = *it;
         Ogre::Real localElapsed = mTimePlayed + timePassed - afo ->getTimeStart();
-        
+
         // Nach der Anfangszeit
         if( localElapsed >= 0.0 )
         {
@@ -137,13 +138,13 @@ void FadeAnimation::doAddTime( Ogre::Real timePassed )
             {
                 Ogre::Real fadeFactor = (localElapsed/localLength);
                 Ogre::Real finalWeight = afo->getWeightEnd()*(1-fadeFactor) +
-                    afo->getWeightStart() * (fadeFactor); 
+                    afo->getWeightStart() * (fadeFactor);
 
-                afo->getAnimation()->setWeight(finalWeight);                
+                afo->getAnimation()->setWeight(finalWeight);
             }
             else if( !mFadeSoft && localElapsed >= localLength )
             {
-                afo->getAnimation()->setWeight(afo->getWeightEnd());  
+                afo->getAnimation()->setWeight(afo->getWeightEnd());
             }
             else if( !mFadeSoft && localElapsed < localLength )
             {

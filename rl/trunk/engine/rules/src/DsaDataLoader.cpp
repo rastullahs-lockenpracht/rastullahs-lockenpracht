@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/parsers/XercesDOMParser.hpp>
@@ -60,7 +61,7 @@ namespace rl {
 
         parser->setValidationScheme(XercesDOMParser::Val_Auto);    // optional.
         parser->setDoNamespaces(true);    // optional
-		
+
         OgreInputSource source(stream);
         parser->parse(source);
 
@@ -71,7 +72,7 @@ namespace rl {
 		initializeTalente(XmlHelper::getChildNamed(dataDocumentContent, "Talente"));
 		initializeKampftechniken(XmlHelper::getChildNamed(dataDocumentContent, "Kampftechniken"));
 		initializePersonen(XmlHelper::getChildNamed(dataDocumentContent, "Personen"));
-		
+
 		doc->release();
 
 		XMLPlatformUtils::Terminate();
@@ -208,12 +209,12 @@ namespace rl {
 		DOMNodeList* personenXml = rootPersons->getElementsByTagName(AutoXMLCh("Person").data());
 		for (unsigned int idx = 0; idx < personenXml->getLength(); idx++)
 		{
-			Person* p = 
+			Person* p =
 				processPerson(
 					static_cast<DOMElement*>(personenXml->item(idx)));
 			DsaManager::getSingleton()._addPerson(p);
 		}
-		
+
 	}
 
 	Person* XdimlLoader::processPerson(DOMElement* personXml)
@@ -222,19 +223,19 @@ namespace rl {
 		AutoXMLCh ID = "ID";
 		AutoXMLCh ABGELEITETER_WERT = "AbgeleiteterWert";
 		AutoXMLCh EIGENSCHAFT = "Eigenschaft";
-		
-		CeGuiString name = 
+
+		CeGuiString name =
 			XmlHelper::getValueAsString(XmlHelper::getChildNamed(personXml, "Name"));
-		CeGuiString desc = 
+		CeGuiString desc =
 			XmlHelper::getValueAsString(XmlHelper::getChildNamed(personXml, "Beschreibung"));
-        
+
         //@warning replace this by correct loading process
 		Person* rval = new Person(10000);
         rval->setName(name);
         rval->setDescription(desc);
 
 		// Eigenschaften laden
-		DOMNodeList* eigensch = 
+		DOMNodeList* eigensch =
 			XmlHelper::getChildNamed(personXml, "Eigenschaften")->
 				getElementsByTagName(EIGENSCHAFT.data());
 		// Die Eigenschaftsnamen mssen durch ihre Abkrzung ersetzt werden.
@@ -242,29 +243,29 @@ namespace rl {
 		{
 			DOMElement* eigenschXml = static_cast<DOMElement*>(eigensch->item(idx));
 			CeGuiString eigName = XmlHelper::transcodeToString(eigenschXml->getAttribute(ID.data()));
-			if (eigName == DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()) 
+			if (eigName == DsaManager::getSingleton().getEigenschaft(E_MUT)->getName())
 				eigName = DsaManager::getSingleton().getEigenschaft(E_MUT)->getNameAbbreviation();
-			if (eigName == DsaManager::getSingleton().getEigenschaft(E_KLUGHEIT)->getName()) 
+			if (eigName == DsaManager::getSingleton().getEigenschaft(E_KLUGHEIT)->getName())
 				eigName = DsaManager::getSingleton().getEigenschaft(E_KLUGHEIT)->getNameAbbreviation();
-			if (eigName == DsaManager::getSingleton().getEigenschaft(E_INTUITION)->getName()) 
+			if (eigName == DsaManager::getSingleton().getEigenschaft(E_INTUITION)->getName())
 				eigName = DsaManager::getSingleton().getEigenschaft(E_INTUITION)->getNameAbbreviation();
-			if (eigName == DsaManager::getSingleton().getEigenschaft(E_CHARISMA)->getName()) 
+			if (eigName == DsaManager::getSingleton().getEigenschaft(E_CHARISMA)->getName())
 				eigName = DsaManager::getSingleton().getEigenschaft(E_CHARISMA)->getNameAbbreviation();
-			if (eigName == DsaManager::getSingleton().getEigenschaft(E_FINGERFERTIGKEIT)->getName()) 
+			if (eigName == DsaManager::getSingleton().getEigenschaft(E_FINGERFERTIGKEIT)->getName())
 				eigName = DsaManager::getSingleton().getEigenschaft(E_FINGERFERTIGKEIT)->getNameAbbreviation();
-			if (eigName == DsaManager::getSingleton().getEigenschaft(E_GEWANDTHEIT)->getName()) 
+			if (eigName == DsaManager::getSingleton().getEigenschaft(E_GEWANDTHEIT)->getName())
 				eigName = DsaManager::getSingleton().getEigenschaft(E_GEWANDTHEIT)->getNameAbbreviation();
-			if (eigName == DsaManager::getSingleton().getEigenschaft(E_KONSTITUTION)->getName()) 
+			if (eigName == DsaManager::getSingleton().getEigenschaft(E_KONSTITUTION)->getName())
 				eigName = DsaManager::getSingleton().getEigenschaft(E_KONSTITUTION)->getNameAbbreviation();
-			if (eigName == DsaManager::getSingleton().getEigenschaft(E_KOERPERKRAFT)->getName()) 
+			if (eigName == DsaManager::getSingleton().getEigenschaft(E_KOERPERKRAFT)->getName())
 				eigName = DsaManager::getSingleton().getEigenschaft(E_KOERPERKRAFT)->getNameAbbreviation();
 			int wert = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(eigenschXml, "Wert"));
 
 			rval->setEigenschaft(eigName, wert);
-		}		
+		}
 
 		// Abgeleitete Werte laden
-		DOMNodeList* werte = 
+		DOMNodeList* werte =
 			XmlHelper::getChildNamed(personXml, "AbgeleiteteWerte")->
 				getElementsByTagName(ABGELEITETER_WERT.data());
 		for (unsigned int idx = 0; idx < werte->getLength(); idx++)
@@ -272,7 +273,7 @@ namespace rl {
 			DOMElement* wertXml = static_cast<DOMElement*>(werte->item(idx));
 			int basis = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(wertXml, "Basiswert"));
 			int wert = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(wertXml, "Wert"));
-			
+
 			AutoChar wertId = wertXml->getAttribute(ID.data());
 			if (strcmp(wertId.data(), "Lebensenergie") == 0)
 				rval->setWert(rl::Creature::WERT_MOD_LE, wert - basis);
@@ -297,22 +298,22 @@ namespace rl {
 		// Talente laden
 		// Talente, die direkt unter <Person> angeordnet sind,
         // ergeben bereits die zusammengefassten Werte
-		DOMNodeList* talente =			
+		DOMNodeList* talente =
 			XmlHelper::getChildNamed(personXml, "Talente")->
 				getElementsByTagName(TALENT.data());
 		for (unsigned int idx = 0; idx < talente->getLength(); idx++)
 		{
 			DOMElement* talentXml = static_cast<DOMElement*>(talente->item(idx));
-			
+
 			CeGuiString talentName = XmlHelper::transcodeToString(
                 talentXml->getAttribute(ID.data()));
 
-			Talent* tal = 
+			Talent* tal =
 				DsaManager::getSingleton().getTalent(talentName);
 
 			rval->addTalent(talentName);
 			rval->setTalent(
-				talentName, 
+				talentName,
 				XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(talentXml, "Wert")));
 		}
 		return rval;

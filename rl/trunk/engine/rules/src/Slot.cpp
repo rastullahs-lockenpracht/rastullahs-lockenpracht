@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
+
 #include "Slot.h"
 
 #include "Actor.h"
@@ -110,17 +112,17 @@ namespace rl {
 				else
 				{
 					if (isAllowed(item))
-					{			
+					{
 						item->setState(GOS_IN_POSSESSION);
 						mmo->replaceSubmesh(
-							mSubmesh, 
+							mSubmesh,
 							item->getMeshfile().c_str());
 						mItem = item;
 					}
 				}
 			}
 
-            if (mOwner->getActor() 
+            if (mOwner->getActor()
                 && mOwner->getActor()->getPhysicalThing())
             {
                 mOwner->getActor()->getPhysicalThing()->updatePhysicsProxy();

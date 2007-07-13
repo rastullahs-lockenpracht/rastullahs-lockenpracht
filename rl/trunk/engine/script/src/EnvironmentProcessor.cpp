@@ -13,6 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
 
 #include "EnvironmentProcessor.h"
 
@@ -47,7 +48,7 @@ namespace rl
 			return;
 		}
 
-		if (!XmlHelper::hasAttribute(skyElem, "material") 
+		if (!XmlHelper::hasAttribute(skyElem, "material")
 			|| !XmlHelper::hasAttribute(skyElem, "type"))
 		{
 			LOG_ERROR(Logger::RULES, "<sky> element must have at least attributes 'type' and 'material'.");
@@ -62,12 +63,12 @@ namespace rl
 			{
 				drawFirst = XmlHelper::getAttributeValueAsBool(skyElem, "drawfirst");
 			}
-			
+
 			Ogre::Real distance = 5000;
 			if (XmlHelper::hasAttribute(skyElem, "distance"))
 			{
 				distance = XmlHelper::getAttributeValueAsReal(skyElem, "distance");
-			}				
+			}
 
 			if (type == "dome")
 			{
@@ -107,7 +108,7 @@ namespace rl
 		if (!XmlHelper::hasAttribute(fogElem, "material"))
 		{
 			LOG_ERROR(
-				Logger::RULES, 
+				Logger::RULES,
 				"<fog> element must have at least the attribute 'type'.");
 			return;
 		}

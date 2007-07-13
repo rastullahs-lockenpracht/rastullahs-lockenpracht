@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 #include "EffectManager.h"
 #include "DsaManager.h"
@@ -46,7 +47,7 @@ namespace rl
 			std::cout << "Effect check: " << checkIt->first << " now: " << now << std::endl;
             for (Effects::iterator effIt = checkIt->second.begin(); effIt != checkIt->second.end(); effIt++)
             {
-                int nextCheck; 
+                int nextCheck;
                 nextCheck = (*effIt)->check();
                 switch (nextCheck)
                 {
@@ -74,7 +75,7 @@ namespace rl
         // Insert Sum and effect into the checklist
         mChecklist[timeForCheck].insert(effect);
     }
-    
+
     void EffectManager::addDateCheck(RL_LONGLONG date, Effect* effect)
     {
         // Preconditions: date > now, effect != NULL
@@ -110,7 +111,7 @@ namespace rl
 		mEffects.insert(effect);
 		effect->enable();
 	}
-    
+
     void EffectManager::removeEffect(Effect* effect)
     {
       mEffects.erase(effect);
@@ -132,7 +133,7 @@ namespace rl
     }
 
 
-    
+
     Effect::Status EffectManager::getStatus()
     {
       checkEffects();
@@ -143,7 +144,7 @@ namespace rl
       }
       return status;
     }
-    
+
     int EffectManager::getMod(CeGuiString target, Effect::ModType type, Effect::ModTag tag)
     {
       checkEffects();

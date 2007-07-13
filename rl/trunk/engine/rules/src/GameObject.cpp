@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
+
 #include "GameObject.h"
 
 #include "Action.h"
@@ -37,16 +39,16 @@ namespace rl
 
     const Ogre::String GameObject::CLASS_NAME = "GameObject";
 
-    const Ogre::String GameObject::PROPERTY_CLASS_ID = "classid"; 
-    const Ogre::String GameObject::PROPERTY_BASE_CLASS = "baseclass"; 
-    const Ogre::String GameObject::PROPERTY_POSITION = "position"; 
-    const Ogre::String GameObject::PROPERTY_ORIENTATION = "orientation"; 
-    const Ogre::String GameObject::PROPERTY_NAME = "name"; 
-    const Ogre::String GameObject::PROPERTY_DESCRIPTION = "description"; 
-    const Ogre::String GameObject::PROPERTY_MESHFILE = "meshfile"; 
-	const Ogre::String GameObject::PROPERTY_MESHPARTS = "meshparts"; 
-    const Ogre::String GameObject::PROPERTY_GEOMETRY_TYPE = "geometrytype"; 
-    const Ogre::String GameObject::PROPERTY_MASS = "mass"; 
+    const Ogre::String GameObject::PROPERTY_CLASS_ID = "classid";
+    const Ogre::String GameObject::PROPERTY_BASE_CLASS = "baseclass";
+    const Ogre::String GameObject::PROPERTY_POSITION = "position";
+    const Ogre::String GameObject::PROPERTY_ORIENTATION = "orientation";
+    const Ogre::String GameObject::PROPERTY_NAME = "name";
+    const Ogre::String GameObject::PROPERTY_DESCRIPTION = "description";
+    const Ogre::String GameObject::PROPERTY_MESHFILE = "meshfile";
+	const Ogre::String GameObject::PROPERTY_MESHPARTS = "meshparts";
+    const Ogre::String GameObject::PROPERTY_GEOMETRY_TYPE = "geometrytype";
+    const Ogre::String GameObject::PROPERTY_MASS = "mass";
     const Ogre::String GameObject::PROPERTY_ACTIONS = "actions";
     const Ogre::String GameObject::PROPERTY_DEFAULT_ACTION = "defaultaction";
 
@@ -105,12 +107,12 @@ namespace rl
     {
         return mClassId;
     }
-    
+
     void GameObject::setClassId(Ogre::String classId)
     {
         mClassId = classId;
     }
-        
+
     const CeGuiString GameObject::getName() const
     {
         return mName;
@@ -153,7 +155,7 @@ namespace rl
             Throw(NullPointerException, "Parameter action ist NULL.");
         }
 
-        mActions.push_back(make_pair(action, option));    
+        mActions.push_back(make_pair(action, option));
         LOG_MESSAGE(Logger::RULES,
             "Bei GameObject #"+Ogre::StringConverter::toString(mId)+
             " ("+getName()+") wurde Aktion "+action->getName().c_str()+" hinzugefügt.");
@@ -173,7 +175,7 @@ namespace rl
             mActions.erase(it);
         }
     }
-    
+
     const ActionVector GameObject::getValidActions(Creature* actor) const
     {
         ActionVector actions;
@@ -185,7 +187,7 @@ namespace rl
             //if ((*it).second > ACT_NEEDS_TALENT)
             if (actor != NULL && !(*it).first->canDo(const_cast<GameObject*>(this), actor)) // Aktion nicht möglich
                 continue;
-                
+
             actions.push_back((*it).first);
         }
         return actions;
@@ -195,13 +197,13 @@ namespace rl
                               Creature* actor,
                               GameObject* target)
     {
-        ActionOptionVector::const_iterator it = 
+        ActionOptionVector::const_iterator it =
             findAction(mActions.begin(), mActions.end(), actionName);
 
         if (it == mActions.end())
         {
             LOG_ERROR(
-                Logger::RULES, 
+                Logger::RULES,
                 "'" + actionName + "' ist eine dem Objekt unbekannte Aktion.");
         }
         else
@@ -221,7 +223,7 @@ namespace rl
     {
         action->doAction(this, actor, target);
     }
-    
+
     void GameObject::doDefaultAction(Creature* actor, GameObject* target)
     {
         Action* action = getDefaultAction(actor);
@@ -232,7 +234,7 @@ namespace rl
         else
         {
             LOG_ERROR(
-                Logger::RULES, 
+                Logger::RULES,
                 "GameObject " + getName() + " has no valid default action set.");
         }
     }
@@ -245,10 +247,10 @@ namespace rl
         return true;
     }
 
-    GameObject::ActionOptionVector::iterator 
+    GameObject::ActionOptionVector::iterator
         GameObject::findAction(
-            GameObject::ActionOptionVector::iterator begin, 
-            GameObject::ActionOptionVector::iterator end, 
+            GameObject::ActionOptionVector::iterator begin,
+            GameObject::ActionOptionVector::iterator end,
             const CeGuiString actionName)
     {
         for (ActionOptionVector::iterator iter = begin; iter != end; ++iter)
@@ -261,10 +263,10 @@ namespace rl
         return end;
     }
 
-    GameObject::ActionOptionVector::iterator 
+    GameObject::ActionOptionVector::iterator
         GameObject::findAction(
-            GameObject::ActionOptionVector::iterator begin, 
-            GameObject::ActionOptionVector::iterator end, 
+            GameObject::ActionOptionVector::iterator begin,
+            GameObject::ActionOptionVector::iterator end,
             const Action* action)
     {
         for (ActionOptionVector::iterator iter = begin; iter != end; ++iter)
@@ -273,7 +275,7 @@ namespace rl
 
         return end;
     }
-    
+
     void GameObject::setActor(Actor* actor)
     {
         if (mActor != actor)
@@ -294,11 +296,11 @@ namespace rl
                 }
                 actor->setGameObject(this);
             }
-            
+
             mActor = actor;
         }
     }
-    
+
     Actor* GameObject::getActor()
     {
         return mActor;
@@ -308,7 +310,7 @@ namespace rl
     {
         return mHighlightingEnabled;
     }
-    
+
     void GameObject::setHighlightingEnabled( bool highlightenabled )
     {
         // Leuchtet zur Zeit, sollte aber nicht leuchten
@@ -404,13 +406,13 @@ namespace rl
 	{
 		mEffectManager->addEffect(effect);
 	}
-    
+
     void GameObject::addEffectWithCheckTime(Effect* effect, RL_LONGLONG time)
     {
       addEffect(effect);
       mEffectManager->addTimeCheck(time, effect);
     }
-    
+
     void GameObject::addEffectWithCheckDate(Effect* effect, RL_LONGLONG date)
     {
       addEffect(effect);
@@ -427,7 +429,7 @@ namespace rl
 	{
 		mEffectManager->removeEffect(effect);
 	}
-    
+
     const Property GameObject::getProperty(const Ogre::String& key) const
     {
         Property prop;
@@ -479,7 +481,7 @@ namespace rl
 
     void GameObject::setProperty(const Ogre::String& key, const Property& value)
     {
-        try 
+        try
         {
             if (key == PROPERTY_POSITION)
             {
@@ -504,7 +506,7 @@ namespace rl
             else if (key == PROPERTY_MESHPARTS)
             {
 				PropertyMap map = value.toMap();
-				for (PropertyMap::const_iterator 
+				for (PropertyMap::const_iterator
 					it = map.begin(); it != map.end(); ++it)
 				{
 					mMeshParts[(*it).first.c_str()] = (*it).second.toString().c_str();
@@ -512,7 +514,7 @@ namespace rl
             }
             else if (key == PROPERTY_GEOMETRY_TYPE)
             {
-                setGeometryType(PhysicsManager::convertStringToGeometryType(value.toString().c_str()));            
+                setGeometryType(PhysicsManager::convertStringToGeometryType(value.toString().c_str()));
             }
             else if (key == PROPERTY_MASS)
             {
@@ -552,7 +554,7 @@ namespace rl
             else
             {
                 LOG_WARNING(
-                    Logger::RULES, 
+                    Logger::RULES,
                     key + " is not a property of this GameObject ("+mName+")");
             }
         }
@@ -589,7 +591,7 @@ namespace rl
 			if (mMeshfile.empty() && mMeshParts.empty())
 			{
 				LOG_ERROR(
-					Logger::RULES, 
+					Logger::RULES,
 					"Neither mesh file nor mesh parts are set on gameobject '" + getName()
 					+ "' (id: " + getId() + "). Can't create actor!");
 			}
@@ -614,7 +616,7 @@ namespace rl
 			if (actor == NULL)
 			{
 				LOG_ERROR(
-					Logger::RULES, 
+					Logger::RULES,
 					"Error creating actor '"
 					+ actorName	+ "'.");
 			}
@@ -663,7 +665,7 @@ namespace rl
             }
             else {
                 LOG_ERROR(
-                    Logger::RULES, 
+                    Logger::RULES,
                     "Error placing gameobject '"
                     + Ogre::StringConverter::toString(mId)
                     + "' into scene "
@@ -714,8 +716,8 @@ namespace rl
         else
         {
             LOG_ERROR(
-                Logger::RULES, 
-                "GameObject '" + getName() 
+                Logger::RULES,
+                "GameObject '" + getName()
                 + "' could not change state from "
                 + Ogre::StringConverter::toString(mState) + " to "
                 + Ogre::StringConverter::toString(targetstate));

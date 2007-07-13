@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include "stdinc.h" //precompiled header
+
 #include "Agent.h"
 
 #include "Actor.h"
@@ -41,7 +43,7 @@ Agent::Agent(Creature* character)
 Agent::Agent(Creature* character, SteeringVehicle* vehicle)
 	: mType(AgentManager::AGENT_NONE),
       mBehaviour(NULL),
-      mVehicle(vehicle), 
+      mVehicle(vehicle),
 	  mCreature(character)
 {
 	initialize();
@@ -69,11 +71,11 @@ void Agent::initialize()
 		mType = AgentManager::AGENT_STD_NPC;
 		mVehicle = new SteeringVehicle(this, mCreature);
 	}
-    LOG_MESSAGE(Logger::AI, 
+    LOG_MESSAGE(Logger::AI,
         "created SteeringVehicle for Agent");
-    
+
 	mBehaviour = new SteeringMachine(NULL, mVehicle);
-    LOG_MESSAGE(Logger::AI, 
+    LOG_MESSAGE(Logger::AI,
         "created SteeringMachine for Agent");
 }
 
@@ -82,14 +84,14 @@ void Agent::addSteeringBehaviour(SteeringBehaviour* behaviour)
     behaviour->setParent(mBehaviour);
     behaviour->setController(mVehicle);
     mBehaviour->addState(behaviour);
-    LOG_MESSAGE(Logger::AI, 
+    LOG_MESSAGE(Logger::AI,
         "added SteeringBehaviour for Agent");
 }
 
 void Agent::clearSteeringBehaviours()
 {
     mBehaviour->clearStates();
-    LOG_MESSAGE(Logger::AI, 
+    LOG_MESSAGE(Logger::AI,
         "Cleared all SteeringBehaviours for Agent");
 }
 

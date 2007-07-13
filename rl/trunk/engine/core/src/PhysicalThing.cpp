@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 #include "PhysicalThing.h"
 
@@ -195,7 +196,7 @@ namespace rl
     void PhysicalThing::addForce(const Ogre::Vector3& force)
     {
         mBody->unFreeze();
-        mPendingForce += force;        
+        mPendingForce += force;
     }
 
     Ogre::Real PhysicalThing::getMass() const
@@ -227,7 +228,7 @@ namespace rl
         Node* node = entity->getParentNode();
         RlAssert(node,
             "Actor has to be placed in the scene in order to update its collision hull.");
-        
+
 
         Vector3 position;
         Quaternion orientation;
@@ -322,7 +323,7 @@ namespace rl
     void PhysicalThing::fitToPose(const Ogre::String& animName)
     {
 		CollisionPtr coll;
-        
+
         if (mPhysicalObject->isMeshObject())
         {
             MeshObject* meshObject = dynamic_cast<MeshObject*>(mPhysicalObject);
@@ -384,7 +385,7 @@ namespace rl
 
     void PhysicalThing::createPhysicsProxy(SceneNode* node)
 	{
-		if (!mBody) 
+		if (!mBody)
 		{
             Vector3 inertia;
             OgreNewt::CollisionPtr coll = createCollision(mPhysicalObject, inertia);
@@ -411,7 +412,7 @@ namespace rl
 
         // there is a difference between a meshobject and a 'normal' object
         // because a meshobject has got a mesh entity and therefore a it is
-        // likely that there will be more than one object with those collision 
+        // likely that there will be more than one object with those collision
         // primitives, so they need to get cached.
 
         if (mPhysicalObject->isMeshObject())
@@ -448,7 +449,7 @@ namespace rl
             mPoseCollisions.clear();
 
             Vector3 inertia;
-            
+
             // update the collision
 		    mBody->setCollision(createCollision(mPhysicalObject, inertia));
 		    if (mMass > 0.0 && mGeometryType != GT_MESH)

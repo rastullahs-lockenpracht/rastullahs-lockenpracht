@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 /**
  * \file PropertiesWindow.cpp
@@ -50,19 +51,19 @@ namespace rl {
         mMainTable->addColumn( (utf8*)"Key", 0, cegui_reldim(0.3));
         mMainTable->addColumn( (utf8*)"Type", 1, cegui_reldim(0.3));
         mMainTable->addColumn( (utf8*)"Value", 2, cegui_reldim(0.4));
-        
+
         centerWindow();
 
         bindDestroyWindowToXButton();
         bindDestroyWindowToClick(getWindow("PropertiesWindow/CloseButton"));
-	    
+
 		initialize(mObject);
 	}
 
     //------------------------------------------------------- Destructor
 
-	PropertiesWindow::~PropertiesWindow() 
-	{        
+	PropertiesWindow::~PropertiesWindow()
+	{
 	}
 
     //------------------------------------------------------- initialize
@@ -70,7 +71,7 @@ namespace rl {
 	void PropertiesWindow::initialize( PropertyHolder* object )
 	{
         // Fill header text fields with name and description
-        fillHeader(object);    
+        fillHeader(object);
 
         // Get the property set of the object
         PropertySet* props = object->getAllProperties();
@@ -82,7 +83,7 @@ namespace rl {
             propIter != props->end(); propIter++ )
         {
             Ogre::String key = propIter->first;
-            
+
             if( key == "description" || key == "name" )
                 continue;
 
@@ -181,7 +182,7 @@ namespace rl {
 
     //------------------------------------------------------- addPropertyInt
 
-    void PropertiesWindow::addPropertyInt(const Property& prop, 
+    void PropertiesWindow::addPropertyInt(const Property& prop,
         CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
@@ -196,8 +197,8 @@ namespace rl {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem(key + "  "), 0, rowCount);
             table->setItem(new ListboxTextItem("Int  "), 1, rowCount);
-            table->setItem(new ListboxTextItem(PropertyHelper::intToString(prop.toInt())), 
-                2, 
+            table->setItem(new ListboxTextItem(PropertyHelper::intToString(prop.toInt())),
+                2,
                 rowCount);
         }
         // Table has the two columns Type, Value
@@ -205,15 +206,15 @@ namespace rl {
         {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem("Int  "), 0, rowCount);
-            table->setItem(new ListboxTextItem(PropertyHelper::intToString(prop.toInt())), 
-                1, 
+            table->setItem(new ListboxTextItem(PropertyHelper::intToString(prop.toInt())),
+                1,
                 rowCount);
         }
     }
 
     //------------------------------------------------------- addPropertyIntPair
 
-    void PropertiesWindow::addPropertyIntPair(const Property& prop, 
+    void PropertiesWindow::addPropertyIntPair(const Property& prop,
         CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
@@ -231,10 +232,10 @@ namespace rl {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem(key + "  "), 0, rowCount);
             table->setItem(new ListboxTextItem("IntPair  "), 1, rowCount);
-            table->setItem(new ListboxTextItem( "( " + 
+            table->setItem(new ListboxTextItem( "( " +
                 PropertyHelper::intToString(intPair.first) + ", " +
-                PropertyHelper::intToString(intPair.second) + " )"), 
-                2, 
+                PropertyHelper::intToString(intPair.second) + " )"),
+                2,
                 rowCount);
         }
         // Table has the two columns Type, Value
@@ -242,17 +243,17 @@ namespace rl {
         {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem("IntPair  "), 0, rowCount);
-            table->setItem(new ListboxTextItem("( " + 
+            table->setItem(new ListboxTextItem("( " +
                 PropertyHelper::intToString(intPair.first) + ", " +
-                PropertyHelper::intToString(intPair.second) + " )"), 
-                1, 
+                PropertyHelper::intToString(intPair.second) + " )"),
+                1,
                 rowCount);
         }
     }
 
     //------------------------------------------------------- addPropertyIntTriple
 
-    void PropertiesWindow::addPropertyIntTriple(const Property& prop, 
+    void PropertiesWindow::addPropertyIntTriple(const Property& prop,
         CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
@@ -274,7 +275,7 @@ namespace rl {
                 PropertyHelper::intToString(intTriple.first) + ", " +
                 PropertyHelper::intToString(intTriple.second) + ", " +
                 PropertyHelper::intToString(intTriple.third) + " )"),
-                2, 
+                2,
                 rowCount);
         }
         // Table has the two columns Type, Value
@@ -285,15 +286,15 @@ namespace rl {
             table->setItem(new ListboxTextItem("( " +
                 PropertyHelper::intToString(intTriple.first) + ", " +
                 PropertyHelper::intToString(intTriple.second) + ", " +
-                PropertyHelper::intToString(intTriple.third) + " )"), 
-                1, 
+                PropertyHelper::intToString(intTriple.third) + " )"),
+                1,
                 rowCount);
-        } 
+        }
     }
 
     //------------------------------------------------------- addPropertyString
 
-    void PropertiesWindow::addPropertyString(const Property& prop, 
+    void PropertiesWindow::addPropertyString(const Property& prop,
         CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
@@ -308,8 +309,8 @@ namespace rl {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem(key + "  "), 0, rowCount);
             table->setItem(new ListboxTextItem("String    "), 1, rowCount);
-            table->setItem(new ListboxTextItem(prop.toString()), 
-                2, 
+            table->setItem(new ListboxTextItem(prop.toString()),
+                2,
                 rowCount);
         }
         // Table has the two columns Type, Value
@@ -317,15 +318,15 @@ namespace rl {
         {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem("String    "), 0, rowCount);
-            table->setItem(new ListboxTextItem(prop.toString()), 
-                1, 
+            table->setItem(new ListboxTextItem(prop.toString()),
+                1,
                 rowCount);
         }
     }
 
     //------------------------------------------------------- addPropertyBool
 
-    void PropertiesWindow::addPropertyBool(const Property& prop, 
+    void PropertiesWindow::addPropertyBool(const Property& prop,
         CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
@@ -340,8 +341,8 @@ namespace rl {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem(key + "  "), 0, rowCount);
             table->setItem(new ListboxTextItem("Bool  "), 1, rowCount);
-            table->setItem(new ListboxTextItem(PropertyHelper::boolToString(prop.toBool())), 
-                2, 
+            table->setItem(new ListboxTextItem(PropertyHelper::boolToString(prop.toBool())),
+                2,
                 rowCount);
         }
         // Table has the two columns Type, Value
@@ -349,15 +350,15 @@ namespace rl {
         {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem("Bool  "), 0, rowCount);
-            table->setItem(new ListboxTextItem(PropertyHelper::boolToString(prop.toBool())), 
-                1, 
+            table->setItem(new ListboxTextItem(PropertyHelper::boolToString(prop.toBool())),
+                1,
                 rowCount);
         }
     }
 
     //------------------------------------------------------- addPropertyReal
 
-    void PropertiesWindow::addPropertyReal(const Property& prop, 
+    void PropertiesWindow::addPropertyReal(const Property& prop,
         CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
        // Check column count
@@ -375,8 +376,8 @@ namespace rl {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem(key + "  "), 0, rowCount);
             table->setItem(new ListboxTextItem("Real  "), 1, rowCount);
-            table->setItem(new ListboxTextItem(CEGUI::String(buf)), 
-                2, 
+            table->setItem(new ListboxTextItem(CEGUI::String(buf)),
+                2,
                 rowCount);
         }
         // Table has the two columns Type, Value
@@ -384,15 +385,15 @@ namespace rl {
         {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem("Real  "), 0, rowCount);
-            table->setItem(new ListboxTextItem(CEGUI::String(buf)), 
-                1, 
+            table->setItem(new ListboxTextItem(CEGUI::String(buf)),
+                1,
                 rowCount);
         }
     }
 
     //------------------------------------------------------- addPropertyVector3
 
-    void PropertiesWindow::addPropertyVector3(const Property& prop, 
+    void PropertiesWindow::addPropertyVector3(const Property& prop,
         CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
@@ -419,8 +420,8 @@ namespace rl {
             table->setItem(new ListboxTextItem("Vector3  "), 1, rowCount);
             table->setItem(new ListboxTextItem("( " + CEGUI::String(buf1) + ", " +
                 CEGUI::String(buf2) + ", " +
-                CEGUI::String(buf3) + " )"), 
-                2 , 
+                CEGUI::String(buf3) + " )"),
+                2 ,
                 rowCount);
         }
         // Table has the two columns Type, Value
@@ -430,15 +431,15 @@ namespace rl {
             table->setItem(new ListboxTextItem("Vector3  "), 0, rowCount);
             table->setItem(new ListboxTextItem("( " + CEGUI::String(buf1) + ", " +
                 CEGUI::String(buf2) + ", " +
-                CEGUI::String(buf3) + " )"), 
-                1 , 
+                CEGUI::String(buf3) + " )"),
+                1 ,
                 rowCount);
-        } 
+        }
     }
 
     //------------------------------------------------------- addPropertyQuaternion
 
-    void PropertiesWindow::addPropertyQuaternion(const Property& prop, 
+    void PropertiesWindow::addPropertyQuaternion(const Property& prop,
         CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
@@ -472,15 +473,15 @@ namespace rl {
             table->setItem(new ListboxTextItem("Axis:   ( " +
                 CEGUI::String(buf_v1) + ", " +
                 CEGUI::String(buf_v2) + ", " +
-                CEGUI::String(buf_v3) + " )"), 
-                2, 
+                CEGUI::String(buf_v3) + " )"),
+                2,
                 rowCount);
 
             // Add second for the second IntTriple value
             table->addRow(rowCount + 1);
-            table->setItem(new ListboxTextItem("Degree: " + 
-                CEGUI::String(buf_angle)), 
-                2, 
+            table->setItem(new ListboxTextItem("Degree: " +
+                CEGUI::String(buf_angle)),
+                2,
                 rowCount + 1);
         }
         // Table has the two columns Type, Value
@@ -491,17 +492,17 @@ namespace rl {
             table->setItem(new ListboxTextItem("Axis:   ( " +
                 CEGUI::String(buf_v1) + ", " +
                 CEGUI::String(buf_v2) + ", " +
-                CEGUI::String(buf_v3) + " )"), 
-                2, 
+                CEGUI::String(buf_v3) + " )"),
+                2,
                 rowCount);
 
             // Add second for the second IntTriple value
             table->addRow(rowCount + 1);
-            table->setItem(new ListboxTextItem("Degree " + 
-                CEGUI::String(buf_angle)), 
-                2, 
+            table->setItem(new ListboxTextItem("Degree " +
+                CEGUI::String(buf_angle)),
+                2,
                 rowCount + 1);
-        } 
+        }
 
     }
 
@@ -513,16 +514,16 @@ namespace rl {
         // Type and Value and set tab text to key
         int tabCount = mTabPane->getTabCount();
         CEGUI::MultiColumnList* newTable = static_cast<CEGUI::MultiColumnList*>
-            (CEGUI::WindowManager::getSingleton().createWindow("RastullahLook/MultiColumnList", 
+            (CEGUI::WindowManager::getSingleton().createWindow("RastullahLook/MultiColumnList",
             "PropertiesWindow/PropertiesTabControl/" + key));
 
         // Set table properties
         newTable->setText(key);
-        newTable->setPosition(CEGUI::UVector2( 
-            CEGUI::UDim(0,0), 
+        newTable->setPosition(CEGUI::UVector2(
+            CEGUI::UDim(0,0),
             CEGUI::UDim(0,0)));
         newTable->setSize(CEGUI::UVector2(
-            CEGUI::UDim(1,0), 
+            CEGUI::UDim(1,0),
             CEGUI::UDim(1,0)));
         newTable->setUserSortControlEnabled(false);
         newTable->setFont("Vera Serif-8");
@@ -535,7 +536,7 @@ namespace rl {
 
         // Get access to the vector
         PropertyVector vProp = prop.toArray();
-        
+
         // Iterate through the vector entries and add them
         // to the table
         for(PropertyVector::const_iterator it = vProp.begin(); it != vProp.end(); it++)

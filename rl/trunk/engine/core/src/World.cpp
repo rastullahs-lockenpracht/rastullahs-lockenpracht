@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
+
 #include "World.h"
 
 #include <OgreRoot.h>
@@ -44,7 +46,7 @@ namespace rl {
 	{
 		mSceneMgr = SceneMgr;
 	}
-    
+
     //Enables / disables a 'sky plane' i.e.
     void World::setSkyPlane(bool enable, const Plane &plane,
         const String &materialName, Real scale, Real tiling,
@@ -69,11 +71,11 @@ namespace rl {
     //Enables / disables a 'sky dome' i.e.
     void World::setSkyDome(bool enable, const String &materialName,
         Real curvature, Real tiling, Real distance, bool drawFirst)
-    {   
+    {
         mSceneMgr->setSkyDome(enable, materialName, curvature,
             tiling, distance, drawFirst, Quaternion::ZERO);
     }
- 	    
+
     //Sets the fogging mode applied to the scene.
     void World::setFog(FogMode mode, const ColourValue &colour,
         Real expDensity, Real linearStart, Real linearEnd)
@@ -81,25 +83,25 @@ namespace rl {
         mSceneMgr->setFog(Ogre::FogMode(mode), colour,
             expDensity, linearStart, linearEnd );
     }
- 	    
+
     //Returns the fog mode for the scene.
     rl::World::FogMode World::getFogMode(void) const
     {
         return rl::World::FogMode(mSceneMgr->getFogMode( ));
     }
- 	    
+
     //Returns the fog colour for the scene.
     const ColourValue& World::getFogColour(void) const
     {
         return mSceneMgr->getFogColour();
     }
- 	    
+
     //Returns the fog start distance for the scene.
     Real World::getFogStart(void) const
     {
         return mSceneMgr->getFogStart();
     }
- 	    
+
     //Returns the fog end distance for the scene.
     Real World::getFogEnd(void) const
     {
@@ -110,14 +112,14 @@ namespace rl {
 	{
         return Vector3::ZERO;
 	}
-	
+
 	void World::setCastShadows(bool enabled)
 	{
 		Throw(OperationNotSupportedException,
 			"SceneManager does not support shadows");
 	}
 
-    void World::setShowBoundingBoxes( bool dis ) 
+    void World::setShowBoundingBoxes( bool dis )
     {
         mSceneMgr->showBoundingBoxes( dis );
     }

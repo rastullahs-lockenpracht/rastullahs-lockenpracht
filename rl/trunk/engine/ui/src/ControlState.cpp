@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Perl Artistic License.
 *
@@ -13,6 +13,8 @@
 *  along with this program; if not you can get it here
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
+#include "stdinc.h" //precompiled header
+
 #include "ControlState.h"
 
 #include <OgreSceneManager.h>
@@ -54,7 +56,7 @@ namespace rl {
 		if (mCharacter != NULL)
 		{
             mCharacterActor = mCharacter->getActor();
-            
+
 			if (mCharacter != NULL && mCharacterActor->_getSceneNode() == NULL)
 			{
 				Throw(IllegalArgumentException,
@@ -99,10 +101,10 @@ namespace rl {
             PhysicsManager::getSingleton().getMaterialID("character"),
             PhysicsManager::getSingleton().getMaterialID("character"))->setDefaultCollidable(0);
 	}
-    
+
     ControlState::~ControlState()
     {
-    
+
     }
 
 	bool ControlState::startAction(const CeGuiString& actionName, Creature* character)

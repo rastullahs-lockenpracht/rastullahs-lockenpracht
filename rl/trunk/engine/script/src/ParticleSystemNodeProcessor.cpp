@@ -13,6 +13,8 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
+
 #include "ParticleSystemNodeProcessor.h"
 
 #include "XmlHelper.h"
@@ -41,7 +43,7 @@ namespace rl
 
 		Ogre::String name = XmlHelper::getAttributeValueAsStdString(nodeElem, "name");
 
-		LOG_DEBUG(Logger::SCRIPT, 
+		LOG_DEBUG(Logger::SCRIPT,
             "Processing particle system node " + name);
 
 		Ogre::String material = XmlHelper::getAttributeValueAsStdString(nodeElem, "material");

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
+
 #include <boost/bind.hpp>
 #include <CEGUIWindowManager.h>
 #include <elements/CEGUIFrameWindow.h>
@@ -42,14 +44,14 @@ namespace rl
 		mWindowInputType(inputType),
 		mCloseOnEscape(closeOnEscape)
 	{
-        LOG_MESSAGE(Logger::UI, 
+        LOG_MESSAGE(Logger::UI,
 		    "Lade Fenster '" + Ogre::String(xmlfile.c_str()) + "'");
    		mWindow = AbstractWindow::loadWindow(xmlfile, mNamePrefix);
 		if (mWindow == NULL)
 		{
 			Throw(rl::IllegalStateException, Ogre::String("Could not load window '")+xmlfile.c_str()+"'.");
 		}
-		
+
 		getRoot()->addChildWindow(mWindow);
 
         if (modal)
@@ -67,7 +69,7 @@ namespace rl
 		mNormalAlpha = mWindow->getAlpha();
 		mName = mWindow->getName();
 		WindowManager::getSingleton().registerWindow(this);
-		mWindow->subscribeEvent(Window::EventActivated, 
+		mWindow->subscribeEvent(Window::EventActivated,
 			boost::bind(
 				&rl::WindowManager::handleMovedToFront,
 				rl::WindowManager::getSingletonPtr(),
@@ -90,17 +92,17 @@ namespace rl
 	}
 
 
-	CEGUI::Window* AbstractWindow::loadWindow(const CeGuiString& xmlfile, CeGuiString& prefix)    
+	CEGUI::Window* AbstractWindow::loadWindow(const CeGuiString& xmlfile, CeGuiString& prefix)
 	{
 		CeGuiString namePrefix;
 		if (prefix == "")
 			prefix.assign(StringConverter::toString(sNumAbstractWindows));
 		sNumAbstractWindows++;
 
-		CEGUI::Window* window = NULL;		
-		try 
+		CEGUI::Window* window = NULL;
+		try
 		{
-			window = CEGUI::WindowManager::getSingleton().loadWindowLayout(xmlfile, 
+			window = CEGUI::WindowManager::getSingleton().loadWindowLayout(xmlfile,
 				prefix);
 		}
 		catch(...)
@@ -164,23 +166,23 @@ namespace rl
 
 	Window* AbstractWindow::getWindow(const char* name, const char* requiredClass)
 	{
-		CEGUI::Window* wnd = 
+		CEGUI::Window* wnd =
 			CEGUI::WindowManager::getSingleton().getWindow(
 				mNamePrefix + (utf8*)name);
-		
+
 		if (wnd == NULL)
 			Throw(
-				rl::NullPointerException, 
-				"Window " 
-				+ Ogre::String(name) 
+				rl::NullPointerException,
+				"Window "
+				+ Ogre::String(name)
 				+ " is NULL");
 
 		if (requiredClass != NULL && !wnd->testClassName(requiredClass))
 			Throw(
-				rl::NullPointerException, 
+				rl::NullPointerException,
 				"Window "
-				+ Ogre::String(name) 
-				+ " has not the required class " 
+				+ Ogre::String(name)
+				+ " has not the required class "
 				+ Ogre::String(requiredClass));
 
 		return wnd;
@@ -230,7 +232,7 @@ namespace rl
 	{
 		return static_cast<Combobox*>(getWindow(name, "Combobox"));
 	}
-	
+
 	ComboDropList* AbstractWindow::getComboDropList(const char* name)
 	{
 		return static_cast<ComboDropList*>(getWindow(name, "ComboDropList"));

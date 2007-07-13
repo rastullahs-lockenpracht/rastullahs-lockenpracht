@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,7 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-
+#include "stdinc.h" //precompiled header
 
 #include "Item.h"
 #include "Armor.h"
@@ -68,10 +68,10 @@ namespace rl
 	{
 	}
 
-	Inventory::~Inventory() 
+	Inventory::~Inventory()
 	{
 	}
-	
+
 	void Inventory::markDirty()
 	{
 		mValuesUpToDate = false;
@@ -98,27 +98,27 @@ namespace rl
 		return allItems;
 	}
 
-	int Inventory::getOverallWeight() 
+	int Inventory::getOverallWeight()
 	{
 		if (!mValuesUpToDate)
 			updateStats();
 		return mCurrentWeight;
 	}
 
-	pair<int,int> Inventory::getOverallBe() 
+	pair<int,int> Inventory::getOverallBe()
 	{
 		if (!mValuesUpToDate)
 			updateStats();
 		return make_pair<int,int>(mCurrentBe, mCurrentBeByWeight);
 	}
 
-	int Inventory::getOverallRs() 
+	int Inventory::getOverallRs()
 	{
 		if (!mValuesUpToDate)
 			updateStats();
 		return mCurrentRs;
 	}
-	
+
 	void Inventory::updateStats()
 	{
 		calculateWeight(getAllItems());
@@ -187,7 +187,7 @@ namespace rl
         {
             Throw(rl::IllegalArgumentException, Ogre::String("Slot '")+slotName.c_str()+"' doesn't exist.");
         }
-        
+
         slotIter->second->setItem(item);
         item->setOwner(getOwner());
     }
@@ -199,7 +199,7 @@ namespace rl
         {
             Throw(rl::IllegalArgumentException, Ogre::String("Slot '")+slotName.c_str()+"' doesn't exist.");
         }
-        
+
 		return slotIter->second->isAllowed(item);
     }
 
@@ -253,7 +253,7 @@ namespace rl
 				Slot* curSlot = (*it).second;
 				if (curSlot->getItem())
 				{
-					contentProp[(*it).first] = 
+					contentProp[(*it).first] =
 						GameObjectManager::getSingleton().toProperty(curSlot->getItem());
 				}
 			}
@@ -262,7 +262,7 @@ namespace rl
 		}
 		return prop;
 	}
-    
+
 	void Inventory::setProperty(const Ogre::String& key, const Property& value)
 	{
 		if (key == Inventory::PROPERTY_CONTENT)

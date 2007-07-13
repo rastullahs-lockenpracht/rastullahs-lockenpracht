@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include "stdinc.h" //precompiled header
+
 #include "ContextInterpreter.h"
 #include "ContextConditionProcessor.h"
 #include "ScriptProcessor.h"
@@ -124,7 +126,7 @@ void ContextInterpreter::processSelection()
 
 DialogResponse* ContextInterpreter::interpret(const Response<CeGuiString>::GossipData& pData, AimlBot<CeGuiString>* pProcessHelper)
 {
-	mOptions.clear();	
+	mOptions.clear();
 	mResponses.clear();
 	mBot = pProcessHelper;
 	CeGuiString type;

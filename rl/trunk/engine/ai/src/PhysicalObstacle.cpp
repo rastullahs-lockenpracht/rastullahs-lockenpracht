@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
  *
@@ -13,14 +13,15 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
- 
- #include "PhysicalObstacle.h"
- #include "PhysicalThing.h"
- #include "Exception.h"
- #include <OpenSteer/Obstacle.h>
- #include <OgreNewt_Body.h>
- #include <OgreNewt_Collision.h>
- 
+#include "stdinc.h" //precompiled header
+
+#include "PhysicalObstacle.h"
+#include "PhysicalThing.h"
+#include "Exception.h"
+#include <OpenSteer/Obstacle.h>
+#include <OgreNewt_Body.h>
+#include <OgreNewt_Collision.h>
+
 using namespace Ogre;
 
 namespace rl {
@@ -30,33 +31,33 @@ namespace rl {
     {
         _update();
     }
-     
+
     PhysicalObstacle::~PhysicalObstacle()
     {
     }
-     
+
     OpenSteer::Obstacle *PhysicalObstacle::getObstacle() const
     {
         return mObstacle;
     }
-     
+
     void PhysicalObstacle::setObstacle(OpenSteer::Obstacle *obstacle)
     {
         mObstacle = obstacle; // TODO Need update?
     }
-    
+
     PhysicalThing *PhysicalObstacle::getPhysicalThing() const
     {
         return mPhysicalThing;
     }
-    
+
     void PhysicalObstacle::setPhysicalThing(PhysicalThing *thing)
     {
         mPhysicalThing = thing;
         mObstacle = NULL;	// question: shouldn't we check before doing this ?
         _update();
     }
-    
+
     void PhysicalObstacle::_update()
     {
     	OgreNewt::Body *body = mPhysicalThing->_getBody();

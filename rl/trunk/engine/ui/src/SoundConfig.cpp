@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -13,6 +13,8 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
+
 #include "SoundConfig.h"
 
 #include <boost/bind.hpp>
@@ -47,12 +49,12 @@ namespace rl
 			boost::bind(&SoundConfig::handleClose, this));
 
 		getWindow("SoundConfig/OK")->subscribeEvent(
-			Window::EventMouseClick, 
+			Window::EventMouseClick,
 			boost::bind(&SoundConfig::handleOK, this));
-            
+
 		mVolumeSound = getSlider("SoundConfig/VolumeSound");
 		mVolumeSound->setMaxValue(1.0);
-		mVolumeSound->setCurrentValue(	
+		mVolumeSound->setCurrentValue(
 			SoundManager::getSingleton()
 			.getActiveDriver()
 			->getDefaultSoundVolume());
@@ -62,7 +64,7 @@ namespace rl
 
 		mVolumeMusic = getSlider("SoundConfig/VolumeMusic");
 		mVolumeMusic->setMaxValue(1.0);
-		mVolumeMusic->setCurrentValue(	
+		mVolumeMusic->setCurrentValue(
 			SoundManager::getSingleton()
 			.getActiveDriver()
 			->getDefaultMusicVolume());
@@ -72,7 +74,7 @@ namespace rl
 
 		mVolumeMaster = getSlider("SoundConfig/VolumeMaster");
 		mVolumeMaster->setMaxValue(1.0);
-		mVolumeMaster->setCurrentValue(	
+		mVolumeMaster->setCurrentValue(
 			SoundManager::getSingleton()
 			.getActiveDriver()
 			->getMasterVolume());
@@ -96,11 +98,11 @@ namespace rl
 
 	bool SoundConfig::handleOK()
 	{
-		ListboxTextItem *item = 
+		ListboxTextItem *item =
 			dynamic_cast<ListboxTextItem*>(mDriverBox->getSelectedItem());
 		if (item != 0)
 		{
-			SoundDriver *activeDriver = SoundManager::getSingleton().getActiveDriver();        
+			SoundDriver *activeDriver = SoundManager::getSingleton().getActiveDriver();
 			if (item->getText() != activeDriver->getName())
 			{
 				// Nicht der aktive Treiber, also �ndern.
@@ -148,8 +150,8 @@ namespace rl
 
         mDriverBox->addItem(
             new ListboxTextItem(
-                wnd->getDriverName(), 
-                mDriverBox->getItemCount(), 
+                wnd->getDriverName(),
+                mDriverBox->getItemCount(),
                 wnd));
 	}
 

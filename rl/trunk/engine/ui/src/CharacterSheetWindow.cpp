@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
+
 #include "CharacterSheetWindow.h"
 
 #include <boost/bind.hpp>
@@ -41,7 +43,7 @@ CharacterSheetWindow::CharacterSheetWindow()
 	mTalentTable->addColumn((utf8*)"eBE", 2, cegui_reldim(0.1));
 	mTalentTable->addColumn((utf8*)"TW", 3, cegui_reldim(0.1));
 	mTalentTable->setUserSortControlEnabled(false);
-	
+
 	mLE = getWindow("CharacterSheet/CharacterSheet/LE");
 	mAE = getWindow("CharacterSheet/CharacterSheet/AE");
 	mAP = getWindow("CharacterSheet/CharacterSheet/AP");
@@ -50,9 +52,9 @@ CharacterSheetWindow::CharacterSheetWindow()
 	mProfession = getWindow("CharacterSheet/CharacterSheet/Profession");
 
 	bindDestroyWindowToXButton();
-	
+
 	/*for (int i=0; i<EIGENSCHAFT_COUNT; i++)
-		mEigenschaft[i] = 
+		mEigenschaft[i] =
 			getWindow(("CharacterSheet/CharacterSheet/Eigenschaften/"+
 				DsaManager::getSingleton().getEigenschaft(i)->getNameAbbreviation()).c_str());*/
 	mEigenschaft[0]= getWindow("CharacterSheet/CharacterSheet/Eigenschaften/MU");
@@ -102,7 +104,7 @@ void CharacterSheetWindow::updateValues()
 	mLE->setText("LeP: "+
 		StringConverter::toString(mCharacter->getLe())+"/"+
 		StringConverter::toString(mCharacter->getLeMax()));
-	
+
 	/*for (unsigned int eig = 0; eig < EIGENSCHAFT_COUNT; eig++)
 	{
 		CeGuiString name = DsaManager::getSingleton().getEigenschaft(eig)->getName();
@@ -126,7 +128,7 @@ void CharacterSheetWindow::updateValues()
 		+": "+ StringConverter::toString(mCharacter->getEigenschaft(E_KONSTITUTION)));
 	mEigenschaft[7]->setText(DsaManager::getSingleton().getEigenschaft(E_KOERPERKRAFT)->getName()
 		+": "+ StringConverter::toString(mCharacter->getEigenschaft(E_KOERPERKRAFT)));
-	
+
 	for (unsigned int row = 0; row < mTalentTable->getRowCount(); row++)
 	{
 		int tw = mCharacter->getTalent(

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
 /**
  * \file GameObjectInfoWindow.cpp
@@ -34,7 +35,7 @@ namespace rl {
 
     //------------------------------------------------------- Constructor
 
-	GameObjectInfoWindow::GameObjectInfoWindow(GameObject* go, Creature* character) 
+	GameObjectInfoWindow::GameObjectInfoWindow(GameObject* go, Creature* character)
 	 :  AbstractWindow("gameobjectinfowindow.xml", WIT_MOUSE_INPUT),
 		mGameObject(go),
 		mCharacter(character),
@@ -54,8 +55,8 @@ namespace rl {
 
     //------------------------------------------------------- Destructor
 
-	GameObjectInfoWindow::~GameObjectInfoWindow() 
-	{        
+	GameObjectInfoWindow::~GameObjectInfoWindow()
+	{
 	}
 
     //------------------------------------------------------- initialize
@@ -69,13 +70,13 @@ namespace rl {
 		{
 			mIcon->setProperty("Image", item->getImageName());
 		}
-		
-		
+
+
 		///@todo: Add Action Buttons
 		const ActionVector actions = mGameObject->getValidActions(mCharacter);
 		for (ActionVector::const_iterator it = actions.begin(); it != actions.end(); it++)
 		{
-            if ((*it)->getName() != GameObject::DEFAULT_VIEW_OBJECT_ACTION 
+            if ((*it)->getName() != GameObject::DEFAULT_VIEW_OBJECT_ACTION
                 && (*it)->getName() != GameObject::DEFAULT_VIEW_OBJECT_ACTION_DEBUG)
             {
                 addActionButton(*it);
@@ -93,7 +94,7 @@ namespace rl {
 		btn->setTooltipText(action->getDescription());
 		mActionButtonsArea->addChildWindow(btn);
 		mNumActionButtons++;
-		btn->subscribeEvent(Window::EventMouseClick, 
+		btn->subscribeEvent(Window::EventMouseClick,
 			boost::bind(&GameObjectInfoWindow::handleActivateAction, this, action));
 	}
 

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -13,6 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
 
 #include "SoundObject.h"
 #include "Actor.h"
@@ -28,12 +29,12 @@
 using namespace Ogre;
 
 namespace rl {
-   
+
 /**
  * @param sound. Der Sound, Besitz wird bernommen.
  * @author JoSch
  * @date 03-11-2005
- */   
+ */
 SoundObject::SoundObject(Sound *sound, const Ogre::String &name)
     : ActorControlledObject(sound)
 {
@@ -45,7 +46,7 @@ SoundObject::SoundObject(Sound *sound, const Ogre::String &name)
 /**
  * @author JoSch
  * @date 03-11-2005
- */   
+ */
 SoundObject::~SoundObject()
 {
     if (mMovableObject != NULL)
@@ -59,7 +60,7 @@ SoundObject::~SoundObject()
  * @return Immer false, weil kein Meshobjekt.
  * @author JoSch
  * @date 03-11-2005
- */   
+ */
 bool SoundObject::isMeshObject() const
 {
 	return false;
@@ -68,13 +69,13 @@ bool SoundObject::isMeshObject() const
 /**
  * @author JoSch
  * @date 03-11-2005
- */   
+ */
 void SoundObject::_update()
 {
     ActorControlledObject::_update();
     Actor *actor = getActor();
 
-    if (mMovableObject == NULL || actor == NULL) 
+    if (mMovableObject == NULL || actor == NULL)
     {
         return;
     }
@@ -87,7 +88,7 @@ void SoundObject::_update()
     if (isAttached())
     {
         getSound()->setPosition(actor->getWorldPosition());
-        getSound()->setDirection(actor->getWorldOrientation()); 
+        getSound()->setDirection(actor->getWorldOrientation());
 
        LOG_DEBUG(Logger::CORE, "Pos SoundObject: "
         + StringConverter::toString(actor->getWorldPosition().x) + " "
@@ -160,7 +161,7 @@ void SoundObject::unload()
  * @param Der bewegbare Sound
  * @author JoSch
  * @date 03-11-2005
- */   
+ */
 Sound* SoundObject::getSound() const
 {
     return static_cast<Sound*>(mMovableObject);
@@ -170,7 +171,7 @@ Sound* SoundObject::getSound() const
  * @return Immer "SoundObject"
  * @author JoSch
  * @date 03-11-2005
- */   
+ */
 String SoundObject::getObjectType() const
 {
     return "SoundObject";

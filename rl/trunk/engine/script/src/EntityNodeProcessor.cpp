@@ -13,6 +13,8 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "stdinc.h" //precompiled header
+
 #include "EntityNodeProcessor.h"
 
 #include <OgreEntity.h>
@@ -42,11 +44,11 @@ namespace rl
         {
             return false;
         }
-    
+
         Ogre::String entName = XmlHelper::getAttributeValueAsStdString(nodeElem, "name");
 
-        LOG_DEBUG(Logger::RULES, 
-            "Processing entity node " 
+        LOG_DEBUG(Logger::RULES,
+            "Processing entity node "
                 + entName);
 
         if (!XmlHelper::hasAttribute(nodeElem, "meshfile"))
@@ -54,7 +56,7 @@ namespace rl
             LOG_ERROR(Logger::RULES, "Entity node defines no meshfile attribute");
             return false;
         }
-        
+
         Ogre::String meshFile = XmlHelper::getAttributeValueAsStdString(nodeElem, "meshfile");
         if (entName == "")
         {
@@ -73,7 +75,7 @@ namespace rl
         {
             position = processVector3(posElem);
         }
-        else 
+        else
         {
             LOG_WARNING(Logger::RULES, "No position given for entity, used (0,0,0)");
         }
@@ -83,7 +85,7 @@ namespace rl
         {
             orientation = processQuaternion(oriElem);
         }
-        else 
+        else
         {
             LOG_WARNING(Logger::RULES, "No orientation given for entity, used Identity");
         }
@@ -137,14 +139,14 @@ namespace rl
 				processAnimation(newEnt, static_cast<DOMElement*>(cur));
 			}
 		}
-        
+
         return true;
     }
 
     void EntityNodeProcessor::createCollision(Entity* entity, Ogre::String meshName, DOMElement* physicsProxyElem)
 	{
         std::vector<OgreNewt::CollisionPtr> collisions;
-        
+
         Ogre::String physicsProxyType;
         if (physicsProxyElem == NULL || !XmlHelper::hasAttribute(physicsProxyElem, "type"))
         {

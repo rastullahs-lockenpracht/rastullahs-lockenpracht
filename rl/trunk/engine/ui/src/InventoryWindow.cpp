@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
+
 #include "InventoryWindow.h"
 
 #include <boost/bind.hpp>
@@ -71,7 +73,7 @@ namespace rl {
             CeGuiString curWndName = curWnd->getName();
             if (curWndName.find("InventoryWindow/Slots/") != CeGuiString::npos)
             {
-                CeGuiString slotname = 
+                CeGuiString slotname =
                     curWndName.substr(
                         curWndName.find("InventoryWindow/Slots/") + 22);
                 slotsInWindowDefinition[slotname] = curWnd;
@@ -86,12 +88,12 @@ namespace rl {
         for (Inventory::SlotMap::const_iterator it = slots.begin(); it != slots.end(); it++)
         {
             CeGuiString slotName = (*it).first;
-            std::map<CeGuiString, Window*>::iterator 
+            std::map<CeGuiString, Window*>::iterator
                 slotInWindowFile = slotsInWindowDefinition.find(slotName);
 
             if (slotInWindowFile != slotsInWindowDefinition.end())
             {
-                mSlotWindows[slotName] = (*slotInWindowFile).second; 
+                mSlotWindows[slotName] = (*slotInWindowFile).second;
 				mSlotWindows[slotName]->setUserString(SLOTNAME, slotName);
                 slotsInWindowDefinition.erase(slotInWindowFile);
                 LOG_DEBUG(Logger::UI, "Found slot "+slotName);
@@ -115,7 +117,7 @@ namespace rl {
             Item* item = inventory->getItem(slotName);
 			Window* slotWindow = (*it).second;
 			slotWindow->setDragDropTarget(true);
-			slotWindow->subscribeEvent(Window::EventDragDropItemDropped, 
+			slotWindow->subscribeEvent(Window::EventDragDropItemDropped,
 				boost::bind(&InventoryWindow::handleItemDroppedOnSlot, this, _1));
 
             if (item != NULL)
@@ -130,21 +132,21 @@ namespace rl {
         }
 
 		mWorldBackground->setDragDropTarget(true);
-		mWorldBackground->subscribeEvent(Window::EventDragDropItemDropped, 
+		mWorldBackground->subscribeEvent(Window::EventDragDropItemDropped,
 			boost::bind(&InventoryWindow::handleItemDroppedOnWorld, this, _1));
-		mWorldBackground->subscribeEvent(Window::EventMouseMove, 
+		mWorldBackground->subscribeEvent(Window::EventMouseMove,
 			boost::bind(&InventoryWindow::handleMouseMovedInWorld, this, _1));
-		mWorldBackground->subscribeEvent(Window::EventKeyDown, 
+		mWorldBackground->subscribeEvent(Window::EventKeyDown,
 			boost::bind(&InventoryWindow::handleKeys, this, _1, true));
-		mWorldBackground->subscribeEvent(Window::EventKeyUp, 
+		mWorldBackground->subscribeEvent(Window::EventKeyUp,
 			boost::bind(&InventoryWindow::handleKeys, this, _1, false));
     }
 
 	ItemDragContainer* InventoryWindow::createItemDragContainer(
 		Item* item, bool showdescription, const CeGuiString& slotName)
 	{
-		CeGuiString dragContainerName = 
-			mWindow->getName() +  "/item/" 
+		CeGuiString dragContainerName =
+			mWindow->getName() +  "/item/"
 			+ Ogre::StringConverter::toString(item->getId())+"_DragContainer";
 		ItemDragContainer* itemhandler = NULL;
 
@@ -218,7 +220,7 @@ namespace rl {
 				mSlotWindows[targetSlot]->addChildWindow(dragcont);
 				dragcont->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
 				dragcont->setItemParent(mInventory, targetSlot);
-				
+
 				return true;
 			}
 			else
@@ -238,7 +240,7 @@ namespace rl {
 			ItemDragContainer* dragcont = static_cast<ItemDragContainer*>(
 				evtArgs.dragDropItem);
 			Item* item = dragcont->getItem();
-			Ogre::Vector3 targetPosWindow( 
+			Ogre::Vector3 targetPosWindow(
 				dragcont->getPixelRect().d_left / getRoot()->getPixelSize().d_width,
 				dragcont->getPixelRect().d_top / getRoot()->getPixelSize().d_height,
 				-1);
@@ -263,8 +265,8 @@ namespace rl {
 				destroyDragContainer(dragcont);
 			}
 
-			Ogre::Vector3 targetPosWorldSpace = 
-				mInventory->getOwner()->getPosition() 
+			Ogre::Vector3 targetPosWorldSpace =
+				mInventory->getOwner()->getPosition()
 				+ mInventory->getOwner()->getOrientation()
 				* targetPosWindow; ///@todo check why coordinates are negative
 			item->placeIntoScene();
@@ -273,7 +275,7 @@ namespace rl {
 			LOG_DEBUG(Logger::UI,
 				"Dropped item "+item->getName()
 				+" to position "+Ogre::StringConverter::toString(targetPosWorldSpace));
-			
+
 			return true;
 
 		}
@@ -291,37 +293,37 @@ namespace rl {
 		mousePos.d_x /= getRoot()->getPixelSize().d_width;
 		mousePos.d_y /= getRoot()->getPixelSize().d_height;
 		Ogre::Ray camToWorld = camera->getCameraToViewportRay(
-			mousePos.d_x, mousePos.d_y); 
+			mousePos.d_x, mousePos.d_y);
 		Ogre::Vector3 rayStart = camera->getCamera()->getWorldPosition();
 		Ogre::Vector3 rayDir = camera->getDirectionFromScreenPosition(
-			mousePos.d_x, mousePos.d_y); 
+			mousePos.d_x, mousePos.d_y);
 
 		mMouseSelector->setRay(camToWorld.getOrigin(), camToWorld.getPoint(3));
 		mMouseSelector->updateSelection();
 		Selector::GameObjectVector objs = mMouseSelector->getAllSelectedObjects();
-		
+
 		///@todo select, ...
 		if (!objs.empty())
 		{
-			LOG_MESSAGE(Logger::UI, 
+			LOG_MESSAGE(Logger::UI,
 				"Selected "+Ogre::StringConverter::toString(objs.size())+" items.");
 			for (Selector::GameObjectVector::const_iterator it = objs.begin();
 				it != objs.end(); ++it)
 			{
-				LOG_MESSAGE(Logger::UI, 
+				LOG_MESSAGE(Logger::UI,
 					"Selected " + (*it)->getDescription());
 
-				ItemDragContainer* cont = 
+				ItemDragContainer* cont =
 					createItemDragContainer(static_cast<Item*>(*it), true);
 				if (cont)
 				{
 					mWorldBackground->addChildWindow(cont);
 					cont->setVisible(true);
-					
+
 					Ogre::Rectangle aabb = getCeGuiRectFromWorldAABB(camera,
 							(*it)->getActor()->_getSceneNode()->_getWorldAABB());
 					UVector2 posCont = UVector2(
-							UDim((aabb.left+aabb.right)/2.0, 0), 
+							UDim((aabb.left+aabb.right)/2.0, 0),
 							UDim((aabb.top+aabb.bottom)/2.0, 0));
 					posCont -= cont->getSize() / UVector2(UDim(2, 2), UDim(2, 2));
 					cont->setPosition(posCont);
@@ -380,23 +382,23 @@ namespace rl {
 				sel.setPosition(cameraActor->getWorldPosition());
 				sel.setOrientation(cameraActor->getWorldOrientation());
 				sel.setRadius(2.0);
-				
+
 				sel.updateSelection();
 				Selector::GameObjectVector v = sel.getAllSelectedObjects();
-				for (Selector::GameObjectVector::iterator 
+				for (Selector::GameObjectVector::iterator
 					it = v.begin(); it != v.end(); ++it)
 				{
-					ItemDragContainer* cont = 
+					ItemDragContainer* cont =
 						createItemDragContainer(static_cast<Item*>(*it), true);
 
 					if (cont)
 					{
 						mWorldBackground->addChildWindow(cont);
-						
+
 						Ogre::Rectangle aabb = getCeGuiRectFromWorldAABB(camera,
 							(*it)->getActor()->_getSceneNode()->_getWorldAABB());
 						UVector2 posCont = UVector2(
-							UDim((aabb.left+aabb.right)/2.0, 0), 
+							UDim((aabb.left+aabb.right)/2.0, 0),
 							UDim((aabb.top+aabb.bottom)/2.0, 0));
 						posCont -= cont->getSize() / UVector2(UDim(2, 2), UDim(2, 2));
 						cont->setPosition(posCont);
