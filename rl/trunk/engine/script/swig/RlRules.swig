@@ -576,7 +576,7 @@ namespace rl {
         virtual void decreaseStufe();
         virtual void enable();
         virtual void disable();
-        virtual RL_LONGLONG check() = 0;
+        virtual RL_LONGLONG test() = 0;
 
         virtual Status getStatus();
         virtual int getMod(rl::CeGuiString target, ModType type, ModTag tag);

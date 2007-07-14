@@ -260,8 +260,8 @@ namespace rl
 
 	void AbstractWindow::centerWindow()
 	{
-		Size screenSize = System::getSingleton().getRenderer()->getSize();
-		Size windowSize = mWindow->getPixelSize();
+		CEGUI::Size screenSize = System::getSingleton().getRenderer()->getSize();
+		CEGUI::Size windowSize = mWindow->getPixelSize();
 		float x = 0.5f * (screenSize.d_width - windowSize.d_width);
 		float y = 0.5f * (screenSize.d_height - windowSize.d_height);
 		mWindow->setPosition(CeGuiHelper::asAbsolute(CEGUI::Vector2(x, y)));

@@ -48,7 +48,7 @@ namespace rl
             for (Effects::iterator effIt = checkIt->second.begin(); effIt != checkIt->second.end(); effIt++)
             {
                 int nextCheck;
-                nextCheck = (*effIt)->check();
+                nextCheck = (*effIt)->test();
                 switch (nextCheck)
                 {
                   case Effect::REMOVE:
