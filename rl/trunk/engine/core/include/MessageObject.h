@@ -99,6 +99,20 @@ namespace rl
     template<int _MessageTypeId, typename Param1, typename Param2>
     class MessageObject_x;
 
+    //The final MessageObject. The real implementation is chosen through the given template parameters
+    template<int _MessageTypeId,
+        typename Param1 = MessageObject_EmptyParam,
+        typename Param2 = MessageObject_EmptyParam>
+    class MessageObject : public MessageObject_x<_MessageTypeId, Param1, Param2>
+    {
+    public:
+        virtual int getMessageTypeId()
+        {
+            return _MessageTypeId;
+        }
+    };
+
+
     template<int _MessageTypeId>
     class MessageObject_x<_MessageTypeId, MessageObject_EmptyParam, MessageObject_EmptyParam>
         : public MessageObject_0
@@ -139,18 +153,6 @@ namespace rl
 
     /////////////////////////////////////////////////////
 
-    //The final MessageObject. The real implementation is chosen through the given template parameters
-    template<int _MessageTypeId,
-        typename Param1 = MessageObject_EmptyParam,
-        typename Param2 = MessageObject_EmptyParam>
-    class MessageObject : public MessageObject_x<_MessageTypeId, Param1, Param2>
-    {
-    public:
-        virtual int getMessageTypeId()
-        {
-            return _MessageTypeId;
-        }
-    };
 
 }
 

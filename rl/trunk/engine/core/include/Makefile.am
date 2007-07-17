@@ -11,6 +11,7 @@
 	ContentModule.h \
 	CoreDefines.h \
 	CoreEvents.h \
+	CoreMessages.h \
 	CorePrerequisites.h \
 	CoreSubsystem.h \
 	DebugVisualisable.h \
@@ -34,6 +35,9 @@
 	ListenerMovable.h \
 	ListenerObject.h \
 	MergeableMeshObject.h \
+	MessageObject.h \
+	MessagePump.h \
+	MessageType.h \
 	MeshAnimation.h \
 	MeshObject.h \
 	MovableText.h \
