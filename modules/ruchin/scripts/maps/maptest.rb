@@ -13,7 +13,7 @@ $CORE.getWorld().setSkyBox(true, "rl/dsa07", 100.0)
 $SCRIPT.log("Tageslicht erstellen..");
 sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
 sunlight.getControlledObject().setDirection(-0.17101, -0.873647, 0.969846);
-sunlight.getControlledObject().setCastShadows(false);
+sunlight.getControlledObject().setCastShadows(true);
 
 sunlight.getControlledObject().setDiffuseColour(0.8,0.8,0.8);
 sunlight.getControlledObject().setSpecularColour(1.0,1.0,1.0);

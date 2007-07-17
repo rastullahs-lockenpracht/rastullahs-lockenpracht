@@ -15,8 +15,16 @@ fragment_program Basic_Pixel_Shader hlsl
 	entry_point ps_main
 }
 
+vertex_program Basic_Vertex_Shader_SR hlsl
+{
+  source SimpleShadowReceiver.hlsl
+  entry_point vs_main
+  target vs_1_1
+}
+
 material Basic_Vertex_Shader
 {
+	receive_shadows off
 	technique
 	{
 		//Rendering Pass: Pass 0 (pass index: #0 )
@@ -50,6 +58,17 @@ material Basic_Vertex_Shader
 				param_named skycolor float4 0.5 0.5 0.5 1.0
 				param_named groundcolor float4 0.10 0.10 0.10 1.0
 			}
+			
+			// HLSL Vertex Shader
+		/*	shadow_receiver_vertex_program_ref Basic_Vertex_Shader_SR
+			{
+				//Shader Constant: matWorldViewProjection
+				param_named_auto matWorldViewProjection worldviewproj_matrix
+				//Shader Constant: matWorld
+				param_named_auto matWorld world_matrix
+				//Shader Constant: matTextureViewProjection
+				param_named_auto matTextureViewProjection texture_viewproj_matrix
+			}*/
 
 			texture_unit
 			{

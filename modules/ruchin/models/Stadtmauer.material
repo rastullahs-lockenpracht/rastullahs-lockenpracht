@@ -1,32 +1,11 @@
 
-material Ruchin_Stadtmauer/Wand
+material Ruchin_Stadtmauer/Wand : Basic_Vertex_Shader_Variation
 {
-	technique
-	{
-		pass
-		{
-			ambient 0.341176 0.341176 0.341176 1
-			specular 0 0 0 1 10
 
-			texture_unit
-			{
-				texture_alias 0
-				texture Ruchin_stadtmauer.png
-				colour_op_ex modulate_x2 src_texture src_current
-				colour_op_multipass_fallback dest_colour zero
-			}
+set_texture_alias diffuse Ruchin_stadtmauer.png
 
-			texture_unit
-			{
-				texture_alias 1
-				texture Ruchin_stadtmauer_variation.png
-				tex_coord_set 1
-				colour_op_ex modulate_x2 src_texture src_current
-				colour_op_multipass_fallback dest_colour zero
-			}
-		}
+set_texture_alias variation Ruchin_stadtmauer_variation.png
 
-	}
 
 }
 

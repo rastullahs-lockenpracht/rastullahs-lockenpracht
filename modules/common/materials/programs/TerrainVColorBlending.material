@@ -67,6 +67,21 @@ material TerrainVColorBlending
 														  // fuer scale_Detail4 siehe Oben (Pixelshader)
 								
 			}
+			
+			
+			
+			shadow_receiver_vertex_program_ref Basic_Vertex_Shader_SR
+			{
+				//Shader Constant: matWorldViewProjection
+				param_named_auto matWorldViewProjection worldviewproj_matrix
+				//Shader Constant: matWorld
+				param_named_auto matWorld world_matrix
+				//Shader Constant: matTextureViewProjection
+				param_named_auto matTextureViewProjection texture_viewproj_matrix
+			}
+			
+			
+			
 			//Texture Schwarz
 			texture_unit
 			{

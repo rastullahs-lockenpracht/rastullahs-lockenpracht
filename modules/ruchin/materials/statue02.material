@@ -1,0 +1,7 @@
+material Statue_02 : NormalMapMaterialSpecular2Lights1UV
+{
+	set_texture_alias diffusemap Statue_02_diffuse.png
+	set_texture_alias normalmap Statue_02_normals.png
+	set_texture_alias specmap Statue_02_specular.png
+
+}
