@@ -27,6 +27,7 @@
 #include "Actor.h"
 #include "ActorManager.h"
 #include "ConfigurationManager.h"
+#include "CoreMessages.h"
 #include "CoreSubsystem.h"
 #include "Creature.h"
 #include "CombatControlState.h"
@@ -65,14 +66,14 @@ namespace rl {
         mGuiResourceProvider(NULL),
         mGuiSystem(NULL)
     {
-        CoreSubsystem::getSingletonPtr()->getWorld()->addSceneChangeListener(this);
+        mSceneClearingConnection =
+            MessagePump::getSingleton().addMessageHandler<MessageType_SceneClearing>(
+			    boost::bind(&UiSubsystem::onBeforeClearScene, this));
         mWindowFactory = new WindowFactory();
     }
 
     UiSubsystem::~UiSubsystem()
     {
-        CoreSubsystem::getSingletonPtr()->getWorld()->removeSceneChangeListener(this);
-
         delete mWindowFactory;
         delete mWindowManager;
 
@@ -188,11 +189,13 @@ namespace rl {
         }
     }
 
-    void UiSubsystem::onBeforeClearScene()
+    bool UiSubsystem::onBeforeClearScene()
     {
         setActiveCharacter(NULL);
         // Remove control states here too, in case that there has not yet been a
         // person set active.
         mInputManager->clearControlStates();
+
+        return true;
     }
 }

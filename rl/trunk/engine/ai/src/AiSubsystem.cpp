@@ -19,6 +19,7 @@
 
 #include "AiWorld.h"
 #include "AgentManager.h"
+#include "CoreMessages.h"
 #include "CoreSubsystem.h"
 #include "GameLoop.h"
 #include "Landmark.h"
@@ -46,7 +47,6 @@ AiSubsystem::AiSubsystem(void)
 
 AiSubsystem::~AiSubsystem(void)
 {
-    CoreSubsystem::getSingletonPtr()->getWorld()->removeSceneChangeListener(this);
 	GameLoop::getSingleton().removeTask(AgentManager::getSingletonPtr());
     AgentManager::getSingleton().removeAllAgents();
     mWorld->removeAllObstacles();
@@ -63,43 +63,34 @@ void AiSubsystem::initialize()
 	mWayPointGraphManager = new WayPointGraphManager();
     mWorld = new AiWorld();
 
-    CoreSubsystem::getSingletonPtr()->getWorld()->addSceneChangeListener(this);
+    mSceneLoadedConnection =
+        MessagePump::getSingleton().addMessageHandler<MessageType_SceneLoaded>(
+		    boost::bind(&AiSubsystem::onAfterSceneLoaded, this));
+    mSceneClearingConnection =
+        MessagePump::getSingleton().addMessageHandler<MessageType_SceneClearing>(
+		    boost::bind(&AiSubsystem::onBeforeClearScene, this));
+
     GameLoop::getSingleton().addTask(AgentManager::getSingletonPtr(), GameLoop::TG_LOGIC);
 }
 
-void AiSubsystem::onBeforeClearScene()
+bool AiSubsystem::onBeforeClearScene()
 {
     AgentManager::getSingleton().removeAllAgents();
     mWorld->removeAllObstacles();
+
+    return true;
 }
 
 
 
-void AiSubsystem::onAfterSceneLoaded()
+bool AiSubsystem::onAfterSceneLoaded()
 {
     // newton world hinzufügen
     Obstacle *newtonWorld = new NewtonWorldAsObstacle;
     newtonWorld->setSeenFrom(AbstractObstacle::both);
     mWorld->addObstacle(newtonWorld);
 
-    // äußere grenzen einfügen
-    //PhysicsManager
-/*
-//  create an obstacle as bounding box of the walkarea for npcs
-//  this should be accessable through scripting, the Obstacles should have names
-//  for easier access
-    BoxObstacle* o = new BoxObstacle(25,50,25);
-    o->setSeenFrom(AbstractObstacle::inside);
-    o->setPosition(Vec3(-40.0f,-10.0f, 0.0f));
-    o->setForward(0,0,-1);
-    addObstacle(o);
-
-    o = new BoxObstacle(2,50,2);
-    o->setSeenFrom(AbstractObstacle::outside);
-    o->setPosition(Vec3(-31.5f,-10.0f, -3.5f));
-    o->setForward(0,0,-1);
-    addObstacle(o);
-*/
+    return true;
 }
 
 Landmark* AiSubsystem::createLandmark(const Ogre::String& name, const Ogre::Vector3& position)

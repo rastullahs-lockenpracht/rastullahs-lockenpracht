@@ -13,31 +13,23 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h"
 
-/**
- * Einige Undefines, für unfreundliche defines in den Ruby-Headers.
- * Dort werden viele C-Funktionen überdeckt, die in Ogre aber benötigt werden.
- * Diese Datei muss nach einem Ruby-Header inkludiert werden, möglicherweise auch
- * noch davor, um vorherige Makros zu löschen.
- */
-#undef accept
-#undef bind
-#undef close
-#undef select
-#undef shutdown
-#undef snprintf
-#undef vsnprintf
-#undef Sleep
-#undef sleep
-#undef strcasecmp
-#undef rename
-#undef write
-#ifdef HAVE_CONFIG_H
-    #undef PACKAGE_VERSION
-    #undef PACKAGE_STRING
-    #undef PACKAGE_NAME
-    #undef PACKAGE_TARNAME
-#endif
-#undef max
-#undef min
+#include "MessagePump.h"
 
+template<> rl::MessagePump* Ogre::Singleton<rl::MessagePump>::ms_Singleton = 0;
+
+namespace rl
+{
+
+    void MessagePump::run(Ogre::Real elapsedTime)
+    {
+    }
+
+    const Ogre::String& MessagePump::getName() const
+    {
+        static Ogre::String name = "MessagePump";
+        return name;
+    }
+
+}

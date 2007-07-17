@@ -17,10 +17,13 @@
 
 #include "World.h"
 
+#include "Exception.h"
+#include "CoreMessages.h"
+#include "MessagePump.h"
+
 #include <OgreRoot.h>
 #include <OgreSceneManager.h>
 
-#include "Exception.h"
 
 using namespace Ogre;
 
@@ -129,39 +132,13 @@ namespace rl {
         return "__RL_WORLD_UNIQUE_NAME__" + StringConverter::toString(++mUniqueNameSeed);
     }
 
-    void World::addSceneChangeListener(SceneChangeListener* listener)
-    {
-        SceneChangeListenerSet::iterator it = mSceneChangeListeners.find(listener);
-        if (it == mSceneChangeListeners.end())
-            mSceneChangeListeners.insert(listener);
-        else
-            Throw(IllegalArgumentException, "Listener is already registered.");
-    }
-
-    void World::removeSceneChangeListener(SceneChangeListener* listener)
-    {
-        SceneChangeListenerSet::iterator it = mSceneChangeListeners.find(listener);
-        if (it != mSceneChangeListeners.end())
-            mSceneChangeListeners.erase(listener);
-        else
-            Throw(IllegalArgumentException, "Listener is not registered.");
-    }
-
     void World::fireAfterSceneLoaded()
     {
-        for (SceneChangeListenerSet::iterator it = mSceneChangeListeners.begin();
-            it != mSceneChangeListeners.end(); ++it)
-        {
-            (*it)->onAfterSceneLoaded();
-        }
+        MessagePump::getSingleton().sendMessage<MessageType_SceneLoaded>();
     }
 
     void World::fireBeforeClearScene()
     {
-        for (SceneChangeListenerSet::iterator it = mSceneChangeListeners.begin();
-            it != mSceneChangeListeners.end(); ++it)
-        {
-            (*it)->onBeforeClearScene();
-        }
+        MessagePump::getSingleton().sendMessage<MessageType_SceneClearing>();
     }
 }

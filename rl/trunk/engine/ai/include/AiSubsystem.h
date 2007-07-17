@@ -17,7 +17,10 @@
 #define __AiSubsystem_H__
 
 #include <OgreSingleton.h>
+
 #include "AiPrerequisites.h"
+
+#include "MessagePump.h"
 #include "World.h"
 
 namespace rl
@@ -33,9 +36,7 @@ namespace rl
 	/** Central core of AI
 	 * Handles creation of all AI related object Managers.
 	 */
-	class _RlAiExport AiSubsystem 
-		: public Ogre::Singleton<AiSubsystem>,
-		  public SceneChangeListener
+	class _RlAiExport AiSubsystem : public Ogre::Singleton<AiSubsystem>
 	{
 	public:
 		//! default constructor
@@ -53,11 +54,11 @@ namespace rl
 
 		/** Trigger function triggered after scene load.
 		 */
-		virtual void onAfterSceneLoaded();
+		virtual bool onAfterSceneLoaded();
 
 		/** Trigger function triggered before scene load.
 		 */
-        virtual void onBeforeClearScene();
+        virtual bool onBeforeClearScene();
 
 		/** Creates an named LandmarkPath.
 		 * @param name the path's name
@@ -101,6 +102,9 @@ namespace rl
 
 		std::map<Ogre::String, LandmarkPath*> mLandmarkPaths;
 		std::map<Ogre::String, Landmark*> mLandmarks;
+
+	    MessagePump::ScopedConnection mSceneLoadedConnection;
+	    MessagePump::ScopedConnection mSceneClearingConnection;
 	};
 
 	inline AiWorld* AiSubsystem::getWorld()

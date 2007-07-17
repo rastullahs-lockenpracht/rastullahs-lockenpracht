@@ -40,6 +40,7 @@ libRlCore_la_SOURCES = \
 	MergeableMeshObject.cpp \
 	MeshAnimation.cpp \
 	MeshObject.cpp \
+	MessagePump.cpp \
 	MovableText.cpp \
 	ParticleSystemObject.cpp \
 	PhysicsContactListener.cpp \

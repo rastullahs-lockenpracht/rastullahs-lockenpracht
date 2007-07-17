@@ -26,13 +26,6 @@ namespace rl {
 
     class Actor;
 
-    class _RlCoreExport SceneChangeListener
-    {
-    public:
-        virtual void onAfterSceneLoaded() {};
-        virtual void onBeforeClearScene() {};
-    };
-
     class _RlCoreExport World
     {
     public:
@@ -93,9 +86,6 @@ namespace rl {
 
         void setShowBoundingBoxes(bool dis);
 
-        void addSceneChangeListener(SceneChangeListener*);
-        void removeSceneChangeListener(SceneChangeListener*);
-
         /// Returns a name not yet used for an Ogre object.
         Ogre::String getUniqueName();
 
@@ -108,9 +98,6 @@ namespace rl {
         unsigned long mUniqueNameSeed;
 
         Actor* mActiveActor;
-
-        typedef std::set<SceneChangeListener*> SceneChangeListenerSet;
-        SceneChangeListenerSet mSceneChangeListeners;
 
         World(Ogre::SceneType sceneType);
         

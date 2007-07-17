@@ -23,6 +23,7 @@
 #include <OgreSingleton.h>
 
 #include "ControlState.h"
+#include "MessagePump.h"
 
 // Gar nicht schön, aber ansonsten gibt es unnötige Abhängigkeiten,
 // wenn man die Header hier inkludiert.
@@ -44,8 +45,7 @@ namespace rl {
     class WindowFactory;
     class WindowManager;
 
-    class _RlUiExport UiSubsystem : public SceneChangeListener,
-        public Ogre::Singleton<UiSubsystem>
+    class _RlUiExport UiSubsystem : public Ogre::Singleton<UiSubsystem>
     {
     public:
         static const char* CEGUI_ROOT;
@@ -60,13 +60,14 @@ namespace rl {
         ///@todo function feels misplaced here,
         void setActiveCharacter(Person* person);
 
-        /// from SceneChangeListener
-        virtual void onBeforeClearScene();
+        virtual bool onBeforeClearScene();
 
         void initializeSubsystem();
 
     private:
         Person* mCharacter;
+
+	    MessagePump::ScopedConnection mSceneClearingConnection;
 
         // Singletons
         InputManager* mInputManager;

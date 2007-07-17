@@ -34,6 +34,7 @@
 #include "DotSceneOctreeWorld.h"
 #include "Exception.h"
 #include "GameEventManager.h"
+#include "MessagePump.h"
 #include "GameLoop.h"
 #include "ZoneManager.h"
 #include "Logger.h"
@@ -68,6 +69,7 @@ namespace rl
         mScriptWrapper(NULL),
         mXmlResourceManager(NULL),
         mPhysicsManager(NULL),
+        mMessagePump(NULL),
         mGameLoop(NULL),
         mAnimationManager(NULL),
         mActorManager(NULL),
@@ -90,6 +92,7 @@ namespace rl
         delete mGameEventManager;
 		delete mWorld;
         delete mGameLoop;
+        delete mMessagePump;
         delete mJobScheduler;
         delete mAnimationManager;
         delete mActorManager;
@@ -263,6 +266,10 @@ namespace rl
 
         mWorld = new DotSceneOctreeWorld();
         mActorManager->setWorld(mWorld);
+
+        mMessagePump = new MessagePump();
+        GameLoop::getSingleton().addTask(mMessagePump, GameLoop::TG_LOGIC);
+        LOG_MESSAGE(Logger::CORE,"MessagePump erzeugt");
 
         mPhysicsManager = new PhysicsManager();
         GameLoop::getSingleton().addTask(mPhysicsManager, GameLoop::TG_PHYSICS);
