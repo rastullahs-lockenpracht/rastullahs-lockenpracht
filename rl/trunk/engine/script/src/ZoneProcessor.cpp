@@ -18,7 +18,7 @@
 #include "ZoneProcessor.h"
 
 #include "ActorManager.h"
-#include "GameObjectConstants.h"
+#include "RulesConstants.h"
 #include "ScriptSubsystem.h"
 #include "Trigger.h"
 #include "TriggerFactory.h"
