@@ -14,7 +14,7 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-// %template(GameObjectVector) std::vector< rl::GameObject* >;         
+//%template(GameObjectVector) std::vector< rl::GameObject* >;
 
 namespace rl {
 
@@ -598,13 +598,20 @@ namespace rl {
         void setEffectFactory(rl::EffectFactory* factory);
         static rl::EffectFactoryManager& getSingleton();
     };
-    
+
+    enum SlotType
+    {
+        SLOT_BONE,
+        SLOT_SUBMESH,
+        SLOT_MATERIAL
+    };
+
     class Inventory 
     {
     private:
         Inventory(rl::Creature* owner);
     public:
-		void addSlot(const rl::CeGuiString& name, const Ogre::String& meshpartname, int itemMask, bool boneSlot = true);
+        void addSlot(const rl::CeGuiString& name, const Ogre::String& meshpartname, int itemMask, SlotType type = SLOT_BONE);
         rl::Item* getItem(const rl::CeGuiString& slotName) const;
         void hold(rl::Item* item, const rl::CeGuiString& slot);
         void dropItem(const rl::CeGuiString& slotName);

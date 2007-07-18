@@ -20,7 +20,7 @@
 #include "RulesPrerequisites.h"
 
 #include "Action.h"
-#include "GameObjectConstants.h"
+#include "RulesConstants.h"
 #include "ObjectStateChangeEventSource.h"
 #include "Properties.h"
 #include "CoreDefines.h"

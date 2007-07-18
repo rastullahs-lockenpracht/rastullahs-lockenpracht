@@ -15,10 +15,11 @@
  */
 #include "stdinc.h" //precompiled header
 
+#include "Inventory.h"
+
 #include "Item.h"
 #include "Armor.h"
 #include "Weapon.h"
-#include "Inventory.h"
 #include "Exception.h"
 #include "ActorManager.h"
 #include "Creature.h"
@@ -218,20 +219,24 @@ namespace rl
     {
     }
 
-    void Inventory::addSlot(const CeGuiString& name, const Ogre::String& meshpartname, int itemMask, bool boneSlot)
+    void Inventory::addSlot(const CeGuiString& name, const Ogre::String& meshpartname, int itemMask, SlotType type)
     {
         if (mSlots.find(name) != mSlots.end())
         {
             Throw(rl::IllegalArgumentException, Ogre::String("Slot '")+name.c_str()+"' already exists.");
         }
 
-		if (boneSlot)
-		{
-			mSlots[name] = new BoneSlot(mOwner, name, itemMask, meshpartname);
-		}
-		else
-		{
-			mSlots[name] = new SubmeshSlot(mOwner, name, itemMask, meshpartname);
+		switch (type)
+        {
+            case SLOT_BONE:
+			    mSlots[name] = new BoneSlot(mOwner, name, itemMask, meshpartname);
+                break;
+            case SLOT_SUBMESH:
+			    mSlots[name] = new SubmeshSlot(mOwner, name, itemMask, meshpartname);
+                break;
+            case SLOT_MATERIAL:
+			    mSlots[name] = new MaterialSlot(mOwner, name, itemMask, meshpartname);
+                break;
 		}
     }
 

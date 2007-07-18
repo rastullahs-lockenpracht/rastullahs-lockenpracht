@@ -15,6 +15,7 @@ require 'SoundTest.rb'
 require 'effecttest.rb'
 require 'LightzoneTest.rb'
 require 'MapLoadingTest.rb'
+require 'MaterialSlotTest.rb'
 require 'MergeableMeshTest.rb'
 require 'WalkJobTest.rb'
 require 'SelectorTest.rb'
@@ -37,20 +38,21 @@ $SCRIPT.log("Hero ready")
 
 $SCRIPT.log("begin tests.");
 
-         DoorTest.new([0, 0, -5]).run()
-          NpcTest.new([-5, 0, 5]).run()
-   NpcCapsuleTest.new([0, 0, 5]).run()
-         TimeTest.new([-5, 0, -5]).run()
-ErrorHandlingTest.new([-10, 0, 5]).run()
-    InventoryTest.new([0, 0, 10]).run()
-  JobSequenceTest.new([5, 0, -5]).run()
-       EffectTest.new([5, 0, 5]).run()
-        SoundTest.new([10, 0, 10]).run()
+ MaterialSlotTest.new([-15, 0, -5]).run()
     LightzoneTest.new([-10, 0, -5]).run()
-   MapLoadingTest.new([-5, 0, -10]).run()
-MergeableMeshTest.new([10, 0, 0]).run()
-     SelectorTest.new([5, 0, 0]).run()
-	  WalkJobTest.new([0.0,0.0,0.0]).run()
+ErrorHandlingTest.new([-10, 0, 5]).run()
+         TimeTest.new([ -5, 0, -5]).run()
+   MapLoadingTest.new([ -5, 0, -10]).run()
+          NpcTest.new([ -5, 0, 5]).run()
+         DoorTest.new([  0, 0, -5]).run()
+	  WalkJobTest.new([  0, 0, -3]).run()
+   NpcCapsuleTest.new([  0, 0, 5]).run()
+    InventoryTest.new([  0, 0, 10]).run()
+  JobSequenceTest.new([  5, 0, -5]).run()
+     SelectorTest.new([  5, 0, 0]).run()
+       EffectTest.new([  5, 0, 5]).run()
+MergeableMeshTest.new([ 10, 0, 0]).run()
+        SoundTest.new([ 10, 0, 10]).run()
 
 $SCRIPT.log("tests initialisiert.");
 

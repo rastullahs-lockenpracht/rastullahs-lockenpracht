@@ -569,10 +569,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\GameObjectConstants.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\GameObjectManager.h"
 				>
 			</File>
@@ -618,6 +614,10 @@
 			</File>
 			<File
 				RelativePath=".\include\QuestListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\RulesConstants.h"
 				>
 			</File>
 			<File

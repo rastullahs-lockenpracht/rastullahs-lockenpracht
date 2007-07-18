@@ -340,7 +340,7 @@ namespace rl {
             if( subent == NULL )
                 continue;
 
-            // TODO - optimieren, nur wenn der Typ ver�ndert wird
+            // TODO - optimieren, nur wenn der Typ veraendert wird
             //if(StringUtil::endsWith(subent->getMaterialName(),nameExtension)
             // == highlight )
             //  continue;
@@ -382,5 +382,21 @@ namespace rl {
     bool MeshObject::isMeshObject() const
     {
         return true;
+    }
+
+    void MeshObject::setMaterial(const Ogre::String& material, const Ogre::String& submesh)
+    {
+        if (submesh == "")
+        {
+            ///@todo implement
+        }
+        else
+        {
+            SubEntity* subent = getEntity()->getSubEntity(submesh);
+            if (subent)
+            {
+                subent->setMaterialName(material);
+            }
+        }
     }
 }

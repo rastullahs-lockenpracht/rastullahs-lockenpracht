@@ -19,8 +19,8 @@
 
 #include "RulesPrerequisites.h"
 
-#include "Container.h"
 #include "Properties.h"
+#include "RulesConstants.h"
 
 namespace rl {
 
@@ -83,7 +83,7 @@ public:
     void ready(Item* item);
 
     Item* getItem(const CeGuiString& slotName) const;
-    void addSlot(const CeGuiString& name, const Ogre::String& meshpartname, int itemMask, bool boneSlot = true);
+    void addSlot(const CeGuiString& name, const Ogre::String& meshpartname, int itemMask, SlotType type = SLOT_BONE);
     const SlotMap& getAllSlots() const;
 
 	Creature* getOwner() const;

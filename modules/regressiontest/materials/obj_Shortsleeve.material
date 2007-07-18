@@ -1,0 +1,6 @@
+
+material obj_Shortsleeve : Basic_Vertex_Shader
+{
+set_texture_alias diffuse obj_shortsleeve02_diffuse.png
+
+}

@@ -6,8 +6,8 @@ module GameObjectProperties
         $SCRIPT.log("Check Ruby GameObject for properties.");
         
         #  Get all properties from the parent C++ class
-        ps = PropertySet.new
-        ps = super.getAllProperties()
+        #ps = PropertySet.new
+        ps = super()
     
         #  Get all instance variables from the ruby class
         aPropArray = instance_variables
@@ -26,5 +26,13 @@ module GameObjectProperties
         end
         return ps
     end
+	
+#	def setProperty(key, value)
+#		instance_variable_set("@_prop_"+key, value)
+#	end
+
+#	def getProperty(key)
+#		return instance_variable_get("@_prop_"+key)
+#	end
   
 end

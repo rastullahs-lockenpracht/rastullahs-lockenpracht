@@ -96,8 +96,10 @@
         <property name="capacity" type="REAL" data="20.0"/>
         <property name="volume" type="INTPAIR" data="8,6"/>
         <property name="size" type="INTPAIR" data="2,2"/>
+		<property name="mass" type="REAL" data="5.0"/>
+		<property name="geometrytype" type="STRING" data="ellipsoid"/>
         <property name="actions" type="ARRAY">
-        <property type="STRING" data="showcontainercontent"/>
+			<property type="STRING" data="showcontainercontent"/>
         </property>
         <property name="defaultaction" type="STRING" data="showcontainercontent"/>
     </gameobjectclass>
@@ -140,5 +142,20 @@
         <property name="geometrytype" type="STRING" data="box"/>
     </gameobjectclass>
 
-
+	<!--InventoryTest clothes-->
+    <gameobjectclass classid="Clothes #1" baseclass="Clothing">
+        <property name="name" type="STRING" data="Kleidung #1"/>
+        <property name="description" type="STRING" data="Kleidung, Variante 1"/>
+        <property name="meshfile" type="STRING" data="obj_shortsleeve.mesh"/>
+        <property name="geometrytype" type="STRING" data="box"/>
+        <property name="material" type="STRING" data="obj_Shortsleeve"/>
+    </gameobjectclass>
+    <gameobjectclass classid="Clothes #2" baseclass="Clothing">
+        <property name="name" type="STRING" data="Kleidung #2"/>
+        <property name="description" type="STRING" data="Kleidung, Variante 2"/>
+        <property name="meshfile" type="STRING" data="obj_shortsleeve_2.mesh"/>
+        <property name="geometrytype" type="STRING" data="box"/>
+        <property name="material" type="STRING" data="obj_Shortsleeve_2"/>
+    </gameobjectclass>
+	
 </GameObjectDefinitions>

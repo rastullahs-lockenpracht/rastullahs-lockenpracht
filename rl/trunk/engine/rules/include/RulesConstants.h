@@ -14,8 +14,8 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef __GAMEOBJECTSTATE_H__
-#define __GAMEOBJECTSTATE_H__
+#ifndef __RULESCONSTANTS_H__
+#define __RULESCONSTANTS_H__
 
 namespace rl {
 
@@ -41,6 +41,14 @@ namespace rl {
     static const unsigned long QUERYFLAG_PERSON     = 1<<7;
 
 	static const unsigned long QUERYFLAG_PLAYER     = 1<<8;
+
+
+    enum SlotType
+    {
+        SLOT_BONE,
+        SLOT_SUBMESH,
+        SLOT_MATERIAL
+    };
 }
 
-#endif // GAMEOBJECTSTATE
+#endif // __RULESCONSTANTS_H__

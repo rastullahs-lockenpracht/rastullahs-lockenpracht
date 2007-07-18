@@ -29,10 +29,10 @@ public:
     virtual void setItem(Item* item) = 0;
     Item* getItem() const;
     bool isAllowed(Item* item) const;
+    virtual ~Slot();
 
 protected:
     Slot(Creature* owner, const CeGuiString& name, int itemMask);
-    virtual ~Slot();
 
     Creature* mOwner;
     Item* mItem;
@@ -56,6 +56,16 @@ class SubmeshSlot : public Slot
 {
 public:
     SubmeshSlot(Creature* owner, const CeGuiString& name, int itemMask, const Ogre::String& submesh);
+    virtual void setItem(Item* item);
+
+private:
+    Ogre::String mSubmesh;
+};
+
+class MaterialSlot : public Slot
+{
+public:
+    MaterialSlot(Creature* owner, const CeGuiString& name, int itemMask, const Ogre::String& submesh);
     virtual void setItem(Item* item);
 
 private:

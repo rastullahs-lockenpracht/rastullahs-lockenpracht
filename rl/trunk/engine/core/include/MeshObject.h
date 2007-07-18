@@ -84,19 +84,27 @@ namespace rl {
 		/** creates a mesh animated to the specified pose.
 		 * @param animName name of the animation to be posed at.
 		 */
-		MeshObject *createPosedCopy(const Ogre::String& animName);
+		MeshObject* createPosedCopy(const Ogre::String& animName);
 
 		const Ogre::String &getMeshName() const;
 
 		virtual bool isMeshObject() const;
 
         /// Per Skeleton-Blend-Setting
-        bool getBlendCumulative(void) const;
+        bool getBlendCumulative() const;
         void setBlendCumulative(bool cumulative);
 
         void setHighlighted( bool highlight );
         
         virtual Ogre::String getObjectType() const;
+
+        /** Changes the Material of a submesh
+         * if the submesh is not specified (or the parameter is set to "") 
+         * the first submesh's material is changed
+         * @param material the name of the new material
+         * @param submesh (optional) the name of the submesh
+         */
+        void setMaterial(const Ogre::String& material, const Ogre::String& submesh);
     private:
 		Ogre::String mMeshName;
         Ogre::AxisAlignedBox mSize;

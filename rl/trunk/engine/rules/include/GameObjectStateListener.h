@@ -17,7 +17,7 @@
 #ifndef __RL_GAMEOBJECTSTATELISTENER_H__
 #define __RL_GAMEOBJECTSTATELISTENER_H__
 
-#include "GameObjectConstants.h"
+#include "RulesConstants.h"
 
 namespace rl {
 
