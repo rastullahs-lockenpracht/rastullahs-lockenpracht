@@ -41,13 +41,13 @@ const CeGuiString	Quest::KNOWN_NAMES[2] =
 		{	"UNKNOWN",
             "KNOWN"};
 
-const Ogre::String Quest::PROP_NAME = "str_name";
-const Ogre::String Quest::PROP_DESCRIPTION = "str_description";
-const Ogre::String Quest::PROP_KNOWN = "bool_known";
+const Ogre::String Quest::PROPERTY_ID = "id";
+const Ogre::String Quest::PROPERTY_NAME = "name";
+const Ogre::String Quest::PROPERTY_DESCRIPTION = "description";
+const Ogre::String Quest::PROPERTY_KNOWN = "known";
 
-Quest::Quest(const CeGuiString id, const CeGuiString name, const CeGuiString description)
-:	PropertySet(),
-    mId(id),
+Quest::Quest(const CeGuiString& id, const CeGuiString& name, const CeGuiString& description)
+:	mId(id),
 	mName(name),
 	mDescription(description),
 	mPartsToDo(1),
@@ -58,13 +58,17 @@ Quest::Quest(const CeGuiString id, const CeGuiString name, const CeGuiString des
 	mQuestBook(NULL),
     mSubquests()
 {
+	mAdditionalProperties = new PropertySet();
 }
 
 Quest::~Quest()
 {
-    for( QuestVector::iterator it = mSubquests.begin();
-        it != mSubquests.end(); it++ )
-           ScriptWrapper::getSingleton().disowned( (*it) );
+    for (QuestVector::iterator it = mSubquests.begin();
+        it != mSubquests.end(); ++it)
+    {
+       ScriptWrapper::getSingleton().disowned(*it);
+       delete *it;
+    }
     mSubquests.clear();
 }
 
@@ -293,51 +297,61 @@ void Quest::setKnown(bool known)
 
 const Property Quest::getProperty(const Ogre::String& key) const
 {
-    if (key == PROP_KNOWN)
+    if (key == PROPERTY_KNOWN)
     {
         return Property(mKnown);
     }
-    else if (key == PROP_NAME)
+    else if (key == PROPERTY_NAME)
+    {
+        return Property(mId);
+    }
+    else if (key == PROPERTY_NAME)
     {
         return Property(mName);
     }
-    else if (key == PROP_DESCRIPTION)
+    else if (key == PROPERTY_DESCRIPTION)
     {
         return Property(mDescription);
     }
     else
     {
-        return PropertySet::getProperty(key);
+        return mAdditionalProperties->getProperty(key);
     }
 }
 
 void Quest::setProperty(const Ogre::String& key, const Property& value)
 {
-    if (key == PROP_KNOWN)
+    if (key == PROPERTY_KNOWN)
     {
         mKnown = value.toBool();
     }
-    else if (key == PROP_NAME)
+    else if (key == PROPERTY_ID)
+    {
+        mId = value.toString();
+    }
+    else if (key == PROPERTY_NAME)
     {
         mName = value.toString();
     }
-    else if (key == PROP_DESCRIPTION)
+    else if (key == PROPERTY_DESCRIPTION)
     {
         mDescription = value.toString();
     }
     else
     {
-        PropertySet::setProperty(key, value);
+        mAdditionalProperties->setProperty(key, value);
     }
 }
 
 PropertySet* Quest::getAllProperties() const
 {
-    PropertySet* ps = PropertySet::getAllProperties();
+    PropertySet* ps = new PropertySet();
 
-    ps->setProperty(PROP_NAME, Property(mName));
-    ps->setProperty(PROP_DESCRIPTION, Property(mDescription));
-    ps->setProperty(PROP_KNOWN, Property(mKnown));
+    ps->setProperty(PROPERTY_ID, Property(mId));
+    ps->setProperty(PROPERTY_NAME, Property(mName));
+    ps->setProperty(PROPERTY_DESCRIPTION, Property(mDescription));
+    ps->setProperty(PROPERTY_KNOWN, Property(mKnown));
+    ps->setProperties(mAdditionalProperties);
 
     return ps;
 }

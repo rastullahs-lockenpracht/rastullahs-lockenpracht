@@ -29,11 +29,11 @@ namespace rl {
 
     typedef std::vector<Quest*> QuestVector;
 
-#undef SUCCEEDED
+    #undef SUCCEEDED
     /**
     * @brief Verwaltet einen Quest oder Subquest
     */
-    class _RlRulesExport Quest : public PropertySet
+    class _RlRulesExport Quest : public PropertyHolder
     {
     public:
         enum State
@@ -48,16 +48,19 @@ namespace rl {
         static const CeGuiString STATE_NAMES[5];
         static const CeGuiString KNOWN_NAMES[2];
 
-        static const Ogre::String PROP_NAME;
-        static const Ogre::String PROP_DESCRIPTION;
-        static const Ogre::String PROP_KNOWN;
+        static const Ogre::String PROPERTY_ID;
+        static const Ogre::String PROPERTY_NAME;
+        static const Ogre::String PROPERTY_DESCRIPTION;
+        static const Ogre::String PROPERTY_KNOWN;
 
         /**
         * @param id eine einzigartige ID, um den Quest wiederzufinden
         * @param name Titel des Quests
         * @param description Lange Beschreibung, die im Tagebuch angezeigt wird
         */
-        Quest(const CeGuiString id, const CeGuiString name, const CeGuiString description);
+        Quest(const CeGuiString& id, const CeGuiString& name = "", 
+            const CeGuiString& description = "");
+
         virtual ~Quest();
 
         /**
@@ -176,6 +179,7 @@ namespace rl {
         State mState;
         Quest* mParent;
         QuestBook* mQuestBook;
+		PropertySet* mAdditionalProperties;
 
         void checkDone();
         void setParent(Quest* parentQuest);

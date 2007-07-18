@@ -32,7 +32,8 @@ namespace rl {
         virtual const Property getProperty(const Ogre::String& key) const = 0;
         virtual void setProperty(const Ogre::String& key, const Property& value) = 0;
         virtual PropertySet* getAllProperties() const = 0;
-        virtual void setProperties(const PropertySet* props);
+        void setProperties(const PropertySet* props);
+        void setProperties(const PropertyMap& propmap);
     };
 
     class _RlCommonExport PropertySet : public PropertyHolder
@@ -40,12 +41,14 @@ namespace rl {
 	public:
         PropertySet();
         PropertySet(const PropertySet* ps);
+        PropertySet(const PropertyMap& propmap);
 
         virtual const Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const Property& value);
         virtual PropertySet* getAllProperties() const;
         const PropertySetMap::const_iterator begin() const;
         const PropertySetMap::const_iterator end() const;
+        PropertyMap toPropertyMap() const;
         
     private:
         PropertySetMap mProperties;

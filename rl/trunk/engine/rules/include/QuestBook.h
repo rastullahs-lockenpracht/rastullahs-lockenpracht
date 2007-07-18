@@ -33,20 +33,22 @@
 namespace rl {
 
 ///@todo Rename this class to reflect scope changes.
-class _RlRulesExport QuestBook : public EventSource
+class _RlRulesExport QuestBook : public EventSource, public PropertyHolder
 {
 public:
+    static const Ogre::String PROPERTY_QUESTS;
+    static const Ogre::String PROPERTY_JOURNAL;
+
 	QuestBook();
 	~QuestBook();
-
 
 	/**
 	 * Sucht einen Quest anhand einer ID
 	 * @return der Quest
 	 */
-	Quest* getQuest(const CeGuiString id);
+	Quest* getQuest(const CeGuiString id) const;
 
-	QuestVector getTopLevelQuests();
+	QuestVector getTopLevelQuests() const;
 
 	/**
 	 * Fuegt einen Quest hinzu
@@ -69,8 +71,16 @@ public:
 
     void _fireQuestBookChanged(Quest* quest, int reason);
 
+    virtual const Property getProperty(const Ogre::String& key) const;
+    virtual void setProperty(const Ogre::String& key, const Property& value);
+    virtual PropertySet* getAllProperties() const;
+
 private:
-	Quest* getQuest(Quest* parent, const CeGuiString id);
+	Quest* getQuest(Quest* parent, const CeGuiString id) const;
+    void clear();
+    void createRoot();
+    QuestVector getAllQuests() const;
+
 	Quest* mRootQuest;
     std::vector<JournalEntry*> mJournalEntries;
 	EventCaster<QuestEvent> mQuestEventCaster;

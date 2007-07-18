@@ -34,6 +34,15 @@ namespace rl {
         }
     }
 
+    void PropertyHolder::setProperties(const PropertyMap& propmap)
+    {
+        for (PropertyMap::const_iterator it = propmap.begin();
+            it != propmap.end(); it++)
+        {
+            setProperty((*it).first.c_str(), (*it).second);
+        }
+    }
+
     PropertySet::PropertySet()
         : PropertyHolder()
     {
@@ -45,6 +54,13 @@ namespace rl {
     {
         mProperties.clear();
         setProperties(ps);
+    }
+
+    PropertySet::PropertySet(const PropertyMap& propmap)
+        : PropertyHolder()
+    {
+        mProperties.clear();
+        convertToMap(propmap, mProperties);
     }
 
     const Property PropertySet::getProperty(const Ogre::String& key) const
@@ -76,5 +92,10 @@ namespace rl {
     const PropertySetMap::const_iterator PropertySet::end() const
     {
         return mProperties.end();
+    }
+
+    PropertyMap PropertySet::toPropertyMap() const
+    {
+        return convertToPropertyMap(mProperties);
     }
 }
