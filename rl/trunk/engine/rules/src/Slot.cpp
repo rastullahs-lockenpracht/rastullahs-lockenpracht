@@ -87,14 +87,26 @@ namespace rl {
 
     void SubmeshSlot::setItem(Item* item)
     {
-		///@todo: what to do if actor is null?
-		if (mOwner->getActor() != NULL)
+		///@todo: what to do if actor is null?, think about changing the inventory of an gameobject not in scene
+		if (mOwner->getActor())
 		{
 			MergeableMeshObject* mmo = dynamic_cast<MergeableMeshObject*>(
 				mOwner->getActor()->getControlledObject());
-			if (mmo != NULL)
+
+			if (mmo)
 			{
-				if (item == NULL)
+				if (item)
+				{
+					if (isAllowed(item))
+					{
+						item->setState(GOS_IN_POSSESSION);
+						mmo->replaceSubmesh(
+							mSubmesh,
+							item->getMeshfile().c_str());
+						mItem = item;
+					}
+				}
+				else
 				{
 					MeshPartMap::const_iterator it = mOwner->getMeshParts().find(mSubmesh);
 					if (it != mOwner->getMeshParts().end())
@@ -109,17 +121,6 @@ namespace rl {
 					}
 					mItem = NULL;
 				}
-				else
-				{
-					if (isAllowed(item))
-					{
-						item->setState(GOS_IN_POSSESSION);
-						mmo->replaceSubmesh(
-							mSubmesh,
-							item->getMeshfile().c_str());
-						mItem = item;
-					}
-				}
 			}
 
             if (mOwner->getActor()
@@ -129,4 +130,46 @@ namespace rl {
             }
 		}
     }
+
+    MaterialSlot::MaterialSlot(Creature* owner, const CeGuiString& name, int itemMask, const Ogre::String& submesh)
+      : Slot(owner, name, itemMask),
+        mSubmesh(submesh)
+    {
+    }
+
+    void MaterialSlot::setItem(Item* item)
+    {
+        if (item)
+        {
+            try
+            {
+                CeGuiString mat = item->getProperty("material").toString();
+
+                ///@todo: what to do if actor is null?, think about changing the inventory of an gameobject not in scene
+		        if (mOwner->getActor())
+		        {
+			        MeshObject* mo = dynamic_cast<MeshObject*>(
+				        mOwner->getActor()->getControlledObject());
+
+			        if (mo)
+			        {
+                        mo->setMaterial(mat.c_str(), mSubmesh);
+                    }
+                }
+            }
+            catch (const IllegalArgumentException&)
+            {
+                LOG_ERROR(Logger::RULES, "Item " + item->getName() + " has no property material.");
+            }
+            catch (const WrongFormatException&)
+            {
+                LOG_ERROR(Logger::RULES, "Item " + item->getName() + " has a property material, but it is no string property.");
+            }
+        }
+        else
+        {
+            ///@todo reset material?
+        }
+    }
+
 } // namespace rl
