@@ -2,9 +2,8 @@ require 'util/vector_util.rb'
 require 'testcase.rb'
 
 class SelectorTest < TestCase
-    include Math
 
-    @@radius = 5
+    @@radius = 2.5
     
     def execute()
         min_base = [-@@radius, 0.05, -@@radius]
