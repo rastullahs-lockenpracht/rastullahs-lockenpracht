@@ -27,7 +27,7 @@ using namespace std;
 
 namespace rl {
 
-	const UintPair Container::NO_SPACE_FOR_ITEM = make_pair(1999999999, 1999999999);
+	const IntPair Container::NO_SPACE_FOR_ITEM = make_pair(1999999999, 1999999999);
 
     const Ogre::String Container::CLASS_NAME = "Container";
 
@@ -37,7 +37,7 @@ namespace rl {
     const Ogre::String Container::PROPERTY_CONTENT_OBJECTS = "objects";
     const Ogre::String Container::PROPERTY_CONTENT_POSITIONS = "positions";
 
-    Container::Container(unsigned int id)
+    Container::Container(int id)
         : Item(id),
           mCapacity(0.0),
 		  mVolume(std::make_pair(1,1))
@@ -59,12 +59,12 @@ namespace rl {
         mCapacity = capacity;
     }
 
-    void Container::setVolume(unsigned int x, unsigned int y)
+    void Container::setVolume(int x, int y)
     {
         mVolume = make_pair(x, y);
     }
 
-    std::pair<unsigned int,unsigned int> Container::getVolume() const
+    std::pair<int,int> Container::getVolume() const
     {
         return mVolume;
     }
@@ -94,7 +94,7 @@ namespace rl {
         return addItem(item, findPositionWithEnoughSpace(item->getSize()));
     }
 
-    bool Container::addItem(Item* item, UintPair position)
+    bool Container::addItem(Item* item, IntPair position)
     {
         if(item == NULL)
         {
@@ -102,7 +102,7 @@ namespace rl {
         }
 
 
-        UintPair pos = position;
+        IntPair pos = position;
 		if (!canPlaceAt(item, pos.first, pos.second))
 		{
 			pos = findPositionWithEnoughSpace(item->getSize());
@@ -141,7 +141,7 @@ namespace rl {
 		return mItems.size();
 	}
 
-    bool Container::canPlaceAt(Item* item, unsigned int xPos, unsigned int yPos) const
+    bool Container::canPlaceAt(Item* item, int xPos, int yPos) const
 	{
 		int xSize = item->getSize().first;
 		int ySize = item->getSize().second;
@@ -155,9 +155,9 @@ namespace rl {
             return false;
         }
 
-		for (unsigned int x = xPos; x < (xPos + xSize); x++)
+		for (int x = xPos; x < (xPos + xSize); x++)
         {
-			for (unsigned int y = yPos; y < (yPos + ySize); y++)
+			for (int y = yPos; y < (yPos + ySize); y++)
             {
                 LOG_DEBUG2(Logger::RULES,
 					Ogre::String("Checking Point in Backpack: Point x:")
@@ -177,7 +177,7 @@ namespace rl {
 		return true;
 	}
 
-    void Container::setItemPosition(Item* item, unsigned int xPos, unsigned int yPos)
+    void Container::setItemPosition(Item* item, int xPos, int yPos)
     {
         if (mItemPositions.find(item) == mItemPositions.end())
         {
@@ -187,9 +187,9 @@ namespace rl {
         mItemPositions[item] = make_pair(xPos, yPos);
     }
 
-	UintPair Container::getItemPosition(Item* item) const
+	IntPair Container::getItemPosition(Item* item) const
     {
-		std::map<Item*, UintPair >::const_iterator it =
+		std::map<Item*, IntPair>::const_iterator it =
 			mItemPositions.find(item);
         if (it == mItemPositions.end())
         {
@@ -199,11 +199,11 @@ namespace rl {
 		return (*it).second;
     }
 
-    UintPair Container::findPositionWithEnoughSpace(UintPair space) const
+    IntPair Container::findPositionWithEnoughSpace(IntPair space) const
     {
-		for (unsigned int x = 0; x < mVolume.first; x++)
+		for (int x = 0; x < mVolume.first; x++)
         {
-			for (unsigned int y = 0; y < mVolume.second; y++)
+			for (int y = 0; y < mVolume.second; y++)
             {
 				if (isFree(x, y) && checkSpace(x, y, space))
                 {
@@ -214,7 +214,7 @@ namespace rl {
 		return NO_SPACE_FOR_ITEM;
 	}
 
-    bool Container::checkSpace(unsigned int xStart, unsigned int yStart, pair<unsigned int,unsigned int> space) const
+    bool Container::checkSpace(int xStart, int yStart, pair<int,int> space) const
     {
 		// Falls Kästchen nicht mehr im Rucksack, ist auch kein Platz mehr :)
         if ((xStart+space.first) > mVolume.first
@@ -223,9 +223,9 @@ namespace rl {
 			return false;
 		}
 
-		for (unsigned int x = 0; x < space.first; x++)
+		for (int x = 0; x < space.first; x++)
         {
-			for (unsigned int y = 0; y < space.second; y++)
+			for (int y = 0; y < space.second; y++)
             {
                 if (!isFree(xStart+x, yStart+y))
                 {
@@ -236,18 +236,18 @@ namespace rl {
 		return true;
 	}
 
-    bool Container::isFree(unsigned int x, unsigned int y) const
+    bool Container::isFree(int x, int y) const
     {
         return getItemAt(x, y) == NULL;
     }
 
-    Item* Container::getItemAt(unsigned int x, unsigned int y) const
+    Item* Container::getItemAt(int x, int y) const
     {
-        for (map<Item*, UintPair >::const_iterator iter = mItemPositions.begin();
+        for (map<Item*, IntPair >::const_iterator iter = mItemPositions.begin();
             iter != mItemPositions.end(); iter++)
         {
             Item* item = (*iter).first;
-            UintPair pos = (*iter).second;
+            IntPair pos = (*iter).second;
 
             if (pos.first <= x
                 && pos.second <= y
@@ -292,7 +292,7 @@ namespace rl {
 			for (size_t idx = 0; idx < objects.size(); ++idx)
 			{
 				Property curObjProp = objects[idx];
-				UintPair curObjPos = positions[idx].toIntPair();
+				IntPair curObjPos = positions[idx].toIntPair();
 
 				Item* cur = dynamic_cast<Item*>(
 					GameObjectManager::getSingleton().createGameObjectFromProperty(curObjProp));
@@ -324,7 +324,7 @@ namespace rl {
 			for (ItemSet::const_iterator it = mItems.begin(); it != mItems.end(); ++it)
 			{
 				Item* cur = *it;
-				UintPair pos = getItemPosition(cur);
+				IntPair pos = getItemPosition(cur);
 				objects.push_back(GameObjectManager::getSingleton().toProperty(cur));
 				positions.push_back(Property(pos));
 			}
