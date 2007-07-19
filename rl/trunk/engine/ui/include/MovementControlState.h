@@ -151,6 +151,16 @@ namespace rl {
         //void interpolateAnimationLookAtOffset(std::string actAnim, std::string newAnim, Ogre::Real factor);
 
 
+        // only used in the two functions above
+        std::vector<Ogre::Vector3> mCharPositionsBuffer;
+        size_t mCharPositionsBufferIdx;
+        Ogre::Real mCharacterOccludedTime;
+        unsigned int mCharacterOccludedFrameCount;
+        Ogre::Real mLastDistance;
+        Ogre::Real mTimeOfLastCollision;
+        bool mIsPathfinding;
+        unsigned int mLastReachableBufPos;
+
         /** Does all camera-stuff, moves the camera to the right position 
         * and does pathfinding (in a very simple way)
         * @warning this does only work well, if the character's material is not used for other objects!

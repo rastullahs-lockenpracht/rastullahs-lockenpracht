@@ -95,7 +95,15 @@ namespace rl {
         mRaycast(new PhysicsMaterialRaycast()),
         mSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager()),
         mCombatSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager(),
-            QUERYFLAG_CREATURE)
+            QUERYFLAG_CREATURE),
+        mCharPositionsBuffer(20),
+        mCharPositionsBufferIdx(-1),
+        mCharacterOccludedTime(0),
+        mCharacterOccludedFrameCount(0),
+        mLastDistance(0.0f),
+        mTimeOfLastCollision(0.0f),
+        mIsPathfinding (false),
+        mLastReachableBufPos(1)
     {
         DebugWindow::getSingleton().registerPage(msDebugWindowPageName);
 
@@ -572,33 +580,13 @@ namespace rl {
         mCamBody->getPositionOrientation(camPos, camOri);
         SceneNode* cameraNode = mCameraActor->_getSceneNode();
 
-/*
-        // Ringbuffer mit Positionen der Kamera
-        static std::vector<Ogre::Vector3> camPositionsBuffer(20);
-        static size_t camPositionsBufferIdx = -1;
-        camPositionsBufferIdx = (camPositionsBufferIdx + 1) % camPositionsBuffer.size();
-        camPositionsBuffer[camPositionsBufferIdx] = camPos;
 
-        // Ringbuffer mit optimalen Positionen der Kamera
-        static std::vector<Ogre::Vector3> camOptPositionsBuffer(20);
-        static size_t camOptPositionsBufferIdx = -1;
-        camOptPositionsBufferIdx = (camOptPositionsBufferIdx + 1) % camOptPositionsBuffer.size();
-*/
         Vector3 optimalCamPos = calculateOptimalCameraPosition(true, timestep);
         charPos = charPos + charOri * virtualCamOri * mLookAtOffset;
-//        camOptPositionsBuffer[camOptPositionsBufferIdx] = optimalCamPos;
-
 
         // Ringbuffer mit Positionen des Characters
-        static std::vector<Ogre::Vector3> charPositionsBuffer(20);
-        static size_t charPositionsBufferIdx = -1;
-        charPositionsBufferIdx = (charPositionsBufferIdx + 1) % charPositionsBuffer.size();
-        charPositionsBuffer[charPositionsBufferIdx] = charPos;
-
-
-        static Real characterOccludedTime = 0;
-        static unsigned int characterOccludedFrameCount = 0;
-
+        mCharPositionsBufferIdx = (mCharPositionsBufferIdx + 1) % mCharPositionsBuffer.size();
+        mCharPositionsBuffer[mCharPositionsBufferIdx] = charPos;
 
 
         // Kamera-Gr�e beziehen
@@ -647,11 +635,11 @@ namespace rl {
             Real maxdistance = Math::Pow(1.5f * mDesiredDistance + 1.4f, 2);
             if( infoCastChar.mBody || (camPos - charPos).squaredLength() > maxdistance)
             {
-                characterOccludedTime += timestep;
-                characterOccludedFrameCount++;
+                mCharacterOccludedTime += timestep;
+                mCharacterOccludedFrameCount++;
 
                 // falls zu lange, Kamera resetten:
-                if( characterOccludedTime > 0.500f && characterOccludedFrameCount > 10 )
+                if( mCharacterOccludedTime > 0.500f && mCharacterOccludedFrameCount > 10 )
                 {
                     resetCamera();
                     return;
@@ -659,7 +647,7 @@ namespace rl {
 
             }
             else
-                characterOccludedTime = 0;
+                mCharacterOccludedTime = 0;
 
             if( infoCastOptPos.mBody )
             {
@@ -701,8 +689,6 @@ namespace rl {
             }
 
 
-            static bool isPathfinding (false);
-            static unsigned int lastReachableBufPos;
             // gibt an, ob schon gebufferte Daten fr den
             // neuen Weg existieren und dort weitergemacht werden kann,
             // oder ob neu nach einem Weg gesucht werden muss!
@@ -715,9 +701,9 @@ namespace rl {
                 // durch das spring-Acc-Damping System sollten die Bewegungen trotzdem flssig
                 // und weich (keine scharfen Kurven) erscheinen
 
-                size_t buffSize = charPositionsBuffer.size();
+                size_t buffSize = mCharPositionsBuffer.size();
 
-                if( !isPathfinding )
+                if( !mIsPathfinding )
                 {
                     LOG_DEBUG(Logger::UI, " Pathfinding der Kamera sollte jetzt anfangen!");
 
@@ -731,7 +717,7 @@ namespace rl {
                             world,
                             &materialVector,
                             camPos,
-                            charPositionsBuffer[ (charPositionsBufferIdx - delta) % buffSize ],
+                            mCharPositionsBuffer[ (mCharPositionsBufferIdx - delta) % buffSize ],
                             true);
 
                         if( !info.mBody )
@@ -742,14 +728,14 @@ namespace rl {
                     {
                         // is wohl irgendwas schiefgegangen!
                         LOG_MESSAGE(Logger::UI, " Der Ringbuffer mit den Player-Positionen scheint zu klein zu sein; Pathfinding der Kamera fehlgeschlagen! ");
-                        isPathfinding = false;
+                        mIsPathfinding = false;
                         resetCamera();
                         return;
                     }
-                    lastReachableBufPos = delta;
+                    mLastReachableBufPos = delta;
 
                     // auf zu der ermittelten Position!
-                    optimalCamPos = charPositionsBuffer[ (charPositionsBufferIdx - lastReachableBufPos) % buffSize ];
+                    optimalCamPos = mCharPositionsBuffer[ (mCharPositionsBufferIdx - mLastReachableBufPos) % buffSize ];
                 }
                 else
                 {
@@ -757,30 +743,30 @@ namespace rl {
 
 
                     // suche von lastReachableBufPos aus der letzten Frame nach neuen erreichbaren Buffer-Positionen
-                    unsigned int delta = lastReachableBufPos; // das ist die von der letzten Frame!
+                    unsigned int delta = mLastReachableBufPos; // das ist die von der letzten Frame!
                     while ( delta > 0 ) // delta = 0 braucht nicht berprft zu werden, wurde oben schon ausgeschlossen!
                     {
                         RaycastInfo info = mRaycast->execute(
                             world,
                             &materialVector,
                             camPos,
-                            charPositionsBuffer[ (charPositionsBufferIdx - delta) % buffSize ],
+                            mCharPositionsBuffer[ (mCharPositionsBufferIdx - delta) % buffSize ],
                             true);
 
                         if( info.mBody )
                             break;
                         delta--;
                     }
-                    lastReachableBufPos = delta + 1;
+                    mLastReachableBufPos = delta + 1;
 
                     // auf zu der ermittelten Position!
-                    optimalCamPos = charPositionsBuffer[ (charPositionsBufferIdx - lastReachableBufPos) % buffSize ];
+                    optimalCamPos = mCharPositionsBuffer[ (mCharPositionsBufferIdx - mLastReachableBufPos) % buffSize ];
                 }
-                isPathfinding = true; // so zum Testen noch keine Optimierung (doppelte Prfung gleicher sachen)
+                mIsPathfinding = true; // so zum Testen noch keine Optimierung (doppelte Prfung gleicher sachen)
             }
             else
             {
-                isPathfinding = false;
+                mIsPathfinding = false;
             }
 
             Vector3 diff = camPos - optimalCamPos;
@@ -910,12 +896,10 @@ namespace rl {
             }
 
             // Langsames Entfernen vom Char:
-            static Real lastDistance(0.0f);
-            static Real TimeOfLastCollision(0.0f);
             if( CollisionFound )
-                TimeOfLastCollision = 0.0f;
+                mTimeOfLastCollision = 0.0f;
             else
-                TimeOfLastCollision += timestep;
+                mTimeOfLastCollision += timestep;
 
 
             Real desiredDistance = diff.length();
@@ -924,7 +908,7 @@ namespace rl {
             mCamBody->getPositionOrientation(camPos, camOri);
 
             if( SlowlyMoveBackward &&
-                desiredDistance > lastDistance )
+                desiredDistance > mLastDistance )
             {
 
                 diff.normalise();
@@ -932,21 +916,21 @@ namespace rl {
                 Vector3 actDiff = camPos - charPos;
                 actDiff.normalise();
 
-                if( TimeOfLastCollision > mCamMoveAwayStartTime ||
+                if( mTimeOfLastCollision > mCamMoveAwayStartTime ||
                     diff.directionEquals(actDiff, mCamMoveAwayRange*timestep) )
-                    newDistance = lastDistance + mCamMoveAwayVelocity*timestep;
+                    newDistance = mLastDistance + mCamMoveAwayVelocity*timestep;
                 else
-                    newDistance = lastDistance;
+                    newDistance = mLastDistance;
 
                 if( newDistance > desiredDistance )
                     newDistance = desiredDistance;
 
                 diff = diff*newDistance;
 
-                lastDistance = newDistance;
+                mLastDistance = newDistance;
             }
             else
-                lastDistance = desiredDistance;
+                mLastDistance = desiredDistance;
 
 
             targetCamPos = charPos + diff;
