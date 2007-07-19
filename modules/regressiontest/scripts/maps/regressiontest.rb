@@ -2,6 +2,24 @@ load "embed.rb"
 
 require 'player.rb'
 require 'hero.rb'
+
+# Physik aktivieren
+$PM.setEnabled(true)
+
+$SCRIPT.log("init map 'regressiontest'...")
+
+$SCRIPT.log("Prepare hero for being the active character")
+#$hero = $GOM.getGameObject(1); # single mesh hero
+$hero = $GOM.getGameObject(10); # construction kit hero
+PlayerSettings.preparePlayer($hero)
+
+$SCRIPT.log("Set hero as active character")
+$UI.setActiveCharacter($hero)
+
+$SCRIPT.log("Hero ready")
+
+$SCRIPT.log("begin tests.");
+
 require 'doortest.rb'
 require 'GameObjectCreationTest.rb'
 require 'GameObjectStatesTest.rb'
@@ -20,23 +38,6 @@ require 'MergeableMeshTest.rb'
 require 'WalkJobTest.rb'
 require 'SelectorTest.rb'
 
-
-# Physik aktivieren
-$PM.setEnabled(true)
-
-$SCRIPT.log("init map 'regressiontest'...")
-
-$SCRIPT.log("Prepare hero for being the active character")
-#$hero = $GOM.getGameObject(1); # single mesh hero
-$hero = $GOM.getGameObject(10); # construction kit hero
-PlayerSettings.preparePlayer($hero)
-
-$SCRIPT.log("Set hero as active character")
-$UI.setActiveCharacter($hero)
-
-$SCRIPT.log("Hero ready")
-
-$SCRIPT.log("begin tests.");
 
  MaterialSlotTest.new([-15, 0, -5]).run()
     LightzoneTest.new([-10, 0, -5]).run()
