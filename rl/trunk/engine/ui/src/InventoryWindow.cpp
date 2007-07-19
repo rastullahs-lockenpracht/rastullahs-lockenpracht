@@ -32,6 +32,7 @@
 #include "ItemIconDragContainer.h"
 #include "Selector.h"
 #include "WindowFactory.h"
+#include "Container.h"
 
 using namespace CEGUI;
 using namespace Ogre;
