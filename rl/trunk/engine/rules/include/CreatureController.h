@@ -174,6 +174,8 @@ namespace rl
         // only used in userProcess
         Ogre::Real mLastFloorContact;
 
+        // used to reset the material
+        const OgreNewt::MaterialID *mOldMaterialId;
     };
 
     /// this is the base class of all movements

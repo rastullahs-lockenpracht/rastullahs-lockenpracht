@@ -1023,10 +1023,6 @@ namespace rl
                         Real v1x = ( sx - v0 * t1 / 2 ) / ( Math::Sqrt( mTanJumpAngle * (2*sx /g - v0 * t1/g) ) + t1/2);
                         Real v1y = mTanJumpAngle * v1x;
 
-std::ostringstream oss;
-oss << "v0: " << v0 << "    v1x: " << v1x << "    timediff: " << mApplyForceTimer - mApplyForceTime;
-LOG_MESSAGE(Logger::RULES, oss.str());
-
                         Vector3 v_now = mMovingCreature->getVelocity();
                         ax =  (v1x - -v_now.z) / timestep;
                         ay = (v1y- v_now.y)/timestep + g;
@@ -1147,6 +1143,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
     {
         CreatureControllerManager::getSingleton().add(this);
 
+        mOldMaterialId = mCreature->getActor()->getPhysicalThing()->_getBody()->getMaterialGroupID();
         const OgreNewt::MaterialID *material = PhysicsManager::getSingleton().getMaterialID("character");
         mCreature->getActor()->getPhysicalThing()->setMaterialID(material);
 
@@ -1204,6 +1201,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
 
         mCreature->getActor()->getPhysicalThing()->setPhysicsController(NULL);
 
+        mCreature->getActor()->getPhysicalThing()->setMaterialID(mOldMaterialId);
         CreatureControllerManager::getSingleton().remove(this);
     }
 
