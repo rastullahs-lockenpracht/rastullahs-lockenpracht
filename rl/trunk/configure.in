@@ -181,7 +181,7 @@ AC_CONFIG_FILES([Makefile \
         engine/dialog/Makefile engine/dialog/src/Makefile engine/dialog/include/Makefile \
         engine/ui/Makefile engine/ui/src/Makefile engine/ui/include/Makefile \
         engine/rules/Makefile engine/rules/src/Makefile engine/rules/include/Makefile \
-        engine/script/Makefile engine/script/swig/Makefile engine/script/src/Makefile \
+        engine/script/Makefile engine/script/swig/Makefile engine/script/src/Makefile engine/script/include/Makefile \
         engine/startup/Makefile engine/startup/src/Makefile \
         tests/Makefile tests/coretests/Makefile tests/rulestests/Makefile \
         tests/multimediatests/Makefile tests/RlDialogTests/Makefile \
