@@ -59,17 +59,6 @@ material Basic_Vertex_Shader
 				param_named groundcolor float4 0.10 0.10 0.10 1.0
 			}
 			
-			// HLSL Vertex Shader
-		/*	shadow_receiver_vertex_program_ref Basic_Vertex_Shader_SR
-			{
-				//Shader Constant: matWorldViewProjection
-				param_named_auto matWorldViewProjection worldviewproj_matrix
-				//Shader Constant: matWorld
-				param_named_auto matWorld world_matrix
-				//Shader Constant: matTextureViewProjection
-				param_named_auto matTextureViewProjection texture_viewproj_matrix
-			}*/
-
 			texture_unit
 			{
 				texture_alias diffuse

@@ -1,12 +1,5 @@
 //Effect: Textured
 
-//DirectX 9.0 HLSL Vertex Shader vs_2_0
-vertex_program Basic_Vertex_Shader hlsl
-{
-	source Basic_Vertex_Shader.source
-	target vs_2_0
-	entry_point vs_main
-}
 //DirectX 9.0 HLSL Pixel Shader ps_2_0
 fragment_program Basic_Pixel_Shader_Variation hlsl
 {

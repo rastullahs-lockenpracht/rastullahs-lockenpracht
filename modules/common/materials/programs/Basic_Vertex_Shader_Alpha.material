@@ -12,7 +12,7 @@ material Basic_Vertex_Shader_Alpha
       		//alpha_rejection greater 50
       		
       		cull_hardware anticlockwise 
-      		cull_software anticlockwise 
+      		cull_software back 
       		
 			//DirectX 9.0 HLSL Pixel Shader ps_2_0
 			fragment_program_ref Basic_Pixel_Shader
@@ -57,7 +57,7 @@ material Basic_Vertex_Shader_Alpha
       		//alpha_rejection greater 50
       		
       		cull_hardware clockwise 
-      		cull_software clockwise 
+      		cull_software front 
       		
 			//DirectX 9.0 HLSL Pixel Shader ps_2_0
 			fragment_program_ref Basic_Pixel_Shader

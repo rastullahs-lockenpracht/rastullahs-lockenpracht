@@ -1,4 +1,4 @@
-material men_human_female_torso : Torso_Vertex_Shader
+material men_human_female_torso : Torso_Vertex_Shader_Short
 {
 	set_texture_alias skin rl_mensch_female.png
 	set_texture_alias cloth obj_shortsleeve02_diffuse.png
