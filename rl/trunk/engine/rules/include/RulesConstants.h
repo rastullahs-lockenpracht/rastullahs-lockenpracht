@@ -52,3 +52,4 @@ namespace rl {
 }
 
 #endif // __RULESCONSTANTS_H__
+

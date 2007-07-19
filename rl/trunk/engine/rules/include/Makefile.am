@@ -17,7 +17,6 @@ noinst_HEADERS = \
 	Eigenschaft.h \
 	EigenschaftenStateSet.h \
 	GameObject.h \
-	GameObjectConstants.h \
 	GameObjectStateListener.h \
 	Item.h \
 	Inventory.h \
