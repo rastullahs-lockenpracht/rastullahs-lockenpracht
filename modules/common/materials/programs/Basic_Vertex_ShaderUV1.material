@@ -48,4 +48,14 @@ material Basic_Vertex_ShaderUV1
 			}
 		}
 	}
+	technique
+	{
+        pass
+        {
+            texture_unit
+            {
+                texture_alias diffuse
+            }
+        }
+    }
 }

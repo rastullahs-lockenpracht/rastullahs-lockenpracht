@@ -66,4 +66,15 @@ material Basic_Vertex_Shader
 			}
 		}
 	}
+
+	technique
+	{
+        pass
+        {
+            texture_unit
+            {
+                texture_alias diffuse
+            }
+        }
+    }
 }

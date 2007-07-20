@@ -94,4 +94,15 @@ material Basic_Vertex_Shader_Alpha
 		
 		
 	}	
+
+	technique
+	{
+        pass
+        {
+            texture_unit
+            {
+                texture_alias diffuse
+            }
+        }
+    }
 }
