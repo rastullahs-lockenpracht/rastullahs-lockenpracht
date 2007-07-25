@@ -120,6 +120,7 @@ namespace rl
 		Entity* newEnt = CoreSubsystem::getSingletonPtr()->getWorld()
 			->getSceneManager()->createEntity(oldEnt->getName()+"_", newMesh->getName());
 
+
 		Node* parentNode = oldEnt->getParentNode();
 		if (parentNode != NULL)
 		{
@@ -136,6 +137,38 @@ namespace rl
 			parentSceneNode->detachObject(oldEnt);
 			parentSceneNode->attachObject(newEnt);
 		}
+
+        std::map<Ogre::String, Ogre::MovableObject*> childObjectMap;
+
+        for (Entity::ChildObjectListIterator it = oldEnt->getAttachedObjectIterator();
+            it.hasMoreElements();)
+        {
+            MovableObject* mo = it.peekNextValue();
+
+            //go upwards and find first tagpoint parent (all attached objects must have a tagpoint as parent)
+            Node* parent = mo->getParentNode();
+            while (!dynamic_cast<TagPoint*>(parent) && parent)
+            {
+                parent = parent->getParent();
+            }
+
+            if (parent)
+            {
+                //tagpoints are children of a bone
+                Bone* bone = dynamic_cast<Bone*>(parent->getParent());
+                Ogre::String key = bone->getName();
+                childObjectMap[key] = mo;
+            }
+
+            it.moveNext();
+        }
+
+        for (std::map<Ogre::String, Ogre::MovableObject*>::const_iterator itChild = childObjectMap.begin();
+                itChild != childObjectMap.end(); ++itChild)
+        {
+            oldEnt->detachObjectFromBone(itChild->second);
+            newEnt->attachObjectToBone(itChild->first, itChild->second);
+        }
 
 		mMovableObject = newEnt;
 		CoreSubsystem::getSingletonPtr()->getWorld()
