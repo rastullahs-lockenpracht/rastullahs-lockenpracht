@@ -121,14 +121,10 @@ namespace rl
 			->getSceneManager()->createEntity(oldEnt->getName()+"_", newMesh->getName());
 
 
-		Node* parentNode = oldEnt->getParentNode();
-		if (parentNode != NULL)
+		TagPoint* parentTp = dynamic_cast<TagPoint*>(oldEnt->getParentNode());
+		if (parentTp)
 		{
-			TagPoint* tp = dynamic_cast<TagPoint*>(parentNode);
-			if (tp != NULL)
-			{
-				tp->setChildObject(newEnt);
-			}
+			parentTp->setChildObject(newEnt);
 		}
 
 		SceneNode* parentSceneNode = oldEnt->getParentSceneNode();
@@ -145,13 +141,9 @@ namespace rl
         {
             MovableObject* mo = it.peekNextValue();
 
-            //go upwards and find first tagpoint parent (all attached objects must have a tagpoint as parent)
-            Node* parent = mo->getParentNode();
-            while (!dynamic_cast<TagPoint*>(parent) && parent)
-            {
-                parent = parent->getParent();
-            }
-
+            //go upwards to tagpoint (all attached objects must have a tagpoint as parent)
+            TagPoint* parent = dynamic_cast<TagPoint*>(mo->getParentNode());
+            
             if (parent)
             {
                 //tagpoints are children of a bone
