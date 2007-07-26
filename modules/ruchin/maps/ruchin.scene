@@ -91,7 +91,7 @@
 
 		</node>
 		<node name="Ruchin_r" id="13" >
-			<position x="70.0" y="8.0" z="26.0" />
+			<position x="70.0" y="0.0" z="30.0" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -212,7 +212,7 @@
 		</node>
 		
 		<node name="Ruchin_Stadtwache" id="28" >
-			<position x="107.681" y="4.66676" z="47.1081" />
+			<position x="105.681" y="0.0" z="45." />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -315,8 +315,32 @@
 				materialFile="ruchin_terrain.material"
 				castsShadow="false"
 			/>
-
-
+		</node>
+	
+	<node name="Ruchin_u" id="3" >
+			<position x="100.0" y="0.0" z="50.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="0.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="Statue_0dsf1"
+				id="4"
+				meshFile ="Ruchin_u.mesh"
+				materialFile="ruchin_terrain.material"
+				castsShadow="false"
+			/>
+		</node>
+			
+			<node name="Ruchin_j" id="3" >
+			<position x="40.0" y="0.0" z="-100.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="0.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="Ruchin_j"
+				id="4"
+				meshFile ="Ruchin_j.mesh"
+				materialFile="ruchin_terrain.material"
+				castsShadow="false"
+			/>
 
 		</node>
 	</nodes>
