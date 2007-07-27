@@ -21,8 +21,6 @@
 
 #include <set>
 #include <map>
-#include "AnimationListener.h"
-
 
 namespace rl {
 
@@ -32,7 +30,7 @@ namespace rl {
 	@remarks Instanzen werden über den AnimationManager erzeugt
 	@see AnimationManager
 */
-class _RlCoreExport BaseAnimation : public virtual EventSource
+class _RlCoreExport BaseAnimation
 {
     public:
 		/**
@@ -46,7 +44,7 @@ class _RlCoreExport BaseAnimation : public virtual EventSource
 		BaseAnimation();
 
 		/// Virtueller Destruktor
-		virtual ~BaseAnimation( );
+		virtual ~BaseAnimation();
         
 		/// Gibt zurück ob die Animation pausiert ist
         virtual bool isPaused() const;
@@ -54,7 +52,7 @@ class _RlCoreExport BaseAnimation : public virtual EventSource
 			@param	isPaused	Zukünftiger Status
 			@remarks	Löst einen AnimationPaused/Unpaused Event aus
 		*/
-        virtual void setPaused( bool isPaused );
+        virtual void setPaused(bool isPaused);
 
 		/// Gibt zurück ob die globale Beschleunigung ignoriert wird
 		virtual bool isIgnoringGlobalSpeed() const;
@@ -63,7 +61,7 @@ class _RlCoreExport BaseAnimation : public virtual EventSource
 			@remarks	Möglichkeit die globale SlowMotion zu umgehen
 						Nützlich für Statusanzeigen, oder ähnliche konstante Animationen
 		*/
-		virtual void setIgnoringGlobalSpeed( bool isIgnoringGlobalSpeed );
+		virtual void setIgnoringGlobalSpeed(bool isIgnoringGlobalSpeed);
 
 		/// Gibt die aktuelle Geschwindigkeit zurück
 		virtual Ogre::Real getSpeed() const;
@@ -73,7 +71,7 @@ class _RlCoreExport BaseAnimation : public virtual EventSource
 						(mLength in Sekunden), negative Werte spielen die 
 						Animation rückwärts ab. Bei 0 herrscht Stillstand.
 		*/
-		virtual void setSpeed( Ogre::Real speed );
+		virtual void setSpeed(Ogre::Real speed);
 		/// Negiert die aktuelle Geschwindigkeit
 		virtual void reverseAnimation();
 
@@ -97,40 +95,16 @@ class _RlCoreExport BaseAnimation : public virtual EventSource
 
 		/** Setzt das Delay vor dem ersten Abspielen der Animation.
 		    @param delay Die Verzögerung in Sekunden  */
-		virtual void setDelay( Ogre::Real delay );
+		virtual void setDelay(Ogre::Real delay);
 		/// Gibt die Verzögerung vor dem Ersten Abspielen in Sekunden zurück.
 		virtual Ogre::Real getDelay() const;
 
 		/// Zeit hinzufügen - wird vom AnimationManager aufgerufen
-		void addTime( Ogre::Real timePassed );
+		void addTime(Ogre::Real timePassed);
 
         /// addTime für alle Unterklassen
-		virtual void doAddTime( Ogre::Real timePassed ) = 0;
+		virtual void doAddTime(Ogre::Real timePassed) = 0;
 
-		/** Fügt einen AnimationListener hinzu
-			@param listener Der hinzuzufügende Listener
-			@remarks Der Listener wird benachrichtigt, wenn
-					  * die Animation pausiert/fortgesetzt wird
-					  * die Animation ihr gesamten Wiederholungen vollendet hat
-		*/
-		virtual void addAnimationListener( AnimationListener *listener);
-		/// Entfernt einen AnimationListener
-		virtual void removeAnimationListener( AnimationListener *listener);
-
-		/** Fügt einen AnimationFrameListener hinzu
-			@param listener Der hinzuzufügende Listener
-			@param frameNumber Die zu überwachende Zeitindex
-			@remarks	Der Listener wird benachrichtigt, wenn der Zeitindex erreicht oder 
-						übersprungen wird. Dabei wird, falls der Fortschritt größer als die
-						Länge der Animation korrekt geprüft, so dass keine Events verloren 
-						gehen
-		*/
-		virtual void addAnimationFrameListener( AnimationFrameListener *listener, Ogre::Real frameNumber );
-		/// Entfernt einen AnimationListener an allen Zeitindizes
-		virtual void removeAnimationFrameListener( AnimationFrameListener *listener );
-		/// Entfernt einen AnimationListener an einem bestimmtem Zeitindex
-		virtual void removeAnimationFrameListener( AnimationFrameListener *listener, Ogre::Real frameNumber );
-        
         /// Starte die Animation
         virtual void start();
         /// Stoppe die Animation
@@ -155,23 +129,10 @@ class _RlCoreExport BaseAnimation : public virtual EventSource
 		/// Bisherige Abspielzeit
 		Ogre::Real mTimePlayed;
 
-		/// EventCaster
-		EventCaster<AnimationEvent> mAnimationCaster;
-
-        typedef std::multimap<Ogre::Real,AnimationFrameListener*> 
-            AnimationFrameListenerMap;
-		/// Die Multimap mit den FrameNummern und den dazugehörigen Listenern
-		AnimationFrameListenerMap mAnimationFrameListener;
-
         /// Looping setzen
 		virtual void setLoop( bool loop );
 		/// Looping zurückgeben
 		virtual bool isLoop() const;
-	private:
-		/// Überwacht das erreichen der einzelnen Frames für die Listener
-		void checkAnimationFrameListeners( Ogre::Real timePassed );
-        /// Entfernt alle Listener
-        void removeAllListeners();
 };
 
 }

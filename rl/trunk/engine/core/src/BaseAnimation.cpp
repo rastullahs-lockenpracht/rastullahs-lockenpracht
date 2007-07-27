@@ -15,12 +15,14 @@
  */
 #include "stdinc.h"
 
-#include "Exception.h"
-#include "AnimationManager.h"
-#include "ActorManager.h"
-#include "ScriptWrapper.h"
-
 #include "BaseAnimation.h"
+
+#include "ActorManager.h"
+#include "AnimationManager.h"
+#include "CoreMessages.h"
+#include "Exception.h"
+#include "MessagePump.h"
+#include "ScriptWrapper.h"
 
 using namespace Ogre;
 
@@ -29,23 +31,19 @@ namespace rl {
 
 BaseAnimation::BaseAnimation( Ogre::Real length, Ogre::Real speed, 
     unsigned int timesToPlay, bool paused ) :
-    EventSource(),
     mLength(length),
-	mAnimationFrameListener(),
-	mAnimationCaster(),
     mPaused(paused),
-    mTimesToPlay( timesToPlay ),
-    mSpeed( speed ),
-    mDelay( 0.0f ),
+    mTimesToPlay(timesToPlay),
+    mSpeed(speed),
+    mDelay(0.0f),
     mIgnoringGlobalSpeed(false),
-    mTimePlayed( 0.0f )
+    mTimePlayed(0.0f)
 {
     setLoop( mTimesToPlay == 0 ); 
 }
 
 BaseAnimation::~BaseAnimation()
 {
-    removeAllListeners();
 }
 
 Ogre::Real BaseAnimation::getLength() const
@@ -62,15 +60,11 @@ void BaseAnimation::setPaused( bool isPaused )
 {
 	if( mPaused && !isPaused )
 	{
-		AnimationEvent* animEve = new AnimationEvent(this,AnimationEvent::ANIMATION_UNPAUSED);
-		mAnimationCaster.dispatchEvent( animEve );
-		delete animEve;
+        MessagePump::getSingleton().sendMessage<MessageType_AnimationUnpaused>(this);
 	}
 	else if( !mPaused && isPaused )
 	{
-		AnimationEvent* animEve = new AnimationEvent(this,AnimationEvent::ANIMATION_PAUSED);
-		mAnimationCaster.dispatchEvent( animEve );
-		delete animEve;
+        MessagePump::getSingleton().sendMessage<MessageType_AnimationPaused>(this);
 	}
 
     mPaused = isPaused;
@@ -159,100 +153,6 @@ bool BaseAnimation::isLoop() const
     return mTimesToPlay!=1;
 }
 
-void BaseAnimation::addAnimationListener(AnimationListener *listener)
-{
-    if( !mAnimationCaster.containsListener(listener) )
-    {    
-	    mAnimationCaster.addEventListener(listener);
-        ScriptWrapper::getSingleton().owned( listener );
-    }
-}
-
-void BaseAnimation::removeAnimationListener(AnimationListener *listener)
-{
-    if( mAnimationCaster.containsListener( listener ) ) 
-    {
-	    mAnimationCaster.removeEventListener(listener);
-        ScriptWrapper::getSingleton().disowned( listener );
-    }
-}
-
-// @todo - Existenz berprfen
-void BaseAnimation::addAnimationFrameListener( 
-	AnimationFrameListener *listener, Ogre::Real frameNumber)
-{
-	mAnimationFrameListener.insert( 
-		std::pair<Ogre::Real,AnimationFrameListener*>(frameNumber,listener) );
-    ScriptWrapper::getSingleton().owned( listener );
-}
-
-// @todo - Existenz berprfen
-void BaseAnimation::removeAnimationFrameListener( AnimationFrameListener *listener )
-{
-    AnimationFrameListenerMap::iterator iter = mAnimationFrameListener.begin();
-
-    for (iter; iter != mAnimationFrameListener.end(); ) 
-    {
-        AnimationFrameListener* afl = iter->second;
-        
-        if( afl == listener )
-        {
-            mAnimationFrameListener.erase( iter++ );  
-            ScriptWrapper::getSingleton().disowned( listener );
-        } else {
-            ++iter;
-        }
-    }
-}
-
-void BaseAnimation::removeAnimationFrameListener( 
-	AnimationFrameListener *listener, Ogre::Real frameNumber)
-{
-    AnimationFrameListenerMap::iterator iter = mAnimationFrameListener.begin();
-
-    for (iter; iter != mAnimationFrameListener.end(); ) 
-    {
-        Real time = iter->first;
-        AnimationFrameListener* afl = iter->second;
-
-        if( afl == listener && time == frameNumber )
-        {
-            mAnimationFrameListener.erase( iter++ );  
-            ScriptWrapper::getSingleton().disowned( listener );
-        } else {
-            ++iter;
-        }
-    }
-}
-
-void BaseAnimation::removeAllListeners()
-{
-    // Alle AnimationFrameListener
-    AnimationFrameListenerMap::iterator iter = mAnimationFrameListener.begin();
-
-    for (iter; iter != mAnimationFrameListener.end(); ) 
-    {
-        AnimationFrameListener* afl = iter->second; 
-        ScriptWrapper::getSingleton().disowned( afl );
-        iter++;
-    }
-    mAnimationFrameListener.clear();
-    
-    // Alle AnimationListener
-    EventCaster<AnimationEvent>::EventSet evSet 
-        = mAnimationCaster.getEventSet();
-    EventCaster<AnimationEvent>::EventSet::iterator citer 
-        = evSet.begin();
-    for (citer; citer != evSet.end(); ) 
-    {
-        EventListener<AnimationEvent>* ev = *citer; 
-        AnimationListener* al = dynamic_cast<AnimationListener*>( ev );
-        ScriptWrapper::getSingleton().disowned( al );
-        citer++;
-    }
-    mAnimationCaster.removeEventListeners();
-}
-
 // Zeit hinzufgen // wird vom AnimationManager aufgerufen
 void BaseAnimation::addTime( Ogre::Real timePassed )
 {
@@ -271,10 +171,14 @@ void BaseAnimation::addTime( Ogre::Real timePassed )
 			}
 		}
 
-		timePassed = timePassed * mSpeed;
+		timePassed *= mSpeed;
 
-		if( !mAnimationFrameListener.empty() && timePassed != 0 )
-			checkAnimationFrameListeners( timePassed );
+		if (fabs(timePassed) - 0.0001 > 0)
+        {
+            Real elapsedTime = (mTimePlayed / mLength) * mLength;
+            MessagePump::getSingleton().sendMessage<MessageType_AnimationFrameReached>(
+                this, elapsedTime);
+        }
         
         doAddTime(timePassed);
 
@@ -292,138 +196,10 @@ void BaseAnimation::addTime( Ogre::Real timePassed )
 				setLoop(false);
 				mPaused = true;
 			
-				AnimationEvent* animEve = new AnimationEvent(this,AnimationEvent::ANIMATION_FINISHED);
-				mAnimationCaster.dispatchEvent( animEve );
-				delete animEve;	
+                MessagePump::getSingleton().sendMessage<MessageType_AnimationFinished>(this);
 			}
 		}
 	}
-}
-
-/**
-	Benachrichtigt die AnimationFrameListener
-
-	Erfolgt in drei Schritten 
-	 * Aktueller Durchlauf
-	 * Wenn �erlauf, dann wird die Anzahl weiterer Durchl�fe bestimmt
-	 * Fr den Rest im letzten Durchlauf wird erneut geprft
-*/
-void BaseAnimation::checkAnimationFrameListeners( Ogre::Real timePassed )
-{
-	if( mAnimationFrameListener.empty() ) 
-		return;
-
-	// Iteratoren
-	std::multimap<Ogre::Real,AnimationFrameListener*>::iterator 
-		lowerBorder;
-	std::multimap<Ogre::Real,AnimationFrameListener*>::iterator 
-		upperBorder;
-	std::multimap<Ogre::Real,AnimationFrameListener*>::iterator 
-		iter;
-	float lower, upper;
-	// Event erzeugen
-	AnimationFrameEvent* animEve = new AnimationFrameEvent(this,
-		AnimationFrameEvent::ANIMATION_FRAMEREACHED,0);
-
-	// Eventuelles Vorzeichen weg
-	timePassed = fabs( timePassed );
-
-    Ogre::Real elapsedTime = (mTimePlayed/mLength)*mLength;
-
-	// Vorw�ts laufen
-	if( mSpeed > 0 )		
-	{
-        lower = std::max(elapsedTime, 0.0f);
-		upper = std::min(elapsedTime, mLength );
-	}
-	// Das ganze rckw�ts
-	else
-	{
-		// FIXME fr die erste Runde beim Rckw�tsspielen, beginnt leider bei 0, nicht Length
-		Ogre::Real timePos = elapsedTime;
-		if( timePos == 0.0f )
-			timePos = mLength;
-
-		lower = std::max(timePos-timePassed, 0.0f);
-		upper = std::min(timePos, mLength );
-	}
-
-	// Iteratoren fr die Grenzen holen
-	lowerBorder = mAnimationFrameListener.lower_bound(
-		lower);
-	upperBorder = mAnimationFrameListener.upper_bound(
-		upper);
-
-	// Alle Listener innerhalb der Grenzen benachrichtigen
-	for (iter = lowerBorder; iter != upperBorder; iter++) 
-	{
-		animEve->setFrameNumber( iter->first );
-		iter->second->eventRaised(animEve);
-	}
-
-	// Einmal abspielen abziehen
-	timePassed -= mLength;
-	// Ums Wrapping kmmern - wenn Looping - und AbspielZeit
-	if( timePassed > 0 && isLoop() && 
-		// Falls begrenzte Wiederholungen, mssen mindestens 2(1+die oben abgearbeitete) fehlen
-		( ( mTimesToPlay > 0 && getTimesToPlayLeft() > 1 ) || ( mTimesToPlay == 0 ) )
-	   )
-	{
-		// Wie oft passt die L�ge in die gesamte fortgeschrittene Zeit		
-		unsigned int timesSkipped = floor( timePassed/mLength );
-		Ogre::Real timeLeft = timePassed - timesSkipped*mLength;
-
-		// Falls die Abspielanzahlbegrenzt ist, nicht h�figer als verbliebene Anzahl abspielen
-		if( mTimesToPlay > 0 && timesSkipped >= getTimesToPlayLeft()-1)
-		{
-			timesSkipped = getTimesToPlayLeft()-1;
-			// Restzeit unwichtig, letzen Abspielvorg�ge waren komplette
-			timeLeft = 0;
-		}
-
-		lowerBorder = mAnimationFrameListener.begin();
-		upperBorder = mAnimationFrameListener.end();
-
-		// Geskippte Events
-		for( unsigned int i = 0; i < timesSkipped; i++)
-		{
-			for (iter = lowerBorder; iter != upperBorder; iter++) 
-			{
-				animEve->setFrameNumber( iter->first );
-				iter->second->eventRaised(animEve);
-			}
-		}		
-
-		// Fr letzten Event prfen, wenn noch Restzeit vorhanden ist
-		if( timeLeft > 0 )
-		{
-			// Wrapping nach oben
-			if( mSpeed > 0 )
-			{
-				lowerBorder = mAnimationFrameListener.lower_bound(
-					0);
-				upperBorder = mAnimationFrameListener.upper_bound(
-					timeLeft);
-			}
-			// Wrapping nach unten
-			else if( mSpeed < 0 )
-			{
-				lowerBorder = mAnimationFrameListener.lower_bound(
-					mLength - timeLeft );
-				upperBorder = mAnimationFrameListener.upper_bound(
-					mLength );
-			}
-
-			// Ein letztes Mal durchlaufen ^^
-			for (iter = lowerBorder; iter != upperBorder; iter++) 
-			{
-				animEve->setFrameNumber( iter->first );
-				iter->second->eventRaised(animEve);
-			}
-		}
-	}
-
-	delete animEve;
 }
 
 void BaseAnimation::start()

@@ -364,10 +364,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\AnimationListener.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\AnimationManager.h"
 				>
 			</File>
@@ -393,10 +389,6 @@
 			</File>
 			<File
 				RelativePath=".\include\CoreDefines.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\CoreEvents.h"
 				>
 			</File>
 			<File
@@ -661,10 +653,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\AnimationListener.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\AnimationManager.cpp"
 				>
 			</File>
@@ -686,10 +674,6 @@
 			</File>
 			<File
 				RelativePath=".\src\ContentModule.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\CoreEvents.cpp"
 				>
 			</File>
 			<File

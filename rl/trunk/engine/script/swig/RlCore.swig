@@ -243,44 +243,6 @@ public:
 /// Alles was mit Animationen zu tun hat
 %apply SWIGTYPE *DYNAMIC { BaseAnimation * };
 
-%feature("director") AnimationListener; 
-class AnimationListener
-{
-public:
-	virtual ~AnimationListener();
-
-	virtual void animationFinished(rl::AnimationEvent *anEvent) const = 0;
-	virtual void animationPaused(rl::AnimationEvent *anEvent) const = 0;
-	virtual void animationUnpaused(rl::AnimationEvent *anEvent) const = 0;
-};
-
-%feature("director") AnimationFrameListener; 
-class AnimationFrameListener
-{
-public:
-	virtual ~AnimationFrameListener();
-
-	virtual void animationFrameReached( rl::AnimationFrameEvent *anEvent ) const = 0;
-};
-
-class AnimationEvent
-{
-public:
-	rl::BaseAnimation* getAnimation() const;
-private:
-	AnimationEvent( rl::BaseAnimation* anim,  const unsigned int reason );
-};
-
-class AnimationFrameEvent
-{
-public:
-	rl::BaseAnimation* getAnimation() const;
-	Ogre::Real getFrameNumber() const;
-private:
-	AnimationFrameEvent( rl::BaseAnimation* anim,  const unsigned int reason, Ogre::Real frameNumber );
-};
-
-
 class BaseAnimation {
 public:
 	bool isPaused() const;
@@ -303,13 +265,6 @@ public:
 	Ogre::Real getDelay(void) const;
     void setDelay(Ogre::Real delay);
     
-    void addAnimationListener( rl::AnimationListener *listener);
-	void removeAnimationListener( rl::AnimationListener *listener);
-	
-	void addAnimationFrameListener( rl::AnimationFrameListener *listener, 
-									float frameNumber );
-	void removeAnimationFrameListener( rl::AnimationFrameListener *listener );
-	void removeAnimationFrameListener( rl::AnimationFrameListener *listener, Ogre::Real frameNumber );
 private:
 	BaseAnimation(  );
 };

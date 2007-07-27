@@ -30,7 +30,6 @@
 #include "AnimationManager.h"
 #include "ContentModule.h"
 #include "ConfigurationManager.h"
-#include "CoreEvents.h"
 #include "DotSceneOctreeWorld.h"
 #include "Exception.h"
 #include "GameEventManager.h"
@@ -63,7 +62,6 @@ namespace rl
         mClockStartTime(),
         mDeveloperMode(false),
         mInitialized(false),
-        mCoreEventCaster(),
         mDefaultTechniques(),
         mOgreRoot(NULL),
         mScriptWrapper(NULL),
@@ -85,8 +83,6 @@ namespace rl
 
     CoreSubsystem::~CoreSubsystem()
     {
-        mCoreEventCaster.removeEventListeners();
-
 		delete meshmagick::OgreEnvironment::getSingletonPtr();
         delete mZoneManager;
         delete mGameEventManager;
@@ -574,15 +570,5 @@ namespace rl
     {
         mSoundManager->unloadAllDrivers();
         LOG_MESSAGE(Logger::CORE, "Soundtreiber entladen");
-    }
-
-    void CoreSubsystem::addCoreEventListener(rl::CoreEventListener *listener)
-    {
-        mCoreEventCaster.addEventListener(listener);
-    }
-
-    void CoreSubsystem::removeCoreEventListener(CoreEventListener* listener)
-    {
-        mCoreEventCaster.removeEventListener(listener);
     }
 }

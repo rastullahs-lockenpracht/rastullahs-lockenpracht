@@ -22,10 +22,25 @@
 
 namespace rl
 {
+    class BaseAnimation;
+
     enum CoreMessageTypeIds
     {
-        RLMSG_SCENE_LOADED = 0x01000001,
-        RLMSG_SCENE_CLEARING = 0x01000002
+        // World //
+        // Mask
+        RLMSG_SCENE_EVENTS = 0x01000100,
+        // Events
+        RLMSG_SCENE_LOADED = 0x01000101,
+        RLMSG_SCENE_CLEARING = 0x01000102,
+
+        // Animations //
+        // Mask
+        RLMSG_ANIMATION_EVENTS = 0x01000200,
+        // Events
+        RLMSG_ANIMATION_PAUSED = 0x01000201,
+        RLMSG_ANIMATION_UNPAUSED = 0x01000202,
+        RLMSG_ANIMATION_FINISHED = 0x01000203,
+        RLMSG_ANIMATION_FRAMEREACHED = 0x01000204,
     };
 
     /// Message sent right after a scene has been loaded.
@@ -33,5 +48,19 @@ namespace rl
 
     /// Message sent just before a scene will be cleared.
     typedef MessageType<RLMSG_SCENE_CLEARING> MessageType_SceneClearing;
+
+    /// Message sent when an animation has been paused.
+    typedef MessageType<RLMSG_ANIMATION_PAUSED, BaseAnimation*> MessageType_AnimationPaused;
+
+    /// Message sent when an animation has been unpaused.
+    typedef MessageType<RLMSG_ANIMATION_UNPAUSED, BaseAnimation*> MessageType_AnimationUnpaused;
+
+    /// Message sent when an animation is finished.
+    typedef MessageType<RLMSG_ANIMATION_FINISHED, BaseAnimation*> MessageType_AnimationFinished;
+
+    /// Message sent when an animation has been paused.
+    /// Real param is the frame time reached
+    typedef MessageType<RLMSG_ANIMATION_FRAMEREACHED, BaseAnimation*, Ogre::Real>
+        MessageType_AnimationFrameReached;
 }
 #endif
