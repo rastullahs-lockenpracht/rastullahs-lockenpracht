@@ -114,12 +114,12 @@ private:
     unsigned long mGameTime;
 
     std::deque<unsigned long> mLastTimes;
-    /// In milliseconds, because Ogre's timer works this way.
-    unsigned long mSmoothPeriod;
+    /// In milliseconds, because Ogre's timer works this way. Number of smoothed Frames, should not be 0!
+    unsigned long mSmoothedFrames;
     /// Time cap for frame time, to prevent interpolation problems during spikes.
     Ogre::Real mMaxFrameTime;
-	bool mQuitRequested;
-	bool mPaused;
+    bool mQuitRequested;
+    bool mPaused;
 
     /// Averages frame rate over mSmoothPeriod milliseconds.
     /// Steadies Controls and Physics a bit.

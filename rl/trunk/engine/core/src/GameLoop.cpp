@@ -41,10 +41,10 @@ namespace rl
           mTimer(NULL),
           mGameTime(0),
           mLastTimes(),
-          mSmoothPeriod(500),
-          mMaxFrameTime(0.250f),
+          mSmoothedFrames(3),
+          mMaxFrameTime(0.1f),
           mQuitRequested(false),
-		  mPaused(false)
+          mPaused(false)
     {
         // create five task lists, one for each taskgroup
         mTaskLists.push_back(new GameTaskList());
@@ -109,25 +109,35 @@ namespace rl
         }
     }
 
-	bool GameLoop::isPaused() const
-	{
-		return mPaused;
-	}
+    bool GameLoop::isPaused() const
+    {
+        return mPaused;
+    }
 
-	void GameLoop::setPaused(bool paused)
-	{
-		mPaused = paused;
-	}
+    void GameLoop::setPaused(bool paused)
+    {
+        mPaused = paused;
+    }
 
     void GameLoop::_executeOneRenderLoop()
     {
         // Calculate frame time. This time is smoothed and capped.
         unsigned long elapsedTime = mTimer->getMilliseconds();
-        Real frameTime = 0.001f * (Real) smoothFrameTime(elapsedTime - mGameTime);
-        mGameTime = elapsedTime;
-        if (frameTime > mMaxFrameTime) frameTime = mMaxFrameTime;
 
-		// Let Ogre handle Windows/XServer events.
+        unsigned long unsmoothedFrameTime = elapsedTime - mGameTime;
+
+        if( elapsedTime < mGameTime )
+            unsmoothedFrameTime = 1;
+
+        if( unsmoothedFrameTime > mMaxFrameTime*1000 )
+        {
+            LOG_MESSAGE(Logger::CORE, "Die aktuelle Frame wurde auf den festgelegten Maximalwert gekürzt");
+            unsmoothedFrameTime = mMaxFrameTime*1000;
+        }
+        Real frameTime = 0.001f * (Real) smoothFrameTime(unsmoothedFrameTime);
+        mGameTime = elapsedTime;
+
+        // Let Ogre handle Windows/XServer events.
         WindowEventUtilities::messagePump();
 
         // Render the next frame
@@ -141,7 +151,7 @@ namespace rl
             {
                 if (it->valid && !(it->task->isPaused()) && !isPaused())
                 {
-					it->task->run(frameTime);
+                    it->task->run(frameTime);
                 }
             }
         }
@@ -177,27 +187,22 @@ namespace rl
     }
 
     // Idea taken from Ogre, but implementation by us.
-    // smooths time step over the period mSmoothPeriod.
+    // fixed number of smoothed frames
     unsigned long GameLoop::smoothFrameTime(unsigned long time)
     {
+        // remove the last frame, if enough frame-times are saved
+        if( mLastTimes.size() >= std::max(mSmoothedFrames,(unsigned long)1) )
+            mLastTimes.pop_front();
         // First add time for this frame
         mLastTimes.push_back(time);
 
-        // Starting from the end of the queue, determine the element, that
-        // is just over the threshold mSmoothPeriod.
-        unsigned long limit = 0;
-        std::deque<unsigned long>::reverse_iterator i = mLastTimes.rbegin();
-        while (i != mLastTimes.rend() && limit < mSmoothPeriod)
-        {
-            limit += *i;
-            ++i;
-        }
-        // Erase all times, that are over.
-        mLastTimes.erase(mLastTimes.begin(), mLastTimes.begin() + (mLastTimes.rend() - i));
-
         // Return the mean of the remaining times.
-        return std::accumulate(mLastTimes.begin(), mLastTimes.end(), 0)
-            / std::max(mLastTimes.size(), (size_t)1);
+        // Do not return zero
+        if( mLastTimes.size() == 0 )
+            return time;
+        else
+            return std::accumulate(mLastTimes.begin(), mLastTimes.end(), 0)
+                / std::max(mLastTimes.size(), (size_t)1);
     }
 
     unsigned long GameLoop::getClock() const
