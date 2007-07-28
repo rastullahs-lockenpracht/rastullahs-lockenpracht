@@ -307,7 +307,7 @@ namespace rl
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_GEHEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
-            velocity = mMovingCreature->getCurrentGS() / 2.8f;
+            velocity = mMovingCreature->getCurrentGS() / 2.0f;
             return isPossible();
         }
         virtual bool isPossible() const
@@ -363,7 +363,7 @@ namespace rl
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_JOGGEN;}
         virtual bool calculateBaseVelocity(Real &velocity)
         {
-            velocity = mMovingCreature->getCurrentGS() / 2.0f;
+            velocity = mMovingCreature->getCurrentGS() / 1.6f; // was 2.0
             return isPossible();
         }
         virtual bool isPossible() const
@@ -431,7 +431,7 @@ namespace rl
             Date now = DsaManager::getSingleton().getCurrentDate();
             if( mLastProbe + Date::ONE_SPIELRUNDE >= now || mLastProbe == 0 )
             {
-                mTimePerAu = 180;
+                mTimePerAu = 120; // was 180
                 try
                 {
                     mLastProbe = now;
@@ -451,7 +451,7 @@ namespace rl
                 }
                 catch(OutOfRangeException)
                 {
-                    mTimePerAu = 180;
+                    mTimePerAu = 120; // was 180
                 }
             }
         }
