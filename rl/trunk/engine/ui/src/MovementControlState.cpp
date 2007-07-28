@@ -546,19 +546,16 @@ namespace rl {
         Vector3 bodpos, playpos = node->getPosition();
         Quaternion egal;
         mCamBody->getPositionOrientation(bodpos,egal);
-        static Real maxHeight(0);
-        if( playpos.y > maxHeight )
-            maxHeight = playpos.y;
         ss
             << "scene node : " << playpos << std::endl
-            << "player max Height : " << maxHeight << std::endl
+            << "player velocity : " << -mMovingCreature->getVelocity().z << std::endl
+            << "player orientation : " << mMovingCreature->getCreature()->getActor()->getOrientation() << std::endl
             << "camera posder : " << static_cast<Camera*>(
                 mCameraActor->_getMovableObject())->getDerivedPosition() << std::endl
-                << "camera pos : " << static_cast<Camera*>(
-                    mCameraActor->_getMovableObject())->getPosition() << std::endl
-            << "camera actor orientation : " << mCameraActor->getWorldOrientation() << std::endl
-            << "camera actor : " << mCameraActor->getWorldPosition() << std::endl
-            << "camera body pos : " << bodpos << std::endl
+//                << "camera pos : " << static_cast<Camera*>(
+//                    mCameraActor->_getMovableObject())->getPosition() << std::endl
+            << "camera orientation : " << mCameraActor->getWorldOrientation() << std::endl
+            << "camera pos : " << bodpos << std::endl
             << "camera distance : " << mDesiredDistance << std::endl
             << "is airborne: " << (mMovingCreature->getAbstractLocation() == CreatureController::AL_AIRBORNE ? "true" : "false") << std::endl;
 
