@@ -46,6 +46,7 @@ void RL_RubyRemoveTracking(void* ptr)
 #include "FixRubyHeaders.h"
 
 #include <CEGUIExceptions.h>
+#include <vector>
 
 %}
 
@@ -62,6 +63,11 @@ void RL_RubyRemoveTracking(void* ptr)
 %include "RlAi.head.swig"
 %include "RlScript.head.swig"
 
+%{
+#ifndef SWIG_FLOAT_P
+#define SWIG_FLOAT_P(x) ((TYPE(x) == T_FLOAT) || FIXNUM_P(x))
+#endif
+%}
 %include "TypeMaps.i"
 
 
@@ -128,18 +134,27 @@ void RL_handleRubyError( VALUE error )
 
 // Converting C++ Exceptions to Ruby Exceptions
 %exception %{
-  try {
+  try 
+  {
     $action
   }
-  catch (CEGUI::Exception& ce) {
+  catch (CEGUI::Exception& ce) 
+  {
     static VALUE ceguiException = rb_define_class("CeguiException", rb_eRuntimeError);
     rb_raise(ceguiException, ce.getMessage().c_str());
   }
-  catch (std::exception& se) {
+  catch (std::exception& se) 
+  {
     static VALUE stdException = rb_define_class("StdException", rb_eRuntimeError);
     rb_raise(stdException, se.what());
   }
-  catch (...) {
+  catch (Swig::DirectorException& de)
+  {
+	static VALUE swigException = rb_define_class("SwigDirectorException", rb_eRuntimeError);
+	rb_raise(swigException, de.getMessage().c_str());
+  }
+  catch (...) 
+  {
     static VALUE unknownException = rb_define_class("UnknownException", rb_eRuntimeError);
     rb_raise(unknownException,"Unbekannte Exception");
   }
