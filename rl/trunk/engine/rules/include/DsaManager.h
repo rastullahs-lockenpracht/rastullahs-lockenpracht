@@ -64,9 +64,6 @@ namespace rl
 		void setTimestamp(const RL_LONGLONG time);
 		void setCurrentDate(const Date& date);
 
-        Ogre::Real getTimeScale() const;
-        void setTimeScale(Ogre::Real scale);
-
         /** liefert eine Zufallszahl zwischen 1 und 20.*/
         int rollD20() const;
 

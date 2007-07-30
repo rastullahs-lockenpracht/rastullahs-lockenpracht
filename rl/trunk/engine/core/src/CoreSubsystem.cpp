@@ -30,19 +30,20 @@
 #include "AnimationManager.h"
 #include "ContentModule.h"
 #include "ConfigurationManager.h"
+#include "DebugVisualsManager.h"
 #include "DotSceneOctreeWorld.h"
 #include "Exception.h"
 #include "GameEventManager.h"
-#include "MessagePump.h"
 #include "GameLoop.h"
-#include "ZoneManager.h"
+#include "JobScheduler.h"
 #include "Logger.h"
+#include "MessagePump.h"
 #include "PhysicsManager.h"
 #include "RubyInterpreter.h"
 #include "ScriptWrapper.h"
 #include "SoundManager.h"
-#include "DebugVisualsManager.h"
-#include "JobScheduler.h"
+#include "TimeSource.h"
+#include "ZoneManager.h"
 
 #include <ctime>
 
@@ -100,6 +101,7 @@ namespace rl
         delete mSoundManager;
         delete mOgreRoot;
         delete mRubyInterpreter;
+        delete mTimeSourceManager;
     }
 
     void CoreSubsystem::startCore()
@@ -233,6 +235,11 @@ namespace rl
 
         mGameLoop = new GameLoop();
         LOG_MESSAGE(Logger::CORE,"GameLoopmanager erzeugt");
+
+        mTimeSourceManager = new TimeSourceManager();
+        mTimeSourceManager->registerTimeSource(new RealTimeContinuous());
+        mTimeSourceManager->registerTimeSource(new RealTimeInterruptable());
+        LOG_MESSAGE(Logger::CORE,"Time sources (realtime) created");
 
         mScriptWrapper = new ScriptWrapper();
         LOG_MESSAGE(Logger::CORE,"Skriptwrapper erzeugt");
@@ -494,11 +501,6 @@ namespace rl
     World* CoreSubsystem::getWorld()
     {
         return mWorld;
-    }
-
-    unsigned long CoreSubsystem::getClock()
-    {
-        return mGameLoop->getClock();
     }
 
     Ogre::String CoreSubsystem::getEngineVersionString() const

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- *
+ * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,25 +13,41 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#include "stdinc.h" //precompiled header
 
-#include "TimerListener.h"
+#include "stdinc.h"
+#include "GameTimeSource.h"
 
-#include "CoreSubsystem.h"
-#include "Exception.h"
+namespace rl
+{
 
-namespace rl {
-
-    TimerListener::~TimerListener()
+    GameTimeSource::GameTimeSource()
+        : RealTimeInterruptable()
     {
-	}
+    }
 
-	bool TimerListener::eventRaised(TimerEvent* evt)
-	{
-        timerFired(evt);
+    GameTimeSource::~GameTimeSource()
+    {
+    }
 
-        // consumed or not
-		return false;
-	}
+    void GameTimeSource::setDate(const Date& date)
+    {
+        setClock(date.getTimestamp());
+    }
+
+    Date GameTimeSource::getDate() const
+    {
+        return Date(getClock());
+    }
+
+    const Ogre::String& GameTimeSource::getName() const
+    {
+        static Ogre::String NAME = "Game time source";
+        return NAME;
+    }
+
+    TimeSource::TimeSourceType GameTimeSource::getType() const
+    {
+        return TimeSource::GAMETIME;
+    }
+
 }
-

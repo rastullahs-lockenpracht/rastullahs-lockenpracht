@@ -48,6 +48,7 @@ class SoundManager;
 class DebugVisualsManager;
 class JobScheduler;
 class ZoneManager;
+class TimeSourceManager;
 
 typedef _RlCoreExport std::map<Ogre::String, ContentModule*> ModuleMap;
 
@@ -86,10 +87,6 @@ public:
 
     void setDeveloperMode(bool developerMode);
     bool getDeveloperMode() const;
-
-    /// Returns time since game started in Milliseconds.
-    /// Uses GameLoop::getClock internally, function is here to allow access from ruby.
-    unsigned long getClock();
 
     /** Saves a timestamped png Screenshot
         @param sName The filename (extended with the timestamp)
@@ -143,6 +140,7 @@ private:
     DebugVisualsManager* mDebugVisualsManager;
     JobScheduler* mJobScheduler;
 	ZoneManager* mZoneManager;
+    TimeSourceManager* mTimeSourceManager;
 
     /** Runs the setup methods  */
     bool initializeCoreSubsystem();

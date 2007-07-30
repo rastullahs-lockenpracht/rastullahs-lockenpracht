@@ -19,6 +19,8 @@
 
 #include "CorePrerequisites.h"
 
+#include "TimeSource.h"
+
 namespace rl
 {
     /** A Job is an independent executional entity, that encapsules a singe specific task
@@ -44,7 +46,8 @@ namespace rl
          *         Job, after execution is finished. This should usually be the case, but
          *         sometimes it is sensible to pool a number of Jobs for reuse.
          */
-        Job(bool isDiscardable, bool destroyWhenDone);
+        Job(bool isDiscardable, bool destroyWhenDone, 
+            TimeSource::TimeSourceType type = TimeSource::REALTIME_CONTINUOUS);
         virtual ~Job();
 
         /**
@@ -67,9 +70,12 @@ namespace rl
         /// Returns true, if the Job shall be deleted, if the Job is finished. Returns false else.
         virtual bool destroyWhenDone();
 
+        TimeSource::TimeSourceType getTimeSource() const;
+
     protected:
         bool mIsDiscardable;
         bool mDestroyWhenDone;
+        TimeSource::TimeSourceType mTimeSource;
     };
 }
 

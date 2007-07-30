@@ -26,7 +26,7 @@
 #include "DsaDataLoader.h"
 
 #include "Exception.h"
-#include "GameLoop.h"
+#include "GameTimeSource.h"
 
 #include <cstdlib>
 
@@ -130,42 +130,49 @@ namespace rl
 		return false;
 	}
 
-    RL_LONGLONG DsaManager::getTimestamp() const
-    {
-        unsigned long currentClock = GameLoop::getSingleton().getClock();
-        mLastGameTime += (RL_LONGLONG) (mTimeScale * (currentClock - mLastClock));
-        mLastClock = currentClock;
-		return mLastGameTime;
-    }
+    Time DsaManager::getTimestamp() const
+	{
+        TimeSource* ts = TimeSourceManager::getSingleton().getTimeSource(
+                TimeSource::GAMETIME);
+
+        if (ts)
+        {
+            return ts->getClock();
+        }
+        else
+        {
+            return 0; ///@todo better throw exception?
+        }
+	}
 
 	Date DsaManager::getCurrentDate() const
 	{
-		return Date(getTimestamp());
-	}
+        GameTimeSource* ts = dynamic_cast<GameTimeSource*>(
+            TimeSourceManager::getSingleton().getTimeSource(
+                TimeSource::GAMETIME));
 
-	void DsaManager::setTimestamp(const RL_LONGLONG time)
-	{
-		mLastGameTime = time;
-        mLastClock = GameLoop::getSingleton().getClock();
+        if (ts)
+        {
+            return ts->getDate();
+        }
+        else
+        {
+            return Date(0); ///@todo better throw exception?
+        }
 	}
 
 	void DsaManager::setCurrentDate(const Date& date)
 	{
-		setTimestamp(date.getTimestamp());
+        GameTimeSource* ts = dynamic_cast<GameTimeSource*>(
+            TimeSourceManager::getSingleton().getTimeSource(
+                TimeSource::GAMETIME));
+
+        if (ts)
+        {
+            ts->setDate(date);
+        }
+        //else ///@todo better throw exception?
 	}
-
-    Real DsaManager::getTimeScale() const
-    {
-        return mTimeScale;
-    }
-
-    void DsaManager::setTimeScale(Real scale)
-    {
-        // First refresh time with old scale.
-        getTimestamp();
-        // Then set new scale.
-        mTimeScale = scale;
-    }
 
     int DsaManager::rollD20() const
     {

@@ -13,41 +13,27 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#include "stdinc.h" //precompiled header
+#ifndef __JOBQUEUE_H__
+#define __JOBQUEUE_H__
 
 #include "Job.h"
-#include "Exception.h"
 
 namespace rl
 {
-    Job::Job(bool isDiscardable, bool destroyWhenDone, TimeSource::TimeSourceType timesource)
-        : mIsDiscardable(isDiscardable), 
-        mDestroyWhenDone(destroyWhenDone),
-        mTimeSource(timesource)
-    {
-    }
 
-    Job::~Job()
+    class JobQueue : public Job
     {
-    }
+    public:
+        JobQueue();
+        ~JobQueue();
 
-    bool Job::isDiscardable()
-    {
-        return mIsDiscardable;
-    }
+        void addJob(Job* job);
+        virtual bool execute(Ogre::Real elapsedTime);
 
-    bool Job::destroyWhenDone()
-    {
-        return mDestroyWhenDone;
-    }
+    private:
+        std::list<Job*> mQueue;
+    };
 
-    void Job::discard()
-    {
-        RlFail("Discarded non discardable Job.");
-    }
-
-    TimeSource::TimeSourceType Job::getTimeSource() const
-    {
-        return mTimeSource;
-    }
 }
+
+#endif // __JOBQUEUE_H__

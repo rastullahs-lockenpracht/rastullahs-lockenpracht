@@ -18,11 +18,12 @@
 
 #include "GameTask.h"
 
-namespace rl {
-
-GameTask::GameTask()
+namespace rl 
 {
-    mPaused = false;
+
+GameTask::GameTask(bool pauseable)
+: mInterruptable(false), mPaused(false)
+{
 }
         
 bool GameTask::isPaused() const
@@ -32,7 +33,15 @@ bool GameTask::isPaused() const
 
 void GameTask::setPaused( bool isPaused )
 {
-    mPaused = isPaused;
+    if (mInterruptable)
+    {
+        mPaused = isPaused;
+    }
+}
+
+bool GameTask::isInterruptable() const
+{
+    return mInterruptable;
 }
 
 }

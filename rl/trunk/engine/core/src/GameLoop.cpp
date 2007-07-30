@@ -204,9 +204,4 @@ namespace rl
             return std::accumulate(mLastTimes.begin(), mLastTimes.end(), 0)
                 / std::max(mLastTimes.size(), (size_t)1);
     }
-
-    unsigned long GameLoop::getClock() const
-    {
-        return mGameTime;
-    }
 }

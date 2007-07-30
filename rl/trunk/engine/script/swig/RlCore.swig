@@ -662,7 +662,6 @@ public:
     rl::ContentModule* getModule(const Ogre::String& moduleId) const;
 
     rl::World* getWorld();
-    unsigned long getClock();
     void makeScreenshot(const Ogre::String& sName);
     bool isInitialized() const;
     void setScheme(const Ogre::String& schemeName);

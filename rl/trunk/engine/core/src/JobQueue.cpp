@@ -13,41 +13,25 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#include "stdinc.h" //precompiled header
+#include "stdinc.h"
 
-#include "Job.h"
-#include "Exception.h"
+#include "JobQueue.h"
 
 namespace rl
 {
-    Job::Job(bool isDiscardable, bool destroyWhenDone, TimeSource::TimeSourceType timesource)
-        : mIsDiscardable(isDiscardable), 
-        mDestroyWhenDone(destroyWhenDone),
-        mTimeSource(timesource)
-    {
-    }
 
-    Job::~Job()
-    {
-    }
+JobQueue::JobQueue()
+: Job(true, true)
+{
+}
 
-    bool Job::isDiscardable()
-    {
-        return mIsDiscardable;
-    }
+JobQueue::~JobQueue()
+{
+}
 
-    bool Job::destroyWhenDone()
-    {
-        return mDestroyWhenDone;
-    }
+bool JobQueue::execute(Ogre::Real elapsedTime)
+{
+    return true; ///@todo
+}
 
-    void Job::discard()
-    {
-        RlFail("Discarded non discardable Job.");
-    }
-
-    TimeSource::TimeSourceType Job::getTimeSource() const
-    {
-        return mTimeSource;
-    }
 }

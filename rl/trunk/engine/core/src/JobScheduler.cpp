@@ -19,6 +19,7 @@
 #include "Job.h"
 #include "JobListener.h"
 #include "GameLoop.h"
+#include "TimeSource.h"
 
 using namespace Ogre;
 
@@ -39,7 +40,9 @@ namespace rl
         JobListener* listener)
     {
         unsigned long ticket = ++mTicketCounter;
-        unsigned long clock = GameLoop::getSingleton().getClock();
+        TimeSource* ts = TimeSourceManager::getSingleton().getTimeSource(
+            job->getTimeSource());
+        unsigned long clock = ts->getClock();
         unsigned long start = clock + delay*1000;
         unsigned long end = maxRuntime >= Math::POS_INFINITY ?
             0xffffffff : static_cast<unsigned long>(start + maxRuntime*1000);
@@ -55,7 +58,6 @@ namespace rl
 
         ///@todo dynamically determine token threshold. Maybe make it work load depending.
 
-        unsigned long clock = GameLoop::getSingleton().getClock();
 
         // Queue for finished jobs
         JobQueue notDone;
@@ -63,6 +65,10 @@ namespace rl
         for (JobQueue::iterator it = mJobQueue.begin(), end = mJobQueue.end(); it != end; ++it)
         {
             JobEntry entry = *it;
+
+            TimeSource* ts = TimeSourceManager::getSingleton().getTimeSource(
+                entry.job->getTimeSource());
+            Time clock = ts->getClock();
 
             if (entry.start <= clock && clock < entry.end)
             {

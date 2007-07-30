@@ -97,7 +97,6 @@ namespace rl {
     public:
         RL_LONGLONG getTimestamp();
         Date getCurrentDate();
-        void setTimestamp(const RL_LONGLONG time);
         void setCurrentDate(const Date& date);
         
         int rollD20();
@@ -724,38 +723,6 @@ namespace rl {
         void registerInGameGlobalAction(rl::Action* action, rl::ActionGroup* group);
     
         static rl::ActionManager& getSingleton();
-    };
-    
-    %feature("director") TimerListener;
-    class TimerListener
-    {
-    public:
-        virtual ~TimerLister();
-      
-          virtual void timerFired(rl::TimerEvent* anEvent) = 0;
-    };
-    
-    class TimerEventSource
-    {
-    public:
-        static const RL_LONGLONG NO_REPEAT;
-
-        TimerEventSource( const RL_LONGLONG gameTime, const RL_LONGLONG interval = rl::TimerEventSource::NO_REPEAT );
-        TimerEventSource( const rl::Date dsaTime, const rl::Date interval = rl::TimerEventSource::NO_REPEAT );
-    
-        void addTimerListener( rl::TimerListener* ist );
-        void removeTimerListener( rl::TimerListener* ist );
-    };
-    
-    class TimerEvent
-    {
-    public:
-        TimerEvent( rl::TimerEventSource* src );
-    
-        Ogre::Real getTime();
-        rl::Date getGameTime();
-
-        rl::TimerEventSource* getSource() const;
     };
     
     class CreatureController

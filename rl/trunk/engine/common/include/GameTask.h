@@ -26,30 +26,35 @@ namespace rl {
 class _RlCommonExport GameTask
 {
     public:
-		/// Default Konstruktor, startet unpausiert
-        GameTask();
+		/// Konstruktor, startet unpausiert
+        /// @param interruptable set to <code>false</code> if GameTask can't be paused
+        GameTask(bool interruptable = true);
+
 		/// Virtueller Basis-Destruktor
-        virtual ~GameTask( ) {};
+        virtual ~GameTask() {};
 
 		/** Wird vom Gameloop aufgerufen, wenn nicht pausiert, 
-            wird von  Unterklassen implementiert
+            wird von Unterklassen implementiert
 
 			@param elapsedTime Die vergangene Zeit
 		*/
-		virtual void run( Ogre::Real elapsedTime ) = 0;
+		virtual void run(Ogre::Real elapsedTime) = 0;
 
-		/** Returns the name of the derived class for debugging purposes.
-		 */
+		/// Returns the name of the derived class for debugging purposes.
         virtual const Ogre::String& getName() const = 0;
+
+        bool isInterruptable() const;
         
 		/// Gibt zurück ob dieser GameTask pausiert ist
         bool isPaused() const;
+
 		/// Pausiert/Unpausiert den GameTask
-        void setPaused( bool isPaused );
+        void setPaused(bool isPaused);
 
     private:
 		/// Pause
         bool mPaused;
+        bool mInterruptable;
 };
 
 }

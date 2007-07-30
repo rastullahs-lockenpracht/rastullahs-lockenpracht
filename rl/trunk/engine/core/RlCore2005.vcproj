@@ -456,6 +456,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\JobQueue.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\JobScheduler.h"
 				>
 			</File>
@@ -600,6 +604,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\TimeSource.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\TrackAnimation.h"
 				>
 			</File>
@@ -726,6 +734,10 @@
 			</File>
 			<File
 				RelativePath=".\src\Job.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\JobQueue.cpp"
 				>
 			</File>
 			<File
@@ -875,6 +887,10 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\src\TimeSource.cpp"
+				>
 			</File>
 			<File
 				RelativePath=".\src\TrackAnimation.cpp"

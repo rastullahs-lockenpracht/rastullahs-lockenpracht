@@ -24,9 +24,9 @@
 #include "EffectFactory.h"
 #include "Logger.h"
 #include "CreatureControllerManager.h"
-#include "TimerManager.h"
 #include "GameObjectManager.h"
 #include "QuestBook.h"
+#include "GameTimeSource.h"
 
 template <>
 rl::RulesSubsystem* Singleton<rl::RulesSubsystem>::ms_Singleton = 0;
@@ -38,12 +38,14 @@ namespace rl
         mCombatManager(NULL),
         mDsaManager(NULL),
         mMovingCreatureManager(NULL),
-        mTimerManager(NULL),
         mXdimlLoader(NULL)
     {
 		LOG_MESSAGE(Logger::RULES, "Start");
         //Zufallsgenerator initialisieren
         srand(static_cast<unsigned int>(time(NULL)));
+
+        TimeSourceManager::getSingleton().registerTimeSource(
+            new GameTimeSource());
 
         //Singletons erzeugen
         mActionManager = new ActionManager();
@@ -54,8 +56,6 @@ namespace rl
 		LOG_MESSAGE(Logger::RULES, "DsaManager erzeugt");
         mMovingCreatureManager = new CreatureControllerManager();
 		LOG_MESSAGE(Logger::RULES, "CreatureControllerManager erzeugt");
-        mTimerManager = new TimerManager();
-		LOG_MESSAGE(Logger::RULES, "TimerManager erzeugt");
 		resetQuestBook();
 		LOG_MESSAGE(Logger::RULES, "Questverwaltung erzeugt");
 
@@ -71,7 +71,6 @@ namespace rl
 	RulesSubsystem::~RulesSubsystem()
     {
         delete mQuestBook;
-        delete mTimerManager;
         delete mDsaManager;
         delete mMovingCreatureManager;
         delete mCombatManager;

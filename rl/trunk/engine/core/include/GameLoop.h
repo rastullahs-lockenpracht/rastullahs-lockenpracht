@@ -67,9 +67,6 @@ public:
 	/// @param paused <code>true</code> if the game should be paused, <code>false</code> if it should be continued
 	void setPaused(bool paused);
 
-    /// Returns time since game started in Milliseconds.
-    unsigned long getClock() const;
-
     /// Main loop of RL.
     void loop();
 
@@ -131,4 +128,3 @@ private:
 
 }
 #endif
-

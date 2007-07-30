@@ -351,6 +351,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\GameTimeSource.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Inventory.cpp"
 				>
 			</File>
@@ -452,22 +456,6 @@
 			</File>
 			<File
 				RelativePath=".\src\TalentStateSet.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\TimerEvent.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\TimerEventSource.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\TimerListener.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\TimerManager.cpp"
 				>
 			</File>
 			<File
@@ -577,6 +565,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\GameTimeSource.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\Inventory.h"
 				>
 			</File>
@@ -666,22 +658,6 @@
 			</File>
 			<File
 				RelativePath=".\include\TalentStateSet.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\TimerEvent.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\TimerEventSource.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\TimerListener.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\TimerManager.h"
 				>
 			</File>
 			<File
