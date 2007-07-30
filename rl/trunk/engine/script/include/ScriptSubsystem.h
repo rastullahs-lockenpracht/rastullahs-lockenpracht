@@ -32,6 +32,7 @@ namespace rl
         virtual ~ScriptSubsystem();
 
         void log(const CeGuiString& message);
+        void logError(const CeGuiString& message);
 		void setTriggerFactory(TriggerFactory* factory);
 		TriggerFactory* getTriggerFactory() const;
 

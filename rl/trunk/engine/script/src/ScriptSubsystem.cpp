@@ -41,6 +41,11 @@ namespace rl {
         LOG_MESSAGE(Logger::SCRIPT, message);
     }
 
+    void ScriptSubsystem::logError(const rl::CeGuiString &message)
+    {
+        LOG_ERROR(Logger::SCRIPT, message);
+    }
+
 	TriggerFactory* ScriptSubsystem::getTriggerFactory() const
 	{
 		return mTriggerFactory;

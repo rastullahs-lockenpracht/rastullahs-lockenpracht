@@ -1,6 +1,7 @@
 require 'jobs/jobsequence.rb'
 require 'jobs/soundjobs.rb'
 require 'jobs/animationjobs.rb'
+require 'jobs/closurejobs.rb'
 
 class JobSequenceTestAction < Action
   def initialize
@@ -20,11 +21,37 @@ class JobSequenceTestAction < Action
                 _PlaySound3d("lachen.ogg", go.getPosition()),
                 2,
                 _PlayAnimation(go.getActor(), "zu"),
-                _PlaySound3d("doorcreak.ogg", go.getPosition())
+                _PlaySound3d("doorcreak.ogg", go.getPosition()),
+				2,
+				_Execute {provokeEror},
+				2,
+				_Execute {p "FOO"}
             ]
     );
   end
 end
+
+#class JobQueueTestAction < Action
+#  def initialize
+#    super("checktime", "Zeit ansagen lassen.");
+#  end
+  
+#  def canDo(go, user)
+#    true
+#  end
+  
+#  def doAction(go, user, target)
+#    jobQueue(
+#            [
+#                jobSequence([_PlayAnimation(go.getActor(), "auf"), _PlaySound3d("doorcreak.ogg", go.getPosition())],
+#				_PlaySound3d("lachen.ogg", go.getPosition()),
+#                jobSequence([_PlayAnimation(go.getActor(), "zu"), _PlaySound3d("doorcreak.ogg", go.getPosition())],
+#				2,
+#				_ExecuteJob {$UI.requestExit}
+#            ]
+#    );
+#  end
+#end
 
 class JobSequenceTest < TestCase
     def execute()
@@ -32,8 +59,8 @@ class JobSequenceTest < TestCase
         height = 0.3
         min_base = [-2.0, 0.05, -2.0]
         max_base = [2.0, height, 2.0]
-        base = $AM.createBoxPrimitiveActor("JobSequenceTestBase",
-                                           min_base, max_base, "alpha_green")
+        base = $AM.createBoxPrimitiveActor(
+             "JobSequenceTestBase", min_base, max_base, "alpha_green")
         base.placeIntoScene(getCenter());
 
         chest = $GOM.createGameObject(

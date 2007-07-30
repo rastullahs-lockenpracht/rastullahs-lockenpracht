@@ -22,6 +22,7 @@ namespace rl
 		static rl::ScriptSubsystem& getSingleton();
 
 		void log(const rl::CeGuiString& message);
+        void logError(const rl::CeGuiString& message);
 		void setTriggerFactory(rl::TriggerFactory* factory);
 	};
 	  
