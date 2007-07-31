@@ -16,22 +16,37 @@
 #ifndef __JOBQUEUE_H__
 #define __JOBQUEUE_H__
 
+#include "CorePrerequisites.h"
+
 #include "Job.h"
 
 namespace rl
 {
 
-    class JobQueue : public Job
+    class _RlCoreExport JobQueue : public Job
     {
     public:
         JobQueue();
         ~JobQueue();
 
-        void addJob(Job* job);
+        void add(Job* job);
         virtual bool execute(Ogre::Real elapsedTime);
 
     private:
         std::list<Job*> mQueue;
+    };
+
+    class _RlCoreExport JobSet : public Job
+    {
+    public:
+        JobSet();
+        ~JobSet();
+
+        void add(Job* job);
+        virtual bool execute(Ogre::Real elapsedTime);
+
+    private:
+        std::set<Job*> mSet;
     };
 
 }

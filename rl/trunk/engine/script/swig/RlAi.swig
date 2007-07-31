@@ -16,9 +16,9 @@
 
 %include std_vector.i
 
-namespace std {
-	%template(Ogrevec3Vector) vector<Ogre::Vector3 >;
-};
+//namespace std {
+//	%template(Ogrevec3Vector) vector<Ogre::Vector3 >;
+//};
 
 namespace rl 
 {
@@ -271,27 +271,27 @@ namespace rl
 %{
 static swig_type_info *AStarHeuristic_dynamic_cast(void **ptr)
 {
-    rl::AStarHeuristic **ppAStarHeuristic = reinterpret_cast<rl::AStarHeuristic**>(ptr);
+    rl::AStarHeuristic *pAStarHeuristic = static_cast<rl::AStarHeuristic*>(*ptr);
 
-    rl::ManhattanDistance *pManhattanDistance=dynamic_cast<rl::ManhattanDistance*>(*ppAStarHeuristic);
+    rl::ManhattanDistance *pManhattanDistance=dynamic_cast<rl::ManhattanDistance*>(pAStarHeuristic);
     if (pManhattanDistance)
     {
         *ptr=pManhattanDistance;
         return SWIGTYPE_p_rl__ManhattanDistance;
     }
-    rl::DiagonalDistance *pDiagonalDistance=dynamic_cast<rl::DiagonalDistance*>(*ppAStarHeuristic);
+    rl::DiagonalDistance *pDiagonalDistance=dynamic_cast<rl::DiagonalDistance*>(pAStarHeuristic);
     if (pDiagonalDistance)
     {
         *ptr=pDiagonalDistance;
         return SWIGTYPE_p_rl__DiagonalDistance;
     }
-    rl::EuclideanDistance *pEuclideanDistance=dynamic_cast<rl::EuclideanDistance*>(*ppAStarHeuristic);
+    rl::EuclideanDistance *pEuclideanDistance=dynamic_cast<rl::EuclideanDistance*>(pAStarHeuristic);
     if (pEuclideanDistance)
     {
         *ptr=pEuclideanDistance;
         return SWIGTYPE_p_rl__EuclideanDistance;
     }
-    rl::EuclideanDistanceSquared *pEuclideanDistanceSquared=dynamic_cast<rl::EuclideanDistanceSquared*>(*ppAStarHeuristic);
+    rl::EuclideanDistanceSquared *pEuclideanDistanceSquared=dynamic_cast<rl::EuclideanDistanceSquared*>(pAStarHeuristic);
     if (pEuclideanDistanceSquared)
     {
         *ptr=pEuclideanDistanceSquared;
@@ -307,9 +307,9 @@ DYNAMIC_CAST(SWIGTYPE_p_rl__AStarHeuristic, AStarHeuristic_dynamic_cast);
 %{
 static swig_type_info *AStarCosts_dynamic_cast(void **ptr)
 {
-    rl::AStarCosts **ppAStarCosts = reinterpret_cast<rl::AStarCosts**>(ptr);
+    rl::AStarCosts *pAStarCosts = static_cast<rl::AStarCosts*>(*ptr);
 
-    rl::AStarCostsDefault *pAStarCostsDefault=dynamic_cast<rl::AStarCostsDefault*>(*ppAStarCosts);
+    rl::AStarCostsDefault *pAStarCostsDefault=dynamic_cast<rl::AStarCostsDefault*>(pAStarCosts);
     if (pAStarCostsDefault)
     {
         *ptr=pAStarCostsDefault;

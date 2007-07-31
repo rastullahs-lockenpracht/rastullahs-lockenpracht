@@ -17,9 +17,9 @@
 namespace rl {
 %{
 static swig_type_info *GameAreaType_dynamic_cast(void **ptr) {
-    rl::GameAreaType **ppGameAreaType = reinterpret_cast<rl::GameAreaType **>(ptr);
+    rl::GameAreaType *pGameAreaType = static_cast<rl::GameAreaType *>(*ptr);
     
-    rl::GameSphereAreaType *pGameSphereAreaType = dynamic_cast<rl::GameSphereAreaType*>(*ppGameAreaType);
+    rl::GameSphereAreaType *pGameSphereAreaType = dynamic_cast<rl::GameSphereAreaType*>(pGameAreaType);
     if (pGameSphereAreaType){
       *ptr=pGameSphereAreaType;
       return SWIGTYPE_p_rl__GameSphereAreaType;
@@ -34,19 +34,19 @@ DYNAMIC_CAST(SWIGTYPE_p_rl__GameAreaType, GameAreaType_dynamic_cast);
 
 %{
 static swig_type_info *BaseAnimation_dynamic_cast(void **ptr) {
-    rl::BaseAnimation **ppBaseAnimation = reinterpret_cast<rl::BaseAnimation **>(ptr);
+    rl::BaseAnimation *pBaseAnimation = static_cast<rl::BaseAnimation *>(*ptr);
     
-    rl::FadeAnimation *pFadeAnimation = dynamic_cast<rl::FadeAnimation*>(*ppBaseAnimation);
+    rl::FadeAnimation *pFadeAnimation = dynamic_cast<rl::FadeAnimation*>(pBaseAnimation);
     if (pFadeAnimation){
       *ptr=pFadeAnimation;
       return SWIGTYPE_p_rl__FadeAnimation;
     }    
-    rl::MeshAnimation *pMeshAnimation = dynamic_cast<rl::MeshAnimation*>(*ppBaseAnimation);
+    rl::MeshAnimation *pMeshAnimation = dynamic_cast<rl::MeshAnimation*>(pBaseAnimation);
     if (pMeshAnimation){
       *ptr=pMeshAnimation;
       return SWIGTYPE_p_rl__MeshAnimation;
     }    
-    rl::TrackAnimation *pTrackAnimation = dynamic_cast<rl::TrackAnimation*>(*ppBaseAnimation);
+    rl::TrackAnimation *pTrackAnimation = dynamic_cast<rl::TrackAnimation*>(pBaseAnimation);
     if (pTrackAnimation){
       *ptr=pTrackAnimation;
       return SWIGTYPE_p_rl__TrackAnimation;
@@ -61,35 +61,35 @@ DYNAMIC_CAST(SWIGTYPE_p_rl__BaseAnimation, BaseAnimation_dynamic_cast);
 %{
 static swig_type_info *ActorControlledObject_dynamic_cast(void **ptr)
 {
-    rl::ActorControlledObject **ppActorControlledObject =
-        reinterpret_cast<rl::ActorControlledObject**>(ptr);
+    rl::ActorControlledObject *pActorControlledObject =
+        static_cast<rl::ActorControlledObject*>(*ptr);
 
-    rl::MergeableMeshObject *pMergeableMeshObject=dynamic_cast<rl::MergeableMeshObject*>(*ppActorControlledObject);
+    rl::MergeableMeshObject *pMergeableMeshObject=dynamic_cast<rl::MergeableMeshObject*>(pActorControlledObject);
     if (pMergeableMeshObject) {
         *ptr=pMergeableMeshObject;
         return SWIGTYPE_p_rl__MergeableMeshObject;
     }
-    rl::MeshObject *pMeshObject=dynamic_cast<rl::MeshObject*>(*ppActorControlledObject);
+    rl::MeshObject *pMeshObject=dynamic_cast<rl::MeshObject*>(pActorControlledObject);
     if (pMeshObject) {
         *ptr=pMeshObject;
         return SWIGTYPE_p_rl__MeshObject;
     }
-    rl::CameraObject *pCameraObject=dynamic_cast<rl::CameraObject*>(*ppActorControlledObject);
+    rl::CameraObject *pCameraObject=dynamic_cast<rl::CameraObject*>(pActorControlledObject);
     if (pCameraObject) {
         *ptr=pCameraObject;
         return SWIGTYPE_p_rl__CameraObject;
     }
-    rl::LightObject *pLightObject=dynamic_cast<rl::LightObject*>(*ppActorControlledObject);
+    rl::LightObject *pLightObject=dynamic_cast<rl::LightObject*>(pActorControlledObject);
     if (pLightObject) {
         *ptr=pLightObject;
         return SWIGTYPE_p_rl__LightObject;
     }
-    rl::ParticleSystemObject *pParticleSystemObject=dynamic_cast<rl::ParticleSystemObject*>(*ppActorControlledObject);
+    rl::ParticleSystemObject *pParticleSystemObject=dynamic_cast<rl::ParticleSystemObject*>(pActorControlledObject);
     if (pParticleSystemObject) {
         *ptr=pParticleSystemObject;
         return SWIGTYPE_p_rl__ParticleSystemObject;
     }
-    rl::SoundObject *pSoundObject=dynamic_cast<rl::SoundObject*>(*ppActorControlledObject);
+    rl::SoundObject *pSoundObject=dynamic_cast<rl::SoundObject*>(pActorControlledObject);
     if (pSoundObject) {
         *ptr=pSoundObject;
         return SWIGTYPE_p_rl__SoundObject;
@@ -101,24 +101,34 @@ DYNAMIC_CAST(SWIGTYPE_p_rl__ActorControlledObject, ActorControlledObject_dynamic
 
 %{
 static swig_type_info *Job_dynamic_cast(void **ptr) {
-    rl::Job **ppJob = reinterpret_cast<rl::Job **>(ptr);
+    rl::Job *ppJob = static_cast<rl::Job*>(*ptr);
       
     
-    rl::PlayAnimationJob *pPlayAnimationJob = dynamic_cast<rl::PlayAnimationJob*>(*ppJob);
+    rl::PlayAnimationJob *pPlayAnimationJob = dynamic_cast<rl::PlayAnimationJob*>(ppJob);
     if (pPlayAnimationJob){
       *ptr=pPlayAnimationJob;
       return SWIGTYPE_p_rl__PlayAnimationJob;
     }    
-    rl::PlaySound3dJob *pPlaySound3dJob = dynamic_cast<rl::PlaySound3dJob*>(*ppJob);
+    rl::PlaySound3dJob *pPlaySound3dJob = dynamic_cast<rl::PlaySound3dJob*>(ppJob);
     if (pPlaySound3dJob){
       *ptr=pPlaySound3dJob;
       return SWIGTYPE_p_rl__PlaySound3dJob;
     }    
-    rl::PlaySound2dJob *pPlaySound2dJob = dynamic_cast<rl::PlaySound2dJob*>(*ppJob);
+    rl::PlaySound2dJob *pPlaySound2dJob = dynamic_cast<rl::PlaySound2dJob*>(ppJob);
     if (pPlaySound2dJob){
       *ptr=pPlaySound2dJob;
       return SWIGTYPE_p_rl__PlaySound2dJob;
-    }  
+    }
+    rl::JobQueue *pJobQueue = dynamic_cast<rl::JobQueue*>(ppJob);
+    if (pJobQueue) {
+      *ptr=pJobQueue;
+      return SWIGTYPE_p_rl__JobQueue;
+    }
+    rl::JobSet *pJobSet = dynamic_cast<rl::JobSet*>(ppJob);
+    if (pJobSet) {
+      *ptr=pJobSet;
+      return SWIGTYPE_p_rl__JobSet;
+    }
     
     return 0;
 }
@@ -839,6 +849,28 @@ private:
 //
 //    virtual bool execute(Ogre::Real time);
 //};
+
+class JobQueue : public rl::Job
+{
+public:
+    JobQueue();
+    virtual ~JobQueue();
+    void add(Job* job);
+    
+private:
+    bool execute(Ogre::Real time);
+};
+
+class JobSet : public rl::Job
+{
+public:
+    JobSet();
+    virtual ~JobSet();
+    void add(Job* job);
+    
+private:
+    bool execute(Ogre::Real time);
+};
 
 class JobScheduler
 {

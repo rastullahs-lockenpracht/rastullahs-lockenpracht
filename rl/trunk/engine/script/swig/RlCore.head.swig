@@ -53,6 +53,7 @@
 #include "SoundEvents.h"
 #include "JobScheduler.h"
 #include "Job.h"
+#include "JobQueue.h"
 #include "JobListener.h"
 #include "PlaySoundJob.h"
 #include "PlayAnimationJob.h"

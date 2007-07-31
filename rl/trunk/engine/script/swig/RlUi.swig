@@ -137,11 +137,11 @@ public:
 %{
 static swig_type_info *ControlState_dynamic_cast(void **ptr)
 {
-    rl::ControlState **ppControlState =
-        reinterpret_cast<rl::ControlState**>(ptr);
+    rl::ControlState *pControlState =
+        static_cast<rl::ControlState*>(*ptr);
 
     rl::CutsceneControlState *pCutSceneCS =
-        dynamic_cast<rl::CutsceneControlState*>(*ppControlState);
+        dynamic_cast<rl::CutsceneControlState*>(pControlState);
     if (pCutSceneCS != NULL) {
         *ptr=pCutSceneCS;
         return SWIGTYPE_p_rl__CutsceneControlState;

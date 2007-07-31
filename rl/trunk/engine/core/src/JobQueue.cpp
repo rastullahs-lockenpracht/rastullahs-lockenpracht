@@ -21,7 +21,7 @@ namespace rl
 {
 
 JobQueue::JobQueue()
-: Job(true, true)
+: Job(false, true)
 {
 }
 
@@ -29,9 +29,90 @@ JobQueue::~JobQueue()
 {
 }
 
+void JobQueue::add(Job* job)
+{
+    mQueue.push_back(job);
+}
+
 bool JobQueue::execute(Ogre::Real elapsedTime)
 {
-    return true; ///@todo
+    Job* cur = *mQueue.begin();
+    bool finished = cur->execute(elapsedTime);
+    if (finished)
+    {
+        mQueue.pop_front();
+        if (cur->isDiscardable())
+        {
+            cur->discard();
+        }
+        if (cur->destroyWhenDone())
+        {
+            delete cur;
+        }
+    }
+
+    if (mQueue.empty())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+JobSet::JobSet()
+: Job(false, true)
+{
+}
+
+JobSet::~JobSet()
+{
+}
+
+void JobSet::add(Job* job)
+{
+    mSet.insert(job);
+}
+
+bool JobSet::execute(Ogre::Real elapsedTime)
+{
+    std::set<Job*> toDelete;
+
+    for (std::set<Job*>::iterator it = mSet.begin(); 
+        it != mSet.end(); ++it)
+    {
+        Job* cur = *it;
+        bool finished = cur->execute(elapsedTime);
+        if (finished)
+        {
+            toDelete.insert(cur);
+        }
+    }
+
+    for (std::set<Job*>::iterator it = toDelete.begin(); 
+        it != toDelete.end(); ++it)
+    {
+        Job* cur = *it;
+        mSet.erase(cur);
+        if (cur->isDiscardable())
+        {
+            cur->discard();
+        }
+        if (cur->destroyWhenDone())
+        {
+            delete cur;
+        }
+    }
+
+    if (mSet.empty())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 }

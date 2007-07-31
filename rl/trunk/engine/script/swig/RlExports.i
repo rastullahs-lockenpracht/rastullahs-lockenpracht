@@ -13,6 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h"	
 
 // Activate Directors and name the module RlScript
 %module(directors="1") RlScript

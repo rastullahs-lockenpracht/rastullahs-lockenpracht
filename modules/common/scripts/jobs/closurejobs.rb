@@ -2,7 +2,7 @@ require 'globals.rb'
 
 class ClosureJob < Job
   def initialize()
-    super(true, true)
+    super(false, true)
   end
 
   def setCode(&code)

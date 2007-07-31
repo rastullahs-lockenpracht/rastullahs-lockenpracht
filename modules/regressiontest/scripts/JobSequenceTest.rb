@@ -5,7 +5,7 @@ require 'jobs/closurejobs.rb'
 
 class JobSequenceTestAction < Action
   def initialize
-    super("checktime", "Zeit ansagen lassen.");
+    super("sequence", "Test job sequence.");
   end
   
   def canDo(go, user)
@@ -31,27 +31,34 @@ class JobSequenceTestAction < Action
   end
 end
 
-#class JobQueueTestAction < Action
-#  def initialize
-#    super("checktime", "Zeit ansagen lassen.");
-#  end
+class JobQueueTestAction < Action
+  def initialize
+    super("queue", "Test job queue");
+  end
   
-#  def canDo(go, user)
-#    true
-#  end
+  def canDo(go, user)
+    true
+  end
   
-#  def doAction(go, user, target)
-#    jobQueue(
-#            [
-#                jobSequence([_PlayAnimation(go.getActor(), "auf"), _PlaySound3d("doorcreak.ogg", go.getPosition())],
-#				_PlaySound3d("lachen.ogg", go.getPosition()),
-#                jobSequence([_PlayAnimation(go.getActor(), "zu"), _PlaySound3d("doorcreak.ogg", go.getPosition())],
-#				2,
-#				_ExecuteJob {$UI.requestExit}
-#            ]
-#    );
-#  end
-#end
+  def doAction(go, user, target)
+    jobQueue(
+            [
+                [
+					_PlayAnimation(go.getActor(), "auf"), 
+					_PlaySound3d("doorcreak.ogg", go.getPosition())
+				],
+				_PlaySound3d("lachen.ogg", go.getPosition()),
+				[
+					_PlayAnimation(go.getActor(), "zu"), 
+					_PlaySound3d("doorcreak.ogg", go.getPosition())
+				],
+				2,
+				_Execute {provokeEror},
+				_Execute {p "FOO"}
+            ]
+    )
+  end
+end
 
 class JobSequenceTest < TestCase
     def execute()
@@ -66,6 +73,7 @@ class JobSequenceTest < TestCase
         chest = $GOM.createGameObject(
             "JobSequenceTestChest");
         chest.addAction(JobSequenceTestAction.new());
+        chest.addAction(JobQueueTestAction.new());
         chest.placeIntoScene();
         chest.setPosition(rel_pos([0.0, height, 0.0]));
 

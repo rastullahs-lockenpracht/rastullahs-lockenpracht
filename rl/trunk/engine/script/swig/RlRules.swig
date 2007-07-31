@@ -809,14 +809,14 @@ namespace rl {
 %{
 static swig_type_info *Selector_dynamic_cast(void **ptr)
 {
-	rl::Selector **ppSelector = reinterpret_cast<rl::Selector**>(ptr);
-	rl::HalfSphereSelector *pHalfSphereSel = dynamic_cast<rl::HalfSphereSelector*>(*ppSelector);
+	rl::Selector *pSelector = static_cast<rl::Selector*>(*ptr);
+	rl::HalfSphereSelector *pHalfSphereSel = dynamic_cast<rl::HalfSphereSelector*>(pSelector);
 	if (pHalfSphereSel)
 	{
 		*ptr = pHalfSphereSel;
 		return SWIGTYPE_p_rl__HalfSphereSelector;
 	}
-	rl::RaySelector *pRaySel = dynamic_cast<rl::RaySelector*>(*ppSelector);
+	rl::RaySelector *pRaySel = dynamic_cast<rl::RaySelector*>(pSelector);
 	if (pRaySel)
 	{
 		*ptr = pRaySel;
@@ -826,34 +826,34 @@ static swig_type_info *Selector_dynamic_cast(void **ptr)
 	
 static swig_type_info *GameObject_dynamic_cast(void **ptr)
 {
-    rl::GameObject **ppGameObject = reinterpret_cast<rl::GameObject**>(ptr);
+    rl::GameObject *pGameObject = static_cast<rl::GameObject*>(*ptr);
 
-    rl::Person *pPerson=dynamic_cast<rl::Person*>(*ppGameObject);
+    rl::Person *pPerson=dynamic_cast<rl::Person*>(pGameObject);
     if (pPerson) {
         *ptr=pPerson;
         return SWIGTYPE_p_rl__Person;
     }
-    rl::Creature *pCreature=dynamic_cast<rl::Creature*>(*ppGameObject);
+    rl::Creature *pCreature=dynamic_cast<rl::Creature*>(pGameObject);
     if (pCreature) {
         *ptr=pCreature;
         return SWIGTYPE_p_rl__Creature;
     }
-    rl::Weapon *pWeapon=dynamic_cast<rl::Weapon*>(*ppGameObject);
+    rl::Weapon *pWeapon=dynamic_cast<rl::Weapon*>(pGameObject);
     if (pWeapon) {
         *ptr=pWeapon;
         return SWIGTYPE_p_rl__Weapon;
     }
-    rl::Armor *pArmor=dynamic_cast<rl::Armor*>(*ppGameObject);
+    rl::Armor *pArmor=dynamic_cast<rl::Armor*>(pGameObject);
     if (pArmor) {
         *ptr=pArmor;
         return SWIGTYPE_p_rl__Armor;
     }
-    rl::Container *pContainer=dynamic_cast<rl::Container*>(*ppGameObject);
+    rl::Container *pContainer=dynamic_cast<rl::Container*>(pGameObject);
     if (pContainer) {
         *ptr=pContainer;
         return SWIGTYPE_p_rl__Container;
     }
-    rl::Item *pItem=dynamic_cast<rl::Item*>(*ppGameObject);
+    rl::Item *pItem=dynamic_cast<rl::Item*>(pGameObject);
     if (pItem) {
         *ptr=pItem;
         return SWIGTYPE_p_rl__Item;
