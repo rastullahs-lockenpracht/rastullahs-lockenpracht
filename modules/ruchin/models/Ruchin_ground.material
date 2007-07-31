@@ -1,0 +1,40 @@
+material Ruchin_ground: TerrainVColorBlending
+{
+
+   set_texture_alias black       erdboden01.dds
+   set_texture_alias red         laub01.dds
+   set_texture_alias green       nat_gras_01.dds
+   set_texture_alias blue        nat_steingrund_01.dds
+   set_texture_alias alpha       Tiles.dds
+   set_texture_alias Lightingmap Lightingmap2.png
+   
+   technique
+   {
+      pass
+      {
+         fragment_program_ref
+         {
+            param_named scale_Detail4 float 0.050000 // Alpha
+         }
+
+         vertex_program_ref
+         {
+            param_named Light_Ambient float4 0.500000 0.500000 0.500000 1.000000
+
+            param_named scale_Texture0 float 0.58000 // Schwarz
+            param_named scale_Detail0 float 0.020000
+
+            param_named scale_Texture1 float 0.5700 // Rot
+            param_named scale_Detail1 float 1.00000
+
+            param_named scale_Texture2 float 0.28500 // Gruen
+            param_named scale_Detail2 float 0.60000
+
+            param_named scale_Texture3 float 0.58000 // Blau
+            param_named scale_Detail3 float 1.00000
+
+            param_named scale_Texture4 float 0.016000 // Alpha
+         }
+      }
+   }
+}
