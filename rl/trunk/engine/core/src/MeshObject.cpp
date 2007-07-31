@@ -110,7 +110,6 @@ namespace rl {
         return animStates->hasAnimationState(animName);
     }
 
-	/// @todo Exception Handling
 	MeshAnimation* MeshObject::getAnimation(const String& animName)
 	{
         AnimationState* animState = 0;
@@ -119,17 +118,26 @@ namespace rl {
 		{
 			animState = getEntity()->getAnimationState(animName);
 		}
-		catch(Ogre::Exception&)
-		{
-            Throw(IllegalArgumentException,
-                animName + " is not a valid AnimationState of " + mMeshName + ".");
-		}
+        catch(Ogre::ItemIdentityException&)
+        {
+			LOG_WARNING(Logger::CORE,
+               mMeshName + " has no animation " + animName + ".");
+			return NULL;
+        }
+        catch(Ogre::Exception&)
+        {
+			LOG_ERROR(Logger::CORE,
+               animName + " is not a valid AnimationState of " + mMeshName + ".");
+			return NULL;
+        }
 
-        MeshAnimation* anim = NULL;
-		anim = dynamic_cast<MeshAnimation*>
+		MeshAnimation* anim = dynamic_cast<MeshAnimation*>
             (AnimationManager::getSingleton().getAnimation(animState));
-        if( anim == NULL )
-            anim = AnimationManager::getSingleton().addMeshAnimation(animState,this,1.0,0,true);
+        if (!anim)
+        {
+            anim = AnimationManager::getSingleton().addMeshAnimation(
+                animState,this,1.0,0,true);
+        }
 
 		return anim;
 	}
@@ -143,10 +151,16 @@ namespace rl {
         {
             animState = getEntity()->getAnimationState(animName);
         }
+        catch(Ogre::ItemIdentityException&)
+        {
+			LOG_WARNING(Logger::CORE,
+               mMeshName + " has no animation " + animName + ".");
+			return NULL;
+        }
         catch(Ogre::Exception&)
         {
 			LOG_ERROR(Logger::CORE,
-                animName + " is not a valid AnimationState of " + mMeshName + ".");
+               animName + " is not a valid AnimationState of " + mMeshName + ".");
 			return NULL;
         }
 
@@ -168,11 +182,16 @@ namespace rl {
 		{
 			animState = getEntity()->getAnimationState(animName);
 		}
-		catch(Ogre::Exception&)
-		{
-            Throw(IllegalArgumentException,
-                animName + " is not a valid AnimationState of " + mMeshName + ".");
-		}
+        catch(Ogre::ItemIdentityException&)
+        {
+			LOG_WARNING(Logger::CORE,
+               mMeshName + " has no animation " + animName + ".");
+        }
+        catch(Ogre::Exception&)
+        {
+			LOG_ERROR(Logger::CORE,
+               animName + " is not a valid AnimationState of " + mMeshName + ".");
+        }
 		AnimationManager::getSingleton().removeAnimation(animState);
 	}
 
