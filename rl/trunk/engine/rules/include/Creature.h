@@ -783,6 +783,11 @@ namespace rl
 
             Alignment mAlignment;
 
+            /// this variable is only used in regenerateAu
+            float mTimeSinceLastRegeneration;
+            /// this variable is only used in regenerateAu (must be initialized with 3W6)
+            int mLastCalculatedAuToRegenerate;
+
             /**
              *  Sets a the status \a statusVariable. It uses a reference counting
              *  System to do this, so if for example severeal effects put the creature

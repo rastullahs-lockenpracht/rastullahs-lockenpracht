@@ -90,7 +90,12 @@ namespace rl
         mSonderfertigkeiten(),
         mErschoepfung(0),
         mMovementType(0),
-        mAlignment(ALIGNMENT_NEUTRAL)
+        mAlignment(ALIGNMENT_NEUTRAL),
+        mTimeSinceLastRegeneration(0),
+        mLastCalculatedAuToRegenerate(
+                  DsaManager::getSingleton().rollD6()
+                + DsaManager::getSingleton().rollD6()
+                + DsaManager::getSingleton().rollD6())
     {
         mQueryFlags |= QUERYFLAG_CREATURE;
 
@@ -888,28 +893,24 @@ namespace rl
     void Creature::regenerateAu(int modifier, float factor, float time)
     {
         // das Ganze nur jede Spielrunde machen
-        static float lastSpielrunde = 0;
-        static int regeneratedAu = DsaManager::getSingleton().rollD6()
-                + DsaManager::getSingleton().rollD6()
-                + DsaManager::getSingleton().rollD6();
-        lastSpielrunde += time;
+        mTimeSinceLastRegeneration += time;
 
 
         if( getAu() == getAuMax() )
         {
-            lastSpielrunde = 0;
+            mTimeSinceLastRegeneration = 0;
             return;
         }
 
 
-        while( lastSpielrunde >= Date::ONE_SPIELRUNDE )
+        while( mTimeSinceLastRegeneration >= Date::ONE_SPIELRUNDE )
         {
-            lastSpielrunde -= Date::ONE_SPIELRUNDE;
+            mTimeSinceLastRegeneration -= Date::ONE_SPIELRUNDE;
 
 
             ///@todo Gibt es etwas das die Regeneration permanent modifiziert?
             //Grundregeneration von 3W6
-            regeneratedAu = DsaManager::getSingleton().rollD6()
+            mLastCalculatedAuToRegenerate = DsaManager::getSingleton().rollD6()
                 + DsaManager::getSingleton().rollD6()
                 + DsaManager::getSingleton().rollD6();
             //Addiere eventuelle Modifikatoren hinzu
@@ -921,22 +922,22 @@ namespace rl
                 modifyAu(6*factor);
             }
 
-            if( lastSpielrunde >= Date::ONE_SPIELRUNDE ) // mehrere Runden auf einmal
+            if( mTimeSinceLastRegeneration >= Date::ONE_SPIELRUNDE ) // mehrere Runden auf einmal
             {
                 //modifiziere die aktuellen AU
                 time -= Date::ONE_SPIELRUNDE;
-                modifyAu((regeneratedAu-modifier)*factor);
+                modifyAu((mLastCalculatedAuToRegenerate-modifier)*factor);
             }
 
             if( getAu() == getAuMax() )
             {
-                lastSpielrunde = 0;
+                mTimeSinceLastRegeneration = 0;
                 return;
             }
         }
 
         // Restbetrag regenerieren:
-        float regeneratedAuPerTime = float(regeneratedAu-modifier)/Date::ONE_SPIELRUNDE * Date::ONE_SECOND * time;
+        float regeneratedAuPerTime = float(mLastCalculatedAuToRegenerate-modifier)/Date::ONE_SPIELRUNDE * Date::ONE_SECOND * time;
         modifyAu(regeneratedAuPerTime*factor);
     }
 
