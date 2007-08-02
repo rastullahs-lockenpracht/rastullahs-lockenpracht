@@ -5,8 +5,8 @@
 		<!-- static mesh -->
 		<entity
 			name="nat_grasplane_01"
-			meshFile ="nat_grasplane_01.mesh"
-			receivesShadow="true">
+			meshfile ="nat_grasplane_01.mesh"
+			receiveShadow="true">
 
 			<position x="5.7285" y="-7.94034" z="18.4169" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
@@ -28,7 +28,7 @@
 		<!-- static mesh with custom collision-->
 		<entity
 			name="nat_tree_01"
-			meshFile="nat_tree_01.mesh"
+			meshfile="nat_tree_01.mesh"
 			visible="true"
 			castShadow="true" >
 
