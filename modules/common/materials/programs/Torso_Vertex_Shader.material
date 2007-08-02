@@ -14,6 +14,15 @@ fragment_program Torso_Pixel_Shader_2 hlsl
 	entry_point ps_main
 }
 
+vertex_program Torso_Vertex_Shader hlsl
+{
+	source Torso_Vertex_Shader.source
+	target vs_2_0
+	entry_point vs_main
+}
+
+
+
 material Torso_Vertex_Shader_Short
 {
 	technique
@@ -27,7 +36,7 @@ material Torso_Vertex_Shader_Short
 			{
 			}
 			//DirectX 9.0 HLSL Vertex Shader vs_2_0
-			vertex_program_ref Basic_Vertex_Shader
+			vertex_program_ref Torso_Vertex_Shader
 			{
 				// param_named_auto
 
@@ -41,9 +50,15 @@ material Torso_Vertex_Shader_Short
 				param_named_auto Light2_position light_position_object_space 1
 				param_named Light2_spec_power float 0.3
 				
+				param_named_auto Light3_attenuation light_attenuation 2
+				param_named_auto Light3_color light_diffuse_colour 2
+				param_named_auto Light3_position light_position_object_space 2
+				param_named Light3_spec_power float 0.3
+				
 				param_named_auto matViewProjection worldviewproj_matrix
 				param_named_auto vViewPosition camera_position_object_space
 				
+				param_named subsurfcolor float4 0.8 0 0 1
 				
 				param_named skycolor float4 0.5 0.5 0.5 1.0
 				param_named groundcolor float4 0.10 0.10 0.10 1.0
@@ -93,7 +108,7 @@ material Torso_Vertex_Shader_Long
 			{
 			}
 			//DirectX 9.0 HLSL Vertex Shader vs_2_0
-			vertex_program_ref Basic_Vertex_Shader
+			vertex_program_ref Torso_Vertex_Shader
 			{
 				// param_named_auto
 
@@ -110,6 +125,7 @@ material Torso_Vertex_Shader_Long
 				param_named_auto matViewProjection worldviewproj_matrix
 				param_named_auto vViewPosition camera_position_object_space
 				
+				param_named subsurfcolor float4 0.8 0 0 1
 				
 				param_named skycolor float4 0.5 0.5 0.5 1.0
 				param_named groundcolor float4 0.10 0.10 0.10 1.0

@@ -6,8 +6,8 @@ material ruchin_terrain: TerrainVColorBlending
    set_texture_alias red         nat_felsen_01.dds
    set_texture_alias green       boden_02.png
    set_texture_alias blue        nat_steingrund_01.dds
-   set_texture_alias alpha       Tiles.dds
-   set_texture_alias Lightingmap Lightingmap2.png
+   set_texture_alias alpha       nat_steingrund_01.dds
+   set_texture_alias Lightingmap Ligthingmap_default.png
    
    technique
    {

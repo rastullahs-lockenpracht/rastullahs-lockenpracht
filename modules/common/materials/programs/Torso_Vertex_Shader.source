@@ -16,6 +16,8 @@ float4 Light3_position;
 float4 Light3_color;
 float4 Light3_spec_power;
 
+float4 subsurfcolor;
+
 float4 vViewPosition;
 
 struct VS_INPUT 
@@ -35,13 +37,14 @@ struct VS_OUTPUT
    float2 Texcoord1: TEXCOORD1;
    float2 Texcoord2: TEXCOORD2;
    float4 Color    : TEXCOORD3;
+   float4 SubColor : TEXCOORD4;
    
 };
 
 VS_OUTPUT vs_main( VS_INPUT Input )
 {
    VS_OUTPUT Output;
-   Output.Color = lerp(skycolor,groundcolor,(dot(Input.Normal, float3(0,-1,0))+1)/2 );
+   Output.Color = float4(0,0,0,0);
    Output.Position = mul( matViewProjection, Input.Position );
    
    
@@ -106,6 +109,12 @@ VS_OUTPUT vs_main( VS_INPUT Input )
                         ,0,1);
    
    Output.Color += (Light2_color * AngleAttn + SpecAttn) * DistAttn ;
+   
+   // fake SSS
+   Output.SubColor = lerp((subsurfcolor*Output.Color),Output.Color,( saturate(abs(Output.Color*3 -0.2))));
+   
+   Output.Color += lerp(skycolor,groundcolor,(dot(Input.Normal, float3(0,-1,0))+1)/2 );
+   Output.SubColor += lerp(skycolor,groundcolor,(dot(Input.Normal, float3(0,-1,0))+1)/2 );
    
    Output.Texcoord = Input.Texcoord;
    Output.Texcoord1 = Input.Texcoord1;

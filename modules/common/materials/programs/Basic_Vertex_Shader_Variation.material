@@ -35,6 +35,11 @@ material Basic_Vertex_Shader_Variation
 				param_named_auto Light2_position light_position_object_space 1
 				param_named Light2_spec_power float 0.3
 				
+				param_named_auto Light3_attenuation light_attenuation 2
+				param_named_auto Light3_color light_diffuse_colour 2
+				param_named_auto Light3_position light_position_object_space 2
+				param_named Light3_spec_power float 0.3
+				
 				
 				param_named_auto matViewProjection worldviewproj_matrix
 				param_named_auto vViewPosition camera_position_object_space

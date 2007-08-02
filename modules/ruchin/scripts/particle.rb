@@ -9,11 +9,11 @@ templefire1.placeIntoScene( 123.28,3.0,-22.19, 1.0, 0.0, 0.0, 0.0 );
 templefire2 = $AM.createParticleSystemActor("templefire2", "feuertest" );
 templefire2.placeIntoScene( 123.28,3.0,-18.93, 1.0, 0.0, 0.0, 0.0 );
 
-nebel = $AM.createParticleSystemActor("nebel", "nebel" );
-nebel.placeIntoScene( 32.02, -2.26, -24.40, 1.0, 0.0, 0.0, 0.0 );
+#nebel = $AM.createParticleSystemActor("nebel", "nebel" );
+#nebel.placeIntoScene( 32.02, -2.26, -24.40, 1.0, 0.0, 0.0, 0.0 );
 
-nebel2 = $AM.createParticleSystemActor("nebel2", "nebel" );
-nebel2.placeIntoScene( 26.47, -2.5, -37.92, 1.0, 0.0, 0.0, 0.0 );
+#nebel2 = $AM.createParticleSystemActor("nebel2", "nebel" );
+#nebel2.placeIntoScene( 26.47, -2.5, -37.92, 1.0, 0.0, 0.0, 0.0 );
 
 qualm1 = $AM.createParticleSystemActor("qualm1", "qualm" );
 qualm1.placeIntoScene( -4.28, 3.00, -1.66, 1.0, 0.0, 0.0, 0.0 );

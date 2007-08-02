@@ -1,5 +1,5 @@
 
-material men_human_female_hand_nude : Basic_Vertex_Shader
+material men_human_female_hand_nude : Skin_Vertex_Shader
 {
 set_texture_alias diffuse rl_mensch_female.png
 

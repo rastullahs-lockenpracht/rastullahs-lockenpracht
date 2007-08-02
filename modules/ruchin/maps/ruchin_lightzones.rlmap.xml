@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<rastullahmap formatVersion="0.4.0">
+	<nodes>
+		<entity name="Ruchin_l_innen" meshFile="Ruchin_l_innen.mesh" visible="true" receivesShadow="true">
+			<position x="65.2876" y="6.02141" z="-66.9458" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			 <renderingdistance data="100" /> 
+		</entity>	
+		
+		<light name="red pointlight" type="point" visible="false"
+			castShadows="false">
+			<position x="65.2876" y="6.02141" z="-66.9458" />
+			<colourDiffuse r="1" g="0" b="0" />
+			<colourSpecular r="1" g="0" b="0" />
+			<lightAttenuation range="20.0" constant="1.0" linear="0.1"
+				quadratic="0.1" />
+		</light>	
+		
+		<light name="green spotlight" type="spot" visible="false"
+			castShadows="false">
+			<position x="65.2876" y="6.02141" z="-66.9458" />
+			<colourDiffuse r="0" g="1" b="0" />
+			<colourSpecular r="0" g="1" b="0" />
+			<lightAttenuation range="20.0" constant="1.0" linear="0.1"
+				quadratic="0.1" />
+			<spotlightrange inner="10" outer="20" falloff="1" />
+			<direction x="0" y="-1" z="0.5" />
+		</light>
+		<light name="sun" type="directional" visible="true" castShadows="false">
+			<colourDiffuse r="0.8" g="0.8" b="0.8" />
+			<colourSpecular r="0" g="0" b="1" />
+			<direction x="-0.17101" y="-0.873647" z="0.969846" />
+		</light>
+	</nodes>
+	<zones>
+		<zone type="default">
+			<light name="sun"/>
+		</zone>
+		<zone type="mesh" name="Ruchin_l_innen">
+			<light name="red pointlight"/>
+			<light name="green spotlight"/>
+			<sound name="lachen.ogg"/>
+		</zone>
+	</zones>
+</rastullahmap>

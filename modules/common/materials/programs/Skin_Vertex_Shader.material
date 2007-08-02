@@ -1,28 +1,11 @@
-//Effect: Textured
-
-//DirectX 9.0 HLSL Vertex Shader vs_2_0
-vertex_program Basic_Vertex_Shader hlsl
+vertex_program Skin_Vertex_Shader hlsl
 {
-	source Basic_Vertex_Shader.source
+	source Skin_Vertex_Shader.source
 	target vs_2_0
 	entry_point vs_main
 }
-//DirectX 9.0 HLSL Pixel Shader ps_2_0
-fragment_program Basic_Pixel_Shader hlsl
-{
-	source Basic_Pixel_Shader.source
-	target ps_2_0
-	entry_point ps_main
-}
 
-vertex_program Basic_Vertex_Shader_SR hlsl
-{
-  source SimpleShadowReceiver.hlsl
-  entry_point vs_main
-  target vs_1_1
-}
-
-material Basic_Vertex_Shader
+material Skin_Vertex_Shader
 {
 	receive_shadows off
 	technique
@@ -36,7 +19,7 @@ material Basic_Vertex_Shader
 			{
 			}
 			//DirectX 9.0 HLSL Vertex Shader vs_2_0
-			vertex_program_ref Basic_Vertex_Shader
+			vertex_program_ref Skin_Vertex_Shader
 			{
 				// param_named_auto
 
@@ -55,6 +38,7 @@ material Basic_Vertex_Shader
 				param_named_auto Light3_position light_position_object_space 2
 				param_named Light3_spec_power float 0.3
 				
+				param_named subsurfcolor float4 0.8 0 0 1
 				
 				param_named_auto matViewProjection worldviewproj_matrix
 				param_named_auto vViewPosition camera_position_object_space

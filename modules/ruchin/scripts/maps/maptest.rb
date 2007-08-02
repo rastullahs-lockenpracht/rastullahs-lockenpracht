@@ -10,13 +10,13 @@ $PM.setEnabled(true);
 
 $CORE.getWorld().setSkyBox(true, "rl/dsa07", 100.0)
 
-$SCRIPT.log("Tageslicht erstellen..");
-sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
-sunlight.getControlledObject().setDirection(-0.17101, -0.873647, 0.969846);
-sunlight.getControlledObject().setCastShadows(true);
+#$SCRIPT.log("Tageslicht erstellen..");
+#sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
+#sunlight.getControlledObject().setDirection(-0.17101, -0.873647, 0.969846);
+#sunlight.getControlledObject().setCastShadows(true);
 
-sunlight.getControlledObject().setDiffuseColour(0.8,0.8,0.8);
-sunlight.getControlledObject().setSpecularColour(1.0,1.0,1.0);
+#sunlight.getControlledObject().setDiffuseColour(0.8,0.8,0.8);
+#sunlight.getControlledObject().setSpecularColour(1.0,1.0,1.0);
 
 #sunlight.getControlledObject().setDiffuseColour(0.1,0.1,0.2);
 $SCRIPT.log("Tageslicht erstellt.");
@@ -26,8 +26,6 @@ $SCRIPT.log("Tageslicht erstellt.");
 #backlight.getControlledObject().setDirection(0.17101, 0.873647, -0.969846);
 #backlight.getControlledObject().setCastShadows(false);
 #backlight.getControlledObject().setDiffuseColour(-0.3,-0.3,-0.3);
-
-
 
 
 
@@ -74,6 +72,11 @@ $SCRIPT.log("Türen gesetzt");
 #$SCRIPT.log("actor in scene gesetzt");
 #BoxAnim = BoxActor.getControlledObject().startAnimation("Speak");
 #$SCRIPT.log("animation abgespielt.");
+
+
+
+loader = MapLoader.new("ruchin");
+loader.loadMap("ruchin_lightzones.rlmap.xml");
 
 ##########################
 

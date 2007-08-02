@@ -5,8 +5,8 @@ material Ruchin_ground: TerrainVColorBlending
    set_texture_alias red         laub01.dds
    set_texture_alias green       nat_gras_01.dds
    set_texture_alias blue        nat_steingrund_01.dds
-   set_texture_alias alpha       Tiles.dds
-   set_texture_alias Lightingmap Lightingmap2.png
+   set_texture_alias alpha       nat_steingrund_01.dds
+   set_texture_alias Lightingmap Ligthingmap_default.png
    
    technique
    {
@@ -30,7 +30,7 @@ material Ruchin_ground: TerrainVColorBlending
             param_named scale_Texture2 float 0.28500 // Gruen
             param_named scale_Detail2 float 0.60000
 
-            param_named scale_Texture3 float 0.58000 // Blau
+            param_named scale_Texture3 float 0.88000 // Blau
             param_named scale_Detail3 float 1.00000
 
             param_named scale_Texture4 float 0.016000 // Alpha
