@@ -69,7 +69,6 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    
    Output.Color += (Light1_color * AngleAttn + SpecAttn) * DistAttn ;
    
-   
    // Light3
    
    LightDir = Light3_position - Input.Position * Light3_position.w;
@@ -90,7 +89,6 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    
    Output.Color += (Light3_color * AngleAttn + SpecAttn) * DistAttn ;
    
-   
    // Light2
    
    LightDir = Light2_position - Input.Position * Light2_position.w;
@@ -109,12 +107,14 @@ VS_OUTPUT vs_main( VS_INPUT Input )
                         ,0,1);
    
    Output.Color += (Light2_color * AngleAttn + SpecAttn) * DistAttn ;
-   
+
    // fake SSS
-   Output.SubColor = lerp((subsurfcolor*Output.Color),Output.Color,( saturate(abs(Output.Color*3 -0.2))));
+   Output.SubColor = lerp((subsurfcolor*Output.Color),Output.Color,(saturate(abs(Output.Color*3 -0.2))));
    
-   Output.Color += lerp(skycolor,groundcolor,(dot(Input.Normal, float3(0,-1,0))+1)/2 );
-   Output.SubColor += lerp(skycolor,groundcolor,(dot(Input.Normal, float3(0,-1,0))+1)/2 );
+   
+   float4 ambient= lerp(skycolor,groundcolor,(dot(Input.Normal, float3(0,-1,0))+1)/2 );
+   Output.Color += ambient;
+   Output.SubColor += ambient;;
    
    Output.Texcoord = Input.Texcoord;
    Output.Texcoord1 = Input.Texcoord1;

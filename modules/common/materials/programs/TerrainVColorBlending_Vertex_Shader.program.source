@@ -20,6 +20,9 @@ uniform float4 Light_Color1;
 uniform float4 Light_Position1;
 uniform float4 Light_Attenuation1;
 
+float4 skycolor;
+float4 groundcolor;
+
 
 struct VS_OUTPUT 
 {
@@ -75,7 +78,7 @@ VS_OUTPUT vs_main( float4 Position : POSITION0,
    
    
    // Light Output
-   Output.Light = (Light_Ambient-0.5 + ((Light_Color0 * DistAttn0 * AngleAttn0) + (Light_Color1 * DistAttn1 * AngleAttn1))*1.25);
+   Output.Light =lerp(skycolor,groundcolor,(dot(Normal, float3(0,-1,0))+1)/2 ) +(Light_Ambient-0.5 + ((Light_Color0 * DistAttn0 * AngleAttn0) + (Light_Color1 * DistAttn1 * AngleAttn1))*1.25);
    
    return( Output );
    
