@@ -17,6 +17,7 @@ float4 Light3_color;
 float4 Light3_spec_power;
 
 float4 subsurfcolor;
+float4 skincolor;
 
 float4 vViewPosition;
 
@@ -67,7 +68,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
                           ,0,1);
    
    Output.Color += (Light1_color * AngleAttn + SpecAttn) * DistAttn ;
-   
+   float accDistAttn = DistAttn;
    
    // Light3
    
@@ -89,6 +90,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    
    Output.Color += (Light3_color * AngleAttn + SpecAttn) * DistAttn ;
    
+   accDistAttn += DistAttn;
    
    // Light2
    
@@ -109,10 +111,14 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    
    Output.Color += (Light2_color * AngleAttn + SpecAttn) * DistAttn ;
    
+   accDistAttn += DistAttn;
+   
    // fake SSS
-   Output.Color = lerp((subsurfcolor*Output.Color),Output.Color,( saturate(abs(Output.Color*3 -0.2))));
+   Output.Color = lerp((saturate(accDistAttn)*subsurfcolor*Output.Color),Output.Color,( saturate(Output.Color*3 -0.2)));
    
    Output.Color += lerp(skycolor,groundcolor,(dot(Input.Normal, float3(0,-1,0))+1)/2 );
+   
+   Output.Color *= skincolor*2;
    
    Output.Texcoord = Input.Texcoord;
    Output.Texcoord1 = Input.Texcoord1;

@@ -7,7 +7,7 @@ material Ruchin_l_inside
 		{
 
 			//DirectX 9.0 HLSL Pixel Shader ps_2_0
-			fragment_program_ref Basic_Pixel_Shader_Variation
+			fragment_program_ref Basic_Pixel_Shader
 			{
 			}
 			//DirectX 9.0 HLSL Vertex Shader vs_2_0
@@ -25,13 +25,18 @@ material Ruchin_l_inside
 				param_named_auto Light2_position light_position_object_space 1
 				param_named Light2_spec_power float 0.3
 				
+				param_named_auto Light3_attenuation light_attenuation 2
+				param_named_auto Light3_color light_diffuse_colour 2
+				param_named_auto Light3_position light_position_object_space 2
+				param_named Light3_spec_power float 0.3
+				
 				
 				param_named_auto matViewProjection worldviewproj_matrix
 				param_named_auto vViewPosition camera_position_object_space
 				
 				
-				param_named skycolor float4 0.5 0.5 0.5 1.0
-				param_named groundcolor float4 0.10 0.10 0.10 1.0
+				param_named skycolor float4 0.2 0.2 0.2 1.0
+				param_named groundcolor float4 0.2 0.2 0.2 1.0
 			}
 			
 			// HLSL Vertex Shader
@@ -50,11 +55,11 @@ material Ruchin_l_inside
 				texture ruchin_atlasmap.dds
 
 			}
-			texture_unit
-			{
-				texture Ruchin_ao_l_inside.dds
+			//texture_unit
+			//{
+			//	texture Ruchin_ao_l_inside.dds
 
-			}
+			//}
 		}
 	}
 	technique

@@ -16,6 +16,8 @@ float4 Light3_position;
 float4 Light3_color;
 float4 Light3_spec_power;
 
+float3 eyeDirection;
+
 float4 subsurfcolor;
 float4 skincolor;
 
@@ -38,7 +40,6 @@ struct VS_OUTPUT
    float2 Texcoord1: TEXCOORD1;
    float2 Texcoord2: TEXCOORD2;
    float4 Color    : TEXCOORD3;
-   float4 SubColor : TEXCOORD4;
    
 };
 
@@ -69,9 +70,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
                           ,0,1);
    
    Output.Color += (Light1_color * AngleAttn + SpecAttn) * DistAttn ;
-   
    float accDistAttn = DistAttn;
-   
    
    // Light3
    
@@ -113,23 +112,25 @@ VS_OUTPUT vs_main( VS_INPUT Input )
                         ,0,1);
    
    Output.Color += (Light2_color * AngleAttn + SpecAttn) * DistAttn ;
-
+   
    accDistAttn += DistAttn;
    
    // fake SSS
-   Output.SubColor = lerp((saturate(accDistAttn)*subsurfcolor*Output.Color),Output.Color,(saturate(Output.Color*3 -0.2)));
+   Output.Color = lerp((saturate(accDistAttn)*subsurfcolor*Output.Color),Output.Color,( saturate(Output.Color*3 -0.2)));
    
+   Output.Color += lerp(skycolor,groundcolor,(dot(Input.Normal, float3(0,-1,0))+1)/2 );
    
-   float4 ambient= lerp(skycolor,groundcolor,(dot(Input.Normal, float3(0,-1,0))+1)/2 );
-   
-   Output.Color += ambient;
-   Output.SubColor += ambient;
-   
-   Output.SubColor *= skincolor+0.5;
+   Output.Color *= skincolor+0.5;
    
    Output.Texcoord = Input.Texcoord;
-   Output.Texcoord1 = Input.Texcoord1;
-   Output.Texcoord2 = Input.Texcoord2;
+   Output.Texcoord2 = Input.Texcoord1;
+   
+   float2 eyeDir; 
+   eyeDir.x = clamp(-eyeDirection.x/3,-0.3,0.3);
+   eyeDir.y = clamp(-eyeDirection.z/3,-0.3,0.3);
+     
+   Output.Texcoord1.x        = Input.Texcoord1.x + eyeDir.x;
+   Output.Texcoord1.y        = Input.Texcoord1.y + eyeDir.y;
    
    return( Output );
    

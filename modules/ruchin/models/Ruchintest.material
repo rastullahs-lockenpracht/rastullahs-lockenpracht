@@ -140,64 +140,8 @@ set_texture_alias diffuse arc_schieferdach.png
 
 }
 
-material Ruchin/glas
+material Ruchin/glas : Basic_Vertex_Shader_Alpha
 {
-//lighting off
-	receive_shadows off
-	lod_distances 40
-	
-	technique
-	{
-		lod_index 0
-		pass
-		{
-			ambient 0.8 0.8 0.8 1
-			//ambient 0.0 0.0 0.0 1
-			//ambient vertexcolour
- 
-			//specular 0 0 0 1 10
-			
-			//diffuse 0.9 0.9 0.9 
-			//emissive 0.105882 0.105882 0.105882 1
-			//emissive vertexcolour
-			
-			// Überblenden aktiviert
-      		scene_blend alpha_blend 
-      		// Tiefenpuffer aus
-      		depth_write off
-			
-			texture_unit
-			{
-				texture ruchin_atlasmap.dds
-			}
+set_texture_alias diffuse ruchin_atlasmap.dds
 
-			
-		}
-
-	}
-	
-	technique
-	{
-	lod_index 1
-		pass
-		{
-			ambient 0.8 0.8 0.8 1
-			//ambient 0.0 0.0 0.0 1
-			//ambient vertexcolour
- 
-			//specular 0 0 0 1 10
-			
-			//diffuse 0.9 0.9 0.9 
-			//emissive 0.105882 0.105882 0.105882 1
-			//emissive vertexcolour
-			
-			texture_unit
-			{
-				texture ruchin_atlasmap.dds
-			}
-
-			
-		}
-
-	}
 }

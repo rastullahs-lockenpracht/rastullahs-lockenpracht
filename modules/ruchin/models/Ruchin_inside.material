@@ -1,0 +1,13 @@
+
+material Ruchin_inside/base : Basic_Vertex_Shader
+{
+set_texture_alias diffuse ruchin_atlasmap.png
+
+}
+
+
+material Ruchin_inside/windows : Basic_Vertex_Shader_Alpha
+{
+set_texture_alias diffuse ruchin_atlasmap.dds
+
+}

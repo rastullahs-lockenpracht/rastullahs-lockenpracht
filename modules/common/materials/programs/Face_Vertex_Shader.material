@@ -1,11 +1,19 @@
-vertex_program Skin_Vertex_Shader hlsl
+vertex_program Face_Vertex_Shader hlsl
 {
-	source Skin_Vertex_Shader.source
+	source Face_Vertex_Shader.source
 	target vs_2_0
 	entry_point vs_main
 }
 
-material Skin_Vertex_Shader
+
+fragment_program Face_Pixel_Shader hlsl
+{
+	source Face_Pixel_Shader.source
+	target ps_2_0
+	entry_point ps_main
+}
+
+material Face_Vertex_Shader
 {
 	receive_shadows off
 	technique
@@ -13,13 +21,12 @@ material Skin_Vertex_Shader
 		//Rendering Pass: Pass 0 (pass index: #0 )
 		pass
 		{
-			alpha_rejection greater 128
 			//DirectX 9.0 HLSL Pixel Shader ps_2_0
-			fragment_program_ref Basic_Pixel_Shader
+			fragment_program_ref Face_Pixel_Shader
 			{
 			}
 			//DirectX 9.0 HLSL Vertex Shader vs_2_0
-			vertex_program_ref Skin_Vertex_Shader
+			vertex_program_ref Face_Vertex_Shader
 			{
 				// param_named_auto
 
@@ -40,6 +47,7 @@ material Skin_Vertex_Shader
 				
 				param_named subsurfcolor float4 0.8 0 0 1
 				param_named skincolor float4 0.5 0.5 0.5 1
+				param_named eyeDirection float3 0.0 0 0.0
 				
 				param_named_auto matViewProjection worldviewproj_matrix
 				param_named_auto vViewPosition camera_position_object_space
@@ -52,6 +60,16 @@ material Skin_Vertex_Shader
 			texture_unit
 			{
 				texture_alias diffuse
+
+			}
+			texture_unit
+			{
+				texture_alias eyeColor
+
+			}
+			texture_unit
+			{
+				texture_alias eyeShadow
 
 			}
 		}

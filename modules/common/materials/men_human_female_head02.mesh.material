@@ -1,6 +1,8 @@
 
-material men_human_female_head_02 : Skin_Vertex_Shader
+material men_human_female_head_02 : Face_Vertex_Shader
 {
 set_texture_alias diffuse men_human_female_head02.png
+set_texture_alias eyeColor men_eye_blue.png
+set_texture_alias eyeShadow men_eyeshadow.png
 
 }
