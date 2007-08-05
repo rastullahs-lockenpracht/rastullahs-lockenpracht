@@ -18,6 +18,7 @@ noinst_HEADERS = \
 	EigenschaftenStateSet.h \
 	GameObject.h \
 	GameObjectStateListener.h \
+	GameTimeSource.h \
 	Item.h \
 	Inventory.h \
 	JournalEntry.h \
@@ -41,9 +42,5 @@ noinst_HEADERS = \
 	Talentgruppe.h \
 	TalentInputIterator.h \
 	TalentStateSet.h \
-	TimerEvent.h \
-	TimerEventSource.h \
-	TimerListener.h \
-	TimerManager.h \
 	Weapon.h \
 	ZauberStateSet.h

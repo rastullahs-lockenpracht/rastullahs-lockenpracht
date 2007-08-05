@@ -2,7 +2,6 @@
 	Actor.h \
 	ActorControlledObject.h \
 	ActorManager.h \
-	AnimationListener.h \
 	AnimationManager.h \
 	BaseAnimation.h \
 	BoxPrimitive.h \
@@ -10,7 +9,6 @@
 	ConfigurationManager.h \
 	ContentModule.h \
 	CoreDefines.h \
-	CoreEvents.h \
 	CoreMessages.h \
 	CorePrerequisites.h \
 	CoreSubsystem.h \
@@ -27,6 +25,7 @@
 	GameLoop.h \
 	Job.h \
 	JobListener.h \
+	JobQueue.h \
 	JobScheduler.h \
 	LightFadeJob.h \
 	LightObject.h \
@@ -63,6 +62,7 @@
 	SoundResource.h \
 	SoundFadeJob.h \
 	SoundFadeFunctor.h \
+	TimeSource.h \
 	TrackAnimation.h \
 	Trigger.h \
 	World.h \
