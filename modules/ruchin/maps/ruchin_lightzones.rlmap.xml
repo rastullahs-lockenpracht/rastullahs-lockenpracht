@@ -6,8 +6,188 @@
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<staticgeometrygroup id="0"/>
-			 <renderingdistance data="100" /> 
+			<renderingdistance data="100" /> 
+		</entity>
+		<entity name="Stadtmauer" meshfile ="Stadtmauer.mesh" visible="true" receivesShadow="true">
+			<position x="0.0" y="0.0" z="0.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="1"/>
+			<renderingdistance data="100" />
+		</entity>
+		<entity name="Ruchin_Stadtwache" meshfile ="Ruchin_Stadtwache.mesh" visible="true" receivesShadow="true">
+			<position x="105.0" y="0.0" z="45.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="1"/>
+			<renderingdistance data="100" />
+		</entity>
+		
+		<entity name="Ruchin_s" meshfile ="Ruchin_s.mesh" visible="true" receivesShadow="true">
+			<position x="-6.85993" y="0.405498" z="11.2053" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			<renderingdistance data="100" />
 		</entity>	
+		<entity name="Ruchin_n" meshfile ="Ruchin_n.mesh" visible="true" receivesShadow="true">
+			<position x="9.28835" y="4.25027" z="-52.6695" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			<renderingdistance data="100" />
+		</entity>
+		<entity name="Ruchin_p" meshfile ="Ruchin_p.mesh" visible="true" receivesShadow="true">
+			<position x="29.574" y="2.872" z="-7.966" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			<renderingdistance data="100" />
+		</entity>
+		<entity name="Ruchin_m" meshfile ="Ruchin_m.mesh" visible="true" receivesShadow="true">
+			<position x="36.6777" y="2.04379" z="-51.148" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			<renderingdistance data="100" />
+		</entity>
+		<entity name="Ruchin_l" meshfile ="Ruchin_l.mesh" visible="true" receivesShadow="true">
+			<position x="65.2876" y="6.02141" z="-66.9458" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			<renderingdistance data="100" />
+		</entity>
+		<entity name="Ruchin_r" meshfile ="Ruchin_r.mesh" visible="true" receivesShadow="true">
+			<position x="70.0" y="0.0" z="30.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			<renderingdistance data="100" />
+		</entity>
+		<entity name="Ruchin_v" meshfile ="Ruchin_v.mesh" visible="true" receivesShadow="true">
+			<position x="88.3245" y="1.09103" z="78.1543" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			<renderingdistance data="100" />
+		</entity>
+		<entity name="Ruchin_i" meshfile ="Ruchin_i.mesh" visible="true" receivesShadow="true">
+			<position x="-5.0" y="0.0" z="-100.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			<renderingdistance data="100" />
+		</entity>
+		<entity name="Ruchin_j" meshfile ="Ruchin_j.mesh" visible="true" receivesShadow="true">
+			<position x="40.0" y="0.0" z="-100.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			<renderingdistance data="100" />
+		</entity>
+		<entity name="Ruchin_u" meshfile ="Ruchin_u.mesh" visible="true" receivesShadow="true">
+			<position x="100.0" y="0.0" z="50.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			<renderingdistance data="100" />
+		</entity>
+		<entity name="House_dummies" meshfile ="House_dummies.mesh" visible="true" receivesShadow="true">
+			<position x="0.0" y="0.0" z="0.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="0.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			<renderingdistance data="100" />
+		</entity>
+		
+		
+		
+		<entity name="Ruchin_map" meshfile ="Ruchin_map.mesh" visible="true" receivesShadow="true">
+			<position x="68.5845" y="-0.00679748" z="-47.3902" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="2"/>
+			<renderingdistance data="100" />
+		</entity>
+		<entity name="ruchin_terrain" meshfile ="ruchin_terrain.mesh" visible="true" receivesShadow="true">
+			<position x="0.0" y="0.0" z="0.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="0.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="2"/>
+			<renderingdistance data="100" />
+		</entity>
+		<entity name="Ruchin_ground" meshfile ="Ruchin_ground.mesh" visible="true" receivesShadow="true">
+			<position x="35.0" y="0.0" z="-20.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="0.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="2"/>
+			<renderingdistance data="100" />
+		</entity>
+		
+		
+		<entity name="temple_outside" meshfile ="temple_outside.mesh" visible="true" receivesShadow="true">
+			<position x="122.11" y="0.076957" z="-20.5749" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="3"/>
+			<renderingdistance data="100" />
+		</entity>
+		<entity name="temple_innen" meshfile ="temple_innen.mesh" visible="true" receivesShadow="true">
+			<position x="122.11" y="0.076957" z="-20.5749" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="3"/>
+			<renderingdistance data="100" />
+		</entity>
+		<entity name="Statue_01" meshfile ="Statue_01.mesh" visible="true" receivesShadow="true">
+			<position x="112.486" y="1.53497" z="-17.18" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="39"/>
+			<renderingdistance data="100" />
+		</entity>
+		<entity name="Statue_02" meshfile ="Statue_02.mesh" visible="true" receivesShadow="true">
+			<position x="112.486" y="1.53497" z="-24.0179" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="40"/>
+			<renderingdistance data="100" />
+		</entity>
+		
+		
+		
+		<entity name="dome_sun" meshfile ="dome_sun.mesh" visible="true" receivesShadow="true">
+			<position x="614.1" y="1980.49" z="-3609.07" />
+			<rotation qx="0.838383" qy="-0.00269342" qz="0.163517" qw="0.51997" />
+			<scale x="38.9469" y="38.9469" z="38.9469" />
+			<staticgeometrygroup id="2"/>
+			<renderingdistance data="10000" />
+		</entity>
+		<entity name="dome_clouds_near" meshfile ="dome_clouds_near.mesh" visible="true" receivesShadow="true">
+			<position x="0.0" y="0.0" z="0.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="5.08402" y="4.00516" z="4.00516" />
+			<staticgeometrygroup id="2"/>
+			<renderingdistance data="10000" />
+		</entity>
+		<entity name="dome_clouds_far" meshfile ="dome_clouds_far.mesh" visible="true" receivesShadow="true">
+			<position x="0.0" y="0.0" z="0.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.7353" y="1.7353" z="1.7353" />
+			<staticgeometrygroup id="2"/>
+			<renderingdistance data="10000" />
+		</entity>
+		<entity name="dome" meshfile ="dome.mesh" visible="true" receivesShadow="true">
+			<position x="170.899" y="-451.645" z="-112.896" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="3.14024" y="3.14024" z="3.14024" />
+			<staticgeometrygroup id="2"/>
+			<renderingdistance data="10000" />
+		</entity>
+		
+		
+		
 		
 		<light name="red pointlight" type="point" visible="false"
 			castShadows="false">
