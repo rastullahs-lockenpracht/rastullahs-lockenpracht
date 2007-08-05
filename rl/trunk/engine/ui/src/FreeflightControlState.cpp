@@ -186,7 +186,6 @@ namespace rl {
         if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
 
         mCameraActor->setOrientation(Quaternion::IDENTITY);
-        mCameraActor->getPhysicalThing()->clearUpConstraint();
         mCameraActor->yaw(mYaw.valueDegrees());
         mCameraActor->pitch(mPitch.valueDegrees());
     }
