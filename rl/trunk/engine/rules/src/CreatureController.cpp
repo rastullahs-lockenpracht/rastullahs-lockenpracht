@@ -24,6 +24,7 @@
 #include "CreatureControllerManager.h"
 #include "PhysicsManager.h"
 #include "PhysicalThing.h"
+#include "TimeSource.h"
 
 
 
@@ -153,7 +154,7 @@ namespace rl
         virtual bool isPossible() const
         {
             return
-                mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR;// &&
+                mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
                 mMovingCreature->getCreature()->getAu() > 1 &&
                 !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
         }
@@ -190,9 +191,7 @@ namespace rl
             omega.x = omega.z = 0;
             Vector3 springAcc = mRotLinearSpringK*diff - mRotLinearDampingK * omega;
 
-            /// @ todo change this
-            torque = springAcc * inertia; // this would be correct
-            //torque = springAcc * mass * 40;
+            torque = springAcc * inertia;
         }
         virtual bool run(Ogre::Real elapsedTime,  Ogre::Vector3 direction, Ogre::Vector3 rotation)
         {
@@ -205,7 +204,8 @@ namespace rl
             Vector3 position;
             body->getPositionOrientation(position, orientation);
 
-            return orientation.getYaw() != mYaw;
+            Real diff = (orientation.getYaw() - mYaw).valueDegrees();
+            return diff <= 0.5f && diff >= -0.5f;
         }
         virtual bool isDirectionPossible(Ogre::Vector3 &direction) const
         {
@@ -1139,7 +1139,7 @@ namespace rl
         mLastCollisionName(""),
         mLastAnimationSpeed(1),
         mStillWeightedAnimationName(""),
-        mLastFloorContact(0)
+        mLastFloorContact(TimeSourceManager::getSingleton().getTimeSource(TimeSource::REALTIME_INTERRUPTABLE)->getClock())
     {
         CreatureControllerManager::getSingleton().add(this);
 
@@ -1324,6 +1324,12 @@ namespace rl
 
     bool CreatureController::run(Real elapsedTime)
     {
+        Time timeSinceLastFloorContact = 
+            TimeSourceManager::getSingleton().getTimeSource(TimeSource::REALTIME_INTERRUPTABLE)->getClock()
+            - mLastFloorContact;
+        if(timeSinceLastFloorContact >= Time(Date::ONE_SECOND*2) || getAbstractLocation() == AL_AIRBORNE) // 2 seconds?
+                setAbstractLocation(AL_AIRBORNE);
+
         if(mMovement != NULL)
         {
             mLastMovementChange += elapsedTime;
@@ -1338,6 +1344,7 @@ namespace rl
             mRotation = Vector3::ZERO;
             return mMovement->run(elapsedTime, mDirection, rotation);
         }
+
         return false;
     }
 
@@ -1398,15 +1405,8 @@ namespace rl
             if(stepHeight > 0.1f)
                 setContactNormalAcceleration(10);
             setContactElasticity(0.0f);
-            mLastFloorContact = 0.0f;
+            mLastFloorContact = TimeSourceManager::getSingleton().getTimeSource(TimeSource::REALTIME_INTERRUPTABLE)->getClock();
         }
-        else
-        {
-            mLastFloorContact += PhysicsManager::getSingleton()._getNewtonWorld()->getTimeStep();
-            if(mLastFloorContact >= 2.2f || getAbstractLocation() == AL_AIRBORNE)
-                setAbstractLocation(AL_AIRBORNE);
-        }
-
 
         if(mMovement != NULL)
         {

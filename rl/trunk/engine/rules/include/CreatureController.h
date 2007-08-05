@@ -172,7 +172,7 @@ namespace rl
         Ogre::String mStillWeightedAnimationName;
 
         // only used in userProcess
-        Ogre::Real mLastFloorContact;
+        Time mLastFloorContact;
 
         // used to reset the material
         const OgreNewt::MaterialID *mOldMaterialId;
