@@ -9,14 +9,12 @@ libRlCore_la_SOURCES = \
 	Actor.cpp \
 	ActorControlledObject.cpp \
 	ActorManager.cpp \
-	AnimationListener.cpp \
 	AnimationManager.cpp \
 	BaseAnimation.cpp \
 	BoxPrimitive.cpp \
 	CameraObject.cpp \
 	ConfigurationManager.cpp \
 	ContentModule.cpp \
-	CoreEvents.cpp \
 	CoreSubsystem.cpp \
 	DebugVisualisable.cpp \
 	DebugVisualsManager.cpp \
@@ -30,6 +28,7 @@ libRlCore_la_SOURCES = \
 	GameEventManager.cpp \
 	GameLoop.cpp \
 	Job.cpp \
+	JobQueue.cpp \
 	JobScheduler.cpp \
 	LightObject.cpp \
 	LightFadeJob.cpp \
@@ -61,6 +60,7 @@ libRlCore_la_SOURCES = \
 	SoundResource.cpp \
 	SoundFadeJob.cpp \
 	SoundFadeFunctor.cpp \
+	TimeSource.cpp \
 	TrackAnimation.cpp \
 	World.cpp \
 	Zone.cpp \

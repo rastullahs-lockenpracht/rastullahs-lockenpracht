@@ -22,6 +22,7 @@ libRlRules_la_SOURCES = \
 	EigenschaftenStateSet.cpp \
 	GameObject.cpp \
 	GameObjectManager.cpp \
+	GameTimeSource.cpp \
 	Item.cpp \
 	Inventory.cpp \
 	JournalEntry.cpp \
@@ -43,9 +44,5 @@ libRlRules_la_SOURCES = \
 	Talent.cpp \
 	Talentgruppe.cpp \
 	TalentStateSet.cpp \
-	TimerEvent.cpp \
-	TimerEventSource.cpp \
-	TimerListener.cpp \
-	TimerManager.cpp  \
 	Weapon.cpp \
 	ZauberStateSet.cpp
