@@ -28,7 +28,7 @@ namespace rl
     class _RlCoreExport TimeSource : public GameTask
     {
     public:
-        static enum TimeSourceType
+        enum TimeSourceType
         {
             REALTIME_CONTINUOUS,
             REALTIME_INTERRUPTABLE,
