@@ -11,7 +11,8 @@ struct PS_INPUT
 
 float4 ps_main( PS_INPUT Input ) : COLOR0
 {
-   return tex2D( baseMap, Input.Texcoord )* Input.Color;
+	float4 SurfColor = tex2D( baseMap, Input.Texcoord );
+   return float4(SurfColor.rgb * Input.Color.rgb, SurfColor.a);
    
 }
 

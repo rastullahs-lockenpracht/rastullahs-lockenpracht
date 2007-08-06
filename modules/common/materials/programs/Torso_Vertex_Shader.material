@@ -62,7 +62,7 @@ material Torso_Vertex_Shader_Short
 				param_named skincolor float4 0.5 0.5 0.5 1
 				
 				param_named skycolor float4 0.5 0.5 0.5 1.0
-				param_named groundcolor float4 0.10 0.10 0.10 1.0
+				param_named groundcolor float4 0.25 0.25 0.25 1.0
 			}
 
 			texture_unit

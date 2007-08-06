@@ -1,7 +1,6 @@
 
-material arc_kiste : NormalMapMaterialSpecular2Lights1UV
+material arc_kiste : Basic_Vertex_Shader
 {
-			set_texture_alias normalmap arc_kiste_normal.dds
-			set_texture_alias diffusemap arc_kiste_diffuse.dds
-			set_texture_alias specmap arc_kiste_spec.dds
+			set_texture_alias diffuse arc_kiste_diffuse.dds
+
 }

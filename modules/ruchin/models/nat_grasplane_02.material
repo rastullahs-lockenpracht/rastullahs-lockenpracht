@@ -1,11 +1,5 @@
-vertex_program Skin_Vertex_Shader hlsl
-{
-	source Skin_Vertex_Shader.source
-	target vs_2_0
-	entry_point vs_main
-}
 
-material Skin_Vertex_Shader
+material nat_grasplanes_02: Basic_Vertex_Shader
 {
 	receive_shadows off
 	technique
@@ -19,7 +13,7 @@ material Skin_Vertex_Shader
 			{
 			}
 			//DirectX 9.0 HLSL Vertex Shader vs_2_0
-			vertex_program_ref Skin_Vertex_Shader
+			vertex_program_ref Basic_Vertex_Shader
 			{
 				// param_named_auto
 
@@ -38,20 +32,18 @@ material Skin_Vertex_Shader
 				param_named_auto Light3_position light_position_object_space 2
 				param_named Light3_spec_power float 0.3
 				
-				param_named subsurfcolor float4 0.8 0 0 1
-				param_named skincolor float4 0.5 0.5 0.5 1
 				
 				param_named_auto matViewProjection worldviewproj_matrix
 				param_named_auto vViewPosition camera_position_object_space
 				
 				
-				param_named skycolor float4 0.5 0.5 0.5 1.0
-				param_named groundcolor float4 0.25 0.25 0.25 1.0
+				param_named skycolor float4 1.0 1.0 1.0 1.0
+				param_named groundcolor float4 0.6 0.6 0.6 1.0
 			}
 			
 			texture_unit
 			{
-				texture_alias diffuse
+				texture gras_plane_02.dds
 
 			}
 		}
@@ -63,8 +55,10 @@ material Skin_Vertex_Shader
         {
             texture_unit
             {
-                texture_alias diffuse
+                texture gras_plane_02.dds
             }
         }
     }
 }
+//set_texture_alias diffuse gras_planes.dds
+

@@ -1,7 +1,7 @@
 
-material arc_fass : NormalMapMaterialSpecular2Lights1UV
+material arc_fass : Basic_Vertex_Shader
 {
-			set_texture_alias normalmap arc_fass_normal.dds
-			set_texture_alias diffusemap arc_fass_diffuse.dds
-			set_texture_alias specmap arc_fass_spec.dds
+			
+			set_texture_alias diffuse arc_fass_diffuse.dds
+
 }
