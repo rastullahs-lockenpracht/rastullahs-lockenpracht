@@ -149,7 +149,8 @@ namespace rl
                 LOG_DEBUG(Logger::CORE, "\tNewtonBodyLog: &Body  Position  Orientation  Velocity  "\
                     "Omega  Force  Torque  NewtonBodyGetSleepingState  NewtonBodyGetAutoFreeze  "\
                     "NewtonBodyGetContinuousCollisionMode  ( invMass  invIxx  invIyy  invIzz )");
-                NewtonWorldForEachBodyDo(mWorld->getNewtonWorld(), newtonPerBodyLogProperties);
+                if( Logger::getSingleton().getLogDetail() <= Logger::LL_DEBUG )
+                    NewtonWorldForEachBodyDo(mWorld->getNewtonWorld(), newtonPerBodyLogProperties);
             }
 #endif
         }
@@ -163,8 +164,8 @@ namespace rl
                 LOG_DEBUG(Logger::CORE, "\tNewtonBodyLog: &Body  Position  Orientation  Velocity  "\
                     "Omega  Force  Torque  NewtonBodyGetSleepingState  NewtonBodyGetAutoFreeze  "\
                     "NewtonBodyGetContinuousCollisionMode  ( invMass  invIxx  invIyy  invIzz )");
-                NewtonWorldForEachBodyDo(mWorld->getNewtonWorld(), newtonPerBodyLogProperties);
-            }
+                if( Logger::getSingleton().getLogDetail() <= Logger::LL_DEBUG )
+                    NewtonWorldForEachBodyDo(mWorld->getNewtonWorld(), newtonPerBodyLogProperties);            }
 #endif
         }
     }
