@@ -352,6 +352,11 @@ namespace rl {
 
         //! generic physics contact callback handler object
         PhysicsGenericContactCallback* mGenericCallback;
+
+#ifdef _DEBUG
+        static void _CDECL PhysicsManager::newtonPerBodyLogProperties( const NewtonBody* body );
+#endif
+
     };
 
     class PhysicsCollisionFactory

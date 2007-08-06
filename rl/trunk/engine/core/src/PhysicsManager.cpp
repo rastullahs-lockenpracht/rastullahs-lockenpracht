@@ -99,11 +99,6 @@ namespace rl
 
         // below here starts 'old' stale fix code that should be removed
 
-        // setup character material
-        // actually this is needed here, because the actor is created in advance before the
-        // character controller who actually does create 'character' material too.
-        createMaterialID("character");
-
         // setup level quadtree extents
         mLevelBodiesQuadTree.setMaxData(20);
         mLevelBodiesQuadTree.setMaxDepth(10);
@@ -148,13 +143,61 @@ namespace rl
         {
             mWorld->update(mMaxTimestep);
             mElapsed-=mMaxTimestep;
+#ifdef _DEBUG
+            if( mDebugMode )
+            {
+                LOG_DEBUG(Logger::CORE, "\tNewtonBodyLog: &Body  Position  Orientation  Velocity  "\
+                    "Omega  Force  Torque  NewtonBodyGetSleepingState  NewtonBodyGetAutoFreeze  "\
+                    "NewtonBodyGetContinuousCollisionMode  ( invMass  invIxx  invIyy  invIzz )");
+                NewtonWorldForEachBodyDo(mWorld->getNewtonWorld(), newtonPerBodyLogProperties);
+            }
+#endif
         }
         if( mElapsed > mMinTimestep)
         {
             mWorld->update(mElapsed);
             mElapsed = 0;
+#ifdef _DEBUG
+            if( mDebugMode )
+            {
+                LOG_DEBUG(Logger::CORE, "\tNewtonBodyLog: &Body  Position  Orientation  Velocity  "\
+                    "Omega  Force  Torque  NewtonBodyGetSleepingState  NewtonBodyGetAutoFreeze  "\
+                    "NewtonBodyGetContinuousCollisionMode  ( invMass  invIxx  invIyy  invIzz )");
+                NewtonWorldForEachBodyDo(mWorld->getNewtonWorld(), newtonPerBodyLogProperties);
+            }
+#endif
         }
     }
+
+#ifdef _DEBUG
+    void _CDECL PhysicsManager::newtonPerBodyLogProperties( const NewtonBody* body )
+    {
+        std::ostringstream oss;
+        Quaternion orient;
+        Vector3 pos;
+        float matrix[16];
+        NewtonBodyGetMatrix(body,matrix);
+        OgreNewt::Converters::MatrixToQuatPos(matrix,orient,pos);
+        Vector3 force;
+        NewtonBodyGetForce(body, &force.x);
+        Vector3 torque;
+        NewtonBodyGetTorque(body, &torque.x);
+        Vector3 omega;
+        NewtonBodyGetOmega(body, &omega.x);
+        Vector3 velocity;
+        NewtonBodyGetVelocity(body, &velocity.x);
+        Vector3 invMass, invIxx, invIyy, invIzz;
+        NewtonBodyGetInvMass(body, &invMass.x, &invIxx.x, &invIyy.x, &invIzz.x);
+        oss << "\tNewtonBodyLog: " << body << "  " << pos << "  " << orient << "  " << velocity << "  "
+            << omega << "  " << force << "  " << torque << "  " << NewtonBodyGetSleepingState(body)
+            << "  " << NewtonBodyGetAutoFreeze(body) << "  " << NewtonBodyGetContinuousCollisionMode(body) << "  ( "
+            << invMass << "  " << invIxx << "  " << invIyy << "  " << invIzz << " )";
+        LOG_DEBUG(Logger::CORE, oss.str());
+    }
+#endif
+
+
+
 
     void PhysicsManager::setGravity( Real x, Real y, Real z )
     {
