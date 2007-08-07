@@ -1,0 +1,63 @@
+//
+// Structure definitions
+//
+
+struct PS_INPUT {
+    vec2 Texcoord;
+    vec2 Texcoord1;
+    vec2 Texcoord2;
+    vec4 Color;
+    vec4 Specular;
+};
+
+
+//
+// Global variable definitions
+//
+
+uniform sampler2D baseMap;
+uniform sampler1D lookup;
+uniform sampler2D specMap;
+
+//
+// Function declarations
+//
+
+vec4 ps_main( in PS_INPUT Input );
+
+//
+// Function definitions
+//
+
+vec4 ps_main( in PS_INPUT Input ) {
+    vec4 texcolor;
+    vec4 speccolor;
+    vec4 endcolor;
+
+    texcolor = texture2D( baseMap, Input.Texcoord);
+    speccolor = texture2D( specMap, Input.Texcoord);
+    endcolor = (texcolor * (Input.Color + (texture1D( lookup, float( clamp( ((pow( speccolor, vec4( 2.00000)) * Input.Specular) * 4.00000), vec4( 0.0100000), vec4( 0.990000)))) / 2.00000)));
+    endcolor.w  = texcolor.w ;
+    return endcolor;
+    //return vec4( ((speccolor.xyz  * Input.Specular.xyz ) * 4.00000), 1.00000);
+}
+
+
+//
+// Translator's entry point
+//
+void main() {
+    vec4 xlat_retVal;
+    PS_INPUT xlat_temp_Input;
+    xlat_temp_Input.Texcoord = vec2( gl_TexCoord[0]);
+    xlat_temp_Input.Texcoord1 = vec2( gl_TexCoord[1]);
+    xlat_temp_Input.Texcoord2 = vec2( gl_TexCoord[2]);
+    xlat_temp_Input.Color = vec4( gl_TexCoord[3]);
+    xlat_temp_Input.Specular = vec4( gl_TexCoord[4]);
+
+    xlat_retVal = ps_main( xlat_temp_Input);
+
+    gl_FragData[0] = vec4( xlat_retVal);
+}
+
+
