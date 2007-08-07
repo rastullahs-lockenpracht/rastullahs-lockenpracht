@@ -14,38 +14,37 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef __RL_COMBAT_H__
-#define __RL_COMBAT_H__
+#ifndef __RL_COMBATANT_H__
+#define __RL_COMBATANT_H__
 
 #include "RulesPrerequisites.h"
 
-#include <set>
-
 namespace rl
 {
-    class Combatant;
+    class Creature;
+    class CreatureController;
 
-    class _RlRulesExport Combat
+    class _RlRulesExport Combatant
     {
     public:
-        typedef std::set<Combatant*> CombatantSet;
+        Combatant(CreatureController* controller);
+        virtual ~Combatant();
 
-        Combat(Combatant* character);
-        ~Combat();
+        virtual Ogre::String getTypeName() = 0;
 
-        void addOpponent(Combatant*);
-        void removeOpponent(Combatant*);
+        CreatureController* getCreatureController() const;
 
-        void addAlly(Combatant*);
-        void removeAlly(Combatant*);
+    protected:
+        CreatureController* mController;
+    };
 
-        const CombatantSet& getAllOpponents() const;
-        const CombatantSet& getAllAllies() const;
+    class _RlRulesExport CombatantFactory
+    {
+    public:
+        virtual ~CombatantFactory() {}
 
-    private:
-        Combatant* mCharacter;
-        CombatantSet mOpponents;
-        CombatantSet mAllies;
+        virtual Combatant* createCombatant(Creature* creature) = 0;
+        virtual void destroyCombatant(Combatant*) = 0;
     };
 }
 

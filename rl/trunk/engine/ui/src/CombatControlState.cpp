@@ -13,7 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#include "stdinc.h" //precompiled header
+#include "stdinc.h"
 
 #include "CombatControlState.h"
 
@@ -24,6 +24,8 @@
 #include "CombatWindow.h"
 #include "CoreSubsystem.h"
 #include "Creature.h"
+#include "CreatureController.h"
+#include "CreatureControllerManager.h"
 #include "InputManager.h"
 #include "MeshObject.h"
 #include "Person.h"
@@ -39,6 +41,7 @@ namespace rl {
     CombatControlState::CombatControlState(CommandMapper* cmdMapper,
         Actor* camera, Person* character)
         : ControlState(cmdMapper, camera, character, CST_COMBAT),
+          Combatant(CreatureControllerManager::getSingleton().getCreatureController(character)),
           mCombatManager(CombatManager::getSingletonPtr()),
           mCombat(NULL),
           mCombatWindow(NULL),
@@ -97,12 +100,15 @@ namespace rl {
             const Selector::GameObjectVector& enemies = mEnemySelector.getAllSelectedObjects();
             if (!enemies.empty())
             {
-                // There are enemies in vicinity, so start a new combat and set it up properly.
-                mCombat = mCombatManager->startCombat(mCharacter,
+                Combatant* firstOpponent = mCombatManager->createCombatant(
                     static_cast<Creature*>(enemies[0]));
+                // There are enemies in vicinity, so start a new combat and set it up properly.
+                mCombat = mCombatManager->startCombat(this, firstOpponent);
                 for (size_t i = 1; i < enemies.size(); ++i)
                 {
-                    mCombat->addOpponent(static_cast<Creature*>(enemies[i]));
+                    Combatant* opponent = mCombatManager->createCombatant(
+                        static_cast<Creature*>(enemies[i]));
+                    mCombat->addOpponent(opponent);
                 }
             }
             else
@@ -133,12 +139,13 @@ namespace rl {
         mHud->clear();
 
         mHud->begin("BaseWhiteNoLighting", RenderOperation::OT_LINE_STRIP);
-        const Combat::CreatureSet& opponents = mCombat->getAllOpponents();
-        for (Combat::CreatureSet::const_iterator it = opponents.begin(), end = opponents.end();
+        const Combat::CombatantSet& opponents = mCombat->getAllOpponents();
+        for (Combat::CombatantSet::const_iterator it = opponents.begin(), end = opponents.end();
             it != end; ++it)
         {
             Ogre::Rectangle rec = getScreenRectFromWorldAABB(
-                (*it)->getActor()->_getSceneNode()->_getWorldAABB());
+                (*it)->getCreatureController()->getCreature()->getActor()
+                    ->_getSceneNode()->_getWorldAABB());
             mHud->position(rec.left,  rec.top,    0.0f);
             mHud->position(rec.left,  rec.bottom, 0.0f);
             mHud->position(rec.right, rec.top,    0.0f);
@@ -174,5 +181,10 @@ namespace rl {
 
         Ogre::Rectangle rval = {left,top, right, bottom};
         return rval;
+    }
+
+    Ogre::String CombatControlState::getTypeName()
+    {
+        return "CombatControlState";
     }
 }

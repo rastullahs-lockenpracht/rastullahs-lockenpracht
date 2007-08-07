@@ -299,7 +299,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\AgentCombatState.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\AgentManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\AgentSteeringState.cpp"
 				>
 			</File>
 			<File
@@ -344,10 +352,6 @@
 			</File>
 			<File
 				RelativePath=".\src\PhysicalObstacle.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\PlayerVehicle.cpp"
 				>
 			</File>
 			<File
@@ -405,7 +409,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\AgentCombatState.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\AgentManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\AgentState.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\AgentSteeringState.h"
 				>
 			</File>
 			<File
@@ -462,10 +478,6 @@
 			</File>
 			<File
 				RelativePath=".\include\PhysicalObstacle.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\PlayerVehicle.h"
 				>
 			</File>
 			<File

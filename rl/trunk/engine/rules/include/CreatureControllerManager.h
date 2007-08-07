@@ -30,6 +30,10 @@ namespace rl
 {
     class CreatureController;
 
+    /// This class manages CreatureControllers, which provide an API for moving the creature
+    /// around in the scene.
+    /// CreatureControllers are created on demand and a reference is kept here, so that no more
+    /// than one CreatureController is created per Creature.
     class _RlRulesExport CreatureControllerManager : 
         public GameTask,
         public Ogre::Singleton<CreatureControllerManager>,
@@ -39,45 +43,27 @@ namespace rl
         CreatureControllerManager();
         ~CreatureControllerManager();
 
-        /**
-         * adds a new movingCreature, this function is not intended to be used directly; 
-         * each CreatureController is automatically added. a creature is always added in a
-         * idle state
-         */
-        void add(CreatureController *movingCreature);
+        /// Returns a CreatureController that can be used to control given Creature.
+        /// There is only one controller per Creature at a given time.
+        /// If no such controller exists yet, it is created.
+        CreatureController* getCreatureController(Creature* creature);
 
-        /**
-         * removes a movingCreature, this function is not intended to be used directly, 
-         * destroy the movingCreature instead.
-         */
-        void remove(CreatureController *movingCreature);
+        /// This function detaches a controller attached to the given Creature, if any.
+        void detachController(Creature* creature);
 
         void run(Ogre::Real elapsedTime);
 
-        /**
-         * Sets a movingCreature in an active state, this means that it is updated every
-         * frame. This must be the case, if the creature is moving. If a creature is in an
-         * idle state, it is only updated less often
-         */
-        void setActive(CreatureController* movingCreature);
-
-        const Ogre::String & getName() const {return mName;}
+        // override from GameTask
+        const Ogre::String& getName() const;
 
         // Newton Contact Callback
         int userProcess();
     protected:
-        typedef std::vector<CreatureController*> MovingCreatureVector;
-        MovingCreatureVector mActiveCreatures;
-        MovingCreatureVector mIdleCreatures;
-        MovingCreatureVector mAddToActiveCreatures;
-        Ogre::Real mUpdateIdleTime;
-        Ogre::Real mTimeSinceLastIdleUpdate;
-        Ogre::String mName;
+        typedef std::map<Creature*, CreatureController*> ControllerMap;
+        ControllerMap mControllers;
 
-        typedef std::map<OgreNewt::Body*,CreatureController*> MovingCreatureBodyMap;
-        MovingCreatureBodyMap mMovingCreatureFromBody;
+        typedef std::map<OgreNewt::Body*, CreatureController*> BodyControllerMap;
+        BodyControllerMap mBodyControllers;
     };
 }
-
-
 #endif

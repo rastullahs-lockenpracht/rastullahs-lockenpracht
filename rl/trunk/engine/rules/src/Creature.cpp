@@ -40,7 +40,7 @@ namespace rl
 {
     const Ogre::String Creature::CLASS_NAME = "Creature";
 
-    const Ogre::String Creature::PROPERTY_BEHAVIOURS = "behaviours";
+    const Ogre::String Creature::PROPERTY_AI = "ai";
     const Ogre::String Creature::PROPERTY_INVENTORY_WINDOW_TYPE = "inventorywindowtype";
     const Ogre::String Creature::PROPERTY_CURRENT_LE = "current_le";
     const Ogre::String Creature::PROPERTY_CURRENT_AE = "current_ae";
@@ -953,9 +953,9 @@ namespace rl
 
     void Creature::setProperty(const Ogre::String &key, const rl::Property &value)
     {
-        if (key == Creature::PROPERTY_BEHAVIOURS)
+        if (key == Creature::PROPERTY_AI)
         {
-            mBehaviours = value;
+            mAiProperties = value;
         }
         else if (key == Creature::PROPERTY_INVENTORY_WINDOW_TYPE)
         {
@@ -1033,9 +1033,9 @@ namespace rl
 
     const Property Creature::getProperty(const Ogre::String &key) const
     {
-        if (key == Creature::PROPERTY_BEHAVIOURS)
+        if (key == Creature::PROPERTY_AI)
         {
-            return mBehaviours;
+            return mAiProperties;
         }
         else if (key == Creature::PROPERTY_INVENTORY_WINDOW_TYPE)
         {
@@ -1112,7 +1112,7 @@ namespace rl
     PropertySet* Creature::getAllProperties() const
     {
         PropertySet* ps = GameObject::getAllProperties();
-        ps->setProperty(Creature::PROPERTY_BEHAVIOURS, mBehaviours);
+        ps->setProperty(Creature::PROPERTY_AI, mAiProperties);
         ps->setProperty(Creature::PROPERTY_INVENTORY_WINDOW_TYPE, Property(mInventoryWindowType));
         ps->setProperty(Creature::PROPERTY_CURRENT_LE, getProperty(Creature::PROPERTY_CURRENT_LE));
         ps->setProperty(Creature::PROPERTY_CURRENT_AE, getProperty(Creature::PROPERTY_CURRENT_AE));

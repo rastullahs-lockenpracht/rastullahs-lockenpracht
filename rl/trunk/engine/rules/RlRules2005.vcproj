@@ -303,6 +303,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Combatant.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\CombatManager.cpp"
 				>
 			</File>
@@ -510,6 +514,10 @@
 			</File>
 			<File
 				RelativePath=".\include\Combat.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Combatant.h"
 				>
 			</File>
 			<File

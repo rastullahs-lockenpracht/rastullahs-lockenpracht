@@ -16,16 +16,15 @@
 #ifndef __RlAI_Agent_H__
 #define __RlAI_Agent_H__
 
-#include "FuzzyState.h"
 #include "AgentManager.h"
+#include "AgentState.h"
+
+#include <stack>
 
 namespace rl
 {
-	class SteeringVehicle;
-	class SteeringMachine;
-	class DialogCharacter;
-	class Creature;
 	class Actor;
+	class Creature;
 
 	/** Represents a single entity that has got AI.
 	 * Instantiated objects are normally registered with AgentManager.
@@ -40,11 +39,6 @@ namespace rl
 		 * @param character Creature object
 		 */
 		Agent(Creature* character);
-		/** Constructor by Creature object.
-		 * @param character Creature object
-		 * @param vehicle SteeringVehicle object for the specified creature
-		 */
-		Agent(Creature* character, SteeringVehicle* vehicle);
 
 		/** explicit virtual destructor
 		 */
@@ -55,16 +49,9 @@ namespace rl
 		 * supplied on object creation. Creates a behaviour state machine and
 		 * registers itself as a PhysicsController with PhysicalManager for the
 		 * stored creature object.
+         * Also pushes the SteeringState as the default state onto the state stack.
 		 */
 		void initialize();
-
-		/** Returns the agent type (Player, NPC, etc.).
-		 */
-		AgentManager::AgentType getType();
-		/** Sets the agent type (Player, NPC, etc. ).
-		 * @param type AgentType sets the type to the given one.
-		 */
-		void setType(AgentManager::AgentType type);
 
 		/** Function invoked by AgentManager to let Agents advance their AI.
 		 * Is invoked with time since last invocation. Here the behaviour and
@@ -74,50 +61,22 @@ namespace rl
 		/** Adds a steering behaviour to the internal steering machine.
 		 * @param behaviour SteeringBehaviour is initialized and registered to mBehaviour.
 		 */
-		void addSteeringBehaviour(SteeringBehaviour* behaviour);
-		/** Removes all steering behaviours.
-		 */
-        void clearSteeringBehaviours();
-
-		/** Retrieves the stored SteeringVehicle.
-		 */
-		SteeringVehicle* getVehicle();
 
 		/** Retrieves the Creature object controlled by this agent
 		 * @returns Creature object controlled
 		 */
         Creature* getControlledCreature() const;
 
+        AgentState* getCurrentState() const;
+
+        void pushState(AgentStateType);
+        void popState();
+
 	protected:
-		//! stores the type of the agent (Player, NPC, ...)
-		AgentManager::AgentType mType;
-		//! stores the behaviour FuzzyStateMachine for behaviour
-		SteeringMachine* mBehaviour;
-		//! stores the vehicle representation of the creature
-		SteeringVehicle* mVehicle;
+        typedef std::deque<AgentState*> AgentStateStack;
 		//! stores the creature whose AI is simulated
 		Creature* mCreature;
+        std::stack<AgentState*> mAgentStates;
 	};
-
-	inline AgentManager::AgentType Agent::getType()
-	{
-		return mType;
-	}
-
-	inline SteeringVehicle* Agent::getVehicle()
-	{
-		return mVehicle;
-	}
-
-	inline void Agent::setType(AgentManager::AgentType type)
-	{
-		mType = type;
-	}
-
-/*	inline PerceptionPool* Agent::getPerceptionPool()
-	{
-		return mPerceptionPool;
-	}
-*/
 }
 #endif

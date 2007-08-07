@@ -25,8 +25,6 @@
 
 
 using namespace Ogre;
-using namespace std;
-
 
 template<> rl::CreatureControllerManager* Singleton<rl::CreatureControllerManager>::ms_Singleton = 0;
 
@@ -34,13 +32,12 @@ template<> rl::CreatureControllerManager* Singleton<rl::CreatureControllerManage
 namespace rl
 {
     CreatureControllerManager::CreatureControllerManager() :
-            mUpdateIdleTime(1.0f),
-            mTimeSinceLastIdleUpdate(0.0f),
-            mName("CreatureControllerManager")
+            mControllers(),
+            mBodyControllers()
     {
         GameLoop::getSingleton().addTask(this, GameLoop::TG_LOGIC);
 
-        PhysicsManager *physicsManager = PhysicsManager::getSingletonPtr();
+        PhysicsManager* physicsManager = PhysicsManager::getSingletonPtr();
         // the material of moving creatures
         const OgreNewt::MaterialID *char_mat = physicsManager->createMaterialID("character");
 
@@ -66,163 +63,88 @@ namespace rl
         GameLoop::getSingleton().removeTask(this);
     }
 
-    void CreatureControllerManager::add(CreatureController *movingCreature)
+    CreatureController* CreatureControllerManager::getCreatureController(Creature* creature)
     {
-        if(movingCreature == NULL)
+        // valid Creature is needed as argument
+        if (creature == NULL)
         {
-            Throw(NullPointerException, "Argument movingCreature darf nicht NULL sein.");
+            Throw(NullPointerException, "Argument creature darf nicht NULL sein.");
         }
 
-        MovingCreatureVector::const_iterator iter;
-        for(iter = mIdleCreatures.begin(); iter != mIdleCreatures.end(); iter++)
+        CreatureController* rval = NULL;
+
+        // do we have a controller attached to this creature?
+        ControllerMap::const_iterator it = mControllers.find(creature);
+        if ( it == mControllers.end())
         {
-            if( (*iter) == movingCreature )
-            {
-                Throw(IllegalArgumentException, "CreatureController wird schon vom CreatureControllerManager verwaltet.");
-            }
+            // No, so create one and put it into the map.
+            rval = new CreatureController(creature);
+            mControllers.insert(std::make_pair(creature, rval));
+            mBodyControllers.insert(std::make_pair(
+                creature->getActor()->getPhysicalThing()->_getBody(), rval));
         }
-        for(iter = mActiveCreatures.begin(); iter != mActiveCreatures.end(); iter++)
+        else
         {
-            if( (*iter) == movingCreature )
-            {
-                Throw(IllegalArgumentException, "CreatureController wird schon vom CreatureControllerManager verwaltet.");
-            }
+            rval = it->second;
         }
 
-        mMovingCreatureFromBody.insert(make_pair(
-            movingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody(),
-            movingCreature));
-        mIdleCreatures.push_back(movingCreature);
+        return rval;
     }
 
 
-    void CreatureControllerManager::remove(CreatureController *movingCreature)
+    void CreatureControllerManager::detachController(Creature* creature)
     {
-        if(movingCreature == NULL)
+        if( creature == NULL)
         {
-            Throw(NullPointerException, "Argument movingCreature darf nicht NULL sein.");
+            Throw(NullPointerException, "Argument creature darf nicht NULL sein.");
         }
 
-        MovingCreatureBodyMap::iterator body_iter = mMovingCreatureFromBody.find(
-            movingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody());
-
-        if( body_iter == mMovingCreatureFromBody.end() )
+        mControllers.find(creature);
+        ControllerMap::iterator it = mControllers.find(creature);
+        if (it == mControllers.end())
         {
-            Throw(IllegalArgumentException, "CreatureController wird nicht vom CreatureControllerManager verwaltet.");
+            delete it->second;
+            mControllers.erase(it);
         }
 
-        mMovingCreatureFromBody.erase(body_iter);
-
-
-        MovingCreatureVector::iterator iter;
-        for(iter = mIdleCreatures.begin(); iter != mIdleCreatures.end(); iter++)
-        {
-            if( (*iter) == movingCreature )
-            {
-                mIdleCreatures.erase(iter);
-                return;
-            }
-        }
-        for(iter = mActiveCreatures.begin(); iter != mActiveCreatures.end(); iter++)
-        {
-            if( (*iter) == movingCreature )
-            {
-                mActiveCreatures.erase(iter);
-                return;
-            }
-        }
-        for(iter = mAddToActiveCreatures.begin(); iter != mAddToActiveCreatures.end(); iter++)
-        {
-            if( (*iter) == movingCreature )
-            {
-                mAddToActiveCreatures.erase(iter);
-                return;
-            }
-        }
-
-
-        Throw(IllegalArgumentException, "CreatureController wird nicht vom CreatureControllerManager verwaltet.");
+        mBodyControllers.erase(creature->getActor()->getPhysicalThing()->_getBody());
     }
 
     void CreatureControllerManager::run(Real elapsedTime)
     {
-        mTimeSinceLastIdleUpdate += elapsedTime;
-
-
-        MovingCreatureVector::iterator iter;
-        for(iter = mActiveCreatures.begin(); iter != mActiveCreatures.end(); iter ++)
+        for (ControllerMap::iterator it = mControllers.begin(); it != mControllers.end(); ++it)
         {
-            (*iter)->run(elapsedTime);
-        }
-
-        if( mTimeSinceLastIdleUpdate >= mUpdateIdleTime )
-        {
-            for(iter = mIdleCreatures.begin(); iter != mIdleCreatures.end(); iter++)
-            {
-                (*iter)->run(mTimeSinceLastIdleUpdate);
-            }
-            mTimeSinceLastIdleUpdate = 0.0f;
+            it->second->run(elapsedTime);
         }
     }
-
-
-    void CreatureControllerManager::setActive(CreatureController* movingCreature)
-    {
-        if(movingCreature == NULL)
-        {
-            Throw(NullPointerException, "Argument movingCreature darf nicht NULL sein.");
-        }
-
-        // we cannot simply add the item to the other list, since it needs to be updated first!!
-        // i hope there are no errors, if this update is not at the proposed time in the game loop
-        // since it is not executed with the other runs!!!
-
-        MovingCreatureVector::iterator iter;
-        for(iter = mIdleCreatures.begin(); iter != mIdleCreatures.end(); iter++)
-        {
-            if( *iter == movingCreature )
-            {
-                movingCreature->run(mTimeSinceLastIdleUpdate);
-
-                mActiveCreatures.push_back(movingCreature);
-                mIdleCreatures.erase(iter);
-                return;
-            }
-        }
-
-        for(iter = mActiveCreatures.begin(); iter != mActiveCreatures.end(); iter++)
-        {
-            if( *iter == movingCreature )
-            {
-                LOG_DEBUG(Logger::RULES, "Die angegebene CreatureController ist schon aktiv.");
-                return;
-            }
-        }
-
-
-        Throw(IllegalArgumentException, "CreatureController wird nicht vom CreatureControllerManager verwaltet.");
-    }
-
 
     int CreatureControllerManager::userProcess()
     {
-        MovingCreatureBodyMap::iterator iter;
-        iter = mMovingCreatureFromBody.find(m_body0);
-
-        if( iter == mMovingCreatureFromBody.end() )
+        BodyControllerMap::iterator it = mBodyControllers.find(m_body0);
+        if (it == mBodyControllers.end())
         {
-            iter = mMovingCreatureFromBody.find(m_body1);
+            it = mBodyControllers.find(m_body1);
 
-            if( iter == mMovingCreatureFromBody.end() )
+            if (it == mBodyControllers.end())
             {
-                LOG_ERROR(Logger::RULES, "Der Kollisionskörper konnte keiner Creature zugeordner werden.");
+                LOG_ERROR(Logger::RULES,
+                    "Der Kollisionskörper konnte keiner Creature zugeordner werden.");
                 return 1;
             }
         }
 
-        // i hope this will copy the protected members of the contact callback
-        OgreNewt::ContactCallback *movingCreature = iter->second;
-        *movingCreature = (OgreNewt::ContactCallback)(*this);
-        return movingCreature->userProcess();
+        // @XXX Evil code!
+        // Protected members from type OgreNewt::ContactCallback have to be overridden in order
+        // for the controllers to work. This is because these members are used by OgreNewt functions
+        // for processing this contact. Should probably be solved in OgreNewt directly.
+        OgreNewt::ContactCallback* controller = it->second;
+        *controller = (OgreNewt::ContactCallback)(*this);
+        return controller->userProcess();
     }
-}
+
+    const Ogre::String& CreatureControllerManager::getName() const
+    {
+        static String name = "CreatureControllerManager";
+        return name;
+    }
+ }

@@ -1,6 +1,9 @@
 noinst_HEADERS =
 	Agent.h \
 	AgentManager.h \
+	AgentCombatState.h \
+	AgentState.h \
+	AgentSteeringState.h \
 	AiPrerequisites.h \
 	AiSubsystem.h \
 	AiWorld.h \

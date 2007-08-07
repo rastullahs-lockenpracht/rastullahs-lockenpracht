@@ -3,6 +3,7 @@ noinst_HEADERS = \
 	ActionManager.h \
 	Armor.h \
 	Combat.h \
+	Combatant.h \
 	CombatManager.h \
 	Container.h \
 	Creature.h \

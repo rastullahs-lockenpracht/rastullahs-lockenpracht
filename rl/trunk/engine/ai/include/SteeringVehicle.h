@@ -58,9 +58,8 @@ namespace rl
 	public:
 		/** Constructor.
 		 * @param parent Agent owning this vehicle
-		 * @param character Actor controlled by Agent
 		 */
-		SteeringVehicle(Agent* parent, Creature* character);
+		SteeringVehicle(Agent* parent);
 		/** explicit virtual destructor.
 		 */
 		virtual ~SteeringVehicle(void);
@@ -263,9 +262,6 @@ namespace rl
 		 */
 		void initialize();
 
-        virtual void createMovingCreature(); // permit PlayerVehicle to override this functions!
-        virtual void destroyMovingCreature();
-
 		/** retrieves the neighbours of this SteeringVehicle
 		 */
 		OpenSteer::AVGroup getNeighbors() const;
@@ -299,7 +295,7 @@ namespace rl
         //! Creature object steered by this vehicle (and controlled by Agent).
         Creature* mCreature;
 
-        CreatureController* mMovingCreature;
+        CreatureController* mController;
 
         // derived from debugvisualisable
         virtual void doCreatePrimitive();

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- *
+ * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,13 +13,13 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#include "stdinc.h" //precompiled header
+#include "stdinc.h"
 
 #include "Combat.h"
 
 namespace rl
 {
-    Combat::Combat(Creature* character) : mCharacter(character)
+    Combat::Combat(Combatant* character) : mCharacter(character)
     {
     }
 
@@ -27,32 +27,32 @@ namespace rl
     {
     }
 
-    void Combat::addOpponent(Creature* creature)
+    void Combat::addOpponent(Combatant* Combatant)
     {
-        mOpponents.insert(creature);
+        mOpponents.insert(Combatant);
     }
 
-    void Combat::removeOpponent(Creature* creature)
+    void Combat::removeOpponent(Combatant* Combatant)
     {
-        mOpponents.erase(creature);
+        mOpponents.erase(Combatant);
     }
 
-    void Combat::addAlly(Creature* creature)
+    void Combat::addAlly(Combatant* Combatant)
     {
-        mAllies.insert(creature);
+        mAllies.insert(Combatant);
     }
 
-    void Combat::removeAlly(Creature* creature)
+    void Combat::removeAlly(Combatant* Combatant)
     {
-        mAllies.erase(creature);
+        mAllies.erase(Combatant);
     }
 
-    const Combat::CreatureSet& Combat::getAllOpponents() const
+    const Combat::CombatantSet& Combat::getAllOpponents() const
     {
         return mOpponents;
     }
 
-    const Combat::CreatureSet& Combat::getAllAllies() const
+    const Combat::CombatantSet& Combat::getAllAllies() const
     {
         return mAllies;
     }

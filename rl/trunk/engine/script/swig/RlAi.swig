@@ -29,7 +29,7 @@ namespace rl
 	class SteeringVehicle
 	{
 	public:
-		SteeringVehicle(rl::Agent* agent, rl::Creature* character);
+		SteeringVehicle(rl::Agent* agent);
 		
 		void addForce(const Ogre::Vector3& force);
 
@@ -82,8 +82,7 @@ namespace rl
 	public:
 		Agent(rl::Creature* character);
 		virtual ~Agent();
-		void addSteeringBehaviour(rl::SteeringBehaviour* behaviour);
-		void clearSteeringBehaviours();
+        rl::Creature* getControlledCreature() const;
 	};
 	class AiSubsystem 
 	{
@@ -103,17 +102,9 @@ namespace rl
     
 	class AgentManager
 	{
-	public:
-		enum AgentType
-		{
-			AGENT_NONE = -1,
-			AGENT_PLAYER = 0,
-			AGENT_STD_NPC = 1,
-			AGENT_FLOCKING = 2
-		};
-		
+	public:		
 		static AgentManager& getSingleton(void);
-		rl::Agent* createAgent(rl::AgentManager::AgentType type, rl::Creature* character);
+		rl::Agent* createAgent(rl::Creature* character);
 		
         virtual void setBehaviourFactory(BehaviourFactory* factory);
 	};

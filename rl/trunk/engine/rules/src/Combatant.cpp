@@ -13,40 +13,22 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h"
 
-#ifndef __RL_COMBAT_H__
-#define __RL_COMBAT_H__
-
-#include "RulesPrerequisites.h"
-
-#include <set>
+#include "Combatant.h"
 
 namespace rl
 {
-    class Combatant;
-
-    class _RlRulesExport Combat
+    Combatant::Combatant(CreatureController* controller) : mController(controller)
     {
-    public:
-        typedef std::set<Combatant*> CombatantSet;
+    }
 
-        Combat(Combatant* character);
-        ~Combat();
+    Combatant::~Combatant()
+    {
+    }
 
-        void addOpponent(Combatant*);
-        void removeOpponent(Combatant*);
-
-        void addAlly(Combatant*);
-        void removeAlly(Combatant*);
-
-        const CombatantSet& getAllOpponents() const;
-        const CombatantSet& getAllAllies() const;
-
-    private:
-        Combatant* mCharacter;
-        CombatantSet mOpponents;
-        CombatantSet mAllies;
-    };
+    CreatureController* Combatant::getCreatureController() const
+    {
+        return mController;
+    }
 }
-
-#endif

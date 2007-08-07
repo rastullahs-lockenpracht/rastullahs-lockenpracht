@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
-*
+* 
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -13,12 +13,12 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#include "stdinc.h" //precompiled header
-
+#include "stdinc.h"
 
 #include "CombatManager.h"
 
 #include "Combat.h"
+#include "Combatant.h"
 #include "Exception.h"
 
 using namespace Ogre;
@@ -36,7 +36,7 @@ namespace rl
     {
     }
 
-    Combat* CombatManager::startCombat(Creature* character, Creature* firstOpponent)
+    Combat* CombatManager::startCombat(Combatant* character, Combatant* firstOpponent)
     {
         if (mCurrentCombat != NULL)
         {
@@ -52,5 +52,30 @@ namespace rl
     Combat* CombatManager::getCurrentCombat() const
     {
         return mCurrentCombat;
+    }
+
+    Combatant* CombatManager::createCombatant(Creature* creature, const String& combatantType)
+    {
+        CombatantFactoryMap::iterator it = mCombatantFactories.find(combatantType);
+        if (it != mCombatantFactories.end())
+        {
+            return it->second->createCombatant(creature);
+        }
+        else
+        {
+            Throw(IllegalArgumentException, "No such CombatantType registered: " + combatantType);
+        }
+    }
+
+    void CombatManager::destroyCombatant(Combatant* combatant)
+    {
+    }
+
+    void CombatManager::registerCombatantFactory(const String& name, CombatantFactory* factory)
+    {
+    }
+
+    void CombatManager::unregisterCombatantFactory(CombatantFactory* factory)
+    {
     }
 }

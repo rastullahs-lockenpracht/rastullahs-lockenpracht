@@ -61,7 +61,7 @@ namespace rl
         /// Newton contact callback called by the movingCreatureManager
         int userProcess();
 
-        Creature *getCreature() {return mCreature;}
+        Creature* getCreature() {return mCreature;}
 
         /** 
          * the different movements a creature can perform, 

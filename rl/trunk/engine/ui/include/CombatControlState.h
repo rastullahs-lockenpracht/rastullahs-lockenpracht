@@ -20,6 +20,7 @@
 #include "UiPrerequisites.h"
 
 #include "ControlState.h"
+#include "Combatant.h"
 #include "Selector.h"
 
 #include <OgreRectangle.h>
@@ -31,7 +32,7 @@ namespace rl {
     class CombatManager;
     class CombatWindow;
 
-	class _RlUiExport CombatControlState : public ControlState
+	class _RlUiExport CombatControlState : public ControlState, public Combatant
 	{
 	public:
 		/**
@@ -44,6 +45,9 @@ namespace rl {
         virtual void resume();
 
 		void run(Ogre::Real elapsedTime);
+
+        // Combatant override
+        virtual Ogre::String getTypeName();
 
     private:
         CombatManager* mCombatManager;

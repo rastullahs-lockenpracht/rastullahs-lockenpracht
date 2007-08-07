@@ -35,6 +35,7 @@
 #include "ConfigurationManager.h"
 #include "CoreSubsystem.h"
 #include "Creature.h"
+#include "CreatureControllerManager.h"
 #include "DebugWindow.h"
 #include "Exception.h"
 #include "InputManager.h"
@@ -70,7 +71,7 @@ namespace rl {
     MovementControlState::MovementControlState(CommandMapper* cmdMapper,
         Actor* camera, Person* character)
         : ControlState(cmdMapper, camera, character, CST_MOVEMENT),
-        mMovingCreature(NULL),
+        mController(NULL),
         mCharacterState(),
         mDesiredDistance(2.00),
         mDistanceRange(0.60, 7.00),
@@ -156,11 +157,7 @@ namespace rl {
     //------------------------------------------------------------------------
     void MovementControlState::pause()
     {
-        if( mMovingCreature != NULL )
-        {
-            delete mMovingCreature;
-            mMovingCreature = NULL;
-        }
+        mController = NULL;
 
         // actors aren't controlled anymore
         //mCharacterActor->getPhysicalThing()->setPhysicsController(NULL);
@@ -189,8 +186,11 @@ namespace rl {
     //------------------------------------------------------------------------
     void MovementControlState::resume()
     {
-        if( mMovingCreature == NULL )
-            mMovingCreature = new CreatureController(mCharacter);
+        if (mController == NULL )
+        {
+            mController =
+                CreatureControllerManager::getSingleton().getCreatureController(mCharacter);
+        }
 
         // We want to check for visibility from char's POV.
         mSelector.setCheckVisibility(true, mCharacter);
@@ -292,12 +292,12 @@ namespace rl {
     void MovementControlState::updateCharacter(Ogre::Real elapsedTime)
     {
         InputManager* im = InputManager::getSingletonPtr();
-        if( mMovingCreature != NULL )
+        if( mController != NULL )
         {
             int movement = mCharacterState.mCurrentMovementState;
             Degree rotation(0);
 
-            AbstractMovement *drehen = mMovingCreature->getMovementFromId(CreatureController::MT_DREHEN);
+            AbstractMovement *drehen = mController->getMovementFromId(CreatureController::MT_DREHEN);
             Real baseVelocity = 0;
             if( drehen->calculateBaseVelocity(baseVelocity) )
             {
@@ -345,13 +345,13 @@ namespace rl {
                     direction.z = -1;
                 else if( movement & MOVE_BACKWARD)
                     direction.z = 1;
-                mMovingCreature->setMovement(
+                mController->setMovement(
                     CreatureController::MT_SCHLEICHEN,
                     direction,
                     Vector3(0, rotation.valueRadians(), 0) );
             }
             else if( movement & MOVE_JUMP && 
-                mMovingCreature->getMovementFromId(CreatureController::MT_HOCHSPRUNG)->isPossible() )
+                mController->getMovementFromId(CreatureController::MT_HOCHSPRUNG)->isPossible() )
             {
                 CreatureController::MovementType type = CreatureController::MT_HOCHSPRUNG;
                 Vector3 direction = Vector3::UNIT_Y;
@@ -360,7 +360,7 @@ namespace rl {
                     type = CreatureController::MT_WEITSPRUNG;
                     direction += Vector3::NEGATIVE_UNIT_Z;
                 }
-                mMovingCreature->setMovement(
+                mController->setMovement(
                     type,
                     direction,
                     Vector3(0, rotation.valueRadians(), 0) );
@@ -382,7 +382,7 @@ namespace rl {
                     else
                         type = CreatureController::MT_JOGGEN;
                 }
-                mMovingCreature->setMovement(
+                mController->setMovement(
                     type,
                     Vector3(0,0,-1), 
                     Vector3(0, rotation.valueRadians(), 0) );
@@ -392,7 +392,7 @@ namespace rl {
                 CreatureController::MovementType type = CreatureController::MT_RUECKWAERTS_GEHEN;
                 if( !(movement & MOVE_RUN) )
                     type = CreatureController::MT_RUECKWAERTS_JOGGEN;
-                mMovingCreature->setMovement(
+                mController->setMovement(
                     type,
                     Vector3(0,0,1), 
                     Vector3(0, rotation.valueRadians(), 0) );
@@ -402,14 +402,14 @@ namespace rl {
                 Vector3 direction = Vector3::UNIT_X;
                 if( movement & MOVE_LEFT )
                     direction = Vector3::NEGATIVE_UNIT_X;
-                mMovingCreature->setMovement(
+                mController->setMovement(
                     CreatureController::MT_SEITWAERTS_GEHEN,
                     direction, 
                     Vector3(0, rotation.valueRadians(), 0) );
             }
             else
             {
-                mMovingCreature->setMovement(
+                mController->setMovement(
                     CreatureController::MT_STEHEN, 
                     Vector3(0,0,0),
                     Vector3(0, rotation.valueRadians(), 0) );
@@ -548,16 +548,14 @@ namespace rl {
         mCamBody->getPositionOrientation(bodpos,egal);
         ss
             << "scene node : " << playpos << std::endl
-            << "player velocity : " << -mMovingCreature->getVelocity().z << std::endl
-            << "player orientation : " << mMovingCreature->getCreature()->getActor()->getOrientation() << std::endl
+            << "player velocity : " << -mController->getVelocity().z << std::endl
+            << "player orientation : " << mController->getCreature()->getActor()->getOrientation() << std::endl
             << "camera posder : " << static_cast<Camera*>(
                 mCameraActor->_getMovableObject())->getDerivedPosition() << std::endl
-//                << "camera pos : " << static_cast<Camera*>(
-//                    mCameraActor->_getMovableObject())->getPosition() << std::endl
             << "camera orientation : " << mCameraActor->getWorldOrientation() << std::endl
             << "camera pos : " << bodpos << std::endl
             << "camera distance : " << mDesiredDistance << std::endl
-            << "is airborne: " << (mMovingCreature->getAbstractLocation() == CreatureController::AL_AIRBORNE ? "true" : "false") << std::endl;
+            << "is airborne: " << (mController->getAbstractLocation() == CreatureController::AL_AIRBORNE ? "true" : "false") << std::endl;
 
         LOG_DEBUG(Logger::UI, ss.str());
         DebugWindow::getSingleton().setPageText(msDebugWindowPageName, ss.str());

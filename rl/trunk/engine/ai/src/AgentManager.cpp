@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
- *
+ * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
  *
@@ -13,11 +13,12 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#include "stdinc.h" //precompiled header
+#include "stdinc.h"
 
 #include "AgentManager.h"
+
 #include "Agent.h"
-#include "PlayerVehicle.h"
+#include "AgentCombatState.h"
 #include "Creature.h"
 #include "GameObjectManager.h"
 
@@ -27,20 +28,15 @@ template<> rl::AgentManager* Singleton<rl::AgentManager>::ms_Singleton = 0;
 
 namespace rl {
 
-struct FindAgentByControlledCreature : public std::binary_function<Agent*, Creature*, bool>
-{
-    bool operator()(Agent* agent, Creature* creature) const
-    {
-        return agent->getControlledCreature() == creature;
-    }
-};
-
 AgentManager::AgentManager(void)
-    : mBehaviourFactory(NULL), mAllNeighbors(), mAgents(), mPlayer(NULL)
+    : mBehaviourFactory(NULL), mAgents(), mPlayer(NULL)
 {
     // Subscribe as listener to the GameObjectManager, in order to attach Agents to
     // Creatures that are placed into the scene.
     GameObjectManager::getSingleton().registerGameObjectStateListener(this);
+
+    // Register the AgentCombatStateFactory with the CombatManager, so that they can
+    // be created when a creature is taking part the combat.
 }
 
 AgentManager::~AgentManager(void)
@@ -49,66 +45,50 @@ AgentManager::~AgentManager(void)
 	removeAllAgents();
 }
 
-Agent* AgentManager::createAgent(AgentType type, Creature* character)
+Agent* AgentManager::createAgent(Creature* character)
 {
-	SteeringVehicle* vehicle = NULL;
-	if(type == AGENT_PLAYER)
-	{
-		vehicle = new PlayerVehicle(character);
-	}
-
-    Agent* agent = new Agent(character, vehicle);
-	agent->setType(type);
-	if(type == AGENT_PLAYER)
-	{
-		mPlayer = agent;
-	}
-
-
+    Agent* agent = new Agent(character);
 	addAgent(agent);
     return agent;
 }
 
 void AgentManager::destroyAgent(Agent* agent)
 {
-    AgentList::iterator it = std::find(mAgents.begin(), mAgents.end(), agent);
+    AgentMap::iterator it = mAgents.find(agent->getControlledCreature());
     if (it != mAgents.end())
     {
-        delete *it;
+        delete it->second;
         mAgents.erase(it);
+    }
+    else
+    {
+        LOG_ERROR(Logger::AI, "AgentManager::destroyAgent: agent not found.");
     }
 }
 
 void AgentManager::addAgent(Agent* agent)
 {
-	mAgents.push_back(agent);
-    LOG_MESSAGE(Logger::AI,
+    mAgents.insert(std::make_pair(agent->getControlledCreature(), agent));
+    LOG_MESSAGE(Logger::AI, 
         "created AI Agent");
-	mAllNeighbors.push_back(agent->getVehicle());
 }
 
-AgentManager::VehicleList AgentManager::getNeighbors(Agent* agent)
-{
-	return mAllNeighbors;
-}
-
-void AgentManager::run( Ogre::Real elapsedTime )
+void AgentManager::run( Ogre::Real elapsedTime ) 
 {
     //	update agents
-    for(AgentList::iterator itr = mAgents.begin(); itr != mAgents.end(); ++itr)
+    for(AgentMap::iterator it = mAgents.begin(); it != mAgents.end(); ++it)
     {
-	    (*itr)->update(elapsedTime);
+	    it->second->update(elapsedTime);
     }
 }
 
 void AgentManager::removeAllAgents()
 {
-    for(AgentList::iterator itr = mAgents.begin(); itr != mAgents.end(); ++itr)
+    for(AgentMap::iterator it = mAgents.begin(); it != mAgents.end(); ++it)
     {
-        delete (*itr);
+	    delete it->second;
     }
     mAgents.clear();
-    mAllNeighbors.clear();
     mPlayer = NULL;
 }
 
@@ -129,41 +109,73 @@ void AgentManager::gameObjectStateChanged(GameObject* go, GameObjectState oldSta
     if (oldState == GOS_IN_SCENE && newState != GOS_IN_SCENE)
     {
         // Remove the Agent and destroy it. Later we should pool them...
-        AgentList::iterator it = std::find_if(mAgents.begin(), mAgents.end(),
-            std::bind2nd(FindAgentByControlledCreature(), creature));
+        AgentMap::iterator it = mAgents.find(creature);
         if (it != mAgents.end())
         {
-            destroyAgent(*it);
+            destroyAgent(it->second);
         }
     }
     else if (newState == GOS_IN_SCENE)
     {
         // Create an Agent and add the behaviours of the creature to it.
-        Property behaviorProperty = creature->getProperty(Creature::PROPERTY_BEHAVIOURS);
-        if (behaviorProperty.isArray())
-        {
-            PropertyVector behaviors = behaviorProperty.toArray();
-            if (!behaviors.empty())
-            {
-                Agent* agent = createAgent(AGENT_STD_NPC, creature);
-                for (PropertyVector::const_iterator it = behaviors.begin(),
-                    end = behaviors.end(); it != end; ++it)
-                {
-                    if (it->isString())
-                    {
-                        SteeringBehaviour* behavior =
-                            mBehaviourFactory->createBehaviour(it->toString().c_str());
-                        agent->addSteeringBehaviour(behavior);
-                    }
-                }
-            }
-        }
+        Property aiProperty = creature->getProperty(Creature::PROPERTY_AI);
+        //if (behaviorProperty.isArray())
+        //{
+        //    PropertyVector behaviors = aiProperty.toArray();
+        //    if (!behaviors.empty())
+        //    {
+        //        Agent* agent = createAgent(creature);
+        //        for (PropertyVector::const_iterator it = behaviors.begin(),
+        //            end = behaviors.end(); it != end; ++it)
+        //        {
+        //            if (it->isString())
+        //            {
+        //                SteeringBehaviour* behavior =
+        //                    mBehaviourFactory->createBehaviour(it->toString().c_str());
+        //                agent->addSteeringBehaviour(behavior);
+        //            }
+        //        }
+        //    }
+        //}
     }
 }
 
 void AgentManager::setBehaviourFactory(BehaviourFactory* factory)
 {
     mBehaviourFactory = factory;
+}
+
+Combatant* AgentManager::createCombatant(Creature* creature)
+{
+    Agent* agent = NULL;
+    // Get agent from the creature.
+    AgentMap::iterator it = mAgents.find(creature);
+    if (it == mAgents.end())
+    {
+        // Create agent, since there is none yet.
+        agent = createAgent(creature);
+    }
+    else
+    {
+        agent = it->second;
+    }
+    // Put the Agent into combat state and return the state.
+    agent->pushState(AST_COMBAT);
+    Combatant* combatant = dynamic_cast<AgentCombatState*>(agent->getCurrentState());
+    return combatant;
+}
+
+void AgentManager::destroyCombatant(Combatant* combatant)
+{
+    // Get agent from combatant
+    AgentCombatState* combatState = dynamic_cast<AgentCombatState*>(combatant);
+    if (combatState == NULL)
+    {
+        Throw(IllegalArgumentException,
+            "Given combatant was not created by this Factory.(AgentManager)");
+    }
+    // Pop state
+    combatState->getAgent()->popState();
 }
 
 }

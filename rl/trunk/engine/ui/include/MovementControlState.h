@@ -85,7 +85,7 @@ namespace rl {
 
     protected:
         virtual void doCreatePrimitive();
-        CreatureController *mMovingCreature;
+        CreatureController* mController;
 
     private:
 

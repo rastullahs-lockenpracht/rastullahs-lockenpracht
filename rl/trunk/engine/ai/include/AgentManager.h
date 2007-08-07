@@ -18,6 +18,7 @@
 
 #include <OgreSingleton.h>
 #include "AiPrerequisites.h"
+#include "Combatant.h"
 #include "GameTask.h"
 #include "GameObjectStateListener.h"
 #include "FuzzyState.h"
@@ -47,22 +48,11 @@ namespace rl
 	class _RlAiExport AgentManager
 		: public Ogre::Singleton<AgentManager>,
 		  public GameTask,
-          public GameObjectStateListener
+          public GameObjectStateListener,
+          public CombatantFactory
 		  
 	{
 	public:
-		/** Different types of agents.
-		 * Implemented in order to recognise different types of agents, because
-		 * the AI needs to handle them differently.
-		 */
-		enum AgentType
-		{
-			AGENT_NONE = -1,	//!< when the type is unknown/unset
-			AGENT_PLAYER = 0,	//!< when the agent represents a player
-			AGENT_STD_NPC = 1,	//!< when the agent is a nonplayercharacter
-			AGENT_FLOCKING = 2	//!< hmm, possibly for groups behaviour of NPCs
-		};
-
 		//! defines a std::vector list of Vehicle objects for OpenSteer
 		typedef std::vector<SteeringVehicle*> VehicleList;
 
@@ -76,13 +66,10 @@ namespace rl
 		 * @param type defines the type of the agent \see AgentType
 		 * @param character the associated creature
 		 */
-		Agent* createAgent(AgentType type, Creature* character);
+		Agent* createAgent(Creature* character);
 
         //! Destroys an Agent and all its behaviours. (if any)
         void destroyAgent(Agent*);
-
-		//! ??? purpose ??? needed for opensteer ?
-		VehicleList getNeighbors(Agent* agent);
 
 		/** Interface executed as a GameTask by GameLoop.
 		 * is responsible for advancing the ai logik about the time specified.
@@ -107,6 +94,11 @@ namespace rl
 
         /// Set the factory to be used to create behaviours.
         virtual void setBehaviourFactory(BehaviourFactory*);
+
+        // overrides from CombatantFactory
+        virtual Combatant* createCombatant(Creature* creature);
+        virtual void destroyCombatant(Combatant*);
+
 	private:
 
 		/** Used to register an agent internally.
@@ -116,15 +108,13 @@ namespace rl
 		void addAgent(Agent* agent);
 
 		//! defines a std::vector of Agents to ease understanding
-		typedef std::vector<Agent*> AgentList;
+		typedef std::map<Creature*, Agent*> AgentMap;
 
         //! Factory to create behaviours with.
         BehaviourFactory* mBehaviourFactory;
 		
-		//! List of Vehicle objects from the Agents in mAgents (might be needed for opensteer)
-		VehicleList mAllNeighbors;
 		//! List of registered agents (includes mPlayer)
-		AgentList mAgents;
+		AgentMap mAgents;
 		//! Agent representing the player
 		Agent* mPlayer;
 	};

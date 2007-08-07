@@ -21,9 +21,13 @@
 
 #include <OgreSingleton.h>
 
+#include <map>
+
 namespace rl
 {
 	class Combat;
+    class Combatant;
+    class CombatantFactory;
     class Creature;
 	
     class _RlRulesExport CombatManager : public Ogre::Singleton<CombatManager>
@@ -36,12 +40,27 @@ namespace rl
         /// @param character the player character
         /// @param firstOpponent the opponent, that caused the combat.
         /// @throw IllegalStateException if there is already a combat running.
-        Combat* startCombat(Creature* character, Creature* firstOpponent);
+        Combat* startCombat(Combatant* character, Combatant* firstOpponent);
 
         /// Return the combat currently running, NULL if there is none.
         Combat* getCurrentCombat() const;
 
+        /// Returns a Combatant instance for the given Creature with the given name.
+        /// If no name is given, the default Creature-Combatant is chosen, which is
+        /// the default one registered by RlAi.
+        /// Caller is resonsible for calling destroyCombatant in order to
+        /// All undestroyed instances are destroyed when CombatManager is destroyed.
+        /// @param creature Creature to create a Combatant for
+        /// @param combatantType Name of the type to be used.
+        Combatant* createCombatant(Creature* creature, const Ogre::String& combatantType = "default");
+        void destroyCombatant(Combatant* combatant);
+
+        void registerCombatantFactory(const Ogre::String& name, CombatantFactory* factory);
+        void unregisterCombatantFactory(CombatantFactory* factory);
+
     private:
+        typedef std::map<Ogre::String, CombatantFactory*> CombatantFactoryMap;
+        CombatantFactoryMap mCombatantFactories;
         Combat* mCurrentCombat;
     };
 }

@@ -1141,8 +1141,6 @@ namespace rl
         mStillWeightedAnimationName(""),
         mLastFloorContact(TimeSourceManager::getSingleton().getTimeSource(TimeSource::REALTIME_INTERRUPTABLE)->getClock())
     {
-        CreatureControllerManager::getSingleton().add(this);
-
         mOldMaterialId = mCreature->getActor()->getPhysicalThing()->_getBody()->getMaterialGroupID();
         const OgreNewt::MaterialID *material = PhysicsManager::getSingleton().getMaterialID("character");
         mCreature->getActor()->getPhysicalThing()->setMaterialID(material);
@@ -1202,7 +1200,6 @@ namespace rl
         mCreature->getActor()->getPhysicalThing()->setPhysicsController(NULL);
 
         mCreature->getActor()->getPhysicalThing()->setMaterialID(mOldMaterialId);
-        CreatureControllerManager::getSingleton().remove(this);
     }
 
     CreatureController::MovementType CreatureController::getMovementId() const
@@ -1410,7 +1407,10 @@ namespace rl
 
         if(mMovement != NULL)
         {
-            // i hope this will copy the protected members of the contact callback
+            // @XXX Evil code!
+            // Protected members from type OgreNewt::ContactCallback have to be overridden in order
+            // for the movements to work. This is because these members are used by OgreNewt functions
+            // for processing this contact. Should probably be solved in OgreNewt directly.
             OgreNewt::ContactCallback *movement = mMovement;
             *movement = (OgreNewt::ContactCallback)(*this);
             return movement->userProcess();
@@ -1437,7 +1437,6 @@ namespace rl
         {
             if( mMovement->getId() == type )
             {
-                CreatureControllerManager::getSingleton().setActive(this);
                 mDirection = direction;
                 mRotation = rotation;
                 return true;
@@ -1455,12 +1454,11 @@ namespace rl
 
         AbstractMovement *movement = getMovementFromId(type);
 
-
         while(movement != NULL)
         {
             if(movement->isPossible())
             {
-                CreatureControllerManager::getSingleton().setActive(this); // runs the old movement if idle!
+                // runs the old movement if idle!
                 if(mMovement == NULL)
                 {
                     mLastMovementType = MT_NONE;
