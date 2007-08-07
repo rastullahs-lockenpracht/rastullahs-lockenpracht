@@ -1,5 +1,6 @@
 
-material men_human_female_hair_long_01_normal : Basic_Vertex_Shader_Hair
+material men_human_female_hair_long_01_normal : Hair_Vertex_Shader
 {
 set_texture_alias diffuse men_human_female_hair_long_01.png
+set_texture_alias spec men_human_female_hair_long_01_spec.png
 }
