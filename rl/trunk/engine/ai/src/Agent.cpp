@@ -56,6 +56,10 @@ void Agent::initialize()
 
 void Agent::update(const float elapsedTime)
 {
+    if (!mAgentStates.empty())
+    {
+        mAgentStates.top()->update(elapsedTime);
+    }
 }
 
 Creature* Agent::getControlledCreature() const
