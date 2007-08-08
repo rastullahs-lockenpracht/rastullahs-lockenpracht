@@ -18,6 +18,7 @@
 #include "Agent.h"
 
 #include "Actor.h"
+#include "AgentCombatState.h"
 #include "AgentSteeringState.h"
 #include "Creature.h"
 #include "DialogCharacter.h"
@@ -76,6 +77,7 @@ void Agent::pushState(AgentStateType stateType)
     }
     else if (stateType == AST_COMBAT)
     {
+        state = new AgentCombatState(this);
     }
     else if (stateType == AST_DIALOG)
     {

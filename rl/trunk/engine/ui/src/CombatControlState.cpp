@@ -183,7 +183,7 @@ namespace rl {
         return rval;
     }
 
-    Ogre::String CombatControlState::getTypeName()
+    Ogre::String CombatControlState::getCombatantTypeName() const
     {
         return "CombatControlState";
     }

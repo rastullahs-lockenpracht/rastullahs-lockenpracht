@@ -19,6 +19,7 @@
 
 #include "Agent.h"
 #include "AgentCombatState.h"
+#include "CombatManager.h"
 #include "Creature.h"
 #include "GameObjectManager.h"
 
@@ -35,8 +36,9 @@ AgentManager::AgentManager(void)
     // Creatures that are placed into the scene.
     GameObjectManager::getSingleton().registerGameObjectStateListener(this);
 
-    // Register the AgentCombatStateFactory with the CombatManager, so that they can
-    // be created when a creature is taking part the combat.
+    // Register self as CombatantFactory with the CombatManager, so that State is switched
+    // when agent is taking part in a combat.
+    CombatManager::getSingleton().registerCombatantFactory("default", this);
 }
 
 AgentManager::~AgentManager(void)

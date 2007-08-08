@@ -30,7 +30,7 @@ namespace rl
         Combatant(CreatureController* controller);
         virtual ~Combatant();
 
-        virtual Ogre::String getTypeName() = 0;
+        virtual Ogre::String getCombatantTypeName() const = 0;
 
         CreatureController* getCreatureController() const;
 

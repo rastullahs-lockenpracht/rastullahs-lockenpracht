@@ -34,7 +34,7 @@ namespace rl
 
         virtual ~AgentCombatState();
 
-        virtual Ogre::String getTypeName();
+        virtual Ogre::String getCombatantTypeName() const;
 
 		/** Function invoked by Agents to advance the AI.
 		 * Decision making is done here.

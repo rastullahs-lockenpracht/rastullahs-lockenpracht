@@ -33,9 +33,9 @@ namespace rl
     {
     }
 
-    Ogre::String AgentCombatState::getTypeName()
+    Ogre::String AgentCombatState::getCombatantTypeName() const
     {
-        return "AgentCombatState";
+        return "default";
     }
 
 	void AgentCombatState::update(const float elapsedTime)

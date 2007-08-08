@@ -47,7 +47,7 @@ namespace rl {
 		void run(Ogre::Real elapsedTime);
 
         // Combatant override
-        virtual Ogre::String getTypeName();
+        virtual Ogre::String getCombatantTypeName() const;
 
     private:
         CombatManager* mCombatManager;

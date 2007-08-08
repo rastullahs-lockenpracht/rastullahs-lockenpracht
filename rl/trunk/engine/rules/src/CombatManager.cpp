@@ -69,13 +69,34 @@ namespace rl
 
     void CombatManager::destroyCombatant(Combatant* combatant)
     {
+        String name = combatant->getCombatantTypeName();
+        CombatantFactoryMap::iterator it = mCombatantFactories.find(name);
+        if (it != mCombatantFactories.end())
+        {
+            return it->second->destroyCombatant(combatant);
+        }
+        else
+        {
+            Throw(IllegalArgumentException, "No such CombatantType registered: " + name);
+        }
     }
 
     void CombatManager::registerCombatantFactory(const String& name, CombatantFactory* factory)
     {
+        // If there was one already, it is overwritten.
+        mCombatantFactories[name] = factory;
     }
 
     void CombatManager::unregisterCombatantFactory(CombatantFactory* factory)
     {
+        for (CombatantFactoryMap::iterator it = mCombatantFactories.begin();
+            it != mCombatantFactories.end(); ++it)
+        {
+            if (it->second == factory)
+            {
+                mCombatantFactories.erase(it);
+                break;
+            }
+        }
     }
 }
