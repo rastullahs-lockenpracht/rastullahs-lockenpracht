@@ -74,7 +74,7 @@ void NullDriver::shutdown()
 }
 
 /**
- * Gibt den Anzeigename des Treiber zur�ck.
+ * Gibt den Anzeigename des Treiber zurueck.
  * @return Anzeigename
  * @author JoSch
  * @date 12-23-2005
