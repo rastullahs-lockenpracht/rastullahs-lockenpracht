@@ -19,6 +19,7 @@
 
 #include "Agent.h"
 #include "AgentCombatState.h"
+#include "AgentSteeringState.h"
 #include "CombatManager.h"
 #include "Creature.h"
 #include "GameObjectManager.h"
@@ -119,26 +120,38 @@ void AgentManager::gameObjectStateChanged(GameObject* go, GameObjectState oldSta
     }
     else if (newState == GOS_IN_SCENE)
     {
-        // Create an Agent and add the behaviours of the creature to it.
+        /// Create an Agent and add the behaviours of the creature to it.
+        /// /XXX setting of the actual properties should be delegated to the agent itself
+        /// this is one level above what is sensible.
         Property aiProperty = creature->getProperty(Creature::PROPERTY_AI);
-        //if (behaviorProperty.isArray())
-        //{
-        //    PropertyVector behaviors = aiProperty.toArray();
-        //    if (!behaviors.empty())
-        //    {
-        //        Agent* agent = createAgent(creature);
-        //        for (PropertyVector::const_iterator it = behaviors.begin(),
-        //            end = behaviors.end(); it != end; ++it)
-        //        {
-        //            if (it->isString())
-        //            {
-        //                SteeringBehaviour* behavior =
-        //                    mBehaviourFactory->createBehaviour(it->toString().c_str());
-        //                agent->addSteeringBehaviour(behavior);
-        //            }
-        //        }
-        //    }
-        //}
+        if (aiProperty.isMap())
+        {
+            PropertyMap aiProps = aiProperty.toMap();
+            Property behaviorsProperty = aiProps["behaviours"];
+            if (behaviorsProperty.isArray())
+            {
+                PropertyVector behaviours = behaviorsProperty.toArray();
+                if (!behaviours.empty())
+                {
+                    Agent* agent = createAgent(creature);
+                    // Agent is created with AgentSteeringState as default.
+                    // So it is save to cast current AgentState to AgentSteeringState.
+                    // Nevertheless see above comment for how to improve this situation.
+                    AgentSteeringState* ass =
+                        dynamic_cast<AgentSteeringState*>(agent->getCurrentState());
+                    for (PropertyVector::const_iterator it = behaviours.begin(),
+                        end = behaviours.end(); it != end; ++it)
+                    {
+                        if (it->isString())
+                        {
+                            SteeringBehaviour* behavior =
+                                mBehaviourFactory->createBehaviour(it->toString().c_str());
+                            ass->addSteeringBehaviour(behavior);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

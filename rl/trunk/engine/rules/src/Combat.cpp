@@ -17,8 +17,22 @@
 
 #include "Combat.h"
 
+#include "Combatant.h"
+#include "CreatureController.h"
+
 namespace rl
 {
+    struct InitiativeComparator
+    {
+        /// \todo take into account other values of the combatant according to TDE rules,
+        /// in case initiative is equal.
+        bool operator()(const std::pair<int, Combatant*>& c1,
+            const std::pair<int, Combatant*>& c2) const
+        {
+            return c1.first < c2.first;
+        }
+    };
+
     Combat::Combat(Combatant* character) : mCharacter(character)
     {
     }
@@ -55,5 +69,25 @@ namespace rl
     const Combat::CombatantSet& Combat::getAllAllies() const
     {
         return mAllies;
+    }
+
+    void Combat::start()
+    {
+        mCombatantQueue.clear();
+        std::vector<Combatant*> combatants;
+        combatants.insert(combatants.end(), mAllies.begin(), mAllies.end());
+        combatants.insert(combatants.end(), mOpponents.begin(), mOpponents.end());
+        // Calculate initiative for all participiants
+        for (std::vector<Combatant*>::const_iterator it = combatants.begin();
+            it != combatants.end(); ++it)
+        {
+            mCombatantQueue.push_back(std::make_pair(
+                (*it)->getCreatureController()->getCreature()->getInitiativeBasis(), *it));
+        }
+        std::sort(mCombatantQueue.begin(), mCombatantQueue.end(), InitiativeComparator());
+    }
+
+    void Combat::stop()
+    {
     }
 }

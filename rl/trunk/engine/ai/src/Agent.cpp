@@ -53,6 +53,8 @@ void Agent::initialize()
 	{
 		Throw(NullPointerException, "Agent has no creature");
 	}
+    // We need a state to start with. Per default the Agent is steering.
+    pushState(AST_STEERING);
 }
 
 void Agent::update(const float elapsedTime)

@@ -20,6 +20,7 @@
 #include "RulesPrerequisites.h"
 
 #include <set>
+#include <vector>
 
 namespace rl
 {
@@ -42,10 +43,20 @@ namespace rl
         const CombatantSet& getAllOpponents() const;
         const CombatantSet& getAllAllies() const;
 
+        void start();
+        void stop();
+
     private:
         Combatant* mCharacter;
         CombatantSet mOpponents;
         CombatantSet mAllies;
+        typedef std::vector<std::pair<int, Combatant*> > CombatantQueue;
+        // Combatants in order of their initiative for the current round.
+        CombatantQueue mCombatantQueue;
+        // Combatants in order of their initiative for the next round.
+        // Will be copied to the current round after current round is done
+        // and then it will be emptied.
+        CombatantQueue mNextCombatQueue;
     };
 }
 

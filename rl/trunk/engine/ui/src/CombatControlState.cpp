@@ -119,6 +119,8 @@ namespace rl {
             }
         }
         mCombatWindow->setVisible(true);
+
+        mCombat->start();
     }
 
     void CombatControlState::pause()
@@ -130,6 +132,7 @@ namespace rl {
         static_cast<MeshObject*>(mCharacterActor->getControlledObject())->stopAllAnimations();
 
         // reset current combat, in order to avoid a potential dangling pointer
+        mCombat->stop();
         mCombat = NULL;
     }
 

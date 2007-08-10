@@ -41,6 +41,9 @@ namespace rl
          * @param elapsedTime time since last update call.
 		 */
 		virtual void update(const float elapsedTime);
+    protected:
+        typedef enum {} CombatState;
+        CombatState mState;
 	};
 }
 #endif

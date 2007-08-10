@@ -25,7 +25,8 @@ namespace rl
     AgentCombatState::AgentCombatState(Agent* agent)
         : AgentState(agent),
         Combatant(CreatureControllerManager::getSingleton().getCreatureController(
-            agent->getControlledCreature()))
+            agent->getControlledCreature())),
+        mState()
     {
     }
 
