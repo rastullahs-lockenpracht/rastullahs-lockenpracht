@@ -26,10 +26,11 @@
         <property name="meshfile" type="STRING" data="men_alrike.mesh"/>
         <property name="mass" type="REAL" data="65"/>
         <property name="dialogfile" type="STRING" data="testperson.xml"/>
-        <property name="behaviours" type="ARRAY">
-	    <property type="STRING" data="DefaultWanderBehaviour"/>
-	    <property type="STRING" data="AvoidObstaclesBehaviour"/>
-            <property type="STRING" data="DialogBehaviour"/>
+        <property name="ai" type="MAP">
+            <property name="behaviours" type="ARRAY">
+    	        <property type="STRING" data="DefaultWanderBehaviour"/>
+    	        <property type="STRING" data="AvoidObstaclesBehaviour"/>
+            </property>
         </property>
     </gameobjectclass>
 
@@ -42,9 +43,11 @@
         <property name="meshfile" type="STRING" data="men_alrike.mesh"/>
         <property name="mass" type="REAL" data="65"/>
         <property name="dialogfile" type="STRING" data="testperson.xml"/>
-	<property name="behaviours" type="ARRAY">
-	    <property type="STRING" data="DefaultWanderBehaviour"/>
-	    <property type="STRING" data="AvoidObstaclesBehaviour"/>
+        <property name="ai" type="MAP">
+            <property name="behaviours" type="ARRAY">
+    	        <property type="STRING" data="DefaultWanderBehaviour"/>
+    	        <property type="STRING" data="AvoidObstaclesBehaviour"/>
+            </property>
         </property>
     </gameobjectclass>
 
@@ -57,9 +60,11 @@
     <property name="meshfile" type="STRING" data="tie_wolf_01.mesh"/>
     <property name="mass" type="REAL" data="40"/>
     <property name="geometrytype" type="STRING" data="sphere"/>
-    <property name="behaviours" type="ARRAY">
-    	<property type="STRING" data="DefaultWanderBehaviour"/>
-    	<property type="STRING" data="AvoidObstaclesBehaviour"/>
+    <property name="ai" type="MAP">
+        <property name="behaviours" type="ARRAY">
+    	    <property type="STRING" data="DefaultWanderBehaviour"/>
+    	    <property type="STRING" data="AvoidObstaclesBehaviour"/>
+        </property>
     </property>
   </gameobjectclass>
 

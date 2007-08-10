@@ -32,11 +32,7 @@ class DefaultWanderBehaviour < SteeringBehaviour
 	end
 	
 	def calculateActivation()
-		if(getController().isDialogActive())
-			setActivationLevel(getActivationLevel()*0.0);
-		else
-			setActivationLevel(1.0);
-		end
+		setActivationLevel(1.0);
 		if(getController().needAvoidance(5.0))
 			setActivationLevel(getActivationLevel()*5.0);
 		end
@@ -167,11 +163,7 @@ class AvoidObstaclesBehaviour < SteeringBehaviour
 	end
 	
 	def calculateActivation()
-		if(getController().isDialogActive())
-			setActivationLevel(0.0);
-		else
-			setActivationLevel(1.0);
-		end
+		setActivationLevel(1.0);
 		return getActivationLevel();
 	end
 end
