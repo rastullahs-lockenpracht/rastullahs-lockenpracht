@@ -18,7 +18,6 @@ noinst_HEADERS =
 	Landmark.h \
 	LandmarkPath.h \
 	PhysicalObstacle.h \
-	PlayerVehicle.h \
 	SteeringMachine.h \
 	SteeringVehicle.h \
 	WayPointNode.h \
