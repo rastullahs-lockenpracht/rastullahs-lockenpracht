@@ -65,7 +65,7 @@ namespace OpenSteer {
         void reset (void);
 
         // "look at" point, center of view
-        Vec3 target;
+        Vector3 target;
 
         // vehicle being tracked
         const AbstractVehicle* vehicleToTrack;
@@ -81,12 +81,12 @@ namespace OpenSteer {
         {update (currentTime, elapsedTime, false);};
 
         // helper function for "drag behind" mode
-        Vec3 constDistHelper (const float elapsedTime);
+        Vector3 constDistHelper (const float elapsedTime);
 
         // Smoothly move camera ...
-        void smoothCameraMove (const Vec3& newPosition,
-                               const Vec3& newTarget,
-                               const Vec3& newUp,
+        void smoothCameraMove (const Vector3& newPosition,
+                               const Vector3& newTarget,
+                               const Vector3& newUp,
                                const float elapsedTime);
 
         void doNotSmoothNextMove (void) {smoothNextMove = false;};
@@ -96,15 +96,15 @@ namespace OpenSteer {
 
         // adjust the offset vector of the current camera mode based on a
         // "mouse adjustment vector" from OpenSteerDemo (xxx experiment 10-17-02)
-        void mouseAdjustOffset (const Vec3& adjustment);
-        Vec3 mouseAdjust2 (const bool polar,
-                           const Vec3& adjustment,
-                           const Vec3& offsetToAdjust);
-        Vec3 mouseAdjustPolar (const Vec3& adjustment,
-                               const Vec3& offsetToAdjust)
+        void mouseAdjustOffset (const Vector3& adjustment);
+        Vector3 mouseAdjust2 (const bool polar,
+                           const Vector3& adjustment,
+                           const Vector3& offsetToAdjust);
+        Vector3 mouseAdjustPolar (const Vector3& adjustment,
+                               const Vector3& offsetToAdjust)
         {return mouseAdjust2 (true, adjustment, offsetToAdjust);};
-        Vec3 mouseAdjustOrtho (const Vec3& adjustment,
-                               const Vec3& offsetToAdjust)
+        Vector3 mouseAdjustOrtho (const Vector3& adjustment,
+                               const Vector3& offsetToAdjust)
         {return mouseAdjust2 (false, adjustment, offsetToAdjust);};
 
         // xxx since currently (10-21-02) the camera's Forward and Side basis
@@ -160,9 +160,9 @@ namespace OpenSteer {
         cameraMode successorMode (const cameraMode cm) const;
 
         // "static" camera mode parameters
-        Vec3 fixedPosition;
-        Vec3 fixedTarget;
-        Vec3 fixedUp;
+        Vector3 fixedPosition;
+        Vector3 fixedTarget;
+        Vector3 fixedUp;
 
         // "constant distance from vehicle" camera mode parameters
         float fixedDistDistance;             // desired distance from it
@@ -172,10 +172,10 @@ namespace OpenSteer {
         float lookdownDistance;             // fixed vertical offset from it
 
         // "fixed local offset" camera mode parameters
-        Vec3 fixedLocalOffset;
+        Vector3 fixedLocalOffset;
 
         // "offset POV" camera mode parameters
-        Vec3 povOffset;
+        Vector3 povOffset;
     };
 
 } // namespace OpenSteer

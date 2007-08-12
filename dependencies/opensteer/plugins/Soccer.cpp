@@ -52,16 +52,16 @@ namespace {
     using namespace OpenSteer;
 
 
-    Vec3 playerPosition[9] = {
-        Vec3(4,0,0),
-        Vec3(7,0,-5),
-        Vec3(7,0,5),
-        Vec3(10,0,-3),
-        Vec3(10,0,3),
-        Vec3(15,0, -8),
-        Vec3(15,0,0),
-        Vec3(15,0,8),
-        Vec3(4,0,0)
+    Vector3 playerPosition[9] = {
+        Vector3(4,0,0),
+        Vector3(7,0,-5),
+        Vector3(7,0,5),
+        Vector3(10,0,-3),
+        Vector3(10,0,3),
+        Vector3(15,0, -8),
+        Vector3(15,0,0),
+        Vector3(15,0,8),
+        Vector3(4,0,0)
     };
 
     // ----------------------------------------------------------------------------
@@ -69,14 +69,14 @@ namespace {
     // a box object for the field and the goals.
     class AABBox{
     public:
-        AABBox(Vec3 &min, Vec3& max): m_min(min), m_max(max){}
-        AABBox(Vec3 min, Vec3 max): m_min(min), m_max(max){}
-        bool	InsideX(const Vec3 p){if(p.x < m_min.x || p.x > m_max.x)	return false;return true;}
-        bool	InsideZ(const Vec3 p){if(p.z < m_min.z || p.z > m_max.z)	return false;return true;}
+        AABBox(Vector3 &min, Vector3& max): m_min(min), m_max(max){}
+        AABBox(Vector3 min, Vector3 max): m_min(min), m_max(max){}
+        bool	InsideX(const Vector3 p){if(p.x < m_min.x || p.x > m_max.x)	return false;return true;}
+        bool	InsideZ(const Vector3 p){if(p.z < m_min.z || p.z > m_max.z)	return false;return true;}
         void	draw(){
-            Vec3 b,c;
-            b = Vec3(m_min.x, 0, m_max.z);
-            c = Vec3(m_max.x, 0, m_min.z);
+            Vector3 b,c;
+            b = Vector3(m_min.x, 0, m_max.z);
+            c = Vector3(m_max.x, 0, m_min.z);
             Color color(1.0f,1.0f,0.0f);
             drawLineAlpha(m_min, b, color, 1.0f);
             drawLineAlpha(b, m_max, color, 1.0f);
@@ -84,8 +84,8 @@ namespace {
             drawLineAlpha(c,m_min, color, 1.0f);
         }
     private:
-        Vec3 m_min;
-        Vec3 m_max;
+        Vector3 m_min;
+        Vector3 m_max;
     };
 
     // The ball object
@@ -114,20 +114,20 @@ namespace {
             // are we now outside the field?
             if(!m_bbox->InsideX(position()))
             {
-                Vec3 d = velocity();
-                regenerateOrthonormalBasis(Vec3(-d.x, d.y, d.z));
+                Vector3 d = velocity();
+                regenerateOrthonormalBasis(Vector3(-d.x, d.y, d.z));
                 applySteeringForce(velocity(), elapsedTime);
             }
             if(!m_bbox->InsideZ(position()))
             {
-                Vec3 d = velocity();
-                regenerateOrthonormalBasis(Vec3(d.x, d.y, -d.z));
+                Vector3 d = velocity();
+                regenerateOrthonormalBasis(Vector3(d.x, d.y, -d.z));
                 applySteeringForce(velocity(), elapsedTime);
             }
         recordTrailVertex (currentTime, position());
         }
 
-        void kick(Vec3 dir, const float elapsedTime){
+        void kick(Vector3 dir, const float elapsedTime){
             OPENSTEER_UNUSED_PARAMETER(elapsedTime);
             
             setSpeed(dir.length());
@@ -166,7 +166,7 @@ namespace {
                 if(b_ImTeamA)
                     setPosition(playerPosition[m_MyID]);
                 else
-                    setPosition(Vec3(-playerPosition[m_MyID].x, playerPosition[m_MyID].y, playerPosition[m_MyID].z));
+                    setPosition(Vector3(-playerPosition[m_MyID].x, playerPosition[m_MyID].y, playerPosition[m_MyID].z));
                 }
             m_home = position();
             clearTrailHistory ();    // prevent long streaks due to teleportation 
@@ -179,25 +179,25 @@ namespace {
         {
             // if I hit the ball, kick it.
 
-            const float distToBall = Vec3::distance (position(), m_Ball->position());
+            const float distToBall = Vector3::distance (position(), m_Ball->position());
             const float sumOfRadii = radius() + m_Ball->radius();
             if (distToBall < sumOfRadii)
                 m_Ball->kick((m_Ball->position()-position())*50, elapsedTime);
 
 
             // otherwise consider avoiding collisions with others
-            Vec3 collisionAvoidance = steerToAvoidNeighbors(1, (AVGroup&)m_AllPlayers);
-            if(collisionAvoidance != Vec3::zero)
+            Vector3 collisionAvoidance = steerToAvoidNeighbors(1, (AVGroup&)m_AllPlayers);
+            if(collisionAvoidance != Vector3::ZERO)
                 applySteeringForce (collisionAvoidance, elapsedTime);
             else
                 {
-                float distHomeToBall = Vec3::distance (m_home, m_Ball->position());
+                float distHomeToBall = Vector3::distance (m_home, m_Ball->position());
                 if( distHomeToBall < 12.0f)
                     {
                     // go for ball if I'm on the 'right' side of the ball
                         if( b_ImTeamA ? position().x > m_Ball->position().x : position().x < m_Ball->position().x)
                         {
-                        Vec3 seekTarget = xxxsteerForSeek(m_Ball->position());
+                        Vector3 seekTarget = xxxsteerForSeek(m_Ball->position());
                         applySteeringForce (seekTarget, elapsedTime);
                         }
                     else
@@ -205,18 +205,18 @@ namespace {
                         if( distHomeToBall < 12.0f)
                             {
                             float Z = m_Ball->position().z - position().z > 0 ? -1.0f : 1.0f;
-                            Vec3 behindBall = m_Ball->position() + (b_ImTeamA ? Vec3(2.0f,0.0f,Z) : Vec3(-2.0f,0.0f,Z));
-                            Vec3 behindBallForce = xxxsteerForSeek(behindBall);
+                            Vector3 behindBall = m_Ball->position() + (b_ImTeamA ? Vector3(2.0f,0.0f,Z) : Vector3(-2.0f,0.0f,Z));
+                            Vector3 behindBallForce = xxxsteerForSeek(behindBall);
                             annotationLine (position(), behindBall , Color(0.0f,1.0f,0.0f));
-                            Vec3 evadeTarget = xxxsteerForFlee(m_Ball->position());
+                            Vector3 evadeTarget = xxxsteerForFlee(m_Ball->position());
                             applySteeringForce (behindBallForce*10.0f + evadeTarget, elapsedTime);
                             }
                         }
                     }
                 else	// Go home
                     {
-                    Vec3 seekTarget = xxxsteerForSeek(m_home);
-                    Vec3 seekHome = xxxsteerForSeek(m_home);
+                    Vector3 seekTarget = xxxsteerForSeek(m_home);
+                    Vector3 seekHome = xxxsteerForSeek(m_home);
                     applySteeringForce (seekTarget+seekHome, elapsedTime);
                     }
 
@@ -235,7 +235,7 @@ namespace {
         Ball*	m_Ball;
         bool	b_ImTeamA;
         int		m_MyID;
-        Vec3		m_home;
+        Vector3		m_home;
     };
 
 
@@ -258,11 +258,11 @@ namespace {
         void open (void)
         {
             // Make a field
-            m_bbox = new AABBox(Vec3(-20,0,-10), Vec3(20,0,10));
+            m_bbox = new AABBox(Vector3(-20,0,-10), Vector3(20,0,10));
             // Red goal
-            m_TeamAGoal = new AABBox(Vec3(-21,0,-7), Vec3(-19,0,7));
+            m_TeamAGoal = new AABBox(Vector3(-21,0,-7), Vector3(-19,0,7));
             // Blue Goal
-            m_TeamBGoal = new AABBox(Vec3(19,0,-7), Vec3(21,0,7));
+            m_TeamBGoal = new AABBox(Vector3(19,0,-7), Vector3(21,0,7));
             // Make a ball
             m_Ball = new Ball(m_bbox);
             // Build team A
@@ -286,7 +286,7 @@ namespace {
             // initialize camera
             OpenSteerDemo::init2dCamera (*m_Ball);
             OpenSteerDemo::camera.setPosition (10, OpenSteerDemo::camera2dElevation, 10);
-            OpenSteerDemo::camera.fixedPosition.set (40, 40, 40);
+            OpenSteerDemo::camera.fixedPosition = Vector3(40, 40, 40);
             OpenSteerDemo::camera.mode = Camera::cmFixed;
             m_redScore = 0;
             m_blueScore = 0;
@@ -328,12 +328,12 @@ namespace {
             {
                 std::ostringstream annote;
                 annote << "Red: "<< m_redScore;
-                draw2dTextAt3dLocation (annote, Vec3(23,0,0), Color(1.0f,0.7f,0.7f), drawGetWindowWidth(), drawGetWindowHeight());
+                draw2dTextAt3dLocation (annote, Vector3(23,0,0), Color(1.0f,0.7f,0.7f), drawGetWindowWidth(), drawGetWindowHeight());
             }
             {
                 std::ostringstream annote;
                 annote << "Blue: "<< m_blueScore;
-                draw2dTextAt3dLocation (annote, Vec3(-23,0,0), Color(0.7f,0.7f,1.0f), drawGetWindowWidth(), drawGetWindowHeight());
+                draw2dTextAt3dLocation (annote, Vector3(-23,0,0), Color(0.7f,0.7f,1.0f), drawGetWindowWidth(), drawGetWindowHeight());
             }
 
             // textual annotation (following the test vehicle's screen position)
@@ -344,13 +344,13 @@ namespace {
                 annote << std::setprecision (2) << std::setiosflags (std::ios::fixed);
                 annote << "      speed: " << TeamA[i]->speed() << "ID:" << i << std::ends;
                 draw2dTextAt3dLocation (annote, TeamA[i]->position(), gRed, drawGetWindowWidth(), drawGetWindowHeight());
-                draw2dTextAt3dLocation (*"start", Vec3::zero, gGreen, drawGetWindowWidth(), drawGetWindowHeight());
+                draw2dTextAt3dLocation (*"start", Vector3::ZERO, gGreen, drawGetWindowWidth(), drawGetWindowHeight());
             }
             // update camera, tracking test vehicle
             OpenSteerDemo::updateCamera (currentTime, elapsedTime, *OpenSteerDemo::selectedVehicle);
 
             // draw "ground plane"
-            OpenSteerDemo::gridUtility (Vec3(0,0,0));
+            OpenSteerDemo::gridUtility (Vector3(0,0,0));
         }
 
         void close (void)

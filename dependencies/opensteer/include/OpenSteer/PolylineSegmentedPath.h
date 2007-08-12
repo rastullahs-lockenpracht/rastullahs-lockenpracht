@@ -43,7 +43,7 @@
 // Include OpenSteer::PointToPathAlikeBaseDataExtractionPolicy
 #include "OpenSteer/QueryPathAlikeBaseDataExtractionPolicies.h"
 
-// Include OpenSteer::Vec3
+// Include Vector3
 #include "OpenSteer/Vec3.h"
 
 // Include OpenSteer::distance
@@ -81,7 +81,7 @@ namespace OpenSteer {
          *                    cycle closing segment.
          */
         PolylineSegmentedPath( size_type numOfPoints,
-                               Vec3 const newPoints[],
+                               Vector3 const newPoints[],
                                bool closedCycle );
         
         PolylineSegmentedPath( PolylineSegmentedPath const& other );
@@ -105,7 +105,7 @@ namespace OpenSteer {
          *                    cycle closing segment.
          */
         void setPath( size_type numOfPoints,
-                      Vec3 const newPoints[],
+                      Vector3 const newPoints[],
                       bool closedCycle );
         
         /**
@@ -127,49 +127,49 @@ namespace OpenSteer {
          */
         void movePoints( size_type startIndex,
                          size_type numOfPoints,
-                         Vec3 const newPoints[]);
+                         Vector3 const newPoints[]);
         
         
         
         virtual bool isValid() const;
-        virtual Vec3 mapPointToPath (const Vec3& point,
-                                     Vec3& tangent,
+        virtual Vector3 mapPointToPath (const Vector3& point,
+                                     Vector3& tangent,
                                      float& outside) const;
-		virtual Vec3 mapPathDistanceToPoint (float pathDistance) const;
-		virtual float mapPointToPathDistance (const Vec3& point) const;
+		virtual Vector3 mapPathDistanceToPoint (float pathDistance) const;
+		virtual float mapPointToPathDistance (const Vector3& point) const;
         virtual bool isCyclic() const;
         virtual float length() const;
         
         
         virtual size_type pointCount() const;
-        virtual Vec3 point( size_type pointIndex ) const;        
+        virtual Vector3 point( size_type pointIndex ) const;        
         
         
         virtual size_type segmentCount() const;
         virtual float segmentLength( size_type segmentIndex ) const;
-        virtual Vec3 segmentStart( size_type segmentIndex ) const;
-        virtual Vec3 segmentEnd( size_type segmentIndex ) const;
+        virtual Vector3 segmentStart( size_type segmentIndex ) const;
+        virtual Vector3 segmentEnd( size_type segmentIndex ) const;
         virtual float mapPointToSegmentDistance( size_type segmentIndex, 
-                                                 Vec3 const& point ) const;
-        virtual Vec3 mapSegmentDistanceToPoint( size_type segmentIndex, 
+                                                 Vector3 const& point ) const;
+        virtual Vector3 mapSegmentDistanceToPoint( size_type segmentIndex, 
                                                 float segmentDistance ) const;
-        virtual Vec3 mapSegmentDistanceToTangent( size_type segmentIndex, 
+        virtual Vector3 mapSegmentDistanceToTangent( size_type segmentIndex, 
                                                   float segmentDistance ) const;
         
         virtual void mapDistanceToSegmentPointAndTangent( size_type segmentIndex,
                                                           float distance,
-                                                          Vec3& pointOnPath,
-                                                          Vec3& tangent ) const;
+                                                          Vector3& pointOnPath,
+                                                          Vector3& tangent ) const;
         
         virtual void mapPointToSegmentDistanceAndPointAndTangent( size_type segmentIndex,
-                                                                  Vec3 const& point,
+                                                                  Vector3 const& point,
                                                                   float& distance,
-                                                                  Vec3& pointOnPath,
-                                                                  Vec3& tangent ) const;
+                                                                  Vector3& pointOnPath,
+                                                                  Vector3& tangent ) const;
         
     private:
-        std::vector< Vec3 > points_;
-        std::vector< Vec3 > segmentTangents_;
+        std::vector< Vector3 > points_;
+        std::vector< Vector3 > segmentTangents_;
         std::vector< float > segmentLengths_;
         bool closedCycle_;
     }; // class PolylineSegmentedPath
@@ -192,12 +192,12 @@ namespace OpenSteer {
         
         static void extract( PolylineSegmentedPath const& pathAlike,
                              PolylineSegmentedPath::size_type segmentIndex,
-                             Vec3 const& point, 
+                             Vector3 const& point, 
                              float& segmentDistance, 
                              float&, 
                              float& distancePointToPath, 
-                             Vec3& pointOnPathCenterLine, 
-                             Vec3& tangent ) {
+                             Vector3& pointOnPathCenterLine, 
+                             Vector3& tangent ) {
             pathAlike.mapPointToSegmentDistanceAndPointAndTangent( segmentIndex, point, segmentDistance, pointOnPathCenterLine, tangent );
             distancePointToPath = distance( point, pointOnPathCenterLine );
         }
@@ -213,8 +213,8 @@ namespace OpenSteer {
         static void extract( PolylineSegmentedPath const& pathAlike,
                              PolylineSegmentedPath::size_type segmentIndex,
                              float segmentDistance, 
-                             Vec3& pointOnPathCenterLine, 
-                             Vec3& tangent, 
+                             Vector3& pointOnPathCenterLine, 
+                             Vector3& tangent, 
                              float&  )  {
             pathAlike.mapDistanceToSegmentPointAndTangent( segmentIndex, segmentDistance, pointOnPathCenterLine, tangent );     
         }

@@ -39,7 +39,7 @@
 
 
 
-// Include OpenSteer::Vec3
+// Include Vector3
 #include "OpenSteer/Vec3.h"
 
 // Include OpenSteer::distance
@@ -77,10 +77,10 @@ namespace OpenSteer {
          * empty member function calls and the associated calculations for its
          * parameters away.
          *
-         * <code> void setPointOnPathCenterLine( Vec3 const& ) </code>
-         * <code> void setPointOnPathBoundary( Vec3 const& ) </code>
+         * <code> void setPointOnPathCenterLine( Vector3 const& ) </code>
+         * <code> void setPointOnPathBoundary( Vector3 const& ) </code>
          * <code> void setRadius( float ) </code>
-         * <code> void setTangent( Vec3 const& ) </code>
+         * <code> void setTangent( Vector3 const& ) </code>
          * <code> void setSegmentIndex( typename SegmentedPathAlike::size_type ) </code>
          * <code> void setDistancePointToPath( float ) </code>
          * <code> void setDistancePointToPathCenterLine( float ) </code>
@@ -99,7 +99,7 @@ namespace OpenSteer {
          * @c QueryPathAlikeUtilities.h provides some base classes to inherit
          * from to automatically get some of the functionality described above.
          */
-        static void map( PathAlike const& pathAlike, Vec3 const& queryPoint, Mapping& mapping ) {
+        static void map( PathAlike const& pathAlike, Vector3 const& queryPoint, Mapping& mapping ) {
             float minDistancePointToPath = std::numeric_limits< float >::max();
             mapping.setDistanceOnPathFlag( 0.0f );
             
@@ -110,15 +110,15 @@ namespace OpenSteer {
                 float segmentDistance = 0.0f;
                 float radius = 0.0f;
                 float distancePointToPath = 0.0f;
-                Vec3 pointOnPathCenterLine( 0.0f, 0.0f, 0.0f );
-                Vec3 tangent( 0.0f, 0.0f, 0.0f );
+                Vector3 pointOnPathCenterLine( 0.0f, 0.0f, 0.0f );
+                Vector3 tangent( 0.0f, 0.0f, 0.0f );
                 
                 BaseDataExtractionPolicy::extract( pathAlike, segmentIndex, queryPoint, segmentDistance, radius, distancePointToPath, pointOnPathCenterLine, tangent );
                 
                 if ( distancePointToPath < minDistancePointToPath ) {
                     minDistancePointToPath = distancePointToPath;
                     mapping.setPointOnPathCenterLine( pointOnPathCenterLine );
-                    mapping.setPointOnPathBoundary( pointOnPathCenterLine + ( ( queryPoint - pointOnPathCenterLine ).normalize() * radius ) );
+                    mapping.setPointOnPathBoundary( pointOnPathCenterLine + ( ( queryPoint - pointOnPathCenterLine ).normalisedCopy() * radius ) );
                     mapping.setRadius( radius );
                     mapping.setTangent( tangent );
                     mapping.setSegmentIndex( segmentIndex );
@@ -141,7 +141,7 @@ namespace OpenSteer {
      * See @c MapPointToPathAlike::map for further information.
      */
     template< class PathAlike, class Mapping >
-    void mapPointToPathAlike( PathAlike const& pathAlike, Vec3 const& point, Mapping& mapping ) {
+    void mapPointToPathAlike( PathAlike const& pathAlike, Vector3 const& point, Mapping& mapping ) {
         PointToPathAlikeMapping< PathAlike, Mapping >::map( pathAlike, point, mapping );
     }
     
@@ -165,9 +165,9 @@ namespace OpenSteer {
          * empty member function calls and the associated calculations for its
          * parameters away.
          *
-         * <code> void setPointOnPathCenterLine( Vec3 const& ) </code>
+         * <code> void setPointOnPathCenterLine( Vector3 const& ) </code>
          * <code> void setRadius( float ) </code>
-         * <code> void setTangent( Vec3 const& ) </code>
+         * <code> void setTangent( Vector3 const& ) </code>
          * <code> void setSegmentIndex( typename SegmentedPathAlike::size_type ) </code>
          * <code> void setDistanceOnPath( float ) </code>
          * <code> void setDistanceOnSegment( float ) </code>
@@ -194,8 +194,8 @@ namespace OpenSteer {
             
             // Extract the path related data associated with the segment reached
             // by @c distanceOnPath.
-            Vec3 pointOnPathCenterLine( 0.0f, 0.0f, 0.0f );
-            Vec3 tangent( 0.0f, 0.0f, 0.0f );
+            Vector3 pointOnPathCenterLine( 0.0f, 0.0f, 0.0f );
+            Vector3 tangent( 0.0f, 0.0f, 0.0f );
             float radius = 0.0f;
             BaseDataExtractionPolicy::extract( pathAlike, segmentIndex, remainingDistance, pointOnPathCenterLine, tangent, radius );
             

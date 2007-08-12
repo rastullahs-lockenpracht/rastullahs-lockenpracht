@@ -48,7 +48,7 @@
 // Include OpenSteer::PointToPathAlikeBaseDataExtractionPolicy
 #include "OpenSteer/QueryPathAlikeBaseDataExtractionPolicies.h"
 
-// Include OpenSteer::Vec3
+// Include Vector3
 #include "OpenSteer/Vec3.h"
 
 // Include OpenSteer::distance
@@ -79,7 +79,7 @@ namespace OpenSteer {
          * last point mustn't be identical, too.
          */
         PolylineSegmentedPathwaySegmentRadii( size_type numOfPoints,
-                                              Vec3 const points[],
+                                              Vector3 const points[],
                                               float const radii[],
                                               bool closedCycle );
         PolylineSegmentedPathwaySegmentRadii( PolylineSegmentedPathwaySegmentRadii const& other );
@@ -111,7 +111,7 @@ namespace OpenSteer {
          */
         void movePoints( size_type startIndex,
                          size_type numOfPoints,
-                         Vec3 const points[] );
+                         Vector3 const points[] );
         /**
          * Replaces the pathway information completely.
          *
@@ -133,7 +133,7 @@ namespace OpenSteer {
          *        otherwise.
          */
         void setPathway( size_type numOfPoints,
-                         Vec3 const points[],
+                         Vector3 const points[],
                          float const radii[],
                          bool closedCycle );
         
@@ -162,43 +162,43 @@ namespace OpenSteer {
         
         
         virtual bool isValid() const;
-        virtual Vec3 mapPointToPath (const Vec3& point,
-                                     Vec3& tangent,
+        virtual Vector3 mapPointToPath (const Vector3& point,
+                                     Vector3& tangent,
                                      float& outside) const;
-		virtual Vec3 mapPathDistanceToPoint (float pathDistance) const;
-		virtual float mapPointToPathDistance (const Vec3& point) const;
+		virtual Vector3 mapPathDistanceToPoint (float pathDistance) const;
+		virtual float mapPointToPathDistance (const Vector3& point) const;
         virtual bool isCyclic() const;
         virtual float length() const;
         
         
         virtual size_type pointCount() const;
-        virtual Vec3 point( size_type pointIndex ) const;  
+        virtual Vector3 point( size_type pointIndex ) const;  
         
         
         virtual size_type segmentCount() const;
         virtual float segmentLength( size_type segmentIndex ) const;
-        virtual Vec3 segmentStart( size_type segmentIndex ) const;
-        virtual Vec3 segmentEnd( size_type segmentIndex ) const;
+        virtual Vector3 segmentStart( size_type segmentIndex ) const;
+        virtual Vector3 segmentEnd( size_type segmentIndex ) const;
         virtual float mapPointToSegmentDistance( size_type segmentIndex, 
-                                                 Vec3 const& point ) const;
-        virtual Vec3 mapSegmentDistanceToPoint( size_type segmentIndex, 
+                                                 Vector3 const& point ) const;
+        virtual Vector3 mapSegmentDistanceToPoint( size_type segmentIndex, 
                                                 float segmentDistance ) const;
         virtual float mapSegmentDistanceToRadius( size_type segmentIndex, 
                                                   float distanceOnSegment ) const;
-        virtual Vec3 mapSegmentDistanceToTangent( size_type segmentIndex, 
+        virtual Vector3 mapSegmentDistanceToTangent( size_type segmentIndex, 
                                                   float segmentDistance ) const;
         
         virtual void mapDistanceToSegmentPointAndTangentAndRadius( size_type segmentIndex,
                                                                    float segmentDistance,
-                                                                   Vec3& pointOnPath,
-                                                                   Vec3& tangent,
+                                                                   Vector3& pointOnPath,
+                                                                   Vector3& tangent,
                                                                    float& radius ) const;
             
         virtual void mapPointToSegmentDistanceAndPointAndTangentAndRadius( size_type segmentIndex,
-                                                                           Vec3 const& point,
+                                                                           Vector3 const& point,
                                                                            float& distance,
-                                                                           Vec3& pointOnPath,
-                                                                           Vec3& tangent,
+                                                                           Vector3& pointOnPath,
+                                                                           Vector3& tangent,
                                                                            float& radius) const;
 
     private:
@@ -225,12 +225,12 @@ namespace OpenSteer {
             
         static void extract( PolylineSegmentedPathwaySegmentRadii const& pathAlike,
                              PolylineSegmentedPathwaySegmentRadii::size_type segmentIndex,
-                             Vec3 const& point, 
+                             Vector3 const& point, 
                              float& segmentDistance, 
                              float& radius, 
                              float& distancePointToPath, 
-                             Vec3& pointOnPathCenterLine, 
-                             Vec3& tangent ) {
+                             Vector3& pointOnPathCenterLine, 
+                             Vector3& tangent ) {
             pathAlike.mapPointToSegmentDistanceAndPointAndTangentAndRadius( segmentIndex, point, segmentDistance, pointOnPathCenterLine, tangent, radius );
             distancePointToPath = distance( point, pointOnPathCenterLine ) - radius;
         }
@@ -247,8 +247,8 @@ namespace OpenSteer {
         static void extract( PolylineSegmentedPathwaySegmentRadii const& pathAlike,
                              PolylineSegmentedPathwaySegmentRadii::size_type segmentIndex,
                              float segmentDistance, 
-                             Vec3& pointOnPathCenterLine, 
-                             Vec3& tangent, 
+                             Vector3& pointOnPathCenterLine, 
+                             Vector3& tangent, 
                              float& radius )  {
             pathAlike.mapDistanceToSegmentPointAndTangentAndRadius( segmentIndex, segmentDistance, pointOnPathCenterLine, tangent, radius );     
         }

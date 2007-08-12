@@ -29,30 +29,18 @@ namespace rl
 	class SteeringVehicle
 	{
 	public:
-		SteeringVehicle(rl::Agent* agent);
-		
+        SteeringVehicle(rl::Creature* creature);
 		void addForce(const Ogre::Vector3& force);
-
 		Ogre::Vector3 calcWander(const float elapsedTime);
-
 		Ogre::Vector3 calcSeek(const Ogre::Vector3& target);
-
 		Ogre::Vector3 calcFlee(const Ogre::Vector3& target);
-		
 		Ogre::Vector3 calcPursuit(rl::Agent* agent);
-
 		Ogre::Vector3 calcAvoidObstacles(const float minTimeToCollision);
-
 		Ogre::Vector3 calcAvoidNeighbors(const float minTimeToCollision);
-		
 		Ogre::Vector3 calcSteerTargetSpeed(const float targetSpeed);
-		
 		float calcDistance(const Ogre::Vector3& vec1, const Ogre::Vector3& vec2);
-		
 		Ogre::Vector3 getPosition();
-		
 		bool isAhead(rl::Agent* agent, const float threshold);
-		
 		bool needAvoidance(const float minTimeToCollision);
 	};
 	

@@ -38,10 +38,10 @@
 
 /**
  * @todo Is this useful?
-std::pair< Vec3, Vec3 >
-OpenSteer::convertPointAndSegmentToVectors( const Vec3& point,
-                                 const Vec3& segmentPoint0,
-                                 const Vec3& segmentPoint1 )
+std::pair< Vector3, Vector3 >
+OpenSteer::convertPointAndSegmentToVectors( const Vector3& point,
+                                 const Vector3& segmentPoint0,
+                                 const Vector3& segmentPoint1 )
 {
     
     
@@ -50,26 +50,26 @@ OpenSteer::convertPointAndSegmentToVectors( const Vec3& point,
 }
 */
 
-OpenSteer::Vec3
-OpenSteer::nearestPointOnSegment( const Vec3& point,
-                                  const Vec3& segmentPoint0,
-                                  const Vec3& segmentPoint1 )
+Vector3
+OpenSteer::nearestPointOnSegment( const Vector3& point,
+                                  const Vector3& segmentPoint0,
+                                  const Vector3& segmentPoint1 )
 {
     // convert the test point to be "local" to ep0
-    Vec3 const local( point - segmentPoint0 );
+    Vector3 const local( point - segmentPoint0 );
     
     // find the projection of "local" onto "segmentNormal"
-    Vec3 const segment( segmentPoint1 - segmentPoint0 );
+    Vector3 const segment( segmentPoint1 - segmentPoint0 );
     float const segmentLength( segment.length() );
     
     assert( 0 != segmentLength && "Segment mustn't be of length zero." );
     
-    Vec3 const segmentNormalized( segment / segmentLength ); 
-    float segmentProjection = segmentNormalized.dot (local);
+    Vector3 const segmentNormalized( segment / segmentLength ); 
+    float segmentProjection = segmentNormalized.dotProduct(local);
     
     segmentProjection = clamp( segmentProjection, 0.0f, segmentLength );
     
-    Vec3 result( segmentNormalized * segmentProjection );
+    Vector3 result( segmentNormalized * segmentProjection );
     result +=  segmentPoint0;
     return result;    
     
@@ -78,9 +78,9 @@ OpenSteer::nearestPointOnSegment( const Vec3& point,
 
 
 float 
-OpenSteer::pointToSegmentDistance ( const Vec3& point,
-                                    const Vec3& segmentPoint0,
-                                    const Vec3& segmentPoint1)
+OpenSteer::pointToSegmentDistance ( const Vector3& point,
+                                    const Vector3& segmentPoint0,
+                                    const Vector3& segmentPoint1)
 {
     return distance( point, nearestPointOnSegment( point, segmentPoint0, segmentPoint1 ) );
 }

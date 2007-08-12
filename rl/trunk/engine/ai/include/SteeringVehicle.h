@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
+ * Copyright(C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
@@ -52,14 +52,14 @@ namespace rl
 	 *
 	 * Maybe this should be used as interface instead of AbstractVehicle
 	 */
-        class _RlAiExport SteeringVehicle : public SimpleVehicle_2,
+    class _RlAiExport SteeringVehicle : public SimpleVehicle_2,
                                             public DebugVisualisable
 	{
 	public:
 		/** Constructor.
 		 * @param parent Agent owning this vehicle
 		 */
-		SteeringVehicle(Agent* parent);
+		SteeringVehicle(Creature* creature);
 		/** explicit virtual destructor.
 		 */
 		virtual ~SteeringVehicle(void);
@@ -72,8 +72,8 @@ namespace rl
 
 		/**
 		 * Random walking behaviour
-		 * The steering value is purely tangential (has no Forward component) 
-		 * and uses the x-axis only at the moment (2D wandering)
+		 * The steering value is purely tangential(has no Forward component) 
+		 * and uses the x-axis only at the moment(2D wandering)
 		 * @param  elapsedTime The time step value allows wander rate to be consistent when frame times vary
 		 * @return a steering force for wandering behavior. 
 		 */
@@ -164,95 +164,95 @@ namespace rl
 		virtual void update(const float currentTime, const float elapsedTime);
 		/**
 		 * predict position of this vehicle at some time in the future
-		 * (assumes velocity remains constant)
+		 *(assumes velocity remains constant)
 		 */
-		OpenSteer::Vec3 predictFuturePosition (const float predictionTime) const;
+		Ogre::Vector3 predictFuturePosition(const float predictionTime) const;
 
 		void resetLocalSpace();
 
 		/** get mass
 		 * @returns mass of physical object
 		 */
-		float mass (void) const;
+		float mass() const;
 		/** does not set mass but is necessary for AbstractVehicle.
 		 * throws an exception on invocation.
 		 * @param m mass
 		 */
-		float setMass (float m);
+		float setMass(float m);
 
 		/** retrieve velocity of vehicle
 		 * @returns velocity of the vehicle
 		 */
-		OpenSteer::Vec3 velocity (void) const {return OpenSteer::Vec3(mCurrentVelocity.x, mCurrentVelocity.y, mCurrentVelocity.z);}
+		Ogre::Vector3 velocity() const {return mCurrentVelocity;}
 
 		/** retrieves speed of vehicle.
 		 * may be faster than taking mag of velocity
 		 */
-		float speed (void) const;
+		float speed() const;
 		/** sets speed of vehicle.
 		 * may be faster than taking mag of velocity
 		 * @param s new speed to set
 		 * @returns float new speed set.
 		 */
-		float setSpeed (float s);
+		float setSpeed(float s);
 
 		/** radius for size of bounding sphere.
 		 * used for obstacle avoidance, etc.
 		 * TODO: this should be handled by size of NewtonBody
 		 * @returns float the radius
 	    */
-		float radius (void) const;
+		float radius() const;
 		/** sets radius for size of bounding sphere.
 		 * used for obstacle avoidance, etc.
 		 * TODO: this should be handled by size of NewtonBody
 		 * @returns float the radius
 	    */
-		float setRadius (float m);
+		float setRadius(float m);
 
 		/** height for size of bounding sphere.
 		 * used for obstacle avoidance, etc.
 		 * TODO: this should be handled by height of NewtonBody
 		 * @returns float the height
 	    */
-        float height (void) const;
+        float height() const;
 		/** height for size of bounding sphere.
 		 * used for obstacle avoidance, etc.
 		 * TODO: this should be handled by height of NewtonBody
 		 * @returns float the height
 	    */
-        float setHeight (float h);
+        float setHeight(float h);
 
 		/** retrieves maximum force.
 		 * @returns float containing maximum force.
 		 */
-		float maxForce (void) const; 
+		float maxForce() const; 
 		/** sets maximum force.
 		 * TODO: should not be set here, throw excpetion or so
 		 * @returns float containing maximum force set.
 		 */
-		float setMaxForce (float mf);
+		float setMaxForce(float mf);
 
 		/** retrieves maximum speed.
 		 * @returns float containing maximum speed
 		 */
-		float maxSpeed (void) const;
+		float maxSpeed() const;
 		/** retrieves maximum speed.
 		 * TODO: should not be set here, throw excpetion or so
 		 * @returns float containing maximum speed
 		 */
-		float setMaxSpeed (float ms);
+		float setMaxSpeed(float ms);
 
 		/**
 		 * adjust the steering force passed to applySteeringForce.
          * allows a specific vehicle class to redefine this adjustment.
          * default is to disallow backward-facing steering at low speed.
 		 */
-		virtual OpenSteer::Vec3 adjustRawSteeringForce (const OpenSteer::Vec3& force);
+		virtual Ogre::Vector3 adjustRawSteeringForce(const Ogre::Vector3& force);
 
 		/** retrieve the controlled Actor
 		 * @returns Actor that is controlled by the SteeringVehicle
 		 */
-        const Actor* getActor(void) const;
+        const Actor* getActor() const;
 
         // derived from debugvisualisable
         virtual DebugVisualisableFlag getFlag() const;
@@ -290,9 +290,7 @@ namespace rl
 		//! the yaw angle in radians
 		//Ogre::Radian mYaw;
 
-		//! Agent using this vehicle
-		Agent* mParent;
-        //! Creature object steered by this vehicle (and controlled by Agent).
+        //! Creature object steered by this vehicle(and controlled by Agent).
         Creature* mCreature;
 
         CreatureController* mController;

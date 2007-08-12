@@ -91,14 +91,14 @@ namespace {
         void reset (void)
         {
             MpBase::reset ();
-            bodyColor.set (0.4f, 0.6f, 0.4f); // greenish
+            bodyColor = Vector3(0.4f, 0.6f, 0.4f); // greenish
         }
 
         // one simulation step
         void update (const float currentTime, const float elapsedTime)
         {
-            const Vec3 wander2d = steerForWander (elapsedTime).setYtoZero ();
-            const Vec3 steer = forward() + (wander2d * 3);
+            const Vector3 wander2d = steerForWander (elapsedTime).setYtoZero ();
+            const Vector3 steer = forward() + (wander2d * 3);
             applySteeringForce (steer, elapsedTime);
 
             // for annotation
@@ -119,7 +119,7 @@ namespace {
         void reset (void)
         {
             MpBase::reset ();
-            bodyColor.set (0.6f, 0.4f, 0.4f); // redish
+            bodyColor = Vector3(0.6f, 0.4f, 0.4f); // redish
             randomizeStartingPositionAndHeading ();
         }
 
@@ -127,7 +127,7 @@ namespace {
         void update (const float currentTime, const float elapsedTime)
         {
             // when pursuer touches quarry ("wanderer"), reset its position
-            const float d = Vec3::distance (position(), wanderer->position());
+            const float d = Vector3::distance (position(), wanderer->position());
             const float r = radius() + wanderer->radius();
             if (d < r) reset ();
 
@@ -146,7 +146,7 @@ namespace {
             const float inner = 20;
             const float outer = 30;
             const float radius = frandom2 (inner, outer);
-            const Vec3 randomOnRing = RandomUnitVectorOnXZPlane () * radius;
+            const Vector3 randomOnRing = RandomUnitVectorOnXZPlane () * radius;
             setPosition (wanderer->position() + randomOnRing);
 
             // randomize 2D heading

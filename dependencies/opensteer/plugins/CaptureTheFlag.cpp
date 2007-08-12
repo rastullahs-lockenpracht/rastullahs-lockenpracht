@@ -106,7 +106,7 @@ namespace {
         static void initializeObstacles (void);
         static void addOneObstacle (void);
         static void removeOneObstacle (void);
-        float minDistanceToObstacle (const Vec3 point);
+        float minDistanceToObstacle (const Vector3 point);
         static int obstacleCount;
         static const int maxObstacleCount;
         static SOG allObstacles;
@@ -129,15 +129,15 @@ namespace {
         // is there a clear path to the goal?
         bool clearPathToGoal (void);
 
-        Vec3 steeringForSeeker (void);
+        Vector3 steeringForSeeker (void);
         void updateState (const float currentTime);
         void draw (void);
-        Vec3 steerToEvadeAllDefenders (void);
-        Vec3 XXXsteerToEvadeAllDefenders (void);
+        Vector3 steerToEvadeAllDefenders (void);
+        Vector3 XXXsteerToEvadeAllDefenders (void);
         void adjustObstacleAvoidanceLookAhead (const bool clearPath);
         void clearPathAnnotation (const float threshold,
                                   const float behindcThreshold,
-                                  const Vec3& goalDirection);
+                                  const Vector3& goalDirection);
 
         seekerState state;
         bool evading; // xxx store steer sub-state for anotation
@@ -167,7 +167,7 @@ namespace {
 
     const int CtfBase::maxObstacleCount = 100;
 
-    const Vec3 gHomeBaseCenter (0, 0, 0);
+    const Vector3 gHomeBaseCenter (0, 0, 0);
     const float gHomeBaseRadius = 1.5;
 
     const float gMinStartRadius = 30;
@@ -228,7 +228,7 @@ namespace {
     void CtfSeeker::reset (void)
     {
         CtfBase::reset ();
-        bodyColor.set (0.4f, 0.4f, 0.6f); // blueish
+        bodyColor = Color(Vector3(0.4f, 0.4f, 0.6f)); // blueish
         gSeeker = this;
         state = running;
         evading = false;
@@ -238,7 +238,7 @@ namespace {
     void CtfEnemy::reset (void)
     {
         CtfBase::reset ();
-        bodyColor.set (0.6f, 0.4f, 0.4f); // redish
+        bodyColor = Color(Vector3(0.6f, 0.4f, 0.4f)); // redish
     }
 
 
@@ -261,7 +261,7 @@ namespace {
         // randomize position on a ring between inner and outer radii
         // centered around the home base
         const float rRadius = frandom2 (gMinStartRadius, gMaxStartRadius);
-        const Vec3 randomOnRing = RandomUnitVectorOnXZPlane () * rRadius;
+        const Vector3 randomOnRing = RandomUnitVectorOnXZPlane () * rRadius;
         setPosition (gHomeBaseCenter + randomOnRing);
 
         // are we are too close to an obstacle?
@@ -285,7 +285,7 @@ namespace {
     void CtfEnemy::update (const float currentTime, const float elapsedTime)
     {
         // determine upper bound for pursuit prediction time
-        const float seekerToGoalDist = Vec3::distance (gHomeBaseCenter,
+        const float seekerToGoalDist = Vector3::distance (gHomeBaseCenter,
                                                        gSeeker->position());
         const float adjustedDistance = seekerToGoalDist - radius()-gHomeBaseRadius;
         const float seekerToGoalTime = ((adjustedDistance < 0 ) ?
@@ -294,15 +294,15 @@ namespace {
         const float maxPredictionTime = seekerToGoalTime * 0.9f;
 
         // determine steering (pursuit, obstacle avoidance, or braking)
-        Vec3 steer (0, 0, 0);
+        Vector3 steer (0, 0, 0);
         if (gSeeker->state == running)
         {
-            const Vec3 avoidance =
+            const Vector3 avoidance =
                 steerToAvoidObstacles (gAvoidancePredictTimeMin,
                                        (ObstacleGroup&) allObstacles);
 
             // saved for annotation
-            avoiding = (avoidance == Vec3::zero);
+            avoiding = (avoidance == Vector3::ZERO);
 
             if (avoiding)
                 steer = steerForPursuit (*gSeeker, maxPredictionTime);
@@ -321,7 +321,7 @@ namespace {
 
 
         // detect and record interceptions ("tags") of seeker
-        const float seekerToMeDist = Vec3::distance (position(), 
+        const float seekerToMeDist = Vector3::distance (position(), 
                                                      gSeeker->position());
         const float sumOfRadii = radius() + gSeeker->radius();
         if (seekerToMeDist < sumOfRadii)
@@ -350,9 +350,9 @@ namespace {
         const float sideThreshold = radius() * 8.0f;
         const float behindThreshold = radius() * 2.0f;
 
-        const Vec3 goalOffset = gHomeBaseCenter - position();
+        const Vector3 goalOffset = gHomeBaseCenter - position();
         const float goalDistance = goalOffset.length ();
-        const Vec3 goalDirection = goalOffset / goalDistance;
+        const Vector3 goalDirection = goalOffset / goalDistance;
 
         const bool goalIsAside = isAside (gHomeBaseCenter, 0.5);
 
@@ -364,14 +364,14 @@ namespace {
         {
             // short name for this enemy
             const CtfEnemy& e = *ctfEnemies[i];
-            const float eDistance = Vec3::distance (position(), e.position());
+            const float eDistance = Vector3::distance (position(), e.position());
             const float timeEstimate = 0.3f * eDistance / e.speed(); //xxx
-            const Vec3 eFuture = e.predictFuturePosition (timeEstimate);
-            const Vec3 eOffset = eFuture - position();
-            const float alongCorridor = goalDirection.dot (eOffset);
+            const Vector3 eFuture = e.predictFuturePosition (timeEstimate);
+            const Vector3 eOffset = eFuture - position();
+            const float alongCorridor = goalDirection.dotProduct(eOffset);
             const bool inCorridor = ((alongCorridor > -behindThreshold) && 
                                      (alongCorridor < goalDistance));
-            const float eForwardDistance = forward().dot (eOffset);
+            const float eForwardDistance = forward().dotProduct(eOffset);
 
             // xxx temp move this up before the conditionals
             annotationXZCircle (e.radius(), eFuture, clearPathColor, 20); //xxx
@@ -379,7 +379,7 @@ namespace {
             // consider as potential blocker if within the corridor
             if (inCorridor)
             {
-                const Vec3 perp = eOffset - (goalDirection * alongCorridor);
+                const Vector3 perp = eOffset - (goalDirection * alongCorridor);
                 const float acrossCorridor = perp.length();
                 if (acrossCorridor < sideThreshold)
                 {
@@ -425,14 +425,14 @@ namespace {
 
     void CtfSeeker::clearPathAnnotation (const float sideThreshold,
                                          const float behindThreshold,
-                                         const Vec3& goalDirection)
+                                         const Vector3& goalDirection)
     {
-        const Vec3 behindSide = side() * sideThreshold;
-        const Vec3 behindBack = forward() * -behindThreshold;
-        const Vec3 pbb = position() + behindBack;
-        const Vec3 gun = localRotateForwardToSide (goalDirection);
-        const Vec3 gn = gun * sideThreshold;
-        const Vec3 hbc = gHomeBaseCenter;
+        const Vector3 behindSide = side() * sideThreshold;
+        const Vector3 behindBack = forward() * -behindThreshold;
+        const Vector3 pbb = position() + behindBack;
+        const Vector3 gun = localRotateForwardToSide (goalDirection);
+        const Vector3 gn = gun * sideThreshold;
+        const Vector3 hbc = gHomeBaseCenter;
         annotationLine (pbb + gn,         hbc + gn,         clearPathColor);
         annotationLine (pbb - gn,         hbc - gn,         clearPathColor);
         annotationLine (hbc - gn,         hbc + gn,         clearPathColor);
@@ -448,12 +448,12 @@ namespace {
 
     void CtfBase::annotateAvoidObstacle (const float minDistanceToCollision)
     {
-        const Vec3 boxSide = side() * radius();
-        const Vec3 boxFront = forward() * minDistanceToCollision;
-        const Vec3 FR = position() + boxFront - boxSide;
-        const Vec3 FL = position() + boxFront + boxSide;
-        const Vec3 BR = position()            - boxSide;
-        const Vec3 BL = position()            + boxSide;
+        const Vector3 boxSide = side() * radius();
+        const Vector3 boxFront = forward() * minDistanceToCollision;
+        const Vector3 FR = position() + boxFront - boxSide;
+        const Vector3 FL = position() + boxFront + boxSide;
+        const Vector3 BR = position()            - boxSide;
+        const Vector3 BL = position()            + boxSide;
         const Color white (1,1,1);
         annotationLine (FR, FL, white);
         annotationLine (FL, BL, white);
@@ -465,19 +465,19 @@ namespace {
     // ----------------------------------------------------------------------------
 
 
-    Vec3 CtfSeeker::steerToEvadeAllDefenders (void)
+    Vector3 CtfSeeker::steerToEvadeAllDefenders (void)
     {
-        Vec3 evade (0, 0, 0);
-        const float goalDistance = Vec3::distance (gHomeBaseCenter, position());
+        Vector3 evade (0, 0, 0);
+        const float goalDistance = Vector3::distance (gHomeBaseCenter, position());
 
         // sum up weighted evasion
         for (int i = 0; i < ctfEnemyCount; i++)
         {
             const CtfEnemy& e = *ctfEnemies[i];
-            const Vec3 eOffset = e.position() - position();
+            const Vector3 eOffset = e.position() - position();
             const float eDistance = eOffset.length();
 
-            const float eForwardDistance = forward().dot (eOffset);
+            const float eForwardDistance = forward().dotProduct(eOffset);
             const float behindThreshold = radius() * 2;
             const bool behind = eForwardDistance < behindThreshold;
             if ((!behind) || (eDistance < 5))
@@ -486,13 +486,13 @@ namespace {
                 {
                     // const float timeEstimate = 0.5f * eDistance / e.speed;//xxx
                     const float timeEstimate = 0.15f * eDistance / e.speed();//xxx
-                    const Vec3 future =
+                    const Vector3 future =
                         e.predictFuturePosition (timeEstimate);
 
                     annotationXZCircle (e.radius(), future, evadeColor, 20); // xxx
 
-                    const Vec3 offset = future - position();
-                    const Vec3 lateral = offset.perpendicularComponent (forward());
+                    const Vector3 offset = future - position();
+                    const Vector3 lateral = offset.perpendicularComponent (forward());
                     const float d = lateral.length();
                     const float weight = -1000 / (d * d);
                     evade += (lateral / d) * weight;
@@ -503,34 +503,34 @@ namespace {
     }
 
 
-    Vec3 CtfSeeker::XXXsteerToEvadeAllDefenders (void)
+    Vector3 CtfSeeker::XXXsteerToEvadeAllDefenders (void)
     {
         // sum up weighted evasion
-        Vec3 evade (0, 0, 0);
+        Vector3 evade (0, 0, 0);
         for (int i = 0; i < ctfEnemyCount; i++)
         {
             const CtfEnemy& e = *ctfEnemies[i];
-            const Vec3 eOffset = e.position() - position();
+            const Vector3 eOffset = e.position() - position();
             const float eDistance = eOffset.length();
 
             // xxx maybe this should take into account e's heading? xxx
             const float timeEstimate = 0.5f * eDistance / e.speed(); //xxx
-            const Vec3 eFuture = e.predictFuturePosition (timeEstimate);
+            const Vector3 eFuture = e.predictFuturePosition (timeEstimate);
 
             // annotation
             annotationXZCircle (e.radius(), eFuture, evadeColor, 20);
 
             // steering to flee from eFuture (enemy's future position)
-            const Vec3 flee = xxxsteerForFlee (eFuture);
+            const Vector3 flee = xxxsteerForFlee (eFuture);
 
-            const float eForwardDistance = forward().dot (eOffset);
+            const float eForwardDistance = forward().dotProduct(eOffset);
             const float behindThreshold = radius() * -2;
 
             const float distanceWeight = 4 / eDistance;
             const float forwardWeight = ((eForwardDistance > behindThreshold) ?
                                          1.0f : 0.5f);
 
-            const Vec3 adjustedFlee = flee * distanceWeight * forwardWeight;
+            const Vector3 adjustedFlee = flee * distanceWeight * forwardWeight;
 
             evade += adjustedFlee;
         }
@@ -541,17 +541,17 @@ namespace {
     // ----------------------------------------------------------------------------
 
 
-    Vec3 CtfSeeker::steeringForSeeker (void)
+    Vector3 CtfSeeker::steeringForSeeker (void)
     {
         // determine if obstacle avodiance is needed
         const bool clearPath = clearPathToGoal ();
         adjustObstacleAvoidanceLookAhead (clearPath);
-        const Vec3 obstacleAvoidance =
+        const Vector3 obstacleAvoidance =
             steerToAvoidObstacles (gAvoidancePredictTime,
                                    (ObstacleGroup&) allObstacles);
 
         // saved for annotation
-        avoiding = (obstacleAvoidance != Vec3::zero);
+        avoiding = (obstacleAvoidance != Vector3::ZERO);
 
         if (avoiding)
         {
@@ -561,13 +561,13 @@ namespace {
         else
         {
             // otherwise seek home base and perhaps evade defenders
-            const Vec3 seek = xxxsteerForSeek (gHomeBaseCenter);
+            const Vector3 seek = xxxsteerForSeek (gHomeBaseCenter);
             if (clearPath)
             {
                 // we have a clear path (defender-free corridor), use pure seek
 
                 // xxx experiment 9-16-02
-                Vec3 s = limitMaxDeviationAngle (seek, 0.707f, forward());
+                Vector3 s = limitMaxDeviationAngle (seek, 0.707f, forward());
 
                 annotationLine (position(), position() + (s * 0.2f), seekColor);
                 return s;
@@ -577,8 +577,8 @@ namespace {
                 if (0) // xxx testing new evade code xxx
                 {
                     // combine seek and (forward facing portion of) evasion
-                    const Vec3 evade = steerToEvadeAllDefenders ();
-                    const Vec3 steer = 
+                    const Vector3 evade = steerToEvadeAllDefenders ();
+                    const Vector3 steer = 
                         seek + limitMaxDeviationAngle (evade, 0.5f, forward());
 
                     // annotation: show evasion steering force
@@ -588,8 +588,8 @@ namespace {
                 else
 
                 {
-                    const Vec3 evade = XXXsteerToEvadeAllDefenders ();
-                    const Vec3 steer = limitMaxDeviationAngle (seek + evade,
+                    const Vector3 evade = XXXsteerToEvadeAllDefenders ();
+                    const Vector3 steer = limitMaxDeviationAngle (seek + evade,
                                                                0.707f, forward());
 
                     annotationLine (position(),position()+seek, gRed);
@@ -614,7 +614,7 @@ namespace {
         if (clearPath)
         {
             evading = false;
-            const float goalDistance = Vec3::distance (gHomeBaseCenter,position());
+            const float goalDistance = Vector3::distance (gHomeBaseCenter,position());
             const bool headingTowardGoal = isAhead (gHomeBaseCenter, 0.98f);
             const bool isNear = (goalDistance/speed()) < gAvoidancePredictTimeMax;
             const bool useMax = headingTowardGoal && !isNear;
@@ -637,7 +637,7 @@ namespace {
         // if we reach the goal before being tagged, switch to atGoal state
         if (state == running)
         {
-            const float baseDistance = Vec3::distance (position(),gHomeBaseCenter);
+            const float baseDistance = Vector3::distance (position(),gHomeBaseCenter);
             if (baseDistance < (radius() + gHomeBaseRadius)) state = atGoal;
         }
 
@@ -684,7 +684,7 @@ namespace {
         }
 
         // annote seeker with its state as text
-        const Vec3 textOrigin = position() + Vec3 (0, 0.25, 0);
+        const Vector3 textOrigin = position() + Vector3 (0, 0.25, 0);
         std::ostringstream annote;
         annote << seekerStateString << std::endl;
         annote << std::setprecision(2) << std::setiosflags(std::ios::fixed)
@@ -697,7 +697,7 @@ namespace {
         status << obstacleCount << " obstacles [F1/F2]" << std::endl;
         status << resetCount << " restarts" << std::ends;
         const float h = drawGetWindowHeight ();
-        const Vec3 screenLocation (10, h-50, 0);
+        const Vector3 screenLocation (10, h-50, 0);
         draw2dTextAt2dLocation (status, screenLocation, gGray80, drawGetWindowWidth(), drawGetWindowHeight());
     }
 
@@ -712,7 +712,7 @@ namespace {
         updateState (currentTime);
 
         // determine and apply steering/braking forces
-        Vec3 steer (0, 0, 0);
+        Vector3 steer (0, 0, 0);
         if (state == running)
         {
             steer = steeringForSeeker ();
@@ -744,7 +744,7 @@ namespace {
 
     #define testOneObstacleOverlap(radius, center)               \
     {                                                            \
-        float d = Vec3::distance (c, center);                    \
+        float d = Vector3::distance (c, center);                    \
         float clearance = d - (r + (radius));                    \
         if (minClearance > clearance) minClearance = clearance;  \
     }
@@ -768,7 +768,7 @@ namespace {
             // pick a random center and radius,
             // loop until no overlap with other obstacles and the home base
             float r;
-            Vec3 c;
+            Vector3 c;
             float minClearance;
             const float requiredClearance = gSeeker->radius() * 4; // 2 x diameter
             do
@@ -794,10 +794,10 @@ namespace {
     }
 
 
-    float CtfBase::minDistanceToObstacle (const Vec3 point)
+    float CtfBase::minDistanceToObstacle (const Vector3 point)
     {
         float r = 0;
-        Vec3 c = point;
+        Vector3 c = point;
         float minClearance = FLT_MAX;
         for (SOI so = allObstacles.begin(); so != allObstacles.end(); so++)
         {
@@ -848,8 +848,8 @@ namespace {
             // initialize camera
             OpenSteerDemo::init2dCamera (*ctfSeeker);
             OpenSteerDemo::camera.mode = Camera::cmFixedDistanceOffset;
-            OpenSteerDemo::camera.fixedTarget.set (15, 0, 0);
-            OpenSteerDemo::camera.fixedPosition.set (80, 60, 0);
+            OpenSteerDemo::camera.fixedTarget = Vector3(15, 0, 0);
+            OpenSteerDemo::camera.fixedPosition = Vector3(80, 60, 0);
 
             CtfBase::initializeObstacles ();
         }
@@ -878,12 +878,12 @@ namespace {
             OpenSteerDemo::updateCamera (currentTime, elapsedTime, selected);
 
             // draw "ground plane" centered between base and selected vehicle
-            const Vec3 goalOffset = gHomeBaseCenter-OpenSteerDemo::camera.position();
-            const Vec3 goalDirection = goalOffset.normalize ();
-            const Vec3 cameraForward = OpenSteerDemo::camera.xxxls().forward();
-            const float goalDot = cameraForward.dot (goalDirection);
+            const Vector3 goalOffset = gHomeBaseCenter-OpenSteerDemo::camera.position();
+            const Vector3 goalDirection = goalOffset.normalisedCopy();
+            const Vector3 cameraForward = OpenSteerDemo::camera.xxxls().forward();
+            const float goalDot = cameraForward.dotProduct(goalDirection);
             const float blend = remapIntervalClip (goalDot, 1, 0, 0.5, 0);
-            const Vec3 gridCenter = interpolate (blend,
+            const Vector3 gridCenter = interpolate (blend,
                                                  selected.position(),
                                                  gHomeBaseCenter);
             OpenSteerDemo::gridUtility (gridCenter);
@@ -957,7 +957,7 @@ namespace {
 
         void drawHomeBase (void)
         {
-            const Vec3 up (0, 0.01f, 0);
+            const Vector3 up (0, 0.01f, 0);
             const Color atColor (0.3f, 0.3f, 0.5f);
             const Color noColor = gGray50;
             const bool reached = ctfSeeker->state == CtfSeeker::atGoal;

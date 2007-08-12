@@ -44,7 +44,7 @@
 // compute steering for a vehicle to avoid this obstacle, if needed 
 
 
-OpenSteer::Vec3 
+Vector3 
 OpenSteer::Obstacle::steerToAvoid (const AbstractVehicle& vehicle,
                                    const float minTimeToCollision) const
 {
@@ -62,7 +62,7 @@ OpenSteer::Obstacle::steerToAvoid (const AbstractVehicle& vehicle,
 // static method to apply steerToAvoid to nearest obstacle in an ObstacleGroup
 
 
-OpenSteer::Vec3
+Vector3
 OpenSteer::Obstacle::
 steerToAvoidObstacles (const AbstractVehicle& vehicle,
                        const float minTimeToCollision,
@@ -120,7 +120,7 @@ firstPathIntersectionWithObstacleGroup (const AbstractVehicle& vehicle,
 // determine steering once path intersections have been found
 
 
-OpenSteer::Vec3 
+Vector3 
 OpenSteer::Obstacle::PathIntersection::
 steerToAvoidIfNeeded (const AbstractVehicle& vehicle,
                       const float minTimeToCollision) const
@@ -132,12 +132,12 @@ steerToAvoidIfNeeded (const AbstractVehicle& vehicle,
         // compute avoidance steering force: take the component of
         // steerHint which is lateral (perpendicular to vehicle's
         // forward direction), set its length to vehicle's maxForce
-        Vec3 lateral = steerHint.perpendicularComponent (vehicle.forward ());
-        return lateral.normalize () * vehicle.maxForce ();
+        Vector3 lateral = Vec3Utils::perpendicularComponent(steerHint, vehicle.forward ());
+        return lateral.normalisedCopy() * vehicle.maxForce ();
     }
     else
     {
-        return Vec3::zero;
+        return Vector3::ZERO;
     }
 }
 
@@ -161,7 +161,7 @@ findIntersectionWithVehiclePath (const AbstractVehicle& vehicle,
     // simplifies some of the calculations.
 
     float b, c, d, p, q, s;
-    Vec3 lc;
+    Vector3 lc;
 
     // initialize pathIntersection object to "no intersection found"
     pi.intersect = false;
@@ -204,7 +204,7 @@ findIntersectionWithVehiclePath (const AbstractVehicle& vehicle,
          ((p > 0) ? p : q));
     pi.surfacePoint =
         vehicle.position() + (vehicle.forward() * pi.distance);
-    pi.surfaceNormal = (pi.surfacePoint-center).normalize();
+    pi.surfaceNormal = (pi.surfacePoint-center).normalisedCopy();
     // hmm, note that this was actually determined already in pi.distance calc
     pi.vehicleOutside = lc.length () > radius;
     switch (seenFrom ())
@@ -237,13 +237,13 @@ findIntersectionWithVehiclePath (const AbstractVehicle& vehicle,
     const float w = width; // dimensions
     const float h = height;
     const float d = depth;
-    const Vec3 s = side (); // local space
-    const Vec3 u = up ();
-    const Vec3 f = forward ();
-    const Vec3 p = position ();
-    const Vec3 hw = s * (0.5f * width); // offsets for face centers
-    const Vec3 hh = u * (0.5f * height);
-    const Vec3 hd = f * (0.5f * depth);
+    const Vector3 s = side (); // local space
+    const Vector3 u = up ();
+    const Vector3 f = forward ();
+    const Vector3 p = position ();
+    const Vector3 hw = s * (0.5f * width); // offsets for face centers
+    const Vector3 hh = u * (0.5f * height);
+    const Vector3 hd = f * (0.5f * depth);
     const seenFromState sf = seenFrom ();
 
     // the box's six rectangular faces
@@ -271,7 +271,7 @@ findIntersectionWithVehiclePath (const AbstractVehicle& vehicle,
     if (pi.intersect)
     {
         pi.obstacle = this;
-        pi.steerHint = ((pi.surfacePoint - position ()).normalize () *
+        pi.steerHint = ((pi.surfacePoint - position ()).normalisedCopy() *
                         (pi.vehicleOutside ? 1.0f : -1.0f));
     }
 }
@@ -291,11 +291,11 @@ findIntersectionWithVehiclePath (const AbstractVehicle& vehicle,
     // initialize pathIntersection object to "no intersection found"
     pi.intersect = false;
 
-    const Vec3 lp =  localizePosition (vehicle.position ());
-    const Vec3 ld = localizeDirection (vehicle.forward ());
+    const Vector3 lp =  localizePosition (vehicle.position ());
+    const Vector3 ld = localizeDirection (vehicle.forward ());
 
     // no obstacle intersection if path is parallel to XY (side/up) plane
-    if (ld.dot (Vec3::forward) == 0.0f) return;
+    if (ld.dotProduct(Vector3::NEGATIVE_UNIT_Z) == 0.0f) return;
 
     // no obstacle intersection if vehicle is heading away from the XY plane
     if ((lp.z > 0.0f) && (ld.z > 0.0f)) return;
@@ -308,16 +308,16 @@ findIntersectionWithVehiclePath (const AbstractVehicle& vehicle,
     // find intersection of path with rectangle's plane (XY plane)
     const float ix = lp.x - (ld.x * lp.z / ld.z);
     const float iy = lp.y - (ld.y * lp.z / ld.z);
-    const Vec3 planeIntersection (ix, iy, 0.0f);
+    const Vector3 planeIntersection (ix, iy, 0.0f);
 
     // no obstacle intersection if plane intersection is outside 2d shape
     if (!xyPointInsideShape (planeIntersection, vehicle.radius ())) return;
 
     // otherwise, the vehicle path DOES intersect this rectangle
-    const Vec3 localXYradial = planeIntersection.normalize ();
-    const Vec3 radial = globalizeDirection (localXYradial);
+    const Vector3 localXYradial = planeIntersection.normalisedCopy();
+    const Vector3 radial = globalizeDirection (localXYradial);
     const float sideSign = (lp.z > 0.0f) ? +1.0f : -1.0f;
-    const Vec3 opposingNormal = forward () * sideSign;
+    const Vector3 opposingNormal = forward () * sideSign;
     pi.intersect = true;
     pi.obstacle = this;
     pi.distance = (lp - planeIntersection).length ();
@@ -336,7 +336,7 @@ findIntersectionWithVehiclePath (const AbstractVehicle& vehicle,
 bool 
 OpenSteer::
 RectangleObstacle::
-xyPointInsideShape (const Vec3& point, float radius) const
+xyPointInsideShape (const Vector3& point, float radius) const
 {
     const float w = radius + (width * 0.5f);
     const float h = radius + (height * 0.5f);

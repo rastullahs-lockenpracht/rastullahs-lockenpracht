@@ -28,15 +28,15 @@
 // ----------------------------------------------------------------------------
 //
 //
-// Vec3: OpenSteer's generic type for 3d vectors
+// Vector3: OpenSteer's generic type for 3d vectors
 //
-// This file defines the class Vec3, which is used throughout OpenSteer to
+// This file defines the class Vector3, which is used throughout OpenSteer to
 // manipulate 3d geometric data.  It includes standard vector operations (like
 // vector addition, subtraction, scale, dot, cross...) and more idiosyncratic
 // utility functions.
 //
 // When integrating OpenSteer into a preexisting 3d application, it may be
-// important to use the 3d vector type of that application.  In that case Vec3
+// important to use the 3d vector type of that application.  In that case Vector3
 // can be changed to inherit from the preexisting application' vector type and
 // to match the interface used by OpenSteer to the interface provided by the
 // preexisting 3d vector type.
@@ -52,37 +52,16 @@
 #include "OpenSteer/Vec3.h"
 
 
-// ----------------------------------------------------------------------------
-// names for frequently used vector constants
-
-
-const OpenSteer::Vec3 OpenSteer::Vec3::zero    (0, 0, 0);
-const OpenSteer::Vec3 OpenSteer::Vec3::up      (0, 1, 0);
-const OpenSteer::Vec3 OpenSteer::Vec3::forward (0, 0, 1);
-
-// XXX  This should be unified with LocalSpace::rightHanded, but I don't want
-// XXX  Vec3 to be based on LocalSpace which is based on Vec3.  Perhaps there
-// XXX  should be a tiny chirality.h header to define a const?  That could
-// XXX  then be included by both Vec3.h and LocalSpace.h
-
-const OpenSteer::Vec3 OpenSteer::Vec3::side    (-1, 0, 0);
-
-// ----------------------------------------------------------------------------
-// Returns a position randomly distributed inside a sphere of unit radius
-// centered at the origin.  Orientation will be random and length will range
-// between 0 and 1
-
-
-OpenSteer::Vec3 
+Vector3 
 OpenSteer::RandomVectorInUnitRadiusSphere (void)
 {
-    Vec3 v;
+    Vector3 v;
 
     do
     {
-        v.set ((frandom01()*2) - 1,
-               (frandom01()*2) - 1,
-               (frandom01()*2) - 1);
+        v.x = (frandom01()*2) - 1;
+        v.y = (frandom01()*2) - 1;
+        v.z = (frandom01()*2) - 1;
     }
     while (v.length() >= 1);
 
@@ -96,16 +75,16 @@ OpenSteer::RandomVectorInUnitRadiusSphere (void)
 // random and length will range between 0 and 1
 
 
-OpenSteer::Vec3 
+Vector3 
 OpenSteer::randomVectorOnUnitRadiusXZDisk (void)
 {
-    Vec3 v;
+    Vector3 v;
 
     do
     {
-        v.set ((frandom01()*2) - 1,
-               0,
-               (frandom01()*2) - 1);
+        v.x = (frandom01()*2) - 1;
+        v.y = 0;
+        v.z = (frandom01()*2) - 1;
     }
     while (v.length() >= 1);
 
@@ -121,19 +100,19 @@ OpenSteer::randomVectorOnUnitRadiusXZDisk (void)
 // cone.  Called by vecLimitMaxDeviationAngle and vecLimitMinDeviationAngle.
 
 
-OpenSteer::Vec3 
+Vector3 
 OpenSteer::vecLimitDeviationAngleUtility (const bool insideOrOutside,
-                                          const Vec3& source,
+                                          const Vector3& source,
                                           const float cosineOfConeAngle,
-                                          const Vec3& basis)
+                                          const Vector3& basis)
 {
     // immediately return zero length input vectors
     float sourceLength = source.length();
     if (sourceLength == 0) return source;
 
     // measure the angular diviation of "source" from "basis"
-    const Vec3 direction = source / sourceLength;
-    float cosineOfSourceAngle = direction.dot (basis);
+    const Vector3 direction = source / sourceLength;
+    float cosineOfSourceAngle = direction.dotProduct(basis);
 
     // Simply return "source" if it already meets the angle criteria.
     // (note: we hope this top "if" gets compiled out since the flag
@@ -150,18 +129,18 @@ OpenSteer::vecLimitDeviationAngleUtility (const bool insideOrOutside,
     }
 
     // find the portion of "source" that is perpendicular to "basis"
-    const Vec3 perp = source.perpendicularComponent (basis);
+    const Vector3 perp = Vec3Utils::perpendicularComponent(source, basis);
 
     // normalize that perpendicular
-    const Vec3 unitPerp = perp.normalize ();
+    const Vector3 unitPerp = perp.normalisedCopy();
 
     // construct a new vector whose length equals the source vector,
     // and lies on the intersection of a plane (formed the source and
     // basis vectors) and a cone (whose axis is "basis" and whose
     // angle corresponds to cosineOfConeAngle)
     float perpDist = sqrtXXX (1 - (cosineOfConeAngle * cosineOfConeAngle));
-    const Vec3 c0 = basis * cosineOfConeAngle;
-    const Vec3 c1 = unitPerp * perpDist;
+    const Vector3 c0 = basis * cosineOfConeAngle;
+    const Vector3 c1 = unitPerp * perpDist;
     return (c0 + c1) * sourceLength;
 }
 
@@ -173,22 +152,22 @@ OpenSteer::vecLimitDeviationAngleUtility (const bool insideOrOutside,
 // remain within 20% of input length).
 
 
-OpenSteer::Vec3 
-OpenSteer::findPerpendicularIn3d (const Vec3& direction)
+Vector3 
+OpenSteer::findPerpendicularIn3d (const Vector3& direction)
 {
     // to be filled in:
-    Vec3 quasiPerp;  // a direction which is "almost perpendicular"
-    Vec3 result;     // the computed perpendicular to be returned
+    Vector3 quasiPerp;  // a direction which is "almost perpendicular"
+    Vector3 result;     // the computed perpendicular to be returned
 
     // three mutually perpendicular basis vectors
-    const Vec3 i (1, 0, 0);
-    const Vec3 j (0, 1, 0);
-    const Vec3 k (0, 0, 1);
+    const Vector3 i (1, 0, 0);
+    const Vector3 j (0, 1, 0);
+    const Vector3 k (0, 0, 1);
 
     // measure the projection of "direction" onto each of the axes
-    const float id = i.dot (direction);
-    const float jd = j.dot (direction);
-    const float kd = k.dot (direction);
+    const float id = i.dotProduct(direction);
+    const float jd = j.dotProduct(direction);
+    const float kd = k.dotProduct(direction);
 
     // set quasiPerp to the basis which is least parallel to "direction"
     if ((id <= jd) && (id <= kd))
@@ -205,7 +184,7 @@ OpenSteer::findPerpendicularIn3d (const Vec3& direction)
 
     // return the cross product (direction x quasiPerp)
     // which is guaranteed to be perpendicular to both of them
-    result.cross (direction, quasiPerp);
+    result = crossProduct(direction, quasiPerp);
     return result;
 }
 

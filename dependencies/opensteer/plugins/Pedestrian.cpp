@@ -68,8 +68,8 @@ namespace {
     SphereObstacle gObstacle1;
     SphereObstacle gObstacle2;
     ObstacleGroup gObstacles;
-    Vec3 gEndpoint0;
-    Vec3 gEndpoint1;
+    Vector3 gEndpoint0;
+    Vector3 gEndpoint1;
     bool gUseDirectedPathFollowing = true;
     // ------------------------------------ xxxcwr11-1-04 fixing steerToAvoid
     RectangleObstacle gObstacle3 (7,7);
@@ -130,7 +130,7 @@ namespace {
             // (random point on path + random horizontal offset)
             const float d = path->length() * frandom01();
             const float r = path->radius();
-            const Vec3 randomOffset = randomVectorOnUnitRadiusXZDisk () * r;
+            const Vector3 randomOffset = randomVectorOnUnitRadiusXZDisk () * r;
             setPosition (path->mapPathDistanceToPoint (d) + randomOffset);
 
             // randomize 2D heading
@@ -159,12 +159,12 @@ namespace {
                 const Color darkRed (0.7f, 0, 0);
                 float const pathRadius = path->radius();
                 
-                if (Vec3::distance (position(), gEndpoint0) < pathRadius )
+                if (Vector3::distance (position(), gEndpoint0) < pathRadius )
                 {
                     pathDirection = +1;
                     annotationXZCircle (pathRadius, gEndpoint0, darkRed, 20);
                 }
-                if (Vec3::distance (position(), gEndpoint1) < pathRadius )
+                if (Vector3::distance (position(), gEndpoint1) < pathRadius )
                 {
                     pathDirection = -1;
                     annotationXZCircle (pathRadius, gEndpoint1, darkRed, 20);
@@ -181,10 +181,10 @@ namespace {
 
         // compute combined steering force: move forward, avoid obstacles
         // or neighbors if needed, otherwise follow the path and wander
-        Vec3 determineCombinedSteering (const float elapsedTime)
+        Vector3 determineCombinedSteering (const float elapsedTime)
         {
             // move forward
-            Vec3 steeringForce = forward();
+            Vector3 steeringForce = forward();
 
             // probability that a lower priority behavior will be given a
             // chance to "drive" even if a higher priority behavior might
@@ -192,7 +192,7 @@ namespace {
             const float leakThrough = 0.1f;
 
             // determine if obstacle avoidance is required
-            Vec3 obstacleAvoidance;
+            Vector3 obstacleAvoidance;
             if (leakThrough < frandom01())
             {
                 const float oTime = 6; // minTimeToCollision = 6 seconds
@@ -206,14 +206,14 @@ namespace {
             }
 
             // if obstacle avoidance is needed, do it
-            if (obstacleAvoidance != Vec3::zero)
+            if (obstacleAvoidance != Vector3::ZERO)
             {
                 steeringForce += obstacleAvoidance;
             }
             else
             {
                 // otherwise consider avoiding collisions with others
-                Vec3 collisionAvoidance;
+                Vector3 collisionAvoidance;
                 const float caLeadTime = 3;
 
                 // find all neighbors within maxRadius using proximity database
@@ -228,7 +228,7 @@ namespace {
                         steerToAvoidNeighbors (caLeadTime, neighbors) * 10;
 
                 // if collision avoidance is needed, do it
-                if (collisionAvoidance != Vec3::zero)
+                if (collisionAvoidance != Vector3::ZERO)
                 {
                     steeringForce += collisionAvoidance;
                 }
@@ -240,7 +240,7 @@ namespace {
 
                     // do (interactively) selected type of path following
                     const float pfLeadTime = 3;
-                    const Vec3 pathFollow =
+                    const Vector3 pathFollow =
                         (gUseDirectedPathFollowing ?
                          steerToFollowPath (pathDirection, pfLeadTime, *path) :
                          steerToStayOnPath (pfLeadTime, *path));
@@ -264,9 +264,9 @@ namespace {
 
 
         // called when steerToFollowPath decides steering is required
-        void annotatePathFollowing (const Vec3& future,
-                                    const Vec3& onPath,
-                                    const Vec3& target,
+        void annotatePathFollowing (const Vector3& future,
+                                    const Vector3& onPath,
+                                    const Vector3& target,
                                     const float outside)
         {
             const Color yellow (1, 1, 0);
@@ -283,8 +283,8 @@ namespace {
             // draw a two-toned line between the future test point and its
             // projection onto the path, the change from dark to light color
             // indicates the boundary of the tube.
-            const Vec3 boundaryOffset = (onPath - future).normalize() * outside;
-            const Vec3 onPathBoundary = future + boundaryOffset;
+            const Vector3 boundaryOffset = (onPath - future).normalisedCopy() * outside;
+            const Vector3 onPathBoundary = future + boundaryOffset;
             annotationLine (onPath, onPathBoundary, darkOrange);
             annotationLine (onPathBoundary, future, lightOrange);
         }
@@ -295,12 +295,12 @@ namespace {
                                          const float /*additionalDistance*/)
         {
             // draw the word "Ouch!" above colliding vehicles
-            const float headOn = forward().dot(other.forward()) < 0;
+            const float headOn = forward().dotProduct(other.forward()) < 0;
             const Color green (0.4f, 0.8f, 0.1f);
             const Color red (1, 0.1f, 0);
             const Color color = headOn ? red : green;
             const char* string = headOn ? "OUCH!" : "pardon me";
-            const Vec3 location = position() + Vec3 (0, 0.5f, 0);
+            const Vector3 location = position() + Vector3 (0, 0.5f, 0);
             if (OpenSteer::annotationIsOn())
                 draw2dTextAt3dLocation (*string, location, color, drawGetWindowWidth(), drawGetWindowHeight());
         }
@@ -309,8 +309,8 @@ namespace {
         // (parameter names commented out to prevent compiler warning from "-W")
         void annotateAvoidNeighbor (const AbstractVehicle& threat,
                                     const float /*steer*/,
-                                    const Vec3& ourFuture,
-                                    const Vec3& threatFuture)
+                                    const Vector3& ourFuture,
+                                    const Vector3& threatFuture)
         {
             const Color green (0.15f, 0.6f, 0.0f);
 
@@ -326,12 +326,12 @@ namespace {
         // xxx CaptureTheFlag.cpp
         void annotateAvoidObstacle (const float minDistanceToCollision)
         {
-            const Vec3 boxSide = side() * radius();
-            const Vec3 boxFront = forward() * minDistanceToCollision;
-            const Vec3 FR = position() + boxFront - boxSide;
-            const Vec3 FL = position() + boxFront + boxSide;
-            const Vec3 BR = position()            - boxSide;
-            const Vec3 BL = position()            + boxSide;
+            const Vector3 boxSide = side() * radius();
+            const Vector3 boxFront = forward() * minDistanceToCollision;
+            const Vector3 FR = position() + boxFront - boxSide;
+            const Vector3 FL = position() + boxFront + boxSide;
+            const Vector3 BR = position()            - boxSide;
+            const Vector3 BL = position()            + boxSide;
             const Color white (1,1,1);
             annotationLine (FR, FL, white);
             annotationLine (FL, BL, white);
@@ -405,14 +405,14 @@ namespace {
             const float gap = 1.2f * size;
             const float out = 2 * size;
             const float h = 0.5;
-            const Vec3 pathPoints[pathPointCount] =
-                {Vec3 (h+gap-out,     0,  h+top-out),  // 0 a
-                 Vec3 (h+gap,         0,  h+top),      // 1 b
-                 Vec3 (h+gap+(top/2), 0,  h+top/2),    // 2 c
-                 Vec3 (h+gap,         0,  h),          // 3 d
-                 Vec3 (h,             0,  h),          // 4 e
-                 Vec3 (h,             0,  h+top),      // 5 f
-                 Vec3 (h+gap,         0,  h+top/2)};   // 6 g
+            const Vector3 pathPoints[pathPointCount] =
+                {Vector3 (h+gap-out,     0,  h+top-out),  // 0 a
+                 Vector3 (h+gap,         0,  h+top),      // 1 b
+                 Vector3 (h+gap+(top/2), 0,  h+top/2),    // 2 c
+                 Vector3 (h+gap,         0,  h),          // 3 d
+                 Vector3 (h,             0,  h),          // 4 e
+                 Vector3 (h,             0,  h+top),      // 5 f
+                 Vector3 (h+gap,         0,  h+top/2)};   // 6 g
 
             gObstacle1.center = interpolate (0.2f, pathPoints[0], pathPoints[1]);
             gObstacle2.center = interpolate (0.5f, pathPoints[2], pathPoints[3]);
@@ -441,9 +441,9 @@ namespace {
     //         gObstacle3.setPosition (20, 0, h);
 
             // tilted 45 degrees
-            gObstacle3.setForward (Vec3(1,1,0).normalize());
+            gObstacle3.setForward (Vector3(1,1,0).normalisedCopy());
             gObstacle3.setSide (0,0,1);
-            gObstacle3.setUp (Vec3(-1,1,0).normalize());
+            gObstacle3.setUp (Vector3(-1,1,0).normalisedCopy());
             gObstacle3.setPosition (20, 0, h);
 
     //         gObstacle3.setSeenFrom (Obstacle::outside);
@@ -492,8 +492,8 @@ namespace {
             Pedestrian& firstPedestrian = **crowd.begin();
             OpenSteerDemo::init3dCamera (firstPedestrian);
             OpenSteerDemo::camera.mode = Camera::cmFixedDistanceOffset;
-            OpenSteerDemo::camera.fixedTarget.set (15, 0, 30);
-            OpenSteerDemo::camera.fixedPosition.set (15, 70, -70);
+            OpenSteerDemo::camera.fixedTarget = Vector3(15, 0, 30);
+            OpenSteerDemo::camera.fixedPosition = Vector3(15, 70, -70);
         }
 
         void update (const float currentTime, const float elapsedTime)
@@ -536,10 +536,10 @@ namespace {
             if (OpenSteerDemo::selectedVehicle && OpenSteer::annotationIsOn())
             {
                 const Color color (0.8f, 0.8f, 1.0f);
-                const Vec3 textOffset (0, 0.25f, 0);
-                const Vec3 textPosition = selected.position() + textOffset;
-                const Vec3 camPosition = OpenSteerDemo::camera.position();
-                const float camDistance = Vec3::distance (selected.position(),
+                const Vector3 textOffset (0, 0.25f, 0);
+                const Vector3 textPosition = selected.position() + textOffset;
+                const Vector3 camPosition = OpenSteerDemo::camera.position();
+                const float camDistance = Vector3::distance (selected.position(),
                                                           camPosition);
                 const char* spacer = "      ";
                 std::ostringstream annote;
@@ -570,7 +570,7 @@ namespace {
             if (gWanderSwitch) status << "yes"; else status << "no";
             status << std::endl;
             const float h = drawGetWindowHeight ();
-            const Vec3 screenLocation (10, h-50, 0);
+            const Vector3 screenLocation (10, h-50, 0);
             draw2dTextAt2dLocation (status, screenLocation, gGray80, drawGetWindowWidth(), drawGetWindowHeight());
         }
 
@@ -586,19 +586,19 @@ namespace {
                 {
                     AbstractVehicle* vehicle = *i;
                     const float nearDistance = 6;
-                    const Vec3& vp = vehicle->position();
-                    const Vec3& np = nearMouse.position();
-                    if ((Vec3::distance (vp, selected.position()) < nearDistance)
+                    const Vector3& vp = vehicle->position();
+                    const Vector3& np = nearMouse.position();
+                    if ((Vector3::distance (vp, selected.position()) < nearDistance)
                         ||
-                        (&nearMouse && (Vec3::distance (vp, np) < nearDistance)))
+                        (&nearMouse && (Vector3::distance (vp, np) < nearDistance)))
                     {
                         std::ostringstream sn;
                         sn << "#"
                            << ((Pedestrian*)vehicle)->serialNumber
                            << std::ends;
                         const Color textColor (0.8f, 1, 0.8f);
-                        const Vec3 textOffset (0, 0.25f, 0);
-                        const Vec3 textPos = vehicle->position() + textOffset;
+                        const Vector3 textOffset (0, 0.25f, 0);
+                        const Vector3 textPos = vehicle->position() + textOffset;
                         draw2dTextAt3dLocation (sn, textPos, textColor, drawGetWindowWidth(), drawGetWindowHeight());
                     }
                 }
@@ -621,14 +621,14 @@ namespace {
     // ------------------------------------ xxxcwr11-1-04 fixing steerToAvoid
             {
                 float w = gObstacle3.width * 0.5f;
-                Vec3 p = gObstacle3.position ();
-                Vec3 s = gObstacle3.side ();
+                Vector3 p = gObstacle3.position ();
+                Vector3 s = gObstacle3.side ();
                 drawLine (p + (s * w), p + (s * -w), gWhite);
 
-                Vec3 v1 = gObstacle3.globalizePosition (Vec3 (w, w, 0));
-                Vec3 v2 = gObstacle3.globalizePosition (Vec3 (-w, w, 0));
-                Vec3 v3 = gObstacle3.globalizePosition (Vec3 (-w, -w, 0));
-                Vec3 v4 = gObstacle3.globalizePosition (Vec3 (w, -w, 0));
+                Vector3 v1 = gObstacle3.globalizePosition (Vector3 (w, w, 0));
+                Vector3 v2 = gObstacle3.globalizePosition (Vector3 (-w, w, 0));
+                Vector3 v3 = gObstacle3.globalizePosition (Vector3 (-w, -w, 0));
+                Vector3 v4 = gObstacle3.globalizePosition (Vector3 (w, -w, 0));
 
                 drawLine (v1, v2, gWhite);
                 drawLine (v2, v3, gWhite);
@@ -726,11 +726,11 @@ namespace {
             {
             case 0:
                 {
-                    const Vec3 center;
+                    const Vector3 center;
                     const float div = 20.0f;
-                    const Vec3 divisions (div, 1.0f, div);
+                    const Vector3 divisions (div, 1.0f, div);
                     const float diameter = 80.0f; //XXX need better way to get this
-                    const Vec3 dimensions (diameter, diameter, diameter);
+                    const Vector3 dimensions (diameter, diameter, diameter);
                     typedef LQProximityDatabase<AbstractVehicle*> LQPDAV;
                     pd = new LQPDAV (center, dimensions, divisions);
                     break;
@@ -756,7 +756,7 @@ namespace {
         Pedestrian::groupType crowd;
         typedef Pedestrian::groupType::const_iterator iterator;
 
-        Vec3 gridCenter;
+        Vector3 gridCenter;
 
         // pointer to database used to accelerate proximity queries
         ProximityDatabase* pd;

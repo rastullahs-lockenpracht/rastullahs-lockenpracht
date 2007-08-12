@@ -70,7 +70,7 @@ namespace {
         // per frame simulation update
         void update (const float currentTime, const float elapsedTime)
         {
-            applySteeringForce (Vec3 (-2, 0, -3), elapsedTime);
+            applySteeringForce (Vector3 (-2, 0, -3), elapsedTime);
             annotationVelocityAcceleration ();
             recordTrailVertex (currentTime, position());
         }
@@ -110,7 +110,7 @@ namespace {
             OpenSteerDemo::camera.setPosition (10,
                                                OpenSteerDemo::camera2dElevation,
                                                10);
-            OpenSteerDemo::camera.fixedPosition.set (40, 40, 40);
+            OpenSteerDemo::camera.fixedPosition = Vector3(40, 40, 40);
         }
 
         void update (const float currentTime, const float elapsedTime)
@@ -129,7 +129,7 @@ namespace {
             annote << std::setprecision (2) << std::setiosflags (std::ios::fixed);
             annote << "      speed: " << gOneTurning->speed() << std::ends;
             draw2dTextAt3dLocation (annote, gOneTurning->position(), gRed, drawGetWindowWidth(), drawGetWindowHeight());
-            draw2dTextAt3dLocation (*"start", Vec3::zero, gGreen, drawGetWindowWidth(), drawGetWindowHeight());
+            draw2dTextAt3dLocation (*"start", Vector3::ZERO, gGreen, drawGetWindowWidth(), drawGetWindowHeight());
 
             // update camera, tracking test vehicle
             OpenSteerDemo::updateCamera (currentTime, elapsedTime, *gOneTurning);

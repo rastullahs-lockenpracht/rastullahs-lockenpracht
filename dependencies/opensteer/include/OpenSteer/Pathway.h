@@ -30,12 +30,9 @@
 #ifndef OPENSTEER_PATHWAY_H
 #define OPENSTEER_PATHWAY_H
 
+#include "OpenSteer/Vec3.h"
+
 namespace OpenSteer {
-    
-    // Forward declaration, include Vec3.h if needed.
-    // @todo Include Vec3.h?
-    class Vec3;
-    
     
     
     /**
@@ -60,21 +57,21 @@ namespace OpenSteer {
          *
          * If @c isValid is @c false the behavior is undefined.
          */
-		virtual Vec3 mapPointToPath (const Vec3& point,
-                                     Vec3& tangent,
+		virtual Vector3 mapPointToPath (const Vector3& point,
+                                     Vector3& tangent,
                                      float& outside) const = 0;
         
 		/**
          * Given a distance along the path, convert it to a point on the path.
          * If @c isValid is @c false the behavior is undefined.
          */
-		virtual Vec3 mapPathDistanceToPoint (float pathDistance) const = 0;
+		virtual Vector3 mapPathDistanceToPoint (float pathDistance) const = 0;
         
 		/**
          * Given an arbitrary point, convert it to a distance along the path.
          * If @c isValid is @c false the behavior is undefined.
          */
-		virtual float mapPointToPathDistance (const Vec3& point) const = 0;
+		virtual float mapPointToPathDistance (const Vector3& point) const = 0;
         
         /**
          * Returns @c true f the path is closed, otherwise @c false.

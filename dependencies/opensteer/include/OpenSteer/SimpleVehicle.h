@@ -127,7 +127,7 @@ namespace OpenSteer {
         float setMass (float m) {return _mass = m;}
 
         // get velocity of vehicle
-        Vec3 velocity (void) const {return forward() * _speed;}
+        Vector3 velocity (void) const {return forward() * _speed;}
 
         // get/set speed of vehicle  (may be faster than taking mag of velocity)
         float speed (void) const {return _speed;}
@@ -148,24 +148,24 @@ namespace OpenSteer {
 
         // apply a given steering force to our momentum,
         // adjusting our orientation to maintain velocity-alignment.
-        void applySteeringForce (const Vec3& force, const float deltaTime);
+        void applySteeringForce (const Vector3& force, const float deltaTime);
 
         // the default version: keep FORWARD parallel to velocity, change
         // UP as little as possible.
-        virtual void regenerateLocalSpace (const Vec3& newVelocity,
+        virtual void regenerateLocalSpace (const Vector3& newVelocity,
                                            const float elapsedTime);
 
         // alternate version: keep FORWARD parallel to velocity, adjust UP
         // according to a no-basis-in-reality "banking" behavior, something
         // like what birds and airplanes do.  (XXX experimental cwr 6-5-03)
-        void regenerateLocalSpaceForBanking (const Vec3& newVelocity,
+        void regenerateLocalSpaceForBanking (const Vector3& newVelocity,
                                              const float elapsedTime);
 
         // adjust the steering force passed to applySteeringForce.
         // allows a specific vehicle class to redefine this adjustment.
         // default is to disallow backward-facing steering at low speed.
         // xxx experimental 8-20-02
-        virtual Vec3 adjustRawSteeringForce (const Vec3& force,
+        virtual Vector3 adjustRawSteeringForce (const Vector3& force,
                                              const float deltaTime);
 
         // apply a given braking force (for a given dt) to our momentum.
@@ -174,7 +174,7 @@ namespace OpenSteer {
 
         // predict position of this vehicle at some time in the future
         // (assumes velocity remains constant)
-        Vec3 predictFuturePosition (const float predictionTime) const;
+        Vector3 predictFuturePosition (const float predictionTime) const;
 
         // get instantaneous curvature (since last update)
         float curvature (void) const {return _curvature;}
@@ -183,17 +183,17 @@ namespace OpenSteer {
         float smoothedCurvature (void) {return _smoothedCurvature;}
         float resetSmoothedCurvature (float value = 0)
         {
-            _lastForward = Vec3::zero;
-            _lastPosition = Vec3::zero;
+            _lastForward = Vector3::ZERO;
+            _lastPosition = Vector3::ZERO;
             return _smoothedCurvature = _curvature = value;
         }
-        Vec3 smoothedAcceleration (void) {return _smoothedAcceleration;}
-        Vec3 resetSmoothedAcceleration (const Vec3& value = Vec3::zero)
+        Vector3 smoothedAcceleration (void) {return _smoothedAcceleration;}
+        Vector3 resetSmoothedAcceleration (const Vector3& value = Vector3::ZERO)
         {
             return _smoothedAcceleration = value;
         }
-        Vec3 smoothedPosition (void) {return _smoothedPosition;}
-        Vec3 resetSmoothedPosition (const Vec3& value = Vec3::zero)
+        Vector3 smoothedPosition (void) {return _smoothedPosition;}
+        Vector3 resetSmoothedPosition (const Vector3& value = Vector3::ZERO)
         {
             return _smoothedPosition = value;
         }
@@ -213,7 +213,7 @@ namespace OpenSteer {
         // rotate about it by a random angle (pick random forward, derive side).
         void randomizeHeadingOnXZPlane (void)
         {
-            setUp (Vec3::up);
+            setUp (Vector3::UNIT_Y);
             setForward (RandomUnitVectorOnXZPlane ());
             setSide (localRotateForwardToSide (forward()));
         }
@@ -234,11 +234,11 @@ namespace OpenSteer {
                            // (velocity is clipped to this magnitude)
 
         float _curvature;
-        Vec3 _lastForward;
-        Vec3 _lastPosition;
-        Vec3 _smoothedPosition;
+        Vector3 _lastForward;
+        Vector3 _lastPosition;
+        Vector3 _smoothedPosition;
         float _smoothedCurvature;
-        Vec3 _smoothedAcceleration;
+        Vector3 _smoothedAcceleration;
 
         // measure path curvature (1/turning-radius), maintain smoothed version
         void measurePathCurvature (const float elapsedTime);

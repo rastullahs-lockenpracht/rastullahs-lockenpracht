@@ -113,7 +113,7 @@ namespace {
         }
 
         // constant steering force
-        Vec3 steering (void) {return Vec3 (1, 0, -1);}
+        Vector3 steering (void) {return Vector3 (1, 0, -1);}
 
         // for stepping the starting conditions for next vehicle
         static float startX;
@@ -131,8 +131,8 @@ namespace {
 
     const int lstCount = 5;
     const float lstLookDownDistance = 18;
-    const Vec3 lstViewCenter (7, 0, -2);
-    const Vec3 lstPlusZ (0, 0, 1);
+    const Vector3 lstViewCenter (7, 0, -2);
+    const Vector3 lstPlusZ (0, 0, 1);
 
 
     class LowSpeedTurnPlugIn : public PlugIn
@@ -199,8 +199,8 @@ namespace {
 
                 // display speed near agent's screen position
                 const Color textColor (0.8f, 0.8f, 1.0f);
-                const Vec3 textOffset (0, 0.25f, 0);
-                const Vec3 textPosition = agent.position() + textOffset;
+                const Vector3 textOffset (0, 0.25f, 0);
+                const Vector3 textPosition = agent.position() + textOffset;
                 std::ostringstream annote;
                 annote << std::setprecision (2)
                        << std::setiosflags (std::ios::fixed)

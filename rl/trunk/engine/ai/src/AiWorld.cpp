@@ -39,13 +39,13 @@ AiWorld::AiWorld(void) : mObstacles()
 //  for easier access
 /*	BoxObstacle* o = new BoxObstacle(25,50,25);
 	o->setSeenFrom(AbstractObstacle::inside);
-	o->setPosition(Vec3(-40.0f,-10.0f, 0.0f));
+	o->setPosition(Vector3(-40.0f,-10.0f, 0.0f));
 	o->setForward(0,0,-1);
 	addObstacle(o);
 
 	o = new BoxObstacle(2,50,2);
 	o->setSeenFrom(AbstractObstacle::outside);
-	o->setPosition(Vec3(-31.5f,-10.0f, -3.5f));
+	o->setPosition(Vector3(-31.5f,-10.0f, -3.5f));
 	o->setForward(0,0,-1);
 	addObstacle(o); */
 
@@ -96,15 +96,12 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
     // Dadurch ist ungefaehr der Umriss gesichert!
     // Habe bisher keine elegantere Loesung gefunden
     RaycastType raycastType;
-    Vec3 _pos = vehicle.position();
-    Vec3 _futPos = vehicle.forward() * vehicle.speed() * 3 + _pos;
+    Vector3 pos = vehicle.position();
+    Vector3 futPos = vehicle.forward() * vehicle.speed() * 3 + pos;
 
 
-    if( _pos == _futPos )
+    if (pos == futPos)
         return;
-
-    Ogre::Vector3 pos (_pos.x, _pos.y, _pos.z);
-    Ogre::Vector3 futPos (_futPos.x, _futPos.y, _futPos.z);
 
     // zur Hilfe bei der Berechnung
     Ogre::Vector3 velocityNorm(futPos - pos);
@@ -142,18 +139,18 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
             // so wir ham ne normale und machen uns nen Y
             if( vehicle.radius() == 0 )
                 continue;
-            Vec3 offset = vehicle.side().normalize() * (vehicle.radius() - 0.1);
-            castPos = pos + Vector3(offset.x, offset.y, offset.z);
-            castFutPos = futPos + Vector3(offset.x, offset.y, offset.z);
+            Vector3 offset = vehicle.side().normalisedCopy() * (vehicle.radius() - 0.1);
+            castPos = pos + offset;
+            castFutPos = futPos + offset;
         }
         else if( raycastType == LEFT )
         {
             // wie bei right ...
             if( vehicle.radius() == 0 )
                 continue;
-            Vec3 offset = vehicle.side().normalize() * (vehicle.radius() - 0.1);
-            castPos = pos - Vector3(offset.x, offset.y, offset.z);
-            castFutPos = futPos - Vector3(offset.x, offset.y, offset.z);
+            Vector3 offset = vehicle.side().normalisedCopy() * (vehicle.radius() - 0.1);
+            castPos = pos - offset;
+            castFutPos = futPos - offset;
         }
         else
         {
@@ -215,8 +212,8 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
         vehicle.position() + (vehicle.forward() * pi.distance);
 
         // Die normale muss zu uns zeigen! koennte aber auch in die entgegengesetzte Richtung sein!
-        pi.surfaceNormal = Vec3(infoNearest.mNormal.x, infoNearest.mNormal.y, infoNearest.mNormal.z);
-/*        pi.surfaceNormal.normalize();
+        pi.surfaceNormal = Vector3(infoNearest.mNormal.x, infoNearest.mNormal.y, infoNearest.mNormal.z);
+/*        pi.surfaceNormal.normalisedCopy();
         // jedenfalls gilt dafuer, dass der abstand zwischen surfacePoint+surfaceNormal und _pos minimal sein muss
         if( ((pi.surfacePoint + pi.surfaceNormal) - _pos).length() >
             ((pi.surfacePoint - pi.surfaceNormal) - _pos).length() )

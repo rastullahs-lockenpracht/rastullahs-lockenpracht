@@ -85,7 +85,7 @@ namespace OpenSteer {
         // XXX Annotation would "has-a" one (or more))
 
         // record a position for the current time, called once per update
-        void recordTrailVertex (const float currentTime, const Vec3& position);
+        void recordTrailVertex (const float currentTime, const Vector3& position);
 
         // draw the trail as a dotted line, fading away with age
         void drawTrail (void) {drawTrail (grayColor (0.7f), gWhite);}
@@ -111,13 +111,13 @@ namespace OpenSteer {
         //       "segments" is the number of line segments used to draw the circle
 
         // draw an opaque colored line segment between two locations in space
-        void annotationLine (const Vec3& startPoint,
-                             const Vec3& endPoint,
+        void annotationLine (const Vector3& startPoint,
+                             const Vector3& endPoint,
                              const Color& color) const;
 
         // draw a circle on the XZ plane
         void annotationXZCircle (const float radius,
-                                 const Vec3& center,
+                                 const Vector3& center,
                                  const Color& color,
                                  const int segments) const
         {
@@ -127,7 +127,7 @@ namespace OpenSteer {
 
         // draw a disk on the XZ plane
         void annotationXZDisk (const float radius,
-                               const Vec3& center,
+                               const Vector3& center,
                                const Color& color,
                                const int segments) const
         {
@@ -137,8 +137,8 @@ namespace OpenSteer {
 
         // draw a circle perpendicular to the given axis
         void annotation3dCircle (const float radius,
-                                 const Vec3& center,
-                                 const Vec3& axis,
+                                 const Vector3& center,
+                                 const Vector3& axis,
                                  const Color& color,
                                  const int segments) const
         {
@@ -148,8 +148,8 @@ namespace OpenSteer {
 
         // draw a disk perpendicular to the given axis
         void annotation3dDisk (const float radius,
-                               const Vec3& center,
-                               const Vec3& axis,
+                               const Vector3& center,
+                               const Vector3& axis,
                                const Color& color,
                                const int segments) const
         {
@@ -162,13 +162,13 @@ namespace OpenSteer {
         // support for annotation circles
 
         void annotationXZCircleOrDisk (const float radius,
-                                       const Vec3& center,
+                                       const Vector3& center,
                                        const Color& color,
                                        const int segments,
                                        const bool filled) const
         {
             annotationCircleOrDisk (radius,
-                                    Vec3::zero,
+                                    Vector3::ZERO,
                                     center,
                                     color,
                                     segments,
@@ -178,8 +178,8 @@ namespace OpenSteer {
 
 
         void annotation3dCircleOrDisk (const float radius,
-                                       const Vec3& center,
-                                       const Vec3& axis,
+                                       const Vector3& center,
+                                       const Vector3& axis,
                                        const Color& color,
                                        const int segments,
                                        const bool filled) const
@@ -194,8 +194,8 @@ namespace OpenSteer {
         }
 
         void annotationCircleOrDisk (const float radius,
-                                     const Vec3& axis,
-                                     const Vec3& center,
+                                     const Vector3& axis,
+                                     const Vector3& center,
                                      const Color& color,
                                      const int segments,
                                      const bool filled,
@@ -211,8 +211,8 @@ namespace OpenSteer {
         float trailSampleInterval;  // desired interval between taking samples
         float trailLastSampleTime;  // global time when lat sample was taken
         int trailDottedPhase;       // dotted line: draw segment or not
-        Vec3 curPosition;           // last reported position of vehicle
-        Vec3* trailVertices;        // array (ring) of recent points along trail
+        Vector3 curPosition;           // last reported position of vehicle
+        Vector3* trailVertices;        // array (ring) of recent points along trail
         char* trailFlags;           // array (ring) of flag bits for trail points
     };
 
@@ -269,7 +269,7 @@ OpenSteer::AnnotationMixin<Super>::setTrailParameters (const float duration,
 
     // prepare trailVertices array: free old one if needed, allocate new one
     delete[] trailVertices;
-    trailVertices = new Vec3[trailVertexCount];
+    trailVertices = new Vector3[trailVertexCount];
 
     // prepare trailFlags array: free old one if needed, allocate new one
     delete[] trailFlags;
@@ -303,7 +303,7 @@ OpenSteer::AnnotationMixin<Super>::clearTrailHistory (void)
 template<class Super>
 void 
 OpenSteer::AnnotationMixin<Super>::recordTrailVertex (const float currentTime,
-                                                      const Vec3& position)
+                                                      const Vector3& position)
 {
     const float timeSinceLastTrailSample = currentTime - trailLastSampleTime;
     if (timeSinceLastTrailSample > trailSampleInterval)
@@ -382,8 +382,8 @@ OpenSteer::AnnotationMixin<Super>::drawTrail (const Color& trailColor,
 #ifndef NOT_OPENSTEERDEMO  // only when building OpenSteerDemo
 template<class Super>
 void 
-OpenSteer::AnnotationMixin<Super>::annotationLine (const Vec3& startPoint,
-                                                   const Vec3& endPoint,
+OpenSteer::AnnotationMixin<Super>::annotationLine (const Vector3& startPoint,
+                                                   const Vector3& endPoint,
                                                    const Color& color) const
 {
     if (enableAnnotation)
@@ -400,7 +400,7 @@ OpenSteer::AnnotationMixin<Super>::annotationLine (const Vec3& startPoint,
 }
 #else
 template<class Super> void OpenSteer::AnnotationMixin<Super>::annotationLine
- (const Vec3&, const Vec3&, const Vec3&) const {}
+ (const Vector3&, const Vector3&, const Vector3&) const {}
 #endif // NOT_OPENSTEERDEMO
 
 
@@ -416,8 +416,8 @@ template<class Super> void OpenSteer::AnnotationMixin<Super>::annotationLine
 template<class Super>
 void 
 OpenSteer::AnnotationMixin<Super>::annotationCircleOrDisk (const float radius,
-                                                           const Vec3& axis,
-                                                           const Vec3& center,
+                                                           const Vector3& axis,
+                                                           const Vector3& center,
                                                            const Color& color,
                                                            const int segments,
                                                            const bool filled,
@@ -440,7 +440,7 @@ OpenSteer::AnnotationMixin<Super>::annotationCircleOrDisk (const float radius,
 #else
 template<class Super>
 void OpenSteer::AnnotationMixin<Super>::annotationCircleOrDisk
-(const float, const Vec3&, const Vec3&, const Vec3&, const int,
+(const float, const Vector3&, const Vector3&, const Vector3&, const int,
  const bool, const bool) const {}
 #endif // NOT_OPENSTEERDEMO
 

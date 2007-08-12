@@ -12,9 +12,9 @@ class NpcTest < TestCase
                                            min_base, max_base, "alpha_blue")
         base.placeIntoScene(center);
 
-        npc1proxy = $GOM.createGameObject("TestPerson");
-        npc1 = npc1proxy;
+        npc1 = $GOM.createGameObject("TestPerson");
         npc1.setPosition(rel_pos([0.0, height, 0.0]));
+		
 
         npc1.placeIntoScene();
     end

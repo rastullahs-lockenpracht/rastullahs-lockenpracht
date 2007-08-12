@@ -29,7 +29,7 @@
 
 #include "OpenSteer/Color.h"
 
-// Include OpenSteer::Vec3
+// Include Vector3
 #include "OpenSteer/Vec3.h"
 
 // Include assert
@@ -57,7 +57,7 @@ OpenSteer::Color::Color( float rValue, float gValue, float bValue, float aValue 
 }
 
 
-OpenSteer::Color::Color( Vec3 const& vector )
+OpenSteer::Color::Color( Vector3 const& vector )
     : r_( vector.x ), g_( vector.y ), b_( vector.z ), a_ (1.0f)
 {
     
@@ -130,10 +130,10 @@ OpenSteer::Color::set( float rValue, float gValue, float bValue, float aValue )
 }
 
 
-OpenSteer::Vec3 
+Vector3 
 OpenSteer::Color::convertToVec3() const
 {
-    return Vec3( r_, g_, b_ );
+    return Vector3( r_, g_, b_ );
 }
 
 

@@ -43,7 +43,7 @@ namespace OpenSteer {
      * Specialize it for the path alike to use and provide a static member
      * function with the following signature:
      *
-     * <code>static void extract( PathAlike const& pathAlike, typename PathAlike::size_type segmentIndex, Vec3 const& point, float& segmentDistance, float& radius, float& distancePointToPath, Vec3& pointOnPathCenterLine, Vec3& tangent )</code>
+     * <code>static void extract( PathAlike const& pathAlike, typename PathAlike::size_type segmentIndex, Vector3 const& point, float& segmentDistance, float& radius, float& distancePointToPath, Vector3& pointOnPathCenterLine, Vector3& tangent )</code>
      *
      * @attention Be aware of the references that are passed in.
      */
@@ -58,7 +58,7 @@ namespace OpenSteer {
      * Specialize it for the path alike to use and provide a static member
      * function with the following signature:
      *
-     * <code>static void extract( PathAlike const& pathAlike, typename PathAlike::size_type segmentIndex, float segmentDistance, Vec3& pointOnPathCenterLine, Vec3& tangent, float& radius )</code>
+     * <code>static void extract( PathAlike const& pathAlike, typename PathAlike::size_type segmentIndex, float segmentDistance, Vector3& pointOnPathCenterLine, Vector3& tangent, float& radius )</code>
      *
      * @attention Be aware of the references that are passed in.
      */    

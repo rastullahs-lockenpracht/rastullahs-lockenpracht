@@ -67,7 +67,7 @@ namespace OpenSteer {
         
         
         // compute steering for a vehicle to avoid this obstacle, if needed
-        virtual Vec3 steerToAvoid (const AbstractVehicle& v,
+        virtual Vector3 steerToAvoid (const AbstractVehicle& v,
                                    const float minTimeToCollision) const = 0;
 
         // PathIntersection object: used internally to analyze and store
@@ -77,14 +77,14 @@ namespace OpenSteer {
         public:
             bool intersect; // was an intersection found?
             float distance; // how far was intersection point from vehicle?
-            Vec3 surfacePoint; // position of intersection
-            Vec3 surfaceNormal; // unit normal at point of intersection
-            Vec3 steerHint; // where to steer away from intersection
+            Vector3 surfacePoint; // position of intersection
+            Vector3 surfaceNormal; // unit normal at point of intersection
+            Vector3 steerHint; // where to steer away from intersection
             bool vehicleOutside; // is the vehicle outside the obstacle?
             const AbstractObstacle* obstacle; // obstacle the path intersects
 
             // determine steering based on path intersection tests
-            Vec3 steerToAvoidIfNeeded (const AbstractVehicle& vehicle,
+            Vector3 steerToAvoidIfNeeded (const AbstractVehicle& vehicle,
                                        const float minTimeToCollision) const;
 
         };
@@ -101,7 +101,7 @@ namespace OpenSteer {
         // specialized by derived types to provide graphics for obstacles
         virtual void draw (const bool filled,
                            const Color& color,
-                           const Vec3& viewpoint)
+                           const Vector3& viewpoint)
             const
             = 0 ;
 
@@ -134,13 +134,13 @@ namespace OpenSteer {
         virtual ~Obstacle() { /* Nothing to do. */ }
         
         // compute steering for a vehicle to avoid this obstacle, if needed 
-        Vec3 steerToAvoid (const AbstractVehicle& v,
+        Vector3 steerToAvoid (const AbstractVehicle& v,
                            const float minTimeToCollision)
             const;
 
         // static method to apply steerToAvoid to nearest obstacle in an
         // ObstacleGroup
-        static Vec3 steerToAvoidObstacles (const AbstractVehicle& vehicle,
+        static Vector3 steerToAvoidObstacles (const AbstractVehicle& vehicle,
                                            const float minTimeToCollision,
                                            const ObstacleGroup& obstacles);
 
@@ -153,7 +153,7 @@ namespace OpenSteer {
                                                 PathIntersection& next);
 
         // default do-nothing draw function (derived class can overload this)
-        void draw (const bool, const Color&, const Vec3&) const {}
+        void draw (const bool, const Color&, const Vector3&) const {}
 
         seenFromState seenFrom (void) const {return _seenFrom;}
         void setSeenFrom (seenFromState s) {_seenFrom = s;}
@@ -170,11 +170,11 @@ namespace OpenSteer {
     {
     public:
         float radius;
-        Vec3 center;
+        Vector3 center;
 
         // constructors
-        SphereObstacle (float r, Vec3 c) : radius(r), center (c) {}
-        SphereObstacle (void) : radius(1), center (Vec3::zero) {}
+        SphereObstacle (float r, Vector3 c) : radius(r), center (c) {}
+        SphereObstacle (void) : radius(1), center (Vector3::ZERO) {}
 
         virtual ~SphereObstacle() { /* Nothing to do. */ }
         
@@ -235,10 +235,10 @@ namespace OpenSteer {
     public:
         // constructors
         PlaneObstacle (void) {}
-        PlaneObstacle (const Vec3& s,
-                       const Vec3& u,
-                       const Vec3& f,
-                       const Vec3& p)
+        PlaneObstacle (const Vector3& s,
+                       const Vector3& u,
+                       const Vector3& f,
+                       const Vector3& p)
         : LocalSpaceObstacle( s, u, f, p )
         {
             /*
@@ -255,7 +255,7 @@ namespace OpenSteer {
             const;
 
         // determines if a given point on XY plane is inside obstacle shape
-        virtual bool xyPointInsideShape (const Vec3& /*point*/,
+        virtual bool xyPointInsideShape (const Vector3& /*point*/,
                                          float /*radius*/) const
         {
             return true; // always true for PlaneObstacle
@@ -278,8 +278,8 @@ namespace OpenSteer {
         // constructors
         RectangleObstacle (float w, float h) : width(w), height(h) {}
         RectangleObstacle (void) :  width(1.0f), height(1.0f) {}
-        RectangleObstacle (float w, float h, const Vec3& s,
-                           const Vec3& u, const Vec3& f, const Vec3& p,
+        RectangleObstacle (float w, float h, const Vector3& s,
+                           const Vector3& u, const Vector3& f, const Vector3& p,
                            seenFromState sf) 
             : PlaneObstacle( s, u, f, p ), width(w), height(h)
         {
@@ -295,7 +295,7 @@ namespace OpenSteer {
         virtual ~RectangleObstacle() { /* Nothing to do. */ }
 
         // determines if a given point on XY plane is inside obstacle shape
-        bool xyPointInsideShape (const Vec3& point, float radius) const;
+        bool xyPointInsideShape (const Vector3& point, float radius) const;
     };
 
 

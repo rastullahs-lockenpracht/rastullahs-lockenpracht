@@ -451,7 +451,7 @@ OpenSteer::AbstractVehicle*
 OpenSteer::OpenSteerDemo::findVehicleNearestScreenPosition (int x, int y)
 {
     // find the direction from the camera position to the given pixel
-    const Vec3 direction = directionFromCameraToScreenPosition (x, y, glutGet (GLUT_WINDOW_HEIGHT));
+    const Vector3 direction = directionFromCameraToScreenPosition (x, y, glutGet (GLUT_WINDOW_HEIGHT));
 
     // iterate over all vehicles to find the one whose center is nearest the
     // "eye-mouse" selection line
@@ -541,7 +541,7 @@ OpenSteer::OpenSteerDemo::position3dCamera (AbstractVehicle& selected,
     selectedVehicle = &selected;
     if (&selected)
     {
-        const Vec3 behind = selected.forward() * -distance;
+        const Vector3 behind = selected.forward() * -distance;
         camera.setPosition (selected.position() + behind);
         camera.target = selected.position();
     }
@@ -563,7 +563,7 @@ OpenSteer::OpenSteerDemo::position2dCamera (AbstractVehicle& selected,
     position3dCamera (selected, distance, elevation);
 
     // then adjust for 3d:
-    Vec3 position3d = camera.position();
+    Vector3 position3d = camera.position();
     position3d.y += elevation;
     camera.setPosition (position3d);
 }
@@ -589,7 +589,7 @@ OpenSteer::OpenSteerDemo::updateCamera (const float currentTime,
 
 const float OpenSteer::OpenSteerDemo::camera2dElevation = 8;
 const float OpenSteer::OpenSteerDemo::cameraTargetDistance = 13;
-const OpenSteer::Vec3 OpenSteer::OpenSteerDemo::cameraTargetOffset (0, OpenSteer::OpenSteerDemo::camera2dElevation, 
+const Vector3 OpenSteer::OpenSteerDemo::cameraTargetOffset (0, OpenSteer::OpenSteerDemo::camera2dElevation, 
                                                                     0);
 
 
@@ -598,12 +598,12 @@ const OpenSteer::Vec3 OpenSteer::OpenSteerDemo::cameraTargetOffset (0, OpenSteer
 
 
 void 
-OpenSteer::OpenSteerDemo::gridUtility (const Vec3& gridTarget)
+OpenSteer::OpenSteerDemo::gridUtility (const Vector3& gridTarget)
 {
     // round off target to the nearest multiple of 2 (because the
     // checkboard grid with a pitch of 1 tiles with a period of 2)
     // then lower the grid a bit to put it under 2d annotation lines
-    const Vec3 gridCenter ((round (gridTarget.x * 0.5f) * 2),
+    const Vector3 gridCenter ((round (gridTarget.x * 0.5f) * 2),
                            (round (gridTarget.y * 0.5f) * 2) - .05f,
                            (round (gridTarget.z * 0.5f) * 2));
 
@@ -657,7 +657,7 @@ OpenSteer::OpenSteerDemo::drawBoxHighlightOnVehicle (const AbstractVehicle& v,
     if (&v)
     {
         const float diameter = v.radius() * 2;
-        const Vec3 size (diameter, diameter, diameter);
+        const Vector3 size (diameter, diameter, diameter);
         drawBoxOutline (v, size, color);
     }
 }
@@ -676,7 +676,7 @@ OpenSteer::OpenSteerDemo::drawCircleHighlightOnVehicle (const AbstractVehicle& v
 {
     if (&v)
     {
-        const Vec3& cPosition = camera.position();
+        const Vector3& cPosition = camera.position();
         draw3dCircle  (v.radius() * radiusMultiplier,  // adjusted radius
                        v.position(),                   // center
                        v.position() - cPosition,       // view axis
@@ -988,7 +988,7 @@ namespace {
             gMouseAdjustingCameraLastX = x;
             gMouseAdjustingCameraLastY = y;
 
-            OpenSteer::Vec3 cameraAdjustment;
+            Vector3 cameraAdjustment;
 
             // set XY values according to mouse motion on screen space
             if (gMouseAdjustingCameraAngle)
@@ -1041,7 +1041,7 @@ namespace {
     drawDisplayPlugInName (void)
     {
         const float h = glutGet (GLUT_WINDOW_HEIGHT);
-        const OpenSteer::Vec3 screenLocation (10, h-20, 0);
+        const Vector3 screenLocation (10, h-20, 0);
         draw2dTextAt2dLocation (*OpenSteer::OpenSteerDemo::nameOfSelectedPlugIn (),
                                 screenLocation,
                                 OpenSteer::gWhite, OpenSteer::drawGetWindowWidth(), OpenSteer::drawGetWindowHeight());
@@ -1057,7 +1057,7 @@ namespace {
     {
         std::ostringstream message;
         message << "Camera: " << OpenSteer::OpenSteerDemo::camera.modeName () << std::ends;
-        const OpenSteer::Vec3 screenLocation (10, 10, 0);
+        const Vector3 screenLocation (10, 10, 0);
         OpenSteer::draw2dTextAt2dLocation (message, screenLocation, OpenSteer::gWhite, OpenSteer::drawGetWindowWidth(), OpenSteer::drawGetWindowHeight());
     }
 
@@ -1124,7 +1124,7 @@ namespace {
             // keep track of font metrics and start of next line
             const int lh = 16; // xxx line height
             const int cw = 9; // xxx character width
-            OpenSteer::Vec3 screenLocation (10, 10, 0);
+            Vector3 screenLocation (10, 10, 0);
 
             // target and recent average frame rates
             const int targetFPS = OpenSteer::OpenSteerDemo::clock.getFixedFrameRate ();
@@ -1155,7 +1155,7 @@ namespace {
                     clockStr << "fixed frame rate (target: " << targetFPS;
                     clockStr << " actual: " << OpenSteer::round(smoothedFPS) << ", ";
 
-                    OpenSteer::Vec3 sp;
+                    Vector3 sp;
                     sp = screenLocation;
                     sp.x += cw * (int) clockStr.tellp ();
 

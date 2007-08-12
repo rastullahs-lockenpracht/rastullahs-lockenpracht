@@ -64,10 +64,10 @@ namespace OpenSteer {
         virtual ~AbstractTokenForProximityDatabase () {}
 
         // the client object calls this each time its position changes
-        virtual void updateForNewPosition (const Vec3& position) = 0;
+        virtual void updateForNewPosition (const Vector3& position) = 0;
 
         // find all neighbors within the given sphere (as center and radius)
-        virtual void findNeighbors (const Vec3& center,
+        virtual void findNeighbors (const Vector3& center,
                                     const float radius,
                                     std::vector<ContentType>& results) = 0;
 
@@ -155,13 +155,13 @@ namespace OpenSteer {
             }
 
             // the client object calls this each time its position changes
-            void updateForNewPosition (const Vec3& newPosition)
+            void updateForNewPosition (const Vector3& newPosition)
             {
                 position = newPosition;
             }
 
             // find all neighbors within the given sphere (as center and radius)
-            void findNeighbors (const Vec3& center,
+            void findNeighbors (const Vector3& center,
                                 const float radius,
                                 std::vector<ContentType>& results)
             {
@@ -171,7 +171,7 @@ namespace OpenSteer {
                      i != bfpd->group.end();
                      i++)
                 {
-                    const Vec3 offset = center - (**i).position;
+                    const Vector3 offset = center - (**i).position;
                     const float d2 = offset.lengthSquared();
 
                     // push onto result vector when within given radius
@@ -182,7 +182,7 @@ namespace OpenSteer {
         private:
             BruteForceProximityDatabase* bfpd;
             ContentType object;
-            Vec3 position;
+            Vector3 position;
         };
 
         typedef std::vector<tokenType*> tokenVector;
@@ -216,12 +216,12 @@ namespace OpenSteer {
     public:
 
         // constructor
-        LQProximityDatabase (const Vec3& center,
-                             const Vec3& dimensions,
-                             const Vec3& divisions)
+        LQProximityDatabase (const Vector3& center,
+                             const Vector3& dimensions,
+                             const Vector3& divisions)
         {
-            const Vec3 halfsize (dimensions * 0.5f);
-            const Vec3 origin (center - halfsize);
+            const Vector3 halfsize (dimensions * 0.5f);
+            const Vector3 origin (center - halfsize);
 
             lq = lqCreateDatabase (origin.x, origin.y, origin.z, 
                                    dimensions.x, dimensions.y, dimensions.z,  
@@ -256,13 +256,13 @@ namespace OpenSteer {
             }
 
             // the client object calls this each time its position changes
-            void updateForNewPosition (const Vec3& p)
+            void updateForNewPosition (const Vector3& p)
             {
                 lqUpdateForNewLocation (lq, &proxy, p.x, p.y, p.z);
             }
 
             // find all neighbors within the given sphere (as center and radius)
-            void findNeighbors (const Vec3& center,
+            void findNeighbors (const Vector3& center,
                                 const float radius,
                                 std::vector<ContentType>& results)
             {

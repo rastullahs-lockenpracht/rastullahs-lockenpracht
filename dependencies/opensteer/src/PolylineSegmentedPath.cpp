@@ -38,7 +38,7 @@
 
 
 
-// Include OpenSteer::Vec3
+// Include Vector3
 #include "OpenSteer/Vec3.h"
 
 // Include OpenSteer::mapPointToPathway, OpenSteer::mapDistanceToPointOnPathCenterLine
@@ -58,7 +58,7 @@
 namespace {
     
     typedef OpenSteer::SegmentedPath::size_type size_type;
-    typedef std::vector< OpenSteer::Vec3 > Vec3Container;
+    typedef std::vector< Vector3 > Vec3Container;
     typedef std::vector< float > FloatContainer;
     
     /**
@@ -79,7 +79,7 @@ namespace {
                 "segmentIndex out of range." );
         assert( segmentTangents.size() == segmentLengths.size() && "segmentTangents and segmentLengths must have the same size." );
         
-        OpenSteer::Vec3 tangent = points[ segmentIndex + 1 ] - points[ segmentIndex ];
+        Vector3 tangent = points[ segmentIndex + 1 ] - points[ segmentIndex ];
         float const length = tangent.length();
         assert( ! OpenSteer::isZero( length ) && 
                 "Segments must have lengths greater than 0." );
@@ -200,7 +200,7 @@ OpenSteer::PolylineSegmentedPath::PolylineSegmentedPath()
 
 
 OpenSteer::PolylineSegmentedPath::PolylineSegmentedPath( size_type numOfPoints,
-                                                         Vec3 const newPoints[],
+                                                         Vector3 const newPoints[],
                                                          bool closedCycle )
     : points_( 0 ), segmentTangents_( 0 ), segmentLengths_( 0 ), closedCycle_( closedCycle )
 {
@@ -247,7 +247,7 @@ OpenSteer::PolylineSegmentedPath::swap( PolylineSegmentedPath& other )
 
 void 
 OpenSteer::PolylineSegmentedPath::setPath( size_type numOfPoints,
-                                           Vec3 const newPoints[],
+                                           Vector3 const newPoints[],
                                            bool closedCycle )
 {
     assert( 1 < numOfPoints && "Path must have at least two distinct points." );
@@ -289,7 +289,7 @@ OpenSteer::PolylineSegmentedPath::setPath( size_type numOfPoints,
 void 
 OpenSteer::PolylineSegmentedPath::movePoints( size_type startIndex,
                                               size_type numOfPoints,
-                                              Vec3 const newPoints[] )
+                                              Vector3 const newPoints[] )
 {
     assert( ( startIndex < ( pointCount() - ( isCyclic() ? 1 : 0 ) ) ) && 
             "startIndex must be inside index range." );
@@ -329,9 +329,9 @@ OpenSteer::PolylineSegmentedPath::isValid() const
 
 
 
-OpenSteer::Vec3 
-OpenSteer::PolylineSegmentedPath::mapPointToPath (const Vec3& point,
-                                                  Vec3& tangent,
+Vector3 
+OpenSteer::PolylineSegmentedPath::mapPointToPath (const Vector3& point,
+                                                  Vector3& tangent,
                                                   float& outside) const
 {
     PointToPathMapping mapping;
@@ -342,7 +342,7 @@ OpenSteer::PolylineSegmentedPath::mapPointToPath (const Vec3& point,
 }
 
 
-OpenSteer::Vec3 
+Vector3 
 OpenSteer::PolylineSegmentedPath::mapPathDistanceToPoint (float pathDistance) const
 {
     PathDistanceToPointMapping mapping;
@@ -352,7 +352,7 @@ OpenSteer::PolylineSegmentedPath::mapPathDistanceToPoint (float pathDistance) co
 
 
 float 
-OpenSteer::PolylineSegmentedPath::mapPointToPathDistance (const Vec3& point) const
+OpenSteer::PolylineSegmentedPath::mapPointToPathDistance (const Vector3& point) const
 {
     PointToPathDistanceMapping mapping;
     mapPointToPathAlike( *this, point, mapping );
@@ -382,7 +382,7 @@ OpenSteer::PolylineSegmentedPath::pointCount() const
 
 
 
-OpenSteer::Vec3 
+Vector3 
 OpenSteer::PolylineSegmentedPath::point( size_type pointIndex ) const
 {
     assert( pointIndex < pointCount() && "pointIndex out of range." );
@@ -407,7 +407,7 @@ OpenSteer::PolylineSegmentedPath::segmentLength( size_type segmentIndex ) const
 }
 
 
-OpenSteer::Vec3 
+Vector3 
 OpenSteer::PolylineSegmentedPath::segmentStart( size_type segmentIndex ) const
 {
     assert( segmentIndex < segmentCount() && "segmentIndex out of range." );
@@ -416,7 +416,7 @@ OpenSteer::PolylineSegmentedPath::segmentStart( size_type segmentIndex ) const
 }
 
 
-OpenSteer::Vec3 
+Vector3 
 OpenSteer::PolylineSegmentedPath::segmentEnd( size_type segmentIndex ) const
 {
     assert( segmentIndex < segmentCount() && "segmentIndex out of range." );
@@ -428,18 +428,18 @@ OpenSteer::PolylineSegmentedPath::segmentEnd( size_type segmentIndex ) const
 
 float 
 OpenSteer::PolylineSegmentedPath::mapPointToSegmentDistance( size_type segmentIndex, 
-                                                             Vec3 const& point ) const
+                                                             Vector3 const& point ) const
 {
     assert( segmentIndex < segmentCount() && "segmentIndex is out of range." );
     
-    Vec3 const segmentStartToPoint( point - points_[ segmentIndex ] );
-    float const distance = segmentStartToPoint.dot( segmentTangents_[ segmentIndex ] );
+    Vector3 const segmentStartToPoint( point - points_[ segmentIndex ] );
+    float const distance = segmentStartToPoint.dotProduct( segmentTangents_[ segmentIndex ] );
     
     return clamp( distance, 0.0f, segmentLengths_[ segmentIndex ] );
 }
 
 
-OpenSteer::Vec3 
+Vector3 
 OpenSteer::PolylineSegmentedPath::mapSegmentDistanceToPoint( size_type segmentIndex, 
                                                              float segmentDistance ) const
 {
@@ -459,7 +459,7 @@ OpenSteer::PolylineSegmentedPath::mapSegmentDistanceToPoint( size_type segmentIn
 }
 
 
-OpenSteer::Vec3 
+Vector3 
 OpenSteer::PolylineSegmentedPath::mapSegmentDistanceToTangent( size_type segmentIndex, 
                                                                float ) const
 {
@@ -471,8 +471,8 @@ OpenSteer::PolylineSegmentedPath::mapSegmentDistanceToTangent( size_type segment
 void 
 OpenSteer::PolylineSegmentedPath::mapDistanceToSegmentPointAndTangent( size_type segmentIndex,
                                                                        float segmentDistance,
-                                                                       Vec3& pointOnPath,
-                                                                       Vec3& tangent ) const
+                                                                       Vector3& pointOnPath,
+                                                                       Vector3& tangent ) const
 {
     assert( segmentIndex < segmentCount() && "segmentIndex is out of range." );
     
@@ -494,17 +494,17 @@ OpenSteer::PolylineSegmentedPath::mapDistanceToSegmentPointAndTangent( size_type
 
 void 
 OpenSteer::PolylineSegmentedPath::mapPointToSegmentDistanceAndPointAndTangent( size_type segmentIndex,
-                                                                               Vec3 const& point,
+                                                                               Vector3 const& point,
                                                                                float& distance,
-                                                                               Vec3& pointOnPath,
-                                                                               Vec3& tangent ) const
+                                                                               Vector3& pointOnPath,
+                                                                               Vector3& tangent ) const
 {
     assert( segmentIndex < segmentCount() && "segmentIndex is out of range." );
     
-    Vec3 const segmentStartPoint = points_[ segmentIndex ];
-    Vec3 const segmentStartToPoint( point - segmentStartPoint );
+    Vector3 const segmentStartPoint = points_[ segmentIndex ];
+    Vector3 const segmentStartToPoint( point - segmentStartPoint );
     tangent = segmentTangents_[ segmentIndex ];
-    distance = segmentStartToPoint.dot( tangent );
+    distance = segmentStartToPoint.dotProduct( tangent );
     distance =  clamp( distance, 0.0f, segmentLengths_[ segmentIndex ] );
     pointOnPath = tangent * distance + segmentStartPoint;
 }

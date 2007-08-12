@@ -52,13 +52,10 @@
 #include "OpenSteer/PlugIn.h"
 #include "OpenSteer/Camera.h"
 #include "OpenSteer/Utilities.h"
-
+#include "OpenSteer/Color.h"
 
 namespace OpenSteer {
 
-    class Color;
-    class Vec3;
-    
 
     class OpenSteerDemo
     {
@@ -206,7 +203,7 @@ namespace OpenSteer {
         // some camera-related default constants
         static const float camera2dElevation;
         static const float cameraTargetDistance;
-        static const Vec3 cameraTargetOffset;
+        static const Vector3 cameraTargetOffset;
 
         // ------------------------------------------------ graphics and annotation
 
@@ -214,7 +211,7 @@ namespace OpenSteer {
         static void initializeGraphics (void);
 
         // ground plane grid-drawing utility used by several plug-ins
-        static void gridUtility (const Vec3& gridTarget);
+        static void gridUtility (const Vector3& gridTarget);
 
         // draws a gray disk on the XZ plane under a given vehicle
         static void highlightVehicleUtility (const AbstractVehicle& vehicle);

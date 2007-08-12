@@ -38,7 +38,7 @@
 // Include OpenSteer::HasNoRadius, OpenSteer::ExtractPathDistance, OpenSteer::DontExtractPathDistance
 #include "OpenSteer/QueryPathAlikeUtilities.h"
 
-// Include OpenSteer::Vec3
+// Include Vector3
 #include "OpenSteer/Vec3.h"
 
 // Include OpenSteer::size_t
@@ -59,14 +59,14 @@ namespace OpenSteer {
     public:
         PointToPathMapping() : pointOnPathCenterLine( 0.0f, 0.0f, 0.0f ), tangent( 0.0f, 0.0f, 0.0f ), distancePointToPath( 0.0f ) {}
             
-        void setPointOnPathCenterLine( Vec3 const& point ) {
+        void setPointOnPathCenterLine( Vector3 const& point ) {
             pointOnPathCenterLine = point;
         }
-        void setPointOnPathBoundary( Vec3 const& ) {
+        void setPointOnPathBoundary( Vector3 const& ) {
             // pointOnPathBoundary = point;
         }
         void setRadius( float ) {}
-        void setTangent( Vec3 const& t) {
+        void setTangent( Vector3 const& t) {
             tangent = t;
         }
         void setSegmentIndex( size_t ) {}
@@ -77,9 +77,9 @@ namespace OpenSteer {
         void setDistanceOnPath( float ) {}
         void setDistanceOnSegment( float ) {}
             
-        Vec3 pointOnPathCenterLine;
-        // Vec3 pointOnPathBoundary; 
-        Vec3 tangent;
+        Vector3 pointOnPathCenterLine;
+        // Vector3 pointOnPathBoundary; 
+        Vector3 tangent;
         float distancePointToPath;
             
             
@@ -95,17 +95,17 @@ namespace OpenSteer {
             
     public:
         
-        void setPointOnPathCenterLine( Vec3 const& vec ){
+        void setPointOnPathCenterLine( Vector3 const& vec ){
             pointOnPathCenterLine = vec;
         }
         void setRadius( float ) {}
-        void setTangent( Vec3 const& ){}
+        void setTangent( Vector3 const& ){}
         void setSegmentIndex( size_t ){}
         void setDistanceOnPath( float ){}
         void setDistanceOnSegment( float ){}
             
             
-        Vec3 pointOnPathCenterLine; 
+        Vector3 pointOnPathCenterLine; 
             
             
     }; // class PathDistanceToPointMapping
@@ -121,10 +121,10 @@ namespace OpenSteer {
     public:
         PointToPathDistanceMapping() : distanceOnPath( 0.0f ) {}
             
-        void setPointOnPathCenterLine( Vec3 const& ) {}
-        void setPointOnPathBoundary( Vec3 const&  ) {}
+        void setPointOnPathCenterLine( Vector3 const& ) {}
+        void setPointOnPathBoundary( Vector3 const&  ) {}
         void setRadius( float ) {}
-        void setTangent( Vec3 const& ) {}
+        void setTangent( Vector3 const& ) {}
         void setSegmentIndex( size_t ) {}
         void setDistancePointToPath( float  ) {}
         void setDistancePointToPathCenterLine( float ) {}

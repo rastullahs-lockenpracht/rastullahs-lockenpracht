@@ -63,7 +63,7 @@ namespace OpenSteer {
          * If the path is cyclic also the last point that is the duplicated
          * first one is accessible.
          */
-        virtual Vec3 point( size_type pointIndex ) const = 0;
+        virtual Vector3 point( size_type pointIndex ) const = 0;
         
         
         
@@ -80,12 +80,12 @@ namespace OpenSteer {
         /**
          * Returns the start point of the segment @a segmentIndex.
          */
-        virtual Vec3 segmentStart( size_type segmentIndex ) const = 0;
+        virtual Vector3 segmentStart( size_type segmentIndex ) const = 0;
         
         /**
          * Returns the end point of segment @a segmentIndex.
          */
-        virtual Vec3 segmentEnd( size_type segmentIndex ) const = 0;
+        virtual Vector3 segmentEnd( size_type segmentIndex ) const = 0;
         
         
         /**
@@ -94,7 +94,7 @@ namespace OpenSteer {
          * this point.
          */
         virtual float mapPointToSegmentDistance( size_type segmentIndex, 
-                                                 Vec3 const& point ) const = 0;
+                                                 Vector3 const& point ) const = 0;
         
         
         /**
@@ -104,7 +104,7 @@ namespace OpenSteer {
          * If @a segmentDistance is greater or smaller than the segment length
          * is is clamped to @c 0.0f or @c segmentLength().
          */
-        virtual Vec3 mapSegmentDistanceToPoint( size_type segmentIndex, 
+        virtual Vector3 mapSegmentDistanceToPoint( size_type segmentIndex, 
                                                 float segmentDistance ) const = 0;
         
         /**
@@ -115,7 +115,7 @@ namespace OpenSteer {
          * If @a segmentDistance is greater or smaller than the segment length
          * is is clamped to @c 0.0f or @c segmentLength().
          */
-        virtual Vec3 mapSegmentDistanceToTangent( size_type segmentIndex, 
+        virtual Vector3 mapSegmentDistanceToTangent( size_type segmentIndex, 
                                                   float segmentDistance ) const = 0;
         
         
@@ -125,8 +125,8 @@ namespace OpenSteer {
          */
         virtual void mapDistanceToSegmentPointAndTangent( size_type segmentIndex,
                                                           float distance,
-                                                          Vec3& pointOnPath,
-                                                          Vec3& tangent ) const = 0;
+                                                          Vector3& pointOnPath,
+                                                          Vector3& tangent ) const = 0;
         
         
         /**
@@ -134,10 +134,10 @@ namespace OpenSteer {
          * and @c mapSegmentDistanceToTangent.
          */
         virtual void mapPointToSegmentDistanceAndPointAndTangent( size_type segmentIndex,
-                                                                  Vec3 const& point,
+                                                                  Vector3 const& point,
                                                                   float& distance,
-                                                                  Vec3& pointOnPath,
-                                                                  Vec3& tangent ) const = 0;
+                                                                  Vector3& pointOnPath,
+                                                                  Vector3& tangent ) const = 0;
 
     protected:
         /**

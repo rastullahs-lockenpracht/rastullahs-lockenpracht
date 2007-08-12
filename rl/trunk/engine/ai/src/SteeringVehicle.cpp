@@ -32,24 +32,22 @@ using namespace OpenSteer;
 
 namespace rl {
 
-SteeringVehicle::SteeringVehicle(Agent* parent)
+SteeringVehicle::SteeringVehicle(Creature* creature)
 	: _maxForce(1.0f),
       _maxSpeed(1.0f),
       mSpeed(1.0f),
 	  mCurrentForce(Vector3::ZERO), 
 	  mCurrentVelocity(Vector3::ZERO),
 	  mForwardVector(Vector3::NEGATIVE_UNIT_Z),
-	  mParent(parent),
-	  mCreature(NULL),
+	  mCreature(creature),
       mController(NULL),
       mDebugSteer(Vector3::ZERO),
       mDebugWander(Vector3::ZERO),
       mDebugAvoidObstacles(Vector3::ZERO)
 {
-    mCreature = parent->getControlledCreature();
-
 	initialize();
-    mController = CreatureControllerManager::getSingleton().getCreatureController(mCreature);
+    mController = CreatureControllerManager::getSingleton().getCreatureController(
+        mCreature);
 }
 
 SteeringVehicle::~SteeringVehicle(void)
@@ -58,16 +56,16 @@ SteeringVehicle::~SteeringVehicle(void)
 
 void SteeringVehicle::resetLocalSpace()
 {
-	setForward(Vec3(mForwardVector.x, mForwardVector.y, mForwardVector.z));
+	setForward(mForwardVector);
 	setSide(localRotateForwardToSide(forward()));
-	setUp(OpenSteer::Vec3(0, 1, 0));
+    setUp(Vector3::UNIT_Y);
 	Vector3 pos = mCreature->getActor()->getPosition();
-	setPosition(Vec3(pos.x, pos.y, pos.z));
+	setPosition(pos);
 	Vector3 src = mCreature->getActor()->getOrientation()*Vector3::NEGATIVE_UNIT_Z;
 
     // regenerate local space (by default: align vehicle's forward axis with
     // new velocity, but this behavior may be overridden by derived classes.)
-	regenerateOrthonormalBasisUF ( Vec3(src.x, src.y, src.z) );
+	regenerateOrthonormalBasisUF ( src );
 }
 
 void SteeringVehicle::initialize(void)
@@ -76,7 +74,7 @@ void SteeringVehicle::initialize(void)
 	resetLocalSpace();
 	
     // reset SteerLibraryMixin state
-	SimpleVehicle_2::reset ();
+	SimpleVehicle_2::reset();
 
 	setMaxForce (1.0f);   // steering force is clipped to this magnitude
 	setMaxSpeed (1.0f);   // velocity is clipped to this magnitude
@@ -97,7 +95,7 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
     Vector3 position;
 	Quaternion orientation;
 	body->getPositionOrientation(position, orientation);
-	setPosition(Vec3(position.x, position.y, position.z));
+	setPosition(position);
 
     //  Get the velocity vector
 	mCurrentVelocity = body->getVelocity();
@@ -105,14 +103,14 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 	//  newVelocity = newVelocity.truncateLength (maxSpeed ());
 	//  update speed
 	setSpeed(mCurrentVelocity.length());
-	Vec3 newVelocity(mCurrentVelocity.x, mCurrentVelocity.y, mCurrentVelocity.z);
+	Vector3 newVelocity(mCurrentVelocity);
 
     //  regenerate local space (by default: align vehicle's forward axis with
     //  new velocity, but this behavior may be overridden by derived classes.)
     // use future orientation or not??
     orientation = Quaternion(mController->getYaw(), Ogre::Vector3::UNIT_Y);
     Vector3 newUnitForward = orientation*Vector3::NEGATIVE_UNIT_Z;
-    regenerateOrthonormalBasisUF (Vec3(newUnitForward.x,newUnitForward.y,newUnitForward.z));
+    regenerateOrthonormalBasisUF(newUnitForward);
 
     // end of inserting from playervehicle
 
@@ -170,26 +168,23 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 
 Vector3 SteeringVehicle::calcWander(const float elapsedTime)
 {
-	Vec3 rVal(mForwardVector.x, mForwardVector.y, mForwardVector.z);
+	Vector3 steering = mForwardVector;
 	
-    rVal += steerForWander(elapsedTime/12.0f).setYtoZero();
+    steering += Vec3Utils::setYtoZero(steerForWander(elapsedTime/12.0f));
 
-    Vector3 steering(rVal.x, rVal.y, rVal.z);
     mDebugWander = steering;
 	return steering;
 }
 
 Vector3 SteeringVehicle::calcSeek(const Vector3& target)
 {
-	Vec3 rVal = steerForSeek(Vec3(target.x, target.y, target.z)).setYtoZero();
-    Vector3 steering(rVal.x, rVal.y, rVal.z);
+	Vector3 steering = Vec3Utils::setYtoZero(steerForSeek(target));
 	return steering;
 }
 
 Vector3 SteeringVehicle::calcFlee(const Vector3& target)
 {
-	Vec3 rVal = steerForFlee(Vec3(target.x, target.y, target.z)).setYtoZero();
-    Vector3 steering(rVal.x, rVal.y, rVal.z);
+	Vector3 steering = Vec3Utils::setYtoZero(steerForFlee(target));
 	return steering;
 }
 
@@ -203,7 +198,7 @@ Vector3 SteeringVehicle::calcPursuit(Agent* agent)
     /// Just returning a direction vector on the xz-plane
     /// towards the other agent.
     Vector3 dir = agent->getControlledCreature()->getPosition() -
-        mParent->getControlledCreature()->getPosition();
+        mCreature->getPosition();
     dir.y = 0;
 	return dir;
 }
@@ -211,16 +206,15 @@ Vector3 SteeringVehicle::calcPursuit(Agent* agent)
 Vector3 SteeringVehicle::calcAvoidObstacles(const float minTimeToCollision)
 {
     ObstacleGroup obstacles = getObstacles();
-	Vec3 rVal = steerToAvoidObstacles(minTimeToCollision, obstacles).setYtoZero();
-    Vector3 steering(rVal.x, rVal.y, rVal.z);
+    Vector3 steering = Vec3Utils::setYtoZero(steerToAvoidObstacles(minTimeToCollision, obstacles));
     mDebugAvoidObstacles = steering;
 	return steering;
 }
 
 Vector3 SteeringVehicle::calcAvoidNeighbors(const float minTimeToCollision)
 {
-	Vec3 rVal = steerToAvoidNeighbors(minTimeToCollision, getNeighbors()).setYtoZero();
-	return Vector3(rVal.x, rVal.y, rVal.z);
+	Vector3 steering = Vec3Utils::setYtoZero(steerToAvoidNeighbors(minTimeToCollision, getNeighbors()));
+	return steering;
 }
 		
 Vector3 SteeringVehicle::calcSteerTargetSpeed(const float targetSpeed)
@@ -232,7 +226,7 @@ bool SteeringVehicle::isAhead(Agent* agent, const float threshold)
 {
     Vector3 target = agent->getControlledCreature()->getPosition();
 	//target.y = position.y;
-	return (SimpleVehicle_2::isAhead(Vec3(target.x, target.y, target.z), threshold));
+	return SimpleVehicle_2::isAhead(target, threshold);
 }
 
 bool SteeringVehicle::needAvoidance(const float minTimeToCollision)
@@ -268,7 +262,7 @@ float SteeringVehicle::calcDistance(const Vector3& vec1, const Vector3& vec2)
 
 Vector3 SteeringVehicle::getPosition()
 {
-	return Vector3(position().x, position().y, position().z);
+	return position();
 }
 
 float SteeringVehicle::mass (void) const 
@@ -350,17 +344,17 @@ const ObstacleGroup& SteeringVehicle::getObstacles() const
 	return AiSubsystem::getSingleton().getWorld()->getSteeringObstacles();
 }
 
-Vec3 SteeringVehicle::predictFuturePosition(const float predictionTime) const
+Vector3 SteeringVehicle::predictFuturePosition(const float predictionTime) const
 {
 	//return position() + (velocity() * predictionTime);
 	return velocity() * predictionTime;
 }
 
-Vec3 SteeringVehicle::adjustRawSteeringForce(const Vec3& force)
+Vector3 SteeringVehicle::adjustRawSteeringForce(const Vector3& force)
 {
     const float maxAdjustedSpeed = 0.2f * maxSpeed ();
 
-    if ((speed () > maxAdjustedSpeed) || (force == Vec3::zero))
+    if ((speed () > maxAdjustedSpeed) || (force == Vector3::ZERO))
     {
         return force;
     }

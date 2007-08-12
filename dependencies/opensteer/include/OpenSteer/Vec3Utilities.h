@@ -27,7 +27,7 @@
 //
 // ----------------------------------------------------------------------------
 //
-// Utilities to work with Vec3.
+// Utilities to work with Vector3.
 //
 // 05-12-05 bk:  Created based on code of PolylinePathway.
 //
@@ -37,7 +37,7 @@
 #define OPENSTEER_VEC3UTILITIES_H
 
 
-// Include OpenSteer::Vec3
+// Include Vector3
 #include "OpenSteer/Vec3.h"
 
 // Include OpenSteer::size_t
@@ -54,22 +54,22 @@ namespace OpenSteer {
      * Returns the nearest point on the segment @a segmentPoint0 to 
      * @a segmentPoint1 from @a point.
      */
-    OpenSteer::Vec3  nearestPointOnSegment( const Vec3& point,
-                                            const Vec3& segmentPoint0,
-                                            const Vec3& segmentPoint1 );
+    Vector3  nearestPointOnSegment( const Vector3& point,
+                                            const Vector3& segmentPoint0,
+                                            const Vector3& segmentPoint1 );
     
     /**
      * Computes minimum distance from @a point to the line segment defined by
      * @a segmentPoint0 and @a segmentPoint1.
      */
-    float pointToSegmentDistance( const Vec3& point,
-                                  const Vec3& segmentPoint0,
-                                  const Vec3& segmentPoint1);
+    float pointToSegmentDistance( const Vector3& point,
+                                  const Vector3& segmentPoint0,
+                                  const Vector3& segmentPoint1);
         
     /**
      * Retuns distance between @a a and @a b.
      */
-    inline float distance (const Vec3& a, const Vec3& b) {
+    inline float distance (const Vector3& a, const Vector3& b) {
         return (a-b).length();
     } 
     
@@ -85,8 +85,8 @@ namespace OpenSteer {
      */
     inline
     bool
-    equalsRelative( Vec3 const& lhs, 
-                     Vec3 const& rhs, 
+    equalsRelative( Vector3 const& lhs, 
+                     Vector3 const& rhs, 
                      float const& tolerance = std::numeric_limits< float >::epsilon()  ) {
         return equalsRelative( lhs.x, rhs.x, tolerance ) && equalsRelative( lhs.y, rhs.y ) && equalsRelative( lhs.z, rhs.z );
     }
