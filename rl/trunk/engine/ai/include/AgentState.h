@@ -40,7 +40,7 @@ namespace rl
 		 * Decision making is done here.
          * @param elapsedTime time since last update call.
 		 */
-		virtual void update(const float elapsedTime) = 0;
+        virtual void update(const Ogre::Real elapsedTime) = 0;
 
         Agent* getAgent() const { return mAgent; }
 

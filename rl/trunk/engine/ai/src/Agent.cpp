@@ -19,6 +19,7 @@
 
 #include "Actor.h"
 #include "AgentCombatState.h"
+#include "AgentDialogState.h"
 #include "AgentSteeringState.h"
 #include "Creature.h"
 #include "DialogCharacter.h"
@@ -33,7 +34,7 @@ using namespace OpenSteer;
 namespace rl {
 
 Agent::Agent(Creature* character)
-	: mCreature(character),
+	: SteeringVehicle(character),
       mAgentStates()
 {
 	initialize();
@@ -65,6 +66,11 @@ void Agent::update(const float elapsedTime)
     }
 }
 
+//void Agent::updateVehicle(const float currentTime, const float elapsedTime)
+//{
+//    SteeringVehicle::update(currentTime, elapsedTime);
+//}
+
 Creature* Agent::getControlledCreature() const
 {
     return mCreature;
@@ -83,6 +89,7 @@ void Agent::pushState(AgentStateType stateType)
     }
     else if (stateType == AST_DIALOG)
     {
+        state = new AgentDialogState(this);
     }
     else
     {
@@ -94,7 +101,9 @@ void Agent::pushState(AgentStateType stateType)
 
 void Agent::popState()
 {
+    AgentState* cur = mAgentStates.top();
     mAgentStates.pop();
+    delete cur;
 }
 
 AgentState* Agent::getCurrentState() const
@@ -107,6 +116,11 @@ AgentState* Agent::getCurrentState() const
     {
         return mAgentStates.top();
     }
+}
+
+void Agent::updateVehicle(const float currentTime, const float elapsedTime)
+{
+    SteeringVehicle::update(currentTime, elapsedTime);
 }
 
 }

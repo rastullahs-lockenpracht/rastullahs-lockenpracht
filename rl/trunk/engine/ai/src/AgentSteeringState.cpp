@@ -23,31 +23,25 @@ using namespace OpenSteer;
 
 namespace rl {
 
+
     AgentSteeringState::AgentSteeringState(Agent* agent)
         : AgentState(agent),
-        mBehaviour(NULL),
-        mVehicle(NULL)
+        mBehaviour(NULL)
     {
-        mVehicle = new SteeringVehicle(agent);
-
-        LOG_MESSAGE(Logger::AI, 
-            "created SteeringVehicle for Agent");
-
-        mBehaviour = new SteeringMachine(NULL, mVehicle);
+        mBehaviour = new SteeringMachine(NULL, mAgent);
         LOG_MESSAGE(Logger::AI, 
             "created SteeringMachine for Agent");
     }
 
     AgentSteeringState::~AgentSteeringState(void)
     {
-        delete mVehicle;
         delete mBehaviour;
     }
 
     void AgentSteeringState::addSteeringBehaviour(SteeringBehaviour* behaviour)
     {
         behaviour->setParent(mBehaviour);
-        behaviour->setController(mVehicle);
+        behaviour->setController(mAgent);
         mBehaviour->addState(behaviour);
         LOG_MESSAGE(Logger::AI, 
             "added SteeringBehaviour for Agent");
@@ -64,12 +58,12 @@ namespace rl {
     {
         mBehaviour->update(elapsedTime);
         //  currentTime not needed yet, only elapsedTime
-        mVehicle->update(0.0f, elapsedTime);
+        mAgent->updateVehicle(0.0f, elapsedTime);
     }
 
     SteeringVehicle* AgentSteeringState::getVehicle()
     {
-        return mVehicle;
+        return mAgent;
     }
 
 }

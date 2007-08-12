@@ -18,12 +18,13 @@
 
 #include "AgentManager.h"
 #include "AgentState.h"
-
-#include <stack>
+#include "SteeringMachine.h"
+#include "SteeringVehicle.h"
 
 namespace rl
 {
 	class Actor;
+    class AgentSteeringState;
 	class Creature;
 
 	/** Represents a single entity that has got AI.
@@ -32,7 +33,7 @@ namespace rl
 	 * Creatures (rl::Creature), steering (pathfinding, movement - OpenSteer)
 	 * and decission making (behaviours)
 	 */
-	class _RlAiExport Agent 
+    class _RlAiExport Agent : public SteeringVehicle
 	{
 	public:
 		/** Constructor by Creature object.
@@ -58,6 +59,9 @@ namespace rl
 		 * the vehicle are updated.
 		 */
 		void update(const float elapsedTime);
+
+        void updateVehicle(const float currentTime, const float elapsedTime);
+
 		/** Adds a steering behaviour to the internal steering machine.
 		 * @param behaviour SteeringBehaviour is initialized and registered to mBehaviour.
 		 */
@@ -74,8 +78,6 @@ namespace rl
 
 	protected:
         typedef std::deque<AgentState*> AgentStateStack;
-		//! stores the creature whose AI is simulated
-		Creature* mCreature;
         std::stack<AgentState*> mAgentStates;
 	};
 }

@@ -303,6 +303,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\AgentDialogState.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\AgentManager.cpp"
 				>
 			</File>
@@ -410,6 +414,10 @@
 			</File>
 			<File
 				RelativePath=".\include\AgentCombatState.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\AgentDialogState.h"
 				>
 			</File>
 			<File

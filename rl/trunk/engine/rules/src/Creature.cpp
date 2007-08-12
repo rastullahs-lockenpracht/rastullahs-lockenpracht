@@ -41,6 +41,7 @@ namespace rl
     const Ogre::String Creature::CLASS_NAME = "Creature";
 
     const Ogre::String Creature::PROPERTY_AI = "ai";
+    const Ogre::String Creature::PROPERTY_AI_BEHAVIOURS = "behaviours";
     const Ogre::String Creature::PROPERTY_INVENTORY_WINDOW_TYPE = "inventorywindowtype";
     const Ogre::String Creature::PROPERTY_CURRENT_LE = "current_le";
     const Ogre::String Creature::PROPERTY_CURRENT_AE = "current_ae";

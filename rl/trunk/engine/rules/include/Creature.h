@@ -108,6 +108,7 @@ namespace rl
 
             static const Ogre::String CLASS_NAME;
             static const Ogre::String PROPERTY_AI;
+            static const Ogre::String PROPERTY_AI_BEHAVIOURS;
 			static const Ogre::String PROPERTY_INVENTORY_WINDOW_TYPE;
             static const Ogre::String PROPERTY_CURRENT_LE;
             static const Ogre::String PROPERTY_CURRENT_AE;
