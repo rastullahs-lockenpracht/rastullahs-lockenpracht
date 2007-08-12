@@ -82,7 +82,6 @@ namespace rl {
         mShownObject(NULL),
         mObjectDescriptionWindow(NULL),
         mMainMenuWindow(NULL),
-        mCloseConfirmationWindow(NULL),
         mGameSettings(NULL),
         mCombatWindow(NULL)
     {
@@ -127,7 +126,6 @@ namespace rl {
         delete mDebugWindow;
         delete mConsole;
         delete mMainMenuWindow;
-        delete mCloseConfirmationWindow;
         delete mGameSettings;
         delete mCombatWindow;
     }
@@ -293,12 +291,9 @@ namespace rl {
 
     void WindowFactory::showExitConfirmation()
     {
-        if( mCloseConfirmationWindow != NULL )
-            delete mCloseConfirmationWindow;
-
-        mCloseConfirmationWindow = new CloseConfirmationWindow();
+        AbstractWindow* closeConfirmationWindow = new CloseConfirmationWindow();
         LOG_MESSAGE2(Logger::UI, "Start", "UiSubsystem::requestExit");
-        mCloseConfirmationWindow->setVisible(true);
+        closeConfirmationWindow->setVisible(true);
     }
 
     void WindowFactory::writeToConsole(Ogre::String text)
