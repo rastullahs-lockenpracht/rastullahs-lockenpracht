@@ -40,8 +40,7 @@ void XmlHelper::initializeTranscoder()
 
 DOMElement* XmlHelper::getChildNamed(DOMElement* parent, const char* const name)
 {
-	if( parent == NULL )
-		Throw( NullPointerException, "parent darf nicht NULL sein" );
+    RlAssert(parent != NULL, "XmlHelper::getChildNamed: parent must not be NULL" );
 
 	AutoXMLCh nameXml = name;
 
@@ -62,19 +61,19 @@ DOMElement* XmlHelper::getChildNamed(DOMElement* parent, const char* const name)
 
 CeGuiString XmlHelper::getValueAsString(DOMElement* element)
 {
-	RlAssert(element != NULL, "Element must not be NULL");
+    RlAssert(element != NULL, "XmlHelper::getValueAsString: Element must not be NULL");
 	return transcodeToString( element->getFirstChild()->getNodeValue() );
 }
 
 utf8* XmlHelper::getValueAsUtf8(DOMElement* element)
 {
-	RlAssert(element != NULL, "Element must not be NULL");
+    RlAssert(element != NULL, "XmlHelper::getValueAsUtf8: Element must not be NULL");
 	return XmlHelper::transcodeToUtf8(element->getFirstChild()->getNodeValue());
 }
 
 bool XmlHelper::hasAttribute(DOMElement* element,const char* const name)
 {
-    RlAssert(element != NULL, "Element must not be NULL");
+    RlAssert(element != NULL, "XmlHelper::hasAttribute: Element must not be NULL");
     XMLCh* attrName = XMLString::transcode(name);
     bool rVal = element->hasAttribute(attrName);
     XMLString::release(&attrName);
@@ -83,7 +82,7 @@ bool XmlHelper::hasAttribute(DOMElement* element,const char* const name)
 
 bool XmlHelper::hasNodeName(DOMNode* node, const char* const name)
 {
-    RlAssert(node != NULL, "node must not be NULL");
+    RlAssert(node != NULL, "XmlHelper::hasNodeName: node must not be NULL");
     XMLCh* nodeName = XMLString::transcode(name);
     int ival = XMLString::compareString(node->getNodeName(), nodeName);
     bool rVal = (0 == ival);
@@ -93,7 +92,7 @@ bool XmlHelper::hasNodeName(DOMNode* node, const char* const name)
 
 int XmlHelper::getAttributeValueAsInteger(DOMElement* element,const char* const name)
 {
-	RlAssert(element != NULL, "Element must not be NULL");
+    RlAssert(element != NULL, "XmlHelper::getAttributeValueAsInteger: Element must not be NULL");
 	XMLCh* attrName = XMLString::transcode(name);
 	const XMLCh* attribute = element->getAttribute(attrName);
 	int rVal = XMLString::parseInt(attribute);
@@ -103,7 +102,7 @@ int XmlHelper::getAttributeValueAsInteger(DOMElement* element,const char* const 
 
 Ogre::Real XmlHelper::getAttributeValueAsReal(DOMElement* element,const char* const name)
 {
-	RlAssert(element != NULL, "Element must not be NULL");
+    RlAssert(element != NULL, "XmlHelper::getAttributeValueAsReal: Element must not be NULL");
 	XMLCh* attrName = XMLString::transcode(name);
 	Ogre::Real rVal = Ogre::StringConverter::parseReal(
 		transcodeToString(element->getAttribute(attrName)).c_str() );
@@ -113,7 +112,7 @@ Ogre::Real XmlHelper::getAttributeValueAsReal(DOMElement* element,const char* co
 
 CeGuiString XmlHelper::getAttributeValueAsString(DOMElement* element, const char* const name)
 {
-	RlAssert(element != NULL, "Element must not be NULL");
+    RlAssert(element != NULL, "XmlHelper::getAttributeValueAsString: Element must not be NULL");
 	XMLCh* attrName = XMLString::transcode(name);
 	CeGuiString rVal(transcodeToString(element->getAttribute(attrName)));
 	XMLString::release(&attrName);
@@ -134,7 +133,7 @@ CeGuiString XmlHelper::getAttributeValueAsString(const XERCES_CPP_NAMESPACE::Att
 
 std::string XmlHelper::getAttributeValueAsStdString(DOMElement* element, const char* const name)
 {
-	RlAssert(element != NULL, "Element must not be NULL");
+    RlAssert(element != NULL, "XmlHelper::getAttributeValueAsStdString: Element must not be NULL");
 	XMLCh* attrName = XMLString::transcode(name);
 	std::string rVal(transcodeToStdString(element->getAttribute(attrName)));
 	XMLString::release(&attrName);
@@ -143,7 +142,7 @@ std::string XmlHelper::getAttributeValueAsStdString(DOMElement* element, const c
 
 bool XmlHelper::getAttributeValueAsBool(DOMElement* element,const char* const name)
 {
-	RlAssert(element != NULL, "Element must not be NULL");
+    RlAssert(element != NULL, "XmlHelper::getAttributeValueAsBool: Element must not be NULL");
 	if( XMLString::compareIString(getAttributeValueAsString(element, name).c_str(),"true") == 0  )
 		return true;
 	else
@@ -152,13 +151,13 @@ bool XmlHelper::getAttributeValueAsBool(DOMElement* element,const char* const na
 
 int XmlHelper::getValueAsInteger(DOMElement* element)
 {
-	RlAssert(element != NULL, "Element must not be NULL");
+    RlAssert(element != NULL, "XmlHelper::getValueAsInteger: Element must not be NULL");
 	return XMLString::parseInt(element->getFirstChild()->getNodeValue());
 }
 
 Ogre::Vector3 XmlHelper::getValueAsVector3(DOMElement* element)
 {
-	RlAssert(element != NULL, "Element must not be NULL");
+    RlAssert(element != NULL, "XmlHelper::getValueAsVector3: Element must not be NULL");
 	RlAssert(
 		hasAttribute(element, "x") 
 		&& hasAttribute(element, "y") 
