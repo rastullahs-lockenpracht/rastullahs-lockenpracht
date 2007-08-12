@@ -20,7 +20,9 @@
 #include <CEGUIWindowManager.h>
 
 #include "AbstractWindow.h"
+#include "Inventory.h"
 #include "Item.h"
+#include "WindowFactory.h"
 
 namespace rl {
 	const Ogre::String ItemDragContainer::ICON_UNKNOWN_ITEM = "set:ModelThumbnails image:item_unknown";
@@ -86,4 +88,34 @@ namespace rl {
 	{
 		return mContentWindow;
 	}
+
+	bool ItemDragContainer::_handleItemMouseClick(const CEGUI::EventArgs& evt, Item* item)
+	{
+		const CEGUI::MouseEventArgs& mevt = static_cast<const CEGUI::MouseEventArgs&>(evt);
+		if (mevt.button == CEGUI::RightButton)
+		{
+			WindowFactory::getSingleton().showActionChoice(item);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	bool ItemDragContainer::_handleItemDoubleClick(const CEGUI::EventArgs& evt, Item* item)
+	{
+		const CEGUI::MouseEventArgs& mevt = static_cast<const CEGUI::MouseEventArgs&>(evt);
+		if (mevt.button == CEGUI::LeftButton)
+		{
+			item->doDefaultAction(mInventory->getOwner(), NULL);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+
 }

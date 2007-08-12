@@ -45,7 +45,8 @@ namespace rl {
 		Inventory* mInventory;
         std::map<CeGuiString, CEGUI::Window*> mSlotWindows;
 		CEGUI::Window* mWorldBackground;
-		DndContainerMap mDragContainers;
+		DndContainerMap mWorldDragContainers;
+		DndContainerMap mSlotDragContainers;
 		RaySelector* mMouseSelector;
 
 		void createSlotWindows(Inventory* inventory);
@@ -54,8 +55,6 @@ namespace rl {
 		ItemDragContainer* createItemDragContainer(Item* item, bool showdescription, const CeGuiString& containerName = "");
 		bool handleItemDroppedOnSlot(const CEGUI::EventArgs& evt);
 		bool handleItemDroppedOnWorld(const CEGUI::EventArgs& evt);
-		bool handleItemMouseClick(const CEGUI::EventArgs& evt, Item* item);
-		bool handleItemDoubleClick(const CEGUI::EventArgs& evt, Item* item);
 		bool handleMouseMovedInWorld(const CEGUI::EventArgs& evt);
 		bool handleKeys(const CEGUI::EventArgs& evt, bool down);
 		bool destroyDragContainer(ItemDragContainer* cont);

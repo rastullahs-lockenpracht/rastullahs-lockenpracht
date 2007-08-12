@@ -25,6 +25,7 @@
 #include "Actor.h"
 #include "ActorManager.h"
 #include "CameraObject.h"
+#include "Container.h"
 #include "Creature.h"
 #include "Inventory.h"
 #include "Item.h"
@@ -32,7 +33,6 @@
 #include "ItemIconDragContainer.h"
 #include "Selector.h"
 #include "WindowFactory.h"
-#include "Container.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -148,11 +148,13 @@ namespace rl {
 	{
 		CeGuiString dragContainerName =
 			mWindow->getName() +  "/item/"
-			+ Ogre::StringConverter::toString(item->getId())+"_DragContainer";
+			+ Ogre::StringConverter::toString(item->getId())+"_DragContainer"+
+			(showdescription?"_D":"_I");
 		ItemDragContainer* itemhandler = NULL;
 
-		DndContainerMap::iterator it = mDragContainers.find(dragContainerName);
-		if (it != mDragContainers.end())
+		DndContainerMap::iterator itW = mWorldDragContainers.find(dragContainerName);
+		DndContainerMap::iterator itS = mSlotDragContainers.find(dragContainerName);
+		if (itW != mWorldDragContainers.end() || itS != mSlotDragContainers.end())
 		{
 			//itemhandler = it->second;
 			return NULL; ///@todo just a test
@@ -167,21 +169,21 @@ namespace rl {
 			if (slotName != "")
 			{
 				itemhandler->setItemParent(mInventory, slotName);
+				mSlotDragContainers[dragContainerName] = itemhandler;
+			}
+			else
+			{
+				mWorldDragContainers[dragContainerName] = itemhandler;
 			}
 
-			Window* itemWindow = itemhandler->getContentWindow();
+			//Window* itemWindow = itemhandler->getContentWindow();
 
-			itemWindow->subscribeEvent(
-				Window::EventMouseClick,
-				boost::bind(&InventoryWindow::handleItemMouseClick, this, _1, item));
+			//itemWindow->subscribeEvent(
+			//	Window::EventMouseLeaves,
+			//	boost::bind(&InventoryWindow::destroyDragContainer, this, itemhandler));
 
-			itemWindow->subscribeEvent(
-				Window::EventMouseDoubleClick,
-				boost::bind(&InventoryWindow::handleItemDoubleClick, this, _1, item));
-
+			itemhandler->setRiseOnClickEnabled(true);
 			itemhandler->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
-
-			mDragContainers[dragContainerName] = itemhandler;
 		}
 
 		return itemhandler;
@@ -203,24 +205,32 @@ namespace rl {
 				if (dragcont->getItemParentContainer() != NULL)
 				{
 					dragcont->getItemParentContainer()->removeItem(item);
+					dragcont->getParent()->removeChildWindow(dragcont);
 					///@todo Swap with old content (if there is some)
 				}
 				else if (dragcont->getItemParentSlot() != "")
 				{
 					dragcont->getItemParentInventory()->dropItem(dragcont->getItemParentSlot());
+					dragcont->getParent()->removeChildWindow(dragcont);
 					///@todo Swap with old content (if there is some)
+				}
+
+				ItemDragContainer* newCont = createItemDragContainer(item, false, targetSlot);
+
+				if (newCont)
+				{
+					destroyDragContainer(dragcont);
 				}
 				else
 				{
-					dragcont->removeEvent(Window::EventMouseLeaves);
-					mDragContainers.erase(dragcont->getName());
+					newCont = dragcont;
 				}
 
 				mInventory->hold(item, targetSlot);
-				dragcont->getParent()->removeChildWindow(dragcont);
-				mSlotWindows[targetSlot]->addChildWindow(dragcont);
-				dragcont->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
-				dragcont->setItemParent(mInventory, targetSlot);
+
+				mSlotWindows[targetSlot]->addChildWindow(newCont);
+				newCont->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
+				newCont->setItemParent(mInventory, targetSlot);
 
 				return true;
 			}
@@ -246,30 +256,12 @@ namespace rl {
 				dragcont->getPixelRect().d_top / getRoot()->getPixelSize().d_height,
 				-1);
 
-			if (dragcont->getItemParentContainer() != NULL)
-			{
-				dragcont->getItemParentContainer()->removeItem(item);
-				dragcont->getParent()->removeChildWindow(dragcont);
-				CEGUI::WindowManager::getSingleton().destroyWindow(dragcont->getContentWindow());
-				CEGUI::WindowManager::getSingleton().destroyWindow(dragcont);
-			}
-			else if (dragcont->getItemParentSlot() != "")
-			{
-				dragcont->getItemParentInventory()->dropItem(dragcont->getItemParentSlot());
-
-				dragcont->getParent()->removeChildWindow(dragcont);
-				CEGUI::WindowManager::getSingleton().destroyWindow(dragcont->getContentWindow());
-				CEGUI::WindowManager::getSingleton().destroyWindow(dragcont);
-			}
-			else
-			{
-				destroyDragContainer(dragcont);
-			}
+			destroyDragContainer(dragcont);
 
 			Ogre::Vector3 targetPosWorldSpace =
 				mInventory->getOwner()->getPosition()
 				+ mInventory->getOwner()->getOrientation()
-				* targetPosWindow; ///@todo check why coordinates are negative
+				* targetPosWindow; 
 			item->placeIntoScene();
 			item->setPosition(targetPosWorldSpace);
 
@@ -328,10 +320,6 @@ namespace rl {
 							UDim((aabb.top+aabb.bottom)/2.0, 0));
 					posCont -= cont->getSize() / UVector2(UDim(2, 2), UDim(2, 2));
 					cont->setPosition(posCont);
-
-					cont->subscribeEvent(
-						Window::EventMouseLeaves,
-						boost::bind(&InventoryWindow::destroyDragContainer, this, cont));
 				}
 			}
 		}
@@ -339,34 +327,6 @@ namespace rl {
 		//camera->getPointOnScreen(
 
 		return true;
-	}
-
-	bool InventoryWindow::handleItemMouseClick(const EventArgs& evt, Item* item)
-	{
-		const MouseEventArgs& mevt = static_cast<const MouseEventArgs&>(evt);
-		if (mevt.button == RightButton)
-		{
-			WindowFactory::getSingleton().showActionChoice(item);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	bool InventoryWindow::handleItemDoubleClick(const EventArgs& evt, Item* item)
-	{
-		const MouseEventArgs& mevt = static_cast<const MouseEventArgs&>(evt);
-		if (mevt.button == LeftButton)
-		{
-			item->doDefaultAction(mInventory->getOwner(), NULL);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
 	}
 
 	bool InventoryWindow::handleKeys(const CEGUI::EventArgs &evt, bool down)
@@ -403,18 +363,14 @@ namespace rl {
 							UDim((aabb.top+aabb.bottom)/2.0, 0));
 						posCont -= cont->getSize() / UVector2(UDim(2, 2), UDim(2, 2));
 						cont->setPosition(posCont);
-
-						cont->subscribeEvent(
-							Window::EventMouseLeaves,
-							boost::bind(&InventoryWindow::destroyDragContainer, this, cont));
 					}
 				}
 			}
 			else
 			{
-				while (!mDragContainers.empty())
+				while (!mWorldDragContainers.empty())
 				{
-					destroyDragContainer(mDragContainers.begin()->second);
+					destroyDragContainer(mWorldDragContainers.begin()->second);
 				}
 			}
 
@@ -426,11 +382,16 @@ namespace rl {
 
 	bool InventoryWindow::destroyDragContainer(rl::ItemDragContainer* cont)
 	{
+		cont->hide();
 		cont->removeAllEvents();
-		mWorldBackground->removeChildWindow(cont);
-		mDragContainers.erase(cont->getName());
+		if (cont->getParent())
+		{
+			cont->getParent()->removeChildWindow(cont);
+		}
+		mWorldDragContainers.erase(cont->getName());
+		mSlotDragContainers.erase(cont->getName());
 		CEGUI::WindowManager::getSingleton().destroyWindow(cont->getContentWindow());
-
+		
 		return true;
 	}
 

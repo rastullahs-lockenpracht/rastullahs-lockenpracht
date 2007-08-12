@@ -17,6 +17,8 @@
 
 #include "ItemDescriptionDragContainer.h"
 
+#include <boost/bind.hpp>
+
 #include "AbstractWindow.h"
 #include "Item.h"
 
@@ -35,14 +37,22 @@ namespace rl {
 		mContentWindow = AbstractWindow::loadWindow("itemdescriptiondragcontainer.xml", prefix);
 
 		mContentWindow->getChild(
-			mContentWindow->getName()+"/Icon")
+			name+"ItemDescriptionDragContainer/Icon")
 			->setProperty("Image", icon);
 		mContentWindow->getChild(
-			mContentWindow->getName()+"/Name")
+			name+"ItemDescriptionDragContainer/Name")
 			->setText(item->getName());
 		mContentWindow->getChild(
-			mContentWindow->getName()+"/Description")
+			name+"ItemDescriptionDragContainer/Description")
 			->setText(item->getDescription());
+
+		mContentWindow->subscribeEvent(
+			Window::EventMouseClick,
+			boost::bind(&ItemDragContainer::_handleItemMouseClick, this, _1, item));
+
+		mContentWindow->subscribeEvent(
+			Window::EventMouseDoubleClick,
+			boost::bind(&ItemDragContainer::_handleItemDoubleClick, this, _1, item));
 
 		setSize(mContentWindow->getSize());
 		addChildWindow(mContentWindow);

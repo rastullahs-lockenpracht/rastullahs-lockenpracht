@@ -32,7 +32,7 @@ namespace rl
 	public:
 		static const Ogre::String ICON_UNKNOWN_ITEM;
 		
-		~ItemDragContainer();
+		virtual ~ItemDragContainer();
 		
 		void setItemParent(Container* container);
 		void setItemParent(Inventory* inventory, const CeGuiString& slotname);
@@ -42,6 +42,9 @@ namespace rl
 		Item* getItem() const;
 		CEGUI::Window* getContentWindow() const;
 	
+		bool _handleItemMouseClick(const CEGUI::EventArgs& evt, Item* item);
+		bool _handleItemDoubleClick(const CEGUI::EventArgs& evt, Item* item);
+
 	protected:
 		CEGUI::Window* mContentWindow;
 		

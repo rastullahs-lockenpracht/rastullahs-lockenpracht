@@ -17,6 +17,8 @@
 
 #include "ItemIconDragContainer.h"
 
+#include <boost/bind.hpp>
+
 #include "AbstractWindow.h"
 #include "Item.h"
 
@@ -33,8 +35,22 @@ namespace rl {
 
 		CeGuiString prefix = name;
 		mContentWindow = AbstractWindow::loadWindow("itemicondragcontainer.xml", prefix);
-		mContentWindow->getChild(mContentWindow->getName()+"/Icon")
+
+		for (size_t idx = 0; idx < mContentWindow->getChildCount(); ++idx)
+		{
+			LOG_MESSAGE(Logger::UI, mContentWindow->getChildAtIdx(idx)->getName());
+		}
+
+		mContentWindow->getChild(name+"ItemIconDragContainer/Icon")
 			->setProperty("Image", icon);
+
+		mContentWindow->subscribeEvent(
+			Window::EventMouseClick,
+			boost::bind(&ItemDragContainer::_handleItemMouseClick, this, _1, item));
+
+		mContentWindow->subscribeEvent(
+			Window::EventMouseDoubleClick,
+			boost::bind(&ItemDragContainer::_handleItemDoubleClick, this, _1, item));
 
 		setSize(CEGUI::UVector2(
 			cegui_absdim(item->getSize().first*30),
