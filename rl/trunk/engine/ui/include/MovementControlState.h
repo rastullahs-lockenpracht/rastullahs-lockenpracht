@@ -45,7 +45,7 @@ namespace rl {
         public DebugVisualisable
     {
     public:
-        typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON, VM_FREE_CAMERA} ViewMode;
+        typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON, VM_FREE_CAMERA, VM_PNYX_MODE} ViewMode;
         /**
          *  @throw NullPointerException if camera or character is NULL.
          *  @throw InvalidArgumentException if character is not placed in the scene.
