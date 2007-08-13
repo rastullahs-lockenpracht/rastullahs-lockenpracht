@@ -21,6 +21,7 @@
 #include <CEGUIImageset.h>
 #include <CEGUIImagesetManager.h>
 #include <CEGUIWindowManager.h>
+#include <elements/CEGUIFrameWindow.h>
 
 #include "Actor.h"
 #include "ActorManager.h"
@@ -49,6 +50,8 @@ namespace rl {
 
         //mSquareSize = ...;
 		mWorldBackground = getWindow("InventoryWindow/Background");
+        getWindow("InventoryWindow")->subscribeEvent(FrameWindow::EventCloseClicked,
+			boost::bind(&InventoryWindow::destroyWindow, this));
 
         createSlotWindows(inventory);
         initInventoryWindow(inventory);
@@ -60,6 +63,7 @@ namespace rl {
     {
 		mWorldBackground->removeAllEvents();
 		delete mMouseSelector;
+        WindowFactory::getSingleton().notifyInventoryWindowDestroyed();
     }
 
     void InventoryWindow::createSlotWindows(Inventory* inventory)

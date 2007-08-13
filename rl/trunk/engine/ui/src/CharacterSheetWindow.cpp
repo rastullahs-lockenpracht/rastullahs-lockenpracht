@@ -51,7 +51,7 @@ CharacterSheetWindow::CharacterSheetWindow()
 	mRasse = getWindow("CharacterSheet/CharacterSheet/Rasse");
 	mProfession = getWindow("CharacterSheet/CharacterSheet/Profession");
 
-	bindDestroyWindowToXButton();
+	bindHideWindowToXButton();
 
 	/*for (int i=0; i<EIGENSCHAFT_COUNT; i++)
 		mEigenschaft[i] =

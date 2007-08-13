@@ -210,6 +210,11 @@ namespace rl {
         }
     }
 
+    void WindowFactory::notifyInventoryWindowDestroyed()
+    {
+        mInventoryWindow = NULL;
+    }
+
 
     void WindowFactory::showCharacterSheet()
     {
