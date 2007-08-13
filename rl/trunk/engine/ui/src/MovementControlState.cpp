@@ -77,6 +77,7 @@ namespace rl {
         mDistanceRange(0.60, 7.00),
         mCamYaw(0),
         mCamVirtualYaw(0),
+        mNewCamVirtualYaw(0),
         mPitch(20),
         mRoll(0),
         mPitchRange(Degree(-75), Degree(85)),
@@ -326,21 +327,27 @@ namespace rl {
                 if( mViewMode != VM_PNYX_MODE )
                 {
                     // virtual yaw
-                    Degree newVirtualYaw(0);
+                    if( mCamVirtualYaw != mNewCamVirtualYaw )
+                    {
+                        mCamVirtualYaw = mNewCamVirtualYaw;
+                    }
                     if( ((movement & MOVE_FORWARD) && (movement & MOVE_RIGHT) && !(movement & MOVE_LEFT)) ||
                         ((movement & MOVE_BACKWARD) && (movement & MOVE_LEFT) && !(movement & MOVE_RIGHT)) )
                     {
-                        newVirtualYaw = Degree(45);
+                        mNewCamVirtualYaw = Degree(45);
                     }
-                    if( ((movement & MOVE_FORWARD) && (movement & MOVE_LEFT) && !(movement & MOVE_RIGHT)) ||
+                    else if( ((movement & MOVE_FORWARD) && (movement & MOVE_LEFT) && !(movement & MOVE_RIGHT)) ||
                         ((movement & MOVE_BACKWARD) && (movement & MOVE_RIGHT) && !(movement & MOVE_LEFT)) )
                     {
-                        newVirtualYaw = Degree(-45);
+                        mNewCamVirtualYaw = Degree(-45);
                     }
-                    if( mCamVirtualYaw != newVirtualYaw )
+                    else
                     {
-                        rotation += mCamVirtualYaw - newVirtualYaw;
-                        mCamVirtualYaw = newVirtualYaw;
+                        mNewCamVirtualYaw =Degree(0);
+                    }
+                    if( mCamVirtualYaw != mNewCamVirtualYaw )
+                    {
+                        rotation += mCamVirtualYaw - mNewCamVirtualYaw;
                     }
                 }
             }
@@ -464,16 +471,49 @@ namespace rl {
                         break;
                     }
                     yaw+=mCamYaw;
+
+                    CreatureController::MovementType type = CreatureController::MT_JOGGEN;
+                    if( movement & MOVE_SNEAK )
+                        type = CreatureController::MT_SCHLEICHEN;
+                    else
+                    {
+                        if( movement & MOVE_JUMP )
+                            type = CreatureController::MT_WEITSPRUNG;
+                        else
+                        {
+                            switch( movement & (MOVE_RUN | MOVE_RUN_LOCK) )
+                            {
+                            case MOVE_RUN:
+                                type = CreatureController::MT_GEHEN;
+                                break;
+                            case MOVE_RUN_LOCK:
+                                type = CreatureController::MT_LAUFEN;
+                                break;
+                            case MOVE_RUN | MOVE_RUN_LOCK:
+                                type = CreatureController::MT_RENNEN;
+                                break;
+                            default:
+                                break;
+                            }
+                        }
+                    }
+
+
                     mController->setMovement(
-                        CreatureController::MT_JOGGEN,
+                        type,
                         Vector3::NEGATIVE_UNIT_Z,
                         Vector3::UNIT_Y * (yaw-mController->getYaw()).valueRadians());
                 }
                 else
                 {
                     // don't move
+                    CreatureController::MovementType type = CreatureController::MT_STEHEN;
+                    if( movement & MOVE_SNEAK )
+                        type = CreatureController::MT_SCHLEICHEN;
+                    else if( movement & MOVE_JUMP )
+                        type = CreatureController::MT_HOCHSPRUNG;
                     mController->setMovement(
-                        CreatureController::MT_STEHEN,
+                        type,
                         Vector3::ZERO,
                         Vector3::ZERO);
                 }
@@ -531,12 +571,12 @@ namespace rl {
                 mCameraActor->getControlledObject());
             AxisAlignedBox aabb = ogreCam->getDefaultSize();
             // Radius berechnen
-            Real radius = (aabb.getMaximum()-aabb.getMinimum()).length() / 2.0f;
+            //Real radius = (aabb.getMaximum()-aabb.getMinimum()).length() / 2.0f;
 
             cameraNode->lookAt(
                 charPos
-                + charOri * virtualCamOri *  mLookAtOffset
-                + charOri * virtualCamOri * (-Vector3::UNIT_Z*radius),
+                + charOri * virtualCamOri *  mLookAtOffset,
+                //+ charOri * virtualCamOri * (-Vector3::UNIT_Z*radius),   // doesn't work smoothly with strafe+forward
                 Node::TS_WORLD);
 
         }
@@ -855,7 +895,8 @@ namespace rl {
         Vector3 targetCamPos;
 
         Vector3 charPos = mCharacter->getActor()->getWorldPosition();
-        Quaternion charOri = mCharacter->getActor()->getWorldOrientation();
+        //Quaternion charOri = mCharacter->getActor()->getWorldOrientation();
+        Quaternion charOri (mController->getYaw(), Vector3::UNIT_Y);   // is this ok, solves the problems, when strafe+move_forward...
         Quaternion virtualCamOri;
         virtualCamOri.FromAngleAxis(mCamVirtualYaw, Vector3::UNIT_Y);
 
@@ -1206,6 +1247,8 @@ namespace rl {
         Quaternion camOri;
         mCamBody->getPositionOrientation(camPos, camOri);
         mCamBody->setPositionOrientation(calculateOptimalCameraPosition(false, 0.0f), camOri);
+        mCamVirtualYaw = Degree(0);
+        mNewCamVirtualYaw = Degree(0);
         if(mViewMode == VM_FIRST_PERSON)
             mCharacterActor->setVisible(false);
         else
