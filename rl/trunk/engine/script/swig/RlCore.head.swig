@@ -63,6 +63,7 @@
 #include "SoundFadeJob.h"
 #include "SoundFadeFunctor.h"
 #include "LinearSoundFadeFunctor.h"
+#include "TimeSource.h"
 
 #undef message
 #undef send

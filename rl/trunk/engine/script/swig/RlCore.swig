@@ -939,4 +939,32 @@ public:
 };
 
 
+typedef RL_LONGLONG rl::Time;
+
+class TimeSource : public rl::GameTask
+{
+public:
+    typedef enum
+    {
+        REALTIME_CONTINUOUS,
+        REALTIME_INTERRUPTABLE,
+        GAMETIME
+    }  TimeSourceType;
+    
+    virtual rl::TimeSource::TimeSourceType getType() const = 0;
+
+    virtual rl::Time getClock() const = 0;
+    virtual void setClock(const rl::Time& time) = 0;
+    virtual void setTimeFactor(Ogre::Real factor = 1.0) = 0;
+};
+
+class TimeSourceManager : public Ogre::Singleton<rl::TimeSourceManager>
+{
+public:
+    static rl::TimeSourceManager& getSingleton();
+    void registerTimeSource(rl::TimeSource* ts);
+    rl::TimeSource* getTimeSource(const rl::TimeSource::TimeSourceType& type) const;
+};
+
+
 }
