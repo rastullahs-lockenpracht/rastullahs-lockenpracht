@@ -423,7 +423,7 @@ namespace rl
         }
         virtual void activate()
         {
-            AbstractMovement::activate();
+            Gehen::activate();
             doTalentProbeIfNecessary();
         }
         virtual void doTalentProbeIfNecessary()
@@ -533,7 +533,7 @@ namespace rl
         }
         virtual void activate()
         {
-            AbstractMovement::activate();
+            Gehen::activate();
             doTalentProbeIfNecessary();
         }
         virtual void doTalentProbeIfNecessary()
@@ -690,7 +690,7 @@ namespace rl
         virtual void setAnimation(Ogre::Real elapsedTime) {} // is not used
         virtual void activate()
         {
-            AbstractMovement::activate();
+            Gehen::activate();
             mState = UPTODOWN;
             mMovingCreature->setAnimation("idle_zu_hocke",1,1,"Idle");
             mTimer = 0;
