@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\include&quot;;&quot;$(ProjectDir)\..\include\Opensteer&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\include&quot;;&quot;$(ProjectDir)\..\include\Opensteer&quot;;..\..\ogrenew\OgreMain\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_DLL;_MT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -116,7 +116,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				OmitFramePointers="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\include&quot;;&quot;$(ProjectDir)\..\include\Opensteer&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\include&quot;;&quot;$(ProjectDir)\..\include\Opensteer&quot;;..\..\ogrenew\OgreMain\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_DLL;_MT"
 				StringPooling="true"
 				RuntimeLibrary="2"
