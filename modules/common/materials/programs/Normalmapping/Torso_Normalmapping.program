@@ -1,0 +1,250 @@
+material Torso_Normalmapping_Short
+{
+    technique hlsl
+    {
+        pass
+        {
+	        alpha_rejection greater 128
+	        
+            vertex_program_ref Basic_Normalmapping_UV0_VS_HLSL
+            {
+                param_named_auto matViewProjection worldviewproj_matrix
+                param_named_auto LightPosition_0 light_position_object_space 0
+                param_named_auto LightPosition_1 light_position_object_space 1
+                param_named_auto LightPosition_2 light_position_object_space 2
+                
+                param_named_auto LightAttn_0 light_attenuation 0
+                param_named_auto LightAttn_1 light_attenuation 1
+                param_named_auto LightAttn_2 light_attenuation 2
+                
+                param_named_auto vViewPosition	 camera_position_object_space
+            }
+
+            fragment_program_ref Skin_Normalmapping_PS_HLSL
+            {
+                param_named_auto LightColor_0  light_diffuse_colour  0
+                param_named_auto LightColor_1  light_diffuse_colour  1
+                param_named_auto LightColor_2  light_diffuse_colour  2
+                
+                param_named skycolor float4 0.6 0.6 0.6 1.0
+				param_named groundcolor float4 0.2 0.2 0.2 1.0
+                param_named SkinColor float4 0.5 0.5 0.5 1.0
+                param_named SpecExp float 16.0
+            }
+			
+            // Base diffuse texture map
+            texture_unit 
+            {
+                texture_alias DiffuseMapSkin
+            }
+
+            // Normal map
+            texture_unit 
+            {
+                texture_alias NormalMapSkin
+            }
+            
+            texture_unit 
+            {
+                texture_alias SpecMapSkin
+            }
+            
+            texture_unit LookupSkin
+            {
+                texture_alias LookupSkin
+                texture lookup_skin.png 1d
+                tex_address_mode clamp
+            }
+        }
+        
+        
+        pass
+        {
+	        alpha_rejection greater 128
+	        
+            vertex_program_ref Basic_Normalmapping_UV1_VS_HLSL
+            {
+                param_named_auto matViewProjection worldviewproj_matrix
+                param_named_auto LightPosition_0 light_position_object_space 0
+                param_named_auto LightPosition_1 light_position_object_space 1
+                param_named_auto LightPosition_2 light_position_object_space 2
+                
+                param_named_auto LightAttn_0 light_attenuation 0
+                param_named_auto LightAttn_1 light_attenuation 1
+                param_named_auto LightAttn_2 light_attenuation 2
+                
+                param_named_auto vViewPosition	 camera_position_object_space
+            }
+
+            fragment_program_ref Basic_Normalmapping_Spec_PS_HLSL
+            {
+                param_named_auto LightColor_0  light_diffuse_colour  0
+                param_named_auto LightColor_1  light_diffuse_colour  1
+                param_named_auto LightColor_2  light_diffuse_colour  2
+                
+                param_named skycolor float4 0.6 0.6 0.6 1.0
+				param_named groundcolor float4 0.2 0.2 0.2 1.0
+                param_named SpecExp float 16.0
+            }
+			
+            // Base diffuse texture map
+            texture_unit 
+            {
+                texture_alias DiffuseMapCloth
+            }
+
+            // Normal map
+            texture_unit 
+            {
+                texture_alias NormalMapCloth
+            }
+            
+            texture_unit 
+            {
+                texture_alias SpecMapCloth
+            }
+        }
+    }
+
+    technique fixed_function
+    {
+        pass
+        {
+            ambient 0.6 0.6 0.6 1.0
+            diffuse 0.7 0.7 0.7 1.0
+            specular 0.3 0.3 0.3 1.0 16.0
+
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture_alias DiffuseMap
+            }
+        } 
+    }
+}
+
+
+material Torso_Normalmapping_Long
+{
+    technique hlsl
+    {
+        pass
+        {
+	        alpha_rejection greater 128
+	        
+            vertex_program_ref Basic_Normalmapping_UV0_VS_HLSL
+            {
+                param_named_auto matViewProjection worldviewproj_matrix
+                param_named_auto LightPosition_0 light_position_object_space 0
+                param_named_auto LightPosition_1 light_position_object_space 1
+                param_named_auto LightPosition_2 light_position_object_space 2
+                
+                param_named_auto LightAttn_0 light_attenuation 0
+                param_named_auto LightAttn_1 light_attenuation 1
+                param_named_auto LightAttn_2 light_attenuation 2
+                
+                param_named_auto vViewPosition	 camera_position_object_space
+            }
+
+            fragment_program_ref Skin_Normalmapping_PS_HLSL
+            {
+                param_named_auto LightColor_0  light_diffuse_colour  0
+                param_named_auto LightColor_1  light_diffuse_colour  1
+                param_named_auto LightColor_2  light_diffuse_colour  2
+                
+                param_named skycolor float4 0.6 0.6 0.6 1.0
+				param_named groundcolor float4 0.2 0.2 0.2 1.0
+                param_named SkinColor float4 0.5 0.5 0.5 1.0
+                param_named SpecExp float 16.0
+            }
+			
+            // Base diffuse texture map
+            texture_unit 
+            {
+                texture_alias DiffuseMapSkin
+            }
+
+            // Normal map
+            texture_unit 
+            {
+                texture_alias NormalMapSkin
+            }
+            
+            texture_unit 
+            {
+                texture_alias SpecMapSkin
+            }
+            
+            texture_unit LookupSkin
+            {
+                texture_alias LookupSkin
+                texture lookup_skin.png 1d
+                tex_address_mode clamp
+            }
+        }
+        
+        
+        pass
+        {
+	        alpha_rejection greater 128
+	        
+            vertex_program_ref Basic_Normalmapping_UV2_VS_HLSL
+            {
+                param_named_auto matViewProjection worldviewproj_matrix
+                param_named_auto LightPosition_0 light_position_object_space 0
+                param_named_auto LightPosition_1 light_position_object_space 1
+                param_named_auto LightPosition_2 light_position_object_space 2
+                
+                param_named_auto LightAttn_0 light_attenuation 0
+                param_named_auto LightAttn_1 light_attenuation 1
+                param_named_auto LightAttn_2 light_attenuation 2
+                
+                param_named_auto vViewPosition	 camera_position_object_space
+            }
+
+            fragment_program_ref Basic_Normalmapping_Spec_PS_HLSL
+            {
+                param_named_auto LightColor_0  light_diffuse_colour  0
+                param_named_auto LightColor_1  light_diffuse_colour  1
+                param_named_auto LightColor_2  light_diffuse_colour  2
+                
+                param_named skycolor float4 0.6 0.6 0.6 1.0
+				param_named groundcolor float4 0.2 0.2 0.2 1.0
+                param_named SpecExp float 16.0
+            }
+			
+            // Base diffuse texture map
+            texture_unit
+            {
+                texture_alias DiffuseMapCloth
+            }
+
+            // Normal map
+            texture_unit 
+            {
+                texture_alias NormalMapCloth
+            }
+            
+            texture_unit 
+            {
+                texture_alias SpecMapCloth
+            }
+        }
+    }
+
+    technique fixed_function
+    {
+        pass
+        {
+            ambient 0.6 0.6 0.6 1.0
+            diffuse 0.7 0.7 0.7 1.0
+            specular 0.3 0.3 0.3 1.0 16.0
+
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture_alias DiffuseMap
+            }
+        } 
+    }
+}

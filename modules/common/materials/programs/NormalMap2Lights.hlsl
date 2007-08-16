@@ -10,7 +10,7 @@ struct VS_OUTPUT
 
 VS_OUTPUT vs_main_1uv(float4 inPos     : POSITION,
                       float3 inNormal  : NORMAL,
-                      float3 inTangent : TEXCOORD1,
+                      float3 inTangent : TANGENT,
                       float2 inUV      : TEXCOORD0,
                       uniform float4 EyePosOS,
                       uniform float4 Light1PosOS,
@@ -43,7 +43,7 @@ VS_OUTPUT vs_main_1uv(float4 inPos     : POSITION,
 
 VS_OUTPUT vs_main_2uv(float4 inPos     : POSITION,
                       float3 inNormal  : NORMAL,
-                      float3 inTangent : TEXCOORD2,
+                      float3 inTangent : TANGENT,
                       float2 inUV      : TEXCOORD0,
                       uniform float4 EyePosOS,
                       uniform float4 Light1PosOS,
@@ -77,7 +77,7 @@ VS_OUTPUT vs_main_2uv(float4 inPos     : POSITION,
 
 VS_OUTPUT vs_main_3uv(float4 inPos     : POSITION,
                       float3 inNormal  : NORMAL,
-                      float3 inTangent : TEXCOORD3,
+                      float3 inTangent : TANGENT,
                       float2 inUV      : TEXCOORD0,
                       uniform float4 EyePosOS,
                       uniform float4 Light1PosOS,
@@ -125,7 +125,7 @@ float4 ps_main(VS_OUTPUT In,
                uniform float4  AmbientLight) : COLOR 
 {
     // Read normal from texture. *2-1 to convert it from signed to unsigned.
-    float4 Normal = tex2D(NormalMap, In.UV) * 2 - 1;
+    float3 Normal = tex2D(NormalMap, In.UV).xyz * 2 - 1;
     float4 TexColour = tex2D(DiffuseMap, In.UV);
 
     // Ambient component

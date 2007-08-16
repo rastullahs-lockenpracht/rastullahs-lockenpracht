@@ -1,0 +1,222 @@
+fragment_program Basic_Normalmapping_Spec_PS_HLSL hlsl
+{
+    source Basic_Normalmapping_Spec_PS.hlsl
+    entry_point ps_main
+    target ps_2_0
+}
+
+fragment_program Basic_Normalmapping_Spec_mirrored_PS_HLSL hlsl
+{
+    source Basic_Normalmapping_Spec_mirrored_PS.hlsl
+    entry_point ps_main
+    target ps_2_0
+}
+
+
+material Basic_Normalmapping_Spec
+{
+    technique hlsl
+    {
+        pass
+        {
+            vertex_program_ref Basic_Normalmapping_UV0_VS_HLSL
+            {
+                param_named_auto matViewProjection worldviewproj_matrix
+                param_named_auto LightPosition_0 light_position_object_space 0
+                param_named_auto LightPosition_1 light_position_object_space 1
+                param_named_auto LightPosition_2 light_position_object_space 2
+                
+                param_named_auto LightAttn_0 light_attenuation 0
+                param_named_auto LightAttn_1 light_attenuation 1
+                param_named_auto LightAttn_2 light_attenuation 2
+                
+                param_named_auto vViewPosition	 camera_position_object_space
+            }
+
+            fragment_program_ref Basic_Normalmapping_Spec_PS_HLSL
+            {
+                param_named_auto LightColor_0  light_diffuse_colour  0
+                param_named_auto LightColor_1  light_diffuse_colour  1
+                param_named_auto LightColor_2  light_diffuse_colour  2
+                
+                param_named groundcolor float4 0.1 0.1 0.1 1.0
+                param_named skycolor float4 0.5 0.5 0.5 1.0
+                param_named SpecExp float 16.0
+            }
+			
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture_alias DiffuseMap
+            }
+
+            // Normal map
+            texture_unit NormalMap
+            {
+                texture_alias NormalMap
+            }
+            
+            texture_unit SpecMap
+            {
+                texture_alias SpecMap
+            }
+        }
+    }
+
+    technique fixed_function
+    {
+        pass
+        {
+            ambient 0.6 0.6 0.6 1.0
+            diffuse 0.7 0.7 0.7 1.0
+            specular 0.3 0.3 0.3 1.0 16.0
+
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture_alias DiffuseMap
+            }
+        } 
+    }
+}
+
+
+material Basic_Normalmapping_Spec_mirrored
+{
+    technique hlsl
+    {
+        pass
+        {
+            vertex_program_ref Basic_Normalmapping_UV0_VS_HLSL
+            {
+                param_named_auto matViewProjection worldviewproj_matrix
+                param_named_auto LightPosition_0 light_position_object_space 0
+                param_named_auto LightPosition_1 light_position_object_space 1
+                param_named_auto LightPosition_2 light_position_object_space 2
+                
+                param_named_auto LightAttn_0 light_attenuation 0
+                param_named_auto LightAttn_1 light_attenuation 1
+                param_named_auto LightAttn_2 light_attenuation 2
+                
+                param_named_auto vViewPosition	 camera_position_object_space
+            }
+
+            fragment_program_ref Basic_Normalmapping_Spec_mirrored_PS_HLSL
+            {
+                param_named_auto LightColor_0  light_diffuse_colour  0
+                param_named_auto LightColor_1  light_diffuse_colour  1
+                param_named_auto LightColor_2  light_diffuse_colour  2
+                
+                param_named groundcolor float4 0.1 0.1 0.1 1.0
+                param_named skycolor float4 0.5 0.5 0.5 1.0
+                param_named SpecExp float 16.0
+            }
+			
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture_alias DiffuseMap
+            }
+
+            // Normal map
+            texture_unit NormalMap
+            {
+                texture_alias NormalMap
+            }
+            
+            texture_unit SpecMap
+            {
+                texture_alias SpecMap
+            }
+        }
+    }
+
+    technique fixed_function
+    {
+        pass
+        {
+            ambient 0.6 0.6 0.6 1.0
+            diffuse 0.7 0.7 0.7 1.0
+            specular 0.3 0.3 0.3 1.0 16.0
+
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture_alias DiffuseMap
+            }
+        } 
+    }
+}
+
+
+material Basic_Normalmapping_Spec_Alpha
+{
+    technique hlsl
+    {
+        pass
+        {
+	        scene_blend alpha_blend 
+      		// Tiefenpuffer aus
+      		depth_write off
+      		
+      		
+            vertex_program_ref Basic_Normalmapping_UV0_VS_HLSL
+            {
+                param_named_auto matViewProjection worldviewproj_matrix
+                param_named_auto LightPosition_0 light_position_object_space 0
+                param_named_auto LightPosition_1 light_position_object_space 1
+                param_named_auto LightPosition_2 light_position_object_space 2
+                
+                param_named_auto LightAttn_0 light_attenuation 0
+                param_named_auto LightAttn_1 light_attenuation 1
+                param_named_auto LightAttn_2 light_attenuation 2
+                
+                param_named_auto vViewPosition	 camera_position_object_space
+            }
+
+            fragment_program_ref Basic_Normalmapping_Spec_PS_HLSL
+            {
+                param_named_auto LightColor_0  light_diffuse_colour  0
+                param_named_auto LightColor_1  light_diffuse_colour  1
+                param_named_auto LightColor_2  light_diffuse_colour  2
+                
+                param_named groundcolor float4 0.1 0.1 0.1 1.0
+                param_named skycolor float4 0.5 0.5 0.5 1.0
+                param_named SpecExp float 16.0
+            }
+			
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture_alias DiffuseMap
+            }
+
+            // Normal map
+            texture_unit NormalMap
+            {
+                texture_alias NormalMap
+            }
+            
+            texture_unit SpecMap
+            {
+                texture_alias SpecMap
+            }
+        }
+    }
+
+    technique fixed_function
+    {
+        pass
+        {
+            ambient 0.6 0.6 0.6 1.0
+            diffuse 0.7 0.7 0.7 1.0
+            specular 0.3 0.3 0.3 1.0 16.0
+
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture_alias DiffuseMap
+            }
+        } 
+    }
+}

@@ -1,8 +1,16 @@
 
-material men_human_female_head_02 : Face_Vertex_Shader
+material men_human_female_head_02 : Face_Normalmapping_mirrored
 {
-set_texture_alias diffuse men_human_female_head02.png
-set_texture_alias eyeColor men_eye_blue.png
-set_texture_alias eyeShadow men_eyeshadow.png
+set_texture_alias DiffuseMap men_human_female_head_02_diffuse.png
+set_texture_alias NormalMap men_human_female_head_02_normal.png
+set_texture_alias SpecMap men_human_female_head_02_diffuse.png
+
+set_texture_alias EyeDiffuseMap men_eye_blue.png
+set_texture_alias EyeNormalMap men_eye_normal.png
+set_texture_alias EyeShadowMap men_eyeshadow.png
+
 
 }
+//set_texture_alias diffuse men_human_female_head02.png
+//set_texture_alias eyeColor men_eye_blue.png
+//set_texture_alias eyeShadow men_eyeshadow.png

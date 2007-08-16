@@ -1,5 +1,6 @@
 
-material men_human_female_backpack_leather_01: Basic_Vertex_Shader
+material men_human_female_backpack_leather_01: Basic_Normalmapping
 {
-set_texture_alias diffuse men_human_female_backpack_leather_01_diffuse.png
+set_texture_alias DiffuseMap men_human_female_backpack_leather_01_diffuse.png
+set_texture_alias NormalMap men_human_female_backpack_leather_01_normal.png
 }

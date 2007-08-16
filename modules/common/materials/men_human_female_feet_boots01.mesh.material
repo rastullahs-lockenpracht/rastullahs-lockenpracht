@@ -1,6 +1,7 @@
 
-material men_human_female_feet_boots_01 : Basic_Vertex_ShaderUV1
+material men_human_female_feet_boots_01 : Basic_Normalmapping_UV1_mirrored
 {
-set_texture_alias diffuse obj_boots01.png
-			//	tex_coord_set 1
+set_texture_alias DiffuseMap obj_boots01.png
+set_texture_alias NormalMap obj_boots_01_normal.png
+			//	tex_coord_set 1 obj_boots_01_normal.png
 }

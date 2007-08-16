@@ -1,6 +1,8 @@
 
-material men_human_female_hand_nude : Skin_Vertex_Shader
+material men_human_female_hand_nude : Skin_Normalmapping
 {
-set_texture_alias diffuse rl_mensch_female.png
+set_texture_alias DiffuseMap men_female_human_diffuse.png
+set_texture_alias NormalMap men_human_female_normalmap.png
+set_texture_alias SpecMap men_female_human_diffuse.png
 
 }
