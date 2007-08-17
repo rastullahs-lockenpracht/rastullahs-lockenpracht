@@ -37,8 +37,11 @@ fragment_program Basic_Normalmapping_mirrored_PS_HLSL hlsl
 
 material Basic_Normalmapping
 {
+	lod_distances 12 100
+	
     technique hlsl
     {
+	    lod_index 0
         pass
         {
             vertex_program_ref Basic_Normalmapping_UV0_VS_HLSL
@@ -80,9 +83,59 @@ material Basic_Normalmapping
             }
         }
     }
+    
+    technique hlsl1
+	{
+		lod_index 1
+		//Rendering Pass: Pass 0 (pass index: #0 )
+		pass
+		{
+			alpha_rejection greater 128
+			//DirectX 9.0 HLSL Pixel Shader ps_2_0
+			fragment_program_ref Basic_Pixel_Shader
+			{
+			}
+			//DirectX 9.0 HLSL Vertex Shader vs_2_0
+			vertex_program_ref Basic_Vertex_Shader
+			{
+				// param_named_auto
+
+				param_named_auto Light1_attenuation light_attenuation 0
+				param_named_auto Light1_color light_diffuse_colour 0
+				param_named_auto Light1_position light_position_object_space 0
+				param_named Light1_spec_power float 0.3
+				
+				param_named_auto Light2_attenuation light_attenuation 1
+				param_named_auto Light2_color light_diffuse_colour 1
+				param_named_auto Light2_position light_position_object_space 1
+				param_named Light2_spec_power float 0.3
+				
+				param_named_auto Light3_attenuation light_attenuation 2
+				param_named_auto Light3_color light_diffuse_colour 2
+				param_named_auto Light3_position light_position_object_space 2
+				param_named Light3_spec_power float 0.3
+				
+				
+				param_named_auto matViewProjection worldviewproj_matrix
+				param_named_auto vViewPosition camera_position_object_space
+				
+				
+				param_named skycolor float4 0.5 0.5 0.5 1.0
+				param_named groundcolor float4 0.10 0.10 0.10 1.0
+			}
+			
+			texture_unit
+			{
+				texture_alias DiffuseMap
+
+			}
+		}
+	}
+    
 
     technique fixed_function
     {
+	    lod_index 2
         pass
         {
             ambient 0.6 0.6 0.6 1.0
@@ -101,8 +154,11 @@ material Basic_Normalmapping
 
 material Basic_Normalmapping_UV1_mirrored
 {
+	lod_distances 12 100
+	
     technique hlsl
     {
+	    lod_index 0
         pass
         {
             vertex_program_ref Basic_Normalmapping_UV1_VS_HLSL
@@ -144,9 +200,60 @@ material Basic_Normalmapping_UV1_mirrored
             }
         }
     }
+    
+    
+    technique hlsl1
+	{
+		lod_index 1
+		//Rendering Pass: Pass 0 (pass index: #0 )
+		pass
+		{
+			alpha_rejection greater 128
+			//DirectX 9.0 HLSL Pixel Shader ps_2_0
+			fragment_program_ref Basic_Pixel_ShaderUV1
+			{
+			}
+			//DirectX 9.0 HLSL Vertex Shader vs_2_0
+			vertex_program_ref Basic_Vertex_Shader
+			{
+				// param_named_auto
+
+				param_named_auto Light1_attenuation light_attenuation 0
+				param_named_auto Light1_color light_diffuse_colour 0
+				param_named_auto Light1_position light_position_object_space 0
+				param_named Light1_spec_power float 0.3
+				
+				param_named_auto Light2_attenuation light_attenuation 1
+				param_named_auto Light2_color light_diffuse_colour 1
+				param_named_auto Light2_position light_position_object_space 1
+				param_named Light2_spec_power float 0.3
+				
+				param_named_auto Light3_attenuation light_attenuation 2
+				param_named_auto Light3_color light_diffuse_colour 2
+				param_named_auto Light3_position light_position_object_space 2
+				param_named Light3_spec_power float 0.3
+				
+				
+				param_named_auto matViewProjection worldviewproj_matrix
+				param_named_auto vViewPosition camera_position_object_space
+				
+				
+				param_named skycolor float4 0.5 0.5 0.5 1.0
+				param_named groundcolor float4 0.10 0.10 0.10 1.0
+			}
+			
+			texture_unit
+			{
+				texture_alias DiffuseMap
+
+			}
+		}
+	}
+    
 
     technique fixed_function
     {
+	    lod_index 2
         pass
         {
             ambient 0.6 0.6 0.6 1.0

@@ -1,10 +1,10 @@
-material men_human_female_torso : Torso_Normalmapping_Short
+material men_human_female_torso : Skin_Normalmapping
 {
-set_texture_alias DiffuseMapSkin men_female_human_diffuse.png
-set_texture_alias NormalMapSkin men_human_female_normalmap.png
-set_texture_alias SpecMapSkin men_female_human_diffuse.png
+set_texture_alias DiffuseMap men_female_human_diffuse.png
+set_texture_alias NormalMap men_human_female_normalmap.png
+set_texture_alias SpecMap men_female_human_diffuse.png
 
-set_texture_alias DiffuseMapCloth obj_shortsleeve02_diffuse.png
-set_texture_alias NormalMapCloth obj_shortsleeve02_normal.png
-set_texture_alias SpecMapCloth obj_shortsleeve02_specular.png
+//set_texture_alias DiffuseMapCloth obj_shortsleeve02_diffuse.png
+//set_texture_alias NormalMapCloth obj_shortsleeve02_normal.png
+//set_texture_alias SpecMapCloth obj_shortsleeve02_specular.png
 }
