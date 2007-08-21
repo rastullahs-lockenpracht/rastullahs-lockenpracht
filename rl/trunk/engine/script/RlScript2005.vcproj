@@ -66,10 +66,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="RlCore.lib RlAi.lib RlUi.lib RlRules.lib RlDialog.lib OgreMain_d.lib msvcrt-ruby18.lib CEGUIBase_d.lib xerces-c_2D.lib OgreNewt_d.lib Newton.lib"
+				AdditionalDependencies="RlCore.lib RlAi.lib RlUi.lib RlRules.lib OgreMain_d.lib msvcrt-ruby18.lib CEGUIBase_d.lib xerces-c_2D.lib OgreNewt_d.lib Newton.lib"
 				OutputFile="$(OutDir)/RlScript.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\dialog\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
+				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				ProgramDatabaseFile="$(OutDir)/RlScript.pdb"
@@ -152,10 +152,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="RlCore.lib RlAi.lib RlUi.lib RlRules.lib RlDialog.lib OgreMain.lib msvcrt-ruby18.lib CEGUIBase.lib xerces-c_2.lib OgreNewt.lib Newton.lib"
+				AdditionalDependencies="RlCore.lib RlAi.lib RlUi.lib RlRules.lib OgreMain.lib msvcrt-ruby18.lib CEGUIBase.lib xerces-c_2.lib OgreNewt.lib Newton.lib"
 				OutputFile="$(OutDir)/RlScript.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\dialog\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
+				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -236,10 +236,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="RlCore.lib RlAi.lib RlUi.lib RlRules.lib RlDialog.lib OgreMain.lib msvcrt-ruby18.lib CEGUIBase.lib xerces-c_2.lib OgreNewt.lib Newton.lib"
+				AdditionalDependencies="RlCore.lib RlAi.lib RlUi.lib RlRules.lib OgreMain.lib msvcrt-ruby18.lib CEGUIBase.lib xerces-c_2.lib OgreNewt.lib Newton.lib"
 				OutputFile="$(OutDir)/RlScript.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\dialog\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
+				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -572,10 +572,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\swig\RlDialog.head.swig"
-					>
-				</File>
-				<File
 					RelativePath=".\swig\RlRules.head.swig"
 					>
 				</File>
@@ -601,10 +597,6 @@
 				</File>
 				<File
 					RelativePath=".\swig\RlCore.swig"
-					>
-				</File>
-				<File
-					RelativePath=".\swig\RlDialog.swig"
 					>
 				</File>
 				<File

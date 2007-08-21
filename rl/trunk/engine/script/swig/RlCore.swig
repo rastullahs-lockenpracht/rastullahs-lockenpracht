@@ -958,7 +958,7 @@ public:
     virtual void setTimeFactor(Ogre::Real factor = 1.0) = 0;
 };
 
-class TimeSourceManager : public Ogre::Singleton<rl::TimeSourceManager>
+class TimeSourceManager
 {
 public:
     static rl::TimeSourceManager& getSingleton();

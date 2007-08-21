@@ -16,7 +16,7 @@
 #ifndef __Rl_AimlParserImplRl_H__
 #define __Rl_AimlParserImplRl_H__
 
-#include "DialogPrerequisites.h"
+#include "AiPrerequisites.h"
 #include "XmlMapper/XmlParser.h"
 
 #include <OgreResource.h>

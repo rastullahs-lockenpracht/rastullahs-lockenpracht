@@ -17,7 +17,7 @@
 #define __Rl_DialogScriptProcessor_H__
 
 #include "XmlMapper/XmlNodeProcessor.h"
-#include "DialogPrerequisites.h"
+#include "AiPrerequisites.h"
 #include "AimlBot.h"
 
 using namespace XmlMapper;

@@ -11,7 +11,6 @@ $AM = ActorManager.getSingleton();
 $PM = PhysicsManager.getSingleton();
 $UI = UiSubsystem.getSingleton();
 $DM = DsaManager.getSingleton();
-$DS = DialogSubsystem.getSingleton();
 $WF = WindowFactory.getSingleton();
 $AI = AgentManager.getSingleton();
 $WPGM = WayPointGraphManager.getSingleton();

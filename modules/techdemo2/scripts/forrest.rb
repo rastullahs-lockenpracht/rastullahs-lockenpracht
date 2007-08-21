@@ -10,7 +10,7 @@ print( "Definiere Listener" );
 #forrest.setActor($AM.createMeshActor("Forrest", "men_Gennisch.mesh", PhysicsManager::GT_ELLIPSOID, 75.0));
 #forrest.getActor().placeIntoScene([-20.83, -6.70, 19.46]);
 #
-#bot=$DS.loadBot("Forrest", "forrest.xml");
+#bot=$AI.loadBot("Forrest", "forrest.xml");
 #bot.setNonPlayerCharacter(forrest);
 #forrest.addAction(TalkAction.new("Forrest", "forrest.xml"));
 #agent = $AI.createAgent(bot);

@@ -23,7 +23,6 @@
 #include "CoreSubsystem.h"
 #include "GameLoop.h"
 #include "RulesSubsystem.h"
-#include "DialogSubsystem.h"
 #include "AiSubsystem.h"
 #include "UiSubsystem.h"
 #include "ScriptSubsystem.h"
@@ -43,7 +42,6 @@ void startupRl(bool developerMode, Ogre::String module)
 {
     rl::CoreSubsystem* core = NULL;
     rl::RulesSubsystem* rules = NULL;
-    rl::DialogSubsystem* dialog = NULL;
     rl::AiSubsystem* ai = NULL;
     rl::UiSubsystem* ui =  NULL;
     rl::ScriptSubsystem* script =  NULL;
@@ -71,9 +69,6 @@ void startupRl(bool developerMode, Ogre::String module)
 
         rules = new rl::RulesSubsystem();
         LOG_MESSAGE_SHORT("RulesSubsystem gestartet");
-
-        dialog = new rl::DialogSubsystem();
-        LOG_MESSAGE_SHORT("DialogSubsystem gestartet");
 
         ai = new rl::AiSubsystem();
         LOG_MESSAGE_SHORT("AiSubsystem gestartet");
@@ -130,7 +125,6 @@ void startupRl(bool developerMode, Ogre::String module)
         delete script;
         delete ui;
         delete ai;
-        delete dialog;
         delete rules;
         delete core;
         delete logger;

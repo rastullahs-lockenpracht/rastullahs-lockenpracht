@@ -16,7 +16,7 @@
 #include "stdinc.h" //precompiled header
 
 #include "DialogCharacter.h"
-#include "DialogSubsystem.h"
+#include "AiSubsystem.h"
 #include "ContextInterpreter.h"
 #include "AimlBot.h"
 #include "Response.h"
@@ -116,7 +116,7 @@ namespace rl
 		Response<CeGuiString> response = mBot->respond(input);
 		if(response.hasGossip())
 		{
-			ContextInterpreter* interpreter = DialogSubsystem::getSingleton().getContextInterpreter();
+			ContextInterpreter* interpreter = AiSubsystem::getSingleton().getContextInterpreter();
 			if(interpreter!= NULL)
 			{
 				LOG_MESSAGE(Logger::DIALOG, "Create DialogResponse");

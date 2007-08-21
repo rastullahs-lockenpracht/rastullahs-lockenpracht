@@ -93,10 +93,37 @@ namespace rl
         void pushState(rl::AgentStateType type);
 	};
 
+    %feature("director") DialogCharacter;
+	class DialogCharacter
+	{
+	public:
+		DialogCharacter();
+		virtual ~DialogCharacter();
+
+		const rl::CeGuiString getName() const;
+		rl::Creature* getDialogCharacter() const;
+		void setDialogCharacter(rl::Creature* dialogCharacter);
+		rl::Creature* getDialogPartner() const;
+		void setDialogPartner(rl::Creature* dialogPartner);
+		
+		rl::Creature* getNonPlayerCharacter()const;
+		void setNonPlayerCharacter(rl::Creature* npc);
+		
+		rl::Creature* getPlayerCharacter()const;
+		void setPlayerCharacter(rl::Creature* pc);
+		
+		virtual int calcOptionValue(const rl::CeGuiString& optionName)=0;	
+		virtual int calcResponseValue(const rl::CeGuiString& responseName)=0;
+		virtual int calcSelectionValue(const rl::CeGuiString& selectionName)=0;
+	};
+
 	class AiSubsystem 
 	{
 	public:
 		static AiSubsystem& getSingleton(void);
+		rl::DialogCharacter* getBot(const rl::CeGuiString& botName);
+		rl::DialogCharacter* loadBot(const rl::CeGuiString& fileName, const rl::CeGuiString& botName = "");
+		void setCurrentDialogCharacter(rl::DialogCharacter* bot);
 	};
 	
 	%feature("director") BehaviourFactory;

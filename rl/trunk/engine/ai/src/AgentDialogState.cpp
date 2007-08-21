@@ -49,7 +49,7 @@ namespace rl
                 CreatureControllerManager::getSingleton().getCreatureController(
                     mAgent->getControlledCreature());
 
-        if (!mAgent->getPosition().squaredDistance(mPartner->getPosition()) > 1.5)
+        if (mAgent->getPosition().squaredDistance(mPartner->getPosition()) > 1.5)
         {		
             mAgent->addForce(mAgent->calcPursuit(mPartner));
             mAgent->updateVehicle(0, elapsedTime);
@@ -59,7 +59,7 @@ namespace rl
         //    mAgent->addForce(mAgent->calcPursuit(mPartner));
         //    mAgent->updateVehicle(0, elapsedTime);
         //}
-        ///@todo: Turn if near
+        ///@todo: Turn if near but not correctly oriented
 		else
         {
 			if (!mTalking)

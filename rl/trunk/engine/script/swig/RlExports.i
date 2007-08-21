@@ -60,7 +60,6 @@ void RL_RubyRemoveTracking(void* ptr)
 %include "RlUi.head.swig"
 %include "RlCore.head.swig"
 %include "RlRules.head.swig"
-%include "RlDialog.head.swig"
 %include "RlAi.head.swig"
 %include "RlScript.head.swig"
 
@@ -174,7 +173,6 @@ void RL_handleRubyError( VALUE error )
 %include "RlCommon.swig"
 %include "RlCore.swig"
 %include "RlRules.swig"
-%include "RlDialog.swig"
 %include "RlUi.swig"
 %include "RlAi.swig"
 %include "RlScript.swig"

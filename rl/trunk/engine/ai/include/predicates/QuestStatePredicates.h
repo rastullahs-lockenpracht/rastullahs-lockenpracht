@@ -16,7 +16,7 @@
 #ifndef __Rl_QuestStatePredicates_H__
 #define __Rl_QuestStatePredicates_H__
 
-#include "DialogPrerequisites.h"
+#include "AiPrerequisites.h"
 #include "Predicates.h"
 
 namespace rl

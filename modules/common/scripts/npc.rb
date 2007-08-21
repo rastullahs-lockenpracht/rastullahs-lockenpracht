@@ -6,14 +6,23 @@ class TalkAction < Action
   end
 
   def doAction(object, actor, target)
-    bot = $DS.getBot(object.getName())
+    bot = $AI.getBot(object.getName())
     if (bot.nil?)
-      bot = $DS.loadBot(object.getName(), object.getDialogfile())
+      bot = $AI.loadBot(object.getName(), object.getDialogfile())
     end
     if ( not bot.nil? )
+	  p "foo1"
       bot.setPlayerCharacter( actor );
+	  p "foo2"
       bot.setNonPlayerCharacter( object );
-      $IM.pushControlState(CST_DIALOG);
+	  p "foo3"
+	  p "foo4"
+	  agent = AgentManager::getSingleton().createAgent(object)
+	  agent.pushState(RlScript::AST_DIALOG);
+	  p "foo5"
+	  agent.getCurrentState().setDialogPartner(
+		AgentManager::getSingleton().createAgent(actor))
+	  p "foo6"
     end
   end
 end

@@ -16,7 +16,7 @@
 #ifndef __Rl_CreaturePredicates_H__
 #define __Rl_CreaturePredicates_H__
 
-#include "DialogPrerequisites.h"
+#include "AiPrerequisites.h"
 #include "Predicates.h"
 using namespace MadaBot;
 

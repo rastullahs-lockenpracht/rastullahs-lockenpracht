@@ -16,7 +16,7 @@
 #ifndef __Rl_DialogOption_H__
 #define __Rl_DialogOption_H__
 
-#include "DialogPrerequisites.h"
+#include "AiPrerequisites.h"
 
 namespace MadaBot
 {
@@ -29,7 +29,7 @@ namespace rl
     /**
      * The selectable options a player can choose from in a Dialog
      */
-	class _RlDialogExport DialogOption
+	class _RlAiExport DialogOption
 	{
 	public:
 		DialogOption(const Response<CeGuiString>& pData, AimlBot<CeGuiString>* pBot = NULL);

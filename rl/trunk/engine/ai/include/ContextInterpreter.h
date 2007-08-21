@@ -17,7 +17,7 @@
 #define __Rl_AimlContextInterpreter_H__
 
 #include "AimlInterpreter.h"
-#include "DialogPrerequisites.h"
+#include "AiPrerequisites.h"
 #include "DialogResponse.h"
 using namespace MadaBot;
 

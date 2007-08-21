@@ -16,7 +16,7 @@
 #ifndef __Rl_AimlNodeImplRl_H__
 #define __Rl_AimlNodeImplRl_H__
 
-#include "DialogPrerequisites.h"
+#include "AiPrerequisites.h"
 #include "AimlNode.h"
 
 using namespace MadaBot;

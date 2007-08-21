@@ -16,7 +16,7 @@
 #ifndef __Rl_DialogCharacter_H__
 #define __Rl_DialogCharacter_H__
 
-#include "DialogPrerequisites.h"
+#include "AiPrerequisites.h"
 //#include "DialogListener.h"
 
 namespace MadaBot
@@ -35,7 +35,7 @@ namespace rl
      * Representation of a Character that is able to respond in a Dialog
      * @todo Art der Erstellung ändern, das ist zu kompliziert.
      */
-	class _RlDialogExport DialogCharacter 
+	class _RlAiExport DialogCharacter 
 	{
 	public:
 		DialogCharacter();

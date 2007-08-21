@@ -20,6 +20,7 @@
 #include "Exception.h"
 
 #include "Actor.h"
+#include "AiSubsystem.h"
 #include "CameraObject.h"
 #include "CommandMapper.h"
 #include "ConfigurationManager.h"
@@ -27,7 +28,6 @@
 #include "DialogCharacter.h"
 #include "DialogOption.h"
 #include "DialogResponse.h"
-#include "DialogSubsystem.h"
 #include "DialogWindow.h"
 #include "GameLoggerWindow.h"
 #include "InputManager.h"
@@ -121,7 +121,7 @@ namespace rl {
 
 		mGameLogger = WindowFactory::getSingleton().getGameLogger();
 
-		DialogCharacter* bot = DialogSubsystem::getSingleton().getCurrentDialogCharacter();
+		DialogCharacter* bot = AiSubsystem::getSingleton().getCurrentDialogCharacter();
 		initialize(bot);
     }
 

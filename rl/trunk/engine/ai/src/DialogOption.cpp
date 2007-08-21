@@ -17,7 +17,7 @@
 
 #include "DialogOption.h"
 #include "DialogResponse.h"
-#include "DialogSubsystem.h"
+#include "AiSubsystem.h"
 #include "ContextInterpreter.h"
 #include "Response.h"
 
@@ -44,7 +44,7 @@ const CeGuiString& DialogOption::getText() const
 void DialogOption::processSelection()
 {
 	DialogResponse* response = NULL;
-	ContextInterpreter* interpreter = DialogSubsystem::getSingleton().getContextInterpreter();
+	ContextInterpreter* interpreter = AiSubsystem::getSingleton().getContextInterpreter();
 	if(interpreter != NULL)
 	{
 		response = interpreter->interpret(mData->getGossip(), mBot);

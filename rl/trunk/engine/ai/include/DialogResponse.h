@@ -16,7 +16,7 @@
 #ifndef __Rl_DialogResponse_H__
 #define __Rl_DialogResponse_H__
 
-#include "DialogPrerequisites.h"
+#include "AiPrerequisites.h"
 #include "CommonPrerequisites.h"
 
 namespace MadaBot
@@ -33,7 +33,7 @@ namespace rl
     /**
      * The reponse a DialogCharacter can give in a Dialog
      */
-	class _RlDialogExport DialogResponse
+	class _RlAiExport DialogResponse
 	{
 	public:
 		typedef std::map<int, CeGuiString> Options;
