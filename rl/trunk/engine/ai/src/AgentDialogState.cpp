@@ -29,7 +29,7 @@ namespace rl
 
     AgentDialogState::AgentDialogState(Agent* agent)
         : AgentState(agent),
-        mPlayer(NULL),
+        mPartner(NULL),
         mTalking(false)
     {
     }
@@ -38,9 +38,9 @@ namespace rl
     {
     }
 
-    void AgentDialogState::setPlayer(Agent* player)
+    void AgentDialogState::setDialogPartner(Agent* partner)
     {
-        mPlayer = player;
+        mPartner = partner;
     }
 
     void AgentDialogState::update(const Ogre::Real elapsedTime)
@@ -49,21 +49,30 @@ namespace rl
                 CreatureControllerManager::getSingleton().getCreatureController(
                     mAgent->getControlledCreature());
 
-        if (!mAgent->isAhead(mPlayer, 0.95)) //getController().calcDistance(@mPlayer.getVehicle().getPosition(), getController().getPosition()) > 2.5)
+        if (!mAgent->getPosition().squaredDistance(mPartner->getPosition()) > 1.5)
         {		
-            ctrl->setMovement(
-                CreatureController::MT_DREHEN, 
-                Vector3::ZERO, 
-                mPlayer->getControlledCreature()->getPosition());
+            mAgent->addForce(mAgent->calcPursuit(mPartner));
+            mAgent->updateVehicle(0, elapsedTime);
         }
+        //else if (!mAgent->isAhead(mPartner, 0.95)) 
+        //{		
+        //    mAgent->addForce(mAgent->calcPursuit(mPartner));
+        //    mAgent->updateVehicle(0, elapsedTime);
+        //}
+        ///@todo: Turn if near
 		else
         {
 			if (!mTalking)
             {
+                mAgent->reset();
                 ctrl->setMovement(CreatureController::MT_NONE, Vector3::ZERO, Vector3::ZERO);
-				ctrl->setAnimation("reden");
+		        //$IM.pushControlState(CST_DIALOG);
+
+                ctrl->setAnimation("reden");
 				mTalking = true;
             }			
         }
+
+
     }
 } // namespace rl

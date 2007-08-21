@@ -22,9 +22,10 @@
 
 namespace rl 
 {
-	// Before first use of GameObject or subclasses!
+	// Before first use
 	%apply SWIGTYPE *DYNAMIC { rl::AStarHeuristic * };
 	%apply SWIGTYPE *DYNAMIC { rl::AStarCosts * };
+    %apply SWIGTYPE *DYNAMIC { rl::AgentState* };
 
 	class SteeringVehicle
 	{
@@ -64,6 +65,23 @@ namespace rl
 		rl::SteeringBehaviour* getParent();
 		rl::SteeringVehicle* getController();
 	};
+
+	%feature("director") AgentState;
+    class AgentState
+    {
+    private:
+        AgentState(rl::Agent* agent);
+    };
+
+    class AgentDialogState : public rl::AgentState
+    {
+    public:
+        void setDialogPartner(rl::Agent* partner);
+    private:
+        AgentDialogState(rl::Agent* agent);
+    };
+
+    typedef enum {AST_STEERING, AST_COMBAT, AST_DIALOG} AgentStateType;
 	
 	class Agent
 	{
@@ -71,7 +89,10 @@ namespace rl
 		Agent(rl::Creature* character);
 		virtual ~Agent();
         rl::Creature* getControlledCreature() const;
+        rl::AgentState* getCurrentState() const;
+        void pushState(rl::AgentStateType type);
 	};
+
 	class AiSubsystem 
 	{
 	public:
@@ -299,5 +320,23 @@ static swig_type_info *AStarCosts_dynamic_cast(void **ptr)
 }
 %}
 DYNAMIC_CAST(SWIGTYPE_p_rl__AStarCosts, AStarCosts_dynamic_cast);
+
+
+%{
+static swig_type_info *AgentState_dynamic_cast(void **ptr)
+{
+    rl::AgentState *pAgentState = static_cast<rl::AgentState*>(*ptr);
+
+    rl::AgentDialogState *pAgentDialogState=dynamic_cast<rl::AgentDialogState*>(pAgentState);
+    if (pAgentDialogState)
+    {
+        *ptr=pAgentDialogState;
+        return SWIGTYPE_p_rl__AgentDialogState;
+    }
+   
+    return 0;
+}
+%}
+DYNAMIC_CAST(SWIGTYPE_p_rl__AgentState, AgentState_dynamic_cast);
 
 

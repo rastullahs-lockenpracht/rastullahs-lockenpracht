@@ -22,7 +22,7 @@
 namespace rl
 {
 
-    class AgentDialogState :
+    class _RlAiExport AgentDialogState :
         public AgentState
     {
     public:
@@ -30,10 +30,10 @@ namespace rl
         ~AgentDialogState();
 
         virtual void update(const Ogre::Real elapsedTime);
-        void setPlayer(Agent* player);
+        void setDialogPartner(Agent* partner);
 
     private:
-        Agent* mPlayer;
+        Agent* mPartner;
         bool mTalking;
     };
 

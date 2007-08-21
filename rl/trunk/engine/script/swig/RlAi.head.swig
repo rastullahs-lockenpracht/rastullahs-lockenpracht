@@ -23,6 +23,7 @@
 #include "AiSubsystem.h"
 #include "AgentManager.h"
 #include "Agent.h"
+#include "AgentDialogState.h"
 #include "AStar.h"
 #include "AStarHeuristic.h"
 #include "AStarCosts.h"
