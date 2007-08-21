@@ -50,6 +50,12 @@ AgentManager::~AgentManager(void)
 
 Agent* AgentManager::createAgent(Creature* character)
 {
+    AgentMap::iterator it = mAgents.find(character);
+    if (it != mAgents.end())
+    {
+        return it->second;
+    }
+
     Agent* agent = new Agent(character);
 	addAgent(agent);
     return agent;
