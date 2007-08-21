@@ -14,7 +14,7 @@ print( "Definiere Listener" );
 #bot = $AI.loadBot("Jarn", "jarn.xml");
 #bot.setNonPlayerCharacter(jarn);
 #jarn.addAction(TalkAction.new("Jarn", "jarn.xml"));
-#agent = $AI.createAgent(bot);
+#agent = $AGM.createAgent(bot);
 #agent.addSteeringBehaviour(DefaultIdleBehaviour.new);
 ##agent.addSteeringBehaviour(AvoidObstaclesBehaviour.new);
 #agent.addSteeringBehaviour(DialogBehaviour.new($heroVehicle));

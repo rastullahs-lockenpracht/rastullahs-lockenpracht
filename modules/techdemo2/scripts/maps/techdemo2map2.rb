@@ -13,7 +13,7 @@ PlayerSettings.preparePlayer($hero)
 $UI.setActiveCharacter($hero)
 $SCRIPT.log("Held erstellt");
 
-#$heroVehicle = $AI.createAgent(AgentManager::AGENT_PLAYER, $hero);	
+#$heroVehicle = $AGM.createAgent(AgentManager::AGENT_PLAYER, $hero);	
 #$SCRIPT.log("SteeringVehicle für Held erstellen...");
 
 

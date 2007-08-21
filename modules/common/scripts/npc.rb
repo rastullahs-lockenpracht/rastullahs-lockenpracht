@@ -62,7 +62,7 @@ module BehaviourBot
     #bot = $DS.loadBot("Sonja", "sonja.xml");
     #bot.setNonPlayerCharacter(sonja);
     #
-    #agent = $AI.createAgent(bot);
+    #agent = $AGM.createAgent(bot);
     #agent.addSteeringBehaviour(DefaultIdleBehaviour.new);
     #agent.addSteeringBehaviour(AvoidObstaclesBehaviour.new);
     #agent.addSteeringBehaviour(DialogBehaviour.new($heroVehicle));

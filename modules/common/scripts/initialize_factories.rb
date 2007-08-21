@@ -22,6 +22,6 @@ end
 
 factory = RubyClassFactory.new()
 $GOM.setGameObjectFactory(factory);
-$AI.setBehaviourFactory(factory);
+$AGM.setBehaviourFactory(factory);
 $SCRIPT.setTriggerFactory(factory)
 EffectFactoryManager.getSingleton().setEffectFactory(factory)

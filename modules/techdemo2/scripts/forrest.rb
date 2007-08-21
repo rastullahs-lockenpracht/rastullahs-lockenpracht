@@ -13,7 +13,7 @@ print( "Definiere Listener" );
 #bot=$AI.loadBot("Forrest", "forrest.xml");
 #bot.setNonPlayerCharacter(forrest);
 #forrest.addAction(TalkAction.new("Forrest", "forrest.xml"));
-#agent = $AI.createAgent(bot);
+#agent = $AGM.createAgent(bot);
 #agent.addSteeringBehaviour(DefaultWanderBehaviour.new);
 #agent.addSteeringBehaviour(AvoidObstaclesBehaviour.new);
 #agent.addSteeringBehaviour(DialogBehaviour.new($heroVehicle));

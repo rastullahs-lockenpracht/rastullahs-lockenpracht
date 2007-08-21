@@ -15,7 +15,7 @@ end
 se = SimpleEnemy.new( "Wolf","Lebendiger Wolf","Toter Wolf","kiste.mesh","spinne_todesschrei_01.ogg");
 se.getActor().placeIntoScene([1.40, 2.80, 2.20]) 
 
-agent = $AI.createAgent(AgentManager::AGENT_STD_NPC, se )
+agent = $AGM.createAgent(AgentManager::AGENT_STD_NPC, se )
 agent.addSteeringBehaviour(DefaultWanderBehaviour.new);
 agent.addSteeringBehaviour(AvoidObstaclesBehaviour.new);
 
