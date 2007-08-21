@@ -51,8 +51,21 @@ namespace rl {
 class _RlCommonExport XmlHelper
 {
 public:
+    
+    /**
+	 * Erzeugt einen Kindknoten eines DOM-Elements, das einen bestimmten Namen hat, 
+	 * dieser ist wiederum ein Element-Knoten
+	 *
+     * @param doc Das DOM-Document
+	 * @param parent Knoten, dessen Kinder gesucht sind
+	 * @param name Name des gesuchten Kindknotens von parent
+	 *
+	 * @return Der Kindknoten
+	 */
+    static XERCES_CPP_NAMESPACE::DOMElement* appendChildElement(XERCES_CPP_NAMESPACE::DOMDocument* doc, 
+        XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
 
-	/**
+    /**
 	 * Ermittelt einen Kindknoten eines DOM-Elements, das einen bestimmten Namen hat, 
 	 * dieser ist wiederum ein Element-Knoten
 	 *
@@ -63,7 +76,16 @@ public:
 	 */
 	static XERCES_CPP_NAMESPACE::DOMElement* getChildNamed(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name);
 	
-	/**
+    /**
+	 * Setzt den Text eines Elementknotens
+	 *
+	 * @param element Das DOM-Element
+     * @param string Der zu setzende String
+	 * @return Das DOM-Element
+	 */
+    static XERCES_CPP_NAMESPACE::DOMElement* setValueAsString(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, const CeGuiString &value);
+    
+    /**
 	 * Ermittelt den Text eines Elementknotens
 	 *
 	 * @param element Das DOM-Element
@@ -71,7 +93,17 @@ public:
 	 */
 	static CeGuiString getValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element);
 	
-	/**
+    /**
+	 * Setzt den Text eines Elementknotens, als UTF-8
+	 * vor Benutzung muss initializeTranscoder() aufgerufen werden
+	 *
+	 * @param element Das DOM-Element
+     * @param utf Der zu setzende UTF String
+	 * @return Das DOM-Element
+	 */
+	static XERCES_CPP_NAMESPACE::DOMElement* setValueAsUtf8(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, utf8* value);
+    
+    /**
 	 * Ermittelt den Text eines Elementknotens, als UTF-8
 	 * vor Benutzung muss initializeTranscoder() aufgerufen werden
 	 *
@@ -82,6 +114,17 @@ public:
 	static utf8* getValueAsUtf8(XERCES_CPP_NAMESPACE::DOMElement* element);
 
 	/**
+	 * Setzt den Text eines Elementknotens und parst ihn, 
+	 * um eine Ganzzahl daraus zu machen
+	 *
+	 * @param element Das DOM-Element
+     * @param value Der zu setzende Integer
+	 * @return Das DOM-Element
+	 */
+	static XERCES_CPP_NAMESPACE::DOMElement* setValueAsInteger(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, int value);
+
+    
+    /**
 	 * Ermittelt den Text eines Elementknotens und parst ihn, 
 	 * um eine Ganzzahl daraus zu machen
 	 *
@@ -90,7 +133,17 @@ public:
 	 */
 	static int getValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element);
 
-	/**
+	
+    /**
+     * Convert a vector3 to an xml tag
+	 *
+	 * @param element The DOM element
+     * @param value The vector input
+	 * @return The DOM element
+	 */
+    static XERCES_CPP_NAMESPACE::DOMElement* setValueAsVector3(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, Ogre::Vector3 value);
+
+    /**
 	 * Processes an element node of shape <any_node_name x="0" y="0" z="0"/>
 	 * into a three component Ogre vector
 	 *
@@ -99,7 +152,26 @@ public:
 	 */
 	static Ogre::Vector3 getValueAsVector3(XERCES_CPP_NAMESPACE::DOMElement* element);
 
-	/**
+    /**
+     * Convert a quaternion to an xml tag
+	 *
+	 * @param element The DOM element
+     * @param value The quaternion input
+	 * @return The DOM element
+	 */
+    static XERCES_CPP_NAMESPACE::DOMElement* setValueAsQuaternion(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, Ogre::Quaternion value);
+
+    /**
+	 * Processes an element node of shape <any_node_name x="0" y="0" z="0" w="1"/>
+	 * into a three component Ogre vector
+	 *
+	 * @param element The DOM element
+	 * @return the quaternion
+	 */
+    static Ogre::Quaternion getValueAsQuaternion(XERCES_CPP_NAMESPACE::DOMElement* element);
+
+	
+    /**
 	 * Ermittelt, ob ein DOMElement ein bestimmtes Attribut bestitzt
 	 *
 	 * @param element Das DOM-Element
@@ -107,6 +179,16 @@ public:
 	 * @return <code>true</code>, wenn das Attribut an diesem Element existiert, sonst <code>false</code>
 	 */
 	static bool hasAttribute(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+
+    /**
+	 * Setzt den Wert von einem Attribut eines Elementes
+	 *
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+     * @param value Wert der gesetzt werden muss
+	 * @return <code>true</code>, wenn das Attribut an diesem Element existiert, sonst <code>false</code>
+	 */
+    static void setAttribute(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, const char* const value);
 
     /**
 	 * Checks whether a DOMNode has a certain name
@@ -117,6 +199,7 @@ public:
 	 */
 	static bool hasNodeName(XERCES_CPP_NAMESPACE::DOMNode* node, const char* const name);
 
+    
     /**
 	 * Ermittelt den Text eines DOMElement-Attributes und parst ihn, 
 	 * um eine Ganzzahl daraus zu machen
@@ -125,9 +208,30 @@ public:
 	 * @param name Name des Attributes
 	 * @return Zahlenwert des Attributes
 	 */
+	static XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, int value);
+
+    /**
+	 * Ermittelt den Text eines DOMElement-Attributes und parst ihn, 
+	 * um eine Ganzzahl daraus zu machen
+	 *
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+     * @param value das zu setzende Integer
+	 * @return Das DOM-Element
+	 */
 	static int getAttributeValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
 	
 	/**
+	 * Setzt den Text eines DOMElement-Attributes
+	 * 
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+	 * @param value das zu setzende CeGuiString
+	 * @return Das DOM-Element
+	 */	
+	static XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, const CeGuiString &value);
+    
+    /**
 	 * Ermittelt den Text eines DOMElement-Attributes und konvertiert ihn zu einem CeGuiString
 	 * 
 	 * @param element Das DOM-Element
@@ -136,9 +240,26 @@ public:
 	 */	
 	static CeGuiString getAttributeValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
 
+    /**
+	 * Setzt den Text eines DOMElement-Attributes
+	 * 
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+	 * @param value der zu setzende std::string
+	 * @return Das DOM-Element
+	 */	
+    static XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsStdString(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, const std::string &value);
 
-	static std::string getAttributeValueAsStdString(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
 	/**
+	 * Ermittelt den Text eines DOMElement-Attributes und konvertiert ihn zu einem std::string
+	 * 
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+	 * @return Konvertierter Text als std::string
+	 */	
+    static std::string getAttributeValueAsStdString(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+	
+    /**
 	 * Ermittelt den Text eines SAX Element-Attributes und konvertiert ihn zu einem CeGuiString
 	 *
 	 * @param element Liste aller Attribute des aktuellen Elementes
@@ -146,6 +267,16 @@ public:
 	 * @return Konvertierter Text als CeGuiString
 	 */
 	static CeGuiString getAttributeValueAsString(const XERCES_CPP_NAMESPACE::Attributes& attributes, const char* const name);
+
+    /**
+	 * Setzt den Text eines DOMElement-Attributes
+	 * 
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+	 * @param value der zu setzende boolean
+	 * @return Das DOM-Element
+	 */	
+	static XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsBool(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, bool value);
 
 	/**
 	 * Ermittelt den Text eines DOMElement-Attributes und interpretier ihn als bool
@@ -155,6 +286,16 @@ public:
 	 * @return Konvertierter Text als bool
 	 */	
 	static bool getAttributeValueAsBool(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+
+    /**
+	 * Setzt den Text eines DOMElement-Attributes
+	 * 
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+	 * @param value der zu setzende Real Wert
+	 * @return Das DOM-Element
+	 */	
+    static XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsReal(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, Ogre::Real value);
 
 	/**
 	 * Ermittelt den Text eines DOMElement-Attributes und konvertiert ihn zu Ogre::Real

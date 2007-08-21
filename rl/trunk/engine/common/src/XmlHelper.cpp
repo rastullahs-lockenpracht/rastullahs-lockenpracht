@@ -38,6 +38,15 @@ void XmlHelper::initializeTranscoder()
 	XmlHelper::sTranscoder = XMLPlatformUtils::fgTransService->makeNewTranscoderFor(XMLRecognizer::UTF_8, XmlHelper::sFailCode, 16*1024);
 }
 
+DOMElement* XmlHelper::appendChildElement(DOMDocument* doc, DOMElement* parent, const char* const name)
+{
+    RlAssert(parent != NULL, "XmlHelper::appendChildElement: parent must not be NULL" );
+
+    DOMElement* child = doc->createElement(XMLString::transcode(name));
+    parent->appendChild(child);
+    return child;
+}
+
 DOMElement* XmlHelper::getChildNamed(DOMElement* parent, const char* const name)
 {
     RlAssert(parent != NULL, "XmlHelper::getChildNamed: parent must not be NULL" );
@@ -59,10 +68,27 @@ DOMElement* XmlHelper::getChildNamed(DOMElement* parent, const char* const name)
 	return rval;
 }
 
+DOMElement* XmlHelper::setValueAsString(DOMDocument* doc, DOMElement *element, const CeGuiString &value)
+{
+    RlAssert(element != NULL, "XmlHelper::setValueAsString: Element must not be NULL");
+    DOMText* text = doc->createTextNode(XMLString::transcode(value.c_str()));
+    element->appendChild(text);
+    return element;
+}
+
 CeGuiString XmlHelper::getValueAsString(DOMElement* element)
 {
     RlAssert(element != NULL, "XmlHelper::getValueAsString: Element must not be NULL");
 	return transcodeToString( element->getFirstChild()->getNodeValue() );
+}
+
+DOMElement* XmlHelper::setValueAsUtf8(DOMDocument* doc, DOMElement* element, utf8* value)
+{
+    RlAssert(element != NULL, "XmlHelper::setValueAsUtf8: Element must not be NULL");
+    CeGuiString temp(value);
+    DOMText* text = doc->createTextNode(XMLString::transcode(temp.c_str()));
+    element->appendChild(text);
+    return element;
 }
 
 utf8* XmlHelper::getValueAsUtf8(DOMElement* element)
@@ -90,6 +116,24 @@ bool XmlHelper::hasNodeName(DOMNode* node, const char* const name)
     return rVal;
 }
 
+void XmlHelper::setAttribute(DOMElement* element, const char* const name, const char* const value)
+{
+    RlAssert(element != NULL, "XmlHelper::setAttribute: Element must not be NULL");
+    XMLCh* attrName = XMLString::transcode(name);
+    element->setAttribute(attrName,XMLString::transcode(value));
+    XMLString::release(&attrName);
+}
+
+DOMElement* XmlHelper::setAttributeValueAsInteger(DOMElement *element, const char *const name, int value)
+{
+    RlAssert(element != NULL, "XmlHelper::setAttributeValueAsInteger: Element must not be NULL");
+	XMLCh* attrName = XMLString::transcode(name);
+    CeGuiString temp = Ogre::StringConverter::toString(value);
+    element->setAttribute(attrName,XMLString::transcode(temp.c_str()));
+    XMLString::release(&attrName);
+    return element;
+}
+
 int XmlHelper::getAttributeValueAsInteger(DOMElement* element,const char* const name)
 {
     RlAssert(element != NULL, "XmlHelper::getAttributeValueAsInteger: Element must not be NULL");
@@ -100,6 +144,16 @@ int XmlHelper::getAttributeValueAsInteger(DOMElement* element,const char* const 
 	return rVal;
 }
 
+DOMElement* XmlHelper::setAttributeValueAsReal(DOMElement *element, const char *const name, Ogre::Real value)
+{
+    RlAssert(element != NULL, "XmlHelper::setAttributeValueAsReal: Element must not be NULL");
+	XMLCh* attrName = XMLString::transcode(name);
+    CeGuiString temp = Ogre::StringConverter::toString(value);
+    element->setAttribute(attrName,XMLString::transcode(temp.c_str()));
+    XMLString::release(&attrName);
+    return element;
+}
+
 Ogre::Real XmlHelper::getAttributeValueAsReal(DOMElement* element,const char* const name)
 {
     RlAssert(element != NULL, "XmlHelper::getAttributeValueAsReal: Element must not be NULL");
@@ -108,6 +162,15 @@ Ogre::Real XmlHelper::getAttributeValueAsReal(DOMElement* element,const char* co
 		transcodeToString(element->getAttribute(attrName)).c_str() );
 	XMLString::release(&attrName);
 	return rVal;
+}
+
+DOMElement* XmlHelper::setAttributeValueAsString(DOMElement *element, const char *const name, const CeGuiString &value)
+{
+    RlAssert(element != NULL, "XmlHelper::setAttributeValueAsString: Element must not be NULL");
+	XMLCh* attrName = XMLString::transcode(name);
+    element->setAttribute(attrName,XMLString::transcode(value.c_str()));
+    XMLString::release(&attrName);
+    return element;
 }
 
 CeGuiString XmlHelper::getAttributeValueAsString(DOMElement* element, const char* const name)
@@ -131,6 +194,15 @@ CeGuiString XmlHelper::getAttributeValueAsString(const XERCES_CPP_NAMESPACE::Att
 	return CeGuiString();
 }
 
+DOMElement* XmlHelper::setAttributeValueAsStdString(DOMElement *element, const char *const name, const std::string &value)
+{
+    RlAssert(element != NULL, "XmlHelper::setAttributeValueAsStdString: Element must not be NULL");
+	XMLCh* attrName = XMLString::transcode(name);
+    element->setAttribute(attrName,XMLString::transcode(value.c_str()));
+    XMLString::release(&attrName);
+    return element;
+}
+
 std::string XmlHelper::getAttributeValueAsStdString(DOMElement* element, const char* const name)
 {
     RlAssert(element != NULL, "XmlHelper::getAttributeValueAsStdString: Element must not be NULL");
@@ -138,6 +210,16 @@ std::string XmlHelper::getAttributeValueAsStdString(DOMElement* element, const c
 	std::string rVal(transcodeToStdString(element->getAttribute(attrName)));
 	XMLString::release(&attrName);
 	return rVal;
+}
+
+DOMElement* XmlHelper::setAttributeValueAsBool(DOMElement *element, const char *const name, bool value)
+{
+    RlAssert(element != NULL, "XmlHelper::setAttributeValueAsBool: Element must not be NULL");
+	XMLCh* attrName = XMLString::transcode(name);
+    CeGuiString temp = Ogre::StringConverter::toString(value);
+    element->setAttribute(attrName,XMLString::transcode(temp.c_str()));
+    XMLString::release(&attrName);
+    return element;
 }
 
 bool XmlHelper::getAttributeValueAsBool(DOMElement* element,const char* const name)
@@ -149,10 +231,28 @@ bool XmlHelper::getAttributeValueAsBool(DOMElement* element,const char* const na
 		return false;
 }
 
+DOMElement* XmlHelper::setValueAsInteger(DOMDocument* doc, DOMElement *element, int value)
+{
+    RlAssert(element != NULL, "XmlHelper::setValueAsInteger: Element must not be NULL");
+    CeGuiString temp = Ogre::StringConverter::toString(value);
+    DOMText* text = doc->createTextNode(XMLString::transcode(temp.c_str()));
+    element->appendChild(text);
+    return element;
+}
+
 int XmlHelper::getValueAsInteger(DOMElement* element)
 {
     RlAssert(element != NULL, "XmlHelper::getValueAsInteger: Element must not be NULL");
 	return XMLString::parseInt(element->getFirstChild()->getNodeValue());
+}
+
+DOMElement* XmlHelper::setValueAsVector3(DOMDocument* doc, DOMElement *element, Ogre::Vector3 value)
+{
+    RlAssert(element != NULL, "XmlHelper::setValueAsVector3: Element must not be NULL");
+    setAttribute(element, "x", Ogre::StringConverter::toString(value.x).c_str());
+    setAttribute(element, "y", Ogre::StringConverter::toString(value.y).c_str());
+    setAttribute(element, "z", Ogre::StringConverter::toString(value.z).c_str());
+    return element;
 }
 
 Ogre::Vector3 XmlHelper::getValueAsVector3(DOMElement* element)
@@ -167,6 +267,32 @@ Ogre::Vector3 XmlHelper::getValueAsVector3(DOMElement* element)
 		getAttributeValueAsReal(element, "x"),
 		getAttributeValueAsReal(element, "y"),
 		getAttributeValueAsReal(element, "z"));
+}
+
+DOMElement* XmlHelper::setValueAsQuaternion(DOMDocument* doc, DOMElement *element, Ogre::Quaternion value)
+{
+    RlAssert(element != NULL, "XmlHelper::setValueAsQuaternion: Element must not be NULL");
+    setAttribute(element, "x", Ogre::StringConverter::toString(value.x).c_str());
+    setAttribute(element, "y", Ogre::StringConverter::toString(value.y).c_str());
+    setAttribute(element, "z", Ogre::StringConverter::toString(value.z).c_str());
+    setAttribute(element, "w", Ogre::StringConverter::toString(value.w).c_str());
+    return element;
+}
+
+Ogre::Quaternion XmlHelper::getValueAsQuaternion(DOMElement* element)
+{
+    RlAssert(element != NULL, "XmlHelper::getValueAsQuaternion: Element must not be NULL");
+	RlAssert(
+		hasAttribute(element, "x") 
+		&& hasAttribute(element, "y") 
+		&& hasAttribute(element, "z")
+        && hasAttribute(element, "w"),
+		"Element must have attributes x, y z and w");
+    return Ogre::Quaternion(
+		getAttributeValueAsReal(element, "x"),
+		getAttributeValueAsReal(element, "y"),
+		getAttributeValueAsReal(element, "z"),
+        getAttributeValueAsReal(element, "w"));
 }
 
 utf8* XmlHelper::transcodeToUtf8(const XMLCh* const string16)
