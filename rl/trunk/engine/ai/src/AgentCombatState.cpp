@@ -41,5 +41,6 @@ namespace rl
 
 	void AgentCombatState::update(const float elapsedTime)
     {
+        mAgent->updateVehicle(0, elapsedTime);
     }
 }

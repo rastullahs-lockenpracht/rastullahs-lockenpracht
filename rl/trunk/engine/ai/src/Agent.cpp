@@ -66,11 +66,6 @@ void Agent::update(const float elapsedTime)
     }
 }
 
-//void Agent::updateVehicle(const float currentTime, const float elapsedTime)
-//{
-//    SteeringVehicle::update(currentTime, elapsedTime);
-//}
-
 Creature* Agent::getControlledCreature() const
 {
     return mCreature;

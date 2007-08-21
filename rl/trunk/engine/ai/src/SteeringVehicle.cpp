@@ -65,7 +65,7 @@ void SteeringVehicle::resetLocalSpace()
 
     // regenerate local space (by default: align vehicle's forward axis with
     // new velocity, but this behavior may be overridden by derived classes.)
-	regenerateOrthonormalBasisUF ( src );
+	regenerateOrthonormalBasisUF ( src);
 }
 
 void SteeringVehicle::initialize(void)
@@ -117,7 +117,7 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 
 
     // only process if mMovingCreature not NULL
-    if( mController == NULL )
+    if (mController == NULL)
     {
         mCurrentForce = Vector3::ZERO;
         return;
@@ -129,14 +129,14 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
      mDebugSteer = mCurrentForce;
 
     // @todo remove this
-    if( mCreature->getAu() <= 6 )
+    if (mCreature->getAu() <= 6)
         mCreature->modifyAu(20,true);
 
 
     AbstractMovement *mov_drehen = mController->getMovementFromId(CreatureController::MT_DREHEN);
     Real vel_drehen(0);
     Radian max_drehen = Degree(0);
-    if( mov_drehen->calculateBaseVelocity(vel_drehen) )
+    if (mov_drehen->calculateBaseVelocity(vel_drehen))
     {
         max_drehen = Degree(vel_drehen * 360 * elapsedTime);
     }
@@ -146,15 +146,15 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
     Radian yaw(0);
     creatureDirection.y = result.y = 0;
     yaw = creatureDirection.getRotationTo(result, Ogre::Vector3::UNIT_Y).getYaw();
-    if( yaw > Radian(0) && yaw > max_drehen )
+    if (yaw > Radian(0) && yaw > max_drehen)
         yaw = max_drehen;
-    if( yaw < Radian(0) && yaw < -max_drehen )
+    if (yaw < Radian(0) && yaw < -max_drehen)
         yaw = -max_drehen;
 
     Ogre::Vector3 direction(Ogre::Vector3::ZERO);
     Ogre::Vector3 rotation(0,yaw.valueRadians(),0);
     CreatureController::MovementType movement = CreatureController::MT_STEHEN;
-    if( result != Ogre::Vector3::ZERO )
+    if (result != Ogre::Vector3::ZERO)
     {
         direction.z = -1;
         movement = CreatureController::MT_GEHEN;
@@ -190,16 +190,7 @@ Vector3 SteeringVehicle::calcFlee(const Vector3& target)
 
 Vector3 SteeringVehicle::calcPursuit(Agent* agent)
 {
-    /// @todo Think up an OpenSteer compatible solution if this is none.
-    /// Not all Agents have a SteeringVehicle, so it is not possible to
-    /// to use steerForPursuit like this in all cases.
-	/// Vec3 rVal = steerForPursuit(*(agent->getVehicle())).setYtoZero();
-    /// So here is my naive solution without regarding
-    /// Just returning a direction vector on the xz-plane
-    /// towards the other agent.
-    Vector3 dir = agent->getControlledCreature()->getPosition() -
-        mCreature->getPosition();
-    dir.y = 0;
+    Vector3 dir = Vec3Utils::setYtoZero(steerForPursuit(*agent));
 	return dir;
 }
 
@@ -246,9 +237,9 @@ AVGroup SteeringVehicle::getNeighbors() const
 	//AgentManager::VehicleList::const_iterator itr = list.begin();
 	//for(; itr != list.end(); ++itr)
 	//{
-	//	if( (*itr) != this )
+	//	if ((*itr) != this)
 	//	{
-	//		group.push_back( (*itr) );
+	//		group.push_back( (*itr));
 	//	}
 	//}
 	return group;
