@@ -28,18 +28,18 @@ class MergeableMeshTest < TestCase
         test_obj2.setPosition(rel_pos([2, 0, 0]))
         test_obj2.placeIntoScene();
 #        test_obj2.getActor().getControlledObject().startAnimation("Walk")
-        test_obj2.getInventory().addSlot("Head", "head", Item::ITEMTYPE_HELMET, RlScript::SLOT_SUBMESH);
-        test_obj2.getInventory().addSlot("Right Hand", "Bip01 R SlotHand", Item::ITEMTYPE_ALL_ITEMS, RlScript::SLOT_BONE);
-        test_obj2.getInventory().addSlot("Armor", "armor", Item::ITEMTYPE_ALL_ITEMS, RlScript::SLOT_SUBMESH);
+        test_obj2.getInventory().addSlot("Head", "head", 0, Item::ITEMTYPE_HELMET, RlScript::SLOT_SUBMESH);
+        test_obj2.getInventory().addSlot("Right Hand", "Bip01 R SlotHand", 0, Item::ITEMTYPE_ALL_ITEMS, RlScript::SLOT_BONE);
+        test_obj2.getInventory().addSlot("Armor", "armor", 0, Item::ITEMTYPE_ALL_ITEMS, RlScript::SLOT_SUBMESH);
         test_item2 = $GOM.createGameObject("mesh construction kit test item 1")
         test_obj2.getInventory().hold(test_item2, "Armor")
 
         test_obj3 = $GOM.createGameObject("mesh construction kit test creature")
         test_obj3.setPosition(rel_pos([3, 0, 0]))
         test_obj3.placeIntoScene();
-        test_obj3.getInventory().addSlot("Head", "head", Item::ITEMTYPE_HELMET, RlScript::SLOT_SUBMESH);
-        test_obj3.getInventory().addSlot("Right Hand", "Bip01 R SlotHand", Item::ITEMTYPE_ALL_ITEMS, RlScript::SLOT_BONE);
-        test_obj3.getInventory().addSlot("Armor", "armor", Item::ITEMTYPE_ALL_ITEMS, RlScript::SLOT_SUBMESH);
+        test_obj3.getInventory().addSlot("Head", "head", 0, Item::ITEMTYPE_HELMET, RlScript::SLOT_SUBMESH);
+        test_obj3.getInventory().addSlot("Right Hand", "Bip01 R SlotHand", 0, Item::ITEMTYPE_ALL_ITEMS, RlScript::SLOT_BONE);
+        test_obj3.getInventory().addSlot("Armor", "armor", 0, Item::ITEMTYPE_ALL_ITEMS, RlScript::SLOT_SUBMESH);
         test_item3 = $GOM.createGameObject("mesh construction kit test item 2")
         test_obj3.getInventory().hold(test_item3, "Armor")
         test_obj3.getActor().getControlledObject().startAnimation("Walk")
@@ -47,9 +47,9 @@ class MergeableMeshTest < TestCase
         test_obj4 = $GOM.createGameObject("mesh construction kit test creature")
         test_obj4.setPosition(rel_pos([4, 0, 0]))
         test_obj4.placeIntoScene();
-        test_obj4.getInventory().addSlot("Head", "head", Item::ITEMTYPE_HELMET, RlScript::SLOT_SUBMESH);
-        test_obj4.getInventory().addSlot("Right Hand", "Bip01 R SlotHand", Item::ITEMTYPE_ALL_ITEMS, RlScript::SLOT_BONE);
-        test_obj4.getInventory().addSlot("Armor", "armor", Item::ITEMTYPE_ALL_ITEMS, RlScript::SLOT_SUBMESH);
+        test_obj4.getInventory().addSlot("Head", "head", 0, Item::ITEMTYPE_HELMET, RlScript::SLOT_SUBMESH);
+        test_obj4.getInventory().addSlot("Right Hand", "Bip01 R SlotHand", 0, Item::ITEMTYPE_ALL_ITEMS, RlScript::SLOT_BONE);
+        test_obj4.getInventory().addSlot("Armor", "armor", 0, Item::ITEMTYPE_ALL_ITEMS, RlScript::SLOT_SUBMESH);
         test_item4 = $GOM.createGameObject("mesh construction kit test item 2")
         test_obj4.getInventory().hold(test_item4, "Armor")
         test_obj4.getInventory().dropItem("Armor")

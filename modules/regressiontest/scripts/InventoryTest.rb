@@ -24,13 +24,13 @@ class InventoryTest < TestCase
     $SCRIPT.log("InventoryTest #4: Put an object attached to the hero into container.");
     sword_held_to_inventory = $GOM.createGameObject("shortsword");
     hero.getInventory().hold(sword_held_to_inventory, "Left Hand");
-    hero.getInventory().dropItem("Left Hand")
+    #hero.getInventory().dropItem("Left Hand")
     hero.getInventory().getItem("Back").addItem(sword_held_to_inventory);
 
     $SCRIPT.log("InventoryTest #5: Put an object from a container into the hero's hand.");
     sword_inventory_to_hold = $GOM.createGameObject("shortsword");
     hero.getInventory().getItem("Back").addItem(sword_inventory_to_hold)
-    hero.getInventory().getItem("Back").removeItem(sword_inventory_to_hold)
+    #hero.getInventory().getItem("Back").removeItem(sword_inventory_to_hold)
     hero.getInventory().hold(sword_inventory_to_hold, "Right Hand");
 
     p "InventoryTest Expectation: Hero should stand with a backpack on her back and a sword attached to the right hand, there should be no sword on the floor or in the left hand";
