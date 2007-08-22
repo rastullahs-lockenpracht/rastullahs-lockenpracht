@@ -22,6 +22,8 @@
 namespace rl
 {
 	class _RlRulesExport Item;
+    class Slot;
+    class Container;
 
 	typedef std::vector<Item*> ContainerColumn;
 	typedef std::vector<ContainerColumn> ContainerLayout;
@@ -76,8 +78,24 @@ namespace rl
 		std::pair<int,int> getSize() const;
 		void setSize(int width, int height);
 
+
+        /**
+         * Fügt das Verhalten für die GO-States: GOS_READY, GOS_HELD und GOS_IN_POSSESION hinzu.
+         * @warning Falls ein Actor existiert, wird dieser gelöscht. Das bedeutet, dass diese Funktion
+         * aufgerufen werden muss, bevor gegebenenfalls ein neuer Actor erstellt wird!
+         * Der Owner und der ParentSlot wird ebenfalls resettet. Außerdem wird das Item aus dem Slot entfernt!
+         * Bei den drei States ist die zu Grunde liegende Idee, dass man (in dieser Reihenfolge) mit dieser
+         * Funktion den neuen State setzt und dann dann den neuen State einrichtet (evt doCreateActor() aufruft).
+         * Dabei muss man sich nicht mehr darum kümmern, welchen State das Item vorher hatte.
+         **/
         virtual void setState(GameObjectState state);
-        void hold();
+        //void hold();
+
+        void setParentSlot(Slot* slot);
+        Slot* getParentSlot() const;
+
+        void setParentContainer(Container* cont);
+        Container* getParentContainer() const;
 
         void setOwner(GameObject* go);
         GameObject* getOwner() const;
@@ -86,11 +104,14 @@ namespace rl
         virtual void setProperty(const Ogre::String& key, const Property& value);
         virtual PropertySet* getAllProperties() const;
 
+        void doCreateActor();
     protected:
 		ItemType mItemType;
 		CeGuiString mImageName;
 		std::pair<int,int> mSize;
         GameObject* mOwner;
+        Slot* mParentSlot;
+        Container* mParentContainer;
 
 		void doHold();
 		void doLoose();

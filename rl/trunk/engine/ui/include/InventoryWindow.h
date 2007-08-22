@@ -53,6 +53,8 @@ namespace rl {
         void initInventoryWindow(Inventory* inventory);
 
 		ItemDragContainer* createItemDragContainer(Item* item, bool showdescription, const CeGuiString& containerName = "");
+        //ItemDragContainer* getItemDragContainer(Item* item, bool description);
+        CeGuiString getDragContainerNameFromItem(const Item* item, bool description);
 		bool handleItemDroppedOnSlot(const CEGUI::EventArgs& evt);
 		bool handleItemDroppedOnWorld(const CEGUI::EventArgs& evt);
 		bool handleMouseMovedInWorld(const CEGUI::EventArgs& evt);

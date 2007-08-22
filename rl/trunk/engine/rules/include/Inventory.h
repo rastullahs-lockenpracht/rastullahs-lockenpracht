@@ -76,14 +76,16 @@ public:
 
 
     // Das Inventar der Kreatur wird durch das Inventarobjekt verwaltet.
-    void addToInventory(Item* item, const CeGuiString& containerName);
+    //void addToInventory(Item* item, const CeGuiString& containerName);
     void hold(Item* item, const CeGuiString& slotName);
     bool canHold(Item* item, const CeGuiString& slotName) const;
+    bool canReady(Item* item, const CeGuiString& slotName) const;
 	void dropItem(const CeGuiString& slotName);
     void ready(Item* item);
+    //void removeFromInventory(Item* item);
 
     Item* getItem(const CeGuiString& slotName) const;
-    void addSlot(const CeGuiString& name, const Ogre::String& meshpartname, int itemMask, SlotType type = SLOT_BONE);
+    void addSlot(const CeGuiString& name, const Ogre::String& meshpartname, int itemReadyMask, int itemHeldMask, SlotType type = SLOT_BONE);
     const SlotMap& getAllSlots() const;
 
 	Creature* getOwner() const;

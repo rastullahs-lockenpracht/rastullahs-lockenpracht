@@ -46,6 +46,9 @@ namespace rl
 
         physicsManager->createMaterialPair(char_mat, def_mat)->setContactCallback(this);
         physicsManager->createMaterialPair(char_mat, level_mat)->setContactCallback(this);
+        
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultFriction(0,0);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultFriction(0,0);
     }
 
     CreatureControllerManager::~CreatureControllerManager()

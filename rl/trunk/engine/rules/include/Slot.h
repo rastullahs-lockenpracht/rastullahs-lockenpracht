@@ -28,24 +28,34 @@ class _RlRulesExport Slot
 public:
     virtual void setItem(Item* item) = 0;
     Item* getItem() const;
-    bool isAllowed(Item* item) const;
+    bool isAllowed(const Item* item) const;
+    bool isEmpty() const {return mItem == NULL;}
+    bool canReady(const Item* item) const;
+    CeGuiString getName() const {return mName;}
     virtual ~Slot();
 
 protected:
-    Slot(Creature* owner, const CeGuiString& name, int itemMask);
+    Slot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask);
+
+    // intended to be used in setItem-Function, provides standard behaviour, sets
+    // item-state etc, returns true, if succeeded to set item, false indicates to to nothing
+    bool standardSetItem(Item* item);
 
     Creature* mOwner;
     Item* mItem;
 
 private:
     CeGuiString mName;
-    int mItemMask;
+    /// die mItemReadyMask hat Vorrang vor der mItemHeldMask
+    int mItemHeldMask;
+    /// die mItemReadyMask hat Vorrang vor der mItemHeldMask
+    int mItemReadyMask;
 };
 
 class BoneSlot : public Slot
 {
 public:
-    BoneSlot(Creature* owner, const CeGuiString& name, int itemMask, const Ogre::String& bone);
+    BoneSlot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask, const Ogre::String& bone);
     virtual void setItem(Item* item);
 
 private:
@@ -55,7 +65,7 @@ private:
 class SubmeshSlot : public Slot
 {
 public:
-    SubmeshSlot(Creature* owner, const CeGuiString& name, int itemMask, const Ogre::String& submesh);
+    SubmeshSlot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask, const Ogre::String& submesh);
     virtual void setItem(Item* item);
 
 private:
@@ -65,7 +75,7 @@ private:
 class MaterialSlot : public Slot
 {
 public:
-    MaterialSlot(Creature* owner, const CeGuiString& name, int itemMask, const Ogre::String& submesh);
+    MaterialSlot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask, const Ogre::String& submesh);
     virtual void setItem(Item* item);
 
 private:

@@ -113,6 +113,7 @@ namespace rl {
 			mItemPositions[item] = pos;
 			mItems.insert(item);
 			item->setState(GOS_IN_POSSESSION);
+            item->setParentContainer(this);
 			return true;
 		}
 		else
@@ -128,7 +129,11 @@ namespace rl {
         {
             mItems.erase(it);
             mItemPositions.erase(mItemPositions.find(item));
-            item->setState(GOS_LOADED);
+            
+            // this is the case, if the item is removed automatically
+            // don't change this without looking at Item::setState
+            if( item->getState() != GOS_LOADED )
+                item->setState(GOS_LOADED);
         }
         else
         {

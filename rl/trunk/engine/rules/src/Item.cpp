@@ -18,7 +18,9 @@
 #include "Item.h"
 
 #include "Actor.h"
+#include "Container.h"
 #include "Exception.h"
+#include "Slot.h"
 
 using namespace std;
 
@@ -35,7 +37,9 @@ namespace rl
 		mItemType(ITEMTYPE_OTHER),
 		mImageName(""),
 		mSize(pair<int,int>(1,1)),
-        mOwner(NULL)
+        mOwner(NULL),
+        mParentSlot(NULL),
+        mParentContainer(NULL)
     {
         mQueryFlags |= QUERYFLAG_ITEM;
     }
@@ -78,27 +82,77 @@ namespace rl
 	{
 		mSize = pair<int,int>(widthSize,heightSize);
 	}
-
+/*
 	void Item::hold()
 	{
 		setState(GOS_HELD);
 	}
-
+*/
     void Item::doHold()
     {
         setActor(createActor());
         mState = GOS_HELD;
     }
 
-	void Item::doLoose()
-	{
-		if (mActor != NULL)
-		{
-			mActor->detachFromParent();
-			///@todo is mState = GOS_IN_SCENE; after detaching?
-		}
-	}
+    void Item::doLoose()
+    {
+        if (mActor != NULL)
+        {
+            mActor->detachFromParent();
+            destroyActor();
+        }
+    }
 
+// --------------- Warning ------------
+// do not change this function without
+// having a look at the containers and slots
+    void Item::setState(GameObjectState targetstate)
+    {
+        // do reset if one of the new states
+        if (mState != GOS_HELD && mState != GOS_IN_POSSESSION && mState != GOS_READY &&
+            mState == targetstate)
+        {
+            return;
+        }
+
+        GameObjectState oldState = mState;
+
+
+        if( mState == GOS_HELD ||
+            mState == GOS_IN_POSSESSION ||
+            mState == GOS_READY )
+        {
+            mState = GOS_LOADED; // <- this is important to avoid endless recursion!
+            if( getParentSlot() )
+                getParentSlot()->setItem(NULL);
+            setParentSlot(NULL);
+            if( getParentContainer() )
+                getParentContainer()->removeItem(this);
+            setParentContainer(NULL);
+            doLoose();
+            setOwner(NULL);
+        }
+        else
+        {
+            GameObject::setState(GOS_LOADED);
+            oldState = GOS_LOADED;
+        }
+
+        if( targetstate == GOS_HELD || 
+            targetstate == GOS_IN_POSSESSION || 
+            targetstate == GOS_READY )
+        {
+            mState = targetstate;
+            onStateChange(oldState, mState);
+        }
+        else
+        {
+            onStateChange(oldState, mState);
+            GameObject::setState(targetstate);
+        }
+    }
+
+/*
     void Item::setState(GameObjectState targetstate)
     {
         if (mState == targetstate)
@@ -111,6 +165,23 @@ namespace rl
 
         if (targetstate == GOS_IN_POSSESSION)
         {
+            if( mState == GOS_HELD ||
+                mState == GOS_IN_POSSESSION ||
+                mState == GOS_READY )
+            {
+                mState = GOS_LOADED;
+                doLoose();
+                setOwner(NULL);
+                onStateChange(oldState, mState);
+            }
+            else
+            {
+                GameObject::setState(GOS_LOADED);
+                oldState = GOS_LOADED;
+            }
+            mState = targetstate;
+            stateChanged = true;
+            /*
             if (mState == GOS_LOADED)
             {
                 stateChanged = true;
@@ -126,9 +197,12 @@ namespace rl
                 destroyActor();
                 stateChanged = true;
             }
+            */ /*
         }
         else if (targetstate == GOS_LOADED)
         {
+                doLoose();
+                setOwner(NULL);
             if (mState == GOS_IN_POSSESSION)
             {
 				mState = GOS_LOADED;
@@ -159,22 +233,41 @@ namespace rl
         }
         else if (targetstate == GOS_HELD)
         {
+            if( mState == GOS_HELD ||
+                mState == GOS_IN_POSSESSION ||
+                mState == GOS_READY )
+            {
+                mState = GOS_LOADED;
+                doLoose();
+                setOwner(NULL);
+                onStateChange(oldState, mState);
+            }
+            else
+            {
+                GameObject::setState(GOS_LOADED);
+                oldState = GOS_LOADED;
+            }
+            mState = targetstate;
+            stateChanged = true;*/
+            /*
             if (mState == GOS_LOADED)
             {
-                doHold();
+                //doHold();
                 stateChanged = true;
             }
             else if (mState == GOS_IN_SCENE)
             {
                 doRemoveFromScene();
-                doHold();
+                //doHold();
                 stateChanged = true;
             }
             else if (mState == GOS_IN_POSSESSION)
             {
-                doHold();
+                //doHold();
                 stateChanged = true;
             }
+            */
+/*
         }
         else if (targetstate == GOS_READY)
         {
@@ -190,7 +283,7 @@ namespace rl
             GameObject::setState(targetstate);
         }
     }
-
+*/
     void Item::setProperty(const Ogre::String &key, const rl::Property &value)
     {
         if (key == Item::PROPERTY_IMAGENAME)
@@ -249,5 +342,30 @@ namespace rl
     GameObject* Item::getOwner() const
     {
         return mOwner;
+    }
+
+    void Item::setParentSlot(Slot* slot)
+    {
+        mParentSlot = slot;
+    }
+
+    Slot* Item::getParentSlot() const
+    {
+        return mParentSlot;
+    }
+
+    void Item::doCreateActor()
+    {
+        setActor(createActor());
+    }
+
+    void Item::setParentContainer(Container* cont)
+    {
+        mParentContainer = cont;
+    }
+
+    Container* Item::getParentContainer() const
+    {
+        return mParentContainer;
     }
 }

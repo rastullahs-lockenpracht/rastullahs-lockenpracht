@@ -146,14 +146,40 @@ namespace rl {
 		mWorldBackground->subscribeEvent(Window::EventKeyUp,
 			boost::bind(&InventoryWindow::handleKeys, this, _1, false));
     }
+/*
+    ItemDragContainer* InventoryWindow::getItemDragContainer(Item* item, bool description)
+    {
+		CeGuiString dragContainerName = getDragContainerNameFromItem(item, description);
+		ItemDragContainer* itemhandler = NULL;
+
+		DndContainerMap::iterator iter = mWorldDragContainers.find(dragContainerName);
+        if( iter != mWorldDragContainers.end() )
+        {
+            return iter->second;
+        }
+		iter = mSlotDragContainers.find(dragContainerName);
+        if( iter != mSlotDragContainers.end() )
+        {
+            return iter->second;
+        }
+
+        return NULL;
+    }
+*/
+
+    CeGuiString InventoryWindow::getDragContainerNameFromItem(const Item* item, bool description)
+    {
+		CeGuiString dragContainerName =
+			mWindow->getName() +  "/item/"
+			+ Ogre::StringConverter::toString(item->getId())+"_DragContainer"+
+			(description?"_D":"_I");
+        return dragContainerName;
+    }
 
 	ItemDragContainer* InventoryWindow::createItemDragContainer(
 		Item* item, bool showdescription, const CeGuiString& slotName)
 	{
-		CeGuiString dragContainerName =
-			mWindow->getName() +  "/item/"
-			+ Ogre::StringConverter::toString(item->getId())+"_DragContainer"+
-			(showdescription?"_D":"_I");
+        CeGuiString dragContainerName = getDragContainerNameFromItem(item, showdescription);
 		ItemDragContainer* itemhandler = NULL;
 
 		DndContainerMap::iterator itW = mWorldDragContainers.find(dragContainerName);
@@ -208,15 +234,13 @@ namespace rl {
 			{
 				if (dragcont->getItemParentContainer() != NULL)
 				{
-					dragcont->getItemParentContainer()->removeItem(item);
+					//dragcont->getItemParentContainer()->removeItem(item);
 					dragcont->getParent()->removeChildWindow(dragcont);
-					///@todo Swap with old content (if there is some)
 				}
 				else if (dragcont->getItemParentSlot() != "")
 				{
-					dragcont->getItemParentInventory()->dropItem(dragcont->getItemParentSlot());
+					//dragcont->getItemParentInventory()->dropItem(dragcont->getItemParentSlot());
 					dragcont->getParent()->removeChildWindow(dragcont);
-					///@todo Swap with old content (if there is some)
 				}
 
 				ItemDragContainer* newCont = createItemDragContainer(item, false, targetSlot);
@@ -230,9 +254,11 @@ namespace rl {
 					newCont = dragcont;
 				}
 
+                CEGUI::Window* slotWindow = mSlotWindows[targetSlot];
+
 				mInventory->hold(item, targetSlot);
 
-				mSlotWindows[targetSlot]->addChildWindow(newCont);
+				slotWindow->addChildWindow(newCont);
 				newCont->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
 				newCont->setItemParent(mInventory, targetSlot);
 

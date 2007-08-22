@@ -176,7 +176,7 @@ namespace rl
         {
             Throw(rl::IllegalArgumentException, Ogre::String("Slot '")+slotName.c_str()+"' doesn't exist.");
         }
-        slotIter->second->getItem()->setOwner(NULL);
+        //slotIter->second->getItem()->setOwner(NULL);
         slotIter->second->setItem(NULL);
 
 	}
@@ -190,7 +190,7 @@ namespace rl
         }
 
         slotIter->second->setItem(item);
-        item->setOwner(getOwner());
+        //item->setOwner(getOwner());
     }
 
 	bool Inventory::canHold(Item* item, const CeGuiString& slotName) const
@@ -202,6 +202,17 @@ namespace rl
         }
 
 		return slotIter->second->isAllowed(item);
+    }
+
+	bool Inventory::canReady(Item* item, const CeGuiString& slotName) const
+    {
+        std::map<CeGuiString, Slot*>::const_iterator slotIter = mSlots.find(slotName);
+        if (slotIter == mSlots.end())
+        {
+            Throw(rl::IllegalArgumentException, Ogre::String("Slot '")+slotName.c_str()+"' doesn't exist.");
+        }
+
+		return true;//slotIter->second->canReady(item);
     }
 
     Item* Inventory::getItem(const CeGuiString& slotName) const
@@ -219,7 +230,7 @@ namespace rl
     {
     }
 
-    void Inventory::addSlot(const CeGuiString& name, const Ogre::String& meshpartname, int itemMask, SlotType type)
+    void Inventory::addSlot(const CeGuiString& name, const Ogre::String& meshpartname, int itemReadyMask, int itemHeldMask, SlotType type)
     {
         if (mSlots.find(name) != mSlots.end())
         {
@@ -229,13 +240,13 @@ namespace rl
 		switch (type)
         {
             case SLOT_BONE:
-			    mSlots[name] = new BoneSlot(mOwner, name, itemMask, meshpartname);
+			    mSlots[name] = new BoneSlot(mOwner, name, itemReadyMask, itemHeldMask, meshpartname);
                 break;
             case SLOT_SUBMESH:
-			    mSlots[name] = new SubmeshSlot(mOwner, name, itemMask, meshpartname);
+			    mSlots[name] = new SubmeshSlot(mOwner, name, itemReadyMask, itemHeldMask, meshpartname);
                 break;
             case SLOT_MATERIAL:
-			    mSlots[name] = new MaterialSlot(mOwner, name, itemMask, meshpartname);
+			    mSlots[name] = new MaterialSlot(mOwner, name, itemReadyMask, itemHeldMask, meshpartname);
                 break;
 		}
     }
