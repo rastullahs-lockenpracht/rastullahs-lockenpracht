@@ -206,7 +206,7 @@ namespace rl {
 
         // control camera
         mCameraActor->getPhysicalThing()->setMaterialID(
-            PhysicsManager::getSingleton().createMaterialID("camera"));
+            PhysicsManager::getSingleton().getMaterialID("camera"));
         mCameraActor->getPhysicalThing()->setPhysicsController(this);
 
         // We also handle cam<->level, cam<->default cam<->char collision from now on

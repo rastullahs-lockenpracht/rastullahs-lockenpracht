@@ -87,18 +87,18 @@ namespace rl {
 
 		mCameraActor->_getSceneNode()->setFixedYawAxis(true);
 
-        PhysicsManager::getSingleton().createMaterialID("character");
+        PhysicsManager::getSingleton().createMaterialID("camera");
 
         PhysicsManager::getSingleton().createMaterialPair(
-            PhysicsManager::getSingleton().getMaterialID("character"),
-            PhysicsManager::getSingleton().getMaterialID("default"))->setDefaultFriction(0,0);
+            PhysicsManager::getSingleton().getMaterialID("camera"),
+            PhysicsManager::getSingleton().getMaterialID("default"))->setDefaultCollidable(0);
 
         PhysicsManager::getSingleton().createMaterialPair(
-            PhysicsManager::getSingleton().getMaterialID("character"),
-            PhysicsManager::getSingleton().getMaterialID("level"))->setDefaultFriction(0,0);
+            PhysicsManager::getSingleton().getMaterialID("camera"),
+            PhysicsManager::getSingleton().getMaterialID("level"))->setDefaultCollidable(0);
 
         PhysicsManager::getSingleton().createMaterialPair(
-            PhysicsManager::getSingleton().getMaterialID("character"),
+            PhysicsManager::getSingleton().getMaterialID("camera"),
             PhysicsManager::getSingleton().getMaterialID("character"))->setDefaultCollidable(0);
 	}
 
