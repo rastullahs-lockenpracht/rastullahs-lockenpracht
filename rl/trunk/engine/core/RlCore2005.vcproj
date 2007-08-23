@@ -817,6 +817,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\PolynomicSoundFadeFunctor.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\PrimitiveObject.cpp"
 				>
 			</File>

@@ -50,6 +50,7 @@
 	PhysicsMaterialRaycast.h \
 	PlayAnimationJob.h \
 	PlaySoundJob.h \
+	PolynomicSoundFadeFunctor.h \
 	PrimitiveObject.h \
 	QuadTree.h \
 	RubyInterpreter.h \

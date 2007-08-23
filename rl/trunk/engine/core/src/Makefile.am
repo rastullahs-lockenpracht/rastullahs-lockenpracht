@@ -49,6 +49,7 @@ libRlCore_la_SOURCES = \
 	PhysicsMaterialRaycast.cpp \
 	PlayAnimationJob.cpp \
 	PlaySoundJob.cpp \
+	PolynomicSoundFadeFunctor.cpp \
 	PrimitiveObject.cpp \
 	RubyInterpreter.cpp \
 	SceneQuery.cpp \
