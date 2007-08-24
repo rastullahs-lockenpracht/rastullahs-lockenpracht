@@ -152,7 +152,6 @@ namespace rl
 
     void Armor::onStateChange(GameObjectState oldState, GameObjectState newState)
     {
-        int rs = 0;
         if (oldState != newState)
         {
             if (newState == GOS_READY)
@@ -166,7 +165,6 @@ namespace rl
                     mRsEffect->setProperty(Armor::PROPERTY_G_BE, Property(mGBE));
                     mRsEffect->setProperty(Armor::PROPERTY_G_RS, Property(mGRS));
                     getOwner()->addEffect(mRsEffect);
-                    rs = static_cast<Creature*>(getOwner())->getWert(Creature::WERT_RS);
                 }
             }
             else if (oldState == GOS_READY)
