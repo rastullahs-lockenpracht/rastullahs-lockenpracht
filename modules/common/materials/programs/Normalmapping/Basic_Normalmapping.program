@@ -152,7 +152,7 @@ material Basic_Normalmapping
 }
 
 
-material Basic_Normalmapping_UV1_mirrored
+material Basic_Normalmapping_mirrored
 {
 	lod_distances 12 100
 	
@@ -161,7 +161,7 @@ material Basic_Normalmapping_UV1_mirrored
 	    lod_index 0
         pass
         {
-            vertex_program_ref Basic_Normalmapping_UV1_VS_HLSL
+            vertex_program_ref Basic_Normalmapping_UV0_VS_HLSL
             {
                 param_named_auto matViewProjection worldviewproj_matrix
                 param_named_auto LightPosition_0 light_position_object_space 0
@@ -210,7 +210,7 @@ material Basic_Normalmapping_UV1_mirrored
 		{
 			alpha_rejection greater 128
 			//DirectX 9.0 HLSL Pixel Shader ps_2_0
-			fragment_program_ref Basic_Pixel_ShaderUV1
+			fragment_program_ref Basic_Pixel_Shader
 			{
 			}
 			//DirectX 9.0 HLSL Vertex Shader vs_2_0

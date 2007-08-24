@@ -1,5 +1,5 @@
 
-material men_human_female_feet_boots_01 : Basic_Normalmapping_UV1_mirrored
+material men_human_female_feet_boots_01 : Basic_Normalmapping_mirrored
 {
 set_texture_alias DiffuseMap obj_boots01.png
 set_texture_alias NormalMap obj_boots_01_normal.png

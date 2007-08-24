@@ -94,7 +94,7 @@
 					<Property Name="UnifiedSize" Value="{{0,60},{0,60}}" />
 				</Window>
 				
-				<Window Type="RastullahLook/Container" Name="InventoryWindow/Slots/Cape">
+				<Window Type="RastullahLook/Container" Name="InventoryWindow/Slots/Clothes">
 					<Property Name="UnifiedPosition" Value="{{0,270},{0,280}}" />
 					<Property Name="UnifiedSize" Value="{{0,60},{0,120}}" />
 				</Window>
