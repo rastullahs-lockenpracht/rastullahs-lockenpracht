@@ -1,3 +1,4 @@
+load "effects/ruestung.rb"
 class RubyClassFactory < UnifiedFactory
   def initialize()
     super();
@@ -16,7 +17,7 @@ class RubyClassFactory < UnifiedFactory
   end
 
   def createEffect(classname, stufe)
-    return Module.const_get(classname).new(id);
+    return Module.const_get(classname).new(stufe);
   end
 end
 
