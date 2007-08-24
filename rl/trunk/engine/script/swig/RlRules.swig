@@ -432,6 +432,16 @@ namespace rl {
         void setItemType(rl::Item::ItemType itemType);
         rl::Item::ItemType getItemType() const;
         virtual void setState(rl::GameObjectState state);
+        virtual void removeOldState();
+
+        void setParentSlot(rl::Slot* slot);
+        rl::Slot* getParentSlot() const;
+
+        void setParentContainer(rl::Container* cont);
+        rl::Container* getParentContainer() const;
+
+        void setOwner(rl::GameObject* go);
+        rl::GameObject* getOwner() const;
 
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
@@ -476,6 +486,10 @@ namespace rl {
     class Armor : public Item
     {
     public:
+    
+        static const Ogre::String Armor::PROPERTY_G_BE = "g_be";
+        static const Ogre::String Armor::PROPERTY_G_RS = "g_rs";
+        
         Armor(unsigned int id);
         virtual ~Armor();
 
@@ -620,7 +634,7 @@ namespace rl {
     class Creature : public GameObject {
     public:
     
-    typedef std::string Wert;
+    typedef CeGuiString Wert;
         enum Alignment
         {
             ALIGNMENT_ALLY,    ///< Creature fights with the player.
@@ -642,6 +656,7 @@ namespace rl {
         static const Creature::Wert Creature::WERT_GS = "GS";
         static const Creature::Wert Creature::WERT_SOZIALSTATUS = "SO";
         static const Creature::Wert Creature::WERT_BE = "BE";
+        static const Creature::Wert Creature::WERT_RS = "RS";
         static const Creature::Wert Creature::WERT_INI = "INI";
         static const Creature::Wert Creature::WERT_KAMPFUNFAEHIGKEITSSCHWELLE ="Kampfunfähigkeitsschwelle"; 
         static const Creature::Wert Creature::WERT_REGENERATION = "Regeneration";

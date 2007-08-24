@@ -71,6 +71,7 @@ namespace rl
     const Creature::Wert Creature::WERT_GS = "GS";
     const Creature::Wert Creature::WERT_SOZIALSTATUS = "SO";
     const Creature::Wert Creature::WERT_BE = "BE";
+    const Creature::Wert Creature::WERT_RS = "RS";
     const Creature::Wert Creature::WERT_INI = "INI";
     const Creature::Wert Creature::WERT_KAMPFUNFAEHIGKEITSSCHWELLE ="Kampfunfähigkeitsschwelle";
     const Creature::Wert Creature::WERT_REGENERATION = "Regeneration";
@@ -105,6 +106,7 @@ namespace rl
 		setWert(WERT_MOD_AU, 0);
 		setWert(WERT_MOD_MR, 0);
 		setWert(WERT_GS, 8);
+        setWert(WERT_RS, 0);
         setWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE, 0);
 		mEigenschaften[E_MUT] = 0;
 		mEigenschaften[E_KLUGHEIT] = 0;

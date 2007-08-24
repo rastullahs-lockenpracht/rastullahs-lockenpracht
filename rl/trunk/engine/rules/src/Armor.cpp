@@ -152,23 +152,29 @@ namespace rl
 
     void Armor::onStateChange(GameObjectState oldState, GameObjectState newState)
     {
+        int rs = 0;
         if (oldState != newState)
         {
-            if (newState == GOS_HELD)
+            if (newState == GOS_READY)
             {
                 if (getOwner())
                 {
                     mRsEffect = EffectFactoryManager::getSingleton().createEffect(
                         "Ruestung");
+                    if(mRsEffect == NULL)
+                        return;
                     mRsEffect->setProperty(Armor::PROPERTY_G_BE, Property(mGBE));
                     mRsEffect->setProperty(Armor::PROPERTY_G_RS, Property(mGRS));
                     getOwner()->addEffect(mRsEffect);
+                    rs = static_cast<Creature*>(getOwner())->getWert(Creature::WERT_RS);
                 }
             }
-            else if (oldState == GOS_HELD)
+            else if (oldState == GOS_READY)
             {
                 if (getOwner())
                 {
+                    if(mRsEffect == NULL)
+                        return;
                     getOwner()->removeEffect(mRsEffect);
                     delete mRsEffect;
                 }

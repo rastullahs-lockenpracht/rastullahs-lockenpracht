@@ -125,7 +125,7 @@ namespace rl
             static const Ogre::String PROPERTY_AP;
             static const Ogre::String PROPERTY_INVENTORY;
 
-			typedef std::string Wert;
+            typedef CeGuiString Wert;
 
     // some targets
 			static const std::string ALL_EIGENSCHAFTEN;
@@ -141,6 +141,7 @@ namespace rl
             static const Wert WERT_GS;
             static const Wert WERT_SOZIALSTATUS;
             static const Wert WERT_BE;
+            static const Wert WERT_RS;
             static const Wert WERT_INI;
             static const Wert WERT_KAMPFUNFAEHIGKEITSSCHWELLE; 
             static const Wert WERT_REGENERATION;

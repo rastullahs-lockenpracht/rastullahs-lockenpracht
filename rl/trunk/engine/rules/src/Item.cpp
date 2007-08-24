@@ -82,12 +82,7 @@ namespace rl
 	{
 		mSize = pair<int,int>(widthSize,heightSize);
 	}
-/*
-	void Item::hold()
-	{
-		setState(GOS_HELD);
-	}
-*/
+
     void Item::doHold()
     {
         setActor(createActor());
@@ -103,56 +98,14 @@ namespace rl
         }
     }
 
+    void Item::removeOldState()
+    {
+        setState(GOS_LOADED);
+    }
+
 // --------------- Warning ------------
 // do not change this function without
 // having a look at the containers and slots
-    void Item::setState(GameObjectState targetstate)
-    {
-        // do reset if one of the new states
-        if (mState != GOS_HELD && mState != GOS_IN_POSSESSION && mState != GOS_READY &&
-            mState == targetstate)
-        {
-            return;
-        }
-
-        GameObjectState oldState = mState;
-
-
-        if( mState == GOS_HELD ||
-            mState == GOS_IN_POSSESSION ||
-            mState == GOS_READY )
-        {
-            mState = GOS_LOADED; // <- this is important to avoid endless recursion!
-            if( getParentSlot() )
-                getParentSlot()->setItem(NULL);
-            setParentSlot(NULL);
-            if( getParentContainer() )
-                getParentContainer()->removeItem(this);
-            setParentContainer(NULL);
-            doLoose();
-            setOwner(NULL);
-        }
-        else
-        {
-            GameObject::setState(GOS_LOADED);
-            oldState = GOS_LOADED;
-        }
-
-        if( targetstate == GOS_HELD || 
-            targetstate == GOS_IN_POSSESSION || 
-            targetstate == GOS_READY )
-        {
-            mState = targetstate;
-            onStateChange(oldState, mState);
-        }
-        else
-        {
-            onStateChange(oldState, mState);
-            GameObject::setState(targetstate);
-        }
-    }
-
-/*
     void Item::setState(GameObjectState targetstate)
     {
         if (mState == targetstate)
@@ -160,130 +113,56 @@ namespace rl
             return;
         }
 
-        bool stateChanged = false;
         GameObjectState oldState = mState;
 
-        if (targetstate == GOS_IN_POSSESSION)
-        {
-            if( mState == GOS_HELD ||
-                mState == GOS_IN_POSSESSION ||
-                mState == GOS_READY )
-            {
-                mState = GOS_LOADED;
-                doLoose();
-                setOwner(NULL);
-                onStateChange(oldState, mState);
-            }
-            else
-            {
-                GameObject::setState(GOS_LOADED);
-                oldState = GOS_LOADED;
-            }
-            mState = targetstate;
-            stateChanged = true;
-            /*
-            if (mState == GOS_LOADED)
-            {
-                stateChanged = true;
-            }
-            else if (mState == GOS_IN_SCENE)
-            {
-                doRemoveFromScene();
-                stateChanged = true;
-            }
-            else if (mState == GOS_HELD)
-            {
-                doLoose();
-                destroyActor();
-                stateChanged = true;
-            }
-            */ /*
-        }
-        else if (targetstate == GOS_LOADED)
-        {
-                doLoose();
-                setOwner(NULL);
-            if (mState == GOS_IN_POSSESSION)
-            {
-				mState = GOS_LOADED;
-                stateChanged = true;
-            }
-            if (mState == GOS_HELD)
-            {
-                doLoose();
-                destroyActor();
-                mState = GOS_LOADED;
-				stateChanged = true;
-            }
-        }
-        else if (targetstate == GOS_IN_SCENE)
-        {
-            if (mState == GOS_IN_POSSESSION)
-            {
-                ///@todo remove from parent container?
-                doRemoveFromScene();
-                stateChanged = true;
-			}
-            if (mState == GOS_HELD)
-            {
-                doLoose();
-				doPlaceIntoScene();
-                stateChanged = true;
-            }
-        }
-        else if (targetstate == GOS_HELD)
-        {
-            if( mState == GOS_HELD ||
-                mState == GOS_IN_POSSESSION ||
-                mState == GOS_READY )
-            {
-                mState = GOS_LOADED;
-                doLoose();
-                setOwner(NULL);
-                onStateChange(oldState, mState);
-            }
-            else
-            {
-                GameObject::setState(GOS_LOADED);
-                oldState = GOS_LOADED;
-            }
-            mState = targetstate;
-            stateChanged = true;*/
-            /*
-            if (mState == GOS_LOADED)
-            {
-                //doHold();
-                stateChanged = true;
-            }
-            else if (mState == GOS_IN_SCENE)
-            {
-                doRemoveFromScene();
-                //doHold();
-                stateChanged = true;
-            }
-            else if (mState == GOS_IN_POSSESSION)
-            {
-                //doHold();
-                stateChanged = true;
-            }
-            */
-/*
-        }
-        else if (targetstate == GOS_READY)
-        {
-            ///@todo
-        }
 
-        if (stateChanged)
+        if( targetstate != GOS_HELD &&
+            targetstate != GOS_IN_POSSESSION &&
+            targetstate != GOS_READY )
         {
-            onStateChange(oldState, targetstate);
+            if( mState == GOS_HELD ||
+                mState == GOS_IN_POSSESSION ||
+                mState == GOS_READY )
+            {
+                mState = GOS_LOADED; // <- this is important to avoid endless recursion!
+                onStateChange(oldState, mState);
+
+                if( getParentSlot() )
+                    getParentSlot()->setItem(NULL);
+                setParentSlot(NULL);
+                if( getParentContainer() )
+                    getParentContainer()->removeItem(this);
+                setParentContainer(NULL);
+                doLoose();
+                setOwner(NULL);
+            }
+
+            GameObject::setState(targetstate);
         }
         else
         {
-            GameObject::setState(targetstate);
+            if( mState == GOS_HELD ||
+                mState == GOS_IN_POSSESSION ||
+                mState == GOS_READY )
+            {
+                LOG_WARNING(Logger::RULES, 
+                    "Item::removeOldState() or Item::setState(GOS_LOADED) should be called  \
+                    before setting one of the States GOS_HELD, GOS_IN_POSSESSION or GOS_READY!");
+            }
+            else
+            {
+                if( mState != GOS_LOADED )
+                {
+                    GameObject::setState(GOS_LOADED);
+                    oldState = GOS_LOADED;
+                }
+
+                mState = targetstate;
+                onStateChange(oldState, mState);
+            }
         }
     }
-*/
+
     void Item::setProperty(const Ogre::String &key, const rl::Property &value)
     {
         if (key == Item::PROPERTY_IMAGENAME)

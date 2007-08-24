@@ -65,12 +65,14 @@ namespace rl {
         {
             if( isAllowed(item) && isEmpty())
             {
+                item->removeOldState();
+                item->setOwner(mOwner);
+                item->setParentSlot(this);
                 if( canReady(item) )
                     item->setState(GOS_READY);
                 else
                     item->setState(GOS_HELD);
-                item->setOwner(mOwner);
-                item->setParentSlot(this);
+
                 mItem = item;
             }
             else

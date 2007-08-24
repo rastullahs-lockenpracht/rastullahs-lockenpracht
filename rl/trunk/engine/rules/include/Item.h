@@ -81,15 +81,13 @@ namespace rl
 
         /**
          * Fügt das Verhalten für die GO-States: GOS_READY, GOS_HELD und GOS_IN_POSSESION hinzu.
-         * @warning Falls ein Actor existiert, wird dieser gelöscht. Das bedeutet, dass diese Funktion
-         * aufgerufen werden muss, bevor gegebenenfalls ein neuer Actor erstellt wird!
-         * Der Owner und der ParentSlot wird ebenfalls resettet. Außerdem wird das Item aus dem Slot entfernt!
-         * Bei den drei States ist die zu Grunde liegende Idee, dass man (in dieser Reihenfolge) mit dieser
-         * Funktion den neuen State setzt und dann dann den neuen State einrichtet (evt doCreateActor() aufruft).
-         * Dabei muss man sich nicht mehr darum kümmern, welchen State das Item vorher hatte.
+         * @warning Bevor einer der drei States gesetzt wird, sollte zunächst die Funktion removeOldState
+         * aufgerufen werden, dann müssen Owner und ParentSlot/ParentContainer gesetzt werden und
+         * eventuell doCreateActor. Als letztes muss diese Funktion mit dem neuen State aufgerufen werden.
+         * Die Reihenfolge ist wichtig, damit die onStateChange-Funktionen funktionieren können!
          **/
         virtual void setState(GameObjectState state);
-        //void hold();
+        virtual void removeOldState();
 
         void setParentSlot(Slot* slot);
         Slot* getParentSlot() const;

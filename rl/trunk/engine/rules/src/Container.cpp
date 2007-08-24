@@ -112,8 +112,15 @@ namespace rl {
 		{
 			mItemPositions[item] = pos;
 			mItems.insert(item);
-			item->setState(GOS_IN_POSSESSION);
+
+            item->removeOldState();
             item->setParentContainer(this);
+            if(mOwner)
+                item->setOwner(mOwner);
+            else
+                item->setOwner(this);
+			item->setState(GOS_IN_POSSESSION);
+
 			return true;
 		}
 		else
