@@ -18,14 +18,13 @@ class Ruestung < Effect
   def getMod(target, type, tag)
     if ((target == Creature::WERT_BE) &&
         (type == MODTYPE_SUM))
-      print @_prop_g_be;
       @_prop_g_be
     elsif ((target == Creature::WERT_RS) &&
         (type == MODTYPE_SUM))
-      print @_prop_g_be;
-      @_prop_g_rs
+      @_prop_g_rs;
+    else
+      0
     end
-    return 0;
   end
 
   def check()
