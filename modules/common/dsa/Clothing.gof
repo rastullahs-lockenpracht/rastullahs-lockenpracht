@@ -9,8 +9,8 @@
         <property name="imagename" type="STRING" data="set:ModelThumbnails image:Rucksack"/>
         <property name="mass" type="REAL" data="3.0"/>
         <property name="size" type="INTPAIR" data="2,3"/>
+        <property name="itemtype" type="INT" data="4096"/>
         <property name="geometrytype" type="STRING" data="box"/>
-        <property name="itemtype" type="INT" data="32"/>
     </gameobjectclass>
     
     <gameobjectclass classid="men_human_female_cloth_short" baseclass="Armor">
@@ -30,9 +30,9 @@
         <property name="meshfile" type="STRING" data="men_human_female_feet_boots_01.mesh"/>
         <property name="imagename" type="STRING" data="set:ModelThumbnails image:Rucksack"/>
         <property name="mass" type="REAL" data="3.0"/>
-        <property name="size" type="INTPAIR" data="2,2"/>
+	<property name="size" type="INTPAIR" data="2,2"/>
+        <property name="itemtype" type="INT" data="16384"/>
         <property name="geometrytype" type="STRING" data="box"/>
-        <property name="itemtype" type="INT" data="32"/>
     </gameobjectclass>
 	
 </GameObjectDefinitions>

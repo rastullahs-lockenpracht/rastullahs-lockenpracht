@@ -41,8 +41,8 @@ class MCKHero < Person
     inv.addSlot("Armor", "armor", Item::ITEMTYPE_ARMOR, Item::ITEMTYPE_ARMOR, RlScript::SLOT_SUBMESH);
 	inv.addSlot("Torso", "men_human_female_torso", Item::ITEMTYPE_ARMOR, Item::ITEMTYPE_ARMOR, RlScript::SLOT_MATERIAL);
 	inv.addSlot("Clothes", "clothes", Item::ITEMTYPE_ARMOR,  Item::ITEMTYPE_ARMOR, RlScript::SLOT_SUBMESH);
-	inv.addSlot("Boots", "boots", Item::ITEMTYPE_ARMOR,  Item::ITEMTYPE_ARMOR, RlScript::SLOT_SUBMESH);
-	inv.addSlot("Trousers", "trousers", Item::ITEMTYPE_ARMOR,  Item::ITEMTYPE_ARMOR, RlScript::SLOT_SUBMESH);
+	inv.addSlot("Boots", "boots", Item::ITEMTYPE_BOOTS,  Item::ITEMTYPE_BOOTS, RlScript::SLOT_SUBMESH);
+	inv.addSlot("Trousers", "trousers", Item::ITEMTYPE_TROUSERS,  Item::ITEMTYPE_TROUSERS, RlScript::SLOT_SUBMESH);
 
 	#addSounds()
         $SCRIPT.log("done.");
