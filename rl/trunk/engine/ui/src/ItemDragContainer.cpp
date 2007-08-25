@@ -20,6 +20,7 @@
 #include <CEGUIWindowManager.h>
 
 #include "AbstractWindow.h"
+#include "Creature.h"
 #include "Inventory.h"
 #include "Item.h"
 #include "WindowFactory.h"
@@ -32,7 +33,8 @@ namespace rl {
 		mItem(item),
 		mParentContainer(NULL),
 		mParentSlot(""),
-		mContentWindow(NULL)
+		mContentWindow(NULL),
+        mInventory(NULL)
 	{
 	}
 
@@ -108,7 +110,7 @@ namespace rl {
 		const CEGUI::MouseEventArgs& mevt = static_cast<const CEGUI::MouseEventArgs&>(evt);
 		if (mevt.button == CEGUI::LeftButton)
 		{
-			item->doDefaultAction(mInventory->getOwner(), NULL);
+            item->doDefaultAction(static_cast<Creature*>(item->getOwner()), NULL);
 			return true;
 		}
 		else
