@@ -1,18 +1,3 @@
-fragment_program Basic_Normalmapping_Spec_PS_HLSL hlsl
-{
-    source Basic_Normalmapping_Spec_PS.hlsl
-    entry_point ps_main
-    target ps_2_0
-}
-
-fragment_program Basic_Normalmapping_Spec_mirrored_PS_HLSL hlsl
-{
-    source Basic_Normalmapping_Spec_mirrored_PS.hlsl
-    entry_point ps_main
-    target ps_2_0
-}
-
-
 material Basic_Normalmapping_Spec
 {
 	lod_distances 12 100

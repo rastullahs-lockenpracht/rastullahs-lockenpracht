@@ -1,0 +1,77 @@
+vertex_program Basic_Normalmapping_UV0_VS_HLSL hlsl
+{
+    source Basic_Normalmapping_UV0_VS.hlsl
+    entry_point vs_main
+    target vs_1_1
+}
+
+vertex_program Basic_Normalmapping_UV1_VS_HLSL hlsl
+{
+    source Basic_Normalmapping_UV1_VS.hlsl
+    entry_point vs_main
+    target vs_1_1
+}
+
+vertex_program Basic_Normalmapping_UV2_VS_HLSL hlsl
+{
+    source Basic_Normalmapping_UV2_VS.hlsl
+    entry_point vs_main
+    target vs_1_1
+}
+
+fragment_program Basic_Normalmapping_PS_HLSL hlsl
+{
+    source Basic_Normalmapping_PS.hlsl
+    entry_point ps_main
+    target ps_2_0
+}
+
+
+fragment_program Basic_Normalmapping_mirrored_PS_HLSL hlsl
+{
+    source Basic_Normalmapping_mirrored_PS.hlsl
+    entry_point ps_main
+    target ps_2_0
+}
+
+fragment_program Basic_Normalmapping_Spec_PS_HLSL hlsl
+{
+    source Basic_Normalmapping_Spec_PS.hlsl
+    entry_point ps_main
+    target ps_2_0
+}
+
+fragment_program Basic_Normalmapping_Spec_mirrored_PS_HLSL hlsl
+{
+    source Basic_Normalmapping_Spec_mirrored_PS.hlsl
+    entry_point ps_main
+    target ps_2_0
+}
+
+fragment_program Skin_Normalmapping_PS_HLSL hlsl
+{
+    source Skin_Normalmapping_PS.hlsl
+    entry_point ps_main
+    target ps_2_0
+}
+
+fragment_program Skin_Normalmapping_mirrored_PS_HLSL hlsl
+{
+    source Skin_Normalmapping_mirrored_PS.hlsl
+    entry_point ps_main
+    target ps_2_0
+}
+
+fragment_program Eye_Normalmapping_PS_HLSL hlsl
+{
+    source Eye_Normalmapping_PS.hlsl
+    entry_point ps_main
+    target ps_2_0
+}
+
+vertex_program Eye_Normalmapping_VS_HLSL hlsl
+{
+    source Eye_Normalmapping_VS.hlsl
+    entry_point vs_main
+    target vs_1_1
+}
