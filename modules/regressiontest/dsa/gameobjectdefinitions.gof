@@ -96,6 +96,7 @@
         <property name="capacity" type="REAL" data="20.0"/>
         <property name="volume" type="INTPAIR" data="8,6"/>
         <property name="size" type="INTPAIR" data="2,2"/>
+        <property name="itemtype" type="INT" data="256"/>	
 		<property name="mass" type="REAL" data="5.0"/>
 		<property name="geometrytype" type="STRING" data="ellipsoid"/>
         <property name="actions" type="ARRAY">

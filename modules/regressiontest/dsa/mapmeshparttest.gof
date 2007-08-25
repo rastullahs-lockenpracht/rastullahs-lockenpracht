@@ -52,6 +52,7 @@
         <property name="geometrytype" type="STRING" data="ellipsoid"/>
         <property name="g_be" type="INT" data="2"/>
         <property name="g_rs" type="INT" data="3"/>
+        <property name="size" type="INTPAIR" data="3,4"/>
 		<property name="itemtype" type="INT" data="32"/>
     </gameobjectclass>
 

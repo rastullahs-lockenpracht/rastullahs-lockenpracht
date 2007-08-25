@@ -21,7 +21,7 @@
         <property name="mass" type="REAL" data="3.0"/>
         <property name="size" type="INTPAIR" data="2,3"/>
         <property name="geometrytype" type="STRING" data="box"/>
-        <property name="itemtype" type="INT" data="32"/>
+        <property name="itemtype" type="INT" data="32768"/>
     </gameobjectclass>
     
     <gameobjectclass classid="men_human_female_feet_boots_01" baseclass="Armor">

@@ -33,14 +33,14 @@ class MCKHero < Person
 	inv = getInventory();
 	inv.addSlot("Left Ring", "Bip01 L Finger21", Item::ITEMTYPE_RING, Item::ITEMTYPE_RING);
 	inv.addSlot("Right Ring", "Bip01 R Finger21", Item::ITEMTYPE_RING, Item::ITEMTYPE_RING);
-	inv.addSlot("Left Hand", "Bip01 L SlotHand", Item::ITEMTYPE_WEAPON, Item::ITEMTYPE_ALL_ITEMS);
-	inv.addSlot("Right Hand", "Bip01 R SlotHand", Item::ITEMTYPE_WEAPON, Item::ITEMTYPE_ALL_ITEMS);
+	inv.addSlot("Left Hand", "Bip01 L SlotHand", Item::ITEMTYPE_WEAPON | Item::ITEMTYPE_SHIELD, Item::ITEMTYPE_ALL_ITEMS);
+	inv.addSlot("Right Hand", "Bip01 R SlotHand", Item::ITEMTYPE_WEAPON | Item::ITEMTYPE_SHIELD, Item::ITEMTYPE_ALL_ITEMS);
 	inv.addSlot("Head", "Bip01 Head", Item::ITEMTYPE_HELMET, Item::ITEMTYPE_HELMET, RlScript::SLOT_SUBMESH);
-	inv.addSlot("Back", "back", 0, Item::ITEMTYPE_ALL_ITEMS, RlScript::SLOT_SUBMESH);
+	inv.addSlot("Back", "back", 0, Item::ITEMTYPE_BACKPACK, RlScript::SLOT_SUBMESH);
 	#inv.addSlot("Back", "Bip01 Neck", Item::ITEMTYPE_ALL_ITEMS);
-    inv.addSlot("Armor", "armor", Item::ITEMTYPE_ARMOR, Item::ITEMTYPE_ARMOR, RlScript::SLOT_SUBMESH);
-	inv.addSlot("Torso", "men_human_female_torso", Item::ITEMTYPE_ARMOR, Item::ITEMTYPE_ARMOR, RlScript::SLOT_MATERIAL);
-	inv.addSlot("Clothes", "clothes", Item::ITEMTYPE_ARMOR,  Item::ITEMTYPE_ARMOR, RlScript::SLOT_SUBMESH);
+        inv.addSlot("Armor", "armor", Item::ITEMTYPE_ARMOR, Item::ITEMTYPE_ARMOR, RlScript::SLOT_SUBMESH);
+	inv.addSlot("Torso", "men_human_female_torso", Item::ITEMTYPE_ARMOR | Item::ITEMTYPE_CLOTHES, Item::ITEMTYPE_ARMOR | Item::ITEMTYPE_CLOTHES, RlScript::SLOT_MATERIAL);
+	inv.addSlot("Clothes", "clothes", Item::ITEMTYPE_CLOTHES,  Item::ITEMTYPE_CLOTHES, RlScript::SLOT_SUBMESH);
 	inv.addSlot("Boots", "boots", Item::ITEMTYPE_BOOTS,  Item::ITEMTYPE_BOOTS, RlScript::SLOT_SUBMESH);
 	inv.addSlot("Trousers", "trousers", Item::ITEMTYPE_TROUSERS,  Item::ITEMTYPE_TROUSERS, RlScript::SLOT_SUBMESH);
 
