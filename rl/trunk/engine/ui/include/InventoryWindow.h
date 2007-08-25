@@ -58,7 +58,7 @@ namespace rl {
 		bool handleItemDroppedOnSlot(const CEGUI::EventArgs& evt);
 		bool handleItemDroppedOnWorld(const CEGUI::EventArgs& evt);
 		bool handleMouseMovedInWorld(const CEGUI::EventArgs& evt);
-		bool handleKeys(const CEGUI::EventArgs& evt, bool down);
+		//bool handleKeys(const CEGUI::EventArgs& evt, bool down);
 		bool destroyDragContainer(ItemDragContainer* cont);
 
 		Ogre::Rectangle getCeGuiRectFromWorldAABB(

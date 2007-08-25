@@ -420,7 +420,8 @@ namespace rl {
             ITEMTYPE_TROUSERS   = 1 << 12,
             ITEMTYPE_SHINBONE   = 1 << 13,
             ITEMTYPE_BOOTS      = 1 << 14,
-            ITEMTYPE_OTHER      = 1 << 15,
+            ITEMTYPE_CLOTHES    = 1 << 15,
+            ITEMTYPE_OTHER      = 1 << 16,
             ITEMTYPE_ALL_ITEMS  = ~(0)
         };
     

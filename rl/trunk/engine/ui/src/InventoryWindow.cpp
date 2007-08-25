@@ -83,6 +83,7 @@ namespace rl {
                     curWndName.substr(
                         curWndName.find("InventoryWindow/Slots/") + 22);
                 slotsInWindowDefinition[slotname] = curWnd;
+                curWnd->setTooltipText(slotname);
             }
             else
             {
@@ -133,6 +134,7 @@ namespace rl {
 				if (itemWindow != NULL)
 				{
 					slotWindow->addChildWindow(itemWindow);
+                    slotWindow->setTooltipText(item->getName());
 				}
             }
         }
@@ -142,10 +144,10 @@ namespace rl {
 			boost::bind(&InventoryWindow::handleItemDroppedOnWorld, this, _1));
 		mWorldBackground->subscribeEvent(Window::EventMouseMove,
 			boost::bind(&InventoryWindow::handleMouseMovedInWorld, this, _1));
-		mWorldBackground->subscribeEvent(Window::EventKeyDown,
-			boost::bind(&InventoryWindow::handleKeys, this, _1, true));
-		mWorldBackground->subscribeEvent(Window::EventKeyUp,
-			boost::bind(&InventoryWindow::handleKeys, this, _1, false));
+		//mWorldBackground->subscribeEvent(Window::EventKeyDown,
+		//	boost::bind(&InventoryWindow::handleKeys, this, _1, true));
+		//mWorldBackground->subscribeEvent(Window::EventKeyUp,
+		//	boost::bind(&InventoryWindow::handleKeys, this, _1, false));
     }
 /*
     ItemDragContainer* InventoryWindow::getItemDragContainer(Item* item, bool description)
@@ -359,7 +361,7 @@ namespace rl {
 
 		return true;
 	}
-
+/*
 	bool InventoryWindow::handleKeys(const CEGUI::EventArgs &evt, bool down)
 	{
 		const KeyEventArgs& kevt = static_cast<const KeyEventArgs&>(evt);
@@ -410,7 +412,7 @@ namespace rl {
 
 		return false;
 	}
-
+*/
 	bool InventoryWindow::destroyDragContainer(rl::ItemDragContainer* cont)
 	{
 		cont->hide();

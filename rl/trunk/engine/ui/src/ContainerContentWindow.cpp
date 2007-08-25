@@ -44,9 +44,14 @@ namespace rl {
 			Window::EventDragDropItemDropped,
 			boost::bind(&ContainerContentWindow::handleItemDroppedOnContainer, this, _1));
 
-		mContentWindow->setSize(UVector2(
+        UVector2 size = UVector2(
 			cegui_absdim(container->getVolume().first*30),
-            cegui_absdim(container->getVolume().second*30)));
+            cegui_absdim(container->getVolume().second*30));
+		mContentWindow->setSize(size);
+        size.d_x += cegui_absdim(40);
+        size.d_y += cegui_absdim(50);
+        mContentWindow->getParent()->setMaxSize(size);
+        mContentWindow->getParent()->setMinSize(size);
 
 		initializeContent();
 
@@ -89,6 +94,9 @@ namespace rl {
 			ItemDragContainer* dragcont = static_cast<ItemDragContainer*>(
 				evtArgs.dragDropItem);
 			Item* item = dragcont->getItem();
+
+            if( item->getParentContainer() == mContainer )
+                return false;
 
 			if( mContainer->addItem(item) )
             {

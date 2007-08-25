@@ -58,7 +58,6 @@ namespace rl {
 		mContentWindow->setSize(CEGUI::UVector2(
 			cegui_absdim(item->getSize().first*30),
 			cegui_absdim(item->getSize().second*30)));
-		setTooltipText(item->getName());
 
 		addChildWindow(mContentWindow);
 	}
