@@ -634,7 +634,7 @@ namespace rl {
     class Creature : public GameObject {
     public:
     
-    typedef CeGuiString Wert;
+    typedef Ogre::String Wert;
         enum Alignment
         {
             ALIGNMENT_ALLY,    ///< Creature fights with the player.
