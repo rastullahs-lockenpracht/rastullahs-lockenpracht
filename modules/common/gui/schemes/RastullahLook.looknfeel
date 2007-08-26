@@ -505,9 +505,9 @@
 	<WidgetLook name="RastullahLook/Container">
 		<PropertyDefinition	name="ContainerColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
 		<PropertyDefinition	name="ContainerColour_Standard" initialValue="FFFFFFFF" redrawOnWrite="true" />
-		<PropertyDefinition	name="ContainerColour_DropPossible" initialValue="FFFFFF00" redrawOnWrite="true" />
-		<PropertyDefinition	name="ContainerColour_DropImpossible" initialValue="FFFF0000" redrawOnWrite="true" />
-		<PropertyDefinition	name="ContainerColour_DropReady" initialValue="FF00FF00" redrawOnWrite="true" />
+		<PropertyDefinition	name="ContainerColour_DropPossible" initialValue="FF9FB9FF" redrawOnWrite="true" />
+		<PropertyDefinition	name="ContainerColour_DropImpossible" initialValue="FFFF4700" redrawOnWrite="true" />
+		<PropertyDefinition	name="ContainerColour_DropReady" initialValue="FFBCFF56" redrawOnWrite="true" />
 
         <Property name="UnifiedMinSize" value="{{0,30},{0,30}}" />
 		<Property name="Alpha" value="0.7" />
