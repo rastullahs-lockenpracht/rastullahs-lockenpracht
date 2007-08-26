@@ -938,6 +938,17 @@ public:
     virtual Ogre::Real operator()(Ogre::Real time);
 };
 
+%rename(getVolume) rl::PolynomicSoundFadeFunctor::operator();
+typedef std::vector< std::pair<Ogre::Real, Ogre::Real> > InterpolationPoints;
+typedef std::vector<Ogre::Real> Parameters;
+class PolynomicSoundFadeFunctor : public rl::SoundFadeFunctor
+{
+public:
+    PolynomicSoundFadeFunctor(Ogre::Real duration, InterpolationPoints *points);
+	~PolynomicSoundFadeFunctor();
+
+    virtual Ogre::Real operator()(Ogre::Real time);
+};
 
 typedef RL_LONGLONG rl::Time;
 
