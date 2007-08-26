@@ -78,8 +78,8 @@ public:
     // Das Inventar der Kreatur wird durch das Inventarobjekt verwaltet.
     //void addToInventory(Item* item, const CeGuiString& containerName);
     void hold(Item* item, const CeGuiString& slotName);
-    bool canHold(Item* item, const CeGuiString& slotName) const;
-    bool canReady(Item* item, const CeGuiString& slotName) const;
+    bool canHold(const Item* item, const CeGuiString& slotName) const;
+    bool canReady(const Item* item, const CeGuiString& slotName) const;
 	void dropItem(const CeGuiString& slotName);
     void ready(Item* item);
     //void removeFromInventory(Item* item);

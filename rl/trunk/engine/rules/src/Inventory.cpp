@@ -193,7 +193,7 @@ namespace rl
         //item->setOwner(getOwner());
     }
 
-	bool Inventory::canHold(Item* item, const CeGuiString& slotName) const
+	bool Inventory::canHold(const Item* item, const CeGuiString& slotName) const
     {
         std::map<CeGuiString, Slot*>::const_iterator slotIter = mSlots.find(slotName);
         if (slotIter == mSlots.end())
@@ -204,7 +204,7 @@ namespace rl
 		return slotIter->second->isAllowed(item);
     }
 
-	bool Inventory::canReady(Item* item, const CeGuiString& slotName) const
+	bool Inventory::canReady(const Item* item, const CeGuiString& slotName) const
     {
         std::map<CeGuiString, Slot*>::const_iterator slotIter = mSlots.find(slotName);
         if (slotIter == mSlots.end())

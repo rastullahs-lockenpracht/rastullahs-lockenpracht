@@ -46,11 +46,14 @@ namespace rl {
 
         void setVisible(bool visible, bool destroyAfterHide = false);
 
+        bool showPossibleSlots(const Item* item);
+
     private:
 		typedef std::map<CeGuiString, ItemDragContainer*> DndContainerMap;
+        typedef std::map<CeGuiString, CEGUI::Window*> SlotWindowMap;
 
 		Inventory* mInventory;
-        std::map<CeGuiString, CEGUI::Window*> mSlotWindows;
+        SlotWindowMap mSlotWindows;
 		CEGUI::Window* mWorldBackground;
 		DndContainerMap mWorldDragContainers;
 		DndContainerMap mSlotDragContainers;

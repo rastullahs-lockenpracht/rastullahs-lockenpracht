@@ -45,6 +45,12 @@ namespace rl {
 		mContentWindow->subscribeEvent(
 			Window::EventDragDropItemDropped,
 			boost::bind(&ContainerContentWindow::handleItemDroppedOnContainer, this, _1));
+		mContentWindow->subscribeEvent(
+            Window::EventDragDropItemEnters,
+			boost::bind(&ContainerContentWindow::handleItemEntersContainer, this, _1));
+		mContentWindow->subscribeEvent(
+            Window::EventDragDropItemLeaves,
+			boost::bind(&ContainerContentWindow::handleItemLeavesContainer, this, _1));
 
         UVector2 size = UVector2(
 			cegui_absdim(container->getVolume().first*30),
@@ -59,6 +65,45 @@ namespace rl {
 
 		bindDestroyWindowToXButton();
 	}
+
+    bool ContainerContentWindow::handleItemEntersContainer(const CEGUI::EventArgs& evt)
+    {
+		const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
+
+		if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
+		{
+			ItemDragContainer* dragcont = static_cast<ItemDragContainer*>(
+				evtArgs.dragDropItem);
+			Item* item = dragcont->getItem();
+
+            if( item->getParentContainer() == mContainer )
+                return true;
+
+            if( !mContainer->canHold(item) )
+            {
+                mContentWindow->setProperty("ContainerColour", 
+                    mContentWindow->getProperty("ContainerColour_DropImpossible"));
+            }
+
+
+            return true;
+        }
+        return false;
+    }
+
+    bool ContainerContentWindow::handleItemLeavesContainer(const CEGUI::EventArgs& evt)
+    {
+        const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
+
+		if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
+		{
+            mContentWindow->setProperty("ContainerColour", 
+                mContentWindow->getProperty("ContainerColour_Standard"));
+
+            return true;
+        }
+        return false;
+    }
 
     void ContainerContentWindow::setVisible(bool visible, bool destroyAfterHide)
     {
@@ -121,9 +166,11 @@ namespace rl {
 					    cegui_absdim(pos.second*30)));
 			    dragcont->setItemParent(mContainer);
 
+                handleItemLeavesContainer(evt);
 			    return true;
             }
 		}
+        handleItemLeavesContainer(evt);
 		return false;
 	}
 
@@ -153,6 +200,13 @@ namespace rl {
 			dragContainerName);
 		itemhandler->setItemParent(mContainer);
 		itemhandler->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
+        if( mInventoryWindow )
+        {
+            itemhandler->subscribeEvent(DragContainer::EventDragStarted,
+                boost::bind(&rl::InventoryWindow::showPossibleSlots, mInventoryWindow, item));
+            itemhandler->subscribeEvent(DragContainer::EventDragEnded,
+                boost::bind(&InventoryWindow::showPossibleSlots, mInventoryWindow, (Item*)NULL));
+        }
 
 		return itemhandler;
 	}

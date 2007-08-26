@@ -89,6 +89,8 @@ namespace rl
         virtual void setProperty(const Ogre::String& key, const Property& value);
         virtual PropertySet* getAllProperties() const;
 
+        bool canHold(Item* item);
+
     private:
 		static const IntPair NO_SPACE_FOR_ITEM;
 

@@ -363,4 +363,8 @@ namespace rl {
         return ps;
     }
 
+    bool Container::canHold(Item* item)
+    {
+        return findPositionWithEnoughSpace(item->getSize()) != NO_SPACE_FOR_ITEM;
+    }
 }

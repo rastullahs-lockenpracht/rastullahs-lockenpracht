@@ -223,6 +223,10 @@ namespace rl {
 
 			itemhandler->setRiseOnClickEnabled(true);
 			itemhandler->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
+            itemhandler->subscribeEvent(DragContainer::EventDragStarted,
+                boost::bind(&rl::InventoryWindow::showPossibleSlots, this, item));
+            itemhandler->subscribeEvent(DragContainer::EventDragEnded,
+                boost::bind(&InventoryWindow::showPossibleSlots, this, (Item*)NULL));
 		}
 
 		return itemhandler;
@@ -271,12 +275,12 @@ namespace rl {
 				newCont->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
 				newCont->setItemParent(mInventory, targetSlot);
 
-                handleItemLeavesSlot(evt);
+                showPossibleSlots(NULL);
 				return true;
 			}
 			else
 			{
-                handleItemLeavesSlot(evt);
+                showPossibleSlots(NULL);
 				return false;
 			}
 		}
@@ -300,13 +304,13 @@ namespace rl {
 
             if( mInventory->canReady(item, targetSlot) )
             {
-                slotWindow->setProperty("ContainerColour", 
-                    slotWindow->getProperty("ContainerColour_DropReady"));
+                //slotWindow->setProperty("ContainerColour", 
+                //    slotWindow->getProperty("ContainerColour_DropReady"));
             }
             else if( mInventory->canHold(item, targetSlot) )
             {
-                slotWindow->setProperty("ContainerColour", 
-                    slotWindow->getProperty("ContainerColour_DropPossible"));
+                //slotWindow->setProperty("ContainerColour", 
+                //    slotWindow->getProperty("ContainerColour_DropPossible"));
             }
             else
             {
@@ -326,12 +330,29 @@ namespace rl {
 
 		if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
 		{
+			ItemDragContainer* dragcont = static_cast<ItemDragContainer*>(
+				evtArgs.dragDropItem);
+			Item* item = dragcont->getItem();
 			CeGuiString targetSlot = evtArgs.window->getUserString(SLOTNAME);
             CEGUI::Window* slotWindow = mSlotWindows[targetSlot];
 
 
-            slotWindow->setProperty("ContainerColour", 
-                slotWindow->getProperty("ContainerColour_Standard"));
+            if( mInventory->canReady(item, targetSlot) )
+            {
+                //slotWindow->setProperty("ContainerColour", 
+                //    slotWindow->getProperty("ContainerColour_Standard"));
+            }
+            else if( mInventory->canHold(item, targetSlot) )
+            {
+                //slotWindow->setProperty("ContainerColour", 
+                //    slotWindow->getProperty("ContainerColour_Standard"));
+            }
+            else
+            {
+                slotWindow->setProperty("ContainerColour", 
+                    slotWindow->getProperty("ContainerColour_Standard"));
+            }
+
 
             return true;
         }
@@ -554,5 +575,32 @@ namespace rl {
         {
             mOpenContainerMap.erase(iter);
         }
+    }
+
+    bool InventoryWindow::showPossibleSlots(const Item* item)
+    {
+        SlotWindowMap::iterator iter = mSlotWindows.begin();
+
+        for( ; iter != mSlotWindows.end(); iter++ )
+        {
+            if( item )
+            {
+                if( mInventory->canReady(item, iter->first) )
+                {
+                    iter->second->setProperty("ContainerColour", 
+                        iter->second->getProperty("ContainerColour_DropReady"));
+                    continue;
+                }
+                else if( mInventory->canHold(item, iter->first) )
+                {
+                    iter->second->setProperty("ContainerColour", 
+                        iter->second->getProperty("ContainerColour_DropPossible"));
+                    continue;
+                }
+            }
+            iter->second->setProperty("ContainerColour", 
+                iter->second->getProperty("ContainerColour_Standard"));
+        }
+        return true;
     }
 }
