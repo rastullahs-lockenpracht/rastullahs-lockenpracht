@@ -25,7 +25,6 @@
 #include "CloseConfirmationWindow.h"
 #include "CombatWindow.h"
 #include "Console.h"
-#include "ContainerContentWindow.h"
 #include "CoreSubsystem.h"
 #include "DebugWindow.h"
 #include "DialogCharacter.h"
@@ -137,7 +136,10 @@ namespace rl {
 
     void WindowFactory::showContainerContent(Container* container)
     {
-        (new ContainerContentWindow(container))->setVisible(true);
+        if( !mInventoryWindow )
+            toggleInventoryWindow();
+
+        mInventoryWindow->showContainerContent(container);
     }
 
     void WindowFactory::showMessageWindow(const CeGuiString& message)

@@ -105,7 +105,7 @@ namespace rl {
 		const CeGuiString& getNamePrefix() const;
 		
 		void centerWindow();
-		bool destroyWindow();		
+		virtual bool destroyWindow();		
 		bool hideWindow();
 
 		void bindDestroyWindowToClick(CEGUI::Window* button);

@@ -25,6 +25,7 @@
 
 #include "Container.h"
 #include "Inventory.h"
+#include "InventoryWindow.h"
 #include "ItemIconDragContainer.h"
 #include "WindowFactory.h"
 
@@ -34,9 +35,10 @@ namespace rl {
 
 	int ContainerContentWindow::sItemCount = 0;
 
-	ContainerContentWindow::ContainerContentWindow(Container* container)
+	ContainerContentWindow::ContainerContentWindow(Container* container, InventoryWindow* parent)
 		: AbstractWindow("containercontentwindow.xml", WIT_MOUSE_INPUT),
-		mContainer(container)
+		mContainer(container),
+        mInventoryWindow(parent)
 	{
 		mContentWindow = getWindow("ContainerContentWindow/Content");
 		mContentWindow->setUserData(container);
@@ -56,8 +58,20 @@ namespace rl {
 		initializeContent();
 
 		bindDestroyWindowToXButton();
-		centerWindow();
 	}
+
+    bool ContainerContentWindow::destroyWindow()
+    {
+        if( mInventoryWindow )
+            mInventoryWindow->notifyContainerContentWindowClosed(mContainer);
+
+        return AbstractWindow::destroyWindow();
+    }
+
+    void ContainerContentWindow::doDestroyWindow()
+    {
+        destroyWindow();
+    }
 
 	void ContainerContentWindow::initializeContent()
 	{

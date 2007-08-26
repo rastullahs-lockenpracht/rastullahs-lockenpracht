@@ -19,21 +19,28 @@
 
 #include "UiPrerequisites.h"
 #include "AbstractWindow.h"
+#include "InventoryWindow.h"
 
 namespace rl {
 
 	class Container;
 	class Item;
 	
+    /// this class is intended to be used with a inventorywindow
 	class _RlUiExport ContainerContentWindow :
 		public AbstractWindow
 	{
 	public:
-		ContainerContentWindow(Container* container);
+		ContainerContentWindow(Container* container, InventoryWindow* parent);
+        void doDestroyWindow();
+
+    protected:
+        bool destroyWindow();
 
 	private:
 		CEGUI::Window* mContentWindow;
 		Container* mContainer;
+        InventoryWindow* mInventoryWindow;
 
 		static int sItemCount;
 

@@ -27,6 +27,7 @@
 #include "ActorManager.h"
 #include "CameraObject.h"
 #include "Container.h"
+#include "ContainerContentWindow.h"
 #include "Creature.h"
 #include "Inventory.h"
 #include "Item.h"
@@ -52,7 +53,7 @@ namespace rl {
 		mWorldBackground = getWindow("InventoryWindow/Background");
         getWindow("InventoryWindow")->subscribeEvent(FrameWindow::EventCloseClicked,
 			boost::bind(&InventoryWindow::destroyWindow, this));
-        mWorldBackground->setZOrderingEnabled(false);
+        //mWorldBackground->setZOrderingEnabled(false);
 
         createSlotWindows(inventory);
         initInventoryWindow(inventory);
@@ -450,5 +451,44 @@ namespace rl {
 
         Ogre::Rectangle rval = {left,top, right, bottom};
         return rval;
+    }
+
+    void InventoryWindow::showContainerContent(Container* container)
+    {
+        ContainerMap::iterator iter = mOpenContainerMap.find(container);
+        if( iter == mOpenContainerMap.end() )
+        {
+            ContainerContentWindow* wnd = new ContainerContentWindow(container, this);
+            mOpenContainerMap.insert(make_pair(container, wnd));
+            mWorldBackground->addChildWindow(wnd->getWindow());
+            wnd->setVisible(true);
+        }
+        else
+        {
+            iter->second->setVisible(true);
+            iter->second->getWindow()->moveToFront();
+        }
+    }
+
+    bool InventoryWindow::destroyWindow()
+    {
+        ContainerMap::iterator iter = mOpenContainerMap.begin();
+        for( ; iter != mOpenContainerMap.end(); iter++)
+        {
+            if( iter->second != NULL )
+                iter->second->doDestroyWindow();
+        }
+        mOpenContainerMap.erase(mOpenContainerMap.begin(), mOpenContainerMap.end());
+
+        return AbstractWindow::destroyWindow();
+    }
+
+    void InventoryWindow::notifyContainerContentWindowClosed(Container* container)
+    {
+        ContainerMap::iterator iter = mOpenContainerMap.find(container);
+        if( iter != mOpenContainerMap.end() )
+        {
+            mOpenContainerMap.erase(iter);
+        }
     }
 }

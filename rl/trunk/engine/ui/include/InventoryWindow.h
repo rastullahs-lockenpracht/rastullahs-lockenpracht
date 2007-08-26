@@ -26,6 +26,8 @@
 namespace rl {
 
 	class CameraObject;
+    class Container;
+    class ContainerContentWindow;
     class Inventory;
 	class Item;
 	class ItemDragContainer;
@@ -38,6 +40,12 @@ namespace rl {
 
 		InventoryWindow(const Ogre::String& inventoryWindow, Inventory* inventory);
 		~InventoryWindow();
+
+        void showContainerContent(Container* container);
+        void notifyContainerContentWindowClosed(Container* container); // no error if not found!
+
+    protected:
+        bool destroyWindow();
 
     private:
 		typedef std::map<CeGuiString, ItemDragContainer*> DndContainerMap;
@@ -64,6 +72,8 @@ namespace rl {
 		Ogre::Rectangle getCeGuiRectFromWorldAABB(
 			CameraObject* camera,
 			const Ogre::AxisAlignedBox& aabb) const;
+        typedef std::map<Container*, ContainerContentWindow*> ContainerMap;
+        ContainerMap mOpenContainerMap;
     };
 }
 
