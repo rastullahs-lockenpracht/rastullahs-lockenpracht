@@ -4,8 +4,8 @@
 		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
 		
 	    <Window Type="RastullahLook/FrameWindow" Name="InventoryWindow">
-			<Property Name="VerticalAlignment" Value="Centre" />
-			<Property Name="HorizontalAlignment" Value="Centre" />
+			<Property Name="VerticalAlignment" Value="Bottom" />
+			<Property Name="HorizontalAlignment" Value="Left" />
 			<Property Name="UnifiedSize" Value="{{0,420},{0,560}}" />
 			<Property Name="Text" Value="Inventar" />
 			
