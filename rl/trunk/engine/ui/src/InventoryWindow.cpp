@@ -128,6 +128,10 @@ namespace rl {
 			slotWindow->setDragDropTarget(true);
 			slotWindow->subscribeEvent(Window::EventDragDropItemDropped,
 				boost::bind(&InventoryWindow::handleItemDroppedOnSlot, this, _1));
+            slotWindow->subscribeEvent(Window::EventDragDropItemEnters,
+                boost::bind(&InventoryWindow::handleItemEntersSlot, this, _1));
+            slotWindow->subscribeEvent(Window::EventDragDropItemLeaves,
+                boost::bind(&InventoryWindow::handleItemLeavesSlot, this, _1));
 
             if (item != NULL)
             {
@@ -267,16 +271,72 @@ namespace rl {
 				newCont->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
 				newCont->setItemParent(mInventory, targetSlot);
 
+                handleItemLeavesSlot(evt);
 				return true;
 			}
 			else
 			{
+                handleItemLeavesSlot(evt);
 				return false;
 			}
 		}
 
+        handleItemLeavesSlot(evt);
 		return false;
 	}
+
+    bool InventoryWindow::handleItemEntersSlot(const CEGUI::EventArgs& evt)
+    {
+		const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
+
+		if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
+		{
+			ItemDragContainer* dragcont = static_cast<ItemDragContainer*>(
+				evtArgs.dragDropItem);
+			Item* item = dragcont->getItem();
+			CeGuiString targetSlot = evtArgs.window->getUserString(SLOTNAME);
+            CEGUI::Window* slotWindow = mSlotWindows[targetSlot];
+
+
+            if( mInventory->canReady(item, targetSlot) )
+            {
+                slotWindow->setProperty("ContainerColour", 
+                    slotWindow->getProperty("ContainerColour_DropReady"));
+            }
+            else if( mInventory->canHold(item, targetSlot) )
+            {
+                slotWindow->setProperty("ContainerColour", 
+                    slotWindow->getProperty("ContainerColour_DropPossible"));
+            }
+            else
+            {
+                slotWindow->setProperty("ContainerColour", 
+                    slotWindow->getProperty("ContainerColour_DropImpossible"));
+            }
+
+
+            return true;
+        }
+        return false;
+    }
+
+    bool InventoryWindow::handleItemLeavesSlot(const CEGUI::EventArgs& evt)
+    {
+		const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
+
+		if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
+		{
+			CeGuiString targetSlot = evtArgs.window->getUserString(SLOTNAME);
+            CEGUI::Window* slotWindow = mSlotWindows[targetSlot];
+
+
+            slotWindow->setProperty("ContainerColour", 
+                slotWindow->getProperty("ContainerColour_Standard"));
+
+            return true;
+        }
+        return false;
+    }
 
 	bool InventoryWindow::handleItemDroppedOnWorld(const EventArgs& evt)
 	{

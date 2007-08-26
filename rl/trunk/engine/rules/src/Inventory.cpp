@@ -212,7 +212,7 @@ namespace rl
             Throw(rl::IllegalArgumentException, Ogre::String("Slot '")+slotName.c_str()+"' doesn't exist.");
         }
 
-		return true;//slotIter->second->canReady(item);
+		return slotIter->second->canReady(item);
     }
 
     Item* Inventory::getItem(const CeGuiString& slotName) const

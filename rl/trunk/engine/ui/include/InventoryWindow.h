@@ -63,6 +63,8 @@ namespace rl {
         //ItemDragContainer* getItemDragContainer(Item* item, bool description);
         CeGuiString getDragContainerNameFromItem(const Item* item, bool description);
 		bool handleItemDroppedOnSlot(const CEGUI::EventArgs& evt);
+        bool handleItemEntersSlot(const CEGUI::EventArgs& evt);
+        bool handleItemLeavesSlot(const CEGUI::EventArgs& evt);
 		bool handleItemDroppedOnWorld(const CEGUI::EventArgs& evt);
 		bool handleMouseMovedInWorld(const CEGUI::EventArgs& evt);
 		//bool handleKeys(const CEGUI::EventArgs& evt, bool down);
