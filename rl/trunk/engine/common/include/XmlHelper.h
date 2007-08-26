@@ -25,6 +25,8 @@
 #include "CommonPrerequisites.h"
 #include "XmlErrorHandler.h"
 
+#include "Tripel.h"
+
 // Da sollten wir uns auf etwas einigen
 // So ist das laestig.
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -57,13 +59,13 @@ public:
 	 * dieser ist wiederum ein Element-Knoten
 	 *
      * @param doc Das DOM-Document
-	 * @param parent Knoten, dessen Kinder gesucht sind
-	 * @param name Name des gesuchten Kindknotens von parent
+	 * @param parent Knoten, dessen Kind erzeugt wird
+	 * @param name Name des Kindknotens von parent
 	 *
 	 * @return Der Kindknoten
 	 */
     static XERCES_CPP_NAMESPACE::DOMElement* appendChildElement(XERCES_CPP_NAMESPACE::DOMDocument* doc, 
-        XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+        XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name);
 
     /**
 	 * Ermittelt einen Kindknoten eines DOM-Elements, das einen bestimmten Namen hat, 
@@ -133,6 +135,13 @@ public:
 	 */
 	static int getValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element);
 
+    static XERCES_CPP_NAMESPACE::DOMElement* setValueAsIntegerPair(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, IntPair value);
+
+    static IntPair getValueAsIntegerPair(XERCES_CPP_NAMESPACE::DOMElement* element);
+
+    static XERCES_CPP_NAMESPACE::DOMElement* setValueAsIntegerTriple(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, Tripel<int> value);
+
+    static Tripel<int> getValueAsIntegerTriple(XERCES_CPP_NAMESPACE::DOMElement* element);
 	
     /**
      * Convert a vector3 to an xml tag
@@ -141,7 +150,7 @@ public:
      * @param value The vector input
 	 * @return The DOM element
 	 */
-    static XERCES_CPP_NAMESPACE::DOMElement* setValueAsVector3(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, Ogre::Vector3 value);
+    static XERCES_CPP_NAMESPACE::DOMElement* setValueAsVector3(XERCES_CPP_NAMESPACE::DOMElement* element, Ogre::Vector3 value);
 
     /**
 	 * Processes an element node of shape <any_node_name x="0" y="0" z="0"/>
@@ -159,7 +168,7 @@ public:
      * @param value The quaternion input
 	 * @return The DOM element
 	 */
-    static XERCES_CPP_NAMESPACE::DOMElement* setValueAsQuaternion(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, Ogre::Quaternion value);
+    static XERCES_CPP_NAMESPACE::DOMElement* setValueAsQuaternion(XERCES_CPP_NAMESPACE::DOMElement* element, Ogre::Quaternion value);
 
     /**
 	 * Processes an element node of shape <any_node_name x="0" y="0" z="0" w="1"/>
@@ -220,6 +229,14 @@ public:
 	 * @return Das DOM-Element
 	 */
 	static int getAttributeValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+
+    static XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsIntegerPair(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, IntPair value);
+
+    static IntPair getAttributeValueAsIntegerPair(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+
+    static XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsIntegerTriple(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, Tripel<int> value);
+
+    static Tripel<int> getAttributeValueAsIntegerTriple(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
 	
 	/**
 	 * Setzt den Text eines DOMElement-Attributes

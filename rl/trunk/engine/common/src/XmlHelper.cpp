@@ -23,6 +23,8 @@
 #include "Exception.h"
 #include "Logger.h"
 
+#include <CEGUIPropertyHelper.h>
+
 using namespace XERCES_CPP_NAMESPACE;
 
 
@@ -144,6 +146,70 @@ int XmlHelper::getAttributeValueAsInteger(DOMElement* element,const char* const 
 	return rVal;
 }
 
+DOMElement* XmlHelper::setAttributeValueAsIntegerPair(DOMElement* element, const char* const name, IntPair value)
+{
+    RlAssert(element != NULL, "XmlHelper::setAttributeValueAsIntegerPair: Element must not be NULL");
+	XMLCh* attrName = XMLString::transcode(name);
+    CeGuiString temp = Ogre::StringConverter::toString(value.first) + "," + Ogre::StringConverter::toString(value.second);
+    element->setAttribute(attrName,XMLString::transcode(temp.c_str()));
+    XMLString::release(&attrName);
+    return element;
+}
+
+IntPair XmlHelper::getAttributeValueAsIntegerPair(DOMElement* element, const char* const name)
+{
+    RlAssert(element != NULL, "XmlHelper::getAttributeValueAsIntegerPair: Element must not be NULL");
+	XMLCh* attrName = XMLString::transcode(name);
+	const XMLCh* attribute = element->getAttribute(attrName);
+	
+    CeGuiString value = transcodeToString(attribute);
+    CeGuiString::size_type comma1 = value.find(",");
+
+	std::pair<int,int> intPairVal = std::make_pair(0, 0);
+    if (comma1 != CeGuiString::npos)
+    {
+		intPairVal = std::make_pair(
+			CEGUI::PropertyHelper::stringToInt(value.substr(0, comma1)),
+			CEGUI::PropertyHelper::stringToInt(value.substr(comma1 + 1)));
+    }
+    XMLString::release(&attrName);
+
+    return intPairVal;
+}
+
+DOMElement* XmlHelper::setAttributeValueAsIntegerTriple(DOMElement *element, const char *const name, Tripel<int> value)
+{
+    RlAssert(element != NULL, "XmlHelper::setAttributeValueAsIntegerTriple: Element must not be NULL");
+	XMLCh* attrName = XMLString::transcode(name);
+    CeGuiString temp = Ogre::StringConverter::toString(value.first) + "," + Ogre::StringConverter::toString(value.second) + "" + Ogre::StringConverter::toString(value.third);
+    element->setAttribute(attrName,XMLString::transcode(temp.c_str()));
+    XMLString::release(&attrName);
+    return element;
+}
+
+Tripel<int> XmlHelper::getAttributeValueAsIntegerTriple(DOMElement* element, const char* const name)
+{
+    RlAssert(element != NULL, "XmlHelper::getAttributeValueAsIntegerPair: Element must not be NULL");
+	XMLCh* attrName = XMLString::transcode(name);
+	const XMLCh* attribute = element->getAttribute(attrName);
+
+    CeGuiString value = transcodeToString(attribute);
+
+    CeGuiString::size_type comma1 = value.find(",");
+    CeGuiString::size_type comma2 = value.find(",", comma1 + 1);
+
+    Tripel<int> intTripel(0,0,0);
+    if (comma1 != CeGuiString::npos && comma2 != CeGuiString::npos)
+    {
+        intTripel.first = CEGUI::PropertyHelper::stringToFloat(value.substr(0, comma1));
+        intTripel.second = CEGUI::PropertyHelper::stringToFloat(value.substr(comma1 + 1, comma2 - comma1 - 1));
+        intTripel.third = CEGUI::PropertyHelper::stringToFloat(value.substr(comma2 + 1));
+    }
+    XMLString::release(&attrName);
+
+    return intTripel;
+}
+
 DOMElement* XmlHelper::setAttributeValueAsReal(DOMElement *element, const char *const name, Ogre::Real value)
 {
     RlAssert(element != NULL, "XmlHelper::setAttributeValueAsReal: Element must not be NULL");
@@ -246,7 +312,60 @@ int XmlHelper::getValueAsInteger(DOMElement* element)
 	return XMLString::parseInt(element->getFirstChild()->getNodeValue());
 }
 
-DOMElement* XmlHelper::setValueAsVector3(DOMDocument* doc, DOMElement *element, Ogre::Vector3 value)
+DOMElement* XmlHelper::setValueAsIntegerPair(DOMDocument *doc, DOMElement *element, IntPair value)
+{
+    RlAssert(element != NULL, "XmlHelper::setValueAsIntegerPair: Element must not be NULL");
+    String temp = CEGUI::PropertyHelper::intToString(value.first) + ',' + CEGUI::PropertyHelper::intToString(value.second);
+    DOMText* text = doc->createTextNode(XMLString::transcode(temp.c_str()));
+    element->appendChild(text);
+    return element;
+}
+
+IntPair XmlHelper::getValueAsIntegerPair(DOMElement* element)
+{
+    RlAssert(element != NULL, "XmlHelper::getValueAsIntegerPair: Element must not be NULL");
+    CeGuiString value = getValueAsString(element);
+    CeGuiString::size_type comma1 = value.find(",");
+
+	std::pair<int,int> intPairVal = std::make_pair(0, 0);
+    if (comma1 != CeGuiString::npos)
+    {
+		intPairVal = std::make_pair(
+			CEGUI::PropertyHelper::stringToInt(value.substr(0, comma1)),
+			CEGUI::PropertyHelper::stringToInt(value.substr(comma1 + 1)));
+    }
+    return intPairVal;
+}
+
+DOMElement* XmlHelper::setValueAsIntegerTriple(DOMDocument *doc, DOMElement *element, Tripel<int> value)
+{
+    RlAssert(element != NULL, "XmlHelper::setValueAsIntegerTriple: Element must not be NULL");
+    RlAssert(element != NULL, "XmlHelper::setValueAsIntegerPair: Element must not be NULL");
+    String temp = CEGUI::PropertyHelper::intToString(value.first) + ',' + CEGUI::PropertyHelper::intToString(value.second) + ',' + CEGUI::PropertyHelper::intToString(value.third);
+    DOMText* text = doc->createTextNode(XMLString::transcode(temp.c_str()));
+    element->appendChild(text);
+    return element;
+}
+
+Tripel<int> XmlHelper::getValueAsIntegerTriple(DOMElement *element)
+{
+    RlAssert(element != NULL, "XmlHelper::getValueAsIntegerTriple: Element must not be NULL");
+    CeGuiString value = getValueAsString(element);
+
+    CeGuiString::size_type comma1 = value.find(",");
+    CeGuiString::size_type comma2 = value.find(",", comma1 + 1);
+
+    Tripel<int> intTripel(0,0,0);
+    if (comma1 != CeGuiString::npos && comma2 != CeGuiString::npos)
+    {
+        intTripel.first = CEGUI::PropertyHelper::stringToFloat(value.substr(0, comma1));
+        intTripel.second = CEGUI::PropertyHelper::stringToFloat(value.substr(comma1 + 1, comma2 - comma1 - 1));
+        intTripel.third = CEGUI::PropertyHelper::stringToFloat(value.substr(comma2 + 1));
+    }
+    return intTripel;
+}
+
+DOMElement* XmlHelper::setValueAsVector3( DOMElement *element, Ogre::Vector3 value)
 {
     RlAssert(element != NULL, "XmlHelper::setValueAsVector3: Element must not be NULL");
     setAttribute(element, "x", Ogre::StringConverter::toString(value.x).c_str());
@@ -269,7 +388,7 @@ Ogre::Vector3 XmlHelper::getValueAsVector3(DOMElement* element)
 		getAttributeValueAsReal(element, "z"));
 }
 
-DOMElement* XmlHelper::setValueAsQuaternion(DOMDocument* doc, DOMElement *element, Ogre::Quaternion value)
+DOMElement* XmlHelper::setValueAsQuaternion(DOMElement *element, Ogre::Quaternion value)
 {
     RlAssert(element != NULL, "XmlHelper::setValueAsQuaternion: Element must not be NULL");
     setAttribute(element, "x", Ogre::StringConverter::toString(value.x).c_str());
