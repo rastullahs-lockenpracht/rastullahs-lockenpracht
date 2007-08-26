@@ -32,10 +32,8 @@ namespace rl {
 	{
 	public:
 		ContainerContentWindow(Container* container, InventoryWindow* parent);
-        void doDestroyWindow();
 
-    protected:
-        bool destroyWindow();
+        void setVisible(bool visible, bool destroyAfterHide = false);
 
 	private:
 		CEGUI::Window* mContentWindow;

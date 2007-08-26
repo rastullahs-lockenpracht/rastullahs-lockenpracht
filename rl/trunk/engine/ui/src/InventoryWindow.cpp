@@ -471,17 +471,20 @@ namespace rl {
         }
     }
 
-    bool InventoryWindow::destroyWindow()
+    void InventoryWindow::setVisible(bool visible, bool destroyAfterHide)
     {
-        ContainerMap::iterator iter = mOpenContainerMap.begin();
-        for( ; iter != mOpenContainerMap.end(); iter++)
+        if( !visible && destroyAfterHide )
         {
-            if( iter->second != NULL )
-                iter->second->doDestroyWindow();
+            ContainerMap::iterator iter = mOpenContainerMap.begin();
+            for( ; iter != mOpenContainerMap.end(); iter++)
+            {
+                if( iter->second != NULL )
+                    iter->second->setVisible(false, true);
+            }
+            mOpenContainerMap.erase(mOpenContainerMap.begin(), mOpenContainerMap.end());
         }
-        mOpenContainerMap.erase(mOpenContainerMap.begin(), mOpenContainerMap.end());
 
-        return AbstractWindow::destroyWindow();
+        AbstractWindow::setVisible(visible, destroyAfterHide);
     }
 
     void InventoryWindow::notifyContainerContentWindowClosed(Container* container)

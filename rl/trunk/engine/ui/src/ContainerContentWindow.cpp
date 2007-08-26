@@ -60,17 +60,15 @@ namespace rl {
 		bindDestroyWindowToXButton();
 	}
 
-    bool ContainerContentWindow::destroyWindow()
+    void ContainerContentWindow::setVisible(bool visible, bool destroyAfterHide)
     {
-        if( mInventoryWindow )
-            mInventoryWindow->notifyContainerContentWindowClosed(mContainer);
+        if( !visible && destroyAfterHide )
+        {
+            if( mInventoryWindow )
+                mInventoryWindow->notifyContainerContentWindowClosed(mContainer);
+        }
 
-        return AbstractWindow::destroyWindow();
-    }
-
-    void ContainerContentWindow::doDestroyWindow()
-    {
-        destroyWindow();
+        AbstractWindow::setVisible(visible, destroyAfterHide);
     }
 
 	void ContainerContentWindow::initializeContent()

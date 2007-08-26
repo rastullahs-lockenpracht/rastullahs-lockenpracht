@@ -44,8 +44,7 @@ namespace rl {
         void showContainerContent(Container* container);
         void notifyContainerContentWindowClosed(Container* container); // no error if not found!
 
-    protected:
-        bool destroyWindow();
+        void setVisible(bool visible, bool destroyAfterHide = false);
 
     private:
 		typedef std::map<CeGuiString, ItemDragContainer*> DndContainerMap;
