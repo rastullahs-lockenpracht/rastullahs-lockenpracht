@@ -116,8 +116,7 @@ public:
 	static utf8* getValueAsUtf8(XERCES_CPP_NAMESPACE::DOMElement* element);
 
 	/**
-	 * Setzt den Text eines Elementknotens und parst ihn, 
-	 * um eine Ganzzahl daraus zu machen
+	 * Formt eine Ganzzahl in einen String um und setzt diesen als Wert
 	 *
 	 * @param element Das DOM-Element
      * @param value Der zu setzende Integer
@@ -135,12 +134,40 @@ public:
 	 */
 	static int getValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element);
 
+    /**
+	 * Formt einen Ganzzahldubel in einen String um und setzt diesen als Wert
+	 *
+	 * @param element Das DOM-Element
+     * @param value Das zu setzende IntegerPair
+	 * @return Das DOM-Element
+	 */
     static XERCES_CPP_NAMESPACE::DOMElement* setValueAsIntegerPair(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, IntPair value);
 
+    /**
+	 * Ermittelt den Text eines Elementknotens und parst ihn, 
+	 * um einen Ganzzahldubel daraus zu machen
+	 *
+	 * @param element Das DOM-Element
+	 * @return Zahl, die innerhalb der Element-Tags steht
+	 */
     static IntPair getValueAsIntegerPair(XERCES_CPP_NAMESPACE::DOMElement* element);
 
+    /**
+	 * Formt einen Ganzzahltripel in einen String um und setzt diesen als Wert
+	 *
+	 * @param element Das DOM-Element
+     * @param value Der zu setzende Tripel<int>
+	 * @return Das DOM-Element
+	 */
     static XERCES_CPP_NAMESPACE::DOMElement* setValueAsIntegerTriple(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, Tripel<int> value);
 
+    /**
+	 * Ermittelt den Text eines Elementknotens und parst ihn, 
+	 * um einen Ganzzahltripel daraus zu machen
+	 *
+	 * @param element Das DOM-Element
+	 * @return Zahl, die innerhalb der Element-Tags steht
+	 */
     static Tripel<int> getValueAsIntegerTriple(XERCES_CPP_NAMESPACE::DOMElement* element);
 	
     /**
@@ -210,12 +237,12 @@ public:
 
     
     /**
-	 * Ermittelt den Text eines DOMElement-Attributes und parst ihn, 
-	 * um eine Ganzzahl daraus zu machen
+	 * Wandelt eine Ganzzahl in einen Text um und setzt diesen als Attribut 
 	 *
 	 * @param element Das DOM-Element
 	 * @param name Name des Attributes
-	 * @return Zahlenwert des Attributes
+     * @param value das zu setzende Integer
+	 * @return Das DOM-Element
 	 */
 	static XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, int value);
 
@@ -225,17 +252,48 @@ public:
 	 *
 	 * @param element Das DOM-Element
 	 * @param name Name des Attributes
-     * @param value das zu setzende Integer
-	 * @return Das DOM-Element
+     * @return Zahlenwert des Attributes
 	 */
 	static int getAttributeValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
 
+    /**
+	 * Wandelt eine Ganzzahldubel in einen Text um und setzt diesen als Attribut 
+	 *
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+     * @param value das zu setzende IntegerPair
+	 * @return Das DOM-Element
+	 */
     static XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsIntegerPair(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, IntPair value);
 
+    /**
+	 * Ermittelt den Text eines DOMElement-Attributes und parst ihn, 
+	 * um eine Ganzzahldubel daraus zu machen
+	 *
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+     * @return Zahlendubel des Attributes
+	 */
     static IntPair getAttributeValueAsIntegerPair(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
 
+    /**
+	 * Wandelt eine Ganzzahltripel in einen Text um und setzt diesen als Attribut 
+	 *
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+     * @param value das zu setzende Tripel<int>
+	 * @return Das DOM-Element
+	 */
     static XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsIntegerTriple(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, Tripel<int> value);
 
+    /**
+	 * Ermittelt den Text eines DOMElement-Attributes und parst ihn, 
+	 * um eine Ganzzahltripel daraus zu machen
+	 *
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+     * @return Zahlendubel des Attributes
+	 */
     static Tripel<int> getAttributeValueAsIntegerTriple(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
 	
 	/**

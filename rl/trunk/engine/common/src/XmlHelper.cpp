@@ -189,7 +189,7 @@ DOMElement* XmlHelper::setAttributeValueAsIntegerTriple(DOMElement *element, con
 
 Tripel<int> XmlHelper::getAttributeValueAsIntegerTriple(DOMElement* element, const char* const name)
 {
-    RlAssert(element != NULL, "XmlHelper::getAttributeValueAsIntegerPair: Element must not be NULL");
+    RlAssert(element != NULL, "XmlHelper::getAttributeValueAsIntegerTriple: Element must not be NULL");
 	XMLCh* attrName = XMLString::transcode(name);
 	const XMLCh* attribute = element->getAttribute(attrName);
 
