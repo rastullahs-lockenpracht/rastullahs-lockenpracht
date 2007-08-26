@@ -45,7 +45,6 @@ namespace rl {
         mDesiredVelocity(Vector3::ZERO),
         mCollisionsEnabled(false),
         mPitchRange(Degree(-89), Degree(89)),
-        mCameraUpConstraint(Vector3::ZERO),
         mYaw(Degree(0)),
         mPitch(Degree(0))
 	{
@@ -59,9 +58,7 @@ namespace rl {
 
     void FreeflightControlState::pause()
     {
-		mCameraActor->getPhysicalThing()->unfreeze();
-        if(mCameraUpConstraint != Vector3::ZERO)
-            mCameraActor->getPhysicalThing()->setUpConstraint(mCameraUpConstraint);
+		mCameraActor->getPhysicalThing()->freeze();
 		mCharacterActor->getPhysicalThing()->unfreeze();
         mCameraActor->getPhysicalThing()->setPhysicsController(NULL);
 
@@ -80,8 +77,7 @@ namespace rl {
 
     void FreeflightControlState::resume()
     {
-        mCameraActor->getPhysicalThing()->freeze();
-        mCameraUpConstraint = mCameraActor->getPhysicalThing()->getUpConstraint();
+        mCameraActor->getPhysicalThing()->unfreeze();
 		mCharacterActor->getPhysicalThing()->freeze();
 
         resetCamera();
@@ -89,6 +85,7 @@ namespace rl {
         // The actor should be controlled manually,
         // so let the PM prepare it accordingly
         mCameraActor->getPhysicalThing()->setPhysicsController(this);
+        mCameraActor->getPhysicalThing()->setUpConstraint(Vector3::ZERO);
         // We also handle char<->level, char<->default collision from now on (camera=char!)
         PhysicsManager::getSingleton().getMaterialPair(
             PhysicsManager::getSingleton().getMaterialID("camera"),

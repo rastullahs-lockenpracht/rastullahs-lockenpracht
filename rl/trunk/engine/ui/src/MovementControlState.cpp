@@ -161,8 +161,8 @@ namespace rl {
         mController = NULL;
 
         // actors aren't controlled anymore
-        //mCharacterActor->getPhysicalThing()->setPhysicsController(NULL);
         mCameraActor->getPhysicalThing()->setPhysicsController(NULL);
+        mCameraActor->getPhysicalThing()->freeze();
         // cam<->Level collision back to default
         PhysicsManager::getSingleton().resetMaterialPair(
             PhysicsManager::getSingleton().getMaterialID("camera"),
@@ -207,7 +207,9 @@ namespace rl {
         // control camera
         mCameraActor->getPhysicalThing()->setMaterialID(
             PhysicsManager::getSingleton().getMaterialID("camera"));
+        mCameraActor->getPhysicalThing()->unfreeze();
         mCameraActor->getPhysicalThing()->setPhysicsController(this);
+        mCameraActor->getPhysicalThing()->setUpConstraint(Vector3::ZERO);
 
         // We also handle cam<->level, cam<->default cam<->char collision from now on
         PhysicsManager::getSingleton().createMaterialPair(
@@ -614,6 +616,7 @@ namespace rl {
                 mCharacterActor->setVisible(true);
             }
         }
+        mCameraActor->setOrientation(cameraNode->getOrientation());
     }
 
     // -------------------------------------------------------------

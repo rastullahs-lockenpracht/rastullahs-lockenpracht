@@ -53,7 +53,8 @@ namespace rl {
 		mWorldBackground = getWindow("InventoryWindow/Background");
         getWindow("InventoryWindow")->subscribeEvent(FrameWindow::EventCloseClicked,
 			boost::bind(&InventoryWindow::destroyWindow, this));
-        //mWorldBackground->setZOrderingEnabled(false);
+        mWorldBackground->moveToBack();
+        mWorldBackground->setZOrderingEnabled(false);
 
         createSlotWindows(inventory);
         initInventoryWindow(inventory);
