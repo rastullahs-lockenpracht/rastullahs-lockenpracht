@@ -18,12 +18,15 @@
 #include "ItemDragContainer.h"
 
 #include <CEGUIWindowManager.h>
+#include <CEGUIEventSet.h>
 
 #include "AbstractWindow.h"
 #include "Creature.h"
 #include "Inventory.h"
 #include "Item.h"
+#include "JobScheduler.h"
 #include "WindowFactory.h"
+#include "WindowFadeJob.h"
 
 namespace rl {
 	const Ogre::String ItemDragContainer::ICON_UNKNOWN_ITEM = "set:ModelThumbnails image:item_unknown";
@@ -34,17 +37,49 @@ namespace rl {
 		mParentContainer(NULL),
 		mParentSlot(""),
 		mContentWindow(NULL),
-        mInventory(NULL)
+        mInventory(NULL),
+        mMarkedToHideAndDestroy(false),
+        mDestroyListener(NULL)
 	{
 	}
 
 	ItemDragContainer::~ItemDragContainer()
 	{
+        if(mDestroyListener)
+            mDestroyListener->notifyItemDragContainerDestroyed(this);
+        stopFadeOut();
+
+        hide();
+		if (getParent())
+		{
+			getParent()->removeChildWindow(this);
+		}
 		removeAllEvents();
 		mContentWindow->removeAllEvents();
 		removeChildWindow(mContentWindow);
 		CEGUI::WindowManager::getSingleton().destroyWindow(mContentWindow);
+        CEGUI::WindowManager::getSingleton().destroyWindow(this);
 	}
+
+    void ItemDragContainer::destroyWindow()
+    {
+        if(mDestroyListener)
+            mDestroyListener->notifyItemDragContainerDestroyed(this);
+        mDestroyListener = NULL;
+        stopFadeOut();
+
+        hide();
+		if (getParent())
+		{
+			getParent()->removeChildWindow(this);
+		}
+
+        JobScheduler::getSingleton().addJob(
+            new WindowFadeJob(this,
+            WindowFadeJob::FADE_OUT_AND_DESTROY, 1.0f, 9999999999999.9f),
+            JobScheduler::JP_NORMAL,
+            0.0f);
+    }
 
 	void ItemDragContainer::setItemParent(Container* container)
 	{
@@ -119,5 +154,29 @@ namespace rl {
 		}
 	}
 
+    bool ItemDragContainer::fadeOutAndHide(Ogre::Real delay)
+    {
+        stopFadeOut();
 
+        mHideAndDestroyJobTicket =
+                JobScheduler::getSingleton().addJob(
+                    new WindowFadeJob(this,
+                    WindowFadeJob::FADE_OUT, 1.0f, 0.5f),
+                    JobScheduler::JP_NORMAL,
+                    delay);
+        mMarkedToHideAndDestroy = true;
+        return true;
+    }
+
+    bool ItemDragContainer::stopFadeOut()
+    {
+        if( mMarkedToHideAndDestroy )
+        {
+            JobScheduler::getSingleton().removeJob(mHideAndDestroyJobTicket);
+        }
+        mMarkedToHideAndDestroy = false;
+        setAlpha(1.0f);
+
+        return true;
+    }
 }

@@ -174,7 +174,7 @@ namespace rl {
         if (sendKeyToCeGui(evt))
         {
             CEGUI::System& cegui = CEGUI::System::getSingleton();
-            cegui.injectKeyUp(evt.key);
+            cegui.injectKeyDown(evt.key);
             return true;
         }
         else
@@ -190,7 +190,7 @@ namespace rl {
         if (sendKeyToCeGui(evt))
         {
             CEGUI::System& cegui = CEGUI::System::getSingleton();
-            cegui.injectKeyDown(evt.key);
+            cegui.injectKeyUp(evt.key);
             cegui.injectChar(im->getKeyChar(evt.key, im->getModifierCode()));
             return true;
         }
@@ -238,7 +238,8 @@ namespace rl {
             || evt.key == OIS::KC_LEFT || evt.key == OIS::KC_RIGHT
             || evt.key == OIS::KC_BACK || evt.key == OIS::KC_DELETE
             || evt.key == OIS::KC_UP   || evt.key == OIS::KC_DOWN
-            || evt.key == OIS::KC_RMENU)
+            || evt.key == OIS::KC_RMENU
+            || evt.key == OIS::KC_LCONTROL)
         {
             return true;
         }

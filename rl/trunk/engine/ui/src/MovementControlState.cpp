@@ -1265,7 +1265,12 @@ namespace rl {
     //------------------------------------------------------------------------
     bool MovementControlState::keyPressed(const OIS::KeyEvent& evt)
     {
-        if (ControlState::keyPressed(evt)) return true;
+        if( ControlState::keyPressed(evt) )
+        {
+            mCharacterState.mCurrentMovementState = MOVE_NONE |
+                (mCharacterState.mCurrentMovementState & MOVE_RUN_LOCK);
+            return true;
+        }
 
         int movement = mCommandMapper->getMovement(evt.key);
 
@@ -1286,9 +1291,11 @@ namespace rl {
     bool MovementControlState::keyReleased(const OIS::KeyEvent& evt)
     {
         // CEGUI is handled by base class, so hand it down if necessary.
-        if (sendKeyToCeGui(evt))
+        if( ControlState::keyReleased(evt) )
         {
-            return ControlState::keyReleased(evt);
+            mCharacterState.mCurrentMovementState = MOVE_NONE |
+                (mCharacterState.mCurrentMovementState & MOVE_RUN_LOCK);
+            return true;
         }
 
         int movement = mCommandMapper->getMovement(evt.key);

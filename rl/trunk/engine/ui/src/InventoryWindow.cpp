@@ -45,7 +45,7 @@ namespace rl {
 	const Ogre::String InventoryWindow::SLOTNAME = "slotname";
 
     InventoryWindow::InventoryWindow(const Ogre::String& inventoryWindow, Inventory* inventory)
-        : AbstractWindow(inventoryWindow, AbstractWindow::WIT_MOUSE_INPUT)
+        : AbstractWindow(inventoryWindow, AbstractWindow::WIT_MOUSE_INPUT | AbstractWindow::WIT_KEYBOARD_INPUT), mShowAllWorldItems(false)
     {
         mInventory = inventory;
 
@@ -140,7 +140,6 @@ namespace rl {
 				if (itemWindow != NULL)
 				{
 					slotWindow->addChildWindow(itemWindow);
-                    slotWindow->setTooltipText(item->getName());
 				}
             }
         }
@@ -150,13 +149,23 @@ namespace rl {
 			boost::bind(&InventoryWindow::handleItemDroppedOnWorld, this, _1));
 		mWorldBackground->subscribeEvent(Window::EventMouseMove,
 			boost::bind(&InventoryWindow::handleMouseMovedInWorld, this, _1));
-		//mWorldBackground->subscribeEvent(Window::EventKeyDown,
-		//	boost::bind(&InventoryWindow::handleKeys, this, _1, true));
-		//mWorldBackground->subscribeEvent(Window::EventKeyUp,
-		//	boost::bind(&InventoryWindow::handleKeys, this, _1, false));
+
+        // be sure we get all key-events:
+        Window* invWnd = getWindow("InventoryWindow");
+        //invWnd->setDistributesCapturedInputs(false);
+		invWnd->subscribeEvent(Window::EventKeyDown,
+			boost::bind(&InventoryWindow::handleKeys, this, _1, true));
+		invWnd->subscribeEvent(Window::EventKeyUp,
+			boost::bind(&InventoryWindow::handleKeys, this, _1, false));
+        //mWorldBackground->setDistributesCapturedInputs(false);
+		mWorldBackground->subscribeEvent(Window::EventKeyDown,
+			boost::bind(&InventoryWindow::handleKeys, this, _1, true));
+		mWorldBackground->subscribeEvent(Window::EventKeyUp,
+			boost::bind(&InventoryWindow::handleKeys, this, _1, false));
+        //invWnd->activate();
     }
-/*
-    ItemDragContainer* InventoryWindow::getItemDragContainer(Item* item, bool description)
+
+    ItemDragContainer* InventoryWindow::getItemDragContainer(const Item* item, bool description)
     {
 		CeGuiString dragContainerName = getDragContainerNameFromItem(item, description);
 		ItemDragContainer* itemhandler = NULL;
@@ -174,7 +183,6 @@ namespace rl {
 
         return NULL;
     }
-*/
 
     CeGuiString InventoryWindow::getDragContainerNameFromItem(const Item* item, bool description)
     {
@@ -195,15 +203,17 @@ namespace rl {
 		DndContainerMap::iterator itS = mSlotDragContainers.find(dragContainerName);
 		if (itW != mWorldDragContainers.end() || itS != mSlotDragContainers.end())
 		{
-			//itemhandler = it->second;
-			return NULL; ///@todo just a test
+			return NULL;
 		}
 		else
 		{
 			if (showdescription)
 				itemhandler = new ItemDescriptionDragContainer(item, dragContainerName);
 			else
+            {
 				itemhandler = new ItemIconDragContainer(item, dragContainerName);
+                itemhandler->setTooltipText(item->getName());
+            }
 
 			if (slotName != "")
 			{
@@ -215,22 +225,48 @@ namespace rl {
 				mWorldDragContainers[dragContainerName] = itemhandler;
 			}
 
-			//Window* itemWindow = itemhandler->getContentWindow();
+            itemhandler->setDestroyListener(this);
 
-			//itemWindow->subscribeEvent(
-			//	Window::EventMouseLeaves,
-			//	boost::bind(&InventoryWindow::destroyDragContainer, this, itemhandler));
-
-			itemhandler->setRiseOnClickEnabled(true);
+  			itemhandler->setRiseOnClickEnabled(true);
 			itemhandler->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
             itemhandler->subscribeEvent(DragContainer::EventDragStarted,
-                boost::bind(&rl::InventoryWindow::showPossibleSlots, this, item));
+                boost::bind(&rl::InventoryWindow::handleItemDragStarted, this, item, showdescription));
             itemhandler->subscribeEvent(DragContainer::EventDragEnded,
-                boost::bind(&InventoryWindow::showPossibleSlots, this, (Item*)NULL));
+                boost::bind(&InventoryWindow::handleItemDragEnded, this, item, showdescription));
 		}
 
 		return itemhandler;
 	}
+
+    bool InventoryWindow::handleItemDragEnded(const Item* item, bool showdescription)
+    {
+        showPossibleSlots(NULL);
+
+        if( showdescription && !mShowAllWorldItems) // this is a world item
+        {
+            // fade out and destroy
+            ItemDragContainer* cont = getItemDragContainer(item, showdescription);
+            if( cont )
+                cont->fadeOutAndHide(2.0f);
+        }
+
+        return true;
+    }
+
+    bool InventoryWindow::handleItemDragStarted(const Item* item, bool showdescription)
+    {
+        showPossibleSlots(item);
+
+        if( showdescription && !mShowAllWorldItems) // this is a world item
+        {
+            // stop fade out and destroy
+            ItemDragContainer* cont = getItemDragContainer(item, showdescription);
+            if( cont )
+                cont->stopFadeOut();
+        }
+
+        return true;
+    }
 
 	bool InventoryWindow::handleItemDroppedOnSlot(const EventArgs& evt)
 	{
@@ -247,12 +283,10 @@ namespace rl {
 			{
 				if (dragcont->getItemParentContainer() != NULL)
 				{
-					//dragcont->getItemParentContainer()->removeItem(item);
 					dragcont->getParent()->removeChildWindow(dragcont);
 				}
 				else if (dragcont->getItemParentSlot() != "")
 				{
-					//dragcont->getItemParentInventory()->dropItem(dragcont->getItemParentSlot());
 					dragcont->getParent()->removeChildWindow(dragcont);
 				}
 
@@ -260,7 +294,7 @@ namespace rl {
 
 				if (newCont)
 				{
-					destroyDragContainer(dragcont);
+                    dragcont->destroyWindow();
 				}
 				else
 				{
@@ -372,7 +406,8 @@ namespace rl {
 				dragcont->getPixelRect().d_top / getRoot()->getPixelSize().d_height,
 				-1);
 
-			destroyDragContainer(dragcont);
+
+            dragcont->destroyWindow();
 
 			Ogre::Vector3 targetPosWorldSpace =
 				mInventory->getOwner()->getPosition()
@@ -393,6 +428,9 @@ namespace rl {
 
 	bool InventoryWindow::handleMouseMovedInWorld(const EventArgs& evt)
 	{
+        if( mShowAllWorldItems )
+            return true;
+
 		const MouseEventArgs& mevt = static_cast<const MouseEventArgs&>(evt);
 
 		Actor* cameraActor = ActorManager::getSingleton().getActor("DefaultCamera");
@@ -422,13 +460,15 @@ namespace rl {
 				LOG_MESSAGE(Logger::UI,
 					"Selected " + (*it)->getDescription());
 
-				ItemDragContainer* cont =
-					createItemDragContainer(static_cast<Item*>(*it), true);
+                ItemDragContainer* cont = getItemDragContainer(static_cast<Item*>(*it), true);
+
+                if( !cont )
+                {
+					cont = createItemDragContainer(static_cast<Item*>(*it), true);
+                    mWorldBackground->addChildWindow(cont);
+                }
 				if (cont)
 				{
-					mWorldBackground->addChildWindow(cont);
-					cont->setVisible(true);
-
 					Ogre::Rectangle aabb = getCeGuiRectFromWorldAABB(camera,
 							(*it)->getActor()->_getSceneNode()->_getWorldAABB());
 					UVector2 posCont = UVector2(
@@ -436,79 +476,78 @@ namespace rl {
 							UDim((aabb.top+aabb.bottom)/2.0, 0));
 					posCont -= cont->getSize() / UVector2(UDim(2, 2), UDim(2, 2));
 					cont->setPosition(posCont);
+					cont->setVisible(true);
+
+                    cont->fadeOutAndHide(2.0f);
 				}
 			}
 		}
 
-		//camera->getPointOnScreen(
-
 		return true;
 	}
-/*
+
 	bool InventoryWindow::handleKeys(const CEGUI::EventArgs &evt, bool down)
 	{
 		const KeyEventArgs& kevt = static_cast<const KeyEventArgs&>(evt);
-		if (kevt.scancode == CEGUI::Key::Tab)
+        if (kevt.scancode == CEGUI::Key::LeftControl)
 		{
 			if (down)
 			{
+                mShowAllWorldItems = true;
+
 				Actor* cameraActor = ActorManager::getSingleton().getActor("DefaultCamera");
 				CameraObject* camera = static_cast<CameraObject*>(cameraActor->getControlledObject());
 
 				HalfSphereSelector sel(QUERYFLAG_ITEM);
 				sel.setPosition(cameraActor->getWorldPosition());
 				sel.setOrientation(cameraActor->getWorldOrientation());
-				sel.setRadius(2.0);
+				sel.setRadius(10.0);
 
 				sel.updateSelection();
 				Selector::GameObjectVector v = sel.getAllSelectedObjects();
 				for (Selector::GameObjectVector::iterator
 					it = v.begin(); it != v.end(); ++it)
 				{
-					ItemDragContainer* cont =
-						createItemDragContainer(static_cast<Item*>(*it), true);
 
-					if (cont)
-					{
-						mWorldBackground->addChildWindow(cont);
+				    LOG_MESSAGE(Logger::UI,
+					    "Selected " + (*it)->getDescription());
 
-						Ogre::Rectangle aabb = getCeGuiRectFromWorldAABB(camera,
-							(*it)->getActor()->_getSceneNode()->_getWorldAABB());
-						UVector2 posCont = UVector2(
-							UDim((aabb.left+aabb.right)/2.0, 0),
-							UDim((aabb.top+aabb.bottom)/2.0, 0));
-						posCont -= cont->getSize() / UVector2(UDim(2, 2), UDim(2, 2));
-						cont->setPosition(posCont);
-					}
+                    ItemDragContainer* cont = getItemDragContainer(static_cast<Item*>(*it), true);
+
+                    if( !cont )
+                    {
+					    cont = createItemDragContainer(static_cast<Item*>(*it), true);
+                        mWorldBackground->addChildWindow(cont);
+                    }
+				    if (cont)
+				    {
+					    Ogre::Rectangle aabb = getCeGuiRectFromWorldAABB(camera,
+							    (*it)->getActor()->_getSceneNode()->_getWorldAABB());
+					    UVector2 posCont = UVector2(
+							    UDim((aabb.left+aabb.right)/2.0, 0),
+							    UDim((aabb.top+aabb.bottom)/2.0, 0));
+					    posCont -= cont->getSize() / UVector2(UDim(2, 2), UDim(2, 2));
+					    cont->setPosition(posCont);
+					    cont->setVisible(true);
+                        cont->moveToFront();
+                        cont->stopFadeOut();
+				    }
 				}
 			}
 			else
 			{
-				while (!mWorldDragContainers.empty())
-				{
-					destroyDragContainer(mWorldDragContainers.begin()->second);
-				}
+                mShowAllWorldItems = false;
+                DndContainerMap::iterator iter = mWorldDragContainers.begin();
+                for( ; iter != mWorldDragContainers.end(); iter++ )
+                {
+                    iter->second->fadeOutAndHide(0.0f);
+                }
 			}
 
 			return true;
 		}
 
 		return false;
-	}
-*/
-	bool InventoryWindow::destroyDragContainer(rl::ItemDragContainer* cont)
-	{
-		cont->hide();
-		cont->removeAllEvents();
-		if (cont->getParent())
-		{
-			cont->getParent()->removeChildWindow(cont);
-		}
-		mWorldDragContainers.erase(cont->getName());
-		mSlotDragContainers.erase(cont->getName());
-		CEGUI::WindowManager::getSingleton().destroyWindow(cont->getContentWindow());
-		
-		return true;
 	}
 
 	Ogre::Rectangle InventoryWindow::getCeGuiRectFromWorldAABB(
@@ -602,5 +641,30 @@ namespace rl {
                 iter->second->getProperty("ContainerColour_Standard"));
         }
         return true;
+    }
+
+    void InventoryWindow::notifyItemDragContainerDestroyed(ItemDragContainer* cont)
+    {
+        DndContainerMap::iterator iter = mWorldDragContainers.begin();
+        for( ; iter != mWorldDragContainers.end(); iter++)
+        {
+            if( iter->second == cont )
+            {
+                mWorldDragContainers.erase(iter);
+                return;
+            }
+        }
+
+        iter = mSlotDragContainers.begin();
+        for( ; iter != mSlotDragContainers.end(); iter++)
+        {
+            if( iter->second == cont )
+            {
+                mSlotDragContainers.erase(iter);
+                return;
+            }
+        }
+
+        LOG_ERROR(Logger::UI, "Could not find ItemDragContainer in InventoryWindow::notifyItemDragContainerDestroyed!");
     }
 }

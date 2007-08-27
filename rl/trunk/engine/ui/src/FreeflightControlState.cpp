@@ -219,6 +219,12 @@ namespace rl {
 
     bool FreeflightControlState::keyPressed(const OIS::KeyEvent& evt)
 	{
+        if( ControlState::keyPressed(evt) )
+        {
+            mCurrentMovementState = MOVE_NONE;
+            return true;
+        }
+
         int movement = mCommandMapper->getMovement(evt.key);
 
 		if (movement != MOVE_NONE)
@@ -232,6 +238,12 @@ namespace rl {
 
     bool FreeflightControlState::keyReleased(const OIS::KeyEvent& evt)
 	{
+        if( ControlState::keyPressed(evt) )
+        {
+            mCurrentMovementState = MOVE_NONE;
+            return true;
+        }
+
         int movement = mCommandMapper->getMovement(evt.key);
 
 		if (movement != MOVE_NONE)

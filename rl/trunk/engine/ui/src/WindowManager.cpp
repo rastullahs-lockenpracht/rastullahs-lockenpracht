@@ -97,7 +97,7 @@ namespace rl {
         {
             mNumActiveWindowsMouseInput += isVisible ? +1 : -1;
         }
-        else if (window->getWindowInputType() & AbstractWindow::WIT_KEYBOARD_INPUT)
+        if (window->getWindowInputType() & AbstractWindow::WIT_KEYBOARD_INPUT)
         {
             mNumActiveWindowsKeyboardInput += isVisible ? +1 : -1;
         }

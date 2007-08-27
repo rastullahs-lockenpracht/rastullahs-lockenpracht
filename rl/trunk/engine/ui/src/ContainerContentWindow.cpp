@@ -152,14 +152,28 @@ namespace rl {
 				evtArgs.dragDropItem);
 			Item* item = dragcont->getItem();
 
-            if( item->getParentContainer() == mContainer )
-                return false;
 
-			if( mContainer->addItem(item) )
+            int x = evtArgs.dragDropItem->getPixelRect().d_left;
+            int y = evtArgs.dragDropItem->getPixelRect().d_top;
+            x -= mContentWindow->getPixelRect().d_left;
+            y -= mContentWindow->getPixelRect().d_top;
+
+            // übergangspixel
+            x += 14;
+            y += 14;
+
+            x = x / 30;
+            y = y / 30;
+
+			if( mContainer->addItem(item,IntPair(x,y)) )
             {
-			    dragcont->getParent()->removeChildWindow(dragcont);
+                if( dragcont != getItemWindow(item) )
+                {
+                    dragcont->destroyWindow();
+                    dragcont = createItemWindow(item);
+                    mContentWindow->addChildWindow(dragcont);
+                }
 			    std::pair<unsigned int, unsigned int> pos = mContainer->getItemPosition(item);
-			    mContentWindow->addChildWindow(dragcont);
 			    dragcont->setPosition(
 				    UVector2(
 					    cegui_absdim(pos.first*30),
@@ -174,7 +188,7 @@ namespace rl {
 		return false;
 	}
 
-	Window* ContainerContentWindow::createItemWindow(Item* item)
+	ItemDragContainer* ContainerContentWindow::createItemWindow(Item* item)
 	{
         CeGuiString icon = item->getImageName();
 
@@ -182,6 +196,8 @@ namespace rl {
 		{
 			icon = ItemDragContainer::ICON_UNKNOWN_ITEM;
 		}
+
+        
 
    //     LOG_MESSAGE("IW", icon);
    //     Window* itemWindow =
@@ -192,12 +208,22 @@ namespace rl {
    //     itemWindow->setProperty("Image", icon);
    //     itemWindow->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
    //     itemWindow->setSize(UVector2(cegui_reldim(1), cegui_reldim(1)));
+
+        ItemDragContainer* itemhandler = getItemWindow(item);
+        if( itemhandler )
+            return itemhandler;
+
+
+
+
 		CeGuiString dragContainerName =
 			mWindow->getName() +  "/item/"
 			+ Ogre::StringConverter::toString(item->getId())+"_DragContainer";
 
-		ItemDragContainer* itemhandler = new ItemIconDragContainer(item,
+		itemhandler = new ItemIconDragContainer(item,
 			dragContainerName);
+        itemhandler->setDestroyListener(this);
+        mItemDragContainerMap.insert(std::make_pair(item, itemhandler));
 		itemhandler->setItemParent(mContainer);
 		itemhandler->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
         if( mInventoryWindow )
@@ -237,5 +263,29 @@ namespace rl {
         {
             return false;
         }
+    }
+
+    ItemDragContainer* ContainerContentWindow::getItemWindow(Item* item)
+    {
+        ItemDragContainerMap::iterator iter = mItemDragContainerMap.find(item);
+        if( iter != mItemDragContainerMap.end() )
+            return iter->second;
+
+        return NULL;
+    }
+
+    void ContainerContentWindow::notifyItemDragContainerDestroyed(ItemDragContainer* cont)
+    {
+        ItemDragContainerMap::iterator iter = mItemDragContainerMap.begin();
+        for( ; iter != mItemDragContainerMap.end(); iter++ )
+        {
+            if( iter->second == cont )
+            {
+                mItemDragContainerMap.erase(iter);
+                return;
+            }
+        }
+
+        LOG_ERROR(Logger::UI, "Could not find ItemDragContainer in InventoryWindow::notifyItemDragContainerDestroyed!");
     }
 }

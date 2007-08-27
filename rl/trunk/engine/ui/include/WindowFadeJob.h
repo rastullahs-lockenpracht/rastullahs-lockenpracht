@@ -22,9 +22,15 @@
 
 #include "Job.h"
 
+namespace CEGUI
+{
+    class Window;
+}
+
 namespace rl {
 
     class AbstractWindow;
+    class ItemDragContainer;
 
     class WindowFadeJob : public Job
     {
@@ -32,13 +38,19 @@ namespace rl {
         typedef enum {FADE_IN, FADE_OUT, FADE_OUT_AND_DESTROY} Mode;
 
         WindowFadeJob(AbstractWindow* window, Mode mode,
-            Ogre::Real targetAlpha, Ogre::Real changeRate = 4.0f);
+            Ogre::Real targetAlpha = 1.0f, Ogre::Real changeRate = 4.0f);
+        WindowFadeJob::WindowFadeJob(CEGUI::Window* window, Mode mode, 
+            Ogre::Real targetAlpha = 1.0f, Ogre::Real changeRate = 4.0f);
+        WindowFadeJob::WindowFadeJob(ItemDragContainer* window, Mode mode, 
+            Ogre::Real targetAlpha = 1.0f, Ogre::Real changeRate = 4.0f);
 
         virtual bool execute(Ogre::Real time);
         virtual void discard();
 
     protected:
-        AbstractWindow* mWindow;
+        AbstractWindow* mAbstractWindow;
+        CEGUI::Window* mCEGUIWindow;
+        ItemDragContainer* mItemDragContainer;
         Mode mMode;
         Ogre::Real mChangeRate;
         Ogre::Real mCurrentAlpha;

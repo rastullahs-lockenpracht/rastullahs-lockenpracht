@@ -22,6 +22,7 @@
 #include <OgreRectangle.h>
 
 #include "AbstractWindow.h"
+#include "ItemDragContainer.h"
 
 namespace rl {
 
@@ -30,10 +31,10 @@ namespace rl {
     class ContainerContentWindow;
     class Inventory;
 	class Item;
-	class ItemDragContainer;
 	class RaySelector;
 
-	class _RlUiExport InventoryWindow : public AbstractWindow
+	class _RlUiExport InventoryWindow : public AbstractWindow,
+        public ItemDragContainerDestroyListener
 	{
 	public:
 		static const Ogre::String SLOTNAME;
@@ -48,6 +49,8 @@ namespace rl {
 
         bool showPossibleSlots(const Item* item);
 
+        void notifyItemDragContainerDestroyed(ItemDragContainer* cont);
+
     private:
 		typedef std::map<CeGuiString, ItemDragContainer*> DndContainerMap;
         typedef std::map<CeGuiString, CEGUI::Window*> SlotWindowMap;
@@ -58,20 +61,22 @@ namespace rl {
 		DndContainerMap mWorldDragContainers;
 		DndContainerMap mSlotDragContainers;
 		RaySelector* mMouseSelector;
+        bool mShowAllWorldItems;
 
 		void createSlotWindows(Inventory* inventory);
         void initInventoryWindow(Inventory* inventory);
 
 		ItemDragContainer* createItemDragContainer(Item* item, bool showdescription, const CeGuiString& containerName = "");
-        //ItemDragContainer* getItemDragContainer(Item* item, bool description);
+        ItemDragContainer* getItemDragContainer(const Item* item, bool description);
         CeGuiString getDragContainerNameFromItem(const Item* item, bool description);
 		bool handleItemDroppedOnSlot(const CEGUI::EventArgs& evt);
         bool handleItemEntersSlot(const CEGUI::EventArgs& evt);
         bool handleItemLeavesSlot(const CEGUI::EventArgs& evt);
 		bool handleItemDroppedOnWorld(const CEGUI::EventArgs& evt);
+        bool handleItemDragEnded(const Item* item, bool description);
+        bool handleItemDragStarted(const Item* item, bool description);
 		bool handleMouseMovedInWorld(const CEGUI::EventArgs& evt);
-		//bool handleKeys(const CEGUI::EventArgs& evt, bool down);
-		bool destroyDragContainer(ItemDragContainer* cont);
+		bool handleKeys(const CEGUI::EventArgs& evt, bool down);
 
 		Ogre::Rectangle getCeGuiRectFromWorldAABB(
 			CameraObject* camera,

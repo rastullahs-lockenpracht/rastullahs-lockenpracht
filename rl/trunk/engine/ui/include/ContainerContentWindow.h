@@ -20,6 +20,7 @@
 #include "UiPrerequisites.h"
 #include "AbstractWindow.h"
 #include "InventoryWindow.h"
+#include "ItemDragContainer.h"
 
 namespace rl {
 
@@ -28,17 +29,22 @@ namespace rl {
 	
     /// this class is intended to be used with a inventorywindow
 	class _RlUiExport ContainerContentWindow :
-		public AbstractWindow
+		public AbstractWindow,
+        public ItemDragContainerDestroyListener
 	{
 	public:
 		ContainerContentWindow(Container* container, InventoryWindow* parent);
 
         void setVisible(bool visible, bool destroyAfterHide = false);
 
+        void notifyItemDragContainerDestroyed(ItemDragContainer* cont);
+
 	private:
 		CEGUI::Window* mContentWindow;
 		Container* mContainer;
         InventoryWindow* mInventoryWindow;
+        typedef std::map<Item*, ItemDragContainer*> ItemDragContainerMap;
+        ItemDragContainerMap mItemDragContainerMap;
 
 		static int sItemCount;
 
@@ -48,7 +54,8 @@ namespace rl {
         bool handleItemMouseClick(const CEGUI::EventArgs& evt, Item* item);
         bool handleItemDoubleClick(const CEGUI::EventArgs& evt, Item* item);
 		void initializeContent();
-		CEGUI::Window* createItemWindow(Item* item);
+		ItemDragContainer* createItemWindow(Item* item);
+        ItemDragContainer* getItemWindow(Item* item);
 	};
 }
 

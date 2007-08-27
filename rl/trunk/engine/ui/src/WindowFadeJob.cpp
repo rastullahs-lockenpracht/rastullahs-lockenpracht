@@ -20,6 +20,8 @@
 #include "AbstractWindow.h"
 #include "CeGuiHelper.h"
 #include "WindowManager.h"
+#include <CEGUIWindowManager.h>
+#include "ItemDragContainer.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -28,15 +30,47 @@ namespace rl
 {
     WindowFadeJob::WindowFadeJob(AbstractWindow* window, Mode mode, Real targetAlpha, Real changeRate)
         : Job(true, true),
-        mWindow(window),
+        mAbstractWindow(window),
+        mCEGUIWindow(window->getWindow()),
+        mItemDragContainer(NULL),
         mMode(mode),
         mChangeRate(changeRate),
         mCurrentAlpha(mode == FADE_IN ? 0.0f : 1.0f),
         mTargetAlpha(mode == FADE_IN ? targetAlpha : 0.0f)
     {
         // Ensure visibility. This is independant of whether we're fading in or out.
-        mWindow->getWindow()->setVisible(true);
-        mWindow->getWindow()->setAlpha(mCurrentAlpha);
+        mCEGUIWindow->setVisible(true);
+        mCEGUIWindow->setAlpha(mCurrentAlpha);
+    }
+
+    WindowFadeJob::WindowFadeJob(CEGUI::Window* window, Mode mode, Real targetAlpha, Real changeRate)
+        : Job(true, true),
+        mAbstractWindow(NULL),
+        mCEGUIWindow(window),
+        mItemDragContainer(NULL),
+        mMode(mode),
+        mChangeRate(changeRate),
+        mCurrentAlpha(mode == FADE_IN ? 0.0f : 1.0f),
+        mTargetAlpha(mode == FADE_IN ? targetAlpha : 0.0f)
+    {
+        // Ensure visibility. This is independant of whether we're fading in or out.
+        mCEGUIWindow->setVisible(true);
+        mCEGUIWindow->setAlpha(mCurrentAlpha);
+    }
+
+    WindowFadeJob::WindowFadeJob(ItemDragContainer* window, Mode mode, Real targetAlpha, Real changeRate)
+        : Job(true, true),
+        mAbstractWindow(NULL),
+        mCEGUIWindow(window),
+        mItemDragContainer(window),
+        mMode(mode),
+        mChangeRate(changeRate),
+        mCurrentAlpha(mode == FADE_IN ? 0.0f : 1.0f),
+        mTargetAlpha(mode == FADE_IN ? targetAlpha : 0.0f)
+    {
+        // Ensure visibility. This is independant of whether we're fading in or out.
+        mCEGUIWindow->setVisible(true);
+        mCEGUIWindow->setAlpha(mCurrentAlpha);
     }
 
     bool WindowFadeJob::execute(Real time)
@@ -50,18 +84,23 @@ namespace rl
             discard();
             return true;
         }
-        mWindow->getWindow()->setAlpha(mCurrentAlpha);
+        mCEGUIWindow->setAlpha(mCurrentAlpha);
 
         return false;
     }
 
     void WindowFadeJob::discard()
     {
-        mWindow->getWindow()->setAlpha(mTargetAlpha);
-        mWindow->getWindow()->setVisible(mMode == FADE_IN ? true : false);
+        mCEGUIWindow->setAlpha(mTargetAlpha);
+        mCEGUIWindow->setVisible(mMode == FADE_IN ? true : false);
         if (mMode == FADE_OUT_AND_DESTROY)
         {
-            WindowManager::getSingleton().destroyWindow(mWindow);
+            if( mAbstractWindow )
+                WindowManager::getSingleton().destroyWindow(mAbstractWindow);
+            else if(mItemDragContainer)
+                delete mItemDragContainer;
+            else
+                CEGUI::WindowManager::getSingleton().destroyWindow(mCEGUIWindow);
         }
     }
 }

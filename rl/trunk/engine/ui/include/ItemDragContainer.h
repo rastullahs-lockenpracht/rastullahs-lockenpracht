@@ -26,6 +26,7 @@ namespace rl
 	class Inventory;
 	class Item;
 	class Slot;
+    class ItemDragContainerDestroyListener;
 
 	class ItemDragContainer : public CEGUI::DragContainer
 	{
@@ -45,6 +46,12 @@ namespace rl
 		bool _handleItemMouseClick(const CEGUI::EventArgs& evt, Item* item);
 		bool _handleItemDoubleClick(const CEGUI::EventArgs& evt, Item* item);
 
+        bool fadeOutAndHide(Ogre::Real delay);
+        bool stopFadeOut();
+
+        void destroyWindow(); // this is internally done with a windowfadejob to prevent problems
+
+        void setDestroyListener(ItemDragContainerDestroyListener *listener) {mDestroyListener = listener;}
 	protected:
 		CEGUI::Window* mContentWindow;
 		
@@ -56,7 +63,16 @@ namespace rl
 		Container* mParentContainer;
 		CeGuiString mParentSlot;
 		Inventory* mInventory;
+        unsigned long mHideAndDestroyJobTicket;
+        bool mMarkedToHideAndDestroy;
+        ItemDragContainerDestroyListener *mDestroyListener;
 	};
+
+    class ItemDragContainerDestroyListener
+    {
+    public:
+        virtual void notifyItemDragContainerDestroyed(ItemDragContainer* cont) = 0;
+    };
 
 } // namespace rl
 
