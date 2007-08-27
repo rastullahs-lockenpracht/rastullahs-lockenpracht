@@ -116,6 +116,16 @@ namespace rl {
         AbstractWindow::setVisible(visible, destroyAfterHide);
     }
 
+    void ContainerContentWindow::setVisible(bool visible, bool destroyAfterHide, bool dontNotifyInventory)
+    {
+        if( !dontNotifyInventory )
+        {
+            setVisible(visible, destroyAfterHide);
+            return;
+        }
+        AbstractWindow::setVisible(visible, destroyAfterHide);
+    }
+
 	void ContainerContentWindow::initializeContent()
 	{
 		ItemSet items = mContainer->getItems();

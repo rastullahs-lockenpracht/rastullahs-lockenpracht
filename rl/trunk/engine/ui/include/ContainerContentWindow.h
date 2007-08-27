@@ -36,6 +36,7 @@ namespace rl {
 		ContainerContentWindow(Container* container, InventoryWindow* parent);
 
         void setVisible(bool visible, bool destroyAfterHide = false);
+        void setVisible(bool visible, bool destroyAfterHide, bool dontNotifyInventory);
 
         void notifyItemDragContainerDestroyed(ItemDragContainer* cont);
 

@@ -54,10 +54,13 @@ namespace rl {
 
         //mSquareSize = ...;
 		mWorldBackground = getWindow("InventoryWindow/Background");
-        getWindow("InventoryWindow")->subscribeEvent(FrameWindow::EventCloseClicked,
+        CEGUI::Window* invWnd = getWindow("InventoryWindow");
+        invWnd->subscribeEvent(FrameWindow::EventCloseClicked,
 			boost::bind(&InventoryWindow::destroyWindow, this));
         mWorldBackground->moveToBack();
         mWorldBackground->setZOrderingEnabled(false);
+        invWnd->setMaxSize(invWnd->getSize());
+        invWnd->setMinSize(invWnd->getSize());
 
         createSlotWindows(inventory);
         initInventoryWindow(inventory);
@@ -621,7 +624,9 @@ namespace rl {
             for( ; iter != mOpenContainerMap.end(); iter++)
             {
                 if( iter->second != NULL )
-                    iter->second->setVisible(false, true);
+                {
+                    iter->second->setVisible(false, true, true); // if we call notifyInventoryWindow here, the iterator isn't valid any more!
+                }
             }
             mOpenContainerMap.erase(mOpenContainerMap.begin(), mOpenContainerMap.end());
         }
