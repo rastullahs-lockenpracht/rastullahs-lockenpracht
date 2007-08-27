@@ -52,5 +52,110 @@
 		<property name="lit" type="BOOL" data="true"/>
 	</gameobjectclass>
 
+    <gameobjectclass classid="mckhero"  baseclass="MCKHero">
+        <property name="geometrytype" type="STRING" data="ellipsoid" />
+        <property name="mass" type="REAL" data="75"/>
+        <property name="inventorywindowtype" type="STRING" data="inventory_human.xml"/>
+        <property name="meshfile" type="STRING" data="men_human_female_torso.mesh"/>
+        <property name="geometrytype" type="STRING" data="ellipsoid"/>
+		<property name="meshparts" type="MAP">
+            <property name="torso" type="STRING" data="men_human_female_torso.mesh"/>
+            <property name="hand" type="STRING" data="men_human_female_hand_nude.mesh"/>
+            <property name="head" type="STRING" data="men_human_female_head_02.mesh"/>
+            <property name="hair" type="STRING" data="men_human_female_hair_long_01_normal.mesh"/>
+            <property name="trousers" type="STRING" data="men_human_female_legs_underpants.mesh"/>
+            <property name="boots" type="STRING" data="men_human_female_feet_nude.mesh"/>
+        </property>
+		<property name="inventory" type="MAP">
+			<property name="slots" type="ARRAY">
+				<!-- Rings on left hand -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Left Ring"/>
+					<property name="type" type="STRING" data="bone"/>
+					<property name="bone" type="STRING" data="Bip01 L Finger21"/>
+					<property name="holds" type="INT" data="4"/> <!-- Rings -->
+					<property name="readies" type="INT" data="4"/> <!-- Rings -->
+				</property>
+				<!-- Rings on right hand -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Right Ring"/>
+					<property name="type" type="STRING" data="bone"/>
+					<property name="bone" type="STRING" data="Bip01 R Finger21"/>
+					<property name="holds" type="INT" data="4"/> <!-- Rings -->
+					<property name="readies" type="INT" data="4"/> <!-- Rings -->
+				</property>
+				<!-- Left hand -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Left Hand"/>
+					<property name="type" type="STRING" data="bone"/>
+					<property name="bone" type="STRING" data="Bip01 L SlotHand"/>
+					<property name="readies" type="INT" data="3"/> <!-- Weapons | Shields -->
+				</property>
+				<!-- Right hand -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Right Hand"/>
+					<property name="type" type="STRING" data="bone"/>
+					<property name="bone" type="STRING" data="Bip01 R SlotHand"/>
+					<property name="readies" type="INT" data="3"/> <!-- Weapons | Shields -->
+				</property>
+				<!-- Head -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Head"/>
+					<property name="type" type="STRING" data="submesh"/>
+					<property name="submesh" type="STRING" data="head"/>
+					<property name="readies" type="INT" data="2048"/> <!-- Helmets -->
+					<property name="holds" type="INT" data="2048"/> <!-- Helmets -->
+				</property>
+				<!-- Back -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Back"/>
+					<property name="type" type="STRING" data="submesh"/>
+					<property name="submesh" type="STRING" data="back"/>
+					<property name="readies" type="INT" data="256"/> <!-- Backpacks -->
+					<property name="holds" type="INT" data="256"/> <!-- Backpacks -->
+				</property>
+				<!-- Armor -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Armor"/>
+					<property name="type" type="STRING" data="submesh"/>
+					<property name="submesh" type="STRING" data="armor"/>
+					<property name="readies" type="INT" data="32"/> <!-- Armor -->
+					<property name="holds" type="INT" data="32"/> <!-- Armor -->
+				</property>
+				<!-- Torso -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Torso"/>
+					<property name="type" type="STRING" data="material"/>
+					<property name="submesh" type="STRING" data="men_human_female_torso"/>
+					<property name="readies" type="INT" data="32800"/> <!-- Armor | Clothes -->
+					<property name="holds" type="INT" data="32800"/> <!-- Armor | Clothes -->
+				</property>
+				<!-- Clothes -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Clothes"/>
+					<property name="type" type="STRING" data="submesh"/>
+					<property name="submesh" type="STRING" data="clothes"/>
+					<property name="readies" type="INT" data="32768"/> <!-- Clothes -->
+					<property name="holds" type="INT" data="32768"/> <!-- Clothes -->
+				</property>
+				<!-- Boots -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Boots"/>
+					<property name="type" type="STRING" data="submesh"/>
+					<property name="submesh" type="STRING" data="boots"/>
+					<property name="readies" type="INT" data="16384"/> <!-- Boots -->
+					<property name="holds" type="INT" data="16384"/> <!-- Boots -->
+				</property>
+				<!-- Trousers -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Trousers"/>
+					<property name="type" type="STRING" data="submesh"/>
+					<property name="submesh" type="STRING" data="trousers"/>
+					<property name="readies" type="INT" data="4096"/> <!-- Trousers -->
+					<property name="holds" type="INT" data="4096"/> <!-- Trousers -->
+				</property>				
+			</property>
+		</property>
+    </gameobjectclass>
 
 </GameObjectDefinitions>

@@ -33,6 +33,7 @@ namespace rl
 {
 
 	const Ogre::String Inventory::PROPERTY_CONTENT = "content";
+	const Ogre::String Inventory::PROPERTY_SLOTS = "slots";
 
     /**
        Just to remember all parts of the inventory
@@ -234,21 +235,23 @@ namespace rl
     {
         if (mSlots.find(name) != mSlots.end())
         {
-            Throw(rl::IllegalArgumentException, Ogre::String("Slot '")+name.c_str()+"' already exists.");
+            LOG_ERROR(Logger::RULES, "Slot '" + name + "' already exists.");
         }
-
-		switch (type)
+        else
         {
-            case SLOT_BONE:
-			    mSlots[name] = new BoneSlot(mOwner, name, itemReadyMask, itemHeldMask, meshpartname);
-                break;
-            case SLOT_SUBMESH:
-			    mSlots[name] = new SubmeshSlot(mOwner, name, itemReadyMask, itemHeldMask, meshpartname);
-                break;
-            case SLOT_MATERIAL:
-			    mSlots[name] = new MaterialSlot(mOwner, name, itemReadyMask, itemHeldMask, meshpartname);
-                break;
-		}
+		    switch (type)
+            {
+                case SLOT_BONE:
+			        mSlots[name] = new BoneSlot(mOwner, name, itemReadyMask, itemHeldMask, meshpartname);
+                    break;
+                case SLOT_SUBMESH:
+			        mSlots[name] = new SubmeshSlot(mOwner, name, itemReadyMask, itemHeldMask, meshpartname);
+                    break;
+                case SLOT_MATERIAL:
+			        mSlots[name] = new MaterialSlot(mOwner, name, itemReadyMask, itemHeldMask, meshpartname);
+                    break;
+		    }
+        }
     }
 
     const Inventory::SlotMap& Inventory::getAllSlots() const
@@ -281,7 +284,53 @@ namespace rl
 
 	void Inventory::setProperty(const Ogre::String& key, const Property& value)
 	{
-		if (key == Inventory::PROPERTY_CONTENT)
+        if (key == Inventory::PROPERTY_SLOTS)
+        {
+            PropertyVector slotVec = value.toArray();
+
+            for (PropertyVector::const_iterator it = slotVec.begin(); it != slotVec.end(); ++it)
+            {
+                PropertyMap slotProps = it->toMap();
+
+                CeGuiString name = slotProps["name"].toString();
+                int holdItems = Item::ITEMTYPE_ALL_ITEMS;
+                if (slotProps.find("holds") != slotProps.end())
+                {
+                    holdItems = slotProps["holds"].toInt();
+                }
+                int readyItems = Item::ITEMTYPE_ALL_ITEMS;
+                if (slotProps.find("readies") != slotProps.end())
+                {
+                    readyItems = slotProps["readies"].toInt();
+                }
+
+                CeGuiString type = slotProps.find("type")->second.toString();
+                if (type == "bone")
+                {
+                    CeGuiString bone = slotProps["bone"].toString();
+                    LOG_MESSAGE("Inventory", "Add bone slot "+ bone);
+                    addSlot(name, bone.c_str(), holdItems, readyItems, SLOT_BONE);
+                }
+                else if (type == "submesh")
+                {
+                    CeGuiString submesh = slotProps["submesh"].toString();
+                    LOG_MESSAGE("Inventory", "Add submesh slot "+ submesh);
+                    addSlot(name, submesh.c_str(), holdItems, readyItems, SLOT_SUBMESH);
+                }
+                else if (type == "material")
+                {
+                    CeGuiString submesh = slotProps["submesh"].toString();
+                    LOG_MESSAGE("Inventory", "Add material slot "+ submesh);
+                    addSlot(name, submesh.c_str(), holdItems, readyItems, SLOT_MATERIAL);
+                }
+                else
+                {
+                    LOG_ERROR(Logger::RULES, 
+                        "Unknown slot type '"+type+"' in inventory properties.");
+                }
+            }
+        }
+		else if (key == Inventory::PROPERTY_CONTENT)
 		{
 			PropertyMap bonesContent = value.toMap();
 			for (PropertyMap::const_iterator it = bonesContent.begin();
@@ -301,8 +350,8 @@ namespace rl
     PropertySet* Inventory::getAllProperties() const
 	{
 		PropertySet* ps = new PropertySet();
+		ps->setProperty(Inventory::PROPERTY_SLOTS, getProperty(Inventory::PROPERTY_SLOTS));
 		ps->setProperty(Inventory::PROPERTY_CONTENT, getProperty(Inventory::PROPERTY_CONTENT));
 		return ps;
 	}
-
 }

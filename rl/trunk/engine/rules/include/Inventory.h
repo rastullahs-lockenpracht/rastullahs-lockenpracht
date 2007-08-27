@@ -36,6 +36,7 @@ class _RlRulesExport Inventory : public PropertyHolder
 public:
 
 	static const Ogre::String PROPERTY_CONTENT;
+	static const Ogre::String PROPERTY_SLOTS;
 	/** 
 	* @brief Eine Liste mit Zeigern auf Items
 	**/

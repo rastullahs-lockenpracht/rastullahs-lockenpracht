@@ -12,15 +12,6 @@ class Hero < Person
         modifyAu(1000); # Au = voll
         #modifyLe(-20); # 10 LeP abziehen
 
-		$SCRIPT.log("Inventar konfigurieren.");
-		inv = getInventory();
-		inv.addSlot("Left Ring", "l_finger_2", Item::ITEMTYPE_RING, Item::ITEMTYPE_RING);
-		inv.addSlot("Right Ring", "r_finger_2", Item::ITEMTYPE_RING, Item::ITEMTYPE_RING);
-		inv.addSlot("Left Hand", "l_hand", Item::ITEMTYPE_WEAPON, Item::ITEMTYPE_ALL_ITEMS);
-		inv.addSlot("Right Hand", "r_hand", Item::ITEMTYPE_WEAPON, Item::ITEMTYPE_ALL_ITEMS);
-		inv.addSlot("Head", "kopf", Item::ITEMTYPE_HELMET, Item::ITEMTYPE_HELMET);
-		inv.addSlot("Back", "hals", Item::ITEMTYPE_ALL_ITEMS, Item::ITEMTYPE_ALL_ITEMS);
-
 		#addSounds()
         $SCRIPT.log("done.");
     end

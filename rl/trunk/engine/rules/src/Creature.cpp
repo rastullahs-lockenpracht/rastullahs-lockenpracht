@@ -24,7 +24,6 @@
 #include "EffectManager.h"
 #include "Exception.h"
 #include "Inventory.h"
-#include "Item.h"
 #include "Kampftechnik.h"
 #include "MeshObject.h"
 #include "StateSet.h"
@@ -76,7 +75,6 @@ namespace rl
     const Creature::Wert Creature::WERT_INI = "INI";
     const Creature::Wert Creature::WERT_KAMPFUNFAEHIGKEITSSCHWELLE ="Kampfunfähigkeitsschwelle";
     const Creature::Wert Creature::WERT_REGENERATION = "Regeneration";
-
 
 
 
@@ -1027,7 +1025,7 @@ namespace rl
         }
         else if (key == Creature::PROPERTY_INVENTORY)
         {
-            mInventory->setProperty(Inventory::PROPERTY_CONTENT, value);
+            mInventory->setProperties(value.toMap());
         }
         else
         {
