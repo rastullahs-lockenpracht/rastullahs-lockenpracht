@@ -100,6 +100,7 @@ namespace rl
             unsigned long end;            ///< when to discard the Job, if not then finished.
             Ogre::Real timeSinceLastCall; ///< frame time, since the last call of Job#execute.
             bool called;                  ///< false, if the Job has not been called yet.
+            bool markedToRemove;          ///< only true, if removeJob with the ticket of this job is called
         };
 
         /// Functor for finding a Job in a JobQueue by its ticket.
@@ -114,7 +115,7 @@ namespace rl
         typedef std::deque<JobEntry> JobQueue;
 
         JobQueue mJobQueue;
-        JobQueue mRemovedJobs;
+        //JobQueue mRemovedJobs; // should probably replaced by JobsToDelete
         unsigned short mTokenThreshold;
         unsigned long mTicketCounter;
     };

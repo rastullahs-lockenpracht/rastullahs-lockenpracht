@@ -28,7 +28,10 @@ template<> rl::JobScheduler* Singleton<rl::JobScheduler>::ms_Singleton = 0;
 namespace rl
 {
     JobScheduler::JobScheduler()
-        : mJobQueue(), mRemovedJobs(), mTokenThreshold(JP_NORMAL), mTicketCounter(0)
+        : mJobQueue(), 
+        //mRemovedJobs(), 
+        mTokenThreshold(JP_NORMAL), 
+        mTicketCounter(0)
     {
     }
 
@@ -46,7 +49,7 @@ namespace rl
         unsigned long start = clock + delay*1000;
         unsigned long end = maxRuntime >= Math::POS_INFINITY ?
             0xffffffff : static_cast<unsigned long>(start + maxRuntime*1000);
-        JobEntry entry = {job, listener, ticket, priority, priority, start, end, 0.0f, false};
+        JobEntry entry = {job, listener, ticket, priority, priority, start, end, 0.0f, false, false};
         mJobQueue.push_back(entry);
         return ticket;
     }
@@ -70,7 +73,20 @@ namespace rl
                 entry.job->getTimeSource());
             Time clock = ts->getClock();
 
-            if (entry.start <= clock && clock < entry.end)
+            if (entry.markedToRemove)
+            {
+                // Notify listener, the job was removed
+                if (entry.listener != NULL)
+                {
+                    entry.listener->jobRemoved(entry.ticket);
+                }
+
+                if (entry.job->destroyWhenDone() )
+                {
+                    delete entry.job;
+                }
+            }
+            else if (entry.start <= clock && clock < entry.end)
             {
                 // Is the token threshold reached?
                 if (entry.tokens >= mTokenThreshold)
@@ -135,6 +151,10 @@ namespace rl
                         entry.listener->jobDiscarded(entry.ticket);
                     }
                 }
+                if (entry.job->destroyWhenDone() )
+                {
+                    delete entry.job;
+                }
             }
         }
 
@@ -148,8 +168,8 @@ namespace rl
             std::bind2nd(FindJobEntryByTicket(), ticket));
         if (it != mJobQueue.end())
         {
-            mRemovedJobs.push_back(*it);
-            if (it->listener != NULL) it->listener->jobRemoved(ticket);
+            //mRemovedJobs.push_back(*it);
+            (*it).markedToRemove = true;
         }
         else
         {
