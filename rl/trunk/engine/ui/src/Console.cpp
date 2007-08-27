@@ -48,7 +48,8 @@ namespace rl
 			boost::bind(&Console::handleKeyDown, this, _1));
 		mDisplay->moveToFront();
 
-		bindDestroyWindowToXButton();
+		mWindow->subscribeEvent(FrameWindow::EventCloseClicked,
+            boost::bind(&Console::hideWindow, this));
 
 		mHistory.clear();
         setVisible(false);
