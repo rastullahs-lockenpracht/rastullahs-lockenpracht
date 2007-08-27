@@ -219,10 +219,11 @@ namespace rl {
 
     bool FreeflightControlState::keyPressed(const OIS::KeyEvent& evt)
 	{
-        if( ControlState::keyPressed(evt) )
+        // CEGUI is handled by base class, so hand it down if necessary.
+        if( sendKeyToCeGui(evt) )
         {
             mCurrentMovementState = MOVE_NONE;
-            return true;
+            return ControlState::keyPressed(evt);
         }
 
         int movement = mCommandMapper->getMovement(evt.key);
@@ -238,10 +239,11 @@ namespace rl {
 
     bool FreeflightControlState::keyReleased(const OIS::KeyEvent& evt)
 	{
-        if( ControlState::keyPressed(evt) )
+        // CEGUI is handled by base class, so hand it down if necessary.
+        if( sendKeyToCeGui(evt) )
         {
             mCurrentMovementState = MOVE_NONE;
-            return true;
+            return ControlState::keyReleased(evt);
         }
 
         int movement = mCommandMapper->getMovement(evt.key);

@@ -56,8 +56,8 @@ namespace rl {
         const MovementState getMovement(int keycode) const;
 
         /// Get the action name assigned to the key.
-        const CeGuiString& getGlobalAction(int keyCodeOrMouseButton);
-        const CeGuiString& getControlStateAction(int keyCodeOrMouseButton, ControlStateType);
+        const CeGuiString& getGlobalAction(int keyCodeOrMouseButton) const;
+        const CeGuiString& getControlStateAction(int keyCodeOrMouseButton, ControlStateType) const;
 
     private:
 

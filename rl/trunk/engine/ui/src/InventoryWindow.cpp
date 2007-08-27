@@ -29,6 +29,9 @@
 #include "Container.h"
 #include "ContainerContentWindow.h"
 #include "Creature.h"
+#include "ControlState.h"
+#include "CommandMapper.h"
+#include "InputManager.h"
 #include "Inventory.h"
 #include "Item.h"
 #include "ItemDescriptionDragContainer.h"
@@ -162,7 +165,7 @@ namespace rl {
 			boost::bind(&InventoryWindow::handleKeys, this, _1, true));
 		mWorldBackground->subscribeEvent(Window::EventKeyUp,
 			boost::bind(&InventoryWindow::handleKeys, this, _1, false));
-        //invWnd->activate();
+        invWnd->activate();
     }
 
     ItemDragContainer* InventoryWindow::getItemDragContainer(const Item* item, bool description)
@@ -457,8 +460,8 @@ namespace rl {
 			for (Selector::GameObjectVector::const_iterator it = objs.begin();
 				it != objs.end(); ++it)
 			{
-				LOG_MESSAGE(Logger::UI,
-					"Selected " + (*it)->getDescription());
+                if( !mInventory->getOwner()->canReachItem(static_cast<Item*>(*it)) )
+                    continue;
 
                 ItemDragContainer* cont = getItemDragContainer(static_cast<Item*>(*it), true);
 
@@ -508,9 +511,8 @@ namespace rl {
 				for (Selector::GameObjectVector::iterator
 					it = v.begin(); it != v.end(); ++it)
 				{
-
-				    LOG_MESSAGE(Logger::UI,
-					    "Selected " + (*it)->getDescription());
+                    if( !mInventory->getOwner()->canReachItem(static_cast<Item*>(*it)) )
+                        continue;
 
                     ItemDragContainer* cont = getItemDragContainer(static_cast<Item*>(*it), true);
 
@@ -546,6 +548,26 @@ namespace rl {
 
 			return true;
 		}
+        else if(!down)
+        {
+            ///@todo das hier ueberpruefen!
+            CeGuiString action = 
+                InputManager::getSingleton().getCharacterController()
+                    ->getCommandMapper()->getControlStateAction(
+                    kevt.scancode,
+                    InputManager::getSingleton().getCharacterController()->getType()
+                    );
+            if( action == "" )
+            {
+                action = InputManager::getSingleton().getCharacterController()
+                            ->getCommandMapper()->getGlobalAction(kevt.scancode);
+            }
+            InputManager::getSingleton().getCharacterController()->startAction(
+                action,
+                mInventory->getOwner()
+                );
+            return true;
+        }
 
 		return false;
 	}

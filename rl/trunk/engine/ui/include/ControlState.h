@@ -58,9 +58,12 @@ namespace rl {
         virtual bool keyPressed(const OIS::KeyEvent& evt);
         virtual bool keyReleased(const OIS::KeyEvent& evt);
 
-	protected:
-		static bool startAction(const CeGuiString& actionName, Creature* character = NULL);
+        const CommandMapper* getCommandMapper() const {return mCommandMapper;}
+        ControlStateType getType() const { return mType;}
 
+        static bool startAction(const CeGuiString& actionName, Creature* character = NULL);
+
+	protected:
         /// Returns true, if there is at least one window open,
         /// that requires keyboard and/or mouse input. 
         bool isCeguiActive() const;

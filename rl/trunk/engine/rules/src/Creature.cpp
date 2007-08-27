@@ -24,6 +24,7 @@
 #include "EffectManager.h"
 #include "Exception.h"
 #include "Inventory.h"
+#include "Item.h"
 #include "Kampftechnik.h"
 #include "MeshObject.h"
 #include "StateSet.h"
@@ -1133,5 +1134,10 @@ namespace rl
         ps->setProperty(Creature::PROPERTY_INVENTORY, getProperty(Creature::PROPERTY_INVENTORY));
 
         return ps;
+    }
+
+    bool Creature::canReachItem(const Item* item)
+    {
+        return (item->getPosition() - getPosition()).length() <= 3.0f;
     }
 }

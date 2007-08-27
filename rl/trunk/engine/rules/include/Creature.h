@@ -684,6 +684,14 @@ namespace rl
              void setAlignment(Alignment);
             Alignment getAlignment() const;
 
+
+
+            /**
+             * Gibt an, ob die Creature mit den Händen an den Gegenstand herankommt,
+             * ihn also berühren kann, mit ihm interagieren etc
+            **/
+            virtual bool canReachItem(const Item* item);
+
         protected:
            /**
              *  Berechnet den Basiswert von der @ref abbdea "Astralenergie".
@@ -706,6 +714,7 @@ namespace rl
              *  Eventuelle Ruestungsgewoehnung schon beruecksichtigt
              **/
             virtual int getCurrentBe();
+
 
 
 

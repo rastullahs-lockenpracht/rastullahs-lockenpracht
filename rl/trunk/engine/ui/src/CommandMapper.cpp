@@ -45,7 +45,7 @@ namespace rl {
     {
     }
 
-    const CeGuiString& CommandMapper::getGlobalAction(int keyCodeOrMouseButton)
+    const CeGuiString& CommandMapper::getGlobalAction(int keyCodeOrMouseButton) const
     {
         KeyAndMouseCommandMap::const_iterator command =
             mKeyGlobalActions.find(keyCodeOrMouseButton);
@@ -60,7 +60,7 @@ namespace rl {
     }
 
     const CeGuiString& CommandMapper::getControlStateAction(int keyCodeOrMouseButton,
-        ControlStateType type)
+        ControlStateType type) const
     {
         const KeyAndMouseCommandMap& mapping = getControlStateMapping(type);
 
