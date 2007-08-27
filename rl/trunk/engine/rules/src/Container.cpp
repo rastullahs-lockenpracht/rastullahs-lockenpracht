@@ -110,10 +110,11 @@ namespace rl {
 
 		if (pos != NO_SPACE_FOR_ITEM)
 		{
-			mItemPositions[item] = pos;
+            item->removeOldState();
+
+            mItemPositions[item] = pos;
 			mItems.insert(item);
 
-            item->removeOldState();
             item->setParentContainer(this);
             if(mOwner)
                 item->setOwner(mOwner);
@@ -178,11 +179,13 @@ namespace rl {
 					+ Ogre::StringConverter::toString(y),
                     "Container::canPlaceAt()");
 
-                if (getItemAt(x, y) != item)
-                {
-                    // Siehe nach, ob ein anderes Item im Weg ist
-					return false;
-				}
+                Item* itemFound = getItemAt(x, y);
+                if( itemFound == NULL )
+                    continue;
+                if( itemFound == item )
+                    continue;
+
+				return false;
 			}
 		}
 
