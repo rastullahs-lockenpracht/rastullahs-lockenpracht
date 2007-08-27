@@ -61,7 +61,9 @@ namespace rl {
         { \
             Throw( \
                 rl::WrongFormatException, \
-                "Wrong property type for to##Name (type is "+ Ogre::String(mValue.type().name())+") " + (mValue.empty()?"EMPTY!":"not empty")); \
+                "Wrong property type for to" + Ogre::String(#Name) \
+                + "() (type is "+ Ogre::String(mValue.type().name())+") " \
+                + (mValue.empty()?"EMPTY!":"not empty")); \
         } \
     }\
     operator Type() const \
@@ -89,6 +91,8 @@ namespace rl {
         PropertyMethod(IntPair, const IntPair);
 		PropertyMethod(Array, const PropertyVector);
 		PropertyMethod(Map, const PropertyMap);
+
+        Ogre::String getTypeName() const;
 
     private:
         boost::any mValue;

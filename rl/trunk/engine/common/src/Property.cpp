@@ -28,4 +28,9 @@ namespace rl {
     Property::Property()
     {
     }
+
+    Ogre::String Property::getTypeName() const
+    {
+        return mValue.type().name();
+    }
 }
