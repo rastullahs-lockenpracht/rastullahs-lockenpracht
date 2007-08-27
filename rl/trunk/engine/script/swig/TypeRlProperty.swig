@@ -72,9 +72,9 @@ rl::Property convertValueToProperty(VALUE input)
 			else // Array of Properties
 			{
 				std::vector<rl::Property> vec;
-				for (int idx = 0; idx < length; idx++)
+				for (int idx = 0; idx < length; ++idx)
 				{
-					vec.push_back(rl::convertValueToProperty(rb_ary_entry(input, 0)));
+					vec.push_back(rl::convertValueToProperty(rb_ary_entry(input, idx)));
 				}
 				rval.setValue(vec);
 			}
@@ -148,7 +148,7 @@ VALUE convertPropertyToValue(rl::Property input)
 		PropertyVector vec = input.toArray();
 		VALUE rval = rb_ary_new();
 		for (PropertyVector::const_iterator it = vec.begin();
-			it != vec.end(); it++)
+			it != vec.end(); ++it)
 		{
 			rb_ary_push(rval, rl::convertPropertyToValue(*it));
 		}
