@@ -131,6 +131,7 @@ namespace rl
 
         // some methods used by movements
         int getCurrentGS() const;
+        Ogre::Real getMaximumSpeed() const;
         Ogre::Vector3 getVelocity() const; // in local axes
         Ogre::Vector3 getOmega() const;
         MeshAnimation *setAnimation(const Ogre::String &name, 

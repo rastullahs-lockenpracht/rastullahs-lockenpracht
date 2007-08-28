@@ -113,7 +113,7 @@ namespace {
             setMaxSpeed (9);
 
             // initial slow speed
-            setSpeed (maxSpeed() * 0.3f);
+            setSpeed (getMaxSpeed() * 0.3f);
 
             // randomize initial orientation
             regenerateOrthonormalBasisUF (RandomUnitVector ());
@@ -122,7 +122,7 @@ namespace {
             setPosition (RandomVectorInUnitRadiusSphere () * 20);
 
             // notify proximity database that our position has changed
-            proximityToken->updateForNewPosition (position());
+            proximityToken->updateForNewPosition (getPosition());
         }
 
 
@@ -146,7 +146,7 @@ namespace {
             sphericalWrapAround ();
 
             // notify proximity database that our position has changed
-            proximityToken->updateForNewPosition (position());
+            proximityToken->updateForNewPosition (getPosition());
         }
 
 
@@ -176,7 +176,7 @@ namespace {
 
             // find all flockmates within maxRadius using proximity database
             neighbors.clear();
-            proximityToken->findNeighbors (position(), maxRadius, neighbors);
+            proximityToken->findNeighbors (getPosition(), maxRadius, neighbors);
 
     #ifndef NO_LQ_BIN_STATS
             // maintain stats on max/min/ave neighbors per boids
@@ -216,10 +216,10 @@ namespace {
         void sphericalWrapAround (void)
         {
             // when outside the sphere
-            if (position().length() > worldRadius)
+            if (getPosition().length() > worldRadius)
             {
                 // wrap around (teleport)
-                setPosition (position().sphericalWrapAround (Vector3::ZERO,
+                setPosition (getPosition().sphericalWrapAround (Vector3::ZERO,
                                                              worldRadius));
                 if (this == OpenSteerDemo::selectedVehicle)
                 {
@@ -252,7 +252,7 @@ namespace {
         {
 
             // XXX this is special case code, these should be derived from arguments //
-            const Vector3 surfaceNormal = position().normalisedCopy();                       //
+            const Vector3 surfaceNormal = getPosition().normalisedCopy();                       //
             const Vector3 surfacePoint = surfaceNormal * 40.0f;                         //
             // XXX this is special case code, these should be derived from arguments //
 
@@ -266,7 +266,7 @@ namespace {
             setPosition (newPos);
             setUp (newUp);
             setForward (newFor);
-            setUnitSideFromForwardAndUp ();
+            setUnitSideFromForwardAndgetUp();
         }
     // ---------------------------------------------- xxxcwr111704_terrain_following
 
@@ -298,12 +298,12 @@ namespace {
         // xxx CaptureTheFlag.cpp
         void annotateAvoidObstacle (const float minDistanceToCollision)
         {
-            const Vector3 boxSide = side() * radius();
-            const Vector3 boxFront = forward() * minDistanceToCollision;
-            const Vector3 FR = position() + boxFront - boxSide;
-            const Vector3 FL = position() + boxFront + boxSide;
-            const Vector3 BR = position()            - boxSide;
-            const Vector3 BL = position()            + boxSide;
+            const Vector3 boxSide = getSide() * radius();
+            const Vector3 boxFront = getForward() * minDistanceToCollision;
+            const Vector3 FR = getPosition() + boxFront - boxSide;
+            const Vector3 FL = getPosition() + boxFront + boxSide;
+            const Vector3 BR = getPosition()            - boxSide;
+            const Vector3 BL = getPosition()            + boxSide;
             const Color white (1,1,1);
             annotationLine (FR, FL, white);
             annotationLine (FL, BL, white);
@@ -727,7 +727,7 @@ namespace {
                             ((*o == &insideBigSphere) ?
                              Color (0.2f, 0.2f, 0.4f) :
                              Color (0.1f, 0.1f, 0.2f)),
-                            OpenSteerDemo::camera.position ());
+                            OpenSteerDemo::camera.getPosition());
             }
         }
 
@@ -754,10 +754,10 @@ namespace {
             const float w = box.width / 2;
             const float h = box.height / 2;
             const float d = box.depth / 2;
-            const Vector3 p = box.position ();
-            const Vector3 s = box.side ();
-            const Vector3 u = box.up ();
-            const Vector3 f = box.forward ();
+            const Vector3 p = box.getPosition();
+            const Vector3 s = box.getSide();
+            const Vector3 u = box.getUp();
+            const Vector3 f = box.getForward();
 
             const Vector3 v1 = box.globalizePosition (Vector3 ( w,  h,  d));
             const Vector3 v2 = box.globalizePosition (Vector3 (-w,  h,  d));

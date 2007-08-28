@@ -110,22 +110,22 @@ Vector3
 OpenSteer::SimpleVehicle::adjustRawSteeringForce (const Vector3& force,
                                                   const float /* deltaTime */)
 {
-    const float maxAdjustedSpeed = 0.2f * maxSpeed();
+    const float maxAdjustedSpeed = 0.2f * getMaxSpeed();
 
-    if ((speed() > maxAdjustedSpeed) || (force == Vector3::ZERO))
+    if ((getSpeed() > maxAdjustedSpeed) || (force == Vector3::ZERO))
     {
         return force;
     }
     else
     {
-        const float range = speed() / maxAdjustedSpeed;
+        const float range = getSpeed() / maxAdjustedSpeed;
         // const float cosine = interpolate (pow (range, 6), 1.0f, -1.0f);
         // const float cosine = interpolate (pow (range, 10), 1.0f, -1.0f);
         // const float cosine = interpolate (pow (range, 20), 1.0f, -1.0f);
         // const float cosine = interpolate (pow (range, 100), 1.0f, -1.0f);
         // const float cosine = interpolate (pow (range, 50), 1.0f, -1.0f);
         const float cosine = interpolate (pow (range, 20), 1.0f, -1.0f);
-        return limitMaxDeviationAngle (force, cosine, forward());
+        return limitMaxDeviationAngle (force, cosine, getForward());
     }
 }
 
@@ -148,12 +148,12 @@ OpenSteer::SimpleVehicle::adjustRawSteeringForce (const Vector3& force,
 void 
 OpenSteer::SimpleVehicle::applyBrakingForce (const float rate, const float deltaTime)
 {
-    const float rawBraking = speed() * rate;
-    const float clipBraking = ((rawBraking < maxForce()) ?
+    const float rawBraking = getSpeed() * rate;
+    const float clipBraking = ((rawBraking < getMaxForce()) ?
                                rawBraking :
-                               maxForce());
+                               getMaxForce());
 
-    setSpeed (speed() - (clipBraking * deltaTime));
+    setSpeed (getSpeed() - (clipBraking * deltaTime));
 }
 
 
@@ -170,7 +170,7 @@ OpenSteer::SimpleVehicle::applySteeringForce (const Vector3& force,
     const Vector3 adjustedForce = adjustRawSteeringForce (force, elapsedTime);
 
     // enforce limit on magnitude of steering force
-    const Vector3 clippedForce = Vec3Utils::truncateLength(adjustedForce, maxForce());
+    const Vector3 clippedForce = Vec3Utils::truncateLength(adjustedForce, getMaxForce());
 
     // compute acceleration and velocity
     Vector3 newAcceleration = (clippedForce / mass());
@@ -190,13 +190,13 @@ OpenSteer::SimpleVehicle::applySteeringForce (const Vector3& force,
     newVelocity += _smoothedAcceleration * elapsedTime;
 
     // enforce speed limit
-    newVelocity = Vec3Utils::truncateLength(newVelocity, maxSpeed());
+    newVelocity = Vec3Utils::truncateLength(newVelocity, getMaxSpeed());
 
     // update Speed
     setSpeed (newVelocity.length());
 
     // Euler integrate (per frame) velocity into position
-    setPosition (position() + (newVelocity * elapsedTime));
+    setPosition (getPosition() + (newVelocity * elapsedTime));
 
     // regenerate local space (by default: align vehicle's forward axis with
     // new velocity, but this behavior may be overridden by derived classes.)
@@ -207,7 +207,7 @@ OpenSteer::SimpleVehicle::applySteeringForce (const Vector3& force,
 
     // running average of recent positions
     blendIntoAccumulator (elapsedTime * 0.06f, // QQQ
-                          position(),
+                          getPosition(),
                           _smoothedPosition);
 }
 
@@ -224,7 +224,7 @@ OpenSteer::SimpleVehicle::regenerateLocalSpace (const Vector3& newVelocity,
                                                 const float /* elapsedTime */)
 {
     // adjust orthonormal basis vectors to be aligned with new velocity
-    if (speed() > 0) regenerateOrthonormalBasisUF (newVelocity / speed());
+    if (getSpeed() > 0) regenerateOrthonormalBasisUF (newVelocity / getSpeed());
 }
 
 
@@ -253,17 +253,17 @@ OpenSteer::SimpleVehicle::regenerateLocalSpaceForBanking (const Vector3& newVelo
 
     // blend bankUp into vehicle's UP basis vector
     const float smoothRate = elapsedTime * 3;
-    Vector3 tempUp = up();
+    Vector3 tempUp = getUp();
     blendIntoAccumulator (smoothRate, bankUp, tempUp);
     setUp (tempUp.normalisedCopy());
 
-//  annotationLine (position(), position() + (globalUp * 4), gWhite);  // XXX
-//  annotationLine (position(), position() + (bankUp   * 4), gOrange); // XXX
-//  annotationLine (position(), position() + (accelUp  * 4), gRed);    // XXX
-//  annotationLine (position(), position() + (up()    * 1), gYellow); // XXX
+//  annotationLine (getPosition(), getPosition() + (globalUp * 4), gWhite);  // XXX
+//  annotationLine (getPosition(), getPosition() + (bankUp   * 4), gOrange); // XXX
+//  annotationLine (getPosition(), getPosition() + (accelUp  * 4), gRed);    // XXX
+//  annotationLine (getPosition(), getPosition() + (getUp()    * 1), gYellow); // XXX
 
     // adjust orthonormal basis vectors to be aligned with new velocity
-    if (speed() > 0) regenerateOrthonormalBasisUF (newVelocity / speed());
+    if (getSpeed() > 0) regenerateOrthonormalBasisUF (newVelocity / getSpeed());
 }
 
 
@@ -276,16 +276,16 @@ OpenSteer::SimpleVehicle::measurePathCurvature (const float elapsedTime)
 {
     if (elapsedTime > 0)
     {
-        const Vector3 dP = _lastPosition - position();
-        const Vector3 dF = (_lastForward - forward()) / dP.length();
-        const Vector3 lateral = Vec3Utils::perpendicularComponent(dF, forward());
-        const float sign = (lateral.dotProduct(side()) < 0) ? 1.0f : -1.0f;
+        const Vector3 dP = _lastPosition - getPosition();
+        const Vector3 dF = (_lastForward - getForward()) / dP.length();
+        const Vector3 lateral = Vec3Utils::perpendicularComponent(dF, getForward());
+        const float sign = (lateral.dotProduct(getSide()) < 0) ? 1.0f : -1.0f;
         _curvature = lateral.length() * sign;
         blendIntoAccumulator (elapsedTime * 4.0f,
                               _curvature,
                               _smoothedCurvature);
-        _lastForward = forward();
-        _lastPosition = position();
+        _lastForward = getForward();
+        _lastPosition = getPosition();
     }
 }
 
@@ -299,9 +299,9 @@ OpenSteer::SimpleVehicle::annotationVelocityAcceleration (float maxLengthA,
                                                           float maxLengthV)
 {
     const float desat = 0.4f;
-    const float aScale = maxLengthA / maxForce();
-    const float vScale = maxLengthV / maxSpeed();
-    const Vector3& p = position();
+    const float aScale = maxLengthA / getMaxForce();
+    const float vScale = maxLengthV / getMaxSpeed();
+    const Vector3& p = getPosition();
     const Color aColor (desat, desat, 1); // bluish
     const Color vColor (    1, desat, 1); // pinkish
 
@@ -323,7 +323,7 @@ OpenSteer::SimpleVehicle::annotationVelocityAcceleration (float maxLengthA,
 Vector3 
 OpenSteer::SimpleVehicle::predictFuturePosition (const float predictionTime) const
 {
-    return position() + (velocity() * predictionTime);
+    return getPosition() + (velocity() * predictionTime);
 }
 
 

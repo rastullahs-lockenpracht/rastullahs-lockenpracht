@@ -96,8 +96,8 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
     // Dadurch ist ungefaehr der Umriss gesichert!
     // Habe bisher keine elegantere Loesung gefunden
     RaycastType raycastType;
-    Vector3 pos = vehicle.position();
-    Vector3 futPos = vehicle.forward() * vehicle.speed() * 3 + pos;
+    Vector3 pos = vehicle.getPosition();
+    Vector3 futPos = vehicle.getForward() * vehicle.getSpeed() * 3 + pos;
 
 
     if (pos == futPos)
@@ -114,8 +114,8 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
 
     if( steerVec != NULL )
     {
-        pos = pos + Ogre::Vector3::UNIT_Y*steerVec->height()/2.0;
-        futPos = futPos + Ogre::Vector3::UNIT_Y*steerVec->height()/2.0;
+        pos = pos + Ogre::Vector3::UNIT_Y*steerVec->getHeight()/2.0;
+        futPos = futPos + Ogre::Vector3::UNIT_Y*steerVec->getHeight()/2.0;
     }
 
 
@@ -137,18 +137,18 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
         else if( raycastType == RIGHT )
         {
             // so wir ham ne normale und machen uns nen Y
-            if( vehicle.radius() == 0 )
+            if( vehicle.getRadius() == 0 )
                 continue;
-            Vector3 offset = vehicle.side().normalisedCopy() * (vehicle.radius() - 0.1);
+            Vector3 offset = vehicle.getSide().normalisedCopy() * (vehicle.getRadius() - 0.1);
             castPos = pos + offset;
             castFutPos = futPos + offset;
         }
         else if( raycastType == LEFT )
         {
             // wie bei right ...
-            if( vehicle.radius() == 0 )
+            if( vehicle.getRadius() == 0 )
                 continue;
-            Vector3 offset = vehicle.side().normalisedCopy() * (vehicle.radius() - 0.1);
+            Vector3 offset = vehicle.getSide().normalisedCopy() * (vehicle.getRadius() - 0.1);
             castPos = pos - offset;
             castFutPos = futPos - offset;
         }
@@ -156,7 +156,7 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
         {
             if( steerVec == NULL ) // hier abbrechen
                 break;
-            float height = steerVec->height();
+            float height = steerVec->getHeight();
             if( height == 0 )
                 break;
             if( raycastType == TOP )
@@ -209,7 +209,7 @@ void NewtonWorldAsObstacle::findIntersectionWithVehiclePath (
         pi.obstacle = this;
         pi.distance = infoNearest.mDistance * (futPos - pos).length();
         pi.surfacePoint =
-        vehicle.position() + (vehicle.forward() * pi.distance);
+        vehicle.getPosition() + (vehicle.getForward() * pi.distance);
 
         // Die normale muss zu uns zeigen! koennte aber auch in die entgegengesetzte Richtung sein!
         pi.surfaceNormal = Vector3(infoNearest.mNormal.x, infoNearest.mNormal.y, infoNearest.mNormal.z);

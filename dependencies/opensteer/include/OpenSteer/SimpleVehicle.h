@@ -117,7 +117,7 @@ namespace OpenSteer {
             setMaxSpeed (1.0f);   // velocity is clipped to this magnitude
 
             // reset bookkeeping to do running averages of these quanities
-            resetSmoothedPosition ();
+            resetSmoothedPosition();
             resetSmoothedCurvature ();
             resetSmoothedAcceleration ();
         }
@@ -127,22 +127,22 @@ namespace OpenSteer {
         float setMass (float m) {return _mass = m;}
 
         // get velocity of vehicle
-        Vector3 velocity (void) const {return forward() * _speed;}
+        Vector3 velocity (void) const {return getForward() * _speed;}
 
         // get/set speed of vehicle  (may be faster than taking mag of velocity)
-        float speed (void) const {return _speed;}
+        float getSpeed (void) const {return _speed;}
         float setSpeed (float s) {return _speed = s;}
 
         // size of bounding sphere, for obstacle avoidance, etc.
-        float radius (void) const {return _radius;}
+        float getRadius (void) const {return _radius;}
         float setRadius (float m) {return _radius = m;}
 
         // get/set maxForce
-        float maxForce (void) const {return _maxForce;}
+        float getMaxForce (void) const {return _maxForce;}
         float setMaxForce (float mf) {return _maxForce = mf;}
 
         // get/set maxSpeed
-        float maxSpeed (void) const {return _maxSpeed;}
+        float getMaxSpeed (void) const {return _maxSpeed;}
         float setMaxSpeed (float ms) {return _maxSpeed = ms;}
 
 
@@ -215,7 +215,7 @@ namespace OpenSteer {
         {
             setUp (Vector3::UNIT_Y);
             setForward (RandomUnitVectorOnXZPlane ());
-            setSide (localRotateForwardToSide (forward()));
+            setSide (localRotateForwardToSide (getForward()));
         }
 
     private:

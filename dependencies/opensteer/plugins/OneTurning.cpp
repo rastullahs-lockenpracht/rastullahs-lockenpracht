@@ -72,7 +72,7 @@ namespace {
         {
             applySteeringForce (Vector3 (-2, 0, -3), elapsedTime);
             annotationVelocityAcceleration ();
-            recordTrailVertex (currentTime, position());
+            recordTrailVertex (currentTime, getPosition());
         }
 
         // draw this character/vehicle into the scene
@@ -127,15 +127,15 @@ namespace {
             // textual annotation (following the test vehicle's screen position)
             std::ostringstream annote;
             annote << std::setprecision (2) << std::setiosflags (std::ios::fixed);
-            annote << "      speed: " << gOneTurning->speed() << std::ends;
-            draw2dTextAt3dLocation (annote, gOneTurning->position(), gRed, drawGetWindowWidth(), drawGetWindowHeight());
+            annote << "      speed: " << gOneTurning->getSpeed() << std::ends;
+            draw2dTextAt3dLocation (annote, gOneTurning->getPosition(), gRed, drawGetWindowWidth(), drawGetWindowHeight());
             draw2dTextAt3dLocation (*"start", Vector3::ZERO, gGreen, drawGetWindowWidth(), drawGetWindowHeight());
 
             // update camera, tracking test vehicle
             OpenSteerDemo::updateCamera (currentTime, elapsedTime, *gOneTurning);
 
             // draw "ground plane"
-            OpenSteerDemo::gridUtility (gOneTurning->position());
+            OpenSteerDemo::gridUtility (gOneTurning->getPosition());
         }
 
         void close (void)

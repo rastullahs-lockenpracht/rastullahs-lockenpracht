@@ -98,11 +98,11 @@ namespace {
         void update (const float currentTime, const float elapsedTime)
         {
             const Vector3 wander2d = steerForWander (elapsedTime).setYtoZero ();
-            const Vector3 steer = forward() + (wander2d * 3);
+            const Vector3 steer = getForward() + (wander2d * 3);
             applySteeringForce (steer, elapsedTime);
 
             // for annotation
-            recordTrailVertex (currentTime, position());
+            recordTrailVertex (currentTime, getPosition());
         }
 
     };
@@ -127,7 +127,7 @@ namespace {
         void update (const float currentTime, const float elapsedTime)
         {
             // when pursuer touches quarry ("wanderer"), reset its position
-            const float d = Vector3::distance (position(), wanderer->position());
+            const float d = Vector3::distance (getPosition(), wanderer->getPosition());
             const float r = radius() + wanderer->radius();
             if (d < r) reset ();
 
@@ -135,7 +135,7 @@ namespace {
             applySteeringForce (steerForPursuit (*wanderer, maxTime), elapsedTime);
 
             // for annotation
-            recordTrailVertex (currentTime, position());
+            recordTrailVertex (currentTime, getPosition());
         }
 
         // reset position
@@ -147,7 +147,7 @@ namespace {
             const float outer = 30;
             const float radius = frandom2 (inner, outer);
             const Vector3 randomOnRing = RandomUnitVectorOnXZPlane () * radius;
-            setPosition (wanderer->position() + randomOnRing);
+            setPosition (wanderer->getPosition() + randomOnRing);
 
             // randomize 2D heading
             randomizeHeadingOnXZPlane ();
@@ -215,7 +215,7 @@ namespace {
             OpenSteerDemo::updateCamera (currentTime, elapsedTime, selected);
 
             // draw "ground plane"
-            OpenSteerDemo::gridUtility (selected.position());
+            OpenSteerDemo::gridUtility (selected.getPosition());
 
             // draw each vehicles
             for (iterator i = allMP.begin(); i != pEnd; i++) (**i).draw ();

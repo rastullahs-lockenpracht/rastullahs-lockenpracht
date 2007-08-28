@@ -143,7 +143,7 @@ namespace {
             setTrailParameters (3, 60);
 
             // notify proximity database that our position has changed
-            proximityToken->updateForNewPosition (position());
+            proximityToken->updateForNewPosition (getPosition());
         }
 
         // per frame simulation update
@@ -159,12 +159,12 @@ namespace {
                 const Color darkRed (0.7f, 0, 0);
                 float const pathRadius = path->radius();
                 
-                if (Vector3::distance (position(), gEndpoint0) < pathRadius )
+                if (Vector3::distance (getPosition(), gEndpoint0) < pathRadius )
                 {
                     pathDirection = +1;
                     annotationXZCircle (pathRadius, gEndpoint0, darkRed, 20);
                 }
-                if (Vector3::distance (position(), gEndpoint1) < pathRadius )
+                if (Vector3::distance (getPosition(), gEndpoint1) < pathRadius )
                 {
                     pathDirection = -1;
                     annotationXZCircle (pathRadius, gEndpoint1, darkRed, 20);
@@ -173,10 +173,10 @@ namespace {
 
             // annotation
             annotationVelocityAcceleration (5, 0);
-            recordTrailVertex (currentTime, position());
+            recordTrailVertex (currentTime, getPosition());
 
             // notify proximity database that our position has changed
-            proximityToken->updateForNewPosition (position());
+            proximityToken->updateForNewPosition (getPosition());
         }
 
         // compute combined steering force: move forward, avoid obstacles
@@ -184,7 +184,7 @@ namespace {
         Vector3 determineCombinedSteering (const float elapsedTime)
         {
             // move forward
-            Vector3 steeringForce = forward();
+            Vector3 steeringForce = getForward();
 
             // probability that a lower priority behavior will be given a
             // chance to "drive" even if a higher priority behavior might
@@ -219,9 +219,9 @@ namespace {
                 // find all neighbors within maxRadius using proximity database
                 // (radius is largest distance between vehicles traveling head-on
                 // where a collision is possible within caLeadTime seconds.)
-                const float maxRadius = caLeadTime * maxSpeed() * 2;
+                const float maxRadius = caLeadTime * getMaxSpeed() * 2;
                 neighbors.clear();
-                proximityToken->findNeighbors (position(), maxRadius, neighbors);
+                proximityToken->findNeighbors (getPosition(), maxRadius, neighbors);
 
                 if (leakThrough < frandom01())
                     collisionAvoidance =
@@ -275,10 +275,10 @@ namespace {
             const Color yellowOrange (1.0f, 0.75f, 0.0f);
 
             // draw line from our position to our predicted future position
-            annotationLine (position(), future, yellow);
+            annotationLine (getPosition(), future, yellow);
 
             // draw line from our position to our steering target on the path
-            annotationLine (position(), target, yellowOrange);
+            annotationLine (getPosition(), target, yellowOrange);
 
             // draw a two-toned line between the future test point and its
             // projection onto the path, the change from dark to light color
@@ -295,12 +295,12 @@ namespace {
                                          const float /*additionalDistance*/)
         {
             // draw the word "Ouch!" above colliding vehicles
-            const float headOn = forward().dotProduct(other.forward()) < 0;
+            const float headOn = getForward().dotProduct(other.getForward()) < 0;
             const Color green (0.4f, 0.8f, 0.1f);
             const Color red (1, 0.1f, 0);
             const Color color = headOn ? red : green;
             const char* string = headOn ? "OUCH!" : "pardon me";
-            const Vector3 location = position() + Vector3 (0, 0.5f, 0);
+            const Vector3 location = getPosition() + Vector3 (0, 0.5f, 0);
             if (OpenSteer::annotationIsOn())
                 draw2dTextAt3dLocation (*string, location, color, drawGetWindowWidth(), drawGetWindowHeight());
         }
@@ -314,8 +314,8 @@ namespace {
         {
             const Color green (0.15f, 0.6f, 0.0f);
 
-            annotationLine (position(), ourFuture, green);
-            annotationLine (threat.position(), threatFuture, green);
+            annotationLine (getPosition(), ourFuture, green);
+            annotationLine (threat.getPosition(), threatFuture, green);
             annotationLine (ourFuture, threatFuture, gRed);
             annotationXZCircle (radius(), ourFuture,    green, 12);
             annotationXZCircle (radius(), threatFuture, green, 12);
@@ -326,12 +326,12 @@ namespace {
         // xxx CaptureTheFlag.cpp
         void annotateAvoidObstacle (const float minDistanceToCollision)
         {
-            const Vector3 boxSide = side() * radius();
-            const Vector3 boxFront = forward() * minDistanceToCollision;
-            const Vector3 FR = position() + boxFront - boxSide;
-            const Vector3 FL = position() + boxFront + boxSide;
-            const Vector3 BR = position()            - boxSide;
-            const Vector3 BL = position()            + boxSide;
+            const Vector3 boxSide = getSide() * radius();
+            const Vector3 boxFront = getForward() * minDistanceToCollision;
+            const Vector3 FR = getPosition() + boxFront - boxSide;
+            const Vector3 FL = getPosition() + boxFront + boxSide;
+            const Vector3 BR = getPosition()            - boxSide;
+            const Vector3 BL = getPosition()            + boxSide;
             const Color white (1,1,1);
             annotationLine (FR, FL, white);
             annotationLine (FL, BL, white);
@@ -517,7 +517,7 @@ namespace {
             OpenSteerDemo::updateCamera (currentTime, elapsedTime, selected);
 
             // draw "ground plane"
-            if (OpenSteerDemo::selectedVehicle) gridCenter = selected.position();
+            if (OpenSteerDemo::selectedVehicle) gridCenter = selected.getPosition();
             OpenSteerDemo::gridUtility (gridCenter);
 
             // draw and annotate each Pedestrian
@@ -537,15 +537,15 @@ namespace {
             {
                 const Color color (0.8f, 0.8f, 1.0f);
                 const Vector3 textOffset (0, 0.25f, 0);
-                const Vector3 textPosition = selected.position() + textOffset;
-                const Vector3 camPosition = OpenSteerDemo::camera.position();
-                const float camDistance = Vector3::distance (selected.position(),
+                const Vector3 textPosition = selected.getPosition() + textOffset;
+                const Vector3 camPosition = OpenSteerDemo::camera.getPosition();
+                const float camDistance = Vector3::distance (selected.getPosition(),
                                                           camPosition);
                 const char* spacer = "      ";
                 std::ostringstream annote;
                 annote << std::setprecision (2);
                 annote << std::setiosflags (std::ios::fixed);
-                annote << spacer << "1: speed: " << selected.speed() << std::endl;
+                annote << spacer << "1: speed: " << selected.getSpeed() << std::endl;
                 annote << std::setprecision (1);
                 annote << spacer << "2: cam dist: " << camDistance << std::endl;
                 annote << spacer << "3: no third thing" << std::ends;
@@ -586,9 +586,9 @@ namespace {
                 {
                     AbstractVehicle* vehicle = *i;
                     const float nearDistance = 6;
-                    const Vector3& vp = vehicle->position();
-                    const Vector3& np = nearMouse.position();
-                    if ((Vector3::distance (vp, selected.position()) < nearDistance)
+                    const Vector3& vp = vehicle->getPosition();
+                    const Vector3& np = nearMouse.getPosition();
+                    if ((Vector3::distance (vp, selected.getPosition()) < nearDistance)
                         ||
                         (&nearMouse && (Vector3::distance (vp, np) < nearDistance)))
                     {
@@ -598,7 +598,7 @@ namespace {
                            << std::ends;
                         const Color textColor (0.8f, 1, 0.8f);
                         const Vector3 textOffset (0, 0.25f, 0);
-                        const Vector3 textPos = vehicle->position() + textOffset;
+                        const Vector3 textPos = vehicle->getPosition() + textOffset;
                         draw2dTextAt3dLocation (sn, textPos, textColor, drawGetWindowWidth(), drawGetWindowHeight());
                     }
                 }
@@ -621,8 +621,8 @@ namespace {
     // ------------------------------------ xxxcwr11-1-04 fixing steerToAvoid
             {
                 float w = gObstacle3.width * 0.5f;
-                Vector3 p = gObstacle3.position ();
-                Vector3 s = gObstacle3.side ();
+                Vector3 p = gObstacle3.getPosition();
+                Vector3 s = gObstacle3.getSide();
                 drawLine (p + (s * w), p + (s * -w), gWhite);
 
                 Vector3 v1 = gObstacle3.globalizePosition (Vector3 (w, w, 0));

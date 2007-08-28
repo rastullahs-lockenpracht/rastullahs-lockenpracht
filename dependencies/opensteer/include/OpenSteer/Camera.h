@@ -113,7 +113,7 @@ namespace OpenSteer {
         // xxx differently (which is to say, correctly) during mouse adjustment.
         LocalSpace ls;
         const LocalSpace& xxxls (void)
-        {ls.regenerateOrthonormalBasis (target - position(), up()); return ls;}
+        {ls.regenerateOrthonormalBasis (target - getPosition(), getUp()); return ls;}
 
 
         // camera mode selection

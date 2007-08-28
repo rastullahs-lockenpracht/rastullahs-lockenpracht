@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
+ * Copyright(C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
@@ -22,6 +22,7 @@
 #include "Agent.h"
 #include "Actor.h"
 #include "Creature.h"
+#include "CreatureController.h"
 #include "CreatureControllerManager.h"
 #include "MeshObject.h"
 #include "CreatureController.h"
@@ -50,25 +51,25 @@ SteeringVehicle::SteeringVehicle(Creature* creature)
         mCreature);
 }
 
-SteeringVehicle::~SteeringVehicle(void)
+SteeringVehicle::~SteeringVehicle()
 {
 }
 
 void SteeringVehicle::resetLocalSpace()
 {
 	setForward(mForwardVector);
-	setSide(localRotateForwardToSide(forward()));
+	setSide(localRotateForwardToSide(getForward()));
     setUp(Vector3::UNIT_Y);
-	Vector3 pos = mCreature->getActor()->getPosition();
+	Vector3 pos = mCreature->getPosition();
 	setPosition(pos);
-	Vector3 src = mCreature->getActor()->getOrientation()*Vector3::NEGATIVE_UNIT_Z;
+	Vector3 src = mCreature->getOrientation()*Vector3::NEGATIVE_UNIT_Z;
 
-    // regenerate local space (by default: align vehicle's forward axis with
+    // regenerate local space(by default: align vehicle's forward axis with
     // new velocity, but this behavior may be overridden by derived classes.)
-	regenerateOrthonormalBasisUF ( src);
+	regenerateOrthonormalBasisUF(src);
 }
 
-void SteeringVehicle::initialize(void)
+void SteeringVehicle::initialize()
 {
     // reset LocalSpace state
 	resetLocalSpace();
@@ -76,8 +77,8 @@ void SteeringVehicle::initialize(void)
     // reset SteerLibraryMixin state
 	SimpleVehicle_2::reset();
 
-	setMaxForce (1.0f);   // steering force is clipped to this magnitude
-	setMaxSpeed (1.0f);   // velocity is clipped to this magnitude
+	setMaxForce(1.0f);   // steering force is clipped to this magnitude
+	setMaxSpeed(1.0f);   // velocity is clipped to this magnitude
 }
 
 void SteeringVehicle::addForce(const Ogre::Vector3& force)
@@ -92,23 +93,20 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 
 	OgreNewt::Body* body = mCreature->getActor()->getPhysicalThing()->_getBody();
 
-    Vector3 position;
-	Quaternion orientation;
-	body->getPositionOrientation(position, orientation);
-	setPosition(position);
+	setPosition(mCreature->getPosition());
 
     //  Get the velocity vector
 	mCurrentVelocity = body->getVelocity();
 	//  enforce speed limit
-	//  newVelocity = newVelocity.truncateLength (maxSpeed ());
+	//  newVelocity = newVelocity.truncateLength(maxSpeed());
 	//  update speed
 	setSpeed(mCurrentVelocity.length());
 	Vector3 newVelocity(mCurrentVelocity);
 
-    //  regenerate local space (by default: align vehicle's forward axis with
+    //  regenerate local space(by default: align vehicle's forward axis with
     //  new velocity, but this behavior may be overridden by derived classes.)
     // use future orientation or not??
-    orientation = Quaternion(mController->getYaw(), Ogre::Vector3::UNIT_Y);
+    Quaternion orientation(mController->getYaw(), Ogre::Vector3::UNIT_Y);
     Vector3 newUnitForward = orientation*Vector3::NEGATIVE_UNIT_Z;
     regenerateOrthonormalBasisUF(newUnitForward);
 
@@ -162,6 +160,10 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 
 
     mController->setMovement(movement, direction, rotation);
+    LOG_MESSAGE("mController->setMovement",
+        Ogre::StringConverter::toString(movement) + ", "
+        + Ogre::StringConverter::toString(direction) + ", "
+        + Ogre::StringConverter::toString(rotation));
 
 	mCurrentForce = Ogre::Vector3::ZERO;
 }
@@ -223,7 +225,7 @@ bool SteeringVehicle::isAhead(Agent* agent, const float threshold)
 bool SteeringVehicle::needAvoidance(const float minTimeToCollision)
 {
 	Vector3 rVal = calcAvoidNeighbors(minTimeToCollision) + calcAvoidObstacles(minTimeToCollision);
-	if(rVal == Vector3::ZERO)
+	if (rVal == Vector3::ZERO)
 	{
 		return false;
 	}
@@ -239,7 +241,7 @@ AVGroup SteeringVehicle::getNeighbors() const
 	//{
 	//	if ((*itr) != this)
 	//	{
-	//		group.push_back( (*itr));
+	//		group.push_back((*itr));
 	//	}
 	//}
 	return group;
@@ -253,81 +255,81 @@ float SteeringVehicle::calcDistance(const Vector3& vec1, const Vector3& vec2)
 
 Vector3 SteeringVehicle::getPosition()
 {
-	return position();
+	return mCreature->getPosition();
 }
 
-float SteeringVehicle::mass (void) const 
+float SteeringVehicle::getMass() const 
 {
-    return mCreature->getActor()->getPhysicalThing()->getMass();
+    return mCreature->getMass();
 }
 
-float SteeringVehicle::setMass (float m) 
+float SteeringVehicle::setMass(float m) 
 {
 	// don't set mass here TODO: throw exception
 
 	return 1;
 } 
 
-float SteeringVehicle::speed (void) const 
+float SteeringVehicle::getSpeed() const 
 {
 	return mSpeed;
 }
 
-float SteeringVehicle::setSpeed (float s) 
+float SteeringVehicle::setSpeed(float s) 
 {
-	return mSpeed = s;
+	return 1;
 }
 
-float SteeringVehicle::radius (void) const 
+float SteeringVehicle::getRadius() const 
 {
 	// this is only the radius in x axis, but i think, this is the value that should be used here
     Ogre::AxisAlignedBox aab = mCreature->getActor()->getPhysicalThing()->_getBody()->getCollision()->getAABB();
-    return (aab.getMaximum().x - aab.getMinimum().x)/2;
+    return(aab.getMaximum().x - aab.getMinimum().x)/2;
 }
 
-float SteeringVehicle::setRadius (float m) 
+float SteeringVehicle::setRadius(float m) 
 {
 	// don't set mass here TODO: throw exception
 	return 1;
 }
 
-float SteeringVehicle::height (void) const 
+float SteeringVehicle::getHeight() const 
 {
     Ogre::AxisAlignedBox aab = mCreature->getActor()->getPhysicalThing()->_getBody()->getCollision()->getAABB();
     return aab.getMaximum().y - aab.getMinimum().y;
 }
 
-float SteeringVehicle::setHeight (float h) 
+float SteeringVehicle::setHeight(float h) 
 {
 	// don't set mass here TODO: throw exception
 	return 1;
 }
 
-const Actor* SteeringVehicle::getActor(void) const  
+const Actor* SteeringVehicle::getActor() const  
 { 
 	return mCreature->getActor(); 
 }
 
-float SteeringVehicle::maxForce (void) const 
+float SteeringVehicle::getMaxForce() const 
 {
 	return 10000.0f;
 } 
 
-float SteeringVehicle::setMaxForce (float mf) 
+float SteeringVehicle::setMaxForce(float mf) 
 {
 	 // TODO: should not be set here, throw excpetion or so
 	return _maxForce = mf;
 }
 
-float SteeringVehicle::maxSpeed (void) const 
+float SteeringVehicle::getMaxSpeed() const 
 {
-	return 100000; 
+	return mController->getMaximumSpeed();
 }
 
-float SteeringVehicle::setMaxSpeed (float ms) 
+float SteeringVehicle::setMaxSpeed(float ms) 
 {
 	 // TODO: should not be set here, throw excpetion or so
-	return _maxSpeed = ms;
+	return 1;
 }
 
 const ObstacleGroup& SteeringVehicle::getObstacles() const
@@ -337,28 +339,28 @@ const ObstacleGroup& SteeringVehicle::getObstacles() const
 
 Vector3 SteeringVehicle::predictFuturePosition(const float predictionTime) const
 {
-	//return position() + (velocity() * predictionTime);
-	return velocity() * predictionTime;
+	//return position() +(velocity() * predictionTime);
+	return getVelocity() * predictionTime;
 }
 
 Vector3 SteeringVehicle::adjustRawSteeringForce(const Vector3& force)
 {
-    const float maxAdjustedSpeed = 0.2f * maxSpeed ();
+    const float maxAdjustedSpeed = 0.2f * getMaxSpeed();
 
-    if ((speed () > maxAdjustedSpeed) || (force == Vector3::ZERO))
+    if ((getSpeed() > maxAdjustedSpeed) ||(force == Vector3::ZERO))
     {
         return force;
     }
     else
     {
-        const float range = speed() / maxAdjustedSpeed;
-        // const float cosine = interpolate (pow (range, 6), 1.0f, -1.0f);
-        // const float cosine = interpolate (pow (range, 10), 1.0f, -1.0f);
-        // const float cosine = interpolate (pow (range, 20), 1.0f, -1.0f);
-        // const float cosine = interpolate (pow (range, 100), 1.0f, -1.0f);
-        // const float cosine = interpolate (pow (range, 50), 1.0f, -1.0f);
-        const float cosine = interpolate (pow (range, 20), 1.0f, -1.0f);
-        return limitMaxDeviationAngle (force, cosine, forward());
+        const float range = getSpeed() / maxAdjustedSpeed;
+        // const float cosine = interpolate(pow(range, 6), 1.0f, -1.0f);
+        // const float cosine = interpolate(pow(range, 10), 1.0f, -1.0f);
+        // const float cosine = interpolate(pow(range, 20), 1.0f, -1.0f);
+        // const float cosine = interpolate(pow(range, 100), 1.0f, -1.0f);
+        // const float cosine = interpolate(pow(range, 50), 1.0f, -1.0f);
+        const float cosine = interpolate(pow(range, 20), 1.0f, -1.0f);
+        return limitMaxDeviationAngle(force, cosine, getForward());
     }
 }
 
@@ -378,17 +380,17 @@ void SteeringVehicle::updatePrimitive()
     LineSetPrimitive* lineSet = static_cast<LineSetPrimitive*>(mPrimitive);
     lineSet->clear();
     
-    if(mDebugSteer != Vector3::ZERO)
+    if (mDebugSteer != Vector3::ZERO)
     {
         lineSet->addLine(Vector3::UNIT_Y*2, Vector3::UNIT_Y*2 + mDebugSteer.normalisedCopy()*0.5, ColourValue::Black);
         mDebugSteer = Vector3::ZERO;
     }
-    if(mDebugWander != Vector3::ZERO)
+    if (mDebugWander != Vector3::ZERO)
     {
         lineSet->addLine(Vector3::UNIT_Y*2, Vector3::UNIT_Y*2 + mDebugWander.normalisedCopy()*0.5, ColourValue::Green);
         mDebugWander = Vector3::ZERO;
     }
-    if(mDebugAvoidObstacles != Vector3::ZERO)
+    if (mDebugAvoidObstacles != Vector3::ZERO)
     {
         lineSet->addLine(Vector3::UNIT_Y*2, Vector3::UNIT_Y*2 + mDebugAvoidObstacles.normalisedCopy()*0.5, ColourValue::Red);
         mDebugAvoidObstacles = Vector3::ZERO;
@@ -399,4 +401,5 @@ void SteeringVehicle::doCreatePrimitive()
 {
     mPrimitive = new LineSetPrimitive();
 }
-}
+
+} // namespace rl

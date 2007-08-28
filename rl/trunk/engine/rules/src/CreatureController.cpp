@@ -1218,6 +1218,11 @@ namespace rl
         return max(act_gs,1);
     }
 
+    Ogre::Real CreatureController::getMaximumSpeed() const
+    {
+        return getCurrentGS() * 1.2; // GS = m/KR
+    }
+
     MeshAnimation *CreatureController::setAnimation(const Ogre::String &name, Ogre::Real speed, unsigned int timesToPlay, const Ogre::String &collisionName, Real weight)
     {
         MeshObject* mesh = dynamic_cast<MeshObject*>(mCreature->getActor()->getControlledObject());

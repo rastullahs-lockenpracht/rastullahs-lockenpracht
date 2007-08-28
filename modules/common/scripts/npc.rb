@@ -11,18 +11,12 @@ class TalkAction < Action
       bot = $AI.loadBot(object.getName(), object.getDialogfile())
     end
     if ( not bot.nil? )
-	  p "foo1"
       bot.setPlayerCharacter( actor );
-	  p "foo2"
       bot.setNonPlayerCharacter( object );
-	  p "foo3"
-	  p "foo4"
 	  agent = AgentManager::getSingleton().createAgent(object)
 	  agent.pushState(RlScript::AST_DIALOG);
-	  p "foo5"
 	  agent.getCurrentState().setDialogPartner(
 		AgentManager::getSingleton().createAgent(actor))
-	  p "foo6"
     end
   end
 end

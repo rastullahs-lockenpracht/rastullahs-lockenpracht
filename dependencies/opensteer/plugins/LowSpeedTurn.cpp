@@ -102,7 +102,7 @@ namespace {
 
             // annotation
             annotationVelocityAcceleration ();
-            recordTrailVertex (currentTime, position());
+            recordTrailVertex (currentTime, getPosition());
         }
 
         // reset starting positions
@@ -188,7 +188,7 @@ namespace {
             OpenSteerDemo::updateCamera (currentTime, elapsedTime, selected);
 
             // draw "ground plane"
-            OpenSteerDemo::gridUtility (selected.position());
+            OpenSteerDemo::gridUtility (selected.getPosition());
           
             // update, draw and annotate each agent
             for (iterator i = all.begin(); i != all.end(); i++)
@@ -200,11 +200,11 @@ namespace {
                 // display speed near agent's screen position
                 const Color textColor (0.8f, 0.8f, 1.0f);
                 const Vector3 textOffset (0, 0.25f, 0);
-                const Vector3 textPosition = agent.position() + textOffset;
+                const Vector3 textPosition = agent.getPosition() + textOffset;
                 std::ostringstream annote;
                 annote << std::setprecision (2)
                        << std::setiosflags (std::ios::fixed)
-                       << agent.speed()
+                       << agent.getSpeed()
                        << std::ends;
                 draw2dTextAt3dLocation (annote, textPosition, textColor, drawGetWindowWidth(), drawGetWindowHeight());
             }

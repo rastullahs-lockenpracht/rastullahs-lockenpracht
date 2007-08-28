@@ -18,9 +18,11 @@
 #include "AgentDialogState.h"
 
 #include "Agent.h"
+#include "AiMessages.h"
 #include "Creature.h"
 #include "CreatureController.h"
 #include "CreatureControllerManager.h"
+#include "MessagePump.h"
 
 using namespace Ogre;
 
@@ -49,30 +51,28 @@ namespace rl
                 CreatureControllerManager::getSingleton().getCreatureController(
                     mAgent->getControlledCreature());
 
-        if (mAgent->getPosition().squaredDistance(mPartner->getPosition()) > 1.5)
+        if (mAgent->getPosition().squaredDistance(mPartner->getPosition()) > 1.5
+            || !mAgent->isAhead(mPartner, 0.95))
         {		
-            mAgent->addForce(mAgent->calcPursuit(mPartner));
+            mAgent->addForce(mAgent->calcSeek(mPartner->getPosition()));
             mAgent->updateVehicle(0, elapsedTime);
         }
-        //else if (!mAgent->isAhead(mPartner, 0.95)) 
-        //{		
-        //    mAgent->addForce(mAgent->calcPursuit(mPartner));
-        //    mAgent->updateVehicle(0, elapsedTime);
-        //}
-        ///@todo: Turn if near but not correctly oriented
 		else
         {
 			if (!mTalking)
             {
                 mAgent->reset();
-                ctrl->setMovement(CreatureController::MT_NONE, Vector3::ZERO, Vector3::ZERO);
-		        //$IM.pushControlState(CST_DIALOG);
+                ctrl->setMovement(
+                    CreatureController::MT_STEHEN, Vector3::ZERO, Vector3::ZERO);
 
                 ctrl->setAnimation("reden");
 				mTalking = true;
+
+                MessagePump::getSingleton().sendMessage<MessageType_DialogStarted>();
+                
+                mAgent->popState();
             }			
         }
-
 
     }
 } // namespace rl

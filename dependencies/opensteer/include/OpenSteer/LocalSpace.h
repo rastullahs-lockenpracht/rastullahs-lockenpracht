@@ -80,17 +80,17 @@ namespace OpenSteer {
         
 
         // accessors (get and set) for side, up, forward and position
-        virtual Vector3 side (void) const = 0;
+        virtual Vector3 getSide (void) const = 0;
         virtual Vector3 setSide (Vector3 s) = 0;
-        virtual Vector3 up (void) const = 0;
+        virtual Vector3 getUp (void) const = 0;
         virtual Vector3 setUp (Vector3 u) = 0;
-        virtual Vector3 forward (void) const = 0;
+        virtual Vector3 getForward (void) const = 0;
         virtual Vector3 setForward (Vector3 f) = 0;
-        virtual Vector3 position (void) const = 0;
+        virtual Vector3 getPosition (void) const = 0;
         virtual Vector3 setPosition (Vector3 p) = 0;
 
         // use right-(or left-)handed coordinate space
-        virtual bool rightHanded (void) const = 0;
+        virtual bool isRightHanded(void) const = 0;
 
         // reset transform to identity
         virtual void resetLocalSpace (void) = 0;
@@ -121,7 +121,7 @@ namespace OpenSteer {
         virtual void regenerateOrthonormalBasis (const Vector3& newForward,
                                                  const Vector3& newUp) = 0;
 
-        // rotate 90 degrees in the direction implied by rightHanded()
+        // rotate 90 degrees in the direction implied by isRightHanded()
         virtual Vector3 localRotateForwardToSide (const Vector3& v) const = 0;
         virtual Vector3 globalRotateForwardToSide (const Vector3& globalForward) const=0;
     };
@@ -149,10 +149,10 @@ namespace OpenSteer {
     public:
 
         // accessors (get and set) for side, up, forward and position
-        Vector3 side     (void) const {return _side;}
-        Vector3 up       (void) const {return _up;}
-        Vector3 forward  (void) const {return _forward;}
-        Vector3 position (void) const {return _position;}
+        Vector3 getSide     (void) const {return _side;}
+        Vector3 getUp       (void) const {return _up;}
+        Vector3 getForward  (void) const {return _forward;}
+        Vector3 getPosition (void) const {return _position;}
         Vector3 setSide     (Vector3 s) {return _side = s;}
         Vector3 setUp       (Vector3 u) {return _up = u;}
         Vector3 setForward  (Vector3 f) {return _forward = f;}
@@ -168,7 +168,7 @@ namespace OpenSteer {
         // LocalSpace use a left- or right-handed coordinate system?  This can be
         // overloaded in derived types (e.g. vehicles) to change handedness.
 
-        bool rightHanded (void) const {return true;}
+        bool isRightHanded(void) const {return true;}
 
 
         // ------------------------------------------------------------------------
@@ -192,7 +192,7 @@ namespace OpenSteer {
                          const Vector3& Position)
             : _side(), _up( Up ), _forward( Forward ), _position( Position )
         {
-            setUnitSideFromForwardAndUp ();
+            setUnitSideFromForwardAndUp();
         }
 
         
@@ -275,7 +275,7 @@ namespace OpenSteer {
         void setUnitSideFromForwardAndUp (void)
         {
             // derive new unit side basis vector from forward and up
-            if (rightHanded())
+            if (isRightHanded())
                 _side = _forward.crossProduct(_up);
             else
                 _side = _up.crossProduct(_forward);
@@ -293,12 +293,12 @@ namespace OpenSteer {
             _forward = newUnitForward;
 
             // derive new side basis vector from NEW forward and OLD up
-            setUnitSideFromForwardAndUp ();
+            setUnitSideFromForwardAndUp();
 
             // derive new Up basis vector from new Side and new Forward
             // (should have unit length since Side and Forward are
             // perpendicular and unit length)
-            if (rightHanded())
+            if (isRightHanded())
                 _up = _side.crossProduct(_forward);
             else
                 _up = _forward.crossProduct(_side);
@@ -330,7 +330,7 @@ namespace OpenSteer {
 
         Vector3 localRotateForwardToSide (const Vector3& v) const
         {
-            return Vector3 (rightHanded () ? -v.z : +v.z,
+            return Vector3 (isRightHanded() ? -v.z : +v.z,
                          v.y,
                          v.x);
         }

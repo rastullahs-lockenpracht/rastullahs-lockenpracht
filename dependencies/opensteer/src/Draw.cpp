@@ -381,7 +381,7 @@ OpenSteer::drawCircleOrDisk (const float radius,
         ls.setUp (unitAxis);
         ls.setForward (unitPerp);
         ls.setPosition (center);
-        ls.setUnitSideFromForwardAndUp ();
+        ls.setUnitSideFromForwardAndgetUp();
     }
         
     // make disks visible (not culled) from both sides 
@@ -398,7 +398,7 @@ OpenSteer::drawCircleOrDisk (const float radius,
     glBegin (filled ? GL_TRIANGLE_FAN : GL_LINE_LOOP);
 
     // for the filled case, first emit the center point
-    if (filled) iglVertexVec3 (in3d ? ls.position() : center);
+    if (filled) iglVertexVec3 (in3d ? ls.getPosition() : center);
 
     // rotate p around the circle in "segments" steps
     float sin=0, cos=0;
@@ -518,14 +518,14 @@ OpenSteer::drawBasic2dCircularVehicle (const AbstractVehicle& vehicle,
     const float y = sqrtXXX (1 - (x * x));
 
     // radius and position of vehicle
-    const float r = vehicle.radius();
-    const Vector3& p = vehicle.position();
+    const float r = vehicle.getRadius();
+    const Vector3& p = vehicle.getPosition();
 
     // shape of triangular body
     const Vector3 u = r * 0.05f * Vector3 (0, 1, 0); // slightly up
-    const Vector3 f = r * vehicle.forward();
-    const Vector3 s = r * vehicle.side() * x;
-    const Vector3 b = r * vehicle.forward() * -y;
+    const Vector3 f = r * vehicle.getForward();
+    const Vector3 s = r * vehicle.getSide() * x;
+    const Vector3 b = r * vehicle.getForward() * -y;
 
     // draw double-sided triangle (that is: no (back) face culling)
     beginDoubleSidedDrawing ();
@@ -553,14 +553,14 @@ OpenSteer::drawBasic3dSphericalVehicle (const AbstractVehicle& vehicle,
     const float y = sqrtXXX (1 - (x * x));
 
     // radius and position of vehicle
-    const float r = vehicle.radius();
-    const Vector3& p = vehicle.position();
+    const float r = vehicle.getRadius();
+    const Vector3& p = vehicle.getPosition();
 
     // body shape parameters
-    const Vector3 f = r * vehicle.forward();
-    const Vector3 s = r * vehicle.side() * x;
-    const Vector3 u = r * vehicle.up() * x * 0.5f;
-    const Vector3 b = r * vehicle.forward() * -y;
+    const Vector3 f = r * vehicle.getForward();
+    const Vector3 s = r * vehicle.getSide() * x;
+    const Vector3 u = r * vehicle.getUp() * x * 0.5f;
+    const Vector3 b = r * vehicle.getForward() * -y;
 
     // vertex positions
     const Vector3 nose   = p + f;
@@ -600,14 +600,14 @@ OpenSteer::drawBasic3dSphericalVehicle (drawTriangleRoutine draw, const Abstract
     const float y = sqrtXXX (1 - (x * x));
 
     // radius and position of vehicle
-    const float r = vehicle.radius();
-    const Vector3& p = vehicle.position();
+    const float r = vehicle.getRadius();
+    const Vector3& p = vehicle.getPosition();
 
     // body shape parameters
-    const Vector3 f = r * vehicle.forward();
-    const Vector3 s = r * vehicle.side() * x;
-    const Vector3 u = r * vehicle.up() * x * 0.5f;
-    const Vector3 b = r * vehicle.forward() * -y;
+    const Vector3 f = r * vehicle.getForward();
+    const Vector3 s = r * vehicle.getSide() * x;
+    const Vector3 u = r * vehicle.getUp() * x * 0.5f;
+    const Vector3 b = r * vehicle.getForward() * -y;
 
     // vertex positions
     const Vector3 nose   = p + f;

@@ -112,19 +112,19 @@ namespace {
             applyBrakingForce(1.5f, elapsedTime);
             applySteeringForce(velocity(), elapsedTime);
             // are we now outside the field?
-            if(!m_bbox->InsideX(position()))
+            if(!m_bbox->InsideX(getPosition()))
             {
                 Vector3 d = velocity();
                 regenerateOrthonormalBasis(Vector3(-d.x, d.y, d.z));
                 applySteeringForce(velocity(), elapsedTime);
             }
-            if(!m_bbox->InsideZ(position()))
+            if(!m_bbox->InsideZ(getPosition()))
             {
                 Vector3 d = velocity();
                 regenerateOrthonormalBasis(Vector3(d.x, d.y, -d.z));
                 applySteeringForce(velocity(), elapsedTime);
             }
-        recordTrailVertex (currentTime, position());
+        recordTrailVertex (currentTime, getPosition());
         }
 
         void kick(Vector3 dir, const float elapsedTime){
@@ -168,7 +168,7 @@ namespace {
                 else
                     setPosition(Vector3(-playerPosition[m_MyID].x, playerPosition[m_MyID].y, playerPosition[m_MyID].z));
                 }
-            m_home = position();
+            m_home = getPosition();
             clearTrailHistory ();    // prevent long streaks due to teleportation 
             setTrailParameters (10, 60);
         }
@@ -179,10 +179,10 @@ namespace {
         {
             // if I hit the ball, kick it.
 
-            const float distToBall = Vector3::distance (position(), m_Ball->position());
+            const float distToBall = Vector3::distance (getPosition(), m_Ball->getPosition());
             const float sumOfRadii = radius() + m_Ball->radius();
             if (distToBall < sumOfRadii)
-                m_Ball->kick((m_Ball->position()-position())*50, elapsedTime);
+                m_Ball->kick((m_Ball->getPosition()-getPosition())*50, elapsedTime);
 
 
             // otherwise consider avoiding collisions with others
@@ -191,24 +191,24 @@ namespace {
                 applySteeringForce (collisionAvoidance, elapsedTime);
             else
                 {
-                float distHomeToBall = Vector3::distance (m_home, m_Ball->position());
+                float distHomeToBall = Vector3::distance (m_home, m_Ball->getPosition());
                 if( distHomeToBall < 12.0f)
                     {
                     // go for ball if I'm on the 'right' side of the ball
-                        if( b_ImTeamA ? position().x > m_Ball->position().x : position().x < m_Ball->position().x)
+                        if( b_ImTeamA ? getPosition().x > m_Ball->getPosition().x : getPosition().x < m_Ball->getPosition().x)
                         {
-                        Vector3 seekTarget = xxxsteerForSeek(m_Ball->position());
+                        Vector3 seekTarget = xxxsteerForSeek(m_Ball->getPosition());
                         applySteeringForce (seekTarget, elapsedTime);
                         }
                     else
                         {
                         if( distHomeToBall < 12.0f)
                             {
-                            float Z = m_Ball->position().z - position().z > 0 ? -1.0f : 1.0f;
-                            Vector3 behindBall = m_Ball->position() + (b_ImTeamA ? Vector3(2.0f,0.0f,Z) : Vector3(-2.0f,0.0f,Z));
+                            float Z = m_Ball->getPosition().z - getPosition().z > 0 ? -1.0f : 1.0f;
+                            Vector3 behindBall = m_Ball->getPosition() + (b_ImTeamA ? Vector3(2.0f,0.0f,Z) : Vector3(-2.0f,0.0f,Z));
                             Vector3 behindBallForce = xxxsteerForSeek(behindBall);
-                            annotationLine (position(), behindBall , Color(0.0f,1.0f,0.0f));
-                            Vector3 evadeTarget = xxxsteerForFlee(m_Ball->position());
+                            annotationLine (getPosition(), behindBall , Color(0.0f,1.0f,0.0f));
+                            Vector3 evadeTarget = xxxsteerForFlee(m_Ball->getPosition());
                             applySteeringForce (behindBallForce*10.0f + evadeTarget, elapsedTime);
                             }
                         }
@@ -301,12 +301,12 @@ namespace {
                 TeamB[i]->update (currentTime, elapsedTime);
             m_Ball->update(currentTime, elapsedTime);
 
-            if(m_TeamAGoal->InsideX(m_Ball->position()) && m_TeamAGoal->InsideZ(m_Ball->position()))
+            if(m_TeamAGoal->InsideX(m_Ball->getPosition()) && m_TeamAGoal->InsideZ(m_Ball->getPosition()))
             {
                 m_Ball->reset();	// Ball in blue teams goal, red scores
                 m_redScore++;
             }
-            if(m_TeamBGoal->InsideX(m_Ball->position()) && m_TeamBGoal->InsideZ(m_Ball->position()))
+            if(m_TeamBGoal->InsideX(m_Ball->getPosition()) && m_TeamBGoal->InsideZ(m_Ball->getPosition()))
             {
                 m_Ball->reset();	// Ball in red teams goal, blue scores
                     m_blueScore++;
@@ -342,8 +342,8 @@ namespace {
             {
                 std::ostringstream annote;
                 annote << std::setprecision (2) << std::setiosflags (std::ios::fixed);
-                annote << "      speed: " << TeamA[i]->speed() << "ID:" << i << std::ends;
-                draw2dTextAt3dLocation (annote, TeamA[i]->position(), gRed, drawGetWindowWidth(), drawGetWindowHeight());
+                annote << "      speed: " << TeamA[i]->getSpeed() << "ID:" << i << std::ends;
+                draw2dTextAt3dLocation (annote, TeamA[i]->getPosition(), gRed, drawGetWindowWidth(), drawGetWindowHeight());
                 draw2dTextAt3dLocation (*"start", Vector3::ZERO, gGreen, drawGetWindowWidth(), drawGetWindowHeight());
             }
             // update camera, tracking test vehicle

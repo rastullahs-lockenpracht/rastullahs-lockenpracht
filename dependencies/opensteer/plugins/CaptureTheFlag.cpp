@@ -265,7 +265,7 @@ namespace {
         setPosition (gHomeBaseCenter + randomOnRing);
 
         // are we are too close to an obstacle?
-        if (minDistanceToObstacle (position()) < radius()*5)
+        if (minDistanceToObstacle (getPosition()) < radius()*5)
         {
             // if so, retry the randomization (this recursive call may not return
             // if there is too little free space)
@@ -286,11 +286,11 @@ namespace {
     {
         // determine upper bound for pursuit prediction time
         const float seekerToGoalDist = Vector3::distance (gHomeBaseCenter,
-                                                       gSeeker->position());
+                                                       gSeeker->getPosition());
         const float adjustedDistance = seekerToGoalDist - radius()-gHomeBaseRadius;
         const float seekerToGoalTime = ((adjustedDistance < 0 ) ?
                                         0 :
-                                        (adjustedDistance/gSeeker->speed()));
+                                        (adjustedDistance/gSeeker->getSpeed()));
         const float maxPredictionTime = seekerToGoalTime * 0.9f;
 
         // determine steering (pursuit, obstacle avoidance, or braking)
@@ -317,12 +317,12 @@ namespace {
 
         // annotation
         annotationVelocityAcceleration ();
-        recordTrailVertex (currentTime, position());
+        recordTrailVertex (currentTime, getPosition());
 
 
         // detect and record interceptions ("tags") of seeker
-        const float seekerToMeDist = Vector3::distance (position(), 
-                                                     gSeeker->position());
+        const float seekerToMeDist = Vector3::distance (getPosition(), 
+                                                     gSeeker->getPosition());
         const float sumOfRadii = radius() + gSeeker->radius();
         if (seekerToMeDist < sumOfRadii)
         {
@@ -333,7 +333,7 @@ namespace {
             {
                 const Color color (0.8f, 0.5f, 0.5f);
                 annotationXZDisk (sumOfRadii,
-                            (position() + gSeeker->position()) / 2,
+                            (getPosition() + gSeeker->getPosition()) / 2,
                             color,
                             20);
             }
@@ -350,7 +350,7 @@ namespace {
         const float sideThreshold = radius() * 8.0f;
         const float behindThreshold = radius() * 2.0f;
 
-        const Vector3 goalOffset = gHomeBaseCenter - position();
+        const Vector3 goalOffset = gHomeBaseCenter - getPosition();
         const float goalDistance = goalOffset.length ();
         const Vector3 goalDirection = goalOffset / goalDistance;
 
@@ -364,17 +364,17 @@ namespace {
         {
             // short name for this enemy
             const CtfEnemy& e = *ctfEnemies[i];
-            const float eDistance = Vector3::distance (position(), e.position());
-            const float timeEstimate = 0.3f * eDistance / e.speed(); //xxx
+            const float eDistance = Vector3::distance (getPosition(), e.getPosition());
+            const float timeEstimate = 0.3f * eDistance / e.getSpeed(); //xxx
             const Vector3 eFuture = e.predictFuturePosition (timeEstimate);
-            const Vector3 eOffset = eFuture - position();
+            const Vector3 eOffset = eFuture - getPosition();
             const float alongCorridor = goalDirection.dotProduct(eOffset);
             const bool inCorridor = ((alongCorridor > -behindThreshold) && 
                                      (alongCorridor < goalDistance));
-            const float eForwardDistance = forward().dotProduct(eOffset);
+            const float eForwardDistance = getForward().dotProduct(eOffset);
 
             // xxx temp move this up before the conditionals
-            annotationXZCircle (e.radius(), eFuture, clearPathColor, 20); //xxx
+            annotationXZCircle (e.getRadius(), eFuture, clearPathColor, 20); //xxx
 
             // consider as potential blocker if within the corridor
             if (inCorridor)
@@ -384,7 +384,7 @@ namespace {
                 if (acrossCorridor < sideThreshold)
                 {
                     // not a blocker if behind us and we are perp to corridor
-                    const float eFront = eForwardDistance + e.radius ();
+                    const float eFront = eForwardDistance + e.getRadius();
 
                     //annotationLine (position, forward*eFront, gGreen); // xxx
                     //annotationLine (e.position, forward*eFront, gGreen); // xxx
@@ -403,7 +403,7 @@ namespace {
                     if (! safeToTurnTowardsGoal)
                     {
                         // this enemy blocks the path to the goal, so return false
-                        annotationLine (position(), e.position(), clearPathColor);
+                        annotationLine (getPosition(), e.getPosition(), clearPathColor);
                         // return false;
                         xxxReturn = false;
                     }
@@ -427,9 +427,9 @@ namespace {
                                          const float behindThreshold,
                                          const Vector3& goalDirection)
     {
-        const Vector3 behindSide = side() * sideThreshold;
-        const Vector3 behindBack = forward() * -behindThreshold;
-        const Vector3 pbb = position() + behindBack;
+        const Vector3 behindSide = getSide() * sideThreshold;
+        const Vector3 behindBack = getForward() * -behindThreshold;
+        const Vector3 pbb = getPosition() + behindBack;
         const Vector3 gun = localRotateForwardToSide (goalDirection);
         const Vector3 gn = gun * sideThreshold;
         const Vector3 hbc = gHomeBaseCenter;
@@ -448,12 +448,12 @@ namespace {
 
     void CtfBase::annotateAvoidObstacle (const float minDistanceToCollision)
     {
-        const Vector3 boxSide = side() * radius();
-        const Vector3 boxFront = forward() * minDistanceToCollision;
-        const Vector3 FR = position() + boxFront - boxSide;
-        const Vector3 FL = position() + boxFront + boxSide;
-        const Vector3 BR = position()            - boxSide;
-        const Vector3 BL = position()            + boxSide;
+        const Vector3 boxSide = getSide() * radius();
+        const Vector3 boxFront = getForward() * minDistanceToCollision;
+        const Vector3 FR = getPosition() + boxFront - boxSide;
+        const Vector3 FL = getPosition() + boxFront + boxSide;
+        const Vector3 BR = getPosition()            - boxSide;
+        const Vector3 BL = getPosition()            + boxSide;
         const Color white (1,1,1);
         annotationLine (FR, FL, white);
         annotationLine (FL, BL, white);
@@ -468,16 +468,16 @@ namespace {
     Vector3 CtfSeeker::steerToEvadeAllDefenders (void)
     {
         Vector3 evade (0, 0, 0);
-        const float goalDistance = Vector3::distance (gHomeBaseCenter, position());
+        const float goalDistance = Vector3::distance (gHomeBaseCenter, getPosition());
 
         // sum up weighted evasion
         for (int i = 0; i < ctfEnemyCount; i++)
         {
             const CtfEnemy& e = *ctfEnemies[i];
-            const Vector3 eOffset = e.position() - position();
+            const Vector3 eOffset = e.getPosition() - getPosition();
             const float eDistance = eOffset.length();
 
-            const float eForwardDistance = forward().dotProduct(eOffset);
+            const float eForwardDistance = getForward().dotProduct(eOffset);
             const float behindThreshold = radius() * 2;
             const bool behind = eForwardDistance < behindThreshold;
             if ((!behind) || (eDistance < 5))
@@ -485,14 +485,14 @@ namespace {
                 if (eDistance < (goalDistance * 1.2)) //xxx
                 {
                     // const float timeEstimate = 0.5f * eDistance / e.speed;//xxx
-                    const float timeEstimate = 0.15f * eDistance / e.speed();//xxx
+                    const float timeEstimate = 0.15f * eDistance / e.getSpeed();//xxx
                     const Vector3 future =
                         e.predictFuturePosition (timeEstimate);
 
-                    annotationXZCircle (e.radius(), future, evadeColor, 20); // xxx
+                    annotationXZCircle (e.getRadius(), future, evadeColor, 20); // xxx
 
-                    const Vector3 offset = future - position();
-                    const Vector3 lateral = offset.perpendicularComponent (forward());
+                    const Vector3 offset = future - getPosition();
+                    const Vector3 lateral = offset.perpendicularComponent (getForward());
                     const float d = lateral.length();
                     const float weight = -1000 / (d * d);
                     evade += (lateral / d) * weight;
@@ -510,20 +510,20 @@ namespace {
         for (int i = 0; i < ctfEnemyCount; i++)
         {
             const CtfEnemy& e = *ctfEnemies[i];
-            const Vector3 eOffset = e.position() - position();
+            const Vector3 eOffset = e.getPosition() - getPosition();
             const float eDistance = eOffset.length();
 
             // xxx maybe this should take into account e's heading? xxx
-            const float timeEstimate = 0.5f * eDistance / e.speed(); //xxx
+            const float timeEstimate = 0.5f * eDistance / e.getSpeed(); //xxx
             const Vector3 eFuture = e.predictFuturePosition (timeEstimate);
 
             // annotation
-            annotationXZCircle (e.radius(), eFuture, evadeColor, 20);
+            annotationXZCircle (e.getRadius(), eFuture, evadeColor, 20);
 
             // steering to flee from eFuture (enemy's future position)
             const Vector3 flee = xxxsteerForFlee (eFuture);
 
-            const float eForwardDistance = forward().dotProduct(eOffset);
+            const float eForwardDistance = getForward().dotProduct(eOffset);
             const float behindThreshold = radius() * -2;
 
             const float distanceWeight = 4 / eDistance;
@@ -567,9 +567,9 @@ namespace {
                 // we have a clear path (defender-free corridor), use pure seek
 
                 // xxx experiment 9-16-02
-                Vector3 s = limitMaxDeviationAngle (seek, 0.707f, forward());
+                Vector3 s = limitMaxDeviationAngle (seek, 0.707f, getForward());
 
-                annotationLine (position(), position() + (s * 0.2f), seekColor);
+                annotationLine (getPosition(), getPosition() + (s * 0.2f), seekColor);
                 return s;
             }
             else
@@ -579,10 +579,10 @@ namespace {
                     // combine seek and (forward facing portion of) evasion
                     const Vector3 evade = steerToEvadeAllDefenders ();
                     const Vector3 steer = 
-                        seek + limitMaxDeviationAngle (evade, 0.5f, forward());
+                        seek + limitMaxDeviationAngle (evade, 0.5f, getForward());
 
                     // annotation: show evasion steering force
-                    annotationLine (position(),position()+(steer*0.2f),evadeColor);
+                    annotationLine (getPosition(),getPosition()+(steer*0.2f),evadeColor);
                     return steer;
                 }
                 else
@@ -590,13 +590,13 @@ namespace {
                 {
                     const Vector3 evade = XXXsteerToEvadeAllDefenders ();
                     const Vector3 steer = limitMaxDeviationAngle (seek + evade,
-                                                               0.707f, forward());
+                                                               0.707f, getForward());
 
-                    annotationLine (position(),position()+seek, gRed);
-                    annotationLine (position(),position()+evade, gGreen);
+                    annotationLine (getPosition(),getPosition()+seek, gRed);
+                    annotationLine (getPosition(),getPosition()+evade, gGreen);
 
                     // annotation: show evasion steering force
-                    annotationLine (position(),position()+(steer*0.2f),evadeColor);
+                    annotationLine (getPosition(),getPosition()+(steer*0.2f),evadeColor);
                     return steer;
                 }
             }
@@ -614,9 +614,9 @@ namespace {
         if (clearPath)
         {
             evading = false;
-            const float goalDistance = Vector3::distance (gHomeBaseCenter,position());
+            const float goalDistance = Vector3::distance (gHomeBaseCenter,getPosition());
             const bool headingTowardGoal = isAhead (gHomeBaseCenter, 0.98f);
-            const bool isNear = (goalDistance/speed()) < gAvoidancePredictTimeMax;
+            const bool isNear = (goalDistance/getSpeed()) < gAvoidancePredictTimeMax;
             const bool useMax = headingTowardGoal && !isNear;
             gAvoidancePredictTime =
                 (useMax ? gAvoidancePredictTimeMax : gAvoidancePredictTimeMin);
@@ -637,7 +637,7 @@ namespace {
         // if we reach the goal before being tagged, switch to atGoal state
         if (state == running)
         {
-            const float baseDistance = Vector3::distance (position(),gHomeBaseCenter);
+            const float baseDistance = Vector3::distance (getPosition(),gHomeBaseCenter);
             if (baseDistance < (radius() + gHomeBaseRadius)) state = atGoal;
         }
 
@@ -684,11 +684,11 @@ namespace {
         }
 
         // annote seeker with its state as text
-        const Vector3 textOrigin = position() + Vector3 (0, 0.25, 0);
+        const Vector3 textOrigin = getPosition() + Vector3 (0, 0.25, 0);
         std::ostringstream annote;
         annote << seekerStateString << std::endl;
         annote << std::setprecision(2) << std::setiosflags(std::ios::fixed)
-               << speed() << std::ends;
+               << getSpeed() << std::ends;
         draw2dTextAt3dLocation (annote, textOrigin, gWhite, drawGetWindowWidth(), drawGetWindowHeight());
 
         // display status in the upper left corner of the window
@@ -725,7 +725,7 @@ namespace {
 
         // annotation
         annotationVelocityAcceleration ();
-        recordTrailVertex (currentTime, position());
+        recordTrailVertex (currentTime, getPosition());
     }
 
 
@@ -878,13 +878,13 @@ namespace {
             OpenSteerDemo::updateCamera (currentTime, elapsedTime, selected);
 
             // draw "ground plane" centered between base and selected vehicle
-            const Vector3 goalOffset = gHomeBaseCenter-OpenSteerDemo::camera.position();
+            const Vector3 goalOffset = gHomeBaseCenter-OpenSteerDemo::camera.getPosition();
             const Vector3 goalDirection = goalOffset.normalisedCopy();
-            const Vector3 cameraForward = OpenSteerDemo::camera.xxxls().forward();
+            const Vector3 cameraForward = OpenSteerDemo::camera.xxxls().getForward();
             const float goalDot = cameraForward.dotProduct(goalDirection);
             const float blend = remapIntervalClip (goalDot, 1, 0, 0.5, 0);
             const Vector3 gridCenter = interpolate (blend,
-                                                 selected.position(),
+                                                 selected.getPosition(),
                                                  gHomeBaseCenter);
             OpenSteerDemo::gridUtility (gridCenter);
 

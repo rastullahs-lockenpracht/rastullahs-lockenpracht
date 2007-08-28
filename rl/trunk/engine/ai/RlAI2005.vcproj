@@ -250,7 +250,7 @@
 				AdditionalDependencies="OgreMain.lib OgreNewt.lib CEGUIBase.lib opensteer.lib RlCommon.lib RlCore.lib RlRules.lib Newton.lib MadaBot.lib xerces-c_2.lib"
 				OutputFile="$(OutDir)/RlAI.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\dialog\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib\;&quot;..\..\dependencies\ogrenewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\opensteer\lib;..\..\dependencies\boost\lib;..\..\dependencies\NewtonSDK\sdk\dll;&quot;..\..\dependencies\aiml\MadaBot\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib"
+				AdditionalLibraryDirectories="..\common\lib\Release;..\core\lib\Release;..\rules\lib\Release;..\dialog\lib\Release;..\..\dependencies\ogrenew\lib\;..\..\dependencies\ogrenewt\lib\Release;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\opensteer\lib;..\..\dependencies\boost\lib;..\..\dependencies\NewtonSDK\sdk\dll;..\..\dependencies\aiml\MadaBot\lib\Release"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -510,6 +510,10 @@
 			</File>
 			<File
 				RelativePath=".\include\AgentSteeringState.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\AiMessages.h"
 				>
 			</File>
 			<File

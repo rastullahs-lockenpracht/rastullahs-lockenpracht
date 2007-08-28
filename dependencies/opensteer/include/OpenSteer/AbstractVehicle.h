@@ -57,18 +57,18 @@ namespace OpenSteer {
         virtual ~AbstractVehicle() { /* Nothing to do. */ }
         
         // mass (defaults to unity so acceleration=force)
-        virtual float mass (void) const = 0;
+        virtual float getMass (void) const = 0;
         virtual float setMass (float) = 0;
 
         // size of bounding sphere, for obstacle avoidance, etc.
-        virtual float radius (void) const = 0;
+        virtual float getRadius (void) const = 0;
         virtual float setRadius (float) = 0;
 
         // velocity of vehicle
-        virtual Vector3 velocity (void) const = 0;
+        virtual Vector3 getVelocity (void) const = 0;
 
         // speed of vehicle  (may be faster than taking magnitude of velocity)
-        virtual float speed (void) const = 0;
+        virtual float getSpeed (void) const = 0;
         virtual float setSpeed (float) = 0;
 
         // groups of (pointers to) abstract vehicles, and iterators over them
@@ -84,11 +84,11 @@ namespace OpenSteer {
         // XXX of place on the abstract base class, but for now it is expedient
 
         // the maximum steering force this vehicle can apply
-        virtual float maxForce (void) const = 0;
+        virtual float getMaxForce (void) const = 0;
         virtual float setMaxForce (float) = 0;
 
         // the maximum speed this vehicle is allowed to move
-        virtual float maxSpeed (void) const = 0;
+        virtual float getMaxSpeed (void) const = 0;
         virtual float setMaxSpeed (float) = 0;
 
 		// dp - added to support heterogeneous flocks

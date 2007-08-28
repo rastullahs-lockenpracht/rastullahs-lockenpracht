@@ -919,8 +919,8 @@ namespace {
                     {
                         const Vector3 wander = steerForWander (elapsedTime);
                         const Vector3 flat = wander.setYtoZero ();
-                        const Vector3 weighted = flat.truncateLength (maxForce()) * 6;
-                        const Vector3 a = position() + Vector3 (0, 0.2f, 0);
+                        const Vector3 weighted = flat.truncateLength (getMaxForce()) * 6;
+                        const Vector3 a = getPosition() + Vector3 (0, 0.2f, 0);
                         annotationLine (a, a + (weighted * 0.3f), gWhite);
                         steering += weighted;
                     }
@@ -934,7 +934,7 @@ namespace {
                         if (pf != Vector3::ZERO)
                         {
                             // steer to remain on path
-                            if (pf.dotProduct(forward()) < 0)
+                            if (pf.dotProduct(getForward()) < 0)
                                 steering = pf;
                             else
                                 steering = pf + steering;
@@ -943,17 +943,17 @@ namespace {
                         {
                             // path aligment: when neither obstacle avoidance nor
                             // path following is required, align with path segment
-                            const Vector3 pathHeading = mapPointAndDirectionToTangent( *path, position(), pathFollowDirection ); // path->tangentAt (position (), pathFollowDirection);
+                            const Vector3 pathHeading = mapPointAndDirectionToTangent( *path, getPosition(), pathFollowDirection ); // path->tangentAt (getPosition(), pathFollowDirection);
                             {
-                                const Vector3 b = (position () +
-                                                (up () * 0.2f) +
-                                                (forward () * halfLength * 1.4f));
+                                const Vector3 b = (getPosition() +
+                                                (getUp() * 0.2f) +
+                                                (getForward() * halfLength * 1.4f));
                                 const float l = 2;
-                                annotationLine (b, b + (forward ()  * l), gCyan);
+                                annotationLine (b, b + (getForward()  * l), gCyan);
                                 annotationLine (b, b + (pathHeading * l), gCyan);
                             }
                             steering += (steerTowardHeading(pathHeading) *
-                                         ( isNearWaypoint( *path, position() ) /* path->nearWaypoint (position () ) */ ?
+                                         ( isNearWaypoint( *path, getPosition() ) /* path->nearWaypoint (getPosition() ) */ ?
                                           0.5f : 0.1f));
                         }
                     }
@@ -981,13 +981,13 @@ namespace {
                 const bool circles = weAreGoingInCircles ();
                 if (circles && !stuck) stuckCycleCount++;
                 if (circles) stuck = true;
-                annotationCircleOrDisk (0.5, up(), smoothedPosition (),
+                annotationCircleOrDisk (0.5, getUp(), smoothedgetPosition(),
                                         gWhite, 12, circles, false);
             }
 
             // annotation
             perFrameAnnotation ();
-            recordTrailVertex (currentTime, position());
+            recordTrailVertex (currentTime, getPosition());
         }
 
 
@@ -997,8 +997,8 @@ namespace {
     //  //
     //  Vector3 reduceTurningAtLowSpeeds (const Vector3& rawSteering)
     //  {
-    //      const Vector3 thrust = rawSteering.parallelComponent (forward ());
-    //      const Vector3 lateral = rawSteering.perpendicularComponent (forward ());
+    //      const Vector3 thrust = rawSteering.parallelComponent (getForward());
+    //      const Vector3 lateral = rawSteering.perpendicularComponent (getForward());
     //      // const float adjust = relativeSpeed ();
     //      // const float adjust = square (relativeSpeed ());
     //      const float adjust = square (square (relativeSpeed ()));
@@ -1010,7 +1010,7 @@ namespace {
         {
             const float minRadius = sqrtXXX(square(halfWidth)+square(halfLength));
             const float safetyMargin = (curvedSteering ?
-                                        interpolate (relativeSpeed(), 0.0f, 1.5f) :
+                                        interpolate (relativegetSpeed(), 0.0f, 1.5f) :
                                         0.0f);
             setRadius (minRadius + safetyMargin);
         }
@@ -1061,15 +1061,15 @@ namespace {
             if (demoSelect != 2) return Vector3::ZERO;
 
             // are we heading roughly parallel to the current path segment?
-            const Vector3 p = position ();
+            const Vector3 p = getPosition();
             const Vector3 pathHeading = mapPointAndDirectionToTangent( *path, p, pathFollowDirection ); // path->tangentAt (p, pathFollowDirection);
-            if (pathHeading.dotProduct(forward ()) < 0.8f)
+            if (pathHeading.dotProduct(getForward()) < 0.8f)
             {
                 // if not, the "hint" is to turn to align with path heading
-                const Vector3 s = side () * halfWidth;
+                const Vector3 s = getSide() * halfWidth;
                 const float f = halfLength * 2;
-                annotationLine (p + s, p + s + (forward () * f), gBlack);
-                annotationLine (p - s, p - s + (forward () * f), gBlack);
+                annotationLine (p + s, p + s + (getForward() * f), gBlack);
+                annotationLine (p - s, p - s + (getForward() * f), gBlack);
                 annotationLine (p, p + (pathHeading * 5), gMagenta);
                 return pathHeading;
             }
@@ -1077,7 +1077,7 @@ namespace {
             {
                 // when there is a valid nearest obstacle position
                 const Vector3 obstacle = qqqLastNearestObstacle;
-                const Vector3 o = obstacle + (up () * 0.1f);
+                const Vector3 o = obstacle + (getUp() * 0.1f);
                 if (obstacle != Vector3::ZERO)
                 {
                     // get offset, distance from obstacle to its image on path
@@ -1106,13 +1106,13 @@ namespace {
                             {
                                 const Vector3 q = p + (offset.normalisedCopy() * 5);
                                 annotationLine (p, q, gMagenta);
-                                annotationCircleOrDisk (0.4f, up(), o, gWhite,
+                                annotationCircleOrDisk (0.4f, getUp(), o, gWhite,
                                                         12, false, false);
                                 return offset;
                             }
                         }
                     }
-                    annotationCircleOrDisk (0.4f, up(), o, gBlack, 12,false,false);
+                    annotationCircleOrDisk (0.4f, getUp(), o, gBlack, 12,false,false);
                 }
             }
             // otherwise, no hint
@@ -1141,10 +1141,10 @@ namespace {
         {
             const float spacing = map.minSpacing() / 2;
             const float maxSide = radius();
-            const float maxForward = minTimeToCollision * speed();
+            const float maxForward = minTimeToCollision * getSpeed();
             const int maxSamples = (int) (maxForward / spacing);
-            const Vector3 step = forward () * spacing;
-            const Vector3 fOffset = position ();
+            const Vector3 step = getForward() * spacing;
+            const Vector3 fOffset = getPosition();
             Vector3 sOffset;
             float s = spacing / 2;
 
@@ -1159,21 +1159,21 @@ namespace {
 
             const bool hintGiven = steerHint != Vector3::ZERO;
             if (hintGiven && !dtZero) hintGivenCount++;
-            if (hintGiven) annotationCircleOrDisk (halfWidth * 0.9f, up(),
-                                                   position () + (up () * 0.2f),
+            if (hintGiven) annotationCircleOrDisk (halfWidth * 0.9f, getUp(),
+                                                   getPosition() + (getUp() * 0.2f),
                                                    gWhite, 12, false, false);
 
             // QQQ temporary global QQQoaJustScraping
             QQQoaJustScraping = true;
 
             const float signedRadius = 1 / nonZeroCurvatureQQQ ();
-            const Vector3 localCenterOfCurvature = side () * signedRadius;
-            const Vector3 center = position () + localCenterOfCurvature;
+            const Vector3 localCenterOfCurvature = getSide() * signedRadius;
+            const Vector3 center = getPosition() + localCenterOfCurvature;
             const float sign = signedRadius < 0 ? 1.0f : -1.0f;
             const float arcRadius = signedRadius * -sign;
             const float twoPi = 2 * OPENSTEER_M_PI;
             const float circumference = twoPi * arcRadius;
-            const float rawLength = speed() * minTimeToCollision * sign;
+            const float rawLength = getSpeed() * minTimeToCollision * sign;
             const float fracLimit = 1.0f / 6.0f;
             const float distLimit = circumference * fracLimit;
             const float arcLength = arcLengthLimit (rawLength, distLimit);
@@ -1182,10 +1182,10 @@ namespace {
             // XXX temp annotation to show limit on arc angle
             if (curvedSteering)
             {
-                if ((speed() * minTimeToCollision) > (circumference * fracLimit))
+                if ((getSpeed() * minTimeToCollision) > (circumference * fracLimit))
                 {
                     const float q = twoPi * fracLimit;
-                    const Vector3 fooz = position () - center;
+                    const Vector3 fooz = getPosition() - center;
                     const Vector3 booz = fooz.rotateAboutGlobalY (sign * q);
                     annotationLine (center, center + fooz, gRed);
                     annotationLine (center, center + booz, gRed);
@@ -1199,7 +1199,7 @@ namespace {
             // keep track of nearest obstacle on left and right sides
             while (s < maxSide)
             {
-                sOffset = side() * s;
+                sOffset = getSide() * s;
                 s += spacing;
                 const Vector3 lOffset = fOffset + sOffset;
                 const Vector3 rOffset = fOffset - sOffset;
@@ -1265,7 +1265,7 @@ namespace {
                 const int wingScans = 4;
                 // see duplicated code at: QQQ draw sensing "wings"
                 // QQQ should be a parameter of this method
-                const Vector3 wingWidth = side() * wingSlope () * maxForward;
+                const Vector3 wingWidth = getSide() * wingSlope () * maxForward;
 
                 const Color beforeColor (0.75f, 0.9f, 0.0f);  // for annotation
                 const Color afterColor  (0.9f,  0.5f, 0.0f);  // for annotation
@@ -1274,7 +1274,7 @@ namespace {
                 {
                     const float fraction = (float)i / (float)wingScans;
                     const Vector3 endside = sOffset + (wingWidth * fraction);
-                    const Vector3 corridorFront = forward() * maxForward;
+                    const Vector3 corridorFront = getForward() * maxForward;
 
                     // "loop" from -1 to 1
                     for (int j = -1; j < 2; j+=2)
@@ -1358,7 +1358,7 @@ namespace {
                 if (obstacleFreeWL || obstacleFreeWR || relativeSpeed () < 0.7f)
                     return Vector3::ZERO;
                 else
-                    return -forward ();
+                    return -getForward();
             }
 
             // if the nearest obstacle is way out there, take hint if any
@@ -1368,7 +1368,7 @@ namespace {
             {
                 annotationNoteOAClauseName ("nearest obstacle is way out there");
                 annotationHintWasTaken ();
-                if (steerHint.dotProduct(side())>0) return side();else return -side();
+                if (steerHint.dotProduct(getSide())>0) return getSide();else return -getSide();
             }
 
             // QQQ experiment 3-9-04
@@ -1378,21 +1378,21 @@ namespace {
             //
             // are we turning more sharply than the minimum turning radius?
             // (code from adjustSteeringForMinimumTurningRadius)
-            const float maxCurvature = 1 / (minimumTurningRadius () * 1.2f);
+            const float maxCurvature = 1 / (minimumTurninggetRadius() * 1.2f);
             if (absXXX (curvature ()) > maxCurvature)
             {
                 annotationNoteOAClauseName ("min turn radius");
-                annotationCircleOrDisk (minimumTurningRadius () * 1.2f, up(),
+                annotationCircleOrDisk (minimumTurninggetRadius() * 1.2f, getUp(),
                                         center, gBlue * 0.8f, 40, false, false);
-                return side () * sign;
+                return getSide() * sign;
             }
 
             // if either side is obstacle-free, turn in that direction
             if (obstacleFreeL || obstacleFreeR)
                 annotationNoteOAClauseName ("obstacle-free side");
 
-            if (obstacleFreeL) return side();
-            if (obstacleFreeR) return -side();
+            if (obstacleFreeL) return getSide();
+            if (obstacleFreeR) return -getSide();
 
             // if wings are clear, turn away from nearest obstacle straight ahead
             if (obstacleFreeW)
@@ -1404,12 +1404,12 @@ namespace {
                 if (same && hintGiven)
                 {
                     annotationHintWasTaken ();
-                    if (steerHint.dotProduct(side())>0) return side();else return -side();
+                    if (steerHint.dotProduct(getSide())>0) return getSide();else return -getSide();
                 }
                 else
                 {
                     // otherwise steer toward the less cluttered side
-                    if (nearestL > nearestR) return side(); else return -side();
+                    if (nearestL > nearestR) return getSide(); else return -getSide();
                 }
             }
 
@@ -1420,13 +1420,13 @@ namespace {
             {
                 annotationNoteOAClauseName ("equallyClear");
                 annotationHintWasTaken ();
-                if (steerHint.dotProduct(side()) > 0) return side(); else return -side();
+                if (steerHint.dotProduct(getSide()) > 0) return getSide(); else return -getSide();
             }
 
             // turn towards the side whose "wing" region is less cluttered
             // (the wing whose nearest obstacle is furthest away)
             annotationNoteOAClauseName ("wing less cluttered");
-            if (nearestWL > nearestWR) return side(); else return -side();
+            if (nearestWL > nearestWR) return getSide(); else return -getSide();
         }
 
 
@@ -1480,9 +1480,9 @@ namespace {
             if (!dtZero) hintTakenCount++;
 
             const float r = halfWidth * 0.9f;
-            const Vector3 ff = forward () * r;
-            const Vector3 ss = side () * r;
-            const Vector3 pp = position () + (up () * 0.2f);
+            const Vector3 ff = getForward() * r;
+            const Vector3 ss = getSide() * r;
+            const Vector3 pp = getPosition() + (getUp() * 0.2f);
             annotationLine (pp + ff + ss, pp - ff + ss, gWhite);
             annotationLine (pp - ff - ss, pp - ff + ss, gWhite);
             annotationLine (pp - ff - ss, pp + ff - ss, gWhite);
@@ -1591,12 +1591,12 @@ namespace {
             const float predictTime = curvedSteering ? .75f : 1.3f; // seconds
             const float maxForward =
                 speed () * combinedLookAheadTime (predictTime, minDistance);
-            const Vector3 step = forward () * spacing;
+            const Vector3 step = getForward() * spacing;
             float s = curvedSteering ? (spacing / 4) : (spacing / 2);
 
             const float signedRadius = 1 / nonZeroCurvatureQQQ ();
-            const Vector3 localCenterOfCurvature = side () * signedRadius;
-            const Vector3 center = position () + localCenterOfCurvature;
+            const Vector3 localCenterOfCurvature = getSide() * signedRadius;
+            const Vector3 center = getPosition() + localCenterOfCurvature;
             const float sign = signedRadius < 0 ? 1.0f : -1.0f;
             const float arcRadius = signedRadius * -sign;
             const float twoPi = 2 * OPENSTEER_M_PI;
@@ -1607,9 +1607,9 @@ namespace {
             // scan region ahead of vehicle
             while (s < maxSide)
             {
-                const Vector3 sOffset = side() * s;
-                const Vector3 lOffset = position () + sOffset;
-                const Vector3 rOffset = position () - sOffset;
+                const Vector3 sOffset = getSide() * s;
+                const Vector3 lOffset = getPosition() + sOffset;
+                const Vector3 rOffset = getPosition() - sOffset;
                 const float bevel = 0.3f;
                 const float fraction = s / maxSide;
                 const float scanDist = (halfLength +
@@ -1675,30 +1675,30 @@ namespace {
                 // QQQ and now, worse, I rearranged it to try the "limit arc
                 // QQQ angle" trick
                 const float signedRadius = 1 / nonZeroCurvatureQQQ ();
-                const Vector3 localCenterOfCurvature = side () * signedRadius;
-                const Vector3 center = position () + localCenterOfCurvature;
+                const Vector3 localCenterOfCurvature = getSide() * signedRadius;
+                const Vector3 center = getPosition() + localCenterOfCurvature;
                 const float sign = signedRadius < 0 ? 1.0f : -1.0f;
                 const float arcRadius = signedRadius * -sign;
                 const float twoPi = 2 * OPENSTEER_M_PI;
                 const float circumference = twoPi * arcRadius;
-                const float rawLength = speed() * predictionTime * sign;
+                const float rawLength = getSpeed() * predictionTime * sign;
                 const float arcLength = arcLengthLimit (rawLength,
                                                         circumference * 0.25f);
                 const float arcAngle = twoPi * arcLength / circumference;
 
-                const Vector3 spoke = position () - center;
+                const Vector3 spoke = getPosition() - center;
                 const Vector3 newSpoke = spoke.rotateAboutGlobalY (arcAngle);
                 const Vector3 prediction = newSpoke + center;
 
                 // QQQ unify with annotatePathFollowing
                 const Color futurePositionColor (0.5f, 0.5f, 0.6f);
-                annotationXZArc (position (), center, arcLength, 20, 
+                annotationXZArc (getPosition(), center, arcLength, 20, 
                                  futurePositionColor);
                 return prediction;
             }
             else
             {
-                return position() + (velocity() * predictionTime);
+                return getPosition() + (velocity() * predictionTime);
             }
         }
 
@@ -1748,18 +1748,18 @@ namespace {
                                       GCRoute& path)
         {
             // our goal will be offset from our path distance by this amount
-            const float pathDistanceOffset = direction * predictionTime * speed();
+            const float pathDistanceOffset = direction * predictionTime * getSpeed();
 
             // predict our future position
             const Vector3 futurePosition = predictFuturePosition (predictionTime);
 
             // measure distance along path of our current and predicted positions
             const float nowPathDistance =
-                path.mapPointToPathDistance (position ());
+                path.mapPointToPathDistance (getPosition());
 
             // are we facing in the correction direction?
-            const Vector3 pathHeading = mapPointToTangent( path, position() ) * static_cast< float >( direction );// path.tangentAt(position()) * (float)direction;
-            const bool correctDirection = pathHeading.dotProduct(forward ()) > 0;
+            const Vector3 pathHeading = mapPointToTangent( path, getPosition() ) * static_cast< float >( direction );// path.tangentAt(getPosition()) * (float)direction;
+            const bool correctDirection = pathHeading.dotProduct(getForward()) > 0;
 
             // find the point on the path nearest the predicted future position
             // XXX need to improve calling sequence, maybe change to return a
@@ -1770,11 +1770,11 @@ namespace {
 
             // determine if we are currently inside the path tube
             float nowOutside;
-            const Vector3 nowOnPath = mapPointToPointOnCenterLineAndOutside( path, position(), nowOutside );  // path.mapPointToPath (position (), nowOutside);
+            const Vector3 nowOnPath = mapPointToPointOnCenterLineAndOutside( path, getPosition(), nowOutside );  // path.mapPointToPath (getPosition(), nowOutside);
 
             // no steering is required if our present and future positions are
             // inside the path tube and we are facing in the correct direction
-            const float m = -radius ();
+            const float m = -getRadius();
             const bool whollyInside = (futureOutside < m) && (nowOutside < m);
             if (whollyInside && correctDirection)
             {
@@ -1795,7 +1795,7 @@ namespace {
                 // if we are on one segment and target is on the next segment and
                 // the dot of the tangents of the two segments is negative --
                 // increase the target offset to compensate the fold back
-                const int ip =  static_cast< int >( mapPointToSegmentIndex( path, position() ) ); // path.indexOfNearestSegment (position ());
+                const int ip =  static_cast< int >( mapPointToSegmentIndex( path, getPosition() ) ); // path.indexOfNearestSegment (getPosition());
                 const int it =  static_cast< int >( mapPointToSegmentIndex( path, target ) ); // path.indexOfNearestSegment (target);
                 // Because polyline paths have a constant tangent along a segment
                 // just set the distance along the segment to @c 0.0f.
@@ -1818,14 +1818,14 @@ namespace {
                 if (nowOutside > 0) return steerForSeek (nowOnPath);
 
                 // steering to seek target on path
-                const Vector3 seek = steerForSeek (target).truncateLength(maxForce());
+                const Vector3 seek = steerForSeek (target).truncateLength(getMaxForce());
 
                 // return that seek steering -- except when we are heading off
                 // the path (currently on path and future position is off path)
                 // in which case we put on the brakes.
                 if ((nowOutside < 0) && (futureOutside > 0))
-                    return (seek.perpendicularComponent (forward ()) -
-                            (forward () * maxForce ()));
+                    return (seek.perpendicularComponent (getForward()) -
+                            (getForward() * maxForce ()));
                 else
                     return seek;
             }
@@ -1848,15 +1848,15 @@ namespace {
             float futureOutside;
             const Vector3 onPath =  mapPointToPointOnCenterLineAndOutside( path, futurePosition, futureOutside ); // path.mapPointToPath (futurePosition,futureOutside);
             const Vector3 pathHeading =  mapPointAndDirectionToTangent( path, onPath, direction ); // path.tangentAt (onPath, direction);
-            const Vector3 rawBraking = forward () * maxForce () * -1;
+            const Vector3 rawBraking = getForward() * maxForce () * -1;
             const Vector3 braking = ((futureOutside < 0) ? Vector3::ZERO : rawBraking);
             //qqq experimental wrong-way-fixer
             float nowOutside;
             Vector3 nowTangent;
-            const Vector3 p = position ();
+            const Vector3 p = getPosition();
             const Vector3 nowOnPath = path.mapPointToPath (p, nowTangent, nowOutside);
             nowTangent *= (float)direction;
-            const float alignedness = nowTangent.dotProduct(forward ());
+            const float alignedness = nowTangent.dotProduct(getForward());
 
             // facing the wrong way?
             if (alignedness < 0)
@@ -1867,20 +1867,20 @@ namespace {
                 if (alignedness < -0.707f)
                 {
                     const Vector3 towardCenter = nowOnPath - p;
-                    const Vector3 turn = (towardCenter.dotProduct(side ()) > 0 ?
-                                       side () * maxForce () :
-                                       side () * maxForce () * -1);
+                    const Vector3 turn = (towardCenter.dotProduct(getSide()) > 0 ?
+                                       getSide() * maxForce () :
+                                       getSide() * maxForce () * -1);
                     return (turn + rawBraking);
                 }
                 else
                 {
                     return (steerTowardHeading(pathHeading).
-                            perpendicularComponent(forward()) + braking);
+                            perpendicularComponent(getForward()) + braking);
                 }
             }
 
             // is the predicted future position(+radius+margin) inside the path?
-            if (futureOutside < -(radius () + 1.0f)) //QQQ
+            if (futureOutside < -(getRadius() + 1.0f)) //QQQ
             {
                 // then no steering is required
                 return Vector3::ZERO;
@@ -1890,13 +1890,13 @@ namespace {
                 // otherwise determine corrective steering (including braking)
                 annotationLine (futurePosition, futurePosition+pathHeading, gRed);
                 annotatePathFollowing (futurePosition, onPath,
-                                       position(), futureOutside);
+                                       getPosition(), futureOutside);
 
                 // two cases, if entering a turn (a waypoint between path segments)
                 if ( /* path.nearWaypoint (onPath) */ isNearWaypoint( path, onPath )  && (futureOutside > 0))
                 {
                     // steer to align with next path segment
-                    annotationCircleOrDisk (0.5f, up(), futurePosition,
+                    annotationCircleOrDisk (0.5f, getUp(), futurePosition,
                                             gRed, 8, false, false);
                     return steerTowardHeading (pathHeading) + braking;
                 }
@@ -1907,7 +1907,7 @@ namespace {
                     const Vector3 pathSide = localRotateForwardToSide (pathHeading);
                     const Vector3 towardFP = futurePosition - onPath;
                     const float whichSide = (pathSide.dotProduct(towardFP)<0)?1.0f :-1.0f;
-                    return (side () * maxForce () * whichSide) + braking;
+                    return (getSide() * maxForce () * whichSide) + braking;
                 }
             }
         }
@@ -1915,20 +1915,20 @@ namespace {
 
         void perFrameAnnotation (void)
         {
-            const Vector3 p = position();
+            const Vector3 p = getPosition();
 
             // draw the circular collision boundary
-            annotationCircleOrDisk (radius(), up(), p, gBlack, 32, false, false);
+            annotationCircleOrDisk (radius(), getUp(), p, gBlack, 32, false, false);
 
             // draw forward sensing corridor and wings ( for non-curved case)
             if (!curvedSteering)
             {
-                const float corLength = speed() * lookAheadTimeOA ();
+                const float corLength = getSpeed() * lookAheadTimeOA ();
                 if (corLength > halfLength)
                 {
-                    const Vector3 corFront = forward() * corLength;
+                    const Vector3 corFront = getForward() * corLength;
                     const Vector3 corBack = Vector3::ZERO; // (was bbFront)
-                    const Vector3 corSide  = side() * radius();
+                    const Vector3 corSide  = getSide() * radius();
                     const Vector3 c1 = p + corSide + corBack;
                     const Vector3 c2 = p + corSide + corFront;
                     const Vector3 c3 = p - corSide + corFront;
@@ -1939,7 +1939,7 @@ namespace {
                     annotationLine (c3, c4, color);
 
                     // draw sensing "wings"
-                    const Vector3 wingWidth = side () * wingSlope () * corLength;
+                    const Vector3 wingWidth = getSide() * wingSlope () * corLength;
                     const Vector3 wingTipL = c2 + wingWidth;
                     const Vector3 wingTipR = c3 - wingWidth;
                     const Color wingColor (gOrange);
@@ -1951,7 +1951,7 @@ namespace {
             }
 
             // annotate steering acceleration
-            const Vector3 above = position () + Vector3 (0, 0.2f, 0);
+            const Vector3 above = getPosition() + Vector3 (0, 0.2f, 0);
             const Vector3 accel = smoothedAcceleration () * 5 / maxForce ();
             const Color aColor (0.4f, 0.4f, 0.8f);
             annotationLine (above, above + accel, aColor);
@@ -1967,9 +1967,9 @@ namespace {
             if (collisionDetected)   bodyColor = gRed;
 
             // draw vehicle's bounding box on gound plane (its "shadow")
-            const Vector3 p = position();
-            const Vector3 bbSide = side() * halfWidth;
-            const Vector3 bbFront = forward() * halfLength;
+            const Vector3 p = getPosition();
+            const Vector3 bbSide = getSide() * halfWidth;
+            const Vector3 bbFront = getForward() * halfLength;
             const Vector3 bbHeight (0, 0.1f, 0);
             drawQuadrangle (p - bbFront + bbSide + bbHeight,
                             p + bbFront + bbSide + bbHeight,
@@ -1996,16 +1996,16 @@ namespace {
 
             // draw line from our position to our predicted future position
             if (!curvedSteering)
-                annotationLine (position(), future, futurePositionColor);
+                annotationLine (getPosition(), future, futurePositionColor);
 
             // draw line from our position to our steering target on the path
-            annotationLine (position(), target, toTargetColor);
+            annotationLine (getPosition(), target, toTargetColor);
 
             // draw a two-toned line between the future test point and its
             // projection onto the path, the change from dark to light color
             // indicates the boundary of the tube.
 
-            const float o = outside + radius () + (curvedSteering ? 1.0f : 0.0f);
+            const float o = outside + getRadius() + (curvedSteering ? 1.0f : 0.0f);
             const Vector3 boundaryOffset = ((onPath - future).normalisedCopy() * o);
 
             const Vector3 onPathBoundary = future + boundaryOffset;
@@ -2147,8 +2147,8 @@ namespace {
             if (demoSelect == 2)
             {
                 // for path following, do wrap-around (teleport) and make new map
-                const float px = position ().x;
-                const float fx = forward ().x;
+                const float px = getPosition().x;
+                const float fx = getForward().x;
                 const float ws = worldSize * 0.51f; // slightly past edge
                 if (((fx > 0) && (px > ws)) || ((fx < 0) && (px < -ws)))
                 {
@@ -2157,21 +2157,21 @@ namespace {
                     lapsFinished++;
 
                     const Vector3 camOffsetBefore =
-                        OpenSteerDemo::camera.position() - position ();
+                        OpenSteerDemo::camera.getPosition() - getPosition();
 
                     // set position on other side of the map (set new X coordinate)
                     setPosition ((((px < 0) ? 1 : -1) *
                                   ((worldSize * 0.5f) +
-                                   (speed() * lookAheadTimePF ()))),
-                                 position ().y,
-                                 position ().z);
+                                   (getSpeed() * lookAheadTimePF ()))),
+                                 getPosition().y,
+                                 getPosition().z);
 
                     // reset bookeeping to detect stuck cycles
                     resetStuckCycleDetection ();
 
                     // new camera position and aimpoint to compensate for teleport
-                    OpenSteerDemo::camera.target = position ();
-                    OpenSteerDemo::camera.setPosition (position () + camOffsetBefore);
+                    OpenSteerDemo::camera.target = getPosition();
+                    OpenSteerDemo::camera.setPosition (getPosition() + camOffsetBefore);
 
                     // make camera jump immediately to new position
                     OpenSteerDemo::camera.doNotSmoothNextMove ();
@@ -2186,7 +2186,7 @@ namespace {
             {
                 // for the non-path-following demos:
                 // reset simulation if the vehicle drives through the fence
-                if (position().length() > worldDiag) reset();
+                if (getPosition().length() > worldDiag) reset();
             }
             return false;
         }
@@ -2206,7 +2206,7 @@ namespace {
 
         void resetStuckCycleDetection (void)
         {
-            resetSmoothedPosition (position () + (forward () * -80)); // qqq
+            resetSmoothedPosition (getPosition() + (getForward() * -80)); // qqq
         }
 
 
@@ -2214,7 +2214,7 @@ namespace {
         // (say for example we were going around a circle with radius > 10)
         bool weAreGoingInCircles (void)
         {
-            const Vector3 offset = smoothedPosition () - position ();
+            const Vector3 offset = smoothedgetPosition() - getPosition();
             return offset.length () < 10;
         }
 
@@ -2223,7 +2223,7 @@ namespace {
         {
             const float minTime = (baseLookAheadTime *
                                    (curvedSteering ?
-                                    interpolate (relativeSpeed(), 0.4f, 0.7f) :
+                                    interpolate (relativegetSpeed(), 0.4f, 0.7f) :
                                     0.66f));
             return combinedLookAheadTime (minTime, 3);
         }
@@ -2251,12 +2251,12 @@ namespace {
         {
             if (demoSelect == 2)
             {
-                const Vector3 bbSide = side () * halfWidth;
-                const Vector3 bbFront = forward () * halfLength;
-                return ( /* path->isInsidePath (position () - bbFront + bbSide) */ isInsidePathway( *path, position () - bbFront + bbSide ) &&
-                         /* path->isInsidePath (position () + bbFront + bbSide) */ isInsidePathway( *path, position () + bbFront + bbSide ) &&
-                         /* path->isInsidePath (position () + bbFront - bbSide) */ isInsidePathway( *path, position () + bbFront - bbSide ) &&
-                         /* path->isInsidePath (position () - bbFront - bbSide) */ isInsidePathway( *path, position () - bbFront - bbSide ) );
+                const Vector3 bbSide = getSide() * halfWidth;
+                const Vector3 bbFront = getForward() * halfLength;
+                return ( /* path->isInsidePath (getPosition() - bbFront + bbSide) */ isInsidePathway( *path, getPosition() - bbFront + bbSide ) &&
+                         /* path->isInsidePath (getPosition() + bbFront + bbSide) */ isInsidePathway( *path, getPosition() + bbFront + bbSide ) &&
+                         /* path->isInsidePath (getPosition() + bbFront - bbSide) */ isInsidePathway( *path, getPosition() + bbFront - bbSide ) &&
+                         /* path->isInsidePath (getPosition() - bbFront - bbSide) */ isInsidePathway( *path, getPosition() - bbFront - bbSide ) );
             }
             return true;
         }
@@ -2270,7 +2270,7 @@ namespace {
             {
                 // annotation
                 const Vector3 u (0, 0.5, 0);
-                const Vector3 p = position ();
+                const Vector3 p = getPosition();
                 annotationLine (p + u, p + u + absolute, gRed);
                 annotationLine (p + u, p + u + curved, gYellow);
                 annotationLine (p + u*2, p + u*2 + currentSteering, gGreen);
@@ -2283,9 +2283,9 @@ namespace {
         //
         // Given a location in this vehicle's linear local space, convert it into
         // the curved space defined by the vehicle's current path curvature.  For
-        // example, forward() gets mapped on a point 1 unit along the circle
+        // example, getForward() gets mapped on a point 1 unit along the circle
         // centered on the current center of curvature and passing through the
-        // vehicle's position().
+        // vehicle's getPosition().
         //
         Vector3 convertLinearToCurvedSpaceGlobal (const Vector3& linear)
         {
@@ -2293,10 +2293,10 @@ namespace {
 
             // ---------- this block imported from steerToAvoidObstaclesOnMap
             const float signedRadius = 1 / (nonZeroCurvatureQQQ() /*QQQ*/ * 1);
-            const Vector3 localCenterOfCurvature = side () * signedRadius;
-            const Vector3 center = position () + localCenterOfCurvature;
+            const Vector3 localCenterOfCurvature = getSide() * signedRadius;
+            const Vector3 center = getPosition() + localCenterOfCurvature;
             const float sign = signedRadius < 0 ? 1.0f : -1.0f;
-            const float arcLength = trimmedLinear.dotProduct(forward ());
+            const float arcLength = trimmedLinear.dotProduct(getForward());
             //
             const float arcRadius = signedRadius * -sign;
             const float twoPi = 2 * OPENSTEER_M_PI;
@@ -2306,7 +2306,7 @@ namespace {
 
             // ---------- this block imported from scanObstacleMap
             // vector from center of curvature to position of vehicle
-            const Vector3 initialSpoke = position () - center;
+            const Vector3 initialSpoke = getPosition() - center;
             // rotate by signed arc angle
             const Vector3 spoke = initialSpoke.rotateAboutGlobalY (arcAngle * sign);
             // ---------- this block imported from scanObstacleMap
@@ -2316,23 +2316,23 @@ namespace {
             const float radiusChangeFactor = (dRadius + arcRadius) / arcRadius;
             const Vector3 resultLocation = center + (spoke * radiusChangeFactor);
             {
-                const Vector3 center = position () + localCenterOfCurvature;
-                annotationXZArc (position (), center, speed () * sign * -3,
+                const Vector3 center = getPosition() + localCenterOfCurvature;
+                annotationXZArc (getPosition(), center, speed () * sign * -3,
                                  20, gWhite);
             }
             // return the vector from vehicle position to the coimputed location
             // of the curved image of the original linear offset
-            return resultLocation - position ();
+            return resultLocation - getPosition();
         }
 
 
         // approximate value for the Polaris Ranger 6x6: 16 feet, 5 meters
-        float minimumTurningRadius () const {return 5.0f;}
+        float minimumTurninggetRadius() const {return 5.0f;}
 
 
         Vector3 adjustSteeringForMinimumTurningRadius (const Vector3& steering)
         {
-            const float maxCurvature = 1 / (minimumTurningRadius () * 1.1f);
+            const float maxCurvature = 1 / (minimumTurninggetRadius() * 1.1f);
 
             // are we turning more sharply than the minimum turning radius?
             if (absXXX (curvature ()) > maxCurvature)
@@ -2343,14 +2343,14 @@ namespace {
                 // minimum turing radius
                 const float signedRadius = 1 / nonZeroCurvatureQQQ ();
                 const float sign = signedRadius < 0 ? 1.0f : -1.0f;
-                const Vector3 thrust = steering.parallelComponent (forward ());
+                const Vector3 thrust = steering.parallelComponent (getForward());
                 const Vector3 trimmed = thrust.truncateLength (maxForce ());
-                const Vector3 widenOut = side () * maxForce () * sign;
+                const Vector3 widenOut = getSide() * maxForce () * sign;
                 {
                     // annotation
-                    const Vector3 localCenterOfCurvature = side () * signedRadius;
-                    const Vector3 center = position () + localCenterOfCurvature;
-                    annotationCircleOrDisk (minimumTurningRadius (), up(),
+                    const Vector3 localCenterOfCurvature = getSide() * signedRadius;
+                    const Vector3 center = getPosition() + localCenterOfCurvature;
+                    annotationCircleOrDisk (minimumTurninggetRadius(), getUp(),
                                             center, gBlue, 40, false, false);
                 }
                 return trimmed + widenOut;
@@ -2390,7 +2390,7 @@ namespace {
             {
                 // compute an ad hoc "relative curvature"
                 const float absC = absXXX (curvature ());
-                const float maxC = 1 / minimumTurningRadius ();
+                const float maxC = 1 / minimumTurninggetRadius();
                 const float relativeCurvature = sqrtXXX (clip (absC/maxC, 0, 1));
 
                 // map from full throttle when straight to 10% at max curvature
@@ -2404,9 +2404,9 @@ namespace {
                 else
                 {
                     // heading (unit tangent) of the path segment of interest
-                    const Vector3 pathHeading =  mapPointAndDirectionToTangent( *path, position(), pathFollowDirection ); // path->tangentAt (position (), pathFollowDirection);
+                    const Vector3 pathHeading =  mapPointAndDirectionToTangent( *path, getPosition(), pathFollowDirection ); // path->tangentAt (getPosition(), pathFollowDirection);
                     // measure how parallel we are to the path
-                    const float parallelness = pathHeading.dotProduct(forward ());
+                    const float parallelness = pathHeading.dotProduct(getForward());
 
                     // determine relative speed for this heading
                     const float mw = 0.2f;
@@ -2427,7 +2427,7 @@ namespace {
         //
         Vector3 steerTowardHeading (const Vector3& desiredGlobalHeading)
         {
-            const Vector3 headingError = desiredGlobalHeading - forward ();
+            const Vector3 headingError = desiredGlobalHeading - getForward();
             return headingError.normalisedCopy() * maxForce ();
         }
 

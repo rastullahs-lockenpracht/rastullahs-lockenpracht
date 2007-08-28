@@ -173,7 +173,7 @@ namespace rl
 		/** get mass
 		 * @returns mass of physical object
 		 */
-		float mass() const;
+		float getMass() const;
 		/** does not set mass but is necessary for AbstractVehicle.
 		 * throws an exception on invocation.
 		 * @param m mass
@@ -183,12 +183,12 @@ namespace rl
 		/** retrieve velocity of vehicle
 		 * @returns velocity of the vehicle
 		 */
-		Ogre::Vector3 velocity() const {return mCurrentVelocity;}
+		Ogre::Vector3 getVelocity() const {return mCurrentVelocity;}
 
 		/** retrieves speed of vehicle.
 		 * may be faster than taking mag of velocity
 		 */
-		float speed() const;
+		float getSpeed() const;
 		/** sets speed of vehicle.
 		 * may be faster than taking mag of velocity
 		 * @param s new speed to set
@@ -201,7 +201,7 @@ namespace rl
 		 * TODO: this should be handled by size of NewtonBody
 		 * @returns float the radius
 	    */
-		float radius() const;
+		float getRadius() const;
 		/** sets radius for size of bounding sphere.
 		 * used for obstacle avoidance, etc.
 		 * TODO: this should be handled by size of NewtonBody
@@ -214,7 +214,7 @@ namespace rl
 		 * TODO: this should be handled by height of NewtonBody
 		 * @returns float the height
 	    */
-        float height() const;
+        float getHeight() const;
 		/** height for size of bounding sphere.
 		 * used for obstacle avoidance, etc.
 		 * TODO: this should be handled by height of NewtonBody
@@ -225,7 +225,7 @@ namespace rl
 		/** retrieves maximum force.
 		 * @returns float containing maximum force.
 		 */
-		float maxForce() const; 
+		float getMaxForce() const; 
 		/** sets maximum force.
 		 * TODO: should not be set here, throw excpetion or so
 		 * @returns float containing maximum force set.
@@ -235,7 +235,7 @@ namespace rl
 		/** retrieves maximum speed.
 		 * @returns float containing maximum speed
 		 */
-		float maxSpeed() const;
+		float getMaxSpeed() const;
 		/** retrieves maximum speed.
 		 * TODO: should not be set here, throw excpetion or so
 		 * @returns float containing maximum speed

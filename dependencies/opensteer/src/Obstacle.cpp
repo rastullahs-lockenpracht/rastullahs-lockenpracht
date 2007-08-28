@@ -126,14 +126,14 @@ steerToAvoidIfNeeded (const AbstractVehicle& vehicle,
                       const float minTimeToCollision) const
 {
     // if nearby intersection found, steer away from it, otherwise no steering
-    const float minDistanceToCollision = minTimeToCollision * vehicle.speed();
+    const float minDistanceToCollision = minTimeToCollision * vehicle.getSpeed();
     if (intersect && (distance < minDistanceToCollision))
     {
         // compute avoidance steering force: take the component of
         // steerHint which is lateral (perpendicular to vehicle's
         // forward direction), set its length to vehicle's maxForce
-        Vector3 lateral = Vec3Utils::perpendicularComponent(steerHint, vehicle.forward ());
-        return lateral.normalisedCopy() * vehicle.maxForce ();
+        Vector3 lateral = Vec3Utils::perpendicularComponent(steerHint, vehicle.getForward());
+        return lateral.normalisedCopy() * vehicle.getMaxForce();
     }
     else
     {
@@ -170,7 +170,7 @@ findIntersectionWithVehiclePath (const AbstractVehicle& vehicle,
     lc = vehicle.localizePosition (center);
 
     // compute line-sphere intersection parameters
-    const float r = radius + vehicle.radius();
+    const float r = radius + vehicle.getRadius();
     b = -2 * lc.z;
     c = square (lc.x) + square (lc.y) + square (lc.z) - square (r);
     d = (b * b) - (4 * c);
@@ -203,7 +203,7 @@ findIntersectionWithVehiclePath (const AbstractVehicle& vehicle,
          // hollow obstacle (or "both"), pick point that is in front
          ((p > 0) ? p : q));
     pi.surfacePoint =
-        vehicle.position() + (vehicle.forward() * pi.distance);
+        vehicle.getPosition() + (vehicle.getForward() * pi.distance);
     pi.surfaceNormal = (pi.surfacePoint-center).normalisedCopy();
     // hmm, note that this was actually determined already in pi.distance calc
     pi.vehicleOutside = lc.length () > radius;
@@ -237,10 +237,10 @@ findIntersectionWithVehiclePath (const AbstractVehicle& vehicle,
     const float w = width; // dimensions
     const float h = height;
     const float d = depth;
-    const Vector3 s = side (); // local space
-    const Vector3 u = up ();
-    const Vector3 f = forward ();
-    const Vector3 p = position ();
+    const Vector3 s = getSide(); // local space
+    const Vector3 u = getUp();
+    const Vector3 f = getForward();
+    const Vector3 p = getPosition();
     const Vector3 hw = s * (0.5f * width); // offsets for face centers
     const Vector3 hh = u * (0.5f * height);
     const Vector3 hd = f * (0.5f * depth);
@@ -271,7 +271,7 @@ findIntersectionWithVehiclePath (const AbstractVehicle& vehicle,
     if (pi.intersect)
     {
         pi.obstacle = this;
-        pi.steerHint = ((pi.surfacePoint - position ()).normalisedCopy() *
+        pi.steerHint = ((pi.surfacePoint - getPosition()).normalisedCopy() *
                         (pi.vehicleOutside ? 1.0f : -1.0f));
     }
 }
@@ -291,8 +291,8 @@ findIntersectionWithVehiclePath (const AbstractVehicle& vehicle,
     // initialize pathIntersection object to "no intersection found"
     pi.intersect = false;
 
-    const Vector3 lp =  localizePosition (vehicle.position ());
-    const Vector3 ld = localizeDirection (vehicle.forward ());
+    const Vector3 lp =  localizePosition (vehicle.getPosition());
+    const Vector3 ld = localizeDirection (vehicle.getForward());
 
     // no obstacle intersection if path is parallel to XY (side/up) plane
     if (ld.dotProduct(Vector3::NEGATIVE_UNIT_Z) == 0.0f) return;
@@ -311,13 +311,13 @@ findIntersectionWithVehiclePath (const AbstractVehicle& vehicle,
     const Vector3 planeIntersection (ix, iy, 0.0f);
 
     // no obstacle intersection if plane intersection is outside 2d shape
-    if (!xyPointInsideShape (planeIntersection, vehicle.radius ())) return;
+    if (!xyPointInsideShape (planeIntersection, vehicle.getRadius())) return;
 
     // otherwise, the vehicle path DOES intersect this rectangle
     const Vector3 localXYradial = planeIntersection.normalisedCopy();
     const Vector3 radial = globalizeDirection (localXYradial);
     const float sideSign = (lp.z > 0.0f) ? +1.0f : -1.0f;
-    const Vector3 opposingNormal = forward () * sideSign;
+    const Vector3 opposingNormal = getForward() * sideSign;
     pi.intersect = true;
     pi.obstacle = this;
     pi.distance = (lp - planeIntersection).length ();

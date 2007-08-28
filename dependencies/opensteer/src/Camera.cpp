@@ -120,9 +120,9 @@ OpenSteer::Camera::update (const float /*currentTime*/,
     const bool noVehicle = vehicleToTrack == NULL;
     
     // new position/target/up, set in switch below, defaults to current
-    Vector3 newPosition = position();
+    Vector3 newPosition = getPosition();
     Vector3 newTarget = target;
-    Vector3 newUp = up();
+    Vector3 newUp = getUp();
 
 
     // prediction time to compensate for lag caused by smoothing moves
@@ -149,7 +149,7 @@ OpenSteer::Camera::update (const float /*currentTime*/,
 
     case cmStraightDown:
         if (noVehicle) break;
-        newUp = v.forward();
+        newUp = v.getForward();
         newTarget = v.predictFuturePosition (predictionTime);
         newPosition = newTarget;
         newPosition.y += lookdownDistance;
@@ -157,7 +157,7 @@ OpenSteer::Camera::update (const float /*currentTime*/,
 
     case cmFixedLocalOffset:
         if (noVehicle) break;
-        newUp = v.up();
+        newUp = v.getUp();
         newTarget = v.predictFuturePosition (predictionTime);
         newPosition = v.globalizePosition (fixedLocalOffset);
         break;
@@ -165,13 +165,13 @@ OpenSteer::Camera::update (const float /*currentTime*/,
     case cmOffsetPOV:
         {
             if (noVehicle) break;
-            newUp = v.up();
+            newUp = v.getUp();
             const Vector3 futurePosition = v.predictFuturePosition (antiLagTime);
             const Vector3 globalOffset = v.globalizeDirection (povOffset);
             newPosition = futurePosition + globalOffset;
             // XXX hack to improve smoothing between modes (no effect on aim)
             const float L = 10;
-            newTarget = newPosition + (v.forward() * L);
+            newTarget = newPosition + (v.getForward() * L);
             break;
         }
     default:
@@ -182,7 +182,7 @@ OpenSteer::Camera::update (const float /*currentTime*/,
     smoothCameraMove (newPosition, newTarget, newUp, elapsedTime);
 
     // set camera in draw module
-    drawCameraLookAt (position(), target, up());
+    drawCameraLookAt (getPosition(), target, getUp());
 }
 
 
@@ -204,8 +204,8 @@ OpenSteer::Camera::smoothCameraMove (const Vector3& newPosition,
     {
         const float smoothRate = elapsedTime * smoothMoveSpeed;
 
-        Vector3 tempPosition = position();
-        Vector3 tempUp = up();
+        Vector3 tempPosition = getPosition();
+        Vector3 tempUp = getUp();
         blendIntoAccumulator (smoothRate, newPosition, tempPosition);
         blendIntoAccumulator (smoothRate, newTarget,   target);
         blendIntoAccumulator (smoothRate, newUp,       tempUp);
@@ -215,10 +215,10 @@ OpenSteer::Camera::smoothCameraMove (const Vector3& newPosition,
         // xxx not sure if these are needed, seems like a good idea
         // xxx (also if either up or oldUP are zero, use the other?)
         // xxx (even better: force up to be perp to target-position axis))
-        if (up() == Vector3::ZERO)
+        if (getUp() == Vector3::ZERO)
             setUp (Vector3::UNIT_Y);
         else
-            setUp (up().normalisedCopy());
+            setUp (getUp().normalisedCopy());
     }
     else
     {
@@ -247,9 +247,9 @@ OpenSteer::Camera::constDistHelper (const float /*elapsedTime*/)
     const bool constrainUp = (fixedDistVOffset != 0);
 
     // vector offset from target to current camera position
-    const Vector3 adjustedPosition (position().x,
-                                 (constrainUp) ? target.y : position().y,
-                                 position().z);
+    const Vector3 adjustedPosition (getPosition().x,
+                                 (constrainUp) ? target.y : getPosition().y,
+                                 getPosition().z);
     const Vector3 offset = adjustedPosition - target;
 
     // current distance between them
@@ -258,7 +258,7 @@ OpenSteer::Camera::constDistHelper (const float /*elapsedTime*/)
     // move camera only when geometry is well-defined (avoid degenerate case)
     if (distance == 0)
     {
-        return position();
+        return getPosition();
     }
     else
     {
@@ -343,7 +343,7 @@ OpenSteer::Camera::mouseAdjustOffset (const Vector3& adjustment)
             // XXX this is the oddball case, adjusting "position" instead
             // XXX of mode parameters, hence no smoothing during adjustment
             // XXX Plus the fixedDistVOffset feature complicates things
-            const Vector3 offset = position() - target;
+            const Vector3 offset = getPosition() - target;
             const Vector3 adjusted = mouseAdjustPolar (adjustment, offset);
             // XXX --------------------------------------------------
 //             position = target + adjusted;
@@ -360,7 +360,7 @@ OpenSteer::Camera::mouseAdjustOffset (const Vector3& adjustment)
             setPosition (target + adjusted);
             fixedDistDistance = adjusted.length();
 //          fixedDistVOffset = position.y - target.y;
-            fixedDistVOffset = position().y - target.y;
+            fixedDistVOffset = getPosition().y - target.y;
             // XXX --------------------------------------------------
             break;
         }
@@ -412,8 +412,8 @@ OpenSteer::Camera::mouseAdjust2 (const bool polar,
     // sphere.
     const float oldLength = result.length ();
     const float rate = polar ? oldLength : 1;
-    result += xxxls().side() * (adjustment.x * rate);
-    result += xxxls().up()   * (adjustment.y * rate);
+    result += xxxls().getSide() * (adjustment.x * rate);
+    result += xxxls().getUp()   * (adjustment.y * rate);
     if (polar)
     {
         const float newLength = result.length ();
@@ -424,7 +424,7 @@ OpenSteer::Camera::mouseAdjust2 (const bool polar,
     if (polar)
         result *= (1 + adjustment.z);
     else
-        result += xxxls().forward() * adjustment.z;
+        result += xxxls().getForward() * adjustment.z;
 
     return result;
 }
