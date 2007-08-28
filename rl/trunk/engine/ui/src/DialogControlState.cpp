@@ -93,7 +93,7 @@ namespace rl {
             {
                 mesh->stopAllAnimations();
                 if (mesh->hasAnimation("idle"))
-                {
+                { 
                     mTalkAnimation = mesh->startAnimation("idle");
                 }
             }

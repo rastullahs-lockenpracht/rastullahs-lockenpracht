@@ -78,7 +78,7 @@ namespace rl {
         /// Remove all control states.
         void clearControlStates();
 
-        ControlState* getCharacterController() const;
+        ControlState* getControlState() const;
 
         int getModifierCode() const;
         const CEGUI::utf8& getKeyChar(int keycode, int modifiers) const;
@@ -88,6 +88,7 @@ namespace rl {
         enum Modifiers {ALT_MASK = 1, CTRL_MASK = 2, SHIFT_MASK = 4, SUPER_MASK = 8};
 
         void initializeOis(Ogre::RenderWindow* wnd);
+        bool startDialog(/* CeGuiString dialog */);
 
         Ogre::Vector3 mSavedMouseState;
 

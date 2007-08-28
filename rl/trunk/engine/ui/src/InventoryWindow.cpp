@@ -555,17 +555,17 @@ namespace rl {
         {
             ///@todo das hier ueberpruefen!
             CeGuiString action = 
-                InputManager::getSingleton().getCharacterController()
+                InputManager::getSingleton().getControlState()
                     ->getCommandMapper()->getControlStateAction(
                     kevt.scancode,
-                    InputManager::getSingleton().getCharacterController()->getType()
+                    InputManager::getSingleton().getControlState()->getType()
                     );
             if( action == "" )
             {
-                action = InputManager::getSingleton().getCharacterController()
+                action = InputManager::getSingleton().getControlState()
                             ->getCommandMapper()->getGlobalAction(kevt.scancode);
             }
-            InputManager::getSingleton().getCharacterController()->startAction(
+            InputManager::getSingleton().getControlState()->startAction(
                 action,
                 mInventory->getOwner()
                 );

@@ -30,11 +30,12 @@
 #include "XmlResource.h"
 #include "XmlResourceManager.h"
 
+#include "AbstractWindow.h"
 #include "Action.h"
 #include "ActionManager.h"
 #include "Actor.h"
 #include "ActorManager.h"
-#include "AbstractWindow.h"
+#include "AiMessages.h"
 #include "ControlState.h"
 #include "CombatControlState.h"
 #include "CommandMapper.h"
@@ -129,6 +130,9 @@ namespace rl {
         win->getMetrics(width, height, depth, left, top);
         mMouse->getMouseState().width = width;
         mMouse->getMouseState().height = height;
+
+        MessagePump::getSingleton().addMessageHandler<MessageType_DialogStarted>(
+            boost::bind(&InputManager::startDialog, this/*, _1*/));
 
         LOG_DEBUG(Logger::UI, "Done initializing input manager.");
     }
@@ -469,7 +473,7 @@ namespace rl {
         }
     }
 
-    ControlState* InputManager::getCharacterController() const
+    ControlState* InputManager::getControlState() const
     {
         if (!mControlStates.empty())
         {
@@ -479,5 +483,11 @@ namespace rl {
         {
             return NULL;
         }
+    }
+
+    bool InputManager::startDialog(/* CeGuiString dialog */) 
+    {
+        pushControlState(CST_DIALOG);
+        return true;
     }
 }

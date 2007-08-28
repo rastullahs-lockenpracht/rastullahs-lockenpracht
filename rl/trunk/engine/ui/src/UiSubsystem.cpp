@@ -18,41 +18,30 @@
 #include "UiSubsystem.h"
 
 #include <CEGUISystem.h>
+#include <CEGUIWindow.h>
 #include <CEGUIWindowManager.h>
 #include <OgreCEGUIRenderer.h>
 #include <OgreCEGUIResourceProvider.h>
 
-#include "Action.h"
-#include "ActionManager.h"
 #include "Actor.h"
-#include "ActorManager.h"
+#include "AiMessages.h"
+#include "CeGuiHelper.h"
 #include "ConfigurationManager.h"
 #include "CoreMessages.h"
 #include "CoreSubsystem.h"
-#include "Creature.h"
-#include "CombatControlState.h"
-#include "CutsceneControlState.h"
-#include "DialogControlState.h"
-#include "DsaManager.h"
+#include "ControlState.h"
 #include "Exception.h"
-#include "FreeflightControlState.h"
-#include "GameObject.h"
-#include "GameLoggerWindow.h"
 #include "GameLoop.h"
 #include "InputManager.h"
-#include "ListenerMovable.h"
 #include "Logger.h"
-#include "MovementControlState.h"
 #include "Person.h"
 #include "ScriptWrapper.h"
 #include "SoundManager.h"
 #include "WindowFactory.h"
 #include "WindowManager.h"
-#include "World.h"
-#include "CeGuiHelper.h"
 
-template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
 using namespace Ogre;
+template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
 
 namespace rl {
     const char* UiSubsystem::CEGUI_ROOT = "RootWindow";
