@@ -70,8 +70,7 @@ namespace rl
 		 * @param item the item
 		 * @return <code>true</code> if adding was successful, <code>false</code> otherwise (e.g. not enough space)
 		 */
-        bool addItem(Item* item);
-		bool addItem(Item* item, IntPair position);
+        bool addItem(Item* item, IntPair position = IntPair(0,0));
         void removeItem(Item* item);
 
         ItemSet getItems() const;
@@ -110,6 +109,12 @@ namespace rl
 			int xStart, 
 			int yStart, 
 			IntPair space) const;
+
+        /*
+         * recursive function
+         * @return true, if the item is this container or any of his parents
+        */
+        bool findContainerRecursion(Item* item);
     };
 }
 

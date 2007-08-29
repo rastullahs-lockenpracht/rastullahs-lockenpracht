@@ -89,9 +89,29 @@ namespace rl {
         return mItems;
     }
 
-    bool Container::addItem(Item* item)
+    bool Container::findContainerRecursion(Item* item)
     {
-        return addItem(item, findPositionWithEnoughSpace(item->getSize()));
+        if( item == this )
+            return true;
+
+        while( this->getParentContainer() )
+            if( item == this->getParentContainer() )
+                return true;
+        
+        Container* itemAsContainer = dynamic_cast<Container*>(item);
+        if( !itemAsContainer )
+        {
+            Throw(NullPointerException, "Could not cast item to Container!");
+        }
+
+        ItemSet::iterator iter = itemAsContainer->mItems.begin(); // c++ allows nasty accesses like this ;-)
+        for( ; iter != itemAsContainer->mItems.end(); iter++)
+        {
+            if( (*iter)->isContainer() )
+                if( findContainerRecursion(*iter) )
+                    return true;
+        }
+        return false;
     }
 
     bool Container::addItem(Item* item, IntPair position)
@@ -99,6 +119,13 @@ namespace rl {
         if(item == NULL)
         {
             Throw(NullPointerException, "Item ist null.");
+        }
+
+        // find recursions, we cannot place the container in the same container etc
+        if( item->isContainer() )
+        {
+            if( findContainerRecursion(item) )
+                return false;
         }
 
 
