@@ -495,7 +495,20 @@ namespace rl {
 	bool InventoryWindow::handleKeys(const CEGUI::EventArgs &evt, bool down)
 	{
 		const KeyEventArgs& kevt = static_cast<const KeyEventArgs&>(evt);
-        if (kevt.scancode == CEGUI::Key::LeftControl)
+
+        ///@todo das hier ueberpruefen!
+        CeGuiString action = 
+            InputManager::getSingleton().getControlState()
+                ->getCommandMapper()->getControlStateAction(
+                kevt.scancode,
+                InputManager::getSingleton().getControlState()->getType()
+                );
+        if( action == "" )
+        {
+            action = InputManager::getSingleton().getControlState()
+                        ->getCommandMapper()->getGlobalAction(kevt.scancode);
+        }
+        if( action == "inventoryshowworldobjects" )
 		{
 			if (down)
 			{
@@ -553,18 +566,6 @@ namespace rl {
 		}
         else if(!down)
         {
-            ///@todo das hier ueberpruefen!
-            CeGuiString action = 
-                InputManager::getSingleton().getControlState()
-                    ->getCommandMapper()->getControlStateAction(
-                    kevt.scancode,
-                    InputManager::getSingleton().getControlState()->getType()
-                    );
-            if( action == "" )
-            {
-                action = InputManager::getSingleton().getControlState()
-                            ->getCommandMapper()->getGlobalAction(kevt.scancode);
-            }
             InputManager::getSingleton().getControlState()->startAction(
                 action,
                 mInventory->getOwner()

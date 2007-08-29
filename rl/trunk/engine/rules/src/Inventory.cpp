@@ -309,19 +309,19 @@ namespace rl
                 {
                     CeGuiString bone = slotProps["bone"].toString();
                     LOG_MESSAGE("Inventory", "Add bone slot "+ bone);
-                    addSlot(name, bone.c_str(), holdItems, readyItems, SLOT_BONE);
+                    addSlot(name, bone.c_str(), readyItems, holdItems, SLOT_BONE);
                 }
                 else if (type == "submesh")
                 {
                     CeGuiString submesh = slotProps["submesh"].toString();
                     LOG_MESSAGE("Inventory", "Add submesh slot "+ submesh);
-                    addSlot(name, submesh.c_str(), holdItems, readyItems, SLOT_SUBMESH);
+                    addSlot(name, submesh.c_str(), readyItems, holdItems, SLOT_SUBMESH);
                 }
                 else if (type == "material")
                 {
                     CeGuiString submesh = slotProps["submesh"].toString();
                     LOG_MESSAGE("Inventory", "Add material slot "+ submesh);
-                    addSlot(name, submesh.c_str(), holdItems, readyItems, SLOT_MATERIAL);
+                    addSlot(name, submesh.c_str(), readyItems, holdItems, SLOT_MATERIAL);
                 }
                 else
                 {

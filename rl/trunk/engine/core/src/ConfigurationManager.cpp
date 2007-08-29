@@ -112,6 +112,7 @@ namespace rl
         addSetting("Action keys", "toggleingameglobalmenu", "F10");
         addSetting("Action keys", "shownextdebugwindowpage", "Ctrl+M");
         addSetting("Action keys", "showobjectactions", "U");
+        addSetting("Action keys", "inventoryshowworldobjects", "Strg links");
 
         addSetting("FreeflightController keys", "back_to_character_movement", "M");
         addSetting("FreeflightController keys", "toggle_camera_collision", "F");
