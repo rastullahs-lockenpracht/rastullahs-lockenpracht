@@ -254,6 +254,14 @@ class ShowContainerContentAction < Action
   end
 end
 
+class InventoryShowWorldObjects < Action
+  def initialize
+   super("inventoryshowworldobjects", "Zeige alle greifbaren Objekte")
+  end
+
+  def doAction(object, actor, target)
+  end
+end
 
 act = ShowObjectDescriptionWindow.new()
 ActionManager.getSingleton().registerAction(act)
@@ -263,3 +271,6 @@ ActionManager.getSingleton().registerAction(act2)
 
 act3 = ShowContainerContentAction.new()
 ActionManager.getSingleton().registerAction(act3)
+
+act4 = InventoryShowWorldObjects.new()
+ActionManager.getSingleton().registerAction(act4)
