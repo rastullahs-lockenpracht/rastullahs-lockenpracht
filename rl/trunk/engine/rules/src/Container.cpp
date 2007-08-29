@@ -94,9 +94,13 @@ namespace rl {
         if( item == this )
             return true;
 
-        while( this->getParentContainer() )
-            if( item == this->getParentContainer() )
+        Item* parent = this->getParentContainer();
+        while( parent )
+        {
+            if( item == parent )
                 return true;
+            parent = parent->getParentContainer();
+        }
         
         Container* itemAsContainer = dynamic_cast<Container*>(item);
         if( !itemAsContainer )
