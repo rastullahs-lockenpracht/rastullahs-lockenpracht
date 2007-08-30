@@ -10,6 +10,7 @@ Debugger::Debugger()
 {
 	m_debuglines = NULL;
 	m_debugnode = NULL;
+    m_defaultcolor = Ogre::ColourValue::White;
 }
 
 Debugger::~Debugger()
@@ -43,6 +44,15 @@ void Debugger::deInit()
 	}
 }
 
+void Debugger::setMaterialColor(const MaterialID* mat, Ogre::ColourValue col)
+{
+    m_materialcolors[mat->getID()] = col;
+}
+
+void Debugger::setDefaultColor(Ogre::ColourValue col)
+{
+    m_defaultcolor = col;
+}
 
 void Debugger::showLines( OgreNewt::World* world )
 {
@@ -68,6 +78,15 @@ void Debugger::hideLines()
 
 void _CDECL Debugger::newtonPerBody( const NewtonBody* body )
 {
+    Debugger& debugger (Debugger::getSingleton());
+    MaterialIdColorMap::iterator it = 
+        debugger.m_materialcolors.find( NewtonBodyGetMaterialGroupID(body) );
+
+    if( it != debugger.m_materialcolors.end() )
+        debugger.m_debuglines->colour(it->second);
+    else
+        debugger.m_debuglines->colour(debugger.m_defaultcolor);
+         
 	NewtonBodyForEachPolygonDo( body, newtonPerPoly );
 }
 
