@@ -142,5 +142,11 @@
         <property name="geometrytype" type="STRING" data="box"/>
         <property name="material" type="STRING" data="obj_Shortsleeve_2"/>
     </gameobjectclass>
+
+    <gameobjectclass classid="MeshAreaTestHouse" baseclass="GameObject">
+        <property name="name" type="STRING" data="MeshAreaTestHouse"/>
+	<property name="meshfile" type="STRING" data="arc_Wirtshaus_02.mesh"/>
+	<property name="geometrytype" type="STRING" data="none"/>
+    </gameobjectclass>
 	
 </GameObjectDefinitions>

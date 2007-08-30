@@ -37,6 +37,7 @@ require 'MaterialSlotTest.rb'
 require 'MergeableMeshTest.rb'
 require 'WalkJobTest.rb'
 require 'SelectorTest.rb'
+require 'MeshAreaTest.rb'
 
 
  MaterialSlotTest.new([-15, 0, -5]).run()
@@ -54,6 +55,7 @@ ErrorHandlingTest.new([-10, 0, 5]).run()
        EffectTest.new([  5, 0, 5]).run()
 MergeableMeshTest.new([ 10, 0, 0]).run()
         SoundTest.new([ 10, 0, 10]).run()
+     MeshAreaTest.new([-50, 0,-55]).run()
 
 $SCRIPT.log("tests initialisiert.");
 
