@@ -17,15 +17,13 @@
 #ifndef __GameAreaTypes_H__
 #define __GameAreaTypes_H__
 
-#include "CorePrerequisites.h"
-
-#include <OgreNewt_ContactCallback.h>
-
 #include "Actor.h"
+#include "CorePrerequisites.h"
+#include "CoreDefines.h"
+
 
 namespace rl {
 
-	class MeshObject;
 	class PhysicalThing;
 
 /** GameAreaType
@@ -57,11 +55,18 @@ public:
     /// Setzt die genaue Position der Anfrage, wird in Unterklassen implementiert
     virtual void setQueryPosition( const Ogre::Vector3& vec ) = 0;
     /// Gibt die Position der Anfrage zurück, wird in Unterklassen implementiert
-    virtual const Ogre::Vector3& getQueryPosition() const = 0;
+    virtual Ogre::Vector3 getQueryPosition() const = 0;
+    /// Setzt die genaue Orientierung der Anfrage, wird in Unterklassen implementiert
+    virtual void setQueryOrientation( const Ogre::Quaternion& ori ) = 0;
+    /// Gibt die Orientierung der Anfrage zurück, wird in Unterklassen implementiert
+    virtual Ogre::Quaternion getQueryOrientation() const = 0;
+
     /// Blendet ein Debug-Objekt ein, um das Areal zu verdeutlichen
     //virtual setShowDebug() = 0;
     /// Gibt zurück ob ein Debug-Objekt eingeblendet ist
     //virtual bool getShowDebug() const = 0;
+
+    virtual OgreNewt::Body* getBody() { return NULL;}
 };
 
 /** GameSphereAreaType
@@ -91,35 +96,68 @@ public:
      /// Setzt die genaue Position der Anfrage
     virtual void setQueryPosition( const Ogre::Vector3& vec );
     /// Gibt die Position der Anfrage zurück
-    virtual const Ogre::Vector3& getQueryPosition() const;    
+    virtual Ogre::Vector3 getQueryPosition() const;
+    /// Setzt die genaue Orientierung der Anfrage, wird in Unterklassen implementiert
+    virtual void setQueryOrientation( const Ogre::Quaternion& ori ) {}
+    /// Gibt die Orientierung der Anfrage zurück, wird in Unterklassen implementiert
+    virtual Ogre::Quaternion getQueryOrientation() const {return Ogre::Quaternion::IDENTITY;}
 private:
     /// Die Kugel-Anfrage
     Ogre::SphereSceneQuery* mSphereQuery;
 };
 
-//class _RlCoreExport GameMeshAreaType : public GameAreaType
-//{
-//public:
-//	GameMeshAreaType(MeshObject* mo, PhysicalThing* testObj); ///@todo allow character change
-//	virtual ~GameMeshAreaType();
-//
-//	virtual ActorMap performQuery();
-//
-//	/// Setzt die genaue Position der Anfrage
-//    virtual void setQueryPosition( const Ogre::Vector3& vec );
-//    /// Gibt die Position der Anfrage zurück
-//    virtual const Ogre::Vector3& getQueryPosition() const;   
-//
-//	/// Gibt die Anfrage-Maske zurück, wird in Unterklassen implementiert
-//	virtual unsigned long getQueryMask() const { return 0xFFFFFFFF; }
-//    /// Setzt die Anfrage-Maske, wird in Unterklassen implementiert
-//	virtual void setQueryMask( unsigned long mask = 0xFFFFFFFF ) {}
-//
-//private:
-//	OgreNewt::CollisionPtr mCollision;
-//	PhysicalThing* mTestObj;
-//	Ogre::Vector3 mPosition;
-//};
+
+/// ein Problem könnte die zeitliche Verschiebung um eine Framedauer sein, wenn position und orientation
+/// neu gesetzt werden, muss erst newton wieder upgedated werden!
+class _RlCoreExport GameNewtonBodyAreaType : 
+    public GameAreaType
+{
+public:
+    /// Konstruktor
+    GameNewtonBodyAreaType();
+
+    /// Destruktor
+    virtual ~GameNewtonBodyAreaType();
+
+    /// Implementierung der Anfrage über einen SphereSceneQuery
+    virtual ActorMap performQuery(  );
+
+    /// Gibt die Anfrage-Maske zurück
+    virtual unsigned long getQueryMask() const;
+    /// Setzt die Anfrage-Maske
+    virtual void setQueryMask( unsigned long mask = 0xFFFFFFFF );
+
+     /// Setzt die genaue Position der Anfrage
+    virtual void setQueryPosition( const Ogre::Vector3& vec );
+    /// Gibt die Position der Anfrage zurück
+    virtual Ogre::Vector3 getQueryPosition() const;
+    /// Setzt die genaue Orientierung der Anfrage, wird in Unterklassen implementiert
+    virtual void setQueryOrientation( const Ogre::Quaternion& ori );
+    /// Gibt die Orientierung der Anfrage zurück, wird in Unterklassen implementiert
+    virtual Ogre::Quaternion getQueryOrientation() const;
+
+    virtual void foundCollision(Actor* actor);
+
+    virtual void resetFoundCollisions();
+
+    virtual OgreNewt::Body* getBody() { return mBody;}
+protected:
+    OgreNewt::Body* mBody;
+    ActorMap mFoundActors;
+    unsigned long mQueryMask;
+};
+
+
+class _RlCoreExport GameMeshAreaType :
+    public GameNewtonBodyAreaType
+{
+public:
+    GameMeshAreaType(
+            Ogre::Entity* entity,
+            const GeometryType& geomType = GT_NONE,
+			Ogre::Vector3* offset = NULL,
+			Ogre::Quaternion* orientation = NULL);
+};
 
 }
 

@@ -16,6 +16,7 @@
 #include "stdinc.h" //precompiled header
 
 #include "PhysicsMaterialRaycast.h"
+#include "PhysicsManager.h"
 
 using namespace Ogre;
 using namespace OgreNewt;
@@ -69,6 +70,9 @@ namespace rl {
             mInfo.mNormal = normal;
             mGetNearest = true;
             LOG_MESSAGE(Logger::CORE, "Warning PhysicsMaterialRaycast found body without material (getMaterialGroupId() == NULL)!");
+        }
+        else if( body->getMaterialGroupID() == PhysicsManager::getSingleton().createMaterialID("gamearea") ) // don't trigger gameareas
+        {
         }
         else
         {

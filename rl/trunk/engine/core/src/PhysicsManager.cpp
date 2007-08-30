@@ -21,6 +21,7 @@
 #include "ActorManager.h"
 #include "CoreSubsystem.h"
 #include "Exception.h"
+#include "GameEventManager.h"
 #include "PhysicsController.h"
 #include "PhysicsGenericContactCallback.h"
 #include "PhysicalObject.h"
@@ -69,7 +70,7 @@ namespace rl
 
     PhysicsManager::PhysicsManager( )
         : mEnabled(false),
-        mNewtonDebugger(),
+        mNewtonDebugger(&OgreNewt::Debugger::getSingleton()),
         mPhysicalThings(),
         mDebugMode(false),
         mGravity(0, -9.81, 0),
@@ -96,6 +97,8 @@ namespace rl
 
         // setup level material
         createMaterialID("level");
+
+        mNewtonDebugger->setMaterialColor(getMaterialID("level"), Ogre::ColourValue::Blue);
 
         // below here starts 'old' stale fix code that should be removed
 
@@ -141,6 +144,10 @@ namespace rl
         mElapsed += elapsedTime;
         while( mElapsed >= mMaxTimestep)
         {
+            // perhaps we should add a newtonupdate listener, but i don't
+            // know if it's really neccessary
+            GameEventManager::getSingleton().notifyNewtonWorldUpdate();
+
             mWorld->update(mMaxTimestep);
             mElapsed-=mMaxTimestep;
 #ifdef _DEBUG
@@ -156,6 +163,10 @@ namespace rl
         }
         if( mElapsed > mMinTimestep)
         {
+            // perhaps we should add a newtonupdate listener, but i don't
+            // know if it's really neccessary
+            GameEventManager::getSingleton().notifyNewtonWorldUpdate();
+
             mWorld->update(mElapsed);
             mElapsed = 0;
 #ifdef _DEBUG

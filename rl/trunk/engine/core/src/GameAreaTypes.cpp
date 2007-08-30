@@ -19,6 +19,8 @@
 
 #include "World.h"
 #include "CoreSubsystem.h"
+#include "PhysicsManager.h"
+
 
 using namespace Ogre;
 
@@ -93,9 +95,103 @@ namespace rl {
             mSphereQuery->setSphere( Sphere(vec,mSphereQuery->getSphere().getRadius()) );
     }
 
-    const Ogre::Vector3& GameSphereAreaType::getQueryPosition() const
+    Ogre::Vector3 GameSphereAreaType::getQueryPosition() const
     {
         return mSphereQuery->getSphere().getCenter( );
+    }
+
+
+
+
+    GameNewtonBodyAreaType::GameNewtonBodyAreaType() :
+        mBody(NULL)
+    {
+    }
+
+
+    GameNewtonBodyAreaType::~GameNewtonBodyAreaType()
+    {
+        if(mBody != NULL)
+            delete mBody;
+        mBody = NULL;
+    }
+
+    unsigned long GameNewtonBodyAreaType::getQueryMask() const
+    {
+        return mQueryMask;
+    }
+
+    void GameNewtonBodyAreaType::setQueryMask(unsigned long mask)
+    {
+        mQueryMask = mask;
+    }
+
+    Quaternion GameNewtonBodyAreaType::getQueryOrientation() const
+    {
+        Vector3 pos;
+        Quaternion orient;
+        mBody->getPositionOrientation(pos, orient);
+        return orient;
+    }
+
+    Vector3 GameNewtonBodyAreaType::getQueryPosition() const
+    {
+        Vector3 pos;
+        Quaternion orient;
+        mBody->getPositionOrientation(pos, orient);
+        return pos;
+    }
+
+    void GameNewtonBodyAreaType::setQueryPosition(const Vector3 &pos)
+    {
+        Quaternion orient;
+        Vector3 old_pos;
+        mBody->getPositionOrientation(old_pos, orient);
+        mBody->setPositionOrientation(pos, orient);
+    }
+
+    void GameNewtonBodyAreaType::setQueryOrientation(const Quaternion &orient)
+    {
+        Quaternion old_orient;
+        Vector3 pos;
+        mBody->getPositionOrientation(pos, old_orient);
+        mBody->setPositionOrientation(pos, orient);
+    }
+
+    void GameNewtonBodyAreaType::foundCollision(Actor* actor)
+    {
+        if( actor )
+        {
+            if( actor->getQueryFlags() & mQueryMask )
+                mFoundActors[actor->getName()] = actor;
+        }
+    }
+
+    void GameNewtonBodyAreaType::resetFoundCollisions()
+    {
+        mFoundActors.clear();
+    }
+
+    ActorMap GameNewtonBodyAreaType::performQuery()
+    {
+        return mFoundActors;
+    }
+
+    GameMeshAreaType::GameMeshAreaType(
+            Ogre::Entity* entity,
+            const GeometryType& geomType,
+			Ogre::Vector3* offset,
+			Ogre::Quaternion* orientation)
+    {
+        OgreNewt::CollisionPtr col =
+            PhysicsManager::getSingleton().createCollision(entity,
+            geomType, "", offset, orientation);
+        mBody = new OgreNewt::Body(
+            PhysicsManager::getSingleton()._getNewtonWorld(),
+            col);
+        mBody->setMaterialGroupID(
+            PhysicsManager::getSingleton().getMaterialID("gamearea"));
+        mBody->setUserData(NULL);
     }
 
 }

@@ -49,6 +49,8 @@ namespace rl
         
         physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultFriction(0,0);
         physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultFriction(0,0);
+
+        physicsManager->getNewtonDebugger()->setMaterialColor(char_mat, Ogre::ColourValue::Red);
     }
 
     CreatureControllerManager::~CreatureControllerManager()

@@ -270,6 +270,9 @@ namespace rl {
          */
         static Ogre::String convertGeometryTypeToString(const GeometryType& geomType);
 
+        /// returns newton debugger
+        OgreNewt::Debugger* getNewtonDebugger() {return mNewtonDebugger;}
+
     private:
 
         /** structure containing further information about the collision primitive.

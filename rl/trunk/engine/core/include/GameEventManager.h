@@ -25,10 +25,13 @@
 #include "GameAreaEventSource.h"
 #include "GameAreaListener.h"
 #include "CorePrerequisites.h"
+#include "PhysicsGenericContactCallback.h"
+
 
 namespace rl {
 
 class PhysicalThing;
+class GameNewtonBodyAreaType;
 
 typedef std::set<GameAreaEventSource*> GameAreaEventSourceList;
 
@@ -38,7 +41,8 @@ typedef std::set<GameAreaEventSource*> GameAreaEventSourceList;
  */
 class _RlCoreExport GameEventManager
   : public GameTask,
-    public Ogre::Singleton<GameEventManager>
+    public Ogre::Singleton<GameEventManager>,
+    public PhysicsGenericContactCallback
 {
 public:
     /** Default Constructor */
@@ -62,7 +66,7 @@ public:
     void addSphereAreaListener( Actor* actor, Ogre::Real radius,
         GameAreaListener* list, unsigned long queryMask = 0xFFFFFFFF );
 
-	void addMeshAreaListener( Actor* meshactor, GameAreaListener* list, PhysicalThing* testObj );
+	void addMeshAreaListener( Actor* meshactor, GeometryType geom, GameAreaListener* list, unsigned long queryMask = 0xFFFFFFFF );
 
     /** Entfernt an allen Areas diesen Listener
     *
@@ -82,9 +86,19 @@ public:
 
 	void removeQueuedDeletionSources();
 
+
+    /// newton collision callback function
+    int userProcess();
+
+    /// notify about newton world update
+    void notifyNewtonWorldUpdate();
 private:
     GameAreaEventSourceList mAreaEventSources;
 	GameAreaEventSourceList mQueuedDeletionSources;
+    typedef std::map<OgreNewt::Body*, GameNewtonBodyAreaType*> NewtonBodyGameAreaMap;
+    NewtonBodyGameAreaMap mBodyGameAreaMap;
+
+    Actor* bodyToActor(OgreNewt::Body* body);
 };
 
 }

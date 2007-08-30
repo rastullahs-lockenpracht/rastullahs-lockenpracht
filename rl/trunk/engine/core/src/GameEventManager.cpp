@@ -19,6 +19,8 @@
 #include "GameAreaTypes.h"
 #include "ScriptWrapper.h"
 #include "CoreSubsystem.h"
+#include "MeshObject.h"
+#include "PhysicsManager.h"
 
 
 template<> rl::GameEventManager* Ogre::Singleton<rl::GameEventManager>::ms_Singleton = 0;
@@ -29,11 +31,41 @@ namespace rl {
         mAreaEventSources(),
 		mQueuedDeletionSources()
     {
+        // set newton collision callback
+        PhysicsManager* physicsManager = PhysicsManager::getSingletonPtr();
 
+        const OgreNewt::MaterialID *area_mat = physicsManager->createMaterialID("gamearea");
+        const OgreNewt::MaterialID *char_mat = physicsManager->createMaterialID("character");
+        const OgreNewt::MaterialID *def_mat = physicsManager->createMaterialID("default");
+        const OgreNewt::MaterialID *cam_mat = physicsManager->createMaterialID("camera");
+        const OgreNewt::MaterialID *lev_mat = physicsManager->createMaterialID("level");
+
+        physicsManager->createMaterialPair(area_mat, char_mat)->setContactCallback(this);
+        physicsManager->createMaterialPair(area_mat, def_mat)->setContactCallback(this);
+        physicsManager->createMaterialPair(area_mat, cam_mat)->setDefaultCollidable(0);// ->setContactCallback(this);
+        physicsManager->createMaterialPair(area_mat, lev_mat)->setDefaultCollidable(0);// ->setContactCallback(this);
+
+        // set collision-debug color
+        physicsManager->getNewtonDebugger()->setMaterialColor(area_mat, Ogre::ColourValue::Green);
     }
 
     GameEventManager::~GameEventManager( )
     {
+        // remove collision callbacks
+        PhysicsManager *physicsManager = PhysicsManager::getSingletonPtr();
+
+        const OgreNewt::MaterialID *area_mat = physicsManager->createMaterialID("gamearea");
+        const OgreNewt::MaterialID *char_mat = physicsManager->createMaterialID("character");
+        const OgreNewt::MaterialID *def_mat = physicsManager->createMaterialID("default");
+        const OgreNewt::MaterialID *cam_mat = physicsManager->createMaterialID("camera");
+        const OgreNewt::MaterialID *lev_mat = physicsManager->createMaterialID("level");
+
+        physicsManager->resetMaterialPair(area_mat, char_mat);
+        physicsManager->resetMaterialPair(area_mat, def_mat);
+        physicsManager->resetMaterialPair(area_mat, cam_mat);
+        physicsManager->resetMaterialPair(area_mat, lev_mat);
+
+
         GameAreaEventSourceList::iterator it;
         for( it = mAreaEventSources.begin(); it != mAreaEventSources.end();++it)
         {
@@ -44,6 +76,7 @@ namespace rl {
         }
         mAreaEventSources.clear();
 		mQueuedDeletionSources.clear();
+        mBodyGameAreaMap.clear();
     }
 
 	/// @todo  Doppelte Aktoren nachnutzen??
@@ -59,6 +92,28 @@ namespace rl {
 		ScriptWrapper::getSingleton().owned( gam );
         // Und Listener anhängen
         gam->addAreaListener( list );
+    }
+
+    void GameEventManager::addMeshAreaListener( Actor* actor, GeometryType geom, GameAreaListener* list, unsigned long queryMask )
+    {
+        // neues areal ereugen
+        MeshObject* meshObj = static_cast<MeshObject*>(actor->getControlledObject());
+
+        GameNewtonBodyAreaType* at = new GameMeshAreaType(
+            meshObj->getEntity(), geom);
+
+        at->setQueryMask(queryMask);
+
+        // Event-Quelle erzeugen
+        GameAreaEventSource* gam = new GameAreaEventSource( at, actor );
+        // In die Menge einfügen
+        mAreaEventSources.insert( gam );
+		ScriptWrapper::getSingleton().owned( gam );
+        // Und Listener anhängen
+        gam->addAreaListener( list );
+
+        // add to newton collision list
+        mBodyGameAreaMap.insert(std::make_pair(at->getBody(), at));
     }
 
     void GameEventManager::removeAreaListener( GameAreaListener* list )
@@ -110,6 +165,15 @@ namespace rl {
 			ScriptWrapper::getSingleton().deleted( gam );
 			mQueuedDeletionSources.erase(mQueuedDeletionSources.begin());
 
+            // gegebenenfalls bodymap-eintrag löschen
+            if( gam->getGameAreaType()->getBody() )
+            {
+                NewtonBodyGameAreaMap::iterator it = mBodyGameAreaMap.find(gam->getGameAreaType()->getBody());
+                if( it != mBodyGameAreaMap.end() )
+                    mBodyGameAreaMap.erase(it);
+            }
+
+			ScriptWrapper::getSingleton().deleted( gam );
 			// Die Area-Art löschen
 			delete gam->getGameAreaType();
 			// Das Objekt löschen
@@ -135,5 +199,37 @@ namespace rl {
         static Ogre::String NAME = "GameEventManager";
 
         return NAME;
+    }
+
+    int GameEventManager::userProcess()
+    {
+        NewtonBodyGameAreaMap::iterator it = mBodyGameAreaMap.find(m_body0);
+        if( it != mBodyGameAreaMap.end() )
+        {
+            it->second->foundCollision(bodyToActor(m_body1));
+            return false;
+        }
+
+        it = mBodyGameAreaMap.find(m_body1);
+        if( it != mBodyGameAreaMap.end() )
+        {
+            it->second->foundCollision(bodyToActor(m_body0));
+            return 0;
+        }
+
+        LOG_WARNING(Logger::CORE, "Der Kollisionskörper konne keiner GameArea zugeordnet werden!");
+        return 0;
+    }
+
+    void GameEventManager::notifyNewtonWorldUpdate()
+    {
+        NewtonBodyGameAreaMap::iterator it = mBodyGameAreaMap.begin();
+        for( ; it != mBodyGameAreaMap.end(); it++ )
+            it->second->resetFoundCollisions();
+    }
+
+    Actor* GameEventManager::bodyToActor(OgreNewt::Body* body)
+    {
+        return static_cast<Actor*>(body->getUserData());
     }
 }
