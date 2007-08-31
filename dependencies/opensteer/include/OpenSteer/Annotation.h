@@ -59,6 +59,12 @@ namespace OpenSteer {
     extern bool enableAnnotation;
     extern bool drawPhaseActive;
 
+    // Declaration has to be here for GCC (tested with 4.1.1)
+    void drawLineAlpha (const Vector3& startPoint,
+                        const Vector3& endPoint,
+                        const Color& color,
+                        const float alpha);
+
     // graphical annotation: master on/off switch
     inline bool annotationIsOn (void) {return enableAnnotation;}
     inline void setAnnotationOn (void) {enableAnnotation = true;}
@@ -400,7 +406,7 @@ OpenSteer::AnnotationMixin<Super>::annotationLine (const Vector3& startPoint,
 }
 #else
 template<class Super> void OpenSteer::AnnotationMixin<Super>::annotationLine
- (const Vector3&, const Vector3&, const Vector3&) const {}
+ (const Vector3&, const Vector3&, const Color&) const {}
 #endif // NOT_OPENSTEERDEMO
 
 
@@ -440,7 +446,7 @@ OpenSteer::AnnotationMixin<Super>::annotationCircleOrDisk (const float radius,
 #else
 template<class Super>
 void OpenSteer::AnnotationMixin<Super>::annotationCircleOrDisk
-(const float, const Vector3&, const Vector3&, const Vector3&, const int,
+(const float, const Vector3&, const Vector3&, const Color&, const int,
  const bool, const bool) const {}
 #endif // NOT_OPENSTEERDEMO
 
