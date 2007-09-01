@@ -13,7 +13,7 @@ class ResistentGegenKrankheiten < Effect
     end
   end
 
-  def check()
+  def timeCheck()
     p "Resistent gegen Krankheiten check called";
     return PERMANENT;
   end

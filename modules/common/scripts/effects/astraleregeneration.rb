@@ -18,7 +18,7 @@ class AstraleRegeneration < Effect
 
   end
 
-  def check()
+  def timeCheck()
 	  return PERMANENT;
   end
 end

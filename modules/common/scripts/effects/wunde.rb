@@ -20,7 +20,7 @@ class Wunde < Effect
     end
   end
 
-  def check()
+  def timeCheck()
     return REMOVE;
   end
 end

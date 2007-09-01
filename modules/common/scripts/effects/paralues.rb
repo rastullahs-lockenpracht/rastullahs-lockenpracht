@@ -10,7 +10,7 @@ class Paralues < Effect
     return rval;
   end
     
-  def check()
+  def timeCheck()
     p "Paralues check called";
     return REMOVE;
   end

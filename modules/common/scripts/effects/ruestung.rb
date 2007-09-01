@@ -27,7 +27,7 @@ class Ruestung < Effect
     end
   end
 
-  def check()
+  def timeCheck()
 	  return PERMANENT;
   end
 end

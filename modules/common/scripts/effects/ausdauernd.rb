@@ -19,7 +19,7 @@ class Ausdauernd < Effect
       return 0;
   end
 
-  def check()
+  def timeCheck()
 	  return PERMANENT;
   end
 end
