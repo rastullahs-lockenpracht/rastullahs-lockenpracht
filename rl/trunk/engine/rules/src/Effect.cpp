@@ -87,7 +87,7 @@ namespace rl
 		}
 	}
 
-    RL_LONGLONG Effect::check()
+    RL_LONGLONG Effect::timeCheck()
     {
       return PERMANENT;
     }

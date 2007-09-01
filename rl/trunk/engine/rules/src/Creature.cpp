@@ -366,7 +366,6 @@ namespace rl
 
     int Creature::getTalent(const CeGuiString talentName)
     {
-		checkEffects();
         TalentMap::const_iterator it = mTalente.find(talentName);
         if (it == mTalente.end())
         {

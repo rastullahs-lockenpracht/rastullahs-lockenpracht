@@ -110,11 +110,15 @@ namespace rl
 		virtual void disable();
 
 		/**
-         * runs a check on the effect.
+         * If a check at a certain time is registered within the EffectManager, the manager calls 
+         * this function.
+         *
+         * This function should be overridden by the explicit effect. If not, the default return 
+         * value is PERMANENT.
          * @return Returns the time to the next check. If REMOVE is returned, the 
          * effect will be removed, if PERMANENT is returned, the effect lasts permanently.
          **/
-		virtual RL_LONGLONG check();
+		virtual RL_LONGLONG timeCheck();
         
         /// Returns the status that is applied to the creature by this effect.
         virtual Status getStatus();
