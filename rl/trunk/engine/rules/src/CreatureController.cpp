@@ -449,7 +449,7 @@ namespace rl
                         mTimePerAu += taw * 5;
                     }
                 }
-                catch(OutOfRangeException)
+                catch(IllegalArgumentException)
                 {
                     mTimePerAu = 120; // was 180
                 }
@@ -559,7 +559,7 @@ namespace rl
                         mVelocityImprovement += taw * 0.1;
                     }
                 }
-                catch(OutOfRangeException)
+                catch(IllegalArgumentException)
                 {
                     mVelocityImprovement = 0;
                 }
@@ -747,7 +747,7 @@ namespace rl
                     }
                 }
             }
-            catch(OutOfRangeException err)
+            catch(IllegalArgumentException)
             {
             }
             mMovingCreature->getCreature()->damageAu(2./3);
@@ -929,7 +929,7 @@ namespace rl
                     }
                 }
             }
-            catch(OutOfRangeException err)
+            catch(IllegalArgumentException)
             {
             }
             mMovingCreature->getCreature()->damageAu(2./3);
