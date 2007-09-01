@@ -87,10 +87,10 @@
 					<Beschreibung>siehe Mit Flinken Fingern, S. 20</Beschreibung>
 					<Ausweichtalente>
 						<Ausweichtalent ID="Taschendiebstahl">
-							<Ausweichwert>10</Ausweichwert>
+							<Aufschlag>10</Aufschlag>
 						</Ausweichtalent>
 						<Ausweichtalent ID="Falschspiel">
-							<Ausweichwert>10</Ausweichwert>
+							<Aufschlag>10</Aufschlag>
 						</Ausweichtalent>
 					</Ausweichtalente>
 				</Talent>
@@ -107,13 +107,13 @@
 					<Beschreibung>siehe Mit Flinken Fingern, S. 20</Beschreibung>
 					<Ausweichtalente>
 						<Ausweichtalent ID="Athletik">
-							<Ausweichwert>5</Ausweichwert>
+							<Aufschlag>5</Aufschlag>
 						</Ausweichtalent>
 						<Ausweichtalent ID="Akrobatik">
-							<Ausweichwert>5</Ausweichwert>
+							<Aufschlag>5</Aufschlag>
 						</Ausweichtalent>
 						<Ausweichtalent ID="Körperbeherrschung">
-							<Ausweichwert>10</Ausweichwert>
+							<Aufschlag>10</Aufschlag>
 						</Ausweichtalent>
 					</Ausweichtalente>
 				</Talent>
@@ -129,10 +129,10 @@
 					<Beschreibung>siehe Mit Flinken Fingern, S. 21</Beschreibung>
 					<Ausweichtalente>
 						<Ausweichtalent ID="Akrobatik">
-							<Ausweichwert>5</Ausweichwert>
+							<Aufschlag>5</Aufschlag>
 						</Ausweichtalent>
 						<Ausweichtalent ID="Athletik">
-							<Ausweichwert>10</Ausweichwert>
+							<Aufschlag>10</Aufschlag>
 						</Ausweichtalent>
 					</Ausweichtalente>
 				</Talent>
@@ -152,10 +152,10 @@
 					<Beschreibung>siehe Mit Flinken Fingern, S. 21</Beschreibung>
 					<Ausweichtalente>
 						<Ausweichtalent ID="Körperbeherrschung">
-							<Ausweichwert>10</Ausweichwert>
+							<Aufschlag>10</Aufschlag>
 						</Ausweichtalent>
 						<Ausweichtalent ID="Akrobatik">
-							<Ausweichwert>15</Ausweichwert>
+							<Aufschlag>15</Aufschlag>
 						</Ausweichtalent>
 					</Ausweichtalente>
 				</Talent>
@@ -173,10 +173,10 @@
 					<Beschreibung>siehe Mit Flinken Fingern, S. 21</Beschreibung>
 					<Ausweichtalente>
 						<Ausweichtalent ID="Körperbeherrschung">
-							<Ausweichwert>10</Ausweichwert>
+							<Aufschlag>10</Aufschlag>
 						</Ausweichtalent>
 						<Ausweichtalent ID="Sich Verstecken">
-							<Ausweichwert>10</Ausweichwert>
+							<Aufschlag>10</Aufschlag>
 						</Ausweichtalent>
 					</Ausweichtalente>
 				</Talent>
@@ -193,7 +193,7 @@
 					<Beschreibung>siehe Mit Flinken Fingern, S. 21</Beschreibung>
 					<Ausweichtalente>
 						<Ausweichtalent ID="Athletik">
-							<Ausweichwert>15</Ausweichwert>
+							<Aufschlag>15</Aufschlag>
 						</Ausweichtalent>
 					</Ausweichtalente>
 				</Talent>
@@ -224,10 +224,10 @@
 					<Beschreibung>siehe Mit Flinken Fingern, S. 22</Beschreibung>
 					<Ausweichtalente>
 						<Ausweichtalent ID="Schleichen">
-							<Ausweichwert>10</Ausweichwert>
+							<Aufschlag>10</Aufschlag>
 						</Ausweichtalent>
 						<Ausweichtalent ID="Körperbeherrschung">
-							<Ausweichwert>15</Ausweichwert>
+							<Aufschlag>15</Aufschlag>
 						</Ausweichtalent>
 					</Ausweichtalente>
 				</Talent>
@@ -261,10 +261,10 @@
 					<Beschreibung>siehe Mit Flinken Fingern, S. 22</Beschreibung>
 					<Ausweichtalente>
 						<Ausweichtalent ID="Athletik">
-							<Ausweichwert>10</Ausweichwert>
+							<Aufschlag>10</Aufschlag>
 						</Ausweichtalent>
 						<Ausweichtalent ID="Körperbeherrschung">
-							<Ausweichwert>15</Ausweichwert>
+							<Aufschlag>15</Aufschlag>
 						</Ausweichtalent>
 					</Ausweichtalente>
 				</Talent>
@@ -298,10 +298,10 @@
 					<Beschreibung>siehe Mit Flinken Fingern, S. 22</Beschreibung>
 					<Ausweichtalente>
 						<Ausweichtalent ID="Körperbeherrschung">
-							<Ausweichwert>5</Ausweichwert>
+							<Aufschlag>5</Aufschlag>
 						</Ausweichtalent>
 						<Ausweichtalent ID="Akrobatik">
-							<Ausweichwert>5</Ausweichwert>
+							<Aufschlag>5</Aufschlag>
 						</Ausweichtalent>
 					</Ausweichtalente>
 				</Talent>
