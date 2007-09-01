@@ -116,6 +116,8 @@ namespace rl {
         CeGuiString probe = XmlHelper::getValueAsString(XmlHelper::getChildNamed(talentXml, "Probe"));
         CeGuiString art = XmlHelper::getValueAsString(XmlHelper::getChildNamed(talentXml, "Art"));
 		DOMElement* eBeNode = XmlHelper::getChildNamed(talentXml, "eBE");
+        DOMElement* ausweichTalenteNode = static_cast<DOMElement*>(XmlHelper::getChildNamed(talentXml, "Ausweichtalente"));
+
 		int ebe = EBE_KEINE_BE;
         if (eBeNode != NULL)
 			ebe = getEBeFromString(AutoChar(eBeNode->getFirstChild()->getNodeValue()).data());
@@ -128,14 +130,31 @@ namespace rl {
         eigenschaften.third = probe.substr(6,2);
 		probe.clear();
 
+        // process AusweichTalente
+        Talent::AusweichTalente ausweichTalente;
+        if( ausweichTalenteNode )
+        {
+	        DOMNodeList* ausweichTalentGruppen =
+                ausweichTalenteNode->getElementsByTagName(AutoXMLCh("Ausweichtalent").data());
+            for( unsigned int ausweich = 0; ausweich < ausweichTalentGruppen->getLength(); ausweich++ )
+            {
+			    DOMElement* ausweichData = static_cast<DOMElement*>(ausweichTalentGruppen->item(ausweich));
+	            CeGuiString ausweichName = XmlHelper::transcodeToString(
+                    ausweichData->getAttribute(AutoXMLCh("ID").data()));
+
+                ausweichTalente[ausweichName] = 
+                    XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(ausweichData, "Aufschlag"));
+            }
+        }
+
         Talent* t = new Talent(
 			name,
             desc,
             eigenschaften,
             ebe,
             gruppe,
-			art);
-        // @todo DOMNodeList* ausweichTalenteNode = XmlHelper::getChildNamed(talentXml, "Ausweichtalente");
+			art,
+            ausweichTalente);
 
         return t;
     }

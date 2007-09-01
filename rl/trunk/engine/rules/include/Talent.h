@@ -33,7 +33,8 @@ namespace rl
                const EigenschaftTripel& eigenschaften,
                int ebe,
 			   int gruppe,
-			   const CeGuiString art);
+			   const CeGuiString art,
+               const AusweichTalente& ausweichTalente);
 
         bool operator==(const Talent& rhs) const;
         bool operator<(const Talent& rhs) const;

@@ -25,7 +25,8 @@ namespace rl
                    const EigenschaftTripel& eigenschaften,
                    int ebe,
 				   int gruppe,
-				   const CeGuiString art)
+				   const CeGuiString art,
+                   const AusweichTalente& ausweichTalente)
                                        : mName(name),
                                          mDescription(description),
                                          mEigenschaften(eigenschaften),
@@ -33,6 +34,7 @@ namespace rl
 										 mTalentGruppe(gruppe),
 										 mArt(art)
     {
+        mAusweichTalente = ausweichTalente;
     }
 
     bool Talent::operator==(const Talent& rhs) const

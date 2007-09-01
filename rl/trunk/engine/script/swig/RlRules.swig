@@ -213,12 +213,14 @@ namespace rl {
     class Talent
     {
     public:
+        typedef std::map<const rl::CeGuiString,int> AusweichTalente;
         Talent(const rl::CeGuiString name,
                const rl::CeGuiString description,
                const Tripel<rl::CeGuiString>& eigenschaften,
                int ebe,
                int gruppe,
-               const rl::CeGuiString art);
+               const rl::CeGuiString art,
+               const AusweichTalente &ausweichTalente);
 
         bool operator==(const Talent& rhs) const;
         bool operator<(const Talent& rhs) const;
