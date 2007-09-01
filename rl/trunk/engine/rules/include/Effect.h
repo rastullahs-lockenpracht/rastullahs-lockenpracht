@@ -114,7 +114,7 @@ namespace rl
          * @return Returns the time to the next check. If REMOVE is returned, the 
          * effect will be removed, if PERMANENT is returned, the effect lasts permanently.
          **/
-		virtual RL_LONGLONG test();
+		virtual RL_LONGLONG check();
         
         /// Returns the status that is applied to the creature by this effect.
         virtual Status getStatus();

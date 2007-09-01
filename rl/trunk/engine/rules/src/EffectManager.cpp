@@ -15,6 +15,8 @@
  */
 #include "stdinc.h" //precompiled header
 
+#include <sstream>
+
 #include "EffectManager.h"
 #include "DsaManager.h"
 #include "Exception.h"
@@ -44,11 +46,14 @@ namespace rl
         if (checkIt == mChecklist.end()) return;
         while ( checkIt != mChecklist.end() && checkIt->first <= now )
         {
-			std::cout << "Effect check: " << checkIt->first << " now: " << now << std::endl;
+				std::stringstream debugInfo;
+				debugInfo << "Effect check: " << checkIt->first << " now: " << now << std::endl;
+                LOG_DEBUG(Logger::RULES,
+					debugInfo.str());
             for (Effects::iterator effIt = checkIt->second.begin(); effIt != checkIt->second.end(); effIt++)
             {
                 int nextCheck;
-                nextCheck = (*effIt)->test();
+                nextCheck = (*effIt)->check();
                 switch (nextCheck)
                 {
                   case Effect::REMOVE:
@@ -72,6 +77,10 @@ namespace rl
         // Get current ingame time and add timeUntilCheck
         RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
         RL_LONGLONG timeForCheck = now + timeUntilCheck;
+				std::stringstream debugInfo;
+				debugInfo << "Adding check! now:" << now << " check: " << timeForCheck << std::endl;
+                LOG_DEBUG(Logger::RULES,
+					debugInfo.str());
         // Insert Sum and effect into the checklist
         mChecklist[timeForCheck].insert(effect);
     }
@@ -83,12 +92,20 @@ namespace rl
         if (date <= now) Throw(IllegalArgumentException, "date lies in the past!");
         if (effect == NULL) Throw(IllegalArgumentException, "effect pointer is NULL!");
         // Insert date and effect into the checklist
+				std::stringstream debugInfo;
+				debugInfo << "Adding check! now:" << now << " check: " << date << std::endl;
+                LOG_DEBUG(Logger::RULES,
+					debugInfo.str());
         mChecklist[date].insert(effect);
     }
 
 
 	void EffectManager::addEffect(Effect* effect)
 	{
+				std::stringstream debugInfo;
+				debugInfo << "Adding effect " << effect->getName() << std::endl;
+                LOG_DEBUG(Logger::RULES,
+					debugInfo.str());
 		for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
 		{
 			if ((*it)->getName() == effect->getName())

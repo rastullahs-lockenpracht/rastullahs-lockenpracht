@@ -87,7 +87,7 @@ namespace rl
 		}
 	}
 
-    RL_LONGLONG Effect::test()
+    RL_LONGLONG Effect::check()
     {
       return PERMANENT;
     }

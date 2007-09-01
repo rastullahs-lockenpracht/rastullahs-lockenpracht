@@ -132,8 +132,8 @@ namespace rl
 
             if (it == mBodyControllers.end())
             {
-                LOG_ERROR(Logger::RULES,
-                    "Der Kollisionskörper konnte keiner Creature zugeordner werden.");
+                //LOG_ERROR(Logger::RULES,
+                //    "Der Kollisionskörper konnte keiner Creature zugeordnet werden.");
                 return 1;
             }
         }
