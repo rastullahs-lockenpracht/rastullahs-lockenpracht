@@ -17,14 +17,14 @@
 #ifndef __SaveGameFile_H__
 #define __SaveGameFile_H__
 
-#include "CommonPrerequisites.h"
+#include "RulesPrerequisites.h"
 #include <OgreDataStream.h>
 
 #include <xercesc/framework/XMLFormatter.hpp>
 
 namespace rl
 {
-    class _RlCommonExport SaveGameFile
+    class _RlRulesExport SaveGameFile
     {
     public:
         SaveGameFile(const CeGuiString &name);
