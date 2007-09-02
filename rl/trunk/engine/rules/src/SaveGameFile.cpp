@@ -28,6 +28,10 @@ namespace rl
         mName = name;
     }
 
+    SaveGameFile::~SaveGameFile()
+    {
+    }
+
     void SaveGameFile::setModulName(const CeGuiString &modulName)
     {
         mModulName = modulName;
@@ -45,11 +49,13 @@ namespace rl
 
     Ogre::DataStreamPtr SaveGameFile::load()
     {
+        ///@todo: decryption
         return Ogre::DataStreamPtr( new Ogre::FileHandleDataStream(fopen(this->buildFilename().c_str(), "r")));
     }
 
     XERCES_CPP_NAMESPACE::XMLFormatTarget* SaveGameFile::save()
     {
+        ///@todo: encryption
         return new XERCES_CPP_NAMESPACE::LocalFileFormatTarget(this->buildFilename().c_str());
     }
 

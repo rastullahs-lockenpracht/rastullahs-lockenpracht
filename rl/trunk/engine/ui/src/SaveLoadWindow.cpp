@@ -116,7 +116,7 @@ namespace rl {
         SaveGameFile saveGameFile(mFilename->getText());
         saveGameFile.setModulName(CoreSubsystem::getSingleton().getActiveAdventureModule()->getName());
 
-        std::list<const GameObject*>::const_iterator it;
+        /*std::list<const GameObject*>::const_iterator it;
         std::list<const GameObject*> gos;
         gos = GameObjectManager::getSingleton().getAllGameObjects();
 
@@ -124,9 +124,9 @@ namespace rl {
         for( it=gos.begin(); it!=gos.end(); ++it )
         {
             sets.push_back((*it)->getAllProperties());
-        }
+        }*/
         SaveGameFileWriter saveGameFileWriter;
-        saveGameFileWriter.setPropertySets(sets);
+        //saveGameFileWriter.setPropertySets(sets);
         saveGameFileWriter.buildSaveGameFile(&saveGameFile);
 
         LOG_MESSAGE(Logger::UI, "Created save game");
