@@ -215,10 +215,14 @@
 		</light>
 	</nodes>
 	<zones>
-		<zone type="default">
+		<zone name="default">
 			<light name="sun"/>
 		</zone>
-		<zone type="mesh" name="Ruchin_l_innen">
+		<zone name="Ruchin_innen">
+			<!-- we need areas like this: >
+			<area type="mesh" meshfile="name.mesh">
+				<position x="0" y="1" z="34"/>
+			</area -->
 			<light name="red pointlight"/>
 			<light name="green spotlight"/>
 			<sound name="lachen.ogg"/>

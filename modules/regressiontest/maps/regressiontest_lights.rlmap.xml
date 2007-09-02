@@ -26,12 +26,15 @@
 		</light>
 	</nodes>
 	<zones>
-		<zone type="default">
+		<zone name="default">
 			<light name="blue sun"/>
 		</zone>
-		<zone type="sphere" name="Testzone">
-			<center x="-10" y="0" z="-5"/>
-			<radius r="3"/>
+		<zone name="Testzone">
+			<area type="sphere">
+				<position x="-10" y="0" z="-5"/>
+				<scale x="6" y="6" z="6"/>
+				<transition_distance>0.5</transition_distance>
+			</area>
 			<light name="red pointlight"/>
 			<light name="green spotlight"/>
 			<sound name="lachen.ogg"/>
