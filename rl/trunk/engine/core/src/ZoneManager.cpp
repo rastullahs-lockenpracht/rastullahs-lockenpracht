@@ -19,8 +19,10 @@
 
 #include "Actor.h"
 #include "ActorManager.h"
+#include "CoreSubsystem.h"
 #include "GameEventManager.h"
 #include "Zone.h"
+#include "World.h"
 
 
 using namespace Ogre;
@@ -129,12 +131,10 @@ namespace rl
         if( !zone )
             return;
 
-        Actor* actor = ActorManager::getSingleton().createEmptyActor("Zone_"+name);
-        actor->placeIntoScene(position);
 
         GameAreaEventSource* gam =
-            GameEventManager::getSingleton().addAreaListener(actor, 
-                aabb, geom, this, queryflags, offset, orientation, true);
+            GameEventManager::getSingleton().addAreaListener(NULL, 
+                aabb, geom, this, queryflags, position + offset, orientation, true);
 
         gam->getGameAreaType()->setTransitionDistance(transitionDistance);
         gam->setId(zone->getId());
@@ -150,12 +150,9 @@ namespace rl
         if( !zone )
             return;
 
-        Actor* actor = ActorManager::getSingleton().createEmptyActor("Zone_Area_"+name);
-        actor->placeIntoScene(position);
-
         GameAreaEventSource* gam =
-            GameEventManager::getSingleton().addAreaListener(actor, 
-                aabb, geom, this, queryflags, offset, orientation, true);
+            GameEventManager::getSingleton().addAreaListener(NULL, 
+                aabb, geom, this, queryflags, position + offset, orientation, true);
 
         gam->getGameAreaType()->setTransitionDistance(transitionDistance);
         gam->setId( - (zone->getId())); // a negative id indicates to subtract this area from the zone
@@ -172,21 +169,20 @@ namespace rl
         if( !zone )
             return;
 
-        Actor *actor = ActorManager::getSingleton().createMeshActor(
-            "Zone_MeshArea_"+name+"_"+meshname, 
-            meshname, GT_NONE); // don't create physics-proxy
-        if(!actor)
+        Entity* entity = CoreSubsystem::getSingletonPtr()->getWorld()
+            ->getSceneManager()->createEntity("Zone_"+name+"_MeshArea_"+meshname, meshname);
+        if( !entity )
             return;
 
-        actor->placeIntoScene(position);
-        actor->setScale(scale.x, scale.y, scale.z);
-
         GameAreaEventSource* gam =
-            GameEventManager::getSingleton().addMeshAreaListener(
-                actor, geom, this, queryflags, offset, orientation, true);
+            GameEventManager::getSingleton().addMeshAreaListener(NULL, 
+                entity, geom, this, queryflags, position + offset, orientation, true);
 
         gam->getGameAreaType()->setTransitionDistance(transitionDistance);
-        gam->setId( zone->getId() );
+        gam->setId(zone->getId());
+
+        CoreSubsystem::getSingletonPtr()->getWorld()
+            ->getSceneManager()->destroyEntity(entity);
     }
 
     void ZoneManager::subtractMeshAreaFromZone(const Ogre::String& name,
@@ -200,21 +196,21 @@ namespace rl
         if( !zone )
             return;
 
-        Actor *actor = ActorManager::getSingleton().createMeshActor(
-            "Zone_MeshArea_"+name+"_"+meshname, 
-            meshname, GT_NONE); // don't create physics-proxy
-        if(!actor)
+        Entity* entity = CoreSubsystem::getSingletonPtr()->getWorld()
+            ->getSceneManager()->createEntity("Zone_"+name+"_MeshArea_"+meshname, meshname);
+        if( !entity )
             return;
 
-        actor->placeIntoScene(position);
-        actor->setScale(scale.x, scale.y, scale.z);
 
         GameAreaEventSource* gam =
-            GameEventManager::getSingleton().addMeshAreaListener(
-                actor, geom, this, queryflags, offset, orientation, true);
+            GameEventManager::getSingleton().addMeshAreaListener(NULL, 
+                entity, geom, this, queryflags, position + offset, orientation, true);
 
         gam->getGameAreaType()->setTransitionDistance(transitionDistance);
         gam->setId( - (zone->getId()) ); // a negative id indicates to subtract this area from the zone
+
+        CoreSubsystem::getSingletonPtr()->getWorld()
+            ->getSceneManager()->destroyEntity(entity);
     }
 
 	void ZoneManager::areaLeft(GameAreaEvent* gae)
@@ -262,6 +258,12 @@ namespace rl
 		    switchSounds();
         }
 	}
+
+    void ZoneManager::update()
+    {
+        switchLights();
+        switchSounds();
+    }
 
 	void ZoneManager::switchLights()
 	{

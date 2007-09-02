@@ -66,6 +66,9 @@ namespace rl
 
 		void areaLeft(GameAreaEvent* gae);
 	    void areaEntered(GameAreaEvent* gae);
+
+        /// only needed if the lights/etc of the active zone changed
+        void update();
 		
 	private:
 		std::map<const Ogre::String, Zone*> mZones;

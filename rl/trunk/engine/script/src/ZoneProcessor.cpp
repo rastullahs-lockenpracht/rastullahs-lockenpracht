@@ -203,6 +203,7 @@ namespace rl
 			}
 		}
 
+        ZoneManager::getSingleton().update();
 		return true;
 	}
 

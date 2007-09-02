@@ -111,15 +111,21 @@ namespace rl {
     }
 
     /// @todo  Doppelte Aktoren nachnutzen??
-    GameAreaEventSource* GameEventManager::addMeshAreaListener( 
-        Actor* actor, GeometryType geom, GameAreaListener* list, unsigned long queryMask, 
+    GameAreaEventSource* GameEventManager::addMeshAreaListener(Actor* actor,
+        Ogre::Entity* ent, GeometryType geom, GameAreaListener* list, unsigned long queryMask, 
         Vector3 offset, Quaternion orientation, bool forceNew )
     {
         // neues areal ereugen
-        MeshObject* meshObj = static_cast<MeshObject*>(actor->getControlledObject());
+        if( ent == NULL )
+        {
+            if( actor == NULL )
+                Throw(IllegalArgumentException, "actor and entity cannot be NULL!");
+            MeshObject* meshObj = static_cast<MeshObject*>(actor->getControlledObject());
+            ent = meshObj->getEntity();
+        }
 
         GameNewtonBodyAreaType* at = new GameMeshAreaType(
-            meshObj->getEntity(), geom, offset, orientation);
+            ent, geom, offset, orientation);
 
         at->setQueryMask(queryMask);
 
@@ -135,6 +141,13 @@ namespace rl {
         mBodyGameAreaMap.insert(std::make_pair(at->getBody(), at));
 
         return gam;
+    }
+
+    GameAreaEventSource* GameEventManager::addMeshAreaListener(Actor* actor,
+        GeometryType geom, GameAreaListener* list, unsigned long queryMask, 
+        Vector3 offset, Quaternion orientation, bool forceNew )
+    {
+        return addMeshAreaListener(actor, NULL, geom, list, queryMask, offset, orientation, forceNew);
     }
 
     /// @todo  Doppelte Aktoren nachnutzen??
@@ -197,6 +210,8 @@ namespace rl {
 
     void GameEventManager::removeAllAreas( Actor* actor )
     {
+        if( actor == NULL )
+            Throw(IllegalArgumentException, "actor cannot be NULL!");
         GameAreaEventSourceList::iterator it;
         for( it = mAreaEventSources.begin(); it != mAreaEventSources.end();)
         {

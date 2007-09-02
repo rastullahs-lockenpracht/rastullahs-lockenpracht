@@ -42,9 +42,9 @@ class _RlCoreExport GameAreaEventSource : public virtual EventSource
 public:
     /** Konstruktor
      *  @param areaType Die Art des abzufragenden Areals 
-     *  @param act Der Actor, an den das Zentrum des Areals geknüpft ist
+     *  @param act Der Actor, an den das Zentrum des Areals geknüpft ist, kann NULL sein für unbewegte areas
      */
-    GameAreaEventSource( GameAreaType* areaType, Actor* act );
+    GameAreaEventSource( GameAreaType* areaType, Actor* act = NULL);
     /// Dekonstruktor
     virtual ~GameAreaEventSource();
 

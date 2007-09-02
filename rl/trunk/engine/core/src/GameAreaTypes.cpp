@@ -225,6 +225,11 @@ namespace rl {
 			Ogre::Vector3 offset,
 			Ogre::Quaternion orientation)
     {
+        if(geomType == GT_MESH)
+        {
+            LOG_ERROR(Logger::CORE, "Geometrie Typ 'GT_MESH' is not (yet) support by GameMeshAreaType, use GT_CONVEXHULL instead!");
+            geomType = GT_CONVEXHULL;
+        }
         OgreNewt::CollisionPtr col =
             PhysicsManager::getSingleton().getCollisionFactory()->createCollisionFromEntity(entity,
             geomType, &offset, &orientation);

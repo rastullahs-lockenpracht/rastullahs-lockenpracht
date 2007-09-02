@@ -71,21 +71,29 @@ public:
 
     /** Fügt eine neue Mesh-Area hinzu und hängt einen Listener an
     *
-    * @param meshactor der meshactor um den herum die area gelegt werden soll
+    * @param actor der actor um den herum die area gelegt werden soll, kann NULL sein
+    * @param ent die Entity mit dem Mesh, das für die Area verwendet werden soll, falls NULL wird das mesh des actors verwendet
     * @param geom der Geometrietype, sinnvoll wäre GT_CONVEXHULL (eventuell GT_MESH)
     * @param list Der neu hinzuzufpgende Listener
     * @param queryMask Die Querymaske, welche Aktoren von der Area betroffen sind
     * @param forceNew erstellt auf jeden Fall eine neue GameAreaEventSource (z.B. für den ZoneManager)
     * @retval Die GameAreaEventSource, der der Listener hinzugefügt wurde
     */
-	GameAreaEventSource* addMeshAreaListener( Actor* meshactor, GeometryType geom, GameAreaListener* list, 
+	GameAreaEventSource* addMeshAreaListener( Actor* actor,
+        Ogre::Entity* ent, GeometryType geom, GameAreaListener* list, 
+        unsigned long queryMask = 0xFFFFFFFF, 
+        Ogre::Vector3 offset = Ogre::Vector3::ZERO, Ogre::Quaternion orientation = Ogre::Quaternion::IDENTITY,
+        bool forceNew = false);
+
+	GameAreaEventSource* addMeshAreaListener( Actor* actor,
+        GeometryType geom, GameAreaListener* list, 
         unsigned long queryMask = 0xFFFFFFFF, 
         Ogre::Vector3 offset = Ogre::Vector3::ZERO, Ogre::Quaternion orientation = Ogre::Quaternion::IDENTITY,
         bool forceNew = false);
 
     /** Fügt eine neue Area hinzu und hängt einen Listener an
     *
-    * @param actor Der Actor um den herum die Area aufgespannt werden soll
+    * @param actor Der Actor um den herum die Area aufgespannt werden soll, kann NULL sein
     * @param aabb Die Größe der Area
     * @param geom der Geometrietype, möglich sind GT_BOX, GT_ELLIPSOID, GT_SPHERE, GT_PYRAMID
     * @param list Der neu hinzuzufpgende Listener

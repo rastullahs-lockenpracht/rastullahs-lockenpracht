@@ -46,11 +46,13 @@ namespace rl {
 			return;
 
         // Position bertragen
-        mAreaType->setQueryPosition( mActor->getWorldPosition() );
+        if( mActor )
+            mAreaType->setQueryPosition( mActor->getWorldPosition() );
         ActorMap currInside = mAreaType->performQuery();
         // Der Actor um den herum die Quelle ist, wird vermutlich auch gefunden :)
         // Also rausl�chen
-        currInside.erase( mActor->getName() );
+        if( mActor )
+            currInside.erase( mActor->getName() );
 
         ActorMap enteredMap, leftMap;
         // EinfuegeIteratoren erstellen
