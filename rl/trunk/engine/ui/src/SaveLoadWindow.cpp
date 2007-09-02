@@ -27,8 +27,13 @@
 #include <Exception.h>
 #include <GameObjectManager.h>
 #include <GameObject.h>
+#include <Actor.h>
 
 #include "SaveLoadWindow.h"
+#include "SaveGameFile.h"
+#include "SaveGameFileWriter.h"
+#include "CoreSubsystem.h"
+#include "ContentModule.h"
 
 using namespace CEGUI;
 
@@ -106,17 +111,25 @@ namespace rl {
     {
         LOG_MESSAGE(Logger::UI, "Save Button pressed");
 
+        LOG_MESSAGE(Logger::UI, "Create a SaveGameFile");
+
+        SaveGameFile saveGameFile(mFilename->getText());
+        saveGameFile.setModulName(CoreSubsystem::getSingleton().getActiveAdventureModule()->getName());
+
         std::list<const GameObject*>::const_iterator it;
         std::list<const GameObject*> gos;
         gos = GameObjectManager::getSingleton().getAllGameObjects();
 
-        LOG_MESSAGE(Logger::UI, "Following GOs must be saved:");
+        std::vector<PropertySet*> sets;
         for( it=gos.begin(); it!=gos.end(); ++it )
         {
-            //const CeGuiString test = (*it)->getName();
-            LOG_MESSAGE(Logger::UI, "ClassId: " + (*it)->getClassId() +
-                " Name: " + (*it)->getName());
+            sets.push_back((*it)->getAllProperties());
         }
+        SaveGameFileWriter saveGameFileWriter;
+        saveGameFileWriter.setPropertySets(sets);
+        saveGameFileWriter.buildSaveGameFile(&saveGameFile);
+
+        LOG_MESSAGE(Logger::UI, "Created save game");
 
         return true;
     }
