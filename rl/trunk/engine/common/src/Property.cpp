@@ -33,4 +33,14 @@ namespace rl {
     {
         return mValue.type().name();
     }
+
+    Ogre::String Property::getName() const
+    {
+        return mName;
+    }
+
+    bool Property::isEmpty() const
+    {
+        return mValue.empty();
+    }
 }

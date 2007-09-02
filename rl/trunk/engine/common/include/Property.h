@@ -31,6 +31,7 @@ namespace rl {
     Property(Type value) \
     { \
         setValue(value); \
+        mName = Ogre::String(#Name);\
     } \
     \
     bool is##Name() const\
@@ -93,9 +94,12 @@ namespace rl {
 		PropertyMethod(Map, const PropertyMap);
 
         Ogre::String getTypeName() const;
+        Ogre::String getName() const;
 
+        bool isEmpty() const;
     private:
         boost::any mValue;
+        Ogre::String mName;
     };
 
     class _RlCommonExport PropertyPtr :
