@@ -70,11 +70,13 @@ namespace rl
 
             PropertyMap map = (*it)->getAllProperties()->toPropertyMap();
             PropertyMap::iterator it2;
-            for(it2 = map.begin(); it2 != map.end(); it2)
+            for(it2 = map.begin(); it2 != map.end(); it2++)
             {
                 this->processProperty(gameobject, PropertyEntry(it2->first.c_str(), it2->second));
             }
         }        
+
+        //Write Zones?
 
         //Write scripts
         DOMElement* scripts = XmlHelper::appendChildElement(mDocument, mDocument->getDocumentElement(), "scripts");
