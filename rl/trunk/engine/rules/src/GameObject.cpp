@@ -571,8 +571,11 @@ namespace rl
         PropertySet* ps = new PropertySet();
         ps->setProperty(PROPERTY_NAME, Property(mName));
         ps->setProperty(PROPERTY_DESCRIPTION, Property(mDescription));
-        ps->setProperty(PROPERTY_POSITION, Property(getPosition()));
-        ps->setProperty(PROPERTY_ORIENTATION, Property(getOrientation()));
+        if(this->getState() == GOS_IN_SCENE)
+        {
+            ps->setProperty(PROPERTY_POSITION, Property(getPosition()));
+            ps->setProperty(PROPERTY_ORIENTATION, Property(getOrientation()));
+        }
         ps->setProperty(PROPERTY_MESHFILE, Property(mMeshfile));
         ps->setProperty(PROPERTY_MESHPARTS, getProperty(PROPERTY_MESHPARTS));
         ps->setProperty(PROPERTY_GEOMETRY_TYPE, Property(mGeometryType));
