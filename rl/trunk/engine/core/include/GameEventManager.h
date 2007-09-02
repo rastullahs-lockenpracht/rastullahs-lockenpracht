@@ -32,6 +32,7 @@ namespace rl {
 
 class PhysicalThing;
 class GameNewtonBodyAreaType;
+class Zone;
 
 typedef std::set<GameAreaEventSource*> GameAreaEventSourceList;
 
@@ -61,12 +62,42 @@ public:
     * @param actor Der Actor um den herum die Kugel aufgespannt werden soll
     * @param queryMask Die Maske um die SzenenAnfrage zu beschleunigen
     * @param radius Der Radius der Kugel
-    * @param list Der neu hinzuzufügende Listener    
+    * @param list Der neu hinzuzufügende Listener
+    * @param forceNew erstellt auf jeden Fall eine neue GameAreaEventSource (z.B. für den ZoneManager)
+    * @retval Die GameAreaEventSource, der der Listener hinzugefügt wurde
     */
-    void addSphereAreaListener( Actor* actor, Ogre::Real radius,
-        GameAreaListener* list, unsigned long queryMask = 0xFFFFFFFF );
+    GameAreaEventSource* addSphereAreaListener( Actor* actor, Ogre::Real radius,
+        GameAreaListener* list, unsigned long queryMask = 0xFFFFFFFF, bool forceNew = false);
 
-	void addMeshAreaListener( Actor* meshactor, GeometryType geom, GameAreaListener* list, unsigned long queryMask = 0xFFFFFFFF );
+    /** Fügt eine neue Mesh-Area hinzu und hängt einen Listener an
+    *
+    * @param meshactor der meshactor um den herum die area gelegt werden soll
+    * @param geom der Geometrietype, sinnvoll wäre GT_CONVEXHULL (eventuell GT_MESH)
+    * @param list Der neu hinzuzufpgende Listener
+    * @param queryMask Die Querymaske, welche Aktoren von der Area betroffen sind
+    * @param forceNew erstellt auf jeden Fall eine neue GameAreaEventSource (z.B. für den ZoneManager)
+    * @retval Die GameAreaEventSource, der der Listener hinzugefügt wurde
+    */
+	GameAreaEventSource* addMeshAreaListener( Actor* meshactor, GeometryType geom, GameAreaListener* list, 
+        unsigned long queryMask = 0xFFFFFFFF, 
+        Ogre::Vector3 offset = Ogre::Vector3::ZERO, Ogre::Quaternion orientation = Ogre::Quaternion::IDENTITY,
+        bool forceNew = false);
+
+    /** Fügt eine neue Area hinzu und hängt einen Listener an
+    *
+    * @param actor Der Actor um den herum die Area aufgespannt werden soll
+    * @param aabb Die Größe der Area
+    * @param geom der Geometrietype, möglich sind GT_BOX, GT_ELLIPSOID, GT_SPHERE, GT_PYRAMID
+    * @param list Der neu hinzuzufpgende Listener
+    * @param queryMask Die Querymaske, welche Aktoren von der Area betroffen sind
+    * @param forceNew erstellt auf jeden Fall eine neue GameAreaEventSource (z.B. für den ZoneManager)
+    * @retval Die GameAreaEventSource, der der Listener hinzugefügt wurde
+    */
+	GameAreaEventSource* addAreaListener( Actor* actor, 
+        Ogre::AxisAlignedBox aabb, GeometryType geom, GameAreaListener* list, 
+        unsigned long queryMask = 0xFFFFFFFF, 
+        Ogre::Vector3 offset = Ogre::Vector3::ZERO, Ogre::Quaternion orientation = Ogre::Quaternion::IDENTITY,
+        bool forceNew = false);
 
     /** Entfernt an allen Areas diesen Listener
     *
@@ -75,6 +106,11 @@ public:
             Listener befestigt sind, entfernt und gelöscht.
     */
     void removeAreaListener( GameAreaListener* list );
+
+    /** Entfernt eine bestimmte GameAreaEventSource
+    *
+    */
+    void removeAreaEventSource( GameAreaEventSource *gam );
 
     /** Entfernt alle Areas die an einen Actor geknüpft sind
       *

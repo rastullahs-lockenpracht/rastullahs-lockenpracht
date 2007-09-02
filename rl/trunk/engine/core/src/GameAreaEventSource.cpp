@@ -65,11 +65,26 @@ namespace rl {
         std::set_difference( currInside.begin(), currInside.end(),
             mInsideAreaList.begin(), mInsideAreaList.end(), enteredInsert );
 
+        // diejenigen die rausgefallen sind, aber noch nicht den noetigen abstand haben, wieder hinzufuegen
+        ActorMap reallyLeftMap;
+        ActorMap notReallyLeftMap;
+        ActorMap::iterator it = leftMap.begin();
+        for( ; it != leftMap.end(); it++ )
+        {
+            if( mAreaType->getDistance(it->second) <= mAreaType->getTransitionDistance() )
+                notReallyLeftMap.insert( *it );
+            else
+                reallyLeftMap.insert( *it );
+        }
+
         // Die �riggebliebenen in mInsideAreaList speichern
+        //mInsideAreaList = currInside + notReallyLeftMap;
         mInsideAreaList = currInside;
+        mInsideAreaList.insert(notReallyLeftMap.begin(), notReallyLeftMap.end());
+        
 
         // Die Neuen und die Rausgefallenen an die Listener dispatchen
-		doDispatchEvents( enteredMap, leftMap );
+		doDispatchEvents( enteredMap, reallyLeftMap );
     }
 
     void GameAreaEventSource::doDispatchEvents(

@@ -96,6 +96,14 @@ public:
 	static CeGuiString getValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element);
 	
     /**
+	 * Ermittelt den Text eines Elementknotens
+	 *
+	 * @param element Das DOM-Element
+	 * @return Text innerhalb der Element-Tags, als CeGuiString
+	 */
+    static std::string getValueAsStdString(XERCES_CPP_NAMESPACE::DOMElement* element);
+
+    /**
 	 * Setzt den Text eines Elementknotens, als UTF-8
 	 * vor Benutzung muss initializeTranscoder() aufgerufen werden
 	 *
@@ -133,6 +141,15 @@ public:
 	 * @return Zahl, die innerhalb der Element-Tags steht
 	 */
 	static int getValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element);
+
+    /**
+	 * Ermittelt den Text eines Elementknotens und parst ihn, 
+	 * um eine Ganzzahl daraus zu machen
+	 *
+	 * @param element Das DOM-Element
+	 * @return Zahl, die innerhalb der Element-Tags steht
+	 */
+    static Ogre::Real getValueAsReal(XERCES_CPP_NAMESPACE::DOMElement* element);
 
     /**
 	 * Formt einen Ganzzahldubel in einen String um und setzt diesen als Wert

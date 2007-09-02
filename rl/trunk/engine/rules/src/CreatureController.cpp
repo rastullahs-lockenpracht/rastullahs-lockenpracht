@@ -432,7 +432,7 @@ namespace rl
             if( mLastProbe + Date::ONE_SPIELRUNDE >= now || mLastProbe == 0 )
             {
                 mTimePerAu = 120; // was 180
-                try
+                if( mMovingCreature->getCreature()->hasTalent("Athletik") )
                 {
                     mLastProbe = now;
                     int taw = mMovingCreature->getCreature()->doTalentprobe("Athletik",0);
@@ -449,7 +449,7 @@ namespace rl
                         mTimePerAu += taw * 5;
                     }
                 }
-                catch(IllegalArgumentException)
+                else
                 {
                     mTimePerAu = 120; // was 180
                 }
@@ -542,7 +542,7 @@ namespace rl
             if( mLastProbe + mMovingCreature->getCreature()->getAuMax() * Date::ONE_SECOND >= now || mLastProbe == 0)
             {
                 mVelocityImprovement = 0;
-                try
+                if( mMovingCreature->getCreature()->hasTalent("Athletik") )
                 {
                     mLastProbe = now;
                     int taw = mMovingCreature->getCreature()->doTalentprobe("Athletik",0);
@@ -559,7 +559,7 @@ namespace rl
                         mVelocityImprovement += taw * 0.1;
                     }
                 }
-                catch(IllegalArgumentException)
+                else
                 {
                     mVelocityImprovement = 0;
                 }
@@ -728,7 +728,7 @@ namespace rl
             mTimer = 0;
             calculateBaseVelocity(mHeight);
 
-            try
+            if( mMovingCreature->getCreature()->hasTalent("Athletik") )
             {
                 int taw = mMovingCreature->getCreature()->doTalentprobe("Athletik", 0);
                 if( taw > 0 )
@@ -747,7 +747,7 @@ namespace rl
                     }
                 }
             }
-            catch(IllegalArgumentException)
+            else
             {
             }
             mMovingCreature->getCreature()->damageAu(2./3);
@@ -896,22 +896,22 @@ namespace rl
             mTimer = 0;
             calculateBaseVelocity(mWidth);
 
-            try
+
+            // the person will only achieve this width if it is running
+            // retrieve run movement
+            AbstractMovement *run = mMovingCreature->getMovementFromId(CreatureController::MT_RENNEN);
+            if( run != NULL )
             {
-                // the person will only achieve this width if it is running
-                // retrieve run movement
-                AbstractMovement *run = mMovingCreature->getMovementFromId(CreatureController::MT_RENNEN);
-                if( run != NULL )
-                {
-                    Real vel(0);
-                    run->calculateBaseVelocity(vel);
-                    Real factor = -mMovingCreature->getVelocity().z / vel;
-                    factor = std::max(Real(0),factor);
-                    // without moving before, the width will be 1/3
-                    mWidth = mWidth/3. + mWidth * 2./3. * factor;
-                }
+                Real vel(0);
+                run->calculateBaseVelocity(vel);
+                Real factor = -mMovingCreature->getVelocity().z / vel;
+                factor = std::max(Real(0),factor);
+                // without moving before, the width will be 1/3
+                mWidth = mWidth/3. + mWidth * 2./3. * factor;
+            }
 
-
+            if( mMovingCreature->getCreature()->hasTalent("Athletik") )
+            {
                 int taw = mMovingCreature->getCreature()->doTalentprobe("Athletik", 0);
                 if( taw > 0 )
                 {
@@ -929,9 +929,7 @@ namespace rl
                     }
                 }
             }
-            catch(IllegalArgumentException)
-            {
-            }
+
             mMovingCreature->getCreature()->damageAu(2./3);
         }
         virtual void deactivate()

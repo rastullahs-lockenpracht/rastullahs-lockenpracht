@@ -21,7 +21,11 @@
 #include "CoreSubsystem.h"
 #include "MeshObject.h"
 #include "PhysicsManager.h"
+#include "Zone.h"
 
+
+
+using namespace Ogre;
 
 template<> rl::GameEventManager* Ogre::Singleton<rl::GameEventManager>::ms_Singleton = 0;
 
@@ -54,11 +58,11 @@ namespace rl {
         // remove collision callbacks
         PhysicsManager *physicsManager = PhysicsManager::getSingletonPtr();
 
-        const OgreNewt::MaterialID *area_mat = physicsManager->createMaterialID("gamearea");
-        const OgreNewt::MaterialID *char_mat = physicsManager->createMaterialID("character");
-        const OgreNewt::MaterialID *def_mat = physicsManager->createMaterialID("default");
-        const OgreNewt::MaterialID *cam_mat = physicsManager->createMaterialID("camera");
-        const OgreNewt::MaterialID *lev_mat = physicsManager->createMaterialID("level");
+        const OgreNewt::MaterialID *area_mat = physicsManager->getMaterialID("gamearea");
+        const OgreNewt::MaterialID *char_mat = physicsManager->getMaterialID("character");
+        const OgreNewt::MaterialID *def_mat = physicsManager->getMaterialID("default");
+        const OgreNewt::MaterialID *cam_mat = physicsManager->getMaterialID("camera");
+        const OgreNewt::MaterialID *lev_mat = physicsManager->getMaterialID("level");
 
         physicsManager->resetMaterialPair(area_mat, char_mat);
         physicsManager->resetMaterialPair(area_mat, def_mat);
@@ -80,27 +84,15 @@ namespace rl {
     }
 
 	/// @todo  Doppelte Aktoren nachnutzen??
-    void GameEventManager::addSphereAreaListener( Actor* actor, Ogre::Real radius,
-        GameAreaListener* list, unsigned long queryMask )
+    GameAreaEventSource* GameEventManager::addSphereAreaListener( Actor* actor, Ogre::Real radius,
+        GameAreaListener* list, unsigned long queryMask, bool forceNew )
     {
-        // Neues Areal erzeugen
-        GameAreaType* at = new GameSphereAreaType( actor->getWorldPosition(), radius, queryMask );
-        // Event-Quelle erzeugen
-        GameAreaEventSource* gam = new GameAreaEventSource( at, actor );
-        // In die Menge einfügen
-        mAreaEventSources.insert( gam );
-		ScriptWrapper::getSingleton().owned( gam );
-        // Und Listener anhängen
-        gam->addAreaListener( list );
-    }
-
-    void GameEventManager::addMeshAreaListener( Actor* actor, GeometryType geom, GameAreaListener* list, unsigned long queryMask )
-    {
+        Ogre::AxisAlignedBox aabb;
+        aabb.setMaximum(radius, radius, radius);
+        aabb.setMaximum(-radius, -radius, -radius);
         // neues areal ereugen
-        MeshObject* meshObj = static_cast<MeshObject*>(actor->getControlledObject());
-
-        GameNewtonBodyAreaType* at = new GameMeshAreaType(
-            meshObj->getEntity(), geom);
+        GameNewtonBodyAreaType* at = new GameSimpleCollisionAreaType(
+            aabb, GT_SPHERE);
 
         at->setQueryMask(queryMask);
 
@@ -114,6 +106,61 @@ namespace rl {
 
         // add to newton collision list
         mBodyGameAreaMap.insert(std::make_pair(at->getBody(), at));
+
+        return gam;
+    }
+
+    /// @todo  Doppelte Aktoren nachnutzen??
+    GameAreaEventSource* GameEventManager::addMeshAreaListener( 
+        Actor* actor, GeometryType geom, GameAreaListener* list, unsigned long queryMask, 
+        Vector3 offset, Quaternion orientation, bool forceNew )
+    {
+        // neues areal ereugen
+        MeshObject* meshObj = static_cast<MeshObject*>(actor->getControlledObject());
+
+        GameNewtonBodyAreaType* at = new GameMeshAreaType(
+            meshObj->getEntity(), geom, offset, orientation);
+
+        at->setQueryMask(queryMask);
+
+        // Event-Quelle erzeugen
+        GameAreaEventSource* gam = new GameAreaEventSource( at, actor );
+        // In die Menge einfügen
+        mAreaEventSources.insert( gam );
+		ScriptWrapper::getSingleton().owned( gam );
+        // Und Listener anhängen
+        gam->addAreaListener( list );
+
+        // add to newton collision list
+        mBodyGameAreaMap.insert(std::make_pair(at->getBody(), at));
+
+        return gam;
+    }
+
+    /// @todo  Doppelte Aktoren nachnutzen??
+    GameAreaEventSource* GameEventManager::addAreaListener(Actor* actor,
+        Ogre::AxisAlignedBox aabb, GeometryType geom, GameAreaListener* list, 
+        unsigned long queryMask, 
+        Vector3 offset, Quaternion orientation,
+        bool forceNew)
+    {
+        GameNewtonBodyAreaType* at = new GameSimpleCollisionAreaType(
+            aabb, geom, offset, orientation);
+
+        at->setQueryMask(queryMask);
+
+        // Event-Quelle erzeugen
+        GameAreaEventSource* gam = new GameAreaEventSource( at, actor );
+        // In die Menge einfügen
+        mAreaEventSources.insert( gam );
+		ScriptWrapper::getSingleton().owned( gam );
+        // Und Listener anhängen
+        gam->addAreaListener( list );
+
+        // add to newton collision list
+        mBodyGameAreaMap.insert(std::make_pair(at->getBody(), at));
+
+        return gam;
     }
 
     void GameEventManager::removeAreaListener( GameAreaListener* list )
@@ -136,6 +183,18 @@ namespace rl {
         }
     }
 
+    void GameEventManager::removeAreaEventSource( GameAreaEventSource *gam )
+    {
+        GameAreaEventSourceList::iterator it = mAreaEventSources.find(gam);
+        if( it != mAreaEventSources.end() )
+        {
+            it = mQueuedDeletionSources.find(gam);
+            if( it == mQueuedDeletionSources.end() )
+                mQueuedDeletionSources.insert(gam);
+        }
+
+    }
+
     void GameEventManager::removeAllAreas( Actor* actor )
     {
         GameAreaEventSourceList::iterator it;
@@ -147,6 +206,7 @@ namespace rl {
             if( gam->getActor() == actor )
             {
 				// Später löschen
+
                 mQueuedDeletionSources.insert( gam );
             }
 
@@ -217,7 +277,7 @@ namespace rl {
             return 0;
         }
 
-        LOG_WARNING(Logger::CORE, "Der Kollisionskörper konne keiner GameArea zugeordnet werden!");
+        LOG_WARNING(Logger::CORE, "Der Kollisionskörper konnte keiner GameArea zugeordnet werden!");
         return 0;
     }
 

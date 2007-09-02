@@ -14,7 +14,9 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
+
 namespace rl {
+/*
 %{
 static swig_type_info *GameAreaType_dynamic_cast(void **ptr) {
     rl::GameAreaType *pGameAreaType = static_cast<rl::GameAreaType *>(*ptr);
@@ -29,7 +31,7 @@ static swig_type_info *GameAreaType_dynamic_cast(void **ptr) {
 }
 %}
 DYNAMIC_CAST(SWIGTYPE_p_rl__GameAreaType, GameAreaType_dynamic_cast);
-
+*/
 
 
 %{
@@ -205,13 +207,14 @@ public:
     const Ogre::Vector3& getQueryPosition() const;
 };
 
+/*
 class GameSphereAreaType : public GameAreaType
 {
 private:
 	GameSphereAreaType( Ogre::Vector3, Ogre::Real, unsigned long mask = 0xFFFFFFFF );
 public:
 };
-
+*/
 class GameAreaEventSource
 {
 private: 
@@ -221,7 +224,7 @@ public:
     void removeAreaListener( rl::GameAreaListener* list );
     bool hasListeners( ) const;
 
-    rl::GameAreaType* getGameAreaType() const;
+    rl::GameAreaType* getGameAreaType();
     // const ActorMap& getInsideAreaList() const;
     rl::Actor* getActor() const;
 };
@@ -885,20 +888,59 @@ public:
 
 class Zone
 {
-private:
-	Zone(Actor* actor);
 public:
 	void addLight(Actor* light);
-	void addSound(const Ogre::String& sound);
+    void addSound(const Ogre::String& name);
+	//void addTrigger(Trigger* trigger);
+	std::list<Actor*> getLights() const;
+    std::list<Ogre::String> getSounds() const;
+	//std::list<Trigger*> getTriggers() const;
+    void removeLight(Actor* light);
+    void removeSound(const Ogre::String& name);
+    //void removeTrigger(Trigger* trigger);
+protected:
+    Zone(long id);
+private:
+    Zone();
 };
+
 
 class ZoneManager
 {
 public:
 	static const ZoneManager& getSingleton();
-	Zone* createZone(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Real radius, unsigned long queryflags);
-	Zone* getDefaultZone() const;
-	Zone* getZone(const Ogre::String& name) const;
+    rl::Zone* createZone(const Ogre::String& name);
+    void destroyZone(const Ogre::String& name);
+
+    void addAreaToZone(const Ogre::String& name, 
+        Ogre::AxisAlignedBox aabb, rl::GeometryType geom,
+        Ogre::Vector3 position, Ogre::Vector3 offset, Ogre::Quaternion orientation,
+        Ogre::Real transitionDistance,
+        unsigned long queryflags);
+
+    void subtractAreaFromZone(const Ogre::String& name, 
+        Ogre::AxisAlignedBox aabb, rl::GeometryType geom,
+        Ogre::Vector3 position, Ogre::Vector3 offset, Ogre::Quaternion orientation,
+        Ogre::Real transitionDistance,
+        unsigned long queryflags);
+
+    void addMeshAreaToZone(const Ogre::String& name,
+        const Ogre::String& meshname, rl::GeometryType geom,
+        Ogre::Vector3 position,
+        Ogre::Vector3 scale, Ogre::Vector3 offset, Ogre::Quaternion orientation,
+        Ogre::Real transitionDistance,
+        unsigned long queryflags);
+
+    void subtractMeshAreaFromZone(const Ogre::String& name,
+        const Ogre::String& meshname, rl::GeometryType geom,
+        Ogre::Vector3 position,
+        Ogre::Vector3 scale, Ogre::Vector3 offset, Ogre::Quaternion orientation,
+        Ogre::Real transitionDistance,
+        unsigned long queryflags);
+        
+	rl::Zone* getDefaultZone();
+	rl::Zone* getZone(const Ogre::String& name);
+    rl::Zone* getZone(long id);
 };
 
 class  Trigger

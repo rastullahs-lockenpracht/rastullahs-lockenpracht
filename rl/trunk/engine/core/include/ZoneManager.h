@@ -17,28 +17,62 @@
 #define __ZoneManager_H__
 
 #include "CorePrerequisites.h"
+#include "CoreDefines.h"
+#include "GameAreaListener.h"
 
 namespace rl
 {
     class Zone;
 
-    class _RlCoreExport ZoneManager : public Ogre::Singleton<ZoneManager>
+    class _RlCoreExport ZoneManager : 
+        public Ogre::Singleton<ZoneManager>,
+        public GameAreaListener
 	{
 	public:
 		ZoneManager();
 		~ZoneManager();
 
-        Zone* createZone(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Real radius, unsigned long queryflags);
-		Zone* getDefaultZone() const;
-		Zone* getZone(const Ogre::String& name) const;
+        Zone* createZone(const Ogre::String& name);
+        void destroyZone(const Ogre::String& name);
+        /// Adds a new area to the zone
+        void addAreaToZone(const Ogre::String& name, 
+            Ogre::AxisAlignedBox aabb, GeometryType geom,
+            Ogre::Vector3 position, Ogre::Vector3 offset, Ogre::Quaternion orientation,
+            Ogre::Real transitionDistance,
+            unsigned long queryflags);
+        /// subtracts an area from the zone (it must ly in another area in this zone, else the beaviour is not defined)
+        void subtractAreaFromZone(const Ogre::String& name, 
+            Ogre::AxisAlignedBox aabb, GeometryType geom,
+            Ogre::Vector3 position, Ogre::Vector3 offset, Ogre::Quaternion orientation,
+            Ogre::Real transitionDistance,
+            unsigned long queryflags);
+        /// Adds a new mesh area to the zone
+        void addMeshAreaToZone(const Ogre::String& name,
+            const Ogre::String& meshname, GeometryType geom,
+            Ogre::Vector3 position,
+            Ogre::Vector3 scale, Ogre::Vector3 offset, Ogre::Quaternion orientation,
+            Ogre::Real transitionDistance,
+            unsigned long queryflags);
+        /// subtracts a mesh-area from the zone (it must ly in another area in this zone, else the beaviour is not defined)
+        void subtractMeshAreaFromZone(const Ogre::String& name,
+            const Ogre::String& meshname, GeometryType geom,
+            Ogre::Vector3 position,
+            Ogre::Vector3 scale, Ogre::Vector3 offset, Ogre::Quaternion orientation,
+            Ogre::Real transitionDistance,
+            unsigned long queryflags);
+		Zone* getDefaultZone();
+		Zone* getZone(const Ogre::String& name);
+        Zone* getZone(long id);
 
-		void areaLeft(Zone* zone);
-	    void areaEntered(Zone* zone);
+		void areaLeft(GameAreaEvent* gae);
+	    void areaEntered(GameAreaEvent* gae);
 		
 	private:
 		std::map<const Ogre::String, Zone*> mZones;
+        std::map<long, Zone*> mZonesIdMap;
 		std::list<Zone*> mActiveZones;
 		Zone* mDefaultZone;
+        long mNextZoneId;
 
 		void switchLights();
 		void switchSounds();

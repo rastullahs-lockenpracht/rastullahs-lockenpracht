@@ -17,20 +17,22 @@
 #define __Zone_H__
 
 #include "CorePrerequisites.h"
+#include "GameEventManager.h"  /* wegen GameAreaEventSourceList */
 
-#include "GameAreaListener.h"
 
 namespace rl {
 
 	class Actor;
 	class LightObject;
 	class Trigger;
+    class GameAreaEventSource;
+    class ZoneManager;
 
-	///@todo: Inheritance is wrong, Zone should be a GameAreaEventSource, ZoneManager a GameAreaListener
-	class _RlCoreExport Zone : public GameAreaListener
+    /// an abstraction of an zone, consisting of all GameAreaEventSources with the associated id
+    class _RlCoreExport Zone
 	{
 	public:
-		Zone(Actor* actor);
+        virtual ~Zone();
 
 		void addLight(Actor* light);
         void addSound(const Ogre::String& name);
@@ -38,19 +40,23 @@ namespace rl {
 		std::list<Actor*> getLights() const;
         std::list<Ogre::String> getSounds() const;
 		std::list<Trigger*> getTriggers() const;
-
-		Actor* getActor() const;
-
-		virtual void areaLeft(GameAreaEvent *anEvent);
-	    virtual void areaEntered(GameAreaEvent *anEvent);
-
+        void removeLight(Actor* light);
+        void removeSound(const Ogre::String& name);
+        void removeTrigger(Trigger* trigger);
+        long getId() const {return mId;}
+    protected:
+        friend class ZoneManager;
+        Zone(long id);
+        void addEventSource(GameAreaEventSource* gam);
+        void removeEventSource(GameAreaEventSource* gam);
+        GameAreaEventSourceList& getEventSources();
 	private:
+        long mId;
+        Zone();
 		std::list<Actor*> mLights;
 		std::list<Ogre::String> mSounds;
 		std::list<Trigger*> mTriggers;
-		Actor* mActor;
-
-		void deleteTriggers(const std::list<Trigger*>& toDelete);
+        GameAreaEventSourceList mEventSources;
 	};
 
 }

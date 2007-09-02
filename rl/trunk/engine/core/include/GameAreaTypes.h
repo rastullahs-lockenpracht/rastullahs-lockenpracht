@@ -35,6 +35,7 @@ namespace rl {
 class _RlCoreExport GameAreaType
 {
 public:
+    virtual ~GameAreaType();
     /** Führt die Anfrage durch und sammelt die Aktoren innerhalb einer std::map 
      *  Key Wert ist der einzigartige Name des Actors
      *
@@ -67,11 +68,18 @@ public:
     //virtual bool getShowDebug() const = 0;
 
     virtual OgreNewt::Body* getBody() { return NULL;}
+
+    virtual Ogre::Real getDistance(Actor* actor) = 0;
+
+    /// Der minimale abstand, den ein aktor von der zone haben muss, um die zone zu verlassen (um ständige wechsel in und aus der zone zu vermeiden)
+    virtual Ogre::Real getTransitionDistance() const = 0;
+    virtual void setTransitionDistance(Ogre::Real dist) = 0;
 };
 
 /** GameSphereAreaType
 * Implementierung einer Kugelanfrage
 */
+/*
 class _RlCoreExport GameSphereAreaType : public GameAreaType
 {
 public:
@@ -80,7 +88,7 @@ public:
      * @param center Das Zentrum der Kugel
      * @param radius Der Radius der Kugel
      * @param mask Die Anfrage Maske
-     */
+    
     GameSphereAreaType(Ogre::Vector3 center, Ogre::Real radius, unsigned long mask = 0xFFFFFFFF );
     /// Dekonstruktor
     virtual ~GameSphereAreaType();
@@ -105,10 +113,11 @@ private:
     /// Die Kugel-Anfrage
     Ogre::SphereSceneQuery* mSphereQuery;
 };
-
+*/
 
 /// ein Problem könnte die zeitliche Verschiebung um eine Framedauer sein, wenn position und orientation
 /// neu gesetzt werden, muss erst newton wieder upgedated werden!
+/// Von dieser Klasse muss abgleitet werden, sie definiert keinen eigenen body!
 class _RlCoreExport GameNewtonBodyAreaType : 
     public GameAreaType
 {
@@ -141,10 +150,16 @@ public:
     virtual void resetFoundCollisions();
 
     virtual OgreNewt::Body* getBody() { return mBody;}
+
+    Ogre::Real getDistance(Actor* actor);
+
+    Ogre::Real getTransitionDistance() const;
+    void setTransitionDistance(Ogre::Real dist);
 protected:
     OgreNewt::Body* mBody;
     ActorMap mFoundActors;
     unsigned long mQueryMask;
+    Ogre::Real mTransitionDistance;
 };
 
 
@@ -154,10 +169,22 @@ class _RlCoreExport GameMeshAreaType :
 public:
     GameMeshAreaType(
             Ogre::Entity* entity,
-            const GeometryType& geomType = GT_NONE,
-			Ogre::Vector3* offset = NULL,
-			Ogre::Quaternion* orientation = NULL);
+            GeometryType geomType = GT_CONVEXHULL,
+            Ogre::Vector3 offset = Ogre::Vector3::ZERO,
+            Ogre::Quaternion orientation = Ogre::Quaternion::IDENTITY);
 };
+
+class _RlCoreExport GameSimpleCollisionAreaType :
+    public GameNewtonBodyAreaType
+{
+public:
+    GameSimpleCollisionAreaType(
+            Ogre::AxisAlignedBox aabb,
+            GeometryType geomType = GT_BOX,
+            Ogre::Vector3 offset = Ogre::Vector3::ZERO,
+            Ogre::Quaternion orientation = Ogre::Quaternion::IDENTITY);
+};
+
 
 }
 

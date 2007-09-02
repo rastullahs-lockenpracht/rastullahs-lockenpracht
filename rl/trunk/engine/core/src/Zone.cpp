@@ -26,50 +26,14 @@
 namespace rl
 {
 
-	Zone::Zone(Actor* actor)
-	 : GameAreaListener(),
-	   mActor(actor)
-	{
-	}
 
-	Actor* Zone::getActor() const
-	{
-		return mActor;
-	}
+    Zone::Zone(long id) : mId(id)
+    {
+    }
 
-	void Zone::areaLeft(GameAreaEvent *anEvent)
-	{
-		ZoneManager::getSingleton().areaLeft(this);
-
-		std::list<Trigger*> toDelete;
-		for (std::list<Trigger*>::iterator it = mTriggers.begin(); it != mTriggers.end(); ++it)
-		{
-			bool remove = (*it)->deactivate();
-			if (remove)
-			{
-				toDelete.push_back(*it);
-			}
-		}
-
-		deleteTriggers(toDelete);
-	}
-
-    void Zone::areaEntered(GameAreaEvent *anEvent)
-	{
-		ZoneManager::getSingleton().areaEntered(this);
-
-		std::list<Trigger*> toDelete;
-		for (std::list<Trigger*>::iterator it = mTriggers.begin(); it != mTriggers.end(); ++it)
-		{
-			bool remove = (*it)->activate();
-			if (remove)
-			{
-				toDelete.push_back(*it);
-			}
-		}
-
-		deleteTriggers(toDelete);
-	}
+    Zone::~Zone()
+    {
+    }
 
 	void Zone::addLight(Actor* lo)
 	{
@@ -87,6 +51,14 @@ namespace rl
 		}
 	}
 
+	void Zone::addTrigger(Trigger* trigger)
+	{
+		if (trigger != NULL)
+		{
+			mTriggers.push_back(trigger);
+		}
+	}
+
 	std::list<Actor*> Zone::getLights() const
 	{
 		std::list<Actor*> rval(mLights);
@@ -99,17 +71,66 @@ namespace rl
 		return rval;
 	}
 
-
-	void Zone::deleteTriggers(const std::list<Trigger*>& toDelete)
+	std::list<Trigger*> Zone::getTriggers() const
 	{
-		for (std::list<Trigger*>::const_iterator it = toDelete.begin();
-			it != toDelete.end(); ++it)
-		{
-			const Trigger* cur = *it;
+		std::list<Trigger*> rval(mTriggers);
+		return rval;
+	}
 
-			std::list<Trigger*>::iterator trigIt =
-				std::find(mTriggers.begin(), mTriggers.end(), cur);
-			mTriggers.erase(trigIt);
-		}
+    void Zone::removeLight(Actor *light)
+    {
+        if( !light )
+            Throw(NullPointerException, "Light-Actor is NULL!");
+        std::list<Actor*>::iterator it = 
+            std::find(mLights.begin(), mLights.end(), light);
+        if( it == mLights.end() )
+            Throw(IllegalArgumentException, "Could not find light-actor '" + light->getName() + "' in this zone!");
+
+        mLights.erase(it);
+    }
+
+    void Zone::removeSound(const Ogre::String& sound)
+    {
+        std::list<Ogre::String>::iterator it = 
+            std::find(mSounds.begin(), mSounds.end(), sound);
+        if( it == mSounds.end() )
+            Throw(IllegalArgumentException, "Could not find sound '" + sound + "' in this zone!");
+
+        mSounds.erase(it);
+    }
+
+    void Zone::removeTrigger(Trigger* trigger)
+    {
+        if( !trigger )
+            Throw(NullPointerException, "Trigger is NULL!");
+        std::list<Trigger*>::iterator it = 
+            std::find(mTriggers.begin(), mTriggers.end(), trigger);
+        if( it == mTriggers.end() )
+            Throw(IllegalArgumentException, "Could not find the Trigger in this zone!");
+
+        mTriggers.erase(it);
+    }
+
+    void Zone::addEventSource(GameAreaEventSource *gam)
+    {
+        if( gam != NULL )
+            mEventSources.insert(gam);
+    }
+
+    void Zone::removeEventSource(GameAreaEventSource *gam)
+    {
+        if( gam )
+        {
+            GameAreaEventSourceList::iterator it = mEventSources.find(gam);
+            if( it == mEventSources.end() )
+                LOG_ERROR(Logger::CORE, "Could not find the GameAreaEventSource in this zone!");
+
+            mEventSources.erase(it);
+        }
+    }
+
+	GameAreaEventSourceList& Zone::getEventSources()
+	{
+		return mEventSources;
 	}
 }

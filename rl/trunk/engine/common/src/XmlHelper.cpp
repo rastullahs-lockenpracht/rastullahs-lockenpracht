@@ -84,6 +84,12 @@ CeGuiString XmlHelper::getValueAsString(DOMElement* element)
 	return transcodeToString( element->getFirstChild()->getNodeValue() );
 }
 
+std::string XmlHelper::getValueAsStdString(DOMElement* element)
+{
+    RlAssert(element != NULL, "XmlHelper::getValueAsStdString: Element must not be NULL");
+	return transcodeToStdString( element->getFirstChild()->getNodeValue() );
+}
+
 DOMElement* XmlHelper::setValueAsUtf8(DOMDocument* doc, DOMElement* element, utf8* value)
 {
     RlAssert(element != NULL, "XmlHelper::setValueAsUtf8: Element must not be NULL");
@@ -310,6 +316,13 @@ int XmlHelper::getValueAsInteger(DOMElement* element)
 {
     RlAssert(element != NULL, "XmlHelper::getValueAsInteger: Element must not be NULL");
 	return XMLString::parseInt(element->getFirstChild()->getNodeValue());
+}
+
+Ogre::Real XmlHelper::getValueAsReal(XERCES_CPP_NAMESPACE::DOMElement* element)
+{
+    RlAssert(element != NULL, "XmlHelper::getValueAsInteger: Element must not be NULL");
+    return Ogre::StringConverter::parseReal(
+        transcodeToString(element->getFirstChild()->getNodeValue()).c_str());
 }
 
 DOMElement* XmlHelper::setValueAsIntegerPair(DOMDocument *doc, DOMElement *element, IntPair value)

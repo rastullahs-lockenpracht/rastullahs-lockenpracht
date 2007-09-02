@@ -22,6 +22,10 @@
 #include "GameEventManager.h"
 #include "Zone.h"
 
+
+using namespace Ogre;
+
+
 template<> rl::ZoneManager* Ogre::Singleton<rl::ZoneManager>::ms_Singleton = 0;
 
 namespace rl
@@ -30,32 +34,33 @@ namespace rl
 		: Ogre::Singleton<ZoneManager>()
 	{
 		// the default zone is active when no other Zone is active
-		mDefaultZone = new Zone(NULL);
+		mDefaultZone = new Zone(0);
+        mNextZoneId = 1;
 		mActiveZones.push_front(mDefaultZone);
 	}
 
 	ZoneManager::~ZoneManager()
 	{
+        GameEventManager::getSingleton().removeAreaListener(this);
+        GameEventManager::getSingleton().removeQueuedDeletionSources();
 		for (std::map<const Ogre::String, Zone*>::iterator it = mZones.begin(); it != mZones.end(); ++it)
 		{
 			Zone* curZone = (*it).second;
-			GameEventManager::getSingleton().removeAreaListener(curZone);
+            delete curZone;
 		}
-		GameEventManager::getSingleton().removeQueuedDeletionSources();
 		delete mDefaultZone;
 	}
 
-	Zone* ZoneManager::getDefaultZone() const
+	Zone* ZoneManager::getDefaultZone()
 	{
 		return mDefaultZone;
 	}
 
-	Zone* ZoneManager::getZone(const Ogre::String& name) const
+	Zone* ZoneManager::getZone(const Ogre::String& name)
 	{
 		std::map<const Ogre::String, Zone*>::const_iterator it = mZones.find(name);
 		if (it == mZones.end())
 		{
-			LOG_ERROR(Logger::CORE, "Zone '"+name+"' not found.");
 			return NULL;
 		}
 		else
@@ -64,30 +69,198 @@ namespace rl
 		}
 	}
 
-    Zone* ZoneManager::createZone(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Real radius, unsigned long queryflags)
+	Zone* ZoneManager::getZone(long id)
 	{
-
-		Actor* kugelDings = ActorManager::getSingleton().createEmptyActor("Light zone center");
-		kugelDings->placeIntoScene(position);
-		Zone* lz = new Zone(kugelDings);
-		mZones[name] = lz;
-		GameEventManager::getSingleton().addSphereAreaListener(kugelDings, radius, lz, queryflags);
-
-		return lz;
+		std::map<long, Zone*>::const_iterator it = mZonesIdMap.find(id);
+		if (it == mZonesIdMap.end())
+		{
+			return NULL;
+		}
+		else
+		{
+			return (*it).second;
+		}
 	}
 
-	void ZoneManager::areaLeft(Zone* zone)
+    Zone* ZoneManager::createZone(const Ogre::String& name)
 	{
-		mActiveZones.remove(zone);
-		switchLights();
-		switchSounds();
+        Zone* zone = new Zone(mNextZoneId);
+        mZonesIdMap[mNextZoneId] = zone;
+        mZones[name] = zone;
+        mNextZoneId++;
+
+		return zone;
 	}
 
-	void ZoneManager::areaEntered(Zone* zone)
+    void ZoneManager::destroyZone(const Ogre::String& name)
+    {
+        Zone* zone = getZone(name);
+        if(zone == NULL)
+            return;
+
+        //destroy all areas
+        GameAreaEventSourceList::iterator iter = zone->getEventSources().begin();
+        for( ; iter != zone->getEventSources().end(); iter++ )
+        {
+            // we have our own actors, remove them
+            ActorManager::getSingleton().destroyActor( (*iter)->getActor() );
+		    GameEventManager::getSingleton().removeAreaEventSource(
+                (*iter));
+        }
+
+        std::map<const Ogre::String, Zone*>::iterator it = mZones.find(name);
+        if( it != mZones.end() )
+            mZones.erase(it);
+
+        std::map<long, Zone*>::iterator it_ = mZonesIdMap.find(zone->getId());
+        if( it_ != mZonesIdMap.end() )
+            mZonesIdMap.erase(it_);
+
+        delete zone;
+    }
+
+    void ZoneManager::addAreaToZone(const Ogre::String& name, 
+        AxisAlignedBox aabb, GeometryType geom,
+        Vector3 position, Vector3 offset, Quaternion orientation,
+        Real transitionDistance,
+        unsigned long queryflags)
+    {
+        Zone* zone = getZone(name);
+        if( !zone )
+            return;
+
+        Actor* actor = ActorManager::getSingleton().createEmptyActor("Zone_"+name);
+        actor->placeIntoScene(position);
+
+        GameAreaEventSource* gam =
+            GameEventManager::getSingleton().addAreaListener(actor, 
+                aabb, geom, this, queryflags, offset, orientation, true);
+
+        gam->getGameAreaType()->setTransitionDistance(transitionDistance);
+        gam->setId(zone->getId());
+    }
+    
+    void ZoneManager::subtractAreaFromZone(const Ogre::String& name, 
+        AxisAlignedBox aabb, GeometryType geom,
+        Vector3 position, Vector3 offset, Quaternion orientation,
+        Real transitionDistance,
+        unsigned long queryflags)
+    {
+        Zone* zone = getZone(name);
+        if( !zone )
+            return;
+
+        Actor* actor = ActorManager::getSingleton().createEmptyActor("Zone_Area_"+name);
+        actor->placeIntoScene(position);
+
+        GameAreaEventSource* gam =
+            GameEventManager::getSingleton().addAreaListener(actor, 
+                aabb, geom, this, queryflags, offset, orientation, true);
+
+        gam->getGameAreaType()->setTransitionDistance(transitionDistance);
+        gam->setId( - (zone->getId())); // a negative id indicates to subtract this area from the zone
+    }
+
+    void ZoneManager::addMeshAreaToZone(const Ogre::String& name,
+        const Ogre::String& meshname, GeometryType geom,
+        Vector3 position,
+        Vector3 scale, Vector3 offset, Quaternion orientation,
+        Real transitionDistance,
+        unsigned long queryflags)
+    {
+        Zone* zone = getZone(name);
+        if( !zone )
+            return;
+
+        Actor *actor = ActorManager::getSingleton().createMeshActor(
+            "Zone_MeshArea_"+name+"_"+meshname, 
+            meshname, GT_NONE); // don't create physics-proxy
+        if(!actor)
+            return;
+
+        actor->placeIntoScene(position);
+        actor->setScale(scale.x, scale.y, scale.z);
+
+        GameAreaEventSource* gam =
+            GameEventManager::getSingleton().addMeshAreaListener(
+                actor, geom, this, queryflags, offset, orientation, true);
+
+        gam->getGameAreaType()->setTransitionDistance(transitionDistance);
+        gam->setId( zone->getId() );
+    }
+
+    void ZoneManager::subtractMeshAreaFromZone(const Ogre::String& name,
+        const Ogre::String& meshname, GeometryType geom,
+        Vector3 position,
+        Vector3 scale, Vector3 offset, Quaternion orientation,
+        Real transitionDistance,
+        unsigned long queryflags)
+    {
+        Zone* zone = getZone(name);
+        if( !zone )
+            return;
+
+        Actor *actor = ActorManager::getSingleton().createMeshActor(
+            "Zone_MeshArea_"+name+"_"+meshname, 
+            meshname, GT_NONE); // don't create physics-proxy
+        if(!actor)
+            return;
+
+        actor->placeIntoScene(position);
+        actor->setScale(scale.x, scale.y, scale.z);
+
+        GameAreaEventSource* gam =
+            GameEventManager::getSingleton().addMeshAreaListener(
+                actor, geom, this, queryflags, offset, orientation, true);
+
+        gam->getGameAreaType()->setTransitionDistance(transitionDistance);
+        gam->setId( - (zone->getId()) ); // a negative id indicates to subtract this area from the zone
+    }
+
+	void ZoneManager::areaLeft(GameAreaEvent* gae)
 	{
-		mActiveZones.push_front(zone);
-		switchLights();
-		switchSounds();
+        long id = gae->getSource()->getId();
+        if( id != 0 )
+        {
+            if( id > 0 )
+            {
+                Zone *zone = getZone(id);
+                if( zone )
+                    mActiveZones.remove(zone);
+            }
+            else
+            {
+                Zone *zone = getZone(-id); // means we have to subtract this area from the zone
+                if( zone )
+                    mActiveZones.push_front(zone);
+            }
+
+		    switchLights();
+		    switchSounds();
+        }
+	}
+
+	void ZoneManager::areaEntered(GameAreaEvent* gae)
+	{
+        long id = gae->getSource()->getId();
+        if( id != 0 )
+        {
+            if( id > 0 )
+            {
+                Zone *zone = getZone(id);
+                if( zone )
+                    mActiveZones.push_front(zone);
+            }
+            else
+            {
+                Zone *zone = getZone(-id); // means we have to subtract this area from the zone
+                if( zone )
+                    mActiveZones.remove(zone);
+            }
+
+		    switchLights();
+		    switchSounds();
+        }
 	}
 
 	void ZoneManager::switchLights()

@@ -17,14 +17,21 @@
 
 #include "GameAreaTypes.h"
 
+#include "Actor.h"
 #include "World.h"
 #include "CoreSubsystem.h"
+#include "Exception.h"
 #include "PhysicsManager.h"
+#include "PhysicalThing.h"
 
 
 using namespace Ogre;
 
 namespace rl {
+    GameAreaType::~GameAreaType()
+    {
+    }
+
     void GameAreaType::addQueryFlag( unsigned long flag  )
     {
         setQueryMask(  getQueryMask() | flag );
@@ -38,7 +45,7 @@ namespace rl {
 
 
 namespace rl {
-
+/*
     GameSphereAreaType::GameSphereAreaType(Vector3 center, Real radius, unsigned long mask)
     {
         mSphereQuery = CoreSubsystem::getSingleton().getWorld()->
@@ -99,12 +106,13 @@ namespace rl {
     {
         return mSphereQuery->getSphere().getCenter( );
     }
-
+*/
 
 
 
     GameNewtonBodyAreaType::GameNewtonBodyAreaType() :
-        mBody(NULL)
+        mBody(NULL),
+        mTransitionDistance(0)
     {
     }
 
@@ -177,15 +185,66 @@ namespace rl {
         return mFoundActors;
     }
 
+    Ogre::Real GameNewtonBodyAreaType::getDistance(Actor* actor)
+    {
+        if(!actor)
+            Throw(NullPointerException, "Argument actor cannot be NULL!");
+        OgreNewt::World *world = 
+            PhysicsManager::getSingleton()._getNewtonWorld();
+        Vector3 retA, retB, retNorm;
+        Vector3 positionA;
+        Quaternion orientationA;
+        mBody->getPositionOrientation(positionA, orientationA);
+        int intRet = 
+            OgreNewt::CollisionTools::CollisionClosestPoint(
+                world,
+                mBody->getCollision(), orientationA, positionA,
+                actor->getPhysicalThing()->_getBody()->getCollision(),
+                actor->getOrientation(), actor->getPosition(),
+                retA, retB, retNorm);
+
+        if( intRet == 0 )
+            return 0;
+
+        return (retA - retB).length();
+    }
+
+    Ogre::Real GameNewtonBodyAreaType::getTransitionDistance() const
+    {
+        return mTransitionDistance;
+    }
+
+    void GameNewtonBodyAreaType::setTransitionDistance(Ogre::Real dist) 
+    {
+        mTransitionDistance = dist;
+    }
+
     GameMeshAreaType::GameMeshAreaType(
             Ogre::Entity* entity,
-            const GeometryType& geomType,
-			Ogre::Vector3* offset,
-			Ogre::Quaternion* orientation)
+            GeometryType geomType,
+			Ogre::Vector3 offset,
+			Ogre::Quaternion orientation)
     {
         OgreNewt::CollisionPtr col =
-            PhysicsManager::getSingleton().createCollision(entity,
-            geomType, "", offset, orientation);
+            PhysicsManager::getSingleton().getCollisionFactory()->createCollisionFromEntity(entity,
+            geomType, &offset, &orientation);
+        mBody = new OgreNewt::Body(
+            PhysicsManager::getSingleton()._getNewtonWorld(),
+            col);
+        mBody->setMaterialGroupID(
+            PhysicsManager::getSingleton().getMaterialID("gamearea"));
+        mBody->setUserData(NULL);
+    }
+
+    GameSimpleCollisionAreaType::GameSimpleCollisionAreaType(
+            Ogre::AxisAlignedBox aabb,
+            GeometryType geomType,
+            Ogre::Vector3 offset,
+            Ogre::Quaternion orientation)
+    {
+        OgreNewt::CollisionPtr col =
+            PhysicsManager::getSingleton().getCollisionFactory()->createCollisionFromAABB(
+            aabb, geomType, &offset, &orientation);
         mBody = new OgreNewt::Body(
             PhysicsManager::getSingleton()._getNewtonWorld(),
             col);

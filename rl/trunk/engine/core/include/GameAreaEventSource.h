@@ -28,6 +28,7 @@
 
 namespace rl {
 
+class ZoneManager;
 /** 
  * GameAreaEventSource
  * Die Quelle für Ereignisse die das betreten/verlassen eines Areals betreffen.
@@ -70,12 +71,18 @@ public:
     bool hasListeners( ) const;
 
     /// Gibt die Art des Areals zurück
-    GameAreaType* getGameAreaType() const { return mAreaType; };
+    GameAreaType* getGameAreaType() { return mAreaType; };
     /// Gibt die Actoren die bei der letzten Abfrage innerhalb des Areals waren zurück
     const ActorMap& getInsideAreaList() const { return mInsideAreaList; };
     /// Gibt den Actor zurück, den das Areal umgibt
     Actor* getActor() const { return mActor; };
-private: 
+protected:
+    /// helps the zonemanager to associate zones with areas
+    friend class ZoneManager;
+    void setId(long id) {mId = id;}
+    long getId() const {return mId;}
+private:
+    long mId;
     /** Verteilt die Events an die angefügten Listener
     * Für jeden Actor wird ein einzelnes Ereigniss generiert, zuerst für alle
     * verlassenden Actoren, dann für die betretenden

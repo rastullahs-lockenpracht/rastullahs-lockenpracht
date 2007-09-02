@@ -364,6 +364,29 @@ namespace rl
 		fireObjectStateChangeEvent();
     }
 
+    bool Creature::hasTalent(const CeGuiString talentName, bool ausweich)
+    {
+		checkEffects();
+        TalentMap::const_iterator it = mTalente.find(talentName);
+        if (it != mTalente.end())
+            return true;
+        /*
+        if( ausweich )
+        {
+            Talent::AusweichTalente ausweichTalente;
+            ausweichTalente =
+                DsaManager::getSingleton().getTalent(talentName)->getAusweichTalente();
+            Talent::AusweichTalente::const_iterator ausweichIt = ausweichTalente.begin();
+            if (ausweichIt != ausweichTalente.end())
+            {
+                return true;
+            }
+        }
+        */
+		
+        return false;
+    }
+
     int Creature::getTalent(const CeGuiString talentName)
     {
         TalentMap::const_iterator it = mTalente.find(talentName);

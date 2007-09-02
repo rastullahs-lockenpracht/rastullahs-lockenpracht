@@ -349,6 +349,14 @@ namespace rl
              *  @throws InvalidArgumentException Das Talent konnte in \c mTalente
              *   nicht gefunden werden.
              */
+
+            /**
+                  * Gibt true zurueck, falls das Talent \a talentName \a gefunden wurde
+              * @param talentName Bezeichnet das Talent
+              * @param checkAusweichTalente Gibt an, ob ebenfalls nach Ausweichtalenten gesucht werden soll
+            */
+            bool hasTalent(const CeGuiString talentName, bool checkAusweichTalente = true);
+
             virtual int getTalent(const CeGuiString talentName);
             /**
                    *  Setzt den Wert des Talents \a talentName.

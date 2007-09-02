@@ -681,6 +681,7 @@ namespace rl {
 
         
         void addTalent(const rl::CeGuiString talentName, int value=0);
+        bool hasTalent(const rl::CeGuiString talentName, bool checkAusweichTalente = true);
         virtual int getTalent(const rl::CeGuiString talentName);
         virtual void setTalent(const rl::CeGuiString talentName, int value);
         virtual void modifyTalent(const rl::CeGuiString talentName, int mod);
