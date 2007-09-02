@@ -67,6 +67,8 @@ namespace rl
         for(it = gos.begin(); it != gos.end(); it++)
         {
             DOMElement* gameobject = XmlHelper::appendChildElement(mDocument, gameobjects, "gameobject");
+            XmlHelper::setAttributeValueAsInteger(gameobject, "ID", (*it)->getId());
+            XmlHelper::setAttributeValueAsString(gameobject, "ClassID", (*it)->getClassId());
 
             PropertyMap map = (*it)->getAllProperties()->toPropertyMap();
             PropertyMap::iterator it2;
