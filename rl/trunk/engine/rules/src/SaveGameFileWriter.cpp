@@ -28,6 +28,8 @@
 #include <OgreResourceManager.h>
 #include <CEGUIPropertyHelper.h>
 
+#include <ctime>
+
 using namespace XERCES_CPP_NAMESPACE;
 using namespace Ogre;
 
@@ -53,6 +55,23 @@ namespace rl
 
         if (mWriter->canSetFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true))
              mWriter->setFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true);
+
+        //Write date and time
+        DOMElement* timeNode = XmlHelper::appendChildElement(mDocument, mDocument->getDocumentElement(), "time");
+        
+        time_t rawtime;
+        tm* timeinfo;
+
+        time ( &rawtime );
+        timeinfo = localtime ( &rawtime );
+
+        XmlHelper::setAttributeValueAsInteger(timeNode, "day", timeinfo->tm_mday);
+        XmlHelper::setAttributeValueAsInteger(timeNode, "month", timeinfo->tm_mon);
+        XmlHelper::setAttributeValueAsInteger(timeNode, "year", timeinfo->tm_year+1900);
+
+        XmlHelper::setAttributeValueAsInteger(timeNode, "hour", timeinfo->tm_hour);
+        XmlHelper::setAttributeValueAsInteger(timeNode, "minute", timeinfo->tm_min);
+        XmlHelper::setAttributeValueAsInteger(timeNode, "second", timeinfo->tm_sec);
 
         //Write globals
         DOMElement* globals = XmlHelper::appendChildElement(mDocument, mDocument->getDocumentElement(), "globals");
