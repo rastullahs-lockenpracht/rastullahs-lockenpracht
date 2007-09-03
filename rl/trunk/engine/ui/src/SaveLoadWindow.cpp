@@ -28,12 +28,14 @@
 #include <GameObjectManager.h>
 #include <GameObject.h>
 #include <Actor.h>
+#include <OgreResourceGroupManager.h>
 
 #include "SaveLoadWindow.h"
 #include "SaveGameFile.h"
 #include "SaveGameFileWriter.h"
 #include "CoreSubsystem.h"
 #include "ContentModule.h"
+#include "ConfigurationManager.h"
 
 using namespace CEGUI;
 
@@ -42,11 +44,13 @@ namespace rl {
     //------------------------------------------------------- Constructor
 
     SaveLoadWindow::SaveLoadWindow() :
-        AbstractWindow("saveloadwindow.xml", WIT_MOUSE_INPUT)
+        AbstractWindow("saveloadwindow.xml", WIT_MOUSE_INPUT | WIT_KEYBOARD_INPUT)
     {
         // Get a access to the filename edit box
         mFilename = getEditbox("SaveLoadWindow/FileSheet/Filename");
-        RlAssert(mFilename != NULL, "SaveLoadWindow/FileSheet/File is null");
+        RlAssert(mFilename != NULL, "SaveLoadWindow/FileSheet/Filename is null");
+
+        mFilename->activate();
 
         // Get a access to the savegame table
         mSaveGameTable = getMultiColumnList("SaveLoadWindow/FileSheet/SaveGameTable");
@@ -95,6 +99,7 @@ namespace rl {
     {
         //mSaveGameTable->autoSizeColumnHeader(0);
         //mSaveGameTable->autoSizeColumnHeader(1);
+        listSaveGames();
     }
 
     //------------------------------------------------------- LoadEvent
@@ -131,6 +136,8 @@ namespace rl {
 
         LOG_MESSAGE(Logger::UI, "Created save game");
 
+        listSaveGames();
+
         return true;
     }
 
@@ -140,6 +147,30 @@ namespace rl {
     {
         LOG_MESSAGE(Logger::UI, "Delete Button pressed");
         return true;
+    }
+
+    void SaveLoadWindow::listSaveGames()
+    {
+        Ogre::ResourceGroupManager::getSingleton().createResourceGroup("SaveGames");
+        Ogre::ResourceGroupManager::getSingleton().addResourceLocation(ConfigurationManager::getSingleton().getModulesRootDirectory() + Ogre::String("/")
+            + Ogre::String(CoreSubsystem::getSingleton().getActiveAdventureModule()->getName().c_str()) + Ogre::String("/saves"), "FileSystem", "SaveGames");
+        Ogre::StringVectorPtr saveGames = Ogre::ResourceGroupManager::getSingleton().listResourceNames("SaveGames");
+        Ogre::StringVector::iterator it;
+        
+        while(mSaveGameTable->getRowCount() > saveGames->size())
+		    mSaveGameTable->removeRow(mSaveGameTable->getRowCount()-1);
+        while(mSaveGameTable->getRowCount() < saveGames->size())
+		    mSaveGameTable->addRow();
+        
+        int saveGameNum = 0;
+
+        for(it = saveGames->begin(); it != saveGames->end(); it++)
+        {
+            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->data()), 0, saveGameNum);
+            saveGameNum++;
+        }
+
+        Ogre::ResourceGroupManager::getSingleton().destroyResourceGroup("SaveGames");
     }
 
 } // namespace rl
