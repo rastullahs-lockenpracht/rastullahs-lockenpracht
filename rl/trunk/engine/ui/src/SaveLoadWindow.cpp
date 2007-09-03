@@ -119,7 +119,6 @@ namespace rl {
         LOG_MESSAGE(Logger::UI, "Create a SaveGameFile");
 
         SaveGameFile saveGameFile(mFilename->getText());
-        saveGameFile.setModulName(CoreSubsystem::getSingleton().getActiveAdventureModule()->getName());
 
         /*std::list<const GameObject*>::const_iterator it;
         std::list<const GameObject*> gos;
@@ -152,8 +151,8 @@ namespace rl {
     void SaveLoadWindow::listSaveGames()
     {
         Ogre::ResourceGroupManager::getSingleton().createResourceGroup("SaveGames");
-        Ogre::ResourceGroupManager::getSingleton().addResourceLocation(ConfigurationManager::getSingleton().getModulesRootDirectory() + Ogre::String("/")
-            + Ogre::String(CoreSubsystem::getSingleton().getActiveAdventureModule()->getName().c_str()) + Ogre::String("/saves"), "FileSystem", "SaveGames");
+        Ogre::ResourceGroupManager::getSingleton().addResourceLocation(ConfigurationManager::getSingleton().getModulesRootDirectory() + "/"
+            + Ogre::String(CoreSubsystem::getSingleton().getActiveAdventureModule()->getName().c_str()) + "/saves", "FileSystem", "SaveGames");
         Ogre::StringVectorPtr saveGames = Ogre::ResourceGroupManager::getSingleton().listResourceNames("SaveGames");
         Ogre::StringVector::iterator it;
         

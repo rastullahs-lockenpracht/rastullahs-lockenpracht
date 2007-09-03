@@ -20,6 +20,10 @@
 #include "OgreString.h"
 #include <xercesc/framework/LocalFileFormatTarget.hpp>
 
+#include <ConfigurationManager.h>
+#include <CoreSubsystem.h>
+#include <ContentModule.h>
+
 namespace rl
 {
 
@@ -32,14 +36,10 @@ namespace rl
     {
     }
 
-    void SaveGameFile::setModulName(const CeGuiString &modulName)
-    {
-        mModulName = modulName;
-    }
-
     CeGuiString SaveGameFile::buildFilename()
     {
-        return "modules/" + mModulName + "/saves/" + mName + ".save";
+        return ConfigurationManager::getSingleton().getModulesRootDirectory() + "/" 
+            + CoreSubsystem::getSingleton().getActiveAdventureModule()->getName() + "/saves/" + mName + ".save";
     }
 
     CeGuiString SaveGameFile::getName()
@@ -47,16 +47,20 @@ namespace rl
         return mName;
     }
 
-    Ogre::DataStreamPtr SaveGameFile::load()
+    Ogre::DataStreamPtr SaveGameFile::getDataStream()
     {
         ///@todo: decryption
         return Ogre::DataStreamPtr( new Ogre::FileHandleDataStream(fopen(this->buildFilename().c_str(), "r")));
     }
 
-    XERCES_CPP_NAMESPACE::XMLFormatTarget* SaveGameFile::save()
+    XERCES_CPP_NAMESPACE::XMLFormatTarget* SaveGameFile::getFormatTarget()
     {
         ///@todo: encryption
         return new XERCES_CPP_NAMESPACE::LocalFileFormatTarget(this->buildFilename().c_str());
     }
 
+    bool SaveGameFile::saveGameExists()
+    {
+        return !Ogre::DataStreamPtr( new Ogre::FileHandleDataStream(fopen(this->buildFilename().c_str(), "r"))).isNull();
+    }
 }

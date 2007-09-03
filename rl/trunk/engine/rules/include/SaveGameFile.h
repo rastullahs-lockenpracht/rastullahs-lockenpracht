@@ -29,14 +29,13 @@ namespace rl
     public:
         SaveGameFile(const CeGuiString &name);
         ~SaveGameFile();
-        void setModulName(const CeGuiString &modulName);
         CeGuiString buildFilename();
         CeGuiString getName();
+        bool saveGameExists();
 
-        Ogre::DataStreamPtr load();
-        XERCES_CPP_NAMESPACE::XMLFormatTarget* save();
+        Ogre::DataStreamPtr getDataStream();
+        XERCES_CPP_NAMESPACE::XMLFormatTarget* getFormatTarget();
     protected:
-        CeGuiString mModulName;
         CeGuiString mName;
     };
 }

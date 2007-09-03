@@ -44,7 +44,7 @@ namespace rl
         XMLString::transcode("LS", tempStr, 99);
         mImplementation = DOMImplementationRegistry::getDOMImplementation(tempStr);
         mWriter = ((DOMImplementationLS*)mImplementation)->createDOMWriter();
-        mTarget = file->save();
+        mTarget = file->getFormatTarget();
         mDocument = ((DOMImplementation*)mImplementation)->createDocument(0, XMLString::transcode("SaveGameFile"), 0);
         mDocument->setNodeValue(XMLString::transcode("SaveGameFile"));
 
