@@ -22,6 +22,7 @@
 
 #include "RubyInterpreter.h"
 #include "ListboxWrappedTextItem.h"
+#include "InputManager.h"
 #include "CoreSubsystem.h"
 
 using namespace Ogre;
@@ -91,6 +92,10 @@ namespace rl
 			mCommandLine->setText((utf8*)"");
 			return true;
 		}
+        InputManager* im = InputManager::getSingletonPtr();
+        static const CEGUI::utf8 NO_CHAR = 0;
+        if( im->getKeyChar(ke.scancode, im->getModifierCode()) != NO_CHAR )
+            return true;
 
 		return false;
 	}
