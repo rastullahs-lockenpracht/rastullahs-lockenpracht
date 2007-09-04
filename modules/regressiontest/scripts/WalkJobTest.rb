@@ -7,7 +7,7 @@ class WalkJobTest < TestCase
 	walkingCreature.setPosition(getCenter())
 	walkingCreature.modifyAu(1000)
 
-    creatureController = CreatureController.new(walkingCreature)
+    creatureController = CreatureControllerManager.getSingleton().getCreatureController(walkingCreature)
 
     job = CreatureWalkPathJob.new("WalkJobTest", creatureController, Landmark.new("point", [5.0, 0.0, -10.0]))
     job.addLandmark("1",[5.0,0.0,-20.0])
