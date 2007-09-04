@@ -17,6 +17,7 @@
 
 #include "FreeflightControlState.h"
 
+#include "AbstractWindow.h"
 #include "CoreSubsystem.h"
 #include "ConfigurationManager.h"
 #include "Exception.h"
@@ -27,6 +28,8 @@
 #include "InputManager.h"
 #include "CommandMapper.h"
 #include "MeshObject.h"
+#include "WindowManager.h"
+#include "Person.h"
 
 #include <OgreSceneManager.h>
 
@@ -219,12 +222,8 @@ namespace rl {
 
     bool FreeflightControlState::keyPressed(const OIS::KeyEvent& evt)
 	{
-        // CEGUI is handled by base class, so hand it down if necessary.
-        if( sendKeyToCeGui(evt) )
-        {
-            mCurrentMovementState = MOVE_NONE;
-            return ControlState::keyPressed(evt);
-        }
+        if( ControlState::keyPressed(evt) )
+            return true;
 
         int movement = mCommandMapper->getMovement(evt.key);
 
@@ -239,40 +238,54 @@ namespace rl {
 
     bool FreeflightControlState::keyReleased(const OIS::KeyEvent& evt)
 	{
-        // CEGUI is handled by base class, so hand it down if necessary.
-        if( sendKeyToCeGui(evt) )
+        // this should be the same as in ControlState::keyReleased!
+        InputManager* im = InputManager::getSingletonPtr();
+        if ( WindowManager::getSingleton().getWindowInputMask()
+            & AbstractWindow::WIT_KEYBOARD_INPUT )
         {
-            mCurrentMovementState = MOVE_NONE;
-            return ControlState::keyReleased(evt);
+            bool retval;
+            CEGUI::System& cegui = CEGUI::System::getSingleton();
+            retval = cegui.injectKeyUp(evt.key);
+            if( !retval )
+                retval = cegui.injectChar(im->getKeyChar(evt.key, im->getModifierCode()));
+            
+            if( retval )
+                return true;
         }
 
-        int movement = mCommandMapper->getMovement(evt.key);
 
+        int code = CommandMapper::encodeKey(evt.key, im->getModifierCode());
+        // First see, if a control state action is defined
+	    CeGuiString command = mCommandMapper->getControlStateAction(code, mType);
+        if (command == "")
+        {
+            // No. So try global actions.
+            command = mCommandMapper->getGlobalAction(code);
+        }
+        if (command == "back_to_character_movement")
+        {
+            InputManager::getSingleton().popControlState();
+            return true;
+        }
+        if (command == "toggle_camera_collision")
+        {
+            toggleCameraCollision();
+            return true;
+        }
+        if( startAction(command, mCharacter) )
+            return true;
+
+
+
+
+        int movement = mCommandMapper->getMovement(evt.key);
 		if (movement != MOVE_NONE)
 		{
 			mCurrentMovementState &= ~movement;
 			return true;
 		}
-        else
-        {
-            InputManager* im = InputManager::getSingletonPtr();
-            int keycode = CommandMapper::encodeKey(evt.key, im->getModifierCode());
-            CeGuiString command = mCommandMapper->getControlStateAction(keycode, CST_FREEFLIGHT);
-            if (command == "back_to_character_movement")
-            {
-                InputManager::getSingleton().popControlState();
-                return true;
-            }
-            if (command == "toggle_camera_collision")
-            {
-                toggleCameraCollision();
-                return true;
-            }
-            else
-            {
-                return ControlState::keyReleased(evt);
-            }
-        }
+
+        return false;
 	}
 
     int FreeflightControlState::userProcess()

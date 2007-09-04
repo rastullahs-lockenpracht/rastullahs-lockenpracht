@@ -52,6 +52,7 @@
 #include "WindowFactory.h"
 #include "AnimationManager.h"
 #include "UiSubsystem.h"
+#include "WindowManager.h"
 
 #include <numeric>
 
@@ -1265,72 +1266,77 @@ namespace rl {
     //------------------------------------------------------------------------
     bool MovementControlState::keyPressed(const OIS::KeyEvent& evt)
     {
-        // CEGUI is handled by base class, so hand it down if necessary.
-        if( sendKeyToCeGui(evt) )
-        {
-            mCharacterState.mCurrentMovementState = MOVE_NONE |
-                (mCharacterState.mCurrentMovementState & MOVE_RUN_LOCK);
-            return ControlState::keyPressed(evt);
-        }
+        if( ControlState::keyPressed(evt) )
+            return true;
 
         int movement = mCommandMapper->getMovement(evt.key);
 
+        bool retval = false;
         if (movement & MOVE_RUN_LOCK) // dieses einrasten lassen
         {
             mCharacterState.mCurrentMovementState ^= MOVE_RUN_LOCK;
             movement &= ~MOVE_RUN_LOCK;
+            retval = true;
         }
         if (movement != MOVE_NONE)
         {
             mCharacterState.mCurrentMovementState |= movement;
-            return true;
+            retval = true;
         }
-        return false;
+        return retval;
     }
 
     //------------------------------------------------------------------------
     bool MovementControlState::keyReleased(const OIS::KeyEvent& evt)
     {
-        // CEGUI is handled by base class, so hand it down if necessary.
-        if( sendKeyToCeGui(evt) )
+        // this should be the same as in ControlState::keyReleased!
+        InputManager* im = InputManager::getSingletonPtr();
+        if ( WindowManager::getSingleton().getWindowInputMask()
+            & AbstractWindow::WIT_KEYBOARD_INPUT )
         {
-            mCharacterState.mCurrentMovementState = MOVE_NONE |
-                (mCharacterState.mCurrentMovementState & MOVE_RUN_LOCK);
-            return ControlState::keyReleased(evt);
+            bool retval;
+            CEGUI::System& cegui = CEGUI::System::getSingleton();
+            retval = cegui.injectKeyUp(evt.key);
+            if( !retval )
+                retval = cegui.injectChar(im->getKeyChar(evt.key, im->getModifierCode()));
+            
+            if( retval )
+                return true;
         }
 
-        int movement = mCommandMapper->getMovement(evt.key);
 
+        int code = CommandMapper::encodeKey(evt.key, im->getModifierCode());
+        // First see, if a control state action is defined
+	    CeGuiString command = mCommandMapper->getControlStateAction(code, mType);
+        if (command == "")
+        {
+            // No. So try global actions.
+            command = mCommandMapper->getGlobalAction(code);
+        }
+        if (command == "freeflight_mode")
+        {
+            InputManager::getSingleton().pushControlState(CST_FREEFLIGHT);
+            return true;
+        }
+        if (command == "reset_camera")
+        {
+            resetCamera();
+            return true;
+        }
+        if (command == "toggle_view_mode")
+        {
+            toggleViewMode();
+            return true;
+        }
+        if( startAction(command, mCharacter) )
+            return true;
+
+
+        int movement = mCommandMapper->getMovement(evt.key);
         if (movement != MOVE_NONE)
         {
             mCharacterState.mCurrentMovementState &= (~movement | MOVE_RUN_LOCK);
             return true;
-        }
-        else
-        {
-            InputManager* im = InputManager::getSingletonPtr();
-            int keycode = CommandMapper::encodeKey(evt.key, im->getModifierCode());
-            CeGuiString command = mCommandMapper->getControlStateAction(keycode, CST_MOVEMENT);
-            if (command == "freeflight_mode")
-            {
-                InputManager::getSingleton().pushControlState(CST_FREEFLIGHT);
-                return true;
-            }
-            else if (command == "reset_camera")
-            {
-                resetCamera();
-                return true;
-            }
-            else if (command == "toggle_view_mode")
-            {
-                toggleViewMode();
-                return true;
-            }
-            else
-            {
-                // Nothing we handle here, see if base class can make something of this input.
-                return ControlState::keyReleased(evt);
-            }
         }
 
         return false;
@@ -1340,17 +1346,14 @@ namespace rl {
     bool MovementControlState::mouseReleased(const OIS::MouseEvent& evt,
         OIS::MouseButtonID id)
     {
-        if (!isCeguiActive())
-        {
-            InputManager* im = InputManager::getSingletonPtr();
-            int mouseButtonMask = CommandMapper::encodeKey(id, im->getModifierCode());
-            return startAction(mCommandMapper->getControlStateAction(mouseButtonMask,
-                CST_MOVEMENT), mCharacter);
-        }
-        else
-        {
-            return ControlState::mouseReleased(evt, id);
-        }
+        if( ControlState::mouseReleased(evt, id) )
+            return true;
+
+
+        InputManager* im = InputManager::getSingletonPtr();
+        int mouseButtonMask = CommandMapper::encodeKey(id, im->getModifierCode());
+        return startAction(mCommandMapper->getControlStateAction(mouseButtonMask,
+            CST_MOVEMENT), mCharacter);
     }
 
     //------------------------------------------------------------------------

@@ -319,6 +319,8 @@ namespace rl {
     bool DialogControlState::mouseReleased(const OIS::MouseEvent& evt,
         OIS::MouseButtonID id)
     {
+        if( ControlState::mouseReleased(evt, id) )
+            return true;
 
         if (mTextShown && (mCurrFadeTextTime + 0.25) < mTotalFadeTextTime)
         {

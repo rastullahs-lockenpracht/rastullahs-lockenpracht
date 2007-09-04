@@ -134,100 +134,101 @@ namespace rl {
     {
         if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT)
         {
-            CEGUI::System::getSingleton().injectMouseButtonDown(
+            bool retval = CEGUI::System::getSingleton().injectMouseButtonDown(
                 static_cast<CEGUI::MouseButton>(id));
-            return true;
+            return retval;
         }
-        else
-        {
-            return false;
-        }
+        
+        return false;
     }
 
     bool ControlState::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
     {
         if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT)
         {
-            CEGUI::System::getSingleton().injectMouseButtonUp(static_cast<CEGUI::MouseButton>(id));
-            return true;
+            bool retval = CEGUI::System::getSingleton().injectMouseButtonUp(static_cast<CEGUI::MouseButton>(id));
+            return retval;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     bool ControlState::mouseMoved(const OIS::MouseEvent& evt)
     {
         if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT)
         {
-            CEGUI::Renderer* renderer = CEGUI::System::getSingleton().getRenderer();
-            CEGUI::System::getSingleton().injectMouseMove(evt.state.X.rel, evt.state.Y.rel);
+            bool retval;
+            //CEGUI::Renderer* renderer = CEGUI::System::getSingleton().getRenderer();
+            retval = CEGUI::System::getSingleton().injectMouseMove(evt.state.X.rel, evt.state.Y.rel);
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     bool ControlState::keyPressed(const OIS::KeyEvent& evt)
     {
         InputManager* im = InputManager::getSingletonPtr();
 
-        if (sendKeyToCeGui(evt))
+        if ( WindowManager::getSingleton().getWindowInputMask()
+            & AbstractWindow::WIT_KEYBOARD_INPUT )
         {
+            bool retval;
             CEGUI::System& cegui = CEGUI::System::getSingleton();
-            cegui.injectKeyDown(evt.key);
-            return true;
+            retval = cegui.injectKeyDown(evt.key);
+            return retval;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     bool ControlState::keyReleased(const OIS::KeyEvent& evt)
     {
         InputManager* im = InputManager::getSingletonPtr();
 
-        if (sendKeyToCeGui(evt))
+        if ( WindowManager::getSingleton().getWindowInputMask()
+            & AbstractWindow::WIT_KEYBOARD_INPUT )
         {
+            bool retval;
             CEGUI::System& cegui = CEGUI::System::getSingleton();
-            cegui.injectKeyUp(evt.key);
-            cegui.injectChar(im->getKeyChar(evt.key, im->getModifierCode()));
-            return true;
+            retval = cegui.injectKeyUp(evt.key);
+            if( !retval )
+                retval = cegui.injectChar(im->getKeyChar(evt.key, im->getModifierCode()));
+            
+            if( retval )
+                return true;
         }
-        else
-        {
-            int code = CommandMapper::encodeKey(evt.key, im->getModifierCode());
 
-            // First see, if a control state action is defined
-		    CeGuiString action = mCommandMapper->getControlStateAction(code, mType);
-            if (action == "")
-            {
-                // No. So try global actions.
-                action = mCommandMapper->getGlobalAction(code);
-            }
-            return startAction(action, mCharacter);
+        int code = CommandMapper::encodeKey(evt.key, im->getModifierCode());
+
+        // First see, if a control state action is defined
+	    CeGuiString action = mCommandMapper->getControlStateAction(code, mType);
+        if (action == "")
+        {
+            // No. So try global actions.
+            action = mCommandMapper->getGlobalAction(code);
         }
+        return startAction(action, mCharacter);
+
     }
 
     bool ControlState::isCeguiActive() const
     {
         return WindowManager::getSingleton().getWindowInputMask() != 0;
     }
-
+/*
     bool ControlState::sendKeyToCeGui(const OIS::KeyEvent& evt) const
     {
         InputManager* im = InputManager::getSingletonPtr();
 
         // Wenn kein Fenster mit Tastatureingabe aktiv ist, kriegt CEGUI keine KeyEvents
         if ((WindowManager::getSingleton().getWindowInputMask()
-            & AbstractWindow::WIT_KEYBOARD_INPUT) == 0)
+            & AbstractWindow::WIT_KEYBOARD_INPUT) )
         {
-            return false;
+            return true;
         }
+
+        return false;
 
         // ---- Tastatureingabe gefordert ----
 
@@ -250,4 +251,5 @@ namespace rl {
 
         return false;
     }
+*/
 }

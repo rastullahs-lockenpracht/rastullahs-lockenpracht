@@ -508,7 +508,7 @@ namespace rl {
             action = InputManager::getSingleton().getControlState()
                         ->getCommandMapper()->getGlobalAction(kevt.scancode);
         }
-        if( action == "inventoryshowworldobjects" )
+        if( action == "inventoryshowworldobjects" )  // we only handle this action here
 		{
 			if (down)
 			{
@@ -564,14 +564,6 @@ namespace rl {
 
 			return true;
 		}
-        else if(!down)
-        {
-            InputManager::getSingleton().getControlState()->startAction(
-                action,
-                mInventory->getOwner()
-                );
-            return true;
-        }
 
 		return false;
 	}
