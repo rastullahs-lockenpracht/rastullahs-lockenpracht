@@ -16,14 +16,17 @@
 
 #include "stdinc.h"
 
+#include "SaveGameFileWriter.h"
+
 #include <XmlHelper.h>
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/dom/DOMAttr.hpp>
 #include <xercesc/dom/DOMElement.hpp>
 #include <Properties.h>
 
-#include "SaveGameFileWriter.h"
-#include <GameObjectManager.h>
+#include "GameObjectManager.h"
+#include "QuestBook.h"
+#include "RulesSubsystem.h"
 
 #include <OgreResourceManager.h>
 #include <CEGUIPropertyHelper.h>
@@ -76,24 +79,34 @@ namespace rl
         //Write globals
         DOMElement* globals = XmlHelper::appendChildElement(mDocument, mDocument->getDocumentElement(), "globals");
 
+        //Write Quests
+        DOMElement* quests = XmlHelper::appendChildElement(mDocument, mDocument->getDocumentElement(), "quests");
+        QuestBook* questBook = RulesSubsystem::getSingleton().getQuestBook();
+        PropertySet* set = questBook->getAllProperties();
+        PropertySetMap::const_iterator it_quests;
+        for(it_quests = set->begin(); it_quests != set->end(); it_quests++)
+        {
+            this->processProperty(quests, PropertyEntry(it_quests->first.c_str(), it_quests->second));
+        }
+
         //Write game objects
         DOMElement* gameobjects = XmlHelper::appendChildElement(mDocument, mDocument->getDocumentElement(), "gameobjects");
         
-        std::list<const GameObject*>::const_iterator it;
+        std::list<const GameObject*>::const_iterator it_gameobjects;
         std::list<const GameObject*> gos;
         gos = GameObjectManager::getSingleton().getAllGameObjects();
 
-        for(it = gos.begin(); it != gos.end(); it++)
+        for(it_gameobjects = gos.begin(); it_gameobjects != gos.end(); it_gameobjects++)
         {
             DOMElement* gameobject = XmlHelper::appendChildElement(mDocument, gameobjects, "gameobject");
-            XmlHelper::setAttributeValueAsInteger(gameobject, "ID", (*it)->getId());
-            XmlHelper::setAttributeValueAsString(gameobject, "ClassID", (*it)->getClassId());
+            XmlHelper::setAttributeValueAsInteger(gameobject, "ID", (*it_gameobjects)->getId());
+            XmlHelper::setAttributeValueAsString(gameobject, "ClassID", (*it_gameobjects)->getClassId());
 
-            PropertyMap map = (*it)->getAllProperties()->toPropertyMap();
-            PropertyMap::iterator it2;
-            for(it2 = map.begin(); it2 != map.end(); it2++)
+            PropertyMap map = (*it_gameobjects)->getAllProperties()->toPropertyMap();
+            PropertyMap::iterator it_properties;
+            for(it_properties = map.begin(); it_properties != map.end(); it_properties++)
             {
-                this->processProperty(gameobject, PropertyEntry(it2->first.c_str(), it2->second));
+                this->processProperty(gameobject, PropertyEntry(it_properties->first.c_str(), it_properties->second));
             }
         }        
 

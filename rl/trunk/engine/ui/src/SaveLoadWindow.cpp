@@ -152,7 +152,7 @@ namespace rl {
     {
         Ogre::ResourceGroupManager::getSingleton().createResourceGroup("SaveGames");
         Ogre::ResourceGroupManager::getSingleton().addResourceLocation(ConfigurationManager::getSingleton().getModulesRootDirectory() + "/"
-            + Ogre::String(CoreSubsystem::getSingleton().getActiveAdventureModule()->getName().c_str()) + "/saves", "FileSystem", "SaveGames");
+            + Ogre::String(CoreSubsystem::getSingleton().getActiveAdventureModule()->getId().c_str()) + "/saves", "FileSystem", "SaveGames");
         Ogre::StringVectorPtr saveGames = Ogre::ResourceGroupManager::getSingleton().listResourceNames("SaveGames");
         Ogre::StringVector::iterator it;
         

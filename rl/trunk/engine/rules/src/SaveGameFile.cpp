@@ -39,7 +39,7 @@ namespace rl
     CeGuiString SaveGameFile::buildFilename()
     {
         return ConfigurationManager::getSingleton().getModulesRootDirectory() + "/" 
-            + CoreSubsystem::getSingleton().getActiveAdventureModule()->getName() + "/saves/" + mName + ".save";
+            + CoreSubsystem::getSingleton().getActiveAdventureModule()->getId() + "/saves/" + mName + ".save";
     }
 
     CeGuiString SaveGameFile::getName()
