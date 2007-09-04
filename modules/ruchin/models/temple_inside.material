@@ -5,10 +5,7 @@ material temple_inside
 	{
 		pass
 		{
-			lighting off
-			ambient 0.0 0.0 0.0 1
-			diffuse 0.533333 0.533333 0.533333 1
-
+			ambient 0.5 0.5 0.5 1
 
 			texture_unit
 			{

@@ -188,26 +188,80 @@
 		
 		
 		
-		
-		<light name="red pointlight" type="point" visible="false"
+		<light name="templeLight1" type="point" visible="false"
 			castShadows="false">
-			<position x="65.2876" y="6.02141" z="-66.9458" />
-			<colourDiffuse r="1" g="0" b="0" />
-			<colourSpecular r="1" g="0" b="0" />
-			<lightAttenuation range="20.0" constant="1.0" linear="0.1"
+			<position x="123.291" y="3.02" z="-22.166" />
+			<colourDiffuse r="0.8" g="0.8" b="0.5" />
+			<colourSpecular r="0.8" g="0.8" b="0.5" />
+			<lightAttenuation range="5" constant="1.0" linear="0.1"
 				quadratic="0.1" />
-		</light>	
-		
-		<light name="green spotlight" type="spot" visible="false"
-			castShadows="false">
-			<position x="65.2876" y="6.02141" z="-66.9458" />
-			<colourDiffuse r="0" g="1" b="0" />
-			<colourSpecular r="0" g="1" b="0" />
-			<lightAttenuation range="20.0" constant="1.0" linear="0.1"
-				quadratic="0.1" />
-			<spotlightrange inner="10" outer="20" falloff="1" />
-			<direction x="0" y="-1" z="0.5" />
 		</light>
+		<light name="templeLight2" type="point" visible="false"
+			castShadows="false">
+			<position x="123.291" y="3.02" z="-18.952" />
+			<colourDiffuse r="0.8" g="0.8" b="0.5" />
+			<colourSpecular r="0.8" g="0.8" b="0.5" />
+			<lightAttenuation range="5" constant="1.0" linear="0.1"
+				quadratic="0.1" />
+		</light>		
+		
+		<light name="Ruchin_l_Light1" type="point" visible="false"
+			castShadows="false">
+			<position x="77.001" y="2.353" z="-57.601" />
+			<colourDiffuse r="0.8" g="0.8" b="0.5" />
+			<colourSpecular r="0.8" g="0.8" b="0.5" />
+			<lightAttenuation range="10" constant="1.0" linear="0.1"
+				quadratic="0.2" />
+		</light>
+		<light name="Ruchin_l_Light2" type="point" visible="false"
+			castShadows="false">
+			<position x="69.205" y="2.304" z="-41.19" />
+			<colourDiffuse r="0.8" g="0.8" b="0.5" />
+			<colourSpecular r="0.8" g="0.8" b="0.5" />
+			<lightAttenuation range="10" constant="1.0" linear="0.2"
+				quadratic="0.4" />
+		</light>
+		<light name="Ruchin_l_Light3" type="point" visible="false"
+			castShadows="false">
+			<position x="67.586" y="2.304" z="-48.682" />
+			<colourDiffuse r="0.8" g="0.8" b="0.5" />
+			<colourSpecular r="0.8" g="0.8" b="0.5" />
+			<lightAttenuation range="10" constant="1.0" linear="0.2"
+				quadratic="0.4" />
+		</light>
+		<light name="Ruchin_l_Light4" type="point" visible="false"
+			castShadows="false">
+			<position x="59.405" y="4.778" z="-54.343" />
+			<colourDiffuse r="0.8" g="0.8" b="0.5" />
+			<colourSpecular r="0.8" g="0.8" b="0.5" />
+			<lightAttenuation range="10" constant="1.0" linear="0.2"
+				quadratic="0.4" />
+		</light>
+		<light name="Ruchin_l_Light5" type="point" visible="false"
+			castShadows="false">
+			<position x="64.84" y="6.133" z="-53.722" />
+			<colourDiffuse r="0.8" g="0.8" b="0.5" />
+			<colourSpecular r="0.8" g="0.8" b="0.5" />
+			<lightAttenuation range="10" constant="1.0" linear="0.2"
+				quadratic="0.4" />
+		</light>
+		<light name="Ruchin_l_Light6" type="point" visible="false"
+			castShadows="false">
+			<position x="59.654" y="6.135" z="-49.188" />
+			<colourDiffuse r="0.8" g="0.8" b="0.5" />
+			<colourSpecular r="0.8" g="0.8" b="0.5" />
+			<lightAttenuation range="10" constant="1.0" linear="0.2"
+				quadratic="0.4" />
+		</light>
+		<light name="Ruchin_l_Light7" type="point" visible="false"
+			castShadows="false">
+			<position x="72.564" y="6.133" z="-42.606" />
+			<colourDiffuse r="0.8" g="0.8" b="0.5" />
+			<colourSpecular r="0.8" g="0.8" b="0.5" />
+			<lightAttenuation range="10" constant="1.0" linear="0.2"
+				quadratic="0.4" />
+		</light>
+		
 		<light name="sun" type="directional" visible="true" castShadows="true">
 			<colourDiffuse r="0.8" g="0.8" b="0.8" />
 			<colourSpecular r="0" g="0" b="1" />
@@ -218,14 +272,43 @@
 		<zone name="default">
 			<light name="sun"/>
 		</zone>
-		<zone name="Ruchin_innen">
-			<!-- we need areas like this: >
-			<area type="mesh" meshfile="name.mesh">
-				<position x="0" y="1" z="34"/>
-			</area -->
-			<light name="red pointlight"/>
-			<light name="green spotlight"/>
-			<sound name="lachen.ogg"/>
+		<zone name="temple_zone">
+			<area type="mesh" meshfile="temple_lightzone.mesh">
+				<position x="123.798" y="0" z="-20.5"/>
+			</area>
+			<light name="templeLight1"/>
+			<light name="templeLight2"/>
+		</zone>
+		<zone name="Ruchin_l_laden">
+			<area type="mesh" meshfile="Ruchin_l_innen_lightzone_laden.mesh">
+				<position x="73.014" y="0" z="-57.7"/>
+			</area>
+			<light name="Ruchin_l_Light1"/>
+		</zone>
+		
+		<zone name="Ruchin_l_unten">
+			<area type="mesh" meshfile="Ruchin_l_innen_lightzone_unten.mesh">
+				<position x="69.839" y="0" z="-48.335"/>
+			</area>
+			<light name="Ruchin_l_Light2"/>
+			<light name="Ruchin_l_Light3"/>
+			<light name="Ruchin_l_Light4"/>
+		</zone>
+		<zone name="Ruchin_l_mitte">
+			<area type="mesh" meshfile="Ruchin_l_innen_lightzone_mitte.mesh">
+				<position x="69.839" y="0" z="-48.335"/>
+			</area>
+			<light name="Ruchin_l_Light4"/>
+			<light name="Ruchin_l_Light5"/>
+			<light name="Ruchin_l_Light3"/>
+		</zone>
+		<zone name="Ruchin_l_oben">
+			<area type="mesh" meshfile="Ruchin_l_innen_lightzone_oben.mesh">
+				<position x="69.839" y="0" z="-48.335"/>
+			</area>
+			<light name="Ruchin_l_Light5"/>
+			<light name="Ruchin_l_Light6"/>
+			<light name="Ruchin_l_Light7"/>
 		</zone>
 	</zones>
 </rastullahmap>
