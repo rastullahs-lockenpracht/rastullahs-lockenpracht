@@ -86,6 +86,7 @@ namespace rl {
 
     void DialogControlState::pause()
     {
+        /*
         if (mDialogPartner)
         {
             MeshObject* mesh = dynamic_cast<MeshObject*>(mDialogPartner->getControlledObject());
@@ -98,8 +99,9 @@ namespace rl {
                 }
             }
         }
-        mCameraActor->getPhysicalThing()->unfreeze();
-        mCharacterActor->getPhysicalThing()->unfreeze();
+        */
+        //mCameraActor->getPhysicalThing()->unfreeze();
+        //mCharacterActor->getPhysicalThing()->unfreeze();
         mDialogWindow->setVisible(false, false);
         mSubtitleWindow->setVisible(false, false);
     }
@@ -108,8 +110,8 @@ namespace rl {
     {
         mCharacterActor->setVisible(true);
 
-        mCameraActor->getPhysicalThing()->freeze();
-        mCharacterActor->getPhysicalThing()->freeze();
+        //mCameraActor->getPhysicalThing()->freeze();
+        //mCharacterActor->getPhysicalThing()->freeze();
         Camera* ogreCam = static_cast<Camera*>(mCameraActor->_getMovableObject());
         ogreCam->setFixedYawAxis(true);
         ogreCam->setPosition(Vector3::ZERO);

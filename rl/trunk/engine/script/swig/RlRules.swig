@@ -731,7 +731,7 @@ namespace rl {
         virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
     };
         
-    %feature("director") ActionMananger;
+    %feature("director") ActionManager;
     class ActionManager
     {
     public:
@@ -747,7 +747,6 @@ namespace rl {
     class CreatureController
     {
     public:
-        CreatureController(Creature *character); 
         
         typedef enum
         {
@@ -770,7 +769,7 @@ namespace rl {
         } MovementType;
         
         Creature *getCreature();
-        bool setMovement(MovementType type, Ogre::Vector3 direction, Ogre::Vector3 rotation);
+        //bool setMovement(MovementType type, Ogre::Vector3 direction, Ogre::Vector3 rotation);
         MovementType getMovementId() const;
         Ogre::Vector3 getDirection() const;
         Ogre::Vector3 getRotation() const;
@@ -780,6 +779,23 @@ namespace rl {
                           Ogre::Real speed = 1, 
                           unsigned int timesToPlay = 0, 
                           const Ogre::String &collisionName = "");
+    protected:
+        CreatureController(Creature *character);
+        ~CreatureController();
+    };
+    
+    class CreatureControllerManager
+    {
+    public:
+        /// Returns a CreatureController that can be used to control given Creature.
+        /// There is only one controller per Creature at a given time.
+        /// If no such controller exists yet, it is created.
+        rl::CreatureController* getCreatureController(rl::Creature* creature);
+
+        /// This function detaches a controller attached to the given Creature, if any.
+        void detachController(rl::Creature* creature);
+
+        static rl::CreatureControllerManager& getSingleton();
     };
 
 	// Before first use of Selector or subclasses!

@@ -115,7 +115,7 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 
 
     // only process if mMovingCreature not NULL
-    if (mController == NULL)
+    if (mController == NULL || mCreature->getQueryFlags() & QUERYFLAG_PLAYER)
     {
         mCurrentForce = Vector3::ZERO;
         return;

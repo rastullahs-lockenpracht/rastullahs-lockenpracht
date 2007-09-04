@@ -24,6 +24,8 @@
 #include "Armor.h"
 #include "Container.h"
 #include "Creature.h"
+#include "CreatureController.h"
+#include "CreatureControllerManager.h"
 #include "Date.h"
 #include "DsaManager.h"
 #include "Effect.h"
@@ -50,5 +52,4 @@
 #include "TalentStateSet.h"
 #include "Tripel.h"
 #include "Weapon.h"
-#include "CreatureController.h"
 %}

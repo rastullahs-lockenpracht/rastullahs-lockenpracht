@@ -106,13 +106,16 @@ namespace rl
 
         mControllers.find(creature);
         ControllerMap::iterator it = mControllers.find(creature);
-        if (it == mControllers.end())
+        if (it != mControllers.end())
         {
             delete it->second;
             mControllers.erase(it);
         }
 
-        mBodyControllers.erase(creature->getActor()->getPhysicalThing()->_getBody());
+        BodyControllerMap::iterator it_ = mBodyControllers.find(
+            creature->getActor()->getPhysicalThing()->_getBody());
+        if( it_ != mBodyControllers.end() )
+            mBodyControllers.erase(it_);
     }
 
     void CreatureControllerManager::run(Real elapsedTime)
