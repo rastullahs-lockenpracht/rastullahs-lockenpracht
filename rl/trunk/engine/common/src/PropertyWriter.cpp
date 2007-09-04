@@ -46,42 +46,45 @@ namespace rl {
 
     DOMElement* XmlPropertyWriter::processProperty(DOMElement* parent, PropertyEntry entry)
     {
-        DOMElement* element;
-        if(entry.second.isArray())
+        DOMElement* element = NULL;
+        if(!entry.second.isEmpty())
         {
-            element = this->processPropertyArray(parent, entry.first.c_str(), entry.second.toArray());
-        }
-        else if(entry.second.isMap())
-        {
-            element = this->processPropertyMap(parent, entry.first.c_str(), entry.second.toMap());
-        }
-        else
-        {
-            element = XmlHelper::appendChildElement(mDocument, parent, "property");
-            if(entry.first != "")
-                XmlHelper::setAttribute(element, "name", entry.first.c_str());
+            if(entry.second.isArray())
+            {
+                element = this->processPropertyArray(parent, entry.first.c_str(), entry.second.toArray());
+            }
+            else if(entry.second.isMap())
+            {
+                element = this->processPropertyMap(parent, entry.first.c_str(), entry.second.toMap());
+            }
+            else
+            {
+                element = XmlHelper::appendChildElement(mDocument, parent, "property");
+                if(entry.first != "")
+                    XmlHelper::setAttribute(element, "name", entry.first.c_str());
 
-            //Ogre::String typeName = entry.second.getTypeName();
-            Ogre::String name = entry.second.getName();
-            Ogre::StringUtil::toUpperCase(name);
-            XmlHelper::setAttributeValueAsString(element, "type", name);
+                //Ogre::String typeName = entry.second.getTypeName();
+                Ogre::String name = entry.second.getName();
+                Ogre::StringUtil::toUpperCase(name);
+                XmlHelper::setAttributeValueAsString(element, "type", name);
 
-            if(entry.second.isBool())
-                XmlHelper::setAttributeValueAsBool(element, "data", entry.second.toBool());
-            else if(entry.second.isInt())
-                XmlHelper::setAttributeValueAsInteger(element, "data", entry.second.toInt());
-            else if(entry.second.isIntPair())
-                XmlHelper::setAttributeValueAsIntegerPair(element, "data", entry.second.toIntPair());
-            else if(entry.second.isIntPair())
-                XmlHelper::setAttributeValueAsIntegerTriple(element, "data", entry.second.toIntTriple());
-            else if(entry.second.isQuaternion())
-                XmlHelper::setValueAsQuaternion(element, entry.second.toQuaternion());
-            else if(entry.second.isReal())
-                XmlHelper::setAttributeValueAsReal(element, "data", entry.second.toReal());
-            else if(entry.second.isString())
-                XmlHelper::setAttributeValueAsString(element, "data", entry.second.toString());
-            else if(entry.second.isVector3())
-                XmlHelper::setValueAsVector3(element, entry.second.toVector3());
+                if(entry.second.isBool())
+                    XmlHelper::setAttributeValueAsBool(element, "data", entry.second.toBool());
+                else if(entry.second.isInt())
+                    XmlHelper::setAttributeValueAsInteger(element, "data", entry.second.toInt());
+                else if(entry.second.isIntPair())
+                    XmlHelper::setAttributeValueAsIntegerPair(element, "data", entry.second.toIntPair());
+                else if(entry.second.isIntPair())
+                    XmlHelper::setAttributeValueAsIntegerTriple(element, "data", entry.second.toIntTriple());
+                else if(entry.second.isQuaternion())
+                    XmlHelper::setValueAsQuaternion(element, entry.second.toQuaternion());
+                else if(entry.second.isReal())
+                    XmlHelper::setAttributeValueAsReal(element, "data", entry.second.toReal());
+                else if(entry.second.isString())
+                    XmlHelper::setAttributeValueAsString(element, "data", entry.second.toString());
+                else if(entry.second.isVector3())
+                    XmlHelper::setValueAsVector3(element, entry.second.toVector3());
+            }
         }
         return element;
     }

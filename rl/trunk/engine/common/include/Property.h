@@ -50,6 +50,7 @@ namespace rl {
     void setValue(Type value) \
     { \
         mValue = value; \
+        mName = #Name; \
     } \
     \
     Type to##Name() const \
