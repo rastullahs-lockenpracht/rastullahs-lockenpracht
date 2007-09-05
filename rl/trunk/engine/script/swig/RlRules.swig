@@ -644,6 +644,13 @@ namespace rl {
             ALIGNMENT_NEUTRAL, ///< Creature doesn't fight for either side.
             ALIGNMENT_ENEMY    ///< Creature fights against the player.
         };
+
+            enum SfStatus
+            {
+                SFSTATUS_IN_TRAINING = 1,
+                SFSTATUS_OK,
+                SFSTATUS_REQUIREMENTS_NOT_MET /// @todo Wird das ueberhaupt gebraucht?
+        };
         
 
         // some targets
@@ -691,6 +698,7 @@ namespace rl {
         void addNachteil(const rl::CeGuiString nachteilName, int value = 0);        
         
         void addKampftechnik(const rl::CeGuiString kampftechnikName, std::pair<int,int> value = make_pair(0,0));
+        virtual void addSf(const rl::CeGuiString sfName, SfStatus value = SFSTATUS_IN_TRAINING);
         
         virtual int doTalentprobe(const rl::CeGuiString talentName, int modifier);
         virtual int doEigenschaftsprobe(const rl::CeGuiString eigenschaftName, int modifier);

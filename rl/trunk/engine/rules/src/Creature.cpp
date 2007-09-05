@@ -389,6 +389,7 @@ namespace rl
 
     int Creature::getTalent(const CeGuiString talentName)
     {
+        LOG_DEBUG(Logger::RULES, "Using talent " + talentName);
         TalentMap::const_iterator it = mTalente.find(talentName);
         if (it == mTalente.end())
         {
@@ -567,7 +568,8 @@ namespace rl
 			Throw(IllegalArgumentException, "Sonderfertigkeit schon in mSonderfertigkeiten enthalten.");
 		}
 		//ueberpruefe ob es die Sonderfertigkeit ueberhaupt gib
-		DsaManager::getSingleton().getTalent(sfName);
+        /// @todo
+		//DsaManager::getSingleton().getSf(sfName);
 		mSonderfertigkeiten[sfName] = new SonderfertigkeitenStateSet();
 		mSonderfertigkeiten[sfName]->setOriginalValue( value );
 		fireObjectStateChangeEvent();

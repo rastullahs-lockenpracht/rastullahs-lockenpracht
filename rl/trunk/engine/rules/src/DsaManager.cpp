@@ -212,7 +212,8 @@ namespace rl
         }
         else
         {
-            Throw(IllegalArgumentException, "Talent nicht gefunden.");
+            CeGuiString errorMessage = "Talent " + talentName + " nicht gefunden.";
+            Throw(IllegalArgumentException, errorMessage.c_str());
         }
     }
 

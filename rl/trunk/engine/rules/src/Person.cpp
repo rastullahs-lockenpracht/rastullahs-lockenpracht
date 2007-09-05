@@ -26,6 +26,7 @@ namespace rl {
     {
         mQueryFlags |= QUERYFLAG_PERSON;
 		setWert(WERT_SOZIALSTATUS, 0);
+        setWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE, 5);
     }
 
 }

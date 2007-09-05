@@ -61,7 +61,7 @@ namespace rl
             return
                 mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
                 mMovingCreature->getCreature()->getAu() > 0 &&
-                !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_DEAD | Effect::STATUS_UNCONSCIOUS | Effect::STATUS_SLEEPING));
+                !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
         }
         virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep)
         {
@@ -730,20 +730,20 @@ namespace rl
 
             if( mMovingCreature->getCreature()->hasTalent("Athletik") )
             {
-                int taw = mMovingCreature->getCreature()->doTalentprobe("Athletik", 0);
-                if( taw > 0 )
+                int tap = mMovingCreature->getCreature()->doTalentprobe("Athletik", 0);
+                if( tap > 0 )
                 {
-                    if( taw == RESULT_SPEKT_AUTOERFOLG )
+                    if( tap == RESULT_SPEKT_AUTOERFOLG )
                     {
                         mHeight += mMovingCreature->getCreature()->getTalent("Athletik") / 12.5;
                     }
-                    else if( taw == RESULT_AUTOERFOLG )
+                    else if( tap == RESULT_AUTOERFOLG )
                     {
                         mHeight += mMovingCreature->getCreature()->getTalent("Athletik") / 25.0;
                     }
                     else
                     {
-                        mHeight += taw / 25.0;
+                        mHeight += tap / 25.0;
                     }
                 }
             }
