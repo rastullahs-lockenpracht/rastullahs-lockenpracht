@@ -16,7 +16,10 @@ class MCKHero < Person
         setEigenschaft("GE", 12);
         setEigenschaft("KO", 13); #KO
         setEigenschaft("KK", 14); #KK
-	setWert(Creature::WERT_MOD_LE, 10); # LE-Mod
+	setWert(WERT_MOD_LE, 10); # LE-Mod
+	setWert(WERT_MOD_AU, 11); # AU-Mod
+	setWert(WERT_MOD_MR, -4); # MR-Mod
+	setWert(WERT_SOZIALSTATUS, 5);
 
 	$SCRIPT.log("LeP und AuP auffüllen");
         modifyLe(1000, false); # LeP = LE
@@ -24,8 +27,55 @@ class MCKHero < Person
         #modifyLe(-20); # 10 LeP abziehen
 
 	$SCRIPT.log("Talente hinzufügen");
-	addTalent("Athletik", 3);
-	#addTalent("Körperbeherrschung", 3);
+	#Kampffertigkeiten
+	#addTalent("Armbrust", 4);
+	#addTalent("Dolche", 3);
+	#addTalent("Infanteriewaffen", 6);
+	#addTalent("Raufen", 6);
+	#addTalent("Ringen", 3);
+	#addTalent("Schwerter", 4);
+
+	#Körperliche Talente
+	addTalent("Athletik", 2);
+	addTalent("Klettern", 1);
+	addTalent("Körperbeherrschung", 2);
+	addTalent("Schwimmen", 2);
+	addTalent("Selbstbeherrschung", 2);
+	addTalent("Sinnenschärfe", 3);
+	addTalent("Zechen", 3);
+
+	#Gesellschaftliche Talente
+	addTalent("Etikette", 3);
+	addTalent("Gassenwissen", 3);
+	addTalent("Menschenkenntnis", 4);
+	addTalent("Überreden", 2);
+
+	#Naturtalente
+	addTalent("Fährtensuchen", 1);
+	addTalent("Fesseln / Entfesseln", 3);
+	addTalent("Orientierung", 1);
+
+	#Wissenstalente
+	addTalent("Götter und Kulte", 3);
+	addTalent("Heraldik", 3);
+	addTalent("Kriegskunst", 2);
+	addTalent("Rechnen", 1);
+	addTalent("Rechtskunde", 4);
+	addTalent("Sagen / Legenden", 2);
+	addTalent("Schätzen", 3);
+
+	#Handwerkstalente
+	addTalent("Hauswirtschaft", 1);
+
+	#Sprachen
+	# Muttersprache Garethi
+	# 1 Fremdsprache +3
+	# L/S Garethi 4
+	
+	$SCRIPT.log("Sonderfertigkeiten hinzufügen");
+	addSf("Ortskenntnis", SFSTATUS_OK);
+	addSf("Rüstungsgewöhnung I", SFSTATUS_OK);
+
 
         $SCRIPT.log("Heldenaktor beschreiben...");
 
