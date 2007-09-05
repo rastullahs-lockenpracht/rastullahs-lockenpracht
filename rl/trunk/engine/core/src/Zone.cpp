@@ -27,7 +27,7 @@ namespace rl
 {
 
 
-    Zone::Zone(long id) : mId(id)
+    Zone::Zone(long id) : mId(id), mEaxPreset("")
     {
     }
 
@@ -59,6 +59,11 @@ namespace rl
 		}
 	}
 
+    void Zone::setEaxPreset(const Ogre::String& name)
+    {
+        mEaxPreset = name;
+    }
+
 	std::list<Actor*> Zone::getLights() const
 	{
 		std::list<Actor*> rval(mLights);
@@ -76,6 +81,11 @@ namespace rl
 		std::list<Trigger*> rval(mTriggers);
 		return rval;
 	}
+
+    const Ogre::String& Zone::getEaxPreset() const
+    {
+        return mEaxPreset;
+    }
 
     void Zone::removeLight(Actor *light)
     {

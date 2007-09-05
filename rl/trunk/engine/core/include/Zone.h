@@ -37,9 +37,16 @@ namespace rl {
 		void addLight(Actor* light);
         void addSound(const Ogre::String& name);
 		void addTrigger(Trigger* trigger);
+        /**
+         * sets an aex-preset
+         * @param name The name of the preset (possible names can be found in the wiki), 
+         * an empty String ("") signifies that no change of the eax-preset is needed
+        */
+        void setEaxPreset(const Ogre::String& name);
 		std::list<Actor*> getLights() const;
         std::list<Ogre::String> getSounds() const;
 		std::list<Trigger*> getTriggers() const;
+        const Ogre::String& getEaxPreset() const;
         void removeLight(Actor* light);
         void removeSound(const Ogre::String& name);
         void removeTrigger(Trigger* trigger);
@@ -57,6 +64,7 @@ namespace rl {
 		std::list<Ogre::String> mSounds;
 		std::list<Trigger*> mTriggers;
         GameAreaEventSourceList mEventSources;
+        Ogre::String mEaxPreset;
 	};
 
 }

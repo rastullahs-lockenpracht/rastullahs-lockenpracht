@@ -188,6 +188,11 @@ namespace rl
 
 									///@todo trigger properties
 								}
+                                else if (XmlHelper::hasNodeName(curElem, "eaxpreset"))
+                                {
+									Ogre::String name = XmlHelper::getAttributeValueAsStdString(curElem, "name");
+                                    zone->setEaxPreset(name);
+                                }
 							}
 						}
 					}

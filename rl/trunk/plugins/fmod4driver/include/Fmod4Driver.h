@@ -91,6 +91,12 @@ namespace rl
          */
         virtual void applySettings(const Ogre::NameValuePairList& settings);
 
+        /**
+         * Sets an eax preset, the preset is defined by a string
+         * @retval true if successfull
+        */
+        virtual bool setEaxPreset(const Ogre::String& name);
+
         /// Setzt den Faktor f, mit der die Lautst�rke nach der Formel 1/(f*Entfernung) abnimmt
         virtual void setRolloffFactor(const Ogre::Real&);
         virtual const Ogre::Real getRolloffFactor();
@@ -142,6 +148,11 @@ namespace rl
             unsigned int commanddata1,
             unsigned int commanddata2
         );
+
+        typedef std::map<const Ogre::String, FMOD_REVERB_PROPERTIES> EaxPresetMap;
+        EaxPresetMap mEaxPresetMap;
+
+        void initializeEaxPresetMap();
 
         /// Log driver config data
         virtual void printData() const;

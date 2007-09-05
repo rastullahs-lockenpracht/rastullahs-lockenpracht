@@ -122,4 +122,9 @@ const Ogre::Real NullDriver::getRolloffFactor()
     return 1.0;
 }
 
+bool NullDriver::setEaxPreset(const Ogre::String& name)
+{
+    return true;
+}
+
 }

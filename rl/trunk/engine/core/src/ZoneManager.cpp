@@ -25,6 +25,7 @@
 #include "World.h"
 #include "Sound.h"
 #include "SoundManager.h"
+#include "SoundDriver.h"
 
 
 using namespace Ogre;
@@ -233,8 +234,7 @@ namespace rl
                     mActiveZones.push_front(zone);
             }
 
-		    switchLights();
-		    switchSounds();
+		    update();
         }
 	}
 
@@ -256,14 +256,14 @@ namespace rl
                     mActiveZones.remove(zone);
             }
 
-		    switchLights();
-		    switchSounds();
+		    update();
         }
 	}
 
     void ZoneManager::update()
     {
         switchLights();
+        switchEaxSettings();
         switchSounds();
     }
 
@@ -336,4 +336,17 @@ namespace rl
         // copy new active sounds
         mActiveSounds = newActiveSounds;
 	}
+
+    void ZoneManager::switchEaxSettings()
+    {
+        if( mActiveZones.front()->getEaxPreset() != "" )
+        {
+            SoundManager::getSingleton().getActiveDriver()->setEaxPreset(
+                mActiveZones.front()->getEaxPreset() );
+        }
+        else
+        {
+            SoundManager::getSingleton().getActiveDriver()->setEaxPreset("Off");
+        }
+    }
 }

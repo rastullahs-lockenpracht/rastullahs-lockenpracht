@@ -22,6 +22,7 @@
 #include "SoundResource.h"
 
 using namespace Ogre;
+using namespace std;
 
 namespace rl
 {
@@ -80,6 +81,8 @@ namespace rl
         }
 
         mFmod4System->getMasterChannelGroup(&mMasterChannelGroup);
+
+        initializeEaxPresetMap();
         return true;
     }
 
@@ -127,6 +130,58 @@ namespace rl
     {
         SoundDriver::applySettings(settings);
         mMasterChannelGroup->setVolume(mMasterVolume);
+    }
+
+#define DEF_PRESET(NAME, DEFINITION) \
+    { \
+        FMOD_REVERB_PROPERTIES prop = DEFINITION; \
+        mEaxPresetMap.insert(make_pair(NAME, prop)); \
+    }
+
+    void Fmod4Driver::initializeEaxPresetMap()
+    {
+        DEF_PRESET("Alley", FMOD_PRESET_ALLEY);
+        DEF_PRESET("Arena", FMOD_PRESET_ARENA);
+        DEF_PRESET("Auditorium", FMOD_PRESET_AUDITORIUM);
+        DEF_PRESET("Bathroom", FMOD_PRESET_BATHROOM);
+        DEF_PRESET("Carpetted Hallway", FMOD_PRESET_CARPETTEDHALLWAY);
+        DEF_PRESET("Cave", FMOD_PRESET_CAVE);
+        DEF_PRESET("City", FMOD_PRESET_CITY);
+        DEF_PRESET("Concert Hall", FMOD_PRESET_CONCERTHALL);
+        DEF_PRESET("Dizzy", FMOD_PRESET_DIZZY);
+        DEF_PRESET("Drugged", FMOD_PRESET_DRUGGED);
+        DEF_PRESET("Forest", FMOD_PRESET_FOREST);
+        DEF_PRESET("Generic", FMOD_PRESET_GENERIC);
+        DEF_PRESET("Hallway", FMOD_PRESET_HALLWAY);
+        DEF_PRESET("Hangar", FMOD_PRESET_HANGAR);
+        DEF_PRESET("Living Room", FMOD_PRESET_LIVINGROOM);
+        DEF_PRESET("Mountains", FMOD_PRESET_MOUNTAINS);
+        DEF_PRESET("Off", FMOD_PRESET_OFF);
+        DEF_PRESET("Padded Cell", FMOD_PRESET_PADDEDCELL);
+        DEF_PRESET("Parkinglot", FMOD_PRESET_PARKINGLOT);
+        DEF_PRESET("Plain", FMOD_PRESET_PLAIN);
+        DEF_PRESET("Psychotic", FMOD_PRESET_PSYCHOTIC);
+        DEF_PRESET("Quarry", FMOD_PRESET_QUARRY);
+        DEF_PRESET("Room", FMOD_PRESET_ROOM);
+        DEF_PRESET("Sewerpipe", FMOD_PRESET_SEWERPIPE);
+        DEF_PRESET("Stone Corridor", FMOD_PRESET_STONECORRIDOR);
+        DEF_PRESET("Stone Room", FMOD_PRESET_STONEROOM);
+        DEF_PRESET("Underwater", FMOD_PRESET_UNDERWATER);
+    }
+#undef DEF_PRESET
+
+    bool Fmod4Driver::setEaxPreset(const Ogre::String& name)
+    {
+        EaxPresetMap::iterator it = mEaxPresetMap.find(name);
+
+        if( it != mEaxPresetMap.end() )
+        {
+            FMOD_RESULT result;
+            result = mFmod4System->setReverbProperties(&(it->second)); ///@todo seems not to work correctly
+            CHECK_FMOD4_ERRORS(result);
+        }
+
+        return false;
     }
 
     Ogre::NameValuePairList Fmod4Driver::getSettings() const

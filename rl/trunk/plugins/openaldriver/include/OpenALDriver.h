@@ -57,6 +57,9 @@ namespace rl
          */
         virtual bool isDriverPlugin();
 
+        /// Sets an eax preset
+        virtual bool setEaxPreset(const Ogre::String& name);
+
     protected:
         virtual Sound* createSoundImpl(SoundResourcePtr res, SoundType type);
 

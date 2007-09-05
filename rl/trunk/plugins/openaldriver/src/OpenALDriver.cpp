@@ -194,4 +194,9 @@ namespace rl
     {
         return 1.0;
     }
+
+    bool OpenALDriver::setEaxPreset(const Ogre::String& name)
+    {
+        return true;
+    }
 }

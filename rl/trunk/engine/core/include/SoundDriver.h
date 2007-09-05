@@ -111,6 +111,12 @@ namespace rl
          */
         virtual void applySettings(const Ogre::NameValuePairList& settings);
 
+        /**
+         * Sets an eax preset, the preset is defined by a string
+         * @retval true if successfull
+        */
+        virtual bool setEaxPreset(const Ogre::String& name) = 0;
+
     protected:
         virtual Sound* createSoundImpl(SoundResourcePtr res, SoundType type) = 0;
 

@@ -82,6 +82,7 @@ namespace rl
 
 		void switchLights();
 		void switchSounds();
+        void switchEaxSettings();
 	};
 }
 
