@@ -41,7 +41,18 @@
 			</area>
 			<light name="red pointlight"/>
 			<light name="green spotlight"/>
-			<sound name="wind_hintergrund_001.ogg"/>
+			<sound name="ruchin001.ogg"/>
+		</zone>
+		<zone name="Underwater">
+			<area type="sphere">
+				<position x="-10" y="0" z="-5"/>
+				<scale x="2" y="2" z="2"/>
+				<transition_distance>0.2</transition_distance>
+			</area>
+			<light name="red pointlight"/>
+			<light name="green spotlight"/>
+			<eaxpreset name="Underwater"/>
+			<sound name="ruchin001.ogg"/>
 		</zone>
 	</zones>
 </rastullahmap>
