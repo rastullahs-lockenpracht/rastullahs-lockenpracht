@@ -9,7 +9,7 @@ libRlAi_la_SOURCES = \
 	AgentDialogState.cpp \
 	AgentManager.cpp \
 	AgentSteeringState.cpp \
-	AiMessages.h \
+	AiMessages.cpp \
 	AiSubsystem.cpp \
 	AiWorld.cpp \
 	AStarCosts.cpp \
