@@ -41,7 +41,7 @@
 			</area>
 			<light name="red pointlight"/>
 			<light name="green spotlight"/>
-			<sound name="lachen.ogg"/>
+			<sound name="wind_hintergrund_001.ogg"/>
 		</zone>
 	</zones>
 </rastullahmap>
