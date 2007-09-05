@@ -23,6 +23,8 @@
 #include "GameEventManager.h"
 #include "Zone.h"
 #include "World.h"
+#include "Sound.h"
+#include "SoundManager.h"
 
 
 using namespace Ogre;
@@ -302,34 +304,36 @@ namespace rl
 	void ZoneManager::switchSounds()
 	{
 		Zone* currentZone = mActiveZones.front();
-		std::set<Ogre::String> activeSounds;
+		SoundMap newActiveSounds;
 
+        // create all new sounds, or take existing ones
 		std::list<Ogre::String> curSounds = currentZone->getSounds();
 		for (std::list<Ogre::String>::const_iterator it = curSounds.begin(); it != curSounds.end(); it++)
 		{
-			activeSounds.insert(*it);
-			///@todo switch sound on
+            SoundMap::iterator it_ = mActiveSounds.find(*it);
+            if( it_ != mActiveSounds.end() )
+            {
+                // this sound already exists, only copy and don't destroy later
+                newActiveSounds.insert(*it_);
+                mActiveSounds.erase(it_); // remember, it_ is now invalid
+            }
+            else
+            {
+                // we need to create a new sound
+                Sound *sound = SoundManager::getSingleton().createSound(*it, ST_STREAM);
+                sound->setLooping(true);
+                sound->play(false);
+                newActiveSounds.insert(make_pair(*it, sound));
+            }
 		}
 
-		for (std::map<const Ogre::String, Zone*>::const_iterator itZones = mZones.begin(); itZones != mZones.end(); itZones++)
-		{
-			std::list<Ogre::String> curSounds = (*itZones).second->getSounds();
-			for (std::list<Ogre::String>::const_iterator itSounds = curSounds.begin(); itSounds != curSounds.end(); itSounds++)
-			{
-				if (activeSounds.find(*itSounds) == activeSounds.end())
-				{
-					///@todo switch sound off
-				}
-			}
-		}
+        // destroy old sounds
+        for( SoundMap::iterator it = mActiveSounds.begin(); it != mActiveSounds.end(); it++ )
+        {
+            SoundManager::getSingleton().destroySound(it->second);
+        }
 
-		std::list<Ogre::String> defSounds = mDefaultZone->getSounds();
-		for (std::list<Ogre::String>::const_iterator itSounds = defSounds.begin(); itSounds != defSounds.end(); itSounds++)
-		{
-			if (activeSounds.find(*itSounds) == activeSounds.end())
-			{
-				///@todo switch sound off
-			}
-		}
+        // copy new active sounds
+        mActiveSounds = newActiveSounds;
 	}
 }

@@ -23,6 +23,7 @@
 namespace rl
 {
     class Zone;
+    class Sound;
 
     class _RlCoreExport ZoneManager : 
         public Ogre::Singleton<ZoneManager>,
@@ -74,6 +75,8 @@ namespace rl
 		std::map<const Ogre::String, Zone*> mZones;
         std::map<long, Zone*> mZonesIdMap;
 		std::list<Zone*> mActiveZones;
+        typedef std::map<const Ogre::String, Sound*> SoundMap;
+        SoundMap mActiveSounds;
 		Zone* mDefaultZone;
         long mNextZoneId;
 
