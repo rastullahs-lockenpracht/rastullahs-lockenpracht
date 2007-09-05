@@ -30,6 +30,9 @@
 
 #include <OgreResourceManager.h>
 #include <CEGUIPropertyHelper.h>
+#include <CoreSubsystem.h>
+#include <ContentModule.h>
+#include <TimeSource.h>
 
 #include <ctime>
 
@@ -59,6 +62,11 @@ namespace rl
         if (mWriter->canSetFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true))
              mWriter->setFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true);
 
+        //Write modul of save game
+        DOMElement* header = XmlHelper::appendChildElement(mDocument, mDocument->getDocumentElement(), "header");
+        XmlHelper::setAttributeValueAsString(header, "ModuleID", CoreSubsystem::getSingleton().getActiveAdventureModule()->getId());
+        XmlHelper::setAttributeValueAsInteger(header, "EngineVersion", CoreSubsystem::getSingleton().getEngineBuildNumber());
+        
         //Write date and time
         DOMElement* timeNode = XmlHelper::appendChildElement(mDocument, mDocument->getDocumentElement(), "time");
         
@@ -78,6 +86,9 @@ namespace rl
 
         //Write globals
         DOMElement* globals = XmlHelper::appendChildElement(mDocument, mDocument->getDocumentElement(), "globals");
+        DOMElement* gameTime = XmlHelper::appendChildElement(mDocument, globals, "gametime");
+        TimeSource* gameTimeSource = TimeSourceManager::getSingleton().getTimeSource(TimeSource::GAMETIME);
+        XmlHelper::setAttributeValueAsInteger(gameTime, "milliseconds", gameTimeSource->getClock());
 
         //Write Quests
         DOMElement* quests = XmlHelper::appendChildElement(mDocument, mDocument->getDocumentElement(), "quests");
