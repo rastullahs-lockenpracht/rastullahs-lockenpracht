@@ -24,9 +24,21 @@
 						<Property Name="FrameEnabled" Value="False"/>
                     </Window>
                       
+                    <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Kultur">
+                        <Property Name="UnifiedPosition" Value="{{0,10},{0,62}}"/>
+                        <Property Name="UnifiedSize" Value="{{0,300},{0,30}}"/>
+						<Property Name="FrameEnabled" Value="False"/>
+                    </Window>
+                      
                     <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Profession">
                         <Property Name="UnifiedPosition" Value="{{0,10},{0,80}}"/>
                         <Property Name="UnifiedSize" Value="{{0,300},{0,30}}"/>
+						<Property Name="FrameEnabled" Value="False"/>
+                    </Window>
+
+                    <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Effekte">
+                        <Property Name="UnifiedPosition" Value="{{0,300},{0,10}}"/>
+                        <Property Name="UnifiedSize" Value="{{0,300},{0,300}}"/>
 						<Property Name="FrameEnabled" Value="False"/>
                     </Window>
 

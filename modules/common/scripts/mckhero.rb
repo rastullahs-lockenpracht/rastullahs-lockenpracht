@@ -6,6 +6,11 @@ class MCKHero < Person
         addQueryFlag(RlScript::QUERYFLAG_PLAYER)
 	setName("Alrike");
 	setDescription("Heldin von Berufung");
+	$SCRIPT.log("Rasse, Kultur und Profession...");
+	setRasse("Mittelländer");
+	setKultur("Garetien");
+	setProfession("Gardist");
+
 	$SCRIPT.log("Gute Eigenschaften zuweisen...");
 
         setEigenschaft("MU", 12);
