@@ -281,7 +281,7 @@ namespace rl
              **/
             int getAp();
             /**
-             *  Ver�dert die verbrauchten @ref abbdea "AP", wird beim Steigern
+             *  Veraendert die verbrauchten @ref abbdea "AP", wird beim Steigern
              *  aufgerufen.
              *  @param modifier Kann auch negativ sein (z.B. Borbarad-Moskitos).
              **/

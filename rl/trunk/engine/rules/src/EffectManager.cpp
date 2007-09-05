@@ -173,5 +173,16 @@ namespace rl
       }
       return mod;
     }
+
+    CeGuiString EffectManager::getEffects()
+    {
+        CeGuiString retVal = "";
+        for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
+        {
+            retVal += (*it)->getName() + "\n";
+            retVal += (*it)->getDescription() + "\n";
+        }
+        return retVal;
+    }
 }
 

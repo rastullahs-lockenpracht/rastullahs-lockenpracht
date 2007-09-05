@@ -49,7 +49,9 @@ CharacterSheetWindow::CharacterSheetWindow()
 	mAP = getWindow("CharacterSheet/CharacterSheet/AP");
 	mName = getWindow("CharacterSheet/CharacterSheet/Name");
 	mRasse = getWindow("CharacterSheet/CharacterSheet/Rasse");
+    mKultur = getWindow("CharacterSheet/CharacterSheet/Kultur");
 	mProfession = getWindow("CharacterSheet/CharacterSheet/Profession");
+    mEffekte = getWindow("CharacterSheet/CharacterSheet/Effekte");
 
 	bindHideWindowToXButton();
 
@@ -98,8 +100,10 @@ void CharacterSheetWindow::update()
 void CharacterSheetWindow::updateValues()
 {
 	mName->setText("Name: "+mCharacter->getName());
-	mRasse->setText("Rasse: ");
-	mProfession->setText("Profession: ");
+    mRasse->setText("Rasse: "+mCharacter->getRasse());
+    mKultur->setText("Kultur: "+mCharacter->getKultur());
+    mProfession->setText("Profession: "+mCharacter->getProfession());
+    mEffekte->setText("Effekte:\n"+mCharacter->getEffects());
 
 	mLE->setText("LeP: "+
 		StringConverter::toString(mCharacter->getLe())+"/"+

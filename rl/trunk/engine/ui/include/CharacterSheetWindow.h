@@ -58,7 +58,9 @@ namespace rl {
 		CEGUI::Window* mAP;
 		CEGUI::Window* mName;
 		CEGUI::Window* mRasse;
+        CEGUI::Window* mKultur;
 		CEGUI::Window* mProfession;
+        CEGUI::Window* mEffekte;
 		
 		void updateTalents();
 

@@ -29,6 +29,18 @@ namespace rl {
         static const Ogre::String CLASS_NAME;
 
         Person(unsigned int id);
+
+        CeGuiString getRasse();
+        void setRasse(CeGuiString rasse);
+        CeGuiString getKultur();
+        void setKultur(CeGuiString kultur);
+        CeGuiString getProfession();
+        void setProfession(CeGuiString profession);
+
+    private:
+        CeGuiString mRasse;
+        CeGuiString mKultur;
+        CeGuiString mProfession;
 	};	
 }
 

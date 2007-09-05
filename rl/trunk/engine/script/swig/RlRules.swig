@@ -732,6 +732,13 @@ namespace rl {
    public:
         Person(unsigned int id);
 
+        rl::CeGuiString getRasse();
+        void setRasse(rl::CeGuiString rasse);
+        rl::CeGuiString getKultur();
+        void setKultur(rl::CeGuiString kultur);
+        rl::CeGuiString getProfession();
+        void setProfession(rl::CeGuiString profession);
+
         virtual const rl::Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const rl::Property& value);
         virtual rl::PropertySet* getAllProperties() const;

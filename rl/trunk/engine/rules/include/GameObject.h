@@ -167,6 +167,10 @@ namespace rl
         void addEffectWithCheckTime(Effect* effect, RL_LONGLONG time);
         void addEffectWithCheckDate(Effect* effect, RL_LONGLONG date);
         void removeEffect(Effect* effect);
+        /**
+         * Returns a printable list of all Effects app
+         */
+        CeGuiString getEffects();
 
     protected:
         int mId;

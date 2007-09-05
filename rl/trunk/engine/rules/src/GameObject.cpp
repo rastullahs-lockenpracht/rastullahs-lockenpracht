@@ -430,6 +430,11 @@ namespace rl
 		mEffectManager->removeEffect(effect);
 	}
 
+    CeGuiString GameObject::getEffects()
+    {
+        return mEffectManager->getEffects();
+    }
+
     const Property GameObject::getProperty(const Ogre::String& key) const
     {
         Property prop;

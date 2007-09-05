@@ -29,7 +29,7 @@ namespace rl
      * Verwaltet die Effekte die auf einer Kreatur wirken.
      * Diese Klasse verwaltet alle Effekte, die auf einer Kreatur liegen.
      * Jede Kreatur hat ihren eigenen EffectManager. Die Funktion checkeffects
-     * sollte w�rend jeder Aktion (gemeint ist die DSA-Zeiteinheit) aufgerufen
+     * sollte waehrend jeder Aktion (gemeint ist die DSA-Zeiteinheit) aufgerufen
      * werden.
      **/
 
@@ -87,6 +87,11 @@ namespace rl
          * @param tag add some additional restrictions (e.g. KO Probe for sicknesses or Athletik for balance acts)
          **/
         int getMod(CeGuiString target, Effect::ModType type, Effect::ModTag tag = Effect::MODTAG_NONE);
+
+        /**
+         * Returns a printable list of all effects
+         **/
+        CeGuiString getEffects();
 
 	private:
         /// Eine einfache Menge von Effekten

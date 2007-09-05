@@ -29,4 +29,34 @@ namespace rl {
         setWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE, 5);
     }
 
+    CeGuiString Person::getRasse()
+    {
+        return mRasse;
+    }
+
+    void Person::setRasse(CeGuiString rasse)
+    {
+        mRasse = rasse;
+    }
+
+    CeGuiString Person::getKultur()
+    {
+        return mKultur;
+    }
+
+    void Person::setKultur(CeGuiString kultur)
+    {
+        mKultur = kultur;
+    }
+
+    CeGuiString Person::getProfession()
+    {
+        return mProfession;
+    }
+
+    void Person::setProfession(CeGuiString profession)
+    {
+        mProfession = profession;
+    }
+
 }
