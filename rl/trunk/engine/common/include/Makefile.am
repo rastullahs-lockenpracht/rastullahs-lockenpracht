@@ -15,6 +15,7 @@ noinst_HEADERS =
     Properties.h \
     Property.h \
     PropertyReader.h \
+	PropertyWriter.h \
     RastullahPrerequisites.h \
     ScriptWrapper.h \
 	Sleep.h \

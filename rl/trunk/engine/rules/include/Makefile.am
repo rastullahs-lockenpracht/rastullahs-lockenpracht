@@ -34,6 +34,8 @@ noinst_HEADERS = \
 	QuestListener.h \
 	RulesPrerequisites.h \
 	RulesSubsystem.h \
+	SaveGameFile.h \
+	SaveGameFileWriter.h \
 	SelectionHelper.h \
 	Selector.h \
 	Slot.h \

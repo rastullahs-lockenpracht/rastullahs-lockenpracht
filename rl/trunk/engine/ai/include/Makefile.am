@@ -2,6 +2,7 @@ noinst_HEADERS =
 	Agent.h \
 	AgentManager.h \
 	AgentCombatState.h \
+	AgentDialogState.h \
 	AgentState.h \
 	AgentSteeringState.h \
 	AiPrerequisites.h \

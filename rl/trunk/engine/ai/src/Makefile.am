@@ -6,6 +6,7 @@ libRlAi_la_LDFLAGS = $(OGRE_LIBS) $(LIBS)
 libRlAi_la_SOURCES = \
 	Agent.cpp \
 	AgentCombatState.cpp \
+	AgentDialogState.cpp \
 	AgentManager.cpp \
 	AgentSteeringState.cpp \
 	AiSubsystem.cpp \
