@@ -5,6 +5,7 @@ noinst_HEADERS =
 	AgentDialogState.h \
 	AgentState.h \
 	AgentSteeringState.h \
+	AiMessages.h \
 	AiPrerequisites.h \
 	AiSubsystem.h \
 	AiWorld.h \
