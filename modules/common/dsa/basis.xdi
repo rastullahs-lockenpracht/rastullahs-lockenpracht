@@ -285,7 +285,12 @@
 						<Spezialisierung>Vögel</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 22</Beschreibung>
-					<!-- todo Gaukeleien (Bauchreden) -->
+					<Ausweichtalente>
+						<Ausweichtalent ID="Gaukeleien">
+							<!-- todo Bauchreden -->
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Tanzen">
 					<Probe>CH/GE/GE</Probe>
@@ -316,7 +321,12 @@
 						</Voraussetzung>
 					</Voraussetzungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 22</Beschreibung>
-					<!-- todo Gaukeleien (Taschenspielereien) -->
+					<Ausweichtalente>
+						<Ausweichtalent ID="Gaukeleien">
+							<!-- todo Taschenspielereien -->
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Zechen">
 					<Probe>IN/KO/KK</Probe>
@@ -473,7 +483,10 @@
 						<Ausweichtalent ID="Lesen / Schreiben">
 							<Aufschlag>10</Aufschlag>
 						</Ausweichtalent>
-						<!-- todo Überzeugen(Rhetorik schriftl.) -->
+						<Ausweichtalent ID="Überzeugen">
+							<!-- todo Rhetorik schriftl. -->
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
 					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Sich Verkleiden">
@@ -574,7 +587,10 @@
 						<Ausweichtalent ID="Seefahrt">
 							<Aufschlag>10</Aufschlag>
 						</Ausweichtalent>
-						<!-- todo Akrobatik (winden) nur entfesseln +5 -->
+						<Ausweichtalent ID="Akrobatik">
+							<!-- todo winden -->
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
 						<!-- todo Ringen PA +10-->
 					</Ausweichtalente>
 				</Talent>
@@ -734,10 +750,15 @@
 					<Probe>KL/KL/IN</Probe>
 					<Art>Spezial</Art>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 28</Beschreibung>
-					<!-- todo Kriegskunst (Strategie) -->
+					<Ausweichtalente>
+					<Ausweichtalent ID="Kriegskunst">
+						<!-- todo Strategie -->
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
 						<Ausweichtalent ID="Rechnen">
 							<Aufschlag>10</Aufschlag>
 						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Geographie">
 					<Probe>KL/KL/IN</Probe>
@@ -1051,7 +1072,10 @@
 						<Ausweichtalent ID="Juwelier">
 							<Aufschlag>5</Aufschlag>
 						</Ausweichtalent>
-						<!-- todo Feinmechanik (Goldschmied) -->
+						<Ausweichtalent ID="Feinmechanik">
+							<!-- todo Goldschmied -->
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
 					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Sprachenkunde">
@@ -1072,7 +1096,10 @@
 						<Ausweichtalent ID="Hauswirtschaft">
 							<Aufschlag>10</Aufschlag>
 						</Ausweichtalent>
-								<!-- todo Rechtskunde (Staatsrecht) -->
+								<Ausweichtalent ID="Rechtskunde">
+									<!-- todo Staatsrecht -->
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
 					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Sternkunde">
@@ -1147,11 +1174,30 @@
 						<Spezialisierung>Zureiter</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 33/34</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Viehzucht">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Tierkunde">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Reiten">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Ackerbau">
 					<Probe>IN/FF/KO</Probe>
 					<Art>Beruf</Art>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 34</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Viehzucht">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Pflanzenkunde">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Alchimie">
 					<Probe>MU/KL/FF</Probe>
@@ -1176,6 +1222,15 @@
 						<Spezialisierung>Goldmacherei</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 34</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Kochen">
+							<!-- todo Tränke -->
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Pflanzenkunde">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Bergbau">
 					<Probe>IN/KO/KK</Probe>
@@ -1193,6 +1248,20 @@
 						<Spezialisierung>unterirdische Städte</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 34</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Steinmetz">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Maurer">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Baukunst">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Gesteinskunde">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Bogenbau">
 					<Probe>KL/IN/FF</Probe>
@@ -1209,6 +1278,17 @@
 						<Spezialisierung>Torsionswaffen</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 34</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Holzbearbeitung">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Feinmechanik">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Grobschmied">
+							<Aufschlag>15</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Boote Fahren">
 					<Probe>GE/KO/KK</Probe>
@@ -1220,11 +1300,24 @@
 						<Spezialisierung>Ruderboote Rudern</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 34</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Seefahrt">
+							<Aufschlag>5</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Fahrzeug Lenken">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Brauer">
 					<Probe>KL/FF/KK</Probe>
 					<Art>Beruf</Art>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 34</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Alchimie">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Drucker">
 					<Probe>KL/FF/KO</Probe>
@@ -1247,11 +1340,24 @@
 						<Spezialisierung>Typographie</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 34</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Mechanik">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Eissegler Fahren">
 					<Probe>IN/GE/KK</Probe>
 					<Art>Spezial</Art>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 34/35</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Boote Fahren">
+							<Aufschlag>5</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Fahrzeug Lenken">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Fahrzeug Lenken">
 					<Probe>IN/CH/FF</Probe>
@@ -1262,6 +1368,11 @@
 						<Spezialisierung>Zuggespanne</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 35</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Hundeschlitten Fahren">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Falschspiel">
 					<Probe>MU/CH/FF</Probe>
@@ -1276,6 +1387,12 @@
 						<Spezialisierung>Karten</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 35</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Gaukeleien">
+							<!-- Taschenspielereien -->
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Feinmechanik">
 					<Probe>KL/FF/FF</Probe>
@@ -1299,6 +1416,11 @@
 					<Probe>KL/FF/FF</Probe>
 					<Art>Spezial</Art>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 35</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Steinmetz">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Fleischer">
 					<Probe>KL/FF/KK</Probe>
@@ -1310,6 +1432,27 @@
 						<Spezialisierung>Säugetiere</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 35</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Viehzucht">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Fischen / Angeln">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Tierkunde">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Kochen">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Anatomie">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Gerber / Kürschner">
+							<!-- todo Trophäen -->
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Gerber / Kürschner">
 					<Probe>KL/FF/KO</Probe>
@@ -1320,6 +1463,14 @@
 						<Spezialisierung>Trophäen</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 35</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Alchimie">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Fleischer">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Glaskunst">
 					<Probe>FF/FF/KO</Probe>
@@ -1331,6 +1482,11 @@
 						<Spezialisierung>Spiegel</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 35</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Juwelier">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Grobschmied">
 					<Probe>FF/KK/KO</Probe>
@@ -1344,6 +1500,11 @@
 						<Spezialisierung>Waffenschmied</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 35</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Metallguss">
+							<Aufschlag>15</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Handel">
 					<Probe>KL/IN/CH</Probe>
@@ -1354,6 +1515,17 @@
 						</Voraussetzung>
 					</Voraussetzungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 35/36</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Hauswirtschaft">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Geographie">
+							<Aufschlag>15</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Schätzen">
+							<Aufschlag>15</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Hauswirtschaft">
 					<Probe>IN/CH/FF</Probe>
@@ -1364,21 +1536,57 @@
 						<Spezialisierung>Vorratshaltung</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 36</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Rechnen">
+							<!-- todo Buchführung -->
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Galanterie">
+							<!-- todo Festgestaltung -->
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Heilkunde Gift">
 					<Probe>MU/KL/IN</Probe>
 					<Art>Spezial</Art>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 36</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Alchimie">
+							<!-- todo Gifte -->
+							<Aufschlag>5</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Heilkunde Krankheiten">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Kochen">
+							<!-- (Tränke) -->
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Heilkunde Krankheiten">
 					<Probe>MU/KL/CH</Probe>
 					<Art>Spezial</Art>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 36</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Heilkunde Gift">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Heilkunde Seele">
 					<Probe>IN/CH/CH</Probe>
 					<Art>Beruf</Art>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 36/37</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Menschenkenntnis">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Überzeugen">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Heilkunde Wunden">
 					<Probe>KL/CH/FF</Probe>
@@ -1390,6 +1598,11 @@
 						<Spezialisierung>Zahnleiden</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 37</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Anatomie">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Holzbearbeitung">
 					<Probe>KL/FF/KK</Probe>
@@ -1403,11 +1616,25 @@
 						<Spezialisierung>Schnitzen</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 38</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Zimmermann">
+							<Aufschlag>5</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Hundeschlitten Fahren">
 					<Probe>CH/FF/GE</Probe>
 					<Art>Spezial</Art>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 38</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Fahrzeug Lenken">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Abrichten">
+							<!-- todo Hundeführer -->
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Instrumentenbauer">
 					<Probe>KL/IN/FF</Probe>
@@ -1430,6 +1657,14 @@
 						<Spezialisierung>Trommeln</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 38</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Holzbearbeitung">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Feinmechanik">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Kapellmeister">
 					<Probe>KL/IN/CH</Probe>
@@ -1447,6 +1682,11 @@
 						<Spezialisierung>Komponieren</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 38</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Musizieren">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Kartographie">
 					<Probe>KL/KL/FF</Probe>
@@ -1464,6 +1704,14 @@
 						<Spezialisierung>Stadt</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 38</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Orientierung">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Sternkunde">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Kochen">
 					<Probe>KL/IN/FF</Probe>
@@ -1477,11 +1725,30 @@
 						<Spezialisierung>Vorkoster</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 38</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Fleischer">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Fischen / Angeln">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Wildnisleben">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Alchimie">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Kristallzucht">
 					<Probe>KL/IN/FF</Probe>
 					<Art>Beruf</Art>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 38</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Alchimie">
+							<Aufschlag>15</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Lederarbeiten">
 					<Probe>KL/FF/FF</Probe>
@@ -1494,6 +1761,14 @@
 						<Spezialisierung>Schuhwerk</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 38/39</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Gerber / Kürschner">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Schneidern">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Malen / Zeichnen">
 					<Probe>KL/IN/FF</Probe>
@@ -1505,6 +1780,18 @@
 						<Spezialisierung>technische Skizze</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 39</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Kartographie">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Steinmetz">
+							<!-- todo Bildhauer -->
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Tätowieren">
+							<Aufschlag>5</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Maurer">
 					<Probe>FF/GE/KK</Probe>
@@ -1515,6 +1802,11 @@
 						<Spezialisierung>Ziegelbau</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 39</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Baukunst">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Metallguss">
 					<Probe>KL/FF/KK</Probe>
@@ -1530,6 +1822,14 @@
 						<Spezialisierung>Reliefplatten und Statuen</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 39</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Hüttenkunde">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Grobschmied">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Musizieren">
 					<Probe>IN/CH/FF</Probe>
@@ -1553,6 +1853,11 @@
 						<Spezialisierung>Schlösser</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 39</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Feinmechanik">
+							<Aufschlag>5</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Schnaps Brennen">
 					<Probe>KL/IN/FF</Probe>
@@ -1565,6 +1870,17 @@
 						<Spezialisierung>Lagerung</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 39</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Alchimie">
+							<Aufschlag>5</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Brauer">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Winzer">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Schneidern">
 					<Probe>KL/FF/FF</Probe>
@@ -1575,6 +1891,14 @@
 						<Spezialisierung>Tuchrüstung</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 39</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Webkunst">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Lederarbeiten">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Seefahrt">
 					<Probe>FF/GE/KK</Probe>
@@ -1584,11 +1908,25 @@
 						<Spezialisierung>Segelschiff</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 39</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Boote Fahren">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Steuermann">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Seiler">
 					<Probe>FF/FF/KK</Probe>
 					<Art>Beruf</Art>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 39/40</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Fesseln / Entfesseln">
+							<!-- todo Taue spleißen -->
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Steinmetz">
 					<Probe>FF/FF/KK</Probe>
@@ -1604,6 +1942,17 @@
 						<Spezialisierung>Statuen</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 40</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Baukunst">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Maurer">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Bergbau">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Steinschneider / Juwelier">
 					<Probe>IN/FF/FF</Probe>
@@ -1614,6 +1963,14 @@
 						</Voraussetzung>
 					</Voraussetzungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 40</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Feinmechanik">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Kristallzucht">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Stellmacher">
 					<Probe>KL/FF/KK</Probe>
@@ -1635,6 +1992,14 @@
 						<Spezialisierung>Streitwagen</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 40</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Zimmermann">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Schiffbau">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Steuermann">
 					<Probe>IN/CH/KK</Probe>
@@ -1649,6 +2014,11 @@
 						<Spezialisierung>Segelschiff</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 40</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Seefahrt">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Stoffe Färben">
 					<Probe>KL/FF/KK</Probe>
@@ -1661,6 +2031,12 @@
 						<Spezialisierung>Stoffdruck</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 40</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Alchimie">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<!-- "eventuell Drucker für Stoffdrucke" -->
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Tätowieren">
 					<Probe>IN/FF/FF</Probe>
@@ -1676,6 +2052,11 @@
 						<Spezialisierung>Zaubertätowierungen</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 40</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Malen / Zeichnen">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Töpfern">
 					<Probe>KL/FF/FF</Probe>
@@ -1686,6 +2067,14 @@
 						<Spezialisierung>Ziegelei</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 40</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Maurer">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Steinmetz">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Viehzucht">
 					<Probe>KL/IN/KK</Probe>
@@ -1698,6 +2087,11 @@
 						<Spezialisierung>Hund</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 40</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Tierkunde">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Webkunst">
 					<Probe>FF/FF/KK</Probe>
@@ -1710,6 +2104,11 @@
 						<Spezialisierung>Weben</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 40</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Schneidern">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 				<Talent ID="Winzer">
 					<Probe>KL/FF/KK</Probe>
@@ -1736,6 +2135,14 @@
 						<Spezialisierung>Schiffszimmermann</Spezialisierung>
 					</Spezialisierungen>
 					<Beschreibung>siehe Mit Flinken Fingern, S. 40</Beschreibung>
+					<Ausweichtalente>
+						<Ausweichtalent ID="Holzbearbeitung">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+						<Ausweichtalent ID="Schiffbau">
+							<Aufschlag>10</Aufschlag>
+						</Ausweichtalent>
+					</Ausweichtalente>
 				</Talent>
 			</Talentgruppe>
 			<Talentgruppe ID="Sprachen &amp; Schriften">
