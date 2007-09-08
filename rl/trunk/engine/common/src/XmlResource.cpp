@@ -19,7 +19,6 @@
 #include "XmlResource.h"
 #include "XmlResourceManager.h"
 #include "XmlProcessor.h"
-#include "XmlErrorHandler.h"
 
 using namespace XERCES_CPP_NAMESPACE;
 using namespace Ogre;
