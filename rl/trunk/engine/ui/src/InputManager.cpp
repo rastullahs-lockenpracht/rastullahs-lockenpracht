@@ -17,18 +17,13 @@
 
 #include "InputManager.h"
 
-#include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/dom/DOM.hpp>
-#include <xercesc/util/XMLString.hpp>
-#include <xercesc/util/PlatformUtils.hpp>
 
 #include <OISInputManager.h>
 
 #include "Exception.h"
 
 #include "XmlHelper.h"
-#include "XmlResource.h"
-#include "XmlResourceManager.h"
 
 #include "AbstractWindow.h"
 #include "Action.h"
@@ -250,76 +245,43 @@ namespace rl {
         using XERCES_CPP_NAMESPACE::DOMDocument;
         using std::make_pair;
 
-        XMLPlatformUtils::Initialize();
-        XmlHelper::initializeTranscoder();
+        initializeXml();
 
-        XercesDOMParser* parser = new XercesDOMParser();
-        parser->setValidationScheme(XercesDOMParser::Val_Auto);    // optional.
-        parser->setDoNamespaces(true);    // optional
-
-/*        ErrorHandler* errHandler = (ErrorHandler*) new HandlerBase();
-        parser->setErrorHandler(errHandler);*/
-
-        XMLCh* ALT = XMLString::transcode("AltChar");
-        XMLCh* SHIFT = XMLString::transcode("ShiftChar");
-        XMLCh* NORMAL = XMLString::transcode("NormalChar");
-        XMLCh* DESCR = XMLString::transcode("KeyDescription");
-        XMLCh* CODE = XMLString::transcode("KeyCode");
-        XMLCh* KEY = XMLString::transcode("Key");
-
-        XmlPtr res =
-            XmlResourceManager::getSingleton().create(
-            filename,
-            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-        res->parseBy(parser);
-        DOMDocument* doc = parser->getDocument();
+        DOMDocument* doc = loadDocument(filename);
         DOMElement* dataDocumentContent = doc->getDocumentElement();
 
-        DOMNodeList* keymaps = dataDocumentContent->getElementsByTagName(KEY);
+        DOMNodeList* keymaps 
+            = dataDocumentContent->getElementsByTagName(AutoXMLCh("Key").data());
         for (unsigned int idx = 0; idx < keymaps->getLength(); idx++)
         {
             DOMElement* key = static_cast<DOMElement*>(keymaps->item(idx));
-            int keycode = XMLString::parseInt(key->getAttribute(CODE));
+            int keycode = getAttributeValueAsInteger(key, "KeyCode");
 
-            const XMLCh* xmlch;
-
-            xmlch = key->getAttribute(NORMAL);
-            if (xmlch != NULL && XMLString::stringLen(xmlch) > 0)
+            CeGuiString s;
+            s = getAttributeValueAsString(key, "NormalChar");
+            if (!s.empty())
             {
-                CeGuiString s(XmlHelper::transcodeToString(xmlch));
                 mKeyMapNormal.insert(make_pair(keycode, s[0]));
             }
 
-            xmlch = key->getAttribute(ALT);
-            if (xmlch != NULL && XMLString::stringLen(xmlch) > 0)
+            s = getAttributeValueAsString(key, "AltChar");
+            if (!s.empty())
             {
-                CeGuiString s(XmlHelper::transcodeToString(xmlch));
                 mKeyMapAlt.insert(make_pair(keycode, s[0]));
             }
 
-            xmlch = key->getAttribute(SHIFT);
-            if (xmlch != NULL && XMLString::stringLen(xmlch) > 0)
+            s = getAttributeValueAsString(key, "ShiftChar");
+            if (!s.empty())
             {
-                CeGuiString s(XmlHelper::transcodeToString(xmlch));
                 mKeyMapShift.insert(make_pair(keycode, s[0]));
             }
 
-            xmlch = key->getAttribute(DESCR);
-            mKeyNames.insert(make_pair(keycode, XmlHelper::transcodeToString(xmlch)));
+            s = getAttributeValueAsString(key, "KeyDescription");
+            mKeyNames.insert(make_pair(keycode, s));
         }
 
-        XMLString::release(&ALT);
-        XMLString::release(&SHIFT);
-        XMLString::release(&NORMAL);
-        XMLString::release(&CODE);
-        XMLString::release(&DESCR);
-        XMLString::release(&KEY);
-
         doc->release();
-        XMLPlatformUtils::Terminate();
-
-        //XmlResourceManager::getSingleton().remove(filename);
-        //res.setNull();
+        shutdownXml();
     }
 
     const CEGUI::utf8& InputManager::getKeyChar(int scancode, int modifiers) const

@@ -17,8 +17,6 @@
 
 #include "ParticleSystemNodeProcessor.h"
 
-#include "XmlHelper.h"
-
 #include "Actor.h"
 #include "ActorManager.h"
 #include "ParticleSystemObject.h"
@@ -30,30 +28,30 @@ namespace rl
 {
     bool ParticleSystemNodeProcessor::processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects)
     {
-		if (!XmlHelper::hasNodeName(nodeElem, "particlesystem"))
+		if (!hasNodeName(nodeElem, "particlesystem"))
 		{
 			return false;
 		}
 
-		if (!XmlHelper::hasAttribute(nodeElem, "material"))
+		if (!hasAttribute(nodeElem, "material"))
 		{
 			LOG_WARNING(Logger::SCRIPT, "Particle system nodes must at least have the attribute 'material'.");
 			return false;
 		}
 
-		Ogre::String name = XmlHelper::getAttributeValueAsStdString(nodeElem, "name");
+		Ogre::String name = getAttributeValueAsStdString(nodeElem, "name");
 
 		LOG_DEBUG(Logger::SCRIPT,
             "Processing particle system node " + name);
 
-		Ogre::String material = XmlHelper::getAttributeValueAsStdString(nodeElem, "material");
+		Ogre::String material = getAttributeValueAsStdString(nodeElem, "material");
 
 		Actor* part = ActorManager::getSingleton().createParticleSystemActor(
 			name, material);
 
-		if (XmlHelper::hasAttribute(nodeElem, "active"))
+		if (hasAttribute(nodeElem, "active"))
 		{
-			bool active = XmlHelper::getAttributeValueAsBool(nodeElem, "active");
+			bool active = getAttributeValueAsBool(nodeElem, "active");
 			static_cast<ParticleSystemObject*>(part->getControlledObject())->setActive(active);
 		}
 

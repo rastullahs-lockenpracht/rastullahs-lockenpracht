@@ -22,7 +22,6 @@
 #include "ScriptSubsystem.h"
 #include "Trigger.h"
 #include "TriggerFactory.h"
-#include "XmlHelper.h"
 #include "Zone.h"
 #include "ZoneManager.h"
 
@@ -42,12 +41,12 @@ namespace rl
         for (DOMNode* cur = zonesElem->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
         {
             if (cur->getNodeType() == DOMNode::ELEMENT_NODE
-				&& XmlHelper::hasNodeName(cur, "zone"))
+				&& hasNodeName(cur, "zone"))
             {
 				DOMElement* curZoneElem = static_cast<DOMElement*>(cur);
-				if (XmlHelper::hasAttribute(curZoneElem, "name"))
+				if (hasAttribute(curZoneElem, "name"))
 				{
-					Ogre::String name = XmlHelper::getAttributeValueAsStdString(curZoneElem, "name");
+					Ogre::String name = getAttributeValueAsStdString(curZoneElem, "name");
                     Zone* zone = NULL;
                     if( name == "default" )
                         zone = ZoneManager::getSingleton().getDefaultZone();
@@ -62,55 +61,55 @@ namespace rl
                         for(DOMNode* curArea = cur->getFirstChild(); curArea != NULL; curArea = curArea->getNextSibling())
                         {
                             if( curArea->getNodeType() == DOMNode::ELEMENT_NODE
-                                && XmlHelper::hasNodeName(curArea, "area") )
+                                && hasNodeName(curArea, "area") )
                             {
                                 DOMElement *curAreaElem = static_cast<DOMElement*>(curArea);
-                                if( XmlHelper::hasAttribute(curAreaElem, "type") )
+                                if( hasAttribute(curAreaElem, "type") )
                                 {
                                     // type
                                     Ogre::String type;
-                                    type = XmlHelper::getAttributeValueAsStdString(curAreaElem, "type");
+                                    type = getAttributeValueAsStdString(curAreaElem, "type");
 
                                     // add or subtract?
                                     bool subtract = false;
-                                    if( XmlHelper::hasAttribute(curAreaElem, "subtract") )
-                                        subtract = XmlHelper::getAttributeValueAsBool(curAreaElem, "subtract");
+                                    if( hasAttribute(curAreaElem, "subtract") )
+                                        subtract = getAttributeValueAsBool(curAreaElem, "subtract");
 
                                     // position
                                     Vector3 position = Vector3::ZERO;
-                                    DOMElement* positionElem = XmlHelper::getChildNamed(curAreaElem, "position");
+                                    DOMElement* positionElem = getChildNamed(curAreaElem, "position");
                                     if( positionElem != NULL )
-                                        position = XmlHelper::getValueAsVector3(positionElem);
+                                        position = getValueAsVector3(positionElem);
 
                                     //scale, rotation, offset
                                     Vector3 scale = Vector3::UNIT_SCALE;
-                                    DOMElement* scaleElem = XmlHelper::getChildNamed(curAreaElem, "scale");
+                                    DOMElement* scaleElem = getChildNamed(curAreaElem, "scale");
                                     if( scaleElem != NULL )
-                                        scale = XmlHelper::getValueAsVector3(scaleElem);
+                                        scale = getValueAsVector3(scaleElem);
 
                                     Vector3 offset = Vector3::ZERO;
-                                    DOMElement* offsetElem = XmlHelper::getChildNamed(curAreaElem, "offset");
+                                    DOMElement* offsetElem = getChildNamed(curAreaElem, "offset");
                                     if( offsetElem != NULL )
-                                        offset = XmlHelper::getValueAsVector3(offsetElem);
+                                        offset = getValueAsVector3(offsetElem);
 
                                     Quaternion rotation = Quaternion::IDENTITY;
-                                    DOMElement* rotationElem = XmlHelper::getChildNamed(curAreaElem, "rotation");
+                                    DOMElement* rotationElem = getChildNamed(curAreaElem, "rotation");
                                     if( rotationElem != NULL )
-                                        rotation = XmlHelper::getValueAsQuaternion(rotationElem);
+                                        rotation = getValueAsQuaternion(rotationElem);
 
                                     //transition distance
                                     Real transitionDistance = 0;
-                                    DOMElement* transitionElem = XmlHelper::getChildNamed(curAreaElem, "transition_distance");
+                                    DOMElement* transitionElem = getChildNamed(curAreaElem, "transition_distance");
                                     if( transitionElem != NULL )
-                                        transitionDistance = XmlHelper::getValueAsReal(transitionElem);
+                                        transitionDistance = getValueAsReal(transitionElem);
 
 					            
                                     if (type == "mesh")
     					            {
                                         Ogre::String meshName;
-                                        if( XmlHelper::hasAttribute(curAreaElem, "meshfile") )
+                                        if( hasAttribute(curAreaElem, "meshfile") )
                                         {
-                                            meshName = XmlHelper::getAttributeValueAsStdString(curAreaElem, "meshfile");
+                                            meshName = getAttributeValueAsStdString(curAreaElem, "meshfile");
                                             if( subtract )
                                                 ZoneManager::getSingleton().subtractMeshAreaFromZone(name,
                                                     meshName, GT_CONVEXHULL, position, scale, offset, rotation, transitionDistance, QUERYFLAG_PLAYER);
@@ -168,29 +167,29 @@ namespace rl
 							if (cur->getNodeType() == DOMNode::ELEMENT_NODE)
 							{
 								DOMElement* curElem = static_cast<DOMElement*>(cur);
-								if (XmlHelper::hasNodeName(curElem, "light"))
+								if (hasNodeName(curElem, "light"))
 								{
-									Ogre::String name = XmlHelper::getAttributeValueAsStdString(curElem, "name");
+									Ogre::String name = getAttributeValueAsStdString(curElem, "name");
 									zone->addLight(ActorManager::getSingleton().getActor(name));
 								}
-								else if (XmlHelper::hasNodeName(curElem, "sound"))
+								else if (hasNodeName(curElem, "sound"))
 								{
-									Ogre::String name = XmlHelper::getAttributeValueAsStdString(curElem, "name");
+									Ogre::String name = getAttributeValueAsStdString(curElem, "name");
 									zone->addSound(name);
 								}
-								else if (XmlHelper::hasNodeName(curElem, "trigger"))
+								else if (hasNodeName(curElem, "trigger"))
 								{
 									Ogre::String classname =
-										XmlHelper::getAttributeValueAsStdString(curElem, "classname");
+										getAttributeValueAsStdString(curElem, "classname");
 
 									Trigger* trigger = ScriptSubsystem::getSingleton().getTriggerFactory()
 										->createTrigger(classname);
 
 									///@todo trigger properties
 								}
-                                else if (XmlHelper::hasNodeName(curElem, "eaxpreset"))
+                                else if (hasNodeName(curElem, "eaxpreset"))
                                 {
-									Ogre::String name = XmlHelper::getAttributeValueAsStdString(curElem, "name");
+									Ogre::String name = getAttributeValueAsStdString(curElem, "name");
                                     zone->setEaxPreset(name);
                                 }
 							}

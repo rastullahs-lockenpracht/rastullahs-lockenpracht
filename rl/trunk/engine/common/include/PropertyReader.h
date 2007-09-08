@@ -23,6 +23,8 @@
 #include <xercesc/dom/DOMElement.hpp>
 #include <OgreDataStream.h>
 
+#include "XmlHelper.h"
+
 namespace rl 
 {
     class Property;
@@ -31,6 +33,7 @@ namespace rl
     typedef std::pair<Ogre::String, Property> PropertyEntry;
 
     class _RlCommonExport XmlPropertyReader
+         : protected XmlProcessor
     {
     public:
         XmlPropertyReader();

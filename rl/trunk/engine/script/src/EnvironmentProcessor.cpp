@@ -31,8 +31,8 @@ namespace rl
 	{
 		if (nodeElem)
 		{
-		    processSkySettings(XmlHelper::getChildNamed(nodeElem, "sky"));
-		    processFogSettings(XmlHelper::getChildNamed(nodeElem, "fog"));
+		    processSkySettings(getChildNamed(nodeElem, "sky"));
+		    processFogSettings(getChildNamed(nodeElem, "fog"));
         }
 
 		return true;
@@ -43,26 +43,26 @@ namespace rl
         if (skyElem)
 		{
 
-		    if (!XmlHelper::hasAttribute(skyElem, "material")
-			    || !XmlHelper::hasAttribute(skyElem, "type"))
+		    if (!hasAttribute(skyElem, "material")
+			    || !hasAttribute(skyElem, "type"))
 		    {
 			    LOG_ERROR(Logger::RULES, "<sky> element must have at least attributes 'type' and 'material'.");
 		    }
 		    else
 		    {
-			    Ogre::String type = XmlHelper::getAttributeValueAsStdString(skyElem, "type");
-			    Ogre::String material = XmlHelper::getAttributeValueAsStdString(skyElem, "material");
+			    Ogre::String type = getAttributeValueAsStdString(skyElem, "type");
+			    Ogre::String material = getAttributeValueAsStdString(skyElem, "material");
 
 			    bool drawFirst = true;
-			    if (XmlHelper::hasAttribute(skyElem, "drawfirst"))
+			    if (hasAttribute(skyElem, "drawfirst"))
 			    {
-				    drawFirst = XmlHelper::getAttributeValueAsBool(skyElem, "drawfirst");
+				    drawFirst = getAttributeValueAsBool(skyElem, "drawfirst");
 			    }
 
 			    Ogre::Real distance = 5000;
-			    if (XmlHelper::hasAttribute(skyElem, "distance"))
+			    if (hasAttribute(skyElem, "distance"))
 			    {
-				    distance = XmlHelper::getAttributeValueAsReal(skyElem, "distance");
+				    distance = getAttributeValueAsReal(skyElem, "distance");
 			    }
 
 			    if (type == "dome")
@@ -70,16 +70,16 @@ namespace rl
 				    Ogre::Real curvature = 10;
 				    Ogre::Real tiling = 8;
 
-				    DOMElement* domeSettings = XmlHelper::getChildNamed(skyElem, "skydomesettings");
+				    DOMElement* domeSettings = getChildNamed(skyElem, "skydomesettings");
 				    if (domeSettings != NULL)
 				    {
-					    if (XmlHelper::hasAttribute(domeSettings, "curvature"))
+					    if (hasAttribute(domeSettings, "curvature"))
 					    {
-						    curvature = XmlHelper::getAttributeValueAsReal(domeSettings, "curvature");
+						    curvature = getAttributeValueAsReal(domeSettings, "curvature");
 					    }
-					    if (XmlHelper::hasAttribute(domeSettings, "tiling"))
+					    if (hasAttribute(domeSettings, "tiling"))
 					    {
-						    curvature = XmlHelper::getAttributeValueAsReal(domeSettings, "tiling");
+						    curvature = getAttributeValueAsReal(domeSettings, "tiling");
 					    }
 				    }
 				    CoreSubsystem::getSingleton().getWorld()->setSkyDome(
@@ -102,7 +102,7 @@ namespace rl
 	{
         if (fogElem)
         {
-		    if (!XmlHelper::hasAttribute(fogElem, "material"))
+		    if (!hasAttribute(fogElem, "material"))
 		    {
 			    LOG_ERROR(
 				    Logger::RULES,
@@ -110,7 +110,7 @@ namespace rl
 			    return;
 		    }
 
-		    DOMElement* colourElem = XmlHelper::getChildNamed(fogElem, "colour");
+		    DOMElement* colourElem = getChildNamed(fogElem, "colour");
 		    if (colourElem == NULL)
 		    {
 			    LOG_ERROR(Logger::RULES, "No fog colour set.");
@@ -118,12 +118,12 @@ namespace rl
 		    }
 		    ColourValue fogColour = processColour(colourElem);
 
-		    Ogre::String type = XmlHelper::getAttributeValueAsStdString(fogElem, "type");
+		    Ogre::String type = getAttributeValueAsStdString(fogElem, "type");
 		    if (type == "exp" || type == "exp2")
 		    {
-			    if (XmlHelper::hasAttribute(fogElem, "density"))
+			    if (hasAttribute(fogElem, "density"))
 			    {
-				    Ogre::Real density = XmlHelper::getAttributeValueAsReal(fogElem, "density");
+				    Ogre::Real density = getAttributeValueAsReal(fogElem, "density");
 				    if (type == "exp")
 				    {
 					    CoreSubsystem::getSingleton().getWorld()->setFog(
@@ -143,11 +143,11 @@ namespace rl
 		    }
 		    else if (type == "linear")
 		    {
-			    if (XmlHelper::hasAttribute(fogElem, "start")
-				    && XmlHelper::hasAttribute(fogElem, "end"))
+			    if (hasAttribute(fogElem, "start")
+				    && hasAttribute(fogElem, "end"))
 			    {
-				    Ogre::Real start = XmlHelper::getAttributeValueAsReal(fogElem, "start");
-				    Ogre::Real end = XmlHelper::getAttributeValueAsReal(fogElem, "end");
+				    Ogre::Real start = getAttributeValueAsReal(fogElem, "start");
+				    Ogre::Real end = getAttributeValueAsReal(fogElem, "end");
 				    CoreSubsystem::getSingleton().getWorld()->setFog(
 					    World::FOG_LINEAR, fogColour, 0, start, end);
 			    }

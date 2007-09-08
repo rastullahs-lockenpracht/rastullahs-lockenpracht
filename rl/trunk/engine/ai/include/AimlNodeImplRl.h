@@ -19,6 +19,8 @@
 #include "AiPrerequisites.h"
 #include "AimlNode.h"
 
+#include "XmlHelper.h"
+
 using namespace MadaBot;
 namespace rl
 {
@@ -28,7 +30,9 @@ namespace rl
     /**
      * Implementation of the XmlNode interface for AIML files in Rastullahs Lockenpracht
      */
-	class AimlNodeImplRl :	public AimlNode<CeGuiString>
+	class AimlNodeImplRl 
+        :   public AimlNode<CeGuiString>,
+            private XmlProcessor
 	{
 	public:
 		AimlNodeImplRl(DOMNode* node);

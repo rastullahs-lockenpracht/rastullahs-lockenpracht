@@ -30,9 +30,9 @@ XmlResourceManager::XmlResourceManager()
 }
 
 Resource* XmlResourceManager::createImpl(
-	const String& resName, 
+    const Ogre::String& resName, 
 	ResourceHandle handle, 
-	const String& groupName, 
+	const Ogre::String& groupName, 
 	bool isManual, 
 	ManualResourceLoader* loader, 
 	const NameValuePairList* loadParams)

@@ -25,6 +25,7 @@
 #include <OgreDataStream.h>
 
 #include "Property.h"
+#include "XmlHelper.h"
 
 namespace rl 
 {
@@ -34,9 +35,11 @@ namespace rl
     typedef std::pair<Ogre::String, Property> PropertyEntry;
 
     class _RlCommonExport XmlPropertyWriter
+        : protected XmlProcessor
     {
     public:
         XmlPropertyWriter();
+        virtual ~XmlPropertyWriter();
 
         std::vector<PropertySet*> getPropertySets();
         void setPropertySets(std::vector<PropertySet*> sets);

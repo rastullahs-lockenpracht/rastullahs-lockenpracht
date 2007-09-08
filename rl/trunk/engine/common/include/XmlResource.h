@@ -26,6 +26,7 @@
 
 #include "CommonPrerequisites.h"
 #include <OgreResource.h>
+#include "XmlHelper.h"
 
 namespace rl {
 
@@ -43,8 +44,8 @@ namespace rl {
 
         virtual ~XmlResource();
 
-        bool parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser, bool useErrorHandler=true);
-        bool parseBy(XERCES_CPP_NAMESPACE::SAX2XMLReader* parser, bool useErrorHandler=true);
+        bool parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser, XmlProcessor* const proc = NULL);
+        bool parseBy(XERCES_CPP_NAMESPACE::SAX2XMLReader* parser, XmlProcessor* const proc = NULL);
 
     protected:
         size_t calculateSize() const;

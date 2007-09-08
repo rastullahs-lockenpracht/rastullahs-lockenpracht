@@ -26,7 +26,8 @@
 
 namespace rl
 {
-    class _RlRulesExport SaveGameFileWriter : public XmlPropertyWriter
+    class _RlRulesExport SaveGameFileWriter 
+        : protected XmlPropertyWriter
     {
     public:
         void buildSaveGameFile(SaveGameFile *file);

@@ -21,6 +21,7 @@
 #include <xercesc/dom/DOMElement.hpp>
 
 #include <OgreScriptLoader.h>
+#include "XmlHelper.h"
 
 namespace rl {
 
@@ -28,7 +29,9 @@ namespace rl {
 	class Person;
 	class Kampftechnik;
 
-    class XdimlLoader : public Ogre::ScriptLoader
+    class XdimlLoader 
+        : public Ogre::ScriptLoader,
+        private XmlProcessor
 	{
     public:
         XdimlLoader();
@@ -38,16 +41,16 @@ namespace rl {
 		virtual Ogre::Real getLoadingOrder() const;
 
     private:
-		static int getEBeFromString(const Ogre::String& eBeString);
+		int getEBeFromString(const Ogre::String& eBeString);
 
-		static void initializeTalente(XERCES_CPP_NAMESPACE::DOMElement* rootTalente);
-		static Talent* processTalent(int gruppe, XERCES_CPP_NAMESPACE::DOMElement* talentXml);
+		void initializeTalente(XERCES_CPP_NAMESPACE::DOMElement* rootTalente);
+		Talent* processTalent(int gruppe, XERCES_CPP_NAMESPACE::DOMElement* talentXml);
 
-		static void initializePersonen(XERCES_CPP_NAMESPACE::DOMElement* rootPersonen);
-		static Person* processPerson(XERCES_CPP_NAMESPACE::DOMElement* talentXml);
+		void initializePersonen(XERCES_CPP_NAMESPACE::DOMElement* rootPersonen);
+		Person* processPerson(XERCES_CPP_NAMESPACE::DOMElement* talentXml);
 			
-		static void initializeKampftechniken(XERCES_CPP_NAMESPACE::DOMElement* rootKampftechniken);
-		static Kampftechnik* processKampftechnik(XERCES_CPP_NAMESPACE::DOMElement* kampftechnikXml);
+		void initializeKampftechniken(XERCES_CPP_NAMESPACE::DOMElement* rootKampftechniken);
+		Kampftechnik* processKampftechnik(XERCES_CPP_NAMESPACE::DOMElement* kampftechnikXml);
 
         Ogre::StringVector mScriptPatterns;
     };

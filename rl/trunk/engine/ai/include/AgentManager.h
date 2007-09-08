@@ -43,7 +43,7 @@ namespace rl
 
 	/** Executes AI during game as a RL::GameTask.
 	 * Each registered Agent gets executed once per gametask in order
-	 * to do its ai stuff (path finding, movement, decission making).
+	 * to do its ai stuff (path finding, movement, decision making).
 	 */
 	class _RlAiExport AgentManager
 		: public Ogre::Singleton<AgentManager>,

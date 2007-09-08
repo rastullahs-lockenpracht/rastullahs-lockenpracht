@@ -15,14 +15,7 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include <xercesc/framework/LocalFileInputSource.hpp>
-#include <xercesc/parsers/XercesDOMParser.hpp>
-#include <xercesc/dom/DOMDocument.hpp>
-#include <xercesc/dom/DOMElement.hpp>
 #include <xercesc/dom/DOM.hpp>
-#include <xercesc/util/XMLString.hpp>
-#include <xercesc/util/PlatformUtils.hpp>
-#include <xercesc/sax/SAXParseException.hpp>
 
 #include <OgreSceneNode.h>
 
@@ -35,9 +28,6 @@
 #include "ConfigurationManager.h"
 
 #include "Property.h"
-#include "PropertyReader.h"
-#include "XmlHelper.h"
-
 
 #include "Exception.h"
 
@@ -67,7 +57,7 @@ namespace rl {
 
     DotSceneLoader::~DotSceneLoader()
     {
-        if (mRessource->isLoaded())
+        if (!mRessource.isNull() && mRessource->isLoaded())
         {
             XmlResourceManager::getSingleton().unload(mSceneName);
             XmlResourceManager::getSingleton().remove(mRessource->getHandle());
@@ -76,11 +66,10 @@ namespace rl {
 
     void DotSceneLoader::initializeScene(SceneManager* sceneManager)
     {
-        XMLPlatformUtils::Initialize();
-        XmlHelper::initializeTranscoder();
+        initializeXml();
 
         LOG_MESSAGE(Logger::CORE, "Loading Scene from " + mSceneName);
-        DOMDocument* doc = openSceneFile();
+        DOMDocument* doc = loadDocument(mSceneName, mResourceGroup);
 
         // Durch alle Unterelemente iterieren
         DOMNode* child = doc->getDocumentElement()->getFirstChild();
@@ -96,7 +85,7 @@ namespace rl {
         }
 
         LOG_DEBUG(Logger::CORE, " Beginne parsen der Unterelemente");
-        DOMElement* nodes = XmlHelper::getChildNamed(doc->getDocumentElement(), "nodes");
+        DOMElement* nodes = getChildNamed(doc->getDocumentElement(), "nodes");
 
         // Eine .scene wird in einem SceneNode mit dem Namen der .scene befestigt
         mSceneNode = sceneManager->getRootSceneNode()->createChildSceneNode(mSceneName);
@@ -155,45 +144,9 @@ namespace rl {
         else
             LOG_DEBUG(Logger::CORE, " Keine statischen Geometrien erstellt");
 
-        delete mParser;
-        XMLPlatformUtils::Terminate();
+        doc->release();
+        shutdownXml();
         LOG_DEBUG(Logger::CORE, "Szenenbeschreibung aus " + mSceneName +" fertig geparst");
-    }
-
-    DOMDocument* DotSceneLoader::openSceneFile()
-    {
-        mParser = new XercesDOMParser();
-        mParser->setValidationScheme(XercesDOMParser::Val_Auto);
-        mParser->setDoNamespaces(true);
-        mParser->setErrorHandler(this);
-
-        try
-        {
-            mRessource =
-                XmlResourceManager::getSingleton().create(
-                mSceneName,
-                   mResourceGroup);
-        }
-        catch(Ogre::Exception)
-        {
-            Throw(IllegalArgumentException, "RessourceGroup '"+mResourceGroup+"' does not exist.");
-        }
-
-        mRessource->load();
-
-        if (!mRessource->isLoaded())
-        {
-            Throw(FileNotFoundException, "File '"+mSceneName+"' was not found.");
-        }
-
-        mRessource.getPointer()->parseBy(mParser);
-
-        if (mErrorCount > 0)
-            Throw(RuntimeException, "File '"+mSceneName+"' could not be parsed.");
-
-        DOMDocument* doc = mParser->getDocument();
-
-        return doc;
     }
 
     // Iteriert durch die einzelnen Nodes
@@ -228,7 +181,7 @@ namespace rl {
         if (parentNode == NULL)
             Throw(NullPointerException, "parentNode darf nicht null sein");
 
-        string nodeName = XmlHelper::getAttributeValueAsStdString(rootNodeXml,
+        string nodeName = getAttributeValueAsStdString(rootNodeXml,
                         "name");
 
         Ogre::SceneNode* newNode;
@@ -421,7 +374,7 @@ namespace rl {
                 AutoXMLCh("manualLOD").data()) == 0)
             {
                 DOMElement* lodXml = static_cast<DOMElement*>(child);
-                string meshName = XmlHelper::getAttributeValueAsStdString(lodXml,
+                string meshName = getAttributeValueAsStdString(lodXml,
                     "mesh");
 
                 try
@@ -446,9 +399,9 @@ namespace rl {
                             try
                             {
                                 lodXml = static_cast<DOMElement*>(lodchild);
-                                loddist = XmlHelper::getAttributeValueAsReal(lodXml,
+                                loddist = getAttributeValueAsReal(lodXml,
                                     "distance");
-                                lodmeshName = XmlHelper::getAttributeValueAsStdString(lodXml,
+                                lodmeshName = getAttributeValueAsStdString(lodXml,
                                     "mesh");
 
                                 if (lodmeshName.length() > 0 && loddist > 0)
@@ -482,7 +435,6 @@ namespace rl {
     {
         DOMNode* child = rootUserDataXml->getFirstChild();
         LOG_DEBUG(Logger::CORE, " NodeUserData gefunden");
-        XmlPropertyReader* propertyReader = new XmlPropertyReader();
 
         // Durch alle Unterelemente iterieren, um die properties zu finden
         while(child != NULL)
@@ -492,7 +444,7 @@ namespace rl {
                 AutoXMLCh("property").data()) == 0)
             {
                 DOMElement* propertyXml = static_cast<DOMElement*>(child);
-                PropertyEntry entry = propertyReader->processProperty(propertyXml);
+                PropertyEntry entry = processProperty(propertyXml);
 
                 try
                 {
@@ -519,8 +471,6 @@ namespace rl {
 
             child = child->getNextSibling();
         }
-
-        delete propertyReader;
     }
 
     // eine benutzerdefinierte Collision
@@ -547,7 +497,7 @@ namespace rl {
             }
             collision.setNull();
             // am Anfang steht ein Node mit dem Typ
-            std::string typeAsString = XmlHelper::transcodeToStdString(child->getNodeName());
+            std::string typeAsString = transcodeToStdString(child->getNodeName());
 
             scale = Ogre::Vector3::UNIT_SCALE;
             offset = Ogre::Vector3::ZERO;
@@ -788,9 +738,9 @@ namespace rl {
         SceneManager* sceneManager, Ogre::SceneNode* parentNode,
         Ogre::Real renderingDistance, const std::string &physical_body)
     {
-        string entName = XmlHelper::getAttributeValueAsStdString(
+        string entName = getAttributeValueAsStdString(
             rootEntityXml, "name");
-        string meshName = XmlHelper::getAttributeValueAsStdString(
+        string meshName = getAttributeValueAsStdString(
             rootEntityXml, "meshFile");
 
         Ogre::Entity* newEnt = NULL;
@@ -1009,14 +959,14 @@ namespace rl {
 
         try
         {
-            if (XmlHelper::hasAttribute(rootPositionXml, "x") &&
-                XmlHelper::hasAttribute(rootPositionXml, "y") &&
-                XmlHelper::hasAttribute(rootPositionXml, "z"))
+            if (hasAttribute(rootPositionXml, "x") &&
+                hasAttribute(rootPositionXml, "y") &&
+                hasAttribute(rootPositionXml, "z"))
             {
                 return Ogre::Vector3(
-                    XmlHelper::getAttributeValueAsReal(rootPositionXml, "x"),
-                    XmlHelper::getAttributeValueAsReal(rootPositionXml, "y"),
-                    XmlHelper::getAttributeValueAsReal(rootPositionXml, "z"));
+                    getAttributeValueAsReal(rootPositionXml, "x"),
+                    getAttributeValueAsReal(rootPositionXml, "y"),
+                    getAttributeValueAsReal(rootPositionXml, "z"));
             }
         }
         catch(...) { }
@@ -1033,14 +983,14 @@ namespace rl {
 
         try
         {
-            if (XmlHelper::hasAttribute(rootScaleXml, "x") &&
-                XmlHelper::hasAttribute(rootScaleXml, "y") &&
-                XmlHelper::hasAttribute(rootScaleXml, "z"))
+            if (hasAttribute(rootScaleXml, "x") &&
+                hasAttribute(rootScaleXml, "y") &&
+                hasAttribute(rootScaleXml, "z"))
             {
                 return Ogre::Vector3(
-                    XmlHelper::getAttributeValueAsReal(rootScaleXml, "x"),
-                    XmlHelper::getAttributeValueAsReal(rootScaleXml, "y"),
-                    XmlHelper::getAttributeValueAsReal(rootScaleXml, "z"));
+                    getAttributeValueAsReal(rootScaleXml, "x"),
+                    getAttributeValueAsReal(rootScaleXml, "y"),
+                    getAttributeValueAsReal(rootScaleXml, "z"));
             }
         }
         catch(...) { }
@@ -1056,15 +1006,15 @@ namespace rl {
 
         try
         {
-            if (XmlHelper::hasAttribute(rootScaleXml, "x") &&
-                XmlHelper::hasAttribute(rootScaleXml, "y") &&
-                XmlHelper::hasAttribute(rootScaleXml, "z"))
+            if (hasAttribute(rootScaleXml, "x") &&
+                hasAttribute(rootScaleXml, "y") &&
+                hasAttribute(rootScaleXml, "z"))
             {
                 error = false;
                 return Ogre::Vector3(
-                    XmlHelper::getAttributeValueAsReal(rootScaleXml, "x"),
-                    XmlHelper::getAttributeValueAsReal(rootScaleXml, "y"),
-                    XmlHelper::getAttributeValueAsReal(rootScaleXml, "z"));
+                    getAttributeValueAsReal(rootScaleXml, "x"),
+                    getAttributeValueAsReal(rootScaleXml, "y"),
+                    getAttributeValueAsReal(rootScaleXml, "z"));
             }
         }
         catch(...) { }
@@ -1083,43 +1033,43 @@ namespace rl {
         try
         {
             // Durch w,x,y,z definiert
-            if (XmlHelper::hasAttribute(rootQuatXml, "qw") &&
-                XmlHelper::hasAttribute(rootQuatXml, "qx") &&
-                XmlHelper::hasAttribute(rootQuatXml, "qy") &&
-                XmlHelper::hasAttribute(rootQuatXml, "qz"))
+            if (hasAttribute(rootQuatXml, "qw") &&
+                hasAttribute(rootQuatXml, "qx") &&
+                hasAttribute(rootQuatXml, "qy") &&
+                hasAttribute(rootQuatXml, "qz"))
             {
 
                 return Ogre::Quaternion(
-                    XmlHelper::getAttributeValueAsReal(rootQuatXml, "qw"),
-                    XmlHelper::getAttributeValueAsReal(rootQuatXml, "qx"),
-                    XmlHelper::getAttributeValueAsReal(rootQuatXml, "qy"),
-                    XmlHelper::getAttributeValueAsReal(rootQuatXml, "qz"));
+                    getAttributeValueAsReal(rootQuatXml, "qw"),
+                    getAttributeValueAsReal(rootQuatXml, "qx"),
+                    getAttributeValueAsReal(rootQuatXml, "qy"),
+                    getAttributeValueAsReal(rootQuatXml, "qz"));
             }
 
             // Durch axisX,axisY,axisZ,angle definiert
-            if (XmlHelper::hasAttribute(rootQuatXml, "angle") &&
-                XmlHelper::hasAttribute(rootQuatXml, "axisX") &&
-                XmlHelper::hasAttribute(rootQuatXml, "axisY") &&
-                XmlHelper::hasAttribute(rootQuatXml, "axisZ"))
+            if (hasAttribute(rootQuatXml, "angle") &&
+                hasAttribute(rootQuatXml, "axisX") &&
+                hasAttribute(rootQuatXml, "axisY") &&
+                hasAttribute(rootQuatXml, "axisZ"))
             {
                 return Ogre::Quaternion(
-                    Ogre::Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angle")),
+                    Ogre::Degree(getAttributeValueAsReal(rootQuatXml, "angle")),
                     Ogre::Vector3(
-                    XmlHelper::getAttributeValueAsReal(rootQuatXml, "axisX"),
-                    XmlHelper::getAttributeValueAsReal(rootQuatXml, "axisY"),
-                    XmlHelper::getAttributeValueAsReal(rootQuatXml, "axisZ")));
+                    getAttributeValueAsReal(rootQuatXml, "axisX"),
+                    getAttributeValueAsReal(rootQuatXml, "axisY"),
+                    getAttributeValueAsReal(rootQuatXml, "axisZ")));
             }
 
             // Durch angleX,angleY,angleZ definiert
-            if (XmlHelper::hasAttribute(rootQuatXml, "angleX") &&
-                XmlHelper::hasAttribute(rootQuatXml, "angleY") &&
-                XmlHelper::hasAttribute(rootQuatXml, "angleZ") )
+            if (hasAttribute(rootQuatXml, "angleX") &&
+                hasAttribute(rootQuatXml, "angleY") &&
+                hasAttribute(rootQuatXml, "angleZ") )
             {
                 Ogre::Matrix3 mat;
                 mat.FromEulerAnglesXYZ(
-                    Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleX")),
-                    Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleY")),
-                    Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleZ")));
+                    Degree(getAttributeValueAsReal(rootQuatXml, "angleX")),
+                    Degree(getAttributeValueAsReal(rootQuatXml, "angleY")),
+                    Degree(getAttributeValueAsReal(rootQuatXml, "angleZ")));
                 return Quaternion(mat);
             }
         }
@@ -1128,40 +1078,6 @@ namespace rl {
         LOG_MESSAGE(Logger::CORE, " > Parse Error beim Übernehmen der Rotation! ");
 
         return Ogre::Quaternion::IDENTITY;
-    }
-
-
-    void DotSceneLoader::warning(const XERCES_CPP_NAMESPACE::SAXParseException& exc)
-    {
-        LOG_MESSAGE(Logger::CORE, toString(" warning ", exc));
-    }
-    void DotSceneLoader::error(const XERCES_CPP_NAMESPACE::SAXParseException& exc)
-    {
-        LOG_ERROR(Logger::CORE, toString("n error", exc));
-        mErrorCount++;
-    }
-    void DotSceneLoader::fatalError(const XERCES_CPP_NAMESPACE::SAXParseException& exc)
-    {
-        LOG_CRITICAL(Logger::CORE, toString(" fatal error", exc));
-        mErrorCount++;
-    }
-    void DotSceneLoader::resetErrors()
-    {
-    }
-
-    std::string DotSceneLoader::toString(const std::string& type,
-        const XERCES_CPP_NAMESPACE::SAXParseException& exc) const
-    {
-        std::stringstream strs;
-        strs << "A" << type << " occured while parsing " << mSceneName
-             << " at line " << exc.getLineNumber() << " column " <<  exc.getColumnNumber();
-
-        if (exc.getSystemId() != NULL)
-            strs << " with system " << XmlHelper::transcodeToStdString(exc.getSystemId());
-        if (exc.getPublicId() != NULL)
-            strs << " with public " << XmlHelper::transcodeToStdString(exc.getPublicId());
-
-        return strs.str();
     }
 }
 

@@ -20,7 +20,6 @@
 #include "AiSubsystem.h"
 #include "Landmark.h"
 #include "LandmarkPath.h"
-#include "XmlHelper.h"
 
 using namespace XERCES_CPP_NAMESPACE;
 using namespace Ogre;
@@ -36,11 +35,11 @@ namespace rl
 
 		for (DOMNode* cur = nodeElem->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
 		{
-			if (cur->getNodeType() == DOMNode::ELEMENT_NODE && XmlHelper::hasNodeName(cur, "landmark"))
+			if (cur->getNodeType() == DOMNode::ELEMENT_NODE && hasNodeName(cur, "landmark"))
 			{
 				DOMElement* elem = static_cast<DOMElement*>(cur);
-				Ogre::String name = XmlHelper::getAttributeValueAsStdString(elem, "name");
-				DOMElement* posChild = XmlHelper::getChildNamed(elem, "position");
+				Ogre::String name = getAttributeValueAsStdString(elem, "name");
+				DOMElement* posChild = getChildNamed(elem, "position");
 				if (name != "" && posChild != NULL)
 				{
 					AiSubsystem::getSingleton().createLandmark(
@@ -51,7 +50,7 @@ namespace rl
 
 		for (DOMNode* cur = nodeElem->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
 		{
-			if (cur->getNodeType() == DOMNode::ELEMENT_NODE && XmlHelper::hasNodeName(cur, "landmarkgraph"))
+			if (cur->getNodeType() == DOMNode::ELEMENT_NODE && hasNodeName(cur, "landmarkgraph"))
 			{
 				DOMElement* elem = static_cast<DOMElement*>(cur);
 				///@todo process waypointgraph
@@ -63,11 +62,11 @@ namespace rl
 					curPathChild != NULL; curPathChild = curPathChild->getNextSibling())
 				{
 					if (curPathChild->getNodeType() == DOMNode::ELEMENT_NODE
-						&& XmlHelper::hasNodeName(curPathChild, "landmark"))
+						&& hasNodeName(curPathChild, "landmark"))
 					{
 						DOMElement* curLmElem = static_cast<DOMElement*>(curPathChild);
 						Landmark* lm = AiSubsystem::getSingleton().getLandmark(
-							XmlHelper::getAttributeValueAsStdString(curLmElem, "name"));
+							getAttributeValueAsStdString(curLmElem, "name"));
 
 						if (lm != NULL)
 						{

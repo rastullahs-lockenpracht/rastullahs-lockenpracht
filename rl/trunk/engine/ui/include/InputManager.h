@@ -25,10 +25,11 @@
 #include <OgreRenderWindow.h>
 #include <OgreSingleton.h>
 
+#include <stack>
+
 #include "FixRubyHeaders.h"
 #include "GameTask.h"
-
-#include <stack>
+#include "XmlHelper.h"
 
 namespace rl {
 
@@ -39,7 +40,8 @@ namespace rl {
 
     class _RlUiExport InputManager
         :    public Ogre::Singleton<InputManager>,
-            public GameTask
+            public GameTask,
+            private XmlProcessor
     {
     public:
 

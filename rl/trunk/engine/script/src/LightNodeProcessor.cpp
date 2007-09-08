@@ -17,8 +17,6 @@
 
 #include "LightNodeProcessor.h"
 
-#include "XmlHelper.h"
-
 #include "Actor.h"
 #include "ActorManager.h"
 
@@ -29,19 +27,19 @@ namespace rl
 {
     bool LightNodeProcessor::processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects)
     {
-        if (!XmlHelper::hasNodeName(nodeElem, "light"))
+        if (!hasNodeName(nodeElem, "light"))
         {
             return false;
         }
 
         LOG_DEBUG(Logger::RULES,
             "Processing light node "
-                + XmlHelper::getAttributeValueAsStdString(nodeElem, "name"));
+                + getAttributeValueAsStdString(nodeElem, "name"));
 
-        Ogre::String name = XmlHelper::getAttributeValueAsStdString(nodeElem, "name");
-        Ogre::String stype = XmlHelper::getAttributeValueAsStdString(nodeElem, "type");
-        bool visible = XmlHelper::getAttributeValueAsBool(nodeElem, "visible");
-        bool shadowCaster = XmlHelper::getAttributeValueAsBool(nodeElem, "castShadows");
+        Ogre::String name = getAttributeValueAsStdString(nodeElem, "name");
+        Ogre::String stype = getAttributeValueAsStdString(nodeElem, "type");
+        bool visible = getAttributeValueAsBool(nodeElem, "visible");
+        bool shadowCaster = getAttributeValueAsBool(nodeElem, "castShadows");
 
         LightObject::LightTypes type = LightObject::LT_DIRECTIONAL;
         if (stype == "point")
@@ -63,7 +61,7 @@ namespace rl
         }
         Actor* lightActor = ActorManager::getSingleton().createLightActor(name, type);
 
-        DOMElement* posElem = XmlHelper::getChildNamed(nodeElem, "position");
+        DOMElement* posElem = getChildNamed(nodeElem, "position");
         if (posElem != NULL)
         {
             lightActor->placeIntoScene(processVector3(posElem));
@@ -78,30 +76,30 @@ namespace rl
         light->setCastShadows(shadowCaster);
         light->setVisible(visible);
 
-        DOMElement* diffElem = XmlHelper::getChildNamed(nodeElem, "colourDiffuse");
+        DOMElement* diffElem = getChildNamed(nodeElem, "colourDiffuse");
         if (diffElem != NULL)
         {
             light->setDiffuseColour(processColour(diffElem));
         }
 
-        DOMElement* specElem = XmlHelper::getChildNamed(nodeElem, "colourSpecular");
+        DOMElement* specElem = getChildNamed(nodeElem, "colourSpecular");
         if (specElem != NULL)
         {
             light->setSpecularColour(processColour(specElem));
         }
 
-        DOMElement* attElem = XmlHelper::getChildNamed(nodeElem, "lightAttenuation");
+        DOMElement* attElem = getChildNamed(nodeElem, "lightAttenuation");
         if (attElem != NULL)
         {
-            if (XmlHelper::hasAttribute(attElem, "range")
-                && XmlHelper::hasAttribute(attElem, "constant")
-                && XmlHelper::hasAttribute(attElem, "linear")
-                && XmlHelper::hasAttribute(attElem, "quadratic"))
+            if (hasAttribute(attElem, "range")
+                && hasAttribute(attElem, "constant")
+                && hasAttribute(attElem, "linear")
+                && hasAttribute(attElem, "quadratic"))
             {
-                Ogre::Real range = XmlHelper::getAttributeValueAsReal(attElem, "range");
-                Ogre::Real constant = XmlHelper::getAttributeValueAsReal(attElem, "constant");
-                Ogre::Real linear = XmlHelper::getAttributeValueAsReal(attElem, "linear");
-                Ogre::Real quadratic = XmlHelper::getAttributeValueAsReal(attElem, "quadratic");
+                Ogre::Real range = getAttributeValueAsReal(attElem, "range");
+                Ogre::Real constant = getAttributeValueAsReal(attElem, "constant");
+                Ogre::Real linear = getAttributeValueAsReal(attElem, "linear");
+                Ogre::Real quadratic = getAttributeValueAsReal(attElem, "quadratic");
 
                 light->setAttenuation(range, constant, linear, quadratic);
             }
@@ -110,7 +108,7 @@ namespace rl
 
         if (stype == "directional")
         {
-            DOMElement* dirElem = XmlHelper::getChildNamed(nodeElem, "direction");
+            DOMElement* dirElem = getChildNamed(nodeElem, "direction");
             if (dirElem != NULL)
             {
                 light->setDirection(processVector3(dirElem));
@@ -122,15 +120,15 @@ namespace rl
         }
         else if (stype == "spot")
         {
-            DOMElement* rangeElem = XmlHelper::getChildNamed(nodeElem, "spotlightrange");
+            DOMElement* rangeElem = getChildNamed(nodeElem, "spotlightrange");
             if (rangeElem != NULL)
             {
-                Ogre::Real innerAngle = XmlHelper::getAttributeValueAsReal(rangeElem, "inner");
-                Ogre::Real outerAngle = XmlHelper::getAttributeValueAsReal(rangeElem, "outer");
-                if (XmlHelper::hasAttribute(rangeElem, "falloff"))
+                Ogre::Real innerAngle = getAttributeValueAsReal(rangeElem, "inner");
+                Ogre::Real outerAngle = getAttributeValueAsReal(rangeElem, "outer");
+                if (hasAttribute(rangeElem, "falloff"))
                 {
                     light->setSpotlightRange(
-                        innerAngle, outerAngle, XmlHelper::getAttributeValueAsReal(rangeElem, "falloff"));
+                        innerAngle, outerAngle, getAttributeValueAsReal(rangeElem, "falloff"));
                 }
                 else
                 {

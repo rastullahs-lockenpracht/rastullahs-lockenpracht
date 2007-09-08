@@ -70,16 +70,18 @@ size_t XmlResource::calculateSize() const
 /**
  * @todo both parseby methods could be merged in one template method, to avoid redundancy
  */
-bool XmlResource::parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser, bool useErrorHandler)
+bool XmlResource::parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser, XmlProcessor* const errorHandler)
 {
 	if (!isLoaded())
 		load();
-    if(useErrorHandler && parser->getErrorHandler() == NULL)
+
+    if (errorHandler 
+        && parser->getErrorHandler() == NULL)
     {
-        parser->setErrorHandler(XmlHelper::getErrorHandler());
-        XmlHelper::getErrorHandler()->setFileName(getName());
+        parser->setErrorHandler(errorHandler);
     }
-	parser->parse(*mXmlBuffer);
+
+    parser->parse(*mXmlBuffer);
     if(parser->getErrorCount() > 0)
     {
         return false;
@@ -87,16 +89,18 @@ bool XmlResource::parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser, bool us
     return true;
 }
 
-bool XmlResource::parseBy(XERCES_CPP_NAMESPACE::SAX2XMLReader* parser, bool useErrorHandler)
+bool XmlResource::parseBy(XERCES_CPP_NAMESPACE::SAX2XMLReader* parser, XmlProcessor* const errorHandler)
 {
 	if (!isLoaded())
 		load();
-    if(useErrorHandler && parser->getErrorHandler() == NULL)
+
+    if (errorHandler 
+        && parser->getErrorHandler() == NULL)
     {
-        parser->setErrorHandler(XmlHelper::getErrorHandler());
-        XmlHelper::getErrorHandler()->setFileName(getName());
+        parser->setErrorHandler(errorHandler);
     }
-	parser->parse(*mXmlBuffer);
+
+    parser->parse(*mXmlBuffer);
     if(parser->getErrorCount() > 0)
     {
         return false;

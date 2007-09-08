@@ -17,10 +17,10 @@
 #define __RlAI_WayPointGraph_H__
 
 #include "AiPrerequisites.h"
-#include "WayPointNode.h"
-#include "DebugVisualisable.h"
-#include "OgreVector3.h"
 
+#include "DebugVisualisable.h"
+#include "WayPointNode.h"
+#include "XmlHelper.h"
 
 namespace rl
 {
@@ -32,7 +32,8 @@ namespace rl
 	 */
 	//template <class NodeType>
 	class _RlAiExport WayPointGraph 
-		: public DebugVisualisable
+		: public DebugVisualisable,
+        private XmlProcessor
 	{
 	public:
 		//! defines a list of waypoint nodes
@@ -77,7 +78,8 @@ namespace rl
 		 * configuration module in oder to fetch the module directory path.
 		 * @param filename of the file to load.
 		 */
-		void load (const Ogre::String& filename);
+		void loadBinary(const Ogre::String& filename);
+
 		/** saves the Waypoints to a file.
 		 * Structure of the file is as follows:
 		 * Header\n
@@ -99,7 +101,14 @@ namespace rl
 		 *
 		 * @param filename of the file to save to.
 		 */
-		void save (const Ogre::String& filename) const;
+		void saveBinary(const Ogre::String& filename) const;
+
+        /** loads the Waypoints from an xml file.
+		 * The Load functionality uses the module path querying of the
+		 * configuration module in oder to fetch the module directory path.
+		 * @param filename of the file to load.
+		 */
+		void load(const Ogre::String& filename, const Ogre::String& resourceGroup = "");
 
 		/** retrieves the nearest WayPoint for the given position
 		 * @param position in world space whose nearest waypoint has to be found.

@@ -18,12 +18,15 @@
 #include <string>
 #include <xercesc/sax/ErrorHandler.hpp>
 #include "CommonPrerequisites.h"
+#include "XmlHelper.h"
 
-class XERCES_CPP_NAMESPACE::SAXParseException;
+
 
 namespace rl
 {
-    class _RlCommonExport XmlErrorHandler : public XERCES_CPP_NAMESPACE::ErrorHandler
+    /*class _RlCommonExport XmlErrorHandler 
+        :   public XERCES_CPP_NAMESPACE::ErrorHandler,
+            private XmlProcessor
     {
     public:
         XmlErrorHandler(void);
@@ -40,6 +43,6 @@ namespace rl
                               const XERCES_CPP_NAMESPACE::SAXParseException& exc ) const;
         
         std::string mFileName;
-    };
+    };*/
 }
 #endif

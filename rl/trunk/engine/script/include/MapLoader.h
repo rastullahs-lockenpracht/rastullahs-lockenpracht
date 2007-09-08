@@ -22,14 +22,14 @@
 
 #include <OgreSceneNode.h>
 #include <list>
+#include "XmlHelper.h"
 
 namespace rl {
 
     class AbstractMapNodeProcessor;
     class ProgressWindow;
-    class XmlPropertyReader;
 
-    class _RlScriptExport MapLoader 
+    class _RlScriptExport MapLoader : private XmlProcessor 
     {
     public:
         MapLoader(const Ogre::String& resourceGroup);
@@ -43,7 +43,6 @@ namespace rl {
         void loadMap(const Ogre::String& mapresource, bool loadGameObjects = true);
 
     private:
-        XmlPropertyReader* mXmlPropertyProcessor;
         std::list<AbstractMapNodeProcessor*> mNodeProcessors;
 
         Ogre::SceneNode* mRootSceneNode;

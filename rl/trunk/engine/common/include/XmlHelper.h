@@ -17,13 +17,17 @@
 #ifndef __XmlHelper_h__
 #define __XmlHelper_h__
 
+#include <OgreDataStream.h>
+
 #include <xercesc/dom/DOMElement.hpp>
 #include <xercesc/util/XMLChar.hpp>
 #include <xercesc/util/TransService.hpp>
+#include <xercesc/sax/ErrorHandler.hpp>
 #include <xercesc/sax2/Attributes.hpp>
 
+class XERCES_CPP_NAMESPACE::SAXParseException;
+
 #include "CommonPrerequisites.h"
-#include "XmlErrorHandler.h"
 
 #include "Tripel.h"
 
@@ -45,12 +49,12 @@ using CEGUI::String;
 
 namespace rl {
 
-    class XmlErrorHandler;
 /**
- * Diese Klasse bietet Helferfunktionen, um XML einfacher verarbeiten zu können
- * Alle Methoden sind statisch, es muss also keine Instanz dieser Klasse gebildet werden
+ * This class offers helper methods for XML processing
+ * To use this method, just privately inherit this class 
  */
-class _RlCommonExport XmlHelper
+class _RlCommonExport XmlProcessor
+    : public XERCES_CPP_NAMESPACE::ErrorHandler
 {
 public:
     
@@ -64,8 +68,8 @@ public:
 	 *
 	 * @return Der Kindknoten
 	 */
-    static XERCES_CPP_NAMESPACE::DOMElement* appendChildElement(XERCES_CPP_NAMESPACE::DOMDocument* doc, 
-        XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name);
+    XERCES_CPP_NAMESPACE::DOMElement* appendChildElement(XERCES_CPP_NAMESPACE::DOMDocument* doc, 
+        XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name) const;
 
     /**
 	 * Ermittelt einen Kindknoten eines DOM-Elements, das einen bestimmten Namen hat, 
@@ -76,7 +80,7 @@ public:
 	 *
 	 * @return Der Kindknoten
 	 */
-	static XERCES_CPP_NAMESPACE::DOMElement* getChildNamed(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name);
+	XERCES_CPP_NAMESPACE::DOMElement* getChildNamed(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name) const;
 	
     /**
 	 * Setzt den Text eines Elementknotens
@@ -85,7 +89,7 @@ public:
      * @param string Der zu setzende String
 	 * @return Das DOM-Element
 	 */
-    static XERCES_CPP_NAMESPACE::DOMElement* setValueAsString(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, const CeGuiString &value);
+    XERCES_CPP_NAMESPACE::DOMElement* setValueAsString(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, const CeGuiString &value) const;
     
     /**
 	 * Ermittelt den Text eines Elementknotens
@@ -93,7 +97,7 @@ public:
 	 * @param element Das DOM-Element
 	 * @return Text innerhalb der Element-Tags, als CeGuiString
 	 */
-	static CeGuiString getValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element);
+	CeGuiString getValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element) const;
 	
     /**
 	 * Ermittelt den Text eines Elementknotens
@@ -101,7 +105,7 @@ public:
 	 * @param element Das DOM-Element
 	 * @return Text innerhalb der Element-Tags, als CeGuiString
 	 */
-    static std::string getValueAsStdString(XERCES_CPP_NAMESPACE::DOMElement* element);
+    std::string getValueAsStdString(XERCES_CPP_NAMESPACE::DOMElement* element) const;
 
     /**
 	 * Setzt den Text eines Elementknotens, als UTF-8
@@ -111,7 +115,7 @@ public:
      * @param utf Der zu setzende UTF String
 	 * @return Das DOM-Element
 	 */
-	static XERCES_CPP_NAMESPACE::DOMElement* setValueAsUtf8(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, utf8* value);
+	XERCES_CPP_NAMESPACE::DOMElement* setValueAsUtf8(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, utf8* value) const;
     
     /**
 	 * Ermittelt den Text eines Elementknotens, als UTF-8
@@ -121,7 +125,7 @@ public:
 	 * @return Text innerhalb der Element-Tags, als utf8* (muss selbst gelöscht werden)
 	 * @see initializeTranscoder()
 	 */
-	static utf8* getValueAsUtf8(XERCES_CPP_NAMESPACE::DOMElement* element);
+	utf8* getValueAsUtf8(XERCES_CPP_NAMESPACE::DOMElement* element) const;
 
 	/**
 	 * Formt eine Ganzzahl in einen String um und setzt diesen als Wert
@@ -130,7 +134,7 @@ public:
      * @param value Der zu setzende Integer
 	 * @return Das DOM-Element
 	 */
-	static XERCES_CPP_NAMESPACE::DOMElement* setValueAsInteger(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, int value);
+	XERCES_CPP_NAMESPACE::DOMElement* setValueAsInteger(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, int value) const;
 
     
     /**
@@ -140,7 +144,7 @@ public:
 	 * @param element Das DOM-Element
 	 * @return Zahl, die innerhalb der Element-Tags steht
 	 */
-	static int getValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element);
+	int getValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element) const;
 
     /**
 	 * Ermittelt den Text eines Elementknotens und parst ihn, 
@@ -149,7 +153,7 @@ public:
 	 * @param element Das DOM-Element
 	 * @return Zahl, die innerhalb der Element-Tags steht
 	 */
-    static Ogre::Real getValueAsReal(XERCES_CPP_NAMESPACE::DOMElement* element);
+    Ogre::Real getValueAsReal(XERCES_CPP_NAMESPACE::DOMElement* element) const;
 
     /**
 	 * Formt einen Ganzzahldubel in einen String um und setzt diesen als Wert
@@ -158,7 +162,7 @@ public:
      * @param value Das zu setzende IntegerPair
 	 * @return Das DOM-Element
 	 */
-    static XERCES_CPP_NAMESPACE::DOMElement* setValueAsIntegerPair(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, IntPair value);
+    XERCES_CPP_NAMESPACE::DOMElement* setValueAsIntegerPair(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, IntPair value) const;
 
     /**
 	 * Ermittelt den Text eines Elementknotens und parst ihn, 
@@ -167,7 +171,7 @@ public:
 	 * @param element Das DOM-Element
 	 * @return Zahl, die innerhalb der Element-Tags steht
 	 */
-    static IntPair getValueAsIntegerPair(XERCES_CPP_NAMESPACE::DOMElement* element);
+    IntPair getValueAsIntegerPair(XERCES_CPP_NAMESPACE::DOMElement* element) const;
 
     /**
 	 * Formt einen Ganzzahltripel in einen String um und setzt diesen als Wert
@@ -176,7 +180,7 @@ public:
      * @param value Der zu setzende Tripel<int>
 	 * @return Das DOM-Element
 	 */
-    static XERCES_CPP_NAMESPACE::DOMElement* setValueAsIntegerTriple(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, Tripel<int> value);
+    XERCES_CPP_NAMESPACE::DOMElement* setValueAsIntegerTriple(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, Tripel<int> value) const;
 
     /**
 	 * Ermittelt den Text eines Elementknotens und parst ihn, 
@@ -185,7 +189,7 @@ public:
 	 * @param element Das DOM-Element
 	 * @return Zahl, die innerhalb der Element-Tags steht
 	 */
-    static Tripel<int> getValueAsIntegerTriple(XERCES_CPP_NAMESPACE::DOMElement* element);
+    Tripel<int> getValueAsIntegerTriple(XERCES_CPP_NAMESPACE::DOMElement* element) const;
 	
     /**
      * Convert a vector3 to an xml tag
@@ -194,7 +198,7 @@ public:
      * @param value The vector input
 	 * @return The DOM element
 	 */
-    static XERCES_CPP_NAMESPACE::DOMElement* setValueAsVector3(XERCES_CPP_NAMESPACE::DOMElement* element, Ogre::Vector3 value);
+    XERCES_CPP_NAMESPACE::DOMElement* setValueAsVector3(XERCES_CPP_NAMESPACE::DOMElement* element, Ogre::Vector3 value) const;
 
     /**
 	 * Processes an element node of shape <any_node_name x="0" y="0" z="0"/>
@@ -203,7 +207,7 @@ public:
 	 * @param element The DOM element
 	 * @return the vector
 	 */
-	static Ogre::Vector3 getValueAsVector3(XERCES_CPP_NAMESPACE::DOMElement* element);
+	Ogre::Vector3 getValueAsVector3(XERCES_CPP_NAMESPACE::DOMElement* element) const;
 
     /**
      * Convert a quaternion to an xml tag
@@ -212,7 +216,7 @@ public:
      * @param value The quaternion input
 	 * @return The DOM element
 	 */
-    static XERCES_CPP_NAMESPACE::DOMElement* setValueAsQuaternion(XERCES_CPP_NAMESPACE::DOMElement* element, Ogre::Quaternion value);
+    XERCES_CPP_NAMESPACE::DOMElement* setValueAsQuaternion(XERCES_CPP_NAMESPACE::DOMElement* element, Ogre::Quaternion value) const;
 
     /**
 	 * Processes an element node of shape <any_node_name x="0" y="0" z="0" w="1"/>
@@ -221,7 +225,7 @@ public:
 	 * @param element The DOM element
 	 * @return the quaternion
 	 */
-    static Ogre::Quaternion getValueAsQuaternion(XERCES_CPP_NAMESPACE::DOMElement* element);
+    Ogre::Quaternion getValueAsQuaternion(XERCES_CPP_NAMESPACE::DOMElement* element) const;
 
 	
     /**
@@ -231,7 +235,7 @@ public:
 	 * @param name Name des Attributes
 	 * @return <code>true</code>, wenn das Attribut an diesem Element existiert, sonst <code>false</code>
 	 */
-	static bool hasAttribute(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+	bool hasAttribute(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name) const;
 
     /**
 	 * Setzt den Wert von einem Attribut eines Elementes
@@ -241,7 +245,7 @@ public:
      * @param value Wert der gesetzt werden muss
 	 * @return <code>true</code>, wenn das Attribut an diesem Element existiert, sonst <code>false</code>
 	 */
-    static void setAttribute(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, const char* const value);
+    void setAttribute(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, const char* const value) const;
 
     /**
 	 * Checks whether a DOMNode has a certain name
@@ -250,7 +254,7 @@ public:
 	 * @param name the name to check
 	 * @return <code>true</code>, if the DOM node the name <code>name</code>, <code>false</code> otherwise
 	 */
-	static bool hasNodeName(XERCES_CPP_NAMESPACE::DOMNode* node, const char* const name);
+	bool hasNodeName(XERCES_CPP_NAMESPACE::DOMNode* node, const char* const name) const;
 
     
     /**
@@ -261,7 +265,7 @@ public:
      * @param value das zu setzende Integer
 	 * @return Das DOM-Element
 	 */
-	static XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, int value);
+	XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, int value) const;
 
     /**
 	 * Ermittelt den Text eines DOMElement-Attributes und parst ihn, 
@@ -271,7 +275,7 @@ public:
 	 * @param name Name des Attributes
      * @return Zahlenwert des Attributes
 	 */
-	static int getAttributeValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+	int getAttributeValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name) const;
 
     /**
 	 * Wandelt eine Ganzzahldubel in einen Text um und setzt diesen als Attribut 
@@ -281,7 +285,7 @@ public:
      * @param value das zu setzende IntegerPair
 	 * @return Das DOM-Element
 	 */
-    static XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsIntegerPair(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, IntPair value);
+    XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsIntegerPair(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, IntPair value) const;
 
     /**
 	 * Ermittelt den Text eines DOMElement-Attributes und parst ihn, 
@@ -291,7 +295,7 @@ public:
 	 * @param name Name des Attributes
      * @return Zahlendubel des Attributes
 	 */
-    static IntPair getAttributeValueAsIntegerPair(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+    IntPair getAttributeValueAsIntegerPair(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name) const;
 
     /**
 	 * Wandelt eine Ganzzahltripel in einen Text um und setzt diesen als Attribut 
@@ -301,7 +305,7 @@ public:
      * @param value das zu setzende Tripel<int>
 	 * @return Das DOM-Element
 	 */
-    static XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsIntegerTriple(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, Tripel<int> value);
+    XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsIntegerTriple(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, Tripel<int> value) const;
 
     /**
 	 * Ermittelt den Text eines DOMElement-Attributes und parst ihn, 
@@ -311,7 +315,7 @@ public:
 	 * @param name Name des Attributes
      * @return Zahlendubel des Attributes
 	 */
-    static Tripel<int> getAttributeValueAsIntegerTriple(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+    Tripel<int> getAttributeValueAsIntegerTriple(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name) const;
 	
 	/**
 	 * Setzt den Text eines DOMElement-Attributes
@@ -321,7 +325,7 @@ public:
 	 * @param value das zu setzende CeGuiString
 	 * @return Das DOM-Element
 	 */	
-	static XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, const CeGuiString &value);
+	XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, const CeGuiString &value) const;
     
     /**
 	 * Ermittelt den Text eines DOMElement-Attributes und konvertiert ihn zu einem CeGuiString
@@ -330,7 +334,7 @@ public:
 	 * @param name Name des Attributes
 	 * @return Konvertierter Text als CeGuiString
 	 */	
-	static CeGuiString getAttributeValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+	CeGuiString getAttributeValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name) const;
 
     /**
 	 * Setzt den Text eines DOMElement-Attributes
@@ -340,7 +344,7 @@ public:
 	 * @param value der zu setzende std::string
 	 * @return Das DOM-Element
 	 */	
-    static XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsStdString(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, const std::string &value);
+    XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsStdString(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, const std::string &value) const;
 
 	/**
 	 * Ermittelt den Text eines DOMElement-Attributes und konvertiert ihn zu einem std::string
@@ -349,7 +353,7 @@ public:
 	 * @param name Name des Attributes
 	 * @return Konvertierter Text als std::string
 	 */	
-    static std::string getAttributeValueAsStdString(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+    std::string getAttributeValueAsStdString(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name) const;
 	
     /**
 	 * Ermittelt den Text eines SAX Element-Attributes und konvertiert ihn zu einem CeGuiString
@@ -358,7 +362,7 @@ public:
 	 * @param name Name des Attributes
 	 * @return Konvertierter Text als CeGuiString
 	 */
-	static CeGuiString getAttributeValueAsString(const XERCES_CPP_NAMESPACE::Attributes& attributes, const char* const name);
+	CeGuiString getAttributeValueAsString(const XERCES_CPP_NAMESPACE::Attributes& attributes, const char* const name) const;
 
     /**
 	 * Setzt den Text eines DOMElement-Attributes
@@ -368,7 +372,7 @@ public:
 	 * @param value der zu setzende boolean
 	 * @return Das DOM-Element
 	 */	
-	static XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsBool(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, bool value);
+	XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsBool(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, bool value) const;
 
 	/**
 	 * Ermittelt den Text eines DOMElement-Attributes und interpretier ihn als bool
@@ -377,7 +381,7 @@ public:
 	 * @param name Name des Attributes
 	 * @return Konvertierter Text als bool
 	 */	
-	static bool getAttributeValueAsBool(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+	bool getAttributeValueAsBool(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name) const;
 
     /**
 	 * Setzt den Text eines DOMElement-Attributes
@@ -387,7 +391,7 @@ public:
 	 * @param value der zu setzende Real Wert
 	 * @return Das DOM-Element
 	 */	
-    static XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsReal(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, Ogre::Real value);
+    XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsReal(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, Ogre::Real value) const;
 
 	/**
 	 * Ermittelt den Text eines DOMElement-Attributes und konvertiert ihn zu Ogre::Real
@@ -396,14 +400,14 @@ public:
 	 * @param name Name des Attributes
 	 * @return Konvertierter Text als Ogre::Real
 	 */	
-	static Ogre::Real getAttributeValueAsReal(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+	Ogre::Real getAttributeValueAsReal(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name) const;
 
 
 	/**
 	 * Initialisiert den XML<->UTF-8 Transcoder, 
 	 * davor muss XMLPlatformUtils::Initialize() aufgerufen worden sein
 	 */
-	static void initializeTranscoder();
+	void initializeTranscoder();
 
 	/**
 	 * Konvertiert einen Xerces-XMLCh* in eine CeGuiString
@@ -413,19 +417,33 @@ public:
 	 * 
 	 * @param string16 Der zu konvertierende Xerces-XMLCh*
 	 * @return Konvertierter Text als CeGuiString
-	 * @see transcodeToUtf8(const XMLCh* const string16);
+	 * @see transcodeToUtf8(const XMLCh* const string16) const;
 	 */
-	static CeGuiString transcodeToString(const XMLCh* const string16);
+	CeGuiString transcodeToString(const XMLCh* const string16) const;
 
-	static std::string transcodeToStdString(const XMLCh* const string16);
+	std::string transcodeToStdString(const XMLCh* const string16) const;
 
-    static XmlErrorHandler* getErrorHandler();
+    XERCES_CPP_NAMESPACE::DOMDocument* loadDocument(
+        const Ogre::String& resourceName, const Ogre::String& resourceGroup = "");
+    XERCES_CPP_NAMESPACE::DOMDocument* loadDocument(
+        const Ogre::DataStreamPtr& stream);
+
+    void initializeXml();
+    void shutdownXml();
+
+        virtual void warning(const XERCES_CPP_NAMESPACE::SAXParseException& exc);
+        virtual void error(const XERCES_CPP_NAMESPACE::SAXParseException& exc);
+        virtual void fatalError(const XERCES_CPP_NAMESPACE::SAXParseException& exc);
+        virtual void resetErrors();
 
 private:
 	static XMLTranscoder* sTranscoder;
 	static XMLTransService::Codes sFailCode;
 
-    static XmlErrorHandler sErrorHandler;
+        std::string toString( const std::string& type,
+                              const XERCES_CPP_NAMESPACE::SAXParseException& exc ) const;
+        
+        std::string mOpenXmlFileName;
 
 	/**
 	 * Konvertiert ein Xerces-XMLCh* in einen UTF-8-String
@@ -435,7 +453,7 @@ private:
 	 * @return Konvertierter Text als utf8* (muss selbst gelöscht werden)
 	 * @see initializeTranscoder()
 	 */
-	static utf8* transcodeToUtf8(const XMLCh* const string16);
+	utf8* transcodeToUtf8(const XMLCh* const string16) const;
 };
 
 class _RlCommonExport AutoXMLCh

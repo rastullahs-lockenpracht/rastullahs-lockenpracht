@@ -71,14 +71,14 @@ namespace rl {
 		}
     }
 
-    void DotSceneOctreeWorld::loadScene(const String& levelName, const String& module)
+    void DotSceneOctreeWorld::loadScene(const Ogre::String& levelName, const Ogre::String& module)
     {
         // Alte Szene löschen
         clearScene();
 
 		setCastShadows( true );
 
-        // Leerer String, keine Map laden
+        // Leerer Ogre::String, keine Map laden
         if (levelName.length() != 0)
         {
             /// TODO - In den Sky-Sonnenpart verschieben

@@ -17,8 +17,6 @@
 
 #include "SoundNodeProcessor.h"
 
-#include "XmlHelper.h"
-
 using namespace Ogre;
 using namespace XERCES_CPP_NAMESPACE;
 
@@ -26,14 +24,14 @@ namespace rl
 {
     bool SoundNodeProcessor::processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects)
     {
-        if (!XmlHelper::hasNodeName(nodeElem, "sound"))
+        if (!hasNodeName(nodeElem, "sound"))
         {
             return false;
         }
 
         LOG_DEBUG(Logger::RULES,
             "Processing sound node "
-                + XmlHelper::getAttributeValueAsStdString(nodeElem, "name"));
+                + getAttributeValueAsStdString(nodeElem, "name"));
 
 
 

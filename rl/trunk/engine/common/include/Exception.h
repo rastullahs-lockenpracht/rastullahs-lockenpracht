@@ -108,14 +108,17 @@ namespace rl {
 
    public:
       Exception(const std::string& message,
-         const std::string& file, const std::string& function, int line) :
-      mMessage(message), mFile(file), mFunction(function), mLine(line) {}
+         const std::string& file, const std::string& function, int line)
+         : mMessage(message), mFile(file), mFunction(function), mLine(line), 
+         std::exception(message.c_str()) {}
       
-      Exception(const Exception& rhs) :
+      Exception(const Exception& rhs) 
+          :
          mMessage(rhs.mMessage),
          mFile(rhs.mFile),
          mFunction(rhs.mFunction),
-         mLine(rhs.mLine) {}
+         mLine(rhs.mLine),
+         std::exception(rhs.mMessage.c_str()) {}
 
       virtual ~Exception() throw() {}
 

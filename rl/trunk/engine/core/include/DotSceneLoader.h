@@ -17,18 +17,16 @@
 #ifndef __DotSceneLoader_H__
 #define __DotSceneLoader_H__
 
-#include <xercesc/sax/ErrorHandler.hpp>
 #include <OgreNewt.h>
 
 #include <string>
 #include <map>
 
 #include "XmlResourceManager.h"
+#include "PropertyReader.h"
 
 class Ogre::SceneNode;
 class XERCES_CPP_NAMESPACE::DOMElement;
-class XERCES_CPP_NAMESPACE::XercesDOMParser;
-class XERCES_CPP_NAMESPACE::SAXParseException;
 
 namespace rl {
 
@@ -38,7 +36,7 @@ namespace rl {
 	 *   - Nodes ( Name, Hierarchie + Platzierung + Skalierung + Rotation )
 	 *   - Entities ( Name, TriMeshPhysik )
 	 */
-    class DotSceneLoader : protected XERCES_CPP_NAMESPACE::ErrorHandler
+    class DotSceneLoader : private XmlPropertyReader
 	{
 	public:
 		/// Erstellt einen Dotscene Loader, der das gewünschte File einliest
@@ -48,12 +46,7 @@ namespace rl {
 
 		/// Laden der Szene
 		void initializeScene(Ogre::SceneManager* sceneManager);
-		
 
-        virtual void warning(const XERCES_CPP_NAMESPACE::SAXParseException& exc);
-        virtual void error(const XERCES_CPP_NAMESPACE::SAXParseException& exc);
-        virtual void fatalError(const XERCES_CPP_NAMESPACE::SAXParseException& exc);
-        virtual void resetErrors();
 	private:
         struct NodeUserData
         {
@@ -75,9 +68,6 @@ namespace rl {
             OgreNewt::CollisionPtr ColPtr;
         };
 
-
-		/// Öffnen der XML-Ressource
-		XERCES_CPP_NAMESPACE::DOMDocument* openSceneFile();
 
 		/// Geht alle Nodes in der .scene durch
 		void processNodes(XERCES_CPP_NAMESPACE::DOMElement* rootNodesXml, 

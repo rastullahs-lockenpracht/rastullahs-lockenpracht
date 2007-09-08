@@ -22,11 +22,14 @@
 
 #include <OgreSceneNode.h>
 
+#include "PropertyReader.h"
+
 namespace rl
 {
     class XmlPropertyReader;
 
     class AbstractMapNodeProcessor
+        : protected XmlPropertyReader
     {
     public:
         virtual ~AbstractMapNodeProcessor();
@@ -45,11 +48,8 @@ namespace rl
         
         Ogre::SceneNode* getRootSceneNode() const;
         
-        XmlPropertyReader* getXmlPropertyReader() const;
-    
     private:
         Ogre::SceneNode* mRootSceneNode;
-        XmlPropertyReader* mXmlPropertyReader;
     };
 }
 

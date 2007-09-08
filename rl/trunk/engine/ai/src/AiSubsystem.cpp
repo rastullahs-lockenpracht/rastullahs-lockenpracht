@@ -111,20 +111,19 @@ void AiSubsystem::initialize()
 	mCore->setParser(new AimlParserImplRl());
 	mCore->getBotInterpreter().addProcessor(new DialogScriptProcessor());
 	mCore->getAimlInterpreter().addProcessor(new ScriptProcessor());
-//  Initialize Xerces if this wasn't done already
-	try
-	{
-        XMLPlatformUtils::Initialize();
-		XmlHelper::initializeTranscoder();
-    }
-    catch (const XMLException& exc)
-	{
-		char* excmsg = XMLString::transcode(exc.getMessage());
-		std::string excs="Exception while initializing Xerces: ";
-		excs+=excmsg;
-		LOG_MESSAGE(Logger::DIALOG, excs);
-        XMLString::release(&excmsg);
-    }
+////  Initialize Xerces if this wasn't done already
+//	try
+//	{
+//        
+//    }
+//    catch (const XMLException& exc)
+//	{
+//		char* excmsg = XMLString::transcode(exc.getMessage());
+//		std::string excs="Exception while initializing Xerces: ";
+//		excs+=excmsg;
+//		LOG_MESSAGE(Logger::DIALOG, excs);
+//        XMLString::release(&excmsg);
+//    }
 }
 
 bool AiSubsystem::onBeforeClearScene()

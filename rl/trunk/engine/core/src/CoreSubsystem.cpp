@@ -94,7 +94,7 @@ namespace rl
         delete mAnimationManager;
         delete mActorManager;
         delete mPhysicsManager;
-        delete mXmlResourceManager;
+//        delete mXmlResourceManager;
         delete mScriptWrapper;
         delete mDebugVisualsManager;
 		delete ConfigurationManager::getSingletonPtr();
@@ -341,7 +341,7 @@ namespace rl
         }
     }
 
-    ContentModule* CoreSubsystem::getModule(const String& moduleId) const
+    ContentModule* CoreSubsystem::getModule(const Ogre::String& moduleId) const
     {
         ModuleMap::const_iterator moduleIt = mModules.find(moduleId);
 
@@ -450,7 +450,7 @@ namespace rl
         StringVector deps = module->getDependencies();
         for (StringVector::const_iterator depsIt = deps.begin(); depsIt != deps.end(); depsIt++)
         {
-            String depName = *depsIt;
+            Ogre::String depName = *depsIt;
             ModuleMap::iterator modIt = mModules.find(depName);
             if (modIt == mModules.end())
             {
@@ -541,7 +541,7 @@ namespace rl
         return mRubyInterpreter;
     }
 
-    void CoreSubsystem::makeScreenshot( const String& sName )
+    void CoreSubsystem::makeScreenshot( const Ogre::String& sName )
     {
         mRenderWindow->writeContentsToTimestampedFile(sName, ".png");
     }
@@ -556,8 +556,8 @@ namespace rl
         return mModules;
     }
 
-    void CoreSubsystem::loadMap(const String type, const String filename,
-        const String module)
+    void CoreSubsystem::loadMap(const Ogre::String type, const Ogre::String filename,
+        const Ogre::String module)
     {
         mWorld->loadScene(filename, module);
     }

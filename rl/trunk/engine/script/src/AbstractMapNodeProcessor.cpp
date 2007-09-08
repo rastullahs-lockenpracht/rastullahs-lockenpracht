@@ -19,9 +19,6 @@
 
 #include <OgreColourValue.h>
 
-#include "PropertyReader.h"
-#include "XmlHelper.h"
-
 using namespace Ogre;
 using namespace XERCES_CPP_NAMESPACE;
 
@@ -29,13 +26,12 @@ namespace rl
 {
     AbstractMapNodeProcessor::AbstractMapNodeProcessor()
     : mRootSceneNode(NULL),
-      mXmlPropertyReader()
+      XmlPropertyReader()
     {
     }
 
     AbstractMapNodeProcessor::~AbstractMapNodeProcessor()
     {
-        delete mXmlPropertyReader;
     }
 
     Vector3 AbstractMapNodeProcessor::processVector3(DOMElement* vec3Elem) const
@@ -43,17 +39,17 @@ namespace rl
         Vector3 rval(Vector3::ZERO);
         if (vec3Elem != NULL)
         {
-            if (XmlHelper::hasAttribute(vec3Elem, "x"))
+            if (hasAttribute(vec3Elem, "x"))
             {
-                rval.x = XmlHelper::getAttributeValueAsReal(vec3Elem, "x");
+                rval.x = getAttributeValueAsReal(vec3Elem, "x");
             }
-            if (XmlHelper::hasAttribute(vec3Elem, "y"))
+            if (hasAttribute(vec3Elem, "y"))
             {
-                rval.y = XmlHelper::getAttributeValueAsReal(vec3Elem, "y");
+                rval.y = getAttributeValueAsReal(vec3Elem, "y");
             }
-            if (XmlHelper::hasAttribute(vec3Elem, "z"))
+            if (hasAttribute(vec3Elem, "z"))
             {
-                rval.z = XmlHelper::getAttributeValueAsReal(vec3Elem, "z");
+                rval.z = getAttributeValueAsReal(vec3Elem, "z");
             }
         }
 
@@ -65,21 +61,21 @@ namespace rl
         Quaternion rval(Quaternion::IDENTITY);
         if (quatElem != NULL)
         {
-            if (XmlHelper::hasAttribute(quatElem, "qw"))
+            if (hasAttribute(quatElem, "qw"))
             {
-                rval.w = XmlHelper::getAttributeValueAsReal(quatElem, "qw");
+                rval.w = getAttributeValueAsReal(quatElem, "qw");
             }
-            if (XmlHelper::hasAttribute(quatElem, "qx"))
+            if (hasAttribute(quatElem, "qx"))
             {
-                rval.x = XmlHelper::getAttributeValueAsReal(quatElem, "qx");
+                rval.x = getAttributeValueAsReal(quatElem, "qx");
             }
-            if (XmlHelper::hasAttribute(quatElem, "qy"))
+            if (hasAttribute(quatElem, "qy"))
             {
-                rval.y = XmlHelper::getAttributeValueAsReal(quatElem, "qy");
+                rval.y = getAttributeValueAsReal(quatElem, "qy");
             }
-            if (XmlHelper::hasAttribute(quatElem, "qz"))
+            if (hasAttribute(quatElem, "qz"))
             {
-                rval.z = XmlHelper::getAttributeValueAsReal(quatElem, "qz");
+                rval.z = getAttributeValueAsReal(quatElem, "qz");
             }
         }
 
@@ -91,21 +87,21 @@ namespace rl
         ColourValue rval(1, 1, 1, 1);
         if (colElem != NULL)
         {
-            if (XmlHelper::hasAttribute(colElem, "r"))
+            if (hasAttribute(colElem, "r"))
             {
-                rval.r = XmlHelper::getAttributeValueAsReal(colElem, "r");
+                rval.r = getAttributeValueAsReal(colElem, "r");
             }
-            if (XmlHelper::hasAttribute(colElem, "g"))
+            if (hasAttribute(colElem, "g"))
             {
-                rval.g = XmlHelper::getAttributeValueAsReal(colElem, "g");
+                rval.g = getAttributeValueAsReal(colElem, "g");
             }
-            if (XmlHelper::hasAttribute(colElem, "b"))
+            if (hasAttribute(colElem, "b"))
             {
-                rval.b = XmlHelper::getAttributeValueAsReal(colElem, "b");
+                rval.b = getAttributeValueAsReal(colElem, "b");
             }
-            if (XmlHelper::hasAttribute(colElem, "a"))
+            if (hasAttribute(colElem, "a"))
             {
-                rval.a = XmlHelper::getAttributeValueAsReal(colElem, "a");
+                rval.a = getAttributeValueAsReal(colElem, "a");
             }
         }
         return rval;
@@ -128,10 +124,5 @@ namespace rl
     Ogre::SceneNode* AbstractMapNodeProcessor::getRootSceneNode() const
     {
         return mRootSceneNode;
-    }
-
-    XmlPropertyReader* AbstractMapNodeProcessor::getXmlPropertyReader() const
-    {
-        return mXmlPropertyReader;
     }
 }

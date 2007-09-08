@@ -21,6 +21,7 @@
 #include "AiPrerequisites.h"
 
 #include "MessagePump.h"
+#include "XmlHelper.h"
 #include "World.h"
 
 namespace MadaBot
@@ -43,7 +44,9 @@ namespace rl
 	/** Central core of AI
 	 * Handles creation of all AI related object Managers.
 	 */
-	class _RlAiExport AiSubsystem : public Ogre::Singleton<AiSubsystem>
+	class _RlAiExport AiSubsystem 
+        : public Ogre::Singleton<AiSubsystem>,
+        private XmlProcessor
 	{
 	public:
 		//! default constructor

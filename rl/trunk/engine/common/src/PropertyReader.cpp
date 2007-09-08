@@ -17,12 +17,8 @@
 #include "stdinc.h" //precompiled header
 
 #include <xercesc/dom/DOM.hpp>
-#include <xercesc/parsers/XercesDOMParser.hpp>
-#include <xercesc/util/XMLString.hpp>
-#include <xercesc/util/PlatformUtils.hpp>
 
 #include "XmlHelper.h"
-#include "OgreXercesInput.h"
 
 #include "Properties.h"
 #include "PropertyReader.h"
@@ -42,18 +38,9 @@ XmlPropertyReader::XmlPropertyReader()
 
 void XmlPropertyReader::parseGameObjectFile(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
 {
-    XMLPlatformUtils::Initialize();
+    initializeXml();
 
-	XmlHelper::initializeTranscoder();
-	XercesDOMParser* parser = new XercesDOMParser();
-
-    parser->setValidationScheme(XercesDOMParser::Val_Auto);    // optional.
-    parser->setDoNamespaces(true);    // optional
-	
-    OgreInputSource source(stream);
-    parser->parse(source);
-
-    XERCES_CPP_NAMESPACE::DOMDocument* doc = parser->getDocument();
+    XERCES_CPP_NAMESPACE::DOMDocument* doc = loadDocument(stream);
 
     DOMNodeList* godefsXml = doc->getDocumentElement()->getElementsByTagName(AutoXMLCh("gameobjectclass").data());
     for (unsigned int idx = 0; idx < godefsXml->getLength(); idx++)
@@ -89,7 +76,7 @@ void XmlPropertyReader::parseGameObjectFile(Ogre::DataStreamPtr &stream, const O
 	
 	doc->release();
 
-	XMLPlatformUtils::Terminate();
+    shutdownXml();
 }
 
 std::vector<PropertySet*> XmlPropertyReader::getPropertySets()
@@ -100,27 +87,27 @@ std::vector<PropertySet*> XmlPropertyReader::getPropertySets()
 PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMAttr* domAttr) const
 {
 	return std::make_pair(
-		XmlHelper::transcodeToStdString(domAttr->getName()), 
-		Property(XmlHelper::transcodeToString(domAttr->getValue())));
+		transcodeToStdString(domAttr->getName()), 
+		Property(transcodeToString(domAttr->getValue())));
 }
 
 PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElement* domElem) const
 {
-    if (!XmlHelper::hasAttribute(domElem, "type"))
+    if (!hasAttribute(domElem, "type"))
     {
         return std::make_pair("", Property(0));
     }
 
     Ogre::String key = "";
-	if (XmlHelper::hasAttribute(domElem, "name"))
+	if (hasAttribute(domElem, "name"))
 	{
-		key = XmlHelper::getAttributeValueAsStdString(domElem, "name");
+		key = getAttributeValueAsStdString(domElem, "name");
 	}
-	Ogre::String type = XmlHelper::getAttributeValueAsStdString(domElem, "type");
+	Ogre::String type = getAttributeValueAsStdString(domElem, "type");
     CeGuiString value = "";
-    if (XmlHelper::hasAttribute(domElem, "data"))
+    if (hasAttribute(domElem, "data"))
     {
-        value = XmlHelper::getAttributeValueAsString(domElem, "data");
+        value = getAttributeValueAsString(domElem, "data");
     }
 
     Property prop;
@@ -229,7 +216,7 @@ PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElemen
 			if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
 			{
 				DOMElement* curElem = static_cast<DOMElement*>(curChild);
-				CeGuiString key = XmlHelper::getAttributeValueAsString(curElem, "name");
+				CeGuiString key = getAttributeValueAsString(curElem, "name");
 				PropertyEntry entry = processProperty(curElem);
 				mapVal[key] = entry.second;
 			}

@@ -34,6 +34,10 @@ namespace rl {
     {
     }
 
+    XmlPropertyWriter::~XmlPropertyWriter()
+    {
+    }
+
     void XmlPropertyWriter::setPropertySets(std::vector<PropertySet*> sets)
     {
         mPropertySets = sets;
@@ -59,31 +63,31 @@ namespace rl {
             }
             else
             {
-                element = XmlHelper::appendChildElement(mDocument, parent, "property");
+                element = appendChildElement(mDocument, parent, "property");
                 if(entry.first != "")
-                    XmlHelper::setAttribute(element, "name", entry.first.c_str());
+                    setAttribute(element, "name", entry.first.c_str());
 
                 //Ogre::String typeName = entry.second.getTypeName();
                 Ogre::String name = entry.second.getName();
                 Ogre::StringUtil::toUpperCase(name);
-                XmlHelper::setAttributeValueAsString(element, "type", name);
+                setAttributeValueAsString(element, "type", name);
 
                 if(entry.second.isBool())
-                    XmlHelper::setAttributeValueAsBool(element, "data", entry.second.toBool());
+                    setAttributeValueAsBool(element, "data", entry.second.toBool());
                 else if(entry.second.isInt())
-                    XmlHelper::setAttributeValueAsInteger(element, "data", entry.second.toInt());
+                    setAttributeValueAsInteger(element, "data", entry.second.toInt());
                 else if(entry.second.isIntPair())
-                    XmlHelper::setAttributeValueAsIntegerPair(element, "data", entry.second.toIntPair());
+                    setAttributeValueAsIntegerPair(element, "data", entry.second.toIntPair());
                 else if(entry.second.isIntPair())
-                    XmlHelper::setAttributeValueAsIntegerTriple(element, "data", entry.second.toIntTriple());
+                    setAttributeValueAsIntegerTriple(element, "data", entry.second.toIntTriple());
                 else if(entry.second.isQuaternion())
-                    XmlHelper::setValueAsQuaternion(element, entry.second.toQuaternion());
+                    setValueAsQuaternion(element, entry.second.toQuaternion());
                 else if(entry.second.isReal())
-                    XmlHelper::setAttributeValueAsReal(element, "data", entry.second.toReal());
+                    setAttributeValueAsReal(element, "data", entry.second.toReal());
                 else if(entry.second.isString())
-                    XmlHelper::setAttributeValueAsString(element, "data", entry.second.toString());
+                    setAttributeValueAsString(element, "data", entry.second.toString());
                 else if(entry.second.isVector3())
-                    XmlHelper::setValueAsVector3(element, entry.second.toVector3());
+                    setValueAsVector3(element, entry.second.toVector3());
             }
         }
         return element;
@@ -98,9 +102,9 @@ namespace rl {
 
     DOMElement* XmlPropertyWriter::processPropertyArray(DOMElement *parent, const char *const name, PropertyVector vector)
     {
-        DOMElement* element = XmlHelper::appendChildElement(mDocument, parent, "property");
-        XmlHelper::setAttribute(element, "name", name);
-        XmlHelper::setAttribute(element, "type", "MAP");
+        DOMElement* element = appendChildElement(mDocument, parent, "property");
+        setAttribute(element, "name", name);
+        setAttribute(element, "type", "MAP");
 
         PropertyVector::iterator iter;
         for(iter = vector.begin(); iter != vector.end(); iter++)
@@ -112,9 +116,9 @@ namespace rl {
 
     DOMElement* XmlPropertyWriter::processPropertyMap(DOMElement *parent, const char *const name, PropertyMap map)
     {
-        DOMElement* element = XmlHelper::appendChildElement(mDocument, parent, "property");
-        XmlHelper::setAttribute(element, "name", name);
-        XmlHelper::setAttribute(element, "type", "MAP");
+        DOMElement* element = appendChildElement(mDocument, parent, "property");
+        setAttribute(element, "name", name);
+        setAttribute(element, "type", "MAP");
 
         PropertyMap::iterator iter;
         for(iter = map.begin(); iter != map.end(); iter++)

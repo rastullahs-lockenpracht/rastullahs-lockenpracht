@@ -21,8 +21,6 @@
 
 #include "GameObject.h"
 #include "GameObjectManager.h"
-#include "PropertyReader.h"
-#include "XmlHelper.h"
 
 using namespace Ogre;
 using namespace XERCES_CPP_NAMESPACE;
@@ -31,34 +29,34 @@ namespace rl
 {
     bool GameObjectNodeProcessor::processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects)
     {
-        if (!XmlHelper::hasNodeName(nodeElem, "gameobject"))
+        if (!hasNodeName(nodeElem, "gameobject"))
         {
             return false;
         }
 
         LOG_DEBUG(Logger::RULES,
             "Processing game object node "
-                + XmlHelper::getAttributeValueAsStdString(nodeElem, "name"));
+                + getAttributeValueAsStdString(nodeElem, "name"));
 
-        Ogre::String classname = XmlHelper::getAttributeValueAsStdString(nodeElem, "class");
+        Ogre::String classname = getAttributeValueAsStdString(nodeElem, "class");
 
         unsigned int goid = GameObject::NO_OBJECT_ID;
 
-        if (XmlHelper::hasAttribute(nodeElem, "id"))
+        if (hasAttribute(nodeElem, "id"))
         {
-            goid = XmlHelper::getAttributeValueAsInteger(nodeElem, "id");
+            goid = getAttributeValueAsInteger(nodeElem, "id");
         }
 
         GameObject* go = GameObjectManager::getSingleton().createGameObject(classname, goid);
 
-        DOMElement* posElem = XmlHelper::getChildNamed(nodeElem, "position");
+        DOMElement* posElem = getChildNamed(nodeElem, "position");
         if (posElem != NULL)
         {
             Vector3 pos = processVector3(posElem);
             go->setPosition(pos);
         }
 
-        DOMElement* oriElem = XmlHelper::getChildNamed(nodeElem, "rotation");
+        DOMElement* oriElem = getChildNamed(nodeElem, "rotation");
         if (oriElem != NULL)
         {
             Quaternion ori = processQuaternion(oriElem);
@@ -70,9 +68,9 @@ namespace rl
         {
             DOMNode* cur = goElChildNodes->item(idx);
             if (cur->getNodeType() == DOMNode::ENTITY_NODE
-                && XmlHelper::hasNodeName(cur, "property"))
+                && hasNodeName(cur, "property"))
             {
-                PropertyEntry propEntry = getXmlPropertyReader()->processProperty(static_cast<DOMElement*>(cur));
+                PropertyEntry propEntry = processProperty(static_cast<DOMElement*>(cur));
                 if (propEntry.first != "")
                 {
                     go->setProperty(propEntry.first, propEntry.second);
@@ -81,9 +79,9 @@ namespace rl
         }
 
 		GameObjectState state = GOS_LOADED;
-		if (XmlHelper::hasAttribute(nodeElem, "state"))
+		if (hasAttribute(nodeElem, "state"))
 		{
-			Ogre::String stateStr = XmlHelper::getAttributeValueAsStdString(nodeElem, "state");
+			Ogre::String stateStr = getAttributeValueAsStdString(nodeElem, "state");
 			if (stateStr == "LOADED")
 			{
 				state = GOS_LOADED;

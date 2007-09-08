@@ -25,7 +25,6 @@
 #include "CoreSubsystem.h"
 #include "PhysicsManager.h"
 #include "World.h"
-#include "XmlHelper.h"
 
 using namespace Ogre;
 using namespace XERCES_CPP_NAMESPACE;
@@ -40,37 +39,37 @@ namespace rl
 
     bool EntityNodeProcessor::processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects)
     {
-        if (!XmlHelper::hasNodeName(nodeElem, "entity"))
+        if (!hasNodeName(nodeElem, "entity"))
         {
             return false;
         }
 
-        Ogre::String entName = XmlHelper::getAttributeValueAsStdString(nodeElem, "name");
+        Ogre::String entName = getAttributeValueAsStdString(nodeElem, "name");
 
         LOG_DEBUG(Logger::RULES,
             "Processing entity node "
                 + entName);
 
-        if (!XmlHelper::hasAttribute(nodeElem, "meshfile"))
+        if (!hasAttribute(nodeElem, "meshfile"))
         {
             LOG_ERROR(Logger::RULES, "Entity node defines no meshfile attribute");
             return false;
         }
 
-        Ogre::String meshFile = XmlHelper::getAttributeValueAsStdString(nodeElem, "meshfile");
+        Ogre::String meshFile = getAttributeValueAsStdString(nodeElem, "meshfile");
         if (entName == "")
         {
             entName = getRandomName(meshFile);
         }
 
         //Actor* act = ActorManager::getSingleton().createMeshActor(
-        //    XmlHelper::getAttributeValueAsStdString(entityElem, "name"),
+        //    getAttributeValueAsStdString(entityElem, "name"),
         //    meshFile); ///@todo: Collision proxy
 
         Vector3 position(Vector3::ZERO);
         Quaternion orientation(Quaternion::IDENTITY);
 
-        DOMElement* posElem = XmlHelper::getChildNamed(nodeElem, "position");
+        DOMElement* posElem = getChildNamed(nodeElem, "position");
         if (posElem != NULL)
         {
             position = processVector3(posElem);
@@ -80,7 +79,7 @@ namespace rl
             LOG_WARNING(Logger::RULES, "No position given for entity, used (0,0,0)");
         }
 
-        DOMElement* oriElem = XmlHelper::getChildNamed(nodeElem, "rotation");
+        DOMElement* oriElem = getChildNamed(nodeElem, "rotation");
         if (oriElem != NULL)
         {
             orientation = processQuaternion(oriElem);
@@ -121,9 +120,9 @@ namespace rl
         }
 
         parentNode->attachObject(newEnt);
-        createCollision(newEnt, meshFile, XmlHelper::getChildNamed(nodeElem, "physicsproxy"));
+        createCollision(newEnt, meshFile, getChildNamed(nodeElem, "physicsproxy"));
 
-        DOMElement* scaleElem = XmlHelper::getChildNamed(nodeElem, "scale");
+        DOMElement* scaleElem = getChildNamed(nodeElem, "scale");
         if (scaleElem != NULL)
         {
             parentNode->scale(processVector3(scaleElem));
@@ -148,13 +147,13 @@ namespace rl
         std::vector<OgreNewt::CollisionPtr> collisions;
 
         Ogre::String physicsProxyType;
-        if (physicsProxyElem == NULL || !XmlHelper::hasAttribute(physicsProxyElem, "type"))
+        if (physicsProxyElem == NULL || !hasAttribute(physicsProxyElem, "type"))
         {
             physicsProxyType = "auto";
         }
         else
         {
-            physicsProxyType = XmlHelper::getAttributeValueAsStdString(physicsProxyElem, "type");
+            physicsProxyType = getAttributeValueAsStdString(physicsProxyElem, "type");
         }
 
         // ------- Falls noetig automatisch bodyproxy erstellen -------------

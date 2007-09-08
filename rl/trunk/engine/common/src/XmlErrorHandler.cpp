@@ -17,58 +17,27 @@
 #include "stdinc.h" //precompiled header
 
 #include <sstream>
-#include <xercesc/sax/SAXParseException.hpp>
+
 #include "XmlErrorHandler.h"
 #include "XmlHelper.h"
 
 
 namespace rl {
 
-XmlErrorHandler::XmlErrorHandler(void)
-    : mFileName("")
-{
-}
+//XmlErrorHandler::XmlErrorHandler(void)
+//    : mFileName("")
+//{
+//}
+//
+//XmlErrorHandler::~XmlErrorHandler(void)
+//{
+//}
+//
+//void XmlErrorHandler::setFileName(const std::string& fileName)
+//{
+//    mFileName = fileName;
+//}
 
-XmlErrorHandler::~XmlErrorHandler(void)
-{
-}
 
-void XmlErrorHandler::setFileName(const std::string& fileName)
-{
-    mFileName = fileName;
-}
-
-std::string XmlErrorHandler::toString( const std::string& type,
-        const XERCES_CPP_NAMESPACE::SAXParseException& exc ) const
-{
-    std::stringstream strs;
-    strs << "A" << type << " occured while parsing " << mFileName
-         << " at line " << exc.getLineNumber() << " column " <<  exc.getColumnNumber();
-
-    if( exc.getSystemId() != NULL )
-        strs << " with system " << XmlHelper::transcodeToStdString( exc.getSystemId() );
-    if( exc.getPublicId() != NULL )
-        strs << " with public " << XmlHelper::transcodeToStdString( exc.getPublicId() );
-    return strs.str();
-}
-
-void XmlErrorHandler::warning(const XERCES_CPP_NAMESPACE::SAXParseException& exc)
-{
-    LOG_MESSAGE(Logger::CORE, toString( " warning ", exc ) );
-}
-
-void XmlErrorHandler::error(const XERCES_CPP_NAMESPACE::SAXParseException& exc)
-{
-    LOG_ERROR(Logger::CORE, toString( "n error", exc ) );
-}
-
-void XmlErrorHandler::fatalError(const XERCES_CPP_NAMESPACE::SAXParseException& exc)
-{
-    LOG_CRITICAL(Logger::CORE, toString( " fatal error", exc ) );
-}
-
-void XmlErrorHandler::resetErrors()
-{
-}
 
 }

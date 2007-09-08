@@ -27,11 +27,11 @@ namespace rl {
 
 AimlNodeImplRl::AimlNodeImplRl(DOMNode* pNode)
 {
-	mNodeName  = XmlHelper::transcodeToString(pNode->getLocalName());
+	mNodeName  = transcodeToString(pNode->getLocalName());
 	// #text or #comment have no local name, use NodeName for them
 	if(mNodeName.empty())
 	{
-		mNodeName  = XmlHelper::transcodeToString(pNode->getNodeName());
+		mNodeName  = transcodeToString(pNode->getNodeName());
 	}
 	mNodeName.c_str();
 
@@ -40,12 +40,12 @@ AimlNodeImplRl::AimlNodeImplRl(DOMNode* pNode)
 	{
 		XMLCh* tmp = XMLString::replicate(pNode->getNodeValue());
 		XMLString::collapseWS(tmp);
-		mNodeValue = XmlHelper::transcodeToString(tmp);
+		mNodeValue = transcodeToString(tmp);
 		XMLString::release(&tmp);
 	}
 	else
 	{
-		mNodeValue = XmlHelper::transcodeToString(pNode->getNodeValue());
+		mNodeValue = transcodeToString(pNode->getNodeValue());
 	}
 	mNodeValue.c_str();
 	// mpa attributes
@@ -55,9 +55,9 @@ AimlNodeImplRl::AimlNodeImplRl(DOMNode* pNode)
 		for(unsigned int i = 0; i < attributes->getLength(); ++i)
 		{
 			CeGuiString attributeName  =
-				XmlHelper::transcodeToString(attributes->item(i)->getNodeName());
+				transcodeToString(attributes->item(i)->getNodeName());
 			CeGuiString attributeValue =
-				XmlHelper::transcodeToString(attributes->item(i)->getNodeValue());
+				transcodeToString(attributes->item(i)->getNodeValue());
 			mAttributes.insert(Attributes::value_type(attributeName, attributeValue));
 		}
 	}

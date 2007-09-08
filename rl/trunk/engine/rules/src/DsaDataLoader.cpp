@@ -16,9 +16,6 @@
 #include "stdinc.h" //precompiled header
 
 #include <xercesc/dom/DOM.hpp>
-#include <xercesc/parsers/XercesDOMParser.hpp>
-#include <xercesc/util/XMLString.hpp>
-#include <xercesc/util/PlatformUtils.hpp>
 
 // #include "XdimlLoader.h"
 #include "DsaDataLoader.h"
@@ -54,28 +51,19 @@ namespace rl {
 
     void XdimlLoader::parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
     {
-		XMLPlatformUtils::Initialize();
+        initializeXml();
 
-		XmlHelper::initializeTranscoder();
-		XercesDOMParser* parser = new XercesDOMParser();
-
-        parser->setValidationScheme(XercesDOMParser::Val_Auto);    // optional.
-        parser->setDoNamespaces(true);    // optional
-
-        OgreInputSource source(stream);
-        parser->parse(source);
-
-		DOMDocument* doc = parser->getDocument();
-		DOMElement* dataDocumentContent = XmlHelper::getChildNamed(
+		DOMDocument* doc = loadDocument(stream);
+		DOMElement* dataDocumentContent = getChildNamed(
             doc->getDocumentElement(), "Inhalt");
 
-		initializeTalente(XmlHelper::getChildNamed(dataDocumentContent, "Talente"));
-		initializeKampftechniken(XmlHelper::getChildNamed(dataDocumentContent, "Kampftechniken"));
-		initializePersonen(XmlHelper::getChildNamed(dataDocumentContent, "Personen"));
+		initializeTalente(getChildNamed(dataDocumentContent, "Talente"));
+		initializeKampftechniken(getChildNamed(dataDocumentContent, "Kampftechniken"));
+		initializePersonen(getChildNamed(dataDocumentContent, "Personen"));
 
 		doc->release();
 
-		XMLPlatformUtils::Terminate();
+        shutdownXml();
     }
 
     const StringVector& XdimlLoader::getScriptPatterns() const
@@ -112,17 +100,17 @@ namespace rl {
 
     Talent* XdimlLoader::processTalent(int gruppe, DOMElement* talentXml)
     {
-		CeGuiString desc = XmlHelper::getValueAsString(XmlHelper::getChildNamed(talentXml, "Beschreibung"));
-        CeGuiString probe = XmlHelper::getValueAsString(XmlHelper::getChildNamed(talentXml, "Probe"));
-        CeGuiString art = XmlHelper::getValueAsString(XmlHelper::getChildNamed(talentXml, "Art"));
-		DOMElement* eBeNode = XmlHelper::getChildNamed(talentXml, "eBE");
-        DOMElement* ausweichTalenteNode = static_cast<DOMElement*>(XmlHelper::getChildNamed(talentXml, "Ausweichtalente"));
+		CeGuiString desc = getValueAsString(getChildNamed(talentXml, "Beschreibung"));
+        CeGuiString probe = getValueAsString(getChildNamed(talentXml, "Probe"));
+        CeGuiString art = getValueAsString(getChildNamed(talentXml, "Art"));
+		DOMElement* eBeNode = getChildNamed(talentXml, "eBE");
+        DOMElement* ausweichTalenteNode = static_cast<DOMElement*>(getChildNamed(talentXml, "Ausweichtalente"));
 
 		int ebe = EBE_KEINE_BE;
         if (eBeNode != NULL)
 			ebe = getEBeFromString(AutoChar(eBeNode->getFirstChild()->getNodeValue()).data());
 
-		CeGuiString name = XmlHelper::transcodeToString(
+		CeGuiString name = transcodeToString(
             talentXml->getAttribute(AutoXMLCh("ID").data()));
         EigenschaftTripel eigenschaften;
 		eigenschaften.first = probe.substr(0,2);
@@ -139,11 +127,11 @@ namespace rl {
             for( unsigned int ausweich = 0; ausweich < ausweichTalentGruppen->getLength(); ausweich++ )
             {
 			    DOMElement* ausweichData = static_cast<DOMElement*>(ausweichTalentGruppen->item(ausweich));
-	            CeGuiString ausweichName = XmlHelper::transcodeToString(
+	            CeGuiString ausweichName = transcodeToString(
                     ausweichData->getAttribute(AutoXMLCh("ID").data()));
 
                 ausweichTalente[ausweichName] = 
-                    XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(ausweichData, "Aufschlag"));
+                    getValueAsInteger(getChildNamed(ausweichData, "Aufschlag"));
             }
         }
 
@@ -200,14 +188,14 @@ namespace rl {
 
 	Kampftechnik* XdimlLoader::processKampftechnik(DOMElement* kampftechnikXml)
 	{
-		CeGuiString desc = XmlHelper::getValueAsString(XmlHelper::getChildNamed(kampftechnikXml, "Beschreibung"));
-		CeGuiString art = XmlHelper::getValueAsString(XmlHelper::getChildNamed(kampftechnikXml, "Art"));
-		DOMElement* eBeNode = XmlHelper::getChildNamed(kampftechnikXml, "eBE");
+		CeGuiString desc = getValueAsString(getChildNamed(kampftechnikXml, "Beschreibung"));
+		CeGuiString art = getValueAsString(getChildNamed(kampftechnikXml, "Art"));
+		DOMElement* eBeNode = getChildNamed(kampftechnikXml, "eBE");
 		int ebe = EBE_KEINE_BE;
 		if (eBeNode != NULL)
 			ebe = getEBeFromString(AutoChar(eBeNode->getFirstChild()->getNodeValue()).data());
 
-		CeGuiString name = XmlHelper::transcodeToString(
+		CeGuiString name = transcodeToString(
             kampftechnikXml->getAttribute(AutoXMLCh("ID").data()));
 
 		Kampftechnik* k = new Kampftechnik(
@@ -244,9 +232,9 @@ namespace rl {
 		AutoXMLCh EIGENSCHAFT = "Eigenschaft";
 
 		CeGuiString name =
-			XmlHelper::getValueAsString(XmlHelper::getChildNamed(personXml, "Name"));
+			getValueAsString(getChildNamed(personXml, "Name"));
 		CeGuiString desc =
-			XmlHelper::getValueAsString(XmlHelper::getChildNamed(personXml, "Beschreibung"));
+			getValueAsString(getChildNamed(personXml, "Beschreibung"));
 
         //@warning replace this by correct loading process
 		Person* rval = new Person(10000);
@@ -255,13 +243,13 @@ namespace rl {
 
 		// Eigenschaften laden
 		DOMNodeList* eigensch =
-			XmlHelper::getChildNamed(personXml, "Eigenschaften")->
+			getChildNamed(personXml, "Eigenschaften")->
 				getElementsByTagName(EIGENSCHAFT.data());
 		// Die Eigenschaftsnamen mssen durch ihre Abkrzung ersetzt werden.
 		for (unsigned int idx = 0; idx < eigensch->getLength(); idx++)
 		{
 			DOMElement* eigenschXml = static_cast<DOMElement*>(eigensch->item(idx));
-			CeGuiString eigName = XmlHelper::transcodeToString(eigenschXml->getAttribute(ID.data()));
+			CeGuiString eigName = transcodeToString(eigenschXml->getAttribute(ID.data()));
 			if (eigName == DsaManager::getSingleton().getEigenschaft(E_MUT)->getName())
 				eigName = DsaManager::getSingleton().getEigenschaft(E_MUT)->getNameAbbreviation();
 			if (eigName == DsaManager::getSingleton().getEigenschaft(E_KLUGHEIT)->getName())
@@ -278,20 +266,20 @@ namespace rl {
 				eigName = DsaManager::getSingleton().getEigenschaft(E_KONSTITUTION)->getNameAbbreviation();
 			if (eigName == DsaManager::getSingleton().getEigenschaft(E_KOERPERKRAFT)->getName())
 				eigName = DsaManager::getSingleton().getEigenschaft(E_KOERPERKRAFT)->getNameAbbreviation();
-			int wert = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(eigenschXml, "Wert"));
+			int wert = getValueAsInteger(getChildNamed(eigenschXml, "Wert"));
 
 			rval->setEigenschaft(eigName, wert);
 		}
 
 		// Abgeleitete Werte laden
 		DOMNodeList* werte =
-			XmlHelper::getChildNamed(personXml, "AbgeleiteteWerte")->
+			getChildNamed(personXml, "AbgeleiteteWerte")->
 				getElementsByTagName(ABGELEITETER_WERT.data());
 		for (unsigned int idx = 0; idx < werte->getLength(); idx++)
 		{
 			DOMElement* wertXml = static_cast<DOMElement*>(werte->item(idx));
-			int basis = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(wertXml, "Basiswert"));
-			int wert = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(wertXml, "Wert"));
+			int basis = getValueAsInteger(getChildNamed(wertXml, "Basiswert"));
+			int wert = getValueAsInteger(getChildNamed(wertXml, "Wert"));
 
 			AutoChar wertId = wertXml->getAttribute(ID.data());
 			if (strcmp(wertId.data(), "Lebensenergie") == 0)
@@ -318,13 +306,13 @@ namespace rl {
 		// Talente, die direkt unter <Person> angeordnet sind,
         // ergeben bereits die zusammengefassten Werte
 		DOMNodeList* talente =
-			XmlHelper::getChildNamed(personXml, "Talente")->
+			getChildNamed(personXml, "Talente")->
 				getElementsByTagName(TALENT.data());
 		for (unsigned int idx = 0; idx < talente->getLength(); idx++)
 		{
 			DOMElement* talentXml = static_cast<DOMElement*>(talente->item(idx));
 
-			CeGuiString talentName = XmlHelper::transcodeToString(
+			CeGuiString talentName = transcodeToString(
                 talentXml->getAttribute(ID.data()));
 
 			Talent* tal =
@@ -333,7 +321,7 @@ namespace rl {
 			rval->addTalent(talentName);
 			rval->setTalent(
 				talentName,
-				XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(talentXml, "Wert")));
+				getValueAsInteger(getChildNamed(talentXml, "Wert")));
 		}
 		return rval;
 	}
