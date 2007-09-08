@@ -16,9 +16,9 @@
 
 %include std_vector.i
 
-//namespace std {
-//	%template(Ogrevec3Vector) vector<Ogre::Vector3 >;
-//};
+namespace std {
+	%template(Ogrevec3Vector) vector<Ogre::Vector3 >;
+};
 
 namespace rl 
 {
@@ -253,8 +253,8 @@ namespace rl
 		WayPointNode* addWayPoint(const Ogre::Vector3& position, const WayPointNode::WayPointNodeType type);
 		void addConnection(rl::WayPointNode* wp1, rl::WayPointNode* wp2);
 		void addDirectedConnection(rl::WayPointNode* wp1, const rl::WayPointNode* wp2);
-		void load (const Ogre::String& filename);
-		void save (const Ogre::String& filename) const;
+		void load(const Ogre::String& filename);
+		void saveBinary(const Ogre::String& filename) const;
 		const rl::WayPointNode* getNearestWayPoint(const Ogre::Vector3& position) const;
 		const rl::WayPointNode* getWayPointAt(unsigned int index) const;
 	};

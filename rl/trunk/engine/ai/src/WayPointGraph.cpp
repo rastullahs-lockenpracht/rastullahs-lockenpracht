@@ -16,16 +16,20 @@
 #include "stdinc.h" //precompiled header
 
 #include "WayPointGraph.h"
-#include "WayPointNode.h"
+
 #include <algorithm>
-#include "OgreVector3.h"
+#include <xercesc/dom/DOM.hpp>
+
+#include "ConfigurationManager.h"
+#include "ContentModule.h"
 #include "CoreSubsystem.h"
-#include "World.h"
 #include "Exception.h"
 #include "LineSetPrimitive.h"
-#include "ConfigurationManager.h"
+#include "WayPointNode.h"
+#include "World.h"
 
 using namespace std;
+using namespace Ogre;
 
 namespace rl {
 
@@ -54,7 +58,7 @@ WayPointGraph::~WayPointGraph()
     }
 }
 
-WayPointNode* WayPointGraph::addWayPoint(const Ogre::Vector3& position, const WayPointNode::WayPointNodeType type)
+WayPointNode* WayPointGraph::addWayPoint(const Vector3& position, const WayPointNode::WayPointNodeType type)
 {
 	WayPointNodeList::iterator it;
 
@@ -69,7 +73,7 @@ WayPointNode* WayPointGraph::addWayPoint(const Ogre::Vector3& position, const Wa
 
 }
 
-WayPointNode* WayPointGraph::rawAddWayPoint(const Ogre::Vector3& position, const WayPointNode::WayPointNodeType type)
+WayPointNode* WayPointGraph::rawAddWayPoint(const Vector3& position, const WayPointNode::WayPointNodeType type)
 {
 	WayPointNode* newWayPoint = new WayPointNode(position, type);
 	mNodeList.push_back(newWayPoint);
@@ -91,7 +95,7 @@ void WayPointGraph::addDirectedConnection(WayPointNode* wp1, const WayPointNode*
 	mChanged = true;
 }
 
-void WayPointGraph::load (const Ogre::String& filename)
+void WayPointGraph::loadBinary(const Ogre::String& filename)
 {
 	// fetch modules directory
 	Ogre::String modulespath(
@@ -127,7 +131,7 @@ void WayPointGraph::load (const Ogre::String& filename)
 	input.getline(line, sizeof(line));
 
 	// read in the points
-	Ogre::Vector3 Position;
+	Vector3 Position;
 	WayPointNode::WayPointNodeType type;
 	unsigned int count = 0;
 	while (!input.eof() && count < numberOfNodes)
@@ -177,7 +181,7 @@ void WayPointGraph::load (const Ogre::String& filename)
 	mChanged = true;
 }
 
-void WayPointGraph::save (const Ogre::String& filename) const
+void WayPointGraph::saveBinary(const Ogre::String& filename) const
 {
 	unsigned int count;
 	WayPointNodeList::const_iterator it;
@@ -203,7 +207,7 @@ void WayPointGraph::save (const Ogre::String& filename) const
 	// save the full list of points
 	// and construct an index map for the nodes
 	count = 0;
-	Ogre::Vector3 Position;
+	Vector3 Position;
 	WayPointNode::WayPointNodeType type;
 	for (it = mNodeList.begin(); it != mNodeList.end(); it++)
 	{
@@ -243,11 +247,75 @@ void WayPointGraph::save (const Ogre::String& filename) const
 	output.close();
 }
 
-const WayPointNode* WayPointGraph::getNearestWayPoint(const Ogre::Vector3& position) const
+void WayPointGraph::load(const Ogre::String& filename, const Ogre::String& resourceGroup)
+{
+    using namespace XERCES_CPP_NAMESPACE;
+
+    Ogre::String group = resourceGroup;
+    if (group.empty())
+    {
+        group = CoreSubsystem::getSingleton().getActiveAdventureModule()->getId();
+    }
+
+    initializeXml();
+
+    DOMDocument* doc = loadDocument(filename, group);
+    if (doc)
+    {
+        DOMElement* rootElem = doc->getDocumentElement();
+
+        DOMElement* nodesElem = getChildNamed(rootElem, "waypointnodes");
+        std::map<int, WayPointNode*> lookupTable;
+        for (DOMNode* curNode = nodesElem->getFirstChild(); curNode; curNode = curNode->getNextSibling())
+        {
+            if (curNode->getNodeType() == DOMNode::ELEMENT_NODE
+                || hasNodeName(curNode, "node"))
+            {
+                DOMElement* curElem = static_cast<DOMElement*>(curNode);
+
+                Vector3 pos = getValueAsVector3(curElem);
+                CeGuiString typeS = getAttributeValueAsString(curElem, "type");
+                int id = getAttributeValueAsInteger(curElem, "id");
+
+                WayPointNode::WayPointNodeType type = WayPointNode::WP_UNKNOWN;
+                if (typeS == "int")
+                {
+                    type = WayPointNode::WP_INTERIOR;
+                }
+                else if (typeS == "ext")
+                {
+                    type = WayPointNode::WP_EXTERIOR;
+                }
+
+                WayPointNode* node = addWayPoint(pos, type);
+                lookupTable[id] = node;
+            }
+        }
+
+        DOMElement* edgesElem = getChildNamed(rootElem, "waypointedges");
+        for (DOMNode* curNode = edgesElem->getFirstChild(); curNode; curNode = curNode->getNextSibling())
+        {
+            if (curNode->getNodeType() == DOMNode::ELEMENT_NODE
+                || hasNodeName(curNode, "edge"))
+            {
+                DOMElement* curElem = static_cast<DOMElement*>(curNode);
+                int source = getAttributeValueAsInteger(curElem, "source");
+                int destination = getAttributeValueAsInteger(curElem, "destination");
+                addDirectedConnection(lookupTable[source], lookupTable[destination]);
+            }
+        }
+
+        doc->release();
+    }
+
+    shutdownXml();
+}
+
+const WayPointNode* WayPointGraph::getNearestWayPoint(const Vector3& position) const
 {
 	WayPointNodeList::const_iterator it;
 	WayPointNode* nearestWayPoint = NULL;
-	Ogre::Vector3 nearestVec;
+	Vector3 nearestVec;
 	Ogre::Real nearestDistance;
 
 	// if list is empty simply return no waypoint
@@ -318,14 +386,14 @@ void WayPointGraph::updatePrimitive()
 	std::multimap<const WayPointNode*,const WayPointNode*>::iterator edgeListIt;
 
 	WayPointNodeList::const_iterator it;
-	Ogre::Vector3 wp1Vec;
-	Ogre::Vector3 wp2Vec;
+	Vector3 wp1Vec;
+	Vector3 wp2Vec;
 
 	for (it = mNodeList.begin(); it != mNodeList.end(); it++)
 	{
 		wp1Vec = (*it)->getPosition();
 		// draw the waypoint itself
-		lineSet->addLine(wp1Vec, wp1Vec + Ogre::Vector3(0,1,0), Ogre::ColourValue::Red);
+		lineSet->addLine(wp1Vec, wp1Vec + Vector3(0,1,0), Ogre::ColourValue::Red);
 
 		const WayPointNode::WayPointWeightNodeList subnodes = (*it)->getNeighbours();
 		WayPointNode::WayPointWeightNodeList::const_iterator nit;
