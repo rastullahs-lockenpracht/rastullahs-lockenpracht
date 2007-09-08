@@ -19,7 +19,7 @@
 
 #include "RulesPrerequisites.h"
 
-#include <PropertyWriter.h>
+#include <XmlPropertyWriter.h>
 
 #include "GameObject.h"
 #include "SaveGameFile.h"

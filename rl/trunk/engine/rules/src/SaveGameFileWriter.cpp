@@ -18,7 +18,7 @@
 
 #include "SaveGameFileWriter.h"
 
-#include <XmlHelper.h>
+#include <XmlProcessor.h>
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/dom/DOMAttr.hpp>
 #include <xercesc/dom/DOMElement.hpp>
