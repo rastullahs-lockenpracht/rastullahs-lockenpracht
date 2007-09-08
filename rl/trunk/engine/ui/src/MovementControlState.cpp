@@ -60,7 +60,7 @@ using namespace Ogre;
 
 namespace rl {
 
-    String MovementControlState::msDebugWindowPageName = "MovementControlState";
+    Ogre::String MovementControlState::msDebugWindowPageName = "MovementControlState";
 
     MovementControlState::CharacterState::CharacterState()
         :
@@ -222,6 +222,8 @@ namespace rl {
         PhysicsManager::getSingleton().createMaterialPair(
             PhysicsManager::getSingleton().getMaterialID("camera"),
             PhysicsManager::getSingleton().getMaterialID("character"))->setContactCallback(this);
+
+        mCharacterState.mCurrentMovementState = MOVE_NONE;
 
         setViewMode(VM_THIRD_PERSON);
     }
@@ -763,17 +765,17 @@ namespace rl {
                     RaycastInfo infoCastNewPos;
                     Real delta = lenToOptCamPos/2.0f;
                     Vector3 temp = charPos + delta * normToOptCamPos;
-                    // Ann�erung in Schritten, an den Punkt, der von der aktuellen Position aus erreicht werden kann!
+                    // Annaeherung in Schritten, an den Punkt, der von der aktuellen Position aus erreicht werden kann!
                     while( delta > 0.05 ) // genauigkeit des gefundenen Punktes
                     {
                         infoCastNewPos = mRaycast->execute(
                             world,
                             &materialVector,
-                            camPos + camRadius * normToOptCamPos, // Gr�e der Kamera!
+                            camPos + camRadius * normToOptCamPos, // Groesse der Kamera!
                             temp,
                             true);
                         delta = delta/2.0f;
-                        if( infoCastNewPos.mBody ) // Hindernis gefunden, n�er an Char ran
+                        if( infoCastNewPos.mBody ) // Hindernis gefunden, naeher an Char ran
                         {
                             temp = temp - delta * normToOptCamPos;
                         }
@@ -783,16 +785,16 @@ namespace rl {
                         }
                     }
 
-                    // Jetzt k�nen wir sicher sein, dass diese Stelle erreichbar ist:
+                    // Jetzt koennen wir sicher sein, dass diese Stelle erreichbar ist:
                     temp = temp - 0.05 * normToOptCamPos;
-                    // Gr�e der Kamera einbeziehen
+                    // Groesse der Kamera einbeziehen
                     optimalCamPos = temp - camRadius * normToOptCamPos;
                     // so ab hier kann ganz normal weiter gerechnet werden!
                 }
             }
 
 
-            // gibt an, ob schon gebufferte Daten fr den
+            // gibt an, ob schon gebufferte Daten fuer den
             // neuen Weg existieren und dort weitergemacht werden kann,
             // oder ob neu nach einem Weg gesucht werden muss!
             if( infoCastChar.mBody && infoCastOptPos.mBody ) // neue Position und Character nicht erreichbar
@@ -800,7 +802,7 @@ namespace rl {
                 // anderen Weg finden
                 // hier werden erstmal nur alte Player-Positionen betrachtet
                 // es wird davon ausgegangen, dass diese "nah" genug aneinanderliegen
-                // und durch "Geraden" miteinander verbunden werden k�nen
+                // und durch "Geraden" miteinander verbunden werden koennen
                 // durch das spring-Acc-Damping System sollten die Bewegungen trotzdem flssig
                 // und weich (keine scharfen Kurven) erscheinen
 
@@ -847,7 +849,7 @@ namespace rl {
 
                     // suche von lastReachableBufPos aus der letzten Frame nach neuen erreichbaren Buffer-Positionen
                     unsigned int delta = mLastReachableBufPos; // das ist die von der letzten Frame!
-                    while ( delta > 0 ) // delta = 0 braucht nicht berprft zu werden, wurde oben schon ausgeschlossen!
+                    while ( delta > 0 ) // delta = 0 braucht nicht ueberprft zu werden, wurde oben schon ausgeschlossen!
                     {
                         RaycastInfo info = mRaycast->execute(
                             world,
@@ -1278,6 +1280,7 @@ namespace rl {
             movement &= ~MOVE_RUN_LOCK;
             retval = true;
         }
+
         if (movement != MOVE_NONE)
         {
             mCharacterState.mCurrentMovementState |= movement;
