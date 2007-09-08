@@ -25,7 +25,7 @@
 #include <OgreDataStream.h>
 
 #include "Property.h"
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 
 namespace rl 
 {

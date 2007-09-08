@@ -335,14 +335,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\XmlPropertyReader.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\XmlPropertyWriter.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\ScriptWrapper.cpp"
 				>
 			</File>
@@ -375,11 +367,15 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\src\XmlErrorHandler.cpp"
+				RelativePath=".\src\XmlProcessor.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\XmlProcessor.cpp"
+				RelativePath=".\src\XmlPropertyReader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\XmlPropertyWriter.cpp"
 				>
 			</File>
 			<File
@@ -459,14 +455,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\XmlPropertyReader.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XmlPropertyWriter.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\RastullahPrerequisites.h"
 				>
 			</File>
@@ -487,11 +475,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\XmlErrorHandler.h"
+				RelativePath=".\include\XmlProcessor.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\XmlProcessor.h"
+				RelativePath=".\include\XmlPropertyReader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XmlPropertyWriter.h"
 				>
 			</File>
 			<File

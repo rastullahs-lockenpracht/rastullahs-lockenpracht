@@ -23,7 +23,7 @@
 #include <xercesc/dom/DOMElement.hpp>
 #include <OgreDataStream.h>
 
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 
 namespace rl 
 {

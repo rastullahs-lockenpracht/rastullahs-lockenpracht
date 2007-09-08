@@ -18,10 +18,10 @@
 
 #include <xercesc/dom/DOM.hpp>
 
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 
 #include "Properties.h"
-#include "PropertyReader.h"
+#include "XmlPropertyReader.h"
 
 #include <OgreResourceManager.h>
 #include <CEGUIPropertyHelper.h>

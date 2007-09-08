@@ -22,7 +22,7 @@
 
 #include <OgreSceneNode.h>
 
-#include "PropertyReader.h"
+#include "XmlPropertyReader.h"
 
 namespace rl
 {

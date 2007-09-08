@@ -28,7 +28,7 @@
 #include "Item.h"
 #include "Person.h"
 #include "Properties.h"
-#include "PropertyReader.h"
+#include "XmlPropertyReader.h"
 #include "Property.h"
 #include "RubyInterpreter.h"
 #include "Weapon.h"

@@ -27,7 +27,7 @@
 #include "Logger.h"
 #include "OgreXercesInput.h"
 #include "XmlErrorHandler.h"
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 #include "XmlResource.h"
 #include "XmlResourceManager.h"
 

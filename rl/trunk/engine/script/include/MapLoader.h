@@ -22,7 +22,7 @@
 
 #include <OgreSceneNode.h>
 #include <list>
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 
 namespace rl {
 

@@ -21,7 +21,7 @@
 #include <xercesc/util/TransService.hpp>
 #include "AimlNodeImplRl.h"
 
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 
 namespace rl {
 

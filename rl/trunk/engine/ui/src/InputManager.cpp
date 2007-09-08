@@ -23,7 +23,7 @@
 
 #include "Exception.h"
 
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 
 #include "AbstractWindow.h"
 #include "Action.h"

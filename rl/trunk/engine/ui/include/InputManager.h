@@ -29,7 +29,7 @@
 
 #include "FixRubyHeaders.h"
 #include "GameTask.h"
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 
 namespace rl {
 

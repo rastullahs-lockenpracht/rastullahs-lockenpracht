@@ -23,7 +23,7 @@
 #include <map>
 
 #include "XmlResourceManager.h"
-#include "PropertyReader.h"
+#include "XmlPropertyReader.h"
 
 class Ogre::SceneNode;
 class XERCES_CPP_NAMESPACE::DOMElement;

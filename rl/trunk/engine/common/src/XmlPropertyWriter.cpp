@@ -16,10 +16,10 @@
 
 #include "stdinc.h" //precompiled header
 
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 
 #include "Properties.h"
-#include "PropertyWriter.h"
+#include "XmlPropertyWriter.h"
 
 #include <OgreResourceManager.h>
 #include <CEGUIPropertyHelper.h>

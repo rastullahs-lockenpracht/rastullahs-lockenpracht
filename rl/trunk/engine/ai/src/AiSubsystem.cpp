@@ -30,7 +30,7 @@
 
 #include <xercesc/util/PlatformUtils.hpp>
 
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 #include "XmlResourceManager.h"
 #include "ContentModule.h"
 

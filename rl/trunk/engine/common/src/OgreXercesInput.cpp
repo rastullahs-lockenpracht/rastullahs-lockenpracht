@@ -17,7 +17,6 @@
 #include "stdinc.h" //precompiled header
 
 #include "OgreXercesInput.h"
-#include "XmlErrorHandler.h"
 
 using namespace XERCES_CPP_NAMESPACE;
 using namespace Ogre;

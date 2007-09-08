@@ -19,7 +19,7 @@
 
 #include "CoreSubsystem.h"
 #include "World.h"
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 
 using namespace XERCES_CPP_NAMESPACE;
 using namespace Ogre;

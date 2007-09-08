@@ -20,7 +20,7 @@
 
 #include "DebugVisualisable.h"
 #include "WayPointNode.h"
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 
 namespace rl
 {

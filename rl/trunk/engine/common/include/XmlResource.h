@@ -26,7 +26,7 @@
 
 #include "CommonPrerequisites.h"
 #include <OgreResource.h>
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 
 namespace rl {
 

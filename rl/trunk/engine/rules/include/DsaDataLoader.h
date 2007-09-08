@@ -21,7 +21,7 @@
 #include <xercesc/dom/DOMElement.hpp>
 
 #include <OgreScriptLoader.h>
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 
 namespace rl {
 

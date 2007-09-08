@@ -22,7 +22,7 @@
 
 #include <OgreResourceGroupManager.h>
 
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 #include "OgreXercesInput.h"
 
 #include "DsaManager.h"

@@ -19,7 +19,7 @@
 #include "AiPrerequisites.h"
 #include "AimlNode.h"
 
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 
 using namespace MadaBot;
 namespace rl

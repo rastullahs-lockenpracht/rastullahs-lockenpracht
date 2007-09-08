@@ -21,7 +21,7 @@
 #include "AiPrerequisites.h"
 
 #include "MessagePump.h"
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 #include "World.h"
 
 namespace MadaBot

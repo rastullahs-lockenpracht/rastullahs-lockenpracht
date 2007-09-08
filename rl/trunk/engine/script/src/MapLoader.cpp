@@ -27,11 +27,11 @@
 #include "LightNodeProcessor.h"
 #include "ParticleSystemNodeProcessor.h"
 #include "ProgressWindow.h"
-#include "PropertyReader.h"
+#include "XmlPropertyReader.h"
 #include "SoundNodeProcessor.h"
 #include "WaypointProcessor.h"
 #include "World.h"
-#include "XmlHelper.h"
+#include "XmlProcessor.h"
 #include "ZoneProcessor.h"
 
 using namespace Ogre;
