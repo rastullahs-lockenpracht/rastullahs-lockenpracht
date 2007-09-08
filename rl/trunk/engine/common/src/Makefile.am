@@ -13,10 +13,10 @@ libRlCommon_la_SOURCES = \
   OgreXercesInput.cpp \
   Properties.cpp \
   Property.cpp \
-  PropertyReader.cpp \
-  PropertyWriter.cpp \
   ScriptWrapper.cpp \
   XmlErrorHandler.cpp \
-  XmlHelper.cpp \
+  XmlProcessor.cpp \
+  XmlPropertyReader.cpp \
+  XmlPropertyWriter.cpp \
   XmlResource.cpp \
   XmlResourceManager.cpp   

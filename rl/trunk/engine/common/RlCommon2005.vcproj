@@ -335,11 +335,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\PropertyReader.cpp"
+				RelativePath=".\src\XmlPropertyReader.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\PropertyWriter.cpp"
+				RelativePath=".\src\XmlPropertyWriter.cpp"
 				>
 			</File>
 			<File
@@ -379,7 +379,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\XmlHelper.cpp"
+				RelativePath=".\src\XmlProcessor.cpp"
 				>
 			</File>
 			<File
@@ -459,11 +459,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\PropertyReader.h"
+				RelativePath=".\include\XmlPropertyReader.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\PropertyWriter.h"
+				RelativePath=".\include\XmlPropertyWriter.h"
 				>
 			</File>
 			<File
@@ -491,7 +491,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\XmlHelper.h"
+				RelativePath=".\include\XmlProcessor.h"
 				>
 			</File>
 			<File

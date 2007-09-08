@@ -14,12 +14,12 @@ noinst_HEADERS =
 	OgreXercesInput.h \
     Properties.h \
     Property.h \
-    PropertyReader.h \
-	PropertyWriter.h \
     RastullahPrerequisites.h \
     ScriptWrapper.h \
 	Sleep.h \
 	Tripel.h \
-	XmlHelper.h \
+	XmlProcessor.h \
+    XmlPropertyReader.h \
+	XmlPropertyWriter.h \
 	XmlResource.h \
 	XmlResourceManager.h
