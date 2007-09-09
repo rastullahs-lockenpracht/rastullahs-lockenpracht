@@ -1,7 +1,7 @@
 INCLUDES =  -I. -I../include $(OGRE_CFLAGS)
 
 lib_LTLIBRARIES = libOpenSteer.la
-libOpenSteer_la_LDFLAGS =  $(LIBS)
+libOpenSteer_la_LDFLAGS =  $(LIBS) -version-number 0:9:0
 libOpenSteer_la_SOURCES = \
 	lq.c \
 	Clock.cpp \
