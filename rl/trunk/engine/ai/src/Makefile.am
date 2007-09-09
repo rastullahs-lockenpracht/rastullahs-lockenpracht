@@ -9,7 +9,6 @@ libRlAi_la_SOURCES = \
 	AgentDialogState.cpp \
 	AgentManager.cpp \
 	AgentSteeringState.cpp \
-	AiMessages.cpp \
 	AiSubsystem.cpp \
 	AiWorld.cpp \
 	AStarCosts.cpp \
@@ -35,7 +34,6 @@ libRlAi_la_SOURCES = \
 	DialogOption.cpp \
 	DialogResponse.cpp \
 	DialogScriptProcessor.cpp \
-	DialogSubsystem.cpp \
 	ScriptProcessor.cpp \
 	predicates/CreaturePredicates.cpp \
 	predicates/EigenschaftsProbePredicates.cpp \

@@ -39,9 +39,9 @@ namespace rl {
 
         WindowFadeJob(AbstractWindow* window, Mode mode,
             Ogre::Real targetAlpha = 1.0f, Ogre::Real changeRate = 4.0f);
-        WindowFadeJob::WindowFadeJob(CEGUI::Window* window, Mode mode, 
+        WindowFadeJob(CEGUI::Window* window, Mode mode, 
             Ogre::Real targetAlpha = 1.0f, Ogre::Real changeRate = 4.0f);
-        WindowFadeJob::WindowFadeJob(ItemDragContainer* window, Mode mode, 
+        WindowFadeJob(ItemDragContainer* window, Mode mode, 
             Ogre::Real targetAlpha = 1.0f, Ogre::Real changeRate = 4.0f);
 
         virtual bool execute(Ogre::Real time);

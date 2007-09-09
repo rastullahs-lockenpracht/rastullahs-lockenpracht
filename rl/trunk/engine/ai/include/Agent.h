@@ -20,6 +20,7 @@
 #include "AgentState.h"
 #include "SteeringMachine.h"
 #include "SteeringVehicle.h"
+#include <stack>
 
 namespace rl
 {

@@ -14,7 +14,6 @@ libRlCommon_la_SOURCES = \
   Properties.cpp \
   Property.cpp \
   ScriptWrapper.cpp \
-  XmlErrorHandler.cpp \
   XmlProcessor.cpp \
   XmlPropertyReader.cpp \
   XmlPropertyWriter.cpp \

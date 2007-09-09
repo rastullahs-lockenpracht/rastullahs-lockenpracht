@@ -4,7 +4,6 @@ lib_LTLIBRARIES = libOpenSteer.la
 libOpenSteer_la_LDFLAGS =  $(LIBS)
 libOpenSteer_la_SOURCES = \
 	lq.c \
-	Camera.cpp \
 	Clock.cpp \
 	Color.cpp \
 	Obstacle.cpp \

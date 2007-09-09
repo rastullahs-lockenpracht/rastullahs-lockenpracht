@@ -21,14 +21,16 @@
 #include "CorePrerequisites.h"
 #include "CoreDefines.h"
 
-
+namespace OgreNewt {
+	class Body;
+}
 namespace rl {
 
 	class PhysicalThing;
 
 /** GameAreaType
- * Verwaltet verschiedene Flaechenarten und Methoden die Aktoren innerhalb dieser Flächen zu
- * sammeln. Dabei lassen sich die gefundenen Aktoren über Masken beschränken.
+ * Verwaltet verschiedene Flaechenarten und Methoden die Aktoren innerhalb dieser FlÃ¤chen zu
+ * sammeln. Dabei lassen sich die gefundenen Aktoren Ã¼ber Masken beschrÃ¤nken.
  *
  *  @see GameAreaListener, GameAreaEventSource, GameEventManager, GameAreaEvent
  */
@@ -36,42 +38,42 @@ class _RlCoreExport GameAreaType
 {
 public:
     virtual ~GameAreaType();
-    /** Führt die Anfrage durch und sammelt die Aktoren innerhalb einer std::map 
+    /** Fï¿½hrt die Anfrage durch und sammelt die Aktoren innerhalb einer std::map 
      *  Key Wert ist der einzigartige Name des Actors
      *
-     *  Die genaue Implementation wird in den Unterklassen durchgeführt.
+     *  Die genaue Implementation wird in den Unterklassen durchgefï¿½hrt.
      */
     virtual ActorMap performQuery(  ) = 0;
 
-    /// Gibt die Anfrage-Maske zurück, wird in Unterklassen implementiert
+    /// Gibt die Anfrage-Maske zurï¿½ck, wird in Unterklassen implementiert
     virtual unsigned long getQueryMask() const = 0;
     /// Setzt die Anfrage-Maske, wird in Unterklassen implementiert
     virtual void setQueryMask( unsigned long mask = 0xFFFFFFFF ) = 0;
 
-    /// Fügt der Anfrage-Maske ein Flag hinzu
+    /// Fï¿½gt der Anfrage-Maske ein Flag hinzu
     void addQueryFlag( unsigned long flag  );
     /// Entfernt ein Flag aus der Anfrage-Maske
     void removeQueryFlag( unsigned long flag );
 
     /// Setzt die genaue Position der Anfrage, wird in Unterklassen implementiert
     virtual void setQueryPosition( const Ogre::Vector3& vec ) = 0;
-    /// Gibt die Position der Anfrage zurück, wird in Unterklassen implementiert
+    /// Gibt die Position der Anfrage zurï¿½ck, wird in Unterklassen implementiert
     virtual Ogre::Vector3 getQueryPosition() const = 0;
     /// Setzt die genaue Orientierung der Anfrage, wird in Unterklassen implementiert
     virtual void setQueryOrientation( const Ogre::Quaternion& ori ) = 0;
-    /// Gibt die Orientierung der Anfrage zurück, wird in Unterklassen implementiert
+    /// Gibt die Orientierung der Anfrage zurï¿½ck, wird in Unterklassen implementiert
     virtual Ogre::Quaternion getQueryOrientation() const = 0;
 
     /// Blendet ein Debug-Objekt ein, um das Areal zu verdeutlichen
     //virtual setShowDebug() = 0;
-    /// Gibt zurück ob ein Debug-Objekt eingeblendet ist
+    /// Gibt zurï¿½ck ob ein Debug-Objekt eingeblendet ist
     //virtual bool getShowDebug() const = 0;
 
     virtual OgreNewt::Body* getBody() { return NULL;}
 
     virtual Ogre::Real getDistance(Actor* actor) = 0;
 
-    /// Der minimale abstand, den ein aktor von der zone haben muss, um die zone zu verlassen (um ständige wechsel in und aus der zone zu vermeiden)
+    /// Der minimale abstand, den ein aktor von der zone haben muss, um die zone zu verlassen (um stï¿½ndige wechsel in und aus der zone zu vermeiden)
     virtual Ogre::Real getTransitionDistance() const = 0;
     virtual void setTransitionDistance(Ogre::Real dist) = 0;
 };
@@ -83,7 +85,7 @@ public:
 class _RlCoreExport GameSphereAreaType : public GameAreaType
 {
 public:
-    /** Konstruktor für eine Kugelanfrage 
+    /** Konstruktor fï¿½r eine Kugelanfrage 
      *  
      * @param center Das Zentrum der Kugel
      * @param radius Der Radius der Kugel
@@ -93,21 +95,21 @@ public:
     /// Dekonstruktor
     virtual ~GameSphereAreaType();
 
-    /// Implementierung der Anfrage über einen SphereSceneQuery
+    /// Implementierung der Anfrage ï¿½ber einen SphereSceneQuery
     virtual ActorMap performQuery(  );
 
-    /// Gibt die Anfrage-Maske zurück
+    /// Gibt die Anfrage-Maske zurï¿½ck
     virtual unsigned long getQueryMask() const;
     /// Setzt die Anfrage-Maske
     virtual void setQueryMask( unsigned long mask = 0xFFFFFFFF );
 
      /// Setzt die genaue Position der Anfrage
     virtual void setQueryPosition( const Ogre::Vector3& vec );
-    /// Gibt die Position der Anfrage zurück
+    /// Gibt die Position der Anfrage zurï¿½ck
     virtual Ogre::Vector3 getQueryPosition() const;
     /// Setzt die genaue Orientierung der Anfrage, wird in Unterklassen implementiert
     virtual void setQueryOrientation( const Ogre::Quaternion& ori ) {}
-    /// Gibt die Orientierung der Anfrage zurück, wird in Unterklassen implementiert
+    /// Gibt die Orientierung der Anfrage zurï¿½ck, wird in Unterklassen implementiert
     virtual Ogre::Quaternion getQueryOrientation() const {return Ogre::Quaternion::IDENTITY;}
 private:
     /// Die Kugel-Anfrage
@@ -115,7 +117,7 @@ private:
 };
 */
 
-/// ein Problem könnte die zeitliche Verschiebung um eine Framedauer sein, wenn position und orientation
+/// ein Problem kï¿½nnte die zeitliche Verschiebung um eine Framedauer sein, wenn position und orientation
 /// neu gesetzt werden, muss erst newton wieder upgedated werden!
 /// Von dieser Klasse muss abgleitet werden, sie definiert keinen eigenen body!
 class _RlCoreExport GameNewtonBodyAreaType : 
@@ -128,21 +130,21 @@ public:
     /// Destruktor
     virtual ~GameNewtonBodyAreaType();
 
-    /// Implementierung der Anfrage über einen SphereSceneQuery
+    /// Implementierung der Anfrage ï¿½ber einen SphereSceneQuery
     virtual ActorMap performQuery(  );
 
-    /// Gibt die Anfrage-Maske zurück
+    /// Gibt die Anfrage-Maske zurï¿½ck
     virtual unsigned long getQueryMask() const;
     /// Setzt die Anfrage-Maske
     virtual void setQueryMask( unsigned long mask = 0xFFFFFFFF );
 
      /// Setzt die genaue Position der Anfrage
     virtual void setQueryPosition( const Ogre::Vector3& vec );
-    /// Gibt die Position der Anfrage zurück
+    /// Gibt die Position der Anfrage zurï¿½ck
     virtual Ogre::Vector3 getQueryPosition() const;
     /// Setzt die genaue Orientierung der Anfrage, wird in Unterklassen implementiert
     virtual void setQueryOrientation( const Ogre::Quaternion& ori );
-    /// Gibt die Orientierung der Anfrage zurück, wird in Unterklassen implementiert
+    /// Gibt die Orientierung der Anfrage zurï¿½ck, wird in Unterklassen implementiert
     virtual Ogre::Quaternion getQueryOrientation() const;
 
     virtual void foundCollision(Actor* actor);

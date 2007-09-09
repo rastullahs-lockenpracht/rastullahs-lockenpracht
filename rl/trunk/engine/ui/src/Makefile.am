@@ -1,7 +1,7 @@
 INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(CEGUIOGRE_CFLAGS) \
     $(STLPORT_CFLAGS) $(OIS_CFLAGS) -I../include -I../../common/include  -I../../core/include \
     -I../../rules/include -I../components/include -I../../dialog/include \
-    -I../../startup/include 
+    -I../../startup/include  -I../../ai/include
 
 lib_LTLIBRARIES = libRlUi.la
 libRlUi_la_LIBADD = \

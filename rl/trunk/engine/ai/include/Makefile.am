@@ -5,7 +5,6 @@ noinst_HEADERS =
 	AgentDialogState.h \
 	AgentState.h \
 	AgentSteeringState.h \
-	AiMessages.h \
 	AiPrerequisites.h \
 	AiSubsystem.h \
 	AiWorld.h \
@@ -34,7 +33,6 @@ noinst_HEADERS =
 	DialogPrerequisites.h \
 	DialogResponse.h \
 	DialogScriptProcessor.h \
-	DialogSubsystem.h \
 	ScriptProcessor.h \
 	predicates/CreaturePredicates.h \
 	predicates/EigenschaftsWertPredicates.h \
