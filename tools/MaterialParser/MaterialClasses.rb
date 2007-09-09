@@ -17,19 +17,21 @@ class Newline
 end
 
 class AttributedObject
+    attr_reader :attributes
+
     def initialize
         @attributes = []
     end
 
     def addAttribute( name, attributes )
         attributes.pop
-        @attributes.push( Attribute.new( name, attributes ) )
+        @attributes.push( Attribute.new( name, attributes ) )     
     end
 
     def getAttributes( name )
         rets = []
         @attributes.each { |att| 
-            ret.push( att ) unless name != att.name
+            rets.push( att ) unless name != att.name
         }
         return rets
     end
@@ -99,14 +101,15 @@ class Technique < AttributedObject
 end
 
 class Pass < AttributedObject
-    attr_reader :tus, :vprs, :scvprs, :fprs, :name
-    attr_writer :tus, :vprs, :scvprs, :fprs, :name
+    attr_reader :tus, :vprs, :scvprs, :srvprs, :fprs, :name
+    attr_writer :tus, :vprs, :scvprs, :srvprs, :fprs, :name
 
     def initialize( )
         super()
         @tus = []
         @vprs = []
         @scvprs = []
+        @srvprs = []
         @fprs = []
         @name = nil
     end
@@ -121,6 +124,7 @@ class Pass < AttributedObject
         @tus.each { |su| temparr << su.to_s.gsub(/^/, TAB ) }
         @vprs.each { |su| temparr << su.to_s.gsub(/^/, TAB ) }
         @scvprs.each { |su| temparr << su.to_s.gsub(/^/, TAB ) }
+        @srvprs.each { |su| temparr << su.to_s.gsub(/^/, TAB ) }
         @fprs.each { |su| temparr << su.to_s.gsub(/^/, TAB ) }
         temparr << "}\n"
 
@@ -185,6 +189,28 @@ class ShadowCasterVertexProgramRef < AttributedObject
         temparr = []
         
         temparr << "shadow_caster_vertex_program_ref"
+        temparr << " " << @name unless @name.nil?
+        temparr << "\n{\n"
+        temparr << super()
+        temparr << "}\n"
+
+        temparr.join
+    end
+end
+
+class ShadowReceiverVertexProgramRef < AttributedObject
+    attr_reader :name
+    attr_writer :name
+
+    def initialize( )
+        super()
+        @name = nil
+    end
+
+    def to_s
+        temparr = []
+        
+        temparr << "shadow_receiver_vertex_program_ref"
         temparr << " " << @name unless @name.nil?
         temparr << "\n{\n"
         temparr << super()
