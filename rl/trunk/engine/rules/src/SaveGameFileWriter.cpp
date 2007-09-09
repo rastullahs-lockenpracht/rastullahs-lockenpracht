@@ -68,11 +68,7 @@ namespace rl
         //Write date and time
         DOMElement* timeNode = appendChildElement(mDocument, mDocument->getDocumentElement(), "time");
         
-        time_t rawtime;
-        tm* timeinfo;
-
-        time ( &rawtime );
-        timeinfo = localtime ( &rawtime );
+        tm* timeinfo = file->getLocalTime();
 
         setAttributeValueAsInteger(timeNode, "day", timeinfo->tm_mday);
         setAttributeValueAsInteger(timeNode, "month", timeinfo->tm_mon);
@@ -126,11 +122,13 @@ namespace rl
 
         mWriter->writeNode(mTarget, *mDocument);
 
-        mWriter->release();
-        delete mTarget;
+        //mDocument->release();
+        
 
-        mDocument->release();
+        mWriter->release();
+
         delete mDocument;
+        delete mTarget;
 
         shutdownXml();
     }

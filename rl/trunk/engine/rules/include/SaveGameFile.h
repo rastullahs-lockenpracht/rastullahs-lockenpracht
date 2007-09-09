@@ -22,21 +22,30 @@
 
 #include <xercesc/framework/XMLFormatter.hpp>
 
+#include <ctime>
+
 namespace rl
 {
     class _RlRulesExport SaveGameFile
     {
     public:
-        SaveGameFile(const CeGuiString &name);
+        SaveGameFile(const CeGuiString &name, const CeGuiString &moduleID, tm* localTime);
         ~SaveGameFile();
         CeGuiString buildFilename();
         CeGuiString getName();
         bool saveGameExists();
 
+        tm* getLocalTime();
+        CeGuiString getLocalTimeAsString() const;
+
+        CeGuiString getModuleID();
+
         Ogre::DataStreamPtr getDataStream();
         XERCES_CPP_NAMESPACE::XMLFormatTarget* getFormatTarget();
     protected:
         CeGuiString mName;
+        CeGuiString mModuleID;
+        tm* mLocalTime;
     };
 }
 

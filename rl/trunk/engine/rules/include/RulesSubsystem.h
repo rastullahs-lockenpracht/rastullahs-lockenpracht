@@ -28,6 +28,7 @@ namespace rl
     class CombatManager;
     class DsaManager;
     class CreatureControllerManager;
+    class SaveGameManager;
     class XdimlLoader;
 
 	class _RlRulesExport RulesSubsystem : public Ogre::Singleton<RulesSubsystem>
@@ -45,6 +46,7 @@ namespace rl
         CombatManager* mCombatManager;
         DsaManager* mDsaManager;
         CreatureControllerManager *mMovingCreatureManager;
+        SaveGameManager* mSaveGameManager;
         XdimlLoader* mXdimlLoader;
     };
 }

@@ -411,6 +411,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\SaveGameManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\SelectionHelper.cpp"
 				>
 			</File>
@@ -642,6 +646,10 @@
 			</File>
 			<File
 				RelativePath=".\include\SaveGameFileWriter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SaveGameManager.h"
 				>
 			</File>
 			<File

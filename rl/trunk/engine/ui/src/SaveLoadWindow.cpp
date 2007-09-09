@@ -31,11 +31,8 @@
 #include <OgreResourceGroupManager.h>
 
 #include "SaveLoadWindow.h"
-#include "SaveGameFile.h"
-#include "SaveGameFileWriter.h"
-#include "CoreSubsystem.h"
-#include "ContentModule.h"
 #include "ConfigurationManager.h"
+#include "SaveGameManager.h"
 
 using namespace CEGUI;
 
@@ -118,7 +115,7 @@ namespace rl {
 
         LOG_MESSAGE(Logger::UI, "Create a SaveGameFile");
 
-        SaveGameFile saveGameFile(mFilename->getText());
+        //SaveGameFile saveGameFile(mFilename->getText());
 
         /*std::list<const GameObject*>::const_iterator it;
         std::list<const GameObject*> gos;
@@ -129,9 +126,11 @@ namespace rl {
         {
             sets.push_back((*it)->getAllProperties());
         }*/
-        SaveGameFileWriter saveGameFileWriter;
+        //SaveGameFileWriter saveGameFileWriter;
         //saveGameFileWriter.setPropertySets(sets);
-        saveGameFileWriter.buildSaveGameFile(&saveGameFile);
+        //saveGameFileWriter.buildSaveGameFile(&saveGameFile);
+
+        SaveGameManager::getSingleton().saveSaveGameFile(mFilename->getText());
 
         LOG_MESSAGE(Logger::UI, "Created save game");
 
@@ -150,7 +149,7 @@ namespace rl {
 
     void SaveLoadWindow::listSaveGames()
     {
-        Ogre::ResourceGroupManager::getSingleton().createResourceGroup("SaveGames");
+        /*Ogre::ResourceGroupManager::getSingleton().createResourceGroup("SaveGames");
         Ogre::ResourceGroupManager::getSingleton().addResourceLocation(ConfigurationManager::getSingleton().getModulesRootDirectory() + "/"
             + Ogre::String(CoreSubsystem::getSingleton().getActiveAdventureModule()->getId().c_str()) + "/saves", "FileSystem", "SaveGames");
         Ogre::StringVectorPtr saveGames = Ogre::ResourceGroupManager::getSingleton().listResourceNames("SaveGames");
@@ -169,7 +168,7 @@ namespace rl {
             saveGameNum++;
         }
 
-        Ogre::ResourceGroupManager::getSingleton().destroyResourceGroup("SaveGames");
+        Ogre::ResourceGroupManager::getSingleton().destroyResourceGroup("SaveGames");*/
     }
 
 } // namespace rl

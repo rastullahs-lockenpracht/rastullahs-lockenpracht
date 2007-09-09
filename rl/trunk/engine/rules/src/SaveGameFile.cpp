@@ -27,9 +27,11 @@
 namespace rl
 {
 
-    SaveGameFile::SaveGameFile(const CeGuiString &name)
+    SaveGameFile::SaveGameFile(const CeGuiString &name, const CeGuiString &moduleID, tm* localTime)
     {
         mName = name;
+        mModuleID = moduleID;
+        mLocalTime = localTime;
     }
 
     SaveGameFile::~SaveGameFile()
@@ -38,8 +40,8 @@ namespace rl
 
     CeGuiString SaveGameFile::buildFilename()
     {
-        return ConfigurationManager::getSingleton().getModulesRootDirectory() + "/" 
-            + CoreSubsystem::getSingleton().getActiveAdventureModule()->getId() + "/saves/" + mName + ".save";
+        return ConfigurationManager::getSingleton().getModulesRootDirectory() + /*"/" 
+            + CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()*/ + "/saves/" + mName + ".save";
     }
 
     CeGuiString SaveGameFile::getName()
@@ -62,5 +64,26 @@ namespace rl
     bool SaveGameFile::saveGameExists()
     {
         return !Ogre::DataStreamPtr( new Ogre::FileHandleDataStream(fopen(this->buildFilename().c_str(), "r"))).isNull();
+    }
+
+    tm* SaveGameFile::getLocalTime()
+    {
+        return mLocalTime;
+    }
+
+    CeGuiString SaveGameFile::getLocalTimeAsString() const
+    {
+        CeGuiString string = ((Ogre::String)(Ogre::StringConverter::toString(mLocalTime->tm_mday) + "." 
+            + Ogre::StringConverter::toString(mLocalTime->tm_mon) + "."
+            + Ogre::StringConverter::toString(mLocalTime->tm_year + 1900) + " - " 
+            + Ogre::StringConverter::toString(mLocalTime->tm_hour) + ":"
+            + Ogre::StringConverter::toString(mLocalTime->tm_min) + ":" 
+            + Ogre::StringConverter::toString(mLocalTime->tm_sec))).c_str();
+        return string;
+    }
+
+    CeGuiString SaveGameFile::getModuleID()
+    {
+        return mModuleID;
     }
 }
