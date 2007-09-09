@@ -122,8 +122,6 @@ namespace rl
 
         mWriter->writeNode(mTarget, *mDocument);
 
-        //mDocument->release();
-        
 
         mWriter->release();
 
