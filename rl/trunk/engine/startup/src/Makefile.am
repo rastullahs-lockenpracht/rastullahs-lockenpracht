@@ -1,5 +1,5 @@
 INCLUDES = $(CEGUI_CFLAGS) $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(OIS_CFLAGS) $(STLPORT_CFLAGS) \
-	-I../../common/include -I../../core/include -I../../rules/include \
+	$(BOOST_CPPFLAGS) -I../../common/include -I../../core/include -I../../rules/include \
 	-I../../ui/include -I../../script/include -I../../ai/include
 
 bin_PROGRAMS = rastullah

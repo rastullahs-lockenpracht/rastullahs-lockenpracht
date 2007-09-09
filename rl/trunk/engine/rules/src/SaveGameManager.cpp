@@ -21,7 +21,7 @@
 #include <CoreSubsystem.h>
 #include <ContentModule.h>
 
-template<> rl::SaveGameManager* rl::SaveGameManager::ms_Singleton = 0;
+template<> rl::SaveGameManager* Ogre::Singleton<rl::SaveGameManager>::ms_Singleton = 0;
 
 namespace rl
 {

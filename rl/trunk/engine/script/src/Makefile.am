@@ -1,6 +1,6 @@
-INCLUDES = $(CEGUI_CFLAGS) $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(OIS_CFLAGS) \
-	$(STLPORT_CFLAGS) -I../include -I../../common/include -I../../core/include \
-	-I../../rules/include -I../../ui/include \
+INCLUDES = $(CEGUI_CFLAGS) $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(OgreNewt_CFLAGS) $(OIS_CFLAGS) \
+	$(STLPORT_CFLAGS) $(BOOST_CPPFLAGS) -I../include -I../../common/include \
+	-I../../core/include -I../../rules/include -I../../ui/include \
 	-I../../ai/include
 
 lib_LTLIBRARIES = libRlScript.la

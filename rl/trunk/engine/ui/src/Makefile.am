@@ -1,5 +1,5 @@
 INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(CEGUIOGRE_CFLAGS) \
-    $(STLPORT_CFLAGS) $(OIS_CFLAGS) -I../include -I../../common/include  -I../../core/include \
+    $(STLPORT_CFLAGS) $(OIS_CFLAGS) $(BOOST_CPPFLAGS) -I../include -I../../common/include  -I../../core/include \
     -I../../rules/include -I../components/include -I../../dialog/include \
     -I../../startup/include  -I../../ai/include
 
@@ -15,7 +15,7 @@ libRlUi_la_SOURCES = \
     CharacterStateWindow.cpp \
     CloseConfirmationWindow.cpp \
     CombatControlState.cpp \
-	CombatWindow.cpp \
+    CombatWindow.cpp \
     CommandMapper.cpp \
     ConfigComponent.cpp \
     ContainerContentWindow.cpp \

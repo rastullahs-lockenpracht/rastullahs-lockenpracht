@@ -1,8 +1,8 @@
-INCLUDES = $(OGRE_CFLAGS) $(STLPORT_CFLAGS) $(CEGUIOGRE_CFLAGS) -I../include -I ../../core/include \
-	-I ../../common/include -I ../../dialog/include -I ../../rules/include -I../include/predicates
+INCLUDES = $(OGRE_CFLAGS) $(OgreNewt_CFLAGS) $(STLPORT_CFLAGS) $(CEGUIOGRE_CFLAGS) $(BOOST_CPPFLAGS) $(OpenSteer_CFLAGS) \
+	-I../include -I ../../core/include -I ../../common/include -I ../../dialog/include -I ../../rules/include -I../include/predicates
 
 lib_LTLIBRARIES = libRlAi.la
-libRlAi_la_LDFLAGS = $(OGRE_LIBS) $(LIBS)
+libRlAi_la_LDFLAGS = $(OgreNewt_LIBS) $(OpenSteer_LIBS) $(LIBS)
 libRlAi_la_SOURCES = \
 	Agent.cpp \
 	AgentCombatState.cpp \
