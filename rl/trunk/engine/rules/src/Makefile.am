@@ -39,6 +39,7 @@ libRlRules_la_SOURCES = \
 	RulesSubsystem.cpp \
 	SaveGameFile.cpp \
 	SaveGameFileWriter.cpp \
+	SaveGameManager.cpp \
 	SelectionHelper.cpp \
 	Selector.cpp \
 	Slot.cpp \

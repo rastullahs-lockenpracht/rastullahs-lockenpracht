@@ -36,6 +36,7 @@ noinst_HEADERS = \
 	RulesSubsystem.h \
 	SaveGameFile.h \
 	SaveGameFileWriter.h \
+	SaveGameManager.h \
 	SelectionHelper.h \
 	Selector.h \
 	Slot.h \
