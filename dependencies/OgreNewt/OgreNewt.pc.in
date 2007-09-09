@@ -5,6 +5,7 @@ includedir=@includedir@
 
 Name: OgreNewt
 Description: Ogre Bindings for the Newton Physics SDK
+Requires: OGRE
 Version: @VERSION@
 Libs: -L${libdir} -lOgreNewt
 Cflags: -I${includedir}/OgreNewt
