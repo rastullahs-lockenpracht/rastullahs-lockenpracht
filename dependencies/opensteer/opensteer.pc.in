@@ -7,5 +7,5 @@ Name: OpenSteer
 Description: C++ steering behavior library
 Version: @VERSION@
 Requires: OGRE
-Libs: -L${libdir} -lopensteer
+Libs: -L${libdir} -lOpenSteer
 Cflags: -I${includedir}/@PACKAGE@

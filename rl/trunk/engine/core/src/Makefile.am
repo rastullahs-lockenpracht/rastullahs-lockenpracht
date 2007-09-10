@@ -1,11 +1,11 @@
 # Default values, if configuration file is missing (hard coded)
 AM_CPPFLAGS = -DRL_MODULEDIR=\"$(RL_MODULEDIR)\" -DOGRE_PLUGINDIR=\"$(OGRE_PLUGINDIR)\"
 
-INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(STLPORT_CFLAGS) $(BOOST_CPPFLAGS) \
+INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(STLPORT_CFLAGS) $(BOOST_CPPFLAGS) $(OgreNewt_CFLAGS) \
            -I../include -I../../common/include -I../include/nulldriver $(meshmagick_CFLAGS)
 
 lib_LTLIBRARIES = libRlCore.la
-libRlCore_la_LDFLAGS = $(OGRE_LIBS) $(CEGUI_LIBS) $(RUBY_LIBS) $(LIBS) $(meshmagick_LIBS)
+libRlCore_la_LDFLAGS = $(OGRE_LIBS) $(CEGUI_LIBS) $(RUBY_LIBS) $(LIBS) $(meshmagick_LIBS) $(OgreNewt_LIBS)
 libRlCore_la_SOURCES = \
 	Actor.cpp \
 	ActorControlledObject.cpp \

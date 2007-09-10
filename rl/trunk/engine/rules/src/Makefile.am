@@ -1,7 +1,7 @@
-INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(STLPORT_CFLAGS) $(BOOST_CPPFLAGS) -I../include -I../../common/include -I../../core/include
+INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(STLPORT_CFLAGS) $(BOOST_CPPFLAGS) $(OgreNewt_CFLAGS) -I../include -I../../common/include -I../../core/include
 
 lib_LTLIBRARIES = libRlRules.la
-libRlRules_la_LDFLAGS = $(RUBY_LIBS) $(OGRE_LIBS) $(CEGUI_LIBS) $(LIBS)
+libRlRules_la_LDFLAGS = $(RUBY_LIBS) $(OGRE_LIBS) $(CEGUI_LIBS) $(LIBS) $(OgreNewt_LIBS)
 libRlRules_la_SOURCES = \
 	Action.cpp \
 	ActionManager.cpp \
