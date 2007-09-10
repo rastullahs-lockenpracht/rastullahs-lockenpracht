@@ -1,5 +1,5 @@
-INCLUDES = $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(RUBY_CFLAGS)  -I../include \
-	-I../../../engine/ui/include -I../../../engine/core/include \
+INCLUDES = $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(RUBY_CFLAGS) $(BOOST_CPPFLAGS) \
+	-I../include -I../../../engine/ui/include -I../../../engine/core/include \
 	-I../../../engine/common/include
 
 lib_LTLIBRARIES = libRlOpenALDriver.la
