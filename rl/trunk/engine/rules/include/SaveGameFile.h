@@ -20,32 +20,34 @@
 #include "RulesPrerequisites.h"
 #include <OgreDataStream.h>
 
+#include <Property.h>
+#include <Properties.h>
+
 #include <xercesc/framework/XMLFormatter.hpp>
 
 #include <ctime>
 
 namespace rl
 {
-    class _RlRulesExport SaveGameFile
+    class _RlRulesExport SaveGameFile : public PropertyHolder
     {
     public:
-        SaveGameFile(const CeGuiString &name, const CeGuiString &moduleID, tm* localTime);
+        SaveGameFile(const CeGuiString &name);
         ~SaveGameFile();
         CeGuiString buildFilename();
         CeGuiString getName();
         bool saveGameExists();
 
-        tm* getLocalTime();
-        CeGuiString getLocalTimeAsString() const;
-
-        CeGuiString getModuleID();
-
         Ogre::DataStreamPtr getDataStream();
         XERCES_CPP_NAMESPACE::XMLFormatTarget* getFormatTarget();
+
+        virtual const Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const Property& value);
+        virtual PropertySet* getAllProperties() const;
     protected:
         CeGuiString mName;
         CeGuiString mModuleID;
-        tm* mLocalTime;
+        CeGuiString mLocalTime;
     };
 }
 

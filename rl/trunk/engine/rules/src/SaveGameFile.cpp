@@ -27,11 +27,9 @@
 namespace rl
 {
 
-    SaveGameFile::SaveGameFile(const CeGuiString &name, const CeGuiString &moduleID, tm* localTime)
+    SaveGameFile::SaveGameFile(const CeGuiString &name)
     {
         mName = name;
-        mModuleID = moduleID;
-        mLocalTime = localTime;
     }
 
     SaveGameFile::~SaveGameFile()
@@ -66,24 +64,35 @@ namespace rl
         return !Ogre::DataStreamPtr( new Ogre::FileHandleDataStream(fopen(this->buildFilename().c_str(), "r"))).isNull();
     }
 
-    tm* SaveGameFile::getLocalTime()
+    const Property SaveGameFile::getProperty(const Ogre::String& key) const
     {
-        return mLocalTime;
+        if(key == "ModuleID")
+            return Property(mModuleID);
+        else if(key == "Time")
+            return Property(mLocalTime);
+        else
+            return Property();
     }
 
-    CeGuiString SaveGameFile::getLocalTimeAsString() const
+    void SaveGameFile::setProperty(const Ogre::String& key, const Property& value)
     {
-        CeGuiString string = ((Ogre::String)(Ogre::StringConverter::toString(mLocalTime->tm_mday) + "." 
-            + Ogre::StringConverter::toString(mLocalTime->tm_mon) + "."
-            + Ogre::StringConverter::toString(mLocalTime->tm_year + 1900) + " - " 
-            + Ogre::StringConverter::toString(mLocalTime->tm_hour) + ":"
-            + Ogre::StringConverter::toString(mLocalTime->tm_min) + ":" 
-            + Ogre::StringConverter::toString(mLocalTime->tm_sec))).c_str();
-        return string;
+        if(key == "ModuleID")
+        {
+            if(value.isString())
+                mModuleID = value.toString();
+        }
+        else if(key == "Time")
+        {
+            if(value.isString())
+                mLocalTime = value.toString();
+        }
     }
 
-    CeGuiString SaveGameFile::getModuleID()
+    PropertySet* SaveGameFile::getAllProperties() const
     {
-        return mModuleID;
+        PropertySet* set = new PropertySet();
+        set->setProperty("ModuleID", getProperty("ModuleID"));
+        set->setProperty("Time", getProperty("Time"));
+        return set;
     }
 }

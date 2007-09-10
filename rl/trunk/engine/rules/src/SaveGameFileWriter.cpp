@@ -52,7 +52,6 @@ namespace rl
         mWriter = static_cast<DOMImplementationLS*>(mImplementation)->createDOMWriter();
         mTarget = file->getFormatTarget();
         mDocument = static_cast<DOMImplementation*>(mImplementation)->createDocument(0, XMLString::transcode("SaveGameFile"), 0);
-        mDocument->setNodeValue(XMLString::transcode("SaveGameFile"));
 
         if (mWriter->canSetFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true))
             mWriter->setFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true);
@@ -60,15 +59,21 @@ namespace rl
         if (mWriter->canSetFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true))
              mWriter->setFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true);
 
+        mDocument->setNodeValue(XMLString::transcode("SaveGameFile")); //Set name of document root node
+
+        //Write SaveGameVersion
+        setAttributeValueAsString(mDocument->getDocumentElement(), "Version", "0.1");
+
         //Write modul of save game
         DOMElement* header = appendChildElement(mDocument, mDocument->getDocumentElement(), "header");
         setAttributeValueAsString(header, "ModuleID", CoreSubsystem::getSingleton().getActiveAdventureModule()->getId());
         setAttributeValueAsInteger(header, "EngineVersion", CoreSubsystem::getSingleton().getEngineBuildNumber());
-        
+        setAttributeValueAsString(header, "LocalTime", file->getProperty("Time").toString());
+
         //Write date and time
-        DOMElement* timeNode = appendChildElement(mDocument, mDocument->getDocumentElement(), "time");
+        //DOMElement* timeNode = appendChildElement(mDocument, mDocument->getDocumentElement(), "time");
         
-        tm* timeinfo = file->getLocalTime();
+        /*tm* timeinfo = file->getLocalTime();
 
         setAttributeValueAsInteger(timeNode, "day", timeinfo->tm_mday);
         setAttributeValueAsInteger(timeNode, "month", timeinfo->tm_mon);
@@ -76,7 +81,7 @@ namespace rl
 
         setAttributeValueAsInteger(timeNode, "hour", timeinfo->tm_hour);
         setAttributeValueAsInteger(timeNode, "minute", timeinfo->tm_min);
-        setAttributeValueAsInteger(timeNode, "second", timeinfo->tm_sec);
+        setAttributeValueAsInteger(timeNode, "second", timeinfo->tm_sec);*/
 
         //Write globals
         DOMElement* globals = appendChildElement(mDocument, mDocument->getDocumentElement(), "globals");

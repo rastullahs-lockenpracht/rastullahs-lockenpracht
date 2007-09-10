@@ -38,13 +38,14 @@ namespace rl
     {
     public:
         SaveGameIndexReader();
-        SaveGameEntryMap &parseIndexFile() const;
+        SaveGameEntryMap parseIndexFile() const;
     };
 
     class _RlRulesExport SaveGameManager : public Ogre::Singleton<SaveGameManager>
     {
     public:
         SaveGameManager();
+        virtual ~SaveGameManager();    
 
         SaveGameEntryMap listSaveGames();
         void saveSaveGameFile(const CeGuiString &name);
