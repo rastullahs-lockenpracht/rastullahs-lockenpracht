@@ -101,8 +101,8 @@ namespace rl
 ///////////////////////////////////////////////////////////////////////////////
 // Typedefs
             /**
-             *  Liste der Talente. Besteht aus den Namen der Talente (z.B. Athletik)
-                   *  als Schluessel und ihrem Wert.
+             *  List of all talents. Consists of the (german) name of the talent
+             *  (e.g. "Athletik") as key and its value (TaW)
              **/
             typedef std::map<const CeGuiString, int> TalentMap;
 
@@ -127,7 +127,7 @@ namespace rl
 
             typedef Ogre::String Wert;
 
-    // some targets
+            // some targets
 			static const std::string ALL_EIGENSCHAFTEN;
 			static const std::string ALL_TALENTE;
 
@@ -162,40 +162,37 @@ namespace rl
                 ALIGNMENT_ENEMY   = 4  ///< Creature fights against the player.
             };
 
-            /// Beschreibt die art des zugefuegten Schadens
+            /// Determines the damage type
             enum DamageTag
             {
                 DAMAGETAG_NORMAL = 1,
                 DAMAGETAG_PIERCING, ///< Wie Pfeile, Bolzen oder gezielte Stiche, verletzen schon bei KO/2 < SP
                 DAMAGETAG_FIRE
         };
-            /// Die verschiedenen stati in denen sich eine @ref abbdes "SF" befinden kann.
-            enum SfStatus
+            /// The differente states a @ref abbdes "SF" can be in.
+             enum SfStatus
             {
                 SFSTATUS_IN_TRAINING = 1,
                 SFSTATUS_OK,
-                SFSTATUS_REQUIREMENTS_NOT_MET /// @todo Wird das ueberhaupt gebraucht?
+                SFSTATUS_REQUIREMENTS_NOT_MET /// @todo Is this even needed?
         };
 
 ///////////////////////////////////////////////////////////////////////////////
 // Werte
 
             /**
-             *  Veraendert die aktuelle @ref abbdel "LE" der Kreatur.
-             *  @param mod Der Wert um den die LE erhoeht (erniedrigt bei 
-             *   negativem Wert) werden soll
-             *  @param ignoreMax Wenn true kann die LE auch ueber das Maximum
-             *   hinaus erhoeht werden.
-             *  @ingroup CreatureRubyExports
+             *  Modifies the current @ref abbdel "LE" of the creature.
+             *  @param mod The value to be added to the LE (so to lower the LE, pass a negative 
+             *  value).
+             *  @param ignoreMax If ture, the LE can be increased beayond the maximum.
              **/
             virtual void modifyLe(int mod, bool ignoreMax = false);
             /**
-             *  Gibt die aktuelle @ref abbdel "LE" der Kreatur zurueck.
-             *  @ingroup CreatureRubyExports
+             *  Returns the current @ref abbdel "LE" of the creature.
              **/
             virtual int getLe();
             /**
-             *  Gibt die maximale Anzahl an @ref abbdel "LE" zurueck, die die Kreatur haben kann.
+             *  Returns the maximum @ref abbdel "LE" the creature can have.
              **/
             virtual int getLeMax();
 
