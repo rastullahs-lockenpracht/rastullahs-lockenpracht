@@ -1,5 +1,5 @@
 
-material men_human_female_hair_long_01_normal : Basic_Normalmapping_Spec_Alpha
+material men_human_female_hair_long_01_normal : Basic_Normalmapping_Spec_Hair
 {
 set_texture_alias DiffuseMap men_human_female_hair_long_01.png
 set_texture_alias NormalMap men_human_female_hair_long_01_normal.png

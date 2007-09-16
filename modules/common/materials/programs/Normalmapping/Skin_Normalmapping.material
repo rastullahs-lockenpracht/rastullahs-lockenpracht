@@ -162,7 +162,7 @@ material Face_Normalmapping_mirrored
                 param_named_auto LightAttn_1 light_attenuation 1
                 param_named_auto LightAttn_2 light_attenuation 2
                 
-                param_named eyeDirection float3 0.0 1 0.0
+                param_named eyeDirection float3 0.25 1 0.0
                 
                 param_named_auto vViewPosition	 camera_position_object_space
             }

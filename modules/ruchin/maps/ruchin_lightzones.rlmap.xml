@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <rastullahmap formatVersion="0.4.0">
 	<nodes>
+		<entity name="Ruchin_Hessi_innen" meshfile="Ruchin_Hessi_innen.mesh" visible="true" receivesShadow="true">
+			<position x="130.0" y="0.0" z="-50.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			<renderingdistance data="100" /> 
+		</entity>
+		
+		<entity name="Ruchin_g" meshfile="Ruchin_g.mesh" visible="true" receivesShadow="true">
+			<position x="120.0" y="0.0" z="-50.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			<renderingdistance data="100" /> 
+		</entity>
+	
 		<entity name="Ruchin_l_innen" meshfile="Ruchin_l_innen.mesh" visible="true" receivesShadow="true">
 			<position x="65.2876" y="6.02141" z="-66.9458" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
@@ -144,14 +160,14 @@
 			<position x="112.486" y="1.53497" z="-17.18" />
 			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
 			<scale x="1.0" y="1.0" z="1.0" />
-			<staticgeometrygroup id="39"/>
+			<staticgeometrygroup id="3"/>
 			<renderingdistance data="100" />
 		</entity>
 		<entity name="Statue_02" meshfile ="Statue_02.mesh" visible="true" receivesShadow="true">
 			<position x="112.486" y="1.53497" z="-24.0179" />
 			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
 			<scale x="1.0" y="1.0" z="1.0" />
-			<staticgeometrygroup id="40"/>
+			<staticgeometrygroup id="3"/>
 			<renderingdistance data="100" />
 		</entity>
 		
@@ -264,13 +280,17 @@
 		
 		<light name="sun" type="directional" visible="true" castShadows="true">
 			<colourDiffuse r="0.8" g="0.8" b="0.8" />
-			<colourSpecular r="0" g="0" b="1" />
+			<colourDiffuse r="0.8" g="0.8" b="0.8" />
 			<direction x="-0.17101" y="-0.873647" z="0.969846" />
 		</light>
 	</nodes>
 	<zones>
 		<zone name="default">
 			<light name="sun"/>
+			<light name="Ruchin_l_Light2"/>
+			<light name="Ruchin_l_Light1"/>
+			<light name="templeLight1"/>
+			<light name="templeLight2"/>
 		</zone>
 		<zone name="temple_zone">
 			<area type="mesh" meshfile="temple_lightzone.mesh">

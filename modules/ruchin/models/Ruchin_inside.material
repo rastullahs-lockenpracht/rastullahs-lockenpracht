@@ -1,5 +1,5 @@
 
-material Ruchin_inside/base : Basic_Vertex_Shader
+material Ruchin_inside/base : Basic_Vertex_Shader_noDirectional
 {
 set_texture_alias diffuse ruchin_atlasmap.png
 

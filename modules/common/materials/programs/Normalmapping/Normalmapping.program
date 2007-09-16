@@ -5,6 +5,13 @@ vertex_program Basic_Normalmapping_UV0_VS_HLSL hlsl
     target vs_1_1
 }
 
+vertex_program Basic_Normalmapping_UV0_noDirectional_VS_HLSL hlsl
+{
+    source Basic_Normalmapping_UV0_noDirectional_VS.hlsl
+    entry_point vs_main
+    target vs_1_1
+}
+
 vertex_program Basic_Normalmapping_UV1_VS_HLSL hlsl
 {
     source Basic_Normalmapping_UV1_VS.hlsl

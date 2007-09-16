@@ -81,3 +81,4 @@ loader.loadMap("ruchin_lightzones.rlmap.xml");
 ##########################
 
 load "particle.rb"
+load "equip.rb"

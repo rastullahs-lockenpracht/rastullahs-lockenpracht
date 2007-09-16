@@ -127,13 +127,6 @@ set_texture_alias diffuse ruchin_atlasmap.png
 
 }
 
-material base : Basic_Vertex_Shader
-{
-set_texture_alias diffuse ruchin_atlasmap.png
-
-}
-
-
 material Ruchin/Schiefer : Basic_Vertex_Shader
 {
 set_texture_alias diffuse arc_schieferdach.png
