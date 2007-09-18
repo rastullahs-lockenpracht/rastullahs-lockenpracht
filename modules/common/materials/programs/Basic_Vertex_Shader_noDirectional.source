@@ -25,6 +25,7 @@ struct VS_INPUT
    float2 Texcoord1 : TEXCOORD1;
    float2 Texcoord2: TEXCOORD2;
    float3 Normal   : NORMAL;
+   float4 vColor : COLOR0;
    
 };
 
@@ -41,7 +42,8 @@ struct VS_OUTPUT
 VS_OUTPUT vs_main( VS_INPUT Input )
 {
    VS_OUTPUT Output;
-   Output.Color = lerp(skycolor,groundcolor,(dot(Input.Normal, float3(0,-1,0))+1)/2 );
+   Output.Color = saturate(Input.vColor+0.1);
+   Output.Color += lerp(skycolor,groundcolor,(dot(Input.Normal, float3(0,-1,0))+1)/2 );
    Output.Position = mul( matViewProjection, Input.Position );
    
    
@@ -64,7 +66,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
                               Light1_attenuation.w * Dist * Dist)
                           ,0,1);
    
-   Output.Color += (Light1_color * AngleAttn + SpecAttn) * DistAttn * Light1_position.w;
+   //Output.Color += (Light1_color * AngleAttn + SpecAttn) * DistAttn * Light1_position.w;
    
    
    // Light3
@@ -85,7 +87,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
                               Light3_attenuation.w * Dist * Dist)
                           ,0,1);
    
-   Output.Color += (Light3_color * AngleAttn + SpecAttn) * DistAttn * Light3_position.w;
+   //Output.Color += (Light3_color * AngleAttn + SpecAttn) * DistAttn * Light3_position.w;
    
    
    // Light2
@@ -105,7 +107,8 @@ VS_OUTPUT vs_main( VS_INPUT Input )
                         Light2_attenuation.w * Dist * Dist)
                         ,0,1);
    
-   Output.Color += (Light2_color * AngleAttn + SpecAttn) * DistAttn * Light2_position.w;
+   //Output.Color += (Light2_color * AngleAttn + SpecAttn) * DistAttn * Light2_position.w;
+   
    
    Output.Texcoord = Input.Texcoord;
    Output.Texcoord1 = Input.Texcoord1;

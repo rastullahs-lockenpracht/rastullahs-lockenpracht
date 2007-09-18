@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <rastullahmap formatVersion="0.4.0">
 	<nodes>
-		<entity name="Ruchin_Hessi_innen" meshfile="Ruchin_Hessi_innen.mesh" visible="true" receivesShadow="true">
+		<entity name="Ruchin_Hesi_innen" meshfile="Ruchin_Hesi_innen.mesh" visible="true" receivesShadow="true">
 			<position x="130.0" y="0.0" z="-50.0" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
@@ -227,7 +227,7 @@
 			<colourDiffuse r="0.8" g="0.8" b="0.5" />
 			<colourSpecular r="0.8" g="0.8" b="0.5" />
 			<lightAttenuation range="10" constant="1.0" linear="0.1"
-				quadratic="0.2" />
+				quadratic="0.1" />
 		</light>
 		<light name="Ruchin_l_Light2" type="point" visible="false"
 			castShadows="false">
@@ -278,6 +278,40 @@
 				quadratic="0.4" />
 		</light>
 		
+		<light name="Ruchin_l_Light8" type="point" visible="false"
+			castShadows="false">
+			<position x="70.347" y="2.148" z="-58.631" />
+			<colourDiffuse r="0.8" g="0.8" b="0.5" />
+			<colourSpecular r="0.8" g="0.8" b="0.5" />
+			<lightAttenuation range="10" constant="1.0" linear="0.2"
+				quadratic="0.2" />
+		</light>
+		
+		<light name="Ruchin_Hesi_Light1" type="point" visible="false"
+			castShadows="false">
+			<position x="125.827" y="2.104" z="-45.192" />
+			<colourDiffuse r="0.8" g="0.8" b="0.5" />
+			<colourSpecular r="0.8" g="0.8" b="0.5" />
+			<lightAttenuation range="10" constant="1.0" linear="0.2"
+				quadratic="0.2" />
+		</light>
+		<light name="Ruchin_Hesi_Light2" type="point" visible="false"
+			castShadows="false">
+			<position x="132.648" y="2.015" z="-47.21" />
+			<colourDiffuse r="0.8" g="0.8" b="0.5" />
+			<colourSpecular r="0.8" g="0.8" b="0.5" />
+			<lightAttenuation range="10" constant="1.0" linear="0.2"
+				quadratic="0.2" />
+		</light>
+		<light name="Ruchin_Hesi_Light3" type="point" visible="false"
+			castShadows="false">
+			<position x="132.154" y="2.18" z="-53.317" />
+			<colourDiffuse r="0.8" g="0.8" b="0.5" />
+			<colourSpecular r="0.8" g="0.8" b="0.5" />
+			<lightAttenuation range="10" constant="1.0" linear="0.2"
+				quadratic="0.2" />
+		</light>
+		
 		<light name="sun" type="directional" visible="true" castShadows="true">
 			<colourDiffuse r="0.8" g="0.8" b="0.8" />
 			<colourDiffuse r="0.8" g="0.8" b="0.8" />
@@ -304,6 +338,7 @@
 				<position x="73.014" y="0" z="-57.7"/>
 			</area>
 			<light name="Ruchin_l_Light1"/>
+			<light name="Ruchin_l_Light8"/>
 		</zone>
 		
 		<zone name="Ruchin_l_unten">
@@ -329,6 +364,14 @@
 			<light name="Ruchin_l_Light5"/>
 			<light name="Ruchin_l_Light6"/>
 			<light name="Ruchin_l_Light7"/>
+		</zone>
+		<zone name="Ruchin_Hesi">
+			<area type="mesh" meshfile="Ruchin_Hesi_lightzone.mesh">
+				<position x="130.0" y="0" z="-50.0"/>
+			</area>
+			<light name="Ruchin_Hesi_Light1"/>
+			<light name="Ruchin_Hesi_Light2"/>
+			<light name="Ruchin_Hesi_Light3"/>
 		</zone>
 	</zones>
 </rastullahmap>

@@ -154,11 +154,13 @@ material Basic_Vertex_Shader
 material Basic_Vertex_Shader_noDirectional
 {
 	receive_shadows off
+	
 	technique glsl
 	{
 		//Rendering Pass: Pass 0 (pass index: #0 )
 		pass
 		{
+		lighting off
 			alpha_rejection greater 128
 			//DirectX 9.0 HLSL Pixel Shader ps_2_0
 			fragment_program_ref Basic_Pixel_Shader_glsl
@@ -190,7 +192,7 @@ material Basic_Vertex_Shader_noDirectional
 				param_named_auto vViewPosition camera_position_object_space
 				
 				
-				param_named skycolor float4 0.5 0.5 0.5 1.0
+				param_named skycolor float4 0.2 0.2 0.2 1.0
 				param_named groundcolor float4 0.10 0.10 0.10 1.0
 			}
 			
@@ -207,6 +209,7 @@ material Basic_Vertex_Shader_noDirectional
 		//Rendering Pass: Pass 0 (pass index: #0 )
 		pass
 		{
+		lighting off
 			alpha_rejection greater 128
 			//DirectX 9.0 HLSL Pixel Shader ps_2_0
 			fragment_program_ref Basic_Pixel_Shader
@@ -237,7 +240,7 @@ material Basic_Vertex_Shader_noDirectional
 				param_named_auto vViewPosition camera_position_object_space
 				
 				
-				param_named skycolor float4 0.5 0.5 0.5 1.0
+				param_named skycolor float4 0.2 0.2 0.2 1.0
 				param_named groundcolor float4 0.10 0.10 0.10 1.0
 			}
 			
