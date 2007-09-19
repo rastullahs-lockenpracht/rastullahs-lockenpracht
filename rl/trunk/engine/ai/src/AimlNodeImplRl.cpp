@@ -27,6 +27,7 @@ namespace rl {
 
 AimlNodeImplRl::AimlNodeImplRl(DOMNode* pNode)
 {
+    initializeXml();
 	mNodeName  = transcodeToString(pNode->getLocalName());
 	// #text or #comment have no local name, use NodeName for them
 	if(mNodeName.empty())
@@ -98,6 +99,7 @@ AimlNodeImplRl::AimlNodeImplRl(DOMNode* pNode)
 
 AimlNodeImplRl::~AimlNodeImplRl(void)
 {
+    shutdownXml();
 }
 
 }
