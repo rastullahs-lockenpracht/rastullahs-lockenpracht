@@ -205,7 +205,8 @@ namespace rl
 		WertMap::const_iterator it = mWerte.find(wertId);
         if (it == mWerte.end())
         {
-            Throw(IllegalArgumentException, "Wert nicht gefunden.");
+            LOG_ERROR(Logger::RULES, (string(mName.c_str()) + ": Wert " + wertId.c_str() + " nicht gefunden.").c_str());
+            return 0;
         }
         int rval = it->second;
         if (!getUnmodified)
