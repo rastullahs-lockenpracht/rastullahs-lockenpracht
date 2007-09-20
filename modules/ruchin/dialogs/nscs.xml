@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<aiml-startup version='1.0'>
+	<bot name='Hesindiane' voice=''>
+		<learn src='hesindiane.aiml'/>
+		<!-- script src='dialog.rb' class='DialogCharTest'/ -->
+	</bot>
+
+</aiml-startup>

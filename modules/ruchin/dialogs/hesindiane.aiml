@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
+
+<aiml  version="1.0.1"
+            xmlns="http://alicebot.org/2001/AIML"
+			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
+
+
+	<category>
+		<pattern>1</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li>Alrike? Was machst du denn hier?!</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:patternRef="2">Ich hab dich auch lieb, Schwesterherz.</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:patternRef="3">Praios zum Gruße!</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:patternRef="4">Hm? Sollte ich dich kennen?</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:patternRef ="EXIT">Dann geh ich halt wieder.</li>
+			</gossip>
+		</template>
+	</category>
+	<category>
+		<pattern>2</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li>Hm? Ach so. Ich war einfach nur überrascht, Ari. Aber, bei Nandus, was *tust* du hier?</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:patternRef="5">Hauptmann Albenhuser hat mich ausgeschickt, um in den umliegenden Dörfern von Wandleth mal nach dem rechten zu sehen. Ehrlich gesagt, glaube ich, dass er mich nur für eine Weile los werden wollte. Aber war trotzdem gut so, war ne Menge los. Naja, jedenfalls hat er mir auch ein paar Tage frei gegeben, un da dachte ich mir, ich schau mal bei meiner geliebten Schwester vorbei. Wie geht es dir denn so?</li>
+			</gossip>
+		</template>
+	</category>
+
+	<category>
+		<pattern>3</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li>Hm? Jaja, Nandus zum Gruße und so. Nicht, dass ich mich nicht freuen würde, aber was *tust* du hier? </li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:patternRef="5">Hauptmann Albenhuser hat mich ausgeschickt, um in den umliegenden Dörfern von Wandleth mal nach dem rechten zu sehen. Ehrlich gesagt glaube ich, dass er mich nur für eine Weile los werden wollte. Aber war trotzdem gut so, war ne Menge los. Naja, jedenfalls hat er mir auch ein paar Tage frei gegeben, un da dachte ich mir, ich schau mal bei meiner geliebten Schwester vorbei. Wie geht es dir denn so?</li>
+			</gossip>
+		</template>
+	</category>
+
+	<category>
+		<pattern>4</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li>Lass die Späße, Ari. Ich bins Hesi, deins Schwester. So lange ist es nun auch wieder nicht her.</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:patternRef="5">Schon gut, schon gut. Wie geht es dir?</li>
+			</gossip>
+		</template>
+	</category>
+
+	<category>
+		<pattern>5</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li>Schlecht. Ich meine, körperlich gut, Peraine bewahre. Aber irgendso ein Dieb hat mir wertvolle Unterlagen gestohlen, und die faulen Hunde von der Stadtwache rühren keinen Finger! Äh, nichts gegen dich.</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:patternRef="6">Schon gut. Erzähl mir mehr über diesen Diebstahl, ich hab gerade eh nix zu tun.</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:patternRef="EXIT">Erspar mir deine Problemchen. Ich hab jetzt schon keine Lust mehr, außerdem schreibt Steele eh viel bessere Dialoge. Ich bin raus hier.</li>
+			</gossip>
+		</template>
+	</category>
+
+	<category>
+		<pattern>6</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li>Es geht um ein paar alte Akten. Sie sind eher von Sammlerwert, als von tatsächlicher Relevanz. Du musst wissen, das der feine Herr von Ruchin andere Interessen als ein ordentliches Stadtarchiv hat, und der Magistrat kümmert sich eher um gut gefüllte Geldbeutel. So geraten verschiedene Dokumente schon mal in Umlauf. Ich hab sie eher zufällig und recht günstig erstanden. Hatte gehofft sie mit etwas Gewinn an einen Interessenten zu verkaufen. Hat sich wohl erledigt. Aber wenn du dem wirklich nachgehen willst, 3-Zehen-Ungolf hat sich mal die Dokumente zeigen lassen. Dabei kann der nicht mal gescheit lesen! Ich persönlich hab ihn ja im Verdacht, was ich auch der hiesigen Stadtwache gesagt habe.</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:patternRef="EXIT">Ich schau es mir gleich mal an. Bis später!</li>
+			</gossip>
+		</template>
+	</category>
+
+<!-- ================Standardoptionen ================ -->
+	<category>
+	<pattern>EXIT</pattern> 
+		<template>
+			<system cmd="exit"/>
+		</template>
+	</category>	
+
+</aiml>
