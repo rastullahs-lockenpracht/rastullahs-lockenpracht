@@ -18,7 +18,7 @@ class ParaluesAction < Action
   
   def doAction(go, user, target)
      p "Du wirst versteinert.";
-     $hero.addEffectWithCheckTime($paralueseffect, 1 * Date::ONE_SPIELRUNDE);
+     $hero.addEffectWithCheckTime($paralueseffect, 1 * Date::ONE_KAMPFRUNDE);
      p "Du solltest dich jetzt eine Weile nicht mehr bewegen können.";
   end
 end
