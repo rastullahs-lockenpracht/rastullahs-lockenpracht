@@ -47,16 +47,29 @@ namespace rl
         return mName;
     }
 
-    Ogre::DataStreamPtr SaveGameFile::getDataStream()
+    void SaveGameFile::setDataStream(const Ogre::DataStreamPtr &stream)
+    {
+        mStream = stream;
+    }
+
+    Ogre::DataStreamPtr SaveGameFile::getDataStream() const
     {
         ///@todo: decryption
-        return Ogre::DataStreamPtr( new Ogre::FileHandleDataStream(fopen(this->buildFilename().c_str(), "r")));
+        return mStream;
     }
 
     XERCES_CPP_NAMESPACE::XMLFormatTarget* SaveGameFile::getFormatTarget()
     {
         ///@todo: encryption
         return new XERCES_CPP_NAMESPACE::LocalFileFormatTarget(this->buildFilename().c_str());
+    }
+
+    void SaveGameFile::deleteFileFromStorage()
+    {
+        if(remove(buildFilename().c_str()))
+            LOG_ERROR(Logger::RULES, "SaveGameFile is not removed from filesystem. The file doesn't exists!");
+        else 
+            LOG_MESSAGE(Logger::RULES,"SaveGameFile successfully removed from filesystem");
     }
 
     bool SaveGameFile::saveGameExists()

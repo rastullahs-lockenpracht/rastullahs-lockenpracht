@@ -27,7 +27,7 @@ namespace rl
 {
     typedef std::map<CeGuiString, SaveGameFile*> SaveGameEntryMap;
 
-    class SaveGameIndexWriter : public XmlPropertyWriter
+    /*class SaveGameIndexWriter : public XmlPropertyWriter
     {
     public: 
         SaveGameIndexWriter();
@@ -38,21 +38,34 @@ namespace rl
     {
     public:
         SaveGameIndexReader();
-        SaveGameEntryMap parseIndexFile() const;
-    };
+        SaveGameEntryMap parseIndexFile(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);
+    };*/
 
-    class _RlRulesExport SaveGameManager : public Ogre::Singleton<SaveGameManager>
+    class SaveGameHeaderReader : public XmlPropertyReader
     {
     public:
-        SaveGameManager();
-        virtual ~SaveGameManager();    
+        SaveGameHeaderReader();
+        void parseHeader(Ogre::DataStreamPtr &stream, const Ogre::String &groupName, SaveGameFile* file);
+    };
 
-        SaveGameEntryMap listSaveGames();
+    class _RlRulesExport SaveGameManager : public Ogre::Singleton<SaveGameManager>, public Ogre::ScriptLoader
+    {
+    public:
+        SaveGameManager(void);
+        virtual ~SaveGameManager(void);    
+
+        SaveGameEntryMap listSaveGames(void);
         void saveSaveGameFile(const CeGuiString &name);
         void loadSaveGameFile(const CeGuiString &name);
+        void deleteSaveGameFile(const CeGuiString &name);
+        bool SaveGameFileExists(const CeGuiString &name);
+
+        virtual const Ogre::StringVector&  getScriptPatterns(void) const;
+        virtual void parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);
+        virtual Ogre::Real getLoadingOrder(void) const;
     protected:
-        SaveGameIndexReader* mReader;
-        SaveGameIndexWriter* mWriter;
+        Ogre::StringVector mScriptPatterns;
+        SaveGameEntryMap mSaveGames;
     };
 }
 

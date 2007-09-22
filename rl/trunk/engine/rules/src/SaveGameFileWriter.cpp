@@ -66,9 +66,16 @@ namespace rl
 
         //Write modul of save game
         DOMElement* header = appendChildElement(mDocument, mDocument->getDocumentElement(), "header");
-        setAttributeValueAsString(header, "ModuleID", CoreSubsystem::getSingleton().getActiveAdventureModule()->getId());
+        
+        PropertySet* headerSet = file->getAllProperties();
+        for(PropertySetMap::const_iterator it_header = headerSet->begin(); it_header != headerSet->end(); it_header++)
+        {
+            this->processProperty(header, PropertyEntry(it_header->first.c_str(), it_header->second));
+        }
+
+        /*setAttributeValueAsString(header, "ModuleID", CoreSubsystem::getSingleton().getActiveAdventureModule()->getId());
         setAttributeValueAsInteger(header, "EngineVersion", CoreSubsystem::getSingleton().getEngineBuildNumber());
-        setAttributeValueAsString(header, "LocalTime", file->getProperty("Time").toString());
+        setAttributeValueAsString(header, "LocalTime", file->getProperty("Time").toString());*/
 
         //Write date and time
         //DOMElement* timeNode = appendChildElement(mDocument, mDocument->getDocumentElement(), "time");
@@ -93,8 +100,7 @@ namespace rl
         DOMElement* quests = appendChildElement(mDocument, mDocument->getDocumentElement(), "quests");
         QuestBook* questBook = RulesSubsystem::getSingleton().getQuestBook();
         PropertySet* set = questBook->getAllProperties();
-        PropertySetMap::const_iterator it_quests;
-        for(it_quests = set->begin(); it_quests != set->end(); it_quests++)
+        for(PropertySetMap::const_iterator it_quests = set->begin(); it_quests != set->end(); it_quests++)
         {
             this->processProperty(quests, PropertyEntry(it_quests->first.c_str(), it_quests->second));
         }
@@ -102,11 +108,10 @@ namespace rl
         //Write game objects
         DOMElement* gameobjects = appendChildElement(mDocument, mDocument->getDocumentElement(), "gameobjects");
         
-        std::list<const GameObject*>::const_iterator it_gameobjects;
-        std::list<const GameObject*> gos;
-        gos = GameObjectManager::getSingleton().getAllGameObjects();
 
-        for(it_gameobjects = gos.begin(); it_gameobjects != gos.end(); it_gameobjects++)
+        std::list<const GameObject*> gos = GameObjectManager::getSingleton().getAllGameObjects();
+
+        for(std::list<const GameObject*>::const_iterator it_gameobjects = gos.begin(); it_gameobjects != gos.end(); it_gameobjects++)
         {
             DOMElement* gameobject = appendChildElement(mDocument, gameobjects, "gameobject");
             setAttributeValueAsInteger(gameobject, "ID", (*it_gameobjects)->getId());

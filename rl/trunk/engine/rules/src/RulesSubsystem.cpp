@@ -28,6 +28,7 @@
 #include "GameObjectManager.h"
 #include "QuestBook.h"
 #include "GameTimeSource.h"
+#include <ConfigurationManager.h>
 
 template <>
 rl::RulesSubsystem* Singleton<rl::RulesSubsystem>::ms_Singleton = 0;

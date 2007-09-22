@@ -38,8 +38,10 @@ namespace rl
         CeGuiString getName();
         bool saveGameExists();
 
-        Ogre::DataStreamPtr getDataStream();
+        void setDataStream(const Ogre::DataStreamPtr &stream);
+        Ogre::DataStreamPtr getDataStream() const;
         XERCES_CPP_NAMESPACE::XMLFormatTarget* getFormatTarget();
+        void deleteFileFromStorage();
 
         virtual const Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const Property& value);
@@ -48,6 +50,8 @@ namespace rl
         CeGuiString mName;
         CeGuiString mModuleID;
         CeGuiString mLocalTime;
+
+        Ogre::DataStreamPtr mStream;
     };
 }
 
