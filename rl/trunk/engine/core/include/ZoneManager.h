@@ -19,6 +19,7 @@
 #include "CorePrerequisites.h"
 #include "CoreDefines.h"
 #include "GameAreaListener.h"
+#include "GameTask.h"
 
 namespace rl
 {
@@ -27,13 +28,15 @@ namespace rl
 
     class _RlCoreExport ZoneManager : 
         public Ogre::Singleton<ZoneManager>,
-        public GameAreaListener
+        public GameAreaListener,
+        public GameTask // for deferred deletion of zones
 	{
 	public:
 		ZoneManager();
 		~ZoneManager();
 
         Zone* createZone(const Ogre::String& name);
+        /// only marks the zone for deferred deletion
         void destroyZone(const Ogre::String& name);
         /// Adds a new area to the zone
         void addAreaToZone(const Ogre::String& name, 
@@ -65,12 +68,19 @@ namespace rl
 		Zone* getZone(const Ogre::String& name);
         Zone* getZone(long id);
 
+        /// asks wether this zone is currently activated
+        bool isZoneActive(const Zone* zone) const;
+
 		void areaLeft(GameAreaEvent* gae);
 	    void areaEntered(GameAreaEvent* gae);
 
         /// only needed if the lights/etc of the active zone changed
         void update();
-		
+
+        /// inherited from gametask, deletes zones marked for deletion
+        void run(Ogre::Real elapsedTime);
+        /// inherited from gametask
+        const Ogre::String& getName() const;
 	private:
 		std::map<const Ogre::String, Zone*> mZones;
         std::map<long, Zone*> mZonesIdMap;
@@ -79,10 +89,15 @@ namespace rl
         SoundMap mActiveSounds;
 		Zone* mDefaultZone;
         long mNextZoneId;
+        std::list<Zone*> mZonesToDelete;
 
 		void switchLights();
 		void switchSounds();
         void switchEaxSettings();
+        void zoneEntered(Zone * zone);
+        void zoneLeft(Zone * zone);
+        
+        void doDestroyZone(Zone *zone);
 	};
 }
 

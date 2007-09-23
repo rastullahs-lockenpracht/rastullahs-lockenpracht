@@ -26,6 +26,7 @@
 #include "Sound.h"
 #include "SoundManager.h"
 #include "SoundDriver.h"
+#include "Trigger.h"
 
 
 using namespace Ogre;
@@ -36,7 +37,8 @@ template<> rl::ZoneManager* Ogre::Singleton<rl::ZoneManager>::ms_Singleton = 0;
 namespace rl
 {
 	ZoneManager::ZoneManager()
-		: Ogre::Singleton<ZoneManager>()
+		: Ogre::Singleton<ZoneManager>(),
+        GameTask(false)
 	{
 		// the default zone is active when no other Zone is active
 		mDefaultZone = new Zone(0);
@@ -103,6 +105,23 @@ namespace rl
         if(zone == NULL)
             return;
 
+        // remove from active zones
+        if( isZoneActive(zone) )
+            mActiveZones.remove(zone);
+
+        std::map<const Ogre::String, Zone*>::iterator it = mZones.find(name);
+        if( it != mZones.end() )
+            mZones.erase(it);
+
+        std::map<long, Zone*>::iterator it_ = mZonesIdMap.find(zone->getId());
+        if( it_ != mZonesIdMap.end() )
+            mZonesIdMap.erase(it_);
+
+        mZonesToDelete.push_back(zone);
+    }
+
+    void ZoneManager::doDestroyZone(Zone *zone)
+    {
         //destroy all areas
         GameAreaEventSourceList::iterator iter = zone->getEventSources().begin();
         for( ; iter != zone->getEventSources().end(); iter++ )
@@ -113,15 +132,40 @@ namespace rl
                 (*iter));
         }
 
-        std::map<const Ogre::String, Zone*>::iterator it = mZones.find(name);
-        if( it != mZones.end() )
-            mZones.erase(it);
-
-        std::map<long, Zone*>::iterator it_ = mZonesIdMap.find(zone->getId());
-        if( it_ != mZonesIdMap.end() )
-            mZonesIdMap.erase(it_);
+        // ask all triggers if they want to be deleted
+        std::list<Trigger*> triggerList = zone->getTriggers();
+        std::list<Trigger*>::iterator trig = triggerList.begin();
+        for( ; trig != triggerList.end(); trig++ )
+        {
+            if( (*trig)->deleteIfZoneDestroyed() )
+                delete (*trig);
+        }
 
         delete zone;
+    }
+
+    const Ogre::String& ZoneManager::getName() const
+    {
+        static Ogre::String NAME = "ZoneManager";
+
+        return NAME;
+    }
+
+    void ZoneManager::run(Ogre::Real elapsedTime)
+    {
+        std::list<Zone*>::iterator it = mZonesToDelete.begin();
+        for( ; it != mZonesToDelete.end(); it++)
+            doDestroyZone(*it);
+        mZonesToDelete.clear();
+    }
+
+    bool ZoneManager::isZoneActive(const Zone *zone) const
+    {
+        if( zone == NULL )
+            return false;
+
+        std::list<Zone*>::const_iterator iter = std::find(mActiveZones.begin(), mActiveZones.end(), zone);
+        return iter != mActiveZones.end();
     }
 
     void ZoneManager::addAreaToZone(const Ogre::String& name, 
@@ -225,13 +269,13 @@ namespace rl
             {
                 Zone *zone = getZone(id);
                 if( zone )
-                    mActiveZones.remove(zone);
+                    zoneLeft(zone);
             }
             else
             {
                 Zone *zone = getZone(-id); // means we have to subtract this area from the zone
                 if( zone )
-                    mActiveZones.push_front(zone);
+                    zoneEntered(zone);
             }
 
 		    update();
@@ -247,18 +291,54 @@ namespace rl
             {
                 Zone *zone = getZone(id);
                 if( zone )
-                    mActiveZones.push_front(zone);
+                    zoneEntered(zone);
             }
             else
             {
                 Zone *zone = getZone(-id); // means we have to subtract this area from the zone
                 if( zone )
-                    mActiveZones.remove(zone);
+                    zoneLeft(zone);
             }
 
 		    update();
         }
 	}
+
+    void ZoneManager::zoneEntered(Zone *zone)
+    {
+        // perhaps the trigger destroys the zone, so we should put the zone in the list, before the triggers does so
+        mActiveZones.push_front(zone);
+
+        std::list<Trigger*> triggerList = zone->getTriggers();
+        std::list<Trigger*>::iterator iter = triggerList.begin();
+
+        for( ; iter != triggerList.end(); iter++)
+        {
+            if( (*iter)->activate() )
+            {
+                zone->removeTrigger(*iter);
+                delete (*iter);                
+            }
+        }
+    }
+
+    void ZoneManager::zoneLeft(Zone *zone)
+    {
+        // perhaps the trigger destroys the zone, so we should put the zone in the list, before the triggers does so
+        mActiveZones.remove(zone);
+
+        std::list<Trigger*> triggerList = zone->getTriggers();
+        std::list<Trigger*>::iterator iter = triggerList.begin();
+
+        for( ; iter != triggerList.end(); iter++)
+        {
+            if( (*iter)->deactivate() )
+            {
+                zone->removeTrigger(*iter);
+                delete (*iter);                
+            }
+        }
+    }
 
     void ZoneManager::update()
     {

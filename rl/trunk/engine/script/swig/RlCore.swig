@@ -893,13 +893,13 @@ class Zone
 public:
 	void addLight(Actor* light);
     void addSound(const Ogre::String& name);
-	//void addTrigger(Trigger* trigger);
+	void addTrigger(rl::Trigger* trigger);
 	std::list<Actor*> getLights() const;
     std::list<Ogre::String> getSounds() const;
-	//std::list<Trigger*> getTriggers() const;
+	std::list<rl::Trigger*> getTriggers() const;
     void removeLight(Actor* light);
     void removeSound(const Ogre::String& name);
-    //void removeTrigger(Trigger* trigger);
+    void removeTrigger(rl::Trigger* trigger);
 protected:
     Zone(long id);
 private:
@@ -943,17 +943,22 @@ public:
 	rl::Zone* getDefaultZone();
 	rl::Zone* getZone(const Ogre::String& name);
     rl::Zone* getZone(long id);
+    bool isZoneActive(const rl::Zone *zone) const;
 };
 
+%feature("director") Trigger;
 class  Trigger
 {
 public:
+    Trigger(const Ogre::String &name);
+    virtual ~Trigger();
 	virtual bool activate() = 0;
 	virtual bool deactivate() = 0;
-	virtual const rl::Property getProperty(const Ogre::String& key) const = 0;
-    virtual void setProperty(const Ogre::String& key, const rl::Property& value) = 0;
-    virtual rl::PropertySet* getAllProperties() const = 0;
-    virtual void setProperties(const rl::PropertySet* props);
+	virtual bool deleteIfZoneDestroyed() const;
+	const Ogre::String& getName() const;
+    virtual const rl::Property getProperty(const Ogre::String& key) const;
+    virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+    virtual rl::PropertySet* getAllProperties() const;
 };
 
 class SoundFadeJob : public rl::Job

@@ -182,10 +182,26 @@ namespace rl
 									Ogre::String classname =
 										getAttributeValueAsStdString(curElem, "classname");
 
-									Trigger* trigger = ScriptSubsystem::getSingleton().getTriggerFactory()
-										->createTrigger(classname);
+									Ogre::String name =
+										getAttributeValueAsStdString(curElem, "name");
 
-									///@todo trigger properties
+									Trigger* trigger = ScriptSubsystem::getSingleton().getTriggerFactory()
+										->createTrigger(classname, name);
+
+                                    // add trigger properties
+                                    for( DOMNode* curProperty = cur->getFirstChild(); curProperty != NULL; curProperty = curProperty->getNextSibling() )
+                                    {
+                                        if( hasNodeName(curProperty, "property") )
+                                        {
+                                            PropertyEntry propEntry = processProperty(static_cast<DOMElement*>(curProperty));
+                                            if (propEntry.first != "")
+                                            {
+                                                trigger->setProperty(propEntry.first, propEntry.second);
+                                            }
+                                        }
+                                    }
+
+                                    zone->addTrigger(trigger);
 								}
                                 else if (hasNodeName(curElem, "eaxpreset"))
                                 {

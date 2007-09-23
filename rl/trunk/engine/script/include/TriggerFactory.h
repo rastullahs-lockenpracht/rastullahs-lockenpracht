@@ -26,7 +26,7 @@ namespace rl
 	{
 	public:
 		virtual ~TriggerFactory() {}
-		virtual Trigger* createTrigger(const Ogre::String& classname) = 0;
+        virtual Trigger* createTrigger(const Ogre::String& classname, const Ogre::String& triggername) = 0;
 	};
 }
 

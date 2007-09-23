@@ -295,6 +295,7 @@ namespace rl
         LOG_MESSAGE(Logger::CORE,"JobScheduler erzeugt");
 
 		mZoneManager = new ZoneManager();
+        GameLoop::getSingleton().addTask(mZoneManager, GameLoop::TG_LOGIC);
         LOG_MESSAGE(Logger::CORE,"ZoneManager erzeugt");
 
 		new meshmagick::OgreEnvironment();

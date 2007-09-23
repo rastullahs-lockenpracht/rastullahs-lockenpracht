@@ -901,6 +901,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Trigger.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\World.cpp"
 				>
 			</File>

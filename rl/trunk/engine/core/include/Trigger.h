@@ -25,8 +25,33 @@ namespace rl
 	class _RlCoreExport Trigger : public PropertyHolder
 	{
 	public:
+        Trigger(const Ogre::String &name);
+        virtual ~Trigger() {}
+        /**
+         * return true, if the trigger can be deleted after execution. 
+         * Using ZoneManager::destroyZone in this function is explicitly allowed 
+         * (and intended); the ZoneManager cares for deleted zones, while executing triggers!
+        */
 		virtual bool activate() = 0;
+        /**
+         * return true, if the trigger can be deleted after execution. 
+         * Using ZoneManager::destroyZone in this function is explicitly allowed 
+         * (and intended); the ZoneManager cares for deleted zones, while executing triggers!
+        */
 		virtual bool deactivate() = 0;
+        /**
+         * if the trigger should also be removed, if the corresponding zone is destroyd, return true
+         * 
+        */
+        virtual bool deleteIfZoneDestroyed() const {return true;}
+
+        const Ogre::String& getName() const {return mName;}
+
+        virtual const Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const Property& value);
+        virtual PropertySet* getAllProperties() const;
+    protected:
+        Ogre::String mName;
 	};
 }
 
