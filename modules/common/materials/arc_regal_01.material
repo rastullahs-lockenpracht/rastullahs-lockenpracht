@@ -1,17 +1,5 @@
 
-material arc_regal_essen
+material arc_regal_essen: Basic_Vertex_Shader
 {
-	technique
-	{
-		pass
-		{
-			alpha_rejection greater 128
-
-			texture_unit
-			{
-				filtering linear linear linear 
-				texture arc_regal_essen.dds
-			}
-		}
-	}
+set_texture_alias diffuse arc_regal_essen.dds
 }

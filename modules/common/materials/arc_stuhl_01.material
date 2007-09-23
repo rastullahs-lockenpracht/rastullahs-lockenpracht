@@ -1,19 +1,6 @@
 
-material arc_stuhl_01
+material arc_stuhl_01: Basic_Vertex_Shader
 {
-receive_shadows off
-	technique
-	{
-		pass
-		{
+set_texture_alias diffuse ver_moebel_03.dds
 
-			alpha_rejection greater 100
-
-			texture_unit
-			{
-				filtering linear linear linear 
-				texture ver_moebel_03.dds
-			}
-		}
-	}
 }

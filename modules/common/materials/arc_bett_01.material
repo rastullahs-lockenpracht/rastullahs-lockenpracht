@@ -1,21 +1,7 @@
 
-material arc_bett_01
+material arc_bett_01: Basic_Vertex_Shader
 {
-receive_shadows off
-	technique
-	{
-		pass
-		{
-
-			alpha_rejection greater 100
-
-			texture_unit
-			{
-				filtering linear linear linear 
-				texture bauernbett.dds
-			}
-		}
-	}
+set_texture_alias diffuse bauernbett.dds
 }
 
 

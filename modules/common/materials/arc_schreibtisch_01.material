@@ -1,16 +1,5 @@
 
-material arc_schreibtisch_01
+material arc_schreibtisch_01: Basic_Vertex_Shader
 {
-	technique
-	{
-		pass
-		{
-			
-
-			texture_unit
-			{
-				texture zeugs_02_schreibtisch01_tischkleinrund.dds
-			}
-		}
-	}
+set_texture_alias diffuse zeugs_02_schreibtisch01_tischkleinrund.dds
 }

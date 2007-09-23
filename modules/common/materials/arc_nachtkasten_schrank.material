@@ -1,14 +1,5 @@
 
-material nachtkasten
+material nachtkasten: Basic_Vertex_Shader
 {
-	technique
-	{
-		pass
-		{
-			texture_unit
-			{
-				texture ver_moebel_04.dds
-			}
-		}
-	}
+set_texture_alias diffuse ver_moebel_04.dds
 }

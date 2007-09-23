@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <rastullahmap formatVersion="0.4.0">
 	<nodes>
+	
+		<entity name="Ruchin_plateau" meshfile="Ruchin_plateau.mesh" visible="true" receivesShadow="true">
+			<position x="100.0" y="0.0" z="-80.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			<renderingdistance data="100" /> 
+		</entity>
+		
 		<entity name="Ruchin_Hesi_innen" meshfile="Ruchin_Hesi_innen.mesh" visible="true" receivesShadow="true">
 			<position x="130.0" y="0.0" z="-50.0" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
@@ -209,16 +218,16 @@
 			<position x="123.291" y="3.02" z="-22.166" />
 			<colourDiffuse r="0.8" g="0.8" b="0.5" />
 			<colourSpecular r="0.8" g="0.8" b="0.5" />
-			<lightAttenuation range="5" constant="1.0" linear="0.1"
-				quadratic="0.1" />
+			<lightAttenuation range="5" constant="1.0" linear="0.001"
+				quadratic="0.2" />
 		</light>
 		<light name="templeLight2" type="point" visible="false"
 			castShadows="false">
 			<position x="123.291" y="3.02" z="-18.952" />
 			<colourDiffuse r="0.8" g="0.8" b="0.5" />
 			<colourSpecular r="0.8" g="0.8" b="0.5" />
-			<lightAttenuation range="5" constant="1.0" linear="0.1"
-				quadratic="0.1" />
+			<lightAttenuation range="5" constant="1.0" linear="0.001"
+				quadratic="0.2" />
 		</light>		
 		
 		<light name="Ruchin_l_Light1" type="point" visible="false"
@@ -226,56 +235,56 @@
 			<position x="77.001" y="2.353" z="-57.601" />
 			<colourDiffuse r="0.8" g="0.8" b="0.5" />
 			<colourSpecular r="0.8" g="0.8" b="0.5" />
-			<lightAttenuation range="10" constant="1.0" linear="0.1"
-				quadratic="0.1" />
+			<lightAttenuation range="10" constant="1.0" linear="0.001"
+				quadratic="0.2" />
 		</light>
 		<light name="Ruchin_l_Light2" type="point" visible="false"
 			castShadows="false">
 			<position x="69.205" y="2.304" z="-41.19" />
 			<colourDiffuse r="0.8" g="0.8" b="0.5" />
 			<colourSpecular r="0.8" g="0.8" b="0.5" />
-			<lightAttenuation range="10" constant="1.0" linear="0.2"
-				quadratic="0.4" />
+			<lightAttenuation range="10" constant="1.0" linear="0.001"
+				quadratic="0.2" />
 		</light>
 		<light name="Ruchin_l_Light3" type="point" visible="false"
 			castShadows="false">
 			<position x="67.586" y="2.304" z="-48.682" />
 			<colourDiffuse r="0.8" g="0.8" b="0.5" />
 			<colourSpecular r="0.8" g="0.8" b="0.5" />
-			<lightAttenuation range="10" constant="1.0" linear="0.2"
-				quadratic="0.4" />
+			<lightAttenuation range="10" constant="1.0" linear="0.001"
+				quadratic="0.2" />
 		</light>
 		<light name="Ruchin_l_Light4" type="point" visible="false"
 			castShadows="false">
 			<position x="59.405" y="4.778" z="-54.343" />
 			<colourDiffuse r="0.8" g="0.8" b="0.5" />
 			<colourSpecular r="0.8" g="0.8" b="0.5" />
-			<lightAttenuation range="10" constant="1.0" linear="0.2"
-				quadratic="0.4" />
+			<lightAttenuation range="10" constant="1.0" linear="0.001"
+				quadratic="0.2" />
 		</light>
 		<light name="Ruchin_l_Light5" type="point" visible="false"
 			castShadows="false">
 			<position x="64.84" y="6.133" z="-53.722" />
 			<colourDiffuse r="0.8" g="0.8" b="0.5" />
 			<colourSpecular r="0.8" g="0.8" b="0.5" />
-			<lightAttenuation range="10" constant="1.0" linear="0.2"
-				quadratic="0.4" />
+			<lightAttenuation range="10" constant="1.0" linear="0.001"
+				quadratic="0.2" />
 		</light>
 		<light name="Ruchin_l_Light6" type="point" visible="false"
 			castShadows="false">
 			<position x="59.654" y="6.135" z="-49.188" />
 			<colourDiffuse r="0.8" g="0.8" b="0.5" />
 			<colourSpecular r="0.8" g="0.8" b="0.5" />
-			<lightAttenuation range="10" constant="1.0" linear="0.2"
-				quadratic="0.4" />
+			<lightAttenuation range="10" constant="1.0" linear="0.001"
+				quadratic="0.2" />
 		</light>
 		<light name="Ruchin_l_Light7" type="point" visible="false"
 			castShadows="false">
 			<position x="72.564" y="6.133" z="-42.606" />
 			<colourDiffuse r="0.8" g="0.8" b="0.5" />
 			<colourSpecular r="0.8" g="0.8" b="0.5" />
-			<lightAttenuation range="10" constant="1.0" linear="0.2"
-				quadratic="0.4" />
+			<lightAttenuation range="10" constant="1.0" linear="0.001"
+				quadratic="0.2" />
 		</light>
 		
 		<light name="Ruchin_l_Light8" type="point" visible="false"
@@ -283,7 +292,7 @@
 			<position x="70.347" y="2.148" z="-58.631" />
 			<colourDiffuse r="0.8" g="0.8" b="0.5" />
 			<colourSpecular r="0.8" g="0.8" b="0.5" />
-			<lightAttenuation range="10" constant="1.0" linear="0.2"
+			<lightAttenuation range="10" constant="1.0" linear="0.001"
 				quadratic="0.2" />
 		</light>
 		
@@ -292,7 +301,7 @@
 			<position x="125.827" y="2.104" z="-45.192" />
 			<colourDiffuse r="0.8" g="0.8" b="0.5" />
 			<colourSpecular r="0.8" g="0.8" b="0.5" />
-			<lightAttenuation range="10" constant="1.0" linear="0.2"
+			<lightAttenuation range="10" constant="1.0" linear="0.001"
 				quadratic="0.2" />
 		</light>
 		<light name="Ruchin_Hesi_Light2" type="point" visible="false"
@@ -300,7 +309,7 @@
 			<position x="132.648" y="2.015" z="-47.21" />
 			<colourDiffuse r="0.8" g="0.8" b="0.5" />
 			<colourSpecular r="0.8" g="0.8" b="0.5" />
-			<lightAttenuation range="10" constant="1.0" linear="0.2"
+			<lightAttenuation range="10" constant="1.0" linear="0.001"
 				quadratic="0.2" />
 		</light>
 		<light name="Ruchin_Hesi_Light3" type="point" visible="false"
@@ -308,7 +317,7 @@
 			<position x="132.154" y="2.18" z="-53.317" />
 			<colourDiffuse r="0.8" g="0.8" b="0.5" />
 			<colourSpecular r="0.8" g="0.8" b="0.5" />
-			<lightAttenuation range="10" constant="1.0" linear="0.2"
+			<lightAttenuation range="10" constant="1.0" linear="0.001"
 				quadratic="0.2" />
 		</light>
 		
