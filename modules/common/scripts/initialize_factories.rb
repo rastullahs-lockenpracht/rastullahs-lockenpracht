@@ -1,4 +1,6 @@
 load "effects/ruestung.rb"
+load "triggers/test.rb"
+
 class RubyClassFactory < UnifiedFactory
   def initialize()
     super();
@@ -12,8 +14,8 @@ class RubyClassFactory < UnifiedFactory
     return Module.const_get(classname).new();
   end
 
-  def createTrigger(classname)
-    return Module.const_get(classname).new();
+  def createTrigger(classname, name)
+    return Module.const_get(classname).new(name);
   end
 
   def createEffect(classname, stufe)
