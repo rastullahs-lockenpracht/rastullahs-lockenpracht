@@ -63,6 +63,7 @@ libRlCore_la_SOURCES = \
 	SoundFadeJob.cpp \
 	SoundFadeFunctor.cpp \
 	TimeSource.cpp \
+	Trigger.cpp \
 	TrackAnimation.cpp \
 	World.cpp \
 	Zone.cpp \
