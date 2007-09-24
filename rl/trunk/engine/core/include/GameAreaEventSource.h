@@ -76,6 +76,8 @@ public:
     const ActorMap& getInsideAreaList() const { return mInsideAreaList; };
     /// Gibt den Actor zurück, den das Areal umgibt
     Actor* getActor() const { return mActor; };
+    /// gibt an ob die ga gelöscht werden kann, wenn die dazugehörige zone gelöscht wird
+    virtual bool destroyIfZoneDestroyed() const {return true;}
 protected:
     /// helps the zonemanager to associate zones with areas
     friend class ZoneManager;

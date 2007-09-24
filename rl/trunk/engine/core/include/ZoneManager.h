@@ -44,12 +44,32 @@ namespace rl
             Ogre::Vector3 position, Ogre::Vector3 offset, Ogre::Quaternion orientation,
             Ogre::Real transitionDistance,
             unsigned long queryflags);
+        void addAreaToZone(const Ogre::String& name, 
+            Ogre::Vector3 size, GeometryType geom,
+            Ogre::Vector3 position, Ogre::Vector3 offset, Ogre::Quaternion orientation,
+            Ogre::Real transitionDistance,
+            unsigned long queryflags)
+        {
+            addAreaToZone(
+                name, Ogre::AxisAlignedBox(- 0.5 * size, 0.5 *size ), geom, position, offset, orientation,
+                transitionDistance, queryflags);
+        }
         /// subtracts an area from the zone (it must ly in another area in this zone, else the beaviour is not defined)
         void subtractAreaFromZone(const Ogre::String& name, 
             Ogre::AxisAlignedBox aabb, GeometryType geom,
             Ogre::Vector3 position, Ogre::Vector3 offset, Ogre::Quaternion orientation,
             Ogre::Real transitionDistance,
             unsigned long queryflags);
+        void subtractAreaFromZone(const Ogre::String& name, 
+            Ogre::Vector3 size, GeometryType geom,
+            Ogre::Vector3 position, Ogre::Vector3 offset, Ogre::Quaternion orientation,
+            Ogre::Real transitionDistance,
+            unsigned long queryflags)
+        {
+            subtractAreaFromZone(
+                name, Ogre::AxisAlignedBox(- 0.5 * size, 0.5 *size ), geom, position, offset, orientation,
+                transitionDistance, queryflags);
+        }
         /// Adds a new mesh area to the zone
         void addMeshAreaToZone(const Ogre::String& name,
             const Ogre::String& meshname, GeometryType geom,

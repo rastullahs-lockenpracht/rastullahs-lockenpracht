@@ -915,13 +915,13 @@ public:
     void destroyZone(const Ogre::String& name);
 
     void addAreaToZone(const Ogre::String& name, 
-        Ogre::AxisAlignedBox aabb, rl::GeometryType geom,
+        Ogre::Vector3 size, rl::GeometryType geom,
         Ogre::Vector3 position, Ogre::Vector3 offset, Ogre::Quaternion orientation,
         Ogre::Real transitionDistance,
         unsigned long queryflags);
 
     void subtractAreaFromZone(const Ogre::String& name, 
-        Ogre::AxisAlignedBox aabb, rl::GeometryType geom,
+        Ogre::Vector3 size, rl::GeometryType geom,
         Ogre::Vector3 position, Ogre::Vector3 offset, Ogre::Quaternion orientation,
         Ogre::Real transitionDistance,
         unsigned long queryflags);

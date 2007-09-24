@@ -248,7 +248,6 @@ namespace rl {
                     mBodyGameAreaMap.erase(it);
             }
 
-			ScriptWrapper::getSingleton().deleted( gam );
 			// Die Area-Art löschen
 			delete gam->getGameAreaType();
 			// Das Objekt löschen

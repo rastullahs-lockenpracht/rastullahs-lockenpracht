@@ -117,6 +117,7 @@ namespace rl
         if( it_ != mZonesIdMap.end() )
             mZonesIdMap.erase(it_);
 
+
         mZonesToDelete.push_back(zone);
     }
 
@@ -126,10 +127,12 @@ namespace rl
         GameAreaEventSourceList::iterator iter = zone->getEventSources().begin();
         for( ; iter != zone->getEventSources().end(); iter++ )
         {
-            // we have our own actors, remove them
-            ActorManager::getSingleton().destroyActor( (*iter)->getActor() );
-		    GameEventManager::getSingleton().removeAreaEventSource(
-                (*iter));
+            // if we have our own actors, remove them
+            if( (*iter)->getActor() )
+                ActorManager::getSingleton().destroyActor( (*iter)->getActor() ); // this also removes all areaeventsources
+            else
+		        GameEventManager::getSingleton().removeAreaEventSource(
+                    (*iter));
         }
 
         // ask all triggers if they want to be deleted
@@ -185,6 +188,7 @@ namespace rl
 
         gam->getGameAreaType()->setTransitionDistance(transitionDistance);
         gam->setId(zone->getId());
+        zone->addEventSource(gam);
     }
     
     void ZoneManager::subtractAreaFromZone(const Ogre::String& name, 
@@ -203,6 +207,7 @@ namespace rl
 
         gam->getGameAreaType()->setTransitionDistance(transitionDistance);
         gam->setId( - (zone->getId())); // a negative id indicates to subtract this area from the zone
+        zone->addEventSource(gam);
     }
 
     void ZoneManager::addMeshAreaToZone(const Ogre::String& name,
@@ -230,6 +235,7 @@ namespace rl
 
         CoreSubsystem::getSingletonPtr()->getWorld()
             ->getSceneManager()->destroyEntity(entity);
+        zone->addEventSource(gam);
     }
 
     void ZoneManager::subtractMeshAreaFromZone(const Ogre::String& name,
@@ -258,6 +264,7 @@ namespace rl
 
         CoreSubsystem::getSingletonPtr()->getWorld()
             ->getSceneManager()->destroyEntity(entity);
+        zone->addEventSource(gam);
     }
 
 	void ZoneManager::areaLeft(GameAreaEvent* gae)
