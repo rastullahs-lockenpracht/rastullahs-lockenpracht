@@ -131,7 +131,7 @@ namespace rl
 
         if( unsmoothedFrameTime > mMaxFrameTime*1000 )
         {
-            LOG_MESSAGE(Logger::CORE, "Die aktuelle Frame wurde auf den festgelegten Maximalwert gekürzt");
+            LOG_DEBUG(Logger::CORE, "The current frame time was truncated at maximum.");
             unsmoothedFrameTime = mMaxFrameTime*1000;
         }
         Real frameTime = 0.001f * (Real) smoothFrameTime(unsmoothedFrameTime);

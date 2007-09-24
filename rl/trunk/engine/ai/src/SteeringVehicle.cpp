@@ -158,9 +158,8 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
         movement = CreatureController::MT_GEHEN;
     }
 
-
     mController->setMovement(movement, direction, rotation);
-    LOG_MESSAGE("mController->setMovement",
+    LOG_DEBUG(Logger::AI, "SteeringVehicle: mController->setMovement " + 
         Ogre::StringConverter::toString(movement) + ", "
         + Ogre::StringConverter::toString(direction) + ", "
         + Ogre::StringConverter::toString(rotation));
