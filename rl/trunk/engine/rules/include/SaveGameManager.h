@@ -27,20 +27,6 @@ namespace rl
 {
     typedef std::map<CeGuiString, SaveGameFile*> SaveGameEntryMap;
 
-    /*class SaveGameIndexWriter : public XmlPropertyWriter
-    {
-    public: 
-        SaveGameIndexWriter();
-        void buildIndexFile(const SaveGameEntryMap &map);
-    };
-
-    class SaveGameIndexReader : public XmlPropertyReader
-    {
-    public:
-        SaveGameIndexReader();
-        SaveGameEntryMap parseIndexFile(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);
-    };*/
-
     class SaveGameHeaderReader : public XmlPropertyReader
     {
     public:
@@ -64,6 +50,8 @@ namespace rl
         virtual void parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);
         virtual Ogre::Real getLoadingOrder(void) const;
     protected:
+        void freeSaveGameMap();
+
         Ogre::StringVector mScriptPatterns;
         SaveGameEntryMap mSaveGames;
     };

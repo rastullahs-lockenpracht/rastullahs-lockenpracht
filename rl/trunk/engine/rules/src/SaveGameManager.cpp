@@ -44,127 +44,6 @@ namespace rl
         return string;
     }
 
-    //SaveGameIndexWriter::SaveGameIndexWriter()
-    //{
-    //}
-
-    //void SaveGameIndexWriter::buildIndexFile(const SaveGameEntryMap &map)
-    //{
-    //    initializeXml();
-
-    //    XMLCh tempStr[256];
-    //    XMLString::transcode("LS", tempStr, 255);
-    //    mImplementation = DOMImplementationRegistry::getDOMImplementation(tempStr);
-    //    mWriter = static_cast<DOMImplementationLS*>(mImplementation)->createDOMWriter();
-    //    XMLString::transcode(((Ogre::String)(ConfigurationManager::getSingleton().getModulesRootDirectory() + "/saves/index.saves")).c_str(), tempStr, 255);
-    //    mTarget = new LocalFileFormatTarget(tempStr);
-    //    mDocument = static_cast<DOMImplementation*>(mImplementation)->createDocument(0, XMLString::transcode("SaveGameIndexFile"), 0);
-    //    
-    //    if (mWriter->canSetFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true))
-    //        mWriter->setFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true);
-
-    //    if (mWriter->canSetFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true))
-    //         mWriter->setFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true);
-
-    //    mWriter->setEncoding(XMLUni::fgISO88591EncodingString);
-
-    //    mDocument->setNodeValue(XMLString::transcode("SaveGameIndexFile")); //Set name of document root node
-
-    //     //Write SaveGameIndexVersion
-    //    setAttributeValueAsString(mDocument->getDocumentElement(), "Version", "0.1");
-
-
-    //    //write save games
-    //    SaveGameEntryMap::const_iterator it_saves;
-
-    //    for(it_saves = map.begin(); it_saves != map.end(); it_saves++)
-    //    {
-    //        DOMElement* saveGame = appendChildElement(mDocument, mDocument->getDocumentElement(), "savegame");
-    //        setAttributeValueAsString(saveGame, "Name", it_saves->second->getName());
-
-    //        PropertyMap map = it_saves->second->getAllProperties()->toPropertyMap();
-    //        PropertyMap::iterator it_properties;
-    //        for(it_properties = map.begin(); it_properties != map.end(); it_properties++)
-    //        {
-    //            this->processProperty(saveGame, PropertyEntry(it_properties->first.c_str(), it_properties->second));
-    //        }
-    //    }        
-
-
-    //    mWriter->writeNode(mTarget, *mDocument);
-
-
-    //    mWriter->release();
-
-    //    delete mDocument;
-    //    delete mTarget;
-
-    //    shutdownXml();
-    //}
-
-    //SaveGameIndexReader::SaveGameIndexReader()
-    //{
-    //}
-
-    //SaveGameEntryMap SaveGameIndexReader::parseIndexFile(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
-    //{
-    //    SaveGameEntryMap entries;
-
-    //    initializeXml();
-
-    //    /*Ogre::String fileName = ConfigurationManager::getSingleton().getModulesRootDirectory() + "/saves/index.saves";
-
-    //    FILE* fileHandle = fopen(fileName.c_str(), "r");
-
-    //    if(fileHandle)
-    //    {
-    //        Ogre::DataStreamPtr stream = Ogre::DataStreamPtr(new Ogre::FileHandleDataStream(fileHandle));*/
-
-    //        /*char* temp = new char[1024];
-
-    //        stream->read(temp, 1022);
-
-    //        LOG_MESSAGE(Logger::RULES, temp);
-
-    //        delete[] temp;*/
-
-    //        if(stream->size())
-    //        {
-    //            DOMDocument* doc = loadDocument( stream);
-
-    //            ///@todo: Right version of save game file index?
-
-    //            DOMNodeList* saveGameDefsXml = doc->getDocumentElement()->getElementsByTagName(AutoXMLCh("savegame").data());
-    //            for(unsigned int i = 0; i < saveGameDefsXml->getLength(); i++)
-    //            {
-    //                DOMElement* curNode = static_cast<DOMElement*>(saveGameDefsXml->item(i));
-    //                SaveGameFile * file = new SaveGameFile(this->getAttributeValueAsString(curNode, "Name"));
-    //                
-    //                DOMNodeList* saveGameDefChildren = curNode->getChildNodes();
-    //                for (XMLSize_t childIdx = 0; childIdx < saveGameDefChildren->getLength(); childIdx++)
-    //                {
-    //                    DOMNode* curChild = saveGameDefChildren->item(childIdx);
-    //                    if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
-    //                    {
-    //                        PropertyEntry entry = processProperty(static_cast<DOMElement*>(curChild));
-    //                        if (entry.first != "")
-    //                        {
-    //                            file->setProperty(entry.first, entry.second);
-    //                        }
-    //                    }
-    //                }
-    //                entries[this->getAttributeValueAsString(curNode, "Name").c_str()] = file;
-    //            }
-
-    //            doc->release();
-    //        }
-    //    /*}*/
-
-    //    shutdownXml();
-
-    //    return entries;
-    //}
-
     SaveGameHeaderReader::SaveGameHeaderReader()
     {
     }
@@ -210,6 +89,7 @@ namespace rl
         Ogre::ResourceGroupManager::getSingleton().addResourceLocation(ConfigurationManager::getSingleton().getModulesRootDirectory() 
             + "/saves", "FileSystem", "SaveGames");
         Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("SaveGames");
+        Ogre::ResourceGroupManager::getSingleton().clearResourceGroup("SaveGames"); //close all resource files -> make them writable
     }
 
     SaveGameManager::~SaveGameManager()
@@ -235,6 +115,11 @@ namespace rl
 
         SaveGameFileWriter writer;
         writer.buildSaveGameFile(file);
+
+        freeSaveGameMap();
+
+        Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("SaveGames");
+        Ogre::ResourceGroupManager::getSingleton().clearResourceGroup("SaveGames"); //close all resource files -> make them writable
     }
 
     void SaveGameManager::loadSaveGameFile(const CeGuiString &name)
@@ -279,11 +164,23 @@ namespace rl
         name = name.substr(0, name.length()-5); //delete ".save" at the and of the name
 
         SaveGameFile* file = new SaveGameFile(name);
-        file->setDataStream(stream);
+        
         LOG_MESSAGE(Logger::RULES, "Parsing header of save game: " + name);
         SaveGameHeaderReader reader;
         reader.parseHeader(stream, groupName, file);
+
+        Ogre::DataStream* _stream = new Ogre::MemoryDataStream(*stream, false); //making a copy of the data stream. searching for a better alternative
+        file->setDataStream(Ogre::DataStreamPtr(_stream));
         
         mSaveGames[name] = file;
+    }
+
+    void SaveGameManager::freeSaveGameMap()
+    {
+        for(SaveGameEntryMap::const_iterator iter = mSaveGames.begin(); iter != mSaveGames.end(); iter++)
+        {
+            delete iter->second;
+        }
+        mSaveGames.clear();
     }
 }

@@ -27,13 +27,15 @@
 namespace rl
 {
 
-    SaveGameFile::SaveGameFile(const CeGuiString &name)
+    SaveGameFile::SaveGameFile(const CeGuiString &name) : mStream((Ogre::DataStream*)NULL)
     {
         mName = name;
     }
 
     SaveGameFile::~SaveGameFile()
     {
+        if(mStream.isNull())
+            delete mStream.get();
     }
 
     CeGuiString SaveGameFile::buildFilename()
