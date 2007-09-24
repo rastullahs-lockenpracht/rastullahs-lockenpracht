@@ -149,26 +149,21 @@ namespace rl {
 
     void SaveLoadWindow::listSaveGames()
     {
-        /*Ogre::ResourceGroupManager::getSingleton().createResourceGroup("SaveGames");
-        Ogre::ResourceGroupManager::getSingleton().addResourceLocation(ConfigurationManager::getSingleton().getModulesRootDirectory() + "/"
-            + Ogre::String(CoreSubsystem::getSingleton().getActiveAdventureModule()->getId().c_str()) + "/saves", "FileSystem", "SaveGames");
-        Ogre::StringVectorPtr saveGames = Ogre::ResourceGroupManager::getSingleton().listResourceNames("SaveGames");
-        Ogre::StringVector::iterator it;
-        
-        while(mSaveGameTable->getRowCount() > saveGames->size())
+        SaveGameEntryMap saveGames = SaveGameManager::getSingleton().listSaveGames();
+    
+        while(mSaveGameTable->getRowCount() > saveGames.size())
 		    mSaveGameTable->removeRow(mSaveGameTable->getRowCount()-1);
-        while(mSaveGameTable->getRowCount() < saveGames->size())
+        while(mSaveGameTable->getRowCount() < saveGames.size())
 		    mSaveGameTable->addRow();
         
         int saveGameNum = 0;
 
-        for(it = saveGames->begin(); it != saveGames->end(); it++)
+        for(SaveGameEntryMap::iterator it = saveGames.begin(); it != saveGames.end(); it++)
         {
-            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->data()), 0, saveGameNum);
+            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->first), 0, saveGameNum);
+            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty("Time")), 1, saveGameNum);
             saveGameNum++;
         }
-
-        Ogre::ResourceGroupManager::getSingleton().destroyResourceGroup("SaveGames");*/
     }
 
 } // namespace rl
