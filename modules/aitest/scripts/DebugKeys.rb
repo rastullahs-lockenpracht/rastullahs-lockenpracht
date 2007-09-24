@@ -5,9 +5,11 @@ class DebugKeys
 
     def toggleWP()
       if @isWPShown:
-	$DVM.hide(8)
+        $DVM.hide(8)
+        p "hide"
       else
-	$DVM.show(8)
+      	$DVM.show(8)
+        p "show"
       end
       @isWPShown = (@isWPShown == false)
     end

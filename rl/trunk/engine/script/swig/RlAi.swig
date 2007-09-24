@@ -292,6 +292,7 @@ namespace rl
 
         void addLandmark(const Ogre::String& name, const Ogre::Vector3& position);
         void addLandmark(Landmark* lm);
+        void setWayPoints(const WayPointGraph* wps);
     };
 } // Namespace
 

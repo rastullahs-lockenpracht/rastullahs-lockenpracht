@@ -17,7 +17,7 @@ class SoundFadeAction < Action
     sound = $SM.createSound("ruchin001.ogg")
     @sound = SoundObject.new(sound, "SoundFadeTest")
     @functor = LinearSoundFadeFunctor.new(120, false)
-    @job = SoundFadeJob.new (@sound, @functor, true)
+    @job = SoundFadeJob.new(@sound, @functor, true)
   end
   
 end

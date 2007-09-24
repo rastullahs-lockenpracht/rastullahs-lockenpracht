@@ -18,6 +18,7 @@
 #include "LandmarkPath.h"
 
 #include "AiSubsystem.h"
+#include "Landmark.h"
 
 namespace rl
 {
@@ -41,8 +42,49 @@ namespace rl
 		mPoints.push_back(lm);
 	}
 
-    LandmarkPath::LandmarkList LandmarkPath::getPoints()
+    void LandmarkPath::removePoint(const Ogre::String& name)
+    {
+        Landmark* lm = NULL;
+        for (LandmarkList::iterator it = mPoints.begin(); it != mPoints.end(); ++it)
+        {
+            Landmark* cur = *it;
+            if (cur->getName() == name)
+            {
+                lm = cur;
+                break;
+            }
+        }
+
+        if (lm)
+        {
+            removePoint(lm);
+        }
+        else
+        {
+            LOG_ERROR(Logger::AI, "Could not delete landmark '"+name+"'. Landmark with this name not found.");
+        }
+    }
+
+    void LandmarkPath::removePoint(Landmark* lm)
+    {
+        for (LandmarkList::iterator it = mPoints.begin(); it != mPoints.end(); ++it)
+        {
+            if (*it == lm)
+            {
+                mPoints.erase(it);
+                break;
+            }
+        }
+    }
+
+    LandmarkPath::LandmarkList LandmarkPath::getPoints() const
     {
         return mPoints;
     }
+
+    bool LandmarkPath::isEmpty() const
+    {
+        return mPoints.empty();
+    }
+
 }

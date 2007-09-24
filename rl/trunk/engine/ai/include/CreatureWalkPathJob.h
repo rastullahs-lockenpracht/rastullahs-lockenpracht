@@ -22,11 +22,14 @@
 #include "Landmark.h"
 #include "LandmarkPath.h"
 
-#include "Job.h"
+#include "AStar.h"
 #include "CreatureController.h"
+#include "Job.h"
 
 namespace rl
 {
+    class WayPointGraph;
+
     class _RlAiExport CreatureWalkPathJob : public Job
     {
     public:
@@ -42,6 +45,7 @@ namespace rl
         //adds an additional landmark the moving creature has to go to
         void addLandmark(const Ogre::String& name, const Ogre::Vector3& position);
         void addLandmark(Landmark* lm);
+        void setWayPoints(const WayPointGraph* wps);
 
        /**
         * This function is not intented to be called directly
@@ -52,7 +56,6 @@ namespace rl
         // @retval the moving creature controlled by this object
         CreatureController* getMovingCreature();
     private:
-        void updateCreature(Ogre::Real time);
 
         LandmarkPath mLandmarkPath;
         Ogre::String mName;
@@ -60,6 +63,8 @@ namespace rl
 
         Landmark* mCurrentLandmark;
         Landmark* mNextLandmark;
+        const WayPointGraph* mWayPoints;
+        AStar::AStarPath mCurrentWayPath;
 
         bool mNextLandmarkRequested;
     };

@@ -816,7 +816,7 @@ namespace rl {
 	// Before first use of Selector or subclasses!
     %apply SWIGTYPE *DYNAMIC { rl::Selector* };
 
-	class Selector : public DebugVisualisable
+	class Selector
     {
     public:
         Selector(unsigned long mask = 0xffffffff);

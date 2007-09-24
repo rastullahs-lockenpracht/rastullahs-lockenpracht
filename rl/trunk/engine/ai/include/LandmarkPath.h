@@ -32,8 +32,11 @@ namespace rl
 
 		void addPoint(const Ogre::String& name, const Ogre::Vector3& position);
 		void addPoint(Landmark* lm);
+        void removePoint(const Ogre::String& name);
+        void removePoint(Landmark* lm);
         
-        LandmarkList getPoints();
+        LandmarkList getPoints() const;
+        bool isEmpty() const;
 	private:
 		LandmarkList mPoints;
 		Ogre::String mName;

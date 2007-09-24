@@ -72,23 +72,23 @@ namespace rl
 		 * A start and and end point.
          * This is a convenience constructor so that there is no need to do
          * a search right from the start, but can be done sometime later.
-		 * @param Costs encapsulates cost and heuristic for distance calculations.
-		 * @param WPGraph contains the map of WayPoints to examine for a path.
+		 * @param costs encapsulates cost and heuristic for distance calculations.
+		 * @param wpGraph contains the map of WayPoints to examine for a path.
          */
-        AStar( const AStarCosts* Costs, const WayPointGraph* WPGraph );
+        AStar(const AStarCosts* costs, const WayPointGraph* wpGraph);
 
 		/** The constructor of AStar
 		 * AStar needs several things to find a path: 
 		 * a heuristic to calculate the cost for the still not travelled part of the path.
 		 * some sort of map to travel in.
 		 * A start and and end point.
-		 * @param Costs encapsulates cost and heuristic for distance calculations.
-		 * @param WPGraph contains the map of WayPoints to examine for a path.
-		 * @param StartPos is the start point in world space.
-		 * @param StartPos is the end point in world space.
+		 * @param costs encapsulates cost and heuristic for distance calculations.
+		 * @param wpGraph contains the map of WayPoints to examine for a path.
+		 * @param startPos is the start point in world space.
+		 * @param startPos is the end point in world space.
 		 */
-		AStar( const AStarCosts* Costs, const WayPointGraph* WPGraph,
-			const Ogre::Vector3& StartPos, const Ogre::Vector3& EndPos );
+		AStar(const AStarCosts* costs, const WayPointGraph* wpGraph,
+			const Ogre::Vector3& startPos, const Ogre::Vector3& endPos);
 		/** explicit virtual destructor
 		 */
 		~AStar();
@@ -104,11 +104,11 @@ namespace rl
 
 		/** starts the search for the given start and end positions
          * @param resultPath contains the researched path in reverse order.
-		 * @param StartPos gives the startpoint for the search
-		 * @param EndPos gives the endposition for the search
+		 * @param startPos gives the startpoint for the search
+		 * @param endPos gives the endPosition for the search
 		 */
-		void searchFromTo(AStarPath& resultPath, const Ogre::Vector3& StartPos,
-			const Ogre::Vector3& EndPos );
+		void searchFromTo(AStarPath& resultPath, const Ogre::Vector3& startPos,
+			const Ogre::Vector3& endPos);
 
 		/* retrieve a list of WayPoints (=the solution)
 		 * This generates a path from the solution created by search
@@ -129,6 +129,11 @@ namespace rl
 		/** Called to update the debug primitive. Redrawing is done in here.
 		 */
         virtual void updatePrimitive();
+
+        static AStarPath search(
+            const WayPointGraph* wpGraph,
+            const Ogre::Vector3& startPos,
+			const Ogre::Vector3& endPos);
 
 	protected:
 		// Overrides from DebugVisualisable
@@ -151,7 +156,7 @@ namespace rl
 		 * @param Set to search through
 		 * @param Node to search for
 		 */
-		AStarSet::iterator searchSet(AStarSet& Set, AStarWayPointNode* Node);
+		AStarSet::iterator searchSet(AStarSet& set, AStarWayPointNode* node);
 
 		// static data
 		//! heuristic function

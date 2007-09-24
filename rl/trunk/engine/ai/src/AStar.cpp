@@ -53,9 +53,9 @@ void AStarStatistics::reset()
   mPathCost = 0;
 }
 
-AStar::AStar( const AStarCosts* Costs, const WayPointGraph* WPGraph )
-    : mCosts(Costs),
-	mWPGraph(WPGraph),
+AStar::AStar(const AStarCosts* costs, const WayPointGraph* wpGraph)
+    : mCosts(costs),
+	mWPGraph(wpGraph),
 	mStartPos(0,0,0),
 	mEndPos(0,0,0),
 	mANStart(NULL),
@@ -64,12 +64,12 @@ AStar::AStar( const AStarCosts* Costs, const WayPointGraph* WPGraph )
 {
 }
 
-AStar::AStar( const AStarCosts* Costs, const WayPointGraph* WPGraph,
-			const Ogre::Vector3& StartPos, const Ogre::Vector3& EndPos )
-	: mCosts(Costs),
-	mWPGraph(WPGraph),
-	mStartPos(StartPos),
-	mEndPos(EndPos),
+AStar::AStar(const AStarCosts* costs, const WayPointGraph* wpGraph,
+			const Ogre::Vector3& startPos, const Ogre::Vector3& endPos)
+	: mCosts(costs),
+	mWPGraph(wpGraph),
+	mStartPos(startPos),
+	mEndPos(endPos),
 	mANStart(NULL),
 	mANEnd(NULL),
     mDebugAstar(false)
@@ -88,11 +88,11 @@ void AStar::reset()
 	mANEnd = NULL;
 
 	AStarSet::iterator it;
-	for (it = mOpen.begin(); it != mOpen.end(); it++)
+	for (it = mOpen.begin(); it != mOpen.end(); ++it)
 	{
 		delete (*it);
 	}
-	for (it = mClosed.begin(); it != mClosed.end(); it++)
+	for (it = mClosed.begin(); it != mClosed.end(); ++it)
 	{
 		delete (*it);
 	}
@@ -108,15 +108,15 @@ void AStar::initialise()
 	reset();
 
 	// first find 'real' start and end positions by searching for the corresponding waypoints
-	mANStart = new AStarWayPointNode( mWPGraph->getNearestWayPoint(mStartPos) );
-	mANEnd = new AStarWayPointNode( mWPGraph->getNearestWayPoint(mEndPos) );
+	mANStart = new AStarWayPointNode(mWPGraph->getNearestWayPoint(mStartPos));
+	mANEnd = new AStarWayPointNode(mWPGraph->getNearestWayPoint(mEndPos));
 }
 
-void AStar::searchFromTo(AStarPath& resultPath, const Ogre::Vector3& StartPos,
-						 const Ogre::Vector3& EndPos )
+void AStar::searchFromTo(AStarPath& resultPath, const Ogre::Vector3& startPos,
+						 const Ogre::Vector3& endPos)
 {
-	mStartPos = StartPos;
-	mEndPos = EndPos;
+	mStartPos = startPos;
+	mEndPos = endPos;
 	search(resultPath);
 }
 
@@ -149,29 +149,30 @@ void AStar::search(AStarPath& resultPath)
 	mANStart->setH(mCosts->calcHeuristic(mWPGraph,mANStart,mANEnd));
     mANStart->setG(0);
 
-	AStarWayPointNode* Node;
+	AStarWayPointNode* node;
 
 	// While there are still unvisited nodes
-    while( !mOpen.empty() )
+    while (!mOpen.empty())
 	{
-        Node = mOpen.front();
+        node = mOpen.front();
 		pop_heap(mOpen.begin(), mOpen.end(), AStarWayPointNode::SortMethod);
 		mOpen.pop_back();
 
-		mClosed.push_back(Node);
+		mClosed.push_back(node);
 
 		// check if goal reached
-        if ( Node->EqualPosition(mANEnd) ) {
+        if (node->EqualPosition(mANEnd)) 
+        {
 			// remember new 'end'
             delete mANEnd;
-            mANEnd = Node;
+            mANEnd = node;
             // create result path (start and enpoint might not be on path!)
-            if (Node->getWP()->getPosition() != mEndPos)
+            if (node->getWP()->getPosition() != mEndPos)
                 resultPath.push_back(mEndPos);  // push endpos
 
-            for (; Node; Node = Node->getParent())
+            for (; node; node = node->getParent())
 			{
-				resultPath.push_back(Node->getWP()->getPosition());
+				resultPath.push_back(node->getWP()->getPosition());
 			}
 
             // save startpos, if waypoint is not the startpos
@@ -186,50 +187,50 @@ void AStar::search(AStarPath& resultPath)
 		}
 
 		// now look through the neighbours
-		WayPointNode::WayPointWeightNodeList WPList = Node->getWP()->getNeighbours();
+		WayPointNode::WayPointWeightNodeList WPList = node->getWP()->getNeighbours();
 		WayPointNode::WayPointWeightNodeList::iterator it;
 
-		for (it = WPList.begin(); it != WPList.end(); it++)
+		for (it = WPList.begin(); it != WPList.end(); ++it)
 		{
 			AStarWayPointNode* ASubNode = new AStarWayPointNode((*it).second);
-			float cost = mCosts->calcCost(mWPGraph,ASubNode,Node);
+			float cost = mCosts->calcCost(mWPGraph,ASubNode,node);
 
-			ASubNode->setG( Node->getG() + cost );
-			ASubNode->setH( mCosts->calcHeuristic(mWPGraph,ASubNode,mANEnd) );
+			ASubNode->setG(node->getG() + cost);
+			ASubNode->setH(mCosts->calcHeuristic(mWPGraph,ASubNode,mANEnd));
 
 			AStarSet::iterator ASit;
 			// now check if the node is already in Open
 
-			if ( (ASit = searchSet(mOpen, ASubNode)) != mOpen.end() )
+			if ((ASit = searchSet(mOpen, ASubNode)) != mOpen.end())
 			{
 				AStarWayPointNode* ASfound = (*ASit);
 				// check if current g is better
 				if (ASfound->getG() > ASubNode->getG()) {
 					ASfound->setG(ASubNode->getG());
 					ASfound->setH(ASubNode->getH());
-					ASfound->setParent(Node);
+					ASfound->setParent(node);
 					// dark magic ... for resorting the heap from the top
 					// down to the changed element
-					push_heap( mOpen.begin(), ASit+1, AStarWayPointNode::SortMethod );
+					push_heap(mOpen.begin(), ASit+1, AStarWayPointNode::SortMethod);
 				}
 				// anyway the newly created node isn't needed
 				delete ASubNode;
 
 			}  // now check if the node is already in Closed
-			else if ( (ASit = searchSet(mClosed, ASubNode)) != mClosed.end())
+			else if ((ASit = searchSet(mClosed, ASubNode)) != mClosed.end())
 			{
 				AStarWayPointNode* ASfound = (*ASit);
 				// (check if current g is better, then reopen)
 				if (ASfound->getG() > ASubNode->getG()) {
 					ASfound->setG(ASubNode->getG());
 					ASfound->setH(ASubNode->getH());
-					ASfound->setParent(Node);
+					ASfound->setParent(node);
 					// remove the node from the closed list
 					mClosed.erase(ASit);
 
 					// dark magic ... for resorting the heap from the top
 					// down to the changed element
-					push_heap( mOpen.begin(), mOpen.end(), AStarWayPointNode::SortMethod );
+					push_heap(mOpen.begin(), mOpen.end(), AStarWayPointNode::SortMethod);
 				}
 				// anyway the newly created node isn't needed
 				delete ASubNode;
@@ -237,16 +238,16 @@ void AStar::search(AStarPath& resultPath)
 			else
 			{
 				// neither in Open nor Closed, so add it to Open
-				mOpen.push_back( ASubNode );
-                push_heap( mOpen.begin(), mOpen.end(), AStarWayPointNode::SortMethod );
-				ASubNode->setParent(Node);
+				mOpen.push_back(ASubNode);
+                push_heap(mOpen.begin(), mOpen.end(), AStarWayPointNode::SortMethod);
+				ASubNode->setParent(node);
 			}
 		}
 	}
 
 }
 
-AStar::AStarSet::iterator AStar::searchSet(AStarSet& Set, AStarWayPointNode* Node)
+AStar::AStarSet::iterator AStar::searchSet(AStarSet& set, AStarWayPointNode* node)
 {
 	AStarSet::iterator it;
 
@@ -255,19 +256,19 @@ AStar::AStarSet::iterator AStar::searchSet(AStarSet& Set, AStarWayPointNode* Nod
      */
 
     //AStarWayPointNode* help = NULL;
-    //bool found = std::binary_search(Set.begin(), Set.end(), Node, AStarWayPointNode::SortMethod);
+    //bool found = std::binary_search(Set.begin(), Set.end(), node, AStarWayPointNode::SortMethod);
     //while (it != Set.end())
     //{
-    //    if ( (*it)->Equal(Node) ) // if equal, then Node was 'found'
+    //    if ((*it)->Equal(node)) // if equal, then node was 'found'
     //        break;
         // otherwise continue binary search
-        //it = std::binary_search(it, Set.end(), Node, AStarWayPointNode::SortMethod);
+        //it = std::binary_search(it, Set.end(), node, AStarWayPointNode::SortMethod);
     //}
 
 
-	for (it = Set.begin(); it != Set.end(); it++)
+	for (it = set.begin(); it != set.end(); ++it)
 	{
-        if ( (*it)->EqualPosition(Node) )
+        if ((*it)->EqualPosition(node))
 			return it;
 	}
 
@@ -288,15 +289,15 @@ void AStar::createPrimitive(const AStarPath& searchPath)
     if (it == searchPath.end())
         return;
 
-    Ogre::Vector3 From;
-    Ogre::Vector3 To;
-    for (it++ ; it != searchPath.end(); it++)
+    Ogre::Vector3 from;
+    Ogre::Vector3 to;
+    for (++it ; it != searchPath.end(); ++it)
     {
         pit = it - 1;
-        From = (*pit) + Ogre::Vector3(0,0.5,0);
-        To = (*it) + Ogre::Vector3(0,0.5,0);
+        from = (*pit) + Ogre::Vector3(0,0.5,0);
+        to = (*it) + Ogre::Vector3(0,0.5,0);
 
-        lineSet->addLine(From, To, Ogre::ColourValue::Green);
+        lineSet->addLine(from, to, Ogre::ColourValue::Green);
     }
 }
 
@@ -320,6 +321,21 @@ void AStar::updatePrimitive()
 void AStar::doCreatePrimitive()
 {
 	mPrimitive = new LineSetPrimitive();
+}
+
+AStar::AStarPath AStar::search(
+    const rl::WayPointGraph *wpGraph, const Ogre::Vector3 &startPos, const Ogre::Vector3 &endPos)
+{
+    AStarHeuristic* heur = new EuclideanDistanceSquared();
+    AStarCosts* costs = new AStarCostsDefault(heur);
+    AStar* search = new AStar(costs, wpGraph, startPos, endPos);
+    AStar::AStarPath path;
+    search->search(path);
+    delete search;
+    delete costs;
+    delete heur;
+
+    return path;
 }
 
 };
