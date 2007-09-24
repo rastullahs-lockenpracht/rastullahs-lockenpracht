@@ -94,6 +94,7 @@ namespace rl
 
     SaveGameManager::~SaveGameManager()
     {
+        freeSaveGameMap();
     }
 
     SaveGameEntryMap SaveGameManager::listSaveGames()
