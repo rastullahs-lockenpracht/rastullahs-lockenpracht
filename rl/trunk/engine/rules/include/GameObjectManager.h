@@ -81,7 +81,8 @@ namespace rl
         GameObjectStateListenerSet mGameObjectStateListeners;
 
         unsigned int generateId();
-        PropertySet* getClassProperties(const Ogre::String& classId);
+        PropertySet* getClassProperties(const Ogre::String& classId) const;
+        void applyProperties(GameObject* go, PropertySet* ps) const;
     };
 }
 

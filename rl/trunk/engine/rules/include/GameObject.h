@@ -54,6 +54,7 @@ namespace rl
 
         static const Ogre::String PROPERTY_CLASS_ID;
         static const Ogre::String PROPERTY_OBJECT_ID;
+        static const Ogre::String PROPERTY_INHERITS;
         static const Ogre::String PROPERTY_BASE_CLASS;
         static const Ogre::String PROPERTY_POSITION; 
         static const Ogre::String PROPERTY_ORIENTATION; 

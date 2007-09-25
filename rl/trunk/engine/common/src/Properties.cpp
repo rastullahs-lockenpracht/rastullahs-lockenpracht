@@ -74,6 +74,11 @@ namespace rl {
         return (*it).second;
     }
 
+    bool PropertySet::hasProperty(const Ogre::String& key) const
+    {
+        return mProperties.find(key) != mProperties.end();
+    }
+
     void PropertySet::setProperty(const Ogre::String& key, const Property& value)
     {
         mProperties[key] = value;

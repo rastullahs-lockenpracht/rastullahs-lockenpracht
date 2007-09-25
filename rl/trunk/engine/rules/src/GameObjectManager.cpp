@@ -144,9 +144,20 @@ namespace rl
                 goId);
 
         go->setClassId(classId);
-        go->setProperties(ps);
+        applyProperties(go, ps);
         mGameObjects[goId] = go;
         return go;
+    }
+
+    void GameObjectManager::applyProperties(GameObject* go, PropertySet* ps) const
+    {
+        if (ps->hasProperty(GameObject::PROPERTY_INHERITS))
+        {
+            PropertySet* superClassProps = 
+                getClassProperties(ps->getProperty(GameObject::PROPERTY_INHERITS).toString().c_str());
+            applyProperties(go, superClassProps);
+        }
+        go->setProperties(ps);
     }
 
 	GameObject* GameObjectManager::createGameObjectFromProperty(const Property& goProp)
@@ -170,7 +181,7 @@ namespace rl
 		return Property(go->getClassId() + "|" + CEGUI::PropertyHelper::uintToString(go->getId()));
 	}
 
-    PropertySet* GameObjectManager::getClassProperties(const Ogre::String& classId)
+    PropertySet* GameObjectManager::getClassProperties(const Ogre::String& classId) const
     {
         ClassPropertyMap::const_iterator it = mClassProperties.find(classId);
         if (it == mClassProperties.end())

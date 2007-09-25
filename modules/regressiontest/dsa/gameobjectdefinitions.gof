@@ -15,6 +15,12 @@
         <property name="mass" type="REAL" data="65"/>
     </gameobjectclass>
 
+    <gameobjectclass classid="apple2" baseclass="GameObject" inherits="apple">
+        <property name="name" type="STRING" data="Apfel 2.0"/>
+        <property name="description" type="STRING" data="Ein Apfel. Definitiv."/>
+        <property name="mass" type="REAL" data="75"/>
+    </gameobjectclass>
+
     <gameobjectclass classid="TestPerson" baseclass="NPC">
         <property name="name" type="STRING" data="TestPerson"/>
         <property name="description" type="STRING" data="Wenn man mal jemanden zum Reden braucht..."/>

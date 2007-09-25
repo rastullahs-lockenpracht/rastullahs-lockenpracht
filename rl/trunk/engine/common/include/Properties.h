@@ -45,6 +45,7 @@ namespace rl {
 
         virtual const Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const Property& value);
+        bool hasProperty(const Ogre::String& key) const;
         virtual PropertySet* getAllProperties() const;
         const PropertySetMap::const_iterator begin() const;
         const PropertySetMap::const_iterator end() const;
