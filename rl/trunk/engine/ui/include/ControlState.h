@@ -35,7 +35,7 @@ namespace rl {
     /**
      * This class handles character control via user input.
      */
-    class _RlUiExport ControlState : public OIS::KeyListener, public OIS::MouseListener
+    class _RlUiExport ControlState// : public OIS::KeyListener, public OIS::MouseListener
     {
 	public:
 
@@ -52,11 +52,11 @@ namespace rl {
 
         virtual void run(Ogre::Real elapsedTime) = 0;
 
-        virtual bool mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id);
-        virtual bool mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id);
-        virtual bool mouseMoved(const OIS::MouseEvent& evt);
-        virtual bool keyPressed(const OIS::KeyEvent& evt);
-        virtual bool keyReleased(const OIS::KeyEvent& evt);
+        virtual bool mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id, bool handled); // if handled is true, we should not handle the event!
+        virtual bool mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id, bool handled);
+        virtual bool mouseMoved(const OIS::MouseEvent& evt, bool handled);
+        virtual bool keyPressed(const OIS::KeyEvent& evt, bool handled);
+        virtual bool keyReleased(const OIS::KeyEvent& evt, bool handled);
 
         const CommandMapper* getCommandMapper() const {return mCommandMapper;}
         ControlStateType getType() const { return mType;}
@@ -64,14 +64,9 @@ namespace rl {
         static bool startAction(const CeGuiString& actionName, Creature* character = NULL);
 
 	protected:
-        /// Returns true, if there is at least one window open,
-        /// that requires keyboard and/or mouse input. 
-        bool isCeguiActive() const;
 
-        /// Returns true, if the key event should be injected into CEGUI
-        /// This is the case, if an open window requests key input and it is
-        /// an input or navigation key.
-        //bool sendKeyToCeGui(const OIS::KeyEvent& evt) const;
+        /// returns wether cegui currently uses the mouse
+        bool isMouseUsedByCegui() const;
 
         Person* mCharacter;
 

@@ -317,21 +317,22 @@ namespace rl {
     }
 
     bool DialogControlState::mouseReleased(const OIS::MouseEvent& evt,
-        OIS::MouseButtonID id)
+        OIS::MouseButtonID id, bool handled)
     {
-        if( ControlState::mouseReleased(evt, id) )
-            return true;
+        bool retval = false;
+        if( ControlState::mouseReleased(evt, id, handled) )
+            retval = true;
 
-        if (mTextShown && (mCurrFadeTextTime + 0.25) < mTotalFadeTextTime)
+        if( !handled && !retval )
         {
-            mCurrFadeTextTime = -1;
+            if (mTextShown && (mCurrFadeTextTime + 0.25) < mTotalFadeTextTime)
+            {
+                mCurrFadeTextTime = -1;
+                retval = true;
+            }
+        }
 
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return retval;
     }
 
 	void DialogControlState::start()

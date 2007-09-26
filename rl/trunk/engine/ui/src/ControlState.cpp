@@ -130,76 +130,24 @@ namespace rl {
 		return true;
 	}
 
-    bool ControlState::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
+    bool ControlState::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id, bool handled)
     {
-        if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT)
-        {
-            bool retval = CEGUI::System::getSingleton().injectMouseButtonDown(
-                static_cast<CEGUI::MouseButton>(id));
-            return retval;
-        }
-        
         return false;
     }
 
-    bool ControlState::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
+    bool ControlState::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id, bool handled)
     {
-        if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT)
-        {
-            bool retval = CEGUI::System::getSingleton().injectMouseButtonUp(static_cast<CEGUI::MouseButton>(id));
-            return retval;
-        }
-
         return false;
     }
 
-    bool ControlState::mouseMoved(const OIS::MouseEvent& evt)
+    bool ControlState::mouseMoved(const OIS::MouseEvent& evt, bool handled)
     {
-        if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT)
-        {
-            bool retval;
-            //CEGUI::Renderer* renderer = CEGUI::System::getSingleton().getRenderer();
-            retval = CEGUI::System::getSingleton().injectMouseMove(evt.state.X.rel, evt.state.Y.rel);
-            return true;
-        }
-
         return false;
     }
 
-    bool ControlState::keyPressed(const OIS::KeyEvent& evt)
+    bool ControlState::keyPressed(const OIS::KeyEvent& evt, bool handled)
     {
-        InputManager* im = InputManager::getSingletonPtr();
-
-        if ( WindowManager::getSingleton().getWindowInputMask()
-            & AbstractWindow::WIT_KEYBOARD_INPUT )
-        {
-            bool retval;
-            CEGUI::System& cegui = CEGUI::System::getSingleton();
-            retval = cegui.injectKeyDown(evt.key);
-            return retval;
-        }
-
-        return false;
-    }
-
-    bool ControlState::keyReleased(const OIS::KeyEvent& evt)
-    {
-        InputManager* im = InputManager::getSingletonPtr();
-
-        if ( WindowManager::getSingleton().getWindowInputMask()
-            & AbstractWindow::WIT_KEYBOARD_INPUT )
-        {
-            bool retval;
-            CEGUI::System& cegui = CEGUI::System::getSingleton();
-            retval = cegui.injectKeyUp(evt.key);
-            if( !retval )
-                retval = cegui.injectChar(im->getKeyChar(evt.key, im->getModifierCode()));
-            
-            if( retval )
-                return true;
-        }
-
-        int code = CommandMapper::encodeKey(evt.key, im->getModifierCode());
+        int code = CommandMapper::encodeKey(evt.key, InputManager::getSingleton().getModifierCode());
 
         // First see, if a control state action is defined
 	    CeGuiString action = mCommandMapper->getControlStateAction(code, mType);
@@ -208,48 +156,23 @@ namespace rl {
             // No. So try global actions.
             action = mCommandMapper->getGlobalAction(code);
         }
-        return startAction(action, mCharacter);
+        if( !handled )
+            return startAction(action, mCharacter);
 
-    }
-
-    bool ControlState::isCeguiActive() const
-    {
-        return WindowManager::getSingleton().getWindowInputMask() != 0;
-    }
-/*
-    bool ControlState::sendKeyToCeGui(const OIS::KeyEvent& evt) const
-    {
-        InputManager* im = InputManager::getSingletonPtr();
-
-        // Wenn kein Fenster mit Tastatureingabe aktiv ist, kriegt CEGUI keine KeyEvents
-        if ((WindowManager::getSingleton().getWindowInputMask()
-            & AbstractWindow::WIT_KEYBOARD_INPUT) )
-        {
-            return true;
-        }
-
-        return false;
-
-        // ---- Tastatureingabe gefordert ----
-
-        // Tasten, die Zeichen liefern sollen an CEGUI gesendet werden
-        if (im->getKeyChar(evt.key, im->getModifierCode()) != 0)
-        {
-            return true;
-        }
-
-        if (evt.key == OIS::KC_RETURN
-            || evt.key == OIS::KC_HOME || evt.key == OIS::KC_END
-            || evt.key == OIS::KC_LEFT || evt.key == OIS::KC_RIGHT
-            || evt.key == OIS::KC_BACK || evt.key == OIS::KC_DELETE
-            || evt.key == OIS::KC_UP   || evt.key == OIS::KC_DOWN
-            || evt.key == OIS::KC_RMENU
-            || evt.key == OIS::KC_LCONTROL)
-        {
-            return true;
-        }
+        // hack to enable tab to hide the console-window if opened
+        if( action == "toggleconsole" ) // we start toggleconsole always, even if handled, because cegui handles tab
+            return startAction(action, mCharacter);
 
         return false;
     }
-*/
+
+    bool ControlState::keyReleased(const OIS::KeyEvent& evt, bool handled)
+    {
+        return false;
+    }
+
+    bool ControlState::isMouseUsedByCegui() const
+    {
+        return WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT;
+    }
 }

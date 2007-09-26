@@ -43,10 +43,13 @@
 #include "FreeflightControlState.h"
 #include "GameLoop.h"
 #include "GameObject.h"
+#include "Job.h"
+#include "JobScheduler.h"
 #include "MovementControlState.h"
 #include "RubyInterpreter.h"
 #include "UiSubsystem.h"
 #include "WindowFactory.h"
+#include "WindowManager.h"
 
 using namespace Ogre;
 using namespace OIS;
@@ -116,8 +119,10 @@ namespace rl {
         LOG_DEBUG(Logger::UI, "Initializing input manager: Create Keyboard input.");
         mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject(OIS::OISKeyboard, true));
         mKeyboard->setTextTranslation(OIS::Keyboard::Unicode);
+        mKeyboard->setEventCallback(this);
         LOG_DEBUG(Logger::UI, "Initializing input manager: Create Mouse Input.");
         mMouse = static_cast<OIS::Mouse*>(mInputManager->createInputObject(OIS::OISMouse, true));
+        mMouse->setEventCallback(this);
 
         LOG_DEBUG(Logger::UI, "Initializing input manager: Set mouse paremeters.");
         unsigned int width, height, depth;
@@ -157,6 +162,11 @@ namespace rl {
     {
         OIS::MouseState ms = mMouse->getMouseState();
         return ms.buttonDown( buttonID );
+    }
+
+    bool InputManager::isKeyDown( OIS::KeyCode key )
+    {
+        return mKeyboard->isKeyDown(key);
     }
 
     Ogre::Real InputManager::getMouseRelativeX() const
@@ -399,8 +409,8 @@ namespace rl {
             mControlStates.top()->pause();
         }
 
-        mKeyboard->setEventCallback(controller);
-        mMouse->setEventCallback(controller);
+        //mKeyboard->setEventCallback(controller);
+        //mMouse->setEventCallback(controller);
 
         mControlStates.push(controller);
         mControlStates.top()->resume();
@@ -416,14 +426,14 @@ namespace rl {
         if (!mControlStates.empty())
         {
             ControlState* newController = mControlStates.top();
-            mKeyboard->setEventCallback(newController);
-            mMouse->setEventCallback(newController);
+            //mKeyboard->setEventCallback(newController);
+            //mMouse->setEventCallback(newController);
             newController->resume();
         }
         else
         {
-            mKeyboard->setEventCallback(NULL);
-            mMouse->setEventCallback(NULL);
+            //mKeyboard->setEventCallback(NULL);
+            //mMouse->setEventCallback(NULL);
         }
     }
 
@@ -452,4 +462,132 @@ namespace rl {
         pushControlState(CST_DIALOG);
         return true;
     }
+
+    bool InputManager::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
+    {
+        bool retval = false;
+        if( WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT )
+        {
+            if( CEGUI::System::getSingleton().injectMouseButtonDown(
+                static_cast<CEGUI::MouseButton>(id)) )
+                retval = true;
+        }
+
+        if( !mControlStates.empty() )
+            retval = retval || mControlStates.top()->mousePressed(evt, id, retval);
+        return retval;
+    }
+
+    bool InputManager::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
+    {
+        bool retval = false;
+        if( WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT )
+        {
+            if( CEGUI::System::getSingleton().injectMouseButtonUp(
+                static_cast<CEGUI::MouseButton>(id)) )
+                retval = true;
+        }
+
+        if( !mControlStates.empty() )
+            if( mControlStates.top()->mouseReleased(evt, id, retval) )
+                retval = true;
+        return retval;
+    }
+
+    bool InputManager::mouseMoved(const OIS::MouseEvent& evt)
+    {
+        bool retval = false;
+        if( WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT )
+        {
+            if( CEGUI::System::getSingleton().injectMouseMove(
+                evt.state.X.rel, evt.state.Y.rel ) )
+                retval = true;
+        }
+
+        if( !mControlStates.empty() )
+            if( mControlStates.top()->mouseMoved(evt, retval) )
+                retval = true;
+        return retval;
+    }
+
+    // job definition for key repeating
+    // this job is created when a key was pressed and the processing window wants the key to be repeated
+    class KeyRepeatJob : public Job
+    {
+    public:
+        KeyRepeatJob(AbstractWindow* window, OIS::KeyCode key) : 
+          Job(false, true),
+          mWindow(window),
+          mKey(key),
+          mLastTime(0)
+        {
+        }
+        bool execute(Ogre::Real t)
+        {
+            rl::Time time = TimeSourceManager::getSingleton().getTimeSource(TimeSource::REALTIME_CONTINUOUS)->getClock();
+            if ( WindowManager::getSingleton().getActiveWindow() == mWindow && // perhaps window was deleted!!
+                InputManager::getSingleton().isKeyDown(OIS::KeyCode(mKey)) )
+            {
+                if ( time - mLastTime > 50 )
+                {
+                    bool handled = false;
+                    handled = handled || CEGUI::System::getSingleton().injectKeyDown(mKey);
+                    handled = handled || CEGUI::System::getSingleton().injectKeyUp(mKey);
+                    
+                    mLastTime = time;
+
+                    if( !handled )  // we don't need a job for keys, that are not handled!
+                        return true;
+                }
+                return false;
+            }
+            else
+                return true; // delete this job
+        }
+    private:
+        rl::Time mLastTime;
+        AbstractWindow* mWindow;
+        OIS::KeyCode mKey;
+    };
+
+    bool InputManager::keyPressed(const OIS::KeyEvent& evt)
+    {
+        bool retval = false;
+        if( WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_KEYBOARD_INPUT )
+        {
+            AbstractWindow *activeWin = WindowManager::getSingleton().getActiveWindow();
+            if( activeWin != NULL )
+            {
+                if( activeWin->wantsKeyToRepeat(evt.key) )
+                {
+                    KeyRepeatJob *job = new KeyRepeatJob(activeWin, evt.key);
+                    JobScheduler::getSingleton().addJob(job, JobScheduler::JP_NORMAL, 0.5);
+                }
+            }
+
+            if( CEGUI::System::getSingleton().injectKeyDown( evt.key ) )
+                retval = true;
+        }
+
+        if( !mControlStates.empty() )
+            if( mControlStates.top()->keyPressed(evt, retval) )
+                retval = true;
+        return retval;
+    }
+
+    bool InputManager::keyReleased(const OIS::KeyEvent& evt)
+    {
+        bool retval = false;
+        if( WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_KEYBOARD_INPUT )
+        {
+            if( CEGUI::System::getSingleton().injectKeyUp( evt.key ) )
+                retval = true;
+        }
+
+        if( !mControlStates.empty() )
+            if( mControlStates.top()->keyReleased(evt, retval) )
+                retval = true;
+        return false;
+    }
+
 }

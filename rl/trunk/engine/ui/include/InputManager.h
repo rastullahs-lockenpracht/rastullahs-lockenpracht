@@ -41,7 +41,8 @@ namespace rl {
     class _RlUiExport InputManager
         :    public Ogre::Singleton<InputManager>,
             public GameTask,
-            private XmlProcessor
+            private XmlProcessor,
+            public OIS::KeyListener, public OIS::MouseListener
     {
     public:
 
@@ -49,6 +50,7 @@ namespace rl {
         ~InputManager();
 
         bool isMouseButtonDown( OIS::MouseButtonID buttonID );
+        bool isKeyDown( OIS::KeyCode key );
 
         Ogre::Real getMouseRelativeX(void) const;
         Ogre::Real getMouseRelativeY(void) const;
@@ -84,6 +86,12 @@ namespace rl {
 
         int getModifierCode() const;
         const CEGUI::utf8& getKeyChar(int keycode, int modifiers) const;
+
+        virtual bool mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id);
+        virtual bool mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id);
+        virtual bool mouseMoved(const OIS::MouseEvent& evt);
+        virtual bool keyPressed(const OIS::KeyEvent& evt);
+        virtual bool keyReleased(const OIS::KeyEvent& evt);
 
     private:
         enum { NUM_MOUSE_BUTTON=4, NUM_KEYS=256 };

@@ -373,10 +373,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\GameSettings.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\InputManager.h"
 				>
 			</File>
@@ -465,6 +461,10 @@
 				</File>
 				<File
 					RelativePath=".\include\GameObjectInfoWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\GameSettings.h"
 					>
 				</File>
 				<File
@@ -582,10 +582,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\GameSettings.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\InputManager.cpp"
 				>
 			</File>
@@ -694,6 +690,10 @@
 				</File>
 				<File
 					RelativePath=".\src\GameObjectInfoWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\GameSettings.cpp"
 					>
 				</File>
 				<File

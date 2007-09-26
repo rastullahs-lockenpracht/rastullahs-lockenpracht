@@ -119,4 +119,19 @@ namespace rl {
         mask |= mNumActiveWindowsKeyboardInput > 0 ? AbstractWindow::WIT_KEYBOARD_INPUT : 0;
         return mask;
     }
+
+    AbstractWindow* WindowManager::getActiveWindow()
+    {
+        // iterate through windows
+        std::list<AbstractWindow*>::iterator it;
+        for( it = mWindowList.begin(); it != mWindowList.end(); it++ )
+        {
+            if( (*it)->getWindow()->isActive() )
+            {
+                return *it;
+            }
+        }
+
+        return NULL;
+    }
 }

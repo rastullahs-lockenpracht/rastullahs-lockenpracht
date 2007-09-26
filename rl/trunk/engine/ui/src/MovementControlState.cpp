@@ -231,8 +231,6 @@ namespace rl {
     //------------------------------------------------------------------------
     void MovementControlState::run(Real elapsedTime)
     {
-        if (isCeguiActive()) return;
-
         InputManager* im = InputManager::getSingletonPtr();
 
         updateCharacter(elapsedTime);
@@ -242,12 +240,15 @@ namespace rl {
 
 
         // camera pitch
-        if (mInvertedMouse)
-            mPitch -= 0.5 * mMouseSensitivity * Degree(im->getMouseRelativeY() / 10);
-        else
-            mPitch += 0.5 * mMouseSensitivity * Degree(im->getMouseRelativeY() / 10);
-        if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
-        if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
+        if (!isMouseUsedByCegui() )
+        {
+            if (mInvertedMouse)
+                mPitch -= 0.5 * mMouseSensitivity * Degree(im->getMouseRelativeY() / 10);
+            else
+                mPitch += 0.5 * mMouseSensitivity * Degree(im->getMouseRelativeY() / 10);
+            if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
+            if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
+        }
 
 
 
@@ -319,11 +320,14 @@ namespace rl {
                     }
 
                     // mouse
-                    if( !isCeguiActive() && mViewMode == VM_FIRST_PERSON || mViewMode == VM_THIRD_PERSON )
+                    if( !isMouseUsedByCegui() )
                     {
-                        if( !(movement & TURN_LEFT || movement & TURN_RIGHT) )
+                        if (mViewMode == VM_FIRST_PERSON || mViewMode == VM_THIRD_PERSON )
                         {
-                            rotation = -mMouseSensitivity/3.0f * Degree(im->getMouseRelativeX())/200.0 * baseVel;
+                            if( !(movement & TURN_LEFT || movement & TURN_RIGHT) )
+                            {
+                                rotation = -mMouseSensitivity/3.0f * Degree(im->getMouseRelativeX())/200.0 * baseVel;
+                            }
                         }
                     }
                 }
@@ -532,22 +536,25 @@ namespace rl {
         InputManager* im = InputManager::getSingletonPtr();
 
         // camera position (distance)
-        mDesiredDistance -= im->getMouseRelativeZ() * 0.002;
-        if (mDesiredDistance < mDistanceRange.first)
+        if ( !isMouseUsedByCegui() )
         {
-            mDesiredDistance = mDistanceRange.first;
-        }
-        if (mDesiredDistance > mDistanceRange.second)
-        {
-            mDesiredDistance = mDistanceRange.second;
-        }
+            mDesiredDistance -= im->getMouseRelativeZ() * 0.002;
+            if (mDesiredDistance < mDistanceRange.first)
+            {
+                mDesiredDistance = mDistanceRange.first;
+            }
+            if (mDesiredDistance > mDistanceRange.second)
+            {
+                mDesiredDistance = mDistanceRange.second;
+            }
 
-        if( !isCeguiActive() && mViewMode == VM_FREE_CAMERA || mViewMode == VM_PNYX_MODE )
-        {
-            mCamYaw -= 2 * mMouseSensitivity / 4.0 * mRotationSpeed * Degree(im->getMouseRelativeX() / 15);
+            if( mViewMode == VM_FREE_CAMERA || mViewMode == VM_PNYX_MODE )
+            {
+                mCamYaw -= 2 * mMouseSensitivity / 4.0 * mRotationSpeed * Degree(im->getMouseRelativeX() / 15);
 
-            while (mCamYaw.valueDegrees() > 360.0f) mCamYaw -= Degree(360.0f);
-            while (mCamYaw.valueDegrees() < -360.0f) mCamYaw += Degree(360.0f);
+                while (mCamYaw.valueDegrees() > 360.0f) mCamYaw -= Degree(360.0f);
+                while (mCamYaw.valueDegrees() < -360.0f) mCamYaw += Degree(360.0f);
+            }
         }
 
         SceneNode* cameraNode = mCameraActor->_getSceneNode();
@@ -1089,7 +1096,8 @@ namespace rl {
     //------------------------------------------------------------------------
     void MovementControlState::updateSelection()
     {
-        if (isCeguiActive()) return;
+        if ( isMouseUsedByCegui() )
+            return;
 
         InputManager* im = InputManager::getSingletonPtr();
 
@@ -1266,97 +1274,93 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    bool MovementControlState::keyPressed(const OIS::KeyEvent& evt)
+    bool MovementControlState::keyPressed(const OIS::KeyEvent& evt, bool handled)
     {
-        if( ControlState::keyPressed(evt) )
-            return true;
-
-        int movement = mCommandMapper->getMovement(evt.key);
-
         bool retval = false;
-        if (movement & MOVE_RUN_LOCK) // dieses einrasten lassen
+        if( !handled )
         {
-            mCharacterState.mCurrentMovementState ^= MOVE_RUN_LOCK;
-            movement &= ~MOVE_RUN_LOCK;
-            retval = true;
+            int code = CommandMapper::encodeKey(evt.key, InputManager::getSingleton().getModifierCode());
+            // First see, if a control state action is defined
+	        CeGuiString command = mCommandMapper->getControlStateAction(code, mType);
+            if (command == "")
+            {
+                // No. So try global actions.
+                command = mCommandMapper->getGlobalAction(code);
+            }
+            else if (command == "freeflight_mode")
+            {
+                InputManager::getSingleton().pushControlState(CST_FREEFLIGHT);
+                retval = true;
+            }
+            else if (command == "reset_camera")
+            {
+                resetCamera();
+                retval = true;
+            }
+            else if (command == "toggle_view_mode")
+            {
+                toggleViewMode();
+                retval = true;
+            }
+            else if( startAction(command, mCharacter) )
+                retval = true;
+
+
+
+            if( !retval )
+            {
+                int movement = mCommandMapper->getMovement(evt.key);
+
+                if (movement & MOVE_RUN_LOCK) // dieses einrasten lassen
+                {
+                    mCharacterState.mCurrentMovementState ^= MOVE_RUN_LOCK;
+                    movement &= ~MOVE_RUN_LOCK;
+                    retval = true;
+                }
+
+                if (movement != MOVE_NONE)
+                {
+                    mCharacterState.mCurrentMovementState |= movement;
+                    retval = true;
+                }
+            }
         }
 
-        if (movement != MOVE_NONE)
-        {
-            mCharacterState.mCurrentMovementState |= movement;
-            retval = true;
-        }
+
+        retval = retval || ControlState::keyPressed(evt, handled || retval );
         return retval;
     }
 
     //------------------------------------------------------------------------
-    bool MovementControlState::keyReleased(const OIS::KeyEvent& evt)
+    bool MovementControlState::keyReleased(const OIS::KeyEvent& evt, bool handled)
     {
-        // this should be the same as in ControlState::keyReleased!
-        InputManager* im = InputManager::getSingletonPtr();
-        if ( WindowManager::getSingleton().getWindowInputMask()
-            & AbstractWindow::WIT_KEYBOARD_INPUT )
-        {
-            bool retval;
-            CEGUI::System& cegui = CEGUI::System::getSingleton();
-            retval = cegui.injectKeyUp(evt.key);
-            if( !retval )
-                retval = cegui.injectChar(im->getKeyChar(evt.key, im->getModifierCode()));
-            
-            if( retval )
-                return true;
-        }
-
-
-        int code = CommandMapper::encodeKey(evt.key, im->getModifierCode());
-        // First see, if a control state action is defined
-	    CeGuiString command = mCommandMapper->getControlStateAction(code, mType);
-        if (command == "")
-        {
-            // No. So try global actions.
-            command = mCommandMapper->getGlobalAction(code);
-        }
-        if (command == "freeflight_mode")
-        {
-            InputManager::getSingleton().pushControlState(CST_FREEFLIGHT);
-            return true;
-        }
-        if (command == "reset_camera")
-        {
-            resetCamera();
-            return true;
-        }
-        if (command == "toggle_view_mode")
-        {
-            toggleViewMode();
-            return true;
-        }
-        if( startAction(command, mCharacter) )
-            return true;
-
-
+        bool retval = false;
         int movement = mCommandMapper->getMovement(evt.key);
         if (movement != MOVE_NONE)
         {
             mCharacterState.mCurrentMovementState &= (~movement | MOVE_RUN_LOCK);
-            return true;
+            retval = true;
         }
 
-        return false;
+        retval = retval || ControlState::keyReleased(evt, retval);
+        return retval;
     }
 
     //------------------------------------------------------------------------
     bool MovementControlState::mouseReleased(const OIS::MouseEvent& evt,
-        OIS::MouseButtonID id)
+        OIS::MouseButtonID id, bool handled)
     {
-        if( ControlState::mouseReleased(evt, id) )
-            return true;
+        handled = handled || ControlState::mouseReleased(evt, id, handled);
 
 
-        InputManager* im = InputManager::getSingletonPtr();
-        int mouseButtonMask = CommandMapper::encodeKey(id, im->getModifierCode());
-        return startAction(mCommandMapper->getControlStateAction(mouseButtonMask,
-            CST_MOVEMENT), mCharacter);
+        if( !handled )
+        {
+            InputManager* im = InputManager::getSingletonPtr();
+            int mouseButtonMask = CommandMapper::encodeKey(id, im->getModifierCode());
+            return startAction(mCommandMapper->getControlStateAction(mouseButtonMask,
+                CST_MOVEMENT), mCharacter);
+        }
+        return false;
     }
 
     //------------------------------------------------------------------------

@@ -95,6 +95,9 @@ namespace rl {
 
 		virtual void windowHid();
 
+        // return true, if the specified key should be repeated if pressed down
+        virtual bool wantsKeyToRepeat(const int &key) {return false;}
+
 	protected:
 		AbstractWindow(
 			const CeGuiString& xmlfile, 

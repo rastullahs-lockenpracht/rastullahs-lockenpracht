@@ -66,7 +66,7 @@ namespace rl {
 		/// Antwort eines der Dialogführenden
 		void response(Actor* actor, const CeGuiString& text, const Ogre::String& soundFile = "");
 
-        virtual bool mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id);
+        virtual bool mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id, bool handled);
 
 		bool handleDialogSelectOption();	
 		bool handleDialogClose();

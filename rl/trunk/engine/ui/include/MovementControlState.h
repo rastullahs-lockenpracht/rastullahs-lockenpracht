@@ -75,9 +75,9 @@ namespace rl {
         */
         void resetCamera();
 
-        virtual bool mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id);
-        virtual bool keyPressed(const OIS::KeyEvent& evt);
-        virtual bool keyReleased(const OIS::KeyEvent& evt);
+        virtual bool mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id, bool handled);
+        virtual bool keyPressed(const OIS::KeyEvent& evt, bool handled);
+        virtual bool keyReleased(const OIS::KeyEvent& evt, bool handled);
 
         // Overrides from DebugVisualisable
         virtual DebugVisualisableFlag getFlag() const;

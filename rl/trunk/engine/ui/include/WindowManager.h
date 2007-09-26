@@ -52,6 +52,8 @@ namespace rl {
         /// Callback for Windows, called when there visibility is changed.
         void _visiblityChanged(AbstractWindow* window, bool isVisible);
 
+        AbstractWindow* getActiveWindow();
+
 	private:
 		std::list<AbstractWindow*> mWindowList;
 

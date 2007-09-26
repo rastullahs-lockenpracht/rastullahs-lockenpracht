@@ -16,6 +16,7 @@
 #include "stdinc.h" //precompiled header
 
 #include "Console.h"
+#include "ConfigurationManager.h"
 
 #include <boost/bind.hpp>
 #include <elements/CEGUIFrameWindow.h>
@@ -24,6 +25,8 @@
 #include "ListboxWrappedTextItem.h"
 #include "InputManager.h"
 #include "CoreSubsystem.h"
+#include "JobScheduler.h"
+#include "Job.h"
 
 using namespace Ogre;
 
@@ -39,6 +42,7 @@ namespace rl
 		using namespace CEGUI;
 
 		mDisplay = getListbox("Console/Display");
+        mDisplay->setShowVertScrollbar(true);
 		mCommandLine = getEditbox("Console/Inputbox");
 
 		mWindow->subscribeEvent(
@@ -47,14 +51,81 @@ namespace rl
 		mCommandLine->subscribeEvent(
 			Editbox::EventKeyDown,
 			boost::bind(&Console::handleKeyDown, this, _1));
-		mDisplay->moveToFront();
-
+		mWindow->subscribeEvent(
+			FrameWindow::EventKeyUp,
+			boost::bind(&Console::handleKeyUp, this, _1));
+		mCommandLine->subscribeEvent(
+			Editbox::EventKeyUp,
+			boost::bind(&Console::handleKeyUp, this, _1));
 		mWindow->subscribeEvent(FrameWindow::EventCloseClicked,
             boost::bind(&Console::hideWindow, this));
 
-		mHistory.clear();
+		// load history from file
+        if( ConfigurationManager::getSingleton().getIntSetting("General", "Save Console History") > 0 )
+        {
+            // load file
+            std::ifstream historyFile;
+            std::string filename;
+            // compare with ConfigurationManager
+#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+            filename = Ogre::String(::getenv("HOME")) + "/.rastullah/console_history";
+#else
+            filename = "./modules/config/console_history";
+#endif
+            historyFile.open(filename.c_str());
+            if( !historyFile.good() )
+            {
+                LOG_MESSAGE(Logger::UI, "could not open history file");
+            }
+            else
+            {
+                // parse history file
+                while( !historyFile.eof() )
+                {
+                    std::string str;
+                    std::getline(historyFile, str);
+                    if( str != "" )
+                        mHistory.push_back(str);
+                }
+            }
+        }
         setVisible(false);
 	}
+
+
+    Console::~Console()
+    {
+		// save history to file
+        int lines = ConfigurationManager::getSingleton().getIntSetting("General", "Save Console History");
+        if( lines > 0 )
+        {
+            // file
+            std::ofstream historyFile;
+            std::string filename;
+            // compare with ConfigurationManager
+#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+            filename = Ogre::String(::getenv("HOME")) + "/.rastullah/console_history";
+#else
+            filename = "./modules/config/console_history";
+#endif
+            historyFile.open(filename.c_str());
+            if( !historyFile.good() )
+            {
+                LOG_MESSAGE(Logger::UI, "could not open history file for writing");
+            }
+            else
+            {
+                std::vector<CeGuiString>::reverse_iterator it = mHistory.rbegin();
+                while( lines > 0 && it != mHistory.rend() )
+                {
+                    lines--;
+                    if( (*it) != "" )
+                        historyFile << (*it) << std::endl;
+                    it++;
+                }
+            }
+        }
+    }
 
 	void Console::setVisible(bool visible, bool destroy)
 	{
@@ -67,7 +138,9 @@ namespace rl
 	}
 
 	bool Console::handleKeyDown(const CEGUI::EventArgs& e)
-	{
+    {
+        InputManager* im = InputManager::getSingletonPtr();
+        static const CEGUI::utf8 NO_CHAR = 0;
 		KeyEventArgs ke = static_cast<const KeyEventArgs&>(e);
         if (ke.scancode == Key::ArrowDown)
 		{
@@ -92,13 +165,51 @@ namespace rl
 			mCommandLine->setText((utf8*)"");
 			return true;
 		}
-        InputManager* im = InputManager::getSingletonPtr();
-        static const CEGUI::utf8 NO_CHAR = 0;
-        if( im->getKeyChar(ke.scancode, im->getModifierCode()) != NO_CHAR )
-            return true;
+        else
+        {
+            if( im->getKeyChar(ke.scancode, im->getModifierCode()) != NO_CHAR )
+            {
+                InputManager* im = InputManager::getSingletonPtr();
+                CEGUI::System& cegui = CEGUI::System::getSingleton();
+                cegui.injectChar(im->getKeyChar(ke.scancode, im->getModifierCode()));
+                return true;
+            }
+        }
 
 		return false;
 	}
+
+    bool Console::wantsKeyToRepeat(const int &key)
+    {
+        InputManager* im = InputManager::getSingletonPtr();
+        static const CEGUI::utf8 NO_CHAR = 0;
+        if( im->getKeyChar(key, im->getModifierCode()) != NO_CHAR || // keys that should be repeated
+            key == CEGUI::Key::ArrowDown ||
+            key == CEGUI::Key::ArrowUp ||
+            key == CEGUI::Key::Return ||
+            key == CEGUI::Key::ArrowLeft ||
+            key == CEGUI::Key::ArrowRight ||
+            key == CEGUI::Key::Backspace ||
+            key == CEGUI::Key::Delete )
+            return true;
+
+        return false;
+    }
+
+    bool Console::handleKeyUp(const CEGUI::EventArgs& e)
+    {
+        // return true for keys handled in keyup
+        InputManager* im = InputManager::getSingletonPtr();
+        static const CEGUI::utf8 NO_CHAR = 0;
+        KeyEventArgs ke = static_cast<const KeyEventArgs&>(e);
+        if( im->getKeyChar(ke.scancode, im->getModifierCode()) != NO_CHAR ||
+            ke.scancode == CEGUI::Key::ArrowDown ||
+            ke.scancode == CEGUI::Key::ArrowUp ||
+            ke.scancode == CEGUI::Key::Return )
+            return true;
+        else
+            return false;
+    }
 
 	void Console::write(const CeGuiString& output)
 	{

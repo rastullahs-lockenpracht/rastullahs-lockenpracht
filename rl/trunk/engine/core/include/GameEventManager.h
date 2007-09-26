@@ -57,7 +57,7 @@ public:
      */
     virtual void run( Ogre::Real elapsedTime );
 
-    /** Fügt eine Sphere Area hinzu, und hängt einen Listener an
+    /** DEPRECATED! Fügt eine Sphere Area hinzu, und hängt einen Listener an
     *
     * @param actor Der Actor um den herum die Kugel aufgespannt werden soll
     * @param queryMask Die Maske um die SzenenAnfrage zu beschleunigen

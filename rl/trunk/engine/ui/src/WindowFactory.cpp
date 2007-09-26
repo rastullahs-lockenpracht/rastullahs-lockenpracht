@@ -103,6 +103,7 @@ namespace rl {
         mJournalWindow = new JournalWindow();
         mInfoPopup = new InfoPopup();
         mObjectDescriptionWindow = new ObjectDescriptionWindow();
+        mGameSettings = new GameSettings();
 
         RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mJournalWindow);
         RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mInfoPopup);
@@ -383,7 +384,6 @@ namespace rl {
     void WindowFactory::showGameSettings()
     {
         // Create the game settings window and show it
-        mGameSettings = new GameSettings();
         mGameSettings->setVisible(true);
     }
 

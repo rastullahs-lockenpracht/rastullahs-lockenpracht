@@ -47,6 +47,7 @@ namespace rl
                                     boost::bind(&GameSettings::onCancel, this));
 
         centerWindow();
+        setVisible(false);
     }
 
     GameSettings::~GameSettings()
@@ -112,11 +113,13 @@ namespace rl
 
     bool GameSettings::onApply()
     {
+        hideWindow();
         return true;
     }
 
     bool GameSettings::onCancel()
     {
+        hideWindow();
         return true;
     }
 

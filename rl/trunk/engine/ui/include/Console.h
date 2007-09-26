@@ -36,11 +36,14 @@ namespace rl {
 	{
 		public:
 			Console();
+            ~Console();
 			
 			void setRubyInterpreter(RubyInterpreter* interpreter);
 			void write(const CeGuiString& output);
 				
 			void setVisible(bool visible, bool destroyAfterHide = false);
+
+            bool wantsKeyToRepeat(const int &key);
 
 		private:
 			CEGUI::Editbox* mCommandLine;
@@ -50,6 +53,7 @@ namespace rl {
 			bool mPrompt;
 
 			bool handleKeyDown(const CEGUI::EventArgs& e);
+            bool handleKeyUp(const CEGUI::EventArgs& e);
 			void appendTextRow(const CeGuiString& text, const CEGUI::colour color);
 
 			std::vector<CeGuiString> mHistory;

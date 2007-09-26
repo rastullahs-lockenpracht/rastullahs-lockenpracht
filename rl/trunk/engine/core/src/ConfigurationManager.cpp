@@ -60,6 +60,7 @@ namespace rl
         // Setup general default values
         addSetting("General", "Log Level", "2");
         addSetting("General", "Subtitle Speed", "0.0");
+        addSetting("General", "Save Console History", "50");
 
         // Setup sound default values
         addSetting("Sound", "DefaultMusicVolume", "0.4");

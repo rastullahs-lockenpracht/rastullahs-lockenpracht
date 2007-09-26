@@ -103,9 +103,7 @@ namespace rl {
 
 	void FreeflightControlState::run(Real elapsedTime)
 	{
-        if (isCeguiActive()) return;
-
-		InputManager* im = InputManager::getSingletonPtr();
+        InputManager* im = InputManager::getSingletonPtr();
 
 		// Fetch current movement state
 		mDesiredVelocity = Vector3::ZERO;
@@ -150,7 +148,10 @@ namespace rl {
             }
         }
 
-		mMovementSpeed += im->getMouseRelativeZ() * mSpeedIncrement;
+        bool useMouseInput = !isMouseUsedByCegui();
+
+        if( useMouseInput )
+		    mMovementSpeed += im->getMouseRelativeZ() * mSpeedIncrement;
 		if (mMovementSpeed < mSpeedRange.first)
 		{
 			mMovementSpeed = mSpeedRange.first;
@@ -169,16 +170,20 @@ namespace rl {
         // mouse
         if( !(movement & TURN_LEFT || movement & TURN_RIGHT) )
         {
-            mYaw -= mMouseSensitivity * Degree(im->getMouseRelativeX() / 10);
+            if( useMouseInput )
+                mYaw -= mMouseSensitivity * Degree(im->getMouseRelativeX() / 10);
         }
         while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
         while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
 
 
-        if (mInvertedMouse)
-            mPitch += mMouseSensitivity * Degree(im->getMouseRelativeY() / 4);
-        else
-            mPitch -= mMouseSensitivity * Degree(im->getMouseRelativeY() / 4);
+        if (useMouseInput )
+        {
+            if (mInvertedMouse)
+                mPitch += mMouseSensitivity * Degree(im->getMouseRelativeY() / 4);
+            else
+                mPitch -= mMouseSensitivity * Degree(im->getMouseRelativeY() / 4);
+        }
 
         while (mPitch.valueDegrees() > 360.0f) mPitch -= Degree(360.0f);
         while (mPitch.valueDegrees() < -360.0f) mPitch += Degree(360.0f);
@@ -220,72 +225,36 @@ namespace rl {
         mPitch = Degree(0);
 	}
 
-    bool FreeflightControlState::keyPressed(const OIS::KeyEvent& evt)
+    bool FreeflightControlState::keyPressed(const OIS::KeyEvent& evt, bool handled)
 	{
-        if( ControlState::keyPressed(evt) )
-            return true;
+        bool retval = false;
+        if( !handled )
+        {
+            int movement = mCommandMapper->getMovement(evt.key);
 
-        int movement = mCommandMapper->getMovement(evt.key);
+		    if (movement != MOVE_NONE)
+		    {
+			    mCurrentMovementState |= movement;
+			    retval = true;
+		    }
+        }
 
-		if (movement != MOVE_NONE)
-		{
-			mCurrentMovementState |= movement;
-			return true;
-		}
-
-		return false;
+        retval = retval || ControlState::keyPressed(evt, retval || handled);
+        return retval;
 	}
 
-    bool FreeflightControlState::keyReleased(const OIS::KeyEvent& evt)
+    bool FreeflightControlState::keyReleased(const OIS::KeyEvent& evt, bool handled)
 	{
-        // this should be the same as in ControlState::keyReleased!
-        InputManager* im = InputManager::getSingletonPtr();
-        if ( WindowManager::getSingleton().getWindowInputMask()
-            & AbstractWindow::WIT_KEYBOARD_INPUT )
-        {
-            bool retval;
-            CEGUI::System& cegui = CEGUI::System::getSingleton();
-            retval = cegui.injectKeyUp(evt.key);
-            if( !retval )
-                retval = cegui.injectChar(im->getKeyChar(evt.key, im->getModifierCode()));
-            
-            if( retval )
-                return true;
-        }
-
-
-        int code = CommandMapper::encodeKey(evt.key, im->getModifierCode());
-        // First see, if a control state action is defined
-	    CeGuiString command = mCommandMapper->getControlStateAction(code, mType);
-        if (command == "")
-        {
-            // No. So try global actions.
-            command = mCommandMapper->getGlobalAction(code);
-        }
-        if (command == "back_to_character_movement")
-        {
-            InputManager::getSingleton().popControlState();
-            return true;
-        }
-        if (command == "toggle_camera_collision")
-        {
-            toggleCameraCollision();
-            return true;
-        }
-        if( startAction(command, mCharacter) )
-            return true;
-
-
-
-
+        bool retval = false;
         int movement = mCommandMapper->getMovement(evt.key);
 		if (movement != MOVE_NONE)
 		{
 			mCurrentMovementState &= ~movement;
-			return true;
+			retval = true;
 		}
 
-        return false;
+        retval = retval || ControlState::keyReleased(evt, handled || retval);
+        return retval;
 	}
 
     int FreeflightControlState::userProcess()
