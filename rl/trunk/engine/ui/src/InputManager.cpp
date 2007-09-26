@@ -474,7 +474,8 @@ namespace rl {
         }
 
         if( !mControlStates.empty() )
-            retval = retval || mControlStates.top()->mousePressed(evt, id, retval);
+            if( mControlStates.top()->mousePressed(evt, id, retval) )
+                retval = true;
         return retval;
     }
 

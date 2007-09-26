@@ -89,16 +89,27 @@ namespace rl {
         // so let the PM prepare it accordingly
         mCameraActor->getPhysicalThing()->setPhysicsController(this);
         mCameraActor->getPhysicalThing()->setUpConstraint(Vector3::ZERO);
-        // We also handle char<->level, char<->default collision from now on (camera=char!)
-        PhysicsManager::getSingleton().getMaterialPair(
-            PhysicsManager::getSingleton().getMaterialID("camera"),
-            PhysicsManager::getSingleton().getMaterialID("default"))->setContactCallback(this);
-        PhysicsManager::getSingleton().getMaterialPair(
-            PhysicsManager::getSingleton().getMaterialID("camera"),
-            PhysicsManager::getSingleton().getMaterialID("level"))->setContactCallback(this);
-        PhysicsManager::getSingleton().getMaterialPair(
-            PhysicsManager::getSingleton().getMaterialID("camera"),
-            PhysicsManager::getSingleton().getMaterialID("character"))->setContactCallback(this);
+        // We also handle camera<->level, camera<->default and camera<->char collision from now on!
+        // we need continous collision mode for fast people :-P
+        OgreNewt::MaterialPair *mat_pair;
+        mat_pair = PhysicsManager::getSingleton().createMaterialPair(
+                    PhysicsManager::getSingleton().getMaterialID("camera"),
+                    PhysicsManager::getSingleton().getMaterialID("default"));
+        mat_pair->setContactCallback(this);
+        mat_pair->setContinuousCollisionMode(1);
+        mat_pair->setDefaultCollidable(1);
+        mat_pair = PhysicsManager::getSingleton().createMaterialPair(
+                    PhysicsManager::getSingleton().getMaterialID("camera"),
+                    PhysicsManager::getSingleton().getMaterialID("level"));
+        mat_pair->setContactCallback(this);
+        mat_pair->setContinuousCollisionMode(1);
+        mat_pair->setDefaultCollidable(1);
+        mat_pair = PhysicsManager::getSingleton().createMaterialPair(
+                    PhysicsManager::getSingleton().getMaterialID("camera"),
+                    PhysicsManager::getSingleton().getMaterialID("character"));
+        mat_pair->setContactCallback(this);
+        mat_pair->setContinuousCollisionMode(1);
+        mat_pair->setDefaultCollidable(1);
     }
 
 	void FreeflightControlState::run(Real elapsedTime)
@@ -237,9 +248,29 @@ namespace rl {
 			    mCurrentMovementState |= movement;
 			    retval = true;
 		    }
+
+            int code = CommandMapper::encodeKey(evt.key, InputManager::getSingleton().getModifierCode());
+            // First see, if a control state action is defined
+	        CeGuiString command = mCommandMapper->getControlStateAction(code, mType);
+            if (command == "")
+            {
+                // No. So try global actions.
+                command = mCommandMapper->getGlobalAction(code);
+            }
+            else if (command == "back_to_character_movement")
+            {
+                InputManager::getSingleton().popControlState();
+                retval = true;
+            }
+            else if (command == "toggle_camera_collision" )
+            {
+                mCollisionsEnabled = !mCollisionsEnabled;
+                retval = true;
+            }
         }
 
-        retval = retval || ControlState::keyPressed(evt, retval || handled);
+        if( ControlState::keyPressed(evt, retval || handled) )
+            retval = true;
         return retval;
 	}
 
@@ -253,7 +284,8 @@ namespace rl {
 			retval = true;
 		}
 
-        retval = retval || ControlState::keyReleased(evt, handled || retval);
+        if( ControlState::keyReleased(evt, handled || retval) )
+            retval = true;
         return retval;
 	}
 

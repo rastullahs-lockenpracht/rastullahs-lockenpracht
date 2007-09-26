@@ -1327,7 +1327,8 @@ namespace rl {
         }
 
 
-        retval = retval || ControlState::keyPressed(evt, handled || retval );
+        if( ControlState::keyPressed(evt, handled || retval ) )
+            retval = true;
         return retval;
     }
 
@@ -1342,7 +1343,8 @@ namespace rl {
             retval = true;
         }
 
-        retval = retval || ControlState::keyReleased(evt, retval);
+        if( ControlState::keyReleased(evt, retval) )
+            retval = true;
         return retval;
     }
 
