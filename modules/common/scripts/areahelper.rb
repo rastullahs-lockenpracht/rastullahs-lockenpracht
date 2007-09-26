@@ -91,7 +91,7 @@ def _CreateLimitedTimesTrigger(name, geom_type, pos, orientation, size, times, e
   zone = ZoneManager.getSingleton().createZone("limitedTimesTriggerZone_" + name);
   ZoneManager.getSingleton().addAreaToZone(
     "limitedTimesTriggerZone_" + name, 
-    size, geom_type, pos, [0,0,0], orientation, 0.5, RlScript::QUERYFLAG_PLAYER);
+    size, geom_type, pos, [0,0,0], orientation, 0.2, RlScript::QUERYFLAG_PLAYER);
   trigger.setProperty("number", times);
   trigger.setEnterCode( &enter_proc );
   trigger.setLeaveCode( &leave_proc );
