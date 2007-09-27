@@ -25,6 +25,8 @@
 #include <OgreString.h>
 #include <OgreStringConverter.h>
 #include <OgreVector3.h>
+#include <OgreAxisAlignedBox.h>
+#include <OgreScriptLoader.h>
 
 #if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
 #   define _snprintf snprintf
