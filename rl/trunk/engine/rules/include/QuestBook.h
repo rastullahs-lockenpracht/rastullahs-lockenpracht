@@ -28,12 +28,17 @@
 #include "QuestEvent.h"
 #include "QuestListener.h"
 
+#include <SaveGameManager.h>
+
 #include <vector>
 
 namespace rl {
 
 ///@todo Rename this class to reflect scope changes.
-class _RlRulesExport QuestBook : public EventSource, public PropertyHolder
+class _RlRulesExport QuestBook : 
+    public EventSource, 
+    public PropertyHolder, 
+    public SaveGameData
 {
 public:
     static const Ogre::String PROPERTY_QUESTS;
@@ -74,6 +79,13 @@ public:
     virtual const Property getProperty(const Ogre::String& key) const;
     virtual void setProperty(const Ogre::String& key, const Property& value);
     virtual PropertySet* getAllProperties() const;
+
+    /// Override from SaveGameData
+    /// Manages saving and loading from the SaveGameFile
+
+    virtual CeGuiString getXmlNodeIdentifier() const;
+    virtual void writeData(SaveGameFileWriter* writer);
+    virtual void readData(SaveGameFileReader* reader);
 
 private:
 	Quest* getQuest(Quest* parent, const CeGuiString id) const;

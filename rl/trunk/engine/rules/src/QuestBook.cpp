@@ -241,4 +241,21 @@ namespace rl {
         }
         return quests;
     }
+
+    CeGuiString QuestBook::getXmlNodeIdentifier() const
+    {
+        return "questbook";
+    }
+
+    void QuestBook::writeData(SaveGameFileWriter *writer)
+    {
+        XERCES_CPP_NAMESPACE::DOMElement* quests = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), "quests");
+
+        PropertySet* set = getAllProperties();
+        writer->writeEachProperty(quests, set->toPropertyMap());
+    }
+
+    void QuestBook::readData(SaveGameFileReader* reader)
+    {
+    }
 }

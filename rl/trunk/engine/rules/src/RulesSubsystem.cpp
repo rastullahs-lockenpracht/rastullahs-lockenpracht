@@ -24,7 +24,6 @@
 #include "EffectFactory.h"
 #include "Logger.h"
 #include "CreatureControllerManager.h"
-#include "SaveGameManager.h"
 #include "GameObjectManager.h"
 #include "QuestBook.h"
 #include "GameTimeSource.h"
@@ -58,8 +57,6 @@ namespace rl
 		LOG_MESSAGE(Logger::RULES, "DsaManager erzeugt");
         mMovingCreatureManager = new CreatureControllerManager();
 		LOG_MESSAGE(Logger::RULES, "CreatureControllerManager erzeugt");
-        mSaveGameManager = new SaveGameManager();
-        LOG_MESSAGE(Logger::RULES, "SaveGameManager erzeugt");
 		resetQuestBook();
 		LOG_MESSAGE(Logger::RULES, "Questverwaltung erzeugt");
 
@@ -76,7 +73,6 @@ namespace rl
     {
         delete mQuestBook;
         delete mDsaManager;
-        delete mSaveGameManager;
         delete mMovingCreatureManager;
         delete mCombatManager;
         delete mActionManager;

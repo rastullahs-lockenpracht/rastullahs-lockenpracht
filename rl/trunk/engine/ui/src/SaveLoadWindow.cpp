@@ -31,6 +31,8 @@
 #include <OgreResourceGroupManager.h>
 
 #include "SaveLoadWindow.h"
+#include "MessageWindow.h"
+#include "WindowFactory.h"
 #include "ConfigurationManager.h"
 #include "SaveGameManager.h"
 
@@ -104,6 +106,18 @@ namespace rl {
     bool SaveLoadWindow::handleLoadEvent()
     {
         LOG_MESSAGE(Logger::UI, "Load Button pressed");
+
+        CeGuiString filename = mFilename->getText();
+
+        if(filename != "")
+        {
+
+            if(SaveGameManager::getSingleton().SaveGameFileExists(filename))
+                SaveGameManager::getSingleton().loadSaveGameFile(filename);
+            else
+                LOG_ERROR(Logger::UI, "Save Game " + filename + " doesn't exist!");
+        }
+
         return true;
     }
 
@@ -113,26 +127,20 @@ namespace rl {
     {
         LOG_MESSAGE(Logger::UI, "Save Button pressed");
 
-        LOG_MESSAGE(Logger::UI, "Create a SaveGameFile");
+        CeGuiString filename = mFilename->getText();
 
-        //SaveGameFile saveGameFile(mFilename->getText());
-
-        /*std::list<const GameObject*>::const_iterator it;
-        std::list<const GameObject*> gos;
-        gos = GameObjectManager::getSingleton().getAllGameObjects();
-
-        std::vector<PropertySet*> sets;
-        for( it=gos.begin(); it!=gos.end(); ++it )
+        if(filename != "")
         {
-            sets.push_back((*it)->getAllProperties());
-        }*/
-        //SaveGameFileWriter saveGameFileWriter;
-        //saveGameFileWriter.setPropertySets(sets);
-        //saveGameFileWriter.buildSaveGameFile(&saveGameFile);
+            LOG_MESSAGE(Logger::UI, "Create a SaveGameFile");
 
-        SaveGameManager::getSingleton().saveSaveGameFile(mFilename->getText());
+            SaveGameManager::getSingleton().saveSaveGameFile(filename);
 
-        LOG_MESSAGE(Logger::UI, "Created save game");
+            LOG_MESSAGE(Logger::UI, "Created save game");
+        }
+        else
+        {
+            WindowFactory::getSingleton().showMessageWindow("Bitte einen Namen für den Spielstand eingeben");
+        }
 
         listSaveGames();
 
@@ -164,6 +172,8 @@ namespace rl {
             mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty("Time")), 1, saveGameNum);
             saveGameNum++;
         }
+        mSaveGameTable->autoSizeColumnHeader(0);
+        mSaveGameTable->autoSizeColumnHeader(1);
     }
 
 } // namespace rl

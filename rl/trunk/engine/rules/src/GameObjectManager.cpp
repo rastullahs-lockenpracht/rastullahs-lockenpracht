@@ -253,4 +253,30 @@ namespace rl
 
         return createRubyGameObject(classname, id);
     }
+
+    CeGuiString GameObjectManager::getXmlNodeIdentifier() const
+    {
+        return "gameobjects";
+    }
+    
+    void GameObjectManager::writeData(SaveGameFileWriter *writer)
+    {
+        XERCES_CPP_NAMESPACE::DOMElement* gameobjects = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), "gameobjects");
+
+        std::list<const GameObject*> gos = GameObjectManager::getSingleton().getAllGameObjects();
+
+        for(std::list<const GameObject*>::const_iterator it_gameobjects = gos.begin(); it_gameobjects != gos.end(); it_gameobjects++)
+        {
+            XERCES_CPP_NAMESPACE::DOMElement* gameobject = writer->appendChildElement(writer->getDocument(), gameobjects, "gameobject");
+            writer->setAttributeValueAsInteger(gameobject, "ID", (*it_gameobjects)->getId());
+            writer->setAttributeValueAsString(gameobject, "ClassID", (*it_gameobjects)->getClassId());
+
+            PropertyMap map = (*it_gameobjects)->getAllProperties()->toPropertyMap();
+            writer->writeEachProperty(gameobject, map);
+        } 
+    }
+
+    void GameObjectManager::readData(rl::SaveGameFileReader *reader)
+    {
+    }
 }

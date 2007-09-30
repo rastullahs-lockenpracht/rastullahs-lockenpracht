@@ -40,6 +40,7 @@
 #include "MessagePump.h"
 #include "PhysicsManager.h"
 #include "RubyInterpreter.h"
+#include "SaveGameManager.h"
 #include "ScriptWrapper.h"
 #include "SoundManager.h"
 #include "TimeSource.h"
@@ -91,6 +92,7 @@ namespace rl
         delete mGameLoop;
         delete mMessagePump;
         delete mJobScheduler;
+        delete mSaveGameManager;
         delete mAnimationManager;
         delete mActorManager;
         delete mPhysicsManager;
@@ -289,6 +291,9 @@ namespace rl
         mDebugVisualsManager = new DebugVisualsManager();
         GameLoop::getSingleton().addTask(mDebugVisualsManager, GameLoop::TG_GRAPHICS);
         LOG_MESSAGE(Logger::CORE,"DebugVisualsManager erzeugt");
+
+        mSaveGameManager = new SaveGameManager();
+        LOG_MESSAGE(Logger::RULES, "SaveGameManager erzeugt");
 
         mJobScheduler = new JobScheduler();
         GameLoop::getSingleton().addTask(mJobScheduler, GameLoop::TG_GRAPHICS);

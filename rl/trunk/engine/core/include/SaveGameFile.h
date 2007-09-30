@@ -17,7 +17,7 @@
 #ifndef __SaveGameFile_H__
 #define __SaveGameFile_H__
 
-#include "RulesPrerequisites.h"
+#include "CorePrerequisites.h"
 #include <OgreDataStream.h>
 
 #include <Property.h>
@@ -29,7 +29,7 @@
 
 namespace rl
 {
-    class _RlRulesExport SaveGameFile : public PropertyHolder
+    class _RlCoreExport SaveGameFile : public PropertyHolder
     {
     public:
         SaveGameFile(const CeGuiString &name);

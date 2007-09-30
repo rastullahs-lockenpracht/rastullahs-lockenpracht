@@ -38,6 +38,11 @@ namespace rl {
     {
     }
 
+    DOMDocument* XmlPropertyWriter::getDocument()
+    {
+        return mDocument;
+    }
+
     void XmlPropertyWriter::setPropertySets(std::vector<PropertySet*> sets)
     {
         mPropertySets = sets;
@@ -126,5 +131,14 @@ namespace rl {
             processProperty(element, PropertyEntry(iter->first.c_str(), iter->second));
         }
         return element;
+    }
+
+    void XmlPropertyWriter::writeEachProperty(DOMElement* parent, const rl::PropertyMap &map)
+    {
+        PropertyMap::const_iterator it_properties;
+        for(it_properties = map.begin(); it_properties != map.end(); it_properties++)
+        {
+            this->processProperty(parent, PropertyEntry(it_properties->first.c_str(), it_properties->second));
+        }
     }
 }

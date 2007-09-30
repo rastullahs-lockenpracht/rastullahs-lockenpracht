@@ -33,6 +33,16 @@ using namespace XERCES_CPP_NAMESPACE;
 
 namespace rl
 {
+    SaveGameData::SaveGameData()
+    {
+        SaveGameManager::getSingleton().registerSaveGameData(this);
+    }
+
+    SaveGameData::~SaveGameData()
+    {
+        SaveGameManager::getSingleton().unregisterSaveGameData(this);
+    }
+
     CeGuiString printTimeAsString(tm* time)
     {
         CeGuiString string = ((Ogre::String)(Ogre::StringConverter::toString(time->tm_mday) + "." 
@@ -115,7 +125,7 @@ namespace rl
         mSaveGames[name] = file;
 
         SaveGameFileWriter writer;
-        writer.buildSaveGameFile(file);
+        writer.buildSaveGameFile(file, mSaveGameDataSet);
 
         freeSaveGameMap();
 
@@ -174,6 +184,16 @@ namespace rl
         file->setDataStream(Ogre::DataStreamPtr(_stream));
         
         mSaveGames[name] = file;
+    }
+
+    void SaveGameManager::registerSaveGameData(SaveGameData* data)
+    {
+        mSaveGameDataSet.insert(data);
+    }
+
+    void SaveGameManager::unregisterSaveGameData(SaveGameData* data)
+    {
+        mSaveGameDataSet.erase(data);
     }
 
     void SaveGameManager::freeSaveGameMap()

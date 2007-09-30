@@ -17,20 +17,22 @@
 #ifndef _SaveGameFileWriter_H_
 #define _SaveGameFileWriter_H_
 
-#include "RulesPrerequisites.h"
+#include "CorePrerequisites.h"
 
 #include <XmlPropertyWriter.h>
 
-#include "GameObject.h"
 #include "SaveGameFile.h"
 
 namespace rl
 {
-    class _RlRulesExport SaveGameFileWriter 
-        : protected XmlPropertyWriter
+    class SaveGameData;
+    typedef std::set<SaveGameData*> SaveGameDataSet;
+
+    class _RlCoreExport SaveGameFileWriter 
+        : public XmlPropertyWriter
     {
     public:
-        void buildSaveGameFile(SaveGameFile *file);
+        void buildSaveGameFile(SaveGameFile *file, const SaveGameDataSet &set);
     };
 }
 

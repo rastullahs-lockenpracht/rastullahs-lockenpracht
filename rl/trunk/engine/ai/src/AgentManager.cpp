@@ -103,7 +103,7 @@ void AgentManager::removeAllAgents()
 
 const Ogre::String& AgentManager::getName() const
 {
-    static String NAME = "AgentManager";
+    static Ogre::String NAME = "AgentManager";
 
     return NAME;
 }

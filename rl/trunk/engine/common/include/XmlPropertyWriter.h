@@ -35,11 +35,13 @@ namespace rl
     typedef std::pair<Ogre::String, Property> PropertyEntry;
 
     class _RlCommonExport XmlPropertyWriter
-        : protected XmlProcessor
+        : public XmlProcessor
     {
     public:
         XmlPropertyWriter();
         virtual ~XmlPropertyWriter();
+
+        XERCES_CPP_NAMESPACE::DOMDocument* getDocument();
 
         std::vector<PropertySet*> getPropertySets();
         void setPropertySets(std::vector<PropertySet*> sets);
@@ -49,6 +51,8 @@ namespace rl
         XERCES_CPP_NAMESPACE::DOMElement* processPropertySet(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, PropertySet set);
         XERCES_CPP_NAMESPACE::DOMElement* processPropertyArray(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, PropertyVector vector);
         XERCES_CPP_NAMESPACE::DOMElement* processPropertyMap(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, PropertyMap map);
+
+        void writeEachProperty(XERCES_CPP_NAMESPACE::DOMElement* parent, const PropertyMap &map);
     protected:
         std::vector<PropertySet*> mPropertySets;
 

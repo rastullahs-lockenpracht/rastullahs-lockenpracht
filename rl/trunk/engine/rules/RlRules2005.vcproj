@@ -403,18 +403,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\SaveGameFile.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\SaveGameFileWriter.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\SaveGameManager.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\SelectionHelper.cpp"
 				>
 			</File>
@@ -638,18 +626,6 @@
 			</File>
 			<File
 				RelativePath=".\include\RulesSubsystem.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SaveGameFile.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SaveGameFileWriter.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SaveGameManager.h"
 				>
 			</File>
 			<File

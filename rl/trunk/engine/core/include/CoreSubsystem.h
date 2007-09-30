@@ -46,6 +46,7 @@ class GameEventManager;
 class XmlResourceManager;
 class SoundManager;
 class DebugVisualsManager;
+class SaveGameManager;
 class JobScheduler;
 class ZoneManager;
 class TimeSourceManager;
@@ -138,6 +139,7 @@ private:
     GameEventManager* mGameEventManager;
     SoundManager* mSoundManager;
     DebugVisualsManager* mDebugVisualsManager;
+    SaveGameManager* mSaveGameManager;
     JobScheduler* mJobScheduler;
 	ZoneManager* mZoneManager;
     TimeSourceManager* mTimeSourceManager;

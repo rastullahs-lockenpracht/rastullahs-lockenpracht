@@ -18,15 +18,13 @@
 
 #include "SaveGameFileWriter.h"
 
+#include "SaveGameManager.h"
+
 #include <XmlProcessor.h>
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/dom/DOMAttr.hpp>
 #include <xercesc/dom/DOMElement.hpp>
 #include <Properties.h>
-
-#include "GameObjectManager.h"
-#include "QuestBook.h"
-#include "RulesSubsystem.h"
 
 #include <OgreResourceManager.h>
 #include <CEGUIPropertyHelper.h>
@@ -41,7 +39,7 @@ using namespace Ogre;
 
 namespace rl
 {
-    void SaveGameFileWriter::buildSaveGameFile(SaveGameFile *file)
+    void SaveGameFileWriter::buildSaveGameFile(SaveGameFile *file, const SaveGameDataSet &set)
     {
         //@toto: build
         initializeXml();
@@ -96,39 +94,44 @@ namespace rl
         TimeSource* gameTimeSource = TimeSourceManager::getSingleton().getTimeSource(TimeSource::GAMETIME);
         setAttributeValueAsInteger(gameTime, "milliseconds", gameTimeSource->getClock());
 
-        //Write Quests
-        DOMElement* quests = appendChildElement(mDocument, mDocument->getDocumentElement(), "quests");
-        QuestBook* questBook = RulesSubsystem::getSingleton().getQuestBook();
-        PropertySet* set = questBook->getAllProperties();
-        for(PropertySetMap::const_iterator it_quests = set->begin(); it_quests != set->end(); it_quests++)
+        ////Write Quests
+        //DOMElement* quests = appendChildElement(mDocument, mDocument->getDocumentElement(), "quests");
+        //QuestBook* questBook = RulesSubsystem::getSingleton().getQuestBook();
+        //PropertySet* set = questBook->getAllProperties();
+        //for(PropertySetMap::const_iterator it_quests = set->begin(); it_quests != set->end(); it_quests++)
+        //{
+        //    this->processProperty(quests, PropertyEntry(it_quests->first.c_str(), it_quests->second));
+        //}
+
+        ////Write game objects
+        //DOMElement* gameobjects = appendChildElement(mDocument, mDocument->getDocumentElement(), "gameobjects");
+        //
+
+        //std::list<const GameObject*> gos = GameObjectManager::getSingleton().getAllGameObjects();
+
+        //for(std::list<const GameObject*>::const_iterator it_gameobjects = gos.begin(); it_gameobjects != gos.end(); it_gameobjects++)
+        //{
+        //    DOMElement* gameobject = appendChildElement(mDocument, gameobjects, "gameobject");
+        //    setAttributeValueAsInteger(gameobject, "ID", (*it_gameobjects)->getId());
+        //    setAttributeValueAsString(gameobject, "ClassID", (*it_gameobjects)->getClassId());
+
+        //    PropertyMap map = (*it_gameobjects)->getAllProperties()->toPropertyMap();
+        //    PropertyMap::iterator it_properties;
+        //    for(it_properties = map.begin(); it_properties != map.end(); it_properties++)
+        //    {
+        //        this->processProperty(gameobject, PropertyEntry(it_properties->first.c_str(), it_properties->second));
+        //    }
+        //}        
+
+        ////Write Zones?
+
+        ////Write scripts
+        //DOMElement* scripts = appendChildElement(mDocument, mDocument->getDocumentElement(), "scripts");
+
+        for(SaveGameDataSet::const_iterator data_iter = set.begin(); data_iter != set.end(); data_iter++)
         {
-            this->processProperty(quests, PropertyEntry(it_quests->first.c_str(), it_quests->second));
+            (*data_iter)->writeData(this);
         }
-
-        //Write game objects
-        DOMElement* gameobjects = appendChildElement(mDocument, mDocument->getDocumentElement(), "gameobjects");
-        
-
-        std::list<const GameObject*> gos = GameObjectManager::getSingleton().getAllGameObjects();
-
-        for(std::list<const GameObject*>::const_iterator it_gameobjects = gos.begin(); it_gameobjects != gos.end(); it_gameobjects++)
-        {
-            DOMElement* gameobject = appendChildElement(mDocument, gameobjects, "gameobject");
-            setAttributeValueAsInteger(gameobject, "ID", (*it_gameobjects)->getId());
-            setAttributeValueAsString(gameobject, "ClassID", (*it_gameobjects)->getClassId());
-
-            PropertyMap map = (*it_gameobjects)->getAllProperties()->toPropertyMap();
-            PropertyMap::iterator it_properties;
-            for(it_properties = map.begin(); it_properties != map.end(); it_properties++)
-            {
-                this->processProperty(gameobject, PropertyEntry(it_properties->first.c_str(), it_properties->second));
-            }
-        }        
-
-        //Write Zones?
-
-        //Write scripts
-        DOMElement* scripts = appendChildElement(mDocument, mDocument->getDocumentElement(), "scripts");
 
         mWriter->writeNode(mTarget, *mDocument);
 

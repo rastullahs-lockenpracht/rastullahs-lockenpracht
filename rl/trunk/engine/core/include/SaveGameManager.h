@@ -16,8 +16,9 @@
 #ifndef _SaveGameManager_H_
 #define _SaveGameManager_H_
 
-#include "RulesPrerequisites.h"
+#include "CorePrerequisites.h"
 #include "SaveGameFileWriter.h"
+#include "SaveGameFileReader.h"
 #include "SaveGameFile.h"
 
 #include <XmlPropertyWriter.h>
@@ -25,6 +26,18 @@
 
 namespace rl
 {
+    class _RlCoreExport SaveGameData
+    {
+    public:
+        SaveGameData();
+        virtual ~SaveGameData();
+        virtual CeGuiString getXmlNodeIdentifier() const = 0;
+        virtual void writeData(SaveGameFileWriter* writer) = 0;
+        virtual void readData(SaveGameFileReader* reader) = 0; //no reader yet
+    };
+
+    typedef std::set<SaveGameData*> SaveGameDataSet;
+
     typedef std::map<CeGuiString, SaveGameFile*> SaveGameEntryMap;
 
     class SaveGameHeaderReader : public XmlPropertyReader
@@ -34,7 +47,7 @@ namespace rl
         void parseHeader(Ogre::DataStreamPtr &stream, const Ogre::String &groupName, SaveGameFile* file);
     };
 
-    class _RlRulesExport SaveGameManager : public Ogre::Singleton<SaveGameManager>, public Ogre::ScriptLoader
+    class _RlCoreExport SaveGameManager : public Ogre::Singleton<SaveGameManager>, public Ogre::ScriptLoader
     {
     public:
         SaveGameManager(void);
@@ -49,11 +62,16 @@ namespace rl
         virtual const Ogre::StringVector&  getScriptPatterns(void) const;
         virtual void parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);
         virtual Ogre::Real getLoadingOrder(void) const;
+
+        void registerSaveGameData(SaveGameData* data);
+        void unregisterSaveGameData(SaveGameData* data);
     protected:
         void freeSaveGameMap();
 
         Ogre::StringVector mScriptPatterns;
         SaveGameEntryMap mSaveGames;
+
+        SaveGameDataSet mSaveGameDataSet;
     };
 }
 

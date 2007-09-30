@@ -20,6 +20,8 @@
 #include "RulesPrerequisites.h"
 #include "GameObjectStateListener.h"
 
+#include <SaveGameManager.h>
+
 #include <OgreScriptLoader.h>
 #include <OgreSingleton.h>
 #include <map>
@@ -42,7 +44,8 @@ namespace rl
     class _RlRulesExport GameObjectManager : 
         public Ogre::Singleton<GameObjectManager>,
         public GameObjectStateListener,
-        public Ogre::ScriptLoader
+        public Ogre::ScriptLoader,
+        public SaveGameData
     {
     public:
         GameObjectManager();
@@ -67,6 +70,13 @@ namespace rl
 
         void registerGameObjectStateListener(GameObjectStateListener* listener);
         void unregisterGameObjectStateListener(GameObjectStateListener* listener);
+
+        /// Override from SaveGameData
+        /// Manages saving and loading from the SaveGameFile
+
+        virtual CeGuiString getXmlNodeIdentifier() const;
+        virtual void writeData(SaveGameFileWriter* writer);
+        virtual void readData(SaveGameFileReader* reader);
 
     private:
         typedef std::map<const Ogre::String, PropertySet*> ClassPropertyMap;

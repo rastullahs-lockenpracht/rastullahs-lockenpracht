@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -14,39 +14,23 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef __RULESSUBSYSTEM_H__
-#define __RULESSUBSYSTEM_H__
+#ifndef _SaveGameFileReader_H_
+#define _SaveGameFileReader_H_
 
-#include "RulesPrerequisites.h"
-
-#include <string>
+#include "SaveGameFile.h"
+#include <XmlPropertyReader.h>
 
 namespace rl
 {
-	class QuestBook;
-    class ActionManager;
-    class CombatManager;
-    class DsaManager;
-    class CreatureControllerManager;
-    class XdimlLoader;
+    class SaveGameData;
+    typedef std::set<SaveGameData*> SaveGameDataSet;
 
-	class _RlRulesExport RulesSubsystem : public Ogre::Singleton<RulesSubsystem>
+    class _RlCoreExport SaveGameFileReader : public XmlPropertyReader
     {
     public:
-        RulesSubsystem();
-        ~RulesSubsystem();
-	
-		QuestBook* getQuestBook();
-		void resetQuestBook();
-
-	private:
-		QuestBook* mQuestBook;
-        ActionManager* mActionManager;
-        CombatManager* mCombatManager;
-        DsaManager* mDsaManager;
-        CreatureControllerManager *mMovingCreatureManager;
-        XdimlLoader* mXdimlLoader;
+        SaveGameFileReader();
+        void parseSaveGameFile(SaveGameFile* file, const SaveGameDataSet &set);
     };
 }
 
-#endif
+#endif //#ifndef _SaveGameFileReader_H_
