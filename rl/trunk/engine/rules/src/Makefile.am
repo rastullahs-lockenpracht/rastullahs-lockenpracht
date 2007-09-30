@@ -37,9 +37,6 @@ libRlRules_la_SOURCES = \
 	QuestEvent.cpp \
 	QuestListener.cpp \
 	RulesSubsystem.cpp \
-	SaveGameFile.cpp \
-	SaveGameFileWriter.cpp \
-	SaveGameManager.cpp \
 	SelectionHelper.cpp \
 	Selector.cpp \
 	Slot.cpp \

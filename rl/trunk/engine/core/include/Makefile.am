@@ -54,6 +54,10 @@
 	PrimitiveObject.h \
 	QuadTree.h \
 	RubyInterpreter.h \
+	SaveGameFile.h \
+	SaveGameFileReader.h \
+	SaveGameFileWriter.h \
+	SaveGameManager.h \
 	SceneQuery.h \
 	Sound.h \
 	SoundDriver.h \

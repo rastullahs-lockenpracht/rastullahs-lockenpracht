@@ -53,6 +53,10 @@ libRlCore_la_SOURCES = \
 	PolynomicSoundFadeFunctor.cpp \
 	PrimitiveObject.cpp \
 	RubyInterpreter.cpp \
+	SaveGameFile.cpp \
+	SaveGameFileReader.cpp \
+	SaveGameFileWriter.cpp \
+	SaveGameManager.cpp \
 	SceneQuery.cpp \
 	SoundManager.cpp \
 	SoundObject.cpp \
