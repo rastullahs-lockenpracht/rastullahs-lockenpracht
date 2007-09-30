@@ -40,13 +40,6 @@ namespace rl
 
     typedef std::map<CeGuiString, SaveGameFile*> SaveGameEntryMap;
 
-    class SaveGameHeaderReader : public XmlPropertyReader
-    {
-    public:
-        SaveGameHeaderReader();
-        void parseHeader(Ogre::DataStreamPtr &stream, const Ogre::String &groupName, SaveGameFile* file);
-    };
-
     class _RlCoreExport SaveGameManager : public Ogre::Singleton<SaveGameManager>, public Ogre::ScriptLoader
     {
     public:

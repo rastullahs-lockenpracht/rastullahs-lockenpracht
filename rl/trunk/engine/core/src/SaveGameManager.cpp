@@ -54,41 +54,6 @@ namespace rl
         return string;
     }
 
-    SaveGameHeaderReader::SaveGameHeaderReader()
-    {
-    }
-
-    void SaveGameHeaderReader::parseHeader(Ogre::DataStreamPtr &stream, const Ogre::String &groupName, SaveGameFile* file)
-    {
-        initializeXml();
-
-        if(stream->size())
-        {
-            DOMDocument* doc = loadDocument(stream);
-
-             DOMNodeList* headerDefsXml = doc->getDocumentElement()->getElementsByTagName(AutoXMLCh("header").data());
-             if(headerDefsXml->getLength())
-             {
-                 DOMElement* elem = static_cast<DOMElement*>(headerDefsXml->item(0));
-                 DOMNodeList* headerDefChildren = elem->getChildNodes();
-                 for(XMLSize_t childIdx = 0; childIdx < headerDefChildren->getLength(); childIdx++)
-                 {
-                     DOMNode* curChild = headerDefChildren->item(childIdx);
-                     if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
-                     {
-                         PropertyEntry entry = processProperty(static_cast<DOMElement*>(curChild));
-                         if(entry.first != "")
-                         {
-                            file->setProperty(entry.first, entry.second);
-                         }
-                     }
-                 }
-             }
-        }
-
-        shutdownXml();
-    }
-
     SaveGameManager::SaveGameManager()
     { 
         Ogre::ResourceGroupManager::getSingleton().createResourceGroup("SaveGames");
@@ -177,8 +142,8 @@ namespace rl
         SaveGameFile* file = new SaveGameFile(name);
         
         LOG_MESSAGE(Logger::RULES, "Parsing header of save game: " + name);
-        SaveGameHeaderReader reader;
-        reader.parseHeader(stream, groupName, file);
+        SaveGameFileReader reader;
+        reader.parseSaveGameFileHeader(stream, groupName, file);
 
         Ogre::DataStream* _stream = new Ogre::MemoryDataStream(*stream, false); //making a copy of the data stream. searching for a better alternative
         file->setDataStream(Ogre::DataStreamPtr(_stream));

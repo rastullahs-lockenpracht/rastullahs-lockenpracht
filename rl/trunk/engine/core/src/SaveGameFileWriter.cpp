@@ -71,62 +71,11 @@ namespace rl
             this->processProperty(header, PropertyEntry(it_header->first.c_str(), it_header->second));
         }
 
-        /*setAttributeValueAsString(header, "ModuleID", CoreSubsystem::getSingleton().getActiveAdventureModule()->getId());
-        setAttributeValueAsInteger(header, "EngineVersion", CoreSubsystem::getSingleton().getEngineBuildNumber());
-        setAttributeValueAsString(header, "LocalTime", file->getProperty("Time").toString());*/
-
-        //Write date and time
-        //DOMElement* timeNode = appendChildElement(mDocument, mDocument->getDocumentElement(), "time");
-        
-        /*tm* timeinfo = file->getLocalTime();
-
-        setAttributeValueAsInteger(timeNode, "day", timeinfo->tm_mday);
-        setAttributeValueAsInteger(timeNode, "month", timeinfo->tm_mon);
-        setAttributeValueAsInteger(timeNode, "year", timeinfo->tm_year+1900);
-
-        setAttributeValueAsInteger(timeNode, "hour", timeinfo->tm_hour);
-        setAttributeValueAsInteger(timeNode, "minute", timeinfo->tm_min);
-        setAttributeValueAsInteger(timeNode, "second", timeinfo->tm_sec);*/
-
         //Write globals
         DOMElement* globals = appendChildElement(mDocument, mDocument->getDocumentElement(), "globals");
         DOMElement* gameTime = appendChildElement(mDocument, globals, "gametime");
         TimeSource* gameTimeSource = TimeSourceManager::getSingleton().getTimeSource(TimeSource::GAMETIME);
         setAttributeValueAsInteger(gameTime, "milliseconds", gameTimeSource->getClock());
-
-        ////Write Quests
-        //DOMElement* quests = appendChildElement(mDocument, mDocument->getDocumentElement(), "quests");
-        //QuestBook* questBook = RulesSubsystem::getSingleton().getQuestBook();
-        //PropertySet* set = questBook->getAllProperties();
-        //for(PropertySetMap::const_iterator it_quests = set->begin(); it_quests != set->end(); it_quests++)
-        //{
-        //    this->processProperty(quests, PropertyEntry(it_quests->first.c_str(), it_quests->second));
-        //}
-
-        ////Write game objects
-        //DOMElement* gameobjects = appendChildElement(mDocument, mDocument->getDocumentElement(), "gameobjects");
-        //
-
-        //std::list<const GameObject*> gos = GameObjectManager::getSingleton().getAllGameObjects();
-
-        //for(std::list<const GameObject*>::const_iterator it_gameobjects = gos.begin(); it_gameobjects != gos.end(); it_gameobjects++)
-        //{
-        //    DOMElement* gameobject = appendChildElement(mDocument, gameobjects, "gameobject");
-        //    setAttributeValueAsInteger(gameobject, "ID", (*it_gameobjects)->getId());
-        //    setAttributeValueAsString(gameobject, "ClassID", (*it_gameobjects)->getClassId());
-
-        //    PropertyMap map = (*it_gameobjects)->getAllProperties()->toPropertyMap();
-        //    PropertyMap::iterator it_properties;
-        //    for(it_properties = map.begin(); it_properties != map.end(); it_properties++)
-        //    {
-        //        this->processProperty(gameobject, PropertyEntry(it_properties->first.c_str(), it_properties->second));
-        //    }
-        //}        
-
-        ////Write Zones?
-
-        ////Write scripts
-        //DOMElement* scripts = appendChildElement(mDocument, mDocument->getDocumentElement(), "scripts");
 
         for(SaveGameDataSet::const_iterator data_iter = set.begin(); data_iter != set.end(); data_iter++)
         {

@@ -30,6 +30,7 @@ namespace rl
     public:
         SaveGameFileReader();
         void parseSaveGameFile(SaveGameFile* file, const SaveGameDataSet &set);
+        void parseSaveGameFileHeader(Ogre::DataStreamPtr &stream, const Ogre::String &groupName, SaveGameFile* file);
     };
 }
 
