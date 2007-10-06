@@ -85,7 +85,7 @@ AS_IF([test "x$enable_openal" != xno],
       ])
 
 # Ogre
-PKG_CHECK_MODULES([OGRE], [OGRE >= 1.4.0])
+PKG_CHECK_MODULES([OGRE], [OGRE >= 1.4.5])
 AC_ARG_WITH([ogre-plugins], [AS_HELP_STRING([--with-ogre-plugins=@<:@=DIR@:>@], [set location of Ogre plugins])] ,[OGRE_PLUGINDIR="$withval"], [OGRE_PLUGINDIR=`pkg-config OGRE --variable=plugindir`])
 AC_SUBST(OGRE_PLUGINDIR)
 
