@@ -33,7 +33,7 @@ namespace rl
         virtual ~SaveGameData();
         virtual CeGuiString getXmlNodeIdentifier() const = 0;
         virtual void writeData(SaveGameFileWriter* writer) = 0;
-        virtual void readData(SaveGameFileReader* reader) = 0; //no reader yet
+        virtual void readData(SaveGameFileReader* reader) = 0;
     };
 
     typedef std::set<SaveGameData*> SaveGameDataSet;

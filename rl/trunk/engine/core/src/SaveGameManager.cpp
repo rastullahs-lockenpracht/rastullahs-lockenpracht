@@ -103,6 +103,8 @@ namespace rl
         if(SaveGameFileExists(name))
         {
             SaveGameFile file(name);
+            SaveGameFileReader reader;
+            reader.parseSaveGameFile(&file, mSaveGameDataSet);
             ///@todo: SaveGameReader
         }
     }
@@ -144,9 +146,6 @@ namespace rl
         LOG_MESSAGE(Logger::RULES, "Parsing header of save game: " + name);
         SaveGameFileReader reader;
         reader.parseSaveGameFileHeader(stream, groupName, file);
-
-        Ogre::DataStream* _stream = new Ogre::MemoryDataStream(*stream, false); //making a copy of the data stream. searching for a better alternative
-        file->setDataStream(Ogre::DataStreamPtr(_stream));
         
         mSaveGames[name] = file;
     }

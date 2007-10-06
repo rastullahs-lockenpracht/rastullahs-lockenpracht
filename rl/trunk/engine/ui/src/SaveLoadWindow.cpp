@@ -115,7 +115,10 @@ namespace rl {
             if(SaveGameManager::getSingleton().SaveGameFileExists(filename))
                 SaveGameManager::getSingleton().loadSaveGameFile(filename);
             else
+            {
                 LOG_ERROR(Logger::UI, "Save Game " + filename + " doesn't exist!");
+                WindowFactory::getSingleton().showMessageWindow("Der Spielstand existiert nicht");
+            }
         }
 
         return true;

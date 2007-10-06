@@ -34,7 +34,7 @@ namespace rl
     {
         initializeXml();
 
-        DOMDocument* doc = loadDocument(file->getDataStream());
+        mDocument = loadDocument(file->getDataStream());
 
         for(SaveGameDataSet::const_iterator data_iter = set.begin(); data_iter != set.end(); data_iter++)
         {
@@ -42,7 +42,11 @@ namespace rl
         }
 
 
-        doc->release();
+        mDocument->release();
+
+        file->closeDataStream(); //make the save game writable
+
+        mDocument = NULL;
 
         shutdownXml();
     }
@@ -59,7 +63,7 @@ namespace rl
              if(headerDefsXml->getLength())
              {
                  DOMElement* elem = static_cast<DOMElement*>(headerDefsXml->item(0));
-                 DOMNodeList* headerDefChildren = elem->getChildNodes();
+                 /*DOMNodeList* headerDefChildren = elem->getChildNodes();
                  for(XMLSize_t childIdx = 0; childIdx < headerDefChildren->getLength(); childIdx++)
                  {
                      DOMNode* curChild = headerDefChildren->item(childIdx);
@@ -71,7 +75,9 @@ namespace rl
                             file->setProperty(entry.first, entry.second);
                          }
                      }
-                 }
+                 }*/
+                 PropertySet set = getPropertiesAsSet(elem);
+                 file->setProperties(&set);
              }
         }
 

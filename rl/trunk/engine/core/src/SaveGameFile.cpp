@@ -30,18 +30,17 @@ namespace rl
     SaveGameFile::SaveGameFile(const CeGuiString &name) : mStream((Ogre::DataStream*)NULL)
     {
         mName = name;
+
+        
     }
 
     SaveGameFile::~SaveGameFile()
     {
-        if(mStream.isNull())
-            delete mStream.get();
     }
 
     CeGuiString SaveGameFile::buildFilename()
     {
-        return ConfigurationManager::getSingleton().getModulesRootDirectory() + /*"/" 
-            + CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()*/ + "/saves/" + mName + ".save";
+        return ConfigurationManager::getSingleton().getModulesRootDirectory() + "/saves/" + mName + ".save";
     }
 
     CeGuiString SaveGameFile::getName()
@@ -49,15 +48,28 @@ namespace rl
         return mName;
     }
 
-    void SaveGameFile::setDataStream(const Ogre::DataStreamPtr &stream)
+    Ogre::DataStreamPtr &SaveGameFile::getDataStream()
     {
-        mStream = stream;
-    }
+        Ogre::ResourceGroupManager::getSingleton().createResourceGroup("SaveGame");
 
-    Ogre::DataStreamPtr SaveGameFile::getDataStream() const
-    {
+        mScriptPatterns.push_back((mName + ".save").c_str());
+
+        Ogre::ResourceGroupManager::getSingleton()._registerScriptLoader(this);
+
+        Ogre::ResourceGroupManager::getSingleton().addResourceLocation(ConfigurationManager::getSingleton().getModulesRootDirectory() 
+            + "/saves", "FileSystem", "SaveGame");
+        Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("SaveGame");
+
         ///@todo: decryption
         return mStream;
+    }
+
+    void SaveGameFile::closeDataStream()
+    {
+        Ogre::ResourceGroupManager::getSingleton().clearResourceGroup("SaveGame"); //close all resource files -> make them writable
+        Ogre::ResourceGroupManager::getSingleton().destroyResourceGroup("SaveGame");
+
+        Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(this);
     }
 
     XERCES_CPP_NAMESPACE::XMLFormatTarget* SaveGameFile::getFormatTarget()
@@ -109,5 +121,21 @@ namespace rl
         set->setProperty("ModuleID", getProperty("ModuleID"));
         set->setProperty("Time", getProperty("Time"));
         return set;
+    }
+
+    const Ogre::StringVector& SaveGameFile::getScriptPatterns() const
+    {
+        return mScriptPatterns;
+    }
+
+    void SaveGameFile::parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
+    {
+        mStream = stream;
+        LOG_ERROR(Logger::CORE, "Stream Loaded");
+    }
+
+    Ogre::Real SaveGameFile::getLoadingOrder() const
+    {
+        return 1000.0f;
     }
 }

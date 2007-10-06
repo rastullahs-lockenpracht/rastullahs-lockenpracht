@@ -151,6 +151,7 @@ namespace rl {
 			mSceneMgr->setShadowColour(ColourValue(0.7, 0.7, 0.7));
 			mSceneMgr->setShadowFarDistance(8.0f);
 			mSceneMgr->setShadowDirLightTextureOffset(0.8f);
+            mSceneMgr->setShadowCameraSetup((Ogre::ShadowCameraSetupPtr) new Ogre::LiSPSMShadowCameraSetup());
 		}
 		else
 		{

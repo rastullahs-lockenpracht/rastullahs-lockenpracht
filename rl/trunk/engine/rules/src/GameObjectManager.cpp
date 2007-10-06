@@ -258,16 +258,18 @@ namespace rl
     {
         return "gameobjects";
     }
+
+    using namespace XERCES_CPP_NAMESPACE;
     
     void GameObjectManager::writeData(SaveGameFileWriter *writer)
     {
-        XERCES_CPP_NAMESPACE::DOMElement* gameobjects = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), "gameobjects");
+        DOMElement* gameobjects = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
 
         std::list<const GameObject*> gos = GameObjectManager::getSingleton().getAllGameObjects();
 
         for(std::list<const GameObject*>::const_iterator it_gameobjects = gos.begin(); it_gameobjects != gos.end(); it_gameobjects++)
         {
-            XERCES_CPP_NAMESPACE::DOMElement* gameobject = writer->appendChildElement(writer->getDocument(), gameobjects, "gameobject");
+            DOMElement* gameobject = writer->appendChildElement(writer->getDocument(), gameobjects, "gameobject");
             writer->setAttributeValueAsInteger(gameobject, "ID", (*it_gameobjects)->getId());
             writer->setAttributeValueAsString(gameobject, "ClassID", (*it_gameobjects)->getClassId());
 
@@ -276,7 +278,31 @@ namespace rl
         } 
     }
 
-    void GameObjectManager::readData(rl::SaveGameFileReader *reader)
+    void GameObjectManager::readData(SaveGameFileReader *reader)
     {
+        reader->initializeXml();
+
+        DOMNodeList* rootNodeList = reader->getDocument()->getDocumentElement()->getElementsByTagName(AutoXMLCh(getXmlNodeIdentifier().c_str()).data());
+
+        if(rootNodeList->getLength())
+        {
+            DOMNodeList* xmlGameObjects = static_cast<DOMElement*>(rootNodeList->item(0))->getElementsByTagName(AutoXMLCh("gameobject").data()); //there should be only one "gameobjects" node
+            if(xmlGameObjects->getLength())
+            {
+                for(XMLSize_t childIdx1 = 0; childIdx1 < xmlGameObjects->getLength(); childIdx1++)
+                {
+                    DOMNode* xmlGameObject = xmlGameObjects->item(childIdx1);
+                    if(xmlGameObject->getNodeType() == DOMNode::ELEMENT_NODE)
+                    {
+                        int ID = reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "ID");
+                        Ogre::String classID = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlGameObject), "ClassID");
+                        PropertySet properties = reader->getPropertiesAsSet(static_cast<DOMElement*>(xmlGameObject));
+                        LOG_ERROR(Logger::SCRIPT, "Found game object " + classID + " in save game");
+                    }
+                }
+            }
+        }  
+
+        reader->shutdownXml();
     }
 }

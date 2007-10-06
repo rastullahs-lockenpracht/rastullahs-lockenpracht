@@ -29,7 +29,7 @@
 
 namespace rl
 {
-    class _RlCoreExport SaveGameFile : public PropertyHolder
+    class _RlCoreExport SaveGameFile : public PropertyHolder, public Ogre::ScriptLoader
     {
     public:
         SaveGameFile(const CeGuiString &name);
@@ -38,10 +38,14 @@ namespace rl
         CeGuiString getName();
         bool saveGameExists();
 
-        void setDataStream(const Ogre::DataStreamPtr &stream);
-        Ogre::DataStreamPtr getDataStream() const;
+        Ogre::DataStreamPtr &getDataStream();
+        void closeDataStream();
         XERCES_CPP_NAMESPACE::XMLFormatTarget* getFormatTarget();
         void deleteFileFromStorage();
+
+        virtual const Ogre::StringVector&  getScriptPatterns(void) const;
+        virtual void parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);
+        virtual Ogre::Real getLoadingOrder(void) const;
 
         virtual const Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const Property& value);
@@ -51,6 +55,7 @@ namespace rl
         CeGuiString mModuleID;
         CeGuiString mLocalTime;
 
+        Ogre::StringVector mScriptPatterns;
         Ogre::DataStreamPtr mStream;
     };
 }

@@ -227,4 +227,24 @@ PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElemen
     return std::make_pair(key, prop);
 }
 
+PropertySet XmlPropertyReader::getPropertiesAsSet(DOMElement *parent)
+{
+    PropertySet ps;
+
+    DOMNodeList* propertyDefChildren = parent->getChildNodes();
+    for (XMLSize_t childIdx = 0; childIdx < propertyDefChildren->getLength(); childIdx++)
+    {
+        DOMNode* curChild = propertyDefChildren->item(childIdx);
+        if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
+        {
+            PropertyEntry entry = processProperty(static_cast<DOMElement*>(curChild));
+            if (entry.first != "")
+            {
+                ps.setProperty(entry.first, entry.second);
+            }
+        }
+    }
+    return ps;
+}
+
 }

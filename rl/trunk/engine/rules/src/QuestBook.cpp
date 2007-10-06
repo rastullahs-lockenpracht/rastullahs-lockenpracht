@@ -177,8 +177,15 @@ namespace rl {
         }
         else if (key == PROPERTY_JOURNAL)
         {
-            ///@todo implement journal properties
-            return Property();
+            PropertyVector journals;
+            for(std::vector<JournalEntry*>::const_iterator iter = mJournalEntries.begin(); iter != mJournalEntries.end(); iter++)
+            {
+                PropertySet journal;
+                journal.setProperty("caption", Property((*iter)->getCaption()));
+                journal.setProperty("text", Property((*iter)->getText()));
+                journals.push_back(journal.toPropertyMap());
+            }
+            return Property(journals);
         }
         else
         {
@@ -247,9 +254,11 @@ namespace rl {
         return "questbook";
     }
 
+    using namespace XERCES_CPP_NAMESPACE;
+
     void QuestBook::writeData(SaveGameFileWriter *writer)
     {
-        XERCES_CPP_NAMESPACE::DOMElement* quests = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), "quests");
+        DOMElement* quests = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), "quests");
 
         PropertySet* set = getAllProperties();
         writer->writeEachProperty(quests, set->toPropertyMap());
@@ -257,5 +266,31 @@ namespace rl {
 
     void QuestBook::readData(SaveGameFileReader* reader)
     {
+        clear();
+        reader->initializeXml();
+
+        DOMNodeList* rootNodeList = reader->getDocument()->getDocumentElement()->getElementsByTagName(AutoXMLCh(getXmlNodeIdentifier().c_str()).data());
+
+        if(rootNodeList->getLength())
+        {
+            DOMNode* xmlQuestBook = rootNodeList->item(0);
+            PropertySet properties = reader->getPropertiesAsSet(static_cast<DOMElement*>(xmlQuestBook));
+            setProperties(&properties);
+        }
+
+        reader->shutdownXml();
+    }
+
+    void QuestBook::clear()
+    {
+        delete mRootQuest;
+        for( vector<JournalEntry*>::iterator it = mJournalEntries.begin();
+            it != mJournalEntries.end(); it++ )
+        {
+            delete *it;
+        }
+        mJournalEntries.clear();
+
+        createRoot();
     }
 }

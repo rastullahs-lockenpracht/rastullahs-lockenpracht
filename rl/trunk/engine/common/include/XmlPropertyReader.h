@@ -33,7 +33,7 @@ namespace rl
     typedef std::pair<Ogre::String, Property> PropertyEntry;
 
     class _RlCommonExport XmlPropertyReader
-         : protected XmlProcessor
+         : public XmlProcessor
     {
     public:
         XmlPropertyReader();
@@ -44,6 +44,7 @@ namespace rl
         PropertyEntry processProperty(XERCES_CPP_NAMESPACE::DOMElement* domElem) const;
 		PropertyEntry processProperty(XERCES_CPP_NAMESPACE::DOMAttr* domAttr) const;
 
+        virtual PropertySet getPropertiesAsSet(XERCES_CPP_NAMESPACE::DOMElement* parent);
     private:
         std::vector<PropertySet*> mPropertySets;
 

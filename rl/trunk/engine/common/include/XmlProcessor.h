@@ -436,7 +436,7 @@ public:
         virtual void fatalError(const XERCES_CPP_NAMESPACE::SAXParseException& exc);
         virtual void resetErrors();
 
-private:
+protected:
 	static XMLTranscoder* sTranscoder;
 	static XMLTransService::Codes sFailCode;
 
