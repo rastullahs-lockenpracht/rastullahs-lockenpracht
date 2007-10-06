@@ -69,7 +69,7 @@ namespace rl {
             else
             {
                 element = appendChildElement(mDocument, parent, "property");
-                if(entry.first != "")
+                if(entry.first != "\0")
                     setAttribute(element, "name", entry.first.c_str());
 
                 //Ogre::String typeName = entry.second.getTypeName();
@@ -109,12 +109,12 @@ namespace rl {
     {
         DOMElement* element = appendChildElement(mDocument, parent, "property");
         setAttribute(element, "name", name);
-        setAttribute(element, "type", "MAP");
+        setAttribute(element, "type", "ARRAY");
 
         PropertyVector::iterator iter;
         for(iter = vector.begin(); iter != vector.end(); iter++)
         {
-            processProperty(element, PropertyEntry("",*iter));
+            processProperty(element, PropertyEntry("\0",*iter));
         }
         return element;
     }
