@@ -85,7 +85,7 @@ AS_IF([test "x$enable_openal" != xno],
       ])
 
 # Ogre
-PKG_CHECK_MODULES([OGRE], [OGRE >= 1.4.5])
+PKG_CHECK_MODULES([OGRE], [OGRE >= 1.4.0], [OGRE_VERSION=`pkg-config OGRE --modversion`])
 AC_ARG_WITH([ogre-plugins], [AS_HELP_STRING([--with-ogre-plugins=@<:@=DIR@:>@], [set location of Ogre plugins])] ,[OGRE_PLUGINDIR="$withval"], [OGRE_PLUGINDIR=`pkg-config OGRE --variable=plugindir`])
 AC_SUBST(OGRE_PLUGINDIR)
 
@@ -208,5 +208,16 @@ echo
 echo " Directory settings:"
 echo "       rastullah binary will be placed in: ${RL_GAMEDIR}"
 echo "       Module directory:                   ${RL_MODULEDIR}"
+echo
+
+# Remove dots from version to allow integer comparision
+OGRE_INTVERSION=`echo $OGRE_VERSION | sed -r "s@\.@@g"`
+if [[ $OGRE_INTVERSION -lt 145 ]]; then
+    echo "Your OGRE version is $OGRE_VERSION. The Rastullah team recommends"
+    echo "using version 1.4.5, which supports LiSPSM Shadows."
+    echo "Rastullah will run nevertheless, but the shadow's quality"
+    echo "will be decreased."
+fi
+
 echo
 echo "Type make && make install and pray!"
