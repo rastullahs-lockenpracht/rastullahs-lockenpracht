@@ -131,7 +131,6 @@ namespace rl
     void SaveGameFile::parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
     {
         mStream = stream;
-        LOG_ERROR(Logger::CORE, "Stream Loaded");
     }
 
     Ogre::Real SaveGameFile::getLoadingOrder() const

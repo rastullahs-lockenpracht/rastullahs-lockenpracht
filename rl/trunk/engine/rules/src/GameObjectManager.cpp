@@ -297,7 +297,6 @@ namespace rl
                         int ID = reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "ID");
                         Ogre::String classID = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlGameObject), "ClassID");
                         PropertySet properties = reader->getPropertiesAsSet(static_cast<DOMElement*>(xmlGameObject));
-                        LOG_ERROR(Logger::SCRIPT, "Found game object " + classID + " in save game");
                     }
                 }
             }

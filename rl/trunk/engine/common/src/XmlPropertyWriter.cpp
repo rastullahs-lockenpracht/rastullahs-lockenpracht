@@ -69,7 +69,7 @@ namespace rl {
             else
             {
                 element = appendChildElement(mDocument, parent, "property");
-                if(entry.first != "\0")
+                if(!entry.first.empty())
                     setAttribute(element, "name", entry.first.c_str());
 
                 //Ogre::String typeName = entry.second.getTypeName();
@@ -108,13 +108,14 @@ namespace rl {
     DOMElement* XmlPropertyWriter::processPropertyArray(DOMElement *parent, const char *const name, PropertyVector vector)
     {
         DOMElement* element = appendChildElement(mDocument, parent, "property");
-        setAttribute(element, "name", name);
+        if(name[0] != '\0')
+            setAttribute(element, "name", name);
         setAttribute(element, "type", "ARRAY");
 
         PropertyVector::iterator iter;
         for(iter = vector.begin(); iter != vector.end(); iter++)
         {
-            processProperty(element, PropertyEntry("\0",*iter));
+            processProperty(element, PropertyEntry(Ogre::String(),*iter));
         }
         return element;
     }
@@ -122,7 +123,8 @@ namespace rl {
     DOMElement* XmlPropertyWriter::processPropertyMap(DOMElement *parent, const char *const name, PropertyMap map)
     {
         DOMElement* element = appendChildElement(mDocument, parent, "property");
-        setAttribute(element, "name", name);
+        if(name[0] != '\0')
+            setAttribute(element, "name", name);
         setAttribute(element, "type", "MAP");
 
         PropertyMap::iterator iter;

@@ -20,6 +20,9 @@
 
 namespace rl
 {
+    const Ogre::String JournalEntry::PROPERTY_TEXT = "text";
+    const Ogre::String JournalEntry::PROPERTY_CAPTION = "caption";
+
     JournalEntry::JournalEntry(const CeGuiString caption, const CeGuiString text)
         : mCaption(caption), mText(text)
     {

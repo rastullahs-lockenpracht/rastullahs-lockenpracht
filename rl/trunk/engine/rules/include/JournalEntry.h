@@ -32,6 +32,9 @@ namespace rl {
     class _RlRulesExport JournalEntry
     {
     public:
+        static const Ogre::String PROPERTY_TEXT;
+        static const Ogre::String PROPERTY_CAPTION;
+
         JournalEntry(const CeGuiString caption, const CeGuiString text);
         virtual ~JournalEntry();
 
@@ -48,6 +51,7 @@ namespace rl {
     {
     public:
         static const unsigned int JOURNAL_ENTRY_ADDED = 1;
+        static const unsigned int JOURNAL_ENTRY_DELETED = 2;
 
         JournalEvent(QuestBook* src, int reason, JournalEntry* entry);
         virtual ~JournalEvent();

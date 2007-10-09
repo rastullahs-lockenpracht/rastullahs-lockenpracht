@@ -181,8 +181,8 @@ namespace rl {
             for(std::vector<JournalEntry*>::const_iterator iter = mJournalEntries.begin(); iter != mJournalEntries.end(); iter++)
             {
                 PropertySet journal;
-                journal.setProperty("caption", Property((*iter)->getCaption()));
-                journal.setProperty("text", Property((*iter)->getText()));
+                journal.setProperty(JournalEntry::PROPERTY_CAPTION, Property((*iter)->getCaption()));
+                journal.setProperty(JournalEntry::PROPERTY_TEXT, Property((*iter)->getText()));
                 journals.push_back(journal.toPropertyMap());
             }
             return Property(journals);
@@ -215,6 +215,15 @@ namespace rl {
         }
         else if (key == PROPERTY_JOURNAL)
         {
+            PropertyVector journals = value.toArray();
+            for(PropertyVector::const_iterator it = journals.begin(); it != journals.end(); it++)
+            {
+                PropertyMap curVal = it->toMap();
+                Property caption = curVal[JournalEntry::PROPERTY_CAPTION];
+                Property text = curVal[JournalEntry::PROPERTY_TEXT];
+
+                addJournalEntry(caption.toString(), text.toString());
+            }
             ///@todo implement journal properties
         }
         else
@@ -258,7 +267,7 @@ namespace rl {
 
     void QuestBook::writeData(SaveGameFileWriter *writer)
     {
-        DOMElement* quests = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), "quests");
+        DOMElement* quests = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
 
         PropertySet* set = getAllProperties();
         writer->writeEachProperty(quests, set->toPropertyMap());
@@ -275,6 +284,7 @@ namespace rl {
         {
             DOMNode* xmlQuestBook = rootNodeList->item(0);
             PropertySet properties = reader->getPropertiesAsSet(static_cast<DOMElement*>(xmlQuestBook));
+
             setProperties(&properties);
         }
 
@@ -287,6 +297,7 @@ namespace rl {
         for( vector<JournalEntry*>::iterator it = mJournalEntries.begin();
             it != mJournalEntries.end(); it++ )
         {
+            fireJournalChanged(*it, JournalEvent::JOURNAL_ENTRY_DELETED);
             delete *it;
         }
         mJournalEntries.clear();
