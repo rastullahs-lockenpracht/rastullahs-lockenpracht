@@ -41,6 +41,7 @@ namespace rl {
         void questSubquestAdded(QuestEvent* anEvent);
 
         void journalEntryAdded(JournalEvent* anEvent);
+        void journalEntryDeleted(JournalEvent* anEvent);
     private:
         static const int ICON_SPACING = 5;
 

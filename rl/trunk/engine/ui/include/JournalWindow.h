@@ -34,6 +34,7 @@ namespace rl {
         virtual void questKnownChanged(QuestEvent* anEvent);
         virtual void questSubquestAdded(QuestEvent* anEvent);
         virtual void journalEntryAdded(JournalEvent* anEvent);
+        virtual void journalEntryDeleted(JournalEvent* anEvent);
 
     private:
         CEGUI::Listbox* mQuests;

@@ -112,4 +112,8 @@ namespace rl {
 		showQuestBookChange();
     }
 
+    void InfoPopup::journalEntryDeleted(JournalEvent *anEvent)
+    {
+        showQuestBookChange();
+    }
 }

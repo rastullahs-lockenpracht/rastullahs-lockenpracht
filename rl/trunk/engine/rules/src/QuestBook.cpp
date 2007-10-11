@@ -207,6 +207,7 @@ namespace rl {
                 if (!quest)
                 {
                     quest = new Quest(id);
+                    addQuest(quest);
                 }
                
                 quest->setProperties(curVal);
@@ -224,7 +225,6 @@ namespace rl {
 
                 addJournalEntry(caption.toString(), text.toString());
             }
-            ///@todo implement journal properties
         }
         else
         {
@@ -267,6 +267,8 @@ namespace rl {
 
     void QuestBook::writeData(SaveGameFileWriter *writer)
     {
+        LOG_MESSAGE(Logger::RULES, "Saving questbook");
+
         DOMElement* quests = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
 
         PropertySet* set = getAllProperties();
@@ -275,6 +277,8 @@ namespace rl {
 
     void QuestBook::readData(SaveGameFileReader* reader)
     {
+        LOG_MESSAGE(Logger::RULES, "Loading questbook");
+
         clear();
         reader->initializeXml();
 
@@ -295,12 +299,13 @@ namespace rl {
     {
         delete mRootQuest;
         for( vector<JournalEntry*>::iterator it = mJournalEntries.begin();
-            it != mJournalEntries.end(); it++ )
+            it != mJournalEntries.end(); )
         {
-            fireJournalChanged(*it, JournalEvent::JOURNAL_ENTRY_DELETED);
-            delete *it;
+            JournalEntry* entry = *it;
+            it = mJournalEntries.erase(it);
+            fireJournalChanged(entry, JournalEvent::JOURNAL_ENTRY_DELETED);
+            delete entry;
         }
-        mJournalEntries.clear();
 
         createRoot();
     }

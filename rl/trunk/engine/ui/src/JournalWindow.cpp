@@ -103,6 +103,11 @@ namespace rl {
         updateJournal();
     }
 
+    void JournalWindow::journalEntryDeleted(JournalEvent* anEvent)
+    {
+        updateJournal();
+    }
+
     void JournalWindow::updateJournal()
     {
         mJournalEntries->clearAllSelections();

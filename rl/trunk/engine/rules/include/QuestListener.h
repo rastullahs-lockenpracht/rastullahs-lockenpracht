@@ -46,6 +46,7 @@ public:
 	virtual void questSubquestAdded(QuestEvent* anEvent) = 0;
 
 	virtual void journalEntryAdded(JournalEvent* anEvent) = 0;
+    virtual void journalEntryDeleted(JournalEvent* anEvent) = 0;
 };
 
 }

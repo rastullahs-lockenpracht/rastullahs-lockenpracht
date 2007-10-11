@@ -46,6 +46,10 @@ namespace rl {
         {
             journalEntryAdded(evt);
         }
+        if (evt->getReason() == JournalEvent::JOURNAL_ENTRY_DELETED)
+        {
+            journalEntryDeleted(evt);
+        }
 
         // consumed or not
         return false;

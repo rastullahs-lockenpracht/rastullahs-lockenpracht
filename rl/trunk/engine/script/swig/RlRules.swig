@@ -142,6 +142,7 @@ namespace rl {
         virtual void questKnownChanged(rl::QuestEvent* anEvent) = 0;
         virtual void questSubquestAdded(rl::QuestEvent* anEvent) = 0;
         virtual void journalEntryAdded(rl::JournalEvent* anEvent) = 0;
+        virtual void journalEntryDeleted(rl::JournalEvent* anEvent) = 0;
     };
 
     class JournalEntry
