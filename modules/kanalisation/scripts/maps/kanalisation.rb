@@ -30,7 +30,7 @@ $SCRIPT.log("Tageslicht erstellt.");
 
 
 $World.setFog( World::FOG_EXP, [0.658,0.7568,0.9137,1.0], 0.00049, 0.8, 4.0);
-#$World.setAmbientLight( 0.3, 0.3, 0.3  );
+$World.setAmbientLight( 0.09, 0.09, 0.09  );
 
 
 $SCRIPT.log("Create hero")
@@ -39,7 +39,7 @@ $hero = $GOM.createGameObject("mckhero", 1);
 
 $SCRIPT.log("Place hero into scene")
 $hero.placeIntoScene();
-$hero.setPosition([-16.18,9.17,29.55]);
+$hero.setPosition([-3.86,3.80,-1.60]);
 
 $SCRIPT.log("Prepare hero for being the active character")
 PlayerSettings.preparePlayer($hero)
