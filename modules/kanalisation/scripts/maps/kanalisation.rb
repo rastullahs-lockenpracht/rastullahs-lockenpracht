@@ -30,7 +30,7 @@ $SCRIPT.log("Tageslicht erstellt.");
 
 
 $World.setFog( World::FOG_EXP, [0.658,0.7568,0.9137,1.0], 0.00049, 0.8, 4.0);
-$World.setAmbientLight( 0.09, 0.09, 0.09  );
+$World.setAmbientLight( 0.08, 0.06, 0.05  );
 
 
 $SCRIPT.log("Create hero")
