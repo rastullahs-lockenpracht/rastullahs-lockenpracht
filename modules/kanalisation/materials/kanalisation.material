@@ -1,4 +1,4 @@
-material Material.033/SOLID/TEX/wand_01.dds
+material Material.033/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -12,7 +12,7 @@ material Material.033/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.045/SOLID/TEX/wand_01.dds
+material Material.045/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -26,7 +26,7 @@ material Material.045/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.064/SOLID/TEX/baumstamm_02.dds
+material Material.064/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -40,7 +40,7 @@ material Material.064/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.053/SOLID/TEX/wand_01.dds
+material Material.053/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -54,7 +54,7 @@ material Material.053/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.050/SOLID/TEX/wand_01.dds
+material Material.050/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -68,7 +68,7 @@ material Material.050/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.024/SOLID/TEX/wand_01.dds
+material Material.024/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -82,7 +82,7 @@ material Material.024/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.099/SOLID/TEX/wand_01.dds
+material Material.099/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -96,7 +96,7 @@ material Material.099/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.010/SOLID/TEX/wand_01.dds
+material Material.010/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -110,7 +110,7 @@ material Material.010/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.052/SOLID/TEX/wand_01.dds
+material Material.052/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -124,7 +124,7 @@ material Material.052/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.061/SOLID/TEX/baumstamm_02.dds
+material Material.061/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -138,7 +138,7 @@ material Material.061/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.054/SOLID/TEX/wand_01.dds
+material Material.054/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -152,7 +152,7 @@ material Material.054/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.048/SOLID/TEX/wand_01.dds
+material Material.048/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -166,7 +166,7 @@ material Material.048/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.001/SOLID/TEX/baumstamm_02.dds
+material Material.001/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -180,7 +180,7 @@ material Material.001/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.012/SOLID/TEX/wand_01.dds
+material Material.012/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -194,7 +194,7 @@ material Material.012/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.008/SOLID/TEX/wand_01.dds
+material Material.008/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -208,7 +208,7 @@ material Material.008/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.051/SOLID/TEX/wand_01.dds
+material Material.051/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -222,7 +222,7 @@ material Material.051/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.006/SOLID/TEX/wand_01.dds
+material Material.006/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -236,7 +236,7 @@ material Material.006/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.015/SOLID/TEX/baumstamm_02.dds
+material Material.015/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -250,7 +250,7 @@ material Material.015/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.019/SOLID/TEX/wand_01.dds
+material Material.019/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -264,7 +264,7 @@ material Material.019/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.013/SOLID/TEX/baumstamm_02.dds
+material Material.013/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -278,7 +278,7 @@ material Material.013/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.007/SOLID/TEX/wand_01.dds
+material Material.007/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -292,7 +292,7 @@ material Material.007/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.069/SOLID/TEX/baumstamm_02.dds
+material Material.069/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -306,7 +306,7 @@ material Material.069/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.043/SOLID/TEX/wand_01.dds
+material Material.043/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -320,7 +320,7 @@ material Material.043/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.047/SOLID/TEX/wand_01.dds
+material Material.047/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -334,7 +334,7 @@ material Material.047/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.028/SOLID/TEX/wand_01.dds
+material Material.028/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -348,7 +348,7 @@ material Material.028/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.005/SOLID/TEX/wand_01.dds
+material Material.005/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -362,7 +362,7 @@ material Material.005/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.031/SOLID/TEX/wand_01.dds
+material Material.031/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -376,7 +376,7 @@ material Material.031/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.023/SOLID/TEX/wand_01.dds
+material Material.023/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -390,7 +390,7 @@ material Material.023/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.012/SOLID/TEX/felsen_03.dds
+material Material.012/SOLID/TEX/felsen_03.png
 {
 	technique
 	{
@@ -404,7 +404,7 @@ material Material.012/SOLID/TEX/felsen_03.dds
 		}
 	}
 }
-material Material.092/SOLID/TEX/baumstamm_02.dds
+material Material.092/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -418,7 +418,7 @@ material Material.092/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.056/SOLID/TEX/wand_01.dds
+material Material.056/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -432,7 +432,7 @@ material Material.056/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.063/SOLID/TEX/baumstamm_02.dds
+material Material.063/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -446,7 +446,7 @@ material Material.063/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.002/SOLID/TEX/baumstamm_02.dds
+material Material.002/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -460,7 +460,7 @@ material Material.002/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.088/SOLID/TEX/boden_01.dds
+material Material.088/SOLID/TEX/boden_01.png
 {
 	technique
 	{
@@ -474,7 +474,7 @@ material Material.088/SOLID/TEX/boden_01.dds
 		}
 	}
 }
-material Material.073/SOLID/TEX/wand_01.dds
+material Material.073/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -488,7 +488,7 @@ material Material.073/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.090/SOLID/TEX/baumstamm_02.dds
+material Material.090/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -502,7 +502,7 @@ material Material.090/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.032/SOLID/TEX/wand_01.dds
+material Material.032/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -516,7 +516,7 @@ material Material.032/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.036/SOLID/TEX/wand_01.dds
+material Material.036/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -530,7 +530,7 @@ material Material.036/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.021/SOLID/TEX/kiesbett_02.dds
+material Material.021/SOLID/TEX/kiesbett_02.png
 {
 	technique
 	{
@@ -544,7 +544,7 @@ material Material.021/SOLID/TEX/kiesbett_02.dds
 		}
 	}
 }
-material Material.098/SOLID/TEX/wand_01.dds
+material Material.098/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -558,7 +558,7 @@ material Material.098/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.012/SOLID/TEX/boden_01.dds
+material Material.012/SOLID/TEX/boden_01.png
 {
 	technique
 	{
@@ -572,7 +572,7 @@ material Material.012/SOLID/TEX/boden_01.dds
 		}
 	}
 }
-material Material.058/SOLID/TEX/wand_01.dds
+material Material.058/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -586,7 +586,7 @@ material Material.058/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.087/SOLID/TEX/wand_01.dds
+material Material.087/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -600,7 +600,7 @@ material Material.087/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.101/SOLID/TEX/wand_01.dds
+material Material.101/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -614,7 +614,7 @@ material Material.101/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.046/SOLID/TEX/wand_01.dds
+material Material.046/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -628,7 +628,7 @@ material Material.046/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.097/SOLID/TEX/wand_01.dds
+material Material.097/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -642,7 +642,7 @@ material Material.097/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.080/SOLID/TEX/baumstamm_02.dds
+material Material.080/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -656,7 +656,7 @@ material Material.080/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.086/SOLID/TEX/wand_01.dds
+material Material.086/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -670,7 +670,7 @@ material Material.086/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.025/SOLID/TEX/wand_01.dds
+material Material.025/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -684,7 +684,7 @@ material Material.025/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.009/SOLID/TEX/wand_01.dds
+material Material.009/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -698,7 +698,7 @@ material Material.009/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.060/SOLID/TEX/baumstamm_02.dds
+material Material.060/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -712,7 +712,7 @@ material Material.060/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.011/SOLID/TEX/wand_01.dds
+material Material.011/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -726,7 +726,7 @@ material Material.011/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.016/SOLID/TEX/wand_01.dds
+material Material.016/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -740,7 +740,7 @@ material Material.016/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.055/SOLID/TEX/wand_01.dds
+material Material.055/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -754,7 +754,7 @@ material Material.055/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.066/SOLID/TEX/baumstamm_02.dds
+material Material.066/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -768,7 +768,7 @@ material Material.066/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.062/SOLID/TEX/baumstamm_02.dds
+material Material.062/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -782,7 +782,7 @@ material Material.062/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.018/SOLID/TEX/wand_01.dds
+material Material.018/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -796,7 +796,7 @@ material Material.018/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.072/SOLID/TEX/wand_01.dds
+material Material.072/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -810,7 +810,7 @@ material Material.072/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.065/SOLID/TEX/baumstamm_02.dds
+material Material.065/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -824,7 +824,7 @@ material Material.065/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.004/SOLID/TEX/wand_01.dds
+material Material.004/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -838,7 +838,7 @@ material Material.004/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.029/SOLID/TEX/wand_01.dds
+material Material.029/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -852,7 +852,7 @@ material Material.029/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.012/SOLID/TEX/kiesbett_02.dds
+material Material.012/SOLID/TEX/kiesbett_02.png
 {
 	technique
 	{
@@ -866,7 +866,7 @@ material Material.012/SOLID/TEX/kiesbett_02.dds
 		}
 	}
 }
-material Material.044/SOLID/TEX/wand_01.dds
+material Material.044/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -880,7 +880,7 @@ material Material.044/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.020/SOLID/TEX/wand_01.dds
+material Material.020/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -894,7 +894,7 @@ material Material.020/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.030/SOLID/TEX/wand_01.dds
+material Material.030/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -908,7 +908,7 @@ material Material.030/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.026/SOLID/TEX/kiesbett_02.dds
+material Material.026/SOLID/TEX/kiesbett_02.png
 {
 	technique
 	{
@@ -922,7 +922,7 @@ material Material.026/SOLID/TEX/kiesbett_02.dds
 		}
 	}
 }
-material Material/SOLID/TEX/baumstamm_02.dds
+material Material/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -936,7 +936,7 @@ material Material/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.059/SOLID/TEX/wand_01.dds
+material Material.059/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -950,7 +950,7 @@ material Material.059/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.096/SOLID/TEX/wand_01.dds
+material Material.096/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -964,7 +964,7 @@ material Material.096/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.093/SOLID/TEX/baumstamm_02.dds
+material Material.093/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -987,7 +987,7 @@ material default
 		}
 	}
 }
-material Material.034/SOLID/TEX/wand_01.dds
+material Material.034/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1011,7 +1011,7 @@ material Material.097/SOLID
 		}
 	}
 }
-material Material.014/SOLID/TEX/wand_01.dds
+material Material.014/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1025,7 +1025,7 @@ material Material.014/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.049/SOLID/TEX/wand_01.dds
+material Material.049/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1039,7 +1039,7 @@ material Material.049/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.100/SOLID/TEX/wand_01.dds
+material Material.100/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1053,7 +1053,7 @@ material Material.100/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.075/SOLID/TEX/wand_01.dds
+material Material.075/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1067,7 +1067,7 @@ material Material.075/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.076/SOLID/TEX/wand_01.dds
+material Material.076/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1081,7 +1081,7 @@ material Material.076/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.094/SOLID/TEX/baumstamm_02.dds
+material Material.094/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -1095,7 +1095,7 @@ material Material.094/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.042/SOLID/TEX/wand_01.dds
+material Material.042/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1109,7 +1109,7 @@ material Material.042/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.027/SOLID/TEX/wand_01.dds
+material Material.027/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1123,7 +1123,7 @@ material Material.027/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.074/SOLID/TEX/wand_01.dds
+material Material.074/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1137,7 +1137,7 @@ material Material.074/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material SOLID/TEX/wand_01.dds
+material SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1150,21 +1150,7 @@ material SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.079/SOLID/TEX/wand_01.dds
-{
-	technique
-	{
-		pass
-		{
-			specular 0.500000 0.500000 0.500000 12.500000
-			texture_unit
-			{
-				texture wand_01.dds
-			}
-		}
-	}
-}
-material Material.078/SOLID/TEX/wand_01.dds
+material Material.079/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1178,7 +1164,7 @@ material Material.078/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.017/SOLID/TEX/wand_01.dds
+material Material.078/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1192,7 +1178,7 @@ material Material.017/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.003/SOLID/TEX/wand_01.dds
+material Material.017/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1206,7 +1192,7 @@ material Material.003/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.022/SOLID/TEX/wand_01.dds
+material Material.003/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1220,7 +1206,21 @@ material Material.022/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.091/SOLID/TEX/baumstamm_02.dds
+material Material.022/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.dds
+			}
+		}
+	}
+}
+material Material.091/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -1234,7 +1234,7 @@ material Material.091/SOLID/TEX/baumstamm_02.dds
 		}
 	}
 }
-material Material.077/SOLID/TEX/wand_01.dds
+material Material.077/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1248,7 +1248,7 @@ material Material.077/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.057/SOLID/TEX/wand_01.dds
+material Material.057/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1262,7 +1262,7 @@ material Material.057/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.037/SOLID/TEX/wand_01.dds
+material Material.037/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1276,7 +1276,7 @@ material Material.037/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.035/SOLID/TEX/wand_01.dds
+material Material.035/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -1290,7 +1290,7 @@ material Material.035/SOLID/TEX/wand_01.dds
 		}
 	}
 }
-material Material.071/SOLID/TEX/baumstamm_02.dds
+material Material.071/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
