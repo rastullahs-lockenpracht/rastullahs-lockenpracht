@@ -75,5 +75,5 @@ $SCRIPT.log("Türen gesetzt");
 
 ##########################
 
-load "particle.rb"
+#load "particle.rb"
 load "equip.rb"

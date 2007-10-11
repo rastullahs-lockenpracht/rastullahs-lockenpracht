@@ -1,4 +1,5 @@
 require 'npc.rb'
+require 'torch.rb'
 	
 	$SCRIPT.log("aktiven hero geten");
 	hero = $UI.getActiveCharacter();
@@ -21,3 +22,6 @@ require 'npc.rb'
     itemToAdd = $GOM.createGameObject("men_human_female_feet_boots_01");
     hero.getInventory().hold(itemToAdd, "Boots");
    # hero.getInventory().getItem("Back").addItem(itemToAdd);
+   
+    itemToAdd = $GOM.createGameObject("torch");
+    hero.getInventory().hold(itemToAdd, "Right Hand");

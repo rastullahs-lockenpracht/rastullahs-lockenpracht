@@ -92,7 +92,7 @@ end
 
 # TODO Physikalische Attribute etc..
 # TODO Persistenz *schreck*
-class Torch < GameObject
+class Torch < Item
     include GameObjectProperties
     attr_reader :flammen
     
@@ -101,6 +101,7 @@ class Torch < GameObject
         @flammen = $AM.createParticleSystemActor("torch" + id.to_s, "flammen")
         @flammen.getControlledObject().setActive(false)
         setLit(false)
+		addActions()
     end
     
     def setLit(lit)
@@ -127,14 +128,16 @@ class Torch < GameObject
         end
     end
     
-    def placeIntoScene()
-        super()
-        sound = $SM.createSound("feuer_knisternd_01.ogg")
-        sound.setLooping(true)
-        sound.set3d(true)
-        @_prop_Sound = SoundObject.new(sound, getId().to_s())
-        getActor().attachToSlot(@flammen, "SLOT_FAR_END")
-        addActions()
+    def onStateChange(oldState, newState)
+		p "New state"+newState.to_s()
+		if (newState == RlScript::GOS_IN_SCENE || newState == RlScript::GOS_HELD)
+			sound = $SM.createSound("feuer_knisternd_01.ogg")
+	        sound.setLooping(true)
+	        sound.set3d(true)
+	        @_prop_Sound = SoundObject.new(sound, getId().to_s())
+	        getActor().attachToSlot(@flammen, "SLOT_FAR_END")
+			doAction("lighttorch") if @_prop_Lit
+		end
     end
     
     def addActions()
@@ -146,8 +149,7 @@ class Torch < GameObject
         else
             addAction(@mLightAction, Action::ACT_DISABLED)
             addAction(@mPutoutAction, Action::ACT_DISABLED)
-        end
-        doAction("putouttorch") if @_prop_Lit
+        end        
     end
     
     def getDefaultAction(actor)
