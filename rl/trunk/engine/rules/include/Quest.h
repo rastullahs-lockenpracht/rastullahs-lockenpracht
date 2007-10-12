@@ -51,7 +51,8 @@ namespace rl {
         static const Ogre::String PROPERTY_ID;
         static const Ogre::String PROPERTY_NAME;
         static const Ogre::String PROPERTY_DESCRIPTION;
-        static const Ogre::String PROPERTY_KNOWN;
+        static const Ogre::String PROPERTY_KNOWN; 
+        static const Ogre::String PROPERTY_STATE;
 
         /**
         * @param id eine einzigartige ID, um den Quest wiederzufinden

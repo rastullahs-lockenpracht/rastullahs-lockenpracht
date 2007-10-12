@@ -45,6 +45,7 @@ const Ogre::String Quest::PROPERTY_ID = "id";
 const Ogre::String Quest::PROPERTY_NAME = "name";
 const Ogre::String Quest::PROPERTY_DESCRIPTION = "description";
 const Ogre::String Quest::PROPERTY_KNOWN = "known";
+const Ogre::String Quest::PROPERTY_STATE = "state";
 
 Quest::Quest(const CeGuiString& id, const CeGuiString& name, const CeGuiString& description)
 :	mId(id),
@@ -313,6 +314,10 @@ const Property Quest::getProperty(const Ogre::String& key) const
     {
         return Property(mDescription);
     }
+    else if (key == PROPERTY_STATE)
+    {   
+        return Property(STATE_NAMES[mState]);
+    }
     else
     {
         return mAdditionalProperties->getProperty(key);
@@ -323,7 +328,7 @@ void Quest::setProperty(const Ogre::String& key, const Property& value)
 {
     if (key == PROPERTY_KNOWN)
     {
-        mKnown = value.toBool();
+        setKnown(value.toBool());
     }
     else if (key == PROPERTY_ID)
     {
@@ -336,6 +341,10 @@ void Quest::setProperty(const Ogre::String& key, const Property& value)
     else if (key == PROPERTY_DESCRIPTION)
     {
         mDescription = value.toString();
+    }
+    else if (key == PROPERTY_STATE)
+    {
+        mState = getStateFromName(value.toString());
     }
     else
     {
@@ -351,6 +360,7 @@ PropertySet* Quest::getAllProperties() const
     ps->setProperty(PROPERTY_NAME, Property(mName));
     ps->setProperty(PROPERTY_DESCRIPTION, Property(mDescription));
     ps->setProperty(PROPERTY_KNOWN, Property(mKnown));
+    ps->setProperty(PROPERTY_STATE, Property(STATE_NAMES[mState]));
     ps->setProperties(mAdditionalProperties);
 
     return ps;
