@@ -50,6 +50,8 @@ namespace rl
 
     GameObjectManager::~GameObjectManager()
     {
+        unregisterAllGameObjectStateListener();
+        deleteAllGameObjects();
         ///@todo: Delete all game objects, delete all class properties
     }
 
@@ -149,6 +151,31 @@ namespace rl
         return go;
     }
 
+    void GameObjectManager::deleteGameObject(unsigned int id)
+    {
+        if(mGameObjects.find(id) != mGameObjects.end())
+        {
+            GameObject* go = mGameObjects[id];
+            mGameObjects.erase(id);
+            delete go;
+        }
+    }
+
+    void GameObjectManager::deleteGameObject(GameObject* obj)
+    {
+        deleteGameObject(obj->getId());
+    }
+
+    void GameObjectManager::deleteAllGameObjects()
+    {
+        for(std::map<unsigned int, GameObject*>::iterator itr = mGameObjects.begin(); itr != mGameObjects.end();)
+        {
+            GameObject* go = itr->second;
+            itr = mGameObjects.erase(itr);
+            delete go;
+        }
+    }
+
     void GameObjectManager::applyProperties(GameObject* go, PropertySet* ps) const
     {
         if (ps->hasProperty(GameObject::PROPERTY_INHERITS))
@@ -214,6 +241,16 @@ namespace rl
     void GameObjectManager::unregisterGameObjectStateListener(GameObjectStateListener* listener)
     {
         mGameObjectStateListeners.erase(listener);
+    }
+
+    void GameObjectManager::unregisterAllGameObjectStateListener()
+    {
+        for(std::set<GameObjectStateListener*>::iterator itr = mGameObjectStateListeners.begin();
+            itr != mGameObjectStateListeners.end();)
+        {
+            itr = mGameObjectStateListeners.erase(itr);
+        }
+        
     }
 
     GameObjectFactory::GameObjectFactory()

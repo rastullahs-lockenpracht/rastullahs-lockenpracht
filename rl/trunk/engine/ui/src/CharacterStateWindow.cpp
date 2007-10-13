@@ -43,6 +43,8 @@ CharacterStateWindow::CharacterStateWindow()
 
 CharacterStateWindow::~CharacterStateWindow()
 {
+    if (mCharacter != NULL)
+		mCharacter->removeObjectStateChangeListener(this);
 }
 
 void CharacterStateWindow::setCharacter(Creature* person)

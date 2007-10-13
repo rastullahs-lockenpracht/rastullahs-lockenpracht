@@ -63,7 +63,7 @@ namespace rl {
         if( mObjectStateChangeEventCaster.containsListener( list ) )
         {
             mObjectStateChangeEventCaster.removeEventListener( list );
-            ScriptWrapper::getSingleton().owned( list );
+            ScriptWrapper::getSingleton().disowned( list );
         }
     }
 
@@ -76,8 +76,11 @@ namespace rl {
         for (iter; iter != arSet.end(); )
         {
             EventListener<ObjectStateChangeEvent>* ev = *iter;
-            ObjectStateChangeListener* gal = dynamic_cast<ObjectStateChangeListener*>( ev );
-            ScriptWrapper::getSingleton().disowned( gal );
+            if(mObjectStateChangeEventCaster.containsListener(ev))
+            {
+                ObjectStateChangeListener* gal = dynamic_cast<ObjectStateChangeListener*>( ev );
+                ScriptWrapper::getSingleton().disowned( gal );
+            }
             iter++;
         }
         mObjectStateChangeEventCaster.removeEventListeners();

@@ -53,7 +53,12 @@ namespace rl
 
         GameObject* getGameObject(unsigned int id) const;
         GameObject* createGameObject(const Ogre::String& classId, unsigned int id = 0);
-		GameObject* createGameObjectFromProperty(const Property& goProp);
+		
+        void deleteGameObject(unsigned int id);
+        void deleteGameObject(GameObject* obj);
+        void deleteAllGameObjects();
+
+        GameObject* createGameObjectFromProperty(const Property& goProp);
 		Property toProperty(const GameObject* const co) const;
         std::list<const GameObject*> getAllGameObjects() const;
         void setGameObjectFactory(GameObjectFactory* gof);
@@ -70,6 +75,7 @@ namespace rl
 
         void registerGameObjectStateListener(GameObjectStateListener* listener);
         void unregisterGameObjectStateListener(GameObjectStateListener* listener);
+        void unregisterAllGameObjectStateListener();
 
         /// Override from SaveGameData
         /// Manages saving and loading from the SaveGameFile
