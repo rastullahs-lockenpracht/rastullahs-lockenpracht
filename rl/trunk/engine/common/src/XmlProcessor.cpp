@@ -180,7 +180,7 @@ DOMElement* XmlProcessor::setAttributeValueAsIntegerTriple(DOMElement *element, 
 {
     RlAssert(element != NULL, "XmlProcessor::setAttributeValueAsIntegerTriple: Element must not be NULL");
 	AutoXMLCh attrName(name);
-    CeGuiString temp = Ogre::StringConverter::toString(value.first) + "," + Ogre::StringConverter::toString(value.second) + "" + Ogre::StringConverter::toString(value.third);
+    CeGuiString temp = Ogre::StringConverter::toString(value.first) + "," + Ogre::StringConverter::toString(value.second) + "," + Ogre::StringConverter::toString(value.third);
     element->setAttribute(attrName.data(), XMLString::transcode(temp.c_str()));
     return element;
 }
