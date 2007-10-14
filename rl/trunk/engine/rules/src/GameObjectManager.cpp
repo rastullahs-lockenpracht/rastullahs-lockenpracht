@@ -302,7 +302,7 @@ namespace rl
     {
         DOMElement* gameobjects = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
 
-        std::list<const GameObject*> gos = GameObjectManager::getSingleton().getAllGameObjects();
+        std::list<const GameObject*> gos = getAllGameObjects();
 
         for(std::list<const GameObject*>::const_iterator it_gameobjects = gos.begin(); it_gameobjects != gos.end(); it_gameobjects++)
         {
@@ -317,6 +317,8 @@ namespace rl
 
     void GameObjectManager::readData(SaveGameFileReader *reader)
     {
+        deleteAllGameObjects();
+
         reader->initializeXml();
 
         DOMNodeList* rootNodeList = reader->getDocument()->getDocumentElement()->getElementsByTagName(AutoXMLCh(getXmlNodeIdentifier().c_str()).data());
@@ -334,11 +336,18 @@ namespace rl
                         int ID = reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "ID");
                         Ogre::String classID = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlGameObject), "ClassID");
                         PropertySet properties = reader->getPropertiesAsSet(static_cast<DOMElement*>(xmlGameObject));
+                        GameObject* object = createGameObject(classID, ID);
+                        applyProperties(object, &properties);
                     }
                 }
             }
         }  
 
         reader->shutdownXml();
+    }
+
+    int GameObjectManager::getPriority() const
+    {
+        return 100;
     }
 }

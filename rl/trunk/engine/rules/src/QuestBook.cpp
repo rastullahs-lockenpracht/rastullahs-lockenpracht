@@ -309,4 +309,9 @@ namespace rl {
 
         createRoot();
     }
+
+    int QuestBook::getPriority() const
+    {
+        return 101;
+    }
 }

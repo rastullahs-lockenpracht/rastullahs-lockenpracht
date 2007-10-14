@@ -26,13 +26,13 @@
 namespace rl
 {
     class SaveGameData;
-    typedef std::set<SaveGameData*> SaveGameDataSet;
+    typedef std::multimap<int,SaveGameData*> SaveGameDataOrderMap;
 
     class _RlCoreExport SaveGameFileWriter 
         : public XmlPropertyWriter
     {
     public:
-        void buildSaveGameFile(SaveGameFile *file, const SaveGameDataSet &set);
+        void buildSaveGameFile(SaveGameFile *file, const SaveGameDataOrderMap &map);
     };
 }
 

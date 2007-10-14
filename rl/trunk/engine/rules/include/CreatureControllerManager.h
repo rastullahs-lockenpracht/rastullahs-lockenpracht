@@ -21,6 +21,7 @@
 #include "RulesPrerequisites.h"
 #include "GameTask.h"
 #include "PhysicsGenericContactCallback.h"
+#include <SaveGameManager.h>
 #include <vector>
 #include <map>
 
@@ -37,7 +38,8 @@ namespace rl
     class _RlRulesExport CreatureControllerManager : 
         public GameTask,
         public Ogre::Singleton<CreatureControllerManager>,
-        public PhysicsGenericContactCallback
+        public PhysicsGenericContactCallback,
+        public SaveGameData
     {
     public:
         CreatureControllerManager();
@@ -47,6 +49,7 @@ namespace rl
         /// There is only one controller per Creature at a given time.
         /// If no such controller exists yet, it is created.
         CreatureController* getCreatureController(Creature* creature);
+        std::list<CreatureController*> getAllCreatureController() const;
 
         /// This function detaches a controller attached to the given Creature, if any.
         void detachController(Creature* creature);
@@ -58,6 +61,11 @@ namespace rl
 
         // Newton Contact Callback
         int userProcess();
+
+        virtual CeGuiString getXmlNodeIdentifier() const;
+        virtual void writeData(SaveGameFileWriter* writer);
+        virtual void readData(SaveGameFileReader* reader);
+        virtual int getPriority() const;
     protected:
         typedef std::map<Creature*, CreatureController*> ControllerMap;
         ControllerMap mControllers;

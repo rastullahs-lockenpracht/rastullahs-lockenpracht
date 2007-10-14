@@ -23,7 +23,7 @@
 namespace rl
 {
     class SaveGameData;
-    typedef std::set<SaveGameData*> SaveGameDataSet;
+    typedef std::multimap<int,SaveGameData*> SaveGameDataOrderMap;
 
     class _RlCoreExport SaveGameFileReader : public XmlPropertyReader
     {
@@ -31,7 +31,7 @@ namespace rl
         XERCES_CPP_NAMESPACE::DOMDocument* mDocument;
     public:
         SaveGameFileReader();
-        void parseSaveGameFile(SaveGameFile* file, const SaveGameDataSet &set);
+        void parseSaveGameFile(SaveGameFile* file, const SaveGameDataOrderMap &map);
         void parseSaveGameFileHeader(Ogre::DataStreamPtr &stream, const Ogre::String &groupName, SaveGameFile* file);
 
         XERCES_CPP_NAMESPACE::DOMDocument* getDocument() {return mDocument;}

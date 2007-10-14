@@ -39,9 +39,12 @@ namespace rl
      */
     class _RlRulesExport CreatureController :
         public PhysicsController,
-        public PhysicsGenericContactCallback
+        public PhysicsGenericContactCallback,
+        public PropertyHolder
     {
     public:
+        static const Ogre::String PROPERTY_CREATUREID;
+
         /** Constructor.
 		 * @param creature the creature of the bot/char
 		 * @param actor the actor of the bot/char
@@ -62,6 +65,7 @@ namespace rl
         int userProcess();
 
         Creature* getCreature() {return mCreature;}
+        void refetchCreature();
 
         /** 
          * the different movements a creature can perform, 
@@ -148,9 +152,13 @@ namespace rl
         MovementType getLastMovementType() const { return mLastMovementType; }
         Ogre::Real getAnimationTimePlayed() const; // this is a relative value between 0 and 1
 
-
+        
+        virtual const Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const Property& value);
+        virtual PropertySet* getAllProperties() const;
     protected:
         Creature *mCreature;
+        int mGameObjectId;
         AbstractLocation mAbstractLocation;
         
         AbstractMovement *mMovement;

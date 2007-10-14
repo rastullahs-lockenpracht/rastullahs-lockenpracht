@@ -25,6 +25,7 @@
 #include "PhysicsManager.h"
 #include "PhysicalThing.h"
 #include "TimeSource.h"
+#include "GameObjectManager.h"
 
 
 
@@ -34,6 +35,8 @@ using namespace std;
 
 namespace rl
 {
+    const Ogre::String CreatureController::PROPERTY_CREATUREID = "creature_id";
+
 
     class Stehen : public AbstractMovement
     {
@@ -1139,6 +1142,8 @@ namespace rl
         mStillWeightedAnimationName(""),
         mLastFloorContact(TimeSourceManager::getSingleton().getTimeSource(TimeSource::REALTIME_INTERRUPTABLE)->getClock())
     {
+        mGameObjectId = mCreature->getId();
+
         mOldMaterialId = mCreature->getActor()->getPhysicalThing()->_getBody()->getMaterialGroupID();
         const OgreNewt::MaterialID *material = PhysicsManager::getSingleton().getMaterialID("character");
         mCreature->getActor()->getPhysicalThing()->setMaterialID(material);
@@ -1500,5 +1505,35 @@ namespace rl
             return yaw;
 
         return Radian(drehen->getMovementDefinedValue());
+    }
+
+    const Property CreatureController::getProperty(const Ogre::String& key) const
+    {
+        if(key == PROPERTY_CREATUREID)
+        {
+            return Property(mCreature->getId());
+        }
+        else
+            return Property();
+    }
+
+    void CreatureController::setProperty(const Ogre::String& key, const Property& value)
+    {
+        if(key == PROPERTY_CREATUREID)
+        {
+            mCreature = static_cast<Creature*>(GameObjectManager::getSingleton().getGameObject(value.toInt()));
+        }
+    }
+
+    PropertySet* CreatureController::getAllProperties() const
+    {
+        PropertySet* ps = new PropertySet();
+        ps->setProperty(PROPERTY_CREATUREID, getProperty(PROPERTY_CREATUREID));
+        return ps;
+    }
+
+    void CreatureController::refetchCreature()
+    {
+        mCreature = static_cast<Creature*>(GameObjectManager::getSingleton().getGameObject(mGameObjectId));
     }
 }

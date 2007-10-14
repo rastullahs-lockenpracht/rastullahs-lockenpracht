@@ -30,15 +30,15 @@ namespace rl
     {
     }
 
-    void SaveGameFileReader::parseSaveGameFile(SaveGameFile* file, const SaveGameDataSet &set)
+    void SaveGameFileReader::parseSaveGameFile(SaveGameFile* file, const SaveGameDataOrderMap &map)
     {
         initializeXml();
 
         mDocument = loadDocument(file->getDataStream());
 
-        for(SaveGameDataSet::const_iterator data_iter = set.begin(); data_iter != set.end(); data_iter++)
+        for(SaveGameDataOrderMap::const_iterator data_iter = map.end(); data_iter != map.begin(); data_iter--)
         {
-            (*data_iter)->readData(this);
+            data_iter->second->readData(this);
         }
 
 

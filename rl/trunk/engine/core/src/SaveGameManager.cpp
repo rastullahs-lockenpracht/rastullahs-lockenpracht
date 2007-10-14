@@ -90,7 +90,7 @@ namespace rl
         mSaveGames[name] = file;
 
         SaveGameFileWriter writer;
-        writer.buildSaveGameFile(file, mSaveGameDataSet);
+        writer.buildSaveGameFile(file, mSaveGameDataOrderMap);
 
         freeSaveGameMap();
 
@@ -104,7 +104,7 @@ namespace rl
         {
             SaveGameFile file(name);
             SaveGameFileReader reader;
-            reader.parseSaveGameFile(&file, mSaveGameDataSet);
+            reader.parseSaveGameFile(&file, mSaveGameDataOrderMap);
             ///@todo: SaveGameReader
         }
     }
@@ -152,12 +152,26 @@ namespace rl
 
     void SaveGameManager::registerSaveGameData(SaveGameData* data)
     {
-        mSaveGameDataSet.insert(data);
+        mSaveGameDataOrderMap.insert(SaveGameDataOrderMap::value_type(data->getPriority(),data));
     }
 
     void SaveGameManager::unregisterSaveGameData(SaveGameData* data)
     {
-        mSaveGameDataSet.erase(data);
+        int order = data->getPriority();
+        SaveGameDataOrderMap::iterator oi = mSaveGameDataOrderMap.find(order);
+        while (oi != mSaveGameDataOrderMap.end() && oi->first == order)
+        {
+            if (oi->second == data)
+            {
+                // erase does not invalidate on multimap, except current
+                SaveGameDataOrderMap::iterator del = oi++;
+                mSaveGameDataOrderMap.erase(del);
+            }
+            else
+            {
+                ++oi;
+            }
+        }
     }
 
     void SaveGameManager::freeSaveGameMap()

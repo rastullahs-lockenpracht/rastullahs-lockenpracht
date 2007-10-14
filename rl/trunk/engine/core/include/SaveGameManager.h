@@ -24,6 +24,8 @@
 #include <XmlPropertyWriter.h>
 #include <XmlPropertyReader.h>
 
+//#include <multimap>
+
 namespace rl
 {
     class _RlCoreExport SaveGameData
@@ -34,9 +36,11 @@ namespace rl
         virtual CeGuiString getXmlNodeIdentifier() const = 0;
         virtual void writeData(SaveGameFileWriter* writer) = 0;
         virtual void readData(SaveGameFileReader* reader) = 0;
+        /// defines the loading/saving order higher priority are saved last and loaded first
+        virtual int getPriority() const = 0;
     };
 
-    typedef std::set<SaveGameData*> SaveGameDataSet;
+    typedef std::multimap<int,SaveGameData*> SaveGameDataOrderMap;
 
     typedef std::map<CeGuiString, SaveGameFile*> SaveGameEntryMap;
 
@@ -64,7 +68,7 @@ namespace rl
         Ogre::StringVector mScriptPatterns;
         SaveGameEntryMap mSaveGames;
 
-        SaveGameDataSet mSaveGameDataSet;
+        SaveGameDataOrderMap mSaveGameDataOrderMap;
     };
 }
 

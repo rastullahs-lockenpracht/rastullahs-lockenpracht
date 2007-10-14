@@ -83,7 +83,7 @@ namespace rl
         virtual CeGuiString getXmlNodeIdentifier() const;
         virtual void writeData(SaveGameFileWriter* writer);
         virtual void readData(SaveGameFileReader* reader);
-
+        virtual int getPriority() const;
     private:
         typedef std::map<const Ogre::String, PropertySet*> ClassPropertyMap;
         typedef std::set<GameObjectStateListener*> GameObjectStateListenerSet;

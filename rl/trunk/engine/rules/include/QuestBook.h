@@ -86,7 +86,7 @@ public:
     virtual CeGuiString getXmlNodeIdentifier() const;
     virtual void writeData(SaveGameFileWriter* writer);
     virtual void readData(SaveGameFileReader* reader);
-
+    virtual int getPriority() const;
 private:
 	Quest* getQuest(Quest* parent, const CeGuiString id) const;
     void clear();

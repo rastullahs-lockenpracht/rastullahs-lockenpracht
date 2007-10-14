@@ -39,7 +39,7 @@ using namespace Ogre;
 
 namespace rl
 {
-    void SaveGameFileWriter::buildSaveGameFile(SaveGameFile *file, const SaveGameDataSet &set)
+    void SaveGameFileWriter::buildSaveGameFile(SaveGameFile *file, const SaveGameDataOrderMap &map)
     {
         //@toto: build
         initializeXml();
@@ -77,9 +77,9 @@ namespace rl
         TimeSource* gameTimeSource = TimeSourceManager::getSingleton().getTimeSource(TimeSource::GAMETIME);
         setAttributeValueAsInteger(gameTime, "milliseconds", gameTimeSource->getClock());
 
-        for(SaveGameDataSet::const_iterator data_iter = set.begin(); data_iter != set.end(); data_iter++)
+        for(SaveGameDataOrderMap::const_iterator data_iter = map.begin(); data_iter != map.end(); data_iter++)
         {
-            (*data_iter)->writeData(this);
+            data_iter->second->writeData(this);
         }
 
         mWriter->writeNode(mTarget, *mDocument);
