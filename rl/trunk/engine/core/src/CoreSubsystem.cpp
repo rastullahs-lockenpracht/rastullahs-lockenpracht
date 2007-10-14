@@ -550,21 +550,6 @@ namespace rl
     void CoreSubsystem::makeScreenshot( const Ogre::String& sName )
     {
         mRenderWindow->writeContentsToTimestampedFile(sName, ".png");
-        
-        Ogre::TexturePtr texture = mWorld->getSceneManager()->getShadowTexture(0);
-        HardwarePixelBufferSharedPtr readbuffer;
-        readbuffer = texture->getBuffer(0, 0);
-        readbuffer->lock(HardwareBuffer::HBL_NORMAL );
-        const PixelBox &readrefpb = readbuffer->getCurrentLock();	
-        uchar *readrefdata = static_cast<uchar*>(readrefpb.data);		
-
-        Image img;
-        img = img.loadDynamicImage (readrefdata, texture->getWidth(),
-            texture->getHeight(), texture->getFormat());	
-        img.save("shadow.png");
-        img.save("shadow.bmp");
-        
-        readbuffer->unlock();
     }
 
     ContentModule* CoreSubsystem::getActiveAdventureModule() const
