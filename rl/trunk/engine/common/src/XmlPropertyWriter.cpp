@@ -83,7 +83,7 @@ namespace rl {
                     setAttributeValueAsInteger(element, "data", entry.second.toInt());
                 else if(entry.second.isIntPair())
                     setAttributeValueAsIntegerPair(element, "data", entry.second.toIntPair());
-                else if(entry.second.isIntPair())
+                else if(entry.second.isIntTriple())
                     setAttributeValueAsIntegerTriple(element, "data", entry.second.toIntTriple());
                 else if(entry.second.isQuaternion())
                     setValueAsQuaternion(element, entry.second.toQuaternion());

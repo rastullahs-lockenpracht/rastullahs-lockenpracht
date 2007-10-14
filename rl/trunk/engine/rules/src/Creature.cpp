@@ -998,7 +998,7 @@ namespace rl
         }
         else if (key == Creature::PROPERTY_CURRENT_AU)
         {
-            mCurrentAu = value.toInt();
+            mCurrentAu = value.toReal();
         }
         else if (key == Creature::PROPERTY_CURRENT_FATIGUE)
         {

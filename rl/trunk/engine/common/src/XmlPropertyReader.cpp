@@ -207,6 +207,20 @@ PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElemen
         }
         prop = Property(intpairVal);
     }
+    else if (type == "INTTRIPLE")
+    {
+        CeGuiString::size_type comma1 = value.find(",");
+        CeGuiString::size_type comma2 = value.find(",", comma1 + 1);
+
+        Tripel<int> intTripel(0,0,0);
+        if (comma1 != CeGuiString::npos && comma2 != CeGuiString::npos)
+        {
+            intTripel.first = CEGUI::PropertyHelper::stringToFloat(value.substr(0, comma1));
+            intTripel.second = CEGUI::PropertyHelper::stringToFloat(value.substr(comma1 + 1, comma2 - comma1 - 1));
+            intTripel.third = CEGUI::PropertyHelper::stringToFloat(value.substr(comma2 + 1));
+        }
+        prop = Property(intTripel);
+    }
 	else if (type == "MAP")
 	{
 		PropertyMap mapVal;
