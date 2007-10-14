@@ -51,10 +51,14 @@ namespace rl
         physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultFriction(0,0);
 
         physicsManager->getNewtonDebugger()->setMaterialColor(char_mat, Ogre::ColourValue::Red);
+
+        SaveGameManager::getSingleton().registerSaveGameData(this);
     }
 
     CreatureControllerManager::~CreatureControllerManager()
     {
+        SaveGameManager::getSingleton().unregisterSaveGameData(this);
+
         PhysicsManager *physicsManager = PhysicsManager::getSingletonPtr();
         const OgreNewt::MaterialID *char_mat = physicsManager->getMaterialID("character");
 

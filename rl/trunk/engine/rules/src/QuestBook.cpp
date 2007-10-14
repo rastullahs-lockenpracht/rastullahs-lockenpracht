@@ -32,10 +32,12 @@ namespace rl {
 	    mJournalEventCaster()
     {
         createRoot();
+        SaveGameManager::getSingleton().registerSaveGameData(this);
     }
 
     QuestBook::~QuestBook()
     {
+        SaveGameManager::getSingleton().unregisterSaveGameData(this);
 	    delete mRootQuest;
         for( vector<JournalEntry*>::iterator it = mJournalEntries.begin();
             it != mJournalEntries.end(); it++ )

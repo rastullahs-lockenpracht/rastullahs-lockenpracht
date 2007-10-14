@@ -35,12 +35,12 @@ namespace rl
 {
     SaveGameData::SaveGameData()
     {
-        SaveGameManager::getSingleton().registerSaveGameData(this);
+        
     }
 
     SaveGameData::~SaveGameData()
     {
-        SaveGameManager::getSingleton().unregisterSaveGameData(this);
+        
     }
 
     CeGuiString printTimeAsString(tm* time)
@@ -152,7 +152,7 @@ namespace rl
 
     void SaveGameManager::registerSaveGameData(SaveGameData* data)
     {
-        mSaveGameDataOrderMap.insert(SaveGameDataOrderMap::value_type(data->getPriority(),data));
+        mSaveGameDataOrderMap.insert(std::make_pair(data->getPriority(),data));
     }
 
     void SaveGameManager::unregisterSaveGameData(SaveGameData* data)

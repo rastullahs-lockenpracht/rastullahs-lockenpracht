@@ -46,10 +46,12 @@ namespace rl
 
         mScriptPatterns.push_back("*.gof");
         Ogre::ResourceGroupManager::getSingleton()._registerScriptLoader(this);
+        SaveGameManager::getSingleton().registerSaveGameData(this);
     }
 
     GameObjectManager::~GameObjectManager()
     {
+        SaveGameManager::getSingleton().unregisterSaveGameData(this);
         unregisterAllGameObjectStateListener();
         deleteAllGameObjects();
         ///@todo: Delete all game objects, delete all class properties
