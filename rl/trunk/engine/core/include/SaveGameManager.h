@@ -20,6 +20,7 @@
 #include "SaveGameFileWriter.h"
 #include "SaveGameFileReader.h"
 #include "SaveGameFile.h"
+#include "MessagePump.h"
 
 #include <XmlPropertyWriter.h>
 #include <XmlPropertyReader.h>
@@ -28,6 +29,20 @@
 
 namespace rl
 {
+    enum SaveGameMessageTypeIds
+    {
+        //Mask
+        RLMSG_SAVEGAME_EVENTS     = 0x0300000,
+        //Events
+        RLMSG_SAVEGAME_LOADED     = 0x0300001,
+        RLMSG_SAVEGAME_SAVED      = 0x0300002,
+        RLMSG_SAVEGAME_GOS_LOADED = 0x3000003
+    };
+
+    typedef MessageType<RLMSG_SAVEGAME_LOADED> MessageType_SaveGameLoaded;
+
+    typedef MessageType<RLMSG_SAVEGAME_SAVED> MessageType_SaveGameSaved;
+
     class _RlCoreExport SaveGameData
     {
     public:

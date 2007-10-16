@@ -32,6 +32,8 @@ namespace rl
 	class Property;
     class PropertySet;
 
+    typedef MessageType<RLMSG_SAVEGAME_GOS_LOADED> MessageType_GameObjectsLoaded;
+
     class _RlRulesExport GameObjectFactory
     {
     public:

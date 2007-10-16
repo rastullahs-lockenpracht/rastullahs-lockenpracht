@@ -311,6 +311,7 @@ namespace rl
             DOMElement* gameobject = writer->appendChildElement(writer->getDocument(), gameobjects, "gameobject");
             writer->setAttributeValueAsInteger(gameobject, "ID", (*it_gameobjects)->getId());
             writer->setAttributeValueAsString(gameobject, "ClassID", (*it_gameobjects)->getClassId());
+            writer->setAttributeValueAsInteger(gameobject, "State", (int)(*it_gameobjects)->getState());
 
             PropertyMap map = (*it_gameobjects)->getAllProperties()->toPropertyMap();
             writer->writeEachProperty(gameobject, map);
@@ -337,13 +338,17 @@ namespace rl
                     {
                         int ID = reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "ID");
                         Ogre::String classID = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlGameObject), "ClassID");
+                        GameObjectState state = (GameObjectState)reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "State");
                         PropertySet properties = reader->getPropertiesAsSet(static_cast<DOMElement*>(xmlGameObject));
                         GameObject* object = createGameObject(classID, ID);
                         applyProperties(object, &properties);
+                        object->setState(state);
                     }
                 }
             }
-        }  
+        } 
+
+        MessagePump::getSingleton().sendMessage<MessageType_GameObjectsLoaded>();
 
         reader->shutdownXml();
     }

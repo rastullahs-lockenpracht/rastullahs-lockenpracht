@@ -36,7 +36,7 @@ namespace rl
 
         mDocument = loadDocument(file->getDataStream());
 
-        for(SaveGameDataOrderMap::const_iterator data_iter = map.end(); data_iter != map.begin(); data_iter--)
+        for(SaveGameDataOrderMap::const_reverse_iterator data_iter = map.rbegin(); data_iter != map.rend(); data_iter++)
         {
             data_iter->second->readData(this);
         }

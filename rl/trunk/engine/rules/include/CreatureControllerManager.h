@@ -38,8 +38,7 @@ namespace rl
     class _RlRulesExport CreatureControllerManager : 
         public GameTask,
         public Ogre::Singleton<CreatureControllerManager>,
-        public PhysicsGenericContactCallback,
-        public SaveGameData
+        public PhysicsGenericContactCallback
     {
     public:
         CreatureControllerManager();
@@ -61,11 +60,6 @@ namespace rl
 
         // Newton Contact Callback
         int userProcess();
-
-        virtual CeGuiString getXmlNodeIdentifier() const;
-        virtual void writeData(SaveGameFileWriter* writer);
-        virtual void readData(SaveGameFileReader* reader);
-        virtual int getPriority() const;
     protected:
         typedef std::map<Creature*, CreatureController*> ControllerMap;
         ControllerMap mControllers;

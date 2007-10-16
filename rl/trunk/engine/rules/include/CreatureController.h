@@ -24,6 +24,7 @@
 #include "Creature.h"
 #include "Actor.h"
 #include <map>
+#include <MessagePump.h>
 
 
 
@@ -39,8 +40,7 @@ namespace rl
      */
     class _RlRulesExport CreatureController :
         public PhysicsController,
-        public PhysicsGenericContactCallback,
-        public PropertyHolder
+        public PhysicsGenericContactCallback
     {
     public:
         static const Ogre::String PROPERTY_CREATUREID;
@@ -65,7 +65,7 @@ namespace rl
         int userProcess();
 
         Creature* getCreature() {return mCreature;}
-        void refetchCreature();
+        bool refetchCreature();
 
         /** 
          * the different movements a creature can perform, 
@@ -152,10 +152,6 @@ namespace rl
         MovementType getLastMovementType() const { return mLastMovementType; }
         Ogre::Real getAnimationTimePlayed() const; // this is a relative value between 0 and 1
 
-        
-        virtual const Property getProperty(const Ogre::String& key) const;
-        virtual void setProperty(const Ogre::String& key, const Property& value);
-        virtual PropertySet* getAllProperties() const;
     protected:
         Creature *mCreature;
         int mGameObjectId;
@@ -173,6 +169,7 @@ namespace rl
         // in order to copy the contactcallback members correctly;
         friend class CreatureControllerManager;
 
+        MessagePump::ScopedConnection mMessageType_GameObjectsLoaded_Handler;
     private:
         // only used in setAnimation
         Ogre::String mLastAnimationName;

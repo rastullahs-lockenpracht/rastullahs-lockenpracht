@@ -51,14 +51,10 @@ namespace rl
         physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultFriction(0,0);
 
         physicsManager->getNewtonDebugger()->setMaterialColor(char_mat, Ogre::ColourValue::Red);
-
-        SaveGameManager::getSingleton().registerSaveGameData(this);
     }
 
     CreatureControllerManager::~CreatureControllerManager()
     {
-        SaveGameManager::getSingleton().unregisterSaveGameData(this);
-
         PhysicsManager *physicsManager = PhysicsManager::getSingletonPtr();
         const OgreNewt::MaterialID *char_mat = physicsManager->getMaterialID("character");
 
@@ -174,66 +170,5 @@ namespace rl
     {
         static Ogre::String name = "CreatureControllerManager";
         return name;
-    }
-
-    CeGuiString CreatureControllerManager::getXmlNodeIdentifier() const
-    {
-        return "creaturecontrollermanager";
-    }
-
-    using namespace XERCES_CPP_NAMESPACE;
-
-    void CreatureControllerManager::writeData(SaveGameFileWriter* writer)
-    {
-        /*DOMElement* controllersElem = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(),
-            getXmlNodeIdentifier().c_str());
-
-        std::list<CreatureController*> controllers = getAllCreatureController();
-
-        for(std::list<CreatureController*>::const_iterator it_controllers = controllers.begin();
-            it_controllers != controllers.end(); it_controllers++)
-        {
-            DOMElement* controller = writer->appendChildElement(writer->getDocument(), controllersElem, "creaturecontroller");
-            PropertyMap map = (*it_controllers)->getAllProperties()->toPropertyMap();
-            writer->writeEachProperty(controller, map);
-        }*/
-    }
-
-    void CreatureControllerManager::readData(SaveGameFileReader* reader)
-    {
-        std::list<CreatureController*> controllers = getAllCreatureController();
-
-        for(std::list<CreatureController*>::const_iterator it_controllers = controllers.begin();
-            it_controllers != controllers.end(); it_controllers++)
-        {
-            (*it_controllers)->refetchCreature();
-        }
-        /*reader->initializeXml();
-
-        DOMNodeList* rootNodeList = reader->getDocument()->getDocumentElement()->getElementsByTagName(AutoXMLCh(getXmlNodeIdentifier().c_str()).data());
-
-        if(rootNodeList->getLength())
-        {
-            DOMNodeList* xmlControllers = static_cast<DOMElement*>(rootNodeList->item(0))->getElementsByTagName(AutoXMLCh("creaturecontroller").data()); //there should be only one "gameobjects" node
-            if(xmlGameObjects->getLength())
-            {
-                for(XMLSize_t childIdx1 = 0; childIdx1 < xmlControllers->getLength(); childIdx1++)
-                {
-                    DOMNode* xmlController = xmlGameObjects->item(childIdx1);
-                    if(xmlController->getNodeType() == DOMNode::ELEMENT_NODE)
-                    {
-                        PropertySet properties = reader->getPropertiesAsSet(static_cast<DOMElement*>(xmlController));
-                        applyProperties(object, &properties);
-                    }
-                }
-            }
-        }  
-
-        reader->shutdownXml();*/
-    }
-
-    int CreatureControllerManager::getPriority() const
-    {
-        return 1;
     }
  }

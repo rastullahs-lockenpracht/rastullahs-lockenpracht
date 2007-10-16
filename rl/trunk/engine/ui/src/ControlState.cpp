@@ -24,6 +24,7 @@
 #include "ActionManager.h"
 #include "Actor.h"
 #include "CameraObject.h"
+#include "GameObjectManager.h"
 #include "CommandMapper.h"
 #include "CoreSubsystem.h"
 #include "Creature.h"
@@ -37,6 +38,8 @@
 using namespace Ogre;
 
 namespace rl {
+
+    const Ogre::String ControlState::PROPERTY_CHARACTERID = "characterid";
 
 	ControlState::ControlState(CommandMapper* commandMapper,
         Actor* camera, Person* character, ControlStateType type)
@@ -55,6 +58,11 @@ namespace rl {
 
 		if (mCharacter != NULL)
 		{
+            mCharacterId = mCharacter->getId();
+
+            mMessageType_GameObjectsLoaded_Handler = MessagePump::getSingleton().addMessageHandler<MessageType_GameObjectsLoaded>(
+                boost::bind(&ControlState::refetchCharacter, this));
+
             mCharacterActor = mCharacter->getActor();
 
 			if (mCharacter != NULL && mCharacterActor->_getSceneNode() == NULL)
@@ -108,7 +116,6 @@ namespace rl {
 
     ControlState::~ControlState()
     {
-
     }
 
 	bool ControlState::startAction(const CeGuiString& actionName, Creature* character)
@@ -174,5 +181,29 @@ namespace rl {
     bool ControlState::isMouseUsedByCegui() const
     {
         return WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT;
+    }
+
+    bool ControlState::refetchCharacter()
+    {
+        mCharacter = static_cast<Person*>(GameObjectManager::getSingleton().getGameObject(mCharacterId));
+
+        if (mCharacter != NULL)
+		{
+            mCharacterActor = mCharacter->getActor();
+
+			if (mCharacter != NULL && mCharacterActor->_getSceneNode() == NULL)
+			{
+				Throw(IllegalArgumentException,
+					"character has to be placed in the scene beforehand");
+			}
+            if (mCharacter != NULL && mCharacterActor->getPhysicalThing() == NULL)
+			{
+				Throw(IllegalArgumentException,
+					"character must have a physics proxy");
+			}
+
+			mCharBody = mCharacterActor->getPhysicalThing()->_getBody();
+		}
+        return false;
     }
 }

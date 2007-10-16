@@ -1191,6 +1191,9 @@ namespace rl
         movementPair.first = MT_WEITSPRUNG;
         movementPair.second = new Weitsprung (this);
         mMovementMap.insert(movementPair);
+
+        mMessageType_GameObjectsLoaded_Handler = MessagePump::getSingleton().addMessageHandler<MessageType_GameObjectsLoaded>(
+                boost::bind(&CreatureController::refetchCreature, this));
     }
 
     CreatureController::~CreatureController()
@@ -1507,33 +1510,9 @@ namespace rl
         return Radian(drehen->getMovementDefinedValue());
     }
 
-    const Property CreatureController::getProperty(const Ogre::String& key) const
-    {
-        if(key == PROPERTY_CREATUREID)
-        {
-            return Property(mCreature->getId());
-        }
-        else
-            return Property();
-    }
-
-    void CreatureController::setProperty(const Ogre::String& key, const Property& value)
-    {
-        if(key == PROPERTY_CREATUREID)
-        {
-            mCreature = static_cast<Creature*>(GameObjectManager::getSingleton().getGameObject(value.toInt()));
-        }
-    }
-
-    PropertySet* CreatureController::getAllProperties() const
-    {
-        PropertySet* ps = new PropertySet();
-        ps->setProperty(PROPERTY_CREATUREID, getProperty(PROPERTY_CREATUREID));
-        return ps;
-    }
-
-    void CreatureController::refetchCreature()
+    bool CreatureController::refetchCreature()
     {
         mCreature = static_cast<Creature*>(GameObjectManager::getSingleton().getGameObject(mGameObjectId));
+        return false;
     }
 }

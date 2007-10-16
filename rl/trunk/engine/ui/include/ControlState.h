@@ -25,6 +25,8 @@
 #include <OISMouse.h>
 #include <OISKeyboard.h>
 
+#include <SaveGameManager.h>
+
 namespace rl {
 
     class Actor;
@@ -38,6 +40,7 @@ namespace rl {
     class _RlUiExport ControlState// : public OIS::KeyListener, public OIS::MouseListener
     {
 	public:
+        static const Ogre::String PROPERTY_CHARACTERID;
 
         /**
          *  @throw NullPointerException if camera or character is NULL.
@@ -62,13 +65,15 @@ namespace rl {
         ControlStateType getType() const { return mType;}
 
         static bool startAction(const CeGuiString& actionName, Creature* character = NULL);
-
+        
+        bool refetchCharacter();
 	protected:
 
         /// returns wether cegui currently uses the mouse
         bool isMouseUsedByCegui() const;
 
         Person* mCharacter;
+        int mCharacterId;
 
         Actor* mCameraActor;
         Actor* mCharacterActor;
@@ -79,6 +84,8 @@ namespace rl {
 		CommandMapper* mCommandMapper;
 
         ControlStateType mType;
+
+        MessagePump::ScopedConnection mMessageType_GameObjectsLoaded_Handler;
     };
 }
 #endif
