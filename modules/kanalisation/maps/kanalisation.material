@@ -642,6 +642,19 @@ material Material.011/SOLID/TEX/wand_01.png
 		}
 	}
 }
+material SOLID/TEX/kiesbett_02.png
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture kiesbett_02.dds
+			}
+		}
+	}
+}
 material Material.107/SOLID/TEX/wand_01.png
 {
 	technique
@@ -933,6 +946,15 @@ material Material.116/SOLID/TEX/wand_01.png
 			{
 				texture wand_01.dds
 			}
+		}
+	}
+}
+material default
+{
+	technique
+	{
+		pass
+		{
 		}
 	}
 }
