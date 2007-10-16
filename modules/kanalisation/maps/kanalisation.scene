@@ -85,7 +85,7 @@
       <entity name="stein_07" meshFile="stein_07.mesh"/>
     </node>
     <node name="stein_01">
-      <position x="0.000000" y="-0.487118" z="0.000000"/>
+      <position x="0.000513" y="-0.489277" z="-0.001444"/>
       <rotation qx="-0.000957" qy="-0.000114" qz="0.004766" qw="0.999988"/>
       <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="stein_01" meshFile="stein_01.mesh"/>
@@ -185,6 +185,12 @@
       <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
       <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="wurzel_03" meshFile="wurzel_03.mesh"/>
+    </node>
+    <node name="wasser">
+      <position x="0.000000" y="0.000000" z="0.000000"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="wasser" meshFile="wasser.mesh"/>
     </node>
     <node name="decke_01">
       <position x="26.551260" y="3.233054" z="26.137417"/>

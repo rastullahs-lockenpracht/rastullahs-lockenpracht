@@ -305,7 +305,7 @@ material Material.113/SOLID/TEX/baumstamm_02.png
 		}
 	}
 }
-material Material.034/SOLID/TEX/baumstamm_02.png
+material Material.061/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -315,6 +315,20 @@ material Material.034/SOLID/TEX/baumstamm_02.png
 			texture_unit
 			{
 				texture baumstamm_02.dds
+			}
+		}
+	}
+}
+material Material.134/SOLID/TEX/felsen_03.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.000000 0.000000 0.000000 0.0000000
+			texture_unit
+			{
+				texture felsen_03.dds
 			}
 		}
 	}
@@ -501,7 +515,7 @@ material Material.052/SOLID/TEX/wand_01.png
 		}
 	}
 }
-material Material.061/SOLID/TEX/baumstamm_02.png
+material Material.034/SOLID/TEX/baumstamm_02.png
 {
 	technique
 	{
@@ -628,20 +642,6 @@ material Material.087/SOLID/TEX/wand_01.png
 	}
 }
 material Material.132/SOLID/TEX/wand_01.png
-{
-	technique
-	{
-		pass
-		{
-			specular 0.000000 0.000000 0.000000 0.0000000
-			texture_unit
-			{
-				texture wand_01.dds
-			}
-		}
-	}
-}
-material Material.118/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -893,7 +893,7 @@ material Material.037/SOLID/TEX/wand_01.png
 		}
 	}
 }
-material Material.134/SOLID/TEX/felsen_03.png
+material verlauf/SOLID/TEX/wand_01.png
 {
 	technique
 	{
@@ -902,7 +902,7 @@ material Material.134/SOLID/TEX/felsen_03.png
 			specular 0.000000 0.000000 0.000000 0.0000000
 			texture_unit
 			{
-				texture felsen_03.dds
+				texture wand_01.dds
 			}
 		}
 	}
@@ -991,14 +991,43 @@ material Material.035/SOLID/TEX/wand_01.png
 		}
 	}
 }
-material default
+material default : nat_wasser_see
 {
-	technique
-	{
-		pass
-		{
-		}
-	}
+    technique hlsl
+    {
+        pass
+        {
+            texture_unit wellen_map
+            {
+                texture nat_wellen.dds
+            }
+
+            texture_unit evn_map
+            {
+                cubic_texture desert07.dds separateUV
+                tex_address_mode clamp
+            }
+
+        }
+
+    }
+
+    technique glsl
+    {
+        pass
+        {
+            texture_unit wellen_map
+            {
+                texture nat_wellen.dds
+            }
+
+            texture_unit evn_map
+            {
+                cubic_texture desert07.dds separateUV
+                tex_address_mode clamp
+            }
+        }
+    }
 }
 material Material.086/SOLID/TEX/wand_01.png
 {
@@ -1056,7 +1085,7 @@ material Material.128/SOLID/TEX/wand_01.png
 		}
 	}
 }
-material Material.028/SOLID/TEX/wand_01.png
+material Material.118/SOLID/TEX/wand_01.png
 {
 	technique
 	{
