@@ -132,12 +132,6 @@
       <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="Cube.001" meshFile="Cube.002.mesh"/>
     </node>
-    <node name="saeule_05">
-      <position x="-1.590444" y="19.441099" z="-3.090551"/>
-      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
-      <scale x="1.000000" y="1.000000" z="1.000000"/>
-      <entity name="saeule_05" meshFile="Cylinder.007.mesh"/>
-    </node>
     <node name="stein_01.001">
       <position x="9.150650" y="-0.487119" z="6.218122"/>
       <rotation qx="-0.001682" qy="-0.154817" qz="0.004560" qw="0.987931"/>
@@ -271,7 +265,7 @@
     </item>
   </externals>
   <environment>
-    <colourAmbient r="0.000000" g="0.000000" b="0.000000"/>
+    <colourAmbient r="0.800000" g="0.600000" b="0.500000"/>
     <colourBackground r="0.608145" g="0.515307" b="0.442079"/>
   </environment>
 </scene>
