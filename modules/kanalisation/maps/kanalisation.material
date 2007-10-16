@@ -1,0 +1,1204 @@
+material Material.112/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.064/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.135/SOLID/TEX/felsen_03.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture felsen_03.png
+			}
+		}
+	}
+}
+material Material.050/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.024/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.010/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.105/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.115/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.052/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.061/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.001/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.012/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.008/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.051/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.006/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.019/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.007/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.069/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.128/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.028/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.119/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.005/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.023/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.053/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.136/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.063/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.002/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.088/SOLID/TEX/boden_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture boden_01.png
+			}
+		}
+	}
+}
+material Material.090/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.104/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.036/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.021/SOLID/TEX/kiesbett_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture kiesbett_02.png
+			}
+		}
+	}
+}
+material Material.098/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.012/SOLID/TEX/boden_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture boden_01.png
+			}
+		}
+	}
+}
+material Material.087/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.118/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.101/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.097/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.086/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.117/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.025/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.113/SOLID/TEX/baumstamm_03.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_03.png
+			}
+		}
+	}
+}
+material Material.133/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.009/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.060/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.011/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.107/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.034/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.016/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.066/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.062/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.018/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.130/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.132/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.004/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.020/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.026/SOLID/TEX/kiesbett_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture kiesbett_02.png
+			}
+		}
+	}
+}
+material Material/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.121/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.059/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.096/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.114/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.126/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.093/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.065/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.120/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.116/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.034/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.085/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.014/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.094/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.129/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.027/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.141/SOLID/TEX/baumstamm_03.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_03.png
+			}
+		}
+	}
+}
+material Material.131/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.013/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.017/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.003/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.022/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.091/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.037/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.134/SOLID/TEX/felsen_03.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture felsen_03.png
+			}
+		}
+	}
+}
+material Material.035/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.071/SOLID/TEX/baumstamm_02.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture baumstamm_02.png
+			}
+		}
+	}
+}
+material Material.106/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
+material Material.127/SOLID/TEX/wand_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_01.png
+			}
+		}
+	}
+}
