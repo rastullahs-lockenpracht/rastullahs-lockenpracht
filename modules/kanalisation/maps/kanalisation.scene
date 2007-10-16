@@ -6,12 +6,6 @@
       <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="bruecke" meshFile="bruecke.mesh"/>
     </node>
-    <node name="wand_01">
-      <position x="26.551260" y="3.233054" z="26.137417"/>
-      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
-      <scale x="1.000000" y="1.000000" z="1.000000"/>
-      <entity name="wand_01" meshFile="wand_01.mesh"/>
-    </node>
     <node name="wurzel_11">
       <position x="1.043994" y="6.745411" z="9.483445"/>
       <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
@@ -48,11 +42,11 @@
       <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="holzstueck" meshFile="holzstueck.mesh"/>
     </node>
-    <node name="wurzel_12">
-      <position x="17.205948" y="6.248075" z="12.363497"/>
-      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+    <node name="steine_04">
+      <position x="15.760802" y="2.107421" z="18.105791"/>
+      <rotation qx="-0.000186" qy="0.469387" qz="0.003918" qw="0.882984"/>
       <scale x="1.000000" y="1.000000" z="1.000000"/>
-      <entity name="wurzel_12" meshFile="Cylinder.027.mesh"/>
+      <entity name="steine_04" meshFile="steine_04.mesh"/>
     </node>
     <node name="boden_kies">
       <position x="-13.272200" y="3.233053" z="-5.945832"/>
@@ -102,11 +96,11 @@
       <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="Plane" meshFile="Plane.mesh"/>
     </node>
-    <node name="steine_04">
-      <position x="15.760802" y="2.107421" z="18.105791"/>
-      <rotation qx="-0.000186" qy="0.469387" qz="0.003918" qw="0.882984"/>
+    <node name="wurzel_12">
+      <position x="17.205948" y="6.248075" z="12.363497"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
       <scale x="1.000000" y="1.000000" z="1.000000"/>
-      <entity name="steine_04" meshFile="steine_04.mesh"/>
+      <entity name="wurzel_12" meshFile="Cylinder.027.mesh"/>
     </node>
     <node name="wurzel_04.001">
       <position x="19.444651" y="5.338469" z="14.122713"/>
@@ -242,7 +236,7 @@
     </node>
     <node name="saeulen">
       <position x="-1.058353" y="16.475168" z="17.364820"/>
-      <rotation qx="-0.008925" qy="0.003064" qz="0.001102" qw="0.999955"/>
+      <rotation qx="-0.008926" qy="0.003064" qz="0.001102" qw="0.999955"/>
       <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="saeulen" meshFile="saeulen.mesh"/>
     </node>
@@ -251,6 +245,12 @@
       <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
       <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="wurzel_10" meshFile="wurzel_10.mesh"/>
+    </node>
+    <node name="decke_01.001">
+      <position x="26.551260" y="3.233054" z="26.137417"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="decke_01.001" meshFile="decke_01.001.mesh"/>
     </node>
     <node name="treppe">
       <position x="0.626188" y="0.000000" z="0.000000"/>
@@ -265,7 +265,7 @@
     </item>
   </externals>
   <environment>
-    <colourAmbient r="0.800000" g="0.600000" b="0.500000"/>
+    <colourAmbient r="0.000000" g="0.000000" b="0.000000"/>
     <colourBackground r="0.608145" g="0.515307" b="0.442079"/>
   </environment>
 </scene>
