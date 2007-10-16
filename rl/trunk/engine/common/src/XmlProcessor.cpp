@@ -546,6 +546,10 @@ std::string XmlProcessor::toString( const std::string& type,
         strs << " with system " << transcodeToStdString( exc.getSystemId() );
     if( exc.getPublicId() != NULL )
         strs << " with public " << transcodeToStdString( exc.getPublicId() );
+
+    std::string msg = transcodeToStdString(exc.getMessage());
+    strs << ": " << msg;
+
     return strs.str();
 }
 
