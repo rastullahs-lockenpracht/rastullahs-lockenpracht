@@ -96,11 +96,6 @@ namespace rl
 
     GameObject::~GameObject(void)
     {
-        if (mActor != NULL)
-        {
-            mActor->setGameObject(NULL);
-            mActor->setQueryFlags(0);
-        }
     	delete mEffectManager;
     }
 

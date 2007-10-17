@@ -52,8 +52,8 @@ namespace rl
     GameObjectManager::~GameObjectManager()
     {
         SaveGameManager::getSingleton().unregisterSaveGameData(this);
-        unregisterAllGameObjectStateListener();
-        deleteAllGameObjects();
+        //unregisterAllGameObjectStateListener();
+        //deleteAllGameObjects();
         ///@todo: Delete all game objects, delete all class properties
     }
 
@@ -174,6 +174,7 @@ namespace rl
         {
             GameObject* go = itr->second;
             itr = mGameObjects.erase(itr);
+            go->setActor(NULL);
             delete go;
         }
     }
