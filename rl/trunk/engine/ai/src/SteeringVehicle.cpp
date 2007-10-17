@@ -27,6 +27,7 @@
 #include "MeshObject.h"
 #include "CreatureController.h"
 #include "PhysicalThing.h"
+#include "GameObjectManager.h"
 
 using namespace Ogre;
 using namespace OpenSteer;
@@ -41,6 +42,7 @@ SteeringVehicle::SteeringVehicle(Creature* creature)
 	  mCurrentVelocity(Vector3::ZERO),
 	  mForwardVector(Vector3::NEGATIVE_UNIT_Z),
 	  mCreature(creature),
+      mCreatureId(mCreature->getId()),
       mController(NULL),
       mDebugSteer(Vector3::ZERO),
       mDebugWander(Vector3::ZERO),
@@ -49,6 +51,8 @@ SteeringVehicle::SteeringVehicle(Creature* creature)
 	initialize();
     mController = CreatureControllerManager::getSingleton().getCreatureController(
         mCreature);
+    mMessageType_GameObjectsLoaded_Handler = MessagePump::getSingleton().addMessageHandler<MessageType_GameObjectsLoaded>(
+                boost::bind(&SteeringVehicle::refetchCreature, this));
 }
 
 SteeringVehicle::~SteeringVehicle()
@@ -399,6 +403,12 @@ void SteeringVehicle::updatePrimitive()
 void SteeringVehicle::doCreatePrimitive()
 {
     mPrimitive = new LineSetPrimitive();
+}
+
+bool SteeringVehicle::refetchCreature()
+{
+    mCreature = static_cast<Creature*>(GameObjectManager::getSingleton().getGameObject(mCreatureId));
+    return false;
 }
 
 } // namespace rl

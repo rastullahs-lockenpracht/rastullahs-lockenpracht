@@ -38,6 +38,7 @@
 #include "CreatureControllerManager.h"
 #include "DebugWindow.h"
 #include "Exception.h"
+#include "GameObjectManager.h"
 #include "InputManager.h"
 #include "Logger.h"
 #include "MeshObject.h"
@@ -136,6 +137,9 @@ namespace rl {
         mCombatSelector.setFilter(filter);
 
         mSelector.setFilter(new InSceneSelectionFilter());
+
+        mMessageType_GameObjectsLoaded_Handler = MessagePump::getSingleton().addMessageHandler<MessageType_GameObjectsLoaded>(
+                boost::bind(&MovementControlState::updateAfterGameObjectLoading, this));
     }
 
     //------------------------------------------------------------------------
@@ -1388,5 +1392,20 @@ namespace rl {
     void MovementControlState::doCreatePrimitive()
     {
         mPrimitive = new LineSetPrimitive();
+    }
+
+    bool MovementControlState::updateAfterGameObjectLoading()
+    {
+        // We want to check for visibility from char's POV.
+        mSelector.setCheckVisibility(true, GameObjectManager::getSingleton().getGameObject(mCharacterId));
+        mSelector.track(mCharacter);
+        mSelector.setRadius(3.0);
+
+        // Same for combat selector
+        mCombatSelector.setCheckVisibility(true, GameObjectManager::getSingleton().getGameObject(mCharacterId));
+        mCombatSelector.track(mCharacter);
+        mCombatSelector.setRadius(10.0);
+
+        return false;
     }
 }

@@ -83,6 +83,8 @@ namespace rl {
         virtual DebugVisualisableFlag getFlag() const;
         virtual void updatePrimitive();
 
+        bool updateAfterGameObjectLoading();
+
     protected:
         virtual void doCreatePrimitive();
         CreatureController* mController;
@@ -174,6 +176,8 @@ namespace rl {
         * @param timestep in order to reset the camera (no valid last position) the timestep can be 0.
         */
         Ogre::Vector3 calculateOptimalCameraPosition(bool SlowlyMoveBackward, const Ogre::Real &timestep);
+
+        MessagePump::ScopedConnection mMessageType_GameObjectsLoaded_Handler;
     };
 }
 #endif

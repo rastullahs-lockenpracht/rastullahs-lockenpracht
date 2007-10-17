@@ -85,6 +85,7 @@ namespace rl {
 
         ControlStateType mType;
 
+    private:
         MessagePump::ScopedConnection mMessageType_GameObjectsLoaded_Handler;
     };
 }

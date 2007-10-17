@@ -168,8 +168,6 @@ namespace rl
 
         // in order to copy the contactcallback members correctly;
         friend class CreatureControllerManager;
-
-        MessagePump::ScopedConnection mMessageType_GameObjectsLoaded_Handler;
     private:
         // only used in setAnimation
         Ogre::String mLastAnimationName;
@@ -182,6 +180,8 @@ namespace rl
 
         // used to reset the material
         const OgreNewt::MaterialID *mOldMaterialId;
+
+        MessagePump::ScopedConnection mMessageType_GameObjectsLoaded_Handler;
     };
 
     /// this is the base class of all movements

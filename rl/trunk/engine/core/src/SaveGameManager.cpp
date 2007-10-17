@@ -96,6 +96,8 @@ namespace rl
 
         Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("SaveGames");
         Ogre::ResourceGroupManager::getSingleton().clearResourceGroup("SaveGames"); //close all resource files -> make them writable
+
+        MessagePump::getSingleton().sendMessage<MessageType_SaveGameSaved>();
     }
 
     void SaveGameManager::loadSaveGameFile(const CeGuiString &name)
@@ -107,6 +109,8 @@ namespace rl
             reader.parseSaveGameFile(&file, mSaveGameDataOrderMap);
             ///@todo: SaveGameReader
         }
+
+        MessagePump::getSingleton().sendMessage<MessageType_SaveGameLoaded>();
     }
 
     void SaveGameManager::deleteSaveGameFile(const CeGuiString &name)

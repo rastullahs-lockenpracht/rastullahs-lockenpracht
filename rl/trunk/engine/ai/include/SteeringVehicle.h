@@ -22,6 +22,7 @@
 #include "LineSetPrimitive.h"
 #include "OgreVector3.h"
 #include "OpenSteer/SteerLibrary.h"
+#include "MessagePump.h"
 
 
 namespace rl
@@ -292,6 +293,9 @@ namespace rl
 
         //! Creature object steered by this vehicle(and controlled by Agent).
         Creature* mCreature;
+        int mCreatureId;
+
+        bool refetchCreature();
 
         CreatureController* mController;
 
@@ -301,6 +305,8 @@ namespace rl
         Ogre::Vector3 mDebugSteer;
         Ogre::Vector3 mDebugWander;
         Ogre::Vector3 mDebugAvoidObstacles;
+    private:
+        MessagePump::ScopedConnection mMessageType_GameObjectsLoaded_Handler;
     };
 }
 #endif
