@@ -1,6 +1,6 @@
 <mesh>
 	<submeshes>
-		<submesh material="Material.021/SOLID/TEX/kiesbett_02.png" usesharedvertices="false" use32bitindexes="false" operationtype="triangle_list">
+		<submesh material="Material.021/SOLID/TEX/kiesbett_03.png" usesharedvertices="false" use32bitindexes="false" operationtype="triangle_list">
 			<faces count="40">
 				<face v1="0" v2="1" v3="3"/>
 				<face v1="3" v2="1" v3="2"/>
@@ -198,7 +198,7 @@
 				</vertexbuffer>
 			</geometry>
 		</submesh>
-		<submesh material="Material.026/SOLID/TEX/kiesbett_02.png" usesharedvertices="false" use32bitindexes="false" operationtype="triangle_list">
+		<submesh material="Material.026/SOLID/TEX/kiesbett_03.png" usesharedvertices="false" use32bitindexes="false" operationtype="triangle_list">
 			<faces count="32">
 				<face v1="0" v2="1" v3="3"/>
 				<face v1="3" v2="1" v3="2"/>
