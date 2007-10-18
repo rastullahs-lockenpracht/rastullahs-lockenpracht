@@ -173,7 +173,7 @@ namespace rl
         for(std::map<unsigned int, GameObject*>::iterator itr = mGameObjects.begin(); itr != mGameObjects.end();)
         {
             GameObject* go = itr->second;
-            itr = mGameObjects.erase(itr);
+            mGameObjects.erase(itr++);
             go->setActor(NULL);
             delete go;
         }
@@ -251,7 +251,7 @@ namespace rl
         for(std::set<GameObjectStateListener*>::iterator itr = mGameObjectStateListeners.begin();
             itr != mGameObjectStateListeners.end();)
         {
-            itr = mGameObjectStateListeners.erase(itr);
+            mGameObjectStateListeners.erase(itr++);
         }
         
     }
