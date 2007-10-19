@@ -1,16 +1,7 @@
-material Material.116/SOLID/TEX/wand_06.png
+material Material.116/SOLID/TEX/wand_06.png: Basic_Normalmapping
 {
-	technique
-	{
-		pass
-		{
-			specular 0.000000 0.000000 0.000000 0.0000000
-			texture_unit
-			{
-				texture wand_06.dds
-			}
-		}
-	}
+set_texture_alias DiffuseMap wand_06_normal.dds
+set_texture_alias NormalMap wand_06.dds
 }
 material Material.069/SOLID/TEX/baumstamm_02.png
 {
