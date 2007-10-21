@@ -43,4 +43,81 @@ namespace rl {
     {
         return mValue.empty();
     }
+
+    bool Property::operator ==(const rl::Property &other) const
+    {
+        if (other.getTypeName() == getTypeName())
+        {
+            return other.getAsString() == getAsString();
+        }
+
+        return false;
+    }
+
+    Ogre::Real Property::getAsNumber() const
+    {
+        if (isInt())
+        {
+            return toInt();
+        }
+        else if (isReal())
+        {
+            return toReal();
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    CeGuiString Property::getAsString() const
+    {
+        if (isBool())
+        {
+            return StringConverter::toString(toBool());
+        }
+        else if (isString())
+        {
+            return toString();
+        }
+        else if (isInt())
+        {
+            return StringConverter::toString(toInt());
+        }
+        else if (isReal())
+        {
+            return StringConverter::toString(toReal());
+        }
+        else if (isVector3())
+        {
+            return StringConverter::toString(toVector3());
+        }
+        else if (isQuaternion())
+        {
+            return StringConverter::toString(toQuaternion());
+        }
+        else if (isIntTriple())
+        {
+            Tripel<int> triple = toIntTriple();
+            return StringConverter::toString(triple.first)
+                + "," + StringConverter::toString(triple.second)
+                + "," + StringConverter::toString(triple.third);
+        }
+        else if (isIntPair())
+        {
+            IntPair pair = toIntPair();
+            return StringConverter::toString(pair.first)
+                + "," + StringConverter::toString(pair.second);
+        }
+        ///@todo
+		//else if (isArray()) 
+  //      {
+  //          return StringConverter::toString(toBool());
+  //      }
+		//else if (isMap())
+  //      {
+  //          return StringConverter::toString(toBool());
+  //      }
+        return "";
+    }
 }

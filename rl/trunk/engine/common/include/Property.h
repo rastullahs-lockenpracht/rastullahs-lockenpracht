@@ -73,6 +73,7 @@ namespace rl {
         return to##Name();\
     }
 
+
 	class Property;
 
     typedef std::vector<Property> PropertyVector;
@@ -96,6 +97,10 @@ namespace rl {
 
         Ogre::String getTypeName() const;
         Ogre::String getName() const;
+        CeGuiString getAsString() const;
+        Ogre::Real getAsNumber() const;
+
+        bool operator==(const Property& other) const;
 
         bool isEmpty() const;
     private:
