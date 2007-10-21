@@ -71,10 +71,10 @@ namespace rl
     {
         XmlPropertyReader* propReader = new XmlPropertyReader();
         propReader->parseGameObjectFile(stream, groupName);
-        std::vector<PropertySet*> psset = propReader->getPropertySets();
-        for(std::vector<PropertySet*>::iterator it = psset.begin(); it != psset.end(); it++)
+        std::vector<PropertyRecord*> psset = propReader->getPropertyRecords();
+        for(std::vector<PropertyRecord*>::iterator it = psset.begin(); it != psset.end(); it++)
         {
-            PropertySet* curPs = *it;
+            PropertyRecord* curPs = *it;
             Ogre::String classId = curPs->getProperty(GameObject::PROPERTY_CLASS_ID).toString().c_str();
             mClassProperties[classId] = curPs;
         }
@@ -139,7 +139,7 @@ namespace rl
             goId = generateId();
         }
 
-        PropertySet* ps = getClassProperties(classId);
+        PropertyRecord* ps = getClassProperties(classId);
         Ogre::String classname =  ps->getProperty(GameObject::PROPERTY_BASE_CLASS).toString().c_str();
 
         GameObject* go = mGameObjectFactory
@@ -179,11 +179,11 @@ namespace rl
         }
     }
 
-    void GameObjectManager::applyProperties(GameObject* go, PropertySet* ps) const
+    void GameObjectManager::applyProperties(GameObject* go, PropertyRecord* ps) const
     {
         if (ps->hasProperty(GameObject::PROPERTY_INHERITS))
         {
-            PropertySet* superClassProps = 
+            PropertyRecord* superClassProps = 
                 getClassProperties(ps->getProperty(GameObject::PROPERTY_INHERITS).toString().c_str());
             applyProperties(go, superClassProps);
         }
@@ -211,7 +211,7 @@ namespace rl
 		return Property(go->getClassId() + "|" + CEGUI::PropertyHelper::uintToString(go->getId()));
 	}
 
-    PropertySet* GameObjectManager::getClassProperties(const Ogre::String& classId) const
+    PropertyRecord* GameObjectManager::getClassProperties(const Ogre::String& classId) const
     {
         ClassPropertyMap::const_iterator it = mClassProperties.find(classId);
         if (it == mClassProperties.end())
@@ -340,7 +340,7 @@ namespace rl
                         int ID = reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "ID");
                         Ogre::String classID = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlGameObject), "ClassID");
                         GameObjectState state = (GameObjectState)reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "State");
-                        PropertySet properties = reader->getPropertiesAsSet(static_cast<DOMElement*>(xmlGameObject));
+                        PropertyRecord properties = reader->getPropertiesAsSet(static_cast<DOMElement*>(xmlGameObject));
                         GameObject* object = createGameObject(classID, ID);
                         applyProperties(object, &properties);
                         object->setState(state);

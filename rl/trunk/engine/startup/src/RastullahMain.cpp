@@ -174,7 +174,7 @@ INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
     int argc;
     LPWSTR* argList = CommandLineToArgvW(GetCommandLineW(), &argc);
     char** argv = new char*[argc];
-    for (size_t argIdx = 0; argIdx < argc; argIdx++)
+    for (int argIdx = 0; argIdx < argc; argIdx++)
     {
         size_t len = wcslen(argList[argIdx])+1;
         argv[argIdx] = new char[len];

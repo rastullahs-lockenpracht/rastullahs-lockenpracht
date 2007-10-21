@@ -45,7 +45,7 @@ void XmlPropertyReader::parseGameObjectFile(Ogre::DataStreamPtr &stream, const O
     DOMNodeList* godefsXml = doc->getDocumentElement()->getElementsByTagName(AutoXMLCh("gameobjectclass").data());
     for (unsigned int idx = 0; idx < godefsXml->getLength(); idx++)
     {
-		PropertySet* ps = new PropertySet();
+		PropertyRecord* ps = new PropertyRecord();
 		DOMElement* curNode = static_cast<DOMElement*>(godefsXml->item(idx));
 		
 		const DOMNamedNodeMap* godefAttrs = curNode->getAttributes();
@@ -71,7 +71,7 @@ void XmlPropertyReader::parseGameObjectFile(Ogre::DataStreamPtr &stream, const O
                 }
             }
         }
-        mPropertySets.push_back(ps);
+        mPropertyRecords.push_back(ps);
     }
 	
 	doc->release();
@@ -79,9 +79,9 @@ void XmlPropertyReader::parseGameObjectFile(Ogre::DataStreamPtr &stream, const O
     shutdownXml();
 }
 
-std::vector<PropertySet*> XmlPropertyReader::getPropertySets()
+std::vector<PropertyRecord*> XmlPropertyReader::getPropertyRecords()
 {
-    return mPropertySets;
+    return mPropertyRecords;
 }
 
 PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMAttr* domAttr) const
@@ -241,9 +241,9 @@ PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElemen
     return std::make_pair(key, prop);
 }
 
-PropertySet XmlPropertyReader::getPropertiesAsSet(DOMElement *parent)
+PropertyRecord XmlPropertyReader::getPropertiesAsSet(DOMElement *parent)
 {
-    PropertySet ps;
+    PropertyRecord ps;
 
     DOMNodeList* propertyDefChildren = parent->getChildNodes();
     for (XMLSize_t childIdx = 0; childIdx < propertyDefChildren->getLength(); childIdx++)

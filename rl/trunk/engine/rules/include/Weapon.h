@@ -65,7 +65,7 @@ namespace rl
 
         virtual const Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const Property& value);
-        virtual PropertySet* getAllProperties() const;
+        virtual PropertyRecord* getAllProperties() const;
 
 	private:
 		Tripel<int> mTp;

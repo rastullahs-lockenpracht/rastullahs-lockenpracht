@@ -199,9 +199,9 @@ namespace rl
         }
     }
 
-    PropertySet* Weapon::getAllProperties() const
+    PropertyRecord* Weapon::getAllProperties() const
     {
-        PropertySet* ps = Item::getAllProperties();
+        PropertyRecord* ps = Item::getAllProperties();
         ps->setProperty(Weapon::PROPERTY_TP, Property(mTp));
         ps->setProperty(Weapon::PROPERTY_TP_KK, Property(mTpKk));
         ps->setProperty(Weapon::PROPERTY_TP_BF, Property(mBf));

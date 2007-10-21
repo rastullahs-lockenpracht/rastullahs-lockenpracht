@@ -572,9 +572,9 @@ namespace rl
         }
     }
 
-    PropertySet* GameObject::getAllProperties() const
+    PropertyRecord* GameObject::getAllProperties() const
     {
-        PropertySet* ps = new PropertySet();
+        PropertyRecord* ps = new PropertyRecord();
         ps->setProperty(PROPERTY_NAME, Property(mName));
         ps->setProperty(PROPERTY_DESCRIPTION, Property(mDescription));
         if(this->getState() == GOS_IN_SCENE)

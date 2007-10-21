@@ -43,14 +43,14 @@ namespace rl {
         return mDocument;
     }
 
-    void XmlPropertyWriter::setPropertySets(std::vector<PropertySet*> sets)
+    void XmlPropertyWriter::setPropertyRecords(std::vector<PropertyRecord*> sets)
     {
-        mPropertySets = sets;
+        mPropertyRecords = sets;
     }
 
-    void XmlPropertyWriter::addPropertySet(PropertySet* set)
+    void XmlPropertyWriter::addPropertyRecord(PropertyRecord* set)
     {
-        mPropertySets.push_back(set);
+        mPropertyRecords.push_back(set);
     }
 
     DOMElement* XmlPropertyWriter::processProperty(DOMElement* parent, PropertyEntry entry)
@@ -98,7 +98,7 @@ namespace rl {
         return element;
     }
 
-    DOMElement* XmlPropertyWriter::processPropertySet(DOMElement* parent, const char* const name, PropertySet set)
+    DOMElement* XmlPropertyWriter::processPropertyRecord(DOMElement* parent, const char* const name, PropertyRecord set)
     {
         PropertyMap map = set.toPropertyMap();
 

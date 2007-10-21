@@ -59,7 +59,7 @@ Quest::Quest(const CeGuiString& id, const CeGuiString& name, const CeGuiString& 
 	mQuestBook(NULL),
     mSubquests()
 {
-	mAdditionalProperties = new PropertySet();
+	mAdditionalProperties = new PropertyRecord();
 }
 
 Quest::~Quest()
@@ -352,9 +352,9 @@ void Quest::setProperty(const Ogre::String& key, const Property& value)
     }
 }
 
-PropertySet* Quest::getAllProperties() const
+PropertyRecord* Quest::getAllProperties() const
 {
-    PropertySet* ps = new PropertySet();
+    PropertyRecord* ps = new PropertyRecord();
 
     ps->setProperty(PROPERTY_ID, Property(mId));
     ps->setProperty(PROPERTY_NAME, Property(mName));

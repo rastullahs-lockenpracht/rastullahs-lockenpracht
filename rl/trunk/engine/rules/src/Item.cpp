@@ -203,9 +203,9 @@ namespace rl
         }
     }
 
-    PropertySet* Item::getAllProperties() const
+    PropertyRecord* Item::getAllProperties() const
     {
-        PropertySet* ps = GameObject::getAllProperties();
+        PropertyRecord* ps = GameObject::getAllProperties();
         ps->setProperty(Item::PROPERTY_IMAGENAME, Property(mImageName));
         ps->setProperty(Item::PROPERTY_SIZE, Property(mSize));
         ps->setProperty(Item::PROPERTY_ITEMTYPE, Property(mItemType));

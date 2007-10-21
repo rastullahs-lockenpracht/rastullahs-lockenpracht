@@ -170,7 +170,7 @@ namespace rl {
             for (QuestVector::const_iterator it = allQuests.begin();
                 it != allQuests.end(); ++it)
             {
-                PropertySet* questProps = (*it)->getAllProperties();
+                PropertyRecord* questProps = (*it)->getAllProperties();
                 quests.push_back(Property(questProps->toPropertyMap()));
                 delete questProps;
             }
@@ -182,7 +182,7 @@ namespace rl {
             PropertyVector journals;
             for(std::vector<JournalEntry*>::const_iterator iter = mJournalEntries.begin(); iter != mJournalEntries.end(); iter++)
             {
-                PropertySet journal;
+                PropertyRecord journal;
                 journal.setProperty(JournalEntry::PROPERTY_CAPTION, Property((*iter)->getCaption()));
                 journal.setProperty(JournalEntry::PROPERTY_TEXT, Property((*iter)->getText()));
                 journals.push_back(journal.toPropertyMap());
@@ -234,9 +234,9 @@ namespace rl {
         }
     }
 
-    PropertySet* QuestBook::getAllProperties() const
+    PropertyRecord* QuestBook::getAllProperties() const
     {
-        PropertySet* props = new PropertySet();
+        PropertyRecord* props = new PropertyRecord();
         props->setProperty(PROPERTY_QUESTS, getProperty(PROPERTY_QUESTS));
         props->setProperty(PROPERTY_JOURNAL, getProperty(PROPERTY_JOURNAL));
         return props;
@@ -273,7 +273,7 @@ namespace rl {
 
         DOMElement* quests = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
 
-        PropertySet* set = getAllProperties();
+        PropertyRecord* set = getAllProperties();
         writer->writeEachProperty(quests, set->toPropertyMap());
     }
 
@@ -289,7 +289,7 @@ namespace rl {
         if(rootNodeList->getLength())
         {
             DOMNode* xmlQuestBook = rootNodeList->item(0);
-            PropertySet properties = reader->getPropertiesAsSet(static_cast<DOMElement*>(xmlQuestBook));
+            PropertyRecord properties = reader->getPropertiesAsSet(static_cast<DOMElement*>(xmlQuestBook));
 
             setProperties(&properties);
         }

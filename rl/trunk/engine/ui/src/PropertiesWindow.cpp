@@ -74,12 +74,12 @@ namespace rl {
         fillHeader(object);
 
         // Get the property set of the object
-        PropertySet* props = object->getAllProperties();
+        PropertyRecord* props = object->getAllProperties();
 
         int row = 0;
         //  Iterate through all properties and add a row for
         //  every Entry
-        for( PropertySetMap::const_iterator propIter = props->begin();
+        for( PropertyRecordMap::const_iterator propIter = props->begin();
             propIter != props->end(); propIter++ )
         {
             Ogre::String key = propIter->first;

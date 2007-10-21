@@ -347,9 +347,9 @@ namespace rl
 		}
 	}
 
-    PropertySet* Inventory::getAllProperties() const
+    PropertyRecord* Inventory::getAllProperties() const
 	{
-		PropertySet* ps = new PropertySet();
+		PropertyRecord* ps = new PropertyRecord();
 		ps->setProperty(Inventory::PROPERTY_SLOTS, getProperty(Inventory::PROPERTY_SLOTS));
 		ps->setProperty(Inventory::PROPERTY_CONTENT, getProperty(Inventory::PROPERTY_CONTENT));
 		return ps;

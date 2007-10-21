@@ -115,9 +115,9 @@ namespace rl
         }
     }
 
-    PropertySet* SaveGameFile::getAllProperties() const
+    PropertyRecord* SaveGameFile::getAllProperties() const
     {
-        PropertySet* set = new PropertySet();
+        PropertyRecord* set = new PropertyRecord();
         set->setProperty("ModuleID", getProperty("ModuleID"));
         set->setProperty("Time", getProperty("Time"));
         return set;

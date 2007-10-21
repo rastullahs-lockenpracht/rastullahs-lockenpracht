@@ -1136,9 +1136,9 @@ namespace rl
         }
     }
 
-    PropertySet* Creature::getAllProperties() const
+    PropertyRecord* Creature::getAllProperties() const
     {
-        PropertySet* ps = GameObject::getAllProperties();
+        PropertyRecord* ps = GameObject::getAllProperties();
         ps->setProperty(Creature::PROPERTY_AI, mAiProperties);
         ps->setProperty(Creature::PROPERTY_INVENTORY_WINDOW_TYPE, Property(mInventoryWindowType));
         ps->setProperty(Creature::PROPERTY_CURRENT_LE, getProperty(Creature::PROPERTY_CURRENT_LE));

@@ -28,7 +28,7 @@
 namespace rl 
 {
     class Property;
-    class PropertySet;
+    class PropertyRecord;
 
     typedef std::pair<Ogre::String, Property> PropertyEntry;
 
@@ -39,14 +39,14 @@ namespace rl
         XmlPropertyReader();
 
         void parseGameObjectFile(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);
-        std::vector<PropertySet*> getPropertySets();
+        std::vector<PropertyRecord*> getPropertyRecords();
 
         PropertyEntry processProperty(XERCES_CPP_NAMESPACE::DOMElement* domElem) const;
 		PropertyEntry processProperty(XERCES_CPP_NAMESPACE::DOMAttr* domAttr) const;
 
-        virtual PropertySet getPropertiesAsSet(XERCES_CPP_NAMESPACE::DOMElement* parent);
+        virtual PropertyRecord getPropertiesAsSet(XERCES_CPP_NAMESPACE::DOMElement* parent);
     private:
-        std::vector<PropertySet*> mPropertySets;
+        std::vector<PropertyRecord*> mPropertyRecords;
 
         Property getProperty(const Ogre::String& key, const CeGuiString& value);
     };

@@ -21,50 +21,56 @@
  
 namespace rl {
 
-    class PropertySet;
-    class PropertySetPtr;
+    class PropertyRecord;
+    class PropertyRecordPtr;
 
-    typedef std::map<const Ogre::String, Property> PropertySetMap;
+    typedef std::map<const Ogre::String, Property> PropertyRecordMap;
 
+    /**
+     * This is the base class of all objects having Propertys
+     */
     class _RlCommonExport PropertyHolder
     {
     public:
         virtual const Property getProperty(const Ogre::String& key) const = 0;
         virtual void setProperty(const Ogre::String& key, const Property& value) = 0;
-        virtual PropertySet* getAllProperties() const = 0;
-        void setProperties(const PropertySet* props);
+        virtual PropertyRecord* getAllProperties() const = 0;
+        void setProperties(const PropertyRecord* props);
         void setProperties(const PropertyMap& propmap);
     };
 
-    class _RlCommonExport PropertySet : public PropertyHolder
+    /**
+     * A PropertyRecord holds all Propertys of one object,
+     */
+    class _RlCommonExport PropertyRecord : public PropertyHolder
     {
 	public:
-        PropertySet();
-        PropertySet(const PropertySet* ps);
-        PropertySet(const PropertyMap& propmap);
+        PropertyRecord();
+        PropertyRecord(const PropertyRecord* ps);
+        PropertyRecord(const PropertyMap& propmap);
 
         virtual const Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const Property& value);
         bool hasProperty(const Ogre::String& key) const;
-        virtual PropertySet* getAllProperties() const;
-        const PropertySetMap::const_iterator begin() const;
-        const PropertySetMap::const_iterator end() const;
+        virtual PropertyRecord* getAllProperties() const;
+        const PropertyRecordMap::const_iterator begin() const;
+        const PropertyRecordMap::const_iterator end() const;
         PropertyMap toPropertyMap() const;
         
     private:
-        PropertySetMap mProperties;
+        PropertyRecordMap mProperties;
 	};
 
-    class _RlCommonExport PropertySetPtr :
-        public Ogre::SharedPtr<PropertySet>
+    class _RlCommonExport PropertyRecordPtr :
+        public Ogre::SharedPtr<PropertyRecord>
     {
     public:
-        PropertySetPtr() : Ogre::SharedPtr<PropertySet>() {}
-        explicit PropertySetPtr(PropertySet* rep) : Ogre::SharedPtr<PropertySet>(rep) {}
-        PropertySetPtr(const PropertySetPtr& res) : Ogre::SharedPtr<PropertySet>(res) {}
+        PropertyRecordPtr() : Ogre::SharedPtr<PropertyRecord>() {}
+        explicit PropertyRecordPtr(PropertyRecord* rep) : Ogre::SharedPtr<PropertyRecord>(rep) {}
+        PropertyRecordPtr(const PropertyRecordPtr& res) : Ogre::SharedPtr<PropertyRecord>(res) {}
     
     protected:
-        void destroy() { Ogre::SharedPtr<PropertySet>::destroy(); }
+        void destroy() { Ogre::SharedPtr<PropertyRecord>::destroy(); }
     };
 
 }

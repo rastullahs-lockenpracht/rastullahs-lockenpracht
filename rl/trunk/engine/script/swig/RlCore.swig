@@ -958,7 +958,7 @@ public:
 	const Ogre::String& getName() const;
     virtual const rl::Property getProperty(const Ogre::String& key) const;
     virtual void setProperty(const Ogre::String& key, const rl::Property& value);
-    virtual rl::PropertySet* getAllProperties() const;
+    virtual rl::PropertyRecord* getAllProperties() const;
 };
 
 class SoundFadeJob : public rl::Job

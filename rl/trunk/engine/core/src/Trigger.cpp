@@ -57,9 +57,9 @@ namespace rl
         }
     }
 
-    PropertySet* Trigger::getAllProperties() const
+    PropertyRecord* Trigger::getAllProperties() const
     {
-        PropertySet* ps = new PropertySet();
+        PropertyRecord* ps = new PropertyRecord();
         ps->setProperty("name", Property(mName));
 
         return ps;

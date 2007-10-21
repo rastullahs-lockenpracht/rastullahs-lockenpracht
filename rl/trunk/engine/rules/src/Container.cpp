@@ -387,9 +387,9 @@ namespace rl {
         }
     }
 
-    PropertySet* Container::getAllProperties() const
+    PropertyRecord* Container::getAllProperties() const
     {
-        PropertySet* ps = Item::getAllProperties();
+        PropertyRecord* ps = Item::getAllProperties();
         ps->setProperty(Container::PROPERTY_CAPACITY, Property(mCapacity));
         ps->setProperty(Container::PROPERTY_VOLUME, Property(make_pair((int)mVolume.first, (int)mVolume.second)));
 		ps->setProperty(Container::PROPERTY_CONTENT, getProperty(Container::PROPERTY_CONTENT));

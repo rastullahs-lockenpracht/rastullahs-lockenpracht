@@ -196,9 +196,9 @@ namespace rl
         }
     }
 
-    PropertySet* Armor::getAllProperties() const
+    PropertyRecord* Armor::getAllProperties() const
     {
-        PropertySet* ps = Item::getAllProperties();
+        PropertyRecord* ps = Item::getAllProperties();
         ps->setProperty(Armor::PROPERTY_G_BE, Property(mGBE));
         ps->setProperty(Armor::PROPERTY_G_RS, Property(mGRS));
 

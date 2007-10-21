@@ -25,9 +25,9 @@ using namespace std;
 
 namespace rl {
 
-    void PropertyHolder::setProperties(const PropertySet* props)
+    void PropertyHolder::setProperties(const PropertyRecord* props)
     {
-        for (PropertySetMap::const_iterator it = props->begin();
+        for (PropertyRecordMap::const_iterator it = props->begin();
             it != props->end(); it++)
         {
             setProperty((*it).first, (*it).second);
@@ -43,29 +43,29 @@ namespace rl {
         }
     }
 
-    PropertySet::PropertySet()
+    PropertyRecord::PropertyRecord()
         : PropertyHolder()
     {
         mProperties.clear();
     }
 
-    PropertySet::PropertySet(const PropertySet* ps)
+    PropertyRecord::PropertyRecord(const PropertyRecord* ps)
         : PropertyHolder()
     {
         mProperties.clear();
         setProperties(ps);
     }
 
-    PropertySet::PropertySet(const PropertyMap& propmap)
+    PropertyRecord::PropertyRecord(const PropertyMap& propmap)
         : PropertyHolder()
     {
         mProperties.clear();
         convertToMap(propmap, mProperties);
     }
 
-    const Property PropertySet::getProperty(const Ogre::String& key) const
+    const Property PropertyRecord::getProperty(const Ogre::String& key) const
     {
-        PropertySetMap::const_iterator it = mProperties.find(key);
+        PropertyRecordMap::const_iterator it = mProperties.find(key);
         if (it == mProperties.end())
         {
             Throw(rl::RuntimeException, "Property "+key+" not found.");
@@ -74,32 +74,32 @@ namespace rl {
         return (*it).second;
     }
 
-    bool PropertySet::hasProperty(const Ogre::String& key) const
+    bool PropertyRecord::hasProperty(const Ogre::String& key) const
     {
         return mProperties.find(key) != mProperties.end();
     }
 
-    void PropertySet::setProperty(const Ogre::String& key, const Property& value)
+    void PropertyRecord::setProperty(const Ogre::String& key, const Property& value)
     {
         mProperties[key] = value;
     }
 
-    PropertySet* PropertySet::getAllProperties() const
+    PropertyRecord* PropertyRecord::getAllProperties() const
     {
-        return new PropertySet(this);
+        return new PropertyRecord(this);
     }
 
-    const PropertySetMap::const_iterator PropertySet::begin() const
+    const PropertyRecordMap::const_iterator PropertyRecord::begin() const
     {
         return mProperties.begin();
     }
 
-    const PropertySetMap::const_iterator PropertySet::end() const
+    const PropertyRecordMap::const_iterator PropertyRecord::end() const
     {
         return mProperties.end();
     }
 
-    PropertyMap PropertySet::toPropertyMap() const
+    PropertyMap PropertyRecord::toPropertyMap() const
     {
         return convertToPropertyMap(mProperties);
     }

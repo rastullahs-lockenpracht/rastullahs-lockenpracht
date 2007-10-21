@@ -30,7 +30,7 @@ namespace rl
 {
     class GameObject;
 	class Property;
-    class PropertySet;
+    class PropertyRecord;
 
     typedef MessageType<RLMSG_SAVEGAME_GOS_LOADED> MessageType_GameObjectsLoaded;
 
@@ -87,7 +87,7 @@ namespace rl
         virtual void readData(SaveGameFileReader* reader);
         virtual int getPriority() const;
     private:
-        typedef std::map<const Ogre::String, PropertySet*> ClassPropertyMap;
+        typedef std::map<const Ogre::String, PropertyRecord*> ClassPropertyMap;
         typedef std::set<GameObjectStateListener*> GameObjectStateListenerSet;
 
         Ogre::StringVector mScriptPatterns;
@@ -99,8 +99,8 @@ namespace rl
         GameObjectStateListenerSet mGameObjectStateListeners;
 
         unsigned int generateId();
-        PropertySet* getClassProperties(const Ogre::String& classId) const;
-        void applyProperties(GameObject* go, PropertySet* ps) const;
+        PropertyRecord* getClassProperties(const Ogre::String& classId) const;
+        void applyProperties(GameObject* go, PropertyRecord* ps) const;
     };
 }
 
