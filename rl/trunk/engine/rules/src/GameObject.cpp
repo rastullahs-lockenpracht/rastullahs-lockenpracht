@@ -461,7 +461,7 @@ namespace rl
         }
         else if (key == PROPERTY_GEOMETRY_TYPE)
         {
-            prop.setValue(mGeometryType);
+            prop.setValue(PhysicsManager::convertGeometryTypeToString(mGeometryType));
         }
         else if (key == PROPERTY_MASS)
         {
@@ -584,7 +584,7 @@ namespace rl
         }
         ps->setProperty(PROPERTY_MESHFILE, Property(mMeshfile));
         ps->setProperty(PROPERTY_MESHPARTS, getProperty(PROPERTY_MESHPARTS));
-        ps->setProperty(PROPERTY_GEOMETRY_TYPE, Property(mGeometryType));
+        ps->setProperty(PROPERTY_GEOMETRY_TYPE, getProperty(PROPERTY_GEOMETRY_TYPE));
         ps->setProperty(PROPERTY_MASS, Property(mMass));
 
         return ps;
@@ -664,7 +664,7 @@ namespace rl
 
             if (actor != NULL)
             {
-                actor->placeIntoScene();
+                actor->placeIntoScene(mPosition, mOrientation);
                 setActor(actor);
 
                 GameObjectState tmpState = mState;
