@@ -66,6 +66,7 @@ namespace rl
         virtual ~SaveGameManager(void);    
 
         SaveGameEntryMap listSaveGames(void);
+        SaveGameEntryMap listSaveGames(const CeGuiString &moduleName);
         void saveSaveGameFile(const CeGuiString &name);
         void loadSaveGameFile(const CeGuiString &name);
         void deleteSaveGameFile(const CeGuiString &name);

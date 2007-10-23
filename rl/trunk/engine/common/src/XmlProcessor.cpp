@@ -361,6 +361,38 @@ Tripel<int> XmlProcessor::getValueAsIntegerTriple(DOMElement *element) const
     return intTripel;
 }
 
+DOMElement* XmlProcessor::setAttributeValueAsVector3( DOMElement *element, const char* const name, Ogre::Vector3 value) const
+{
+    RlAssert(element != NULL, "XmlProcessor::setAttributeValueAsVector3: Element must not be NULL");
+	AutoXMLCh attrName(name);
+    CeGuiString temp = Ogre::StringConverter::toString(value.x) + "," + Ogre::StringConverter::toString(value.y) + "," + Ogre::StringConverter::toString(value.z);
+    element->setAttribute(attrName.data(), XMLString::transcode(temp.c_str()));
+    
+    return element;
+}
+
+Ogre::Vector3 XmlProcessor::getAttributeValueAsVector3(DOMElement* element, const char* const name) const
+{
+    RlAssert(element != NULL, "XmlProcessor::getAttributeValueAsVector3: Element must not be NULL");
+	AutoXMLCh attrName(name);
+	const XMLCh* attribute = element->getAttribute(attrName.data());
+
+    CeGuiString value = transcodeToString(attribute);
+
+    CeGuiString::size_type comma1 = value.find(",");
+    CeGuiString::size_type comma2 = value.find(",", comma1 + 1);
+
+    Ogre::Vector3 vec(0,0,0);
+    if (comma1 != CeGuiString::npos && comma2 != CeGuiString::npos)
+    {
+        vec.x = CEGUI::PropertyHelper::stringToFloat(value.substr(0, comma1));
+        vec.y = CEGUI::PropertyHelper::stringToFloat(value.substr(comma1 + 1, comma2 - comma1 - 1));
+        vec.z = CEGUI::PropertyHelper::stringToFloat(value.substr(comma2 + 1));
+    }
+
+    return vec;
+}
+
 DOMElement* XmlProcessor::setValueAsVector3( DOMElement *element, Ogre::Vector3 value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setValueAsVector3: Element must not be NULL");

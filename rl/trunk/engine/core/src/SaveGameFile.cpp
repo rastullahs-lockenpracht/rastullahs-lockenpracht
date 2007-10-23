@@ -26,6 +26,9 @@
 
 namespace rl
 {
+    const Ogre::String SaveGameFile::PROPERTY_MODULEID = "moduleid";
+    const Ogre::String SaveGameFile::PROPERTY_TIME = "time";
+
 
     SaveGameFile::SaveGameFile(const CeGuiString &name) : mStream((Ogre::DataStream*)NULL)
     {
@@ -93,9 +96,9 @@ namespace rl
 
     const Property SaveGameFile::getProperty(const Ogre::String& key) const
     {
-        if(key == "ModuleID")
+        if(key == PROPERTY_MODULEID)
             return Property(mModuleID);
-        else if(key == "Time")
+        else if(key == PROPERTY_TIME)
             return Property(mLocalTime);
         else
             return Property();
@@ -103,12 +106,12 @@ namespace rl
 
     void SaveGameFile::setProperty(const Ogre::String& key, const Property& value)
     {
-        if(key == "ModuleID")
+        if(key == PROPERTY_MODULEID)
         {
             if(value.isString())
                 mModuleID = value.toString();
         }
-        else if(key == "Time")
+        else if(key == PROPERTY_TIME)
         {
             if(value.isString())
                 mLocalTime = value.toString();
@@ -118,8 +121,8 @@ namespace rl
     PropertyRecord* SaveGameFile::getAllProperties() const
     {
         PropertyRecord* set = new PropertyRecord();
-        set->setProperty("ModuleID", getProperty("ModuleID"));
-        set->setProperty("Time", getProperty("Time"));
+        set->setProperty(PROPERTY_MODULEID, getProperty(PROPERTY_MODULEID));
+        set->setProperty(PROPERTY_TIME, getProperty(PROPERTY_TIME));
         return set;
     }
 

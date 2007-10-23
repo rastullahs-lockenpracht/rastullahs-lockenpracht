@@ -32,6 +32,9 @@ namespace rl
     class _RlCoreExport SaveGameFile : public PropertyHolder, public Ogre::ScriptLoader
     {
     public:
+        static const Ogre::String PROPERTY_MODULEID;
+        static const Ogre::String PROPERTY_TIME;
+
         SaveGameFile(const CeGuiString &name);
         ~SaveGameFile();
         CeGuiString buildFilename();

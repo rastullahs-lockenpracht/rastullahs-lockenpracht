@@ -92,7 +92,7 @@ namespace rl {
                 else if(entry.second.isString())
                     setAttributeValueAsString(element, "data", entry.second.toString());
                 else if(entry.second.isVector3())
-                    setValueAsVector3(element, entry.second.toVector3());
+                    setAttributeValueAsVector3(element, "data", entry.second.toVector3());
             }
         }
         return element;

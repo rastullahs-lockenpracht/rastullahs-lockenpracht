@@ -174,7 +174,7 @@ namespace rl
         {
             GameObject* go = itr->second;
             mGameObjects.erase(itr++);
-            go->setActor(NULL);
+            go->setState(GOS_LOADED);
             delete go;
         }
     }
@@ -342,7 +342,8 @@ namespace rl
                         GameObjectState state = (GameObjectState)reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "State");
                         PropertyRecord properties = reader->getPropertiesAsSet(static_cast<DOMElement*>(xmlGameObject));
                         GameObject* object = createGameObject(classID, ID);
-                        applyProperties(object, &properties);
+                        
+                        applyProperties(object, &properties); 
                         object->setState(state);
                     }
                 }

@@ -77,6 +77,19 @@ namespace rl
         return mSaveGames;
     }
 
+    SaveGameEntryMap SaveGameManager::listSaveGames(const CeGuiString &moduleName)
+    {
+        SaveGameEntryMap entries;
+        for(SaveGameEntryMap::const_iterator iter = mSaveGames.begin(); iter != mSaveGames.end(); iter++)
+        {
+            if(iter->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString() == moduleName)
+            {
+                entries[iter->first] = iter->second;
+            }
+        }
+        return entries;
+    }
+
     void SaveGameManager::saveSaveGameFile(const CeGuiString &name)
     {
         time_t rawTime;
