@@ -59,11 +59,12 @@ namespace rl
 
     CreatureControllerManager::~CreatureControllerManager()
     {
+        // causes an error because PhysicalThing::setPhysicsController(NULL) is called probably after the physicalthing is destroyed
         // delete all creaturecontrollers
-        for( ControllerMap::iterator it = mControllers.begin(); it != mControllers.end(); it++ )
-        {
-            delete it->second;
-        }
+        //for( ControllerMap::iterator it = mControllers.begin(); it != mControllers.end(); it++ )
+        //{
+        //    delete it->second;
+        //}
 
         PhysicsManager *physicsManager = PhysicsManager::getSingletonPtr();
         const OgreNewt::MaterialID *char_mat = physicsManager->getMaterialID("character");
