@@ -44,14 +44,6 @@ namespace rl
     {
     public:
         static const Ogre::String PROPERTY_CREATUREID;
-
-        /** Constructor.
-		 * @param creature the creature of the bot/char
-		 * @param actor the actor of the bot/char
-		 */
-        CreatureController(Creature *character);
-        ~CreatureController();
-
         /**
          * This function is not intented to be called directly
          * @retval true, if this CreatureController still needs to be called every frame
@@ -89,7 +81,8 @@ namespace rl
             MT_WEITSPRUNG,
             // these movements are only for internal purposes and should not be used directly
             // instead use one of the movements above
-            MT_DREHEN
+            MT_DREHEN,
+            MT_STUFENERKENNUNG
         } MovementType;
 
         /// The generalization of the place (in the air, on the floor, in the water...)
@@ -166,8 +159,15 @@ namespace rl
         typedef std::map<MovementType, AbstractMovement*> MovementMap;
         MovementMap mMovementMap;
 
-        // in order to copy the contactcallback members correctly;
+        // in order to copy the contactcallback members correctly and to create and destroy the creature
         friend class CreatureControllerManager;
+        /** Constructor.
+         * @param creature the creature of the bot/char
+         * @param actor the actor of the bot/char
+         */
+        CreatureController(Creature *character);
+        ~CreatureController();
+
     private:
         // only used in setAnimation
         Ogre::String mLastAnimationName;

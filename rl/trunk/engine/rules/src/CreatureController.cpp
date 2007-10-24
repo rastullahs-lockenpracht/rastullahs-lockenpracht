@@ -26,6 +26,7 @@
 #include "PhysicalThing.h"
 #include "TimeSource.h"
 #include "GameObjectManager.h"
+#include "PhysicsMaterialRaycast.h"
 
 
 
@@ -41,18 +42,25 @@ namespace rl
     class Stehen : public AbstractMovement
     {
     public:
-        Stehen(CreatureController *creature) : AbstractMovement(creature), mVelocity(Vector3::ZERO), mRotationMovement(NULL) {}
+        Stehen(CreatureController *creature) : 
+            AbstractMovement(creature), 
+            mVelocity(Vector3::ZERO), 
+            mRotationMovement(NULL), 
+            mStepRecognitionMovement(NULL)
+            {}
         virtual CreatureController::MovementType getId() const {return CreatureController::MT_STEHEN;}
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_NONE;}
         virtual void activate()
         {
             AbstractMovement::activate();
             getRotationMovement()->activate();
+            getStepRecognitionMovement()->activate();
         }
         virtual void deactivate()
         {
             AbstractMovement::deactivate();
             getRotationMovement()->deactivate();
+            getStepRecognitionMovement()->deactivate();
         }
         virtual bool calculateBaseVelocity(Real &velocity)
         {
@@ -76,11 +84,18 @@ namespace rl
             body->getMassMatrix(mass, inertia);
 
             Vector3 vel = mMovingCreature->getVelocity();
+            vel.y = 0;
             Real delay = 0.05;//(2 * PhysicsManager::getSingleton().getMaxTimestep());
-            if(vel.squaredLength() > mVelocity.squaredLength())
-                delay *= 1.5;
-            force = mass * (mVelocity - vel) / delay;
+            //if(vel.squaredLength() > mVelocity.squaredLength())
+            //    delay *= 1.5;
+            Vector3 diff = (mVelocity - vel);
+            force = mass * diff / delay;
+            // additional remove movement in wrong direction
+            force += mass * (mVelocity.normalisedCopy() * vel.length() - vel) / delay; // do we need this, does this improve the movement behaviour
+            // (changing direction during slow movement makes char slide sideways)
             force.y = 0;
+
+            getStepRecognitionMovement()->calculateForceAndTorque(force, torque, timestep);
         }
         virtual bool run(Ogre::Real elapsedTime,  Ogre::Vector3 direction, Ogre::Vector3 rotation)
         {
@@ -90,9 +105,14 @@ namespace rl
             mVelocity = direction * velocity;
             applyAuChanges(elapsedTime);
             setAnimation(elapsedTime);
+            bool ret = false;
             if( getRotationMovement()->isPossible() )
-                return getRotationMovement()->run(elapsedTime, direction, rotation);
-            return false;
+                if( getRotationMovement()->run(elapsedTime, direction, rotation) )
+                    ret = true;
+            if( getStepRecognitionMovement()->isPossible() )
+                if (getStepRecognitionMovement()->run(elapsedTime, direction, rotation) )
+                    ret = true;
+            return ret;
         }
         virtual void setAnimation(Ogre::Real elapsedTime)
         {
@@ -124,6 +144,7 @@ namespace rl
     protected:
         Ogre::Vector3 mVelocity;
         mutable AbstractMovement *mRotationMovement;
+        mutable AbstractMovement *mStepRecognitionMovement;
         virtual AbstractMovement* getRotationMovement() const
         {
             if( mRotationMovement == NULL)
@@ -135,6 +156,18 @@ namespace rl
                 Throw(NullPointerException, "Konnte Movement mit der Id MT_STEHEN_DREHEN nicht finden.");
             }
             return mRotationMovement;
+        }
+        virtual AbstractMovement* getStepRecognitionMovement() const
+        {
+            if( mStepRecognitionMovement == NULL )
+            {
+                mStepRecognitionMovement = mMovingCreature->getMovementFromId(CreatureController::MT_STUFENERKENNUNG);
+            }
+            if( mStepRecognitionMovement == NULL )
+            {
+                Throw(NullPointerException, "Konnte Movement mit der Id MT_STUFENERKENNUNG nicht finden.");
+            }
+            return mStepRecognitionMovement;
         }
     };
 
@@ -1112,6 +1145,207 @@ namespace rl
     };
 
 
+    class StepRecognition : public AbstractMovement
+    {
+    public:
+        StepRecognition(CreatureController *creature) : 
+            AbstractMovement(creature), 
+            mMoveToNextTarget(false)
+        {
+            mLinearSpringK = 600.0f;
+            Real relationCoefficient = 1.0f;
+            mLinearDampingK = relationCoefficient * 2.0f * Math::Sqrt(mLinearSpringK);
+        }
+        virtual CreatureController::MovementType getId() const {return CreatureController::MT_STUFENERKENNUNG;}
+        virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_NONE;}
+        virtual void activate()
+        {
+            AbstractMovement::activate();
+            mMoveToNextTarget = false;
+        }
+        virtual void deactivate()
+        {
+            AbstractMovement::deactivate();
+        }
+        virtual bool calculateBaseVelocity(Real &velocity)
+        {
+            velocity = 0.0f;
+            return isPossible();
+        }
+        virtual bool isPossible() const
+        {
+            return
+                mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
+                mMovingCreature->getCreature()->getAu() > 0 &&
+                !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_DEAD | Effect::STATUS_UNCONSCIOUS | Effect::STATUS_SLEEPING));
+        }
+        virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep)
+        {
+            // move to nextTarget
+            if( mMoveToNextTarget )
+            {
+                Real mass;
+                Vector3 inertia;
+                OgreNewt::Body *body = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody();
+                body->getMassMatrix(mass, inertia);
+
+                Vector3 pos = mMovingCreature->getCreature()->getPosition();
+                Vector3 diff = mNextTarget - pos;
+
+                Vector3 vel = body->getVelocity();
+
+                force.y = mass*( mLinearSpringK*diff.y - mLinearDampingK*vel.y );
+std::ostringstream oss;
+oss << "Testing Step-Recognition: Step force: " << force.y;
+LOG_MESSAGE(Logger::RULES, oss.str());
+            }
+        }
+        virtual bool run(Ogre::Real elapsedTime,  Ogre::Vector3 direction, Ogre::Vector3 rotation)
+        {
+            if( !mMoveToNextTarget ) // check if we need to move up for a step
+            {
+                // raycast in the direction we should move to
+                Vector3 globalDir = mMovingCreature->getCreature()->getOrientation() * direction; // the direction in global space
+                if( globalDir == Vector3::ZERO )
+                    return true;
+
+                Vector3 vel = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->getVelocity();
+                vel.y = 0;
+                Real raylen = vel.length() / 3;  // use longer ray, if higher velocity
+
+
+                // raycasts
+                PhysicsMaterialRaycast::MaterialVector materialVector;
+                materialVector.push_back(PhysicsManager::getSingleton().getMaterialID("default")); // should we perhaps only use level here?
+                materialVector.push_back(PhysicsManager::getSingleton().getMaterialID("level"));
+
+                Vector3 start = mMovingCreature->getCreature()->getPosition() + Vector3::UNIT_Y * 0.1f;
+                globalDir.y = 0;
+                globalDir.normalise();
+                Vector3 end = start + globalDir*raylen;
+
+                bool foundbody = false;
+                Real foundDistance = 0;
+
+                RaycastInfo info;
+                do
+                {
+                    info = 
+                        mRaycast.execute(
+                            PhysicsManager::getSingleton()._getNewtonWorld(),
+                            &materialVector,
+                            start, end);
+
+                    // do we need to check bodies left and right of this ray? (step width?)
+
+
+                    // already found nearer body
+                    if( foundbody )
+                    {
+                        if( info.mBody && (info.mDistance >= foundDistance + 0.19) || // step deep enough
+                            !info.mBody )
+                        {
+                            // found a step
+                            mMoveToNextTarget = true;
+                            mNextTarget = start + globalDir*raylen*foundDistance + 0.1 * globalDir;
+std::ostringstream oss;
+oss << "Testing Step-Recognition: Next Step: " << mNextTarget;
+LOG_MESSAGE(Logger::RULES, oss.str());
+                            break;
+                        }
+                    }
+
+                    if( info.mBody )
+                    {
+                        foundbody = true;
+                        foundDistance = info.mDistance;
+                    }
+
+
+                    start += Vector3::UNIT_Y * 0.05f;
+                    end += Vector3::UNIT_Y * 0.05f;
+                }
+                while( info.mBody && (start - mMovingCreature->getCreature()->getPosition()).y <= 0.5 );
+            }
+
+
+            // check if the target is still needed
+            // perform check also to verify found step
+            if( mMoveToNextTarget )
+            {
+                Vector3 diffToTarget = mNextTarget - mMovingCreature->getCreature()->getPosition();
+                diffToTarget.y = 0;
+                
+                // different direction
+                Vector3 globalDir = mMovingCreature->getCreature()->getOrientation() * direction; // the direction in global space
+                if( globalDir == Vector3::ZERO )
+                {
+                    mMoveToNextTarget = false;
+LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction null");
+                    return false;
+                }
+
+                // target reached
+                if( diffToTarget.squaredLength() < 0.01 )
+                {
+                    mMoveToNextTarget = false;
+LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step reached");
+                    return false;
+                }
+
+                // different direction
+                if( !diffToTarget.directionEquals(globalDir, Degree(5)) )
+                {
+                    mMoveToNextTarget = false;
+LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
+                    return false;
+                }
+            }
+
+            return mMoveToNextTarget;
+        }
+        virtual bool isDirectionPossible(Ogre::Vector3 &direction) const
+        {
+            Vector3 oldDirection(direction);
+            direction = Vector3::ZERO;
+            return oldDirection == Vector3::ZERO;
+        }
+        virtual bool isRotationPossible(Ogre::Vector3 &rotation) const
+        {
+            Vector3 oldRotation(rotation);
+            rotation = Vector3::ZERO;
+            return oldRotation == Vector3::ZERO;
+        }
+    protected:
+        bool mMoveToNextTarget;
+        Vector3 mNextTarget;
+        Real mLastSquaredDistance;
+        Real mLinearSpringK, mLinearDampingK;
+        PhysicsMaterialRaycast mRaycast;
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1190,6 +1424,9 @@ namespace rl
         mMovementMap.insert(movementPair);
         movementPair.first = MT_WEITSPRUNG;
         movementPair.second = new Weitsprung (this);
+        mMovementMap.insert(movementPair);
+        movementPair.first = MT_STUFENERKENNUNG;
+        movementPair.second = new StepRecognition (this);
         mMovementMap.insert(movementPair);
 
         mMessageType_GameObjectsLoaded_Handler = MessagePump::getSingleton().addMessageHandler<MessageType_GameObjectsLoaded>(
@@ -1404,16 +1641,45 @@ namespace rl
         //Real charHeight = CharAab.getMaximum().y - CharAab.getMinimum().y;
         Real stepHeight = point.y - charPos.y;
 
-        if( stepHeight < 0.5f )
+        if( stepHeight < 0.4f )
             isFloorCollision = true;
 
         if ( isFloorCollision )
         {
             setAbstractLocation(AL_FLOOR);
-            if(stepHeight > 0.1f)
-                setContactNormalAcceleration(10);
-            setContactElasticity(0.0f);
+            if(stepHeight > 0.05f) // experimantal value, 
+                                   // too low means the creature glides upwards on inclined planes, 
+                                   // too high means the creature stops if moving slowly onto a step because of the friction
+            {
+                //setContactNormalAcceleration(5);
+                rotateTangentDirections(charOri*mDirection + Vector3::UNIT_Y);
+                setContactTangentAcceleration(5,0);
+                setContactFrictionState(1,0);
+                setContactFrictionState(1,1);
+            }
+            else
+            {
+                setContactFrictionState(1,0);
+                setContactFrictionState(1,1);
+            }
+            //setContactTangentAcceleration(5);
+            //setContactElasticity(0.0f);
             mLastFloorContact = TimeSourceManager::getSingleton().getTimeSource(TimeSource::REALTIME_INTERRUPTABLE)->getClock();
+        }
+        else
+        {
+            Vector3 vel; // prevent going upwards if running against small things
+            vel = mCreature->getActor()->getPhysicalThing()->getVelocity();
+            if( vel.y >= 0 )
+            {
+                setContactFrictionState(1,0);
+                setContactFrictionState(1,1);    
+            }
+            else
+            {
+                setContactFrictionState(0,0);
+                setContactFrictionState(0,1);
+            }
         }
 
         if(mMovement != NULL)

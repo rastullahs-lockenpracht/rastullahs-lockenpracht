@@ -47,14 +47,24 @@ namespace rl
         physicsManager->createMaterialPair(char_mat, def_mat)->setContactCallback(this);
         physicsManager->createMaterialPair(char_mat, level_mat)->setContactCallback(this);
         
-        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultFriction(0,0);
-        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultFriction(0,0);
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultFriction(0.8f,0.4f);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultFriction(0.8f,0.4f);
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultElasticity(0.0f);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultElasticity(0.0f);
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultSoftness(1.0f);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultSoftness(1.0f);
 
         physicsManager->getNewtonDebugger()->setMaterialColor(char_mat, Ogre::ColourValue::Red);
     }
 
     CreatureControllerManager::~CreatureControllerManager()
     {
+        // delete all creaturecontrollers
+        for( ControllerMap::iterator it = mControllers.begin(); it != mControllers.end(); it++ )
+        {
+            delete it->second;
+        }
+
         PhysicsManager *physicsManager = PhysicsManager::getSingletonPtr();
         const OgreNewt::MaterialID *char_mat = physicsManager->getMaterialID("character");
 

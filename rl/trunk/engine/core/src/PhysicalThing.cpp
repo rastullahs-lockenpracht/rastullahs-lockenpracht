@@ -105,6 +105,11 @@ namespace rl
         mBody->setVelocity(vel);
     }
 
+    Vector3 PhysicalThing::getVelocity()
+    {
+        return mBody->getVelocity();
+    }
+
     Actor *PhysicalThing::getActor(void) const
     {
         return mActor;
