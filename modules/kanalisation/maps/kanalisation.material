@@ -1,10 +1,18 @@
-material wurzeln/SOLID/TEX/baumstamm_02.png: Basic_Normalmapping
-{
-set_texture_alias DiffuseMap baumstamm_02.dds
-set_texture_alias NormalMap baumstamm_02_normalmap.dds
-}
-
 material treppe/SOLID/TEX/wand_06.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wand_06.dds
+			}
+		}
+	}
+}
+material saeulen/SOLID/TEX/wand_06.png
 {
 	technique
 	{
@@ -73,6 +81,20 @@ material SOLID/TEX/baumstamm_02.png
 		}
 	}
 }
+material wurzel_alpha/SOLID/TEX/wurzel.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture wurzel.png
+			}
+		}
+	}
+}
 material Material.020/SOLID/TEX/wand_06.png
 {
 	technique
@@ -97,48 +119,6 @@ material Material.024/SOLID/TEX/wand_01.png
 			texture_unit
 			{
 				texture wand_06.dds
-			}
-		}
-	}
-}
-material Material.087/SOLID/TEX/wand_06.png
-{
-	technique
-	{
-		pass
-		{
-			specular 0.500000 0.500000 0.500000 12.500000
-			texture_unit
-			{
-				texture wand_06.dds
-			}
-		}
-	}
-}
-material Material.034/SOLID/TEX/baumstamm_02.png
-{
-	technique
-	{
-		pass
-		{
-			specular 0.500000 0.500000 0.500000 12.500000
-			texture_unit
-			{
-				texture baumstamm_02.dds
-			}
-		}
-	}
-}
-material Material.088/SOLID/TEX/boden_01.png
-{
-	technique
-	{
-		pass
-		{
-			specular 0.500000 0.500000 0.500000 12.500000
-			texture_unit
-			{
-				texture boden_01.dds
 			}
 		}
 	}
@@ -195,6 +175,20 @@ material Material.098/SOLID/TEX/wand_06.png
 			texture_unit
 			{
 				texture wand_06.dds
+			}
+		}
+	}
+}
+material saeulen/SOLID/TEX/boden_01.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture boden_01.dds
 			}
 		}
 	}

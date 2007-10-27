@@ -19,7 +19,7 @@
 		</light>
 		<light name="fackkellicht3" type="point" visible="true"
 			castShadows="false">
-			<position x="-9,3" y="6.88" z="19.80" />
+			<position x="-10.16" y="6.47" z="17.10" />
 			<colourDiffuse r="0.8" g="0.6" b="0.4" />
 			<colourSpecular r="0.8" g="0.6" b="0.4" />
 			<lightAttenuation range="5" constant="1.0" linear="0.001"

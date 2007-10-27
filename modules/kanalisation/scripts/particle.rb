@@ -7,7 +7,7 @@ tavernfire2 = $AM.createParticleSystemActor("tavernfire1", "feuertest" );
 tavernfire2.placeIntoScene( 22.44,6.75,15.80, 1.0, 0.0, 0.0, 0.0 );
 
 tavernfire3 = $AM.createParticleSystemActor("tavernfire1", "feuertest" );
-tavernfire3.placeIntoScene( -9.34,6.57,19.10, 1.0, 0.0, 0.0, 0.0 );
+tavernfire3.placeIntoScene( -10.16,6.47,17.10, 1.0, 0.0, 0.0, 0.0 );
 
 tavernfire4 = $AM.createParticleSystemActor("tavernfire1", "feuertest" );
 tavernfire4.placeIntoScene( -9.14,6.53,2.80, 1.0, 0.0, 0.0, 0.0 );
