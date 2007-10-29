@@ -11,7 +11,10 @@ loader.loadMap("kana_lights.rlmap.xml");
 # Physik aktivieren
 $PM.setEnabled(true);
 
+$SCRIPT.log("rauschendesWasser geladen");
+
 $CORE.getWorld().setSkyBox(true, "rl/dsa07", 100.0)
+
 
 #$SCRIPT.log("Tageslicht erstellen..");
 #sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
@@ -42,7 +45,7 @@ $hero = $GOM.createGameObject("mckhero", 1);
 
 $SCRIPT.log("Place hero into scene")
 $hero.placeIntoScene();
-$hero.setPosition([-3.86,3.80,-1.60]);
+$hero.setPosition([-1.23,4.33,2.36]);
 
 $SCRIPT.log("Prepare hero for being the active character")
 PlayerSettings.preparePlayer($hero)

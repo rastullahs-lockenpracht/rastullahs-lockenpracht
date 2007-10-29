@@ -2,8 +2,8 @@ feuertest
 {
 	quota	70
 	material	feuertest
-	particle_width	0.8
-	particle_height	0.8
+	particle_width	0.6
+	particle_height	0.6
 	cull_each	false
 	renderer	billboard
 	sorted	false
