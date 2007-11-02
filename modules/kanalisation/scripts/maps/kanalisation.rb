@@ -38,6 +38,14 @@ $SCRIPT.log("Tageslicht erstellt.");
 $World.setFog( World::FOG_EXP, [0.658,0.7568,0.9137,1.0], 0.00049, 0.8, 1.0);
 $World.setAmbientLight( 0.08, 0.06, 0.05  );
 
+$SCRIPT.log("Sound laden");
+kanalLied = $AM.createSoundStreamActor( "KanalLied", "kanal.ogg" ); 
+kanalLied.getControlledObject().set3d(false);
+$SCRIPT.log(" Loopen");
+kanalLied.getControlledObject().setLooping( true );
+$SCRIPT.log(" Abspielen");
+kanalLied.getControlledObject().play();
+$SCRIPT.log("Sound fertig");
 
 $SCRIPT.log("Create hero")
 #$hero = $GOM.createGameObject("hero", 1);
@@ -54,7 +62,6 @@ $SCRIPT.log("Set hero as active character")
 $UI.setActiveCharacter($hero)
 
 $SCRIPT.log("Hero ready")
-
 
 #$SCRIPT.log("Held in die Szene einfuegen.");#-22.0130577087402, -6.70670890808105, 25.1438484191895
 #$hero.getActor().placeIntoScene([0.0, 20.0, 0.0]);
