@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="RlAI"
 	ProjectGUID="{C3E78B89-587B-499A-BE7D-4FE8564F0CD7}"
 	RootNamespace="RlAI"
@@ -315,14 +315,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\AimlNodeImplRl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\AimlParserImplRl.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\AiSubsystem.cpp"
 				>
 			</File>
@@ -351,19 +343,27 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\ContextConditionProcessor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ContextInterpreter.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\CreatureWalkPathJob.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\DialogCharacter.cpp"
+				RelativePath=".\src\Dialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\DialogCondition.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\DialogElement.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\DialogImplication.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\DialogManager.cpp"
 				>
 			</File>
 			<File
@@ -371,11 +371,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\DialogParagraph.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\DialogResponse.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\DialogScriptProcessor.cpp"
+				RelativePath=".\src\DialogVariable.cpp"
 				>
 			</File>
 			<File
@@ -438,50 +442,6 @@
 				RelativePath=".\src\WayPointNode.cpp"
 				>
 			</File>
-			<Filter
-				Name="predicates"
-				>
-				<File
-					RelativePath=".\src\predicates\CreaturePredicates.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\predicates\EigenschaftsProbePredicates.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\predicates\EigenschaftsWertPredicates.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\predicates\GrundWertPredicates.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\predicates\QuestKnownPredicates.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\predicates\QuestPartsPredicates.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\predicates\QuestStatePredicates.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\predicates\ScriptPredicates.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\predicates\TalentProbePredicates.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\predicates\TalentWertPredicates.cpp"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Headerdateien"
@@ -517,14 +477,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\AimlNodeImplRl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\AimlParserImplRl.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\AiPrerequisites.h"
 				>
 			</File>
@@ -557,19 +509,27 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\ContextConditionProcessor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\ContextInterpreter.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\CreatureWalkPathJob.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\DialogCharacter.h"
+				RelativePath=".\include\Dialog.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\DialogCondition.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\DialogElement.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\DialogImplication.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\DialogManager.h"
 				>
 			</File>
 			<File
@@ -577,11 +537,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\DialogParagraph.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\DialogResponse.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\DialogScriptProcessor.h"
+				RelativePath=".\include\DialogVariable.h"
 				>
 			</File>
 			<File
@@ -632,50 +596,6 @@
 				RelativePath=".\include\WayPointNode.h"
 				>
 			</File>
-			<Filter
-				Name="predicates"
-				>
-				<File
-					RelativePath=".\include\predicates\CreaturePredicates.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\predicates\EigenschaftsProbePredicates.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\predicates\EigenschaftsWertPredicates.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\predicates\GrundWertPredicates.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\predicates\QuestKnownPredicates.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\predicates\QuestPartsPredicates.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\predicates\QuestStatePredicates.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\predicates\ScriptPredicates.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\predicates\TalentProbePredicates.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\predicates\TalentWertPredicates.h"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Ressourcendateien"

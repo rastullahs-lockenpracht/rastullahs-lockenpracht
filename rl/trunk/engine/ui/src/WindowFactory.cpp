@@ -27,7 +27,6 @@
 #include "Console.h"
 #include "CoreSubsystem.h"
 #include "DebugWindow.h"
-#include "DialogCharacter.h"
 #include "DialogControlState.h"
 #include "DialogWindow.h"
 #include "Exception.h"

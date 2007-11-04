@@ -33,20 +33,11 @@
 #include "XmlProcessor.h"
 #include "XmlResourceManager.h"
 #include "ContentModule.h"
-
-#include "AimlCore.h"
-#include "AimlParserImplRl.h"
-#include "DialogCharacter.h"
-#include "ScriptProcessor.h"
-#include "DialogScriptProcessor.h"
-#include "ContextInterpreter.h"
-
-using namespace Ogre;
-using namespace MadaBot;
-using namespace XERCES_CPP_NAMESPACE;
+#include "DialogManager.h"
 
 using namespace Ogre;
 using namespace OpenSteer;
+using namespace XERCES_CPP_NAMESPACE;
 
 template<> rl::AiSubsystem* Singleton<rl::AiSubsystem>::ms_Singleton = 0;
 
@@ -55,11 +46,7 @@ namespace rl {
 AiSubsystem::AiSubsystem(void)
     : mAgentManager(NULL),
 	  mWayPointGraphManager(NULL),
-      mWorld(NULL),
-      mCore(new AimlCore()),
-	  mContextInterpreter(new ContextInterpreter()),
-	  mCurrentBot(NULL)
-
+      mWorld(NULL)
 {
     LOG_MESSAGE(Logger::AI, "Init Start");
     initialize();
@@ -73,20 +60,10 @@ AiSubsystem::~AiSubsystem(void)
     mWorld->removeAllObstacles();
 	removeAllLandmarkPaths();
 	removeAllLandmarks();
+    delete mDialogManager;
     delete mAgentManager;
 	delete mWayPointGraphManager;
     delete mWorld;
-
-  	delete mCore;
-	delete mContextInterpreter;
-
-	for(BotMap::iterator iter = mBots.begin();
-		iter != mBots.end();
-		++iter)
-	{
-		delete iter->second;
-	}
-
 }
 
 void AiSubsystem::initialize()
@@ -94,6 +71,8 @@ void AiSubsystem::initialize()
     mAgentManager = new AgentManager();
 	mWayPointGraphManager = new WayPointGraphManager();
     mWorld = new AiWorld();
+    mDialogManager = new DialogManager();
+    Ogre::ResourceGroupManager::getSingleton()._registerScriptLoader(mDialogManager);
 
     mSceneLoadedConnection =
         MessagePump::getSingleton().addMessageHandler<MessageType_SceneLoaded>(
@@ -103,27 +82,6 @@ void AiSubsystem::initialize()
 		    boost::bind(&AiSubsystem::onBeforeClearScene, this));
 
     GameLoop::getSingleton().addTask(AgentManager::getSingletonPtr(), GameLoop::TG_LOGIC);
-
-#if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
-    setlocale(LC_ALL, "C");
-#endif
-
-	mCore->setParser(new AimlParserImplRl());
-	mCore->getBotInterpreter().addProcessor(new DialogScriptProcessor());
-	mCore->getAimlInterpreter().addProcessor(new ScriptProcessor());
-////  Initialize Xerces if this wasn't done already
-//	try
-//	{
-//        
-//    }
-//    catch (const XMLException& exc)
-//	{
-//		char* excmsg = XMLString::transcode(exc.getMessage());
-//		std::string excs="Exception while initializing Xerces: ";
-//		excs+=excmsg;
-//		LOG_MESSAGE(Logger::DIALOG, excs);
-//        XMLString::release(&excmsg);
-//    }
 }
 
 bool AiSubsystem::onBeforeClearScene()
@@ -134,11 +92,9 @@ bool AiSubsystem::onBeforeClearScene()
     return true;
 }
 
-
-
 bool AiSubsystem::onAfterSceneLoaded()
 {
-    // newton world hinzufügen
+    // newton world hinzufï¿½gen
     Obstacle *newtonWorld = new NewtonWorldAsObstacle;
     newtonWorld->setSeenFrom(AbstractObstacle::both);
     mWorld->addObstacle(newtonWorld);
@@ -203,66 +159,5 @@ void AiSubsystem::removeAllLandmarks()
 
 	mLandmarks.clear();
 }
-
-DialogCharacter* AiSubsystem::getBot(const CeGuiString& botName)
-{
-	BotMap::iterator itr = mBots.find(botName);
-	if(itr != mBots.end())
-	{
-		return itr->second;
-	}
-	return NULL;
-}
-
-
-DialogCharacter* AiSubsystem::loadBot(const CeGuiString& botName, const CeGuiString& fileName)
-{
-	mCurrentBot = NULL;
-	AimlBot<CeGuiString>* bot = mCore->loadBot(botName.c_str(), fileName.c_str());
-//  while processing the bot definition, a DialogCharacter should have been created
-//  through a ruby script and stored in mCurrentBot
-    if (mCurrentBot == NULL)
-    {
-        mCurrentBot = new DialogCharacter();
-    }
-
-	if(bot != NULL)
-	{
-		mCurrentBot->setBot(bot);
-		mCurrentBot->initialize();
-	}
-	LOG_MESSAGE(Logger::DIALOG,"AimlBot " + botName + "loaded and initialized");
-	mBots.insert(BotMap::value_type(mCurrentBot->getName(), mCurrentBot));
-	return mCurrentBot;
-}
-
-ResourcePtr AiSubsystem::getXmlResource(const Ogre::String& filename)
-{
-    ResourcePtr res = XmlResourceManager::getSingleton().getByName(filename);
-
-    if (res.isNull())
-    {
-        Ogre::String group = ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME;
-        if (ResourceGroupManager::getSingleton().resourceExists(
-			CoreSubsystem::getSingleton().getActiveAdventureModule()->getId(), filename))
-        {
-            group = CoreSubsystem::getSingleton().getActiveAdventureModule()->getId();
-        }
-        res = XmlResourceManager::getSingleton().create(filename, group);
-
-    }
-    return res;
-}
-
-void AiSubsystem::setCurrentDialogCharacter(DialogCharacter* bot)
-{
-	mCurrentBot = bot;
-}
-
-DialogCharacter* AiSubsystem::getCurrentDialogCharacter() const
-{
-    return mCurrentBot;
-}
-
 
 }

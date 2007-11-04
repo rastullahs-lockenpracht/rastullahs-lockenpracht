@@ -19,6 +19,7 @@
 #include "Property.h"
 
 #include "Exception.h"
+#include "CEGUIPropertyHelper.h"
 
 using namespace boost;
 using namespace Ogre;
@@ -119,5 +120,56 @@ namespace rl {
   //          return StringConverter::toString(toBool());
   //      }
         return "";
+    }
+
+    void Property::getFromString(const CeGuiString& str)
+    {
+        if (isBool())
+        {
+            mValue = CEGUI::PropertyHelper::stringToBool(str);
+        }
+        else if (isString())
+        {
+            mValue = str;
+        }
+        else if (isInt())
+        {
+            mValue = CEGUI::PropertyHelper::stringToInt(str);
+        }
+        else if (isReal())
+        {
+            mValue = CEGUI::PropertyHelper::stringToFloat(str);
+        }
+        else if (isVector3())
+        {
+            mValue = StringConverter::parseVector3(str.c_str());
+        }
+        else if (isQuaternion())
+        {
+            mValue = StringConverter::parseQuaternion(str.c_str());
+        }
+        ///@todo
+        //else if (isIntTriple())
+        //{
+        //    Tripel<int> triple = toIntTriple();
+        //    mValue = StringConverter::toString(triple.first)
+        //        + "," + StringConverter::toString(triple.second)
+        //        + "," + StringConverter::toString(triple.third);
+        //}
+        //else if (isIntPair())
+        //{
+        //    IntPair pair = toIntPair();
+        //    mValue = StringConverter::toString(pair.first)
+        //        + "," + StringConverter::toString(pair.second);
+        //}
+		//else if (isArray()) 
+  //      {
+  //          mValue = StringConverter::toString(toBool());
+  //      }
+		//else if (isMap())
+  //      {
+  //          mValue = StringConverter::toString(toBool());
+  //      }
+        mValue = str;
     }
 }

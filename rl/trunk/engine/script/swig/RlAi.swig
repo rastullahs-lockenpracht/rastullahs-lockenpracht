@@ -77,6 +77,7 @@ namespace rl
     {
     public:
         void setDialogPartner(rl::Agent* partner);
+        void setDialog(rl::Dialog* dialog);
     private:
         AgentDialogState(rl::Agent* agent);
     };
@@ -93,37 +94,10 @@ namespace rl
         void pushState(rl::AgentStateType type);
 	};
 
-    %feature("director") DialogCharacter;
-	class DialogCharacter
-	{
-	public:
-		DialogCharacter();
-		virtual ~DialogCharacter();
-
-		const rl::CeGuiString getName() const;
-		rl::Creature* getDialogCharacter() const;
-		void setDialogCharacter(rl::Creature* dialogCharacter);
-		rl::Creature* getDialogPartner() const;
-		void setDialogPartner(rl::Creature* dialogPartner);
-		
-		rl::Creature* getNonPlayerCharacter()const;
-		void setNonPlayerCharacter(rl::Creature* npc);
-		
-		rl::Creature* getPlayerCharacter()const;
-		void setPlayerCharacter(rl::Creature* pc);
-		
-		virtual int calcOptionValue(const rl::CeGuiString& optionName)=0;	
-		virtual int calcResponseValue(const rl::CeGuiString& responseName)=0;
-		virtual int calcSelectionValue(const rl::CeGuiString& selectionName)=0;
-	};
-
 	class AiSubsystem 
 	{
 	public:
 		static AiSubsystem& getSingleton(void);
-		rl::DialogCharacter* getBot(const rl::CeGuiString& botName);
-		rl::DialogCharacter* loadBot(const rl::CeGuiString& fileName, const rl::CeGuiString& botName = "");
-		void setCurrentDialogCharacter(rl::DialogCharacter* bot);
 	};
 	
 	%feature("director") BehaviourFactory;
@@ -277,22 +251,37 @@ namespace rl
 	class LandmarkPath
 	{
 	public:
-		typedef std::deque<Landmark*> LandmarkList;
+        typedef std::deque<rl::Landmark*> LandmarkList;
 		LandmarkPath(const Ogre::String& name);
 
 		void addPoint(const Ogre::String& name, const Ogre::Vector3& position);
-		void addPoint(Landmark* lm);
-        LandmarkList getPoints();
+		void addPoint(rl::Landmark* lm);
+        rl::LandmarkPath::LandmarkList getPoints();
 	};
 	
 	class CreatureWalkPathJob : public Job
     {
     public:
-        CreatureWalkPathJob(const Ogre::String& name, CreatureController* movingCreature, Landmark* startLandmark);
+        CreatureWalkPathJob(const Ogre::String& name, rl::CreatureController* movingCreature, rl::Landmark* startLandmark);
 
         void addLandmark(const Ogre::String& name, const Ogre::Vector3& position);
-        void addLandmark(Landmark* lm);
-        void setWayPoints(const WayPointGraph* wps);
+        void addLandmark(rl::Landmark* lm);
+        void setWayPoints(const rl::WayPointGraph* wps);
+    };
+
+    class Dialog
+    {
+    private:
+        Dialog(rl::GameObject* npc, rl::GameObject* pc);
+    };
+
+    class DialogManager
+    {
+    public:
+        static rl::DialogManager& getSingleton();
+        rl::Dialog* createDialog(const Ogre::String& name, rl::GameObject* npc, rl::GameObject* pc);
+    private:
+        DialogManager();
     };
 } // Namespace
 

@@ -132,7 +132,7 @@ namespace rl {
         mMouse->getMouseState().height = height;
 
         MessagePump::getSingleton().addMessageHandler<MessageType_DialogStarted>(
-            boost::bind(&InputManager::startDialog, this/*, _1*/));
+            boost::bind(&InputManager::startDialog, this, _1));
 
         LOG_DEBUG(Logger::UI, "Done initializing input manager.");
     }
@@ -457,9 +457,10 @@ namespace rl {
         }
     }
 
-    bool InputManager::startDialog(/* CeGuiString dialog */) 
+    bool InputManager::startDialog(Dialog* dialog)
     {
         pushControlState(CST_DIALOG);
+        dynamic_cast<DialogControlState*>(mControlStates.top())->start(dialog);
         return true;
     }
 

@@ -105,7 +105,6 @@ class DialogBehaviour < SteeringBehaviour
 	
 	def activate()
 		$SCRIPT.log("Activate DialogSteering");
-		getController().setAnimation("gehen");
 	end
 		
 	def update(elapsedTime)
@@ -151,7 +150,6 @@ class AvoidObstaclesBehaviour < SteeringBehaviour
 	
 	def activate()
 		$SCRIPT.log("Activate DialogSteering");
-		getController().setAnimation("gehen");
 	end
 		
 	def update(elapsedTime)

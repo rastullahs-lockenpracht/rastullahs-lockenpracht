@@ -14,6 +14,15 @@ noinst_HEADERS =
 	AStarNodePool.h \
 	AStarWayPointNode.h \
 	CreatureWalkPathJob.h \
+	Dialog.h \
+	DialogCondition.h \
+	DialogElement.h \
+	DialogElementSelection.h \
+	DialogImplication.h \
+	DialogManager.h \
+	DialogOption.h \
+	DialogResponse.h \
+	DialogVariable.h \
 	FuzzyState.h \
 	FuzzyStateMachine.h \
 	Landmark.h \
@@ -23,23 +32,4 @@ noinst_HEADERS =
 	SteeringVehicle.h \
 	WayPointNode.h \
 	WayPointGraph.h \
-	WayPointGraphManager.h \
-	AimlNodeImplRl.h \
-	AimlParserImplRl.h \
-	ContextConditionProcessor.h \
-	ContextInterpreter.h \
-	DialogCharacter.h \
-	DialogOption.h \
-	DialogPrerequisites.h \
-	DialogResponse.h \
-	DialogScriptProcessor.h \
-	ScriptProcessor.h \
-	predicates/CreaturePredicates.h \
-	predicates/EigenschaftsWertPredicates.h \
-	predicates/EigenschaftsProbePredicates.h \
-	predicates/QuestKnownPredicates.h \
-	predicates/QuestPartsPredicates.h \
-	predicates/QuestStatePredicates.h \
-	predicates/ScriptPredicates.h \
-	predicates/TalentProbePredicates.h \
-	predicates/TalentWertPredicates.h
+	WayPointGraphManager.h

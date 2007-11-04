@@ -25,7 +25,9 @@
 #include "CommandMapper.h"
 #include "ConfigurationManager.h"
 #include "CoreSubsystem.h"
-#include "DialogCharacter.h"
+#include "Dialog.h"
+#include "DialogElement.h"
+#include "DialogParagraph.h"
 #include "DialogOption.h"
 #include "DialogResponse.h"
 #include "DialogWindow.h"
@@ -51,10 +53,6 @@ using namespace Ogre;
 
 namespace rl {
 
-	const CeGuiString DialogControlState::DIALOG_START = "1";
-	const CeGuiString DialogControlState::DIALOG_END = "DIALOG BEENDET";
-	const CeGuiString DialogControlState::DIALOG_EXIT = "EXIT";
-
     DialogControlState::DialogControlState(CommandMapper* cmdMapper,
         Actor* camera, Person* character)
         : ControlState(cmdMapper, camera, character, CST_DIALOG),
@@ -70,10 +68,10 @@ namespace rl {
         mSoundObject(NULL),
         mTalkAnimation(NULL),
         mSubtitleSpeed(1.0f),
-		mCurrentResponse(NULL),
 		mCurrentResponseText(""),
-		mBot(NULL),
-		mGameLogger(NULL)
+		mGameLogger(NULL),
+        mCurrentSpeaker(NULL),
+        mCurrentListener(NULL)
     {
         mSubtitleSpeed = ConfigurationManager::getSingleton().getRealSetting(
             "General", "Subtitle Speed");
@@ -118,59 +116,67 @@ namespace rl {
         ogreCam->setOrientation(Quaternion::IDENTITY);
         mCameraActor->_getSceneNode()->setFixedYawAxis(true);
 
-        mDialogWindow = new DialogWindow(this);
-        mSubtitleWindow = new SubtitleWindow();
+        if (!mDialogWindow)
+        {
+            mDialogWindow = new DialogWindow(this);
+        }
+        if (!mSubtitleWindow)
+        {
+            mSubtitleWindow = new SubtitleWindow();
+        }
+        mDialogWindow->setVisible(true);
+        mSubtitleWindow->setVisible(true);
 
 		mGameLogger = WindowFactory::getSingleton().getGameLogger();
-
-		DialogCharacter* bot = AiSubsystem::getSingleton().getCurrentDialogCharacter();
-		initialize(bot);
     }
 
-	void DialogControlState::initialize(DialogCharacter* bot)
+	void DialogControlState::start(Dialog* dialog)
 	{
-		mBot = bot;
-        mBot->setDialogCharacter(mCharacter);
-		mDialogPartner = mBot->getDialogPartner()->getActor();
+		mDialog = dialog;
 
-        recalculateCamera( mDialogPartner, mCharacterActor );
+		//Ogre::String voiceFile = mBot->getVoiceFile().c_str();
+		//if (voiceFile != "")
+		//{
+		//	if (voiceFile.find(".zip") != Ogre::String::npos)
+		//	{
+		//		ResourceGroupManager::getSingleton().addResourceLocation(
+		//			voiceFile, "Zip", voiceFile);
+		//	}
+		//	else
+		//	{
+		//		ResourceGroupManager::getSingleton().addResourceLocation(
+  //         			voiceFile, "FileSystem", voiceFile);
+		//	}
+		//}
 
-		Ogre::String voiceFile = mBot->getVoiceFile().c_str();
-		if (voiceFile != "")
+		if (!mDialog || !mDialogWindow)
 		{
-			if (voiceFile.find(".zip") != Ogre::String::npos)
-			{
-				ResourceGroupManager::getSingleton().addResourceLocation(
-					voiceFile, "Zip", voiceFile);
-			}
-			else
-			{
-				ResourceGroupManager::getSingleton().addResourceLocation(
-           			voiceFile, "FileSystem", voiceFile);
-			}
+			Throw(IllegalStateException, "DialogControlState not properly initialized.");
 		}
 
-		start();
+        mCurrentSpeaker = mDialog->getNpc(0);
+        mCurrentListener = mDialog->getPc(0);
+        showResponse(mDialog->getDialogStart());
 	}
 
     void DialogControlState::run(Real elapsedTime)
     {
-        if ( elapsedTime <= 0.0 )
+        if (elapsedTime <= 0.0)
             return;
 
         // Aktuellen Abstand zur gewünschten Position berechnen
         Vector3 posDistance = (mTargetCameraPosition - mCameraActor->_getSceneNode()->getPosition());
         // Ist eine Anpassung nötig?
-        if ( posDistance != Vector3::ZERO )
+        if (posDistance != Vector3::ZERO)
         {
             // Die Kameraanpassgeschwindigkeit
             Real speed = 1/elapsedTime;
             mCameraActor->setPosition(mTargetCameraPosition);
         }
 
-        mCameraActor->setOrientation( Quaternion::IDENTITY );
-        mCameraActor->_getSceneNode()->setDirection( mTargetCameraDirection );
-        mCameraActor->_getSceneNode()->_update( true, false );
+        mCameraActor->setOrientation(Quaternion::IDENTITY);
+        mCameraActor->_getSceneNode()->setDirection(mTargetCameraDirection);
+        mCameraActor->_getSceneNode()->_update(true, false);
 
         // Textanzeigedauer
         if (mCurrFadeTextTime >= 0)
@@ -200,44 +206,38 @@ namespace rl {
                 + StringConverter::toString(mCurrFadeTextTime));
     }
 
-    void DialogControlState::recalculateCamera( Actor* speaker, Actor* listener )
+    void DialogControlState::recalculateCamera(GameObject* speaker, GameObject* listener)
     {
         // Position camera at position between char and dialog partner
-        Vector3 charEyes = speaker->getWorldPosition();
-        // Modify by MeshBounds
-        if ( speaker->getControlledObject()->isMeshObject() )
-        {
-            MeshObject* mo = dynamic_cast<MeshObject*>(speaker->getControlledObject());
-            Ogre::AxisAlignedBox aab = mo->getDefaultSize();
-            Vector3 offset(
-                aab.getCenter().x,
-                aab.getMaximum().y*0.933,
-                aab.getCenter().z );
-            charEyes += speaker->getWorldOrientation()*offset;
-        }
-
-        Vector3 partEyes = listener->getWorldPosition();
-        // Modify by MeshBounds
-        if ( listener->getControlledObject()->isMeshObject() )
-        {
-            MeshObject* mo = dynamic_cast<MeshObject*>(listener->getControlledObject());
-            Ogre::AxisAlignedBox aab = mo->getDefaultSize();
-            Vector3 offset(
-                aab.getCenter().x,
-                aab.getMaximum().y*0.933,
-                aab.getCenter().z );
-            partEyes += listener->getWorldOrientation()*offset;
-        }
-
-        Vector3 globalCameraPosition = ( charEyes + partEyes ) / 2.0f;
+        Vector3 speakerEyes = getParticipantPosition(speaker);
+        Vector3 listenerEyes = getParticipantPosition(listener);
+        Vector3 globalCameraPosition = (speakerEyes + listenerEyes) / 2.0f;
 
         // Weltkoordinaten in lokale umwandeln
         mTargetCameraPosition =
             -1*(mCameraActor->_getSceneNode()->getParentSceneNode()->getWorldOrientation().Inverse()*
             (mCameraActor->_getSceneNode()->getParentSceneNode()->getWorldPosition() - globalCameraPosition));
 
+        mTargetCameraDirection = (listenerEyes - mTargetCameraPosition).normalisedCopy();
+    }
 
-        mTargetCameraDirection = ( partEyes - mTargetCameraPosition ).normalisedCopy();
+    Vector3 DialogControlState::getParticipantPosition(GameObject* participant)
+    {
+        Vector3 eyesPosition = participant->getPosition();
+
+        // Modify by MeshBounds
+        if (participant->getActor() && participant->getActor()->getControlledObject()->isMeshObject())
+        {
+            MeshObject* mo = static_cast<MeshObject*>(participant->getActor()->getControlledObject());
+            Ogre::AxisAlignedBox aab = mo->getDefaultSize();
+            Vector3 offset(
+                aab.getCenter().x,
+                aab.getMaximum().y * 0.933,
+                aab.getCenter().z);
+            eyesPosition += participant->getOrientation() * offset;
+        }
+
+        return eyesPosition;
     }
 
     float DialogControlState::getShowTextLength(const CeGuiString& text) const
@@ -246,13 +246,15 @@ namespace rl {
                0.25f;                   // Fade in
     }
 
-    void DialogControlState::response(
-        Actor* actor, const CeGuiString& text, const Ogre::String& soundFile)
+    void DialogControlState::doTalk(DialogParagraph* paragraph)
     {
-        if ( actor == mDialogPartner )
-            recalculateCamera( mCharacterActor, mDialogPartner );
-        else
-            recalculateCamera( mDialogPartner, mCharacterActor );
+        mDialogWindow->setVisible(false);
+        Ogre::String soundFile = paragraph->getVoiceFile();
+        CeGuiString text = paragraph->getText();
+
+        recalculateCamera(mCurrentSpeaker, mCurrentListener);
+
+        Actor* actor = mCurrentSpeaker->getActor();
 
         // Ungefähre Lesedauer bestimmen
         float fadeTime = getShowTextLength(text);
@@ -260,7 +262,7 @@ namespace rl {
         {
             float speed = mSubtitleSpeed;
 
-            if ( mSubtitleSpeed == 0.0 )
+            if (mSubtitleSpeed == 0.0)
                 speed = 1.0;
 
             mCurrFadeTextTime = fadeTime*speed;
@@ -268,18 +270,20 @@ namespace rl {
         }
         else
         {
-            if ( mSoundObject != NULL )
+            if (mSoundObject != NULL)
+            {
                 mSoundObject->getMovableObject()->getParentSceneNode()->detachObject(
-                    mSoundObject->getMovableObject() );
+                    mSoundObject->getMovableObject());
+                delete mSoundObject;
+            }
 
-            delete mSoundObject;
             mSoundObject = new SoundObject(SoundManager::getSingleton().getActiveDriver()->
                     createSound(soundFile, ST_SAMPLE), soundFile);
 
             // An Sprecher hängen
-            actor->_getSceneNode()->attachObject( mSoundObject->getMovableObject() );
-            actor->_getSceneNode()->_update( true, false );
-            mSoundObject->_setActor( actor );
+            actor->_getSceneNode()->attachObject(mSoundObject->getMovableObject());
+            actor->_getSceneNode()->_update(true, false);
+            mSoundObject->_setActor(actor);
             mSoundObject->set3d(true);
             mSoundObject->play();
             mSoundObject->_update();
@@ -320,12 +324,13 @@ namespace rl {
         OIS::MouseButtonID id, bool handled)
     {
         bool retval = false;
-        if( ControlState::mouseReleased(evt, id, handled) )
+        if (ControlState::mouseReleased(evt, id, handled))
             retval = true;
 
-        if( !handled && !retval )
+        if (!handled && !retval)
         {
-            if (mTextShown && (mCurrFadeTextTime + 0.25) < mTotalFadeTextTime)
+            if (mTextShown && 
+                (mCurrFadeTextTime + 0.25 < mTotalFadeTextTime))
             {
                 mCurrFadeTextTime = -1;
                 retval = true;
@@ -335,145 +340,83 @@ namespace rl {
         return retval;
     }
 
-	void DialogControlState::start()
+    void DialogControlState::showResponse(DialogResponse* response)
 	{
-		if (!mBot || !mDialogWindow)
-		{
-			Throw(IllegalStateException, "DialogControlState not properly initialized.");
-		}
-
-		mDialogWindow->setName(mBot->getName());
-		getResponse(DIALOG_START);
-	}
-
-	void DialogControlState::getResponse(const CeGuiString& msg)
-	{
-		delete mCurrentResponse;
-		mCurrentResponse = mBot->createResponse(msg);
-
-		if (mBot->hasExitRequest())
+        if (!response )
 		{
 			mDialogWindow->setDialogEnd();
 			mState = CLOSING_DIALOG;
 			handleDialogClose();
 			return;
 		}
-		if (mCurrentResponse == NULL)
-		{
-			mDialogWindow->setDialogEnd();
-			mState = CLOSING_DIALOG;
-		//	Übergangslösung, wenn gerade kein sprecher aktiv ist wird
-		//	nicht nicht textFinished aufgerufen
-		//  hier müsste wahrscheinlich requestClose auftauchen
-			handleDialogClose();
-			return;
-		}
 
-		DialogResponse::Responses responses = mCurrentResponse->getResponses();
-		CeGuiString responseSound = "null.ogg";
-		CeGuiString responseText;
-		if (!responses.empty())
-		{
-			responseSound = responses.begin()->first;
-			responseText = responses.begin()->second;
-			responseText.c_str();
-			responseSound.c_str();
-		}
-
-		response(mBot->getDialogPartner()->getActor(),
-				responseText, responseSound.c_str());
-
-		if (!responseText.empty())
-		{
-			mDialogWindow->setResponse(responseText);
-
-			mGameLogger->logDialogEvent(mBot->getName(), responseText);
-			LOG_MESSAGE(Logger::DIALOG, mBot->getName() + " says: " + responseText);
-		}
+        mState = TALKING_PARTNER_CHARACTER;
+		mCurrentResponse = response;
+        mCurrentOption = NULL;
 
 		mDialogWindow->setVisible(false);
-		mState = TALKING_PARTNER_CHARACTER;
-		mCurrentResponseText = msg;
+
+        mCurrentListener = mCurrentSpeaker;
+        mCurrentSpeaker = response->getNpc(mDialog);
+        mCurrentParagraphs = response->getParagraphs(mDialog);
+        DialogParagraph* firstParagraph = mCurrentParagraphs.front();
+        response->applyImplications(mDialog);
+        if (!firstParagraph->getResponse())
+        {
+            doTalk(firstParagraph);
+        }
+        else
+        {
+            showResponse(firstParagraph->getResponse());
+        }
 	}
 
 	void DialogControlState::textFinished()
 	{
-		if (mState == TALKING_PARTNER_CHARACTER)
-		{
-			getOptions(mCurrentResponseText);
-			mDialogWindow->setVisible(true);
-			mState = CHOOSING_OPTION;
-		}
+        mCurrentParagraphs.pop_front();
+        if (!mCurrentParagraphs.empty())
+        {
+            DialogParagraph* curParagraph = mCurrentParagraphs.front();
+            if (curParagraph->getResponse() == NULL)
+            {
+                doTalk(curParagraph);
+            }
+            else
+            {
+                showResponse(curParagraph->getResponse());
+            }
+        }
+        else
+        {
+		    if (mState == TALKING_PARTNER_CHARACTER)
+		    {
+                mCurrentListener = mCurrentSpeaker;
+                mCurrentSpeaker = mCharacter;
 
-		if (mState == TALKING_PLAYER_CHARACTER)
-		{
-			getResponse(mCurrentResponseText);
-		}
+                DialogResponse::Options options = mCurrentResponse->getAvailableOptions(mDialog);
+                mDialogWindow->setAvailableOptions(options);
+		        mDialogWindow->setVisible(true);
+		        mState = CHOOSING_OPTION;
+		    }
+            else if (mState == TALKING_PLAYER_CHARACTER)
+            {
+                showResponse(mCurrentOption->getResponse());
+            }
+        }
 
 		LOG_DEBUG(Logger::UI,
 					StringConverter::toString(mState)
-					+ " bei textFinished" );
+					+ " bei textFinished");
 	}
 
-	void DialogControlState::getOptions(const CeGuiString& question)
+	bool DialogControlState::handleDialogSelectOption(DialogOption* option)
 	{
-		if (mCurrentResponse == NULL)
-		{
-			Throw(rl::IllegalStateException, "mCurrentResponse must not be NULL.");
-			return;
-		}
-
-		DialogResponse::DialogOptions options = mCurrentResponse->getDialogOptions();
-
-		if (options.empty())
-		{
-			mDialogWindow->setDialogEnd();
-			handleDialogClose();
-			return;
-		}
-
-		//mDialogOptions->clearAllSelections();
-
-		CeGuiStringVector optionTexts;
-		for(DialogResponse::DialogOptions::const_iterator itr = options.begin();
-			itr != options.end(); ++itr)
-		{
-			CeGuiString currentOption = (*itr)->getText();
-			LOG_DEBUG(Logger::UI, "Player option: " + currentOption);
-
-			optionTexts.push_back(currentOption);
-			///@todo mark attribute/talent checks
-		}
-
-		mDialogWindow->setAvailableOptions(optionTexts);
-	}
-
-	bool DialogControlState::handleDialogSelectOption()
-	{
-		int idx = mDialogWindow->getSelectedOptionIndex();
-		if (idx != -1)
-		{
-			DialogOption* option = mCurrentResponse->getDialogOptions()[idx];
-			option->processSelection();
-			mCurrentResponseText = option->getPattern();
-			CeGuiString selectedOption = option->getText();
-			if (mCurrentResponseText != "0" && mCurrentResponseText != "666")
-			{
-				if (!selectedOption.empty())
-				{
-					mState = TALKING_PLAYER_CHARACTER;
-					mGameLogger->logDialogEvent("Held", selectedOption);
-					LOG_MESSAGE(Logger::DIALOG,
-						"Player says: " + selectedOption);
-					mDialogWindow->setChosenOption(selectedOption);
-					response(
-						mBot->getDialogCharacter()->getActor(),
-						selectedOption,
-						option->getId().c_str());
-					mDialogWindow->setVisible(false);
-				}
-			}
-		}
+        mCurrentOption = option;
+        mState = TALKING_PLAYER_CHARACTER;
+        mCurrentListener = mCurrentSpeaker;
+        mCurrentSpeaker = mDialog->getPc(0); ///@todo allow char switch 
+        mCurrentParagraphs = option->getParagraphs(mDialog);
+        doTalk(mCurrentParagraphs.front());
 
 		return true;
 	}
@@ -489,7 +432,7 @@ namespace rl {
 	bool DialogControlState::requestDialogClose()
 	{
 	//	handleClose is called automatically
-		getResponse(DIALOG_EXIT);
+		//@todo
 		return true;
 	}
 

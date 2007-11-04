@@ -27,7 +27,7 @@
         <property name="geometrytype" type="STRING" data="ellipsoid"/>
         <property name="meshfile" type="STRING" data="men_alrike.mesh"/>
         <property name="mass" type="REAL" data="65"/>
-        <property name="dialogfile" type="STRING" data="testperson.xml"/>
+        <property name="dialog" type="STRING" data="testdialog"/>
         <property name="behaviours" type="ARRAY">
             <property type="STRING" data="DefaultIdleBehaviour"/>
             <property type="STRING" data="DialogBehaviour"/>

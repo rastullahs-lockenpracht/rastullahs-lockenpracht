@@ -22,7 +22,7 @@
 
 namespace rl
 {
-    class DialogCharacter;
+    class Dialog;
 
     enum AiMessageTypeIds
     {
@@ -35,7 +35,7 @@ namespace rl
     };
 
     /// Message sent when a dialog with the player will be started
-    typedef MessageType<RLMSG_CONTROLLERS_DIALOG_STARTED/*, DialogCharacter* */> 
+    typedef MessageType<RLMSG_CONTROLLERS_DIALOG_STARTED, Dialog*> 
         MessageType_DialogStarted;
 }
 

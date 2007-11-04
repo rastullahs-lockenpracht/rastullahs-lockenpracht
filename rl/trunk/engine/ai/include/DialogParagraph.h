@@ -14,32 +14,38 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef __RlAI_AgentDialogState_H__
-#define __RlAI_AgentDialogState_H__
+#ifndef __DialogParagraph_H__
+#define __DialogParagraph_H__
 
-#include "AgentState.h"
+#include "AiPrerequisites.h"
 
 namespace rl
 {
-    class Dialog;
+    class DialogResponse;
 
-    class _RlAiExport AgentDialogState :
-        public AgentState
+    class _RlAiExport DialogParagraph
     {
     public:
-        AgentDialogState(Agent* agent);
-        ~AgentDialogState();
+        DialogParagraph(const CeGuiString& text, const Ogre::String& voicefile = "");
+        virtual ~DialogParagraph();
 
-        virtual void update(const Ogre::Real elapsedTime);
-        void setDialogPartner(Agent* partner);
-        void setDialog(Dialog* dialog);
+        const CeGuiString& getText() const;
+        const Ogre::String& getVoiceFile() const;
+        virtual DialogResponse* getResponse() const;
 
     private:
-        Agent* mPartner;
-        Dialog* mDialog;
-        bool mTalking;
+        CeGuiString mText;
+        Ogre::String mVoiceFile;
     };
 
+    class _RlAiExport DialogGotoResponse : public DialogParagraph
+    {
+    public:
+        DialogGotoResponse(DialogResponse* response);
+        virtual DialogResponse* getResponse() const;
+    private:
+        DialogResponse* mResponse;
+    };
 }
 
-#endif // __RlAI_AgentDialogState_H__
+#endif // __DialogParagraph_H__

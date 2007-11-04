@@ -99,6 +99,7 @@ namespace rl {
         Ogre::String getName() const;
         CeGuiString getAsString() const;
         Ogre::Real getAsNumber() const;
+        void getFromString(const CeGuiString& string);
 
         bool operator==(const Property& other) const;
 

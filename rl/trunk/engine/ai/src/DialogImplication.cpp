@@ -13,23 +13,41 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#ifndef __Rl_EigenschaftsProbePredicates_H__
-#define __Rl_EigenschaftsProbePredicates_H__
+#include "stdinc.h"
 
-#include "CreaturePredicates.h"
+#include "DialogImplication.h"
+
+#include "Dialog.h"
+#include "Property.h"
+
+using namespace Ogre;
 
 namespace rl
 {
-	class EigenschaftsProbePredicates :
-		public CreaturePredicates
-	{
-	public:
-		EigenschaftsProbePredicates(Creature* pCharacter);
-		~EigenschaftsProbePredicates(void);
 
-		CeGuiString getPredicate(const CeGuiString& pName) const;
+    DialogImplication::DialogImplication()
+    {
+    }
 
-		CeGuiString getType() const;
-	};
+    DialogImplication::~DialogImplication()
+    {
+    }
+
+    DialogVariableAssignment::DialogVariableAssignment(const Ogre::String& variableName, const CeGuiString& value)
+        : mVariableName(variableName), mValue(value)
+    {
+    }
+
+    DialogVariableAssignment::~DialogVariableAssignment()
+    {
+    }
+
+    void DialogVariableAssignment::apply(Dialog* dialog)
+    {
+        Property prop = dialog->getProperty(mVariableName);
+        prop.getFromString(mValue);
+        dialog->setProperty(mVariableName, prop);
+    }
+
+
 }
-#endif

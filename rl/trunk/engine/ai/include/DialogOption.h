@@ -13,63 +13,48 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#ifndef __Rl_DialogOption_H__
-#define __Rl_DialogOption_H__
+#ifndef __DialogOption_H__
+#define __DialogOption_H__
 
 #include "AiPrerequisites.h"
 
-namespace MadaBot
-{
-	template <class S> class AimlBot;
-	template <class S> class Response;
-}
-using namespace MadaBot;
+#include "DialogElement.h"
+
 namespace rl
 {
+    class Dialog;
+    class DialogCondition;
+    class DialogResponse;
+    class DialogElement;
+
     /**
      * The selectable options a player can choose from in a Dialog
      */
-	class _RlAiExport DialogOption
-	{
-	public:
-		DialogOption(const Response<CeGuiString>& pData, AimlBot<CeGuiString>* pBot = NULL);
-		~DialogOption(void);
+    class _RlAiExport DialogOption : public DialogElement
+    {
+    public:
+        DialogOption(int id);
+        ~DialogOption();
 
-		/**
-		 * Process through the data of the selection and modify it by possible
-		 * conditions that occure 
-		 * TextData, SoundId and PatternId can be altered after the execution of this method
-		 */
-		void processSelection();
 
-		inline const CeGuiString& getId() const
-		{
-			return mId;
-		}
+        const CeGuiString& getLabel() const;
+        void setLabel(const CeGuiString& label);
 
-		inline const CeGuiString& getPattern() const
-		{
-			return mPatternId;
-		}
+        void setResponse(DialogResponse* response);
+        DialogResponse* getResponse() const;
 
-		const CeGuiString& getText() const;
 
-		inline void setId(const CeGuiString& id)
-		{
-			mId = id;
-		}
+        void setPrecondition(DialogCondition* precondition);
 
-		inline void setPattern(const CeGuiString& pattern)
-		{
-			mPatternId = pattern;
-		}
-		
-	private:
-		AimlBot<CeGuiString>* mBot;
-		Response<CeGuiString>* mData;
-		CeGuiString mId;
-		CeGuiString mPatternId;
-		
-	};
+        bool isAvailable(Dialog* dialog) const;
+
+    private:
+        DialogResponse* mResponse;
+        DialogCondition* mPrecondition;
+        CeGuiString mLabel;
+    };
+    
+    typedef DialogSelection<DialogOption> DialogOptionSelection;
 }
-#endif
+
+#endif // __DialogOption_H__

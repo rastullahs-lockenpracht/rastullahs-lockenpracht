@@ -13,33 +13,51 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#ifndef __DialogVariable_H__
+#define __DialogVariable_H__
 
-#ifndef __RlAI_AgentDialogState_H__
-#define __RlAI_AgentDialogState_H__
+#include "AiPrerequisites.h"
 
-#include "AgentState.h"
+#include "Property.h"
 
 namespace rl
 {
     class Dialog;
 
-    class _RlAiExport AgentDialogState :
-        public AgentState
+    class DialogVariable
     {
     public:
-        AgentDialogState(Agent* agent);
-        ~AgentDialogState();
+        const Property& getValue(Dialog* dialog);
+        void invalidate();
 
-        virtual void update(const Ogre::Real elapsedTime);
-        void setDialogPartner(Agent* partner);
-        void setDialog(Dialog* dialog);
+    protected:
+        DialogVariable();
+        virtual ~DialogVariable();
+        virtual Property calculateValue(Dialog* dialog) = 0;
 
     private:
-        Agent* mPartner;
-        Dialog* mDialog;
-        bool mTalking;
+        bool mRecalculate;
+        Property mValue;
     };
 
+    class DialogPropertyVariable : public DialogVariable
+    {
+    public:
+        DialogPropertyVariable(const Ogre::String& propertyName);
+
+    protected:
+        virtual Property calculateValue(Dialog* dialog);
+
+    private:
+        Ogre::String mPropertyName;
+    };
+
+
+    class DialogVariableTalentProbe
+    {
+    public:
+        
+    };
 }
 
-#endif // __RlAI_AgentDialogState_H__
+#endif //__DialogVariable_H__

@@ -25,10 +25,14 @@
 namespace rl {
 
 	class Actor;
-	class DialogCharacter;
+	class Dialog;
+    class DialogElement;
+	class DialogOption;
+	class DialogParagraph;
 	class DialogResponse;
 	class DialogWindow;
 	class GameLoggerWindow;
+    class GameObject;
 	class MeshAnimation;
 	class SoundObject;
 	class SubtitleWindow;
@@ -60,15 +64,14 @@ namespace rl {
 		/// @override
 		virtual void run(Ogre::Real elapsedTime);
 
-		/// Setzt den Dialogpartner (Diealogführenden Spieler-Actor)
-		void setDialogPartner(Actor* partner);
+		void start(Dialog* dialog);
 
 		/// Antwort eines der Dialogführenden
 		void response(Actor* actor, const CeGuiString& text, const Ogre::String& soundFile = "");
 
         virtual bool mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id, bool handled);
 
-		bool handleDialogSelectOption();	
+		bool handleDialogSelectOption(DialogOption* option);	
 		bool handleDialogClose();
 		bool requestDialogClose();
 
@@ -85,15 +88,17 @@ namespace rl {
 
         Ogre::Real mSubtitleSpeed;
 
-		/// Der Untertitel Text
+		/// Der Untertitel-Text
 		CeGuiString mText;
 		/// Es wird gerade Text angezeigt
 		bool mTextShown;
 
-		/// Der Spieler der redet
-		Actor* mDialogPartner;
-		/// Der Besitzer des Dialoges (Der Bauer mit dem der Spieler redet)
-		Actor* mCurrentActor;
+		GameObject* mCurrentSpeaker;
+		GameObject* mCurrentListener;
+        DialogResponse* mCurrentResponse;
+        DialogOption* mCurrentOption;
+        std::list<DialogParagraph*> mCurrentParagraphs;
+
         /// Die Art der Kamerapositinierung
         DialogMode mDialogMode;
 
@@ -104,7 +109,7 @@ namespace rl {
 		SoundObject* mSoundObject;
 	
 		float getShowTextLength(const CeGuiString& text) const;
-        void recalculateCamera( Actor* speaker, Actor* listener );
+        void recalculateCamera(GameObject* speaker, GameObject* listener );
 
 		enum DialogState
 		{
@@ -114,28 +119,17 @@ namespace rl {
 			CLOSING_DIALOG
 		};
 
-		DialogCharacter* mBot;
-		DialogResponse* mCurrentResponse;
+		Dialog* mDialog;
 		GameLoggerWindow* mGameLogger;
 		DialogState mState;
 		CeGuiString mCurrentResponseText;
 				
-		void getOptions(const CeGuiString& question);
+        void showResponse(DialogResponse* response);
+        void showOptions(const std::list<DialogOption*>& options);
+        void doTalk(DialogParagraph* paragraph);
+        Ogre::Vector3 getParticipantPosition(GameObject* participant);
 
-		static const CeGuiString DIALOG_START;
-		static const CeGuiString DIALOG_EXIT;
-		static const CeGuiString DIALOG_END;
-
-		void getResponse(const CeGuiString& msg);
-		unsigned int count();
-		void setCallback(Ogre::String function);
-		int getSelectedOption();
-
-		void initialize(DialogCharacter* bot);
 		void textFinished();
-
-        void start();
-
 	};
 }
 #endif

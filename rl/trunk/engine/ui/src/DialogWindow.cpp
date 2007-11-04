@@ -24,10 +24,10 @@
 #include "ConfigurationManager.h"
 #include "Creature.h"
 #include "DebugWindow.h"
-#include "DialogCharacter.h"
-#include "DialogResponse.h"
-#include "DialogOption.h"
 #include "DialogControlState.h"
+#include "DialogOption.h"
+#include "DialogParagraph.h"
+#include "DialogResponse.h"
 #include "GameLoggerWindow.h"
 #include "InputManager.h"
 #include "ListboxWrappedTextItem.h"
@@ -43,7 +43,8 @@ namespace rl {
 	const CEGUI::colour DialogWindow::COLOR_NON_PLAYER_CHARACTER(0xFFFFFF7F);
 
 	DialogWindow::DialogWindow(DialogControlState* controller)
-	  : AbstractWindow("dialogwindow.xml", WIT_MOUSE_INPUT, false)
+	  : AbstractWindow("dialogwindow.xml", WIT_MOUSE_INPUT, false),
+      mController(controller)
 	{
 		mImage = getWindow("DialogWindow/Image");
 		mName = getWindow("DialogWindow/Name");
@@ -56,7 +57,7 @@ namespace rl {
 
 		mDialogOptions->subscribeEvent(
 			Listbox::EventSelectionChanged, 
-			boost::bind(&DialogControlState::handleDialogSelectOption, controller));
+			boost::bind(&DialogWindow::handleDialogSelectOption, this));
 
 		mDialogOptions->moveToFront();
 		mDialogOptions->setClippedByParent(true);
@@ -91,47 +92,49 @@ namespace rl {
 		setResponse("");
 	}
 
-	void DialogWindow::setAvailableOptions(const CeGuiStringVector& options)
+    void DialogWindow::setAvailableOptions(const DialogResponse::Options& options)
 	{
-		unsigned int i = 0;
-		for(CeGuiStringVector::const_iterator itr = options.begin(); 
+		unsigned int optionCount = 0;
+		for(DialogResponse::Options::const_iterator itr = options.begin(); 
 			itr != options.end(); ++itr)
-		{	
+		{
+            DialogOption* cur = *itr;
+
 			ListboxWrappedTextItem* item = NULL;
-			if(i < mDialogOptions->getItemCount())
+            CeGuiString text;
+            if (cur->getLabel().empty())
+            {
+                text = cur->getParagraphs(NULL).front()->getText();
+            }
+            else
+            {
+                text = cur->getLabel();
+            }
+
+			if(optionCount < mDialogOptions->getItemCount())
 			{
 				item = static_cast<ListboxWrappedTextItem*>(
-					mDialogOptions->getListboxItemFromIndex(i));
-				item->setText(*itr);
+					mDialogOptions->getListboxItemFromIndex(optionCount));
+                item->setText(text);
+                item->setUserData(cur);
 			}
 			else
 			{
-				item =	new ListboxWrappedTextItem(*itr, 6, true);
+				item = new ListboxWrappedTextItem(text, 6, true);
+                item->setUserData(cur);
 				mDialogOptions->addItem(item);
 			}
 
 			item->setTextFormatting(CEGUI::WordWrapLeftAligned);
 			mDialogOptions->handleUpdatedItemData();
 
-			++i;
+			++optionCount;
 		}
-		while(i < mDialogOptions->getItemCount())
-		{
-			mDialogOptions->removeItem(mDialogOptions->getListboxItemFromIndex(i));
-		}	
-	}
 
-	int DialogWindow::getSelectedOptionIndex() const
-	{
-		CEGUI::ListboxItem* curr = mDialogOptions->getFirstSelectedItem();
-		if (curr)
+		while(optionCount < mDialogOptions->getItemCount())
 		{
-			return mDialogOptions->getItemIndex(curr);
-		}
-		else
-		{
-			return -1;
-		}
+			mDialogOptions->removeItem(mDialogOptions->getListboxItemFromIndex(optionCount));
+		}	
 	}
 
 	void DialogWindow::setChosenOption(const CeGuiString& option)
@@ -144,5 +147,18 @@ namespace rl {
 		mNscText->setText(mName->getText() + ": " + response);
 		mQuestion->handleUpdatedItemData();
 	}
+
+    bool DialogWindow::handleDialogSelectOption()
+    {
+		CEGUI::ListboxItem* curr = mDialogOptions->getFirstSelectedItem();
+		if (curr)
+		{
+            return mController->handleDialogSelectOption(static_cast<DialogOption*>(curr->getUserData()));
+		}
+		else
+		{
+			return -1;
+		}
+    }
 
 }

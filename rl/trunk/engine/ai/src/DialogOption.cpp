@@ -16,49 +16,54 @@
 #include "stdinc.h" //precompiled header
 
 #include "DialogOption.h"
-#include "DialogResponse.h"
-#include "AiSubsystem.h"
-#include "ContextInterpreter.h"
-#include "Response.h"
 
-namespace rl {
+#include "DialogCondition.h"
 
-DialogOption::DialogOption(const Response<CeGuiString>& pData, AimlBot<CeGuiString>* pBot)
-	: mBot(pBot), mData(new Response<CeGuiString>(pData))
+namespace rl
 {
-}
 
-DialogOption::~DialogOption(void)
-{
-	if(mData)
-	{
-		delete mData;
-	}
-}
+    DialogOption::DialogOption(int id)
+    : DialogElement(id), mPrecondition(NULL), mLabel("")
+    {
+    }
 
-const CeGuiString& DialogOption::getText() const
-{
-	return mData->getResponse();
-}
+    DialogOption::~DialogOption()
+    {
+    }
 
-void DialogOption::processSelection()
-{
-	DialogResponse* response = NULL;
-	ContextInterpreter* interpreter = AiSubsystem::getSingleton().getContextInterpreter();
-	if(interpreter != NULL)
-	{
-		response = interpreter->interpret(mData->getGossip(), mBot);
-		LOG_MESSAGE(Logger::DIALOG, "Parsed selected option");
-		if(response != NULL && !response->getDialogOptions().empty())
-		{
-			DialogOption* option = (*response->getDialogOptions().begin());
-			mData->clear();
-			(*mData) += option->getText();
-			mId = option->getId();
-			mPatternId = option->getPattern();
-			delete response;
-		}
-	}
-}
+    void DialogOption::setResponse(DialogResponse *response)
+    {
+        mResponse = response;
+    }
+
+    DialogResponse* DialogOption::getResponse() const
+    {
+        return mResponse;
+    }
+
+    void DialogOption::setPrecondition(DialogCondition* precondition)
+    {
+        mPrecondition = precondition;
+    }
+
+    bool DialogOption::isAvailable(Dialog* dialog) const
+    {
+        if (mPrecondition)
+        {
+            return mPrecondition->isTrue(dialog);
+        }
+
+        return true;
+    }
+
+    void DialogOption::setLabel(const CeGuiString &label)
+    {
+        mLabel = label;
+    }
+
+    const CeGuiString& DialogOption::getLabel() const
+    {
+        return mLabel;
+    }
 
 }

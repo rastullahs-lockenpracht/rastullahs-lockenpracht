@@ -17,6 +17,14 @@ libRlAi_la_SOURCES = \
 	AStarNodePool.cpp \
 	AStarWayPointNode.cpp \
 	CreatureWalkPathJob.cpp \
+	Dialog.cpp \
+	DialogCondition.cpp \
+	DialogElement.cpp \
+	DialogImplication.cpp \
+	DialogManager.cpp \
+	DialogOption.cpp \
+	DialogResponse.cpp \
+	DialogVariable.cpp \
 	FuzzyState.cpp \
 	FuzzyStateMachine.cpp \
 	Landmark.cpp \
@@ -25,23 +33,4 @@ libRlAi_la_SOURCES = \
 	SteeringVehicle.cpp \
 	WayPointNode.cpp \
 	WayPointGraph.cpp \
-	WayPointGraphManager.cpp \
-	AimlNodeImplRl.cpp \
-	AimlParserImplRl.cpp \
-	ContextConditionProcessor.cpp \
-	ContextInterpreter.cpp \
-	DialogCharacter.cpp \
-	DialogOption.cpp \
-	DialogResponse.cpp \
-	DialogScriptProcessor.cpp \
-	ScriptProcessor.cpp \
-	predicates/CreaturePredicates.cpp \
-	predicates/EigenschaftsProbePredicates.cpp \
-	predicates/EigenschaftsWertPredicates.cpp \
-	predicates/GrundWertPredicates.cpp \
-	predicates/QuestKnownPredicates.cpp \
-	predicates/QuestPartsPredicates.cpp \
-	predicates/QuestStatePredicates.cpp \
-	predicates/ScriptPredicates.cpp \
-	predicates/TalentProbePredicates.cpp \
-	predicates/TalentWertPredicates.cpp	
+	WayPointGraphManager.cpp

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2007 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -13,27 +13,42 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#ifndef __Rl_TalentWertPredicates_H__
-#define __Rl_TalentWertPredicates_H__
 
-#include "CreaturePredicates.h"
+#include "stdinc.h"
+
+#include "DialogElement.h"
+
+#include "DialogParagraph.h"
 
 namespace rl
 {
-	class Creature;
+    DialogElement::DialogElement(int id)
+        : mId(id)
+    {
+    }
 
-	class TalentWertPredicates :
-		public CreaturePredicates
-	{
-	public:
-		TalentWertPredicates(Creature* pCharacter);
-		~TalentWertPredicates(void);
-		
-		CeGuiString getPredicate(const CeGuiString& pName) const;
+    DialogElement::~DialogElement()
+    {
+        for (std::list<DialogParagraph*>::iterator it = mParagraphs.begin();
+            it != mParagraphs.end(); ++it)
+        {
+            delete *it;
+        }
+    }
 
-		void setPredicate(const CeGuiString& pName, const CeGuiString& pValue);
+    int DialogElement::getId() const
+    {
+        return mId;
+    }
 
-		CeGuiString getType() const;
-	};
+    void DialogElement::addParagraph(DialogParagraph* paragraph)
+    {
+        mParagraphs.push_back(paragraph);
+    }
+
+    std::list<DialogParagraph*> DialogElement::getParagraphs(Dialog* dialog)
+    {
+        return mParagraphs;
+    }
+
 }
-#endif

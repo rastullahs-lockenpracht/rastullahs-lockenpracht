@@ -6,23 +6,17 @@ class TalkAction < Action
   end
 
   def doAction(object, actor, target)
-    bot = $AI.getBot(object.getName())
-    if (bot.nil?)
-      bot = $AI.loadBot(object.getName(), object.getDialogfile())
-    end
-    if ( not bot.nil? )
-      bot.setPlayerCharacter( actor );
-      bot.setNonPlayerCharacter( object );
+    dialog = DialogManager::getSingleton().createDialog(object.getDialog(), object, actor)  
 	  agent = AgentManager::getSingleton().createAgent(object)
 	  agent.pushState(RlScript::AST_DIALOG);
 	  agent.getCurrentState().setDialogPartner(
-		AgentManager::getSingleton().createAgent(actor))
-    end
+  		AgentManager::getSingleton().createAgent(actor))
+    agent.getCurrentState().setDialog(dialog);
   end
 end
 
 module TalkTarget
-  @mDialogfile;
+  @mDialog;
 
   def initialize(id)
     super(id)
@@ -30,15 +24,15 @@ module TalkTarget
   end
 
   def setProperty(key, value)
-    if (key == "dialogfile")
-      @mDialogfile = value;
+    if (key == "dialog")
+      @mDialog = value;
     else
       super(key, value)
     end
   end
 
-  def getDialogfile()
-    return @mDialogfile;
+  def getDialog()
+    return @mDialog;
   end
 end
 

@@ -21,21 +21,14 @@
 #include "AiPrerequisites.h"
 
 #include "MessagePump.h"
-#include "XmlProcessor.h"
 #include "World.h"
-
-namespace MadaBot
-{
-	template <class S> class AimlCore;
-}
 
 namespace rl
 {
 	class Agent;
 	class AgentManager;
 	class AiWorld;
-	class ContextInterpreter;
-	class DialogCharacter;
+    class DialogManager;
 	class Landmark;
 	class LandmarkPath;
 	class WayPointGraphManager;
@@ -45,8 +38,7 @@ namespace rl
 	 * Handles creation of all AI related object Managers.
 	 */
 	class _RlAiExport AiSubsystem 
-        : public Ogre::Singleton<AiSubsystem>,
-        private XmlProcessor
+        : public Ogre::Singleton<AiSubsystem>
 	{
 	public:
 		//! default constructor
@@ -84,44 +76,7 @@ namespace rl
 
 		Landmark* getLandmark(const Ogre::String& name) const;
 
-		/**
-		 * Get the bot with the given name
-		 * @return the bot or NULL if the bot does not exist
-		 */
-		DialogCharacter* getBot(const CeGuiString& botName);
-
-		ContextInterpreter* getContextInterpreter();
-
-		/**
-		 * Load a DialogCharacter from a xml file
-		 * If no name is given, the first available bot in the xml file is loaded
-		 * @param fileName xml file with the bot definition
-		 * @param botName name of the bot to load
-		 * @return will return a DialogCharacter...
-		 */
-		DialogCharacter* loadBot(const CeGuiString& botName, const CeGuiString& fileName = "");
-	
-        /**
-         * Helper function, that retrieves an xml resource from its file name
-         * If resource not yet created, it gets first searched in the current
-         * adventure module group, then in the default group.
-         */
-        Ogre::ResourcePtr getXmlResource(const Ogre::String& filename);
-
-		/**
-		 * Set the DialogCharacter loaded from ruby
-		 */
-		void setCurrentDialogCharacter(DialogCharacter* bot);
-		DialogCharacter* getCurrentDialogCharacter() const;
-
 	private:
-		typedef std::map<CeGuiString, DialogCharacter*> BotMap;
-		typedef MadaBot::AimlCore<CeGuiString> AimlCore; 
-		BotMap mBots;
-		AimlCore* mCore;
-		ContextInterpreter* mContextInterpreter;
-		DialogCharacter* mCurrentBot;
-
         /** Initializes the AI subsystem.
 		 * Creates AiWorld and AgentManager, registers a scene listener,
 		 * adds the AgentManager to the GameLoop as a task.
@@ -147,17 +102,14 @@ namespace rl
 		//! AiWorld representation - WIP!!! (object to changes)
 		AiWorld* mWorld;
 
+        DialogManager* mDialogManager;
+
 		std::map<Ogre::String, LandmarkPath*> mLandmarkPaths;
 		std::map<Ogre::String, Landmark*> mLandmarks;
 
 	    MessagePump::ScopedConnection mSceneLoadedConnection;
 	    MessagePump::ScopedConnection mSceneClearingConnection;
 	};
-
-	inline ContextInterpreter* AiSubsystem::getContextInterpreter()
-	{
-		return mContextInterpreter;
-	}
 
     inline AiWorld* AiSubsystem::getWorld()
 	{

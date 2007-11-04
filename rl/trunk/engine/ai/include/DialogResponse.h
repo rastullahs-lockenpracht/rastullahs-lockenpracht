@@ -13,64 +13,54 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#ifndef __Rl_DialogResponse_H__
-#define __Rl_DialogResponse_H__
+#ifndef __DialogResponse_H__
+#define __DialogResponse_H__
 
 #include "AiPrerequisites.h"
-#include "CommonPrerequisites.h"
 
-namespace MadaBot
-{
-	template <class S> class AimlBot;
-}
-using namespace MadaBot;
+#include "DialogElement.h"
 
 namespace rl
 {
-	class NaturalLanguageProcessor;
-	class DialogOption;
+    class Dialog;
+    class DialogImplication;
+	class DialogOption;   
+    class GameObject;
 
     /**
      * The reponse a DialogCharacter can give in a Dialog
      */
-	class _RlAiExport DialogResponse
-	{
-	public:
-		typedef std::map<int, CeGuiString> Options;
-		typedef std::list<std::pair<CeGuiString, CeGuiString> > Responses;
-		typedef std::vector<DialogOption*> DialogOptions;
+    class _RlAiExport DialogResponse : public DialogElement
+    {
+    public:
+        typedef std::vector<DialogOption*> Options;
+        typedef std::vector<DialogImplication*> Implications;
 
-		DialogResponse( const CeGuiString& input, 
-						const CeGuiString& response,
-						const Options& currentOptions, 
-						const Options& selectableOptions,
-						NaturalLanguageProcessor* nlp);
-		DialogResponse( const Responses& responses, 
-						const DialogOptions& options,
-						AimlBot<CeGuiString>* bot);
-		virtual ~DialogResponse(void);
+        DialogResponse(int id, int npcId = 0);
+        virtual ~DialogResponse();
 
-		const Options& getOptions() { return mCurrentOptions; }
-		const CeGuiString& getResponse() { return mResponse;}
-		/**
-		 * @return all options with thier pattern-id
-		 */
-		const DialogOptions& getDialogOptions() { return mOptions;}
-		/**
-		 * @return all responses with their sound id
-		 */
-		const Responses& getResponses() { return mResponses; }
-	private:
-		CeGuiString mInput;
-		CeGuiString mResponse;
-		Options mCurrentOptions;
-		Options mSelectableOptions;
-		
-		Responses mResponses;
-		DialogOptions mOptions;
-		AimlBot<CeGuiString>* mBot;
 
-		NaturalLanguageProcessor* mNlp;
-	};
+        void addOption(DialogOption* option);
+        void addImplication(DialogImplication* effect);
+        virtual const Options& getOptions(Dialog* dialog) const;
+        const Options getAvailableOptions(Dialog* dialog) const;
+
+        void applyImplications(Dialog* dialog);
+
+        GameObject* getNpc(Dialog* dialog) const;
+
+    private:
+        Options mOptions;
+        Implications mEffects;
+        int mNpcId;
+    };
+    
+    class DialogResponseSelection : public DialogSelection<DialogResponse>
+    {
+    public:
+        DialogResponseSelection(int id);
+        virtual const Options& getOptions(Dialog* dialog) const;
+    };
+
 }
 #endif

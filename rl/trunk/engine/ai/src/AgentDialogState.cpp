@@ -45,6 +45,11 @@ namespace rl
         mPartner = partner;
     }
 
+    void AgentDialogState::setDialog(Dialog* dialog)
+    {
+        mDialog = dialog;
+    }
+
     void AgentDialogState::update(const Ogre::Real elapsedTime)
     {
         static CreatureController* ctrl = 
@@ -68,7 +73,7 @@ namespace rl
                 ctrl->setAnimation("reden");
 				mTalking = true;
 
-                MessagePump::getSingleton().sendMessage<MessageType_DialogStarted>();
+                MessagePump::getSingleton().sendMessage<MessageType_DialogStarted>(mDialog);
                 
                 mAgent->popState();
             }			

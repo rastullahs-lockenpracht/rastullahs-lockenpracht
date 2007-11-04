@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<dialog name="testdialog">
+	<variable name="geheimnisbekannt" type="BOOL" data="false"/>
+	
+	<start>
+		<response id="0">Du solltest mir nur drohen, wenn Geheimnisbekannt true ist. Geheimnisbekannt ist momentan {$geheimnisbekannt}.
+			<option id="1" label="Abstraktionstext">Selectiontext; nach dem Auswahlklick angezeigt. Jetzt gehts zu Pattern 2.
+				<response id="2">
+					<p>Dies ist Pattern 2</p>
+					<p>Dies ist der zweite Text von Pattern 2</p>
+					<option id="3">Zu Pattern 1.
+						<gotoresponse id="0"/>
+					</option>
+				</response>
+			</option>
+			<switchoption id="4">[Dem NSC drohen]
+				<dialogvariable name="geheimnisbekannt"/>
+				<case><equals value="false"/>
+					<option id="5">Ich drohe dir, kenne aber dein Geheimnis nicht!
+						<gotoresponse id="10"/>
+					</option>
+				</case>
+				<case><equals value="true"/>
+					<option id="6">Ich drohe dir und kenne dein schreckliches Geheimnis!
+						<response id="19">Oh nein! Ich gebe auf! Du darfst ins Menü zurück!
+							<option id="20">Tja, Informiertheit ist alles. Gut, dass ich das Tutorial zu dem Thema gelesen habe. Danke, Steele.
+								<gotoresponse id="0"/>
+							</option>
+						</response>
+					</option>
+				</case>
+			</switchoption>
+			<option id="11">Ich werde dein Geheimnis dem Alrik Faßbauer erzählen.
+				<if><dialogvariable name="geheimnisbekannt"/><equals value="true"/></if>
+				<response id="12">
+					<p>Oh, nein, nicht dem Alrik! *heul*</p>
+					<gotoresponse id="0"/>
+				</response>
+			</option>
+			<option id="13">Morgen bin ich zum Kaffeetrinken beim Alrik eingeladen
+				<if><dialogvariable name="geheimnisbekannt"/><equals value="false"/></if>
+				<response id="14">
+					<p>Ja, der Alrik ist ein netter Mensch.</p>
+					<gotoresponse id="0"/>
+				</response>				
+			</option>
+			<option id="7">Wie lautet das Geheimnis?
+				<switchresponse id="18">
+					<dialogvariable name="geheimnisbekannt"/>
+					<case><equals value="false"/>
+						<response id="8">Mein Geheimnis ist: Ich kann keine Geheimnisse behalten! *schluchz*
+							<setvariable name="geheimnisbekannt" value="true"/>
+							<option id="9">Har har har... Na warte, Freundchen!
+								<gotoresponse id="0"/>
+							</option>
+						</response>
+					</case>
+					<case><equals value="true"/>
+						<response id="17">
+							<p>Du kennst mein Geheimnis doch schon längst!</p>
+							<gotoresponse id="0"/>
+						</response>
+					</case>
+				</switchresponse>
+			</option>
+		</response>
+	</start>
+	
+	<response id="10">Dann musst du sterben! (bzw. den Dialog verlassen)
+		<option id="15">Ok ... schade
+			<response id="16"><exit/></response>
+		</option>
+	</response>
+</dialog>

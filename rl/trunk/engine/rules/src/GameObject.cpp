@@ -159,7 +159,7 @@ namespace rl
         mActions.push_back(make_pair(action, option));
         LOG_MESSAGE(Logger::RULES,
             "Bei GameObject #"+Ogre::StringConverter::toString(mId)+
-            " ("+getName()+") wurde Aktion "+action->getName().c_str()+" hinzugefügt.");
+            " ("+getName()+") wurde Aktion "+action->getName().c_str()+" hinzugefï¿½gt.");
     }
 
     void GameObject::addActionInGroup(Action* action, ActionGroup* group, int option)
@@ -186,7 +186,7 @@ namespace rl
             if ((*it).second == Action::ACT_DISABLED)
                 continue;
             //if ((*it).second > ACT_NEEDS_TALENT)
-            if (actor != NULL && !(*it).first->canDo(const_cast<GameObject*>(this), actor)) // Aktion nicht möglich
+            if (actor != NULL && !(*it).first->canDo(const_cast<GameObject*>(this), actor)) // Aktion nicht mï¿½glich
                 continue;
 
             actions.push_back((*it).first);

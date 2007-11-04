@@ -95,7 +95,6 @@ PKG_CHECK_MODULES([CEGUIOGRE], [CEGUI-OGRE])
 
 dnl Other stuff we need
 AC_CHECK_PROG(HAVE_DOXYGEN_PROG, doxygen, `which doxygen`, false)
-AC_CHECK_LIB([MadaBot], [main], [], AC_MSG_ERROR([Can't find libMadaBot]))
 
 # Newton
 AC_CHECK_LIB([Newton], [fopen], [], AC_MSG_ERROR([Can't find libNewton]) )

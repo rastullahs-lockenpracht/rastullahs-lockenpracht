@@ -16,38 +16,76 @@
 #include "stdinc.h" //precompiled header
 
 #include "DialogResponse.h"
+
+#include "Dialog.h"
+#include "DialogImplication.h"
 #include "DialogOption.h"
 
 namespace rl
 {
-	DialogResponse::DialogResponse( const CeGuiString& input,
-									const CeGuiString& response,
-									const Options& currentOptions,
-									const Options& selectableOptions,
-									NaturalLanguageProcessor* nlp)
-		:	mInput(input),
-			mResponse(response),
-			mCurrentOptions(currentOptions),
-			mSelectableOptions(selectableOptions),
-			mNlp(nlp)
-	{
-	}
+	DialogResponse::DialogResponse(int id, int npcId)
+        : DialogElement(id), mNpcId(npcId)
+    {
+    }
 
-	DialogResponse::DialogResponse( const Responses &responses,
-									const DialogOptions &options,
-									AimlBot<CeGuiString>* bot)
-		: mResponses(responses),
-		  mOptions(options),
-		  mBot(bot)
-	{
-	}
+    DialogResponse::~DialogResponse()
+    {
+    }
+    
 
-	DialogResponse::~DialogResponse(void)
-	{
-		DialogOptions::iterator itr = mOptions.begin();
-		for(; itr != mOptions.end(); ++itr)
-		{
-			delete (*itr);
-		}
-	}
+    void DialogResponse::addOption(rl::DialogOption *option)
+    {
+        mOptions.push_back(option);
+    }
+
+    const DialogResponse::Options& DialogResponse::getOptions(Dialog* dialog) const
+    {
+        return mOptions;
+    }
+
+    const DialogResponse::Options DialogResponse::getAvailableOptions(Dialog* dialog) const
+    {
+        Options availableOptions;
+
+        Options allOptions = getOptions(dialog);
+        for (Options::const_iterator it = allOptions.begin(); it != allOptions.end(); ++it)
+        {
+            DialogOption* cur = *it;
+            if (cur->isAvailable(dialog))
+            {
+                availableOptions.push_back(cur);
+            }
+        }
+
+        return availableOptions;
+    }
+
+    void DialogResponse::addImplication(DialogImplication* implication)
+    {
+        mEffects.push_back(implication);
+    }
+
+    void DialogResponse::applyImplications(rl::Dialog *dialog)
+    {
+        for (Implications::iterator it = mEffects.begin(); it != mEffects.end(); ++it)
+        {
+            (*it)->apply(dialog);
+        }
+    }
+
+    GameObject* DialogResponse::getNpc(rl::Dialog *dialog) const
+    {
+        return dialog->getNpc(mNpcId);
+    }
+
+    DialogResponseSelection::DialogResponseSelection(int id)
+        : DialogSelection<DialogResponse>(id)
+    {
+    }
+
+    const DialogResponse::Options& DialogResponseSelection::getOptions(Dialog* dialog) const
+    {
+        return getSelectedElement(dialog)->getOptions(dialog);
+    }
+
 }

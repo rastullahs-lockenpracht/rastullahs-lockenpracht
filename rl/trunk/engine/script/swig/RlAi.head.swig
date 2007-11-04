@@ -34,5 +34,6 @@
 #include "Landmark.h"
 #include "LandmarkPath.h"
 #include "CreatureWalkPathJob.h"
-#include "DialogCharacter.h"
+#include "Dialog.h"
+#include "DialogManager.h"
 %}

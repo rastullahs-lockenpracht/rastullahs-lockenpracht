@@ -23,6 +23,7 @@
 #include <map>
 
 #include "AbstractWindow.h"
+#include "DialogResponse.h"
 
 namespace rl {
 
@@ -35,15 +36,19 @@ namespace rl {
 
 		void setName(const CeGuiString& name);
 		void setImage(const CeGuiString& imageset, const CeGuiString& image);
-		void setAvailableOptions(const CeGuiStringVector& options);
+        void setAvailableOptions(const DialogResponse::Options& options);
 		void setChosenOption(const CeGuiString& option);
 		void setResponse(const CeGuiString& response);
 		void setDialogEnd();
 		int getSelectedOptionIndex() const;
 
 	private:
+        bool handleDialogSelectOption();
+
 		static const CEGUI::colour COLOR_PLAYER_CHARACTER;
 		static const CEGUI::colour COLOR_NON_PLAYER_CHARACTER;
+
+        DialogControlState* mController;
 
 		CEGUI::Listbox* mDialogOptions;
 		CEGUI::Window* mImage;

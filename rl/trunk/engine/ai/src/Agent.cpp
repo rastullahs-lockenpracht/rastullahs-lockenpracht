@@ -22,7 +22,6 @@
 #include "AgentDialogState.h"
 #include "AgentSteeringState.h"
 #include "Creature.h"
-#include "DialogCharacter.h"
 #include "Exception.h"
 #include "ScriptWrapper.h"
 #include "SteeringVehicle.h"

@@ -34,9 +34,10 @@
 namespace rl {
 
     class AbstractWindow;
-    class GameObject;
     class ControlState;
     class CommandMapper;
+    class Dialog;
+    class GameObject;
 
     class _RlUiExport InputManager
         :    public Ogre::Singleton<InputManager>,
@@ -98,7 +99,7 @@ namespace rl {
         enum Modifiers {ALT_MASK = 1, CTRL_MASK = 2, SHIFT_MASK = 4, SUPER_MASK = 8};
 
         void initializeOis(Ogre::RenderWindow* wnd);
-        bool startDialog(/* CeGuiString dialog */);
+        bool startDialog(Dialog* dialog);
 
         Ogre::Vector3 mSavedMouseState;
 
