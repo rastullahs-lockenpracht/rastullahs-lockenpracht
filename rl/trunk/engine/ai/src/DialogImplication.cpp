@@ -49,5 +49,9 @@ namespace rl
         dialog->setProperty(mVariableName, prop);
     }
 
+	void DialogExit::apply(rl::Dialog *dialog)
+	{
+		dialog->setProperty(Dialog::PROP_EXIT_REQUESTED, true);
+	}
 
 }

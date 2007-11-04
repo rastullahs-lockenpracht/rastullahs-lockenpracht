@@ -24,7 +24,7 @@ namespace rl
 {
     class Dialog;
 
-    class DialogVariable
+	class _RlAiExport DialogVariable
     {
     public:
         const Property& getValue(Dialog* dialog);

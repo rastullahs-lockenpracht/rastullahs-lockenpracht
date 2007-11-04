@@ -32,6 +32,7 @@ namespace rl
         int getId() const;
         void addParagraph(DialogParagraph* paragraph);
         virtual std::list<DialogParagraph*> getParagraphs(Dialog* dialog);
+		virtual bool isSelection() const;
 
     protected:
         DialogElement(int id);
@@ -79,9 +80,14 @@ namespace rl
             mElements.push_back(std::make_pair(condition, element));
         }
 
-    protected:
         DialogElementType* getSelectedElement(Dialog* dialog) const
         {
+			// Recalculate switch variable on start, keep for whole switch evaluation
+			if (mVariable)
+			{
+				mVariable->invalidate();
+			}
+
             for (typename CondElemMap::const_iterator it = mElements.begin(); it != mElements.end(); ++it)
             {
                 DialogCondition* condition = it->first;
@@ -94,6 +100,11 @@ namespace rl
 
             return NULL;
         }
+
+		virtual bool isSelection() const
+		{
+			return true;
+		}
 
     private:
         typedef std::vector<std::pair<DialogCondition*, DialogElementType*> > CondElemMap;

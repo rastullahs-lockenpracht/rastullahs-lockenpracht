@@ -20,6 +20,7 @@
 
 namespace rl
 {
+	const Ogre::String Dialog::PROP_EXIT_REQUESTED = "exit_requested";
 
     Dialog::Dialog(GameObject* npc, GameObject* pc)
     {
@@ -43,6 +44,7 @@ namespace rl
 
     void Dialog::initialize() ///@todo hand over NPCs and party
     {
+		mExitRequested = false;
     }
 
     GameObject* Dialog::getNpc(int id) const
@@ -58,11 +60,20 @@ namespace rl
     const Property Dialog::getProperty(const Ogre::String& key) const
     {
         ///@todo dialog's state
+		if (key == Dialog::PROP_EXIT_REQUESTED)
+		{
+			return mExitRequested;
+		}
+
         return mPropertyVariables.getProperty(key);
     }
 
     void Dialog::setProperty(const Ogre::String& key, const Property& value)
     {
+		if (key == Dialog::PROP_EXIT_REQUESTED)
+		{
+			mExitRequested = value;
+		}
         ///@todo dialog's state
         mPropertyVariables.setProperty(key, value);
     }
@@ -73,4 +84,9 @@ namespace rl
         ///@todo to allow saving dialog's state
         return ps;
     }
+
+	bool Dialog::isExitRequested() const
+	{
+		return mExitRequested;
+	}
 }

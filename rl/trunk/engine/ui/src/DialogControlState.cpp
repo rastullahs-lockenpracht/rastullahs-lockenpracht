@@ -342,7 +342,7 @@ namespace rl {
 
     void DialogControlState::showResponse(DialogResponse* response)
 	{
-        if (!response )
+        if (!response)
 		{
 			mDialogWindow->setDialogEnd();
 			mState = CLOSING_DIALOG;
@@ -350,17 +350,26 @@ namespace rl {
 			return;
 		}
 
+		if (response->isSelection())
+		{
+			DialogResponseSelection* sel = static_cast<DialogResponseSelection*>(response);
+			mCurrentResponse = sel->getSelectedElement(mDialog);
+		}
+		else
+		{
+			mCurrentResponse = response;
+		}
+	
         mState = TALKING_PARTNER_CHARACTER;
-		mCurrentResponse = response;
         mCurrentOption = NULL;
 
 		mDialogWindow->setVisible(false);
 
         mCurrentListener = mCurrentSpeaker;
-        mCurrentSpeaker = response->getNpc(mDialog);
-        mCurrentParagraphs = response->getParagraphs(mDialog);
+        mCurrentSpeaker = mCurrentResponse->getNpc(mDialog);
+        mCurrentParagraphs = mCurrentResponse->getParagraphs(mDialog);
         DialogParagraph* firstParagraph = mCurrentParagraphs.front();
-        response->applyImplications(mDialog);
+        mCurrentResponse->applyImplications(mDialog);
         if (!firstParagraph->getResponse())
         {
             doTalk(firstParagraph);
@@ -373,6 +382,12 @@ namespace rl {
 
 	void DialogControlState::textFinished()
 	{
+		if (mDialog->isExitRequested())
+		{
+			handleDialogClose();
+			return;
+		}
+
         mCurrentParagraphs.pop_front();
         if (!mCurrentParagraphs.empty())
         {
@@ -411,11 +426,19 @@ namespace rl {
 
 	bool DialogControlState::handleDialogSelectOption(DialogOption* option)
 	{
-        mCurrentOption = option;
+		if (option->isSelection())
+		{
+			DialogOptionSelection* sel = static_cast<DialogOptionSelection*>(option);
+			mCurrentOption = sel->getSelectedElement(mDialog);
+		}
+		else
+		{
+			mCurrentOption = option;
+		}
         mState = TALKING_PLAYER_CHARACTER;
         mCurrentListener = mCurrentSpeaker;
         mCurrentSpeaker = mDialog->getPc(0); ///@todo allow char switch 
-        mCurrentParagraphs = option->getParagraphs(mDialog);
+        mCurrentParagraphs = mCurrentOption->getParagraphs(mDialog);
         doTalk(mCurrentParagraphs.front());
 
 		return true;

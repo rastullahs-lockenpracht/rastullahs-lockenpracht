@@ -44,6 +44,12 @@ namespace rl
         Ogre::String mVariableName; 
         CeGuiString mValue;
     };
+
+	class DialogExit : public DialogImplication
+	{
+	public:
+		virtual void apply(Dialog* dialog);
+	};
 }
 
 #endif //__DialogImplication_H__

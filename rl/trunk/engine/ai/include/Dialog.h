@@ -29,6 +29,8 @@ namespace rl
     class _RlAiExport Dialog : public PropertyHolder
     {
     public:
+		static const Ogre::String PROP_EXIT_REQUESTED;
+
         Dialog(GameObject* pc, GameObject* npc);
         ~Dialog();
 
@@ -37,6 +39,7 @@ namespace rl
         void initialize();
         GameObject* getNpc(int id) const;
         GameObject* getPc(int id) const;
+		bool isExitRequested() const;
 
         virtual const Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const Property& value);
@@ -47,6 +50,7 @@ namespace rl
         std::vector<GameObject*> mNonPlayerCharacters;
         std::vector<GameObject*> mPlayerCharacters;
         PropertyRecord mPropertyVariables;
+		bool mExitRequested;
     };
 
 }

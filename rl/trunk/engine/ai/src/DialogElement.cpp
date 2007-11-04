@@ -51,4 +51,9 @@ namespace rl
         return mParagraphs;
     }
 
+	bool DialogElement::isSelection() const
+	{
+		return false;
+	}
+
 }

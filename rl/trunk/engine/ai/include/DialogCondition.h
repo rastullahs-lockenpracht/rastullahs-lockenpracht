@@ -23,7 +23,7 @@ namespace rl
     class Dialog;
     class DialogVariable;
 
-    class DialogCondition
+	class _RlAiExport DialogCondition
     {
     public:
         DialogCondition();

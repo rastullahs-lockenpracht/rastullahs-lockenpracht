@@ -432,7 +432,9 @@ namespace rl
             return NULL;
         }
 
-        return it->second->createDialog(pc, npc);
+        Dialog* dialog = it->second->createDialog(pc, npc); ///@todo save dialogs
+		dialog->initialize();
+		return dialog;
     }
 
     void DialogManager::DialogPrototype::addOption(DialogOption* option)
@@ -531,6 +533,10 @@ namespace rl
                 CeGuiString variableValue = getAttributeValueAsString(implicationElem, "value");
                 return new DialogVariableAssignment(variableName, variableValue);
             }
+			else if (hasNodeName(implicationElem, "exit"))
+			{
+				return new DialogExit();
+			}
         }
 
         return NULL;
