@@ -156,6 +156,7 @@ namespace rl
 
         unsigned long getQueryFlags() const;
         void addQueryFlag(unsigned long queryflag);
+        void setQueryFlags(unsigned long queryflags);
 
         virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
 

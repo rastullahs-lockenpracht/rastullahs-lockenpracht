@@ -750,5 +750,17 @@ namespace rl
     void GameObject::addQueryFlag(unsigned long queryflag)
     {
         mQueryFlags |= queryflag;
+
+        setQueryFlags(mQueryFlags);
+    }
+
+    void GameObject::setQueryFlags(unsigned long queryflags)
+    {
+        mQueryFlags = queryflags;
+
+        if(mActor != NULL)
+        {
+            mActor->setQueryFlags(mQueryFlags);
+        }
     }
 }
