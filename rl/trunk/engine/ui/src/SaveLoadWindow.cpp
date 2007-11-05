@@ -172,7 +172,7 @@ namespace rl {
         for(SaveGameEntryMap::iterator it = saveGames.begin(); it != saveGames.end(); it++)
         {
             mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->first), 0, saveGameNum);
-            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty("Time")), 1, saveGameNum);
+            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty("time")), 1, saveGameNum);
             saveGameNum++;
         }
         mSaveGameTable->autoSizeColumnHeader(0);
