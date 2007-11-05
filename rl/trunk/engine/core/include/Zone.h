@@ -19,7 +19,6 @@
 #include "CorePrerequisites.h"
 #include "GameEventManager.h"  /* wegen GameAreaEventSourceList */
 
-
 namespace rl {
 
 	class Actor;
@@ -51,13 +50,17 @@ namespace rl {
         void removeSound(const Ogre::String& name);
         void removeTrigger(Trigger* trigger);
         long getId() const {return mId;}
+        
+        bool needsToBeSaved() const {return mNeedsToBeSaved;}
+
     protected:
         friend class ZoneManager;
-        Zone(long id);
+        Zone(long id, bool needsToBeSaved);
         void addEventSource(GameAreaEventSource* gam);
         void removeEventSource(GameAreaEventSource* gam);
         GameAreaEventSourceList& getEventSources();
 	private:
+        bool mNeedsToBeSaved;
         long mId;
         Zone();
 		std::list<Actor*> mLights;

@@ -23,6 +23,7 @@ libRlScript_la_SOURCES = \
 	ScriptSubsystem.cpp \
 	ScriptObjectMarker.cpp \
 	SoundNodeProcessor.cpp \
+	TriggerFactory.cpp \
 	WaypointProcessor.cpp \
 	ZoneProcessor.cpp \
 	../swig/RlExports.cxx 

@@ -35,7 +35,7 @@ namespace rl
 		ZoneManager();
 		~ZoneManager();
 
-        Zone* createZone(const Ogre::String& name);
+        Zone* createZone(const Ogre::String& name, bool needsToBeSaved);
         /// only marks the zone for deferred deletion
         void destroyZone(const Ogre::String& name);
         /// Adds a new area to the zone
@@ -101,8 +101,12 @@ namespace rl
         void run(Ogre::Real elapsedTime);
         /// inherited from gametask
         const Ogre::String& getName() const;
+
+        typedef std::map<const Ogre::String, Zone*> ZoneMap;
+        const ZoneMap &getAllZones() const {return mZones;}
+
 	private:
-		std::map<const Ogre::String, Zone*> mZones;
+		ZoneMap mZones;
         std::map<long, Zone*> mZonesIdMap;
 		std::list<Zone*> mActiveZones;
         typedef std::map<const Ogre::String, Sound*> SoundMap;

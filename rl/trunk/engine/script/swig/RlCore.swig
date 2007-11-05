@@ -911,7 +911,7 @@ class ZoneManager
 {
 public:
 	static const ZoneManager& getSingleton();
-    rl::Zone* createZone(const Ogre::String& name);
+    rl::Zone* createZone(const Ogre::String& name, bool needsToBeSaved);
     void destroyZone(const Ogre::String& name);
 
     void addAreaToZone(const Ogre::String& name, 
@@ -950,7 +950,7 @@ public:
 class  Trigger
 {
 public:
-    Trigger(const Ogre::String &name);
+    Trigger(const Ogre::String &classname, const Ogre::String &name, bool needsToBeSaved);
     virtual ~Trigger();
 	virtual bool activate() = 0;
 	virtual bool deactivate() = 0;

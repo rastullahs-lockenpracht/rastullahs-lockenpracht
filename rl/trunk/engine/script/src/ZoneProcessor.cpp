@@ -55,7 +55,7 @@ namespace rl
                         // get the zone with that name or create one
                         zone = ZoneManager::getSingleton().getZone(name);
                         if( !zone )
-                            zone = ZoneManager::getSingleton().createZone(name);
+                            zone = ZoneManager::getSingleton().createZone(name, false);
 
                         // multiple areas
                         for(DOMNode* curArea = cur->getFirstChild(); curArea != NULL; curArea = curArea->getNextSibling())

@@ -19,7 +19,10 @@
 
 namespace rl
 {
-    Trigger::Trigger(const Ogre::String &name) : mName(name)
+    Trigger::Trigger(const Ogre::String& classname, const Ogre::String &name, bool needsToBeSaved) :
+        mName(name),
+        mClassName(classname),
+        mNeedsToBeSaved(needsToBeSaved)
     {
     }
 
@@ -28,6 +31,8 @@ namespace rl
         Property prop;
         if( key == "name" )
             prop.setValue(mName);
+        else if( key == "classname" )
+            prop.setValue(mClassName);
         else
         {
             Throw(IllegalArgumentException, key + " is not a property of this Trigger (" + mName +").");
@@ -42,6 +47,8 @@ namespace rl
         {
             if( key == "name" )
                 mName = value.toString().c_str();
+            else if( key == "classname" )
+                mClassName = value.toString().c_str();
             else
             {
                 LOG_WARNING(
@@ -61,6 +68,7 @@ namespace rl
     {
         PropertyRecord* ps = new PropertyRecord();
         ps->setProperty("name", Property(mName));
+        ps->setProperty("classname", Property(mClassName));
 
         return ps;
     }

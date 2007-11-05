@@ -319,6 +319,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\src\TriggerFactory.cpp"
+				>
+			</File>
 			<Filter
 				Name="map loading"
 				>

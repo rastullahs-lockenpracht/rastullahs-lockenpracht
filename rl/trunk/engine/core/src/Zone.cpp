@@ -27,7 +27,7 @@ namespace rl
 {
 
 
-    Zone::Zone(long id) : mId(id), mEaxPreset("")
+    Zone::Zone(long id, bool needsToBeSaved) : mId(id), mEaxPreset(""), mNeedsToBeSaved(needsToBeSaved)
     {
     }
 

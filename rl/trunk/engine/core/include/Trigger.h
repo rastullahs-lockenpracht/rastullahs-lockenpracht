@@ -25,7 +25,7 @@ namespace rl
 	class _RlCoreExport Trigger : public PropertyHolder
 	{
 	public:
-        Trigger(const Ogre::String &name);
+        Trigger(const Ogre::String& classname, const Ogre::String &name, bool needsToBeSaved);
         virtual ~Trigger() {}
         /**
          * return true, if the trigger can be deleted after execution. 
@@ -46,12 +46,18 @@ namespace rl
         virtual bool deleteIfZoneDestroyed() const {return true;}
 
         const Ogre::String& getName() const {return mName;}
+        const Ogre::String& getClassName() const {return mClassName;}
+
+        bool needsToBeSaved() const {return mNeedsToBeSaved;}
 
         virtual const Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const Property& value);
         virtual PropertyRecord* getAllProperties() const;
     protected:
         Ogre::String mName;
+        Ogre::String mClassName;
+	private:
+        const bool mNeedsToBeSaved;
 	};
 }
 

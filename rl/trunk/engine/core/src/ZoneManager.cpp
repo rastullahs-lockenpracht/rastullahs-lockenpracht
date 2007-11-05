@@ -41,7 +41,7 @@ namespace rl
         GameTask(false)
 	{
 		// the default zone is active when no other Zone is active
-		mDefaultZone = new Zone(0);
+		mDefaultZone = new Zone(0,false);
         mNextZoneId = 1;
 		mActiveZones.push_front(mDefaultZone);
 	}
@@ -50,7 +50,7 @@ namespace rl
 	{
         GameEventManager::getSingleton().removeAreaListener(this);
         GameEventManager::getSingleton().removeQueuedDeletionSources();
-		for (std::map<const Ogre::String, Zone*>::iterator it = mZones.begin(); it != mZones.end(); ++it)
+		for (ZoneMap::iterator it = mZones.begin(); it != mZones.end(); ++it)
 		{
 			Zone* curZone = (*it).second;
             delete curZone;
@@ -65,7 +65,7 @@ namespace rl
 
 	Zone* ZoneManager::getZone(const Ogre::String& name)
 	{
-		std::map<const Ogre::String, Zone*>::const_iterator it = mZones.find(name);
+		ZoneMap::const_iterator it = mZones.find(name);
 		if (it == mZones.end())
 		{
 			return NULL;
@@ -89,9 +89,9 @@ namespace rl
 		}
 	}
 
-    Zone* ZoneManager::createZone(const Ogre::String& name)
+    Zone* ZoneManager::createZone(const Ogre::String& name, bool needsToBeSaved)
 	{
-        Zone* zone = new Zone(mNextZoneId);
+        Zone* zone = new Zone(mNextZoneId, needsToBeSaved);
         mZonesIdMap[mNextZoneId] = zone;
         mZones[name] = zone;
         mNextZoneId++;
@@ -109,7 +109,7 @@ namespace rl
         if( isZoneActive(zone) )
             mActiveZones.remove(zone);
 
-        std::map<const Ogre::String, Zone*>::iterator it = mZones.find(name);
+        ZoneMap::iterator it = mZones.find(name);
         if( it != mZones.end() )
             mZones.erase(it);
 
@@ -366,7 +366,7 @@ namespace rl
 			(*it)->setVisible(true);
 		}
 
-		for (std::map<const Ogre::String, Zone*>::const_iterator itZones = mZones.begin(); itZones != mZones.end(); itZones++)
+		for (ZoneMap::const_iterator itZones = mZones.begin(); itZones != mZones.end(); itZones++)
 		{
 			std::list<Actor*> curLights = (*itZones).second->getLights();
 			for (std::list<Actor*>::const_iterator itLights = curLights.begin(); itLights != curLights.end(); itLights++)
