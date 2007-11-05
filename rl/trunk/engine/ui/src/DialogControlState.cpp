@@ -151,7 +151,9 @@ namespace rl {
 
 		if (!mDialog || !mDialogWindow)
 		{
-			Throw(IllegalStateException, "DialogControlState not properly initialized.");
+            LOG_ERROR(Logger::UI, "DialogControlState not properly initialized.");
+            handleDialogClose();
+            return;
 		}
 
         mCurrentSpeaker = mDialog->getNpc(0);
@@ -246,11 +248,34 @@ namespace rl {
                0.25f;                   // Fade in
     }
 
+    void DialogControlState::processTextVariables(CeGuiString& text)
+    {
+        CeGuiString newText = text;
+        CeGuiString::size_type pos = CeGuiString::npos;
+        do
+        {
+            pos = newText.find("{$");
+            if (pos != CeGuiString::npos)
+            {
+                CeGuiString::size_type endpos = newText.find("}", pos);
+                if (endpos != CeGuiString::npos)
+                {
+                    CeGuiString varName = newText.substr(pos+2, endpos - pos - 2);
+                    CeGuiString varValue = mDialog->getVariableValue(varName.c_str());
+                    newText = newText.replace(pos, endpos - pos + 1, varValue);
+                }
+            }
+        }
+        while (pos != CeGuiString::npos);
+        text.assign(newText);
+    }
+
     void DialogControlState::doTalk(DialogParagraph* paragraph)
     {
         mDialogWindow->setVisible(false);
         Ogre::String soundFile = paragraph->getVoiceFile();
         CeGuiString text = paragraph->getText();
+        processTextVariables(text);
 
         recalculateCamera(mCurrentSpeaker, mCurrentListener);
 
@@ -449,6 +474,8 @@ namespace rl {
 		InputManager::getSingleton().popControlState();
 		mDialogWindow->setVisible(false, true);
 		mSubtitleWindow->setVisible(false, true);
+        mDialogWindow = NULL;
+        mSubtitleWindow = NULL;
 		return true;
 	}
 

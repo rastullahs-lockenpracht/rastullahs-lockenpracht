@@ -24,6 +24,7 @@ namespace rl
 {
     class DialogOption;
     class DialogResponse;
+    class DialogVariable;
     class GameObject;
 
     class _RlAiExport Dialog : public PropertyHolder
@@ -36,10 +37,12 @@ namespace rl
 
         DialogResponse* getDialogStart() const;
         void setStartResponse(DialogResponse* start);
+        void addVariable(DialogVariable* variable);
         void initialize();
         GameObject* getNpc(int id) const;
         GameObject* getPc(int id) const;
 		bool isExitRequested() const;
+        CeGuiString getVariableValue(const Ogre::String& variableName) const;
 
         virtual const Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const Property& value);
@@ -49,6 +52,7 @@ namespace rl
         DialogResponse* mDialogStart;
         std::vector<GameObject*> mNonPlayerCharacters;
         std::vector<GameObject*> mPlayerCharacters;
+        std::map<Ogre::String, DialogVariable*> mVariables;
         PropertyRecord mPropertyVariables;
 		bool mExitRequested;
     };

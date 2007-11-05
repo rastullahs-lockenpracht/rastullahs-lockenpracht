@@ -109,7 +109,8 @@ namespace rl {
 		SoundObject* mSoundObject;
 	
 		float getShowTextLength(const CeGuiString& text) const;
-        void recalculateCamera(GameObject* speaker, GameObject* listener );
+        void recalculateCamera(GameObject* speaker, GameObject* listener);
+        void processTextVariables(CeGuiString& text);
 
 		enum DialogState
 		{

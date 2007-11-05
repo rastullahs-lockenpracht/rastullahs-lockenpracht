@@ -47,6 +47,11 @@ namespace rl
 		mExitRequested = false;
     }
 
+    void Dialog::addVariable(DialogVariable* variable)
+    {
+        //mVariables[vkey] = variable;
+    }
+
     GameObject* Dialog::getNpc(int id) const
     {
         return mNonPlayerCharacters[id];
@@ -89,4 +94,9 @@ namespace rl
 	{
 		return mExitRequested;
 	}
+
+    CeGuiString Dialog::getVariableValue(const Ogre::String& key) const
+    {
+        return getProperty(key).getAsString();
+    }
 }

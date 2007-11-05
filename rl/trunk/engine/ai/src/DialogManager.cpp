@@ -124,6 +124,7 @@ namespace rl
                 }
             }
         }
+        LOG_MESSAGE(Logger::AI, "Processed Dialog "+ name);
     }
 
     void DialogManager::processElementNodes(XERCES_CPP_NAMESPACE::DOMElement* dialogXml, const Ogre::String& nodeName, DialogPrototype* dialogPrototype)
