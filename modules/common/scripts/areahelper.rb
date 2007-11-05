@@ -1,84 +1,4 @@
-
-# a trigger, that saves an command the appropriate zone and deletes it when finished
-class LimitedTimesTrigger < Trigger
-  def initialize(name)
-    super(name);
-    @_prop_enter_command = nil;
-    @_prop_leave_command = nil;
-    @_prop_zone = "";
-    @_prop_number = 0; # 0 infty, -1 once, -2 deactivated
-  end
-  def setEnterCode(&code)
-    @_prop_enter_command = code
-  end
-  def setLeaveCode(&code)
-    @_prop_leave_command = code
-  end
-
-  def activate()
-    if ( @_prop_number > 0 )
-      @_prop_number = @_prop_number - 1;
-      if (@_prop_number == 0 )
-        @_prop_number = -1;
-      end
-    end
-    
-    if( @_prop_number >= -1 )
-      unless ( @_prop_enter_command == nil )
-        begin
-          @_prop_enter_command.call
-        rescue StandardError => se
-          $SCRIPT.logError(se.to_s)
-        end
-      end
-    end
-    return false
-  end
-  def deactivate()
-    if( @_prop_number >= -1 )
-      unless ( @_prop_leave_command == nil )
-        begin
-          @_prop_leave_command.call
-        rescue StandardError => se
-          $SCRIPT.logError(se.to_s)
-        end
-      end
-    end
-
-    if ( @_prop_number == -1 )
-      @_prop_number = -2
-      unless ( @_prop_zone == "" )
-        ZoneManager.getSingleton().destroyZone(@_prop_zone)
-      end
-      return true
-    end
-    return false
-  end
-  def setProperty(name, value)
-    if (name == "number")
-      @_prop_number = value;
-    elsif (name == "zone")
-      @_prop_zone = value
-    else
-      super(name, value)
-    end
-  end
-  def getProperty(name)
-    if (name == "zone")
-      return @_prop_zone
-    elsif (name == "number")
-      return @_prop_number
-    else
-      super(name)
-    end
-  end
-  def getAllProperties()
-    ps = super();
-    ps.setProperty("zone", @_prop_zone)
-    ps.setProperty("number", @_prop_number)
-    return ps
-  end
-end
+require "triggers/limitedtimestrigger.rb"
 
 # creates a zone with a trigger, that is destroyed if actived 'times' of times
 # Example: _CreateLimitedTimesTrigger("uniquename", PhysicsManager::GT_SPHERE, [-20,0,5], [1,0,0,0], [2,2,2], 5, Proc.new{print "entered"}, Proc.new{print "left"})
@@ -88,7 +8,7 @@ def _CreateLimitedTimesTrigger(name, geom_type, pos, orientation, size, times, e
   end
 
   trigger = $SCRIPT.getTriggerFactory().createTrigger("LimitedTimesTrigger", "limitedTimeTrigger_" + name);
-  zone = ZoneManager.getSingleton().createZone("limitedTimesTriggerZone_" + name);
+  zone = ZoneManager.getSingleton().createZone("limitedTimesTriggerZone_" + name, true);
   ZoneManager.getSingleton().addAreaToZone(
     "limitedTimesTriggerZone_" + name, 
     size, geom_type, pos, [0,0,0], orientation, 0.2, RlScript::QUERYFLAG_PLAYER);

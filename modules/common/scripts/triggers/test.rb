@@ -1,6 +1,6 @@
 class TestTrigger < Trigger
-  def initialize(name)
-    super(name);
+  def initialize(classname, name)
+    super(classname, name, false);
     @_prop_text = "<See your ad here!>";
   end
 
