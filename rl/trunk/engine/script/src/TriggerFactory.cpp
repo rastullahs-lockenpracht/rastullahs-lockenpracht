@@ -119,17 +119,19 @@ namespace rl
                         PropertyRecord properties = reader->getPropertiesAsSet(static_cast<DOMElement*>(xmlTrigger));
 
 
-// doesn't work yet, i suppose, it's because the classname is not known to ruby in this part
                         Trigger *trigger = createTrigger(classname, name);
-                        trigger->setProperties(&properties);
-                        Zone *zone = ZoneManager::getSingleton().getZone(zoneName);
-                        if(zone == NULL)
+                        if( trigger ) // if not, there is an error-msg from the script!
                         {
-                            LOG_ERROR(Logger::SCRIPT, "Tried to load trigger for zone '"+zoneName+"', but the zone could not be found!");
-                            delete trigger;
+                            trigger->setProperties(&properties);
+                            Zone *zone = ZoneManager::getSingleton().getZone(zoneName);
+                            if(zone == NULL)
+                            {
+                                LOG_ERROR(Logger::SCRIPT, "Tried to load trigger for zone '"+zoneName+"', but the zone could not be found!");
+                                delete trigger;
+                            }
+                            else
+                                zone->addTrigger(trigger);
                         }
-                        else
-                            zone->addTrigger(trigger);
 
                     }
                 }
