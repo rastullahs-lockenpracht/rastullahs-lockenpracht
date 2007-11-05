@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <dialog name="testdialog">
 	<variable name="geheimnisbekannt" type="BOOL" data="false"/>
 	
@@ -62,6 +62,13 @@
 						</response>
 					</case>
 				</switchresponse>
+			</option>
+			<option id="21">[Gespräch beenden]
+				<p>Tschüß.</p>
+				<response id="22">
+					<p>Geh' doch!</p>
+					<exit/>
+				</response>
 			</option>
 		</response>
 	</start>
