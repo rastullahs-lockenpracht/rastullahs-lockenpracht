@@ -1,23 +1,12 @@
-material SOLID/TEX/baumstamm_kana.png
-: Basic_Normalmapping
+material SOLID/TEX/baumstamm_kana.png: Basic_Normalmapping
 {
 set_texture_alias DiffuseMap baumstamm_kana.png
 set_texture_alias NormalMap baumstamm_kana_normal.png
 }
-
-material Material.020/SOLID/TEX/wand_kana.png
+material Material.020/SOLID/TEX/wand_kana.png: Basic_Normalmapping
 {
-	technique
-	{
-		pass
-		{
-			specular 0.000000 0.000000 0.000000 0.0000000
-			texture_unit
-			{
-				texture wand_kana.png
-			}
-		}
-	}
+set_texture_alias DiffuseMap wand_kana.png
+set_texture_alias NormalMap wand_kana_normal.png
 }
 material hoehle_decke/SOLID/TEX/felsen_kana.png
 {
