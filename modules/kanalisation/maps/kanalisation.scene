@@ -1,0 +1,253 @@
+<scene formatVersion="0.2.0">
+  <nodes>
+    <node name="wand.001">
+      <position x="7.198215" y="1.481459" z="-2.943851"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="wand.001" meshFile="Cube.003.mesh"/>
+    </node>
+    <node name="wand.002">
+      <position x="7.198215" y="1.481459" z="-2.957005"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="wand.002" meshFile="Cube.006.mesh"/>
+    </node>
+    <node name="wand">
+      <position x="7.198215" y="1.481459" z="-2.957005"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="wand" meshFile="wand.mesh"/>
+    </node>
+    <node name="Cube.003">
+      <position x="0.000000" y="0.000000" z="0.000000"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="Cube.003" meshFile="Cube.005.mesh"/>
+    </node>
+    <node name="hoehle_decke">
+      <position x="-3.972412" y="20.853798" z="59.684830"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="hoehle_decke" meshFile="hoehle_decke.mesh"/>
+    </node>
+    <node name="zierleiste_01">
+      <position x="1.534294" y="2.003731" z="3.872845"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="zierleiste_01" meshFile="zierleiste_01.mesh"/>
+    </node>
+    <node name="bruecke">
+      <position x="1.916002" y="3.116776" z="5.625950"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="bruecke" meshFile="bruecke.mesh"/>
+    </node>
+    <node name="Cube">
+      <position x="0.000000" y="0.000000" z="0.000000"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="Cube" meshFile="Cube.004.mesh"/>
+    </node>
+    <node name="stein_06">
+      <position x="3.786316" y="6.045236" z="4.983986"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="stein_06" meshFile="stein_06.mesh"/>
+    </node>
+    <node name="gitter.001">
+      <position x="7.198215" y="1.481459" z="-2.957005"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="gitter.001" meshFile="Cube.mesh"/>
+    </node>
+    <node name="saeule_kaputt_01">
+      <position x="2.339224" y="11.239191" z="6.314709"/>
+      <rotation qx="-0.008984" qy="-0.167025" qz="-0.000432" qw="0.985912"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="saeule_kaputt_01" meshFile="saeule_kaputt_02.001.mesh"/>
+    </node>
+    <node name="Cube.023">
+      <position x="-1.209486" y="2.003731" z="17.278671"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="Cube.023" meshFile="Cube.018.mesh"/>
+    </node>
+    <node name="Plane">
+      <position x="0.000000" y="0.000000" z="0.000000"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="Plane" meshFile="boden_kies.mesh"/>
+    </node>
+    <node name="Cube.001">
+      <position x="0.000000" y="0.000000" z="0.000000"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="Cube.001" meshFile="Cube.032.mesh"/>
+    </node>
+    <node name="Cube.022">
+      <position x="-1.209486" y="2.003731" z="17.278671"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="Cube.022" meshFile="Cube.013.mesh"/>
+    </node>
+    <node name="hoehle_boden">
+      <position x="-3.972412" y="10.810725" z="59.684830"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="hoehle_boden" meshFile="hoehle_boden.mesh"/>
+    </node>
+    <node name="gitter">
+      <position x="7.198215" y="1.481459" z="-2.957005"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="gitter" meshFile="Cube.002.mesh"/>
+    </node>
+    <node name="saeule_07">
+      <position x="9.327843" y="11.239192" z="18.130863"/>
+      <rotation qx="-0.001152" qy="-0.999922" qz="-0.008921" qw="0.008712"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="saeule_07" meshFile="saeulen.012.mesh"/>
+    </node>
+    <node name="saeule_06">
+      <position x="9.328000" y="11.239192" z="18.130863"/>
+      <rotation qx="-0.001152" qy="-0.999922" qz="-0.008921" qw="0.008712"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="saeule_06" meshFile="saeulen.011.mesh"/>
+    </node>
+    <node name="saeule_05">
+      <position x="9.327843" y="11.239192" z="18.130863"/>
+      <rotation qx="-0.001152" qy="-0.999922" qz="-0.008921" qw="0.008712"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="saeule_05" meshFile="saeulen.010.mesh"/>
+    </node>
+    <node name="saeule_04">
+      <position x="9.327843" y="11.239192" z="18.130863"/>
+      <rotation qx="-0.001152" qy="-0.999922" qz="-0.008921" qw="0.008712"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="saeule_04" meshFile="saeulen.008.mesh"/>
+    </node>
+    <node name="saeule_03">
+      <position x="9.327843" y="11.239192" z="18.130863"/>
+      <rotation qx="-0.001152" qy="-0.999922" qz="-0.008921" qw="0.008712"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="saeule_03" meshFile="saeulen.007.mesh"/>
+    </node>
+    <node name="saeule_02">
+      <position x="9.327843" y="11.239192" z="18.130863"/>
+      <rotation qx="-0.001152" qy="-0.999922" qz="-0.008921" qw="0.008712"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="saeule_02" meshFile="saeulen.006.mesh"/>
+    </node>
+    <node name="saeule_01">
+      <position x="9.327843" y="11.239192" z="18.130863"/>
+      <rotation qx="-0.001152" qy="-0.999922" qz="-0.008921" qw="0.008712"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="saeule_01" meshFile="saeulen.005.mesh"/>
+    </node>
+    <node name="saeulen.002">
+      <position x="-1.135014" y="3.636577" z="6.546514"/>
+      <rotation qx="-0.001152" qy="-0.999922" qz="-0.008921" qw="0.008712"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="saeulen.002" meshFile="saeulen.004.mesh"/>
+    </node>
+    <node name="saeulen.003">
+      <position x="-8.421051" y="1.323717" z="46.231590"/>
+      <rotation qx="-0.010004" qy="-0.999901" qz="-0.008093" qw="0.005777"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="saeulen.003" meshFile="bruchstueck.mesh"/>
+    </node>
+    <node name="saeulen.001">
+      <position x="9.327843" y="11.239192" z="18.130863"/>
+      <rotation qx="-0.001152" qy="-0.999922" qz="-0.008921" qw="0.008712"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="saeulen.001" meshFile="saeulen.mesh"/>
+    </node>
+    <node name="saeule_09">
+      <position x="6.095114" y="11.239192" z="14.054854"/>
+      <rotation qx="-0.001152" qy="-0.999922" qz="-0.008921" qw="0.008712"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="saeule_09" meshFile="saeulen.003.mesh"/>
+    </node>
+    <node name="saeulen.005">
+      <position x="-8.268090" y="1.505226" z="42.247749"/>
+      <rotation qx="-0.007434" qy="0.179851" qz="0.100224" qw="0.978547"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="saeulen.005" meshFile="bruchstueck.001.mesh"/>
+    </node>
+    <node name="tuern">
+      <position x="16.799803" y="3.816079" z="18.524658"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="tuern" meshFile="tuern.mesh"/>
+    </node>
+    <node name="saeule_kaputt_02">
+      <position x="2.339224" y="11.239191" z="6.314709"/>
+      <rotation qx="-0.008984" qy="-0.167025" qz="-0.000432" qw="0.985912"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="saeule_kaputt_02" meshFile="saeule_kaputt_02.mesh"/>
+    </node>
+    <node name="saeule_08">
+      <position x="9.328000" y="11.239192" z="18.130863"/>
+      <rotation qx="-0.001152" qy="-0.999922" qz="-0.008921" qw="0.008712"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="saeule_08" meshFile="saeulen.002.mesh"/>
+    </node>
+    <node name="wand_01.001">
+      <position x="16.799803" y="3.816079" z="18.524658"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="wand_01.001" meshFile="wand_01.001.mesh"/>
+    </node>
+    <node name="Cylinder">
+      <position x="0.000000" y="0.000000" z="0.000000"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="Cylinder" meshFile="Cylinder.001.mesh"/>
+    </node>
+    <node name="fackeln">
+      <position x="20.129128" y="2.003731" z="17.247044"/>
+      <rotation qx="-0.000398" qy="-0.039307" qz="-0.000016" qw="0.999227"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="fackeln" meshFile="Cylinder.006.mesh"/>
+    </node>
+    <node name="saeulen">
+      <position x="9.327843" y="11.239192" z="18.130863"/>
+      <rotation qx="-0.001152" qy="-0.999922" qz="-0.008921" qw="0.008712"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="saeulen" meshFile="saeulen.001.mesh"/>
+    </node>
+    <node name="treppe.001">
+      <position x="27.043402" y="4.539724" z="8.254034"/>
+      <rotation qx="-0.000378" qy="-0.315397" qz="-0.000126" qw="0.948960"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="treppe.001" meshFile="treppe_01.mesh"/>
+    </node>
+    <node name="wurzeln">
+      <position x="3.372630" y="2.162797" z="-0.125388"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="wurzeln" meshFile="wurzeln_alle.mesh"/>
+    </node>
+    <node name="treppe">
+      <position x="2.267023" y="2.003731" z="3.872845"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="0.560569" y="0.560569" z="0.560569"/>
+      <entity name="treppe" meshFile="treppe.mesh"/>
+    </node>
+    <node name="hoehle">
+      <position x="20.612799" y="0.003029" z="56.191811"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="hoehle" meshFile="hoehle.mesh"/>
+    </node>
+  </nodes>
+  <externals>
+    <item type="material">
+      <file name="Scene.material"/>
+    </item>
+  </externals>
+  <environment>
+    <colourAmbient r="0.000000" g="0.000000" b="0.000000"/>
+    <colourBackground r="1.000000" g="1.000000" b="1.000000"/>
+  </environment>
+</scene>

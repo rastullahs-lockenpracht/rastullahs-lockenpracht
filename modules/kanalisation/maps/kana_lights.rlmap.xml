@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<rastullahmap formatVersion="0.4.0">
+	<nodes>
+		<light name="fackkellicht" type="point" visible="true"
+			castShadows="false">
+			<position x="-3.77" y="5.71" z="13.40" />
+			<colourDiffuse r="0.8" g="0.7" b="0.5" />
+			<colourSpecular r="0.8" g="0.7" b="0.5" />
+			<lightAttenuation range="3.5" constant="1.0" linear="0.001"
+				quadratic="0.2" />
+		</light>
+		<light name="fackkellicht2" type="point" visible="true"
+			castShadows="false">
+			<position x="-3.24" y="5.74" z="5.43" />
+			<colourDiffuse r="0.8" g="0.7" b="0.5" />
+			<colourSpecular r="0.8" g="0.7" b="0.5" />
+			<lightAttenuation range="3.5" constant="1.0" linear="0.001"
+				quadratic="0.2" />
+		</light>
+		<light name="fackkellicht3" type="point" visible="true"
+			castShadows="false">
+			<position x="-3.24" y="5.74" z="1.21" />
+			<colourDiffuse r="0.8" g="0.7" b="0.5" />
+			<colourSpecular r="0.8" g="0.7" b="0.5" />
+			<lightAttenuation range="3.5" constant="1.0" linear="0.001"
+				quadratic="0.2" />
+		</light>
+		<light name="fackkellicht4" type="point" visible="true"
+			castShadows="false">
+			<position x="14.48" y="5.84" z="12.72" />
+			<colourDiffuse r="0.8" g="0.7" b="0.5" />
+			<colourSpecular r="0.8" g="0.7" b="0.5" />
+			<lightAttenuation range="3.5" constant="1.0" linear="0.001"
+				quadratic="0.2" />
+		</light>
+		<light name="fackkellicht5" type="point" visible="true"
+			castShadows="false">
+			<position x="14.46" y="5.81" z="18.23" />
+			<colourDiffuse r="0.8" g="0.7" b="0.5" />
+			<colourSpecular r="0.8" g="0.7" b="0.5" />
+			<lightAttenuation range="3.5" constant="1.0" linear="0.001"
+				quadratic="0.2" />
+		</light>
+		<light name="fackkellicht6" type="point" visible="true"
+			castShadows="false">
+			<position x="14.46" y="5.83" z="8.93" />
+			<colourDiffuse r="0.8" g="0.7" b="0.5" />
+			<colourSpecular r="0.8" g="0.7" b="0.5" />
+			<lightAttenuation range="3.5" constant="1.0" linear="0.001"
+				quadratic="0.2" />
+		</light>
+	</nodes>
+	<zones>
+		<zone name="default">
+			<light name="fackkellicht"/>
+			<light name="fackkellicht2"/>
+			<light name="fackkellicht3"/>
+			<light name="fackkellicht4"/>
+			<light name="fackkellicht5"/>
+			<light name="fackkellicht6"/>
+		</zone>
+	</zones>
+</rastullahmap>

@@ -15,7 +15,7 @@ $SCRIPT.log("rauschendesWasser geladen");
 
 $CORE.getWorld().setSkyBox(true, "rl/dsa07", 100.0)
 
-
+#$hero.getActor().placeIntoScene([0.0, 0.0, 0.0]);
 #$SCRIPT.log("Tageslicht erstellen..");
 #sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
 #$hero.getActor().placeIntoScene([0.0, 0.0, 0.0]);
