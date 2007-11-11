@@ -53,7 +53,7 @@ $hero = $GOM.createGameObject("mckhero", 1);
 
 $SCRIPT.log("Place hero into scene")
 $hero.placeIntoScene();
-$hero.setPosition([-1.23,4.33,2.36]);
+$hero.setPosition([9.45,4.14,9.57]);
 
 $SCRIPT.log("Prepare hero for being the active character")
 PlayerSettings.preparePlayer($hero)
