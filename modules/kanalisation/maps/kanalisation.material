@@ -1,26 +1,12 @@
-material SOLID/TEX/baumstamm_kana.png: Basic_Normalmapping_kana
-{
-set_texture_alias DiffuseMap baumstamm_kana.png
-set_texture_alias NormalMap baumstamm_kana_normal.png
-}
-material Material.020/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
+material saeulen/SOLID/TEX/wand_06.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-material hoehle_decke/SOLID/TEX/felsen_kana.png
+material hoehle_decke/SOLID/TEX/felsen_kana.png: Basic_Normalmapping_kana
 {
-	technique
-	{
-		pass
-		{
-			specular 0.000000 0.000000 0.000000 0.0000000
-			texture_unit
-			{
-				texture felsen_kana.png
-			}
-		}
-	}
+set_texture_alias DiffuseMap felsen_kana.png
+set_texture_alias NormalMap felsen_kana_normal.png
 }
 material Material.027/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
@@ -32,211 +18,110 @@ material leiste_unten/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-
-material Material.178/SOLID/TEX/saeule_kana.png : Basic_Normalmapping_kana
+material Material.220/SOLID/TEX/saeule_kana2.png: Basic_Normalmapping_kana
 {
-set_texture_alias DiffuseMap saeule_kana.png
-set_texture_alias NormalMap saeule_kana_normal.png
-}
-
-material bruchstueck.001/SOLID/TEX/saeule_kana.png: Basic_Normalmapping_kana
-{
-set_texture_alias DiffuseMap saeule_kana.png
-set_texture_alias NormalMap saeule_kana_normal.png
-}
- 
-material wand_komplett/SOLID/TEX/baumstamm_kana.png: Basic_Normalmapping_kana
-{
-set_texture_alias DiffuseMap baumstamm_kana.png
-set_texture_alias NormalMap baumstamm_kana_normal.png
+set_texture_alias DiffuseMap saeule_kana2.png
+set_texture_alias NormalMap saeule_kana2_normal.png
 }
 material bruecke/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-
-material wand_komplett/SOLID/TEX/kiesbett_kana.png
-{
-	technique
-	{
-		pass
-		{
-			specular 0.000000 0.000000 0.000000 0.0000000
-			texture_unit
-			{
-				texture kiesbett_kana.png
-			}
-		}
-	}
-}
-material boden/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
+material Material.020/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-
-material bruchstueck.001/SOLID/TEX/wand_06.png
+material saeulen/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
-	technique
-	{
-		pass
-		{
-			specular 0.000000 0.000000 0.000000 0.0000000
-			texture_unit
-			{
-				texture wand_06.png
-			}
-		}
-	}
+set_texture_alias DiffuseMap wand_kana.png
+set_texture_alias NormalMap wand_kana_normal.png
 }
-material saeulen.003/SOLID/TEX/saeule_kana.png: Basic_Normalmapping_kana
-{
-set_texture_alias DiffuseMap saeule_kana.png
-set_texture_alias NormalMap saeule_kana_normal.png
-}
- 
 material Material.025/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-
 material boden_kies/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-
-material Material.026/SOLID/TEX/kiesbett_kana.png/VertCol
+material saeulen/SOLID/TEX/saeule_kana2.png: Basic_Normalmapping_kana
 {
-	technique
-	{
-		pass
-		{
-			diffuse vertexcolour
-			specular 0.000000 0.000000 0.000000 0.0000000
-			texture_unit
-			{
-				texture kiesbett_kana.png
-			}
-		}
-	}
+set_texture_alias DiffuseMap saeule_kana2.png
+set_texture_alias NormalMap saeule_kana2_normal.png
 }
 material treppe.001/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-
-material saeule_kaputt/SOLID/TEX/saeule_kana.png: Basic_Normalmapping_kana
+material Material.086/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
-set_texture_alias DiffuseMap saeule_kana.png
-set_texture_alias NormalMap saeule_kana_normal.png
-}
- 
-material wand_komplett/SOLID/TEX/wand_06.png
-{
-	technique
-	{
-		pass
-		{
-			specular 0.000000 0.000000 0.000000 0.0000000
-			texture_unit
-			{
-				texture wand_06.png
-			}
-		}
-	}
+set_texture_alias DiffuseMap wand_kana.png
+set_texture_alias NormalMap wand_kana_normal.png
 }
 material wurzeln/SOLID/TEX/baumstamm_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap baumstamm_kana.png
 set_texture_alias NormalMap baumstamm_kana_normal.png
 }
-material bruchstueck.001/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
+material hoehle_boden/SOLID/TEX/kiesbett_kana.png: Basic_Normalmapping_kana
 {
-set_texture_alias DiffuseMap wand_kana.png
-set_texture_alias NormalMap wand_kana_normal.png
+set_texture_alias DiffuseMap kiesbett_kana.png
+set_texture_alias NormalMap kiesbett_kana_normal.png
 }
-
-material hoehle_boden/SOLID/TEX/kiesbett_kana.png
+material gitter/SOLID/TEX/kiesbett_kana.png: Basic_Normalmapping_kana
 {
-	technique
-	{
-		pass
-		{
-			specular 0.000000 0.000000 0.000000 0.0000000
-			texture_unit
-			{
-				texture kiesbett_kana.png
-			}
-		}
-	}
+set_texture_alias DiffuseMap kiesbett_kana.png
+set_texture_alias NormalMap kiesbett_kana_normal.png
 }
 material bruecke.001/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-
-material Material.098/SOLID/TEX/kiesbett_kana.png: Basic_Normalmapping_kana
+material gitter/SOLID/TEX/wand_06.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-
-material Material.086/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
-{
-set_texture_alias DiffuseMap wand_kana.png
-set_texture_alias NormalMap wand_kana_normal.png
-}
-
 material Material.098/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-
+material gitter/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
+{
+set_texture_alias DiffuseMap wand_kana.png
+set_texture_alias NormalMap wand_kana_normal.png
+}
 material Material.085/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-
+material fackeln/SOLID/TEX/baumstamm_kana.png: Basic_Normalmapping_kana
+{
+set_texture_alias DiffuseMap baumstamm_kana.png
+set_texture_alias NormalMap baumstamm_kana_normal.png
+}
+material Material.026/SOLID/TEX/kiesbett_kana.png/VertCol: Basic_Normalmapping_kana
+{
+set_texture_alias DiffuseMap kiesbett_kana.png
+set_texture_alias NormalMap kiesbett_kana_normal.png
+}
 material treppe/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-
-material Material.012/SOLID/TEX/saeule_kana_02.png
+material Material.098/SOLID/TEX/kiesbett_kana.png: Basic_Normalmapping_kana
 {
-	technique
-	{
-		pass
-		{
-			specular 0.000000 0.000000 0.000000 0.0000000
-			texture_unit
-			{
-				texture saeule_kana_02.png
-			}
-		}
-	}
-}
-material bruchstueck/SOLID/TEX/saeule_kana_02.png
-{
-	technique
-	{
-		pass
-		{
-			specular 0.000000 0.000000 0.000000 0.0000000
-			texture_unit
-			{
-				texture saeule_kana_02.png
-			}
-		}
-	}
+set_texture_alias DiffuseMap kiesbett_kana.png
+set_texture_alias NormalMap kiesbett_kana_normal.png
 }
 material default
 {
@@ -247,75 +132,38 @@ material default
 		}
 	}
 }
-material Material.024/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
+material hoehle/SOLID/TEX/felsen_kana.png: Basic_Normalmapping_kana
 {
-set_texture_alias DiffuseMap wand_kana.png
-set_texture_alias NormalMap wand_kana_normal.png
+set_texture_alias DiffuseMap felsen_kana.png
+set_texture_alias NormalMap felsen_kana_normal.png
 }
-
-material Material.220/SOLID/TEX/saeule_kana.png: Basic_Normalmapping_kana
-{
-set_texture_alias DiffuseMap saeule_kana.png
-set_texture_alias NormalMap saeule_kana_normal.png
-}
- 
 material Material.014/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-
-material SOLID/TEX/wand_06.png
+material gitter/SOLID/TEX/baumstamm_kana.png: Basic_Normalmapping_kana
 {
-	technique
-	{
-		pass
-		{
-			texture_unit
-			{
-				texture wand_06.png
-			}
-		}
-	}
+set_texture_alias DiffuseMap baumstamm_kana.png
+set_texture_alias NormalMap baumstamm_kana_normal.png
+}
+material SOLID/TEX/wand_06.png: Basic_Normalmapping_kana
+{
+set_texture_alias DiffuseMap wand_kana.png
+set_texture_alias NormalMap wand_kana_normal.png
 }
 material SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-
-material wand_komplett/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
+material boden/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-
-material hoehle/SOLID/TEX/felsen_kana.png
+material Material.021/SOLID/TEX/kiesbett_kana.png/VertCol: Basic_Normalmapping_kana
 {
-	technique
-	{
-		pass
-		{
-			specular 0.000000 0.000000 0.000000 0.0000000
-			texture_unit
-			{
-				texture felsen_kana.png
-			}
-		}
-	}
-}
-material Material.021/SOLID/TEX/kiesbett_kana.png/VertCol
-{
-	technique
-	{
-		pass
-		{
-			diffuse vertexcolour
-			specular 0.000000 0.000000 0.000000 0.0000000
-			texture_unit
-			{
-				texture kiesbett_kana.png
-			}
-		}
-	}
+set_texture_alias DiffuseMap kiesbett_kana.png
+set_texture_alias NormalMap kiesbett_kana_normal.png
 }
