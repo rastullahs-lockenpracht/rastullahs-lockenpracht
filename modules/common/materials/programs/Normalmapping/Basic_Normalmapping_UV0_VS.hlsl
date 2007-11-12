@@ -48,7 +48,7 @@ VS_OUTPUT vs_main(      float4 inPosition : POSITION0,
    if (LightPosition_0.w != 0.0)
    LightDir.w = saturate(1/(LightAttn_0.y +
                             LightAttn_0.z * Dist +
-                            LightAttn_0.w * Dist * Dist));
+                            LightAttn_0.w * Dist * Dist)*saturate(LightAttn_0.x-Dist));
                             
    
    
@@ -64,7 +64,7 @@ VS_OUTPUT vs_main(      float4 inPosition : POSITION0,
    if (LightPosition_1.w != 0.0)
    LightDir.w = saturate(1/(LightAttn_1.y +
                             LightAttn_1.z * Dist +
-                            LightAttn_1.w * Dist * Dist));
+                            LightAttn_1.w * Dist * Dist)*saturate(LightAttn_1.x-Dist));
                             
    
    Output.HalfVect_1 = mul(TangentSpace, normalize(LightDir.xyz + EyeVector));
@@ -79,9 +79,10 @@ VS_OUTPUT vs_main(      float4 inPosition : POSITION0,
    if (LightPosition_2.w != 0.0)
    LightDir.w = saturate(1/(LightAttn_2.y +
                             LightAttn_2.z * Dist +
-                            LightAttn_2.w * Dist * Dist));
+                            LightAttn_2.w * Dist * Dist)*saturate(LightAttn_2.x-Dist));
                             
-   
+
+
    Output.HalfVect_2 = mul(TangentSpace, normalize(LightDir.xyz + EyeVector));
    Output.LightDir_2 = float4(mul(TangentSpace,LightDir.xyz),LightDir.w);
    

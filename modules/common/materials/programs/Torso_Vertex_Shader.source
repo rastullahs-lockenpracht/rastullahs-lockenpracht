@@ -65,7 +65,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    
    float DistAttn = clamp(1/ (Light1_attenuation.y +
                               Light1_attenuation.z * Dist +
-                              Light1_attenuation.w * Dist * Dist)
+                              Light1_attenuation.w * Dist * Dist)*saturate(Light1_attenuation.x-Dist)
                           ,0,1);
    
    Output.Color += (Light1_color * AngleAttn + SpecAttn) * DistAttn ;
@@ -88,7 +88,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    
    DistAttn = clamp(1/ (Light3_attenuation.y +
                               Light3_attenuation.z * Dist +
-                              Light3_attenuation.w * Dist * Dist)
+                              Light3_attenuation.w * Dist * Dist)*saturate(Light3_attenuation.x-Dist)
                           ,0,1);
    
    Output.Color += (Light3_color * AngleAttn + SpecAttn) * DistAttn ;
@@ -109,7 +109,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    
    DistAttn = clamp(1/ (Light2_attenuation.y +
                         Light2_attenuation.z * Dist +
-                        Light2_attenuation.w * Dist * Dist)
+                        Light2_attenuation.w * Dist * Dist)*saturate(Light2_attenuation.x-Dist)
                         ,0,1);
    
    Output.Color += (Light2_color * AngleAttn + SpecAttn) * DistAttn ;

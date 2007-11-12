@@ -1,6 +1,5 @@
 material Basic_Normalmapping_kana 
 {
-	lod_distances 30 100
 	
     technique hlsl
     {

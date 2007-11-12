@@ -61,7 +61,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    
    float DistAttn = clamp(1/ (Light1_attenuation.y +
                               Light1_attenuation.z * Dist +
-                              Light1_attenuation.w * Dist * Dist)
+                              Light1_attenuation.w * Dist * Dist)*saturate(Light1_attenuation.x-Dist)
                           ,0,1);
                           
    Output.Specular = Light1_color * Light1_spec_power * pow(clamp(dot(Input.Normal,HalfVect),0,1),8) * DistAttn;
@@ -83,7 +83,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    
    DistAttn = clamp(1/ (Light3_attenuation.y +
                               Light3_attenuation.z * Dist +
-                              Light3_attenuation.w * Dist * Dist)
+                              Light3_attenuation.w * Dist * Dist)*saturate(Light3_attenuation.x-Dist)
                           ,0,1);
    Output.Specular += Light3_color * Light3_spec_power * pow(clamp(dot(Input.Normal,HalfVect),0,1),8)*DistAttn;
    
@@ -104,7 +104,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    
    DistAttn = clamp(1/ (Light2_attenuation.y +
                         Light2_attenuation.z * Dist +
-                        Light2_attenuation.w * Dist * Dist)
+                        Light2_attenuation.w * Dist * Dist)*saturate(Light2_attenuation.x-Dist)
                         ,0,1);
                         
    Output.Specular += Light2_color *Light2_spec_power * pow(clamp(dot(Input.Normal,HalfVect),0,1),8)*DistAttn;

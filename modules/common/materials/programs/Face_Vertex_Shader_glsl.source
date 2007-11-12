@@ -107,7 +107,7 @@ VS_OUTPUT vs_main( in VS_INPUT Input ) {
     EyeVect = vec3( normalize( (Input.Position - vViewPosition) ));
     HalfVect = normalize( (LightDir - EyeVect) );
     SpecAttn = float( ((Light1_color * Light1_spec_power) * pow( clamp( dot( Input.Normal, HalfVect), 0.000000, 1.00000), 32.0000)));
-    DistAttn = clamp( (1.00000 / ((Light1_attenuation.y  + (Light1_attenuation.z  * Dist)) + ((Light1_attenuation.w  * Dist) * Dist))), 0.000000, 1.00000);
+    DistAttn = clamp( (1.00000 / ((Light1_attenuation.y  + (Light1_attenuation.z  * Dist)) + ((Light1_attenuation.w  * Dist) * Dist)))*clamp(Light1_attenuation.x-Dist,0.0,1.0), 0.000000, 1.00000);
     Output.Color += (((Light1_color * AngleAttn) + SpecAttn) * DistAttn);
     accDistAttn = DistAttn;
     LightDir = vec3( (Light3_position - (Input.Position * Light3_position.w )));
@@ -117,7 +117,7 @@ VS_OUTPUT vs_main( in VS_INPUT Input ) {
     EyeVect = vec3( normalize( (Input.Position - vViewPosition) ));
     HalfVect = normalize( (LightDir - EyeVect) );
     SpecAttn = float( ((Light3_color * Light3_spec_power) * pow( clamp( dot( Input.Normal, HalfVect), 0.000000, 1.00000), 32.0000)));
-    DistAttn = clamp( (1.00000 / ((Light3_attenuation.y  + (Light3_attenuation.z  * Dist)) + ((Light3_attenuation.w  * Dist) * Dist))), 0.000000, 1.00000);
+    DistAttn = clamp( (1.00000 / ((Light3_attenuation.y  + (Light3_attenuation.z  * Dist)) + ((Light3_attenuation.w  * Dist) * Dist)))*clamp(Light3_attenuation.x-Dist,0.0,1.0), 0.000000, 1.00000);
     Output.Color += (((Light3_color * AngleAttn) + SpecAttn) * DistAttn);
     accDistAttn += DistAttn;
     LightDir = vec3( (Light2_position - (Input.Position * Light2_position.w )));
@@ -126,7 +126,7 @@ VS_OUTPUT vs_main( in VS_INPUT Input ) {
     AngleAttn = xlat_lib_saturate( dot( Input.Normal, LightDir) );
     HalfVect = normalize( (LightDir - EyeVect) );
     SpecAttn = float( ((Light2_color * Light2_spec_power) * pow( clamp( dot( Input.Normal, HalfVect), 0.000000, 1.00000), 32.0000)));
-    DistAttn = clamp( (1.00000 / ((Light2_attenuation.y  + (Light2_attenuation.z  * Dist)) + ((Light2_attenuation.w  * Dist) * Dist))), 0.000000, 1.00000);
+    DistAttn = clamp( (1.00000 / ((Light2_attenuation.y  + (Light2_attenuation.z  * Dist)) + ((Light2_attenuation.w  * Dist) * Dist)))*clamp(Light2_attenuation.x-Dist,0.0,1.0), 0.000000, 1.00000);
     Output.Color += (((Light2_color * AngleAttn) + SpecAttn) * DistAttn);
     accDistAttn += DistAttn;
     Output.Color = mix( ((xlat_lib_saturate( accDistAttn ) * subsurfcolor) * Output.Color), Output.Color, xlat_lib_saturate( ((Output.Color * 3.00000) - 0.200000) ));
