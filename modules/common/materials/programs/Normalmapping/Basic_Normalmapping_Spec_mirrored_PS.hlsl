@@ -22,7 +22,7 @@ float4 ps_main(
 { 
 
    float3 normal = tex2D(NormalMap,UV).rgb *2 -1;
-   if (floor(UV.x)== 1)
+   if (UV.x > 1)
    {
 	  normal = float3(normal.x, -normal.y, normal.z);
    }
