@@ -44,8 +44,9 @@ material TerrainVColorBlending
 				param_named Texture4 int 4
 				param_named Texture5 int 5
 				
+														// Alpha
+				param_named scale_Detail4 float 0.050000 
 
-				param_named scale_Detail4 float 0.050000 // Alpha
 			}
 			
 			
@@ -69,20 +70,20 @@ material TerrainVColorBlending
 				param_named groundcolor float4 0.10 0.10 0.10 1.0
 				
 				
-				
-				param_named scale_Texture0 float 0.018000 // Schwarz
+															// Schwarz
+				param_named scale_Texture0 float 0.018000 
 				param_named scale_Detail0 float 0.020000
-
-				param_named scale_Texture1 float 0.007000 // Rot
+															 // Rot
+				param_named scale_Texture1 float 0.007000
 				param_named scale_Detail1 float 0.020000
-
-				param_named scale_Texture2 float 0.008500 // Gruen
+															// Gruen
+				param_named scale_Texture2 float 0.008500 
 				param_named scale_Detail2 float 0.060000
-
-				param_named scale_Texture3 float 0.008000 // Blau
+															// Blau
+				param_named scale_Texture3 float 0.008000 
 				param_named scale_Detail3 float 0.050000
-
-				param_named scale_Texture4 float 0.016000 // Alpha 
+															// Alpha
+				param_named scale_Texture4 float 0.016000  
 														  // fuer scale_Detail4 siehe Oben (Pixelshader)
 								
 			}
@@ -148,8 +149,9 @@ material TerrainVColorBlending
 			//DirectX 9.0 HLSL Pixel Shader ps_2_0
 			fragment_program_ref TerrainVColorBlending_Pixel_Shader
 			{
+														// Alpha
+				param_named scale_Detail4 float 0.050000 
 
-				param_named scale_Detail4 float 0.050000 // Alpha
 			}
 			
 			
@@ -173,20 +175,20 @@ material TerrainVColorBlending
 				param_named groundcolor float4 0.10 0.10 0.10 1.0
 				
 				
-				
-				param_named scale_Texture0 float 0.018000 // Schwarz
+														// Schwarz		
+				param_named scale_Texture0 float 0.018000 
 				param_named scale_Detail0 float 0.020000
-
-				param_named scale_Texture1 float 0.007000 // Rot
+														// Rot
+				param_named scale_Texture1 float 0.007000 
 				param_named scale_Detail1 float 0.020000
-
-				param_named scale_Texture2 float 0.008500 // Gruen
+														// Gruen
+				param_named scale_Texture2 float 0.008500 
 				param_named scale_Detail2 float 0.060000
-
-				param_named scale_Texture3 float 0.008000 // Blau
+														// Blau
+				param_named scale_Texture3 float 0.008000 
 				param_named scale_Detail3 float 0.050000
-
-				param_named scale_Texture4 float 0.016000 // Alpha 
+														// Alpha
+				param_named scale_Texture4 float 0.016000  
 														  // fuer scale_Detail4 siehe Oben (Pixelshader)
 								
 			}

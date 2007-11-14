@@ -6,7 +6,7 @@ material Basic_Vertex_Shader_Ground
 		//Rendering Pass: Pass 0 (pass index: #0 )
 		pass
 		{
-			receive_shadows off
+			//receive_shadows off
 			alpha_rejection greater 128
 			//DirectX 9.0 HLSL Pixel Shader ps_2_0
 			fragment_program_ref Basic_Pixel_Shader
