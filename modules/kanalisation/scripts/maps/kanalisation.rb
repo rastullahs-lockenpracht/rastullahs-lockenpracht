@@ -4,6 +4,8 @@ require 'player.rb'
 require 'hero.rb'
 require 'mckhero.rb'
 require 'door.rb'
+require 'torch.rb'
+
 
 loader = MapLoader.new("kanalisation");
 loader.loadMap("kana_lights.rlmap.xml");
@@ -12,8 +14,6 @@ loader.loadMap("kana_lights.rlmap.xml");
 $PM.setEnabled(true);
 
 $SCRIPT.log("rauschendesWasser geladen");
-
-$CORE.getWorld().setSkyBox(true, "rl/dsa07", 100.0)
 
 #$hero.getActor().placeIntoScene([0.0, 0.0, 0.0]);
 #$SCRIPT.log("Tageslicht erstellen..");

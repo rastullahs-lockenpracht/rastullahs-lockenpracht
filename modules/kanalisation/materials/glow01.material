@@ -1,0 +1,17 @@
+material glow01
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+
+			texture_unit
+			{
+				texture glow01.png
+			}
+		}
+	}
+}

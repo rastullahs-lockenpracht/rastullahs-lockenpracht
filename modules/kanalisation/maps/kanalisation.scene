@@ -6,11 +6,11 @@
       <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="wand.001" meshFile="Cube.003.mesh"/>
     </node>
-    <node name="wand.002">
-      <position x="37.369698" y="5.063655" z="24.068630"/>
+    <node name="bruecke">
+      <position x="2.822959" y="3.865546" z="7.881136"/>
       <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
       <scale x="1.000000" y="1.000000" z="1.000000"/>
-      <entity name="wand.002" meshFile="wand.001.mesh"/>
+      <entity name="bruecke" meshFile="bruecke.mesh"/>
     </node>
     <node name="wand.003">
       <position x="-11.712984" y="2.751104" z="38.873230"/>
@@ -41,12 +41,6 @@
       <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
       <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="gitter.002" meshFile="gitter.001.mesh"/>
-    </node>
-    <node name="bruecke">
-      <position x="2.822959" y="3.865546" z="7.881136"/>
-      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
-      <scale x="1.000000" y="1.000000" z="1.000000"/>
-      <entity name="bruecke" meshFile="bruecke.mesh"/>
     </node>
     <node name="Cube">
       <position x="1.517232" y="1.741509" z="4.047132"/>
@@ -85,16 +79,10 @@
       <entity name="Cube.001" meshFile="Cube.032.mesh"/>
     </node>
     <node name="schild">
-      <position x="9.873771" y="3.422816" z="9.341416"/>
-      <rotation qx="-0.433217" qy="0.428151" qz="0.234876" qw="0.757524"/>
-      <scale x="0.022988" y="0.022988" z="0.022988"/>
-      <entity name="schild" meshFile="schild.mesh"/>
-    </node>
-    <node name="zierleiste_01">
-      <position x="2.562832" y="3.107023" z="6.686421"/>
+      <position x="10.599316" y="3.494219" z="5.872530"/>
       <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
       <scale x="1.000000" y="1.000000" z="1.000000"/>
-      <entity name="zierleiste_01" meshFile="zierleiste_01.mesh"/>
+      <entity name="schild" meshFile="schild.mesh"/>
     </node>
     <node name="gitter">
       <position x="6.422711" y="2.751102" z="2.031976"/>
@@ -198,6 +186,12 @@
       <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="Cylinder" meshFile="Cylinder.001.mesh"/>
     </node>
+    <node name="kisten">
+      <position x="10.356869" y="2.355828" z="4.146377"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="kisten" meshFile="kisten.mesh"/>
+    </node>
     <node name="saeulen">
       <position x="7.874022" y="9.400857" z="16.403053"/>
       <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
@@ -210,11 +204,11 @@
       <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="treppe.001" meshFile="treppe_01.mesh"/>
     </node>
-    <node name="zierleiste_01.001">
-      <position x="33.509819" y="5.419577" z="28.723074"/>
+    <node name="zierleiste_01">
+      <position x="2.562832" y="3.107023" z="6.686421"/>
       <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
       <scale x="1.000000" y="1.000000" z="1.000000"/>
-      <entity name="zierleiste_01.001" meshFile="zierleiste_01.001.mesh"/>
+      <entity name="zierleiste_01" meshFile="zierleiste_01.mesh"/>
     </node>
     <node name="wurzeln">
       <position x="3.815631" y="3.215424" z="3.961683"/>
