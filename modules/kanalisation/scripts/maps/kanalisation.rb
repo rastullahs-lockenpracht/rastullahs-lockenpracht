@@ -66,6 +66,14 @@ $SCRIPT.log("Hero ready")
 #$SCRIPT.log("Held in die Szene einfuegen.");#-22.0130577087402, -6.70670890808105, 25.1438484191895
 #$hero.getActor().placeIntoScene([0.0, 20.0, 0.0]);
 
+$SCRIPT.log("Fackellicht erstellen..");
+fackellicht = $AM.createLightActor("Das Licht der Fackel", LightObject::LT_POINT );
+fackellicht.getControlledObject().setCastShadows(false);
+fackellicht.getControlledObject().setDiffuseColour(0.8,0.7,0.6);
+fackellicht.getControlledObject().setAttenuation(5.0, 0.79,  -0.21, 0.268 );
+$hero.getActor().attachToSlot( fackellicht, "Bip01 R SlotHand" );
+$SCRIPT.log("Fackellicht erstellt.");
+
 
 $SCRIPT.log("Türen einsetzen");
 #door1 = Door.new("Haustuer", "Eine Holztür", [-12.9124, -6.86492, 13.7133], [0, -120, 0], "arc_door_02.mesh");
