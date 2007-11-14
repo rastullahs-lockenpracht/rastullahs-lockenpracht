@@ -1,10 +1,10 @@
 
 
 tavernfire1 = $AM.createParticleSystemActor("tavernfire1", "feuertest" );
-tavernfire1.placeIntoScene( -0.75,5.70,12.84, 0.5, 0.0, 0.0, 0.0 );
+tavernfire1.placeIntoScene( -1.39,5.71,12.84, 0.5, 0.0, 0.0, 0.0 );
 
 tavernfire2 = $AM.createParticleSystemActor("tavernfire1", "feuertest" );
-tavernfire2.placeIntoScene( 10.73,5.73,10.06, 1.0, 0.0, 0.0, 0.0 );
+tavernfire2.placeIntoScene( 11.39,5.75,9.75, 1.0, 0.0, 0.0, 0.0 );
 
 #firelight = $AM.createLightActor("firelight", LightObject::LT_POINT);
 #firelight.placeIntoScene( 94.28, 5.65, -30.88, 1.0, 0.0, 0.0, 0.0 );
