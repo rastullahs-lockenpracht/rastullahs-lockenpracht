@@ -291,7 +291,7 @@ namespace rl
         }
 	}
 
-	void EntityNodeProcessor::processAnimation(Ogre::Entity* entity, xercesc_2_7::DOMElement *animationElem)
+	void EntityNodeProcessor::processAnimation(Ogre::Entity* entity, DOMElement *animationElem)
 	{
 		///@todo EntityNodeProcessor::processAnimation
 	}

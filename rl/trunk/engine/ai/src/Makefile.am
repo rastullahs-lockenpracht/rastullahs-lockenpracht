@@ -23,6 +23,7 @@ libRlAi_la_SOURCES = \
 	DialogImplication.cpp \
 	DialogManager.cpp \
 	DialogOption.cpp \
+	DialogParagraph.cpp \
 	DialogResponse.cpp \
 	DialogVariable.cpp \
 	FuzzyState.cpp \

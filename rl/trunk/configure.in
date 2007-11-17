@@ -151,8 +151,8 @@ RUBY_LIBS=$ruby_lib
 AC_SUBST(RUBY_CFLAGS)
 AC_SUBST(RUBY_LIBS)
 
-#dnl Test for modified swig version
-SWIG_PROG(1.3.31+)
+#dnl Test for swig version
+SWIG_PROG(1.3.32)
 SWIG_ENABLE_CXX
 SWIG_RUBY
 

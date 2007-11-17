@@ -47,7 +47,7 @@ namespace rl
 
         const ZoneManager::ZoneMap &zoneMap(ZoneManager::getSingleton().getAllZones());
         ZoneManager::ZoneMap::const_iterator zone;
-        
+
         // look in all zones if there is a trigger
         for(zone = zoneMap.begin(); zone != zoneMap.end(); zone++)
         {
@@ -61,7 +61,7 @@ namespace rl
                     writer->setAttributeValueAsStdString(triggerNode, "name", (*trigger)->getName());
                     writer->setAttributeValueAsStdString(triggerNode, "classname", (*trigger)->getClassName());
                     writer->setAttributeValueAsStdString(triggerNode, "zone", zone->first);
-                    
+
                     PropertyMap map = (*trigger)->getAllProperties()->toPropertyMap();
                     writer->writeEachProperty(triggerNode, map);
                 }
@@ -146,5 +146,4 @@ namespace rl
     {
         return 25; // wants to be loaded after zonemanager
     }
-
 }

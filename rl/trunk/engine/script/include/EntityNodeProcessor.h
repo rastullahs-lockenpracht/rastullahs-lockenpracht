@@ -30,9 +30,9 @@ namespace rl
     {
     public:
         EntityNodeProcessor(const Ogre::String& resourcegroup);
-    
+
         virtual bool processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects);
-        
+
     private:
 		/// stores already constructed collision proxies for reuse
         struct AlreadyUsedCollision
@@ -47,7 +47,7 @@ namespace rl
         Ogre::String mResourceGroup;
 
         void createCollision(Ogre::Entity* entity, Ogre::String meshFile, XERCES_CPP_NAMESPACE::DOMElement* physicsProxyElem);
-		void processAnimation(Ogre::Entity* entity, xercesc_2_7::DOMElement *animationElem);
+		void processAnimation(Ogre::Entity* entity, XERCES_CPP_NAMESPACE::DOMElement *animationElem);
 	};
 }
 
