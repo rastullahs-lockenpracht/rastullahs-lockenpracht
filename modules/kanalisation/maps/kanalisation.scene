@@ -216,6 +216,12 @@
       <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="saeule_kaputt_01" meshFile="saeule_kaputt_02.001.mesh"/>
     </node>
+    <node name="wurzeladd">
+      <position x="-2.479659" y="0.000000" z="1.282948"/>
+      <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="wurzeladd" meshFile="wurzeladd.mesh"/>
+    </node>
     <node name="wand_01.001">
       <position x="12.966056" y="4.342111" z="16.671421"/>
       <rotation qx="-0.000398" qy="0.000000" qz="0.000000" qw="1.000000"/>

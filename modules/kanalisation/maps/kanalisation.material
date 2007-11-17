@@ -1,3 +1,18 @@
+material wurzeladd/SOLID/TEX/wurzeln_klein.png
+{
+	technique
+	{
+		pass
+		{
+			alpha_rejection greater 215 
+
+			texture_unit
+			{
+				texture wurzeln_klein.png  // Mit Alphakanal
+			}
+		}
+	}
+}
 material schild/SOLID/TEX/schild.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap schild.png
