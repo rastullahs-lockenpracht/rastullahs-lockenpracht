@@ -1,3 +1,8 @@
+material pilze/SOLID/TEX/pilz.png: Basic_Normalmapping_kana
+{
+set_texture_alias DiffuseMap pilz.png
+set_texture_alias NormalMap pilz_normal.png
+}
 material wurzeladd/SOLID/TEX/wurzeln_klein.png
 {
 	technique
