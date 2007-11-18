@@ -1,43 +1,43 @@
 <scene formatVersion="0.0" >
 	<nodes>
-		<node name="nat_grasplane_02" id="1" >
-			<position x="12.1403" y="-3.91876" z="5.95557" />
-			<rotation qx="0.0" qy="-0.989197" qz="0.0" qw="0.146591" />
-			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
+		<node name="nat_baum_shadix_03" id="1" >
+			<position x="33.7061" y="-5.94989" z="66.0419" />
+			<rotation qx="0.0" qy="-1.50996e-007" qz="0.0" qw="1.0" />
+			<scale x="0.56064" y="0.56064" z="0.56064" />
 			<entity
-				name="nat_grasplane_02"
+				name="nat_baum_shadix_03"
 				id="2"
-				meshFile ="nat_grasplane_02.mesh"
+				meshFile ="nat_baum_shadix_03.mesh"
 				materialFile="ruchin.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_grasplane_02" id="3" >
-			<position x="12.3358" y="-4.03544" z="7.53353" />
-			<rotation qx="0.0" qy="0.405238" qz="0.0" qw="0.914211" />
-			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
+		<node name="nat_baum_shadix_01" id="3" >
+			<position x="33.443" y="-5.89585" z="58.3935" />
+			<rotation qx="0.0133216" qy="-0.517812" qz="-0.0125462" qw="0.855299" />
+			<scale x="1.21285" y="1.21285" z="1.21285" />
 			<entity
-				name="nat_grasplane_02"
+				name="nat_baum_shadix_01"
 				id="4"
-				meshFile ="nat_grasplane_02.mesh"
+				meshFile ="nat_baum_shadix_01.mesh"
 				materialFile="ruchin.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_grasplane_02" id="5" >
-			<position x="12.476" y="-4.03544" z="8.98822" />
-			<rotation qx="0.0" qy="0.666179" qz="0.0" qw="0.745792" />
-			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
+		<node name="nat_busch_shadix_01" id="5" >
+			<position x="7.84049" y="-5.71493" z="61.4999" />
+			<rotation qx="0.00948016" qy="-0.0245203" qz="-0.0692941" qw="0.99725" />
+			<scale x="0.188832" y="0.188832" z="0.188832" />
 			<entity
-				name="nat_grasplane_02"
+				name="nat_busch_shadix_01"
 				id="6"
-				meshFile ="nat_grasplane_02.mesh"
+				meshFile ="nat_busch_shadix_01.mesh"
 				materialFile="ruchin.material"
 				castsShadow="false"
 			/>
@@ -45,14 +45,14 @@
  <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_grasplane_02" id="7" >
-			<position x="12.8264" y="-4.03544" z="9.49756" />
-			<rotation qx="0.0" qy="-0.95198" qz="0.0" qw="-0.306161" />
-			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
+		<node name="nat_busch_shadix_01" id="7" >
+			<position x="8.99407" y="-5.71493" z="62.5353" />
+			<rotation qx="0.0290429" qy="-0.446363" qz="-0.122296" qw="0.88598" />
+			<scale x="0.188832" y="0.188832" z="0.188832" />
 			<entity
-				name="nat_grasplane_02"
+				name="nat_busch_shadix_01"
 				id="8"
-				meshFile ="nat_grasplane_02.mesh"
+				meshFile ="nat_busch_shadix_01.mesh"
 				materialFile="ruchin.material"
 				castsShadow="false"
 			/>
@@ -60,39 +60,39 @@
  <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_grasplane_02" id="9" >
-			<position x="9.09544" y="-3.87379" z="-2.47816" />
-			<rotation qx="0.0" qy="-0.984611" qz="0.0" qw="-0.174758" />
-			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
+		<node name="nat_farn_01" id="9" >
+			<position x="10.7972" y="-5.62872" z="61.6873" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="nat_grasplane_02"
+				name="nat_farn_01"
 				id="10"
-				meshFile ="nat_grasplane_02.mesh"
+				meshFile ="nat_farn_01.mesh"
 				materialFile="ruchin.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="100"/></userData> 
 
 		</node>
-		<node name="nat_grasplane_02" id="11" >
-			<position x="9.39308" y="-3.87379" z="-3.66449" />
-			<rotation qx="0.0" qy="-0.942332" qz="0.0" qw="0.334681" />
-			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
+		<node name="nat_baum_shadix_01" id="11" >
+			<position x="14.465" y="-5.68245" z="60.4764" />
+			<rotation qx="0.0144644" qy="-0.0290176" qz="-0.0336263" qw="0.998908" />
+			<scale x="1.21285" y="1.21285" z="1.21285" />
 			<entity
-				name="nat_grasplane_02"
+				name="nat_baum_shadix_01"
 				id="12"
-				meshFile ="nat_grasplane_02.mesh"
+				meshFile ="nat_baum_shadix_01.mesh"
 				materialFile="ruchin.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
 		<node name="nat_grasplane_02" id="13" >
-			<position x="9.24327" y="-3.91142" z="-5.39481" />
-			<rotation qx="0.0" qy="-0.501617" qz="0.0" qw="0.86509" />
+			<position x="-5.30253" y="-4.69279" z="-13.6467" />
+			<rotation qx="0.0" qy="-0.947239" qz="0.0" qw="0.320528" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -106,8 +106,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="15" >
-			<position x="9.15217" y="-3.91142" z="-6.50291" />
-			<rotation qx="0.0" qy="-0.113387" qz="0.0" qw="0.993551" />
+			<position x="-3.9129" y="-4.69279" z="-12.1025" />
+			<rotation qx="0.0" qy="0.567675" qz="0.0" qw="0.823253" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -121,8 +121,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="17" >
-			<position x="12.9885" y="-3.91142" z="-5.11572" />
-			<rotation qx="0.0" qy="-0.501617" qz="0.0" qw="0.86509" />
+			<position x="-2.9223" y="-4.69279" z="-10.7786" />
+			<rotation qx="0.0" qy="0.567675" qz="0.0" qw="0.823253" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -136,8 +136,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="19" >
-			<position x="12.1658" y="-3.91142" z="-10.6737" />
-			<rotation qx="0.0" qy="-0.97359" qz="0.0" qw="0.228303" />
+			<position x="-1.44903" y="-4.69279" z="-8.82443" />
+			<rotation qx="0.0" qy="0.322921" qz="0.0" qw="0.946426" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -151,8 +151,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="21" >
-			<position x="13.8819" y="-3.91142" z="-11.7534" />
-			<rotation qx="0.0" qy="-0.408354" qz="0.0" qw="0.912824" />
+			<position x="2.25649" y="-4.49495" z="-2.93467" />
+			<rotation qx="0.0" qy="0.322921" qz="0.0" qw="0.946426" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -166,8 +166,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="23" >
-			<position x="12.2524" y="-3.91142" z="-11.6312" />
-			<rotation qx="0.0" qy="-0.408354" qz="0.0" qw="0.912824" />
+			<position x="3.19021" y="-4.47254" z="-1.41885" />
+			<rotation qx="0.0" qy="0.322921" qz="0.0" qw="0.946426" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -181,8 +181,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="25" >
-			<position x="15.0392" y="-3.91142" z="-11.5606" />
-			<rotation qx="0.0" qy="-0.408354" qz="0.0" qw="0.912824" />
+			<position x="4.41469" y="-4.208" z="-0.585596" />
+			<rotation qx="0.0" qy="-0.984611" qz="0.0" qw="-0.174758" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -196,8 +196,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="27" >
-			<position x="19.9692" y="-3.70595" z="-11.5549" />
-			<rotation qx="0.0" qy="-0.408354" qz="0.0" qw="0.912824" />
+			<position x="7.99852" y="-4.04079" z="-13.464" />
+			<rotation qx="0.0" qy="0.283339" qz="0.0" qw="0.95902" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -211,8 +211,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="29" >
-			<position x="20.9144" y="-3.70595" z="-10.5164" />
-			<rotation qx="0.0" qy="-0.35324" qz="0.0" qw="0.935533" />
+			<position x="7.66068" y="-4.02819" z="-15.8127" />
+			<rotation qx="0.0" qy="0.283339" qz="0.0" qw="0.95902" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -226,8 +226,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="31" >
-			<position x="20.9425" y="-3.70595" z="-9.26164" />
-			<rotation qx="0.0" qy="0.203603" qz="0.0" qw="0.979053" />
+			<position x="9.32595" y="-3.7524" z="-26.3154" />
+			<rotation qx="0.0227564" qy="-0.0997783" qz="0.0331077" qw="0.994198" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -241,8 +241,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="33" >
-			<position x="21.9024" y="-3.70595" z="-8.25762" />
-			<rotation qx="0.0" qy="0.203603" qz="0.0" qw="0.979053" />
+			<position x="10.988" y="-3.7524" z="-27.1143" />
+			<rotation qx="0.0227564" qy="-0.0997783" qz="0.0331077" qw="0.994198" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -256,8 +256,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="35" >
-			<position x="21.1804" y="-3.70595" z="-6.86191" />
-			<rotation qx="0.0" qy="-0.792591" qz="0.0" qw="0.609754" />
+			<position x="12.3675" y="-3.46375" z="-31.818" />
+			<rotation qx="0.0227564" qy="-0.0997783" qz="0.0331077" qw="0.994198" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -271,8 +271,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="37" >
-			<position x="20.5812" y="-3.70595" z="-7.56438" />
-			<rotation qx="0.0" qy="-0.792591" qz="0.0" qw="0.609754" />
+			<position x="12.9912" y="-3.46375" z="-32.8881" />
+			<rotation qx="0.0227564" qy="-0.0997783" qz="0.0331077" qw="0.994198" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -286,8 +286,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="39" >
-			<position x="20.8044" y="-3.70595" z="-5.55248" />
-			<rotation qx="0.0" qy="-0.194314" qz="0.0" qw="0.980939" />
+			<position x="44.5142" y="-1.0719" z="-39.8392" />
+			<rotation qx="0.0227564" qy="-0.0997783" qz="0.0331077" qw="0.994198" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -301,8 +301,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="41" >
-			<position x="28.5135" y="-3.16373" z="0.139418" />
-			<rotation qx="0.0" qy="-0.792591" qz="0.0" qw="0.609754" />
+			<position x="45.5496" y="-0.893272" z="-41.1356" />
+			<rotation qx="0.0227564" qy="-0.0997783" qz="0.0331077" qw="0.994198" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -316,8 +316,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="43" >
-			<position x="28.8595" y="-3.16373" z="-0.931836" />
-			<rotation qx="0.0" qy="-0.180642" qz="0.0" qw="0.983549" />
+			<position x="43.5726" y="-0.893272" z="-44.0895" />
+			<rotation qx="0.101684" qy="-0.317873" qz="-0.0529547" qw="0.941176" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -331,8 +331,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="45" >
-			<position x="27.4877" y="-3.25496" z="-1.50989" />
-			<rotation qx="0.0" qy="-0.180642" qz="0.0" qw="0.983549" />
+			<position x="42.0851" y="-1.21236" z="-44.0211" />
+			<rotation qx="0.158806" qy="-0.286729" qz="0.00725725" qw="0.94473" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -346,8 +346,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="47" >
-			<position x="28.9248" y="-3.25496" z="-2.93235" />
-			<rotation qx="0.0" qy="-0.180642" qz="0.0" qw="0.983549" />
+			<position x="41.0767" y="-1.65864" z="-42.6901" />
+			<rotation qx="0.0" qy="-0.290427" qz="0.0" qw="0.956897" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -361,8 +361,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="49" >
-			<position x="28.7387" y="-3.06082" z="-4.54553" />
-			<rotation qx="0.0" qy="-0.998828" qz="0.0" qw="0.0484063" />
+			<position x="39.9943" y="-1.65864" z="-40.221" />
+			<rotation qx="0.0" qy="-0.697901" qz="0.0" qw="0.716194" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -376,8 +376,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="51" >
-			<position x="30.0858" y="-2.95868" z="-11.7367" />
-			<rotation qx="0.0" qy="-0.998828" qz="0.0" qw="0.0484063" />
+			<position x="40.1157" y="-1.65864" z="-41.3999" />
+			<rotation qx="0.0" qy="-0.244601" qz="0.0" qw="0.969624" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -391,8 +391,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="53" >
-			<position x="29.6842" y="-3.05748" z="-12.8235" />
-			<rotation qx="0.0" qy="-0.0760536" qz="0.0" qw="0.997104" />
+			<position x="39.0755" y="-2.03294" z="-40.5132" />
+			<rotation qx="0.0" qy="-0.889388" qz="0.0" qw="-0.457153" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -406,8 +406,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="55" >
-			<position x="32.5652" y="-2.44728" z="-20.2423" />
-			<rotation qx="0.0" qy="-0.0760536" qz="0.0" qw="0.997104" />
+			<position x="38.7016" y="-2.03294" z="-38.9248" />
+			<rotation qx="0.0" qy="-0.244601" qz="0.0" qw="0.969624" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -421,8 +421,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="57" >
-			<position x="34.0081" y="-2.03419" z="-20.2407" />
-			<rotation qx="0.0" qy="-0.694851" qz="0.0" qw="0.719154" />
+			<position x="37.2404" y="-2.03294" z="-38.6101" />
+			<rotation qx="0.0" qy="-0.244601" qz="0.0" qw="0.969624" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -436,8 +436,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="59" >
-			<position x="34.5363" y="-1.75477" z="-26.356" />
-			<rotation qx="0.0" qy="-0.694851" qz="0.0" qw="0.719154" />
+			<position x="36.5599" y="-1.54971" z="-29.0771" />
+			<rotation qx="0.0" qy="-0.244601" qz="0.0" qw="0.969624" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -466,8 +466,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="63" >
-			<position x="36.5599" y="-1.54971" z="-29.0771" />
-			<rotation qx="0.0" qy="-0.244601" qz="0.0" qw="0.969624" />
+			<position x="34.5363" y="-1.75477" z="-26.356" />
+			<rotation qx="0.0" qy="-0.694851" qz="0.0" qw="0.719154" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -481,8 +481,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="65" >
-			<position x="37.2404" y="-2.03294" z="-38.6101" />
-			<rotation qx="0.0" qy="-0.244601" qz="0.0" qw="0.969624" />
+			<position x="34.0081" y="-2.03419" z="-20.2407" />
+			<rotation qx="0.0" qy="-0.694851" qz="0.0" qw="0.719154" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -496,8 +496,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="67" >
-			<position x="38.7016" y="-2.03294" z="-38.9248" />
-			<rotation qx="0.0" qy="-0.244601" qz="0.0" qw="0.969624" />
+			<position x="32.5652" y="-2.44728" z="-20.2423" />
+			<rotation qx="0.0" qy="-0.0760536" qz="0.0" qw="0.997104" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -511,8 +511,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="69" >
-			<position x="39.0755" y="-2.03294" z="-40.5132" />
-			<rotation qx="0.0" qy="-0.889388" qz="0.0" qw="-0.457153" />
+			<position x="29.6842" y="-3.05748" z="-12.8235" />
+			<rotation qx="0.0" qy="-0.0760536" qz="0.0" qw="0.997104" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -526,8 +526,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="71" >
-			<position x="40.1157" y="-1.65864" z="-41.3999" />
-			<rotation qx="0.0" qy="-0.244601" qz="0.0" qw="0.969624" />
+			<position x="30.0858" y="-2.95868" z="-11.7367" />
+			<rotation qx="0.0" qy="-0.998828" qz="0.0" qw="0.0484063" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -541,8 +541,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="73" >
-			<position x="39.9943" y="-1.65864" z="-40.221" />
-			<rotation qx="0.0" qy="-0.697901" qz="0.0" qw="0.716194" />
+			<position x="28.7387" y="-3.06082" z="-4.54553" />
+			<rotation qx="0.0" qy="-0.998828" qz="0.0" qw="0.0484063" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -556,8 +556,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="75" >
-			<position x="41.0767" y="-1.65864" z="-42.6901" />
-			<rotation qx="0.0" qy="-0.290427" qz="0.0" qw="0.956897" />
+			<position x="28.9248" y="-3.25496" z="-2.93235" />
+			<rotation qx="0.0" qy="-0.180642" qz="0.0" qw="0.983549" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -571,8 +571,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="77" >
-			<position x="42.0851" y="-1.21236" z="-44.0211" />
-			<rotation qx="0.158806" qy="-0.286729" qz="0.00725725" qw="0.94473" />
+			<position x="27.4877" y="-3.25496" z="-1.50989" />
+			<rotation qx="0.0" qy="-0.180642" qz="0.0" qw="0.983549" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -586,8 +586,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="79" >
-			<position x="43.5726" y="-0.893272" z="-44.0895" />
-			<rotation qx="0.101684" qy="-0.317873" qz="-0.0529547" qw="0.941176" />
+			<position x="28.8595" y="-3.16373" z="-0.931836" />
+			<rotation qx="0.0" qy="-0.180642" qz="0.0" qw="0.983549" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -601,8 +601,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="81" >
-			<position x="45.5496" y="-0.893272" z="-41.1356" />
-			<rotation qx="0.0227564" qy="-0.0997783" qz="0.0331077" qw="0.994198" />
+			<position x="28.5135" y="-3.16373" z="0.139418" />
+			<rotation qx="0.0" qy="-0.792591" qz="0.0" qw="0.609754" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -616,8 +616,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="83" >
-			<position x="44.5142" y="-1.0719" z="-39.8392" />
-			<rotation qx="0.0227564" qy="-0.0997783" qz="0.0331077" qw="0.994198" />
+			<position x="20.8044" y="-3.70595" z="-5.55248" />
+			<rotation qx="0.0" qy="-0.194314" qz="0.0" qw="0.980939" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -631,8 +631,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="85" >
-			<position x="12.9912" y="-3.46375" z="-32.8881" />
-			<rotation qx="0.0227564" qy="-0.0997783" qz="0.0331077" qw="0.994198" />
+			<position x="20.5812" y="-3.70595" z="-7.56438" />
+			<rotation qx="0.0" qy="-0.792591" qz="0.0" qw="0.609754" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -646,8 +646,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="87" >
-			<position x="12.3675" y="-3.46375" z="-31.818" />
-			<rotation qx="0.0227564" qy="-0.0997783" qz="0.0331077" qw="0.994198" />
+			<position x="21.1804" y="-3.70595" z="-6.86191" />
+			<rotation qx="0.0" qy="-0.792591" qz="0.0" qw="0.609754" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -661,8 +661,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="89" >
-			<position x="10.988" y="-3.7524" z="-27.1143" />
-			<rotation qx="0.0227564" qy="-0.0997783" qz="0.0331077" qw="0.994198" />
+			<position x="21.9024" y="-3.70595" z="-8.25762" />
+			<rotation qx="0.0" qy="0.203603" qz="0.0" qw="0.979053" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -676,8 +676,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="91" >
-			<position x="9.32595" y="-3.7524" z="-26.3154" />
-			<rotation qx="0.0227564" qy="-0.0997783" qz="0.0331077" qw="0.994198" />
+			<position x="20.9425" y="-3.70595" z="-9.26164" />
+			<rotation qx="0.0" qy="0.203603" qz="0.0" qw="0.979053" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -691,8 +691,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="93" >
-			<position x="7.66068" y="-4.02819" z="-15.8127" />
-			<rotation qx="0.0" qy="0.283339" qz="0.0" qw="0.95902" />
+			<position x="20.9144" y="-3.70595" z="-10.5164" />
+			<rotation qx="0.0" qy="-0.35324" qz="0.0" qw="0.935533" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -706,8 +706,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="95" >
-			<position x="7.99852" y="-4.04079" z="-13.464" />
-			<rotation qx="0.0" qy="0.283339" qz="0.0" qw="0.95902" />
+			<position x="19.9692" y="-3.70595" z="-11.5549" />
+			<rotation qx="0.0" qy="-0.408354" qz="0.0" qw="0.912824" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -721,8 +721,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="97" >
-			<position x="4.41469" y="-4.208" z="-0.585596" />
-			<rotation qx="0.0" qy="-0.984611" qz="0.0" qw="-0.174758" />
+			<position x="15.0392" y="-3.91142" z="-11.5606" />
+			<rotation qx="0.0" qy="-0.408354" qz="0.0" qw="0.912824" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -736,8 +736,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="99" >
-			<position x="3.19021" y="-4.47254" z="-1.41885" />
-			<rotation qx="0.0" qy="0.322921" qz="0.0" qw="0.946426" />
+			<position x="12.2524" y="-3.91142" z="-11.6312" />
+			<rotation qx="0.0" qy="-0.408354" qz="0.0" qw="0.912824" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -751,8 +751,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="101" >
-			<position x="2.25649" y="-4.49495" z="-2.93467" />
-			<rotation qx="0.0" qy="0.322921" qz="0.0" qw="0.946426" />
+			<position x="13.8819" y="-3.91142" z="-11.7534" />
+			<rotation qx="0.0" qy="-0.408354" qz="0.0" qw="0.912824" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -766,8 +766,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="103" >
-			<position x="-1.44903" y="-4.69279" z="-8.82443" />
-			<rotation qx="0.0" qy="0.322921" qz="0.0" qw="0.946426" />
+			<position x="12.1658" y="-3.91142" z="-10.6737" />
+			<rotation qx="0.0" qy="-0.97359" qz="0.0" qw="0.228303" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -781,8 +781,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="105" >
-			<position x="-2.9223" y="-4.69279" z="-10.7786" />
-			<rotation qx="0.0" qy="0.567675" qz="0.0" qw="0.823253" />
+			<position x="12.9885" y="-3.91142" z="-5.11572" />
+			<rotation qx="0.0" qy="-0.501617" qz="0.0" qw="0.86509" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -796,8 +796,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="107" >
-			<position x="-3.9129" y="-4.69279" z="-12.1025" />
-			<rotation qx="0.0" qy="0.567675" qz="0.0" qw="0.823253" />
+			<position x="9.15217" y="-3.91142" z="-6.50291" />
+			<rotation qx="0.0" qy="-0.113387" qz="0.0" qw="0.993551" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -811,8 +811,8 @@
 
 		</node>
 		<node name="nat_grasplane_02" id="109" >
-			<position x="-5.30253" y="-4.69279" z="-13.6467" />
-			<rotation qx="0.0" qy="-0.947239" qz="0.0" qw="0.320528" />
+			<position x="9.24327" y="-3.91142" z="-5.39481" />
+			<rotation qx="0.0" qy="-0.501617" qz="0.0" qw="0.86509" />
 			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
 				name="nat_grasplane_02"
@@ -825,409 +825,94 @@
  <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="arc_kiste" id="111" >
-			<position x="33.2876" y="-2.19409" z="-34.0233" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
+		<node name="nat_grasplane_02" id="111" >
+			<position x="9.39308" y="-3.87379" z="-3.66449" />
+			<rotation qx="0.0" qy="-0.942332" qz="0.0" qw="0.334681" />
+			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
-				name="arc_kiste"
+				name="nat_grasplane_02"
 				id="112"
-				meshFile ="arc_kiste.mesh"
+				meshFile ="nat_grasplane_02.mesh"
 				materialFile="ruchin.material"
 				castsShadow="false"
 			/>
 
-  
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="arc_kiste" id="113" >
-			<position x="33.8888" y="-2.13416" z="-34.871" />
-			<rotation qx="0.0203078" qy="-0.853874" qz="-0.0123657" qw="0.519937" />
-			<scale x="1.0" y="1.0" z="1.0" />
+		<node name="nat_grasplane_02" id="113" >
+			<position x="9.09544" y="-3.87379" z="-2.47816" />
+			<rotation qx="0.0" qy="-0.984611" qz="0.0" qw="-0.174758" />
+			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
-				name="arc_kiste"
+				name="nat_grasplane_02"
 				id="114"
-				meshFile ="arc_kiste.mesh"
+				meshFile ="nat_grasplane_02.mesh"
 				materialFile="ruchin.material"
 				castsShadow="false"
 			/>
 
-  
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="arc_kiste" id="115" >
-			<position x="14.6649" y="-3.1104" z="-37.7968" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
+		<node name="nat_grasplane_02" id="115" >
+			<position x="12.8264" y="-4.03544" z="9.49756" />
+			<rotation qx="0.0" qy="-0.95198" qz="0.0" qw="-0.306161" />
+			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
-				name="arc_kiste"
+				name="nat_grasplane_02"
 				id="116"
-				meshFile ="arc_kiste.mesh"
+				meshFile ="nat_grasplane_02.mesh"
 				materialFile="ruchin.material"
 				castsShadow="false"
 			/>
 
-  
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="arc_kiste" id="117" >
-			<position x="8.10038" y="-3.25085" z="-54.1215" />
-			<rotation qx="0.00294125" qy="0.0410633" qz="0.0713836" qw="0.996599" />
-			<scale x="1.0" y="1.0" z="1.0" />
+		<node name="nat_grasplane_02" id="117" >
+			<position x="12.476" y="-4.03544" z="8.98822" />
+			<rotation qx="0.0" qy="0.666179" qz="0.0" qw="0.745792" />
+			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
-				name="arc_kiste"
+				name="nat_grasplane_02"
 				id="118"
-				meshFile ="arc_kiste.mesh"
+				meshFile ="nat_grasplane_02.mesh"
 				materialFile="ruchin.material"
 				castsShadow="false"
 			/>
 
-  
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="arc_fass" id="119" >
-			<position x="22.4811" y="-2.48196" z="-41.9093" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
+		<node name="nat_grasplane_02" id="119" >
+			<position x="12.3358" y="-4.03544" z="7.53353" />
+			<rotation qx="0.0" qy="0.405238" qz="0.0" qw="0.914211" />
+			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
-				name="arc_fass"
+				name="nat_grasplane_02"
 				id="120"
-				meshFile ="arc_fass.mesh"
+				meshFile ="nat_grasplane_02.mesh"
 				materialFile="ruchin.material"
 				castsShadow="false"
 			/>
 
-  
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="arc_fass" id="121" >
-			<position x="23.1653" y="-2.45864" z="-41.0896" />
-			<rotation qx="0.0" qy="0.74303" qz="0.0" qw="0.669258" />
-			<scale x="1.0" y="1.0" z="1.0" />
+		<node name="nat_grasplane_02" id="121" >
+			<position x="12.1403" y="-3.91876" z="5.95557" />
+			<rotation qx="0.0" qy="-0.989197" qz="0.0" qw="0.146591" />
+			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
 			<entity
-				name="arc_fass"
+				name="nat_grasplane_02"
 				id="122"
-				meshFile ="arc_fass.mesh"
+				meshFile ="nat_grasplane_02.mesh"
 				materialFile="ruchin.material"
 				castsShadow="false"
 			/>
 
-  
-
-		</node>
-		<node name="arc_fass" id="123" >
-			<position x="23.9028" y="-2.04331" z="-40.3259" />
-			<rotation qx="-0.493429" qy="0.501984" qz="0.547819" qw="0.452144" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="arc_fass"
-				id="124"
-				meshFile ="arc_fass.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_fass" id="125" >
-			<position x="34.4667" y="-2.13166" z="-35.6118" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="arc_fass"
-				id="126"
-				meshFile ="arc_fass.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_fass" id="127" >
-			<position x="27.4965" y="-2.55635" z="-31.9899" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="arc_fass"
-				id="128"
-				meshFile ="arc_fass.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_fass" id="129" >
-			<position x="28.3967" y="-2.40527" z="-32.5144" />
-			<rotation qx="0.0" qy="-0.939693" qz="0.0" qw="0.34202" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="arc_fass"
-				id="130"
-				meshFile ="arc_fass.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_fass" id="131" >
-			<position x="14.7184" y="-3.74856" z="-19.0846" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="arc_fass"
-				id="132"
-				meshFile ="arc_fass.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_fass" id="133" >
-			<position x="25.2417" y="-3.24874" z="0.0529724" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="arc_fass"
-				id="134"
-				meshFile ="arc_fass.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_bett_01" id="135" >
-			<position x="134.263" y="0.934719" z="-53.9135" />
-			<rotation qx="0.0" qy="0.0425641" qz="0.0" qw="0.999094" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="arc_bett_01"
-				id="136"
-				meshFile ="arc_bett_01.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_nachtkasten_01" id="137" >
-			<position x="135.07" y="0.267212" z="-55.1786" />
-			<rotation qx="0.0" qy="0.0572424" qz="0.0" qw="0.99836" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="arc_nachtkasten_01"
-				id="138"
-				meshFile ="arc_nachtkasten_01.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_schrank_01" id="139" >
-			<position x="130.133" y="0.281674" z="-55.1734" />
-			<rotation qx="0.0" qy="-0.663858" qz="0.0" qw="0.747859" />
-			<scale x="1.18383" y="1.18383" z="1.18383" />
-			<entity
-				name="arc_schrank_01"
-				id="140"
-				meshFile ="arc_schrank_01.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_kommode_01" id="141" >
-			<position x="129.777" y="0.2579" z="-51.0604" />
-			<rotation qx="0.0" qy="-0.999015" qz="0.0" qw="0.0443831" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="arc_kommode_01"
-				id="142"
-				meshFile ="arc_kommode_01.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="ver_schmuckkasten_01" id="143" >
-			<position x="134.996" y="0.967981" z="-55.255" />
-			<rotation qx="0.0" qy="-0.536424" qz="0.0" qw="0.843949" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="ver_schmuckkasten_01"
-				id="144"
-				meshFile ="ver_schmuckkasten_01.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_schreibtisch_01" id="145" >
-			<position x="123.896" y="0.309096" z="-42.7752" />
-			<rotation qx="0.0" qy="0.735499" qz="0.0" qw="0.677526" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="arc_schreibtisch_01"
-				id="146"
-				meshFile ="arc_schreibtisch_01.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_regal_01" id="147" >
-			<position x="122.468" y="0.280477" z="-44.1331" />
-			<rotation qx="0.0" qy="0.728787" qz="0.0" qw="0.684741" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="arc_regal_01"
-				id="148"
-				meshFile ="arc_regal_01.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_stuhl_01" id="149" >
-			<position x="123.753" y="0.272011" z="-43.5796" />
-			<rotation qx="0.0" qy="0.315478" qz="0.0" qw="0.948933" />
-			<scale x="1.1" y="1.1" z="1.1" />
-			<entity
-				name="arc_stuhl_01"
-				id="150"
-				meshFile ="arc_stuhl_01.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_stuhl_01" id="151" >
-			<position x="125.458" y="0.272011" z="-43.0115" />
-			<rotation qx="0.0" qy="-0.99256" qz="0.0" qw="0.121756" />
-			<scale x="1.1" y="1.1" z="1.1" />
-			<entity
-				name="arc_stuhl_01"
-				id="152"
-				meshFile ="arc_stuhl_01.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_stuhl_01" id="153" >
-			<position x="129.048" y="0.272011" z="-52.2729" />
-			<rotation qx="0.0" qy="0.729892" qz="0.0" qw="0.683563" />
-			<scale x="1.1" y="1.1" z="1.1" />
-			<entity
-				name="arc_stuhl_01"
-				id="154"
-				meshFile ="arc_stuhl_01.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="ver_truhe_gross01" id="155" >
-			<position x="132.728" y="0.266345" z="-53.7544" />
-			<rotation qx="0.0" qy="-0.67559" qz="0.0" qw="0.737277" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="ver_truhe_gross01"
-				id="156"
-				meshFile ="ver_truhe_gross01.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_regal_01" id="157" >
-			<position x="124.772" y="0.280477" z="-47.3561" />
-			<rotation qx="0.0" qy="0.0535975" qz="0.0" qw="0.998563" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="arc_regal_01"
-				id="158"
-				meshFile ="arc_regal_01.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="ver_truhe_gross01" id="159" >
-			<position x="126.605" y="0.266345" z="-42.9335" />
-			<rotation qx="0.0" qy="-0.99891" qz="0.0" qw="0.0466802" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="ver_truhe_gross01"
-				id="160"
-				meshFile ="ver_truhe_gross01.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_regal_02" id="161" >
-			<position x="126.407" y="0.292587" z="-47.6606" />
-			<rotation qx="0.0" qy="0.0499097" qz="0.0" qw="0.998754" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="arc_regal_02"
-				id="162"
-				meshFile ="arc_regal_02.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_regal_02" id="163" >
-			<position x="123.181" y="0.292586" z="-47.3374" />
-			<rotation qx="0.0" qy="0.0499097" qz="0.0" qw="0.998754" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="arc_regal_02"
-				id="164"
-				meshFile ="arc_regal_02.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
-  
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
 	</nodes>

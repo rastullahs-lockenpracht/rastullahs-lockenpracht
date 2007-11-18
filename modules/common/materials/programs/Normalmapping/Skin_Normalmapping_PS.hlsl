@@ -5,10 +5,12 @@ uniform float4 groundcolor;
 uniform float4 skycolor;
 uniform float4 SkinColor;
 uniform float SpecExp;
+uniform float skinscale;
 uniform sampler2D DiffuseMap;
 uniform sampler2D NormalMap;
 uniform sampler2D SpecMap;
 uniform sampler1D LookupSkin;
+uniform sampler2D skintexture;
 
 
 float4 ps_main(
@@ -23,7 +25,7 @@ float4 ps_main(
                ) : COLOR0
 { 
 
-   float3 normal = tex2D(NormalMap,UV).rgb *2 -1;
+   float3 normal = (tex2D(NormalMap,UV).rgb *2 -1) + tex2D(skintexture,UV.xy*skinscale)-0.5;
    float4 ambient= lerp(skycolor , groundcolor, ((dot(normal, SkyDir) + 1.0)/2.0));
 
    

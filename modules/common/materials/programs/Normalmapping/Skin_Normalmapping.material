@@ -36,6 +36,7 @@ material Skin_Normalmapping
 				param_named groundcolor float4 0.2 0.2 0.2 1.0
                 param_named SkinColor float4 0.5 0.5 0.5 1.0
                 param_named SpecExp float 16.0
+                param_named skinscale float 20.0
             }
 			
             // Base diffuse texture map
@@ -60,6 +61,11 @@ material Skin_Normalmapping
                 texture_alias LookupSkin
                 texture lookup_skin.png 1d
                 tex_address_mode clamp
+            }
+            texture_unit skintexture
+            {
+                texture_alias skintexture
+                texture skin_texture.png
             }
         }
     }
@@ -225,6 +231,7 @@ material Face_Normalmapping_mirrored
 				param_named groundcolor float4 0.2 0.2 0.2 1.0
                 param_named SkinColor float4 0.5 0.5 0.5 1.0
                 param_named SpecExp float 16.0
+                param_named skinscale float 3.5
             }
 			
             // Base diffuse texture map
@@ -249,6 +256,11 @@ material Face_Normalmapping_mirrored
                 texture_alias LookupSkin
                 texture lookup_skin.png 1d
                 tex_address_mode clamp
+            }
+            texture_unit skintexture
+            {
+                texture_alias skintexture
+                texture skin_texture.png
             }
         }
     }
@@ -365,6 +377,7 @@ material Skin_Normalmapping_mirrored
 				param_named groundcolor float4 0.2 0.2 0.2 1.0
                 param_named SkinColor float4 0.5 0.5 0.5 1.0
                 param_named SpecExp float 16.0
+                param_named skinscale float 3.5
             }
 			
             // Base diffuse texture map
@@ -390,6 +403,12 @@ material Skin_Normalmapping_mirrored
                 texture lookup_skin.png 1d
                 tex_address_mode clamp
             }
+            texture_unit skintexture
+            {
+                texture_alias skintexture
+                texture skin_texture.png
+            }
+            
         }
     }
 
