@@ -100,7 +100,7 @@ namespace CEGUI
 
         if (d_owner != NULL)
         {
-            size.d_width = d_owner->getWidth().asAbsolute(0.0f) - 25.0f;
+            size.d_width = d_owner->getPixelSize().d_width - 25.0f;
         }
 
         Font* font = const_cast<Font*>(getFont());
