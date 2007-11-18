@@ -17,26 +17,26 @@ class Rock < GameObject
   end
 end
 
-class ZusammenfallListener < AnimationListener
-	def initialize(rockPile,dustCloud)
-		super()
-		@mDustCloud = dustCloud
-		@mRockPile = rockPile
-	end
-
-	def animationFinished(anEvent)
-		@mDustCloud.getControlledObject().setActive(false)
-		$AM.destroyActor( @mDustCloud );
-		@mRockPile.getPhysicalThing().updateCollisionHull();
-	end
-	
-	def animationPaused(anEvent)
-
-	end
-	
-	def animationUnpaused(anEvent)
-	end
-end
+#class ZusammenfallListener < AnimationListener
+#	def initialize(rockPile,dustCloud)
+#		super()
+#		@mDustCloud = dustCloud
+#		@mRockPile = rockPile
+#	end
+#
+#	def animationFinished(anEvent)
+#		@mDustCloud.getControlledObject().setActive(false)
+#		$AM.destroyActor( @mDustCloud );
+#		@mRockPile.getPhysicalThing().updateCollisionHull();
+#	end
+#	
+#	def animationPaused(anEvent)
+#
+#	end
+#	
+#	def animationUnpaused(anEvent)
+#	end
+#end
 
 
 class RockPile < GameObject
@@ -56,7 +56,7 @@ class RockPile < GameObject
     @mDustCloud.getControlledObject().setActive(true)
 
     fallAnim = getActor().getControlledObject().startAnimation("Zusammenfallen", 0.5, 1);  
-    fallAnim.addAnimationListener( ZusammenfallListener.new(@mRockPile,@mDustCloud) );
+ #   fallAnim.addAnimationListener( ZusammenfallListener.new(@mRockPile,@mDustCloud) );
 
     RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleEingang").setState(Quest::COMPLETED)
     RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeug").setState(Quest::OPEN)
@@ -108,7 +108,7 @@ class SteinschlagzoneListener < GameAreaListener
 	end
 
 	def areaEntered(anEvent)
-		if (RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").getState() == Quest::CLOSED) 
+		if (RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").getState() == Quest::COMPLETED) 
 			@mRock1.getActor().setVisible(true);
 			@mRock2.getActor().setVisible(true);
 			@mRock3.getActor().setVisible(true);

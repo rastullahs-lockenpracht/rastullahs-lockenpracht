@@ -10,25 +10,25 @@ class ScareToDeathAction < Action
   end
 end
 
-class SpiderDieAnimationListener < AnimationListener
-	def initialize(player)
-	        super()
-		@mPlayer = player
-	end
-
-	def animationFinished(anEvent)
-		$SCRIPT.log("SpiderDie animationFinished.");
-		anEvent.getAnimation().getMeshObject().getActor().die(@mPlayer)
-	end
-	
-	def animationPaused(anEvent)
-		$SCRIPT.log("SpiderDie animationPaused.");
-	end
-	
-	def animationUnpaused(anEvent)
-		$SCRIPT.log("SpiderDie animationUnpaused.");
-	end
-end
+#class SpiderDieAnimationListener < AnimationListener
+#	def initialize(player)
+#	        super()
+#		@mPlayer = player
+#	end
+#
+#	def animationFinished(anEvent)
+#		$SCRIPT.log("SpiderDie animationFinished.");
+#		anEvent.getAnimation().getMeshObject().getActor().die(@mPlayer)
+#	end
+#	
+#	def animationPaused(anEvent)
+#		$SCRIPT.log("SpiderDie animationPaused.");
+#	end
+#	
+#	def animationUnpaused(anEvent)
+#		$SCRIPT.log("SpiderDie animationUnpaused.");
+#	end
+#end
 
 
 class Waldspinne < Creature
@@ -52,27 +52,27 @@ class Waldspinne < Creature
       initSounds()
     end
   
-	#Player erschreckt die Spinne
-	@mErschreckenSound.getControlledObject().play();
-	
-	# Listener auf Todesanimation, läßt die Spinne entgültig sterben
-	animListener = SpiderDieAnimationListener.new(player)
-	# Aktion entfernen
-	removeAction(@mScareAction)
-	# Todesanimation starten
-	getActor().getControlledObject().startAnimation("death", 0.33, 1)
-	getActor().getControlledObject().getAnimation("death").addAnimationListener(animListener)
+  	#Player erschreckt die Spinne
+  	@mErschreckenSound.getControlledObject().play();
+  	
+  	# Listener auf Todesanimation, läßt die Spinne entgültig sterben
+    #	animListener = SpiderDieAnimationListener.new(player)
+  	# Aktion entfernen
+  	removeAction(@mScareAction)
+  	# Todesanimation starten
+  	getActor().getControlledObject().startAnimation("death", 0.33, 1)
+  	#getActor().getControlledObject().getAnimation("death").addAnimationListener(animListener)
   end
 	
   def die(player)
-	@mSpinnenTodSound.getControlledObject().play();
-	
-	# Quest erledigt
-	RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").setState(Quest::COMPLETED)
-	# Spieler verletzen
-	player.modifyLe( -(player.getLe() - 4) )
-	# Beschreibung der Spinne ändern
-	setDescription("Eine große tote Spinne, die sich nie wieder vor irgendetwas ängstigt.")
+  	@mSpinnenTodSound.getControlledObject().play();
+  	
+  	# Quest erledigt
+  	RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").setState(Quest::COMPLETED)
+  	# Spieler verletzen
+  	player.modifyLe( -(player.getLe() - 4) )
+  	# Beschreibung der Spinne ändern
+  	setDescription("Eine große tote Spinne, die sich nie wieder vor irgendetwas ängstigt.")
   end
 end
 
