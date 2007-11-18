@@ -89,7 +89,7 @@ namespace rl {
     {
         Ogre::AxisAlignedBox aabb;
         aabb.setMaximum(radius, radius, radius);
-        aabb.setMaximum(-radius, -radius, -radius);
+        aabb.setMinimum(-radius, -radius, -radius);
         // neues areal ereugen
         GameNewtonBodyAreaType* at = new GameSimpleCollisionAreaType(
             aabb, GT_SPHERE);
