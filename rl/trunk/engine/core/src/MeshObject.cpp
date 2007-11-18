@@ -107,6 +107,10 @@ namespace rl {
     bool MeshObject::hasAnimation(const String& animName) const
     {
         AnimationStateSet* animStates = getEntity()->getAllAnimationStates();
+        if (!animStates)
+        {
+            return false;
+        }
         return animStates->hasAnimationState(animName);
     }
 
