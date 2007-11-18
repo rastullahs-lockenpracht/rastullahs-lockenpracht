@@ -354,10 +354,10 @@ namespace rl
         virtual void applyAuChanges(Ogre::Real elapsedTime) {} // empty
         virtual void setAnimation(Ogre::Real elapsedTime)
         {
-            Real step = 2.835; // the width of a step
+            Real step = 3.20; // the width of a step
             // if the persons runs, the feet don't touch always the ground, so this value must be bigger
             // trynerror:
-            step += 0.5;
+            step -= 0.5;
             //MeshObject* charMesh = dynamic_cast<MeshObject*>(mMovingCreature->getCreature()->getActor()->getControlledObject());
             //Real length = charMesh->getAnimation("Run")->getLength();
             Real length = 5./3.;
@@ -422,10 +422,10 @@ namespace rl
         }
         virtual void setAnimation(Ogre::Real elapsedTime)
         {
-            Real step = 2.835; // the width of a step
+            Real step = 3.20; // the width of a step
             // if the persons runs, the feet don't touch always the ground, so this value must be bigger
             // trynerror:
-            step += 0.5;
+            step -= 0.5;
             //MeshObject* charMesh = dynamic_cast<MeshObject*>(mMovingCreature->getCreature()->getActor()->getControlledObject());
             //Real length = charMesh->getAnimation("Run")->getLength();
             Real length = 5./3.;
