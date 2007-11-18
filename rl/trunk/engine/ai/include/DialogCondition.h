@@ -42,7 +42,6 @@ namespace rl
     {
     public:
         DialogConditionTrue();
-        virtual ~DialogConditionTrue();
 
         virtual bool isFulfilled(DialogVariable* var, Dialog* dialog);
     };
@@ -51,7 +50,6 @@ namespace rl
     {
     public:
         DialogConditionEquals(const CeGuiString& testValue);
-        virtual ~DialogConditionEquals();
 
         virtual bool isFulfilled(DialogVariable* var, Dialog* dialog);
 
@@ -63,7 +61,6 @@ namespace rl
     {
     public:
         DialogConditionInRange(Ogre::Real lowerBound, Ogre::Real upperBound);
-        virtual ~DialogConditionInRange();
 
         virtual bool isFulfilled(DialogVariable* var, Dialog* dialog);
     private:
@@ -75,7 +72,6 @@ namespace rl
     {
     public:
         DialogConditionLowerThan(Ogre::Real upperBound);
-        virtual ~DialogConditionLowerThan();
 
         virtual bool isFulfilled(DialogVariable* var, Dialog* dialog);
     private:
@@ -86,11 +82,30 @@ namespace rl
     {
     public:
         DialogConditionGreaterThan(Ogre::Real lowerBound);
-        virtual ~DialogConditionGreaterThan();
 
         virtual bool isFulfilled(DialogVariable* var, Dialog* dialog);
     private:
         Ogre::Real mLowerBound; 
+    };
+
+    class DialogConditionLowerOrEquals : public DialogCondition
+    {
+    public:
+        DialogConditionLowerOrEquals(Ogre::Real upperLimit);
+
+        virtual bool isFulfilled(DialogVariable* var, Dialog* dialog);
+    private:
+        Ogre::Real mUpperLimit;
+    };
+
+    class DialogConditionGreaterOrEquals : public DialogCondition
+    {
+    public:
+        DialogConditionGreaterOrEquals(Ogre::Real lowerLimit);
+
+        virtual bool isFulfilled(DialogVariable* var, Dialog* dialog);
+    private:
+        Ogre::Real mLowerLimit; 
     };
 }
 

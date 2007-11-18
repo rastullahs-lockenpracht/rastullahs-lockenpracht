@@ -18,7 +18,9 @@
 #include "DialogImplication.h"
 
 #include "Dialog.h"
+#include "RulesSubsystem.h"
 #include "Property.h"
+#include "QuestBook.h"
 
 using namespace Ogre;
 
@@ -38,10 +40,6 @@ namespace rl
     {
     }
 
-    DialogVariableAssignment::~DialogVariableAssignment()
-    {
-    }
-
     void DialogVariableAssignment::apply(Dialog* dialog)
     {
         Property prop = dialog->getProperty(mVariableName);
@@ -53,5 +51,16 @@ namespace rl
 	{
 		dialog->setProperty(Dialog::PROP_EXIT_REQUESTED, true);
 	}
+
+    QuestPropertyAssignment::QuestPropertyAssignment(const Ogre::String &questId, const Ogre::String &prop, const rl::CeGuiString &newValue)
+        : mQuestId(questId), mProperty(prop), mNewValue(newValue)
+    {
+    }
+
+    void QuestPropertyAssignment::apply(rl::Dialog *dialog)
+    {
+        Quest* quest = RulesSubsystem::getSingleton().getQuestBook()->getQuest(mQuestId);
+        quest->setPropertyAsString(mProperty, mNewValue);
+    }
 
 }

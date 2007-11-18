@@ -73,7 +73,7 @@ namespace rl
         }
     }
 
-    GameObject* DialogResponse::getNpc(rl::Dialog *dialog) const
+    Creature* DialogResponse::getNpc(rl::Dialog *dialog) const
     {
         return dialog->getNpc(mNpcId);
     }

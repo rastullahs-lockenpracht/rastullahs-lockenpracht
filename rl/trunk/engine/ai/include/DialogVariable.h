@@ -52,11 +52,43 @@ namespace rl
         Ogre::String mPropertyName;
     };
 
-
-    class DialogVariableTalentProbe
+    class QuestStateVariable : public DialogVariable
     {
     public:
+        QuestStateVariable(const Ogre::String& questId, const Ogre::String& propertyName);
+
+    protected:
+        virtual Property calculateValue(Dialog* dialog);
+
+    private:
+        Ogre::String mQuestId;
+        Ogre::String mPropertyName;
+    };
+
+    class EigenschaftsProbeVariable : public DialogVariable
+    {
+    public:
+        EigenschaftsProbeVariable(const CeGuiString& eigenschaft, int modifier);
+
+    protected:
+        virtual Property calculateValue(Dialog* dialog);
+
+    private:
+        CeGuiString mEigenschaft;
+        int mModifier;
+    };
+
+    class TalentProbeVariable : public DialogVariable
+    {
+    public:
+        TalentProbeVariable(const CeGuiString& talent, int modifier);
         
+    protected:
+        virtual Property calculateValue(Dialog* dialog);
+
+    private:
+        CeGuiString mTalent;
+        int mModifier;
     };
 }
 

@@ -25,22 +25,22 @@ namespace rl
     class DialogOption;
     class DialogResponse;
     class DialogVariable;
-    class GameObject;
+    class Creature;
 
     class _RlAiExport Dialog : public PropertyHolder
     {
     public:
 		static const Ogre::String PROP_EXIT_REQUESTED;
 
-        Dialog(GameObject* pc, GameObject* npc);
+        Dialog(Creature* pc, Creature* npc);
         ~Dialog();
 
         DialogResponse* getDialogStart() const;
         void setStartResponse(DialogResponse* start);
         void addVariable(DialogVariable* variable);
         void initialize();
-        GameObject* getNpc(int id) const;
-        GameObject* getPc(int id) const;
+        Creature* getNpc(int id) const;
+        Creature* getPc(int id) const;
 		bool isExitRequested() const;
         CeGuiString getVariableValue(const Ogre::String& variableName) const;
 
@@ -50,8 +50,8 @@ namespace rl
 
     private:
         DialogResponse* mDialogStart;
-        std::vector<GameObject*> mNonPlayerCharacters;
-        std::vector<GameObject*> mPlayerCharacters;
+        std::vector<Creature*> mNonPlayerCharacters;
+        std::vector<Creature*> mPlayerCharacters;
         std::map<Ogre::String, DialogVariable*> mVariables;
         PropertyRecord mPropertyVariables;
 		bool mExitRequested;

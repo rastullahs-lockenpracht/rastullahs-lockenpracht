@@ -107,7 +107,7 @@ namespace rl
         BehaviourFactory();
         virtual ~BehaviourFactory();
 
-        virtual SteeringBehaviour* createBehaviour(const Ogre::String& classname) = 0;
+        virtual rl::SteeringBehaviour* createBehaviour(const Ogre::String& classname) = 0;
     };
     
 	class AgentManager
@@ -272,14 +272,14 @@ namespace rl
     class Dialog
     {
     private:
-        Dialog(rl::GameObject* npc, rl::GameObject* pc);
+        Dialog(rl::Creature* npc, rl::Creature* pc);
     };
 
     class DialogManager
     {
     public:
         static rl::DialogManager& getSingleton();
-        rl::Dialog* createDialog(const Ogre::String& name, rl::GameObject* npc, rl::GameObject* pc);
+        rl::Dialog* createDialog(const Ogre::String& name, rl::Creature* npc, rl::Creature* pc);
     private:
         DialogManager();
     };

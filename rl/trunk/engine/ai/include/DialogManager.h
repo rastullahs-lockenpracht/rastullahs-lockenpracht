@@ -34,7 +34,7 @@ namespace rl
     class DialogParagraph;
     class DialogResponse;
     class DialogVariable;
-    class GameObject;
+    class Creature;
 
     class _RlAiExport DialogManager 
         : public Ogre::Singleton<DialogManager>, 
@@ -48,7 +48,7 @@ namespace rl
         virtual const Ogre::StringVector& getScriptPatterns() const;
         virtual void parseScript(Ogre::DataStreamPtr& stream, const Ogre::String& groupName);
 		virtual Ogre::Real getLoadingOrder() const;
-        Dialog* createDialog(const Ogre::String& name, GameObject* pc, GameObject* npc);
+        Dialog* createDialog(const Ogre::String& name, Creature* pc, Creature* npc);
 
     private:
 
@@ -61,7 +61,7 @@ namespace rl
             DialogResponse* getResponse(int id) const;
 
             void setStartResponse(DialogResponse* response);
-            Dialog* createDialog(GameObject* pc, GameObject* npc);
+            Dialog* createDialog(Creature* pc, Creature* npc);
             void setProperty(const Ogre::String& key, const Property& value);
 
         private:

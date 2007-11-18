@@ -425,7 +425,7 @@ namespace rl
         return cond;
     }
 
-    Dialog* DialogManager::createDialog(const Ogre::String& name, GameObject* pc, GameObject* npc)
+    Dialog* DialogManager::createDialog(const Ogre::String& name, Creature* pc, Creature* npc)
     {
         std::map<Ogre::String, DialogPrototype*>::iterator it = mDialogs.find(name);
         if (it == mDialogs.end())
@@ -478,12 +478,12 @@ namespace rl
         return it->second;
     }
 
-    Dialog* DialogManager::DialogPrototype::createDialog(GameObject* pc, GameObject* npc)
+    Dialog* DialogManager::DialogPrototype::createDialog(Creature* pc, Creature* npc)
     {
         Dialog* dialog = new Dialog(pc, npc);
         dialog->setStartResponse(mDialogStart);
         
-        for (PropertyRecordMap::const_iterator it = mPropertyVariables.begin(); 
+        for (PropertyRecord::PropertyRecordMap::const_iterator it = mPropertyVariables.begin(); 
             it != mPropertyVariables.end(); ++it)
         {
             dialog->setProperty(it->first, it->second);
@@ -502,25 +502,79 @@ namespace rl
         mDialogStart = start;
     }
 
+    DialogCondition* DialogManager::processConditionClasses(DOMElement* conditionXml)
+    {
+        if (hasNodeName(conditionXml, "equals"))
+        {
+            return new DialogConditionEquals(
+                getAttributeValueAsString(conditionXml, "value"));
+        }
+        else if (hasNodeName(conditionXml, "inrange"))
+        {
+            return new DialogConditionInRange(
+                getAttributeValueAsReal(conditionXml, "from"),
+                getAttributeValueAsReal(conditionXml, "to"));
+        }
+        else if (hasNodeName(conditionXml, "lower"))
+        {
+            return new DialogConditionLowerThan(
+                getAttributeValueAsReal(conditionXml, "value"));
+        }
+        else if (hasNodeName(conditionXml, "lowereq"))
+        {
+            return new DialogConditionLowerOrEquals(
+                getAttributeValueAsReal(conditionXml, "value"));
+        }
+        else if (hasNodeName(conditionXml, "greater"))
+        {
+            return new DialogConditionGreaterThan(
+                getAttributeValueAsReal(conditionXml, "value"));
+        }
+        else if (hasNodeName(conditionXml, "greatereq"))
+        {
+            return new DialogConditionGreaterOrEquals(
+                getAttributeValueAsReal(conditionXml, "value"));
+        }
+
+        return NULL;
+    }
+
     DialogVariable* DialogManager::processVariableClasses(DOMElement* variableXml)
     {
         if (hasNodeName(variableXml, "dialogvariable"))
         {
             return new DialogPropertyVariable(getAttributeValueAsStdString(variableXml, "name"));
         }
-
-        return NULL;
-    }
-
-    DialogCondition* DialogManager::processConditionClasses(DOMElement* conditionXml)
-    {
-        if (hasNodeName(conditionXml, "equals"))
+        else if (hasNodeName(variableXml, "queststate"))
         {
-            return new DialogConditionEquals(getAttributeValueAsString(conditionXml, "value"));
+            Ogre::String questId = getAttributeValueAsStdString(variableXml, "quest");
+            Ogre::String prop = getAttributeValueAsStdString(variableXml, "property");
+            return new QuestStateVariable(questId, prop);
+        }
+        else if (hasNodeName(variableXml, "attributecheck"))
+        {
+            CeGuiString attr = getAttributeValueAsString(variableXml, "attribute");
+            int modifier = 0;
+            if (hasAttribute(variableXml, "modifier"))
+            {
+                modifier = getAttributeValueAsInteger(variableXml, "modifier");
+            }
+            return new EigenschaftsProbeVariable(attr, modifier);
+        }
+        else if (hasNodeName(variableXml, "talentcheck"))
+        {
+            CeGuiString attr = getAttributeValueAsString(variableXml, "talent");
+            int modifier = 0;
+            if (hasAttribute(variableXml, "modifier"))
+            {
+                modifier = getAttributeValueAsInteger(variableXml, "modifier");
+            }
+            return new TalentProbeVariable(attr, modifier);
         }
 
         return NULL;
     }
+
 
     DialogImplication* DialogManager::processImplicationClasses(DOMNode* implicationXml)
     {
@@ -538,6 +592,13 @@ namespace rl
 			{
 				return new DialogExit();
 			}
+            else if (hasNodeName(implicationElem, "changequest"))
+            {
+                Ogre::String questId = getAttributeValueAsStdString(implicationElem, "quest");
+                Ogre::String prop = getAttributeValueAsStdString(implicationElem, "property");
+                CeGuiString newvalue = getAttributeValueAsString(implicationElem, "newvalue");
+                return new QuestPropertyAssignment(questId, prop, newvalue);
+            }
         }
 
         return NULL;

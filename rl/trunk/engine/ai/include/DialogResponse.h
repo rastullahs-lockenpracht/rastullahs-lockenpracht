@@ -25,7 +25,7 @@ namespace rl
     class Dialog;
     class DialogImplication;
 	class DialogOption;   
-    class GameObject;
+    class Creature;
 
     /**
      * The reponse a DialogCharacter can give in a Dialog
@@ -47,7 +47,7 @@ namespace rl
 
         void applyImplications(Dialog* dialog);
 
-        GameObject* getNpc(Dialog* dialog) const;
+        Creature* getNpc(Dialog* dialog) const;
 
     private:
         Options mOptions;

@@ -22,7 +22,7 @@ namespace rl
 {
 	const Ogre::String Dialog::PROP_EXIT_REQUESTED = "exit_requested";
 
-    Dialog::Dialog(GameObject* npc, GameObject* pc)
+    Dialog::Dialog(Creature* npc, Creature* pc)
     {
         mNonPlayerCharacters.push_back(npc);
         mPlayerCharacters.push_back(pc);
@@ -52,12 +52,12 @@ namespace rl
         //mVariables[vkey] = variable;
     }
 
-    GameObject* Dialog::getNpc(int id) const
+    Creature* Dialog::getNpc(int id) const
     {
         return mNonPlayerCharacters[id];
     }
 
-    GameObject* Dialog::getPc(int id) const
+    Creature* Dialog::getPc(int id) const
     {
         return mPlayerCharacters[id];
     }

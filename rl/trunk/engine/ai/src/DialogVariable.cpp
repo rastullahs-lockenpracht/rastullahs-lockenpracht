@@ -17,7 +17,10 @@
 
 #include "DialogVariable.h"
 
+#include "Creature.h"
 #include "Dialog.h"
+#include "RulesSubsystem.h"
+#include "QuestBook.h"
 
 namespace rl
 {
@@ -55,4 +58,38 @@ namespace rl
     {
         return dialog->getProperty(mPropertyName);
     }
+
+    QuestStateVariable::QuestStateVariable(const Ogre::String &questId, const Ogre::String &propertyName)
+        : mQuestId(questId), mPropertyName(propertyName)
+    {
+    }
+
+    Property QuestStateVariable::calculateValue(Dialog* dialog)
+    {
+        return RulesSubsystem::getSingleton().getQuestBook()->getQuest(mQuestId)->getProperty(mPropertyName);
+    }
+
+    TalentProbeVariable::TalentProbeVariable(const rl::CeGuiString &talent, int modifier)
+        : mTalent(talent), mModifier(modifier)
+    {
+    }
+
+    Property TalentProbeVariable::calculateValue(Dialog* dialog)
+    {
+        Creature* cr = dialog->getPc(0); ///@todo allow multiple PCs
+        return Property(cr->doTalentprobe(mTalent, mModifier));
+    }
+
+EigenschaftsProbeVariable::EigenschaftsProbeVariable(const rl::CeGuiString &eigenschaft, int modifier)
+        : mEigenschaft(eigenschaft), mModifier(modifier)
+    {
+    }
+
+    Property EigenschaftsProbeVariable::calculateValue(Dialog* dialog)
+    {
+        Creature* cr = dialog->getPc(0); ///@todo allow multiple PCs
+        return Property(cr->doEigenschaftsprobe(mEigenschaft, mModifier));
+    }
+
+
 }

@@ -52,10 +52,6 @@ namespace rl
     {
     }
 
-    DialogConditionTrue::~DialogConditionTrue() 
-    {
-    }
-
     bool DialogConditionTrue::isFulfilled(DialogVariable* var, Dialog* dialog) 
     { 
         return true; 
@@ -66,20 +62,12 @@ namespace rl
     {
     }
 
-    DialogConditionEquals::~DialogConditionEquals()
-    {
-    }
-
     bool DialogConditionEquals::isFulfilled(DialogVariable* var, Dialog* dialog)
     {
         return var->getValue(dialog).getAsString() == mTestValue;
     }
 
     DialogConditionInRange::DialogConditionInRange(Ogre::Real lowerBound, Ogre::Real upperBound)
-    {
-    }
-    
-    DialogConditionInRange::~DialogConditionInRange()
     {
     }
     
@@ -94,10 +82,6 @@ namespace rl
     {
     }
     
-    DialogConditionLowerThan::~DialogConditionLowerThan()
-    {
-    }
-
     bool DialogConditionLowerThan::isFulfilled(DialogVariable* var, Dialog* dialog)
     {
         return var->getValue(dialog).getAsNumber() < mUpperBound;
@@ -108,13 +92,29 @@ namespace rl
     {
     }
 
-    DialogConditionGreaterThan::~DialogConditionGreaterThan()
-    {
-    }
-
     bool DialogConditionGreaterThan::isFulfilled(DialogVariable* var, Dialog* dialog)
     {
         return var->getValue(dialog).getAsNumber() > mLowerBound;
+    }
+
+    DialogConditionLowerOrEquals::DialogConditionLowerOrEquals(Ogre::Real upperLimit)
+        : mUpperLimit(upperLimit)
+    {
+    }
+    
+    bool DialogConditionLowerOrEquals::isFulfilled(DialogVariable* var, Dialog* dialog)
+    {
+        return var->getValue(dialog).getAsNumber() <= mUpperLimit;
+    }
+
+    DialogConditionGreaterOrEquals::DialogConditionGreaterOrEquals(Ogre::Real lowerLimit)
+        : mLowerLimit(lowerLimit)
+    {
+    }
+
+    bool DialogConditionGreaterOrEquals::isFulfilled(DialogVariable* var, Dialog* dialog)
+    {
+        return var->getValue(dialog).getAsNumber() >= mLowerLimit;
     }
 
 }

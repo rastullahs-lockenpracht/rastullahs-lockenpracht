@@ -36,8 +36,6 @@ namespace rl
     {
     public:
         DialogVariableAssignment(const Ogre::String& variableName, const CeGuiString& value);
-        virtual ~DialogVariableAssignment();
-
         virtual void apply(Dialog* dialog);
 
     private:
@@ -50,6 +48,18 @@ namespace rl
 	public:
 		virtual void apply(Dialog* dialog);
 	};
+
+    class QuestPropertyAssignment : public DialogImplication
+    {
+    public:
+        QuestPropertyAssignment(const Ogre::String& questId, const Ogre::String& prop, const CeGuiString& newValue);
+        virtual void apply(Dialog* dialog);
+
+    private:
+        Ogre::String mQuestId;
+        Ogre::String mProperty;
+        CeGuiString mNewValue;
+    };
 }
 
 #endif //__DialogImplication_H__
