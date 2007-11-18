@@ -24,8 +24,6 @@ namespace rl {
     class PropertyRecord;
     class PropertyRecordPtr;
 
-    typedef std::map<const Ogre::String, Property> PropertyRecordMap;
-
     /**
      * This is the base class of all objects having Propertys
      */
@@ -34,6 +32,7 @@ namespace rl {
     public:
         virtual const Property getProperty(const Ogre::String& key) const = 0;
         virtual void setProperty(const Ogre::String& key, const Property& value) = 0;
+        void setPropertyAsString(const Ogre::String& key, const CeGuiString& value);
         virtual PropertyRecord* getAllProperties() const = 0;
         void setProperties(const PropertyRecord* props);
         void setProperties(const PropertyMap& propmap);
@@ -45,6 +44,8 @@ namespace rl {
     class _RlCommonExport PropertyRecord : public PropertyHolder
     {
 	public:
+        typedef std::map<const Ogre::String, Property> PropertyRecordMap;
+
         PropertyRecord();
         PropertyRecord(const PropertyRecord* ps);
         PropertyRecord(const PropertyMap& propmap);

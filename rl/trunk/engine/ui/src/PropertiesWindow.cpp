@@ -79,21 +79,21 @@ namespace rl {
         int row = 0;
         //  Iterate through all properties and add a row for
         //  every Entry
-        for( PropertyRecordMap::const_iterator propIter = props->begin();
+        for (PropertyRecord::PropertyRecordMap::const_iterator propIter = props->begin();
             propIter != props->end(); propIter++ )
         {
             Ogre::String key = propIter->first;
 
-            if( key == "description" || key == "name" )
+            if (key == "description" || key == "name" )
                 continue;
 
             // Check for Int
-            if( propIter->second.isInt() )
+            if (propIter->second.isInt() )
             {
                 addPropertyInt(propIter->second, mMainTable, key );
             }
             // Check for IntPair
-            else if( propIter->second.isIntPair() )
+            else if (propIter->second.isIntPair() )
             {
                 addPropertyIntPair(propIter->second, mMainTable, key);
                 int rowCount = mMainTable->getRowCount();
@@ -101,7 +101,7 @@ namespace rl {
                 mMainTable->setItem(new ListboxTextItem(""), 0, rowCount);
             }
             // Check for IntTriple
-            else if( propIter->second.isIntTriple() )
+            else if (propIter->second.isIntTriple() )
             {
                 addPropertyIntTriple(propIter->second, mMainTable, key);
                 int rowCount = mMainTable->getRowCount();
@@ -109,22 +109,22 @@ namespace rl {
                 mMainTable->setItem(new ListboxTextItem(""), 0, rowCount);
             }
             // Check for String
-            else if( propIter->second.isString() )
+            else if (propIter->second.isString() )
             {
                 addPropertyString(propIter->second, mMainTable, key);
             }
             // Check for Bool
-            else if( propIter->second.isBool() )
+            else if (propIter->second.isBool() )
             {
                 addPropertyBool(propIter->second, mMainTable, key);
             }
             // Check for Real
-            else if( propIter->second.isReal() )
+            else if (propIter->second.isReal() )
             {
                 addPropertyReal(propIter->second, mMainTable, key);
             }
             // Check for Vector3
-            else if( propIter->second.isVector3() )
+            else if (propIter->second.isVector3() )
             {
                 addPropertyVector3(propIter->second, mMainTable, key);
                 int rowCount = mMainTable->getRowCount();
@@ -132,7 +132,7 @@ namespace rl {
                 mMainTable->setItem(new ListboxTextItem(""), 0, rowCount);
             }
             // Check for Quaternion
-            else if( propIter->second.isQuaternion() )
+            else if (propIter->second.isQuaternion() )
             {
                 addPropertyQuaternion(propIter->second, mMainTable, key);
                 int rowCount = mMainTable->getRowCount();
@@ -140,7 +140,7 @@ namespace rl {
                 mMainTable->setItem(new ListboxTextItem(""), 0, rowCount);
             }
             // Check for Array
-            else if( propIter->second.isArray() )
+            else if (propIter->second.isArray() )
             {
                 addPropertyArray(propIter->second, key);
             }
@@ -542,12 +542,12 @@ namespace rl {
         for(PropertyVector::const_iterator it = vProp.begin(); it != vProp.end(); it++)
         {
             // Check for Int
-            if( it->isInt() )
+            if (it->isInt() )
             {
                 addPropertyInt(*it, newTable);
             }
             // Check for IntPair
-            else if( it->isIntPair() )
+            else if (it->isIntPair() )
             {
                 addPropertyIntPair(*it, newTable);
                 int rowCount = newTable->getRowCount();
@@ -555,7 +555,7 @@ namespace rl {
                 newTable->setItem(new ListboxTextItem(""), 0, rowCount);
             }
             // Check for IntTriple
-            else if( it->isIntTriple() )
+            else if (it->isIntTriple() )
             {
                 addPropertyIntTriple(*it, newTable);
                 int rowCount = newTable->getRowCount();
@@ -563,22 +563,22 @@ namespace rl {
                 newTable->setItem(new ListboxTextItem(""), 0, rowCount);
             }
             // Check for String
-            else if( it->isString() )
+            else if (it->isString() )
             {
                 addPropertyString(*it, newTable);
             }
             // Check for Bool
-            else if( it->isBool() )
+            else if (it->isBool() )
             {
                 addPropertyBool(*it, newTable);
             }
             // Check for Real
-            else if( it->isReal() )
+            else if (it->isReal() )
             {
                 addPropertyReal(*it, newTable);
             }
             // Check for Vector3
-            else if( it->isVector3() )
+            else if (it->isVector3() )
             {
                 addPropertyVector3(*it, newTable);
                 int rowCount = newTable->getRowCount();
@@ -586,7 +586,7 @@ namespace rl {
                 newTable->setItem(new ListboxTextItem(""), 0, rowCount);
             }
             // Check for Quaternion
-            else if( it->isQuaternion() )
+            else if (it->isQuaternion() )
             {
                 addPropertyQuaternion(*it, newTable);
                 int rowCount = newTable->getRowCount();

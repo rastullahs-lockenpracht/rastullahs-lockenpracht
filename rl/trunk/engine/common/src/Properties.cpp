@@ -27,7 +27,7 @@ namespace rl {
 
     void PropertyHolder::setProperties(const PropertyRecord* props)
     {
-        for (PropertyRecordMap::const_iterator it = props->begin();
+        for (PropertyRecord::PropertyRecordMap::const_iterator it = props->begin();
             it != props->end(); it++)
         {
             setProperty((*it).first, (*it).second);
@@ -41,6 +41,13 @@ namespace rl {
         {
             setProperty((*it).first.c_str(), (*it).second);
         }
+    }
+
+    void PropertyHolder::setPropertyAsString(const Ogre::String& key, const CeGuiString& value)
+    {
+        Property prop = getProperty(key);
+        prop.getFromString(value);
+        setProperty(key, prop);
     }
 
     PropertyRecord::PropertyRecord()
@@ -89,12 +96,12 @@ namespace rl {
         return new PropertyRecord(this);
     }
 
-    const PropertyRecordMap::const_iterator PropertyRecord::begin() const
+    const PropertyRecord::PropertyRecordMap::const_iterator PropertyRecord::begin() const
     {
         return mProperties.begin();
     }
 
-    const PropertyRecordMap::const_iterator PropertyRecord::end() const
+    const PropertyRecord::PropertyRecordMap::const_iterator PropertyRecord::end() const
     {
         return mProperties.end();
     }
