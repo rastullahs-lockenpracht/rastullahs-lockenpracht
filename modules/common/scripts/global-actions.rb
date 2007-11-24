@@ -26,7 +26,7 @@ class SaveLoadGameAction < Action
   end
 
   def doAction(object, actor, target)
-    $WF.showSaveLoadWindow()
+    $WF.showGameSaveLoadWindow()
   end
 end
 

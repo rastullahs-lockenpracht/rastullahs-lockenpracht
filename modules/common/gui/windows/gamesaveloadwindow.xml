@@ -1,0 +1,84 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+      <Window Type="RastullahLook/FrameWindow" Name="GameSaveLoadWindow">
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+        <Property Name="UnifiedSize" Value="{{0,400},{0,500}}"/>
+        <Property Name="Text" Value="Save/Load Game"/>
+        <Property Name="SizingEnabled" Value="false"/>
+
+        <!-- FileSheet for the filename edit box and the savegame list  -->
+        
+        <Window Type="DefaultGUISheet" Name="GameSaveLoadWindow/FileSheet">
+            <Property Name="UnifiedPosition" Value="{{0,30},{0,30}}"/>
+            <Property Name="UnifiedSize" Value="{{0,350},{0,385}}"/>
+           
+            <!-- Filename edit box to enter the savegame name -->
+                     
+            <Window Type="RastullahLook/StaticText" Name="GameSaveLoadWindow/FileSheet/File">
+                <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                <Property Name="UnifiedSize" Value="{{0,80},{0,28}}"/>
+                <Property Name="Text" Value="Filename:"/>
+                <Property Name="FrameEnabled" Value="False"/>
+                <Property Name="HorzFormatting" Value="LeftAligned" />
+                <Property Name="Font" Value="Vera Serif-10"/>
+            </Window>
+            
+            <Window Type="RastullahLook/Editbox" Name="GameSaveLoadWindow/FileSheet/Filename">
+                <Property Name="UnifiedPosition" Value="{{0,80},{0,6}}"/>
+                <Property Name="UnifiedSize" Value="{{0,200},{0,28}}"/>
+                <Property Name="Text" Value="enter name"/>
+                <Property Name="FrameEnabled" Value="False"/>
+                <Property Name="HorzFormatting" Value="LeftAligned" />
+                <Property Name="Font" Value="Vera Serif-10"/>
+            </Window>
+                   
+            <!-- Table with two columns for the filename an save date of saved games -->
+            
+            <Window Type="RastullahLook/MultiColumnList" Name="GameSaveLoadWindow/FileSheet/SaveGameTable">
+                <Property Name="UnifiedPosition" Value="{{0,0},{0,60}}"/>
+                <Property Name="UnifiedSize" Value="{{1,0},{0,320}}"/>
+                <Property Name="Text" Value="SaveGames"/>
+                <Property Name="SortSettingEnabled" Value="False"/>
+                <Property Name="Font" Value="Vera Serif-8"/>
+                <Property Name="FrameEnabled" Value="True"/>
+            </Window> 
+        
+        </Window>      
+                     
+        <!-- Button sheet for the Load, Save, delete and cancel button -->
+        
+        <Window Type="DefaultGUISheet" Name="GameSaveLoadWindow/ButtonSheet">
+            <Property Name="UnifiedPosition" Value="{{0,30},{0,415}}"/>
+            <Property Name="UnifiedSize" Value="{{0,350},{0,85}}"/>
+            
+            <Window Type="RastullahLook/Button" Name="GameSaveLoadWindow/ButtonSheet/LoadButton">
+                <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                <Property Name="UnifiedSize" Value="{{0,125},{0,28}}"/>
+                <Property Name="Font" Value="Vera Serif-10"/>
+                <Property Name="Text" Value="Load"/>
+            </Window>
+            
+            <Window Type="RastullahLook/Button" Name="GameSaveLoadWindow/ButtonSheet/SaveButton">
+                <Property Name="UnifiedPosition" Value="{{0,130},{0,0}}"/>
+                <Property Name="UnifiedSize" Value="{{0,125},{0,28}}"/>
+                <Property Name="Font" Value="Vera Serif-10"/>
+                <Property Name="Text" Value="Save"/>
+            </Window>
+         
+            <Window Type="RastullahLook/Button" Name="GameSaveLoadWindow/ButtonSheet/DeleteButton">
+                <Property Name="UnifiedPosition" Value="{{0,0},{0,30}}"/>
+                <Property Name="UnifiedSize" Value="{{0,125},{0,28}}"/>
+                <Property Name="Font" Value="Vera Serif-10"/>
+                <Property Name="Text" Value="Delete"/>
+            </Window>
+            
+            <Window Type="RastullahLook/Button" Name="GameSaveLoadWindow/ButtonSheet/CancelButton">
+                <Property Name="UnifiedPosition" Value="{{0,130},{0,30}}"/>
+                <Property Name="UnifiedSize" Value="{{0,125},{0,28}}"/>
+                <Property Name="Font" Value="Vera Serif-10"/>
+                <Property Name="Text" Value="Cancel"/>
+            </Window>
+        
+        </Window>
+        
+    </Window>
+</GUILayout>

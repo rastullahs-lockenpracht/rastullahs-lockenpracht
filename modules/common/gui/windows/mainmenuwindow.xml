@@ -16,6 +16,9 @@
 					<Window Type="RastullahLook/MenuItem" Name="MainMenu/Game/Start">
 						<Property Name="Text" Value="Start"/>
 					</Window>
+					<Window Type="RastullahLook/MenuItem" Name="MainMenu/Game/Load">
+						<Property Name="Text" Value="Laden"/>
+					</Window>
 					<Window Type="RastullahLook/MenuItem" Name="MainMenu/Game/Quit">
 						<Property Name="Text" Value="Beenden"/>
 					</Window>
