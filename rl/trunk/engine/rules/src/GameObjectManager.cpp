@@ -340,7 +340,7 @@ namespace rl
                         int ID = reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "ID");
                         Ogre::String classID = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlGameObject), "ClassID");
                         GameObjectState state = (GameObjectState)reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "State");
-                        PropertyRecord properties = reader->getPropertiesAsSet(static_cast<DOMElement*>(xmlGameObject));
+                        PropertyRecord properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlGameObject));
                         GameObject* object = createGameObject(classID, ID);
                         
                         applyProperties(object, &properties); 

@@ -54,7 +54,8 @@ namespace rl {
     class MainMenuWindow;
     class ObjectDescriptionWindow;
     class Person;
-    class SaveLoadWindow;
+    class GameSaveLoadWindow;
+    class MainMenuLoadWindow;
     class WindowUpdater;
 
     class _RlUiExport WindowFactory : public Ogre::Singleton<WindowFactory>
@@ -88,7 +89,8 @@ namespace rl {
         void showMainMenu();
         void showObjectDescription(GameObject* object);
         void showPlaylist();
-        void showSaveLoadWindow();
+        void showGameSaveLoadWindow();
+        void showMainMenuLoadWindow();
         void showPopupMessage(int popupTypes);
         /**
          * Creates a GameSettings object and displays its layout file on screen

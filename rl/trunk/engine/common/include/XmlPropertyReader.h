@@ -44,7 +44,7 @@ namespace rl
         PropertyEntry processProperty(XERCES_CPP_NAMESPACE::DOMElement* domElem) const;
 		PropertyEntry processProperty(XERCES_CPP_NAMESPACE::DOMAttr* domAttr) const;
 
-        virtual PropertyRecord getPropertiesAsSet(XERCES_CPP_NAMESPACE::DOMElement* parent);
+        virtual PropertyRecord getPropertiesAsRecord(XERCES_CPP_NAMESPACE::DOMElement* parent);
     private:
         std::vector<PropertyRecord*> mPropertyRecords;
 

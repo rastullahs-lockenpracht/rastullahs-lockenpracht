@@ -16,7 +16,7 @@
 #include "stdinc.h" //precompiled header
 
 /**
- * \file SaveLoadWindow.cpp
+ * \file MainMenuLoadWindow.cpp
  *
  * Implementation of the Save/Load dialog
  */
@@ -30,11 +30,13 @@
 #include <Actor.h>
 #include <OgreResourceGroupManager.h>
 
-#include "SaveLoadWindow.h"
+#include "MainMenuLoadWindow.h"
 #include "MessageWindow.h"
 #include "WindowFactory.h"
 #include "ConfigurationManager.h"
 #include "SaveGameManager.h"
+#include "CoreSubsystem.h"
+#include "ContentModule.h"
 
 using namespace CEGUI;
 
@@ -42,59 +44,63 @@ namespace rl {
 
     //------------------------------------------------------- Constructor
 
-    SaveLoadWindow::SaveLoadWindow() :
-        AbstractWindow("saveloadwindow.xml", WIT_MOUSE_INPUT | WIT_KEYBOARD_INPUT)
+    MainMenuLoadWindow::MainMenuLoadWindow() :
+        AbstractWindow("mainmenuloadwindow.xml", WIT_MOUSE_INPUT | WIT_KEYBOARD_INPUT)
     {
         // Get a access to the filename edit box
-        mFilename = getEditbox("SaveLoadWindow/FileSheet/Filename");
-        RlAssert(mFilename != NULL, "SaveLoadWindow/FileSheet/Filename is null");
+        mFilename = getEditbox("MainMenuLoadWindow/FileSheet/Filename");
+        RlAssert(mFilename != NULL, "MainMenuLoadWindow/FileSheet/Filename is null");
 
         mFilename->activate();
 
         // Get a access to the savegame table
-        mSaveGameTable = getMultiColumnList("SaveLoadWindow/FileSheet/SaveGameTable");
-        RlAssert(mSaveGameTable != NULL, "SaveLoadWindow/FileSheet/SaveGameTable is null");
+        mSaveGameTable = getMultiColumnList("MainMenuLoadWindow/FileSheet/SaveGameTable");
+        RlAssert(mSaveGameTable != NULL, "MainMenuLoadWindow/FileSheet/SaveGameTable is null");
 
-        mSaveGameTable->addColumn( (utf8*)"Filename", 0, cegui_reldim(0.7));
-        mSaveGameTable->addColumn( (utf8*)"Date", 1, cegui_reldim(0.3));
+        mSaveGameTable->addColumn( (utf8*)"Filename", 0, cegui_reldim(0.6));
+        mSaveGameTable->addColumn( (utf8*)"Module", 1, cegui_reldim(0.2));
+        mSaveGameTable->addColumn( (utf8*)"Date", 2, cegui_reldim(0.2));
+
+        mSaveGameTable->setSelectionMode(MultiColumnList::RowSingle);
+        mSaveGameTable->subscribeEvent(MultiColumnList::EventSelectionChanged, boost::bind(&MainMenuLoadWindow::handleSelectSaveGame, this));
 
         centerWindow();
 
-        getPushButton("SaveLoadWindow/ButtonSheet/LoadButton")->subscribeEvent(
+        getPushButton("MainMenuLoadWindow/ButtonSheet/LoadButton")->subscribeEvent(
         CEGUI::Window::EventMouseClick,
         boost::bind(
-            &SaveLoadWindow::handleLoadEvent,
+            &MainMenuLoadWindow::handleLoadEvent,
             this
         ));
 
-        getPushButton("SaveLoadWindow/ButtonSheet/SaveButton")->subscribeEvent(
+        getPushButton("MainMenuLoadWindow/ButtonSheet/SaveButton")->subscribeEvent(
         CEGUI::Window::EventMouseClick,
         boost::bind(
-            &SaveLoadWindow::handleSaveEvent,
+            &MainMenuLoadWindow::handleSaveEvent,
             this
         ));
 
-        getPushButton("SaveLoadWindow/ButtonSheet/DeleteButton")->subscribeEvent(
+        getPushButton("MainMenuLoadWindow/ButtonSheet/DeleteButton")->subscribeEvent(
         CEGUI::Window::EventMouseClick,
         boost::bind(
-            &SaveLoadWindow::handleDeleteEvent,
+            &MainMenuLoadWindow::handleDeleteEvent,
             this
         ));
 
         bindDestroyWindowToXButton();
-        bindDestroyWindowToClick(getWindow("SaveLoadWindow/ButtonSheet/CancelButton"));
+        bindDestroyWindowToClick(getWindow("MainMenuLoadWindow/ButtonSheet/CancelButton"));
 
     }
 
     //------------------------------------------------------- Destructor
 
-    SaveLoadWindow::~SaveLoadWindow()
+    MainMenuLoadWindow::~MainMenuLoadWindow()
     {
     }
 
     //------------------------------------------------------- initialize
 
-    void SaveLoadWindow::initialize()
+    void MainMenuLoadWindow::initialize()
     {
         //mSaveGameTable->autoSizeColumnHeader(0);
         //mSaveGameTable->autoSizeColumnHeader(1);
@@ -103,7 +109,7 @@ namespace rl {
 
     //------------------------------------------------------- LoadEvent
 
-    bool SaveLoadWindow::handleLoadEvent()
+    bool MainMenuLoadWindow::handleLoadEvent()
     {
         LOG_MESSAGE(Logger::UI, "Load Button pressed");
 
@@ -126,7 +132,7 @@ namespace rl {
 
     //------------------------------------------------------- SaveEvent
 
-    bool SaveLoadWindow::handleSaveEvent()
+    bool MainMenuLoadWindow::handleSaveEvent()
     {
         LOG_MESSAGE(Logger::UI, "Save Button pressed");
 
@@ -152,16 +158,16 @@ namespace rl {
 
     //------------------------------------------------------- DeleteEvent
 
-    bool SaveLoadWindow::handleDeleteEvent()
+    bool MainMenuLoadWindow::handleDeleteEvent()
     {
         LOG_MESSAGE(Logger::UI, "Delete Button pressed");
         return true;
     }
 
-    void SaveLoadWindow::listSaveGames()
+    void MainMenuLoadWindow::listSaveGames()
     {
         SaveGameEntryMap saveGames = SaveGameManager::getSingleton().listSaveGames();
-    
+
         while(mSaveGameTable->getRowCount() > saveGames.size())
 		    mSaveGameTable->removeRow(mSaveGameTable->getRowCount()-1);
         while(mSaveGameTable->getRowCount() < saveGames.size())
@@ -172,11 +178,21 @@ namespace rl {
         for(SaveGameEntryMap::iterator it = saveGames.begin(); it != saveGames.end(); it++)
         {
             mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->first), 0, saveGameNum);
-            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty("time")), 1, saveGameNum);
+            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString()), 1, saveGameNum);
+            LOG_MESSAGE(Logger::UI, "Module ID: " + it->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString());
+            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_TIME).toString()), 2, saveGameNum);
             saveGameNum++;
         }
-        mSaveGameTable->autoSizeColumnHeader(0);
+        /*mSaveGameTable->autoSizeColumnHeader(0);
         mSaveGameTable->autoSizeColumnHeader(1);
+        mSaveGameTable->autoSizeColumnHeader(2);*/
+    }
+
+    bool MainMenuLoadWindow::handleSelectSaveGame()
+    {
+        if(mSaveGameTable->getFirstSelectedItem())
+            mFilename->setText(mSaveGameTable->getFirstSelectedItem()->getText());
+        return true;
     }
 
 } // namespace rl

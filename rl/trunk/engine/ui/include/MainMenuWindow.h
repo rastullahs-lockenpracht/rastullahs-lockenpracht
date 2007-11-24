@@ -37,6 +37,7 @@ namespace rl {
 	private:
 		bool handleChooseModule(CEGUI::MenuItem* it, ContentModule* module);
 		bool handleStart();
+        bool handleLoad();
 		bool handleQuit();
 		bool handleSettings();
 

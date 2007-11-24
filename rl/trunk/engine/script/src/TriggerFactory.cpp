@@ -116,7 +116,7 @@ namespace rl
                         Ogre::String name = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlTrigger), "name");
                         Ogre::String zoneName = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlTrigger), "zone");
 
-                        PropertyRecord properties = reader->getPropertiesAsSet(static_cast<DOMElement*>(xmlTrigger));
+                        PropertyRecord properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlTrigger));
 
 
                         Trigger *trigger = createTrigger(classname, name);

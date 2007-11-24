@@ -102,7 +102,7 @@ public:
     void showContainerContent(rl::Container* container);
     void showDescriptionWindow(rl::GameObject* obj);
     void showPropertiesWindow(rl::GameObject* obj);
-    void showSaveLoadWindow();
+    void showGameSaveLoadWindow();
     void showExitConfirmation();
     void showJournalWindow();
     void showLogfiles();

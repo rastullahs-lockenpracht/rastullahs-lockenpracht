@@ -15,13 +15,13 @@
  */
 
 /**
- * \file SaveLoadWindow.h
+ * \file MainMenuLoadWindow.h
  *
  * Declaration of the Save/Load dialog
  */
 
-#ifndef __SaveLoadWindow_H__
-#define __SaveLoadWindow_H__
+#ifndef __MainMenuLoadWindow_H__
+#define __MainMenuLoadWindow_H__
 
 #include "UiPrerequisites.h"
 #include "AbstractWindow.h"
@@ -33,19 +33,19 @@ namespace rl {
      *
      * This window is a dialog to save and load the game.
      */
-    class _RlUiExport SaveLoadWindow : public AbstractWindow
+    class _RlUiExport MainMenuLoadWindow : public AbstractWindow
     {
     public:
 
         /**
          * Constructor of the GameObject window
          */
-        SaveLoadWindow();
+        MainMenuLoadWindow();
         
         /**
          * Destructor of the GameObject window
          */
-        virtual ~SaveLoadWindow();
+        virtual ~MainMenuLoadWindow();
 
         /**
          * Initializes the window with the specified game object and
@@ -59,6 +59,7 @@ namespace rl {
         bool handleLoadEvent();
         bool handleSaveEvent();
         bool handleDeleteEvent();
+        bool handleSelectSaveGame();
 
         void listSaveGames();
         

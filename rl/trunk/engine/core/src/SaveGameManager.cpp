@@ -97,8 +97,8 @@ namespace rl
         time(&rawTime);
         localTime = localtime(&rawTime); 
         SaveGameFile* file = new SaveGameFile(name);
-        file->setProperty("Time", Property(printTimeAsString(localTime)));
-        file->setProperty("ModuleID", Property(CoreSubsystem::getSingleton().getActiveAdventureModule()->getName()));
+        file->setProperty(SaveGameFile::PROPERTY_TIME, Property(printTimeAsString(localTime)));
+        file->setProperty(SaveGameFile::PROPERTY_MODULEID, Property(CoreSubsystem::getSingleton().getActiveAdventureModule()->getName()));
 
         mSaveGames[name] = file;
 

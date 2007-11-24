@@ -41,6 +41,10 @@ namespace rl {
 			MenuItem::EventClicked,
 			boost::bind(&MainMenuWindow::handleStart, this));
 
+        getWindow("MainMenu/Game/Load")->subscribeEvent(
+			MenuItem::EventClicked,
+			boost::bind(&MainMenuWindow::handleLoad, this));
+
 		getWindow("MainMenu/Game/Quit")->subscribeEvent(
 			MenuItem::EventClicked,
 			boost::bind(&MainMenuWindow::handleQuit, this));
@@ -120,10 +124,14 @@ namespace rl {
 		setVisible(false);
 		destroyWindow();
 		CoreSubsystem::getSingleton().startAdventureModule(mActiveModule);
-
-        this->setVisible( false );
 		return true;
 	}
+
+    bool MainMenuWindow::handleLoad()
+    {
+        WindowFactory::getSingleton().showMainMenuLoadWindow();
+        return true;
+    }
 
 	bool MainMenuWindow::handleQuit()
 	{

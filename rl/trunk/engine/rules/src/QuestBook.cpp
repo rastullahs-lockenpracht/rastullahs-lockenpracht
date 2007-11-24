@@ -289,7 +289,7 @@ namespace rl {
         if(rootNodeList->getLength())
         {
             DOMNode* xmlQuestBook = rootNodeList->item(0);
-            PropertyRecord properties = reader->getPropertiesAsSet(static_cast<DOMElement*>(xmlQuestBook));
+            PropertyRecord properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlQuestBook));
 
             setProperties(&properties);
         }

@@ -464,6 +464,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\GameSaveLoadWindow.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\GameSettings.h"
 					>
 				</File>
@@ -508,6 +512,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\MainMenuLoadWindow.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\MainMenuWindow.h"
 					>
 				</File>
@@ -533,10 +541,6 @@
 				</File>
 				<File
 					RelativePath=".\include\RenderSystemConfigComponent.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\SaveLoadWindow.h"
 					>
 				</File>
 				<File
@@ -693,6 +697,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\GameSaveLoadWindow.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\GameSettings.cpp"
 					>
 				</File>
@@ -737,6 +745,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\MainMenuLoadWindow.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\MainMenuWindow.cpp"
 					>
 				</File>
@@ -762,10 +774,6 @@
 				</File>
 				<File
 					RelativePath=".\src\RenderSystemConfigComponent.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\SaveLoadWindow.cpp"
 					>
 				</File>
 				<File

@@ -36,12 +36,18 @@ namespace rl
         //Events
         RLMSG_SAVEGAME_LOADED     = 0x0300001,
         RLMSG_SAVEGAME_SAVED      = 0x0300002,
-        RLMSG_SAVEGAME_GOS_LOADED = 0x3000003
+        RLMSG_SAVEGAME_LOADING    = 0x0300003,
+        RLMSG_SAVEGAME_SAVING     = 0x0300004,
+        RLMSG_SAVEGAME_GOS_LOADED = 0x0300011       
     };
 
     typedef MessageType<RLMSG_SAVEGAME_LOADED> MessageType_SaveGameLoaded;
 
     typedef MessageType<RLMSG_SAVEGAME_SAVED> MessageType_SaveGameSaved;
+
+    typedef MessageType<RLMSG_SAVEGAME_LOADING> MessageType_SaveGameLoading;
+
+    typedef MessageType<RLMSG_SAVEGAME_SAVING> MessageType_SaveGameSaving;
 
     class _RlCoreExport SaveGameData
     {

@@ -76,7 +76,7 @@ namespace rl
                          }
                      }
                  }*/
-                 PropertyRecord set = getPropertiesAsSet(elem);
+                 PropertyRecord set = getPropertiesAsRecord(elem);
                  file->setProperties(&set);
              }
         }

@@ -241,7 +241,7 @@ PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElemen
     return std::make_pair(key, prop);
 }
 
-PropertyRecord XmlPropertyReader::getPropertiesAsSet(DOMElement *parent)
+PropertyRecord XmlPropertyReader::getPropertiesAsRecord(DOMElement *parent)
 {
     PropertyRecord ps;
 

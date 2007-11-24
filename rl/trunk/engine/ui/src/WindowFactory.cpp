@@ -34,7 +34,8 @@
 #include "GameObject.h"
 #include "GameObjectInfoWindow.h"
 #include "PropertiesWindow.h"
-#include "SaveLoadWindow.h"
+#include "GameSaveLoadWindow.h"
+#include "MainMenuLoadWindow.h"
 #include "GameSettings.h"
 #include "InfoPopup.h"
 #include "InGameMenuWindow.h"
@@ -170,9 +171,16 @@ namespace rl {
         wnd->setVisible(true);
     }
 
-    void WindowFactory::showSaveLoadWindow()
+    void WindowFactory::showGameSaveLoadWindow()
     {
-        SaveLoadWindow* wnd = new SaveLoadWindow();
+        GameSaveLoadWindow* wnd = new GameSaveLoadWindow();
+        wnd->initialize();
+        wnd->setVisible(true);
+    }
+
+    void WindowFactory::showMainMenuLoadWindow()
+    {
+        MainMenuLoadWindow* wnd = new MainMenuLoadWindow();
         wnd->initialize();
         wnd->setVisible(true);
     }
