@@ -12,9 +12,8 @@ tavernfire3.placeIntoScene( 3.01,6.06,2.64, 1.0, 0.0, 0.0, 0.0 );
 tavernfire4 = $AM.createParticleSystemActor("tavernfire1", "feuertest" );
 tavernfire4.placeIntoScene( -22.48,4.60,23.10, 1.0, 0.0, 0.0, 0.0 );
 
-tavernfire5 = $AM.createParticleSystemActor("tavernfire1", "feuertest" );
-tavernfire5.placeIntoScene( -22.48,4.60,29.20, 1.0, 0.0, 0.0, 0.0 );
-
+tavernfire5 = $AM.createParticleSystemActor("tavernfire1", "vlight" );
+tavernfire5.placeIntoScene( -21.85,7.10,25.13, 1.0, 0.0, 0.0, 0.0 );
 
 #waber01 = $AM.createParticleSystemActor("waber01", "waber" );
 #waber01.placeIntoScene( 8.73,3.73,10.36, 1.0, 0.0, 0.0, 0.0 );

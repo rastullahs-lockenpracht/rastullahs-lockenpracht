@@ -1,10 +1,10 @@
 waber
 {
-	quota	1000
+	quota	200
 	material	waber
 	particle_width	2
-	particle_height	1
-	cull_each	false
+	particle_height	2
+	cull_each	true
 	renderer	billboard
 	sorted	false
 	local_space	false
@@ -16,46 +16,51 @@ waber
 	common_up_vector	0 1 0
 	point_rendering	false
 	accurate_facing	false
- 
+
 	emitter Ellipsoid
 	{
 		angle	180
-		colour	0.145098 0.160784 0.113725 1
-		colour_range_start	0.145098 0.160784 0.113725 1
-		colour_range_end	0.211765 0.219608 0.129412 1
+		colour	0 0 0 1
+		colour_range_start	0 0 0 1
+		colour_range_end	0 0 0 1
 		direction	1 0 0
-		emission_rate	100
+		emission_rate	32
 		position	0 0 0
 		velocity	0.2
 		velocity_min	0.2
 		velocity_max	0.3
-		time_to_live	4
-		time_to_live_min	4
-		time_to_live_max	5
+		time_to_live	6
+		time_to_live_min	6
+		time_to_live_max	6
 		duration	0
 		duration_min	0
 		duration_max	0
 		repeat_delay	0
 		repeat_delay_min	0
 		repeat_delay_max	0
-		width	1
+		width	1.2
 		height	10
 		depth	10
 	}
- 
+
 	affector ColourInterpolator
 	{
 		colour0	0 0 0 1
 		time0	0
-		colour1	0.0431373 0.0431373 0.0431373 1
+		colour1	0.0196078 0.0196078 0.0196078 1
 		time1	0.2
-		colour2	0.0470588 0.0470588 0.0470588 1
+		colour2	0.0392157 0.0392157 0.0392157 1
 		time2	0.4
-		colour3	0.0313726 0.0313726 0.0313726 1
+		colour3	0.0823529 0.0823529 0.0823529 1
 		time3	0.6
-		colour4	0 0 0 1
+		colour4	0.0392157 0.0392157 0.0392157 1
 		time4	0.8
 		colour5	0 0 0 1
 		time5	1
+	}
+
+	affector Scaler
+	{
+		rate	0.1
 	}
 }

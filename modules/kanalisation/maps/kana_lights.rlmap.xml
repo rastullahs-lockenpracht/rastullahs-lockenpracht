@@ -31,10 +31,10 @@
 		</light>
 		<light name="fackkellicht5" type="point" visible="true"
 			castShadows="true">
-			<position x="-22.47" y="4.61" z="29.20" />
-			<colourDiffuse r="0.8" g="0.7" b="0.5" />
-			<colourSpecular r="0.8" g="0.7" b="0.5" />
-			<lightAttenuation range="5" constant="0.79" linear="-0.21" quadratic="0.268" />
+			<position x="-21.85" y="7.10" z="25.13" />
+			<colourDiffuse r="0.9" g="0.8" b="0.75" />
+			<colourSpecular r="0.8" g="0.7" b="0.75" />
+			<lightAttenuation range="5" constant="0.89" linear="-0.31" quadratic="0.268" />
 		</light>
 	</nodes>
 	<zones>
