@@ -2,8 +2,8 @@ vlight
 {
 	quota	10
 	material	vlight
-	particle_width	0.5
-	particle_height	1.0
+	particle_width	1.4
+	particle_height	2.5
 	cull_each	false
 	renderer	billboard
 	sorted	false
@@ -39,14 +39,14 @@ vlight
 		repeat_delay	0
 		repeat_delay_min	0
 		repeat_delay_max	0
-		width	0.5
-		height	0.5
-		depth	0.5
+		width	0.8
+		height	0.8
+		depth	1
 	}
 
 	affector Scaler
 	{
-		rate	0.3
+		rate	0.4
 	}
 
 	affector ColourInterpolator
