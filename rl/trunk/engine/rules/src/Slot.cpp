@@ -42,33 +42,30 @@ namespace rl {
 
     bool Slot::isAllowed(const Item *item) const
     {
-        if( item == NULL )
+        if (item == NULL)
             return false;
         int type = item->getItemType();
         return (type & mItemReadyMask) == type || (type & mItemHeldMask) == type;
     }
 
     bool Slot::canReady(const Item *item) const
-
-
     {
-        if( item == NULL )
+        if (item == NULL)
             return false;
         int type = item->getItemType();
         return (type & mItemReadyMask) == type;
     }
 
     bool Slot::standardSetItem(Item* item)
-
     {
         if (item)
         {
-            if( isAllowed(item) && isEmpty())
+            if (isAllowed(item) && isEmpty())
             {
                 item->removeOldState();
                 item->setOwner(mOwner);
                 item->setParentSlot(this);
-                if( canReady(item) )
+                if (canReady(item))
                     item->setState(GOS_READY);
                 else
                     item->setState(GOS_HELD);
@@ -88,7 +85,7 @@ namespace rl {
         {
             // this is the case, if the item is removed automatically
             // don't change this without looking at Item::setState
-            if( mItem->getState() != GOS_LOADED )
+            if (mItem->getState() != GOS_LOADED)
                 mItem->setState(GOS_LOADED);
             mItem = NULL;
 
@@ -105,14 +102,19 @@ namespace rl {
 
     void BoneSlot::setItem(Item* item)
     {
-        if( !standardSetItem(item) )
+        if (!standardSetItem(item))
             return;
 
-        if(item)
+        if (item)
         {
-            if (mOwner->getState() == GOS_IN_SCENE)
+            if (mOwner->getState() == GOS_IN_SCENE
+                || mOwner->getState() == GOS_HELD
+                || mOwner->getState() == GOS_READY)
             {
-                mItem->doCreateActor();
+                if (!mItem->getActor())
+                {
+                    mItem->doCreateActor();
+                }
                 mOwner->getActor()->attachToSlot(mItem->getActor(), mBone);
             }
         }
@@ -127,7 +129,7 @@ namespace rl {
     void SubmeshSlot::setItem(Item* item)
     {
         Item* oldItem = mItem;
-        if( !standardSetItem(item) )
+        if (!standardSetItem(item))
             return;
 
 
@@ -178,7 +180,7 @@ namespace rl {
 
     void MaterialSlot::setItem(Item* item)
     {
-        if( !standardSetItem(item) )
+        if (!standardSetItem(item))
             return;
 
 

@@ -16,13 +16,17 @@ techdemoWelt.getControlledObject().play();
 $SCRIPT.log("Welten-Thema fertig");
 
 $SCRIPT.log("Get hero")
-$hero = $GOM.getGameObject(1);
+hero = $GOM.getGameObject(1);
 
 $SCRIPT.log("Prepare hero for being the active character")
-PlayerSettings.preparePlayer($hero)
+PlayerSettings.preparePlayer(hero)
+
+itemToAdd = $GOM.createGameObject("torch");
+hero.getInventory().hold(itemToAdd, "Right Hand");
+
 
 $SCRIPT.log("Set hero as active character")
-$UI.setActiveCharacter($hero)
+$UI.setActiveCharacter(hero)
 
 $World.setFog( World::FOG_EXP, [0.8,0.8,1.0,0.5], 0.00003, 0.4, 1.0);
 

@@ -31,12 +31,6 @@
 	    <property name="quality" type="STRING" data="A"/>
     </gameobjectclass>
     
-    <gameobjectclass classid="torch" baseclass="Torch">
-    	<property name="name" type="STRING" data="Fackel"/>
-    	<property name="description" type="STRING" data="Handelsübliche Fackel zum Beleuchten der Umgebung."/>
-    	<property name="meshfile" type="STRING" data="ins_fackel_01.mesh"/>
-    </gameobjectclass>
-    
     <gameobjectclass classid="Fels" baseclass="Rock">
     	<property name="name" type="STRING" data="Fels"/>
     	<property name="description" type="STRING" data="Ein Fels"/>

@@ -43,9 +43,6 @@ class LightTorchAction < Action
         
         #TODO timer setzen, damit die Fackel nach Ablauf ihrer Lebensdauer
         # ausgeht.
-        torch.sound.getSound().setPosition(torchActor.getPosition())
-        torch.sound.play()
-        torch.flammen.getControlledObject().setActive(true)
         torch.setLit(true);
     end
 end
@@ -64,28 +61,7 @@ class PutoutTorchAction < Action
     
     def doAction(torch, user, target)
         return unless torch.lit?
-        # Fackel hat ein Licht am Slot SLOT_FAR_END
-        # Man könnte es auch so machen, dass dieses Licht jetzt
-        # erzeugt und angeheftet wird. Spräche einiges dafür.
-        # Das alles ist implizites Wissen. Deshalb sollte es
-        # allgemeine Richtlinien geben und die Item-Doku sollte
-        # sowas ganz klar ausweisen. Da aber alles innerhalb von Ruby
-        # geschieht, ist das nicht so tragisch. Die C++-Seite ist
-        # an der Stelle nur dumm und macht was Ruby sagt.
         
-        torchActor = torch.getActor();
-        #torchActor.getChildByName("TorchSparks").deactivate();
-        #torchActor.getChildByName("TorchCrackle").deactivate();
-        # Activation sollte folgendermaßen geregelt sein:
-        #       ist Child activated, so wird er angezeigt/erklingt
-        #       wenn Parent-Activation true ist, sonst nicht
-        #       Parent-Activity-Flag wird nicht an die
-        #       Childs weitergereicht.
-        
-        #TODO timer setzen, damit die Fackel nach Ablauf ihrer Lebensdauer
-        # ausgeht.
-        torch.sound.stop();
-        torch.flammen.getControlledObject().setActive(false)
         torch.setLit(false);
     end
 end
@@ -94,56 +70,86 @@ end
 # TODO Persistenz *schreck*
 class Torch < Item
     include GameObjectProperties
-    attr_reader :flammen
+    attr :_prop_flames
+    attr :_prop_sound
+    attr :_prop_color
+    attr :_prop_lit
+    attr :_prop_lightable
+
     
     def initialize(id)
         super(id)
-        @flammen = $AM.createParticleSystemActor("torch" + id.to_s, "flammen")
-        @flammen.getControlledObject().setActive(false)
-        setLit(false)
 		addActions()
+		@_prop_color = [1, 1, 0.5, 1];
     end
     
     def setLit(lit)
-        @_prop_Lit = lit
+        @_prop_lit = lit
+		updateState();
     end
     
     def lit?
-        @_prop_Lit
-    end
-    
-    def sound
-        @_prop_Sound
+        @_prop_lit
     end
     
     def setProperty(name, value)
-        if name == "sound"
-            @_prop_Sound = value
-        elsif name == "lit"
-            @_prop_Lit = value
-        elsif name == "lightable"
-            @_prop_Lightable = value
-        else
-            super(name, value)
+	    p "Torch prop "+name+" := "+value.to_s();
+		if (name == "lit")
+			setLit(value)
+		elsif (name == "sound")
+			@_prop_sound = value;
+		elsif (name == "flames")
+			@_prop_flames = value;
+		else
+			super(name, value)
         end
     end
     
     def onStateChange(oldState, newState)
 		p "New state"+newState.to_s()
-		if (newState == RlScript::GOS_IN_SCENE || newState == RlScript::GOS_HELD)
-			sound = $SM.createSound("feuer_knisternd_01.ogg")
-	        sound.setLooping(true)
-	        sound.set3d(true)
-	        @_prop_Sound = SoundObject.new(sound, getId().to_s())
-	        getActor().attachToSlot(@flammen, "SLOT_FAR_END")
-			doAction("lighttorch") if @_prop_Lit
-		end
+		updateState();
     end
+	
+	def updateState()
+		
+		if (getState() == RlScript::GOS_IN_SCENE || getState() == RlScript::GOS_HELD)
+			if (@_prop_sound != nil && @_prop_sound != "" && @soundObj == nil)
+				@sound = $AM.createSoundSampleActor(getId().to_s()+"_sound", @_prop_sound)
+		        @sound.getControlledObject().setLooping(true)
+		        @sound.getControlledObject().set3d(true)
+				getActor().attachToSlot(@sound, "SLOT_FAR_END")
+			end
+			if (@_prop_flames != nil && @_prop_flames != "" && @flammen == nil)
+				@flammen = $AM.createParticleSystemActor(getId().to_s()+"_flames", @_prop_flames)
+				getActor().attachToSlot(@flammen, "SLOT_FAR_END")
+			end
+			if (@light == nil)
+				@light = $AM.createLightActor(getId().to_s()+"_light", LightObject::LT_POINT);
+				@light.getControlledObject().setDiffuseColour(@_prop_color);
+				@light.getControlledObject().setSpecularColour(@_prop_color);
+				@light.getControlledObject().setAttenuation(5, 1, 0, 0);
+				getActor().attachToSlot(@light, "SLOT_FAR_END")
+			end
+			
+			p "Lit "+@_prop_lit.to_s()
+			
+			@light.getControlledObject().setActive(@_prop_lit);
+			if (@flammen != nil)
+				@flammen.getControlledObject().setActive(@_prop_lit);
+			end
+			if (@sound != nil)
+				@sound.getControlledObject().setActive(@_prop_lit);
+			end
+			
+			
+		else
+		end
+	end
     
     def addActions()
         @mLightAction = LightTorchAction.new
         @mPutoutAction = PutoutTorchAction.new
-        if @_prop_Lightable
+        if @_prop_lightable
             addAction(@mLightAction)
             addAction(@mPutoutAction)
         else
@@ -156,7 +162,7 @@ class Torch < Item
         if not @_prop_Lightable
             super(actor)
         else
-            if @_prop_Lit
+            if @_prop_lit
                 @mPutoutAction
             else
                 @mLightAction

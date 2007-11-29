@@ -146,10 +146,12 @@ namespace rl
             ->createGameObject(
                 classname,
                 goId);
-
-        go->setClassId(classId);
-        applyProperties(go, ps);
-        mGameObjects[goId] = go;
+        if (go)
+        {
+            go->setClassId(classId);
+            applyProperties(go, ps);
+            mGameObjects[goId] = go;
+        }
         return go;
     }
 

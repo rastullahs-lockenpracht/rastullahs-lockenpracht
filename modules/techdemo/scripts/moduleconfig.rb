@@ -23,8 +23,9 @@ class TechdemoModule < ContentModule
 
     def start()
 		require 'player.rb'
-		require 'hero.rb'
+		require 'mckhero.rb'
 		require 'npc.rb'
+		require 'torch.rb'
 		require "techdemo_umgebung.rb"
 		require "techdemo_quests.rb"
 		require "techdemo_spinne.rb"

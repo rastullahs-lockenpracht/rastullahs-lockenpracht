@@ -116,21 +116,21 @@ namespace rl
         GameObjectState oldState = mState;
 
 
-        if( targetstate != GOS_HELD &&
+        if (targetstate != GOS_HELD &&
             targetstate != GOS_IN_POSSESSION &&
-            targetstate != GOS_READY )
+            targetstate != GOS_READY)
         {
-            if( mState == GOS_HELD ||
+            if (mState == GOS_HELD ||
                 mState == GOS_IN_POSSESSION ||
-                mState == GOS_READY )
+                mState == GOS_READY)
             {
                 mState = GOS_LOADED; // <- this is important to avoid endless recursion!
                 onStateChange(oldState, mState);
 
-                if( getParentSlot() )
+                if (getParentSlot())
                     getParentSlot()->setItem(NULL);
                 setParentSlot(NULL);
-                if( getParentContainer() )
+                if (getParentContainer())
                     getParentContainer()->removeItem(this);
                 setParentContainer(NULL);
                 doLoose();
@@ -141,9 +141,9 @@ namespace rl
         }
         else
         {
-            if( mState == GOS_HELD ||
+            if (mState == GOS_HELD ||
                 mState == GOS_IN_POSSESSION ||
-                mState == GOS_READY )
+                mState == GOS_READY)
             {
                 LOG_WARNING(Logger::RULES, 
                     "Item::removeOldState() or Item::setState(GOS_LOADED) should be called  \
@@ -151,10 +151,15 @@ namespace rl
             }
             else
             {
-                if( mState != GOS_LOADED )
+                if (mState != GOS_LOADED)
                 {
                     GameObject::setState(GOS_LOADED);
                     oldState = GOS_LOADED;
+                }
+
+                if (targetstate == GOS_HELD)
+                {
+                    doHold();
                 }
 
                 mState = targetstate;
@@ -235,7 +240,10 @@ namespace rl
 
     void Item::doCreateActor()
     {
-        setActor(createActor());
+        if (!getActor())
+        {
+            setActor(createActor());
+        }
     }
 
     void Item::setParentContainer(Container* cont)
