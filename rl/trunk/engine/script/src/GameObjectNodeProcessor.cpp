@@ -78,7 +78,7 @@ namespace rl
             }
         }
 
-		GameObjectState state = GOS_LOADED;
+        GameObjectState state = GOS_IN_SCENE;
 		if (hasAttribute(nodeElem, "state"))
 		{
 			Ogre::String stateStr = getAttributeValueAsStdString(nodeElem, "state");

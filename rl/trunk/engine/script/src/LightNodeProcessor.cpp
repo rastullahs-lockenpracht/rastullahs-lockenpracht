@@ -74,7 +74,7 @@ namespace rl
         LightObject* light = static_cast<LightObject*>(lightActor->getControlledObject());
 
         light->setCastShadows(shadowCaster);
-        light->setVisible(visible);
+        light->setActive(visible);
 
         DOMElement* diffElem = getChildNamed(nodeElem, "colourDiffuse");
         if (diffElem != NULL)
