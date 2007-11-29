@@ -476,12 +476,26 @@ namespace rl {
 		mSubtitleWindow->setVisible(false, true);
         mDialogWindow = NULL;
         mSubtitleWindow = NULL;
+        const std::vector<Creature*> list = mDialog->getPlayerCharacters();
+        for (std::vector<Creature*>::const_iterator it = list.begin(); it != list.end(); ++it)
+        {
+            Actor* actor = (*it)->getActor();
+            if (actor != NULL)
+            {
+                MeshObject* mesh = dynamic_cast<MeshObject*>(actor->getControlledObject());
+                if (mesh != NULL && mesh->hasAnimation("reden"))
+                {
+                    mesh->stopAnimation("reden");
+                }
+            }        
+        }
 		return true;
 	}
 
 	bool DialogControlState::requestDialogClose()
 	{
 	//	handleClose is called automatically
+        handleDialogClose();
 		//@todo
 		return true;
 	}

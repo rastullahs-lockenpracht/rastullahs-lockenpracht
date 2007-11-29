@@ -99,4 +99,15 @@ namespace rl
     {
         return getProperty(key).getAsString();
     }
+
+    std::vector<Creature*> Dialog::getNonPlayerCharacters() const
+    {
+        return mNonPlayerCharacters;
+    }
+
+    std::vector<Creature*> Dialog::getPlayerCharacters() const
+    {
+        return mPlayerCharacters;
+    }
+
 }

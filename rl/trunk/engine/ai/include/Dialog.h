@@ -41,6 +41,8 @@ namespace rl
         void initialize();
         Creature* getNpc(int id) const;
         Creature* getPc(int id) const;
+        std::vector<Creature*> getNonPlayerCharacters() const;
+        std::vector<Creature*> getPlayerCharacters() const;
 		bool isExitRequested() const;
         CeGuiString getVariableValue(const Ogre::String& variableName) const;
 
