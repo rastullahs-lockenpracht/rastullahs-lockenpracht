@@ -86,6 +86,8 @@ namespace rl {
         /// Pausieren den Sound
         void pause();
 
+        virtual void setActive(bool active);
+
 		virtual bool isMeshObject() const;
     };
 }

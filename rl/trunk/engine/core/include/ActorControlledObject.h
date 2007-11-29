@@ -57,10 +57,10 @@ namespace rl {
         virtual bool isAttached() const;
 
         /**
-         * Interne Methode. Wird vom Aktor aufgerufen, wenn sich dessen
-         * Status geändert hat. (Position, Orientierung, etc)
-         * Die Standardimplementierung macht nichts, kann aber
-         * von abgeleiteten Klassen überschrieben werden.
+         * Internal method which is called by an Actor object when
+         * its state has changed (position, orientation, ...)
+         * This standard implementation is empty, but it should
+         * be overridden in subclasses
          */
         virtual void _update();
         
@@ -76,6 +76,8 @@ namespace rl {
         virtual void setHighlighted( bool highlight ) {};
 
 		virtual bool isMeshObject() const;
+
+        virtual void setActive(bool active);
     protected:
         Ogre::MovableObject* mMovableObject;
     };

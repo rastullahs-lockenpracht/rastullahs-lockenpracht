@@ -103,4 +103,9 @@ namespace rl {
 	void ActorControlledObject::_update()
 	{
 	}
+
+    void ActorControlledObject::setActive(bool active)
+    {
+        mMovableObject->setVisible(active);
+    }
 }

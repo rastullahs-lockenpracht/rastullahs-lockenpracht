@@ -359,6 +359,7 @@ private:
     ActorControlledObject();
 public:
     rl::Actor* getActor();
+    virtual void setActive(bool active);
 };
 
 class PhysicalObject : public rl::ActorControlledObject
@@ -407,8 +408,10 @@ public:
     void setAttenuation(float range, float constant,
         float linear, float quadric);
     void setDiffuseColour(float red, float green, float blue);
+    void setDiffuseColour(const Ogre::ColourValue& colour);
     void setDirection(float x, float y, float z);
     void setSpecularColour(float red, float green, float blue);
+    void setSpecularColour(const Ogre::ColourValue& colour);
     void setSpotlightRange(float innerangle, float outerangle,
         float falloff);
     void setCastShadows( bool cast );

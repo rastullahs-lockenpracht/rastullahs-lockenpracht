@@ -205,4 +205,9 @@ const int SoundObject::getPriority() const
     return getSound()->getPriority();
 }
 
+void SoundObject::setActive(bool active)
+{
+    pause(!active);
+}
+
 }

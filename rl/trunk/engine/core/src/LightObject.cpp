@@ -97,9 +97,4 @@ namespace rl {
 	{
 		getLight()->setCastShadows( cast );
 	}
-
-    void LightObject::setVisible(bool enabled)
-    {
-        getLight()->setVisible(enabled);
-    }
 }

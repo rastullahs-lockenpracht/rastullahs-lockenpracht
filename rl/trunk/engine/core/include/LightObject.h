@@ -51,7 +51,6 @@ namespace rl {
 		void setSpotlightRange(Ogre::Real innerAngle, Ogre::Real outerAngle,
 			Ogre::Real falloff = 1.0);
 		void setCastShadows(bool castShadows);
-        void setVisible(bool enabled);
     };
 }
 #endif
