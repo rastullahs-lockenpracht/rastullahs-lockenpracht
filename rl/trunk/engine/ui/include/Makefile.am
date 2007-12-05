@@ -20,10 +20,10 @@ noinst_HEADERS = \
     FreeflightControlState.h \
     GameLoggerWindow.h \
     GameObjectInfoWindow.h \
-    GameSaveLoadWindow.h \
     GameSettings.h \
     InfoPopup.h \
     InGameMenuWindow.h \
+	InGameSaveLoadWindow.h \
     InputManager.h \
     InventoryWindow.h \
     ItemDragContainer.h \
@@ -34,6 +34,7 @@ noinst_HEADERS = \
     LogWindow.h \
     MainMenuWindow.h \
     MainMenuEngineWindow.h \
+	MainMenuLoadWindow.h \
     MessageWindow.h \
     MovementControlState.h \
     ObjectDescriptionWindow.h \
