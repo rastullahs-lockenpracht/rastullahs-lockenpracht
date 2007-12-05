@@ -176,7 +176,7 @@ namespace rl
         {
             GameObject* go = itr->second;
             mGameObjects.erase(itr++);
-            //go->setState(GOS_LOADED);  // this causes problems here, because of the relations between gofs
+            go->setState(GOS_LOADED);  // this causes problems here, because of the relations between gofs
             delete go;
         }
     }

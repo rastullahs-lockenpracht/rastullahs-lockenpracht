@@ -53,7 +53,8 @@ void CharacterStateWindow::setCharacter(Creature* person)
 		mCharacter->removeObjectStateChangeListener(this);
 
 	mCharacter = person;
-	mCharacter->addObjectStateChangeListener(this);
+    if(mCharacter)
+        mCharacter->addObjectStateChangeListener(this);
 	update();
 }
 

@@ -1779,6 +1779,14 @@ LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
     bool CreatureController::refetchCreature()
     {
         mCreature = static_cast<Creature*>(GameObjectManager::getSingleton().getGameObject(mGameObjectId));
+
+        //mOldMaterialId = mCreature->getActor()->getPhysicalThing()->_getBody()->getMaterialGroupID();
+
+        const OgreNewt::MaterialID *material = PhysicsManager::getSingleton().getMaterialID("character");
+        mCreature->getActor()->getPhysicalThing()->setMaterialID(material);
+
+        mCreature->getActor()->getPhysicalThing()->setPhysicsController(this);
+
         return false;
     }
 }

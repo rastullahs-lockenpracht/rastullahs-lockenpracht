@@ -39,6 +39,7 @@
 #include "SoundManager.h"
 #include "WindowFactory.h"
 #include "WindowManager.h"
+#include "GameObjectManager.h"
 
 using namespace Ogre;
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
@@ -58,6 +59,12 @@ namespace rl {
         mSceneClearingConnection =
             MessagePump::getSingleton().addMessageHandler<MessageType_SceneClearing>(
 			    boost::bind(&UiSubsystem::onBeforeClearScene, this));
+        mGameObjectsLoadedConnection =
+            MessagePump::getSingleton().addMessageHandler<MessageType<RLMSG_SAVEGAME_GOS_LOADED>>(
+                boost::bind(&UiSubsystem::onGameObjectsLoaded, this));
+        mBeforeLoadingGameObjectsConnection = 
+            MessagePump::getSingleton().addMessageHandler<MessageType<RLMSG_SAVEGAME_LOADING>>(
+                boost::bind(&UiSubsystem::onBeforeGameObjectsLoaded, this));
         mWindowFactory = new WindowFactory();
     }
 
@@ -186,5 +193,44 @@ namespace rl {
         mInputManager->clearControlStates();
 
         return true;
+    }
+
+    bool UiSubsystem::onGameObjectsLoaded()
+    {
+        if(mCharacterId != -1)
+        {
+            Person* person = static_cast<Person*>(GameObjectManager::getSingleton().getGameObject(mCharacterId));
+
+            ScriptWrapper::getSingleton().owned( person );
+            mCharacter = person;
+
+            mWindowFactory->setActiveCharacter(person);
+
+            mCharacter->getActor()->attach(SoundManager::getSingleton().getListenerActor());
+            LOG_MESSAGE(Logger::UI, "SoundListener attached.");
+
+            // Reset control stack for the new Character and set to movement.
+            //mInputManager->setControlState(CST_MOVEMENT);
+        }
+        return false;
+    }
+
+    bool UiSubsystem::onBeforeGameObjectsLoaded()
+    {
+        LOG_MESSAGE(Logger::UI, "UiSubsystem::onBeforeGameObjectsLoaded()");
+        if(mCharacter)
+        {
+            ScriptWrapper::getSingleton().disowned( mCharacter );
+            mCharacter->getActor()->detach(SoundManager::getSingleton().getListenerActor());
+
+            mWindowFactory->setActiveCharacter(NULL);
+
+            mCharacterId = mCharacter->getId();
+        }
+        else
+            mCharacterId = -1;
+
+        //mInputManager->clearControlStates();
+        return false;
     }
 }

@@ -61,13 +61,18 @@ namespace rl {
         void setActiveCharacter(Person* person);
 
         virtual bool onBeforeClearScene();
+        virtual bool onBeforeGameObjectsLoaded();
+        virtual bool onGameObjectsLoaded();
 
         void initializeSubsystem();
 
     private:
         Person* mCharacter;
+        int mCharacterId;
 
 	    MessagePump::ScopedConnection mSceneClearingConnection;
+        MessagePump::ScopedConnection mGameObjectsLoadedConnection;
+        MessagePump::ScopedConnection mBeforeLoadingGameObjectsConnection;
 
         // Singletons
         InputManager* mInputManager;
