@@ -28,10 +28,10 @@ libRlUi_la_SOURCES = \
     FreeflightControlState.cpp \
     GameLoggerWindow.cpp \
     GameObjectInfoWindow.cpp \
+	GameSaveLoadWindow.cpp \
     GameSettings.cpp \
     InfoPopup.cpp \
     InGameMenuWindow.cpp \
-	InGameSaveLoadWindow.cpp \
     InputManager.cpp \
     InventoryWindow.cpp \
     ItemDragContainer.cpp \
