@@ -342,7 +342,6 @@ namespace rl {
     void WindowFactory::setActiveCharacter(Creature* character)
     {
         mCharacterStateWindow->setCharacter(character);
-        mCharacterStateWindow->update();
         LOG_MESSAGE(Logger::UI, "CharacterStateWindow updated");
     }
 
