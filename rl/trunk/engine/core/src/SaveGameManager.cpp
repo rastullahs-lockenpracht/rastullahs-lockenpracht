@@ -92,6 +92,8 @@ namespace rl
 
     void SaveGameManager::saveSaveGameFile(const CeGuiString &name)
     {
+        MessagePump::getSingleton().sendMessage<MessageType_SaveGameSaving>();
+
         time_t rawTime;
         tm* localTime; 
         time(&rawTime);
@@ -117,13 +119,15 @@ namespace rl
     {
         if(SaveGameFileExists(name))
         {
+            MessagePump::getSingleton().sendMessage<MessageType_SaveGameLoading>();
+
             SaveGameFile file(name);
             SaveGameFileReader reader;
             reader.parseSaveGameFile(&file, mSaveGameDataOrderMap);
             ///@todo: SaveGameReader
-        }
 
-        MessagePump::getSingleton().sendMessage<MessageType_SaveGameLoaded>();
+            MessagePump::getSingleton().sendMessage<MessageType_SaveGameLoaded>();
+        }
     }
 
     void SaveGameManager::deleteSaveGameFile(const CeGuiString &name)
