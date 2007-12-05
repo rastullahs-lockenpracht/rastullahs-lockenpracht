@@ -28,6 +28,7 @@ libRlUi_la_SOURCES = \
     FreeflightControlState.cpp \
     GameLoggerWindow.cpp \
     GameObjectInfoWindow.cpp \
+    GameSaveLoadWindow.cpp \
     GameSettings.cpp \
     InfoPopup.cpp \
     InGameMenuWindow.cpp \
@@ -48,7 +49,6 @@ libRlUi_la_SOURCES = \
     ProgressWindow.cpp \
     PropertiesWindow.cpp \
     RenderSystemConfigComponent.cpp \
-    SaveLoadWindow.cpp \
     SoundConfig.cpp \
     SoundDriverConfigComponent.cpp \
     SubtitleWindow.cpp \

@@ -20,7 +20,7 @@ noinst_HEADERS = \
     FreeflightControlState.h \
     GameLoggerWindow.h \
     GameObjectInfoWindow.h \
-    SaveLoadWindow.h \
+    GameSaveLoadWindow.h \
     GameSettings.h \
     InfoPopup.h \
     InGameMenuWindow.h \
@@ -41,7 +41,6 @@ noinst_HEADERS = \
     ProgressWindow.h \
     PropertiesWindow.h \
     RenderSystemConfigComponent.h \
-    SaveLoadWindow.h \
     SoundDriverConfigComponent.h \
     SubtitleWindow.h \
     UiPrerequisites.h \
