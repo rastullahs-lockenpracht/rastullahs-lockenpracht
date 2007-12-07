@@ -60,10 +60,10 @@ namespace rl {
             MessagePump::getSingleton().addMessageHandler<MessageType_SceneClearing>(
 			    boost::bind(&UiSubsystem::onBeforeClearScene, this));
         mGameObjectsLoadedConnection =
-            MessagePump::getSingleton().addMessageHandler<MessageType<RLMSG_SAVEGAME_GOS_LOADED>>(
+            MessagePump::getSingleton().addMessageHandler<MessageType<RLMSG_SAVEGAME_GOS_LOADED> >(
                 boost::bind(&UiSubsystem::onGameObjectsLoaded, this));
         mBeforeLoadingGameObjectsConnection = 
-            MessagePump::getSingleton().addMessageHandler<MessageType<RLMSG_SAVEGAME_LOADING>>(
+            MessagePump::getSingleton().addMessageHandler<MessageType<RLMSG_SAVEGAME_LOADING> >(
                 boost::bind(&UiSubsystem::onBeforeGameObjectsLoaded, this));
         mWindowFactory = new WindowFactory();
     }
