@@ -109,17 +109,6 @@ set_texture_alias diffuse karte_fliped.jpg
 } 
 
 
-material Ruchin_s : Basic_Vertex_Shader
-{
-set_texture_alias diffuse ruchin_atlasmap.png
-
-}
-
-material Ruchin_p : Basic_Vertex_Shader
-{
-set_texture_alias diffuse ruchin_atlasmap.png
-
-}
 
 material Ruchin/base : Basic_Vertex_Shader
 {
@@ -136,5 +125,27 @@ set_texture_alias diffuse arc_schieferdach.png
 material Ruchin/glas : Basic_Vertex_Shader_Alpha
 {
 set_texture_alias diffuse ruchin_atlasmap.dds
+
+}
+// ruchin_ao_n.png
+
+material Ruchin_n : Basic_Vertex_Shader_AO
+{
+set_texture_alias diffuse ruchin_atlasmap.png
+set_texture_alias ambient ruchin_ao_n.png
+
+}
+
+material Ruchin_p : Basic_Vertex_Shader_AO
+{
+set_texture_alias diffuse ruchin_atlasmap.png
+set_texture_alias ambient ruchin_ao_p.png
+
+}
+
+material Ruchin_s : Basic_Vertex_Shader_AO
+{
+set_texture_alias diffuse ruchin_atlasmap.png
+set_texture_alias ambient ruchin_ao_s.png
 
 }

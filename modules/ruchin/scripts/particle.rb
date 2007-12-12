@@ -1,12 +1,12 @@
 
 
-tavernfire1 = $AM.createParticleSystemActor("tavernfire1", "feuertest" );
+tavernfire1 = $AM.createParticleSystemActor("tavernfire1", "feuertest2" );
 tavernfire1.placeIntoScene( 36.74,-3.90,35.93, 1.0, 0.0, 0.0, 0.0 );
 
-templefire1 = $AM.createParticleSystemActor("templefire1", "feuertest" );
+templefire1 = $AM.createParticleSystemActor("templefire1", "feuertest2" );
 templefire1.placeIntoScene( 123.28,3.0,-22.19, 1.0, 0.0, 0.0, 0.0 );
 
-templefire2 = $AM.createParticleSystemActor("templefire2", "feuertest" );
+templefire2 = $AM.createParticleSystemActor("templefire2", "feuertest2" );
 templefire2.placeIntoScene( 123.28,3.0,-18.93, 1.0, 0.0, 0.0, 0.0 );
 
 #nebel = $AM.createParticleSystemActor("nebel", "nebel" );

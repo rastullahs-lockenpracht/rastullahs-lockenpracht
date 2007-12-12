@@ -54,17 +54,19 @@ material TerrainVColorBlending
 			vertex_program_ref TerrainVColorBlending_Vertex_Shader_glsl
 			{
 				param_named_auto matViewProjection worldviewproj_matrix
-				param_named Light_Ambient float4 0.000000 0.000000 0.000000 1.000000
 				
 				//Lights:
 				param_named_auto Light_Attenuation0 light_attenuation 0
 				param_named_auto Light_Attenuation1 light_attenuation 1
+				param_named_auto Light_Attenuation2 light_attenuation 2
 				
 				param_named_auto Light_Color0  light_diffuse_colour 0
 				param_named_auto Light_Color1  light_diffuse_colour 1
+				param_named_auto Light_Color2  light_diffuse_colour 2
 				
 				param_named_auto Light_Position0 light_position 0
 				param_named_auto Light_Position1 light_position 1
+				param_named_auto Light_Position2 light_position 2
 
 				param_named skycolor float4 0.2 0.2 0.2 1.0
 				param_named groundcolor float4 0.10 0.10 0.10 1.0
@@ -90,15 +92,7 @@ material TerrainVColorBlending
 			
 			
 			
-			shadow_receiver_vertex_program_ref Basic_Vertex_Shader_SR
-			{
-				//Shader Constant: matWorldViewProjection
-				param_named_auto matWorldViewProjection worldviewproj_matrix
-				//Shader Constant: matWorld
-				param_named_auto matWorld world_matrix
-				//Shader Constant: matTextureViewProjection
-				param_named_auto matTextureViewProjection texture_viewproj_matrix
-			}
+			
 			
 			
 			
@@ -159,17 +153,18 @@ material TerrainVColorBlending
 			vertex_program_ref TerrainVColorBlending_Vertex_Shader
 			{
 				param_named_auto matViewProjection worldviewproj_matrix
-				param_named Light_Ambient float4 0.000000 0.000000 0.000000 1.000000
-				
 				//Lights:
 				param_named_auto Light_Attenuation0 light_attenuation 0
 				param_named_auto Light_Attenuation1 light_attenuation 1
+				param_named_auto Light_Attenuation2 light_attenuation 2
 				
 				param_named_auto Light_Color0  light_diffuse_colour 0
 				param_named_auto Light_Color1  light_diffuse_colour 1
+				param_named_auto Light_Color2  light_diffuse_colour 2
 				
 				param_named_auto Light_Position0 light_position 0
 				param_named_auto Light_Position1 light_position 1
+				param_named_auto Light_Position2 light_position 2
 
 				param_named skycolor float4 0.2 0.2 0.2 1.0
 				param_named groundcolor float4 0.10 0.10 0.10 1.0
@@ -195,15 +190,7 @@ material TerrainVColorBlending
 			
 			
 			
-			shadow_receiver_vertex_program_ref Basic_Vertex_Shader_SR
-			{
-				//Shader Constant: matWorldViewProjection
-				param_named_auto matWorldViewProjection worldviewproj_matrix
-				//Shader Constant: matWorld
-				param_named_auto matWorld world_matrix
-				//Shader Constant: matTextureViewProjection
-				param_named_auto matTextureViewProjection texture_viewproj_matrix
-			}
+			
 			
 			
 			
