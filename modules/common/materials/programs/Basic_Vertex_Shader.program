@@ -217,8 +217,8 @@ material Basic_Vertex_Shader_noDirectional
 				param_named_auto vViewPosition camera_position_object_space
 				
 				
-				param_named skycolor float4 0.2 0.2 0.2 1.0
-				param_named groundcolor float4 0.10 0.10 0.10 1.0
+				param_named skycolor float4 0.0 0.0 0.0 1.0
+				param_named groundcolor float4 0.00 0.00 0.00 1.0
 			}
 			
 			texture_unit
@@ -265,8 +265,8 @@ material Basic_Vertex_Shader_noDirectional
 				//param_named_auto vViewPosition camera_position_object_space
 				
 				
-				param_named skycolor float4 0.2 0.2 0.2 1.0
-				param_named groundcolor float4 0.10 0.10 0.10 1.0
+				param_named skycolor float4 0.0 0.0 0.0 1.0
+				param_named groundcolor float4 0.00 0.00 0.00 1.0
 			}
 			
 			texture_unit

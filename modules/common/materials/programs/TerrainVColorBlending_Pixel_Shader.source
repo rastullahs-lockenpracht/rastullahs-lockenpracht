@@ -18,7 +18,7 @@ float4 ps_main(float4 Color: COLOR0,
    
 ///*   
 
-	float4 ambient = saturate(tex2D(Texture5,UV4.zw)+0.5);
+	float4 ambient = saturate(tex2D(Texture5,UV4.zw)/2 +0.5);
    
    float4 TexColor = float4(tex2D(Texture0,UV0.xy).rgb,tex2D(Texture0,UV0.zw).a);
    TexColor = lerp(TexColor,float4(tex2D(Texture1,UV1.xy).rgb,tex2D(Texture1,UV1.zw).a),Color.r);

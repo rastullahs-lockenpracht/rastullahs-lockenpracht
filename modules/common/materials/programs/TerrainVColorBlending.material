@@ -29,6 +29,7 @@ fragment_program TerrainVColorBlending_Pixel_Shader_glsl glsl
 
 material TerrainVColorBlending
 {
+receive_shadows on
 	technique glsl
 	{
 

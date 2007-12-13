@@ -11,9 +11,10 @@ fragment_program Basic_Pixel_Shader_AO hlsl
 
 material Basic_Vertex_Shader_AO
 {
+receive_shadows off
 	technique hlsl
 	{
-		receive_shadows on
+		
 		//Rendering Pass: Pass 0 (pass index: #0 )
 		pass
 		{

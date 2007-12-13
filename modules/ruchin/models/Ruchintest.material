@@ -149,3 +149,17 @@ set_texture_alias diffuse ruchin_atlasmap.png
 set_texture_alias ambient ruchin_ao_s.png
 
 }
+
+material Ruchin_m : Basic_Vertex_Shader_AO
+{
+set_texture_alias diffuse ruchin_atlasmap.png
+set_texture_alias ambient ruchin_ao_m.png
+
+}
+
+material Ruchin_m_Schiefer : Basic_Vertex_Shader_AO
+{
+set_texture_alias diffuse arc_schieferdach.png
+set_texture_alias ambient ruchin_ao_m.png
+
+}
