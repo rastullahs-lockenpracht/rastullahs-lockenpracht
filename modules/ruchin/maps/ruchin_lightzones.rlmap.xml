@@ -157,7 +157,7 @@
 		
 		
 		
-		<entity name="Ruchin_map" meshfile ="Ruchin_map.mesh" visible="true" receivesShadow="false">
+		<entity name="Ruchin_map" meshfile ="Ruchin_map.mesh" visible="true" receivesShadow="true">
 			<position x="68.5845" y="-0.00679748" z="-47.3902" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
