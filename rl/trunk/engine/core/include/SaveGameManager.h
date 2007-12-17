@@ -77,6 +77,7 @@ namespace rl
         void loadSaveGameFile(const CeGuiString &name);
         void deleteSaveGameFile(const CeGuiString &name);
         bool SaveGameFileExists(const CeGuiString &name);
+        SaveGameFile* getSaveGameFile(const CeGuiString &name);
 
         virtual const Ogre::StringVector&  getScriptPatterns(void) const;
         virtual void parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);

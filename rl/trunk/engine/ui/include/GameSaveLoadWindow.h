@@ -59,6 +59,7 @@ namespace rl {
         bool handleLoadEvent();
         bool handleSaveEvent();
         bool handleDeleteEvent();
+        bool handleSelectSaveGame();
 
         void listSaveGames();
         

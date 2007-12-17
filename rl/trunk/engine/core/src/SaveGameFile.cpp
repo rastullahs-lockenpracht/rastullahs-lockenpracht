@@ -33,8 +33,6 @@ namespace rl
     SaveGameFile::SaveGameFile(const CeGuiString &name) : mStream((Ogre::DataStream*)NULL)
     {
         mName = name;
-
-        
     }
 
     SaveGameFile::~SaveGameFile()
@@ -43,7 +41,7 @@ namespace rl
 
     CeGuiString SaveGameFile::buildFilename()
     {
-        return ConfigurationManager::getSingleton().getModulesRootDirectory() + "/saves/" + mName + ".save";
+        return ConfigurationManager::getSingleton().getModulesRootDirectory() + "/saves/" + mName + "." + mModuleID + ".save";
     }
 
     CeGuiString SaveGameFile::getName()

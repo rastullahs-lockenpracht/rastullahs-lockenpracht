@@ -146,6 +146,14 @@ namespace rl
             return true;
         return false;
     }
+
+    SaveGameFile* SaveGameManager::getSaveGameFile(const CeGuiString &name)
+    {
+        SaveGameEntryMap::const_iterator it = mSaveGames.find(name);
+        if(it != mSaveGames.end())
+            return it->second;
+        return NULL;
+    }
     
     const Ogre::StringVector& SaveGameManager::getScriptPatterns() const
     {
@@ -161,6 +169,8 @@ namespace rl
     {
         Ogre::String name = stream->getName();
         name = name.substr(0, name.length()-5); //delete ".save" at the and of the name
+        int pointpos = name.find_last_of(".");
+        name = name.substr(0, pointpos);
 
         SaveGameFile* file = new SaveGameFile(name);
         

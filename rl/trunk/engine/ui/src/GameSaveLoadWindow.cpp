@@ -60,6 +60,9 @@ namespace rl {
         mSaveGameTable->addColumn( (utf8*)"Filename", 0, cegui_reldim(0.7));
         mSaveGameTable->addColumn( (utf8*)"Date", 1, cegui_reldim(0.3));
 
+        mSaveGameTable->setSelectionMode(MultiColumnList::RowSingle);
+        mSaveGameTable->subscribeEvent(MultiColumnList::EventSelectionChanged, boost::bind(&GameSaveLoadWindow::handleSelectSaveGame, this));
+
         centerWindow();
 
         getPushButton("GameSaveLoadWindow/ButtonSheet/LoadButton")->subscribeEvent(
@@ -157,6 +160,11 @@ namespace rl {
     bool GameSaveLoadWindow::handleDeleteEvent()
     {
         LOG_MESSAGE(Logger::UI, "Delete Button pressed");
+        if(SaveGameManager::getSingleton().SaveGameFileExists(mFilename->getText()))
+        {
+            SaveGameManager::getSingleton().deleteSaveGameFile(mFilename->getText());
+            listSaveGames();
+        }
         return true;
     }
 
@@ -179,6 +187,13 @@ namespace rl {
         }
         //mSaveGameTable->autoSizeColumnHeader(0);
         //mSaveGameTable->autoSizeColumnHeader(1);
+    }
+
+    bool GameSaveLoadWindow::handleSelectSaveGame()
+    {
+        if(mSaveGameTable->getFirstSelectedItem())
+            mFilename->setText(mSaveGameTable->getFirstSelectedItem()->getText());
+        return true;
     }
 
 } // namespace rl

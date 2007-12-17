@@ -161,6 +161,11 @@ namespace rl {
     bool MainMenuLoadWindow::handleDeleteEvent()
     {
         LOG_MESSAGE(Logger::UI, "Delete Button pressed");
+        if(SaveGameManager::getSingleton().SaveGameFileExists(mFilename->getText()))
+        {
+            SaveGameManager::getSingleton().deleteSaveGameFile(mFilename->getText());
+            listSaveGames();
+        }
         return true;
     }
 
