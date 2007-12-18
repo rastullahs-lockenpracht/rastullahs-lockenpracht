@@ -122,6 +122,7 @@ namespace rl
             MessagePump::getSingleton().sendMessage<MessageType_SaveGameLoading>();
 
             SaveGameFile file(name);
+            file.setProperty(SaveGameFile::PROPERTY_MODULEID, Property(CoreSubsystem::getSingleton().getActiveAdventureModule()->getName()));
             SaveGameFileReader reader;
             reader.parseSaveGameFile(&file, mSaveGameDataOrderMap);
             ///@todo: SaveGameReader
