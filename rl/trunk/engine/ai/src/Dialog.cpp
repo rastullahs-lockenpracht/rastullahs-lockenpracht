@@ -22,10 +22,10 @@ namespace rl
 {
 	const Ogre::String Dialog::PROP_EXIT_REQUESTED = "exit_requested";
 
-    Dialog::Dialog(Creature* npc, Creature* pc)
+    Dialog::Dialog(const std::vector<Creature*>& npc, const std::vector<Creature*>& pc)
     {
-        mNonPlayerCharacters.push_back(npc);
-        mPlayerCharacters.push_back(pc);
+        mNonPlayerCharacters = npc;
+        mPlayerCharacters = pc;
     }
 
     Dialog::~Dialog()

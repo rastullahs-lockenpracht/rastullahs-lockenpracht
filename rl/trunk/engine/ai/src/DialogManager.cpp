@@ -19,6 +19,7 @@
 
 #include <xercesc/dom/DOM.hpp>
 
+#include "Creature.h"
 #include "Dialog.h"
 #include "DialogCondition.h"
 #include "DialogElement.h"
@@ -27,6 +28,7 @@
 #include "DialogParagraph.h"
 #include "DialogResponse.h"
 #include "DialogVariable.h"
+#include "GameObjectManager.h"
 #include "XmlPropertyReader.h"
 
 using namespace Ogre;
@@ -37,15 +39,21 @@ template<>
 
 namespace rl
 {
+    const Ogre::String DialogManager::PROPERTY_DIALOGS = "dialogs";
+    const Ogre::String DialogManager::PROPERTY_DIALOG = "dialog";
+    const Ogre::String DialogManager::PROPERTY_DIALOG_NAME = "name";
+    const Ogre::String DialogManager::PROPERTY_NPCS = "npc";
 
     DialogManager::DialogManager()
         : XmlProcessor(), ScriptLoader()
     {
         mScriptPatterns.push_back("*.dialog");
+        SaveGameManager::getSingleton().registerSaveGameData(this);
     }
 
     DialogManager::~DialogManager()
     {
+        SaveGameManager::getSingleton().unregisterSaveGameData(this);
     }
 
     const StringVector& DialogManager::getScriptPatterns() const
@@ -76,6 +84,78 @@ namespace rl
 
         shutdownXml();
     }
+
+    const Property DialogManager::getProperty(const Ogre::String &key) const
+    {
+        if (key == DialogManager::PROPERTY_DIALOGS)
+        {
+            PropertyVector vec;
+            for (std::map<DialogConfiguration, Dialog*>::const_iterator it
+                = mDialogStates.begin(); it != mDialogStates.end(); ++it)
+            {
+                PropertyMap curDialogProp;
+                PropertyRecord* dialogProps = it->second->getAllProperties();
+                curDialogProp[DialogManager::PROPERTY_DIALOG] = dialogProps->toPropertyMap();
+                curDialogProp[DialogManager::PROPERTY_DIALOG_NAME] = Property(it->first.getName());
+
+                PropertyVector npcs;
+
+                for (std::vector<Creature*>::const_iterator itNpc = it->first.getNpcs().begin();
+                    itNpc != it->first.getNpcs().end(); ++itNpc)
+                {
+                    npcs.push_back(GameObjectManager::getSingleton().toProperty(*itNpc));
+                }
+
+                curDialogProp[DialogManager::PROPERTY_NPCS] = Property(npcs);
+
+                delete dialogProps;
+            }
+
+            return Property(vec);
+        }
+
+        Throw(IllegalArgumentException, key + " is not a property of DialogManager");
+    }
+
+    PropertyRecord* DialogManager::getAllProperties() const
+    {
+        PropertyRecord* pr = new PropertyRecord();
+        pr->setProperty(DialogManager::PROPERTY_DIALOGS, getProperty(DialogManager::PROPERTY_DIALOGS));
+        return pr;
+    }
+
+    void DialogManager::setProperty(const Ogre::String& key, const Property& value)
+    {
+        ///@todo implement
+    }
+
+    void DialogManager::writeData(SaveGameFileWriter *writer)
+    {
+        LOG_MESSAGE(Logger::RULES, "Saving dialogs");
+
+        PropertyRecord* set = getAllProperties();
+        writer->writeEachProperty(this, set->toPropertyMap());
+        delete set;
+    }
+
+    void DialogManager::readData(SaveGameFileReader* reader)
+    {
+        LOG_MESSAGE(Logger::RULES, "Loading dialogs");
+
+        PropertyRecord properties = reader->getAllPropertiesAsRecord(this);
+        setProperties(&properties);
+    }
+
+    int DialogManager::getPriority() const
+    {
+        return 50;
+    }
+
+    CeGuiString DialogManager::getXmlNodeIdentifier() const
+    {
+        return "dialogs";
+    }
+
 
     void DialogManager::processDialog(DOMElement* dialogElem)
     {
@@ -425,16 +505,38 @@ namespace rl
         return cond;
     }
 
-    Dialog* DialogManager::createDialog(const Ogre::String& name, Creature* pc, Creature* npc)
+    Dialog* DialogManager::createDialog(const Ogre::String& name, Creature* npc, Creature* pc)
     {
-        std::map<Ogre::String, DialogPrototype*>::iterator it = mDialogs.find(name);
-        if (it == mDialogs.end())
-        {
-            return NULL;
-        }
+        std::vector<Creature*> npcs;
+        npcs.push_back(npc);
+        std::vector<Creature*> pcs;
+        pcs.push_back(pc);
 
-        Dialog* dialog = it->second->createDialog(pc, npc); ///@todo save dialogs
-		dialog->initialize();
+        return createDialog(name, npcs, pcs);
+    }
+
+    Dialog* DialogManager::createDialog(const Ogre::String& name, const std::vector<Creature*>& pcs, const std::vector<Creature*>& npcs)
+    {
+        std::map<DialogConfiguration, Dialog*>::iterator it 
+            = mDialogStates.find(DialogConfiguration(name, npcs));
+
+        Dialog* dialog;
+        if (it != mDialogStates.end())
+        {
+            dialog = (*it).second;
+        }
+        else 
+        {
+            std::map<Ogre::String, DialogPrototype*>::iterator it = mDialogs.find(name);
+            if (it == mDialogs.end())
+            {
+                return NULL;
+            }
+
+            dialog = it->second->createDialog(pcs, npcs); ///@todo save dialogs
+            dialog->initialize();
+            mDialogStates[DialogConfiguration(name, npcs)] = dialog;
+        }
 		return dialog;
     }
 
@@ -478,9 +580,9 @@ namespace rl
         return it->second;
     }
 
-    Dialog* DialogManager::DialogPrototype::createDialog(Creature* pc, Creature* npc)
+    Dialog* DialogManager::DialogPrototype::createDialog(const std::vector<Creature*>& pcs, const std::vector<Creature*>& npcs)
     {
-        Dialog* dialog = new Dialog(pc, npc);
+        Dialog* dialog = new Dialog(pcs, npcs);
         dialog->setStartResponse(mDialogStart);
         
         for (PropertyRecord::PropertyRecordMap::const_iterator it = mPropertyVariables.begin(); 
@@ -500,6 +602,32 @@ namespace rl
     void DialogManager::DialogPrototype::setStartResponse(DialogResponse* start)
     {
         mDialogStart = start;
+    }
+
+    DialogManager::DialogConfiguration::DialogConfiguration(const Ogre::String& name, const std::vector<Creature*>& npcs)
+        : mDialogName(name), mNpcs(npcs)
+    {
+    }
+
+    const Ogre::String& DialogManager::DialogConfiguration::getName() const
+    {
+        return mDialogName;
+    }
+
+    const std::vector<Creature*>& DialogManager::DialogConfiguration::getNpcs() const
+    {
+        return mNpcs;
+    }
+
+    bool DialogManager::DialogConfiguration::operator <(const rl::DialogManager::DialogConfiguration & other) const
+    {
+        return mDialogName < other.mDialogName;
+    }
+
+    bool DialogManager::DialogConfiguration::operator ==(const rl::DialogManager::DialogConfiguration & other) const
+    {
+        return (mDialogName == other.mDialogName) 
+            && (mNpcs == other.mNpcs);
     }
 
     DialogCondition* DialogManager::processConditionClasses(DOMElement* conditionXml)

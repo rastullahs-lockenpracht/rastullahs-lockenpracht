@@ -280,6 +280,7 @@ namespace rl
     public:
         static rl::DialogManager& getSingleton();
         rl::Dialog* createDialog(const Ogre::String& name, rl::Creature* npc, rl::Creature* pc);
+        rl::Dialog* createDialog(const Ogre::String& name, const std::vector<rl::Creature*>& npcs, const std::vector<rl::Creature*>& pcs);
     private:
         DialogManager();
     };

@@ -32,7 +32,7 @@ namespace rl
     public:
 		static const Ogre::String PROP_EXIT_REQUESTED;
 
-        Dialog(Creature* pc, Creature* npc);
+        Dialog(const std::vector<Creature*>& pc, const std::vector<Creature*>& npc);
         ~Dialog();
 
         DialogResponse* getDialogStart() const;

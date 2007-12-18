@@ -111,7 +111,7 @@ namespace rl {
                 text = cur->getLabel();
             }
 
-			if(optionCount < mDialogOptions->getItemCount())
+			if (optionCount < mDialogOptions->getItemCount())
 			{
 				item = static_cast<ListboxWrappedTextItem*>(
 					mDialogOptions->getListboxItemFromIndex(optionCount));

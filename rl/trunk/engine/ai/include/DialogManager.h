@@ -22,10 +22,12 @@
 
 #include <OgreScriptLoader.h>
 #include "Properties.h"
+#include "SaveGameManager.h"
 #include "XmlProcessor.h"
 
 namespace rl
 {
+    class Creature;
     class Dialog;
     class DialogCondition;
     class DialogElement;
@@ -34,21 +36,36 @@ namespace rl
     class DialogParagraph;
     class DialogResponse;
     class DialogVariable;
-    class Creature;
 
     class _RlAiExport DialogManager 
         : public Ogre::Singleton<DialogManager>, 
         public Ogre::ScriptLoader, 
+        public PropertyHolder,
+        public SaveGameData,
         private XmlProcessor
     {
     public:
+        static const Ogre::String PROPERTY_DIALOGS;
+        static const Ogre::String PROPERTY_DIALOG;
+        static const Ogre::String PROPERTY_DIALOG_NAME;
+        static const Ogre::String PROPERTY_NPCS;
+
         DialogManager();
         ~DialogManager();
 
         virtual const Ogre::StringVector& getScriptPatterns() const;
         virtual void parseScript(Ogre::DataStreamPtr& stream, const Ogre::String& groupName);
 		virtual Ogre::Real getLoadingOrder() const;
-        Dialog* createDialog(const Ogre::String& name, Creature* pc, Creature* npc);
+        Dialog* createDialog(const Ogre::String& name, rl::Creature* npc, rl::Creature* pc);
+        Dialog* createDialog(const Ogre::String& name, const std::vector<Creature*>& pcs, const std::vector<Creature*>& npcs);
+
+        virtual const Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const Property& value);
+        virtual PropertyRecord* getAllProperties() const;
+        virtual void writeData(SaveGameFileWriter *writer);
+        virtual void readData(SaveGameFileReader* reader);
+        virtual CeGuiString getXmlNodeIdentifier() const;
+        virtual int getPriority() const;
 
     private:
 
@@ -61,7 +78,7 @@ namespace rl
             DialogResponse* getResponse(int id) const;
 
             void setStartResponse(DialogResponse* response);
-            Dialog* createDialog(Creature* pc, Creature* npc);
+            Dialog* createDialog(const std::vector<Creature*>& pcs, const std::vector<Creature*>& npcs);
             void setProperty(const Ogre::String& key, const Property& value);
 
         private:
@@ -69,6 +86,21 @@ namespace rl
             std::map<int, DialogResponse*> mResponseCache;
             DialogResponse* mDialogStart;
             PropertyRecord mPropertyVariables;
+        };
+
+        class DialogConfiguration
+        {
+        public:
+            DialogConfiguration(const Ogre::String& name, const std::vector<Creature*>& npcs);
+
+            const Ogre::String& getName() const;
+            const std::vector<Creature*>& getNpcs() const;
+            
+            bool operator==(const DialogConfiguration&) const;
+            bool operator<(const DialogConfiguration&) const;
+        private:
+            Ogre::String mDialogName;
+            std::vector<Creature*> mNpcs;
         };
 
         void processDialog(XERCES_CPP_NAMESPACE::DOMElement* dialogXml);
@@ -89,6 +121,7 @@ namespace rl
 
         Ogre::StringVector mScriptPatterns;
         std::map<Ogre::String, DialogPrototype*> mDialogs;
+        std::map<DialogConfiguration, Dialog*> mDialogStates;
     };
 
 }
