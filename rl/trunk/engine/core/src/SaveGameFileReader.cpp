@@ -83,4 +83,23 @@ namespace rl
 
         shutdownXml();
     }
+
+    PropertyRecord SaveGameFileReader::getAllPropertiesAsRecord(SaveGameData* data)
+    {
+        PropertyRecord properties;
+
+        initializeXml();
+
+        DOMNodeList* rootNodeList = getDocument()->getDocumentElement()->getElementsByTagName(AutoXMLCh(data->getXmlNodeIdentifier().c_str()).data());
+
+        if (rootNodeList->getLength())
+        {
+            DOMNode* xmlPropElem = rootNodeList->item(0);
+            properties = getPropertiesAsRecord(static_cast<DOMElement*>(xmlPropElem));
+        }
+
+        shutdownXml();
+
+        return properties;
+    }
 }

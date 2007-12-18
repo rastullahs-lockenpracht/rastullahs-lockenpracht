@@ -317,7 +317,7 @@ namespace rl
             writer->setAttributeValueAsInteger(gameobject, "State", (int)(*it_gameobjects)->getState());
 
             PropertyMap map = (*it_gameobjects)->getAllProperties()->toPropertyMap();
-            writer->writeEachProperty(gameobject, map);
+            writer->writeEachPropertyToElem(gameobject, map);
         } 
     }
 

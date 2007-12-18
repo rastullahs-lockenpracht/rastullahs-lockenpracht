@@ -63,7 +63,7 @@ namespace rl
                     writer->setAttributeValueAsStdString(triggerNode, "zone", zone->first);
 
                     PropertyMap map = (*trigger)->getAllProperties()->toPropertyMap();
-                    writer->writeEachProperty(triggerNode, map);
+                    writer->writeEachPropertyToElem(triggerNode, map);
                 }
             }
         }

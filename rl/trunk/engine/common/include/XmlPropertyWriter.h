@@ -52,7 +52,7 @@ namespace rl
         XERCES_CPP_NAMESPACE::DOMElement* processPropertyArray(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, PropertyVector vector);
         XERCES_CPP_NAMESPACE::DOMElement* processPropertyMap(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, PropertyMap map);
 
-        void writeEachProperty(XERCES_CPP_NAMESPACE::DOMElement* parent, const PropertyMap &map);
+        void writeEachPropertyToElem(XERCES_CPP_NAMESPACE::DOMElement* parent, const PropertyMap &map);
     protected:
         std::vector<PropertyRecord*> mPropertyRecords;
 

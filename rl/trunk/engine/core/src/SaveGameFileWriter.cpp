@@ -92,4 +92,11 @@ namespace rl
 
         shutdownXml();
     }
+
+    void SaveGameFileWriter::writeEachProperty(SaveGameData* data, const rl::PropertyMap &map)
+    {
+        DOMElement* saveElem = appendChildElement(getDocument(), getDocument()->getDocumentElement(), data->getXmlNodeIdentifier().c_str());
+
+        XmlPropertyWriter::writeEachPropertyToElem(saveElem, map);
+    }
 }

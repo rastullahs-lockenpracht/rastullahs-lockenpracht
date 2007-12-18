@@ -135,7 +135,7 @@ namespace rl {
         return element;
     }
 
-    void XmlPropertyWriter::writeEachProperty(DOMElement* parent, const rl::PropertyMap &map)
+    void XmlPropertyWriter::writeEachPropertyToElem(DOMElement* parent, const rl::PropertyMap &map)
     {
         PropertyMap::const_iterator it_properties;
         for(it_properties = map.begin(); it_properties != map.end(); it_properties++)

@@ -33,6 +33,7 @@ namespace rl
     {
     public:
         void buildSaveGameFile(SaveGameFile *file, const SaveGameDataOrderMap &map);
+        void writeEachProperty(SaveGameData* data, const rl::PropertyMap &map);
     };
 }
 

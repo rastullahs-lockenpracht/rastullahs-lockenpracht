@@ -265,16 +265,12 @@ namespace rl {
         return "questbook";
     }
 
-    using namespace XERCES_CPP_NAMESPACE;
-
     void QuestBook::writeData(SaveGameFileWriter *writer)
     {
         LOG_MESSAGE(Logger::RULES, "Saving questbook");
 
-        DOMElement* quests = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
-
         PropertyRecord* set = getAllProperties();
-        writer->writeEachProperty(quests, set->toPropertyMap());
+        writer->writeEachProperty(this, set->toPropertyMap());
     }
 
     void QuestBook::readData(SaveGameFileReader* reader)
@@ -282,19 +278,8 @@ namespace rl {
         LOG_MESSAGE(Logger::RULES, "Loading questbook");
 
         clear();
-        reader->initializeXml();
-
-        DOMNodeList* rootNodeList = reader->getDocument()->getDocumentElement()->getElementsByTagName(AutoXMLCh(getXmlNodeIdentifier().c_str()).data());
-
-        if(rootNodeList->getLength())
-        {
-            DOMNode* xmlQuestBook = rootNodeList->item(0);
-            PropertyRecord properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlQuestBook));
-
-            setProperties(&properties);
-        }
-
-        reader->shutdownXml();
+        PropertyRecord properties = reader->getAllPropertiesAsRecord(this);
+        setProperties(&properties);
     }
 
     void QuestBook::clear()
