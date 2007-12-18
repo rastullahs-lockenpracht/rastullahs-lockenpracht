@@ -26,7 +26,10 @@ class Item;
 class _RlRulesExport Slot
 {
 public:
-    virtual void setItem(Item* item) = 0;
+    // provides standard behaviour, sets
+    // item-state etc, returns true, if succeeded to set item, false indicates to to nothing
+    // subclasses MUST call this method when overriding
+    virtual bool setItem(Item* item);
     Item* getItem() const;
     bool isAllowed(const Item* item) const;
     bool isEmpty() const {return mItem == NULL;}
@@ -37,9 +40,6 @@ public:
 protected:
     Slot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask);
 
-    // intended to be used in setItem-Function, provides standard behaviour, sets
-    // item-state etc, returns true, if succeeded to set item, false indicates to to nothing
-    bool standardSetItem(Item* item);
 
     Creature* mOwner;
     Item* mItem;
@@ -56,7 +56,7 @@ class BoneSlot : public Slot
 {
 public:
     BoneSlot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask, const Ogre::String& bone);
-    virtual void setItem(Item* item);
+    virtual bool setItem(Item* item);
 
 private:
     Ogre::String mBone;
@@ -66,7 +66,7 @@ class SubmeshSlot : public Slot
 {
 public:
     SubmeshSlot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask, const Ogre::String& submesh);
-    virtual void setItem(Item* item);
+    virtual bool setItem(Item* item);
 
 private:
     Ogre::String mSubmesh;
@@ -76,7 +76,7 @@ class MaterialSlot : public Slot
 {
 public:
     MaterialSlot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask, const Ogre::String& submesh);
-    virtual void setItem(Item* item);
+    virtual bool setItem(Item* item);
 
 private:
     Ogre::String mSubmesh;

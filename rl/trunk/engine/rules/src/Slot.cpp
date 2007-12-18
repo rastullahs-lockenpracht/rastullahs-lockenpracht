@@ -56,7 +56,7 @@ namespace rl {
         return (type & mItemReadyMask) == type;
     }
 
-    bool Slot::standardSetItem(Item* item)
+    bool Slot::setItem(Item* item)
     {
         if (item)
         {
@@ -88,7 +88,6 @@ namespace rl {
             if (mItem->getState() != GOS_LOADED)
                 mItem->setState(GOS_LOADED);
             mItem = NULL;
-
         }
 
         return true;
@@ -100,10 +99,12 @@ namespace rl {
     {
     }
 
-    void BoneSlot::setItem(Item* item)
+    bool BoneSlot::setItem(Item* item)
     {
-        if (!standardSetItem(item))
-            return;
+        if (!Slot::setItem(item))
+        {
+            return false;
+        }
 
         if (item)
         {
@@ -111,13 +112,15 @@ namespace rl {
                 || mOwner->getState() == GOS_HELD
                 || mOwner->getState() == GOS_READY)
             {
-                if (!mItem->getActor())
+                if (!item->getActor())
                 {
-                    mItem->doCreateActor();
+                    item->doCreateActor();
                 }
-                mOwner->getActor()->attachToSlot(mItem->getActor(), mBone);
+                mOwner->getActor()->attachToSlot(item->getActor(), mBone);
             }
         }
+
+        return true;
     }
 
 
@@ -126,12 +129,13 @@ namespace rl {
     {
     }
 
-    void SubmeshSlot::setItem(Item* item)
+    bool SubmeshSlot::setItem(Item* item)
     {
         Item* oldItem = mItem;
-        if (!standardSetItem(item))
-            return;
-
+        if (!Slot::setItem(item))
+        {
+            return false;
+        }
 
 	    if (mOwner->getActor())
 	    {
@@ -170,6 +174,8 @@ namespace rl {
                 mOwner->getActor()->getPhysicalThing()->updatePhysicsProxy();
             }
 	    }
+
+        return true;
     }
 
     MaterialSlot::MaterialSlot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask, const Ogre::String& submesh)
@@ -178,11 +184,12 @@ namespace rl {
     {
     }
 
-    void MaterialSlot::setItem(Item* item)
+    bool MaterialSlot::setItem(Item* item)
     {
-        if (!standardSetItem(item))
-            return;
-
+        if (!Slot::setItem(item))
+        {
+            return false;
+        }
 
         if (item)
         {
@@ -215,6 +222,8 @@ namespace rl {
         {
             ///@todo reset material?
         }
+
+        return true;
     }
 
 } // namespace rl

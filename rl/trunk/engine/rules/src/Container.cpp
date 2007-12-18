@@ -22,6 +22,7 @@
 #include "Exception.h"
 #include "GameObjectManager.h"
 #include "Item.h"
+#include "Slot.h"
 
 using namespace std;
 
@@ -89,49 +90,49 @@ namespace rl {
         return mItems;
     }
 
-    bool Container::findContainerRecursion(Item* item)
+    bool Container::isParent(Container* cont)
     {
-        if( item == this )
+        if (cont == this)
             return true;
 
         Item* parent = this->getParentContainer();
-        while( parent )
+        while (parent)
         {
-            if( item == parent )
+            if (cont == parent)
                 return true;
             parent = parent->getParentContainer();
         }
-        
-        Container* itemAsContainer = dynamic_cast<Container*>(item);
-        if( !itemAsContainer )
+         
+         // c++ allows nasty accesses like this ;-)
+        for (ItemSet::iterator iter = cont->mItems.begin(); 
+            iter != cont->mItems.end(); ++iter)
         {
-            Throw(NullPointerException, "Could not cast item to Container!");
-        }
-
-        ItemSet::iterator iter = itemAsContainer->mItems.begin(); // c++ allows nasty accesses like this ;-)
-        for( ; iter != itemAsContainer->mItems.end(); iter++)
-        {
-            if( (*iter)->isContainer() )
-                if( findContainerRecursion(*iter) )
+            if ((*iter)->isContainer())
+            {
+                if (isParent(dynamic_cast<Container*>(*iter)))
+                {
                     return true;
+                }
+            }
         }
         return false;
     }
 
     bool Container::addItem(Item* item, IntPair position)
     {
-        if(item == NULL)
+        if (item == NULL)
         {
             Throw(NullPointerException, "Item ist null.");
         }
 
         // find recursions, we cannot place the container in the same container etc
-        if( item->isContainer() )
+        if (item->isContainer())
         {
-            if( findContainerRecursion(item) )
+            if (isParent(dynamic_cast<Container*>(item)))
+            {
                 return false;
+            } 
         }
-
 
         IntPair pos = position;
 		if (!canPlaceAt(item, pos.first, pos.second))
@@ -141,13 +142,21 @@ namespace rl {
 
 		if (pos != NO_SPACE_FOR_ITEM)
 		{
-            item->removeOldState();
+            if (item->getParentSlot())
+            {
+                item->getParentSlot()->setItem(NULL);
+            }
+            if (item->getParentContainer())
+            {
+                item->getParentContainer()->removeItem(item);
+            }
+            item->setOwner(NULL);
 
             mItemPositions[item] = pos;
 			mItems.insert(item);
 
             item->setParentContainer(this);
-            if(mOwner)
+            if (mOwner)
                 item->setOwner(mOwner);
             else
                 item->setOwner(this);
@@ -171,7 +180,7 @@ namespace rl {
             
             // this is the case, if the item is removed automatically
             // don't change this without looking at Item::setState
-            if( item->getState() != GOS_LOADED )
+            if (item->getState() != GOS_LOADED)
                 item->setState(GOS_LOADED);
         }
         else
@@ -192,16 +201,16 @@ namespace rl {
 
 		bool free = true;
 
-        // Es wird versucht, das Item außerhalb des Containers zu platzieren
+        // Es wird versucht, das Item auï¿½erhalb des Containers zu platzieren
         if (xPos + xSize > mVolume.first
             || yPos + ySize > mVolume.second)
         {
             return false;
         }
 
-		for (int x = xPos; x < (xPos + xSize); x++)
+		for (int x = xPos; x < (xPos + xSize); ++x)
         {
-			for (int y = yPos; y < (yPos + ySize); y++)
+			for (int y = yPos; y < (yPos + ySize); ++y)
             {
                 LOG_DEBUG2(Logger::RULES,
 					Ogre::String("Checking Point in Backpack: Point x:")
@@ -211,9 +220,9 @@ namespace rl {
                     "Container::canPlaceAt()");
 
                 Item* itemFound = getItemAt(x, y);
-                if( itemFound == NULL )
+                if (itemFound == NULL)
                     continue;
-                if( itemFound == item )
+                if (itemFound == item)
                     continue;
 
 				return false;
@@ -262,7 +271,7 @@ namespace rl {
 
     bool Container::checkSpace(int xStart, int yStart, pair<int,int> space) const
     {
-		// Falls Kästchen nicht mehr im Rucksack, ist auch kein Platz mehr :)
+		// Falls Kï¿½stchen nicht mehr im Rucksack, ist auch kein Platz mehr :)
         if ((xStart+space.first) > mVolume.first
             || (yStart+space.second) > mVolume.second)
         {

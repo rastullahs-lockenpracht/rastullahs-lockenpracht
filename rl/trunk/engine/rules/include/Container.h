@@ -112,9 +112,10 @@ namespace rl
 
         /*
          * recursive function
-         * @return true, if the item is this container or any of his parents
+         * @param cont a container
+         * @return true, if cont is this container or any of his parents
         */
-        bool findContainerRecursion(Item* item);
+        bool isParent(Container* cont);
     };
 }
 
