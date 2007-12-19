@@ -74,7 +74,7 @@ namespace rl
         SaveGameEntryMap listSaveGames(void);
         SaveGameEntryMap listSaveGames(const CeGuiString &moduleName);
         void saveSaveGameFile(const CeGuiString &name);
-        void loadSaveGameFile(const CeGuiString &name);
+        void loadSaveGameFile(const CeGuiString &name, const CeGuiString& moduleID);
         void deleteSaveGameFile(const CeGuiString &name);
         bool SaveGameFileExists(const CeGuiString &name);
         SaveGameFile* getSaveGameFile(const CeGuiString &name);

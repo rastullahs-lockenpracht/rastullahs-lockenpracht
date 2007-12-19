@@ -47,12 +47,6 @@ namespace rl {
     MainMenuLoadWindow::MainMenuLoadWindow() :
         AbstractWindow("mainmenuloadwindow.xml", WIT_MOUSE_INPUT | WIT_KEYBOARD_INPUT)
     {
-        // Get a access to the filename edit box
-        mFilename = getEditbox("MainMenuLoadWindow/FileSheet/Filename");
-        RlAssert(mFilename != NULL, "MainMenuLoadWindow/FileSheet/Filename is null");
-
-        mFilename->activate();
-
         // Get a access to the savegame table
         mSaveGameTable = getMultiColumnList("MainMenuLoadWindow/FileSheet/SaveGameTable");
         RlAssert(mSaveGameTable != NULL, "MainMenuLoadWindow/FileSheet/SaveGameTable is null");
@@ -61,7 +55,7 @@ namespace rl {
         mSaveGameTable->addColumn( (utf8*)"Module", 1, cegui_reldim(0.2));
         mSaveGameTable->addColumn( (utf8*)"Date", 2, cegui_reldim(0.2));
 
-        mSaveGameTable->setSelectionMode(MultiColumnList::RowSingle);
+        mSaveGameTable->setSelectionMode(MultiColumnList::NominatedRowSingle);
         mSaveGameTable->subscribeEvent(MultiColumnList::EventSelectionChanged, boost::bind(&MainMenuLoadWindow::handleSelectSaveGame, this));
 
         centerWindow();
@@ -70,13 +64,6 @@ namespace rl {
         CEGUI::Window::EventMouseClick,
         boost::bind(
             &MainMenuLoadWindow::handleLoadEvent,
-            this
-        ));
-
-        getPushButton("MainMenuLoadWindow/ButtonSheet/SaveButton")->subscribeEvent(
-        CEGUI::Window::EventMouseClick,
-        boost::bind(
-            &MainMenuLoadWindow::handleSaveEvent,
             this
         ));
 
@@ -113,46 +100,6 @@ namespace rl {
     {
         LOG_MESSAGE(Logger::UI, "Load Button pressed");
 
-        CeGuiString filename = mFilename->getText();
-
-        if(filename != "")
-        {
-
-            if(SaveGameManager::getSingleton().SaveGameFileExists(filename))
-                SaveGameManager::getSingleton().loadSaveGameFile(filename);
-            else
-            {
-                LOG_ERROR(Logger::UI, "Save Game " + filename + " doesn't exist!");
-                WindowFactory::getSingleton().showMessageWindow("Der Spielstand existiert nicht");
-            }
-        }
-
-        return true;
-    }
-
-    //------------------------------------------------------- SaveEvent
-
-    bool MainMenuLoadWindow::handleSaveEvent()
-    {
-        LOG_MESSAGE(Logger::UI, "Save Button pressed");
-
-        CeGuiString filename = mFilename->getText();
-
-        if(filename != "")
-        {
-            LOG_MESSAGE(Logger::UI, "Create a SaveGameFile");
-
-            SaveGameManager::getSingleton().saveSaveGameFile(filename);
-
-            LOG_MESSAGE(Logger::UI, "Created save game");
-        }
-        else
-        {
-            WindowFactory::getSingleton().showMessageWindow("Bitte einen Namen für den Spielstand eingeben");
-        }
-
-        listSaveGames();
-
         return true;
     }
 
@@ -161,11 +108,7 @@ namespace rl {
     bool MainMenuLoadWindow::handleDeleteEvent()
     {
         LOG_MESSAGE(Logger::UI, "Delete Button pressed");
-        if(SaveGameManager::getSingleton().SaveGameFileExists(mFilename->getText()))
-        {
-            SaveGameManager::getSingleton().deleteSaveGameFile(mFilename->getText());
-            listSaveGames();
-        }
+
         return true;
     }
 
@@ -195,8 +138,9 @@ namespace rl {
 
     bool MainMenuLoadWindow::handleSelectSaveGame()
     {
-        if(mSaveGameTable->getFirstSelectedItem())
-            mFilename->setText(mSaveGameTable->getFirstSelectedItem()->getText());
+        mSaveGameTable->getFirstSelectedItem()->setSelectionColours(CEGUI::colour(0.0f,0.0f,1.0f));
+        /*if(mSaveGameTable->getFirstSelectedItem())
+            mFilename->setText(mSaveGameTable->getFirstSelectedItem()->getText());*/
         return true;
     }
 

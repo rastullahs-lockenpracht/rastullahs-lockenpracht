@@ -115,14 +115,14 @@ namespace rl
         MessagePump::getSingleton().sendMessage<MessageType_SaveGameSaved>();
     }
 
-    void SaveGameManager::loadSaveGameFile(const CeGuiString &name)
+    void SaveGameManager::loadSaveGameFile(const CeGuiString &name, const CeGuiString &moduleID)
     {
         if(SaveGameFileExists(name))
         {
             MessagePump::getSingleton().sendMessage<MessageType_SaveGameLoading>();
 
             SaveGameFile file(name);
-            file.setProperty(SaveGameFile::PROPERTY_MODULEID, Property(CoreSubsystem::getSingleton().getActiveAdventureModule()->getName()));
+            file.setProperty(SaveGameFile::PROPERTY_MODULEID, Property(moduleID));
             SaveGameFileReader reader;
             reader.parseSaveGameFile(&file, mSaveGameDataOrderMap);
             ///@todo: SaveGameReader

@@ -442,6 +442,59 @@ Ogre::Quaternion XmlProcessor::getValueAsQuaternion(DOMElement* element) const
         getAttributeValueAsReal(element, "w"));
 }
 
+DOMElement* XmlProcessor::setAttributeValueAsQuaternion(DOMElement *element, const char* const name, Ogre::Quaternion value) const
+{
+    RlAssert(element != NULL, "XmlProcessor::setAttributeValueAsQuaternion: Element must not be NULL");
+	AutoXMLCh attrName(name);
+    CeGuiString temp = Ogre::StringConverter::toString(value.x) + "," + Ogre::StringConverter::toString(value.y) + "," + Ogre::StringConverter::toString(value.z) + "," + Ogre::StringConverter::toString(value.w);
+    element->setAttribute(attrName.data(), XMLString::transcode(temp.c_str()));
+
+    return element;
+}
+
+Ogre::Quaternion XmlProcessor::getAttributeValueAsQuaternion(DOMElement* element, const char* const name) const
+{
+    RlAssert(element != NULL, "XmlProcessor::getAttributeValueAsQuaternion: Element must not be NULL");
+	AutoXMLCh attrName(name);
+	const XMLCh* attribute = element->getAttribute(attrName.data());
+
+    CeGuiString value = transcodeToString(attribute);
+
+    CeGuiString::size_type comma1 = value.find(",");
+    CeGuiString::size_type comma2 = value.find(",", comma1 + 1);
+    CeGuiString::size_type comma3 = value.find(",", comma2 + 1);
+
+    Ogre::Quaternion quat(Ogre::Quaternion::IDENTITY);
+    if (comma1 != CeGuiString::npos 
+        && comma2 != CeGuiString::npos 
+        && comma3 != CeGuiString::npos)
+    {
+        quat.w = CEGUI::PropertyHelper::stringToFloat(value.substr(0, comma1));
+        quat.x = CEGUI::PropertyHelper::stringToFloat(value.substr(comma1 + 1, comma2 - comma1 - 1));
+        quat.y = CEGUI::PropertyHelper::stringToFloat(value.substr(comma2 + 1, comma3 - comma2 - 1));
+        quat.z = CEGUI::PropertyHelper::stringToFloat(value.substr(comma3 + 1));
+    }
+    else if (comma1 != CeGuiString::npos 
+        && comma2 != CeGuiString::npos 
+        && comma3 == CeGuiString::npos)
+    {
+        Quaternion rotX, rotY, rotZ;
+
+        rotX.FromAngleAxis(
+		    Ogre::Degree(CEGUI::PropertyHelper::stringToFloat(value.substr(0, comma1))), 
+		    Ogre::Vector3::UNIT_X);
+        rotY.FromAngleAxis(
+		    Ogre::Degree(CEGUI::PropertyHelper::stringToFloat(value.substr(comma1 + 1, comma2 - comma1 - 1))), 
+		    Ogre::Vector3::UNIT_Y);
+        rotZ.FromAngleAxis(
+		    Ogre::Degree(CEGUI::PropertyHelper::stringToFloat(value.substr(comma2 + 1))), 
+		    Ogre::Vector3::UNIT_Z);
+
+        quat = rotX * rotY * rotZ;
+    }
+    return quat;
+}
+
 utf8* XmlProcessor::transcodeToUtf8(const XMLCh* const string16) const
 {
 	unsigned int str16len = XMLString::stringLen(string16);

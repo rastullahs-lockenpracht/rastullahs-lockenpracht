@@ -313,7 +313,7 @@ public:
 	 *
 	 * @param element Das DOM-Element
 	 * @param name Name des Attributes
-     * @return Zahlendubel des Attributes
+     * @return Zahlentripel des Attributes
 	 */
     Tripel<int> getAttributeValueAsIntegerTriple(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name) const;
 	
@@ -330,13 +330,33 @@ public:
 
     /**
 	 * Ermittelt den Text eines DOMElement-Attributes und parst ihn, 
-	 * um eine Ganzzahltripel daraus zu machen
+	 * um ein Vector3 daraus zu machen
 	 *
 	 * @param element Das DOM-Element
 	 * @param name Name des Attributes
-     * @return Zahlendubel des Attributes
+     * @return Vector3 des Attributes
 	 */
     Ogre::Vector3 getAttributeValueAsVector3(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name) const;
+
+    /**
+	 * Wandelt eine Quaternion in einen Text um und setzt diesen als Attribut 
+	 *
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+     * @param value das zu setzende Quaternion
+	 * @return Das DOM-Element
+	 */
+    XERCES_CPP_NAMESPACE::DOMElement* setAttributeValueAsQuaternion(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name, Ogre::Quaternion value) const;
+
+    /**
+	 * Ermittelt den Text eines DOMElement-Attributes und parst ihn, 
+	 * um eine Quaternion daraus zu machen
+	 *
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+     * @return Quaternion des Attributes
+	 */
+    Ogre::Quaternion getAttributeValueAsQuaternion(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name) const;
     
 
     /**

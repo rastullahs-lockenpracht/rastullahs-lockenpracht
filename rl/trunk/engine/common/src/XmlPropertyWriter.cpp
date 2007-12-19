@@ -86,7 +86,7 @@ namespace rl {
                 else if(entry.second.isIntTriple())
                     setAttributeValueAsIntegerTriple(element, "data", entry.second.toIntTriple());
                 else if(entry.second.isQuaternion())
-                    setValueAsQuaternion(element, entry.second.toQuaternion());
+                    setAttributeValueAsQuaternion(element, "data", entry.second.toQuaternion());
                 else if(entry.second.isReal())
                     setAttributeValueAsReal(element, "data", entry.second.toReal());
                 else if(entry.second.isString())

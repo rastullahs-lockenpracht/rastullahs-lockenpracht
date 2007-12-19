@@ -118,7 +118,7 @@ namespace rl {
         {
 
             if(SaveGameManager::getSingleton().SaveGameFileExists(filename))
-                SaveGameManager::getSingleton().loadSaveGameFile(filename);
+                SaveGameManager::getSingleton().loadSaveGameFile(filename, CoreSubsystem::getSingleton().getActiveAdventureModule()->getName());
             else
             {
                 LOG_ERROR(Logger::UI, "Save Game " + filename + " doesn't exist!");

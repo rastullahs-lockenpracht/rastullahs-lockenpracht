@@ -57,14 +57,12 @@ namespace rl {
         
     private:
         bool handleLoadEvent();
-        bool handleSaveEvent();
         bool handleDeleteEvent();
         bool handleSelectSaveGame();
 
         void listSaveGames();
         
         CEGUI::MultiColumnList     *mSaveGameTable;     //!< SaveGame table
-        CEGUI::Editbox             *mFilename;         //!< Filename for the savegame 
     };
 }
 
