@@ -753,7 +753,7 @@ namespace rl
     class Hochsprung : public AbstractMovement
     {
     public:
-        Hochsprung(CreatureController *creature) : AbstractMovement(creature), mState(DOWN), mHeight(0), mJumpNow(false), mTimer(0) {}
+        Hochsprung(CreatureController *creature) : AbstractMovement(creature), mState(DOWN), mHeight(0), mJumpNow(false), mTimer(0), mMoveForward(0) {}
         virtual CreatureController::MovementType getId() const {return CreatureController::MT_HOCHSPRUNG;}
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_STEHEN;}
         virtual void activate()
@@ -843,12 +843,34 @@ namespace rl
                     0);
                 mMovingCreature->setAbstractLocation( CreatureController::AL_AIRBORNE );
             }
+            else if (mState == UP && mMoveForward != 0) // try to move forward, if wanted
+            {
+                // low velocity towards this direction
+                if(mMoveForward > 0)
+                    mMoveForward = 1.0;
+                else
+                    mMoveForward = -1.0;
+
+
+
+                Real mass;
+                Vector3 inertia;
+                OgreNewt::Body *body = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody();
+                body->getMassMatrix(mass, inertia);
+
+                Vector3 vel = mMovingCreature->getVelocity();
+                Real delay = 0.05;//(2 * PhysicsManager::getSingleton().getMaxTimestep());
+                Real diff = (mMoveForward - vel.z);
+                force.z += mass * diff / delay;
+            }
 
             Vector3 omega = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody()->getOmega();
             torque = -omega / PhysicsManager::getSingleton().getMaxTimestep() * 2 * mass;
         }
         virtual bool run(Ogre::Real elapsedTime,  Ogre::Vector3 direction, Ogre::Vector3 rotation)
         {
+            mMoveForward = direction.z;
+
             if( mState == DOWN )
             {
                 mMovingCreature->setMovement(CreatureController::MT_STEHEN, direction, rotation);
@@ -892,10 +914,10 @@ namespace rl
         virtual bool isDirectionPossible(Ogre::Vector3 &direction) const
         {
             Vector3 oldDirection(direction);
-            direction.z = direction.x = 0;
+            direction.x = 0;
             if(direction.y < 0)
                 direction.y = 0;
-            return oldDirection.x == 0 && oldDirection.z == 0 && oldDirection.y > 0;
+            return oldDirection.x == 0 && oldDirection.y > 0;
         }
         virtual bool isRotationPossible(Ogre::Vector3 &rotation) const
         {
@@ -911,6 +933,7 @@ namespace rl
         Ogre::Real mHeight;
         bool mJumpNow;
         Ogre::Real mTimer;
+        Ogre::Real mMoveForward;
     };
 
 
@@ -1088,7 +1111,7 @@ namespace rl
             if( mState == UP )
             {
                 mTimer += elapsedTime;
-                if( mTimer < 0.5f )
+                if( mTimer < 0.1f )
                 {
                     mMovingCreature->setAbstractLocation( CreatureController::AL_AIRBORNE );
                 }

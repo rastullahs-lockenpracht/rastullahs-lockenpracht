@@ -369,7 +369,21 @@ namespace rl {
 
             if( mViewMode != VM_PNYX_MODE )
             {
-                if( movement & MOVE_SNEAK )
+                if( mController->getMovementId() == CreatureController::MT_HOCHSPRUNG )
+                {
+                    // move forward or backward if wanted
+                    Vector3 direction = Vector3::UNIT_Y;
+                    if( movement & MOVE_FORWARD )
+                        direction += Vector3::NEGATIVE_UNIT_Z;
+                    else if( movement & MOVE_BACKWARD )
+                        direction += Vector3::UNIT_Z;
+
+                    mController->setMovement(
+                        CreatureController::MT_HOCHSPRUNG,
+                        direction,
+                        Vector3(0, rotation.valueRadians(), 0) );
+                }
+                else if( movement & MOVE_SNEAK )
                 {
                     Vector3 direction(Vector3::ZERO);
                     if (movement & MOVE_FORWARD)
