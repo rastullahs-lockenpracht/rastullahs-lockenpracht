@@ -1,7 +1,9 @@
 require "triggers/limitedtimestrigger.rb"
 
 # creates a zone with a trigger, that is destroyed if actived 'times' of times
-# Example: _CreateLimitedTimesTrigger("uniquename", PhysicsManager::GT_SPHERE, [-20,0,5], [1,0,0,0], [2,2,2], 5, Proc.new{print "entered"}, Proc.new{print "left"})
+# Example: _CreateLimitedTimesTrigger("uniquename", PhysicsManager::GT_SPHERE, [-20,0,5], [1,0,0,0], [2,2,2], 5, %q{print "entered"}, %q{print "left"})
+# the enter- and leaveproc must be given as string, because there is no other way to serialize them if
+# the trigger will be saved
 def _CreateLimitedTimesTrigger(name, geom_type, pos, orientation, size, times, enter_proc, leave_proc = nil)
   unless ( ZoneManager.getSingleton().getZone("limitedTimesTriggerZone_" + name) == nil )
     raise ArgumentError, "A limitedTimesTrigger with name " + name + " already exists!", caller
@@ -13,8 +15,8 @@ def _CreateLimitedTimesTrigger(name, geom_type, pos, orientation, size, times, e
     "limitedTimesTriggerZone_" + name, 
     size, geom_type, pos, [0,0,0], orientation, 0.2, RlScript::QUERYFLAG_PLAYER);
   trigger.setProperty("number", times);
-  trigger.setEnterCode( &enter_proc );
-  trigger.setLeaveCode( &leave_proc );
+  trigger.setEnterCode( enter_proc );
+  trigger.setLeaveCode( leave_proc );
   trigger.setProperty("zone", "limitedTimesTriggerZone_" + name )
   zone.addTrigger(trigger)
   return trigger
