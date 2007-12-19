@@ -55,7 +55,7 @@ namespace rl {
         mSaveGameTable->addColumn( (utf8*)"Module", 1, cegui_reldim(0.2));
         mSaveGameTable->addColumn( (utf8*)"Date", 2, cegui_reldim(0.2));
 
-        mSaveGameTable->setSelectionMode(MultiColumnList::NominatedRowSingle);
+        mSaveGameTable->setSelectionMode(MultiColumnList::RowSingle);
         mSaveGameTable->subscribeEvent(MultiColumnList::EventSelectionChanged, boost::bind(&MainMenuLoadWindow::handleSelectSaveGame, this));
 
         centerWindow();

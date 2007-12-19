@@ -446,7 +446,7 @@ DOMElement* XmlProcessor::setAttributeValueAsQuaternion(DOMElement *element, con
 {
     RlAssert(element != NULL, "XmlProcessor::setAttributeValueAsQuaternion: Element must not be NULL");
 	AutoXMLCh attrName(name);
-    CeGuiString temp = Ogre::StringConverter::toString(value.x) + "," + Ogre::StringConverter::toString(value.y) + "," + Ogre::StringConverter::toString(value.z) + "," + Ogre::StringConverter::toString(value.w);
+    CeGuiString temp = Ogre::StringConverter::toString(value.w) + "," + Ogre::StringConverter::toString(value.x) + "," + Ogre::StringConverter::toString(value.y) + "," + Ogre::StringConverter::toString(value.z);
     element->setAttribute(attrName.data(), XMLString::transcode(temp.c_str()));
 
     return element;
