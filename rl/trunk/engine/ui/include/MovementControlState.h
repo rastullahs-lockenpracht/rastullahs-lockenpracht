@@ -84,6 +84,7 @@ namespace rl {
         virtual void updatePrimitive();
 
         bool updateAfterGameObjectLoading();
+        bool beforeLoadingSaveGame();
 
     protected:
         virtual void doCreatePrimitive();
@@ -178,6 +179,7 @@ namespace rl {
         Ogre::Vector3 calculateOptimalCameraPosition(bool SlowlyMoveBackward, const Ogre::Real &timestep);
 
         MessagePump::ScopedConnection mMessageType_GameObjectsLoaded_Handler;
+        MessagePump::ScopedConnection mMessageType_SaveGameLoading_Handler;
     };
 }
 #endif

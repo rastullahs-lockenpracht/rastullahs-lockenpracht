@@ -139,7 +139,10 @@ namespace rl {
         mSelector.setFilter(new InSceneSelectionFilter());
 
         mMessageType_GameObjectsLoaded_Handler = MessagePump::getSingleton().addMessageHandler<MessageType_GameObjectsLoaded>(
-                boost::bind(&MovementControlState::updateAfterGameObjectLoading, this));
+            boost::bind(&MovementControlState::updateAfterGameObjectLoading, this));
+
+        mMessageType_SaveGameLoading_Handler = MessagePump::getSingleton().addMessageHandler<MessageType_SaveGameLoading>(
+            boost::bind(&MovementControlState::beforeLoadingSaveGame, this));
     }
 
     //------------------------------------------------------------------------
@@ -1420,6 +1423,13 @@ namespace rl {
         mCombatSelector.track(mCharacter);
         mCombatSelector.setRadius(10.0);
 
+        return false;
+    }
+
+    bool MovementControlState::beforeLoadingSaveGame()  //unhighlight selected go
+    {
+        if(mSelector.getFirstSelectedObject())
+            mSelector.getFirstSelectedObject()->setHighlighted(false);
         return false;
     }
 }
