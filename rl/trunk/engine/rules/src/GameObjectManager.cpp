@@ -345,7 +345,11 @@ namespace rl
                         PropertyRecord properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlGameObject));
                         GameObject* object = createGameObject(classID, ID);
                         
-                        applyProperties(object, &properties); 
+                        applyProperties(object, &properties);
+                        // Placing the actor a a little bit higher in the scene. The actor will fall onto ground.
+                        // Avoiding problems with the physics, because the character the creature is transfixed to ground
+                        object->setProperty(GameObject::PROPERTY_POSITION, 
+                            Property(object->getProperty(GameObject::PROPERTY_POSITION).toVector3() + Ogre::Vector3(0.0f,0.01f,0.0f)));
                         object->setState(state);
                     }
                 }
