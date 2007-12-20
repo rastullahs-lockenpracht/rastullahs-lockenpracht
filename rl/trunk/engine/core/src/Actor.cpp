@@ -387,7 +387,9 @@ namespace rl {
     {
         SceneManager* mgr =
             CoreSubsystem::getSingletonPtr()->getWorld()->getSceneManager();
-        placeIntoNode( mgr->getRootSceneNode(), position, orientation, physicsBone );
+        // Placing the actor a a little bit higher in the scene. The actor will fall onto ground.
+        // Avoiding problems with the physics, because the character the creature is transfixed to ground
+        placeIntoNode( mgr->getRootSceneNode(), position+Ogre::Vector3(0.0f,0.1f,0.0f), orientation, physicsBone );
     }
 
     void Actor::placeIntoNode(

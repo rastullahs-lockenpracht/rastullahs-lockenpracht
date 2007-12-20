@@ -1413,15 +1413,16 @@ namespace rl {
 
     bool MovementControlState::updateAfterGameObjectLoading()
     {
-        // We want to check for visibility from char's POV.
-        mSelector.setCheckVisibility(true, GameObjectManager::getSingleton().getGameObject(mCharacterId));
-        mSelector.track(mCharacter);
-        mSelector.setRadius(3.0);
+        resume(); //saving/loading only possible in movement state
+        //// We want to check for visibility from char's POV.
+        //mSelector.setCheckVisibility(true, GameObjectManager::getSingleton().getGameObject(mCharacterId));
+        //mSelector.track(mCharacter);
+        //mSelector.setRadius(3.0);
 
-        // Same for combat selector
-        mCombatSelector.setCheckVisibility(true, GameObjectManager::getSingleton().getGameObject(mCharacterId));
-        mCombatSelector.track(mCharacter);
-        mCombatSelector.setRadius(10.0);
+        //// Same for combat selector
+        //mCombatSelector.setCheckVisibility(true, GameObjectManager::getSingleton().getGameObject(mCharacterId));
+        //mCombatSelector.track(mCharacter);
+        //mCombatSelector.setRadius(10.0);
 
         return false;
     }
@@ -1429,7 +1430,12 @@ namespace rl {
     bool MovementControlState::beforeLoadingSaveGame()  //unhighlight selected go
     {
         if(mSelector.getFirstSelectedObject())
+        {
             mSelector.getFirstSelectedObject()->setHighlighted(false);
+        }
+
+        pause(); //saving/loading only possible in movement state
+
         return false;
     }
 }
