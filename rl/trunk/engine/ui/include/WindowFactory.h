@@ -90,7 +90,8 @@ namespace rl {
         void showObjectDescription(GameObject* object);
         void showPlaylist();
         void showGameSaveLoadWindow();
-        void showMainMenuLoadWindow();
+        void showMainMenuLoadWindow(MainMenuWindow* win);
+		void hideMainMenuLoadWindow();
         void showPopupMessage(int popupTypes);
         /**
          * Creates a GameSettings object and displays its layout file on screen
@@ -136,6 +137,7 @@ namespace rl {
         GameObject* mShownObject;
         ObjectDescriptionWindow* mObjectDescriptionWindow;
         MainMenuWindow* mMainMenuWindow;
+		MainMenuLoadWindow* mMainMenuLoadWindow;
         CloseConfirmationWindow* mCloseConfirmationWindow;
         GameSettings* mGameSettings;
         CombatWindow* mCombatWindow;

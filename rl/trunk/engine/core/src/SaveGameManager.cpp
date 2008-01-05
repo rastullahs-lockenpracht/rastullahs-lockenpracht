@@ -77,12 +77,12 @@ namespace rl
         return mSaveGames;
     }
 
-    SaveGameEntryMap SaveGameManager::listSaveGames(const CeGuiString &moduleName)
+    SaveGameEntryMap SaveGameManager::listSaveGames(const CeGuiString &moduleId)
     {
         SaveGameEntryMap entries;
         for(SaveGameEntryMap::const_iterator iter = mSaveGames.begin(); iter != mSaveGames.end(); iter++)
         {
-            if(iter->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString() == moduleName)
+            if(iter->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString() == moduleId)
             {
                 entries[iter->first] = iter->second;
             }
@@ -100,7 +100,7 @@ namespace rl
         localTime = localtime(&rawTime); 
         SaveGameFile* file = new SaveGameFile(name);
         file->setProperty(SaveGameFile::PROPERTY_TIME, Property(printTimeAsString(localTime)));
-        file->setProperty(SaveGameFile::PROPERTY_MODULEID, Property(CoreSubsystem::getSingleton().getActiveAdventureModule()->getName()));
+        file->setProperty(SaveGameFile::PROPERTY_MODULEID, Property(CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()));
 
         mSaveGames[name] = file;
 

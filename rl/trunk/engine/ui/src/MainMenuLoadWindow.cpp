@@ -44,7 +44,7 @@ namespace rl {
 
     //------------------------------------------------------- Constructor
 
-    MainMenuLoadWindow::MainMenuLoadWindow() :
+    MainMenuLoadWindow::MainMenuLoadWindow(MainMenuWindow* win) :
         AbstractWindow("mainmenuloadwindow.xml", WIT_MOUSE_INPUT | WIT_KEYBOARD_INPUT)
     {
         // Get a access to the savegame table
@@ -77,6 +77,7 @@ namespace rl {
         bindDestroyWindowToXButton();
         bindDestroyWindowToClick(getWindow("MainMenuLoadWindow/ButtonSheet/CancelButton"));
 
+		mMainMenuWindow = win;
     }
 
     //------------------------------------------------------- Destructor
@@ -99,6 +100,21 @@ namespace rl {
     bool MainMenuLoadWindow::handleLoadEvent()
     {
         LOG_MESSAGE(Logger::UI, "Load Button pressed");
+
+		setVisible(false);
+		mMainMenuWindow->setVisible(false);
+
+		if(mSaveGameTable->getFirstSelectedItem())
+		{
+			uint SelectedRow = mSaveGameTable->getRowWithID(mSaveGameTable->getFirstSelectedItem()->getID());
+			CeGuiString moduleName = mSaveGameTable->getItemAtGridReference(CEGUI::MCLGridRef(SelectedRow,1))->getText();
+			ContentModule* module = NULL;
+			module = CoreSubsystem::getSingleton().getModule(moduleName.c_str());
+			assert(module != NULL /*MainMenuLoadWindow::handleLoadEvent()*/);
+			CoreSubsystem::getSingleton().startAdventureModule(module);
+			CeGuiString saveGameName = mSaveGameTable->getItemAtGridReference(CEGUI::MCLGridRef(SelectedRow,0))->getText();
+			SaveGameManager::getSingleton().loadSaveGameFile(saveGameName, moduleName);
+		}
 
         return true;
     }

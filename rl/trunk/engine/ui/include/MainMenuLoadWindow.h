@@ -25,6 +25,7 @@
 
 #include "UiPrerequisites.h"
 #include "AbstractWindow.h"
+#include "MainMenuWindow.h"
 
 namespace rl {
 
@@ -40,7 +41,7 @@ namespace rl {
         /**
          * Constructor of the GameObject window
          */
-        MainMenuLoadWindow();
+        MainMenuLoadWindow(MainMenuWindow* win);
         
         /**
          * Destructor of the GameObject window
@@ -63,6 +64,8 @@ namespace rl {
         void listSaveGames();
         
         CEGUI::MultiColumnList     *mSaveGameTable;     //!< SaveGame table
+
+		MainMenuWindow* mMainMenuWindow;
     };
 }
 

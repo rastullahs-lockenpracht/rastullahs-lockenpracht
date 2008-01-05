@@ -81,6 +81,7 @@ namespace rl {
         mShownObject(NULL),
         mObjectDescriptionWindow(NULL),
         mMainMenuWindow(NULL),
+		mMainMenuLoadWindow(NULL),
         mGameSettings(NULL),
         mCombatWindow(NULL)
     {
@@ -178,11 +179,20 @@ namespace rl {
         wnd->setVisible(true);
     }
 
-    void WindowFactory::showMainMenuLoadWindow()
+    void WindowFactory::showMainMenuLoadWindow(MainMenuWindow* win)
     {
-        MainMenuLoadWindow* wnd = new MainMenuLoadWindow();
-        wnd->initialize();
-        wnd->setVisible(true);
+		mMainMenuLoadWindow = new MainMenuLoadWindow(win);
+        mMainMenuLoadWindow->initialize();
+        mMainMenuLoadWindow->setVisible(true);
+    }
+
+	void WindowFactory::hideMainMenuLoadWindow()
+    {
+		if(mMainMenuLoadWindow != NULL && mMainMenuLoadWindow->isVisible())
+		{
+			mMainMenuLoadWindow->setVisible(false,true);
+			mMainMenuWindow = NULL;
+		}
     }
 
     void WindowFactory::toggleGameLogWindow()

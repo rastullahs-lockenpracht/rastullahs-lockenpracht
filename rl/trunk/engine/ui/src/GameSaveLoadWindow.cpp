@@ -118,7 +118,7 @@ namespace rl {
         {
 
             if(SaveGameManager::getSingleton().SaveGameFileExists(filename))
-                SaveGameManager::getSingleton().loadSaveGameFile(filename, CoreSubsystem::getSingleton().getActiveAdventureModule()->getName());
+                SaveGameManager::getSingleton().loadSaveGameFile(filename, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId());
             else
             {
                 LOG_ERROR(Logger::UI, "Save Game " + filename + " doesn't exist!");
@@ -170,7 +170,7 @@ namespace rl {
 
     void GameSaveLoadWindow::listSaveGames()
     {
-        SaveGameEntryMap saveGames = SaveGameManager::getSingleton().listSaveGames(CoreSubsystem::getSingleton().getActiveAdventureModule()->getName());
+        SaveGameEntryMap saveGames = SaveGameManager::getSingleton().listSaveGames(CoreSubsystem::getSingleton().getActiveAdventureModule()->getId());
     
         while(mSaveGameTable->getRowCount() > saveGames.size())
 		    mSaveGameTable->removeRow(mSaveGameTable->getRowCount()-1);

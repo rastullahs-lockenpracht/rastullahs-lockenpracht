@@ -121,6 +121,7 @@ namespace rl {
 
 	bool MainMenuWindow::handleStart()
 	{
+		WindowFactory::getSingleton().hideMainMenuLoadWindow();
 		setVisible(false);
 		destroyWindow();
 		CoreSubsystem::getSingleton().startAdventureModule(mActiveModule);
@@ -129,7 +130,7 @@ namespace rl {
 
     bool MainMenuWindow::handleLoad()
     {
-        WindowFactory::getSingleton().showMainMenuLoadWindow();
+        WindowFactory::getSingleton().showMainMenuLoadWindow(this);
         return true;
     }
 
