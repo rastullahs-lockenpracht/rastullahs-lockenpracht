@@ -1,0 +1,160 @@
+// !$*UTF8*$!
+{
+	3056321D0D2FDFF600828776 /* RLdialog */ = {
+		isa = PBXExecutable;
+		activeArgIndex = 2147483647;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = RLdialog;
+		sourceDirectories = (
+		);
+	};
+	305632330D2FE01400828776 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+		};
+		scmType = "";
+	};
+	305632340D2FE01400828776 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	3056323A0D2FE06500828776 /* XCBreakpointsBucket */ = {
+		isa = XCBreakpointsBucket;
+		name = "Project Breakpoints";
+		objects = (
+		);
+	};
+	305632990D2FEC2B00828776 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 894ED4EB3B0E32F9D08F9C7B /* helper.h */;
+	};
+	305632B80D2FED8D00828776 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: invalid conversion from 'QLabel*' to 'int'";
+		fRef = EB907D69B55A731E4F4BCD6F /* helper.cpp */;
+		rLen = 1;
+		rLoc = 149;
+		rType = 1;
+	};
+	305632DE0D2FEF9500828776 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EB907D69B55A731E4F4BCD6F /* helper.cpp */;
+		name = "helper.cpp: 129";
+		rLen = 0;
+		rLoc = 3746;
+		rType = 0;
+		vrLen = 850;
+		vrLoc = 3595;
+	};
+	305632DF0D2FEF9500828776 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 894ED4EB3B0E32F9D08F9C7B /* helper.h */;
+		name = "helper.h: 43";
+		rLen = 0;
+		rLoc = 719;
+		rType = 0;
+		vrLen = 924;
+		vrLoc = 207;
+	};
+	894ED4EB3B0E32F9D08F9C7B /* helper.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {518, 1302}}";
+			sepNavSelRange = "{719, 0}";
+			sepNavVisRect = "{{0, 244}, {468, 570}}";
+			sepNavWindowFrame = "{{752, 69}, {513, 699}}";
+		};
+	};
+	91B15E841AA80083484172DE /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = 3056321D0D2FDFF600828776 /* RLdialog */;
+		activeTarget = B440910983B30142EC6644C5 /* RLdialog */;
+		breakpointsGroup = 3056323A0D2FE06500828776 /* XCBreakpointsBucket */;
+		codeSenseManager = 305632340D2FE01400828776 /* Code sense */;
+		executables = (
+			3056321D0D2FDFF600828776 /* RLdialog */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					243,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 221241517;
+			PBXWorkspaceStateSaveDate = 221241517;
+		};
+		perUserProjectItems = {
+			305632990D2FEC2B00828776 /* PBXBookmark */ = 305632990D2FEC2B00828776 /* PBXBookmark */;
+			305632B80D2FED8D00828776 /* PBXTextBookmark */ = 305632B80D2FED8D00828776 /* PBXTextBookmark */;
+			305632DE0D2FEF9500828776 /* PBXTextBookmark */ = 305632DE0D2FEF9500828776 /* PBXTextBookmark */;
+			305632DF0D2FEF9500828776 /* PBXTextBookmark */ = 305632DF0D2FEF9500828776 /* PBXTextBookmark */;
+		};
+		sourceControlManager = 305632330D2FE01400828776 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	9CF27186DDBAE62999D2A14F /* rldialog.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {884, 5964}}";
+			sepNavSelRange = "{805, 18}";
+			sepNavVisRect = "{{0, 0}, {759, 581}}";
+			sepNavWindowFrame = "{{496, 4}, {804, 710}}";
+		};
+	};
+	A60BEEBA8CF1D53DEA87FC81 /* ifdialog.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {759, 4998}}";
+			sepNavSelRange = "{1142, 0}";
+			sepNavVisRect = "{{0, 318}, {759, 581}}";
+			sepNavWindowFrame = "{{15, 63}, {804, 710}}";
+		};
+	};
+	B440910983B30142EC6644C5 /* RLdialog */ = {
+		activeExec = 0;
+		executables = (
+			3056321D0D2FDFF600828776 /* RLdialog */,
+		);
+	};
+	EB907D69B55A731E4F4BCD6F /* helper.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1052, 3388}}";
+			sepNavSelRange = "{3746, 0}";
+			sepNavVisRect = "{{0, 1697}, {759, 581}}";
+			sepNavWindowFrame = "{{15, 63}, {804, 710}}";
+		};
+	};
+}
