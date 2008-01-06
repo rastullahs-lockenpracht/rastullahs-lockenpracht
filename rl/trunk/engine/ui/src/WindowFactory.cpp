@@ -337,15 +337,17 @@ namespace rl {
     {
         CeGuiString text = RubyInterpreter::val2ceguistr(str);
 
-        if (WindowFactory::getSingleton().mConsole != NULL)
+        if (WindowFactory::getSingletonPtr() != NULL )
         {
-            WindowFactory::getSingleton().mConsole->
-                write(text + " \n");
+            if (WindowFactory::getSingleton().mConsole != NULL)
+            {
+                WindowFactory::getSingleton().mConsole->
+                    write(text + " \n");
+                return Qnil;
+            }
         }
-        else
-        {
-            LOG_MESSAGE("Console", text);
-        }
+        
+        LOG_MESSAGE("Console", text);
         return Qnil;
     }
 
