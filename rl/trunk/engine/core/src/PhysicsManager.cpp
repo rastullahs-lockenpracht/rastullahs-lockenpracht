@@ -838,7 +838,7 @@ namespace rl
             Ogre::Vector3* inertia)
     {
         // offset of the collision primitiv
-		Ogre::Vector3 object_offset( aabb.getCenter() );
+        Ogre::Vector3 object_offset( aabb.getCenter() );
         // orientation of the collision primitiv
 		Ogre::Quaternion object_orientation = Ogre::Quaternion::IDENTITY;
 
@@ -891,7 +891,8 @@ namespace rl
         // calculate the maximum radius needed to include 'everything'
         double radius = std::max(size.x, std::max(size.y, size.z)) / 2.0;
         // positional offset of the collision primitiv
-		Ogre::Vector3 object_offset(0,radius,0);
+        Ogre::Vector3 object_offset(aabb.getCenter());
+        //object_offset.y = aabb.getMinimum().y;
         // orientation of the collision primitiv
 		Ogre::Quaternion object_orientation = Ogre::Quaternion::IDENTITY;
 
@@ -922,7 +923,7 @@ namespace rl
         s.x = std::max(s.x, s.z);
         s.z = s.x;
         // positional offset of the collision primitiv
-		Ogre::Vector3 object_offset(0,s.y,0);
+		Ogre::Vector3 object_offset(aabb.getCenter());
         // orientation of the collision primitiv
 		Ogre::Quaternion object_orientation = Ogre::Quaternion::IDENTITY;
 
@@ -948,7 +949,7 @@ namespace rl
     {
         Ogre::Vector3 size = aabb.getSize();
         // positional offset of the collision primitiv
-		Ogre::Vector3 object_offset(0, size.y/2, 0);
+		Ogre::Vector3 object_offset(aabb.getCenter());
         // orientation of the collision primitiv
 		Ogre::Quaternion object_orientation = Ogre::Quaternion::IDENTITY;
         double radius = std::max(size.x, size.z) / 2.0;
