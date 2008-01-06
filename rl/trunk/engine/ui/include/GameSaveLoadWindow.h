@@ -54,6 +54,9 @@ namespace rl {
          * @param object The GameObject to be displayed
          */
         virtual void initialize();
+
+        // derived from AbstractWindow
+        bool wantsKeyToRepeat(const int &key);
         
     private:
         bool handleLoadEvent();

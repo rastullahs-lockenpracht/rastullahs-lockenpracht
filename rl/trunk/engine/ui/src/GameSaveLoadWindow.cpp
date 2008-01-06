@@ -25,6 +25,7 @@
 #include <CEGUIWindowManager.h>
 #include <elements/CEGUIListboxTextItem.h>
 #include <Exception.h>
+#include <InputManager.h>
 #include <GameObjectManager.h>
 #include <GameObject.h>
 #include <Actor.h>
@@ -88,7 +89,6 @@ namespace rl {
 
         bindDestroyWindowToXButton();
         bindDestroyWindowToClick(getWindow("GameSaveLoadWindow/ButtonSheet/CancelButton"));
-
     }
 
     //------------------------------------------------------- Destructor
@@ -196,4 +196,18 @@ namespace rl {
         return true;
     }
 
+    //------------------------------------------------------- repeat some keys
+    bool GameSaveLoadWindow::wantsKeyToRepeat(const int &key)
+    {
+        InputManager* im = InputManager::getSingletonPtr();
+        static const CEGUI::utf8 NO_CHAR = 0;
+        if( im->getKeyChar(key, im->getModifierCode()) != NO_CHAR || // keys that should be repeated
+            key == CEGUI::Key::ArrowLeft ||
+            key == CEGUI::Key::ArrowRight ||
+            key == CEGUI::Key::Backspace ||
+            key == CEGUI::Key::Delete )
+            return true;
+
+        return false;
+    }
 } // namespace rl

@@ -533,8 +533,19 @@ namespace rl {
                 if ( time - mLastTime > 50 )
                 {
                     bool handled = false;
-                    handled = handled || CEGUI::System::getSingleton().injectKeyDown(mKey);
-                    handled = handled || CEGUI::System::getSingleton().injectKeyUp(mKey);
+                    if( CEGUI::System::getSingleton().injectKeyDown(mKey) )
+                        handled = true;
+                    else
+                    {
+                        static const CEGUI::utf8 NO_CHAR = 0;
+                        if( InputManager::getSingleton().getKeyChar(mKey, InputManager::getSingleton().getModifierCode()) != NO_CHAR )
+                        {
+                            if( CEGUI::System::getSingleton().injectChar(InputManager::getSingleton().getKeyChar(mKey, InputManager::getSingleton().getModifierCode())) )
+                                handled = true;
+                        }
+                    }
+                    if( CEGUI::System::getSingleton().injectKeyUp(mKey) )
+                        handled = true;
                     
                     mLastTime = time;
 
@@ -569,6 +580,15 @@ namespace rl {
 
             if( CEGUI::System::getSingleton().injectKeyDown( evt.key ) )
                 retval = true;
+            else
+            {
+                static const CEGUI::utf8 NO_CHAR = 0;
+                if( getKeyChar(evt.key, getModifierCode()) != NO_CHAR )
+                {
+                    if( CEGUI::System::getSingleton().injectChar(getKeyChar(evt.key, getModifierCode())) )
+                        retval = true;
+                }
+            }
         }
 
         if( !mControlStates.empty() )

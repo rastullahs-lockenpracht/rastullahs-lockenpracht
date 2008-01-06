@@ -165,16 +165,6 @@ namespace rl
 			mCommandLine->setText((utf8*)"");
 			return true;
 		}
-        else
-        {
-            if( im->getKeyChar(ke.scancode, im->getModifierCode()) != NO_CHAR )
-            {
-                InputManager* im = InputManager::getSingletonPtr();
-                CEGUI::System& cegui = CEGUI::System::getSingleton();
-                cegui.injectChar(im->getKeyChar(ke.scancode, im->getModifierCode()));
-                return true;
-            }
-        }
 
 		return false;
 	}
@@ -207,8 +197,8 @@ namespace rl
             ke.scancode == CEGUI::Key::ArrowUp ||
             ke.scancode == CEGUI::Key::Return )
             return true;
-        else
-            return false;
+
+        return false;
     }
 
 	void Console::write(const CeGuiString& output)
