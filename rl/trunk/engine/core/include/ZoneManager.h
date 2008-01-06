@@ -20,6 +20,7 @@
 #include "CoreDefines.h"
 #include "GameAreaListener.h"
 #include "GameTask.h"
+#include "SaveGameManager.h"
 
 namespace rl
 {
@@ -29,7 +30,8 @@ namespace rl
     class _RlCoreExport ZoneManager : 
         public Ogre::Singleton<ZoneManager>,
         public GameAreaListener,
-        public GameTask // for deferred deletion of zones
+        public GameTask, // for deferred deletion of zones
+        public SaveGameData // for saving/loading zones
 	{
 	public:
 		ZoneManager();
@@ -105,6 +107,14 @@ namespace rl
         typedef std::map<const Ogre::String, Zone*> ZoneMap;
         const ZoneMap &getAllZones() const {return mZones;}
 
+
+        /// Override from SaveGameData
+        /// Manages saving and loading from the SaveGameFile
+
+        virtual CeGuiString getXmlNodeIdentifier() const;
+        virtual void writeData(SaveGameFileWriter* writer);
+        virtual void readData(SaveGameFileReader* reader);
+        virtual int getPriority() const;  // zones must be loaded before triggers!
 	private:
 		ZoneMap mZones;
         std::map<long, Zone*> mZonesIdMap;
@@ -122,6 +132,7 @@ namespace rl
         void zoneLeft(Zone * zone);
         
         void doDestroyZone(Zone *zone);
+        void parseAreaProperties(const Ogre::String& zoneName, const PropertyRecord &properties); // adds an area created from properties to the zone
 	};
 }
 

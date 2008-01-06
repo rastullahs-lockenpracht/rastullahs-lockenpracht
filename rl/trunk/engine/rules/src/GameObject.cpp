@@ -96,6 +96,7 @@ namespace rl
 
     GameObject::~GameObject(void)
     {
+        destroyActor();
     	delete mEffectManager;
     }
 
@@ -667,10 +668,11 @@ namespace rl
                 actor->placeIntoScene(mPosition, mOrientation);
                 setActor(actor);
 
-                GameObjectState tmpState = mState;
-                mState = GOS_IN_SCENE;
-                GameObjectManager::getSingleton().gameObjectStateChanged(this, tmpState, mState);
-                onStateChange(tmpState, GOS_IN_SCENE);
+                // this is done in setstate now
+                //GameObjectState tmpState = mState;
+                //mState = GOS_IN_SCENE;
+                //GameObjectManager::getSingleton().gameObjectStateChanged(this, tmpState, mState);
+                //onStateChange(tmpState, GOS_IN_SCENE);
             }
             else {
                 LOG_ERROR(
@@ -693,11 +695,14 @@ namespace rl
 
             setActor(NULL);
             actor->removeFromScene();
-            ActorManager::getSingleton().destroyActor(actor);
 
-            GameObjectState tmpState = mState;
-            mState = GOS_LOADED;
-            GameObjectManager::getSingleton().gameObjectStateChanged(this, tmpState, mState);
+            // give the setstate function the possibility to reuse the actor
+            //ActorManager::getSingleton().destroyActor(actor);
+
+            // this is done in setstate now
+            //GameObjectState tmpState = mState;
+            //mState = GOS_LOADED;
+            //GameObjectManager::getSingleton().gameObjectStateChanged(this, tmpState, mState);
         }
     }
 
@@ -712,15 +717,12 @@ namespace rl
 
         if (targetstate == GOS_LOADED && mState == GOS_IN_SCENE)
         {
-            // Statechange event is triggered in this function
             doRemoveFromScene();
-            onStateChange(oldState, targetstate);
+            destroyActor();
         }
         else if (targetstate == GOS_IN_SCENE && mState == GOS_LOADED)
         {
-            //Statechange event is triggered in this function
             doPlaceIntoScene();
-            onStateChange(oldState, targetstate);
         }
         else
         {
@@ -730,7 +732,12 @@ namespace rl
                 + "' could not change state from "
                 + Ogre::StringConverter::toString(mState) + " to "
                 + Ogre::StringConverter::toString(targetstate));
+            return;
         }
+
+        mState = targetstate;
+        onStateChange(oldState, targetstate);
+        GameObjectManager::getSingleton().gameObjectStateChanged(this, oldState, targetstate);
     }
 
     void GameObject::onStateChange(GameObjectState oldState, GameObjectState newState)

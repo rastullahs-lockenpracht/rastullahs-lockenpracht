@@ -31,9 +31,7 @@ template<> rl::CreatureControllerManager* Singleton<rl::CreatureControllerManage
 
 namespace rl
 {
-    CreatureControllerManager::CreatureControllerManager() :
-            mControllers(),
-            mBodyControllers()
+    CreatureControllerManager::CreatureControllerManager()
     {
         GameLoop::getSingleton().addTask(this, GameLoop::TG_LOGIC);
 
@@ -59,6 +57,7 @@ namespace rl
 
     CreatureControllerManager::~CreatureControllerManager()
     {
+        // should not be needed, because all creatures should be destroyed before
         // causes an error because PhysicalThing::setPhysicsController(NULL) is called probably after the physicalthing is destroyed
         // delete all creaturecontrollers
         //for( ControllerMap::iterator it = mControllers.begin(); it != mControllers.end(); it++ )
@@ -96,8 +95,6 @@ namespace rl
             // No, so create one and put it into the map.
             rval = new CreatureController(creature);
             mControllers.insert(std::make_pair(creature, rval));
-            mBodyControllers.insert(std::make_pair(
-                creature->getActor()->getPhysicalThing()->_getBody(), rval));
         }
         else
         {
@@ -126,23 +123,19 @@ namespace rl
 
     void CreatureControllerManager::detachController(Creature* creature)
     {
+        CreatureController *controller = NULL;
         if( creature == NULL)
         {
             Throw(NullPointerException, "Argument creature darf nicht NULL sein.");
         }
 
-        mControllers.find(creature);
         ControllerMap::iterator it = mControllers.find(creature);
         if (it != mControllers.end())
         {
+            controller = it->second;
             delete it->second;
             mControllers.erase(it);
         }
-
-        BodyControllerMap::iterator it_ = mBodyControllers.find(
-            creature->getActor()->getPhysicalThing()->_getBody());
-        if( it_ != mBodyControllers.end() )
-            mBodyControllers.erase(it_);
     }
 
     void CreatureControllerManager::run(Real elapsedTime)
@@ -155,26 +148,25 @@ namespace rl
 
     int CreatureControllerManager::userProcess()
     {
-        BodyControllerMap::iterator it = mBodyControllers.find(m_body0);
-        if (it == mBodyControllers.end())
+        Actor *actor = static_cast<Actor*>(m_body0->getUserData());
+        if( actor != NULL )
         {
-            it = mBodyControllers.find(m_body1);
-
-            if (it == mBodyControllers.end())
+            ControllerMap::const_iterator it = mControllers.find(static_cast<Creature*>(actor->getGameObject()));
+            if (it != mControllers.end())
             {
-                LOG_ERROR(Logger::RULES,
-                    "Der Kollisionskörper konnte keiner Creature zugeordnet werden.");
-                return 1;
+                // @XXX Evil code!
+                // Protected members from type OgreNewt::ContactCallback have to be overridden in order
+                // for the controllers to work. This is because these members are used by OgreNewt functions
+                // for processing this contact. Should probably be solved in OgreNewt directly.
+                OgreNewt::ContactCallback* controller = it->second;
+                *controller = (OgreNewt::ContactCallback)(*this);
+                return controller->userProcess();
             }
         }
 
-        // @XXX Evil code!
-        // Protected members from type OgreNewt::ContactCallback have to be overridden in order
-        // for the controllers to work. This is because these members are used by OgreNewt functions
-        // for processing this contact. Should probably be solved in OgreNewt directly.
-        OgreNewt::ContactCallback* controller = it->second;
-        *controller = (OgreNewt::ContactCallback)(*this);
-        return controller->userProcess();
+        LOG_ERROR(Logger::RULES,
+            "Der Kollisionskörper konnte keinem CreatureController zugeordnet werden.");
+        return 1;
     }
 
     const Ogre::String& CreatureControllerManager::getName() const

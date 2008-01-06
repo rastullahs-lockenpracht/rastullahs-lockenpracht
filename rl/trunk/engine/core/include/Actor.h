@@ -34,6 +34,7 @@ namespace rl {
     class ActorControlledObject;
     class MovableText;
     class Actor;
+    class GameAreaEventSource;
 
     typedef std::map<const Ogre::String,Actor*> ActorMap;
     typedef std::vector<Actor*> ActorVector;
@@ -282,6 +283,13 @@ namespace rl {
 
         bool isInScene() const;
 
+    protected:
+        friend class GameAreaEventSource;
+        /// this is called from the gameareaeventsource when the actor enters it
+        void addToGameArea(GameAreaEventSource *ga);
+        /// this is called from the gameareaeventsource when the actor leaves it
+        void removeFromGameArea(GameAreaEventSource *ga);
+
     private:
         typedef std::set<Actor*> ChildSet;
 
@@ -307,6 +315,9 @@ namespace rl {
         //bool mAttachedToBone;
         /// Der Bone, an dem wir vielleicht hängen.
         Ogre::Bone *mBone;
+
+        /// the actor is in these areas, this is needed to notify areas of deleted actors
+        std::list<GameAreaEventSource*> mGameAreas;
 
         void doPlaceIntoScene(
             Ogre::SceneNode* parent,

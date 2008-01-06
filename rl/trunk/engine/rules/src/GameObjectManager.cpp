@@ -52,9 +52,8 @@ namespace rl
     GameObjectManager::~GameObjectManager()
     {
         SaveGameManager::getSingleton().unregisterSaveGameData(this);
-        //unregisterAllGameObjectStateListener();
-        //deleteAllGameObjects();
-        ///@todo: Delete all game objects, delete all class properties
+        unregisterAllGameObjectStateListener();
+        deleteAllGameObjects();
     }
 
     const Ogre::StringVector& GameObjectManager::getScriptPatterns() const
@@ -172,12 +171,11 @@ namespace rl
 
     void GameObjectManager::deleteAllGameObjects()
     {
-        for(std::map<unsigned int, GameObject*>::iterator itr = mGameObjects.begin(); itr != mGameObjects.end();)
+        while(!mGameObjects.empty())
         {
-            GameObject* go = itr->second;
-            mGameObjects.erase(itr++);
-            go->setState(GOS_LOADED);  // this causes problems here, because of the relations between gofs
+            GameObject *go = mGameObjects.begin()->second;
             delete go;
+            mGameObjects.erase(mGameObjects.begin());
         }
     }
 

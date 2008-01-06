@@ -48,6 +48,11 @@ namespace rl {
 
     Container::~Container()
     {
+        // set the state of all child items to GOS_LOADED
+        ItemSet::iterator it;
+        ItemSet items(mItems);
+        for( it = items.begin(); it != items.end(); it++ )
+            (*it)->removeOldState();
     }
 
     Ogre::Real Container::getCapacity() const
@@ -142,15 +147,7 @@ namespace rl {
 
 		if (pos != NO_SPACE_FOR_ITEM)
 		{
-            if (item->getParentSlot())
-            {
-                item->getParentSlot()->setItem(NULL);
-            }
-            if (item->getParentContainer())
-            {
-                item->getParentContainer()->removeItem(item);
-            }
-            item->setOwner(NULL);
+            item->removeOldState();
 
             mItemPositions[item] = pos;
 			mItems.insert(item);
@@ -180,8 +177,7 @@ namespace rl {
             
             // this is the case, if the item is removed automatically
             // don't change this without looking at Item::setState
-            if (item->getState() != GOS_LOADED)
-                item->setState(GOS_LOADED);
+            item->removeOldState();
         }
         else
         {
@@ -409,5 +405,20 @@ namespace rl {
     bool Container::canHold(Item* item)
     {
         return findPositionWithEnoughSpace(item->getSize()) != NO_SPACE_FOR_ITEM;
+    }
+
+    void Container::setOwner(GameObject *go)
+    {
+        if( mOwner == go )
+            return;
+
+        mOwner = go;
+        GameObject *newChildOwner = mOwner;
+        if( newChildOwner == NULL )
+            newChildOwner = this;
+
+        ItemSet::iterator it;
+        for( it = mItems.begin(); it != mItems.end(); it++ )
+            (*it)->setOwner(newChildOwner);
     }
 }

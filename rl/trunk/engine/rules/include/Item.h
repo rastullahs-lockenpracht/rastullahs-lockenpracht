@@ -96,7 +96,7 @@ namespace rl
         void setParentContainer(Container* cont);
         Container* getParentContainer() const;
 
-        void setOwner(GameObject* go);
+        virtual void setOwner(GameObject* go);
         GameObject* getOwner() const;
 
         virtual const Property getProperty(const Ogre::String& key) const;
@@ -112,7 +112,6 @@ namespace rl
         Slot* mParentSlot;
         Container* mParentContainer;
 
-		void doHold();
 		void doLoose();
 	};
 }

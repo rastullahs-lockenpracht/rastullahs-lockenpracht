@@ -72,6 +72,10 @@ namespace rl
 
 	Inventory::~Inventory()
 	{
+        for (SlotMap::iterator iter = mSlots.begin(); iter != mSlots.end(); ++iter)
+        {
+            delete iter->second;
+        }
 	}
 
 	void Inventory::markDirty()

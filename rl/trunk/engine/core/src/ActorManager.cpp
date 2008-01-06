@@ -111,7 +111,9 @@ namespace rl {
             Throw(IllegalArgumentException, "Argument actor wird nicht vom ActorManager verwaltet.");
         }
         mActors.erase(it);
-        actor->detachAllChildren(); //just avoiding a crash. is there a better resolution?
+        //actor->detachAllChildren(); //just avoiding a crash. is there a better resolution?
+        // should not be needed, is also done in the destructor of the actor
+
         doDestroyActor(actor);
     }
 

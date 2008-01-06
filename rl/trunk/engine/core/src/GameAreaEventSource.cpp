@@ -34,6 +34,9 @@ namespace rl {
 
     GameAreaEventSource::~GameAreaEventSource()
     {
+        ActorMap::iterator iter;
+        for( iter = mInsideAreaList.begin(); iter != mInsideAreaList.end(); iter++)
+            iter->second->removeFromGameArea(this);
         mInsideAreaList.clear();
         removeAllAreaListeners(  );
     }
@@ -84,6 +87,11 @@ namespace rl {
         mInsideAreaList = currInside;
         mInsideAreaList.insert(notReallyLeftMap.begin(), notReallyLeftMap.end());
         
+        // die aktoren davon benachrichtigen
+        for(it = enteredMap.begin(); it != enteredMap.end(); it++)
+            it->second->addToGameArea(this);
+        for(it = reallyLeftMap.begin(); it != reallyLeftMap.end(); it++)
+            it->second->removeFromGameArea(this);
 
         // Die Neuen und die Rausgefallenen an die Listener dispatchen
 		doDispatchEvents( enteredMap, reallyLeftMap );
@@ -154,6 +162,13 @@ namespace rl {
     bool GameAreaEventSource::hasListeners( ) const
     {
         return mAreaEventCaster.hasEventListeners();
+    }
+
+    void GameAreaEventSource::notifyActorDeleted(Actor* actor)
+    {
+        ActorMap::iterator iter = mInsideAreaList.find(actor->getName());
+        if( iter != mInsideAreaList.end() )
+            mInsideAreaList.erase(iter);
     }
 }
 

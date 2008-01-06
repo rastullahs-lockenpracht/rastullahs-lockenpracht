@@ -19,6 +19,7 @@
 
 #include "Actor.h"
 #include "Container.h"
+#include "CreatureControllerManager.h"
 #include "DsaManager.h"
 #include "Eigenschaft.h"
 #include "EffectManager.h"
@@ -126,6 +127,7 @@ namespace rl
         for( SonderfertigkeitMap::iterator it=mSonderfertigkeiten.begin();it!=mSonderfertigkeiten.end(); it++ )
             delete it->second;
         mSonderfertigkeiten.clear();
+        CreatureControllerManager::getSingleton().detachController(this);
     }
 
     int Creature::getAttackeBasis()

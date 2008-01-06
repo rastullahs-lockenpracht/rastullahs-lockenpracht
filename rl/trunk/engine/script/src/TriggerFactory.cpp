@@ -71,7 +71,7 @@ namespace rl
 
     void TriggerFactory::readData(SaveGameFileReader* reader)
     {
-        // delete all triggers, that say that they are saved.
+        // delete all triggers, that say that they should be saved.
         const ZoneManager::ZoneMap &zoneMap(ZoneManager::getSingleton().getAllZones());
         ZoneManager::ZoneMap::const_iterator zone;
         // look in all zones if there is a trigger

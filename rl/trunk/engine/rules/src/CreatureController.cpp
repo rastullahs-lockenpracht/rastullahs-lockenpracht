@@ -1463,9 +1463,15 @@ LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
             delete iter->second;
         mMovementMap.erase(mMovementMap.begin(), mMovementMap.end());
 
-        mCreature->getActor()->getPhysicalThing()->setPhysicsController(NULL);
+        if( mCreature->getActor() != NULL )
+        {
+            if( mCreature->getActor()->getPhysicalThing() != NULL )
+            {
+                mCreature->getActor()->getPhysicalThing()->setPhysicsController(NULL);
 
-        mCreature->getActor()->getPhysicalThing()->setMaterialID(mOldMaterialId);
+                mCreature->getActor()->getPhysicalThing()->setMaterialID(mOldMaterialId);
+            }
+        }
     }
 
     CreatureController::MovementType CreatureController::getMovementId() const

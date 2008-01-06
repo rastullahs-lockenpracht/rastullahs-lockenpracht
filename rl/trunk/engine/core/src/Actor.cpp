@@ -23,6 +23,7 @@
 #include "CoreSubsystem.h"
 #include "Exception.h"
 #include "GameEventManager.h"
+#include "GameAreaEventSource.h"
 #include "MergeableMeshObject.h"
 #include "MeshObject.h"
 #include "MovableText.h"
@@ -66,6 +67,10 @@ namespace rl {
     {
         // Alle möglichen Area-Verknüpfungen entfernen
         GameEventManager::getSingleton().removeAllAreas(this);
+        // Aus allen moeglichen areas entfernen
+        std::list<GameAreaEventSource*>::iterator iter;
+        for( iter = mGameAreas.begin(); iter != mGameAreas.end(); iter++ )
+            (*iter)->notifyActorDeleted(this);
         // Alle TrackAnimations entfernen
         AnimationManager::getSingleton().removeAllTrackAnimations(this);
 
@@ -899,5 +904,21 @@ namespace rl {
         }
 
         mPhysicalThing->updatePhysicsProxy();
+    }
+
+    void Actor::addToGameArea(GameAreaEventSource *ga)
+    {
+        std::list<GameAreaEventSource*>::iterator iter
+            = std::find(mGameAreas.begin(), mGameAreas.end(), ga);
+        if( iter == mGameAreas.end() )
+            mGameAreas.push_back(ga);
+    }
+
+    void Actor::removeFromGameArea(GameAreaEventSource *ga)
+    {
+        std::list<GameAreaEventSource*>::iterator iter
+            = std::find(mGameAreas.begin(), mGameAreas.end(), ga);
+        if( iter != mGameAreas.end() )
+            mGameAreas.erase(iter);
     }
 }

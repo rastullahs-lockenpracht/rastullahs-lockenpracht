@@ -25,6 +25,7 @@
 #include "GameAreaTypes.h"
 
 #include "CorePrerequisites.h"
+#include "Properties.h"
 
 namespace rl {
 
@@ -78,11 +79,15 @@ public:
     Actor* getActor() const { return mActor; };
     /// gibt an ob die ga gelöscht werden kann, wenn die dazugehörige zone gelöscht wird
     virtual bool destroyIfZoneDestroyed() const {return true;}
+    /// loescht den Actor aus der liste der actoren, die sich gerade in der gamearea befinden
+    void notifyActorDeleted(Actor* actor);
 protected:
     /// helps the zonemanager to associate zones with areas
     friend class ZoneManager;
     void setId(long id) {mId = id;}
     long getId() const {return mId;}
+    /// helps the zonemanger to get the values for saving the GameAreaEventSource
+    PropertyRecord mProperties;
 private:
     long mId;
     /** Verteilt die Events an die angefügten Listener

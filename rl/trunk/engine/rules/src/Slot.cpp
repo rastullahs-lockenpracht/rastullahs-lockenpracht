@@ -33,6 +33,8 @@ namespace rl {
 
     Slot::~Slot()
     {
+        if( mItem != NULL )
+            mItem->removeOldState();
     }
 
     Item* Slot::getItem() const
@@ -58,6 +60,8 @@ namespace rl {
 
     bool Slot::setItem(Item* item)
     {
+        if(mItem == item)
+            return false;
         if (item)
         {
             if (isAllowed(item) && isEmpty())
@@ -74,7 +78,7 @@ namespace rl {
             }
             else
             {
-                LOG_MESSAGE(Logger::RULES,
+                LOG_ERROR(Logger::RULES,
                     "Item '" + item->getName() + "' konnte nicht in den Slot '" + mName
                     + "' gelegt werden: " + (isAllowed(item) ? "'falscher Typ' " : "")
                     + (isEmpty() ? "'Slot schon belegt" : "") + "!");
@@ -85,8 +89,7 @@ namespace rl {
         {
             // this is the case, if the item is removed automatically
             // don't change this without looking at Item::setState
-            if (mItem->getState() != GOS_LOADED)
-                mItem->setState(GOS_LOADED);
+            mItem->removeOldState();
             mItem = NULL;
         }
 

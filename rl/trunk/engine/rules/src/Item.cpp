@@ -21,6 +21,7 @@
 #include "Container.h"
 #include "Exception.h"
 #include "Slot.h"
+#include "GameObjectManager.h"
 
 using namespace std;
 
@@ -46,6 +47,7 @@ namespace rl
 
     Item::~Item(void)
     {
+        removeOldState(); // so the parent-container etc knows this item doesn't exists any more
     }
 
 	void Item::setItemType(ItemType itemType)
@@ -83,19 +85,23 @@ namespace rl
 		mSize = pair<int,int>(widthSize,heightSize);
 	}
 
-    void Item::doHold()
-    {
-        setActor(createActor());
-        mState = GOS_HELD;
-    }
-
     void Item::doLoose()
     {
         if (mActor != NULL)
         {
             mActor->detachFromParent();
-            destroyActor();
         }
+        if (mParentContainer != NULL)
+        {
+            mParentContainer->removeItem(this);
+            mParentContainer = NULL;
+        }
+        if (mParentSlot != NULL)
+        {
+            mParentSlot->setItem(NULL);
+            mParentSlot = NULL;
+        }
+        setOwner(NULL);
     }
 
     void Item::removeOldState()
@@ -112,97 +118,45 @@ namespace rl
         {
             return;
         }
-        
-        // This should do nothing if target or current state is not GOS_LOADED or GOS_IN_SCENE
-        GameObject::setState(targetState); 
 
-        if (targetState == GOS_IN_POSSESSION)
+        // do only things that are possible
+        if( targetState & (GOS_HELD | GOS_READY | GOS_IN_POSSESSION | GOS_IN_SCENE) && mState & (GOS_HELD | GOS_READY | GOS_IN_POSSESSION | GOS_IN_SCENE) )
         {
-            if (mState == GOS_LOADED)
-            {
-                onStateChange(mState, targetState);
-            }
-            else if (mState == GOS_IN_SCENE)
-            {
-                destroyActor();
-                onStateChange(mState, targetState);
-            }
-            else if (mState == GOS_HELD
-                || mState == GOS_READY)
-            {
-                doLoose();
-                onStateChange(mState, targetState);
-            }
-        }
-        else if (targetState == GOS_HELD || targetState == GOS_READY)
-        {
-            if (mState == GOS_LOADED)
-            {
-                doCreateActor();
-                doHold();
-                onStateChange(mState, targetState);
-            }
-            else if (mState == GOS_IN_SCENE)
-            {
-                mActor->removeFromScene();
-                doHold();
-                onStateChange(mState, targetState);
-            }
+            LOG_ERROR(Logger::RULES,
+                "Item '" + getName() + "' could not change state from '"
+                + Ogre::StringConverter::toString(mState) + "' to state '"
+                + Ogre::StringConverter::toString(targetState) + "'!"
+                + "\nYou need to call 'Item::removeOldState()' first.");
+            
+            // first remove the old state (thats a recursive function call)
+            //removeOldState();
         }
 
-        mState = targetState;
+
+        GameObjectState oldState = mState;
+
+        if( targetState == GOS_LOADED && (mState == GOS_HELD || mState == GOS_READY || GOS_IN_POSSESSION) )
+        {
+            mState = targetState; // this is needed here to prevent an endless recursion
+            // "remove old state"
+            doLoose();
+            destroyActor();
+        }
+        else if( mState == GOS_LOADED &&
+                 (targetState == GOS_HELD || targetState == GOS_READY || targetState == GOS_IN_POSSESSION))
+        {
+            mState = targetState;
+            // do nothing, the user has to do what he needs himself
+        }
+        else // everything else is not handled here, so give it to the parent
+        {
+            GameObject::setState(targetState);
+            return;
+        }
 
 
-        //if (targetstate != GOS_HELD &&
-        //    targetstate != GOS_IN_POSSESSION &&
-        //    targetstate != GOS_READY)
-        //{
-        //    if (mState == GOS_HELD ||
-        //        mState == GOS_IN_POSSESSION ||
-        //        mState == GOS_READY)
-        //    {
-        //        mState = GOS_LOADED; // <- this is important to avoid endless recursion!
-        //        
-
-        //        if (getParentSlot())
-        //            getParentSlot()->setItem(NULL);
-        //        setParentSlot(NULL);
-        //        if (getParentContainer())
-        //            getParentContainer()->removeItem(this);
-        //        setParentContainer(NULL);
-        //        doLoose();
-        //        setOwner(NULL);
-        //    }
-
-        //    GameObject::setState(targetstate);
-        //}
-        //else
-        //{
-        //    if (mState == GOS_HELD ||
-        //        mState == GOS_IN_POSSESSION ||
-        //        mState == GOS_READY)
-        //    {
-        //        LOG_WARNING(Logger::RULES, 
-        //            "Item::removeOldState() or Item::setState(GOS_LOADED) should be called  \
-        //            before setting one of the States GOS_HELD, GOS_IN_POSSESSION or GOS_READY!");
-        //    }
-        //    else
-        //    {
-        //        if (mState != GOS_LOADED)
-        //        {
-        //            GameObject::setState(GOS_LOADED);
-        //            oldState = GOS_LOADED;
-        //        }
-
-        //        if (targetstate == GOS_HELD)
-        //        {
-        //            doHold();
-        //        }
-
-        //        mState = targetstate;
-        //        onStateChange(oldState, mState);
-        //    }
-        //}
+        onStateChange(oldState, mState);
+        GameObjectManager::getSingleton().gameObjectStateChanged(this, oldState, targetState);
     }
 
     void Item::setProperty(const Ogre::String &key, const rl::Property &value)
@@ -277,10 +231,7 @@ namespace rl
 
     void Item::doCreateActor()
     {
-        if (!getActor())
-        {
-            setActor(createActor());
-        }
+        setActor(createActor());
     }
 
     void Item::setParentContainer(Container* cont)

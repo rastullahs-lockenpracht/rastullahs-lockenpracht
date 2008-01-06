@@ -23,6 +23,7 @@
 #include "GameEventManager.h"
 #include "Zone.h"
 #include "World.h"
+#include "ScriptWrapper.h"
 #include "Sound.h"
 #include "SoundManager.h"
 #include "SoundDriver.h"
@@ -44,10 +45,14 @@ namespace rl
 		mDefaultZone = new Zone(0,false);
         mNextZoneId = 1;
 		mActiveZones.push_front(mDefaultZone);
+
+        SaveGameManager::getSingleton().registerSaveGameData(this);
 	}
 
 	ZoneManager::~ZoneManager()
 	{
+        SaveGameManager::getSingleton().unregisterSaveGameData(this);
+
         GameEventManager::getSingleton().removeAreaListener(this);
         GameEventManager::getSingleton().removeQueuedDeletionSources();
 		for (ZoneMap::iterator it = mZones.begin(); it != mZones.end(); ++it)
@@ -104,6 +109,7 @@ namespace rl
         Zone* zone = getZone(name);
         if(zone == NULL)
             return;
+
 
         // remove from active zones
         if( isZoneActive(zone) )
@@ -189,6 +195,15 @@ namespace rl
         gam->getGameAreaType()->setTransitionDistance(transitionDistance);
         gam->setId(zone->getId());
         zone->addEventSource(gam);
+        gam->mProperties.setProperty("subtract", Property(false));
+        gam->mProperties.setProperty("aab_max", Property(aabb.getMaximum()));
+        gam->mProperties.setProperty("aab_min", Property(aabb.getMinimum()));
+        gam->mProperties.setProperty("type", Property(int(geom)));
+        gam->mProperties.setProperty("position", Property(position));
+        gam->mProperties.setProperty("offset", Property(offset));
+        gam->mProperties.setProperty("orientation", Property(orientation));
+        gam->mProperties.setProperty("transitionDistance", Property(transitionDistance));
+        gam->mProperties.setProperty("queryflags", Property(int(queryflags)));
     }
     
     void ZoneManager::subtractAreaFromZone(const Ogre::String& name, 
@@ -208,6 +223,16 @@ namespace rl
         gam->getGameAreaType()->setTransitionDistance(transitionDistance);
         gam->setId( - (zone->getId())); // a negative id indicates to subtract this area from the zone
         zone->addEventSource(gam);
+        // set the properties for saving
+        gam->mProperties.setProperty("subtract", Property(true));
+        gam->mProperties.setProperty("aab_max", Property(aabb.getMaximum()));
+        gam->mProperties.setProperty("aab_min", Property(aabb.getMinimum()));
+        gam->mProperties.setProperty("type", Property(int(geom)));
+        gam->mProperties.setProperty("position", Property(position));
+        gam->mProperties.setProperty("offset", Property(offset));
+        gam->mProperties.setProperty("orientation", Property(orientation));
+        gam->mProperties.setProperty("transitionDistance", Property(transitionDistance));
+        gam->mProperties.setProperty("queryflags", Property(int(queryflags)));
     }
 
     void ZoneManager::addMeshAreaToZone(const Ogre::String& name,
@@ -236,6 +261,16 @@ namespace rl
         CoreSubsystem::getSingletonPtr()->getWorld()
             ->getSceneManager()->destroyEntity(entity);
         zone->addEventSource(gam);
+        // set the properties for saving
+        gam->mProperties.setProperty("subtract", Property(false));
+        gam->mProperties.setProperty("meshname", Property(meshname));
+        gam->mProperties.setProperty("type", Property(int(geom)));
+        gam->mProperties.setProperty("position", Property(position));
+        gam->mProperties.setProperty("scale", Property(scale));
+        gam->mProperties.setProperty("offset", Property(offset));
+        gam->mProperties.setProperty("orientation", Property(orientation));
+        gam->mProperties.setProperty("transitionDistance", Property(transitionDistance));
+        gam->mProperties.setProperty("queryflags", Property(int(queryflags)));
     }
 
     void ZoneManager::subtractMeshAreaFromZone(const Ogre::String& name,
@@ -265,6 +300,16 @@ namespace rl
         CoreSubsystem::getSingletonPtr()->getWorld()
             ->getSceneManager()->destroyEntity(entity);
         zone->addEventSource(gam);
+        // set the properties for saving
+        gam->mProperties.setProperty("subtract", Property(true));
+        gam->mProperties.setProperty("meshname", Property(meshname));
+        gam->mProperties.setProperty("type", Property(int(geom)));
+        gam->mProperties.setProperty("position", Property(position));
+        gam->mProperties.setProperty("scale", Property(scale));
+        gam->mProperties.setProperty("offset", Property(offset));
+        gam->mProperties.setProperty("orientation", Property(orientation));
+        gam->mProperties.setProperty("transitionDistance", Property(transitionDistance));
+        gam->mProperties.setProperty("queryflags", Property(int(queryflags)));
     }
 
 	void ZoneManager::areaLeft(GameAreaEvent* gae)
@@ -435,5 +480,174 @@ namespace rl
         {
             SoundManager::getSingleton().getActiveDriver()->setEaxPreset("Off");
         }
+    }
+
+
+
+// -------------- code for saving/loading  from the SaveGameFile --------------------
+
+    CeGuiString ZoneManager::getXmlNodeIdentifier() const
+    {
+        return "zonemanager";
+    }
+
+    using namespace XERCES_CPP_NAMESPACE;
+
+    void ZoneManager::writeData(SaveGameFileWriter* writer)
+    {
+        DOMElement* zoneManagerNode = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
+
+        // look at all zones if they need to be saved
+        for(ZoneMap::iterator zone = mZones.begin(); zone != mZones.end(); zone++)
+        {
+            // does this zone wants to be saved
+            if( zone->second->needsToBeSaved() )
+            {
+                DOMElement* zoneNode = writer->appendChildElement(writer->getDocument(), zoneManagerNode, "zone");
+                writer->setAttributeValueAsStdString(zoneNode, "name", zone->first);
+                    
+                
+                // save all areas of the zone
+                GameAreaEventSourceList::iterator gam; ;
+                for( gam = zone->second->getEventSources().begin(); gam != zone->second->getEventSources().end(); gam++)
+                {
+                    DOMElement* areaNode = writer->appendChildElement(writer->getDocument(), zoneNode, "area");
+                    writer->writeEachPropertyToElem(areaNode, (*gam)->mProperties.toPropertyMap());
+                }
+
+                // save all sounds and lights
+                PropertyRecord propertyRecord;
+                std::list<Actor*> lightList = zone->second->getLights();
+                std::list<Ogre::String> soundList = zone->second->getSounds();
+                for(std::list<Actor*>::iterator light = lightList.begin(); light != lightList.end(); light++)
+                    propertyRecord.setProperty("light", Property((*light)->getName()));
+                for(std::list<Ogre::String>::iterator sound = soundList.begin(); sound != soundList.end(); sound++)
+                    propertyRecord.setProperty("sound", Property(*sound));
+                
+                writer->writeEachPropertyToElem(zoneNode, propertyRecord.toPropertyMap());
+            }
+        }
+    }
+
+    void ZoneManager::readData(SaveGameFileReader* reader)
+    {
+        // delete all zones, that say they are saveable
+        for(ZoneMap::iterator zone = mZones.begin(); zone != mZones.end(); zone++)
+        {
+            if( zone->second->needsToBeSaved() )
+            {
+                destroyZone(zone->first);
+            }
+        }
+
+
+        // load zones
+        // initialize xmlreader
+        reader->initializeXml();
+
+        DOMNodeList* rootNodeList = reader->getDocument()->getDocumentElement()->getElementsByTagName(AutoXMLCh(getXmlNodeIdentifier().c_str()).data());
+
+        if(rootNodeList->getLength())
+        {
+            DOMNodeList* xmlZones = static_cast<DOMElement*>(rootNodeList->item(0))->getElementsByTagName(AutoXMLCh("zone").data());
+            if(xmlZones->getLength())
+            {
+                for(XMLSize_t childIdx1 = 0; childIdx1 < xmlZones->getLength(); childIdx1++)
+                {
+                    DOMNode* xmlZone = xmlZones->item(childIdx1);
+                    if(xmlZone->getNodeType() == DOMNode::ELEMENT_NODE)
+                    {
+                        Ogre::String name = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlZone), "name");
+                        Zone* zone = createZone(name, true);
+
+                        DOMNodeList* xmlAreas = static_cast<DOMElement*>(xmlZone)->getElementsByTagName(AutoXMLCh("area").data());
+                        if( xmlAreas->getLength() )
+                        {
+                            for(XMLSize_t childIdx2 = 0; childIdx2 < xmlAreas->getLength(); childIdx2++)
+                            {
+                                DOMNode* xmlArea = xmlAreas->item(childIdx2);
+                                PropertyRecord properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlArea));
+                                parseAreaProperties(name, properties);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        // close xmlreader
+        reader->shutdownXml();
+    }
+
+    void ZoneManager::parseAreaProperties(const Ogre::String& name, const PropertyRecord &properties)
+    {
+        Ogre::AxisAlignedBox aabb;
+        aabb.setMaximum(Vector3::ZERO);
+        aabb.setMinimum(Vector3::ZERO);
+        GeometryType geom = GT_NONE;
+        Ogre::Vector3 position = Vector3::ZERO;
+        Ogre::Vector3 offset = Vector3::ZERO;
+        Ogre::Vector3 scale = Vector3::UNIT_SCALE;
+        Ogre::Quaternion orientation = Quaternion::IDENTITY;
+        Ogre::Real transitionDistance = 0.2;
+        unsigned long queryflags = 0;
+        Ogre::String meshname = "";
+        bool subtract = false;
+        bool mesh = false;
+
+        for( PropertyRecord::PropertyRecordMap::const_iterator iter = properties.begin(); iter != properties.end(); iter++)
+        {
+            if(iter->first == "subtract")
+                subtract = iter->second.toBool();
+            else if(iter->first == "meshname")
+            {
+                meshname = iter->second.toString().c_str();
+                mesh = true;
+            }
+            else if(iter->first == "type")
+                geom = GeometryType(iter->second.toInt());
+            else if(iter->first == "position")
+                position = iter->second.toVector3();
+            else if(iter->first == "scale")
+                scale = iter->second.toVector3();
+            else if(iter->first == "offset")
+                offset = iter->second.toVector3();
+            else if(iter->first == "orientation")
+                orientation = iter->second.toQuaternion();
+            else if(iter->first == "transitionDistance")
+                transitionDistance = iter->second.toReal();
+            else if(iter->first == "queryflags")
+                queryflags = iter->second.toInt();
+            else if(iter->first == "aab_min")
+                aabb.setMinimum(iter->second.toVector3());
+            else if(iter->first == "aab_max")
+                aabb.setMaximum(iter->second.toVector3());
+            else
+            {
+                LOG_ERROR(Logger::CORE, "ZoneManager: Unknown area property '"+iter->first+"' !");
+            }
+        }
+
+
+        if(mesh)
+        {
+            if(subtract)
+                subtractMeshAreaFromZone(name, meshname, geom, position, scale, offset, orientation, transitionDistance, queryflags);
+            else
+                addMeshAreaToZone(name, meshname, geom, position, scale, offset, orientation, transitionDistance, queryflags);
+        }
+        else
+        {
+            if(subtract)
+                subtractAreaFromZone(name, aabb, geom, position, offset, orientation, transitionDistance, queryflags);
+            else
+                addAreaToZone(name, aabb, geom, position, offset, orientation, transitionDistance, queryflags);
+        }
+    }
+
+    int ZoneManager::getPriority() const
+    {
+        return 30; // must be loaded before triggers!
     }
 }

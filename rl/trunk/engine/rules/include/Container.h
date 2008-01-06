@@ -90,6 +90,9 @@ namespace rl
 
         bool canHold(Item* item);
 
+        // in order to set the owner of the items in this container correctly override this function
+        void setOwner(GameObject *go);
+
     private:
 		static const IntPair NO_SPACE_FOR_ITEM;
 

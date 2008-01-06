@@ -63,9 +63,6 @@ namespace rl
     protected:
         typedef std::map<Creature*, CreatureController*> ControllerMap;
         ControllerMap mControllers;
-
-        typedef std::map<OgreNewt::Body*, CreatureController*> BodyControllerMap;
-        BodyControllerMap mBodyControllers;
     };
 }
 #endif

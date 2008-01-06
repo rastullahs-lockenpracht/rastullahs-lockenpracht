@@ -418,7 +418,8 @@ namespace rl {
 			Ogre::Vector3 targetPosWorldSpace =
 				mInventory->getOwner()->getPosition()
 				+ mInventory->getOwner()->getOrientation()
-				* targetPosWindow; 
+				* targetPosWindow;
+            item->removeOldState();
 			item->placeIntoScene();
 			item->setPosition(targetPosWorldSpace);
 

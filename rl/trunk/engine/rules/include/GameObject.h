@@ -99,6 +99,11 @@ namespace rl
         void addActionInGroup(Action* action, ActionGroup* group, int option = Action::ACT_NORMAL);
         void removeAction(Action* action);
     
+        /*
+         * sets the actor of this gameobject
+         * @warning if the GameObject is destroyed or the State of the GameObject changed or this function
+         * is called with another actor, the actor will be deleted!
+         */
         void setActor(Actor* actor);
         Actor* getActor();
 

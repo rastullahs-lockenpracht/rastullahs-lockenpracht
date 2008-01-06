@@ -73,11 +73,11 @@ namespace rl
     {
         delete mQuestBook;
         delete mDsaManager;
-        delete mMovingCreatureManager;
         delete mCombatManager;
         delete mActionManager;
         delete mXdimlLoader;
         delete GameObjectManager::getSingletonPtr();
+        delete mMovingCreatureManager; // this manager should be deleted after the GameObjectManager
         delete EffectFactoryManager::getSingletonPtr();
     }
 
