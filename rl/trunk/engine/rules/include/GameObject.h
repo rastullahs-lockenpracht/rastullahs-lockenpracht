@@ -20,6 +20,7 @@
 #include "RulesPrerequisites.h"
 
 #include "Action.h"
+#include "Actor.h"
 #include "RulesConstants.h"
 #include "ObjectStateChangeEventSource.h"
 #include "Properties.h"
@@ -27,7 +28,6 @@
 
 namespace rl
 {
-    class Actor;
     class Creature;
     class Effect;
     class EffectManager;
@@ -42,7 +42,7 @@ namespace rl
     * @todo Ueberlegen, wie man Aktionen situativ aktivierbar macht.
     */
     class _RlRulesExport GameObject 
-        : public Ogre::UserDefinedObject, 
+        : public ActorNotifiedObject, 
           public ObjectStateChangeEventSource,
           public PropertyHolder
     {

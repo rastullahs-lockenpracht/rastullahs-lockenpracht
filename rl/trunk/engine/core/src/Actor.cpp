@@ -37,7 +37,7 @@ namespace rl {
     const Ogre::String Actor::DEFAULT_SLOT_NAME = "SLOT_DEFAULT";
 
     Actor::Actor(const String& name, ActorControlledObject* aco,
-        PhysicalThing* pt, UserDefinedObject* go)
+        PhysicalThing* pt, ActorNotifiedObject* go)
         : mName(name),
         mPhysicalThing(pt),
         mGameObject(go),
@@ -91,6 +91,12 @@ namespace rl {
             mActorControlledObject = NULL;
         }
 
+        if (mGameObject != NULL)
+        {
+            mGameObject->setActor(NULL);
+            mGameObject = NULL;
+        }
+
         if (mPhysicalThing != NULL)
         {
             mPhysicalThing->_setActor(0);
@@ -101,12 +107,12 @@ namespace rl {
         delete mDescription;
     }
 
-    void Actor::setGameObject(Ogre::UserDefinedObject* uo)
+    void Actor::setGameObject(ActorNotifiedObject* uo)
     {
         mGameObject = uo;
     }
 
-    Ogre::UserDefinedObject* Actor::getGameObject() const
+    ActorNotifiedObject* Actor::getGameObject() const
     {
         return mGameObject;
     }

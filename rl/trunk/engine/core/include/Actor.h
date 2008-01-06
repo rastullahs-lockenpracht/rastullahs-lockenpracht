@@ -36,6 +36,14 @@ namespace rl {
     class Actor;
     class GameAreaEventSource;
 
+
+    // this is used to notify a gameobject (which is derived from ActorNotifiedObject) if his actor was deleted
+    class ActorNotifiedObject : public Ogre::UserDefinedObject
+    {
+    public:
+        virtual void setActor(Actor*) = 0;
+    };
+
     typedef std::map<const Ogre::String,Actor*> ActorMap;
     typedef std::vector<Actor*> ActorVector;
     typedef std::pair<const Ogre::String,Actor*> ActorPair;
@@ -58,7 +66,7 @@ namespace rl {
         Actor(const Ogre::String& name,
             ActorControlledObject* aco = NULL,
             PhysicalThing* pt = NULL,
-            Ogre::UserDefinedObject* go = NULL);
+            ActorNotifiedObject* go = NULL);
 
         /** Dekonstruktor
         * @remark Nicht direkt aufrufen,
@@ -70,9 +78,9 @@ namespace rl {
         const Ogre::String& getName() const;
 
         /// Gibt das UserdefinedObject der nächsten Schicht zurück
-        Ogre::UserDefinedObject* getGameObject() const;
+        ActorNotifiedObject* getGameObject() const;
         /// Setzt das UserdefinedObject der nächsten Schicht
-        void setGameObject(Ogre::UserDefinedObject* uo);
+        void setGameObject(ActorNotifiedObject* uo);
 
         /// Gibt die Physikalische Repräsentation zurück
         PhysicalThing* getPhysicalThing() const;
@@ -298,7 +306,7 @@ namespace rl {
         /// Verknüpfung zur Physikalischen Repräsentation
         PhysicalThing* mPhysicalThing;
         /// Verknüpfung zur Nächsten Schicht
-        Ogre::UserDefinedObject* mGameObject;
+        ActorNotifiedObject* mGameObject;
         /// Verknüpfung zum kontrollierten Objekt
         ActorControlledObject* mActorControlledObject;
         /// Der Parent-Aktor
