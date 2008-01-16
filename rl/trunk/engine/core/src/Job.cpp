@@ -20,10 +20,11 @@
 
 namespace rl
 {
-    Job::Job(bool isDiscardable, bool destroyWhenDone, TimeSource::TimeSourceType timesource)
+    Job::Job(bool isDiscardable, bool destroyWhenDone, TimeSource::TimeSourceType timesource, JobPersistenceType peristence)
         : mIsDiscardable(isDiscardable), 
         mDestroyWhenDone(destroyWhenDone),
-        mTimeSource(timesource)
+        mTimeSource(timesource),
+        mPersistence(peristence)
     {
     }
 
@@ -49,5 +50,80 @@ namespace rl
     TimeSource::TimeSourceType Job::getTimeSource() const
     {
         return mTimeSource;
+    }
+
+    Job::JobPersistenceType Job::getPersistenceType() const
+    {
+        return mPersistence;
+    }
+
+    const Property Job::getProperty(const Ogre::String& key) const
+    {
+        Property prop;
+        if( key == "discardable" )
+        {
+            prop.setValue(mIsDiscardable);
+        }
+        else if( key == "destroywhendone" )
+        {
+            prop.setValue(mDestroyWhenDone);
+        }
+        else if( key == "timesource" )
+        {
+            prop.setValue((int)mTimeSource);
+        }
+        else
+        {
+            Throw(IllegalArgumentException, key + " is not a property of this Job!");
+        }
+
+        return prop;
+    }
+
+    void Job::setProperty(const Ogre::String& key, const Property& value)
+    {
+        try
+        {
+            if( key == "discardable" )
+            {
+                mIsDiscardable = value.toBool();
+            }
+            else if( key == "destroywhendone" )
+            {
+                mDestroyWhenDone = value.toBool();
+            }
+            else if( key == "timesource" )
+            {
+                mTimeSource = (TimeSource::TimeSourceType)value.toInt();
+            }
+            else
+            {
+                LOG_WARNING(
+                    Logger::RULES,
+                    key + " is not a property of this Job!");
+            }
+        }
+        catch (WrongFormatException ex)
+        {
+            LOG_ERROR(
+                Logger::RULES,
+                "property " + key + " has the wrong format");
+        }
+    }
+
+    PropertyRecord* Job::getAllProperties() const
+    {
+        PropertyRecord* ps = new PropertyRecord();
+        ps->setProperty("discardable", Property(mIsDiscardable));
+        ps->setProperty("destroywhendone", Property(mDestroyWhenDone));
+        ps->setProperty("timesource", Property((int)mTimeSource));
+
+        return ps;
+    }
+
+    const Ogre::String Job::getClassName() const
+    {
+        static const Ogre::String name = "";
+        return name;
     }
 }

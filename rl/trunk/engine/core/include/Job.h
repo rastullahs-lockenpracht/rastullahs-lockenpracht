@@ -20,6 +20,7 @@
 #include "CorePrerequisites.h"
 
 #include "TimeSource.h"
+#include "Properties.h"
 
 namespace rl
 {
@@ -31,9 +32,15 @@ namespace rl
      *  The JobScheduler calles Job#execute till the Job has finished, or the JobScheduler
      *  decides to discard the Job, if allowed.
      */
-    class _RlCoreExport Job
+    class _RlCoreExport Job : public PropertyHolder
     {
     public:
+        enum JobPersistenceType
+        {
+            NOT_PERSISTENT,             // the job is not influenced by any save/load - events
+            PERSISTENT,                 // the job stores data in (and loads from) a savegamefile, the job is deleted (not discarded) before a new game is loaded
+            FINISH_WHEN_GAME_LOADED     // the job is discarded if it is discardable or deleted, when a new game is loaded
+        };
         /**
          * Constructor.
          *
@@ -47,7 +54,7 @@ namespace rl
          *         sometimes it is sensible to pool a number of Jobs for reuse.
          */
         Job(bool isDiscardable, bool destroyWhenDone, 
-            TimeSource::TimeSourceType type = TimeSource::REALTIME_CONTINUOUS);
+            TimeSource::TimeSourceType type = TimeSource::REALTIME_CONTINUOUS, JobPersistenceType persistence = NOT_PERSISTENT);
         virtual ~Job();
 
         /**
@@ -70,11 +77,25 @@ namespace rl
         /// Returns true, if the Job shall be deleted, if the Job is finished. Returns false else.
         virtual bool destroyWhenDone();
 
+        /// Returns the Persistence-Type of this job
+        JobPersistenceType getPersistenceType() const;
+
         TimeSource::TimeSourceType getTimeSource() const;
+
+        /// derived from PropertyHolder
+        virtual const Property getProperty(const Ogre::String& key) const;
+        /// derived from PropertyHolder
+        virtual void setProperty(const Ogre::String& key, const Property& value);
+        /// derived from PropertyHolder
+        virtual PropertyRecord* getAllProperties() const;
+
+        /// returns the name of the class
+        virtual const Ogre::String getClassName() const;
 
     protected:
         bool mIsDiscardable;
         bool mDestroyWhenDone;
+        JobPersistenceType mPersistence;
         TimeSource::TimeSourceType mTimeSource;
     };
 }

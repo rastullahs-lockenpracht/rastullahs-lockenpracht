@@ -22,10 +22,12 @@
 namespace rl
 {
     CreatureWalkPathJob::CreatureWalkPathJob(const Ogre::String& name, CreatureController* movingCreature, Landmark* startLandmark)
-        : Job(true, true), 
+        : Job(false, true, TimeSource::GAMETIME, Job::FINISH_WHEN_GAME_LOADED), 
         mLandmarkPath("LandmarkPath" + name), 
         mNextLandmarkRequested(false),
-        mWayPoints(NULL)
+        mWayPoints(NULL),
+        mUpdatedDirection(false),
+        mTimeSinceLastRotation(0)
     {
         //the moving creature moves from the current position to the landmark
         mMovingCreature = movingCreature;
@@ -39,10 +41,7 @@ namespace rl
 
     bool CreatureWalkPathJob::execute(Ogre::Real time)
     {
-        static bool updatedDirection(false);
-        static Ogre::Real timeSinceLastRotation = 0;
-
-        timeSinceLastRotation += time;
+        mTimeSinceLastRotation += time;
 
         Ogre::Vector3 direction = mCurrentLandmark->getPosition() - mMovingCreature->getCreature()->getActor()->getPosition();
         direction.y = 0;
@@ -82,7 +81,7 @@ namespace rl
                 return true;
             }
 
-            updatedDirection = false;
+            mUpdatedDirection = false;
             return false;
         }
 
@@ -115,7 +114,7 @@ namespace rl
                 }
                 direction = mCurrentWayPath.back() - mMovingCreature->getCreature()->getPosition();
             }
-            updatedDirection = true;
+            mUpdatedDirection = true;
         }
 
         LOG_MESSAGE("WalkPathJob", 
@@ -128,15 +127,15 @@ namespace rl
         Ogre::Radian yaw = rotation.getYaw();
         Ogre::Vector3 usedRotation(Ogre::Vector3::ZERO);
 
-        if (!updatedDirection 
+        if (!mUpdatedDirection 
             || (direction.squaredLength() > 0.04 
-                && timeSinceLastRotation > 0.2 
+                && mTimeSinceLastRotation > 0.2 
                 && direction.normalisedCopy().dotProduct(
                     creatureViewVector.normalisedCopy()) < 0.9))
         {
             usedRotation.y = yaw.valueRadians();
-            updatedDirection = true;
-            timeSinceLastRotation = 0;
+            mUpdatedDirection = true;
+            mTimeSinceLastRotation = 0;
         }
 
         mMovingCreature->setMovement(CreatureController::MT_GEHEN, Ogre::Vector3::NEGATIVE_UNIT_Z, usedRotation);

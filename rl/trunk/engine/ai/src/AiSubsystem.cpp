@@ -104,8 +104,22 @@ bool AiSubsystem::onAfterSceneLoaded()
 
 Landmark* AiSubsystem::createLandmark(const Ogre::String& name, const Ogre::Vector3& position)
 {
-	Landmark* lm = new Landmark(name, position);
-	mLandmarks[name] = lm;
+    Landmark* lm = getLandmark(name);
+    if( lm == NULL )
+    {
+	    Landmark* lm = new Landmark(name, position);
+	    mLandmarks[name] = lm;
+    }
+    else
+    {
+        if( lm->getPosition() != position )
+        {
+            std::ostringstream oss;
+            oss << "A Landmark with the name '" << name << "' already exists at position "
+                << lm->getPosition() << "! The position will not be changed to " << position << "!";
+            LOG_ERROR(Logger::AI, oss.str());
+        }
+    }
 	return lm;
 }
 

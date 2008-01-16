@@ -19,6 +19,7 @@
 
 #include "CorePrerequisites.h"
 #include "GameTask.h"
+#include "SaveGameManager.h"
 
 #include <deque>
 #include <functional>
@@ -43,7 +44,8 @@ namespace rl
      */
     class _RlCoreExport JobScheduler
         : public GameTask,
-          public Ogre::Singleton<JobScheduler>
+          public Ogre::Singleton<JobScheduler>,
+          public SaveGameData
     {
     public:
         typedef enum {JP_LOW = 10, JP_NORMAL = 20, JP_HIGH = 30} JobPriority;
@@ -67,7 +69,8 @@ namespace rl
          * @return The ticket used to identify the Job. This ticket is used to identify a Job in the
          *         JobListener. It can be used by the listener to identify the Job, even if it
          *         doesn't exist anymore. When the Job itself is removed from the queue, the ticket
-         *         looses its validity to the JobScheduler itself though.
+         *         looses its validity to the JobScheduler itself though. If a job is saved and reloaded
+         *         from a SaveGameFile, a new ticket will be assigned!
          */
         unsigned long addJob(Job* job, JobPriority priority=JP_NORMAL, Ogre::Real delay=0.0f,
             Ogre::Real maxRuntime=Ogre::Math::POS_INFINITY, JobListener* listener=NULL);
@@ -86,6 +89,17 @@ namespace rl
 
         virtual const Ogre::String& getName() const;
 
+
+        /// Override from SaveGameData
+        /// Manages saving and loading from the SaveGameFile
+
+        virtual CeGuiString getXmlNodeIdentifier() const;
+        virtual void writeData(SaveGameFileWriter* writer);
+        virtual void readData(SaveGameFileReader* reader);
+        virtual int getPriority() const;  // this should probably be one of the last things to load, so the job can access various things (gameobjects etc)
+
+        typedef Job*(*JobCreateFunction)(void);
+        static void registerJobClass(const Ogre::String &name, JobCreateFunction);
     private:
         /// A JobEntry encapsules a Job for the Scheduler, it contains the Job itself and
         /// various administrional data.
@@ -118,6 +132,10 @@ namespace rl
         //JobQueue mRemovedJobs; // should probably replaced by JobsToDelete
         unsigned short mTokenThreshold;
         unsigned long mTicketCounter;
+
+        /// map mit funktionszeigern zum erstellen von job klassen
+        typedef std::map<Ogre::String, JobCreateFunction> JobCreationMap;
+        static JobCreationMap mJobCreationMap;
     };
 }
 

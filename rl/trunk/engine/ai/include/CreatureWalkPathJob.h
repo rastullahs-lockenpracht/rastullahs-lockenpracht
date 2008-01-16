@@ -65,6 +65,8 @@ namespace rl
         Landmark* mNextLandmark;
         const WayPointGraph* mWayPoints;
         AStar::AStarPath mCurrentWayPath;
+        Ogre::Real mTimeSinceLastRotation;
+        bool mUpdatedDirection;
 
         bool mNextLandmarkRequested;
     };
