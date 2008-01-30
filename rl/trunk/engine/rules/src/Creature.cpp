@@ -1130,7 +1130,7 @@ namespace rl
         }
         else if (key == Creature::PROPERTY_INVENTORY)
         {
-            return mInventory->getProperty(Inventory::PROPERTY_CONTENT);
+			return mInventory->getAllProperties()->toPropertyMap();
         }
         else
         {

@@ -642,9 +642,10 @@ namespace rl
     {
         if (mActor != NULL)
         {
-            ActorManager::getSingleton().destroyActor(mActor);
-            mActor = NULL;
-        }
+			Actor* actor = mActor;
+			setActor(NULL);
+            ActorManager::getSingleton().destroyActor(actor);
+		}
     }
 
     void GameObject::placeIntoScene()

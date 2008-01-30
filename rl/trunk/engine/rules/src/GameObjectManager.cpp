@@ -307,7 +307,7 @@ namespace rl
 
         std::list<const GameObject*> gos = getAllGameObjects();
 
-        for(std::list<const GameObject*>::const_iterator it_gameobjects = gos.begin(); it_gameobjects != gos.end(); it_gameobjects++)
+		for(std::list<const GameObject*>::const_iterator it_gameobjects = gos.begin(); it_gameobjects != gos.end(); it_gameobjects++)
         {
             DOMElement* gameobject = writer->appendChildElement(writer->getDocument(), gameobjects, "gameobject");
             writer->setAttributeValueAsInteger(gameobject, "ID", (*it_gameobjects)->getId());
@@ -341,7 +341,12 @@ namespace rl
                         Ogre::String classID = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlGameObject), "ClassID");
                         GameObjectState state = (GameObjectState)reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "State");
                         PropertyRecord properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlGameObject));
-                        GameObject* object = createGameObject(classID, ID);
+
+						GameObject* object = NULL;
+						if(getGameObject(ID) == NULL)
+							object = createGameObject(classID, ID);
+						else
+							object = getGameObject(ID);
                         
                         applyProperties(object, &properties);
                         // Placing the actor a a little bit higher in the scene. The actor will fall onto ground.
