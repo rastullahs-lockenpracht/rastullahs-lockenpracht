@@ -118,6 +118,7 @@ namespace rl
     GameObject* GameObjectManager::createGameObject(
         const Ogre::String& classId, unsigned int id)
     {
+		LOG_MESSAGE("GameObjectManager", "Create/Get GameObject " + Ogre::StringConverter::toString((int)id));
         unsigned int goId;
 
         if (id != GameObject::NO_OBJECT_ID)
@@ -199,7 +200,7 @@ namespace rl
 		if (posDivider != CeGuiString::npos)
 		{
 			Ogre::String classId(serializedString.substr(0, posDivider).c_str());
-			unsigned int goid = CEGUI::PropertyHelper::stringToUint(serializedString.substr(posDivider));
+			unsigned int goid = CEGUI::PropertyHelper::stringToUint(serializedString.substr(posDivider+1));
 			return createGameObject(classId, goid);
 		}
 

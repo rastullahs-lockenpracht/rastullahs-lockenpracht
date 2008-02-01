@@ -345,6 +345,7 @@ namespace rl
 						(*it).second));
 				if (item)
 				{
+					LOG_MESSAGE("Inventory", "Add item " + it->second.toString() + " to slot "+ (*it).first);
 					hold(item, (*it).first);
 				}
 			}
