@@ -3,13 +3,15 @@ package meshhandle;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
+
 import meshhandle.io.xml.scene.AbstractSceneWriter;
 import meshhandle.io.xml.scene.ISceneLoader;
-import meshhandle.io.xml.scene.SceneFormat2Loader;
 import meshhandle.io.xml.scene.SceneFormat3Loader;
 import meshhandle.model.scene.Scene;
+
+import org.xml.sax.SAXException;
 
 public class SceneConverter
 {
