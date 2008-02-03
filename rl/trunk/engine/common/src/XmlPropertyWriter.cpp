@@ -105,14 +105,14 @@ namespace rl {
         return processPropertyMap(parent, name, map);
     }
 
-    DOMElement* XmlPropertyWriter::processPropertyArray(DOMElement *parent, const char *const name, PropertyVector vector)
+    DOMElement* XmlPropertyWriter::processPropertyArray(DOMElement *parent, const char *const name, PropertyArray vector)
     {
         DOMElement* element = appendChildElement(mDocument, parent, "property");
         if(name[0] != '\0')
             setAttribute(element, "name", name);
         setAttribute(element, "type", "ARRAY");
 
-        PropertyVector::iterator iter;
+        PropertyArray::iterator iter;
         for(iter = vector.begin(); iter != vector.end(); iter++)
         {
             processProperty(element, PropertyEntry(Ogre::String(),*iter));

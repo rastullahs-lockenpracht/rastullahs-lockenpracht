@@ -145,9 +145,9 @@ VALUE convertPropertyToValue(rl::Property input)
     }
     else if (input.isArray())
     {
-		PropertyVector vec = input.toArray();
+		PropertyArray vec = input.toArray();
 		VALUE rval = rb_ary_new();
-		for (PropertyVector::const_iterator it = vec.begin();
+		for (PropertyArray::const_iterator it = vec.begin();
 			it != vec.end(); ++it)
 		{
 			rb_ary_push(rval, rl::convertPropertyToValue(*it));

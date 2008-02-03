@@ -337,8 +337,8 @@ namespace rl {
 		else if (key == Container::PROPERTY_CONTENT)
         {
 			PropertyMap contentMap = value.toMap();
-			PropertyVector objects = contentMap[Container::PROPERTY_CONTENT_OBJECTS].toArray();
-			PropertyVector positions = contentMap[Container::PROPERTY_CONTENT_POSITIONS].toArray();
+			PropertyArray objects = contentMap[Container::PROPERTY_CONTENT_OBJECTS].toArray();
+			PropertyArray positions = contentMap[Container::PROPERTY_CONTENT_POSITIONS].toArray();
 
 			for (size_t idx = 0; idx < objects.size(); ++idx)
 			{
@@ -369,8 +369,8 @@ namespace rl {
         }
 		else if (key == Container::PROPERTY_CONTENT)
         {
-			PropertyVector positions;
-			PropertyVector objects;
+			PropertyArray positions;
+			PropertyArray objects;
 
 			for (ItemSet::const_iterator it = mItems.begin(); it != mItems.end(); ++it)
 			{

@@ -290,9 +290,9 @@ namespace rl
 	{
         if (key == Inventory::PROPERTY_SLOTS)
         {
-            PropertyVector slotVec = value.toArray();
+            PropertyArray slotVec = value.toArray();
 
-            for (PropertyVector::const_iterator it = slotVec.begin(); it != slotVec.end(); ++it)
+            for (PropertyArray::const_iterator it = slotVec.begin(); it != slotVec.end(); ++it)
             {
                 PropertyMap slotProps = it->toMap();
 

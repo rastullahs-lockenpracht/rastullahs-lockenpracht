@@ -136,7 +136,7 @@ void AgentManager::gameObjectStateChanged(GameObject* go, GameObjectState oldSta
             Property behaviorsProperty = aiProps["behaviours"];
             if (behaviorsProperty.isArray())
             {
-                PropertyVector behaviours = behaviorsProperty.toArray();
+                PropertyArray behaviours = behaviorsProperty.toArray();
                 if (!behaviours.empty())
                 {
                     Agent* agent = createAgent(creature);
@@ -145,7 +145,7 @@ void AgentManager::gameObjectStateChanged(GameObject* go, GameObjectState oldSta
                     // Nevertheless see above comment for how to improve this situation.
                     AgentSteeringState* ass =
                         dynamic_cast<AgentSteeringState*>(agent->getCurrentState());
-                    for (PropertyVector::const_iterator it = behaviours.begin(),
+                    for (PropertyArray::const_iterator it = behaviours.begin(),
                         end = behaviours.end(); it != end; ++it)
                     {
                         if (it->isString())

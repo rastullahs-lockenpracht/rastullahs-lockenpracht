@@ -133,7 +133,7 @@ namespace rl {
          *
          * @param key The property to add.
          */
-        void addPropertyVector3(const Property& prop, 
+        void addPropertyArray3(const Property& prop, 
             CEGUI::MultiColumnList* table,
             const Ogre::String& key = "");
 

@@ -538,8 +538,8 @@ namespace rl
             }
             else if (key == PROPERTY_ACTIONS)
             {
-                PropertyVector vecVal = value.toArray();
-                for (PropertyVector::const_iterator it = vecVal.begin(); it != vecVal.end(); it++)
+                PropertyArray vecVal = value.toArray();
+                for (PropertyArray::const_iterator it = vecVal.begin(); it != vecVal.end(); it++)
                 {
                     Ogre::String actionName = (*it).toString().c_str();
                     Action* act = ActionManager::getSingleton().getAction(actionName);

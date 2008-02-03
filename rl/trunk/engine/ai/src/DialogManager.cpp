@@ -89,7 +89,7 @@ namespace rl
     {
         if (key == DialogManager::PROPERTY_DIALOGS)
         {
-            PropertyVector vec;
+            PropertyArray vec;
             for (std::map<DialogConfiguration, Dialog*>::const_iterator it
                 = mDialogStates.begin(); it != mDialogStates.end(); ++it)
             {
@@ -98,7 +98,7 @@ namespace rl
                 curDialogProp[DialogManager::PROPERTY_DIALOG] = dialogProps->toPropertyMap();
                 curDialogProp[DialogManager::PROPERTY_DIALOG_NAME] = Property(it->first.getName());
 
-                PropertyVector npcs;
+                PropertyArray npcs;
 
                 for (std::vector<Creature*>::const_iterator itNpc = it->first.getNpcs().begin();
                     itNpc != it->first.getNpcs().end(); ++itNpc)

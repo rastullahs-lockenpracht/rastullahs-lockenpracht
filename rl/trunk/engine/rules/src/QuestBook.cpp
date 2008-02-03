@@ -165,7 +165,7 @@ namespace rl {
     {
         if (key == PROPERTY_QUESTS)
         {
-            PropertyVector quests;
+            PropertyArray quests;
             QuestVector allQuests = getAllQuests();
             for (QuestVector::const_iterator it = allQuests.begin();
                 it != allQuests.end(); ++it)
@@ -179,7 +179,7 @@ namespace rl {
         }
         else if (key == PROPERTY_JOURNAL)
         {
-            PropertyVector journals;
+            PropertyArray journals;
             for(std::vector<JournalEntry*>::const_iterator iter = mJournalEntries.begin(); iter != mJournalEntries.end(); iter++)
             {
                 PropertyRecord journal;
@@ -199,8 +199,8 @@ namespace rl {
     {
         if (key == PROPERTY_QUESTS)
         {
-            PropertyVector quests = value.toArray();
-            for (PropertyVector::const_iterator it = quests.begin(); 
+            PropertyArray quests = value.toArray();
+            for (PropertyArray::const_iterator it = quests.begin(); 
                 it != quests.end(); ++it)
             {
                 PropertyMap curVal = it->toMap();
@@ -218,8 +218,8 @@ namespace rl {
         }
         else if (key == PROPERTY_JOURNAL)
         {
-            PropertyVector journals = value.toArray();
-            for(PropertyVector::const_iterator it = journals.begin(); it != journals.end(); it++)
+            PropertyArray journals = value.toArray();
+            for(PropertyArray::const_iterator it = journals.begin(); it != journals.end(); it++)
             {
                 PropertyMap curVal = it->toMap();
                 Property caption = curVal[JournalEntry::PROPERTY_CAPTION];

@@ -49,7 +49,7 @@ namespace rl
 
         XERCES_CPP_NAMESPACE::DOMElement* processProperty(XERCES_CPP_NAMESPACE::DOMElement* parent, PropertyEntry entry);
         XERCES_CPP_NAMESPACE::DOMElement* processPropertyRecord(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, PropertyRecord set);
-        XERCES_CPP_NAMESPACE::DOMElement* processPropertyArray(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, PropertyVector vector);
+        XERCES_CPP_NAMESPACE::DOMElement* processPropertyArray(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, PropertyArray vector);
         XERCES_CPP_NAMESPACE::DOMElement* processPropertyMap(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, PropertyMap map);
 
         void writeEachPropertyToElem(XERCES_CPP_NAMESPACE::DOMElement* parent, const PropertyMap &map);

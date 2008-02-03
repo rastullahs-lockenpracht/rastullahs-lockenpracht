@@ -126,7 +126,7 @@ namespace rl {
             // Check for Vector3
             else if (propIter->second.isVector3() )
             {
-                addPropertyVector3(propIter->second, mMainTable, key);
+                addPropertyArray3(propIter->second, mMainTable, key);
                 int rowCount = mMainTable->getRowCount();
                 mMainTable->addRow(rowCount);
                 mMainTable->setItem(new ListboxTextItem(""), 0, rowCount);
@@ -391,9 +391,9 @@ namespace rl {
         }
     }
 
-    //------------------------------------------------------- addPropertyVector3
+    //------------------------------------------------------- addPropertyArray3
 
-    void PropertiesWindow::addPropertyVector3(const Property& prop,
+    void PropertiesWindow::addPropertyArray3(const Property& prop,
         CEGUI::MultiColumnList* table, const Ogre::String& key)
     {
         // Check column count
@@ -535,11 +535,11 @@ namespace rl {
         mTabPane->addTab(newTable);
 
         // Get access to the vector
-        PropertyVector vProp = prop.toArray();
+        PropertyArray vProp = prop.toArray();
 
         // Iterate through the vector entries and add them
         // to the table
-        for(PropertyVector::const_iterator it = vProp.begin(); it != vProp.end(); it++)
+        for(PropertyArray::const_iterator it = vProp.begin(); it != vProp.end(); it++)
         {
             // Check for Int
             if (it->isInt() )
@@ -580,7 +580,7 @@ namespace rl {
             // Check for Vector3
             else if (it->isVector3() )
             {
-                addPropertyVector3(*it, newTable);
+                addPropertyArray3(*it, newTable);
                 int rowCount = newTable->getRowCount();
                 newTable->addRow(rowCount);
                 newTable->setItem(new ListboxTextItem(""), 0, rowCount);

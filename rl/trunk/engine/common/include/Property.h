@@ -76,7 +76,7 @@ namespace rl {
 
 	class Property;
 
-    typedef std::vector<Property> PropertyVector;
+    typedef std::vector<Property> PropertyArray;
     typedef std::map<CeGuiString, Property> PropertyMap;
     
     class _RlCommonExport Property
@@ -92,7 +92,7 @@ namespace rl {
         PropertyMethod(Quaternion, const Ogre::Quaternion&);
         PropertyMethod(IntTriple, const Tripel<int>);
         PropertyMethod(IntPair, const IntPair);
-		PropertyMethod(Array, const PropertyVector);
+		PropertyMethod(Array, const PropertyArray);
 		PropertyMethod(Map, const PropertyMap);
 
         Ogre::String getTypeName() const;
