@@ -235,6 +235,11 @@ namespace rl {
         mInventoryWindow = NULL;
     }
 
+	bool WindowFactory::isInventoryWindowDestroyed()
+	{
+		return mInventoryWindow == NULL;
+	}
+
 
     void WindowFactory::showCharacterSheet()
     {

@@ -105,6 +105,7 @@ namespace rl {
         void toggleInGameGlobalMenu();
         void toggleInventoryWindow();
         void notifyInventoryWindowDestroyed();
+		bool isInventoryWindowDestroyed();
 
         CombatWindow* getCombatWindow();
 

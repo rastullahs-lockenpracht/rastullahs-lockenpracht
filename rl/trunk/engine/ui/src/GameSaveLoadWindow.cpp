@@ -112,6 +112,9 @@ namespace rl {
     {
         LOG_MESSAGE(Logger::UI, "Load Button pressed");
 
+		if(!WindowFactory::getSingleton().isInventoryWindowDestroyed())
+			WindowFactory::getSingleton().toggleInventoryWindow();
+	
         CeGuiString filename = mFilename->getText();
 
         if(filename != "")
