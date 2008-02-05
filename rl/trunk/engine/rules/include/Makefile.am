@@ -43,5 +43,6 @@ noinst_HEADERS = \
 	Talentgruppe.h \
 	TalentInputIterator.h \
 	TalentStateSet.h \
+	WaitJob.h \
 	Weapon.h \
 	ZauberStateSet.h

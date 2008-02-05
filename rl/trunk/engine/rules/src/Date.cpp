@@ -140,9 +140,19 @@ namespace rl
         return mTimestamp - rhs.mTimestamp;
     }
 
+    Date Date::operator*(const Ogre::Real& rhs)
+    {
+        return Date(mTimestamp * rhs);
+    }
+
+    Date Date::operator/(const Ogre::Real& rhs)
+    {
+        return Date(mTimestamp / rhs); ///@todo throw exception if rhs == 0?
+    }
+
     void Date::calculateFields()
     {
-        //!\todo aufr?umen!
+        ///@todo aufraeumen!
         mYear = mTimestamp / ONE_YEAR;
         RL_LONGLONG timeInYear = mTimestamp % ONE_YEAR;
         mMonth = timeInYear / ONE_MONTH;
@@ -195,8 +205,7 @@ namespace rl
 
     int Date::getDayOfWeek() const
     {
-        int wd = ((getYear() - 993) + getDayOfMonth() + MONTH_MODIFIER[mMonth]) %
-                 7;
+        int wd = ((getYear() - 993) + getDayOfMonth() + MONTH_MODIFIER[mMonth]) % 7;
 
         if (wd < 0)
         {
@@ -231,7 +240,7 @@ namespace rl
         return mMilli;
     }
 
-    std::string Date::toString() const
+    const std::string Date::toString() const
     {
         char date[256];
         _snprintf(date,
@@ -244,6 +253,16 @@ namespace rl
                   mHour,
                   mMinute);
         return std::string(date);
+    }
+
+    const Date Date::fromReal(const Ogre::Real& time)
+    {
+        return Date(time / 1000.0);
+    }
+
+    const Ogre::Real Date::toReal() const
+    {
+        return static_cast<Ogre::Real>(mTimestamp) / 1000.0;
     }
 
     Date operator+(const RL_LONGLONG& lhs, const Date& rhs)

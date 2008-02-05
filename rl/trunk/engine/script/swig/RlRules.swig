@@ -404,6 +404,13 @@ namespace rl {
         virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
     };
     
+    class WaitJob : public rl::Job
+    {
+    public:
+        WaitJob(const rl::Date& dsatime);
+        WaitJob(const Ogre::Real& realtime);
+    };
+    
     %feature("director") Item;
     class Item : public rl::GameObject {
     public:

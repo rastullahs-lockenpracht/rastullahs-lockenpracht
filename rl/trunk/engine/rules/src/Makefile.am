@@ -45,5 +45,6 @@ libRlRules_la_SOURCES = \
 	Talent.cpp \
 	Talentgruppe.cpp \
 	TalentStateSet.cpp \
+	WaitJob.cpp \
 	Weapon.cpp \
 	ZauberStateSet.cpp

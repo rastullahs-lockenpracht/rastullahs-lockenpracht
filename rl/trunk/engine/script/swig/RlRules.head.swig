@@ -51,5 +51,6 @@
 #include "Talent.h"
 #include "TalentStateSet.h"
 #include "Tripel.h"
+#include "WaitJob.h"
 #include "Weapon.h"
 %}

@@ -157,7 +157,7 @@ namespace rl
         }
         else
         {
-            return Date(0); ///@todo better throw exception?
+            return Date(); ///@todo better throw exception?
         }
 	}
 

@@ -33,14 +33,12 @@ def jobQueue (jobs)
 				set.add(y) 
 			}
 			queue.add(set)
-#       elsif x.is_a? Numeric:
-#            # This is a time, we add it to the start time, of jobs
-#            # later in the queue
-#            start += x
-#            p "starttime #start"
+		elsif x.is_a? Numeric:
+			queue.add(WaitJob.new(x));
         elsif x.is_a? Job
             queue.add(x)
-            p "job added"
+		elsif x.is_a? Date
+			queue.add(WaitJob.new(x))
         end
     }
 	$JS.addJob(queue, 20)

@@ -463,6 +463,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\WaitJob.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ZauberStateSet.cpp"
 				>
 			</File>
@@ -666,6 +670,10 @@
 			</File>
 			<File
 				RelativePath=".\include\TalentStateSet.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\WaitJob.h"
 				>
 			</File>
 			<File

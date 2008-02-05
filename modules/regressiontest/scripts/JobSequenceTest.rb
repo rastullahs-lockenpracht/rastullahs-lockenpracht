@@ -60,6 +60,37 @@ class JobQueueTestAction < Action
   end
 end
 
+class GameTimeJobQueueTestAction < Action
+  def initialize
+    super("gametqueue", "Test game time job queue");
+  end
+  
+  def canDo(go, user)
+    true
+  end
+  
+  def doAction(go, user, target)
+    jobQueue(
+            [
+                [
+					_PlayAnimation(go.getActor(), "auf"), 
+					_PlaySound3d("doorcreak.ogg", go.getPosition())
+				],
+				Date.new(Date::ONE_KAMPFRUNDE),
+				_PlaySound3d("lachen.ogg", go.getPosition()),
+				[
+					_PlayAnimation(go.getActor(), "zu"), 
+					_PlaySound3d("doorcreak.ogg", go.getPosition())
+				],
+				Date.new(Date::ONE_SPIELRUNDE),
+				_PlaySound3d("lachen.ogg", go.getPosition()),
+				_Execute {provokeEror},
+				_Execute {p "FOO"}
+            ]
+    )
+  end
+end
+
 class JobSequenceTest < TestCase
     def execute()
         # Define a base box to place everything else on.
@@ -73,8 +104,9 @@ class JobSequenceTest < TestCase
         chest = $GOM.createGameObject(
             "JobSequenceTestChest");
         chest.addAction(JobSequenceTestAction.new());
-        chest.addAction(JobQueueTestAction.new());
-        chest.placeIntoScene();
+        chest.addAction(JobQueueTestAction.new()); 
+        chest.addAction(GameTimeJobQueueTestAction.new());
+		chest.placeIntoScene();
         chest.setPosition(rel_pos([0.0, height, 0.0]));
 
         $SCRIPT.log("JobSequenceTest initialisiert");

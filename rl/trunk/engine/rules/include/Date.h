@@ -21,19 +21,101 @@
 
 namespace rl
 {
-    /** Die Datumsklasse fuer den Aventurischen Kalender.
-     *  Das Datum wird auf Basis des in der Geographia Aventurica 
-     *  beschriebenen Kalenders verwaltet. Das Format basiert auf
-     *  die Millisekunden seit 00:00:00,000 1. Praios 0 BF.
-     *  Dieser Wert wird als 64Bit Timestamp gespeichert, alle
-     *  anderen Komponenten(Tag, Stunde etc.) werden daraus
-     *  berechnet.
+    /** 
+     * The date class for the Aventurian calendar
+     * The date is managed according to the calendar described
+     * in the Geographia Aventurica (see p. XXX)
+     * The format is based on milliseconds since
+     * 00:00:00,000 1. Praios 0 BF, this value is stored as a
+     * 64 bit timestamp, all other data (day, hour etc.) is
+     * calculated.
      *  @todo CReal-Umrechnung, Komfortfunktionen
+     *
+     * Caution: all Real parameters or return values mean seconds, NOT milliseconds
      */
     class _RlRulesExport Date
     {
         friend Date _RlRulesExport operator+(const RL_LONGLONG&, const Date&);
+        friend Date _RlRulesExport operator+(const Ogre::Real&, const Date&);
         friend Date _RlRulesExport operator-(const RL_LONGLONG&, const Date&);
+        friend Date _RlRulesExport operator-(const Ogre::Real&, const Date&);
+
+    public:
+        /// One second in milliseconds
+        static const unsigned RL_LONGLONG ONE_SECOND;
+        /// One minute in milliseconds
+        static const unsigned RL_LONGLONG ONE_MINUTE;
+        /// One hour in milliseconds
+        static const unsigned RL_LONGLONG ONE_HOUR;
+        /// One day in milliseconds
+        static const unsigned RL_LONGLONG ONE_DAY;
+        /// One week in milliseconds
+        static const unsigned RL_LONGLONG ONE_WEEK;
+        /// One (dark eye) month in milliseconds
+        static const unsigned RL_LONGLONG ONE_MONTH;
+        /// One (dark eye) year in milliseconds
+        static const unsigned RL_LONGLONG ONE_YEAR;
+
+        /// One combat round (Kampfrunde) in milliseconds
+        static const unsigned RL_LONGLONG ONE_KAMPFRUNDE;
+        /// One game round (Spielrunde) in milliseconds
+        static const unsigned RL_LONGLONG ONE_SPIELRUNDE;
+
+        /** 
+         * Default constructor creates date with timestamp 0
+         * (00:00:00,000 1. Praios 0 BF)
+         */
+        Date();
+
+        /// Create a date with given timestamp
+        Date(const RL_LONGLONG& timestamp);
+
+        /// Copy constructor
+        Date(const Date& rhs);
+
+        Date& operator=(const Date& rhs);
+        bool operator==(const Date& rhs);
+        bool operator<(const Date& rhs);
+        bool operator<=(const Date& rhs);
+        bool operator>=(const Date& rhs);
+        bool operator>(const Date& rhs);
+
+        Date operator+(const RL_LONGLONG& rhs);
+		Date operator+(const Date& rhs);
+		Date operator-(const RL_LONGLONG& rhs);
+        RL_LONGLONG operator-(const Date& rhs);
+        Date operator*(const Ogre::Real& rhs);
+        Date operator/(const Ogre::Real& rhs);
+
+        RL_LONGLONG getTimestamp() const;
+
+        /// Milliseconds since 00:00:00,000 of the Date's day
+        int getTimeFraction() const;
+        int getYear() const;
+        int getMonth() const;
+        /// Get the name of the Date's month
+        std::string getMonthName() const;
+        int getDayOfYear() const;
+        int getDayOfMonth() const;
+        int getDayOfWeek() const;
+        std::string getDayOfWeekName() const;
+        int getHour() const;
+        int getMinute() const;
+        int getSecond() const;
+        int getMilliSecond() const;
+
+        /** 
+         * Get a nicely formated string representation of the date
+         * Format is 
+         * "{Day of Week}, der {Day}. {Month} im Jahre {Year}, {Hour}:{Minute}.
+         *
+         * @return The date as a printable text
+         */
+        const std::string toString() const;
+
+        static const Date fromReal(const Ogre::Real& time);
+        const Ogre::Real toReal() const;
+
     private:
 
         int mMilli;
@@ -51,71 +133,6 @@ namespace rl
          *  mTimestamp neu.
          */
         void calculateFields();
-    public:
-        /// Eine Sekunde in Millisekunden
-        static const unsigned RL_LONGLONG ONE_SECOND;
-        /// Eine Minute in Millisekunden
-        static const unsigned RL_LONGLONG ONE_MINUTE;
-        /// Eine Stunde in Millisekunden
-        static const unsigned RL_LONGLONG ONE_HOUR;
-        /// Ein Tag in Millisekunden
-        static const unsigned RL_LONGLONG ONE_DAY;
-        /// Eine Woche in Millisekunden
-        static const unsigned RL_LONGLONG ONE_WEEK;
-        /// Ein Monat in Millisekunden
-        static const unsigned RL_LONGLONG ONE_MONTH;
-        /// Ein Jahr in Millisekunden
-        static const unsigned RL_LONGLONG ONE_YEAR;
-
-        /// Ein Kampfrunde in Millisekunden
-        static const unsigned RL_LONGLONG ONE_KAMPFRUNDE;
-        /// Ein Spielrunde in Millisekunden
-        static const unsigned RL_LONGLONG ONE_SPIELRUNDE;
-
-        /// Standardkonstruktor erzeugt Datum mit timestamp 0
-        Date();
-
-        /// Konstruktor erzeugt Datum an uebergebener Timestamp
-        Date(const RL_LONGLONG& timestamp);
-
-        /// Kopierkonstruktor
-        Date(const Date& rhs);
-
-        Date& operator=(const Date& rhs);
-        bool operator==(const Date& rhs);
-        bool operator<(const Date& rhs);
-        bool operator<=(const Date& rhs);
-        bool operator>=(const Date& rhs);
-        bool operator>(const Date& rhs);
-
-        Date operator+(const RL_LONGLONG& rhs);
-		Date operator+(const Date& rhs);
-		Date operator-(const RL_LONGLONG& rhs);
-        RL_LONGLONG operator-(const Date& rhs);
-
-        RL_LONGLONG getTimestamp() const;
-
-        /// Millisekunden seit 00:00:00,000 des instantiierten Tages.
-        int getTimeFraction() const;
-        int getYear() const;
-        int getMonth() const;
-        /// Name des instantiierten Monats
-        std::string getMonthName() const;
-        int getDayOfYear() const;
-        int getDayOfMonth() const;
-        int getDayOfWeek() const;
-        std::string getDayOfWeekName() const;
-        int getHour() const;
-        int getMinute() const;
-        int getSecond() const;
-        int getMilliSecond() const;
-
-        /** Gibt ein Datum in der Form {Wochentag},
-         *  der {Tag}. {Monat} im Jahre {Jahr}, {Stunde}:{Minute}.
-         *  zurueck.
-         * @return Datum in ausgabefaehiger Textform.
-         */
-        std::string toString() const;
     };
 
     Date _RlRulesExport operator+(const RL_LONGLONG&, const Date&);
