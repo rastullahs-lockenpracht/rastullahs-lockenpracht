@@ -20,11 +20,11 @@
 
 namespace rl
 {
-    Job::Job(bool isDiscardable, bool destroyWhenDone, TimeSource::TimeSourceType timesource, JobPersistenceType peristence)
+    Job::Job(bool isDiscardable, bool destroyWhenDone, TimeSource::TimeSourceType timesource, JobPersistenceType persistence)
         : mIsDiscardable(isDiscardable), 
         mDestroyWhenDone(destroyWhenDone),
         mTimeSource(timesource),
-        mPersistence(peristence)
+        mPersistence(persistence)
     {
     }
 
