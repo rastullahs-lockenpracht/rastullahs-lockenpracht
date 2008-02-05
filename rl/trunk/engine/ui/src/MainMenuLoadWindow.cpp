@@ -106,7 +106,7 @@ namespace rl {
 
 		if(mSaveGameTable->getFirstSelectedItem())
 		{
-			uint SelectedRow = mSaveGameTable->getRowWithID(mSaveGameTable->getFirstSelectedItem()->getID());
+			CEGUI::uint SelectedRow = mSaveGameTable->getRowWithID(mSaveGameTable->getFirstSelectedItem()->getID());
 			CeGuiString moduleName = mSaveGameTable->getItemAtGridReference(CEGUI::MCLGridRef(SelectedRow,1))->getText();
 			ContentModule* module = NULL;
 			module = CoreSubsystem::getSingleton().getModule(moduleName.c_str());
@@ -136,7 +136,7 @@ namespace rl {
 		    mSaveGameTable->removeRow(mSaveGameTable->getRowCount()-1);
         while(mSaveGameTable->getRowCount() < saveGames.size())
 		    mSaveGameTable->addRow();
-        
+
         int saveGameNum = 0;
 
         for(SaveGameEntryMap::iterator it = saveGames.begin(); it != saveGames.end(); it++)
