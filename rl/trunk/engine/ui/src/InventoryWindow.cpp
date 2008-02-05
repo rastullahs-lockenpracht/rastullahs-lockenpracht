@@ -420,7 +420,7 @@ namespace rl {
 				+ mInventory->getOwner()->getOrientation()
 				* targetPosWindow;
             item->removeOldState();
-			item->placeIntoScene();
+			item->setState(GOS_IN_SCENE);
 			item->setPosition(targetPosWorldSpace);
 
 			LOG_DEBUG(Logger::UI,
