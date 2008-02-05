@@ -241,6 +241,15 @@ namespace rl
             void addToCfgPath(const std::string& cfg_dir);
 
             /**
+             * Adds a plugin to the plugin list, correctly adds _d for Windows if compiled
+             * in debug mode
+             *
+             * @param plugin the plugin to add (name without _d or file extension)
+             * @param pluginDir the directory in which the plugin dll is located
+             */
+            void addPlugin(const Ogre::String& plugin, const Ogre::String& pluginDir);
+
+            /**
              * Check if a specified file exists.
              *
              * @param filename File being checked for existence

@@ -175,19 +175,9 @@ namespace rl
         // Load Ogre plugins
         Ogre::StringVector pluginList = ConfigurationManager::getSingleton().getPluginList();
 
-        ///\todo In Windows Ogre now uses a _d suffix for debug plugins. But client application is
-        /// responsible for loading the proper vesion. This way to do it is kinda ugly.
-        /// We should somehow handle this in the ConfigurationManager.
-        Ogre::String pluginSuffix = "";
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-#ifdef _DEBUG
-        pluginSuffix = "_d";
-#endif
-#endif
-
         for (Ogre::StringVector::const_iterator it = pluginList.begin(); it < pluginList.end(); it++)
         {
-            mOgreRoot->loadPlugin(*it + pluginSuffix);
+            mOgreRoot->loadPlugin(*it);
         }
 
         // Find out, what Renderer plugins are available
@@ -227,10 +217,11 @@ namespace rl
         int width = Ogre::StringConverter::parseInt(VideoMode.substr(0, temp));
         int height = Ogre::StringConverter::parseInt(VideoMode.substr(temp + 1, VideoMode.size()));
 
-        mRenderWindow = mOgreRoot->createRenderWindow(name.str(), width, height,
+        mRenderWindow = mOgreRoot->createRenderWindow(
+            name.str(), width, height,
             ConfigurationManager::getSingleton().getBoolSetting(
                 "Video", "Fullscreen"),
-                    &ConfigurationManager::getSingleton().getSettings("Video"));
+            &ConfigurationManager::getSingleton().getSettings("Video"));
 
         if (!mRenderWindow)
             return false;
@@ -245,7 +236,7 @@ namespace rl
 
         mScriptWrapper = new ScriptWrapper();
         LOG_MESSAGE(Logger::CORE,"Skriptwrapper erzeugt");
-        // TODO: muss löschbar werden.
+        // TODO: muss lï¿½schbar werden.
         mRubyInterpreter = new RubyInterpreter();
         LOG_MESSAGE(Logger::CORE,"RubyInterpreter erzeugt");
         mRubyInterpreter->initializeInterpreter();

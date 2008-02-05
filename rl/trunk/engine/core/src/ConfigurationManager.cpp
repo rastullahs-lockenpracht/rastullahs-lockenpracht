@@ -273,14 +273,11 @@ namespace rl
 
         // Plugin list for OGRE specific to operating system
 #       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-        Ogre::String dirSeparator = "\\";
-        mPluginList.push_back(mOgrePluginDirectory + dirSeparator + "RenderSystem_Direct3D9");
-#       else
-        Ogre::String dirSeparator = "/";
+        addPlugin("RenderSystem_Direct3D9", mOgrePluginDirectory);
 #       endif
-        mPluginList.push_back(mOgrePluginDirectory + dirSeparator + "RenderSystem_GL");
-        mPluginList.push_back(mOgrePluginDirectory + dirSeparator + "Plugin_ParticleFX");
-        mPluginList.push_back(mOgrePluginDirectory + dirSeparator + "Plugin_OctreeSceneManager");
+        addPlugin("RenderSystem_GL", mOgrePluginDirectory);
+        addPlugin("Plugin_ParticleFX", mOgrePluginDirectory);
+        addPlugin("Plugin_OctreeSceneManager", mOgrePluginDirectory);
 
         // Load the module list
         ConfigFile* configfile = new ConfigFile();
@@ -431,5 +428,23 @@ namespace rl
         }
 
         return false;
+    }
+
+    void ConfigurationManager::addPlugin(const Ogre::String& plugin, const Ogre::String& pluginDir)
+    {
+        // In Windows Ogre now uses a _d suffix for debug plugins. But client application is
+        // responsible for loading the proper vesion.
+        Ogre::String pluginSuffix = "";
+
+#       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+        Ogre::String dirSeparator = "\\";
+#          ifdef _DEBUG
+        pluginSuffix = "_d";
+#          endif
+#       else
+        Ogre::String dirSeparator = "/";
+#       endif
+
+        mPluginList.push_back(pluginDir + dirSeparator + plugin + pluginSuffix);
     }
 }
