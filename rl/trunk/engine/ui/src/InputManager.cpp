@@ -105,9 +105,9 @@ namespace rl {
         #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
             pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_EXCLUSIVE")));
             pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
-        #elif OGRE_PLATFORM == OGRE_PLATFORM_LINUX
-        //    pl.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
-        //    pl.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
+        #elif OGRE_PLATFORM == OGRE_PLATFORM_LINUX & defined DEBUG
+            pl.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
+            pl.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
         #endif
 
         std::ostringstream windowHndStr;
@@ -260,7 +260,7 @@ namespace rl {
         DOMDocument* doc = loadDocument(filename);
         DOMElement* dataDocumentContent = doc->getDocumentElement();
 
-        DOMNodeList* keymaps 
+        DOMNodeList* keymaps
             = dataDocumentContent->getElementsByTagName(AutoXMLCh("Key").data());
         for (unsigned int idx = 0; idx < keymaps->getLength(); idx++)
         {
@@ -517,7 +517,7 @@ namespace rl {
     class KeyRepeatJob : public Job
     {
     public:
-        KeyRepeatJob(AbstractWindow* window, OIS::KeyCode key) : 
+        KeyRepeatJob(AbstractWindow* window, OIS::KeyCode key) :
           Job(false, true),
           mWindow(window),
           mKey(key),
@@ -546,7 +546,7 @@ namespace rl {
                     }
                     if( CEGUI::System::getSingleton().injectKeyUp(mKey) )
                         handled = true;
-                    
+
                     mLastTime = time;
 
                     if( !handled )  // we don't need a job for keys, that are not handled!
