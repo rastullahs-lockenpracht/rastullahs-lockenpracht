@@ -21,8 +21,8 @@ Read the script manual for further information.
 # url: http://www.team-pantheon.org
 
 # Rastullah exporter written by Julius Schulz
-# based on the OgreXML-Exporter by Michael Rampell and Jens Hoffmann
-# based also on the OgreDotScene-Exporter by Micheal Rampell
+# based on the OgreXML-Exporter by Michael Reimpell and Jens Hoffmann
+# based also on the OgreDotScene-Exporter by Micheal Reimpell
 
 # Copyright (c) 2006 Julius Schulz -- <askan@slashlife.de>
 # Copyright (C) 2004-2005 Michael Reimpell -- <M.Reimpell@tu-bs.de>
@@ -53,7 +53,7 @@ KEEP_SETTINGS = 1
 # OGRE_XML_CONVERTER
 #  the command line used to run the OgreXMLConverter tool.
 #  Set to '' to disable automatical conversion of XML files.
-OGRE_XML_CONVERTER = 'F:\Programme\OgreTools\OgreXMLConverter.exe'
+OGRE_XML_CONVERTER = 'F:\Programme\OgreTools\OgreXMLConverter.exe -t -td tangent'
 
 # OGRE_VERTEXCOLOUR_BGRA
 #  workaround for Ogre's vertex colour conversion bug.
