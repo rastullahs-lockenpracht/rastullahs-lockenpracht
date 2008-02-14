@@ -80,7 +80,7 @@ class Torch < Item
     def initialize(id)
         super(id)
 		addActions()
-		@_prop_color = [1, 1, 0.5, 1];
+		@_prop_color = [0.8, 0.7, 0.5, 1];
     end
     
     def setLit(lit)
