@@ -1,17 +1,27 @@
+material boden_fels/SOLID/TEX/boden_kana.png: Basic_Normalmapping_kana
+{
+set_texture_alias DiffuseMap boden_kana.png
+set_texture_alias NormalMap boden_kana_normal.png
+}
 material schild/SOLID/TEX/schild.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap schild.png
 set_texture_alias NormalMap schild_normal.png
 }
-material boden/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
+material SOLID/TEX/baumstamm_kana.png: Basic_Normalmapping_kana
+{
+set_texture_alias DiffuseMap baumstamm_kana.png
+set_texture_alias NormalMap baumstamm_kana_normal.png
+}
+material Material.020/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-material chairs/SOLID/TEX/baumstamm_kana.png: Basic_Normalmapping_kana
+material smuggler/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
-set_texture_alias DiffuseMap baumstamm_kana.png
-set_texture_alias NormalMap baumstamm_kana_normal.png
+set_texture_alias DiffuseMap wand_kana.png
+set_texture_alias NormalMap wand_kana_normal.png
 }
 material leiste_unten/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
@@ -23,7 +33,12 @@ material Material.021/SOLID/TEX/boden_kana.png/VertCol: Basic_Normalmapping_kana
 set_texture_alias DiffuseMap boden_kana.png
 set_texture_alias NormalMap boden_kana_normal.png
 }
-material wand/SOLID: Basic_Normalmapping_kana
+material smuggler/SOLID/TEX/pflaster_kana.png: Basic_Normalmapping_kana
+{
+set_texture_alias DiffuseMap pflaster_kana.png
+set_texture_alias NormalMap pflaster_kana_normal.png
+}
+material bruecke/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
@@ -33,12 +48,12 @@ material wand/SOLID/TEX/boden_kana.png: Basic_Normalmapping_kana
 set_texture_alias DiffuseMap boden_kana.png
 set_texture_alias NormalMap boden_kana_normal.png
 }
-material bruecke/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
+material felswaende/SOLID/TEX/felsen2_kana.png: Basic_Normalmapping_kana
 {
-set_texture_alias DiffuseMap wand_kana.png
-set_texture_alias NormalMap wand_kana_normal.png
+set_texture_alias DiffuseMap felsen2_kana.png
+set_texture_alias NormalMap felsen2_kana_normal.png
 }
-material Material.020/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
+material boden/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
@@ -58,15 +73,19 @@ material saeulen/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-material SOLID/TEX/pflaster_kana.png: Basic_Normalmapping_kana
+material Material.002/SOLID/TEX/tisch_kana.png
 {
-set_texture_alias DiffuseMap pflaster_kana.png
-set_texture_alias NormalMap pflaster_kana_normal.png
-}
-material Material.098/SOLID/TEX/boden_kana.png: Basic_Normalmapping_kana
-{
-set_texture_alias DiffuseMap boden_kana.png
-set_texture_alias NormalMap boden_kana_normal.png
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture tisch_kana.png
+			}
+		}
+	}
 }
 material Material.025/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
@@ -78,10 +97,19 @@ material boden_kies/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-material saeulen/SOLID/TEX/wand_06.png: Basic_Normalmapping_kana
+material Material.001/SOLID/TEX/tisch_kana.png
 {
-set_texture_alias DiffuseMap wand_kana.png
-set_texture_alias NormalMap wand_kana_normal.png
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture tisch_kana.png
+			}
+		}
+	}
 }
 material farn/SOLID/TEX/farn.png
 {
@@ -98,9 +126,9 @@ material farn/SOLID/TEX/farn.png
 		}
 	}
 }
-material pilze/SOLID/TEX/pilz2.png: Basic_Normalmapping_kana
+material pilze/SOLID/TEX/pilz3.png: Basic_Normalmapping_kana
 {
-set_texture_alias DiffuseMap pilz2.png
+set_texture_alias DiffuseMap pilz.png
 set_texture_alias NormalMap pilz_normal.png
 }
 material wurzeln/SOLID/TEX/baumstamm_kana.png: Basic_Normalmapping_kana
@@ -108,22 +136,22 @@ material wurzeln/SOLID/TEX/baumstamm_kana.png: Basic_Normalmapping_kana
 set_texture_alias DiffuseMap baumstamm_kana.png
 set_texture_alias NormalMap baumstamm_kana_normal.png
 }
-material SOLID/TEX/boden_kana.png: Basic_Normalmapping_kana
+material SOLID/TEX/felsen2_kana.png: Basic_Normalmapping_kana
+{
+set_texture_alias DiffuseMap felsen2_kana.png
+set_texture_alias NormalMap felsen2_kana_normal.png
+}
+material Material.098/SOLID/TEX/boden_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap boden_kana.png
 set_texture_alias NormalMap boden_kana_normal.png
 }
-material bruecke.001/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
-{
-set_texture_alias DiffuseMap wand_kana.png
-set_texture_alias NormalMap wand_kana_normal.png
-}
-material tisch/SOLID/TEX/baumstamm_kana.png: Basic_Normalmapping_kana
+material stuetzbalken/SOLID/TEX/baumstamm_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap baumstamm_kana.png
 set_texture_alias NormalMap baumstamm_kana_normal.png
 }
-material wand/SOLID/TEX/wand_06.png: Basic_Normalmapping_kana
+material bruecke.001/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
@@ -142,6 +170,20 @@ material dagger_01/SOLID/TEX/dagger.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap dagger.png
 set_texture_alias NormalMap dagger_normal.png
+}
+material Material.003/SOLID/TEX/tisch_kana.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture tisch_kana.png
+			}
+		}
+	}
 }
 material saeulen/SOLID/TEX/saeule_kana.png: Basic_Normalmapping_kana
 {
@@ -163,29 +205,10 @@ material fackeln/SOLID/TEX/fackel_kana.png: Basic_Normalmapping_kana
 set_texture_alias DiffuseMap fackel_kana.png
 set_texture_alias NormalMap fackel_kana_normal.png
 }
-material pilze/SOLID/TEX/pilz.png: Basic_Normalmapping_kana
-{
-set_texture_alias DiffuseMap pilz.png
-set_texture_alias NormalMap pilz_normal.png
-}
 material Material/SOLID/TEX/boden_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap boden_kana.png
 set_texture_alias NormalMap boden_kana_normal.png
-}
-material default
-{
-	technique
-	{
-		pass
-		{
-		}
-	}
-}
-material SOLID/TEX/wand_06.png: Basic_Normalmapping_kana
-{
-set_texture_alias DiffuseMap wand_kana.png
-set_texture_alias NormalMap wand_kana_normal.png
 }
 material SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
@@ -201,5 +224,4 @@ material SOLID/TEX/kiste_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap kiste_kana.png
 set_texture_alias NormalMap kiste_kana_normal.png
-}
 }
