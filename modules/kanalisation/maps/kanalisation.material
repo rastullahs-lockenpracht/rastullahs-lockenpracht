@@ -126,6 +126,21 @@ material farn/SOLID/TEX/farn.png
 		}
 	}
 }
+material fence/SOLID/TEX/fence_kana.png
+{
+	technique
+	{
+		pass
+		{
+			alpha_rejection greater 215 
+
+			texture_unit
+			{
+				texture fence_kana.png  // Mit Alphakanal
+			}
+		}
+	}
+}
 material pilze/SOLID/TEX/pilz3.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap pilz.png
@@ -225,3 +240,24 @@ material SOLID/TEX/kiste_kana.png: Basic_Normalmapping_kana
 set_texture_alias DiffuseMap kiste_kana.png
 set_texture_alias NormalMap kiste_kana_normal.png
 }
+material randsteine_01/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
+{
+set_texture_alias DiffuseMap wand_kana.png
+set_texture_alias NormalMap wand_kana_normal.png
+}
+material randsteine_02/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
+{
+set_texture_alias DiffuseMap wand_kana.png
+set_texture_alias NormalMap wand_kana_normal.png
+}
+material randsteine_03/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
+{
+set_texture_alias DiffuseMap wand_kana.png
+set_texture_alias NormalMap wand_kana_normal.png
+}
+material randsteine_04/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
+{
+set_texture_alias DiffuseMap wand_kana.png
+set_texture_alias NormalMap wand_kana_normal.png
+}
+
