@@ -22,6 +22,13 @@
 			<colourSpecular r="0.8" g="0.7" b="0.5" />
 			<lightAttenuation range="5" constant="0.79" linear="-0.21" quadratic="0.268" />
 		</light>
+		<light name="fackkellicht4" type="point" visible="true"
+			castShadows="false">
+			<position x="36.49" y="7.37" z="30.27" />
+			<colourDiffuse r="0.8" g="0.7" b="0.5" />
+			<colourSpecular r="0.8" g="0.7" b="0.5" />
+			<lightAttenuation range="5" constant="0.79" linear="-0.21" quadratic="0.268" />
+		</light>
 	</nodes>
 	<zones>
 		<zone name="default">

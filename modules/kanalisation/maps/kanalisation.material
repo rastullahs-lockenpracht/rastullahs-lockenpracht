@@ -50,8 +50,8 @@ set_texture_alias NormalMap boden_kana_normal.png
 }
 material felswaende/SOLID/TEX/felsen2_kana.png: Basic_Normalmapping_kana
 {
-set_texture_alias DiffuseMap felsen2_kana.png
-set_texture_alias NormalMap felsen2_kana_normal.png
+set_texture_alias DiffuseMap felsen_kana.png
+set_texture_alias NormalMap felsen_kana_normal.png
 }
 material boden/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
@@ -160,8 +160,8 @@ set_texture_alias NormalMap baumstamm_kana_normal.png
 }
 material SOLID/TEX/felsen2_kana.png: Basic_Normalmapping_kana
 {
-set_texture_alias DiffuseMap felsen2_kana.png
-set_texture_alias NormalMap felsen2_kana_normal.png
+set_texture_alias DiffuseMap felsen_kana.png
+set_texture_alias NormalMap felsen_kana_normal.png
 }
 material Material.098/SOLID/TEX/boden_kana.png: Basic_Normalmapping_kana
 {

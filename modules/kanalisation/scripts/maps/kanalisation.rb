@@ -20,19 +20,15 @@ $SCRIPT.log("rauschendesWasser geladen");
 #sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
 #$hero.getActor().placeIntoScene([0.0, 0.0, 0.0]);
 #sunlight.getControlledObject().setCastShadows(true);
-
-#$hero.getActor().placeIntoScene([0.0, 0.0, 0.0]);
 #sunlight.getControlledObject().setSpecularColour(1.0,1.0,1.0);
-
 #sunlight.getControlledObject().setDiffuseColour(0.1,0.1,0.2);
-$SCRIPT.log("Tageslicht erstellt.");
+#$SCRIPT.log("Tageslicht erstellt.");
 
 
 backlight = $AM.createLightActor("backlight", LightObject::LT_DIRECTIONAL);
 backlight.getControlledObject().setDirection(0.17101, 0.873647, -0.969846);
 backlight.getControlledObject().setCastShadows(false);
 backlight.getControlledObject().setDiffuseColour(-0.3,-0.3,-0.3);
-
 
 
 $World.setFog( World::FOG_EXP, [0.658,0.7568,0.9137,1.0], 0.00049, 0.8, 1.0);
@@ -47,13 +43,14 @@ $SCRIPT.log(" Abspielen");
 kanalLied.getControlledObject().play();
 $SCRIPT.log("Sound fertig");
 
-$SCRIPT.log("Create hero")
-#$hero = $GOM.createGameObject("hero", 1);
+$SCRIPT.log("Initialize hero");
 $hero = $GOM.createGameObject("mckhero", 1);
-
-$SCRIPT.log("Place hero into scene")
 $hero.placeIntoScene();
-$hero.setPosition([9.45,4.14,9.57]);
+$hero.setPosition([ 9.45, 4.14, 9.57]);
+$hero.setOrientation([ [ -4.43614335381426e-005, -0.999999940395355, -3.53998184436932e-005 ] , 67.3891525268555]);
+PlayerSettings.preparePlayer($hero);
+$UI.setActiveCharacter($hero)
+$SCRIPT.log("Create hero")
 
 $SCRIPT.log("Prepare hero for being the active character")
 PlayerSettings.preparePlayer($hero)
