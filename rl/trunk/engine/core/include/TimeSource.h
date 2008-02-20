@@ -23,6 +23,8 @@
 
 #include "GameTask.h"
 
+#include "SaveGameManager.h"
+
 namespace rl
 {
     class _RlCoreExport TimeSource : public GameTask
@@ -82,14 +84,20 @@ namespace rl
     };
 
     class _RlCoreExport TimeSourceManager 
-        : public Ogre::Singleton<TimeSourceManager>
+        : public Ogre::Singleton<TimeSourceManager>, public SaveGameData
     {
     public:
         TimeSourceManager();
+		virtual ~TimeSourceManager();
 
         void registerTimeSource(TimeSource* ts);
         TimeSource* getTimeSource(const TimeSource::TimeSourceType& type) const;
 
+		virtual CeGuiString getXmlNodeIdentifier() const;
+        virtual void writeData(SaveGameFileWriter* writer);
+        virtual void readData(SaveGameFileReader* reader);
+        /// defines the loading/saving order higher priority are saved last and loaded first
+        virtual int getPriority() const;
     private:
         std::map<TimeSource::TimeSourceType, TimeSource*> mTimeSources;
     };

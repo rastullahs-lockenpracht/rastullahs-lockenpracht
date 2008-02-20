@@ -120,7 +120,13 @@ namespace rl
 
     TimeSourceManager::TimeSourceManager()
     {
+		SaveGameManager::getSingleton().registerSaveGameData(this);
     }
+
+	TimeSourceManager::~TimeSourceManager()
+	{
+		SaveGameManager::getSingleton().unregisterSaveGameData(this);
+	}
 
     void TimeSourceManager::registerTimeSource(TimeSource* ts)
     {
@@ -141,4 +147,65 @@ namespace rl
         return it->second;
     }
 
+
+	CeGuiString TimeSourceManager::getXmlNodeIdentifier() const
+	{
+		return "time_sources";
+	}
+
+	using namespace XERCES_CPP_NAMESPACE;
+
+    void TimeSourceManager::writeData(SaveGameFileWriter* writer)
+	{
+		DOMElement* timesources = writer->appendChildElement(writer->getDocument(), 
+			writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
+
+		for(std::map<TimeSource::TimeSourceType, TimeSource*>::const_iterator it_time_sources = mTimeSources.begin(); 
+			it_time_sources != mTimeSources.end(); it_time_sources++)
+        {
+            DOMElement* timesource = writer->appendChildElement(writer->getDocument(), timesources, "time_source");
+			writer->setAttributeValueAsInteger(timesource, "ID", it_time_sources->first);
+			Property time((int)it_time_sources->second->getClock());
+
+            PropertyMap map;
+			map["time"] = time;
+            writer->writeEachPropertyToElem(timesource, map);
+        } 
+	}
+
+	void TimeSourceManager::readData(SaveGameFileReader* reader)
+	{
+		reader->initializeXml();
+
+		DOMNodeList* rootNodeList = reader->getDocument()->getDocumentElement()->getElementsByTagName(AutoXMLCh(getXmlNodeIdentifier().c_str()).data());
+
+		if(rootNodeList->getLength())
+        {
+			DOMNodeList* xmlTimeSources = static_cast<DOMElement*>(rootNodeList->item(0))->getElementsByTagName(AutoXMLCh("gameobject").data()); //there should be only one "gameobjects" node
+            if(xmlTimeSources->getLength())
+            {
+				for(XMLSize_t childIdx = 0; childIdx < xmlTimeSources->getLength(); childIdx++)
+				{
+					DOMNode* xmlTimeSource = xmlTimeSources->item(childIdx);
+					if(xmlTimeSource->getNodeType() == DOMNode::ELEMENT_NODE)
+                    {
+						TimeSource::TimeSourceType ID = (TimeSource::TimeSourceType)reader->getAttributeValueAsInteger(
+							static_cast<DOMElement*>(xmlTimeSource), "ID");
+                        PropertyRecord properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlTimeSource));
+	
+						std::map<TimeSource::TimeSourceType, TimeSource*>::const_iterator it_time_sources = mTimeSources.find(ID);
+						if(it_time_sources != mTimeSources.end())
+							it_time_sources->second->setClock(properties.toPropertyMap()["time"].toInt());
+                    }
+				}
+			}
+		}
+
+		reader->shutdownXml();
+	}
+    
+    int TimeSourceManager::getPriority() const
+	{
+		return 10000;
+	}
 }

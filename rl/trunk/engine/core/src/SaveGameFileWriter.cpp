@@ -71,11 +71,11 @@ namespace rl
             this->processProperty(header, PropertyEntry(it_header->first.c_str(), it_header->second));
         }
 
-        //Write globals
-        DOMElement* globals = appendChildElement(mDocument, mDocument->getDocumentElement(), "globals");
-        DOMElement* gameTime = appendChildElement(mDocument, globals, "gametime");
-        TimeSource* gameTimeSource = TimeSourceManager::getSingleton().getTimeSource(TimeSource::GAMETIME);
-        setAttributeValueAsInteger(gameTime, "milliseconds", gameTimeSource->getClock());
+        ////Write globals
+        //DOMElement* globals = appendChildElement(mDocument, mDocument->getDocumentElement(), "globals");
+        //DOMElement* gameTime = appendChildElement(mDocument, globals, "gametime");
+        //TimeSource* gameTimeSource = TimeSourceManager::getSingleton().getTimeSource(TimeSource::GAMETIME);
+        //setAttributeValueAsInteger(gameTime, "milliseconds", gameTimeSource->getClock());
 
         for(SaveGameDataOrderMap::const_iterator data_iter = map.begin(); data_iter != map.end(); data_iter++)
         {

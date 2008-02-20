@@ -23,7 +23,7 @@ using namespace Ogre;
 namespace rl
 {
 
-    PlayAnimationJob::PlayAnimationJob(Actor* actor, const String& anim, bool doLoop,
+	PlayAnimationJob::PlayAnimationJob(Actor* actor, const Ogre::String& anim, bool doLoop,
         bool replaceAllAnims)
         : Job(false, true),
           mActor(actor),

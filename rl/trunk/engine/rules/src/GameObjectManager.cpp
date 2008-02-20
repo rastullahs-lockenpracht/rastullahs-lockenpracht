@@ -333,9 +333,9 @@ namespace rl
             DOMNodeList* xmlGameObjects = static_cast<DOMElement*>(rootNodeList->item(0))->getElementsByTagName(AutoXMLCh("gameobject").data()); //there should be only one "gameobjects" node
             if(xmlGameObjects->getLength())
             {
-                for(XMLSize_t childIdx1 = 0; childIdx1 < xmlGameObjects->getLength(); childIdx1++)
+                for(XMLSize_t childIdx = 0; childIdx < xmlGameObjects->getLength(); childIdx++)
                 {
-                    DOMNode* xmlGameObject = xmlGameObjects->item(childIdx1);
+                    DOMNode* xmlGameObject = xmlGameObjects->item(childIdx);
                     if(xmlGameObject->getNodeType() == DOMNode::ELEMENT_NODE)
                     {
                         int ID = reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "ID");
@@ -343,17 +343,17 @@ namespace rl
                         GameObjectState state = (GameObjectState)reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "State");
                         PropertyRecord properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlGameObject));
 
-						GameObject* object = NULL;
-						if(getGameObject(ID) == NULL)
-							object = createGameObject(classID, ID);
-						else
-							object = getGameObject(ID);
+                        GameObject* object = NULL;
+                        if(getGameObject(ID) == NULL)
+                            object = createGameObject(classID, ID);
+                        else
+                            object = getGameObject(ID);
                         
                         applyProperties(object, &properties);
                         // Placing the actor a a little bit higher in the scene. The actor will fall onto ground.
                         // Avoiding problems with the physics, because the character the creature is transfixed to ground
                         object->setProperty(GameObject::PROPERTY_POSITION, 
-                            Property(object->getProperty(GameObject::PROPERTY_POSITION).toVector3() + Ogre::Vector3(0.0f,0.01f,0.0f)));
+	                        Property(object->getProperty(GameObject::PROPERTY_POSITION).toVector3() + Ogre::Vector3(0.0f,0.01f,0.0f)));
                         object->setState(state);
                     }
                 }
