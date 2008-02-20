@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="RlUI"
 	ProjectGUID="{53FE20F3-E726-44FE-BBEC-D29CAE210D25}"
 	RootNamespace="RlUI"
@@ -353,6 +353,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\CombatGui.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\CommandMapper.h"
 				>
 			</File>
@@ -563,6 +567,10 @@
 			>
 			<File
 				RelativePath=".\src\CombatControlState.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\CombatGui.cpp"
 				>
 			</File>
 			<File

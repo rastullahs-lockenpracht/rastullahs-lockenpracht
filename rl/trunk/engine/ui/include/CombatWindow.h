@@ -22,6 +22,8 @@
 
 namespace rl {
 	
+	/// Wraps all cegui gui aspects of the combat gui and is
+	/// controlled by CombatGui class.
 	class _RlUiExport CombatWindow : public AbstractWindow
 	{
 	public:

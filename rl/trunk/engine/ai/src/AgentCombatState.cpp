@@ -17,6 +17,7 @@
 
 #include "Agent.h"
 #include "AgentCombatState.h"
+#include "CombatManager.h"
 #include "CreatureControllerManager.h"
 
 namespace rl
@@ -24,8 +25,9 @@ namespace rl
 
     AgentCombatState::AgentCombatState(Agent* agent)
         : AgentState(agent),
-        Combatant(CreatureControllerManager::getSingleton().getCreatureController(
-            agent->getControlledCreature())),
+        Combatant(CombatManager::getSingleton().getCurrentCombat(),
+            CreatureControllerManager::getSingleton().getCreatureController(
+                agent->getControlledCreature())),
         mState()
     {
     }
@@ -37,6 +39,11 @@ namespace rl
     Ogre::String AgentCombatState::getCombatantTypeName() const
     {
         return "default";
+    }
+
+    void AgentCombatState::requestCombatantAction()
+    {
+        // Think!
     }
 
 	void AgentCombatState::update(const float elapsedTime)

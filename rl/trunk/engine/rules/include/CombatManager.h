@@ -37,10 +37,8 @@ namespace rl
         ~CombatManager();
 
         /// Creates a new combat object and sets it active.
-        /// @param character the player character
-        /// @param firstOpponent the opponent, that caused the combat.
         /// @throw IllegalStateException if there is already a combat running.
-        Combat* startCombat(Combatant* character, Combatant* firstOpponent);
+        Combat* startCombat();
 
         /// Return the combat currently running, NULL if there is none.
         Combat* getCurrentCombat() const;

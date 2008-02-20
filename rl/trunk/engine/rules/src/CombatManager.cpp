@@ -36,15 +36,14 @@ namespace rl
     {
     }
 
-    Combat* CombatManager::startCombat(Combatant* character, Combatant* firstOpponent)
+    Combat* CombatManager::startCombat()
     {
         if (mCurrentCombat != NULL)
         {
             Throw(IllegalStateException, "There already is a combat running.");
         }
 
-        mCurrentCombat = new Combat(character);
-        mCurrentCombat->addOpponent(firstOpponent);
+        mCurrentCombat = new Combat();
 
         return mCurrentCombat;
     }

@@ -33,6 +33,7 @@
 #include "AiMessages.h"
 #include "ControlState.h"
 #include "CombatControlState.h"
+#include "CombatManager.h"
 #include "CommandMapper.h"
 #include "ConfigurationManager.h"
 #include "Console.h"
@@ -398,7 +399,10 @@ namespace rl {
             controller = new DialogControlState(mCommandMapper, camera, character);
             break;
         case CST_COMBAT:
-            controller = new CombatControlState(mCommandMapper, camera, character);
+            {
+                Combat* combat = CombatManager::getSingleton().startCombat();
+                controller = new CombatControlState(mCommandMapper, camera, character, combat);
+            }
             break;
         default:
             Throw(IllegalStateException, "Unknown controller type.");

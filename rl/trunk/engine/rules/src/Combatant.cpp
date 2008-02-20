@@ -16,10 +16,12 @@
 #include "stdinc.h"
 
 #include "Combatant.h"
+#include "Combat.h"
 
 namespace rl
 {
-    Combatant::Combatant(CreatureController* controller) : mController(controller)
+    Combatant::Combatant(Combat* combat, CreatureController* controller)
+        : mCombat(combat), mController(controller)
     {
     }
 

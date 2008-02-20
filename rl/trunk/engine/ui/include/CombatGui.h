@@ -14,35 +14,38 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef __GameLoggerWindow_H__
-#define __GameLoggerWindow_H__
+#ifndef __CombatGui_H__
+#define __CombatGui_H__
 
 #include "UiPrerequisites.h"
 
-#include "AbstractWindow.h"
-#include "MessagePump.h"
-#include "RulesConstants.h"
+#include "CameraObject.h"
+#include "Combat.h"
+#include "CombatWindow.h"
 
 namespace rl {
-
-	class _RlUiExport GameLoggerWindow : public AbstractWindow
+	
+	/// GUI for user control of combat.
+	/// Handles all graphical combat visualisation.
+	class _RlUiExport CombatGui
 	{
 	public:
-		GameLoggerWindow();
+		CombatGui(Combat*, CameraObject* mCamera);
+		virtual ~CombatGui();
 
-		/// Message handler for RLMSG_GAMEEVENTLOG_EVENT_ADDED
-		bool onLogEntryAdded(GameEventType evt, const Ogre::String& msg);
+		void update();
+
+		void show();
+		void hide();
 
 	private:
-		static CEGUI::colour COLOR_DEFAULT;
-		static CEGUI::colour COLOR_COMBAT;
-		static CEGUI::colour COLOR_DIALOG;
-		static CEGUI::colour COLOR_QUEST;
+		CombatWindow* mCombatWindow;
+		Combat* mCombat;
+		CameraObject* mCamera;
+        /// Little Helper-MO for visualisation for everything that is difficult with cegui.
+        Ogre::ManualObject* mHud;
 
-	    MessagePump::ScopedConnection mLogEntryAddedConnection;
-		CEGUI::Listbox* mLog;
-
-		void logEvent(const CeGuiString& text, const CEGUI::colour color);
+        Ogre::Rectangle getScreenRectFromWorldAabb(const Ogre::AxisAlignedBox& aabb) const;
 	};
 }
 

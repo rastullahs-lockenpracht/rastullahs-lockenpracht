@@ -18,9 +18,11 @@
 #define __RL_COMBAT_H__
 
 #include "RulesPrerequisites.h"
+#include "CombatAction.h"
 
 #include <set>
 #include <vector>
+#include <boost/tuple/tuple.hpp>
 
 namespace rl
 {
@@ -31,7 +33,7 @@ namespace rl
     public:
         typedef std::set<Combatant*> CombatantSet;
 
-        Combat(Combatant* character);
+        Combat();
         ~Combat();
 
         void addOpponent(Combatant*);
@@ -46,17 +48,28 @@ namespace rl
         void start();
         void stop();
 
+        // Called by combatants in response to a request by the Combat object.
+        // With calling this function combatants register their actions for this round.
+        void registerCombatantAction(Combatant*, CombatAction*, CombatAction*, CombatAction*);
+
     private:
-        Combatant* mCharacter;
+        typedef std::vector<std::pair<int, Combatant*> > CombatantQueue;
+        /// Stores the max three actions a combatant can do per round.
+        /// Probably has to be replaced with a more sophisticated container later on,
+        /// but for now it will do what it needs to.
+        typedef boost::tuples::tuple<CombatAction*, CombatAction*, CombatAction*> ActionTuple;
+        typedef std::map<Combatant*, ActionTuple> CombatantActionMap;
+
         CombatantSet mOpponents;
         CombatantSet mAllies;
-        typedef std::vector<std::pair<int, Combatant*> > CombatantQueue;
-        // Combatants in order of their initiative for the current round.
+        /// Combatants in order of their initiative for the current round.
         CombatantQueue mCombatantQueue;
-        // Combatants in order of their initiative for the next round.
-        // Will be copied to the current round after current round is done
-        // and then it will be emptied.
-        CombatantQueue mNextCombatQueue;
+        CombatantActionMap mCombatantActions;
+
+        unsigned short mCurrentRound;
+
+        void beginRound();
+        void endRound();
     };
 }
 

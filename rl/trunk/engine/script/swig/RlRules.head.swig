@@ -31,6 +31,7 @@
 #include "Effect.h"
 #include "EffectFactory.h"
 #include "EigenschaftenStateSet.h"
+#include "GameEventLog.h"
 #include "GameObject.h"
 #include "GameObjectManager.h"
 #include "Inventory.h"

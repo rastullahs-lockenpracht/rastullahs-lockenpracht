@@ -21,20 +21,32 @@
 
 namespace rl
 {
+    class Combat;
     class Creature;
     class CreatureController;
 
-    class _RlRulesExport Combatant
+    /// Base class of combat participiants. This defines the interface Combat uses
+	/// to communicate with Combatants. Be it AI bots or actual users.
+	class _RlRulesExport Combatant
     {
     public:
-        Combatant(CreatureController* controller);
+        Combatant(Combat* combat, CreatureController* controller);
         virtual ~Combatant();
 
-        virtual Ogre::String getCombatantTypeName() const = 0;
+        /// This function is called by the Combat the Combatantant is taking part in,
+        /// in order to request it to register actions for the next round.
+        /// In response to this call Combatant is supposed to call Combat#registerCombatantAction.
+        /// The call is not required to be done immediatly,
+        /// it can be done synchronously or asynchronously.
+        virtual void requestCombatantAction() = 0;
+
+        /// Type name used by factory
+		virtual Ogre::String getCombatantTypeName() const = 0;
 
         CreatureController* getCreatureController() const;
 
     protected:
+        Combat* mCombat;
         CreatureController* mController;
     };
 

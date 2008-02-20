@@ -19,9 +19,9 @@
 #include "ActionManager.h"
 #include "CombatManager.h"
 #include "DsaManager.h"
-//#include "XdimlLoader.h"
 #include "DsaDataLoader.h"
 #include "EffectFactory.h"
+#include "GameEventLog.h"
 #include "Logger.h"
 #include "CreatureControllerManager.h"
 #include "GameObjectManager.h"
@@ -38,6 +38,7 @@ namespace rl
         mActionManager(NULL),
         mCombatManager(NULL),
         mDsaManager(NULL),
+		mGameEventLog(NULL),
         mMovingCreatureManager(NULL),
         mXdimlLoader(NULL)
     {
@@ -55,6 +56,8 @@ namespace rl
 		LOG_MESSAGE(Logger::RULES, "CombatManager erzeugt");
         mDsaManager = new DsaManager();
 		LOG_MESSAGE(Logger::RULES, "DsaManager erzeugt");
+        mGameEventLog = new GameEventLog();
+		LOG_MESSAGE(Logger::RULES, "GameEventLog erzeugt");
         mMovingCreatureManager = new CreatureControllerManager();
 		LOG_MESSAGE(Logger::RULES, "CreatureControllerManager erzeugt");
 		resetQuestBook();
@@ -72,6 +75,7 @@ namespace rl
 	RulesSubsystem::~RulesSubsystem()
     {
         delete mQuestBook;
+		delete mGameEventLog;
         delete mDsaManager;
         delete mCombatManager;
         delete mActionManager;

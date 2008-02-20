@@ -14,40 +14,27 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef __RULESSUBSYSTEM_H__
-#define __RULESSUBSYSTEM_H__
+#ifndef __RL_COMBATACTION_H__
+#define __RL_COMBATACTION_H__
 
 #include "RulesPrerequisites.h"
-
-#include <string>
+#include "Action.h"
 
 namespace rl
 {
-    class ActionManager;
-    class CombatManager;
-    class CreatureControllerManager;
-    class DsaManager;
-	class GameEventLog;
-	class QuestBook;
-    class XdimlLoader;
+    class Combatant;
 
-	class _RlRulesExport RulesSubsystem : public Ogre::Singleton<RulesSubsystem>
+    class _RlRulesExport CombatAction : public Action
     {
     public:
-        RulesSubsystem();
-        ~RulesSubsystem();
-	
-		QuestBook* getQuestBook();
-		void resetQuestBook();
+        typedef enum {FREE_ACTION, ACTIVE_ACTION, REACTIVE_ACTION, LONG_TERM_ACTION} Type;
 
-	private:
-		QuestBook* mQuestBook;
-        ActionManager* mActionManager;
-        CombatManager* mCombatManager;
-        DsaManager* mDsaManager;
-		GameEventLog* mGameEventLog;
-        CreatureControllerManager *mMovingCreatureManager;
-        XdimlLoader* mXdimlLoader;
+        CombatAction(Type type, const CeGuiString name, const CeGuiString description);
+        virtual ~CombatAction() {}
+
+        Type getType() const;
+    protected:
+        Type mType;
     };
 }
 

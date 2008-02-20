@@ -72,15 +72,6 @@ private:
     InputManager();
 };
 
-class GameLoggerWindow
-{
-public:
-    void logDialogEvent(const rl::CeGuiString& speaker, const rl::CeGuiString& text);
-    void logFightEvent(const rl::CeGuiString& text);
-    void logCharacterEvent(const rl::CeGuiString& text);
-    void logMiscEvent(const rl::CeGuiString& text);
-};
-
 class WindowFactory
 {
 public:

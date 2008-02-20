@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="RlRules"
 	ProjectGUID="{1D1D45B2-A9C3-4D10-93EC-22AE4AA5C070}"
 	RootNamespace="RlRules"
@@ -351,6 +351,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\GameEventLog.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\GameObjectManager.cpp"
 				>
 			</File>
@@ -521,6 +525,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\CombatAction.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\Combatant.h"
 				>
 			</File>
@@ -566,6 +574,10 @@
 			</File>
 			<File
 				RelativePath=".\include\EigenschaftenStateSet.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\GameEventLog.h"
 				>
 			</File>
 			<File
@@ -622,6 +634,10 @@
 			</File>
 			<File
 				RelativePath=".\include\RulesConstants.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\RulesMessages.h"
 				>
 			</File>
 			<File

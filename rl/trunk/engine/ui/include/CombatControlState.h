@@ -29,8 +29,8 @@ namespace rl {
 
 	class CameraObject;
     class Combat;
+    class CombatGui;
     class CombatManager;
-    class CombatWindow;
 
 	class _RlUiExport CombatControlState : public ControlState, public Combatant
 	{
@@ -38,30 +38,28 @@ namespace rl {
 		/**
 		*  @throw NullPointerException if camera is NULL.
 		*/
-		CombatControlState(CommandMapper* cmdMapper, Actor* camera, Person* character);
+		CombatControlState(CommandMapper* cmdMapper, Actor* camera, Person* character, Combat* combat);
 		virtual ~CombatControlState();
+
+		// Control state overrides
 
         virtual void pause();
         virtual void resume();
 
 		void run(Ogre::Real elapsedTime);
 
-        // Combatant override
+        // Combatant overrides
+
         virtual Ogre::String getCombatantTypeName() const;
+        virtual void requestCombatantAction();
 
     private:
         CombatManager* mCombatManager;
-        // Current combat that is controlled.
-        Combat* mCombat;
-        CombatWindow* mCombatWindow;
+		CombatGui* mCombatGui;
         HalfSphereSelector mEnemySelector;
 
         CameraObject* mCamera;
 
-        /// Little Helper-MO for visualisation for everything that is difficult with cegui.
-        Ogre::ManualObject* mHud;
-
-        Ogre::Rectangle getScreenRectFromWorldAABB(const Ogre::AxisAlignedBox& aabb) const;
 	};
 }
 #endif

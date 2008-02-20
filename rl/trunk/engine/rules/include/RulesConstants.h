@@ -49,6 +49,15 @@ namespace rl {
         SLOT_SUBMESH,
         SLOT_MATERIAL
     };
+
+	/// Event type that are distinguished in the game event log
+	enum GameEventType
+	{
+		GET_DEFAULT, ///!< If nothing else fits..
+		GET_COMBAT,  ///!< Combat events ("Alrike hits Wolf for 10TP")
+		GET_DIALOG,  ///!< Dialog events ("Charisma roll succeded.")
+		GET_QUEST    ///!< Quest related events ("Quest succeded: Kill Wolf.")
+	};
 }
 
 #endif // __RULESCONSTANTS_H__

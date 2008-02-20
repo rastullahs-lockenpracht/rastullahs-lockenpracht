@@ -14,30 +14,35 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#ifndef __Rl_AiMessages_H__
-#define __Rl_AiMessages_H__
+#ifndef __GAMEEVENTLOG_H__
+#define __GAMEEVENTLOG_H__
 
-#include "AiPrerequisites.h"
-#include "MessageType.h"
+#include "RulesPrerequisites.h"
+
+#include "RulesConstants.h"
 
 namespace rl
 {
-    class Dialog;
-
-	/// 0x02xxxxxx as mask for ai messages
-    enum AiMessageTypeIds
+	class _RlRulesExport GameEventLog : public Ogre::Singleton<GameEventLog>
     {
-        // Controllers //
-        // Mask
-        RLMSG_CONTROLLERS_EVENTS            = 0x02000100,
-        // Events
-        RLMSG_CONTROLLERS_DIALOG_STARTED    = 0x02000101,
-        RLMSG_CONTROLLERS_DIALOG_ENDED      = 0x02000102,
+    public:
+        GameEventLog();
+
+		/// Set the number of event entries kept in memory.
+		/// If more events are logged, oldest message is removed.
+		void setEventQueueLength(size_t length);
+
+		/// Get the number of event entries kept in memory.
+		size_t getEventQueueLength() const;
+
+		void logEvent(const Ogre::String& eventString, GameEventType type);
+
+	private:
+		typedef std::pair<GameEventType, Ogre::String> LogEntry;
+		std::deque<LogEntry> mLog;
+		size_t mLogSize;
     };
 
-    /// Message sent when a dialog with the player will be started
-    typedef MessageType<RLMSG_CONTROLLERS_DIALOG_STARTED, Dialog*> 
-        MessageType_DialogStarted;
 }
 
-#endif
+#endif //__GAMEEVENTLOG_H__

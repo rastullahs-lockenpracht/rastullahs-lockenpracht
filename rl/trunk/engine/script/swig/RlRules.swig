@@ -130,6 +130,23 @@ namespace rl {
         GameObjectManager();
     };
 
+	enum GameEventType
+	{
+		GET_DEFAULT,
+		GET_COMBAT,
+		GET_DIALOG,
+		GET_QUEST
+	};
+	
+    class GameEventLog
+    {
+    public:
+        static rl::GameEventLog& getSingleton();
+		void logEvent(const Ogre::String& eventString, GameEventType type);
+
+    private:
+        GameEventLog();
+    };
 
     %feature("director") QuestListener; 
     class QuestListener

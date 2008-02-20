@@ -23,7 +23,7 @@ using namespace CEGUI;
 
 namespace rl {
 
-    CombatWindow::CombatWindow() : AbstractWindow("combatwindow.xml", WIT_NONE)
+    CombatWindow::CombatWindow() : AbstractWindow("combatwindow.xml", WIT_NONE, false)
     {
     }
 

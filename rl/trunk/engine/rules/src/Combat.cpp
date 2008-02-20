@@ -19,6 +19,13 @@
 
 #include "Combatant.h"
 #include "CreatureController.h"
+#include "GameEventLog.h"
+
+#include <OgreStringConverter.h>
+
+using namespace boost;
+using namespace boost::tuples;
+using namespace Ogre;
 
 namespace rl
 {
@@ -33,7 +40,12 @@ namespace rl
         }
     };
 
-    Combat::Combat(Combatant* character) : mCharacter(character)
+    Combat::Combat()
+        : mOpponents(),
+          mAllies(),
+          mCombatantQueue(),
+          mCombatantActions(),
+          mCurrentRound(0)
     {
     }
 
@@ -73,7 +85,11 @@ namespace rl
 
     void Combat::start()
     {
-        mCombatantQueue.clear();
+		GameEventLog::getSingleton().logEvent("Kampf beginnt.", GET_COMBAT);
+
+        mCurrentRound = 0;
+		mCombatantQueue.clear();
+
         std::vector<Combatant*> combatants;
         combatants.insert(combatants.end(), mAllies.begin(), mAllies.end());
         combatants.insert(combatants.end(), mOpponents.begin(), mOpponents.end());
@@ -85,9 +101,56 @@ namespace rl
                 (*it)->getCreatureController()->getCreature()->getInitiativeBasis(), *it));
         }
         std::sort(mCombatantQueue.begin(), mCombatantQueue.end(), InitiativeComparator());
+
+        beginRound();
     }
 
     void Combat::stop()
     {
+    }
+
+    void Combat::beginRound()
+    {
+        // Increment round counter
+        mCurrentRound++;
+        mCombatantActions.clear();
+
+		GameEventLog::getSingleton().logEvent("Runde " + StringConverter::toString(mCurrentRound),
+			GET_COMBAT);
+		// Show ini for this round.
+        for (CombatantQueue::iterator it = mCombatantQueue.begin();
+			it != mCombatantQueue.end(); ++it)
+        {
+			String evt = it->second->getCreatureController()->getCreature()->getName().c_str();
+			evt += " - Initiative: " + StringConverter::toString(it->first);
+			GameEventLog::getSingleton().logEvent(evt, GET_COMBAT);
+        }
+
+
+        // Request actions from combatants
+        for (CombatantQueue::iterator it = mCombatantQueue.begin();
+            it != mCombatantQueue.end(); ++it)
+        {
+            it->second->requestCombatantAction();
+        }
+    }
+
+    void Combat::registerCombatantAction(Combatant* combatant,
+        CombatAction* action1, CombatAction* action2, CombatAction* action3)
+    {
+        mCombatantActions[combatant] = ActionTuple(action1, action2, action3);
+        // Are all combatants registered now?
+        if (mCombatantActions.size() == mCombatantQueue.size())
+        {
+            endRound();
+        }
+    }
+
+    void Combat::endRound()
+    {
+        // All actions are registered. Now we can calculate the combat.
+        // 
+
+        // Refill combatant queue with combatants that are still alive.
     }
 }
