@@ -15,9 +15,11 @@
     <property name="position" type="VECTOR3" data="-20.99, -6.5, 1.55"/>
     <property name="orientation" type="QUATERNION" data="0.0, 180.0, 0.0"/>
     <property name="dialogfile" type="STRING" data="wolfram.xml"/>
-    <property name="behaviours" type="ARRAY">
-    	<property type="STRING" data="DefaultIdleBehaviour"/>
-    	<property type="STRING" data="dialog_behaviour"/>
+    <property name="ai" type="MAP">
+        <property name="behaviours" type="ARRAY">
+            <property type="STRING" data="DefaultIdleBehaviour"/>
+            <property type="STRING" data="DialogBehaviour"/>
+        </property>
     </property>
   </gameobjectclass>
 
@@ -32,9 +34,11 @@
     <property name="position" type="VECTOR3" data="-32.40, -6.46, 4.03"/>
     <property name="orientation" type="QUATERNION" data="0.0, 120.94, 0.0"/>
     <property name="dialogfile" type="STRING" data="sonja.xml"/>
-    <property name="behaviours" type="ARRAY">
-    	<property type="STRING" data="DefaultIdleBehaviour"/>
-    	<property type="STRING" data="DialogBehaviour"/>
+    <property name="ai" type="MAP">
+        <property name="behaviours" type="ARRAY">
+            <property type="STRING" data="DefaultIdleBehaviour"/>
+            <property type="STRING" data="DialogBehaviour"/>
+        </property>
     </property>
   </gameobjectclass>
   
@@ -49,9 +53,11 @@
     <property name="position" type="VECTOR3" data="2.70, -37.79, -23.48"/>
     <property name="orientation" type="QUATERNION" data="0.0, 120.94, 0.0"/>
     <property name="dialogfile" type="STRING" data="sonja2.xml"/>
-    <property name="behaviours" type="ARRAY">
-    	<property type="STRING" data="DefaultIdleBehaviour"/>
-    	<property type="STRING" data="DialogBehaviour"/>
+    <property name="ai" type="MAP">
+        <property name="behaviours" type="ARRAY">
+            <property type="STRING" data="DefaultIdleBehaviour"/>
+            <property type="STRING" data="DialogBehaviour"/>
+        </property>
     </property>
   </gameobjectclass>
   
@@ -66,9 +72,11 @@
     <property name="position" type="VECTOR3" data="-36.16, -6.25, 18.12"/>
     <property name="orientation" type="QUATERNION" data="0.0, -23.40, 0.0"/>
     <property name="dialogfile" type="STRING" data="jarn.xml"/>
-    <property name="behaviours" type="ARRAY">
-    	<property type="STRING" data="DefaultIdleBehaviour"/>
-    	<property type="STRING" data="DialogBehaviour"/>
+    <property name="ai" type="MAP">
+        <property name="behaviours" type="ARRAY">
+            <property type="STRING" data="DefaultIdleBehaviour"/>
+            <property type="STRING" data="DialogBehaviour"/>
+        </property>
     </property>
   </gameobjectclass>
   
@@ -83,9 +91,11 @@
     <property name="position" type="VECTOR3" data="11.46, -8.88, 39.43"/>
     <property name="orientation" type="QUATERNION" data="0.0, 50.0, 0.0"/>
     <property name="dialogfile" type="STRING" data="wolfram.xml"/>
-    <property name="behaviours" type="ARRAY">
-    	<property type="STRING" data="DefaultIdleBehaviour"/>
-    	<property type="STRING" data="DialogBehaviour"/>
+    <property name="ai" type="MAP">
+        <property name="behaviours" type="ARRAY">
+            <property type="STRING" data="DefaultIdleBehaviour"/>
+            <property type="STRING" data="DialogBehaviour"/>
+        </property>
     </property>
   </gameobjectclass>
   
@@ -99,10 +109,12 @@
     <property name="geometrytype" type="STRING" data="sphere"/>
     <property name="position" type="VECTOR3" data="-20.83, -6.70, 19.46"/>
     <property name="dialogfile" type="STRING" data="forrest.xml"/>
-    <property name="behaviours" type="ARRAY">
-    	<property type="STRING" data="DefaultIdleBehaviour"/>
-    	<property type="STRING" data="AvoidObstaclesBehaviour"/>
-    	<property type="STRING" data="DialogBehaviour"/>
+    <property name="ai" type="MAP">
+        <property name="behaviours" type="ARRAY">
+            <property type="STRING" data="DefaultIdleBehaviour"/>
+            <property type="STRING" data="DialogBehaviour"/>
+        	<property type="STRING" data="AvoidObstaclesBehaviour"/>
+        </property>
     </property>
   </gameobjectclass>
   
@@ -141,9 +153,11 @@
     <property name="meshfile" type="STRING" data="tie_wolf_01.mesh"/>
     <property name="mass" type="REAL" data="0"/>
     <property name="geometrytype" type="STRING" data="sphere"/>
-    <property name="behaviours" type="ARRAY">
-    	<property type="STRING" data="DefaultIdleBehaviour"/>
-    	<property type="STRING" data="AvoidObstaclesBehaviour"/>
+    <property name="ai" type="MAP">
+        <property name="behaviours" type="ARRAY">
+            <property type="STRING" data="DefaultIdleBehaviour"/>
+        	<property type="STRING" data="AvoidObstaclesBehaviour"/>
+        </property>
     </property>
   </gameobjectclass>
   
