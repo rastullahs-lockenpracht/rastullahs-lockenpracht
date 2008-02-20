@@ -4,8 +4,8 @@
 		<Property Name="UnifiedSize" Value="{{1.0,0.0},{1.0,0}}" />
 
 		<Window Type="RastullahLook/MultiLineEditbox" Name="CombatGui/Info">
-    		<Property Name="UnifiedPosition" Value="{{0.05,0},{0.75,0}}" />	
-	    	<Property Name="UnifiedSize" Value="{{0.9,0},{0.2,0}}" />
+    		<Property Name="UnifiedPosition" Value="{{0.05,0},{0.05,0}}" />	
+	    	<Property Name="UnifiedSize" Value="{{0.9,0},{0.1,0}}" />
 			<Property Name="Font" Value="Vera Serif-10" />
 			<Property Name="Text" Value="Here there be important message." />
 		</Window>

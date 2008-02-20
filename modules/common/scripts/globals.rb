@@ -21,6 +21,7 @@ $IM = InputManager.getSingleton();
 
 $GameEveMgr = GameEventManager.getSingleton();
 $AnimMgr = AnimationManager.getSingleton();
+$GEL = GameEventLog.getSingleton();
 $GOM = GameObjectManager.getSingleton();
 $SM = SoundManager.getSingleton();
 
