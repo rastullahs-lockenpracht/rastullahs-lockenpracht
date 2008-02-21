@@ -125,6 +125,14 @@ namespace rl {
     {
         LOG_MESSAGE(Logger::UI, "Delete Button pressed");
 
+        if(mSaveGameTable->getFirstSelectedItem())
+		{
+            CEGUI::uint SelectedRow = mSaveGameTable->getRowWithID(mSaveGameTable->getFirstSelectedItem()->getID());
+            CeGuiString moduleName = mSaveGameTable->getItemAtGridReference(CEGUI::MCLGridRef(SelectedRow,1))->getText();
+            CeGuiString saveGameName = mSaveGameTable->getItemAtGridReference(CEGUI::MCLGridRef(SelectedRow,0))->getText();
+            SaveGameManager::getSingleton().deleteSaveGameFile(saveGameName, moduleName);
+        }
+
         return true;
     }
 
@@ -142,7 +150,7 @@ namespace rl {
         for(SaveGameEntryMap::iterator it = saveGames.begin(); it != saveGames.end(); it++)
         {
             mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->first.first), 0, saveGameNum);
-            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString()), 1, saveGameNum);
+            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->first.second), 1, saveGameNum);
             LOG_MESSAGE(Logger::UI, "Module ID: " + it->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString());
             mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_TIME).toString()), 2, saveGameNum);
             saveGameNum++;
