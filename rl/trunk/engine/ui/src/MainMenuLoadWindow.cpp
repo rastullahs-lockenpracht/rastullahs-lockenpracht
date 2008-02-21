@@ -141,7 +141,7 @@ namespace rl {
 
         for(SaveGameEntryMap::iterator it = saveGames.begin(); it != saveGames.end(); it++)
         {
-            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->first), 0, saveGameNum);
+            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->first.first), 0, saveGameNum);
             mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString()), 1, saveGameNum);
             LOG_MESSAGE(Logger::UI, "Module ID: " + it->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString());
             mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_TIME).toString()), 2, saveGameNum);

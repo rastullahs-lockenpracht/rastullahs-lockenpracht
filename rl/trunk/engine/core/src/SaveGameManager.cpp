@@ -82,7 +82,7 @@ namespace rl
         SaveGameEntryMap entries;
         for(SaveGameEntryMap::const_iterator iter = mSaveGames.begin(); iter != mSaveGames.end(); iter++)
         {
-            if(iter->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString() == moduleId)
+            if(iter->first.second == moduleId)
             {
                 entries[iter->first] = iter->second;
             }
@@ -102,7 +102,7 @@ namespace rl
         file->setProperty(SaveGameFile::PROPERTY_TIME, Property(printTimeAsString(localTime)));
         file->setProperty(SaveGameFile::PROPERTY_MODULEID, Property(CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()));
 
-        mSaveGames[name] = file;
+        mSaveGames[std::pair<CeGuiString,CeGuiString>(name, file->getProperty(SaveGameFile::PROPERTY_MODULEID).toString())] = file;
 
         SaveGameFileWriter writer;
         writer.buildSaveGameFile(file, mSaveGameDataOrderMap);
@@ -115,14 +115,14 @@ namespace rl
         MessagePump::getSingleton().sendMessage<MessageType_SaveGameSaved>();
     }
 
-    void SaveGameManager::loadSaveGameFile(const CeGuiString &name, const CeGuiString &moduleID)
+    void SaveGameManager::loadSaveGameFile(const CeGuiString &name, const CeGuiString &moduleId)
     {
-        if(SaveGameFileExists(name))
+        if(SaveGameFileExists(name, moduleId))
         {
             MessagePump::getSingleton().sendMessage<MessageType_SaveGameLoading>();
 
             SaveGameFile file(name);
-            file.setProperty(SaveGameFile::PROPERTY_MODULEID, Property(moduleID));
+            file.setProperty(SaveGameFile::PROPERTY_MODULEID, Property(moduleId));
             SaveGameFileReader reader;
             reader.parseSaveGameFile(&file, mSaveGameDataOrderMap);
             ///@todo: SaveGameReader
@@ -131,26 +131,26 @@ namespace rl
         }
     }
 
-    void SaveGameManager::deleteSaveGameFile(const CeGuiString &name)
+    void SaveGameManager::deleteSaveGameFile(const CeGuiString &name, const CeGuiString &moduleId)
     {
-        if(SaveGameFileExists(name))
+        if(SaveGameFileExists(name, moduleId))
         {
-            static_cast<SaveGameFile*>(mSaveGames[name])->deleteFileFromStorage();
-            delete mSaveGames[name];
-            mSaveGames.erase(name);
+            static_cast<SaveGameFile*>(mSaveGames[std::pair<CeGuiString,CeGuiString>(name, moduleId)])->deleteFileFromStorage();
+            delete mSaveGames[std::pair<CeGuiString,CeGuiString>(name, moduleId)];
+            mSaveGames.erase(std::pair<CeGuiString,CeGuiString>(name, moduleId));
         }
     }
 
-    bool SaveGameManager::SaveGameFileExists(const CeGuiString &name)
+    bool SaveGameManager::SaveGameFileExists(const CeGuiString &name, const CeGuiString &moduleId)
     {
-        if(mSaveGames.find(name) != mSaveGames.end())
+        if(mSaveGames.find(std::pair<CeGuiString,CeGuiString>(name, moduleId)) != mSaveGames.end())
             return true;
         return false;
     }
 
-    SaveGameFile* SaveGameManager::getSaveGameFile(const CeGuiString &name)
+    SaveGameFile* SaveGameManager::getSaveGameFile(const CeGuiString &name, const CeGuiString &moduleId)
     {
-        SaveGameEntryMap::const_iterator it = mSaveGames.find(name);
+        SaveGameEntryMap::const_iterator it = mSaveGames.find(std::pair<CeGuiString,CeGuiString>(name, moduleId));
         if(it != mSaveGames.end())
             return it->second;
         return NULL;
@@ -179,7 +179,7 @@ namespace rl
         SaveGameFileReader reader;
         reader.parseSaveGameFileHeader(stream, groupName, file);
         
-        mSaveGames[name] = file;
+        mSaveGames[std::pair<CeGuiString,CeGuiString>(name, file->getProperty(SaveGameFile::PROPERTY_MODULEID).toString())] = file;
     }
 
     void SaveGameManager::registerSaveGameData(SaveGameData* data)

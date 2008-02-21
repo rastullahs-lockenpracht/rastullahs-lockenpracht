@@ -120,7 +120,7 @@ namespace rl {
         if(filename != "")
         {
 
-            if(SaveGameManager::getSingleton().SaveGameFileExists(filename))
+            if(SaveGameManager::getSingleton().SaveGameFileExists(filename, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()))
                 SaveGameManager::getSingleton().loadSaveGameFile(filename, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId());
             else
             {
@@ -163,9 +163,9 @@ namespace rl {
     bool GameSaveLoadWindow::handleDeleteEvent()
     {
         LOG_MESSAGE(Logger::UI, "Delete Button pressed");
-        if(SaveGameManager::getSingleton().SaveGameFileExists(mFilename->getText()))
+        if(SaveGameManager::getSingleton().SaveGameFileExists(mFilename->getText(), CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()))
         {
-            SaveGameManager::getSingleton().deleteSaveGameFile(mFilename->getText());
+            SaveGameManager::getSingleton().deleteSaveGameFile(mFilename->getText(), CoreSubsystem::getSingleton().getActiveAdventureModule()->getId());
             listSaveGames();
         }
         return true;
@@ -184,7 +184,7 @@ namespace rl {
 
         for(SaveGameEntryMap::iterator it = saveGames.begin(); it != saveGames.end(); it++)
         {
-            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->first), 0, saveGameNum);
+            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->first.first), 0, saveGameNum);
             mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_TIME)), 1, saveGameNum);
             saveGameNum++;
         }
