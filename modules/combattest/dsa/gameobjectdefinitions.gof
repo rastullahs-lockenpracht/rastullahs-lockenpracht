@@ -9,12 +9,10 @@
     <property name="meshfile" type="STRING" data="tie_wolf_01.mesh"/>
     <property name="mass" type="REAL" data="30"/>
     <property name="geometrytype" type="STRING" data="sphere"/>
-    <property name="ai" type="MAP">
         <property name="behaviours" type="ARRAY">
     	    <property type="STRING" data="DefaultWanderBehaviour"/>
     	    <property type="STRING" data="AvoidObstaclesBehaviour"/>
         </property>
-    </property>
   </gameobjectclass>
   
   <gameobjectclass classid="Wolf2" baseclass="Creature">
@@ -39,11 +37,9 @@
 		<property name="talente" type="MAP">
 			<property name="Athletik" type="INT" data="3"/>
 		</property>
-    <property name="ai" type="MAP">
         <property name="behaviours" type="ARRAY">
     	    <property type="STRING" data="DefaultWanderBehaviour"/>
     	    <property type="STRING" data="AvoidObstaclesBehaviour"/>
         </property>
-    </property>
   </gameobjectclass>
 </GameObjectDefinitions>

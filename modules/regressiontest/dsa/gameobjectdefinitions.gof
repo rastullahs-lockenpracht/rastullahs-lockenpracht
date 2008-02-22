@@ -28,11 +28,9 @@
         <property name="meshfile" type="STRING" data="men_alrike.mesh"/>
         <property name="mass" type="REAL" data="65"/>
         <property name="dialog" type="STRING" data="testdialog"/>
-        <property name="ai" type="MAP">
-            <property name="behaviours" type="ARRAY">
-                <property type="STRING" data="DefaultIdleBehaviour"/>
-                <property type="STRING" data="DialogBehaviour"/>
-            </property>
+        <property name="behaviours" type="ARRAY">
+            <property type="STRING" data="DefaultIdleBehaviour"/>
+            <property type="STRING" data="DialogBehaviour"/>
         </property>
 		<property name="eigenschaften" type="MAP">
 			<property name="MU" type="INT" data="12"/>
@@ -57,11 +55,9 @@
         <property name="meshfile" type="STRING" data="men_alrike.mesh"/>
         <property name="mass" type="REAL" data="65"/>
         <property name="dialogfile" type="STRING" data="testperson.xml"/>
-        <property name="ai" type="MAP">
-            <property name="behaviours" type="ARRAY">
-                <property type="STRING" data="DefaultIdleBehaviour"/>
-                <property type="STRING" data="DialogBehaviour"/>
-            </property>
+        <property name="behaviours" type="ARRAY">
+            <property type="STRING" data="DefaultIdleBehaviour"/>
+            <property type="STRING" data="DialogBehaviour"/>
         </property>
     </gameobjectclass>
 
