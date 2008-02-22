@@ -124,6 +124,8 @@ namespace rl
             static const Ogre::String PROPERTY_WERTE;
             static const Ogre::String PROPERTY_AP;
             static const Ogre::String PROPERTY_INVENTORY;
+            static const Ogre::String PROPERTY_ANIMATIONS;
+            static const Ogre::String PROPERTY_ANIMATIONSPEEDS;
 
             typedef Ogre::String Wert;
 
@@ -697,6 +699,18 @@ namespace rl
             **/
             virtual bool canReachItem(const Item* item);
 
+            /**
+             * Animations-Name und relative/absolute Abspielgeschwindigkeit fuer
+             * den CreatureController
+            **/
+            typedef std::pair<Ogre::String, Ogre::Real> AnimationSpeedPair;
+            /**
+             * Gibt die Animation aus der AnimationsMap für den CreatureController zurück
+             * @return Wenn kein spezieller Wert gefunden wurde, wird als Animationsname
+             * der Schlüsse name und eine Geschwindigkeit von 1 zurueckgegeben
+            **/
+            AnimationSpeedPair getAnimation(const CeGuiString& name) const;
+
         protected:
            /**
              *  Berechnet den Basiswert von der @ref abbdea "Astralenergie".
@@ -762,7 +776,20 @@ namespace rl
                    *  Sonderfertigkeit als Schluessel und ihrem Status.
              */
             typedef std::map<const CeGuiString , SonderfertigkeitenStateSet*> SonderfertigkeitMap;
-
+            /**
+                    * Die Animationen, die der CreatureController bei einer Bewegung der Kreatur
+                    * abspielt. Der Schlüssel ist Bezeichner der von einer Bewegungsart des
+                    * CreatureControllers verwendet wird, der Wert gibt den echten Namen der Animation
+                    * an.
+            **/
+            typedef std::map<const CeGuiString, CeGuiString> AnimationsMap;
+            /**
+                    * Die (relative oder absolute) Geschwindigkeit einer Animationen, die der
+                    * CreatureController bei einer Bewegung der Kreatur
+                    * abspielt. Der Schlüssel ist Bezeichner, der von einer Bewegungsart des
+                    * CreatureControllers verwendet wird.
+            **/
+            typedef std::map<const CeGuiString, Ogre::Real> AnimationSpeedsMap;
             struct Ap
             {
                 int total;
@@ -790,6 +817,8 @@ namespace rl
             NachteilMap mNachteile;
             SonderfertigkeitMap mSonderfertigkeiten;
             WertMap mWerte;
+            AnimationsMap mAnimations;
+            AnimationSpeedsMap mAnimationSpeeds;
             Ap mAp;
             /// Zeigt auf das Inventar der Kreatur.
             Inventory* mInventory;

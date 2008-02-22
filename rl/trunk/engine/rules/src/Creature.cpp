@@ -58,6 +58,8 @@ namespace rl
     const Ogre::String Creature::PROPERTY_WERTE = "werte";
     const Ogre::String Creature::PROPERTY_AP = "ap";
     const Ogre::String Creature::PROPERTY_INVENTORY = "inventory";
+    const Ogre::String Creature::PROPERTY_ANIMATIONS = "animations";
+    const Ogre::String Creature::PROPERTY_ANIMATIONSPEEDS = "animationspeeds";
 
     // some targets
 	const std::string Creature::ALL_EIGENSCHAFTEN = "alle Eigenschaften";
@@ -1054,6 +1056,16 @@ namespace rl
         {
             mInventory->setProperties(value.toMap());
         }
+        else if (key == Creature::PROPERTY_ANIMATIONS)
+        {
+            mAnimations.clear();
+            convertToMap(value.toMap(), mAnimations);
+        }
+        else if (key == Creature::PROPERTY_ANIMATIONSPEEDS)
+        {
+            mAnimationSpeeds.clear();
+            convertToMap(value.toMap(), mAnimationSpeeds);
+        }
         else
         {
             GameObject::setProperty(key, value);
@@ -1132,6 +1144,16 @@ namespace rl
         {
 			return mInventory->getAllProperties()->toPropertyMap();
         }
+        else if (key == Creature::PROPERTY_ANIMATIONS)
+        {
+            PropertyMap map = rl::convertToPropertyMap(mAnimations);
+            return Property(map);
+        }
+        else if (key == Creature::PROPERTY_ANIMATIONSPEEDS)
+        {
+            PropertyMap map = rl::convertToPropertyMap(mAnimationSpeeds);
+            return Property(map);
+        }
         else
         {
             return GameObject::getProperty(key);
@@ -1157,8 +1179,28 @@ namespace rl
         ps->setProperty(Creature::PROPERTY_WERTE, getProperty(Creature::PROPERTY_WERTE));
         ps->setProperty(Creature::PROPERTY_AP, getProperty(Creature::PROPERTY_AP));
         ps->setProperty(Creature::PROPERTY_INVENTORY, getProperty(Creature::PROPERTY_INVENTORY));
+        ps->setProperty(Creature::PROPERTY_ANIMATIONS, getProperty(Creature::PROPERTY_ANIMATIONS));
+        ps->setProperty(Creature::PROPERTY_ANIMATIONSPEEDS, getProperty(Creature::PROPERTY_ANIMATIONSPEEDS));
 
         return ps;
+    }
+
+    Creature::AnimationSpeedPair Creature::getAnimation(const CeGuiString& name) const
+    {
+        AnimationSpeedPair ret;
+        AnimationsMap::const_iterator itName = mAnimations.find(name);
+        if( itName != mAnimations.end() )
+            ret.first = itName->second.c_str();
+        else
+            ret.first = name.c_str();
+
+        AnimationSpeedsMap::const_iterator itSpeed = mAnimationSpeeds.find(name);
+        if( itSpeed != mAnimationSpeeds.end() )
+            ret.second = itSpeed->second;
+        else
+            ret.second = 1;
+
+        return ret;
     }
 
     bool Creature::canReachItem(const Item* item)
