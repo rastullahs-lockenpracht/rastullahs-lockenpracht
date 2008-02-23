@@ -17,6 +17,7 @@ noinst_HEADERS = \
 	EffectManager.h \
 	Eigenschaft.h \
 	EigenschaftenStateSet.h \
+	GameEventLog.h \
 	GameObject.h \
 	GameObjectStateListener.h \
 	GameTimeSource.h \

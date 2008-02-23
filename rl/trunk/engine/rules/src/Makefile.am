@@ -21,6 +21,7 @@ libRlRules_la_SOURCES = \
 	EffectManager.cpp \
 	Eigenschaft.cpp \
 	EigenschaftenStateSet.cpp \
+	GameEventLog.cpp \
 	GameObject.cpp \
 	GameObjectManager.cpp \
 	GameTimeSource.cpp \

@@ -15,6 +15,7 @@ libRlUi_la_SOURCES = \
     CharacterStateWindow.cpp \
     CloseConfirmationWindow.cpp \
     CombatControlState.cpp \
+    CombatGui.cpp \
     CombatWindow.cpp \
     CommandMapper.cpp \
     ConfigComponent.cpp \
