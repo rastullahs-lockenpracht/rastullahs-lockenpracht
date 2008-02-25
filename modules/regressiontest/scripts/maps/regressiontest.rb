@@ -17,46 +17,47 @@ $UI.setActiveCharacter($hero)
 
 $SCRIPT.log("Hero ready")
 
-$SCRIPT.log("begin tests.");
+$SCRIPT.log("begin tests.")
 
 require 'doortest.rb'
-require 'GameObjectCreationTest.rb'
-require 'GameObjectStatesTest.rb'
-require 'NpcTest.rb'
-require 'NpcCapsuleTest.rb'
-require 'TimeTest.rb'
-require 'InventoryTest.rb'
-require 'ErrorHandlingTest.rb'
-require 'JobSequenceTest.rb'
-require 'SoundTest.rb'
 require 'effecttest.rb'
+require 'ErrorHandlingTest.rb'
+require 'GameObjectCreationTest.rb'
+#require 'InventoryTest.rb'
+require 'JobSequenceTest.rb'
 require 'LightzoneTest.rb'
 require 'MapLoadingTest.rb'
 require 'MaterialSlotTest.rb'
-require 'MergeableMeshTest.rb'
-require 'WalkJobTest.rb'
-require 'SelectorTest.rb'
+#require 'MergeableMeshTest.rb'
 require 'MeshAreaTest.rb'
+require 'NpcCapsuleTest.rb'
+require 'NpcTest.rb'
+require 'SelectorTest.rb'
+require 'SoundTest.rb'
+require 'TimeTest.rb'
+
+require 'WalkJobTest.rb'
 
 
- MaterialSlotTest.new([-15, 0, -5]).run()
-    LightzoneTest.new([-10, 0, -5]).run()
+DoorTest.new([  0, 0, -5]).run()
+EffectTest.new([  5, 0, 5]).run()
 ErrorHandlingTest.new([-10, 0, 5]).run()
-         TimeTest.new([ -5, 0, -5]).run()
-   MapLoadingTest.new([ -5, 0, -10]).run()
-          NpcTest.new([ -5, 0, 5]).run()
 GameObjectCreationTest.new([0, 0, -10]).run()
-         DoorTest.new([  0, 0, -5]).run()
-	  WalkJobTest.new([  0, 0, -3]).run()
-   NpcCapsuleTest.new([  0, 0, 5]).run()
-    InventoryTest.new([  0, 0, 10]).run()
-  JobSequenceTest.new([  5, 0, -5]).run()
-     SelectorTest.new([  5, 0, 0]).run()
-       EffectTest.new([  5, 0, 5]).run()
-MergeableMeshTest.new([ 10, 0, 0]).run()
-        SoundTest.new([ 10, 0, 10]).run()
-     MeshAreaTest.new([-50, 0,-55]).run()
+#InventoryTest.new([  0, 0, 10]).run() # Geht nicht, keine Steuerung möglich
+JobSequenceTest.new([  5, 0, -5]).run()
+LightzoneTest.new([-10, 0, -5]).run()
+MapLoadingTest.new([ -5, 0, -10]).run()
+MaterialSlotTest.new([-15, 0, -5]).run()
+#MergeableMeshTest.new([ 10, 0, 0]).run()
+MeshAreaTest.new([-50, 0,-55]).run()
+NpcCapsuleTest.new([  0, 0, 5]).run()
+NpcTest.new([ -5, 0, 5]).run()
+SelectorTest.new([  5, 0, 0]).run()
+SoundTest.new([ 10, 0, 10]).run()
+TimeTest.new([ -5, 0, -5]).run()
 
-$SCRIPT.log("tests initialisiert.");
+WalkJobTest.new([  0, 0, -3]).run()
 
-$SCRIPT.log("map 'regressiontest' initialisiert.");
+$SCRIPT.log("tests initialisiert.")
+
+$SCRIPT.log("map 'regressiontest' initialisiert.")
