@@ -165,9 +165,15 @@ namespace rl {
 			    if (item)
 			    {
                     item->doCreateActor();
+                    CeGuiString file = item->getSubmeshName();
+                    if( file == "" )
+                        file = item->getMeshfile();
+                    else
+                        file = mOwner->getSubmeshPreName()+file;
+
 				    mmo->replaceSubmesh(
 					    mSubmesh,
-					    item->getMeshfile().c_str());
+					    file.c_str());
 			    }
 		    }
 

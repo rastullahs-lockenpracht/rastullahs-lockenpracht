@@ -200,25 +200,6 @@ namespace rl {
 
 	ItemDragContainer* ContainerContentWindow::createItemWindow(Item* item)
 	{
-        CeGuiString icon = item->getImageName();
-
-		if (icon == "")
-		{
-			icon = ItemDragContainer::ICON_UNKNOWN_ITEM;
-		}
-
-        
-
-   //     LOG_MESSAGE("IW", icon);
-   //     Window* itemWindow =
-	  //      CEGUI::WindowManager::getSingletonPtr()->createWindow(
-		 //   "RastullahLook/StaticImage",
-			//mWindow->getName() + "/" + icon
-			//+ "/" + CEGUI::PropertyHelper::intToString(sItemCount++));
-   //     itemWindow->setProperty("Image", icon);
-   //     itemWindow->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
-   //     itemWindow->setSize(UVector2(cegui_reldim(1), cegui_reldim(1)));
-
         ItemDragContainer* itemhandler = getItemWindow(item);
         if( itemhandler )
             return itemhandler;

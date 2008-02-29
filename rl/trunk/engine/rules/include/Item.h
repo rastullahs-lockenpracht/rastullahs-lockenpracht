@@ -60,6 +60,7 @@ namespace rl
         static const Ogre::String PROPERTY_ITEMTYPE;
         static const Ogre::String PROPERTY_IMAGENAME;
         static const Ogre::String PROPERTY_SIZE;
+        static const Ogre::String PROPERTY_SUBMESHNAME;
 
 		Item(unsigned int id);
         virtual ~Item(void);
@@ -69,6 +70,9 @@ namespace rl
 
 		const CeGuiString getImageName() const;
 		void setImageName(const CeGuiString name);
+
+        const CeGuiString getSubmeshName() const;
+        void setSubmeshName(const CeGuiString &name);
 
 		/**
 		 * @return ob es sich um ein Item handelt,
@@ -107,6 +111,7 @@ namespace rl
     protected:
 		ItemType mItemType;
 		CeGuiString mImageName;
+        CeGuiString mSubmeshName;
 		std::pair<int,int> mSize;
         GameObject* mOwner;
         Slot* mParentSlot;

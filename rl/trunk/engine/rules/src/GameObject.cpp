@@ -48,6 +48,7 @@ namespace rl
     const Ogre::String GameObject::PROPERTY_DESCRIPTION = "description";
     const Ogre::String GameObject::PROPERTY_MESHFILE = "meshfile";
 	const Ogre::String GameObject::PROPERTY_MESHPARTS = "meshparts";
+    const Ogre::String GameObject::PROPERTY_SUBMESHPRENAME = "submeshprename";
     const Ogre::String GameObject::PROPERTY_GEOMETRY_TYPE = "geometrytype";
     const Ogre::String GameObject::PROPERTY_MASS = "mass";
     const Ogre::String GameObject::PROPERTY_ACTIONS = "actions";
@@ -149,6 +150,16 @@ namespace rl
 	{
 		return mMeshParts;
 	}
+
+    const CeGuiString GameObject::getSubmeshPreName() const
+    {
+        return mSubmeshPreName;
+    }
+
+    void GameObject::setSubmeshPreName(CeGuiString name)
+    {
+        mSubmeshPreName = name;
+    }
 
     void GameObject::addAction(Action* action, int option)
     {
@@ -478,6 +489,10 @@ namespace rl
 			}
 			prop.setValue(map);
 		}
+        else if (key == PROPERTY_SUBMESHPRENAME)
+        {
+            prop.setValue(mSubmeshPreName);
+        }
         else
         {
             Throw(IllegalArgumentException, key + " is not a property of this gameobject ("+mName.c_str()+")");
@@ -558,11 +573,19 @@ namespace rl
             {
                 mDefaultAction = value.toString().c_str();
             }
+            else if (key == PROPERTY_SUBMESHPRENAME)
+            {
+                mSubmeshPreName = value.toString();
+            }
             else
             {
-                LOG_WARNING(
-                    Logger::RULES,
-                    key + " is not a property of this GameObject ("+mName+")");
+                if( key != PROPERTY_BASE_CLASS && key != PROPERTY_CLASS_ID && key != PROPERTY_INHERITS)
+                    // these two keys can be ignored, they are only given to the GameObjectFactory when creating a GOF
+                {
+                    LOG_WARNING(
+                        Logger::RULES,
+                        key + " is not a property of this GameObject ("+mName+")");
+                }
             }
         }
         catch (WrongFormatException ex)

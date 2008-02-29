@@ -32,6 +32,7 @@ namespace rl
     const Ogre::String Item::PROPERTY_IMAGENAME = "imagename";
     const Ogre::String Item::PROPERTY_ITEMTYPE = "itemtype";
     const Ogre::String Item::PROPERTY_SIZE = "size";
+    const Ogre::String Item::PROPERTY_SUBMESHNAME = "submeshfile";
 
     Item::Item(unsigned int id)
         : GameObject(id),
@@ -40,7 +41,8 @@ namespace rl
 		mSize(pair<int,int>(1,1)),
         mOwner(NULL),
         mParentSlot(NULL),
-        mParentContainer(NULL)
+        mParentContainer(NULL),
+        mSubmeshName("")
     {
         mQueryFlags |= QUERYFLAG_ITEM;
     }
@@ -173,6 +175,10 @@ namespace rl
         {
             mItemType = static_cast<Item::ItemType>(value.toInt());
         }
+        else if (key == Item::PROPERTY_SUBMESHNAME)
+        {
+            mSubmeshName = value.toString();
+        }
         else
         {
             GameObject::setProperty(key, value);
@@ -192,6 +198,10 @@ namespace rl
         else if (key == Item::PROPERTY_ITEMTYPE)
         {
             return Property(mItemType);
+        }
+        else if (key == Item::PROPERTY_SUBMESHNAME)
+        {
+            return Property(mSubmeshName);
         }
         else
         {
@@ -242,5 +252,15 @@ namespace rl
     Container* Item::getParentContainer() const
     {
         return mParentContainer;
+    }
+
+    const CeGuiString Item::getSubmeshName() const
+    {
+        return mSubmeshName;
+    }
+
+    void Item::setSubmeshName(const CeGuiString &name)
+    {
+        mSubmeshName = name;
     }
 }
