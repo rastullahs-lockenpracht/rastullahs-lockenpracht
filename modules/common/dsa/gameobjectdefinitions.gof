@@ -60,12 +60,12 @@
         <property name="meshfile" type="STRING" data="men_human_female_torso.mesh"/>
         <property name="geometrytype" type="STRING" data="ellipsoid"/>
 		<property name="meshparts" type="MAP">
-            <property name="torso" type="STRING" data="men_human_male_torso.mesh"/>
-            <property name="hand" type="STRING" data="men_human_male_hand_nude.mesh"/>
-            <property name="head" type="STRING" data="men_human_male_head_01.mesh"/>
+            <property name="torso" type="STRING" data="men_human_female_torso.mesh"/>
+            <property name="hand" type="STRING" data="men_human_female_hand_nude.mesh"/>
+            <property name="head" type="STRING" data="men_human_female_head_02.mesh"/>
             <property name="hair" type="STRING" data="men_human_female_hair_long_01_normal.mesh"/>
-            <property name="trousers" type="STRING" data="men_human_male_leg_pants_01_short.mesh"/>
-            <property name="boots" type="STRING" data="men_human_male_feet_boots_01.mesh"/>
+            <property name="trousers" type="STRING" data="men_human_female_legs_underpants.mesh"/>
+            <property name="boots" type="STRING" data="men_human_female_feet_nude.mesh"/>
         </property>
 		<property name="inventory" type="MAP">
 			<property name="slots" type="ARRAY">

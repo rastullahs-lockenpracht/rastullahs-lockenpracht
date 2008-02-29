@@ -23,7 +23,7 @@ require 'doortest.rb'
 require 'effecttest.rb'
 require 'ErrorHandlingTest.rb'
 require 'GameObjectCreationTest.rb'
-#require 'InventoryTest.rb'
+require 'InventoryTest.rb'
 require 'JobSequenceTest.rb'
 require 'LightzoneTest.rb'
 require 'MapLoadingTest.rb'
@@ -43,7 +43,7 @@ DoorTest.new([  0, 0, -5]).run()
 EffectTest.new([  5, 0, 5]).run()
 ErrorHandlingTest.new([-10, 0, 5]).run()
 GameObjectCreationTest.new([0, 0, -10]).run()
-#InventoryTest.new([  0, 0, 10]).run() # Geht nicht, keine Steuerung möglich
+InventoryTest.new([  0, 0, 10]).run()
 JobSequenceTest.new([  5, 0, -5]).run()
 LightzoneTest.new([-10, 0, -5]).run()
 MapLoadingTest.new([ -5, 0, -10]).run()
