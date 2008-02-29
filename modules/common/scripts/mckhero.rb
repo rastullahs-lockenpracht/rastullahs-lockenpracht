@@ -3,7 +3,7 @@ load "embed.rb"
 class MCKHero < Person
     def initialize(id)
         super(id);
-        addQueryFlag(RlScript::QUERYFLAG_PLAYER)
+        #addQueryFlag(RlScript::QUERYFLAG_PLAYER) #this is done now by setActiveCharacter
 	setName("Alrike");
 	setDescription("Heldin von Berufung");
 	$SCRIPT.log("Rasse, Kultur und Profession...");

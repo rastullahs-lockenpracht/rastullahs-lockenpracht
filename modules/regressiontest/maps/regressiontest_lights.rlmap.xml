@@ -39,6 +39,10 @@
 				<position x="25" y="0" z="-50"/>
 				<transition_distance>0.5</transition_distance>
 			</area>
+			<area type="sphere" subtract="true">
+				<position x="-11" y="0" z="-4"/>
+				<scale x="2" y="2" z="2"/>
+			</area>
 			<light name="red pointlight"/>
 			<light name="green spotlight"/>
 			<sound name="ruchin001.ogg"/>

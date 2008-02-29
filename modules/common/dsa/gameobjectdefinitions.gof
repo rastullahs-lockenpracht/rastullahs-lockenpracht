@@ -157,6 +157,54 @@
 				</property>				
 			</property>
 		</property>
+		<!-- Animationen und Animationsgeschwindigkeiten fuer den CreatureController -->
+		<property name="animations" type="MAP">
+			<property name="stehen" type="STRING" data="Idle"/>
+			<property name="stehen_rechts" type="STRING" data="drehen_rechts"/>
+			<property name="stehen_links" type="STRING" data="drehen_links"/>
+			<!-- property name="seitwaerts_links" type="STRING" data="seitwaerts_links"/ -->
+			<!-- property name="seitwaerts_rechts" type="STRING" data="seitwaerts_rechts"/ -->
+			<property name="gehen" type="STRING" data="Walk"/>
+			<property name="gehen_rueckwaerts" type="STRING" data="Walk"/>
+			<property name="joggen_rueckwaerts" type="STRING" data="Run"/>
+			<property name="joggen" type="STRING" data="Run"/>
+			<property name="laufen" type="STRING" data="Run"/>
+			<property name="rennen" type="STRING" data="Run"/>
+			<property name="stehen_zu_schleichen" type="STRING" data="idle_zu_hocke"/>
+			<property name="schleichen_zu_stehen" type="STRING" data="hocke_zu_stehen"/>
+			<property name="schleichen" type="STRING" data="hocke_idle"/>
+			<property name="schleichen_vorwaerts" type="STRING" data="hocke_gehen"/>
+			<property name="hochsprung_absprung" type="STRING" data="idle_absprung"/>
+			<property name="hochsprung" type="STRING" data="idle_sprung"/>
+			<property name="hochsprung_landung" type="STRING" data="idle_sprung_landung"/>
+			<property name="weitsprung_absprung" type="STRING" data="rennen_absprung"/>
+			<property name="weitsprung" type="STRING" data="rennen_sprung"/>
+			<property name="weitsprung_landung" type="STRING" data="rennen_sprung_landung"/>
+		</property>
+		<!-- Je nach key ist die Value ein absoluter oder ein relativer Wert! -->
+		<property name="animationspeeds" type="MAP">
+			<!-- property name="stehen" type="REAL" data="1"/ -->
+			<!-- property name="stehen_rechts" type="REAL" data="drehen_rechts"/ -->
+			<!-- property name="stehen_links" type="REAL" data="drehen_links"/ -->
+			<!-- property name="seitwaerts_links" type="REAL" data="1"/ -->
+			<!-- property name="seitwaerts_rechts" type="REAL" data="1"/ -->
+			<property name="gehen" type="REAL" data="1.1"/>
+			<!-- property name="gehen_rueckwaerts" type="REAL" data="1"/ -->
+			<!-- property name="joggen_rueckwaerts" type="REAL" data="1"/ -->
+			<property name="joggen" type="REAL" data="0.6"/>
+			<property name="laufen" type="REAL" data="0.5"/>
+			<property name="rennen" type="REAL" data="0.4"/>
+			<!-- property name="stehen_zu_schleichen" type="REAL" data="1"/ -->
+			<!-- property name="schleichen_zu_stehen" type="REAL" data="1"/ -->
+			<!-- property name="schleichen" type="REAL" data="1"/ -->
+			<!-- property name="schleichen_vorwaerts" type="REAL" data="1"/ -->
+			<!-- property name="hochsprung_absprung" type="REAL" data="1"/ -->
+			<!-- property name="hochsprung" type="REAL" data="1"/ -->
+			<!-- property name="hochsprung_landung" type="REAL" data="1"/ -->
+			<!-- property name="weitsprung_absprung" type="REAL" data="1"/ -->
+			<!-- property name="weitsprung" type="REAL" data="1"/ -->
+			<!-- property name="weitsprung_landung" type="REAL" data="1"/ -->
+		</property>
     </gameobjectclass>
 
 </GameObjectDefinitions>

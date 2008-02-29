@@ -3,7 +3,7 @@ load "embed.rb"
 class Hero < Person
     def initialize(id)
         super(id);
-        addQueryFlag(RlScript::QUERYFLAG_PLAYER)
+        #addQueryFlag(RlScript::QUERYFLAG_PLAYER) #this is done now by setActiveCharacter
 		    
 		setWert(Creature::WERT_MOD_LE, 10); # LE-Mod
 
