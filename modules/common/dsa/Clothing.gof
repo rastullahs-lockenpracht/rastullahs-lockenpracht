@@ -6,6 +6,7 @@
         <property name="name" type="STRING" data="Lederhose"/>
         <property name="description" type="STRING" data="Eine lange Hose aus geschmeidigem Leder"/>
         <property name="meshfile" type="STRING" data="men_human_female_leg_pants_01_long.mesh"/>
+        <property name="submeshfile" type="STRING" data="leg_pants_01_long.mesh"/>
         <property name="imagename" type="STRING" data="set:ModelThumbnails image:Rucksack"/>
         <property name="mass" type="REAL" data="3.0"/>
         <property name="size" type="INTPAIR" data="2,3"/>
@@ -17,6 +18,7 @@
         <property name="name" type="STRING" data="Ledergewand"/>
         <property name="description" type="STRING" data="Blah, Ledergewand, dingsbums"/>
         <property name="meshfile" type="STRING" data="men_human_female_cloth_short.mesh"/>
+        <property name="submeshfile" type="STRING" data="cloth_short.mesh"/>
         <property name="imagename" type="STRING" data="set:ModelThumbnails image:Rucksack"/>
         <property name="mass" type="REAL" data="3.0"/>
         <property name="size" type="INTPAIR" data="2,3"/>
@@ -28,6 +30,7 @@
         <property name="name" type="STRING" data="Lederstiefel"/>
         <property name="description" type="STRING" data="Hohe Stiefel aus weichem Leder"/>
         <property name="meshfile" type="STRING" data="men_human_female_feet_boots_01.mesh"/>
+        <property name="submeshfile" type="STRING" data="feet_boots_01.mesh"/>
         <property name="imagename" type="STRING" data="set:ModelThumbnails image:Rucksack"/>
         <property name="mass" type="REAL" data="3.0"/>
 	<property name="size" type="INTPAIR" data="2,2"/>

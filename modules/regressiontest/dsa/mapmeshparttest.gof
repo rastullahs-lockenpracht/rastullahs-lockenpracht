@@ -4,7 +4,8 @@
     <gameobjectclass classid="mesh construction kit test object" baseclass="GameObject">
         <property name="name" type="STRING" data="M.C.K. Test object"/>
         <property name="description" type="STRING" data="This is the testing object for the M.C.K."/>
-        <property name="meshfile" type="STRING" data="men_human_female_torso.mesh"/>
+	<property name="meshfile" type="STRING" data="men_human_female_torso.mesh"/>
+        <property name="submeshprename" type="STRING" data="men_human_female_"/>
         <property name="geometrytype" type="STRING" data="ellipsoid"/>
         <property name="meshparts" type="MAP">
             <property name="torso" type="STRING" data="men_human_female_torso.mesh"/>
@@ -20,6 +21,7 @@
         <property name="name" type="STRING" data="M.C.K. Test creature"/>
         <property name="description" type="STRING" data="This is the testing creature for the M.C.K."/>
         <property name="meshfile" type="STRING" data="men_human_female_torso.mesh"/>
+        <property name="submeshprename" type="STRING" data="men_human_female_"/>
         <property name="geometrytype" type="STRING" data="ellipsoid"/>
         <property name="meshparts" type="MAP">
             <property name="torso" type="STRING" data="men_human_female_torso.mesh"/>

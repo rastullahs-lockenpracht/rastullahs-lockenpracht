@@ -58,6 +58,7 @@
         <property name="mass" type="REAL" data="75"/>
         <property name="inventorywindowtype" type="STRING" data="inventory_human.xml"/>
         <property name="meshfile" type="STRING" data="men_human_female_torso.mesh"/>
+	<property name="submeshprename" type="STRING" data="men_human_female_"/>
         <property name="geometrytype" type="STRING" data="ellipsoid"/>
 		<property name="meshparts" type="MAP">
             <property name="torso" type="STRING" data="men_human_female_torso.mesh"/>
