@@ -59,7 +59,10 @@ namespace rl {
         void addEventSource(GameAreaEventSource* gam);
         void removeEventSource(GameAreaEventSource* gam);
         GameAreaEventSourceList& getEventSources();
-	private:
+        void personEntered();
+        void personLeft();
+        bool isActive() const; // only for the ZoneManager, in order to ask if a zone is active use ZoneManager::isZoneActive
+    private:
         bool mNeedsToBeSaved;
         long mId;
         Zone();
@@ -68,6 +71,7 @@ namespace rl {
 		std::list<Trigger*> mTriggers;
         GameAreaEventSourceList mEventSources;
         Ogre::String mEaxPreset;
+        int mPersonsInside;
 	};
 
 }

@@ -321,13 +321,21 @@ namespace rl
             {
                 Zone *zone = getZone(id);
                 if( zone )
-                    zoneLeft(zone);
+                {
+                    zone->personLeft();
+                    if( !zone->isActive() )
+                        zoneLeft(zone);
+                }
             }
             else
             {
                 Zone *zone = getZone(-id); // means we have to subtract this area from the zone
                 if( zone )
-                    zoneEntered(zone);
+                {
+                    if( !zone->isActive() )
+                        zoneEntered(zone);
+                    zone->personEntered();
+                }
             }
 
 		    update();
@@ -343,13 +351,21 @@ namespace rl
             {
                 Zone *zone = getZone(id);
                 if( zone )
-                    zoneEntered(zone);
+                {
+                    if( !zone->isActive() )
+                        zoneEntered(zone);
+                    zone->personEntered();
+                }
             }
             else
             {
                 Zone *zone = getZone(-id); // means we have to subtract this area from the zone
                 if( zone )
-                    zoneLeft(zone);
+                {
+                    zone->personLeft();
+                    if( !zone->isActive() )
+                        zoneLeft(zone);
+                }
             }
 
 		    update();
@@ -358,6 +374,8 @@ namespace rl
 
     void ZoneManager::zoneEntered(Zone *zone)
     {
+        if( isZoneActive(zone) )
+            return;
         // perhaps the trigger destroys the zone, so we should put the zone in the list, before the triggers does so
         mActiveZones.push_front(zone);
 
@@ -376,6 +394,8 @@ namespace rl
 
     void ZoneManager::zoneLeft(Zone *zone)
     {
+        if( !isZoneActive(zone) )
+            return;
         // perhaps the trigger destroys the zone, so we should put the zone in the list, before the triggers does so
         mActiveZones.remove(zone);
 

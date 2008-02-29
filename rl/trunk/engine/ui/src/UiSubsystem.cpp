@@ -162,6 +162,7 @@ namespace rl {
             {
                 ScriptWrapper::getSingleton().disowned( mCharacter );
                 mCharacter->getActor()->detach(SoundManager::getSingleton().getListenerActor());
+                mCharacter->setQueryFlags(mCharacter->getQueryFlags() & (~QUERYFLAG_PLAYER));
             }
 
             if (person == NULL)
@@ -173,6 +174,7 @@ namespace rl {
             {
                 ScriptWrapper::getSingleton().owned( person );
                 mCharacter = person;
+                mCharacter->addQueryFlag(QUERYFLAG_PLAYER);
 
                 mWindowFactory->setActiveCharacter(person);
 

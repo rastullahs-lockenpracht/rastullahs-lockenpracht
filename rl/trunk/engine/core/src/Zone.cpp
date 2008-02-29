@@ -27,7 +27,7 @@ namespace rl
 {
 
 
-    Zone::Zone(long id, bool needsToBeSaved) : mId(id), mEaxPreset(""), mNeedsToBeSaved(needsToBeSaved)
+    Zone::Zone(long id, bool needsToBeSaved) : mId(id), mEaxPreset(""), mNeedsToBeSaved(needsToBeSaved), mPersonsInside(0)
     {
     }
 
@@ -143,4 +143,19 @@ namespace rl
 	{
 		return mEventSources;
 	}
+
+    bool Zone::isActive() const
+    {
+        return mPersonsInside > 0;
+    }
+
+    void Zone::personEntered()
+    {
+        mPersonsInside++;
+    }
+
+    void Zone::personLeft()
+    {
+        mPersonsInside--;
+    }
 }
