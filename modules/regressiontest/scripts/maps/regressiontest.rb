@@ -28,16 +28,14 @@ require 'JobSequenceTest.rb'
 require 'LightzoneTest.rb'
 require 'MapLoadingTest.rb'
 require 'MaterialSlotTest.rb'
-#require 'MergeableMeshTest.rb'
+require 'MergeableMeshTest.rb'
 require 'MeshAreaTest.rb'
-require 'NpcCapsuleTest.rb'
 require 'NpcTest.rb'
 require 'SelectorTest.rb'
 require 'SoundTest.rb'
 require 'TimeTest.rb'
 
 require 'WalkJobTest.rb'
-
 
 DoorTest.new([  0, 0, -5]).run()
 EffectTest.new([  5, 0, 5]).run()
@@ -48,14 +46,12 @@ JobSequenceTest.new([  5, 0, -5]).run()
 LightzoneTest.new([-10, 0, -5]).run()
 MapLoadingTest.new([ -5, 0, -10]).run()
 MaterialSlotTest.new([-15, 0, -5]).run()
-#MergeableMeshTest.new([ 10, 0, 0]).run()
+MergeableMeshTest.new([ 10, 0, 0]).run()
 MeshAreaTest.new([-50, 0,-55]).run()
-NpcCapsuleTest.new([  0, 0, 5]).run()
 NpcTest.new([ -5, 0, 5]).run()
 SelectorTest.new([  5, 0, 0]).run()
 SoundTest.new([ 10, 0, 10]).run()
 TimeTest.new([ -5, 0, -5]).run()
-
 WalkJobTest.new([  0, 0, -3]).run()
 
 $SCRIPT.log("tests initialisiert.")
