@@ -147,6 +147,14 @@ namespace rl
         return it->second;
     }
 
+    void TimeSourceManager::setTimeFactor(const Ogre::Real& factor)
+    {
+        for (std::map<TimeSource::TimeSourceType, TimeSource*>::iterator it
+            = mTimeSources.begin(); it != mTimeSources.end(); ++it)
+        {
+            it->second->setTimeFactor(factor);
+        }
+    }
 
 	CeGuiString TimeSourceManager::getXmlNodeIdentifier() const
 	{

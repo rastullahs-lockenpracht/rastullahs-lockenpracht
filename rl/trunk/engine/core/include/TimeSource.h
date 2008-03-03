@@ -32,6 +32,7 @@ namespace rl
     public:
         enum TimeSourceType
         {
+            UNKNOWN,
             REALTIME_CONTINUOUS,
             REALTIME_INTERRUPTABLE,
             GAMETIME
@@ -92,6 +93,7 @@ namespace rl
 
         void registerTimeSource(TimeSource* ts);
         TimeSource* getTimeSource(const TimeSource::TimeSourceType& type) const;
+        void setTimeFactor(const Ogre::Real& factor);
 
 		virtual CeGuiString getXmlNodeIdentifier() const;
         virtual void writeData(SaveGameFileWriter* writer);

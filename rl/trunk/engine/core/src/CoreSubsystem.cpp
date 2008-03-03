@@ -156,7 +156,7 @@ namespace rl
         return mInitialized;
     }
 
-    Ogre::RenderWindow* CoreSubsystem::getRenderWindow()
+    Ogre::RenderWindow* CoreSubsystem::getRenderWindow() const
     {
         return mRenderWindow;
     }
@@ -164,7 +164,14 @@ namespace rl
 	void CoreSubsystem::setPaused(bool paused)
 	{
 		mGameLoop->setPaused(paused);
+        ///@todo mTimeSourceManager->setPaused(paused)?
 	}
+
+    void CoreSubsystem::setTimeFactor(const Ogre::Real &factor)
+    {
+        mAnimationManager->setGlobalAnimationSpeed(factor);
+        mTimeSourceManager->setTimeFactor(factor);
+    }
 
     bool CoreSubsystem::initializeCoreSubsystem()
     {
@@ -174,7 +181,6 @@ namespace rl
 
         // Load Ogre plugins
         Ogre::StringVector pluginList = ConfigurationManager::getSingleton().getPluginList();
-
         for (Ogre::StringVector::const_iterator it = pluginList.begin(); it < pluginList.end(); it++)
         {
             mOgreRoot->loadPlugin(*it);
@@ -239,7 +245,7 @@ namespace rl
 
         mScriptWrapper = new ScriptWrapper();
         LOG_MESSAGE(Logger::CORE,"Skriptwrapper erzeugt");
-        // TODO: muss l�schbar werden.
+        ///@todo: muss loeschbar werden.
         mRubyInterpreter = new RubyInterpreter();
         LOG_MESSAGE(Logger::CORE,"RubyInterpreter erzeugt");
         mRubyInterpreter->initializeInterpreter();
@@ -255,7 +261,7 @@ namespace rl
         initializeResources();
 
         // Set default mipmap level (NB some APIs ignore this)
-        //TODO: In Config-Datei verlagern
+        ///@todo: In Config-Datei verlagern
         TextureManager::getSingleton().setDefaultNumMipmaps(5);
         MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_TRILINEAR);
         MaterialManager::getSingleton().setDefaultAnisotropy(
@@ -500,13 +506,13 @@ namespace rl
         return mWorld;
     }
 
-    Ogre::String CoreSubsystem::getEngineVersionString() const
+    const Ogre::String CoreSubsystem::getEngineVersionString() const
     {
         static Ogre::String version = "0.3.0";
         return version;
     }
 
-    Ogre::String CoreSubsystem::getEngineVersionName() const
+    const Ogre::String CoreSubsystem::getEngineVersionName() const
     {
         static Ogre::String version = "Internal Build";
         return version;
@@ -528,9 +534,9 @@ namespace rl
             month++;
 
         return /* Jahr */          year * 100000 +
-               /* Monat */     (month+1) * 1000 +
+               /* Monat */         (month+1) * 1000 +
                /* Tag */           day * 10 +
-               /* Sub-Version */     0;
+               /* Sub-Version */   0;
     }
 
     RubyInterpreter* CoreSubsystem::getRubyInterpreter()

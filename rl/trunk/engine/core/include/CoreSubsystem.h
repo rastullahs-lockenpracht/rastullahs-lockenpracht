@@ -98,8 +98,8 @@ public:
 
     bool isInitialized() const;
 
-    Ogre::String getEngineVersionString() const;
-    Ogre::String getEngineVersionName() const;
+    const Ogre::String getEngineVersionString() const;
+    const Ogre::String getEngineVersionName() const;
     long         getEngineBuildNumber() const;
 
     /**
@@ -107,11 +107,13 @@ public:
      *
      * @return pointer to render window
      */
-    Ogre::RenderWindow* getRenderWindow();
+    Ogre::RenderWindow* getRenderWindow() const;
 
 	/// Sets the pause state of the game
 	/// @param paused <code>true</code> if the game should be paused, <code>false</code> if it should be continued
 	void setPaused(bool paused);
+
+    void setTimeFactor(const Ogre::Real& factor = 1.0F);
 
 private:
     World* mWorld;
