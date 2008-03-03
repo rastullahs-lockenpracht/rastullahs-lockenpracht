@@ -65,9 +65,9 @@ receive_shadows on
 				param_named_auto Light_Color1  light_diffuse_colour 1
 				param_named_auto Light_Color2  light_diffuse_colour 2
 				
-				param_named_auto Light_Position0 light_position 0
-				param_named_auto Light_Position1 light_position 1
-				param_named_auto Light_Position2 light_position 2
+				param_named_auto Light_Position0 light_position_object_space 0
+				param_named_auto Light_Position1 light_position_object_space 1
+				param_named_auto Light_Position2 light_position_object_space 2
 
 				param_named skycolor float4 0.2 0.2 0.2 1.0
 				param_named groundcolor float4 0.10 0.10 0.10 1.0
@@ -163,9 +163,9 @@ receive_shadows on
 				param_named_auto Light_Color1  light_diffuse_colour 1
 				param_named_auto Light_Color2  light_diffuse_colour 2
 				
-				param_named_auto Light_Position0 light_position 0
-				param_named_auto Light_Position1 light_position 1
-				param_named_auto Light_Position2 light_position 2
+				param_named_auto Light_Position0 light_position_object_space 0
+				param_named_auto Light_Position1 light_position_object_space 1
+				param_named_auto Light_Position2 light_position_object_space 2
 
 				param_named skycolor float4 0.2 0.2 0.2 1.0
 				param_named groundcolor float4 0.10 0.10 0.10 1.0

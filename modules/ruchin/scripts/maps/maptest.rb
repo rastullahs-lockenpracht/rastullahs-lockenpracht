@@ -83,7 +83,7 @@ $SCRIPT.log("Fackellicht erstellen..");
 fackellicht = $AM.createLightActor("Das Licht der Fackel", LightObject::LT_POINT );
 fackellicht.getControlledObject().setCastShadows(false);
 fackellicht.getControlledObject().setDiffuseColour(0.8,0.7,0.6);
-fackellicht.getControlledObject().setAttenuation(5.0, 0.79,  -0.21, 0.268 );
+fackellicht.getControlledObject().setAttenuation(10.0, 0.79,  -0.21, 0.268 );
 $hero.getActor().attachToSlot( fackellicht, "Bip01 R SlotHand" );
 $SCRIPT.log("Fackellicht erstellt.");
 ##########################

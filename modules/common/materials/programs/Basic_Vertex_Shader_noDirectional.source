@@ -66,7 +66,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
                               Light1_attenuation.w * Dist * Dist)*saturate(Light1_attenuation.x-Dist)
                           ,0,1);
    
-   //Output.Color += (Light1_color * AngleAttn + SpecAttn) * DistAttn * Light1_position.w;
+   Output.Color += (Light1_color * AngleAttn + SpecAttn) * DistAttn * Light1_position.w;
    
    
    // Light3
@@ -87,7 +87,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
                               Light3_attenuation.w * Dist * Dist)*saturate(Light3_attenuation.x-Dist)
                           ,0,1);
    
-   //Output.Color += (Light3_color * AngleAttn + SpecAttn) * DistAttn * Light3_position.w;
+   Output.Color += (Light3_color * AngleAttn + SpecAttn) * DistAttn * Light3_position.w;
    
    
    // Light2
@@ -107,7 +107,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
                         Light2_attenuation.w * Dist * Dist)*saturate(Light2_attenuation.x-Dist)
                         ,0,1);
    
-   //Output.Color += (Light2_color * AngleAttn + SpecAttn) * DistAttn * Light2_position.w;
+   Output.Color += (Light2_color * AngleAttn + SpecAttn) * DistAttn * Light2_position.w;
    
    
    Output.Texcoord = Input.Texcoord;

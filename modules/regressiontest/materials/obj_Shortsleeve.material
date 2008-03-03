@@ -1,6 +1,7 @@
 
-material obj_Shortsleeve : Torso_Vertex_Shader_Short
+material obj_Shortsleeve : Basic_Normalmapping_Spec
 {
-	set_texture_alias skin men_female_human_diffuse.png
-	set_texture_alias cloth obj_shortsleeve02_diffuse.png
+set_texture_alias DiffuseMap obj_shortsleeve02_diffuse.png
+set_texture_alias NormalMap obj_shortsleeve02_normal.png
+set_texture_alias SpecMap obj_shortsleeve02_specular.png
 }

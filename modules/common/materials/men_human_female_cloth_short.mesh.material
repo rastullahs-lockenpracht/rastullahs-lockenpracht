@@ -8,3 +8,14 @@ set_texture_alias SpecMap obj_shortsleeve02_specular.png
 //set_texture_alias NormalMapCloth obj_shortsleeve02_normal.png
 //set_texture_alias SpecMapCloth obj_shortsleeve02_specular.png
 }
+
+material men_human_male_cloth_short : Basic_Normalmapping_Spec
+{
+set_texture_alias DiffuseMap obj_shortsleeve02_diffuse.png
+set_texture_alias NormalMap obj_shortsleeve02_normal.png
+set_texture_alias SpecMap obj_shortsleeve02_specular.png
+
+//set_texture_alias DiffuseMap obj_shortsleeve02_diffuse.png
+//set_texture_alias NormalMapCloth obj_shortsleeve02_normal.png
+//set_texture_alias SpecMapCloth obj_shortsleeve02_specular.png
+}

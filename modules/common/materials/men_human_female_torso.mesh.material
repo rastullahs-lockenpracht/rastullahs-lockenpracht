@@ -13,7 +13,7 @@ material men_human_male_torso : Skin_Normalmapping_mirrored
 {
 set_texture_alias DiffuseMap men_human_male_diffuse.png
 set_texture_alias NormalMap men_human_male_normalmap.png
-set_texture_alias SpecMap men_human_male_diffuse.png
+set_texture_alias SpecMap men_human_female_diffuse.png
 
 //set_texture_alias DiffuseMapCloth obj_shortsleeve02_diffuse.png
 //set_texture_alias NormalMapCloth obj_shortsleeve02_normal.png
