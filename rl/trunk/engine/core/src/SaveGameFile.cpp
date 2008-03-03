@@ -41,7 +41,11 @@ namespace rl
 
     CeGuiString SaveGameFile::buildFilename()
     {
+#       if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+        return Ogre::String(::getenv("HOME")) + "/.rastullah/saves/" + mName + "." + mModuleID + ".save";
+#       else
         return ConfigurationManager::getSingleton().getModulesRootDirectory() + "/saves/" + mName + "." + mModuleID + ".save";
+#       endif        
     }
 
     CeGuiString SaveGameFile::getName()
