@@ -46,8 +46,9 @@ bool max(T1 m1, T2 m2) { return (m1 < m2)?m2:m1; }
 // signed / unsigned auf 1x
 #    pragma warning(once : 4018)
 // Sichere Versionen der Stringfunktionen benutzen
-#    if !defined(_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES)
-#        define _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES
+#    if _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES == 0
+#        undef  _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES
+#        define _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES 1
 #    endif
 #endif
 
