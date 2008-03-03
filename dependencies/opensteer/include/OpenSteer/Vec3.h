@@ -52,7 +52,11 @@
 
 
 #include "OpenSteer/Utilities.h"  // for interpolate, etc.
-#include <OgreVector3.h>
+#ifdef __APPLE__
+    #include <Ogre/Ogre.h>
+#else
+    #include <Ogre.h>
+#endif
 
 using Ogre::Vector3;
 

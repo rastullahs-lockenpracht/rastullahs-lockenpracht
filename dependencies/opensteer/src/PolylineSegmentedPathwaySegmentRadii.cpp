@@ -104,7 +104,7 @@ OpenSteer::PolylineSegmentedPathwaySegmentRadii::PolylineSegmentedPathwaySegment
 
 
 OpenSteer::PolylineSegmentedPathwaySegmentRadii::PolylineSegmentedPathwaySegmentRadii( size_type numOfPoints,
-                                                                                       Vec3 const points[],
+                                                                                       Ogre::Vector3 const points[],
                                                                                        float const radii[],
                                                                                        bool closedCycle )
     : path_( numOfPoints, points, closedCycle ), segmentRadii_( radii, radii + radiiCount( numOfPoints, closedCycle ) )
@@ -157,7 +157,7 @@ OpenSteer::PolylineSegmentedPathwaySegmentRadii::swap( PolylineSegmentedPathwayS
 void 
 OpenSteer::PolylineSegmentedPathwaySegmentRadii::movePoints( size_type startIndex,
                                                              size_type numOfPoints,
-                                                             Vec3 const points[] )
+                                                             Ogre::Vector3 const points[] )
 {
     path_.movePoints( startIndex, numOfPoints, points );
 }
@@ -167,7 +167,7 @@ OpenSteer::PolylineSegmentedPathwaySegmentRadii::movePoints( size_type startInde
 
 void 
 OpenSteer::PolylineSegmentedPathwaySegmentRadii::setPathway( size_type numOfPoints,
-                                                             Vec3 const points[],
+                                                             Ogre::Vector3 const points[],
                                                              float const radii[],
                                                              bool closedCycle )
 {
@@ -224,9 +224,9 @@ OpenSteer::PolylineSegmentedPathwaySegmentRadii::isValid() const
 
 
 
-OpenSteer::Vec3 
-OpenSteer::PolylineSegmentedPathwaySegmentRadii::mapPointToPath (const Vec3& point,
-                                                                 Vec3& tangent,
+Ogre::Vector3 
+OpenSteer::PolylineSegmentedPathwaySegmentRadii::mapPointToPath (const Ogre::Vector3& point,
+                                                                 Ogre::Vector3& tangent,
                                                                  float& outside) const
 {
     PointToPathMapping mapping;
@@ -238,7 +238,7 @@ OpenSteer::PolylineSegmentedPathwaySegmentRadii::mapPointToPath (const Vec3& poi
 
 
 
-OpenSteer::Vec3 
+Ogre::Vector3 
 OpenSteer::PolylineSegmentedPathwaySegmentRadii::mapPathDistanceToPoint (float pathDistance) const
 {
     PathDistanceToPointMapping mapping;
@@ -249,7 +249,7 @@ OpenSteer::PolylineSegmentedPathwaySegmentRadii::mapPathDistanceToPoint (float p
 
 
 float 
-OpenSteer::PolylineSegmentedPathwaySegmentRadii::mapPointToPathDistance (const Vec3& point) const
+OpenSteer::PolylineSegmentedPathwaySegmentRadii::mapPointToPathDistance (const Ogre::Vector3& point) const
 {
     PointToPathDistanceMapping mapping;
     mapPointToPathAlike( *this, point, mapping );
@@ -282,7 +282,7 @@ OpenSteer::PolylineSegmentedPathwaySegmentRadii::pointCount() const
 
 
 
-OpenSteer::Vec3 
+Ogre::Vector3 
 OpenSteer::PolylineSegmentedPathwaySegmentRadii::point( size_type pointIndex ) const
 {
     return path_.point( pointIndex );
@@ -305,7 +305,7 @@ OpenSteer::PolylineSegmentedPathwaySegmentRadii::segmentLength( size_type segmen
 
 
 
-OpenSteer::Vec3 
+Ogre::Vector3 
 OpenSteer::PolylineSegmentedPathwaySegmentRadii::segmentStart( size_type segmentIndex ) const
 {
     return path_.segmentStart( segmentIndex );
@@ -313,7 +313,7 @@ OpenSteer::PolylineSegmentedPathwaySegmentRadii::segmentStart( size_type segment
 
 
 
-OpenSteer::Vec3 
+Ogre::Vector3 
 OpenSteer::PolylineSegmentedPathwaySegmentRadii::segmentEnd( size_type segmentIndex ) const
 {
     return path_.segmentEnd( segmentIndex );
@@ -323,14 +323,14 @@ OpenSteer::PolylineSegmentedPathwaySegmentRadii::segmentEnd( size_type segmentIn
 
 float 
 OpenSteer::PolylineSegmentedPathwaySegmentRadii::mapPointToSegmentDistance( size_type segmentIndex, 
-                                                                            Vec3 const& point ) const
+                                                                            Ogre::Vector3 const& point ) const
 {
     return path_.mapPointToSegmentDistance( segmentIndex, point );
 }
 
 
 
-OpenSteer::Vec3 
+Ogre::Vector3 
 OpenSteer::PolylineSegmentedPathwaySegmentRadii::mapSegmentDistanceToPoint( size_type segmentIndex, 
                                                                             float segmentDistance ) const
 {
@@ -350,7 +350,7 @@ OpenSteer::PolylineSegmentedPathwaySegmentRadii::mapSegmentDistanceToRadius( siz
 
 
 
-OpenSteer::Vec3 
+Ogre::Vector3 
 OpenSteer::PolylineSegmentedPathwaySegmentRadii::mapSegmentDistanceToTangent( size_type segmentIndex, 
                                                                               float segmentDistance ) const
 {
@@ -363,8 +363,8 @@ OpenSteer::PolylineSegmentedPathwaySegmentRadii::mapSegmentDistanceToTangent( si
 void 
 OpenSteer::PolylineSegmentedPathwaySegmentRadii::mapDistanceToSegmentPointAndTangentAndRadius( size_type segmentIndex,
                                                                                                float distance,
-                                                                                               Vec3& pointOnPath,
-                                                                                               Vec3& tangent,
+                                                                                               Ogre::Vector3& pointOnPath,
+                                                                                               Ogre::Vector3& tangent,
                                                                                                float& radius ) const
 {
     assert( segmentIndex < segmentCount() && "segmentIndex out of range." );
@@ -377,10 +377,10 @@ OpenSteer::PolylineSegmentedPathwaySegmentRadii::mapDistanceToSegmentPointAndTan
 
 void 
 OpenSteer::PolylineSegmentedPathwaySegmentRadii::mapPointToSegmentDistanceAndPointAndTangentAndRadius( size_type segmentIndex,
-                                                                                                       Vec3 const& point,
+                                                                                                       Ogre::Vector3 const& point,
                                                                                                        float& distance,
-                                                                                                       Vec3& pointOnPath,
-                                                                                                       Vec3& tangent,
+                                                                                                       Ogre::Vector3& pointOnPath,
+                                                                                                       Ogre::Vector3& tangent,
                                                                                                        float& radius) const
 {
     path_.mapPointToSegmentDistanceAndPointAndTangent( segmentIndex, point, distance, pointOnPath, tangent );

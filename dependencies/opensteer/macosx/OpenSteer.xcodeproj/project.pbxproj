@@ -78,6 +78,8 @@
 		4425B4800B7B76740067899D /* PolylineSegmentedPathwaySingleRadiusTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4425B47C0B7B76740067899D /* PolylineSegmentedPathwaySingleRadiusTest.cpp */; };
 		4425B4810B7B76740067899D /* SharedPointerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4425B47D0B7B76740067899D /* SharedPointerTest.cpp */; };
 		4425B4820B7B76740067899D /* TestMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4425B47E0B7B76740067899D /* TestMain.cpp */; };
+		48B770E90D57A418000A3B97 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483999EB0D5495EE00B27496 /* Ogre.framework */; };
+		48B770EA0D57A41B000A3B97 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483999EB0D5495EE00B27496 /* Ogre.framework */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -159,11 +161,12 @@
 		4425B47C0B7B76740067899D /* PolylineSegmentedPathwaySingleRadiusTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PolylineSegmentedPathwaySingleRadiusTest.cpp; path = ../test/PolylineSegmentedPathwaySingleRadiusTest.cpp; sourceTree = SOURCE_ROOT; };
 		4425B47D0B7B76740067899D /* SharedPointerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SharedPointerTest.cpp; path = ../test/SharedPointerTest.cpp; sourceTree = SOURCE_ROOT; };
 		4425B47E0B7B76740067899D /* TestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMain.cpp; path = ../test/TestMain.cpp; sourceTree = SOURCE_ROOT; };
+		483999EB0D5495EE00B27496 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = /Library/Frameworks/Ogre.framework; sourceTree = "<absolute>"; };
 		841E3BFC0736BF4400E3AD2C /* Obstacle.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = Obstacle.cpp; sourceTree = "<group>"; };
 		84AD12AD070E221100559513 /* OpenSteerDemo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OpenSteerDemo.h; sourceTree = "<group>"; };
 		84AD12B1070E224000559513 /* OpenSteerDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = OpenSteerDemo.cpp; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* OpenSteerDemo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "OpenSteerDemo-Info.plist"; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* OpenSteerDemo.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = OpenSteerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* OpenSteerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenSteerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +182,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		48B770DF0D57A377000A3B97 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48B770E90D57A418000A3B97 /* Ogre.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D11072E0486CEB800E47090 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -186,6 +197,7 @@
 				4425B41F0B7B681A0067899D /* OpenSteer.framework in Frameworks */,
 				32FFF49306E90A9F00E1D8A3 /* GLUT.framework in Frameworks */,
 				32FFF49406E90A9F00E1D8A3 /* OpenGL.framework in Frameworks */,
+				48B770EA0D57A41B000A3B97 /* Ogre.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,6 +242,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				483999EB0D5495EE00B27496 /* Ogre.framework */,
 				4425B41C0B7B67F90067899D /* Carbon.framework */,
 				3224E47808435D8C00C13D97 /* libcppunit-1.10.2.0.0.dylib */,
 				32FFF49106E90A9F00E1D8A3 /* GLUT.framework */,
@@ -429,6 +442,7 @@
 			buildPhases = (
 				4425B3E10B7B61DB0067899D /* Headers */,
 				4425B3E30B7B61DB0067899D /* Sources */,
+				48B770DF0D57A377000A3B97 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -463,9 +477,11 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 3219D30B0855BC5800EB7908 /* Build configuration list for PBXProject "OpenSteer" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* opensteer */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				4425B3E50B7B61DB0067899D /* OpenSteer Framework */,
 				8D1107260486CEB800E47090 /* OpenSteerDemo */,
@@ -755,6 +771,7 @@
 					ppc,
 					i386,
 				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				FRAMEWORK_VERSION = 0.8;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G4;
@@ -849,10 +866,7 @@
 		4425B3E90B7B61DB0067899D /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = i386;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 2;
 				DYLIB_CURRENT_VERSION = 2;
@@ -871,7 +885,10 @@
 				HEADER_SEARCH_PATHS = ../include;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Ogre,
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = OpenSteer;
 				USER_HEADER_SEARCH_PATHS = ../include;
