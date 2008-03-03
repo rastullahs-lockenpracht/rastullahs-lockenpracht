@@ -72,6 +72,7 @@ namespace rl
             if (mAnimation) 
             {
                 mAnimation->pause();
+                mAnimation = NULL;
             }
             return true;
         }
