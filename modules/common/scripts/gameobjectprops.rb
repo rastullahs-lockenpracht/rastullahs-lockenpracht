@@ -27,12 +27,28 @@ module GameObjectProperties
         return ps
     end
 	
-#	def setProperty(key, value)
-#		instance_variable_set("@_prop_"+key, value)
-#	end
+	# Generic setProperty method. This will query self for a member variable @_prop_<key>
+	# and, if it is available set the property accordingly. If not, setProperty of the super class is
+	# called instead.
+	def setProperty(key, value)
+		if instance_variables.include?("@_prop_"+key)
+	        begin
+	            instance_variable_set("@_prop_"+key, value)
+            rescue
+		        super(key, value)
+		    end
+		else
+		    super(key, value);
+		end
+	end
 
-#	def getProperty(key)
-#		return instance_variable_get("@_prop_"+key)
-#	end
-  
+	# Generic getProperty method. This will query self for a member variable @_prop_<key>
+	# If present, its value is returned, else getProperty of the super class is called.
+	def getProperty(key)
+	    begin
+		    return instance_variable_get("@_prop_"+key)
+		rescue
+		    return super(key)
+		end
+	end
 end

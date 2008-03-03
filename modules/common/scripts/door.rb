@@ -54,18 +54,8 @@ class Door < GameObject
   
   def initialize(id)
     super(id);
-  end
-
-  def setProperty(name, value)
-    if (name == "sound")
-      @_prop_Sound = value;
-    elsif (name == "open")
-      @_prop_Open = value;
-    elsif (name == "openable")
-      @_prop_CanBeOpened = value;
-    else
-      super(name, value)
-    end
+	@_prop_openable = true;
+	@_prop_open = false;
   end
 
   def placeIntoScene()
@@ -76,7 +66,7 @@ class Door < GameObject
   def addActions()
     @mOpenAction = OpenDoorAction.new()
     @mCloseAction = CloseDoorAction.new()
-    if (@_prop_CanBeOpened)
+    if (@_prop_openable)
         addAction(@mOpenAction);
         addAction(@mCloseAction);
     else
@@ -84,23 +74,23 @@ class Door < GameObject
         addAction(@mCloseAction, Action::ACT_DISABLED);
     end
 
-    doAction("opendoor") unless not @_prop_Open
+    doAction("opendoor") unless not @_prop_open
   end
   
   def setOpen(isOpen)
-    @_prop_Open = isOpen
+    @_prop_open = isOpen
     fireObjectStateChangeEvent();
   end
   
   def isOpen()
-    @_prop_Open
+    @_prop_open
   end
   
   def getDefaultAction(actor)
-     if (not @_prop_CanBeOpened)
+     if (not @_prop_openable)
        super(actor)
      else
-       if (@_prop_Open)
+       if (@_prop_open)
          @mCloseAction
        else
          @mOpenAction

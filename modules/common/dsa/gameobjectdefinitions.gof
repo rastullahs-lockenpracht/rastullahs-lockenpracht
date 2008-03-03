@@ -2,10 +2,10 @@
 <GameObjectDefinitions>
 
 	<gameobjectclass classid="door" baseclass="Door">
+	    <property name="name" type="STRING" data="Tuer"/>
 		<property name="description" type="STRING" data="Eine Tür"/>
 		<property name="geometrytype" type="STRING" data="convexhull"/>
 		<property name="meshfile" type="STRING" data="arc_tuer_01.mesh"/>
-		<property name="sound" type="STRING" data="doorcreak.ogg"/>
 		<property name="open" type="BOOL" data="false"/>
 		<property name="openable" type="BOOL" data="true"/>
 	</gameobjectclass>
