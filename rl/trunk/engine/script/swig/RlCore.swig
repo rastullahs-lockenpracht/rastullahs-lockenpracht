@@ -685,6 +685,7 @@ public:
     bool isInitialized() const;
     void setScheme(const Ogre::String& schemeName);
     bool getDeveloperMode() const;
+    void setTimeFactor(const Ogre::Real& factor = 1.0F);
 };
 
 class Sound 
@@ -842,9 +843,20 @@ private:
 class PlayAnimationJob : public rl::Job
 {
 public:
-    PlayAnimationJob(Actor* actor, const Ogre::String& anim, bool doLoop=false,
+    PlayAnimationJob(Actor* actor, const Ogre::String& anim, Ogre::Real duration=-1.0f,
 		bool replaceAllAnims=true);
     virtual ~PlayAnimationJob();
+    
+private:
+    bool execute(Ogre::Real time);
+};
+
+class StartAnimationJob : public rl::Job
+{
+public:
+    StartAnimationJob(Actor* actor, const Ogre::String& anim, bool doLoop=false,
+		bool replaceAllAnims=true);
+    virtual ~StartAnimationJob();
     
 private:
     bool execute(Ogre::Real time);

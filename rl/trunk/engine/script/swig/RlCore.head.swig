@@ -57,6 +57,7 @@
 #include "JobListener.h"
 #include "PlaySoundJob.h"
 #include "PlayAnimationJob.h"
+#include "StartAnimationJob.h"
 #include "Zone.h"
 #include "ZoneManager.h"
 //#include "LightFadeJob.h"
