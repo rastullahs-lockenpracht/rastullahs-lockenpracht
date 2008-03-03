@@ -72,20 +72,36 @@ class GameTimeJobQueueTestAction < Action
   def doAction(go, user, target)
     jobQueue(
             [
+				_Execute {print "Start"},
                 [
 					_PlayAnimation(go.getActor(), "auf"), 
 					_PlaySound3d("doorcreak.ogg", go.getPosition())
 				],
+				_Execute {CoreSubsystem.getSingleton().setTimeFactor(0.1)},
+				_Execute {print "Next text should appear in ten combat rounds (one combat round, slowed to 1/10)"},
 				Date.new(Date::ONE_KAMPFRUNDE),
+				_Execute {print "Did it? This is 20 seconds."},
 				_PlaySound3d("lachen.ogg", go.getPosition()),
 				[
 					_PlayAnimation(go.getActor(), "zu"), 
 					_PlaySound3d("doorcreak.ogg", go.getPosition())
 				],
-				Date.new(Date::ONE_SPIELRUNDE),
+				_Execute {CoreSubsystem.getSingleton().setTimeFactor(5.0)},
+				_Execute {print "Next text should appear in 2% of a Spielrunde (1/10 Spielrunde, 5 times faster)"},
+				Date.new(Date::ONE_SPIELRUNDE) * 0.1,
+				_Execute {print "Did it? This is 3 seconds."},
 				_PlaySound3d("lachen.ogg", go.getPosition()),
-				_Execute {provokeEror},
-				_Execute {p "FOO"}
+				[
+					_PlayAnimation(go.getActor(), "auf"), 
+					_PlaySound3d("doorcreak.ogg", go.getPosition())
+				],
+				_Execute {provokeError},
+				_Execute {CoreSubsystem.getSingleton().setTimeFactor(1.0)},
+				[
+					_PlayAnimation(go.getActor(), "zu"), 
+					_PlaySound3d("doorcreak.ogg", go.getPosition())
+				],
+				_Execute {print "Ende"}
             ]
     )
   end
