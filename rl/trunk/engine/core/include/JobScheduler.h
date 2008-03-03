@@ -18,15 +18,17 @@
 #define __RL_JOB_SCHEDULER_H__
 
 #include "CorePrerequisites.h"
-#include "GameTask.h"
-#include "SaveGameManager.h"
 
 #include <deque>
 #include <functional>
 
+#include "GameTask.h"
+#include "SaveGameManager.h"
+#include "TimeSource.h"
+
 namespace rl
 {
-    class Job;
+    class AbstractJob;
     class JobListener;
 
     /**
@@ -72,7 +74,7 @@ namespace rl
          *         looses its validity to the JobScheduler itself though. If a job is saved and reloaded
          *         from a SaveGameFile, a new ticket will be assigned!
          */
-        unsigned long addJob(Job* job, JobPriority priority=JP_NORMAL, Ogre::Real delay=0.0f,
+        unsigned long addJob(AbstractJob* job, JobPriority priority=JP_NORMAL, Ogre::Real delay=0.0f,
             Ogre::Real maxRuntime=Ogre::Math::POS_INFINITY, JobListener* listener=NULL);
 
         /**
@@ -98,21 +100,23 @@ namespace rl
         virtual void readData(SaveGameFileReader* reader);
         virtual int getPriority() const;  // this should probably be one of the last things to load, so the job can access various things (gameobjects etc)
 
-        typedef Job*(*JobCreateFunction)(void);
+        typedef AbstractJob*(*JobCreateFunction)(void);
         static void registerJobClass(const Ogre::String &name, JobCreateFunction);
     private:
         /// A JobEntry encapsules a Job for the Scheduler, it contains the Job itself and
         /// various administrional data.
         struct JobEntry
         {
-            Job* job;                     ///< The Job to be executed.
+            AbstractJob* job;             ///< The Job to be executed.
             JobListener* listener;        ///< attached JobListener or NULL else.
             unsigned long ticket;         ///< ticket to identify the Job.
             JobPriority priority;         ///< priority it runs with.
             unsigned short tokens;        ///< number of accumulated tokens.
             unsigned long start;          ///< when to execute the Job for the first time.
             unsigned long end;            ///< when to discard the Job, if not then finished.
-            Ogre::Real timeSinceLastCall; ///< frame time, since the last call of Job#execute.
+            Time timeLastCall;            ///< time (of the job's time source) of the last call of Job#execute.
+            TimeSource::TimeSourceType timeSourceLastCall;
+            
             bool called;                  ///< false, if the Job has not been called yet.
             bool markedToRemove;          ///< only true, if removeJob with the ticket of this job is called
         };

@@ -20,44 +20,42 @@
 
 namespace rl
 {
-    Job::Job(bool isDiscardable, bool destroyWhenDone, TimeSource::TimeSourceType timesource, JobPersistenceType persistence)
+    AbstractJob::AbstractJob(bool isDiscardable, bool destroyWhenDone)
         : mIsDiscardable(isDiscardable), 
-        mDestroyWhenDone(destroyWhenDone),
-        mTimeSource(timesource),
-        mPersistence(persistence)
+        mDestroyWhenDone(destroyWhenDone)
     {
     }
 
-    Job::~Job()
+    AbstractJob::~AbstractJob()
     {
     }
 
-    bool Job::isDiscardable()
+    bool AbstractJob::execute(Time time)
+    {
+        float ftime = static_cast<float>(time) / 1000.0F;
+        if (ftime < 0)
+        {
+            ftime = 0;
+        }
+        return execute(ftime);
+    }
+
+    bool AbstractJob::isDiscardable() const
     {
         return mIsDiscardable;
     }
 
-    bool Job::destroyWhenDone()
+    bool AbstractJob::destroyWhenDone() const
     {
         return mDestroyWhenDone;
     }
 
-    void Job::discard()
+    void AbstractJob::discard()
     {
         RlFail("Discarded non discardable Job.");
     }
 
-    TimeSource::TimeSourceType Job::getTimeSource() const
-    {
-        return mTimeSource;
-    }
-
-    Job::JobPersistenceType Job::getPersistenceType() const
-    {
-        return mPersistence;
-    }
-
-    const Property Job::getProperty(const Ogre::String& key) const
+    const Property AbstractJob::getProperty(const Ogre::String& key) const
     {
         Property prop;
         if( key == "discardable" )
@@ -68,10 +66,6 @@ namespace rl
         {
             prop.setValue(mDestroyWhenDone);
         }
-        else if( key == "timesource" )
-        {
-            prop.setValue((int)mTimeSource);
-        }
         else
         {
             Throw(IllegalArgumentException, key + " is not a property of this Job!");
@@ -80,7 +74,7 @@ namespace rl
         return prop;
     }
 
-    void Job::setProperty(const Ogre::String& key, const Property& value)
+    void AbstractJob::setProperty(const Ogre::String& key, const Property& value)
     {
         try
         {
@@ -91,10 +85,6 @@ namespace rl
             else if( key == "destroywhendone" )
             {
                 mDestroyWhenDone = value.toBool();
-            }
-            else if( key == "timesource" )
-            {
-                mTimeSource = (TimeSource::TimeSourceType)value.toInt();
             }
             else
             {
@@ -111,11 +101,71 @@ namespace rl
         }
     }
 
-    PropertyRecord* Job::getAllProperties() const
+    PropertyRecord* AbstractJob::getAllProperties() const
     {
         PropertyRecord* ps = new PropertyRecord();
         ps->setProperty("discardable", Property(mIsDiscardable));
         ps->setProperty("destroywhendone", Property(mDestroyWhenDone));
+
+        return ps;
+    }
+
+    Job::Job(bool isDiscardable, bool destroyWhenDone, TimeSource::TimeSourceType timesource, JobPersistenceType persistence)
+        : AbstractJob(isDiscardable, destroyWhenDone),
+        mTimeSource(timesource),
+        mPersistence(persistence)
+    {
+    }
+
+    Job::~Job()
+    {
+    }
+
+    TimeSource::TimeSourceType Job::getTimeSource() const
+    {
+        return mTimeSource;
+    }
+
+    Job::JobPersistenceType Job::getPersistenceType() const
+    {
+        return mPersistence;
+    }
+
+    const Property Job::getProperty(const Ogre::String& key) const
+    {
+        Property prop;
+        if( key == "timesource" )
+        {
+            prop.setValue((int)mTimeSource);
+        }
+         
+        return AbstractJob::getProperty(key);
+    }
+
+    void Job::setProperty(const Ogre::String& key, const Property& value)
+    {
+        try
+        {
+            if( key == "timesource" )
+            {
+                mTimeSource = (TimeSource::TimeSourceType)value.toInt();
+            }
+            else
+            {
+                AbstractJob::setProperty(key, value);
+            }
+        }
+        catch (WrongFormatException ex)
+        {
+            LOG_ERROR(
+                Logger::RULES,
+                "property " + key + " has the wrong format");
+        }
+    }
+
+    PropertyRecord* Job::getAllProperties() const
+    {
+        PropertyRecord* ps = AbstractJob::getAllProperties();
         ps->setProperty("timesource", Property((int)mTimeSource));
 
         return ps;

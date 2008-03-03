@@ -21,7 +21,8 @@ namespace rl
 {
 
 JobQueue::JobQueue()
-: Job(false, true)
+: AbstractJob(false, true),
+    mTimeSource(TimeSource::REALTIME_CONTINUOUS)
 {
 }
 
@@ -29,14 +30,19 @@ JobQueue::~JobQueue()
 {
 }
 
-void JobQueue::add(Job* job)
+void JobQueue::add(AbstractJob* job)
 {
+    if (mQueue.empty())
+    {
+        mTimeSource = job->getTimeSource();
+    }
+
     mQueue.push_back(job);
 }
 
 bool JobQueue::execute(Ogre::Real elapsedTime)
 {
-    Job* cur = *mQueue.begin();
+    AbstractJob* cur = *mQueue.begin();
     bool finished = cur->execute(elapsedTime);
     if (finished)
     {
@@ -48,6 +54,15 @@ bool JobQueue::execute(Ogre::Real elapsedTime)
         if (cur->destroyWhenDone())
         {
             delete cur;
+        }
+
+        if (mQueue.empty())
+        {
+            mTimeSource = TimeSource::REALTIME_CONTINUOUS;
+        }
+        else
+        {
+            mTimeSource = (*mQueue.begin())->getTimeSource();
         }
     }
 
@@ -61,8 +76,24 @@ bool JobQueue::execute(Ogre::Real elapsedTime)
     }
 }
 
+AbstractJob::JobPersistenceType JobQueue::getPersistenceType() const
+{
+    return AbstractJob::PERSISTENT; ///@todo is this correct?
+}
+
+TimeSource::TimeSourceType JobQueue::getTimeSource() const 
+{
+    return mTimeSource;
+}
+
+const Ogre::String JobQueue::getClassName() const 
+{
+    return "JobQueue";
+}
+
 JobSet::JobSet()
-: Job(false, true)
+: AbstractJob(false, true),
+    mTimeSource(TimeSource::REALTIME_CONTINUOUS)
 {
 }
 
@@ -70,19 +101,20 @@ JobSet::~JobSet()
 {
 }
 
-void JobSet::add(Job* job)
+void JobSet::add(AbstractJob* job)
 {
     mSet.insert(job);
+    update();
 }
 
 bool JobSet::execute(Ogre::Real elapsedTime)
 {
-    std::set<Job*> toDelete;
+    std::set<AbstractJob*> toDelete;
 
-    for (std::set<Job*>::iterator it = mSet.begin(); 
+    for (std::set<AbstractJob*>::iterator it = mSet.begin(); 
         it != mSet.end(); ++it)
     {
-        Job* cur = *it;
+        AbstractJob* cur = *it;
         bool finished = cur->execute(elapsedTime);
         if (finished)
         {
@@ -90,10 +122,10 @@ bool JobSet::execute(Ogre::Real elapsedTime)
         }
     }
 
-    for (std::set<Job*>::iterator it = toDelete.begin(); 
+    for (std::set<AbstractJob*>::iterator it = toDelete.begin(); 
         it != toDelete.end(); ++it)
     {
-        Job* cur = *it;
+        AbstractJob* cur = *it;
         mSet.erase(cur);
         if (cur->isDiscardable())
         {
@@ -105,6 +137,11 @@ bool JobSet::execute(Ogre::Real elapsedTime)
         }
     }
 
+    if (!toDelete.empty()) 
+    {
+        update();
+    }
+
     if (mSet.empty())
     {
         return true;
@@ -114,5 +151,42 @@ bool JobSet::execute(Ogre::Real elapsedTime)
         return false;
     }
 }
+
+void JobSet::update()
+{
+    mTimeSource = TimeSource::REALTIME_CONTINUOUS;
+
+    for (std::set<AbstractJob*>::iterator it = mSet.begin(); 
+        it != mSet.end(); ++it)
+    {
+        AbstractJob* cur = *it;
+        if (cur->getTimeSource() == TimeSource::GAMETIME)
+        {
+            mTimeSource = TimeSource::GAMETIME;
+        }
+        else if (cur->getTimeSource() == TimeSource::REALTIME_INTERRUPTABLE
+            && mTimeSource == TimeSource::REALTIME_CONTINUOUS)
+        {
+            mTimeSource = TimeSource::REALTIME_INTERRUPTABLE;
+        }
+    }
+}
+
+
+AbstractJob::JobPersistenceType JobSet::getPersistenceType() const
+{
+    return AbstractJob::PERSISTENT; ///@todo is this correct?
+}
+
+TimeSource::TimeSourceType JobSet::getTimeSource() const 
+{
+    return mTimeSource;
+}
+
+const Ogre::String JobSet::getClassName() const 
+{
+    return "JobSet";
+}
+
 
 }

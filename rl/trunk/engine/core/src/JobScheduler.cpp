@@ -40,7 +40,7 @@ namespace rl
     {
     }
 
-    unsigned long JobScheduler::addJob(Job* job, JobPriority priority, Real delay, Real maxRuntime,
+    unsigned long JobScheduler::addJob(AbstractJob* job, JobPriority priority, Real delay, Real maxRuntime,
         JobListener* listener)
     {
         unsigned long ticket = ++mTicketCounter;
@@ -50,7 +50,7 @@ namespace rl
         unsigned long start = clock + delay*1000;
         unsigned long end = maxRuntime >= Math::POS_INFINITY ?
             0xffffffff : static_cast<unsigned long>(start + maxRuntime*1000);
-        JobEntry entry = {job, listener, ticket, priority, priority, start, end, 0.0f, false, false};
+        JobEntry entry = {job, listener, ticket, priority, priority, start, end, start, job->getTimeSource(), false, false};
         mJobQueue.push_back(entry);
         return ticket;
     }
@@ -70,9 +70,14 @@ namespace rl
         {
             JobEntry entry = *it;
 
-            TimeSource* ts = TimeSourceManager::getSingleton().getTimeSource(
-                entry.job->getTimeSource());
+            TimeSource::TimeSourceType tst = entry.job->getTimeSource();
+            TimeSource* ts = TimeSourceManager::getSingleton().getTimeSource(tst);
             Time clock = ts->getClock();
+            if (tst != entry.timeSourceLastCall) // time source has changed, e.g. in a job queue
+            {
+                entry.timeLastCall = clock;
+                entry.timeSourceLastCall = tst;
+            }
 
             if (entry.markedToRemove)
             {
@@ -94,7 +99,7 @@ namespace rl
                 {
                     // Yes, pay run fee and execute.
                     entry.tokens = 0;
-                    bool runAgain = !entry.job->execute(entry.timeSinceLastCall + time);
+                    bool runAgain = !entry.job->execute(clock - entry.timeLastCall);
 
                     if (!entry.called)
                     {
@@ -110,7 +115,7 @@ namespace rl
                     {
                         // Job is not done, reset token count and requeue.
                         entry.tokens = entry.priority;
-                        entry.timeSinceLastCall = 0.0f;
+                        entry.timeLastCall = clock;
                         notDone.push_back(entry);
                     }
                     else
@@ -132,7 +137,6 @@ namespace rl
                 {
                     // No, increase token count
                     entry.tokens += entry.priority;
-                    entry.timeSinceLastCall += time;
                     notDone.push_back(entry);
                 }
             }
@@ -200,7 +204,7 @@ namespace rl
                 writer->setAttributeValueAsInteger(jobNode, "tokens", iter->tokens);
                 writer->setAttributeValueAsInteger(jobNode, "start", iter->start);
                 writer->setAttributeValueAsInteger(jobNode, "end", iter->end);
-                writer->setAttributeValueAsReal(jobNode, "timeSinceLastCall", iter->timeSinceLastCall);
+                writer->setAttributeValueAsInt64(jobNode, "timeLastCall", iter->timeLastCall);
                 writer->setAttributeValueAsBool(jobNode, "called", iter->called);
                 writer->setAttributeValueAsStdString(jobNode, "classname", iter->job->getClassName());
 
@@ -240,37 +244,37 @@ namespace rl
         if(rootNodeList->getLength())
         {
             DOMNodeList* xmlJobs = static_cast<DOMElement*>(rootNodeList->item(0))->getElementsByTagName(AutoXMLCh("job").data());
-            if(xmlJobs->getLength())
+            if (xmlJobs->getLength())
             {
-                for(XMLSize_t childIdx1 = 0; childIdx1 < xmlJobs->getLength(); childIdx1++)
+                for (XMLSize_t childIdx1 = 0; childIdx1 < xmlJobs->getLength(); childIdx1++)
                 {
                     DOMNode* xmlJob_ = xmlJobs->item(childIdx1);
-                    if(xmlJob_->getNodeType() == DOMNode::ELEMENT_NODE)
+                    if (xmlJob_->getNodeType() == DOMNode::ELEMENT_NODE)
                     {
                         DOMElement* xmlJob = static_cast<DOMElement*>(xmlJob_);
                         JobPriority priority;
                         unsigned short tokens;
                         int start, end;
-                        Real timeSinceLastCall;
+                        Time timeLastCall;
                         bool called;
                         priority = JobPriority(reader->getAttributeValueAsInteger(xmlJob, "priority"));
                         tokens = reader->getAttributeValueAsInteger(xmlJob, "tokens");
                         start = reader->getAttributeValueAsInteger(xmlJob, "start");
                         end = reader->getAttributeValueAsInteger(xmlJob, "end");
-                        timeSinceLastCall = reader->getAttributeValueAsReal(xmlJob, "timeSinceLastCall");
+                        timeLastCall = reader->getAttributeValueAsInt64(xmlJob, "timeLastCall");
                         called = reader->getAttributeValueAsBool(xmlJob, "called");
 
                         Ogre::String className = reader->getAttributeValueAsStdString(xmlJob, "classname");
 
                         JobCreationMap::iterator it = mJobCreationMap.find(className);
-                        if( it == mJobCreationMap.end() )
+                        if (it == mJobCreationMap.end())
                         {
                             LOG_ERROR(Logger::CORE, "Die Job-Klasse '" + className + "' ist nicht beim JobScheduler registriert!");
                             continue;
                         }
 
-                        Job* job = it->second();
-                        if( job == NULL )
+                        AbstractJob* job = it->second();
+                        if (job == NULL)
                         {
                             LOG_ERROR(Logger::CORE, "Fehler beim Erstellen eines Objekts der Job-Klasse '" + className + "'!");
                             continue;
@@ -282,7 +286,7 @@ namespace rl
                         unsigned long ticket = ++mTicketCounter;
                         TimeSource* ts = TimeSourceManager::getSingleton().getTimeSource(job->getTimeSource());
                         unsigned long clock = ts->getClock();
-                        JobEntry entry = {job, NULL, ticket, priority, tokens, start, end, timeSinceLastCall, called, false};
+                        JobEntry entry = {job, NULL, ticket, priority, tokens, start, end, timeLastCall, TimeSource::UNKNOWN, called, false};
                         mJobQueue.push_back(entry);
                     }
                 }
@@ -299,7 +303,7 @@ namespace rl
 
     CeGuiString JobScheduler::getXmlNodeIdentifier() const
     {
-        static const CeGuiString name = "jobsceduler";
+        static const CeGuiString name = "jobscheduler";
         return name;
     }
 

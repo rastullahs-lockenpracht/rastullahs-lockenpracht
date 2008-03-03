@@ -23,30 +23,40 @@
 namespace rl
 {
 
-    class _RlCoreExport JobQueue : public Job
+    class _RlCoreExport JobQueue : public AbstractJob
     {
     public:
         JobQueue();
         ~JobQueue();
 
-        void add(Job* job);
+        void add(AbstractJob* job);
         virtual bool execute(Ogre::Real elapsedTime);
+        virtual JobPersistenceType getPersistenceType() const;
+        virtual TimeSource::TimeSourceType getTimeSource() const;
+        virtual const Ogre::String getClassName() const;
 
     private:
-        std::list<Job*> mQueue;
+        std::list<AbstractJob*> mQueue;
+        TimeSource::TimeSourceType mTimeSource;
     };
 
-    class _RlCoreExport JobSet : public Job
+    class _RlCoreExport JobSet : public AbstractJob
     {
     public:
         JobSet();
         ~JobSet();
 
-        void add(Job* job);
+        void add(AbstractJob* job);
         virtual bool execute(Ogre::Real elapsedTime);
+        virtual JobPersistenceType getPersistenceType() const;
+        virtual TimeSource::TimeSourceType getTimeSource() const;
+        virtual const Ogre::String getClassName() const;
 
     private:
-        std::set<Job*> mSet;
+        std::set<AbstractJob*> mSet;
+        TimeSource::TimeSourceType mTimeSource;
+
+        void update();
     };
 
 }
