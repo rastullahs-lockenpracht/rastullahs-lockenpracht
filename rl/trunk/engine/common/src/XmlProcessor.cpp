@@ -69,12 +69,11 @@ DOMElement* XmlProcessor::getChildNamed(DOMElement* parent, const char* const na
 	return rval;
 }
 
-DOMElement* XmlProcessor::setValueAsString(DOMDocument* doc, DOMElement *element, const CeGuiString &value) const
+void XmlProcessor::setValueAsString(DOMDocument* doc, DOMElement *element, const CeGuiString &value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setValueAsString: Element must not be NULL");
     DOMText* text = doc->createTextNode(XMLString::transcode(value.c_str()));
     element->appendChild(text);
-    return element;
 }
 
 CeGuiString XmlProcessor::getValueAsString(DOMElement* element) const
@@ -89,13 +88,12 @@ std::string XmlProcessor::getValueAsStdString(DOMElement* element) const
 	return transcodeToStdString( element->getFirstChild()->getNodeValue() );
 }
 
-DOMElement* XmlProcessor::setValueAsUtf8(DOMDocument* doc, DOMElement* element, utf8* value) const
+void XmlProcessor::setValueAsUtf8(DOMDocument* doc, DOMElement* element, utf8* value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setValueAsUtf8: Element must not be NULL");
     CeGuiString temp(value);
     DOMText* text = doc->createTextNode(XMLString::transcode(temp.c_str()));
     element->appendChild(text);
-    return element;
 }
 
 utf8* XmlProcessor::getValueAsUtf8(DOMElement* element) const
@@ -129,31 +127,86 @@ void XmlProcessor::setAttribute(DOMElement* element, const char* const name, con
     element->setAttribute(attrName.data(), XMLString::transcode(value));
 }
 
-DOMElement* XmlProcessor::setAttributeValueAsInteger(DOMElement *element, const char *const name, int value) const
+void XmlProcessor::setAttributeValueAsInteger(DOMElement *element, const char *const name, int value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setAttributeValueAsInteger: Element must not be NULL");
 	AutoXMLCh attrName(name);
     CeGuiString temp = Ogre::StringConverter::toString(value);
     element->setAttribute(attrName.data(), XMLString::transcode(temp.c_str()));
-    return element;
 }
 
 int XmlProcessor::getAttributeValueAsInteger(DOMElement* element,const char* const name) const
 {
     RlAssert(element != NULL, "XmlProcessor::getAttributeValueAsInteger: Element must not be NULL");
 	AutoXMLCh attrName(name);
+    return XMLString::parseInt(element->getAttribute(attrName.data()));
+}
+
+void XmlProcessor::setAttributeValueAsInt64(DOMElement *element, const char *const name, RL_LONGLONG value) const
+{
+    RlAssert(element != NULL, "XmlProcessor::setAttributeValueAsInt64: Element must not be NULL");
+	AutoXMLCh attrName(name);
+    
+    bool negative = false;
+    if (value < 0)
+    {
+        value *= -1;
+        negative = true;
+    }
+
+    CeGuiString temp("");
+    RL_LONGLONG divider = 1000000000;
+    while (value > divider)
+    {
+        RL_LONGLONG remainder = value % divider;
+        temp = Ogre::StringConverter::toString(static_cast<int>(remainder), 8, '0') + temp;
+        value /= divider;
+    }
+
+    if (negative)
+    {
+        temp = "-" + temp;
+    }
+    
+    element->setAttribute(attrName.data(), XMLString::transcode(temp.c_str()));
+}
+
+RL_LONGLONG XmlProcessor::getAttributeValueAsInt64(DOMElement* element,const char* const name) const
+{
+    RlAssert(element != NULL, "XmlProcessor::getAttributeValueAsInteger: Element must not be NULL");
+	AutoXMLCh attrName(name);    
 	const XMLCh* attribute = element->getAttribute(attrName.data());
-	int rVal = XMLString::parseInt(attribute);
+    Ogre::String value = transcodeToStdString(attribute);
+
+    RL_LONGLONG sign = 1;
+    if (value[0] == '-')
+    {
+        sign = -1;
+        value = value.substr(1);
+    }
+
+    RL_LONGLONG rVal = 0;
+    while (value.length() > 8)
+    {
+        RL_LONGLONG curPart = Ogre::StringConverter::parseInt(value.substr(0, 8));
+        for (size_t i = 0; i < value.length() - 8; ++i)
+        {
+            curPart *= 10;
+        }
+        rVal += curPart;
+        value = value.substr(8);
+    }
+
+    rVal += CEGUI::PropertyHelper::stringToInt(value);
 	return rVal;
 }
 
-DOMElement* XmlProcessor::setAttributeValueAsIntegerPair(DOMElement* element, const char* const name, IntPair value) const
+void XmlProcessor::setAttributeValueAsIntegerPair(DOMElement* element, const char* const name, IntPair value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setAttributeValueAsIntegerPair: Element must not be NULL");
 	AutoXMLCh attrName(name);
     CeGuiString temp = Ogre::StringConverter::toString(value.first) + "," + Ogre::StringConverter::toString(value.second);
     element->setAttribute(attrName.data(), XMLString::transcode(temp.c_str()));
-    return element;
 }
 
 IntPair XmlProcessor::getAttributeValueAsIntegerPair(DOMElement* element, const char* const name) const
@@ -176,13 +229,12 @@ IntPair XmlProcessor::getAttributeValueAsIntegerPair(DOMElement* element, const 
     return intPairVal;
 }
 
-DOMElement* XmlProcessor::setAttributeValueAsIntegerTriple(DOMElement *element, const char *const name, Tripel<int> value) const
+void XmlProcessor::setAttributeValueAsIntegerTriple(DOMElement *element, const char *const name, Tripel<int> value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setAttributeValueAsIntegerTriple: Element must not be NULL");
 	AutoXMLCh attrName(name);
     CeGuiString temp = Ogre::StringConverter::toString(value.first) + "," + Ogre::StringConverter::toString(value.second) + "," + Ogre::StringConverter::toString(value.third);
     element->setAttribute(attrName.data(), XMLString::transcode(temp.c_str()));
-    return element;
 }
 
 Tripel<int> XmlProcessor::getAttributeValueAsIntegerTriple(DOMElement* element, const char* const name) const
@@ -207,13 +259,12 @@ Tripel<int> XmlProcessor::getAttributeValueAsIntegerTriple(DOMElement* element, 
     return intTripel;
 }
 
-DOMElement* XmlProcessor::setAttributeValueAsReal(DOMElement *element, const char *const name, Ogre::Real value) const
+void XmlProcessor::setAttributeValueAsReal(DOMElement *element, const char *const name, Ogre::Real value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setAttributeValueAsReal: Element must not be NULL");
 	AutoXMLCh attrName(name);
     CeGuiString temp = Ogre::StringConverter::toString(value);
     element->setAttribute(attrName.data(), XMLString::transcode(temp.c_str()));
-    return element;
 }
 
 Ogre::Real XmlProcessor::getAttributeValueAsReal(DOMElement* element,const char* const name) const
@@ -225,12 +276,11 @@ Ogre::Real XmlProcessor::getAttributeValueAsReal(DOMElement* element,const char*
 	return rVal;
 }
 
-DOMElement* XmlProcessor::setAttributeValueAsString(DOMElement *element, const char *const name, const CeGuiString &value) const
+void XmlProcessor::setAttributeValueAsString(DOMElement *element, const char *const name, const CeGuiString &value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setAttributeValueAsString: Element must not be NULL");
 	AutoXMLCh attrName(name);
     element->setAttribute(attrName.data(), XMLString::transcode(value.c_str()));
-    return element;
 }
 
 CeGuiString XmlProcessor::getAttributeValueAsString(DOMElement* element, const char* const name) const
@@ -252,12 +302,11 @@ CeGuiString XmlProcessor::getAttributeValueAsString(const XERCES_CPP_NAMESPACE::
 	return CeGuiString();
 }
 
-DOMElement* XmlProcessor::setAttributeValueAsStdString(DOMElement *element, const char *const name, const std::string &value) const
+void XmlProcessor::setAttributeValueAsStdString(DOMElement *element, const char *const name, const std::string &value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setAttributeValueAsStdString: Element must not be NULL");
 	AutoXMLCh attrName(name);
     element->setAttribute(attrName.data(), XMLString::transcode(value.c_str()));
-    return element;
 }
 
 std::string XmlProcessor::getAttributeValueAsStdString(DOMElement* element, const char* const name) const
@@ -268,13 +317,12 @@ std::string XmlProcessor::getAttributeValueAsStdString(DOMElement* element, cons
 	return rVal;
 }
 
-DOMElement* XmlProcessor::setAttributeValueAsBool(DOMElement *element, const char *const name, bool value) const
+void XmlProcessor::setAttributeValueAsBool(DOMElement *element, const char *const name, bool value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setAttributeValueAsBool: Element must not be NULL");
 	AutoXMLCh attrName(name);
     CeGuiString temp = Ogre::StringConverter::toString(value);
     element->setAttribute(attrName.data(), XMLString::transcode(temp.c_str()));
-    return element;
 }
 
 bool XmlProcessor::getAttributeValueAsBool(DOMElement* element,const char* const name) const
@@ -286,13 +334,12 @@ bool XmlProcessor::getAttributeValueAsBool(DOMElement* element,const char* const
 		return false;
 }
 
-DOMElement* XmlProcessor::setValueAsInteger(DOMDocument* doc, DOMElement *element, int value) const
+void XmlProcessor::setValueAsInteger(DOMDocument* doc, DOMElement *element, int value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setValueAsInteger: Element must not be NULL");
     CeGuiString temp = Ogre::StringConverter::toString(value);
     DOMText* text = doc->createTextNode(XMLString::transcode(temp.c_str()));
     element->appendChild(text);
-    return element;
 }
 
 int XmlProcessor::getValueAsInteger(DOMElement* element) const
@@ -308,13 +355,12 @@ Ogre::Real XmlProcessor::getValueAsReal(XERCES_CPP_NAMESPACE::DOMElement* elemen
         transcodeToString(element->getFirstChild()->getNodeValue()).c_str());
 }
 
-DOMElement* XmlProcessor::setValueAsIntegerPair(DOMDocument *doc, DOMElement *element, IntPair value) const
+void XmlProcessor::setValueAsIntegerPair(DOMDocument *doc, DOMElement *element, IntPair value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setValueAsIntegerPair: Element must not be NULL");
     CeGuiString temp = CEGUI::PropertyHelper::intToString(value.first) + ',' + CEGUI::PropertyHelper::intToString(value.second);
     DOMText* text = doc->createTextNode(XMLString::transcode(temp.c_str()));
     element->appendChild(text);
-    return element;
 }
 
 IntPair XmlProcessor::getValueAsIntegerPair(DOMElement* element) const
@@ -333,14 +379,13 @@ IntPair XmlProcessor::getValueAsIntegerPair(DOMElement* element) const
     return intPairVal;
 }
 
-DOMElement* XmlProcessor::setValueAsIntegerTriple(DOMDocument *doc, DOMElement *element, Tripel<int> value) const
+void XmlProcessor::setValueAsIntegerTriple(DOMDocument *doc, DOMElement *element, Tripel<int> value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setValueAsIntegerTriple: Element must not be NULL");
     RlAssert(element != NULL, "XmlProcessor::setValueAsIntegerPair: Element must not be NULL");
     CeGuiString temp = CEGUI::PropertyHelper::intToString(value.first) + ',' + CEGUI::PropertyHelper::intToString(value.second) + ',' + CEGUI::PropertyHelper::intToString(value.third);
     DOMText* text = doc->createTextNode(XMLString::transcode(temp.c_str()));
     element->appendChild(text);
-    return element;
 }
 
 Tripel<int> XmlProcessor::getValueAsIntegerTriple(DOMElement *element) const
@@ -361,14 +406,12 @@ Tripel<int> XmlProcessor::getValueAsIntegerTriple(DOMElement *element) const
     return intTripel;
 }
 
-DOMElement* XmlProcessor::setAttributeValueAsVector3( DOMElement *element, const char* const name, Ogre::Vector3 value) const
+void XmlProcessor::setAttributeValueAsVector3( DOMElement *element, const char* const name, Ogre::Vector3 value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setAttributeValueAsVector3: Element must not be NULL");
 	AutoXMLCh attrName(name);
     CeGuiString temp = Ogre::StringConverter::toString(value.x) + "," + Ogre::StringConverter::toString(value.y) + "," + Ogre::StringConverter::toString(value.z);
     element->setAttribute(attrName.data(), XMLString::transcode(temp.c_str()));
-    
-    return element;
 }
 
 Ogre::Vector3 XmlProcessor::getAttributeValueAsVector3(DOMElement* element, const char* const name) const
@@ -393,13 +436,12 @@ Ogre::Vector3 XmlProcessor::getAttributeValueAsVector3(DOMElement* element, cons
     return vec;
 }
 
-DOMElement* XmlProcessor::setValueAsVector3( DOMElement *element, Ogre::Vector3 value) const
+void XmlProcessor::setValueAsVector3( DOMElement *element, Ogre::Vector3 value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setValueAsVector3: Element must not be NULL");
     setAttribute(element, "x", Ogre::StringConverter::toString(value.x).c_str());
     setAttribute(element, "y", Ogre::StringConverter::toString(value.y).c_str());
     setAttribute(element, "z", Ogre::StringConverter::toString(value.z).c_str());
-    return element;
 }
 
 Ogre::Vector3 XmlProcessor::getValueAsVector3(DOMElement* element) const
@@ -416,14 +458,13 @@ Ogre::Vector3 XmlProcessor::getValueAsVector3(DOMElement* element) const
 		getAttributeValueAsReal(element, "z"));
 }
 
-DOMElement* XmlProcessor::setValueAsQuaternion(DOMElement *element, Ogre::Quaternion value) const
+void XmlProcessor::setValueAsQuaternion(DOMElement *element, Ogre::Quaternion value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setValueAsQuaternion: Element must not be NULL");
     setAttribute(element, "x", Ogre::StringConverter::toString(value.x).c_str());
     setAttribute(element, "y", Ogre::StringConverter::toString(value.y).c_str());
     setAttribute(element, "z", Ogre::StringConverter::toString(value.z).c_str());
     setAttribute(element, "w", Ogre::StringConverter::toString(value.w).c_str());
-    return element;
 }
 
 Ogre::Quaternion XmlProcessor::getValueAsQuaternion(DOMElement* element) const
@@ -442,14 +483,12 @@ Ogre::Quaternion XmlProcessor::getValueAsQuaternion(DOMElement* element) const
         getAttributeValueAsReal(element, "w"));
 }
 
-DOMElement* XmlProcessor::setAttributeValueAsQuaternion(DOMElement *element, const char* const name, Ogre::Quaternion value) const
+void XmlProcessor::setAttributeValueAsQuaternion(DOMElement *element, const char* const name, Ogre::Quaternion value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setAttributeValueAsQuaternion: Element must not be NULL");
 	AutoXMLCh attrName(name);
     CeGuiString temp = Ogre::StringConverter::toString(value.w) + "," + Ogre::StringConverter::toString(value.x) + "," + Ogre::StringConverter::toString(value.y) + "," + Ogre::StringConverter::toString(value.z);
     element->setAttribute(attrName.data(), XMLString::transcode(temp.c_str()));
-
-    return element;
 }
 
 Ogre::Quaternion XmlProcessor::getAttributeValueAsQuaternion(DOMElement* element, const char* const name) const
@@ -492,6 +531,11 @@ Ogre::Quaternion XmlProcessor::getAttributeValueAsQuaternion(DOMElement* element
 
         quat = rotX * rotY * rotZ;
     }
+    else 
+    {
+        LOG_ERROR(Logger::COMMON, "'" + value + "' is no valid quaternion. Format is 'w, x, y, z' or 'rotX, rotY, rotZ'.");
+    }
+
     return quat;
 }
 
