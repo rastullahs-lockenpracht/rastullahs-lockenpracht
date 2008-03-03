@@ -101,6 +101,8 @@ namespace rl
         unsigned int generateId();
         PropertyRecord* getClassProperties(const Ogre::String& classId) const;
         void applyProperties(GameObject* go, PropertyRecord* ps) const;
+
+        PropertyMap getPropertyMapDifference(PropertyMap map1, PropertyMap map2);
     };
 }
 

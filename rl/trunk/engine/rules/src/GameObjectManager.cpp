@@ -315,8 +315,9 @@ namespace rl
             writer->setAttributeValueAsString(gameobject, "ClassID", (*it_gameobjects)->getClassId());
             writer->setAttributeValueAsInteger(gameobject, "State", (int)(*it_gameobjects)->getState());
 
-            PropertyMap map = (*it_gameobjects)->getAllProperties()->toPropertyMap();
-            writer->writeEachPropertyToElem(gameobject, map);
+            PropertyMap actualMap = (*it_gameobjects)->getAllProperties()->toPropertyMap();
+
+            writer->writeEachPropertyToElem(gameobject, getPropertyMapDifference(actualMap, getClassProperties((*it_gameobjects)->getClassId())->toPropertyMap()));
         } 
     }
 
@@ -368,5 +369,23 @@ namespace rl
     int GameObjectManager::getPriority() const
     {
         return 100;
+    }
+
+    PropertyMap GameObjectManager::getPropertyMapDifference(PropertyMap map1, PropertyMap map2)
+    {
+        PropertyRecord pr;
+
+        if(!map1.empty() && !map2.empty())
+        {
+            for(PropertyMap::const_iterator iter = map1.begin(); iter != map1.end(); ++iter)
+            {
+                if(map2.find(iter->first) == map2.end())
+                    pr.setProperty(iter->first.c_str(), iter->second);
+                else if(map2.find(iter->first)->second != iter->second)
+                    pr.setProperty(iter->first.c_str(), iter->second);
+            }
+        }
+
+        return pr.toPropertyMap();
     }
 }
