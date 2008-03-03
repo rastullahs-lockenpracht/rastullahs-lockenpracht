@@ -2,8 +2,6 @@
 #include <OgreNewt_TreeCollisionSerializer.h>
 #include <OgreNewt_CollisionPrimitives.h>
 
-#include "Ogre.h"
-
 namespace OgreNewt
 {
   TreeCollisionSerializer::TreeCollisionSerializer()

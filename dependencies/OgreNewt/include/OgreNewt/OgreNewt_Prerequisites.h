@@ -13,7 +13,11 @@
 #ifndef __INCLUDE_OGRENEWT_PREREQ__
 #define __INCLUDE_OGRENEWT_PREREQ__
 
-#include <Ogre.h>
+#ifdef __APPLE__
+#   include <Ogre/Ogre.h>
+#else
+#   include <Ogre.h>
+#endif
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #   define _CDECL _cdecl
@@ -29,6 +33,8 @@
 #   define _CDECL
 #   include <stddef.h>
 #endif
+
+#include <Newton.h>
 
 #endif 
 

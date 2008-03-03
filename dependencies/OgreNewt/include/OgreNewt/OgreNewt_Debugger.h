@@ -12,8 +12,7 @@
 #define _INCLUDE_OGRENEWT_DEBUGGER
 
 
-#include <Ogre.h>
-#include <Newton.h>
+#include "OgreNewt_Prerequisites.h"
 #include "OgreNewt_World.h"
 
 namespace OgreNewt

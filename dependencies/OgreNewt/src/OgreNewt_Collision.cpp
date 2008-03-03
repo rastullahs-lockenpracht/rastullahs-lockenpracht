@@ -1,4 +1,13 @@
-#include <Ogre.h>
+/* 
+ OgreNewt Library
+ 
+ Ogre implementation of Newton Game Dynamics SDK
+ 
+ OgreNewt basically has no license, you may use any or all of the library however you desire... I hope it can help you in any way.
+ 
+ by Walaber
+
+*/
 #include <OgreNewt_Collision.h>
 #include <OgreNewt_World.h>
 #include <OgreNewt_Tools.h>

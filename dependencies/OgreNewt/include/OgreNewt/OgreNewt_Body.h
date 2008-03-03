@@ -16,9 +16,8 @@
 #ifndef _INCLUDE_OGRENEWT_BODY
 #define _INCLUDE_OGRENEWT_BODY
 
+#include "OgreNewt_Prerequisites.h"
 
-#include <Ogre.h>
-#include <Newton.h>
 #include "OgreNewt_World.h"
 #include "OgreNewt_Collision.h"
 #include "OgreNewt_MaterialID.h"

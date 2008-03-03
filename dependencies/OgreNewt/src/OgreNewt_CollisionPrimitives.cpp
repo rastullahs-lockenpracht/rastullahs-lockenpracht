@@ -2,7 +2,6 @@
 #include <OgreNewt_CollisionPrimitives.h>
 #include <OgreNewt_Tools.h>
 
-#include "Ogre.h"
 
 namespace OgreNewt
 {

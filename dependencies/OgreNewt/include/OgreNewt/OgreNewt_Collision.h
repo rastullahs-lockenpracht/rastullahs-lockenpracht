@@ -11,7 +11,7 @@
 #ifndef _INCLUDE_OGRENEWT_COLLISION
 #define _INCLUDE_OGRENEWT_COLLISION
 
-#include <Newton.h>
+#include "OgreNewt_Prerequisites.h"
 #include "OgreNewt_World.h"
 
 // OgreNewt namespace.  all functions and classes use this namespace.

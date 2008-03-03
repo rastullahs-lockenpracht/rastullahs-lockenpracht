@@ -12,8 +12,8 @@
 #define _INCLUDE_OGRENEWT_TOOLS
 
 
-#include <Ogre.h>
-#include <Newton.h>
+#include "OgreNewt_Prerequisites.h"
+
 #include "OgreNewt_World.h"
 #include "OgreNewt_Collision.h"
 

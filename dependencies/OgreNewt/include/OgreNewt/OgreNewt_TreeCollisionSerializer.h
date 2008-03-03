@@ -11,10 +11,8 @@ by Walaber
 #ifndef _INCLUDE_OGRENEWT_TREECOLLISIONSERIALIZER
 #define _INCLUDE_OGRENEWT_TREECOLLISIONSERIALIZER
 
-#include <Newton.h>
+#include "OgreNewt_Prerequisites.h"
 #include "OgreNewt_World.h"
-#include "OgreSerializer.h"
-#include "OgreString.h"
 
 // OgreNewt namespace.  all functions and classes use this namespace.
 namespace OgreNewt
