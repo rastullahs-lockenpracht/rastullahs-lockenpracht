@@ -407,7 +407,7 @@ namespace rl
     class Laufen : public Gehen
     {
     public:
-        Laufen(CreatureController *creature) : Gehen(creature), mTimePerAu(1), mLastProbe(0)
+        Laufen(CreatureController *creature) : Gehen(creature), mTimePerAu(1L), mLastProbe(0)
         {
             mAnim1 = creature->getCreature()->getAnimation("laufen");
         }
