@@ -62,6 +62,8 @@ namespace rl {
 
         Date operator+(const RL_LONGLONG& rhs);
         Date operator-(const RL_LONGLONG& rhs);
+        Date operator*(const Ogre::Real& rhs);
+        Date operator/(const Ogre::Real& rhs);
         RL_LONGLONG operator-(const Date& rhs);
       
         RL_LONGLONG getTimestamp();
