@@ -102,6 +102,7 @@ namespace rl {
         void getFromString(const CeGuiString& string);
 
         bool operator==(const Property& other) const;
+        bool operator!=(const Property& other) const;
 
         bool isEmpty() const;
     private:

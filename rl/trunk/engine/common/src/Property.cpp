@@ -55,6 +55,16 @@ namespace rl {
         return false;
     }
 
+    bool Property::operator !=(const rl::Property &other) const
+    {
+        if (other.getTypeName() == getTypeName())
+        {
+            return other.getAsString() != getAsString();
+        }
+
+        return true;
+    }
+
     Ogre::Real Property::getAsNumber() const
     {
         if (isInt())
