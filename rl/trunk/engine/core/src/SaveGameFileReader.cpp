@@ -22,6 +22,8 @@
 
 #include "SaveGameManager.h"
 
+#include "CoreSubsystem.h"
+
 using namespace XERCES_CPP_NAMESPACE;
 
 namespace rl
@@ -35,6 +37,12 @@ namespace rl
         initializeXml();
 
         mDocument = loadDocument(file->getDataStream());
+
+        int version = getAttributeValueAsInteger(mDocument->getDocumentElement(), "Engineversion");
+        if(version >= CoreSubsystem::getSingleton().getEngineBuildNumber())
+            LOG_MESSAGE(Logger::CORE, "Loading save game: Engine version is ok");
+        else
+            LOG_ERROR(Logger::CORE, "Loading save game: Save game version is newer then engine version! Loading save game could crash");
 
         for(SaveGameDataOrderMap::const_reverse_iterator data_iter = map.rbegin(); data_iter != map.rend(); data_iter++)
         {

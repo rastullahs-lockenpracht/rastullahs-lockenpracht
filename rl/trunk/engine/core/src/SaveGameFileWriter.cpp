@@ -60,7 +60,8 @@ namespace rl
         mDocument->setNodeValue(XMLString::transcode("SaveGameFile")); //Set name of document root node
 
         //Write SaveGameVersion
-        setAttributeValueAsString(mDocument->getDocumentElement(), "Version", "0.1");
+        setAttributeValueAsString(mDocument->getDocumentElement(), "SaveGameFormatVersion", "0.5");
+        setAttributeValueAsInteger(mDocument->getDocumentElement(), "Engineversion", CoreSubsystem::getSingleton().getEngineBuildNumber());
 
         //Write modul of save game
         DOMElement* header = appendChildElement(mDocument, mDocument->getDocumentElement(), "header");
