@@ -24,7 +24,6 @@ namespace rl
     CreatureWalkPathJob::CreatureWalkPathJob(const Ogre::String& name, CreatureController* movingCreature, Landmark* startLandmark)
         : Job(false, true, TimeSource::GAMETIME, Job::FINISH_WHEN_GAME_LOADED), 
         mLandmarkPath("LandmarkPath" + name), 
-        mNextLandmarkRequested(false),
         mWayPoints(NULL),
         mUpdatedDirection(false),
         mTimeSinceLastRotation(0)
@@ -54,7 +53,6 @@ namespace rl
                 mCurrentLandmark = mNextLandmark;
                 mNextLandmark = mLandmarkPath.getPoints().front();
                 mLandmarkPath.removePoint(mNextLandmark);
-                mNextLandmarkRequested = false;
                 if (mWayPoints)
                 {
                     mCurrentWayPath = AStar::search(

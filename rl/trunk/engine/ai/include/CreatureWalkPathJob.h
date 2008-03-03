@@ -67,8 +67,6 @@ namespace rl
         AStar::AStarPath mCurrentWayPath;
         Ogre::Real mTimeSinceLastRotation;
         bool mUpdatedDirection;
-
-        bool mNextLandmarkRequested;
     };
 }
 

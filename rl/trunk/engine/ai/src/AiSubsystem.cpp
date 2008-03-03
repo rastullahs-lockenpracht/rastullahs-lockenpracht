@@ -107,7 +107,7 @@ Landmark* AiSubsystem::createLandmark(const Ogre::String& name, const Ogre::Vect
     Landmark* lm = getLandmark(name);
     if( lm == NULL )
     {
-	    Landmark* lm = new Landmark(name, position);
+	    lm = new Landmark(name, position);
 	    mLandmarks[name] = lm;
     }
     else
