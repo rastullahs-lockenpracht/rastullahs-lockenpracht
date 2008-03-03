@@ -25,6 +25,7 @@ using Ogre::LogManager;
 using Ogre::Singleton;
 
 template<> rl::Logger* Singleton<rl::Logger>::ms_Singleton = 0;
+const char* rl::Logger::COMMON = "Common";
 const char* rl::Logger::RULES = "Rules";
 const char* rl::Logger::CORE = "Core";
 const char* rl::Logger::DIALOG = "Dialog";

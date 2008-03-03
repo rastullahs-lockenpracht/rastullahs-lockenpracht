@@ -30,6 +30,7 @@ namespace rl {
 	{
 	public:
 
+		static const char* COMMON;
 		static const char* RULES;
 		static const char* CORE;
 		static const char* DIALOG;
