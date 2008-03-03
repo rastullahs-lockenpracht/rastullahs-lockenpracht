@@ -1,6 +1,0 @@
-
-material obj_Shortsleeve_2 : Torso_Vertex_Shader_Short
-{
-	set_texture_alias skin men_female_human_diffuse.png
-	set_texture_alias cloth obj_shortsleeve_dummy.png
-}

@@ -17,7 +17,7 @@
     <gameobjectclass classid="men_human_female_cloth_short" baseclass="Armor">
         <property name="name" type="STRING" data="Ledergewand"/>
         <property name="description" type="STRING" data="Blah, Ledergewand, dingsbums"/>
-        <property name="meshfile" type="STRING" data="men_human_female_cloth_short.mesh"/>
+        <property name="meshfile" type="STRING" data="obj_shortsleeve.mesh"/>
         <property name="submeshfile" type="STRING" data="cloth_short.mesh"/>
         <property name="imagename" type="STRING" data="set:ModelThumbnails image:Rucksack"/>
         <property name="mass" type="REAL" data="3.0"/>
