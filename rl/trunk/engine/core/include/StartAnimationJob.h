@@ -14,8 +14,8 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#ifndef __RL_PLAY_ANIMATION_JOB_H__
-#define __RL_PLAY_ANIMATION_JOB_H__
+#ifndef __RL_START_ANIMATION_JOB_H__
+#define __RL_START_ANIMATION_JOB_H__
 
 #include "CorePrerequisites.h"
 #include "Actor.h"
@@ -23,10 +23,8 @@
 
 namespace rl
 {
-    class MeshAnimation;
-
     /// A rl#Job to play an animation.
-    class _RlCoreExport PlayAnimationJob : public Job
+    class _RlCoreExport StartAnimationJob : public Job
     {
     public:
 
@@ -35,23 +33,22 @@ namespace rl
         * @param actor  the actor to invoke the animation from. Animation will be played only, if
         *               the actor has a rl#MeshObject attached.
         * @param anim   the name of the animation to be played.
-        * @param duration the time the animation will be played, if below zero, the animation will be played exactly 1 time
+        * @param doLoop <code>true</code> if animation should be played as a loop,
+        *               <code>false</code> else.
         * @param replaceAllAnims <code>true</code> if all other animations should be stopped,
         *                        when this animation is started, <code>false</code> else.
         */
-        PlayAnimationJob(Actor* actor, const Ogre::String& anim, Ogre::Real duration = -1.0f,
+        StartAnimationJob(Actor* actor, const Ogre::String& anim, bool doLoop=false,
             bool replaceAllAnims=true);
-        virtual ~PlayAnimationJob();
+        virtual ~StartAnimationJob();
 
         virtual bool execute(Ogre::Real time);
 
     private:
         Actor* mActor;
         Ogre::String mAnimName;
-        Ogre::Real mDuration;
-        Ogre::Real mTimeToGo;
+        bool mLoop;
         bool mReplaceAllAnims;
-        MeshAnimation* mAnimation;
     };
 }
 

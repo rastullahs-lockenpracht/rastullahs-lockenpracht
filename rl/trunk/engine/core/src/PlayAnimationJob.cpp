@@ -16,6 +16,7 @@
 #include "stdinc.h" //precompiled header
 
 #include "PlayAnimationJob.h"
+#include "MeshAnimation.h"
 #include "MeshObject.h"
 
 using namespace Ogre;
@@ -23,13 +24,15 @@ using namespace Ogre;
 namespace rl
 {
 
-	PlayAnimationJob::PlayAnimationJob(Actor* actor, const Ogre::String& anim, bool doLoop,
+    PlayAnimationJob::PlayAnimationJob(Actor* actor, const Ogre::String& anim, Ogre::Real duration,
         bool replaceAllAnims)
-        : Job(false, true),
+        : Job(false, true, TimeSource::REALTIME_INTERRUPTABLE),
           mActor(actor),
           mAnimName(anim),
-          mLoop(doLoop),
-          mReplaceAllAnims(replaceAllAnims)
+          mDuration(duration),
+          mReplaceAllAnims(replaceAllAnims),
+          mTimeToGo(0.0),
+          mAnimation(NULL)
     {
     }
 
@@ -39,15 +42,40 @@ namespace rl
 
     bool PlayAnimationJob::execute(Ogre::Real time)
     {
-        if (mActor != NULL)
+        if (!mAnimation)
         {
-            MeshObject* mo = dynamic_cast<MeshObject*>(mActor->getControlledObject());
-            if (mReplaceAllAnims)
+            if (mActor)
             {
-                mo->stopAllAnimations();
+                MeshObject* mo = dynamic_cast<MeshObject*>(mActor->getControlledObject());
+                if (mReplaceAllAnims)
+                {
+                    mo->stopAllAnimations();
+                }
+                
+                if (mDuration < 0.0f)
+                {
+                    mAnimation = mo->startAnimation(mAnimName, 1.0f, 1);
+                    mTimeToGo = mAnimation->getLength();
+                }
+                else
+                {
+                    mAnimation = mo->startAnimation(mAnimName, 1.0f, 0);
+                    mTimeToGo = mDuration;
+                }
             }
-            mo->startAnimation(mAnimName, 1.0f, mLoop ? 0 : 1);
         }
-        return true;
+
+        mTimeToGo -= time;
+
+        if (mTimeToGo <= 0.0f)
+        {
+            if (mAnimation) 
+            {
+                mAnimation->pause();
+            }
+            return true;
+        }
+
+        return false;
     }
 }

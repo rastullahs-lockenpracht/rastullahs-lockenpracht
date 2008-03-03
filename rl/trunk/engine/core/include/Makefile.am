@@ -67,6 +67,7 @@
 	SoundResource.h \
 	SoundFadeJob.h \
 	SoundFadeFunctor.h \
+	StartAnimationJob.h \
 	TimeSource.h \
 	TrackAnimation.h \
 	Trigger.h \

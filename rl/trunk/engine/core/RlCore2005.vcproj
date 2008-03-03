@@ -616,6 +616,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\StartAnimationJob.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\stdinc.h"
 				>
 			</File>
@@ -894,6 +898,10 @@
 			</File>
 			<File
 				RelativePath=".\src\SoundResource.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\StartAnimationJob.cpp"
 				>
 			</File>
 			<File
