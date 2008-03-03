@@ -58,8 +58,8 @@ namespace rl {
         mSaveGameTable = getMultiColumnList("GameSaveLoadWindow/FileSheet/SaveGameTable");
         RlAssert(mSaveGameTable != NULL, "GameSaveLoadWindow/FileSheet/SaveGameTable is null");
 
-        mSaveGameTable->addColumn( (utf8*)"Filename", 0, cegui_reldim(0.7));
-        mSaveGameTable->addColumn( (utf8*)"Date", 1, cegui_reldim(0.3));
+        mSaveGameTable->addColumn( (utf8*)"Filename", 0, cegui_reldim(0.65));
+        mSaveGameTable->addColumn( (utf8*)"Date", 1, cegui_reldim(0.35));
 
         mSaveGameTable->setSelectionMode(MultiColumnList::RowSingle);
         mSaveGameTable->subscribeEvent(MultiColumnList::EventSelectionChanged, boost::bind(&GameSaveLoadWindow::handleSelectSaveGame, this));
