@@ -31,8 +31,24 @@ namespace rl
           mAnimName(anim),
           mDuration(duration),
           mReplaceAllAnims(replaceAllAnims),
+          mLoops(-1),
           mTimeToGo(0.0),
-          mAnimation(NULL)
+          mAnimation(NULL),
+          mAnimationRunning(false)
+    {
+    }
+
+    PlayAnimationJob::PlayAnimationJob(Actor* actor, const Ogre::String& anim, int loops,
+        bool replaceAllAnims)
+        : Job(false, true, TimeSource::REALTIME_INTERRUPTABLE),
+          mActor(actor),
+          mAnimName(anim),
+          mLoops(loops),
+          mDuration(-1),
+          mReplaceAllAnims(replaceAllAnims),
+          mTimeToGo(0.0),
+          mAnimation(NULL),
+          mAnimationRunning(false)
     {
     }
 
@@ -42,27 +58,26 @@ namespace rl
 
     bool PlayAnimationJob::execute(Ogre::Real time)
     {
-        if (!mAnimation)
+        if (mActor && !mAnimationRunning)
         {
-            if (mActor)
+            MeshObject* mo = dynamic_cast<MeshObject*>(mActor->getControlledObject());
+            if (mDuration > 0)
             {
-                MeshObject* mo = dynamic_cast<MeshObject*>(mActor->getControlledObject());
-                if (mReplaceAllAnims)
-                {
-                    mo->stopAllAnimations();
-                }
-                
-                if (mDuration < 0.0f)
-                {
-                    mAnimation = mo->startAnimation(mAnimName, 1.0f, 1);
-                    mTimeToGo = mAnimation->getLength();
-                }
-                else
-                {
-                    mAnimation = mo->startAnimation(mAnimName, 1.0f, 0);
-                    mTimeToGo = mDuration;
-                }
+                mAnimation = mo->startAnimation(mAnimName, 1.0f, 0);
+                mTimeToGo = mDuration;
+                mAnimationRunning = true;
             }
+            else
+            {
+                MeshAnimation* animation = mo->startAnimation(mAnimName, 1.0f, mLoops);
+                mTimeToGo = animation->getLength() * (float)mLoops;
+                mAnimationRunning = true;
+            }
+
+            if (mReplaceAllAnims)
+            {
+                mo->stopAllAnimationsExcept(mAnimName);
+            }                
         }
 
         mTimeToGo -= time;

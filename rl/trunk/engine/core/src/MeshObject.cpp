@@ -218,6 +218,28 @@ namespace rl {
         }
     }
 
+    void MeshObject::stopAllAnimationsExcept(const Ogre::String& animName)
+    {
+        if (getEntity() == NULL) // Entity schon abgebaut?
+        {
+            return;
+        }
+        AnimationStateSet* animStates = getEntity()->getAllAnimationStates();
+        if (animStates != NULL)
+        {
+            AnimationStateIterator iter = animStates->getAnimationStateIterator();
+
+            while (iter.hasMoreElements())
+            {
+                AnimationState* state = iter.getNext();
+                if (state->getAnimationName() != animName)
+                {
+                    stopAnimation( state->getAnimationName() );
+                }
+            }
+        }
+    }
+
     String MeshObject::getObjectType() const
     {
         return "MeshObject";

@@ -111,6 +111,11 @@ static swig_type_info *Job_dynamic_cast(void **ptr) {
       *ptr=pPlayAnimationJob;
       return SWIGTYPE_p_rl__PlayAnimationJob;
     }    
+    rl::StartAnimationJob *pStartAnimationJob = dynamic_cast<rl::StartAnimationJob*>(ppJob);
+    if (pStartAnimationJob){
+      *ptr=pPlayAnimationJob;
+      return SWIGTYPE_p_rl__StartAnimationJob;
+    }    
     rl::PlaySound3dJob *pPlaySound3dJob = dynamic_cast<rl::PlaySound3dJob*>(ppJob);
     if (pPlaySound3dJob){
       *ptr=pPlaySound3dJob;
@@ -843,7 +848,9 @@ private:
 class PlayAnimationJob : public rl::Job
 {
 public:
-    PlayAnimationJob(Actor* actor, const Ogre::String& anim, Ogre::Real duration=-1.0f,
+    PlayAnimationJob(Actor* actor, const Ogre::String& anim, Ogre::Real duration,
+		bool replaceAllAnims=true);
+    PlayAnimationJob(Actor* actor, const Ogre::String& anim, int loops = 1,
 		bool replaceAllAnims=true);
     virtual ~PlayAnimationJob();
     

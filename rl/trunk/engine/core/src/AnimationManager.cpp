@@ -31,7 +31,8 @@ template<> rl::AnimationManager* Ogre::Singleton<rl::AnimationManager>::ms_Singl
 namespace rl
 {
 
-AnimationManager::AnimationManager( ) :
+AnimationManager::AnimationManager( ) 
+:   GameTask(true),
     mStateAnimationMap(),
     mFadeAnimSet(),
     mGlobalAnimationSpeed( 1.0f )
@@ -226,7 +227,7 @@ void AnimationManager::removeAnimation(Ogre::AnimationState* animState)
     {
         BaseAnimation* anim = iter->second;
 
-        // Nicht l�schen, wird noch benutzt
+        // Nicht loeschen, wird noch benutzt
         if( isStillInUse( anim ) )
             return;
 

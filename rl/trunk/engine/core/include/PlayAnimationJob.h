@@ -39,8 +39,21 @@ namespace rl
         * @param replaceAllAnims <code>true</code> if all other animations should be stopped,
         *                        when this animation is started, <code>false</code> else.
         */
-        PlayAnimationJob(Actor* actor, const Ogre::String& anim, Ogre::Real duration = -1.0f,
+        PlayAnimationJob(Actor* actor, const Ogre::String& anim, Ogre::Real duration,
             bool replaceAllAnims=true);
+
+        /**
+        * Job for playing an animation on an actor.
+        * @param actor  the actor to invoke the animation from. Animation will be played only, if
+        *               the actor has a rl#MeshObject attached.
+        * @param anim   the name of the animation to be played.
+        * @param loops  how often the will animation be played
+        * @param replaceAllAnims <code>true</code> if all other animations should be stopped,
+        *                        when this animation is started, <code>false</code> else.
+        */
+        PlayAnimationJob(Actor* actor, const Ogre::String& anim, int loops = 1,
+            bool replaceAllAnims=true);
+
         virtual ~PlayAnimationJob();
 
         virtual bool execute(Ogre::Real time);
@@ -49,9 +62,11 @@ namespace rl
         Actor* mActor;
         Ogre::String mAnimName;
         Ogre::Real mDuration;
+        int mLoops;
         Ogre::Real mTimeToGo;
         bool mReplaceAllAnims;
         MeshAnimation* mAnimation;
+        bool mAnimationRunning;
     };
 }
 

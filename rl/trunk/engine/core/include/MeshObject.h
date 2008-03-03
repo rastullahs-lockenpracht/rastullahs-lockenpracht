@@ -76,7 +76,8 @@ namespace rl {
          */
         void stopAnimation(const Ogre::String& animName);
 
-        void stopAllAnimations( );
+        void stopAllAnimations();
+        void stopAllAnimationsExcept(const Ogre::String& animName);
 
         void setCastShadows (bool enabled);
         bool getCastShadows (void) const;
