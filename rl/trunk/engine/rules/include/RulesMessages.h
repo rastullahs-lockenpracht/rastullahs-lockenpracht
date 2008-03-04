@@ -24,6 +24,8 @@
 
 namespace rl
 {
+	class Combatant;
+
 	/// 0x03xxxxxx as mask for rules messages
     enum RulesMessageTypeIds
     {
@@ -32,11 +34,23 @@ namespace rl
         RLMSG_GAMEEVENTLOG_EVENTS = 0x03000100,
         // Events
         RLMSG_GAMEEVENTLOG_EVENT_ADDED = 0x03000101,
+
+		// Combat
+		// Mask
+		RLMSG_COMBAT_EVENTS = 0x03000200,
+		// Events
+		RLMSG_COMBAT_OPPONENT_ENTERED = 0x03000201,
+		RLMSG_COMBAT_OPPONENT_LEFT = 0x03000202
     };
 
     /// Message sent right after a new game log event has been added.
 	typedef MessageType<RLMSG_GAMEEVENTLOG_EVENT_ADDED, GameEventType, Ogre::String>
 		MessageType_GameEventLog_EventAdded;
 
+	typedef MessageType<RLMSG_COMBAT_OPPONENT_ENTERED, Combatant*>
+		MessageType_CombatOpponentEntered;
+
+	typedef MessageType<RLMSG_COMBAT_OPPONENT_LEFT, Combatant*>
+		MessageType_CombatOpponentLeft;
 }
 #endif

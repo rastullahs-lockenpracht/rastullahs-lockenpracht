@@ -20,6 +20,8 @@
 #include "Combatant.h"
 #include "CreatureController.h"
 #include "GameEventLog.h"
+#include "MessagePump.h"
+#include "RulesMessages.h"
 
 #include <OgreStringConverter.h>
 
@@ -53,24 +55,26 @@ namespace rl
     {
     }
 
-    void Combat::addOpponent(Combatant* Combatant)
+    void Combat::addOpponent(Combatant* combatant)
     {
-        mOpponents.insert(Combatant);
+        mOpponents.insert(combatant);
     }
 
-    void Combat::removeOpponent(Combatant* Combatant)
+    void Combat::removeOpponent(Combatant* combatant)
     {
-        mOpponents.erase(Combatant);
+        mOpponents.erase(combatant);
     }
 
-    void Combat::addAlly(Combatant* Combatant)
+    void Combat::addAlly(Combatant* combatant)
     {
-        mAllies.insert(Combatant);
+        mAllies.insert(combatant);
+		MessagePump::getSingleton().sendMessage<MessageType_CombatOpponentEntered>(combatant);
     }
 
-    void Combat::removeAlly(Combatant* Combatant)
+    void Combat::removeAlly(Combatant* combatant)
     {
-        mAllies.erase(Combatant);
+        mAllies.erase(combatant);
+		MessagePump::getSingleton().sendMessage<MessageType_CombatOpponentLeft>(combatant);
     }
 
     const Combat::CombatantSet& Combat::getAllOpponents() const
@@ -142,13 +146,21 @@ namespace rl
         // Are all combatants registered now?
         if (mCombatantActions.size() == mCombatantQueue.size())
         {
-            endRound();
+            executeRound();
         }
     }
 
+    void Combat::actionExecuted(Combatant*, CombatAction*)
+	{
+	}
+
+    void Combat::executeRound()
+	{
+	}
+
     void Combat::endRound()
     {
-        // All actions are registered. Now we can calculate the combat.
+        // All actions executed. Analyze outcome of this round.
         // 
 
         // Refill combatant queue with combatants that are still alive.

@@ -87,7 +87,7 @@ namespace rl {
 		}
 		mButtons.clear();
 		LOG_DEBUG2(Logger::UI,
-			"Buttons gel�scht", "ActionChoiceWindow::showActionsOfObject");
+			"Buttons gelöscht", "ActionChoiceWindow::showActionsOfObject");
 
 		CEGUI::UVector2 center(cegui_reldim(0.5), cegui_reldim(0.5));
 		static float RADIUS = 0.10;
@@ -248,9 +248,7 @@ namespace rl {
 		Window* button = AbstractWindow::loadWindow("buttons/"+name+".xml");
 		if (button == NULL)
 		{
-			button =
-				AbstractWindow::loadWindow(
-					"buttons/defaultbutton.xml");
+			button = AbstractWindow::loadWindow("buttons/defaultbutton.xml");
 		}
 
 		CEGUI::UVector2 size = button->getSize();
@@ -275,8 +273,7 @@ namespace rl {
 
 		if (button == NULL)
 		{
-			LOG_DEBUG2(Logger::UI,
-				showHide + "NULL", "ActionChoiceWindow::setButtonVisible");
+			LOG_DEBUG2(Logger::UI, showHide + "NULL", "ActionChoiceWindow::setButtonVisible");
 			return true;
 		}
 

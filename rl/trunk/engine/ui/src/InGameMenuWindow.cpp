@@ -65,17 +65,20 @@ void InGameMenuWindow::createMenu(MenuBase* menu)
 			}
 			else
 			{
-				MenuItem* grpItem = static_cast<MenuItem*>(windowMan->createWindow("RastullahLook/MenuItem", getNamePrefix()+"IngameMenu/"+group->getName()));
+				MenuItem* grpItem = static_cast<MenuItem*>(windowMan->createWindow("RastullahLook/MenuItem",
+					getNamePrefix()+"IngameMenu/"+group->getName()));
 				grpItem->setText(group->getName());
 				menu->addChildWindow(grpItem);
 
-				menuGrp = static_cast<PopupMenu*>(windowMan->createWindow("RastullahLook/PopupMenu", getNamePrefix()+"IngameMenu/Menu"+group->getName()));
+				menuGrp = static_cast<PopupMenu*>(windowMan->createWindow("RastullahLook/PopupMenu",
+					getNamePrefix()+"IngameMenu/Menu"+group->getName()));
 				grpItem->addChildWindow(menuGrp);
 
 				menuGroups[group->getName()] = menuGrp;
 			}
 
-			MenuItem* item = static_cast<MenuItem*>(windowMan->createWindow("RastullahLook/MenuItem", getNamePrefix()+"IngameMenu/"+group->getName()+"/"+action->getName()));
+			MenuItem* item = static_cast<MenuItem*>(windowMan->createWindow("RastullahLook/MenuItem",
+				getNamePrefix()+"IngameMenu/"+group->getName()+"/"+action->getName()));
 			item->setText(action->getDescription());
 			menuGrp->addChildWindow(item);
 

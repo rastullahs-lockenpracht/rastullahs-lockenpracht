@@ -45,7 +45,8 @@ namespace rl {
 		  mCombatGui(NULL),
           mEnemySelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager(),
             QUERYFLAG_CREATURE),
-          mCamera(NULL)
+          mCamera(NULL),
+		  mState(ROUND_EXECUTION)
     {
         CreatureSelectionFilter* filter = new CreatureSelectionFilter();
         filter->setAlignmentMask(Creature::ALIGNMENT_ENEMY);
@@ -117,6 +118,7 @@ namespace rl {
 
 	void CombatControlState::run(Ogre::Real elapsedTime)
     {
+		mCombatGui->update();
     }
 
     Ogre::String CombatControlState::getCombatantTypeName() const
@@ -127,5 +129,11 @@ namespace rl {
     void CombatControlState::requestCombatantAction()
     {
         // Change state to allow user to choose actions for next round.
+		mState = REQUEST_USER_INPUT;
+		mCombatGui->enableUserInput(true);
     }
+
+	void CombatControlState::executeAction(CombatAction* action)
+	{
+	}
 }

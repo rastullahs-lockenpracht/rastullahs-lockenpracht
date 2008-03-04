@@ -51,6 +51,7 @@ namespace rl
         // Called by combatants in response to a request by the Combat object.
         // With calling this function combatants register their actions for this round.
         void registerCombatantAction(Combatant*, CombatAction*, CombatAction*, CombatAction*);
+        void actionExecuted(Combatant*, CombatAction*);
 
     private:
         typedef std::vector<std::pair<int, Combatant*> > CombatantQueue;
@@ -69,6 +70,7 @@ namespace rl
         unsigned short mCurrentRound;
 
         void beginRound();
+        void executeRound();
         void endRound();
     };
 }

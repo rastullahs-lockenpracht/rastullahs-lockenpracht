@@ -23,6 +23,8 @@
 #include "OgreRectangle.h"
 #include "Combat.h"
 #include "CombatWindow.h"
+#include "GameLoggerWindow.h"
+#include "MessagePump.h"
 
 namespace rl {
 	
@@ -34,19 +36,40 @@ namespace rl {
 		CombatGui(Combat*, CameraObject* mCamera);
 		virtual ~CombatGui();
 
+		// This function updates the state of the GUI according to combat state.
+		// Markers and buttons are updated to available options and combatant positions.
 		void update();
-
+		// Activate the gui
 		void show();
 		void hide();
 
+		void enableUserInput(bool enable);
+
+		// Message handlers
+
+		bool enemyButtonClicked(int handle, int bottonIndex);
+		bool enemyEnteredCombat(Combatant*);
+		bool enemyLeftCombat(Combatant*);
+
 	private:
+		typedef std::map<Combatant*, int> OpponentButtonsMap;
+
 		CombatWindow* mCombatWindow;
+		GameLoggerWindow* mGameLoggerWindow;
+		OpponentButtonsMap mOpponentButtons;
+
+	    MessagePump::ScopedConnection mEnemyButtonClickedConnection;
+	    MessagePump::ScopedConnection mEnemyEnteredCombatConnection;
+	    MessagePump::ScopedConnection mEnemyLeftCombatConnection;
+
 		Combat* mCombat;
 		CameraObject* mCamera;
         /// Little Helper-MO for visualisation for everything that is difficult with cegui.
         Ogre::ManualObject* mHud;
 
-        Ogre::Rectangle getScreenRectFromWorldAabb(const Ogre::AxisAlignedBox& aabb) const;
+		bool mUserInputEnabled;
+
+        Ogre::FloatRect getScreenRectFromWorldAabb(const Ogre::AxisAlignedBox& aabb) const;
 	};
 }
 

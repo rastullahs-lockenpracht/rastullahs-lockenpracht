@@ -87,6 +87,25 @@ namespace rl {
 		return screenSpacePos;
 	}
 
+	CameraObject::PixelPos CameraObject::getPixelPosOnScreen(float x, float y) const
+	{
+		int width = getCamera()->getViewport()->getActualWidth();
+		int height = getCamera()->getViewport()->getActualHeight();
+
+		int sx = (x + 1.0f) * width / 2.0f;
+		int sy = (-y + 1.0f) * height / 2.0f;
+
+		return PixelPos(sx, sy);
+	}
+
+	Ogre::Rect CameraObject::getPixelRectOnScreen(const Ogre::FloatRect& rect) const
+	{
+		PixelPos leftTop = getPixelPosOnScreen(rect.left, rect.top);
+		PixelPos rightBottom = getPixelPosOnScreen(rect.right, rect.bottom);
+
+		return Ogre::Rect(leftTop.first, leftTop.second, rightBottom.first, rightBottom.second);
+	}
+
 	Vector3 CameraObject::getDirectionFromScreenPosition(
 		const Real& x, const Real& y) const
 	{

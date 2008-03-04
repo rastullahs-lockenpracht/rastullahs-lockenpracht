@@ -19,6 +19,8 @@
 
 #include "RulesPrerequisites.h"
 
+#include "CombatAction.h"
+
 namespace rl
 {
     class Combat;
@@ -39,6 +41,11 @@ namespace rl
         /// The call is not required to be done immediatly,
         /// it can be done synchronously or asynchronously.
         virtual void requestCombatantAction() = 0;
+
+        /// This function is called by the Combat the Combatantant is taking part in,
+        /// in order to request it to execute the registered action.
+		/// When done, Combatant is supposed to call Combat#actionExecuted.
+		virtual void executeAction(CombatAction* action) = 0;
 
         /// Type name used by factory
 		virtual Ogre::String getCombatantTypeName() const = 0;

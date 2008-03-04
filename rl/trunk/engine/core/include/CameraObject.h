@@ -27,6 +27,9 @@ namespace rl {
     class _RlCoreExport CameraObject : public PhysicalObject
     {
     public:
+		// first: x, second: y
+		typedef std::pair<int, int> PixelPos;
+
         CameraObject(const Ogre::String& name);
         ~CameraObject();
 
@@ -62,6 +65,18 @@ namespace rl {
 		 * whether a point was behind the camera (z>0 in this case)
 		 */
 		Ogre::Vector3 getPointOnCeGuiScreen(const Ogre::Vector3& worldCoords) const;
+
+		/** 
+		 * Transforms a point from homogenous Ogre (2D) screen space
+		 * into a pixel position for the current viewport
+		 */
+		PixelPos getPixelPosOnScreen(float x, float y) const;
+
+		/** 
+		 * Transforms a rectangle area from homogenous Ogre (2D) screen space
+		 * into a pixel area for the current viewport
+		 */
+		Ogre::Rect getPixelRectOnScreen(const Ogre::FloatRect&) const;
 
 		/**
 		 * Calculates the direction of the ray originating at the camera and 

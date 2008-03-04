@@ -52,14 +52,18 @@ namespace rl {
 
         virtual Ogre::String getCombatantTypeName() const;
         virtual void requestCombatantAction();
+		virtual void executeAction(CombatAction* action);
 
     private:
+		enum State {REQUEST_USER_INPUT, WAIT_FOR_OTHER_COMBATANTS, ROUND_EXECUTION};
+
         CombatManager* mCombatManager;
 		CombatGui* mCombatGui;
         HalfSphereSelector mEnemySelector;
 
         CameraObject* mCamera;
 
+		State mState;
 	};
 }
 #endif

@@ -46,6 +46,10 @@ namespace rl
         // Think!
     }
 
+	void AgentCombatState::executeAction(CombatAction* action)
+	{
+	}
+
 	void AgentCombatState::update(const float elapsedTime)
     {
         mAgent->updateVehicle(0, elapsedTime);

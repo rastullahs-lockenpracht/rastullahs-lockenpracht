@@ -389,6 +389,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\UiMessages.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\UiPrerequisites.h"
 				>
 			</File>

@@ -21,13 +21,43 @@
 #include "AbstractWindow.h"
 
 namespace rl {
-	
+
 	/// Wraps all cegui gui aspects of the combat gui and is
 	/// controlled by CombatGui class.
 	class _RlUiExport CombatWindow : public AbstractWindow
 	{
 	public:
+		typedef std::pair<int, int> SetSize;
+		static const int ATTACK_BUTTON = 0;
+		static const int PARRY_BUTTON = 1;
+
 		CombatWindow();
+		virtual ~CombatWindow();
+
+		/// On-Screen size in pixels of a set of enemy action buttons (attack, parry, etc)
+		SetSize getButtonSetSize();
+
+		/// Add a set of action buttons for an enemy.
+		int addEnemyButtonSet();
+		/// Remove a set of action buttons for an enemy,
+		/// identified by the handle as given by addEnemyButtonSet.
+		void removeEnemyButtonSet(int handle);
+		/// Position the buttons of an enabled button set.
+		/// x and y are pixels
+		void placeEnemyButtonSet(int handle, int x, int y);
+		/// Enable or disable a button set.
+		void enableEnemyButtonSet(int handle, bool enabled);
+		void enableAllEnemyButtonSets(bool enabled);
+
+	private:
+		typedef std::vector<CEGUI::Window*> ButtonVector;
+		/// Key is the handle as returned by addEnemyButtonSet
+		typedef std::map<int, ButtonVector> ButtonMap;
+
+		ButtonMap mButtons;
+		int mNextHandle;
+		SetSize mSetSize;
+		int mButtonPadding;
 	};
 }
 

@@ -19,12 +19,108 @@
 #include "CoreSubsystem.h"
 #include "ContentModule.h"
 
+#include <CEGUIWindowManager.h>
+
 using namespace CEGUI;
+using namespace Ogre;
 
 namespace rl {
 
-    CombatWindow::CombatWindow() : AbstractWindow("combatwindow.xml", WIT_NONE, false)
+	CombatWindow::CombatWindow()
+		: AbstractWindow("combatwindow.xml", WIT_MOUSE_INPUT, false),
+		  mButtons(),
+		  mNextHandle(0),
+		  mSetSize(),
+		  mButtonPadding(3)
     {
+		int width = 0, height = 0;
+		Window* w = CEGUI::WindowManager::getSingleton().loadWindowLayout("buttons/attack.xml");
+		Size size = w->getPixelSize();
+		height = std::max((int) size.d_height, height);
+		width += (int) size.d_width + mButtonPadding;
+		CEGUI::WindowManager::getSingleton().destroyWindow(w);
+		w = CEGUI::WindowManager::getSingleton().loadWindowLayout("buttons/parry.xml");
+		size = w->getPixelSize();
+		height = std::max((int) size.d_height, height);
+		width += (int) size.d_width;
+		CEGUI::WindowManager::getSingleton().destroyWindow(w);
+		mSetSize = SetSize(width, height);
     }
 
+	CombatWindow::~CombatWindow()
+    {
+		for (ButtonMap::iterator it = mButtons.begin(); it != mButtons.end(); ++it)
+		{
+			for (size_t i = 0; i < it->second.size(); ++i)
+			{
+				CEGUI::WindowManager::getSingleton().destroyWindow(it->second[i]);
+			}
+		}
+    }
+
+	CombatWindow::SetSize CombatWindow::getButtonSetSize()
+	{
+		return mSetSize;
+	}
+
+	int CombatWindow::addEnemyButtonSet()
+	{
+		CeGuiString prefix = CeGuiString("_") + StringConverter::toString(mNextHandle).c_str();
+		ButtonVector buttons;
+		Window* attackButton = CEGUI::WindowManager::getSingleton().loadWindowLayout("buttons/attack.xml", prefix);
+		mWindow->addChildWindow(attackButton);
+		buttons.push_back(attackButton);
+		Window* parryButton = CEGUI::WindowManager::getSingleton().loadWindowLayout("buttons/parry.xml", prefix);
+		mWindow->addChildWindow(parryButton);
+		buttons.push_back(parryButton);
+		mButtons.insert(std::make_pair(mNextHandle, buttons));
+		return mNextHandle++;
+	}
+
+	void CombatWindow::removeEnemyButtonSet(int handle)
+	{
+		ButtonMap::iterator it = mButtons.find(handle);
+		if (it != mButtons.end())
+		{
+			for (size_t i = 0; i < it->second.size(); ++i)
+			{
+				CEGUI::WindowManager::getSingleton().destroyWindow(it->second[i]);
+			}
+			mButtons.erase(it);
+		}
+	}
+
+	void CombatWindow::placeEnemyButtonSet(int handle, int xstart, int y)
+	{
+		ButtonMap::iterator it = mButtons.find(handle);
+		if (it != mButtons.end())
+		{
+			int x = xstart;
+			for (size_t i = 0; i < it->second.size(); ++i)
+			{
+				it->second[i]->setPosition(UVector2(UDim(0, x), UDim(0, y)));
+				x += it->second[i]->getPixelSize().d_width + mButtonPadding;
+			}
+		}
+	}
+
+	void CombatWindow::enableEnemyButtonSet(int handle, bool enabled)
+	{
+		ButtonMap::iterator it = mButtons.find(handle);
+		if (it != mButtons.end())
+		{
+			for (size_t i = 0; i < it->second.size(); ++i)
+			{
+				it->second[i]->setVisible(enabled);
+			}
+		}
+	}
+
+	void CombatWindow::enableAllEnemyButtonSets(bool enabled)
+	{
+		for (ButtonMap::iterator it = mButtons.begin(); it != mButtons.end(); ++it)
+		{
+			enableEnemyButtonSet(it->first, enabled);
+		}
+	}
 }

@@ -102,8 +102,7 @@ namespace rl
 		CEGUI::Window* window = NULL;
 		try
 		{
-			window = CEGUI::WindowManager::getSingleton().loadWindowLayout(xmlfile,
-				prefix);
+			window = CEGUI::WindowManager::getSingleton().loadWindowLayout(xmlfile, prefix);
 		}
 		catch(...)
 		{
