@@ -3,17 +3,31 @@
 	<variable name="geheimnisbekannt" type="BOOL" data="false"/>
 	
 	<start>
-		<response id="0">Du solltest mir nur drohen, wenn Geheimnisbekannt true ist. Geheimnisbekannt ist momentan {$geheimnisbekannt}.
-			<option id="1" label="Abstraktionstext">Selectiontext; nach dem Auswahlklick angezeigt. Jetzt gehts zu Pattern 2.
-				<response id="2">
-					<p>Dies ist Pattern 2</p>
-					<p>Dies ist der zweite Text von Pattern 2</p>
-					<option id="3">Zu Pattern 1.
+		<response id="0">
+      <t language="de">
+        <p>Du solltest mir nur drohen, wenn Geheimnisbekannt true ist. Geheimnisbekannt ist momentan {$geheimnisbekannt}.</p>
+      </t>
+			<option id="1" label="Abstraktionstext">
+        <t language="de" label="Deutscher Abstraktionstext">
+          <p>Selectiontext; nach dem Auswahlklick angezeigt. Jetzt gehts zu Pattern 2.</p>
+        </t>
+        <t language="en" label="English abstractiontext">
+            <p>Selectiontext; shown after a click on the option. Now we go to pattern 2</p>
+        </t>
+          <response id="2">
+            <t language="de">
+              <p>Dies ist Pattern 2</p>
+              <p>Dies ist der zweite Text von Pattern 2</p>
+            </t>
+					<option id="3"><p>Zu Pattern 1.</p><p>Und nochmal Quark</p>
 						<gotoresponse id="0"/>
 					</option>
 				</response>
 			</option>
-			<switchoption id="4">[Dem NSC drohen]
+			<switchoption id="4">
+          <t language="de" label="[Dem NSC auf deutsch drohen]"/>
+          <t language="en" label="[Threaten the NPC in english]"/>
+          <!-- If we use the <t>-Tag, the following will be ignored-->[Dem NSC drohen]
 				<dialogvariable name="geheimnisbekannt"/>
 				<case><equals value="false"/>
 					<option id="5">Ich drohe dir, kenne aber dein Geheimnis nicht!
