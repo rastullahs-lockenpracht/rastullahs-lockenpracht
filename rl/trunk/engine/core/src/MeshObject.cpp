@@ -279,7 +279,7 @@ namespace rl {
 		AnimationStateSet* ass = entity->getAllAnimationStates();
 
 		// Test if wanted anim is available for the entity
-		if (!ass->hasAnimationState(animName))
+		if (!ass || !ass->hasAnimationState(animName))
 		{
 			Throw(IllegalArgumentException, String("No animation " + animName +
 				" for entity " + entity->getName()));

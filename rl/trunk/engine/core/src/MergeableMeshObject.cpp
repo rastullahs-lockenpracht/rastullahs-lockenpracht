@@ -68,12 +68,29 @@ namespace rl
 				for (MeshPartMap::const_iterator it = mMeshes.begin(); it != mMeshes.end(); ++it)
 				{
 					String curMeshfile = (*it).second;
-					MeshPtr meshToAdd = MeshManager::getSingleton().load(curMeshfile, "regressiontest"); ///@todo this is just for testing
-					mm.addMesh(meshToAdd);
-				}
+                    MeshPtr meshToAdd = MeshManager::getSingleton().getByName(curMeshfile);  
 
+                    if (!meshToAdd.isNull())
+                    {
+                        meshToAdd->load();
+
+                        try 
+                        {
+	    				    mm.addMesh(meshToAdd);
+                        }
+                        catch (const std::logic_error& ex)
+                        {
+                            LOG_ERROR(Logger::CORE, ex.what());
+                        }
+                    }
+                    else
+                    {
+                        LOG_ERROR(Logger::CORE, "Mesh '" + curMeshfile + "' could not be found for merging.");
+                    }
+				}
 				newMesh = mm.bake(newMeshName);
 			}
+
 
 			switchTo(newMesh);
 
