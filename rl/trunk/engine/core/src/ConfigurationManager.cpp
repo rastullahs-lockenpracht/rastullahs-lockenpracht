@@ -122,6 +122,8 @@ namespace rl
         addSetting("MovementController keys", "toggle_view_mode", "F");
         addSetting("MovementController keys", "reset_camera", "0 (Nummernblock)");
 
+        addSetting("Localization", "language", "de");
+
         setRastullahCfgPath();
     }
 

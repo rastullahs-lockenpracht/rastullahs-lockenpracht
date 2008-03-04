@@ -64,13 +64,13 @@ namespace rl
 
         virtual std::list<DialogParagraph*> getParagraphs(Dialog* dialog)
         {
+            RlAssert(dialog, "No dialog given! Possible reason: DialogSelection has no label set");
             DialogElementType* selectedElem = getSelectedElement(dialog);
 
             if (selectedElem)
             {
                 return selectedElem->getParagraphs(dialog);
             }
-            
             std::list<DialogParagraph*> empty;
             return empty;
         }

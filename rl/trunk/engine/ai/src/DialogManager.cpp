@@ -30,6 +30,7 @@
 #include "DialogVariable.h"
 #include "GameObjectManager.h"
 #include "XmlPropertyReader.h"
+#include "ConfigurationManager.h"
 
 using namespace Ogre;
 using namespace XERCES_CPP_NAMESPACE;
@@ -275,7 +276,9 @@ namespace rl
         DialogResponse* response = dialogPrototype->getResponse(id);
 
         if (!response)  Throw(IllegalArgumentException, "No response with ID "+StringConverter::toString(id));
-
+        
+        bool languageDefined = false;
+        DOMElement* defaultLanguage = NULL;
         if (subelements)
         {
             bool paragraphsDefined = false;
@@ -301,6 +304,24 @@ namespace rl
                     response->addParagraph(processParagraph(static_cast<DOMElement*>(cur)));
                     paragraphsDefined = true;
                 }
+                // process translations
+                else if (hasNodeName(cur, "t"))
+                {
+                    DOMElement* translation = static_cast<DOMElement*>(cur);
+                    // check loca
+                    if(getAttributeValueAsStdString(translation, "language") 
+                        == ConfigurationManager::getSingleton().getStringSetting("Localization", "language"))
+                    {
+                        processTranslation(response, translation);
+                        languageDefined = true;
+                    }
+                    // set german as default language
+                    if(getAttributeValueAsStdString(translation, "language") == "de")
+                    {
+                        defaultLanguage = translation;
+                    }
+                    paragraphsDefined = true;
+                }
                 else if (hasNodeName(cur, "gotoresponse"))
                 {
                     int id = getAttributeValueAsInteger(static_cast<DOMElement*>(cur), "id");
@@ -314,6 +335,14 @@ namespace rl
                 response->addParagraph(new DialogParagraph(responseXmlText));
             }
         }            
+        // use german as the default language if german is not set as
+        // default language but no other language was found!
+        if(!languageDefined && defaultLanguage != NULL 
+            && ConfigurationManager::getSingleton().getStringSetting("Localization", "language") != "de")
+        {
+            processTranslation(response, defaultLanguage);
+            languageDefined = true;
+        }
 
         return response;
     }
@@ -376,6 +405,9 @@ namespace rl
 
         if (!option)    Throw(IllegalArgumentException, "No option with ID "+StringConverter::toString(id));
 
+        bool languageDefined = false;
+        DOMElement* defaultLanguage = NULL;
+
         if (subelements)
         {
             bool paragraphsDefined = false;
@@ -396,6 +428,30 @@ namespace rl
                     option->addParagraph(processParagraph(static_cast<DOMElement*>(cur)));
                     paragraphsDefined = true;
                 }
+                // process translations
+                else if (hasNodeName(cur, "t"))
+                {
+                    DOMElement* translation = static_cast<DOMElement*>(cur);
+                    // check loca
+                    if(getAttributeValueAsStdString(translation, "language") 
+                        == ConfigurationManager::getSingleton().getStringSetting("Localization", "language"))
+                    {
+                        defaultLanguage = translation;
+                        processTranslation(option, translation);
+                        std::string label = getAttributeValueAsStdString(translation, "label");
+                        if(!label.empty())
+                        {
+                            option->setLabel(label);
+                        }
+                        languageDefined = true;
+                    }
+                    // set german as default language
+                    if(getAttributeValueAsStdString(translation, "language") == "de")
+                    {
+                        defaultLanguage = translation;
+                    }
+                    paragraphsDefined = true;
+                }
             }
 
             if (!paragraphsDefined)
@@ -403,6 +459,19 @@ namespace rl
                 CeGuiString optionXmlText = getValueAsString(optionXml);
                 option->addParagraph(new DialogParagraph(optionXmlText));
             }
+        }
+        // use german as the default language if german is not set as
+        // default language but no other language was found!
+        if(!languageDefined && defaultLanguage != NULL 
+            && ConfigurationManager::getSingleton().getStringSetting("Localization", "language") != "de")
+        {
+            processTranslation(option, defaultLanguage);
+            std::string label = getAttributeValueAsStdString(defaultLanguage, "label");
+            if(!label.empty())
+            {
+                option->setLabel(label);
+            }
+            languageDefined = true;
         }
 
         return option;
@@ -434,6 +503,21 @@ namespace rl
                          break;
                     }
                 }               
+            }
+            // process translations
+            else if (hasNodeName(cur, "t"))
+            {
+                DOMElement* translation = static_cast<DOMElement*>(cur);
+                // check loca
+                if(getAttributeValueAsStdString(translation, "language") == 
+                    ConfigurationManager::getSingleton().getStringSetting("Localization", "language"))
+                {
+                    std::string label = getAttributeValueAsStdString(translation, "label");
+                    if(!label.empty())
+                    {
+                        option->setLabel(label);
+                    }
+                } 
             }
         }
             
@@ -730,5 +814,16 @@ namespace rl
         }
 
         return NULL;
+    }
+
+    void DialogManager::processTranslation(DialogElement* element, DOMNode* translationXml)
+    {
+        for (DOMNode* cur = translationXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+        {
+            if (hasNodeName(cur, "p"))
+            {
+                element->addParagraph(processParagraph(static_cast<DOMElement*>(cur)));
+            }
+        }
     }
 }

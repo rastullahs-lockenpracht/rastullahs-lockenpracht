@@ -24,6 +24,8 @@ namespace rl
         const CeGuiString& text, const Ogre::String& voicefile)
     : mText(text), mVoiceFile(voicefile)
     {
+        // for debug information
+        mText.c_str();
     }
 
     DialogParagraph::~DialogParagraph(void)

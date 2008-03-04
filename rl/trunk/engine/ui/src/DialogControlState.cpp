@@ -277,10 +277,12 @@ namespace rl {
         CeGuiString text = paragraph->getText();
         processTextVariables(text);
 
-        recalculateCamera(mCurrentSpeaker, mCurrentListener);
+        recalculateCamera(mCurrentListener, mCurrentSpeaker);
 
         Actor* actor = mCurrentSpeaker->getActor();
-
+        // @todo: find out why we don't here anything if the sound is attached to the player
+        // atm, we attach it everytime to the npc to here at least anything
+        actor = mDialog->getNpc(0)->getActor();
         // Ungefähre Lesedauer bestimmen
         float fadeTime = getShowTextLength(text);
         if (soundFile.length() == 0)
@@ -390,18 +392,25 @@ namespace rl {
 
 		mDialogWindow->setVisible(false);
 
-        mCurrentListener = mCurrentSpeaker;
+        mCurrentListener = mDialog->getPc(0);
         mCurrentSpeaker = mCurrentResponse->getNpc(mDialog);
         mCurrentParagraphs = mCurrentResponse->getParagraphs(mDialog);
-        DialogParagraph* firstParagraph = mCurrentParagraphs.front();
-        mCurrentResponse->applyImplications(mDialog);
-        if (!firstParagraph->getResponse())
+        if(!mCurrentParagraphs.empty())
         {
-            doTalk(firstParagraph);
+            DialogParagraph* firstParagraph = mCurrentParagraphs.front();
+            mCurrentResponse->applyImplications(mDialog);
+            if (!firstParagraph->getResponse())
+            {
+                doTalk(firstParagraph);
+            }
+            else
+            {
+                showResponse(firstParagraph->getResponse());
+            }
         }
         else
         {
-            showResponse(firstParagraph->getResponse());
+            handleDialogClose();
         }
 	}
 
@@ -430,8 +439,8 @@ namespace rl {
         {
 		    if (mState == TALKING_PARTNER_CHARACTER)
 		    {
-                mCurrentListener = mCurrentSpeaker;
-                mCurrentSpeaker = mCharacter;
+                mCurrentListener = mCurrentResponse->getNpc(mDialog);
+                mCurrentSpeaker = mDialog->getPc(0);
 
                 DialogResponse::Options options = mCurrentResponse->getAvailableOptions(mDialog);
                 mDialogWindow->setAvailableOptions(options);
@@ -461,7 +470,7 @@ namespace rl {
 			mCurrentOption = option;
 		}
         mState = TALKING_PLAYER_CHARACTER;
-        mCurrentListener = mCurrentSpeaker;
+        mCurrentListener = mDialog->getNpc(0);
         mCurrentSpeaker = mDialog->getPc(0); ///@todo allow char switch 
         mCurrentParagraphs = mCurrentOption->getParagraphs(mDialog);
         doTalk(mCurrentParagraphs.front());
@@ -476,20 +485,28 @@ namespace rl {
 		mSubtitleWindow->setVisible(false, true);
         mDialogWindow = NULL;
         mSubtitleWindow = NULL;
-        const std::vector<Creature*> list = mDialog->getPlayerCharacters();
-        for (std::vector<Creature*>::const_iterator it = list.begin(); it != list.end(); ++it)
+        if (mDialog != NULL)
         {
-            Actor* actor = (*it)->getActor();
-            if (actor != NULL)
+            const std::vector<Creature*> list = mDialog->getPlayerCharacters();
+            for (std::vector<Creature*>::const_iterator it = list.begin(); it != list.end(); ++it)
             {
-                MeshObject* mesh = dynamic_cast<MeshObject*>(actor->getControlledObject());
-                if (mesh != NULL && mesh->hasAnimation("reden"))
+                Actor* actor = (*it)->getActor();
+                if (actor != NULL)
                 {
-                    mesh->stopAnimation("reden");
-                }
-            }        
+                    MeshObject* mesh = dynamic_cast<MeshObject*>(actor->getControlledObject());
+                    if (mesh != NULL && mesh->hasAnimation("reden"))
+                    {
+                        mesh->stopAnimation("reden");
+                    }
+                }        
+            }
+            return true;
         }
-		return true;
+        else
+        {
+            LOG_ERROR(Logger::UI, "There is no Dialog to be closed!");
+            return false;
+        }
 	}
 
 	bool DialogControlState::requestDialogClose()
