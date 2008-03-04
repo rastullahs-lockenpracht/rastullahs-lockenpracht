@@ -100,20 +100,17 @@ namespace rl {
     bool MainMenuLoadWindow::handleLoadEvent()
     {
         LOG_MESSAGE(Logger::UI, "Load Button pressed");
-
-		setVisible(false);
-		mMainMenuWindow->setVisible(false);
-
-		if(mSaveGameTable->getFirstSelectedItem())
+        if(mSaveGameTable->getFirstSelectedItem())
 		{
-			CEGUI::uint SelectedRow = mSaveGameTable->getRowWithID(mSaveGameTable->getFirstSelectedItem()->getID());
-			CeGuiString moduleName = mSaveGameTable->getItemAtGridReference(CEGUI::MCLGridRef(SelectedRow,1))->getText();
+            setVisible(false);
+		    mMainMenuWindow->setVisible(false);
+		
+            CeGuiString moduleId = ((SaveGameFile*)mSaveGameTable->getFirstSelectedItem()->getUserData())->getProperty(SaveGameFile::PROPERTY_MODULEID).toString();
 			ContentModule* module = NULL;
-			module = CoreSubsystem::getSingleton().getModule(moduleName.c_str());
+			module = CoreSubsystem::getSingleton().getModule(moduleId.c_str());
 			assert(module != NULL /*MainMenuLoadWindow::handleLoadEvent()*/);
 			CoreSubsystem::getSingleton().startAdventureModule(module);
-			CeGuiString saveGameName = mSaveGameTable->getItemAtGridReference(CEGUI::MCLGridRef(SelectedRow,0))->getText();
-			SaveGameManager::getSingleton().loadSaveGameFile(saveGameName, moduleName);
+			SaveGameManager::getSingleton().loadSaveGameFile(((SaveGameFile*)mSaveGameTable->getFirstSelectedItem()->getUserData())->getId());
 		}
 
         return true;
@@ -149,10 +146,15 @@ namespace rl {
 
         for(SaveGameEntryMap::iterator it = saveGames.begin(); it != saveGames.end(); it++)
         {
-            mSaveGameTable->setUserData(it->second);
-            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getName()), 0, saveGameNum);
-            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_MODULENAME).toString()), 1, saveGameNum);
-            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_TIME).toString()), 2, saveGameNum);
+            CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem(it->second->getName());
+            item->setUserData(it->second);
+            mSaveGameTable->setItem(item, 0, saveGameNum);
+            item = new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_MODULENAME).toString());
+            item->setUserData(it->second);
+            mSaveGameTable->setItem(item, 1, saveGameNum);
+            item = new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_TIME).toString());
+            item->setUserData(it->second);
+            mSaveGameTable->setItem(item, 2, saveGameNum);
             saveGameNum++;
         }
         /*mSaveGameTable->autoSizeColumnHeader(0);

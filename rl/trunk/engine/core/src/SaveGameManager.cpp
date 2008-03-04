@@ -238,7 +238,7 @@ namespace rl
         {
             mHighestSaveGameNumber = std::max(mHighestSaveGameNumber, Ogre::StringConverter::parseInt(name));
 
-            SaveGameFile* file = new SaveGameFile("", mHighestSaveGameNumber);        
+            SaveGameFile* file = new SaveGameFile("", Ogre::StringConverter::parseInt(name));        
             
             LOG_MESSAGE(Logger::RULES, "Parsing header of save game: " + name + ".save");
             SaveGameFileReader reader;
