@@ -85,7 +85,7 @@ namespace rl {
 		Property();
 
         PropertyMethod(Bool, const bool&);
-        PropertyMethod(String, const CeGuiString&);
+        PropertyMethod(String, CEGUI::String);
         PropertyMethod(Int, const int&);
         PropertyMethod(Real, const Ogre::Real&);
         PropertyMethod(Vector3, const Ogre::Vector3&);
@@ -157,7 +157,8 @@ namespace rl {
     {
         for (PropertyMap::const_iterator it = propmap.begin(); it != propmap.end(); ++it)
         {
-            output[it->first] = it->second;
+	    T temp = it->second; // needed for GCC, else there is ambiguous operator CEGUI::String::=
+            output[it->first] = temp;
         }
     }
     
