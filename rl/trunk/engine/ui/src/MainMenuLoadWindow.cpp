@@ -127,10 +127,10 @@ namespace rl {
 
         if(mSaveGameTable->getFirstSelectedItem())
 		{
-            CEGUI::uint SelectedRow = mSaveGameTable->getRowWithID(mSaveGameTable->getFirstSelectedItem()->getID());
-            CeGuiString moduleName = mSaveGameTable->getItemAtGridReference(CEGUI::MCLGridRef(SelectedRow,1))->getText();
-            CeGuiString saveGameName = mSaveGameTable->getItemAtGridReference(CEGUI::MCLGridRef(SelectedRow,0))->getText();
-            SaveGameManager::getSingleton().deleteSaveGameFile(saveGameName, moduleName);
+            mSaveGameTable->getRowWithID(mSaveGameTable->getFirstSelectedItem()->getID());
+            
+            SaveGameManager::getSingleton().deleteSaveGameFile(
+                ((SaveGameFile*)mSaveGameTable->getFirstSelectedItem()->getUserData())->getId());
         }
 
         return true;
@@ -149,9 +149,9 @@ namespace rl {
 
         for(SaveGameEntryMap::iterator it = saveGames.begin(); it != saveGames.end(); it++)
         {
+            mSaveGameTable->setUserData(it->second);
             mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getName()), 0, saveGameNum);
             mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_MODULENAME).toString()), 1, saveGameNum);
-            LOG_MESSAGE(Logger::UI, "Module ID: " + it->second->getProperty(SaveGameFile::PROPERTY_MODULENAME).toString());
             mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_TIME).toString()), 2, saveGameNum);
             saveGameNum++;
         }

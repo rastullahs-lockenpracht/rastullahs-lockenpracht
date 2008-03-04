@@ -144,11 +144,36 @@ namespace rl
         }
     }
 
+    void SaveGameManager::loadSaveGameFile(int id)
+    {
+        if(mSaveGames.find(id) == mSaveGames.end())
+        {
+            MessagePump::getSingleton().sendMessage<MessageType_SaveGameLoading>();
+
+            SaveGameFile* file = getSaveGameFile(id);
+            SaveGameFileReader reader;
+            reader.parseSaveGameFile(file, mSaveGameDataOrderMap);
+            ///@todo: SaveGameReader
+
+            MessagePump::getSingleton().sendMessage<MessageType_SaveGameLoaded>();
+        }
+    }
+
     void SaveGameManager::deleteSaveGameFile(const CeGuiString &name, const CeGuiString &moduleId)
     {
         if(SaveGameFileExists(name, moduleId))
         {
             int id = getSaveGameId(name, moduleId);
+            static_cast<SaveGameFile*>(mSaveGames[id])->deleteFileFromStorage();
+            delete mSaveGames[id];
+            mSaveGames.erase(id);
+        }
+    }
+
+    void SaveGameManager::deleteSaveGameFile(int id)
+    {
+        if(mSaveGames.find(id) == mSaveGames.end())
+        {
             static_cast<SaveGameFile*>(mSaveGames[id])->deleteFileFromStorage();
             delete mSaveGames[id];
             mSaveGames.erase(id);
@@ -171,6 +196,13 @@ namespace rl
     {
         if(SaveGameFileExists(name, moduleId))
             return mSaveGames[getSaveGameId(name, moduleId)];
+        return NULL;
+    }
+
+    SaveGameFile* SaveGameManager::getSaveGameFile(int id)
+    {
+        if(mSaveGames.find(id) == mSaveGames.end())
+            return mSaveGames[id];
         return NULL;
     }
 
