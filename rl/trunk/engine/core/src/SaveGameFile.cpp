@@ -68,7 +68,7 @@ namespace rl
     {
         Ogre::ResourceGroupManager::getSingleton().createResourceGroup("SaveGame");
 
-        mScriptPatterns.push_back((mName + "." + mModuleID + ".save").c_str());
+        mScriptPatterns.push_back((Ogre::StringConverter::toString(mSaveGameId) + ".save").c_str());
 
         Ogre::ResourceGroupManager::getSingleton()._registerScriptLoader(this);
 
