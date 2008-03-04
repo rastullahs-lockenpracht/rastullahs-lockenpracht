@@ -34,32 +34,42 @@ namespace rl
     public:
         static const Ogre::String PROPERTY_MODULEID;
         static const Ogre::String PROPERTY_TIME;
+        static const Ogre::String PROPERTY_NAME;
+        static const Ogre::String PROPERTY_MODULENAME;
 
-        SaveGameFile(const CeGuiString &name);
+        SaveGameFile(const CeGuiString &name, int id = 0);
         ~SaveGameFile();
         CeGuiString buildFilename();
         CeGuiString getName();
+        int getId();
         bool saveGameExists();
 
+        //access to file
         Ogre::DataStreamPtr &getDataStream();
         void closeDataStream();
         XERCES_CPP_NAMESPACE::XMLFormatTarget* getFormatTarget();
         void deleteFileFromStorage();
 
+        //data to be saved
         virtual const Ogre::StringVector&  getScriptPatterns(void) const;
         virtual void parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);
         virtual Ogre::Real getLoadingOrder(void) const;
 
+        //propertyholder
         virtual const Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const Property& value);
         virtual PropertyRecord* getAllProperties() const;
     protected:
+        //properties
         CeGuiString mName;
         CeGuiString mModuleID;
+        CeGuiString mModuleName;
         CeGuiString mLocalTime;
 
+        //file access
         Ogre::StringVector mScriptPatterns;
         Ogre::DataStreamPtr mStream;
+        int mSaveGameId;
     };
 }
 

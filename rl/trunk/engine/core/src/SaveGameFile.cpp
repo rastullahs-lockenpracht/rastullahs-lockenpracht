@@ -17,6 +17,7 @@
 #include "stdinc.h" //precompiled header
 
 #include "SaveGameFile.h"
+#include "SaveGameManager.h"
 #include "OgreString.h"
 #include <xercesc/framework/LocalFileFormatTarget.hpp>
 
@@ -28,11 +29,14 @@ namespace rl
 {
     const Ogre::String SaveGameFile::PROPERTY_MODULEID = "moduleid";
     const Ogre::String SaveGameFile::PROPERTY_TIME = "time";
+    const Ogre::String SaveGameFile::PROPERTY_NAME = "name";
+    const Ogre::String SaveGameFile::PROPERTY_MODULENAME = "modulename";
 
 
-    SaveGameFile::SaveGameFile(const CeGuiString &name) : mStream((Ogre::DataStream*)NULL)
+    SaveGameFile::SaveGameFile(const CeGuiString &name, int id) : mStream((Ogre::DataStream*)NULL)
     {
-        mName = name;
+        setProperty(PROPERTY_NAME,name);
+        mSaveGameId = id;
     }
 
     SaveGameFile::~SaveGameFile()
@@ -42,15 +46,22 @@ namespace rl
     CeGuiString SaveGameFile::buildFilename()
     {
 #       if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
-        return Ogre::String(::getenv("HOME")) + "/.rastullah/saves/" + mName + "." + mModuleID + ".save";
+        return Ogre::String(::getenv("HOME")) + "/.rastullah/saves/" 
+            + Ogre::StringConverter::toString(mSaveGameId) + ".save";
 #       else
-        return ConfigurationManager::getSingleton().getModulesRootDirectory() + "/saves/" + mName + "." + mModuleID + ".save";
+        return ConfigurationManager::getSingleton().getModulesRootDirectory() + "/saves/" 
+            + Ogre::StringConverter::toString(mSaveGameId) + ".save";
 #       endif        
     }
 
     CeGuiString SaveGameFile::getName()
     {
-        return mName;
+        return getProperty(PROPERTY_NAME);
+    }
+
+    int SaveGameFile::getId()
+    {
+        return mSaveGameId;
     }
 
     Ogre::DataStreamPtr &SaveGameFile::getDataStream()
@@ -102,6 +113,10 @@ namespace rl
             return Property(mModuleID);
         else if(key == PROPERTY_TIME)
             return Property(mLocalTime);
+        else if(key == PROPERTY_MODULENAME)
+            return Property(mModuleName);
+        else if(key == PROPERTY_NAME)
+            return Property(mName);
         else
             return Property();
     }
@@ -118,6 +133,16 @@ namespace rl
             if(value.isString())
                 mLocalTime = value.toString();
         }
+        else if(key == PROPERTY_NAME)
+        {
+            if(value.isString())
+                mName = value.toString();
+        }
+        else if(key == PROPERTY_MODULENAME)
+        {
+            if(value.isString())
+                mModuleName = value.toString();
+        }
     }
 
     PropertyRecord* SaveGameFile::getAllProperties() const
@@ -125,6 +150,8 @@ namespace rl
         PropertyRecord* set = new PropertyRecord();
         set->setProperty(PROPERTY_MODULEID, getProperty(PROPERTY_MODULEID));
         set->setProperty(PROPERTY_TIME, getProperty(PROPERTY_TIME));
+        set->setProperty(PROPERTY_NAME, getProperty(PROPERTY_NAME));
+        set->setProperty(PROPERTY_MODULENAME, getProperty(PROPERTY_MODULENAME));
         return set;
     }
 

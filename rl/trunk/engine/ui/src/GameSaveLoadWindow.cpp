@@ -184,7 +184,7 @@ namespace rl {
 
         for(SaveGameEntryMap::iterator it = saveGames.begin(); it != saveGames.end(); it++)
         {
-            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->first.first), 0, saveGameNum);
+            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getName()), 0, saveGameNum);
             mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_TIME)), 1, saveGameNum);
             saveGameNum++;
         }

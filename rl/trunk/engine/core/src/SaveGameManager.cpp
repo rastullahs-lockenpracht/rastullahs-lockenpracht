@@ -54,7 +54,7 @@ namespace rl
         return string;
     }
 
-    SaveGameManager::SaveGameManager()
+    SaveGameManager::SaveGameManager() : mHighestSaveGameNumber(0)
     { 
         Ogre::ResourceGroupManager::getSingleton().createResourceGroup("SaveGames");
 
@@ -82,7 +82,7 @@ namespace rl
         SaveGameEntryMap entries;
         for(SaveGameEntryMap::const_iterator iter = mSaveGames.begin(); iter != mSaveGames.end(); iter++)
         {
-            if(iter->first.second == moduleId)
+            if(iter->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString() == moduleId)
             {
                 entries[iter->first] = iter->second;
             }
@@ -97,20 +97,34 @@ namespace rl
         time_t rawTime;
         tm* localTime; 
         time(&rawTime);
-        localTime = localtime(&rawTime); 
-        SaveGameFile* file = new SaveGameFile(name);
+        localTime = localtime(&rawTime);
+
+        SaveGameFile* file = NULL;
+
+        if(SaveGameFileExists(name, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()))
+        {
+             file = getSaveGameFile(name, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId());
+             //new SaveGameFile(name,getSaveGameFile(name, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId())->getId());
+        }
+        else
+        {
+            mHighestSaveGameNumber++;
+            file = new SaveGameFile(name, mHighestSaveGameNumber);
+        }
+        
         file->setProperty(SaveGameFile::PROPERTY_TIME, Property(printTimeAsString(localTime)));
         file->setProperty(SaveGameFile::PROPERTY_MODULEID, Property(CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()));
+        file->setProperty(SaveGameFile::PROPERTY_MODULENAME, Property(CoreSubsystem::getSingleton().getActiveAdventureModule()->getName()));
 
-        mSaveGames[std::pair<CeGuiString,CeGuiString>(name, file->getProperty(SaveGameFile::PROPERTY_MODULEID).toString())] = file;
+        mSaveGames[file->getId()] = file;
 
         SaveGameFileWriter writer;
         writer.buildSaveGameFile(file, mSaveGameDataOrderMap);
 
-        freeSaveGameMap();
+        //freeSaveGameMap();
 
-        Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("SaveGames");
-        Ogre::ResourceGroupManager::getSingleton().clearResourceGroup("SaveGames"); //close all resource files -> make them writable
+        //Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("SaveGames");
+        //Ogre::ResourceGroupManager::getSingleton().clearResourceGroup("SaveGames"); //close all resource files -> make them writable
 
         MessagePump::getSingleton().sendMessage<MessageType_SaveGameSaved>();
     }
@@ -121,10 +135,9 @@ namespace rl
         {
             MessagePump::getSingleton().sendMessage<MessageType_SaveGameLoading>();
 
-            SaveGameFile file(name);
-            file.setProperty(SaveGameFile::PROPERTY_MODULEID, Property(moduleId));
+            SaveGameFile* file = getSaveGameFile(name, moduleId);
             SaveGameFileReader reader;
-            reader.parseSaveGameFile(&file, mSaveGameDataOrderMap);
+            reader.parseSaveGameFile(file, mSaveGameDataOrderMap);
             ///@todo: SaveGameReader
 
             MessagePump::getSingleton().sendMessage<MessageType_SaveGameLoaded>();
@@ -135,25 +148,41 @@ namespace rl
     {
         if(SaveGameFileExists(name, moduleId))
         {
-            static_cast<SaveGameFile*>(mSaveGames[std::pair<CeGuiString,CeGuiString>(name, moduleId)])->deleteFileFromStorage();
-            delete mSaveGames[std::pair<CeGuiString,CeGuiString>(name, moduleId)];
-            mSaveGames.erase(std::pair<CeGuiString,CeGuiString>(name, moduleId));
+            int id = getSaveGameId(name, moduleId);
+            static_cast<SaveGameFile*>(mSaveGames[id])->deleteFileFromStorage();
+            delete mSaveGames[id];
+            mSaveGames.erase(id);
         }
     }
 
     bool SaveGameManager::SaveGameFileExists(const CeGuiString &name, const CeGuiString &moduleId)
     {
-        if(mSaveGames.find(std::pair<CeGuiString,CeGuiString>(name, moduleId)) != mSaveGames.end())
-            return true;
-        return false;
+        bool saveGameFileExists = false;
+        for(SaveGameEntryMap::const_iterator it = mSaveGames.begin(); it != mSaveGames.end() && !saveGameFileExists; ++it)
+        {
+            if(it->second->getProperty(SaveGameFile::PROPERTY_NAME).toString() == name 
+                && it->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString() == moduleId)
+                saveGameFileExists = true;
+        }
+        return saveGameFileExists;
     }
 
     SaveGameFile* SaveGameManager::getSaveGameFile(const CeGuiString &name, const CeGuiString &moduleId)
     {
-        SaveGameEntryMap::const_iterator it = mSaveGames.find(std::pair<CeGuiString,CeGuiString>(name, moduleId));
-        if(it != mSaveGames.end())
-            return it->second;
+        if(SaveGameFileExists(name, moduleId))
+            return mSaveGames[getSaveGameId(name, moduleId)];
         return NULL;
+    }
+
+    int SaveGameManager::getSaveGameId(const CeGuiString &name, const CeGuiString &moduleId)
+    {
+        for(SaveGameEntryMap::const_iterator it = mSaveGames.begin(); it != mSaveGames.end(); ++it)
+        {
+            if(it->second->getProperty(SaveGameFile::PROPERTY_NAME).toString() == name 
+                && it->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString() == moduleId)
+                return it->first;
+        }
+        return -1;
     }
     
     const Ogre::StringVector& SaveGameManager::getScriptPatterns() const
@@ -173,13 +202,18 @@ namespace rl
         int pointpos = name.find_last_of(".");
         name = name.substr(0, pointpos);
 
-        SaveGameFile* file = new SaveGameFile(name);
-        
-        LOG_MESSAGE(Logger::RULES, "Parsing header of save game: " + name);
-        SaveGameFileReader reader;
-        reader.parseSaveGameFileHeader(stream, groupName, file);
-        
-        mSaveGames[std::pair<CeGuiString,CeGuiString>(name, file->getProperty(SaveGameFile::PROPERTY_MODULEID).toString())] = file;
+        if(Ogre::StringConverter::isNumber(name))
+        {
+            mHighestSaveGameNumber = std::max(mHighestSaveGameNumber, Ogre::StringConverter::parseInt(name));
+
+            SaveGameFile* file = new SaveGameFile("", mHighestSaveGameNumber);        
+            
+            LOG_MESSAGE(Logger::RULES, "Parsing header of save game: " + name + ".save");
+            SaveGameFileReader reader;
+            reader.parseSaveGameFileHeader(stream, groupName, file);
+            
+            mSaveGames[Ogre::StringConverter::parseInt(name)] = file;
+        }
     }
 
     void SaveGameManager::registerSaveGameData(SaveGameData* data)
@@ -213,5 +247,10 @@ namespace rl
             delete iter->second;
         }
         mSaveGames.clear();
+    }
+
+    int SaveGameManager::getHighestSaveGameNumber()
+    {
+        return mHighestSaveGameNumber;
     }
 }

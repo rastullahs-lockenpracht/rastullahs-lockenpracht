@@ -63,7 +63,7 @@ namespace rl
 
     typedef std::multimap<int,SaveGameData*> SaveGameDataOrderMap;
 
-    typedef std::map<std::pair<CeGuiString,CeGuiString>, SaveGameFile*> SaveGameEntryMap; //pair: save game name, module id
+    typedef std::map<int, SaveGameFile*> SaveGameEntryMap;
 
     class _RlCoreExport SaveGameManager : public Ogre::Singleton<SaveGameManager>, public Ogre::ScriptLoader
     {
@@ -75,9 +75,13 @@ namespace rl
         SaveGameEntryMap listSaveGames(const CeGuiString &moduleId);
         void saveSaveGameFile(const CeGuiString &name);
         void loadSaveGameFile(const CeGuiString &name, const CeGuiString& moduleID);
+        void loadSaveGameFile(int id);
         void deleteSaveGameFile(const CeGuiString &name, const CeGuiString &moduleId);
+        void deleteSaveGameFile(int id);
         bool SaveGameFileExists(const CeGuiString &name, const CeGuiString &moduleId);
         SaveGameFile* getSaveGameFile(const CeGuiString &name, const CeGuiString &moduleId);
+        SaveGameFile* getSaveGameFile(int id);
+        int getSaveGameId(const CeGuiString &name, const CeGuiString &moduleId);
 
         virtual const Ogre::StringVector&  getScriptPatterns(void) const;
         virtual void parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);
@@ -85,6 +89,8 @@ namespace rl
 
         void registerSaveGameData(SaveGameData* data);
         void unregisterSaveGameData(SaveGameData* data);
+
+        int getHighestSaveGameNumber();
     protected:
         void freeSaveGameMap();
 
@@ -92,6 +98,8 @@ namespace rl
         SaveGameEntryMap mSaveGames;
 
         SaveGameDataOrderMap mSaveGameDataOrderMap;
+
+        int mHighestSaveGameNumber;
     };
 }
 
