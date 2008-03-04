@@ -143,6 +143,7 @@
         <property name="geometrytype" type="STRING" data="box"/>
         <property name="material" type="STRING" data="obj_Shortsleeve"/>
 		<property name="itemtype" type="INT" data="32768"/> <!-- Clothes -->
+		<property name="size" type="INTPAIR" data="2,4"/>
     </gameobjectclass>
     <gameobjectclass classid="Clothes #2" baseclass="Clothing">
         <property name="name" type="STRING" data="Kleidung #2"/>
@@ -152,6 +153,7 @@
         <property name="geometrytype" type="STRING" data="box"/>
         <property name="material" type="STRING" data="obj_Shortsleeve_2"/>
 		<property name="itemtype" type="INT" data="32768"/> <!-- Clothes -->
+		<property name="size" type="INTPAIR" data="2,4"/>
     </gameobjectclass>
 
     <gameobjectclass classid="MeshAreaTestHouse" baseclass="GameObject">
