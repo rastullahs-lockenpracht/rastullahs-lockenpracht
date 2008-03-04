@@ -20,9 +20,9 @@ class SelectorTest < TestCase
 		go2.placeIntoScene()
 
 		testRaySelector()
-		#testHalfSphereSelector()
+		testHalfSphereSelector()
         
-        $SCRIPT.log("SelectorTest initialisiert");
+        $SCRIPT.log("SelectorTest successful.");
         
     end
 	
@@ -42,7 +42,7 @@ class SelectorTest < TestCase
 		testObj = HalfSphereSelector.new(QUERYFLAG_ITEM)
 		testObj.setPosition(rel_pos([0.0, 0.5, 0.0]))
 		testObj.setRadius(1)
-		testObj.updateSelection(QUERYFLAG_ITEM)
+		testObj.updateSelection()
 		assertEquals(1, testObj.getSelectionCount(), "One element sphere selection")
 		
 		testObj2.setPosition(rel_pos([0.0, 0.5, 0.0]))
