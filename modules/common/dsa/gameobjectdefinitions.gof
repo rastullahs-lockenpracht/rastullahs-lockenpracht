@@ -58,7 +58,7 @@
         <property name="mass" type="REAL" data="75"/>
         <property name="inventorywindowtype" type="STRING" data="inventory_human.xml"/>
         <property name="meshfile" type="STRING" data="men_human_female_torso.mesh"/>
-	<property name="submeshprename" type="STRING" data="men_human_female_"/>
+		<property name="submeshprename" type="STRING" data="men_human_female_"/>
         <property name="geometrytype" type="STRING" data="ellipsoid"/>
 		<property name="meshparts" type="MAP">
             <property name="torso" type="STRING" data="men_human_female_torso.mesh"/>
@@ -127,16 +127,16 @@
 				<!-- Torso -->
 				<property type="MAP"> 
 					<property name="name" type="STRING" data="Torso"/>
-					<property name="type" type="STRING" data="material"/>
-					<property name="submesh" type="STRING" data="men_human_female_torso"/>
+					<property name="type" type="STRING" data="submesh"/>
+					<property name="submesh" type="STRING" data="torso"/>
 					<property name="readies" type="INT" data="32800"/> <!-- Armor | Clothes -->
 					<property name="holds" type="INT" data="32800"/> <!-- Armor | Clothes -->
 				</property>
 				<!-- Clothes -->
 				<property type="MAP"> 
 					<property name="name" type="STRING" data="Clothes"/>
-					<property name="type" type="STRING" data="submesh"/>
-					<property name="submesh" type="STRING" data="clothes"/>
+					<property name="type" type="STRING" data="material"/>
+					<property name="submesh" type="STRING" data="men_human_female_torso"/>
 					<property name="readies" type="INT" data="32768"/> <!-- Clothes -->
 					<property name="holds" type="INT" data="32768"/> <!-- Clothes -->
 				</property>

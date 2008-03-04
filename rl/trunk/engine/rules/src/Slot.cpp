@@ -81,7 +81,7 @@ namespace rl {
                 LOG_ERROR(Logger::RULES,
                     "Item '" + item->getName() + "' konnte nicht in den Slot '" + mName
                     + "' gelegt werden: " + (isAllowed(item) ? "'falscher Typ' " : "")
-                    + (isEmpty() ? "'Slot schon belegt" : "") + "!");
+                    + (isEmpty() ? "'Slot schon belegt'" : "") + "!");
                 return false;
             }
         }
@@ -205,6 +205,7 @@ namespace rl {
             try
             {
                 CeGuiString mat = item->getProperty("material").toString();
+                CeGuiString mesh = item->getSubmeshName();
 
                 ///@todo: what to do if actor is null?, think about changing the inventory of an gameobject not in scene
 		        if (mOwner->getActor())
@@ -212,8 +213,16 @@ namespace rl {
 			        MeshObject* mo = dynamic_cast<MeshObject*>(
 				        mOwner->getActor()->getControlledObject());
 
+                    MergeableMeshObject* mmo = dynamic_cast<MergeableMeshObject*>(
+				        mo);
+
+                    if (mmo && !mesh.empty())
+                    {
+                        mmo->replaceSubmesh(mSubmesh, mesh.c_str());
+                    }
+
 			        if (mo)
-			        {
+			        {                        
                         mo->setMaterial(mat.c_str(), mSubmesh);
                     }
                 }

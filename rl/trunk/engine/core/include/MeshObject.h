@@ -105,7 +105,7 @@ namespace rl {
          * @param material the name of the new material
          * @param submesh (optional) the name of the submesh
          */
-        void setMaterial(const Ogre::String& material, const Ogre::String& submesh);
+        void setMaterial(const Ogre::String& material, const Ogre::String& submesh = "");
     private:
 		Ogre::String mMeshName;
         Ogre::AxisAlignedBox mSize;
