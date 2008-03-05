@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<quests>
+	<quest id="blahid">
+		<name>blahname</name>
+		<description>blub blub blahtext</description>
+		<state>COMPLETED</state>
+		<known>true</state>
+		<quest id="blahid2>
+			<name>text</name>
+			<description>nochmal blah</description>
+		</quest>
+	</quest>
+	<quest id="blub">
+		<name>blahname2</name>
+		<description>blub blub blahtext213423</description>
+		<state>COMPLETED</state>
+		<known>true</state>
+		<quest id="blahid2>
+		</quest>
+	</quest>
+	<quest id="blub2">
+		<name>blahname3</name>
+		<description>blub blub blahtext2312312312542143123</description>
+		<state>COMPLETED</state>
+		<quest id="blahid2>
+		</quest>
+	</quest>
+<quests>
