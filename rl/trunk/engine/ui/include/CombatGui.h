@@ -48,6 +48,7 @@ namespace rl {
 		// Message handlers
 
 		bool enemyButtonClicked(int handle, int bottonIndex);
+		bool endTurnButtonClicked();
 		bool enemyEnteredCombat(Combatant*);
 		bool enemyLeftCombat(Combatant*);
 
@@ -61,6 +62,7 @@ namespace rl {
 	    MessagePump::ScopedConnection mEnemyButtonClickedConnection;
 	    MessagePump::ScopedConnection mEnemyEnteredCombatConnection;
 	    MessagePump::ScopedConnection mEnemyLeftCombatConnection;
+		MessagePump::ScopedConnection mEndTurnButtonClickedConnection;
 
 		Combat* mCombat;
 		CameraObject* mCamera;

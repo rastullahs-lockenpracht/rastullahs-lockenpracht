@@ -45,6 +45,9 @@ namespace rl {
 		mEnemyButtonClickedConnection =
             MessagePump::getSingleton().addMessageHandler<MessageType_CombatIoEnemyButtonClicked>(
 			    boost::bind(&CombatGui::enemyButtonClicked, this, _1, _2));
+		mEndTurnButtonClickedConnection =
+            MessagePump::getSingleton().addMessageHandler<MessageType_CombatIoEndTurnButtonClicked>(
+			    boost::bind(&CombatGui::endTurnButtonClicked, this));
 		mEnemyEnteredCombatConnection =
             MessagePump::getSingleton().addMessageHandler<MessageType_CombatOpponentEntered>(
 			    boost::bind(&CombatGui::enemyEnteredCombat, this, _1));
@@ -168,6 +171,11 @@ namespace rl {
 	}
 
 	bool CombatGui::enemyButtonClicked(int handle, int bottonIndex)
+	{
+		return true;
+	}
+
+	bool CombatGui::endTurnButtonClicked()
 	{
 		return true;
 	}

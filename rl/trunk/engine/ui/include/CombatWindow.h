@@ -49,6 +49,11 @@ namespace rl {
 		void enableEnemyButtonSet(int handle, bool enabled);
 		void enableAllEnemyButtonSets(bool enabled);
 
+		// Event handlers
+
+		bool enemyButtonClicked(int handle, int buttonIndex);
+		bool endTurnButtonClicked();
+
 	private:
 		typedef std::vector<CEGUI::Window*> ButtonVector;
 		/// Key is the handle as returned by addEnemyButtonSet

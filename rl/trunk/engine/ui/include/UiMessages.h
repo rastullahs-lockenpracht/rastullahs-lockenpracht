@@ -30,6 +30,7 @@ namespace rl
         RLMSG_COMBAT_IO_EVENTS = 0x04000100,
         // Events
         RLMSG_COMBAT_IO_ENEMY_BUTTON_CLICKED = 0x04000101,
+        RLMSG_COMBAT_IO_END_TURN_BUTTON_CLICKED = 0x04000102,
     };
 
     /// Message sent after enemy action button has been pressed.
@@ -37,5 +38,6 @@ namespace rl
 	/// First int arg - handle of the button set
 	/// Second int arg - button index
     typedef MessageType<RLMSG_COMBAT_IO_ENEMY_BUTTON_CLICKED, int, int> MessageType_CombatIoEnemyButtonClicked;
+    typedef MessageType<RLMSG_COMBAT_IO_END_TURN_BUTTON_CLICKED> MessageType_CombatIoEndTurnButtonClicked;
 }
 #endif

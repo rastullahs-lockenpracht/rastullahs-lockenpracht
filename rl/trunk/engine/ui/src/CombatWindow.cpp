@@ -18,6 +18,8 @@
 #include "CombatWindow.h"
 #include "CoreSubsystem.h"
 #include "ContentModule.h"
+#include "MessagePump.h"
+#include "UiMessages.h"
 
 #include <CEGUIWindowManager.h>
 
@@ -45,6 +47,9 @@ namespace rl {
 		width += (int) size.d_width;
 		CEGUI::WindowManager::getSingleton().destroyWindow(w);
 		mSetSize = SetSize(width, height);
+
+		getWindow("CombatWindow/EndTurnButton")->subscribeEvent(CEGUI::Window::EventMouseClick,
+			boost::bind(&CombatWindow::endTurnButtonClicked, this));
     }
 
 	CombatWindow::~CombatWindow()
@@ -74,6 +79,12 @@ namespace rl {
 		mWindow->addChildWindow(parryButton);
 		buttons.push_back(parryButton);
 		mButtons.insert(std::make_pair(mNextHandle, buttons));
+
+		attackButton->subscribeEvent(CEGUI::Window::EventMouseClick,
+			boost::bind(&CombatWindow::enemyButtonClicked, this, mNextHandle, ATTACK_BUTTON));
+		parryButton->subscribeEvent(CEGUI::Window::EventMouseClick,
+			boost::bind(&CombatWindow::enemyButtonClicked, this, mNextHandle, PARRY_BUTTON));
+
 		return mNextHandle++;
 	}
 
@@ -122,5 +133,17 @@ namespace rl {
 		{
 			enableEnemyButtonSet(it->first, enabled);
 		}
+	}
+
+	bool CombatWindow::enemyButtonClicked(int handle, int buttonIndex)
+	{
+		MessagePump::getSingleton().sendMessage<MessageType_CombatIoEnemyButtonClicked>(handle, buttonIndex);
+		return true;
+	}
+
+	bool CombatWindow::endTurnButtonClicked()
+	{
+		MessagePump::getSingleton().sendMessage<MessageType_CombatIoEndTurnButtonClicked>();
+		return true;
 	}
 }
