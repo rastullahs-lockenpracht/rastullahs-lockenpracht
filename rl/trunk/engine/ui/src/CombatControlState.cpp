@@ -31,6 +31,7 @@
 #include "Person.h"
 #include "PhysicalThing.h"
 #include "Selector.h"
+#include "UiMessages.h"
 #include "World.h"
 
 #include <OgreManualObject.h>
@@ -54,6 +55,17 @@ namespace rl {
 
         mCamera = static_cast<CameraObject*>(mCameraActor->getControlledObject());
 		mCombatGui = new CombatGui(mCombat, mCamera);
+
+        // Message handlers
+		mCombatIoAttackOpponentConnection =
+            MessagePump::getSingleton().addMessageHandler<MessageType_CombatIoAttackOpponent>(
+			    boost::bind(&CombatControlState::userRequestAttackOpponent, this, _1));
+		mCombatIoParryOpponentConnection =
+            MessagePump::getSingleton().addMessageHandler<MessageType_CombatIoParryOpponent>(
+			    boost::bind(&CombatControlState::userRequestParryOpponent, this, _1));
+		mCombatIoEndTurnRequestedConnection =
+            MessagePump::getSingleton().addMessageHandler<MessageType_CombatIoEndTurnRequested>(
+			    boost::bind(&CombatControlState::userRequestEndTurn, this));
     }
 
 	CombatControlState::~CombatControlState()
@@ -135,5 +147,20 @@ namespace rl {
 
 	void CombatControlState::executeAction(CombatAction* action)
 	{
+	}
+
+	bool CombatControlState::userRequestAttackOpponent(Combatant* opponent)
+	{
+		return true;
+	}
+
+	bool CombatControlState::userRequestParryOpponent(Combatant* opponent)
+	{
+		return true;
+	}
+
+	bool CombatControlState::userRequestEndTurn()
+	{
+		return true;
 	}
 }

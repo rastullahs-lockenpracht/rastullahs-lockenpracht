@@ -49,6 +49,9 @@ namespace rl {
 		void enableEnemyButtonSet(int handle, bool enabled);
 		void enableAllEnemyButtonSets(bool enabled);
 
+		void setAttackedOpponentName(const CeGuiString& name);
+		void setParriedOpponentName(const CeGuiString& name);
+
 		// Event handlers
 
 		bool enemyButtonClicked(int handle, int buttonIndex);

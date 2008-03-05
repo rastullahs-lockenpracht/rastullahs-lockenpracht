@@ -146,4 +146,14 @@ namespace rl {
 		MessagePump::getSingleton().sendMessage<MessageType_CombatIoEndTurnButtonClicked>();
 		return true;
 	}
+
+	void CombatWindow::setAttackedOpponentName(const CeGuiString& name)
+	{
+		getWindow("CombatWindow/AttackedOpponent")->setText(name);
+	}
+
+	void CombatWindow::setParriedOpponentName(const CeGuiString& name)
+	{
+		getWindow("CombatWindow/AttackedOpponent")->setText(name);
+	}
 }

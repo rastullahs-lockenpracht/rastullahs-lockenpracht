@@ -47,7 +47,7 @@ namespace rl {
 
 		// Message handlers
 
-		bool enemyButtonClicked(int handle, int bottonIndex);
+		bool enemyButtonClicked(int handle, int buttonIndex);
 		bool endTurnButtonClicked();
 		bool enemyEnteredCombat(Combatant*);
 		bool enemyLeftCombat(Combatant*);

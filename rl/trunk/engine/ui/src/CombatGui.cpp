@@ -170,13 +170,31 @@ namespace rl {
 		mHud->clear();
 	}
 
-	bool CombatGui::enemyButtonClicked(int handle, int bottonIndex)
+	bool CombatGui::enemyButtonClicked(int handle, int buttonIndex)
 	{
+		for (OpponentButtonsMap::const_iterator it = mOpponentButtons.begin();
+			it != mOpponentButtons.end(); ++it)
+		{
+			if (it->second == handle)
+			{
+				if (buttonIndex == CombatWindow::ATTACK_BUTTON)
+				{
+					MessagePump::getSingleton().sendMessage<MessageType_CombatIoAttackOpponent>(it->first);
+				}
+				else if (buttonIndex == CombatWindow::PARRY_BUTTON)
+				{
+					MessagePump::getSingleton().sendMessage<MessageType_CombatIoParryOpponent>(it->first);
+				}
+				break;
+			}
+		}
+
 		return true;
 	}
 
 	bool CombatGui::endTurnButtonClicked()
 	{
+		MessagePump::getSingleton().sendMessage<MessageType_CombatIoEndTurnRequested>();
 		return true;
 	}
 

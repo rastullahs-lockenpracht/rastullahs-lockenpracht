@@ -21,6 +21,7 @@
 
 #include "ControlState.h"
 #include "Combatant.h"
+#include "MessagePump.h"
 #include "Selector.h"
 
 #include <OgreRectangle.h>
@@ -54,8 +55,17 @@ namespace rl {
         virtual void requestCombatantAction();
 		virtual void executeAction(CombatAction* action);
 
+		// Event handlers
+		bool userRequestAttackOpponent(Combatant*);
+		bool userRequestParryOpponent(Combatant*);
+		bool userRequestEndTurn();
+
     private:
 		enum State {REQUEST_USER_INPUT, WAIT_FOR_OTHER_COMBATANTS, ROUND_EXECUTION};
+
+		MessagePump::ScopedConnection mCombatIoAttackOpponentConnection;
+		MessagePump::ScopedConnection mCombatIoParryOpponentConnection;
+		MessagePump::ScopedConnection mCombatIoEndTurnRequestedConnection;
 
         CombatManager* mCombatManager;
 		CombatGui* mCombatGui;

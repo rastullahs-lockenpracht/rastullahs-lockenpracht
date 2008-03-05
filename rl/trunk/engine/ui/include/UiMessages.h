@@ -22,6 +22,8 @@
 
 namespace rl
 {
+	class Combatant;
+
 	// 0x04XXXXXX is mask for UI messages
     enum UiMessageTypeIds
     {
@@ -31,6 +33,10 @@ namespace rl
         // Events
         RLMSG_COMBAT_IO_ENEMY_BUTTON_CLICKED = 0x04000101,
         RLMSG_COMBAT_IO_END_TURN_BUTTON_CLICKED = 0x04000102,
+
+        RLMSG_COMBAT_IO_ATTACK_OPPONENT = 0x04000103,
+        RLMSG_COMBAT_IO_PARRY_OPPONENT = 0x04000104,
+        RLMSG_COMBAT_IO_END_TURN_REQUESTED = 0x04000105
     };
 
     /// Message sent after enemy action button has been pressed.
@@ -39,5 +45,9 @@ namespace rl
 	/// Second int arg - button index
     typedef MessageType<RLMSG_COMBAT_IO_ENEMY_BUTTON_CLICKED, int, int> MessageType_CombatIoEnemyButtonClicked;
     typedef MessageType<RLMSG_COMBAT_IO_END_TURN_BUTTON_CLICKED> MessageType_CombatIoEndTurnButtonClicked;
+
+    typedef MessageType<RLMSG_COMBAT_IO_ATTACK_OPPONENT, Combatant*> MessageType_CombatIoAttackOpponent;
+    typedef MessageType<RLMSG_COMBAT_IO_PARRY_OPPONENT, Combatant*> MessageType_CombatIoParryOpponent;
+    typedef MessageType<RLMSG_COMBAT_IO_END_TURN_REQUESTED> MessageType_CombatIoEndTurnRequested;
 }
 #endif
