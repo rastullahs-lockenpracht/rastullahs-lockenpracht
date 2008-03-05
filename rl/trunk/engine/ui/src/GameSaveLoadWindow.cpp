@@ -89,6 +89,10 @@ namespace rl {
 
         bindDestroyWindowToXButton();
         bindDestroyWindowToClick(getWindow("GameSaveLoadWindow/ButtonSheet/CancelButton"));
+
+        mSelectionColour = CEGUI::ListboxItem::DefaultSelectionColour;
+        mSelectionImageset = "RastullahLook-Images";
+        mSelectionBrush = "ListboxSelectionBrush";
     }
 
     //------------------------------------------------------- Destructor
@@ -184,8 +188,12 @@ namespace rl {
 
         for(SaveGameEntryMap::iterator it = saveGames.begin(); it != saveGames.end(); it++)
         {
-            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getName()), 0, saveGameNum);
-            mSaveGameTable->setItem(new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_TIME)), 1, saveGameNum);
+            ListboxTextItem* item = new CEGUI::ListboxTextItem(it->second->getName());
+            item->setSelectionBrushImage(mSelectionImageset, mSelectionBrush);
+            mSaveGameTable->setItem(item, 0, saveGameNum);
+            item = new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_TIME));
+            item->setSelectionBrushImage(mSelectionImageset, mSelectionBrush);
+            mSaveGameTable->setItem(item, 1, saveGameNum);
             saveGameNum++;
         }
         //mSaveGameTable->autoSizeColumnHeader(0);

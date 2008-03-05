@@ -77,6 +77,10 @@ namespace rl {
         bindDestroyWindowToXButton();
         bindDestroyWindowToClick(getWindow("MainMenuLoadWindow/ButtonSheet/CancelButton"));
 
+        mSelectionColour = CEGUI::ListboxItem::DefaultSelectionColour;
+        mSelectionImageset = "RastullahLook-Images";
+        mSelectionBrush = "ListboxSelectionBrush";
+
 		mMainMenuWindow = win;
     }
 
@@ -135,6 +139,7 @@ namespace rl {
 
     void MainMenuLoadWindow::listSaveGames()
     {
+        mSaveGameTable->clearAllSelections();
         SaveGameEntryMap saveGames = SaveGameManager::getSingleton().listSaveGames();
 
         while(mSaveGameTable->getRowCount() > saveGames.size())
@@ -148,12 +153,15 @@ namespace rl {
         {
             CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem(it->second->getName());
             item->setUserData(it->second);
+            item->setSelectionBrushImage(mSelectionImageset, mSelectionBrush);
             mSaveGameTable->setItem(item, 0, saveGameNum);
             item = new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_MODULENAME).toString());
             item->setUserData(it->second);
+            item->setSelectionBrushImage(mSelectionImageset, mSelectionBrush);
             mSaveGameTable->setItem(item, 1, saveGameNum);
             item = new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_TIME).toString());
             item->setUserData(it->second);
+            item->setSelectionBrushImage(mSelectionImageset, mSelectionBrush);
             mSaveGameTable->setItem(item, 2, saveGameNum);
             saveGameNum++;
         }

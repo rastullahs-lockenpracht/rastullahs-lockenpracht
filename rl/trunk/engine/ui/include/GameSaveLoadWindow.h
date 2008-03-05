@@ -68,6 +68,10 @@ namespace rl {
         
         CEGUI::MultiColumnList     *mSaveGameTable;     //!< SaveGame table
         CEGUI::Editbox             *mFilename;         //!< Filename for the savegame 
+
+        CeGuiString mSelectionBrush;
+        CeGuiString mSelectionImageset;
+        CEGUI::colour mSelectionColour;
     };
 }
 
