@@ -58,10 +58,12 @@ tests += 1; errors += SoundTest.new([ 10, 0, 10]).run()
 tests += 1; errors += TimeTest.new([ -5, 0, -5]).run()
 tests += 1; errors += WalkJobTest.new([  0, 0, -3]).run()
 
-MessageBox.showModal(
+if errors > 0
+  MessageBox.showModal(
 	errors.to_s() + " of the " + tests.to_s() +  " tests were not successful.",
 	"Regressiontest Results",
 	MessageBox::OK)
+end
 
 $SCRIPT.log("tests initialisiert.")
 
