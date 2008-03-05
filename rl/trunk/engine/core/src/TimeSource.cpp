@@ -156,6 +156,15 @@ namespace rl
         }
     }
 
+    void TimeSourceManager::setPaused(bool paused)
+    {
+        for (std::map<TimeSource::TimeSourceType, TimeSource*>::iterator it
+            = mTimeSources.begin(); it != mTimeSources.end(); ++it)
+        {
+            it->second->setPaused(paused);
+        }
+    }
+
 	CeGuiString TimeSourceManager::getXmlNodeIdentifier() const
 	{
 		return "time_sources";

@@ -94,6 +94,7 @@ namespace rl
         void registerTimeSource(TimeSource* ts);
         TimeSource* getTimeSource(const TimeSource::TimeSourceType& type) const;
         void setTimeFactor(const Ogre::Real& factor);
+        void setPaused(bool paused);
 
 		virtual CeGuiString getXmlNodeIdentifier() const;
         virtual void writeData(SaveGameFileWriter* writer);

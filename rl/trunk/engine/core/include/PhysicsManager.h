@@ -122,6 +122,7 @@ namespace rl {
         // Global Settings
         void setGravity(Ogre::Real x, Ogre::Real y, Ogre::Real z);
         Ogre::Vector3 getGravity() const;
+        void setTimeFactor(Ogre::Real factor);
 
         bool isEnabled() const;
         void setEnabled(bool enabled);
@@ -316,6 +317,8 @@ namespace rl {
         
         //! the globally known gravity force
         Ogre::Vector3 mGravity;
+
+        Ogre::Real mTimeFactor;
         
         // time stuff
         Ogre::Real mElapsed;

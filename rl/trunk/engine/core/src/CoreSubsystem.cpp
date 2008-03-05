@@ -163,14 +163,17 @@ namespace rl
 
 	void CoreSubsystem::setPaused(bool paused)
 	{
-		mGameLoop->setPaused(paused);
-        ///@todo mTimeSourceManager->setPaused(paused)?
+       // mAnimationManager->setPaused(paused);
+       // mPhysicsManager->setPaused(paused);
+        mTimeSourceManager->setPaused(paused);
+        mGameLoop->setPaused(true);
 	}
 
     void CoreSubsystem::setTimeFactor(const Ogre::Real &factor)
     {
         mAnimationManager->setGlobalAnimationSpeed(factor);
         mTimeSourceManager->setTimeFactor(factor);
+        mPhysicsManager->setTimeFactor(factor);
     }
 
     bool CoreSubsystem::initializeCoreSubsystem()

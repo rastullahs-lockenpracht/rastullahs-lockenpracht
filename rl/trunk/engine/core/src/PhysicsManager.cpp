@@ -74,6 +74,7 @@ namespace rl
         mPhysicalThings(),
         mDebugMode(false),
         mGravity(0, -9.81, 0),
+        mTimeFactor(1.0f),
         mWorldAABB(Vector3(-100, -100, -100), Vector3(100, 100, 100)),
         mElapsed(0.0f),
         mMinTimestep(1.0f/600.0f),
@@ -141,7 +142,7 @@ namespace rl
 
 
         // Newton kann timesteps zwischen 1/20 und 1/600!
-        mElapsed += elapsedTime;
+        mElapsed += elapsedTime * mTimeFactor;
         while( mElapsed >= mMaxTimestep)
         {
             // perhaps we should add a newtonupdate listener, but i don't
@@ -219,6 +220,11 @@ namespace rl
     Vector3 PhysicsManager::getGravity() const
     {
         return mGravity;
+    }
+
+    void PhysicsManager::setTimeFactor(Ogre::Real factor)
+    {
+        mTimeFactor = factor;
     }
 
     PhysicalThing* PhysicsManager::createPhysicalThing(GeometryType geomType,

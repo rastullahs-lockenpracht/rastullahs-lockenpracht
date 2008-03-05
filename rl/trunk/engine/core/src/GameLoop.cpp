@@ -149,7 +149,9 @@ namespace rl
             GameTaskList* tasks = mTaskLists[i];
             for (GameTaskList::iterator it = tasks->begin(); it != tasks->end(); ++it)
             {
-                if (it->valid && !(it->task->isPaused()) && !isPaused())
+                if (it->valid
+                    && !it->task->isPaused()
+                    && !(isPaused() && it->task->isInterruptable()))
                 {
                     it->task->run(frameTime);
                 }

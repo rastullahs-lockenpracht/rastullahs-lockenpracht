@@ -691,6 +691,7 @@ public:
     void setScheme(const Ogre::String& schemeName);
     bool getDeveloperMode() const;
     void setTimeFactor(const Ogre::Real& factor = 1.0F);
+    void setPaused(bool paused);
 };
 
 class Sound 
