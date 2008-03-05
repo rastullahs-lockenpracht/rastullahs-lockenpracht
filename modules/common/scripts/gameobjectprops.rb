@@ -45,10 +45,10 @@ module GameObjectProperties
 	# Generic getProperty method. This will query self for a member variable @_prop_<key>
 	# If present, its value is returned, else getProperty of the super class is called.
 	def getProperty(key)
-	    begin
-		    return instance_variable_get("@_prop_"+key)
-		rescue
-		    return super(key)
+		if instance_variables.include?("@_prop_"+key)
+	        return instance_variable_get("@_prop_"+key)
+		else
+		    return super(key);
 		end
 	end
 end
