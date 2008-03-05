@@ -159,7 +159,8 @@ namespace rl {
     {
         for (PropertyMap::const_iterator it = propmap.begin(); it != propmap.end(); ++it)
         {
-			output.insert(std::map<const Ogre::String, T>::value_type(it->first.c_str(), it->second));
+			T temp = it->second;
+            output[it->first.c_str()] = temp;
         }
     }
     
