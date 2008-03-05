@@ -2,6 +2,7 @@ load "embed.rb"
 
 require 'player.rb'
 require 'hero.rb'
+require 'messagebox.rb'
 
 # Physik aktivieren
 $PM.setEnabled(true)
@@ -37,22 +38,30 @@ require 'TimeTest.rb'
 
 require 'WalkJobTest.rb'
 
-DoorTest.new([  0, 0, -5]).run()
-EffectTest.new([  5, 0, 5]).run()
-ErrorHandlingTest.new([-10, 0, 5]).run()
-GameObjectCreationTest.new([0, 0, -10]).run()
-InventoryTest.new([  0, 0, 10]).run()
-JobSequenceTest.new([  5, 0, -5]).run()
-LightzoneTest.new([-10, 0, -5]).run()
-MapLoadingTest.new([ -5, 0, -10]).run()
-MaterialSlotTest.new([-15, 0, -5]).run()
-MergeableMeshTest.new([ 10, 0, 0]).run()
-MeshAreaTest.new([-50, 0,-55]).run()
-NpcTest.new([ -5, 0, 5]).run()
-SelectorTest.new([  5, 0, 0]).run()
-SoundTest.new([ 10, 0, 10]).run()
-TimeTest.new([ -5, 0, -5]).run()
-WalkJobTest.new([  0, 0, -3]).run()
+errors = 0;
+tests = 0;
+
+tests += 1; errors += DoorTest.new([  0, 0, -5]).run()
+tests += 1; errors += EffectTest.new([  5, 0, 5]).run()
+tests += 1; errors += ErrorHandlingTest.new([-10, 0, 5]).run()
+tests += 1; errors += GameObjectCreationTest.new([0, 0, -10]).run()
+tests += 1; errors += InventoryTest.new([  0, 0, 10]).run()
+tests += 1; errors += JobSequenceTest.new([  5, 0, -5]).run()
+tests += 1; errors += LightzoneTest.new([-10, 0, -5]).run()
+tests += 1; errors += MapLoadingTest.new([ -5, 0, -10]).run()
+tests += 1; errors += MaterialSlotTest.new([-15, 0, -5]).run()
+tests += 1; errors += MergeableMeshTest.new([ 10, 0, 0]).run()
+tests += 1; errors += MeshAreaTest.new([-50, 0,-55]).run()
+tests += 1; errors += NpcTest.new([ -5, 0, 5]).run()
+tests += 1; errors += SelectorTest.new([  5, 0, 0]).run()
+tests += 1; errors += SoundTest.new([ 10, 0, 10]).run()
+tests += 1; errors += TimeTest.new([ -5, 0, -5]).run()
+tests += 1; errors += WalkJobTest.new([  0, 0, -3]).run()
+
+MessageBox.showModal(
+	errors.to_s() + " of the " + tests.to_s() +  " tests were not successful.",
+	"Regressiontest Results",
+	MessageBox::OK)
 
 $SCRIPT.log("tests initialisiert.")
 

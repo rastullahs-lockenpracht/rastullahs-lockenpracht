@@ -23,9 +23,11 @@ class TestCase
 	end
 	
 	def run()
-	  execute()
-	  rescue AssertionException => ae
-	    p ae
+		execute()
+		return 0
+	rescue Exception => ex
+		p ex
+		return 1 
 	end
 	
 	def getCenter()
