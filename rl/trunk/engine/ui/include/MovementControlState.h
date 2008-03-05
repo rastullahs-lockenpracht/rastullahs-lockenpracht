@@ -76,6 +76,7 @@ namespace rl {
         void resetCamera();
 
         virtual bool mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id, bool handled);
+        virtual bool mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id, bool handled);
         virtual bool keyPressed(const OIS::KeyEvent& evt, bool handled);
         virtual bool keyReleased(const OIS::KeyEvent& evt, bool handled);
 

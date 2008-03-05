@@ -1137,7 +1137,7 @@ namespace rl {
         {
             newGo->setHighlighted(true);
         }
-
+/*
         // Optionen anzeigen
         if (im->isMouseButtonDown(OIS::MB_Right) && newGo != NULL)
         {
@@ -1147,6 +1147,7 @@ namespace rl {
         {
             newGo->doDefaultAction(mCharacter, NULL);
         }
+*/
     }
 
 
@@ -1375,6 +1376,42 @@ namespace rl {
     {
         handled = handled || ControlState::mouseReleased(evt, id, handled);
 
+/*
+        if( !handled )
+        {
+            InputManager* im = InputManager::getSingletonPtr();
+            int mouseButtonMask = CommandMapper::encodeKey(id, im->getModifierCode());
+            return startAction(mCommandMapper->getControlStateAction(mouseButtonMask,
+                CST_MOVEMENT), mCharacter);
+        }
+*/
+        return false;
+    }
+
+    //------------------------------------------------------------------------
+    bool MovementControlState::mousePressed(const OIS::MouseEvent& evt,
+        OIS::MouseButtonID id, bool handled)
+    {
+        handled = handled || ControlState::mouseReleased(evt, id, handled);
+
+        // default action und action-selektor, falls object selected
+        GameObject* newGo = mSelector.getFirstSelectedObject();
+        if( newGo != NULL && !isMouseUsedByCegui() )
+        {
+            if( id == OIS::MB_Left )
+            {
+                if( newGo->getDefaultAction(mCharacter) != NULL )
+                {
+                    newGo->doDefaultAction(mCharacter, NULL);
+                    handled = true;
+                }
+            }
+            else if( id == OIS::MB_Right )
+            {
+                WindowFactory::getSingleton().showActionChoice(newGo);
+                handled = true;
+            }
+        }
 
         if( !handled )
         {
