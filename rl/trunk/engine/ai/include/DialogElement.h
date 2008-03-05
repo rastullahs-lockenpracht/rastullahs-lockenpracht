@@ -48,7 +48,7 @@ namespace rl
     {
     public:
         DialogSelection(int id)
-            : DialogElementType(id), mVariable(NULL)
+            : DialogElementType(id, false), mVariable(NULL)
         {
         }
 
@@ -60,6 +60,17 @@ namespace rl
         void setVariable(DialogVariable* variable)
         {
             mVariable = variable;
+        }
+
+        virtual bool isConditional()
+        {
+            return (mVariable != NULL);
+        }
+            
+        virtual const CeGuiString& getConditionVariableType()
+        {
+            RlAssert(mVariable, "No variable found for option with id: " + getId()); 
+            return mVariable->getType();
         }
 
         virtual std::list<DialogParagraph*> getParagraphs(Dialog* dialog)

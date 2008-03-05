@@ -33,7 +33,7 @@ namespace rl
     class _RlAiExport DialogOption : public DialogElement
     {
     public:
-        DialogOption(int id);
+        DialogOption(int id, bool isAutoSelected);
         ~DialogOption();
 
 
@@ -45,13 +45,17 @@ namespace rl
 
 
         void setPrecondition(DialogCondition* precondition);
+        virtual const CeGuiString& getConditionVariableType();
+        virtual bool isConditional();
 
+        bool isAutoSelected() const;
         bool isAvailable(Dialog* dialog) const;
 
     private:
         DialogResponse* mResponse;
         DialogCondition* mPrecondition;
         CeGuiString mLabel;
+        bool mIsAutoSelected;
     };
     
     typedef DialogSelection<DialogOption> DialogOptionSelection;

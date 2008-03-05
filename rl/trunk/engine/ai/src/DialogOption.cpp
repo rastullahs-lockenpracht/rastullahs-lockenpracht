@@ -22,8 +22,8 @@
 namespace rl
 {
 
-    DialogOption::DialogOption(int id)
-    : DialogElement(id), mPrecondition(NULL), mLabel("")
+    DialogOption::DialogOption(int id, bool isAutoSelected)
+    : DialogElement(id), mPrecondition(NULL), mResponse(NULL), mLabel(""), mIsAutoSelected(isAutoSelected)
     {
     }
 
@@ -46,6 +46,24 @@ namespace rl
         mPrecondition = precondition;
     }
 
+    const CeGuiString& DialogOption::getConditionVariableType()
+    {
+        RlAssert(mPrecondition, "No precondition found for option with id: " 
+                                + Ogre::StringConverter::toString(getId())
+                                + "\nA precondition must be set to get its variable type");
+        return mPrecondition->getVariableType();
+    }
+
+    bool DialogOption::isConditional()
+    {
+        return (mPrecondition != NULL);
+    }
+
+    bool DialogOption::isAutoSelected() const
+    {
+        return mIsAutoSelected;
+    }
+
     bool DialogOption::isAvailable(Dialog* dialog) const
     {
         if (mPrecondition)
@@ -59,6 +77,7 @@ namespace rl
     void DialogOption::setLabel(const CeGuiString &label)
     {
         mLabel = label;
+        mLabel.c_str();
     }
 
     const CeGuiString& DialogOption::getLabel() const

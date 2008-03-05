@@ -155,7 +155,7 @@ namespace rl {
             handleDialogClose();
             return;
 		}
-
+        mDialog->setProperty(Dialog::PROP_EXIT_REQUESTED, false);
         mCurrentSpeaker = mDialog->getNpc(0);
         mCurrentListener = mDialog->getPc(0);
         showResponse(mDialog->getDialogStart());
@@ -275,6 +275,12 @@ namespace rl {
         mDialogWindow->setVisible(false);
         Ogre::String soundFile = paragraph->getVoiceFile();
         CeGuiString text = paragraph->getText();
+        // if there is no text in the paragraph, go directly to the next entry!
+        if(text.empty())
+        {
+            textFinished();
+            return;
+        }
         processTextVariables(text);
 
         recalculateCamera(mCurrentListener, mCurrentSpeaker);
@@ -371,6 +377,7 @@ namespace rl {
 	{
         if (!response)
 		{
+            LOG_MESSAGE(Logger::UI, "No response found! Close Dialog!");
 			mDialogWindow->setDialogEnd();
 			mState = CLOSING_DIALOG;
 			handleDialogClose();
@@ -399,12 +406,34 @@ namespace rl {
         {
             DialogParagraph* firstParagraph = mCurrentParagraphs.front();
             mCurrentResponse->applyImplications(mDialog);
+            // does this paragraph contain a response?
             if (!firstParagraph->getResponse())
             {
+                // no, so directly start with the first paragraph
                 doTalk(firstParagraph);
+            }
+            else if(mCurrentParagraphs.size() > 1)
+            {
+                // yes, but there are other paragraphs in the list.
+                // the response should be executed at last, so we put it back to the end
+                mCurrentParagraphs.pop_front();
+                mCurrentParagraphs.push_back(firstParagraph);
+                firstParagraph = mCurrentParagraphs.front();
+                // we don't allow more than one goto per response
+                if(firstParagraph->getResponse())
+                {
+                    LOG_ERROR(Logger::UI, "To many gotoresponses in response with id: " 
+                        + mCurrentResponse->getId()); 
+                    handleDialogClose();
+                }
+                else
+                {
+                    doTalk(firstParagraph);
+                }
             }
             else
             {
+                // we only have a response as paragraph, execute it!
                 showResponse(firstParagraph->getResponse());
             }
         }
@@ -443,6 +472,13 @@ namespace rl {
                 mCurrentSpeaker = mDialog->getPc(0);
 
                 DialogResponse::Options options = mCurrentResponse->getAvailableOptions(mDialog);
+                // if there is just one option and it is an auto selected one,
+                // display it.
+                if(options.size() == 1 &&  options.front()->isAutoSelected())
+                {
+                    handleDialogSelectOption(options.front());
+                    return;
+                }
                 mDialogWindow->setAvailableOptions(options);
 		        mDialogWindow->setVisible(true);
 		        mState = CHOOSING_OPTION;

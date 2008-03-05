@@ -229,7 +229,8 @@ namespace rl
             }
             else if (hasNodeName(dialogElemXml, "option"))
             {
-                DialogOption* option = new DialogOption(id);
+                bool isAutoSelected = getAttributeValueAsBool(dialogElemXml, "autoSelect");
+                DialogOption* option = new DialogOption(id, isAutoSelected);
                 if (hasAttribute(dialogElemXml, "label"))
                 {
                     option->setLabel(getAttributeValueAsString(dialogElemXml, "label"));
@@ -766,22 +767,24 @@ namespace rl
         else if (hasNodeName(variableXml, "attributecheck"))
         {
             CeGuiString attr = getAttributeValueAsString(variableXml, "attribute");
+            CeGuiString target = getAttributeValueAsString(variableXml, "target");
             int modifier = 0;
             if (hasAttribute(variableXml, "modifier"))
             {
                 modifier = getAttributeValueAsInteger(variableXml, "modifier");
             }
-            return new EigenschaftsProbeVariable(attr, modifier);
+            return new EigenschaftsProbeVariable(attr, modifier, target);
         }
         else if (hasNodeName(variableXml, "talentcheck"))
         {
             CeGuiString attr = getAttributeValueAsString(variableXml, "talent");
+            CeGuiString target = getAttributeValueAsString(variableXml, "target");
             int modifier = 0;
             if (hasAttribute(variableXml, "modifier"))
             {
                 modifier = getAttributeValueAsInteger(variableXml, "modifier");
             }
-            return new TalentProbeVariable(attr, modifier);
+            return new TalentProbeVariable(attr, modifier, target);
         }
 
         return NULL;

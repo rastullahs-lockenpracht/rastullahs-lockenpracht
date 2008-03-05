@@ -51,12 +51,16 @@ namespace rl
         for (Options::const_iterator it = allOptions.begin(); it != allOptions.end(); ++it)
         {
             DialogOption* cur = *it;
+            if (cur->isAutoSelected())
+            {
+                availableOptions.push_back(cur);
+                break;
+            }
             if (cur->isAvailable(dialog))
             {
                 availableOptions.push_back(cur);
             }
         }
-
         return availableOptions;
     }
 

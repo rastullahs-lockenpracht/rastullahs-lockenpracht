@@ -560,8 +560,15 @@ Ogre::Quaternion XmlProcessor::getAttributeValueAsQuaternion(DOMElement* element
 utf8* XmlProcessor::transcodeToUtf8(const XMLCh* const string16) const
 {
 	unsigned int str16len = XMLString::stringLen(string16);
-	if (str16len == 0)
-		return (utf8*)"";
+
+    /// Check if the XMLCh contains nothing but whitespaces. If so, remove them 
+    /// @note this does also mean, that this method will never return something like " " 
+    XMLCh* tmpVal = XMLString::replicate(string16);
+    if(XMLChar1_0::isAllSpaces(tmpVal, str16len))
+    {
+        XMLString::removeWS(tmpVal);
+        str16len = XMLString::stringLen(tmpVal);
+    }
 
 	utf8* rval;
 	unsigned int eaten = 0;
@@ -571,7 +578,7 @@ utf8* XmlProcessor::transcodeToUtf8(const XMLCh* const string16) const
 	{
 		rval = new utf8[size+1];
 	
-		sTranscoder->transcodeTo(string16, str16len, rval, size, eaten, XMLTranscoder::UnRep_RepChar);
+		sTranscoder->transcodeTo(tmpVal, str16len, rval, size, eaten, XMLTranscoder::UnRep_RepChar);
 		rval[size] = 0;
 
 		if (eaten < str16len)
@@ -581,7 +588,7 @@ utf8* XmlProcessor::transcodeToUtf8(const XMLCh* const string16) const
 		}
 	}
 	while (eaten < str16len);
-
+    XMLString::release(&tmpVal);
 	return rval;	
 }
 
@@ -616,6 +623,7 @@ DOMDocument* XmlProcessor::loadDocument(
 	XercesDOMParser* parser = new XercesDOMParser();
 
     parser->setValidationScheme(XercesDOMParser::Val_Auto);    // optional.
+    //parser->setIncludeIgnorableWhitespace(false); // optional, if you want to ignore whitespaces
     parser->setDoNamespaces(true);    // optional
 
     XmlPtr res = XmlResourceManager::getSingleton().getByName(resourceName);

@@ -24,13 +24,18 @@
 
 namespace rl
 {
-    DialogVariable::DialogVariable()
-        : mRecalculate(true)
+    DialogVariable::DialogVariable(const CeGuiString& type)
+        : mRecalculate(true), mType(type)
     {
     }
 
     DialogVariable::~DialogVariable()
     {
+    }
+
+    const CeGuiString& DialogVariable::getType()
+    {
+        return mType;
     }
 
     const Property& DialogVariable::getValue(Dialog* dialog)
@@ -50,7 +55,7 @@ namespace rl
     }
 
     DialogPropertyVariable::DialogPropertyVariable(const Ogre::String &propertyName)
-        : mPropertyName(propertyName)
+        : DialogVariable("dialogvariable"), mPropertyName(propertyName)
     {
     }
 
@@ -60,7 +65,7 @@ namespace rl
     }
 
     QuestStateVariable::QuestStateVariable(const Ogre::String &questId, const Ogre::String &propertyName)
-        : mQuestId(questId), mPropertyName(propertyName)
+        : DialogVariable("queststate"), mQuestId(questId), mPropertyName(propertyName)
     {
     }
 
@@ -69,27 +74,47 @@ namespace rl
         return RulesSubsystem::getSingleton().getQuestBook()->getQuest(mQuestId)->getProperty(mPropertyName);
     }
 
-    TalentProbeVariable::TalentProbeVariable(const rl::CeGuiString &talent, int modifier)
-        : mTalent(talent), mModifier(modifier)
+    TalentProbeVariable::TalentProbeVariable(const rl::CeGuiString &talent, int modifier, const rl::CeGuiString& target)
+        : DialogVariable("talentcheck"), mTalent(talent), mTarget(target), mModifier(modifier)
     {
     }
 
     Property TalentProbeVariable::calculateValue(Dialog* dialog)
     {
-        Creature* cr = dialog->getPc(0); ///@todo allow multiple PCs
+        Creature* cr = NULL;
+        if(mTarget == "pc")
+        {
+            cr = dialog->getPc(0); ///@todo allow multiple PCs
+        }
+        else if (mTarget == "npc")
+        {
+            cr = dialog->getNpc(0);
+        }
+        // if no target was given, use the player character. 
+        // @todo: remove this, target should be required!
+        if(cr == NULL) { cr = dialog->getPc(0);}
         return Property(cr->doTalentprobe(mTalent, mModifier));
     }
 
-EigenschaftsProbeVariable::EigenschaftsProbeVariable(const rl::CeGuiString &eigenschaft, int modifier)
-        : mEigenschaft(eigenschaft), mModifier(modifier)
+    EigenschaftsProbeVariable::EigenschaftsProbeVariable(const rl::CeGuiString &eigenschaft, int modifier, const rl::CeGuiString& target)
+        : DialogVariable("attributecheck"), mEigenschaft(eigenschaft), mTarget(target), mModifier(modifier)
     {
     }
 
     Property EigenschaftsProbeVariable::calculateValue(Dialog* dialog)
     {
-        Creature* cr = dialog->getPc(0); ///@todo allow multiple PCs
+        Creature* cr = NULL;
+        if(mTarget == "pc")
+        {
+            cr = dialog->getPc(0); ///@todo allow multiple PCs
+        }
+        else if (mTarget == "npc")
+        {
+            cr = dialog->getNpc(0);
+        }
+        // if no target was given, use the player character. 
+        // @todo: remove this, target should be required!
+        if(cr == NULL) { cr = dialog->getPc(0);}
         return Property(cr->doEigenschaftsprobe(mEigenschaft, mModifier));
     }
-
-
 }

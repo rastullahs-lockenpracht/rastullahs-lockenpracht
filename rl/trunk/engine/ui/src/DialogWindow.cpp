@@ -110,6 +110,20 @@ namespace rl {
             {
                 text = cur->getLabel();
             }
+            if (cur->isConditional())
+            {
+                CeGuiString type = cur->getConditionVariableType();
+                type.c_str();
+                if ( type == "talentcheck")
+                {
+                    text += " [T] ";
+                }
+                else if (type == "attributecheck")
+                {
+                    text += " [E] ";
+                }
+            }
+            text.c_str();
 
 			if (optionCount < mDialogOptions->getItemCount())
 			{

@@ -30,13 +30,16 @@ namespace rl
         const Property& getValue(Dialog* dialog);
         void invalidate();
 
+        const CeGuiString& getType();
+
     protected:
-        DialogVariable();
+        DialogVariable(const CeGuiString& type);
         virtual ~DialogVariable();
         virtual Property calculateValue(Dialog* dialog) = 0;
 
     private:
         bool mRecalculate;
+        CeGuiString mType;
         Property mValue;
     };
 
@@ -44,7 +47,7 @@ namespace rl
     {
     public:
         DialogPropertyVariable(const Ogre::String& propertyName);
-
+        
     protected:
         virtual Property calculateValue(Dialog* dialog);
 
@@ -68,26 +71,28 @@ namespace rl
     class EigenschaftsProbeVariable : public DialogVariable
     {
     public:
-        EigenschaftsProbeVariable(const CeGuiString& eigenschaft, int modifier);
+        EigenschaftsProbeVariable(const CeGuiString& eigenschaft, int modifier, const CeGuiString& target);
 
     protected:
         virtual Property calculateValue(Dialog* dialog);
 
     private:
         CeGuiString mEigenschaft;
+        CeGuiString mTarget;
         int mModifier;
     };
 
     class TalentProbeVariable : public DialogVariable
     {
     public:
-        TalentProbeVariable(const CeGuiString& talent, int modifier);
+        TalentProbeVariable(const CeGuiString& talent, int modifier, const CeGuiString& target);
         
     protected:
         virtual Property calculateValue(Dialog* dialog);
 
     private:
         CeGuiString mTalent;
+        CeGuiString mTarget;
         int mModifier;
     };
 }

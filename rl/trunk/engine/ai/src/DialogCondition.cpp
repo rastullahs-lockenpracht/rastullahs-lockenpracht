@@ -33,6 +33,12 @@ namespace rl
     {
     }
 
+    const CeGuiString& DialogCondition::getVariableType()
+    {
+        RlAssert(mVariable, "No variable available for the condition");
+        return mVariable->getType();
+    }
+
     bool DialogCondition::isTrue(Dialog* dialog)
     {
         if (mVariable)

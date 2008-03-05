@@ -29,6 +29,8 @@ namespace rl
         DialogCondition();
         virtual ~DialogCondition();
 
+        const CeGuiString& getVariableType();
+
         void setVariable(DialogVariable* var);
 
         bool isTrue(Dialog* dialog);
