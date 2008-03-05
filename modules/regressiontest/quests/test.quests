@@ -1,10 +1,10 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <quests>
 	<quest id="blahid">
 		<name>blahname</name>
 		<description>blub blub blahtext</description>
 		<state>COMPLETED</state>
-		<known>true</state>
+		<known>true</known>
 		<quest id="blahid2">
 			<name>text</name>
 			<description>nochmal blah</description>
@@ -14,7 +14,7 @@
 		<name>blahname2</name>
 		<description>blub blub blahtext213423</description>
 		<state>COMPLETED</state>
-		<known>true</state>
+		<known>true</known>
 		<quest id="blahid2">
 		</quest>
 	</quest>
