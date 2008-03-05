@@ -21,8 +21,8 @@
 namespace rl 
 {
 
-GameTask::GameTask(bool pauseable)
-: mInterruptable(false), mPaused(false)
+GameTask::GameTask(bool interruptable)
+: mInterruptable(interruptable), mPaused(false)
 {
 }
         

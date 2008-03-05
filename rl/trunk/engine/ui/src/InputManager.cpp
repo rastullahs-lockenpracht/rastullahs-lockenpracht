@@ -61,7 +61,8 @@ template<> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
 
 namespace rl {
 
-    InputManager::InputManager(Ogre::RenderWindow* win) :
+    InputManager::InputManager(Ogre::RenderWindow* win) 
+      : GameTask(false),
         mKeyMapNormal(),
         mKeyMapShift(),
         mKeyMapAlt(),

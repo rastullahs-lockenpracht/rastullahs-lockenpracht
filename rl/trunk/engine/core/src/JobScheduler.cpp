@@ -28,7 +28,8 @@ template<> rl::JobScheduler* Singleton<rl::JobScheduler>::ms_Singleton = 0;
 namespace rl
 {
     JobScheduler::JobScheduler()
-        : mJobQueue(), 
+        : GameTask(true),
+        mJobQueue(), 
         //mRemovedJobs(), 
         mTokenThreshold(JP_NORMAL), 
         mTicketCounter(0)

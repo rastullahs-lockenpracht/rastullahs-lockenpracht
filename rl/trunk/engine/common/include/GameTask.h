@@ -28,7 +28,7 @@ class _RlCommonExport GameTask
     public:
 		/// Konstruktor, startet unpausiert
         /// @param interruptable set to <code>false</code> if GameTask can't be paused
-        GameTask(bool interruptable = true);
+        GameTask(bool interruptable = false);
 
 		/// Virtueller Basis-Destruktor
         virtual ~GameTask() {};
