@@ -12,6 +12,17 @@ class LightzoneTest < TestCase
 	  
 	  MapLoader.new("regressiontest").loadMap("regressiontest_lights.rlmap.xml")
 
+	  # Test if an actor is in the zone
+	  ball = $GOM.createGameObject("apple");
+	  # should be inside zone
+	  ball.setPosition([-9, 0.5, -5]);
+	  ball.placeIntoScene();
+	  zm = ZoneManager.getSingleton();
+	  if( not zm.isInZone(zm.getZone("Testzone"), ball.getActor()) )
+		  p "apple not found in Testzone!"
+	  end
+
+
 	  $SCRIPT.log("LightzoneTest initialisiert")
   end
 end
