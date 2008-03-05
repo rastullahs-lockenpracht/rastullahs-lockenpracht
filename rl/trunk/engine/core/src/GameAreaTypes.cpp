@@ -180,6 +180,11 @@ namespace rl {
         mFoundActors.clear();
     }
 
+    bool GameNewtonBodyAreaType::isInside(Actor *actor)
+    {
+        return getDistance(actor) <= 0;
+    }
+
     ActorMap GameNewtonBodyAreaType::performQuery()
     {
         return mFoundActors;

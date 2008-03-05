@@ -93,6 +93,13 @@ namespace rl
         /// asks wether this zone is currently activated
         bool isZoneActive(const Zone* zone) const;
 
+        /*
+         * asks if the actor is currently in the specified Zone (expensive function!)
+         * the querymask of the actor doesn't need to fit the mask of the zone.
+         * this function probably isn't very accurate, it may only use the distance!
+        */
+        bool isInZone(Zone* zone, Actor *actor);
+
 		void areaLeft(GameAreaEvent* gae);
 	    void areaEntered(GameAreaEvent* gae);
 

@@ -967,6 +967,7 @@ public:
 	rl::Zone* getZone(const Ogre::String& name);
     rl::Zone* getZone(long id);
     bool isZoneActive(const rl::Zone *zone) const;
+    bool isInZone(Zone* zone, Actor *actor);
 };
 
 %feature("director") Trigger;

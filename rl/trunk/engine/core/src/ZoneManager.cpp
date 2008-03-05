@@ -177,6 +177,32 @@ namespace rl
         return iter != mActiveZones.end();
     }
 
+    bool ZoneManager::isInZone(Zone* zone, Actor *actor)
+    {
+        if( zone == NULL || actor == NULL )
+            return false;
+
+        if( zone == mDefaultZone )
+            return true;
+
+        int x = 0;
+        GameAreaEventSourceList &gal = zone->getEventSources();
+        GameAreaEventSourceList::iterator it = gal.begin();
+        for( ; it != gal.end(); it++ )
+        {
+            // diese funktion hier notwendig um die mask zu ignorieren
+            if( (*it)->getGameAreaType()->isInside(actor) )
+            {
+                if( (*it)->getId() < 0 )
+                    x--;
+                else
+                    x++;
+            }
+        }
+
+        return x > 0;
+    }
+
     void ZoneManager::addAreaToZone(const Ogre::String& name, 
         AxisAlignedBox aabb, GeometryType geom,
         Vector3 position, Vector3 offset, Quaternion orientation,

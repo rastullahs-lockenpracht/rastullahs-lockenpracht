@@ -76,6 +76,9 @@ public:
     /// Der minimale abstand, den ein aktor von der zone haben muss, um die zone zu verlassen (um st�ndige wechsel in und aus der zone zu vermeiden)
     virtual Ogre::Real getTransitionDistance() const = 0;
     virtual void setTransitionDistance(Ogre::Real dist) = 0;
+
+    /// Gibt true zurueck, wenn sich der Actor in der Area befindet
+    virtual bool isInside(Actor *actor) = 0;
 };
 
 /** GameSphereAreaType
@@ -157,6 +160,9 @@ public:
 
     Ogre::Real getTransitionDistance() const;
     void setTransitionDistance(Ogre::Real dist);
+
+    /// Gibt true zurueck, wenn sich der Actor in der Area befindet
+    virtual bool isInside(Actor *actor);
 protected:
     OgreNewt::Body* mBody;
     ActorMap mFoundActors;
