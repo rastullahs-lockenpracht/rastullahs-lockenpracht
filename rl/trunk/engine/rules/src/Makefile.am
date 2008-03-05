@@ -28,6 +28,7 @@ libRlRules_la_SOURCES = \
 	Item.cpp \
 	Inventory.cpp \
 	JournalEntry.cpp \
+	Kampfaktion.cpp \
 	Kampftechnik.cpp \
 	ObjectStateChangeEvent.cpp \
 	ObjectStateChangeEventSource.cpp \

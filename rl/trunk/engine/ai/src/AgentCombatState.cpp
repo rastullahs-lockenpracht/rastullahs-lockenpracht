@@ -46,7 +46,7 @@ namespace rl
         // Think!
     }
 
-	void AgentCombatState::executeAction(CombatAction* action)
+	void AgentCombatState::executeAction(Kampfaktion* action)
 	{
 	}
 

@@ -371,6 +371,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Kampfaktion.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Kampftechnik.cpp"
 				>
 			</File>
@@ -525,10 +529,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\CombatAction.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\Combatant.h"
 				>
 			</File>
@@ -598,6 +598,10 @@
 			</File>
 			<File
 				RelativePath=".\include\JournalEntry.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Kampfaktion.h"
 				>
 			</File>
 			<File

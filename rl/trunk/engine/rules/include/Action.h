@@ -87,10 +87,11 @@ namespace rl
          * durchgefuehrt werden kann.
          * @param object Das benutzte Object, für diese Aktion.
          * @param actor Der Benutzer des Objektes.
+         * @param target Das (erste) Ziele der Aktion.
          *
          * @return true, falls die Aktion möglich ist, false sonst.
          */
-        virtual bool canDo(GameObject* object, Creature* actor) const;
+        virtual bool canDo(GameObject* object, Creature* actor, GameObject* target = NULL) const;
 
         /**
          * Die Aktion wird ausgeführt. Diese Methode wird in Ruby

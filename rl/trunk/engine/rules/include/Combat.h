@@ -18,7 +18,7 @@
 #define __RL_COMBAT_H__
 
 #include "RulesPrerequisites.h"
-#include "CombatAction.h"
+#include "Kampfaktion.h"
 
 #include <set>
 #include <vector>
@@ -50,15 +50,15 @@ namespace rl
 
         // Called by combatants in response to a request by the Combat object.
         // With calling this function combatants register their actions for this round.
-        void registerCombatantAction(Combatant*, CombatAction*, CombatAction*, CombatAction*);
-        void actionExecuted(Combatant*, CombatAction*);
+        void registerCombatantAction(Combatant*, Kampfaktion*, Kampfaktion*, Kampfaktion*);
+        void actionExecuted(Combatant*, Kampfaktion*);
 
     private:
         typedef std::vector<std::pair<int, Combatant*> > CombatantQueue;
         /// Stores the max three actions a combatant can do per round.
         /// Probably has to be replaced with a more sophisticated container later on,
         /// but for now it will do what it needs to.
-        typedef boost::tuples::tuple<CombatAction*, CombatAction*, CombatAction*> ActionTuple;
+        typedef boost::tuples::tuple<Kampfaktion*, Kampfaktion*, Kampfaktion*> ActionTuple;
         typedef std::map<Combatant*, ActionTuple> CombatantActionMap;
 
         CombatantSet mOpponents;

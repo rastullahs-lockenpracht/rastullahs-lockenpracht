@@ -13,29 +13,48 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h"
 
-#ifndef __RL_COMBATACTION_H__
-#define __RL_COMBATACTION_H__
+#include "Kampfaktion.h"
+#include "Combatant.h"
 
-#include "RulesPrerequisites.h"
-#include "Action.h"
+using namespace Ogre;
 
 namespace rl
 {
-    class Combatant;
+	Kampfaktion::Kampfaktion(const CeGuiString& name, const CeGuiString& description)
+		: mName(name), mDescription(description)
+	{
+	}
 
-    class _RlRulesExport CombatAction : public Action
-    {
-    public:
-        typedef enum {FREE_ACTION, ACTIVE_ACTION, REACTIVE_ACTION, LONG_TERM_ACTION} Type;
+    Kampfaktion::~Kampfaktion()
+	{
+	}
 
-        CombatAction(Type type, const CeGuiString name, const CeGuiString description);
-        virtual ~CombatAction() {}
+    CeGuiString Kampfaktion::getName() const
+	{
+		return mName;
+	}
 
-        Type getType() const;
-    protected:
-        Type mType;
-    };
+    CeGuiString Kampfaktion::getDescription() const
+	{
+		return mDescription;
+	}
+
+	Attacke::Attacke() : Kampfaktion("Attacke", "Greife Gegner an.")
+	{
+	}
+
+	Attacke::~Attacke()
+	{
+	}
+
+	bool Attacke::canDoKampfaktion(Combatant* actor, Combatant* target) const
+	{
+		return true;
+	}
+
+    void Attacke::doKampfaktion(Combatant* actor, Combatant* target)
+	{
+	}
 }
-
-#endif

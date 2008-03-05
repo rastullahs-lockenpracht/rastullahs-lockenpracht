@@ -23,6 +23,7 @@
 
 namespace rl
 {
+	/// Class encapsules DSA Kampftechniken as Raufen, Dolche, Hiebwaffen, etc.
     class _RlRulesExport Kampftechnik
     {
     private:

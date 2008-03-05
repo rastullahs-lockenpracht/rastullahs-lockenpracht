@@ -52,6 +52,7 @@ namespace rl
     const Ogre::String Creature::PROPERTY_EIGENSCHAFTEN = "eigenschaften";
     const Ogre::String Creature::PROPERTY_TALENTE = "talente";
     const Ogre::String Creature::PROPERTY_KAMPFTECHNIKEN = "kampftechniken";
+    const Ogre::String Creature::PROPERTY_KAMPFAKTIONEN = "kampfaktionen";
     const Ogre::String Creature::PROPERTY_VORTEILE = "vorteile";
     const Ogre::String Creature::PROPERTY_NACHTEILE = "nachteile";
     const Ogre::String Creature::PROPERTY_SF = "sonderfertigkeiten";
@@ -91,6 +92,7 @@ namespace rl
 		mWerte(),
 		mTalente(),
         mKampftechniken(),
+		mKampfaktionen(),
         mSonderfertigkeiten(),
         mErschoepfung(0),
         mMovementType(0),
@@ -502,6 +504,21 @@ namespace rl
         (*it).second = value;
 		fireObjectStateChangeEvent();
     }
+
+    void Creature::addKampfaktion(const CeGuiString& kampfaktionName)
+	{
+		mKampfaktionen.insert(kampfaktionName);
+	}
+
+    bool Creature::hasKampfaktion(const CeGuiString& kampfaktionName) const
+	{
+		return mKampfaktionen.find(kampfaktionName) != mKampfaktionen.end();
+	}
+
+	const std::set<CeGuiString>& Creature::getAllKampfaktionen() const
+	{
+		return mKampfaktionen;
+	}
 
     void Creature::addVorteil(const CeGuiString vorteilName, int value)
     {
@@ -1027,6 +1044,11 @@ namespace rl
             mKampftechniken.clear();
             convertToMap(value.toMap(), mKampftechniken);
         }
+        else if (key == Creature::PROPERTY_KAMPFAKTIONEN)
+        {
+            mKampfaktionen.clear();
+            convertToSet(value.toArray(), mKampfaktionen);
+        }
         else if (key == Creature::PROPERTY_VORTEILE)
         {
             mVorteile.clear();
@@ -1116,6 +1138,11 @@ namespace rl
         {
             PropertyMap map = rl::convertToPropertyMap(mKampftechniken);
             return Property(map);
+        }
+        else if (key == Creature::PROPERTY_KAMPFAKTIONEN)
+        {
+            PropertyArray vec = rl::convertToPropertyArray(mKampfaktionen);
+            return Property(vec);
         }
         else if (key == Creature::PROPERTY_VORTEILE)
         {

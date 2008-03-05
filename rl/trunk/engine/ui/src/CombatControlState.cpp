@@ -108,7 +108,6 @@ namespace rl {
 
 		mCombatGui->show();
 
-
         // We want to play too..
         mCombat->addAlly(this);
 
@@ -145,7 +144,7 @@ namespace rl {
 		mCombatGui->enableUserInput(true);
     }
 
-	void CombatControlState::executeAction(CombatAction* action)
+	void CombatControlState::executeAction(Kampfaktion* action)
 	{
 	}
 

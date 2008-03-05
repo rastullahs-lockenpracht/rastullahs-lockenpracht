@@ -118,6 +118,7 @@ namespace rl
             static const Ogre::String PROPERTY_EIGENSCHAFTEN;
             static const Ogre::String PROPERTY_TALENTE;
             static const Ogre::String PROPERTY_KAMPFTECHNIKEN;
+            static const Ogre::String PROPERTY_KAMPFAKTIONEN;
             static const Ogre::String PROPERTY_VORTEILE;
             static const Ogre::String PROPERTY_NACHTEILE;
             static const Ogre::String PROPERTY_SF;
@@ -420,6 +421,13 @@ namespace rl
             virtual void setKampftechnik(const CeGuiString kampftechnikName, const std::pair<int, int>& value);
 
 ///////////////////////////////////////////////////////////////////////////////
+// Kampfaktionen (Attacke, Parade, etc..)
+
+            void addKampfaktion(const CeGuiString& kampfaktionName);
+            bool hasKampfaktion(const CeGuiString& kampfaktionName) const;
+			const std::set<CeGuiString>& getAllKampfaktionen() const;
+
+///////////////////////////////////////////////////////////////////////////////
 // Vorteile
             /**
              *  Fuegt einen Vorteil hinzu.
@@ -688,7 +696,7 @@ namespace rl
             virtual void setProperty(const Ogre::String& key, const Property& value);
             virtual PropertyRecord* getAllProperties() const;
 
-             void setAlignment(Alignment);
+            void setAlignment(Alignment);
             Alignment getAlignment() const;
 
 
@@ -813,6 +821,7 @@ namespace rl
             EigenschaftMap mEigenschaften;
             TalentMap mTalente;
             KampftechnikMap mKampftechniken;
+			std::set<CeGuiString> mKampfaktionen;
             VorteilMap mVorteile;
             NachteilMap mNachteile;
             SonderfertigkeitMap mSonderfertigkeiten;

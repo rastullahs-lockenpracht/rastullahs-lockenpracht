@@ -19,13 +19,12 @@
 
 #include "RulesPrerequisites.h"
 
-#include "CombatAction.h"
-
 namespace rl
 {
     class Combat;
     class Creature;
     class CreatureController;
+	class Kampfaktion;
 
     /// Base class of combat participiants. This defines the interface Combat uses
 	/// to communicate with Combatants. Be it AI bots or actual users.
@@ -45,7 +44,7 @@ namespace rl
         /// This function is called by the Combat the Combatantant is taking part in,
         /// in order to request it to execute the registered action.
 		/// When done, Combatant is supposed to call Combat#actionExecuted.
-		virtual void executeAction(CombatAction* action) = 0;
+		virtual void executeAction(Kampfaktion* aktion) = 0;
 
         /// Type name used by factory
 		virtual Ogre::String getCombatantTypeName() const = 0;

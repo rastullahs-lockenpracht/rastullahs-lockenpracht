@@ -35,7 +35,7 @@ namespace rl
         virtual ~AgentCombatState();
 
         virtual void requestCombatantAction();
-		virtual void executeAction(CombatAction* action);
+		virtual void executeAction(Kampfaktion* action);
 
         virtual Ogre::String getCombatantTypeName() const;
 

@@ -140,7 +140,7 @@ namespace rl
     }
 
     void Combat::registerCombatantAction(Combatant* combatant,
-        CombatAction* action1, CombatAction* action2, CombatAction* action3)
+        Kampfaktion* action1, Kampfaktion* action2, Kampfaktion* action3)
     {
         mCombatantActions[combatant] = ActionTuple(action1, action2, action3);
         // Are all combatants registered now?
@@ -150,7 +150,7 @@ namespace rl
         }
     }
 
-    void Combat::actionExecuted(Combatant*, CombatAction*)
+    void Combat::actionExecuted(Combatant*, Kampfaktion*)
 	{
 	}
 
