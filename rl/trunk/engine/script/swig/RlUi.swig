@@ -123,6 +123,24 @@ public:
     void closeTopWindow();
 };
 
+%feature("director") MessageWindow; 
+class MessageWindow
+{
+public:
+    enum Buttons 
+    {
+        OK,
+        YES_NO
+    };
+
+    MessageWindow::MessageWindow(
+        const rl::CeGuiString& title, 
+        const rl::CeGuiString& text, 
+        const Buttons buttons);
+    virtual bool onButtonClicked(int button, const rl::CeGuiString& text);
+    void setVisible(bool visible);
+};
+
 } //namespace rl
 
 %{

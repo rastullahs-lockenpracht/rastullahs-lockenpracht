@@ -22,6 +22,7 @@
 #include "CommandMapper.h"
 #include "CutsceneControlState.h"
 #include "InputManager.h"
+#include "MessageWindow.h"
 #include "UiPrerequisites.h"
 #include "UiSubsystem.h"
 #include "WindowFactory.h"

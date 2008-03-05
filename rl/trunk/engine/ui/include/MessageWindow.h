@@ -26,12 +26,28 @@ namespace rl {
 		public AbstractWindow
 	{
 	public:
-		MessageWindow();
-		
-		void setText(const CeGuiString& message);
+        enum Buttons 
+        {
+            OK,
+            YES_NO
+        };
+
+        MessageWindow::MessageWindow(
+            const CeGuiString& title, 
+            const CeGuiString& text, 
+            const Buttons buttons);
+
+        void setTitle(const CeGuiString& title);
+		void setText(const CeGuiString& text);
+        void setButtons(const CeGuiStringVector& buttonTexts);
+        virtual bool onButtonClicked(int button, const CeGuiString& text);
 	
 	private:
-		CEGUI::Window* mTextField;	
+        CEGUI::Window* mTextField;
+        CEGUI::Window* mButtonPanel;
+        int mNumButtons;
+
+        const CeGuiStringVector getButtonTexts(const Buttons buttons) const;
 	};
 }
 

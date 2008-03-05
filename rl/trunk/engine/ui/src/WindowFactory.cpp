@@ -146,8 +146,7 @@ namespace rl {
 
     void WindowFactory::showMessageWindow(const CeGuiString& message)
     {
-        MessageWindow* w = new MessageWindow();
-        w->setText(message);
+        MessageWindow* w = new MessageWindow("", message, MessageWindow::OK);
         w->setVisible(true);
     }
 
