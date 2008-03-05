@@ -18,6 +18,7 @@
 #include "CameraObject.h"
 
 #include <OgreRay.h>
+#include <OgreViewport.h>
 
 #include "Actor.h"
 #include "CoreSubsystem.h"
