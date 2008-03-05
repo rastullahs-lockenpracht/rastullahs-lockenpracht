@@ -482,7 +482,8 @@ namespace rl {
         if( !mControlStates.empty() )
             if( mControlStates.top()->mousePressed(evt, id, retval) )
                 retval = true;
-        return retval;
+        return true;
+        //return retval;
     }
 
     bool InputManager::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
@@ -498,7 +499,8 @@ namespace rl {
         if( !mControlStates.empty() )
             if( mControlStates.top()->mouseReleased(evt, id, retval) )
                 retval = true;
-        return retval;
+        return true;
+        //return retval;
     }
 
     bool InputManager::mouseMoved(const OIS::MouseEvent& evt)
@@ -514,7 +516,8 @@ namespace rl {
         if( !mControlStates.empty() )
             if( mControlStates.top()->mouseMoved(evt, retval) )
                 retval = true;
-        return retval;
+        return true;
+        //return retval;
     }
 
     // job definition for key repeating
@@ -599,7 +602,8 @@ namespace rl {
         if( !mControlStates.empty() )
             if( mControlStates.top()->keyPressed(evt, retval) )
                 retval = true;
-        return retval;
+        return true;
+        //return retval;
     }
 
     bool InputManager::keyReleased(const OIS::KeyEvent& evt)
@@ -614,7 +618,8 @@ namespace rl {
         if( !mControlStates.empty() )
             if( mControlStates.top()->keyReleased(evt, retval) )
                 retval = true;
-        return false;
+        return true;
+        //return false;
     }
 
 }
