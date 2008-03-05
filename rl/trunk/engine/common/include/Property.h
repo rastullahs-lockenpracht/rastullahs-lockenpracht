@@ -21,6 +21,7 @@
 #include <boost/any.hpp>
 #include <OgreSharedPtr.h>
 #include <map>
+#include <set>
 
 #include "Exception.h"
 #include "Tripel.h"
@@ -143,12 +144,22 @@ namespace rl {
         return map;
     }
 
+    template<typename T> PropertyArray convertToPropertyArray(const std::set<T>& input)
+    {
+        PropertyArray vec;
+        for (typename std::set<T>::const_iterator it = input.begin(); it != input.end(); ++it)
+        {
+			vec.push_back(Property(*it));
+        }
+        return vec;
+    }
+
     template<typename T> void convertToMap(
         const PropertyMap& propmap, std::map<const Ogre::String, T>& output)
     {
         for (PropertyMap::const_iterator it = propmap.begin(); it != propmap.end(); ++it)
         {
-            output[it->first.c_str()] = it->second;
+			output.insert(std::map<const Ogre::String, T>::value_type(it->first.c_str(), it->second));
         }
     }
     
@@ -157,11 +168,20 @@ namespace rl {
     {
         for (PropertyMap::const_iterator it = propmap.begin(); it != propmap.end(); ++it)
         {
-	    T temp = it->second; // needed for GCC, else there is ambiguous operator CEGUI::String::=
-            output[it->first] = temp;
+			//T temp = it->second; // needed for GCC, else there is ambiguous operator CEGUI::String::=
+            //output[it->first] = temp;
+			output.insert(std::map<const CeGuiString, T>::value_type(it->first, it->second));
         }
     }
     
+    template<typename T> void convertToSet(
+        const PropertyArray& propvec, std::set<T>& output)
+    {
+        for (PropertyArray::const_iterator it = propvec.begin(); it != propvec.end(); ++it)
+        {
+            output.insert(*it);
+        }
+    }
 
 } // namespace rl
 
