@@ -17,7 +17,6 @@
 
 #include "ControlState.h"
 
-#include <OgreSceneManager.h>
 
 #include "AbstractWindow.h"
 #include "Action.h"

@@ -19,8 +19,7 @@
 #include "PhysicalThing.h"
 #include "Exception.h"
 #include <OpenSteer/Obstacle.h>
-#include <OgreNewt_Body.h>
-#include <OgreNewt_Collision.h>
+#include <OgreNewt.h>
 
 using namespace Ogre;
 

@@ -17,8 +17,6 @@
 
 #include "ContentModule.h"
 
-#include <OgreMeshManager.h>
-#include <OgreResource.h>
 
 #include "ConfigurationManager.h"
 #include "CoreSubsystem.h"

@@ -18,14 +18,6 @@
 
 #include "MovementControlState.h"
 
-#include <OgreSceneManager.h>
-#include <OgreAxisAlignedBox.h>
-#include <OgreStringConverter.h>
-#include <OgreMath.h>
-#include <OgreEntity.h>
-#include <OgreCamera.h>
-#include <OgreSceneNode.h>
-#include <OgreSceneQuery.h>
 #include <utility>
 
 #include "Actor.h"

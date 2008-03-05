@@ -17,8 +17,6 @@
 
 #include "ParticleSystemObject.h"
 
-#include <OgreMeshManager.h>
-#include <OgreParticleEmitter.h>
 
 #include "Actor.h"
 #include "CoreSubsystem.h"

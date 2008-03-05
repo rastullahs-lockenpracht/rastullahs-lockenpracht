@@ -25,7 +25,6 @@
 #pragma warning (pop)
 
 #include "CommonPrerequisites.h"
-#include <OgreResource.h>
 #include "XmlProcessor.h"
 
 namespace rl {

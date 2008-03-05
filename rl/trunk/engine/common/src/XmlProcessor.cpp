@@ -17,7 +17,6 @@
 #include "stdinc.h" //precompiled header
 
 #include <CEGUIPropertyHelper.h>
-#include <OgreResourceManager.h>
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/util/PlatformUtils.hpp>

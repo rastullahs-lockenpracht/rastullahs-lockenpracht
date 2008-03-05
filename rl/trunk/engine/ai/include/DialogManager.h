@@ -20,7 +20,6 @@
 
 #include <xercesc/dom/DOMElement.hpp>
 
-#include <OgreScriptLoader.h>
 #include "Properties.h"
 #include "SaveGameManager.h"
 #include "XmlProcessor.h"

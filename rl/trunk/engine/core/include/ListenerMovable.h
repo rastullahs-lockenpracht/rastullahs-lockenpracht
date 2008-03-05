@@ -18,9 +18,6 @@
 #define __ListenerMovable_H__
 
 #include "CorePrerequisites.h"
-#include <OgreMovableObject.h>
-#include <OgreVector3.h>
-#include <OgreQuaternion.h>
 
 
 namespace rl {

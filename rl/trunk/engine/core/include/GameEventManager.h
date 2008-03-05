@@ -18,7 +18,6 @@
 #define __GameEventManager_H__
 
 #include <list>
-#include <OgreSingleton.h>
 
 #include "Actor.h"
 #include "GameTask.h"

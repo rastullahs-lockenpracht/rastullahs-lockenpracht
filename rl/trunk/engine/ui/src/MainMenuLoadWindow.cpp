@@ -28,7 +28,6 @@
 #include <GameObjectManager.h>
 #include <GameObject.h>
 #include <Actor.h>
-#include <OgreResourceGroupManager.h>
 
 #include "MainMenuLoadWindow.h"
 #include "MessageWindow.h"

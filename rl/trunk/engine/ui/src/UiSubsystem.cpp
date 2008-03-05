@@ -21,7 +21,6 @@
 #include <CEGUIWindow.h>
 #include <CEGUIWindowManager.h>
 #include <OgreCEGUIRenderer.h>
-#include <OgreCEGUIResourceProvider.h>
 
 #include "Actor.h"
 #include "AiMessages.h"

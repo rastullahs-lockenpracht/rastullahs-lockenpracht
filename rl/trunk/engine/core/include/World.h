@@ -18,7 +18,6 @@
 #define __World_H__
 
 #include "CorePrerequisites.h"
-#include <OgreSceneManager.h>
 
 #include <set>
 

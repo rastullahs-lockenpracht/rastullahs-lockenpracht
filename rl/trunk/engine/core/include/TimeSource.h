@@ -19,7 +19,6 @@
 
 #include "CorePrerequisites.h"
 
-#include <OgreSingleton.h>
 
 #include "GameTask.h"
 

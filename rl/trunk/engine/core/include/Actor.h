@@ -18,8 +18,6 @@
 #define __Actor_H__
 
 #include "CorePrerequisites.h"
-#include <OgreUserDefinedObject.h>
-#include <OgreNode.h>
 
 #include <map>
 #include <vector>

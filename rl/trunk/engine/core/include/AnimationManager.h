@@ -19,7 +19,6 @@
 
 #include <map>
 #include <set>
-#include <OgreSingleton.h>
 
 #include "GameTask.h"
 #include "CorePrerequisites.h"

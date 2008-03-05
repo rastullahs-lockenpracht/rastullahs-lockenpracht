@@ -18,8 +18,6 @@
 #define CONFIGFILE_H_
 
 #include "CommonPrerequisites.h"
-#include <OgreCommon.h>
-#include <OgreConfigFile.h>
 
 namespace rl
 {

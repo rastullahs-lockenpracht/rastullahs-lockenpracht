@@ -18,7 +18,6 @@
 #define __ScriptWrapper_H__
 
 #include "CommonPrerequisites.h"
-#include <OgreSingleton.h>
 
 namespace rl {
 

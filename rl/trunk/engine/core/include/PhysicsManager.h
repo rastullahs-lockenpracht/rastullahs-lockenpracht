@@ -19,9 +19,8 @@
 
 #include <map>
 #include <vector>
-#include <OgreSingleton.h>
 
-#include <OgreNewt_Collision.h>
+#include <OgreNewt.h>
 
 namespace OgreNewt {
     class Body;

@@ -17,7 +17,6 @@
 
 #include "ActorControlledObject.h"
 
-#include <OgreSceneNode.h>
 
 #include "Actor.h"
 

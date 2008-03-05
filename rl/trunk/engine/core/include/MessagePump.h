@@ -22,7 +22,6 @@
 #include "MessageType.h"
 #include "GameTask.h"
 
-#include <OgreSingleton.h>
 
 #include <map>
 #include <queue>

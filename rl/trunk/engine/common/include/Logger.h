@@ -17,8 +17,6 @@
 #define __LOGGER_H__
 
 #include "CommonPrerequisites.h"
-#include <OgreSingleton.h>
-#include <OgreLog.h>
 #include <CEGUILogger.h>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/exception.hpp>

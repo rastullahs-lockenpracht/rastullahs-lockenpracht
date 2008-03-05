@@ -18,7 +18,6 @@
 #define __DSAMANAGER_H__
 
 #include <map>
-#include <OgreSingleton.h>
 #include "RulesPrerequisites.h"
 
 #include "Eigenschaft.h"

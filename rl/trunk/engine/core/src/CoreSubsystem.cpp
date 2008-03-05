@@ -19,11 +19,6 @@
 
 #include "CoreSubsystem.h"
 
-#include <OgreStringConverter.h>
-#include <OgreRoot.h>
-#include <OgreConfigFile.h>
-#include <OgreMeshManager.h>
-#include <OgreBillboardParticleRenderer.h>
 #include <OgreEnvironment.h>
 
 #include "ActorManager.h"

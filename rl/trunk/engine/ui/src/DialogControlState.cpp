@@ -46,8 +46,7 @@
 #include "WindowManager.h"
 #include "World.h"
 
-#include <OgreSceneManager.h>
-#include <OgreNewt_Body.h>
+#include <OgreNewt.h>
 
 using namespace Ogre;
 

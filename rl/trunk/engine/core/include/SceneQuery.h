@@ -21,8 +21,6 @@
 #include "DebugVisualisable.h"
 #include "Actor.h"
 
-#include <OgreNewt_RayCast.h>
-#include <OgreSceneQuery.h>
 
 namespace rl
 {

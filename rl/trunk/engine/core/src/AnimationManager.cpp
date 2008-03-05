@@ -17,7 +17,6 @@
 
 #include "AnimationManager.h"
 
-#include <OgreAnimationState.h>
 
 #include "Exception.h"
 #include "Actor.h"

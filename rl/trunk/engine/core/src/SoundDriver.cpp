@@ -18,7 +18,6 @@
 #include "SoundDriver.h"
 #include "ConfigFile.h"
 
-#include <OgreStringConverter.h>
 
 using namespace Ogre;
 

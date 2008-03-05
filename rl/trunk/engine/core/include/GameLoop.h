@@ -19,7 +19,6 @@
 
 #include <list>
 #include <deque>
-#include <OgreSingleton.h>
 
 #include "CorePrerequisites.h"
 

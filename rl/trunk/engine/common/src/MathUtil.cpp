@@ -18,7 +18,6 @@
 
 #include "MathUtil.h"
 
-#include <OgreMath.h>
 
 using namespace Ogre;
 

@@ -20,7 +20,6 @@
 #include "CorePrerequisites.h"
 #include "PhysicalObject.h"
 
-#include <OgreEntity.h>
 
 namespace rl {
 

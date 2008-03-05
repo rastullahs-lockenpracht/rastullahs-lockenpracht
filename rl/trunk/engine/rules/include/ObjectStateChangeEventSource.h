@@ -25,7 +25,6 @@
 
 #include "RulesPrerequisites.h"
 
-#include <OgreUserDefinedObject.h>
 
 namespace rl {
 

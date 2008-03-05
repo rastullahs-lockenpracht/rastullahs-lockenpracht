@@ -19,7 +19,6 @@
 
 #include "RulesPrerequisites.h"
 
-#include <OgreSingleton.h>
 
 #include <map>
 

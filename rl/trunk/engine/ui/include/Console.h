@@ -24,7 +24,6 @@
 
 #include "AbstractWindow.h"
 
-#include <OgreSingleton.h>
 
 namespace rl {
 

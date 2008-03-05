@@ -18,7 +18,6 @@
 #define __ContentModule_H__
 
 #include "CorePrerequisites.h"
-#include <OgreString.h>
 
 namespace rl
 {

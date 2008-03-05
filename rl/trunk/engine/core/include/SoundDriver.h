@@ -17,7 +17,6 @@
 #define SOUNDDRIVER_H_
 
 #include "CorePrerequisites.h"
-#include <OgreResourceManager.h>
 #include "Sound.h"
 
 namespace rl

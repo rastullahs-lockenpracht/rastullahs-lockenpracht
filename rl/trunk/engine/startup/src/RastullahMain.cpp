@@ -16,7 +16,6 @@
 
 #include <xercesc/util/XMemory.hpp>    // Muss vor Ogre stehen (zumindest fuer VS)
 
-#include <OgreLogManager.h>
 #include <stdexcept>
 #include <errno.h>
 

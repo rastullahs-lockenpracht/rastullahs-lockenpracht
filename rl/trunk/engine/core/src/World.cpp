@@ -21,8 +21,6 @@
 #include "CoreMessages.h"
 #include "MessagePump.h"
 
-#include <OgreRoot.h>
-#include <OgreSceneManager.h>
 
 
 using namespace Ogre;

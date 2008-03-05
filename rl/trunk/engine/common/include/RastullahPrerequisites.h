@@ -22,11 +22,17 @@
 #undef max
 #undef min
 
-#include <OgreString.h>
-#include <OgreStringConverter.h>
-#include <OgreVector3.h>
-#include <OgreAxisAlignedBox.h>
-#include <OgreScriptLoader.h>
+#ifdef __APPLE__
+#   include <Ogre/Ogre.h>
+#   include <Ogre/OgreFont.h>
+#   include <Ogre/OgreFontManager.h>
+#   include <Ogre/OgreTagPoint.h>
+#else
+#   include <Ogre.h>
+#   include <OgreFont.h>
+#   include <OgreFontManager.h>
+#   include <OgreTagPoint.h>
+#endif
 
 #if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
 #   define _snprintf snprintf

@@ -18,11 +18,9 @@
 
 #include "RubyInterpreter.h"
 
-#include <OgreNoMemoryMacros.h>
 #include "FixRubyHeaders.h"
 #include <ruby.h>
 #include "FixRubyHeaders.h"
-#include <OgreMemoryMacros.h>
 
 #include "CoreSubsystem.h"
 #include "ConfigurationManager.h"

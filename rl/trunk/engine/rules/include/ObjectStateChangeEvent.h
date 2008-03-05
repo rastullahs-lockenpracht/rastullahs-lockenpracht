@@ -17,7 +17,6 @@
 #ifndef __ObjectStateChangeEvent_H__
 #define __ObjectStateChangeEvent_H__
 
-#include <OgreUserDefinedObject.h>
 
 #include "EventObject.h"
 

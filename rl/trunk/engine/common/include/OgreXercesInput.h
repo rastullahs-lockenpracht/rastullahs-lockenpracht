@@ -25,7 +25,6 @@
 
 #include "CommonPrerequisites.h"
 
-#include <OgreDataStream.h>
 
 namespace rl {
 

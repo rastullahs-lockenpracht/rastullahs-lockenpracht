@@ -20,7 +20,6 @@
 #include "UiPrerequisites.h"
 #include "World.h"
 
-#include <OgreSingleton.h>
 
 #include "ControlState.h"
 #include "MessagePump.h"

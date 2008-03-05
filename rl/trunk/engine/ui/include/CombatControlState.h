@@ -24,7 +24,6 @@
 #include "MessagePump.h"
 #include "Selector.h"
 
-#include <OgreRectangle.h>
 
 namespace rl {
 

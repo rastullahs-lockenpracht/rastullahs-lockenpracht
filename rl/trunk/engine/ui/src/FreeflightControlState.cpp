@@ -31,7 +31,6 @@
 #include "WindowManager.h"
 #include "Person.h"
 
-#include <OgreSceneManager.h>
 
 using namespace Ogre;
 

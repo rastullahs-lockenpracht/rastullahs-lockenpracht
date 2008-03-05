@@ -20,7 +20,6 @@
 
 #include "ScriptPrerequisites.h"
 
-#include <OgreSceneNode.h>
 #include <list>
 #include "XmlProcessor.h"
 

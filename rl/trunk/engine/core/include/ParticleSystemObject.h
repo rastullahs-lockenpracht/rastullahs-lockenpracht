@@ -20,7 +20,6 @@
 #include "CorePrerequisites.h"
 #include "ActorControlledObject.h"
 
-#include <OgreParticleSystem.h>
 
 namespace rl {
 

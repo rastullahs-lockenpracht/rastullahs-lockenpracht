@@ -18,7 +18,6 @@
 #define __RL_SOUND_FADE_JOB_H__
 
 #include "CorePrerequisites.h"
-#include <OgreSingleton.h>
 
 #include "Job.h"
 

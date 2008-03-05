@@ -20,7 +20,6 @@
 #include "UiPrerequisites.h"
 #include "ControlState.h"
 
-#include <OgreCamera.h>
 
 namespace rl {
 

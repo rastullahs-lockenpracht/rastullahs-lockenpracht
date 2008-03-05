@@ -21,7 +21,6 @@
 
 #include "PhysicalObject.h"
 
-#include <OgreManualObject.h>
 
 namespace rl {
 

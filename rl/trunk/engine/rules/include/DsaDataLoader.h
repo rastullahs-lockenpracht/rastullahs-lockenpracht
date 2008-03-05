@@ -20,7 +20,6 @@
 #include <xercesc/dom/DOMDocument.hpp>
 #include <xercesc/dom/DOMElement.hpp>
 
-#include <OgreScriptLoader.h>
 #include "XmlProcessor.h"
 
 namespace rl {

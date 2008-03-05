@@ -17,8 +17,6 @@
 #ifndef __XmlHelper_h__
 #define __XmlHelper_h__
 
-#include <OgreDataStream.h>
-
 #include <xercesc/dom/DOMElement.hpp>
 #include <xercesc/util/XMLChar.hpp>
 #include <xercesc/util/TransService.hpp>

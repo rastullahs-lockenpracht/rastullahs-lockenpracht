@@ -18,7 +18,6 @@
 #define __ActorControlledObject_H__
 
 #include "CorePrerequisites.h"
-#include <OgreMovableObject.h>
 
 namespace rl {
 

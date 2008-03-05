@@ -18,9 +18,7 @@
 #define SOUNDRESOURCE_H
 
 #include "CorePrerequisites.h"
-#include <OgreDataStream.h> 
-#include <OgreResource.h>
-#include <OgreSharedPtr.h>
+#include <Ogre.h> 
 
 namespace rl {
  

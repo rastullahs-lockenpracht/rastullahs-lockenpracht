@@ -17,7 +17,6 @@
 
 #include "AbstractMapNodeProcessor.h"
 
-#include <OgreColourValue.h>
 
 using namespace Ogre;
 using namespace XERCES_CPP_NAMESPACE;

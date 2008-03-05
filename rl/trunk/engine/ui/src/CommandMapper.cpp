@@ -23,7 +23,6 @@
 #include "InputManager.h"
 #include "Person.h"
 #include "UiSubsystem.h"
-#include <OgreConfigFile.h>
 
 using namespace Ogre;
 

@@ -17,10 +17,6 @@
 
 #include "MeshAnimation.h"
 
-#include <OgreAnimation.h>
-#include <OgreAnimationState.h>
-#include <OgreSkeleton.h>
-#include <OgreSkeletonInstance.h>
 
 #include "Exception.h"
 #include "AnimationManager.h"

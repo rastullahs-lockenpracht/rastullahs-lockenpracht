@@ -20,9 +20,6 @@
 
 #include "DotSceneOctreeWorld.h"
 
-#include <OgreTextureManager.h>
-#include <OgreRoot.h>
-#include <OgreException.h>
 
 #include "CoreSubsystem.h"
 #include "ConfigurationManager.h"

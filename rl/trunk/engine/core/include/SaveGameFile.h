@@ -18,7 +18,6 @@
 #define __SaveGameFile_H__
 
 #include "CorePrerequisites.h"
-#include <OgreDataStream.h>
 
 #include <Property.h>
 #include <Properties.h>

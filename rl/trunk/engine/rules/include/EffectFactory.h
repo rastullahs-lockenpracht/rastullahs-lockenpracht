@@ -18,7 +18,6 @@
 
 #include "RulesPrerequisites.h"
 
-#include <OgreSingleton.h>
 
 namespace rl 
 {

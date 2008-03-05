@@ -20,7 +20,6 @@
 #include "PhysicsManager.h"
 #include "CoreSubsystem.h"
 #include "World.h"
-#include <OgreSceneManager.h>
 
 using namespace Ogre;
 

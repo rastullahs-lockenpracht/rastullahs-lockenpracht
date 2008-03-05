@@ -15,11 +15,13 @@
  */
 #include "stdinc.h" //precompiled header
 
+#include <OgreNewt.h>
+
+
 #include "AiWorld.h"
 #include "PhysicsManager.h"
 #include "LineSetPrimitive.h"
 #include "CoreSubsystem.h"
-#include <OgreNewt.h>
 #include "SteeringVehicle.h"
 #include "Actor.h"
 #include "PhysicalThing.h"

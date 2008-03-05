@@ -17,9 +17,6 @@
 
 #include "GameLoop.h"
 
-#include <OgreRoot.h>
-#include <OgreWindowEventUtilities.h>
-#include <OgreRenderWindow.h>
 
 #include "GameTask.h"
 #include "CoreSubsystem.h"

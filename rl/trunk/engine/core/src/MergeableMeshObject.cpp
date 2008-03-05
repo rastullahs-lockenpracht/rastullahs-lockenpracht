@@ -18,11 +18,6 @@
 #include "MergeableMeshObject.h"
 
 #include <MeshMergeTool.h>
-#include <OgreMeshManager.h>
-#include <OgreNode.h>
-#include <OgreSceneNode.h>
-#include <OgreSkeletonManager.h>
-#include <OgreTagPoint.h>
 
 #include "CoreSubsystem.h"
 #include "World.h"
@@ -136,7 +131,6 @@ namespace rl
 		Entity* oldEnt = getEntity();
 		Entity* newEnt = CoreSubsystem::getSingletonPtr()->getWorld()
 			->getSceneManager()->createEntity(oldEnt->getName()+"_", newMesh->getName());
-
 
 		TagPoint* parentTp = dynamic_cast<TagPoint*>(oldEnt->getParentNode());
 		if (parentTp)

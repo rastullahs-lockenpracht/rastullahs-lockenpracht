@@ -19,7 +19,6 @@
 
 #include "UiPrerequisites.h"
 
-#include <OgreRectangle.h>
 
 #include "AbstractWindow.h"
 #include "ItemDragContainer.h"

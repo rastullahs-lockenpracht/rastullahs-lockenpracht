@@ -18,7 +18,6 @@
 #include "PhysicalThing.h"
 
 
-#include <OgreSceneNode.h>
 
 #include "Actor.h"
 #include "Exception.h"

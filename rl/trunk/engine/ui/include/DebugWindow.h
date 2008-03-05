@@ -18,7 +18,6 @@
 #define __DEBUGWINDOW_H__
 
 #include "UiPrerequisites.h"
-#include <OgreSingleton.h>
 
 #include "AbstractWindow.h"
 #include "GameTask.h"

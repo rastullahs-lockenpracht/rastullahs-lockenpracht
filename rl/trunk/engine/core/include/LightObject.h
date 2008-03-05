@@ -20,7 +20,6 @@
 #include "CorePrerequisites.h"
 #include "ActorControlledObject.h"
 
-#include <OgreLight.h>
 
 namespace rl {
 

@@ -18,7 +18,6 @@
 #define __RL_WINDOW_UPDATE_JOB_H__
 
 #include "UiPrerequisites.h"
-#include <OgreSingleton.h>
 
 #include "Job.h"
 

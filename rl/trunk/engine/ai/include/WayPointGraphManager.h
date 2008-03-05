@@ -17,7 +17,6 @@
 #define __RlAI_WayPointGraphManager_H__
 
 #include "AiPrerequisites.h"
-#include <OgreSingleton.h>
 
 namespace rl
 {

@@ -16,7 +16,6 @@
 #ifndef __AiSubsystem_H__
 #define __AiSubsystem_H__
 
-#include <OgreSingleton.h>
 
 #include "AiPrerequisites.h"
 

@@ -18,13 +18,10 @@
 #define __WindowFactory_H__
 
 #include "UiPrerequisites.h"
-#include <OgreSingleton.h>
 
-#include <OgreNoMemoryMacros.h>
 #include "FixRubyHeaders.h"        // die Makros sind hier vor Ruby schon definiert
 #include <ruby.h>
 #include "FixRubyHeaders.h"
-#include <OgreMemoryMacros.h>
 #undef min
 
 #include <CEGUIVector.h>

@@ -22,7 +22,6 @@
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/dom/DOMAttr.hpp>
 #include <xercesc/dom/DOMElement.hpp>
-#include <OgreDataStream.h>
 
 #include "Property.h"
 #include "XmlProcessor.h"

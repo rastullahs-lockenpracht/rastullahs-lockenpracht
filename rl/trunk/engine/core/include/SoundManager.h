@@ -19,9 +19,6 @@
 
 #include "CorePrerequisites.h"
 
-#include <OgreResourceManager.h>
-#include <OgreSingleton.h>
-#include <OgreResourceGroupManager.h>
 #include <list>
 
 #include "GameTask.h"

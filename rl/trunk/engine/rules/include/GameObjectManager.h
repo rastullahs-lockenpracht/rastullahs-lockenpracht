@@ -22,8 +22,6 @@
 
 #include <SaveGameManager.h>
 
-#include <OgreScriptLoader.h>
-#include <OgreSingleton.h>
 #include <map>
 
 namespace rl

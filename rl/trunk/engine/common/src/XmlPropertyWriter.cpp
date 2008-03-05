@@ -21,7 +21,6 @@
 #include "Properties.h"
 #include "XmlPropertyWriter.h"
 
-#include <OgreResourceManager.h>
 #include <CEGUIPropertyHelper.h>
 
 

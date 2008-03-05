@@ -18,8 +18,6 @@
 
 #include "Logger.h"
 
-#include <OgreLogManager.h>
-
 
 using Ogre::LogManager;
 using Ogre::Singleton;

@@ -20,8 +20,7 @@
 
 #include "ScriptPrerequisites.h"
 
-#include <OgreEntity.h>
-#include <OgreNewt_Collision.h>
+#include <OgreNewt.h>
 #include "AbstractMapNodeProcessor.h"
 
 namespace rl

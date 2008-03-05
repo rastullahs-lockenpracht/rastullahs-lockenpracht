@@ -17,9 +17,7 @@
 
 #include "EntityNodeProcessor.h"
 
-#include <OgreEntity.h>
-#include <OgreMeshManager.h>
-#include <OgreNewt_CollisionPrimitives.h>
+#include <OgreNewt.h>
 #include <xercesc/dom/DOM.hpp>
 
 #include "CoreSubsystem.h"

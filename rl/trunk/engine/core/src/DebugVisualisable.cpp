@@ -17,7 +17,6 @@
 
 #include "DebugVisualisable.h"
 
-#include <OgreSceneNode.h>
 
 #include "CoreSubsystem.h"
 #include "DebugVisualsManager.h"

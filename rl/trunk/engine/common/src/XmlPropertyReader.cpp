@@ -23,7 +23,6 @@
 #include "Properties.h"
 #include "XmlPropertyReader.h"
 
-#include <OgreResourceManager.h>
 #include <CEGUIPropertyHelper.h>
 
 

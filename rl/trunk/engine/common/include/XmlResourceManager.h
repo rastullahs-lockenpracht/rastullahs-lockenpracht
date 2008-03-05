@@ -19,9 +19,6 @@
 
 #include "XmlResource.h"
 #include "CommonPrerequisites.h"
-#include <OgreResourceGroupManager.h>
-#include <OgreResourceManager.h>
-
 
 namespace rl {
 

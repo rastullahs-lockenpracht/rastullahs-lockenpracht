@@ -23,7 +23,6 @@
 #include "MessagePump.h"
 #include "RulesMessages.h"
 
-#include <OgreStringConverter.h>
 
 using namespace boost;
 using namespace boost::tuples;

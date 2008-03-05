@@ -22,8 +22,6 @@
 #include <OISMouse.h>
 #include <OISKeyboard.h>
 #include <OISJoyStick.h>
-#include <OgreRenderWindow.h>
-#include <OgreSingleton.h>
 
 #include <stack>
 

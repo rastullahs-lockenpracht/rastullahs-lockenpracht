@@ -34,7 +34,6 @@
 #include "UiMessages.h"
 #include "World.h"
 
-#include <OgreManualObject.h>
 using namespace Ogre;
 
 namespace rl {

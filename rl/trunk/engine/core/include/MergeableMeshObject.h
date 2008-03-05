@@ -18,8 +18,6 @@
 
 #include "CorePrerequisites.h"
 
-#include <OgreEntity.h>
-#include <OgreMesh.h>
 #include <map>
 
 #include "CoreDefines.h"

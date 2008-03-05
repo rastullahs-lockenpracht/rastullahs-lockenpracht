@@ -20,7 +20,6 @@
 // #include "XdimlLoader.h"
 #include "DsaDataLoader.h"
 
-#include <OgreResourceGroupManager.h>
 
 #include "XmlProcessor.h"
 #include "OgreXercesInput.h"

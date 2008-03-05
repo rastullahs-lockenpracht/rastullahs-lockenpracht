@@ -10,8 +10,6 @@
 
 #include "CorePrerequisites.h"
 
-#include <OgreMovableObject.h>
-#include <OgreRenderable.h>
 
 namespace rl
 {

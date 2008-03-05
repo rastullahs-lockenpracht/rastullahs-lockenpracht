@@ -16,7 +16,6 @@
 #ifndef __RlAI_AgentManager_H__
 #define __RlAI_AgentManager_H__
 
-#include <OgreSingleton.h>
 #include "AiPrerequisites.h"
 #include "Combatant.h"
 #include "GameTask.h"

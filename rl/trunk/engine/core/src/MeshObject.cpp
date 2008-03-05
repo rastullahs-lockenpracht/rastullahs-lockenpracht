@@ -17,11 +17,6 @@
 
 #include "MeshObject.h"
 
-#include <OgreAnimationState.h>
-#include <OgreMaterialManager.h>
-#include <OgreMeshManager.h>
-#include <OgreSubEntity.h>
-#include <OgreSubMesh.h>
 
 #include "Actor.h"
 #include "AnimationManager.h"

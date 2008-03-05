@@ -29,7 +29,6 @@
 #include <GameObjectManager.h>
 #include <GameObject.h>
 #include <Actor.h>
-#include <OgreResourceGroupManager.h>
 
 #include "GameSaveLoadWindow.h"
 #include "MessageWindow.h"

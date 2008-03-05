@@ -19,15 +19,12 @@
 
 #include "ScriptPrerequisites.h"
 
-#include <OgreSingleton.h>
 
 #include <map>
 
-#include <OgreNoMemoryMacros.h>
 #include "FixRubyHeaders.h"
 #include <ruby.h>
 #include "FixRubyHeaders.h"
-#include <OgreMemoryMacros.h>
 
 #include "ScriptWrapper.h"
 

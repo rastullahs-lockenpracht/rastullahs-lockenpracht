@@ -19,7 +19,6 @@
 
 #include "RulesPrerequisites.h"
 
-#include <OgreSingleton.h>
 #include <vector>
 #include <map>
 using Ogre::Singleton;

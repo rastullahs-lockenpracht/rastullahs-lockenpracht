@@ -18,9 +18,6 @@
 #include "SoundManager.h"
 
 #include <set>
-#include <OgreException.h>
-#include <OgreResourceGroupManager.h>
-#include <OgreRoot.h>
 
 #include "Actor.h"
 #include "ActorManager.h"

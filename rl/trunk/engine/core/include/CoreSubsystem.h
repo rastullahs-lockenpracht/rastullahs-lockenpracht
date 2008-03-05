@@ -18,10 +18,6 @@
 #define __CoreSubsystem_H__
 
 
-#include <OgreSingleton.h>
-#include <OgreString.h>
-#include <OgreRoot.h>
-#include <OgreTimer.h>
 #include <map>
 
 #include "EventSource.h"

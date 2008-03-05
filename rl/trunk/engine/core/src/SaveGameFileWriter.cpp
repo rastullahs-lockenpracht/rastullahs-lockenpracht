@@ -26,7 +26,6 @@
 #include <xercesc/dom/DOMElement.hpp>
 #include <Properties.h>
 
-#include <OgreResourceManager.h>
 #include <CEGUIPropertyHelper.h>
 #include <CoreSubsystem.h>
 #include <ContentModule.h>

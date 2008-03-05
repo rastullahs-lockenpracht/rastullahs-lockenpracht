@@ -1,5 +1,5 @@
 //-----------------------------------------------------------
-//Copyright � 2003 by cTh
+//Copyright (c) 2003 by cTh
 //Use as you see fit.
 //Questions : gavocanov@rambler.ru
 //-----------------------------------------------------------
@@ -10,12 +10,6 @@
 #include "MovableText.h"
 #include "Exception.h"
 
-#include <OgreCamera.h>
-#include <OgreFontManager.h>
-#include <OgreHardwareBufferManager.h>
-#include <OgreMaterialManager.h>
-#include <OgreNode.h>
-#include <OgreRoot.h>
 
 
 using namespace Ogre;
