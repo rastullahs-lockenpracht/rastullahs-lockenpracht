@@ -168,9 +168,11 @@ namespace rl {
     {
         for (PropertyMap::const_iterator it = propmap.begin(); it != propmap.end(); ++it)
         {
-			//T temp = it->second; // needed for GCC, else there is ambiguous operator CEGUI::String::=
-            //output[it->first] = temp;
-			output.insert(std::map<const CeGuiString, T>::value_type(it->first, it->second));
+			T temp = it->second; // needed for GCC, else there is ambiguous operator CEGUI::String::=
+            output[it->first] = temp;
+
+			// This solution doesn't work. Why?
+			//output.insert(typename std::map<const CeGuiString, T>::value_type(it->first, it->second));
         }
     }
     
