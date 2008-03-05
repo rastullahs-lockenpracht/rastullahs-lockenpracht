@@ -69,7 +69,7 @@ namespace rl
             
         virtual const CeGuiString& getConditionVariableType()
         {
-            RlAssert(mVariable, "No variable found for option with id: " + getId()); 
+            RlAssert(mVariable, "No variable found for option with id: " + DialogElementType::getId()); 
             return mVariable->getType();
         }
 
