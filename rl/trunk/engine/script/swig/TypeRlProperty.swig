@@ -50,7 +50,26 @@ rl::Property convertValueToProperty(VALUE input)
 		if (length > 0)
 		{
 			VALUE firstVal = rb_ary_entry(input, 0);
-			if (length == 3 
+            if (length == 2
+                && TYPE(firstVal) == T_FIXNUM)
+            {
+                IntPair pair;
+                pair.first = NUM2INT(rb_ary_entry(input, 0));
+                pair.second = NUM2INT(rb_ary_entry(input, 1));
+                rval.setValue(pair);
+            }
+			else if (length == 3 
+				&& TYPE(firstVal) == T_FIXNUM
+                && TYPE(rb_ary_entry(input, 1)) == T_FIXNUM
+                && TYPE(rb_ary_entry(input, 2)) == T_FIXNUM)
+            {
+                Tripel<int> tripel;
+                tripel.first = NUM2INT(rb_ary_entry(input, 0));
+                tripel.second = NUM2INT(rb_ary_entry(input, 1));
+                tripel.third = NUM2INT(rb_ary_entry(input, 2));
+                rval.setValue(tripel);
+            }
+			else if (length == 3 
 				&& (TYPE(firstVal) == T_FLOAT || TYPE(firstVal) == T_FIXNUM))
 			{
 				Ogre::Vector3 vec;
@@ -166,6 +185,23 @@ VALUE convertPropertyToValue(rl::Property input)
                 rb_str_buf_new2(it->first.c_str()),
                 rl::convertPropertyToValue(it->second));
         }
+        return rval;
+    }
+    else if (input.isIntPair())
+    {
+        IntPair pair = input.toIntPair();
+        VALUE rval = rb_ary_new();
+        rb_ary_push(rval, rb_int_new(pair.first));
+        rb_ary_push(rval, rb_int_new(pair.second));
+        return rval;
+    }
+    else if (input.isIntTriple())
+    {
+        Tripel<int> triple = input.toIntTriple();
+        VALUE rval = rb_ary_new();
+        rb_ary_push(rval, rb_int_new(triple.first));
+        rb_ary_push(rval, rb_int_new(triple.second));
+        rb_ary_push(rval, rb_int_new(triple.third));
         return rval;
     }
 

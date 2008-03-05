@@ -27,7 +27,6 @@
 %include "TypeRlCeGuiString.swig"
 %include "TypeRlCeGuiStringVector.swig"
 %include "TypeRlProperty.swig"
-%include "TypeRlTripelInt.swig"
 %include "TypeStdPairIntInt.swig"
 %include "TypeDynamicDirector.swig"
 
