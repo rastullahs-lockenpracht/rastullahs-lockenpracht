@@ -1,5 +1,5 @@
 /* Sleep.h - Plattformunabhaengigkeit für sleep
- * (C) 2004. Team Pantheon. www.team-pantheon.de
+ * (C) 2003-2008. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.

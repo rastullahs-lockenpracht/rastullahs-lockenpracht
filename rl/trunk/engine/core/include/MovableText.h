@@ -1,5 +1,5 @@
 //-----------------------------------------------------------
-//Copyright � 2003 by cTh
+//Copyright (c) 2003 by cTh
 //Use as you see fit.
 //Questions : gavocanov@rambler.ru
 //-----------------------------------------------------------
