@@ -16,7 +16,9 @@
 #include "stdinc.h"
 
 #include "Combatant.h"
+
 #include "Combat.h"
+#include "CreatureController.h"
 
 namespace rl
 {
@@ -32,5 +34,10 @@ namespace rl
     CreatureController* Combatant::getCreatureController() const
     {
         return mController;
+    }
+
+	CeGuiString Combatant::getName() const
+    {
+        return mController->getCreature()->getName();
     }
 }

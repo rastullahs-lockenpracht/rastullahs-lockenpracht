@@ -52,6 +52,8 @@ namespace rl
 
         CreatureController* getCreatureController() const;
 
+		CeGuiString getName() const;
+
     protected:
         Combat* mCombat;
         CreatureController* mController;

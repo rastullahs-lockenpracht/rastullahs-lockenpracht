@@ -180,10 +180,12 @@ namespace rl {
 				if (buttonIndex == CombatWindow::ATTACK_BUTTON)
 				{
 					MessagePump::getSingleton().sendMessage<MessageType_CombatIoAttackOpponent>(it->first);
+					mCombatWindow->setAttackedOpponentName(it->first->getName());
 				}
 				else if (buttonIndex == CombatWindow::PARRY_BUTTON)
 				{
 					MessagePump::getSingleton().sendMessage<MessageType_CombatIoParryOpponent>(it->first);
+					mCombatWindow->setParriedOpponentName(it->first->getName());
 				}
 				break;
 			}

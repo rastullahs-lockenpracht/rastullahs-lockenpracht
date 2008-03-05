@@ -58,23 +58,23 @@ namespace rl
     void Combat::addOpponent(Combatant* combatant)
     {
         mOpponents.insert(combatant);
+		MessagePump::getSingleton().sendMessage<MessageType_CombatOpponentEntered>(combatant);
     }
 
     void Combat::removeOpponent(Combatant* combatant)
     {
         mOpponents.erase(combatant);
+		MessagePump::getSingleton().sendMessage<MessageType_CombatOpponentLeft>(combatant);
     }
 
     void Combat::addAlly(Combatant* combatant)
     {
         mAllies.insert(combatant);
-		MessagePump::getSingleton().sendMessage<MessageType_CombatOpponentEntered>(combatant);
     }
 
     void Combat::removeAlly(Combatant* combatant)
     {
         mAllies.erase(combatant);
-		MessagePump::getSingleton().sendMessage<MessageType_CombatOpponentLeft>(combatant);
     }
 
     const Combat::CombatantSet& Combat::getAllOpponents() const

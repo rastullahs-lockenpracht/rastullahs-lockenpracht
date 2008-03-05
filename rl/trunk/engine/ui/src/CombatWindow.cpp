@@ -154,6 +154,6 @@ namespace rl {
 
 	void CombatWindow::setParriedOpponentName(const CeGuiString& name)
 	{
-		getWindow("CombatWindow/AttackedOpponent")->setText(name);
+		getWindow("CombatWindow/ParriedOpponent")->setText(name);
 	}
 }
