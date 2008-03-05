@@ -1,5 +1,6 @@
 include RlScript
 
+
 class RuchinModule < ContentModule
     def initialize()
         super("ruchin", "Ruchin (WIP)", false, 200608012)
@@ -22,6 +23,8 @@ class RuchinModule < ContentModule
     end
 
     def start()
+		require 'clothing.rb'
+		
         $CORE.loadMap("Octree", "ruchin.scene", "ruchin");
         load "maptest.rb"
         $World = $CORE.getWorld();
