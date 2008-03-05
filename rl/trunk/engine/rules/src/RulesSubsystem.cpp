@@ -74,6 +74,8 @@ namespace rl
 
 	RulesSubsystem::~RulesSubsystem()
     {
+        if(mQuestBook)
+            Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(mQuestBook);
         delete mQuestBook;
 		delete mGameEventLog;
         delete mDsaManager;
@@ -92,7 +94,10 @@ namespace rl
 
 	void RulesSubsystem::resetQuestBook()
 	{
+        if(mQuestBook)
+            Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(mQuestBook);
 		delete mQuestBook;
 		mQuestBook = new QuestBook();
+        Ogre::ResourceGroupManager::getSingleton()._registerScriptLoader(mQuestBook);
 	}
 }

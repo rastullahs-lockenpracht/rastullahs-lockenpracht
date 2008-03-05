@@ -134,6 +134,7 @@ namespace rl
         addSearchPath(moduleDir + "/gui/windows", resourceGroup);
         addSearchPath(moduleDir + "/gui/windows/buttons", resourceGroup);
         addSearchPath(moduleDir + "/dialogs", resourceGroup);
+        addSearchPath(moduleDir + "/quests", resourceGroup);
 
         RubyInterpreter* interpreter = CoreSubsystem::getSingleton().getRubyInterpreter();
         if (interpreter != NULL)

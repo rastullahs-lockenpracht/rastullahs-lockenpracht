@@ -21,6 +21,7 @@
 #include "ScriptWrapper.h"
 
 using namespace std;
+using namespace XERCES_CPP_NAMESPACE;
 
 namespace rl {
     const Ogre::String QuestBook::PROPERTY_QUESTS = "quests";
@@ -29,8 +30,10 @@ namespace rl {
     QuestBook::QuestBook()
 	    : mJournalEntries(),
 	    mQuestEventCaster(),
-	    mJournalEventCaster()
+	    mJournalEventCaster(),
+        ScriptLoader()
     {
+        mScriptPatterns.push_back("*.quests");
         createRoot();
         SaveGameManager::getSingleton().registerSaveGameData(this);
     }
@@ -300,5 +303,63 @@ namespace rl {
     int QuestBook::getPriority() const
     {
         return 101;
+    }
+
+    const Ogre::StringVector &QuestBook::getScriptPatterns(void) const
+    {
+        return mScriptPatterns;
+    }
+
+    void QuestBook::parseScript(Ogre::DataStreamPtr& stream,const Ogre::String& groupname)
+    {
+        initializeXml();
+
+        DOMDocument* doc = loadDocument(stream);
+        if (doc)
+        {
+            for (DOMNode* cur = doc->getDocumentElement()->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+            {
+                if(hasNodeName(cur, "quest"))
+                {
+                    processQuest(static_cast<DOMElement*>(cur), mRootQuest);
+                }
+            }
+        }
+        else
+            LOG_ERROR(Logger::RULES,"Quests XML is not valid!");
+
+        shutdownXml();
+    }
+
+    Ogre::Real QuestBook::getLoadingOrder(void) const
+    {
+        return 1000;
+    }
+
+    Quest* QuestBook::processQuest(XERCES_CPP_NAMESPACE::DOMElement* questXml, Quest* parent)
+    {
+        Quest* quest = new Quest(getAttributeValueAsString(questXml, "id"));
+        parent->addSubquest(quest);
+        quest->setKnown(false);
+        quest->setState(Quest::OPEN);
+        for (DOMNode* cur = questXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+        {
+            if(hasNodeName(cur, "name"))
+                quest->setProperty(Quest::PROPERTY_NAME,  Property(getValueAsString(static_cast<DOMElement*>(cur))));
+            
+            if(hasNodeName(cur, "description"))
+                quest->setProperty(Quest::PROPERTY_DESCRIPTION, Property(getValueAsString(static_cast<DOMElement*>(cur))));
+            
+            if(hasNodeName(cur, "known"))
+                quest->setKnown(getValueAsBool(static_cast<DOMElement*>(cur)));                
+            
+            if(hasNodeName(cur, "state"))
+                quest->setState(Quest::getStateFromName(getValueAsString(static_cast<DOMElement*>(cur))));
+
+            if(hasNodeName(cur, "quest"))
+                processQuest(static_cast<DOMElement*>(cur), quest);
+        }
+
+        return quest;
     }
 }

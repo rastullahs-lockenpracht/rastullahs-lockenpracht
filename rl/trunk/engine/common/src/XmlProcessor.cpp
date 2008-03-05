@@ -334,6 +334,24 @@ bool XmlProcessor::getAttributeValueAsBool(DOMElement* element,const char* const
 		return false;
 }
 
+void XmlProcessor::setValueAsBool(DOMDocument* doc, DOMElement *element, bool value) const
+{
+    RlAssert(element != NULL, "XmlProcessor::setValueAsBool: Element must not be NULL");
+    CeGuiString temp = Ogre::StringConverter::toString(value);
+    DOMText* text = doc->createTextNode(XMLString::transcode(temp.c_str()));
+    element->appendChild(text);
+}
+
+bool XmlProcessor::getValueAsBool(DOMElement* element) const
+{
+    RlAssert(element != NULL, "XmlProcessor::getValueAsBool: Element must not be NULL");
+	
+    if ( XMLString::compareIString(getValueAsString(element).c_str(),"true") == 0  )
+		return true;
+	else
+		return false;
+}
+
 void XmlProcessor::setValueAsInteger(DOMDocument* doc, DOMElement *element, int value) const
 {
     RlAssert(element != NULL, "XmlProcessor::setValueAsInteger: Element must not be NULL");

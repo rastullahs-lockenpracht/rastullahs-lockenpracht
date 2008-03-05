@@ -36,9 +36,11 @@ namespace rl {
 
 ///@todo Rename this class to reflect scope changes.
 class _RlRulesExport QuestBook : 
+    public Ogre::ScriptLoader,
     public EventSource, 
     public PropertyHolder, 
-    public SaveGameData
+    public SaveGameData,
+    public XmlProcessor
 {
 public:
     static const Ogre::String PROPERTY_QUESTS;
@@ -87,7 +89,14 @@ public:
     virtual void writeData(SaveGameFileWriter* writer);
     virtual void readData(SaveGameFileReader* reader);
     virtual int getPriority() const;
+
+    //loading quests from xml
+    virtual const Ogre::StringVector &getScriptPatterns(void) const;
+    virtual void parseScript(Ogre::DataStreamPtr &,const Ogre::String &);
+    virtual Ogre::Real getLoadingOrder(void) const;
 private:
+    Ogre::StringVector mScriptPatterns;
+
 	Quest* getQuest(Quest* parent, const CeGuiString id) const;
     void clear();
     void createRoot();
@@ -99,6 +108,9 @@ private:
 	EventCaster<JournalEvent> mJournalEventCaster;
 
     void fireJournalChanged(JournalEntry* entry, int reason);
+
+    //loading quests from xml
+    virtual Quest* processQuest(XERCES_CPP_NAMESPACE::DOMElement* dialogXml, Quest* parent);
 };
 
 }

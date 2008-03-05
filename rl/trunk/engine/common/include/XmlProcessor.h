@@ -127,7 +127,27 @@ public:
 	 */
 	utf8* getValueAsUtf8(XERCES_CPP_NAMESPACE::DOMElement* element) const;
 
-	/**
+	
+    /**
+	 * Formt eine Boolean in einen String um und setzt diesen als Wert
+	 *
+	 * @param element the DOM element node
+     * @param value Der zu setzende Bool
+	 * @return the DOM element node
+	 */
+	void setValueAsBool(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, bool value) const;
+
+    
+    /**
+	 * Get the text value of an element node and parse it into a bool
+	 *
+	 * @param element the DOM element node
+	 * @return boolean within the element tags
+	 */
+	bool getValueAsBool(XERCES_CPP_NAMESPACE::DOMElement* element) const;
+    
+    
+    /**
 	 * Formt eine Ganzzahl in einen String um und setzt diesen als Wert
 	 *
 	 * @param element the DOM element node
