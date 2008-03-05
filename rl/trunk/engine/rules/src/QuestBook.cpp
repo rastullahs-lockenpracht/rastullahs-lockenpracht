@@ -168,17 +168,18 @@ namespace rl {
     {
         if (key == PROPERTY_QUESTS)
         {
-            PropertyArray quests;
-            QuestVector allQuests = getAllQuests();
-            for (QuestVector::const_iterator it = allQuests.begin();
-                it != allQuests.end(); ++it)
-            {
-                PropertyRecord* questProps = (*it)->getAllProperties();
-                quests.push_back(Property(questProps->toPropertyMap()));
-                delete questProps;
-            }
+            //PropertyArray quests;
+            //QuestVector allQuests = getAllQuests();
+            //for (QuestVector::const_iterator it = allQuests.begin();
+            //    it != allQuests.end(); ++it)
+            //{
+            //    PropertyRecord* questProps = (*it)->getAllProperties();
+            //    quests.push_back(Property(questProps->toPropertyMap()));
+            //    delete questProps;
+            //}
 
-            return Property(quests);
+            //return Property(quests);
+            return getQuestsProperty(mRootQuest);
         }
         else if (key == PROPERTY_JOURNAL)
         {
@@ -198,11 +199,29 @@ namespace rl {
         }
     }
 
+    PropertyArray QuestBook::getQuestsProperty(const Quest* rootQuest) const
+    {
+        PropertyArray parray;
+        if(rootQuest->hasSubquests())
+        {
+            QuestVector quests = rootQuest->getSubquests();
+            for(unsigned int i = 0; i < quests.size(); i++)
+            {
+                PropertyMap map = quests[i]->getAllProperties()->toPropertyMap();
+                if(quests[i]->hasSubquests())
+                    map.insert(std::pair<CeGuiString, Property>("quests", getQuestsProperty(quests[i])));
+                parray.push_back(map);
+            }
+        }
+        return parray;
+    }
+
     void QuestBook::setProperty(const Ogre::String& key, const Property& value)
     {
         if (key == PROPERTY_QUESTS)
         {
-            PropertyArray quests = value.toArray();
+            setQuestsProperty(value.toArray(), mRootQuest);
+            /*PropertyArray quests = value.toArray();
             for (PropertyArray::const_iterator it = quests.begin(); 
                 it != quests.end(); ++it)
             {
@@ -216,7 +235,7 @@ namespace rl {
                 }
                
                 quest->setProperties(curVal);
-            }
+            }*/
             ///@todo implement
         }
         else if (key == PROPERTY_JOURNAL)
@@ -235,6 +254,28 @@ namespace rl {
         {
             Throw(IllegalArgumentException, key + " is not a property of QuestBook");
         }
+    }
+
+    void QuestBook::setQuestsProperty(PropertyArray array, Quest* rootQuest)
+    {
+        for (PropertyArray::const_iterator it = array.begin(); it != array.end(); ++it)
+        {
+            PropertyMap curVal = it->toMap();
+            CeGuiString id = curVal[Quest::PROPERTY_ID];
+            Quest* quest = getQuest(id);
+            if (!quest)
+            {
+                quest = new Quest(id);
+                rootQuest->addSubquest(quest);
+            }
+
+            quest->setProperties(curVal);
+            if(curVal.find("quests") != curVal.end())
+            {
+                setQuestsProperty(curVal["quests"], quest);
+            }            
+        }
+        ///@todo implement
     }
 
     PropertyRecord* QuestBook::getAllProperties() const
