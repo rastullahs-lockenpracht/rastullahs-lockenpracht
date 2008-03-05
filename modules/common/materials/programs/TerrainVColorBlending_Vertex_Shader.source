@@ -67,12 +67,15 @@ VS_OUTPUT vs_main( float4 Position : POSITION,
    float AngleAttn= saturate(dot(Normal,LightDir));
    AngleAttn = 1;  // ################# AngleAttn doesn't work for unknown reasons
    
+   float DistAttn;
    if (Light_Position0.w != 0.0)
-   float DistAttn = saturate(1/ (Light_Attenuation0.y +
-                              Light_Attenuation0.z * Dist +
-                              Light_Attenuation0.w * Dist * Dist)*saturate(Light_Attenuation0.x-Dist));
-   
-   Output.Light += Light_Color0 * DistAttn * AngleAttn;
+   {
+	   DistAttn = saturate(1/ (Light_Attenuation0.y +
+	                              Light_Attenuation0.z * Dist +
+	                              Light_Attenuation0.w * Dist * Dist)*saturate(Light_Attenuation0.x-Dist));
+	   
+	   Output.Light += Light_Color0 * DistAttn * AngleAttn;
+   }
    
    // ######## Light 1 #########
    LightDir = Light_Position1 - (Position * Light_Position1.w);
@@ -82,13 +85,14 @@ VS_OUTPUT vs_main( float4 Position : POSITION,
    AngleAttn= saturate(dot(Normal,LightDir));
    AngleAttn = 1;
    
-   if (Light_Position1.w != 0.0)
-   DistAttn = saturate(1/ (Light_Attenuation1.y +
-                              Light_Attenuation1.z * Dist +
-                              Light_Attenuation1.w * Dist * Dist)*saturate(Light_Attenuation1.x-Dist));
-   
-   Output.Light += Light_Color1 * DistAttn * AngleAttn;
-   
+   if (Light_Position1.w != 0.0) 
+   {
+	   DistAttn = saturate(1/ (Light_Attenuation1.y +
+	                              Light_Attenuation1.z * Dist +
+	                              Light_Attenuation1.w * Dist * Dist)*saturate(Light_Attenuation1.x-Dist));
+	   
+	   Output.Light += Light_Color1 * DistAttn * AngleAttn;
+   }
    // ######## Light 2 #########
    LightDir = Light_Position2 - (Position * Light_Position2.w);
    Dist = length(LightDir);
@@ -98,11 +102,13 @@ VS_OUTPUT vs_main( float4 Position : POSITION,
    AngleAttn = 1;
    
    if (Light_Position2.w != 0.0)
-   DistAttn = saturate(1/ (Light_Attenuation2.y +
-                              Light_Attenuation2.z * Dist +
-                              Light_Attenuation2.w * Dist * Dist)*saturate(Light_Attenuation2.x-Dist));
-   
-   Output.Light += Light_Color2 * DistAttn * AngleAttn;
+   {
+	   DistAttn = saturate(1/ (Light_Attenuation2.y +
+	                              Light_Attenuation2.z * Dist +
+	                              Light_Attenuation2.w * Dist * Dist)*saturate(Light_Attenuation2.x-Dist));
+	   
+	   Output.Light += Light_Color2 * DistAttn * AngleAttn;
+   }
    
    return( Output );
    
