@@ -31,23 +31,22 @@ namespace rl
     class _RlRulesExport Kampfaktion
     {
     public:
+		typedef enum {AKTION, REAKTION, FREIE_AKTION, LAENGERFRISTIGE_HANDLUNG} Type;
 
-        /**
-        * @param name Name, mit der die Aktion dem Benutzer
-        *             gegenüber dargestellt wird.
-        *             Die gleiche, die intern verwendet wird.
-        * @param descritpion Eine naehere Beschreibung.
-        */
-        Kampfaktion(const CeGuiString& name, const CeGuiString& description);
+        Kampfaktion(Type type, const CeGuiString& name, const CeGuiString& description);
         virtual ~Kampfaktion();
 
         CeGuiString getName() const;
         CeGuiString getDescription() const;
 
+		virtual bool hasTarget() const = 0;
+		virtual Ogre::Real getMaximumTargetDistance() const = 0;
+
         virtual bool canDoKampfaktion(Combatant* actor, Combatant* target) const = 0;
         virtual void doKampfaktion(Combatant* actor, Combatant* target) = 0;
 
 	protected:
+		Type mType;
 		CeGuiString mName;
 		CeGuiString mDescription;
     };
@@ -58,7 +57,23 @@ namespace rl
 		Attacke();
 		virtual ~Attacke();
 
-        virtual bool canDoKampfaktion(Combatant* actor, Combatant* target) const;
+		virtual bool hasTarget() const;
+		virtual Ogre::Real getMaximumTargetDistance() const;
+
+		virtual bool canDoKampfaktion(Combatant* actor, Combatant* target) const;
+        virtual void doKampfaktion(Combatant* actor, Combatant* target);
+	};
+
+	class _RlRulesExport Parade : public Kampfaktion
+	{
+	public:
+		Parade();
+		virtual ~Parade();
+
+		virtual bool hasTarget() const;
+		virtual Ogre::Real getMaximumTargetDistance() const;
+
+		virtual bool canDoKampfaktion(Combatant* actor, Combatant* target) const;
         virtual void doKampfaktion(Combatant* actor, Combatant* target);
 	};
 }

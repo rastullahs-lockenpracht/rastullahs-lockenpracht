@@ -22,6 +22,11 @@ using namespace std;
 
 namespace rl
 {
+	const Ogre::Real Weapon::DK_NAHKAMPF_MIN_DISTANCE = 0.5f;
+	const Ogre::Real Weapon::DK_STABWAFFEN_MIN_DISTANCE = 1.5f;
+	const Ogre::Real Weapon::DK_PIKE_MIN_DISTANCE = 3.0f;
+	const Ogre::Real Weapon::DK_PIKE_MAX_DISTANCE = 4.0f;
+
     const Ogre::String Weapon::CLASS_NAME = "Weapon";
     const Ogre::String Weapon::PROPERTY_TP = "TP";
     const Ogre::String Weapon::PROPERTY_TP_KK = "TPKK";
@@ -29,7 +34,7 @@ namespace rl
     const Ogre::String Weapon::PROPERTY_TP_INI = "INI";
     const Ogre::String Weapon::PROPERTY_TP_WM = "WM";
     const Ogre::String Weapon::PROPERTY_TP_DK = "DK";
-    const Ogre::String Weapon::PROPERTY_TP_KAMPFTECHNIK = "KT";
+    const Ogre::String Weapon::PROPERTY_TP_KAMPFTECHNIK = "kampftechnik";
 
 	Weapon::Weapon(unsigned int id)
 		: Item(id),
@@ -117,6 +122,46 @@ namespace rl
         return (mDk & newDk) == newDk;
     }
 
+	Ogre::Real Weapon::getMinimumDistance() const
+	{
+		if (mDk & DK_H)
+		{
+			return 0.0f;
+		}
+		else if (mDk & DK_N)
+		{
+			return DK_NAHKAMPF_MIN_DISTANCE;
+		}
+		else if (mDk & DK_S)
+		{
+			return DK_STABWAFFEN_MIN_DISTANCE;
+		}
+		else
+		{
+			return DK_PIKE_MIN_DISTANCE;
+		}
+	}
+
+	Ogre::Real Weapon::getMaximumDistance() const
+	{
+		if (mDk & DK_P)
+		{
+			return DK_PIKE_MAX_DISTANCE;
+		}
+		else if (mDk & DK_S)
+		{
+			return DK_PIKE_MIN_DISTANCE;
+		}
+		else if (mDk & DK_N)
+		{
+			return DK_STABWAFFEN_MIN_DISTANCE;
+		}
+		else
+		{
+			return DK_NAHKAMPF_MIN_DISTANCE;
+		}
+	}
+
 	void Weapon::setKampftechnik(const CeGuiString newKampftechnik)
 	{
 		mKampftechnik = newKampftechnik;
@@ -151,7 +196,27 @@ namespace rl
         }
         else if (key == Weapon::PROPERTY_TP_DK)
         {
-            mDk = value.toInt();
+			Ogre::String tmp = value.toString().c_str();
+			mDk = 0;
+			for (size_t i = 0; i < tmp.size(); ++i)
+			{
+				if (tmp[i] == 'H' || tmp[i] == 'h')
+				{
+					mDk |= DK_H;
+				}
+				else if (tmp[i] == 'N' || tmp[i] == 'n')
+				{
+					mDk |= DK_N;
+				}
+				else if (tmp[i] == 'S' || tmp[i] == 's')
+				{
+					mDk |= DK_S;
+				}
+				else if (tmp[i] == 'P' || tmp[i] == 'p')
+				{
+					mDk |= DK_P;
+				}
+			}
         }
         else if (key == Weapon::PROPERTY_TP_KAMPFTECHNIK)
         {
@@ -187,7 +252,24 @@ namespace rl
         }
         else if (key == Weapon::PROPERTY_TP_DK)
         {
-            return Property(mDk);
+			CeGuiString dk;
+			if (mDk & DK_H)
+			{
+				dk += "H";
+			}
+			else if (mDk & DK_N)
+			{
+				dk += "N";
+			}
+			else if (mDk & DK_S)
+			{
+				dk += "S";
+			}
+			else if (mDk & DK_P)
+			{
+				dk += "P";
+			}
+            return Property(dk);
         }
         else if (key == Weapon::PROPERTY_TP_KAMPFTECHNIK)
         {

@@ -28,6 +28,7 @@ namespace rl
     class Combatant;
     class CombatantFactory;
     class Creature;
+	class Kampfaktion;
 	
     class _RlRulesExport CombatManager : public Ogre::Singleton<CombatManager>
     {
@@ -55,10 +56,14 @@ namespace rl
         void registerCombatantFactory(const Ogre::String& name, CombatantFactory* factory);
         void unregisterCombatantFactory(CombatantFactory* factory);
 
+		Kampfaktion* getKampfaktion(const CeGuiString& name);
+
     private:
         typedef std::map<Ogre::String, CombatantFactory*> CombatantFactoryMap;
         CombatantFactoryMap mCombatantFactories;
         Combat* mCurrentCombat;
+
+		std::map<CeGuiString, Kampfaktion*> mKampfaktionen;
     };
 }
 

@@ -20,6 +20,7 @@
 #include "Combat.h"
 #include "Combatant.h"
 #include "Exception.h"
+#include "Kampfaktion.h"
 
 using namespace Ogre;
 
@@ -30,10 +31,18 @@ namespace rl
 
     CombatManager::CombatManager() : mCurrentCombat(NULL)
     {
+		Kampfaktion* ka = new Attacke();
+		mKampfaktionen.insert(std::make_pair(ka->getName(), ka));
     }
 
     CombatManager::~CombatManager()
     {
+		for (std::map<CeGuiString, Kampfaktion*>::iterator it = mKampfaktionen.begin();
+			it != mKampfaktionen.end(); ++it)
+		{
+			delete it->second;
+		}
+		mKampfaktionen.clear();
     }
 
     Combat* CombatManager::startCombat()
@@ -98,4 +107,17 @@ namespace rl
             }
         }
     }
+
+	Kampfaktion* CombatManager::getKampfaktion(const CeGuiString& name)
+	{
+		std::map<CeGuiString, Kampfaktion*>::const_iterator it = mKampfaktionen.find(name);
+		if (it != mKampfaktionen.end())
+		{
+			return it->second;
+		}
+		else
+		{
+			return NULL;
+		}
+	}
 }

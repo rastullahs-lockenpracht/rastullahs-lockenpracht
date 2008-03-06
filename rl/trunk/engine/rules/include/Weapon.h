@@ -28,11 +28,16 @@ namespace rl
 	public:
 		enum Distanzklasse 
 		{
-			DK_H = 0,
-			DK_N = 1,
-			DK_S = 2,
-			DK_P = 4
+			DK_H = 1,
+			DK_N = 2,
+			DK_S = 4,
+			DK_P = 8
 		};
+
+		static const Ogre::Real DK_NAHKAMPF_MIN_DISTANCE;
+		static const Ogre::Real DK_STABWAFFEN_MIN_DISTANCE;
+		static const Ogre::Real DK_PIKE_MIN_DISTANCE;
+		static const Ogre::Real DK_PIKE_MAX_DISTANCE;
 
         static const Ogre::String CLASS_NAME;
 
@@ -62,6 +67,11 @@ namespace rl
         bool hasDk(Distanzklasse dk) const;
 		void setKampftechnik(const CeGuiString newKampftechnik);
 		const CeGuiString getKampftechnik() const;
+
+		/// Return minimum distance in meters where weapon can be used without penalty.
+		Ogre::Real getMinimumDistance() const;
+		/// Return maximum distance in meters where weapon can be used without penalty.
+		Ogre::Real getMaximumDistance() const;
 
         virtual const Property getProperty(const Ogre::String& key) const;
         virtual void setProperty(const Ogre::String& key, const Property& value);

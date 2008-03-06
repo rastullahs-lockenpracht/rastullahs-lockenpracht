@@ -22,8 +22,8 @@ using namespace Ogre;
 
 namespace rl
 {
-	Kampfaktion::Kampfaktion(const CeGuiString& name, const CeGuiString& description)
-		: mName(name), mDescription(description)
+	Kampfaktion::Kampfaktion(Type type, const CeGuiString& name, const CeGuiString& description)
+		: mType(type), mName(name), mDescription(description)
 	{
 	}
 
@@ -41,7 +41,7 @@ namespace rl
 		return mDescription;
 	}
 
-	Attacke::Attacke() : Kampfaktion("Attacke", "Greife Gegner an.")
+	Attacke::Attacke() : Kampfaktion(AKTION, "Attacke", "Greife Gegner an.")
 	{
 	}
 
@@ -49,12 +49,54 @@ namespace rl
 	{
 	}
 
-	bool Attacke::canDoKampfaktion(Combatant* actor, Combatant* target) const
+	bool Attacke::hasTarget() const
 	{
 		return true;
 	}
 
+	Real Attacke::getMaximumTargetDistance() const
+	{
+		return 1.0f;
+	}
+
+	bool Attacke::canDoKampfaktion(Combatant* actor, Combatant* target) const
+	{
+		// Check whether actor has skill for weapon in hand.
+
+		// Check whether target ís in range of our actor and his/her weapon.
+		return true;
+	}
+
     void Attacke::doKampfaktion(Combatant* actor, Combatant* target)
+	{
+
+	}
+
+	Parade::Parade() : Kampfaktion(REAKTION, "Parade", "Pariere Attacken des Gegners")
+	{
+	}
+
+	Parade::~Parade()
+	{
+	}
+
+	bool Parade::hasTarget() const
+	{
+		return true;
+	}
+
+	Real Parade::getMaximumTargetDistance() const
+	{
+		return 1.0f;
+	}
+
+    bool Parade::canDoKampfaktion(Combatant* actor, Combatant* target) const
+	{
+		// Check, whether actor's weapon can be parried with our weapon/side weapon/shield.
+		return true;
+	}
+
+    void Parade::doKampfaktion(Combatant* actor, Combatant* target)
 	{
 	}
 }
