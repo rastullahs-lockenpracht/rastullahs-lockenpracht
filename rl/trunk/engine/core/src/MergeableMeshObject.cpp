@@ -132,6 +132,9 @@ namespace rl
 		Entity* newEnt = CoreSubsystem::getSingletonPtr()->getWorld()
 			->getSceneManager()->createEntity(oldEnt->getName()+"_", newMesh->getName());
 
+        // queryflags uebernehmen
+        newEnt->setQueryFlags( oldEnt->getQueryFlags() );
+
 		TagPoint* parentTp = dynamic_cast<TagPoint*>(oldEnt->getParentNode());
 		if (parentTp)
 		{

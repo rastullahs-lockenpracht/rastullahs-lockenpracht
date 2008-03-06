@@ -161,6 +161,8 @@ namespace rl {
             "Aktor "+mName+": Es ist bereits ein Objekt an diesem Aktor befestigt.");
 
         mActorControlledObject = act;
+        if( act->getMovableObject() )
+            act->getMovableObject()->setQueryFlags(0);
     }
 
     const String& Actor::getName() const
@@ -170,14 +172,26 @@ namespace rl {
 
     unsigned long Actor::getQueryFlags() const
     {
-        return mActorControlledObject ?
-            mActorControlledObject->getMovableObject()->getQueryFlags() : 0;
+        if( mActorControlledObject )
+        {
+            if( mActorControlledObject->getMovableObject() )
+            {
+                unsigned long flags = mActorControlledObject->getMovableObject()->getQueryFlags();
+                return flags;
+            }
+        }
+        return 0;
     }
 
     void Actor::setQueryFlags( unsigned long flags )
     {
         if( mActorControlledObject && mActorControlledObject->getMovableObject())
             mActorControlledObject->getMovableObject()->setQueryFlags( flags );
+        else
+        {
+            if( flags != NULL )
+                LOG_ERROR(Logger::CORE, "Queryflags could not be set, because ActorControlledObject was NULL");
+        }
     }
 
     void Actor::addQueryFlag( unsigned long flag  )

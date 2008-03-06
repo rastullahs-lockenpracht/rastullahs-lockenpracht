@@ -173,6 +173,8 @@ namespace rl
 
     bool CoreSubsystem::initializeCoreSubsystem()
     {
+        // set default queryflags to zero
+        Ogre::MovableObject::setDefaultQueryFlags(0);
         // By not specifying the first two parameters, OGRE will not try
         // to load plugins.cfg and ogre.cfg
         mOgreRoot = new Root("", "", ConfigurationManager::getSingleton().getOgreLogFile());

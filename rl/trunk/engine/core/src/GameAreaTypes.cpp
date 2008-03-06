@@ -170,7 +170,8 @@ namespace rl {
     {
         if( actor )
         {
-            if( actor->getQueryFlags() & mQueryMask )
+            unsigned long flags = actor->getQueryFlags();
+            if( flags & mQueryMask )
                 mFoundActors[actor->getName()] = actor;
         }
     }
