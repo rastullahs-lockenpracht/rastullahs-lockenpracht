@@ -15,6 +15,9 @@ $hero = $GOM.createGameObject("hero", 1)
 $SCRIPT.log("Place hero into scene")
 $hero.placeIntoScene()
 
+sword = $GOM.createGameObject("Kurzschwert");
+$hero.getInventory().hold(sword, "Right Hand");
+
 $SCRIPT.log("Prepare hero for being the active character")
 PlayerSettings.preparePlayer($hero)
 
