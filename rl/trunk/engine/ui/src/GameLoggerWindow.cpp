@@ -40,7 +40,7 @@ namespace rl {
 			    boost::bind(&GameLoggerWindow::onLogEntryAdded, this, _1, _2));
 	}
 
-	bool GameLoggerWindow::onLogEntryAdded(GameEventType evt, const Ogre::String& text)
+	bool GameLoggerWindow::onLogEntryAdded(GameEventType evt, const CeGuiString& text)
 	{
 		CEGUI::colour col = evt == GET_QUEST ? COLOR_QUEST :
 			evt == GET_COMBAT ? COLOR_COMBAT :

@@ -31,7 +31,7 @@ namespace rl {
 		GameLoggerWindow();
 
 		/// Message handler for RLMSG_GAMEEVENTLOG_EVENT_ADDED
-		bool onLogEntryAdded(GameEventType evt, const Ogre::String& msg);
+		bool onLogEntryAdded(GameEventType evt, const CeGuiString& msg);
 
 	private:
 		static CEGUI::colour COLOR_DEFAULT;

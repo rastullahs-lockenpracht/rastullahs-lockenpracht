@@ -44,7 +44,7 @@ namespace rl
     };
 
     /// Message sent right after a new game log event has been added.
-	typedef MessageType<RLMSG_GAMEEVENTLOG_EVENT_ADDED, GameEventType, Ogre::String>
+	typedef MessageType<RLMSG_GAMEEVENTLOG_EVENT_ADDED, GameEventType, CeGuiString>
 		MessageType_GameEventLog_EventAdded;
 
 	typedef MessageType<RLMSG_COMBAT_OPPONENT_ENTERED, Combatant*>

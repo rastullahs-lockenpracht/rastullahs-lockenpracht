@@ -35,10 +35,10 @@ namespace rl
 		/// Get the number of event entries kept in memory.
 		size_t getEventQueueLength() const;
 
-		void logEvent(const Ogre::String& eventString, GameEventType type);
+		void logEvent(const CeGuiString& eventString, GameEventType type);
 
 	private:
-		typedef std::pair<GameEventType, Ogre::String> LogEntry;
+		typedef std::pair<GameEventType, CeGuiString> LogEntry;
 		std::deque<LogEntry> mLog;
 		size_t mLogSize;
     };
