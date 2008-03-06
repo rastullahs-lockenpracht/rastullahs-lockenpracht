@@ -20,7 +20,11 @@
 #include <map>
 #include <vector>
 
-#include <OgreNewt.h>
+#ifdef __APPLE__
+#   include <OgreNewt/OgreNewt.h>
+#else
+#   include <OgreNewt.h>
+#endif
 
 namespace OgreNewt {
     class Body;

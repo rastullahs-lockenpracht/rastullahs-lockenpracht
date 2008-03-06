@@ -21,7 +21,11 @@
 #include "PhysicsContactListener.h"
 #include "PhysicsManager.h"
 
-#include <OgreNewt.h>
+#ifdef __APPLE__
+#   include <OgreNewt/OgreNewt.h>
+#else
+#   include <OgreNewt.h>
+#endif
 
 namespace rl {
 

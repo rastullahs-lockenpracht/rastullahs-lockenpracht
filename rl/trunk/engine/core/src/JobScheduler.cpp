@@ -286,7 +286,6 @@ namespace rl
                         
                         unsigned long ticket = ++mTicketCounter;
                         TimeSource* ts = TimeSourceManager::getSingleton().getTimeSource(job->getTimeSource());
-                        unsigned long clock = ts->getClock();
                         JobEntry entry = {job, NULL, ticket, priority, tokens, start, end, timeLastCall, TimeSource::UNKNOWN, called, false};
                         mJobQueue.push_back(entry);
                     }

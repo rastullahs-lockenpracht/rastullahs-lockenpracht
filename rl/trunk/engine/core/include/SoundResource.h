@@ -18,7 +18,6 @@
 #define SOUNDRESOURCE_H
 
 #include "CorePrerequisites.h"
-#include <Ogre.h> 
 
 namespace rl {
  

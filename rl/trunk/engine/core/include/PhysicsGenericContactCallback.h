@@ -17,8 +17,14 @@
 #ifndef __PHYSICSGENERICCONTACTCALLBACK_H__
 #define __PHYSICSGENERICCONTACTCALLBACK_H__
 
-#include <OgreNewt.h>
 #include "CorePrerequisites.h"
+
+#ifdef __APPLE__
+#   include <OgreNewt/OgreNewt.h>
+#else
+#   include <OgreNewt.h>
+#endif
+
 
 namespace rl {
 

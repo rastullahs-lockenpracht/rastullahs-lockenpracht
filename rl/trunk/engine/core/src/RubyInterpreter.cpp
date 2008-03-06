@@ -19,7 +19,9 @@
 #include "RubyInterpreter.h"
 
 #include "FixRubyHeaders.h"
+
 #include <ruby.h>
+
 #include "FixRubyHeaders.h"
 
 #include "CoreSubsystem.h"

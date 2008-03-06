@@ -17,8 +17,6 @@
 
 #include "CameraObject.h"
 
-#include <OgreViewport.h>
-
 #include "Actor.h"
 #include "CoreSubsystem.h"
 #include "World.h"

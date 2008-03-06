@@ -17,7 +17,11 @@
 #ifndef __DotSceneLoader_H__
 #define __DotSceneLoader_H__
 
-#include <OgreNewt.h>
+#ifdef __APPLE__
+#   include <OgreNewt/OgreNewt.h>
+#else
+#   include <OgreNewt.h>
+#endif
 
 #include <string>
 #include <map>

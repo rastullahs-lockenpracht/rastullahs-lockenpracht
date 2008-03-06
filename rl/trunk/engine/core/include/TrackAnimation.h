@@ -19,8 +19,6 @@
 
 #include "CorePrerequisites.h"
 
-#include "OgreAnimation.h"
-
 #include "BaseAnimation.h"
 #include "AnimationManager.h"
 

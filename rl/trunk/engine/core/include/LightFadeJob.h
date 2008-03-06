@@ -18,7 +18,6 @@
 #define __RL_LIGHT_FADE_JOB_H__
 
 #include "CorePrerequisites.h"
-#include <OgreSingleton.h>
 #include "LightObject.h"
 
 #include "Job.h"

@@ -15,9 +15,8 @@
 */
 #include "stdinc.h" //precompiled header
 
-#include <OgreNewt.h>
-
 #include "PhysicsGenericContactCallback.h"
+
 #include "Actor.h"
 #include "PhysicalThing.h"
 

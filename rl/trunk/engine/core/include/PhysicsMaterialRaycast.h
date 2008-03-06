@@ -18,7 +18,13 @@
 #define __PhysicsMaterialRaycast_H__
 
 #include "CorePrerequisites.h"
-#include <OgreNewt.h>
+
+#ifdef __APPLE__
+#   include <OgreNewt/OgreNewt.h>
+#else
+#   include <OgreNewt.h>
+#endif
+
 #include <vector>
 #include <utility>
 

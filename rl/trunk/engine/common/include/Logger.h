@@ -17,7 +17,13 @@
 #define __LOGGER_H__
 
 #include "CommonPrerequisites.h"
-#include <CEGUILogger.h>
+
+#ifdef __APPLE__
+#   include <CEGUI/CEGUILogger.h>
+#else
+#   include <CEGUILogger.h>
+#endif
+
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/exception.hpp>
 
