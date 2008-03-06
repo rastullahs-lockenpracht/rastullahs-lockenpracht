@@ -21,6 +21,7 @@ noinst_HEADERS = \
 	GameObject.h \
 	GameObjectStateListener.h \
 	GameTimeSource.h \
+	GlobalProperties.h \
 	Item.h \
 	Inventory.h \
 	JournalEntry.h \

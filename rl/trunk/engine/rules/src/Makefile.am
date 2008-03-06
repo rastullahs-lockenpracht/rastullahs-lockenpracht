@@ -25,6 +25,7 @@ libRlRules_la_SOURCES = \
 	GameObject.cpp \
 	GameObjectManager.cpp \
 	GameTimeSource.cpp \
+	GlobalProperties.cpp \
 	Item.cpp \
 	Inventory.cpp \
 	JournalEntry.cpp \
