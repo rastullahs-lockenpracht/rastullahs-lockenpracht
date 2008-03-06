@@ -81,7 +81,7 @@ namespace rl {
          */
         void addPropertyInt(const Property& prop, 
             CEGUI::MultiColumnList* table,
-            const Ogre::String& key = "");
+            const CeGuiString& key = "");
 
         /**
          * Adds the IntPair values to the property table.
@@ -90,7 +90,7 @@ namespace rl {
          */
         void addPropertyIntPair(const Property& prop, 
             CEGUI::MultiColumnList* table,
-            const Ogre::String& key = "");
+            const CeGuiString& key = "");
 
         /**
          * Adds the IntTriple values to the property table.
@@ -99,7 +99,7 @@ namespace rl {
          */
         void addPropertyIntTriple(const Property& prop, 
             CEGUI::MultiColumnList* table,
-            const Ogre::String& key = "");
+            const CeGuiString& key = "");
 
         /**
          * Adds a String value to the property table.
@@ -108,7 +108,7 @@ namespace rl {
          */
         void addPropertyString(const Property& prop, 
             CEGUI::MultiColumnList* table,
-            const Ogre::String& key = "");
+            const CeGuiString& key = "");
 
         /**
          * Adds a Bool value to the property table.
@@ -117,7 +117,7 @@ namespace rl {
          */
         void addPropertyBool(const Property& prop, 
             CEGUI::MultiColumnList* table,
-            const Ogre::String& key = "");
+            const CeGuiString& key = "");
 
         /**
          * Adds a Real value to the property table.
@@ -126,7 +126,7 @@ namespace rl {
          */
         void addPropertyReal(const Property& prop, 
             CEGUI::MultiColumnList* table,
-            const Ogre::String& key = "");
+            const CeGuiString& key = "");
 
         /**
          * Adds the Vector3 values to the property table.
@@ -135,7 +135,7 @@ namespace rl {
          */
         void addPropertyArray3(const Property& prop, 
             CEGUI::MultiColumnList* table,
-            const Ogre::String& key = "");
+            const CeGuiString& key = "");
 
         /**
          * Adds the Quaternion values to the property table.
@@ -144,7 +144,7 @@ namespace rl {
          */
         void addPropertyQuaternion(const Property& prop, 
             CEGUI::MultiColumnList* table,
-            const Ogre::String& key = "");
+            const CeGuiString& key = "");
 
         /**
          * Adds a new tab to the tabpane and lists
@@ -153,7 +153,7 @@ namespace rl {
          * @param key The property to add.
          */
         void addPropertyArray(const Property& prop,
-            const Ogre::String& key = "");
+            const CeGuiString& key = "");
 
         
         CEGUI::TabControl *mTabPane;        //!< TabControl for the property tabs

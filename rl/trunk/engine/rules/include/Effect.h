@@ -126,6 +126,9 @@ namespace rl
         /// Returns the modificator applied on the value specified by the parameters.
         virtual int getMod(CeGuiString target, ModType type, ModTag tag);
 
+        virtual const Property getProperty(const CeGuiString& key) const;
+        virtual void setProperty(const CeGuiString& key, const Property& value);
+        virtual PropertyKeys getAllPropertyKeys() const;
 	protected:
 		CeGuiString mName;
 		CeGuiString mDescription;

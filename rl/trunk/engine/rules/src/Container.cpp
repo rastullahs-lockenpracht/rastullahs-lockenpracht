@@ -317,7 +317,7 @@ namespace rl {
 		return Item::getMass() + getContentWeight();
     }
 
-    void Container::setProperty(const Ogre::String &key, const rl::Property &value)
+    void Container::setProperty(const CeGuiString& key, const Property& value)
     {
         if (key == Container::PROPERTY_CAPACITY)
         {
@@ -357,7 +357,7 @@ namespace rl {
         }
     }
 
-    const Property Container::getProperty(const Ogre::String &key) const
+    const Property Container::getProperty(const CeGuiString& key) const
     {
         if (key == Container::PROPERTY_CAPACITY)
         {
@@ -392,14 +392,13 @@ namespace rl {
         }
     }
 
-    PropertyRecord* Container::getAllProperties() const
+    PropertyKeys Container::getAllPropertyKeys() const
     {
-        PropertyRecord* ps = Item::getAllProperties();
-        ps->setProperty(Container::PROPERTY_CAPACITY, Property(mCapacity));
-        ps->setProperty(Container::PROPERTY_VOLUME, Property(make_pair((int)mVolume.first, (int)mVolume.second)));
-		ps->setProperty(Container::PROPERTY_CONTENT, getProperty(Container::PROPERTY_CONTENT));
-
-        return ps;
+        PropertyKeys keys(Item::getAllPropertyKeys());
+        keys.insert(Container::PROPERTY_CAPACITY);
+        keys.insert(Container::PROPERTY_VOLUME);
+        keys.insert(Container::PROPERTY_CONTENT);
+        return keys;
     }
 
     bool Container::canHold(Item* item)

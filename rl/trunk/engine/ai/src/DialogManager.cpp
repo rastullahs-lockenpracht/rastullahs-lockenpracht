@@ -86,7 +86,7 @@ namespace rl
         shutdownXml();
     }
 
-    const Property DialogManager::getProperty(const Ogre::String &key) const
+    const Property DialogManager::getProperty(const CeGuiString& key) const
     {
         if (key == DialogManager::PROPERTY_DIALOGS)
         {
@@ -118,14 +118,14 @@ namespace rl
         Throw(IllegalArgumentException, key + " is not a property of DialogManager");
     }
 
-    PropertyRecord* DialogManager::getAllProperties() const
+    PropertyKeys DialogManager::getAllPropertyKeys() const
     {
-        PropertyRecord* pr = new PropertyRecord();
-        pr->setProperty(DialogManager::PROPERTY_DIALOGS, getProperty(DialogManager::PROPERTY_DIALOGS));
-        return pr;
+        PropertyKeys keys;
+        keys.insert(DialogManager::PROPERTY_DIALOGS);
+        return keys;
     }
 
-    void DialogManager::setProperty(const Ogre::String& key, const Property& value)
+    void DialogManager::setProperty(const CeGuiString& key, const Property& value)
     {
         ///@todo implement
     }
@@ -679,7 +679,7 @@ namespace rl
         return dialog;
     }
 
-    void DialogManager::DialogPrototype::setProperty(const Ogre::String &key, const rl::Property &value)
+    void DialogManager::DialogPrototype::setProperty(const CeGuiString& key, const Property& value)
     {
         mPropertyVariables.setProperty(key, value);
     }

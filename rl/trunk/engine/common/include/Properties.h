@@ -23,17 +23,18 @@ namespace rl {
 
     class PropertyRecord;
     class PropertyRecordPtr;
-
+    typedef std::set<CeGuiString> PropertyKeys;
     /**
      * This is the base class of all objects having Propertys
      */
     class _RlCommonExport PropertyHolder
     {
     public:
-        virtual const Property getProperty(const Ogre::String& key) const = 0;
-        virtual void setProperty(const Ogre::String& key, const Property& value) = 0;
+        virtual const Property getProperty(const CeGuiString& key) const = 0;
+        virtual void setProperty(const CeGuiString& key, const Property& value) = 0;
         void setPropertyAsString(const Ogre::String& key, const CeGuiString& value);
-        virtual PropertyRecord* getAllProperties() const = 0;
+        PropertyRecord* getAllProperties() const;
+        virtual PropertyKeys getAllPropertyKeys() const = 0;
         void setProperties(const PropertyRecord* props);
         void setProperties(const PropertyMap& propmap);
     };
@@ -44,16 +45,16 @@ namespace rl {
     class _RlCommonExport PropertyRecord : public PropertyHolder
     {
 	public:
-        typedef std::map<const Ogre::String, Property> PropertyRecordMap;
+        typedef std::map<const CeGuiString, Property> PropertyRecordMap;
 
         PropertyRecord();
         PropertyRecord(const PropertyRecord* ps);
         PropertyRecord(const PropertyMap& propmap);
 
-        virtual const Property getProperty(const Ogre::String& key) const;
-        virtual void setProperty(const Ogre::String& key, const Property& value);
-        bool hasProperty(const Ogre::String& key) const;
-        virtual PropertyRecord* getAllProperties() const;
+        virtual const Property getProperty(const CeGuiString& key) const;
+        virtual void setProperty(const CeGuiString& key, const Property& value);
+        bool hasProperty(const CeGuiString& key) const;
+        virtual PropertyKeys getAllPropertyKeys() const;
         const PropertyRecordMap::const_iterator begin() const;
         const PropertyRecordMap::const_iterator end() const;
         PropertyMap toPropertyMap() const;

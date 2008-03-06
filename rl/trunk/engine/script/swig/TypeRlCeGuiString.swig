@@ -15,7 +15,7 @@
  */
 
 /* Wrapping rl::CeGuiStrings to ruby and back 
- for CeGuiString
+ for rl::CeGuiString
 */
 %typemap(typecheck) rl::CeGuiString, const rl::CeGuiString, rl::CeGuiString*, rl::CeGuiString&, const rl::CeGuiString*, const rl::CeGuiString& = char *;
 

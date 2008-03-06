@@ -164,7 +164,7 @@ namespace rl {
         return mJournalEntries[index];
     }
 
-    const Property QuestBook::getProperty(const Ogre::String& key) const
+    const Property QuestBook::getProperty(const CeGuiString& key) const
     {
         if (key == PROPERTY_QUESTS)
         {
@@ -216,7 +216,7 @@ namespace rl {
         return parray;
     }
 
-    void QuestBook::setProperty(const Ogre::String& key, const Property& value)
+    void QuestBook::setProperty(const CeGuiString& key, const Property& value)
     {
         if (key == PROPERTY_QUESTS)
         {
@@ -278,12 +278,12 @@ namespace rl {
         ///@todo implement
     }
 
-    PropertyRecord* QuestBook::getAllProperties() const
+    PropertyKeys QuestBook::getAllPropertyKeys() const
     {
-        PropertyRecord* props = new PropertyRecord();
-        props->setProperty(PROPERTY_QUESTS, getProperty(PROPERTY_QUESTS));
-        props->setProperty(PROPERTY_JOURNAL, getProperty(PROPERTY_JOURNAL));
-        return props;
+        PropertyKeys keys;
+        keys.insert(PROPERTY_QUESTS);
+        keys.insert(PROPERTY_JOURNAL);
+        return keys;
     }
 
     QuestVector QuestBook::getAllQuests() const

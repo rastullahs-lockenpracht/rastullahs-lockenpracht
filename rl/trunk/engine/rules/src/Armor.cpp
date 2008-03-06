@@ -134,7 +134,7 @@ namespace rl
 		mGBE = gbe;
 	}
 
-    void Armor::setProperty(const Ogre::String &key, const rl::Property &value)
+    void Armor::setProperty(const CeGuiString &key, const Property &value)
     {
         if (key == Armor::PROPERTY_G_BE)
         {
@@ -180,7 +180,7 @@ namespace rl
         }
     }
 
-    const Property Armor::getProperty(const Ogre::String &key) const
+    const Property Armor::getProperty(const CeGuiString &key) const
     {
         if (key == Armor::PROPERTY_G_BE)
         {
@@ -196,13 +196,13 @@ namespace rl
         }
     }
 
-    PropertyRecord* Armor::getAllProperties() const
+    PropertyKeys Armor::getAllPropertyKeys() const
     {
-        PropertyRecord* ps = Item::getAllProperties();
-        ps->setProperty(Armor::PROPERTY_G_BE, Property(mGBE));
-        ps->setProperty(Armor::PROPERTY_G_RS, Property(mGRS));
+        PropertyKeys keys(Item::getAllPropertyKeys());
+        keys.insert(Armor::PROPERTY_G_BE);
+        keys.insert(Armor::PROPERTY_G_RS);
 
-        return ps;
+        return keys;
     }
 }
 

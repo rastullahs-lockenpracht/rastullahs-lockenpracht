@@ -263,7 +263,7 @@ namespace rl
         return mSlots;
     }
 
-	const Property Inventory::getProperty(const Ogre::String& key) const
+	const Property Inventory::getProperty(const CeGuiString& key) const
 	{
 		Property prop;
 		if (key == Inventory::PROPERTY_CONTENT)
@@ -286,7 +286,7 @@ namespace rl
 		return prop;
 	}
 
-	void Inventory::setProperty(const Ogre::String& key, const Property& value)
+	void Inventory::setProperty(const CeGuiString& key, const Property& value)
 	{
         if (key == Inventory::PROPERTY_SLOTS)
         {
@@ -352,11 +352,11 @@ namespace rl
 		}
 	}
 
-    PropertyRecord* Inventory::getAllProperties() const
+    PropertyKeys Inventory::getAllPropertyKeys() const
 	{
-		PropertyRecord* ps = new PropertyRecord();
-		ps->setProperty(Inventory::PROPERTY_SLOTS, getProperty(Inventory::PROPERTY_SLOTS));
-		ps->setProperty(Inventory::PROPERTY_CONTENT, getProperty(Inventory::PROPERTY_CONTENT));
-		return ps;
+        PropertyKeys keys;
+		keys.insert(Inventory::PROPERTY_SLOTS);
+        keys.insert(Inventory::PROPERTY_CONTENT);
+		return keys;
 	}
 }

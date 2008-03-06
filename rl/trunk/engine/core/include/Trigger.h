@@ -50,9 +50,9 @@ namespace rl
 
         bool needsToBeSaved() const {return mNeedsToBeSaved;}
 
-        virtual const Property getProperty(const Ogre::String& key) const;
-        virtual void setProperty(const Ogre::String& key, const Property& value);
-        virtual PropertyRecord* getAllProperties() const;
+        virtual const Property getProperty(const CeGuiString& key) const;
+        virtual void setProperty(const CeGuiString& key, const Property& value);
+        virtual PropertyKeys getAllPropertyKeys() const;
     protected:
         Ogre::String mName;
         Ogre::String mClassName;

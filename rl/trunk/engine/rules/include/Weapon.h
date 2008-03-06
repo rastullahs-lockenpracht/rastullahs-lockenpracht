@@ -73,9 +73,9 @@ namespace rl
 		/// Return maximum distance in meters where weapon can be used without penalty.
 		Ogre::Real getMaximumDistance() const;
 
-        virtual const Property getProperty(const Ogre::String& key) const;
-        virtual void setProperty(const Ogre::String& key, const Property& value);
-        virtual PropertyRecord* getAllProperties() const;
+        virtual const Property getProperty(const CeGuiString& key) const;
+        virtual void setProperty(const CeGuiString& key, const Property& value);
+        virtual PropertyKeys getAllPropertyKeys() const;
 
 	private:
 		Tripel<int> mTp;

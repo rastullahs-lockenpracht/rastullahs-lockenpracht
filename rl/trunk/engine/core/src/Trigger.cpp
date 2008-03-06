@@ -26,7 +26,7 @@ namespace rl
     {
     }
 
-    const Property Trigger::getProperty(const Ogre::String& key) const
+    const Property Trigger::getProperty(const CeGuiString& key) const
     {
         Property prop;
         if( key == "name" )
@@ -41,7 +41,7 @@ namespace rl
         return prop;
     }
 
-    void Trigger::setProperty(const Ogre::String& key, const Property& value)
+    void Trigger::setProperty(const CeGuiString& key, const Property& value)
     {
         try
         {
@@ -64,13 +64,12 @@ namespace rl
         }
     }
 
-    PropertyRecord* Trigger::getAllProperties() const
+    PropertyKeys Trigger::getAllPropertyKeys() const
     {
-        PropertyRecord* ps = new PropertyRecord();
-        ps->setProperty("name", Property(mName));
-        ps->setProperty("classname", Property(mClassName));
-
-        return ps;
+        PropertyKeys keys;
+        keys.insert("name");
+        keys.insert("classname");
+        return keys;
     }
 
 }

@@ -448,7 +448,7 @@ namespace rl
         return mEffectManager->getEffects();
     }
 
-    const Property GameObject::getProperty(const Ogre::String& key) const
+    const Property GameObject::getProperty(const CeGuiString& key) const
     {
         Property prop;
         if (key == PROPERTY_POSITION)
@@ -501,7 +501,7 @@ namespace rl
         return prop;
     }
 
-    void GameObject::setProperty(const Ogre::String& key, const Property& value)
+    void GameObject::setProperty(const CeGuiString& key, const Property& value)
     {
         try
         {
@@ -596,22 +596,18 @@ namespace rl
         }
     }
 
-    PropertyRecord* GameObject::getAllProperties() const
+    PropertyKeys GameObject::getAllPropertyKeys() const
     {
-        PropertyRecord* ps = new PropertyRecord();
-        ps->setProperty(PROPERTY_NAME, Property(mName));
-        ps->setProperty(PROPERTY_DESCRIPTION, Property(mDescription));
-        if(this->getState() == GOS_IN_SCENE)
-        {
-            ps->setProperty(PROPERTY_POSITION, Property(getPosition()));
-            ps->setProperty(PROPERTY_ORIENTATION, Property(getOrientation()));
-        }
-        ps->setProperty(PROPERTY_MESHFILE, Property(mMeshfile));
-        ps->setProperty(PROPERTY_MESHPARTS, getProperty(PROPERTY_MESHPARTS));
-        ps->setProperty(PROPERTY_GEOMETRY_TYPE, getProperty(PROPERTY_GEOMETRY_TYPE));
-        ps->setProperty(PROPERTY_MASS, Property(mMass));
-
-        return ps;
+        PropertyKeys keys;
+        keys.insert(PROPERTY_NAME);
+        keys.insert(PROPERTY_DESCRIPTION);
+        keys.insert(PROPERTY_POSITION);
+        keys.insert(PROPERTY_ORIENTATION); 
+        keys.insert(PROPERTY_MESHFILE);
+        keys.insert(PROPERTY_MESHPARTS);
+        keys.insert(PROPERTY_GEOMETRY_TYPE);
+        keys.insert(PROPERTY_MASS);
+        return keys;
     }
 
     Actor* GameObject::createActor()

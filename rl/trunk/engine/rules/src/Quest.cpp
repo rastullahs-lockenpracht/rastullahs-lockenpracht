@@ -296,7 +296,7 @@ void Quest::setKnown(bool known)
 	}
 }
 
-const Property Quest::getProperty(const Ogre::String& key) const
+const Property Quest::getProperty(const CeGuiString& key) const
 {
     if (key == PROPERTY_KNOWN)
     {
@@ -324,7 +324,7 @@ const Property Quest::getProperty(const Ogre::String& key) const
     }
 }
 
-void Quest::setProperty(const Ogre::String& key, const Property& value)
+void Quest::setProperty(const CeGuiString& key, const Property& value)
 {
     if (key == PROPERTY_KNOWN)
     {
@@ -352,18 +352,19 @@ void Quest::setProperty(const Ogre::String& key, const Property& value)
     }
 }
 
-PropertyRecord* Quest::getAllProperties() const
+PropertyKeys Quest::getAllPropertyKeys() const
 {
-    PropertyRecord* ps = new PropertyRecord();
+    PropertyKeys keys;
 
-    ps->setProperty(PROPERTY_ID, Property(mId));
-    ps->setProperty(PROPERTY_NAME, Property(mName));
-    ps->setProperty(PROPERTY_DESCRIPTION, Property(mDescription));
-    ps->setProperty(PROPERTY_KNOWN, Property(mKnown));
-    ps->setProperty(PROPERTY_STATE, Property(STATE_NAMES[mState]));
-    ps->setProperties(mAdditionalProperties);
+    keys.insert(PROPERTY_ID);
+    keys.insert(PROPERTY_NAME);
+    keys.insert(PROPERTY_DESCRIPTION);
+    keys.insert(PROPERTY_KNOWN);
+    keys.insert(PROPERTY_STATE);
+    PropertyKeys addKeys = mAdditionalProperties->getAllPropertyKeys();
+    keys.insert(addKeys.begin(), addKeys.end());
 
-    return ps;
+    return keys;
 }
 
 }

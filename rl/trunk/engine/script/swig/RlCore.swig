@@ -980,9 +980,9 @@ public:
 	virtual bool deactivate() = 0;
 	virtual bool deleteIfZoneDestroyed() const;
 	const Ogre::String& getName() const;
-    virtual const rl::Property getProperty(const Ogre::String& key) const;
+    virtual const rl::Property getProperty(const rl::CeGuiString& key) const;
     virtual void setProperty(const Ogre::String& key, const rl::Property& value);
-    virtual rl::PropertyRecord* getAllProperties() const;
+    virtual rl::PropertyKeys getAllPropertyKeys() const;
 };
 
 class SoundFadeJob : public rl::Job

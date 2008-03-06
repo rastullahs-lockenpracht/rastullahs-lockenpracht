@@ -55,7 +55,7 @@ namespace rl
         RlFail("Discarded non discardable Job.");
     }
 
-    const Property AbstractJob::getProperty(const Ogre::String& key) const
+    const Property AbstractJob::getProperty(const CeGuiString& key) const
     {
         Property prop;
         if( key == "discardable" )
@@ -74,7 +74,7 @@ namespace rl
         return prop;
     }
 
-    void AbstractJob::setProperty(const Ogre::String& key, const Property& value)
+    void AbstractJob::setProperty(const CeGuiString& key, const Property& value)
     {
         try
         {
@@ -101,13 +101,12 @@ namespace rl
         }
     }
 
-    PropertyRecord* AbstractJob::getAllProperties() const
+    PropertyKeys AbstractJob::getAllPropertyKeys() const
     {
-        PropertyRecord* ps = new PropertyRecord();
-        ps->setProperty("discardable", Property(mIsDiscardable));
-        ps->setProperty("destroywhendone", Property(mDestroyWhenDone));
-
-        return ps;
+        PropertyKeys keys;
+        keys.insert("discardable");
+        keys.insert("destroywhendone");
+        return keys;
     }
 
     Job::Job(bool isDiscardable, bool destroyWhenDone, TimeSource::TimeSourceType timesource, JobPersistenceType persistence)
@@ -131,7 +130,7 @@ namespace rl
         return mPersistence;
     }
 
-    const Property Job::getProperty(const Ogre::String& key) const
+    const Property Job::getProperty(const CeGuiString& key) const
     {
         Property prop;
         if( key == "timesource" )
@@ -142,7 +141,7 @@ namespace rl
         return AbstractJob::getProperty(key);
     }
 
-    void Job::setProperty(const Ogre::String& key, const Property& value)
+    void Job::setProperty(const CeGuiString& key, const Property& value)
     {
         try
         {
@@ -163,12 +162,11 @@ namespace rl
         }
     }
 
-    PropertyRecord* Job::getAllProperties() const
+    PropertyKeys Job::getAllPropertyKeys() const
     {
-        PropertyRecord* ps = AbstractJob::getAllProperties();
-        ps->setProperty("timesource", Property((int)mTimeSource));
-
-        return ps;
+        PropertyKeys keys(AbstractJob::getAllPropertyKeys());
+        keys.insert("timesource");
+        return keys;
     }
 
     const Ogre::String Job::getClassName() const

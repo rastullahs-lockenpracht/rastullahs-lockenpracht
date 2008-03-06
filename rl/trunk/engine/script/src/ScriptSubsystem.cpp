@@ -36,12 +36,12 @@ namespace rl {
         delete mScriptObjectMarker;
     }
 
-    void ScriptSubsystem::log(const rl::CeGuiString &message)
+    void ScriptSubsystem::log(const CeGuiString &message)
     {
         LOG_MESSAGE(Logger::SCRIPT, message);
     }
 
-    void ScriptSubsystem::logError(const rl::CeGuiString &message)
+    void ScriptSubsystem::logError(const CeGuiString &message)
     {
         LOG_ERROR(Logger::SCRIPT, message);
     }

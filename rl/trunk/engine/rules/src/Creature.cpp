@@ -1000,7 +1000,7 @@ namespace rl
         return mAlignment;
     }
 
-    void Creature::setProperty(const Ogre::String &key, const rl::Property &value)
+    void Creature::setProperty(const CeGuiString& key, const Property& value)
     {
         if (key == Creature::PROPERTY_AI)
         {
@@ -1095,7 +1095,7 @@ namespace rl
         }
     }
 
-    const Property Creature::getProperty(const Ogre::String &key) const
+    const Property Creature::getProperty(const CeGuiString& key) const
     {
         if (key == Creature::PROPERTY_AI)
         {
@@ -1188,29 +1188,29 @@ namespace rl
         }
     }
 
-    PropertyRecord* Creature::getAllProperties() const
+    PropertyKeys Creature::getAllPropertyKeys() const
     {
-        PropertyRecord* ps = GameObject::getAllProperties();
-        ps->setProperty(Creature::PROPERTY_AI, mAiProperties);
-        ps->setProperty(Creature::PROPERTY_INVENTORY_WINDOW_TYPE, Property(mInventoryWindowType));
-        ps->setProperty(Creature::PROPERTY_CURRENT_LE, getProperty(Creature::PROPERTY_CURRENT_LE));
-        ps->setProperty(Creature::PROPERTY_CURRENT_AE, getProperty(Creature::PROPERTY_CURRENT_AE));
-        ps->setProperty(Creature::PROPERTY_CURRENT_AU, getProperty(Creature::PROPERTY_CURRENT_AU));
-        ps->setProperty(Creature::PROPERTY_CURRENT_FATIGUE, getProperty(Creature::PROPERTY_CURRENT_FATIGUE));
-        //ps->setProperty(Creature::PROPERTY_EFFECTS, getProperty(Creature::PROPERTY_EFFECTS));
-        ps->setProperty(Creature::PROPERTY_EIGENSCHAFTEN, getProperty(Creature::PROPERTY_EIGENSCHAFTEN));
-        ps->setProperty(Creature::PROPERTY_TALENTE, getProperty(Creature::PROPERTY_TALENTE));
-        ps->setProperty(Creature::PROPERTY_KAMPFTECHNIKEN, getProperty(Creature::PROPERTY_KAMPFTECHNIKEN));
-        ps->setProperty(Creature::PROPERTY_VORTEILE, getProperty(Creature::PROPERTY_VORTEILE));
-        ps->setProperty(Creature::PROPERTY_NACHTEILE, getProperty(Creature::PROPERTY_NACHTEILE));
-        //ps->setProperty(Creature::PROPERTY_SF, getProperty(Creature::PROPERTY_SF));
-        ps->setProperty(Creature::PROPERTY_WERTE, getProperty(Creature::PROPERTY_WERTE));
-        ps->setProperty(Creature::PROPERTY_AP, getProperty(Creature::PROPERTY_AP));
-        ps->setProperty(Creature::PROPERTY_INVENTORY, getProperty(Creature::PROPERTY_INVENTORY));
-        ps->setProperty(Creature::PROPERTY_ANIMATIONS, getProperty(Creature::PROPERTY_ANIMATIONS));
-        ps->setProperty(Creature::PROPERTY_ANIMATIONSPEEDS, getProperty(Creature::PROPERTY_ANIMATIONSPEEDS));
+        PropertyKeys keys(GameObject::getAllPropertyKeys());
+        keys.insert(Creature::PROPERTY_AI);
+        keys.insert(Creature::PROPERTY_INVENTORY_WINDOW_TYPE);
+        keys.insert(Creature::PROPERTY_CURRENT_LE);
+        keys.insert(Creature::PROPERTY_CURRENT_AE);
+        keys.insert(Creature::PROPERTY_CURRENT_AU);
+        keys.insert(Creature::PROPERTY_CURRENT_FATIGUE);
+        //keys.insert(Creature::PROPERTY_EFFECTS);
+        keys.insert(Creature::PROPERTY_EIGENSCHAFTEN);
+        keys.insert(Creature::PROPERTY_TALENTE);
+        keys.insert(Creature::PROPERTY_KAMPFTECHNIKEN);
+        keys.insert(Creature::PROPERTY_VORTEILE);
+        keys.insert(Creature::PROPERTY_NACHTEILE);
+        //keys.insert(Creature::PROPERTY_SF);
+        keys.insert(Creature::PROPERTY_WERTE);
+        keys.insert(Creature::PROPERTY_AP);
+        keys.insert(Creature::PROPERTY_INVENTORY);
+        keys.insert(Creature::PROPERTY_ANIMATIONS);
+        keys.insert(Creature::PROPERTY_ANIMATIONSPEEDS);
 
-        return ps;
+        return keys;
     }
 
     Creature::AnimationSpeedPair Creature::getAnimation(const CeGuiString& name) const

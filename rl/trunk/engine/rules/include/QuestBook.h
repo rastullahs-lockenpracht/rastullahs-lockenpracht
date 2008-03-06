@@ -78,11 +78,11 @@ public:
 
     void _fireQuestBookChanged(Quest* quest, int reason);
 
-    virtual const Property getProperty(const Ogre::String& key) const;
+    virtual const Property getProperty(const CeGuiString& key) const;
     PropertyArray getQuestsProperty(const Quest* rootQuest) const;
-    virtual void setProperty(const Ogre::String& key, const Property& value);
+    virtual void setProperty(const CeGuiString& key, const Property& value);
     void setQuestsProperty(PropertyArray array, Quest* rootQuest);
-    virtual PropertyRecord* getAllProperties() const;
+    virtual PropertyKeys getAllPropertyKeys() const;
 
     /// Override from SaveGameData
     /// Manages saving and loading from the SaveGameFile

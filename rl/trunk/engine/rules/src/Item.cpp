@@ -161,7 +161,7 @@ namespace rl
         GameObjectManager::getSingleton().gameObjectStateChanged(this, oldState, targetState);
     }
 
-    void Item::setProperty(const Ogre::String &key, const rl::Property &value)
+    void Item::setProperty(const CeGuiString& key, const Property& value)
     {
         if (key == Item::PROPERTY_IMAGENAME)
         {
@@ -185,7 +185,7 @@ namespace rl
         }
     }
 
-    const Property Item::getProperty(const Ogre::String &key) const
+    const Property Item::getProperty(const CeGuiString& key) const
     {
         if (key == Item::PROPERTY_IMAGENAME)
         {
@@ -209,14 +209,13 @@ namespace rl
         }
     }
 
-    PropertyRecord* Item::getAllProperties() const
+    PropertyKeys Item::getAllPropertyKeys() const
     {
-        PropertyRecord* ps = GameObject::getAllProperties();
-        ps->setProperty(Item::PROPERTY_IMAGENAME, Property(mImageName));
-        ps->setProperty(Item::PROPERTY_SIZE, Property(mSize));
-        ps->setProperty(Item::PROPERTY_ITEMTYPE, Property(mItemType));
-
-        return ps;
+        PropertyKeys keys(GameObject::getAllPropertyKeys());
+        keys.insert(Item::PROPERTY_IMAGENAME);
+        keys.insert(Item::PROPERTY_SIZE);
+        keys.insert(Item::PROPERTY_ITEMTYPE);
+        return keys;
     }
 
     void Item::setOwner(GameObject* owner)

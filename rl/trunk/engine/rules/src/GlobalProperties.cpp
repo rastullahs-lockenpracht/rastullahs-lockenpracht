@@ -38,19 +38,19 @@ namespace rl
 
     
     /// Overrides from PropertyHolder
-    const Property GlobalProperties::getProperty(const Ogre::String& key) const
+    const Property GlobalProperties::getProperty(const CeGuiString& key) const
     {
         return mProperties->getProperty(key);
     }
 
-    void GlobalProperties::setProperty(const Ogre::String& key, const Property& value)
+    void GlobalProperties::setProperty(const CeGuiString& key, const Property& value)
     {
         mProperties->setProperty(key, value);
     }
 
-    PropertyRecord* GlobalProperties::getAllProperties() const
+    PropertyKeys GlobalProperties::getAllPropertyKeys() const
     {
-        return mProperties;
+        return mProperties->getAllPropertyKeys();
     }
 
     bool GlobalProperties::hasProperty(const Ogre::String &key) const

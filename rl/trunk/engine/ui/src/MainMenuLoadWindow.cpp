@@ -24,12 +24,13 @@
 #include <boost/bind.hpp>
 #include <CEGUIWindowManager.h>
 #include <elements/CEGUIListboxTextItem.h>
-#include <Exception.h>
-#include <GameObjectManager.h>
-#include <GameObject.h>
-#include <Actor.h>
 
 #include "MainMenuLoadWindow.h"
+
+#include "Exception.h"
+#include "GameObjectManager.h"
+#include "GameObject.h"
+#include "Actor.h"
 #include "MessageWindow.h"
 #include "WindowFactory.h"
 #include "ConfigurationManager.h"

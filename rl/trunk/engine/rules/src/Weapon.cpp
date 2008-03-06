@@ -172,7 +172,7 @@ namespace rl
 		return mKampftechnik;
 	}
 
-    void Weapon::setProperty(const Ogre::String &key, const rl::Property &value)
+    void Weapon::setProperty(const CeGuiString& key, const Property& value)
     {
         if (key == Weapon::PROPERTY_TP)
         {
@@ -228,7 +228,7 @@ namespace rl
         }
     }
 
-    const Property Weapon::getProperty(const Ogre::String &key) const
+    const Property Weapon::getProperty(const CeGuiString& key) const
     {
         if (key == Weapon::PROPERTY_TP)
         {
@@ -281,17 +281,16 @@ namespace rl
         }
     }
 
-    PropertyRecord* Weapon::getAllProperties() const
+    PropertyKeys Weapon::getAllPropertyKeys() const
     {
-        PropertyRecord* ps = Item::getAllProperties();
-        ps->setProperty(Weapon::PROPERTY_TP, Property(mTp));
-        ps->setProperty(Weapon::PROPERTY_TP_KK, Property(mTpKk));
-        ps->setProperty(Weapon::PROPERTY_TP_BF, Property(mBf));
-        ps->setProperty(Weapon::PROPERTY_TP_INI, Property(mIni));
-        ps->setProperty(Weapon::PROPERTY_TP_WM, Property(mWm));
-        ps->setProperty(Weapon::PROPERTY_TP_DK, getProperty(Weapon::PROPERTY_TP_DK));
-        ps->setProperty(Weapon::PROPERTY_TP_KAMPFTECHNIK, Property(mKampftechnik));
-
-        return ps;
+        PropertyKeys keys(Item::getAllPropertyKeys());
+        keys.insert(Weapon::PROPERTY_TP);
+        keys.insert(Weapon::PROPERTY_TP_KK);
+        keys.insert(Weapon::PROPERTY_TP_BF);
+        keys.insert(Weapon::PROPERTY_TP_INI);
+        keys.insert(Weapon::PROPERTY_TP_WM);
+        keys.insert(Weapon::PROPERTY_TP_DK);
+        keys.insert(Weapon::PROPERTY_TP_KAMPFTECHNIK);
+        return keys;
     }
 }

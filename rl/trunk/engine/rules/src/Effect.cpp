@@ -102,4 +102,31 @@ namespace rl
     {
       return 0;
     }
+
+    const Property Effect::getProperty(const CeGuiString& key) const
+    {
+        //else
+        //{
+            Throw(
+                IllegalArgumentException, 
+                key + " is not a property of this effect (" + mName + ")");
+        //}
+    }
+
+    void Effect::setProperty(const CeGuiString& key, const Property& value)
+    {
+        // else
+        //{
+            LOG_WARNING(
+                Logger::RULES,
+                key + " is not a property of this GameObject ("+mName+")");
+        //}
+    }
+
+    PropertyKeys Effect::getAllPropertyKeys() const
+    {
+        PropertyKeys keys;
+        return keys;
+    }
+
 }

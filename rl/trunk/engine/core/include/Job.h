@@ -79,11 +79,11 @@ namespace rl
         virtual void discard();
 
         /// derived from PropertyHolder
-        virtual const Property getProperty(const Ogre::String& key) const;
+        virtual const Property getProperty(const CeGuiString& key) const;
         /// derived from PropertyHolder
-        virtual void setProperty(const Ogre::String& key, const Property& value);
+        virtual void setProperty(const CeGuiString& key, const Property& value);
         /// derived from PropertyHolder
-        virtual PropertyRecord* getAllProperties() const;
+        virtual PropertyKeys getAllPropertyKeys() const;
 
         /// returns the name of the class
         virtual const Ogre::String getClassName() const = 0;
@@ -142,11 +142,11 @@ namespace rl
         TimeSource::TimeSourceType getTimeSource() const;
 
         /// derived from PropertyHolder
-        virtual const Property getProperty(const Ogre::String& key) const;
+        virtual const Property getProperty(const CeGuiString& key) const;
         /// derived from PropertyHolder
-        virtual void setProperty(const Ogre::String& key, const Property& value);
+        virtual void setProperty(const CeGuiString& key, const Property& value);
         /// derived from PropertyHolder
-        virtual PropertyRecord* getAllProperties() const;
+        virtual PropertyKeys getAllPropertyKeys() const;
 
         /// returns the name of the class
         virtual const Ogre::String getClassName() const;

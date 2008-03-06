@@ -84,9 +84,9 @@ namespace rl
         void setItemPosition(Item* item, int xPos, int yPos);
         IntPair getItemPosition(Item* item) const;
 
-        virtual const Property getProperty(const Ogre::String& key) const;
-        virtual void setProperty(const Ogre::String& key, const Property& value);
-        virtual PropertyRecord* getAllProperties() const;
+        virtual const Property getProperty(const CeGuiString& key) const;
+        virtual void setProperty(const CeGuiString& key, const Property& value);
+        virtual PropertyKeys getAllPropertyKeys() const;
 
         bool canHold(Item* item);
 

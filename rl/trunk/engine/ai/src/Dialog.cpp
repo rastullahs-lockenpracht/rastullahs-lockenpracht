@@ -62,7 +62,7 @@ namespace rl
         return mPlayerCharacters[id];
     }
 
-    const Property Dialog::getProperty(const Ogre::String& key) const
+    const Property Dialog::getProperty(const CeGuiString& key) const
     {
         ///@todo dialog's state
 		if (key == Dialog::PROP_EXIT_REQUESTED)
@@ -73,7 +73,7 @@ namespace rl
         return mPropertyVariables.getProperty(key);
     }
 
-    void Dialog::setProperty(const Ogre::String& key, const Property& value)
+    void Dialog::setProperty(const CeGuiString& key, const Property& value)
     {
 		if (key == Dialog::PROP_EXIT_REQUESTED)
 		{
@@ -83,11 +83,15 @@ namespace rl
         mPropertyVariables.setProperty(key, value);
     }
 
-    PropertyRecord* Dialog::getAllProperties() const
+    PropertyKeys Dialog::getAllPropertyKeys() const
     {
-        PropertyRecord* ps = new PropertyRecord();
-        ///@todo to allow saving dialog's state
-        return ps;
+        PropertyKeys keys;
+        keys.insert(Dialog::PROP_EXIT_REQUESTED);
+        ///@todo dialog's state
+
+        PropertyKeys varKeys = mPropertyVariables.getAllPropertyKeys();
+        keys.insert(varKeys.begin(), varKeys.end());
+        return keys;
     }
 
 	bool Dialog::isExitRequested() const

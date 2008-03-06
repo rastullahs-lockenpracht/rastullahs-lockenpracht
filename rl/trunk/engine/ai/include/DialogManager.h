@@ -58,9 +58,9 @@ namespace rl
         Dialog* createDialog(const Ogre::String& name, rl::Creature* npc, rl::Creature* pc);
         Dialog* createDialog(const Ogre::String& name, const std::vector<Creature*>& pcs, const std::vector<Creature*>& npcs);
 
-        virtual const Property getProperty(const Ogre::String& key) const;
-        virtual void setProperty(const Ogre::String& key, const Property& value);
-        virtual PropertyRecord* getAllProperties() const;
+        virtual const Property getProperty(const CeGuiString& key) const;
+        virtual void setProperty(const CeGuiString& key, const Property& value);
+        virtual PropertyKeys getAllPropertyKeys() const;
         virtual void writeData(SaveGameFileWriter *writer);
         virtual void readData(SaveGameFileReader* reader);
         virtual CeGuiString getXmlNodeIdentifier() const;
@@ -78,7 +78,7 @@ namespace rl
 
             void setStartResponse(DialogResponse* response);
             Dialog* createDialog(const std::vector<Creature*>& pcs, const std::vector<Creature*>& npcs);
-            void setProperty(const Ogre::String& key, const Property& value);
+            void setProperty(const CeGuiString& key, const Property& value);
 
         private:
             std::map<int, DialogOption*> mOptionCache;

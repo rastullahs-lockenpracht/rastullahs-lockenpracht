@@ -43,6 +43,21 @@ namespace rl {
         }
     }
 
+    PropertyRecord* PropertyHolder::getAllProperties() const
+    {
+        PropertyRecord* record = new PropertyRecord();
+
+        PropertyKeys keys = getAllPropertyKeys();
+        PropertyKeys::const_iterator end = keys.end();
+        for (PropertyKeys::const_iterator it = keys.begin(); it != end; ++it)
+        {
+            CeGuiString key = *it;
+            record->setProperty(key, getProperty(key));
+        }
+
+        return record;
+    }
+
     void PropertyHolder::setPropertyAsString(const Ogre::String& key, const CeGuiString& value)
     {
         Property prop = getProperty(key);
@@ -70,7 +85,7 @@ namespace rl {
         convertToMap(propmap, mProperties);
     }
 
-    const Property PropertyRecord::getProperty(const Ogre::String& key) const
+    const Property PropertyRecord::getProperty(const CeGuiString& key) const
     {
         PropertyRecordMap::const_iterator it = mProperties.find(key);
         if (it == mProperties.end())
@@ -81,19 +96,25 @@ namespace rl {
         return (*it).second;
     }
 
-    bool PropertyRecord::hasProperty(const Ogre::String& key) const
+    bool PropertyRecord::hasProperty(const CeGuiString& key) const
     {
         return mProperties.find(key) != mProperties.end();
     }
 
-    void PropertyRecord::setProperty(const Ogre::String& key, const Property& value)
+    void PropertyRecord::setProperty(const CeGuiString& key, const Property& value)
     {
         mProperties[key] = value;
     }
 
-    PropertyRecord* PropertyRecord::getAllProperties() const
+    PropertyKeys PropertyRecord::getAllPropertyKeys() const
     {
-        return new PropertyRecord(this);
+        PropertyKeys keys;
+        for (PropertyRecordMap::const_iterator it = 
+            mProperties.begin(); it != mProperties.end(); ++it)
+        {
+            keys.insert(it->first);
+        }
+        return keys;
     }
 
     const PropertyRecord::PropertyRecordMap::const_iterator PropertyRecord::begin() const

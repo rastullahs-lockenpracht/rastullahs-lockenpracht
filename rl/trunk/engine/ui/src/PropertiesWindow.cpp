@@ -82,7 +82,7 @@ namespace rl {
         for (PropertyRecord::PropertyRecordMap::const_iterator propIter = props->begin();
             propIter != props->end(); propIter++ )
         {
-            Ogre::String key = propIter->first;
+            CeGuiString key = propIter->first;
 
             if (key == "description" || key == "name" )
                 continue;
@@ -183,7 +183,7 @@ namespace rl {
     //------------------------------------------------------- addPropertyInt
 
     void PropertiesWindow::addPropertyInt(const Property& prop,
-        CEGUI::MultiColumnList* table, const Ogre::String& key)
+        CEGUI::MultiColumnList* table, const CeGuiString& key)
     {
         // Check column count
         // if count = 3 | MainTable
@@ -215,7 +215,7 @@ namespace rl {
     //------------------------------------------------------- addPropertyIntPair
 
     void PropertiesWindow::addPropertyIntPair(const Property& prop,
-        CEGUI::MultiColumnList* table, const Ogre::String& key)
+        CEGUI::MultiColumnList* table, const CeGuiString& key)
     {
         // Check column count
         // if count = 3 | MainTable
@@ -254,7 +254,7 @@ namespace rl {
     //------------------------------------------------------- addPropertyIntTriple
 
     void PropertiesWindow::addPropertyIntTriple(const Property& prop,
-        CEGUI::MultiColumnList* table, const Ogre::String& key)
+        CEGUI::MultiColumnList* table, const CeGuiString& key)
     {
         // Check column count
         // if count = 3 | MainTable
@@ -295,7 +295,7 @@ namespace rl {
     //------------------------------------------------------- addPropertyString
 
     void PropertiesWindow::addPropertyString(const Property& prop,
-        CEGUI::MultiColumnList* table, const Ogre::String& key)
+        CEGUI::MultiColumnList* table, const CeGuiString& key)
     {
         // Check column count
         // if count = 3 | MainTable
@@ -327,7 +327,7 @@ namespace rl {
     //------------------------------------------------------- addPropertyBool
 
     void PropertiesWindow::addPropertyBool(const Property& prop,
-        CEGUI::MultiColumnList* table, const Ogre::String& key)
+        CEGUI::MultiColumnList* table, const CeGuiString& key)
     {
         // Check column count
         // if count = 3 | MainTable
@@ -359,7 +359,7 @@ namespace rl {
     //------------------------------------------------------- addPropertyReal
 
     void PropertiesWindow::addPropertyReal(const Property& prop,
-        CEGUI::MultiColumnList* table, const Ogre::String& key)
+        CEGUI::MultiColumnList* table, const CeGuiString& key)
     {
        // Check column count
         // if count = 3 | MainTable
@@ -394,7 +394,7 @@ namespace rl {
     //------------------------------------------------------- addPropertyArray3
 
     void PropertiesWindow::addPropertyArray3(const Property& prop,
-        CEGUI::MultiColumnList* table, const Ogre::String& key)
+        CEGUI::MultiColumnList* table, const CeGuiString& key)
     {
         // Check column count
         // if count = 3 | MainTable
@@ -440,7 +440,7 @@ namespace rl {
     //------------------------------------------------------- addPropertyQuaternion
 
     void PropertiesWindow::addPropertyQuaternion(const Property& prop,
-        CEGUI::MultiColumnList* table, const Ogre::String& key)
+        CEGUI::MultiColumnList* table, const CeGuiString& key)
     {
         // Check column count
         // if count = 3 | MainTable
@@ -508,7 +508,7 @@ namespace rl {
 
     //------------------------------------------------------- addPropertyArray
 
-    void PropertiesWindow::addPropertyArray(const Property& prop, const Ogre::String& key)
+    void PropertiesWindow::addPropertyArray(const Property& prop, const CeGuiString& key)
     {
         // Create the new MultiColumnList with two columns
         // Type and Value and set tab text to key
