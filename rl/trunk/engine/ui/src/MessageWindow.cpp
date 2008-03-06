@@ -15,6 +15,8 @@
  */
 #include "stdinc.h" //precompiled header
 
+#include <boost/bind.hpp>
+
 #include "MessageWindow.h"
 #include "CEGUIPropertyHelper.h"
 

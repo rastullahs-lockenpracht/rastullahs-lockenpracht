@@ -32,13 +32,13 @@ namespace rl {
             YES_NO
         };
 
-        MessageWindow::MessageWindow(
+        MessageWindow(
             const CeGuiString& title, 
             const CeGuiString& text, 
             const Buttons buttons);
 
         void setTitle(const CeGuiString& title);
-		void setText(const CeGuiString& text);
+        void setText(const CeGuiString& text);
         void setButtons(const CeGuiStringVector& buttonTexts);
         virtual bool onButtonClicked(int button, const CeGuiString& text);
 	
