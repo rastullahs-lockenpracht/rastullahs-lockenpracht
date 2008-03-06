@@ -93,7 +93,6 @@ class Torch < Item
     end
     
     def setProperty(name, value)
-	    p "Torch prop "+name+" := "+value.to_s();
 		if (name == "lit")
 			setLit(value)
 		elsif (name == "sound")
@@ -130,8 +129,6 @@ class Torch < Item
 				@light.getControlledObject().setAttenuation(5, 1, 0, 0);
 				getActor().attachToSlot(@light, "SLOT_FAR_END")
 			end
-			
-			p "Lit "+@_prop_lit.to_s()
 			
 			@light.getControlledObject().setActive(@_prop_lit);
 			if (@flammen != nil)
