@@ -289,7 +289,7 @@ namespace rl
         ps->setProperty(Weapon::PROPERTY_TP_BF, Property(mBf));
         ps->setProperty(Weapon::PROPERTY_TP_INI, Property(mIni));
         ps->setProperty(Weapon::PROPERTY_TP_WM, Property(mWm));
-        ps->setProperty(Weapon::PROPERTY_TP_DK, Property(mDk));
+        ps->setProperty(Weapon::PROPERTY_TP_DK, getProperty(Weapon::PROPERTY_TP_DK));
         ps->setProperty(Weapon::PROPERTY_TP_KAMPFTECHNIK, Property(mKampftechnik));
 
         return ps;
