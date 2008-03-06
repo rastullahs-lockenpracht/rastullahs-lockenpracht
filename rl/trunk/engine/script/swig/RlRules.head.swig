@@ -34,6 +34,7 @@
 #include "GameEventLog.h"
 #include "GameObject.h"
 #include "GameObjectManager.h"
+#include "GlobalProperties.h"
 #include "Inventory.h"
 #include "Item.h"
 #include "ObjectStateChangeEventSource.h"

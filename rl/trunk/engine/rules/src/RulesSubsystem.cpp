@@ -27,6 +27,7 @@
 #include "GameObjectManager.h"
 #include "QuestBook.h"
 #include "GameTimeSource.h"
+#include "GlobalProperties.h"
 #include <ConfigurationManager.h>
 
 template <>
@@ -40,7 +41,8 @@ namespace rl
         mDsaManager(NULL),
 		mGameEventLog(NULL),
         mMovingCreatureManager(NULL),
-        mXdimlLoader(NULL)
+        mXdimlLoader(NULL),
+        mGlobalProperties(NULL)
     {
 		LOG_MESSAGE(Logger::RULES, "Start");
         //Zufallsgenerator initialisieren
@@ -62,6 +64,7 @@ namespace rl
 		LOG_MESSAGE(Logger::RULES, "CreatureControllerManager erzeugt");
 		resetQuestBook();
 		LOG_MESSAGE(Logger::RULES, "Questverwaltung erzeugt");
+        mGlobalProperties = new GlobalProperties();
 
 		//Daten laden
 		mXdimlLoader = new XdimlLoader();
@@ -74,6 +77,7 @@ namespace rl
 
 	RulesSubsystem::~RulesSubsystem()
     {
+        delete mGlobalProperties;
         if(mQuestBook)
             Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(mQuestBook);
         delete mQuestBook;

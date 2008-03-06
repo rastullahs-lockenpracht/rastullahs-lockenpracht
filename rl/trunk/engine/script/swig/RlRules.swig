@@ -149,6 +149,19 @@ namespace rl {
     private:
         GameEventLog();
     };
+    
+    class GlobalProperties 
+    {
+    public:
+        virtual const rl::Property getProperty(const Ogre::String& key) const;
+        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual rl::PropertyRecord* getAllProperties() const;
+        bool hasProperty(const Ogre::String& key) const;
+        
+        static rl::GlobalProperties& getSingleton();
+    private:
+        GlobalProperties();
+    };
 
     %feature("director") QuestListener; 
     class QuestListener

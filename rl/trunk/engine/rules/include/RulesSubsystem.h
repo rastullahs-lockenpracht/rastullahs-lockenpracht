@@ -30,6 +30,7 @@ namespace rl
 	class GameEventLog;
 	class QuestBook;
     class XdimlLoader;
+    class GlobalProperties;
 
 	class _RlRulesExport RulesSubsystem : public Ogre::Singleton<RulesSubsystem>
     {
@@ -48,6 +49,7 @@ namespace rl
 		GameEventLog* mGameEventLog;
         CreatureControllerManager *mMovingCreatureManager;
         XdimlLoader* mXdimlLoader;
+        GlobalProperties* mGlobalProperties;
     };
 }
 
