@@ -48,17 +48,17 @@
 		</property>
 		<!-- Animationen und Animationsgeschwindigkeiten fuer den CreatureController -->
 		<property name="animations" type="MAP">
-			<property name="stehen" type="STRING" data="Idle"/>
+			<property name="stehen" type="STRING" data="idle"/>
 			<property name="stehen_rechts" type="STRING" data="drehen_rechts"/>
 			<property name="stehen_links" type="STRING" data="drehen_links"/>
 			<!-- property name="seitwaerts_links" type="STRING" data="seitwaerts_links"/ -->
 			<!-- property name="seitwaerts_rechts" type="STRING" data="seitwaerts_rechts"/ -->
-			<property name="gehen" type="STRING" data="Walk"/>
-			<property name="gehen_rueckwaerts" type="STRING" data="Walk"/>
-			<property name="joggen_rueckwaerts" type="STRING" data="Run"/>
-			<property name="joggen" type="STRING" data="Run"/>
-			<property name="laufen" type="STRING" data="Run"/>
-			<property name="rennen" type="STRING" data="Run"/>
+			<property name="gehen" type="STRING" data="gehen"/>
+			<property name="gehen_rueckwaerts" type="STRING" data="gehen_rueckwaerts"/>
+			<property name="joggen_rueckwaerts" type="STRING" data="gehen_rueckwaerts"/>
+			<property name="joggen" type="STRING" data="rennen"/>
+			<property name="laufen" type="STRING" data="rennen"/>
+			<property name="rennen" type="STRING" data="rennen"/>
 			<property name="stehen_zu_schleichen" type="STRING" data="idle_zu_hocke"/>
 			<property name="schleichen_zu_stehen" type="STRING" data="hocke_zu_stehen"/>
 			<property name="schleichen" type="STRING" data="hocke_idle"/>
@@ -69,6 +69,12 @@
 			<property name="weitsprung_absprung" type="STRING" data="rennen_absprung"/>
 			<property name="weitsprung" type="STRING" data="rennen_sprung"/>
 			<property name="weitsprung_landung" type="STRING" data="rennen_sprung_landung"/>
+		</property>
+		<property name="animationspeeds" type="MAP">
+			<property name="gehen" type="REAL" data="1.0"/>
+			<property name="joggen" type="REAL" data="0.3"/>
+			<property name="laufen" type="REAL" data="0.5"/>
+			<property name="rennen" type="REAL" data="0.4"/>
 		</property>
     </gameobjectclass>
 
