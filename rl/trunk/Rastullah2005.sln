@@ -54,13 +54,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlFmod4Driver", "plugins\fm
 		{0935F495-4540-40E3-AC8F-AA54C85DC5B2} = {0935F495-4540-40E3-AC8F-AA54C85DC5B2}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlOpenALDriver", "plugins\openaldriver\RlOpenALDriver.vcproj", "{173A345C-D7B1-46F9-974F-53661D7C8AF6}"
-	ProjectSection(ProjectDependencies) = postProject
-		{53FE20F3-E726-44FE-BBEC-D29CAE210D25} = {53FE20F3-E726-44FE-BBEC-D29CAE210D25}
-		{D3185FC6-9384-431A-A237-80284F859B21} = {D3185FC6-9384-431A-A237-80284F859B21}
-		{0935F495-4540-40E3-AC8F-AA54C85DC5B2} = {0935F495-4540-40E3-AC8F-AA54C85DC5B2}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -116,12 +109,6 @@ Global
 		{A2DD1E40-4D80-44C5-B04E-1B1C4B07131C}.Release|Win32.Build.0 = Release|Win32
 		{A2DD1E40-4D80-44C5-B04E-1B1C4B07131C}.ReleaseWithSymbols|Win32.ActiveCfg = Release with Symbols|Win32
 		{A2DD1E40-4D80-44C5-B04E-1B1C4B07131C}.ReleaseWithSymbols|Win32.Build.0 = Release with Symbols|Win32
-		{173A345C-D7B1-46F9-974F-53661D7C8AF6}.Debug|Win32.ActiveCfg = Debug|Win32
-		{173A345C-D7B1-46F9-974F-53661D7C8AF6}.Debug|Win32.Build.0 = Debug|Win32
-		{173A345C-D7B1-46F9-974F-53661D7C8AF6}.Release|Win32.ActiveCfg = Release|Win32
-		{173A345C-D7B1-46F9-974F-53661D7C8AF6}.Release|Win32.Build.0 = Release|Win32
-		{173A345C-D7B1-46F9-974F-53661D7C8AF6}.ReleaseWithSymbols|Win32.ActiveCfg = Release with Symbols|Win32
-		{173A345C-D7B1-46F9-974F-53661D7C8AF6}.ReleaseWithSymbols|Win32.Build.0 = Release with Symbols|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
