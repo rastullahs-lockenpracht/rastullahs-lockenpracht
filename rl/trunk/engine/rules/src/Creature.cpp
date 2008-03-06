@@ -28,6 +28,7 @@
 #include "Kampftechnik.h"
 #include "MeshObject.h"
 #include "StateSet.h"
+#include "Slot.h"
 #include "Talent.h"
 #include "Weapon.h"
 
@@ -1233,5 +1234,23 @@ namespace rl
     bool Creature::canReachItem(const Item* item)
     {
         return (item->getPosition() - getPosition()).length() <= 3.0f;
+    }
+
+    void Creature::doPlaceIntoScene()
+    {
+        GameObject::doPlaceIntoScene();
+
+        // check items in inventory
+        Inventory::SlotMap slots = mInventory->getAllSlots();
+        Inventory::SlotMap::iterator it = slots.begin();
+        for( ; it != slots.end(); it++ )
+        {
+            it->second->update();
+        }
+    }
+
+    void Creature::doRemoveFromScene()
+    {
+        GameObject::doRemoveFromScene();
     }
 }

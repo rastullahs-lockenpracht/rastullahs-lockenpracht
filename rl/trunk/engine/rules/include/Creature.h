@@ -742,6 +742,12 @@ namespace rl
              **/
             virtual int getCurrentBe();
 
+            /// inherited from GameObject
+            virtual void doPlaceIntoScene();
+
+            /// inherited from GameObject
+            virtual void doRemoveFromScene();
+
 
 
 

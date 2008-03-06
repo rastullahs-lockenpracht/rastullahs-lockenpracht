@@ -208,8 +208,8 @@ namespace rl
         Actor* createActor();
         void destroyActor();
 
-        void doPlaceIntoScene();
-        void doRemoveFromScene();
+        virtual void doPlaceIntoScene();
+        virtual void doRemoveFromScene();
 
         /**
          * Ueberprueft die wirkenden Effekte auf Lebendigkeit

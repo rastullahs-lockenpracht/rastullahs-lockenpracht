@@ -269,6 +269,7 @@ namespace rl {
 
         ///@todo mehr Query-Methoden für Childs
         Actor* getChildByName(const Ogre::String& name ) const;
+        bool hasChild(Actor*) const;
         /// Sets the Visibility
         void setVisible( bool vis, bool cascade = true );
         bool isVisible() const;

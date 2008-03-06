@@ -126,6 +126,25 @@ namespace rl {
         return true;
     }
 
+    void BoneSlot::update()
+    {
+        if( mItem && (mOwner->getState() == GOS_IN_SCENE
+                || mOwner->getState() == GOS_HELD
+                || mOwner->getState() == GOS_READY) )
+        {
+            if( !mItem->getActor() )
+            {
+                mItem->doCreateActor();
+                mOwner->getActor()->attachToSlot(mItem->getActor(), mBone);
+            }
+            else
+            {
+                if( !mOwner->getActor()->hasChild(mItem->getActor()) )
+                    mOwner->getActor()->attachToSlot(mItem->getActor(), mBone);
+            }
+        }
+    }
+
 
     SubmeshSlot::SubmeshSlot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask, const Ogre::String& submesh)
         : Slot(owner, name, itemReadyMask, itemHeldMask), mSubmesh(submesh)
@@ -187,6 +206,50 @@ namespace rl {
         return true;
     }
 
+    void SubmeshSlot::update()
+    {
+	    if (mOwner->getActor())
+	    {
+		    MergeableMeshObject* mmo = dynamic_cast<MergeableMeshObject*>(
+			    mOwner->getActor()->getControlledObject());
+
+		    if (mmo)
+		    {
+			    MeshPartMap::const_iterator it = mOwner->getMeshParts().find(mSubmesh);
+			    if (it != mOwner->getMeshParts().end())
+			    {
+				    mmo->replaceSubmesh(
+					    mSubmesh,
+					    (*it).second);
+			    }
+			    else
+			    {
+				    mmo->removeSubmesh(mSubmesh);
+			    }
+
+			    if (mItem)
+			    {
+                    mItem->doCreateActor();
+                    CeGuiString file = mItem->getSubmeshName();
+                    if( file == "" )
+                        file = mItem->getMeshfile();
+                    else
+                        file = mOwner->getSubmeshPreName()+file;
+
+				    mmo->replaceSubmesh(
+					    mSubmesh,
+					    file.c_str());
+			    }
+		    }
+
+            if (mOwner->getActor()
+                && mOwner->getActor()->getPhysicalThing())
+            {
+                mOwner->getActor()->getPhysicalThing()->updatePhysicsProxy();
+            }
+	    }
+    }
+
     MaterialSlot::MaterialSlot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask, const Ogre::String& submesh)
       : Slot(owner, name, itemReadyMask, itemHeldMask),
         mSubmesh(submesh)
@@ -242,6 +305,46 @@ namespace rl {
         }
 
         return true;
+    }
+
+    void MaterialSlot::update()
+    {
+        if (mItem)
+        {
+            try
+            {
+                CeGuiString mat = mItem->getProperty("material").toString();
+                CeGuiString mesh = mItem->getSubmeshName();
+
+                ///@todo: what to do if actor is null?, think about changing the inventory of an gameobject not in scene
+		        if (mOwner->getActor())
+		        {
+			        MeshObject* mo = dynamic_cast<MeshObject*>(
+				        mOwner->getActor()->getControlledObject());
+
+                    MergeableMeshObject* mmo = dynamic_cast<MergeableMeshObject*>(
+				        mo);
+
+                    if (mmo && !mesh.empty())
+                    {
+                        mmo->replaceSubmesh(mSubmesh, mesh.c_str());
+                    }
+
+			        if (mo)
+			        {                        
+                        mo->setMaterial(mat.c_str(), mSubmesh);
+                    }
+                }
+            }
+            catch (const IllegalArgumentException&)
+            {
+                LOG_ERROR(Logger::RULES, "Item " + mItem->getName() + " has no property material.");
+            }
+            catch (const WrongFormatException&)
+            {
+                LOG_ERROR(Logger::RULES, "Item " + mItem->getName() + " has a property material, but it is no string property.");
+            }
+        }
     }
 
 } // namespace rl

@@ -828,6 +828,12 @@ namespace rl {
         return NULL;
     }
 
+    bool Actor::hasChild(Actor* act) const
+    {
+        ChildSet::const_iterator iter = mChildren.find(act);
+        return iter != mChildren.end();
+    }
+
     void Actor::detachAllChildren( )
     {
         ChildSet::iterator iter =  mChildren.begin();
