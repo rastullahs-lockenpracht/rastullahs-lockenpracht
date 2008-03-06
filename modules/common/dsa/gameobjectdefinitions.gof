@@ -17,6 +17,24 @@
 		<property name="meshfile" type="STRING" data="men_alrike.mesh"/>
 		<property name="name" type="STRING" data="Alrike"/>
 		<property name="description" type="STRING" data="Heldin von Berufung"/>
+		<property name="inventory" type="MAP">
+			<property name="slots" type="ARRAY">
+				<!-- Left hand -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Left Hand"/>
+					<property name="type" type="STRING" data="bone"/>
+					<property name="bone" type="STRING" data="l_hand"/>
+					<property name="readies" type="INT" data="3"/> <!-- Weapons | Shields -->
+				</property>
+				<!-- Right hand -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Right Hand"/>
+					<property name="type" type="STRING" data="bone"/>
+					<property name="bone" type="STRING" data="r_hand"/>
+					<property name="readies" type="INT" data="3"/> <!-- Weapons | Shields -->
+				</property>
+			</property>
+		</property>
 		<property name="eigenschaften" type="MAP">
 			<property name="MU" type="INT" data="12"/>
 			<property name="KL" type="INT" data="8"/>
@@ -27,9 +45,41 @@
 			<property name="KO" type="INT" data="13"/>
 			<property name="KK" type="INT" data="14"/>
 		</property>
+		<property name="kampftechniken" type="MAP">
+			<property name="Schwerter" type="INTPAIR" data="5,7"/>
+		</property>
 		<property name="talente" type="MAP">
 			<property name="Athletik" type="INT" data="3"/>
 <!--			<property name="Körperbeherrschung" type="INT" data="3"/>-->
+		</property>
+		<!-- Animationen und Animationsgeschwindigkeiten fuer den CreatureController -->
+		<property name="animations" type="MAP">
+			<property name="stehen" type="STRING" data="Idle"/>
+			<property name="stehen_rechts" type="STRING" data="drehen_rechts"/>
+			<property name="stehen_links" type="STRING" data="drehen_links"/>
+			<!-- property name="seitwaerts_links" type="STRING" data="seitwaerts_links"/ -->
+			<!-- property name="seitwaerts_rechts" type="STRING" data="seitwaerts_rechts"/ -->
+			<property name="gehen" type="STRING" data="Walk"/>
+			<property name="gehen_rueckwaerts" type="STRING" data="Walk"/>
+			<property name="joggen_rueckwaerts" type="STRING" data="Run"/>
+			<property name="joggen" type="STRING" data="Run"/>
+			<property name="laufen" type="STRING" data="Run"/>
+			<property name="rennen" type="STRING" data="Run"/>
+			<property name="stehen_zu_schleichen" type="STRING" data="idle_zu_hocke"/>
+			<property name="schleichen_zu_stehen" type="STRING" data="hocke_zu_stehen"/>
+			<property name="schleichen" type="STRING" data="hocke_idle"/>
+			<property name="schleichen_vorwaerts" type="STRING" data="hocke_gehen"/>
+			<property name="hochsprung_absprung" type="STRING" data="idle_absprung"/>
+			<property name="hochsprung" type="STRING" data="idle_sprung"/>
+			<property name="hochsprung_landung" type="STRING" data="idle_sprung_landung"/>
+			<property name="weitsprung_absprung" type="STRING" data="rennen_absprung"/>
+			<property name="weitsprung" type="STRING" data="rennen_sprung"/>
+			<property name="weitsprung_landung" type="STRING" data="rennen_sprung_landung"/>
+		</property>
+		<property name="kampfaktionen" type="ARRAY">
+			<property type="STRING" data="Attacke"/>
+			<property type="STRING" data="Parade"/>
+			<property type="STRING" data="Ausweichen"/>
 		</property>
 	</gameobjectclass>
 
