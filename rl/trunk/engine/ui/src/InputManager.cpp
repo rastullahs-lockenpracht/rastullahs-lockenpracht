@@ -525,22 +525,24 @@ namespace rl {
     class KeyRepeatJob : public Job
     {
     public:
-        KeyRepeatJob(AbstractWindow* window, OIS::KeyCode key) :
-          Job(false, true),
-          mWindow(window),
-          mKey(key),
-          mLastTime(0)
+        static void createKeyRepeatJob(AbstractWindow* window, OIS::KeyCode key)
         {
+            // nur neu anlegen, wenns noch nicht existiert!
+            if( mKeyJobMap.find(key) == mKeyJobMap.end() )
+            {
+                KeyRepeatJob *job = new KeyRepeatJob(window, key);
+                JobScheduler::getSingleton().addJob(job, JobScheduler::JP_NORMAL, 0.5);
+            }
         }
         bool execute(Ogre::Real t)
         {
+            bool handled = false;
             rl::Time time = TimeSourceManager::getSingleton().getTimeSource(TimeSource::REALTIME_CONTINUOUS)->getClock();
             if ( WindowManager::getSingleton().getActiveWindow() == mWindow && // perhaps window was deleted!!
                 InputManager::getSingleton().isKeyDown(OIS::KeyCode(mKey)) )
             {
-                if ( time - mLastTime > 50 )
+                if ( time - mLastTime > 50*mCount )
                 {
-                    bool handled = false;
                     if( CEGUI::System::getSingleton().injectKeyDown(mKey) )
                         handled = true;
                     else
@@ -556,20 +558,37 @@ namespace rl {
                         handled = true;
 
                     mLastTime = time;
-
-                    if( !handled )  // we don't need a job for keys, that are not handled!
-                        return true;
                 }
+
                 return false;
             }
-            else
-                return true; // delete this job
+
+            mKeyJobMap.erase(mKey);
+            if( mCount > 0 )
+                mCount--;
+            return true;
         }
     private:
         rl::Time mLastTime;
         AbstractWindow* mWindow;
         OIS::KeyCode mKey;
+        typedef std::map<OIS::KeyCode, KeyRepeatJob*> KeyJobMap;
+        static KeyJobMap mKeyJobMap;
+        static int mCount;
+
+
+        KeyRepeatJob(AbstractWindow* window, OIS::KeyCode key) :
+          Job(false, true),
+          mWindow(window),
+          mKey(key),
+          mLastTime(0)
+        {
+            mKeyJobMap[key] = this;
+            mCount++;
+        }
     };
+    KeyRepeatJob::KeyJobMap KeyRepeatJob::mKeyJobMap;
+    int KeyRepeatJob::mCount = 0;
 
     bool InputManager::keyPressed(const OIS::KeyEvent& evt)
     {
@@ -581,8 +600,7 @@ namespace rl {
             {
                 if( activeWin->wantsKeyToRepeat(evt.key) )
                 {
-                    KeyRepeatJob *job = new KeyRepeatJob(activeWin, evt.key);
-                    JobScheduler::getSingleton().addJob(job, JobScheduler::JP_NORMAL, 0.5);
+                    KeyRepeatJob::createKeyRepeatJob(activeWin, evt.key);
                 }
             }
 
