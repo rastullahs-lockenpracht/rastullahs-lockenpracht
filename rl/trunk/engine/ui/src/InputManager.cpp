@@ -620,6 +620,15 @@ namespace rl {
         if( !mControlStates.empty() )
             if( mControlStates.top()->keyPressed(evt, retval) )
                 retval = true;
+
+        if( !retval )
+        {
+            KeyCommandMap::iterator it = mKeyRubyCommand.find(evt.key);
+            if( it != mKeyRubyCommand.end() )
+                CoreSubsystem::getSingleton().getRubyInterpreter()->execute(it->second.c_str());
+                
+        }
+
         return true;
         //return retval;
     }
