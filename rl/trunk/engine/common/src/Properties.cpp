@@ -110,4 +110,23 @@ namespace rl {
     {
         return convertToPropertyMap(mProperties);
     }
+
+    PropertyRecord* PropertyRecord::getDifference(PropertyRecord* differenceTo) const
+    {
+        PropertyRecord* record = new PropertyRecord();
+        for(PropertyRecordMap::const_iterator it = begin(); it != end(); ++it)
+        {
+            if(!differenceTo->hasProperty(it->first))
+            {
+                record->setProperty(it->first,it->second);
+            }
+            else
+            {
+                Property prop = differenceTo->getProperty(it->first);
+                if(prop != it->second)
+                    record->setProperty(it->first, it->second);
+            }
+        }
+        return record;
+    }
 }

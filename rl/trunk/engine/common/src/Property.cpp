@@ -45,10 +45,73 @@ namespace rl {
         return mValue.empty();
     }
 
+    bool comparePropertyArrays(PropertyArray array1, PropertyArray array2);
+
+    /// @return: will return true if the arrays are equal
+    bool comparePropertyMaps(PropertyMap map1, PropertyMap map2)
+    {
+        if(map1.size() != map2.size())
+            return false;
+        for(PropertyMap::const_iterator it = map1.begin(); it != map1.end(); ++it)
+        {
+            if(map2.find(it->first) == map2.end())
+                return false;
+            else if(it->second.getTypeName() == map2[it->first].getTypeName())
+            {
+                if(it->second.isArray())
+                {
+                    if(!comparePropertyArrays(it->second, map2[it->first]))
+                        return false;
+                }
+                else if(it->second.isMap())
+                {
+                    if(!comparePropertyMaps(it->second, map2[it->first]))
+                        return false;    
+                }
+                else if(it->second != map2[it->first])
+                    return false;
+            }
+        }
+        
+        return true;
+    }
+
+    /// @return: will return true if the arrays are equal
+    bool comparePropertyArrays(PropertyArray array1, PropertyArray array2)
+    {
+        if(array1.size() != array2.size())
+            return false;
+        for(unsigned int i = 0; i < array1.size(); i++)
+        {
+            if(array1[i].getTypeName() == array2[i].getTypeName())
+            {
+                if(array1[i].isArray())
+                {
+                    if(!comparePropertyArrays(array1[i], array2[i]))
+                        return false;
+                }
+                else if(array1[i].isMap())
+                {
+                    if(!comparePropertyMaps(array1[i], array2[i]))
+                        return false;
+                }
+                else if(array1[i] != array2[i])
+                    return false;
+            }
+            else
+                return false;
+        }
+        return true;
+    }
+
     bool Property::operator ==(const rl::Property &other) const
     {
         if (other.getTypeName() == getTypeName())
         {
+            if(isArray())
+                return comparePropertyArrays(*this, other);
+            else if(isMap ())
+                return comparePropertyMaps(*this, other);
             return other.getAsString() == getAsString();
         }
 
@@ -59,6 +122,10 @@ namespace rl {
     {
         if (other.getTypeName() == getTypeName())
         {
+            if(isArray())
+                return !comparePropertyArrays(*this, other);
+            else if(isMap ())
+                return !comparePropertyMaps(*this, other);
             return other.getAsString() != getAsString();
         }
 

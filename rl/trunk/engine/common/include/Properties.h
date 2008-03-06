@@ -58,6 +58,7 @@ namespace rl {
         const PropertyRecordMap::const_iterator end() const;
         PropertyMap toPropertyMap() const;
         
+        PropertyRecord* getDifference(PropertyRecord* differenceTo) const;
     private:
         PropertyRecordMap mProperties;
 	};

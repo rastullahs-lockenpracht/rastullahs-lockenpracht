@@ -318,7 +318,8 @@ namespace rl
 
             PropertyMap actualMap = (*it_gameobjects)->getAllProperties()->toPropertyMap();
 
-            writer->writeEachPropertyToElem(gameobject, getPropertyMapDifference(actualMap, getClassProperties((*it_gameobjects)->getClassId())->toPropertyMap()));
+            writer->writeEachPropertyToElem(gameobject, (*it_gameobjects)->getAllProperties()->getDifference(getClassProperties((*it_gameobjects)->getClassId()))->toPropertyMap());
+            //writer->writeEachPropertyToElem(gameobject, getPropertyMapDifference(actualMap, getClassProperties((*it_gameobjects)->getClassId())->toPropertyMap()));
         } 
     }
 
