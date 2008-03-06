@@ -18,9 +18,9 @@
 
 #include <xercesc/dom/DOM.hpp>
 
-#include "XmlProcessor.h"
-
 #include "Properties.h"
+
+#include "XmlProcessor.h"
 #include "XmlPropertyReader.h"
 
 #include <CEGUIPropertyHelper.h>

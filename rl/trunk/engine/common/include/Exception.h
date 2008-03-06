@@ -22,7 +22,7 @@
  * und Meldungsausgabe.
  */
 
-#include "RastullahPrerequisites.h"
+#include "CommonPrerequisites.h"
 #include <string>
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -107,9 +107,17 @@ namespace rl {
       int mLine;
 
    public:
+      Exception(const char* message,
+         const std::string& file, const std::string& function, int line)
+         : mMessage(message), mFile(file), mFunction(function), mLine(line), 
+         std::exception() {}
       Exception(const std::string& message,
          const std::string& file, const std::string& function, int line)
          : mMessage(message), mFile(file), mFunction(function), mLine(line), 
+         std::exception() {}
+      Exception(const CeGuiString& message,
+         const std::string& file, const std::string& function, int line)
+         : mMessage(message.c_str()), mFile(file), mFunction(function), mLine(line), 
          std::exception() {}
       
       Exception(const Exception& rhs) 
@@ -160,7 +168,13 @@ namespace rl {
 
    class Error : public Exception {
    public:
+      Error(const char* message, const std::string& file,
+         const std::string& function, int line)
+         : Exception(message, file, function, line) {}
       Error(const std::string& message, const std::string& file,
+         const std::string& function, int line)
+         : Exception(message, file, function, line) {}
+      Error(const CeGuiString& message, const std::string& file,
          const std::string& function, int line)
          : Exception(message, file, function, line) {}
 
@@ -172,7 +186,13 @@ namespace rl {
 
    class RuntimeException : public Exception {
    public:
+      RuntimeException(const char* message, const std::string& file,
+         const std::string& function, int line)
+         : Exception(message, file, function, line) {}
       RuntimeException(const std::string& message, const std::string& file,
+         const std::string& function, int line)
+         : Exception(message, file, function, line) {}
+      RuntimeException(const CeGuiString& message, const std::string& file,
          const std::string& function, int line)
          : Exception(message, file, function, line) {}
 
@@ -184,7 +204,13 @@ namespace rl {
 
    class NullPointerException : public RuntimeException {
    public:
+      NullPointerException(const char* message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
       NullPointerException(const std::string& message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
+      NullPointerException(const CeGuiString& message,
          const std::string& file, const std::string& function, int line)
          : RuntimeException(message, file, function, line) {}
 
@@ -197,7 +223,13 @@ namespace rl {
 
    class IllegalArgumentException : public RuntimeException {
    public:
+      IllegalArgumentException(const char* message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
       IllegalArgumentException(const std::string& message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
+      IllegalArgumentException(const CeGuiString& message,
          const std::string& file, const std::string& function, int line)
          : RuntimeException(message, file, function, line) {}
 
@@ -210,7 +242,13 @@ namespace rl {
 
    class OperationNotSupportedException : public RuntimeException {
    public:
+      OperationNotSupportedException(const char* message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
       OperationNotSupportedException(const std::string& message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
+      OperationNotSupportedException(const CeGuiString& message,
          const std::string& file, const std::string& function, int line)
          : RuntimeException(message, file, function, line) {}
 
@@ -223,7 +261,13 @@ namespace rl {
 
    class IllegalStateException : public RuntimeException {
    public:
+      IllegalStateException(const char* message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
       IllegalStateException(const std::string& message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
+      IllegalStateException(const CeGuiString& message,
          const std::string& file, const std::string& function, int line)
          : RuntimeException(message, file, function, line) {}
 
@@ -236,7 +280,13 @@ namespace rl {
 
    class AssertionFailedError : public Error {
    public:
+      AssertionFailedError(const char* message,
+         const std::string& file, const std::string& function, int line)
+         : Error(message, file, function, line) {}
       AssertionFailedError(const std::string& message,
+         const std::string& file, const std::string& function, int line)
+         : Error(message, file, function, line) {}
+      AssertionFailedError(const CeGuiString& message,
          const std::string& file, const std::string& function, int line)
          : Error(message, file, function, line) {}
 
@@ -248,7 +298,13 @@ namespace rl {
 
    class OutOfRangeException : public RuntimeException {
    public:
+      OutOfRangeException(const char* message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
       OutOfRangeException(const std::string& message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
+      OutOfRangeException(const CeGuiString& message,
          const std::string& file, const std::string& function, int line)
          : RuntimeException(message, file, function, line) {}
 
@@ -261,7 +317,13 @@ namespace rl {
 
    class DuplicateIdException : public RuntimeException {
    public:
+      DuplicateIdException(const char* message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
       DuplicateIdException(const std::string& message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
+      DuplicateIdException(const CeGuiString& message,
          const std::string& file, const std::string& function, int line)
          : RuntimeException(message, file, function, line) {}
 
@@ -273,7 +335,13 @@ namespace rl {
 
    class FileNotFoundException : public RuntimeException {
    public:
+      FileNotFoundException(const char* message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
       FileNotFoundException(const std::string& message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
+      FileNotFoundException(const CeGuiString& message,
          const std::string& file, const std::string& function, int line)
          : RuntimeException(message, file, function, line) {}
 
@@ -285,7 +353,13 @@ namespace rl {
 
    class WrongFormatException : public RuntimeException {
    public:
+      WrongFormatException(const char* message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
       WrongFormatException(const std::string& message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
+      WrongFormatException(const CeGuiString& message,
          const std::string& file, const std::string& function, int line)
          : RuntimeException(message, file, function, line) {}
 

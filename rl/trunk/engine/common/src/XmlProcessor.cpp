@@ -22,10 +22,11 @@
 #include <xercesc/util/PlatformUtils.hpp>
 #include <xercesc/sax/SAXParseException.hpp>
 
+#include "XmlProcessor.h"
+
 #include "Exception.h"
 #include "Logger.h"
 #include "OgreXercesInput.h"
-#include "XmlProcessor.h"
 #include "XmlResource.h"
 #include "XmlResourceManager.h"
 
