@@ -38,33 +38,50 @@ require 'TimeTest.rb'
 
 require 'WalkJobTest.rb'
 
-errors = 0;
-tests = 0;
+class RegressionTest
+	def initialize
+		@mErrors = 0
+		@mTests = 0
+		@mFailedTests = Array.new()
+	end
 
-tests += 1; errors += DoorTest.new([  0, 0, -5]).run()
-tests += 1; errors += EffectTest.new([  5, 0, 5]).run()
-tests += 1; errors += ErrorHandlingTest.new([-10, 0, 5]).run()
-tests += 1; errors += GameObjectCreationTest.new([0, 0, -10]).run()
-tests += 1; errors += InventoryTest.new([  0, 0, 10]).run()
-tests += 1; errors += JobSequenceTest.new([  5, 0, -5]).run()
-tests += 1; errors += LightzoneTest.new([-10, 0, -5]).run()
-tests += 1; errors += MapLoadingTest.new([ -5, 0, -10]).run()
-tests += 1; errors += MaterialSlotTest.new([-15, 0, -5]).run()
-tests += 1; errors += MergeableMeshTest.new([ 10, 0, 0]).run()
-tests += 1; errors += MeshAreaTest.new([-50, 0,-55]).run()
-tests += 1; errors += NpcTest.new([ -5, 0, 5]).run()
-tests += 1; errors += SelectorTest.new([  5, 0, 0]).run()
-tests += 1; errors += SoundTest.new([ 10, 0, 10]).run()
-tests += 1; errors += TimeTest.new([ -5, 0, -5]).run()
-tests += 1; errors += WalkJobTest.new([  0, 0, -3]).run()
+	def runTest(test, coords)
+		@mTests += 1
+		testErrors = test.new(coords).run()
+		if testErrors != 0
+			@mErrors += testErrors
+			@mFailedTests << test.to_s()
+		end
+	end
+	
+	def runTests()
+		runTest(DoorTest, [  0, 0, -5])
+		runTest(EffectTest, [  5, 0, 5])
+		runTest(ErrorHandlingTest, [-10, 0, 5])
+		runTest(GameObjectCreationTest, [0, 0, -10])
+		runTest(InventoryTest, [  0, 0, 10])
+		runTest(JobSequenceTest, [  5, 0, -5])
+		runTest(LightzoneTest, [-10, 0, -5])
+		runTest(MapLoadingTest, [ -5, 0, -10])
+		runTest(MaterialSlotTest, [-15, 0, -5])
+		runTest(MergeableMeshTest, [ 10, 0, 0])
+		runTest(MeshAreaTest, [-50, 0,-55])
+		runTest(NpcTest, [ -5, 0, 5])
+		runTest(SelectorTest, [  5, 0, 0])
+		runTest(SoundTest, [ 10, 0, 10])
+		runTest(TimeTest, [ -5, 0, -5])
+		runTest(WalkJobTest, [  0, 0, -3])
 
-if errors > 0
-  MessageBox.showModal(
-	errors.to_s() + " of the " + tests.to_s() +  " tests were not successful.",
-	"Regressiontest Results",
-	MessageBox::OK)
+		if @mErrors > 0
+		  MessageBox.showModal(
+			@mErrors.to_s() + " of the " + @mTests.to_s() +  " tests were not successful.\nNot working:\n" + @mFailedTests.join(", "),
+			"Regressiontest Results",
+			MessageBox::OK)
+		end
+
+		$SCRIPT.log("tests initialisiert.")
+	end
 end
 
-$SCRIPT.log("tests initialisiert.")
-
+RegressionTest.new().runTests()
 $SCRIPT.log("map 'regressiontest' initialisiert.")
