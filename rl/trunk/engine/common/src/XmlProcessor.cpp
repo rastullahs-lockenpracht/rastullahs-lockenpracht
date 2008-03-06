@@ -563,7 +563,7 @@ utf8* XmlProcessor::transcodeToUtf8(const XMLCh* const string16) const
     /// Check if the XMLCh contains nothing but whitespaces. If so, remove them 
     /// @note this does also mean, that this method will never return something like " " 
     XMLCh* tmpVal = XMLString::replicate(string16);
-    if(XMLChar1_0::isAllSpaces(tmpVal, str16len))
+    if(XMLChar1_0::isAllSpaces(tmpVal, str16len) && str16len != 1)
     {
         XMLString::removeWS(tmpVal);
         str16len = XMLString::stringLen(tmpVal);
