@@ -102,12 +102,12 @@ namespace rl {
         mInGameMenuWindow = new InGameMenuWindow();
         mCharacterSheet = new CharacterSheetWindow();
         mJournalWindow = new JournalWindow();
-        mInfoPopup = new InfoPopup();
+        //mInfoPopup = new InfoPopup(); // this invisible window blocks the mouse
         mObjectDescriptionWindow = new ObjectDescriptionWindow();
         mGameSettings = new GameSettings();
 
         RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mJournalWindow);
-        RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mInfoPopup);
+        //RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mInfoPopup);
         mMainMenuWindow = new MainMenuWindow( new MainMenuEngineWindow() );
 
         logAllWindows();
@@ -123,7 +123,7 @@ namespace rl {
         delete mInGameMenuWindow;
         delete mInventoryWindow;
         delete mCharacterStateWindow;
-        delete mInfoPopup;
+        //delete mInfoPopup;
         delete mDebugWindow;
         delete mConsole;
         delete mMainMenuWindow;
@@ -384,12 +384,12 @@ namespace rl {
     {
         if (popupTypes & WindowFactory::ICON_ERROR)
         {
-            mInfoPopup->showError();
+            //mInfoPopup->showError();
         }
 
         if (popupTypes & WindowFactory::ICON_QUEST)
         {
-            mInfoPopup->showQuestBookChange();
+            //mInfoPopup->showQuestBookChange();
         }
     }
 
