@@ -5,7 +5,6 @@
     <property name="baseclass" type="STRING" data="Creature"/>
     <property name="name" type="STRING" data="Wolf"/>
     <property name="description" type="STRING" data="Ein gefährlicher, ganz gefährlicher, wirklich extrem gefährlicher Wolf. Aber er hat ein schwaches Herz."/>
-    <property name="description_dead" type="STRING" data="Ein sehr toter Wolf"/>
     <property name="meshfile" type="STRING" data="tie_wolf_01.mesh"/>
     <property name="mass" type="REAL" data="30"/>
     <property name="geometrytype" type="STRING" data="sphere"/>
@@ -22,9 +21,11 @@
 	<property name="talente" type="MAP">
 		<property name="Athletik" type="INT" data="3"/>
 	</property>
-	<property name="behaviours" type="ARRAY">
-		<property type="STRING" data="DefaultWanderBehaviour"/>
-		<property type="STRING" data="AvoidObstaclesBehaviour"/>
+	<property name="ai" type="MAP">
+		<property name="behaviours" type="ARRAY">
+			<property type="STRING" data="DefaultWanderBehaviour"/>
+			<property type="STRING" data="AvoidObstaclesBehaviour"/>
+		</property>
 	</property>
 	<property name="animations" type="MAP">
 		<property name="stehen" type="STRING" data="idle"/>
@@ -49,7 +50,7 @@
 		<property name="weitsprung" type="STRING" data="rennen_sprung"/>
 		<property name="weitsprung_landung" type="STRING" data="rennen_sprung_landung"/>
 	</property>
-	<property name="kampffertigkeiten" type="ARRAY">
+	<property name="kampfaktionen" type="ARRAY">
 		<property type="STRING" data="Attacke"/>
 		<property type="STRING" data="Ausweichen"/>
 		<property type="STRING" data="Bewegen"/>
