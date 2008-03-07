@@ -1,4 +1,5 @@
 require 'testcase.rb'
+require 'areahelper.rb'
 
 class LightzoneTest < TestCase
   def execute()
@@ -21,6 +22,9 @@ class LightzoneTest < TestCase
 	  if( not zm.isInZone(zm.getZone("Testzone"), ball.getActor()) )
 		  p "apple not found in Testzone!"
 	  end
+
+	  # test scripted zones
+	  _CreateOneTimeTrigger("TestTrigger", PhysicsManager::GT_BOX, [4,1,5], [0,0,0,1], [3,3,2], %q{print "OneTimeTestTrigger"})
 
 
 	  $SCRIPT.log("LightzoneTest initialisiert")

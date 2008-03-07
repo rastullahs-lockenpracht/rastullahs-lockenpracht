@@ -99,12 +99,12 @@ class LimitedTimesTrigger < Trigger
       super(name)
     end
   end
-  def getAllProperties()
-    ps = super();
-    ps.setProperty("zone", @_prop_zone)
-    ps.setProperty("number", @_prop_number)
-    ps.setProperty("enter_code", @_prop_enter_command_string)
-    ps.setProperty("leave_code", @_prop_leave_command_string)
+  def getAllPropertyKeys()
+    keys = super();
+    keys.push("zone");
+    keys.push("number");
+    keys.push("enter_code");
+    keys.push("leave_code");
     return ps
   end
 end

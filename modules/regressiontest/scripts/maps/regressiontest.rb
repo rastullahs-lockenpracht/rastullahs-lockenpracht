@@ -64,7 +64,7 @@ class RegressionTest
 		runTest(LightzoneTest, [-10, 0, -5])
 		runTest(MapLoadingTest, [ -5, 0, -10])
 		runTest(MaterialSlotTest, [-15, 0, -5])
-		runTest(MergeableMeshTest, [ 10, 0, 0])
+#		runTest(MergeableMeshTest, [ 10, 0, 0])
 		runTest(MeshAreaTest, [-50, 0,-55])
 		runTest(NpcTest, [ -5, 0, 5])
 		runTest(SelectorTest, [  5, 0, 0])
