@@ -315,6 +315,7 @@ namespace rl
             writer->setAttributeValueAsInteger(gameobject, "ID", (*it_gameobjects)->getId());
             writer->setAttributeValueAsString(gameobject, "ClassID", (*it_gameobjects)->getClassId());
             writer->setAttributeValueAsInteger(gameobject, "State", (int)(*it_gameobjects)->getState());
+            writer->setAttributeValueAsInteger(gameobject, "QueryFlags", (int)(*it_gameobjects)->getQueryFlags());
 
             PropertyMap actualMap = (*it_gameobjects)->getAllProperties()->toPropertyMap();
 
@@ -344,6 +345,7 @@ namespace rl
                         int ID = reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "ID");
                         Ogre::String classID = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlGameObject), "ClassID");
                         GameObjectState state = (GameObjectState)reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "State");
+                        int flags = reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "QueryFlags");
                         PropertyRecord properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlGameObject));
 
                         GameObject* object = NULL;
@@ -361,6 +363,7 @@ namespace rl
 	                            Property(object->getProperty(GameObject::PROPERTY_POSITION).toVector3() + Ogre::Vector3(0.0f,0.01f,0.0f)));
                         }
                         object->setState(state);
+                        object->setQueryFlags(flags);
                     }
                 }
             }
