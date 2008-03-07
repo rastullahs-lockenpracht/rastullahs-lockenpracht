@@ -82,7 +82,8 @@ namespace rl
             // these movements are only for internal purposes and should not be used directly
             // instead use one of the movements above
             MT_DREHEN,
-            MT_STUFENERKENNUNG
+            MT_STUFENERKENNUNG,
+            MT_FALLEN
         } MovementType;
 
         /// The generalization of the place (in the air, on the floor, in the water...)

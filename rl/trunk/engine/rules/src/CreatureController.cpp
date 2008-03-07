@@ -40,6 +40,104 @@ namespace rl
 
     const Real minSquaredSpeed = 0.6;
 
+    // TODO: wenn Fallen nicht möglich ist (auf dem Boden und bewusstlos / Tod)
+
+    class Fallen : public AbstractMovement
+    {
+    public:
+        Fallen(CreatureController *creature) :
+          AbstractMovement(creature)
+          {
+              mAnim = mMovingCreature->getCreature()->getAnimation("fallen");
+              //mAnim = mMovingCreature->getCreature()->getAnimation("fallen_anfang");
+              //mAnim = mMovingCreature->getCreature()->getAnimation("fallen_landung");
+              // fallen_landung_verletzt ?
+          }
+        virtual CreatureController::MovementType getId() const {return CreatureController::MT_FALLEN;}
+        virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_NONE;}
+        virtual void activate()
+        {
+        }
+        virtual void deactivate()
+        {
+            std::ostringstream oss;
+            oss << "Fallen v: " << mVel << "   ermittelte Hoehe: " << mVel*mVel/(2* fabs(PhysicsManager::getSingleton().getGravity().y));
+            LOG_MESSAGE(Logger::RULES, oss.str());
+            int h = int(mVel*mVel/(2* fabs(PhysicsManager::getSingleton().getGravity().y)));
+
+            if( h > 0 )
+            {
+
+                std::multiset<int> wuerfel;
+                for(int i = 0; i < h; i++)
+                    wuerfel.insert( DsaManager::getSingleton().rollD6() );
+                int probenErschwernis = h;
+                if( probenErschwernis > 10 )
+                    probenErschwernis = 10;
+
+                int taw = 0;
+                if( mMovingCreature->getCreature()->hasTalent("Körperbeherrschung") )
+                {
+                    taw = mMovingCreature->getCreature()->doTalentprobe("Körperbeherrschung", probenErschwernis);
+                }
+
+                for( int i = 0; i < taw; i++)
+                {
+                    if( wuerfel.size() <= 0 )
+                        break;
+                    wuerfel.erase(--(wuerfel.end()));
+                }
+
+                int sum = 0;
+                for( std::multiset<int>::iterator it = wuerfel.begin(); it != wuerfel.end(); it++)
+                    sum += *it;
+
+                mMovingCreature->getCreature()->damageLe(sum);
+
+                oss << "    Schaden: " << sum;
+            }
+            LOG_MESSAGE(Logger::RULES, oss.str());
+
+        }
+        virtual bool calculateBaseVelocity(Real &velocity)
+        {
+            velocity = 0.0f;
+            return isPossible();
+        }
+        virtual bool isPossible() const
+        {
+            return
+                mMovingCreature->getAbstractLocation() == CreatureController::AL_AIRBORNE;
+        }
+        virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep)
+        {
+        }
+        virtual bool run(Ogre::Real elapsedTime,  Ogre::Vector3 direction, Ogre::Vector3 rotation)
+        {
+            mVel = max(-mMovingCreature->getVelocity().y,mVel);
+            mMovingCreature->setAnimation(mAnim.first, mAnim.second, 0);
+            return true;
+        }
+        virtual void setAnimation(Ogre::Real elapsedTime)
+        {
+        }
+        virtual void applyAuChanges(Ogre::Real elapsedTime)
+        {
+        }
+        virtual bool isDirectionPossible(Ogre::Vector3 &direction) const
+        {
+            direction = Vector3::ZERO;
+            return false;
+        }
+        virtual bool isRotationPossible(Ogre::Vector3 &rotation) const
+        {
+            rotation = Vector3::ZERO;
+            return false;
+        }
+    protected:
+        Creature::AnimationSpeedPair mAnim;
+        Real mVel;
+    };
 
     class Stehen : public AbstractMovement
     {
@@ -55,7 +153,7 @@ namespace rl
                 mAnimStehen = creature->getCreature()->getAnimation("stehen");
             }
         virtual CreatureController::MovementType getId() const {return CreatureController::MT_STEHEN;}
-        virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_NONE;}
+        virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_FALLEN;}
         virtual void activate()
         {
             AbstractMovement::activate();
@@ -1482,6 +1580,9 @@ LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
         movementPair.first = MT_NONE;
         movementPair.second = NULL;
         mMovementMap.insert(movementPair);
+        movementPair.first = MT_FALLEN;
+        movementPair.second = new Fallen (this);
+        mMovementMap.insert(movementPair);
         movementPair.first = MT_DREHEN;
         movementPair.second = new Drehen (this);
         mMovementMap.insert(movementPair);
@@ -1864,21 +1965,25 @@ LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
         {
             if(movement->isPossible())
             {
-                // runs the old movement if idle!
-                if(mMovement == NULL)
+                if( movement != mMovement )
                 {
-                    mLastMovementType = MT_NONE;
+                    // runs the old movement if idle!
+                    if(mMovement == NULL)
+                    {
+                        mLastMovementType = MT_NONE;
+                    }
+                    else
+                    {
+                        mLastMovementType = mMovement->getId();
+                        mMovement->deactivate();
+                    }
+                    mMovement = movement;
+                    mMovement->activate();
+                    mLastMovementChange = 0;
                 }
-                else
-                {
-                    mLastMovementType = mMovement->getId();
-                    mMovement->deactivate();
-                }
-                mMovement = movement;
-                mMovement->activate();
                 mDirection = direction;
                 mRotation = rotation;
-                mLastMovementChange = 0;
+                
                 return true;
             }
 

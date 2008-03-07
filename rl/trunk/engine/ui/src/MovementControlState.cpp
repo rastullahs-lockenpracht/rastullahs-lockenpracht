@@ -1285,6 +1285,7 @@ namespace rl {
         LOG_MESSAGE(Logger::UI, "Camera resetted.");
         ///@todo remove this
         mCharacter->modifyAu(100);
+        mCharacter->modifyLe(100);
     }
 
     //------------------------------------------------------------------------
