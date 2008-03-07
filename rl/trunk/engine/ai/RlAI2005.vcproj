@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="RlAI"
 	ProjectGUID="{C3E78B89-587B-499A-BE7D-4FE8564F0CD7}"
 	RootNamespace="RlAI"
@@ -431,6 +431,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\WalkPathBehaviour.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\WayPointGraph.cpp"
 				>
 			</File>
@@ -582,6 +586,10 @@
 			</File>
 			<File
 				RelativePath=".\include\SteeringVehicle.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\WalkPathBehaviour.h"
 				>
 			</File>
 			<File

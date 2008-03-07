@@ -24,6 +24,7 @@
 #include "AgentManager.h"
 #include "Agent.h"
 #include "AgentDialogState.h"
+#include "AgentSteeringState.h"
 #include "AStar.h"
 #include "AStarHeuristic.h"
 #include "AStarCosts.h"
@@ -36,4 +37,5 @@
 #include "CreatureWalkPathJob.h"
 #include "Dialog.h"
 #include "DialogManager.h"
+#include "WalkPathBehaviour.h"
 %}

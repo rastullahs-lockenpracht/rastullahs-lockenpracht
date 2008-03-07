@@ -43,7 +43,9 @@ Agent::Agent(Creature* character)
 Agent::~Agent(void)
 {
 	if (mCreature != NULL)
+    {
 		ScriptWrapper::getSingleton().disowned(mCreature);
+    }
 }
 
 void Agent::initialize()

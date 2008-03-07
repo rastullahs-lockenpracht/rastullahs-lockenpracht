@@ -17,10 +17,11 @@
 #define __Landmark_H__
 
 #include "AiPrerequisites.h"
+#include "DebugVisualisable.h"
 
 namespace rl
 {
-	class _RlAiExport Landmark
+	class _RlAiExport Landmark : public DebugVisualisable
 	{
 	public:
 		Landmark(const Ogre::String& name, const Ogre::Vector3& position);
@@ -28,6 +29,10 @@ namespace rl
 		const Ogre::String& getName() const;
 		const Ogre::Vector3& getPosition() const;
 
+        virtual DebugVisualisableFlag getFlag() const;
+        virtual void updatePrimitive();
+    protected:
+        virtual void doCreatePrimitive();
 	private:
 		Ogre::String mName;
 		Ogre::Vector3 mPosition;

@@ -40,7 +40,8 @@ namespace rl
 	 * according to behaviours.
 	 */
 	typedef OpenSteer::SteerLibraryMixin<SimpleVehicle_1> SimpleVehicle_2;
-	
+    typedef OpenSteer::AbstractTokenForProximityDatabase<OpenSteer::AbstractVehicle*> ProximityToken;
+
 	class Actor;
 	class Agent;
 	class PhysicalThing;
@@ -65,6 +66,7 @@ namespace rl
 		 */
 		virtual ~SteeringVehicle(void);
 
+        CreatureController* getCreatureController();
 		/**
 		 * Add a force to the current force of the vehicle
 		 * @param  force value as force vector
@@ -155,7 +157,7 @@ namespace rl
 
 		/** returns the position of ?
 		 */
-		Ogre::Vector3 getPosition();
+		//Ogre::Vector3 getPosition();
 
 		// inherited from AbstractVehicle
 
@@ -258,6 +260,9 @@ namespace rl
         // derived from debugvisualisable
         virtual DebugVisualisableFlag getFlag() const;
         virtual void updatePrimitive();
+
+        inline void setProximityToken(ProximityToken* token) { mProximityToken = token; }
+
 	protected:
 		/** initializes
 		 */
@@ -265,7 +270,7 @@ namespace rl
 
 		/** retrieves the neighbours of this SteeringVehicle
 		 */
-		OpenSteer::AVGroup getNeighbors() const;
+		OpenSteer::AVGroup getNeighbors(const float maxRadius) const;
 		/** retrieves the obstacles
 		 */
 		const OpenSteer::ObstacleGroup& getObstacles() const;
@@ -290,6 +295,8 @@ namespace rl
 		Ogre::Vector3 mForwardVector;
 		//! the yaw angle in radians
 		//Ogre::Radian mYaw;
+
+        ProximityToken* mProximityToken;
 
         //! Creature object steered by this vehicle(and controlled by Agent).
         Creature* mCreature;

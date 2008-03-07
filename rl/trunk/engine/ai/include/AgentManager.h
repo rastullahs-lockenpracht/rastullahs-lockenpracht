@@ -21,6 +21,12 @@
 #include "GameTask.h"
 #include "GameObjectStateListener.h"
 #include "FuzzyState.h"
+#include "OpenSteer/Proximity.h"
+
+namespace OpenSteer
+{
+    class AbstractVehicle;
+}
 
 namespace rl
 {
@@ -30,6 +36,7 @@ namespace rl
     class Agent;
 
     typedef FuzzyState<SteeringVehicle> SteeringBehaviour;
+    typedef OpenSteer::AbstractProximityDatabase<OpenSteer::AbstractVehicle*> ProximityDatabase;
 
     class _RlAiExport BehaviourFactory
     {
@@ -111,7 +118,7 @@ namespace rl
 
         //! Factory to create behaviours with.
         BehaviourFactory* mBehaviourFactory;
-		
+        ProximityDatabase* mAgentProximityCheck;
 		//! List of registered agents (includes mPlayer)
 		AgentMap mAgents;
 		//! Agent representing the player

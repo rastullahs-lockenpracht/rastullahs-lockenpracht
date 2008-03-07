@@ -41,6 +41,7 @@ SteeringVehicle::SteeringVehicle(Creature* creature)
 	  mCurrentForce(Vector3::ZERO), 
 	  mCurrentVelocity(Vector3::ZERO),
 	  mForwardVector(Vector3::NEGATIVE_UNIT_Z),
+      mProximityToken(NULL),
 	  mCreature(creature),
       mCreatureId(mCreature->getId()),
       mController(NULL),
@@ -57,6 +58,10 @@ SteeringVehicle::SteeringVehicle(Creature* creature)
 
 SteeringVehicle::~SteeringVehicle()
 {
+    if(mProximityToken != NULL)
+    {
+        delete mProximityToken;
+    }
 }
 
 void SteeringVehicle::resetLocalSpace()
@@ -85,6 +90,12 @@ void SteeringVehicle::initialize()
 	setMaxSpeed(1.0f);   // velocity is clipped to this magnitude
 }
 
+
+CreatureController* SteeringVehicle::getCreatureController()
+{
+    return CreatureControllerManager::getSingleton().getCreatureController(mCreature);
+}
+
 void SteeringVehicle::addForce(const Ogre::Vector3& force)
 {
 	mCurrentForce += force;
@@ -96,9 +107,9 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
     // since physics schould by handled by movingcreature
 
 	OgreNewt::Body* body = mCreature->getActor()->getPhysicalThing()->_getBody();
-
-	setPosition(mCreature->getPosition());
-
+    Vector3 pos = mCreature->getPosition();
+	setPosition(pos);
+    mProximityToken->updateForNewPosition(pos);
     //  Get the velocity vector
 	mCurrentVelocity = body->getVelocity();
 	//  enforce speed limit
@@ -209,7 +220,8 @@ Vector3 SteeringVehicle::calcAvoidObstacles(const float minTimeToCollision)
 
 Vector3 SteeringVehicle::calcAvoidNeighbors(const float minTimeToCollision)
 {
-	Vector3 steering = Vec3Utils::setYtoZero(steerToAvoidNeighbors(minTimeToCollision, getNeighbors()));
+    const float maxRadius = minTimeToCollision * getMaxSpeed() * 2;
+	Vector3 steering = Vec3Utils::setYtoZero(steerToAvoidNeighbors(minTimeToCollision, getNeighbors(maxRadius)));
 	return steering;
 }
 		
@@ -235,9 +247,13 @@ bool SteeringVehicle::needAvoidance(const float minTimeToCollision)
 	return true;
 }
 
-AVGroup SteeringVehicle::getNeighbors() const
+AVGroup SteeringVehicle::getNeighbors(const float maxRadius) const
 {
-	AVGroup group;
+	AVGroup neighbors;
+    if(mProximityToken != NULL)
+    {
+        mProximityToken->findNeighbors(getPosition(), maxRadius, neighbors);
+    }
 	//AgentManager::VehicleList list = AgentManager::getSingleton().getNeighbors(NULL);
 	//AgentManager::VehicleList::const_iterator itr = list.begin();
 	//for(; itr != list.end(); ++itr)
@@ -247,7 +263,7 @@ AVGroup SteeringVehicle::getNeighbors() const
 	//		group.push_back((*itr));
 	//	}
 	//}
-	return group;
+	return neighbors;
 }
 
 float SteeringVehicle::calcDistance(const Vector3& vec1, const Vector3& vec2)
@@ -255,12 +271,12 @@ float SteeringVehicle::calcDistance(const Vector3& vec1, const Vector3& vec2)
 	Vector3 vec = vec1-vec2;
 	return vec.length();
 }
-
+/*
 Vector3 SteeringVehicle::getPosition()
 {
 	return mCreature->getPosition();
 }
-
+*/
 float SteeringVehicle::getMass() const 
 {
     return mCreature->getMass();

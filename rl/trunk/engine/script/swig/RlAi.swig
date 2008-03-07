@@ -65,14 +65,21 @@ namespace rl
 		rl::SteeringBehaviour* getParent();
 		rl::SteeringVehicle* getController();
 	};
-
+	
 	%feature("director") AgentState;
     class AgentState
     {
     private:
         AgentState(rl::Agent* agent);
     };
-
+    
+    
+    class AgentSteeringState : public rl::AgentState
+    {
+    public:
+        void addSteeringBehaviour(SteeringBehaviour* behaviour);
+    };
+   
     class AgentDialogState : public rl::AgentState
     {
     public:
@@ -259,6 +266,22 @@ namespace rl
         rl::LandmarkPath::LandmarkList getPoints();
 	};
 	
+    class WalkPathBehaviour : public rl::SteeringBehaviour
+	{
+	public:
+	    WalkPathBehaviour();
+		virtual ~WalkPathBehaviour();
+		void calcPathToLandmark(rl::Landmark* lm, const rl::WayPointGraph* wps);
+		void setLandmarkPath(LandmarkPath* lmp);
+		virtual rl::CeGuiString getType();
+		virtual void init();
+		virtual void activate();
+		virtual void deactivate();
+		virtual void update(const float elapsedTime);
+
+		virtual float calculateActivation();
+	};
+	
 	class CreatureWalkPathJob : public Job
     {
     public:
@@ -350,6 +373,13 @@ static swig_type_info *AgentState_dynamic_cast(void **ptr)
     {
         *ptr=pAgentDialogState;
         return SWIGTYPE_p_rl__AgentDialogState;
+    }
+    
+    rl::AgentSteeringState *pAgentSteeringState = dynamic_cast<rl::AgentSteeringState*>(pAgentState);
+    if (pAgentSteeringState)
+    {
+        *ptr=pAgentSteeringState;
+        return SWIGTYPE_p_rl__AgentSteeringState;
     }
    
     return 0;

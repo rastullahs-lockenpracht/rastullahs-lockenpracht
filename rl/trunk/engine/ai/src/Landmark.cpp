@@ -16,6 +16,9 @@
 #include "stdinc.h" //precompiled header
 
 #include "Landmark.h"
+#include "CoreSubsystem.h"
+#include "LineSetPrimitive.h"
+#include "World.h"
 
 namespace rl
 {
@@ -32,5 +35,30 @@ namespace rl
     const Ogre::Vector3& Landmark::getPosition() const
     {
         return mPosition;
+    }
+
+    DebugVisualisableFlag Landmark::getFlag() const
+    {
+        return DVF_WAYPOINT;
+    }
+    void Landmark::updatePrimitive()
+    {
+        if (mSceneNode->getParent() == NULL)
+        {
+		    CoreSubsystem::getSingletonPtr()->getWorld()->getSceneManager()->
+			    getRootSceneNode()->addChild(mSceneNode);
+		    //mCharacterActor->_getSceneNode()->addChild(mSceneNode);
+        }
+
+        LineSetPrimitive* lineSet = static_cast<LineSetPrimitive*>(mPrimitive);
+
+	    lineSet->clear();
+		// draw the waypoint itself
+        lineSet->addLine(mPosition, mPosition + Ogre::Vector3(0,2,0), Ogre::ColourValue::Green);
+    }
+
+    void Landmark::doCreatePrimitive()
+    {
+	    mPrimitive = new LineSetPrimitive();
     }
 }
