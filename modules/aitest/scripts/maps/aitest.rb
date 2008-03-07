@@ -17,7 +17,7 @@ require 'NpcCapsuleTest.rb'
 #require 'WayPointTest2.rb'
 
 require 'AStarTest2.rb'
-
+require 'AStarTest3.rb'
 # Physik aktivieren
 $PM.setEnabled(true)
 
@@ -39,7 +39,7 @@ $SCRIPT.log("Hero ready")
 $SCRIPT.log("map 'regressiontest' initialisiert.");
 
 $debugkeys = DebugKeys.new();
-$IM.linkKeyToRubyCommand('G',"$debugkeys.toggleWP()");
+$IM.linkKeyToRubyCommand("G","$debugkeys.toggleWP()");
 
 $SCRIPT.log("debug keys are set up");
 
@@ -48,7 +48,9 @@ $SCRIPT.log("debug keys are set up");
 #WallSet1.new([0, 0, 0])
 #WallSet2.new([0, 0, 0])
 WallSet3.new([0, 0, 0], 0.5, 20, [1,1,1,1])
-WallSet3.new([0, 0, 0], 0.5, 10, [1,1,0,1])
+#WallSet3.new([0, 0, 0], 0.5, 10, [1,1,0,1])
+#WallSet3.new([0, 0, 0], 0.5, 1,  [0,0,0,1])
+
 
 #NpcTest.new([-5, 0, 5])
 #NpcCapsuleTest.new([0, 0, 5])
@@ -66,6 +68,6 @@ wolf = $GOM.createGameObject("Wolf")
 wolf.placeIntoScene
 wolf.setPosition [0.0,0.0,-5.0]
 
-AStarTest2.new([0.0,0.0,-5.0])
+AStarTest3.new([0.0,0.0,-5.0])
 
 $SCRIPT.log("tests initialisiert.");
