@@ -35,9 +35,19 @@ namespace rl
     {
         return mController;
     }
+    
+	Creature* Combatant::getCreature() const
+	{
+		return mController->getCreature();
+	}
 
 	CeGuiString Combatant::getName() const
     {
         return mController->getCreature()->getName();
     }
+
+	Ogre::Vector3 Combatant::getPosition() const
+	{
+		return getCreature()->getPosition();
+	}
 }

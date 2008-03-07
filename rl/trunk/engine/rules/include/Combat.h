@@ -49,23 +49,34 @@ namespace rl
         void stop();
 
         // Called by combatants in response to a request by the Combat object.
-        // With calling this function combatants register their actions for this round.
-        void registerCombatantAction(Combatant*, Kampfaktion*, Kampfaktion*, Kampfaktion*);
+        // With calling one of these functions combatants register their actions for this round.
+
+        void registerCombatantAction(Combatant*, Kampfaktion* ka);
+        void registerCombatantAction(Combatant*, Kampfaktion* ka, Combatant* target);
+		void registerCombatantAction(Combatant*, Kampfaktion* ka, const Ogre::Vector3& target);
+		void registerCombatantRoundDone(Combatant*);
+
         void actionExecuted(Combatant*, Kampfaktion*);
 
     private:
+		struct ActionEntry
+		{
+			Kampfaktion* kampfaktion;
+			Combatant* actor;
+			Combatant* target;
+			Ogre::Vector3 targetPos;
+		};
+		typedef std::vector<ActionEntry> ActionEntryVector;
+		typedef std::map<Combatant*, ActionEntryVector> CombatantActionsMap;
         typedef std::vector<std::pair<int, Combatant*> > CombatantQueue;
-        /// Stores the max three actions a combatant can do per round.
-        /// Probably has to be replaced with a more sophisticated container later on,
-        /// but for now it will do what it needs to.
-        typedef boost::tuples::tuple<Kampfaktion*, Kampfaktion*, Kampfaktion*> ActionTuple;
-        typedef std::map<Combatant*, ActionTuple> CombatantActionMap;
 
         CombatantSet mOpponents;
         CombatantSet mAllies;
         /// Combatants in order of their initiative for the current round.
         CombatantQueue mCombatantQueue;
-        CombatantActionMap mCombatantActions;
+        CombatantActionsMap mCombatantActions;
+		// Combatants who have registered all their actions for this round
+		CombatantSet mFinishedCombatants;
 
         unsigned short mCurrentRound;
 

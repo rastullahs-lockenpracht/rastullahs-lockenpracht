@@ -16,7 +16,14 @@
 #include "stdinc.h"
 
 #include "Kampfaktion.h"
+
 #include "Combatant.h"
+#include "CreatureController.h"
+#include "Exception.h"
+#include "Inventory.h"
+#include "Weapon.h"
+
+#include <limits>
 
 using namespace Ogre;
 
@@ -41,62 +48,165 @@ namespace rl
 		return mDescription;
 	}
 
-	Attacke::Attacke() : Kampfaktion(AKTION, "Attacke", "Greife Gegner an.")
+	AttackeAktion::AttackeAktion() : Kampfaktion(AKTION, "Attacke", "Greife Gegner an.")
 	{
 	}
 
-	Attacke::~Attacke()
+	AttackeAktion::~AttackeAktion()
 	{
 	}
 
-	bool Attacke::hasTarget() const
-	{
-		return true;
-	}
-
-	Real Attacke::getMaximumTargetDistance() const
-	{
-		return 1.0f;
-	}
-
-	bool Attacke::canDoKampfaktion(Combatant* actor, Combatant* target) const
-	{
-		// Check whether actor has skill for weapon in hand.
-
-		// Check whether target ís in range of our actor and his/her weapon.
-		return true;
-	}
-
-    void Attacke::doKampfaktion(Combatant* actor, Combatant* target)
-	{
-
-	}
-
-	Parade::Parade() : Kampfaktion(REAKTION, "Parade", "Pariere Attacken des Gegners")
-	{
-	}
-
-	Parade::~Parade()
-	{
-	}
-
-	bool Parade::hasTarget() const
+	bool AttackeAktion::hasTarget() const
 	{
 		return true;
 	}
 
-	Real Parade::getMaximumTargetDistance() const
+	Real AttackeAktion::getMaximumTargetDistance(Combatant* actor) const
 	{
-		return 1.0f;
+		std::vector<Weapon*> weapons = actor->getCreature()->getInventory()->getReadiedWeapons();
+		Real distance = 0.0f;
+		for (size_t i = 0; i < weapons.size(); ++i)
+		{
+			distance = std::max(weapons[i]->getMaximumDistance(), distance);
+		}
+		return distance;
 	}
 
-    bool Parade::canDoKampfaktion(Combatant* actor, Combatant* target) const
+	bool AttackeAktion::canDoKampfaktion(Combatant* actor, Combatant* target) const
+	{
+		// Does the actor have a weapon readied?
+		if (actor->getCreature()->getInventory()->getReadiedWeapons().empty())
+		{
+			return false;
+		}
+		// Is target in weapon range?
+		if (target->getPosition().distance(actor->getPosition()) > getMaximumTargetDistance(actor))
+		{
+			return false;
+		}
+		return true;
+	}
+
+    void AttackeAktion::doKampfaktion(Combatant* actor, Combatant* target)
+	{
+
+	}
+
+	ParadeAktion::ParadeAktion() : Kampfaktion(REAKTION, "Parade", "Pariere Attacken des Gegners.")
+	{
+	}
+
+	ParadeAktion::~ParadeAktion()
+	{
+	}
+
+	bool ParadeAktion::hasTarget() const
+	{
+		return true;
+	}
+
+	Real ParadeAktion::getMaximumTargetDistance(Combatant* actor) const
+	{
+		return std::numeric_limits<Ogre::Real>::max();
+	}
+
+    bool ParadeAktion::canDoKampfaktion(Combatant* actor, Combatant* target) const
 	{
 		// Check, whether actor's weapon can be parried with our weapon/side weapon/shield.
 		return true;
 	}
 
-    void Parade::doKampfaktion(Combatant* actor, Combatant* target)
+    void ParadeAktion::doKampfaktion(Combatant* actor, Combatant* target)
+	{
+	}
+
+	AusweichenAktion::AusweichenAktion()
+		: Kampfaktion(REAKTION, "Ausweichen", "Weiche der Attacke des Gegners aus.")
+	{
+	}
+
+	AusweichenAktion::~AusweichenAktion()
+	{
+	}
+
+	bool AusweichenAktion::hasTarget() const
+	{
+		return true;
+	}
+
+	Ogre::Real AusweichenAktion::getMaximumTargetDistance(Combatant* actor) const
+	{
+		return std::numeric_limits<Ogre::Real>::max();
+	}
+
+	bool AusweichenAktion::canDoKampfaktion(Combatant* actor, Combatant* target) const
+	{
+		// Always possible.
+		return true;
+	}
+
+    void AusweichenAktion::doKampfaktion(Combatant* actor, Combatant* target)
+	{
+	}
+
+	BewegenAktion::BewegenAktion()
+		: Kampfaktion(AKTION, "Bewegen", "Gehe zu einem Zielpunkt.")
+	{
+	}
+
+	BewegenAktion::~BewegenAktion()
+	{
+	}
+
+	bool BewegenAktion::hasTarget() const
+	{
+		return false;
+	}
+
+	Ogre::Real BewegenAktion::getMaximumTargetDistance(Combatant* actor) const
+	{
+		return std::numeric_limits<Ogre::Real>::max();
+	}
+
+	bool BewegenAktion::canDoKampfaktion(Combatant* actor, Combatant* target) const
+	{
+		return false;
+	}
+
+    void BewegenAktion::doKampfaktion(Combatant* actor, Combatant* target)
+	{
+        Throw(rl::OperationNotSupportedException, "BewegenAktion does not support Combatant as target.");
+	}
+
+	void BewegenAktion::doKampfaktion(Combatant* actor, const Ogre::Vector3& target)
+	{
+	}
+
+	FolgenAktion::FolgenAktion()
+		: Kampfaktion(AKTION, "Folgen", "Gehe zu einem Gegner.")
+	{
+	}
+
+	FolgenAktion::~FolgenAktion()
+	{
+	}
+
+	bool FolgenAktion::hasTarget() const
+	{
+		return true;
+	}
+
+	Ogre::Real FolgenAktion::getMaximumTargetDistance(Combatant* actor) const
+	{
+		return std::numeric_limits<Ogre::Real>::max();
+	}
+
+	bool FolgenAktion::canDoKampfaktion(Combatant* actor, Combatant* target) const
+	{
+		return true;
+	}
+
+    void FolgenAktion::doKampfaktion(Combatant* actor, Combatant* target)
 	{
 	}
 }

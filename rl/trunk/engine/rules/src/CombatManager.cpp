@@ -31,7 +31,15 @@ namespace rl
 
     CombatManager::CombatManager() : mCurrentCombat(NULL)
     {
-		Kampfaktion* ka = new Attacke();
+		Kampfaktion* ka = new AttackeAktion();
+		mKampfaktionen.insert(std::make_pair(ka->getName(), ka));
+		ka = new ParadeAktion();
+		mKampfaktionen.insert(std::make_pair(ka->getName(), ka));
+		ka = new AusweichenAktion();
+		mKampfaktionen.insert(std::make_pair(ka->getName(), ka));
+		ka = new BewegenAktion();
+		mKampfaktionen.insert(std::make_pair(ka->getName(), ka));
+		ka = new FolgenAktion();
 		mKampfaktionen.insert(std::make_pair(ka->getName(), ka));
     }
 

@@ -40,7 +40,7 @@ namespace rl
         CeGuiString getDescription() const;
 
 		virtual bool hasTarget() const = 0;
-		virtual Ogre::Real getMaximumTargetDistance() const = 0;
+		virtual Ogre::Real getMaximumTargetDistance(Combatant* actor) const = 0;
 
         virtual bool canDoKampfaktion(Combatant* actor, Combatant* target) const = 0;
         virtual void doKampfaktion(Combatant* actor, Combatant* target) = 0;
@@ -51,27 +51,68 @@ namespace rl
 		CeGuiString mDescription;
     };
 
-	class _RlRulesExport Attacke : public Kampfaktion
+	class _RlRulesExport AttackeAktion : public Kampfaktion
 	{
 	public:
-		Attacke();
-		virtual ~Attacke();
+		AttackeAktion();
+		virtual ~AttackeAktion();
 
 		virtual bool hasTarget() const;
-		virtual Ogre::Real getMaximumTargetDistance() const;
+		virtual Ogre::Real getMaximumTargetDistance(Combatant* actor) const;
 
 		virtual bool canDoKampfaktion(Combatant* actor, Combatant* target) const;
         virtual void doKampfaktion(Combatant* actor, Combatant* target);
 	};
 
-	class _RlRulesExport Parade : public Kampfaktion
+	class _RlRulesExport ParadeAktion : public Kampfaktion
 	{
 	public:
-		Parade();
-		virtual ~Parade();
+		ParadeAktion();
+		virtual ~ParadeAktion();
 
 		virtual bool hasTarget() const;
-		virtual Ogre::Real getMaximumTargetDistance() const;
+		virtual Ogre::Real getMaximumTargetDistance(Combatant* actor) const;
+
+		virtual bool canDoKampfaktion(Combatant* actor, Combatant* target) const;
+        virtual void doKampfaktion(Combatant* actor, Combatant* target);
+	};
+
+	class _RlRulesExport AusweichenAktion : public Kampfaktion
+	{
+	public:
+		AusweichenAktion();
+		virtual ~AusweichenAktion();
+
+		virtual bool hasTarget() const;
+		virtual Ogre::Real getMaximumTargetDistance(Combatant* actor) const;
+
+		virtual bool canDoKampfaktion(Combatant* actor, Combatant* target) const;
+        virtual void doKampfaktion(Combatant* actor, Combatant* target);
+	};
+
+	class _RlRulesExport BewegenAktion : public Kampfaktion
+	{
+	public:
+		BewegenAktion();
+		virtual ~BewegenAktion();
+
+		virtual bool hasTarget() const;
+		virtual Ogre::Real getMaximumTargetDistance(Combatant* actor) const;
+
+		virtual bool canDoKampfaktion(Combatant* actor, Combatant* target) const;
+		// Do not call, will throw!
+        virtual void doKampfaktion(Combatant* actor, Combatant* target);
+		virtual void doKampfaktion(Combatant* actor, const Ogre::Vector3& target);
+	};
+
+	class _RlRulesExport FolgenAktion : public Kampfaktion
+	{
+	public:
+		FolgenAktion();
+		virtual ~FolgenAktion();
+
+		virtual bool hasTarget() const;
+		virtual Ogre::Real getMaximumTargetDistance(Combatant* actor) const;
 
 		virtual bool canDoKampfaktion(Combatant* actor, Combatant* target) const;
         virtual void doKampfaktion(Combatant* actor, Combatant* target);

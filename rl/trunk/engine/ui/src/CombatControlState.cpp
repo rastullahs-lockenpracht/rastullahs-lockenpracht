@@ -30,6 +30,7 @@
 #include "MeshObject.h"
 #include "Person.h"
 #include "PhysicalThing.h"
+#include "RulesMessages.h"
 #include "Selector.h"
 #include "UiMessages.h"
 #include "World.h"
@@ -41,6 +42,8 @@ namespace rl {
         Actor* camera, Person* character, Combat* combat)
         : ControlState(cmdMapper, camera, character, CST_COMBAT),
           Combatant(combat, CreatureControllerManager::getSingleton().getCreatureController(character)),
+		  mAttackedOpponent(NULL),
+		  mParriedOpponent(NULL),
           mCombatManager(CombatManager::getSingletonPtr()),
 		  mCombatGui(NULL),
           mEnemySelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager(),
@@ -65,6 +68,9 @@ namespace rl {
 		mCombatIoEndTurnRequestedConnection =
             MessagePump::getSingleton().addMessageHandler<MessageType_CombatIoEndTurnRequested>(
 			    boost::bind(&CombatControlState::userRequestEndTurn, this));
+		mEnemyLeftCombatConnection =
+            MessagePump::getSingleton().addMessageHandler<MessageType_CombatOpponentLeft>(
+			    boost::bind(&CombatControlState::enemyLeftCombat, this, _1));
     }
 
 	CombatControlState::~CombatControlState()
@@ -149,16 +155,60 @@ namespace rl {
 
 	bool CombatControlState::userRequestAttackOpponent(Combatant* opponent)
 	{
+		mAttackedOpponent = opponent;
 		return true;
 	}
 
 	bool CombatControlState::userRequestParryOpponent(Combatant* opponent)
 	{
+		mParriedOpponent = opponent;
 		return true;
 	}
 
 	bool CombatControlState::userRequestEndTurn()
 	{
+		// Do we want to attack someone?
+		if (mAttackedOpponent)
+		{
+			// Are we in weapon range to opponent
+			AttackeAktion* attacke = dynamic_cast<AttackeAktion*>(
+				CombatManager::getSingleton().getKampfaktion("Attacke"));
+			if (getPosition().distance(mAttackedOpponent->getPosition())
+				<= attacke->getMaximumTargetDistance(this))
+			{
+				// Ok, we can attack
+				mCombat->registerCombatantAction(this, attacke, mAttackedOpponent);
+			}
+			else
+			{
+				// We can't attack from here, so go to opponent.
+				Kampfaktion* folgen = CombatManager::getSingleton().getKampfaktion("Folgen");
+				mCombat->registerCombatantAction(this, folgen, mAttackedOpponent);
+			}
+		}
+		if (mParriedOpponent)
+		{
+			Kampfaktion* parade = CombatManager::getSingleton().getKampfaktion("Parade");
+			mCombat->registerCombatantAction(this, parade, mAttackedOpponent);
+		}
+
+		mCombat->registerCombatantRoundDone(this);
+
+		return true;
+	}
+
+	bool CombatControlState::enemyLeftCombat(Combatant* opponent)
+	{
+		// Make sure we don't have any dangling pointers on invalid Combatants.
+
+		if (opponent == mAttackedOpponent)
+		{
+			mAttackedOpponent = NULL;
+		}
+		if (opponent == mParriedOpponent)
+		{
+			mParriedOpponent = NULL;
+		}
 		return true;
 	}
 }

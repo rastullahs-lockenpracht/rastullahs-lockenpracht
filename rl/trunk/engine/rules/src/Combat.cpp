@@ -101,7 +101,7 @@ namespace rl
             it != combatants.end(); ++it)
         {
             mCombatantQueue.push_back(std::make_pair(
-                (*it)->getCreatureController()->getCreature()->getInitiativeBasis(), *it));
+                (*it)->getCreatureController()->getCreature()->doInitiativeWurf(), *it));
         }
         std::sort(mCombatantQueue.begin(), mCombatantQueue.end(), InitiativeComparator());
 
@@ -118,14 +118,14 @@ namespace rl
         mCurrentRound++;
         mCombatantActions.clear();
 
-		GameEventLog::getSingleton().logEvent("Runde " + StringConverter::toString(mCurrentRound),
+		GameEventLog::getSingleton().logEvent("Runde " + CeGuiString(StringConverter::toString(mCurrentRound)),
 			GET_COMBAT);
 		// Show ini for this round.
         for (CombatantQueue::iterator it = mCombatantQueue.begin();
 			it != mCombatantQueue.end(); ++it)
         {
-			String evt = it->second->getCreatureController()->getCreature()->getName().c_str();
-			evt += " - Initiative: " + StringConverter::toString(it->first);
+			CeGuiString evt = it->second->getCreatureController()->getCreature()->getName();
+			evt += " - Initiative: " + CeGuiString(StringConverter::toString(it->first));
 			GameEventLog::getSingleton().logEvent(evt, GET_COMBAT);
         }
 
@@ -138,16 +138,44 @@ namespace rl
         }
     }
 
-    void Combat::registerCombatantAction(Combatant* combatant,
-        Kampfaktion* action1, Kampfaktion* action2, Kampfaktion* action3)
-    {
-        mCombatantActions[combatant] = ActionTuple(action1, action2, action3);
+    void Combat::registerCombatantAction(Combatant* actor, Kampfaktion* ka)
+	{
+		ActionEntry entry;
+		entry.kampfaktion = ka;
+		entry.actor = actor;
+
+		mCombatantActions[actor].push_back(entry);
+	}
+
+    void Combat::registerCombatantAction(Combatant* actor, Kampfaktion* ka, Combatant* target)
+	{
+		ActionEntry entry;
+		entry.kampfaktion = ka;
+		entry.actor = actor;
+		entry.target = target;
+
+		mCombatantActions[actor].push_back(entry);
+	}
+
+	void Combat::registerCombatantAction(Combatant* actor, Kampfaktion* ka, const Ogre::Vector3& targetPos)
+	{
+		ActionEntry entry;
+		entry.kampfaktion = ka;
+		entry.actor = actor;
+		entry.targetPos = targetPos;
+
+		mCombatantActions[actor].push_back(entry);
+	}
+
+	void Combat::registerCombatantRoundDone(Combatant* combatant)
+	{
+		mFinishedCombatants.insert(combatant);
         // Are all combatants registered now?
-        if (mCombatantActions.size() == mCombatantQueue.size())
+        if (mFinishedCombatants.size() == mCombatantQueue.size())
         {
             executeRound();
         }
-    }
+	}
 
     void Combat::actionExecuted(Combatant*, Kampfaktion*)
 	{

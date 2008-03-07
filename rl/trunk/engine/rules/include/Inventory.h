@@ -27,6 +27,7 @@ namespace rl {
     class Creature;
     class Item;
     class Slot;
+	class Weapon;
 
 /**
  * @brief Verwaltet das Inventar des Charakters
@@ -79,11 +80,14 @@ public:
     // Das Inventar der Kreatur wird durch das Inventarobjekt verwaltet.
     //void addToInventory(Item* item, const CeGuiString& containerName);
     void hold(Item* item, const CeGuiString& slotName);
+    void ready(Item* item, const CeGuiString& slotName);
     bool canHold(const Item* item, const CeGuiString& slotName) const;
     bool canReady(const Item* item, const CeGuiString& slotName) const;
 	void dropItem(const CeGuiString& slotName);
-    void ready(Item* item);
     //void removeFromInventory(Item* item);
+
+	/// Returns readied weapons or an empty vector if no weapon is readied.
+	std::vector<Weapon*> getReadiedWeapons() const;
 
     Item* getItem(const CeGuiString& slotName) const;
     void addSlot(const CeGuiString& name, const Ogre::String& meshpartname, int itemReadyMask, int itemHeldMask, SlotType type = SLOT_BONE);

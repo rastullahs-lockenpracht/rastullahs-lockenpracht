@@ -55,9 +55,12 @@ namespace rl {
 		virtual void executeAction(Kampfaktion* action);
 
 		// Event handlers
+
 		bool userRequestAttackOpponent(Combatant*);
 		bool userRequestParryOpponent(Combatant*);
 		bool userRequestEndTurn();
+
+		bool enemyLeftCombat(Combatant*);
 
     private:
 		enum State {REQUEST_USER_INPUT, WAIT_FOR_OTHER_COMBATANTS, ROUND_EXECUTION};
@@ -65,6 +68,11 @@ namespace rl {
 		MessagePump::ScopedConnection mCombatIoAttackOpponentConnection;
 		MessagePump::ScopedConnection mCombatIoParryOpponentConnection;
 		MessagePump::ScopedConnection mCombatIoEndTurnRequestedConnection;
+
+	    MessagePump::ScopedConnection mEnemyLeftCombatConnection;
+
+		Combatant* mAttackedOpponent;
+		Combatant* mParriedOpponent;
 
         CombatManager* mCombatManager;
 		CombatGui* mCombatGui;

@@ -17,6 +17,7 @@
 
 #include "Agent.h"
 #include "AgentCombatState.h"
+#include "Combat.h"
 #include "CombatManager.h"
 #include "CreatureControllerManager.h"
 
@@ -44,6 +45,27 @@ namespace rl
     void AgentCombatState::requestCombatantAction()
     {
         // Think!
+		const Combat::CombatantSet& allies = mCombat->getAllAllies();
+		if (!allies.empty())
+		{
+			Combatant* target = *allies.begin();
+			// Are we in weapon range to opponent
+			AttackeAktion* attacke = dynamic_cast<AttackeAktion*>(
+				CombatManager::getSingleton().getKampfaktion("Attacke"));
+			if (getPosition().distance(target->getPosition())
+				<= attacke->getMaximumTargetDistance(this))
+			{
+				// Ok, we can attack
+				mCombat->registerCombatantAction(this, attacke, target);
+			}
+			else
+			{
+				// We can't attack from here, so go to opponent.
+				Kampfaktion* folgen = CombatManager::getSingleton().getKampfaktion("Folgen");
+				mCombat->registerCombatantAction(this, folgen, target);
+			}
+		}
+		mCombat->registerCombatantRoundDone(this);
     }
 
 	void AgentCombatState::executeAction(Kampfaktion* action)

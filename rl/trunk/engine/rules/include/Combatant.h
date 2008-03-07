@@ -51,7 +51,11 @@ namespace rl
 
         CreatureController* getCreatureController() const;
 
+		// convenience getters
+
+        Creature* getCreature() const;
 		CeGuiString getName() const;
+		Ogre::Vector3 getPosition() const;
 
     protected:
         Combat* mCombat;

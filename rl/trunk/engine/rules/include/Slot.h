@@ -35,6 +35,7 @@ public:
     bool isAllowed(const Item* item) const;
     bool isEmpty() const {return mItem == NULL;}
     bool canReady(const Item* item) const;
+	bool isReady() { return mItem != NULL && canReady(mItem); }
     CeGuiString getName() const {return mName;}
     virtual ~Slot();
 

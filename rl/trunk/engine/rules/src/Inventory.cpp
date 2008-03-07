@@ -231,9 +231,38 @@ namespace rl
         return (*slotIter).second->getItem();
     }
 
-    void Inventory::ready(Item* item)
+    void Inventory::ready(Item* item, const CeGuiString& slotName)
     {
+        std::map<CeGuiString, Slot*>::iterator slotIter = mSlots.find(slotName);
+        if (slotIter == mSlots.end())
+        {
+            Throw(rl::IllegalArgumentException, Ogre::String("Slot '")+slotName.c_str()+"' doesn't exist.");
+        }
+
+		if (slotIter->second->canReady(item))
+		{
+			slotIter->second->setItem(item);
+		}
+		else
+		{
+			Throw(rl::IllegalArgumentException, Ogre::String("Item '") + item->getName().c_str() +
+				"' cannot be readied in slot '" + slotName.c_str() + "'.");
+		}
     }
+
+	std::vector<Weapon*> Inventory::getReadiedWeapons() const
+	{
+		std::vector<Weapon*> rval;
+		for (SlotMap::const_iterator it = mSlots.begin(); it != mSlots.end(); ++it)
+		{
+			if (it->second->isReady() && 
+				(it->second->getItem()->getItemType() & Item::ITEMTYPE_WEAPON) != 0)
+			{
+				rval.push_back(dynamic_cast<Weapon*>(it->second->getItem()));
+			}
+		}
+		return rval;
+	}
 
     void Inventory::addSlot(const CeGuiString& name, const Ogre::String& meshpartname, int itemReadyMask, int itemHeldMask, SlotType type)
     {

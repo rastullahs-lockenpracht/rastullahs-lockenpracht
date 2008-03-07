@@ -40,7 +40,7 @@ namespace rl {
 		return mLogSize;
 	}
 
-	void GameEventLog::logEvent(const String& eventString, GameEventType type)
+	void GameEventLog::logEvent(const CeGuiString& eventString, GameEventType type)
 	{
 		mLog.push_back(std::make_pair(type, eventString));
         MessagePump::getSingleton().sendMessage<MessageType_GameEventLog_EventAdded>(type, eventString);
