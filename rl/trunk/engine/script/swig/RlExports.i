@@ -52,8 +52,6 @@ void RL_RubyRemoveTracking(void* ptr)
 %}
 
 %include "stl.i"
-%include "std_string.i"
-%include "std_pair.i"
 
 // Header includes
 %include "RlCommon.head.swig"

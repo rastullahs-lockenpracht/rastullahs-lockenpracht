@@ -97,5 +97,6 @@ public:
    void setReason(const unsigned int reason);
 };
 
+typedef std::set<rl::CeGuiString> PropertyKeys;
 }
 
