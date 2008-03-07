@@ -154,7 +154,7 @@ namespace rl {
     {
     public:
         virtual const rl::Property getProperty(const rl::CeGuiString& key) const;
-        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual void setProperty(const rl::CeGuiString& key, const rl::Property& value);
         virtual rl::PropertyKeys getAllPropertyKeys() const;
         bool hasProperty(const Ogre::String& key) const;
         
@@ -353,7 +353,7 @@ namespace rl {
     public:
         PropertyRecord();
         virtual const rl::Property getProperty(const rl::CeGuiString& key) const;
-        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual void setProperty(const rl::CeGuiString& key, const rl::Property& value);
         virtual rl::PropertyKeys getAllPropertyKeys() const;
     };
     
@@ -421,7 +421,7 @@ namespace rl {
         void removeEffect(rl::Effect* effect);
         
         virtual const rl::Property getProperty(const rl::CeGuiString& key) const;
-        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual void setProperty(const rl::CeGuiString& key, const rl::Property& value);
         virtual rl::PropertyKeys getAllPropertyKeys() const;
         
         virtual void placeIntoScene();
@@ -487,7 +487,7 @@ namespace rl {
         rl::GameObject* getOwner() const;
 
         virtual const rl::Property getProperty(const rl::CeGuiString& key) const;
-        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual void setProperty(const rl::CeGuiString& key, const rl::Property& value);
         virtual rl::PropertyKeys getAllPropertyKeys() const;
         virtual bool isContainer();
         
@@ -519,7 +519,7 @@ namespace rl {
         const rl::CeGuiString getKampftechnik() const;
 
         virtual const rl::Property getProperty(const rl::CeGuiString& key) const;
-        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual void setProperty(const rl::CeGuiString& key, const rl::Property& value);
         virtual rl::PropertyKeys getAllPropertyKeys() const;
         
         virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
@@ -537,7 +537,7 @@ namespace rl {
         virtual ~Armor();
 
         virtual const rl::Property getProperty(const rl::CeGuiString& key) const;
-        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual void setProperty(const rl::CeGuiString& key, const rl::Property& value);
         virtual rl::PropertyKeys getAllPropertyKeys() const;
         
         virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
@@ -561,7 +561,7 @@ namespace rl {
         rl::Item* getItemAt(unsigned int x, unsigned int y);
 
         virtual const rl::Property getProperty(const rl::CeGuiString& key) const;
-        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual void setProperty(const rl::CeGuiString& key, const rl::Property& value);
         virtual rl::PropertyKeys getAllPropertyKeys() const;
         
         virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
@@ -638,7 +638,7 @@ namespace rl {
         virtual int getMod(rl::CeGuiString target, ModType type, ModTag tag);
 
         virtual const rl::Property getProperty(const rl::CeGuiString& key) const;
-        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual void setProperty(const rl::CeGuiString& key, const rl::Property& value);
         virtual rl::PropertyKeys getAllPropertyKeys() const;
     };
 
@@ -758,7 +758,7 @@ namespace rl {
         static const int AUDAMAGE_DROWN = 8;
 
         virtual const rl::Property getProperty(const rl::CeGuiString& key) const;
-        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual void setProperty(const rl::CeGuiString& key, const rl::Property& value);
 
         void setAlignment(Alignment);
         Alignment getAlignment() const;
@@ -780,7 +780,7 @@ namespace rl {
         void setProfession(rl::CeGuiString profession);
 
         virtual const rl::Property getProperty(const rl::CeGuiString& key) const;
-        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual void setProperty(const rl::CeGuiString& key, const rl::Property& value);
         virtual rl::PropertyKeys getAllPropertyKeys() const;
         
         virtual void onStateChange(GameObjectState oldState, GameObjectState newState);

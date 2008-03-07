@@ -981,7 +981,7 @@ public:
 	virtual bool deleteIfZoneDestroyed() const;
 	const Ogre::String& getName() const;
     virtual const rl::Property getProperty(const rl::CeGuiString& key) const;
-    virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+    virtual void setProperty(const rl::CeGuiString& key, const rl::Property& value);
     virtual rl::PropertyKeys getAllPropertyKeys() const;
 };
 
