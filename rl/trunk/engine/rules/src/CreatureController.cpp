@@ -1677,16 +1677,12 @@ LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
             TimeSourceManager::getSingleton().getTimeSource(TimeSource::REALTIME_INTERRUPTABLE)->getClock()
             - mLastFloorContact2;
         Vector3 speed = getVelocity();
-        std::ostringstream oss;
-        oss << "Speed in y-Richtung: " << speed.y;
-        oss << "   Zeit seit letztem Kontakt: " << timeSinceLastFloorContact / (Time(Date::ONE_SECOND)/1.0);
         if( getAbstractLocation() == AL_AIRBORNE )
         {
             // find a reason why we now are AL_FLOOR
             if( timeSinceLastFloorContact < Time(Date::ONE_SECOND)*0.09 &&
                 -speed.y < 0.4 )
             {
-                oss << "     set to floor";
                 setAbstractLocation(AL_FLOOR);
             }
         }
@@ -1696,11 +1692,9 @@ LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
             if( timeSinceLastFloorContact >= Time(Date::ONE_SECOND*0.1) && // 2 seconds?
                 -speed.y > 0.4 )
             {
-                oss << "     set to air";
                 setAbstractLocation(AL_AIRBORNE);
             }
         }
-        LOG_MESSAGE(Logger::RULES, oss.str());
 
         if(mMovement != NULL)
         {
