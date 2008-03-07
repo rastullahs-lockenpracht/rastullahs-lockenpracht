@@ -64,11 +64,16 @@ public class SceneConverter
 		
 		if (outfile == null)
 		{
-			File in = new File(infile);
+			File in = new File( infile );
 			String inname = in.getName();
-			String dirname = in.getParentFile().getAbsolutePath();
+			
+			String dirname = "";
+			
+			if( in.getParentFile() != null )
+				dirname = in.getParentFile().getAbsolutePath() + "/";
+				
 			outfile = inname.substring(0, inname.lastIndexOf(".")) + "_out.xml";
-			outfile = dirname+"/"+outfile;
+			outfile = dirname+outfile;
 		}
 		
 		ISceneLoader sceneLoader = new SceneFormat3Loader();

@@ -29,7 +29,7 @@ public static boolean fromMeshToXML(String converterpath, String filepath){
 		System.out.println("Fehler beim Aufruf des Konverters!");
 		e.printStackTrace();
 	} catch (InterruptedException e) {
-		System.out.println("Fehler bei der Ausführung des Konverters!");
+		System.out.println("Fehler bei der AusfÃ¼hrung des Konverters!");
 		e.printStackTrace();
 	}
 	return (exitVal == 0);
@@ -45,7 +45,7 @@ public static boolean fromXMLToMesh(String converterpath, String xmlpath){
 		System.out.println("Fehler beim Aufruf des Konverters!");
 		e.printStackTrace();
 	} catch (InterruptedException e) {
-		System.out.println("Fehler bei der Ausführung des Konverters!");
+		System.out.println("Fehler bei der AusfÃ¼hrung des Konverters!");
 		e.printStackTrace();
 	}
 	

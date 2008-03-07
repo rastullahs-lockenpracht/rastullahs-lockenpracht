@@ -163,7 +163,7 @@ public class MeshLoader extends XMLLoader {
 
 		Element meshElem = (Element) doc.getElementsByTagName("mesh").item(0);
 		Mesh mesh = new Mesh();
-		// TODO Sowohl die VertexBuffer innerhalb als auch die auﬂerhalb von
+		// TODO Sowohl die VertexBuffer innerhalb als auch die au√üerhalb von
 		// Submeshes sind mit vertexbuffer getagged.
 		// NodeList vertexBufferList =
 		// meshElem.getElementsByTagName("vertexbuffer");

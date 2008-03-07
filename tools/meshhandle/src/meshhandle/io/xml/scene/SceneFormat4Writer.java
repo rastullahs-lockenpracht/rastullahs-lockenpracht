@@ -40,7 +40,7 @@ public class SceneFormat4Writer extends AbstractSceneWriter
 			name = "entity_" + (mEntities++);
 		}
 		mOutput.append(" name=\"" + name + "\"");
-		mOutput.append(" meshFile=\"" + entity.getMeshFile() + "\"");
+		mOutput.append(" meshfile=\"" + entity.getMeshFile() + "\"");
 		if (entity.getCastShadow() != null)
 		{
 			mOutput.append(" castShadows=\"" + entity.getCastShadow() + "\"");
