@@ -1466,7 +1466,8 @@ LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
         mLastCollisionName(""),
         mLastAnimationSpeed(1),
         mStillWeightedAnimationName(""),
-        mLastFloorContact(TimeSourceManager::getSingleton().getTimeSource(TimeSource::REALTIME_INTERRUPTABLE)->getClock())
+        mLastFloorContact(TimeSourceManager::getSingleton().getTimeSource(TimeSource::REALTIME_INTERRUPTABLE)->getClock()),
+        mLastFloorContact2(mLastFloorContact)
     {
         mGameObjectId = mCreature->getId();
 
@@ -1672,8 +1673,34 @@ LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
         Time timeSinceLastFloorContact = 
             TimeSourceManager::getSingleton().getTimeSource(TimeSource::REALTIME_INTERRUPTABLE)->getClock()
             - mLastFloorContact;
-        if(timeSinceLastFloorContact >= Time(Date::ONE_SECOND*2) || getAbstractLocation() == AL_AIRBORNE) // 2 seconds?
+        Time timeSinceLastFloorContact2 = 
+            TimeSourceManager::getSingleton().getTimeSource(TimeSource::REALTIME_INTERRUPTABLE)->getClock()
+            - mLastFloorContact2;
+        Vector3 speed = getVelocity();
+        std::ostringstream oss;
+        oss << "Speed in y-Richtung: " << speed.y;
+        oss << "   Zeit seit letztem Kontakt: " << timeSinceLastFloorContact / (Time(Date::ONE_SECOND)/1.0);
+        if( getAbstractLocation() == AL_AIRBORNE )
+        {
+            // find a reason why we now are AL_FLOOR
+            if( timeSinceLastFloorContact < Time(Date::ONE_SECOND)*0.09 &&
+                -speed.y < 0.4 )
+            {
+                oss << "     set to floor";
+                setAbstractLocation(AL_FLOOR);
+            }
+        }
+        else
+        {
+            // find a reason why we now are AL_AIRBORNE
+            if( timeSinceLastFloorContact >= Time(Date::ONE_SECOND*0.1) && // 2 seconds?
+                -speed.y > 0.4 )
+            {
+                oss << "     set to air";
                 setAbstractLocation(AL_AIRBORNE);
+            }
+        }
+        LOG_MESSAGE(Logger::RULES, oss.str());
 
         if(mMovement != NULL)
         {
@@ -1737,16 +1764,25 @@ LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
         mCreature->getActor()->getPhysicalThing()->_getBody()->getPositionOrientation(charPos, charOri);
         bool isFloorCollision(false);
 
-        //AxisAlignedBox CharAab = mCharBody->getCollision()->getAABB();
-        //Real charHeight = CharAab.getMaximum().y - CharAab.getMinimum().y;
+        AxisAlignedBox CharAab = mCreature->getActor()->getPhysicalThing()->_getBody()->getCollision()->getAABB();
+        Real charHeight = CharAab.getMaximum().y - CharAab.getMinimum().y;
         Real stepHeight = point.y - charPos.y;
 
-        if( stepHeight < 0.4f )
+        if( stepHeight < charHeight/2 )
             isFloorCollision = true;
 
         if ( isFloorCollision )
         {
-            setAbstractLocation(AL_FLOOR);
+            Time time = TimeSourceManager::getSingleton().getTimeSource(TimeSource::REALTIME_INTERRUPTABLE)->getClock();
+            if( time != mLastFloorContact )
+            {
+                mLastFloorContact2 = mLastFloorContact;
+                mLastFloorContact = time;
+            }
+        }
+
+        if( stepHeight < 0.4 )
+        {
             if(stepHeight > 0.05f) // experimantal value, 
                                    // too low means the creature glides upwards on inclined planes, 
                                    // too high means the creature stops if moving slowly onto a step because of the friction
@@ -1764,7 +1800,6 @@ LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
             }
             //setContactTangentAcceleration(5);
             //setContactElasticity(0.0f);
-            mLastFloorContact = TimeSourceManager::getSingleton().getTimeSource(TimeSource::REALTIME_INTERRUPTABLE)->getClock();
         }
         else
         {

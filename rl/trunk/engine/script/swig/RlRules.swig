@@ -530,8 +530,8 @@ namespace rl {
     {
     public:
     
-        static const Ogre::String Armor::PROPERTY_G_BE = "g_be";
-        static const Ogre::String Armor::PROPERTY_G_RS = "g_rs";
+        static const CeGuiString Armor::PROPERTY_G_BE = "g_be";
+        static const CeGuiString Armor::PROPERTY_G_RS = "g_rs";
         
         Armor(unsigned int id);
         virtual ~Armor();
@@ -637,9 +637,9 @@ namespace rl {
         virtual Status getStatus();
         virtual int getMod(rl::CeGuiString target, ModType type, ModTag tag);
 
-        virtual const rl::Property getProperty(const rl::CeGuiString& key) const = 0;
-        virtual void setProperty(const Ogre::String& key, const rl::Property& value) = 0;
-        virtual rl::PropertyKeys getAllPropertyKeys() const = 0;
+        virtual const rl::Property getProperty(const rl::CeGuiString& key) const;
+        virtual void setProperty(const Ogre::String& key, const rl::Property& value);
+        virtual rl::PropertyKeys getAllPropertyKeys() const;
     };
 
     class EffectFactory

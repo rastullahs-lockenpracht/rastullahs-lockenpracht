@@ -119,7 +119,7 @@ namespace rl
         //{
             LOG_WARNING(
                 Logger::RULES,
-                key + " is not a property of this GameObject ("+mName+")");
+                key + " is not a property of this Effect ("+mName+")");
         //}
     }
 

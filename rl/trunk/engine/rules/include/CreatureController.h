@@ -177,6 +177,7 @@ namespace rl
 
         // only used in userProcess
         Time mLastFloorContact;
+        Time mLastFloorContact2;
 
         // used to reset the material
         const OgreNewt::MaterialID *mOldMaterialId;
