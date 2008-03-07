@@ -23,6 +23,7 @@
 #include "EffectFactory.h"
 #include "EffectManagementTask.h"
 #include "GameEventLog.h"
+#include "GameLoop.h"
 #include "Logger.h"
 #include "CreatureControllerManager.h"
 #include "GameObjectManager.h"
@@ -69,6 +70,8 @@ namespace rl
         mGlobalProperties = new GlobalProperties();
 
         mEffectManagementTask = new EffectManagementTask();
+        GameLoop::getSingleton().addTask(
+            mEffectManagementTask, GameLoop::TG_LOGIC);
 
 		//Daten laden
 		mXdimlLoader = new XdimlLoader();
@@ -81,6 +84,8 @@ namespace rl
 
 	RulesSubsystem::~RulesSubsystem()
     {
+        GameLoop::getSingleton().removeTask(mEffectManagementTask);
+        delete mEffectManagementTask;
         delete mGlobalProperties;
         if(mQuestBook)
             Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(mQuestBook);
