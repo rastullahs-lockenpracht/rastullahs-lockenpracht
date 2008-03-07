@@ -28,6 +28,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
 import javax.xml.parsers.ParserConfigurationException;
 
 import meshhandle.PropertyManager;
@@ -90,21 +91,21 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 		SpringLayout layout = new SpringLayout();
 		configPanel.setLayout(layout);
 
-		JLabel converterLbl = new JLabel("OgreXmlConverter: ", JLabel.TRAILING);
+		JLabel converterLbl = new JLabel("OgreXmlConverter: ", SwingConstants.TRAILING);
 		converterPathField = new JTextField(Integer.MAX_VALUE);
 		converterPathField.setEditable(false);
 		converterLbl.setLabelFor(converterPathField);
-		JButton changeConverterBtn = new JButton("Ändern..");
+		JButton changeConverterBtn = new JButton("Ã„ndern..");
 		configPanel.add(changeConverterBtn);
 		configPanel.add(converterLbl);
 		configPanel.add(converterPathField);
 
 		JLabel moduleLbl = new JLabel("Modul-Unterverzeichnis: ",
-				JLabel.TRAILING);
+				SwingConstants.TRAILING);
 		moduleDirField = new JTextField(Integer.MAX_VALUE);
 		moduleDirField.setEditable(false);
 		moduleLbl.setLabelFor(moduleDirField);
-		JButton changeModuleBtn = new JButton("Ändern..");
+		JButton changeModuleBtn = new JButton("Ã„ndern..");
 		configPanel.add(changeModuleBtn);
 		configPanel.add(moduleLbl);
 		configPanel.add(moduleDirField);
@@ -186,7 +187,7 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 		polyPanel.setLayout(new BoxLayout(polyPanel, BoxLayout.X_AXIS));
 
 		JLabel modelTriNumberLbl = new JLabel("Triangle count: ",
-				JLabel.TRAILING);
+				SwingConstants.TRAILING);
 		modelTriangleCountField = new JTextField(7);
 		modelTriangleCountField.setEditable(false);
 		modelTriNumberLbl.setLabelFor(modelTriangleCountField);
@@ -199,14 +200,14 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 		skeletonPanel = new JPanel();
 		skeletonPanel.setLayout(new BoxLayout(skeletonPanel, BoxLayout.X_AXIS));
 
-		JLabel modelSkeletonLbl = new JLabel("Skeleton-Link: ", JLabel.TRAILING);
+		JLabel modelSkeletonLbl = new JLabel("Skeleton-Link: ", SwingConstants.TRAILING);
 		modelHasSkeletonField = new JTextField(20);
 		modelHasSkeletonField.setEditable(false);
 		modelSkeletonLbl.setLabelFor(modelHasSkeletonField);
 		skeletonPanel.add(modelSkeletonLbl);
 		skeletonPanel.add(modelHasSkeletonField);
 		modelDetailsPanel.add(skeletonPanel);
-		JButton renameSkel = new JButton("Ändern");
+		JButton renameSkel = new JButton("Ã„ndern");
 		skeletonPanel.add(renameSkel);
 		layout.putConstraint(SpringLayout.NORTH, skeletonPanel, 10,
 				SpringLayout.SOUTH, polyPanel);
@@ -225,7 +226,7 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 		modelMeasures.setEditable(false);
 		modelMeasures.setPreferredSize(new Dimension(300, 100));
 		modelMeasures.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createTitledBorder("Ausmaße"), BorderFactory
+				BorderFactory.createTitledBorder("AusmaÃŸe"), BorderFactory
 						.createEmptyBorder(5, 5, 5, 5)));
 		modelDetailsPanel.add(modelMeasures);
 		layout.putConstraint(SpringLayout.NORTH, modelMeasures, 10,
@@ -235,7 +236,7 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 		factorPanel.setLayout(new BoxLayout(factorPanel, BoxLayout.X_AXIS));
 
 		JButton scaleBtn = new JButton("Skalieren");
-		JLabel factorLabel = new JLabel("Skalieren um: ", JLabel.TRAILING);
+		JLabel factorLabel = new JLabel("Skalieren um: ", SwingConstants.TRAILING);
 		factorField = new JFormattedTextField(NumberFormat
 				.getNumberInstance(Locale.ENGLISH));
 		factorField.setColumns(10);
@@ -289,7 +290,7 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 		// and controls to change both
 		// Wovon ist hier die Rede.
 
-		// Den Buttons wird ihre Funktionalität zugewiesen.
+		// Den Buttons wird ihre Funktionalitï¿½t zugewiesen.
 		changeModuleBtn.setActionCommand("ChangeModuleDirectory");
 		changeModuleBtn.addActionListener(this);
 

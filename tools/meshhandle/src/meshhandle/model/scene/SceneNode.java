@@ -82,10 +82,8 @@ public class SceneNode
 		{
 			return mName;
 		}
-		else
-		{
-			return "n.n.";
-		}
+
+		return "n.n.";
 	}
 
 	public void setPhysicsProxy(String proxyType)

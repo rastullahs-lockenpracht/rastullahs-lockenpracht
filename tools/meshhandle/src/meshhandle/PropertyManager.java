@@ -105,7 +105,8 @@ public class PropertyManager {
 			ogredir = ogretools.getSelectedFile().getAbsolutePath();
 		return true;
 		}
-		else return false;
+	
+		return false;
 	}
 
 	private void write() {

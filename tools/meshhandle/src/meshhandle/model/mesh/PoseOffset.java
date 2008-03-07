@@ -32,8 +32,9 @@ public class PoseOffset {
 		return z;
 	}
 
-	private float round(float y) {
-		return Math.abs(y) < 1E-5 ? 0 : y;
+	private float round(float py) 
+	{
+		return Math.abs(py) < 1E-5 ? 0 : py;
 	}
 
 	public void scale(float factor) {
@@ -42,20 +43,20 @@ public class PoseOffset {
 		this.setZ(round(getZ() * factor));
 	}
 
-	public void setIndex(String index) {
-		this.index = index;
+	public void setIndex(String pindex) {
+		this.index = pindex;
 	}
 
-	public void setX(Float x) {
-		this.x = x;
+	public void setX(Float px) {
+		this.x = px;
 	}
 
-	public void setY(Float y) {
-		this.y = y;
+	public void setY(Float py) {
+		this.y = py;
 	}
 
-	public void setZ(Float z) {
-		this.z = z;
+	public void setZ(Float pz) {
+		this.z = pz;
 	}
 
 	public Object toXML() {

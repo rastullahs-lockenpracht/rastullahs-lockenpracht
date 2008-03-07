@@ -39,6 +39,7 @@ public class Entity extends SceneNode
 		return mId;
 	}
 
+	@Override
 	public void setId(String id)
 	{
 		mId = id;

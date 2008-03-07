@@ -47,7 +47,7 @@ public class ModuleTreeBuilder
 		for (Module mod : mModules)
 		{
 			DefaultMutableTreeNode modNode = findModuleNode(mod);
-			for (Enumeration childEnum = modNode.children(); childEnum.hasMoreElements();)
+			for (Enumeration<?> childEnum = modNode.children(); childEnum.hasMoreElements();)
 			{
 				MeshTreeNode curChild = (MeshTreeNode)childEnum.nextElement();
 				MeshTreeNode duplicate = findMeshNode(allMeshes, curChild.getMeshFile());
@@ -94,7 +94,7 @@ public class ModuleTreeBuilder
 
 	private DefaultMutableTreeNode findModuleNode(Module mod)
 	{		
-		for(Enumeration modNodeEnum = mRootNode.children(); modNodeEnum.hasMoreElements();)
+		for(Enumeration<?> modNodeEnum = mRootNode.children(); modNodeEnum.hasMoreElements();)
 		{
 			DefaultMutableTreeNode cur = (DefaultMutableTreeNode)modNodeEnum.nextElement();
 			if (cur.getUserObject().equals(mod))
