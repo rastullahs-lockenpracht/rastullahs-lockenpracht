@@ -22,7 +22,7 @@
 
 namespace rl
 {
-    DialogElement::DialogElement(int id)
+    DialogElement::DialogElement(const CeGuiString& id)
         : mId(id)
     {
     }
@@ -36,7 +36,7 @@ namespace rl
         }
     }
 
-    int DialogElement::getId() const
+    const CeGuiString& DialogElement::getId() const
     {
         return mId;
     }

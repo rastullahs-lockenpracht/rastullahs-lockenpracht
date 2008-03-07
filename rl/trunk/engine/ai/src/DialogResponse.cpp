@@ -23,7 +23,7 @@
 
 namespace rl
 {
-	DialogResponse::DialogResponse(int id, int npcId)
+	DialogResponse::DialogResponse(const CeGuiString& id, int npcId)
         : DialogElement(id), mNpcId(npcId)
     {
     }
@@ -82,7 +82,7 @@ namespace rl
         return dialog->getNpc(mNpcId);
     }
 
-    DialogResponseSelection::DialogResponseSelection(int id)
+    DialogResponseSelection::DialogResponseSelection(const CeGuiString& id)
         : DialogSelection<DialogResponse>(id)
     {
     }

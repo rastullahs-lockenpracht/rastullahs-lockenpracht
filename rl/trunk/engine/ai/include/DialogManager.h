@@ -72,17 +72,17 @@ namespace rl
         {
         public:
             void addOption(DialogOption* option);
-            DialogOption* getOption(int id) const;
+            DialogOption* getOption(const CeGuiString& id) const;
             void addResponse(DialogResponse* option);
-            DialogResponse* getResponse(int id) const;
+            DialogResponse* getResponse(const CeGuiString& id) const;
 
             void setStartResponse(DialogResponse* response);
             Dialog* createDialog(const std::vector<Creature*>& pcs, const std::vector<Creature*>& npcs);
             void setProperty(const CeGuiString& key, const Property& value);
 
         private:
-            std::map<int, DialogOption*> mOptionCache;
-            std::map<int, DialogResponse*> mResponseCache;
+            std::map<CeGuiString, DialogOption*> mOptionCache;
+            std::map<CeGuiString, DialogResponse*> mResponseCache;
             DialogResponse* mDialogStart;
             PropertyRecord mPropertyVariables;
         };

@@ -29,17 +29,17 @@ namespace rl
     class _RlAiExport DialogElement
     {
     public:
-        int getId() const;
+        const CeGuiString& getId() const;
         void addParagraph(DialogParagraph* paragraph);
         virtual std::list<DialogParagraph*> getParagraphs(Dialog* dialog);
 		virtual bool isSelection() const;
 
     protected:
-        DialogElement(int id);
+        DialogElement(const CeGuiString& id);
         virtual ~DialogElement();
 
     private:
-        int mId;
+        CeGuiString mId;
         std::list<DialogParagraph*> mParagraphs;
     };
 
@@ -47,7 +47,7 @@ namespace rl
     class DialogSelection : public DialogElementType
     {
     public:
-        DialogSelection(int id)
+        DialogSelection(const CeGuiString& id)
             : DialogElementType(id, false), mVariable(NULL)
         {
         }
@@ -69,7 +69,7 @@ namespace rl
             
         virtual const CeGuiString& getConditionVariableType()
         {
-            RlAssert(mVariable, "No variable found for option with id: " + DialogElementType::getId()); 
+            RlAssert(mVariable, CeGuiString("No variable found for option with id: " + DialogElementType::getId()).c_str()); 
             return mVariable->getType();
         }
 

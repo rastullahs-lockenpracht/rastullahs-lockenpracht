@@ -36,7 +36,7 @@ namespace rl
         typedef std::vector<DialogOption*> Options;
         typedef std::vector<DialogImplication*> Implications;
 
-        DialogResponse(int id, int npcId = 0);
+        DialogResponse(const CeGuiString& id, int npcId = 0);
         virtual ~DialogResponse();
 
 
@@ -58,7 +58,7 @@ namespace rl
     class DialogResponseSelection : public DialogSelection<DialogResponse>
     {
     public:
-        DialogResponseSelection(int id);
+        DialogResponseSelection(const CeGuiString& id);
         virtual const Options& getOptions(Dialog* dialog) const;
     };
 

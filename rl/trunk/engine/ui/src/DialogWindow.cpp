@@ -123,7 +123,6 @@ namespace rl {
                     text += " [E] ";
                 }
             }
-            text.c_str();
 
 			if (optionCount < mDialogOptions->getItemCount())
 			{

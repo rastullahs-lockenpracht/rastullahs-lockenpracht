@@ -218,7 +218,7 @@ namespace rl
             {
                 Throw(WrongFormatException, "option/switchoption/response/switchresponse node without id found");
             }
-            int id = getAttributeValueAsInteger(dialogElemXml, "id");
+            CeGuiString id = getAttributeValueAsString(dialogElemXml, "id");
             CeGuiString text = getValueAsString(dialogElemXml);
 
             if (hasNodeName(dialogElemXml, "switchoption"))
@@ -273,10 +273,11 @@ namespace rl
 
     DialogResponse* DialogManager::processResponse(DOMElement *responseXml, DialogManager::DialogPrototype *dialogPrototype, bool subelements)
     {
-        int id = getAttributeValueAsInteger(responseXml, "id");
+        CeGuiString id = getAttributeValueAsString(responseXml, "id");
+
         DialogResponse* response = dialogPrototype->getResponse(id);
 
-        if (!response)  Throw(IllegalArgumentException, "No response with ID "+StringConverter::toString(id));
+        if (!response)  Throw(IllegalArgumentException, CeGuiString("No response with ID "+ id).c_str());
         
         bool languageDefined = false;
         DOMElement* defaultLanguage = NULL;
@@ -325,7 +326,7 @@ namespace rl
                 }
                 else if (hasNodeName(cur, "gotoresponse"))
                 {
-                    int id = getAttributeValueAsInteger(static_cast<DOMElement*>(cur), "id");
+                    CeGuiString id = getAttributeValueAsString(static_cast<DOMElement*>(cur), "id");
                     response->addParagraph(new DialogGotoResponse(dialogPrototype->getResponse(id)));
                 }
             }
@@ -350,10 +351,10 @@ namespace rl
 
     DialogResponse* DialogManager::processSwitchResponse(XERCES_CPP_NAMESPACE::DOMElement* switchRespXml, DialogPrototype* dialogPrototype)
     {
-        int id = getAttributeValueAsInteger(switchRespXml, "id");
+        CeGuiString id = getAttributeValueAsString(switchRespXml, "id");
         DialogSelection<DialogResponse>* response = dynamic_cast<DialogSelection<DialogResponse>*>(dialogPrototype->getResponse(id));
 
-        if (!response)  Throw(IllegalArgumentException, "No switchresponse with ID "+StringConverter::toString(id));
+        if (!response)  Throw(IllegalArgumentException, CeGuiString("No switchresponse with ID "+ id).c_str());
 
         for (DOMNode* cur = switchRespXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
         {
@@ -401,10 +402,11 @@ namespace rl
 
     DialogOption* DialogManager::processOption(DOMElement *optionXml, DialogManager::DialogPrototype *dialogPrototype, bool subelements)
     {
-        int id = getAttributeValueAsInteger(optionXml, "id");
+        CeGuiString id = getAttributeValueAsString(optionXml, "id");
+
         DialogOption* option = dialogPrototype->getOption(id);
 
-        if (!option)    Throw(IllegalArgumentException, "No option with ID "+StringConverter::toString(id));
+        if (!option)    Throw(IllegalArgumentException, CeGuiString("No option with ID "+ id).c_str());
 
         bool languageDefined = false;
         DOMElement* defaultLanguage = NULL;
@@ -480,10 +482,10 @@ namespace rl
 
     DialogOption* DialogManager::processSwitchOption(DOMElement *switchOptXml, DialogManager::DialogPrototype *dialogPrototype)
     {
-        int id = getAttributeValueAsInteger(switchOptXml, "id");
+        CeGuiString id = getAttributeValueAsString(switchOptXml, "id");
         DialogOptionSelection* option = dynamic_cast<DialogOptionSelection*>(dialogPrototype->getOption(id));
 
-        if (!option) Throw(IllegalArgumentException, "No switchoption with ID "+StringConverter::toString(id));
+        if (!option) Throw(IllegalArgumentException, CeGuiString("No switchoption with ID "+ id).c_str());
 
         for (DOMNode* cur = switchOptXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
         {
@@ -630,14 +632,14 @@ namespace rl
         if (mOptionCache.find(option->getId()) != mOptionCache.end())
         {
             Throw(IllegalArgumentException, 
-                "Duplicate option/switchoption ID "+Ogre::StringConverter::toString(option->getId()));
+                CeGuiString("Duplicate option/switchoption ID "+ option->getId()).c_str());
         }
         mOptionCache[option->getId()] = option;
     }
 
-    DialogOption* DialogManager::DialogPrototype::getOption(int id) const
+    DialogOption* DialogManager::DialogPrototype::getOption(const CeGuiString& id) const
     {
-        std::map<int, DialogOption*>::const_iterator it = mOptionCache.find(id);
+        std::map<CeGuiString, DialogOption*>::const_iterator it = mOptionCache.find(id);
         if (it == mOptionCache.end())
         {
             return NULL;
@@ -650,14 +652,14 @@ namespace rl
         if (mResponseCache.find(response->getId()) != mResponseCache.end())
         {
             Throw(IllegalArgumentException, 
-                "Duplicate Response/switchResponse ID "+Ogre::StringConverter::toString(response->getId()));
+                CeGuiString("Duplicate Response/switchResponse ID "+ response->getId()).c_str());
         }
         mResponseCache[response->getId()] = response;
     }
 
-    DialogResponse* DialogManager::DialogPrototype::getResponse(int id) const
+    DialogResponse* DialogManager::DialogPrototype::getResponse(const CeGuiString& id) const
     {
-        std::map<int, DialogResponse*>::const_iterator it = mResponseCache.find(id);
+        std::map<CeGuiString, DialogResponse*>::const_iterator it = mResponseCache.find(id);
         if (it == mResponseCache.end())
         {
             return NULL;

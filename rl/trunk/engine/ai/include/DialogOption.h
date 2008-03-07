@@ -33,7 +33,7 @@ namespace rl
     class _RlAiExport DialogOption : public DialogElement
     {
     public:
-        DialogOption(int id, bool isAutoSelected);
+        DialogOption(const CeGuiString& id, bool isAutoSelected);
         ~DialogOption();
 
 
