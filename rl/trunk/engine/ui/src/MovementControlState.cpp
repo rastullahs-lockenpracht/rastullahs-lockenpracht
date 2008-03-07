@@ -1151,7 +1151,7 @@ namespace rl {
         AxisAlignedBox aabb;
         try
         {
-            aabb = charMesh->getPoseSize("Idle");
+			aabb = charMesh->getPoseSize(mCharacter->getAnimation("stehen").first);
         }
         catch(...)
         {
