@@ -3,6 +3,8 @@ class Ruestung < Effect
     super(stufe);
     setName("Ruestung");
     setDescription("Ruestungsschutz verringert den erlittenen Schaden.");
+    @_prop_g_rs = 0
+    @_prop_g_be = 0
   end
 
   def setProperty(name, value)
