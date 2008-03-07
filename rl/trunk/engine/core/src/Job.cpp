@@ -132,10 +132,9 @@ namespace rl
 
     const Property Job::getProperty(const CeGuiString& key) const
     {
-        Property prop;
         if( key == "timesource" )
         {
-            prop.setValue((int)mTimeSource);
+            return Property((int)mTimeSource);
         }
          
         return AbstractJob::getProperty(key);
