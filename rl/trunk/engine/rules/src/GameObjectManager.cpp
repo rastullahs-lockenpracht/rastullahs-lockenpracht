@@ -94,9 +94,9 @@ namespace rl
         return NULL;
     }
 
-    std::list<const GameObject*> GameObjectManager::getAllGameObjects() const
+    std::list<GameObject*> GameObjectManager::getAllGameObjects() const
     {
-        std::list<const GameObject*> gos;
+        std::list<GameObject*> gos;
         std::map<unsigned int, GameObject*>::const_iterator it;
 
         //
@@ -307,9 +307,9 @@ namespace rl
         LOG_MESSAGE(Logger::RULES, "Saving Game Objects");
         DOMElement* gameobjects = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
 
-        std::list<const GameObject*> gos = getAllGameObjects();
+        std::list<GameObject*> gos = getAllGameObjects();
 
-		for(std::list<const GameObject*>::const_iterator it_gameobjects = gos.begin(); it_gameobjects != gos.end(); it_gameobjects++)
+		for(std::list<GameObject*>::const_iterator it_gameobjects = gos.begin(); it_gameobjects != gos.end(); it_gameobjects++)
         {
             DOMElement* gameobject = writer->appendChildElement(writer->getDocument(), gameobjects, "gameobject");
             writer->setAttributeValueAsInteger(gameobject, "ID", (*it_gameobjects)->getId());

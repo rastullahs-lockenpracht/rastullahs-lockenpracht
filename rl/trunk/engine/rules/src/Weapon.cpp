@@ -162,12 +162,12 @@ namespace rl
 		}
 	}
 
-	void Weapon::setKampftechnik(const CeGuiString newKampftechnik)
+	void Weapon::setKampftechnik(const CeGuiString& newKampftechnik)
 	{
 		mKampftechnik = newKampftechnik;
 	}
 
-	const CeGuiString Weapon::getKampftechnik() const
+	const CeGuiString& Weapon::getKampftechnik() const
 	{
 		return mKampftechnik;
 	}

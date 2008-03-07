@@ -30,12 +30,12 @@ namespace rl {
 
         Person(unsigned int id);
 
-        CeGuiString getRasse();
-        void setRasse(CeGuiString rasse);
-        CeGuiString getKultur();
-        void setKultur(CeGuiString kultur);
-        CeGuiString getProfession();
-        void setProfession(CeGuiString profession);
+        const CeGuiString& getRasse() const;
+        void setRasse(const CeGuiString& rasse);
+        const CeGuiString& getKultur() const;
+        void setKultur(const CeGuiString& kultur);
+        const CeGuiString& getProfession() const;
+        void setProfession(const CeGuiString& profession);
 
     private:
         CeGuiString mRasse;

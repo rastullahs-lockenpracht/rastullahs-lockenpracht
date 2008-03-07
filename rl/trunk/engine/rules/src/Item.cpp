@@ -62,12 +62,12 @@ namespace rl
 		return mItemType;
 	}
 
-	void Item::setImageName(const CeGuiString name)
+	void Item::setImageName(const CeGuiString& name)
 	{
 		mImageName = name;
 	}
 
-	const CeGuiString Item::getImageName() const
+	const CeGuiString& Item::getImageName() const
 	{
 		return mImageName;
 	}
@@ -253,12 +253,12 @@ namespace rl
         return mParentContainer;
     }
 
-    const CeGuiString Item::getSubmeshName() const
+    const CeGuiString& Item::getSubmeshName() const
     {
         return mSubmeshName;
     }
 
-    void Item::setSubmeshName(const CeGuiString &name)
+    void Item::setSubmeshName(const CeGuiString& name)
     {
         mSubmeshName = name;
     }

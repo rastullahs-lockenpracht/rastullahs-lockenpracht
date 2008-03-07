@@ -27,10 +27,11 @@ namespace rl
     class CombatManager;
     class CreatureControllerManager;
     class DsaManager;
+    class EffectManagementTask;
 	class GameEventLog;
+    class GlobalProperties;
 	class QuestBook;
     class XdimlLoader;
-    class GlobalProperties;
 
 	class _RlRulesExport RulesSubsystem : public Ogre::Singleton<RulesSubsystem>
     {
@@ -50,6 +51,7 @@ namespace rl
         CreatureControllerManager *mMovingCreatureManager;
         XdimlLoader* mXdimlLoader;
         GlobalProperties* mGlobalProperties;
+        EffectManagementTask* mEffectManagementTask;
     };
 }
 

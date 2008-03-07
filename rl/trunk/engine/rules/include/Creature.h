@@ -193,11 +193,11 @@ namespace rl
             /**
              *  Returns the current @ref abbdel "LE" of the creature.
              **/
-            virtual int getLe();
+            virtual int getLe() const;
             /**
              *  Returns the maximum @ref abbdel "LE" the creature can have.
              **/
-            virtual int getLeMax();
+            virtual int getLeMax() const;
 
             /**
              *  Veraendert die aktuelle @ref abbdea "AE" der Kreatur.
@@ -211,11 +211,11 @@ namespace rl
             /**
              *  Gibt die aktuelle @ref abbdea "AE" der Kreatur zurueck.
              **/
-            virtual int getAe();
+            virtual int getAe() const;
             /**
              *  Gibt die maximale Anzahl an @ref abbdea "AE" zurueck, die die Kreatur haben kann.
              **/
-            virtual int getAeMax();
+            virtual int getAeMax() const;
 
             /**
              *  Veraendert die aktuelle @ref abbdea "AU" der Kreatur.
@@ -229,28 +229,28 @@ namespace rl
             /**
              *  Gibt die aktuelle @ref abbdea "AU" der Kreatur zurueck.
              **/
-            virtual float getAu();
+            virtual float getAu() const;
             /**
              *  Gibt die maximale Anzahl an @ref abbdea "AE" zurueck, die die Kreatur haben kann.
              **/
-            virtual int getAuMax();
+            virtual int getAuMax() const;
 
             /**
              *  Berechnet den @ref abbdea "AT"-Basiswert der Kreatur.
              **/
-            virtual int getAttackeBasis();
+            virtual int getAttackeBasis() const;
             /**
              *  Berechnet den @ref abbdep "PA"-Basiswert der Kreatur.
              **/
-            virtual int getParadeBasis();
+            virtual int getParadeBasis() const;
             /**
              *  Berechnet den @ref abbdef "FK"-Basiswert der Kreatur.
              **/
-            virtual int getFernkampfBasis();
+            virtual int getFernkampfBasis() const;
             /**
              *  Berechnet den @ref abbdei "INI"-Basiswert der Kreatur.
              **/
-            virtual int getInitiativeBasis();
+            virtual int getInitiativeBasis() const;
 
             /**
              *  Setzt den Basiswert \a wertId auf \a value.
@@ -269,7 +269,7 @@ namespace rl
              *  @throws InvalidArgumentException wertId konnte in mWerte nicht
              *    gefunden werden.
              **/
-            virtual int getWert(Wert wertId, bool getUnmodified = false);
+            virtual int getWert(Wert wertId, bool getUnmodified = false) const;
 
             /**
              *  Gibt der Kreatur @ref abbddea "AP".
@@ -279,7 +279,7 @@ namespace rl
             /**
              *  Liefert die Gesamtzahl der @ref abbdea "AP" zurueck.
              **/
-            int getAp();
+            int getAp() const;
             /**
              *  Veraendert die verbrauchten @ref abbdea "AP", wird beim Steigern
              *  aufgerufen.
@@ -289,7 +289,7 @@ namespace rl
             /**
              *  Liefert die verbrauchten @refabbdea "AP" zurueck.
              **/
-            int getUsedAp();
+            int getUsedAp() const;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -305,7 +305,7 @@ namespace rl
              *   Gross/Kleinschreibung beachtet?).
                    *  @ingroup CreatureRubyExports
              **/
-			virtual int getEigenschaft(const CeGuiString eigenschaftName, Effect::ModTag tag = Effect::MODTAG_NONE);
+			virtual int getEigenschaft(const CeGuiString eigenschaftName, Effect::ModTag tag = Effect::MODTAG_NONE) const;
             /**
              *  Setzt den Wert der Eigenschaft \a eigenschaftName auf \a value.
              *  @param eigenschaftName Der Name als Abkuerzung (z.B. @ref abbdem "MU", 
@@ -355,9 +355,9 @@ namespace rl
               * @param talentName Bezeichnet das Talent
               * @param checkAusweichTalente Gibt an, ob ebenfalls nach Ausweichtalenten gesucht werden soll
             */
-            bool hasTalent(const CeGuiString talentName, bool checkAusweichTalente = true);
+            bool hasTalent(const CeGuiString talentName, bool checkAusweichTalente = true) const;
 
-            virtual int getTalent(const CeGuiString talentName);
+            virtual int getTalent(const CeGuiString talentName) const;
             /**
                    *  Setzt den Wert des Talents \a talentName.
              *  @param talentName Bezeichnet das zu veraendernde Talent.
@@ -442,7 +442,7 @@ namespace rl
              *  Ueberprueft ob die Kreatur einen bestimmten Vorteil hat.
              *  @param vorteilName Der Name des zu ueberpruefenden Vorteils.
              **/
-            virtual bool hasVorteil(const CeGuiString vorteilName);
+            virtual bool hasVorteil(const CeGuiString vorteilName) const;
  
 ///////////////////////////////////////////////////////////////////////////////
 // Nachteile
@@ -458,7 +458,7 @@ namespace rl
              *  Ueberprueft ob die Kreatur einen bestimmten Nachteil hat.
              *  @param nachteilName Der Name des zu ueberpruefenden Nachteils.
              **/
-            virtual bool hasNachteil(const CeGuiString nachteilName);
+            virtual bool hasNachteil(const CeGuiString nachteilName) const;
             /**
              *  Liefert das StateSet des Nachteils zurueck.
              *  Gedacht um die erforderlichen Daten von Schlechten Eigenschaften
@@ -468,7 +468,7 @@ namespace rl
              *  @throws InvalidArgumentException Der Nachteil \a nachteilName konnte
              *   nicht gefunden werden.
              **/
-            virtual int getSchlechteEigenschaft(const CeGuiString nachteilName);
+            virtual int getSchlechteEigenschaft(const CeGuiString nachteilName) const;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Sonderfertigkeiten
@@ -489,7 +489,7 @@ namespace rl
              *   \c mSonderfertigkeiten gefunden werden.
              *  @see SonderfertigkeitMap
              */
-            virtual int getSf(const CeGuiString sfName);
+            virtual int getSf(const CeGuiString sfName) const;
             /**
                    *  Setzt den Wert der @ref abbdes "SF".
              *  @param sfName Bezeichnet die Sonderfertigkeit deren Wert gesetzt
@@ -509,17 +509,17 @@ namespace rl
             *   \c mSonderfertigkeiten gefunden werden.
              *  @ingroup CreatureRubyExports
              **/
-            virtual SonderfertigkeitenStateSet* getSonderfertigkeitenStateSet(const CeGuiString sfName);
+            virtual SonderfertigkeitenStateSet* getSonderfertigkeitenStateSet(const CeGuiString sfName) const;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Status
             /**
              * Gets the status of a creature.
              **/
-			Effect::Status getStatus();
+			Effect::Status getStatus() const;
 
 
-            bool isMagic();
+            bool isMagic() const;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -705,7 +705,7 @@ namespace rl
              * Gibt an, ob die Creature mit den Händen an den Gegenstand herankommt,
              * ihn also berühren kann, mit ihm interagieren etc
             **/
-            virtual bool canReachItem(const Item* item);
+            virtual bool canReachItem(const Item* item) const;
 
             /**
              * Animations-Name und relative/absolute Abspielgeschwindigkeit fuer
@@ -723,24 +723,24 @@ namespace rl
            /**
              *  Berechnet den Basiswert von der @ref abbdea "Astralenergie".
              **/
-            virtual int getAeBasis();
+            virtual int getAeBasis() const;
             /**
              *  Berechnet den Basiswert von der @ref abbdea "Ausdauer".
              **/
-            virtual int getAuBasis();
+            virtual int getAuBasis() const;
             /**
              *  Berechnet den Basiswert von der @ref abbdel "Lebensenergie".
              **/
-            virtual int getLeBasis();
+            virtual int getLeBasis() const;
             /**
              *  Berechnet den Basiswert von der @ref abbdem "Magieresistenz".
              **/
-            virtual int getMrBasis();
+            virtual int getMrBasis() const;
             /**
              *  Liefert die derzeitge @ref abbdeb "BE" der Kreatur zurueck.
              *  Eventuelle Ruestungsgewoehnung schon beruecksichtigt
              **/
-            virtual int getCurrentBe();
+            virtual int getCurrentBe() const;
 
             /// inherited from GameObject
             virtual void doPlaceIntoScene();

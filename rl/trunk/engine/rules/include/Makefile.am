@@ -14,6 +14,7 @@ noinst_HEADERS = \
 	DsaManager.h \
 	Effect.h \
 	EffectFactory.h \
+	EffectManagementTask.h \
 	EffectManager.h \
 	Eigenschaft.h \
 	EigenschaftenStateSet.h \

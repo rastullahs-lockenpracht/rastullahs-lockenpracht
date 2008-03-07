@@ -65,8 +65,8 @@ namespace rl
 		void setDk(int newDk);
 		int getDk() const;
         bool hasDk(Distanzklasse dk) const;
-		void setKampftechnik(const CeGuiString newKampftechnik);
-		const CeGuiString getKampftechnik() const;
+		void setKampftechnik(const CeGuiString& newKampftechnik);
+		const CeGuiString& getKampftechnik() const;
 
 		/// Return minimum distance in meters where weapon can be used without penalty.
 		Ogre::Real getMinimumDistance() const;

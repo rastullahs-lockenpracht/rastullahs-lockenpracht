@@ -60,7 +60,7 @@ namespace rl
 
         GameObject* createGameObjectFromProperty(const Property& goProp);
 		Property toProperty(const GameObject* const co) const;
-        std::list<const GameObject*> getAllGameObjects() const;
+        std::list<GameObject*> getAllGameObjects() const;
         void setGameObjectFactory(GameObjectFactory* gof);
         void loadProperties(const Ogre::String& module);
 

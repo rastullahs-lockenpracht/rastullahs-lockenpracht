@@ -140,7 +140,7 @@ namespace rl
 		bool mEnabled;
 		/// Gibt an, wie oft ein Effekt dieses Namens auf einer Kreatur wirken kann.
 		Quantifier mQuantifier;
-	};
+    };
 }
 
 #endif //__EFFECT_H__

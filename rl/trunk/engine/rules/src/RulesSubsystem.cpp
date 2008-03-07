@@ -21,6 +21,7 @@
 #include "DsaManager.h"
 #include "DsaDataLoader.h"
 #include "EffectFactory.h"
+#include "EffectManagementTask.h"
 #include "GameEventLog.h"
 #include "Logger.h"
 #include "CreatureControllerManager.h"
@@ -42,7 +43,8 @@ namespace rl
 		mGameEventLog(NULL),
         mMovingCreatureManager(NULL),
         mXdimlLoader(NULL),
-        mGlobalProperties(NULL)
+        mGlobalProperties(NULL),
+        mEffectManagementTask(NULL)
     {
 		LOG_MESSAGE(Logger::RULES, "Start");
         //Zufallsgenerator initialisieren
@@ -65,6 +67,8 @@ namespace rl
 		resetQuestBook();
 		LOG_MESSAGE(Logger::RULES, "Questverwaltung erzeugt");
         mGlobalProperties = new GlobalProperties();
+
+        mEffectManagementTask = new EffectManagementTask();
 
 		//Daten laden
 		mXdimlLoader = new XdimlLoader();

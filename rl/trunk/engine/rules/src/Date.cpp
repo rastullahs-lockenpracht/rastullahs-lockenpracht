@@ -64,6 +64,7 @@ namespace rl
     const unsigned RL_LONGLONG Date::ONE_WEEK = 604800000UL;
     const unsigned RL_LONGLONG Date::ONE_MONTH = 2592000000UL;
     const unsigned RL_LONGLONG Date::ONE_YEAR = 31536000000ULL;
+    const unsigned RL_LONGLONG Date::ONE_AKTION = 1500UL;
     const unsigned RL_LONGLONG Date::ONE_KAMPFRUNDE = 3 * Date::ONE_SECOND;
     const unsigned RL_LONGLONG Date::ONE_SPIELRUNDE = 5 * Date::ONE_MINUTE;
 

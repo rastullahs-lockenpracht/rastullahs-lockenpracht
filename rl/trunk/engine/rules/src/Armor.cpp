@@ -44,47 +44,47 @@ namespace rl
 	{
 	}
 
-	int Armor::getKo()
+	int Armor::getKo() const
 	{
 		return mKo;
 	}
-	int Armor::getBr()
+	int Armor::getBr() const
 	{
 		return mBr;
 	}
-	int Armor::getRue()
+	int Armor::getRue() const
 	{
 		return mRue;
 	}
-	int Armor::getBa()
+	int Armor::getBa() const
 	{
 		return mBa;
 	}
-	int Armor::getLA()
+	int Armor::getLA() const
 	{
 		return mLA;
 	}
-	int Armor::getRA()
+	int Armor::getRA() const
 	{
 		return mRA;
 	}
-	int Armor::getLB()
+	int Armor::getLB() const
 	{
 		return mLB;
 	}
-	int Armor::getRB()
+	int Armor::getRB() const
 	{
 		return mRB;
 	}
-	int Armor::getGes()
+	int Armor::getGes() const
 	{
 		return mGes;
 	}
-	int Armor::getGRS()
+	int Armor::getGRS() const
 	{
 		return mGRS;
 	}
-	int Armor::getGBE()
+	int Armor::getGBE() const
 	{
 		return mGBE;
 	}

@@ -45,17 +45,17 @@ namespace rl
 		const CeGuiString getDescription() const;
 
 		// Getter 
-		int getKo();
-		int getBr();
-		int getRue();
-		int getBa();
-		int getLA();
-		int getRA();
-		int getLB();
-		int getRB();
-		int getGes();
-		int getGRS();
-		int getGBE();
+		int getKo() const;
+		int getBr() const;
+		int getRue() const;
+		int getBa() const;
+		int getLA() const;
+		int getRA() const;
+		int getLB() const;
+		int getRB() const;
+		int getGes() const;
+		int getGRS() const;
+		int getGBE() const;
 		// und Setter
 		void setKo(int ko);
 		void setBr(int br);

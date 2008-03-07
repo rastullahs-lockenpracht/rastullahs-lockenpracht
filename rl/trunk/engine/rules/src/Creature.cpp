@@ -135,7 +135,7 @@ namespace rl
         CreatureControllerManager::getSingleton().detachController(this);
     }
 
-    int Creature::getAttackeBasis()
+    int Creature::getAttackeBasis() const
     {
 		double es = getEigenschaft(E_MUT, Effect::MODTAG_RECALCULATE) +
             getEigenschaft(E_GEWANDTHEIT, Effect::MODTAG_RECALCULATE) +
@@ -144,7 +144,7 @@ namespace rl
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
-    int Creature::getParadeBasis()
+    int Creature::getParadeBasis() const
     {
       double es = getEigenschaft(E_INTUITION, Effect::MODTAG_RECALCULATE) +
             getEigenschaft(E_GEWANDTHEIT, Effect::MODTAG_RECALCULATE) +
@@ -153,7 +153,7 @@ namespace rl
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
-    int Creature::getFernkampfBasis()
+    int Creature::getFernkampfBasis() const
     {
       double es = getEigenschaft(E_INTUITION, Effect::MODTAG_RECALCULATE) +
             getEigenschaft(E_FINGERFERTIGKEIT, Effect::MODTAG_RECALCULATE) +
@@ -162,7 +162,7 @@ namespace rl
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
-    int Creature::getInitiativeBasis()
+    int Creature::getInitiativeBasis() const
     {
       int es = 2 * getEigenschaft(E_MUT, Effect::MODTAG_RECALCULATE) +
           getEigenschaft(E_INTUITION, Effect::MODTAG_RECALCULATE) +
@@ -171,7 +171,7 @@ namespace rl
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
-    int Creature::getMrBasis()
+    int Creature::getMrBasis() const
     {
       int es = getEigenschaft(E_MUT, Effect::MODTAG_RECALCULATE) +
           getEigenschaft(E_KLUGHEIT, Effect::MODTAG_RECALCULATE) +
@@ -180,7 +180,7 @@ namespace rl
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
-    int Creature::getLeBasis()
+    int Creature::getLeBasis() const
     {
       int es =  2 * getEigenschaft(E_KONSTITUTION, Effect::MODTAG_RECALCULATE) +
           getEigenschaft(E_KOERPERKRAFT, Effect::MODTAG_RECALCULATE);
@@ -188,7 +188,7 @@ namespace rl
         return static_cast<int>(es / 2.0 + 0.5);
     }
 
-    int Creature::getAuBasis()
+    int Creature::getAuBasis() const
     {
       int es = getEigenschaft(E_MUT, Effect::MODTAG_RECALCULATE) +
           getEigenschaft(E_KONSTITUTION, Effect::MODTAG_RECALCULATE) +
@@ -197,7 +197,7 @@ namespace rl
         return static_cast<int>(es / 2.0 + 0.5);
     }
 
-	int Creature::getAeBasis()
+	int Creature::getAeBasis() const
 	{
       int es = getEigenschaft(E_MUT, Effect::MODTAG_RECALCULATE) +
           getEigenschaft(E_INTUITION, Effect::MODTAG_RECALCULATE) +
@@ -206,9 +206,8 @@ namespace rl
         return static_cast<int>(es / 2.0 + 0.5);
     }
 
-	int Creature::getWert(Wert wertId, bool getUnmodified)
+	int Creature::getWert(Wert wertId, bool getUnmodified) const
 	{
-		checkEffects();
 		WertMap::const_iterator it = mWerte.find(wertId);
         if (it == mWerte.end())
         {
@@ -224,7 +223,7 @@ namespace rl
 		return rval;
 	}
 
-	int Creature::getCurrentBe()
+	int Creature::getCurrentBe() const
 	{
 		pair<int,int> be = mInventory->getOverallBe();
         ///@todo Ruestungsgewoehnung?
@@ -272,12 +271,12 @@ namespace rl
 		fireObjectStateChangeEvent();
     }
 
-    int Creature::getLe()
+    int Creature::getLe() const
     {
         return mCurrentLe;
     }
 
-    int Creature::getLeMax()
+    int Creature::getLeMax() const
     {
 		return getLeBasis() + getWert(WERT_MOD_LE);
     }
@@ -290,12 +289,12 @@ namespace rl
 		fireObjectStateChangeEvent();
     }
 
-    int Creature::getAe()
+    int Creature::getAe() const
     {
         return mCurrentAe;
     }
 
-    int Creature::getAeMax()
+    int Creature::getAeMax() const
     {
 		return isMagic()?getAeBasis() + getWert(WERT_MOD_AE):0;
     }
@@ -312,12 +311,12 @@ namespace rl
 		fireObjectStateChangeEvent();
     }
 
-    float Creature::getAu()
+    float Creature::getAu() const
     {
         return mCurrentAu;
     }
 
-    int Creature::getAuMax()
+    int Creature::getAuMax() const
     {
 		return getAuBasis() + getWert(WERT_MOD_AU);
     }
@@ -327,7 +326,7 @@ namespace rl
         mAp.total += modifier;
     }
 
-    int Creature::getAp()
+    int Creature::getAp() const
     {
         return mAp.total;
     }
@@ -337,14 +336,13 @@ namespace rl
         mAp.used += modifier;
     }
 
-    int Creature::getUsedAp()
+    int Creature::getUsedAp() const
     {
         return mAp.used;
     }
 
-    int Creature::getEigenschaft(const CeGuiString eigenschaftName, Effect::ModTag tag)
+    int Creature::getEigenschaft(const CeGuiString eigenschaftName, Effect::ModTag tag) const
     {
-		checkEffects();
 		EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
 		if (it == mEigenschaften.end())
 		{
@@ -372,9 +370,8 @@ namespace rl
 		fireObjectStateChangeEvent();
     }
 
-    bool Creature::hasTalent(const CeGuiString talentName, bool ausweich)
+    bool Creature::hasTalent(const CeGuiString talentName, bool ausweich) const
     {
-		checkEffects();
         TalentMap::const_iterator it = mTalente.find(talentName);
         if (it != mTalente.end())
             return true;
@@ -395,7 +392,7 @@ namespace rl
         return false;
     }
 
-    int Creature::getTalent(const CeGuiString talentName)
+    int Creature::getTalent(const CeGuiString talentName) const
     {
         LOG_DEBUG(Logger::RULES, "Using talent " + talentName);
         TalentMap::const_iterator it = mTalente.find(talentName);
@@ -531,7 +528,7 @@ namespace rl
         mVorteile[vorteilName] = value;
     }
 
-    bool Creature::hasVorteil(const CeGuiString vorteilName)
+    bool Creature::hasVorteil(const CeGuiString vorteilName) const
     {
         VorteilMap::const_iterator it = mVorteile.find(vorteilName);
         if (it != mVorteile.end())
@@ -551,7 +548,7 @@ namespace rl
         mNachteile[nachteilName] = value;
     }
 
-    bool Creature::hasNachteil(const CeGuiString nachteilName)
+    bool Creature::hasNachteil(const CeGuiString nachteilName) const
     {
         NachteilMap::const_iterator it = mNachteile.find(nachteilName);
         if (it != mNachteile.end())
@@ -561,9 +558,8 @@ namespace rl
         else return false;
     }
 
-    int Creature::getSchlechteEigenschaft(const CeGuiString nachteilName)
+    int Creature::getSchlechteEigenschaft(const CeGuiString nachteilName) const
     {
-		checkEffects();
         NachteilMap::const_iterator it = mNachteile.find(nachteilName);
         if (it == mNachteile.end())
         {
@@ -572,9 +568,8 @@ namespace rl
 		else return it->second + mEffectManager->getMod(nachteilName, Effect::MODTYPE_SUM);
     }
 
-    int Creature::getSf(const CeGuiString sfName)
+    int Creature::getSf(const CeGuiString sfName) const
     {
-		checkEffects();
         SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
         if (it == mSonderfertigkeiten.end())
         {
@@ -609,9 +604,8 @@ namespace rl
 		fireObjectStateChangeEvent();
     }
 
-	SonderfertigkeitenStateSet* Creature::getSonderfertigkeitenStateSet(const CeGuiString sfName)
+	SonderfertigkeitenStateSet* Creature::getSonderfertigkeitenStateSet(const CeGuiString sfName) const
 	{
-		checkEffects();
         SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
         if (it == mSonderfertigkeiten.end())
         {
@@ -620,12 +614,12 @@ namespace rl
 		return it->second;
 	}
 
-    Effect::Status Creature::getStatus()
+    Effect::Status Creature::getStatus() const
     {
       return mEffectManager->getStatus();
     }
 
-	bool Creature::isMagic()
+	bool Creature::isMagic() const
 	{
 		return getWert(WERT_MOD_AE) > 0;
 	}
@@ -1231,7 +1225,7 @@ namespace rl
         return ret;
     }
 
-    bool Creature::canReachItem(const Item* item)
+    bool Creature::canReachItem(const Item* item) const
     {
         return (item->getPosition() - getPosition()).length() <= 3.0f;
     }

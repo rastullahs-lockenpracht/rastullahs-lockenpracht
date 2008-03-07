@@ -95,7 +95,7 @@ namespace rl {
         return mItems;
     }
 
-    bool Container::isParent(Container* cont)
+    bool Container::isParent(Container* cont) const
     {
         if (cont == this)
             return true;
@@ -197,7 +197,7 @@ namespace rl {
 
 		bool free = true;
 
-        // Es wird versucht, das Item au�erhalb des Containers zu platzieren
+        // Es wird versucht, das Item ausserhalb des Containers zu platzieren
         if (xPos + xSize > mVolume.first
             || yPos + ySize > mVolume.second)
         {
@@ -267,7 +267,7 @@ namespace rl {
 
     bool Container::checkSpace(int xStart, int yStart, pair<int,int> space) const
     {
-		// Falls K�stchen nicht mehr im Rucksack, ist auch kein Platz mehr :)
+		// Falls Kaestchen nicht mehr im Rucksack, ist auch kein Platz mehr :)
         if ((xStart+space.first) > mVolume.first
             || (yStart+space.second) > mVolume.second)
         {
@@ -401,7 +401,7 @@ namespace rl {
         return keys;
     }
 
-    bool Container::canHold(Item* item)
+    bool Container::canHold(Item* item) const
     {
         return findPositionWithEnoughSpace(item->getSize()) != NO_SPACE_FOR_ITEM;
     }

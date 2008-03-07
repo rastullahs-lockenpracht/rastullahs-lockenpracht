@@ -18,6 +18,7 @@ libRlRules_la_SOURCES = \
 	DsaManager.cpp \
 	Effect.cpp \
 	EffectFactory.cpp \
+	EffectManagementTask.cpp \
 	EffectManager.cpp \
 	Eigenschaft.cpp \
 	EigenschaftenStateSet.cpp \

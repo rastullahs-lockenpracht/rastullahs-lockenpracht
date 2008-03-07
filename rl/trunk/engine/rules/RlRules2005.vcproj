@@ -339,6 +339,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\EffectManagementTask.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\EffectManager.cpp"
 				>
 			</File>
@@ -566,6 +570,10 @@
 			</File>
 			<File
 				RelativePath=".\include\EffectFactory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\EffectManagementTask.h"
 				>
 			</File>
 			<File

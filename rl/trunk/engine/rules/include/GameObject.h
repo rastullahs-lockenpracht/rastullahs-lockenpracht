@@ -33,13 +33,9 @@ namespace rl
     class EffectManager;
 
     /**
-    * \brief Basisklasse aller spielrelevanten Objekte in RL.
-    * Stellt im Wesentlichen Methoden zur Identifikation von
-    * Objekten innerhalb der Spielwelt bereit.
-    * Hierbei handelt es sich um konkrete Objekte.
-    * Abstrakte Konzepte, wie Date und Action erben nicht von dieser Klasse.
-    *
-    * @todo Ueberlegen, wie man Aktionen situativ aktivierbar macht.
+    * \brief Base class for all game relevant objects in RL
+    * Provides methods for identification of objects within the world
+    * Abstract concepts do not inherit this class
     */
     class _RlRulesExport GameObject 
         : public ActorNotifiedObject, 
@@ -79,17 +75,17 @@ namespace rl
         const Ogre::String getClassId() const;
         void setClassId(Ogre::String classId);
         
-        const CeGuiString getName() const;
-        void setName(CeGuiString name);
+        const CeGuiString& getName() const;
+        void setName(const CeGuiString& name);
 
-        const CeGuiString getDescription() const;
-        void setDescription(CeGuiString description);
+        const CeGuiString& getDescription() const;
+        void setDescription(const CeGuiString& description);
 
-        const CeGuiString getMeshfile() const;
-        void setMeshfile(CeGuiString meshfile);
+        const CeGuiString& getMeshfile() const;
+        void setMeshfile(const CeGuiString& meshfile);
 
-        const CeGuiString getSubmeshPreName() const;
-        void setSubmeshPreName(CeGuiString name);
+        const CeGuiString& getSubmeshPreName() const;
+        void setSubmeshPreName(const CeGuiString& name);
 
 		const MeshPartMap& getMeshParts() const;
 
@@ -170,18 +166,24 @@ namespace rl
         virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
 
         /**
-         * Laesst einen Effekt auf der Kreatur wirken.
-         * @param effect Zeiger auf den Effekt.
+         * Lets an effect affect the game object
+         * @param effect the effect
          * @ingroup CreatureRubyExports
          **/
         void addEffect(Effect* effect);
         void addEffectWithCheckTime(Effect* effect, RL_LONGLONG time);
         void addEffectWithCheckDate(Effect* effect, RL_LONGLONG date);
         void removeEffect(Effect* effect);
+
         /**
-         * Returns a printable list of all Effects app
+         * Returns a printable list of all effects
          */
         CeGuiString getEffects();
+
+        /**
+         * Checks all effects for end-of-life
+         **/
+        void _checkEffects();
 
     protected:
         int mId;
@@ -196,13 +198,13 @@ namespace rl
         
         Actor* mActor;
         
-        // Query flags to be set to the actor, when placed into scene.
+        /// Query flags to be set to the actor, when placed into scene.
         unsigned long mQueryFlags;
 
-        /// Soll das GameObject überhaupt leuchten?
+        /// Shall the game object be selectable
         bool mHighlightingEnabled;
 
-        /// Verwaltet die Effekte die auf die Kreatur wirken.
+        /// Manages the effects affecting this game object
         EffectManager* mEffectManager;
 
         Actor* createActor();
@@ -211,10 +213,6 @@ namespace rl
         virtual void doPlaceIntoScene();
         virtual void doRemoveFromScene();
 
-        /**
-         * Ueberprueft die wirkenden Effekte auf Lebendigkeit
-         **/
-        void checkEffects();
 
     private:
         static int sNextGameObjectId;    

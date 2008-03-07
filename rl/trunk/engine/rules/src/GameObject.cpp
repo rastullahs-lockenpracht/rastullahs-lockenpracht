@@ -116,32 +116,32 @@ namespace rl
         mClassId = classId;
     }
 
-    const CeGuiString GameObject::getName() const
+    const CeGuiString& GameObject::getName() const
     {
         return mName;
     }
 
-    void GameObject::setName(CeGuiString name)
+    void GameObject::setName(const CeGuiString& name)
     {
         mName = name;
     }
 
-    const CeGuiString GameObject::getDescription() const
+    const CeGuiString& GameObject::getDescription() const
     {
         return mDescription;
     }
 
-    void GameObject::setDescription(CeGuiString description)
+    void GameObject::setDescription(const CeGuiString& description)
     {
         mDescription = description;
     }
 
-    const CeGuiString GameObject::getMeshfile() const
+    const CeGuiString& GameObject::getMeshfile() const
     {
         return mMeshfile;
     }
 
-    void GameObject::setMeshfile(CeGuiString meshfile)
+    void GameObject::setMeshfile(const CeGuiString& meshfile)
     {
         mMeshfile = meshfile;
     }
@@ -151,12 +151,12 @@ namespace rl
 		return mMeshParts;
 	}
 
-    const CeGuiString GameObject::getSubmeshPreName() const
+    const CeGuiString& GameObject::getSubmeshPreName() const
     {
         return mSubmeshPreName;
     }
 
-    void GameObject::setSubmeshPreName(CeGuiString name)
+    void GameObject::setSubmeshPreName(const CeGuiString& name)
     {
         mSubmeshPreName = name;
     }
@@ -432,7 +432,7 @@ namespace rl
       mEffectManager->addDateCheck(date, effect);
     }
 
-	void GameObject::checkEffects()
+	void GameObject::_checkEffects()
 	{
 		/// @todo Nur einmal pro Aktion ausfuehren
 		mEffectManager->checkEffects();

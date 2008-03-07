@@ -68,11 +68,11 @@ namespace rl
 		void setItemType(ItemType itemType);
 		ItemType getItemType() const;
 
-		const CeGuiString getImageName() const;
-		void setImageName(const CeGuiString name);
+		const CeGuiString& getImageName() const;
+		void setImageName(const CeGuiString& name);
 
-        const CeGuiString getSubmeshName() const;
-        void setSubmeshName(const CeGuiString &name);
+        const CeGuiString& getSubmeshName() const;
+        void setSubmeshName(const CeGuiString& name);
 
 		/**
 		 * @return ob es sich um ein Item handelt,

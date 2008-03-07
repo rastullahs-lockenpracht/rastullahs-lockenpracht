@@ -56,6 +56,8 @@ namespace rl
         /// One (dark eye) year in milliseconds
         static const unsigned RL_LONGLONG ONE_YEAR;
 
+        /// One action (Aktion) in milliseconds
+        static const unsigned RL_LONGLONG ONE_AKTION;
         /// One combat round (Kampfrunde) in milliseconds
         static const unsigned RL_LONGLONG ONE_KAMPFRUNDE;
         /// One game round (Spielrunde) in milliseconds

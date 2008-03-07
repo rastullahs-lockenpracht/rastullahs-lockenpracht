@@ -88,7 +88,7 @@ namespace rl
         virtual void setProperty(const CeGuiString& key, const Property& value);
         virtual PropertyKeys getAllPropertyKeys() const;
 
-        bool canHold(Item* item);
+        bool canHold(Item* item) const;
 
         // in order to set the owner of the items in this container correctly override this function
         void setOwner(GameObject *go);
@@ -118,7 +118,7 @@ namespace rl
          * @param cont a container
          * @return true, if cont is this container or any of his parents
         */
-        bool isParent(Container* cont);
+        bool isParent(Container* cont) const;
     };
 }
 
