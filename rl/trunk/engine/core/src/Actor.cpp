@@ -319,8 +319,10 @@ namespace rl {
         }
         else
         {
-            Throw(IllegalStateException,
-                "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
+            return Vector3::ZERO;
+            /// @fixme: is submesh
+            /*Throw(IllegalStateException,
+                "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");*/
         }
     }
 

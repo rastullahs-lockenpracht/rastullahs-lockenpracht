@@ -302,7 +302,7 @@ const Property Quest::getProperty(const CeGuiString& key) const
     {
         return Property(mKnown);
     }
-    else if (key == PROPERTY_NAME)
+    else if (key == PROPERTY_ID)
     {
         return Property(mId);
     }

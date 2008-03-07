@@ -600,8 +600,11 @@ namespace rl
         PropertyKeys keys;
         keys.insert(PROPERTY_NAME);
         keys.insert(PROPERTY_DESCRIPTION);
-        keys.insert(PROPERTY_POSITION);
-        keys.insert(PROPERTY_ORIENTATION); 
+        if(mState == GOS_IN_SCENE)
+        {
+            keys.insert(PROPERTY_POSITION);
+            keys.insert(PROPERTY_ORIENTATION); 
+        }
         keys.insert(PROPERTY_MESHFILE);
         keys.insert(PROPERTY_MESHPARTS);
         keys.insert(PROPERTY_GEOMETRY_TYPE);
