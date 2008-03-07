@@ -262,7 +262,7 @@ namespace rl
 	class CreatureWalkPathJob : public Job
     {
     public:
-        CreatureWalkPathJob(const Ogre::String& name, rl::CreatureController* movingCreature, rl::Landmark* startLandmark);
+        CreatureWalkPathJob(const Ogre::String& name, rl::Creature* movingCreature, rl::Landmark* startLandmark);
 
         void addLandmark(const Ogre::String& name, const Ogre::Vector3& position);
         void addLandmark(rl::Landmark* lm);

@@ -38,7 +38,7 @@ namespace rl
         * @param movingCreature the job has to know a moving creature
         * @param startLandmark first landmark, the moving creature has to go to
         */
-        CreatureWalkPathJob(const Ogre::String& name, CreatureController* movingCreature, Landmark* startLandmark);
+        CreatureWalkPathJob(const Ogre::String& name, Creature* movingCreature, Landmark* startLandmark);
         //destructor
         virtual ~CreatureWalkPathJob();
 
@@ -54,12 +54,12 @@ namespace rl
         virtual bool execute(Ogre::Real time);
 
         // @retval the moving creature controlled by this object
-        CreatureController* getMovingCreature();
+        Creature* getCreature();
     private:
 
         LandmarkPath mLandmarkPath;
         Ogre::String mName;
-        CreatureController* mMovingCreature;
+        Creature* mMovingCreature;
 
         Landmark* mCurrentLandmark;
         Landmark* mNextLandmark;

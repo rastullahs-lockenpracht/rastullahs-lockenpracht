@@ -18,10 +18,11 @@
 
 #include "CreatureWalkPathJob.h"
 #include "AStar.h"
+#include <CreatureControllerManager.h>
 
 namespace rl
 {
-    CreatureWalkPathJob::CreatureWalkPathJob(const Ogre::String& name, CreatureController* movingCreature, Landmark* startLandmark)
+    CreatureWalkPathJob::CreatureWalkPathJob(const Ogre::String& name, Creature* movingCreature, Landmark* startLandmark)
         : Job(false, true, TimeSource::GAMETIME, Job::FINISH_WHEN_GAME_LOADED), 
         mLandmarkPath("LandmarkPath" + name), 
         mWayPoints(NULL),
@@ -30,7 +31,7 @@ namespace rl
     {
         //the moving creature moves from the current position to the landmark
         mMovingCreature = movingCreature;
-        mCurrentLandmark = new Landmark(name + "_startup",mMovingCreature->getCreature()->getPosition());
+        mCurrentLandmark = new Landmark(name + "_startup",mMovingCreature->getPosition());
         mNextLandmark = startLandmark;
     }
 
@@ -42,11 +43,13 @@ namespace rl
     {
         mTimeSinceLastRotation += time;
 
-        Ogre::Vector3 direction = mCurrentLandmark->getPosition() - mMovingCreature->getCreature()->getActor()->getPosition();
+        CreatureController* controller = CreatureControllerManager::getSingleton().getCreatureController(mMovingCreature);
+
+        Ogre::Vector3 direction = mCurrentLandmark->getPosition() - mMovingCreature->getActor()->getPosition();
         direction.y = 0;
         if (direction.squaredLength() < 0.04 )
         {
-            mMovingCreature->setMovement(CreatureController::MT_STEHEN, Ogre::Vector3::ZERO, Ogre::Vector3::ZERO);
+            controller->setMovement(CreatureController::MT_STEHEN, Ogre::Vector3::ZERO, Ogre::Vector3::ZERO);
 
             if (!mLandmarkPath.isEmpty())
             {
@@ -57,16 +60,16 @@ namespace rl
                 {
                     mCurrentWayPath = AStar::search(
                         mWayPoints,
-                        mMovingCreature->getCreature()->getPosition(), 
+                        mMovingCreature->getPosition(), 
                         mCurrentLandmark->getPosition());
                     std::ostringstream ss;
-                    ss << "Current Position: " << mMovingCreature->getCreature()->getPosition() << "\n";
+                    ss << "Current Position: " << mMovingCreature->getPosition() << "\n";
                     for (AStar::AStarPath::const_iterator it = mCurrentWayPath.begin();
                         it != mCurrentWayPath.end(); ++it)
                     {
                         ss << *it << " ";
                     }
-                    LOG_MESSAGE2("WalkPathJob", ss.str(), "Next Path");
+                    LOG_DEBUG("WalkPathJob", ss.str() + "Next Path");
                 }
             }
             else if (mNextLandmark)
@@ -90,19 +93,19 @@ namespace rl
             {
                 mCurrentWayPath = AStar::search(
                         mWayPoints,
-                        mMovingCreature->getCreature()->getPosition(), 
+                        mMovingCreature->getPosition(), 
                         mCurrentLandmark->getPosition());
                 std::ostringstream ss;
-                ss << "Current Position: " << mMovingCreature->getCreature()->getPosition() << "\n";
+                ss << "Current Position: " << mMovingCreature->getPosition() << "\n";
                 for (AStar::AStarPath::const_iterator it = mCurrentWayPath.begin();
                     it != mCurrentWayPath.end(); ++it)
                 {
                     ss << *it << " ";
                 }
-                LOG_MESSAGE2("WalkPathJob", ss.str(), "Next Path");
+                LOG_DEBUG("WalkPathJob", ss.str() + "Next Path");
             }
 
-            direction = mCurrentWayPath.back() - mMovingCreature->getCreature()->getPosition();
+            direction = mCurrentWayPath.back() - mMovingCreature->getPosition();
             while (direction.squaredLength() < 0.04)
             {
                 mCurrentWayPath.pop_back();
@@ -110,16 +113,16 @@ namespace rl
                 {
                     break;
                 }
-                direction = mCurrentWayPath.back() - mMovingCreature->getCreature()->getPosition();
+                direction = mCurrentWayPath.back() - mMovingCreature->getPosition();
             }
             mUpdatedDirection = true;
         }
 
-        LOG_MESSAGE("WalkPathJob", 
-            "Going to " + Ogre::StringConverter::toString(direction + mMovingCreature->getCreature()->getPosition()) 
-            + ", current position "  + Ogre::StringConverter::toString(mMovingCreature->getCreature()->getPosition()));
+        LOG_DEBUG("WalkPathJob", 
+            "Going to " + Ogre::StringConverter::toString(direction + mMovingCreature->getPosition()) 
+            + ", current position "  + Ogre::StringConverter::toString(mMovingCreature->getPosition()));
 
-        Ogre::Vector3 creatureViewVector = mMovingCreature->getCreature()->getActor()->getOrientation() * Ogre::Vector3::NEGATIVE_UNIT_Z;
+        Ogre::Vector3 creatureViewVector = mMovingCreature->getActor()->getOrientation() * Ogre::Vector3::NEGATIVE_UNIT_Z;
         creatureViewVector.y = 0;
         Ogre::Quaternion rotation = creatureViewVector.getRotationTo(direction, Ogre::Vector3::UNIT_Y);
         Ogre::Radian yaw = rotation.getYaw();
@@ -136,7 +139,7 @@ namespace rl
             mTimeSinceLastRotation = 0;
         }
 
-        mMovingCreature->setMovement(CreatureController::MT_GEHEN, Ogre::Vector3::NEGATIVE_UNIT_Z, usedRotation);
+        controller->setMovement(CreatureController::MT_GEHEN, Ogre::Vector3::NEGATIVE_UNIT_Z, usedRotation);
         return false;
     }
 
@@ -150,7 +153,7 @@ namespace rl
         mLandmarkPath.addPoint(lm);
     }
 
-    CreatureController* CreatureWalkPathJob::getMovingCreature()
+    Creature* CreatureWalkPathJob::getCreature()
     {
         return mMovingCreature;
     }
