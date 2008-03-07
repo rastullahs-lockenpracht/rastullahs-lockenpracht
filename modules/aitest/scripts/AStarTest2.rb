@@ -8,11 +8,9 @@ class AStarTest2
     walkingCreature.placeIntoScene
     walkingCreature.modifyAu(1000)
     
-    creatureController = CreatureControllerManager.getSingleton().getCreatureController(walkingCreature)
-    
     job = CreatureWalkPathJob.new(
       "WalkJobAStarTest", 
-      creatureController, 
+      walkingCreature, 
       Landmark.new("point", [5.0, 0.0, 0.0]))
     job.addLandmark("1",[-5.0,0.0,-5.0])
     job.addLandmark("2",[10.0,0.0,-10.0])

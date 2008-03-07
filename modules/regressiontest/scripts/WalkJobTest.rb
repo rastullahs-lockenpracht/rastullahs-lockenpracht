@@ -10,11 +10,9 @@ class WalkJobTest < TestCase
     wpgraph = $WPGM.createWayPointGraph();
     wpgraph.load("astargrid.wpg.xml")
 
-    creatureController = CreatureControllerManager.getSingleton().getCreatureController(walkingCreature)
-
     job = CreatureWalkPathJob.new(
       "WalkJobTest", 
-      creatureController, 
+      walkingCreature, 
       Landmark.new("point", [5.0, 0.0, -10.0]))
     job.addLandmark("1",[5.0,0.0,-20.0])
     job.addLandmark("2",[5.0,0.0,-15.0])
