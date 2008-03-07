@@ -38,6 +38,8 @@ namespace rl
 {
     const Ogre::String CreatureController::PROPERTY_CREATUREID = "creature_id";
 
+    const Real minSquaredSpeed = 0.6;
+
 
     class Stehen : public AbstractMovement
     {
@@ -48,9 +50,9 @@ namespace rl
             mRotationMovement(NULL), 
             mStepRecognitionMovement(NULL)
             {
-                mAnim1 = creature->getCreature()->getAnimation("stehen");
-                mAnim2 = creature->getCreature()->getAnimation("stehen_rechts");
-                mAnim3 = creature->getCreature()->getAnimation("stehen_links");
+                mAnimStehenLinks = creature->getCreature()->getAnimation("stehen_links");
+                mAnimStehenRechts = creature->getCreature()->getAnimation("stehen_rechts");
+                mAnimStehen = creature->getCreature()->getAnimation("stehen");
             }
         virtual CreatureController::MovementType getId() const {return CreatureController::MT_STEHEN;}
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_NONE;}
@@ -122,13 +124,13 @@ namespace rl
         {
             Real omegaY = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody()->getOmega().y;
             if( omegaY > Degree(20).valueRadians() )
-                mMovingCreature->setAnimation(mAnim3.first, mAnim3.second);
+                mMovingCreature->setAnimation(mAnimStehenRechts.first, mAnimStehenRechts.second);
             else
             {
                 if( omegaY < Degree(-20).valueRadians() )
-                    mMovingCreature->setAnimation(mAnim2.first, mAnim2.second);
+                    mMovingCreature->setAnimation(mAnimStehenLinks.first, mAnimStehenLinks.second);
                 else
-                    mMovingCreature->setAnimation(mAnim1.first, mAnim1.second);
+                    mMovingCreature->setAnimation(mAnimStehen.first, mAnimStehen.second);
             }
         }
         virtual void applyAuChanges(Ogre::Real elapsedTime)
@@ -147,9 +149,9 @@ namespace rl
         }
     protected:
         Ogre::Vector3 mVelocity;
-        Creature::AnimationSpeedPair mAnim1;
-        Creature::AnimationSpeedPair mAnim2;
-        Creature::AnimationSpeedPair mAnim3;
+        Creature::AnimationSpeedPair mAnimStehenRechts;
+        Creature::AnimationSpeedPair mAnimStehenLinks;
+        Creature::AnimationSpeedPair mAnimStehen;
         mutable AbstractMovement *mRotationMovement;
         mutable AbstractMovement *mStepRecognitionMovement;
         virtual AbstractMovement* getRotationMovement() const
@@ -274,7 +276,7 @@ namespace rl
     public:
         Gehen(CreatureController *creature) : Stehen(creature)
         {
-            mAnim1 = creature->getCreature()->getAnimation("gehen");
+            mAnim = creature->getCreature()->getAnimation("gehen");
         }
         virtual CreatureController::MovementType getId() const {return CreatureController::MT_GEHEN;}
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_STEHEN;}
@@ -309,10 +311,13 @@ namespace rl
         }
         virtual void setAnimation(Ogre::Real elapsedTime)
         {
-            //Real step = 1.49; // the width of a step
-            //MeshObject* charMesh = dynamic_cast<MeshObject*>(mMovingCreature->getCreature()->getActor()->getControlledObject());
-            //Real length = charMesh->getAnimation("Run")->getLength();
-            // Real length = 5./3.;
+            Real speed =  -mMovingCreature->getVelocity().z;
+            if( fabs(speed) < 0.1 )
+            {
+                Stehen::setAnimation(elapsedTime);
+                return;
+            }
+
             Real weight = 1;
             Real relTimeOffset = 0;
 
@@ -339,10 +344,12 @@ namespace rl
             if( mMovingCreature->getLastMovementChange() > elapsedTime )
                 relTimeOffset = 0;
 
-            MeshAnimation *meshAnim = mMovingCreature->setAnimation(mAnim1.first, -mMovingCreature->getVelocity().z * mAnim1.second, 0, mAnim1.first, weight );
+            MeshAnimation *meshAnim = mMovingCreature->setAnimation(mAnim.first, speed * mAnim.second, 0, mAnim.first, weight );
             if( meshAnim != NULL && relTimeOffset != 0 )
                 meshAnim->doAddTime(relTimeOffset*meshAnim->getLength());
         }
+    protected:
+        Creature::AnimationSpeedPair mAnim;
     };
 
     class Joggen : public Gehen
@@ -350,7 +357,7 @@ namespace rl
     public:
         Joggen(CreatureController *creature) : Gehen(creature)
         {
-            mAnim1 = creature->getCreature()->getAnimation("joggen");
+            mAnim = creature->getCreature()->getAnimation("joggen");
         }
         virtual CreatureController::MovementType getId() const {return CreatureController::MT_JOGGEN;}
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_GEHEN;}
@@ -364,15 +371,19 @@ namespace rl
             return Gehen::isPossible() &&
                 mMovingCreature->getCreature()->getAu() > 6;
         }
-        virtual void applyAuChanges(Ogre::Real elapsedTime) {} // empty
+        virtual void applyAuChanges(Ogre::Real elapsedTime)
+        {
+            if( mMovingCreature->getVelocity().squaredLength() < minSquaredSpeed )
+                Stehen::applyAuChanges(elapsedTime);
+        }
         virtual void setAnimation(Ogre::Real elapsedTime)
         {
-            //Real step = 3.20; // the width of a step
-            // if the persons runs, the feet don't touch always the ground, so this value must be bigger
-            // trynerror:
-            //step -= 0.5;
-            //MeshObject* charMesh = dynamic_cast<MeshObject*>(mMovingCreature->getCreature()->getActor()->getControlledObject());
-            //Real length = charMesh->getAnimation("Run")->getLength();
+            if( mMovingCreature->getVelocity().squaredLength() < minSquaredSpeed)
+            {
+                Stehen::setAnimation(elapsedTime);
+                return;
+            }
+
             Real length = 5./3.;
             Real weight = 1;
             Real relTimeOffset = 0;
@@ -398,7 +409,7 @@ namespace rl
             if( mMovingCreature->getLastMovementChange() > elapsedTime )
                 relTimeOffset = 0;
 
-            MeshAnimation *meshAnim = mMovingCreature->setAnimation(mAnim1.first, -mMovingCreature->getVelocity().z * mAnim1.second, 0, mAnim1.first, weight );
+            MeshAnimation *meshAnim = mMovingCreature->setAnimation(mAnim.first, -mMovingCreature->getVelocity().z * mAnim.second, 0, mAnim.first, weight );
             if( meshAnim != NULL && relTimeOffset != 0)
                 meshAnim->doAddTime(relTimeOffset*meshAnim->getLength());
         }
@@ -409,7 +420,7 @@ namespace rl
     public:
         Laufen(CreatureController *creature) : Gehen(creature), mTimePerAu(1L), mLastProbe(0)
         {
-            mAnim1 = creature->getCreature()->getAnimation("laufen");
+            mAnim = creature->getCreature()->getAnimation("laufen");
         }
         virtual CreatureController::MovementType getId() const {return CreatureController::MT_LAUFEN;}
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_JOGGEN;}
@@ -434,16 +445,19 @@ namespace rl
         }
         virtual void applyAuChanges(Ogre::Real elapsedTime)
         {
-            mMovingCreature->getCreature()->damageAu(elapsedTime/mTimePerAu);
+            if( mMovingCreature->getVelocity().squaredLength()< minSquaredSpeed )
+                Stehen::applyAuChanges(elapsedTime);
+            else
+                mMovingCreature->getCreature()->damageAu(elapsedTime/mTimePerAu);
         }
         virtual void setAnimation(Ogre::Real elapsedTime)
         {
-            //Real step = 3.20; // the width of a step
-            // if the persons runs, the feet don't touch always the ground, so this value must be bigger
-            // trynerror:
-            //step -= 0.5;
-            //MeshObject* charMesh = dynamic_cast<MeshObject*>(mMovingCreature->getCreature()->getActor()->getControlledObject());
-            //Real length = charMesh->getAnimation("Run")->getLength();
+            if( mMovingCreature->getVelocity().squaredLength() < minSquaredSpeed )
+            {
+                Stehen::setAnimation(elapsedTime);
+                return;
+            }
+
             Real length = 5./3.;
             Real weight = 1;
             Real relTimeOffset = 0;
@@ -469,7 +483,7 @@ namespace rl
             if( mMovingCreature->getLastMovementChange() > elapsedTime )
                 relTimeOffset = 0;
 
-            MeshAnimation *meshAnim = mMovingCreature->setAnimation(mAnim1.first, -mMovingCreature->getVelocity().z * mAnim1.second, 0, mAnim1.first, weight );
+            MeshAnimation *meshAnim = mMovingCreature->setAnimation(mAnim.first, -mMovingCreature->getVelocity().z * mAnim.second, 0, mAnim.first, weight );
             if( meshAnim != NULL && relTimeOffset != 0)
                 meshAnim->doAddTime(relTimeOffset*meshAnim->getLength());
         }
@@ -518,7 +532,7 @@ namespace rl
     public:
         Rennen(CreatureController *creature) : Gehen(creature), mVelocityImprovement(0), mLastProbe(0)
         {
-            mAnim1 = creature->getCreature()->getAnimation("rennen");
+            mAnim = creature->getCreature()->getAnimation("rennen");
         }
         virtual CreatureController::MovementType getId() const {return CreatureController::MT_RENNEN;}
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_LAUFEN;}
@@ -547,16 +561,19 @@ namespace rl
         }
         virtual void applyAuChanges(Ogre::Real elapsedTime)
         {
-            mMovingCreature->getCreature()->damageAu(elapsedTime/1.5);
+            if( mMovingCreature->getVelocity().squaredLength() < minSquaredSpeed )
+                Stehen::applyAuChanges(elapsedTime);
+            else
+                mMovingCreature->getCreature()->damageAu(elapsedTime/1.5);
         }
         virtual void setAnimation(Ogre::Real elapsedTime)
         {
-            //Real step = 2.835; // the width of a step
-            // if the persons runs, the feet don't touch always the ground, so this value must be bigger
-            // trynerror:
-            //step += 1.5;
-            //MeshObject* charMesh = dynamic_cast<MeshObject*>(mMovingCreature->getCreature()->getActor()->getControlledObject());
-            //Real length = charMesh->getAnimation("Run")->getLength();
+            if( mMovingCreature->getVelocity().squaredLength() < minSquaredSpeed )
+            {
+                Stehen::setAnimation(elapsedTime);
+                return;
+            }
+
             Real length = 5./3.;
             Real weight = 1;
             Real relTimeOffset = 0;
@@ -582,7 +599,7 @@ namespace rl
             if( mMovingCreature->getLastMovementChange() > elapsedTime )
                 relTimeOffset = 0;
 
-            MeshAnimation *meshAnim = mMovingCreature->setAnimation(mAnim1.first, -mMovingCreature->getVelocity().z *mAnim1.second, 0, mAnim1.first, weight );
+            MeshAnimation *meshAnim = mMovingCreature->setAnimation(mAnim.first, fabs(mMovingCreature->getVelocity().z) *mAnim.second, 0, mAnim.first, weight );
             if( meshAnim != NULL && relTimeOffset )
                 meshAnim->doAddTime(relTimeOffset*meshAnim->getLength());
         }
@@ -630,7 +647,7 @@ namespace rl
     public:
         RueckwaertsGehen(CreatureController *creature) : Gehen(creature)
         {
-            mAnim1 = creature->getCreature()->getAnimation("gehen_rueckwaerts");
+            mAnim = creature->getCreature()->getAnimation("gehen_rueckwaerts");
         }
         virtual CreatureController::MovementType getId() const {return CreatureController::MT_RUECKWAERTS_GEHEN;}
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_STEHEN;}
@@ -639,10 +656,6 @@ namespace rl
             velocity = mMovingCreature->getCurrentGS() / 4.0;
             return isPossible();
         }
-        virtual void setAnimation(Ogre::Real elapsedTime)
-        {
-            mMovingCreature->setAnimation(mAnim1.first, mMovingCreature->getVelocity().z * mAnim1.second);
-        }
     };
 
     class RueckwaertsJoggen : public Joggen
@@ -650,7 +663,7 @@ namespace rl
     public:
         RueckwaertsJoggen(CreatureController *creature) : Joggen(creature)
         {
-            mAnim1 = creature->getCreature()->getAnimation("joggen_rueckwaerts");
+            mAnim = creature->getCreature()->getAnimation("joggen_rueckwaerts");
         }
         virtual CreatureController::MovementType getId() const {return CreatureController::MT_RUECKWAERTS_JOGGEN;}
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_RUECKWAERTS_GEHEN;}
@@ -658,10 +671,6 @@ namespace rl
         {
             velocity = mMovingCreature->getCurrentGS() / 3.2;
             return isPossible();
-        }
-        virtual void setAnimation(Ogre::Real elapsedTime)
-        {
-            mMovingCreature->setAnimation(mAnim1.first, mMovingCreature->getVelocity().z * mAnim1.second);
         }
     };
 
@@ -672,7 +681,7 @@ namespace rl
         SeitwaertsGehen(CreatureController *creature) : Gehen(creature), mLeft(true)
         {
             mAnim1 = creature->getCreature()->getAnimation("seitwaerts_rechts");
-            mAnim2 = creature->getCreature()->getAnimation("seitwaerts_links");
+            mAnim = creature->getCreature()->getAnimation("seitwaerts_links");
         }
         virtual CreatureController::MovementType getId() const {return CreatureController::MT_SEITWAERTS_GEHEN;}
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_STEHEN;}
@@ -697,10 +706,11 @@ namespace rl
             if( mLeft )
                 mMovingCreature->setAnimation(mAnim1.first, mAnim1.second * -mMovingCreature->getVelocity().x);
             else
-                mMovingCreature->setAnimation(mAnim2.first, mAnim2.second * -mMovingCreature->getVelocity().x);
+                mMovingCreature->setAnimation(mAnim.first, mAnim.second * -mMovingCreature->getVelocity().x);
         }
     protected:
         bool mLeft;
+        Creature::AnimationSpeedPair mAnim1;
     };
 
     class Schleichen : public Gehen
@@ -708,11 +718,11 @@ namespace rl
     public:
         Schleichen(CreatureController *creature) : Gehen(creature), mState(UP), mTimer(0)
         {
-            mAnim1 = creature->getCreature()->getAnimation("schleichen");
-            mAnim2= creature->getCreature()->getAnimation("schleiche_vorwaerts");
-            mAnim3 = creature->getCreature()->getAnimation("stehen_zu_schleichen");
-            mAnim4= creature->getCreature()->getAnimation("schleichen_zu_stehen");
-            mAnim5= creature->getCreature()->getAnimation("stehen");
+            mAnim = creature->getCreature()->getAnimation("schleichen");
+            mAnim1= creature->getCreature()->getAnimation("schleiche_vorwaerts");
+            mAnim2 = creature->getCreature()->getAnimation("stehen_zu_schleichen");
+            mAnim3= creature->getCreature()->getAnimation("schleichen_zu_stehen");
+            mAnimStehen= creature->getCreature()->getAnimation("stehen");
         }
         virtual CreatureController::MovementType getId() const {return CreatureController::MT_SCHLEICHEN;}
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_STEHEN;}
@@ -741,15 +751,15 @@ namespace rl
             }
             if( mState == DOWN )
             {
-                setAnimation(elapsedTime);
+                //setAnimation(elapsedTime);
                 direction.normalise();
                 Real velocity;
                 calculateBaseVelocity(velocity);
                 mVelocity = direction * velocity;
-                if( direction == Vector3::ZERO )
-                    mMovingCreature->setAnimation(mAnim1.first, mAnim1.second);
+                if( direction == Vector3::ZERO || (-mMovingCreature->getVelocity().z) < 0.1)
+                    mMovingCreature->setAnimation(mAnimStehen.first, mAnimStehen.second);
                 else
-                    mMovingCreature->setAnimation(mAnim2.first, mAnim2.second * -mMovingCreature->getVelocity().z);
+                    mMovingCreature->setAnimation(mAnim.first, mAnim.second * -mMovingCreature->getVelocity().z);
                 applyAuChanges(elapsedTime);
                 if( getRotationMovement()->isPossible() )
                     getRotationMovement()->run(elapsedTime, direction, rotation);
@@ -764,7 +774,7 @@ namespace rl
         {
             Gehen::activate();
             mState = UPTODOWN;
-            mMovingCreature->setAnimation(mAnim3.first,mAnim3.second,1,mAnim5.first);
+            mMovingCreature->setAnimation(mAnim2.first,mAnim3.second,1,mAnimStehen.first);
             mTimer = 0;
         }
         virtual bool canChangeToMovement(CreatureController::MovementType id)
@@ -776,15 +786,16 @@ namespace rl
             if( mState == DOWN )
             {
                 mState = DOWNTOUP;
-                mMovingCreature->setAnimation(mAnim4.first,mAnim4.second,1,mAnim5.first);
+                mMovingCreature->setAnimation(mAnim3.first,mAnim3.second,1,mAnimStehen.first);
                 mTimer = 0;
             }
         }
     protected:
         enum {UP, DOWN, UPTODOWN, DOWNTOUP} mState;
         Real mTimer;
-        Creature::AnimationSpeedPair mAnim4;
-        Creature::AnimationSpeedPair mAnim5;
+        Creature::AnimationSpeedPair mAnim1;
+        Creature::AnimationSpeedPair mAnim2;
+        Creature::AnimationSpeedPair mAnim3;
     };
 
 
@@ -1598,6 +1609,7 @@ LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
             if( meshAnim )
             {
                 meshAnim->setWeight(weight);
+                meshAnim->setPaused(false);
                 mLastAnimationName = name;
                 mLastAnimationSpeed = speed;
             }
@@ -1608,6 +1620,7 @@ LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
             if( mLastAnimationSpeed != speed )
             {
                 meshAnim->setSpeed(speed);
+                meshAnim->setPaused(false);
                 mLastAnimationSpeed = speed;
                 meshAnim->setWeight(weight);
             }
