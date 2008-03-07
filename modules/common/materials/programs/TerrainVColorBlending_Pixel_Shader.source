@@ -28,7 +28,7 @@ float4 ps_main(float4 Color: COLOR0,
    
    
 	//return Light;
-  return TexColor * (TexColor.a+ 0.5) * (Light * ambient) ;
+  return TexColor * (TexColor.a+ 0.2) * (Light + ambient) ;
   //return float4(Color.aaaa);
 
 }
