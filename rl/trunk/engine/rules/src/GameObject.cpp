@@ -582,9 +582,8 @@ namespace rl
                 if( key != PROPERTY_BASE_CLASS && key != PROPERTY_CLASS_ID && key != PROPERTY_INHERITS)
                     // these two keys can be ignored, they are only given to the GameObjectFactory when creating a GOF
                 {
-                    LOG_WARNING(
-                        Logger::RULES,
-                        key + " is not a property of this GameObject ("+mName+")");
+                    LOG_WARNING(Logger::RULES,
+						key + " is not a property of this GameObject ("+mName+")");
                 }
             }
         }
