@@ -70,6 +70,13 @@ OpenSteer::PolylineSegmentedPathwaySingleRadius::PolylineSegmentedPathwaySingleR
     
 }
 
+OpenSteer::PolylineSegmentedPathwaySingleRadius::PolylineSegmentedPathwaySingleRadius( const PolylineSegmentedPath::PathPoints& points,
+                                                                                       float r,
+                                                                                       bool closeCycle )
+    : path_( points, closeCycle ), radius_( r )
+{
+    
+}
 
 
 OpenSteer::PolylineSegmentedPathwaySingleRadius::PolylineSegmentedPathwaySingleRadius( PolylineSegmentedPathwaySingleRadius const& other )

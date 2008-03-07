@@ -62,7 +62,7 @@ namespace OpenSteer {
      */
     class PolylineSegmentedPath : public SegmentedPath {
     public:
-        
+        typedef std::vector< Vector3 > PathPoints;
         /**
          * Constructs an invalid path. Behavior of most member functions is
          * undefined if a path has less than two distinct points.
@@ -82,6 +82,9 @@ namespace OpenSteer {
          */
         PolylineSegmentedPath( size_type numOfPoints,
                                Vector3 const newPoints[],
+                               bool closedCycle );
+
+        PolylineSegmentedPath( const PathPoints& newPoints,
                                bool closedCycle );
         
         PolylineSegmentedPath( PolylineSegmentedPath const& other );
@@ -107,7 +110,8 @@ namespace OpenSteer {
         void setPath( size_type numOfPoints,
                       Vector3 const newPoints[],
                       bool closedCycle );
-        
+
+        void setPath( const PathPoints& newPoints, bool closedCycle);
         /**
          * Replaces @a numOfPoints points starting at @a startIndex.
          *

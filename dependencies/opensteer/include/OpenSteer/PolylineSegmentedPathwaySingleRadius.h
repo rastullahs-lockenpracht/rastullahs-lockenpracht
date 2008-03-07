@@ -64,6 +64,9 @@ namespace OpenSteer {
                                               Vector3 const points[],
                                               float r,
                                               bool closeCycle );
+        PolylineSegmentedPathwaySingleRadius( const PolylineSegmentedPath::PathPoints& points,
+                                              float r,
+                                              bool closeCycle );
         PolylineSegmentedPathwaySingleRadius( PolylineSegmentedPathwaySingleRadius const& other );
         virtual ~PolylineSegmentedPathwaySingleRadius();
         PolylineSegmentedPathwaySingleRadius& operator=( PolylineSegmentedPathwaySingleRadius other );

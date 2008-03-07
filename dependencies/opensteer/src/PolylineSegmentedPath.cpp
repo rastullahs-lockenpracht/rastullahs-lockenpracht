@@ -207,6 +207,12 @@ OpenSteer::PolylineSegmentedPath::PolylineSegmentedPath( size_type numOfPoints,
         setPath( numOfPoints, newPoints, closedCycle );
 }
 
+OpenSteer::PolylineSegmentedPath::PolylineSegmentedPath( const PathPoints& newPoints,
+                                                         bool closedCycle )
+    : points_( 0 ), segmentTangents_( 0 ), segmentLengths_( 0 ), closedCycle_( closedCycle )
+{
+        setPath( newPoints, closedCycle );
+}
 
 OpenSteer::PolylineSegmentedPath::PolylineSegmentedPath( PolylineSegmentedPath const& other )
     : SegmentedPath( other ), points_( other.points_ ), segmentTangents_( other.segmentTangents_ ), segmentLengths_( other.segmentLengths_ ), closedCycle_( other.closedCycle_ )
@@ -284,6 +290,42 @@ OpenSteer::PolylineSegmentedPath::setPath( size_type numOfPoints,
     shrinkToFit( segmentLengths_ );
 }
 
+void 
+OpenSteer::PolylineSegmentedPath::setPath( const PathPoints& newPoints,
+                                           bool closedCycle )
+{
+    size_type numberOfPoints = newPoints.size();
+    assert( 1 < numberOfPoints && "Path must have at least two distinct points." );
+    // While testing say that no cyclus is used because the first point hasn't 
+    // been copied to the back.
+    assert( adjacentPathPointsDifferent( newPoints.begin(), newPoints.end(), false ) && "Adjacent path points must be different." );
+    
+    closedCycle_ = closedCycle;
+    
+    
+    if ( closedCycle_ ) {
+        ++numberOfPoints;
+    }
+    
+    points_ = newPoints;
+    segmentTangents_.resize( numberOfPoints - 1 );
+    segmentLengths_.resize( numberOfPoints - 1 );
+    
+    if ( closedCycle_ ) {
+        points_.push_back( points_[ 0 ] );
+    }
+    
+    updateTangentsAndLengths( points_ , 
+                              segmentTangents_, 
+                              segmentLengths_, 
+                              0, 
+                              numberOfPoints,
+                              closedCycle_ );
+    
+    shrinkToFit( points_ );
+    shrinkToFit( segmentTangents_ );
+    shrinkToFit( segmentLengths_ );
+}
 
 
 void 
