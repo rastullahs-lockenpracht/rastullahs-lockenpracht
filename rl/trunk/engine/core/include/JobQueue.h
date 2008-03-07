@@ -33,7 +33,7 @@ namespace rl
         virtual bool execute(Ogre::Real elapsedTime);
         virtual JobPersistenceType getPersistenceType() const;
         virtual TimeSource::TimeSourceType getTimeSource() const;
-        virtual const Ogre::String getClassName() const;
+        virtual const CeGuiString getClassName() const;
 
     private:
         std::list<AbstractJob*> mQueue;
@@ -50,7 +50,7 @@ namespace rl
         virtual bool execute(Ogre::Real elapsedTime);
         virtual JobPersistenceType getPersistenceType() const;
         virtual TimeSource::TimeSourceType getTimeSource() const;
-        virtual const Ogre::String getClassName() const;
+        virtual const CeGuiString getClassName() const;
 
     private:
         std::set<AbstractJob*> mSet;

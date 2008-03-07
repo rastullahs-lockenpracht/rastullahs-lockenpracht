@@ -86,7 +86,7 @@ namespace rl
         virtual PropertyKeys getAllPropertyKeys() const;
 
         /// returns the name of the class
-        virtual const Ogre::String getClassName() const = 0;
+        virtual const CeGuiString getClassName() const = 0;
     
     protected:
         bool mIsDiscardable;
@@ -149,7 +149,7 @@ namespace rl
         virtual PropertyKeys getAllPropertyKeys() const;
 
         /// returns the name of the class
-        virtual const Ogre::String getClassName() const;
+        virtual const CeGuiString getClassName() const;
 
     protected:
         JobPersistenceType mPersistence;

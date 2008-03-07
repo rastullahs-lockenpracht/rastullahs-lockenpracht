@@ -86,7 +86,7 @@ TimeSource::TimeSourceType JobQueue::getTimeSource() const
     return mTimeSource;
 }
 
-const Ogre::String JobQueue::getClassName() const 
+const CeGuiString JobQueue::getClassName() const 
 {
     return "JobQueue";
 }
@@ -183,7 +183,7 @@ TimeSource::TimeSourceType JobSet::getTimeSource() const
     return mTimeSource;
 }
 
-const Ogre::String JobSet::getClassName() const 
+const CeGuiString JobSet::getClassName() const 
 {
     return "JobSet";
 }

@@ -36,6 +36,8 @@ namespace rl
         void removePoint(Landmark* lm);
         
         LandmarkList getPoints() const;
+        LandmarkList::const_iterator begin() const;
+        LandmarkList::const_iterator end() const;
         bool isEmpty() const;
 	private:
 		LandmarkList mPoints;

@@ -207,7 +207,7 @@ namespace rl
                 writer->setAttributeValueAsInteger(jobNode, "end", iter->end);
                 writer->setAttributeValueAsInt64(jobNode, "timeLastCall", iter->timeLastCall);
                 writer->setAttributeValueAsBool(jobNode, "called", iter->called);
-                writer->setAttributeValueAsStdString(jobNode, "classname", iter->job->getClassName());
+                writer->setAttributeValueAsString(jobNode, "classname", iter->job->getClassName());
 
                 PropertyMap map = iter->job->getAllProperties()->toPropertyMap();
                 writer->writeEachPropertyToElem(jobNode, map);

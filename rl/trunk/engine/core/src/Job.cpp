@@ -168,9 +168,9 @@ namespace rl
         return keys;
     }
 
-    const Ogre::String Job::getClassName() const
+    const CeGuiString Job::getClassName() const
     {
-        static const Ogre::String name = "";
+        static const CeGuiString name = "";
         return name;
     }
 }

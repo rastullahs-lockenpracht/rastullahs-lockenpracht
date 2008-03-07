@@ -33,6 +33,9 @@ namespace rl
     class _RlAiExport CreatureWalkPathJob : public Job
     {
     public:
+        static const CeGuiString PROPERTY_CURRENTLANDMARK;
+        static const CeGuiString PROPERTY_NEXTLANDMARKS;
+        static const CeGuiString PROPERTY_GAMEOBJECTID;
        /** Constructor
         * @param name the name of the Job
         * @param movingCreature the job has to know a moving creature
@@ -55,6 +58,15 @@ namespace rl
 
         // @retval the moving creature controlled by this object
         Creature* getCreature();
+
+        /// derived from PropertyHolder
+        virtual const Property getProperty(const CeGuiString& key) const;
+        /// derived from PropertyHolder
+        virtual void setProperty(const CeGuiString& key, const Property& value);
+        /// derived from PropertyHolder
+        virtual PropertyKeys getAllPropertyKeys() const;
+
+        const CeGuiString getClassName() const {return "CreatureWalkPathJob";}
     private:
 
         LandmarkPath mLandmarkPath;
@@ -68,6 +80,8 @@ namespace rl
         Ogre::Real mTimeSinceLastRotation;
         bool mUpdatedDirection;
     };
+
+    //CreatureWalkPathJob* createSavedCreateWalkPathJob();
 }
 
 #endif

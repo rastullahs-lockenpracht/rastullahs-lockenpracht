@@ -19,11 +19,17 @@
 #include "CreatureWalkPathJob.h"
 #include "AStar.h"
 #include <CreatureControllerManager.h>
+#include <GameObjectManager.h>
+#include <JobScheduler.h>
 
 namespace rl
 {
+    const CeGuiString CreatureWalkPathJob::PROPERTY_CURRENTLANDMARK = "currentlandmark";
+    const CeGuiString CreatureWalkPathJob::PROPERTY_NEXTLANDMARKS = "nextlandmarks";
+    const CeGuiString CreatureWalkPathJob::PROPERTY_GAMEOBJECTID = "go_id";
+
     CreatureWalkPathJob::CreatureWalkPathJob(const Ogre::String& name, Creature* movingCreature, Landmark* startLandmark)
-        : Job(false, true, TimeSource::GAMETIME, Job::FINISH_WHEN_GAME_LOADED), 
+        : Job(false, true, TimeSource::GAMETIME, Job::PERSISTENT), 
         mLandmarkPath("LandmarkPath" + name), 
         mWayPoints(NULL),
         mUpdatedDirection(false),
@@ -31,8 +37,13 @@ namespace rl
     {
         //the moving creature moves from the current position to the landmark
         mMovingCreature = movingCreature;
-        mCurrentLandmark = new Landmark(name + "_startup",mMovingCreature->getPosition());
+        if(movingCreature)
+            mCurrentLandmark = new Landmark(name + "_startup",mMovingCreature->getPosition());
+        else
+            mCurrentLandmark = startLandmark;
         mNextLandmark = startLandmark;
+
+        //JobScheduler::registerJobClass(getClassName().c_str(), (JobScheduler::JobCreateFunction)createSavedCreateWalkPathJob);
     }
 
     CreatureWalkPathJob::~CreatureWalkPathJob()
@@ -162,4 +173,81 @@ namespace rl
     {
         mWayPoints = wps;
     }
+
+    /// derived from PropertyHolder
+    const Property CreatureWalkPathJob::getProperty(const CeGuiString& key) const
+    {
+        Property prop;
+        if(key == PROPERTY_CURRENTLANDMARK)
+        {
+            PropertyRecord record;
+            record.setProperty("name", Property(mCurrentLandmark->getName()));
+            record.setProperty("position", Property(mCurrentLandmark->getPosition()));
+            prop.setValue(record.toPropertyMap());
+        }
+        else if(key == PROPERTY_NEXTLANDMARKS)
+        {
+            if(mLandmarkPath.getPoints().size())
+            {
+                PropertyArray vec;
+                for(LandmarkPath::LandmarkList::const_iterator it = mLandmarkPath.begin(); it != mLandmarkPath.end(); ++it)
+                {
+                    PropertyRecord rec;
+                    rec.setProperty("name", Property((*it)->getName()));
+                    rec.setProperty("position", Property((*it)->getPosition()));
+                    vec.push_back(rec.toPropertyMap());
+                }
+                prop.setValue(vec);
+            }
+        }
+        else if(key == PROPERTY_GAMEOBJECTID)
+        {
+            return GameObjectManager::getSingleton().toProperty(mMovingCreature);
+        }
+        return prop;
+    }
+
+    /// derived from PropertyHolder
+    void CreatureWalkPathJob::setProperty(const CeGuiString& key, const Property& value)
+    {
+        if(key == PROPERTY_CURRENTLANDMARK)
+        {
+            PropertyMap map(value);
+            delete mCurrentLandmark;
+            mCurrentLandmark = new Landmark(map["name"].toString().c_str(), map["position"].toVector3());
+        }
+        else if(key == PROPERTY_NEXTLANDMARKS)
+        {
+            for(LandmarkPath::LandmarkList::const_iterator it = mLandmarkPath.begin(); it != mLandmarkPath.end(); ++it)
+            {
+                delete *it;
+            }
+            mLandmarkPath.getPoints().clear();
+            PropertyArray vec(value);
+            for(PropertyArray::const_iterator it = vec.begin(); it != vec.end(); ++it)
+            {
+                PropertyMap map = *it;
+                mLandmarkPath.getPoints().push_back(new Landmark(map["name"].toString().c_str(), map["position"].toVector3()));
+            }
+        }
+        else if(key == PROPERTY_GAMEOBJECTID)
+        {
+            mMovingCreature = static_cast<Creature*>(GameObjectManager::getSingleton().createGameObjectFromProperty(value));
+        }
+    }
+
+    /// derived from PropertyHolder
+    PropertyKeys CreatureWalkPathJob::getAllPropertyKeys() const
+    {
+        PropertyKeys keys(Job::getAllPropertyKeys());
+        keys.insert(PROPERTY_CURRENTLANDMARK);
+        keys.insert(PROPERTY_NEXTLANDMARKS);
+        keys.insert(PROPERTY_GAMEOBJECTID);
+        return keys;
+    }
+
+    /*CreatureWalkPathJob* createSavedCreateWalkPathJob()
+    {
+        return new CreatureWalkPathJob("",NULL,new Landmark("", Ogre::Vector3::ZERO));
+    }*/
 }

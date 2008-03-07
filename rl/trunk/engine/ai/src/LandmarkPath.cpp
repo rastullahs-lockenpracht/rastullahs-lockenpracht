@@ -86,5 +86,14 @@ namespace rl
     {
         return mPoints.empty();
     }
+    
+    LandmarkPath::LandmarkList::const_iterator LandmarkPath::begin() const
+    {
+        return mPoints.begin();
+    }
 
+    LandmarkPath::LandmarkList::const_iterator LandmarkPath::end() const
+    {
+        return mPoints.end();
+    }
 }
