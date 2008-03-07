@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <rastullahmap formatVersion="0.4.0">
 	<nodes>
+		<entity name="wassershadertestmesh" meshfile="wassershadertestmesh.mesh" visible="true" receivesShadow="false">
+			<position x="30.0" y="20.0" z="60.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			<renderingdistance data="100" /> 
+		</entity>
+	
 		<entity name="Ruchin_Graveyard_wall" meshfile="Ruchin_Graveyard_wall.mesh" visible="true" receivesShadow="false">
 			<position x="30.0" y="0.0" z="60.0" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />

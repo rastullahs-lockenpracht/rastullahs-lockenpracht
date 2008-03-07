@@ -1,0 +1,99 @@
+vertex_program Wassershader_VS_HLSL hlsl
+{
+    source Wassershader_VS.hlsl
+    entry_point vs_main
+    target vs_1_1
+}
+
+fragment_program Wassershader_PS_HLSL hlsl
+{
+    source Wassershader_PS.hlsl
+    entry_point ps_main
+    target ps_2_0
+}
+
+
+
+material Wassershader
+{
+	
+    technique hlsl
+    {
+        pass
+        {
+	        scene_blend alpha_blend
+      		// Tiefenpuffer aus
+      		depth_write off
+      		
+            vertex_program_ref Wassershader_VS_HLSL
+            {
+                param_named_auto matViewProjection worldviewproj_matrix                
+                param_named_auto vViewPosition	 camera_position_object_space
+                param_named_auto fTime0_X time_0_x 500.0
+                
+                param_named_auto Light1_attenuation light_attenuation 0	
+				param_named_auto Light1_position light_position_object_space 0
+				
+				param_named_auto Light2_attenuation light_attenuation 1
+				param_named_auto Light2_position light_position_object_space 1
+				
+				param_named_auto Light3_attenuation light_attenuation 2
+				param_named_auto Light3_position light_position_object_space 2
+                
+                
+            }
+
+            fragment_program_ref Wassershader_PS_HLSL
+            {
+                param_named watercolor float4 0.13 0.12 0.1 0.8
+                //param_named skycolor float4 0.5 0.5 0.5 1.0
+                param_named reflectionexp float 3.0
+                param_named waterreflectcolor float4 0.98 0.95 0.92 0.8
+                			
+				param_named_auto Light1_color light_diffuse_colour 0
+                param_named_auto Light2_color light_diffuse_colour 1
+				param_named_auto Light3_color light_diffuse_colour 2
+            }
+			
+            // Base diffuse texture map
+            texture_unit WaterNormal
+            {
+                texture_alias WaterNormal
+                texture waternormal.png
+            }
+
+            // Normal map
+            texture_unit Cubemap
+            {
+                texture_alias Cubemap
+                
+                cubic_texture dsa07.dds separateUV
+            	tex_address_mode clamp
+            }
+            
+            texture_unit WaterOverlay
+            {
+                texture_alias WaterOverlay
+                texture wateroverlay.png
+            }
+        }
+    }
+    
+
+    technique fixed_function
+    {
+        pass
+        {
+            ambient 0.6 0.6 0.6 1.0
+            diffuse 0.7 0.7 0.7 1.0
+            specular 0.3 0.3 0.3 1.0 16.0
+
+            // Base diffuse texture map
+            texture_unit WaterNormal
+            {
+                texture_alias WaterNormal
+                texture waternormal.png
+            }
+        } 
+    }
+}
