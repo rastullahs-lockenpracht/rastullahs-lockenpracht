@@ -166,9 +166,9 @@ namespace rl
 
     void CoreSubsystem::setTimeFactor(const Ogre::Real &factor)
     {
-        mAnimationManager->setGlobalAnimationSpeed(factor);
         mTimeSourceManager->setTimeFactor(factor);
         mPhysicsManager->setTimeFactor(factor);
+        mGameLoop->setTimeFactor(factor);
     }
 
     bool CoreSubsystem::initializeCoreSubsystem()

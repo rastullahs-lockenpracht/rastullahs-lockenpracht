@@ -51,6 +51,8 @@ class _RlCommonExport GameTask
 		/// Pausiert/Unpausiert den GameTask
         void setPaused(bool isPaused);
 
+        virtual void setTimeFactor(Ogre::Real timeFactor);
+
     private:
 		/// Pause
         bool mPaused;

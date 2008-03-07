@@ -44,4 +44,9 @@ bool GameTask::isInterruptable() const
     return mInterruptable;
 }
 
+void GameTask::setTimeFactor(Ogre::Real timeFactor)
+{
+}
+
+
 }

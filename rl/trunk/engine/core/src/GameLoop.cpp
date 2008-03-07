@@ -116,6 +116,18 @@ namespace rl
         mPaused = paused;
     }
 
+    void GameLoop::setTimeFactor(Ogre::Real timeFactor)
+    {
+        for (size_t i = 0; i < mTaskLists.size(); ++i)
+        {
+            for (std::list<GameTaskEntry>::iterator it
+                = mTaskLists[i]->begin(); it != mTaskLists[i]->end(); ++it)
+            {
+                it->task->setTimeFactor(timeFactor);
+            }
+        }
+    }
+
     void GameLoop::_executeOneRenderLoop()
     {
         // Calculate frame time. This time is smoothed and capped.

@@ -72,6 +72,8 @@ public:
     /// Execute the render loop for one frame (for internal use only)
     /// @see CoreSubsystem
     void _executeOneRenderLoop();
+
+    void setTimeFactor(Ogre::Real timeFactor);
       
 private:
     /// Internal struct for storing the tasks in the queue.
