@@ -1,1 +1,1 @@
-java -jar sceneconverter.jar %1 
+java -jar "%~dp0/sceneconverter.jar" %1 
