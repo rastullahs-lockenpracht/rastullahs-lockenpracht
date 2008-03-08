@@ -30,6 +30,7 @@ namespace rl {
 		enum LightTypes { LT_POINT, LT_DIRECTIONAL, LT_SPOTLIGHT	};
 
         LightObject(const Ogre::String& name, rl::LightObject::LightTypes type);
+        virtual ~LightObject();
 
         /// Wie ActorControlledObject::getMovableObject()
         /// Nur schon gebrauchsfertig gecastet.

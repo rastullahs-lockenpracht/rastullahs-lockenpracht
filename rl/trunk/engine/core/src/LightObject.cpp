@@ -31,6 +31,12 @@ namespace rl {
         mMovableObject = light;
     }
 
+    LightObject::~LightObject()
+    {
+        CoreSubsystem::getSingleton().getWorld()->
+            getSceneManager()->destroyLight(getLight());
+    }
+
     Light* LightObject::getLight() const
     {
         return static_cast<Light*>(mMovableObject);

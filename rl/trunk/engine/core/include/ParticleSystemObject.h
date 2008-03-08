@@ -27,6 +27,7 @@ namespace rl {
     {
     public:
         ParticleSystemObject(const Ogre::String& name, const Ogre::String& partSys );
+        virtual ~ParticleSystemObject();
 
         /// Wie ActorControlledObject::getMovableObject()
         /// Nur schon gebrauchsfertig gecastet.

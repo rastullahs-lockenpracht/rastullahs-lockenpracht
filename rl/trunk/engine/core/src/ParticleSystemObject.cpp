@@ -34,6 +34,12 @@ namespace rl {
 		mMovableObject = part;
 	}
 
+	ParticleSystemObject::~ParticleSystemObject()
+	{
+		CoreSubsystem::getSingletonPtr()->getWorld()
+				->getSceneManager()->destroyParticleSystem(getParticleSystem());
+	}
+
 	ParticleSystem* ParticleSystemObject::getParticleSystem() const
 	{
 		return static_cast<ParticleSystem*>(mMovableObject);

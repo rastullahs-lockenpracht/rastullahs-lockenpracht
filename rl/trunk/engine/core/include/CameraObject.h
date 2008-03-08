@@ -30,7 +30,7 @@ namespace rl {
 		typedef std::pair<int, int> PixelPos;
 
         CameraObject(const Ogre::String& name);
-        ~CameraObject();
+        virtual ~CameraObject();
 
         /** 
 		 * Returns the Ogre camera
