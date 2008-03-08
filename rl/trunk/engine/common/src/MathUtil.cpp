@@ -52,4 +52,34 @@ namespace rl
 
 		return ang;
 	}	
+
+	Real MathUtil::distance(const AxisAlignedBox& b1, const AxisAlignedBox& b2)
+	{
+		if (b1.intersects(b2))
+		{
+			return 0.0f;
+		}
+		else
+		{
+			Vector3 dv;
+			const Vector3& min1 = b1.getMinimum();
+			const Vector3& min2 = b2.getMinimum();
+			const Vector3& max1 = b1.getMaximum();
+			const Vector3& max2 = b2.getMaximum();
+
+			dv.x = std::min(Math::Abs(min1.x - min2.x), Math::Abs(max1.x - max2.x));
+			dv.x = std::min(Math::Abs(min1.x - max2.x), dv.x);
+			dv.x = std::min(Math::Abs(max1.x - min2.x), dv.x);
+
+			dv.y = std::min(Math::Abs(min1.y - min2.y), Math::Abs(max1.y - max2.y));
+			dv.y = std::min(Math::Abs(min1.y - max2.y), dv.y);
+			dv.y = std::min(Math::Abs(max1.y - min2.y), dv.y);
+
+			dv.z = std::min(Math::Abs(min1.z - min2.z), Math::Abs(max1.z - max2.z));
+			dv.z = std::min(Math::Abs(min1.z - max2.z), dv.z);
+			dv.z = std::min(Math::Abs(max1.z - min2.z), dv.z);
+
+			return dv.length();
+		}
+	}
 }
