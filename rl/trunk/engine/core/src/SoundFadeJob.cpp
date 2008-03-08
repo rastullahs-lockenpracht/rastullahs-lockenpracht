@@ -43,14 +43,13 @@ namespace rl
         // add passed time to total time
         mTime += time;
         Ogre::Real volume = (*mSoundFadeFunctor)(mTime) * mStartVolume;
-
         // Are we done now?
         if (volume <= 0.0)
         {
             discard();
             return true;
         }
-        mSoundObject->setVolume(volume);
+		mSoundObject->setVolume(volume);
 
         return false;
     }

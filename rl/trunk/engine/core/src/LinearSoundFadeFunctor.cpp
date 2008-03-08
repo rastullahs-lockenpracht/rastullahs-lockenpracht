@@ -28,12 +28,12 @@ namespace rl
 
     Ogre::Real LinearSoundFadeFunctor::operator()(Ogre::Real time)
     {
-        Ogre::Real factor = time / mDuration;
-        if (factor > 1.0)
+		Ogre::Real factor = time / mDuration;
+		if (factor > 1.0)
         {
             return -1; // Done
         } else {
-            return factor * (mUp ? 1.0 : -1.0);
+            return (mUp ? factor : 1.0 - factor);
         }
     }
 
