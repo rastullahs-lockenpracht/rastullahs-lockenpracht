@@ -60,7 +60,7 @@ class Torch < Item
     
     def setLit(lit)
         @_prop_lit = lit;
-		updateState();
+		updateTorch();
     end
     
     def lit?
@@ -81,60 +81,81 @@ class Torch < Item
     
     def getProperty(name)
 		if (name == "lit")
-			return lit?;
+			return lit?
 		elsif (name == "sound")
-			return @_prop_sound;
+			return @_prop_sound
 		elsif (name == "flames")
-			return @_prop_flames;
+			return @_prop_flames
 		else
-			return super(name, value);
+			return super(name, value)
         end
     end
 
-    def onStateChange(oldState, newState)
-		p "New state "+newState.to_s();
-		updateState();
+    def onBeforeStateChange(oldstate, newstate)
+		if (newstate == RlScript::GOS_LOADED || newstate == RlScript::GOS_IN_POSSESSION) && 
+		(oldstate == RlScript::GOS_IN_SCENE || oldstate == RlScript::GOS_HELD || oldstate == RlScript::GOS_READY)
+			if @sound != nil
+				getActor().detach(@sound)
+				$AM.destroyActor(@sound)
+				@sound = nil
+			end
+			if @light != nil
+				getActor().detach(@light)
+				$AM.destroyActor(@light)
+				@light = nil
+			end
+			if @flammen != nil
+				getActor().detach(@flammen)
+				$AM.destroyActor(@flammen)
+				@flammen = nil
+			end
+		end
     end
-	
-	def updateState()
-		
-		if (getState() == RlScript::GOS_IN_SCENE || getState() == RlScript::GOS_HELD)
-			if (@_prop_sound != nil && @_prop_sound != "" && @sound == nil)
+
+    def onAfterStateChange(oldstate, newstate)
+		if newstate == RlScript::GOS_IN_SCENE || newstate == RlScript::GOS_HELD || newstate == RlScript::GOS_READY
+			if @_prop_sound != nil && @_prop_sound != "" && @sound == nil
 				@sound = $AM.createSoundSampleActor(getId().to_s()+"_sound", @_prop_sound)
 				@sound.getControlledObject().setVolume(1.0);
-		        @sound.getControlledObject().setLooping(true)
-		        @sound.getControlledObject().set3d(true)
+				@sound.getControlledObject().setLooping(true)
+				@sound.getControlledObject().set3d(true)
 				getActor().attachToSlot(@sound, "SLOT_FAR_END")
 			end
-			if (@_prop_flames != nil && @_prop_flames != "" && @flammen == nil)
-				@flammen = $AM.createParticleSystemActor(getId().to_s()+"_flames", @_prop_flames)
-				getActor().attachToSlot(@flammen, "SLOT_FAR_END")
-			end
-			if (@light == nil)
+
+			if @light == nil
 				@light = $AM.createLightActor(getId().to_s()+"_light", LightObject::LT_POINT);
 				@light.getControlledObject().setDiffuseColour(@_prop_color);
 				@light.getControlledObject().setSpecularColour(@_prop_color);
 				@light.getControlledObject().setAttenuation(5, 1, 0, 0);
 				getActor().attachToSlot(@light, "SLOT_FAR_END")
 			end
-			
+
+			if @_prop_flames != nil && @_prop_flames != "" && @flammen == nil
+				@flammen = $AM.createParticleSystemActor(getId().to_s()+"_flames", @_prop_flames)
+				getActor().attachToSlot(@flammen, "SLOT_FAR_END")
+			end
+		end
+		updateTorch()
+    end
+	
+	def updateTorch()
+		if @sound != nil
+			if lit?
+				@sound.getControlledObject().play();
+			else
+				@sound.getControlledObject().stop();
+			end
+		end
+		
+		if @light != nil
 			@light.getControlledObject().setActive(@_prop_lit);
-			if (@flammen != nil)
-				@flammen.getControlledObject().setActive(@_prop_lit);
-			end
-			if (@sound != nil)
-				if lit?
-					@sound.getControlledObject().play();
-				else
-					@sound.getControlledObject().stop();
-				end
-			end
-			
-			
-		else
+		end
+
+		if @flammen != nil
+			@flammen.getControlledObject().setActive(@_prop_lit);
 		end
 	end
-    
+	
     def addActions()
         addAction(LightTorchAction.new)
         addAction(PutoutTorchAction.new)
