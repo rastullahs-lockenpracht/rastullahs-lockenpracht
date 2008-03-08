@@ -212,7 +212,7 @@ namespace rl
         for (CombatantQueue::iterator it = mCombatantQueue.begin();
 			it != mCombatantQueue.end(); ++it)
         {
-			CeGuiString evt = it->second->getCreatureController()->getCreature()->getName();
+			CeGuiString evt = it->second->getName();
 			evt += " - Initiative: " + CeGuiString(StringConverter::toString(it->first));
 			GameEventLog::getSingleton().logEvent(evt, GET_COMBAT);
         }
@@ -260,10 +260,14 @@ namespace rl
 						}
 						else if (entry.aktion == BEWEGEN)
 						{
+							GameEventLog::getSingleton().logEvent(combatant->getName() + " läuft nach "
+								+ CeGuiString(StringConverter::toString(entry.targetPos)), GET_COMBAT);
 							combatant->doBewegen(jobSet, entry.targetPos);
 						}
 						else if (entry.aktion == FOLGEN)
 						{
+							GameEventLog::getSingleton().logEvent(combatant->getName() + " läuft zu "
+								+ entry.target->getName(), GET_COMBAT);
 							combatant->doFolgen(jobSet, entry.target);
 						}
 					}
@@ -286,6 +290,8 @@ namespace rl
 
 	void Combat::doAttacke(JobSet* jobSet, Combatant* actor, Combatant* target)
 	{
+		GameEventLog::getSingleton().logEvent(
+			actor->getName() + " attackiert " + target->getName() , GET_COMBAT);
 		// Make an attack roll.
 		int aresult = actor->rollAttacke();
 		if (aresult >= RESULT_ERFOLG)
@@ -299,6 +305,15 @@ namespace rl
 				if (it->second == PARADE)
 				{
 					int presult = target->rollParade(aresult >= RESULT_GLUECKLICH);
+					if (presult >= RESULT_ERFOLG)
+					{
+						GameEventLog::getSingleton().logEvent("Erfolg, aber pariert.", GET_COMBAT);
+					}
+					else
+					{
+						GameEventLog::getSingleton().logEvent("Erfolg, nicht pariert, Treffer!",
+							GET_COMBAT);
+					}
 					target->doParade(jobSet, actor, presult);
 					actor->doAttacke(jobSet, target, aresult, true, presult);
 				}
@@ -309,11 +324,13 @@ namespace rl
 			}
 			else
 			{
+				GameEventLog::getSingleton().logEvent("Treffer!", GET_COMBAT);
 				actor->doAttacke(jobSet, target, aresult, false);
 			}
 		}
 		else
 		{
+			GameEventLog::getSingleton().logEvent("Verfehlt!", GET_COMBAT);
 			actor->doAttacke(jobSet, target, aresult, false);
 			target->doGetroffen(jobSet);
 		}
