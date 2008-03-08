@@ -46,6 +46,8 @@ const Ogre::String Quest::PROPERTY_NAME = "name";
 const Ogre::String Quest::PROPERTY_DESCRIPTION = "description";
 const Ogre::String Quest::PROPERTY_KNOWN = "known";
 const Ogre::String Quest::PROPERTY_STATE = "state";
+const Ogre::String Quest::PROPERTY_PARTSTODO = "partstodo";
+const Ogre::String Quest::PROPERTY_PARTSDONE = "partsdone";
 
 Quest::Quest(const CeGuiString& id, const CeGuiString& name, const CeGuiString& description)
 :	mId(id),
@@ -318,6 +320,14 @@ const Property Quest::getProperty(const CeGuiString& key) const
     {   
         return Property(STATE_NAMES[mState]);
     }
+    else if(key == PROPERTY_PARTSTODO)
+    {
+        return Property(getPartsToDo());
+    }
+    else if(key == PROPERTY_PARTSDONE)
+    {
+        return Property(getPartsDone());
+    }
     else
     {
         return mAdditionalProperties->getProperty(key);
@@ -346,6 +356,14 @@ void Quest::setProperty(const CeGuiString& key, const Property& value)
     {
         mState = getStateFromName(value.toString());
     }
+    else if (key == PROPERTY_PARTSTODO)
+    {
+        setPartsToDo(value.isInt());
+    }
+    else if (key == PROPERTY_PARTSDONE)
+    {
+        setPartsDone(value.toInt());
+    }
     else
     {
         mAdditionalProperties->setProperty(key, value);
@@ -361,6 +379,8 @@ PropertyKeys Quest::getAllPropertyKeys() const
     keys.insert(PROPERTY_DESCRIPTION);
     keys.insert(PROPERTY_KNOWN);
     keys.insert(PROPERTY_STATE);
+    keys.insert(PROPERTY_PARTSTODO);
+    keys.insert(PROPERTY_PARTSDONE);
     PropertyKeys addKeys = mAdditionalProperties->getAllPropertyKeys();
     keys.insert(addKeys.begin(), addKeys.end());
 
