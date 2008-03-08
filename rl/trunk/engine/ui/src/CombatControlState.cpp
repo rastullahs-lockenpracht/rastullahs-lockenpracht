@@ -163,6 +163,12 @@ namespace rl {
 
 	bool CombatControlState::userRequestEndTurn()
 	{
+		// Only handle, if we accept user input now.
+		if (mState != REQUEST_USER_INPUT)
+		{
+			return true;
+		}
+
 		// Do we want to attack someone?
 		if (mAttackedOpponent)
 		{
@@ -184,6 +190,8 @@ namespace rl {
 		}
 
 		mCombat->registerCombatantRoundDone(this);
+
+		mState = ROUND_EXECUTION;
 
 		return true;
 	}

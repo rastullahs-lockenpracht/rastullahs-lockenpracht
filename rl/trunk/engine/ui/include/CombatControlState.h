@@ -62,7 +62,7 @@ namespace rl {
 		bool enemyLeftCombat(Combatant*);
 
     private:
-		enum State {REQUEST_USER_INPUT, WAIT_FOR_OTHER_COMBATANTS, ROUND_EXECUTION};
+		enum State {REQUEST_USER_INPUT, ROUND_EXECUTION};
 
 		MessagePump::ScopedConnection mCombatIoAttackOpponentConnection;
 		MessagePump::ScopedConnection mCombatIoParryOpponentConnection;
