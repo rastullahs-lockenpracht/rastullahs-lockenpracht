@@ -75,6 +75,14 @@
 			<property name="weitsprung_absprung" type="STRING" data="rennen_absprung"/>
 			<property name="weitsprung" type="STRING" data="rennen_sprung"/>
 			<property name="weitsprung_landung" type="STRING" data="rennen_sprung_landung"/>
+			<!-- Kampf -->
+			<property name="kampf_attacke_pariert" type="STRING" data="kampf_schwerter_angriff_1"/>
+			<property name="kampf_attacke_treffer_nicht_pariert" type="STRING" data="kampf_schwerter_angriff_1"/>
+			<property name="kampf_attacke_treffer" type="STRING" data="kampf_schwerter_angriff_1"/>
+			<property name="kampf_attacke_misserfolg" type="STRING" data="kampf_schwerter_angriff_1"/>
+			<property name="kampf_parade_erfolg" type="STRING" data="kampf_schwerter_parade_1"/>
+			<property name="kampf_parade_misserfolg" type="STRING" data="kampf_schwerter_getroffen"/>
+			<property name="kampf_getroffen" type="STRING" data="kampf_schwerter_getroffen"/>
 		</property>
 		<property name="animationspeeds" type="MAP">
 			<property name="gehen" type="REAL" data="1.0"/>

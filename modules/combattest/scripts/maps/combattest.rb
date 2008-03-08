@@ -16,7 +16,7 @@ $SCRIPT.log("Place hero into scene")
 $hero.placeIntoScene()
 
 sword = $GOM.createGameObject("Kurzschwert");
-$hero.getInventory().hold(sword, "Right Hand");
+$hero.getInventory().ready(sword, "Right Hand");
 
 $SCRIPT.log("Prepare hero for being the active character")
 PlayerSettings.preparePlayer($hero)
@@ -27,14 +27,14 @@ $SCRIPT.log("Hero ready")
 
 wolf = $GOM.createGameObject("Wolf")
 wolf.placeIntoScene
-wolf.setPosition [0.0,0.0,-20.0]
+wolf.setPosition [0.0,0.0,-11.0]
 wolf.setAlignment(Creature::ALIGNMENT_ENEMY)
 wolf.modifyAu(1000)
 
-job = CreatureWalkPathJob.new("TestWalkJob", wolf, Landmark.new("point", [5.0, 0.0, -10.0]))
-job.addLandmark("1",[5.0,0.0,-20.0])
-job.addLandmark("2",[5.0,0.0,-15.0])
-$JS.addJob(job);
+#job = CreatureWalkPathJob.new("TestWalkJob", wolf, Landmark.new("point", [5.0, 0.0, -10.0]))
+#job.addLandmark("1",[5.0,0.0,-20.0])
+#job.addLandmark("2",[5.0,0.0,-15.0])
+#$JS.addJob(job);
 
 $SCRIPT.log("map 'combattest' initialisiert.")
 
