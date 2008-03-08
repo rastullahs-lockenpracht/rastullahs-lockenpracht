@@ -302,17 +302,21 @@ namespace rl
             }
 
             if (actor != NULL)
-            {
+            {                
+                actor->setGameObject(this);
                 if (actor->isInScene())
                 {
                     actor->setPosition(mPosition);
-                    actor->setOrientation(mOrientation);
-                    actor->setQueryFlags(mQueryFlags);
+                    actor->setOrientation(mOrientation);                    
                 }
-                actor->setGameObject(this);
             }
 
             mActor = actor;
+        }
+
+        if (mActor && mActor->isInScene())
+        {
+            mActor->setQueryFlags(mQueryFlags);
         }
     }
 
