@@ -22,28 +22,7 @@ class LightTorchAction < Action
     end
     
     def doAction(torch, user, target)
-        return if torch.lit?
-        # Fackel hat ein Licht am Slot SLOT_FAR_END
-        # Man könnte es auch so machen, dass dieses Licht jetzt
-        # erzeugt und angeheftet wird. Spräche einiges dafür.
-        # Das alles ist implizites Wissen. Deshalb sollte es
-        # allgemeine Richtlinien geben und die Item-Doku sollte
-        # sowas ganz klar ausweisen. Da aber alles innerhalb von Ruby
-        # geschieht, ist das nicht so tragisch. Die C++-Seite ist
-        # an der Stelle nur dumm und macht was Ruby sagt.
-        
-        torchActor = torch.getActor();
-        #torchActor.getChildByName("TorchSparks").activate();
-        #torchActor.getChildByName("TorchCrackle").activate();
-        # Activation sollte folgendermaßen geregelt sein:
-        #       ist Child activated, so wird er angezeigt/erklingt
-        #       wenn Parent-Activation true ist, sonst nicht
-        #       Parent-Activity-Flag wird nicht an die
-        #       Childs weitergereicht.
-        
-        #TODO timer setzen, damit die Fackel nach Ablauf ihrer Lebensdauer
-        # ausgeht.
-        torch.setLit(true);
+        torch.setLit(true) unless torch.lit?;
     end
 end
 
@@ -60,9 +39,7 @@ class PutoutTorchAction < Action
     end
     
     def doAction(torch, user, target)
-        return unless torch.lit?
-        
-        torch.setLit(false);
+        torch.setLit(false) if torch.lit?;
     end
 end
 
@@ -74,27 +51,25 @@ class Torch < Item
     attr :_prop_sound
     attr :_prop_color
     attr :_prop_lit
-    attr :_prop_lightable
-
     
     def initialize(id)
         super(id)
-		addActions()
 		@_prop_color = [0.8, 0.7, 0.5, 1];
+		addActions()
     end
     
     def setLit(lit)
-        @_prop_lit = lit
+        @_prop_lit = lit;
 		updateState();
     end
     
     def lit?
-        @_prop_lit
+        @_prop_lit;
     end
     
     def setProperty(name, value)
 		if (name == "lit")
-			setLit(value)
+			setLit(value);
 		elsif (name == "sound")
 			@_prop_sound = value;
 		elsif (name == "flames")
@@ -104,16 +79,29 @@ class Torch < Item
         end
     end
     
+    def getProperty(name)
+		if (name == "lit")
+			return lit?;
+		elsif (name == "sound")
+			return @_prop_sound;
+		elsif (name == "flames")
+			return @_prop_flames;
+		else
+			return super(name, value);
+        end
+    end
+
     def onStateChange(oldState, newState)
-		p "New state"+newState.to_s()
+		p "New state "+newState.to_s();
 		updateState();
     end
 	
 	def updateState()
 		
 		if (getState() == RlScript::GOS_IN_SCENE || getState() == RlScript::GOS_HELD)
-			if (@_prop_sound != nil && @_prop_sound != "" && @soundObj == nil)
+			if (@_prop_sound != nil && @_prop_sound != "" && @sound == nil)
 				@sound = $AM.createSoundSampleActor(getId().to_s()+"_sound", @_prop_sound)
+				@sound.getControlledObject().setVolume(1.0);
 		        @sound.getControlledObject().setLooping(true)
 		        @sound.getControlledObject().set3d(true)
 				getActor().attachToSlot(@sound, "SLOT_FAR_END")
@@ -135,7 +123,11 @@ class Torch < Item
 				@flammen.getControlledObject().setActive(@_prop_lit);
 			end
 			if (@sound != nil)
-				@sound.getControlledObject().setActive(@_prop_lit);
+				if lit?
+					@sound.getControlledObject().play();
+				else
+					@sound.getControlledObject().stop();
+				end
 			end
 			
 			
@@ -144,26 +136,15 @@ class Torch < Item
 	end
     
     def addActions()
-        @mLightAction = LightTorchAction.new
-        @mPutoutAction = PutoutTorchAction.new
-        if @_prop_lightable
-            addAction(@mLightAction)
-            addAction(@mPutoutAction)
-        else
-            addAction(@mLightAction, Action::ACT_DISABLED)
-            addAction(@mPutoutAction, Action::ACT_DISABLED)
-        end        
+        addAction(LightTorchAction.new)
+        addAction(PutoutTorchAction.new)
     end
     
     def getDefaultAction(actor)
-        if not @_prop_Lightable
-            super(actor)
+        if @_prop_lit
+            @mPutoutAction
         else
-            if @_prop_lit
-                @mPutoutAction
-            else
-                @mLightAction
-            end
+            @mLightAction
         end
     end
 end

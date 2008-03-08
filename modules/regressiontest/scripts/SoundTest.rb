@@ -6,6 +6,10 @@ require 'torch.rb'
 class SoundFadeAction < Action
   def initialize
     super("SoundFadeAction", "Tests fading code.")
+    sound = $SM.createSound("ruchin001.ogg")
+    @sound = SoundObject.new(sound, "SoundFadeTest")
+    @sound.set3d(false);
+    @sound.play();
   end
   
   def canDo(go, user)
@@ -14,10 +18,9 @@ class SoundFadeAction < Action
   
   def doAction(go, user, target)
     p "SoundFadeAction"
-    sound = $SM.createSound("ruchin001.ogg")
-    @sound = SoundObject.new(sound, "SoundFadeTest")
-    @functor = LinearSoundFadeFunctor.new(120, false)
-    @job = SoundFadeJob.new(@sound, @functor, true)
+    functor = LinearSoundFadeFunctor.new(5, false)
+    job = SoundFadeJob.new(@sound, functor, true)
+    $JS.addJob(job)
   end
   
 end
@@ -47,7 +50,7 @@ class SoundTest < TestCase
       fackel = $GOM.createGameObject("torch")
       fackel.setDescription("Fackel" + radian.to_s)
       fackel.setPosition(rel_pos([x, @@height, y]))
-      fackel.setLit(true)
+      fackel.setLit(false)
       fackel.placeIntoScene()
     end
     
