@@ -81,7 +81,7 @@ namespace rl
         virtual float setMaxSpeed(float);
 
 
-        float SimpleVehicle::getHeight() const;
+        float getHeight() const;
 
 		/**
          * Can be used to update the entity, eg. for steering, flocking etc.pp...
