@@ -118,6 +118,8 @@
 		<property name="flames" type="STRING" data="feuertest"/>
 		<!-- <property name="lightable" type="BOOL" data="true"/> -->
 		<property name="lit" type="BOOL" data="true"/>
+		<property name="size" type="INTPAIR" data="1,3"/>
+		<property name="imagename" type="STRING" data="set:ModelThumbnails image:Fackel"/>
 	</gameobjectclass>
 
     <gameobjectclass classid="mckhero"  baseclass="MCKHero">
