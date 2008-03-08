@@ -38,6 +38,7 @@ namespace rl
         mRsEffect(NULL)
 	{
         mQueryFlags |= QUERYFLAG_ARMOR;
+		mItemType = ITEMTYPE_ARMOR;
 	}
 
 	Armor::~Armor(void)

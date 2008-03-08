@@ -108,7 +108,9 @@ namespace rl
          * The movement doesn't change until another movement is set, so it is not necessary to call this function 
          * every frame. Only the rotation is resettet to zero every new frame!
          * @param type the id of the movement
-         * @param direction if the direction isn't possible (see AbstractMovement::isDirectionPossible), only a "part" of the direction is applied
+         * @param direction This is the movement direction in local space.
+		 *                  If the direction isn't possible (see AbstractMovement::isDirectionPossible),
+		 *                  only a "part" of the direction is applied.
          * @param rotation like above
          * @retval false signifies that the change to this movement was not possible (possibly because the present movement forbade it)
          */

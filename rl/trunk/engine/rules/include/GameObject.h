@@ -142,6 +142,7 @@ namespace rl
         void setOrientation(const Ogre::Quaternion& orientation);
         const Ogre::Quaternion& getOrientation() const;
         const Ogre::Vector3& getPosition() const;
+        Ogre::AxisAlignedBox getWorldBoundingBox() const;
 
         /// Soll der Aktor überhaupt leuchten?
         bool isHighlightingEnabled();

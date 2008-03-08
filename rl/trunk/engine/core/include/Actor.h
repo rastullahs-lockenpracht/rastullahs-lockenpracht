@@ -157,6 +157,9 @@ namespace rl {
         /// Gibt die Orientierung des Aktors relativ zur Welt zurück
         const Ogre::Quaternion& getWorldOrientation(void) const;
 
+        /// Gibt die bounding box in world space zurück.
+        Ogre::AxisAlignedBox getWorldBoundingBox() const;
+
         /// Setzt die Orientierung des Aktors
         void setOrientation(const Ogre::Quaternion& orientation);
 

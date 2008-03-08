@@ -50,27 +50,23 @@ namespace rl
 		{
 			Combatant* target = *allies.begin();
 			// Are we in weapon range to opponent
-			AttackeAktion* attacke = dynamic_cast<AttackeAktion*>(
-				CombatManager::getSingleton().getKampfaktion("Attacke"));
-			if (getPosition().distance(target->getPosition())
-				<= attacke->getMaximumTargetDistance(this))
+			if (target)
 			{
-				// Ok, we can attack
-				mCombat->registerCombatantAction(this, attacke, target);
-			}
-			else
-			{
-				// We can't attack from here, so go to opponent.
-				Kampfaktion* folgen = CombatManager::getSingleton().getKampfaktion("Folgen");
-				mCombat->registerCombatantAction(this, folgen, target);
+				// Are we in weapon range to opponent
+				if (mCombat->canAttack(this, target))
+				{
+					// Ok, we can attack
+					mCombat->registerAttacke(this, target);
+				}
+				else
+				{
+					// We can't attack from here, so go to opponent.
+					mCombat->registerFolgen(this, target);
+				}
 			}
 		}
 		mCombat->registerCombatantRoundDone(this);
     }
-
-	void AgentCombatState::executeAction(Kampfaktion* action)
-	{
-	}
 
 	void AgentCombatState::update(const float elapsedTime)
     {

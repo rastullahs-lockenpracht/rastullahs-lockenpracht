@@ -18,6 +18,8 @@
 #define __RL_COMBAT_H__
 
 #include "RulesPrerequisites.h"
+
+#include "JobListener.h"
 #include "Kampfaktion.h"
 
 #include <set>
@@ -27,8 +29,9 @@
 namespace rl
 {
     class Combatant;
+	class JobSet;
 
-    class _RlRulesExport Combat
+	class _RlRulesExport Combat : public JobListener
     {
     public:
         typedef std::set<Combatant*> CombatantSet;
@@ -51,23 +54,32 @@ namespace rl
         // Called by combatants in response to a request by the Combat object.
         // With calling one of these functions combatants register their actions for this round.
 
-        void registerCombatantAction(Combatant*, Kampfaktion* ka);
-        void registerCombatantAction(Combatant*, Kampfaktion* ka, Combatant* target);
-		void registerCombatantAction(Combatant*, Kampfaktion* ka, const Ogre::Vector3& target);
-		void registerCombatantRoundDone(Combatant*);
+		void registerAttacke(Combatant* actor, Combatant* target);
+        void registerParade(Combatant* actor);
+        void registerAusweichen(Combatant* actor);
+		void registerBewegen(Combatant* actor, const Ogre::Vector3& targetPos);
+		void registerFolgen(Combatant* actor, Combatant* target);
+		void registerCombatantRoundDone(Combatant* actor);
 
-        void actionExecuted(Combatant*, Kampfaktion*);
+		bool canAttack(Combatant* actor, Combatant* target) const;
+
+		// JobListener overrides
+
+        virtual void jobFinished(unsigned long ticket);
 
     private:
+		typedef enum {ATTACKE, BEWEGEN, FOLGEN} Aktion;
+		typedef enum {PARADE, AUSWEICHEN} Reaktion;
 		struct ActionEntry
 		{
-			Kampfaktion* kampfaktion;
+			Aktion aktion;
 			Combatant* actor;
 			Combatant* target;
 			Ogre::Vector3 targetPos;
 		};
 		typedef std::vector<ActionEntry> ActionEntryVector;
 		typedef std::map<Combatant*, ActionEntryVector> CombatantActionsMap;
+		typedef std::map<Combatant*, Reaktion> CombatantReactionsMap;
         typedef std::vector<std::pair<int, Combatant*> > CombatantQueue;
 
         CombatantSet mOpponents;
@@ -75,14 +87,20 @@ namespace rl
         /// Combatants in order of their initiative for the current round.
         CombatantQueue mCombatantQueue;
         CombatantActionsMap mCombatantActions;
+		CombatantReactionsMap mCombatantReactions;
 		// Combatants who have registered all their actions for this round
 		CombatantSet mFinishedCombatants;
+		unsigned long mAnimationSequenceTicket;
 
         unsigned short mCurrentRound;
 
         void beginRound();
         void executeRound();
         void endRound();
+
+		void doAttacke(JobSet* jobSet, Combatant* actor, Combatant* target);
+
+		Ogre::Real getMaximumAttackeDistance(Combatant* actor) const;
     };
 }
 

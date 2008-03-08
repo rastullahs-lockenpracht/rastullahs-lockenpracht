@@ -364,6 +364,49 @@ namespace rl {
         }
     }
 
+    Ogre::AxisAlignedBox Actor::getWorldBoundingBox(void) const
+	{
+		PhysicalObject* po = dynamic_cast<PhysicalObject*>(mActorControlledObject);
+		AxisAlignedBox box;
+		if (po)
+		{
+			box = po->getDefaultSize();
+		}
+		else
+		{
+			return AxisAlignedBox();
+		}
+
+		Matrix4 m;
+
+        if (mSceneNode)
+        {
+			m = mSceneNode->_getFullTransform();
+        }
+        else if (mBone)
+        {
+			m = mBone->_getFullTransform();
+        }
+        else
+        {
+			return AxisAlignedBox();
+        }
+
+		Vector3 min = m * box.getMinimum();
+		Vector3 max = m * box.getMaximum();
+
+		Vector3 nmin, nmax;
+		nmin.x = std::min(min.x, max.x);
+		nmin.y = std::min(min.y, max.y);
+		nmin.z = std::min(min.z, max.z);
+
+		nmax.x = std::max(min.x, max.x);
+		nmax.y = std::max(min.y, max.y);
+		nmax.z = std::max(min.z, max.z);
+
+        return AxisAlignedBox(nmin, nmax);
+	}
+
     const Quaternion& Actor::getWorldOrientation(void) const
     {
         if (mSceneNode)

@@ -47,6 +47,7 @@ namespace rl
         mKampftechnik("")
 	{
         mQueryFlags |= QUERYFLAG_WEAPON;
+		mItemType = ITEMTYPE_WEAPON;
 	}
 
 	Weapon::~Weapon()

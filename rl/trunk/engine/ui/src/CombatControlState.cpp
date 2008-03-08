@@ -149,10 +149,6 @@ namespace rl {
 		mCombatGui->enableUserInput(true);
     }
 
-	void CombatControlState::executeAction(Kampfaktion* action)
-	{
-	}
-
 	bool CombatControlState::userRequestAttackOpponent(Combatant* opponent)
 	{
 		mAttackedOpponent = opponent;
@@ -171,25 +167,20 @@ namespace rl {
 		if (mAttackedOpponent)
 		{
 			// Are we in weapon range to opponent
-			AttackeAktion* attacke = dynamic_cast<AttackeAktion*>(
-				CombatManager::getSingleton().getKampfaktion("Attacke"));
-			if (getPosition().distance(mAttackedOpponent->getPosition())
-				<= attacke->getMaximumTargetDistance(this))
+			if (mCombat->canAttack(this, mAttackedOpponent))
 			{
 				// Ok, we can attack
-				mCombat->registerCombatantAction(this, attacke, mAttackedOpponent);
+				mCombat->registerAttacke(this, mAttackedOpponent);
 			}
 			else
 			{
 				// We can't attack from here, so go to opponent.
-				Kampfaktion* folgen = CombatManager::getSingleton().getKampfaktion("Folgen");
-				mCombat->registerCombatantAction(this, folgen, mAttackedOpponent);
+				mCombat->registerFolgen(this, mAttackedOpponent);
 			}
 		}
 		if (mParriedOpponent)
 		{
-			Kampfaktion* parade = CombatManager::getSingleton().getKampfaktion("Parade");
-			mCombat->registerCombatantAction(this, parade, mAttackedOpponent);
+			mCombat->registerParade(this);
 		}
 
 		mCombat->registerCombatantRoundDone(this);

@@ -52,7 +52,6 @@ namespace rl {
 
         virtual Ogre::String getCombatantTypeName() const;
         virtual void requestCombatantAction();
-		virtual void executeAction(Kampfaktion* action);
 
 		// Event handlers
 

@@ -374,6 +374,15 @@ namespace rl
         return mPosition;
     }
 
+	Ogre::AxisAlignedBox GameObject::getWorldBoundingBox() const
+	{
+        if (mActor != NULL)
+        {
+            return mActor->getWorldBoundingBox();
+        }
+        return Ogre::AxisAlignedBox();
+	}
+
     void GameObject::setOrientation(const Ogre::Quaternion& orientation)
     {
         if (mActor != NULL)

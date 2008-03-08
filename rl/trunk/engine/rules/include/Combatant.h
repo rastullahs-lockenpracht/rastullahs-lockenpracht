@@ -25,6 +25,8 @@ namespace rl
     class Creature;
     class CreatureController;
 	class Kampfaktion;
+	class JobSet;
+	class Weapon;
 
     /// Base class of combat participiants. This defines the interface Combat uses
 	/// to communicate with Combatants. Be it AI bots or actual users.
@@ -41,11 +43,6 @@ namespace rl
         /// it can be done synchronously or asynchronously.
         virtual void requestCombatantAction() = 0;
 
-        /// This function is called by the Combat the Combatantant is taking part in,
-        /// in order to request it to execute the registered action.
-		/// When done, Combatant is supposed to call Combat#actionExecuted.
-		virtual void executeAction(Kampfaktion* aktion) = 0;
-
         /// Type name used by factory
 		virtual Ogre::String getCombatantTypeName() const = 0;
 
@@ -57,9 +54,45 @@ namespace rl
 		CeGuiString getName() const;
 		Ogre::Vector3 getPosition() const;
 
+		Weapon* getActiveWeapon() const;
+
+        /**
+        *  Fuehrt eine Attacke aus. Die Funktion wird von einem Angriffsmanoever 
+        *  aufgerufen.
+        *  @retval RESULT_ERFOLG Eine erfolgreiche Attacke.
+        *  @retval RESULT_MISSERFOLG Eine fehlgeschlagene Attacke.
+        *  @retval RESULT_GLUECKLICH Eine gute Attacke.
+        *  @retval RESULT_PATZER Ein bestaetigter Attackepatzer.
+        **/
+        int rollAttacke();
+
+        /**
+        *  Fuehrt eine Parade aus. Die Funktion wird von einem Parademanoever 
+              *  aufgerufen.
+        *  @param guteParade Versucht eine gute Parade (bei einem gluecklichen Treffer)
+        *  @retval RESULT_ERFOLG Eine erfolgreiche Parade.
+        *  @retval RESULT_MISSERFOLG Eine fehlgeschlagene Parade.
+        *  @retval RESULT_GLUECKLICH Eine gute Parade.
+        *  @retval RESULT_PATZER Ein bestaetigter Paradepatzer.
+        *  @throws InvalidArgumentException Kampftechnik nicht in 
+        *   \c mKampftechniken gefunden.
+        **/
+		int rollParade(bool gluecklich);
+
+		void doAttacke(JobSet* jobSet, Combatant* target, int attackeResult, bool parade,
+			int paradeResult = 0);
+		void doParade(JobSet* jobSet, Combatant* target, int paradeResult);
+		void doBewegen(JobSet* jobSet, const Ogre::Vector3& targetPos);
+		void doFolgen(JobSet* jobSet, Combatant* target);
+		void doGetroffen(JobSet* jobSet);
+
     protected:
         Combat* mCombat;
         CreatureController* mController;
+
+		/// Converts canonic animation to actual animation name inside the skeleton
+		/// According to the mapping defined in Creature gof.
+		Ogre::String getMeshAnimationName(const Ogre::String animationName);
     };
 
     class _RlRulesExport CombatantFactory
