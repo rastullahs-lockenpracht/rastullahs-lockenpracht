@@ -54,5 +54,6 @@ namespace rl {
 		CEGUI::ListboxWrappedTextItem* item = new CEGUI::ListboxWrappedTextItem(text);
 		item->setTextColours(color);
 		mLog->addItem(item);
+		mLog->ensureItemIsVisible(item);
 	}
 }
