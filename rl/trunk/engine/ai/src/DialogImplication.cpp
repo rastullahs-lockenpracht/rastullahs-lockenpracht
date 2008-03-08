@@ -35,7 +35,8 @@ namespace rl
     {
     }
 
-    DialogVariableAssignment::DialogVariableAssignment(const Ogre::String& variableName, const CeGuiString& value)
+    DialogVariableAssignment::DialogVariableAssignment(const Ogre::String& variableName, 
+                                                       const CeGuiString& value)
         : mVariableName(variableName), mValue(value)
     {
     }
@@ -45,6 +46,56 @@ namespace rl
         Property prop = dialog->getProperty(mVariableName);
         prop.getFromString(mValue);
         dialog->setProperty(mVariableName, prop);
+    }
+
+        DialogVariableIncrease::DialogVariableIncrease(const Ogre::String& variableName, 
+                                                   const CeGuiString& value)
+        : DialogVariableAssignment(variableName, value)
+    {
+    }
+
+    void DialogVariableIncrease::apply(Dialog* dialog)
+    {
+        Property prop = dialog->getProperty(mVariableName);
+        if(prop.isInt() || prop.isReal())
+        {
+            Property mod = dialog->getProperty(mVariableName);
+            mod.getFromString(mValue);
+            Ogre::Real value = prop.getAsNumber() + mod.getAsNumber();
+            prop.setValue(value);
+            dialog->setProperty(mVariableName, prop);
+        }
+        else
+        {
+            LOG_ERROR(Logger::DIALOG, "You can not increase the variable '" 
+                                      + mVariableName
+                                      + "'. The variable's type is not a number");
+        }
+    }
+
+    DialogVariableDecrease::DialogVariableDecrease(const Ogre::String& variableName, 
+                                                   const CeGuiString& value)
+        : DialogVariableAssignment(variableName, value)
+    {
+    }
+
+    void DialogVariableDecrease::apply(Dialog* dialog)
+    {
+        Property prop = dialog->getProperty(mVariableName);
+        if(prop.isInt() || prop.isReal())
+        {
+            Property mod = dialog->getProperty(mVariableName);
+            mod.getFromString(mValue);
+            Ogre::Real value = prop.getAsNumber() - mod.getAsNumber();
+            prop.setValue(value);
+            dialog->setProperty(mVariableName, prop);
+        }
+        else
+        {
+            LOG_ERROR(Logger::DIALOG, "You can not decrease the variable '" 
+                                      + mVariableName
+                                      + "'. The variable's type is not a number");
+        }
     }
 
     DialogElementActivation::DialogElementActivation(const CeGuiString& id, 

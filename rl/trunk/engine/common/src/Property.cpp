@@ -247,6 +247,9 @@ namespace rl {
   //      {
   //          mValue = StringConverter::toString(toBool());
   //      }
-        mValue = str;
+        else
+        {
+            mValue = str;
+        }
     }
 }

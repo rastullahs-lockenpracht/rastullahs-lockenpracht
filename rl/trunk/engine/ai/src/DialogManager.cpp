@@ -824,6 +824,18 @@ namespace rl
                 CeGuiString variableValue = getAttributeValueAsString(implicationElem, "value");
                 return new DialogVariableAssignment(variableName, variableValue);
             }
+            else if (hasNodeName(implicationElem, "incvariable"))
+            {
+                Ogre::String variableName = getAttributeValueAsStdString(implicationElem, "name");
+                CeGuiString variableValue = getAttributeValueAsString(implicationElem, "value");
+                return new DialogVariableIncrease(variableName, variableValue);
+            }
+            else if (hasNodeName(implicationElem, "decvariable"))
+            {
+                Ogre::String variableName = getAttributeValueAsStdString(implicationElem, "name");
+                CeGuiString variableValue = getAttributeValueAsString(implicationElem, "value");
+                return new DialogVariableDecrease(variableName, variableValue);
+            }
             else if (hasNodeName(implicationElem, "setoptionactive"))
             {
                 CeGuiString id = getAttributeValueAsString(implicationElem, "id");

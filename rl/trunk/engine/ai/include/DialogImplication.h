@@ -35,12 +35,32 @@ namespace rl
     class DialogVariableAssignment : public DialogImplication
     {
     public:
-        DialogVariableAssignment(const Ogre::String& variableName, const CeGuiString& value);
+        DialogVariableAssignment(const Ogre::String& variableName, 
+                                 const CeGuiString& value);
+
         virtual void apply(Dialog* dialog);
 
-    private:
+    protected:
         Ogre::String mVariableName; 
         CeGuiString mValue;
+    };
+
+    class DialogVariableIncrease : public DialogVariableAssignment
+    {
+    public:
+        DialogVariableIncrease(const Ogre::String& variableName, 
+                               const CeGuiString& value);
+
+        virtual void apply(Dialog* dialog);
+    };
+
+    class DialogVariableDecrease : public DialogVariableAssignment
+    {
+    public:
+        DialogVariableDecrease(const Ogre::String& variableName, 
+                               const CeGuiString& value);
+
+        virtual void apply(Dialog* dialog);
     };
 
     class DialogElementActivation : public DialogImplication
