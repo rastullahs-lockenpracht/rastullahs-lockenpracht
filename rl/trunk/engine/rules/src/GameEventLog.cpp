@@ -42,8 +42,29 @@ namespace rl {
 
 	void GameEventLog::logEvent(const CeGuiString& eventString, GameEventType type)
 	{
+        LOG_MESSAGE("GameEventLog", getGameEventTypeNamePrefix(type) + eventString);
 		mLog.push_back(std::make_pair(type, eventString));
         MessagePump::getSingleton().sendMessage<MessageType_GameEventLog_EventAdded>(type, eventString);
 		while (mLog.size() > mLogSize) mLog.pop_front();
+	}
+
+	CeGuiString GameEventLog::getGameEventTypeNamePrefix(GameEventType type)
+	{
+		if (type == GET_DIALOG)
+		{
+			return "[dialog] - ";
+		}
+		else if (type == GET_COMBAT)
+		{
+			return "[combat] - ";
+		}
+		else if (type == GET_QUEST)
+		{
+			return "[quest] - ";
+		}
+		else
+		{
+			return "[default] - ";
+		}
 	}
 }

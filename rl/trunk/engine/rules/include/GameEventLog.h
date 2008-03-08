@@ -41,6 +41,8 @@ namespace rl
 		typedef std::pair<GameEventType, CeGuiString> LogEntry;
 		std::deque<LogEntry> mLog;
 		size_t mLogSize;
+
+		CeGuiString getGameEventTypeNamePrefix(GameEventType);
     };
 
 }
