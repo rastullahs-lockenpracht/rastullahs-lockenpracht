@@ -75,6 +75,7 @@
 			<property name="weitsprung_absprung" type="STRING" data="rennen_absprung"/>
 			<property name="weitsprung" type="STRING" data="rennen_sprung"/>
 			<property name="weitsprung_landung" type="STRING" data="rennen_sprung_landung"/>
+			<property name="fallen" type="STRING" data="idle"/>
 			<!-- Kampf -->
 			<property name="kampf_attacke_pariert" type="STRING" data="kampf_schwerter_angriff_1"/>
 			<property name="kampf_attacke_treffer_nicht_pariert" type="STRING" data="kampf_schwerter_angriff_1"/>

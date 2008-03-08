@@ -18,8 +18,20 @@
 		<property name="KO" type="INT" data="13"/>
 		<property name="KK" type="INT" data="14"/>
 	</property>
+	<property name="kampftechniken" type="MAP">
+		<property name="Raufen" type="INTPAIR" data="9,2"/>
+	</property>
 	<property name="talente" type="MAP">
 		<property name="Athletik" type="INT" data="3"/>
+	</property>
+	<property name="inventory" type="MAP">
+		<property name="slots" type="ARRAY">
+			<property type="MAP"> 
+				<property name="name" type="STRING" data="Snout"/>
+				<property name="type" type="STRING" data="default"/>
+				<property name="readies" type="INT" data="1"/> 
+			</property>
+		</property>
 	</property>
 	<property name="ai" type="MAP">
 		<property name="behaviours" type="ARRAY">
@@ -49,6 +61,7 @@
 		<property name="weitsprung_absprung" type="STRING" data="rennen_absprung"/>
 		<property name="weitsprung" type="STRING" data="rennen_sprung"/>
 		<property name="weitsprung_landung" type="STRING" data="rennen_sprung_landung"/>
+		<property name="fallen" type="STRING" data="idle"/>
 		<!-- Kampf -->
 		<property name="kampf_attacke_pariert" type="STRING" data="attacke"/>
 		<property name="kampf_attacke_treffer_nicht_pariert" type="STRING" data="attacke"/>
@@ -87,6 +100,23 @@
 		<property name="BF" type="INT" data="1"/>
 		<property name="INI" type="INT" data="0"/>
 		<property name="WM" type="INTPAIR" data="0,-1"/>
+		<property name="DK" type="STRING" data="HN"/>
+	</gameobjectclass>
+	
+	<gameobjectclass classid="Wolfsschnauze" baseclass="Weapon">
+		<property name="name" type="STRING" data="Wolfsschnauze"/>
+		<property name="description" type="STRING" data="Die Zähne eines Wolfes - scharf und dreckig"/>
+		<property name="meshfile" type="STRING" data="waf_kurzschwert_01.mesh"/>
+		<property name="imagename" type="STRING" data="set:ModelThumbnails image:waf_kurzschwert_01"/>
+		<property name="mass" type="REAL" data="1.0"/>
+		<property name="size" type="INTPAIR" data="2,4"/>
+		<property name="kampftechnik" type="STRING" data="Raufen"/>
+		<!-- INTTRIPLE xyz for TP: x*d6 + y*d20 + z -->
+		<property name="TP" type="INTTRIPLE" data="1,0,0"/>
+		<property name="TPKK" type="INTPAIR" data="11,5"/>
+		<property name="BF" type="INT" data="0"/>
+		<property name="INI" type="INT" data="2"/>
+		<property name="WM" type="INTPAIR" data="0,-5"/>
 		<property name="DK" type="STRING" data="HN"/>
 	</gameobjectclass>
 </GameObjectDefinitions>

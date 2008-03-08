@@ -31,6 +31,9 @@ wolf.setPosition [0.0,0.0,-11.0]
 wolf.setAlignment(Creature::ALIGNMENT_ENEMY)
 wolf.modifyAu(1000)
 
+schnauze = $GOM.createGameObject("Wolfsschnauze");
+wolf.getInventory().ready(schnauze, "Snout");
+
 #job = CreatureWalkPathJob.new("TestWalkJob", wolf, Landmark.new("point", [5.0, 0.0, -10.0]))
 #job.addLandmark("1",[5.0,0.0,-20.0])
 #job.addLandmark("2",[5.0,0.0,-15.0])
