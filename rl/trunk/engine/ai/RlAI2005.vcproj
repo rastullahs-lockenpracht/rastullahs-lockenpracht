@@ -395,6 +395,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\SimpleVehicle.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\stdinc.cpp"
 				>
 				<FileConfiguration
@@ -566,6 +570,10 @@
 			</File>
 			<File
 				RelativePath=".\include\PhysicalObstacle.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SimpleVehicle.h"
 				>
 			</File>
 			<File

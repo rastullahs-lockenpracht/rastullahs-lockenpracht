@@ -22,17 +22,19 @@
 #include "LineSetPrimitive.h"
 #include "OgreVector3.h"
 #include "OpenSteer/SteerLibrary.h"
+#include "SimpleVehicle.h"
 #include "MessagePump.h"
-
 
 namespace rl
 {
-	/*	SimpleVehicle_1 adds concrete LocalSpace methods to AbstractVehicle.
+	/**
+     * SimpleVehicle_1 adds concrete LocalSpace methods to AbstractVehicle.
 	 * OpenSteer::LocalSpaceMixin contains functionality to convert from one
 	 * coordinate system to an other.
 	 */
-	typedef OpenSteer::LocalSpaceMixin<OpenSteer::AbstractVehicle> SimpleVehicle_1;
-	/*	SimpleVehicle_2 adds concrete steering methods to SimpleVehicle_1.
+	typedef OpenSteer::LocalSpaceMixin<SimpleVehicle> SimpleVehicle_1;
+	/**
+     * SimpleVehicle_2 adds concrete steering methods to SimpleVehicle_1.
 	 * OpenSteer::SteerLibraryMixin adds the "steering library"
 	 * functionality to a given base class.  SteerLibraryMixin assumes its base
      * class supports the AbstractVehicle interface.
@@ -40,22 +42,19 @@ namespace rl
 	 * according to behaviours.
 	 */
 	typedef OpenSteer::SteerLibraryMixin<SimpleVehicle_1> SimpleVehicle_2;
-    typedef OpenSteer::AbstractTokenForProximityDatabase<OpenSteer::AbstractVehicle*> ProximityToken;
+    
 
 	class Actor;
 	class Agent;
-	class PhysicalThing;
     class CreatureController;
 
 	/**
 	 * Realises steering for NPCs
 	 * Provides different steering behaviours through methods that calculate
 	 * steering forces
-	 *
-	 * Maybe this should be used as interface instead of AbstractVehicle
 	 */
     class _RlAiExport SteeringVehicle : public SimpleVehicle_2,
-                                            public DebugVisualisable
+                                        public DebugVisualisable
 	{
 	public:
 		/** Constructor.
@@ -66,7 +65,7 @@ namespace rl
 		 */
 		virtual ~SteeringVehicle(void);
 
-        CreatureController* getCreatureController();
+        
 		/**
 		 * Add a force to the current force of the vehicle
 		 * @param  force value as force vector
@@ -169,81 +168,81 @@ namespace rl
 		 * predict position of this vehicle at some time in the future
 		 *(assumes velocity remains constant)
 		 */
-		Ogre::Vector3 predictFuturePosition(const float predictionTime) const;
+		//Ogre::Vector3 predictFuturePosition(const float predictionTime) const;
 
 		void resetLocalSpace();
 
 		/** get mass
 		 * @returns mass of physical object
 		 */
-		float getMass() const;
+		//float getMass() const;
 		/** does not set mass but is necessary for AbstractVehicle.
 		 * throws an exception on invocation.
 		 * @param m mass
 		 */
-		float setMass(float m);
+		//float setMass(float m);
 
 		/** retrieve velocity of vehicle
 		 * @returns velocity of the vehicle
 		 */
-		Ogre::Vector3 getVelocity() const {return mCurrentVelocity;}
+		//Ogre::Vector3 getVelocity() const {return mCurrentVelocity;}
 
 		/** retrieves speed of vehicle.
 		 * may be faster than taking mag of velocity
 		 */
-		float getSpeed() const;
+		//float getSpeed() const;
 		/** sets speed of vehicle.
 		 * may be faster than taking mag of velocity
 		 * @param s new speed to set
 		 * @returns float new speed set.
 		 */
-		float setSpeed(float s);
+		//float setSpeed(float s);
 
 		/** radius for size of bounding sphere.
 		 * used for obstacle avoidance, etc.
 		 * TODO: this should be handled by size of NewtonBody
 		 * @returns float the radius
 	    */
-		float getRadius() const;
+		//float getRadius() const;
 		/** sets radius for size of bounding sphere.
 		 * used for obstacle avoidance, etc.
 		 * TODO: this should be handled by size of NewtonBody
 		 * @returns float the radius
 	    */
-		float setRadius(float m);
+		//float setRadius(float m);
 
 		/** height for size of bounding sphere.
 		 * used for obstacle avoidance, etc.
 		 * TODO: this should be handled by height of NewtonBody
 		 * @returns float the height
 	    */
-        float getHeight() const;
+        //float getHeight() const;
 		/** height for size of bounding sphere.
 		 * used for obstacle avoidance, etc.
 		 * TODO: this should be handled by height of NewtonBody
 		 * @returns float the height
 	    */
-        float setHeight(float h);
+        //float setHeight(float h);
 
 		/** retrieves maximum force.
 		 * @returns float containing maximum force.
 		 */
-		float getMaxForce() const; 
+		//float getMaxForce() const; 
 		/** sets maximum force.
 		 * TODO: should not be set here, throw excpetion or so
 		 * @returns float containing maximum force set.
 		 */
-		float setMaxForce(float mf);
+		//float setMaxForce(float mf);
 
 		/** retrieves maximum speed.
 		 * @returns float containing maximum speed
 		 */
-		float getMaxSpeed() const;
+		//float getMaxSpeed() const;
 		/** retrieves maximum speed.
 		 * TODO: should not be set here, throw excpetion or so
 		 * @returns float containing maximum speed
 		 */
-		float setMaxSpeed(float ms);
+		//float setMaxSpeed(float ms);
 
 		/**
 		 * adjust the steering force passed to applySteeringForce.
@@ -260,8 +259,6 @@ namespace rl
         // derived from debugvisualisable
         virtual DebugVisualisableFlag getFlag() const;
         virtual void updatePrimitive();
-
-        inline void setProximityToken(ProximityToken* token) { mProximityToken = token; }
 
 	protected:
 		/** initializes
@@ -296,10 +293,6 @@ namespace rl
 		//! the yaw angle in radians
 		//Ogre::Radian mYaw;
 
-        ProximityToken* mProximityToken;
-
-        //! Creature object steered by this vehicle(and controlled by Agent).
-        Creature* mCreature;
         int mCreatureId;
 
         bool refetchCreature();

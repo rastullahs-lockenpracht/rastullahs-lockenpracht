@@ -18,14 +18,22 @@
 
 #include "OpenSteer/Obstacle.h"
 #include "DebugVisualisable.h"
+#include "SimpleVehicle.h"
 #include <OgreNewt.h>
 #include <vector>
 
+namespace OpenSteer
+{
+    class AbstractVehicle;
+}
+
 namespace rl
 {
+    typedef OpenSteer::AbstractProximityDatabase<OpenSteer::AbstractVehicle*> ProximityDatabase;
 	/** Representation of the GameWorld for Steering and Pathing.
-	 * Is a container for obstacles that have to be avoided when
-	 * creating a path.
+	 * Is a container for obstacles and vehicles that can be avoided.
+     * Obstacles are static geometry or not moving entities,
+     * Vehicles are dynamically moveable creatures / agents
 	 */
 	class AiWorld
 	{
@@ -38,15 +46,23 @@ namespace rl
 		/** Returns a list of obstacles for OpenSteer.
 		 */
 		const OpenSteer::ObstacleGroup& getSteeringObstacles();
-		/** Adds an obstacle to the internal list of obstacles
+		/** Adds an obstacle to the internal list of obstacles.
+         * Agents will avoid these obstacles.
 		 */
 		void addObstacle(OpenSteer::Obstacle* obstacle);
 		/** Removes and deletes all internally stored obstacle objects.
 		 */
 		void removeAllObstacles();
+
+        /**
+         * adds a Vehicle to the AiWorld. 
+         * Vehicles are moving ojects in the world which Agents should avoid.
+         */
+        void addVehicle(SimpleVehicle* vehicle);
 	private:
 		//! list of obstacles
 		OpenSteer::ObstacleGroup mObstacles;
+        ProximityDatabase* mProximityCheck;
 	};
 
 

@@ -15,8 +15,9 @@
  */
 #include "stdinc.h"
 
+#include "AiSubsystem.h"
 #include "AgentManager.h"
-
+#include "AiWorld.h"
 #include "Agent.h"
 #include "AgentCombatState.h"
 #include "AgentSteeringState.h"
@@ -40,24 +41,12 @@ AgentManager::AgentManager(void)
     // Register self as CombatantFactory with the CombatManager, so that State is switched
     // when agent is taking part in a combat.
     CombatManager::getSingleton().registerCombatantFactory("default", this);
-    // initialize the proximity database that keeps track of the positions of all Agents.
-    // this is used to query all current neighbours of an Agent so that he can avoid them 
-    const Vector3 center;
-    const float div = 20.0f;
-    const Vector3 divisions (div, 1.0f, div);
-    const float diameter = 80.0f; //XXX need better way to get this
-    const Vector3 dimensions (diameter, diameter, diameter);
-    mAgentProximityCheck = new OpenSteer::LQProximityDatabase<OpenSteer::AbstractVehicle*>(center, dimensions, divisions);
 }
 
 AgentManager::~AgentManager(void)
 {
     GameObjectManager::getSingleton().unregisterGameObjectStateListener(this);
 	removeAllAgents();
-    if(mAgentProximityCheck != NULL)
-    {
-        delete mAgentProximityCheck;
-    }
 }
 
 Agent* AgentManager::createAgent(Creature* character)
@@ -91,7 +80,7 @@ void AgentManager::addAgent(Agent* agent)
 {
     RlAssert(agent, "Agent is NULL");
     // add the agent to the proximity database
-    agent->setProximityToken(mAgentProximityCheck->allocateToken(agent));
+    AiSubsystem::getSingleton().getWorld()->addVehicle(agent);
     // add him to the internal agent list
     mAgents.insert(std::make_pair(agent->getControlledCreature(), agent));
     LOG_MESSAGE(Logger::AI, 

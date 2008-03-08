@@ -28,14 +28,26 @@
 #include "OgreVector3.h"
 #include "PhysicsMaterialRaycast.h"
 #include "World.h"
+#include "OpenSteer/Proximity.h"
 
 using namespace OpenSteer;
 using namespace Ogre;
 
 namespace rl {
 
-AiWorld::AiWorld(void) : mObstacles()
+AiWorld::AiWorld(void) 
+    : mObstacles()
 {
+    // initialize the proximity database that keeps track of the positions of all Agents.
+    // this is used to query all current neighbours of an Agent so that he can avoid them 
+    const Vector3 center;
+    const float div = 20.0f;
+    const Vector3 divisions (div, 1.0f, div);
+    const float diameter = 80.0f; //XXX need better way to get this
+    const Vector3 dimensions (diameter, diameter, diameter);
+    mProximityCheck = new OpenSteer::LQProximityDatabase<OpenSteer::AbstractVehicle*>(center, dimensions, divisions);
+
+    // Example for creating an OpenSteer::BoxObstacle
 //  create an obstacle as bounding box of the walkarea for npcs
 //  this should be accessable through scripting, the Obstacles should have names
 //  for easier access
@@ -50,12 +62,15 @@ AiWorld::AiWorld(void) : mObstacles()
 	o->setPosition(Vector3(-31.5f,-10.0f, -3.5f));
 	o->setForward(0,0,-1);
 	addObstacle(o); */
-
 }
 
 AiWorld::~AiWorld(void)
 {
 	removeAllObstacles();
+    if(mProximityCheck != NULL)
+    {
+        delete mProximityCheck;
+    }
 }
 
 void AiWorld::addObstacle(Obstacle* obstacle)
@@ -76,6 +91,13 @@ void AiWorld::removeAllObstacles()
 		delete (*itr);
 	}
 	mObstacles.clear();
+}
+
+void AiWorld::addVehicle(SimpleVehicle* vehicle)
+{
+    // adds the vehicle to the proximity check for near neighbors.
+    // vehicles can easily be removed by just deleteing the token in the vehicle
+    vehicle->setProximityToken(mProximityCheck->allocateToken(vehicle));
 }
 
 NewtonWorldAsObstacle::NewtonWorldAsObstacle(void)

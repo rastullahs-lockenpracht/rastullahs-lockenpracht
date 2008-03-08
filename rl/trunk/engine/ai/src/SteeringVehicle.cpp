@@ -41,15 +41,15 @@ SteeringVehicle::SteeringVehicle(Creature* creature)
 	  mCurrentForce(Vector3::ZERO), 
 	  mCurrentVelocity(Vector3::ZERO),
 	  mForwardVector(Vector3::NEGATIVE_UNIT_Z),
-      mProximityToken(NULL),
-	  mCreature(creature),
-      mCreatureId(mCreature->getId()),
+      mCreatureId(creature->getId()),
       mController(NULL),
       mDebugSteer(Vector3::ZERO),
       mDebugWander(Vector3::ZERO),
       mDebugAvoidObstacles(Vector3::ZERO)
 {
+    setCreature(creature);
 	initialize();
+
     mController = CreatureControllerManager::getSingleton().getCreatureController(
         mCreature);
     mMessageType_GameObjectsLoaded_Handler = MessagePump::getSingleton().addMessageHandler<MessageType_GameObjectsLoaded>(
@@ -58,10 +58,6 @@ SteeringVehicle::SteeringVehicle(Creature* creature)
 
 SteeringVehicle::~SteeringVehicle()
 {
-    if(mProximityToken != NULL)
-    {
-        delete mProximityToken;
-    }
 }
 
 void SteeringVehicle::resetLocalSpace()
@@ -91,11 +87,6 @@ void SteeringVehicle::initialize()
 }
 
 
-CreatureController* SteeringVehicle::getCreatureController()
-{
-    return CreatureControllerManager::getSingleton().getCreatureController(mCreature);
-}
-
 void SteeringVehicle::addForce(const Ogre::Vector3& force)
 {
 	mCurrentForce += force;
@@ -103,13 +94,12 @@ void SteeringVehicle::addForce(const Ogre::Vector3& force)
 
 void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 {
-    // from PlayerVehicle
-    // since physics schould by handled by movingcreature
+    SimpleVehicle::update(currentTime, elapsedTime);
 
-	OgreNewt::Body* body = mCreature->getActor()->getPhysicalThing()->_getBody();
     Vector3 pos = mCreature->getPosition();
 	setPosition(pos);
-    mProximityToken->updateForNewPosition(pos);
+    
+    OgreNewt::Body* body = mCreature->getActor()->getPhysicalThing()->_getBody();
     //  Get the velocity vector
 	mCurrentVelocity = body->getVelocity();
 	//  enforce speed limit
@@ -125,10 +115,6 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
     Vector3 newUnitForward = orientation*Vector3::NEGATIVE_UNIT_Z;
     regenerateOrthonormalBasisUF(newUnitForward);
 
-    // end of inserting from playervehicle
-
-
-
     // only process if mMovingCreature not NULL
     if (mController == NULL || mCreature->getQueryFlags() & QUERYFLAG_PLAYER)
     {
@@ -136,17 +122,16 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
         return;
     }
     
-// calculate the result of the force    
+    // calculate the result of the force    
     Vector3 result = mCurrentForce;// + mCurrentVelocity;
-
-     mDebugSteer = mCurrentForce;
+    
+    mDebugSteer = mCurrentForce;
 
     // @todo remove this
     if (mCreature->getAu() <= 6)
         mCreature->modifyAu(20,true);
 
-
-    AbstractMovement *mov_drehen = mController->getMovementFromId(CreatureController::MT_DREHEN);
+    AbstractMovement* mov_drehen = mController->getMovementFromId(CreatureController::MT_DREHEN);
     Real vel_drehen(0);
     Radian max_drehen = Degree(0);
     if (mov_drehen->calculateBaseVelocity(vel_drehen))
@@ -250,6 +235,7 @@ bool SteeringVehicle::needAvoidance(const float minTimeToCollision)
 AVGroup SteeringVehicle::getNeighbors(const float maxRadius) const
 {
 	AVGroup neighbors;
+    //std::vector<SimpleVehicle*> neighbors;
     if(mProximityToken != NULL)
     {
         mProximityToken->findNeighbors(getPosition(), maxRadius, neighbors);
@@ -277,91 +263,19 @@ Vector3 SteeringVehicle::getPosition()
 	return mCreature->getPosition();
 }
 */
-float SteeringVehicle::getMass() const 
-{
-    return mCreature->getMass();
-}
 
-float SteeringVehicle::setMass(float m) 
-{
-	// don't set mass here TODO: throw exception
-
-	return 1;
-} 
-
-float SteeringVehicle::getSpeed() const 
-{
-	return mSpeed;
-}
-
-float SteeringVehicle::setSpeed(float s) 
-{
-	return 1;
-}
-
-float SteeringVehicle::getRadius() const 
-{
-	// this is only the radius in x axis, but i think, this is the value that should be used here
-    Ogre::AxisAlignedBox aab = mCreature->getActor()->getPhysicalThing()->_getBody()->getCollision()->getAABB();
-    return(aab.getMaximum().x - aab.getMinimum().x)/2;
-}
-
-float SteeringVehicle::setRadius(float m) 
-{
-	// don't set mass here TODO: throw exception
-	return 1;
-}
-
-float SteeringVehicle::getHeight() const 
-{
-    Ogre::AxisAlignedBox aab = mCreature->getActor()->getPhysicalThing()->_getBody()->getCollision()->getAABB();
-    return aab.getMaximum().y - aab.getMinimum().y;
-}
-
-float SteeringVehicle::setHeight(float h) 
-{
-	// don't set mass here TODO: throw exception
-	return 1;
-}
-
-const Actor* SteeringVehicle::getActor() const  
-{ 
-	return mCreature->getActor(); 
-}
-
-float SteeringVehicle::getMaxForce() const 
-{
-	return 10000.0f;
-} 
-
-float SteeringVehicle::setMaxForce(float mf) 
-{
-	 // TODO: should not be set here, throw excpetion or so
-	return _maxForce = mf;
-}
-
-float SteeringVehicle::getMaxSpeed() const 
-{
-	return mController->getMaximumSpeed();
-}
-
-float SteeringVehicle::setMaxSpeed(float ms) 
-{
-	 // TODO: should not be set here, throw excpetion or so
-	return 1;
-}
 
 const ObstacleGroup& SteeringVehicle::getObstacles() const
 {
 	return AiSubsystem::getSingleton().getWorld()->getSteeringObstacles();
 }
-
+/*
 Vector3 SteeringVehicle::predictFuturePosition(const float predictionTime) const
 {
 	//return position() +(velocity() * predictionTime);
 	return getVelocity() * predictionTime;
 }
-
+*/
 Vector3 SteeringVehicle::adjustRawSteeringForce(const Vector3& force)
 {
     const float maxAdjustedSpeed = 0.2f * getMaxSpeed();
