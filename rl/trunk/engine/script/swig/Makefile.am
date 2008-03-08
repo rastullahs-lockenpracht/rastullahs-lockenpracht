@@ -9,7 +9,7 @@ RlExports.cxx: RlCore.head.swig RlCore.swig RlRules.head.swig \
  TypeDynamicDirector.swig TypeOgreColourValue.swig TypeOgreQuaternion.swig \
  TypeOgreRadian.swig TypeOgreReal.swig TypeOgreString.swig TypeOgreStringVector.swig \
  TypeOgreVector3.swig TypeRlCeGuiString.swig TypeRlCeGuiStringVector.swig \
- TypeRlProperty.swig TypeStdPairIntInt.swig
+ TypeRlProperty.swig TypeRlPropertyKeys.swig TypeStdPairIntInt.swig
  
 .i.cxx:
 	$(SWIG) $(SWIG_RUBY_OPT) -o $@ $<

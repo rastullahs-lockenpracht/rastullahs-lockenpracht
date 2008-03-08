@@ -664,6 +664,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\swig\TypeRlPropertyKeys.swig"
+					>
+				</File>
+				<File
 					RelativePath=".\swig\TypeStdPairIntInt.swig"
 					>
 				</File>
