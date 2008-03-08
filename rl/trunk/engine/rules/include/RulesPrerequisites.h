@@ -28,6 +28,9 @@
 #   endif
 #else // Linux / Mac OSX etc
 #   define _RlRulesExport
+#	if defined ( RL_USE_PCH )
+#		include "stdinc.h"
+#	endif
 #endif
 
 #include <vector>

@@ -172,7 +172,7 @@ namespace OpenSteer {
                      i++)
                 {
                     const Vector3 offset = center - (**i).position;
-                    const float d2 = offset.lengthSquared();
+                    const float d2 = offset.squaredLength();
 
                     // push onto result vector when within given radius
                     if (d2 < r2) results.push_back ((**i).object);

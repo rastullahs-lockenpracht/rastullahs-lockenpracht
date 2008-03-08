@@ -17,7 +17,7 @@
 #ifndef __UiPrerequisites_H__
 #define __UiPrerequisites_H__
 
-#include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest für VS)
+#include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest fï¿½r VS)
 
 #undef _assert
 
@@ -35,6 +35,9 @@
 #   endif
 #else // Linux / Mac OSX etc
 #   define _RlUiExport
+#	if defined ( RL_USE_PCH )
+#		include "stdinc.h"
+#	endif
 #endif
 
 // Important types. Probably will have to be relocated, though it is used throughout RlUi.

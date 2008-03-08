@@ -28,6 +28,9 @@
 #   endif
 #else // Linux / Mac OSX etc
 #   define _RlScriptExport
+#	if defined ( RL_USE_PCH )
+#		include "stdinc.h"
+#	endif
 #endif
 
 #endif

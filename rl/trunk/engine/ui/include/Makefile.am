@@ -50,3 +50,9 @@ noinst_HEADERS = \
     WindowFactory.h \
     WindowFadeJob.h \
     WindowManager.h
+
+CLEANFILES = stdinc.h.gch
+all-local: stdinc.h.gch
+stdinc.h.gch: $(noinst_HEADERS) stdinc.h
+	@echo Creating GCH file
+	g++ -I. stdinc.h

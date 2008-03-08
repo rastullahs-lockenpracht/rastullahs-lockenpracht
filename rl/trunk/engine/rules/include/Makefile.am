@@ -23,6 +23,7 @@ noinst_HEADERS = \
 	GameObjectStateListener.h \
 	GameTimeSource.h \
 	GlobalProperties.h \
+	GoToJob.h \
 	Item.h \
 	Inventory.h \
 	JournalEntry.h \
@@ -49,3 +50,9 @@ noinst_HEADERS = \
 	WaitJob.h \
 	Weapon.h \
 	ZauberStateSet.h
+
+CLEANFILES = stdinc.h.gch
+all-local: stdinc.h.gch
+stdinc.h.gch: $(noinst_HEADERS) stdinc.h
+	@echo Creating GCH file
+	g++ -I. stdinc.h

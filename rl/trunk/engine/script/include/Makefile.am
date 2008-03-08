@@ -14,3 +14,9 @@ noinst_HEADERS = \
 	WaypointProcessor.h \
 	UnifiedFactory.h \
 	ZoneProcessor.h
+
+CLEANFILES = stdinc.h.gch
+all-local: stdinc.h.gch
+stdinc.h.gch: $(noinst_HEADERS) stdinc.h
+	@echo Creating GCH file
+	g++ -I. stdinc.h

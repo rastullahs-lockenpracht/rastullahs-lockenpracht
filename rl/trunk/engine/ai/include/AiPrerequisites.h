@@ -32,6 +32,9 @@
 #   endif
 #else // Linux / Mac OSX etc
 #   define _RlAiExport
+#	if defined ( RL_USE_PCH )
+#		include "stdinc.h"
+#	endif
 #endif
 
 #pragma warning (disable : 4251)

@@ -23,3 +23,8 @@ noinst_HEADERS =
 	XmlPropertyWriter.h \
 	XmlResource.h \
 	XmlResourceManager.h
+
+CLEANFILES = stdinc.h.gch
+all-local: $(noinst_HEADERS) stdinc.h
+	@echo Creating GCH file
+	g++ -I. stdinc.h 
