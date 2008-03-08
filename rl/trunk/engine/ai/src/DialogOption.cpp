@@ -15,8 +15,8 @@
  */
 #include "stdinc.h" //precompiled header
 
+#include "Dialog.h"
 #include "DialogOption.h"
-
 #include "DialogCondition.h"
 
 namespace rl
@@ -66,6 +66,18 @@ namespace rl
 
     bool DialogOption::isAvailable(Dialog* dialog) const
     {
+        bool isActive = true;
+        
+        if(dialog->getAllProperties()->hasProperty("option" + getId() + "isActive"))
+        {
+            isActive = dialog->getProperty("option" + getId() + "isActive");
+        }
+        // if the DialogOption is not active, return false
+        if(!isActive)
+        {
+            return false;
+        }
+        // if it is active, check it's precondition
         if (mPrecondition)
         {
             return mPrecondition->isTrue(dialog);

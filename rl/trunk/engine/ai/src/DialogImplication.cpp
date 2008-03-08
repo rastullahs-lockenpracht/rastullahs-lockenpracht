@@ -47,6 +47,26 @@ namespace rl
         dialog->setProperty(mVariableName, prop);
     }
 
+    DialogElementActivation::DialogElementActivation(const CeGuiString& id, 
+                                                     bool value,
+                                                     bool isOption)
+        : mElementId(id), mValue(value), mIsOption(isOption)
+    {
+    }
+
+    void DialogElementActivation::apply(Dialog* dialog)
+    {
+        Property prop;
+        if(mIsOption)
+        {
+            dialog->setProperty("option" + mElementId + "isActive", mValue);
+        }
+        else
+        {
+            dialog->setProperty("response" + mElementId + "isActive", mValue);
+        }
+    }
+
 	void DialogExit::apply(rl::Dialog *dialog)
 	{
 		dialog->setProperty(Dialog::PROP_EXIT_REQUESTED, true);

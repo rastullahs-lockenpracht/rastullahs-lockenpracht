@@ -55,6 +55,25 @@ namespace rl
     DialogManager::~DialogManager()
     {
         SaveGameManager::getSingleton().unregisterSaveGameData(this);
+        {
+            std::map<Ogre::String, DialogPrototype*>::iterator itr = mDialogs.begin();
+            std::map<Ogre::String, DialogPrototype*>::iterator end = mDialogs.end();
+            for(; itr != end; ++itr)
+            {
+                DialogPrototype* p = itr->second;
+                //delete (*itr->second);
+            }
+            mDialogs.clear();
+        }
+        {
+            std::map<DialogConfiguration, Dialog*>::iterator itr = mDialogStates.begin();
+            std::map<DialogConfiguration, Dialog*>::iterator end = mDialogStates.end();
+            for(; itr != end; ++itr)
+            {
+                //delete (*itr->second);
+            }
+            mDialogStates.clear();
+        }
     }
 
     const StringVector& DialogManager::getScriptPatterns() const
@@ -804,6 +823,12 @@ namespace rl
                 Ogre::String variableName = getAttributeValueAsStdString(implicationElem, "name");
                 CeGuiString variableValue = getAttributeValueAsString(implicationElem, "value");
                 return new DialogVariableAssignment(variableName, variableValue);
+            }
+            else if (hasNodeName(implicationElem, "setoptionactive"))
+            {
+                CeGuiString id = getAttributeValueAsString(implicationElem, "id");
+                bool value = getAttributeValueAsBool(implicationElem, "value");
+                return new DialogElementActivation(id, value, true);
             }
 			else if (hasNodeName(implicationElem, "exit"))
 			{

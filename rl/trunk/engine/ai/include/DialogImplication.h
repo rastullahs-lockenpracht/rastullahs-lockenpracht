@@ -43,6 +43,17 @@ namespace rl
         CeGuiString mValue;
     };
 
+    class DialogElementActivation : public DialogImplication
+    {
+    public:
+        DialogElementActivation(const CeGuiString& id, bool value, bool isOption);
+        virtual void apply(Dialog* dialog);
+    private:
+        CeGuiString mElementId;
+        bool mValue;
+        bool mIsOption;
+    };
+
 	class DialogExit : public DialogImplication
 	{
 	public:
