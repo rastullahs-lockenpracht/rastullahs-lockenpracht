@@ -89,9 +89,6 @@ PKG_CHECK_MODULES([OgreNewt], [OgreNewt >= 0.07])
 # OpenSteer
 PKG_CHECK_MODULES([OpenSteer], [opensteer >= 0.0.9])
 
-# DSA4Werkzeug
-#PKG_CHECK_MODULES(Dsa4Wz, Dsa4Wz >= 1.33.0)
-
 # meshmagick libraries
 PKG_CHECK_MODULES(meshmagick, meshmagick >= 0.4.0)
 
