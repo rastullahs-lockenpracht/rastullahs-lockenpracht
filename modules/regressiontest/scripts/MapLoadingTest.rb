@@ -16,8 +16,8 @@ class MapLoadingTest < TestCase
         builtIn2.setName(builtIn2.getName() + "_2")
         builtIn2.setPosition([-6, 0, -10.0])
         builtIn2.setState(GOS_IN_SCENE)
-        assertEquals(builtIn, builtIn2)
-        assertEquals(builtIn.getActor(), builtIn2.getActor())
+        assertEquals(builtIn, builtIn2, "Compare built-in GameObject")
+        assertEquals(builtIn.getActor(), builtIn2.getActor(), "Compare built-in GameObject's actor")
 
 		# --- Custom GO class, created by MapLoader ---
         custom = GameObjectManager.getSingleton().getGameObject(11)
@@ -27,8 +27,8 @@ class MapLoadingTest < TestCase
         custom2.setName(custom2.getName() + "_2")
         custom2.setPosition([-6, 0, -11.0])
         custom2.setState(GOS_IN_SCENE)
-        assertEquals(custom, custom2)
-        assertEquals(custom.getActor(), custom2.getActor())
+        assertEquals(custom, custom2, "Compare Ruby GameObject")
+        assertEquals(custom.getActor(), custom2.getActor(), "Compare Ruby GameObject's actor")
 		
 		$SCRIPT.log("MapLoadingTest initialisiert")
     end

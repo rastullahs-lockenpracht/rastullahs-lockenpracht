@@ -76,7 +76,7 @@ class RegressionTest
 
 		if @mErrors > 0
 		  MessageBox.showModal(
-			@mErrors.to_s() + " of the " + @mTests.to_s() +  " tests were not successful.\nNot working:\n" + @mFailedTests.join(", "),
+			@mErrors.to_s() + " of the " + @mTests.to_s() +  " tests could not be initialized successfully.\nNot working:\n" + @mFailedTests.join(", "),
 			"Regressiontest Results",
 			MessageBox::OK)
 		end
