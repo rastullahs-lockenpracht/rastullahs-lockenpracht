@@ -46,12 +46,14 @@ class RegressionTest
 	end
 
 	def runTest(test, coords)
+		p "Start test " + test.to_s()
 		@mTests += 1
 		testErrors = test.new(coords).run()
 		if testErrors != 0
 			@mErrors += testErrors
 			@mFailedTests << test.to_s()
 		end
+		p "Finished test " + test.to_s()
 	end
 	
 	def runTests()
