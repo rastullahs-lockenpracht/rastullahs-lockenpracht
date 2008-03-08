@@ -2,12 +2,12 @@ load "embed.rb"
 
 module GameObjectProperties
   
-    def getAllProperties()
+    def getAllPropertyKeys()
         $SCRIPT.log("Check Ruby GameObject for properties.");
         
         #  Get all properties from the parent C++ class
         #ps = PropertySet.new
-        ps = super()
+        keys = super()
     
         #  Get all instance variables from the ruby class
         aPropArray = instance_variables
@@ -15,16 +15,10 @@ module GameObjectProperties
         # For every variable check if it is a property
         for aPropertyName in aPropArray
             if aPropertyName =~ /^@_prop_/
-                # Get the value of the variable
-                aPropertyValue = instance_variable_get(aPropertyName)      
-                $SCRIPT.log("Property <" + "#{$'}" + "," + 
-                    instance_variable_get(aPropertyName).to_s + "> added to PropertySet");
-          
-                # Add property to the property set
-                ps.setProperty("#{$'}", aPropertyValue)
+                keys << "#{$'}"
             end
         end
-        return ps
+        return keys
     end
 	
 	# Generic setProperty method. This will query self for a member variable @_prop_<key>
