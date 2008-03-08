@@ -1,6 +1,6 @@
 feuertest
 {
-	quota	7000
+	quota	30
 	material	glow01
 	particle_width	0.8
 	particle_height	0.8
