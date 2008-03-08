@@ -16,6 +16,7 @@
 #include "stdinc.h" //precompiled header
 
 #include "GameObject.h"
+#include <CEGUIPropertyHelper.h>
 
 #include "Action.h"
 #include "ActionManager.h"
@@ -29,6 +30,7 @@
 #include "GameObjectManager.h"
 #include "CoreSubsystem.h"
 #include "PhysicsManager.h"
+
 
 using namespace std;
 
@@ -170,7 +172,7 @@ namespace rl
 
         mActions.push_back(make_pair(action, option));
         LOG_MESSAGE(Logger::RULES,
-            "Bei GameObject #"+Ogre::StringConverter::toString(mId)+
+            "Bei GameObject #"+CEGUI::PropertyHelper::intToString(mId)+
             " ("+getName()+") wurde Aktion "+action->getName().c_str()+" hinzugefuegt.");
     }
 
@@ -623,7 +625,7 @@ namespace rl
 
     Actor* GameObject::createActor()
     {
-        if (mActor == NULL)
+        if (!mActor)
         {
             Ogre::String actorName = Ogre::StringConverter::toString(mId);
 			Actor* actor = NULL;
@@ -660,12 +662,11 @@ namespace rl
 					"Error creating actor '"
 					+ actorName	+ "'.");
 			}
-            return actor;
+
+            setActor(actor);
         }
-        else
-        {
-            return mActor;
-        }
+
+        return mActor;
     }
 
     void GameObject::destroyActor()
@@ -721,11 +722,14 @@ namespace rl
         if (mState == GOS_IN_SCENE)
         {
             Actor* actor = mActor;
-            mOrientation = actor->getWorldOrientation();
-            mPosition = actor->getWorldPosition();
+            if (actor)
+            {
+                mOrientation = actor->getWorldOrientation();
+                mPosition = actor->getWorldPosition();
 
-            setActor(NULL);
-            actor->removeFromScene();
+                setActor(NULL);
+                actor->removeFromScene();
+            }
 
             // give the setstate function the possibility to reuse the actor
             //ActorManager::getSingleton().destroyActor(actor);
@@ -745,6 +749,7 @@ namespace rl
         }
 
         GameObjectState oldState = mState;
+        onBeforeStateChange(oldState, targetstate);
 
         if (targetstate == GOS_LOADED && mState == GOS_IN_SCENE)
         {
@@ -767,11 +772,15 @@ namespace rl
         }
 
         mState = targetstate;
-        onStateChange(oldState, targetstate);
+        onAfterStateChange(oldState, targetstate);
         GameObjectManager::getSingleton().gameObjectStateChanged(this, oldState, targetstate);
     }
 
-    void GameObject::onStateChange(GameObjectState oldState, GameObjectState newState)
+    void GameObject::onBeforeStateChange(GameObjectState oldState, GameObjectState newState)
+    {
+    }
+
+    void GameObject::onAfterStateChange(GameObjectState oldState, GameObjectState newState)
     {
     }
 

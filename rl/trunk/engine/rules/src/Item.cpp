@@ -134,30 +134,43 @@ namespace rl
             //removeOldState();
         }
 
+        // everything else is not handled here, so give it to the parent
+        if ((targetState == GOS_IN_SCENE || targetState == GOS_LOADED)
+            && (mState == GOS_IN_SCENE || mState == GOS_LOADED))
+        {
+            GameObject::setState(targetState);
+            return;
+        }
 
         GameObjectState oldState = mState;
+        onBeforeStateChange(oldState, targetState);        
 
-        if( targetState == GOS_LOADED && (mState == GOS_HELD || mState == GOS_READY || GOS_IN_POSSESSION) )
+        if (targetState == GOS_LOADED 
+            && (mState == GOS_HELD || mState == GOS_READY || GOS_IN_POSSESSION) )
         {
             mState = targetState; // this is needed here to prevent an endless recursion
             // "remove old state"
             doLoose();
             destroyActor();
         }
-        else if( mState == GOS_LOADED &&
-                 (targetState == GOS_HELD || targetState == GOS_READY || targetState == GOS_IN_POSSESSION))
+        else if (mState == GOS_LOADED &&
+                 (targetState == GOS_HELD || targetState == GOS_READY))
         {
+            createActor();
             mState = targetState;
             // do nothing, the user has to do what he needs himself
         }
-        else // everything else is not handled here, so give it to the parent
+        else if ((mState == GOS_LOADED && targetState == GOS_IN_POSSESSION)
+            || (mState == GOS_IN_POSSESSION && targetState == GOS_LOADED))
         {
-            GameObject::setState(targetState);
-            return;
+            mState = targetState;
+        }
+        else
+        {
+            Throw(rl::IllegalStateException, "Unhandled state change");
         }
 
-
-        onStateChange(oldState, mState);
+        onAfterStateChange(oldState, targetState);
         GameObjectManager::getSingleton().gameObjectStateChanged(this, oldState, targetState);
     }
 

@@ -434,7 +434,8 @@ namespace rl {
         void addQueryFlag(unsigned long queryflag);
         void setQueryFlags(unsigned long queryflags);
         
-        virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
+        virtual void onBeforeStateChange(GameObjectState oldState, GameObjectState newState);
+        virtual void onAfterStateChange(GameObjectState oldState, GameObjectState newState);
     };
     
     class WaitJob : public rl::Job
@@ -492,7 +493,8 @@ namespace rl {
         virtual rl::PropertyKeys getAllPropertyKeys() const;
         virtual bool isContainer();
         
-        virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
+        virtual void onBeforeStateChange(GameObjectState oldState, GameObjectState newState);
+        virtual void onAfterStateChange(GameObjectState oldState, GameObjectState newState);
     };
     
     %feature("director") Weapon;
@@ -523,7 +525,8 @@ namespace rl {
         virtual void setProperty(const rl::CeGuiString& key, const rl::Property& value);
         virtual rl::PropertyKeys getAllPropertyKeys() const;
         
-        virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
+        virtual void onBeforeStateChange(GameObjectState oldState, GameObjectState newState);
+        virtual void onAfterStateChange(GameObjectState oldState, GameObjectState newState);
     };
     
     %feature("director") Armor;
@@ -541,7 +544,8 @@ namespace rl {
         virtual void setProperty(const rl::CeGuiString& key, const rl::Property& value);
         virtual rl::PropertyKeys getAllPropertyKeys() const;
         
-        virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
+        virtual void onBeforeStateChange(GameObjectState oldState, GameObjectState newState);
+        virtual void onAfterStateChange(GameObjectState oldState, GameObjectState newState);
     };
     
     %feature("director") Container;
@@ -565,7 +569,8 @@ namespace rl {
         virtual void setProperty(const rl::CeGuiString& key, const rl::Property& value);
         virtual rl::PropertyKeys getAllPropertyKeys() const;
         
-        virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
+        virtual void onBeforeStateChange(GameObjectState oldState, GameObjectState newState);
+        virtual void onAfterStateChange(GameObjectState oldState, GameObjectState newState);
     };
     
 
@@ -687,13 +692,12 @@ namespace rl {
             ALIGNMENT_ENEMY    ///< Creature fights against the player.
         };
 
-            enum SfStatus
-            {
-                SFSTATUS_IN_TRAINING = 1,
-                SFSTATUS_OK,
-                SFSTATUS_REQUIREMENTS_NOT_MET /// @todo Wird das ueberhaupt gebraucht?
+        enum SfStatus
+        {
+            SFSTATUS_IN_TRAINING = 1,
+            SFSTATUS_OK,
+            SFSTATUS_REQUIREMENTS_NOT_MET /// @todo Wird das ueberhaupt gebraucht?
         };
-        
 
         // some targets
         static const std::string Creature::ALL_EIGENSCHAFTEN = "alle Eigenschaften";
@@ -765,7 +769,8 @@ namespace rl {
         void setAlignment(Alignment);
         Alignment getAlignment() const;
         
-        virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
+        virtual void onBeforeStateChange(GameObjectState oldState, GameObjectState newState);
+        virtual void onAfterStateChange(GameObjectState oldState, GameObjectState newState);
    };
    
    %feature("director") Person;
@@ -785,7 +790,8 @@ namespace rl {
         virtual void setProperty(const rl::CeGuiString& key, const rl::Property& value);
         virtual rl::PropertyKeys getAllPropertyKeys() const;
         
-        virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
+        virtual void onBeforeStateChange(GameObjectState oldState, GameObjectState newState);
+        virtual void onAfterStateChange(GameObjectState oldState, GameObjectState newState);
     };
         
     %feature("director") ActionManager;

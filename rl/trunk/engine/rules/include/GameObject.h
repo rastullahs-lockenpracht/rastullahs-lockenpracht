@@ -164,7 +164,8 @@ namespace rl
         void addQueryFlag(unsigned long queryflag);
         void setQueryFlags(unsigned long queryflags);
 
-        virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
+        virtual void onBeforeStateChange(GameObjectState oldState, GameObjectState newState);
+        virtual void onAfterStateChange(GameObjectState oldState, GameObjectState newState);
 
         /**
          * Lets an effect affect the game object
