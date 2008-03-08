@@ -248,6 +248,8 @@ namespace rl
 			Throw(rl::IllegalArgumentException, Ogre::String("Item '") + item->getName().c_str() +
 				"' cannot be readied in slot '" + slotName.c_str() + "'.");
 		}
+		LOG_MESSAGE("Inventory", "Item " + item->getName()
+			+ " readied in slot " + slotName + ".");
     }
 
 	std::vector<Weapon*> Inventory::getReadiedWeapons() const
@@ -282,6 +284,9 @@ namespace rl
                     break;
                 case SLOT_MATERIAL:
 			        mSlots[name] = new MaterialSlot(mOwner, name, itemReadyMask, itemHeldMask, meshpartname);
+                    break;
+                case SLOT_DEFAULT:
+			        mSlots[name] = new Slot(mOwner, name, itemReadyMask, itemHeldMask);
                     break;
 		    }
         }
@@ -355,6 +360,11 @@ namespace rl
                     CeGuiString submesh = slotProps["submesh"].toString();
                     LOG_MESSAGE("Inventory", "Add material slot "+ submesh);
                     addSlot(name, submesh.c_str(), readyItems, holdItems, SLOT_MATERIAL);
+                }
+                else if (type == "default")
+                {
+                    LOG_MESSAGE("Inventory", "Add default slot "+ name);
+                    addSlot(name, "", readyItems, holdItems, SLOT_DEFAULT);
                 }
                 else
                 {

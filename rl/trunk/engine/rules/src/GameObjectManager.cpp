@@ -118,7 +118,8 @@ namespace rl
     GameObject* GameObjectManager::createGameObject(
         const Ogre::String& classId, unsigned int id)
     {
-		LOG_MESSAGE("GameObjectManager", "Create/Get GameObject " + Ogre::StringConverter::toString((int)id));
+		LOG_MESSAGE("GameObjectManager", "Create/Get GameObject of type " + classId
+			+ " #" + Ogre::StringConverter::toString((int)id));
         unsigned int goId;
 
         if (id != GameObject::NO_OBJECT_ID)

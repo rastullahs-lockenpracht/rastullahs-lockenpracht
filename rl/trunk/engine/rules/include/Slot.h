@@ -26,6 +26,9 @@ class Item;
 class _RlRulesExport Slot
 {
 public:
+    Slot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask);
+    virtual ~Slot();
+
     // provides standard behaviour, sets
     // item-state etc, returns true, if succeeded to set item, false indicates to to nothing
     // subclasses MUST call this method when overriding
@@ -37,11 +40,8 @@ public:
     bool canReady(const Item* item) const;
 	bool isReady() { return mItem != NULL && canReady(mItem); }
     CeGuiString getName() const {return mName;}
-    virtual ~Slot();
 
 protected:
-    Slot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask);
-
 
     Creature* mOwner;
     Item* mItem;

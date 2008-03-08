@@ -47,7 +47,8 @@ namespace rl {
     {
         SLOT_BONE,
         SLOT_SUBMESH,
-        SLOT_MATERIAL
+        SLOT_MATERIAL,
+		SLOT_DEFAULT   ///!< No visual attachment, but only logical one.
     };
 
 	/// Event type that are distinguished in the game event log

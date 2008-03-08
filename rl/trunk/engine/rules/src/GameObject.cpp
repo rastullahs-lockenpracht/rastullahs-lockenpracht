@@ -171,7 +171,7 @@ namespace rl
         mActions.push_back(make_pair(action, option));
         LOG_MESSAGE(Logger::RULES,
             "Bei GameObject #"+Ogre::StringConverter::toString(mId)+
-            " ("+getName()+") wurde Aktion "+action->getName().c_str()+" hinzugef�gt.");
+            " ("+getName()+") wurde Aktion "+action->getName().c_str()+" hinzugefuegt.");
     }
 
     void GameObject::addActionInGroup(Action* action, ActionGroup* group, int option)
