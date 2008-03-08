@@ -21,6 +21,8 @@
 
 #include "JobListener.h"
 #include "Kampfaktion.h"
+#include "MessagePump.h"
+#include "RulesConstants.h"
 
 #include <set>
 #include <vector>
@@ -29,6 +31,7 @@
 namespace rl
 {
     class Combatant;
+	class Creature;
 	class JobSet;
 
 	class _RlRulesExport Combat : public JobListener
@@ -67,6 +70,10 @@ namespace rl
 
         virtual void jobFinished(unsigned long ticket);
 
+		// Message handlers
+
+		bool creatureLifeStateChanged(Creature*, LifeState);
+
     private:
 		typedef enum {ATTACKE, BEWEGEN, FOLGEN} Aktion;
 		typedef enum {PARADE, AUSWEICHEN} Reaktion;
@@ -93,6 +100,8 @@ namespace rl
 		unsigned long mAnimationSequenceTicket;
 
         unsigned short mCurrentRound;
+
+		MessagePump::ScopedConnection mLifeStateChangeConnection;
 
         void beginRound();
         void executeRound();

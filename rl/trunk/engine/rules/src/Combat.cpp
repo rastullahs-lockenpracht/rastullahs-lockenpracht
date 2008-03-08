@@ -37,6 +37,7 @@ using namespace Ogre;
 namespace rl
 {
     struct InitiativeComparator
+		: std::binary_function<std::pair<int, Combatant*>, std::pair<int, Combatant*>, bool>
     {
         /// \todo take into account other values of the combatant according to TDE rules,
         /// in case initiative is equal.
@@ -44,6 +45,14 @@ namespace rl
             const std::pair<int, Combatant*>& c2) const
         {
             return c1.first > c2.first;
+        }
+    };
+
+	struct FindCombatantByCreature : std::binary_function<Combatant*, Creature*, bool>
+    {
+        bool operator()(Combatant* combatant, Creature* creature) const
+        {
+			return combatant->getCreature() == creature;
         }
     };
 
@@ -55,6 +64,9 @@ namespace rl
           mCurrentRound(0),
 		  mAnimationSequenceTicket(0)
     {
+		mLifeStateChangeConnection =
+            MessagePump::getSingleton().addMessageHandler<MessageType_CreatureLifeStateChanged>(
+			    boost::bind(&Combat::creatureLifeStateChanged, this, _1, _2));
     }
 
     Combat::~Combat()
@@ -64,12 +76,16 @@ namespace rl
     void Combat::addOpponent(Combatant* combatant)
     {
         mOpponents.insert(combatant);
+		GameEventLog::getSingleton().logEvent(
+			combatant->getName() + " wurde in einen Kampf verwickelt.", GET_COMBAT);
 		MessagePump::getSingleton().sendMessage<MessageType_CombatOpponentEntered>(combatant);
     }
 
     void Combat::removeOpponent(Combatant* combatant)
     {
         mOpponents.erase(combatant);
+		GameEventLog::getSingleton().logEvent(
+			combatant->getName() + " nimmt nicht mehr am Kampf teil.", GET_COMBAT);
 		MessagePump::getSingleton().sendMessage<MessageType_CombatOpponentLeft>(combatant);
     }
 
@@ -356,5 +372,51 @@ namespace rl
 		{
 			endRound();
 		}
+	}
+
+	bool Combat::creatureLifeStateChanged(Creature* creature, LifeState state)
+	{
+		if (state != LIFESTATE_ALIVE)
+		{
+			// Is a creature in combat affected?
+			for (size_t i = 0; i < mCombatantQueue.size(); ++i)
+			{
+				if (creature == mCombatantQueue[i].second->getCreature())
+				{
+					// Yes. Log about it and remove it from combat.
+					CeGuiString msg = creature->getName() + " ist jetzt ";
+					if (state == LIFESTATE_INCAPACITATED)
+					{
+						msg += "kampfunfähig.";
+					}
+					else if (state == LIFESTATE_UNCONCIOUS)
+					{
+						msg += "bewusstlos.";
+					}
+					else
+					{
+						msg += "tot.";
+					}
+					GameEventLog::getSingleton().logEvent(msg, GET_COMBAT);
+
+					CombatantSet::iterator it = std::find_if(mOpponents.begin(), mOpponents.end(),
+						std::bind2nd(FindCombatantByCreature(), creature));
+					if (it != mOpponents.end())
+					{
+						removeOpponent(mCombatantQueue[i].second);
+					}
+					else
+					{
+						CombatantSet::iterator it = std::find_if(mAllies.begin(), mAllies.end(),
+							std::bind2nd(FindCombatantByCreature(), creature));
+						if (it != mOpponents.end())
+						{
+							removeAlly(mCombatantQueue[i].second);
+						}
+					}
+				}
+			}
+		}
+		return true;
 	}
 }
