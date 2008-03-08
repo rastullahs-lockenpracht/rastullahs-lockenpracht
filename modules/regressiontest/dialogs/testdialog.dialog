@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <dialog name="testdialog">
 	<variable name="geheimnisbekannt" type="BOOL" data="false"/>
 	<variable name="begrüßung" type="BOOL" data="false"/>
@@ -37,6 +37,18 @@
 						<gotoresponse id="0"/>
 					</option>
 				</response>
+			</option>
+			<option id="neu">
+			 <t language="de">
+			   <p>Ich werde diese Option nur einmal ausführen können!</p>
+			 </t>
+			 <response id="activationundso">
+			   <t language="de">
+			     <p>Jaja, was auch immer!</p>
+			   </t>
+			   <setoptionactive id="neu" value="false"/>
+			   <gotoresponse id="0"/>
+			 </response>
 			</option>
 			<switchoption id="4">
           <t language="de" label="[Dem NSC auf deutsch drohen]"/>
