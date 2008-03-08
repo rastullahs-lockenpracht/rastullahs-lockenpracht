@@ -480,4 +480,5 @@ FMOD_RESULT F_CALLBACK Fmod4Driver::channelCallback(
         CHECK_FMOD4_ERRORS(res);
         mChannelSoundMap.insert(std::make_pair(channel, sound));
     }
+
 }

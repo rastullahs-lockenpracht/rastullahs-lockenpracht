@@ -765,6 +765,97 @@ public:
     void set3d(bool is3d);
 };
 
+typedef std::map<CeGuiString, SoundResourcePtr> SoundCache;
+
+class SoundStitching
+{
+public:
+    // Einige Standardwerte für Soundprioritäten.
+    enum SOUND_PRIORITY {
+        PRIO_SPEECH = 30,
+        PRIO_MUSIC = 75,
+        PRIO_SFX_ENVIRONMENT = 128,
+        PRIO_SFX_OTHER = 175,
+        PRIO_OTHER = 220
+    };
+
+    /// Konstruktor
+    SoundStitching(unsigned int numSlots, rl::CeGuiString name, rl::SoundDriver* creator);
+    /// Destruktor
+    virtual ~SoundStitching();
+      
+    // SoundResource zurueckgeben.
+    const rl::SoundResourcePtr& getSoundResource() const;
+    // Wollen wir 3D?
+    bool is3d() const;
+    // Setzen des 3D-Flags.
+    void set3d(bool is3d);
+    // Sind wir gueltig
+    virtual bool isValid() const;
+    
+    // Sollen der Sound wiederholt werden?
+    bool isLooping() const;
+    // Setzen des Loop-Flags.
+    void setLooping(bool looping);
+
+    virtual float getLength() const = 0;
+
+    /// Unsere Bounding-Box
+    virtual const Ogre::AxisAlignedBox& getBoundingBox(void) const;
+    /// Bound-Radius
+    virtual Ogre::Real getBoundingRadius() const;
+    /// Rendern
+    virtual void _updateRenderQueue(Ogre::RenderQueue *queue);
+
+    /// Count of configured slots.
+    unsigned int getNumSlots();
+    /// Add a sound resource to the cache overwritting existing sound resource.
+    virtual void addSoundToCache(rl::CeGuiString label, rl::SoundResourcePtr sound);
+    /// Assign a sound recource to a slot.
+    virtual void putSoundIntoSlot(unsigned int, rl::CeGuiString label) = 0;
+    /// Get the slot of the plaing sound.
+    virtual unsigned int getPlayingSlot() = 0;
+
+    /// Gibt die eingestellte Position der Soundquelle zurueck
+    virtual const Ogre::Vector3 getPosition() const = 0;
+    /// Setzt die Position der Soundquelle.
+    virtual void setPosition(const Ogre::Vector3& direction) = 0;
+    /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck (0.0 ... 1.0)
+    virtual const Ogre::Real getVolume() const = 0; 
+    /// Setzt die relative Lautstaerke der Soundquelle (0.0 .. 1.0).
+    virtual void setVolume(const Ogre::Real gain) = 0;
+    /// Gibt die Richtung der Soundquelle zurueck.
+    virtual const Ogre::Quaternion getDirection() const = 0;
+    /// Gibt die Geschwindigkeit der Soundquelle zurueck.
+    virtual const Ogre::Vector3 getVelocity() const = 0;
+    /// Setzt die Richtung der Soundquelle.
+    virtual void setDirection(const Ogre::Quaternion&) = 0;
+    /// Setzt die Geschwindigkeit der Soundquelle.
+    virtual void setVelocity(const Ogre::Vector3&) = 0;
+    /// Setzt die Entfernung, ab der ein 3D-Sound leiser wird
+    virtual void setRolloffStartDistance(const Ogre::Real&);
+    virtual const Ogre::Real getRolloffStartDistance() const;
+    /// Setzt die Entfernung, ab der ein 3D-Sound nicht mehr leiser wird
+    virtual void setRolloffEndDistance(const Ogre::Real&);
+    virtual const Ogre::Real getRolloffEndDistance() const;
+    // Sets the priority of this sound
+    virtual void setPriority(const int priority) = 0;
+    // Gets the priority of this sound
+    virtual const int getPriority() const = 0;
+
+    /// Spielt den Sound ab.
+    virtual void play(bool destroyWhenDone=false) = 0;
+    /// Pausiert den Sound.
+    virtual void pause(bool pausing) = 0;
+    /// Ist der Sound pausiert?
+    virtual bool isPaused() = 0;
+    /// Stoppt den Sound.
+    virtual void stop() = 0;
+    /// Laeuft der Sound noch
+    virtual const bool isPlaying() const = 0;
+   
+}; 
+
 class SoundManager
 {
 public:

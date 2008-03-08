@@ -275,6 +275,10 @@
 				RelativePath=".\src\Fmod4Sound.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\Fmod4SoundStitching.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

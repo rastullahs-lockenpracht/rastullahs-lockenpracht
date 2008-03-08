@@ -23,6 +23,7 @@
 #include "MeshObject.h"
 #include "MergeableMeshObject.h"
 #include "SoundObject.h"
+#include "SoundStitching.h"
 #include "SoundManager.h"
 #include "ListenerObject.h"
 #include "ListenerMovable.h"

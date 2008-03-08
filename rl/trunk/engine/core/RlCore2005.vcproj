@@ -620,6 +620,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\SoundStitching.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\StartAnimationJob.h"
 				>
 			</File>
@@ -664,6 +668,10 @@
 				</File>
 				<File
 					RelativePath=".\include\nulldriver\NullSound.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\nulldriver\NullSoundStitching.h"
 					>
 				</File>
 			</Filter>
@@ -909,6 +917,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\SoundStitching.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\StartAnimationJob.cpp"
 				>
 			</File>
@@ -977,6 +989,10 @@
 				</File>
 				<File
 					RelativePath=".\src\nulldriver\NullSound.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\nulldriver\NullSoundStitching.cpp"
 					>
 				</File>
 			</Filter>
