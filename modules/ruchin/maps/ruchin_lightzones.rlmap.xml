@@ -142,14 +142,28 @@
 			<renderingdistance data="100" />
 		</entity>
 		<entity name="Ruchin_i" meshfile ="Ruchin_i.mesh" visible="true" receivesShadow="false">
-			<position x="-5.0" y="0.0" z="-100.0" />
+			<position x="-4.0" y="0.0" z="-105.0" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<staticgeometrygroup id="0"/>
 			<renderingdistance data="100" />
 		</entity>
 		<entity name="Ruchin_j" meshfile ="Ruchin_j.mesh" visible="true" receivesShadow="false">
-			<position x="40.0" y="0.0" z="-100.0" />
+			<position x="43.0" y="5.0" z="-104.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			<renderingdistance data="100" />
+		</entity>
+		<entity name="Ruchin_o" meshfile ="Ruchin_o.mesh" visible="true" receivesShadow="false">
+			<position x="-25.0" y="0.0" z="-39.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<staticgeometrygroup id="0"/>
+			<renderingdistance data="100" />
+		</entity>
+		<entity name="Ruchin_w" meshfile ="Ruchin_w.mesh" visible="true" receivesShadow="false">
+			<position x="128.0" y="6.0" z="21.0" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<staticgeometrygroup id="0"/>
@@ -161,15 +175,7 @@
 			<scale x="1.0" y="1.0" z="1.0" />
 			<staticgeometrygroup id="0"/>
 			<renderingdistance data="100" />
-		</entity>
-		<entity name="House_dummies" meshfile ="House_dummies.mesh" visible="true" receivesShadow="false">
-			<position x="0.0" y="0.0" z="0.0" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="0.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<staticgeometrygroup id="0"/>
-			<renderingdistance data="100" />
-		</entity>
-		
+		</entity>		
 		
 		
 		<entity name="Ruchin_map" meshfile ="Ruchin_map.mesh" visible="true" receivesShadow="true">
