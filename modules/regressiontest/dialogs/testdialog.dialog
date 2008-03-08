@@ -2,6 +2,7 @@
 <dialog name="testdialog">
 	<variable name="geheimnisbekannt" type="BOOL" data="false"/>
 	<variable name="begrüßung" type="BOOL" data="false"/>
+	<variable name="counter" type="REAL" data="0"/>
 	<start>
 		<switchresponse id="0">
         <dialogvariable name="begrüßung"/>
@@ -47,6 +48,18 @@
 			     <p>Jaja, was auch immer!</p>
 			   </t>
 			   <setoptionactive id="neu" value="false"/>
+			   <gotoresponse id="0"/>
+			 </response>
+			</option>
+			<option id="counterOption">
+			 <t language="de">
+			   <p>Wie oft hab ich dir diese Frage schon gestellt?</p>
+			 </t>
+			 <response id="counterResponse">
+			   <incvariable name="counter" value="1"/>
+			   <t language="de">
+			     <p>Schon {$counter} mal! *genervtguck*</p>
+			   </t>
 			   <gotoresponse id="0"/>
 			 </response>
 			</option>
