@@ -40,6 +40,8 @@ class InventoryTest < TestCase
     #hero.getInventory().getItem("Back").removeItem(sword_inventory_to_hold)
     hero.getInventory().hold(sword_inventory_to_hold, "Right Hand");
     
+	p "Start torch"
+	backpack.addItem($GOM.createGameObject("torch"))
 
     p "InventoryTest Expectation: Hero should stand with a backpack on her back and a sword attached to the right hand, there should be no sword on the floor or in the left hand";
   end
