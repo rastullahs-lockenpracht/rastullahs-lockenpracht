@@ -55,8 +55,8 @@
 		<!-- Animationen und Animationsgeschwindigkeiten fuer den CreatureController -->
 		<property name="animations" type="MAP">
 			<property name="stehen" type="STRING" data="idle"/>
-			<property name="stehen_rechts" type="STRING" data="drehen_rechts"/>
-			<property name="stehen_links" type="STRING" data="drehen_links"/>
+			<property name="stehen_rechts" type="STRING" data="drehen_links"/>
+			<property name="stehen_links" type="STRING" data="drehen_rechts"/>
 			<!-- property name="seitwaerts_links" type="STRING" data="seitwaerts_links"/ -->
 			<!-- property name="seitwaerts_rechts" type="STRING" data="seitwaerts_rechts"/ -->
 			<property name="gehen" type="STRING" data="gehen"/>
