@@ -21,14 +21,15 @@
 #include "ScriptPrerequisites.h"
 
 #include <list>
-#include "XmlProcessor.h"
+#include <XmlProcessor.h>
+#include <ContentLoader.h>
 
 namespace rl {
 
     class AbstractMapNodeProcessor;
     class ProgressWindow;
 
-    class _RlScriptExport MapLoader : private XmlProcessor 
+    class _RlScriptExport MapLoader : public ContentLoader,private XmlProcessor 
     {
     public:
         MapLoader(const Ogre::String& resourceGroup);
@@ -41,6 +42,7 @@ namespace rl {
         */
         void loadMap(const Ogre::String& mapresource, bool loadGameObjects = true);
 
+        const CeGuiString getClassName() const;
     private:
         std::list<AbstractMapNodeProcessor*> mNodeProcessors;
 

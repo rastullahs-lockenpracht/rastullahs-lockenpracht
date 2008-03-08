@@ -18,11 +18,13 @@
 #define __ContentModule_H__
 
 #include "CorePrerequisites.h"
+#include "SaveGameManager.h"
+#include "ContentLoader.h"
 
 namespace rl
 {
 
-	class _RlCoreExport ContentModule
+    class _RlCoreExport ContentModule : public SaveGameData
 	{
 	public:
 		ContentModule(const Ogre::String& id, const CeGuiString& name, bool common, long minimumEngineVersion);
@@ -38,6 +40,7 @@ namespace rl
 		virtual const Ogre::StringVector& getTextureLocations() const = 0;
 		virtual const Ogre::StringVector& getSoundLocations() const = 0;
 		virtual const Ogre::StringVector& getModelLocations() const = 0;
+        virtual const Ogre::StringVector& getDefaultMaps() const = 0;
 		virtual void start() = 0;
 
 		static const Ogre::String getInitFile(const Ogre::String& moduleId);
@@ -48,6 +51,12 @@ namespace rl
 
         bool isLoaded() const;
 
+
+        CeGuiString getXmlNodeIdentifier() const;
+        void writeData(SaveGameFileWriter* writer);
+        void readData(SaveGameFileReader* reader);
+        /// defines the loading/saving order higher priority are saved last and loaded first
+        int getPriority() const;
 	private:
 		static const Ogre::String getDirectory(const Ogre::String& moduleId);
 		void addSearchPath(const Ogre::String& path, const Ogre::String& resourceGroup) const;

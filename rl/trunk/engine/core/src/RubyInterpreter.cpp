@@ -90,7 +90,7 @@ void RubyInterpreter::setOutputFunction(staticValueMethod func)
     rb_define_singleton_method(rb_defout, "write", func, 1);
 }
 
-void RubyInterpreter::addSearchPath(const String& path)
+void RubyInterpreter::addSearchPath(const Ogre::String& path)
 {
     ruby_incpush(path.c_str());
 }
@@ -125,7 +125,7 @@ void RubyInterpreter::logRubyErrors(const std::string& intro, int errorcode)
     }
 }
 
-bool RubyInterpreter::execute(const String& command)
+bool RubyInterpreter::execute(const Ogre::String& command)
 {
     int status = -1;
 
@@ -143,7 +143,7 @@ bool RubyInterpreter::execute(const String& command)
     return true;
 }
 
-bool RubyInterpreter::executeFile(String rubyfile)
+bool RubyInterpreter::executeFile(Ogre::String rubyfile)
 {
     bool error = execute("load '" + rubyfile + "'");
     if (CoreSubsystem::getSingleton().isInitialized())

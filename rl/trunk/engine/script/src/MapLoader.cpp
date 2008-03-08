@@ -110,6 +110,11 @@ namespace rl {
         shutdownXml();
     }
 
+    const CeGuiString MapLoader::getClassName() const
+    {
+        return "MapLoader";
+    }
+
     void MapLoader::processSceneNodes(DOMElement* nodesElem, bool loadGameObjects)
     {
 		if (nodesElem == NULL)

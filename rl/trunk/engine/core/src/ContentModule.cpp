@@ -28,7 +28,7 @@ using namespace Ogre;
 
 namespace rl
 {
-    ContentModule::ContentModule(const String& id, const CeGuiString& name, bool common, long minimumEngineVersion)
+    ContentModule::ContentModule(const Ogre::String& id, const CeGuiString& name, bool common, long minimumEngineVersion)
     :    mId(id),
         mName(name),
         mCommon(common),
@@ -41,18 +41,18 @@ namespace rl
     {
     }
 
-    const String ContentModule::getInitFile(const String& moduleId)
+    const Ogre::String ContentModule::getInitFile(const Ogre::String& moduleId)
     {
         return getDirectory(moduleId) + "/scripts/moduleconfig.rb";
     }
 
-    const String ContentModule::getDirectory(const String& moduleId)
+    const Ogre::String ContentModule::getDirectory(const Ogre::String& moduleId)
     {
         return ConfigurationManager::getSingleton().
                 getModulesRootDirectory() + "/" + moduleId;
     }
 
-    const String ContentModule::getDirectory() const
+    const Ogre::String ContentModule::getDirectory() const
     {
         return ContentModule::getDirectory(mId);
     }
@@ -62,7 +62,7 @@ namespace rl
         return mName;
     }
 
-    const String& ContentModule::getId() const
+    const Ogre::String& ContentModule::getId() const
     {
         return mId;
     }
@@ -79,18 +79,18 @@ namespace rl
 
     void ContentModule::initializeTextures() const
     {
-        String resourceGroup = getId();
+        Ogre::String resourceGroup = getId();
 
         StringVector texLocations = getTextureLocations();
         for(StringVector::iterator iter = texLocations.begin();
             iter != texLocations.end();
             iter++)
         {
-            String location = *iter;
-            if (location.find(".zip") != String::npos)
+            Ogre::String location = *iter;
+            if (location.find(".zip") != Ogre::String::npos)
             {
                 ResourceGroupManager::getSingleton().addResourceLocation(
-                    getDirectory() + "/materials/" + location, "Zip", resourceGroup);
+                    getDirectory() + "/materials/" + location, Ogre::String("Zip"), resourceGroup);
             }
             else
             {
@@ -104,9 +104,11 @@ namespace rl
 
     void ContentModule::initialize()
     {
-        String moduleDir = getDirectory();
+        SaveGameManager::getSingleton().registerSaveGameData(this);
 
-        String resourceGroup = getId();
+        Ogre::String moduleDir = getDirectory();
+
+        Ogre::String resourceGroup = getId();
 
         addSearchPath(moduleDir + "/conf", resourceGroup);
         addSearchPath(moduleDir + "/dsa", resourceGroup);
@@ -175,6 +177,7 @@ namespace rl
 
     void ContentModule::unload()
     {
+        SaveGameManager::getSingleton().unregisterSaveGameData(this);
         //TODO: unloadModule
         CoreSubsystem::getSingleton().getWorld()->clearScene();
         mLoaded = false;
@@ -183,5 +186,24 @@ namespace rl
     bool ContentModule::isLoaded() const
     {
         return mLoaded;
+    }
+
+    CeGuiString ContentModule::getXmlNodeIdentifier() const
+    {
+        return "ContentModule";
+    }
+
+    void ContentModule::writeData(SaveGameFileWriter* writer)
+    {
+    }
+
+    void ContentModule::readData(SaveGameFileReader* reader)
+    {
+    }
+
+    /// defines the loading/saving order higher priority are saved last and loaded first
+    int ContentModule::getPriority() const
+    {
+        return 10;
     }
 }
