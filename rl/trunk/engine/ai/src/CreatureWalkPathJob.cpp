@@ -223,7 +223,7 @@ namespace rl
                 delete *it;
             }
             mLandmarkPath.getPoints().clear();
-            PropertyArray vec(value);
+            PropertyArray vec(value.toArray());
             for(PropertyArray::const_iterator it = vec.begin(); it != vec.end(); ++it)
             {
                 PropertyMap map = *it;
