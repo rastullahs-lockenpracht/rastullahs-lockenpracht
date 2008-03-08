@@ -146,7 +146,7 @@ namespace rl
 
     void SaveGameManager::loadSaveGameFile(int id)
     {
-        if(mSaveGames.find(id) == mSaveGames.end())
+        if(mSaveGames.find(id) != mSaveGames.end())
         {
             MessagePump::getSingleton().sendMessage<MessageType_SaveGameLoading>();
 
@@ -201,7 +201,7 @@ namespace rl
 
     SaveGameFile* SaveGameManager::getSaveGameFile(int id)
     {
-        if(mSaveGames.find(id) == mSaveGames.end())
+        if(mSaveGames.find(id) != mSaveGames.end())
             return mSaveGames[id];
         return NULL;
     }
@@ -244,7 +244,8 @@ namespace rl
             SaveGameFileReader reader;
             reader.parseSaveGameFileHeader(stream, groupName, file);
             
-            mSaveGames[Ogre::StringConverter::parseInt(name)] = file;
+            if(file->getProperty(SaveGameFile::PROPERTY_MODULEID) != "") // broken save game
+                mSaveGames[Ogre::StringConverter::parseInt(name)] = file;
         }
     }
 
