@@ -27,6 +27,8 @@
 #include "Inventory.h"
 #include "Kampftechnik.h"
 #include "MeshObject.h"
+#include "MessagePump.h"
+#include "RulesMessages.h"
 #include "StateSet.h"
 #include "Slot.h"
 #include "Talent.h"
@@ -247,29 +249,38 @@ namespace rl
    void Creature::modifyLe(int mod, bool ignoreMax)
     {
         int oldLe = mCurrentLe;
+		LifeState oldLifeState = mLifeState;
         mCurrentLe += mod;
 		if (!ignoreMax)
+		{
 			mCurrentLe = min(mCurrentLe, getLeMax());
-		if (mCurrentLe <= getWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE) &&
+		}
+
+        if (mCurrentLe <= -getEigenschaft("KO") && oldLe > -getEigenschaft("KO"))
+        {
+            mLifeState = LIFESTATE_DEAD;
+        }
+        else if (mCurrentLe <= 0 && oldLe > 0)
+        {
+			mLifeState = LIFESTATE_UNCONCIOUS;
+        }
+		else if (mCurrentLe <= getWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE) &&
             oldLe > getWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE))
 		{
-            ///@todo set incapacitated.
-			MeshObject* mo = static_cast<MeshObject*>(getActor()->getControlledObject());
-			mo->stopAllAnimations();
-            ///@todo Sturzanimation aufrufen, sobald sie verfuegbar ist.
-			//mo->startAnimation("Niederschlag/Sturz", 1.0f, 1);
+			mLifeState = LIFESTATE_INCAPACITATED;
 		}
-        if (mCurrentLe <= 0 &&
-            oldLe > 0)
-        {
-            ///@todo set unconscious
-        }
-        if (mCurrentLe <= -getEigenschaft("KO") &&
-            oldLe > -getEigenschaft("KO"))
-        {
-            ///@todo set dead
-        }
+		else
+		{
+			mLifeState = LIFESTATE_ALIVE;
+		}
+
 		fireObjectStateChangeEvent();
+
+		if (mLifeState != oldLifeState)
+		{
+			MessagePump::getSingleton().sendMessage<MessageType_CreatureLifeStateChanged>(this,
+				mLifeState);
+		}
     }
 
     int Creature::getLe() const
@@ -850,6 +861,24 @@ namespace rl
 		return rval;
 	}
 
+	int Creature::doTrefferpunkteWurf(Weapon* weapon) const
+	{
+		// Roll dice
+		const Tripel<int>& weaponTp = weapon->getTp();
+		int rval = DsaManager::getSingleton().roll(weaponTp.first, weaponTp.second);
+		rval += weaponTp.third;
+
+		// Apply TP/KK
+
+		int kk = getEigenschaft(E_KOERPERKRAFT);
+		std::pair<int, int> tpkk = weapon->getTpKk();
+		
+		int bonus = (kk - tpkk.first) / tpkk.second;
+		rval += bonus;
+
+		return rval;
+	}
+
 	/// @todo Implement correctly
 	void Creature::damageLe(int tp, int damageType)
 	{
@@ -871,7 +900,8 @@ namespace rl
             damageAu(tp, AUDAMAGE_NORMAL);
             tp = (int)floor(tp/2.);
         }
-		modifyLe(-tp);
+		int rs = getWert(WERT_RS);
+		modifyLe(-tp + rs);
 	}
 
     void Creature::damageAe(int asp)

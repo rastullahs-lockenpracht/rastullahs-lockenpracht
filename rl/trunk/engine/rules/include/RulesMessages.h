@@ -25,6 +25,7 @@
 namespace rl
 {
 	class Combatant;
+	class Creature;
 
 	/// 0x03xxxxxx as mask for rules messages
     enum RulesMessageTypeIds
@@ -40,7 +41,13 @@ namespace rl
 		RLMSG_COMBAT_EVENTS = 0x03000200,
 		// Events
 		RLMSG_COMBAT_OPPONENT_ENTERED = 0x03000201,
-		RLMSG_COMBAT_OPPONENT_LEFT = 0x03000202
+		RLMSG_COMBAT_OPPONENT_LEFT = 0x03000202,
+
+		// Game object related events
+        // Mask
+        RLMSG_GAMEOBJECT_EVENTS = 0x03000300,
+        // Events
+        RLMSG_CREATURE_LIFESTATE_CHANGED = 0x03000301
     };
 
     /// Message sent right after a new game log event has been added.
@@ -52,5 +59,8 @@ namespace rl
 
 	typedef MessageType<RLMSG_COMBAT_OPPONENT_LEFT, Combatant*>
 		MessageType_CombatOpponentLeft;
+
+	typedef MessageType<RLMSG_CREATURE_LIFESTATE_CHANGED, Creature*, LifeState>
+		MessageType_CreatureLifeStateChanged;
 }
 #endif

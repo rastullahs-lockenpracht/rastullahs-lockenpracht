@@ -632,6 +632,8 @@ namespace rl
              **/
             int doInitiativeWurf(bool getMaxInitiative = false);
 
+			int doTrefferpunkteWurf(Weapon* weapon) const;
+
             /**
              *  Fuegt der Kreatur \a tp @ref abbdet "Trefferpunkte" zu.
              *  @param tp die Trefferpunkte
@@ -822,6 +824,9 @@ namespace rl
             int mErschoepfung;
             /// Zuletzt zugewiesene Bewegungsart
             int mMovementType;
+
+			/// Life state, alive or dead or in between
+			LifeState mLifeState;
 
             /// Zeigt auf die gerade aktive Waffe.
             EigenschaftMap mEigenschaften;

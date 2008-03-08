@@ -79,6 +79,9 @@ namespace rl
         **/
 		int rollParade(bool gluecklich);
 
+		int rollTrefferpunkte() const;
+		int applyTrefferpunkte(int tp);
+
 		void doAttacke(JobSet* jobSet, Combatant* target, int attackeResult, bool parade,
 			int paradeResult = 0);
 		void doParade(JobSet* jobSet, Combatant* target, int paradeResult);

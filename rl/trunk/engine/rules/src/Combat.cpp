@@ -292,6 +292,7 @@ namespace rl
 	{
 		GameEventLog::getSingleton().logEvent(
 			actor->getName() + " attackiert " + target->getName() , GET_COMBAT);
+		bool rollDamage = false;
 		// Make an attack roll.
 		int aresult = actor->rollAttacke();
 		if (aresult >= RESULT_ERFOLG)
@@ -313,6 +314,7 @@ namespace rl
 					{
 						GameEventLog::getSingleton().logEvent("Erfolg, nicht pariert, Treffer!",
 							GET_COMBAT);
+						rollDamage = true;
 					}
 					target->doParade(jobSet, actor, presult);
 					actor->doAttacke(jobSet, target, aresult, true, presult);
@@ -326,6 +328,7 @@ namespace rl
 			{
 				GameEventLog::getSingleton().logEvent("Treffer!", GET_COMBAT);
 				actor->doAttacke(jobSet, target, aresult, false);
+				rollDamage = true;
 			}
 		}
 		else
@@ -333,6 +336,17 @@ namespace rl
 			GameEventLog::getSingleton().logEvent("Verfehlt!", GET_COMBAT);
 			actor->doAttacke(jobSet, target, aresult, false);
 			target->doGetroffen(jobSet);
+		}
+		
+		if (rollDamage)
+		{
+			int tp = actor->rollTrefferpunkte();
+			int sp = target->applyTrefferpunkte(tp);
+			CeGuiString msg = actor->getName() + " trifft für "
+				+ CeGuiString(StringConverter::toString(tp))
+				+ " Trefferpunkte, " + target->getName() + " erleidet "
+				+ CeGuiString(StringConverter::toString(sp)) + " Schadenspunkte.";
+			GameEventLog::getSingleton().logEvent(msg, GET_COMBAT);
 		}
 	}
 

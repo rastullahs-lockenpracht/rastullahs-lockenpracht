@@ -40,7 +40,6 @@ namespace rl {
         removeObjectStateChangeListener();
     }
 
-
 	void ObjectStateChangeEventSource::fireObjectStateChangeEvent()
 	{
 		ObjectStateChangeEvent* evt = new ObjectStateChangeEvent(this);

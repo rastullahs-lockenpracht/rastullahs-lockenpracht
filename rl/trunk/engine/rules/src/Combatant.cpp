@@ -85,6 +85,19 @@ namespace rl
 		return getCreature()->doParade(weapon->getKampftechnik(), 0, gluecklich);
 	}
 
+	int Combatant::rollTrefferpunkte() const
+	{
+		return getCreature()->doTrefferpunkteWurf(getActiveWeapon());
+	}
+
+	int Combatant::applyTrefferpunkte(int tp)
+	{
+		int oldLe = getCreature()->getLe();
+		getCreature()->damageLe(tp);
+		int newLe = getCreature()->getLe();
+		return oldLe - newLe;
+	}
+
 	void Combatant::doAttacke(JobSet* jobSet, Combatant* target, int attackeResult, bool parade,
 		int paradeResult)
 	{
