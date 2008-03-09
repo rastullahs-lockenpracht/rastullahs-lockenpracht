@@ -163,3 +163,4 @@ float SoundStitching::getLength() const
 }
 
 };
+

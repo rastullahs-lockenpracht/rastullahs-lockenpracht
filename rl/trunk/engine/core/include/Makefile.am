@@ -7,6 +7,7 @@
 	BoxPrimitive.h \
 	CameraObject.h \
 	ConfigurationManager.h \
+	ContentLoader.h \
 	ContentModule.h \
 	CoreDefines.h \
 	CoreMessages.h \
@@ -67,6 +68,8 @@
 	SoundResource.h \
 	SoundFadeJob.h \
 	SoundFadeFunctor.h \
+	SoundStitching.h \
+	SoundStitchingObject.h \
 	StartAnimationJob.h \
 	TimeSource.h \
 	TrackAnimation.h \
@@ -76,7 +79,8 @@
 	ZoneManager.h \
 	nulldriver/NullDriver.h \
 	nulldriver/NullSound.h \
-	nulldriver/NullListener.h 
+	nulldriver/NullListener.h \
+	nulldriver/NullSoundStitching.h
 	
 CLEANFILES = stdinc.h.gch
 all-local: stdinc.h.gch

@@ -31,6 +31,7 @@ libRlAi_la_SOURCES = \
 	Landmark.cpp \
 	LandmarkPath.cpp \
 	PhysicalObstacle.cpp \
+	SimpleVehicle.cpp \
 	SteeringVehicle.cpp \
 	WalkPathBehaviour.cpp \
 	WayPointNode.cpp \

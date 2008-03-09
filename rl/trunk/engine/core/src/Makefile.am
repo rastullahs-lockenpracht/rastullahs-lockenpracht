@@ -15,6 +15,7 @@ libRlCore_la_SOURCES = \
 	BoxPrimitive.cpp \
 	CameraObject.cpp \
 	ConfigurationManager.cpp \
+	ContentLoader.cpp \
 	ContentModule.cpp \
 	CoreSubsystem.cpp \
 	DebugVisualisable.cpp \
@@ -66,6 +67,8 @@ libRlCore_la_SOURCES = \
 	SoundResource.cpp \
 	SoundFadeJob.cpp \
 	SoundFadeFunctor.cpp \
+	SoundStitching.cpp \
+	SoundStitchingObject.cpp \
 	StartAnimationJob.cpp \
 	TimeSource.cpp \
 	Trigger.cpp \
@@ -75,4 +78,5 @@ libRlCore_la_SOURCES = \
 	ZoneManager.cpp \
 	nulldriver/NullDriver.cpp \
 	nulldriver/NullListener.cpp \
-	nulldriver/NullSound.cpp
+	nulldriver/NullSound.cpp \
+	nulldriver/NullSoundStitching.cpp
