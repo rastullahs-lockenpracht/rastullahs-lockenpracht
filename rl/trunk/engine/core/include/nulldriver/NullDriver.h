@@ -57,6 +57,7 @@ public:
 
 protected:
     virtual Sound* createSoundImpl(SoundResourcePtr res, SoundType type);
+    virtual SoundStitching* createSoundStitchingImpl(unsigned int numSlots, const CeGuiString& name);
 };
 
 }

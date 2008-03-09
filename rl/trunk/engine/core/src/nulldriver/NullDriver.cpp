@@ -18,6 +18,7 @@
 #include "NullDriver.h"
 #include "NullSound.h"
 #include "NullListener.h"
+#include "NullSoundStitching.h"
 
 
 namespace rl
@@ -98,6 +99,12 @@ Sound *NullDriver::createSoundImpl(SoundResourcePtr res, SoundType type)
 {
      Sound* sound = new NullSound(res, this);
      return sound;
+}
+
+SoundStitching *NullDriver::createSoundStitchingImpl(unsigned int numSlots, const CeGuiString& name)
+{
+     SoundStitching* soundstitching = new NullSoundStitching(numSlots, name, this);
+     return soundstitching;
 }
 
 /**

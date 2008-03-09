@@ -456,6 +456,81 @@ public:
 	rl::Sound* getSound();
 };
 
+class SoundStitchingObject : public rl::ActorControlledObject
+{
+public:
+    /// Konstruktor
+    SoundStitchingObject(rl::SoundStitching *stitching, const Ogre::String &name);
+    /// Destruktor
+    virtual ~SoundStitchingObject();
+      
+    /**
+     * Interne Methode. Wird vom Aktor aufgerufen, wenn sich dessen
+     * Status gendert hat. (Position, Orientierung, etc)
+     * Die Standardimplementierung macht nichts, kann aber
+     * von abgeleiteten Klassen berschrieben werden.
+     */
+    virtual void _update();
+    
+    /// Wie ActorControlledObject::getMovableObject()
+    /// Nur schon gebrauchsfertig gecastet.
+    rl::SoundStitching* getSoundStitching() const;
+    
+    
+    virtual Ogre::String getObjectType() const;
+
+    // Wollen wir 3D?
+    bool is3d() const;
+    // Setzen des 3D-Flags.
+    void set3d(bool is3d);
+
+    // Sollen der Sound wiederholt werden?
+    bool isLooping() const;
+    // Setzen des Loop-Flags.
+    void setLooping(bool looping);
+    float getLength() const;
+    /// Pausiert den Sound.
+    void pause();
+    /// Pausiert den Sound.
+    void pause(bool pausing);
+    /// Ist der Sound pausiert?
+    bool isPaused();
+    /// Stoppt den Sound.
+    virtual void stop();
+    /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck (0.0 ... 1.0)
+    const Ogre::Real getVolume() const; 
+    /// Setzt die relative Lautstaerke der Soundquelle (0.0 .. 1.0).
+    void setVolume(const Ogre::Real gain);
+    // Sets the priority of this sound
+    void setPriority(const int priority);
+    // Gets the priority of this sound
+    const int getPriority() const;
+	/// Lädt den Ton
+	void load();
+    /// Entlädt den Sound.
+    void unload();
+    /// Aktivieren
+    virtual void setActive(bool active);
+
+    /// Start sound sequence
+    void start();
+    /// Spielt den Sound ab.
+    virtual void play(bool destroyWhenDone=false);
+    /// Laeuft der Sound noch
+    virtual const bool isPlaying() const = 0;
+	virtual bool isMeshObject() const;
+
+    /// Count of configured slots.
+    unsigned int getNumSlots();
+    /// Add a sound resource to the cache overwritting existing sound resource.
+    virtual void addSoundToCache(rl::CeGuiString label, rl::SoundResourcePtr sound);
+    /// Assign a sound recource to a slot.
+    virtual void putSoundIntoSlot(unsigned int, rl::CeGuiString label) = 0;
+    /// Get the slot of the plaing sound.
+    virtual unsigned int getPlayingSlot() = 0;
+}; 
+
+
 class ParticleSystemObject : public rl::ActorControlledObject
 {
 public:

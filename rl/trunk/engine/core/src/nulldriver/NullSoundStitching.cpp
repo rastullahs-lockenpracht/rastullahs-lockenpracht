@@ -33,7 +33,7 @@ namespace rl {
  * @author JoSch
  * @date 07-04-2005
  */
-NullSoundStitching::NullSoundStitching(unsigned int numSlots, CeGuiString name, SoundDriver* creator):
+NullSoundStitching::NullSoundStitching(unsigned int numSlots, const CeGuiString& name, SoundDriver* creator):
     SoundStitching(numSlots, name, creator)
 {
 }
@@ -72,16 +72,6 @@ void NullSoundStitching::unload() throw (RuntimeException)
 bool NullSoundStitching::isValid() const throw (RuntimeException)
 {
     return true;
-}
-
-/**
- * @return Die gesamte Spiellänge des Sounds
- * @author JoSch
- * @date 03-18-2005
- */
-float NullSoundStitching::getLength() const
-{
-    return 0.0;
 }
 
 void NullSoundStitchingPtr::destroy()

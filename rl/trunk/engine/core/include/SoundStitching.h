@@ -52,7 +52,7 @@ namespace rl {
         };
 
         /// Konstruktor
-        SoundStitching(unsigned int numSlots, CeGuiString name, SoundDriver* creator);
+        SoundStitching(unsigned int numSlots, const CeGuiString& name, SoundDriver* creator);
         /// Destruktor
         virtual ~SoundStitching();
           
@@ -60,6 +60,8 @@ namespace rl {
         virtual void load() throw (RuntimeException) = 0;
         /// Entlaedt den Sound.
         virtual void unload() throw (RuntimeException) = 0;
+
+        virtual float getLength() const;
 
         // SoundResource zurueckgeben.
         const SoundResourcePtr& getSoundResource() const;
@@ -74,8 +76,6 @@ namespace rl {
         bool isLooping() const;
         // Setzen des Loop-Flags.
         void setLooping(bool looping);
-
-        virtual float getLength() const = 0;
 
         /// Unsere Bounding-Box
         virtual const Ogre::AxisAlignedBox& getBoundingBox(void) const;

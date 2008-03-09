@@ -179,6 +179,11 @@ const Ogre::Real SoundDriver::getMasterVolume() const
         return sound;
     }
 
+    SoundStitching* SoundDriver::createSoundStitching(unsigned int label, const CeGuiString& name)
+    {
+        return createSoundStitchingImpl(label, name);
+    }
+
     void SoundDriver::destroySound(Sound* sound)
     {
         if (sound->isPlaying())

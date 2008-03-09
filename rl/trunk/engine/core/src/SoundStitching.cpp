@@ -25,7 +25,7 @@ namespace rl
 
 AxisAlignedBox SoundStitching::msAABox = Ogre::AxisAlignedBox(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-SoundStitching::SoundStitching(unsigned int numSlots, CeGuiString name, SoundDriver* creator)
+SoundStitching::SoundStitching(unsigned int numSlots, const CeGuiString& name, SoundDriver* creator)
 :  MovableObject(name.c_str()),
    EventSource(),
    EventCaster<SoundEvent>(),
@@ -155,6 +155,11 @@ void SoundStitching::addSoundToCache(CeGuiString label, SoundResourcePtr sound)
 unsigned int SoundStitching::getNumSlots()
 {
     return mNumSlots;
+}
+
+float SoundStitching::getLength() const
+{
+    return 0.0f;
 }
 
 };

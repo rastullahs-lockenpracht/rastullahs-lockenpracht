@@ -27,7 +27,7 @@ namespace rl {
 
     class Sound;
     
-    /** Klasse fr alle Soundobjekte, die man an einen Aktor
+    /** Klasse für alle Soundobjekte, die man an einen Aktor
      *  heften kann. Zwischen Actor und ActorControlledObject
      *  besteht eine 1:1-Beziehung.
      */
@@ -74,9 +74,9 @@ namespace rl {
 
 		float getLength() const;
 
-		/// Ldt den Ton
+		/// Lädt den Ton
 		virtual void load();
-        /// Entldt den Sound.
+        /// Entlädt den Sound.
         virtual void unload();
         
         void play(bool destroyWhenDone=false);

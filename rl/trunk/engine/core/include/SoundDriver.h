@@ -18,6 +18,7 @@
 
 #include "CorePrerequisites.h"
 #include "Sound.h"
+#include "SoundStitching.h"
 
 namespace rl
 {
@@ -61,6 +62,9 @@ namespace rl
 
         /// @overload
         virtual Sound* createSound(const Ogre::String& res, SoundType type=ST_SAMPLE);
+
+        /// Create a sound stitching object
+        virtual SoundStitching* createSoundStitching(unsigned int numSlots, const CeGuiString &name);
 
         /// Destroy a sound created by this driver. Do not call the Sound destructor yourself!
         virtual void destroySound(Sound*);
@@ -118,6 +122,7 @@ namespace rl
 
     protected:
         virtual Sound* createSoundImpl(SoundResourcePtr res, SoundType type) = 0;
+        virtual SoundStitching* createSoundStitchingImpl(unsigned int numSlots, const CeGuiString& name) = 0;
 
         Ogre::ResourceManager* mSoundResourceManager;
 

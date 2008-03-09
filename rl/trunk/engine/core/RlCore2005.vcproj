@@ -624,6 +624,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\SoundStitchingObject.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\StartAnimationJob.h"
 				>
 			</File>
@@ -918,6 +922,10 @@
 			</File>
 			<File
 				RelativePath=".\src\SoundStitching.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SoundStitchingObject.cpp"
 				>
 			</File>
 			<File

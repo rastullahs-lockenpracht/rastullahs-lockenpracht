@@ -32,7 +32,7 @@ namespace rl {
     {
     public:
         /// Konstruktor
-        NullSoundStitching(unsigned int numSlots, CeGuiString name, SoundDriver* creator);
+        NullSoundStitching(unsigned int numSlots, const CeGuiString& name, SoundDriver* creator);
         /// Destruktor
         virtual ~NullSoundStitching();
 
@@ -41,9 +41,6 @@ namespace rl {
         /// Entlaedt den Sound.
         virtual void unload() throw (RuntimeException);
  
-        // Wir geben zurück, wie lange der Sound ist.
-		virtual float getLength() const;
-    
         /// Moveable-Typ
         virtual const Ogre::String& getMovableType() const;
 
