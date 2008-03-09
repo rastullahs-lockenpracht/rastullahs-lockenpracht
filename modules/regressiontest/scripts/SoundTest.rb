@@ -1,28 +1,38 @@
+require 'jobs/jobsequence.rb'
 require 'util/vector_util.rb'
 require 'testcase.rb'
 require 'torch.rb'
+require 'switch.rb'
 
+class SwitchChanger < ObjectStateChangeListener
 
-class SoundFadeAction < Action
-  def initialize
-    super("SoundFadeAction", "Tests fading code.")
-    sound = $SM.createSound("ruchin001.ogg")
-    @sound = SoundObject.new(sound, "SoundFadeTest")
-    @sound.set3d(false);
-    @sound.play();
+  def initialize(switch)
+    super()
+    @switch = switch
+    @switch.addObjectStateChangeListener(self)
+  end
+
+  def objectStateChanged(event)
+    state = @switch.getState();
+    doFadeTest() if state == Switch3Way::STATE_OBEN
+    doStitchingTest() if state == Switch3Way::STATE_UNTEN
   end
   
-  def canDo(go, user)
-    true
-  end
-  
-  def doAction(go, user, target)
+  def doFadeTest
     p "SoundFadeAction"
+    sound = $SM.createSound("ruchin001.ogg")
+    soundobject = SoundObject.new(sound, "SoundFadeTest")
+    soundobject.set3d(false);
+    soundobject.play();
     functor = LinearSoundFadeFunctor.new(5, false)
-    job = SoundFadeJob.new(@sound, functor, true)
-    $JS.addJob(job)
+    job = SoundFadeJob.new(soundobject, functor, true)
+    jobSequence([5, job])
   end
   
+  def doStitchingTest
+    p "SoundStitchingAction"
+    stitching = Stitching
+  end
 end
 
 class SoundTest < TestCase
@@ -37,11 +47,11 @@ class SoundTest < TestCase
     max_base = [@@radius, @@height, @@radius]
     base = $AM.createBoxPrimitiveActor("SoundTestBase", min_base, max_base, "alpha_blue")
     base.placeIntoScene(getCenter())
-    
-    eh = $GOM.createGameObject("SoundFadeTest")
-    eh.addAction(SoundFadeAction.new())
+
+    eh = $GOM.createGameObject("switch3way")
     eh.placeIntoScene()
     eh.setPosition(rel_pos([0.0, @@height, 0.0]))
+    SwitchChanger.new(eh)
     
     step = 2 * PI / @@torchcount
     0.step(2 * PI, step) do |radian|
