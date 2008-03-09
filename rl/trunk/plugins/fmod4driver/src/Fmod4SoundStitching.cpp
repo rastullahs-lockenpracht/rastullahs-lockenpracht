@@ -26,7 +26,7 @@ namespace rl {
 
 String Fmod4SoundStitching::msMovableType = "Fmod4SoundStitching";
  
-Fmod4SoundStitching::Fmod4SoundStitching(unsigned int numSlots, CeGuiString name, SoundDriver* creator)
+Fmod4SoundStitching::Fmod4SoundStitching(unsigned int numSlots, const CeGuiString& name, SoundDriver* creator)
   : SoundStitching(numSlots, name, creator),
     mSound(NULL),
     mChannel(NULL)	

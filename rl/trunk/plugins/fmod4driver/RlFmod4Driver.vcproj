@@ -306,6 +306,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\Fmod4SoundStitching.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\engine\core\include\stdinc.h"
 				>
 			</File>

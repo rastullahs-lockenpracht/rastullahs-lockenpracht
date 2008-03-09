@@ -17,6 +17,7 @@
 #include "Fmod4ConfigComponent.h"
 #include "Fmod4Driver.h"
 #include "Fmod4Sound.h"
+#include "Fmod4SoundStitching.h"
 #include "Fmod4Listener.h"
 #include "Logger.h"
 #include "SoundResource.h"
@@ -114,6 +115,13 @@ namespace rl
     {
         Sound* sound = new Fmod4Sound(this, res, type);
         return sound;
+    }
+
+
+    SoundStitching *Fmod4Driver::createSoundStitchingImpl(unsigned int numSlots, const CeGuiString& name)
+    {
+         SoundStitching* soundstitching = new Fmod4SoundStitching(numSlots, name, this);
+         return soundstitching;
     }
 
     ListenerMovable *Fmod4Driver::createListener(const Ogre::String &name)

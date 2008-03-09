@@ -36,7 +36,7 @@ namespace rl {
     {
     public:
         /// Konstruktor
-        Fmod4SoundStitching(unsigned int numSlots, CeGuiString name, SoundDriver* creator);
+        Fmod4SoundStitching(unsigned int numSlots, const CeGuiString& name, SoundDriver* creator);
 
         /// Laedt den Sound.
         virtual void load() throw (RuntimeException);
