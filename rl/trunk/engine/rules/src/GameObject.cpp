@@ -728,8 +728,11 @@ namespace rl
             Actor* actor = mActor;
             if (actor)
             {
-                mOrientation = actor->getWorldOrientation();
-                mPosition = actor->getWorldPosition();
+                //mOrientation = actor->getWorldOrientation(); //Why world orientation?
+                //mPosition = actor->getWorldPosition(); //Why world position?
+
+                mOrientation = actor->getOrientation();
+                mPosition = actor->getPosition();
 
                 setActor(NULL);
                 actor->removeFromScene();
