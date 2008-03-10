@@ -33,8 +33,11 @@ namespace rl
 		getWindow("LogWindow/UpdateButton")->subscribeEvent(
 			CEGUI::Window::EventMouseClick,
 			boost::bind(&LogWindow::update, this));
-		bindDestroyWindowToXButton();
-		bindDestroyWindowToClick(getWindow("LogWindow/CloseButton"));
+		//bindDestroyWindowToXButton(); //conflicts with windowfactory
+		//bindDestroyWindowToClick(getWindow("LogWindow/CloseButton"));
+
+        bindHideWindowToXButton();
+        bindHideWindowToClick(getWindow("LogWindow/CloseButton"));
 
 		centerWindow();
 	}

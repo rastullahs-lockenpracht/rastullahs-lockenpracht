@@ -272,6 +272,12 @@ namespace rl
 			boost::bind(&AbstractWindow::destroyWindow, this));
 	}
 
+    void AbstractWindow::bindHideWindowToClick(CEGUI::Window* button)
+	{
+		button->subscribeEvent(Window::EventMouseClick,
+			boost::bind(&AbstractWindow::hideWindow, this));
+	}
+
 	void AbstractWindow::bindDestroyWindowToXButton()
 	{
 		mWindow->subscribeEvent(FrameWindow::EventCloseClicked,

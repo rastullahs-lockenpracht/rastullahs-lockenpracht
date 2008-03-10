@@ -112,6 +112,7 @@ namespace rl {
 		bool hideWindow();
 
 		void bindDestroyWindowToClick(CEGUI::Window* button);
+        void bindHideWindowToClick(CEGUI::Window* button);
 		void bindDestroyWindowToXButton();
 		void bindHideWindowToXButton();
 
