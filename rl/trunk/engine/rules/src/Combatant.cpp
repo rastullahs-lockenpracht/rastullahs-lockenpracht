@@ -174,13 +174,14 @@ namespace rl
 
 	void Combatant::doBewegen(JobSet* jobSet, const Ogre::Vector3& targetPos)
 	{
-		Job* job = new GoToJob(getCreature(), targetPos, 3.0f);
+		Job* job = new GoToJob(getCreature(), targetPos, 0.0f, 3.0f);
 		jobSet->add(job);
 	}
 
 	void Combatant::doFolgen(JobSet* jobSet, Combatant* target)
 	{
-		Job* job = new GoToJob(getCreature(), target->getCreature(), 3.0f);
+		Job* job = new GoToJob(getCreature(), target->getCreature(),
+			getActiveWeapon()->getMaximumDistance(), 3.0f);
 		jobSet->add(job);
 	}
 

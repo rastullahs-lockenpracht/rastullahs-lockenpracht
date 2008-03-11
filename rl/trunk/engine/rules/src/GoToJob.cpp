@@ -19,26 +19,29 @@
 #include "GoToJob.h"
 
 #include "CreatureControllerManager.h"
+#include "MathUtil.h"
 
 using namespace Ogre;
 
 namespace rl
 {
-	GoToJob::GoToJob(Creature* actor, const Ogre::Vector3& targetPos, Ogre::Real duration)
+	GoToJob::GoToJob(Creature* actor, const Vector3& targetPos, Real maxDistance, Real duration)
 		: Job(false, true, TimeSource::REALTIME_INTERRUPTABLE),
 		  mActor(NULL),
 		  mTarget(NULL),
 		  mTargetPos(targetPos),
+		  mMaxDistance(maxDistance),
 		  mTimeLeft(duration)
 	{
 		mActor = CreatureControllerManager::getSingleton().getCreatureController(actor);
 	}
 
-	GoToJob::GoToJob(Creature* actor, GameObject* target, Ogre::Real duration)
+	GoToJob::GoToJob(Creature* actor, GameObject* target, Real maxDistance, Real duration)
 		: Job(false, true, TimeSource::REALTIME_INTERRUPTABLE),
 		  mActor(NULL),
 		  mTarget(target),
 		  mTargetPos(Vector3::ZERO),
+		  mMaxDistance(maxDistance),
 		  mTimeLeft(duration)
 	{
 		mActor = CreatureControllerManager::getSingleton().getCreatureController(actor);
@@ -61,6 +64,16 @@ namespace rl
 		if (mTarget)
 		{
 			mTargetPos = mTarget->getPosition();
+		}
+
+		// Are we there now?
+		Ogre::Real distance = MathUtil::distance(mTarget->getWorldBoundingBox(),
+			mActor->getCreature()->getWorldBoundingBox());
+		if (distance < mMaxDistance)
+		{
+			// Stay put where ever we are.
+			mActor->setMovement(CreatureController::MT_STEHEN, Vector3::ZERO, Vector3::ZERO);
+			return true;
 		}
 
 		// Hard set orientation.
