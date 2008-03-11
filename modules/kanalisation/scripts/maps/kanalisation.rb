@@ -3,11 +3,12 @@ $World = $CORE.getWorld()
 require 'player.rb'
 require 'hero.rb'
 require 'mckhero.rb'
-#require 'torch.rb'
+require 'torch.rb'
 
 
 loader = MapLoader.new("kanalisation");
 loader.loadMap("kana_lights.rlmap.xml");
+loader.loadMap("kanalisation_scene.xml");
 
 # Physik aktivieren
 $PM.setEnabled(true);
@@ -54,13 +55,13 @@ $UI.setActiveCharacter($hero)
 
 $SCRIPT.log("Hero ready")
 
-#$SCRIPT.log("Fackellicht erstellen..");
-#fackellicht = $AM.createLightActor("Das Licht der Fackel", LightObject::LT_POINT );
-#fackellicht.getControlledObject().setCastShadows(false);
-#fackellicht.getControlledObject().setDiffuseColour(0.4,0.3,0.2);
-#fackellicht.getControlledObject().setAttenuation(2.0, 0.79,  -0.21, 0.268 );
-#$hero.getActor().attachToSlot( fackellicht, "Bip01 R SlotHand" );
-#$SCRIPT.log("Fackellicht erstellt.");
+$SCRIPT.log("Fackellicht erstellen..");
+fackellicht = $AM.createLightActor("Das Licht der Fackel", LightObject::LT_POINT );
+fackellicht.getControlledObject().setCastShadows(true);
+fackellicht.getControlledObject().setDiffuseColour(0.4,0.3,0.2);
+fackellicht.getControlledObject().setAttenuation(4.0, 0.79,  -0.21, 0.268 );
+$hero.getActor().attachToSlot( fackellicht, "Bip01 R SlotHand" );
+$SCRIPT.log("Fackellicht erstellt.");
 
 load "particle.rb"
 load "equip.rb"

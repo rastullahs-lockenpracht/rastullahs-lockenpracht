@@ -1,0 +1,316 @@
+<scene formatVersion="0.4.0">
+    <nodes>
+<entity name="bruecke" meshfile="bruecke.mesh">
+<position x="2.822959" y="3.865546" z="7.881136"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="torboegen" meshfile="torboegen.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="wurzeln_02" meshfile="wurzeln_alle_02.mesh">
+<position x="3.317402" y="3.192856" z="3.838075"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="wurzeln_03" meshfile="wurzeln_klein.mesh">
+<position x="3.815631" y="3.215424" z="3.961683"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="felsen_hoehle" meshfile="felswaende.mesh">
+<position x="30.294416" y="7.783535" z="26.360363"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="abfluss" meshfile="fence.001.mesh">
+<position x="-4.81294" y="56.416122" z="38.64697"/><rotation qw="0.585581" qx="0.575073" qy="-0.396855" qz="0.410965"/><scale x="0.7537" y="0.7537" z="0.7537"/>
+</entity>
+<entity name="pilze" meshfile="pilze.001.mesh">
+<position x="6.899021" y="-0.0085" z="13.837756"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="randsteine_01" meshfile="randsteine_01.mesh">
+<position x="-2.300682" y="0.0" z="0.0"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="decke_eingang" meshfile="Cube.032.mesh">
+<position x="1.517232" y="1.741509" z="4.047132"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeulen.002" meshfile="saeulen.004.mesh">
+<position x="0.743736" y="4.219784" z="8.508488"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="brunnen" meshfile="brunnen.mesh">
+<position x="140.5463" y="74.190155" z="378.74002"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="randsteine_03" meshfile="randsteine_03.mesh">
+<position x="-2.300682" y="0.0" z="0.0"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.023" meshfile="gaenge_komplett.022.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="smuggler_boden" meshfile="Cube.010.mesh">
+<position x="-21.569408" y="4.746182" z="26.013494"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="wasser" meshfile="wasser.mesh">
+<position x="-4.597392" y="3.39713" z="35.85369"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.025" meshfile="gaenge_komplett.024.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_09.004" meshfile="saeule_09.006.mesh">
+<position x="-0.203952" y="8.280134" z="64.88468"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_09.005" meshfile="saeule_09.007.mesh">
+<position x="6.353224" y="8.280134" z="64.92485"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_09.006" meshfile="saeule_09.008.mesh">
+<position x="10.100182" y="8.280134" z="64.79453"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_09.007" meshfile="saeule_09.009.mesh">
+<position x="2.816734" y="8.280134" z="64.79453"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_09.001" meshfile="saeule_09.002.mesh">
+<position x="-0.203952" y="8.280133" z="50.980743"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_09.003" meshfile="saeule_09.004.mesh">
+<position x="10.100182" y="8.280133" z="50.980743"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="stuetzpfeiler_quer" meshfile="stuetzpfeiler_quer.mesh">
+<position x="28.036366" y="8.417215" z="36.681553"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="torboegen.011" meshfile="torboegen.011.mesh">
+<position x="-2.933514" y="2.751104" z="36.985687"/><rotation qw="0.978453" qx="-3.9E-4" qy="-0.20647" qz="-8.2E-5"/><scale x="1.002663" y="1.002663" z="1.002663"/>
+</entity>
+<entity name="fence_02" meshfile="fence_02.mesh">
+<position x="-4.81294" y="56.416122" z="38.64697"/><rotation qw="0.585581" qx="0.575073" qy="-0.396855" qz="0.410965"/><scale x="0.7537" y="0.7537" z="0.7537"/>
+</entity>
+<entity name="treppe.001" meshfile="treppe_01.mesh">
+<position x="19.946918" y="4.835266" z="9.672138"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_10" meshfile="saeule_01.003.mesh">
+<position x="14.990063" y="9.400858" z="12.870321"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="fence" meshfile="fence.mesh">
+<position x="140.5463" y="74.190155" z="378.74002"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_06" meshfile="saeule_06.mesh">
+<position x="4.381933" y="4.065433" z="14.409163"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_04.001" meshfile="saeule_04.001.mesh">
+<position x="6.377748" y="8.456436" z="50.99439"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="stuetzbalken" meshfile="stuetzbalken.mesh">
+<position x="38.6939" y="9.522685" z="30.678297"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gitter.001" meshfile="boden_eingang.mesh">
+<position x="6.422711" y="2.751102" z="2.031976"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.019" meshfile="gaenge_komplett.018.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.018" meshfile="gaenge_komplett.017.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="torboegen.006" meshfile="torboegen.006.mesh">
+<position x="8.969893" y="2.751111" z="21.562517"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="torboegen.007" meshfile="torboegen.007.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="torboegen.001" meshfile="torboegen.001.mesh">
+<position x="-12.578739" y="2.751104" z="43.889935"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="torboegen.002" meshfile="torboegen.002.mesh">
+<position x="-2.584131" y="2.751112" z="27.977468"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="torboegen.003" meshfile="torboegen.003.mesh">
+<position x="8.279722" y="2.751111" z="26.964544"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.011" meshfile="gaenge_komplett.010.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.010" meshfile="gaenge_komplett.009.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.013" meshfile="gaenge_komplett.012.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.012" meshfile="gaenge_komplett.011.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.015" meshfile="gaenge_komplett.014.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.014" meshfile="gaenge_komplett.013.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.017" meshfile="gaenge_komplett.016.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.016" meshfile="gaenge_komplett.015.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="fackeln_g2.001" meshfile="fackeln.002.mesh">
+<position x="2.625504" y="3.107027" z="55.503487"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="fackeln_g2.002" meshfile="fackeln.003.mesh">
+<position x="2.625504" y="3.107027" z="59.728394"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="fackeln_g2.003" meshfile="fackeln.004.mesh">
+<position x="39.97495" y="5.598745" z="29.590656"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeulen_smuggler" meshfile="saeule_01.002.mesh">
+<position x="-27.566433" y="7.446745" z="22.737108"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_07.001" meshfile="saeule_07.001.mesh">
+<position x="9.632251" y="8.709822" z="55.400223"/><rotation qw="0.989527" qx="-3.94E-4" qy="0.144349" qz="5.7E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="raum_01.001" meshfile="raum_01.001.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_09" meshfile="saeule_09.mesh">
+<position x="-1.452938" y="9.400857" z="16.482481"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="wurzeln_02.001" meshfile="wurzeln_alle_02.mesh">
+<position x="2.790514" y="4.4425" z="12.894696"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="wurzeln_02.002" meshfile="wurzeln_02.mesh">
+<position x="2.693319" y="4.398726" z="13.058824"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.008" meshfile="gaenge_komplett.007.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.009" meshfile="gaenge_komplett.008.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.002" meshfile="gaenge_komplett.001.mesh">
+<position x="-11.680796" y="2.70428" z="38.965385"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.003" meshfile="gaenge_komplett.002.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.001" meshfile="wand_04.mesh">
+<position x="-11.351809" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.006" meshfile="gaenge_komplett.005.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.007" meshfile="gaenge_komplett.006.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.004" meshfile="gaenge_komplett.003.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.005" meshfile="gaenge_komplett.004.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="smuggler_wand" meshfile="smuggler.mesh">
+<position x="-21.569408" y="4.746182" z="26.013494"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.020" meshfile="gaenge_komplett.019.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="weg2_raum_02" meshfile="stuetzwand.mesh">
+<position x="0.0" y="-0.112965" z="64.74804"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="boden_felswand" meshfile="boden_fels.mesh">
+<position x="37.711838" y="5.930392" z="27.968113"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="wasser_raum_02" meshfile="wasser_raum_02.mesh">
+<position x="5.182011" y="3.39713" z="57.05934"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="decke_raum_02" meshfile="Cube.013.mesh">
+<position x="4.733883" y="6.611897" z="56.931644"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="grasbueschel" meshfile="grasbueschel.mesh">
+<position x="-6.029057" y="3.39713" z="36.149834"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="boden" meshfile="boden_01.mesh">
+<position x="-3.73864" y="5.078989" z="26.520832"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01" meshfile="gaenge_komplett.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.021" meshfile="gaenge_komplett.020.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.022" meshfile="gaenge_komplett.021.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="randsteine_02" meshfile="randsteine_02.mesh">
+<position x="-2.300682" y="0.0" z="0.0"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="gaenge_01.024" meshfile="gaenge_komplett.023.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="randsteine_04" meshfile="randsteine_04.mesh">
+<position x="-2.300682" y="0.0" z="0.0"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="boden_kana" meshfile="boden_kana.mesh">
+<position x="1.517232" y="1.741509" z="4.047132"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="treppe" meshfile="treppe_02.mesh">
+<position x="3.062176" y="3.107023" z="6.686421"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="felswand_eingestuerzt" meshfile="felswand_eingestuerzt.mesh">
+<position x="48.191696" y="-5.594019" z="27.380192"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="erdboden" meshfile="Plane.mesh">
+<position x="0.0" y="0.0" z="0.0"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="fackeln_g2" meshfile="fackeln.001.mesh">
+<position x="15.234941" y="3.107023" z="15.800744"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="kisten_smuggler" meshfile="kisten_01.mesh">
+<position x="4.292805" y="-9.415191" z="25.15733"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="moderholz" meshfile="moderbalken_01.mesh">
+<position x="37.592186" y="5.74956" z="32.072422"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="fackeln" meshfile="fackeln.mesh">
+<position x="15.234941" y="3.107023" z="15.800744"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_07" meshfile="saeule_07.mesh">
+<position x="1.174055" y="10.726652" z="6.341633"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="torboegen.004" meshfile="torboegen.004.mesh">
+<position x="9.129154" y="2.751112" z="26.348705"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_05" meshfile="saeule_05.mesh">
+<position x="7.897333" y="9.400856" z="3.944559"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_04" meshfile="saeule_04.mesh">
+<position x="7.897333" y="9.400856" z="3.944559"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_03" meshfile="saeule_03.mesh">
+<position x="9.601151" y="9.400856" z="6.224481"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_02" meshfile="saeule_02.mesh">
+<position x="7.874129" y="9.400857" z="11.051473"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_01" meshfile="saeule_01.mesh">
+<position x="7.874129" y="9.400857" z="16.403053"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="torboegen.005" meshfile="torboegen.005.mesh">
+<position x="8.969893" y="2.751111" z="23.23057"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="farn" meshfile="farn.mesh">
+<position x="-2.434886" y="-1.413306" z="2.648438"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="raum_02" meshfile="wand_03.mesh">
+<position x="4.733883" y="6.611897" z="56.931644"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="raum_01" meshfile="raum_01.mesh">
+<position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="saeule_08" meshfile="saeule_08.mesh">
+<position x="-1.495595" y="9.400857" z="12.471745"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="randsteine_03.001" meshfile="Cube.008.mesh">
+<position x="0.27986" y="1.563207" z="7.637593"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="randsteine_03.002" meshfile="randsteine_03.001.mesh">
+<position x="-2.300682" y="0.0" z="0.0"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="randsteine_03.003" meshfile="randsteine_03.002.mesh">
+<position x="-2.300682" y="0.0" z="0.0"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="tuern" meshfile="tuern.mesh">
+<position x="12.966056" y="4.342111" z="16.671421"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="wurzeln" meshfile="wurzeln_alle.mesh">
+<position x="3.815631" y="3.215424" z="3.961683"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+    </nodes>
+</scene>
