@@ -64,27 +64,89 @@ material saeulen_texturen/SOLID/TEX/saeule_kana.png: Basic_Normalmapping_kana
 set_texture_alias DiffuseMap saeule_kana.png
 set_texture_alias NormalMap saeule_kana_normal.png
 }
-material wasser/SOLID: nat_wasser_see
+material wasser/SOLID : Wassershader
 {
+	
     technique hlsl
     {
         pass
         {
-            texture_unit wellen_map
+	        scene_blend alpha_blend
+      		// Tiefenpuffer aus
+      		depth_write off
+      		
+            vertex_program_ref Wassershader_VS_HLSL
             {
-                texture nat_wellen.dds
+                param_named_auto matViewProjection worldviewproj_matrix                
+                param_named_auto vViewPosition	 camera_position_object_space
+                param_named_auto fTime0_X time_0_x 500.0
+                
+                param_named_auto Light1_attenuation light_attenuation 0	
+				param_named_auto Light1_position light_position_object_space 0
+				
+				param_named_auto Light2_attenuation light_attenuation 1
+				param_named_auto Light2_position light_position_object_space 1
+				
+				param_named_auto Light3_attenuation light_attenuation 2
+				param_named_auto Light3_position light_position_object_space 2
+                
+                
             }
 
-            texture_unit evn_map
+            fragment_program_ref Wassershader_PS_HLSL
             {
-                cubic_texture desert07.dds separateUV
-                tex_address_mode clamp
+                param_named watercolor float4 0.13 0.12 0.1 0.8
+                //param_named skycolor float4 0.5 0.5 0.5 1.0
+                param_named reflectionexp float 3.0
+                param_named waterreflectcolor float4 0.98 0.95 0.92 0.8
+                			
+				param_named_auto Light1_color light_diffuse_colour 0
+                param_named_auto Light2_color light_diffuse_colour 1
+				param_named_auto Light3_color light_diffuse_colour 2
+            }
+			
+            // Base diffuse texture map
+            texture_unit WaterNormal
+            {
+                texture_alias WaterNormal
+                texture waternormal.png
             }
 
+            // Normal map
+            texture_unit Cubemap
+            {
+                texture_alias Cubemap
+                
+                cubic_texture dsa07.dds separateUV
+            	tex_address_mode clamp
+            }
+            
+            texture_unit WaterOverlay
+            {
+                texture_alias WaterOverlay
+                texture wateroverlay.png
+            }
         }
-
     }
+    
 
+    technique fixed_function
+    {
+        pass
+        {
+            ambient 0.6 0.6 0.6 1.0
+            diffuse 0.7 0.7 0.7 1.0
+            specular 0.3 0.3 0.3 1.0 16.0
+
+            // Base diffuse texture map
+            texture_unit WaterNormal
+            {
+                texture_alias WaterNormal
+                texture waternormal.png
+            }
+        } 
+    }
+}
     technique glsl
     {
         pass
@@ -338,42 +400,87 @@ material randsteine_04/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-material wasser_raum_02/SOLID: nat_wasser_see
+material wasser_raum_02/SOLID : Wassershader
 {
+	
     technique hlsl
     {
         pass
         {
-            texture_unit wellen_map
+	        scene_blend alpha_blend
+      		// Tiefenpuffer aus
+      		depth_write off
+      		
+            vertex_program_ref Wassershader_VS_HLSL
             {
-                texture nat_wellen.dds
+                param_named_auto matViewProjection worldviewproj_matrix                
+                param_named_auto vViewPosition	 camera_position_object_space
+                param_named_auto fTime0_X time_0_x 500.0
+                
+                param_named_auto Light1_attenuation light_attenuation 0	
+				param_named_auto Light1_position light_position_object_space 0
+				
+				param_named_auto Light2_attenuation light_attenuation 1
+				param_named_auto Light2_position light_position_object_space 1
+				
+				param_named_auto Light3_attenuation light_attenuation 2
+				param_named_auto Light3_position light_position_object_space 2
+                
+                
             }
 
-            texture_unit evn_map
+            fragment_program_ref Wassershader_PS_HLSL
             {
-                cubic_texture desert07.dds separateUV
-                tex_address_mode clamp
+                param_named watercolor float4 0.13 0.12 0.1 0.8
+                //param_named skycolor float4 0.5 0.5 0.5 1.0
+                param_named reflectionexp float 3.0
+                param_named waterreflectcolor float4 0.98 0.95 0.92 0.8
+                			
+				param_named_auto Light1_color light_diffuse_colour 0
+                param_named_auto Light2_color light_diffuse_colour 1
+				param_named_auto Light3_color light_diffuse_colour 2
+            }
+			
+            // Base diffuse texture map
+            texture_unit WaterNormal
+            {
+                texture_alias WaterNormal
+                texture waternormal.png
             }
 
+            // Normal map
+            texture_unit Cubemap
+            {
+                texture_alias Cubemap
+                
+                cubic_texture dsa07.dds separateUV
+            	tex_address_mode clamp
+            }
+            
+            texture_unit WaterOverlay
+            {
+                texture_alias WaterOverlay
+                texture wateroverlay.png
+            }
         }
-
     }
+    
 
-    technique glsl
+    technique fixed_function
     {
         pass
         {
-            texture_unit wellen_map
-            {
-                texture nat_wellen.dds
-            }
+            ambient 0.6 0.6 0.6 1.0
+            diffuse 0.7 0.7 0.7 1.0
+            specular 0.3 0.3 0.3 1.0 16.0
 
-            texture_unit evn_map
+            // Base diffuse texture map
+            texture_unit WaterNormal
             {
-                cubic_texture desert07.dds separateUV
-                tex_address_mode clamp
+                texture_alias WaterNormal
+                texture waternormal.png
             }
-        }
+        } 
     }
 }
 material brunnen/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana

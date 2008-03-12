@@ -1,7 +1,6 @@
 load "embed.rb"
 $World = $CORE.getWorld()
 require 'player.rb'
-require 'hero.rb'
 require 'mckhero.rb'
 require 'torch.rb'
 
@@ -12,7 +11,6 @@ loader.loadMap("kanalisation_scene.xml");
 
 # Physik aktivieren
 $PM.setEnabled(true);
-
 
 #$SCRIPT.log("Tageslicht erstellen..");
 #sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);

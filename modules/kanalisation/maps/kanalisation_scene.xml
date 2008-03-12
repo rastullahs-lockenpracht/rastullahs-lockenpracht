@@ -215,6 +215,7 @@
 </entity>
 <entity name="grasbueschel" meshfile="grasbueschel.mesh">
 <position x="-6.029057" y="3.39713" z="36.149834"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+<physicsproxy type="none"></physicsproxy>
 </entity>
 <entity name="boden" meshfile="boden_01.mesh">
 <position x="-3.73864" y="5.078989" z="26.520832"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
@@ -287,6 +288,7 @@
 </entity>
 <entity name="farn" meshfile="farn.mesh">
 <position x="-2.434886" y="-1.413306" z="2.648438"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+<physicsproxy type="none"></physicsproxy>
 </entity>
 <entity name="raum_02" meshfile="wand_03.mesh">
 <position x="4.733883" y="6.611897" z="56.931644"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
