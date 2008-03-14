@@ -18,32 +18,6 @@
 		440785E70C09D2DF006E496D /* MergeableMeshObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 440785E60C09D2DF006E496D /* MergeableMeshObject.h */; };
 		440785EB0C09D377006E496D /* libmeshmagick.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 440785DD0C09D231006E496D /* libmeshmagick.dylib */; };
 		440785EF0C09D3A8006E496D /* libmeshmagick.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 440785DD0C09D231006E496D /* libmeshmagick.dylib */; };
-		440785F30C09D42B006E496D /* libmeshmagick.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 440785DD0C09D231006E496D /* libmeshmagick.dylib */; };
-		440787E10C09D688006E496D /* OgreCEGUIRenderer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EB3720BD1784A00C6D4A0 /* OgreCEGUIRenderer.framework */; };
-		440787E20C09D688006E496D /* CEGUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */; };
-		440787E30C09D688006E496D /* OpenSteer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EB0DA0BD119BB00C6D4A0 /* OpenSteer.framework */; };
-		440787E60C09D688006E496D /* libRlAi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAC270BD0E3FF00C6D4A0 /* libRlAi.dylib */; };
-		440787E70C09D688006E496D /* libRlRules.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAC370BD0E44900C6D4A0 /* libRlRules.dylib */; };
-		440787E80C09D688006E496D /* libRlUi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAC3E0BD0E46000C6D4A0 /* libRlUi.dylib */; };
-		440787E90C09D688006E496D /* OgreNewt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EB0880BD1153500C6D4A0 /* OgreNewt.framework */; };
-		440787EA0C09D688006E496D /* libRlCore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAB610BD0E2DA00C6D4A0 /* libRlCore.dylib */; };
-		440787EC0C09D688006E496D /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBE0BD0F09900C6D4A0 /* Ogre.framework */; };
-		440787ED0C09D688006E496D /* libRlCommon.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAAB20BD0E0FB00C6D4A0 /* libRlCommon.dylib */; };
-		440787EF0C09D697006E496D /* AbstractMapNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825D90BF7B2B200C5A94F /* AbstractMapNodeProcessor.cpp */; };
-		440787F00C09D697006E496D /* EntityNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DA0BF7B2B200C5A94F /* EntityNodeProcessor.cpp */; };
-		440787F10C09D697006E496D /* EnvironmentProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DB0BF7B2B200C5A94F /* EnvironmentProcessor.cpp */; };
-		440787F20C09D697006E496D /* GameObjectNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DC0BF7B2B200C5A94F /* GameObjectNodeProcessor.cpp */; };
-		440787F30C09D697006E496D /* LightNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DD0BF7B2B200C5A94F /* LightNodeProcessor.cpp */; };
-		440787F40C09D697006E496D /* MapLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DE0BF7B2B200C5A94F /* MapLoader.cpp */; };
-		440787F50C09D697006E496D /* ParticleSystemNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DF0BF7B2B200C5A94F /* ParticleSystemNodeProcessor.cpp */; };
-		440787F60C09D697006E496D /* RlExports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EB6BC0BD1891400C6D4A0 /* RlExports.cpp */; };
-		440787F70C09D697006E496D /* ScriptObjectMarker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAE670BD0E6D400C6D4A0 /* ScriptObjectMarker.cpp */; };
-		440787F80C09D697006E496D /* ScriptSubsystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAE680BD0E6D400C6D4A0 /* ScriptSubsystem.cpp */; };
-		440787F90C09D697006E496D /* SoundNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825E00BF7B2B200C5A94F /* SoundNodeProcessor.cpp */; };
-		440787FA0C09D697006E496D /* WaypointProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825E10BF7B2B200C5A94F /* WaypointProcessor.cpp */; };
-		440787FB0C09D697006E496D /* ZoneProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825E20BF7B2B200C5A94F /* ZoneProcessor.cpp */; };
-		4407880D0C09D743006E496D /* libmeshmagick.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 440785DD0C09D231006E496D /* libmeshmagick.dylib */; };
-		4407880E0C09D74C006E496D /* libxerces-c.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEB90BD0F06700C6D4A0 /* libxerces-c.dylib */; };
 		44125A300C083D0100C24C0A /* CreatureWalkPathJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44125A2F0C083D0100C24C0A /* CreatureWalkPathJob.cpp */; };
 		44125A320C083D1100C24C0A /* CreatureWalkPathJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 44125A310C083D1100C24C0A /* CreatureWalkPathJob.h */; };
 		444826050BF7B37D00C5A94F /* SelectionHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444826030BF7B37D00C5A94F /* SelectionHelper.cpp */; };
@@ -202,7 +176,6 @@
 		444EAC740BD0E52E00C6D4A0 /* FuzzyState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAC630BD0E52E00C6D4A0 /* FuzzyState.cpp */; };
 		444EAC750BD0E52E00C6D4A0 /* FuzzyStateMachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAC640BD0E52E00C6D4A0 /* FuzzyStateMachine.cpp */; };
 		444EAC760BD0E52E00C6D4A0 /* PhysicalObstacle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAC650BD0E52E00C6D4A0 /* PhysicalObstacle.cpp */; };
-		444EAC770BD0E52E00C6D4A0 /* PlayerVehicle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAC660BD0E52E00C6D4A0 /* PlayerVehicle.cpp */; };
 		444EAC780BD0E52E00C6D4A0 /* SteeringVehicle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAC670BD0E52E00C6D4A0 /* SteeringVehicle.cpp */; };
 		444EAC790BD0E52E00C6D4A0 /* WayPointGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAC680BD0E52E00C6D4A0 /* WayPointGraph.cpp */; };
 		444EAC7A0BD0E52E00C6D4A0 /* WayPointGraphManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAC690BD0E52E00C6D4A0 /* WayPointGraphManager.cpp */; };
@@ -220,7 +193,6 @@
 		444EAC990BD0E54100C6D4A0 /* FuzzyState.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAC860BD0E54100C6D4A0 /* FuzzyState.h */; };
 		444EAC9A0BD0E54100C6D4A0 /* FuzzyStateMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAC870BD0E54100C6D4A0 /* FuzzyStateMachine.h */; };
 		444EAC9B0BD0E54100C6D4A0 /* PhysicalObstacle.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAC880BD0E54100C6D4A0 /* PhysicalObstacle.h */; };
-		444EAC9C0BD0E54100C6D4A0 /* PlayerVehicle.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAC890BD0E54100C6D4A0 /* PlayerVehicle.h */; };
 		444EAC9D0BD0E54100C6D4A0 /* SteeringMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAC8A0BD0E54100C6D4A0 /* SteeringMachine.h */; };
 		444EAC9E0BD0E54100C6D4A0 /* SteeringVehicle.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAC8B0BD0E54100C6D4A0 /* SteeringVehicle.h */; };
 		444EAC9F0BD0E54100C6D4A0 /* WayPointGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAC8C0BD0E54100C6D4A0 /* WayPointGraph.h */; };
@@ -335,10 +307,6 @@
 		444EADFB0BD0E64100C6D4A0 /* Talent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EADD10BD0E64100C6D4A0 /* Talent.cpp */; };
 		444EADFC0BD0E64100C6D4A0 /* Talentgruppe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EADD20BD0E64100C6D4A0 /* Talentgruppe.cpp */; };
 		444EADFD0BD0E64100C6D4A0 /* TalentStateSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EADD30BD0E64100C6D4A0 /* TalentStateSet.cpp */; };
-		444EADFE0BD0E64100C6D4A0 /* TimerEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EADD40BD0E64100C6D4A0 /* TimerEvent.cpp */; };
-		444EADFF0BD0E64100C6D4A0 /* TimerEventSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EADD50BD0E64100C6D4A0 /* TimerEventSource.cpp */; };
-		444EAE000BD0E64100C6D4A0 /* TimerListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EADD60BD0E64100C6D4A0 /* TimerListener.cpp */; };
-		444EAE010BD0E64100C6D4A0 /* TimerManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EADD70BD0E64100C6D4A0 /* TimerManager.cpp */; };
 		444EAE020BD0E64100C6D4A0 /* Weapon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EADD80BD0E64100C6D4A0 /* Weapon.cpp */; };
 		444EAE030BD0E64100C6D4A0 /* ZauberStateSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EADD90BD0E64100C6D4A0 /* ZauberStateSet.cpp */; };
 		444EAE320BD0E65B00C6D4A0 /* Action.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAE040BD0E65B00C6D4A0 /* Action.h */; };
@@ -397,7 +365,6 @@
 		444EB1290BD119FB00C6D4A0 /* libRlCommon.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAAB20BD0E0FB00C6D4A0 /* libRlCommon.dylib */; };
 		444EB12D0BD11A0C00C6D4A0 /* libRlCore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAB610BD0E2DA00C6D4A0 /* libRlCore.dylib */; };
 		444EB1C10BD136F200C6D4A0 /* CEGUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */; };
-		444EB1C20BD136F200C6D4A0 /* libxerces-c.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEB90BD0F06700C6D4A0 /* libxerces-c.dylib */; };
 		444EB1C30BD136F200C6D4A0 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBE0BD0F09900C6D4A0 /* Ogre.framework */; };
 		444EB1C50BD1370600C6D4A0 /* libRlCommon.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAAB20BD0E0FB00C6D4A0 /* libRlCommon.dylib */; };
 		444EB1CA0BD137FB00C6D4A0 /* libRlCore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAB610BD0E2DA00C6D4A0 /* libRlCore.dylib */; };
@@ -458,9 +425,7 @@
 		44D8145D0BF7B52600534175 /* SelectionHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D8145A0BF7B52600534175 /* SelectionHelper.h */; };
 		44D8145E0BF7B52600534175 /* Selector.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D8145B0BF7B52600534175 /* Selector.h */; };
 		44D814610BF7B58A00534175 /* ProgressWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D8145F0BF7B58A00534175 /* ProgressWindow.h */; };
-		44D814620BF7B58A00534175 /* SaveLoadWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814600BF7B58A00534175 /* SaveLoadWindow.h */; };
 		44D814650BF7B5AD00534175 /* ProgressWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44D814630BF7B5AD00534175 /* ProgressWindow.cpp */; };
-		44D814660BF7B5AD00534175 /* SaveLoadWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44D814640BF7B5AD00534175 /* SaveLoadWindow.cpp */; };
 		44D814690BF7B5C700534175 /* Landmark.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44D814670BF7B5C700534175 /* Landmark.cpp */; };
 		44D8146A0BF7B5C700534175 /* LandmarkPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44D814680BF7B5C700534175 /* LandmarkPath.cpp */; };
 		44D8146D0BF7B5E800534175 /* Landmark.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D8146B0BF7B5E800534175 /* Landmark.h */; };
@@ -472,8 +437,137 @@
 		44D8147A0BF7B62F00534175 /* Trigger.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814750BF7B62F00534175 /* Trigger.h */; };
 		44D8147B0BF7B62F00534175 /* Zone.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814760BF7B62F00534175 /* Zone.h */; };
 		44D8147C0BF7B62F00534175 /* ZoneManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814770BF7B62F00534175 /* ZoneManager.h */; };
+		481879EC0D885BBE00CE6689 /* libxerces-c.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEB90BD0F06700C6D4A0 /* libxerces-c.dylib */; };
+		481879ED0D885BC000CE6689 /* libxerces-c.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEB90BD0F06700C6D4A0 /* libxerces-c.dylib */; };
+		48187A960D885BD800CE6689 /* CEGUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */; };
+		48187AAB0D885CBB00CE6689 /* libRlCommon.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAAB20BD0E0FB00C6D4A0 /* libRlCommon.dylib */; };
+		48187AAC0D885CBB00CE6689 /* libRlCore.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAB610BD0E2DA00C6D4A0 /* libRlCore.dylib */; };
+		48187AAD0D885CBB00CE6689 /* libRlAi.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAC270BD0E3FF00C6D4A0 /* libRlAi.dylib */; };
+		48187AAE0D885CBB00CE6689 /* libRlRules.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAC370BD0E44900C6D4A0 /* libRlRules.dylib */; };
+		48187AAF0D885CBB00CE6689 /* libRlUi.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAC3E0BD0E46000C6D4A0 /* libRlUi.dylib */; };
+		48187AB00D885CBB00CE6689 /* libRlScript.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 4836F88D0D88592800E3632F /* libRlScript.dylib */; };
+		483646990D83D13700912FEC /* ContentLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646960D83D13700912FEC /* ContentLoader.h */; };
+		4836469A0D83D13700912FEC /* SoundStitching.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646970D83D13700912FEC /* SoundStitching.h */; };
+		4836469B0D83D13700912FEC /* StartAnimationJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646980D83D13700912FEC /* StartAnimationJob.h */; };
+		4836469E0D83D15600912FEC /* ContentLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4836469C0D83D15600912FEC /* ContentLoader.cpp */; };
+		4836469F0D83D15600912FEC /* SoundStitching.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4836469D0D83D15600912FEC /* SoundStitching.cpp */; };
+		483646A20D83D57800912FEC /* libruby.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 483646A10D83D57800912FEC /* libruby.dylib */; };
+		483646C30D83D62E00912FEC /* SaveGameFileReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A05810D71EDF20024198D /* SaveGameFileReader.cpp */; };
+		483646C40D83D62E00912FEC /* SaveGameFileWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A05820D71EDF20024198D /* SaveGameFileWriter.cpp */; };
+		483646C50D83D62E00912FEC /* SaveGameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A05830D71EDF20024198D /* SaveGameManager.cpp */; };
+		483646D30D83D6DD00912FEC /* SaveGameFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A05800D71EDF20024198D /* SaveGameFile.cpp */; };
+		4836F8910D88594A00E3632F /* stdinc.h in Headers */ = {isa = PBXBuildFile; fileRef = 4404DA840C48D01E007B4657 /* stdinc.h */; };
+		4836F8920D88594A00E3632F /* UnifiedFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 446BF4810C4532B50013C214 /* UnifiedFactory.h */; };
+		4836F8930D88594A00E3632F /* AbstractMapNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825ED0BF7B32100C5A94F /* AbstractMapNodeProcessor.h */; };
+		4836F8940D88594A00E3632F /* EntityNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825EE0BF7B32100C5A94F /* EntityNodeProcessor.h */; };
+		4836F8950D88594A00E3632F /* EnvironmentProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825EF0BF7B32100C5A94F /* EnvironmentProcessor.h */; };
+		4836F8960D88594A00E3632F /* GameObjectNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F00BF7B32100C5A94F /* GameObjectNodeProcessor.h */; };
+		4836F8970D88594A00E3632F /* LightNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F10BF7B32100C5A94F /* LightNodeProcessor.h */; };
+		4836F8980D88594A00E3632F /* MapLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F20BF7B32100C5A94F /* MapLoader.h */; };
+		4836F8990D88594A00E3632F /* ParticleSystemNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F30BF7B32100C5A94F /* ParticleSystemNodeProcessor.h */; };
+		4836F89A0D88594A00E3632F /* SoundNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F40BF7B32100C5A94F /* SoundNodeProcessor.h */; };
+		4836F89B0D88594A00E3632F /* TriggerFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F50BF7B32100C5A94F /* TriggerFactory.h */; };
+		4836F89C0D88594A00E3632F /* WaypointProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F60BF7B32100C5A94F /* WaypointProcessor.h */; };
+		4836F89D0D88594A00E3632F /* ZoneProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F70BF7B32100C5A94F /* ZoneProcessor.h */; };
+		4836F89E0D88594A00E3632F /* AbstractMapNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825D90BF7B2B200C5A94F /* AbstractMapNodeProcessor.cpp */; };
+		4836F89F0D88594A00E3632F /* EntityNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DA0BF7B2B200C5A94F /* EntityNodeProcessor.cpp */; };
+		4836F8A00D88594A00E3632F /* EnvironmentProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DB0BF7B2B200C5A94F /* EnvironmentProcessor.cpp */; };
+		4836F8A10D88594A00E3632F /* GameObjectNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DC0BF7B2B200C5A94F /* GameObjectNodeProcessor.cpp */; };
+		4836F8A20D88594A00E3632F /* LightNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DD0BF7B2B200C5A94F /* LightNodeProcessor.cpp */; };
+		4836F8A30D88594A00E3632F /* MapLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DE0BF7B2B200C5A94F /* MapLoader.cpp */; };
+		4836F8A40D88594A00E3632F /* ParticleSystemNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DF0BF7B2B200C5A94F /* ParticleSystemNodeProcessor.cpp */; };
+		4836F8A50D88594A00E3632F /* SoundNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825E00BF7B2B200C5A94F /* SoundNodeProcessor.cpp */; };
+		4836F8A60D88594A00E3632F /* WaypointProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825E10BF7B2B200C5A94F /* WaypointProcessor.cpp */; };
+		4836F8A70D88594A00E3632F /* ZoneProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825E20BF7B2B200C5A94F /* ZoneProcessor.cpp */; };
+		4836F8A80D88594A00E3632F /* RlExports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EB6BC0BD1891400C6D4A0 /* RlExports.cpp */; };
+		4836F8A90D88594A00E3632F /* ScriptObjectMarker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAE670BD0E6D400C6D4A0 /* ScriptObjectMarker.cpp */; };
+		4836F8AA0D88594A00E3632F /* ScriptSubsystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAE680BD0E6D400C6D4A0 /* ScriptSubsystem.cpp */; };
+		4836F8AB0D88594A00E3632F /* ScriptObjectMarker.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAE610BD0E6C000C6D4A0 /* ScriptObjectMarker.h */; };
+		4836F8AC0D88594A00E3632F /* ScriptPrerequisites.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAE620BD0E6C000C6D4A0 /* ScriptPrerequisites.h */; };
+		4836F8AD0D88594A00E3632F /* ScriptSubsystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAE630BD0E6C000C6D4A0 /* ScriptSubsystem.h */; };
+		4836F8AE0D88595800E3632F /* libRlScript.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4836F88D0D88592800E3632F /* libRlScript.dylib */; };
+		4836F8B60D885A8A00E3632F /* libRlAi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAC270BD0E3FF00C6D4A0 /* libRlAi.dylib */; };
+		4836F8B70D885A8A00E3632F /* libRlCommon.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAAB20BD0E0FB00C6D4A0 /* libRlCommon.dylib */; };
+		4836F8B80D885A8A00E3632F /* libRlCore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAB610BD0E2DA00C6D4A0 /* libRlCore.dylib */; };
+		4836F8B90D885A8A00E3632F /* libRlRules.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAC370BD0E44900C6D4A0 /* libRlRules.dylib */; };
+		4836F8BA0D885A8A00E3632F /* libRlUi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAC3E0BD0E46000C6D4A0 /* libRlUi.dylib */; };
+		4836F8BB0D885AA800E3632F /* libruby.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 483646A10D83D57800912FEC /* libruby.dylib */; };
+		4836F8BC0D885AAA00E3632F /* libruby.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 483646A10D83D57800912FEC /* libruby.dylib */; };
+		4836F9B70D885ACF00E3632F /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBE0BD0F09900C6D4A0 /* Ogre.framework */; };
+		4836F9B80D885ACF00E3632F /* OgreNewt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EB0880BD1153500C6D4A0 /* OgreNewt.framework */; };
+		4836F9BA0D885AF000E3632F /* TriggerFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48389C1A0D867AA900AFAB66 /* TriggerFactory.cpp */; };
 		48380B190D800EED0013EE0C /* StartAnimationJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48380B180D800EED0013EE0C /* StartAnimationJob.cpp */; };
 		48380B1A0D8010ED0013EE0C /* TimeSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A05850D71EDF20024198D /* TimeSource.cpp */; };
+		48389B920D86741F00AFAB66 /* CombatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48389B8E0D86741F00AFAB66 /* CombatGui.cpp */; };
+		48389B930D86741F00AFAB66 /* GameSaveLoadWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48389B8F0D86741F00AFAB66 /* GameSaveLoadWindow.cpp */; };
+		48389B940D86741F00AFAB66 /* MainMenuLoadWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48389B900D86741F00AFAB66 /* MainMenuLoadWindow.cpp */; };
+		48389B950D86741F00AFAB66 /* stdinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48389B910D86741F00AFAB66 /* stdinc.cpp */; };
+		48389B9A0D86743900AFAB66 /* CombatGui.h in Headers */ = {isa = PBXBuildFile; fileRef = 48389B960D86743900AFAB66 /* CombatGui.h */; };
+		48389B9B0D86743900AFAB66 /* GameSaveLoadWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 48389B970D86743900AFAB66 /* GameSaveLoadWindow.h */; };
+		48389B9C0D86743900AFAB66 /* MainMenuLoadWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 48389B980D86743900AFAB66 /* MainMenuLoadWindow.h */; };
+		48389B9D0D86743900AFAB66 /* UiMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = 48389B990D86743900AFAB66 /* UiMessages.h */; };
+		48389BBA0D8675E700AFAB66 /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31680D85B3B7003477A0 /* Dialog.cpp */; };
+		48389BBB0D8675E700AFAB66 /* DialogCondition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31690D85B3B7003477A0 /* DialogCondition.cpp */; };
+		48389BBC0D8675E700AFAB66 /* DialogElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D316A0D85B3B7003477A0 /* DialogElement.cpp */; };
+		48389BBD0D8675E700AFAB66 /* DialogImplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D316B0D85B3B7003477A0 /* DialogImplication.cpp */; };
+		48389BBE0D8675E700AFAB66 /* DialogManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D316C0D85B3B7003477A0 /* DialogManager.cpp */; };
+		48389BBF0D8675E700AFAB66 /* DialogOption.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D316D0D85B3B7003477A0 /* DialogOption.cpp */; };
+		48389BC00D8675E700AFAB66 /* DialogParagraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D316E0D85B3B7003477A0 /* DialogParagraph.cpp */; };
+		48389BC10D8675E700AFAB66 /* DialogResponse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D316F0D85B3B7003477A0 /* DialogResponse.cpp */; };
+		48389BC20D8675E700AFAB66 /* DialogVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31700D85B3B7003477A0 /* DialogVariable.cpp */; };
+		48389BC70D86764600AFAB66 /* libRlAi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAC270BD0E3FF00C6D4A0 /* libRlAi.dylib */; };
+		48389C0F0D86797000AFAB66 /* SoundStitchingObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 48389C0E0D86797000AFAB66 /* SoundStitchingObject.h */; };
+		48389C110D86798600AFAB66 /* SoundStitchingObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48389C100D86798600AFAB66 /* SoundStitchingObject.cpp */; };
+		48389C290D867B1A00AFAB66 /* Trigger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A05860D71EDF20024198D /* Trigger.cpp */; };
+		48389C2C0D867B2A00AFAB66 /* PolynomicSoundFadeFunctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A057F0D71EDF20024198D /* PolynomicSoundFadeFunctor.cpp */; };
+		48389C2D0D867B2A00AFAB66 /* PolynomicSoundFadeFunctor.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A056D0D71EDC40024198D /* PolynomicSoundFadeFunctor.h */; };
+		483D31110D85B1AF003477A0 /* NullSoundStitching.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31100D85B1AF003477A0 /* NullSoundStitching.h */; };
+		483D31130D85B1C2003477A0 /* NullSoundStitching.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31120D85B1C2003477A0 /* NullSoundStitching.cpp */; };
+		483D31200D85B215003477A0 /* Combatant.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31150D85B215003477A0 /* Combatant.h */; };
+		483D31210D85B215003477A0 /* EffectManagementTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31160D85B215003477A0 /* EffectManagementTask.h */; };
+		483D31220D85B215003477A0 /* GameEventLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31170D85B215003477A0 /* GameEventLog.h */; };
+		483D31230D85B215003477A0 /* GameTimeSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31180D85B215003477A0 /* GameTimeSource.h */; };
+		483D31240D85B215003477A0 /* GlobalProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31190D85B215003477A0 /* GlobalProperties.h */; };
+		483D31250D85B215003477A0 /* GoToJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D311A0D85B215003477A0 /* GoToJob.h */; };
+		483D31260D85B215003477A0 /* Kampfaktion.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D311B0D85B215003477A0 /* Kampfaktion.h */; };
+		483D31270D85B215003477A0 /* RulesConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D311C0D85B215003477A0 /* RulesConstants.h */; };
+		483D31280D85B215003477A0 /* RulesMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D311D0D85B215003477A0 /* RulesMessages.h */; };
+		483D31290D85B215003477A0 /* stdinc.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D311E0D85B215003477A0 /* stdinc.h */; };
+		483D312A0D85B215003477A0 /* WaitJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D311F0D85B215003477A0 /* WaitJob.h */; };
+		483D31330D85B22C003477A0 /* Combatant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D312B0D85B22C003477A0 /* Combatant.cpp */; };
+		483D31340D85B22C003477A0 /* EffectManagementTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D312C0D85B22C003477A0 /* EffectManagementTask.cpp */; };
+		483D31350D85B22C003477A0 /* GameEventLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D312D0D85B22C003477A0 /* GameEventLog.cpp */; };
+		483D31360D85B22C003477A0 /* GameTimeSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D312E0D85B22C003477A0 /* GameTimeSource.cpp */; };
+		483D31370D85B22C003477A0 /* GlobalProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D312F0D85B22C003477A0 /* GlobalProperties.cpp */; };
+		483D31380D85B22C003477A0 /* GoToJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31300D85B22C003477A0 /* GoToJob.cpp */; };
+		483D31390D85B22C003477A0 /* Kampfaktion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31310D85B22C003477A0 /* Kampfaktion.cpp */; };
+		483D313A0D85B22C003477A0 /* WaitJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31320D85B22C003477A0 /* WaitJob.cpp */; };
+		483D31400D85B333003477A0 /* TimeSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A05720D71EDC40024198D /* TimeSource.h */; };
+		483D31410D85B338003477A0 /* JobQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A05690D71EDC40024198D /* JobQueue.h */; };
+		483D31420D85B35C003477A0 /* JobQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A057D0D71EDF20024198D /* JobQueue.cpp */; };
+		483D31550D85B398003477A0 /* AgentCombatState.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31450D85B398003477A0 /* AgentCombatState.h */; };
+		483D31560D85B398003477A0 /* AgentDialogState.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31460D85B398003477A0 /* AgentDialogState.h */; };
+		483D31570D85B398003477A0 /* AgentState.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31470D85B398003477A0 /* AgentState.h */; };
+		483D31580D85B398003477A0 /* AgentSteeringState.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31480D85B398003477A0 /* AgentSteeringState.h */; };
+		483D31590D85B398003477A0 /* AiMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31490D85B398003477A0 /* AiMessages.h */; };
+		483D315A0D85B398003477A0 /* Dialog.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D314A0D85B398003477A0 /* Dialog.h */; };
+		483D315B0D85B398003477A0 /* DialogCondition.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D314B0D85B398003477A0 /* DialogCondition.h */; };
+		483D315C0D85B398003477A0 /* DialogElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D314C0D85B398003477A0 /* DialogElement.h */; };
+		483D315D0D85B398003477A0 /* DialogImplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D314D0D85B398003477A0 /* DialogImplication.h */; };
+		483D315E0D85B398003477A0 /* DialogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D314E0D85B398003477A0 /* DialogManager.h */; };
+		483D315F0D85B398003477A0 /* DialogOption.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D314F0D85B398003477A0 /* DialogOption.h */; };
+		483D31600D85B398003477A0 /* DialogParagraph.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31500D85B398003477A0 /* DialogParagraph.h */; };
+		483D31610D85B398003477A0 /* DialogResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31510D85B398003477A0 /* DialogResponse.h */; };
+		483D31620D85B398003477A0 /* DialogVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31520D85B398003477A0 /* DialogVariable.h */; };
+		483D31630D85B398003477A0 /* SimpleVehicle.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31530D85B398003477A0 /* SimpleVehicle.h */; };
+		483D31640D85B398003477A0 /* WalkPathBehaviour.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31540D85B398003477A0 /* WalkPathBehaviour.h */; };
+		483D31740D85B3B7003477A0 /* AgentCombatState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31650D85B3B7003477A0 /* AgentCombatState.cpp */; };
+		483D31750D85B3B7003477A0 /* AgentDialogState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31660D85B3B7003477A0 /* AgentDialogState.cpp */; };
+		483D31760D85B3B7003477A0 /* AgentSteeringState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31670D85B3B7003477A0 /* AgentSteeringState.cpp */; };
+		483D31800D85B3B7003477A0 /* SimpleVehicle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31710D85B3B7003477A0 /* SimpleVehicle.cpp */; };
+		483D31810D85B3B7003477A0 /* stdinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31720D85B3B7003477A0 /* stdinc.cpp */; };
+		483D31820D85B3B7003477A0 /* WalkPathBehaviour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31730D85B3B7003477A0 /* WalkPathBehaviour.cpp */; };
+		483D31B50D85B72D003477A0 /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */; };
 		4857E3A50D469FEA009D376D /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */; };
 		4857E3A60D469FEA009D376D /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */; };
 		4857E3A70D469FEA009D376D /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */; };
@@ -493,20 +587,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		440788010C09D6DD006E496D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 444EAC3D0BD0E46000C6D4A0;
-			remoteInfo = RlUi;
-		};
-		440788080C09D706006E496D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 440786100C09D602006E496D;
-			remoteInfo = RlScript2;
-		};
 		444EAC1E0BD0E3A800C6D4A0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -570,6 +650,20 @@
 			remoteGlobalIDString = 444EAB600BD0E2DA00C6D4A0;
 			remoteInfo = RlCore;
 		};
+		4836F8B30D8859E400E3632F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4836F88C0D88592800E3632F;
+			remoteInfo = RlScript;
+		};
+		48389BC50D86762F00AFAB66 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 444EAC260BD0E3FF00C6D4A0;
+			remoteInfo = RlAi;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -586,7 +680,6 @@
 		440785E20C09D2C1006E496D /* LightFadeJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LightFadeJob.cpp; path = ../engine/core/src/LightFadeJob.cpp; sourceTree = SOURCE_ROOT; };
 		440785E30C09D2C1006E496D /* MergeableMeshObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MergeableMeshObject.cpp; path = ../engine/core/src/MergeableMeshObject.cpp; sourceTree = SOURCE_ROOT; };
 		440785E60C09D2DF006E496D /* MergeableMeshObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MergeableMeshObject.h; path = ../engine/core/include/MergeableMeshObject.h; sourceTree = SOURCE_ROOT; };
-		440786110C09D602006E496D /* libRlScript.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = libRlScript.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		440786120C09D602006E496D /* RlScript-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "RlScript-Info.plist"; sourceTree = "<group>"; };
 		44125A2F0C083D0100C24C0A /* CreatureWalkPathJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CreatureWalkPathJob.cpp; path = ../engine/ai/src/CreatureWalkPathJob.cpp; sourceTree = SOURCE_ROOT; };
 		44125A310C083D1100C24C0A /* CreatureWalkPathJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreatureWalkPathJob.h; path = ../engine/ai/include/CreatureWalkPathJob.h; sourceTree = SOURCE_ROOT; };
@@ -656,7 +749,6 @@
 		444EAB280BD0E2B600C6D4A0 /* CameraObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CameraObject.cpp; path = ../engine/core/src/CameraObject.cpp; sourceTree = SOURCE_ROOT; };
 		444EAB290BD0E2B600C6D4A0 /* ConfigurationManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConfigurationManager.cpp; path = ../engine/core/src/ConfigurationManager.cpp; sourceTree = SOURCE_ROOT; };
 		444EAB2A0BD0E2B600C6D4A0 /* ContentModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContentModule.cpp; path = ../engine/core/src/ContentModule.cpp; sourceTree = SOURCE_ROOT; };
-		444EAB2B0BD0E2B600C6D4A0 /* CoreEvents.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CoreEvents.cpp; path = ../engine/core/src/CoreEvents.cpp; sourceTree = SOURCE_ROOT; };
 		444EAB2C0BD0E2B600C6D4A0 /* CoreSubsystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CoreSubsystem.cpp; path = ../engine/core/src/CoreSubsystem.cpp; sourceTree = SOURCE_ROOT; };
 		444EAB2D0BD0E2B600C6D4A0 /* DebugVisualisable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DebugVisualisable.cpp; path = ../engine/core/src/DebugVisualisable.cpp; sourceTree = SOURCE_ROOT; };
 		444EAB2E0BD0E2B600C6D4A0 /* DebugVisualsManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DebugVisualsManager.cpp; path = ../engine/core/src/DebugVisualsManager.cpp; sourceTree = SOURCE_ROOT; };
@@ -774,7 +866,6 @@
 		444EAC630BD0E52E00C6D4A0 /* FuzzyState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FuzzyState.cpp; path = ../engine/ai/src/FuzzyState.cpp; sourceTree = SOURCE_ROOT; };
 		444EAC640BD0E52E00C6D4A0 /* FuzzyStateMachine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FuzzyStateMachine.cpp; path = ../engine/ai/src/FuzzyStateMachine.cpp; sourceTree = SOURCE_ROOT; };
 		444EAC650BD0E52E00C6D4A0 /* PhysicalObstacle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PhysicalObstacle.cpp; path = ../engine/ai/src/PhysicalObstacle.cpp; sourceTree = SOURCE_ROOT; };
-		444EAC660BD0E52E00C6D4A0 /* PlayerVehicle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlayerVehicle.cpp; path = ../engine/ai/src/PlayerVehicle.cpp; sourceTree = SOURCE_ROOT; };
 		444EAC670BD0E52E00C6D4A0 /* SteeringVehicle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SteeringVehicle.cpp; path = ../engine/ai/src/SteeringVehicle.cpp; sourceTree = SOURCE_ROOT; };
 		444EAC680BD0E52E00C6D4A0 /* WayPointGraph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WayPointGraph.cpp; path = ../engine/ai/src/WayPointGraph.cpp; sourceTree = SOURCE_ROOT; };
 		444EAC690BD0E52E00C6D4A0 /* WayPointGraphManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WayPointGraphManager.cpp; path = ../engine/ai/src/WayPointGraphManager.cpp; sourceTree = SOURCE_ROOT; };
@@ -792,7 +883,6 @@
 		444EAC860BD0E54100C6D4A0 /* FuzzyState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FuzzyState.h; path = ../engine/ai/include/FuzzyState.h; sourceTree = SOURCE_ROOT; };
 		444EAC870BD0E54100C6D4A0 /* FuzzyStateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FuzzyStateMachine.h; path = ../engine/ai/include/FuzzyStateMachine.h; sourceTree = SOURCE_ROOT; };
 		444EAC880BD0E54100C6D4A0 /* PhysicalObstacle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhysicalObstacle.h; path = ../engine/ai/include/PhysicalObstacle.h; sourceTree = SOURCE_ROOT; };
-		444EAC890BD0E54100C6D4A0 /* PlayerVehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerVehicle.h; path = ../engine/ai/include/PlayerVehicle.h; sourceTree = SOURCE_ROOT; };
 		444EAC8A0BD0E54100C6D4A0 /* SteeringMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SteeringMachine.h; path = ../engine/ai/include/SteeringMachine.h; sourceTree = SOURCE_ROOT; };
 		444EAC8B0BD0E54100C6D4A0 /* SteeringVehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SteeringVehicle.h; path = ../engine/ai/include/SteeringVehicle.h; sourceTree = SOURCE_ROOT; };
 		444EAC8C0BD0E54100C6D4A0 /* WayPointGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WayPointGraph.h; path = ../engine/ai/include/WayPointGraph.h; sourceTree = SOURCE_ROOT; };
@@ -944,10 +1034,6 @@
 		444EADD10BD0E64100C6D4A0 /* Talent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Talent.cpp; path = ../engine/rules/src/Talent.cpp; sourceTree = SOURCE_ROOT; };
 		444EADD20BD0E64100C6D4A0 /* Talentgruppe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Talentgruppe.cpp; path = ../engine/rules/src/Talentgruppe.cpp; sourceTree = SOURCE_ROOT; };
 		444EADD30BD0E64100C6D4A0 /* TalentStateSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TalentStateSet.cpp; path = ../engine/rules/src/TalentStateSet.cpp; sourceTree = SOURCE_ROOT; };
-		444EADD40BD0E64100C6D4A0 /* TimerEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TimerEvent.cpp; path = ../engine/rules/src/TimerEvent.cpp; sourceTree = SOURCE_ROOT; };
-		444EADD50BD0E64100C6D4A0 /* TimerEventSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TimerEventSource.cpp; path = ../engine/rules/src/TimerEventSource.cpp; sourceTree = SOURCE_ROOT; };
-		444EADD60BD0E64100C6D4A0 /* TimerListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TimerListener.cpp; path = ../engine/rules/src/TimerListener.cpp; sourceTree = SOURCE_ROOT; };
-		444EADD70BD0E64100C6D4A0 /* TimerManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TimerManager.cpp; path = ../engine/rules/src/TimerManager.cpp; sourceTree = SOURCE_ROOT; };
 		444EADD80BD0E64100C6D4A0 /* Weapon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Weapon.cpp; path = ../engine/rules/src/Weapon.cpp; sourceTree = SOURCE_ROOT; };
 		444EADD90BD0E64100C6D4A0 /* ZauberStateSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ZauberStateSet.cpp; path = ../engine/rules/src/ZauberStateSet.cpp; sourceTree = SOURCE_ROOT; };
 		444EAE040BD0E65B00C6D4A0 /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Action.h; path = ../engine/rules/include/Action.h; sourceTree = SOURCE_ROOT; };
@@ -1053,8 +1139,104 @@
 		44D814750BF7B62F00534175 /* Trigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Trigger.h; path = ../engine/core/include/Trigger.h; sourceTree = SOURCE_ROOT; };
 		44D814760BF7B62F00534175 /* Zone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Zone.h; path = ../engine/core/include/Zone.h; sourceTree = SOURCE_ROOT; };
 		44D814770BF7B62F00534175 /* ZoneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoneManager.h; path = ../engine/core/include/ZoneManager.h; sourceTree = SOURCE_ROOT; };
-		48380A820D7F7D5E0013EE0C /* Ruby.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ruby.framework; path = /System/Library/Frameworks/Ruby.framework; sourceTree = "<absolute>"; };
+		483646960D83D13700912FEC /* ContentLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentLoader.h; path = ../engine/core/include/ContentLoader.h; sourceTree = SOURCE_ROOT; };
+		483646970D83D13700912FEC /* SoundStitching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundStitching.h; path = ../engine/core/include/SoundStitching.h; sourceTree = SOURCE_ROOT; };
+		483646980D83D13700912FEC /* StartAnimationJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartAnimationJob.h; path = ../engine/core/include/StartAnimationJob.h; sourceTree = SOURCE_ROOT; };
+		4836469C0D83D15600912FEC /* ContentLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContentLoader.cpp; path = ../engine/core/src/ContentLoader.cpp; sourceTree = SOURCE_ROOT; };
+		4836469D0D83D15600912FEC /* SoundStitching.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SoundStitching.cpp; path = ../engine/core/src/SoundStitching.cpp; sourceTree = SOURCE_ROOT; };
+		483646A10D83D57800912FEC /* libruby.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libruby.dylib; path = /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/libruby.dylib; sourceTree = "<absolute>"; };
+		4836F88D0D88592800E3632F /* libRlScript.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libRlScript.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		48380B180D800EED0013EE0C /* StartAnimationJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StartAnimationJob.cpp; path = ../engine/core/src/StartAnimationJob.cpp; sourceTree = SOURCE_ROOT; };
+		48389B8E0D86741F00AFAB66 /* CombatGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CombatGui.cpp; path = ../engine/ui/src/CombatGui.cpp; sourceTree = SOURCE_ROOT; };
+		48389B8F0D86741F00AFAB66 /* GameSaveLoadWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameSaveLoadWindow.cpp; path = ../engine/ui/src/GameSaveLoadWindow.cpp; sourceTree = SOURCE_ROOT; };
+		48389B900D86741F00AFAB66 /* MainMenuLoadWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuLoadWindow.cpp; path = ../engine/ui/src/MainMenuLoadWindow.cpp; sourceTree = SOURCE_ROOT; };
+		48389B910D86741F00AFAB66 /* stdinc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stdinc.cpp; path = ../engine/ui/src/stdinc.cpp; sourceTree = SOURCE_ROOT; };
+		48389B960D86743900AFAB66 /* CombatGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CombatGui.h; path = ../engine/ui/include/CombatGui.h; sourceTree = SOURCE_ROOT; };
+		48389B970D86743900AFAB66 /* GameSaveLoadWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameSaveLoadWindow.h; path = ../engine/ui/include/GameSaveLoadWindow.h; sourceTree = SOURCE_ROOT; };
+		48389B980D86743900AFAB66 /* MainMenuLoadWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuLoadWindow.h; path = ../engine/ui/include/MainMenuLoadWindow.h; sourceTree = SOURCE_ROOT; };
+		48389B990D86743900AFAB66 /* UiMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UiMessages.h; path = ../engine/ui/include/UiMessages.h; sourceTree = SOURCE_ROOT; };
+		48389BE80D8677EE00AFAB66 /* RlAi.head.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlAi.head.swig; path = ../engine/script/swig/RlAi.head.swig; sourceTree = SOURCE_ROOT; };
+		48389BE90D8677EE00AFAB66 /* RlAi.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlAi.swig; path = ../engine/script/swig/RlAi.swig; sourceTree = SOURCE_ROOT; };
+		48389BEA0D8677EE00AFAB66 /* RlCommon.head.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlCommon.head.swig; path = ../engine/script/swig/RlCommon.head.swig; sourceTree = SOURCE_ROOT; };
+		48389BEB0D8677EE00AFAB66 /* RlCommon.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlCommon.swig; path = ../engine/script/swig/RlCommon.swig; sourceTree = SOURCE_ROOT; };
+		48389BEC0D8677EE00AFAB66 /* RlCore.head.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlCore.head.swig; path = ../engine/script/swig/RlCore.head.swig; sourceTree = SOURCE_ROOT; };
+		48389BED0D8677EE00AFAB66 /* RlCore.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlCore.swig; path = ../engine/script/swig/RlCore.swig; sourceTree = SOURCE_ROOT; };
+		48389BEE0D8677EE00AFAB66 /* RlRules.head.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlRules.head.swig; path = ../engine/script/swig/RlRules.head.swig; sourceTree = SOURCE_ROOT; };
+		48389BEF0D8677EE00AFAB66 /* RlRules.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlRules.swig; path = ../engine/script/swig/RlRules.swig; sourceTree = SOURCE_ROOT; };
+		48389BF00D8677EE00AFAB66 /* RlScript.head.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlScript.head.swig; path = ../engine/script/swig/RlScript.head.swig; sourceTree = SOURCE_ROOT; };
+		48389BF10D8677EE00AFAB66 /* RlScript.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlScript.swig; path = ../engine/script/swig/RlScript.swig; sourceTree = SOURCE_ROOT; };
+		48389BF20D8677EE00AFAB66 /* RlUi.head.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlUi.head.swig; path = ../engine/script/swig/RlUi.head.swig; sourceTree = SOURCE_ROOT; };
+		48389BF30D8677EE00AFAB66 /* TypeDynamicDirector.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypeDynamicDirector.swig; path = ../engine/script/swig/TypeDynamicDirector.swig; sourceTree = SOURCE_ROOT; };
+		48389BF40D8677EE00AFAB66 /* TypeMaps.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.interfacer; name = TypeMaps.i; path = ../engine/script/swig/TypeMaps.i; sourceTree = SOURCE_ROOT; };
+		48389BF50D8677EE00AFAB66 /* TypeOgreColourValue.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypeOgreColourValue.swig; path = ../engine/script/swig/TypeOgreColourValue.swig; sourceTree = SOURCE_ROOT; };
+		48389BF60D8677EE00AFAB66 /* TypeOgreQuaternion.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypeOgreQuaternion.swig; path = ../engine/script/swig/TypeOgreQuaternion.swig; sourceTree = SOURCE_ROOT; };
+		48389BF70D8677EE00AFAB66 /* TypeOgreRadian.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypeOgreRadian.swig; path = ../engine/script/swig/TypeOgreRadian.swig; sourceTree = SOURCE_ROOT; };
+		48389BF80D8677EE00AFAB66 /* TypeOgreReal.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypeOgreReal.swig; path = ../engine/script/swig/TypeOgreReal.swig; sourceTree = SOURCE_ROOT; };
+		48389BF90D8677EE00AFAB66 /* TypeOgreString.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypeOgreString.swig; path = ../engine/script/swig/TypeOgreString.swig; sourceTree = SOURCE_ROOT; };
+		48389BFA0D8677EE00AFAB66 /* TypeOgreStringVector.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypeOgreStringVector.swig; path = ../engine/script/swig/TypeOgreStringVector.swig; sourceTree = SOURCE_ROOT; };
+		48389BFB0D8677EE00AFAB66 /* TypeOgreVector3.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypeOgreVector3.swig; path = ../engine/script/swig/TypeOgreVector3.swig; sourceTree = SOURCE_ROOT; };
+		48389BFC0D8677EE00AFAB66 /* TypeRlCeGuiString.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypeRlCeGuiString.swig; path = ../engine/script/swig/TypeRlCeGuiString.swig; sourceTree = SOURCE_ROOT; };
+		48389BFD0D8677EE00AFAB66 /* TypeRlCeGuiStringVector.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypeRlCeGuiStringVector.swig; path = ../engine/script/swig/TypeRlCeGuiStringVector.swig; sourceTree = SOURCE_ROOT; };
+		48389BFE0D8677EE00AFAB66 /* TypeRlProperty.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypeRlProperty.swig; path = ../engine/script/swig/TypeRlProperty.swig; sourceTree = SOURCE_ROOT; };
+		48389BFF0D8677EE00AFAB66 /* TypeRlPropertyKeys.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypeRlPropertyKeys.swig; path = ../engine/script/swig/TypeRlPropertyKeys.swig; sourceTree = SOURCE_ROOT; };
+		48389C000D8677EE00AFAB66 /* TypeStdPairIntInt.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypeStdPairIntInt.swig; path = ../engine/script/swig/TypeStdPairIntInt.swig; sourceTree = SOURCE_ROOT; };
+		48389C020D86787900AFAB66 /* RlExports.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.interfacer; name = RlExports.i; path = ../engine/script/swig/RlExports.i; sourceTree = SOURCE_ROOT; };
+		48389C0E0D86797000AFAB66 /* SoundStitchingObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundStitchingObject.h; path = ../engine/core/include/SoundStitchingObject.h; sourceTree = SOURCE_ROOT; };
+		48389C100D86798600AFAB66 /* SoundStitchingObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SoundStitchingObject.cpp; path = ../engine/core/src/SoundStitchingObject.cpp; sourceTree = SOURCE_ROOT; };
+		48389C190D867AA900AFAB66 /* stdinc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stdinc.cpp; path = ../engine/script/src/stdinc.cpp; sourceTree = SOURCE_ROOT; };
+		48389C1A0D867AA900AFAB66 /* TriggerFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TriggerFactory.cpp; path = ../engine/script/src/TriggerFactory.cpp; sourceTree = SOURCE_ROOT; };
+		483D31100D85B1AF003477A0 /* NullSoundStitching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NullSoundStitching.h; path = ../engine/core/include/nulldriver/NullSoundStitching.h; sourceTree = SOURCE_ROOT; };
+		483D31120D85B1C2003477A0 /* NullSoundStitching.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NullSoundStitching.cpp; path = ../engine/core/src/nulldriver/NullSoundStitching.cpp; sourceTree = SOURCE_ROOT; };
+		483D31150D85B215003477A0 /* Combatant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Combatant.h; path = ../engine/rules/include/Combatant.h; sourceTree = SOURCE_ROOT; };
+		483D31160D85B215003477A0 /* EffectManagementTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectManagementTask.h; path = ../engine/rules/include/EffectManagementTask.h; sourceTree = SOURCE_ROOT; };
+		483D31170D85B215003477A0 /* GameEventLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameEventLog.h; path = ../engine/rules/include/GameEventLog.h; sourceTree = SOURCE_ROOT; };
+		483D31180D85B215003477A0 /* GameTimeSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameTimeSource.h; path = ../engine/rules/include/GameTimeSource.h; sourceTree = SOURCE_ROOT; };
+		483D31190D85B215003477A0 /* GlobalProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlobalProperties.h; path = ../engine/rules/include/GlobalProperties.h; sourceTree = SOURCE_ROOT; };
+		483D311A0D85B215003477A0 /* GoToJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GoToJob.h; path = ../engine/rules/include/GoToJob.h; sourceTree = SOURCE_ROOT; };
+		483D311B0D85B215003477A0 /* Kampfaktion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Kampfaktion.h; path = ../engine/rules/include/Kampfaktion.h; sourceTree = SOURCE_ROOT; };
+		483D311C0D85B215003477A0 /* RulesConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RulesConstants.h; path = ../engine/rules/include/RulesConstants.h; sourceTree = SOURCE_ROOT; };
+		483D311D0D85B215003477A0 /* RulesMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RulesMessages.h; path = ../engine/rules/include/RulesMessages.h; sourceTree = SOURCE_ROOT; };
+		483D311E0D85B215003477A0 /* stdinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdinc.h; path = ../engine/rules/include/stdinc.h; sourceTree = SOURCE_ROOT; };
+		483D311F0D85B215003477A0 /* WaitJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaitJob.h; path = ../engine/rules/include/WaitJob.h; sourceTree = SOURCE_ROOT; };
+		483D312B0D85B22C003477A0 /* Combatant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Combatant.cpp; path = ../engine/rules/src/Combatant.cpp; sourceTree = SOURCE_ROOT; };
+		483D312C0D85B22C003477A0 /* EffectManagementTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EffectManagementTask.cpp; path = ../engine/rules/src/EffectManagementTask.cpp; sourceTree = SOURCE_ROOT; };
+		483D312D0D85B22C003477A0 /* GameEventLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameEventLog.cpp; path = ../engine/rules/src/GameEventLog.cpp; sourceTree = SOURCE_ROOT; };
+		483D312E0D85B22C003477A0 /* GameTimeSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameTimeSource.cpp; path = ../engine/rules/src/GameTimeSource.cpp; sourceTree = SOURCE_ROOT; };
+		483D312F0D85B22C003477A0 /* GlobalProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlobalProperties.cpp; path = ../engine/rules/src/GlobalProperties.cpp; sourceTree = SOURCE_ROOT; };
+		483D31300D85B22C003477A0 /* GoToJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GoToJob.cpp; path = ../engine/rules/src/GoToJob.cpp; sourceTree = SOURCE_ROOT; };
+		483D31310D85B22C003477A0 /* Kampfaktion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Kampfaktion.cpp; path = ../engine/rules/src/Kampfaktion.cpp; sourceTree = SOURCE_ROOT; };
+		483D31320D85B22C003477A0 /* WaitJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WaitJob.cpp; path = ../engine/rules/src/WaitJob.cpp; sourceTree = SOURCE_ROOT; };
+		483D31450D85B398003477A0 /* AgentCombatState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AgentCombatState.h; path = ../engine/ai/include/AgentCombatState.h; sourceTree = SOURCE_ROOT; };
+		483D31460D85B398003477A0 /* AgentDialogState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AgentDialogState.h; path = ../engine/ai/include/AgentDialogState.h; sourceTree = SOURCE_ROOT; };
+		483D31470D85B398003477A0 /* AgentState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AgentState.h; path = ../engine/ai/include/AgentState.h; sourceTree = SOURCE_ROOT; };
+		483D31480D85B398003477A0 /* AgentSteeringState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AgentSteeringState.h; path = ../engine/ai/include/AgentSteeringState.h; sourceTree = SOURCE_ROOT; };
+		483D31490D85B398003477A0 /* AiMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AiMessages.h; path = ../engine/ai/include/AiMessages.h; sourceTree = SOURCE_ROOT; };
+		483D314A0D85B398003477A0 /* Dialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Dialog.h; path = ../engine/ai/include/Dialog.h; sourceTree = SOURCE_ROOT; };
+		483D314B0D85B398003477A0 /* DialogCondition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogCondition.h; path = ../engine/ai/include/DialogCondition.h; sourceTree = SOURCE_ROOT; };
+		483D314C0D85B398003477A0 /* DialogElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogElement.h; path = ../engine/ai/include/DialogElement.h; sourceTree = SOURCE_ROOT; };
+		483D314D0D85B398003477A0 /* DialogImplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogImplication.h; path = ../engine/ai/include/DialogImplication.h; sourceTree = SOURCE_ROOT; };
+		483D314E0D85B398003477A0 /* DialogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogManager.h; path = ../engine/ai/include/DialogManager.h; sourceTree = SOURCE_ROOT; };
+		483D314F0D85B398003477A0 /* DialogOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogOption.h; path = ../engine/ai/include/DialogOption.h; sourceTree = SOURCE_ROOT; };
+		483D31500D85B398003477A0 /* DialogParagraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogParagraph.h; path = ../engine/ai/include/DialogParagraph.h; sourceTree = SOURCE_ROOT; };
+		483D31510D85B398003477A0 /* DialogResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogResponse.h; path = ../engine/ai/include/DialogResponse.h; sourceTree = SOURCE_ROOT; };
+		483D31520D85B398003477A0 /* DialogVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogVariable.h; path = ../engine/ai/include/DialogVariable.h; sourceTree = SOURCE_ROOT; };
+		483D31530D85B398003477A0 /* SimpleVehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleVehicle.h; path = ../engine/ai/include/SimpleVehicle.h; sourceTree = SOURCE_ROOT; };
+		483D31540D85B398003477A0 /* WalkPathBehaviour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WalkPathBehaviour.h; path = ../engine/ai/include/WalkPathBehaviour.h; sourceTree = SOURCE_ROOT; };
+		483D31650D85B3B7003477A0 /* AgentCombatState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AgentCombatState.cpp; path = ../engine/ai/src/AgentCombatState.cpp; sourceTree = SOURCE_ROOT; };
+		483D31660D85B3B7003477A0 /* AgentDialogState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AgentDialogState.cpp; path = ../engine/ai/src/AgentDialogState.cpp; sourceTree = SOURCE_ROOT; };
+		483D31670D85B3B7003477A0 /* AgentSteeringState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AgentSteeringState.cpp; path = ../engine/ai/src/AgentSteeringState.cpp; sourceTree = SOURCE_ROOT; };
+		483D31680D85B3B7003477A0 /* Dialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Dialog.cpp; path = ../engine/ai/src/Dialog.cpp; sourceTree = SOURCE_ROOT; };
+		483D31690D85B3B7003477A0 /* DialogCondition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DialogCondition.cpp; path = ../engine/ai/src/DialogCondition.cpp; sourceTree = SOURCE_ROOT; };
+		483D316A0D85B3B7003477A0 /* DialogElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DialogElement.cpp; path = ../engine/ai/src/DialogElement.cpp; sourceTree = SOURCE_ROOT; };
+		483D316B0D85B3B7003477A0 /* DialogImplication.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DialogImplication.cpp; path = ../engine/ai/src/DialogImplication.cpp; sourceTree = SOURCE_ROOT; };
+		483D316C0D85B3B7003477A0 /* DialogManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DialogManager.cpp; path = ../engine/ai/src/DialogManager.cpp; sourceTree = SOURCE_ROOT; };
+		483D316D0D85B3B7003477A0 /* DialogOption.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DialogOption.cpp; path = ../engine/ai/src/DialogOption.cpp; sourceTree = SOURCE_ROOT; };
+		483D316E0D85B3B7003477A0 /* DialogParagraph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DialogParagraph.cpp; path = ../engine/ai/src/DialogParagraph.cpp; sourceTree = SOURCE_ROOT; };
+		483D316F0D85B3B7003477A0 /* DialogResponse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DialogResponse.cpp; path = ../engine/ai/src/DialogResponse.cpp; sourceTree = SOURCE_ROOT; };
+		483D31700D85B3B7003477A0 /* DialogVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DialogVariable.cpp; path = ../engine/ai/src/DialogVariable.cpp; sourceTree = SOURCE_ROOT; };
+		483D31710D85B3B7003477A0 /* SimpleVehicle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SimpleVehicle.cpp; path = ../engine/ai/src/SimpleVehicle.cpp; sourceTree = SOURCE_ROOT; };
+		483D31720D85B3B7003477A0 /* stdinc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stdinc.cpp; path = ../engine/ai/src/stdinc.cpp; sourceTree = SOURCE_ROOT; };
+		483D31730D85B3B7003477A0 /* WalkPathBehaviour.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WalkPathBehaviour.cpp; path = ../engine/ai/src/WalkPathBehaviour.cpp; sourceTree = SOURCE_ROOT; };
 		4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = /sw/lib/libboost_filesystem.dylib; sourceTree = "<absolute>"; };
 		4857E4E40D46A664009D376D /* OIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OIS.framework; path = /Library/Frameworks/OIS.framework; sourceTree = "<absolute>"; };
 		485A05670D71ED8D0024198D /* CoreMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreMessages.h; path = ../engine/core/include/CoreMessages.h; sourceTree = SOURCE_ROOT; };
@@ -1088,25 +1270,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		4407860F0C09D602006E496D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4407880E0C09D74C006E496D /* libxerces-c.dylib in Frameworks */,
-				440787E10C09D688006E496D /* OgreCEGUIRenderer.framework in Frameworks */,
-				440787E20C09D688006E496D /* CEGUI.framework in Frameworks */,
-				440787E30C09D688006E496D /* OpenSteer.framework in Frameworks */,
-				440787E60C09D688006E496D /* libRlAi.dylib in Frameworks */,
-				440787E70C09D688006E496D /* libRlRules.dylib in Frameworks */,
-				440787E80C09D688006E496D /* libRlUi.dylib in Frameworks */,
-				440787E90C09D688006E496D /* OgreNewt.framework in Frameworks */,
-				440787EA0C09D688006E496D /* libRlCore.dylib in Frameworks */,
-				440787EC0C09D688006E496D /* Ogre.framework in Frameworks */,
-				440787ED0C09D688006E496D /* libRlCommon.dylib in Frameworks */,
-				4407880D0C09D743006E496D /* libmeshmagick.dylib in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		444EAAB00BD0E0FB00C6D4A0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1123,6 +1286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				444EB0AB0BD115CB00C6D4A0 /* libRlCommon.dylib in Frameworks */,
+				483646A20D83D57800912FEC /* libruby.dylib in Frameworks */,
 				444EAEF30BD1150500C6D4A0 /* CEGUI.framework in Frameworks */,
 				444EAEF50BD1150500C6D4A0 /* libxerces-c.dylib in Frameworks */,
 				444EAEF60BD1150500C6D4A0 /* Ogre.framework in Frameworks */,
@@ -1145,6 +1309,7 @@
 				444EB0D60BD1198B00C6D4A0 /* Ogre.framework in Frameworks */,
 				444EB0D80BD1198B00C6D4A0 /* OgreNewt.framework in Frameworks */,
 				444EB0DB0BD119BB00C6D4A0 /* OpenSteer.framework in Frameworks */,
+				483D31B50D85B72D003477A0 /* libboost_filesystem.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1166,16 +1331,33 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				440785F30C09D42B006E496D /* libmeshmagick.dylib in Frameworks */,
+				48389BC70D86764600AFAB66 /* libRlAi.dylib in Frameworks */,
 				444EB3610BD1756B00C6D4A0 /* libRlRules.dylib in Frameworks */,
 				444EB1CE0BD1595100C6D4A0 /* OgreNewt.framework in Frameworks */,
 				444EB1CA0BD137FB00C6D4A0 /* libRlCore.dylib in Frameworks */,
 				444EB1C50BD1370600C6D4A0 /* libRlCommon.dylib in Frameworks */,
 				444EB1C10BD136F200C6D4A0 /* CEGUI.framework in Frameworks */,
-				444EB1C20BD136F200C6D4A0 /* libxerces-c.dylib in Frameworks */,
 				444EB1C30BD136F200C6D4A0 /* Ogre.framework in Frameworks */,
 				444EB3730BD1784A00C6D4A0 /* OgreCEGUIRenderer.framework in Frameworks */,
 				4857E4E50D46A664009D376D /* OIS.framework in Frameworks */,
+				481879ED0D885BC000CE6689 /* libxerces-c.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4836F88B0D88592800E3632F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4836F8B60D885A8A00E3632F /* libRlAi.dylib in Frameworks */,
+				4836F8B70D885A8A00E3632F /* libRlCommon.dylib in Frameworks */,
+				4836F8B80D885A8A00E3632F /* libRlCore.dylib in Frameworks */,
+				4836F8B90D885A8A00E3632F /* libRlRules.dylib in Frameworks */,
+				4836F8BA0D885A8A00E3632F /* libRlUi.dylib in Frameworks */,
+				4836F8BB0D885AA800E3632F /* libruby.dylib in Frameworks */,
+				4836F9B70D885ACF00E3632F /* Ogre.framework in Frameworks */,
+				4836F9B80D885ACF00E3632F /* OgreNewt.framework in Frameworks */,
+				481879EC0D885BBE00CE6689 /* libxerces-c.dylib in Frameworks */,
+				48187A960D885BD800CE6689 /* CEGUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1183,6 +1365,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4836F8AE0D88595800E3632F /* libRlScript.dylib in Frameworks */,
 				444EB7A20BD1963A00C6D4A0 /* CEGUI.framework in Frameworks */,
 				444EB7A70BD1963A00C6D4A0 /* libxerces-c.dylib in Frameworks */,
 				444EB7A80BD1963A00C6D4A0 /* Ogre.framework in Frameworks */,
@@ -1195,6 +1378,7 @@
 				444EB79E0BD195E800C6D4A0 /* libRlRules.dylib in Frameworks */,
 				444EB7A00BD195E800C6D4A0 /* libRlUi.dylib in Frameworks */,
 				4857E3A50D469FEA009D376D /* libboost_filesystem.dylib in Frameworks */,
+				4836F8BC0D885AAA00E3632F /* libruby.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1210,7 +1394,7 @@
 				444EAC270BD0E3FF00C6D4A0 /* libRlAi.dylib */,
 				444EAC370BD0E44900C6D4A0 /* libRlRules.dylib */,
 				444EAC3E0BD0E46000C6D4A0 /* libRlUi.dylib */,
-				440786110C09D602006E496D /* libRlScript.bundle */,
+				4836F88D0D88592800E3632F /* libRlScript.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1218,9 +1402,77 @@
 		20286C29FDCF999611CA2CEA /* Rastullah */ = {
 			isa = PBXGroup;
 			children = (
+				48389C190D867AA900AFAB66 /* stdinc.cpp */,
+				48389C1A0D867AA900AFAB66 /* TriggerFactory.cpp */,
+				48389C100D86798600AFAB66 /* SoundStitchingObject.cpp */,
+				48389C0E0D86797000AFAB66 /* SoundStitchingObject.h */,
+				48389B960D86743900AFAB66 /* CombatGui.h */,
+				48389B970D86743900AFAB66 /* GameSaveLoadWindow.h */,
+				48389B980D86743900AFAB66 /* MainMenuLoadWindow.h */,
+				48389B990D86743900AFAB66 /* UiMessages.h */,
+				48389B8E0D86741F00AFAB66 /* CombatGui.cpp */,
+				48389B8F0D86741F00AFAB66 /* GameSaveLoadWindow.cpp */,
+				48389B900D86741F00AFAB66 /* MainMenuLoadWindow.cpp */,
+				48389B910D86741F00AFAB66 /* stdinc.cpp */,
+				483D31650D85B3B7003477A0 /* AgentCombatState.cpp */,
+				483D31660D85B3B7003477A0 /* AgentDialogState.cpp */,
+				483D31670D85B3B7003477A0 /* AgentSteeringState.cpp */,
+				483D31680D85B3B7003477A0 /* Dialog.cpp */,
+				483D31690D85B3B7003477A0 /* DialogCondition.cpp */,
+				483D316A0D85B3B7003477A0 /* DialogElement.cpp */,
+				483D316B0D85B3B7003477A0 /* DialogImplication.cpp */,
+				483D316C0D85B3B7003477A0 /* DialogManager.cpp */,
+				483D316D0D85B3B7003477A0 /* DialogOption.cpp */,
+				483D316E0D85B3B7003477A0 /* DialogParagraph.cpp */,
+				483D316F0D85B3B7003477A0 /* DialogResponse.cpp */,
+				483D31700D85B3B7003477A0 /* DialogVariable.cpp */,
+				483D31710D85B3B7003477A0 /* SimpleVehicle.cpp */,
+				483D31720D85B3B7003477A0 /* stdinc.cpp */,
+				483D31730D85B3B7003477A0 /* WalkPathBehaviour.cpp */,
+				483D31450D85B398003477A0 /* AgentCombatState.h */,
+				483D31460D85B398003477A0 /* AgentDialogState.h */,
+				483D31470D85B398003477A0 /* AgentState.h */,
+				483D31480D85B398003477A0 /* AgentSteeringState.h */,
+				483D31490D85B398003477A0 /* AiMessages.h */,
+				483D314A0D85B398003477A0 /* Dialog.h */,
+				483D314B0D85B398003477A0 /* DialogCondition.h */,
+				483D314C0D85B398003477A0 /* DialogElement.h */,
+				483D314D0D85B398003477A0 /* DialogImplication.h */,
+				483D314E0D85B398003477A0 /* DialogManager.h */,
+				483D314F0D85B398003477A0 /* DialogOption.h */,
+				483D31500D85B398003477A0 /* DialogParagraph.h */,
+				483D31510D85B398003477A0 /* DialogResponse.h */,
+				483D31520D85B398003477A0 /* DialogVariable.h */,
+				483D31530D85B398003477A0 /* SimpleVehicle.h */,
+				483D31540D85B398003477A0 /* WalkPathBehaviour.h */,
+				483D312B0D85B22C003477A0 /* Combatant.cpp */,
+				483D312C0D85B22C003477A0 /* EffectManagementTask.cpp */,
+				483D312D0D85B22C003477A0 /* GameEventLog.cpp */,
+				483D312E0D85B22C003477A0 /* GameTimeSource.cpp */,
+				483D312F0D85B22C003477A0 /* GlobalProperties.cpp */,
+				483D31300D85B22C003477A0 /* GoToJob.cpp */,
+				483D31310D85B22C003477A0 /* Kampfaktion.cpp */,
+				483D31320D85B22C003477A0 /* WaitJob.cpp */,
+				483D31150D85B215003477A0 /* Combatant.h */,
+				483D31160D85B215003477A0 /* EffectManagementTask.h */,
+				483D31170D85B215003477A0 /* GameEventLog.h */,
+				483D31180D85B215003477A0 /* GameTimeSource.h */,
+				483D31190D85B215003477A0 /* GlobalProperties.h */,
+				483D311A0D85B215003477A0 /* GoToJob.h */,
+				483D311B0D85B215003477A0 /* Kampfaktion.h */,
+				483D311C0D85B215003477A0 /* RulesConstants.h */,
+				483D311D0D85B215003477A0 /* RulesMessages.h */,
+				483D311E0D85B215003477A0 /* stdinc.h */,
+				483D311F0D85B215003477A0 /* WaitJob.h */,
+				483D31120D85B1C2003477A0 /* NullSoundStitching.cpp */,
+				483D31100D85B1AF003477A0 /* NullSoundStitching.h */,
+				4836469C0D83D15600912FEC /* ContentLoader.cpp */,
+				4836469D0D83D15600912FEC /* SoundStitching.cpp */,
+				483646960D83D13700912FEC /* ContentLoader.h */,
+				483646970D83D13700912FEC /* SoundStitching.h */,
+				483646980D83D13700912FEC /* StartAnimationJob.h */,
 				485A057D0D71EDF20024198D /* JobQueue.cpp */,
 				485A05800D71EDF20024198D /* SaveGameFile.cpp */,
-				485A057F0D71EDF20024198D /* PolynomicSoundFadeFunctor.cpp */,
 				485A05810D71EDF20024198D /* SaveGameFileReader.cpp */,
 				485A05820D71EDF20024198D /* SaveGameFileWriter.cpp */,
 				485A05830D71EDF20024198D /* SaveGameManager.cpp */,
@@ -1266,10 +1518,10 @@
 		20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				48380A820D7F7D5E0013EE0C /* Ruby.framework */,
 				4857E4E40D46A664009D376D /* OIS.framework */,
 				4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */,
 				440785DD0C09D231006E496D /* libmeshmagick.dylib */,
+				483646A10D83D57800912FEC /* libruby.dylib */,
 				444EB3720BD1784A00C6D4A0 /* OgreCEGUIRenderer.framework */,
 				444EB0DA0BD119BB00C6D4A0 /* OpenSteer.framework */,
 				444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */,
@@ -1333,6 +1585,7 @@
 		444EAB200BD0E27400C6D4A0 /* RlCore */ = {
 			isa = PBXGroup;
 			children = (
+				485A057F0D71EDF20024198D /* PolynomicSoundFadeFunctor.cpp */,
 				48380B180D800EED0013EE0C /* StartAnimationJob.cpp */,
 				485A056E0D71EDC40024198D /* SaveGameFile.h */,
 				485A05670D71ED8D0024198D /* CoreMessages.h */,
@@ -1422,7 +1675,6 @@
 				444EAB280BD0E2B600C6D4A0 /* CameraObject.cpp */,
 				444EAB290BD0E2B600C6D4A0 /* ConfigurationManager.cpp */,
 				444EAB2A0BD0E2B600C6D4A0 /* ContentModule.cpp */,
-				444EAB2B0BD0E2B600C6D4A0 /* CoreEvents.cpp */,
 				444EAB2C0BD0E2B600C6D4A0 /* CoreSubsystem.cpp */,
 				444EAB2D0BD0E2B600C6D4A0 /* DebugVisualisable.cpp */,
 				444EAB2E0BD0E2B600C6D4A0 /* DebugVisualsManager.cpp */,
@@ -1494,7 +1746,6 @@
 				444EAC860BD0E54100C6D4A0 /* FuzzyState.h */,
 				444EAC870BD0E54100C6D4A0 /* FuzzyStateMachine.h */,
 				444EAC880BD0E54100C6D4A0 /* PhysicalObstacle.h */,
-				444EAC890BD0E54100C6D4A0 /* PlayerVehicle.h */,
 				444EAC8A0BD0E54100C6D4A0 /* SteeringMachine.h */,
 				444EAC8B0BD0E54100C6D4A0 /* SteeringVehicle.h */,
 				444EAC8C0BD0E54100C6D4A0 /* WayPointGraph.h */,
@@ -1512,7 +1763,6 @@
 				444EAC630BD0E52E00C6D4A0 /* FuzzyState.cpp */,
 				444EAC640BD0E52E00C6D4A0 /* FuzzyStateMachine.cpp */,
 				444EAC650BD0E52E00C6D4A0 /* PhysicalObstacle.cpp */,
-				444EAC660BD0E52E00C6D4A0 /* PlayerVehicle.cpp */,
 				444EAC670BD0E52E00C6D4A0 /* SteeringVehicle.cpp */,
 				444EAC680BD0E52E00C6D4A0 /* WayPointGraph.cpp */,
 				444EAC690BD0E52E00C6D4A0 /* WayPointGraphManager.cpp */,
@@ -1762,10 +2012,6 @@
 				444EADD10BD0E64100C6D4A0 /* Talent.cpp */,
 				444EADD20BD0E64100C6D4A0 /* Talentgruppe.cpp */,
 				444EADD30BD0E64100C6D4A0 /* TalentStateSet.cpp */,
-				444EADD40BD0E64100C6D4A0 /* TimerEvent.cpp */,
-				444EADD50BD0E64100C6D4A0 /* TimerEventSource.cpp */,
-				444EADD60BD0E64100C6D4A0 /* TimerListener.cpp */,
-				444EADD70BD0E64100C6D4A0 /* TimerManager.cpp */,
 				444EADD80BD0E64100C6D4A0 /* Weapon.cpp */,
 				444EADD90BD0E64100C6D4A0 /* ZauberStateSet.cpp */,
 			);
@@ -1775,6 +2021,7 @@
 		444EAE600BD0E66500C6D4A0 /* RlScript */ = {
 			isa = PBXGroup;
 			children = (
+				48389C010D86783200AFAB66 /* swig */,
 				4404DA840C48D01E007B4657 /* stdinc.h */,
 				446BF4810C4532B50013C214 /* UnifiedFactory.h */,
 				444825ED0BF7B32100C5A94F /* AbstractMapNodeProcessor.h */,
@@ -1806,6 +2053,39 @@
 				444EAE630BD0E6C000C6D4A0 /* ScriptSubsystem.h */,
 			);
 			name = RlScript;
+			sourceTree = "<group>";
+		};
+		48389C010D86783200AFAB66 /* swig */ = {
+			isa = PBXGroup;
+			children = (
+				48389C020D86787900AFAB66 /* RlExports.i */,
+				48389BE80D8677EE00AFAB66 /* RlAi.head.swig */,
+				48389BE90D8677EE00AFAB66 /* RlAi.swig */,
+				48389BEA0D8677EE00AFAB66 /* RlCommon.head.swig */,
+				48389BEB0D8677EE00AFAB66 /* RlCommon.swig */,
+				48389BEC0D8677EE00AFAB66 /* RlCore.head.swig */,
+				48389BED0D8677EE00AFAB66 /* RlCore.swig */,
+				48389BEE0D8677EE00AFAB66 /* RlRules.head.swig */,
+				48389BEF0D8677EE00AFAB66 /* RlRules.swig */,
+				48389BF00D8677EE00AFAB66 /* RlScript.head.swig */,
+				48389BF10D8677EE00AFAB66 /* RlScript.swig */,
+				48389BF20D8677EE00AFAB66 /* RlUi.head.swig */,
+				48389BF30D8677EE00AFAB66 /* TypeDynamicDirector.swig */,
+				48389BF40D8677EE00AFAB66 /* TypeMaps.i */,
+				48389BF50D8677EE00AFAB66 /* TypeOgreColourValue.swig */,
+				48389BF60D8677EE00AFAB66 /* TypeOgreQuaternion.swig */,
+				48389BF70D8677EE00AFAB66 /* TypeOgreRadian.swig */,
+				48389BF80D8677EE00AFAB66 /* TypeOgreReal.swig */,
+				48389BF90D8677EE00AFAB66 /* TypeOgreString.swig */,
+				48389BFA0D8677EE00AFAB66 /* TypeOgreStringVector.swig */,
+				48389BFB0D8677EE00AFAB66 /* TypeOgreVector3.swig */,
+				48389BFC0D8677EE00AFAB66 /* TypeRlCeGuiString.swig */,
+				48389BFD0D8677EE00AFAB66 /* TypeRlCeGuiStringVector.swig */,
+				48389BFE0D8677EE00AFAB66 /* TypeRlProperty.swig */,
+				48389BFF0D8677EE00AFAB66 /* TypeRlPropertyKeys.swig */,
+				48389C000D8677EE00AFAB66 /* TypeStdPairIntInt.swig */,
+			);
+			name = swig;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1849,10 +2129,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				483D31400D85B333003477A0 /* TimeSource.h in Headers */,
 				444EABDE0BD0E33300C6D4A0 /* Actor.h in Headers */,
 				444EABDF0BD0E33300C6D4A0 /* ActorControlledObject.h in Headers */,
 				444EABE00BD0E33300C6D4A0 /* ActorManager.h in Headers */,
 				444EABE20BD0E33300C6D4A0 /* AnimationManager.h in Headers */,
+				483D31410D85B338003477A0 /* JobQueue.h in Headers */,
 				444EABE30BD0E33300C6D4A0 /* BaseAnimation.h in Headers */,
 				444EABE40BD0E33300C6D4A0 /* BoxPrimitive.h in Headers */,
 				444EABE50BD0E33300C6D4A0 /* CameraObject.h in Headers */,
@@ -1916,6 +2198,12 @@
 				446BF46D0C4531FA0013C214 /* SoundFadeFunctor.h in Headers */,
 				446BF46E0C4531FA0013C214 /* SoundFadeJob.h in Headers */,
 				4404DA7F0C48CFC7007B4657 /* stdinc.h in Headers */,
+				483646990D83D13700912FEC /* ContentLoader.h in Headers */,
+				4836469A0D83D13700912FEC /* SoundStitching.h in Headers */,
+				4836469B0D83D13700912FEC /* StartAnimationJob.h in Headers */,
+				483D31110D85B1AF003477A0 /* NullSoundStitching.h in Headers */,
+				48389C0F0D86797000AFAB66 /* SoundStitchingObject.h in Headers */,
+				48389C2D0D867B2A00AFAB66 /* PolynomicSoundFadeFunctor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1936,7 +2224,6 @@
 				444EAC990BD0E54100C6D4A0 /* FuzzyState.h in Headers */,
 				444EAC9A0BD0E54100C6D4A0 /* FuzzyStateMachine.h in Headers */,
 				444EAC9B0BD0E54100C6D4A0 /* PhysicalObstacle.h in Headers */,
-				444EAC9C0BD0E54100C6D4A0 /* PlayerVehicle.h in Headers */,
 				444EAC9D0BD0E54100C6D4A0 /* SteeringMachine.h in Headers */,
 				444EAC9E0BD0E54100C6D4A0 /* SteeringVehicle.h in Headers */,
 				444EAC9F0BD0E54100C6D4A0 /* WayPointGraph.h in Headers */,
@@ -1946,6 +2233,22 @@
 				44D8146E0BF7B5E800534175 /* LandmarkPath.h in Headers */,
 				44125A320C083D1100C24C0A /* CreatureWalkPathJob.h in Headers */,
 				4404DA6F0C48CEE2007B4657 /* stdinc.h in Headers */,
+				483D31550D85B398003477A0 /* AgentCombatState.h in Headers */,
+				483D31560D85B398003477A0 /* AgentDialogState.h in Headers */,
+				483D31570D85B398003477A0 /* AgentState.h in Headers */,
+				483D31580D85B398003477A0 /* AgentSteeringState.h in Headers */,
+				483D31590D85B398003477A0 /* AiMessages.h in Headers */,
+				483D315A0D85B398003477A0 /* Dialog.h in Headers */,
+				483D315B0D85B398003477A0 /* DialogCondition.h in Headers */,
+				483D315C0D85B398003477A0 /* DialogElement.h in Headers */,
+				483D315D0D85B398003477A0 /* DialogImplication.h in Headers */,
+				483D315E0D85B398003477A0 /* DialogManager.h in Headers */,
+				483D315F0D85B398003477A0 /* DialogOption.h in Headers */,
+				483D31600D85B398003477A0 /* DialogParagraph.h in Headers */,
+				483D31610D85B398003477A0 /* DialogResponse.h in Headers */,
+				483D31620D85B398003477A0 /* DialogVariable.h in Headers */,
+				483D31630D85B398003477A0 /* SimpleVehicle.h in Headers */,
+				483D31640D85B398003477A0 /* WalkPathBehaviour.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1999,6 +2302,17 @@
 				446BF4780C4532720013C214 /* CreatureController.h in Headers */,
 				446BF4790C4532720013C214 /* CreatureControllerManager.h in Headers */,
 				446BF47A0C4532720013C214 /* EffectFactory.h in Headers */,
+				483D31200D85B215003477A0 /* Combatant.h in Headers */,
+				483D31210D85B215003477A0 /* EffectManagementTask.h in Headers */,
+				483D31220D85B215003477A0 /* GameEventLog.h in Headers */,
+				483D31230D85B215003477A0 /* GameTimeSource.h in Headers */,
+				483D31240D85B215003477A0 /* GlobalProperties.h in Headers */,
+				483D31250D85B215003477A0 /* GoToJob.h in Headers */,
+				483D31260D85B215003477A0 /* Kampfaktion.h in Headers */,
+				483D31270D85B215003477A0 /* RulesConstants.h in Headers */,
+				483D31280D85B215003477A0 /* RulesMessages.h in Headers */,
+				483D31290D85B215003477A0 /* stdinc.h in Headers */,
+				483D312A0D85B215003477A0 /* WaitJob.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2045,7 +2359,6 @@
 				444EAD5C0BD0E58C00C6D4A0 /* WindowFadeJob.h in Headers */,
 				444EAD5D0BD0E58C00C6D4A0 /* WindowManager.h in Headers */,
 				44D814610BF7B58A00534175 /* ProgressWindow.h in Headers */,
-				44D814620BF7B58A00534175 /* SaveLoadWindow.h in Headers */,
 				446BF48C0C45335A0013C214 /* ControlState.h in Headers */,
 				446BF48D0C45335A0013C214 /* CutsceneControlState.h in Headers */,
 				446BF48E0C45335A0013C214 /* DialogControlState.h in Headers */,
@@ -2057,30 +2370,39 @@
 				446BF4D20C453B9E0013C214 /* CombatControlState.h in Headers */,
 				446BF4D30C453B9E0013C214 /* CombatWindow.h in Headers */,
 				4404DA860C48D037007B4657 /* stdinc.h in Headers */,
+				48389B9A0D86743900AFAB66 /* CombatGui.h in Headers */,
+				48389B9B0D86743900AFAB66 /* GameSaveLoadWindow.h in Headers */,
+				48389B9C0D86743900AFAB66 /* MainMenuLoadWindow.h in Headers */,
+				48389B9D0D86743900AFAB66 /* UiMessages.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4836F8890D88592800E3632F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4836F8910D88594A00E3632F /* stdinc.h in Headers */,
+				4836F8920D88594A00E3632F /* UnifiedFactory.h in Headers */,
+				4836F8930D88594A00E3632F /* AbstractMapNodeProcessor.h in Headers */,
+				4836F8940D88594A00E3632F /* EntityNodeProcessor.h in Headers */,
+				4836F8950D88594A00E3632F /* EnvironmentProcessor.h in Headers */,
+				4836F8960D88594A00E3632F /* GameObjectNodeProcessor.h in Headers */,
+				4836F8970D88594A00E3632F /* LightNodeProcessor.h in Headers */,
+				4836F8980D88594A00E3632F /* MapLoader.h in Headers */,
+				4836F8990D88594A00E3632F /* ParticleSystemNodeProcessor.h in Headers */,
+				4836F89A0D88594A00E3632F /* SoundNodeProcessor.h in Headers */,
+				4836F89B0D88594A00E3632F /* TriggerFactory.h in Headers */,
+				4836F89C0D88594A00E3632F /* WaypointProcessor.h in Headers */,
+				4836F89D0D88594A00E3632F /* ZoneProcessor.h in Headers */,
+				4836F8AB0D88594A00E3632F /* ScriptObjectMarker.h in Headers */,
+				4836F8AC0D88594A00E3632F /* ScriptPrerequisites.h in Headers */,
+				4836F8AD0D88594A00E3632F /* ScriptSubsystem.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		440786100C09D602006E496D /* RlScript */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 440786130C09D603006E496D /* Build configuration list for PBXNativeTarget "RlScript" */;
-			buildPhases = (
-				440787FC0C09D6C4006E496D /* ShellScript */,
-				4407860E0C09D602006E496D /* Sources */,
-				4407860F0C09D602006E496D /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				440788020C09D6DD006E496D /* PBXTargetDependency */,
-			);
-			name = RlScript;
-			productName = RlScript2;
-			productReference = 440786110C09D602006E496D /* libRlScript.bundle */;
-			productType = "com.apple.product-type.bundle";
-		};
 		444EAAB10BD0E0FB00C6D4A0 /* RlCommon */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 444EAAB30BD0E11900C6D4A0 /* Build configuration list for PBXNativeTarget "RlCommon" */;
@@ -2163,11 +2485,29 @@
 			buildRules = (
 			);
 			dependencies = (
+				48389BC60D86762F00AFAB66 /* PBXTargetDependency */,
 				444EB1DB0BD159B600C6D4A0 /* PBXTargetDependency */,
 			);
 			name = RlUi;
 			productName = RlUi;
 			productReference = 444EAC3E0BD0E46000C6D4A0 /* libRlUi.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		4836F88C0D88592800E3632F /* RlScript */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4836F8900D88594600E3632F /* Build configuration list for PBXNativeTarget "RlScript" */;
+			buildPhases = (
+				4836F8890D88592800E3632F /* Headers */,
+				4836F88A0D88592800E3632F /* Sources */,
+				4836F88B0D88592800E3632F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RlScript;
+			productName = RlScript;
+			productReference = 4836F88D0D88592800E3632F /* libRlScript.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 		8D0C4E890486CD37000505A6 /* Rastullah */ = {
@@ -2181,12 +2521,12 @@
 			buildRules = (
 			);
 			dependencies = (
+				4836F8B40D8859E400E3632F /* PBXTargetDependency */,
 				444EAC1F0BD0E3A800C6D4A0 /* PBXTargetDependency */,
 				444EAC210BD0E3A800C6D4A0 /* PBXTargetDependency */,
 				444EAC4B0BD0E49900C6D4A0 /* PBXTargetDependency */,
 				444EAC4F0BD0E49900C6D4A0 /* PBXTargetDependency */,
 				444EAC510BD0E49900C6D4A0 /* PBXTargetDependency */,
-				440788090C09D706006E496D /* PBXTargetDependency */,
 			);
 			name = Rastullah;
 			productInstallPath = "$(HOME)/Applications";
@@ -2215,7 +2555,7 @@
 				444EAC260BD0E3FF00C6D4A0 /* RlAi */,
 				444EAC360BD0E44900C6D4A0 /* RlRules */,
 				444EAC3D0BD0E46000C6D4A0 /* RlUi */,
-				440786100C09D602006E496D /* RlScript */,
+				4836F88C0D88592800E3632F /* RlScript */,
 			);
 		};
 /* End PBXProject section */
@@ -2225,6 +2565,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48187AAB0D885CBB00CE6689 /* libRlCommon.dylib in Resources */,
+				48187AAC0D885CBB00CE6689 /* libRlCore.dylib in Resources */,
+				48187AAD0D885CBB00CE6689 /* libRlAi.dylib in Resources */,
+				48187AAE0D885CBB00CE6689 /* libRlRules.dylib in Resources */,
+				48187AAF0D885CBB00CE6689 /* libRlUi.dylib in Resources */,
+				48187AB00D885CBB00CE6689 /* libRlScript.dylib in Resources */,
 				8D0C4E8D0486CD37000505A6 /* InfoPlist.strings in Resources */,
 				8D0C4E8E0486CD37000505A6 /* main.nib in Resources */,
 			);
@@ -2232,43 +2578,7 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		440787FC0C09D6C4006E496D /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/swig -D__OSX -v -minherit -ruby -c++ -o ${SRCROOT}/../engine/script/swig/RlExports.cpp ${SRCROOT}/../engine/script/swig/RlExports.i";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		4407860E0C09D602006E496D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				440787EF0C09D697006E496D /* AbstractMapNodeProcessor.cpp in Sources */,
-				440787F00C09D697006E496D /* EntityNodeProcessor.cpp in Sources */,
-				440787F10C09D697006E496D /* EnvironmentProcessor.cpp in Sources */,
-				440787F20C09D697006E496D /* GameObjectNodeProcessor.cpp in Sources */,
-				440787F30C09D697006E496D /* LightNodeProcessor.cpp in Sources */,
-				440787F40C09D697006E496D /* MapLoader.cpp in Sources */,
-				440787F50C09D697006E496D /* ParticleSystemNodeProcessor.cpp in Sources */,
-				440787F60C09D697006E496D /* RlExports.cpp in Sources */,
-				440787F70C09D697006E496D /* ScriptObjectMarker.cpp in Sources */,
-				440787F80C09D697006E496D /* ScriptSubsystem.cpp in Sources */,
-				440787F90C09D697006E496D /* SoundNodeProcessor.cpp in Sources */,
-				440787FA0C09D697006E496D /* WaypointProcessor.cpp in Sources */,
-				440787FB0C09D697006E496D /* ZoneProcessor.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		444EAAAF0BD0E0FB00C6D4A0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2296,6 +2606,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48380B1A0D8010ED0013EE0C /* TimeSource.cpp in Sources */,
 				444EAB620BD0E2F300C6D4A0 /* Actor.cpp in Sources */,
 				444EAB630BD0E2F300C6D4A0 /* ActorControlledObject.cpp in Sources */,
 				444EAB640BD0E2F300C6D4A0 /* ActorManager.cpp in Sources */,
@@ -2307,6 +2618,9 @@
 				444EAB6B0BD0E2F300C6D4A0 /* ContentModule.cpp in Sources */,
 				48380B190D800EED0013EE0C /* StartAnimationJob.cpp in Sources */,
 				444EAB6D0BD0E2F300C6D4A0 /* CoreSubsystem.cpp in Sources */,
+				483646C30D83D62E00912FEC /* SaveGameFileReader.cpp in Sources */,
+				483646C40D83D62E00912FEC /* SaveGameFileWriter.cpp in Sources */,
+				483646C50D83D62E00912FEC /* SaveGameManager.cpp in Sources */,
 				444EAB6E0BD0E2F300C6D4A0 /* DebugVisualisable.cpp in Sources */,
 				444EAB6F0BD0E2F300C6D4A0 /* DebugVisualsManager.cpp in Sources */,
 				444EAB700BD0E2F300C6D4A0 /* DotSceneLoader.cpp in Sources */,
@@ -2352,11 +2666,18 @@
 				44D814710BF7B61500534175 /* Zone.cpp in Sources */,
 				44D814720BF7B61500534175 /* ZoneManager.cpp in Sources */,
 				440785E40C09D2C1006E496D /* LightFadeJob.cpp in Sources */,
-				48380B1A0D8010ED0013EE0C /* TimeSource.cpp in Sources */,
 				440785E50C09D2C1006E496D /* MergeableMeshObject.cpp in Sources */,
 				446BF4720C4532120013C214 /* LinearSoundFadeFunctor.cpp in Sources */,
 				446BF4730C4532120013C214 /* SoundFadeFunctor.cpp in Sources */,
 				446BF4740C4532120013C214 /* SoundFadeJob.cpp in Sources */,
+				4836469E0D83D15600912FEC /* ContentLoader.cpp in Sources */,
+				4836469F0D83D15600912FEC /* SoundStitching.cpp in Sources */,
+				483646D30D83D6DD00912FEC /* SaveGameFile.cpp in Sources */,
+				483D31130D85B1C2003477A0 /* NullSoundStitching.cpp in Sources */,
+				483D31420D85B35C003477A0 /* JobQueue.cpp in Sources */,
+				48389C110D86798600AFAB66 /* SoundStitchingObject.cpp in Sources */,
+				48389C290D867B1A00AFAB66 /* Trigger.cpp in Sources */,
+				48389C2C0D867B2A00AFAB66 /* PolynomicSoundFadeFunctor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2376,7 +2697,6 @@
 				444EAC740BD0E52E00C6D4A0 /* FuzzyState.cpp in Sources */,
 				444EAC750BD0E52E00C6D4A0 /* FuzzyStateMachine.cpp in Sources */,
 				444EAC760BD0E52E00C6D4A0 /* PhysicalObstacle.cpp in Sources */,
-				444EAC770BD0E52E00C6D4A0 /* PlayerVehicle.cpp in Sources */,
 				444EAC780BD0E52E00C6D4A0 /* SteeringVehicle.cpp in Sources */,
 				444EAC790BD0E52E00C6D4A0 /* WayPointGraph.cpp in Sources */,
 				444EAC7A0BD0E52E00C6D4A0 /* WayPointGraphManager.cpp in Sources */,
@@ -2384,6 +2704,21 @@
 				44D814690BF7B5C700534175 /* Landmark.cpp in Sources */,
 				44D8146A0BF7B5C700534175 /* LandmarkPath.cpp in Sources */,
 				44125A300C083D0100C24C0A /* CreatureWalkPathJob.cpp in Sources */,
+				483D31740D85B3B7003477A0 /* AgentCombatState.cpp in Sources */,
+				483D31750D85B3B7003477A0 /* AgentDialogState.cpp in Sources */,
+				483D31760D85B3B7003477A0 /* AgentSteeringState.cpp in Sources */,
+				483D31800D85B3B7003477A0 /* SimpleVehicle.cpp in Sources */,
+				483D31810D85B3B7003477A0 /* stdinc.cpp in Sources */,
+				483D31820D85B3B7003477A0 /* WalkPathBehaviour.cpp in Sources */,
+				48389BBA0D8675E700AFAB66 /* Dialog.cpp in Sources */,
+				48389BBB0D8675E700AFAB66 /* DialogCondition.cpp in Sources */,
+				48389BBC0D8675E700AFAB66 /* DialogElement.cpp in Sources */,
+				48389BBD0D8675E700AFAB66 /* DialogImplication.cpp in Sources */,
+				48389BBE0D8675E700AFAB66 /* DialogManager.cpp in Sources */,
+				48389BBF0D8675E700AFAB66 /* DialogOption.cpp in Sources */,
+				48389BC00D8675E700AFAB66 /* DialogParagraph.cpp in Sources */,
+				48389BC10D8675E700AFAB66 /* DialogResponse.cpp in Sources */,
+				48389BC20D8675E700AFAB66 /* DialogVariable.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2426,10 +2761,6 @@
 				444EADFB0BD0E64100C6D4A0 /* Talent.cpp in Sources */,
 				444EADFC0BD0E64100C6D4A0 /* Talentgruppe.cpp in Sources */,
 				444EADFD0BD0E64100C6D4A0 /* TalentStateSet.cpp in Sources */,
-				444EADFE0BD0E64100C6D4A0 /* TimerEvent.cpp in Sources */,
-				444EADFF0BD0E64100C6D4A0 /* TimerEventSource.cpp in Sources */,
-				444EAE000BD0E64100C6D4A0 /* TimerListener.cpp in Sources */,
-				444EAE010BD0E64100C6D4A0 /* TimerManager.cpp in Sources */,
 				444EAE020BD0E64100C6D4A0 /* Weapon.cpp in Sources */,
 				444EAE030BD0E64100C6D4A0 /* ZauberStateSet.cpp in Sources */,
 				444826050BF7B37D00C5A94F /* SelectionHelper.cpp in Sources */,
@@ -2438,6 +2769,14 @@
 				446BF47F0C45329F0013C214 /* CreatureControllerManager.cpp in Sources */,
 				446BF4800C45329F0013C214 /* EffectFactory.cpp in Sources */,
 				4404DA830C48D005007B4657 /* stdinc.cpp in Sources */,
+				483D31330D85B22C003477A0 /* Combatant.cpp in Sources */,
+				483D31340D85B22C003477A0 /* EffectManagementTask.cpp in Sources */,
+				483D31350D85B22C003477A0 /* GameEventLog.cpp in Sources */,
+				483D31360D85B22C003477A0 /* GameTimeSource.cpp in Sources */,
+				483D31370D85B22C003477A0 /* GlobalProperties.cpp in Sources */,
+				483D31380D85B22C003477A0 /* GoToJob.cpp in Sources */,
+				483D31390D85B22C003477A0 /* Kampfaktion.cpp in Sources */,
+				483D313A0D85B22C003477A0 /* WaitJob.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2482,7 +2821,6 @@
 				444EACFC0BD0E57100C6D4A0 /* WindowFadeJob.cpp in Sources */,
 				444EACFD0BD0E57100C6D4A0 /* WindowManager.cpp in Sources */,
 				44D814650BF7B5AD00534175 /* ProgressWindow.cpp in Sources */,
-				44D814660BF7B5AD00534175 /* SaveLoadWindow.cpp in Sources */,
 				446BF49D0C4533BD0013C214 /* CombatControlState.cpp in Sources */,
 				446BF49E0C4533BD0013C214 /* CombatWindow.cpp in Sources */,
 				446BF49F0C4533BD0013C214 /* ControlState.cpp in Sources */,
@@ -2493,6 +2831,31 @@
 				446BF4A40C4533BD0013C214 /* MovementControlState.cpp in Sources */,
 				446BF4A50C4533BD0013C214 /* PropertiesWindow.cpp in Sources */,
 				446BF4D60C453C1D0013C214 /* ItemDescriptionDragContainer.cpp in Sources */,
+				48389B920D86741F00AFAB66 /* CombatGui.cpp in Sources */,
+				48389B930D86741F00AFAB66 /* GameSaveLoadWindow.cpp in Sources */,
+				48389B940D86741F00AFAB66 /* MainMenuLoadWindow.cpp in Sources */,
+				48389B950D86741F00AFAB66 /* stdinc.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4836F88A0D88592800E3632F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4836F89E0D88594A00E3632F /* AbstractMapNodeProcessor.cpp in Sources */,
+				4836F89F0D88594A00E3632F /* EntityNodeProcessor.cpp in Sources */,
+				4836F8A00D88594A00E3632F /* EnvironmentProcessor.cpp in Sources */,
+				4836F8A10D88594A00E3632F /* GameObjectNodeProcessor.cpp in Sources */,
+				4836F8A20D88594A00E3632F /* LightNodeProcessor.cpp in Sources */,
+				4836F8A30D88594A00E3632F /* MapLoader.cpp in Sources */,
+				4836F8A40D88594A00E3632F /* ParticleSystemNodeProcessor.cpp in Sources */,
+				4836F8A50D88594A00E3632F /* SoundNodeProcessor.cpp in Sources */,
+				4836F8A60D88594A00E3632F /* WaypointProcessor.cpp in Sources */,
+				4836F8A70D88594A00E3632F /* ZoneProcessor.cpp in Sources */,
+				4836F8A80D88594A00E3632F /* RlExports.cpp in Sources */,
+				4836F8A90D88594A00E3632F /* ScriptObjectMarker.cpp in Sources */,
+				4836F8AA0D88594A00E3632F /* ScriptSubsystem.cpp in Sources */,
+				4836F9BA0D885AF000E3632F /* TriggerFactory.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2507,16 +2870,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		440788020C09D6DD006E496D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 444EAC3D0BD0E46000C6D4A0 /* RlUi */;
-			targetProxy = 440788010C09D6DD006E496D /* PBXContainerItemProxy */;
-		};
-		440788090C09D706006E496D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 440786100C09D602006E496D /* RlScript */;
-			targetProxy = 440788080C09D706006E496D /* PBXContainerItemProxy */;
-		};
 		444EAC1F0BD0E3A800C6D4A0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 444EAAB10BD0E0FB00C6D4A0 /* RlCommon */;
@@ -2562,6 +2915,16 @@
 			target = 444EAB600BD0E2DA00C6D4A0 /* RlCore */;
 			targetProxy = 44F21A050BD2143D00EF01CF /* PBXContainerItemProxy */;
 		};
+		4836F8B40D8859E400E3632F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4836F88C0D88592800E3632F /* RlScript */;
+			targetProxy = 4836F8B30D8859E400E3632F /* PBXContainerItemProxy */;
+		};
+		48389BC60D86762F00AFAB66 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 444EAC260BD0E3FF00C6D4A0 /* RlAi */;
+			targetProxy = 48389BC50D86762F00AFAB66 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -2584,50 +2947,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		440786140C09D603006E496D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "";
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ../engine/script/include/stdinc.h;
-				INFOPLIST_FILE = "RlScript-Info.plist";
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				OTHER_LDFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = libRlScript;
-				SHARED_PRECOMPS_DIR = "";
-				WRAPPER_EXTENSION = bundle;
-				ZERO_LINK = YES;
-			};
-			name = Debug;
-		};
-		440786150C09D603006E496D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "";
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ../engine/script/include/stdinc.h;
-				INFOPLIST_FILE = "RlScript-Info.plist";
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				OTHER_LDFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = libRlScript;
-				SHARED_PRECOMPS_DIR = "";
-				WRAPPER_EXTENSION = bundle;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 		444EAAB40BD0E11900C6D4A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2685,7 +3004,7 @@
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = /System/Library/Frameworks;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -2707,7 +3026,9 @@
 					"$(inherited)",
 					/sw/lib,
 					/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/lib,
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";
 				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
@@ -2722,7 +3043,7 @@
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = /System/Library/Frameworks;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
@@ -2742,7 +3063,9 @@
 					"$(inherited)",
 					/sw/lib,
 					/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/lib,
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
 				PRODUCT_NAME = RlCore;
@@ -2767,6 +3090,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					/sw/lib,
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/build/Debug\"";
 				MACH_O_TYPE = mh_dylib;
@@ -2792,6 +3116,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					/sw/lib,
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/build/Debug\"";
 				OTHER_LDFLAGS = "";
@@ -2867,11 +3192,15 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../engine/ui/include/stdinc.h;
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					"/usr/local/lib/ruby/1.8/i686-darwin8.9.1",
+					/sw/include,
+					/Library/Frameworks/CEGUI.framework/Headers,
+					/System/Library/Frameworks/Ruby.framework/Headers,
 				);
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/build/Debug\"";
 				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = (
@@ -2895,6 +3224,13 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../engine/ui/include/stdinc.h;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					"/usr/local/lib/ruby/1.8/i686-darwin8.9.1",
+					/sw/include,
+					/Library/Frameworks/CEGUI.framework/Headers,
+					/System/Library/Frameworks/Ruby.framework/Headers,
+				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2907,6 +3243,55 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = RlUi;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		4836F88E0D88592800E3632F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_PREFIX = lib;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					"/usr/local/lib/ruby/1.8/i686-darwin8.9.1",
+					/sw/include,
+					/Library/Frameworks/CEGUI.framework/Headers,
+					/System/Library/Frameworks/Ruby.framework/Headers,
+				);
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/sw/lib,
+					/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/lib,
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";
+				PREBINDING = NO;
+				PRODUCT_NAME = RlScript;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		4836F88F0D88592800E3632F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";
+				PREBINDING = NO;
+				PRODUCT_NAME = RlScript;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -2926,7 +3311,11 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/sw/lib,
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 				);
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/build/Debug\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";
 				PRODUCT_NAME = Rastullah;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
@@ -2946,7 +3335,11 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/sw/lib,
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
 				);
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/build/Debug\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";
 				PRODUCT_NAME = Rastullah;
 				WRAPPER_EXTENSION = app;
 			};
@@ -3001,15 +3394,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		440786130C09D603006E496D /* Build configuration list for PBXNativeTarget "RlScript" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				440786140C09D603006E496D /* Debug */,
-				440786150C09D603006E496D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		444EAAB30BD0E11900C6D4A0 /* Build configuration list for PBXNativeTarget "RlCommon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -3051,6 +3435,15 @@
 			buildConfigurations = (
 				444EAC430BD0E47F00C6D4A0 /* Debug */,
 				444EAC440BD0E47F00C6D4A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4836F8900D88594600E3632F /* Build configuration list for PBXNativeTarget "RlScript" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4836F88E0D88592800E3632F /* Debug */,
+				4836F88F0D88592800E3632F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
