@@ -127,6 +127,24 @@ namespace rl
         mZonesToDelete.push_back(zone);
     }
 
+    void ZoneManager::destroyAllZones()
+    {
+        for(ZoneMap::iterator it = mZones.begin(); it != mZones.end();)
+        {
+            // remove from active zones
+            if( isZoneActive(it->second) )
+                mActiveZones.remove(it->second);
+
+            std::map<long, Zone*>::iterator it_ = mZonesIdMap.find(it->second->getId());
+            if( it_ != mZonesIdMap.end() )
+                mZonesIdMap.erase(it_);
+
+
+            mZonesToDelete.push_back(it->second);
+            mZones.erase(it++);
+        }
+    }
+
     void ZoneManager::doDestroyZone(Zone *zone)
     {
         //destroy all areas

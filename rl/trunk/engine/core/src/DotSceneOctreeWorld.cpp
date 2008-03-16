@@ -27,6 +27,7 @@
 #include "Actor.h"
 #include "PhysicsManager.h"
 #include "DotSceneLoader.h"
+#include "ZoneManager.h"
 
 using namespace Ogre;
 
@@ -111,6 +112,7 @@ namespace rl {
 
         // This is necessary to destroy cameras too.
         CoreSubsystem::getSingleton().getRenderWindow()->removeAllViewports();
+        ZoneManager::getSingleton().destroyAllZones();
         ActorManager::getSingleton().destroyAllActors();
         mSceneMgr->clearScene();
         PhysicsManager::getSingleton().clearLevelGeometry();

@@ -40,6 +40,7 @@ namespace rl
         Zone* createZone(const Ogre::String& name, bool needsToBeSaved);
         /// only marks the zone for deferred deletion
         void destroyZone(const Ogre::String& name);
+        void destroyAllZones();
         /// Adds a new area to the zone
         void addAreaToZone(const Ogre::String& name, 
             Ogre::AxisAlignedBox aabb, GeometryType geom,

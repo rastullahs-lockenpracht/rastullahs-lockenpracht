@@ -81,9 +81,9 @@ namespace rl
     CoreSubsystem::~CoreSubsystem()
     {
 		delete meshmagick::OgreEnvironment::getSingletonPtr();
+		delete mWorld;
         delete mZoneManager;
         delete mGameEventManager;
-		delete mWorld;
         delete mGameLoop;
         delete mMessagePump;
         delete mJobScheduler;
