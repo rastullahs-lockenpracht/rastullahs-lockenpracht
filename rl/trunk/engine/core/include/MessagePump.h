@@ -174,7 +174,7 @@ namespace rl
         template<typename _MessageType>
         void postMessage(const typename _MessageType::MessageObjectType::Param1& p1)
         {
-            MessageObjectBase* obj = _MessageType::MessageObjectType::Build();
+            MessageObjectBase* obj = _MessageType::MessageObjectType::Build(p1);
             doPost(obj);
         }
 
@@ -182,7 +182,7 @@ namespace rl
         void postMessage(const typename _MessageType::MessageObjectType::Param1& p1,
             const typename _MessageType::MessageObjectType::Param2& p2)
         {
-            MessageObjectBase* obj = _MessageType::MessageObjectType::Build();
+            MessageObjectBase* obj = _MessageType::MessageObjectType::Build(p1,p2);
             doPost(obj);
         }
 
