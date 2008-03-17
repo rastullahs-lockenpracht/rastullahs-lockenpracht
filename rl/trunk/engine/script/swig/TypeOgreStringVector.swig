@@ -18,6 +18,25 @@
   delete $1;
 }
 
+%typemap(out) Ogre::StringVector, const Ogre::StringVector {
+  VALUE arr = rb_ary_new2($1.size()); 
+  StringVector::iterator i = $1.begin(), iend = $1.end();
+  for ( ; i!=iend; i++ )
+    rb_ary_push(arr, rb_str_new2(*i));
+  $result = arr;
+}
+
+%typemap(in) Ogre::StringVector , const Ogre::StringVector {
+  Check_Type($input, T_ARRAY);
+  Ogre::StringVector vec;
+  int len = RARRAY($input)->len;
+  for (int i=0; i!=len; i++) {
+    VALUE inst = rb_ary_entry($input, i);
+    vec.push_back(Ogre::String(StringValuePtr(inst)));
+  }
+  $1 = vec;
+}
+
 %typemap(directorin) Ogre::StringVector &, const Ogre::StringVector & {
   VALUE arr = rb_ary_new2($1->size()); 
   StringVector::iterator i = $1->begin(), iend = $1->end();
