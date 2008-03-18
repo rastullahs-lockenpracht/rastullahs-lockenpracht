@@ -24,6 +24,7 @@ namespace rl
 
     void MessagePump::run(Ogre::Real elapsedTime)
     {
+        sendPending();
     }
 
     const Ogre::String& MessagePump::getName() const
