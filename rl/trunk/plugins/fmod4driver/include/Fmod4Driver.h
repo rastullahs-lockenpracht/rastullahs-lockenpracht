@@ -18,14 +18,6 @@
 
 #include "Fmod4DriverPrerequisites.h"
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-    #include <fmod.hpp>
-    #include <fmod_errors.h>
-#else
-    #include <fmodex/fmod.hpp>
-    #include <fmodex/fmod_errors.h>
-#endif
-
 #include "SoundDriver.h"
 
 namespace rl

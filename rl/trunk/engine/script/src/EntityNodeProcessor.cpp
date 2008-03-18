@@ -17,7 +17,6 @@
 
 #include "EntityNodeProcessor.h"
 
-#include <OgreNewt.h>
 #include <xercesc/dom/DOM.hpp>
 
 #include "CoreSubsystem.h"

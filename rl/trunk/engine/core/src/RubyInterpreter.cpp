@@ -97,13 +97,15 @@ void RubyInterpreter::addSearchPath(const Ogre::String& path)
 
 VALUE RubyInterpreter::loadDlls(VALUE val)
 {
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-    rb_require("RlScript");
+    Ogre::String lib;
+#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+    lib = "libRlScript";
 #else
-    rb_require("libRlScript");
+    lib = "RlScript";
 #endif
-
-    return Qnil;
+    
+    LOG_DEBUG("RubyInterpreter", "Loading library '" + lib + "'");
+    return rb_require(lib.c_str());
 }
 
 void RubyInterpreter::loadProtected(ProtectedMethod func, VALUE val, const std::string& msg, bool exitOnFail)

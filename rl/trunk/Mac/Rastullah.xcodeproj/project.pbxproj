@@ -349,16 +349,13 @@
 		444EAE590BD0E65B00C6D4A0 /* TalentStateSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAE2B0BD0E65B00C6D4A0 /* TalentStateSet.h */; };
 		444EAE5E0BD0E65B00C6D4A0 /* Weapon.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAE300BD0E65B00C6D4A0 /* Weapon.h */; };
 		444EAE5F0BD0E65B00C6D4A0 /* ZauberStateSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAE310BD0E65B00C6D4A0 /* ZauberStateSet.h */; };
-		444EAEBA0BD0F06700C6D4A0 /* libxerces-c.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEB90BD0F06700C6D4A0 /* libxerces-c.dylib */; };
 		444EAEBF0BD0F09900C6D4A0 /* CEGUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */; };
 		444EAEC00BD0F09900C6D4A0 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBE0BD0F09900C6D4A0 /* Ogre.framework */; };
 		444EAEF30BD1150500C6D4A0 /* CEGUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */; };
-		444EAEF50BD1150500C6D4A0 /* libxerces-c.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEB90BD0F06700C6D4A0 /* libxerces-c.dylib */; };
 		444EAEF60BD1150500C6D4A0 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBE0BD0F09900C6D4A0 /* Ogre.framework */; };
 		444EB0890BD1153500C6D4A0 /* OgreNewt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EB0880BD1153500C6D4A0 /* OgreNewt.framework */; };
 		444EB0AB0BD115CB00C6D4A0 /* libRlCommon.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAAB20BD0E0FB00C6D4A0 /* libRlCommon.dylib */; };
 		444EB0D40BD1198B00C6D4A0 /* CEGUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */; };
-		444EB0D50BD1198B00C6D4A0 /* libxerces-c.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEB90BD0F06700C6D4A0 /* libxerces-c.dylib */; };
 		444EB0D60BD1198B00C6D4A0 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBE0BD0F09900C6D4A0 /* Ogre.framework */; };
 		444EB0D80BD1198B00C6D4A0 /* OgreNewt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EB0880BD1153500C6D4A0 /* OgreNewt.framework */; };
 		444EB0DB0BD119BB00C6D4A0 /* OpenSteer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EB0DA0BD119BB00C6D4A0 /* OpenSteer.framework */; };
@@ -371,7 +368,6 @@
 		444EB1CE0BD1595100C6D4A0 /* OgreNewt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EB0880BD1153500C6D4A0 /* OgreNewt.framework */; };
 		444EB3410BD172BA00C6D4A0 /* CEGUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */; };
 		444EB3420BD172BA00C6D4A0 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBE0BD0F09900C6D4A0 /* Ogre.framework */; };
-		444EB3430BD172FA00C6D4A0 /* libxerces-c.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEB90BD0F06700C6D4A0 /* libxerces-c.dylib */; };
 		444EB3440BD1730C00C6D4A0 /* libRlCommon.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAAB20BD0E0FB00C6D4A0 /* libRlCommon.dylib */; };
 		444EB3450BD1730C00C6D4A0 /* libRlCore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAB610BD0E2DA00C6D4A0 /* libRlCore.dylib */; };
 		444EB3480BD1733900C6D4A0 /* OgreNewt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EB0880BD1153500C6D4A0 /* OgreNewt.framework */; };
@@ -384,7 +380,6 @@
 		444EB79E0BD195E800C6D4A0 /* libRlRules.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAC370BD0E44900C6D4A0 /* libRlRules.dylib */; };
 		444EB7A00BD195E800C6D4A0 /* libRlUi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAC3E0BD0E46000C6D4A0 /* libRlUi.dylib */; };
 		444EB7A20BD1963A00C6D4A0 /* CEGUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */; };
-		444EB7A70BD1963A00C6D4A0 /* libxerces-c.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEB90BD0F06700C6D4A0 /* libxerces-c.dylib */; };
 		444EB7A80BD1963A00C6D4A0 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBE0BD0F09900C6D4A0 /* Ogre.framework */; };
 		444EB7A90BD1963A00C6D4A0 /* OgreCEGUIRenderer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EB3720BD1784A00C6D4A0 /* OgreCEGUIRenderer.framework */; };
 		444EB7AA0BD1963A00C6D4A0 /* OgreNewt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EB0880BD1153500C6D4A0 /* OgreNewt.framework */; };
@@ -421,7 +416,6 @@
 		446BF4D20C453B9E0013C214 /* CombatControlState.h in Headers */ = {isa = PBXBuildFile; fileRef = 446BF4D00C453B9E0013C214 /* CombatControlState.h */; };
 		446BF4D30C453B9E0013C214 /* CombatWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 446BF4D10C453B9E0013C214 /* CombatWindow.h */; };
 		446BF4D60C453C1D0013C214 /* ItemDescriptionDragContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 446BF4D50C453C1D0013C214 /* ItemDescriptionDragContainer.cpp */; };
-		44D8145C0BF7B52600534175 /* GameObjectConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814590BF7B52600534175 /* GameObjectConstants.h */; };
 		44D8145D0BF7B52600534175 /* SelectionHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D8145A0BF7B52600534175 /* SelectionHelper.h */; };
 		44D8145E0BF7B52600534175 /* Selector.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D8145B0BF7B52600534175 /* Selector.h */; };
 		44D814610BF7B58A00534175 /* ProgressWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D8145F0BF7B58A00534175 /* ProgressWindow.h */; };
@@ -437,15 +431,20 @@
 		44D8147A0BF7B62F00534175 /* Trigger.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814750BF7B62F00534175 /* Trigger.h */; };
 		44D8147B0BF7B62F00534175 /* Zone.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814760BF7B62F00534175 /* Zone.h */; };
 		44D8147C0BF7B62F00534175 /* ZoneManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814770BF7B62F00534175 /* ZoneManager.h */; };
-		481879EC0D885BBE00CE6689 /* libxerces-c.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEB90BD0F06700C6D4A0 /* libxerces-c.dylib */; };
-		481879ED0D885BC000CE6689 /* libxerces-c.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEB90BD0F06700C6D4A0 /* libxerces-c.dylib */; };
-		48187A960D885BD800CE6689 /* CEGUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */; };
 		48187AAB0D885CBB00CE6689 /* libRlCommon.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAAB20BD0E0FB00C6D4A0 /* libRlCommon.dylib */; };
 		48187AAC0D885CBB00CE6689 /* libRlCore.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAB610BD0E2DA00C6D4A0 /* libRlCore.dylib */; };
 		48187AAD0D885CBB00CE6689 /* libRlAi.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAC270BD0E3FF00C6D4A0 /* libRlAi.dylib */; };
 		48187AAE0D885CBB00CE6689 /* libRlRules.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAC370BD0E44900C6D4A0 /* libRlRules.dylib */; };
 		48187AAF0D885CBB00CE6689 /* libRlUi.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAC3E0BD0E46000C6D4A0 /* libRlUi.dylib */; };
-		48187AB00D885CBB00CE6689 /* libRlScript.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 4836F88D0D88592800E3632F /* libRlScript.dylib */; };
+		483514870D8AED510077477D /* OIS.framework in Resources */ = {isa = PBXBuildFile; fileRef = 4857E4E40D46A664009D376D /* OIS.framework */; };
+		483514880D8AED510077477D /* libboost_filesystem.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */; };
+		483514890D8AED510077477D /* libmeshmagick.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 440785DD0C09D231006E496D /* libmeshmagick.dylib */; };
+		4835148A0D8AED510077477D /* libruby.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 483646A10D83D57800912FEC /* libruby.dylib */; };
+		4835148B0D8AED510077477D /* OgreCEGUIRenderer.framework in Resources */ = {isa = PBXBuildFile; fileRef = 444EB3720BD1784A00C6D4A0 /* OgreCEGUIRenderer.framework */; };
+		4835148C0D8AED510077477D /* OpenSteer.framework in Resources */ = {isa = PBXBuildFile; fileRef = 444EB0DA0BD119BB00C6D4A0 /* OpenSteer.framework */; };
+		4835148D0D8AED510077477D /* CEGUI.framework in Resources */ = {isa = PBXBuildFile; fileRef = 444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */; };
+		4835148E0D8AED510077477D /* Ogre.framework in Resources */ = {isa = PBXBuildFile; fileRef = 444EAEBE0BD0F09900C6D4A0 /* Ogre.framework */; };
+		4835148F0D8AED510077477D /* OgreNewt.framework in Resources */ = {isa = PBXBuildFile; fileRef = 444EB0880BD1153500C6D4A0 /* OgreNewt.framework */; };
 		483646990D83D13700912FEC /* ContentLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646960D83D13700912FEC /* ContentLoader.h */; };
 		4836469A0D83D13700912FEC /* SoundStitching.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646970D83D13700912FEC /* SoundStitching.h */; };
 		4836469B0D83D13700912FEC /* StartAnimationJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646980D83D13700912FEC /* StartAnimationJob.h */; };
@@ -456,46 +455,21 @@
 		483646C40D83D62E00912FEC /* SaveGameFileWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A05820D71EDF20024198D /* SaveGameFileWriter.cpp */; };
 		483646C50D83D62E00912FEC /* SaveGameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A05830D71EDF20024198D /* SaveGameManager.cpp */; };
 		483646D30D83D6DD00912FEC /* SaveGameFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A05800D71EDF20024198D /* SaveGameFile.cpp */; };
-		4836F8910D88594A00E3632F /* stdinc.h in Headers */ = {isa = PBXBuildFile; fileRef = 4404DA840C48D01E007B4657 /* stdinc.h */; };
-		4836F8920D88594A00E3632F /* UnifiedFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 446BF4810C4532B50013C214 /* UnifiedFactory.h */; };
-		4836F8930D88594A00E3632F /* AbstractMapNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825ED0BF7B32100C5A94F /* AbstractMapNodeProcessor.h */; };
-		4836F8940D88594A00E3632F /* EntityNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825EE0BF7B32100C5A94F /* EntityNodeProcessor.h */; };
-		4836F8950D88594A00E3632F /* EnvironmentProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825EF0BF7B32100C5A94F /* EnvironmentProcessor.h */; };
-		4836F8960D88594A00E3632F /* GameObjectNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F00BF7B32100C5A94F /* GameObjectNodeProcessor.h */; };
-		4836F8970D88594A00E3632F /* LightNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F10BF7B32100C5A94F /* LightNodeProcessor.h */; };
-		4836F8980D88594A00E3632F /* MapLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F20BF7B32100C5A94F /* MapLoader.h */; };
-		4836F8990D88594A00E3632F /* ParticleSystemNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F30BF7B32100C5A94F /* ParticleSystemNodeProcessor.h */; };
-		4836F89A0D88594A00E3632F /* SoundNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F40BF7B32100C5A94F /* SoundNodeProcessor.h */; };
-		4836F89B0D88594A00E3632F /* TriggerFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F50BF7B32100C5A94F /* TriggerFactory.h */; };
-		4836F89C0D88594A00E3632F /* WaypointProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F60BF7B32100C5A94F /* WaypointProcessor.h */; };
-		4836F89D0D88594A00E3632F /* ZoneProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F70BF7B32100C5A94F /* ZoneProcessor.h */; };
-		4836F89E0D88594A00E3632F /* AbstractMapNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825D90BF7B2B200C5A94F /* AbstractMapNodeProcessor.cpp */; };
-		4836F89F0D88594A00E3632F /* EntityNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DA0BF7B2B200C5A94F /* EntityNodeProcessor.cpp */; };
-		4836F8A00D88594A00E3632F /* EnvironmentProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DB0BF7B2B200C5A94F /* EnvironmentProcessor.cpp */; };
-		4836F8A10D88594A00E3632F /* GameObjectNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DC0BF7B2B200C5A94F /* GameObjectNodeProcessor.cpp */; };
-		4836F8A20D88594A00E3632F /* LightNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DD0BF7B2B200C5A94F /* LightNodeProcessor.cpp */; };
-		4836F8A30D88594A00E3632F /* MapLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DE0BF7B2B200C5A94F /* MapLoader.cpp */; };
-		4836F8A40D88594A00E3632F /* ParticleSystemNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DF0BF7B2B200C5A94F /* ParticleSystemNodeProcessor.cpp */; };
-		4836F8A50D88594A00E3632F /* SoundNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825E00BF7B2B200C5A94F /* SoundNodeProcessor.cpp */; };
-		4836F8A60D88594A00E3632F /* WaypointProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825E10BF7B2B200C5A94F /* WaypointProcessor.cpp */; };
-		4836F8A70D88594A00E3632F /* ZoneProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825E20BF7B2B200C5A94F /* ZoneProcessor.cpp */; };
-		4836F8A80D88594A00E3632F /* RlExports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EB6BC0BD1891400C6D4A0 /* RlExports.cpp */; };
-		4836F8A90D88594A00E3632F /* ScriptObjectMarker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAE670BD0E6D400C6D4A0 /* ScriptObjectMarker.cpp */; };
-		4836F8AA0D88594A00E3632F /* ScriptSubsystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAE680BD0E6D400C6D4A0 /* ScriptSubsystem.cpp */; };
-		4836F8AB0D88594A00E3632F /* ScriptObjectMarker.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAE610BD0E6C000C6D4A0 /* ScriptObjectMarker.h */; };
-		4836F8AC0D88594A00E3632F /* ScriptPrerequisites.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAE620BD0E6C000C6D4A0 /* ScriptPrerequisites.h */; };
-		4836F8AD0D88594A00E3632F /* ScriptSubsystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAE630BD0E6C000C6D4A0 /* ScriptSubsystem.h */; };
-		4836F8AE0D88595800E3632F /* libRlScript.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4836F88D0D88592800E3632F /* libRlScript.dylib */; };
-		4836F8B60D885A8A00E3632F /* libRlAi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAC270BD0E3FF00C6D4A0 /* libRlAi.dylib */; };
-		4836F8B70D885A8A00E3632F /* libRlCommon.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAAB20BD0E0FB00C6D4A0 /* libRlCommon.dylib */; };
-		4836F8B80D885A8A00E3632F /* libRlCore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAB610BD0E2DA00C6D4A0 /* libRlCore.dylib */; };
-		4836F8B90D885A8A00E3632F /* libRlRules.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAC370BD0E44900C6D4A0 /* libRlRules.dylib */; };
-		4836F8BA0D885A8A00E3632F /* libRlUi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAC3E0BD0E46000C6D4A0 /* libRlUi.dylib */; };
-		4836F8BB0D885AA800E3632F /* libruby.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 483646A10D83D57800912FEC /* libruby.dylib */; };
+		48365BE60D8D560E00BF3313 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBE0BD0F09900C6D4A0 /* Ogre.framework */; };
+		48365BE80D8D562D00BF3313 /* libRlCore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAB610BD0E2DA00C6D4A0 /* libRlCore.dylib */; };
+		48365BE90D8D562D00BF3313 /* libRlUi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAC3E0BD0E46000C6D4A0 /* libRlUi.dylib */; };
+		48365BEC0D8D56DC00BF3313 /* libRlCommon.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAAB20BD0E0FB00C6D4A0 /* libRlCommon.dylib */; };
+		48365C950D8D56EA00BF3313 /* CEGUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */; };
+		48365C980D8D576100BF3313 /* RlScriptExports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48365C970D8D576100BF3313 /* RlScriptExports.cpp */; };
+		48365CA30D8D57ED00BF3313 /* RlScriptExports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48365C970D8D576100BF3313 /* RlScriptExports.cpp */; };
+		4836CBC90D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */; };
+		4836CBCA0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */; };
+		4836CBCB0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */; };
+		4836CBCC0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */; };
+		4836CBCD0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */; };
+		4836CBCE0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */; };
+		4836CBCF0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */; };
 		4836F8BC0D885AAA00E3632F /* libruby.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 483646A10D83D57800912FEC /* libruby.dylib */; };
-		4836F9B70D885ACF00E3632F /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBE0BD0F09900C6D4A0 /* Ogre.framework */; };
-		4836F9B80D885ACF00E3632F /* OgreNewt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EB0880BD1153500C6D4A0 /* OgreNewt.framework */; };
-		4836F9BA0D885AF000E3632F /* TriggerFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48389C1A0D867AA900AFAB66 /* TriggerFactory.cpp */; };
 		48380B190D800EED0013EE0C /* StartAnimationJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48380B180D800EED0013EE0C /* StartAnimationJob.cpp */; };
 		48380B1A0D8010ED0013EE0C /* TimeSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A05850D71EDF20024198D /* TimeSource.cpp */; };
 		48389B920D86741F00AFAB66 /* CombatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48389B8E0D86741F00AFAB66 /* CombatGui.cpp */; };
@@ -521,6 +495,7 @@
 		48389C290D867B1A00AFAB66 /* Trigger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A05860D71EDF20024198D /* Trigger.cpp */; };
 		48389C2C0D867B2A00AFAB66 /* PolynomicSoundFadeFunctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A057F0D71EDF20024198D /* PolynomicSoundFadeFunctor.cpp */; };
 		48389C2D0D867B2A00AFAB66 /* PolynomicSoundFadeFunctor.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A056D0D71EDC40024198D /* PolynomicSoundFadeFunctor.h */; };
+		483B69DB0D8D4BC900C4C190 /* RlExports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EB6BC0BD1891400C6D4A0 /* RlExports.cpp */; };
 		483D31110D85B1AF003477A0 /* NullSoundStitching.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31100D85B1AF003477A0 /* NullSoundStitching.h */; };
 		483D31130D85B1C2003477A0 /* NullSoundStitching.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31120D85B1C2003477A0 /* NullSoundStitching.cpp */; };
 		483D31200D85B215003477A0 /* Combatant.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31150D85B215003477A0 /* Combatant.h */; };
@@ -568,6 +543,58 @@
 		483D31810D85B3B7003477A0 /* stdinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31720D85B3B7003477A0 /* stdinc.cpp */; };
 		483D31820D85B3B7003477A0 /* WalkPathBehaviour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31730D85B3B7003477A0 /* WalkPathBehaviour.cpp */; };
 		483D31B50D85B72D003477A0 /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */; };
+		483D869D0D8C3DA200F3629E /* Fmod4ConfigComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D868C0D8C3DA200F3629E /* Fmod4ConfigComponent.h */; };
+		483D869E0D8C3DA200F3629E /* Fmod4Driver.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D868D0D8C3DA200F3629E /* Fmod4Driver.h */; };
+		483D869F0D8C3DA200F3629E /* Fmod4DriverPrerequisites.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D868E0D8C3DA200F3629E /* Fmod4DriverPrerequisites.h */; };
+		483D86A00D8C3DA200F3629E /* Fmod4Listener.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D868F0D8C3DA200F3629E /* Fmod4Listener.h */; };
+		483D86A10D8C3DA200F3629E /* Fmod4Sound.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D86900D8C3DA200F3629E /* Fmod4Sound.h */; };
+		483D86A20D8C3DA200F3629E /* Fmod4SoundStitching.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D86910D8C3DA200F3629E /* Fmod4SoundStitching.h */; };
+		483D86A30D8C3DA200F3629E /* Fmod4ConfigComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D86960D8C3DA200F3629E /* Fmod4ConfigComponent.cpp */; };
+		483D86A40D8C3DA200F3629E /* Fmod4Driver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D86970D8C3DA200F3629E /* Fmod4Driver.cpp */; };
+		483D86A50D8C3DA200F3629E /* Fmod4DriverDllMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D86980D8C3DA200F3629E /* Fmod4DriverDllMain.cpp */; };
+		483D86A60D8C3DA200F3629E /* Fmod4Listener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D86990D8C3DA200F3629E /* Fmod4Listener.cpp */; };
+		483D86A70D8C3DA200F3629E /* Fmod4Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D869A0D8C3DA200F3629E /* Fmod4Sound.cpp */; };
+		483D86A80D8C3DA200F3629E /* Fmod4SoundStitching.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D869B0D8C3DA200F3629E /* Fmod4SoundStitching.cpp */; };
+		483D87CE0D8C564400F3629E /* libRlScript.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48570C1B0D8A6C5400096E35 /* libRlScript.dylib */; };
+		48570C210D8A6C9000096E35 /* stdinc.h in Headers */ = {isa = PBXBuildFile; fileRef = 4404DA840C48D01E007B4657 /* stdinc.h */; };
+		48570C220D8A6C9000096E35 /* UnifiedFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 446BF4810C4532B50013C214 /* UnifiedFactory.h */; };
+		48570C230D8A6C9000096E35 /* AbstractMapNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825ED0BF7B32100C5A94F /* AbstractMapNodeProcessor.h */; };
+		48570C240D8A6C9000096E35 /* EntityNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825EE0BF7B32100C5A94F /* EntityNodeProcessor.h */; };
+		48570C250D8A6C9000096E35 /* EnvironmentProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825EF0BF7B32100C5A94F /* EnvironmentProcessor.h */; };
+		48570C260D8A6C9000096E35 /* GameObjectNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F00BF7B32100C5A94F /* GameObjectNodeProcessor.h */; };
+		48570C270D8A6C9000096E35 /* LightNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F10BF7B32100C5A94F /* LightNodeProcessor.h */; };
+		48570C280D8A6C9000096E35 /* MapLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F20BF7B32100C5A94F /* MapLoader.h */; };
+		48570C290D8A6C9000096E35 /* ParticleSystemNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F30BF7B32100C5A94F /* ParticleSystemNodeProcessor.h */; };
+		48570C2A0D8A6C9000096E35 /* SoundNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F40BF7B32100C5A94F /* SoundNodeProcessor.h */; };
+		48570C2B0D8A6C9000096E35 /* TriggerFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F50BF7B32100C5A94F /* TriggerFactory.h */; };
+		48570C2C0D8A6C9000096E35 /* WaypointProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F60BF7B32100C5A94F /* WaypointProcessor.h */; };
+		48570C2D0D8A6C9000096E35 /* ZoneProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825F70BF7B32100C5A94F /* ZoneProcessor.h */; };
+		48570C2E0D8A6C9000096E35 /* AbstractMapNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825D90BF7B2B200C5A94F /* AbstractMapNodeProcessor.cpp */; };
+		48570C2F0D8A6C9000096E35 /* EntityNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DA0BF7B2B200C5A94F /* EntityNodeProcessor.cpp */; };
+		48570C300D8A6C9000096E35 /* EnvironmentProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DB0BF7B2B200C5A94F /* EnvironmentProcessor.cpp */; };
+		48570C310D8A6C9000096E35 /* GameObjectNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DC0BF7B2B200C5A94F /* GameObjectNodeProcessor.cpp */; };
+		48570C320D8A6C9000096E35 /* LightNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DD0BF7B2B200C5A94F /* LightNodeProcessor.cpp */; };
+		48570C330D8A6C9000096E35 /* MapLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DE0BF7B2B200C5A94F /* MapLoader.cpp */; };
+		48570C340D8A6C9000096E35 /* ParticleSystemNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825DF0BF7B2B200C5A94F /* ParticleSystemNodeProcessor.cpp */; };
+		48570C350D8A6C9000096E35 /* SoundNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825E00BF7B2B200C5A94F /* SoundNodeProcessor.cpp */; };
+		48570C360D8A6C9000096E35 /* WaypointProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825E10BF7B2B200C5A94F /* WaypointProcessor.cpp */; };
+		48570C370D8A6C9000096E35 /* ZoneProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444825E20BF7B2B200C5A94F /* ZoneProcessor.cpp */; };
+		48570C390D8A6C9000096E35 /* ScriptObjectMarker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAE670BD0E6D400C6D4A0 /* ScriptObjectMarker.cpp */; };
+		48570C3A0D8A6C9000096E35 /* ScriptSubsystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAE680BD0E6D400C6D4A0 /* ScriptSubsystem.cpp */; };
+		48570C3B0D8A6C9000096E35 /* ScriptObjectMarker.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAE610BD0E6C000C6D4A0 /* ScriptObjectMarker.h */; };
+		48570C3C0D8A6C9000096E35 /* ScriptPrerequisites.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAE620BD0E6C000C6D4A0 /* ScriptPrerequisites.h */; };
+		48570C3D0D8A6C9000096E35 /* ScriptSubsystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EAE630BD0E6C000C6D4A0 /* ScriptSubsystem.h */; };
+		48570C450D8A6E9900096E35 /* libRlAi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAC270BD0E3FF00C6D4A0 /* libRlAi.dylib */; };
+		48570C460D8A6E9900096E35 /* libRlCommon.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAAB20BD0E0FB00C6D4A0 /* libRlCommon.dylib */; };
+		48570C470D8A6E9900096E35 /* libRlCore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAB610BD0E2DA00C6D4A0 /* libRlCore.dylib */; };
+		48570C480D8A6E9900096E35 /* libRlRules.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAC370BD0E44900C6D4A0 /* libRlRules.dylib */; };
+		48570C490D8A6E9900096E35 /* libRlUi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAC3E0BD0E46000C6D4A0 /* libRlUi.dylib */; };
+		48570C4A0D8A6EA200096E35 /* CEGUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */; };
+		48570CF20D8A6EA600096E35 /* libruby.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 483646A10D83D57800912FEC /* libruby.dylib */; };
+		48570CF30D8A6EAD00096E35 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBE0BD0F09900C6D4A0 /* Ogre.framework */; };
+		48570DDA0D8A6EB500096E35 /* OgreNewt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EB0880BD1153500C6D4A0 /* OgreNewt.framework */; };
+		48570DFE0D8A6F3300096E35 /* TriggerFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48389C1A0D867AA900AFAB66 /* TriggerFactory.cpp */; };
+		48570E020D8A6F8300096E35 /* libRlScript.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48570C1B0D8A6C5400096E35 /* libRlScript.dylib */; };
 		4857E3A50D469FEA009D376D /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */; };
 		4857E3A60D469FEA009D376D /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */; };
 		4857E3A70D469FEA009D376D /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */; };
@@ -650,19 +677,82 @@
 			remoteGlobalIDString = 444EAB600BD0E2DA00C6D4A0;
 			remoteInfo = RlCore;
 		};
-		4836F8B30D8859E400E3632F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4836F88C0D88592800E3632F;
-			remoteInfo = RlScript;
-		};
 		48389BC50D86762F00AFAB66 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 444EAC260BD0E3FF00C6D4A0;
 			remoteInfo = RlAi;
+		};
+		483B69C10D8D4A3500C4C190 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 48570C1A0D8A6C5400096E35;
+			remoteInfo = RlScript;
+		};
+		483B69C30D8D4A3500C4C190 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 444EAC3D0BD0E46000C6D4A0;
+			remoteInfo = RlUi;
+		};
+		483B69C50D8D4A3500C4C190 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 444EAC360BD0E44900C6D4A0;
+			remoteInfo = RlRules;
+		};
+		483B69C70D8D4A3500C4C190 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 444EAC260BD0E3FF00C6D4A0;
+			remoteInfo = RlAi;
+		};
+		483B69C90D8D4A3500C4C190 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 444EAB600BD0E2DA00C6D4A0;
+			remoteInfo = RlCore;
+		};
+		483B69CB0D8D4A3500C4C190 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 444EAAB10BD0E0FB00C6D4A0;
+			remoteInfo = RlCommon;
+		};
+		483B6A010D8D4C0A00C4C190 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 483D866F0D8C3A3300F3629E;
+			remoteInfo = RlFmod4Driver;
+		};
+		483B6A040D8D4C2700C4C190 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 444EAC3D0BD0E46000C6D4A0;
+			remoteInfo = RlUi;
+		};
+		483D87D70D8C566400F3629E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 483D87C80D8C55E500F3629E;
+			remoteInfo = RlScriptExports;
+		};
+		48570C1E0D8A6C6900096E35 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 48570C1A0D8A6C5400096E35;
+			remoteInfo = RlScript;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -672,7 +762,6 @@
 		4404DA6E0C48CEE2007B4657 /* stdinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdinc.h; path = ../engine/ai/include/stdinc.h; sourceTree = SOURCE_ROOT; };
 		4404DA7C0C48CFB3007B4657 /* stdinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdinc.h; path = ../engine/common/include/stdinc.h; sourceTree = SOURCE_ROOT; };
 		4404DA7E0C48CFC7007B4657 /* stdinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdinc.h; path = ../engine/core/include/stdinc.h; sourceTree = SOURCE_ROOT; };
-		4404DA800C48CFDE007B4657 /* stdinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdinc.h; path = ../engine/dialog/include/stdinc.h; sourceTree = SOURCE_ROOT; };
 		4404DA820C48D005007B4657 /* stdinc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stdinc.cpp; path = ../engine/rules/src/stdinc.cpp; sourceTree = SOURCE_ROOT; };
 		4404DA840C48D01E007B4657 /* stdinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdinc.h; path = ../engine/script/include/stdinc.h; sourceTree = SOURCE_ROOT; };
 		4404DA850C48D037007B4657 /* stdinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdinc.h; path = ../engine/ui/include/stdinc.h; sourceTree = SOURCE_ROOT; };
@@ -962,43 +1051,6 @@
 		444EAD2B0BD0E58C00C6D4A0 /* WindowFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowFactory.h; path = ../engine/ui/include/WindowFactory.h; sourceTree = SOURCE_ROOT; };
 		444EAD2C0BD0E58C00C6D4A0 /* WindowFadeJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowFadeJob.h; path = ../engine/ui/include/WindowFadeJob.h; sourceTree = SOURCE_ROOT; };
 		444EAD2D0BD0E58C00C6D4A0 /* WindowManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowManager.h; path = ../engine/ui/include/WindowManager.h; sourceTree = SOURCE_ROOT; };
-		444EAD600BD0E5D500C6D4A0 /* ContextConditionProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContextConditionProcessor.cpp; path = ../engine/dialog/src/ContextConditionProcessor.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD610BD0E5D500C6D4A0 /* ContextInterpreter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContextInterpreter.cpp; path = ../engine/dialog/src/ContextInterpreter.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD620BD0E5D500C6D4A0 /* DialogCharacter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DialogCharacter.cpp; path = ../engine/dialog/src/DialogCharacter.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD630BD0E5D500C6D4A0 /* DialogOption.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DialogOption.cpp; path = ../engine/dialog/src/DialogOption.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD640BD0E5D500C6D4A0 /* DialogResponse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DialogResponse.cpp; path = ../engine/dialog/src/DialogResponse.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD650BD0E5D500C6D4A0 /* DialogScriptProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DialogScriptProcessor.cpp; path = ../engine/dialog/src/DialogScriptProcessor.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD660BD0E5D500C6D4A0 /* DialogSubsystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DialogSubsystem.cpp; path = ../engine/dialog/src/DialogSubsystem.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD670BD0E5D500C6D4A0 /* ScriptProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScriptProcessor.cpp; path = ../engine/dialog/src/ScriptProcessor.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD720BD0E5E900C6D4A0 /* CreaturePredicates.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CreaturePredicates.cpp; path = ../engine/dialog/src/predicates/CreaturePredicates.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD730BD0E5E900C6D4A0 /* EigenschaftsProbePredicates.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EigenschaftsProbePredicates.cpp; path = ../engine/dialog/src/predicates/EigenschaftsProbePredicates.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD740BD0E5E900C6D4A0 /* EigenschaftsWertPredicates.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EigenschaftsWertPredicates.cpp; path = ../engine/dialog/src/predicates/EigenschaftsWertPredicates.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD750BD0E5E900C6D4A0 /* GrundWertPredicates.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GrundWertPredicates.cpp; path = ../engine/dialog/src/predicates/GrundWertPredicates.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD760BD0E5E900C6D4A0 /* QuestKnownPredicates.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QuestKnownPredicates.cpp; path = ../engine/dialog/src/predicates/QuestKnownPredicates.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD770BD0E5E900C6D4A0 /* QuestPartsPredicates.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QuestPartsPredicates.cpp; path = ../engine/dialog/src/predicates/QuestPartsPredicates.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD780BD0E5E900C6D4A0 /* QuestStatePredicates.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QuestStatePredicates.cpp; path = ../engine/dialog/src/predicates/QuestStatePredicates.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD790BD0E5E900C6D4A0 /* ScriptPredicates.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScriptPredicates.cpp; path = ../engine/dialog/src/predicates/ScriptPredicates.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD7A0BD0E5E900C6D4A0 /* TalentProbePredicates.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TalentProbePredicates.cpp; path = ../engine/dialog/src/predicates/TalentProbePredicates.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD7B0BD0E5E900C6D4A0 /* TalentWertPredicates.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TalentWertPredicates.cpp; path = ../engine/dialog/src/predicates/TalentWertPredicates.cpp; sourceTree = SOURCE_ROOT; };
-		444EAD880BD0E60000C6D4A0 /* ContextConditionProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextConditionProcessor.h; path = ../engine/dialog/include/ContextConditionProcessor.h; sourceTree = SOURCE_ROOT; };
-		444EAD890BD0E60000C6D4A0 /* ContextInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextInterpreter.h; path = ../engine/dialog/include/ContextInterpreter.h; sourceTree = SOURCE_ROOT; };
-		444EAD8A0BD0E60000C6D4A0 /* DialogCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogCharacter.h; path = ../engine/dialog/include/DialogCharacter.h; sourceTree = SOURCE_ROOT; };
-		444EAD8B0BD0E60000C6D4A0 /* DialogOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogOption.h; path = ../engine/dialog/include/DialogOption.h; sourceTree = SOURCE_ROOT; };
-		444EAD8C0BD0E60000C6D4A0 /* DialogPrerequisites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogPrerequisites.h; path = ../engine/dialog/include/DialogPrerequisites.h; sourceTree = SOURCE_ROOT; };
-		444EAD8D0BD0E60000C6D4A0 /* DialogResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogResponse.h; path = ../engine/dialog/include/DialogResponse.h; sourceTree = SOURCE_ROOT; };
-		444EAD8E0BD0E60000C6D4A0 /* DialogScriptProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogScriptProcessor.h; path = ../engine/dialog/include/DialogScriptProcessor.h; sourceTree = SOURCE_ROOT; };
-		444EAD8F0BD0E60000C6D4A0 /* DialogSubsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogSubsystem.h; path = ../engine/dialog/include/DialogSubsystem.h; sourceTree = SOURCE_ROOT; };
-		444EAD900BD0E60000C6D4A0 /* ScriptProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScriptProcessor.h; path = ../engine/dialog/include/ScriptProcessor.h; sourceTree = SOURCE_ROOT; };
-		444EAD9C0BD0E61400C6D4A0 /* CreaturePredicates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreaturePredicates.h; path = ../engine/dialog/include/predicates/CreaturePredicates.h; sourceTree = SOURCE_ROOT; };
-		444EAD9D0BD0E61400C6D4A0 /* EigenschaftsProbePredicates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EigenschaftsProbePredicates.h; path = ../engine/dialog/include/predicates/EigenschaftsProbePredicates.h; sourceTree = SOURCE_ROOT; };
-		444EAD9E0BD0E61400C6D4A0 /* EigenschaftsWertPredicates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EigenschaftsWertPredicates.h; path = ../engine/dialog/include/predicates/EigenschaftsWertPredicates.h; sourceTree = SOURCE_ROOT; };
-		444EAD9F0BD0E61400C6D4A0 /* GrundWertPredicates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrundWertPredicates.h; path = ../engine/dialog/include/predicates/GrundWertPredicates.h; sourceTree = SOURCE_ROOT; };
-		444EADA00BD0E61400C6D4A0 /* QuestKnownPredicates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuestKnownPredicates.h; path = ../engine/dialog/include/predicates/QuestKnownPredicates.h; sourceTree = SOURCE_ROOT; };
-		444EADA10BD0E61400C6D4A0 /* QuestPartsPredicates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuestPartsPredicates.h; path = ../engine/dialog/include/predicates/QuestPartsPredicates.h; sourceTree = SOURCE_ROOT; };
-		444EADA20BD0E61400C6D4A0 /* QuestStatePredicates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuestStatePredicates.h; path = ../engine/dialog/include/predicates/QuestStatePredicates.h; sourceTree = SOURCE_ROOT; };
-		444EADA30BD0E61400C6D4A0 /* ScriptPredicates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScriptPredicates.h; path = ../engine/dialog/include/predicates/ScriptPredicates.h; sourceTree = SOURCE_ROOT; };
-		444EADA40BD0E61400C6D4A0 /* TalentProbePredicates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TalentProbePredicates.h; path = ../engine/dialog/include/predicates/TalentProbePredicates.h; sourceTree = SOURCE_ROOT; };
-		444EADA50BD0E61400C6D4A0 /* TalentWertPredicates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TalentWertPredicates.h; path = ../engine/dialog/include/predicates/TalentWertPredicates.h; sourceTree = SOURCE_ROOT; };
 		444EADB00BD0E64100C6D4A0 /* Action.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Action.cpp; path = ../engine/rules/src/Action.cpp; sourceTree = SOURCE_ROOT; };
 		444EADB10BD0E64100C6D4A0 /* ActionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ActionManager.cpp; path = ../engine/rules/src/ActionManager.cpp; sourceTree = SOURCE_ROOT; };
 		444EADB20BD0E64100C6D4A0 /* Armor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Armor.cpp; path = ../engine/rules/src/Armor.cpp; sourceTree = SOURCE_ROOT; };
@@ -1081,13 +1133,12 @@
 		444EAE630BD0E6C000C6D4A0 /* ScriptSubsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScriptSubsystem.h; path = ../engine/script/include/ScriptSubsystem.h; sourceTree = SOURCE_ROOT; };
 		444EAE670BD0E6D400C6D4A0 /* ScriptObjectMarker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScriptObjectMarker.cpp; path = ../engine/script/src/ScriptObjectMarker.cpp; sourceTree = SOURCE_ROOT; };
 		444EAE680BD0E6D400C6D4A0 /* ScriptSubsystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScriptSubsystem.cpp; path = ../engine/script/src/ScriptSubsystem.cpp; sourceTree = SOURCE_ROOT; };
-		444EAEB90BD0F06700C6D4A0 /* libxerces-c.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libxerces-c.dylib"; path = "/usr/local/lib/libxerces-c.dylib"; sourceTree = "<absolute>"; };
 		444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CEGUI.framework; path = /Library/Frameworks/CEGUI.framework; sourceTree = "<absolute>"; };
 		444EAEBE0BD0F09900C6D4A0 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = /Library/Frameworks/Ogre.framework; sourceTree = "<absolute>"; };
 		444EB0880BD1153500C6D4A0 /* OgreNewt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OgreNewt.framework; path = /Library/Frameworks/OgreNewt.framework; sourceTree = "<absolute>"; };
 		444EB0DA0BD119BB00C6D4A0 /* OpenSteer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenSteer.framework; path = /Library/Frameworks/OpenSteer.framework; sourceTree = "<absolute>"; };
 		444EB3720BD1784A00C6D4A0 /* OgreCEGUIRenderer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OgreCEGUIRenderer.framework; path = /Library/Frameworks/OgreCEGUIRenderer.framework; sourceTree = "<absolute>"; };
-		444EB6BC0BD1891400C6D4A0 /* RlExports.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RlExports.cpp; path = ../engine/script/swig/RlExports.cpp; sourceTree = SOURCE_ROOT; };
+		444EB6BC0BD1891400C6D4A0 /* RlExports.cpp */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.cpp.cpp; name = RlExports.cpp; path = ../engine/script/swig/RlExports.cpp; sourceTree = SOURCE_ROOT; };
 		446BF4690C4531FA0013C214 /* LinearSoundFadeFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinearSoundFadeFunctor.h; path = ../engine/core/include/LinearSoundFadeFunctor.h; sourceTree = SOURCE_ROOT; };
 		446BF46A0C4531FA0013C214 /* SoundFadeFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundFadeFunctor.h; path = ../engine/core/include/SoundFadeFunctor.h; sourceTree = SOURCE_ROOT; };
 		446BF46B0C4531FA0013C214 /* SoundFadeJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundFadeJob.h; path = ../engine/core/include/SoundFadeJob.h; sourceTree = SOURCE_ROOT; };
@@ -1121,7 +1172,6 @@
 		446BF4D00C453B9E0013C214 /* CombatControlState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CombatControlState.h; path = ../engine/ui/include/CombatControlState.h; sourceTree = SOURCE_ROOT; };
 		446BF4D10C453B9E0013C214 /* CombatWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CombatWindow.h; path = ../engine/ui/include/CombatWindow.h; sourceTree = SOURCE_ROOT; };
 		446BF4D50C453C1D0013C214 /* ItemDescriptionDragContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ItemDescriptionDragContainer.cpp; path = ../engine/ui/src/ItemDescriptionDragContainer.cpp; sourceTree = SOURCE_ROOT; };
-		44D814590BF7B52600534175 /* GameObjectConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObjectConstants.h; path = ../engine/rules/include/GameObjectConstants.h; sourceTree = SOURCE_ROOT; };
 		44D8145A0BF7B52600534175 /* SelectionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectionHelper.h; path = ../engine/rules/include/SelectionHelper.h; sourceTree = SOURCE_ROOT; };
 		44D8145B0BF7B52600534175 /* Selector.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = Selector.h; path = ../engine/rules/include/Selector.h; sourceTree = SOURCE_ROOT; };
 		44D8145F0BF7B58A00534175 /* ProgressWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressWindow.h; path = ../engine/ui/include/ProgressWindow.h; sourceTree = SOURCE_ROOT; };
@@ -1145,7 +1195,8 @@
 		4836469C0D83D15600912FEC /* ContentLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContentLoader.cpp; path = ../engine/core/src/ContentLoader.cpp; sourceTree = SOURCE_ROOT; };
 		4836469D0D83D15600912FEC /* SoundStitching.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SoundStitching.cpp; path = ../engine/core/src/SoundStitching.cpp; sourceTree = SOURCE_ROOT; };
 		483646A10D83D57800912FEC /* libruby.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libruby.dylib; path = /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/libruby.dylib; sourceTree = "<absolute>"; };
-		4836F88D0D88592800E3632F /* libRlScript.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libRlScript.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		48365C970D8D576100BF3313 /* RlScriptExports.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RlScriptExports.cpp; path = ../engine/script/swig/test.cpp; sourceTree = SOURCE_ROOT; };
+		4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Xerces.framework; path = /Library/Frameworks/Xerces.framework; sourceTree = "<absolute>"; };
 		48380B180D800EED0013EE0C /* StartAnimationJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StartAnimationJob.cpp; path = ../engine/core/src/StartAnimationJob.cpp; sourceTree = SOURCE_ROOT; };
 		48389B8E0D86741F00AFAB66 /* CombatGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CombatGui.cpp; path = ../engine/ui/src/CombatGui.cpp; sourceTree = SOURCE_ROOT; };
 		48389B8F0D86741F00AFAB66 /* GameSaveLoadWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameSaveLoadWindow.cpp; path = ../engine/ui/src/GameSaveLoadWindow.cpp; sourceTree = SOURCE_ROOT; };
@@ -1237,6 +1288,22 @@
 		483D31710D85B3B7003477A0 /* SimpleVehicle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SimpleVehicle.cpp; path = ../engine/ai/src/SimpleVehicle.cpp; sourceTree = SOURCE_ROOT; };
 		483D31720D85B3B7003477A0 /* stdinc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stdinc.cpp; path = ../engine/ai/src/stdinc.cpp; sourceTree = SOURCE_ROOT; };
 		483D31730D85B3B7003477A0 /* WalkPathBehaviour.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WalkPathBehaviour.cpp; path = ../engine/ai/src/WalkPathBehaviour.cpp; sourceTree = SOURCE_ROOT; };
+		483D86700D8C3A3300F3629E /* libRlFmod4Driver.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libRlFmod4Driver.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		483D86850D8C3C4F00F3629E /* RlScriptExports-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RlScriptExports-Info.plist"; sourceTree = "<group>"; };
+		483D868C0D8C3DA200F3629E /* Fmod4ConfigComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fmod4ConfigComponent.h; sourceTree = "<group>"; };
+		483D868D0D8C3DA200F3629E /* Fmod4Driver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fmod4Driver.h; sourceTree = "<group>"; };
+		483D868E0D8C3DA200F3629E /* Fmod4DriverPrerequisites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fmod4DriverPrerequisites.h; sourceTree = "<group>"; };
+		483D868F0D8C3DA200F3629E /* Fmod4Listener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fmod4Listener.h; sourceTree = "<group>"; };
+		483D86900D8C3DA200F3629E /* Fmod4Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fmod4Sound.h; sourceTree = "<group>"; };
+		483D86910D8C3DA200F3629E /* Fmod4SoundStitching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fmod4SoundStitching.h; sourceTree = "<group>"; };
+		483D86960D8C3DA200F3629E /* Fmod4ConfigComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fmod4ConfigComponent.cpp; sourceTree = "<group>"; };
+		483D86970D8C3DA200F3629E /* Fmod4Driver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fmod4Driver.cpp; sourceTree = "<group>"; };
+		483D86980D8C3DA200F3629E /* Fmod4DriverDllMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fmod4DriverDllMain.cpp; sourceTree = "<group>"; };
+		483D86990D8C3DA200F3629E /* Fmod4Listener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fmod4Listener.cpp; sourceTree = "<group>"; };
+		483D869A0D8C3DA200F3629E /* Fmod4Sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fmod4Sound.cpp; sourceTree = "<group>"; };
+		483D869B0D8C3DA200F3629E /* Fmod4SoundStitching.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fmod4SoundStitching.cpp; sourceTree = "<group>"; };
+		483D87C90D8C55E500F3629E /* RlScript.bundle */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = RlScript.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		48570C1B0D8A6C5400096E35 /* libRlScript.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libRlScript.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = /sw/lib/libboost_filesystem.dylib; sourceTree = "<absolute>"; };
 		4857E4E40D46A664009D376D /* OIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OIS.framework; path = /Library/Frameworks/OIS.framework; sourceTree = "<absolute>"; };
 		485A05670D71ED8D0024198D /* CoreMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreMessages.h; path = ../engine/core/include/CoreMessages.h; sourceTree = SOURCE_ROOT; };
@@ -1274,10 +1341,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				444EAEBA0BD0F06700C6D4A0 /* libxerces-c.dylib in Frameworks */,
 				444EAEBF0BD0F09900C6D4A0 /* CEGUI.framework in Frameworks */,
 				444EAEC00BD0F09900C6D4A0 /* Ogre.framework in Frameworks */,
 				4857E3A70D469FEA009D376D /* libboost_filesystem.dylib in Frameworks */,
+				4836CBCE0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1288,11 +1355,11 @@
 				444EB0AB0BD115CB00C6D4A0 /* libRlCommon.dylib in Frameworks */,
 				483646A20D83D57800912FEC /* libruby.dylib in Frameworks */,
 				444EAEF30BD1150500C6D4A0 /* CEGUI.framework in Frameworks */,
-				444EAEF50BD1150500C6D4A0 /* libxerces-c.dylib in Frameworks */,
 				444EAEF60BD1150500C6D4A0 /* Ogre.framework in Frameworks */,
 				444EB0890BD1153500C6D4A0 /* OgreNewt.framework in Frameworks */,
 				440785DE0C09D231006E496D /* libmeshmagick.dylib in Frameworks */,
 				4857E3A60D469FEA009D376D /* libboost_filesystem.dylib in Frameworks */,
+				4836CBCD0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1305,11 +1372,11 @@
 				444EB12D0BD11A0C00C6D4A0 /* libRlCore.dylib in Frameworks */,
 				444EB1290BD119FB00C6D4A0 /* libRlCommon.dylib in Frameworks */,
 				444EB0D40BD1198B00C6D4A0 /* CEGUI.framework in Frameworks */,
-				444EB0D50BD1198B00C6D4A0 /* libxerces-c.dylib in Frameworks */,
 				444EB0D60BD1198B00C6D4A0 /* Ogre.framework in Frameworks */,
 				444EB0D80BD1198B00C6D4A0 /* OgreNewt.framework in Frameworks */,
 				444EB0DB0BD119BB00C6D4A0 /* OpenSteer.framework in Frameworks */,
 				483D31B50D85B72D003477A0 /* libboost_filesystem.dylib in Frameworks */,
+				4836CBCC0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1321,9 +1388,9 @@
 				444EB3480BD1733900C6D4A0 /* OgreNewt.framework in Frameworks */,
 				444EB3440BD1730C00C6D4A0 /* libRlCommon.dylib in Frameworks */,
 				444EB3450BD1730C00C6D4A0 /* libRlCore.dylib in Frameworks */,
-				444EB3430BD172FA00C6D4A0 /* libxerces-c.dylib in Frameworks */,
 				444EB3410BD172BA00C6D4A0 /* CEGUI.framework in Frameworks */,
 				444EB3420BD172BA00C6D4A0 /* Ogre.framework in Frameworks */,
+				4836CBCB0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1340,24 +1407,45 @@
 				444EB1C30BD136F200C6D4A0 /* Ogre.framework in Frameworks */,
 				444EB3730BD1784A00C6D4A0 /* OgreCEGUIRenderer.framework in Frameworks */,
 				4857E4E50D46A664009D376D /* OIS.framework in Frameworks */,
-				481879ED0D885BC000CE6689 /* libxerces-c.dylib in Frameworks */,
+				4836CBCA0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4836F88B0D88592800E3632F /* Frameworks */ = {
+		483D866E0D8C3A3300F3629E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4836F8B60D885A8A00E3632F /* libRlAi.dylib in Frameworks */,
-				4836F8B70D885A8A00E3632F /* libRlCommon.dylib in Frameworks */,
-				4836F8B80D885A8A00E3632F /* libRlCore.dylib in Frameworks */,
-				4836F8B90D885A8A00E3632F /* libRlRules.dylib in Frameworks */,
-				4836F8BA0D885A8A00E3632F /* libRlUi.dylib in Frameworks */,
-				4836F8BB0D885AA800E3632F /* libruby.dylib in Frameworks */,
-				4836F9B70D885ACF00E3632F /* Ogre.framework in Frameworks */,
-				4836F9B80D885ACF00E3632F /* OgreNewt.framework in Frameworks */,
-				481879EC0D885BBE00CE6689 /* libxerces-c.dylib in Frameworks */,
-				48187A960D885BD800CE6689 /* CEGUI.framework in Frameworks */,
+				48365BE60D8D560E00BF3313 /* Ogre.framework in Frameworks */,
+				48365BE80D8D562D00BF3313 /* libRlCore.dylib in Frameworks */,
+				48365BE90D8D562D00BF3313 /* libRlUi.dylib in Frameworks */,
+				48365BEC0D8D56DC00BF3313 /* libRlCommon.dylib in Frameworks */,
+				48365C950D8D56EA00BF3313 /* CEGUI.framework in Frameworks */,
+				4836CBCF0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		483D87C70D8C55E500F3629E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				483D87CE0D8C564400F3629E /* libRlScript.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48570C190D8A6C5400096E35 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48570DDA0D8A6EB500096E35 /* OgreNewt.framework in Frameworks */,
+				48570CF30D8A6EAD00096E35 /* Ogre.framework in Frameworks */,
+				48570CF20D8A6EA600096E35 /* libruby.dylib in Frameworks */,
+				48570C450D8A6E9900096E35 /* libRlAi.dylib in Frameworks */,
+				48570C460D8A6E9900096E35 /* libRlCommon.dylib in Frameworks */,
+				48570C4A0D8A6EA200096E35 /* CEGUI.framework in Frameworks */,
+				48570C470D8A6E9900096E35 /* libRlCore.dylib in Frameworks */,
+				48570C480D8A6E9900096E35 /* libRlRules.dylib in Frameworks */,
+				48570C490D8A6E9900096E35 /* libRlUi.dylib in Frameworks */,
+				4836CBC90D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1365,9 +1453,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4836F8AE0D88595800E3632F /* libRlScript.dylib in Frameworks */,
 				444EB7A20BD1963A00C6D4A0 /* CEGUI.framework in Frameworks */,
-				444EB7A70BD1963A00C6D4A0 /* libxerces-c.dylib in Frameworks */,
 				444EB7A80BD1963A00C6D4A0 /* Ogre.framework in Frameworks */,
 				444EB7A90BD1963A00C6D4A0 /* OgreCEGUIRenderer.framework in Frameworks */,
 				444EB7AA0BD1963A00C6D4A0 /* OgreNewt.framework in Frameworks */,
@@ -1379,6 +1465,7 @@
 				444EB7A00BD195E800C6D4A0 /* libRlUi.dylib in Frameworks */,
 				4857E3A50D469FEA009D376D /* libboost_filesystem.dylib in Frameworks */,
 				4836F8BC0D885AAA00E3632F /* libruby.dylib in Frameworks */,
+				48570E020D8A6F8300096E35 /* libRlScript.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1394,7 +1481,9 @@
 				444EAC270BD0E3FF00C6D4A0 /* libRlAi.dylib */,
 				444EAC370BD0E44900C6D4A0 /* libRlRules.dylib */,
 				444EAC3E0BD0E46000C6D4A0 /* libRlUi.dylib */,
-				4836F88D0D88592800E3632F /* libRlScript.dylib */,
+				48570C1B0D8A6C5400096E35 /* libRlScript.dylib */,
+				483D86700D8C3A3300F3629E /* libRlFmod4Driver.dylib */,
+				483D87C90D8C55E500F3629E /* RlScript.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1402,89 +1491,12 @@
 		20286C29FDCF999611CA2CEA /* Rastullah */ = {
 			isa = PBXGroup;
 			children = (
-				48389C190D867AA900AFAB66 /* stdinc.cpp */,
-				48389C1A0D867AA900AFAB66 /* TriggerFactory.cpp */,
-				48389C100D86798600AFAB66 /* SoundStitchingObject.cpp */,
-				48389C0E0D86797000AFAB66 /* SoundStitchingObject.h */,
-				48389B960D86743900AFAB66 /* CombatGui.h */,
-				48389B970D86743900AFAB66 /* GameSaveLoadWindow.h */,
-				48389B980D86743900AFAB66 /* MainMenuLoadWindow.h */,
-				48389B990D86743900AFAB66 /* UiMessages.h */,
-				48389B8E0D86741F00AFAB66 /* CombatGui.cpp */,
-				48389B8F0D86741F00AFAB66 /* GameSaveLoadWindow.cpp */,
-				48389B900D86741F00AFAB66 /* MainMenuLoadWindow.cpp */,
-				48389B910D86741F00AFAB66 /* stdinc.cpp */,
-				483D31650D85B3B7003477A0 /* AgentCombatState.cpp */,
-				483D31660D85B3B7003477A0 /* AgentDialogState.cpp */,
-				483D31670D85B3B7003477A0 /* AgentSteeringState.cpp */,
-				483D31680D85B3B7003477A0 /* Dialog.cpp */,
-				483D31690D85B3B7003477A0 /* DialogCondition.cpp */,
-				483D316A0D85B3B7003477A0 /* DialogElement.cpp */,
-				483D316B0D85B3B7003477A0 /* DialogImplication.cpp */,
-				483D316C0D85B3B7003477A0 /* DialogManager.cpp */,
-				483D316D0D85B3B7003477A0 /* DialogOption.cpp */,
-				483D316E0D85B3B7003477A0 /* DialogParagraph.cpp */,
-				483D316F0D85B3B7003477A0 /* DialogResponse.cpp */,
-				483D31700D85B3B7003477A0 /* DialogVariable.cpp */,
-				483D31710D85B3B7003477A0 /* SimpleVehicle.cpp */,
-				483D31720D85B3B7003477A0 /* stdinc.cpp */,
-				483D31730D85B3B7003477A0 /* WalkPathBehaviour.cpp */,
-				483D31450D85B398003477A0 /* AgentCombatState.h */,
-				483D31460D85B398003477A0 /* AgentDialogState.h */,
-				483D31470D85B398003477A0 /* AgentState.h */,
-				483D31480D85B398003477A0 /* AgentSteeringState.h */,
-				483D31490D85B398003477A0 /* AiMessages.h */,
-				483D314A0D85B398003477A0 /* Dialog.h */,
-				483D314B0D85B398003477A0 /* DialogCondition.h */,
-				483D314C0D85B398003477A0 /* DialogElement.h */,
-				483D314D0D85B398003477A0 /* DialogImplication.h */,
-				483D314E0D85B398003477A0 /* DialogManager.h */,
-				483D314F0D85B398003477A0 /* DialogOption.h */,
-				483D31500D85B398003477A0 /* DialogParagraph.h */,
-				483D31510D85B398003477A0 /* DialogResponse.h */,
-				483D31520D85B398003477A0 /* DialogVariable.h */,
-				483D31530D85B398003477A0 /* SimpleVehicle.h */,
-				483D31540D85B398003477A0 /* WalkPathBehaviour.h */,
-				483D312B0D85B22C003477A0 /* Combatant.cpp */,
-				483D312C0D85B22C003477A0 /* EffectManagementTask.cpp */,
-				483D312D0D85B22C003477A0 /* GameEventLog.cpp */,
-				483D312E0D85B22C003477A0 /* GameTimeSource.cpp */,
-				483D312F0D85B22C003477A0 /* GlobalProperties.cpp */,
-				483D31300D85B22C003477A0 /* GoToJob.cpp */,
-				483D31310D85B22C003477A0 /* Kampfaktion.cpp */,
-				483D31320D85B22C003477A0 /* WaitJob.cpp */,
-				483D31150D85B215003477A0 /* Combatant.h */,
-				483D31160D85B215003477A0 /* EffectManagementTask.h */,
-				483D31170D85B215003477A0 /* GameEventLog.h */,
-				483D31180D85B215003477A0 /* GameTimeSource.h */,
-				483D31190D85B215003477A0 /* GlobalProperties.h */,
-				483D311A0D85B215003477A0 /* GoToJob.h */,
-				483D311B0D85B215003477A0 /* Kampfaktion.h */,
-				483D311C0D85B215003477A0 /* RulesConstants.h */,
-				483D311D0D85B215003477A0 /* RulesMessages.h */,
-				483D311E0D85B215003477A0 /* stdinc.h */,
-				483D311F0D85B215003477A0 /* WaitJob.h */,
-				483D31120D85B1C2003477A0 /* NullSoundStitching.cpp */,
-				483D31100D85B1AF003477A0 /* NullSoundStitching.h */,
-				4836469C0D83D15600912FEC /* ContentLoader.cpp */,
-				4836469D0D83D15600912FEC /* SoundStitching.cpp */,
-				483646960D83D13700912FEC /* ContentLoader.h */,
-				483646970D83D13700912FEC /* SoundStitching.h */,
-				483646980D83D13700912FEC /* StartAnimationJob.h */,
-				485A057D0D71EDF20024198D /* JobQueue.cpp */,
-				485A05800D71EDF20024198D /* SaveGameFile.cpp */,
-				485A05810D71EDF20024198D /* SaveGameFileReader.cpp */,
-				485A05820D71EDF20024198D /* SaveGameFileWriter.cpp */,
-				485A05830D71EDF20024198D /* SaveGameManager.cpp */,
-				485A05850D71EDF20024198D /* TimeSource.cpp */,
-				485A05860D71EDF20024198D /* Trigger.cpp */,
-				485A05690D71EDC40024198D /* JobQueue.h */,
-				485A056D0D71EDC40024198D /* PolynomicSoundFadeFunctor.h */,
-				485A05720D71EDC40024198D /* TimeSource.h */,
 				20286C2AFDCF999611CA2CEA /* Sources */,
 				20286C2CFDCF999611CA2CEA /* Resources */,
 				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
 				195DF8CFFE9D517E11CA2CBB /* Products */,
+				483D86850D8C3C4F00F3629E /* RlScriptExports-Info.plist */,
+				48365C970D8D576100BF3313 /* RlScriptExports.cpp */,
 			);
 			name = Rastullah;
 			sourceTree = "<group>";
@@ -1492,10 +1504,10 @@
 		20286C2AFDCF999611CA2CEA /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				483D86890D8C3DA200F3629E /* RlFmod4Driver */,
 				444EAC220BD0E3E000C6D4A0 /* RlAi */,
 				444EAB1F0BD0E25C00C6D4A0 /* RlCommon */,
 				444EAB200BD0E27400C6D4A0 /* RlCore */,
-				444EAC580BD0E4F900C6D4A0 /* RlDialog */,
 				444EAC590BD0E50600C6D4A0 /* RlRules */,
 				444EAE600BD0E66500C6D4A0 /* RlScript */,
 				444EAC570BD0E4CD00C6D4A0 /* RlUi */,
@@ -1518,6 +1530,7 @@
 		20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */,
 				4857E4E40D46A664009D376D /* OIS.framework */,
 				4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */,
 				440785DD0C09D231006E496D /* libmeshmagick.dylib */,
@@ -1526,7 +1539,6 @@
 				444EB0DA0BD119BB00C6D4A0 /* OpenSteer.framework */,
 				444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */,
 				444EAEBE0BD0F09900C6D4A0 /* Ogre.framework */,
-				444EAEB90BD0F06700C6D4A0 /* libxerces-c.dylib */,
 				444EB0880BD1153500C6D4A0 /* OgreNewt.framework */,
 			);
 			name = "External Frameworks and Libraries";
@@ -1585,6 +1597,18 @@
 		444EAB200BD0E27400C6D4A0 /* RlCore */ = {
 			isa = PBXGroup;
 			children = (
+				485A05860D71EDF20024198D /* Trigger.cpp */,
+				48389C100D86798600AFAB66 /* SoundStitchingObject.cpp */,
+				48389C0E0D86797000AFAB66 /* SoundStitchingObject.h */,
+				485A05690D71EDC40024198D /* JobQueue.h */,
+				485A056D0D71EDC40024198D /* PolynomicSoundFadeFunctor.h */,
+				485A05720D71EDC40024198D /* TimeSource.h */,
+				483D31120D85B1C2003477A0 /* NullSoundStitching.cpp */,
+				483D31100D85B1AF003477A0 /* NullSoundStitching.h */,
+				485A05850D71EDF20024198D /* TimeSource.cpp */,
+				4836469C0D83D15600912FEC /* ContentLoader.cpp */,
+				483646960D83D13700912FEC /* ContentLoader.h */,
+				4836469D0D83D15600912FEC /* SoundStitching.cpp */,
 				485A057F0D71EDF20024198D /* PolynomicSoundFadeFunctor.cpp */,
 				48380B180D800EED0013EE0C /* StartAnimationJob.cpp */,
 				485A056E0D71EDC40024198D /* SaveGameFile.h */,
@@ -1593,6 +1617,13 @@
 				485A05700D71EDC40024198D /* SaveGameFileWriter.h */,
 				485A05710D71EDC40024198D /* SaveGameManager.h */,
 				4404DA7E0C48CFC7007B4657 /* stdinc.h */,
+				483646970D83D13700912FEC /* SoundStitching.h */,
+				483646980D83D13700912FEC /* StartAnimationJob.h */,
+				485A057D0D71EDF20024198D /* JobQueue.cpp */,
+				485A05800D71EDF20024198D /* SaveGameFile.cpp */,
+				485A05810D71EDF20024198D /* SaveGameFileReader.cpp */,
+				485A05820D71EDF20024198D /* SaveGameFileWriter.cpp */,
+				485A05830D71EDF20024198D /* SaveGameManager.cpp */,
 				446BF46F0C4532120013C214 /* LinearSoundFadeFunctor.cpp */,
 				446BF4700C4532120013C214 /* SoundFadeFunctor.cpp */,
 				446BF4710C4532120013C214 /* SoundFadeJob.cpp */,
@@ -1726,6 +1757,37 @@
 		444EAC220BD0E3E000C6D4A0 /* RlAi */ = {
 			isa = PBXGroup;
 			children = (
+				483D31720D85B3B7003477A0 /* stdinc.cpp */,
+				483D31730D85B3B7003477A0 /* WalkPathBehaviour.cpp */,
+				483D31450D85B398003477A0 /* AgentCombatState.h */,
+				483D31650D85B3B7003477A0 /* AgentCombatState.cpp */,
+				483D31660D85B3B7003477A0 /* AgentDialogState.cpp */,
+				483D31670D85B3B7003477A0 /* AgentSteeringState.cpp */,
+				483D31680D85B3B7003477A0 /* Dialog.cpp */,
+				483D31690D85B3B7003477A0 /* DialogCondition.cpp */,
+				483D316A0D85B3B7003477A0 /* DialogElement.cpp */,
+				483D316B0D85B3B7003477A0 /* DialogImplication.cpp */,
+				483D316C0D85B3B7003477A0 /* DialogManager.cpp */,
+				483D316D0D85B3B7003477A0 /* DialogOption.cpp */,
+				483D316E0D85B3B7003477A0 /* DialogParagraph.cpp */,
+				483D316F0D85B3B7003477A0 /* DialogResponse.cpp */,
+				483D31700D85B3B7003477A0 /* DialogVariable.cpp */,
+				483D31710D85B3B7003477A0 /* SimpleVehicle.cpp */,
+				483D31460D85B398003477A0 /* AgentDialogState.h */,
+				483D31470D85B398003477A0 /* AgentState.h */,
+				483D31480D85B398003477A0 /* AgentSteeringState.h */,
+				483D31490D85B398003477A0 /* AiMessages.h */,
+				483D314A0D85B398003477A0 /* Dialog.h */,
+				483D314B0D85B398003477A0 /* DialogCondition.h */,
+				483D314C0D85B398003477A0 /* DialogElement.h */,
+				483D314D0D85B398003477A0 /* DialogImplication.h */,
+				483D314E0D85B398003477A0 /* DialogManager.h */,
+				483D314F0D85B398003477A0 /* DialogOption.h */,
+				483D31500D85B398003477A0 /* DialogParagraph.h */,
+				483D31510D85B398003477A0 /* DialogResponse.h */,
+				483D31520D85B398003477A0 /* DialogVariable.h */,
+				483D31530D85B398003477A0 /* SimpleVehicle.h */,
+				483D31540D85B398003477A0 /* WalkPathBehaviour.h */,
 				4404DA6E0C48CEE2007B4657 /* stdinc.h */,
 				44125A310C083D1100C24C0A /* CreatureWalkPathJob.h */,
 				44125A2F0C083D0100C24C0A /* CreatureWalkPathJob.cpp */,
@@ -1774,6 +1836,14 @@
 		444EAC570BD0E4CD00C6D4A0 /* RlUi */ = {
 			isa = PBXGroup;
 			children = (
+				48389B960D86743900AFAB66 /* CombatGui.h */,
+				48389B970D86743900AFAB66 /* GameSaveLoadWindow.h */,
+				48389B980D86743900AFAB66 /* MainMenuLoadWindow.h */,
+				48389B990D86743900AFAB66 /* UiMessages.h */,
+				48389B8E0D86741F00AFAB66 /* CombatGui.cpp */,
+				48389B8F0D86741F00AFAB66 /* GameSaveLoadWindow.cpp */,
+				48389B900D86741F00AFAB66 /* MainMenuLoadWindow.cpp */,
+				48389B910D86741F00AFAB66 /* stdinc.cpp */,
 				4404DA850C48D037007B4657 /* stdinc.h */,
 				446BF4D50C453C1D0013C214 /* ItemDescriptionDragContainer.cpp */,
 				446BF4D00C453B9E0013C214 /* CombatControlState.h */,
@@ -1877,63 +1947,36 @@
 			name = RlUi;
 			sourceTree = "<group>";
 		};
-		444EAC580BD0E4F900C6D4A0 /* RlDialog */ = {
-			isa = PBXGroup;
-			children = (
-				4404DA800C48CFDE007B4657 /* stdinc.h */,
-				444EAD9C0BD0E61400C6D4A0 /* CreaturePredicates.h */,
-				444EAD9D0BD0E61400C6D4A0 /* EigenschaftsProbePredicates.h */,
-				444EAD9E0BD0E61400C6D4A0 /* EigenschaftsWertPredicates.h */,
-				444EAD9F0BD0E61400C6D4A0 /* GrundWertPredicates.h */,
-				444EADA00BD0E61400C6D4A0 /* QuestKnownPredicates.h */,
-				444EADA10BD0E61400C6D4A0 /* QuestPartsPredicates.h */,
-				444EADA20BD0E61400C6D4A0 /* QuestStatePredicates.h */,
-				444EADA30BD0E61400C6D4A0 /* ScriptPredicates.h */,
-				444EADA40BD0E61400C6D4A0 /* TalentProbePredicates.h */,
-				444EADA50BD0E61400C6D4A0 /* TalentWertPredicates.h */,
-				444EAD880BD0E60000C6D4A0 /* ContextConditionProcessor.h */,
-				444EAD890BD0E60000C6D4A0 /* ContextInterpreter.h */,
-				444EAD8A0BD0E60000C6D4A0 /* DialogCharacter.h */,
-				444EAD8B0BD0E60000C6D4A0 /* DialogOption.h */,
-				444EAD8C0BD0E60000C6D4A0 /* DialogPrerequisites.h */,
-				444EAD8D0BD0E60000C6D4A0 /* DialogResponse.h */,
-				444EAD8E0BD0E60000C6D4A0 /* DialogScriptProcessor.h */,
-				444EAD8F0BD0E60000C6D4A0 /* DialogSubsystem.h */,
-				444EAD900BD0E60000C6D4A0 /* ScriptProcessor.h */,
-				444EAD720BD0E5E900C6D4A0 /* CreaturePredicates.cpp */,
-				444EAD730BD0E5E900C6D4A0 /* EigenschaftsProbePredicates.cpp */,
-				444EAD740BD0E5E900C6D4A0 /* EigenschaftsWertPredicates.cpp */,
-				444EAD750BD0E5E900C6D4A0 /* GrundWertPredicates.cpp */,
-				444EAD760BD0E5E900C6D4A0 /* QuestKnownPredicates.cpp */,
-				444EAD770BD0E5E900C6D4A0 /* QuestPartsPredicates.cpp */,
-				444EAD780BD0E5E900C6D4A0 /* QuestStatePredicates.cpp */,
-				444EAD790BD0E5E900C6D4A0 /* ScriptPredicates.cpp */,
-				444EAD7A0BD0E5E900C6D4A0 /* TalentProbePredicates.cpp */,
-				444EAD7B0BD0E5E900C6D4A0 /* TalentWertPredicates.cpp */,
-				444EAD600BD0E5D500C6D4A0 /* ContextConditionProcessor.cpp */,
-				444EAD610BD0E5D500C6D4A0 /* ContextInterpreter.cpp */,
-				444EAD620BD0E5D500C6D4A0 /* DialogCharacter.cpp */,
-				444EAD630BD0E5D500C6D4A0 /* DialogOption.cpp */,
-				444EAD640BD0E5D500C6D4A0 /* DialogResponse.cpp */,
-				444EAD650BD0E5D500C6D4A0 /* DialogScriptProcessor.cpp */,
-				444EAD660BD0E5D500C6D4A0 /* DialogSubsystem.cpp */,
-				444EAD670BD0E5D500C6D4A0 /* ScriptProcessor.cpp */,
-			);
-			name = RlDialog;
-			sourceTree = "<group>";
-		};
 		444EAC590BD0E50600C6D4A0 /* RlRules */ = {
 			isa = PBXGroup;
 			children = (
+				483D311E0D85B215003477A0 /* stdinc.h */,
+				483D312D0D85B22C003477A0 /* GameEventLog.cpp */,
+				483D312E0D85B22C003477A0 /* GameTimeSource.cpp */,
+				483D31300D85B22C003477A0 /* GoToJob.cpp */,
+				483D31170D85B215003477A0 /* GameEventLog.h */,
+				483D311F0D85B215003477A0 /* WaitJob.h */,
+				483D31190D85B215003477A0 /* GlobalProperties.h */,
 				4404DA820C48D005007B4657 /* stdinc.cpp */,
 				446BF47B0C45329F0013C214 /* CreatureController.cpp */,
 				446BF47C0C45329F0013C214 /* CreatureControllerManager.cpp */,
+				483D31150D85B215003477A0 /* Combatant.h */,
 				446BF47D0C45329F0013C214 /* EffectFactory.cpp */,
 				446BF4750C4532720013C214 /* CreatureController.h */,
 				446BF4760C4532720013C214 /* CreatureControllerManager.h */,
 				446BF4770C4532720013C214 /* EffectFactory.h */,
-				44D814590BF7B52600534175 /* GameObjectConstants.h */,
 				44D8145A0BF7B52600534175 /* SelectionHelper.h */,
+				483D311A0D85B215003477A0 /* GoToJob.h */,
+				483D31180D85B215003477A0 /* GameTimeSource.h */,
+				483D312F0D85B22C003477A0 /* GlobalProperties.cpp */,
+				483D312B0D85B22C003477A0 /* Combatant.cpp */,
+				483D312C0D85B22C003477A0 /* EffectManagementTask.cpp */,
+				483D31310D85B22C003477A0 /* Kampfaktion.cpp */,
+				483D31320D85B22C003477A0 /* WaitJob.cpp */,
+				483D311B0D85B215003477A0 /* Kampfaktion.h */,
+				483D311C0D85B215003477A0 /* RulesConstants.h */,
+				483D31160D85B215003477A0 /* EffectManagementTask.h */,
+				483D311D0D85B215003477A0 /* RulesMessages.h */,
 				44D8145B0BF7B52600534175 /* Selector.h */,
 				444826030BF7B37D00C5A94F /* SelectionHelper.cpp */,
 				444826040BF7B37D00C5A94F /* Selector.cpp */,
@@ -2022,6 +2065,7 @@
 			isa = PBXGroup;
 			children = (
 				48389C010D86783200AFAB66 /* swig */,
+				48389C190D867AA900AFAB66 /* stdinc.cpp */,
 				4404DA840C48D01E007B4657 /* stdinc.h */,
 				446BF4810C4532B50013C214 /* UnifiedFactory.h */,
 				444825ED0BF7B32100C5A94F /* AbstractMapNodeProcessor.h */,
@@ -2031,6 +2075,7 @@
 				444825F10BF7B32100C5A94F /* LightNodeProcessor.h */,
 				444825F20BF7B32100C5A94F /* MapLoader.h */,
 				444825F30BF7B32100C5A94F /* ParticleSystemNodeProcessor.h */,
+				48389C1A0D867AA900AFAB66 /* TriggerFactory.cpp */,
 				444825F40BF7B32100C5A94F /* SoundNodeProcessor.h */,
 				444825F50BF7B32100C5A94F /* TriggerFactory.h */,
 				444825F60BF7B32100C5A94F /* WaypointProcessor.h */,
@@ -2086,6 +2131,42 @@
 				48389C000D8677EE00AFAB66 /* TypeStdPairIntInt.swig */,
 			);
 			name = swig;
+			sourceTree = "<group>";
+		};
+		483D86890D8C3DA200F3629E /* RlFmod4Driver */ = {
+			isa = PBXGroup;
+			children = (
+				483D868B0D8C3DA200F3629E /* include */,
+				483D86950D8C3DA200F3629E /* src */,
+			);
+			name = RlFmod4Driver;
+			path = ../plugins/fmod4driver;
+			sourceTree = SOURCE_ROOT;
+		};
+		483D868B0D8C3DA200F3629E /* include */ = {
+			isa = PBXGroup;
+			children = (
+				483D868C0D8C3DA200F3629E /* Fmod4ConfigComponent.h */,
+				483D868D0D8C3DA200F3629E /* Fmod4Driver.h */,
+				483D868E0D8C3DA200F3629E /* Fmod4DriverPrerequisites.h */,
+				483D868F0D8C3DA200F3629E /* Fmod4Listener.h */,
+				483D86900D8C3DA200F3629E /* Fmod4Sound.h */,
+				483D86910D8C3DA200F3629E /* Fmod4SoundStitching.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		483D86950D8C3DA200F3629E /* src */ = {
+			isa = PBXGroup;
+			children = (
+				483D86960D8C3DA200F3629E /* Fmod4ConfigComponent.cpp */,
+				483D86970D8C3DA200F3629E /* Fmod4Driver.cpp */,
+				483D86980D8C3DA200F3629E /* Fmod4DriverDllMain.cpp */,
+				483D86990D8C3DA200F3629E /* Fmod4Listener.cpp */,
+				483D869A0D8C3DA200F3629E /* Fmod4Sound.cpp */,
+				483D869B0D8C3DA200F3629E /* Fmod4SoundStitching.cpp */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2296,7 +2377,6 @@
 				444EAE590BD0E65B00C6D4A0 /* TalentStateSet.h in Headers */,
 				444EAE5E0BD0E65B00C6D4A0 /* Weapon.h in Headers */,
 				444EAE5F0BD0E65B00C6D4A0 /* ZauberStateSet.h in Headers */,
-				44D8145C0BF7B52600534175 /* GameObjectConstants.h in Headers */,
 				44D8145D0BF7B52600534175 /* SelectionHelper.h in Headers */,
 				44D8145E0BF7B52600534175 /* Selector.h in Headers */,
 				446BF4780C4532720013C214 /* CreatureController.h in Headers */,
@@ -2377,26 +2457,46 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4836F8890D88592800E3632F /* Headers */ = {
+		483D866C0D8C3A3300F3629E /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4836F8910D88594A00E3632F /* stdinc.h in Headers */,
-				4836F8920D88594A00E3632F /* UnifiedFactory.h in Headers */,
-				4836F8930D88594A00E3632F /* AbstractMapNodeProcessor.h in Headers */,
-				4836F8940D88594A00E3632F /* EntityNodeProcessor.h in Headers */,
-				4836F8950D88594A00E3632F /* EnvironmentProcessor.h in Headers */,
-				4836F8960D88594A00E3632F /* GameObjectNodeProcessor.h in Headers */,
-				4836F8970D88594A00E3632F /* LightNodeProcessor.h in Headers */,
-				4836F8980D88594A00E3632F /* MapLoader.h in Headers */,
-				4836F8990D88594A00E3632F /* ParticleSystemNodeProcessor.h in Headers */,
-				4836F89A0D88594A00E3632F /* SoundNodeProcessor.h in Headers */,
-				4836F89B0D88594A00E3632F /* TriggerFactory.h in Headers */,
-				4836F89C0D88594A00E3632F /* WaypointProcessor.h in Headers */,
-				4836F89D0D88594A00E3632F /* ZoneProcessor.h in Headers */,
-				4836F8AB0D88594A00E3632F /* ScriptObjectMarker.h in Headers */,
-				4836F8AC0D88594A00E3632F /* ScriptPrerequisites.h in Headers */,
-				4836F8AD0D88594A00E3632F /* ScriptSubsystem.h in Headers */,
+				483D869D0D8C3DA200F3629E /* Fmod4ConfigComponent.h in Headers */,
+				483D869E0D8C3DA200F3629E /* Fmod4Driver.h in Headers */,
+				483D869F0D8C3DA200F3629E /* Fmod4DriverPrerequisites.h in Headers */,
+				483D86A00D8C3DA200F3629E /* Fmod4Listener.h in Headers */,
+				483D86A10D8C3DA200F3629E /* Fmod4Sound.h in Headers */,
+				483D86A20D8C3DA200F3629E /* Fmod4SoundStitching.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		483D87C50D8C55E500F3629E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48570C170D8A6C5400096E35 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48570C210D8A6C9000096E35 /* stdinc.h in Headers */,
+				48570C220D8A6C9000096E35 /* UnifiedFactory.h in Headers */,
+				48570C230D8A6C9000096E35 /* AbstractMapNodeProcessor.h in Headers */,
+				48570C240D8A6C9000096E35 /* EntityNodeProcessor.h in Headers */,
+				48570C250D8A6C9000096E35 /* EnvironmentProcessor.h in Headers */,
+				48570C260D8A6C9000096E35 /* GameObjectNodeProcessor.h in Headers */,
+				48570C270D8A6C9000096E35 /* LightNodeProcessor.h in Headers */,
+				48570C280D8A6C9000096E35 /* MapLoader.h in Headers */,
+				48570C290D8A6C9000096E35 /* ParticleSystemNodeProcessor.h in Headers */,
+				48570C2A0D8A6C9000096E35 /* SoundNodeProcessor.h in Headers */,
+				48570C2B0D8A6C9000096E35 /* TriggerFactory.h in Headers */,
+				48570C2C0D8A6C9000096E35 /* WaypointProcessor.h in Headers */,
+				48570C2D0D8A6C9000096E35 /* ZoneProcessor.h in Headers */,
+				48570C3B0D8A6C9000096E35 /* ScriptObjectMarker.h in Headers */,
+				48570C3C0D8A6C9000096E35 /* ScriptPrerequisites.h in Headers */,
+				48570C3D0D8A6C9000096E35 /* ScriptSubsystem.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2493,13 +2593,54 @@
 			productReference = 444EAC3E0BD0E46000C6D4A0 /* libRlUi.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
-		4836F88C0D88592800E3632F /* RlScript */ = {
+		483D866F0D8C3A3300F3629E /* RlFmod4Driver */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4836F8900D88594600E3632F /* Build configuration list for PBXNativeTarget "RlScript" */;
+			buildConfigurationList = 483D86750D8C3A5F00F3629E /* Build configuration list for PBXNativeTarget "RlFmod4Driver" */;
 			buildPhases = (
-				4836F8890D88592800E3632F /* Headers */,
-				4836F88A0D88592800E3632F /* Sources */,
-				4836F88B0D88592800E3632F /* Frameworks */,
+				483D866C0D8C3A3300F3629E /* Headers */,
+				483D866D0D8C3A3300F3629E /* Sources */,
+				483D866E0D8C3A3300F3629E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				483B6A050D8D4C2700C4C190 /* PBXTargetDependency */,
+			);
+			name = RlFmod4Driver;
+			productName = RlFmod4Driver;
+			productReference = 483D86700D8C3A3300F3629E /* libRlFmod4Driver.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		483D87C80D8C55E500F3629E /* RlScriptExports */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 483D87D60D8C564E00F3629E /* Build configuration list for PBXNativeTarget "RlScriptExports" */;
+			buildPhases = (
+				483D87C50D8C55E500F3629E /* Headers */,
+				483D87C60D8C55E500F3629E /* Sources */,
+				483D87C70D8C55E500F3629E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				483B69CC0D8D4A3500C4C190 /* PBXTargetDependency */,
+				483B69CA0D8D4A3500C4C190 /* PBXTargetDependency */,
+				483B69C80D8D4A3500C4C190 /* PBXTargetDependency */,
+				483B69C60D8D4A3500C4C190 /* PBXTargetDependency */,
+				483B69C40D8D4A3500C4C190 /* PBXTargetDependency */,
+				483B69C20D8D4A3500C4C190 /* PBXTargetDependency */,
+			);
+			name = RlScriptExports;
+			productName = RlScriptExports;
+			productReference = 483D87C90D8C55E500F3629E /* RlScript.bundle */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		48570C1A0D8A6C5400096E35 /* RlScript */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48570C3F0D8A6CAE00096E35 /* Build configuration list for PBXNativeTarget "RlScript" */;
+			buildPhases = (
+				48570C170D8A6C5400096E35 /* Headers */,
+				48570C180D8A6C5400096E35 /* Sources */,
+				48570C190D8A6C5400096E35 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2507,7 +2648,7 @@
 			);
 			name = RlScript;
 			productName = RlScript;
-			productReference = 4836F88D0D88592800E3632F /* libRlScript.dylib */;
+			productReference = 48570C1B0D8A6C5400096E35 /* libRlScript.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 		8D0C4E890486CD37000505A6 /* Rastullah */ = {
@@ -2521,10 +2662,12 @@
 			buildRules = (
 			);
 			dependencies = (
-				4836F8B40D8859E400E3632F /* PBXTargetDependency */,
+				483B6A020D8D4C0A00C4C190 /* PBXTargetDependency */,
+				483D87D80D8C566400F3629E /* PBXTargetDependency */,
 				444EAC1F0BD0E3A800C6D4A0 /* PBXTargetDependency */,
 				444EAC210BD0E3A800C6D4A0 /* PBXTargetDependency */,
 				444EAC4B0BD0E49900C6D4A0 /* PBXTargetDependency */,
+				48570C1F0D8A6C6900096E35 /* PBXTargetDependency */,
 				444EAC4F0BD0E49900C6D4A0 /* PBXTargetDependency */,
 				444EAC510BD0E49900C6D4A0 /* PBXTargetDependency */,
 			);
@@ -2555,7 +2698,9 @@
 				444EAC260BD0E3FF00C6D4A0 /* RlAi */,
 				444EAC360BD0E44900C6D4A0 /* RlRules */,
 				444EAC3D0BD0E46000C6D4A0 /* RlUi */,
-				4836F88C0D88592800E3632F /* RlScript */,
+				48570C1A0D8A6C5400096E35 /* RlScript */,
+				483D866F0D8C3A3300F3629E /* RlFmod4Driver */,
+				483D87C80D8C55E500F3629E /* RlScriptExports */,
 			);
 		};
 /* End PBXProject section */
@@ -2567,10 +2712,18 @@
 			files = (
 				48187AAB0D885CBB00CE6689 /* libRlCommon.dylib in Resources */,
 				48187AAC0D885CBB00CE6689 /* libRlCore.dylib in Resources */,
+				483514870D8AED510077477D /* OIS.framework in Resources */,
+				483514880D8AED510077477D /* libboost_filesystem.dylib in Resources */,
+				483514890D8AED510077477D /* libmeshmagick.dylib in Resources */,
+				4835148A0D8AED510077477D /* libruby.dylib in Resources */,
+				4835148B0D8AED510077477D /* OgreCEGUIRenderer.framework in Resources */,
+				4835148C0D8AED510077477D /* OpenSteer.framework in Resources */,
+				4835148D0D8AED510077477D /* CEGUI.framework in Resources */,
+				4835148E0D8AED510077477D /* Ogre.framework in Resources */,
+				4835148F0D8AED510077477D /* OgreNewt.framework in Resources */,
 				48187AAD0D885CBB00CE6689 /* libRlAi.dylib in Resources */,
 				48187AAE0D885CBB00CE6689 /* libRlRules.dylib in Resources */,
 				48187AAF0D885CBB00CE6689 /* libRlUi.dylib in Resources */,
-				48187AB00D885CBB00CE6689 /* libRlScript.dylib in Resources */,
 				8D0C4E8D0486CD37000505A6 /* InfoPlist.strings in Resources */,
 				8D0C4E8E0486CD37000505A6 /* main.nib in Resources */,
 			);
@@ -2838,24 +2991,46 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4836F88A0D88592800E3632F /* Sources */ = {
+		483D866D0D8C3A3300F3629E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4836F89E0D88594A00E3632F /* AbstractMapNodeProcessor.cpp in Sources */,
-				4836F89F0D88594A00E3632F /* EntityNodeProcessor.cpp in Sources */,
-				4836F8A00D88594A00E3632F /* EnvironmentProcessor.cpp in Sources */,
-				4836F8A10D88594A00E3632F /* GameObjectNodeProcessor.cpp in Sources */,
-				4836F8A20D88594A00E3632F /* LightNodeProcessor.cpp in Sources */,
-				4836F8A30D88594A00E3632F /* MapLoader.cpp in Sources */,
-				4836F8A40D88594A00E3632F /* ParticleSystemNodeProcessor.cpp in Sources */,
-				4836F8A50D88594A00E3632F /* SoundNodeProcessor.cpp in Sources */,
-				4836F8A60D88594A00E3632F /* WaypointProcessor.cpp in Sources */,
-				4836F8A70D88594A00E3632F /* ZoneProcessor.cpp in Sources */,
-				4836F8A80D88594A00E3632F /* RlExports.cpp in Sources */,
-				4836F8A90D88594A00E3632F /* ScriptObjectMarker.cpp in Sources */,
-				4836F8AA0D88594A00E3632F /* ScriptSubsystem.cpp in Sources */,
-				4836F9BA0D885AF000E3632F /* TriggerFactory.cpp in Sources */,
+				483D86A30D8C3DA200F3629E /* Fmod4ConfigComponent.cpp in Sources */,
+				483D86A40D8C3DA200F3629E /* Fmod4Driver.cpp in Sources */,
+				483D86A50D8C3DA200F3629E /* Fmod4DriverDllMain.cpp in Sources */,
+				483D86A60D8C3DA200F3629E /* Fmod4Listener.cpp in Sources */,
+				483D86A70D8C3DA200F3629E /* Fmod4Sound.cpp in Sources */,
+				483D86A80D8C3DA200F3629E /* Fmod4SoundStitching.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		483D87C60D8C55E500F3629E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48365CA30D8D57ED00BF3313 /* RlScriptExports.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48570C180D8A6C5400096E35 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48570C2E0D8A6C9000096E35 /* AbstractMapNodeProcessor.cpp in Sources */,
+				48570C2F0D8A6C9000096E35 /* EntityNodeProcessor.cpp in Sources */,
+				48570C300D8A6C9000096E35 /* EnvironmentProcessor.cpp in Sources */,
+				48570C310D8A6C9000096E35 /* GameObjectNodeProcessor.cpp in Sources */,
+				48570C320D8A6C9000096E35 /* LightNodeProcessor.cpp in Sources */,
+				48570C330D8A6C9000096E35 /* MapLoader.cpp in Sources */,
+				48570C340D8A6C9000096E35 /* ParticleSystemNodeProcessor.cpp in Sources */,
+				48570C350D8A6C9000096E35 /* SoundNodeProcessor.cpp in Sources */,
+				48570C360D8A6C9000096E35 /* WaypointProcessor.cpp in Sources */,
+				48570C370D8A6C9000096E35 /* ZoneProcessor.cpp in Sources */,
+				48570C390D8A6C9000096E35 /* ScriptObjectMarker.cpp in Sources */,
+				48570C3A0D8A6C9000096E35 /* ScriptSubsystem.cpp in Sources */,
+				48570DFE0D8A6F3300096E35 /* TriggerFactory.cpp in Sources */,
+				483B69DB0D8D4BC900C4C190 /* RlExports.cpp in Sources */,
+				48365C980D8D576100BF3313 /* RlScriptExports.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2915,15 +3090,60 @@
 			target = 444EAB600BD0E2DA00C6D4A0 /* RlCore */;
 			targetProxy = 44F21A050BD2143D00EF01CF /* PBXContainerItemProxy */;
 		};
-		4836F8B40D8859E400E3632F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4836F88C0D88592800E3632F /* RlScript */;
-			targetProxy = 4836F8B30D8859E400E3632F /* PBXContainerItemProxy */;
-		};
 		48389BC60D86762F00AFAB66 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 444EAC260BD0E3FF00C6D4A0 /* RlAi */;
 			targetProxy = 48389BC50D86762F00AFAB66 /* PBXContainerItemProxy */;
+		};
+		483B69C20D8D4A3500C4C190 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 48570C1A0D8A6C5400096E35 /* RlScript */;
+			targetProxy = 483B69C10D8D4A3500C4C190 /* PBXContainerItemProxy */;
+		};
+		483B69C40D8D4A3500C4C190 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 444EAC3D0BD0E46000C6D4A0 /* RlUi */;
+			targetProxy = 483B69C30D8D4A3500C4C190 /* PBXContainerItemProxy */;
+		};
+		483B69C60D8D4A3500C4C190 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 444EAC360BD0E44900C6D4A0 /* RlRules */;
+			targetProxy = 483B69C50D8D4A3500C4C190 /* PBXContainerItemProxy */;
+		};
+		483B69C80D8D4A3500C4C190 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 444EAC260BD0E3FF00C6D4A0 /* RlAi */;
+			targetProxy = 483B69C70D8D4A3500C4C190 /* PBXContainerItemProxy */;
+		};
+		483B69CA0D8D4A3500C4C190 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 444EAB600BD0E2DA00C6D4A0 /* RlCore */;
+			targetProxy = 483B69C90D8D4A3500C4C190 /* PBXContainerItemProxy */;
+		};
+		483B69CC0D8D4A3500C4C190 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 444EAAB10BD0E0FB00C6D4A0 /* RlCommon */;
+			targetProxy = 483B69CB0D8D4A3500C4C190 /* PBXContainerItemProxy */;
+		};
+		483B6A020D8D4C0A00C4C190 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 483D866F0D8C3A3300F3629E /* RlFmod4Driver */;
+			targetProxy = 483B6A010D8D4C0A00C4C190 /* PBXContainerItemProxy */;
+		};
+		483B6A050D8D4C2700C4C190 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 444EAC3D0BD0E46000C6D4A0 /* RlUi */;
+			targetProxy = 483B6A040D8D4C2700C4C190 /* PBXContainerItemProxy */;
+		};
+		483D87D80D8C566400F3629E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 483D87C80D8C55E500F3629E /* RlScriptExports */;
+			targetProxy = 483D87D70D8C566400F3629E /* PBXContainerItemProxy */;
+		};
+		48570C1F0D8A6C6900096E35 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 48570C1A0D8A6C5400096E35 /* RlScript */;
+			targetProxy = 48570C1E0D8A6C6900096E35 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2960,13 +3180,19 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../engine/common/include/stdinc.h;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					"/usr/local/lib/ruby/1.8/i686-darwin8.9.1",
+					/sw/include,
+					/Library/Frameworks/CEGUI.framework/Headers,
+					/Library/Frameworks/Xerces.framework/Headers,
+				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
 					/sw/lib,
+					/usr/local/lib,
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/build/Debug\"";
 				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
@@ -3243,14 +3469,117 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = RlUi;
+				ZERO_LINK = YES;
+			};
+			name = Release;
+		};
+		483D86710D8C3A3400F3629E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_PREFIX = lib;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					/Library/Frameworks/CEGUI.framework/Headers,
+					/usr/local/include,
+					/sw/include,
+				);
+				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"/Developer/FMOD Programmers API/api/inc\"";
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = "$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"/Developer/FMOD Programmers API/api/lib\"";
+				OTHER_LDFLAGS = "-lfmodex";
+				PREBINDING = NO;
+				PRODUCT_NAME = RlFmod4Driver;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		483D86720D8C3A3400F3629E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				HEADER_SEARCH_PATHS = (
+					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					/Library/Frameworks/CEGUI.framework/Headers,
+					/usr/local/include,
+					/sw/include,
+				);
+				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"/Developer/FMOD Programmers API/api/inc\"";
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = "$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"/Developer/FMOD Programmers API/api/lib\"";
+				OTHER_LDFLAGS = "-lfmodex";
+				PREBINDING = NO;
+				PRODUCT_NAME = RlFmod4Driver;
 				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
-		4836F88E0D88592800E3632F /* Debug */ = {
+		483D87CA0D8C55E500F3629E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				EXECUTABLE_EXTENSION = bundle;
+				EXECUTABLE_PREFIX = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					/sw/include,
+					/System/Library/Frameworks/Ruby.framework/Headers,
+				);
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = /System/Library/Frameworks/Ruby.framework/Versions/Current/usr/lib/;
+				MACH_O_TYPE = mh_bundle;
+				PREBINDING = NO;
+				PRODUCT_NAME = RlScript;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		483D87CB0D8C55E500F3629E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				EXECUTABLE_EXTENSION = bundle;
+				EXECUTABLE_PREFIX = "";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				HEADER_SEARCH_PATHS = (
+					/sw/include,
+					/System/Library/Frameworks/Ruby.framework/Headers,
+				);
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = /System/Library/Frameworks/Ruby.framework/Versions/Current/usr/lib/;
+				MACH_O_TYPE = mh_bundle;
+				PREBINDING = NO;
+				PRODUCT_NAME = RlScript;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		48570C1C0D8A6C5400096E35 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_EXTENSION = dylib;
 				EXECUTABLE_PREFIX = lib;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -3266,30 +3595,43 @@
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
 					/sw/lib,
-					/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/lib/,
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";
+				MACH_O_TYPE = mh_dylib;
 				PREBINDING = NO;
 				PRODUCT_NAME = RlScript;
 				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};
-		4836F88F0D88592800E3632F /* Release */ = {
+		48570C1D0D8A6C5400096E35 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_EXTENSION = dylib;
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					"/usr/local/lib/ruby/1.8/i686-darwin8.9.1",
+					/sw/include,
+					/Library/Frameworks/CEGUI.framework/Headers,
+					/System/Library/Frameworks/Ruby.framework/Headers,
+				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
+					/sw/lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/lib/,
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";
+				MACH_O_TYPE = mh_dylib;
 				PREBINDING = NO;
 				PRODUCT_NAME = RlScript;
 				ZERO_LINK = NO;
@@ -3313,9 +3655,11 @@
 					/sw/lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/build/Debug\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/build/Debug\"";
 				PRODUCT_NAME = Rastullah;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
@@ -3337,9 +3681,11 @@
 					/sw/lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_3)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/build/Debug\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/build/Debug\"";
 				PRODUCT_NAME = Rastullah;
 				WRAPPER_EXTENSION = app;
 			};
@@ -3439,11 +3785,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4836F8900D88594600E3632F /* Build configuration list for PBXNativeTarget "RlScript" */ = {
+		483D86750D8C3A5F00F3629E /* Build configuration list for PBXNativeTarget "RlFmod4Driver" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4836F88E0D88592800E3632F /* Debug */,
-				4836F88F0D88592800E3632F /* Release */,
+				483D86710D8C3A3400F3629E /* Debug */,
+				483D86720D8C3A3400F3629E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		483D87D60D8C564E00F3629E /* Build configuration list for PBXNativeTarget "RlScriptExports" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				483D87CA0D8C55E500F3629E /* Debug */,
+				483D87CB0D8C55E500F3629E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		48570C3F0D8A6CAE00096E35 /* Build configuration list for PBXNativeTarget "RlScript" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48570C1C0D8A6C5400096E35 /* Debug */,
+				48570C1D0D8A6C5400096E35 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

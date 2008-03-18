@@ -19,9 +19,15 @@
 
 #include "UiPrerequisites.h"
 
-#include <OISMouse.h>
-#include <OISKeyboard.h>
-#include <OISJoyStick.h>
+#ifdef __APPLE__
+#   include <OIS/OISMouse.h>
+#   include <OIS/OISKeyboard.h>
+#   include <OIS/OISJoyStick.h>
+#else
+#   include <OISMouse.h>
+#   include <OISKeyboard.h>
+#   include <OISJoyStick.h>
+#endif
 
 #include <stack>
 

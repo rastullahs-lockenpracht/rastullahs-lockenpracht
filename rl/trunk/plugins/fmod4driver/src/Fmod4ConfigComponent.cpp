@@ -16,12 +16,6 @@
 #include "Fmod4ConfigComponent.h"
 
 #include <boost/bind.hpp>
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-    #include <fmod.h>
-#else
-    #include <fmodex/fmod.h>
-#endif
-
 
 #include "Exception.h"
 #include "Fmod4Driver.h"

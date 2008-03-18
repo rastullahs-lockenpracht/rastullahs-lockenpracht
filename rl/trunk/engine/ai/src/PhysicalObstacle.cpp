@@ -19,7 +19,12 @@
 #include "PhysicalThing.h"
 #include "Exception.h"
 #include <OpenSteer/Obstacle.h>
-#include <OgreNewt.h>
+
+#ifdef __APPLE__
+#   include <OgreNewt/OgreNewt.h>
+#else
+#   include <OgreNewt.h>
+#endif
 
 using namespace Ogre;
 

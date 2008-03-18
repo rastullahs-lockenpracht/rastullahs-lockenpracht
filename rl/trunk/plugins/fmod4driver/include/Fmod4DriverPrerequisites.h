@@ -30,6 +30,14 @@
 #   define _RlFmod4DriverExport
 #endif
 
+#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+#   include <fmodex/fmod.hpp>
+#   include <fmodex/fmod_errors.h>
+#else
+#   include <fmod.hpp>
+#   include <fmod_errors.h>
+#endif
+
 #   undef min
 #   pragma warning (push)
 #   pragma warning (disable : 4267)

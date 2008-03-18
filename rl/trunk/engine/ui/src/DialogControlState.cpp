@@ -46,7 +46,11 @@
 #include "WindowManager.h"
 #include "World.h"
 
-#include <OgreNewt.h>
+#ifdef __APPLE__
+#   include <OgreNewt/OgreNewt.h>
+#else
+#   include <OgreNewt.h>
+#endif
 
 using namespace Ogre;
 

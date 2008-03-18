@@ -21,7 +21,12 @@
 #include "ControlState.h"
 #include "PhysicsController.h"
 #include "PhysicsGenericContactCallback.h"
-#include <OgreNewt.h>
+
+#ifdef __APPLE__
+#   include <OgreNewt/OgreNewt.h>
+#else
+#   include <OgreNewt.h>
+#endif
 
 namespace rl {
 

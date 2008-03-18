@@ -22,7 +22,6 @@
 #include "SoundResource.h"
 
 using namespace Ogre;
-using namespace boost;
 
 Ogre::String rl::NullSoundStitching::msMovableType = "NullSoundStitching";
 

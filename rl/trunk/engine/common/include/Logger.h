@@ -24,11 +24,6 @@
 #   include <CEGUILogger.h>
 #endif
 
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/exception.hpp>
-
-namespace fs = boost::filesystem;
-
 namespace rl {
 	class _RlCommonExport Logger : public Ogre::Singleton<Logger>
 	{

@@ -19,12 +19,6 @@
 
 #include "UiPrerequisites.h"
 
-#include "FixRubyHeaders.h"		// die Makros sind hier vor Ruby schon definiert
-#include <ruby.h>
-#include "FixRubyHeaders.h"
-
-#include <CEGUIVector.h>
-
 namespace rl {
 
 	class AbstractWindow;

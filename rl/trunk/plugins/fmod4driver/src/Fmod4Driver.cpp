@@ -234,7 +234,7 @@ namespace rl
         mFmod4System->getDriver(&curdriver);
 
         char name[128];
-        mFmod4System->getDriverName(driver, name, 127);
+        mFmod4System->getDriverInfo(driver, name, 127, NULL);
 
         FMOD_CAPS caps;
         int minfreq, maxfreq;

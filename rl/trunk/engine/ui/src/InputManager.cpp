@@ -19,7 +19,11 @@
 
 #include <xercesc/dom/DOM.hpp>
 
-#include <OISInputManager.h>
+#ifdef __APPLE__
+#   include <OIS/OISInputManager.h>
+#else
+#   include <OISInputManager.h>
+#endif
 
 #include "Exception.h"
 

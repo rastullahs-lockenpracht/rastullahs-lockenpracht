@@ -182,7 +182,7 @@ namespace rl
     void ConfigurationManager::loadConfig()
     {
         // On Linux, we create the .rastullah directory
-#       if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+#       if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
         fs::path rastullahCfgDirectory(Ogre::String(::getenv("HOME")) + "/.rastullah",
             fs::portable_posix_name);
 
@@ -248,19 +248,19 @@ namespace rl
 
         if (mRastullahLogDirectory.empty())
         {
-#           if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
-            mRastullahLogDirectory = Ogre::String(::getenv("HOME")) + "/.rastullah/logs";
-#           else
+#           if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
             mRastullahLogDirectory = "./logs";
+#           else
+            mRastullahLogDirectory = Ogre::String(::getenv("HOME")) + "/.rastullah/logs";
 #           endif
         }
 
         if (mModulesRootDirectory.empty())
         {
 #           if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
-                mModulesRootDirectory = RL_MODULEDIR;
+            mModulesRootDirectory = RL_MODULEDIR;
 #           else
-                mModulesRootDirectory = "./modules";
+            mModulesRootDirectory = "./modules";
 #           endif
         }
 
@@ -383,14 +383,13 @@ namespace rl
         // First try: Current directory
         addToCfgPath("./");
 
-#       if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+#       if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
         // Check system wide /etc/rastullah directory
         addToCfgPath("/etc/rastullah/");
         // Check home .rastullah directory
         addToCfgPath(Ogre::String(::getenv("HOME")) + "/.rastullah/");
-#       else
-        addToCfgPath("./modules/config/");
 #       endif
+        addToCfgPath("./modules/config/");
     }
 
     void ConfigurationManager::addToCfgPath(const Ogre::String& path)
@@ -446,7 +445,11 @@ namespace rl
 #       else
         Ogre::String dirSeparator = "/";
 #       endif
-
+        
+#       if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
+        mPluginList.push_back(plugin + pluginSuffix);
+#       else
         mPluginList.push_back(pluginDir + dirSeparator + plugin + pluginSuffix);
+#       endif
     }
 }

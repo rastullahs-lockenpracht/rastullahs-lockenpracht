@@ -19,7 +19,6 @@
 #include "AiPrerequisites.h"
 #include "AStarWayPointNode.h"
 #include "DebugVisualisable.h"
-#include "OgreVector3.h"
 
 namespace rl
 {

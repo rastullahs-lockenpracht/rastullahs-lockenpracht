@@ -18,6 +18,10 @@
 
 #include "Logger.h"
 
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/exception.hpp>
+
+namespace fs = boost::filesystem;
 
 using Ogre::LogManager;
 using Ogre::Singleton;

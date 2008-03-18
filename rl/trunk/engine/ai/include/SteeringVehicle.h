@@ -20,8 +20,7 @@
 #include "AgentManager.h"
 #include "DebugVisualisable.h"
 #include "LineSetPrimitive.h"
-#include "OgreVector3.h"
-#include "OpenSteer/SteerLibrary.h"
+#include <OpenSteer/SteerLibrary.h>
 #include "SimpleVehicle.h"
 #include "MessagePump.h"
 

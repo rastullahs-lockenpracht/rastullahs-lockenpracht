@@ -20,7 +20,6 @@
 #include "UiPrerequisites.h"
 
 #include "CameraObject.h"
-#include "OgreRectangle.h"
 #include "Combat.h"
 #include "CombatWindow.h"
 #include "GameLoggerWindow.h"

@@ -18,7 +18,6 @@
 
 #include "SaveGameFile.h"
 #include "SaveGameManager.h"
-#include "OgreString.h"
 #include <xercesc/framework/LocalFileFormatTarget.hpp>
 
 #include <ConfigurationManager.h>

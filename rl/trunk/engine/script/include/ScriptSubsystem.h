@@ -18,7 +18,6 @@
 #define __ScriptSubsystem_H__
 
 #include "ScriptPrerequisites.h"
-#include "OgreSingleton.h"
 
 namespace rl 
 {

@@ -15,8 +15,11 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include <OgreNewt.h>
-
+#ifdef __APPLE__
+#   include <OgreNewt/OgreNewt.h>
+#else
+#   include <OgreNewt.h>
+#endif
 
 #include "AiWorld.h"
 #include "PhysicsManager.h"
@@ -25,10 +28,9 @@
 #include "SteeringVehicle.h"
 #include "Actor.h"
 #include "PhysicalThing.h"
-#include "OgreVector3.h"
 #include "PhysicsMaterialRaycast.h"
 #include "World.h"
-#include "OpenSteer/Proximity.h"
+#include <OpenSteer/Proximity.h>
 
 using namespace OpenSteer;
 using namespace Ogre;

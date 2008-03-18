@@ -18,14 +18,19 @@
 #define __CharacterController_H__
 
 #include "UiPrerequisites.h"
+
+#ifdef __APPLE__
+#   include <OgreNewt/OgreNewt.h>
+#   include <OIS/OISMouse.h>
+#   include <OIS/OISKeyboard.h>
+#else
+#   include <OgreNewt.h>
+#   include <OISMouse.h>
+#   include <OISKeyboard.h>
+#endif
+
 #include "GameTask.h"
-
-#include <OgreNewt.h>
-
-#include <OISMouse.h>
-#include <OISKeyboard.h>
-
-#include <SaveGameManager.h>
+#include "SaveGameManager.h"
 
 namespace rl {
 

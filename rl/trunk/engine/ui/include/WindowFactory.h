@@ -22,9 +22,6 @@
 #include "FixRubyHeaders.h"        // die Makros sind hier vor Ruby schon definiert
 #include <ruby.h>
 #include "FixRubyHeaders.h"
-#undef min
-
-#include <CEGUIVector.h>
 
 namespace rl {
 

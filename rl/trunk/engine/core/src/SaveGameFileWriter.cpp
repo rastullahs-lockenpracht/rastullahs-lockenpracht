@@ -26,7 +26,12 @@
 #include <xercesc/dom/DOMElement.hpp>
 #include <Properties.h>
 
-#include <CEGUIPropertyHelper.h>
+#ifdef __APPLE__
+#   include <CEGUI/CEGUIPropertyHelper.h>
+#else
+#   include <CEGUIPropertyHelper.h>
+#endif
+
 #include <CoreSubsystem.h>
 #include <ContentModule.h>
 #include <TimeSource.h>

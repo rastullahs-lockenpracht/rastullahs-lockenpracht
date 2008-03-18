@@ -21,12 +21,6 @@
 #include "Sound.h"
 #include "SoundDriver.h"
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-    #include <fmod.hpp>
-#else
-    #include <fmodex/fmod.hpp>
-#endif
-
 namespace rl {
 
     class Fmod4Driver;

@@ -19,7 +19,12 @@
 #include "OpenSteer/Obstacle.h"
 #include "DebugVisualisable.h"
 #include "SimpleVehicle.h"
+
+#ifdef __APPLE__
+#include <OgreNewt/OgreNewt.h>
+#else
 #include <OgreNewt.h>
+#endif
 #include <vector>
 
 namespace OpenSteer

@@ -37,7 +37,7 @@ namespace rl {
     {
 		int width = 0, height = 0;
 		Window* w = CEGUI::WindowManager::getSingleton().loadWindowLayout("buttons/attack.xml");
-		Size size = w->getPixelSize();
+        CEGUI::Size size = w->getPixelSize();
 		height = std::max((int) size.d_height, height);
 		width += (int) size.d_width + mButtonPadding;
 		CEGUI::WindowManager::getSingleton().destroyWindow(w);

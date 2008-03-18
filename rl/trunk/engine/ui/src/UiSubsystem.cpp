@@ -20,7 +20,12 @@
 #include <CEGUISystem.h>
 #include <CEGUIWindow.h>
 #include <CEGUIWindowManager.h>
-#include <OgreCEGUIRenderer.h>
+
+#ifdef __APPLE__
+#   include <OgreCEGUIRenderer/OgreCEGUIRenderer.h>
+#else
+#   include <OgreCEGUIRenderer.h>
+#endif
 
 #include "Actor.h"
 #include "AiMessages.h"
@@ -95,7 +100,7 @@ namespace rl {
         LOG_MESSAGE2(Logger::UI,
             "Initializing CEGUI System.", "UiSubsystem::initializeUiSubsystem");
         mGuiResourceProvider = mGuiRenderer->createResourceProvider();
-        CEGUI::System::setDefaultXMLParserName("XercesParser");
+        //CEGUI::System::setDefaultXMLParserName("XercesParser");
         mGuiSystem = new System(mGuiRenderer, mGuiResourceProvider,
             NULL, NULL, (utf8*)"cegui.config", ConfigurationManager::getSingleton().getCeguiLogFile());
         CEGUI::Logger::getSingleton().setLoggingLevel(

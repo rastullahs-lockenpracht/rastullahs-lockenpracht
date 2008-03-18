@@ -22,7 +22,11 @@
 #include "PhysicalObject.h"
 #include "PhysicsManager.h"
 
-#include <OgreNewt.h>
+#ifdef __APPLE__
+#   include <OgreNewt/OgreNewt.h>
+#else
+#   include <OgreNewt.h>
+#endif
 
 using namespace Ogre;
 using namespace OgreNewt;

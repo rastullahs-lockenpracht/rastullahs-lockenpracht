@@ -19,12 +19,6 @@
 #include "Fmod4DriverPrerequisites.h"
 #include "ListenerMovable.h"
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-    #include <fmod.hpp>
-#else
-    #include <fmodex/fmod.hpp>
-#endif
-
 namespace rl {
     
    /** Diese Klasse dient der Interkation mit Ogre3d und Fmod4
