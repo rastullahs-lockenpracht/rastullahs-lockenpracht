@@ -137,6 +137,7 @@ public:
         const rl::CeGuiString& title, 
         const rl::CeGuiString& text, 
         const Buttons buttons);
+    virtual ~MessageWindow();
     virtual bool onButtonClicked(int button, const rl::CeGuiString& text);
     void setVisible(bool visible);
 };
