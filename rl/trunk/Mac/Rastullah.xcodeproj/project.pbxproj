@@ -460,8 +460,6 @@
 		48365BE90D8D562D00BF3313 /* libRlUi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAC3E0BD0E46000C6D4A0 /* libRlUi.dylib */; };
 		48365BEC0D8D56DC00BF3313 /* libRlCommon.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAAB20BD0E0FB00C6D4A0 /* libRlCommon.dylib */; };
 		48365C950D8D56EA00BF3313 /* CEGUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */; };
-		48365C980D8D576100BF3313 /* RlScriptExports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48365C970D8D576100BF3313 /* RlScriptExports.cpp */; };
-		48365CA30D8D57ED00BF3313 /* RlScriptExports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48365C970D8D576100BF3313 /* RlScriptExports.cpp */; };
 		4836CBC90D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */; };
 		4836CBCA0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */; };
 		4836CBCB0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */; };
@@ -556,6 +554,7 @@
 		483D86A70D8C3DA200F3629E /* Fmod4Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D869A0D8C3DA200F3629E /* Fmod4Sound.cpp */; };
 		483D86A80D8C3DA200F3629E /* Fmod4SoundStitching.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D869B0D8C3DA200F3629E /* Fmod4SoundStitching.cpp */; };
 		483D87CE0D8C564400F3629E /* libRlScript.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48570C1B0D8A6C5400096E35 /* libRlScript.dylib */; };
+		48500B790D906A1000EAD8DB /* RlScriptExportsMac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48500B780D906A1000EAD8DB /* RlScriptExportsMac.cpp */; };
 		48570C210D8A6C9000096E35 /* stdinc.h in Headers */ = {isa = PBXBuildFile; fileRef = 4404DA840C48D01E007B4657 /* stdinc.h */; };
 		48570C220D8A6C9000096E35 /* UnifiedFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 446BF4810C4532B50013C214 /* UnifiedFactory.h */; };
 		48570C230D8A6C9000096E35 /* AbstractMapNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 444825ED0BF7B32100C5A94F /* AbstractMapNodeProcessor.h */; };
@@ -1195,7 +1194,6 @@
 		4836469C0D83D15600912FEC /* ContentLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContentLoader.cpp; path = ../engine/core/src/ContentLoader.cpp; sourceTree = SOURCE_ROOT; };
 		4836469D0D83D15600912FEC /* SoundStitching.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SoundStitching.cpp; path = ../engine/core/src/SoundStitching.cpp; sourceTree = SOURCE_ROOT; };
 		483646A10D83D57800912FEC /* libruby.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libruby.dylib; path = /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/libruby.dylib; sourceTree = "<absolute>"; };
-		48365C970D8D576100BF3313 /* RlScriptExports.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RlScriptExports.cpp; path = ../engine/script/swig/test.cpp; sourceTree = SOURCE_ROOT; };
 		4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Xerces.framework; path = /Library/Frameworks/Xerces.framework; sourceTree = "<absolute>"; };
 		48380B180D800EED0013EE0C /* StartAnimationJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StartAnimationJob.cpp; path = ../engine/core/src/StartAnimationJob.cpp; sourceTree = SOURCE_ROOT; };
 		48389B8E0D86741F00AFAB66 /* CombatGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CombatGui.cpp; path = ../engine/ui/src/CombatGui.cpp; sourceTree = SOURCE_ROOT; };
@@ -1303,6 +1301,7 @@
 		483D869A0D8C3DA200F3629E /* Fmod4Sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fmod4Sound.cpp; sourceTree = "<group>"; };
 		483D869B0D8C3DA200F3629E /* Fmod4SoundStitching.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fmod4SoundStitching.cpp; sourceTree = "<group>"; };
 		483D87C90D8C55E500F3629E /* RlScript.bundle */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = RlScript.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		48500B780D906A1000EAD8DB /* RlScriptExportsMac.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RlScriptExportsMac.cpp; path = ../engine/script/swig/RlScriptExportsMac.cpp; sourceTree = SOURCE_ROOT; };
 		48570C1B0D8A6C5400096E35 /* libRlScript.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libRlScript.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = /sw/lib/libboost_filesystem.dylib; sourceTree = "<absolute>"; };
 		4857E4E40D46A664009D376D /* OIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OIS.framework; path = /Library/Frameworks/OIS.framework; sourceTree = "<absolute>"; };
@@ -1496,7 +1495,6 @@
 				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
 				195DF8CFFE9D517E11CA2CBB /* Products */,
 				483D86850D8C3C4F00F3629E /* RlScriptExports-Info.plist */,
-				48365C970D8D576100BF3313 /* RlScriptExports.cpp */,
 			);
 			name = Rastullah;
 			sourceTree = "<group>";
@@ -2103,6 +2101,7 @@
 		48389C010D86783200AFAB66 /* swig */ = {
 			isa = PBXGroup;
 			children = (
+				48500B780D906A1000EAD8DB /* RlScriptExportsMac.cpp */,
 				48389C020D86787900AFAB66 /* RlExports.i */,
 				48389BE80D8677EE00AFAB66 /* RlAi.head.swig */,
 				48389BE90D8677EE00AFAB66 /* RlAi.swig */,
@@ -3008,7 +3007,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48365CA30D8D57ED00BF3313 /* RlScriptExports.cpp in Sources */,
+				48500B790D906A1000EAD8DB /* RlScriptExportsMac.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3030,7 +3029,6 @@
 				48570C3A0D8A6C9000096E35 /* ScriptSubsystem.cpp in Sources */,
 				48570DFE0D8A6F3300096E35 /* TriggerFactory.cpp in Sources */,
 				483B69DB0D8D4BC900C4C190 /* RlExports.cpp in Sources */,
-				48365C980D8D576100BF3313 /* RlScriptExports.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
