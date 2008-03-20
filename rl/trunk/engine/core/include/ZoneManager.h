@@ -20,7 +20,8 @@
 #include "CoreDefines.h"
 #include "GameAreaListener.h"
 #include "GameTask.h"
-#include "SaveGameManager.h"
+#include "Properties.h"
+#include "SaveGameData.h"
 
 namespace rl
 {

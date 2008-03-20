@@ -23,7 +23,7 @@
 #include <functional>
 
 #include "GameTask.h"
-#include "SaveGameManager.h"
+#include "SaveGameData.h"
 #include "TimeSource.h"
 
 namespace rl

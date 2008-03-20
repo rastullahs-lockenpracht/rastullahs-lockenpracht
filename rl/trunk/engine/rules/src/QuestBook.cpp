@@ -19,6 +19,7 @@
 #include "Quest.h"
 #include "Exception.h"
 #include "ScriptWrapper.h"
+#include "SaveGameManager.h"
 
 using namespace std;
 using namespace XERCES_CPP_NAMESPACE;

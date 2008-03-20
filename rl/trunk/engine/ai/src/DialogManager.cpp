@@ -31,6 +31,7 @@
 #include "GameObjectManager.h"
 #include "XmlPropertyReader.h"
 #include "ConfigurationManager.h"
+#include "SaveGameManager.h"
 
 using namespace Ogre;
 using namespace XERCES_CPP_NAMESPACE;

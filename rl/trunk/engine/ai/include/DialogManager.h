@@ -21,7 +21,7 @@
 #include <xercesc/dom/DOMElement.hpp>
 
 #include "Properties.h"
-#include "SaveGameManager.h"
+#include "SaveGameData.h"
 #include "XmlProcessor.h"
 
 namespace rl

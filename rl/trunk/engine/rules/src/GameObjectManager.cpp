@@ -28,10 +28,12 @@
 #include "Item.h"
 #include "Person.h"
 #include "Properties.h"
-#include "XmlPropertyReader.h"
 #include "Property.h"
+#include "RulesMessages.h"
 #include "RubyInterpreter.h"
+#include "SaveGameManager.h"
 #include "Weapon.h"
+#include "XmlPropertyReader.h"
 
 template<> rl::GameObjectManager*
     Ogre::Singleton<rl::GameObjectManager>::ms_Singleton = NULL;

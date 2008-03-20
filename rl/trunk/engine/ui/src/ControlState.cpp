@@ -31,6 +31,7 @@
 #include "InputManager.h"
 #include "Person.h"
 #include "PhysicalThing.h"
+#include "RulesMessages.h"
 #include "WindowManager.h"
 #include "World.h"
 

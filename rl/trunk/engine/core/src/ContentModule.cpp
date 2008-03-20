@@ -21,6 +21,7 @@
 #include "ConfigurationManager.h"
 #include "CoreSubsystem.h"
 #include "RubyInterpreter.h"
+#include "SaveGameManager.h"
 #include "SoundManager.h"
 #include "World.h"
 

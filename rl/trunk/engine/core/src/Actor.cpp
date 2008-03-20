@@ -189,7 +189,7 @@ namespace rl {
             mActorControlledObject->getMovableObject()->setQueryFlags( flags );
         else
         {
-            if( flags != NULL )
+            if( flags != 0 )
                 LOG_ERROR(Logger::CORE, "Queryflags could not be set, because ActorControlledObject was NULL");
         }
     }

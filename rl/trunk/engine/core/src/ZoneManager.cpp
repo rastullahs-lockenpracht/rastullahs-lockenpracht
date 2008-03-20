@@ -23,6 +23,7 @@
 #include "GameEventManager.h"
 #include "Zone.h"
 #include "World.h"
+#include "SaveGameManager.h"
 #include "ScriptWrapper.h"
 #include "Sound.h"
 #include "SoundManager.h"

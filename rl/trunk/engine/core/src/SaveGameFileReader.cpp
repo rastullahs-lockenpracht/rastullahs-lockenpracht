@@ -19,8 +19,8 @@
 #include <xercesc/dom/DOM.hpp>
 
 #include "SaveGameFileReader.h"
-
 #include "SaveGameManager.h"
+#include "SaveGameData.h"
 
 #include "CoreSubsystem.h"
 

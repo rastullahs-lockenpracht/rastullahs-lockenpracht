@@ -72,37 +72,6 @@ namespace rl
 		 */
 		void addDirectedConnection(WayPointNode* wp1, const WayPointNode* wp2);
 
-
-		/** loads the Waypoints from a file.
-		 * The Load functionality uses the module path querying of the
-		 * configuration module in oder to fetch the module directory path.
-		 * @param filename of the file to load.
-		 */
-		void loadBinary(const Ogre::String& filename);
-
-		/** saves the Waypoints to a file.
-		 * Structure of the file is as follows:
-		 * Header\n
-		 * numberOfWaypoints\n
-		 * waypoint0.x waypoint0.y waypoint0.z waypoint0.type waypoint1.x ...\n
-		 * numberOfConnections connectionindex1 connectionindex2 ...\n
-		 * ...
-		 * \n
-		 * \n
-		 * 
-		 * As you can see the waypoint coordinates are written consecutivily on one line
-		 * and the connections of one waypoint to the others are written per waypoint on one line.
-		 * The first number gives the number of connections and the rest are the indices of the
-		 * waypoints the connections have to be made to. That index given by the order of the
-		 * the list of WayPoints in the file. It starts with 0.
-		 * If the line is just contains a 0 for numberOfConnections that means that the
-		 * waypoint has got not other waypoints to connect to (very unlikely).
-		 * The file is terminated either with end of file or two newlines.
-		 *
-		 * @param filename of the file to save to.
-		 */
-		void saveBinary(const Ogre::String& filename) const;
-
         /** loads the Waypoints from an xml file.
 		 * The Load functionality uses the module path querying of the
 		 * configuration module in oder to fetch the module directory path.

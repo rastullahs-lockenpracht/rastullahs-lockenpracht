@@ -17,6 +17,7 @@
 #include "stdinc.h" //precompiled header
 
 #include "GlobalProperties.h"
+#include "SaveGameManager.h"
 
 template<> rl::GlobalProperties* Ogre::Singleton<rl::GlobalProperties>::ms_Singleton = 0;
 

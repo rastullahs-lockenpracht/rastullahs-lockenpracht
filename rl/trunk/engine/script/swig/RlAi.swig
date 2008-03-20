@@ -235,7 +235,6 @@ namespace rl
 		void addConnection(rl::WayPointNode* wp1, rl::WayPointNode* wp2);
 		void addDirectedConnection(rl::WayPointNode* wp1, const rl::WayPointNode* wp2);
 		void load(const Ogre::String& filename);
-		void saveBinary(const Ogre::String& filename) const;
 		const rl::WayPointNode* getNearestWayPoint(const Ogre::Vector3& position) const;
 		const rl::WayPointNode* getWayPointAt(unsigned int index) const;
 	};

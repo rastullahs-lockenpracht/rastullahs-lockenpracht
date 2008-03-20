@@ -20,7 +20,8 @@
 #include "RulesPrerequisites.h"
 #include "GameObjectStateListener.h"
 
-#include <SaveGameManager.h>
+#include "Property.h"
+#include "SaveGameData.h"
 
 #include <map>
 
@@ -30,7 +31,6 @@ namespace rl
 	class Property;
     class PropertyRecord;
 
-    typedef MessageType<RLMSG_SAVEGAME_GOS_LOADED> MessageType_GameObjectsLoaded;
 
     class _RlRulesExport GameObjectFactory
     {

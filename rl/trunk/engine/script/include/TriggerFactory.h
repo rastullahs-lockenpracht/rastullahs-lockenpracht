@@ -16,8 +16,9 @@
 #ifndef __TriggerFactory_H__
 #define __TriggerFactory_H__
 
-#include "SaveGameManager.h"
 #include "ScriptPrerequisites.h"
+
+#include "SaveGameData.h"
 
 namespace rl 
 {

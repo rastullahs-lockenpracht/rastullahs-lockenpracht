@@ -29,37 +29,8 @@
 
 namespace rl
 {
-    enum SaveGameMessageTypeIds
-    {
-        //Mask
-        RLMSG_SAVEGAME_EVENTS     = 0x0300000,
-        //Events
-        RLMSG_SAVEGAME_LOADED     = 0x0300001,
-        RLMSG_SAVEGAME_SAVED      = 0x0300002,
-        RLMSG_SAVEGAME_LOADING    = 0x0300003,
-        RLMSG_SAVEGAME_SAVING     = 0x0300004,
-        RLMSG_SAVEGAME_GOS_LOADED = 0x0300011       
-    };
 
-    typedef MessageType<RLMSG_SAVEGAME_LOADED> MessageType_SaveGameLoaded;
-
-    typedef MessageType<RLMSG_SAVEGAME_SAVED> MessageType_SaveGameSaved;
-
-    typedef MessageType<RLMSG_SAVEGAME_LOADING> MessageType_SaveGameLoading;
-
-    typedef MessageType<RLMSG_SAVEGAME_SAVING> MessageType_SaveGameSaving;
-
-    class _RlCoreExport SaveGameData
-    {
-    public:
-        SaveGameData();
-        virtual ~SaveGameData();
-        virtual CeGuiString getXmlNodeIdentifier() const = 0;
-        virtual void writeData(SaveGameFileWriter* writer) = 0;
-        virtual void readData(SaveGameFileReader* reader) = 0;
-        /// defines the loading/saving order higher priority are saved last and loaded first
-        virtual int getPriority() const = 0;
-    };
+    class SaveGameData;
 
     typedef std::multimap<int,SaveGameData*> SaveGameDataOrderMap;
 

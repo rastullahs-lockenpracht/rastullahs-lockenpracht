@@ -17,10 +17,10 @@
 #ifndef __GLOBALPROPERTIES_H__
 #define __GLOBALPROPERTIES_H__
 
-#include <Properties.h>
 #include "RulesPrerequisites.h"
 
-#include <SaveGameManager.h>
+#include "Properties.h"
+#include "SaveGameData.h"
 
 namespace rl
 {

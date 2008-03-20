@@ -22,7 +22,7 @@
 
 #include "GameTask.h"
 
-#include "SaveGameManager.h"
+#include "SaveGameData.h"
 
 namespace rl
 {

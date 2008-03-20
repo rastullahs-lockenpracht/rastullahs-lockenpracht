@@ -28,19 +28,28 @@ namespace rl
     {
         // World //
         // Mask
-        RLMSG_SCENE_EVENTS = 0x01000100,
+        RLMSG_SCENE_EVENTS =            0x01000100,
         // Events
-        RLMSG_SCENE_LOADED = 0x01000101,
-        RLMSG_SCENE_CLEARING = 0x01000102,
+        RLMSG_SCENE_LOADED =            0x01000101,
+        RLMSG_SCENE_CLEARING =          0x01000102,
 
         // Animations //
         // Mask
-        RLMSG_ANIMATION_EVENTS = 0x01000200,
+        RLMSG_ANIMATION_EVENTS =        0x01000200,
         // Events
-        RLMSG_ANIMATION_PAUSED = 0x01000201,
-        RLMSG_ANIMATION_UNPAUSED = 0x01000202,
-        RLMSG_ANIMATION_FINISHED = 0x01000203,
-        RLMSG_ANIMATION_FRAMEREACHED = 0x01000204,
+        RLMSG_ANIMATION_PAUSED =        0x01000201,
+        RLMSG_ANIMATION_UNPAUSED =      0x01000202,
+        RLMSG_ANIMATION_FINISHED =      0x01000203,
+        RLMSG_ANIMATION_FRAMEREACHED =  0x01000204,
+
+        //Mask
+        RLMSG_SAVEGAME_EVENTS     =     0x01000300,
+        //Events    
+        RLMSG_SAVEGAME_LOADED     =     0x01000301,
+        RLMSG_SAVEGAME_SAVED      =     0x01000302,
+        RLMSG_SAVEGAME_LOADING    =     0x01000303,
+        RLMSG_SAVEGAME_SAVING     =     0x01000304,
+        RLMSG_SAVEGAME_GOS_LOADED =     0x01000311       
     };
 
     /// Message sent right after a scene has been loaded.
@@ -62,5 +71,14 @@ namespace rl
     /// Real param is the frame time reached
     typedef MessageType<RLMSG_ANIMATION_FRAMEREACHED, BaseAnimation*, Ogre::Real>
         MessageType_AnimationFrameReached;
+
+    typedef MessageType<RLMSG_SAVEGAME_LOADED> MessageType_SaveGameLoaded;
+    
+    typedef MessageType<RLMSG_SAVEGAME_SAVED> MessageType_SaveGameSaved;
+    
+    typedef MessageType<RLMSG_SAVEGAME_LOADING> MessageType_SaveGameLoading;
+    
+    typedef MessageType<RLMSG_SAVEGAME_SAVING> MessageType_SaveGameSaving;
+    
 }
 #endif

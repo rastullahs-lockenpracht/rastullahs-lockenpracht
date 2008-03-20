@@ -18,7 +18,7 @@
 #define __ContentModule_H__
 
 #include "CorePrerequisites.h"
-#include "SaveGameManager.h"
+#include "SaveGameData.h"
 #include "ContentLoader.h"
 
 namespace rl

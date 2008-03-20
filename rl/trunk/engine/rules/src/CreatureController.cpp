@@ -27,7 +27,7 @@
 #include "TimeSource.h"
 #include "GameObjectManager.h"
 #include "PhysicsMaterialRaycast.h"
-
+#include "RulesMessages.h"
 
 
 
@@ -1385,9 +1385,9 @@ namespace rl
                 Vector3 vel = body->getVelocity();
 
                 force.y = mass*( mLinearSpringK*diff.y - mLinearDampingK*vel.y );
-std::ostringstream oss;
-oss << "Testing Step-Recognition: Step force: " << force.y;
-LOG_MESSAGE(Logger::RULES, oss.str());
+                std::ostringstream oss;
+                oss << "Testing Step-Recognition: Step force: " << force.y;
+                LOG_MESSAGE(Logger::RULES, oss.str());
             }
         }
         virtual bool run(Ogre::Real elapsedTime,  Ogre::Vector3 direction, Ogre::Vector3 rotation)
@@ -1438,9 +1438,9 @@ LOG_MESSAGE(Logger::RULES, oss.str());
                             // found a step
                             mMoveToNextTarget = true;
                             mNextTarget = start + globalDir*raylen*foundDistance + 0.1 * globalDir;
-std::ostringstream oss;
-oss << "Testing Step-Recognition: Next Step: " << mNextTarget;
-LOG_MESSAGE(Logger::RULES, oss.str());
+                            std::ostringstream oss;
+                            oss << "Testing Step-Recognition: Next Step: " << mNextTarget;
+                            LOG_MESSAGE(Logger::RULES, oss.str());
                             break;
                         }
                     }
@@ -1471,7 +1471,7 @@ LOG_MESSAGE(Logger::RULES, oss.str());
                 if( globalDir == Vector3::ZERO )
                 {
                     mMoveToNextTarget = false;
-LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction null");
+                    LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction null");
                     return false;
                 }
 
@@ -1479,7 +1479,7 @@ LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction null");
                 if( diffToTarget.squaredLength() < 0.01 )
                 {
                     mMoveToNextTarget = false;
-LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step reached");
+                    LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step reached");
                     return false;
                 }
 
@@ -1487,7 +1487,7 @@ LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step reached");
                 if( !diffToTarget.directionEquals(globalDir, Degree(5)) )
                 {
                     mMoveToNextTarget = false;
-LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
+                    LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
                     return false;
                 }
             }
@@ -1513,43 +1513,6 @@ LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
         Real mLinearSpringK, mLinearDampingK;
         PhysicsMaterialRaycast mRaycast;
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     CreatureController::CreatureController(Creature *creature) :

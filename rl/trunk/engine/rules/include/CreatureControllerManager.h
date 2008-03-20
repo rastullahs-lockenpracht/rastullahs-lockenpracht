@@ -21,7 +21,7 @@
 #include "RulesPrerequisites.h"
 #include "GameTask.h"
 #include "PhysicsGenericContactCallback.h"
-#include <SaveGameManager.h>
+#include "SaveGameData.h"
 #include <vector>
 #include <map>
 

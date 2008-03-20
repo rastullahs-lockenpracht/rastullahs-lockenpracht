@@ -20,6 +20,7 @@
 #include "JobListener.h"
 #include "GameLoop.h"
 #include "TimeSource.h"
+#include "SaveGameManager.h"
 
 using namespace Ogre;
 

@@ -28,6 +28,7 @@
 #include "CreatureController.h"
 #include "PhysicalThing.h"
 #include "GameObjectManager.h"
+#include "RulesMessages.h"
 
 using namespace Ogre;
 using namespace OpenSteer;

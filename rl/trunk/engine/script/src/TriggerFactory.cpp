@@ -15,8 +15,10 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include "ScriptWrapper.h"
 #include "TriggerFactory.h"
+
+#include "SaveGameManager.h"
+#include "ScriptWrapper.h"
 #include "Trigger.h"
 #include "ZoneManager.h"
 #include "Zone.h"

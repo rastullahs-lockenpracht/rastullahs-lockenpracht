@@ -21,6 +21,7 @@
 
 #include "MessageType.h"
 #include "RulesConstants.h"
+#include "CoreMessages.h"
 
 namespace rl
 {
@@ -62,5 +63,8 @@ namespace rl
 
 	typedef MessageType<RLMSG_CREATURE_LIFESTATE_CHANGED, Creature*, LifeState>
 		MessageType_CreatureLifeStateChanged;
+    
+    typedef MessageType<RLMSG_SAVEGAME_GOS_LOADED> MessageType_GameObjectsLoaded;
+
 }
 #endif

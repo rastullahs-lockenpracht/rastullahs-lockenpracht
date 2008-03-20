@@ -40,6 +40,7 @@
 #include "PhysicsManager.h"
 #include "PhysicsMaterialRaycast.h"
 #include "PhysicalThing.h"
+#include "RulesMessages.h"
 #include "World.h"
 #include "LineSetPrimitive.h"
 #include "WindowFactory.h"

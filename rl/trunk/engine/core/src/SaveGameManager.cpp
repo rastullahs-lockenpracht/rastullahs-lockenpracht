@@ -18,11 +18,12 @@
 
 #include "SaveGameManager.h"
 
-#include <CoreSubsystem.h>
-#include <ContentModule.h>
-#include <ConfigurationManager.h>
+#include "CoreMessages.h"
+#include "CoreSubsystem.h"
+#include "ContentModule.h"
+#include "ConfigurationManager.h"
 
-#include <XmlProcessor.h>
+#include "XmlProcessor.h"
 
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/framework/LocalFileFormatTarget.hpp>

@@ -27,8 +27,8 @@
 #include "Quest.h"
 #include "QuestEvent.h"
 #include "QuestListener.h"
-
-#include <SaveGameManager.h>
+#include "SaveGameData.h"
+#include "XmlProcessor.h"
 
 #include <vector>
 
