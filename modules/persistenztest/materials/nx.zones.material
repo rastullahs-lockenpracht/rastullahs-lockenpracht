@@ -1,0 +1,64 @@
+material nx.zone.green
+{
+	technique
+	{
+		pass
+		{
+			lighting off			
+			scene_blend alpha_blend			
+			texture_unit
+			{
+				texture nx.zone.green.png
+			}
+		}
+	}
+}
+
+material nx.zone.orange
+{
+	technique
+	{
+		pass
+		{
+			lighting off			
+			scene_blend alpha_blend			
+			texture_unit
+			{
+				texture nx.zone.orange.png
+			}
+		}
+	}
+}
+
+material nx.zone.blue
+{
+	technique
+	{
+		pass
+		{
+			lighting off			
+			scene_blend alpha_blend			
+			texture_unit
+			{
+				texture nx.zone.blue.png
+			}
+		}
+	}
+}
+
+material nx.zone.marker.nogravity
+{
+	technique
+	{
+		pass
+		{
+			lighting off			
+			scene_blend alpha_blend
+			
+			texture_unit
+			{
+				texture nx.zone.nogravity.png
+			}
+		}
+	}
+}

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<GameObjectDefinitions>
+
+    <gameobjectclass classid="Holzscheit" baseclass="GameObject">
+        <property name="name" type="STRING" data="Holzscheit"/>
+        <property name="description" type="STRING" data="Greater log of time check. (Very rare)"/>
+        <property name="meshfile" type="STRING" data="ver_holzscheit_01.mesh"/>
+    </gameobjectclass>
+	
+	<gameobjectclass classid="number1" baseclass="GameObject">
+        <property name="name" type="STRING" data="1"/>
+        <property name="description" type="STRING" data="Karte Nummer 1"/>
+        <property name="meshfile" type="STRING" data="Number1.mesh"/>
+        <property name="geometrytype" type="STRING" data="capsule"/>
+        <property name="mass" type="REAL" data="200"/>
+    </gameobjectclass>
+	
+	<gameobjectclass classid="number2" baseclass="GameObject">
+        <property name="name" type="STRING" data="2"/>
+        <property name="description" type="STRING" data="Karte Nummer 2"/>
+        <property name="meshfile" type="STRING" data="Number2.mesh"/>
+        <property name="geometrytype" type="STRING" data="box"/>
+        <property name="mass" type="REAL" data="200"/>
+    </gameobjectclass>
+
+    <gameobjectclass classid="apple" baseclass="GameObject">
+        <property name="name" type="STRING" data="Apfel"/>
+        <property name="description" type="STRING" data="Ein Apfel?"/>
+        <property name="meshfile" type="STRING" data="sphere.1m.mesh"/>
+        <property name="geometrytype" type="STRING" data="ellipsoid"/>
+        <property name="mass" type="REAL" data="65"/>
+    </gameobjectclass>
+
+    <gameobjectclass classid="apple2" baseclass="GameObject" inherits="apple">
+        <property name="name" type="STRING" data="Apfel 2.0"/>
+        <property name="description" type="STRING" data="Ein Apfel. Definitiv."/>
+        <property name="mass" type="REAL" data="75"/>
+    </gameobjectclass>
+
+    <gameobjectclass classid="TestPerson" baseclass="NPC">
+        <property name="name" type="STRING" data="TestPerson"/>
+        <property name="description" type="STRING" data="Wenn man mal jemanden zum Reden braucht..."/>
+        <property name="geometrytype" type="STRING" data="ellipsoid"/>
+        <property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+        <property name="mass" type="REAL" data="65"/>
+        <property name="dialog" type="STRING" data="testdialog"/>
+        <property name="behaviours" type="ARRAY">
+            <property type="STRING" data="DefaultIdleBehaviour"/>
+            <property type="STRING" data="DialogBehaviour"/>
+        </property>
+		<property name="eigenschaften" type="MAP">
+			<property name="MU" type="INT" data="12"/>
+			<property name="KL" type="INT" data="8"/>
+			<property name="IN" type="INT" data="9"/>
+			<property name="CH" type="INT" data="10"/>
+			<property name="FF" type="INT" data="11"/>
+			<property name="GE" type="INT" data="12"/>
+			<property name="KO" type="INT" data="13"/>
+			<property name="KK" type="INT" data="14"/>
+		</property>
+		<property name="talente" type="MAP">
+			<property name="Athletik" type="INT" data="3"/>
+<!--			<property name="Körperbeherrschung" type="INT" data="3"/>-->
+		</property>
+		<!-- Animationen und Animationsgeschwindigkeiten fuer den CreatureController -->
+		<property name="animations" type="MAP">
+			<property name="stehen" type="STRING" data="idle"/>
+			<property name="stehen_rechts" type="STRING" data="drehen_rechts"/>
+			<property name="stehen_links" type="STRING" data="drehen_links"/>
+			<!-- property name="seitwaerts_links" type="STRING" data="seitwaerts_links"/ -->
+			<!-- property name="seitwaerts_rechts" type="STRING" data="seitwaerts_rechts"/ -->
+			<property name="gehen" type="STRING" data="gehen"/>
+			<property name="gehen_rueckwaerts" type="STRING" data="gehen_rueckwaerts"/>
+			<property name="joggen_rueckwaerts" type="STRING" data="gehen_rueckwaerts"/>
+			<property name="joggen" type="STRING" data="rennen"/>
+			<property name="laufen" type="STRING" data="rennen"/>
+			<property name="rennen" type="STRING" data="rennen"/>
+			<property name="stehen_zu_schleichen" type="STRING" data="idle_zu_hocke"/>
+			<property name="schleichen_zu_stehen" type="STRING" data="hocke_zu_stehen"/>
+			<property name="schleichen" type="STRING" data="hocke_idle"/>
+			<property name="schleichen_vorwaerts" type="STRING" data="hocke_gehen"/>
+			<property name="hochsprung_absprung" type="STRING" data="idle_absprung"/>
+			<property name="hochsprung" type="STRING" data="idle_sprung"/>
+			<property name="hochsprung_landung" type="STRING" data="idle_sprung_landung"/>
+			<property name="weitsprung_absprung" type="STRING" data="rennen_absprung"/>
+			<property name="weitsprung" type="STRING" data="rennen_sprung"/>
+			<property name="weitsprung_landung" type="STRING" data="rennen_sprung_landung"/>
+		</property>
+		<property name="animationspeeds" type="MAP">
+			<property name="gehen" type="REAL" data="1.0"/>
+			<property name="joggen" type="REAL" data="0.3"/>
+			<property name="laufen" type="REAL" data="0.5"/>
+			<property name="rennen" type="REAL" data="0.4"/>
+		</property>
+    </gameobjectclass>
+
+    <gameobjectclass classid="TestPersonCapsule" baseclass="NPC">
+        <property name="name" type="STRING" data="TestPerson"/>
+        <property name="description" type="STRING" data="Wenn man mal jemanden zum Reden braucht..."/>
+        <property name="geometrytype" type="STRING" data="capsule"/>
+        <property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+        <property name="mass" type="REAL" data="65"/>
+        <property name="dialogfile" type="STRING" data="testperson.xml"/>
+        <property name="behaviours" type="ARRAY">
+            <property type="STRING" data="DefaultIdleBehaviour"/>
+            <property type="STRING" data="DialogBehaviour"/>
+        </property>
+    </gameobjectclass>
+
+    <gameobjectclass classid="switch3way" baseclass="Switch3Way">
+        <property name="name" type="STRING" data="Hebel"/>
+        <property name="description" type="STRING" data="Ein Hebel"/>
+        <property name="meshfile" type="STRING" data="arc_hebel_01.mesh"/>
+        <property name="geometrytype" type="STRING" data="sphere"/>
+    </gameobjectclass>
+
+    <gameobjectclass classid="shortsword" baseclass="Weapon">
+        <property name="name" type="STRING" data="Kurzschwert"/>
+        <property name="description" type="STRING" data="Ein ordinäres Kurzschwert - scharf, aber langweilig"/>
+        <property name="meshfile" type="STRING" data="waf_kurzschwert_01.mesh"/>
+        <property name="imagename" type="STRING" data="set:ModelThumbnails image:waf_kurzschwert_01"/>
+        <property name="mass" type="REAL" data="3.0"/>
+        <property name="size" type="INTPAIR" data="2,4"/>
+		<property name="geometrytype" type="STRING" data="box"/>
+    </gameobjectclass>
+
+    <gameobjectclass classid="leather backpack" baseclass="Container">
+        <property name="name" type="STRING" data="Rucksack"/>
+        <property name="description" type="STRING" data="Ein Lederrucksack (oder so)"/>
+        <property name="meshfile" type="STRING" data="men_human_female_backpack_leather_01.mesh"/>
+        <property name="submeshfile" type="STRING" data="backpack_leather_01.mesh"/>
+        <property name="imagename" type="STRING" data="set:ModelThumbnails image:Rucksack"/>
+        <property name="capacity" type="REAL" data="20.0"/>
+        <property name="volume" type="INTPAIR" data="8,6"/>
+        <property name="size" type="INTPAIR" data="2,2"/>
+        <property name="itemtype" type="INT" data="256"/>	
+		<property name="mass" type="REAL" data="5.0"/>
+		<property name="geometrytype" type="STRING" data="ellipsoid"/>
+        <property name="actions" type="ARRAY">
+			<property type="STRING" data="showcontainercontent"/>
+        </property>
+        <property name="defaultaction" type="STRING" data="showcontainercontent"/>
+    </gameobjectclass>
+
+    <!-- ErrorHandlingTest -->
+    <gameobjectclass classid="ErrorHandling" baseclass="GameObject">
+        <property name="name" type="STRING" data="ErrorHandling-TestCase"/>
+        <property name="description" type="STRING" data="The ErrorHandling TestCase"/>
+        <property name="meshfile" type="STRING" data="arc_hebel_01.mesh"/>
+    </gameobjectclass>
+
+    <!-- SoundTest -->
+    <gameobjectclass classid="SoundFadeTest" baseclass="GameObject">
+        <property name="name" type="STRING" data="SoundFadeTest"/>
+        <property name="description" type="STRING" data="The Sound Fading TestCase"/>
+        <property name="meshfile" type="STRING" data="arc_hebel_01.mesh"/>
+    </gameobjectclass>
+
+    <!-- JobSequenceTest -->
+    <gameobjectclass classid="JobSequenceTestChest" baseclass="GameObject">
+        <property name="name" type="STRING" data="JobSequence-Truhe"/>
+        <property name="description" type="STRING" data="Eine Truhe zum Test der JobSequence"/>
+        <property name="meshfile" type="STRING" data="ver_truhe_gross01.mesh"/>
+        <property name="geometrytype" type="STRING" data="box"/>
+    </gameobjectclass>
+
+    <!-- EffectTest -->
+    <gameobjectclass classid="EffectTest" baseclass="GameObject">
+        <property name="name" type="STRING" data="Bottich der Versteinerung"/>
+        <property name="description" type="STRING" data="Der Essigbottich der Versteinerung (Vorsicht!)"/>
+        <property name="meshfile" type="STRING" data="ver_essigbottich_01.mesh"/>
+        <property name="geometrytype" type="STRING" data="box"/>
+    </gameobjectclass>
+
+	<!-- SelectorTest -->
+    <gameobjectclass classid="SelectorTest" baseclass="Item">
+        <property name="name" type="STRING" data="Bottich der Auswahl"/>
+        <property name="description" type="STRING" data="Der Essigbottich des Auswahltests, harmlos :)"/>
+        <property name="meshfile" type="STRING" data="ver_essigbottich_01.mesh"/>
+        <property name="geometrytype" type="STRING" data="box"/>
+    </gameobjectclass>
+
+	<!--InventoryTest clothes-->
+    <gameobjectclass classid="Clothes #1" baseclass="Clothing">
+        <property name="name" type="STRING" data="Kleidung #1"/>
+        <property name="description" type="STRING" data="Kleidung, Variante 1"/>
+        <property name="meshfile" type="STRING" data="obj_shortsleeve.mesh"/> <!-- the mesh for when the item is placed in the world -->
+		<property name="submeshfile" type="STRING" data="obj_shortsleeve.mesh"/> <!-- the mesh for when the item is worn by a creature -->
+        <property name="geometrytype" type="STRING" data="box"/>
+        <property name="material" type="STRING" data="obj_Shortsleeve"/>
+		<property name="itemtype" type="INT" data="32768"/> <!-- Clothes -->
+		<property name="size" type="INTPAIR" data="2,4"/>
+    </gameobjectclass>
+    <gameobjectclass classid="Clothes #2" baseclass="Clothing">
+        <property name="name" type="STRING" data="Kleidung #2"/>
+        <property name="description" type="STRING" data="Kleidung, Variante 2"/>
+        <property name="meshfile" type="STRING" data="obj_shortsleeve.mesh"/> <!-- the mesh for when the item is placed in the world -->
+		<property name="submeshfile" type="STRING" data="obj_shortsleeve.mesh"/> <!-- the mesh for when the item is worn by a creature -->
+        <property name="geometrytype" type="STRING" data="box"/>
+        <property name="material" type="STRING" data="obj_Shortsleeve_2"/>
+		<property name="itemtype" type="INT" data="32768"/> <!-- Clothes -->
+		<property name="size" type="INTPAIR" data="2,4"/>
+    </gameobjectclass>
+
+    <gameobjectclass classid="MeshAreaTestHouse" baseclass="GameObject">
+        <property name="name" type="STRING" data="MeshAreaTestHouse"/>
+	<property name="meshfile" type="STRING" data="arc_Wirtshaus_02.mesh"/>
+	<property name="geometrytype" type="STRING" data="none"/>
+    </gameobjectclass>
+	
+</GameObjectDefinitions>

@@ -5,10 +5,6 @@ require 'mckhero.rb'
 require 'torch.rb'
 
 
-loader = MapLoader.new("kanalisation");
-loader.loadMap("kana_lights.rlmap.xml");
-loader.loadMap("kanalisation_scene.xml");
-
 # Physik aktivieren
 $PM.setEnabled(true);
 

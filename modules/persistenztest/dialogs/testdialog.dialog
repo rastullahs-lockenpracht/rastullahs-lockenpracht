@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<dialog name="testdialog">
+	<variable name="geheimnisbekannt" type="BOOL" data="false"/>
+	<variable name="begrüßung" type="BOOL" data="false"/>
+	<variable name="counter" type="REAL" data="0"/>
+	<start>
+		<switchresponse id="0">
+        <dialogvariable name="begrüßung"/>
+				<case><equals value="false"/>
+              <response id="33">
+                <setvariable name="begrüßung" value="true"/>
+                  <t language="de">
+                    <p>Hör gut zu, denn ich sags dir nur einmal: Du solltest mir nur drohen, wenn Geheimnisbekannt true ist. Geheimnisbekannt ist momentan {$geheimnisbekannt}.</p>
+                  </t>
+                  <gotoresponse id="100"/>
+              </response>
+          </case>
+          <case><equals value="true"/>
+            <gotoresponse id="100"/>
+          </case>
+      </switchresponse>
+	</start>
+	
+   <response id="100">
+			<option id="1" label="Abstraktionstext">
+        <t language="de" label="Deutsches gebrabbel">
+          <p>Dies beweist, dass ich auch was anderes sagen kann als das was sich hinter der Option verbirgt!</p>
+        </t>
+        <t language="en" label="English gibberish">
+            <p>This proofs that I can say something different than what the option itself says. It also proofs that I can speak english. Crazy stuff, right?</p>
+        </t>
+          <response id="2">
+            <t language="de">
+              <p>Der NPC fängt mit seinem Monolog an...</p>
+              <p>...und hört auch direkt wieder damit auf</p>
+            </t>
+					<option id="3" autoSelect="true"><p>Jetzt soll der PC aber auch mal monologen...</p><p>...warum auch nicht?</p>
+						<gotoresponse id="0"/>
+					</option>
+				</response>
+			</option>
+			<option id="neu">
+			 <t language="de">
+			   <p>Ich werde diese Option nur einmal ausführen können!</p>
+			 </t>
+			 <response id="activationundso">
+			   <t language="de">
+			     <p>Jaja, was auch immer!</p>
+			   </t>
+			   <setoptionactive id="neu" value="false"/>
+			   <gotoresponse id="0"/>
+			 </response>
+			</option>
+			<option id="counterOption">
+			 <t language="de">
+			   <p>Wie oft hab ich dir diese Frage schon gestellt?</p>
+			 </t>
+			 <response id="counterResponse">
+			   <incvariable name="counter" value="1"/>
+			   <t language="de">
+			     <p>Schon {$counter} mal! *genervtguck*</p>
+			   </t>
+			   <gotoresponse id="0"/>
+			 </response>
+			</option>
+			<switchoption id="4">
+          <t language="de" label="[Dem NSC auf deutsch drohen]"/>
+          <t language="en" label="[Threaten the NPC in english]"/>
+          <!-- If we use the <t>-Tag, the following will be ignored-->[Dem NSC drohen]
+				<dialogvariable name="geheimnisbekannt"/>
+				<case><equals value="false"/>
+					<option id="5">Ich drohe dir, kenne aber dein Geheimnis nicht!
+						<gotoresponse id="10"/>
+					</option>
+				</case>
+				<case><equals value="true"/>
+					<option id="6">Ich drohe dir und kenne dein schreckliches Geheimnis!
+						<response id="19">Oh nein! Ich gebe auf! Du darfst ins Menü zurück!
+							<option id="20">Tja, Informiertheit ist alles. Gut, dass ich das Tutorial zu dem Thema gelesen habe. Danke, Steele.
+								<gotoresponse id="0"/>
+							</option>
+						</response>
+					</option>
+				</case>
+			</switchoption>
+			<option id="11">Ich werde dein Geheimnis dem Alrik Faßbauer erzählen.
+				<if><dialogvariable name="geheimnisbekannt"/><equals value="true"/></if>
+				<response id="12">
+					<p>Oh, nein, nicht dem Alrik! *heul*</p>
+					<gotoresponse id="0"/>
+				</response>
+			</option>
+			<option id="13">Morgen bin ich zum Kaffeetrinken beim Alrik eingeladen
+				<if><dialogvariable name="geheimnisbekannt"/><equals value="false"/></if>
+				<response id="14">
+					<p>Ja, der Alrik ist ein netter Mensch.</p>
+					<gotoresponse id="0"/>
+				</response>				
+			</option>
+			<option id="7">Wie lautet das Geheimnis?
+				<switchresponse id="18">
+					<dialogvariable name="geheimnisbekannt"/>
+					<case><equals value="false"/>
+						<response id="8">Mein Geheimnis ist: Ich kann keine Geheimnisse behalten! *schluchz*
+							<setvariable name="geheimnisbekannt" value="true"/>
+							<option id="9">Har har har... Na warte, Freundchen!
+								<gotoresponse id="0"/>
+							</option>
+						</response>
+					</case>
+					<case><equals value="true"/>
+						<response id="17">
+							<p>Du kennst mein Geheimnis doch schon längst!</p>
+							<gotoresponse id="0"/>
+						</response>
+					</case>
+				</switchresponse>
+			</option>
+        <switchoption id="23"><![CDATA[Ich will dir mal eines meiner unglaublichen Talente zeigen!]]>
+            <talentcheck talent="Athletik" target="pc"/>
+            <!-- Ist die Probe gelungen? (>= 0)-->
+            <case><greatereq value="0"/>
+              <option id="32"><p>*tada*: Eine athletische Meisterleistung!</p>
+                  <gotoresponse id="0"/>
+              </option>
+            </case>
+            <!-- Ist die Probe nicht gelungen? (<0) -->
+            <case><lower value="0"/>
+                <option id="33">
+                      <p>Ähm....tja....das hättest du jetzt nicht gesehen, ja?</p> 
+                      <gotoresponse id="0"/>
+                </option>
+              </case>
+        </switchoption>
+        <switchoption id="24"><![CDATA[Ich zeig dir jetzt mal wie mutig ich bin!]]>
+            <attributecheck attribute="MU" target="pc"/>
+            <!-- Ist die Probe gelungen? (>= 0)-->
+            <case><greatereq value="0"/>
+              <option id="42">Ich bin total mutig!
+              <gotoresponse id="0"/>
+            </option>
+              </case>
+              <!-- Ist die Probe nicht gelungen? (<0) -->
+              <case><lower value="0"/>
+                  <option id="43">Ahhh! Bitte tu mir nichts!
+                      <gotoresponse id="0"/>
+                  </option>
+              </case>
+        </switchoption>
+        <switchoption id="25"><![CDATA[Zeig mir mal eines deiner unglaublichen Talente!]]>
+            <talentcheck talent="Athletik" target="npc"/>
+            <!-- Ist die Probe gelungen? (>= 0)-->
+            <case><greatereq value="0"/>
+              <option id="52">Donnerlittchen, ich bin unglaublich beeindruckt, dass kann ich dir ehrlich sagen mein lieber!
+              <gotoresponse id="0"/>
+            </option>
+              </case>
+              <!-- Ist die Probe nicht gelungen? (<0) -->
+              <case><lower value="0"/>
+                  <option id="53">
+                      <p>Naja, mach dir nichts draus. Ich seh zwar athletisch aus, bins aber eigentlich gar nicht. Das ist MEIN schreckliches Geheimnis.</p> 
+                      <gotoresponse id="0"/>
+                  </option>
+              </case>
+        </switchoption>
+        <switchoption id="26"><![CDATA[Zeig mir doch mal wie mutig du bist!]]>
+          <attributecheck attribute="MU" target="npc"/>
+          <!-- Ist die Probe gelungen? (>= 0)-->
+          <case><greatereq value="0"/>
+            <option id="62">Donnerlittchen, ich bin unglaublich beeindruckt, dass kann ich dir ehrlich sagen mein lieber!
+						<gotoresponse id="0"/>
+					</option>
+            </case>
+            <!-- Ist die Probe nicht gelungen? (<0) -->
+            <case><lower value="0"/>
+                <option id="63">
+                    <p>Also wenn DAS mutig war, dann bin ich Chuck Norris!</p> 
+                    <p>Bin ich aber nicht! Ich bin nämlich die Alrike!</p>
+                    <p>Folgerichtig bist DU sowas von überhaupt nicht mutig!</p>
+                    <gotoresponse id="0"/>
+                </option>
+            </case>
+        </switchoption>
+        <option id="21">[Gespräch beenden]
+				<p>Tschüß.</p>
+				<response id="22">
+					<p>Geh' doch!</p>
+					<exit/>
+				</response>
+			</option>
+		</response>
+    
+	<response id="10">Dann musst du sterben! (bzw. den Dialog verlassen)
+		<option id="15">Ok ... schade
+			<response id="16"><exit/></response>
+		</option>
+	</response>
+</dialog>
