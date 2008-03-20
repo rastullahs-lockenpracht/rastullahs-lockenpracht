@@ -104,18 +104,18 @@ namespace rl {
     bool MainMenuLoadWindow::handleLoadEvent()
     {
         LOG_MESSAGE(Logger::UI, "Load Button pressed");
-        if(mSaveGameTable->getFirstSelectedItem())
-		{
-            setVisible(false);
-		    mMainMenuWindow->setVisible(false);
-		
-            CeGuiString moduleId = ((SaveGameFile*)mSaveGameTable->getFirstSelectedItem()->getUserData())->getProperty(SaveGameFile::PROPERTY_MODULEID).toString();
-			ContentModule* module = NULL;
-			module = CoreSubsystem::getSingleton().getModule(moduleId.c_str());
-			assert(module != NULL /*MainMenuLoadWindow::handleLoadEvent()*/);
-			CoreSubsystem::getSingleton().startAdventureModule(module);
-			SaveGameManager::getSingleton().loadSaveGameFile(((SaveGameFile*)mSaveGameTable->getFirstSelectedItem()->getUserData())->getId());
-		}
+  //      if(mSaveGameTable->getFirstSelectedItem())
+		//{
+  //          setVisible(false);
+		//    mMainMenuWindow->setVisible(false);
+		//
+  //          CeGuiString moduleId = ((SaveGameFile*)mSaveGameTable->getFirstSelectedItem()->getUserData())->getProperty(SaveGameFile::PROPERTY_MODULEID).toString();
+		//	ContentModule* module = NULL;
+		//	module = CoreSubsystem::getSingleton().getModule(moduleId.c_str());
+		//	assert(module != NULL /*MainMenuLoadWindow::handleLoadEvent()*/);
+		//	CoreSubsystem::getSingleton().startAdventureModule(module);
+		//	SaveGameManager::getSingleton().loadSaveGameFile(((SaveGameFile*)mSaveGameTable->getFirstSelectedItem()->getUserData())->getId());
+		//}
 
         return true;
     }

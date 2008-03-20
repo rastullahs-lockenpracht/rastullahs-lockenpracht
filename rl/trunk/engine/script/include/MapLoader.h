@@ -23,8 +23,13 @@
 #include <list>
 #include <XmlProcessor.h>
 #include <ContentLoader.h>
+#include <MessagePump.h>
+#include <CoreMessages.h>
 
 namespace rl {
+   
+
+    typedef MessageType<RLMSG_SCENE_CHANGE_REQUESTED, Ogre::StringVector> MessageType_SceneChangeRequested;
 
     class AbstractMapNodeProcessor;
     class ProgressWindow;
@@ -32,6 +37,8 @@ namespace rl {
     class _RlScriptExport MapLoader : public ContentLoader,private XmlProcessor 
     {
     public:
+        static const CeGuiString PROPERTY_ACTIVEMAPS;
+
         MapLoader(const Ogre::String& resourceGroup);
         ~MapLoader();
 
@@ -40,9 +47,20 @@ namespace rl {
         * @param mapresource the name of the map file resource
         * @param loadGameObjects set <code>false</code> if the MapLoader should not load the GameObjects of the map file (e.g. when loading a saved game)
         */
+        void loadContent();
+        void unloadContent();
+        void setDefaultMaps(Ogre::StringVector maps);
         void loadMap(const Ogre::String& mapresource, bool loadGameObjects = true);
+        void loadScene(Ogre::StringVector mapsresources, bool loadGameObjects = true);
+        void unloadAllMaps(bool removeGameObjects); /// @todo
+        void requestSceneChange(Ogre::StringVector mapsresources);
 
         const CeGuiString getClassName() const;
+
+        const Property getProperty(const CeGuiString& key) const;
+        void setProperty(const CeGuiString& key, const Property& value);
+
+        PropertyKeys getAllPropertyKeys() const;
     private:
         std::list<AbstractMapNodeProcessor*> mNodeProcessors;
 
@@ -51,9 +69,16 @@ namespace rl {
         Ogre::String mResourceGroup;
         ProgressWindow* mPercentageWindow;
 
+        Ogre::StringVector mLoadedMaps;
+        Ogre::StringVector mPrevLoadedMaps;
+        Ogre::StringVector mDefaultMaps;
+
         void setRootSceneNode(Ogre::SceneNode* node);
         void processSceneNodes(XERCES_CPP_NAMESPACE::DOMElement* nodesElem, bool loadGameObjects);
         void setLoadingPercentage(Ogre::Real percentage, const Ogre::String& text = "");
+        bool changeScene(Ogre::StringVector mapsresources);
+
+        MessagePump::ScopedConnection RequestedSceneChangeConnection;
     };
 
 } // namespace rl

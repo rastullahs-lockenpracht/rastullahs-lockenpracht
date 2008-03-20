@@ -47,62 +47,65 @@ namespace rl
             goid = getAttributeValueAsInteger(nodeElem, "id");
         }
 
-        GameObject* go = GameObjectManager::getSingleton().createGameObject(classname, goid);
-
-        DOMElement* posElem = getChildNamed(nodeElem, "position");
-        if (posElem != NULL)
+        GameObject* go = GameObjectManager::getSingleton().getGameObject(goid);
+        if(!go)
         {
-            Vector3 pos = processVector3(posElem);
-            go->setPosition(pos);
-        }
+            go = GameObjectManager::getSingleton().createGameObject(classname, goid);
 
-        DOMElement* oriElem = getChildNamed(nodeElem, "rotation");
-        if (oriElem != NULL)
-        {
-            Quaternion ori = processQuaternion(oriElem);
-            go->setOrientation(ori);
-        }
-
-        DOMNodeList* goElChildNodes = nodeElem->getChildNodes();
-        for (XMLSize_t idx = 0; idx < goElChildNodes->getLength(); idx++)
-        {
-            DOMNode* cur = goElChildNodes->item(idx);
-            if (cur->getNodeType() == DOMNode::ENTITY_NODE
-                && hasNodeName(cur, "property"))
+            DOMElement* posElem = getChildNamed(nodeElem, "position");
+            if (posElem != NULL)
             {
-                PropertyEntry propEntry = processProperty(static_cast<DOMElement*>(cur));
-                if (propEntry.first != "")
-                {
-                    go->setProperty(propEntry.first, propEntry.second);
-                }
+                Vector3 pos = processVector3(posElem);
+                go->setPosition(pos);
             }
-        }
 
+            DOMElement* oriElem = getChildNamed(nodeElem, "rotation");
+            if (oriElem != NULL)
+            {
+                Quaternion ori = processQuaternion(oriElem);
+                go->setOrientation(ori);
+            }
+
+            DOMNodeList* goElChildNodes = nodeElem->getChildNodes();
+            for (XMLSize_t idx = 0; idx < goElChildNodes->getLength(); idx++)
+            {
+                DOMNode* cur = goElChildNodes->item(idx);
+                if (cur->getNodeType() == DOMNode::ENTITY_NODE
+                    && hasNodeName(cur, "property"))
+                {
+                    PropertyEntry propEntry = processProperty(static_cast<DOMElement*>(cur));
+                    if (propEntry.first != "")
+                    {
+                        go->setProperty(propEntry.first, propEntry.second);
+                    }
+                }
+            } 		    
+        }
         GameObjectState state = GOS_IN_SCENE;
-		if (hasAttribute(nodeElem, "state"))
-		{
-			Ogre::String stateStr = getAttributeValueAsStdString(nodeElem, "state");
-			if (stateStr == "LOADED")
-			{
-				state = GOS_LOADED;
-			}
-			else if (stateStr == "HELD")
-			{
-				state = GOS_HELD;
-			}
-			else if (stateStr == "IN_POSSESSION")
-			{
-				state = GOS_IN_POSSESSION;
-			}
-			else if (stateStr == "IN_SCENE")
-			{
-				state = GOS_IN_SCENE;
-			}
-			else if (stateStr == "READY")
-			{
-				state = GOS_READY;
-			}
-		}
+        if (hasAttribute(nodeElem, "state"))
+	    {
+		    Ogre::String stateStr = getAttributeValueAsStdString(nodeElem, "state");
+		    if (stateStr == "LOADED")
+		    {
+			    state = GOS_LOADED;
+		    }
+		    else if (stateStr == "HELD")
+		    {
+			    state = GOS_HELD;
+		    }
+		    else if (stateStr == "IN_POSSESSION")
+		    {
+			    state = GOS_IN_POSSESSION;
+		    }
+		    else if (stateStr == "IN_SCENE")
+		    {
+			    state = GOS_IN_SCENE;
+		    }
+		    else if (stateStr == "READY")
+		    {
+			    state = GOS_READY;
+		    }
+	    }
 		go->setState(state);
 
         return true;

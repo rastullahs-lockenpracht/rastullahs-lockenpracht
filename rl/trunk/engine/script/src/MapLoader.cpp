@@ -24,6 +24,8 @@
 #include "EntityNodeProcessor.h"
 #include "EnvironmentProcessor.h"
 #include "GameObjectNodeProcessor.h"
+#include "GameObjectManager.h"
+#include "GameObject.h"
 #include "LightNodeProcessor.h"
 #include "ParticleSystemNodeProcessor.h"
 #include "ProgressWindow.h"
@@ -33,6 +35,8 @@
 #include "World.h"
 #include "XmlProcessor.h"
 #include "ZoneProcessor.h"
+#include "ContentModule.h"
+#include "RubyInterpreter.h"
 
 using namespace Ogre;
 using namespace XERCES_CPP_NAMESPACE;
@@ -42,16 +46,22 @@ namespace rl {
 
     using XERCES_CPP_NAMESPACE::DOMDocument; //XXX: for VS 2003/2005
 
+    const CeGuiString MapLoader::PROPERTY_ACTIVEMAPS = "activemaps";
+
     MapLoader::MapLoader(const Ogre::String& resourceGroup)
         : mRootSceneNode(NULL),
           mResourceGroup(resourceGroup),
-          mPercentageWindow(NULL)
+          mPercentageWindow(NULL),
+          ContentLoader(resourceGroup)
     {
         mNodeProcessors.push_back(new EntityNodeProcessor(resourceGroup));
         mNodeProcessors.push_back(new GameObjectNodeProcessor());
         mNodeProcessors.push_back(new SoundNodeProcessor());
         mNodeProcessors.push_back(new LightNodeProcessor());
 		mNodeProcessors.push_back(new ParticleSystemNodeProcessor());
+
+        RequestedSceneChangeConnection = MessagePump::getSingleton().addMessageHandler<MessageType_SceneChangeRequested>(
+            boost::bind(&MapLoader::changeScene, this, _1));
     }
 
     MapLoader::~MapLoader()
@@ -64,55 +74,171 @@ namespace rl {
         delete mPercentageWindow;
     }
 
-    void MapLoader::loadMap(const Ogre::String& mapresource, bool loadGameObjects)
+    void MapLoader::loadContent()
     {
-        LOG_MESSAGE(Logger::RULES, "Loading map " + mapresource);
-
-  		initializeXml();
-
-        DOMDocument* doc = loadDocument(mapresource, mResourceGroup);
-
-        if (doc)
+        if(mLoadedMaps.empty()) // No maps defined to load -> no savegame
         {
-            setRootSceneNode(CoreSubsystem::getSingleton().getWorld()
-                    ->getSceneManager()->getRootSceneNode()->createChildSceneNode(mapresource));
-
-			CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
-			///@todo: Window fade jobs don't work if Core is paused, think about solution for: CoreSubsystem::getSingleton().setPaused(true);
-
-            LOG_MESSAGE(Logger::RULES, "Processing nodes");
-
-            DOMElement* dataDocumentContent = doc->getDocumentElement();
-            processSceneNodes(getChildNamed(dataDocumentContent, "nodes"), loadGameObjects);
-
-			ZoneProcessor zp;
-			zp.processNode(getChildNamed(dataDocumentContent, "zones"), loadGameObjects);
-
-			EnvironmentProcessor ep;
-			ep.processNode(getChildNamed(dataDocumentContent, "environment"), loadGameObjects);
-
-			WaypointProcessor wp;
-			wp.processNode(getChildNamed(dataDocumentContent, "waypoints"), loadGameObjects);
-
-            doc->release();
-
-            LOG_MESSAGE(Logger::RULES, "Map loaded");
-
-			CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
-			///@todo: Window fade jobs don't work if Core is paused, think about solution for: CoreSubsystem::getSingleton().setPaused(false);
+            loadScene(mDefaultMaps);
         }
         else
         {
-            LOG_ERROR(Logger::RULES, "Map resource '" + mapresource + "' not found");
+            loadScene(mLoadedMaps);           
         }
+    }
 
+    void MapLoader::unloadContent()
+    {
+        unloadAllMaps(false);
+    }
 
-        shutdownXml();
+    void MapLoader::setDefaultMaps(Ogre::StringVector maps)
+    {
+        mDefaultMaps = maps;
+    }
+
+    void MapLoader::loadScene(Ogre::StringVector mapresources, bool loadGameObjects)
+    {
+        for(Ogre::StringVector::const_iterator it = mapresources.begin(); it != mapresources.end(); ++it)
+        {
+            loadMap(*it);
+        }
+    }
+
+    void MapLoader::loadMap(const Ogre::String& mapresource, bool loadGameObjects)
+    {
+        bool mapLoaded = false;
+        for(Ogre::StringVector::const_iterator it = mLoadedMaps.begin(); it != mLoadedMaps.end(); ++it)
+        {
+            if(*it == mapresource)
+                mapLoaded = true;
+        }
+        if(!mapLoaded)
+        {
+            LOG_MESSAGE(Logger::RULES, "Loading map " + mapresource);
+
+  		    initializeXml();
+
+            DOMDocument* doc = loadDocument(mapresource, mResourceGroup);
+
+            if (doc)
+            {
+                setRootSceneNode(CoreSubsystem::getSingleton().getWorld()
+                        ->getSceneManager()->getRootSceneNode()->createChildSceneNode(mapresource));
+
+                if(getAttributeValueAsString(doc->getDocumentElement(), "formatVersion") != "0.4.0")
+                    LOG_ERROR(Logger::SCRIPT, "Map format version doesn't match with the required version");
+
+			    CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
+			    ///@todo: Window fade jobs don't work if Core is paused, think about solution for: CoreSubsystem::getSingleton().setPaused(true);
+
+                LOG_MESSAGE(Logger::RULES, "Processing nodes");
+
+                DOMElement* dataDocumentContent = doc->getDocumentElement();
+                processSceneNodes(getChildNamed(dataDocumentContent, "nodes"), loadGameObjects);
+
+			    ZoneProcessor zp;
+			    zp.processNode(getChildNamed(dataDocumentContent, "zones"), loadGameObjects);
+
+			    EnvironmentProcessor ep;
+			    ep.processNode(getChildNamed(dataDocumentContent, "environment"), loadGameObjects);
+
+			    WaypointProcessor wp;
+			    wp.processNode(getChildNamed(dataDocumentContent, "waypoints"), loadGameObjects);
+
+                LOG_MESSAGE(Logger::SCRIPT, "Map " + mapresource + " loaded");
+
+                if(hasAttribute(doc->getDocumentElement(), "scenescript"))
+                {
+                    if(getAttributeValueAsString(doc->getDocumentElement(), "scenescript").length() != 0)
+                    {
+                        if(!CoreSubsystem::getSingleton().getRubyInterpreter()->executeFile(getAttributeValueAsStdString(doc->getDocumentElement(), "scenescript")))
+                            LOG_MESSAGE(Logger::SCRIPT, "Executed init script of map " + mapresource);
+                        else
+                            LOG_ERROR(Logger::SCRIPT, "Error while executing init script of map " + mapresource);
+                    }
+                }
+
+                doc->release();
+
+			    CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
+			    ///@todo: Window fade jobs don't work if Core is paused, think about solution for: CoreSubsystem::getSingleton().setPaused(false);
+            }
+            else
+            {
+                LOG_ERROR(Logger::RULES, "Map resource '" + mapresource + "' not found");
+            }
+
+            shutdownXml();
+            
+            mLoadedMaps.push_back(mapresource);
+        }
+        else
+        {
+            LOG_ERROR(Logger::SCRIPT, "Map is already loaded!");
+        }
+    }
+
+    void MapLoader::requestSceneChange(StringVector mapresources)
+    {
+        LOG_MESSAGE(Logger::SCRIPT, "requested changing scene " + Ogre::StringConverter::toString(mapresources));
+        MessagePump::getSingleton().postMessage<MessageType_SceneChangeRequested>(mapresources);
+    }
+
+    void MapLoader::unloadAllMaps(bool removeGameObjects)
+    {
+        mLoadedMaps.clear();
+        if(removeGameObjects)
+            GameObjectManager::getSingleton().getAllGameObjects();
+        else
+        {
+            std::list<GameObject*> gos = GameObjectManager::getSingleton().getAllGameObjects();
+            for(std::list<GameObject*>::const_iterator it = gos.begin(); it != gos.end(); ++it)
+            {
+                (*it)->removeFromScene();
+            }
+        }
+        CoreSubsystem::getSingleton().getWorld()->clearScene();
     }
 
     const CeGuiString MapLoader::getClassName() const
     {
         return "MapLoader";
+    }
+
+    const Property MapLoader::getProperty(const CeGuiString& key) const
+    {
+        if(PROPERTY_ACTIVEMAPS == key)
+        {
+            PropertyArray vec;
+            for(Ogre::StringVector::const_iterator it = mLoadedMaps.begin(); it != mLoadedMaps.end(); ++it)
+            {
+                vec.push_back(Property(*it));
+            }
+            return Property(vec);
+        }
+        return ContentLoader::getProperty(key);
+    }
+    
+    void MapLoader::setProperty(const CeGuiString& key, const Property& value)
+    {
+        if(PROPERTY_ACTIVEMAPS == key)
+        {
+            mLoadedMaps.clear();
+            PropertyArray vec(value.toArray());
+            for(PropertyArray::const_iterator it = vec.begin(); it != vec.end(); ++it)
+            {
+                mLoadedMaps.push_back(it->toString().c_str());
+            }
+        }
+        else
+            ContentLoader::setProperty(key,value);
+    }
+
+    PropertyKeys MapLoader::getAllPropertyKeys() const
+    {
+        PropertyKeys keys = ContentLoader::getAllPropertyKeys();
+        keys.insert(PROPERTY_ACTIVEMAPS);
+        return keys;
     }
 
     void MapLoader::processSceneNodes(DOMElement* nodesElem, bool loadGameObjects)
@@ -189,6 +315,14 @@ namespace rl {
             mPercentageWindow->setVisible(false, true);
             mPercentageWindow = NULL;
         }
+    }
+
+    bool MapLoader::changeScene(Ogre::StringVector mapresources)
+    {
+        LOG_MESSAGE(Logger::SCRIPT, "Changing scene " + Ogre::StringConverter::toString(mapresources));
+        unloadAllMaps(false);
+        loadScene(mapresources);
+        return true;
     }
 
 } // namespace rl

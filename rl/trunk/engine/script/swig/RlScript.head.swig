@@ -20,4 +20,5 @@
 #include "ScriptSubsystem.h"
 #include "TriggerFactory.h"
 #include "UnifiedFactory.h"
+#include "ContentLoader.h"
 %}

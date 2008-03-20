@@ -49,6 +49,7 @@
 #include "Trigger.h"
 #include "GameLoop.h"
 #include "World.h"
+#include "ContentLoader.h"
 #include "ContentModule.h"
 #include "ListenerObject.h"
 #include "Sound.h"

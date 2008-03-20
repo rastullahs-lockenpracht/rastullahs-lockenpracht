@@ -27,11 +27,19 @@ namespace rl
 		rl::TriggerFactory* getTriggerFactory() const;
 	};
 	  
-    class MapLoader
+    class MapLoader : public rl::ContentLoader
     {
     public:
+        virtual ~MapLoader();
         MapLoader(const Ogre::String& resourceGroup);
         void loadMap(const Ogre::String& mapresource, bool loadGameObjects = true);
+        void loadContent();
+        void unloadContent();
+        void setDefaultMaps(Ogre::StringVector maps);
+        void loadScene(Ogre::StringVector mapsresources, bool loadGameObjects = true);
+        void unloadAllMaps(bool removeGameObjects);
+        void requestSceneChange(Ogre::StringVector mapsresources);
+        const CEGUI::String getClassName() const;
     };
  
 	%feature("director") TriggerFactory;    

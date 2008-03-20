@@ -22,10 +22,16 @@
 
 namespace rl
 {
+    class ContentModule;
+
     class _RlCoreExport ContentLoader : public PropertyHolder
     {
     public:
+        ContentLoader(const Ogre::String& resourceGroup);
         virtual ~ContentLoader();
+
+        virtual void loadContent() = 0;
+        virtual void unloadContent() = 0;
 
         const Property getProperty(const CeGuiString& key) const;
         void setProperty(const CeGuiString& key, const Property& value);
@@ -34,7 +40,7 @@ namespace rl
 
         virtual const CeGuiString getClassName() const = 0;
     protected:
-        ContentLoader();
+        ContentModule* mContentModule;
     };
 }
 

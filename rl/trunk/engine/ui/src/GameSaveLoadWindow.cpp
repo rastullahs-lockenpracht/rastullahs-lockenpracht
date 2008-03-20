@@ -115,7 +115,7 @@ namespace rl {
     {
         LOG_MESSAGE(Logger::UI, "Load Button pressed");
 
-		if(!WindowFactory::getSingleton().isInventoryWindowDestroyed())
+		/*if(!WindowFactory::getSingleton().isInventoryWindowDestroyed())
 			WindowFactory::getSingleton().toggleInventoryWindow();
 	
         CeGuiString filename = mFilename->getText();
@@ -130,7 +130,7 @@ namespace rl {
                 LOG_ERROR(Logger::UI, "Save Game " + filename + " doesn't exist!");
                 WindowFactory::getSingleton().showMessageWindow("Der Spielstand existiert nicht");
             }
-        }
+        }*/
 
         return true;
     }

@@ -32,6 +32,7 @@ namespace rl
         // Events
         RLMSG_SCENE_LOADED =            0x01000101,
         RLMSG_SCENE_CLEARING =          0x01000102,
+        RLMSG_SCENE_CHANGE_REQUESTED = 0x01000103,
 
         // Animations //
         // Mask

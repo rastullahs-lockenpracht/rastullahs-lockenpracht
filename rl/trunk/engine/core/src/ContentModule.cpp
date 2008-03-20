@@ -40,6 +40,11 @@ namespace rl
 
     ContentModule::~ContentModule()
     {
+        for(ContentLoaderVector::const_iterator it = mContentLoaders.begin(); it != mContentLoaders.end(); ++it)
+        {
+            delete *it;
+        }
+        mContentLoaders.clear();
     }
 
     const Ogre::String ContentModule::getInitFile(const Ogre::String& moduleId)
@@ -176,9 +181,22 @@ namespace rl
         }
     }
 
+    void ContentModule::loadContent()
+    {
+        for(ContentLoaderVector::const_iterator it = mContentLoaders.begin(); it != mContentLoaders.end(); ++it)
+        {
+            (*it)->loadContent();
+        }
+    }
+
     void ContentModule::unload()
     {
         SaveGameManager::getSingleton().unregisterSaveGameData(this);
+        for(ContentLoaderVector::const_iterator it = mContentLoaders.begin(); it != mContentLoaders.end(); ++it)
+        {
+            (*it)->unloadContent();
+        }
+        mContentLoaders.clear();
         //TODO: unloadModule
         CoreSubsystem::getSingleton().getWorld()->clearScene();
         mLoaded = false;
@@ -189,13 +207,33 @@ namespace rl
         return mLoaded;
     }
 
+    void ContentModule::registerContentLoader(ContentLoader *loader)
+    {
+        mContentLoaders.push_back(loader);
+    }
+
     CeGuiString ContentModule::getXmlNodeIdentifier() const
     {
         return "ContentModule";
     }
 
+    using namespace XERCES_CPP_NAMESPACE;
+
     void ContentModule::writeData(SaveGameFileWriter* writer)
     {
+        if(!this->isCommon())
+        {
+            LOG_MESSAGE(Logger::CORE, "Saving ContentLoaders");
+            DOMElement* contentLoadersNode = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
+            writer->setAttributeValueAsString(contentLoadersNode, "name", mName);
+
+            for(ContentLoaderVector::const_iterator it = mContentLoaders.begin(); it != mContentLoaders.end(); ++it)
+            {
+                DOMElement* contentLoaderNode = writer->appendChildElement(writer->getDocument(), contentLoadersNode, "contentloader");
+                writer->setAttributeValueAsString(contentLoaderNode, "classname", Property((*it)->getClassName()));
+                writer->writeEachPropertyToElem(contentLoaderNode, (*it)->getAllProperties()->toPropertyMap());
+            }
+        }
     }
 
     void ContentModule::readData(SaveGameFileReader* reader)

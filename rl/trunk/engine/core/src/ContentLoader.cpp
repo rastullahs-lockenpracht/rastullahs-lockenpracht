@@ -17,10 +17,11 @@
 #include "stdinc.h"
 
 #include "ContentLoader.h"
+#include "ContentModule.h"
 
 namespace rl
 {
-    ContentLoader::ContentLoader()
+    ContentLoader::ContentLoader(const Ogre::String& resourceGroup)
     {
     }
 
@@ -30,6 +31,7 @@ namespace rl
 
     const Property ContentLoader::getProperty(const CeGuiString& key) const
     {
+        LOG_WARNING(Logger::CORE, key + " is not a property of this ContentLoader");
         return Property();
     }
       

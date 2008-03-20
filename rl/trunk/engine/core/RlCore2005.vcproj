@@ -568,6 +568,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\SaveGameData.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\SaveGameFile.h"
 				>
 			</File>
@@ -866,6 +870,10 @@
 			</File>
 			<File
 				RelativePath=".\src\RubyInterpreter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SaveGameData.cpp"
 				>
 			</File>
 			<File

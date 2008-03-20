@@ -40,17 +40,18 @@ namespace rl
 		virtual const Ogre::StringVector& getTextureLocations() const = 0;
 		virtual const Ogre::StringVector& getSoundLocations() const = 0;
 		virtual const Ogre::StringVector& getModelLocations() const = 0;
-        virtual const Ogre::StringVector& getDefaultMaps() const = 0;
 		virtual void start() = 0;
 
 		static const Ogre::String getInitFile(const Ogre::String& moduleId);
 		void initialize();
 		void initializeTextures() const;
 		void precreateMeshes() const;
+        void loadContent();
 		void unload();
 
         bool isLoaded() const;
 
+        void registerContentLoader(ContentLoader* loader);
 
         CeGuiString getXmlNodeIdentifier() const;
         void writeData(SaveGameFileWriter* writer);
@@ -58,6 +59,9 @@ namespace rl
         /// defines the loading/saving order higher priority are saved last and loaded first
         int getPriority() const;
 	private:
+        typedef std::vector<ContentLoader*> ContentLoaderVector;
+        ContentLoaderVector mContentLoaders;
+
 		static const Ogre::String getDirectory(const Ogre::String& moduleId);
 		void addSearchPath(const Ogre::String& path, const Ogre::String& resourceGroup) const;
 

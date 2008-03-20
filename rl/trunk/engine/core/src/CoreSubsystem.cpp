@@ -251,6 +251,10 @@ namespace rl
         mRubyInterpreter->initializeInterpreter();
         LOG_MESSAGE(Logger::CORE,"RubyInterpreter initialisiert");
 
+        mMessagePump = new MessagePump();
+        GameLoop::getSingleton().addTask(mMessagePump, GameLoop::TG_LOGIC);
+        LOG_MESSAGE(Logger::CORE,"MessagePump erzeugt");
+
         mActorManager = new ActorManager();
         LOG_MESSAGE(Logger::CORE,"Aktormanager erzeugt");
 
@@ -271,10 +275,6 @@ namespace rl
 
         mWorld = new DotSceneOctreeWorld();
         mActorManager->setWorld(mWorld);
-
-        mMessagePump = new MessagePump();
-        GameLoop::getSingleton().addTask(mMessagePump, GameLoop::TG_LOGIC);
-        LOG_MESSAGE(Logger::CORE,"MessagePump erzeugt");
 
         mPhysicsManager = new PhysicsManager();
         GameLoop::getSingleton().addTask(mPhysicsManager, GameLoop::TG_PHYSICS);
@@ -432,7 +432,7 @@ namespace rl
         mActiveAdventureModule = module;
 
         //mCoreEventCaster.dispatchEvent(new DataLoadedEvent(100.0));
-
+        
         module->start();
     }
 

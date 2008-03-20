@@ -725,6 +725,8 @@ public:
     void hideAll();
     void toggleAll();
 };
+  
+class ContentLoader;
     
 %feature("director") ContentModule; 
 class ContentModule
@@ -742,9 +744,25 @@ public:
 	virtual const Ogre::StringVector& getTextureLocations() const = 0;
 	virtual const Ogre::StringVector& getSoundLocations() const = 0;
 	virtual const Ogre::StringVector& getModelLocations() const = 0;
-	virtual const Ogre::StringVector& getDefaultMaps() const = 0;
 
 	virtual void start() = 0;
+	
+	void loadContent();
+	
+	void registerContentLoader(rl::ContentLoader* loader);
+};
+
+%feature("director") ContentLoader;
+class ContentLoader
+{
+public:
+    ContentLoader(const Ogre::String& resourceGroup);
+    virtual ~ContentLoader();
+
+    virtual void loadContent() = 0;
+    virtual void unloadContent() = 0;
+
+    virtual const CEGUI::String getClassName() const = 0;
 };
 
 class CoreSubsystem {
