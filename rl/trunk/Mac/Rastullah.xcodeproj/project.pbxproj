@@ -437,7 +437,6 @@
 		48187AAE0D885CBB00CE6689 /* libRlRules.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAC370BD0E44900C6D4A0 /* libRlRules.dylib */; };
 		48187AAF0D885CBB00CE6689 /* libRlUi.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAC3E0BD0E46000C6D4A0 /* libRlUi.dylib */; };
 		483514870D8AED510077477D /* OIS.framework in Resources */ = {isa = PBXBuildFile; fileRef = 4857E4E40D46A664009D376D /* OIS.framework */; };
-		483514880D8AED510077477D /* libboost_filesystem.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */; };
 		483514890D8AED510077477D /* libmeshmagick.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 440785DD0C09D231006E496D /* libmeshmagick.dylib */; };
 		4835148A0D8AED510077477D /* libruby.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 483646A10D83D57800912FEC /* libruby.dylib */; };
 		4835148B0D8AED510077477D /* OgreCEGUIRenderer.framework in Resources */ = {isa = PBXBuildFile; fileRef = 444EB3720BD1784A00C6D4A0 /* OgreCEGUIRenderer.framework */; };
@@ -493,7 +492,6 @@
 		48389C290D867B1A00AFAB66 /* Trigger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A05860D71EDF20024198D /* Trigger.cpp */; };
 		48389C2C0D867B2A00AFAB66 /* PolynomicSoundFadeFunctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A057F0D71EDF20024198D /* PolynomicSoundFadeFunctor.cpp */; };
 		48389C2D0D867B2A00AFAB66 /* PolynomicSoundFadeFunctor.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A056D0D71EDC40024198D /* PolynomicSoundFadeFunctor.h */; };
-		483B69DB0D8D4BC900C4C190 /* RlExports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EB6BC0BD1891400C6D4A0 /* RlExports.cpp */; };
 		483D31110D85B1AF003477A0 /* NullSoundStitching.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31100D85B1AF003477A0 /* NullSoundStitching.h */; };
 		483D31130D85B1C2003477A0 /* NullSoundStitching.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31120D85B1C2003477A0 /* NullSoundStitching.cpp */; };
 		483D31200D85B215003477A0 /* Combatant.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D31150D85B215003477A0 /* Combatant.h */; };
@@ -540,7 +538,6 @@
 		483D31800D85B3B7003477A0 /* SimpleVehicle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31710D85B3B7003477A0 /* SimpleVehicle.cpp */; };
 		483D31810D85B3B7003477A0 /* stdinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31720D85B3B7003477A0 /* stdinc.cpp */; };
 		483D31820D85B3B7003477A0 /* WalkPathBehaviour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D31730D85B3B7003477A0 /* WalkPathBehaviour.cpp */; };
-		483D31B50D85B72D003477A0 /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */; };
 		483D869D0D8C3DA200F3629E /* Fmod4ConfigComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D868C0D8C3DA200F3629E /* Fmod4ConfigComponent.h */; };
 		483D869E0D8C3DA200F3629E /* Fmod4Driver.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D868D0D8C3DA200F3629E /* Fmod4Driver.h */; };
 		483D869F0D8C3DA200F3629E /* Fmod4DriverPrerequisites.h in Headers */ = {isa = PBXBuildFile; fileRef = 483D868E0D8C3DA200F3629E /* Fmod4DriverPrerequisites.h */; };
@@ -594,20 +591,28 @@
 		48570DDA0D8A6EB500096E35 /* OgreNewt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EB0880BD1153500C6D4A0 /* OgreNewt.framework */; };
 		48570DFE0D8A6F3300096E35 /* TriggerFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48389C1A0D867AA900AFAB66 /* TriggerFactory.cpp */; };
 		48570E020D8A6F8300096E35 /* libRlScript.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48570C1B0D8A6C5400096E35 /* libRlScript.dylib */; };
-		4857E3A50D469FEA009D376D /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */; };
-		4857E3A60D469FEA009D376D /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */; };
-		4857E3A70D469FEA009D376D /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */; };
 		4857E4E50D46A664009D376D /* OIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4857E4E40D46A664009D376D /* OIS.framework */; };
 		485A05740D71EDC40024198D /* MessageObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A056A0D71EDC40024198D /* MessageObject.h */; };
 		485A05750D71EDC40024198D /* MessagePump.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A056B0D71EDC40024198D /* MessagePump.h */; };
 		485A05760D71EDC40024198D /* MessageType.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A056C0D71EDC40024198D /* MessageType.h */; };
 		485A05880D71EDF20024198D /* MessagePump.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A057E0D71EDF20024198D /* MessagePump.cpp */; };
+		48760AAB0D92E4B700BEB57C /* RlExports_wrap.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 48760AA90D92E4B700BEB57C /* RlExports_wrap.cxx */; };
+		48760AAC0D92E4B700BEB57C /* RlExports_wrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 48760AAA0D92E4B700BEB57C /* RlExports_wrap.h */; };
 		48B772DD0D58350B000A3B97 /* XmlProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B772DA0D58350B000A3B97 /* XmlProcessor.h */; };
 		48B772DE0D58350B000A3B97 /* XmlPropertyReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B772DB0D58350B000A3B97 /* XmlPropertyReader.h */; };
 		48B772DF0D58350B000A3B97 /* XmlPropertyWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B772DC0D58350B000A3B97 /* XmlPropertyWriter.h */; };
 		48B772E30D583521000A3B97 /* XmlProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B772E00D583521000A3B97 /* XmlProcessor.cpp */; };
 		48B772E40D583521000A3B97 /* XmlPropertyReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B772E10D583521000A3B97 /* XmlPropertyReader.cpp */; };
 		48B772E50D583521000A3B97 /* XmlPropertyWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B772E20D583521000A3B97 /* XmlPropertyWriter.cpp */; };
+		48D34A560D90EF1000C89477 /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48D34A550D90EF1000C89477 /* libboost_filesystem.dylib */; };
+		48D34A5F0D90F4FF00C89477 /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48D34A550D90EF1000C89477 /* libboost_filesystem.dylib */; };
+		48D34A630D90F5D500C89477 /* SaveGameData.h in Headers */ = {isa = PBXBuildFile; fileRef = 48D34A610D90F5D500C89477 /* SaveGameData.h */; };
+		48D34A640D90F5D500C89477 /* SaveGameData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48D34A620D90F5D500C89477 /* SaveGameData.cpp */; };
+		48D34A7D0D91C7D800C89477 /* SaveGameFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A056E0D71EDC40024198D /* SaveGameFile.h */; };
+		48D34A7E0D91C7D800C89477 /* CoreMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A05670D71ED8D0024198D /* CoreMessages.h */; };
+		48D34A7F0D91C7D800C89477 /* SaveGameFileReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A056F0D71EDC40024198D /* SaveGameFileReader.h */; };
+		48D34A800D91C7D800C89477 /* SaveGameFileWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A05700D71EDC40024198D /* SaveGameFileWriter.h */; };
+		48D34A810D91C7D800C89477 /* SaveGameManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A05710D71EDC40024198D /* SaveGameManager.h */; };
 		8D0C4E8D0486CD37000505A6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0867D6AAFE840B52C02AAC07 /* InfoPlist.strings */; };
 		8D0C4E8E0486CD37000505A6 /* main.nib in Resources */ = {isa = PBXBuildFile; fileRef = 02345980000FD03B11CA0E72 /* main.nib */; };
 /* End PBXBuildFile section */
@@ -1137,7 +1142,6 @@
 		444EB0880BD1153500C6D4A0 /* OgreNewt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OgreNewt.framework; path = /Library/Frameworks/OgreNewt.framework; sourceTree = "<absolute>"; };
 		444EB0DA0BD119BB00C6D4A0 /* OpenSteer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenSteer.framework; path = /Library/Frameworks/OpenSteer.framework; sourceTree = "<absolute>"; };
 		444EB3720BD1784A00C6D4A0 /* OgreCEGUIRenderer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OgreCEGUIRenderer.framework; path = /Library/Frameworks/OgreCEGUIRenderer.framework; sourceTree = "<absolute>"; };
-		444EB6BC0BD1891400C6D4A0 /* RlExports.cpp */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.cpp.cpp; name = RlExports.cpp; path = ../engine/script/swig/RlExports.cpp; sourceTree = SOURCE_ROOT; };
 		446BF4690C4531FA0013C214 /* LinearSoundFadeFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinearSoundFadeFunctor.h; path = ../engine/core/include/LinearSoundFadeFunctor.h; sourceTree = SOURCE_ROOT; };
 		446BF46A0C4531FA0013C214 /* SoundFadeFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundFadeFunctor.h; path = ../engine/core/include/SoundFadeFunctor.h; sourceTree = SOURCE_ROOT; };
 		446BF46B0C4531FA0013C214 /* SoundFadeJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundFadeJob.h; path = ../engine/core/include/SoundFadeJob.h; sourceTree = SOURCE_ROOT; };
@@ -1303,7 +1307,6 @@
 		483D87C90D8C55E500F3629E /* RlScript.bundle */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = RlScript.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		48500B780D906A1000EAD8DB /* RlScriptExportsMac.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RlScriptExportsMac.cpp; path = ../engine/script/swig/RlScriptExportsMac.cpp; sourceTree = SOURCE_ROOT; };
 		48570C1B0D8A6C5400096E35 /* libRlScript.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libRlScript.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = /sw/lib/libboost_filesystem.dylib; sourceTree = "<absolute>"; };
 		4857E4E40D46A664009D376D /* OIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OIS.framework; path = /Library/Frameworks/OIS.framework; sourceTree = "<absolute>"; };
 		485A05670D71ED8D0024198D /* CoreMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreMessages.h; path = ../engine/core/include/CoreMessages.h; sourceTree = SOURCE_ROOT; };
 		485A05690D71EDC40024198D /* JobQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JobQueue.h; path = ../engine/core/include/JobQueue.h; sourceTree = SOURCE_ROOT; };
@@ -1325,12 +1328,18 @@
 		485A05830D71EDF20024198D /* SaveGameManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SaveGameManager.cpp; path = ../engine/core/src/SaveGameManager.cpp; sourceTree = SOURCE_ROOT; };
 		485A05850D71EDF20024198D /* TimeSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TimeSource.cpp; path = ../engine/core/src/TimeSource.cpp; sourceTree = SOURCE_ROOT; };
 		485A05860D71EDF20024198D /* Trigger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Trigger.cpp; path = ../engine/core/src/Trigger.cpp; sourceTree = SOURCE_ROOT; };
+		48760A990D92E2CD00BEB57C /* RlUi.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlUi.swig; path = ../engine/script/swig/RlUi.swig; sourceTree = SOURCE_ROOT; };
+		48760AA90D92E4B700BEB57C /* RlExports_wrap.cxx */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.cpp.cpp; name = RlExports_wrap.cxx; path = ../engine/script/swig/RlExports_wrap.cxx; sourceTree = SOURCE_ROOT; };
+		48760AAA0D92E4B700BEB57C /* RlExports_wrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RlExports_wrap.h; path = ../engine/script/swig/RlExports_wrap.h; sourceTree = SOURCE_ROOT; };
 		48B772DA0D58350B000A3B97 /* XmlProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XmlProcessor.h; path = ../engine/common/include/XmlProcessor.h; sourceTree = SOURCE_ROOT; };
 		48B772DB0D58350B000A3B97 /* XmlPropertyReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XmlPropertyReader.h; path = ../engine/common/include/XmlPropertyReader.h; sourceTree = SOURCE_ROOT; };
 		48B772DC0D58350B000A3B97 /* XmlPropertyWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XmlPropertyWriter.h; path = ../engine/common/include/XmlPropertyWriter.h; sourceTree = SOURCE_ROOT; };
 		48B772E00D583521000A3B97 /* XmlProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XmlProcessor.cpp; path = ../engine/common/src/XmlProcessor.cpp; sourceTree = SOURCE_ROOT; };
 		48B772E10D583521000A3B97 /* XmlPropertyReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XmlPropertyReader.cpp; path = ../engine/common/src/XmlPropertyReader.cpp; sourceTree = SOURCE_ROOT; };
 		48B772E20D583521000A3B97 /* XmlPropertyWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XmlPropertyWriter.cpp; path = ../engine/common/src/XmlPropertyWriter.cpp; sourceTree = SOURCE_ROOT; };
+		48D34A550D90EF1000C89477 /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = /opt/local/lib/libboost_filesystem.dylib; sourceTree = "<absolute>"; };
+		48D34A610D90F5D500C89477 /* SaveGameData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveGameData.h; path = ../engine/core/include/SaveGameData.h; sourceTree = SOURCE_ROOT; };
+		48D34A620D90F5D500C89477 /* SaveGameData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SaveGameData.cpp; path = ../engine/core/src/SaveGameData.cpp; sourceTree = SOURCE_ROOT; };
 		8D0C4E960486CD37000505A6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D0C4E970486CD37000505A6 /* Rastullah.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rastullah.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1342,8 +1351,8 @@
 			files = (
 				444EAEBF0BD0F09900C6D4A0 /* CEGUI.framework in Frameworks */,
 				444EAEC00BD0F09900C6D4A0 /* Ogre.framework in Frameworks */,
-				4857E3A70D469FEA009D376D /* libboost_filesystem.dylib in Frameworks */,
 				4836CBCE0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
+				48D34A560D90EF1000C89477 /* libboost_filesystem.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1357,8 +1366,8 @@
 				444EAEF60BD1150500C6D4A0 /* Ogre.framework in Frameworks */,
 				444EB0890BD1153500C6D4A0 /* OgreNewt.framework in Frameworks */,
 				440785DE0C09D231006E496D /* libmeshmagick.dylib in Frameworks */,
-				4857E3A60D469FEA009D376D /* libboost_filesystem.dylib in Frameworks */,
 				4836CBCD0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
+				48D34A5F0D90F4FF00C89477 /* libboost_filesystem.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1374,7 +1383,6 @@
 				444EB0D60BD1198B00C6D4A0 /* Ogre.framework in Frameworks */,
 				444EB0D80BD1198B00C6D4A0 /* OgreNewt.framework in Frameworks */,
 				444EB0DB0BD119BB00C6D4A0 /* OpenSteer.framework in Frameworks */,
-				483D31B50D85B72D003477A0 /* libboost_filesystem.dylib in Frameworks */,
 				4836CBCC0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1462,7 +1470,6 @@
 				444EB79C0BD195E800C6D4A0 /* libRlCore.dylib in Frameworks */,
 				444EB79E0BD195E800C6D4A0 /* libRlRules.dylib in Frameworks */,
 				444EB7A00BD195E800C6D4A0 /* libRlUi.dylib in Frameworks */,
-				4857E3A50D469FEA009D376D /* libboost_filesystem.dylib in Frameworks */,
 				4836F8BC0D885AAA00E3632F /* libruby.dylib in Frameworks */,
 				48570E020D8A6F8300096E35 /* libRlScript.dylib in Frameworks */,
 			);
@@ -1528,9 +1535,9 @@
 		20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				48D34A550D90EF1000C89477 /* libboost_filesystem.dylib */,
 				4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */,
 				4857E4E40D46A664009D376D /* OIS.framework */,
-				4857E3A40D469FEA009D376D /* libboost_filesystem.dylib */,
 				440785DD0C09D231006E496D /* libmeshmagick.dylib */,
 				483646A10D83D57800912FEC /* libruby.dylib */,
 				444EB3720BD1784A00C6D4A0 /* OgreCEGUIRenderer.framework */,
@@ -1602,6 +1609,8 @@
 				485A056D0D71EDC40024198D /* PolynomicSoundFadeFunctor.h */,
 				485A05720D71EDC40024198D /* TimeSource.h */,
 				483D31120D85B1C2003477A0 /* NullSoundStitching.cpp */,
+				48D34A610D90F5D500C89477 /* SaveGameData.h */,
+				48D34A620D90F5D500C89477 /* SaveGameData.cpp */,
 				483D31100D85B1AF003477A0 /* NullSoundStitching.h */,
 				485A05850D71EDF20024198D /* TimeSource.cpp */,
 				4836469C0D83D15600912FEC /* ContentLoader.cpp */,
@@ -2062,6 +2071,8 @@
 		444EAE600BD0E66500C6D4A0 /* RlScript */ = {
 			isa = PBXGroup;
 			children = (
+				48760AA90D92E4B700BEB57C /* RlExports_wrap.cxx */,
+				48760AAA0D92E4B700BEB57C /* RlExports_wrap.h */,
 				48389C010D86783200AFAB66 /* swig */,
 				48389C190D867AA900AFAB66 /* stdinc.cpp */,
 				4404DA840C48D01E007B4657 /* stdinc.h */,
@@ -2088,7 +2099,6 @@
 				444825E00BF7B2B200C5A94F /* SoundNodeProcessor.cpp */,
 				444825E10BF7B2B200C5A94F /* WaypointProcessor.cpp */,
 				444825E20BF7B2B200C5A94F /* ZoneProcessor.cpp */,
-				444EB6BC0BD1891400C6D4A0 /* RlExports.cpp */,
 				444EAE670BD0E6D400C6D4A0 /* ScriptObjectMarker.cpp */,
 				444EAE680BD0E6D400C6D4A0 /* ScriptSubsystem.cpp */,
 				444EAE610BD0E6C000C6D4A0 /* ScriptObjectMarker.h */,
@@ -2114,6 +2124,7 @@
 				48389BF00D8677EE00AFAB66 /* RlScript.head.swig */,
 				48389BF10D8677EE00AFAB66 /* RlScript.swig */,
 				48389BF20D8677EE00AFAB66 /* RlUi.head.swig */,
+				48760A990D92E2CD00BEB57C /* RlUi.swig */,
 				48389BF30D8677EE00AFAB66 /* TypeDynamicDirector.swig */,
 				48389BF40D8677EE00AFAB66 /* TypeMaps.i */,
 				48389BF50D8677EE00AFAB66 /* TypeOgreColourValue.swig */,
@@ -2284,6 +2295,12 @@
 				483D31110D85B1AF003477A0 /* NullSoundStitching.h in Headers */,
 				48389C0F0D86797000AFAB66 /* SoundStitchingObject.h in Headers */,
 				48389C2D0D867B2A00AFAB66 /* PolynomicSoundFadeFunctor.h in Headers */,
+				48D34A630D90F5D500C89477 /* SaveGameData.h in Headers */,
+				48D34A7D0D91C7D800C89477 /* SaveGameFile.h in Headers */,
+				48D34A7E0D91C7D800C89477 /* CoreMessages.h in Headers */,
+				48D34A7F0D91C7D800C89477 /* SaveGameFileReader.h in Headers */,
+				48D34A800D91C7D800C89477 /* SaveGameFileWriter.h in Headers */,
+				48D34A810D91C7D800C89477 /* SaveGameManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2496,6 +2513,7 @@
 				48570C3B0D8A6C9000096E35 /* ScriptObjectMarker.h in Headers */,
 				48570C3C0D8A6C9000096E35 /* ScriptPrerequisites.h in Headers */,
 				48570C3D0D8A6C9000096E35 /* ScriptSubsystem.h in Headers */,
+				48760AAC0D92E4B700BEB57C /* RlExports_wrap.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2637,6 +2655,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 48570C3F0D8A6CAE00096E35 /* Build configuration list for PBXNativeTarget "RlScript" */;
 			buildPhases = (
+				48629C070D92DFF40060DE5A /* ShellScript */,
 				48570C170D8A6C5400096E35 /* Headers */,
 				48570C180D8A6C5400096E35 /* Sources */,
 				48570C190D8A6C5400096E35 /* Frameworks */,
@@ -2689,7 +2708,7 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 20286C29FDCF999611CA2CEA /* Rastullah */;
 			projectDirPath = "";
-			projectRoot = "";
+			projectRoot = ..;
 			targets = (
 				8D0C4E890486CD37000505A6 /* Rastullah */,
 				444EAAB10BD0E0FB00C6D4A0 /* RlCommon */,
@@ -2712,7 +2731,6 @@
 				48187AAB0D885CBB00CE6689 /* libRlCommon.dylib in Resources */,
 				48187AAC0D885CBB00CE6689 /* libRlCore.dylib in Resources */,
 				483514870D8AED510077477D /* OIS.framework in Resources */,
-				483514880D8AED510077477D /* libboost_filesystem.dylib in Resources */,
 				483514890D8AED510077477D /* libmeshmagick.dylib in Resources */,
 				4835148A0D8AED510077477D /* libruby.dylib in Resources */,
 				4835148B0D8AED510077477D /* OgreCEGUIRenderer.framework in Resources */,
@@ -2729,6 +2747,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		48629C070D92DFF40060DE5A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "pwd\ncd ../engine/script/swig\nswig -ruby -minherit -c++ -Fmicrosoft -addextern RlExports.i";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		444EAAAF0BD0E0FB00C6D4A0 /* Sources */ = {
@@ -2830,6 +2864,7 @@
 				48389C110D86798600AFAB66 /* SoundStitchingObject.cpp in Sources */,
 				48389C290D867B1A00AFAB66 /* Trigger.cpp in Sources */,
 				48389C2C0D867B2A00AFAB66 /* PolynomicSoundFadeFunctor.cpp in Sources */,
+				48D34A640D90F5D500C89477 /* SaveGameData.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3028,7 +3063,7 @@
 				48570C390D8A6C9000096E35 /* ScriptObjectMarker.cpp in Sources */,
 				48570C3A0D8A6C9000096E35 /* ScriptSubsystem.cpp in Sources */,
 				48570DFE0D8A6F3300096E35 /* TriggerFactory.cpp in Sources */,
-				483B69DB0D8D4BC900C4C190 /* RlExports.cpp in Sources */,
+				48760AAB0D92E4B700BEB57C /* RlExports_wrap.cxx in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3184,12 +3219,13 @@
 					/sw/include,
 					/Library/Frameworks/CEGUI.framework/Headers,
 					/Library/Frameworks/Xerces.framework/Headers,
+					/opt/local/include,
 				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
 					/sw/lib,
 					/usr/local/lib,
+					/opt/local/lib,
 				);
 				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = "";
@@ -3214,6 +3250,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/sw/lib,
+					/opt/local/lib,
 				);
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
@@ -3237,20 +3274,19 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../engine/core/include/stdinc.h;
 				HEADER_SEARCH_PATHS = (
-					"/usr/local/include/boost-1_33_1",
+					"$(inherited)",
 					"/usr/local/lib/ruby/1.8/i686-darwin8.9.1",
 					/usr/local/include/OIS,
 					/usr/local/include/meshmagick,
-					/sw/include,
-					/usr/local/include,
 					/System/Library/Frameworks/Ruby.framework/Headers,
+					/Library/Frameworks/Xerces.framework/Headers,
 				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/sw/lib,
 					/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					/opt/local/lib,
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";
 				MACH_O_TYPE = mh_dylib;
@@ -3288,6 +3324,7 @@
 					/sw/lib,
 					/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					/opt/local/lib,
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";
 				OTHER_LDFLAGS = "";
@@ -3310,6 +3347,11 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../engine/ai/include/stdinc.h;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Library/Frameworks/CEGUI.framework/Headers,
+					/Library/Frameworks/Xerces.framework/Headers,
+				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3336,6 +3378,11 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../engine/ai/include/stdinc.h;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Library/Frameworks/CEGUI.framework/Headers,
+					/Library/Frameworks/Xerces.framework/Headers,
+				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3363,6 +3410,11 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../engine/rules/include/stdinc.h;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Library/Frameworks/CEGUI.framework/Headers,
+					/Library/Frameworks/Xerces.framework/Headers,
+				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3389,6 +3441,11 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../engine/rules/include/stdinc.h;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Library/Frameworks/CEGUI.framework/Headers,
+					/Library/Frameworks/Xerces.framework/Headers,
+				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3417,11 +3474,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../engine/ui/include/stdinc.h;
 				HEADER_SEARCH_PATHS = (
-					/usr/local/include,
+					"$(inherited)",
 					"/usr/local/lib/ruby/1.8/i686-darwin8.9.1",
-					/sw/include,
 					/Library/Frameworks/CEGUI.framework/Headers,
 					/System/Library/Frameworks/Ruby.framework/Headers,
+					/Library/Frameworks/Xerces.framework/Headers,
 				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
@@ -3449,11 +3506,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../engine/ui/include/stdinc.h;
 				HEADER_SEARCH_PATHS = (
-					/usr/local/include,
+					"$(inherited)",
 					"/usr/local/lib/ruby/1.8/i686-darwin8.9.1",
-					/sw/include,
 					/Library/Frameworks/CEGUI.framework/Headers,
 					/System/Library/Frameworks/Ruby.framework/Headers,
+					/Library/Frameworks/Xerces.framework/Headers,
 				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
@@ -3481,10 +3538,8 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
 					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					/Library/Frameworks/CEGUI.framework/Headers,
-					/usr/local/include,
-					/sw/include,
 				);
 				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"/Developer/FMOD Programmers API/api/inc\"";
 				INSTALL_PATH = /usr/local/lib;
@@ -3506,10 +3561,8 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
 				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
 					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					/Library/Frameworks/CEGUI.framework/Headers,
-					/usr/local/include,
-					/sw/include,
 				);
 				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"/Developer/FMOD Programmers API/api/inc\"";
 				INSTALL_PATH = /usr/local/lib;
@@ -3584,10 +3637,8 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
-					/usr/local/include,
+					"$(inherited)",
 					"/usr/local/lib/ruby/1.8/i686-darwin8.9.1",
-					/sw/include,
-					/Library/Frameworks/CEGUI.framework/Headers,
 					/System/Library/Frameworks/Ruby.framework/Headers,
 				);
 				INSTALL_PATH = /usr/local/lib;
@@ -3616,10 +3667,8 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
 				HEADER_SEARCH_PATHS = (
-					/usr/local/include,
+					"$(inherited)",
 					"/usr/local/lib/ruby/1.8/i686-darwin8.9.1",
-					/sw/include,
-					/Library/Frameworks/CEGUI.framework/Headers,
 					/System/Library/Frameworks/Ruby.framework/Headers,
 				);
 				INSTALL_PATH = /usr/local/lib;
@@ -3703,11 +3752,16 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
-					"/usr/local/lib/ruby/1.8/i686-darwin8.9.1",
 					/sw/include,
 					/Library/Frameworks/CEGUI.framework/Headers,
+					/opt/local/include,
+					/Library/Frameworks/Xerces.framework/Headers,
 				);
-				LIBRARY_SEARCH_PATHS = /sw/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					/sw/lib,
+					/opt/local/lib,
+				);
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -3722,13 +3776,16 @@
 				GCC_WARN_SIGN_COMPARE = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/sw/include,
 					/Library/Frameworks/CEGUI.framework/Headers,
-					/Library/Frameworks/Ogre.framework/Headers,
-					/Library/Frameworks/OgreNewt.framework/Headers,
-					/Library/Frameworks/OgreCEGUIRenderer.framework/Headers,
-					"/usr/local/include/boost-1_33_1",
-					"/usr/lib/ruby/1.8/universal-darwin8.0",
-					/usr/local/include/OIS,
+					/opt/local/include,
+					/Library/Frameworks/Xerces.framework/Headers,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					/sw/lib,
+					/opt/local/lib,
 				);
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
