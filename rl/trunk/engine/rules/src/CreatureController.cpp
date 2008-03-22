@@ -57,13 +57,30 @@ namespace rl
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_NONE;}
         virtual void activate()
         {
+	    mVel = 0;
         }
         virtual void deactivate()
         {
             std::ostringstream oss;
             oss << "Fallen v: " << mVel << "   ermittelte Hoehe: " << mVel*mVel/(2* fabs(PhysicsManager::getSingleton().getGravity().y));
-            LOG_MESSAGE(Logger::RULES, oss.str());
             int h = int(mVel*mVel/(2* fabs(PhysicsManager::getSingleton().getGravity().y)));
+	    oss << "    verwendete Hoehe: " << h << "m";
+
+	    if( h < 4 && h > 0 ) // nicht in den Regeln, aber angenehmer, bei gelunger GE-Probe noch aufgefangen
+	    {
+		int probe = mMovingCreature->getCreature()->doEigenschaftsprobe("GE", h-6);
+		if( probe == RESULT_PATZER )
+		{
+		    h++;
+		    oss << "    GE-Patzer!";
+		}
+		else if( probe >= 0 )
+		{
+		    h = 0;
+		    oss << "    Nochmal geschickt gelandet!";
+		}
+	    }
+
 
             if( h > 0 )
             {
