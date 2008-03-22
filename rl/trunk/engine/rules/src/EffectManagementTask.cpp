@@ -27,7 +27,8 @@ namespace rl
 
 EffectManagementTask::EffectManagementTask()
 : GameTask(true),
-  mElapsedTime(0.0F)
+  mElapsedTime(0.0F),
+  mTimeFactor(1.0F)
 {
 }
 
