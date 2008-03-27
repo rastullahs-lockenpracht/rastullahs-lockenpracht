@@ -73,7 +73,7 @@ namespace rl
             mDefaultAction(DEFAULT_VIEW_OBJECT_ACTION),
             mState(GOS_LOADED)
     {
-        mEffectManager = new EffectManager();
+        mEffectManager = new EffectManager(this);
 
         // Standardactions registrieren
         Action* defaultAction = ActionManager::getSingleton().getAction(DEFAULT_VIEW_OBJECT_ACTION);

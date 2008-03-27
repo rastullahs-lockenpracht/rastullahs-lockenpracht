@@ -22,6 +22,7 @@
 #include "CreatureControllerManager.h"
 #include "DsaManager.h"
 #include "Eigenschaft.h"
+#include "EffectFactory.h"
 #include "EffectManager.h"
 #include "Exception.h"
 #include "Inventory.h"
@@ -33,10 +34,6 @@
 #include "Slot.h"
 #include "Talent.h"
 #include "Weapon.h"
-
-///@todo Just for debugging, remove when not needed anymore
-#include "CoreSubsystem.h"
-#include "RubyInterpreter.h"
 
 using namespace std;
 
@@ -249,7 +246,7 @@ namespace rl
    void Creature::modifyLe(int mod, bool ignoreMax)
     {
         int oldLe = mCurrentLe;
-		LifeState oldLifeState = mLifeState;
+        Effect::LifeState oldLifeState = getLifeState();
         mCurrentLe += mod;
 		if (!ignoreMax)
 		{
@@ -258,29 +255,35 @@ namespace rl
 
         if (mCurrentLe <= -getEigenschaft("KO") && oldLe > -getEigenschaft("KO"))
         {
-            mLifeState = LIFESTATE_DEAD;
+            mEffectManager->addEffect(EffectFactoryManager::getSingleton().createEffect("DeadEffect"));
+        }
+        else if (mCurrentLe > -getEigenschaft("KO") && oldLe <= -getEigenschaft("KO"))
+        {
+            mEffectManager->removeEffect("DeadEffect");
         }
         else if (mCurrentLe <= 0 && oldLe > 0)
         {
-			mLifeState = LIFESTATE_UNCONCIOUS;
+            mEffectManager->addEffect(EffectFactoryManager::getSingleton().createEffect("UnconciousEffect"));
+        }
+        else if (mCurrentLe > 0 && oldLe <= 0)
+        {
+            mEffectManager->removeEffect("UnconciousEffect");
         }
 		else if (mCurrentLe <= getWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE) &&
             oldLe > getWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE))
 		{
-			mLifeState = LIFESTATE_INCAPACITATED;
+            mEffectManager->addEffect(EffectFactoryManager::getSingleton().createEffect("IncapacitatedEffect"));
 		}
-		else
+		else if (mCurrentLe > getWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE) &&
+            oldLe <= getWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE))
 		{
-			mLifeState = LIFESTATE_ALIVE;
+            mEffectManager->removeEffect("IncapacitatedEffect");
 		}
 
-		fireObjectStateChangeEvent();
+        Effect::LifeState newLifeState = getLifeState();
 
-		if (mLifeState != oldLifeState)
-		{
-			MessagePump::getSingleton().sendMessage<MessageType_CreatureLifeStateChanged>(this,
-				mLifeState);
-		}
+        fireObjectStateChangeEvent();
+
     }
 
     int Creature::getLe() const
@@ -626,9 +629,9 @@ namespace rl
 		return it->second;
 	}
 
-    Effect::Status Creature::getStatus() const
+    Effect::LifeState Creature::getLifeState() const
     {
-      return mEffectManager->getStatus();
+      return mEffectManager->getLifeState();
     }
 
 	bool Creature::isMagic() const
@@ -888,20 +891,35 @@ namespace rl
         {
             tp = 0;
         }
+
         ///@todo auf Verletzlichkeiten und Immunitaeten achten
         if ((damageType & LEDAMAGE_FIRE) == LEDAMAGE_FIRE)
-            CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Fire!\"");
+        {
+            LOG_ERROR("Creature", "Fire damage not handled!"); ///@todo implement
+        }
         if ((damageType & LEDAMAGE_WATER) == LEDAMAGE_WATER)
-            CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Water!\"");
+        {
+            LOG_ERROR("Creature", "Water damage not handled!"); ///@todo implement
+        }
         if ((damageType & LEDAMAGE_DEMONIC) == LEDAMAGE_DEMONIC)
-            CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Demons!\"");
+        {
+            LOG_ERROR("Creature", "Demonic damage not handled!"); ///@todo implement
+        }
+
         if ((damageType & LEDAMAGE_TP_A) == LEDAMAGE_TP_A)
         {
             damageAu(tp, AUDAMAGE_NORMAL);
             tp = (int)floor(tp/2.);
         }
-		int rs = getWert(WERT_RS);
-		modifyLe(-tp + rs);
+
+        int rs = getWert(WERT_RS);
+        int sp = -tp + rs;
+		modifyLe(sp);
+
+        if (sp >= getEigenschaft("KO"))
+        {
+            LOG_ERROR("Creature", "TODO: Add a wound."); ///@todo implement
+        }
 	}
 
     void Creature::damageAe(int asp)

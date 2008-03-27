@@ -171,14 +171,14 @@ namespace rl
                 DAMAGETAG_NORMAL = 1,
                 DAMAGETAG_PIERCING, ///< Wie Pfeile, Bolzen oder gezielte Stiche, verletzen schon bei KO/2 < SP
                 DAMAGETAG_FIRE
-        };
+            };
             /// The differente states a @ref abbdes "SF" can be in.
              enum SfStatus
             {
                 SFSTATUS_IN_TRAINING = 1,
                 SFSTATUS_OK,
                 SFSTATUS_REQUIREMENTS_NOT_MET /// @todo Is this even needed?
-        };
+            };
 
 ///////////////////////////////////////////////////////////////////////////////
 // Werte
@@ -516,7 +516,7 @@ namespace rl
             /**
              * Gets the status of a creature.
              **/
-			Effect::Status getStatus() const;
+			Effect::LifeState getLifeState() const;
 
 
             bool isMagic() const;
@@ -824,9 +824,6 @@ namespace rl
             int mErschoepfung;
             /// Zuletzt zugewiesene Bewegungsart
             int mMovementType;
-
-			/// Life state, alive or dead or in between
-			LifeState mLifeState;
 
             /// Zeigt auf die gerade aktive Waffe.
             EigenschaftMap mEigenschaften;

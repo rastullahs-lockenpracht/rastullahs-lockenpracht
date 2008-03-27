@@ -15,18 +15,21 @@
  */
 #include "stdinc.h" //precompiled header
 
+#include "EffectManager.h"
+
 #include <sstream>
 
-#include "EffectManager.h"
+#include "CoreSubsystem.h"
 #include "DsaManager.h"
 #include "Exception.h"
-#include "CoreSubsystem.h"
-#include "RubyInterpreter.h"
+#include "MessagePump.h"
+#include "RulesMessages.h"
 #include "ScriptWrapper.h"
 
 namespace rl
 {
-	EffectManager::EffectManager()
+	EffectManager::EffectManager(GameObject* gameobject)
+        : mGameObject(gameobject)
 	{
 	}
 
@@ -102,10 +105,9 @@ namespace rl
 
 	void EffectManager::addEffect(Effect* effect)
 	{
-				std::stringstream debugInfo;
-				debugInfo << "Adding effect " << effect->getName() << std::endl;
-                LOG_DEBUG(Logger::RULES,
-					debugInfo.str());
+        Effect::LifeState oldState = getLifeState();
+
+        LOG_DEBUG(Logger::RULES, "Adding effect " + effect->getName());
 		for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
 		{
 			if ((*it)->getName() == effect->getName())
@@ -124,16 +126,23 @@ namespace rl
 				}
 			}
 		}
-        ScriptWrapper::getSingleton().owned( effect );
+        ScriptWrapper::getSingleton().owned(effect);
 		mEffects.insert(effect);
 		effect->enable();
+
+        checkStateChange(oldState);
 	}
 
     void EffectManager::removeEffect(Effect* effect)
     {
-      mEffects.erase(effect);
-      ScriptWrapper::getSingleton().disowned(effect);
-      ///@todo also remove from the check lists?
+        Effect::LifeState oldState = getLifeState();
+    
+        effect->disable();
+        mEffects.erase(effect);
+        ScriptWrapper::getSingleton().disowned(effect);
+        ///@todo also remove from the check lists?
+
+        checkStateChange(oldState);
     }
 
     void EffectManager::removeEffect(CeGuiString name)
@@ -142,24 +151,31 @@ namespace rl
 		{
             if ((*it)->getName() == name)
             {
-                ScriptWrapper::getSingleton().disowned(*it);
-                mEffects.erase(it);
+                removeEffect(*it);
                 return;
             }
         }
     }
 
-
-
-    Effect::Status EffectManager::getStatus()
+    Effect::LifeState EffectManager::getLifeState()
     {
-      checkEffects();
-      Effect::Status status = 0;
-      for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
-      {
-            status = status | ((*it)->getStatus());
-      }
-      return status;
+        checkEffects();
+        Effect::LifeState status = 0;
+        for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
+        {
+            status = status | ((*it)->getLifeState());
+        }
+        return status;
+    }
+
+    void EffectManager::checkStateChange(Effect::LifeState oldState)
+    {
+        Effect::LifeState currentState = getLifeState();
+        if (currentState != oldState)
+        {
+			MessagePump::getSingleton().sendMessage<MessageType_GameObjectLifeStateChanged>(mGameObject,
+				oldState, currentState);
+        }
     }
 
     int EffectManager::getMod(CeGuiString target, Effect::ModType type, Effect::ModTag tag)

@@ -59,16 +59,6 @@ namespace rl {
 		GET_DIALOG,  ///!< Dialog events ("Charisma roll succeded.")
 		GET_QUEST    ///!< Quest related events ("Quest succeded: Kill Wolf.")
 	};
-
-    /// General life condition state of creatures.
-    enum LifeState
-    {
-        LIFESTATE_ALIVE         = 1, ///< Creature is alive and kicking.
-		LIFESTATE_INCAPACITATED = 2, ///< Creature is alive and not quite kicking.
-        LIFESTATE_UNCONCIOUS    = 3, ///< Creature is alive but not kicking.
-        LIFESTATE_DEAD          = 4, ///< Creature is neither alive nor kicking.
-		LIFESTATE_UNDEAD        = 5  ///< Creature is not alive but kicking. (DO NOT USE BTW)
-    };
 }
 
 #endif // __RULESCONSTANTS_H__

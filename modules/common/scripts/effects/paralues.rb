@@ -1,12 +1,12 @@
 class Paralues < Effect
-  def initialize()
+  def initialize(stufe)
     super(0);
     setName("Versteinert");
     setDescription("Die Haut sieht aus wie aus feinem Marmor.");
   end
 
-  def getStatus()
-    rval = (STATUS_PETRIFIED | STATUS_INVULNERABLE | STATUS_DEAF);
+  def getLifeState()
+    rval = (LS_PETRIFIED | LS_INVULNERABLE | LS_DEAF);
     return rval;
   end
     

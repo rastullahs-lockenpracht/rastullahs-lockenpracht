@@ -22,11 +22,12 @@
 #include "MessageType.h"
 #include "RulesConstants.h"
 #include "CoreMessages.h"
+#include "Effect.h"
 
 namespace rl
 {
 	class Combatant;
-	class Creature;
+	class GameObject;
 
 	/// 0x03xxxxxx as mask for rules messages
     enum RulesMessageTypeIds
@@ -43,12 +44,13 @@ namespace rl
 		// Events
 		RLMSG_COMBAT_OPPONENT_ENTERED = 0x03000201,
 		RLMSG_COMBAT_OPPONENT_LEFT = 0x03000202,
+		RLMSG_COMBAT_ENDED = 0x03000210,
 
 		// Game object related events
         // Mask
         RLMSG_GAMEOBJECT_EVENTS = 0x03000300,
         // Events
-        RLMSG_CREATURE_LIFESTATE_CHANGED = 0x03000301
+        RLMSG_GAMEOBJECT_LIFESTATE_CHANGED = 0x03000301
     };
 
     /// Message sent right after a new game log event has been added.
@@ -61,8 +63,11 @@ namespace rl
 	typedef MessageType<RLMSG_COMBAT_OPPONENT_LEFT, Combatant*>
 		MessageType_CombatOpponentLeft;
 
-	typedef MessageType<RLMSG_CREATURE_LIFESTATE_CHANGED, Creature*, LifeState>
-		MessageType_CreatureLifeStateChanged;
+    typedef MessageType<RLMSG_COMBAT_ENDED, bool>
+		MessageType_CombatEnded;
+
+    typedef MessageType<RLMSG_GAMEOBJECT_LIFESTATE_CHANGED, GameObject*, Effect::LifeState, Effect::LifeState>
+		MessageType_GameObjectLifeStateChanged;
     
     typedef MessageType<RLMSG_SAVEGAME_GOS_LOADED> MessageType_GameObjectsLoaded;
 

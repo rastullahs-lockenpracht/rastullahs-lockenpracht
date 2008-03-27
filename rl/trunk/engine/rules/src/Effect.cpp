@@ -92,15 +92,15 @@ namespace rl
       return PERMANENT;
     }
 
-	Effect::Status Effect::getStatus()
+	Effect::LifeState Effect::getLifeState() const
     {
       // should be overlaoaded in the specific derivated effects.
-      return STATUS_NONE;
+      return LS_NONE;
     }
 
     int Effect::getMod(CeGuiString target, ModType type, ModTag tag)
     {
-      return 0;
+        return 0;
     }
 
     const Property Effect::getProperty(const CeGuiString& key) const

@@ -1,4 +1,5 @@
 load "effects/ruestung.rb"
+load "effects/lifestateeffects.rb"
 load "triggers/test.rb"
 load "triggers/limitedtimestrigger.rb"
 

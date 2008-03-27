@@ -193,7 +193,7 @@ namespace rl
             return
                 mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
                 mMovingCreature->getCreature()->getAu() > 0 &&
-                !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
+                !(mMovingCreature->getCreature()->getLifeState() & (Effect::LS_IMMOBILE));
         }
         virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep)
         {
@@ -316,7 +316,7 @@ namespace rl
             return
                 mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
                 mMovingCreature->getCreature()->getAu() > 1 &&
-                !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
+                !(mMovingCreature->getCreature()->getLifeState() & (Effect::LS_IMMOBILE));
         }
         virtual void activate()
         {
@@ -405,7 +405,7 @@ namespace rl
             return
                 mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
                 mMovingCreature->getCreature()->getAu() > 1 &&
-                !(mMovingCreature->getCreature()->getStatus() & Effect::STATUS_IMMOBILE);
+                !(mMovingCreature->getCreature()->getLifeState() & Effect::LS_IMMOBILE);
         }
         virtual bool run(Ogre::Real elapsedTime, Ogre::Vector3 direction, Ogre::Vector3 rotation)
         {
@@ -984,13 +984,13 @@ namespace rl
                     (mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR ||
                     mMovingCreature->getAbstractLocation() == CreatureController::AL_AIRBORNE) &&
                     mMovingCreature->getCreature()->getAu() > 6 &&
-                    !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
+                    !(mMovingCreature->getCreature()->getLifeState() & (Effect::LS_IMMOBILE));
             else
                 return
                 mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
                 mMovingCreature->getCreature()->getAu() > 8 &&
                 mMovingCreature->getCreature()->getAu() > mMovingCreature->getCreature()->getAuMax()/3.0 &&
-                !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
+                !(mMovingCreature->getCreature()->getLifeState() & (Effect::LS_IMMOBILE));
         }
         virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep)
         {
@@ -1197,13 +1197,13 @@ namespace rl
                     (mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR ||
                     mMovingCreature->getAbstractLocation() == CreatureController::AL_AIRBORNE) &&
                     mMovingCreature->getCreature()->getAu() > 6 &&
-                    !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
+                    !(mMovingCreature->getCreature()->getLifeState() & (Effect::LS_IMMOBILE));
             else
                 return
                 mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
                 mMovingCreature->getCreature()->getAu() > 8 &&
                 mMovingCreature->getCreature()->getAu() > mMovingCreature->getCreature()->getAuMax()/3.0 &&
-                !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_IMMOBILE));
+                !(mMovingCreature->getCreature()->getLifeState() & (Effect::LS_IMMOBILE));
         }
         virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep)
         {
@@ -1384,7 +1384,7 @@ namespace rl
             return
                 mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
                 mMovingCreature->getCreature()->getAu() > 0 &&
-                !(mMovingCreature->getCreature()->getStatus() & (Effect::STATUS_DEAD | Effect::STATUS_UNCONSCIOUS | Effect::STATUS_SLEEPING));
+                !(mMovingCreature->getCreature()->getLifeState() & (Effect::LS_DEAD | Effect::LS_UNCONSCIOUS | Effect::LS_SLEEPING));
         }
         virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep)
         {

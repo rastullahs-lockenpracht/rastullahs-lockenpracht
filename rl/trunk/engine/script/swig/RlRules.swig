@@ -578,22 +578,23 @@ namespace rl {
     class Effect
     {
     public:    
-        typedef unsigned long Status;
-        static const Status STATUS_NONE           = 1<<0;
-        static const Status STATUS_BLIND          = 1<<1;   ///< The creature can't see anything.
-        static const Status STATUS_DEAD           = 1<<2;   ///< The creature is dead.
-        static const Status STATUS_DEAF           = 1<<3;   ///< The creature can't hear anything.
-        static const Status STATUS_PARALYZED      = 1<<4;   ///< The creature can't move, turn, jump etc.
-        static const Status STATUS_INCAPACITATED  = 1<<5;   ///< The creature can't fight anymore due to serious injuries. The creature can barely move.
-        static const Status STATUS_INVISIBLE      = 1<<6;   ///< The creature can't be seen.
-        static const Status STATUS_INVULNERABLE   = 1<<7;   ///< The creature is immune to any mundane attacks.
-        static const Status STATUS_PETRIFIED      = 1<<8;   ///< The creature is coated with stone and has all the effects of paralyzation
-        static const Status STATUS_SILENCED       = 1<<9;   ///< The creature doesn't make any noises.
-        static const Status STATUS_SLEEPING       = 1<<10;  ///< The creature is asleep.
-        static const Status STATUS_UNCONSCIOUS    = 1<<11;  ///< Like SLEEPING, but more difficult to wake.
+        typedef unsigned long LifeState;
+        static const LifeState LS_NONE           = 1<<0;
+        static const LifeState LS_BLIND          = 1<<1;   ///< The creature can't see anything.
+        static const LifeState LS_DEAD           = 1<<2;   ///< The creature is dead.
+        static const LifeState LS_DEAF           = 1<<3;   ///< The creature can't hear anything.
+        static const LifeState LS_PARALYZED      = 1<<4;   ///< The creature can't move, turn, jump etc.
+        static const LifeState LS_INCAPACITATED  = 1<<5;   ///< The creature can't fight anymore due to serious injuries. The creature can barely move.
+        static const LifeState LS_INVISIBLE      = 1<<6;   ///< The creature can't be seen.
+        static const LifeState LS_INVULNERABLE   = 1<<7;   ///< The creature is immune to any mundane attacks.
+        static const LifeState LS_PETRIFIED      = 1<<8;   ///< The creature is coated with stone and has all the effects of paralyzation
+        static const LifeState LS_SILENCED       = 1<<9;   ///< The creature doesn't make any noises.
+        static const LifeState LS_SLEEPING       = 1<<10;  ///< The creature is asleep.
+        static const LifeState LS_UNCONSCIOUS    = 1<<11;  ///< Like SLEEPING, but more difficult to wake.
 
         // Meta stati
-        static const Status STATUS_IMMOBILE = STATUS_PARALYZED | STATUS_SLEEPING | STATUS_UNCONSCIOUS | STATUS_PETRIFIED | STATUS_DEAD;
+        static const LifeState LS_IMMOBILE = LS_PARALYZED | LS_SLEEPING | LS_UNCONSCIOUS | LS_PETRIFIED | LS_DEAD;
+        static const LifeState LS_NO_COMBAT = LS_IMMOBILE | LS_INCAPACITATED;
 
         typedef int ModType;
         static const ModType MODTYPE_NONE         = 1 << 0;
@@ -640,7 +641,7 @@ namespace rl {
         virtual void disable();
         virtual RL_LONGLONG timeCheck() = 0;
 
-        virtual Status getStatus();
+        virtual LifeState getLifeState() const;
         virtual int getMod(rl::CeGuiString target, ModType type, ModTag tag);
 
         virtual const rl::Property getProperty(const rl::CeGuiString& key) const;

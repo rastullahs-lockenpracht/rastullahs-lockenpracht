@@ -18,25 +18,28 @@
 #define __EFFECTMANAGER_H__
 
 #include "RulesPrerequisites.h"
-#include "Date.h"
-#include "Effect.h"
+
 #include <set>
 
+#include "Date.h"
+#include "Effect.h"
 
 namespace rl
 {
+    class GameObject;
+
     /**
-     * Verwaltet die Effekte die auf einer Kreatur wirken.
-     * Diese Klasse verwaltet alle Effekte, die auf einer Kreatur liegen.
-     * Jede Kreatur hat ihren eigenen EffectManager. Die Funktion checkeffects
-     * sollte waehrend jeder Aktion (gemeint ist die DSA-Zeiteinheit) aufgerufen
-     * werden.
+     * @brief Manages the effects affecting a game object
+     * 
+     * This class manages all effects applied to a game object.
+     * Each game object has a seperate EffectManager. The method checkEffects()
+     * should be called every Aktion (the dark eye time unit)
      **/
 
 	class _RlRulesExport EffectManager
 	{
 	public:
-		EffectManager();
+		EffectManager(GameObject* gameobject);
 		~EffectManager();
 
         /**
@@ -78,7 +81,7 @@ namespace rl
         /**
          * Checks the effects for the given status.
          **/
-        Effect::Status getStatus();
+        Effect::LifeState getLifeState();
         
         /**
          * Returns the specified modificator.
@@ -93,7 +96,12 @@ namespace rl
          **/
         CeGuiString getEffects();
 
+        void checkStateChange(Effect::LifeState oldState);
+
 	private:
+
+        GameObject* mGameObject;
+
         /// Eine einfache Menge von Effekten
 		typedef std::set<Effect*> Effects;
 		Effects mEffects;
