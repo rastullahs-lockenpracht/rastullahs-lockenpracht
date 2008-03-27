@@ -65,7 +65,7 @@ class EffectTest < TestCase
         bottich.setPosition(rel_pos([0.0, height, 0.0]));
 
 
-        $paralueseffect = Paralues.new();
+        $paralueseffect = Paralues.new(10);
         $resistenzeffect = ResistentGegenKrankheiten.new();
 
 
