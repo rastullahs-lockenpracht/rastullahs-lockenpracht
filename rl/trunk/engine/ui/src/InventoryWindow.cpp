@@ -131,7 +131,7 @@ namespace rl {
             CeGuiString slotName = (*it).first;
             Item* item = inventory->getItem(slotName);
 			Window* slotWindow = (*it).second;
-			//slotWindow->setDragDropTarget(true);
+			slotWindow->setDragDropTarget(true);
 			slotWindow->subscribeEvent(Window::EventDragDropItemDropped,
 				boost::bind(&InventoryWindow::handleItemDroppedOnSlot, this, _1));
             slotWindow->subscribeEvent(Window::EventDragDropItemEnters,
@@ -150,7 +150,7 @@ namespace rl {
             }
         }
 
-		//mWorldBackground->setDragDropTarget(true);
+		mWorldBackground->setDragDropTarget(true);
 		mWorldBackground->subscribeEvent(Window::EventDragDropItemDropped,
 			boost::bind(&InventoryWindow::handleItemDroppedOnWorld, this, _1));
 		mWorldBackground->subscribeEvent(Window::EventMouseMove,
