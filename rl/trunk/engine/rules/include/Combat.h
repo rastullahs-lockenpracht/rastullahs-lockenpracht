@@ -19,19 +19,20 @@
 
 #include "RulesPrerequisites.h"
 
-#include "JobListener.h"
-#include "Kampfaktion.h"
-#include "MessagePump.h"
-#include "RulesConstants.h"
-
 #include <set>
 #include <vector>
 #include <boost/tuple/tuple.hpp>
 
+#include "JobListener.h"
+#include "Kampfaktion.h"
+#include "MessagePump.h"
+#include "RulesConstants.h"
+#include "Effect.h"
+
 namespace rl
 {
     class Combatant;
-	class Creature;
+	class GameObject;
 	class JobSet;
 
 	class _RlRulesExport Combat : public JobListener
@@ -70,9 +71,6 @@ namespace rl
 
         virtual void jobFinished(unsigned long ticket);
 
-		// Message handlers
-
-		bool creatureLifeStateChanged(Creature*, LifeState);
 
     private:
 		typedef enum {ATTACKE, BEWEGEN, FOLGEN} Aktion;
@@ -110,6 +108,10 @@ namespace rl
 		void doAttacke(JobSet* jobSet, Combatant* actor, Combatant* target);
 
 		Ogre::Real getMaximumAttackeDistance(Combatant* actor) const;
+
+        // Message handlers
+
+        bool onGameObjectLifeStateChanged(GameObject*, Effect::LifeState, Effect::LifeState);
     };
 }
 

@@ -19,6 +19,7 @@
 
 #include "Combatant.h"
 #include "CreatureController.h"
+#include "Effect.h"
 #include "GameEventLog.h"
 #include "Inventory.h"
 #include "Job.h"
@@ -65,8 +66,8 @@ namespace rl
 		  mAnimationSequenceTicket(0)
     {
 		mLifeStateChangeConnection =
-            MessagePump::getSingleton().addMessageHandler<MessageType_CreatureLifeStateChanged>(
-			    boost::bind(&Combat::creatureLifeStateChanged, this, _1, _2));
+            MessagePump::getSingleton().addMessageHandler<MessageType_GameObjectLifeStateChanged>(
+			    boost::bind(&Combat::onGameObjectLifeStateChanged, this, _1, _2, _3));
     }
 
     Combat::~Combat()
@@ -256,37 +257,40 @@ namespace rl
 				it != mCombatantQueue.end(); ++it)
 			{
 				Combatant* combatant = it->second;
-				// Is there an action registed for combatant?
-				CombatantActionsMap::iterator actionsIt = mCombatantActions.find(combatant);
-				if (actionsIt != mCombatantActions.end())
-				{
-					// Do we have an action for this pass ?
-					if (actionIndex < actionsIt->second.size())
-					{
-						// Yes we do.
 
-						ActionEntry entry = actionsIt->second[actionIndex];
-						if (entry.aktion == ATTACKE)
-						{
-							// Check whether possible
-							if (canAttack(combatant, entry.target))
-							{
-								doAttacke(jobSet, combatant, entry.target);
-							}
-						}
-						else if (entry.aktion == BEWEGEN)
-						{
-							GameEventLog::getSingleton().logEvent(combatant->getName() + " läuft nach "
-								+ CeGuiString(StringConverter::toString(entry.targetPos)), GET_COMBAT);
-							combatant->doBewegen(jobSet, entry.targetPos);
-						}
-						else if (entry.aktion == FOLGEN)
-						{
-							GameEventLog::getSingleton().logEvent(combatant->getName() + " läuft zu "
-								+ entry.target->getName(), GET_COMBAT);
-							combatant->doFolgen(jobSet, entry.target);
-						}
-					}
+                if (!(combatant->getCreature()->getLifeState() & Effect::LS_NO_COMBAT))
+                {
+				    // Is there an action registed for combatant?
+				    CombatantActionsMap::iterator actionsIt = mCombatantActions.find(combatant);
+				    if (actionsIt != mCombatantActions.end())
+				    {
+					    // Do we have an action for this pass ?
+					    if (actionIndex < actionsIt->second.size())
+					    {
+						    // Yes we do.
+						    ActionEntry entry = actionsIt->second[actionIndex];
+						    if (entry.aktion == ATTACKE)
+						    {
+							    // Check whether possible
+							    if (canAttack(combatant, entry.target))
+							    {
+								    doAttacke(jobSet, combatant, entry.target);
+							    }
+						    }
+						    else if (entry.aktion == BEWEGEN)
+						    {
+							    GameEventLog::getSingleton().logEvent(combatant->getName() + " läuft nach "
+								    + CeGuiString(StringConverter::toString(entry.targetPos)), GET_COMBAT);
+							    combatant->doBewegen(jobSet, entry.targetPos);
+						    }
+						    else if (entry.aktion == FOLGEN)
+						    {
+							    GameEventLog::getSingleton().logEvent(combatant->getName() + " läuft zu "
+								    + entry.target->getName(), GET_COMBAT);
+							    combatant->doFolgen(jobSet, entry.target);
+						    }
+					    }
+                    }
 				}
 			}
 			jobQueue->add(jobSet);
@@ -298,17 +302,27 @@ namespace rl
     void Combat::endRound()
     {
         // All actions executed. Analyze outcome of this round.
-        // 
-
-        // Refill combatant queue with combatants that are still alive.
-		beginRound();
+        if (mAllies.empty())
+        {
+            MessagePump::getSingleton().sendMessage<MessageType_CombatEnded>(false);
+        }
+        else if (mOpponents.empty())
+        {
+            MessagePump::getSingleton().sendMessage<MessageType_CombatEnded>(true);
+        }
+        else 
+        {
+            // Refill combatant queue with combatants that are still alive.
+		    beginRound();
+        }
     }
 
 	void Combat::doAttacke(JobSet* jobSet, Combatant* actor, Combatant* target)
 	{
-		GameEventLog::getSingleton().logEvent(
+        GameEventLog::getSingleton().logEvent(
 			actor->getName() + " attackiert " + target->getName() , GET_COMBAT);
-		bool rollDamage = false;
+        
+        bool rollDamage = false;
 		// Make an attack roll.
 		int aresult = actor->rollAttacke();
 		if (aresult >= RESULT_ERFOLG)
@@ -374,22 +388,23 @@ namespace rl
 		}
 	}
 
-	bool Combat::creatureLifeStateChanged(Creature* creature, LifeState state)
+    bool Combat::onGameObjectLifeStateChanged(GameObject* gameobject, Effect::LifeState oldstate, Effect::LifeState newstate)
 	{
-		if (state != LIFESTATE_ALIVE)
+        if (newstate & Effect::LS_NO_COMBAT)
 		{
 			// Is a creature in combat affected?
 			for (size_t i = 0; i < mCombatantQueue.size(); ++i)
 			{
-				if (creature == mCombatantQueue[i].second->getCreature())
+                Creature* curCreature = mCombatantQueue[i].second->getCreature();
+				if (gameobject == curCreature)
 				{
 					// Yes. Log about it and remove it from combat.
-					CeGuiString msg = creature->getName() + " ist jetzt ";
-					if (state == LIFESTATE_INCAPACITATED)
+					CeGuiString msg = curCreature->getName() + " ist jetzt ";
+					if (newstate == Effect::LS_INCAPACITATED)
 					{
 						msg += "kampfunfähig.";
 					}
-					else if (state == LIFESTATE_UNCONCIOUS)
+                    else if (newstate == Effect::LS_UNCONSCIOUS)
 					{
 						msg += "bewusstlos.";
 					}
@@ -400,7 +415,7 @@ namespace rl
 					GameEventLog::getSingleton().logEvent(msg, GET_COMBAT);
 
 					CombatantSet::iterator it = std::find_if(mOpponents.begin(), mOpponents.end(),
-						std::bind2nd(FindCombatantByCreature(), creature));
+						std::bind2nd(FindCombatantByCreature(), curCreature));
 					if (it != mOpponents.end())
 					{
 						removeOpponent(mCombatantQueue[i].second);
@@ -408,7 +423,7 @@ namespace rl
 					else
 					{
 						CombatantSet::iterator it = std::find_if(mAllies.begin(), mAllies.end(),
-							std::bind2nd(FindCombatantByCreature(), creature));
+							std::bind2nd(FindCombatantByCreature(), curCreature));
 						if (it != mOpponents.end())
 						{
 							removeAlly(mCombatantQueue[i].second);

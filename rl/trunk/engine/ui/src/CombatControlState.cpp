@@ -55,9 +55,6 @@ namespace rl {
         filter->setAlignmentMask(Creature::ALIGNMENT_ENEMY);
         mEnemySelector.setFilter(filter);
 
-        mCamera = static_cast<CameraObject*>(mCameraActor->getControlledObject());
-		mCombatGui = new CombatGui(mCombat, mCamera);
-
         // Message handlers
 		mCombatIoAttackOpponentConnection =
             MessagePump::getSingleton().addMessageHandler<MessageType_CombatIoAttackOpponent>(
@@ -71,6 +68,12 @@ namespace rl {
 		mEnemyLeftCombatConnection =
             MessagePump::getSingleton().addMessageHandler<MessageType_CombatOpponentLeft>(
 			    boost::bind(&CombatControlState::enemyLeftCombat, this, _1));
+		mCombatEndConnection =
+            MessagePump::getSingleton().addMessageHandler<MessageType_CombatEnded>(
+			    boost::bind(&CombatControlState::combatEnded, this, _1));
+
+        mCamera = static_cast<CameraObject*>(mCameraActor->getControlledObject());
+		mCombatGui = new CombatGui(mCombat, mCamera);
     }
 
 	CombatControlState::~CombatControlState()
@@ -129,6 +132,7 @@ namespace rl {
 
         // reset current combat, in order to avoid a potential dangling pointer
         mCombat->stop();
+        //delete mCombat; ///@todo: is this correct? someone has to delete the combat
         mCombat = NULL;
     }
 
@@ -210,4 +214,11 @@ namespace rl {
 		}
 		return true;
 	}
+
+    bool CombatControlState::combatEnded(bool alliesWon)
+    {
+        ///@todo some feedback, Abenteuerpunkte, anything? 
+        InputManager::getSingleton().popControlState();
+        return true;
+    }
 }

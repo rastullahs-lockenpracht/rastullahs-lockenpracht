@@ -53,14 +53,6 @@ namespace rl {
         virtual Ogre::String getCombatantTypeName() const;
         virtual void requestCombatantAction();
 
-		// Event handlers
-
-		bool userRequestAttackOpponent(Combatant*);
-		bool userRequestParryOpponent(Combatant*);
-		bool userRequestEndTurn();
-
-		bool enemyLeftCombat(Combatant*);
-
     private:
 		enum State {REQUEST_USER_INPUT, ROUND_EXECUTION};
 
@@ -69,6 +61,7 @@ namespace rl {
 		MessagePump::ScopedConnection mCombatIoEndTurnRequestedConnection;
 
 	    MessagePump::ScopedConnection mEnemyLeftCombatConnection;
+	    MessagePump::ScopedConnection mCombatEndConnection;
 
 		Combatant* mAttackedOpponent;
 		Combatant* mParriedOpponent;
@@ -80,6 +73,14 @@ namespace rl {
         CameraObject* mCamera;
 
 		State mState;
+        
+        // Event handlers
+		bool userRequestAttackOpponent(Combatant*);
+		bool userRequestParryOpponent(Combatant*);
+		bool userRequestEndTurn();
+
+		bool enemyLeftCombat(Combatant*);
+        bool combatEnded(bool);
 	};
 }
 #endif
