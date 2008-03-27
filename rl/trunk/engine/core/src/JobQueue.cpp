@@ -40,6 +40,11 @@ void JobQueue::add(AbstractJob* job)
     mQueue.push_back(job);
 }
 
+bool JobQueue::empty() const
+{
+    return mQueue.empty();
+}
+
 bool JobQueue::execute(Ogre::Real elapsedTime)
 {
     AbstractJob* cur = *mQueue.begin();
@@ -105,6 +110,11 @@ void JobSet::add(AbstractJob* job)
 {
     mSet.insert(job);
     update();
+}
+
+bool JobSet::empty() const
+{
+    return mSet.empty();
 }
 
 bool JobSet::execute(Ogre::Real elapsedTime)

@@ -30,6 +30,7 @@ namespace rl
         ~JobQueue();
 
         void add(AbstractJob* job);
+        bool empty() const;
         virtual bool execute(Ogre::Real elapsedTime);
         virtual JobPersistenceType getPersistenceType() const;
         virtual TimeSource::TimeSourceType getTimeSource() const;
@@ -47,6 +48,7 @@ namespace rl
         ~JobSet();
 
         void add(AbstractJob* job);
+        bool empty() const;
         virtual bool execute(Ogre::Real elapsedTime);
         virtual JobPersistenceType getPersistenceType() const;
         virtual TimeSource::TimeSourceType getTimeSource() const;
