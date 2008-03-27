@@ -22,13 +22,12 @@
 
 namespace rl
 {
-    template<int _MessageTypeId, typename Param1, typename Param2>
+    template<int _MessageTypeId, typename Param1, typename Param2, typename Param3>
     class MessageType
     {
     public:
         static const int MessageTypeId = _MessageTypeId;
-
-        typedef MessageObject<_MessageTypeId, Param1, Param2> MessageObjectType;
+        typedef MessageObject<_MessageTypeId, Param1, Param2, Param3> MessageObjectType;
         typedef typename MessageObjectType::HandlerType HandlerType;
     };
 }

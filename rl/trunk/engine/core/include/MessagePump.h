@@ -162,6 +162,15 @@ namespace rl
             return doSend(obj);
         }
 
+        template<typename _MessageType>
+        bool sendMessage(const typename _MessageType::MessageObjectType::Param1& p1,
+            const typename _MessageType::MessageObjectType::Param2& p2,
+            const typename _MessageType::MessageObjectType::Param2& p3)
+        {
+            MessageObjectBase* obj = _MessageType::MessageObjectType::Build(p1, p2, p3);
+            return doSend(obj);
+        }
+
         ////////////////////////////////
 
         template<typename _MessageType>
@@ -183,6 +192,15 @@ namespace rl
             const typename _MessageType::MessageObjectType::Param2& p2)
         {
             MessageObjectBase* obj = _MessageType::MessageObjectType::Build(p1,p2);
+            doPost(obj);
+        }
+
+        template<typename _MessageType>
+        void postMessage(const typename _MessageType::MessageObjectType::Param1& p1,
+            const typename _MessageType::MessageObjectType::Param2& p2,
+            const typename _MessageType::MessageObjectType::Param2& p3)
+        {
+            MessageObjectBase* obj = _MessageType::MessageObjectType::Build(p1, p2, p3);
             doPost(obj);
         }
 

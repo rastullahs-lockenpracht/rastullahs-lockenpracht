@@ -32,7 +32,8 @@ namespace rl
 
     template<int MessageTypeId,
         typename Param1 = MessageObject_EmptyParam,
-        typename Param2 = MessageObject_EmptyParam>
+        typename Param2 = MessageObject_EmptyParam,
+        typename Param3 = MessageObject_EmptyParam>
     class MessageType;
 
     class MessageObjectBase
@@ -92,18 +93,41 @@ namespace rl
         }
     };
 
+    //MessageObject with 3 parameters
+    template<typename _Param1, typename _Param2, typename _Param3>
+    class MessageObject_3 : public MessageObjectBase
+    {
+    public:
+        typedef _Param1 Param1;
+        typedef _Param2 Param2;
+        typedef _Param2 Param3;
+
+        Param1 param1;
+        Param2 param2;
+        Param2 param3;
+
+        typedef boost::function< bool (const Param1& p1, const Param2& p2, const Param3& p3) > HandlerType;
+
+        template<typename Handler>
+        bool Invoke(const Handler& handler)
+        {
+            return handler(param1, param2, param3);
+        }
+    };
+
     //forward declaration of MessageObject_x
     //It is implemented in several specializations, 
     //each derives from another MessageObject base 
     //to select the correct parameter count
-    template<int _MessageTypeId, typename Param1, typename Param2>
+    template<int _MessageTypeId, typename Param1, typename Param2, typename Param3>
     class MessageObject_x;
 
     //The final MessageObject. The real implementation is chosen through the given template parameters
     template<int _MessageTypeId,
         typename Param1 = MessageObject_EmptyParam,
-        typename Param2 = MessageObject_EmptyParam>
-    class MessageObject : public MessageObject_x<_MessageTypeId, Param1, Param2>
+        typename Param2 = MessageObject_EmptyParam,
+        typename Param3 = MessageObject_EmptyParam>
+    class MessageObject : public MessageObject_x<_MessageTypeId, Param1, Param2, Param3>
     {
     public:
         virtual int getMessageTypeId()
@@ -114,7 +138,7 @@ namespace rl
 
 
     template<int _MessageTypeId>
-    class MessageObject_x<_MessageTypeId, MessageObject_EmptyParam, MessageObject_EmptyParam>
+    class MessageObject_x<_MessageTypeId, MessageObject_EmptyParam, MessageObject_EmptyParam, MessageObject_EmptyParam>
         : public MessageObject_0
     {
     public:
@@ -126,7 +150,7 @@ namespace rl
     };
 
     template<int _MessageTypeId, typename Param1>
-    class MessageObject_x<_MessageTypeId, Param1, MessageObject_EmptyParam>
+    class MessageObject_x<_MessageTypeId, Param1, MessageObject_EmptyParam, MessageObject_EmptyParam>
         : public MessageObject_1<Param1>
     {
     public:
@@ -139,7 +163,8 @@ namespace rl
     };
 
     template<int _MessageTypeId, typename Param1, typename Param2>
-    class MessageObject_x : public MessageObject_2<Param1, Param2>
+    class MessageObject_x<_MessageTypeId, Param1, Param2, MessageObject_EmptyParam>
+        : public MessageObject_2<Param1, Param2>
     {
     public:
         static MessageObject_x* Build(const Param1& p1, const Param2& p2)
@@ -147,6 +172,20 @@ namespace rl
             MessageObject_x* msgObj = new MessageObject<_MessageTypeId, Param1, Param2>();
             msgObj->param1 = p1;
             msgObj->param2 = p2;
+            return msgObj;
+        }
+    };
+
+    template<int _MessageTypeId, typename Param1, typename Param2, typename Param3>
+    class MessageObject_x : public MessageObject_3<Param1, Param2, Param3>
+    {
+    public:
+        static MessageObject_x* Build(const Param1& p1, const Param2& p2, const Param3& p3)
+        {
+            MessageObject_x* msgObj = new MessageObject<_MessageTypeId, Param1, Param2, Param3>();
+            msgObj->param1 = p1;
+            msgObj->param2 = p2;
+            msgObj->param3 = p3;
             return msgObj;
         }
     };
