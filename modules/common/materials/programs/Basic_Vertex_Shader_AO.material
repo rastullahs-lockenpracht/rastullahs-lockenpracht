@@ -8,6 +8,13 @@ fragment_program Basic_Pixel_Shader_AO hlsl
 	entry_point ps_main
 }
 
+vertex_program Basic_Vertex_Shader_AO hlsl
+{
+	source Basic_Vertex_Shader_AO.source
+	target vs_2_0
+	entry_point vs_main
+}
+
 
 material Basic_Vertex_Shader_AO
 {
@@ -24,7 +31,7 @@ receive_shadows off
 			{
 			}
 			//DirectX 9.0 HLSL Vertex Shader vs_2_0
-			vertex_program_ref Basic_Vertex_Shader
+			vertex_program_ref Basic_Vertex_Shader_AO
 			{
 				// param_named_auto
 

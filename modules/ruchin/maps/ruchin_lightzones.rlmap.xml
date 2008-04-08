@@ -47,13 +47,7 @@
 			<staticgeometrygroup id="0"/>
 			<renderingdistance data="100" /> 
 		</entity>
-		<entity name="Ruchin_t" meshfile="Ruchin_t.mesh" visible="true" receivesShadow="false">
-			<position x="30.0" y="0.0" z="30.0" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<staticgeometrygroup id="0"/>
-			<renderingdistance data="100" /> 
-		</entity>
+
 		
 		<entity name="Ruchin_g" meshfile="Ruchin_g.mesh" visible="true" receivesShadow="false">
 			<position x="120.0" y="0.0" z="-50.0" />
@@ -85,13 +79,7 @@
 			<renderingdistance data="100" />
 		</entity>
 		
-		<entity name="Ruchin_s" meshfile ="Ruchin_s.mesh" visible="true" receivesShadow="false" castsShadows="true">
-			<position x="-6.85993" y="0.405498" z="11.2053" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<staticgeometrygroup id="0"/>
-			<renderingdistance data="100" />
-		</entity>
+
 		<entity name="Ruchin_h" meshfile ="Ruchin_h.mesh" visible="true" receivesShadow="false" castsShadows="true">
 			<position x="-31.0" y="0.0" z="-104.0" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
@@ -99,28 +87,8 @@
 			<staticgeometrygroup id="0"/>
 			<renderingdistance data="100" />
 		</entity>	
-		<entity name="Ruchin_n" meshfile ="Ruchin_n.mesh" visible="true" receivesShadow="false">
-			<position x="9.28835" y="4.25027" z="-52.6695" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<staticgeometrygroup id="0"/>
-			<renderingdistance data="100" />
-		</entity>
-		<entity name="Ruchin_p" meshfile ="Ruchin_p.mesh" visible="true" receivesShadow="false">
-			<position x="29.574" y="2.872" z="-7.966" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<staticgeometrygroup id="0"/>
-			<renderingdistance data="100" />
-		</entity>
-		<entity name="Ruchin_m" meshfile ="Ruchin_m.mesh" visible="true" receivesShadow="false">
-			<position x="36.6777" y="2.04379" z="-51.148" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<staticgeometrygroup id="0"/>
-			<renderingdistance data="100" />
-			
-		</entity><entity name="Ruchin_m_innen" meshfile ="Ruchin_m_innen.mesh" visible="true" receivesShadow="false">
+
+		<entity name="Ruchin_m_innen" meshfile ="Ruchin_m_innen.mesh" visible="true" receivesShadow="false">
 			<position x="45.0" y="0.0" z="-30.00" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />

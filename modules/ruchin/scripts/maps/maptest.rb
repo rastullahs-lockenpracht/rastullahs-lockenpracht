@@ -78,15 +78,16 @@ $SCRIPT.log("Türen gesetzt");
 
 loader = MapLoader.new("ruchin");
 loader.loadMap("ruchin_lightzones.rlmap.xml");
+loader.loadMap("Ruchin_houses.scene.xml");
 
 $SCRIPT.log("Fackellicht erstellen..");
 fackellicht = $AM.createLightActor("Das Licht der Fackel", LightObject::LT_POINT );
 fackellicht.getControlledObject().setCastShadows(false);
 fackellicht.getControlledObject().setDiffuseColour(0.8,0.7,0.6);
 fackellicht.getControlledObject().setAttenuation(10.0, 0.79,  -0.21, 0.268 );
-$hero.getActor().attachToSlot( fackellicht, "Bip01 R SlotHand" );
+#$hero.getActor().attachToSlot( fackellicht, "Bip01 R SlotHand" );
 $SCRIPT.log("Fackellicht erstellt.");
 ##########################
 
-load "particle.rb"
+#load "particle.rb"
 load "equip.rb"

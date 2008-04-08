@@ -12,8 +12,9 @@ struct PS_INPUT
 
 float4 ps_main( PS_INPUT Input ) : COLOR0
 {
+	float4 ao = ((tex2D(aoMap,Input.Texcoord1))/1.5 +0.33);
 	float4 color =  tex2D( baseMap, Input.Texcoord );
-   return float4( color.rgb * Input.Color * saturate(tex2D(aoMap, Input.Texcoord1)/2 +0.5)  	,color.a);
+   return float4( color.rgb * Input.Color * ao	,color.a);
    
 }
 

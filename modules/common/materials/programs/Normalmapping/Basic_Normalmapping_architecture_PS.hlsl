@@ -30,8 +30,8 @@ float4 ps_main(
    float2 NewUV = UV.xy+offset;
    
    float3 normal = tex2D(NormalMap,NewUV.xy).rgb *2 -1;
-   float4 ambient= lerp(skycolor , groundcolor, ((dot(normal, SkyDir) + 1.0)/2.0));
-   float4 ao = saturate(0.5+(tex2D(AOMap,UV.zw)/2));
+   float4 ambient= lerp(skycolor , groundcolor, ((dot(normal, -LightDir_0.xyz) + 1.0)/2.0));
+   float4 ao = ((tex2D(AOMap,UV.zw))/1.5 +0.33);
    	
    float specAttn;
    float specAttn1;
@@ -56,12 +56,15 @@ float4 ps_main(
   
 
   
-  
-   float4 Diffuse = AngleAttn + AngleAttn1 ;
-   float4 specular = SpecColor * (specAttn + specAttn1 ) * Diffuse;
+   float4 light1 = pow(AngleAttn,2) + SpecColor * (specAttn) * AngleAttn;
+   float4 light2 = AngleAttn1 + SpecColor * (specAttn1) * AngleAttn1;
+   //float4 Diffuse =  + AngleAttn1 ;
+   //float4 specular = SpecColor * (specAttn + specAttn1 ) * Diffuse;
    
    
-   return (tex2D(DiffuseMap,NewUV) * (ambient + Diffuse)*ao) +specular;
+   //return (tex2D(DiffuseMap,NewUV) * (ambient + Diffuse)*ao) +specular;
+   return tex2D(DiffuseMap,NewUV)*( (ambient+ light1) *ao +light2) ;
+   //return saturate(ambient);
 }
 
 

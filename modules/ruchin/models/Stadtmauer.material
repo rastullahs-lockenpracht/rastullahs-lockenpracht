@@ -1,11 +1,9 @@
 
-material Ruchin_Stadtmauer/Wand : Basic_Vertex_Shader_Variation
+material Ruchin_Stadtmauer : Architecture_Normalmapping
 {
-
-set_texture_alias diffuse Ruchin_stadtmauer.png
-
-set_texture_alias variation Ruchin_stadtmauer_variation.png
-
+set_texture_alias DiffuseMap Ruchin_stadtmauer.png
+set_texture_alias NormalMap Ruchin_stadtmauer_normal.png
+set_texture_alias AOMap Ruchin_stadtmauer_ao.png
 
 }
 
