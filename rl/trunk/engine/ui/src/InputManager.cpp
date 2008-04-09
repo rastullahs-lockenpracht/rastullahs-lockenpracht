@@ -405,7 +405,7 @@ namespace rl {
             break;
         case CST_COMBAT:
             {                
-				mCombat = CombatManager::getSingleton().startCombat();
+				Combat* combat = CombatManager::getSingleton().startCombat();
 				controller = new CombatControlState(mCommandMapper, camera, character, combat);
             }
             break;

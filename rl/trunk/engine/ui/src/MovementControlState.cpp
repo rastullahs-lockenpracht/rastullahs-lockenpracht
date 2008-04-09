@@ -1100,7 +1100,7 @@ namespace rl {
             Creature* creature = dynamic_cast<Creature*>(gov.at(i));
             if (creature &&
 				creature->getAlignment() == Creature::ALIGNMENT_ENEMY &&
-				creature->getLifeState() | Effect::LS_NO_COMBAT)
+				(creature->getLifeState() & Effect::LS_NO_COMBAT) == 0)
             {
                 return true;
             }
