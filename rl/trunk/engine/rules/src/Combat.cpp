@@ -18,6 +18,7 @@
 #include "Combat.h"
 
 #include "Combatant.h"
+#include "CombatManager.h"
 #include "CreatureController.h"
 #include "Effect.h"
 #include "GameEventLog.h"
@@ -58,11 +59,16 @@ namespace rl
     };
 
     Combat::Combat()
-        : mOpponents(),
+        : mOwnedCombatants(),
+		  mOpponents(),
           mAllies(),
           mCombatantQueue(),
           mCombatantActions(),
+		  mCombatantReactions(),
+		  mCancelledActions(),
+		  mRemovedCombatants(),
           mCurrentRound(0),
+		  mNextActionId(0),
 		  mAnimationSequenceTicket(0)
     {
 		mLifeStateChangeConnection =
@@ -82,12 +88,21 @@ namespace rl
 		MessagePump::getSingleton().sendMessage<MessageType_CombatOpponentEntered>(combatant);
     }
 
+    Combatant* Combat::addOpponent(Creature* creature)
+	{
+		Combatant* combatant = CombatManager::getSingleton().createCombatant(creature);
+		mOwnedCombatants.insert(combatant);
+        addOpponent(combatant);
+		return combatant;
+	}
+
     void Combat::removeOpponent(Combatant* combatant)
     {
         mOpponents.erase(combatant);
 		GameEventLog::getSingleton().logEvent(
 			combatant->getName() + " nimmt nicht mehr am Kampf teil.", GET_COMBAT);
 		MessagePump::getSingleton().sendMessage<MessageType_CombatOpponentLeft>(combatant);
+		checkAndMarkCombatant(combatant);
     }
 
     void Combat::addAlly(Combatant* combatant)
@@ -95,10 +110,57 @@ namespace rl
         mAllies.insert(combatant);
     }
 
+    Combatant* Combat::addAlly(Creature* creature)
+	{
+		Combatant* combatant = CombatManager::getSingleton().createCombatant(creature);
+		mOwnedCombatants.insert(combatant);
+        addAlly(combatant);
+		return combatant;
+	}
+
     void Combat::removeAlly(Combatant* combatant)
     {
         mAllies.erase(combatant);
+		GameEventLog::getSingleton().logEvent(
+			combatant->getName() + " nimmt nicht mehr am Kampf teil.", GET_COMBAT);
+		checkAndMarkCombatant(combatant);
     }
+
+	void Combat::checkAndMarkCombatant(Combatant* combatant)
+	{
+		// Cancel any action this combatant takes part in.
+		for (CombatantActionsMap::iterator it = mCombatantActions.begin();
+			it != mCombatantActions.end(); ++it)
+		{
+			for (size_t i = 0; i < it->second.size(); ++i)
+			{
+				const ActionEntry& ae = it->second[i];
+				if (ae.actor == combatant || ae.target == combatant)
+				{
+					mCancelledActions.insert(it->second[i].id);
+				}
+			}
+		}
+		mRemovedCombatants.insert(combatant);
+	}
+
+	void Combat::clearRemovedCombatantSet()
+	{
+		for (CombatantSet::iterator i = mRemovedCombatants.begin();
+			i != mRemovedCombatants.end(); ++i)
+		{
+			// Are we owner of this combatant? If so, delete it.
+			CombatantSet::iterator it = std::find(
+				mOwnedCombatants.begin(), mOwnedCombatants.end(), *i);
+			if (it != mOwnedCombatants.end())
+			{
+				Combatant* combatant = *it;
+				mOwnedCombatants.erase(it);
+				CombatManager::getSingleton().destroyCombatant(combatant);
+			}
+		}
+		mRemovedCombatants.clear();
+	}
 
     const Combat::CombatantSet& Combat::getAllOpponents() const
     {
@@ -139,6 +201,7 @@ namespace rl
 	void Combat::registerAttacke(Combatant* actor, Combatant* target)
 	{
 		ActionEntry entry;
+		entry.id = mNextActionId++;
 		entry.aktion = ATTACKE;
 		entry.actor = actor;
 		entry.target = target;
@@ -159,6 +222,7 @@ namespace rl
 	void Combat::registerBewegen(Combatant* actor, const Ogre::Vector3& targetPos)
 	{
 		ActionEntry entry;
+		entry.id = mNextActionId++;
 		entry.aktion = BEWEGEN;
 		entry.actor = actor;
 		entry.targetPos = targetPos;
@@ -169,6 +233,7 @@ namespace rl
 	void Combat::registerFolgen(Combatant* actor, Combatant* target)
 	{
 		ActionEntry entry;
+		entry.id = mNextActionId++;
 		entry.aktion = FOLGEN;
 		entry.actor = actor;
 		entry.target = target;
@@ -221,6 +286,7 @@ namespace rl
 
         mCombatantActions.clear();
 		mCombatantReactions.clear();
+		mCancelledActions.clear();
 		mFinishedCombatants.clear();
 
 		GameEventLog::getSingleton().logEvent("Runde " + CeGuiString(StringConverter::toString(mCurrentRound)),
@@ -258,39 +324,43 @@ namespace rl
 			{
 				Combatant* combatant = it->second;
 
-                if (!(combatant->getCreature()->getLifeState() & Effect::LS_NO_COMBAT))
-                {
-				    // Is there an action registed for combatant?
-				    CombatantActionsMap::iterator actionsIt = mCombatantActions.find(combatant);
-				    if (actionsIt != mCombatantActions.end())
+			    // Is there an action registed for combatant?
+			    CombatantActionsMap::iterator actionsIt = mCombatantActions.find(combatant);
+			    if (actionsIt != mCombatantActions.end())
+			    {
+				    // Do we have an action for this pass ?
+				    if (actionIndex < actionsIt->second.size())
 				    {
-					    // Do we have an action for this pass ?
-					    if (actionIndex < actionsIt->second.size())
+					    // Yes we do.
+					    ActionEntry entry = actionsIt->second[actionIndex];
+
+						// Ignore action if cancelled
+						if (mCancelledActions.find(entry.id) != mCancelledActions.end())
+						{
+							continue;
+						}
+
+					    if (entry.aktion == ATTACKE)
 					    {
-						    // Yes we do.
-						    ActionEntry entry = actionsIt->second[actionIndex];
-						    if (entry.aktion == ATTACKE)
+						    // Check whether possible
+						    if (canAttack(combatant, entry.target))
 						    {
-							    // Check whether possible
-							    if (canAttack(combatant, entry.target))
-							    {
-								    doAttacke(jobSet, combatant, entry.target);
-							    }
-						    }
-						    else if (entry.aktion == BEWEGEN)
-						    {
-							    GameEventLog::getSingleton().logEvent(combatant->getName() + " läuft nach "
-								    + CeGuiString(StringConverter::toString(entry.targetPos)), GET_COMBAT);
-							    combatant->doBewegen(jobSet, entry.targetPos);
-						    }
-						    else if (entry.aktion == FOLGEN)
-						    {
-							    GameEventLog::getSingleton().logEvent(combatant->getName() + " läuft zu "
-								    + entry.target->getName(), GET_COMBAT);
-							    combatant->doFolgen(jobSet, entry.target);
+							    doAttacke(jobSet, combatant, entry.target);
 						    }
 					    }
-                    }
+					    else if (entry.aktion == BEWEGEN)
+					    {
+						    GameEventLog::getSingleton().logEvent(combatant->getName() + " läuft nach "
+							    + CeGuiString(StringConverter::toString(entry.targetPos)), GET_COMBAT);
+						    combatant->doBewegen(jobSet, entry.targetPos);
+					    }
+					    else if (entry.aktion == FOLGEN)
+					    {
+						    GameEventLog::getSingleton().logEvent(combatant->getName() + " läuft zu "
+							    + entry.target->getName(), GET_COMBAT);
+						    combatant->doFolgen(jobSet, entry.target);
+					    }
+				    }
 				}
 			}
 			jobQueue->add(jobSet);
@@ -301,6 +371,7 @@ namespace rl
 
     void Combat::endRound()
     {
+		clearRemovedCombatantSet();
         // All actions executed. Analyze outcome of this round.
         if (mAllies.empty())
         {
@@ -388,7 +459,8 @@ namespace rl
 		}
 	}
 
-    bool Combat::onGameObjectLifeStateChanged(GameObject* gameobject, Effect::LifeState oldstate, Effect::LifeState newstate)
+    bool Combat::onGameObjectLifeStateChanged(GameObject* gameobject, Effect::LifeState oldstate,
+		Effect::LifeState newstate)
 	{
         if (newstate & Effect::LS_NO_COMBAT)
 		{
@@ -429,6 +501,7 @@ namespace rl
 							removeAlly(mCombatantQueue[i].second);
 						}
 					}
+					break;
 				}
 			}
 		}

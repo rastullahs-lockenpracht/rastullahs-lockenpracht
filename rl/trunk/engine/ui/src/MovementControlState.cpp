@@ -1098,7 +1098,9 @@ namespace rl {
         for (size_t i = 0, end = gov.size(); i < end; ++i)
         {
             Creature* creature = dynamic_cast<Creature*>(gov.at(i));
-            if (creature && creature->getAlignment() == Creature::ALIGNMENT_ENEMY)
+            if (creature &&
+				creature->getAlignment() == Creature::ALIGNMENT_ENEMY &&
+				creature->getLifeState() | Effect::LS_NO_COMBAT)
             {
                 return true;
             }

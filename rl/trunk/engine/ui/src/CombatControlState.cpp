@@ -102,9 +102,7 @@ namespace rl {
         {
             for (size_t i = 0; i < enemies.size(); ++i)
             {
-                Combatant* opponent = mCombatManager->createCombatant(
-                    static_cast<Creature*>(enemies[i]));
-                mCombat->addOpponent(opponent);
+                mCombat->addOpponent(static_cast<Creature*>(enemies[i]));
             }
         }
         else

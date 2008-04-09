@@ -404,9 +404,9 @@ namespace rl {
             controller = new DialogControlState(mCommandMapper, camera, character);
             break;
         case CST_COMBAT:
-            {
-                Combat* combat = CombatManager::getSingleton().startCombat();
-                controller = new CombatControlState(mCommandMapper, camera, character, combat);
+            {                
+				mCombat = CombatManager::getSingleton().startCombat();
+				controller = new CombatControlState(mCommandMapper, camera, character, combat);
             }
             break;
         default:
@@ -417,9 +417,6 @@ namespace rl {
         {
             mControlStates.top()->pause();
         }
-
-        //mKeyboard->setEventCallback(controller);
-        //mMouse->setEventCallback(controller);
 
         mControlStates.push(controller);
         mControlStates.top()->resume();
@@ -435,14 +432,7 @@ namespace rl {
         if (!mControlStates.empty())
         {
             ControlState* newController = mControlStates.top();
-            //mKeyboard->setEventCallback(newController);
-            //mMouse->setEventCallback(newController);
             newController->resume();
-        }
-        else
-        {
-            //mKeyboard->setEventCallback(NULL);
-            //mMouse->setEventCallback(NULL);
         }
     }
 

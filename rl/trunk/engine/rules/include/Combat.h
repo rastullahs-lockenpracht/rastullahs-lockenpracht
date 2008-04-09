@@ -32,6 +32,7 @@
 namespace rl
 {
     class Combatant;
+	class Creature;
 	class GameObject;
 	class JobSet;
 
@@ -44,9 +45,13 @@ namespace rl
         ~Combat();
 
         void addOpponent(Combatant*);
+        Combatant* addOpponent(Creature*);
+
         void removeOpponent(Combatant*);
 
         void addAlly(Combatant*);
+        Combatant* addAlly(Creature*);
+
         void removeAlly(Combatant*);
 
         const CombatantSet& getAllOpponents() const;
@@ -77,6 +82,7 @@ namespace rl
 		typedef enum {PARADE, AUSWEICHEN} Reaktion;
 		struct ActionEntry
 		{
+			int id;
 			Aktion aktion;
 			Combatant* actor;
 			Combatant* target;
@@ -87,17 +93,31 @@ namespace rl
 		typedef std::map<Combatant*, Reaktion> CombatantReactionsMap;
         typedef std::vector<std::pair<int, Combatant*> > CombatantQueue;
 
-        CombatantSet mOpponents;
+        /// Combatants owned by this Combat are also stored here.
+		/// This is needed, in order to destroy removed combatant instances properly.
+		CombatantSet mOwnedCombatants;
+
+		CombatantSet mOpponents;
         CombatantSet mAllies;
         /// Combatants in order of their initiative for the current round.
         CombatantQueue mCombatantQueue;
         CombatantActionsMap mCombatantActions;
 		CombatantReactionsMap mCombatantReactions;
+		/// If a combatant is removed from combat it becomes invalid.
+		/// And thus can't be neither actors nor targets of actions.
+		/// This set stores such action ids.
+		std::set<int> mCancelledActions;
+		/// Store combatants that are removed in current round.
+		/// Instead of destroying them the moment they are out of combat,
+		/// we destroy them at the end of the current combat round.
+		/// This prevents all kinds of problems that dangling pointers would cause else.
+		CombatantSet mRemovedCombatants;
 		// Combatants who have registered all their actions for this round
 		CombatantSet mFinishedCombatants;
 		unsigned long mAnimationSequenceTicket;
 
         unsigned short mCurrentRound;
+		unsigned short mNextActionId;
 
 		MessagePump::ScopedConnection mLifeStateChangeConnection;
 
@@ -108,6 +128,14 @@ namespace rl
 		void doAttacke(JobSet* jobSet, Combatant* actor, Combatant* target);
 
 		Ogre::Real getMaximumAttackeDistance(Combatant* actor) const;
+
+		/// Mark any action regarding this combatant as invalid.
+		/// Mark combatant as removed.
+		void checkAndMarkCombatant(Combatant* combatant);
+
+		/// Clear combatant list of removed combatants,
+		/// destroy combatants owned by this combat instance.
+		void clearRemovedCombatantSet();
 
         // Message handlers
 

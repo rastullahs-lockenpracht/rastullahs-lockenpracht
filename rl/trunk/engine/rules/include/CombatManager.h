@@ -39,6 +39,7 @@ namespace rl
         /// Creates a new combat object and sets it active.
         /// @throw IllegalStateException if there is already a combat running.
         Combat* startCombat();
+        void stopCombat(Combat*);
 
         /// Return the combat currently running, NULL if there is none.
         Combat* getCurrentCombat() const;
