@@ -31,7 +31,7 @@ namespace rl
     JobScheduler::JobScheduler()
         : GameTask(true),
         mJobQueue(), 
-        //mRemovedJobs(), 
+        mAddedJobs(),
         mTokenThreshold(JP_NORMAL), 
         mTicketCounter(0)
     {
@@ -53,7 +53,7 @@ namespace rl
         unsigned long end = maxRuntime >= Math::POS_INFINITY ?
             0xffffffff : static_cast<unsigned long>(start + maxRuntime*1000);
         JobEntry entry = {job, listener, ticket, priority, priority, start, end, start, job->getTimeSource(), false, false};
-        mJobQueue.push_back(entry);
+        mAddedJobs.push_back(entry);
         return ticket;
     }
 
@@ -167,6 +167,8 @@ namespace rl
 
         // Copy requeued jobs for next run.
         mJobQueue = notDone;
+		mJobQueue.insert(mJobQueue.end(), mAddedJobs.begin(), mAddedJobs.end());
+		mAddedJobs.clear();
     }
 
     void JobScheduler::removeJob(unsigned long ticket)
@@ -180,7 +182,16 @@ namespace rl
         }
         else
         {
-            ///@todo Log missing job for the ticket.
+			it = std::find_if(mAddedJobs.begin(), mAddedJobs.end(),
+				std::bind2nd(FindJobEntryByTicket(), ticket));
+			if (it != mAddedJobs.end())
+			{
+				mAddedJobs.erase(it);
+			}
+			else
+			{
+				///@todo Log missing job for the ticket.
+			}
         }
     }
 

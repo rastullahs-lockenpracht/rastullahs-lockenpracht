@@ -133,6 +133,7 @@ namespace rl
         typedef std::deque<JobEntry> JobQueue;
 
         JobQueue mJobQueue;
+		JobQueue mAddedJobs;
         //JobQueue mRemovedJobs; // should probably replaced by JobsToDelete
         unsigned short mTokenThreshold;
         unsigned long mTicketCounter;
