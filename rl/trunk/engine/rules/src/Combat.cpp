@@ -194,8 +194,14 @@ namespace rl
         beginRound();
     }
 
+    void Combat::pause()
+    {
+		///@todo implement
+    }
+
     void Combat::stop()
     {
+		///@todo implement
     }
 
 	void Combat::registerAttacke(Combatant* actor, Combatant* target)

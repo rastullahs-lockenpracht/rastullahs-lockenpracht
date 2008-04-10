@@ -65,6 +65,12 @@ namespace rl
         return mCurrentCombat;
     }
 
+    void CombatManager::stopCombat()
+    {
+        delete mCurrentCombat;
+		mCurrentCombat = NULL;
+    }
+
     Combat* CombatManager::getCurrentCombat() const
     {
         return mCurrentCombat;

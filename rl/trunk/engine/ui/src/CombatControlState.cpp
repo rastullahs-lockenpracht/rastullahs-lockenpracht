@@ -39,9 +39,10 @@ using namespace Ogre;
 
 namespace rl {
     CombatControlState::CombatControlState(CommandMapper* cmdMapper,
-        Actor* camera, Person* character, Combat* combat)
+        Actor* camera, Person* character)
         : ControlState(cmdMapper, camera, character, CST_COMBAT),
-          Combatant(combat, CreatureControllerManager::getSingleton().getCreatureController(character)),
+          Combatant(CombatManager::getSingleton().startCombat(),
+			CreatureControllerManager::getSingleton().getCreatureController(character)),
 		  mAttackedOpponent(NULL),
 		  mParriedOpponent(NULL),
           mCombatManager(CombatManager::getSingletonPtr()),
@@ -80,6 +81,7 @@ namespace rl {
     {
 		delete mCombatGui;
         delete mEnemySelector.getFilter();
+		CombatManager::getSingleton().stopCombat();
     }
 
     void CombatControlState::resume()
@@ -128,10 +130,7 @@ namespace rl {
         mCharacterActor->getPhysicalThing()->unfreeze();
         static_cast<MeshObject*>(mCharacterActor->getControlledObject())->stopAllAnimations();
 
-        // reset current combat, in order to avoid a potential dangling pointer
-        mCombat->stop();
-        //delete mCombat; ///@todo: is this correct? someone has to delete the combat
-        mCombat = NULL;
+        mCombat->pause();
     }
 
 	void CombatControlState::run(Ogre::Real elapsedTime)

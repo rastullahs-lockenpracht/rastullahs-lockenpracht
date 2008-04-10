@@ -58,6 +58,7 @@ namespace rl
         const CombatantSet& getAllAllies() const;
 
         void start();
+        void pause();
         void stop();
 
         // Called by combatants in response to a request by the Combat object.

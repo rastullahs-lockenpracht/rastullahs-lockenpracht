@@ -404,10 +404,7 @@ namespace rl {
             controller = new DialogControlState(mCommandMapper, camera, character);
             break;
         case CST_COMBAT:
-            {                
-				Combat* combat = CombatManager::getSingleton().startCombat();
-				controller = new CombatControlState(mCommandMapper, camera, character, combat);
-            }
+			controller = new CombatControlState(mCommandMapper, camera, character);
             break;
         default:
             Throw(IllegalStateException, "Unknown controller type.");
