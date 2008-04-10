@@ -69,6 +69,9 @@ namespace rl {
         Ogre::ManualObject* mHud;
 
 		bool mUserInputEnabled;
+		/// True if GameLoggerWindow was not visible before GUI is shown.
+		/// Needed to only close it after combat if it was not shown before.
+		bool mGameLoggerWindowOpened;
 
         Ogre::FloatRect getScreenRectFromWorldAabb(const Ogre::AxisAlignedBox& aabb) const;
 	};

@@ -36,7 +36,8 @@ namespace rl {
 		  mOpponentButtons(),
 		  mCombat(combat),
 		  mCamera(camera),
-		  mUserInputEnabled(false)
+		  mUserInputEnabled(false),
+		  mGameLoggerWindowOpened(false)
     {
         mCombatWindow = WindowFactory::getSingleton().getCombatWindow();
 		mGameLoggerWindow = WindowFactory::getSingleton().getGameLogger();
@@ -159,6 +160,7 @@ namespace rl {
 
 	void CombatGui::show()
 	{
+		mGameLoggerWindowOpened = !mGameLoggerWindow->isVisible();
         mCombatWindow->setVisible(true);
 		mGameLoggerWindow->setVisible(true);
 	}
@@ -166,7 +168,7 @@ namespace rl {
 	void CombatGui::hide()
 	{
         mCombatWindow->setVisible(false);
-		mGameLoggerWindow->setVisible(false);
+		mGameLoggerWindow->setVisible(!mGameLoggerWindowOpened);
 		mHud->clear();
 	}
 
