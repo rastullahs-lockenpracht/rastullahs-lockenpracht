@@ -166,7 +166,7 @@ namespace rl {
 	void CombatGui::hide()
 	{
         mCombatWindow->setVisible(false);
-		mGameLoggerWindow->setVisible(true);
+		mGameLoggerWindow->setVisible(false);
 		mHud->clear();
 	}
 
