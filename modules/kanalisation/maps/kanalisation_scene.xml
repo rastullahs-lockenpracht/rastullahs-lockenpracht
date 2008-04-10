@@ -3,6 +3,9 @@
 <entity name="bruecke" meshfile="bruecke.mesh">
 <position x="2.822959" y="3.865546" z="7.881136"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>
+<entity name="fass" meshfile="fass_stehend.mesh">
+<position x="11.02" y="4.06" z="7.96"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
 <entity name="torboegen" meshfile="torboegen.mesh">
 <position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>
@@ -42,9 +45,7 @@
 <entity name="smuggler_boden" meshfile="Cube.010.mesh">
 <position x="-21.569408" y="4.746182" z="26.013494"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>
-<entity name="wasser" meshfile="wasser.mesh">
-<position x="-4.597392" y="3.39713" z="35.85369"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
-</entity>
+
 <entity name="gaenge_01.025" meshfile="gaenge_komplett.024.mesh">
 <position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>
@@ -207,9 +208,7 @@
 <entity name="boden_felswand" meshfile="boden_fels.mesh">
 <position x="37.711838" y="5.930392" z="27.968113"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>
-<entity name="wasser_raum_02" meshfile="wasser_raum_02.mesh">
-<position x="5.182011" y="3.39713" z="57.05934"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
-</entity>
+
 <entity name="decke_raum_02" meshfile="Cube.013.mesh">
 <position x="4.733883" y="6.611897" z="56.931644"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>

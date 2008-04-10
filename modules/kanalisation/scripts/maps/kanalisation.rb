@@ -59,3 +59,4 @@ $SCRIPT.log("Fackellicht erstellt.");
 
 load "particle.rb"
 load "equip.rb"
+load "MaterialSlotTest.rb"
