@@ -3,12 +3,12 @@ material Material.021/SOLID/TEX/boden_kana.png/VertCol: Basic_Normalmapping_kana
 set_texture_alias DiffuseMap boden_kana.png
 set_texture_alias NormalMap boden_kana_normal.png
 }
-material fass_stehend/SOLID/TEX/fass_kanalisation.png: Basic_Normalmapping_kana
+material fass_stehend/SOLID/TEX/fass_kanalisation.png: Basic_Normalmapping_Spec
 {
 set_texture_alias DiffuseMap fass_kanalisation.png
 set_texture_alias NormalMap fass_kanalisation_normal.png
+set_texture_alias SpecMap fass_kanalisation_specularity.png
 }
-
 material treppe_02/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
