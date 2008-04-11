@@ -74,6 +74,12 @@ class Torch < Item
 			@_prop_sound = value;
 		elsif (name == "flames")
 			@_prop_flames = value;
+		elsif (name == "color")
+			@_prop_color = value;
+			if (@light != nil)
+				@light.getControlledObject().setDiffuseColour(@_prop_color);
+				@light.getControlledObject().setSpecularColour(@_prop_color);
+			end
 		else
 			super(name, value)
         end
@@ -86,6 +92,8 @@ class Torch < Item
 			return @_prop_sound
 		elsif (name == "flames")
 			return @_prop_flames
+		elsif (name == "color")
+			return @_prop_color
 		else
 			return super(name, value)
         end
