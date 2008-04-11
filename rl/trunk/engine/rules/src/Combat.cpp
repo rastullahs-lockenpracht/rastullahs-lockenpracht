@@ -502,7 +502,7 @@ namespace rl
 					{
 						CombatantSet::iterator it = std::find_if(mAllies.begin(), mAllies.end(),
 							std::bind2nd(FindCombatantByCreature(), curCreature));
-						if (it != mOpponents.end())
+						if (it != mAllies.end())
 						{
 							removeAlly(mCombatantQueue[i].second);
 						}
