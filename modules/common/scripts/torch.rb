@@ -54,7 +54,7 @@ class Torch < Item
     
     def initialize(id)
         super(id)
-		@_prop_color = [0.8, 0.7, 0.5, 1];
+		@_prop_color = [0.6, 0.5, 0.3, 4];
 		addActions()
     end
     
@@ -124,7 +124,7 @@ class Torch < Item
 		if newstate == RlScript::GOS_IN_SCENE || newstate == RlScript::GOS_HELD || newstate == RlScript::GOS_READY
 			if @_prop_sound != nil && @_prop_sound != "" && @sound == nil
 				@sound = $AM.createSoundSampleActor(getId().to_s()+"_sound", @_prop_sound)
-				@sound.getControlledObject().setVolume(1.0);
+				@sound.getControlledObject().setVolume(0.5);
 				@sound.getControlledObject().setLooping(true)
 				@sound.getControlledObject().set3d(true)
 				getActor().attachToSlot(@sound, "SLOT_FAR_END")
