@@ -13,8 +13,8 @@ tavernfire4.placeIntoScene( -21.85,7.10,25.13, 1.0, 0.0, 0.0, 0.0 );
 tavernfire5 = $AM.createParticleSystemActor("tavernfire1", "feuertest" );
 tavernfire5.placeIntoScene( 36.49,7.37,30.27, 1.0, 0.0, 0.0, 0.0 );
 
-#waber01 = $AM.createParticleSystemActor("waber01", "waber" );
-#waber01.placeIntoScene( 8.73,3.73,10.36, 1.0, 0.0, 0.0, 0.0 );
+waber01 = $AM.createParticleSystemActor("waber01", "waber" );
+waber01.placeIntoScene( 8.73,3.73,10.36, 1.0, 0.0, 0.0, 0.0 );
 
 #glow1 = $AM.createParticleSystemActor("glow1", "glow01" );
 #glow1.placeIntoScene( 8.49,2.83,10.39, 1.0, 0.0, 0.0, 0.0 );

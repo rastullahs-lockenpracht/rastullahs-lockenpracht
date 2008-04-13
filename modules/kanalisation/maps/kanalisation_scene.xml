@@ -3,8 +3,20 @@
 <entity name="bruecke" meshfile="bruecke.mesh">
 <position x="2.822959" y="3.865546" z="7.881136"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>
+<entity name="rostkette" meshfile="rostkette.mesh">
+<position x="11.58" y="6.8" z="11.18"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="0.8" y="0.8" z="0.8"/>
+</entity>
+<entity name="drop_shadow_01" meshfile="drop_shadow.mesh">
+<position x="11.02" y="3.92" z="7.96"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
 <entity name="fass" meshfile="fass_stehend.mesh">
-<position x="11.02" y="4.06" z="7.96"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+<position x="11.02" y="3.86" z="7.96"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="drop_shadow_02" meshfile="drop_shadow.mesh">
+<position x="9.67" y="3.92" z="6.83"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="fass2" meshfile="fass_stapel.mesh">
+<position x="9.67" y="3.86" z="6.83"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>
 <entity name="torboegen" meshfile="torboegen.mesh">
 <position x="-11.712984" y="2.751104" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>

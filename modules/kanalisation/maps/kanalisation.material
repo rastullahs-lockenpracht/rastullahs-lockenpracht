@@ -1,3 +1,34 @@
+material rostkette/SOLID/TEX/rust.png: Basic_Normalmapping_Spec
+{
+set_texture_alias DiffuseMap rust_kana.png
+set_texture_alias NormalMap rust_kana_normal.png
+set_texture_alias SpecMap rust_kana_spec.png
+}
+material ALPHA/TEX/drop_shadow.png
+{
+  technique
+  {
+    pass
+    {
+      // Überblenden aktiviert
+      scene_blend alpha_blend 
+      // Tiefenpuffer aus
+      depth_write off
+
+      texture_unit
+      {
+        // Alphakanal/transparente Textur
+        texture drop_shadow.png
+      }
+    }
+  }
+}
+material axe/SOLID/TEX/axe.png: Basic_Normalmapping_Spec
+{
+set_texture_alias DiffuseMap axe.png
+set_texture_alias NormalMap axe_normal.png
+set_texture_alias SpecMap axe_specularity.png
+}
 material Material.021/SOLID/TEX/boden_kana.png/VertCol: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap boden_kana.png
@@ -160,19 +191,10 @@ material wasser/SOLID : Wassershader
         }
     }
 }
-material smuggler/SOLID/TEX/pflaster_kana.png
+material smuggler/SOLID/TEX/pflaster_kana.png: Basic_Normalmapping_kana
 {
-	technique
-	{
-		pass
-		{
-			specular 0.500000 0.500000 0.500000 12.500000
-			texture_unit
-			{
-				texture pflaster_kana.png
-			}
-		}
-	}
+set_texture_alias DiffuseMap pflaster_kana.png
+set_texture_alias NormalMap pflaster_kana_normal.png
 }
 material bruecke/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
@@ -357,16 +379,10 @@ material wurzeln_02/SOLID/TEX/baumstamm_kana.png: Basic_Normalmapping_kana
 set_texture_alias DiffuseMap baumstamm_kana.png
 set_texture_alias NormalMap baumstamm_kana_normal.png
 }
-material fackeln/SOLID
+material fackeln/SOLID: Basic_Normalmapping_kana
 {
-	technique
-	{
-		pass
-		{
-			diffuse 0.800000 0.800000 0.800000
-			specular 0.500000 0.500000 0.500000 12.500000
-		}
-	}
+set_texture_alias DiffuseMap fackel_kana.png
+set_texture_alias NormalMap fackel_kana_normal.png
 }
 material boden_13/SOLID/TEX/saeule_kana.png: Basic_Normalmapping_kana
 {
@@ -559,20 +575,10 @@ material saeulen_05/SOLID/TEX/saeule_kana.png: Basic_Normalmapping_kana
 set_texture_alias DiffuseMap saeule_kana.png
 set_texture_alias NormalMap saeule_kana_normal.png
 }
-material fackeln/SOLID/TEX/fackel_kana.png
+material fackeln/SOLID/TEX/fackel_kana.png: Basic_Normalmapping_kana
 {
-	technique
-	{
-		pass
-		{
-			diffuse 0.800000 0.800000 0.800000
-			specular 0.500000 0.500000 0.500000 12.500000
-			texture_unit
-			{
-				texture fackel_kana.png
-			}
-		}
-	}
+set_texture_alias DiffuseMap fackel_kana.png
+set_texture_alias NormalMap fackel_kana_normal.png
 }
 material boden_03/SOLID/TEX/boden_kana.png: Basic_Normalmapping_kana
 {
