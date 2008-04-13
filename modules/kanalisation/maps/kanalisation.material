@@ -1,3 +1,9 @@
+material schwert.001/TEXFACE/breitschwertuvsgu7test.png: Basic_Normalmapping_Spec
+{
+set_texture_alias DiffuseMap breitschwert.png
+set_texture_alias NormalMap breitschwert_normal.png
+set_texture_alias SpecMap breitschwert_spec.png
+}
 material rostkette/SOLID/TEX/rust.png: Basic_Normalmapping_Spec
 {
 set_texture_alias DiffuseMap rust_kana.png

@@ -3,6 +3,9 @@
 <entity name="bruecke" meshfile="bruecke.mesh">
 <position x="2.822959" y="3.865546" z="7.881136"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>
+<entity name="breitschwert" meshfile="breitschwert_stehend.mesh">
+<position x="11.08" y="4.05" z="10.29"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
 <entity name="rostkette" meshfile="rostkette.mesh">
 <position x="11.58" y="6.8" z="11.18"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="0.8" y="0.8" z="0.8"/>
 </entity>
