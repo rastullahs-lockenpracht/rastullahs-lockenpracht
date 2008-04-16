@@ -91,6 +91,8 @@ namespace rl {
             "Initialisiere UI", "UiSubsystem::initializeUiSubsystem");
         World* world = CoreSubsystem::getSingleton().getWorld();
         SceneManager* sceneMgr = world->getSceneManager();
+        
+        CEGUI::System::setDefaultXMLParserName("XercesParser");
 
         LOG_MESSAGE2(Logger::UI,
             "Initializing CEGUI Renderer.", "UiSubsystem::initializeUiSubsystem");
@@ -100,7 +102,7 @@ namespace rl {
         LOG_MESSAGE2(Logger::UI,
             "Initializing CEGUI System.", "UiSubsystem::initializeUiSubsystem");
         mGuiResourceProvider = mGuiRenderer->createResourceProvider();
-        CEGUI::System::setDefaultXMLParserName("XercesParser");
+        
         mGuiSystem = new System(mGuiRenderer, mGuiResourceProvider,
             NULL, NULL, (utf8*)"cegui.config", ConfigurationManager::getSingleton().getCeguiLogFile());
         CEGUI::Logger::getSingleton().setLoggingLevel(
