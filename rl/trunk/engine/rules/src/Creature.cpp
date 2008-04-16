@@ -246,7 +246,6 @@ namespace rl
    void Creature::modifyLe(int mod, bool ignoreMax)
     {
         int oldLe = mCurrentLe;
-        Effect::LifeState oldLifeState = getLifeState();
         mCurrentLe += mod;
 		if (!ignoreMax)
 		{
@@ -279,8 +278,6 @@ namespace rl
 		{
             mEffectManager->removeEffect("IncapacitatedEffect");
 		}
-
-        Effect::LifeState newLifeState = getLifeState();
 
         fireObjectStateChangeEvent();
 
