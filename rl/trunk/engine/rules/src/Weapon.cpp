@@ -35,6 +35,7 @@ namespace rl
     const Ogre::String Weapon::PROPERTY_TP_WM = "WM";
     const Ogre::String Weapon::PROPERTY_TP_DK = "DK";
     const Ogre::String Weapon::PROPERTY_TP_KAMPFTECHNIK = "kampftechnik";
+    const Ogre::String Weapon::PROPERTY_NATURAL = "natural";
 
 	Weapon::Weapon(unsigned int id)
 		: Item(id),
@@ -44,7 +45,8 @@ namespace rl
 		mIni(0),
 		mWm(0, 0),
         mDk(DK_H),
-        mKampftechnik("")
+        mKampftechnik(""),
+        mNatural(false)
 	{
         mQueryFlags |= QUERYFLAG_WEAPON;
 		mItemType = ITEMTYPE_WEAPON;
@@ -172,6 +174,16 @@ namespace rl
 	{
 		return mKampftechnik;
 	}
+    
+    bool Weapon::isNatural() const
+    {
+        return mNatural;
+    }
+    
+    void Weapon::setNatural(bool natural)
+    {
+        mNatural = natural;
+    }
 
     void Weapon::setProperty(const CeGuiString& key, const Property& value)
     {
@@ -222,6 +234,10 @@ namespace rl
         else if (key == Weapon::PROPERTY_TP_KAMPFTECHNIK)
         {
             mKampftechnik = value.toString();
+        }
+        else if (key == Weapon::PROPERTY_NATURAL)
+        {
+            mNatural = value.toBool();
         }
         else
         {
@@ -276,6 +292,10 @@ namespace rl
         {
             return Property(mKampftechnik);
         }
+        else if (key == Weapon::PROPERTY_NATURAL)
+        {
+            return Property(mNatural);
+        }
         else
         {
             return Item::getProperty(key);
@@ -292,6 +312,7 @@ namespace rl
         keys.insert(Weapon::PROPERTY_TP_WM);
         keys.insert(Weapon::PROPERTY_TP_DK);
         keys.insert(Weapon::PROPERTY_TP_KAMPFTECHNIK);
+        keys.insert(Weapon::PROPERTY_NATURAL);
         return keys;
     }
 }
