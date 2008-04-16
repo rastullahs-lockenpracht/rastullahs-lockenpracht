@@ -598,6 +598,10 @@
 		485A05880D71EDF20024198D /* MessagePump.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485A057E0D71EDF20024198D /* MessagePump.cpp */; };
 		48760AAB0D92E4B700BEB57C /* RlExports_wrap.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 48760AA90D92E4B700BEB57C /* RlExports_wrap.cxx */; };
 		48760AAC0D92E4B700BEB57C /* RlExports_wrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 48760AAA0D92E4B700BEB57C /* RlExports_wrap.h */; };
+		48B5F63A0DAF48AF00D05C95 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D0C4E960486CD37000505A6 /* Info.plist */; };
+		48B5F6520DAF4D2D00D05C95 /* libRlScript.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 48570C1B0D8A6C5400096E35 /* libRlScript.dylib */; };
+		48B5F6530DAF4D3500D05C95 /* libRlFmod4Driver.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 483D86700D8C3A3300F3629E /* libRlFmod4Driver.dylib */; };
+		48B5F6540DAF4D4400D05C95 /* RlScript.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 483D87C90D8C55E500F3629E /* RlScript.bundle */; };
 		48B772DD0D58350B000A3B97 /* XmlProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B772DA0D58350B000A3B97 /* XmlProcessor.h */; };
 		48B772DE0D58350B000A3B97 /* XmlPropertyReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B772DB0D58350B000A3B97 /* XmlPropertyReader.h */; };
 		48B772DF0D58350B000A3B97 /* XmlPropertyWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B772DC0D58350B000A3B97 /* XmlPropertyWriter.h */; };
@@ -613,6 +617,7 @@
 		48D34A7F0D91C7D800C89477 /* SaveGameFileReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A056F0D71EDC40024198D /* SaveGameFileReader.h */; };
 		48D34A800D91C7D800C89477 /* SaveGameFileWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A05700D71EDC40024198D /* SaveGameFileWriter.h */; };
 		48D34A810D91C7D800C89477 /* SaveGameManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A05710D71EDC40024198D /* SaveGameManager.h */; };
+		48D409CE0D9E483300AE5340 /* modules in Resources */ = {isa = PBXBuildFile; fileRef = 48D401810D9E483200AE5340 /* modules */; };
 		8D0C4E8D0486CD37000505A6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0867D6AAFE840B52C02AAC07 /* InfoPlist.strings */; };
 		8D0C4E8E0486CD37000505A6 /* main.nib in Resources */ = {isa = PBXBuildFile; fileRef = 02345980000FD03B11CA0E72 /* main.nib */; };
 /* End PBXBuildFile section */
@@ -1178,9 +1183,7 @@
 		44D8145A0BF7B52600534175 /* SelectionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectionHelper.h; path = ../engine/rules/include/SelectionHelper.h; sourceTree = SOURCE_ROOT; };
 		44D8145B0BF7B52600534175 /* Selector.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = Selector.h; path = ../engine/rules/include/Selector.h; sourceTree = SOURCE_ROOT; };
 		44D8145F0BF7B58A00534175 /* ProgressWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressWindow.h; path = ../engine/ui/include/ProgressWindow.h; sourceTree = SOURCE_ROOT; };
-		44D814600BF7B58A00534175 /* SaveLoadWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveLoadWindow.h; path = ../engine/ui/include/SaveLoadWindow.h; sourceTree = SOURCE_ROOT; };
 		44D814630BF7B5AD00534175 /* ProgressWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgressWindow.cpp; path = ../engine/ui/src/ProgressWindow.cpp; sourceTree = SOURCE_ROOT; };
-		44D814640BF7B5AD00534175 /* SaveLoadWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SaveLoadWindow.cpp; path = ../engine/ui/src/SaveLoadWindow.cpp; sourceTree = SOURCE_ROOT; };
 		44D814670BF7B5C700534175 /* Landmark.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Landmark.cpp; path = ../engine/ai/src/Landmark.cpp; sourceTree = SOURCE_ROOT; };
 		44D814680BF7B5C700534175 /* LandmarkPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LandmarkPath.cpp; path = ../engine/ai/src/LandmarkPath.cpp; sourceTree = SOURCE_ROOT; };
 		44D8146B0BF7B5E800534175 /* Landmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Landmark.h; path = ../engine/ai/include/Landmark.h; sourceTree = SOURCE_ROOT; };
@@ -1291,7 +1294,6 @@
 		483D31720D85B3B7003477A0 /* stdinc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stdinc.cpp; path = ../engine/ai/src/stdinc.cpp; sourceTree = SOURCE_ROOT; };
 		483D31730D85B3B7003477A0 /* WalkPathBehaviour.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WalkPathBehaviour.cpp; path = ../engine/ai/src/WalkPathBehaviour.cpp; sourceTree = SOURCE_ROOT; };
 		483D86700D8C3A3300F3629E /* libRlFmod4Driver.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libRlFmod4Driver.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		483D86850D8C3C4F00F3629E /* RlScriptExports-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RlScriptExports-Info.plist"; sourceTree = "<group>"; };
 		483D868C0D8C3DA200F3629E /* Fmod4ConfigComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fmod4ConfigComponent.h; sourceTree = "<group>"; };
 		483D868D0D8C3DA200F3629E /* Fmod4Driver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fmod4Driver.h; sourceTree = "<group>"; };
 		483D868E0D8C3DA200F3629E /* Fmod4DriverPrerequisites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fmod4DriverPrerequisites.h; sourceTree = "<group>"; };
@@ -1340,6 +1342,7 @@
 		48D34A550D90EF1000C89477 /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = /opt/local/lib/libboost_filesystem.dylib; sourceTree = "<absolute>"; };
 		48D34A610D90F5D500C89477 /* SaveGameData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveGameData.h; path = ../engine/core/include/SaveGameData.h; sourceTree = SOURCE_ROOT; };
 		48D34A620D90F5D500C89477 /* SaveGameData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SaveGameData.cpp; path = ../engine/core/src/SaveGameData.cpp; sourceTree = SOURCE_ROOT; };
+		48D401810D9E483200AE5340 /* modules */ = {isa = PBXFileReference; lastKnownFileType = folder; name = modules; path = ../../../modules; sourceTree = SOURCE_ROOT; };
 		8D0C4E960486CD37000505A6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D0C4E970486CD37000505A6 /* Rastullah.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rastullah.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1501,7 +1504,6 @@
 				20286C2CFDCF999611CA2CEA /* Resources */,
 				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
 				195DF8CFFE9D517E11CA2CBB /* Products */,
-				483D86850D8C3C4F00F3629E /* RlScriptExports-Info.plist */,
 			);
 			name = Rastullah;
 			sourceTree = "<group>";
@@ -1524,6 +1526,7 @@
 		20286C2CFDCF999611CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				48D401810D9E483200AE5340 /* modules */,
 				440786120C09D602006E496D /* RlScript-Info.plist */,
 				8D0C4E960486CD37000505A6 /* Info.plist */,
 				0867D6AAFE840B52C02AAC07 /* InfoPlist.strings */,
@@ -1873,9 +1876,7 @@
 				446BF48A0C45335A0013C214 /* MovementControlState.h */,
 				446BF48B0C45335A0013C214 /* PropertiesWindow.h */,
 				44D814630BF7B5AD00534175 /* ProgressWindow.cpp */,
-				44D814640BF7B5AD00534175 /* SaveLoadWindow.cpp */,
 				44D8145F0BF7B58A00534175 /* ProgressWindow.h */,
-				44D814600BF7B58A00534175 /* SaveLoadWindow.h */,
 				444EACFE0BD0E58C00C6D4A0 /* AboutWindow.h */,
 				444EACFF0BD0E58C00C6D4A0 /* AbstractWindow.h */,
 				444EAD000BD0E58C00C6D4A0 /* ActionChoiceWindow.h */,
@@ -2728,6 +2729,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48B5F6540DAF4D4400D05C95 /* RlScript.bundle in Resources */,
+				48B5F6530DAF4D3500D05C95 /* libRlFmod4Driver.dylib in Resources */,
+				48B5F6520DAF4D2D00D05C95 /* libRlScript.dylib in Resources */,
 				48187AAB0D885CBB00CE6689 /* libRlCommon.dylib in Resources */,
 				48187AAC0D885CBB00CE6689 /* libRlCore.dylib in Resources */,
 				483514870D8AED510077477D /* OIS.framework in Resources */,
@@ -2743,6 +2747,8 @@
 				48187AAF0D885CBB00CE6689 /* libRlUi.dylib in Resources */,
 				8D0C4E8D0486CD37000505A6 /* InfoPlist.strings in Resources */,
 				8D0C4E8E0486CD37000505A6 /* main.nib in Resources */,
+				48D409CE0D9E483300AE5340 /* modules in Resources */,
+				48B5F63A0DAF48AF00D05C95 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3221,7 +3227,7 @@
 					/Library/Frameworks/Xerces.framework/Headers,
 					/opt/local/include,
 				);
-				INSTALL_PATH = /usr/local/lib;
+				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = (
 					/sw/lib,
 					/usr/local/lib,
@@ -3246,7 +3252,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../engine/common/include/stdinc.h;
-				INSTALL_PATH = /usr/local/lib;
+				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/sw/lib,
@@ -3281,7 +3287,7 @@
 					/System/Library/Frameworks/Ruby.framework/Headers,
 					/Library/Frameworks/Xerces.framework/Headers,
 				);
-				INSTALL_PATH = /usr/local/lib;
+				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/lib,
@@ -3318,7 +3324,7 @@
 					/usr/local/include,
 					/System/Library/Frameworks/Ruby.framework/Headers,
 				);
-				INSTALL_PATH = /usr/local/lib;
+				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/sw/lib,
@@ -3352,7 +3358,7 @@
 					/Library/Frameworks/CEGUI.framework/Headers,
 					/Library/Frameworks/Xerces.framework/Headers,
 				);
-				INSTALL_PATH = /usr/local/lib;
+				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
@@ -3383,7 +3389,7 @@
 					/Library/Frameworks/CEGUI.framework/Headers,
 					/Library/Frameworks/Xerces.framework/Headers,
 				);
-				INSTALL_PATH = /usr/local/lib;
+				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
@@ -3415,7 +3421,7 @@
 					/Library/Frameworks/CEGUI.framework/Headers,
 					/Library/Frameworks/Xerces.framework/Headers,
 				);
-				INSTALL_PATH = /usr/local/lib;
+				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
@@ -3446,7 +3452,7 @@
 					/Library/Frameworks/CEGUI.framework/Headers,
 					/Library/Frameworks/Xerces.framework/Headers,
 				);
-				INSTALL_PATH = /usr/local/lib;
+				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
@@ -3480,7 +3486,7 @@
 					/System/Library/Frameworks/Ruby.framework/Headers,
 					/Library/Frameworks/Xerces.framework/Headers,
 				);
-				INSTALL_PATH = /usr/local/lib;
+				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/build/Debug\"";
 				MACH_O_TYPE = mh_dylib;
@@ -3512,7 +3518,7 @@
 					/System/Library/Frameworks/Ruby.framework/Headers,
 					/Library/Frameworks/Xerces.framework/Headers,
 				);
-				INSTALL_PATH = /usr/local/lib;
+				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
@@ -3542,7 +3548,7 @@
 					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
 				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"/Developer/FMOD Programmers API/api/inc\"";
-				INSTALL_PATH = /usr/local/lib;
+				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = "$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"/Developer/FMOD Programmers API/api/lib\"";
 				OTHER_LDFLAGS = "-lfmodex";
@@ -3565,7 +3571,7 @@
 					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
 				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"/Developer/FMOD Programmers API/api/inc\"";
-				INSTALL_PATH = /usr/local/lib;
+				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = "$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"/Developer/FMOD Programmers API/api/lib\"";
 				OTHER_LDFLAGS = "-lfmodex";
@@ -3591,7 +3597,7 @@
 					/sw/include,
 					/System/Library/Frameworks/Ruby.framework/Headers,
 				);
-				INSTALL_PATH = /usr/local/lib;
+				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = /System/Library/Frameworks/Ruby.framework/Versions/Current/usr/lib/;
 				MACH_O_TYPE = mh_bundle;
 				PREBINDING = NO;
@@ -3615,7 +3621,7 @@
 					/sw/include,
 					/System/Library/Frameworks/Ruby.framework/Headers,
 				);
-				INSTALL_PATH = /usr/local/lib;
+				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = /System/Library/Frameworks/Ruby.framework/Versions/Current/usr/lib/;
 				MACH_O_TYPE = mh_bundle;
 				PREBINDING = NO;
@@ -3641,7 +3647,7 @@
 					"/usr/local/lib/ruby/1.8/i686-darwin8.9.1",
 					/System/Library/Frameworks/Ruby.framework/Headers,
 				);
-				INSTALL_PATH = /usr/local/lib;
+				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = (
 					/sw/lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
@@ -3671,7 +3677,7 @@
 					"/usr/local/lib/ruby/1.8/i686-darwin8.9.1",
 					/System/Library/Frameworks/Ruby.framework/Headers,
 				);
-				INSTALL_PATH = /usr/local/lib;
+				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = (
 					/sw/lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
