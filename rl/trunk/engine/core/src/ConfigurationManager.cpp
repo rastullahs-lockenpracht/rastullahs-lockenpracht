@@ -156,6 +156,11 @@ namespace rl
         return mRastullahLogDirectory;
     }
 
+    Ogre::NameValuePairList* ConfigurationManager::getVideoSettings() const
+    {
+        return new Ogre::NameValuePairList(getSettings("Video"));
+    }
+
     Ogre::NameValuePairList ConfigurationManager::getSettings(const Ogre::String& section) const
     {
         SectionMap::const_iterator it = mSettings.find(section);

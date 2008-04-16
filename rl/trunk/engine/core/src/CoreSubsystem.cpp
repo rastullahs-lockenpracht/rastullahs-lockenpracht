@@ -227,7 +227,7 @@ namespace rl
             name.str(), width, height,
             ConfigurationManager::getSingleton().getBoolSetting(
                 "Video", "Fullscreen"),
-            &ConfigurationManager::getSingleton().getSettings("Video"));
+            ConfigurationManager::getSingleton().getVideoSettings());
 
         if (!mRenderWindow)
             return false;

@@ -170,6 +170,12 @@ namespace rl
             Ogre::NameValuePairList getSettings(const Ogre::String& section) const;
 
             /**
+             * Returns a pointer to the video settings
+             * @return key-value list of graphic settings
+             */
+            Ogre::NameValuePairList* getVideoSettings() const;
+
+            /**
              * Returns a list of Ogre plugins specific to the OS
              *
              * @return vector of plugin names
