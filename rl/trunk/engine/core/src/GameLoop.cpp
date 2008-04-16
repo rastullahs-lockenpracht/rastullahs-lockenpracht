@@ -212,7 +212,12 @@ namespace rl
         if( mLastTimes.size() == 0 )
             return time;
         else
-            return std::accumulate(mLastTimes.begin(), mLastTimes.end(), 0)
-                / std::max(mLastTimes.size(), (size_t)1);
+	{
+            unsigned long smoothedTime =
+		(long double)(std::accumulate(mLastTimes.begin(), mLastTimes.end(), 0))
+                / std::max(mLastTimes.size(), (size_t)1) + 0.5;  // round correctly with +.5
+
+	    return smoothedTime;
+	}
     }
 }
