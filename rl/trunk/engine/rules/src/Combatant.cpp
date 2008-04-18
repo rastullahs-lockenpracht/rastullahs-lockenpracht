@@ -137,6 +137,7 @@ namespace rl
 		// Get real animation name
 		Creature::AnimationSpeedPair asp = getCreature()->getAnimation(ani);
 		Job* job = new PlayAnimationJob(getCreature()->getActor(), asp.first, 3.0f);
+        jobSet->add(job);
 	}
 
 	void Combatant::doParade(JobSet* jobSet, Combatant* target, int paradeResult)
@@ -163,6 +164,7 @@ namespace rl
 		// Get real animation name
 		Creature::AnimationSpeedPair asp = getCreature()->getAnimation(ani);
 		Job* job = new PlayAnimationJob(getCreature()->getActor(), asp.first, 3.0f);
+        jobSet->add(job);
 	}
 
 	void Combatant::doGetroffen(JobSet* jobSet)
@@ -170,6 +172,7 @@ namespace rl
 		// Get real animation name
 		Creature::AnimationSpeedPair asp = getCreature()->getAnimation("kampf_getroffen");
 		Job* job = new PlayAnimationJob(getCreature()->getActor(), asp.first, 3.0f);
+		jobSet->add(job);
 	}
 
 	void Combatant::doBewegen(JobSet* jobSet, const Ogre::Vector3& targetPos)
