@@ -66,9 +66,12 @@ namespace rl
     {
         if (mPageTexts.find(page) != mPageTexts.end())
         {
-            Throw(IllegalArgumentException, page + " already registered as a page.");
+            LOG_ERROR("DebugWindow", page + " already registered as a page.");
         }
-        mPageTexts.insert(make_pair(page, StringUtil::BLANK));
+        else
+        {
+            mPageTexts.insert(make_pair(page, StringUtil::BLANK));
+        }
 
         // If this is the first page, activate it
         if (mCurrentPage == StringUtil::BLANK)
@@ -107,9 +110,12 @@ namespace rl
         PageTextMap::iterator it = mPageTexts.find(page);
         if (it == mPageTexts.end())
         {
-            Throw(IllegalArgumentException, page + " is not registered as a page.");
+            LOG_ERROR("DebugWindow", page + " is not registered as a page.");
         }
-        it->second = text;
+        else
+        {
+            it->second = text;
+        }
 
         if (mCurrentPage == page)
         {
