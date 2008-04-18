@@ -61,6 +61,12 @@ namespace rl
         if (mActor && !mAnimationRunning)
         {
             MeshObject* mo = dynamic_cast<MeshObject*>(mActor->getControlledObject());
+
+            if (mReplaceAllAnims)
+            {
+                mo->stopAllAnimationsExcept(mAnimName);
+            }                
+
             if (mDuration > 0)
             {
                 mAnimation = mo->startAnimation(mAnimName, 1.0f, 0);
@@ -73,19 +79,15 @@ namespace rl
                 mTimeToGo = animation->getLength() * (float)mLoops;
                 mAnimationRunning = true;
             }
-
-            if (mReplaceAllAnims)
-            {
-                mo->stopAllAnimationsExcept(mAnimName);
-            }                
         }
 
         mTimeToGo -= time;
 
         if (mTimeToGo <= 0.0f)
         {
-            if (mAnimation) 
+            if (mAnimationRunning && mAnimation) 
             {
+                mAnimationRunning = false;
                 mAnimation->pause();
                 mAnimation = NULL;
             }
