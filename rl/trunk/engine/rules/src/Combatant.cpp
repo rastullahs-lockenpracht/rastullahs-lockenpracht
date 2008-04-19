@@ -136,7 +136,7 @@ namespace rl
 
 		// Get real animation name
 		Creature::AnimationSpeedPair asp = getCreature()->getAnimation(ani);
-		Job* job = new PlayAnimationJob(getCreature()->getActor(), asp.first, 3.0f);
+		Job* job = new PlayAnimationJob(getCreature()->getActor(), asp.first);
         jobSet->add(job);
 	}
 
@@ -163,7 +163,7 @@ namespace rl
 
 		// Get real animation name
 		Creature::AnimationSpeedPair asp = getCreature()->getAnimation(ani);
-		Job* job = new PlayAnimationJob(getCreature()->getActor(), asp.first, 3.0f);
+		Job* job = new PlayAnimationJob(getCreature()->getActor(), asp.first);
         jobSet->add(job);
 	}
 
@@ -171,7 +171,7 @@ namespace rl
 	{
 		// Get real animation name
 		Creature::AnimationSpeedPair asp = getCreature()->getAnimation("kampf_getroffen");
-		Job* job = new PlayAnimationJob(getCreature()->getActor(), asp.first, 3.0f);
+		Job* job = new PlayAnimationJob(getCreature()->getActor(), asp.first);
 		jobSet->add(job);
 	}
 
