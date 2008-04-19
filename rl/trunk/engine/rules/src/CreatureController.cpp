@@ -40,7 +40,7 @@ namespace rl
 
     const Real minSquaredSpeed = 0.6;
 
-    // TODO: wenn Fallen nicht möglich ist (auf dem Boden und bewusstlos / Tod)
+    // TODO: wenn Fallen nicht mglich ist (auf dem Boden und bewusstlos / Tod)
 
     class Fallen : public AbstractMovement
     {
@@ -93,9 +93,9 @@ namespace rl
                     probenErschwernis = 10;
 
                 int taw = 0;
-                if( mMovingCreature->getCreature()->hasTalent("Körperbeherrschung") )
+                if( mMovingCreature->getCreature()->hasTalent("Kï¿½rperbeherrschung") )
                 {
-                    taw = mMovingCreature->getCreature()->doTalentprobe("Körperbeherrschung", probenErschwernis);
+                    taw = mMovingCreature->getCreature()->doTalentprobe("Kï¿½rperbeherrschung", probenErschwernis);
                 }
 
                 for( int i = 0; i < taw; i++)
@@ -969,7 +969,7 @@ namespace rl
 
             // steht nicht in den Regeln aber finde ich sinnvoll
             // velocityBase *= (1 - getrageneLast/KK);
-            // steht in den Regeln: pro Erschöpfung ein KK abziehen
+            // steht in den Regeln: pro Erschï¿½pfung ein KK abziehen
             //if( mErschoepfung > getEigenschaft("KO") )
             //    velocity -= (mErschoepfung - getEigenschaft("KO")) / 4.0 / 5.0;
             // steht nicht in den Regeln, aber finde ich sinnvoll
@@ -1182,7 +1182,7 @@ namespace rl
 
             // steht nicht in den Regeln aber finde ich sinnvoll
             // velocityBase *= (1 - getrageneLast/KK);
-            // steht in den Regeln: pro Erschöpfung ein KK abziehen
+            // steht in den Regeln: pro Erschï¿½pfung ein KK abziehen
             //if( mErschoepfung > getEigenschaft("KO") )
             //    velocity -= (mErschoepfung - getEigenschaft("KO")) / 5.0;
             // steht nicht in den Regeln, aber finde ich sinnvoll
@@ -1605,6 +1605,12 @@ namespace rl
 
         mMessageType_GameObjectsLoaded_Handler = MessagePump::getSingleton().addMessageHandler<MessageType_GameObjectsLoaded>(
                 boost::bind(&CreatureController::refetchCreature, this));
+
+        mLifeStateChangedHandler = MessagePump::getSingleton()
+            .addMessageHandler<MessageType_GameObjectLifeStateChanged>(
+                boost::bind(&CreatureController::onCreatureLifeStateChanged, this, _1, _2, _3));
+        
+        LOG_DEBUG("CreatureController", "Added CreatureController for " + creature->getName());
     }
 
     CreatureController::~CreatureController()
@@ -2003,4 +2009,23 @@ namespace rl
 
         return false;
     }
+    
+    bool CreatureController::onCreatureLifeStateChanged(GameObject* gameobject, Effect::LifeState oldstate,
+                                                        Effect::LifeState newstate) 
+    {
+        if (gameobject == mCreature) 
+        {
+            if ((newstate & Effect::LS_UNCONSCIOUS || newstate & Effect::LS_DEAD) 
+                && !(oldstate & Effect::LS_UNCONSCIOUS || oldstate & Effect::LS_DEAD))
+            {
+                // die, die, die!
+                Creature::AnimationSpeedPair anim = mCreature->getAnimation("sterben");
+                setAnimation(anim.first, anim.second, 0, anim.first, 1.0f );
+            }
+            return true;
+        }
+        
+        return false;
+    }
+
 }

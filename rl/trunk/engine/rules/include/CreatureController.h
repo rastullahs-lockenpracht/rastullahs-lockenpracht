@@ -172,6 +172,9 @@ namespace rl
         ~CreatureController();
 
     private:
+        bool onCreatureLifeStateChanged(GameObject* gameobject, Effect::LifeState oldstate,
+                                        Effect::LifeState newstate);
+
         // only used in setAnimation
         Ogre::String mLastAnimationName;
         Ogre::String mLastCollisionName;
@@ -186,6 +189,7 @@ namespace rl
         const OgreNewt::MaterialID *mOldMaterialId;
 
         MessagePump::ScopedConnection mMessageType_GameObjectsLoaded_Handler;
+        MessagePump::ScopedConnection mLifeStateChangedHandler;
     };
 
     /// this is the base class of all movements
