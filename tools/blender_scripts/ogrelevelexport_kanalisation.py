@@ -65,7 +65,8 @@ kanalisation_subpath = "modules\\kanalisation\\"
 kanalisation_substring = kanalisation_subpath + "maps"
 full_path = rastullah_path+kanalisation_substring
 OGRE_OPENGL_VERTEXCOLOUR = 0
-OGRE_XML_CONVERTER = 'E:\Rastullah\OgreCommandLineTools\OgreXmlConverter.exe'
+OGRE_XML_CONVERTER = 'E:\\Rastullah\\OgreCommandLineTools\\OgreXmlConverter.exe'
+OGRE_MESH_UPGRADE = 'E:\\Rastullah\\OgreCommandLineTools\\OgreMeshUpgrade.exe -t -td tagent'
 KEEP_SETTINGS = 0
 
 def hasProperty(object, name):
@@ -2407,6 +2408,8 @@ class Mesh:
         f.write(tab(0)+"</mesh>\n")
         f.close()
         convertXMLFile(os.path.join(full_path, file))
+        binFile = self.name + ".mesh"
+        upgradeXMLFile(os.path.join(full_path, binFile))
         return
     # private
     def _parseMesh(self, mesh):
@@ -3072,6 +3075,27 @@ def convertXMLFile(filename):
         else:
             for line in xmlConverter:
                 exportLogger.logInfo("OgreXMLConverter: " + line)
+            xmlConverter.close()
+    return
+
+def upgradeXMLFile(filename):
+    """Calls OgreMeshUpgrade on a file - adds tangents for normalmapping.
+
+       If the script variable <code>OGRE_MESH_UPGRADE</code> is nonempty, the
+       OgreMeshUpgrade is called to convert the given file.
+
+       @param filename filename of the XML file to convert.
+    """
+    global exportLogger
+    if OGRE_MESH_UPGRADE != '':
+        commandLine = OGRE_MESH_UPGRADE + ' "' + filename + '"'
+        exportLogger.logInfo("Running OgreMeshUpgrade: " + commandLine)
+        MeshUpgrade = os.popen(commandLine, 'r')
+        if MeshUpgrade == None:
+            exportLogger.logError('Could not run MeshUpgrade!')
+        else:
+            for line in MeshUpgrade:
+                exportLogger.logInfo("OgreMeshUpgrade: " + line)
             xmlConverter.close()
     return
 
