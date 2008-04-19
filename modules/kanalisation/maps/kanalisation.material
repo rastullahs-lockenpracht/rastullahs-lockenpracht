@@ -257,19 +257,10 @@ material stuetzbalken/SOLID/TEX/baumstamm_kana.png: Basic_Normalmapping_kana
 set_texture_alias DiffuseMap baumstamm_kana.png
 set_texture_alias NormalMap baumstamm_kana_normal.png
 }
-material pilze/SOLID/TEX/pilz.png
+material pilze/SOLID/TEX/pilz.png: Basic_Normalmapping_kana
 {
-	technique
-	{
-		pass
-		{
-			specular 0.500000 0.500000 0.500000 12.500000
-			texture_unit
-			{
-				texture pilz.png
-			}
-		}
-	}
+set_texture_alias DiffuseMap pilz3.png
+set_texture_alias NormalMap pilz_normal.png
 }
 material Material.016/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 {
@@ -291,20 +282,10 @@ material durchbruch_02/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-material fackeln/SOLID/TEX/fackel_kana.png
+material fackeln/SOLID/TEX/fackel_kana.png: Basic_Normalmapping_kana
 {
-	technique
-	{
-		pass
-		{
-			diffuse 0.800000 0.800000 0.800000
-			specular 0.500000 0.500000 0.500000 12.500000
-			texture_unit
-			{
-				texture fackel_kana.png
-			}
-		}
-	}
+set_texture_alias DiffuseMap fackel_kana.png
+set_texture_alias NormalMap fackel_kana_normal.png
 }
 material stuetzpfeiler_quer/SOLID/TEX/baumstamm_kana.png: Basic_Normalmapping_kana
 {
