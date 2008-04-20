@@ -58,8 +58,8 @@ float4 ps_main(
    float4 Diffuse = AngleAttn + AngleAttn1 + AngleAttn2;
    float4 specular = SpecColor * (specAttn + specAttn1 + specAttn2) * Diffuse;
    
-   
-   return (tex2D(DiffuseMap,UV) * (ambient + Diffuse)) +specular;
+   float4 color = tex2D(DiffuseMap,UV);
+   return float4((color.rgb * (ambient + Diffuse)) +specular ,color.a);
 }
 
 

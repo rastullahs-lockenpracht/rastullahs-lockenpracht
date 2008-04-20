@@ -1,12 +1,13 @@
 material Basic_Normalmapping 
 {
-	lod_distances 12 100
-	
+	lod_distances 15 100
+	receive_shadows off
     technique hlsl
     {
 	    lod_index 0
         pass
         {
+        	alpha_rejection greater 128
             vertex_program_ref Basic_Normalmapping_UV0_VS_HLSL
             {
                 param_named_auto matViewProjection worldviewproj_matrix

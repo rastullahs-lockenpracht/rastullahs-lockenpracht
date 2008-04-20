@@ -12,7 +12,7 @@
             <property name="hand" type="STRING" data="men_human_female_hand_nude.mesh"/>
             <property name="head" type="STRING" data="men_human_female_head_02.mesh"/>
             <property name="hair" type="STRING" data="men_human_female_hair_long_01_normal.mesh"/>
-            <property name="leg" type="STRING" data="men_human_female_leg_pants_01_long.mesh"/>
+            <property name="leg" type="STRING" data="men_human_female_legs_pants_01_long.mesh"/>
             <property name="feet" type="STRING" data="men_human_female_feet_boots_01.mesh"/>
         </property>
     </gameobjectclass>
@@ -28,7 +28,7 @@
             <property name="hand" type="STRING" data="men_human_female_hand_nude.mesh"/>
             <property name="head" type="STRING" data="men_human_female_head_02.mesh"/>
             <property name="hair" type="STRING" data="men_human_female_hair_long_01_normal.mesh"/>
-            <property name="leg" type="STRING" data="men_human_female_leg_pants_01_long.mesh"/>
+            <property name="leg" type="STRING" data="men_human_female_legs_pants_01_long.mesh"/>
             <property name="feet" type="STRING" data="men_human_female_feet_boots_01.mesh"/>
         </property>
     </gameobjectclass>
@@ -51,6 +51,7 @@
         <property name="name" type="STRING" data="Kroetenhaut"/>
         <property name="description" type="STRING" data="Eine Ruestung aus mit Nieten verstaerktem Leder"/>
         <property name="meshfile" type="STRING" data="men_human_female_armor_kroetenhaut.mesh"/>
+        <property name="submeshfile" type="STRING" data="armor_kroetenhaut.mesh"/>
         <property name="geometrytype" type="STRING" data="ellipsoid"/>
         <property name="g_be" type="INT" data="2"/>
         <property name="g_rs" type="INT" data="3"/>

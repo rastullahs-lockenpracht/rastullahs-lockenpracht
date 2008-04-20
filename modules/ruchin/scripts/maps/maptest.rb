@@ -9,7 +9,7 @@ require 'torch.rb'
 # Physik aktivieren
 $PM.setEnabled(true);
 
-$CORE.getWorld().setSkyBox(true, "rl/dsa07", 100.0)
+#$CORE.getWorld().setSkyBox(true, "rl/dsa07", 100.0)
 
 #$SCRIPT.log("Tageslicht erstellen..");
 #sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
@@ -89,5 +89,5 @@ fackellicht.getControlledObject().setAttenuation(10.0, 0.79,  -0.21, 0.268 );
 $SCRIPT.log("Fackellicht erstellt.");
 ##########################
 
-#load "particle.rb"
+load "particle.rb"
 load "equip.rb"

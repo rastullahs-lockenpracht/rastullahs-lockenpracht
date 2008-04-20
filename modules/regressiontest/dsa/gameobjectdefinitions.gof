@@ -162,7 +162,7 @@
         <property name="name" type="STRING" data="Kleidung #1"/>
         <property name="description" type="STRING" data="Kleidung, Variante 1"/>
         <property name="meshfile" type="STRING" data="obj_shortsleeve.mesh"/> <!-- the mesh for when the item is placed in the world -->
-		<property name="submeshfile" type="STRING" data="obj_shortsleeve.mesh"/> <!-- the mesh for when the item is worn by a creature -->
+		<property name="submeshfile" type="STRING" data="cloth_short.mesh"/> <!-- the mesh for when the item is worn by a creature -->
         <property name="geometrytype" type="STRING" data="box"/>
         <property name="material" type="STRING" data="obj_Shortsleeve"/>
 		<property name="itemtype" type="INT" data="32768"/> <!-- Clothes -->
@@ -172,7 +172,7 @@
         <property name="name" type="STRING" data="Kleidung #2"/>
         <property name="description" type="STRING" data="Kleidung, Variante 2"/>
         <property name="meshfile" type="STRING" data="obj_shortsleeve.mesh"/> <!-- the mesh for when the item is placed in the world -->
-		<property name="submeshfile" type="STRING" data="obj_shortsleeve.mesh"/> <!-- the mesh for when the item is worn by a creature -->
+		<property name="submeshfile" type="STRING" data="cloth_short.mesh"/> <!-- the mesh for when the item is worn by a creature -->
         <property name="geometrytype" type="STRING" data="box"/>
         <property name="material" type="STRING" data="obj_Shortsleeve_2"/>
 		<property name="itemtype" type="INT" data="32768"/> <!-- Clothes -->

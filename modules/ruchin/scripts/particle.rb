@@ -22,14 +22,28 @@ qualm2 = $AM.createParticleSystemActor("qualm2", "qualm" );
 qualm2.placeIntoScene( -3.10, 2.18, 6.12, 1.0, 0.0, 0.0, 0.0 );
 
 qualm3 = $AM.createParticleSystemActor("qualm3", "qualm" );
-qualm3.placeIntoScene( 34.31, 10.60, -4.16, 1.0, 0.0, 0.0, 0.0 );
+qualm3.placeIntoScene( 33.46, 10.21, -3.01, 1.0, 0.0, 0.0, 0.0 );
 
 qualm4 = $AM.createParticleSystemActor("qualm4", "qualm" );
 qualm4.placeIntoScene( 0.42, 3.78, 22.26, 1.0, 0.0, 0.0, 0.0 );
 
 qualm5 = $AM.createParticleSystemActor("qualm5", "qualm" );
-qualm5.placeIntoScene( 92.39, 18.35, -30.55, 1.0, 0.0, 0.0, 0.0 );
+qualm5.placeIntoScene( 10.86, 7.68, -71.41, 1.0, 0.0, 0.0, 0.0 );
 
+qualm6 = $AM.createParticleSystemActor("qualm6", "qualm" );
+qualm6.placeIntoScene( 37.62, 8.29, 24.34, 1.0, 0.0, 0.0, 0.0 );
+
+qualm7 = $AM.createParticleSystemActor("qualm7", "qualm" );
+qualm7.placeIntoScene( 12.22, 4.25, 40.05, 1.0, 0.0, 0.0, 0.0 );
+
+qualm8 = $AM.createParticleSystemActor("qualm8", "qualm" );
+qualm8.placeIntoScene( 60.58, 19.82, 8.56, 1.0, 0.0, 0.0, 0.0 );
+
+qualm9 = $AM.createParticleSystemActor("qualm9", "qualm" );
+qualm9.placeIntoScene( 44.78, 12.67, -27.81, 1.0, 0.0, 0.0, 0.0 );
+
+qualm9 = $AM.createParticleSystemActor("qualm9", "qualm" );
+qualm9.placeIntoScene( 60.45, 12.18, -74.92, 1.0, 0.0, 0.0, 0.0 );
 
 
 #rain = $AM.createParticleSystemActor("rain", "rain" );

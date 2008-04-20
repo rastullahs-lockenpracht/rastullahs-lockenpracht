@@ -125,9 +125,10 @@ material Ruchin_map
 
 
 
-material Ruchin/base : Basic_Vertex_Shader
+material Ruchin/base : Basic_Vertex_Shader_AO
 {
 set_texture_alias diffuse ruchin_atlasmap.png
+set_texture_alias ambient grey.png
 
 }
 
@@ -174,6 +175,21 @@ set_texture_alias NormalMap ruchin_atlas_normal.png
 set_texture_alias AOMap ruchin_ao_t.png
 
 }
+material Ruchin_h : Architecture_Normalmapping
+{
+set_texture_alias DiffuseMap ruchin_atlasmap.png
+set_texture_alias NormalMap ruchin_atlas_normal.png
+set_texture_alias AOMap ruchin_ao_h.png
+
+}
+
+material Ruchin_r : Architecture_Normalmapping
+{
+set_texture_alias DiffuseMap ruchin_atlasmap.png
+set_texture_alias NormalMap ruchin_atlas_normal.png
+set_texture_alias AOMap ruchin_ao_r.png
+
+}
 material Ruchin_m : Architecture_Normalmapping
 {
 set_texture_alias DiffuseMap ruchin_atlasmap.png
@@ -190,30 +206,15 @@ set_texture_alias AOMap ruchin_ao_m.png
 }
 
 
-material Ruchin_m/Dach
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.623529 0.623529 0.623529 1
-			specular 0 0 0 1 10
-			alpha_rejection greater 128
-
-			texture_unit
-			{
-				texture_alias 0
-				texture arc_schieferdach.png
-			}
-		}
-
-	}
-
-}
-
-material Ruchin_m_Schiefer : Basic_Vertex_Shader_AO
+material Ruchin_m/Dach :Basic_Vertex_Shader_AO
 {
 set_texture_alias diffuse arc_schieferdach.png
 set_texture_alias ambient ruchin_ao_m.png
 
+}
+
+material Ruchin_ivy : Basic_Normalmapping
+{
+set_texture_alias NormalMap Ruchin_ivy_normal.dds
+set_texture_alias DiffuseMap Ruchin_ivy_diffuse.dds
 }

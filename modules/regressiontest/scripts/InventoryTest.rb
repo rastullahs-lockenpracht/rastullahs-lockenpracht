@@ -12,7 +12,7 @@ class InventoryTest < TestCase
     p "InventoryTest #1: Put an object a creature's slot."
     hero.getInventory().hold(backpack, "Back");
     
-    itemToAdd = $GOM.createGameObject("men_human_female_leg_pants_01_long");
+    itemToAdd = $GOM.createGameObject("men_human_female_legs_pants_01_long");
     hero.getInventory().getItem("Back").addItem(itemToAdd);
     itemToAdd = $GOM.createGameObject("men_human_female_cloth_short");
     hero.getInventory().getItem("Back").addItem(itemToAdd);

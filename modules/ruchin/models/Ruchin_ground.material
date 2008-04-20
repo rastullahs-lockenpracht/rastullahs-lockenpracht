@@ -50,7 +50,7 @@ material Ruchin_ground: TerrainVColorBlending
       {
          fragment_program_ref
          {
-            param_named scale_Detail4 float 30.050000 
+            param_named scale_Detail4 float 100.050000 
             // Alpha
          }
 
@@ -73,7 +73,7 @@ material Ruchin_ground: TerrainVColorBlending
             // Blau
             param_named scale_Detail3 float 30.00000
 
-            param_named scale_Texture4 float 30.016000 
+            param_named scale_Texture4 float 15.016000 
             // Alpha
          }
       }

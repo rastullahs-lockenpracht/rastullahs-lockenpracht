@@ -6,13 +6,17 @@ float4 vViewPosition;
 float4 LightAttn_0;
 float4 LightAttn_1;
 float4 LightAttn_2;
+float4x4 matWorld;
+float2 pan;
+float2 bounds;
+float4x4 matTextureViewProjection;
 
 struct VS_OUTPUT 
 {
    float4 Position   : POSITION0;
-   float2 UV         : TEXCOORD0;
+   float4 UV         : TEXCOORD0;
    float4 LightDir_0 : TEXCOORD1;
-   float3 HalfVect_0 : TEXCOORD2;
+   float4 HalfVect_0 : TEXCOORD2;
    float4 LightDir_1 : TEXCOORD3;
    float3 HalfVect_1 : TEXCOORD4;
    float4 LightDir_2 : TEXCOORD5;
@@ -27,9 +31,17 @@ VS_OUTPUT vs_main(      float4 inPosition : POSITION0,
                         float2 inUV:   TEXCOORD )
 {
    VS_OUTPUT Output;
+   
+   float4 TempPos= mul( matWorld, inPosition );
+   TempPos = mul(matTextureViewProjection,TempPos);
+   
+   
+   Output.UV.zw = TempPos.xy + pan;
+   Output.UV.z = Output.UV.z / TempPos.w; 
+   Output.UV.w = Output.UV.w / TempPos.w;
 
    Output.Position = mul( matViewProjection, inPosition );
-   Output.UV = inUV;
+   Output.UV.xy = inUV;
    
    float3x3 TangentSpace;
    
@@ -52,7 +64,8 @@ VS_OUTPUT vs_main(      float4 inPosition : POSITION0,
                             
    
    
-   Output.HalfVect_0 = mul(TangentSpace, normalize(LightDir.xyz + EyeVector));
+   Output.HalfVect_0.xyz = mul(TangentSpace, normalize(LightDir.xyz + EyeVector));
+   Output.HalfVect_0.w = LightPosition_0.w;
    Output.LightDir_0 = float4(mul(TangentSpace,LightDir.xyz),LightDir.w);
    
    //################# Light 1  ################

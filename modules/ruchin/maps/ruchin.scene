@@ -1,183 +1,18 @@
 <scene formatVersion="0.0" >
 	<nodes>
-		<node name="nat_grasplane_02" id="1" >
-			<position x="12.6135" y="-3.91422" z="0.465509" />
+		<node name="Ivy" id="1" >
+			<position x="22.5935" y="-2.88005" z="-20.0237" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="nat_grasplane_02"
+				name="Ivy"
 				id="2"
-				meshFile ="nat_grasplane_02.mesh"
+				meshFile ="Ruchin_ivy_01.mesh"
 				materialFile="ruchin.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="STRING" name="physical_body" data="none"/></userData> 
-
-		</node>
-		<node name="nat_grasplane_02" id="3" >
-			<position x="12.2075" y="-3.91422" z="1.2313" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_grasplane_02"
-				id="4"
-				meshFile ="nat_grasplane_02.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/></userData> 
-
-		</node>
-		<node name="nat_grasplane_02" id="5" >
-			<position x="12.3126" y="-3.91422" z="1.95144" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_grasplane_02"
-				id="6"
-				meshFile ="nat_grasplane_02.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/></userData> 
-
-		</node>
-		<node name="nat_grasplane_02" id="7" >
-			<position x="12.3215" y="-3.91422" z="2.45018" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_grasplane_02"
-				id="8"
-				meshFile ="nat_grasplane_02.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/></userData> 
-
-		</node>
-		<node name="nat_grasplane_02" id="9" >
-			<position x="12.6882" y="-3.91422" z="0.724069" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_grasplane_02"
-				id="10"
-				meshFile ="nat_grasplane_02.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/></userData> 
-
-		</node>
-		<node name="nat_grasplane_02" id="11" >
-			<position x="11.4195" y="-3.91422" z="2.26127" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_grasplane_02"
-				id="12"
-				meshFile ="nat_grasplane_02.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/></userData> 
-
-		</node>
-		<node name="nat_grasplane_02" id="13" >
-			<position x="11.9034" y="-3.91422" z="1.76716" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_grasplane_02"
-				id="14"
-				meshFile ="nat_grasplane_02.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/></userData> 
-
-		</node>
-		<node name="nat_grasplane_02" id="15" >
-			<position x="11.8735" y="-3.91422" z="3.14044" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_grasplane_02"
-				id="16"
-				meshFile ="nat_grasplane_02.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/></userData> 
-
-		</node>
-		<node name="nat_grasplane_02" id="17" >
-			<position x="12.2911" y="-3.91422" z="3.62403" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_grasplane_02"
-				id="18"
-				meshFile ="nat_grasplane_02.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/></userData> 
-
-		</node>
-		<node name="nat_grasplane_02" id="19" >
-			<position x="13.1781" y="-3.91422" z="0.33761" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_grasplane_02"
-				id="20"
-				meshFile ="nat_grasplane_02.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/></userData> 
-
-		</node>
-		<node name="nat_grasplane_02" id="21" >
-			<position x="13.2065" y="-3.91422" z="-0.418083" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_grasplane_02"
-				id="22"
-				meshFile ="nat_grasplane_02.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/></userData> 
-
-		</node>
-		<node name="nat_grasplane_02" id="23" >
-			<position x="12.5427" y="-3.91422" z="4.65788" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_grasplane_02"
-				id="24"
-				meshFile ="nat_grasplane_02.mesh"
-				materialFile="ruchin.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/></userData> 
+  
 
 		</node>
 	</nodes>

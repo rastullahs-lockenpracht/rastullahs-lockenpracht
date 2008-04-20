@@ -67,7 +67,7 @@ class MergeableMeshTest < TestCase
       baseActor1 = $AM.createMeshActor("", "men_human_female_torso.mesh", GT_ELLIPSOID, 75, true)
       baseActor1.getControlledObject().setBaseMeshPart("torso")
       actorToAdd11 = $AM.createMeshActor("", "men_human_female_head_02.mesh")
-      actorToAdd12 = $AM.createMeshActor("", "men_human_female_leg_pants_01_long.mesh")
+      actorToAdd12 = $AM.createMeshActor("", "men_human_female_legs_pants_01_long.mesh")
       actorToAdd13 = $AM.createMeshActor("", "men_human_female_armor_kroetenhaut.mesh")
       actorToAdd14 = $AM.createMeshActor("", "men_human_female_feet_boots_01.mesh")
       baseActor1.merge(actorToAdd11, "head")

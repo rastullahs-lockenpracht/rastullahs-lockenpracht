@@ -10,7 +10,7 @@ class CommonModule < ContentModule
     end
 
     def getTextureLocations()
-	return ["alpha", "env", "model", "programs", "programs/Normalmapping", "templates", "tiled", "particle"]
+	return ["alpha", "env", "model", "programs", "programs/Skydome", "programs/Normalmapping", "templates", "tiled", "particle"]
     end
 
     def getSoundLocations()
