@@ -314,6 +314,7 @@ namespace rl
         }
     }
 
+    
     void Combat::executeRound()
 	{
 		// Auf gehts!
@@ -394,16 +395,33 @@ namespace rl
         }
     }
 
-	void Combat::doAttacke(JobSet* jobSet, Combatant* actor, Combatant* target)
+    void Combat::doAttacke(JobSet* jobSet, Combatant* actor, Combatant* target)
 	{
-        GameEventLog::getSingleton().logEvent(
-			actor->getName() + " attackiert " + target->getName() , GET_COMBAT);
+        enum Damage {
+            DMG_NONE,
+            DMG_HALF,
+            DMG_NORMAL,
+            DMG_DOUBLE
+        };
         
-        bool rollDamage = false;
+        GameEventLog::getSingleton().logEvent(
+                                              actor->getName() + " attackiert " + target->getName() , GET_COMBAT);
+        
+        Damage rollDamage = DMG_NONE;
 		// Make an attack roll.
 		int aresult = actor->rollAttacke();
+        
 		if (aresult >= RESULT_ERFOLG)
 		{
+            if (aresult >= RESULT_GLUECKLICH)
+            {
+                rollDamage = DMG_DOUBLE;
+            }
+            else
+            {
+                rollDamage = DMG_NORMAL;
+            }
+            
 			// Ok, succeeded
 			// Has target registered a reaction?
 			CombatantReactionsMap::iterator it = mCombatantReactions.find(target);
@@ -416,12 +434,20 @@ namespace rl
 					if (presult >= RESULT_ERFOLG)
 					{
 						GameEventLog::getSingleton().logEvent("Erfolg, aber pariert.", GET_COMBAT);
+                        if (target->getActiveWeapon()->isNatural())
+                        {
+                            rollDamage = DMG_HALF;
+                        }
+                        else
+                        {
+                            rollDamage = DMG_NONE;
+                        }
 					}
 					else
 					{
 						GameEventLog::getSingleton().logEvent("Erfolg, nicht pariert, Treffer!",
-							GET_COMBAT);
-						rollDamage = true;
+                                                              GET_COMBAT);
+						
 					}
 					target->doParade(jobSet, actor, presult);
 					actor->doAttacke(jobSet, target, aresult, true, presult);
@@ -435,7 +461,6 @@ namespace rl
 			{
 				GameEventLog::getSingleton().logEvent("Treffer!", GET_COMBAT);
 				actor->doAttacke(jobSet, target, aresult, false);
-				rollDamage = true;
 			}
 		}
 		else
@@ -445,17 +470,18 @@ namespace rl
 			target->doGetroffen(jobSet);
 		}
 		
-		if (rollDamage)
+		if (rollDamage != DMG_NONE) ///@todo half/double damage
 		{
 			int tp = actor->rollTrefferpunkte();
 			int sp = target->applyTrefferpunkte(tp);
-			CeGuiString msg = actor->getName() + " trifft für "
-				+ CeGuiString(StringConverter::toString(tp))
-				+ " Trefferpunkte, " + target->getName() + " erleidet "
-				+ CeGuiString(StringConverter::toString(sp)) + " Schadenspunkte.";
+			CeGuiString msg = actor->getName() + " trifft fÂ¸r "
+            + CeGuiString(StringConverter::toString(tp))
+            + " Trefferpunkte, " + target->getName() + " erleidet "
+            + CeGuiString(StringConverter::toString(sp)) + " Schadenspunkte.";
 			GameEventLog::getSingleton().logEvent(msg, GET_COMBAT);
 		}
 	}
+    
 
     void Combat::jobFinished(unsigned long ticket)
 	{
@@ -511,6 +537,6 @@ namespace rl
 				}
 			}
 		}
-		return true;
+		return false;
 	}
 }
