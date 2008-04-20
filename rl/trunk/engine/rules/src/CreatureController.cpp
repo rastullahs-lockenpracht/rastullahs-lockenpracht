@@ -124,7 +124,8 @@ namespace rl
         virtual bool isPossible() const
         {
             return
-                mMovingCreature->getAbstractLocation() == CreatureController::AL_AIRBORNE;
+                mMovingCreature->getAbstractLocation() == CreatureController::AL_AIRBORNE
+                && !(mMovingCreature->getCreature()->getLifeState() & Effect::LS_IMMOBILE);
         }
         virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep)
         {
@@ -193,7 +194,7 @@ namespace rl
             return
                 mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
                 mMovingCreature->getCreature()->getAu() > 0 &&
-                !(mMovingCreature->getCreature()->getLifeState() & (Effect::LS_IMMOBILE));
+                !(mMovingCreature->getCreature()->getLifeState() & Effect::LS_IMMOBILE);
         }
         virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep)
         {
@@ -1731,6 +1732,8 @@ namespace rl
             }
         }
 
+        LOG_DEBUG("CreatureController", "Set animation " + name + " at " + mCreature->getName());
+
         return meshAnim;
     }
 
@@ -1976,6 +1979,11 @@ namespace rl
             movement = getMovementFromId(movement->getFallBackMovement());
         }
 
+        if (!movement)
+        {
+            mMovement = NULL;
+        }
+
         return false;
     }
 
@@ -2019,8 +2027,9 @@ namespace rl
                 && !(oldstate & Effect::LS_UNCONSCIOUS || oldstate & Effect::LS_DEAD))
             {
                 // die, die, die!
+                setMovement(CreatureController::MT_NONE, Vector3::ZERO, Vector3::ZERO);
                 Creature::AnimationSpeedPair anim = mCreature->getAnimation("sterben");
-                setAnimation(anim.first, anim.second, 0, anim.first, 1.0f );
+                setAnimation(anim.first, anim.second, 1, anim.first, 1.0f );
             }
             return true;
         }
