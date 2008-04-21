@@ -5,6 +5,7 @@ libRlRules_la_LDFLAGS = $(RUBY_LIBS) $(OGRE_LIBS) $(CEGUI_LIBS) $(LIBS) $(OgreNe
 libRlRules_la_SOURCES = \
 	Action.cpp \
 	ActionManager.cpp \
+	ApplyDamageJob.cpp \
 	Armor.cpp \
 	Combat.cpp \
 	Combatant.cpp \
