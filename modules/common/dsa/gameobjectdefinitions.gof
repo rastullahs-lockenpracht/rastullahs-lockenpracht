@@ -204,8 +204,8 @@
 				<!-- Clothes -->
 				<property type="MAP"> 
 					<property name="name" type="STRING" data="Clothes"/>
-					<property name="type" type="STRING" data="material"/>
-					<property name="submesh" type="STRING" data="men_human_female_torso"/>
+					<property name="type" type="STRING" data="submesh"/>
+					<property name="submesh" type="STRING" data="clothes"/>
 					<property name="readies" type="INT" data="32768"/> <!-- Clothes -->
 					<property name="holds" type="INT" data="32768"/> <!-- Clothes -->
 				</property>
