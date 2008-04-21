@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="RlRules"
 	ProjectGUID="{1D1D45B2-A9C3-4D10-93EC-22AE4AA5C070}"
 	RootNamespace="RlRules"
@@ -299,6 +299,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ApplyDamageJob.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Combat.cpp"
 				>
 			</File>
@@ -534,6 +538,10 @@
 			</File>
 			<File
 				RelativePath=".\include\ActionManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ApplyDamageJob.h"
 				>
 			</File>
 			<File

@@ -126,7 +126,7 @@ namespace rl
         void executeRound();
         void endRound();
 
-		void doAttacke(JobSet* jobSet, Combatant* actor, Combatant* target);
+		void doAttacke(JobSet* jobSetAnims, JobSet* jobSetDamage, Combatant* actor, Combatant* target);
 
 		Ogre::Real getMaximumAttackeDistance(Combatant* actor) const;
 

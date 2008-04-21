@@ -1732,7 +1732,7 @@ namespace rl
             }
         }
 
-        LOG_DEBUG("CreatureController", "Set animation " + name + " at " + mCreature->getName());
+        LOG_MESSAGE("CreatureController", "Set animation " + name + " at " + mCreature->getName());
 
         return meshAnim;
     }
@@ -2029,6 +2029,7 @@ namespace rl
                 // die, die, die!
                 setMovement(CreatureController::MT_NONE, Vector3::ZERO, Vector3::ZERO);
                 Creature::AnimationSpeedPair anim = mCreature->getAnimation("sterben");
+                setAnimation(anim.first, anim.second, 1, anim.first, 1.0f );
                 setAnimation(anim.first, anim.second, 1, anim.first, 1.0f );
             }
             return true;
