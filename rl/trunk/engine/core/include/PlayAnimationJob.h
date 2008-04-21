@@ -58,6 +58,8 @@ namespace rl
 
         virtual bool execute(Ogre::Real time);
 
+        virtual void setHoldOnEnd(bool hold);
+
     private:
         Actor* mActor;
         Ogre::String mAnimName;
@@ -67,6 +69,7 @@ namespace rl
         bool mReplaceAllAnims;
         MeshAnimation* mAnimation;
         bool mAnimationRunning;
+        bool mHoldOnEnd;
     };
 }
 

@@ -34,7 +34,8 @@ namespace rl
           mLoops(-1),
           mTimeToGo(0.0),
           mAnimation(NULL),
-          mAnimationRunning(false)
+          mAnimationRunning(false),
+          mHoldOnEnd(false)
     {
     }
 
@@ -48,12 +49,18 @@ namespace rl
           mReplaceAllAnims(replaceAllAnims),
           mTimeToGo(0.0),
           mAnimation(NULL),
-          mAnimationRunning(false)
+          mAnimationRunning(false),
+          mHoldOnEnd(false)
     {
     }
 
     PlayAnimationJob::~PlayAnimationJob()
     {
+    }
+
+    void PlayAnimationJob::setHoldOnEnd(bool hold)
+    {
+        mHoldOnEnd = hold;
     }
 
     bool PlayAnimationJob::execute(Ogre::Real time)
@@ -88,7 +95,15 @@ namespace rl
             if (mAnimationRunning && mAnimation) 
             {
                 mAnimationRunning = false;
-                mAnimation->pause();
+                if (mHoldOnEnd) 
+                {
+                    mAnimation->pause();
+                }
+                else
+                {
+                    mAnimation->stop();
+                    delete mAnimation;
+                }
                 mAnimation = NULL;
             }
             return true;
