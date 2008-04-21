@@ -3,6 +3,7 @@ load 'embed.rb'
 require 'globals.rb'
 require 'player.rb'
 require 'hero.rb'
+require 'mckhero.rb'
 
 # Physik aktivieren
 $PM.setEnabled(true)
@@ -10,7 +11,7 @@ $PM.setEnabled(true)
 $SCRIPT.log("init map 'regressiontest'...")
 
 $SCRIPT.log("Create hero")
-$hero = $GOM.createGameObject("hero", 1)
+$hero = $GOM.createGameObject("mckhero", 1)
 
 $SCRIPT.log("Place hero into scene")
 $hero.placeIntoScene()
@@ -38,6 +39,8 @@ wolf.getInventory().ready(schnauze, "Snout");
 #job.addLandmark("1",[5.0,0.0,-20.0])
 #job.addLandmark("2",[5.0,0.0,-15.0])
 #$JS.addJob(job);
+
+load "equip.rb"
 
 $SCRIPT.log("map 'combattest' initialisiert.")
 

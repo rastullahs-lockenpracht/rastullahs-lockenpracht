@@ -227,6 +227,11 @@
 				</property>				
 			</property>
 		</property>
+		
+		<property name="kampftechniken" type="MAP">
+			<property name="Schwerter" type="INTPAIR" data="5,7"/>
+		</property>
+		
 		<!-- Animationen und Animationsgeschwindigkeiten fuer den CreatureController -->
 		<property name="animations" type="MAP">
 			<property name="stehen" type="STRING" data="Idle"/>
@@ -236,7 +241,7 @@
 			<!-- property name="seitwaerts_rechts" type="STRING" data="seitwaerts_rechts"/ -->
 			<property name="gehen" type="STRING" data="Walk"/>
 			<property name="gehen_rueckwaerts" type="STRING" data="Walk"/>
-			<property name="joggen_rueckwaerts" type="STRING" data="Run"/>
+			<property name="joggen_rueckwaerts" type="STRING" data="Walk"/>
 			<property name="joggen" type="STRING" data="Run"/>
 			<property name="laufen" type="STRING" data="Run"/>
 			<property name="rennen" type="STRING" data="Run"/>
@@ -250,6 +255,20 @@
 			<property name="weitsprung_absprung" type="STRING" data="rennen_absprung"/>
 			<property name="weitsprung" type="STRING" data="rennen_sprung"/>
 			<property name="weitsprung_landung" type="STRING" data="rennen_sprung_landung"/>
+			
+			
+			<!-- Kampf -->
+			<property name="kampf_attacke_pariert" type="STRING" data="1h_hieb_attack1"/>
+			<property name="kampf_attacke_treffer_nicht_pariert" type="STRING" data="1h_hieb_attack1"/>
+			<property name="kampf_attacke_treffer" type="STRING" data="1h_hieb_attack1"/>
+			<property name="kampf_attacke_misserfolg" type="STRING" data="1h_hieb_attack1"/>
+			<property name="kampf_parade_erfolg" type="STRING" data="1h_hieb_block1"/>
+			<property name="kampf_parade_misserfolg" type="STRING" data="1h_hieb_gethit1"/>
+			<property name="kampf_getroffen" type="STRING" data="1h_hieb_gethit1"/>
+			
+			
+			
+			
 		</property>
 		<!-- Je nach key ist die Value ein absoluter oder ein relativer Wert! -->
 		<property name="animationspeeds" type="MAP">
