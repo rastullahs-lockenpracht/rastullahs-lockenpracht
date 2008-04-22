@@ -47,7 +47,6 @@ namespace rl {
     class LogWindow;
     class MainMenuWindow;
     class ObjectDescriptionWindow;
-    class Person;
     class GameSaveLoadWindow;
     class MainMenuLoadWindow;
     class WindowUpdater;
@@ -72,7 +71,7 @@ namespace rl {
         void showAboutWindow();
         void showCharacterActionChoice();
         void showCharacterSheet();
-        void showCharacterSheet(Person* chara);
+        void showCharacterSheet(Creature* chara);
         void showContainerContent(Container* container);
         void showDescriptionWindow(GameObject* obj);
         void showPropertiesWindow(GameObject* obj);

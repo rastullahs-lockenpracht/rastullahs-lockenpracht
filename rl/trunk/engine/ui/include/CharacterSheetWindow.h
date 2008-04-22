@@ -25,7 +25,7 @@
 
 namespace rl {
 
-	class Person;
+	class Creature;
 	class ObjectStateChangeEvent;
 
 	class _RlUiExport CharacterSheetWindow : public AbstractWindow, public ObjectStateChangeListener
@@ -34,7 +34,7 @@ namespace rl {
 		CharacterSheetWindow();
 		~CharacterSheetWindow();
 
-		void setCharacter(Person* character);
+		void setCharacter(Creature* character);
 
 		/**
 		 * Aktualisiert die Tabellenelemente in Talent- und Magietabellen
@@ -45,7 +45,7 @@ namespace rl {
 		void objectStateChanged(ObjectStateChangeEvent* evt);
 
 	private:
-		Person* mCharacter;
+		Creature* mCharacter;
 
 		CEGUI::Window* mCharacterSheet;
 		CEGUI::Window* mTalentSheet;

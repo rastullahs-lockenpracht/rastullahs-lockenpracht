@@ -39,7 +39,7 @@ namespace rl {
 		*  @throw NullPointerException if camera is NULL.
 		*  @warning Ownership of combat is taken by the CombatControlState.
 		*/
-		CombatControlState(CommandMapper* cmdMapper, Actor* camera, Person* character);
+		CombatControlState(CommandMapper* cmdMapper, Actor* camera, Creature* character);
 		virtual ~CombatControlState();
 
 		// Control state overrides

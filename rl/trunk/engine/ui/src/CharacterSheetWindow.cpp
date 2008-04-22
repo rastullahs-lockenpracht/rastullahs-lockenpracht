@@ -21,8 +21,8 @@
 #include <CEGUIPropertyHelper.h>
 #include <elements/CEGUIListboxTextItem.h>
 
+#include "Creature.h"
 #include "DsaManager.h"
-#include "Person.h"
 #include "InputManager.h"
 #include "Talent.h"
 
@@ -35,7 +35,8 @@ using namespace Ogre;
 namespace rl {
 
 CharacterSheetWindow::CharacterSheetWindow()
-	: AbstractWindow("charactersheet.xml", WIT_MOUSE_INPUT)
+	: AbstractWindow("charactersheet.xml", WIT_MOUSE_INPUT),
+      mCharacter(NULL)
 {
 	mTalentTable = getMultiColumnList("CharacterSheet/TalentSheet/Table");
 	mTalentTable->addColumn((utf8*)"Talent", 0, cegui_reldim(0.5));
@@ -73,17 +74,19 @@ CharacterSheetWindow::~CharacterSheetWindow()
 {
 }
 
-void CharacterSheetWindow::setCharacter(Person* person)
+void CharacterSheetWindow::setCharacter(Creature* creature)
 {
-	if (person == NULL)
+	if (creature == NULL)
 	{
-		if (mCharacter != NULL)
+		if (mCharacter != NULL) 
+        {
 			mCharacter->removeObjectStateChangeListener(this);
+        }
 	}
 	else
 	{
-		person->addObjectStateChangeListener(this);
-		mCharacter = person;
+		creature->addObjectStateChangeListener(this);
+		mCharacter = creature;
 		update();
 	}
 }
@@ -100,9 +103,9 @@ void CharacterSheetWindow::update()
 void CharacterSheetWindow::updateValues()
 {
 	mName->setText("Name: "+mCharacter->getName());
-    mRasse->setText("Rasse: "+mCharacter->getRasse());
-    mKultur->setText("Kultur: "+mCharacter->getKultur());
-    mProfession->setText("Profession: "+mCharacter->getProfession());
+    mRasse->setText(""); // bei Tieren...
+    mKultur->setText("");
+    mProfession->setText("");
     mEffekte->setText("Effekte:\n"+mCharacter->getEffects());
 
 	mLE->setText("LeP: "+

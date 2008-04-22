@@ -45,8 +45,8 @@ public:
     static UiSubsystem& getSingleton(void);
     void initializeSubsystem();
 
-    rl::Person* getActiveCharacter();
-    void setActiveCharacter(rl::Person* chara);
+    rl::Creature* getActiveCharacter();
+    void setActiveCharacter(rl::Creature* chara);
 };
 
 enum ControlStateType 
@@ -89,7 +89,7 @@ public:
     void showActionChoice(rl::GameObject* obj);
     void showCharacterActionChoice();
     void showCharacterSheet();
-    void showCharacterSheet(rl::Person* chara);
+    void showCharacterSheet(rl::Creature* chara);
     void showContainerContent(rl::Container* container);
     void showDescriptionWindow(rl::GameObject* obj);
     void showPropertiesWindow(rl::GameObject* obj);

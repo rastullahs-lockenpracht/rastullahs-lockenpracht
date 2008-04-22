@@ -386,7 +386,7 @@ namespace rl {
     void InputManager::pushControlState(ControlStateType controlStateType)
     {
         Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
-        Person* character = UiSubsystem::getSingleton().getActiveCharacter();
+        Creature* character = UiSubsystem::getSingleton().getActiveCharacter();
 
         ControlState* controller = NULL;
         switch (controlStateType)

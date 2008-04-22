@@ -27,13 +27,13 @@
 namespace rl {
 
 	class GameObject;
-	class Person;
+	class Creature;
 	class ActionGroup;
 
 	class _RlUiExport ActionChoiceWindow : public AbstractWindow
 	{
 	public:
-		ActionChoiceWindow(Person* actor);
+		ActionChoiceWindow(Creature* actor);
 		~ActionChoiceWindow();
 		
 		int showActionsOfObject(GameObject* object);
@@ -91,7 +91,7 @@ namespace rl {
 		CEGUI::Window* mButtonArea;
 		CEGUI::Window* mHint;
 
-		Person* mActor;		
+		Creature* mActor;		
 		
 		class ActionNode
 		{

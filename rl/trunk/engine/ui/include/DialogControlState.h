@@ -53,7 +53,7 @@ namespace rl {
 		*  @throw NullPointerException if camera or character is NULL.
 		*  @throw InvalidArgumentException if character is not placed in the scene.
 		*/
-		DialogControlState(CommandMapper* cmdMapper, Actor* camera, Person* character);
+		DialogControlState(CommandMapper* cmdMapper, Actor* camera, Creature* character);
 		/// Dtor 
 		virtual ~DialogControlState();
 

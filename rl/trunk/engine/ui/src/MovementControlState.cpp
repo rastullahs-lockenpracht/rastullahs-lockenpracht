@@ -36,7 +36,6 @@
 #include "MeshObject.h"
 #include "MeshAnimation.h"
 #include "MovementControlState.h"
-#include "Person.h"
 #include "PhysicsManager.h"
 #include "PhysicsMaterialRaycast.h"
 #include "PhysicalThing.h"
@@ -64,7 +63,7 @@ namespace rl {
     }
 
     MovementControlState::MovementControlState(CommandMapper* cmdMapper,
-        Actor* camera, Person* character)
+        Actor* camera, Creature* character)
         : ControlState(cmdMapper, camera, character, CST_MOVEMENT),
         mController(NULL),
         mCharacterState(),

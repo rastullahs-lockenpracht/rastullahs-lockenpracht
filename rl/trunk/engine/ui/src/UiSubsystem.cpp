@@ -34,16 +34,17 @@
 #include "CoreMessages.h"
 #include "CoreSubsystem.h"
 #include "ControlState.h"
+#include "Creature.h"
 #include "Exception.h"
 #include "GameLoop.h"
+#include "GameObjectManager.h"
 #include "InputManager.h"
 #include "Logger.h"
-#include "Person.h"
 #include "ScriptWrapper.h"
 #include "SoundManager.h"
+#include "UiMessages.h"
 #include "WindowFactory.h"
 #include "WindowManager.h"
-#include "GameObjectManager.h"
 
 using namespace Ogre;
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
@@ -142,18 +143,17 @@ namespace rl {
         mWindowFactory->initialize();
     }
 
-
     CEGUI::OgreCEGUIRenderer* UiSubsystem::getGUIRenderer()
     {
         return mGuiRenderer;
     }
 
-    Person* UiSubsystem::getActiveCharacter() const
+    Creature* UiSubsystem::getActiveCharacter() const
     {
         return mCharacter;
     }
 
-    void UiSubsystem::setActiveCharacter(Person* person)
+    void UiSubsystem::setActiveCharacter(Creature* creature)
     {
         // Ensure we have a sound listener
         if (SoundManager::getSingleton().getListenerActor() == NULL)
@@ -161,28 +161,27 @@ namespace rl {
             SoundManager::getSingleton().createListenerActor();
         }
 
-        // Nur wenn es sich veraendert hat
-        if( person != mCharacter )
+        if (creature != mCharacter )
         {
-            if( mCharacter != NULL )
+            if (mCharacter)
             {
                 ScriptWrapper::getSingleton().disowned( mCharacter );
                 mCharacter->getActor()->detach(SoundManager::getSingleton().getListenerActor());
                 mCharacter->setQueryFlags(mCharacter->getQueryFlags() & (~QUERYFLAG_PLAYER));
             }
 
-            if (person == NULL)
+            if (!creature)
             {
                 mCharacter = NULL;
                 mInputManager->clearControlStates();
             }
             else
             {
-                ScriptWrapper::getSingleton().owned( person );
-                mCharacter = person;
+                ScriptWrapper::getSingleton().owned(creature);
+                mCharacter = creature;
                 mCharacter->addQueryFlag(QUERYFLAG_PLAYER);
 
-                mWindowFactory->setActiveCharacter(person);
+                mWindowFactory->setActiveCharacter(creature);
 
                 mCharacter->getActor()->attach(SoundManager::getSingleton().getListenerActor());
                 LOG_MESSAGE(Logger::UI, "SoundListener attached.");
@@ -190,6 +189,8 @@ namespace rl {
                 // Reset control stack for the new Character and set to movement.
                 mInputManager->setControlState(CST_MOVEMENT);
             }
+
+            MessagePump::getSingleton().sendMessage<MessageType_ActiveCharacterChanged>(creature);
         }
     }
 
@@ -205,14 +206,14 @@ namespace rl {
 
     bool UiSubsystem::onGameObjectsLoaded()
     {
-        if(mCharacterId != -1)
+        if (mCharacterId != -1)
         {
-            Person* person = static_cast<Person*>(GameObjectManager::getSingleton().getGameObject(mCharacterId));
+            Creature* character = static_cast<Creature*>(GameObjectManager::getSingleton().getGameObject(mCharacterId));
 
-            ScriptWrapper::getSingleton().owned( person );
-            mCharacter = person;
+            ScriptWrapper::getSingleton().owned(character);
+            mCharacter = character;
 
-            mWindowFactory->setActiveCharacter(person);
+            mWindowFactory->setActiveCharacter(character);
 
             mCharacter->getActor()->attach(SoundManager::getSingleton().getListenerActor());
             LOG_MESSAGE(Logger::UI, "SoundListener attached.");

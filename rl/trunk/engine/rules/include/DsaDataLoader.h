@@ -25,7 +25,7 @@
 namespace rl {
 
 	class Talent;
-	class Person;
+	class Creature;
 	class Kampftechnik;
 
     class XdimlLoader 
@@ -45,8 +45,8 @@ namespace rl {
 		void initializeTalente(XERCES_CPP_NAMESPACE::DOMElement* rootTalente);
 		Talent* processTalent(int gruppe, XERCES_CPP_NAMESPACE::DOMElement* talentXml);
 
-		void initializePersonen(XERCES_CPP_NAMESPACE::DOMElement* rootPersonen);
-		Person* processPerson(XERCES_CPP_NAMESPACE::DOMElement* talentXml);
+		void initializeCreatures(XERCES_CPP_NAMESPACE::DOMElement* rootCreatures);
+		Creature* processCreature(XERCES_CPP_NAMESPACE::DOMElement* talentXml);
 			
 		void initializeKampftechniken(XERCES_CPP_NAMESPACE::DOMElement* rootKampftechniken);
 		Kampftechnik* processKampftechnik(XERCES_CPP_NAMESPACE::DOMElement* kampftechnikXml);

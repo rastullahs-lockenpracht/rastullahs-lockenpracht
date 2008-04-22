@@ -28,7 +28,6 @@
 #include "CreatureControllerManager.h"
 #include "InputManager.h"
 #include "MeshObject.h"
-#include "Person.h"
 #include "PhysicalThing.h"
 #include "RulesMessages.h"
 #include "Selector.h"
@@ -39,7 +38,7 @@ using namespace Ogre;
 
 namespace rl {
     CombatControlState::CombatControlState(CommandMapper* cmdMapper,
-        Actor* camera, Person* character)
+        Actor* camera, Creature* character)
         : ControlState(cmdMapper, camera, character, CST_COMBAT),
           Combatant(CombatManager::getSingleton().startCombat(),
 			CreatureControllerManager::getSingleton().getCreatureController(character)),

@@ -37,7 +37,6 @@ namespace rl {
     class Actor;
 	class CommandMapper;
 	class Creature;
-    class Person;
 
     /**
      * This class handles character control via user input.
@@ -51,7 +50,7 @@ namespace rl {
          *  @throw NullPointerException if camera or character is NULL.
          *  @throw InvalidArgumentException if character is not placed in the scene.
          */
-        ControlState(CommandMapper* commandMapper, Actor* camera, Person* character,
+        ControlState(CommandMapper* commandMapper, Actor* camera, Creature* character,
             ControlStateType type);
 		virtual ~ControlState()= 0;
 
@@ -77,7 +76,7 @@ namespace rl {
         /// returns wether cegui currently uses the mouse
         bool isMouseUsedByCegui() const;
 
-        Person* mCharacter;
+        Creature* mCharacter;
         int mCharacterId;
 
         Actor* mCameraActor;

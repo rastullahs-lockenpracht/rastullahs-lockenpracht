@@ -38,9 +38,6 @@ namespace rl {
     class GameActor;
     class GameObject;
     class InputManager;
-    class Person;
-    class RBCombat;
-    class RTCombat;
     class WindowFactory;
     class WindowManager;
 
@@ -55,9 +52,9 @@ namespace rl {
         virtual ~UiSubsystem();
 
         CEGUI::OgreCEGUIRenderer* getGUIRenderer();
-        Person* getActiveCharacter() const;
+        Creature* getActiveCharacter() const;
         ///@todo function feels misplaced here,
-        void setActiveCharacter(Person* person);
+        void setActiveCharacter(Creature* person);
 
         virtual bool onBeforeClearScene();
         virtual bool onBeforeGameObjectsLoaded();
@@ -66,7 +63,7 @@ namespace rl {
         void initializeSubsystem();
 
     private:
-        Person* mCharacter;
+        Creature* mCharacter;
         int mCharacterId;
 
 	    MessagePump::ScopedConnection mSceneClearingConnection;

@@ -22,11 +22,11 @@
 #include "InputManager.h"
 #include "GameLoop.h"
 
-#include "Person.h"
 #include "Actor.h"
 #include "ActorManager.h"
 #include "CameraObject.h"
 #include "CoreSubsystem.h"
+#include "Creature.h"
 #include "Exception.h"
 #include "MeshObject.h"
 

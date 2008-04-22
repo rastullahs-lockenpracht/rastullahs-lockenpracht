@@ -23,6 +23,7 @@
 namespace rl
 {
 	class Combatant;
+    class Creature;
 
 	// 0x04XXXXXX is mask for UI messages
     enum UiMessageTypeIds
@@ -36,7 +37,10 @@ namespace rl
 
         RLMSG_COMBAT_IO_ATTACK_OPPONENT = 0x04000103,
         RLMSG_COMBAT_IO_PARRY_OPPONENT = 0x04000104,
-        RLMSG_COMBAT_IO_END_TURN_REQUESTED = 0x04000105
+        RLMSG_COMBAT_IO_END_TURN_REQUESTED = 0x04000105,
+
+        // Character change
+        RLMSG_ACTIVE_CHARACTER_CHANGED = 0x04000201
     };
 
     /// Message sent after enemy action button has been pressed.
@@ -49,5 +53,7 @@ namespace rl
     typedef MessageType<RLMSG_COMBAT_IO_ATTACK_OPPONENT, Combatant*> MessageType_CombatIoAttackOpponent;
     typedef MessageType<RLMSG_COMBAT_IO_PARRY_OPPONENT, Combatant*> MessageType_CombatIoParryOpponent;
     typedef MessageType<RLMSG_COMBAT_IO_END_TURN_REQUESTED> MessageType_CombatIoEndTurnRequested;
+
+    typedef MessageType<RLMSG_ACTIVE_CHARACTER_CHANGED, Creature*> MessageType_ActiveCharacterChanged;
 }
 #endif

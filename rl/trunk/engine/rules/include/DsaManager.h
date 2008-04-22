@@ -77,7 +77,7 @@ namespace rl
         Talent* getTalent(const CeGuiString talentName) const;
         Kampftechnik* getKampftechnik(const CeGuiString kampftechnikName) const;
         Eigenschaft* getEigenschaft(const CeGuiString eigenschaftName) const;
-		Person* getPerson(int id) const;        
+		Creature* getCreature(int id) const;        
 				
 		int getSteigerKosten(int column, int from, int to) const;
 		int getSteigerKosten(int column, int from) const;
@@ -85,7 +85,7 @@ namespace rl
 		bool isRuleActive(Rule rule) const;
 
 		void _addTalent(Talent* talent);
-		void _addPerson(Person* person);
+		void _addCreature(Creature* creature);
 		void _addKampftechnik(Kampftechnik* kampftechnik);
 
     private:
@@ -94,13 +94,13 @@ namespace rl
         Ogre::Real mTimeScale;
 
         typedef std::map<CeGuiString, Talent*> TalentMap;
-		typedef std::map<int, Person*> PersonMap;
+		typedef std::map<int, Creature*> CreatureMap;
         typedef std::map<CeGuiString, Kampftechnik*> KampftechnikMap;
 		typedef std::map<CeGuiString, Eigenschaft*> EigenschaftMap;
 		EigenschaftMap mEigenschaften;
         TalentMap mTalente;
         KampftechnikMap mKampftechniken;
-		PersonMap mPersonen;
+		CreatureMap mCreatures;
 		unsigned int mSteigerkostenTabelle[SKT_COLUMNS][SKT_ROWS];
 
 		void initializeEigenschaften();

@@ -29,15 +29,13 @@
 #include "CommandMapper.h"
 #include "MeshObject.h"
 #include "WindowManager.h"
-#include "Person.h"
-
 
 using namespace Ogre;
 
 namespace rl {
 
 	FreeflightControlState::FreeflightControlState(CommandMapper* cmdMapper,
-        Actor* camera, Person* character)
+        Actor* camera, Creature* character)
 		: ControlState(cmdMapper, camera, character, CST_FREEFLIGHT),
 		mMovementSpeed(5.0f),
 		mSpeedRange(0.03f, 90.0f),

@@ -518,10 +518,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\Person.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\Weapon.cpp"
 					>
 				</File>
@@ -753,10 +749,6 @@
 				</File>
 				<File
 					RelativePath=".\include\Item.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\Person.h"
 					>
 				</File>
 				<File

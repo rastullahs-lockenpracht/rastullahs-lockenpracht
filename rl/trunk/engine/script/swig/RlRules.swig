@@ -108,7 +108,7 @@ namespace rl {
       
         static DsaManager& getSingleton();
         rl::Talent* getTalent(const rl::CeGuiString name) const;
-        rl::Person* getPerson(const int id) const;
+        rl::Creature* getCreature(const int id) const;
     };
     
     %feature("director") GameObjectFactory; 
@@ -774,27 +774,6 @@ namespace rl {
         virtual void onAfterStateChange(GameObjectState oldState, GameObjectState newState);
    };
    
-   %feature("director") Person;
-   class Person : public Creature
-   {
-   public:
-        Person(unsigned int id);
-
-        rl::CeGuiString getRasse();
-        void setRasse(rl::CeGuiString rasse);
-        rl::CeGuiString getKultur();
-        void setKultur(rl::CeGuiString kultur);
-        rl::CeGuiString getProfession();
-        void setProfession(rl::CeGuiString profession);
-
-        virtual const rl::Property getProperty(const rl::CeGuiString& key) const;
-        virtual void setProperty(const rl::CeGuiString& key, const rl::Property& value);
-        virtual rl::PropertyKeys getAllPropertyKeys() const;
-        
-        virtual void onBeforeStateChange(GameObjectState oldState, GameObjectState newState);
-        virtual void onAfterStateChange(GameObjectState oldState, GameObjectState newState);
-    };
-        
     %feature("director") ActionManager;
     class ActionManager
     {
@@ -927,11 +906,6 @@ static swig_type_info *GameObject_dynamic_cast(void **ptr)
 {
     rl::GameObject *pGameObject = static_cast<rl::GameObject*>(*ptr);
 
-    rl::Person *pPerson=dynamic_cast<rl::Person*>(pGameObject);
-    if (pPerson) {
-        *ptr=pPerson;
-        return SWIGTYPE_p_rl__Person;
-    }
     rl::Creature *pCreature=dynamic_cast<rl::Creature*>(pGameObject);
     if (pCreature) {
         *ptr=pCreature;

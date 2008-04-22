@@ -26,7 +26,6 @@
 #include "Exception.h"
 #include "GameObject.h"
 #include "Item.h"
-#include "Person.h"
 #include "Properties.h"
 #include "Property.h"
 #include "RulesMessages.h"
@@ -273,10 +272,6 @@ namespace rl
         else if (classname == Creature::CLASS_NAME)
         {
             return new Creature(id);
-        }
-        else if (classname == Person::CLASS_NAME)
-        {
-            return new Person(id);
         }
         else if (classname == Weapon::CLASS_NAME)
         {

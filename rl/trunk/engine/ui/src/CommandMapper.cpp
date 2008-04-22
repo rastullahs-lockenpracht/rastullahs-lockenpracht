@@ -21,7 +21,6 @@
 #include "ConfigurationManager.h"
 #include "Exception.h"
 #include "InputManager.h"
-#include "Person.h"
 #include "UiSubsystem.h"
 
 using namespace Ogre;

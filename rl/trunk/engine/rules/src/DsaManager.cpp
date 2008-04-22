@@ -20,7 +20,7 @@
 #include "Eigenschaft.h"
 #include "Talent.h"
 #include "Kampftechnik.h"
-#include "Person.h"
+#include "Creature.h"
 #include "RulesSubsystem.h"
 #include "Date.h"
 #include "DsaDataLoader.h"
@@ -45,7 +45,7 @@ namespace rl
         mEigenschaften(),
         mTalente(),
         mKampftechniken(),
-        mPersonen()
+        mCreatures()
     {
         //Zufallsgenerator initialisieren
         srand(static_cast<unsigned int>(time(NULL)));
@@ -59,7 +59,7 @@ namespace rl
 
     DsaManager::~DsaManager()
     {
-        for(PersonMap::iterator it = mPersonen.begin(); it != mPersonen.end(); ++it)
+        for (CreatureMap::iterator it = mCreatures.begin(); it != mCreatures.end(); ++it)
         {
             delete it->second;
         }
@@ -109,9 +109,9 @@ namespace rl
 		mTalente.insert(make_pair(talent->getName(), talent));
 	}
 
-	void DsaManager::_addPerson(Person* person)
+	void DsaManager::_addCreature(Creature* creature)
 	{
-		mPersonen.insert(make_pair(person->getId(), person));
+		mCreatures.insert(make_pair(creature->getId(), creature));
 	}
 
 	void DsaManager::_addKampftechnik(Kampftechnik* kampftechnik)
@@ -291,16 +291,16 @@ namespace rl
 		return sum;
 	}
 
-	Person* DsaManager::getPerson(int id) const
+	Creature* DsaManager::getCreature(int id) const
 	{
-		PersonMap::const_iterator it = mPersonen.find(id);
-        if (it != mPersonen.end())
+		CreatureMap::const_iterator it = mCreatures.find(id);
+        if (it != mCreatures.end())
         {
             return (*it).second;
         }
         else
         {
-            Throw(IllegalArgumentException, "Person nicht gefunden.");
+            Throw(IllegalArgumentException, "Creature not found.");
         }
 	}
 }

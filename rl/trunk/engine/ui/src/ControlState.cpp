@@ -29,7 +29,6 @@
 #include "Creature.h"
 #include "Exception.h"
 #include "InputManager.h"
-#include "Person.h"
 #include "PhysicalThing.h"
 #include "RulesMessages.h"
 #include "WindowManager.h"
@@ -42,7 +41,7 @@ namespace rl {
     const Ogre::String ControlState::PROPERTY_CHARACTERID = "characterid";
 
 	ControlState::ControlState(CommandMapper* commandMapper,
-        Actor* camera, Person* character, ControlStateType type)
+        Actor* camera, Creature* character, ControlStateType type)
 		: mCharacter(character),
         mCameraActor(camera),
 		mCharacterActor(NULL),
@@ -185,7 +184,7 @@ namespace rl {
 
     bool ControlState::refetchCharacter()
     {
-        mCharacter = static_cast<Person*>(GameObjectManager::getSingleton().getGameObject(mCharacterId));
+        mCharacter = static_cast<Creature*>(GameObjectManager::getSingleton().getGameObject(mCharacterId));
 
         if (mCharacter != NULL)
 		{

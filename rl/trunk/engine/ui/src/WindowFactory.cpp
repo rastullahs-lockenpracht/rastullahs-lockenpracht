@@ -26,6 +26,7 @@
 #include "CombatWindow.h"
 #include "Console.h"
 #include "CoreSubsystem.h"
+#include "Creature.h"
 #include "DebugWindow.h"
 #include "DialogControlState.h"
 #include "DialogWindow.h"
@@ -48,7 +49,6 @@
 #include "MainMenuEngineWindow.h"
 #include "MovableText.h"
 #include "ObjectDescriptionWindow.h"
-#include "Person.h"
 #include "PlaylistWindow.h"
 #include "QuestBook.h"
 #include "RubyInterpreter.h"
@@ -271,11 +271,14 @@ namespace rl {
         (new AboutWindow())->setVisible(true);
     }
 
-    void WindowFactory::showCharacterSheet(Person* chara)
+    void WindowFactory::showCharacterSheet(Creature* chara)
     {
-        CharacterSheetWindow* wnd = new CharacterSheetWindow();
-        wnd->setCharacter(chara);
-        wnd->setVisible(true);
+        if (!mCharacterSheet) 
+        {
+            mCharacterSheet = new CharacterSheetWindow();
+        }
+        mCharacterSheet->setCharacter(chara);
+        mCharacterSheet->setVisible(true);
     }
 
     void WindowFactory::showDescriptionWindow(GameObject* obj)
@@ -358,6 +361,16 @@ namespace rl {
     void WindowFactory::setActiveCharacter(Creature* character)
     {
         mCharacterStateWindow->setCharacter(character);
+        if (mCharacterSheet) 
+        {
+            mCharacterSheet->setCharacter(character);
+        }
+
+        if (mInventoryWindow && mInventoryWindow->isVisible())
+        {
+            toggleInventoryWindow();
+        }
+
         LOG_MESSAGE(Logger::UI, "CharacterStateWindow updated");
     }
 

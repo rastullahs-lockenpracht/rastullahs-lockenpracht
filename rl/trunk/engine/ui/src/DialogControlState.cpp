@@ -25,6 +25,7 @@
 #include "CommandMapper.h"
 #include "ConfigurationManager.h"
 #include "CoreSubsystem.h"
+#include "Creature.h"
 #include "Dialog.h"
 #include "DialogElement.h"
 #include "DialogParagraph.h"
@@ -35,7 +36,6 @@
 #include "InputManager.h"
 #include "MeshAnimation.h"
 #include "MeshObject.h"
-#include "Person.h"
 #include "PhysicalThing.h"
 #include "Sound.h"
 #include "SoundDriver.h"
@@ -57,7 +57,7 @@ using namespace Ogre;
 namespace rl {
 
     DialogControlState::DialogControlState(CommandMapper* cmdMapper,
-        Actor* camera, Person* character)
+        Actor* camera, Creature* character)
         : ControlState(cmdMapper, camera, character, CST_DIALOG),
         mTargetCameraPosition(Vector3::ZERO),
         mTargetCameraDirection(Vector3::UNIT_Z),

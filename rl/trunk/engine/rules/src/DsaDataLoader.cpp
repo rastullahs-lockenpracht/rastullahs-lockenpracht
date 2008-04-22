@@ -26,7 +26,7 @@
 
 #include "DsaManager.h"
 #include "Talent.h"
-#include "Person.h"
+#include "Creature.h"
 #include "Kampftechnik.h"
 #include "RulesPrerequisites.h"
 #include "RulesSubsystem.h"
@@ -58,7 +58,7 @@ namespace rl {
 
 		initializeTalente(getChildNamed(dataDocumentContent, "Talente"));
 		initializeKampftechniken(getChildNamed(dataDocumentContent, "Kampftechniken"));
-		initializePersonen(getChildNamed(dataDocumentContent, "Personen"));
+		initializeCreatures(getChildNamed(dataDocumentContent, "Personen"));
 
 		doc->release();
 
@@ -207,7 +207,7 @@ namespace rl {
 	}
 
 
-	void XdimlLoader::initializePersonen(DOMElement* rootPersons)
+	void XdimlLoader::initializeCreatures(DOMElement* rootPersons)
 	{
 		if (rootPersons == NULL)
 			return;
@@ -215,15 +215,15 @@ namespace rl {
 		DOMNodeList* personenXml = rootPersons->getElementsByTagName(AutoXMLCh("Person").data());
 		for (unsigned int idx = 0; idx < personenXml->getLength(); idx++)
 		{
-			Person* p =
-				processPerson(
+			Creature* p =
+				processCreature(
 					static_cast<DOMElement*>(personenXml->item(idx)));
-			DsaManager::getSingleton()._addPerson(p);
+			DsaManager::getSingleton()._addCreature(p);
 		}
 
 	}
 
-	Person* XdimlLoader::processPerson(DOMElement* personXml)
+	Creature* XdimlLoader::processCreature(DOMElement* personXml)
 	{
 		AutoXMLCh TALENT = "Talent";
 		AutoXMLCh ID = "ID";
@@ -236,7 +236,7 @@ namespace rl {
 			getValueAsString(getChildNamed(personXml, "Beschreibung"));
 
         //@warning replace this by correct loading process
-		Person* rval = new Person(10000);
+		Creature* rval = new Creature(10000);
         rval->setName(name);
         rval->setDescription(desc);
 

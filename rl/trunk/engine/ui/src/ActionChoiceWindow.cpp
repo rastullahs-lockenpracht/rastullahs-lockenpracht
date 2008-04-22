@@ -24,10 +24,10 @@
 
 #include "Action.h"
 #include "ActionManager.h"
-#include "GameObject.h"
-#include "Person.h"
-#include "UiSubsystem.h"
+#include "Creature.h"
 #include "Exception.h"
+#include "GameObject.h"
+#include "UiSubsystem.h"
 
 
 using namespace CEGUI;
@@ -39,7 +39,7 @@ namespace rl {
 	const int MAX_NUM_ACTIONS = 4;
 	const int MAX_NUM_SUBACTIONS = 7;
 
-	ActionChoiceWindow::ActionChoiceWindow(Person* actor)
+	ActionChoiceWindow::ActionChoiceWindow(Creature* actor)
 		:	AbstractWindow("actionchoicewindow.xml", WIT_MOUSE_INPUT),
 			mActor(actor)
 	{

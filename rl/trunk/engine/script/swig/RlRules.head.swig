@@ -40,7 +40,6 @@
 #include "ObjectStateChangeEventSource.h"
 #include "ObjectStateChangeEvent.h"
 #include "ObjectStateChangeListener.h"
-#include "Person.h"
 #include "Quest.h"
 #include "QuestBook.h"
 #include "QuestEvent.h"
