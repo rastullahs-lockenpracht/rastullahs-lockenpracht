@@ -1,6 +1,6 @@
 load "embed.rb"
 
-class Hero < Person
+class Hero < Creature
     def initialize(id)
         super(id);
         #addQueryFlag(RlScript::QUERYFLAG_PLAYER) #this is done now by setActiveCharacter

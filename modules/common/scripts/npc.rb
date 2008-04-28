@@ -58,7 +58,7 @@ module BehaviourBot
   end
 end
 
-class NPC < Person
+class NPC < Creature
   include TalkTarget
   include BehaviourBot
 end
