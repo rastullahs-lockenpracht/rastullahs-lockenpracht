@@ -29,3 +29,19 @@ class IncapacitatedEffect < Effect
     return PERMANENT;
   end
 end
+
+class UnconsciousEffect < Effect
+  def initialize(stufe)
+    super(0);
+    setName("Bewusstlos.");
+    setDescription("Alles um einen herum wird dunkel.");
+  end
+
+  def getLifeState()
+    return LS_UNCONSCIOUS;
+  end
+    
+  def timeCheck()
+    return PERMANENT;
+  end
+end
