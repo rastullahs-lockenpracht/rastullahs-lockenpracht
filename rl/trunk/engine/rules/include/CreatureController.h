@@ -21,6 +21,7 @@
 #include "RulesPrerequisites.h"
 #include "PhysicsController.h"
 #include "PhysicsGenericContactCallback.h"
+#include "PhysicsMaterialRaycast.h"
 #include "Creature.h"
 #include "Actor.h"
 #include <map>
@@ -83,7 +84,8 @@ namespace rl
             // instead use one of the movements above
             MT_DREHEN,
             MT_STUFENERKENNUNG,
-            MT_FALLEN
+            MT_FALLEN,
+	    MT_LIEGEN
         } MovementType;
 
         /// The generalization of the place (in the air, on the floor, in the water...)
@@ -97,7 +99,7 @@ namespace rl
          * this is done by this class itself every frame, so using this method does probably not
          * have the desired effect
          */
-        void setAbstractLocation(AbstractLocation type) {mAbstractLocation = type;}
+        void setAbstractLocation(AbstractLocation type);
 
         AbstractLocation getAbstractLocation() const {return mAbstractLocation;}
 
@@ -172,9 +174,6 @@ namespace rl
         ~CreatureController();
 
     private:
-        bool onCreatureLifeStateChanged(GameObject* gameobject, Effect::LifeState oldstate,
-                                        Effect::LifeState newstate);
-
         // only used in setAnimation
         Ogre::String mLastAnimationName;
         Ogre::String mLastCollisionName;
@@ -187,6 +186,8 @@ namespace rl
 
         // used to reset the material
         const OgreNewt::MaterialID *mOldMaterialId;
+
+	PhysicsMaterialRaycast mRaycast;
 
         MessagePump::ScopedConnection mMessageType_GameObjectsLoaded_Handler;
         MessagePump::ScopedConnection mLifeStateChangedHandler;

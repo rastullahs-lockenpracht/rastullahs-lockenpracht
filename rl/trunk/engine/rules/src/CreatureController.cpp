@@ -26,7 +26,6 @@
 #include "PhysicalThing.h"
 #include "TimeSource.h"
 #include "GameObjectManager.h"
-#include "PhysicsMaterialRaycast.h"
 #include "RulesMessages.h"
 
 
@@ -40,7 +39,64 @@ namespace rl
 
     const Real minSquaredSpeed = 0.6;
 
-    // TODO: wenn Fallen nicht mglich ist (auf dem Boden und bewusstlos / Tod)
+    // auch wenn Fallen nicht möglich ist (auf dem Boden und bewusstlos / Tod)
+    class Liegen : public AbstractMovement
+    {
+    public:
+	Liegen(CreatureController *creature) :
+	    AbstractMovement(creature)
+	{
+	    mAnim = mMovingCreature->getCreature()->getAnimation("liegen");
+            mAnim1 = mMovingCreature->getCreature()->getAnimation("sterben");
+	}
+	virtual CreatureController::MovementType getId() const {return CreatureController::MT_LIEGEN;}
+	virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_NONE;}
+	virtual void activate()
+	{
+	    LOG_MESSAGE(Logger::RULES, "Creature '"+mMovingCreature->getCreature()->getName()+"' liegt (evt bewusstlos) auf dem Boden.");
+	}
+	virtual void deactivate()
+	{
+	}
+        virtual bool calculateBaseVelocity(Real &velocity)
+	{
+	    velocity = 0.0f;
+	    return isPossible();
+	}
+        virtual bool isPossible() const
+	{
+	    return true;
+	}
+        virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep)
+	{
+	}
+        virtual bool run(Ogre::Real elapsedTime,  Ogre::Vector3 direction, Ogre::Vector3 rotation)
+	{
+            // todo: wieder aufstehen
+            if( mMovingCreature->getCreature()->getLifeState() & (Effect::LS_DEAD | Effect::LS_UNCONSCIOUS) )
+                mMovingCreature->setAnimation(mAnim1.first, mAnim1.second, 0);
+            else
+                mMovingCreature->setAnimation(mAnim.first, mAnim.second, 0);
+	    return true;
+	}
+        virtual void applyAuChanges(Ogre::Real elapsedTime)
+	{
+	}
+        virtual bool isDirectionPossible(Ogre::Vector3 &direction) const
+	{
+	    direction = Vector3::ZERO;
+	}
+        virtual bool isRotationPossible(Ogre::Vector3 &rotation) const
+	{
+	    rotation = Vector3::ZERO;
+	}
+    protected:
+        Creature::AnimationSpeedPair mAnim;
+        Creature::AnimationSpeedPair mAnim1;
+    };
+
+
+
 
     class Fallen : public AbstractMovement
     {
@@ -50,8 +106,8 @@ namespace rl
           {
               mAnim = mMovingCreature->getCreature()->getAnimation("fallen");
               //mAnim = mMovingCreature->getCreature()->getAnimation("fallen_anfang");
-              //mAnim = mMovingCreature->getCreature()->getAnimation("fallen_landung");
-              // fallen_landung_verletzt ?
+              //mAnim = mMovingCreature->getCreature()->getAnimation("fallen_landung_aufgefangen");
+              //mAnim = mMovingCreature->getCreature()->getAnimation("fallen_landung_verletzt");
           }
         virtual CreatureController::MovementType getId() const {return CreatureController::MT_FALLEN;}
         virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_NONE;}
@@ -66,9 +122,9 @@ namespace rl
             int h = int(mVel*mVel/(2* fabs(PhysicsManager::getSingleton().getGravity().y)));
 	    oss << "    verwendete Hoehe: " << h << "m";
 
-	    if( h < 4 && h > 0 ) // nicht in den Regeln, aber angenehmer, bei gelunger GE-Probe noch aufgefangen
+	    if( h < 6 && h > 0 ) // nicht in den Regeln, aber angenehmer, bei gelunger GE-Probe noch aufgefangen
 	    {
-		int probe = mMovingCreature->getCreature()->doEigenschaftsprobe("GE", h-6);
+		int probe = mMovingCreature->getCreature()->doEigenschaftsprobe("GE", 2*h-6);
 		if( probe == RESULT_PATZER )
 		{
 		    h++;
@@ -98,20 +154,23 @@ namespace rl
                     taw = mMovingCreature->getCreature()->doTalentprobe("Kï¿½rperbeherrschung", probenErschwernis);
                 }
 
+		int abgefangenerSchaden = 0;
                 for( int i = 0; i < taw; i++)
                 {
                     if( wuerfel.size() <= 0 )
                         break;
+		    abgefangenerSchaden += *(--(wuerfel.end()));
                     wuerfel.erase(--(wuerfel.end()));
                 }
+
 
                 int sum = 0;
                 for( std::multiset<int>::iterator it = wuerfel.begin(); it != wuerfel.end(); it++)
                     sum += *it;
 
-                mMovingCreature->getCreature()->damageLe(sum);
+                mMovingCreature->getCreature()->damageLe(sum, Creature::LEDAMAGE_TP_A);
 
-                oss << "    Schaden: " << sum;
+                oss << "    Schaden: " << sum << "    abgefangener Schaden: " << abgefangenerSchaden;
             }
             LOG_MESSAGE(Logger::RULES, oss.str());
 
@@ -136,9 +195,6 @@ namespace rl
             mMovingCreature->setAnimation(mAnim.first, mAnim.second, 0);
             return true;
         }
-        virtual void setAnimation(Ogre::Real elapsedTime)
-        {
-        }
         virtual void applyAuChanges(Ogre::Real elapsedTime)
         {
         }
@@ -157,6 +213,9 @@ namespace rl
         Real mVel;
     };
 
+
+
+
     class Stehen : public AbstractMovement
     {
     public:
@@ -171,7 +230,13 @@ namespace rl
                 mAnimStehen = creature->getCreature()->getAnimation("stehen");
             }
         virtual CreatureController::MovementType getId() const {return CreatureController::MT_STEHEN;}
-        virtual CreatureController::MovementType getFallBackMovement() const {return CreatureController::MT_FALLEN;}
+        virtual CreatureController::MovementType getFallBackMovement() const
+	{
+	    if( mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR )
+		return CreatureController::MT_LIEGEN;
+
+	    return CreatureController::MT_FALLEN;
+	}
         virtual void activate()
         {
             AbstractMovement::activate();
@@ -835,7 +900,7 @@ namespace rl
         Schleichen(CreatureController *creature) : Gehen(creature), mState(UP), mTimer(0)
         {
             mAnim = creature->getCreature()->getAnimation("schleichen");
-            mAnim1= creature->getCreature()->getAnimation("schleiche_vorwaerts");
+            mAnim1= creature->getCreature()->getAnimation("schleichen_vorwaerts");
             mAnim2 = creature->getCreature()->getAnimation("stehen_zu_schleichen");
             mAnim3= creature->getCreature()->getAnimation("schleichen_zu_stehen");
             mAnimStehen= creature->getCreature()->getAnimation("stehen");
@@ -873,9 +938,9 @@ namespace rl
                 calculateBaseVelocity(velocity);
                 mVelocity = direction * velocity;
                 if( direction == Vector3::ZERO || (-mMovingCreature->getVelocity().z) < 0.1)
-                    mMovingCreature->setAnimation(mAnimStehen.first, mAnimStehen.second);
+                    mMovingCreature->setAnimation(mAnim.first, mAnim.second);
                 else
-                    mMovingCreature->setAnimation(mAnim.first, mAnim.second * -mMovingCreature->getVelocity().z);
+                    mMovingCreature->setAnimation(mAnim1.first, mAnim1.second * -mMovingCreature->getVelocity().z);
                 applyAuChanges(elapsedTime);
                 if( getRotationMovement()->isPossible() )
                     getRotationMovement()->run(elapsedTime, direction, rotation);
@@ -890,7 +955,7 @@ namespace rl
         {
             Gehen::activate();
             mState = UPTODOWN;
-            mMovingCreature->setAnimation(mAnim2.first,mAnim3.second,1,mAnimStehen.first);
+            mMovingCreature->setAnimation(mAnim2.first,mAnim2.second,1,mAnimStehen.first);
             mTimer = 0;
         }
         virtual bool canChangeToMovement(CreatureController::MovementType id)
@@ -1287,12 +1352,13 @@ namespace rl
                 if( mTimer >= 0.2f )
                 {
                     mState = DOWN;
+LOG_MESSAGE(Logger::RULES, "Weitsprung: DOWN");
                 }
             }
             if( mState == UP )
             {
                 mTimer += elapsedTime;
-                if( mTimer < 0.1f )
+                if( mTimer < 0.2f )
                 {
                     mMovingCreature->setAbstractLocation( CreatureController::AL_AIRBORNE );
                 }
@@ -1301,6 +1367,7 @@ namespace rl
                     mState = UPTODOWN;
                     mMovingCreature->setAnimation(mAnimationLandung.first, mAnimationLandung.second, 1, mAnimationForCollision.first);
                     mTimer = 0;
+LOG_MESSAGE(Logger::RULES, "Weitsprung: UPTODOWN");
                 }
             }
             if( mState == DOWNTOUP )
@@ -1310,11 +1377,12 @@ namespace rl
                 {
                     mState = UP;
                     mMovingCreature->setAbstractLocation(CreatureController::AL_AIRBORNE);
-                    mMovingCreature->setAnimation(mAnimation.first, mAnimation.second);
+                    mMovingCreature->setAnimation(mAnimation.first, mAnimation.second, 1, mAnimationForCollision.first);
                     mJumpNow = true;
                     mApplyForceTimer = 0;
                     mVelocityBeforeJump = -mMovingCreature->getVelocity().z;
                     mTimer = 0;
+LOG_MESSAGE(Logger::RULES, "Weitsprung: UP");
                 }
             }
             return false;
@@ -1361,7 +1429,7 @@ namespace rl
             mMoveToNextTarget(false)
         {
             mLinearSpringK = 600.0f;
-            Real relationCoefficient = 1.0f;
+            Real relationCoefficient = 1.2f;
             mLinearDampingK = relationCoefficient * 2.0f * Math::Sqrt(mLinearSpringK);
         }
         virtual CreatureController::MovementType getId() const {return CreatureController::MT_STUFENERKENNUNG;}
@@ -1385,7 +1453,7 @@ namespace rl
             return
                 mMovingCreature->getAbstractLocation() == CreatureController::AL_FLOOR &&
                 mMovingCreature->getCreature()->getAu() > 0 &&
-                !(mMovingCreature->getCreature()->getLifeState() & (Effect::LS_DEAD | Effect::LS_UNCONSCIOUS | Effect::LS_SLEEPING));
+                !(mMovingCreature->getCreature()->getLifeState() & (Effect::LS_IMMOBILE));
         }
         virtual void calculateForceAndTorque(Vector3 &force, Vector3 &torque, Real timestep)
         {
@@ -1404,12 +1472,19 @@ namespace rl
 
                 force.y = mass*( mLinearSpringK*diff.y - mLinearDampingK*vel.y );
                 std::ostringstream oss;
-                oss << "Testing Step-Recognition: Step force: " << force.y;
+                oss << "Step-Recognition: diff: " << diff.y << "    vel: " << vel.y << "    Step force: " << force.y;
+		oss << "    DiffToTarget: " << 
+		    mMovingCreature->getCreature()->getOrientation().Inverse() * 
+		    (mNextTarget - mMovingCreature->getCreature()->getPosition());
                 LOG_MESSAGE(Logger::RULES, oss.str());
             }
         }
         virtual bool run(Ogre::Real elapsedTime,  Ogre::Vector3 direction, Ogre::Vector3 rotation)
         {
+            Vector3 vel = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->getVelocity();
+	    Real velY = vel.y;
+            vel.y = 0;
+
             if( !mMoveToNextTarget ) // check if we need to move up for a step
             {
                 // raycast in the direction we should move to
@@ -1417,9 +1492,13 @@ namespace rl
                 if( globalDir == Vector3::ZERO )
                     return true;
 
-                Vector3 vel = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->getVelocity();
-                vel.y = 0;
                 Real raylen = vel.length() / 3;  // use longer ray, if higher velocity
+                if ( raylen < 0.5 )
+                    raylen = 0.4;
+
+                //std::ostringstream oss;
+                //oss << "StepRecognition Raylen: " << raylen;
+                //LOG_MESSAGE(Logger::RULES, oss.str());
 
 
                 // raycasts
@@ -1450,14 +1529,17 @@ namespace rl
                     // already found nearer body
                     if( foundbody )
                     {
-                        if( info.mBody && (info.mDistance >= foundDistance + 0.19) || // step deep enough
+                        if( info.mBody && (info.mDistance*raylen >= foundDistance*raylen + 0.19) || // step deep enough
                             !info.mBody )
                         {
                             // found a step
                             mMoveToNextTarget = true;
                             mNextTarget = start + globalDir*raylen*foundDistance + 0.1 * globalDir;
                             std::ostringstream oss;
-                            oss << "Testing Step-Recognition: Next Step: " << mNextTarget;
+			    Vector3 stepInLocalCoords = mNextTarget - mMovingCreature->getCreature()->getPosition();
+			    Quaternion ori = mMovingCreature->getCreature()->getOrientation();
+			    stepInLocalCoords = ori.Inverse() * stepInLocalCoords;
+                            oss << "Step-Recognition: Next Step: " << stepInLocalCoords;
                             LOG_MESSAGE(Logger::RULES, oss.str());
                             break;
                         }
@@ -1482,10 +1564,14 @@ namespace rl
             if( mMoveToNextTarget )
             {
                 Vector3 diffToTarget = mNextTarget - mMovingCreature->getCreature()->getPosition();
+		Real diffToTargetY = diffToTarget.y;
                 diffToTarget.y = 0;
                 
                 // different direction
                 Vector3 globalDir = mMovingCreature->getCreature()->getOrientation() * direction; // the direction in global space
+		globalDir.y = 0;
+
+
                 if( globalDir == Vector3::ZERO )
                 {
                     mMoveToNextTarget = false;
@@ -1494,7 +1580,7 @@ namespace rl
                 }
 
                 // target reached
-                if( diffToTarget.squaredLength() < 0.01 )
+                if( diffToTarget.squaredLength() < 0.01)
                 {
                     mMoveToNextTarget = false;
                     LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step reached");
@@ -1502,12 +1588,30 @@ namespace rl
                 }
 
                 // different direction
-                if( !diffToTarget.directionEquals(globalDir, Degree(5)) )
+                Quaternion oriDiff = diffToTarget.getRotationTo(globalDir, Vector3::UNIT_Y);
+                Degree angleDiff;
+                Vector3 axis = Vector3::UNIT_Y;
+                oriDiff.ToAngleAxis(angleDiff, axis);
+                Real f = angleDiff.valueDegrees();
+                //std::ostringstream oss;
+                //oss << "Step-Recognition: angle: " << f << "    axis: " << axis;
+                //LOG_MESSAGE(Logger::RULES, oss.str());
+               //if( !diffToTarget.directionEquals(globalDir, Degree(15)) )
+		if( f > 2.0f )
                 {
                     mMoveToNextTarget = false;
-                    LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
+                    //LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: Step direction wrong");
                     return false;
                 }
+
+
+		// already above target, but slow velocity
+		if( diffToTargetY < 0 && fabs(velY) < 0.01 )
+		{
+                    mMoveToNextTarget = false;
+                    //LOG_MESSAGE(Logger::RULES, "Testing Step-Recognition: slow and abov target-height!");
+                    return false;
+		}
             }
 
             return mMoveToNextTarget;
@@ -1532,6 +1636,23 @@ namespace rl
         PhysicsMaterialRaycast mRaycast;
     };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ---------------------------- CreatureController -----------------------------
 
     CreatureController::CreatureController(Creature *creature) :
         mCreature(creature),
@@ -1560,6 +1681,9 @@ namespace rl
         std::pair<MovementType, AbstractMovement*> movementPair;
         movementPair.first = MT_NONE;
         movementPair.second = NULL;
+        mMovementMap.insert(movementPair);
+        movementPair.first = MT_LIEGEN;
+        movementPair.second = new Liegen (this);
         mMovementMap.insert(movementPair);
         movementPair.first = MT_FALLEN;
         movementPair.second = new Fallen (this);
@@ -1607,10 +1731,6 @@ namespace rl
         mMessageType_GameObjectsLoaded_Handler = MessagePump::getSingleton().addMessageHandler<MessageType_GameObjectsLoaded>(
                 boost::bind(&CreatureController::refetchCreature, this));
 
-        mLifeStateChangedHandler = MessagePump::getSingleton()
-            .addMessageHandler<MessageType_GameObjectLifeStateChanged>(
-                boost::bind(&CreatureController::onCreatureLifeStateChanged, this, _1, _2, _3));
-        
         LOG_DEBUG("CreatureController", "Added CreatureController for " + creature->getName());
     }
 
@@ -1732,7 +1852,7 @@ namespace rl
             }
         }
 
-        LOG_MESSAGE("CreatureController", "Set animation " + name + " at " + mCreature->getName());
+        LOG_DEBUG("CreatureController", "Set animation " + name + " at " + mCreature->getName());
 
         return meshAnim;
     }
@@ -1770,8 +1890,8 @@ namespace rl
         if( getAbstractLocation() == AL_AIRBORNE )
         {
             // find a reason why we now are AL_FLOOR
-            if( timeSinceLastFloorContact < Time(Date::ONE_SECOND)*0.09 &&
-                -speed.y < 0.4 )
+            if( timeSinceLastFloorContact < Time(Date::ONE_SECOND)*0.19 &&
+                -speed.y < 0.6 )
             {
                 setAbstractLocation(AL_FLOOR);
             }
@@ -1779,10 +1899,39 @@ namespace rl
         else
         {
             // find a reason why we now are AL_AIRBORNE
-            if( timeSinceLastFloorContact >= Time(Date::ONE_SECOND*0.1) && // 2 seconds?
-                -speed.y > 0.4 )
+            if( timeSinceLastFloorContact >= Time(Date::ONE_SECOND)*0.2 && // 2 seconds?
+                -speed.y > 0.6 )
             {
-                setAbstractLocation(AL_AIRBORNE);
+                //std::ostringstream oss;
+                //oss << "Raycast for floor: speed.y: " << speed.y << "      timeSinceLastFloorContact: " << timeSinceLastFloorContact;
+
+
+
+		// find the distance to the floor:
+                // raycasts
+                PhysicsMaterialRaycast::MaterialVector materialVector;
+                materialVector.push_back(PhysicsManager::getSingleton().getMaterialID("default")); // should we perhaps only use level here?
+                materialVector.push_back(PhysicsManager::getSingleton().getMaterialID("level"));
+
+                Vector3 start = getCreature()->getPosition();
+                Vector3 end = start + Vector3::NEGATIVE_UNIT_Y*0.4;
+
+                RaycastInfo info = mRaycast.execute(
+                            PhysicsManager::getSingleton()._getNewtonWorld(),
+                            &materialVector,
+                            start, end);
+
+		if( info.mBody == NULL )
+		{
+		    //oss << "   Now AL_AIRBORNE!";
+		    setAbstractLocation(AL_AIRBORNE);
+		}
+		else
+		{
+		    //oss << "   floor to near, stay AL_FLOOR!";
+		}
+
+                //LOG_MESSAGE(Logger::RULES, oss.str());
             }
         }
 
@@ -1867,7 +2016,7 @@ namespace rl
 
         if( stepHeight < 0.4 )
         {
-            if(stepHeight > 0.05f) // experimantal value, 
+            if(stepHeight > 0.01f) // experimantal value, 
                                    // too low means the creature glides upwards on inclined planes, 
                                    // too high means the creature stops if moving slowly onto a step because of the friction
             {
@@ -2017,24 +2166,24 @@ namespace rl
 
         return false;
     }
-    
-    bool CreatureController::onCreatureLifeStateChanged(GameObject* gameobject, Effect::LifeState oldstate,
-                                                        Effect::LifeState newstate) 
+
+    void CreatureController::setAbstractLocation(CreatureController::AbstractLocation location)
     {
-        if (gameobject == mCreature) 
+        if( mAbstractLocation != location )
         {
-            if ((newstate & Effect::LS_UNCONSCIOUS || newstate & Effect::LS_DEAD) 
-                && !(oldstate & Effect::LS_UNCONSCIOUS || oldstate & Effect::LS_DEAD))
+            if( location == AL_AIRBORNE )
             {
-                // die, die, die!
-                setMovement(CreatureController::MT_NONE, Vector3::ZERO, Vector3::ZERO);
-                Creature::AnimationSpeedPair anim = mCreature->getAnimation("sterben");
-                setAnimation(anim.first, anim.second, 1, anim.first, 1.0f );
+                LOG_MESSAGE(Logger::RULES, "CreatureController: Now AL_AIRBORNE");
             }
-            return true;
+            else
+            {
+                LOG_MESSAGE(Logger::RULES, "CreatureController: Now AL_FLOOR");
+            }
         }
-        
-        return false;
+	mAbstractLocation = location;
     }
+    
+
 
 }
+
