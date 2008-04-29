@@ -60,8 +60,6 @@ namespace rl {
 		initializeKampftechniken(getChildNamed(dataDocumentContent, "Kampftechniken"));
 		initializeCreatures(getChildNamed(dataDocumentContent, "Personen"));
 
-		doc->release();
-
         shutdownXml();
     }
 

@@ -21,6 +21,21 @@ template<> rl::MessagePump* Ogre::Singleton<rl::MessagePump>::ms_Singleton = 0;
 
 namespace rl
 {
+    MessagePump::~MessagePump()
+    {
+
+        while(!mMessageQueue.empty())
+        {
+        
+            delete mMessageQueue.front();
+            mMessageQueue.pop();    
+        }
+
+        MessageHandlerMap::iterator it = mMessageHandlerMap.begin();
+        for( ; it != mMessageHandlerMap.end(); it++ )
+            if( it->second != NULL )
+                delete it->second;
+    }
 
     void MessagePump::run(Ogre::Real elapsedTime)
     {

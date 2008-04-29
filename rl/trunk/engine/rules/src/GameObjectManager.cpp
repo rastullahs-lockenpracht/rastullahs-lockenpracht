@@ -71,10 +71,10 @@ namespace rl
     {
         XmlPropertyReader* propReader = new XmlPropertyReader();
         propReader->parseGameObjectFile(stream, groupName);
-        std::vector<PropertyRecord*> psset = propReader->getPropertyRecords();
-        for(std::vector<PropertyRecord*>::iterator it = psset.begin(); it != psset.end(); it++)
+        std::vector<PropertyRecordPtr> psset = propReader->getPropertyRecords();
+        for(std::vector<PropertyRecordPtr>::iterator it = psset.begin(); it != psset.end(); it++)
         {
-            PropertyRecord* curPs = *it;
+            PropertyRecordPtr curPs = *it;
             Ogre::String classId = curPs->getProperty(GameObject::PROPERTY_CLASS_ID).toString().c_str();
             mClassProperties[classId] = curPs;
         }
@@ -141,7 +141,7 @@ namespace rl
             goId = generateId();
         }
 
-        PropertyRecord* ps = getClassProperties(classId);
+        PropertyRecordPtr ps = getClassProperties(classId);
         Ogre::String classname =  ps->getProperty(GameObject::PROPERTY_BASE_CLASS).toString().c_str();
 
         GameObject* go = mGameObjectFactory
@@ -182,11 +182,11 @@ namespace rl
         }
     }
 
-    void GameObjectManager::applyProperties(GameObject* go, PropertyRecord* ps) const
+    void GameObjectManager::applyProperties(GameObject* go, PropertyRecordPtr ps) const
     {
         if (ps->hasProperty(GameObject::PROPERTY_INHERITS))
         {
-            PropertyRecord* superClassProps = 
+            PropertyRecordPtr superClassProps = 
                 getClassProperties(ps->getProperty(GameObject::PROPERTY_INHERITS).toString().c_str());
             applyProperties(go, superClassProps);
         }
@@ -214,7 +214,7 @@ namespace rl
 		return Property(go->getClassId() + "|" + CEGUI::PropertyHelper::uintToString(go->getId()));
 	}
 
-    PropertyRecord* GameObjectManager::getClassProperties(const Ogre::String& classId) const
+    const PropertyRecordPtr GameObjectManager::getClassProperties(const Ogre::String& classId) const
     {
         ClassPropertyMap::const_iterator it = mClassProperties.find(classId);
         if (it == mClassProperties.end())
@@ -344,7 +344,7 @@ namespace rl
                         Ogre::String classID = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlGameObject), "ClassID");
                         GameObjectState state = (GameObjectState)reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "State");
                         int flags = reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "QueryFlags");
-                        PropertyRecord properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlGameObject));
+                        PropertyRecordPtr properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlGameObject));
 
                         GameObject* object = NULL;
                         if(getGameObject(ID) == NULL)
@@ -352,7 +352,7 @@ namespace rl
                         else
                             object = getGameObject(ID);
                         
-                        applyProperties(object, &properties);
+                        applyProperties(object, properties);
                         // Placing the actor a a little bit higher in the scene. The actor will fall onto ground.
                         // Avoiding problems with the physics, because the character the creature is transfixed to ground
                         if(state == GOS_IN_SCENE)

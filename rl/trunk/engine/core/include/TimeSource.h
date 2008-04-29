@@ -101,7 +101,8 @@ namespace rl
         /// defines the loading/saving order higher priority are saved last and loaded first
         virtual int getPriority() const;
     private:
-        std::map<TimeSource::TimeSourceType, TimeSource*> mTimeSources;
+        typedef std::map<TimeSource::TimeSourceType, TimeSource*> TimeSourceMap;
+        TimeSourceMap mTimeSources;
     };
 }
 

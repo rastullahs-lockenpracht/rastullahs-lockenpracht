@@ -73,32 +73,34 @@ namespace rl
         mDebugVisualsManager(NULL),
         mJobScheduler(NULL),
         mRenderWindow(NULL),
-		mZoneManager(NULL)
+        mZoneManager(NULL)
     {
         initializeCoreSubsystem();
     }
 
     CoreSubsystem::~CoreSubsystem()
     {
-		delete meshmagick::OgreEnvironment::getSingletonPtr();
-		delete mWorld;
+        delete meshmagick::OgreEnvironment::getSingletonPtr();
+        delete mWorld;
         delete mZoneManager;
         delete mGameEventManager;
-        delete mGameLoop;
         delete mMessagePump;
         delete mJobScheduler;
         delete mAnimationManager;
         delete mActorManager;
         delete mPhysicsManager;
-//        delete mXmlResourceManager;
         delete mScriptWrapper;
         delete mDebugVisualsManager;
-		delete ConfigurationManager::getSingletonPtr();
+        delete ConfigurationManager::getSingletonPtr();
         delete mSoundManager;
+        mRenderWindow->destroy();
         delete mOgreRoot;
         delete mRubyInterpreter;
         delete mTimeSourceManager;
-		delete mSaveGameManager;
+        delete mSaveGameManager;
+        delete mGameLoop;
+        //mXmlResourceManager->unloadAll();
+        //delete mXmlResourceManager;
     }
 
     void CoreSubsystem::startCore()

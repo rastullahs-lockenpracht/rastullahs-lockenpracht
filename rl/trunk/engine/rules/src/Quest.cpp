@@ -30,15 +30,17 @@
 
 namespace rl {
 
-const CeGuiString	Quest::STATE_NAMES[5] =
-		{	"OPEN",
+const CeGuiString Quest::STATE_NAMES[5] =
+            {
+            "OPEN",
             "ASSIGNED",
             "FAILED",
             "SUCCEEDED",
             "COMPLETED"};
 
-const CeGuiString	Quest::KNOWN_NAMES[2] =
-		{	"UNKNOWN",
+const CeGuiString Quest::KNOWN_NAMES[2] =
+            {
+            "UNKNOWN",
             "KNOWN"};
 
 const Ogre::String Quest::PROPERTY_ID = "id";
@@ -50,18 +52,17 @@ const Ogre::String Quest::PROPERTY_PARTSTODO = "partstodo";
 const Ogre::String Quest::PROPERTY_PARTSDONE = "partsdone";
 
 Quest::Quest(const CeGuiString& id, const CeGuiString& name, const CeGuiString& description)
-:	mId(id),
-	mName(name),
-	mDescription(description),
-	mPartsToDo(1),
-	mPartsDone(0),
-	mState(Quest::OPEN),
-	mKnown(false),
-	mParent(NULL),
-	mQuestBook(NULL),
-    mSubquests()
+:       mId(id),
+        mName(name),
+        mDescription(description),
+        mPartsToDo(1),
+        mPartsDone(0),
+        mState(Quest::OPEN),
+        mKnown(false),
+        mParent(NULL),
+        mQuestBook(NULL),
+        mSubquests()
 {
-	mAdditionalProperties = new PropertyRecord();
 }
 
 Quest::~Quest()
@@ -330,7 +331,7 @@ const Property Quest::getProperty(const CeGuiString& key) const
     }
     else
     {
-        return mAdditionalProperties->getProperty(key);
+        return mAdditionalProperties.getProperty(key);
     }
 }
 
@@ -366,7 +367,7 @@ void Quest::setProperty(const CeGuiString& key, const Property& value)
     }
     else
     {
-        mAdditionalProperties->setProperty(key, value);
+        mAdditionalProperties.setProperty(key, value);
     }
 }
 
@@ -381,7 +382,7 @@ PropertyKeys Quest::getAllPropertyKeys() const
     keys.insert(PROPERTY_STATE);
     keys.insert(PROPERTY_PARTSTODO);
     keys.insert(PROPERTY_PARTSDONE);
-    PropertyKeys addKeys = mAdditionalProperties->getAllPropertyKeys();
+    PropertyKeys addKeys = mAdditionalProperties.getAllPropertyKeys();
     keys.insert(addKeys.begin(), addKeys.end());
 
     return keys;

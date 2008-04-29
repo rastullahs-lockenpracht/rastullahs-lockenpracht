@@ -22,6 +22,7 @@
 #include <xercesc/dom/DOMAttr.hpp>
 #include <xercesc/dom/DOMElement.hpp>
 
+#include "Properties.h"
 #include "XmlProcessor.h"
 
 namespace rl 
@@ -36,16 +37,17 @@ namespace rl
     {
     public:
         XmlPropertyReader();
+        virtual ~XmlPropertyReader();
 
         void parseGameObjectFile(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);
-        std::vector<PropertyRecord*> getPropertyRecords();
+        PropertyRecordVector getPropertyRecords();
 
         PropertyEntry processProperty(XERCES_CPP_NAMESPACE::DOMElement* domElem) const;
 		PropertyEntry processProperty(XERCES_CPP_NAMESPACE::DOMAttr* domAttr) const;
 
-        virtual PropertyRecord getPropertiesAsRecord(XERCES_CPP_NAMESPACE::DOMElement* parent);
+        virtual PropertyRecordPtr getPropertiesAsRecord(XERCES_CPP_NAMESPACE::DOMElement* parent);
     private:
-        std::vector<PropertyRecord*> mPropertyRecords;
+        PropertyRecordVector mPropertyRecords;
 
         Property getProperty(const Ogre::String& key, const CeGuiString& value);
     };

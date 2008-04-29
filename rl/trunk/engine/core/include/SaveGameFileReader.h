@@ -18,7 +18,7 @@
 #define _SaveGameFileReader_H_
 
 #include "SaveGameFile.h"
-#include <XmlPropertyReader.h>
+#include "XmlPropertyReader.h"
 
 namespace rl
 {
@@ -34,7 +34,7 @@ namespace rl
         void parseSaveGameFile(SaveGameFile* file, const SaveGameDataOrderMap &map);
         void parseSaveGameFileHeader(Ogre::DataStreamPtr &stream, const Ogre::String &groupName, SaveGameFile* file);
 
-        PropertyRecord getAllPropertiesAsRecord(SaveGameData* data);
+        PropertyRecordPtr getAllPropertiesAsRecord(SaveGameData* data);
 
         XERCES_CPP_NAMESPACE::DOMDocument* getDocument() {return mDocument;}
     };

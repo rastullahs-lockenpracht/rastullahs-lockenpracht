@@ -213,9 +213,15 @@ namespace rl
     };
 
     HalfSphereSceneQuery::HalfSphereSceneQuery(SceneManager* smgr, unsigned long mask)
-        : SceneQuery(mask), mSceneQuery(NULL), mRadius(0.0f)
+        : SceneQuery(mask), mSceneQuery(NULL), mRadius(0.0f), mSceneManager(NULL)
     {
         mSceneQuery = smgr->createSphereQuery(Sphere());
+        mSceneManager = smgr;
+    }
+
+    HalfSphereSceneQuery::~HalfSphereSceneQuery()
+    {
+        mSceneManager->destroyQuery(mSceneQuery);
     }
 
     const ActorVector& HalfSphereSceneQuery::execute()

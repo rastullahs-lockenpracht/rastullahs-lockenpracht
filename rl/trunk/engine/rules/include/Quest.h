@@ -182,7 +182,7 @@ namespace rl {
         State mState;
         Quest* mParent;
         QuestBook* mQuestBook;
-		PropertyRecord* mAdditionalProperties;
+        PropertyRecord mAdditionalProperties;
 
         void checkDone();
         void setParent(Quest* parentQuest);

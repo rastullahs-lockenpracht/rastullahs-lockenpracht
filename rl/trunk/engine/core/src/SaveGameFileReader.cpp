@@ -50,8 +50,6 @@ namespace rl
         }
 
 
-        mDocument->release();
-
         file->closeDataStream(); //make the save game writable
 
         mDocument = NULL;
@@ -84,17 +82,17 @@ namespace rl
                          }
                      }
                  }*/
-                 PropertyRecord set = getPropertiesAsRecord(elem);
-                 file->setProperties(&set);
+                 PropertyRecordPtr set = getPropertiesAsRecord(elem);
+                 file->setProperties(set);
              }
         }
 
         shutdownXml();
     }
 
-    PropertyRecord SaveGameFileReader::getAllPropertiesAsRecord(SaveGameData* data)
+    PropertyRecordPtr SaveGameFileReader::getAllPropertiesAsRecord(SaveGameData* data)
     {
-        PropertyRecord properties;
+        PropertyRecordPtr properties(new PropertyRecord());
 
         initializeXml();
 

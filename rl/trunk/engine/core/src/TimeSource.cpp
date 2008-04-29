@@ -124,13 +124,22 @@ namespace rl
 		SaveGameManager::getSingleton().registerSaveGameData(this);
     }
 
-	TimeSourceManager::~TimeSourceManager()
-	{
-		SaveGameManager::getSingleton().unregisterSaveGameData(this);
-	}
+    TimeSourceManager::~TimeSourceManager()
+    {
+        SaveGameManager::getSingleton().unregisterSaveGameData(this);
+
+        // delete TimeSources
+        TimeSourceMap::iterator it = mTimeSources.begin();
+        for( ; it != mTimeSources.end(); it++)
+            if( it->second != NULL )
+                delete it->second;
+    }
 
     void TimeSourceManager::registerTimeSource(TimeSource* ts)
     {
+        TimeSourceMap::iterator it = mTimeSources.find(ts->getType());
+        if( it != mTimeSources.end() )
+            delete it->second;
         mTimeSources[ts->getType()] = ts;
     }
 
@@ -209,11 +218,11 @@ namespace rl
                     {
 						TimeSource::TimeSourceType ID = (TimeSource::TimeSourceType)reader->getAttributeValueAsInteger(
 							static_cast<DOMElement*>(xmlTimeSource), "ID");
-                        PropertyRecord properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlTimeSource));
+                        PropertyRecordPtr properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlTimeSource));
 	
 						std::map<TimeSource::TimeSourceType, TimeSource*>::const_iterator it_time_sources = mTimeSources.find(ID);
 						if(it_time_sources != mTimeSources.end())
-							it_time_sources->second->setClock(properties.toPropertyMap()["time"].toInt());
+							it_time_sources->second->setClock(properties->toPropertyMap()["time"].toInt());
                     }
 				}
 			}

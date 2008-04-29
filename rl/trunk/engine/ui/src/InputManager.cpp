@@ -89,6 +89,15 @@ namespace rl {
         clearControlStates();
 
         GameLoop::getSingleton().removeTask(this);
+
+        // delete finished control states
+        for (ControlStateVector::iterator it = mFinishedControlStates.begin();
+            it != mFinishedControlStates.end(); ++it)
+        {
+            delete *it;
+        }
+        mFinishedControlStates.clear();
+
         if( mInputManager )
         {
             mInputManager->destroyInputObject( mMouse );
@@ -112,8 +121,8 @@ namespace rl {
             pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_EXCLUSIVE")));
             pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
         #elif OGRE_PLATFORM == OGRE_PLATFORM_LINUX & defined DEBUG
-            pl.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
-           pl.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
+//            pl.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
+//            pl.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
         #endif
 
         std::ostringstream windowHndStr;
@@ -296,7 +305,6 @@ namespace rl {
             mKeyNames.insert(make_pair(keycode, s));
         }
 
-        doc->release();
         shutdownXml();
     }
 

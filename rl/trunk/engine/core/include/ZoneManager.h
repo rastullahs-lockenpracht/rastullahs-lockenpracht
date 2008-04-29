@@ -141,7 +141,7 @@ namespace rl
         void zoneLeft(Zone * zone);
         
         void doDestroyZone(Zone *zone);
-        void parseAreaProperties(const Ogre::String& zoneName, const PropertyRecord &properties); // adds an area created from properties to the zone
+        void parseAreaProperties(const Ogre::String& zoneName, const PropertyRecordPtr properties); // adds an area created from properties to the zone
 	};
 }
 

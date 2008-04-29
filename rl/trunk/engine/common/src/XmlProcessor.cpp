@@ -32,6 +32,7 @@
 
 using namespace Ogre;
 using namespace XERCES_CPP_NAMESPACE;
+using CEGUI::utf8;
 
 namespace rl 
 {
@@ -620,11 +621,16 @@ std::string XmlProcessor::transcodeToStdString(const XMLCh* const string16) cons
 DOMDocument* XmlProcessor::loadDocument(
     const Ogre::String& resourceName, const Ogre::String& resourceGroup)
 {
-	XercesDOMParser* parser = new XercesDOMParser();
+    if( mOpenParser != NULL )
+    {
+        LOG_WARNING(Logger::COMMON, 
+                "XmlProcessor: there is already an opened DOMParser, but perhaps its still used, so we don't delete it");
+    }
+    mOpenParser = new XercesDOMParser();
 
-    parser->setValidationScheme(XercesDOMParser::Val_Auto);    // optional.
-    //parser->setIncludeIgnorableWhitespace(false); // optional, if you want to ignore whitespaces
-    parser->setDoNamespaces(true);    // optional
+    mOpenParser->setValidationScheme(XercesDOMParser::Val_Auto);    // optional.
+    //mOpenParser->setIncludeIgnorableWhitespace(false); // optional, if you want to ignore whitespaces
+    mOpenParser->setDoNamespaces(true);    // optional
 
     XmlPtr res = XmlResourceManager::getSingleton().getByName(resourceName);
     if (res.isNull())
@@ -641,33 +647,38 @@ DOMDocument* XmlProcessor::loadDocument(
 
     mOpenXmlFileName = resourceName;
 
-    if (!res.isNull() && res->parseBy(parser, this))
+    if (!res.isNull() && res->parseBy(mOpenParser, this))
     {
-        return parser->getDocument();
+        mOpenXmlFileName = "";
+        return mOpenParser->getDocument();
     }
 
-    mOpenXmlFileName = "";
 
     return NULL;
 }
 
 DOMDocument* XmlProcessor::loadDocument(const Ogre::DataStreamPtr& stream)
 {
-	XercesDOMParser* parser = new XercesDOMParser();
+    if( mOpenParser != NULL )
+    {
+        LOG_WARNING(Logger::COMMON, 
+                "XmlProcessor: there is already an opened DOMParser, but perhaps its still used, so we don't delete it");
+    }
+    mOpenParser = new XercesDOMParser();
 
-    parser->setValidationScheme(XercesDOMParser::Val_Auto);    // optional.
-    parser->setDoNamespaces(true);    // optional
+    mOpenParser->setValidationScheme(XercesDOMParser::Val_Auto);    // optional.
+    mOpenParser->setDoNamespaces(true);    // optional
 
     OgreInputSource source(stream);
-    parser->setErrorHandler(this);
+    mOpenParser->setErrorHandler(this);
 
     mOpenXmlFileName = stream->getName();
-    parser->parse(source);
+    mOpenParser->parse(source);
     mOpenXmlFileName = "";
 
-    if (parser->getErrorCount() == 0)
+    if (mOpenParser->getErrorCount() == 0)
     {
-        return parser->getDocument();
+        return mOpenParser->getDocument();
     }
 
     return NULL;
@@ -684,6 +695,11 @@ void XmlProcessor::initializeXml()
 
 void XmlProcessor::shutdownXml()
 {
+    if( mOpenParser )
+    {
+        delete mOpenParser;
+        mOpenParser = NULL;
+    }
     delete sTranscoder;
     sTranscoder = NULL;
     

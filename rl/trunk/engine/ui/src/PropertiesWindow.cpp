@@ -74,7 +74,7 @@ namespace rl {
         fillHeader(object);
 
         // Get the property set of the object
-        PropertyRecord* props = object->getAllProperties();
+        PropertyRecordPtr props = object->getAllProperties();
 
         int row = 0;
         //  Iterate through all properties and add a row for
@@ -150,7 +150,6 @@ namespace rl {
         mMainTable->autoSizeColumnHeader(1);
         mMainTable->autoSizeColumnHeader(2);
 
-		delete props;
 	}
 
 	void PropertiesWindow::update()

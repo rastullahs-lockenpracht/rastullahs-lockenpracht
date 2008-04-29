@@ -106,6 +106,7 @@ namespace rl
         // setup level quadtree extents
         mLevelBodiesQuadTree.setMaxData(20);
         mLevelBodiesQuadTree.setMaxDepth(10);
+        
         mLevelBodiesQuadTree.setLoosenessFactor(0.5f);
         mLevelBodiesQuadTree.setExtents(Ogre::Vector2(-100,-100), Ogre::Vector2(100,100));
     }
@@ -114,6 +115,12 @@ namespace rl
     {
         // simply remove all collision ptrs (is this really ok?)
         mCollisionPrimitives.clear();
+
+        // remove all material-pairs
+        for (MaterialPairMap::iterator it = mMaterialPairs.begin(); it != mMaterialPairs.end(); it++)
+        {
+            delete it->second;
+        }
 
         // remove all materials
         for (MaterialMap::iterator it = mMaterials.begin(); it != mMaterials.end(); it++)

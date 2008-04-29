@@ -56,7 +56,11 @@ namespace rl
 
         GameEventManager::getSingleton().removeAreaListener(this);
         GameEventManager::getSingleton().removeQueuedDeletionSources();
-		for (ZoneMap::iterator it = mZones.begin(); it != mZones.end(); ++it)
+        std::list<Zone*>::iterator it = mZonesToDelete.begin();
+        for( ; it != mZonesToDelete.end(); it++)
+            doDestroyZone(*it);
+        mZonesToDelete.clear();
+		for (std::map<long, Zone*>::iterator it = mZonesIdMap.begin(); it != mZonesIdMap.end(); ++it)
 		{
 			Zone* curZone = (*it).second;
             delete curZone;
@@ -631,7 +635,7 @@ namespace rl
                             for(XMLSize_t childIdx2 = 0; childIdx2 < xmlAreas->getLength(); childIdx2++)
                             {
                                 DOMNode* xmlArea = xmlAreas->item(childIdx2);
-                                PropertyRecord properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlArea));
+                                PropertyRecordPtr properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlArea));
                                 parseAreaProperties(name, properties);
                             }
                         }
@@ -645,7 +649,7 @@ namespace rl
         reader->shutdownXml();
     }
 
-    void ZoneManager::parseAreaProperties(const Ogre::String& name, const PropertyRecord &properties)
+    void ZoneManager::parseAreaProperties(const Ogre::String& name, const PropertyRecordPtr properties)
     {
         Ogre::AxisAlignedBox aabb;
         aabb.setMaximum(Vector3::ZERO);
@@ -661,7 +665,7 @@ namespace rl
         bool subtract = false;
         bool mesh = false;
 
-        for( PropertyRecord::PropertyRecordMap::const_iterator iter = properties.begin(); iter != properties.end(); iter++)
+        for( PropertyRecord::PropertyRecordMap::const_iterator iter = properties->begin(); iter != properties->end(); iter++)
         {
             if(iter->first == "subtract")
                 subtract = iter->second.toBool();

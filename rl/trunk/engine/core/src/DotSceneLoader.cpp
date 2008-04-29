@@ -143,7 +143,6 @@ namespace rl {
         else
             LOG_DEBUG(Logger::CORE, " Keine statischen Geometrien erstellt");
 
-        doc->release();
         shutdownXml();
         LOG_DEBUG(Logger::CORE, "Szenenbeschreibung aus " + mSceneName +" fertig geparst");
     }

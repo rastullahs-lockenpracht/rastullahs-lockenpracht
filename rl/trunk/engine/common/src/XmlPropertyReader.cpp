@@ -35,6 +35,10 @@ XmlPropertyReader::XmlPropertyReader()
 {
 }
 
+XmlPropertyReader::~XmlPropertyReader()
+{
+}
+
 void XmlPropertyReader::parseGameObjectFile(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
 {
     initializeXml();
@@ -44,7 +48,7 @@ void XmlPropertyReader::parseGameObjectFile(Ogre::DataStreamPtr &stream, const O
     DOMNodeList* godefsXml = doc->getDocumentElement()->getElementsByTagName(AutoXMLCh("gameobjectclass").data());
     for (unsigned int idx = 0; idx < godefsXml->getLength(); idx++)
     {
-		PropertyRecord* ps = new PropertyRecord();
+		PropertyRecordPtr ps(new PropertyRecord());
 		DOMElement* curNode = static_cast<DOMElement*>(godefsXml->item(idx));
 		
 		const DOMNamedNodeMap* godefAttrs = curNode->getAttributes();
@@ -73,12 +77,10 @@ void XmlPropertyReader::parseGameObjectFile(Ogre::DataStreamPtr &stream, const O
         mPropertyRecords.push_back(ps);
     }
 	
-	doc->release();
-
     shutdownXml();
 }
 
-std::vector<PropertyRecord*> XmlPropertyReader::getPropertyRecords()
+PropertyRecordVector XmlPropertyReader::getPropertyRecords()
 {
     return mPropertyRecords;
 }
@@ -240,9 +242,9 @@ PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElemen
     return std::make_pair(key, prop);
 }
 
-PropertyRecord XmlPropertyReader::getPropertiesAsRecord(DOMElement *parent)
+PropertyRecordPtr XmlPropertyReader::getPropertiesAsRecord(DOMElement *parent)
 {
-    PropertyRecord ps;
+    PropertyRecordPtr ps(new PropertyRecord());
 
     DOMNodeList* propertyDefChildren = parent->getChildNodes();
     for (XMLSize_t childIdx = 0; childIdx < propertyDefChildren->getLength(); childIdx++)
@@ -253,7 +255,7 @@ PropertyRecord XmlPropertyReader::getPropertiesAsRecord(DOMElement *parent)
             PropertyEntry entry = processProperty(static_cast<DOMElement*>(curChild));
             if (entry.first != "")
             {
-                ps.setProperty(entry.first, entry.second);
+                ps->setProperty(entry.first, entry.second);
             }
         }
     }

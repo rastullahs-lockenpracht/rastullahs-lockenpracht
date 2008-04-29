@@ -20,7 +20,7 @@
 #include "RulesPrerequisites.h"
 #include "GameObjectStateListener.h"
 
-#include "Property.h"
+#include "Properties.h"
 #include "SaveGameData.h"
 
 #include <map>
@@ -28,8 +28,6 @@
 namespace rl
 {
     class GameObject;
-	class Property;
-    class PropertyRecord;
 
 
     class _RlRulesExport GameObjectFactory
@@ -85,7 +83,7 @@ namespace rl
         virtual void readData(SaveGameFileReader* reader);
         virtual int getPriority() const;
     private:
-        typedef std::map<const Ogre::String, PropertyRecord*> ClassPropertyMap;
+        typedef std::map<const Ogre::String, PropertyRecordPtr> ClassPropertyMap;
         typedef std::set<GameObjectStateListener*> GameObjectStateListenerSet;
 
         Ogre::StringVector mScriptPatterns;
@@ -97,8 +95,8 @@ namespace rl
         GameObjectStateListenerSet mGameObjectStateListeners;
 
         unsigned int generateId();
-        PropertyRecord* getClassProperties(const Ogre::String& classId) const;
-        void applyProperties(GameObject* go, PropertyRecord* ps) const;
+        const PropertyRecordPtr getClassProperties(const Ogre::String& classId) const;
+        void applyProperties(GameObject* go, PropertyRecordPtr ps) const;
 
         PropertyMap getPropertyMapDifference(PropertyMap map1, PropertyMap map2);
     };

@@ -141,6 +141,9 @@ namespace rl {
     MovementControlState::~MovementControlState()
     {
         delete mCombatSelector.getFilter();
+        mCombatSelector.setFilter(NULL);
+        delete mSelector.getFilter();
+        mSelector.setFilter(NULL);
         delete mRaycast;
 
         if (DebugWindow::getSingletonPtr())
@@ -1285,9 +1288,6 @@ namespace rl {
             mCharacterActor->setVisible(true);
         
         LOG_MESSAGE(Logger::UI, "Camera resetted.");
-        ///@todo remove this
-        mCharacter->modifyAu(100);
-        mCharacter->modifyLe(100);
     }
 
     //------------------------------------------------------------------------

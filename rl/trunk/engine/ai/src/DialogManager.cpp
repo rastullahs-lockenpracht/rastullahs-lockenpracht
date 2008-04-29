@@ -115,7 +115,7 @@ namespace rl
                 = mDialogStates.begin(); it != mDialogStates.end(); ++it)
             {
                 PropertyMap curDialogProp;
-                PropertyRecord* dialogProps = it->second->getAllProperties();
+                PropertyRecordPtr dialogProps = it->second->getAllProperties();
                 curDialogProp[DialogManager::PROPERTY_DIALOG] = dialogProps->toPropertyMap();
                 curDialogProp[DialogManager::PROPERTY_DIALOG_NAME] = Property(it->first.getName());
 
@@ -128,8 +128,6 @@ namespace rl
                 }
 
                 curDialogProp[DialogManager::PROPERTY_NPCS] = Property(npcs);
-
-                delete dialogProps;
             }
 
             return Property(vec);
@@ -154,17 +152,16 @@ namespace rl
     {
         LOG_MESSAGE(Logger::RULES, "Saving dialogs");
 
-        PropertyRecord* set = getAllProperties();
+        PropertyRecordPtr set = getAllProperties();
         writer->writeEachProperty(this, set->toPropertyMap());
-        delete set;
     }
 
     void DialogManager::readData(SaveGameFileReader* reader)
     {
         LOG_MESSAGE(Logger::RULES, "Loading dialogs");
 
-        PropertyRecord properties = reader->getAllPropertiesAsRecord(this);
-        setProperties(&properties);
+        PropertyRecordPtr properties = reader->getAllPropertiesAsRecord(this);
+        setProperties(properties);
     }
 
     int DialogManager::getPriority() const
@@ -645,6 +642,23 @@ namespace rl
             mDialogStates[DialogConfiguration(name, npcs)] = dialog;
         }
 		return dialog;
+    }
+
+    DialogManager::DialogPrototype::DialogPrototype()
+    {
+    }
+
+    DialogManager::DialogPrototype::~DialogPrototype()
+    {
+        std::map<CeGuiString, DialogOption*>::iterator it;
+        for( it = mOptionCache.begin(); it != mOptionCache.end(); it++ )
+            if( it->second != NULL )
+                delete it->second;
+
+        std::map<CeGuiString, DialogResponse*>::iterator it1;
+        for( it1 = mResponseCache.begin(); it1 != mResponseCache.end(); it1++ )
+            if( it1->second != NULL )
+                delete it1->second;
     }
 
     void DialogManager::DialogPrototype::addOption(DialogOption* option)

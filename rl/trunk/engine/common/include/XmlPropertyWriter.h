@@ -23,7 +23,7 @@
 #include <xercesc/dom/DOMAttr.hpp>
 #include <xercesc/dom/DOMElement.hpp>
 
-#include "Property.h"
+#include "Properties.h"
 #include "XmlProcessor.h"
 
 namespace rl 
@@ -42,18 +42,18 @@ namespace rl
 
         XERCES_CPP_NAMESPACE::DOMDocument* getDocument();
 
-        std::vector<PropertyRecord*> getPropertyRecords();
-        void setPropertyRecords(std::vector<PropertyRecord*> sets);
-        void addPropertyRecord(PropertyRecord* set);
+        PropertyRecordPtr getPropertyRecords();
+        void setPropertyRecords(PropertyRecordVector sets);
+        void addPropertyRecord(PropertyRecordPtr set);
 
-        XERCES_CPP_NAMESPACE::DOMElement* processProperty(XERCES_CPP_NAMESPACE::DOMElement* parent, PropertyEntry entry);
-        XERCES_CPP_NAMESPACE::DOMElement* processPropertyRecord(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, PropertyRecord set);
-        XERCES_CPP_NAMESPACE::DOMElement* processPropertyArray(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, PropertyArray vector);
-        XERCES_CPP_NAMESPACE::DOMElement* processPropertyMap(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, PropertyMap map);
+        XERCES_CPP_NAMESPACE::DOMElement* processProperty(XERCES_CPP_NAMESPACE::DOMElement* parent, const PropertyEntry& entry);
+        XERCES_CPP_NAMESPACE::DOMElement* processPropertyRecord(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, const PropertyRecord& set);
+        XERCES_CPP_NAMESPACE::DOMElement* processPropertyArray(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, const PropertyArray& vector);
+        XERCES_CPP_NAMESPACE::DOMElement* processPropertyMap(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, const PropertyMap& map);
 
         void writeEachPropertyToElem(XERCES_CPP_NAMESPACE::DOMElement* parent, const PropertyMap &map);
     protected:
-        std::vector<PropertyRecord*> mPropertyRecords;
+        PropertyRecordVector mPropertyRecords;
 
         XERCES_CPP_NAMESPACE::DOMDocument* mDocument;
         XERCES_CPP_NAMESPACE::DOMImplementation* mImplementation;

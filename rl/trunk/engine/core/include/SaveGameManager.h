@@ -22,8 +22,9 @@
 #include "SaveGameFile.h"
 #include "MessagePump.h"
 
-#include <XmlPropertyWriter.h>
-#include <XmlPropertyReader.h>
+#include "XmlPropertyWriter.h"
+#include "XmlPropertyReader.h"
+
 
 //#include <multimap>
 

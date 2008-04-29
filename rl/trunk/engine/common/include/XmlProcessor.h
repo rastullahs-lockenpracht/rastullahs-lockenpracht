@@ -17,7 +17,7 @@
 #ifndef __XmlHelper_h__
 #define __XmlHelper_h__
 
-#include <xercesc/dom/DOMElement.hpp>
+#include <xercesc/dom/DOM.hpp>
 #include <xercesc/util/XMLChar.hpp>
 #include <xercesc/util/TransService.hpp>
 #include <xercesc/sax/ErrorHandler.hpp>
@@ -39,11 +39,10 @@ class XERCES_CPP_NAMESPACE::SAXParseException;
 #else
 #   include <CEGUI/CEGUIString.h>
 #endif
-using XERCES_CPP_NAMESPACE::XMLTranscoder;
-using XERCES_CPP_NAMESPACE::XMLTransService;
-using XERCES_CPP_NAMESPACE::Attributes;
-using CEGUI::utf8;
-using CEGUI::String;
+namespace XERCES_CPP_NAMESPACE
+{
+    class XercesDOMParser;
+}
 
 namespace rl {
 
@@ -55,7 +54,8 @@ class _RlCommonExport XmlProcessor
     : public XERCES_CPP_NAMESPACE::ErrorHandler
 {
 public:
-    
+    XmlProcessor() : mOpenParser(NULL) {}
+
     /**
 	 * Erzeugt einen Kindknoten eines DOM-Elements, das einen bestimmten Namen hat, 
 	 * dieser ist wiederum ein Element-Knoten
@@ -113,7 +113,7 @@ public:
      * @param utf Der zu setzende UTF String
 	 * @return the DOM element node
 	 */
-	void setValueAsUtf8(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, utf8* value) const;
+	void setValueAsUtf8(XERCES_CPP_NAMESPACE::DOMDocument* doc, XERCES_CPP_NAMESPACE::DOMElement* element, CEGUI::utf8* value) const;
     
     /**
 	 * Ermittelt den Text eines Elementknotens, als UTF-8
@@ -123,7 +123,7 @@ public:
 	 * @return Text innerhalb der Element-Tags, als utf8* (muss selbst gelöscht werden)
 	 * @see initializeTranscoder()
 	 */
-	utf8* getValueAsUtf8(XERCES_CPP_NAMESPACE::DOMElement* element) const;
+	CEGUI::utf8* getValueAsUtf8(XERCES_CPP_NAMESPACE::DOMElement* element) const;
 
 	
     /**
@@ -509,13 +509,14 @@ public:
         virtual void resetErrors();
 
 protected:
-	static XMLTranscoder* sTranscoder;
-	static XMLTransService::Codes sFailCode;
+	static XERCES_CPP_NAMESPACE::XMLTranscoder* sTranscoder;
+	static XERCES_CPP_NAMESPACE::XMLTransService::Codes sFailCode;
 
         std::string toString( const std::string& type,
                               const XERCES_CPP_NAMESPACE::SAXParseException& exc ) const;
         
         std::string mOpenXmlFileName;
+        XERCES_CPP_NAMESPACE::XercesDOMParser *mOpenParser;
 
 	/**
 	 * Konvertiert ein Xerces-XMLCh* in einen UTF-8-String
@@ -525,7 +526,7 @@ protected:
 	 * @return Konvertierter Text als utf8* (muss selbst gelöscht werden)
 	 * @see initializeTranscoder()
 	 */
-	utf8* transcodeToUtf8(const XMLCh* const string16) const;
+	CEGUI::utf8* transcodeToUtf8(const XMLCh* const string16) const;
 };
 
 class _RlCommonExport AutoXMLCh

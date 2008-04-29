@@ -28,12 +28,10 @@ namespace rl
     GlobalProperties::GlobalProperties()
     {
         SaveGameManager::getSingleton().registerSaveGameData(this);
-        mProperties = new PropertyRecord();
     }
 
     GlobalProperties::~GlobalProperties()
     {
-        delete mProperties;
         SaveGameManager::getSingleton().unregisterSaveGameData(this);
     }
 
@@ -41,22 +39,22 @@ namespace rl
     /// Overrides from PropertyHolder
     const Property GlobalProperties::getProperty(const CeGuiString& key) const
     {
-        return mProperties->getProperty(key);
+        return mProperties.getProperty(key);
     }
 
     void GlobalProperties::setProperty(const CeGuiString& key, const Property& value)
     {
-        mProperties->setProperty(key, value);
+        mProperties.setProperty(key, value);
     }
 
     PropertyKeys GlobalProperties::getAllPropertyKeys() const
     {
-        return mProperties->getAllPropertyKeys();
+        return mProperties.getAllPropertyKeys();
     }
 
     bool GlobalProperties::hasProperty(const Ogre::String &key) const
     {
-        return mProperties->hasProperty(key);
+        return mProperties.hasProperty(key);
     }
 
     /// Overrides from SaveGameData
@@ -70,7 +68,7 @@ namespace rl
     {
         DOMElement* elem = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
 
-        writer->writeEachPropertyToElem(elem, mProperties->toPropertyMap());
+        writer->writeEachPropertyToElem(elem, mProperties.toPropertyMap());
     }
 
     void GlobalProperties::readData(SaveGameFileReader* reader)
@@ -82,9 +80,9 @@ namespace rl
         {
             DOMElement* elem = static_cast<DOMElement*>(rootNodeList->item(0));
 
-            PropertyRecord properties = reader->getPropertiesAsRecord(elem);
+            PropertyRecordPtr properties = reader->getPropertiesAsRecord(elem);
 
-            setProperties(&properties);
+            setProperties(properties);
         }
 
         reader->shutdownXml();

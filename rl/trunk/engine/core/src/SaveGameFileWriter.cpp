@@ -70,7 +70,7 @@ namespace rl
         //Write modul of save game
         DOMElement* header = appendChildElement(mDocument, mDocument->getDocumentElement(), "header");
         
-        PropertyRecord* headerSet = file->getAllProperties();
+        PropertyRecordPtr headerSet = file->getAllProperties();
         for (PropertyRecord::PropertyRecordMap::const_iterator it_header = headerSet->begin(); it_header != headerSet->end(); it_header++)
         {
             this->processProperty(header, PropertyEntry(it_header->first.c_str(), it_header->second));

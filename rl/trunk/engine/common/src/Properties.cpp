@@ -25,7 +25,7 @@ using namespace std;
 
 namespace rl {
 
-    void PropertyHolder::setProperties(const PropertyRecord* props)
+    void PropertyHolder::setProperties(const PropertyRecordPtr props)
     {
         for (PropertyRecord::PropertyRecordMap::const_iterator it = props->begin();
             it != props->end(); it++)
@@ -43,9 +43,9 @@ namespace rl {
         }
     }
 
-    PropertyRecord* PropertyHolder::getAllProperties() const
+    PropertyRecordPtr PropertyHolder::getAllProperties() const
     {
-        PropertyRecord* record = new PropertyRecord();
+        PropertyRecordPtr record(new PropertyRecord);
 
         PropertyKeys keys = getAllPropertyKeys();
         PropertyKeys::const_iterator end = keys.end();
@@ -71,7 +71,7 @@ namespace rl {
         mProperties.clear();
     }
 
-    PropertyRecord::PropertyRecord(const PropertyRecord* ps)
+    PropertyRecord::PropertyRecord(const PropertyRecordPtr ps)
         : PropertyHolder()
     {
         mProperties.clear();
@@ -132,9 +132,9 @@ namespace rl {
         return convertToPropertyMap(mProperties);
     }
 
-    PropertyRecord* PropertyRecord::getDifference(PropertyRecord* differenceTo) const
+    PropertyRecordPtr PropertyRecord::getDifference(const PropertyRecordPtr differenceTo) const
     {
-        PropertyRecord* record = new PropertyRecord();
+        PropertyRecordPtr record(new PropertyRecord());
         for(PropertyRecordMap::const_iterator it = begin(); it != end(); ++it)
         {
             if(!differenceTo->hasProperty(it->first))

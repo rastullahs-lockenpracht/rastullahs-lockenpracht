@@ -16,15 +16,14 @@
 #ifndef __MapLoader_H__
 #define __MapLoader_H__
 
-#include <xercesc/dom/DOMElement.hpp>
 
 #include "ScriptPrerequisites.h"
 
 #include <list>
-#include <XmlProcessor.h>
-#include <ContentLoader.h>
-#include <MessagePump.h>
-#include <CoreMessages.h>
+#include "XmlProcessor.h"
+#include "ContentLoader.h"
+#include "MessagePump.h"
+#include "CoreMessages.h"
 
 namespace rl {
    

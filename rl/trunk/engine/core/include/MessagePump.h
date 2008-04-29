@@ -115,6 +115,7 @@ namespace rl
 
     public:
         MessagePump() : mNextConnectionId(0) {}
+        ~MessagePump();
 
         template<typename _MessageType>
         Connection addMessageHandler( const typename _MessageType::HandlerType& handler )

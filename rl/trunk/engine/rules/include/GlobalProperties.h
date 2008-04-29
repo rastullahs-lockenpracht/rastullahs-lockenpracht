@@ -48,7 +48,7 @@ namespace rl
         virtual void readData(SaveGameFileReader* reader);
         virtual int getPriority() const;
     protected:
-        PropertyRecord* mProperties;
+        PropertyRecord mProperties;
     };
 }
 

@@ -292,8 +292,8 @@ namespace rl
                             LOG_ERROR(Logger::CORE, "Fehler beim Erstellen eines Objekts der Job-Klasse '" + className + "'!");
                             continue;
                         }
-                        PropertyRecord properties = reader->getPropertiesAsRecord(xmlJob);
-                        job->setProperties(&properties);
+                        PropertyRecordPtr properties = reader->getPropertiesAsRecord(xmlJob);
+                        job->setProperties(properties);
                         
                         
                         unsigned long ticket = ++mTicketCounter;

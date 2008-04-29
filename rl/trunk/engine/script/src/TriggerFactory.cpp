@@ -118,13 +118,13 @@ namespace rl
                         Ogre::String name = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlTrigger), "name");
                         Ogre::String zoneName = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlTrigger), "zone");
 
-                        PropertyRecord properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlTrigger));
+                        PropertyRecordPtr properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlTrigger));
 
 
                         Trigger *trigger = createTrigger(classname, name);
                         if( trigger ) // if not, there is an error-msg from the script!
                         {
-                            trigger->setProperties(&properties);
+                            trigger->setProperties(properties);
                             Zone *zone = ZoneManager::getSingleton().getZone(zoneName);
                             if(zone == NULL)
                             {

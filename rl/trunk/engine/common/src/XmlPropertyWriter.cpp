@@ -42,17 +42,17 @@ namespace rl {
         return mDocument;
     }
 
-    void XmlPropertyWriter::setPropertyRecords(std::vector<PropertyRecord*> sets)
+    void XmlPropertyWriter::setPropertyRecords(PropertyRecordVector sets)
     {
         mPropertyRecords = sets;
     }
 
-    void XmlPropertyWriter::addPropertyRecord(PropertyRecord* set)
+    void XmlPropertyWriter::addPropertyRecord(PropertyRecordPtr set)
     {
         mPropertyRecords.push_back(set);
     }
 
-    DOMElement* XmlPropertyWriter::processProperty(DOMElement* parent, PropertyEntry entry)
+    DOMElement* XmlPropertyWriter::processProperty(DOMElement* parent, const PropertyEntry& entry)
     {
         DOMElement* element = NULL;
         if(!entry.second.isEmpty())
@@ -97,21 +97,21 @@ namespace rl {
         return element;
     }
 
-    DOMElement* XmlPropertyWriter::processPropertyRecord(DOMElement* parent, const char* const name, PropertyRecord set)
+    DOMElement* XmlPropertyWriter::processPropertyRecord(DOMElement* parent, const char* const name, const PropertyRecord& set)
     {
         PropertyMap map = set.toPropertyMap();
 
         return processPropertyMap(parent, name, map);
     }
 
-    DOMElement* XmlPropertyWriter::processPropertyArray(DOMElement *parent, const char *const name, PropertyArray vector)
+    DOMElement* XmlPropertyWriter::processPropertyArray(DOMElement *parent, const char *const name, const PropertyArray& vector)
     {
         DOMElement* element = appendChildElement(mDocument, parent, "property");
         if(name[0] != '\0')
             setAttribute(element, "name", name);
         setAttribute(element, "type", "ARRAY");
 
-        PropertyArray::iterator iter;
+        PropertyArray::const_iterator iter;
         for(iter = vector.begin(); iter != vector.end(); iter++)
         {
             processProperty(element, PropertyEntry(Ogre::String(),*iter));
@@ -119,14 +119,14 @@ namespace rl {
         return element;
     }
 
-    DOMElement* XmlPropertyWriter::processPropertyMap(DOMElement *parent, const char *const name, PropertyMap map)
+    DOMElement* XmlPropertyWriter::processPropertyMap(DOMElement *parent, const char *const name, const PropertyMap& map)
     {
         DOMElement* element = appendChildElement(mDocument, parent, "property");
         if(name[0] != '\0')
             setAttribute(element, "name", name);
         setAttribute(element, "type", "MAP");
 
-        PropertyMap::iterator iter;
+        PropertyMap::const_iterator iter;
         for(iter = map.begin(); iter != map.end(); iter++)
         {
             processProperty(element, PropertyEntry(iter->first.c_str(), iter->second));

@@ -18,8 +18,6 @@
 
 #include "AiPrerequisites.h"
 
-#include <xercesc/dom/DOMElement.hpp>
-
 #include "Properties.h"
 #include "SaveGameData.h"
 #include "XmlProcessor.h"
@@ -71,6 +69,8 @@ namespace rl
         class DialogPrototype
         {
         public:
+            DialogPrototype();
+            ~DialogPrototype();
             void addOption(DialogOption* option);
             DialogOption* getOption(const CeGuiString& id) const;
             void addResponse(DialogResponse* option);

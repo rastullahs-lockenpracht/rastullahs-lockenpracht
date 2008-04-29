@@ -43,6 +43,7 @@ CloseConfirmationWindow::~CloseConfirmationWindow()
 
 bool CloseConfirmationWindow::handleConfirm()
 {
+        setVisible(false, true);
 	GameLoop::getSingleton().quitGame();
 	return true;
 }

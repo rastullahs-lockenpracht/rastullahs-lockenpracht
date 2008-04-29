@@ -158,7 +158,6 @@ namespace rl {
                     }
                 }
 
-                doc->release();
 
 			    CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
 			    ///@todo: Window fade jobs don't work if Core is paused, think about solution for: CoreSubsystem::getSingleton().setPaused(false);

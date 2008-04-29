@@ -152,8 +152,6 @@ void WayPointGraph::load(const Ogre::String& filename, const Ogre::String& resou
                 addDirectedConnection(lookupTable[source], lookupTable[destination]);
             }
         }
-
-        doc->release();
     }
 
     shutdownXml();

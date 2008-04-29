@@ -262,7 +262,7 @@ namespace rl
         }
         else if (mCurrentLe <= 0 && oldLe > 0)
         {
-            mEffectManager->addEffect(EffectFactoryManager::getSingleton().createEffect("UnconciousEffect"));
+            mEffectManager->addEffect(EffectFactoryManager::getSingleton().createEffect("UnconsciousEffect"));
         }
         else if (mCurrentLe > 0 && oldLe <= 0)
         {

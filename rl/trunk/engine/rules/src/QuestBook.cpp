@@ -314,7 +314,7 @@ namespace rl {
     {
         LOG_MESSAGE(Logger::RULES, "Saving questbook");
 
-        PropertyRecord* set = getAllProperties();
+        PropertyRecordPtr set = getAllProperties();
         writer->writeEachProperty(this, set->toPropertyMap());
     }
 
@@ -323,8 +323,8 @@ namespace rl {
         LOG_MESSAGE(Logger::RULES, "Loading questbook");
 
         clear();
-        PropertyRecord properties = reader->getAllPropertiesAsRecord(this);
-        setProperties(&properties);
+        PropertyRecordPtr properties = reader->getAllPropertiesAsRecord(this);
+        setProperties(properties);
     }
 
     void QuestBook::clear()

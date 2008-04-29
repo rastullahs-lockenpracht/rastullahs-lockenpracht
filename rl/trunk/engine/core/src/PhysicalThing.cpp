@@ -52,7 +52,7 @@ namespace rl
 
     PhysicalThing::~PhysicalThing()
 	{
-		///@todo missing removal of list of collision objects here ...
+                mPoseCollisions.clear();
 		delete mBody;
 		mBody = NULL;
     }

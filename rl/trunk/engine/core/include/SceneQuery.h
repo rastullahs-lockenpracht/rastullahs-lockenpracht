@@ -131,6 +131,7 @@ namespace rl
     {
     public:
         HalfSphereSceneQuery(Ogre::SceneManager* smgr, unsigned long mask = 0xffffffff);
+        ~HalfSphereSceneQuery();
 
         virtual const ActorVector& execute();
 
@@ -140,6 +141,7 @@ namespace rl
 
     protected:
         Ogre::SphereSceneQuery* mSceneQuery;
+        Ogre::SceneManager* mSceneManager;
         Ogre::Real mRadius;
     };
 }
