@@ -156,12 +156,12 @@ namespace rl {
         //void interpolateAnimationLookAtOffset(std::string actAnim, std::string newAnim, Ogre::Real factor);
 
 
-        // only used in the two functions above
         std::vector<Ogre::Vector3> mCharPositionsBuffer;
         size_t mCharPositionsBufferIdx;
         Ogre::Real mCharacterOccludedTime;
         unsigned int mCharacterOccludedFrameCount;
         Ogre::Real mLastDistance;
+        Ogre::Real mLastCameraCollision;
         Ogre::Real mTimeOfLastCollision;
         bool mIsPathfinding;
         unsigned int mLastReachableBufPos;

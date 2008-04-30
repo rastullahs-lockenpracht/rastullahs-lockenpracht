@@ -99,7 +99,8 @@ namespace rl {
         mLastDistance(0.0f),
         mTimeOfLastCollision(0.0f),
         mIsPathfinding (false),
-        mLastReachableBufPos(1)
+        mLastReachableBufPos(1),
+        mLastCameraCollision(0)
     {
         DebugWindow::getSingleton().registerPage(msDebugWindowPageName);
 
@@ -112,7 +113,7 @@ namespace rl {
         // smaller 1.0 means spring accel is stronger and thus cam shoots over the target, resulting
         // in a damped ozillation before reaching equilibrium.
         // Values greater than 1.0 mean damping is stronger and thus camera takes a detour.
-        Real relationCoefficient = 1.0f;
+        Real relationCoefficient = 0.8f;
         mLinearDampingK = relationCoefficient * 2.0f * Math::Sqrt(mLinearSpringK);
 
         // Offset for the look at point,
@@ -215,15 +216,25 @@ namespace rl {
         mCameraActor->getPhysicalThing()->setUpConstraint(Vector3::ZERO);
 
         // We also handle cam<->level, cam<->default cam<->char collision from now on
-        PhysicsManager::getSingleton().createMaterialPair(
+        OgreNewt::MaterialPair* mat_pair = NULL;
+        mat_pair = PhysicsManager::getSingleton().createMaterialPair(
             PhysicsManager::getSingleton().getMaterialID("camera"),
-            PhysicsManager::getSingleton().getMaterialID("default"))->setContactCallback(this);
-        PhysicsManager::getSingleton().createMaterialPair(
+            PhysicsManager::getSingleton().getMaterialID("default"));
+        mat_pair->setContactCallback(this);
+        mat_pair->setDefaultCollidable(1);
+        mat_pair->setDefaultFriction(0,0);
+        mat_pair = PhysicsManager::getSingleton().createMaterialPair(
             PhysicsManager::getSingleton().getMaterialID("camera"),
-            PhysicsManager::getSingleton().getMaterialID("level"))->setContactCallback(this);
-        PhysicsManager::getSingleton().createMaterialPair(
+            PhysicsManager::getSingleton().getMaterialID("level"));
+        mat_pair->setContactCallback(this);
+        mat_pair->setDefaultCollidable(1);
+        mat_pair->setDefaultFriction(0,0);
+        mat_pair = PhysicsManager::getSingleton().createMaterialPair(
             PhysicsManager::getSingleton().getMaterialID("camera"),
-            PhysicsManager::getSingleton().getMaterialID("character"))->setContactCallback(this);
+            PhysicsManager::getSingleton().getMaterialID("character"));
+        mat_pair->setContactCallback(this);
+        mat_pair->setDefaultCollidable(1);
+        mat_pair->setDefaultFriction(0,0);
 
         mCharacterState.mCurrentMovementState = MOVE_NONE;
 
@@ -335,7 +346,7 @@ namespace rl {
                 }
 
 
-                if( mViewMode != VM_PNYX_MODE )
+                if( mViewMode != VM_PNYX_MODE  && mViewMode != VM_FIRST_PERSON )
                 {
                     // virtual yaw
                     if( mCamVirtualYaw != mNewCamVirtualYaw )
@@ -359,6 +370,39 @@ namespace rl {
                     if( mCamVirtualYaw != mNewCamVirtualYaw )
                     {
                         rotation += mCamVirtualYaw - mNewCamVirtualYaw;
+                    }
+                }
+
+                if( mViewMode == VM_FIRST_PERSON )
+                {
+                    if( ((movement & MOVE_FORWARD) && (movement & MOVE_RIGHT) && !(movement & MOVE_LEFT)) ||
+                        ((movement & MOVE_BACKWARD) && (movement & MOVE_RIGHT) && !(movement & MOVE_LEFT)) )
+                    {
+                        mCamVirtualYaw -= Degree(270)*elapsedTime;
+                        if( mCamVirtualYaw <= Degree(-90) )
+                            mCamVirtualYaw = Degree(-90);
+                    }
+                    else if( ((movement & MOVE_FORWARD) && (movement & MOVE_LEFT) && !(movement & MOVE_RIGHT)) ||
+                             ((movement & MOVE_BACKWARD) && (movement & MOVE_LEFT) && !(movement & MOVE_RIGHT)) )
+                    {
+                        mCamVirtualYaw += Degree(270)*elapsedTime;
+                        if( mCamVirtualYaw >= Degree(90) )
+                            mCamVirtualYaw = Degree(90);
+                    }
+                    else
+                    {
+                        if( mCamVirtualYaw > Degree(0) )
+                        {
+                            mCamVirtualYaw -= Degree(270)*elapsedTime;
+                            if( mCamVirtualYaw <= Degree(0) )
+                                mCamVirtualYaw = Degree(0);
+                        }
+                        else if( mCamVirtualYaw < Degree(0) )
+                        {
+                            mCamVirtualYaw += Degree(270)*elapsedTime;
+                            if( mCamVirtualYaw >= Degree(0) )
+                                mCamVirtualYaw = Degree(0);
+                        }
                     }
                 }
             }
@@ -582,6 +626,14 @@ namespace rl {
         virtualCamOri.FromAngleAxis(mCamVirtualYaw, Vector3::UNIT_Y);
 
 
+        // Kamera-Gr�e beziehen
+        CameraObject* ogreCam = static_cast<CameraObject*>(
+                mCameraActor->getControlledObject());
+        AxisAlignedBox aabb = ogreCam->getDefaultSize();
+        // Radius berechnen
+        Real radius = (aabb.getMaximum()-aabb.getMinimum()).length() / 2.0f;
+ 
+
         if( mViewMode == VM_FIRST_PERSON)
         {
             Quaternion camOri;
@@ -594,24 +646,22 @@ namespace rl {
         }
         else if( mViewMode == VM_THIRD_PERSON )
         {
-            // Kamera-Gr�e beziehen
-            CameraObject* ogreCam = static_cast<CameraObject*>(
-                mCameraActor->getControlledObject());
-            AxisAlignedBox aabb = ogreCam->getDefaultSize();
-            // Radius berechnen
-            //Real radius = (aabb.getMaximum()-aabb.getMinimum()).length() / 2.0f;
-
-            cameraNode->lookAt(
+           cameraNode->lookAt(
                 charPos
-                + charOri * virtualCamOri *  mLookAtOffset,
-                //+ charOri * virtualCamOri * (-Vector3::UNIT_Z*radius),   // doesn't work smoothly with strafe+forward
+                + charOri * /* virtualCamOri * */  mLookAtOffset
+                + charOri * /* virtualCamOri * */ (-Vector3::UNIT_Z*radius),   // doesn't work smoothly with strafe+forward
                 Node::TS_WORLD);
 
         }
         else if( mViewMode == VM_FREE_CAMERA || mViewMode == VM_PNYX_MODE )
         {
+            Quaternion camOri;
+            camOri.FromAngleAxis(mCamYaw, Vector3::UNIT_Y);
+            Real dist = (mCameraActor->getPosition() - charPos).length();
             cameraNode->lookAt(
-                charPos + charOri * virtualCamOri * mLookAtOffset,
+                charPos
+                + camOri * virtualCamOri * mLookAtOffset
+                + camOri * (-Vector3::UNIT_Z*radius),
                 Node::TS_WORLD);
         }
 
@@ -649,14 +699,19 @@ namespace rl {
     // character collision moved to CreatureController(Manager)
     int MovementControlState::userProcess()
     {
-        // only camera collision
-        return 0;
-    
         if( mViewMode == VM_FIRST_PERSON )
             return 0;
 
-        setContactSoftness(1.0f);
+        // test if this is cam-player-collide
+        if( ( m_body0 == mCamBody && m_body1 == mCharacterActor->getPhysicalThing()->_getBody() ) ||
+            ( m_body1 == mCamBody && m_body0 == mCharacterActor->getPhysicalThing()->_getBody() ) )
+        {
+            return 0;
+        }
+
+        setContactSoftness(0.8f);
         setContactElasticity(0.0f);
+        mLastCameraCollision = 0;
 
         return 1;
     }
@@ -687,7 +742,7 @@ namespace rl {
                 mCameraActor->_getMovableObject())->getDerivedPosition() << std::endl
             << "camera orientation : " << mCameraActor->getWorldOrientation() << std::endl
             << "camera pos : " << bodpos << std::endl
-            << "camera distance : " << mDesiredDistance << std::endl
+            << "camera distance : " << mLastDistance << " ( " << mDesiredDistance << " ) " << std::endl
             << "is airborne: " << (mController->getAbstractLocation() == CreatureController::AL_AIRBORNE ? "true" : "false") << std::endl;
 
         LOG_DEBUG(Logger::UI, ss.str());
@@ -697,6 +752,7 @@ namespace rl {
     //------------------------------------------------------------------------
     void MovementControlState::calculateCamera(const Ogre::Real& timestep)
     {
+        mLastCameraCollision += timestep;
         Vector3 charPos = mCharacter->getActor()->getWorldPosition();
         Quaternion charOri = mCharacter->getActor()->getWorldOrientation();
         Quaternion virtualCamOri;
@@ -919,13 +975,13 @@ namespace rl {
     }
 
     //------------------------------------------------------------------------
-    Ogre::Vector3 MovementControlState::calculateOptimalCameraPosition(bool SlowlyMoveBackward, const Real &timestep)
+    Ogre::Vector3 MovementControlState::calculateOptimalCameraPosition(bool slowlyMoveBackward, const Real &timestep)
     {
         Vector3 targetCamPos;
 
         Vector3 charPos = mCharacter->getActor()->getWorldPosition();
         //Quaternion charOri = mCharacter->getActor()->getWorldOrientation();
-        Quaternion charOri (mController->getYaw(), Vector3::UNIT_Y);   // is this ok, solves the problems, when strafe+move_forward...
+        Quaternion charOri (mController->getYaw(), Vector3::UNIT_Y);
         Quaternion virtualCamOri;
         virtualCamOri.FromAngleAxis(mCamVirtualYaw, Vector3::UNIT_Y);
 
@@ -1047,7 +1103,7 @@ namespace rl {
             Quaternion camOri;
             mCamBody->getPositionOrientation(camPos, camOri);
 
-            if( SlowlyMoveBackward &&
+            if( slowlyMoveBackward &&
                 desiredDistance > mLastDistance )
             {
 
@@ -1056,7 +1112,11 @@ namespace rl {
                 Vector3 actDiff = camPos - charPos;
                 actDiff.normalise();
 
-                if( mTimeOfLastCollision > mCamMoveAwayStartTime ||
+                if( mLastCameraCollision <= 0.5 ) // there was a cam collision 0.5 seconds ago
+                {
+                    newDistance = mLastDistance;
+                }
+                else if( mTimeOfLastCollision > mCamMoveAwayStartTime ||
                     diff.directionEquals(actDiff, mCamMoveAwayRange*timestep) )
                     newDistance = mLastDistance + mCamMoveAwayVelocity*timestep;
                 else
@@ -1282,6 +1342,7 @@ namespace rl {
         mCamBody->setPositionOrientation(calculateOptimalCameraPosition(false, 0.0f), camOri);
         mCamVirtualYaw = Degree(0);
         mNewCamVirtualYaw = Degree(0);
+        mLastCameraCollision = 0;
         if(mViewMode == VM_FIRST_PERSON)
             mCharacterActor->setVisible(false);
         else
