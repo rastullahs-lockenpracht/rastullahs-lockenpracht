@@ -53,6 +53,7 @@
 
 #include "OpenSteer/Utilities.h"  // for interpolate, etc.
 #ifdef __APPLE__
+	#include <Carbon/Carbon.h>
     #include <Ogre/Ogre.h>
 #else
     #include <Ogre.h>
