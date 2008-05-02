@@ -14,6 +14,7 @@
 #define __INCLUDE_OGRENEWT_PREREQ__
 
 #ifdef __APPLE__
+#   include <Carbon/Carbon.h>
 #   include <Ogre/Ogre.h>
 #else
 #   include <Ogre.h>
