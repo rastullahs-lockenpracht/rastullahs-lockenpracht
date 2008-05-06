@@ -74,9 +74,9 @@ namespace rl
 	{
             // todo: wieder aufstehen
             if( mMovingCreature->getCreature()->getLifeState() & (Effect::LS_DEAD | Effect::LS_UNCONSCIOUS) )
-                mMovingCreature->setAnimation(mAnim1.first, mAnim1.second, 0);
+                mMovingCreature->setAnimation(mAnim1.first, mAnim1.second, 1);
             else
-                mMovingCreature->setAnimation(mAnim.first, mAnim.second, 0);
+                mMovingCreature->setAnimation(mAnim.first, mAnim.second, 1);
 	    return true;
 	}
         virtual void applyAuChanges(Ogre::Real elapsedTime)
