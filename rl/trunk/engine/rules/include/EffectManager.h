@@ -102,6 +102,9 @@ namespace rl
 
         GameObject* mGameObject;
 
+        // only used in checkEffects!
+        bool mCheckEffectsRunning;
+
         /// Eine einfache Menge von Effekten
 		typedef std::set<Effect*> Effects;
 		Effects mEffects;

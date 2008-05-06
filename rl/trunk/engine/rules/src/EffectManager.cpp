@@ -29,7 +29,8 @@
 namespace rl
 {
 	EffectManager::EffectManager(GameObject* gameobject)
-        : mGameObject(gameobject)
+        : mGameObject(gameobject),
+        mCheckEffectsRunning(false)
 	{
 	}
 
@@ -44,6 +45,9 @@ namespace rl
 
 	void EffectManager::checkEffects()
 	{
+            if( mCheckEffectsRunning )
+                return;
+            mCheckEffectsRunning = true;
         RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
         Checklist::iterator checkIt = mChecklist.begin();
         if (checkIt == mChecklist.end()) return;
@@ -70,6 +74,8 @@ namespace rl
             }
             mChecklist.erase(checkIt++);
         }
+
+        mCheckEffectsRunning = false;
 	}
 
     void EffectManager::addTimeCheck(RL_LONGLONG timeUntilCheck, Effect* effect)
