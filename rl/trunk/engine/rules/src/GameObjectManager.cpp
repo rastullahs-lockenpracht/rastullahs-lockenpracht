@@ -117,7 +117,7 @@ namespace rl
     }
 
     GameObject* GameObjectManager::createGameObject(
-        const Ogre::String& classId, unsigned int id)
+        const CeGuiString& classId, unsigned int id)
     {
 		LOG_MESSAGE("GameObjectManager", "Create/Get GameObject of type " + classId
 			+ " #" + Ogre::StringConverter::toString((int)id));
@@ -142,7 +142,7 @@ namespace rl
         }
 
         PropertyRecordPtr ps = getClassProperties(classId);
-        Ogre::String classname =  ps->getProperty(GameObject::PROPERTY_BASE_CLASS).toString().c_str();
+        Ogre::String classname = ps->getProperty(GameObject::PROPERTY_BASE_CLASS).toString().c_str();
 
         GameObject* go = mGameObjectFactory
             ->createGameObject(
@@ -214,7 +214,7 @@ namespace rl
 		return Property(go->getClassId() + "|" + CEGUI::PropertyHelper::uintToString(go->getId()));
 	}
 
-    const PropertyRecordPtr GameObjectManager::getClassProperties(const Ogre::String& classId) const
+    const PropertyRecordPtr GameObjectManager::getClassProperties(const CeGuiString& classId) const
     {
         ClassPropertyMap::const_iterator it = mClassProperties.find(classId);
         if (it == mClassProperties.end())

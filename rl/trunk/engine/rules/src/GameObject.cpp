@@ -108,12 +108,12 @@ namespace rl
         return mId;
     }
 
-    const Ogre::String GameObject::getClassId() const
+    const CeGuiString& GameObject::getClassId() const
     {
         return mClassId;
     }
 
-    void GameObject::setClassId(Ogre::String classId)
+    void GameObject::setClassId(const CeGuiString& classId)
     {
         mClassId = classId;
     }

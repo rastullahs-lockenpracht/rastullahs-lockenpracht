@@ -72,8 +72,8 @@ namespace rl
 
         int getId() const;
 
-        const Ogre::String getClassId() const;
-        void setClassId(Ogre::String classId);
+        const CeGuiString& getClassId() const;
+        void setClassId(const CeGuiString& classId);
         
         const CeGuiString& getName() const;
         void setName(const CeGuiString& name);
@@ -196,7 +196,7 @@ namespace rl
         CeGuiString mMeshfile;
 		MeshPartMap mMeshParts;
         CeGuiString mSubmeshPreName;
-        Ogre::String mClassId;
+        CeGuiString mClassId;
         
         Actor* mActor;
         

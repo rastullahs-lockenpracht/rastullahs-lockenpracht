@@ -50,7 +50,7 @@ namespace rl
         ~GameObjectManager();
 
         GameObject* getGameObject(unsigned int id) const;
-        GameObject* createGameObject(const Ogre::String& classId, unsigned int id = 0);
+        GameObject* createGameObject(const CeGuiString& classId, unsigned int id = 0);
 		
         void deleteGameObject(unsigned int id);
         void deleteGameObject(GameObject* obj);
@@ -83,7 +83,7 @@ namespace rl
         virtual void readData(SaveGameFileReader* reader);
         virtual int getPriority() const;
     private:
-        typedef std::map<const Ogre::String, PropertyRecordPtr> ClassPropertyMap;
+        typedef std::map<const CeGuiString, PropertyRecordPtr> ClassPropertyMap;
         typedef std::set<GameObjectStateListener*> GameObjectStateListenerSet;
 
         Ogre::StringVector mScriptPatterns;
@@ -95,7 +95,7 @@ namespace rl
         GameObjectStateListenerSet mGameObjectStateListeners;
 
         unsigned int generateId();
-        const PropertyRecordPtr getClassProperties(const Ogre::String& classId) const;
+        const PropertyRecordPtr getClassProperties(const CeGuiString& classId) const;
         void applyProperties(GameObject* go, PropertyRecordPtr ps) const;
 
         PropertyMap getPropertyMapDifference(PropertyMap map1, PropertyMap map2);
