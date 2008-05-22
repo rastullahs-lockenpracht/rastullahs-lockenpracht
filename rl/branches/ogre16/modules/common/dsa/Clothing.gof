@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<GameObjectDefinitions>
+
+	<!--InventoryTest clothes-->
+    <gameobjectclass classid="men_human_female_legs_pants_01_long" baseclass="Armor">
+        <property name="name" type="STRING" data="Lederhose"/>
+        <property name="description" type="STRING" data="Eine lange Hose aus geschmeidigem Leder"/>
+        <property name="meshfile" type="STRING" data="men_human_female_legs_pants_01_long.mesh"/>
+        <property name="submeshfile" type="STRING" data="legs_pants_01_long.mesh"/>
+        <property name="imagename" type="STRING" data="set:ModelThumbnails image:Rucksack"/>
+        <property name="mass" type="REAL" data="3.0"/>
+        <property name="size" type="INTPAIR" data="2,3"/>
+        <property name="itemtype" type="INT" data="4096"/>
+        <property name="geometrytype" type="STRING" data="box"/>
+    </gameobjectclass>
+    
+    <gameobjectclass classid="men_human_female_cloth_short" baseclass="Clothing">
+        <property name="name" type="STRING" data="Ledergewand"/>
+        <property name="description" type="STRING" data="Blah, Ledergewand, dingsbums"/>
+        <property name="meshfile" type="STRING" data="obj_shortsleeve.mesh"/> <!-- the mesh for when the item is placed in the world -->
+		<property name="submeshfile" type="STRING" data="cloth_short.mesh"/> <!-- the mesh for when the item is worn by a creature -->
+        <property name="geometrytype" type="STRING" data="box"/>
+        <property name="material" type="STRING" data="arc_base"/>
+		<property name="itemtype" type="INT" data="32768"/> <!-- Clothes -->
+		<property name="size" type="INTPAIR" data="2,4"/>
+    </gameobjectclass>
+    
+    <gameobjectclass classid="men_human_female_feet_boots_01" baseclass="Armor">
+        <property name="name" type="STRING" data="Lederstiefel"/>
+        <property name="description" type="STRING" data="Hohe Stiefel aus weichem Leder"/>
+        <property name="meshfile" type="STRING" data="men_human_female_feet_boots_01.mesh"/>
+        <property name="submeshfile" type="STRING" data="feet_boots_01.mesh"/>
+        <property name="imagename" type="STRING" data="set:ModelThumbnails image:Rucksack"/>
+        <property name="mass" type="REAL" data="3.0"/>
+	<property name="size" type="INTPAIR" data="2,2"/>
+        <property name="itemtype" type="INT" data="16384"/>
+        <property name="geometrytype" type="STRING" data="box"/>
+    </gameobjectclass>
+	
+</GameObjectDefinitions>

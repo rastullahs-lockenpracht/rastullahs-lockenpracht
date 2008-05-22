@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<Imageset Name="ModelThumbnails" Imagefile="ModelThumbnails.png" NativeHorzRes="256" NativeVertRes="256" AutoScaled="false" >
+    <Image Name="item_unknown" XPos="1" YPos="55" Width="30" Height="30"/>
+    <Image Name="Trank" XPos="1" YPos="1" Width="30" Height="30" />
+	<Image Name="Handschuhe" XPos="26" YPos="1" Width="60" Height="60" />
+	<Image Name="Rucksack" XPos="94" YPos="1" Width="60" Height="60" />
+	<Image Name="Kroetenhaut" XPos="69" YPos="131" Width="90" Height="120" />
+	<Image Name="Armreif" XPos="1" YPos="55" Width="30" Height="30" />
+	<Image Name="Stiefel" XPos="30" YPos="62" Width="60" Height="60" />
+	<Image Name="Fellumhang" XPos="154" YPos="1" Width="60" Height="120" />
+	<Image Name="Rubinring" XPos="217" YPos="1" Width="30" Height="30" />
+	<Image Name="waf_kurzschwert_01" XPos="170" YPos="130" Width="30" Height="120" />
+	<Image Name="Kurzschwert" XPos="170" YPos="130" Width="30" Height="120" />
+    <Image Name="Fackel" XPos="218" YPos="31" Width="30" Height="90" />
+	<Image Name="Amboss" XPos="0" YPos="256" Width="120" Height="60" />
+</Imageset>

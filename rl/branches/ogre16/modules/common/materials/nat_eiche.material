@@ -1,0 +1,101 @@
+material eiche/ALPHA/nat_eichenast_gruen.dds
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			ambient 0.8 0.8 0.8
+			diffuse 0.3 0.3 0.3
+			alpha_rejection greater 190
+
+			texture_unit
+			{
+				texture nat_eichenast_gruen.dds
+				filtering linear linear linear 
+			}
+		}
+	}
+}
+
+material eiche/ALPHA/nat_eichenast_kahl.dds
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			ambient 0.8 0.8 0.8
+			diffuse 0.3 0.3 0.3
+			alpha_rejection greater 190
+
+			texture_unit
+			{
+				texture nat_eichenast_kahl.dds
+				filtering linear linear linear 
+			}
+		}
+	}
+}
+
+material eiche/SOLID/nat_eichenschnitt.dds
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.421036 0.396592 0.298817
+
+			texture_unit
+			{
+				texture nat_eichenschnitt.dds
+
+			}
+		}
+	}
+}
+
+material eiche/ALPHA/nat_eichenast_gelb.dds
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			ambient 0.8 0.8 0.8
+			diffuse 0.3 0.3 0.3
+			alpha_rejection greater 190
+
+			texture_unit
+			{
+				texture nat_eichenast_gelb.dds
+				filtering linear linear linear 
+			}
+		}
+	}
+}
+
+material eiche/SOLID/nat_rinde_eiche.dds
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.421036 0.396592 0.298817
+
+			texture_unit
+			{
+				texture nat_rinde_eiche.dds
+			}
+		}
+	}
+}
+

@@ -1,0 +1,5 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+	<Window Type="DefaultWindow" Name="OpenALConfig" >
+		<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
+	</Window>
+</GUILayout>

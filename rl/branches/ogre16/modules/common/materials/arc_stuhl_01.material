@@ -1,0 +1,6 @@
+
+material arc_stuhl_01: Basic_Vertex_Shader
+{
+set_texture_alias diffuse ver_moebel_03.dds
+
+}

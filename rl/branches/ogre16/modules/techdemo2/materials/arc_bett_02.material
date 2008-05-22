@@ -1,0 +1,18 @@
+
+material arc_bett_02
+{
+	technique
+	{
+		pass
+		{
+		ambient 0.409804 0.409804 0.409804 1
+			diffuse 0.431373 0.431373 0.431373 1
+			specular 0 0 0 1 10
+
+			texture_unit
+			{
+				texture arc_bett_02.dds
+			}
+		}
+	}
+}

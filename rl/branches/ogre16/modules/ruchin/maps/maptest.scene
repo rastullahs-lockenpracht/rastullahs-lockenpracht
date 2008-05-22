@@ -1,0 +1,155 @@
+<scene formatVersion="0.0" >
+	<nodes>
+		<node name="Ruchin_m" id="1" >
+			<position x="36.6777" y="2.04379" z="-51.148" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="Ruchin_m"
+				id="2"
+				meshFile ="Ruchin_m.mesh"
+				materialFile="maptest.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="Ruchdin_m" id="1" >
+			<position x="0.0" y="0.0" z="0.0" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="Ruchdfdfin_m"
+				id="2"
+				meshFile ="Stadtmauer.mesh"
+				materialFile="maptest.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		
+		<node name="Ruchin_l" id="3" >
+			<position x="65.2876" y="6.02141" z="-66.9458" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="Ruchin_l"
+				id="4"
+				meshFile ="Ruchin_l.mesh"
+				materialFile="maptest.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="Ruchin_p" id="5" >
+			<position x="29.5738" y="2.87219" z="-7.96628" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="Ruchin_p"
+				id="6"
+				meshFile ="Ruchin_p.mesh"
+				materialFile="maptest.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="Ruchin_s" id="7" >
+			<position x="-6.85993" y="0.405498" z="11.2053" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="Ruchin_s"
+				id="8"
+				meshFile ="Ruchin_s.mesh"
+				materialFile="maptest.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="Ruchin_map" id="9" >
+			<position x="68.5845" y="0.0" z="-47.3902" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="Ruchin_map"
+				id="10"
+				meshFile ="Ruchin_map.mesh"
+				materialFile="maptest.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="dome_sun" id="11" >
+			<position x="614.1" y="1980.49" z="-3609.07" />
+			<rotation qx="0.838383" qy="-0.00269342" qz="0.163517" qw="0.51997" />
+			<scale x="38.9469" y="38.9469" z="38.9469" />
+			<entity
+				name="dome_sun"
+				id="12"
+				meshFile ="dome_sun.mesh"
+				materialFile="maptest.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="dome_clouds_far" id="13" >
+			<position x="119.321" y="358.829" z="-87.2079" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.7353" y="1.7353" z="1.7353" />
+			<entity
+				name="dome_clouds_far"
+				id="14"
+				meshFile ="dome_clouds_far.mesh"
+				materialFile="maptest.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="dome_clouds_near" id="15" >
+			<position x="87.9637" y="196.696" z="-30.5118" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="5.08402" y="4.00516" z="4.00516" />
+			<entity
+				name="dome_clouds_near"
+				id="16"
+				meshFile ="dome_clouds_near.mesh"
+				materialFile="maptest.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="dome" id="17" >
+			<position x="170.899" y="-451.645" z="-112.896" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="3.14024" y="3.14024" z="3.14024" />
+			<entity
+				name="dome"
+				id="18"
+				meshFile ="dome.mesh"
+				materialFile="maptest.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+	</nodes>
+</scene>

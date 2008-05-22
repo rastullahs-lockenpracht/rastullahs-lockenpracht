@@ -1,0 +1,236 @@
+
+//DirectX 9.0 HLSL Vertex Shader vs_2_0
+vertex_program TerrainVColorBlending_Vertex_Shader hlsl
+{
+	source TerrainVColorBlending_Vertex_Shader.source
+	target vs_2_0
+	entry_point vs_main
+}
+
+//DirectX 9.0 HLSL Pixel Shader ps_2_0
+fragment_program TerrainVColorBlending_Pixel_Shader hlsl
+{
+	source TerrainVColorBlending_Pixel_Shader.source
+	target ps_2_0
+	entry_point ps_main
+}
+
+vertex_program TerrainVColorBlending_Vertex_Shader_glsl glsl
+{
+	source TerrainVColorBlending_Vertex_Shader_glsl.source
+}
+
+//DirectX 9.0 HLSL Pixel Shader ps_2_0
+fragment_program TerrainVColorBlending_Pixel_Shader_glsl glsl
+{
+	source TerrainVColorBlending_Pixel_Shader_glsl.source
+}
+
+
+material TerrainVColorBlending
+{
+receive_shadows on
+	technique glsl
+	{
+
+		pass
+		{
+			//DirectX 9.0 HLSL Pixel Shader ps_2_0
+			fragment_program_ref TerrainVColorBlending_Pixel_Shader_glsl
+			{
+				param_named Texture0 int 0
+				param_named Texture1 int 1
+				param_named Texture2 int 2
+				param_named Texture3 int 3
+				param_named Texture4 int 4
+				param_named Texture5 int 5
+				
+														// Alpha
+				param_named scale_Detail4 float 0.050000 
+
+			}
+			
+			
+			//DirectX 9.0 HLSL Vertex Shader vs_2_0
+			vertex_program_ref TerrainVColorBlending_Vertex_Shader_glsl
+			{
+				param_named_auto matViewProjection worldviewproj_matrix
+				
+				//Lights:
+				param_named_auto Light_Attenuation0 light_attenuation 0
+				param_named_auto Light_Attenuation1 light_attenuation 1
+				param_named_auto Light_Attenuation2 light_attenuation 2
+				
+				param_named_auto Light_Color0  light_diffuse_colour 0
+				param_named_auto Light_Color1  light_diffuse_colour 1
+				param_named_auto Light_Color2  light_diffuse_colour 2
+				
+				param_named_auto Light_Position0 light_position_object_space 0
+				param_named_auto Light_Position1 light_position_object_space 1
+				param_named_auto Light_Position2 light_position_object_space 2
+
+				param_named skycolor float4 0.2 0.2 0.2 1.0
+				param_named groundcolor float4 0.10 0.10 0.10 1.0
+				
+				
+															// Schwarz
+				param_named scale_Texture0 float 0.018000 
+				param_named scale_Detail0 float 0.020000
+															 // Rot
+				param_named scale_Texture1 float 0.007000
+				param_named scale_Detail1 float 0.020000
+															// Gruen
+				param_named scale_Texture2 float 0.008500 
+				param_named scale_Detail2 float 0.060000
+															// Blau
+				param_named scale_Texture3 float 0.008000 
+				param_named scale_Detail3 float 0.050000
+															// Alpha
+				param_named scale_Texture4 float 0.016000  
+														  // fuer scale_Detail4 siehe Oben (Pixelshader)
+								
+			}
+			
+			
+			
+			
+			
+			
+			
+			//Texture Schwarz
+			texture_unit
+			{
+				texture_alias black
+				texture nat_felsen_01.dds 2d
+			}
+			//Texture Rot
+			texture_unit
+			{
+				texture_alias red
+				texture nat_gras_01.dds 2d
+			}
+			//Texture Gruen
+			texture_unit
+			{
+				texture_alias green
+				texture nat_steingrund_01.dds 2d
+			}
+			//Texture Blau
+			texture_unit
+			{
+				texture_alias blue
+				texture nat_erdboden_01.dds 2d
+			}
+			//Texture Alpha
+			texture_unit
+			{
+				texture_alias alpha
+				texture Tiles.dds 2d
+			}
+			//Lightingmap
+			texture_unit
+			{
+				texture_alias Lightingmap
+				texture Lightingmap2.png 2d
+			}
+		}
+	}
+
+	technique hlsl
+	{
+
+		pass
+		{
+			//DirectX 9.0 HLSL Pixel Shader ps_2_0
+			fragment_program_ref TerrainVColorBlending_Pixel_Shader
+			{
+														// Alpha
+				param_named scale_Detail4 float 0.050000 
+
+			}
+			
+			
+			//DirectX 9.0 HLSL Vertex Shader vs_2_0
+			vertex_program_ref TerrainVColorBlending_Vertex_Shader
+			{
+				param_named_auto matViewProjection worldviewproj_matrix
+				//Lights:
+				param_named_auto Light_Attenuation0 light_attenuation 0
+				param_named_auto Light_Attenuation1 light_attenuation 1
+				param_named_auto Light_Attenuation2 light_attenuation 2
+				
+				param_named_auto Light_Color0  light_diffuse_colour 0
+				param_named_auto Light_Color1  light_diffuse_colour 1
+				param_named_auto Light_Color2  light_diffuse_colour 2
+				
+				param_named_auto Light_Position0 light_position_object_space 0
+				param_named_auto Light_Position1 light_position_object_space 1
+				param_named_auto Light_Position2 light_position_object_space 2
+
+				param_named skycolor float4 0.2 0.2 0.2 1.0
+				param_named groundcolor float4 0.10 0.10 0.10 1.0
+				
+				
+														// Schwarz		
+				param_named scale_Texture0 float 0.018000 
+				param_named scale_Detail0 float 0.020000
+														// Rot
+				param_named scale_Texture1 float 0.007000 
+				param_named scale_Detail1 float 0.020000
+														// Gruen
+				param_named scale_Texture2 float 0.008500 
+				param_named scale_Detail2 float 0.060000
+														// Blau
+				param_named scale_Texture3 float 0.008000 
+				param_named scale_Detail3 float 0.050000
+														// Alpha
+				param_named scale_Texture4 float 0.016000  
+														  // fuer scale_Detail4 siehe Oben (Pixelshader)
+								
+			}
+			
+			
+			
+			
+			
+			
+			
+			//Texture Schwarz
+			texture_unit
+			{
+				texture_alias black
+				texture nat_felsen_01.dds 2d
+			}
+			//Texture Rot
+			texture_unit
+			{
+				texture_alias red
+				texture nat_gras_01.dds 2d
+			}
+			//Texture Gruen
+			texture_unit
+			{
+				texture_alias green
+				texture nat_steingrund_01.dds 2d
+			}
+			//Texture Blau
+			texture_unit
+			{
+				texture_alias blue
+				texture nat_erdboden_01.dds 2d
+			}
+			//Texture Alpha
+			texture_unit
+			{
+				texture_alias alpha
+				texture Tiles.dds 2d
+			}
+			//Lightingmap
+			texture_unit
+			{
+				texture_alias Lightingmap
+				texture Lightingmap2.png 2d
+			}
+		}
+	}
+}

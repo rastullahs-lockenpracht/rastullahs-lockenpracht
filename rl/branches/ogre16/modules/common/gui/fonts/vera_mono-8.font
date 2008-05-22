@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<Font 
+    Name="Vera Mono-8" 
+    Filename="VeraMono.ttf" 
+    Type="FreeType" 
+    Size="8" 
+    NativeHorzRes="800" 
+    NativeVertRes="600" 
+    AutoScaled="false"
+/>

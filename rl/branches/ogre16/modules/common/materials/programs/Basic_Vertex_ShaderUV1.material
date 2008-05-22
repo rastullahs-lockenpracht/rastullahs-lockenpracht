@@ -1,0 +1,107 @@
+
+material Basic_Vertex_ShaderUV1
+{
+	technique glsl
+	{
+		//Rendering Pass: Pass 0 (pass index: #0 )
+		pass
+		{
+			alpha_rejection greater 128
+			//DirectX 9.0 HLSL Pixel Shader ps_2_0
+			fragment_program_ref Basic_Pixel_ShaderUV1_glsl
+			{
+				param_named baseMap int 0
+			}
+			//DirectX 9.0 HLSL Vertex Shader vs_2_0
+			vertex_program_ref Basic_Vertex_Shader_glsl
+			{
+				// param_named_auto
+
+				param_named_auto Light1_attenuation light_attenuation 0
+				param_named_auto Light1_color light_diffuse_colour 0
+				param_named_auto Light1_position light_position_object_space 0
+				param_named Light1_spec_power float 0.3
+				
+				param_named_auto Light2_attenuation light_attenuation 1
+				param_named_auto Light2_color light_diffuse_colour 1
+				param_named_auto Light2_position light_position_object_space 1
+				param_named Light2_spec_power float 0.3
+				
+				param_named_auto Light3_attenuation light_attenuation 2
+				param_named_auto Light3_color light_diffuse_colour 2
+				param_named_auto Light3_position light_position_object_space 2
+				param_named Light3_spec_power float 0.3
+				
+				
+				param_named_auto matViewProjection worldviewproj_matrix
+				param_named_auto vViewPosition camera_position_object_space
+				
+				
+				param_named skycolor float4 0.5 0.5 0.5 1.0
+				param_named groundcolor float4 0.10 0.10 0.10 1.0
+			}
+
+			texture_unit
+			{
+				texture_alias diffuse
+
+			}
+		}
+	}
+	technique hlsl
+	{
+		//Rendering Pass: Pass 0 (pass index: #0 )
+		pass
+		{
+			alpha_rejection greater 128
+			//DirectX 9.0 HLSL Pixel Shader ps_2_0
+			fragment_program_ref Basic_Pixel_ShaderUV1
+			{
+			}
+			//DirectX 9.0 HLSL Vertex Shader vs_2_0
+			vertex_program_ref Basic_Vertex_Shader
+			{
+				// param_named_auto
+
+				param_named_auto Light1_attenuation light_attenuation 0
+				param_named_auto Light1_color light_diffuse_colour 0
+				param_named_auto Light1_position light_position_object_space 0
+				param_named Light1_spec_power float 0.3
+				
+				param_named_auto Light2_attenuation light_attenuation 1
+				param_named_auto Light2_color light_diffuse_colour 1
+				param_named_auto Light2_position light_position_object_space 1
+				param_named Light2_spec_power float 0.3
+				
+				param_named_auto Light3_attenuation light_attenuation 2
+				param_named_auto Light3_color light_diffuse_colour 2
+				param_named_auto Light3_position light_position_object_space 2
+				param_named Light3_spec_power float 0.3
+				
+				
+				param_named_auto matViewProjection worldviewproj_matrix
+				param_named_auto vViewPosition camera_position_object_space
+				
+				
+				param_named skycolor float4 0.5 0.5 0.5 1.0
+				param_named groundcolor float4 0.10 0.10 0.10 1.0
+			}
+
+			texture_unit
+			{
+				texture_alias diffuse
+
+			}
+		}
+	}
+	technique
+	{
+        pass
+        {
+            texture_unit
+            {
+                texture_alias diffuse
+            }
+        }
+    }
+}

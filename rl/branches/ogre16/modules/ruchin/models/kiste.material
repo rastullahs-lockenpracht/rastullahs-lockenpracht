@@ -1,0 +1,6 @@
+
+material arc_kiste : Basic_Vertex_Shader
+{
+			set_texture_alias diffuse arc_kiste_diffuse.dds
+
+}

@@ -1,0 +1,18 @@
+
+material ver_becher_01
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			specular 0 0 0 1 10
+			emissive 0.294118 0.294118 0.294118 1
+
+			texture_unit
+			{
+				texture ver_becher_01.dds
+			}
+		}
+	}
+}

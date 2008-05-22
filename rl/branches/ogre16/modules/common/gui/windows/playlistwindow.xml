@@ -1,0 +1,40 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+  	<Window Type="RastullahLook/FrameWindow" Name="PlaylistSheet">
+  	    <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+  	    <Property Name="UnifiedSize" Value="{{0,600},{0,450}}"/>
+		<Property Name="SizingEnabled" Value="true"/>
+
+		<Window Type="DefaultGUISheet" Name="PlaylistSheet/ButtonSheet">
+			<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+	        <Property Name="UnifiedSize" Value="{{1,0},{0.5,0}}"/>
+			<Property Name="Text" Value="Buttons"/>
+
+			<Window Type="RastullahLook/Button" Name="PlaylistSheet/ButtonSheet/Play">
+			    <Property Name="UnifiedPosition" Value="{{0.01,0},{0,17}}"/>
+	            <Property Name="UnifiedSize" Value="{{0.1,0},{0,25}}"/>
+				<Property Name="Text" Value="Play"/>
+            	<Property Name="Font" Value="Vera Serif-14"/>
+			</Window>
+
+			<Window Type="RastullahLook/Button" Name="PlaylistSheet/ButtonSheet/Quit">
+			    <Property Name="UnifiedPosition" Value="{{0.09,0},{0,17}}"/>
+	            <Property Name="UnifiedSize" Value="{{0.1,0},{0,25}}"/>
+				<Property Name="Text" Value="Quit"/>
+            	<Property Name="Font" Value="Vera Serif-14"/>
+			</Window>
+		</Window>
+
+    	<Window Type="DefaultGUISheet" Name="PlaylistSheet/PlaylistSheet">
+			<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+	        <Property Name="UnifiedSize" Value="{{1.0,0},{1.0,0}}"/>
+			<Property Name="Text" Value="List" />
+
+			<Window Type="RastullahLook/MultiColumnList" Name="PlaylistSheet/PlaylistSheet/Table">
+				<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+	            <Property Name="UnifiedSize" Value="{{1.0,0},{1.0,0}}"/>
+			</Window>
+		</Window>
+	</Window>
+</GUILayout>
+
+

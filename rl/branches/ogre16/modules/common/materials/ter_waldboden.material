@@ -1,0 +1,171 @@
+// Name des Materials, muss mit dem in der mesh übereinstimmen
+material Material/SOLID/erdboden.dds
+{
+	receive_shadows on
+
+	// Alpha Blend
+	technique
+	{
+		lod_index 0
+		scheme tu6
+
+		// Basis Pass
+		pass
+		{
+			// Licht
+			ambient 0.7 0.7 0.7 1
+			diffuse 0.6 0.65 0.6 
+
+			texture_unit
+			{
+				// Die Erde ist unsere Basistextur, auf sie soll das Gras und Laub gelegt werden
+				texture erdboden02.dds
+				// Skalieren, je nach Textur und Terraingröße anpassen
+				scale 0.13 0.13
+				// Es wird nur die Farbe eingeblendet
+				//colour_op_ex source1 src_texture src_texture
+			}
+
+					// Die AlphaMap
+			texture_unit
+			{
+				// Die Textur
+				texture waldboden_alpha_laub.dds
+				// Wir benutzen das komplette Alpha dieser Textur
+				alpha_op_ex source1 src_texture src_texture
+				// Und die Farben des Basispasses
+				colour_op_ex source2 src_current src_current
+			}
+
+			// Die zweite Textur
+			texture_unit
+			{
+				texture laub01.dds
+				scale 0.25 0.25
+				// Wir blenden anhand des AlphaKanals die Textur dazu
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+
+			// Die AlphaMap
+			texture_unit
+			{
+				// Die Textur
+				texture waldboden_alpha_gras.dds
+				// Wir benutzen das komplette Alpha dieser Textur
+				alpha_op_ex source1 src_texture src_texture
+				// Und die Farben des Basispasses
+				colour_op_ex source2 src_current src_current
+			}
+
+			// Die zweite Textur
+			texture_unit
+			{
+				texture gras_01.dds
+				scale 0.15 0.15
+				// Wir blenden anhand des AlphaKanals die Textur dazu
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+		}
+	}
+
+	// Alpha Blend
+	technique
+	{
+		lod_index 0
+		scheme tu2
+
+		// Basis Pass
+		pass
+		{
+			// Kein Licht
+			lighting off
+
+			texture_unit
+			{
+				// Die Erde ist unsere Basistextur, auf sie soll das Gras und Laub gelegt werden
+				texture erdboden02.dds
+				// Skalieren, je nach Textur und Terraingröße anpassen
+				scale 0.13 0.13
+				// Es wird nur die Farbe eingeblendet
+				//colour_op_ex source1 src_texture src_texture
+			}
+		}
+
+		// Laubtextur Pass
+		pass
+		{
+			// Kein Licht
+			lighting off
+
+			// Dieser Pass wird über den ersten gelegt
+			scene_blend alpha_blend
+			// Dabei werden nur Pixel überschrieben, die an der selben Position liegen
+		        depth_func equal
+
+			
+			// Die AlphaMap
+			texture_unit
+			{
+				// Die Textur
+				texture waldboden_alpha_laub.dds
+				// Wir benutzen das komplette Alpha dieser Textur
+				alpha_op_ex source1 src_texture src_texture
+				// Und die Farben des Basispasses
+				colour_op_ex source2 src_texture src_texture
+			}
+
+			// Die zweite Textur
+			texture_unit
+			{
+				texture laub01.dds
+				scale 0.25 0.25
+				// Wir blenden anhand des AlphaKanals die Textur dazu
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+
+		// Grastextur Pass
+		pass
+		{
+			// Kein Licht
+			lighting off
+
+			// Dieser Pass wird über den ersten gelegt
+			scene_blend alpha_blend
+			// Dabei werden nur Pixel überschrieben, die an der selben Position liegen
+		        depth_func equal
+
+			
+			// Die AlphaMap
+			texture_unit
+			{
+				// Die Textur
+				texture waldboden_alpha_gras.dds
+				// Wir benutzen das komplette Alpha dieser Textur
+				alpha_op_ex source1 src_texture src_texture
+				// Und die Farben des Basispasses
+				colour_op_ex source2 src_texture src_texture
+			}
+
+			// Die zweite Textur
+			texture_unit
+			{
+				texture gras_01.dds
+				scale 0.15 0.15
+				// Wir blenden anhand des AlphaKanals die Textur dazu
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+
+		// Beleuchtung
+		pass
+		{
+			ambient 0.7 0.7 0.7 1
+			diffuse 0.6 0.65 0.6 
+			
+
+			depth_func equal
+			scene_blend zero src_colour
+		}
+	}
+}

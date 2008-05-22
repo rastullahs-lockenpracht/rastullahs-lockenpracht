@@ -1,0 +1,18 @@
+
+material towerplaceholder
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			specular 0 0 0 1 10
+
+			texture_unit
+			{
+				texture steinwand_01.dds
+				scale 100 100
+			}
+		}
+	}
+}

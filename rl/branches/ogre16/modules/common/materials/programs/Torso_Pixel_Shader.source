@@ -1,0 +1,23 @@
+sampler2D baseMap;
+sampler2D clothMap;
+
+struct PS_INPUT 
+{
+   float2 Texcoord : TEXCOORD0;
+   float2 Texcoord1: TEXCOORD1;
+   float2 Texcoord2: TEXCOORD2;
+   float4 Color    : TEXCOORD3;
+   float4 SubColor : TEXCOORD4;
+   
+};
+
+float4 ps_main( PS_INPUT Input ) : COLOR0
+{
+
+   float4 skin = tex2D( baseMap, Input.Texcoord )* float4(Input.SubColor.rgb,1);
+   float4 cloth = tex2D( clothMap, Input.Texcoord1 )* float4(Input.Color.rgb,1);
+   return float4(lerp(skin.rgb,cloth.rgb, cloth.a ),skin.a+cloth.a);
+}
+
+
+

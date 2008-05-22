@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
+ 
+<aiml  version="1.0.1"
+            xmlns="http://alicebot.org/2001/AIML"
+			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
+<!-- ================Begrüßung ================ -->
+	<category>
+	<pattern>1</pattern>
+	<template>
+		<condition type="default" name="wolframstuer_1">
+			<li value="">
+				<gossip rldialog:type="response">
+					<li rldialog:id="null.ogg" >The door is closed. But you hear something from behind the door. Some kind of quiet scraping and rustling sounds.</li>
+				</gossip>
+				<gossip rldialog:type="option">
+					<li rldialog:id="alrike010.ogg" rldialog:patternRef ="11">Hello? Someone there?</li>
+				</gossip>
+			</li>
+			<li value="1">
+				<srai>11</srai>
+			</li>
+		</condition>
+ 
+	</template>
+	</category>
+ 
+<!-- ================Hauptmenü ================ -->
+	<category>
+		<pattern>11</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<condition type="default" name="wolframstuer_1">
+					<li rldialog:id="5SekStille.ogg">No answer. But sounds stop suddenly.</li>
+					<li rldialog:id="null.ogg" value="1"></li>
+				</condition>
+			</gossip>
+			<gossip rldialog:type="option">
+				<condition type="default" name="wolframstuer_3"><li rldialog:id="alrike011.ogg" rldialog:patternRef ="2" value="">Open the door! This is the city guard of Wandleth, I want to ask you some questions.</li></condition>
+				<condition type="queststate" name="paket"><li rldialog:id="alrike012.ogg" value="ASSIGNED" rldialog:patternRef ="3">I got a package from Jarn for you!</li></condition> 
+				<li rldialog:id="null.ogg"><set type="default" name="wolframstuer_1" value="1"/>[Leave].</li>
+			</gossip>
+		</template>
+	</category>
+ 
+<!--  -->
+ 
+<!-- ================Die Tür will nicht reden ================ -->
+ 
+	<category>
+	<pattern>2</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="5SekStille.ogg">No answer. Obviously someone doesn't want to be interrupted in his work.</li>
+		</gossip>
+			<set type="questknown" name="wolfram" value="KNOWN"/>
+			<set type="queststate" name="wolfram" value="ASSIGNED"/>
+			<script language="ruby">RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( $tagebuchtexte['wolfram'][0], $tagebuchtexte['wolfram'][1] );</script> 
+			<set type="default" name="wolframstuer_3" value="1"/>
+			<srai>11</srai>
+	</template>
+	</category>
+ 
+<!-- ================Tür öffnen, Wolfram heraus treten lassen, Tür als Dialogpartner deaktivieren. ================ -->
+	<category>
+	<pattern>3</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="5SekStille.ogg">There are foot steps walking towards the door. The bolt gets unlocked.</li>
+		</gossip>
+			<set type="queststate" name="wolfram" value="SUCCEEDED"/>
+			<set type="questknown" name="wolfram" value="KNOWN"/>
+			<!-- Scripte ausführen, Dialog beenden. -->
+			<script language="ruby" src="wolframstuer_oeffnen.rb"/>
+			<srai>EXIT</srai> 
+	</template>
+	</category>
+ 
+<!-- ================Standardoptionen ================ -->
+	<category>
+	<pattern>EXIT</pattern> 
+	<template>
+		<system cmd="exit"/> 
+	</template>
+	</category>	
+</aiml>

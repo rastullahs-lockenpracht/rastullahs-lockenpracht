@@ -1,0 +1,16 @@
+
+material ver_vase_01
+{
+	technique
+	{
+		pass
+		{
+			
+
+			texture_unit
+			{
+				texture ver_vase_01.dds
+			}
+		}
+	}
+}

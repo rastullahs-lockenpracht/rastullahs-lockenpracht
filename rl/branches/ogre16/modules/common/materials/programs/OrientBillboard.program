@@ -1,0 +1,59 @@
+vertex_program OrientBillboardVS_HLSL hlsl
+{
+    source OrientBillboard.hlsl
+    entry_point main_vs
+    target vs_2_0
+
+    default_params
+    {
+        param_named_auto worldViewProj_matrix worldviewproj_matrix
+        param_named_auto camPos camera_position_object_space
+
+        param_named_auto lightPosition light_position_object_space 0
+
+        param_named_auto lightDiffuse light_diffuse_colour 0
+        param_named_auto ambientLight ambient_light_colour
+
+        param_named materialAmbient float4 0.7 0.7 0.7 1.0
+        param_named materialDiffuse float4 0.7 0.7 0.7 1.0
+    }
+
+}
+
+material billboard_lod
+{
+    receive_shadows off
+    technique hlsl
+    {
+	// scheme with_shaders
+
+        pass
+        {
+            alpha_rejection greater 128
+
+            vertex_program_ref OrientBillboardVS_HLSL
+            {
+            }
+
+            texture_unit diffuse_map
+            {
+		filtering linear linear linear  
+            }
+        }
+    }
+
+    technique fixed_function
+    {
+        pass
+        {
+            alpha_rejection greater 128
+
+            texture_unit diffuse_map
+            {
+	    filtering linear linear linear 
+            }
+        }
+    }
+}
+
+

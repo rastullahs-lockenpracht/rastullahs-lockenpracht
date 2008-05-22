@@ -1,0 +1,20 @@
+
+
+material nat_farn_02
+{
+	technique
+	{
+		pass
+		{
+			
+			//scene_blend alpha_blend 
+		        //depth_write off
+			alpha_rejection greater 215 
+			texture_unit
+			{
+				texture nat_farn_02.dds
+				filtering linear linear linear 
+			}
+		}
+	}
+}

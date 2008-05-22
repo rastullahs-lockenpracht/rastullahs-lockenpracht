@@ -1,0 +1,16 @@
+
+material ver_laterne_01
+{
+	technique
+	{
+		pass
+		{
+			
+
+			texture_unit
+			{
+				texture ver_laterne_01.dds
+			}
+		}
+	}
+}

@@ -1,0 +1,34 @@
+material nx.grid
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            
+            texture_unit
+            {
+                max_anisotropy 8
+                filtering anisotropic
+                texture nx.grid.floor.png
+            }
+        }
+    }
+}
+
+material nx.axis
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            scene_blend alpha_blend
+            
+            texture_unit
+            {
+                texture nx.grid.axis.png
+            }
+        }
+    }
+}

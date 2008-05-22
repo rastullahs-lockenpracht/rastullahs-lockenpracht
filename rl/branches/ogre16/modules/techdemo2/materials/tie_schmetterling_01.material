@@ -1,0 +1,16 @@
+
+material tie_schmetterling_01
+{
+	technique
+	{
+		pass
+		{
+			alpha_rejection greater 128
+
+			texture_unit
+			{
+				texture tie_schmetterling_01.dds
+			}
+		}
+	}
+}

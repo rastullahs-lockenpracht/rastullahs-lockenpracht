@@ -1,0 +1,55 @@
+material ALPHA/getreide.png : windy_grass
+{
+	lod_distances 50.0
+	receive_shadows off
+
+	technique hlsl
+	{
+		pass
+		{
+			vertex_program_ref WindyGrassVS_HLSL
+			{
+				param_named fMaxMovementFactor float 0.001
+			}
+			
+			alpha_rejection greater 215
+
+			texture_unit
+			{
+				filtering linear linear linear 
+				texture nat_getreide_01.dds
+			}
+		}
+	}
+
+	technique fixed_function
+	{
+		pass
+		{
+			alpha_rejection greater 215
+
+			texture_unit
+			{
+				filtering linear linear linear 
+				texture nat_getreide_01.dds
+			}
+		}
+	}
+
+	technique fixed_function_lod
+	{
+		lod_index 1 
+
+		pass
+		{
+			alpha_rejection greater 215
+
+			texture_unit
+			{
+				filtering linear linear linear 
+				texture nat_getreide_01.dds
+			}
+		}
+	}
+}
+

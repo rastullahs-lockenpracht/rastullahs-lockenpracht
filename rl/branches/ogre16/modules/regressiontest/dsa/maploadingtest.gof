@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<GameObjectDefinitions>
+
+    <gameobjectclass classid="builtin_go" baseclass="GameObject">
+        <property name="name" type="STRING" data="Built-in GameObject class"/>        
+        <property name="description" type="STRING" data="This is an instance of a built-in GameObject class"/>
+        <property name="meshfile" type="STRING" data="ver_holzscheit_01.mesh"/>
+    </gameobjectclass>
+
+    <gameobjectclass classid="custom_go" baseclass="GameObjectDerived">
+        <property name="name" type="STRING" data="Custom GameObject class"/>        
+        <property name="description" type="STRING" data="This is an instance of a customn GameObject class"/>
+        <property name="meshfile" type="STRING" data="arc_hebel_01.mesh"/>
+    </gameobjectclass>
+
+</GameObjectDefinitions>

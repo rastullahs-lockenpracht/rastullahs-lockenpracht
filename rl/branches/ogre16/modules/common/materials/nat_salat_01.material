@@ -1,0 +1,17 @@
+
+material nat_salat_01
+{
+	technique
+	{
+		pass
+		{
+			alpha_rejection greater 99
+
+			texture_unit
+			{
+				texture salat.dds
+				filtering linear linear linear 
+			}
+		}
+	}
+}

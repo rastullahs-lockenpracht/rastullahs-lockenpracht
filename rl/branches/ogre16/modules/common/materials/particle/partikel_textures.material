@@ -1,0 +1,61 @@
+material RL/flamme
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true none
+
+			texture_unit
+			{
+				texture flare.dds
+			}
+		}
+	}
+}
+
+
+material RL/Staubwolke
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend colour_blend
+			fog_override true none
+            
+
+			texture_unit
+			{
+                tex_address_mode clamp
+				texture rauch_part.dds
+			}
+		}
+	}
+}
+
+material RL/Sandsturm
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend alpha_blend
+			fog_override true none
+            alpha_rejection greater 20
+
+			texture_unit
+			{
+				texture sandsturm.dds
+				filtering point point point
+			}
+		}
+	}
+}

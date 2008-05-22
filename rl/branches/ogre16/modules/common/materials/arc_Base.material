@@ -1,0 +1,36 @@
+material arc_Base
+{
+receive_shadows off
+	technique
+	{
+ 
+		pass
+		{
+			ambient 0.4 0.4 0.4 1
+			//ambient 0.0 0.0 0.0 1
+			//ambient vertexcolour
+ 
+			specular 0 0 0 1 10
+			diffuse vertexcolour
+			//diffuse 0.9 0.9 0.9 
+			//emissive 0.105882 0.105882 0.105882 1
+			//emissive vertexcolour
+ 
+			depth_func less
+			shading phong
+
+			texture_unit
+			{
+				colour_op_ex subtract src_current src_manual 0.1 0.1 0.1
+			}
+ 
+			texture_unit
+			{
+				texture_alias DiffuseMap
+ 
+				colour_op_ex modulate_x2 src_texture src_current
+				colour_op_multipass_fallback dest_colour zero
+			}
+		}
+	}
+}

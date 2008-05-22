@@ -1,0 +1,6 @@
+material Statue_01 : Basic_Normalmapping_Spec
+{
+			set_texture_alias NormalMap Ingrimiane_normal.png
+			set_texture_alias DiffuseMap Ingrimiane_diffuse.png
+			set_texture_alias SpecMap Ingrimiane_spec.png
+}

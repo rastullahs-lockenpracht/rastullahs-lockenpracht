@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<dialog name="bauer">
+	<start>
+		<response id="1">
+			Hallo, Reisender. Mein Name ist Arnolf Großschädel. Was gibt es?
+			<option id="2">Oh Bauer, ich suche eine Bleibe für die Nacht. Aber ich habe kein Geld.
+				<if><queststate quest="spinne" property="known"/><equals value="false"/></if>
+				<response id="6">Ha! Da kann ja jeder kommen. Aber ich lasse dich erstmal herein.
+					<option id="22">Habt vielen Dank, Arnolf. Wie kann ich euch dies bezahlen?
+						<response id="12">
+							<p>Seit einiger Zeit treibt sich auf der anderen Seite des ausgetrockneten Flusses eine grosse Waldspinne herum.</p>
+							<p>Aber sie traut sich nicht hierher, vielleicht ist sie ängstlich. </p>
+							<p>Aber auch ich habe Angst. </p>
+							<p>Bringt die Spinne um und ich gebe euch ein Zimmer für die Nacht!</p>
+							<option id="222">Einverstanden, ich mache es. Das Ungetüm ist schon so gut wie in Borons Hallen.
+								<response id="13">
+									<p>Habt vielen Dank! Ich bin voller Zuversicht. </p>
+									<p>Ich habe auch noch eine kleine Belohnung, wenn ihr wiederkehrt.</p>
+									<option id="4">Das hört sich ja gut an! Also los... 
+										<response id="14">
+											<changequest quest="spinne" property="state" newvalue="ASSIGNED"/>
+											<changequest quest="spinne" property="known" newvalue="true"/>
+											<gotoresponse id="1"/>
+										</response>
+									</option>
+								</response>
+							</option>
+						</response>
+					</option>
+				</response>
+			</option>
+			<option id="5">Ich kann die Spinne nicht finden.
+				<if><queststate quest="spinne" property="state"/><equals value="ASSIGNED"/></if>
+  				<response id="15">Sucht sie auf der anderen Seite des ehemaligen Flusses. Geht über die Brücke und sucht das andere Ufer ab.
+					<option id="16">Ich bleibe dran und werde nicht ruhen!
+						<response id="17">
+							<exit/>
+						</response>
+					</option>
+				</response>
+    		</option>
+			<option id="7">Ich habe das Biest erwischt! Es liegt nun, alle Achte von sich gestreckt, im Gras und regt sich nicht mehr. Scheint ein schwaches Herz gehabt zu haben.
+				<if><queststate quest="spinne" property="state"/><equals value="COMPLETED"/></if>
+				Bei den Zwölfen, eine gute Nachricht! Ihr habt euch eure Unterkunft redlich verdient. 
+				<option id="55">War da nicht noch die Rede von einer zusätzlichen Belohnung...?
+					<response id="18">
+						<p>He he.. ja ja! Ihr sollt sie bekommen.</p> 
+						<p>Hört zu: In der Nähe, in den Bergen, gibt es eine verlassene Räuberhöhle. Dort sollen sich noch Schätze befinden.</p>
+						<p>Allerdings ist die Höhle von einem Steinschlag verschüttet worden. Ihr müsst sie irgendwie zugänglich machen.</p>
+						<p>Aber dort war seit Jahren niemand mehr, vielleicht lösen schon kleine Erschütterung die Felsen voneinander, wenn man weiß wo man treten muss, also denkt an meine Worte!</p>
+						<switchoption id="19">[Fragen, was es dort gibt und auf den eigenen Charme hoffen]
+       						<attributecheck attribute="CH" modifier="0"/>
+							<case><greatereq value="0"/>
+   	  							Würdet ihr mir vielleicht auch verraten was es dort gibt?
+								<response id="20">
+									<p>Doch, ich habe euch sofort ins Herz geschlossen.</p>
+									<p>Also hört: Dort soll es einen magischen Trank geben, der euch heilt. </p>
+									<p>So wie ihr ausseht, könnt ihr ihn sogar gebrauchen, also zögert nicht, wenn ihr ihn in den Händen haltet.</p>
+									<p>Ich hörte, dort gäbe es auch eine Fackel. Sehr nützlich für diese Höhlen.</p>
+									<p>Ob es sonst noch etwas gibt, weiß ich allerdings wirklich nicht.</p>
+									<option id="21">Danke, ich werde mich sofort auf den Weg machen. Wärmt schonmal das Essen an!
+										<response id="23">
+											<changequest quest="spinne" property="state" newvalue="COMPLETED"/>
+											<changequest quest="hoehleEingang" property="state" newvalue="ASSIGNED"/>
+											<changequest quest="hoehleEingang" property="known" newvalue="true"/>
+											<exit/>
+										</response>
+									</option>
+								</response>
+							</case>
+	  						<case><lower value="0"/>
+								Komm, für einen simplen Bauern wie dich muss ich doch schon als guter Freund gelten, sag mir schon was es dort gibt!
+								<response id="24">
+									<p>Ich würde euch wohl kaum schon als Freund bezeichnen, trotz allem.</p>
+									<p>Was ihr dort findet oder wie gefährlich es ist, das ist euer Problem. Nun geht.</p>
+									<option id="25">Unfreundlicher Kerl! Ich werde schon wiederkommen, keine Sorge. Auf bald!
+										<response id="26">
+											<changequest quest="spinne" property="state" newvalue="COMPLETED"/>
+											<changequest quest="hoehleEingang" property="state" newvalue="ASSIGNED"/>
+											<changequest quest="hoehleEingang" property="known" newvalue="true"/>
+											<exit/>
+										</response>
+									</option>
+								</response>
+							</case>
+						</switchoption>
+					</response>
+				</option>
+			</option>
+			<option id="8">Ich kann den Eingang zur Höhle nicht finden.
+				<if><queststate quest="hoehleEingang" property="state"/><equals value="ASSIGNED"/></if>
+				<response id="27">Sie ist in den Bergen. Gehe von mir aus gesehen nach links um den Aufgang zu finden. Wenn du den großen Baum siehst, bist du richtig.
+					<option id="28">Ich mache mich gleich auf den Weg!
+						<response id="29">
+							<exit/>
+						</response>
+					</option>
+				</response>
+			</option>
+			<option id="9">Ich habe noch nicht alle Gegenstände gefunden. Was kann ich da machen?
+				<if><queststate quest="hoehleZeug" property="state"/><equals value="ASSIGNED"/></if>
+				<response id="30">Hast du den Heiltrank, die Fackel und den Hebel mit der Tür gefunden? Gehe noch einmal zurück und komme wieder, wenn du alles gesehen hast.
+					<option id="31">Ich mache mich gleich auf den Weg!
+						<response id="32">
+							<exit/>
+						</response>
+					</option>
+				</response>
+			</option>
+			<option id="10">Ich war in der Höhle und habe alles entdeckt was es dort gab!
+				<if><queststate quest="hoehle" property="state"/><equals value="SUCCEEDED"/></if>
+				<response id="33">Sehr gut! Du hast alle Herausforderungen der Techdemo erfüllt. Schau dich jetzt ruhig noch etwas um. Betrachte den kreisenden Vogel am Himmel, suche nach Bugs und Fehlern und melde sie ans Team Pantheon. Viel Spaß!
+					<changequest quest="hoehle" property="state" newvalue="COMPLETED"/>
+					<option id="34">Das werde ich machen! Auf Wiedersehen!
+						<response id="35">
+							<exit/>
+						</response>
+					</option>
+				</response>
+			</option>
+			<option id="11">War das alles?
+				<if><queststate quest="hoehle" property="state"/><equals value="COMPLETED"/></if>
+				<response id="36">Das war alles. Du hast alle Herausforderungen der Techdemo erfüllt. Schau dich jetzt ruhig noch etwas um. Betrachte den kreisenden Vogel am Himmel, suche nach Bugs und Fehlern und melde sie ans Team Pantheon. Viel Spaß!
+					<option id="37">Das werde ich machen! Auf Wiedersehen!
+						<response id="38">
+							<exit/>
+						</response>
+					</option>
+				</response>
+			</option>
+			<option id="3">Warum ist denn alles so trist und leer in diesem Landstrich?
+				<response id="39">Dies ist nur eine Techdemo. Auf meinem Land möchte ich keine Schönheit! Ich möchte nur Funktionalität haben!
+					<option id="40">Ach so ist das. Na dann werd ich mich doch mal dem Pantheon-Team anschliessen und selbst helfen alles besser zu machen!
+						<response id="41">
+							<changequest quest="techdemoEverquest" property="state" newvalue="ASSIGNED"/>
+							<changequest quest="techdemoEverquest" property="known" newvalue="true"/>
+							<gotoresponse id="1"/>
+						</response>
+					</option>
+				</response>
+			</option>
+	       	<option id="42">Gerade nichts. Ich möchte noch etwas herumlaufen.
+				<response id="43">
+					<exit/>
+				</response>
+			</option>
+		</response>
+	</start>
+</dialog>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<XDIML lang="de" version="1.01">
+  <Inhalt>
+	<Waffen>
+	  <Waffengruppe ID="Werkzeuge und Gebrauchswaffen">
+	  
+	  </Waffengruppe>
+	  <Waffengruppe ID="Jagdwaffen">
+	  
+	  </Waffengruppe>
+	  <Waffengruppe ID="Waffen des leichten Fußvolkes">
+		<Waffe ID="Kurzschwert" Name="Kurzschwert" Beschreibung="Dieses Schwert ist etwas kürzer, als ein herkömmliches Schwert und liegt dafür leichter in der Hand. Dieses einfache Schwert ist weit verbreitet in Aventurien.">
+		  <Bildname>Kurzschwert</Bildname>
+		  <Mesh>waf_kurzschwert_01.mesh</Mesh>
+		  <Groesse X="1" Y="3" />
+		  <Platz X="0" Y="0" />
+		  <TP W6="1" W20="0" Boni="2" />
+		  <TpKk Tp="11" Kk="4" />
+		  <Bf>3</Bf>
+		  <Ini>-1</Ini>
+		  <Dk>DK_N</Dk>
+		  <Talent>Schwerter</Talent>
+		  <Gewicht>40</Gewicht>
+		  <Laenge>50</Laenge>
+		  <WM Attacke = "0" Parade="-1" />
+		  <Preis>80</Preis>
+		</Waffe>
+	  </Waffengruppe>
+
+	  <Waffengruppe ID="Improvisierte Waffen">
+	    <Waffe ID="Fackel" Name="Fackel" Beschreibung="Diese einfache Fackel besteht aus einem Stück Holz mit einem in Tierfett getünktem Tuch um das Ende gewickelt. Mit einem Stück Zunder kann ein geschickter Held die Fackel schnell entzünden, damit er mit ihr die Umgebung ausleuchten kann. Man hört manchmal von Fällen in denen eine Fackel als Waffe gegen Untote eingesetzt wurde, allerdings ist die Tauglichkeit zu diesem Zweck fraglich.">
+		  <Bildname>Fackel</Bildname>
+		  <Mesh>ins_fackel_01.mesh</Mesh>
+		  <Groesse X="1" Y="3" />
+		  <Platz X="0" Y="0" />
+		  <TP W6="1" W20="0" Boni="-1" />
+		  <TpKk Tp="11" Kk="4" />
+		  <Bf>6</Bf>
+		  <Ini>0</Ini>
+		  <Dk>DK_N</Dk>
+		  <Talent>Hiebwaffen</Talent>
+		  
+		  <Gewicht>30</Gewicht>
+		  <Laenge>50</Laenge>
+		  <WM Attacke = "-1" Parade="-2" />
+		  <Preis>2</Preis>
+		</Waffe>		
+	  </Waffengruppe>
+	  
+	</Waffen>
+	<Ruestungen>
+	  <Ruestungsgruppe ID="Kleidung">
+   	    <Ruestung ID="Fellumhang" Name="Fellumhang" Beschreibung="Dieser Fellumhang wurde aus dem Fell eines weißen Wolfes gefertigt und ist nicht nur warm und schützt den Rücken vor dumpfen Schlägen, sondern hat auch den markanten Geruch eines toten Wolfes an sich. Die Nivesen tragen diese Fellumhänge besonders gerne.">
+		  <Bildname>Fellumhang</Bildname>
+		  <Mesh></Mesh>
+		  <Klasse>Umhang</Klasse>
+		  <Groesse X="2" Y="4" />
+		  <Platz X="0" Y="0" />
+		  <Ko>0</Ko>
+		  <Br>1</Br>
+		  <Rue>2</Rue>
+		  <Ba>0</Ba>
+		  <LA>1</LA>
+		  <RA>1</RA>
+		  <LB>1</LB>
+		  <RB>1</RB>
+		  <Ges.>1</Ges.>
+		  <gRs>1</gRs>
+		  <gBe>0</gBe>
+		  <Gewicht>3</Gewicht>
+		  <Preis>35</Preis>
+		</Ruestung>
+	  </Ruestungsgruppe>
+	  <Ruestungsgruppe ID="Tuch, Filz und Fellrüstungen">
+	  </Ruestungsgruppe>
+	  <Ruestungsgruppe ID="Lederrüstungen">
+	    <Ruestung ID="Krötenhaut" Name="Krötenhaut" Beschreibung="Die Krötenhaut ist eine grobe Lederweste, die dicht mit Nieten bedeckt ist und ihre Verbreitung vor allem in Thorwal findet. Die Nordleute neigen außerdem dazu, die Krötenhaut auf dem Rücken mit Bildern von Drachenschiffen, abgehackten Köpfen und anderen Bildern zu schmücken.">
+		  <Bildname>Kroetenhaut</Bildname>
+		  <Mesh></Mesh>
+		  <Groesse X="3" Y="4" />
+		  <Platz X="1" Y="3" />
+		  <Klasse>Ruestung</Klasse>
+		  <Ko>0</Ko>
+		  <Br>3</Br>
+		  <Rue>2</Rue>
+		  <Ba>2</Ba>
+		  <LA>1</LA>
+		  <RA>1</RA>
+		  <LB>1</LB>
+		  <RB>1</RB>
+		  <Ges.>2</Ges.>
+		  <gRs>3</gRs>
+		  <gBe>2</gBe>
+		  <Gewicht>4</Gewicht>
+		  <Preis>60</Preis>
+		</Ruestung>
+		
+		<Ruestung ID="Lederstiefel" Name="Lederstiefel" Beschreibung="Dieses Paar Stiefel ist aus echtem maraskanischem Büffelleder gefertig worden. Maraskanische Büffel sind über ganz Aventurien für ihr geschmeidiges Leder bekannt. Selbstverständlich sind diese Stiefel vollkommen wasserdicht.">
+		  <Bildname>Stiefel</Bildname>
+		  <Mesh></Mesh>
+		  <Groesse X="2" Y="2" />
+		  <Platz X="0" Y="0" />
+		  <Klasse>Stiefel</Klasse>
+		  <Ko>0</Ko>
+		  <Br>0</Br>
+		  <Rue>0</Rue>
+		  <Ba>0</Ba>
+		  <LA>0</LA>
+		  <RA>0</RA>
+		  <LB>2</LB>
+		  <RB>2</RB>
+		  <Ges.>0</Ges.>
+		  <gRs>0</gRs>
+		  <gBe>0</gBe>
+		  <Gewicht>1</Gewicht>
+		  <Preis>30</Preis>
+		</Ruestung>
+		
+		<Ruestung ID="Lederhandschuhe" Name="Lederhandschuhe" Beschreibung="Dieses Paar Handschuhe ist aus echtem maraskanischem Büffelleder gefertig worden. Maraskanische Büffel sind über ganz Aventurien für ihr geschmeidiges Leder bekannt. Eine selbstbewusste Heldin würde zu diesen Handschuhen nur die passenden Stiefel tragen.">
+		  <Bildname>Handschuhe</Bildname>
+		  <Mesh></Mesh>
+		  <Groesse X="2" Y="2" />
+		  <Platz X="0" Y="0" />
+		  <Klasse>Handschuhe</Klasse>
+		  <Ko>0</Ko>
+		  <Br>0</Br>
+		  <Rue>0</Rue>
+		  <Ba>0</Ba>
+		  <LA>1</LA>
+		  <RA>1</RA>
+		  <LB>0</LB>
+		  <RB>0</RB>
+		  <Ges.>0</Ges.>
+		  <gRs>0</gRs>
+		  <gBe>0</gBe>
+		  <Gewicht>1</Gewicht>
+		  <Preis>30</Preis>
+		</Ruestung>
+	  </Ruestungsgruppe>
+	  <Ruestungsgruppe ID="Exotische">
+	  </Ruestungsgruppe>
+	  <Ruestungsgruppe ID="Ketten und Schuppenrüstungen">
+	  </Ruestungsgruppe>
+	
+	</Ruestungen>
+	
+	<Gegenstaende>
+	  <Gegenstandsgruppe ID="Schmuck">
+	    <Gegenstand ID="Rubinring" Name="Rubinring" Beschreibung="Dieser Ring ist ganz fein ziseliert und trägt einen besonders edlen facettenreichen Rubin. Dieser schimmert blutrot.">
+		  <Bildname>Rubinring</Bildname>
+		  <Mesh></Mesh>
+		  <Groesse X="1" Y="1" />
+		  <Platz X="0" Y="0" />
+		  <Klasse>Ring</Klasse>
+		  <Gewicht>5</Gewicht>
+		  <Preis>130</Preis>
+		</Gegenstand>
+		<Gegenstand ID="Perlenarmreif" Name="Perlenarmreif" Beschreibung="Es gibt wenige Menschen auf Aventurien, die einen solch kostbaren Armreif besitzen. Die Perlen stammen aus dem Perlenmeer und sind an Reinheit kaum zu übertreffen. Man sagt dieser Art von Armreifen nach, dass sie den Träger besonders anziehend machen.">
+		  <Bildname>Armreif</Bildname>
+		  <Mesh></Mesh>
+		  <Groesse X="1" Y="1" />
+		  <Platz X="0" Y="0" />
+		  <Klasse>Armreif</Klasse>
+		  <Gewicht>10</Gewicht>
+		  <Preis>210</Preis>
+		</Gegenstand>
+	  </Gegenstandsgruppe>
+	  <Gegenstandsgruppe ID="Ausrüstung">
+		<Gegenstand ID="Rucksack" Name="Rucksack" Beschreibung="Dieser Rucksack ist mit vielen praktischen Taschen und Schlaufen versehen, daher bietet er die Möglichkeit auch sperrigere Gegenstände zu transportieren, in dem diese einfach angeschnallt werden. Ein Rucksack gehört zu der Grundausrüstung eines Abenteurers. Legenden erzählen aber auch von besonders mutigen Abenteurern, die allein mit einfachen Werkzeugen wie Messer und Handbeil ausgerüstet, der Wildnis und den Gefahren Aventuriens getrotzt haben.">
+		  <Bildname>Rucksack</Bildname>
+		  <Mesh></Mesh>
+		  <Groesse X="2" Y="2" />
+		  <Platz X="12" Y="6" />
+		  <Klasse>Rucksack</Klasse>
+		  <Gewicht>20</Gewicht>
+		  <Preis>50</Preis>
+		</Gegenstand>
+	  </Gegenstandsgruppe>
+	  <Gegenstandsgruppe ID="Tränke">
+		<Gegenstand ID="Heiltrank" Name="Heiltrank" Beschreibung="In diesem Fläschchen ist eine auffallend grüne, trübe Flüssigkeit. Als Ihr daran gerochen habt, hat Euch der beißende Duft von Kräutern fast die Tränen in die Augen getrieben. 'Wer gesund werden will, muss leiden', heißt ein Sprichwort in Aventurien.">
+		  <Bildname>Trank</Bildname>
+		  <Mesh></Mesh>
+		  <Groesse X="1" Y="1" />
+		  <Platz X="0" Y="0" />
+		  <Klasse>Anderes</Klasse>
+		  <Gewicht>5</Gewicht>
+		  <Preis>20</Preis>
+		</Gegenstand>
+	  </Gegenstandsgruppe>
+	  <Gegenstandsgruppe ID="Werkzeug">
+		<Gegenstand ID="Amboss" Name="Amboss" Beschreibung="Dieser aus Eisenerz in einem Stück gegossener Amboss ist ziemlich schwer.">
+		  <Bildname>Amboss</Bildname>
+		  <Mesh></Mesh>
+		  <Groesse X="4" Y="2" />
+		  <Platz X="0" Y="0" />
+		  <Klasse>Anderes</Klasse>
+		  <Gewicht>1100</Gewicht>
+		  <Preis>120</Preis>
+		</Gegenstand>
+	  </Gegenstandsgruppe>
+	</Gegenstaende>
+  </Inhalt>
+</XDIML>

@@ -1,0 +1,7 @@
+<scene formatVersion="0.4.0" scenescript="setchar.rb">
+    <nodes>
+        <gameobject class="mckhero" id="10" state="IN_SCENE">
+            <position x="2" y="0.0" z="0"/>
+        </gameobject>
+    </nodes>
+</scene>

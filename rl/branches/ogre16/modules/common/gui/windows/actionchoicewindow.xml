@@ -1,0 +1,24 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+	<Window Type="DefaultGUISheet" Name="ActionChoiceWindow">
+        <Property Name="UnifiedPosition" Value="{{0.05,0},{0.05,0}}"/>
+        <Property Name="UnifiedSize" Value="{{0.9,0},{0.9,0}}"/>
+		
+		<Window Type="DefaultGUISheet" Name="ActionChoiceWindow/Buttons">
+            <Property Name="UnifiedPosition" Value="{{0.05,0},{0.15,0}}"/>
+            <Property Name="UnifiedSize" Value="{{0.9,0},{0.8,0}}"/>
+		</Window>
+		
+		<Window Type="RastullahLook/MultiLineEditbox" Name="ActionChoiceWindow/HintBackground">
+            <Property Name="UnifiedPosition" Value="{{0.05,0},{0.05,0}}"/>
+            <Property Name="UnifiedSize" Value="{{0.9,0},{0.1,0}}"/>
+		</Window>
+        <Window Type="RastullahLook/StaticText" Name="ActionChoiceWindow/Hint">
+            <Property Name="UnifiedPosition" Value="{{0.05,0},{0.05,0}}"/>
+            <Property Name="UnifiedSize" Value="{{0.9,0},{0.1,0}}"/>
+            <Property Name="FrameEnabled" Value="False" />
+            <Property Name="BackgroundEnabled" Value="False" />
+            <Property Name="TextColours" Value="00000000" />
+			<Property Name="HorzFormatting" Value="WordWrapCentred" />
+		</Window>
+	</Window>
+</GUILayout>

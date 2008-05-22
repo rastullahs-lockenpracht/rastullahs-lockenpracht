@@ -1,0 +1,37 @@
+uniform sampler Texture0;
+uniform sampler Texture1;
+uniform sampler Texture2;
+uniform sampler Texture3;
+uniform sampler Texture4;
+uniform sampler Texture5;
+
+uniform float scale_Detail4;
+
+float4 ps_main(float4 Color: COLOR0,
+               float4 UV0 : TEXCOORD0,
+               float4 UV1 : TEXCOORD1,
+               float4 UV2 : TEXCOORD2,
+               float4 UV3 : TEXCOORD3,
+               float4 UV4 : TEXCOORD4,
+               float4 Light:TEXCOORD5) : COLOR0
+{   
+   
+///*   
+
+	float4 ambient = saturate(tex2D(Texture5,UV4.zw)/1.5 +0.3);
+   
+   float4 TexColor = float4(tex2D(Texture0,UV0.xy).rgb,tex2D(Texture0,UV0.zw).a);
+   TexColor = lerp(TexColor,float4(tex2D(Texture1,UV1.xy).rgb,tex2D(Texture1,UV1.zw).a),Color.r);
+   TexColor = lerp(TexColor,float4(tex2D(Texture2,UV2.xy).rgb,tex2D(Texture2,UV2.zw).a),Color.g);
+   TexColor = lerp(TexColor,float4(tex2D(Texture3,UV3.xy).rgb,tex2D(Texture3,UV3.zw).a),Color.b);
+   TexColor = lerp(float4(tex2D(Texture4,UV4.xy).rgb,tex2D(Texture4,UV4.zw * scale_Detail4).a),TexColor,Color.a);
+   
+   
+	//return Light;
+  return TexColor * (TexColor.a+ 0.2) * (Light + ambient) ;
+  //return float4(Color.aaaa);
+
+}
+
+
+

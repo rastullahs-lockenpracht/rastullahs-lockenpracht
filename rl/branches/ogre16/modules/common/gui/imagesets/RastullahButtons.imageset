@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<Imageset Name="RastullahButtons" Imagefile="RastullahButtons.png" AutoScaled="false" >
+    <Image Name="Buttons/Default" XPos="0" YPos="0" Width="37" Height="37" />
+    <Image Name="Buttons/Quit" XPos="37" YPos="0" Width="37" Height="37" /> 
+    <Image Name="Buttons/Cancel" XPos="74" YPos="0" Width="37" Height="37" /> 
+    <Image Name="Buttons/OK" XPos="148" YPos="0" Width="37" Height="37" /> 
+    <Image Name="Buttons/OpenDoor" XPos="185" YPos="0" Width="37" Height="37" />
+    <Image Name="Buttons/CloseDoor" XPos="222" YPos="0" Width="37" Height="37" />
+    <Image Name="Buttons/Talk" XPos="259" YPos="0" Width="37" Height="37" />
+    <Image Name="Buttons/ViewObject" XPos="333" YPos="0" Width="37" Height="37" />
+    <Image Name="Buttons/Attack" XPos="370" YPos="0" Width="37" Height="37" />
+    <Image Name="Buttons/Parry" XPos="407" YPos="0" Width="37" Height="37" />
+</Imageset>

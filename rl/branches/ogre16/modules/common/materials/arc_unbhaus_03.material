@@ -1,0 +1,93 @@
+material arc_unbhaus_3/stonewall
+{
+    technique
+    {
+        pass
+        {
+            
+            texture_unit
+            {
+                texture wand_mauer_innen.dds 
+            }
+        }
+    }
+}
+
+material arc_unbhaus_3/hausbalken
+{
+    technique
+    {
+        pass
+        {
+            
+            texture_unit
+            {
+                texture arc_balken.dds 
+            }
+        }
+    }
+}
+
+material arc_unbhaus_3/husstuffhaus
+{
+    technique
+    {
+        pass
+        {
+            
+            texture_unit
+            {
+                texture arc_hausstuff_01.dds 
+            }
+        }
+    }
+}
+
+material arc_unbhaus_3/lehm
+{
+    technique
+    {
+        pass
+        {
+            
+            texture_unit
+            {
+                texture arc_lehmwand_01.dds 
+            }
+        }
+    }
+}
+
+material arc_unbhaus_3/dach
+{
+    technique
+    {
+        pass
+        {
+            
+            texture_unit
+            {
+                texture arc_dach01.dds 
+            }
+        }
+    }
+}
+
+material arc_unbhaus_3/dirty
+{
+    technique
+    {
+        pass
+        {
+            // Überblenden aktiviert
+      scene_blend alpha_blend 
+      // Tiefenpuffer aus
+      depth_write off
+            texture_unit
+            {
+                texture arc_dirt_01.dds 
+            }
+        }
+    }
+}
+

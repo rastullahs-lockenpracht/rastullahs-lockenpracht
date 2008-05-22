@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
+
+<aiml  version="1.0.1"
+            xmlns="http://alicebot.org/2001/AIML"
+			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
+<!-- ================Alles Druiden zerschnetzeln durch das unglaubliche SteinScherePapier üäö================ -->
+	<category>
+		<pattern>1</pattern>
+		<template>
+			<condition type="default" name="druide_1">
+				<li value="">
+					<gossip rldialog:type="response">
+						<li></li>
+					</gossip>
+					<gossip rldialog:type="option">
+						<li rldialog:id="alrike008.ogg" rldialog:patternRef ="11">The game is over. Surrender or die!</li>
+					</gossip>
+				</li>
+				<li value="1">
+					<gossip rldialog:type="response">
+						<li>[Tot]</li>
+					</gossip>
+					<system cmd="exit"/>
+				</li>
+			</condition>
+		</template>
+	</category>
+
+	 <category>
+	<pattern>11</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="altermann002.ogg">[Insane giggling]! Yes ...No! Your villagers tried to cheat me long enough! I am sick and tired ! Enough!</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="null.ogg" rldialog:patternRef ="111">[Fight]</li> 
+		</gossip>
+	</template>
+	</category>
+
+	<category>
+	<pattern>111</pattern>
+	<template>
+		<gossip rldialog:type="response">
+				<li rldialog:id="altermann003.ogg">[Insane laughter]We'll see! [Stone... Scisor... Paper?]</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:patternRef ="1111">[Stone]</li>
+			<li rldialog:patternRef ="1111">[Scisor]</li>
+			<li rldialog:patternRef ="1111">[Paper]</li>
+		</gossip>
+	</template>
+	</category>
+
+
+	<category>
+	<pattern>1111</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li>[Fulminant death-scene]</li>
+		</gossip>
+
+		<set type="default" name="druide_1" value="1"/>
+		<set type="queststate" name="hauptquest51" value="SUCCEEDED"/>
+		<script language="ruby" src="druidentod.rb"/>
+		<system cmd="exit"/>
+	</template>
+	</category>
+
+
+
+<!-- ================Standardoptionen ================ -->
+	<category>
+	<pattern>EXIT</pattern> 
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="altermann004.ogg">[You can`t escape !][Insane laughter]</li>
+		</gossip>
+		<srai>1</srai>
+	</template>
+	</category>	
+
+
+</aiml>

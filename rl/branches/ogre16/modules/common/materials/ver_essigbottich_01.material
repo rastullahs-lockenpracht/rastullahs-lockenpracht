@@ -1,0 +1,16 @@
+
+material ver_essigbottich_01
+{
+	technique
+	{
+		pass
+		{
+		
+
+			texture_unit
+			{
+				texture ver_essigbottich_01.dds
+			}
+		}
+	}
+}

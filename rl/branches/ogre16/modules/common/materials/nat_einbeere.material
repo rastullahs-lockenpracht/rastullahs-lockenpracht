@@ -1,0 +1,19 @@
+material einbeere
+{
+    technique
+    {
+        pass
+        {
+            ambient 0.588 0.588 0.588
+            diffuse 0.588 0.588 0.588
+            specular 0.0 0.0 0.0 0.0
+            emissive 0.0 0.0 0.0
+			alpha_rejection greater 120
+            texture_unit
+            {
+                texture nat_einbeere.dds	
+		filtering linear linear linear 
+            }
+        }
+    }
+}

@@ -1,0 +1,20 @@
+
+material nat_farn_01
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.360784 0.360784 0.360784 1
+			diffuse 0.376471 0.376471 0.376471 1
+			specular 0 0 0 1 1
+			alpha_rejection greater 128
+
+			texture_unit
+			{
+				texture farn1.dds
+				filtering linear linear linear 
+			}
+		}
+	}
+}

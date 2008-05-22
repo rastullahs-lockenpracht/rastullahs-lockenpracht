@@ -1,0 +1,32 @@
+
+material men_sonja/base
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture men_sonja.dds
+			}
+		}
+	}
+}
+material men_sonja/alpha
+{
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+cull_hardware none
+depth_write off
+			texture_unit
+			{
+				texture men_sonja.dds
+				
+			}
+		}
+	}
+}

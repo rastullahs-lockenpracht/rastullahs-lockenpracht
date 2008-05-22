@@ -1,0 +1,47 @@
+
+//
+// Global variable definitions
+//
+
+uniform sampler2D Texture0;
+uniform sampler2D Texture1;
+uniform sampler2D Texture2;
+uniform sampler2D Texture3;
+uniform sampler2D Texture4;
+uniform sampler2D Texture5;
+uniform float scale_Detail4;
+
+//
+// Function declarations
+//
+
+vec4 ps_main( in vec4 Color, in vec4 UV0, in vec4 UV1, in vec4 UV2, in vec4 UV3, in vec4 UV4, in vec4 Light );
+
+//
+// Function definitions
+//
+
+vec4 ps_main( in vec4 Color, in vec4 UV0, in vec4 UV1, in vec4 UV2, in vec4 UV3, in vec4 UV4, in vec4 Light ) {
+    vec4 TexColor;
+
+    TexColor = vec4( texture2D( Texture0, UV0.xy ).xyz , texture2D( Texture0, UV0.zw ).w );
+    TexColor = mix( TexColor, vec4( texture2D( Texture1, UV1.xy ).xyz , texture2D( Texture1, UV1.zw ).w ), vec4( Color.x ));
+    TexColor = mix( TexColor, vec4( texture2D( Texture2, UV2.xy ).xyz , texture2D( Texture2, UV2.zw ).w ), vec4( Color.y ));
+    TexColor = mix( TexColor, vec4( texture2D( Texture3, UV3.xy ).xyz , texture2D( Texture3, UV3.zw ).w ), vec4( Color.z ));
+    TexColor = mix( vec4( texture2D( Texture4, UV4.xy ).xyz , texture2D( Texture4, (UV4.zw  * scale_Detail4)).w ), TexColor, vec4( Color.w ));
+    return ((TexColor * (TexColor.w  + 0.200000)) * ((texture2D( Texture5, UV4.zw )) + Light));
+}
+
+
+//
+// Translator's entry point
+//
+void main() {
+    vec4 xlat_retVal;
+
+    xlat_retVal = ps_main( vec4(gl_Color), vec4(gl_TexCoord[0]), vec4(gl_TexCoord[1]), vec4(gl_TexCoord[2]), vec4(gl_TexCoord[3]), vec4(gl_TexCoord[4]), vec4(gl_SecondaryColor));
+
+    gl_FragData[0] = vec4( xlat_retVal);
+}
+
+

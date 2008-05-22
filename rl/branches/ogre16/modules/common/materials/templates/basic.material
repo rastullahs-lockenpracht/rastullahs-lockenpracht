@@ -1,0 +1,17 @@
+material one_texture_default_light
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.6 0.6 0.6 1.0
+			diffuse 0.6 0.6 0.6 1.0
+
+			texture_unit
+			{
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+

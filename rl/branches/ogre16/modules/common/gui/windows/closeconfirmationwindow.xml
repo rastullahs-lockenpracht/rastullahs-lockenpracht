@@ -1,0 +1,30 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="RastullahLook/FrameWindow" Name="CloseConfirmationWindow">
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+        <Property Name="UnifiedSize" Value="{{0,400},{0,171}}"/>
+		<Property Name="Text" Value="Rastullahs Lockenpracht beenden"/>
+
+		<Window Type="RastullahLook/StaticText" Name="CloseConfirmationWindow/Text">
+            <Property Name="UnifiedPosition" Value="{{0,15},{0,26}}"/>
+            <Property Name="UnifiedSize" Value="{{0,370},{0,50}}"/>
+			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="Text" Value="Soll Rastullahs Lockenpracht wirklich beendet werden?" />
+            <Property Name="HorzFormatting" Value="WordWrapCentred" />
+		</Window>
+
+		<Window Type="RastullahLook/Button" Name="CloseConfirmationWindow/YesButton">
+            <Property Name="UnifiedPosition" Value="{{0,50},{0,125}}"/>
+            <Property Name="UnifiedSize" Value="{{0,125},{0,28}}"/>
+			<Property Name="Font" Value="Vera Serif-10"/>
+			<Property Name="Text" Value="Ja"/>
+		</Window>
+
+		<Window Type="RastullahLook/Button" Name="CloseConfirmationWindow/NoButton">
+            <Property Name="UnifiedPosition" Value="{{0,225},{0,125}}"/>
+            <Property Name="UnifiedSize" Value="{{0,125},{0,28}}"/>
+			<Property Name="Font" Value="Vera Serif-10"/>
+			<Property Name="Text" Value="Nein"/>
+		</Window>
+    </Window>
+</GUILayout>
+

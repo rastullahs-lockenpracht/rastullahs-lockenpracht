@@ -1,0 +1,31 @@
+material steinpilze/SOLID/steinpilz.dds
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture nat_steinpilz.dds
+			}
+		}
+	}
+}
+
+material steinpilze/ALPHA/steinpilz.dds
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+		    cull_software none
+
+			texture_unit
+			{
+				texture nat_steinpilz.dds
+		}
+		}
+	}
+}

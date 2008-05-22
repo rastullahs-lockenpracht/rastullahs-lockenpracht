@@ -1,0 +1,22 @@
+material nat_grasplanes
+{
+	receive_shadows off
+
+	technique
+	{
+		pass
+		{
+			ambient 0.835294 0.835294 0.835294 1
+			diffuse 0.731373 0.731373 0.731373 1
+			specular 0 0 0 1 1
+		
+			alpha_rejection greater 100
+
+			texture_unit
+			{
+				texture gras_planes.dds
+				filtering linear linear linear 
+			}
+		}
+	}
+}

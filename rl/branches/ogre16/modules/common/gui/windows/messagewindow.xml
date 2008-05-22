@@ -1,0 +1,58 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="RastullahLook/FrameWindow" Name="MessageWindow">
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+        <Property Name="UnifiedSize" Value="{{0,400},{0,300}}"/>
+	    <Window Type="RastullahLook/StaticText" Name="MessageWindow/Text">
+	        <Property Name="UnifiedPosition" Value="{{0,15},{0,26}}"/>
+	        <Property Name="UnifiedSize" Value="{{0,370},{0,234}}"/>
+	        <Property Name="FrameEnabled" Value="False"/>
+	        <Property Name="HorzFormatting" Value="WordWrapCentred" />
+	    </Window>
+		<Window Type="DefaultWindow" Name="MessageWindow/ButtonPanel">
+			<Property Name="UnifiedPosition" Value="{{0,5},{0,240}}"/>
+	        <Property Name="UnifiedSize" Value="{{1,-10},{1,-250}}"/>
+			<Window Type="DefaultWindow" Name="MessageWindow/ButtonPanel_1">
+				<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+				<Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+			    <Window Type="RastullahLook/Button" Name="MessageWindow/Button_1_1">
+			        <Property Name="UnifiedPosition" Value="{{0,140},{0,0}}"/>
+			        <Property Name="UnifiedSize" Value="{{0,120},{0,28}}"/>
+			        <Property Name="Font" Value="Vera Serif-10"/>
+			    </Window>
+			</Window>
+			<Window Type="DefaultWindow" Name="MessageWindow/ButtonPanel_2">
+				<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+				<Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+			    <Window Type="RastullahLook/Button" Name="MessageWindow/Button_2_1">
+			        <Property Name="UnifiedPosition" Value="{{0,70},{0,0}}"/>
+			        <Property Name="UnifiedSize" Value="{{0,120},{0,28}}"/>
+			        <Property Name="Font" Value="Vera Serif-10"/>
+			    </Window>
+			    <Window Type="RastullahLook/Button" Name="MessageWindow/Button_2_2">
+			        <Property Name="UnifiedPosition" Value="{{0,210},{0,0}}"/>
+			        <Property Name="UnifiedSize" Value="{{0,120},{0,28}}"/>
+			        <Property Name="Font" Value="Vera Serif-10"/>
+			    </Window>
+			</Window>
+			<Window Type="DefaultWindow" Name="MessageWindow/ButtonPanel_3">
+				<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+				<Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+			    <Window Type="RastullahLook/Button" Name="MessageWindow/Button_3_1">
+			        <Property Name="UnifiedPosition" Value="{{0,10},{0,0}}"/>
+			        <Property Name="UnifiedSize" Value="{{0,120},{0,28}}"/>
+			        <Property Name="Font" Value="Vera Serif-10"/>
+			    </Window>
+			    <Window Type="RastullahLook/Button" Name="MessageWindow/Button_3_2">
+			        <Property Name="UnifiedPosition" Value="{{0,140},{0,0}}"/>
+			        <Property Name="UnifiedSize" Value="{{0,120},{0,28}}"/>
+			        <Property Name="Font" Value="Vera Serif-10"/>
+			    </Window>
+			    <Window Type="RastullahLook/Button" Name="MessageWindow/Button_3_3">
+			        <Property Name="UnifiedPosition" Value="{{0,270},{0,0}}"/>
+			        <Property Name="UnifiedSize" Value="{{0,120},{0,28}}"/>
+			        <Property Name="Font" Value="Vera Serif-10"/>
+			    </Window>
+			</Window>
+		</Window>
+    </Window>
+</GUILayout>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
+
+<aiml  version="1.0.1"
+            xmlns="http://alicebot.org/2001/AIML"
+			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
+<!-- ================Begrüßung ================ -->
+	<category>
+	<pattern>1</pattern>
+	<template>
+		<condition type="default" name="jarn_1">
+			<li value="">
+				<gossip rldialog:type="response">
+					<li></li>
+				</gossip>
+				<gossip rldialog:type="option">
+					<li rldialog:id="alrike001.ogg" rldialog:patternRef ="11">Ingerimm zum Gruße</li>
+				</gossip>
+			</li>
+			<li value="1">
+				<srai>11</srai>
+			</li>
+		</condition>
+		
+	</template>
+	</category>
+
+
+
+<!-- ================Hauptmenü ================ -->
+	<category>
+	<pattern>11</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<condition type="default" name="jarn_1"><li rldialog:id="jarn001.ogg" value="">Ja ja, möge sein Segen auf den Schuhen liegen. Aber momentan komme ich einfach zu Nichts! Und jetzt auch noch die Geschichte mit dem Huhn!</li><li value="1" rldialog:id="null.ogg"></li></condition> 
+		</gossip>
+		<gossip rldialog:type="option">
+			<condition type="default" name="jarn_2"><li rldialog:id="alrike002.ogg" value="" rldialog:patternRef ="2">Wo wir gerade bei Huhn sind. Wegen der Vorkommnisse; Was haltet ihr davon? Habt ihr irgend etwas gesehen oder wisst ihr etwas, das mir helfen könnte?</li></condition>
+			<condition type="default" name="jarn_3"><li rldialog:id="alrike003.ogg" value="" rldialog:patternRef ="3">Ihr kommt zu nichts? Wo drückt denn der Schuh?!</li> </condition>
+			<li rldialog:id="alrike004.ogg"><set type="default" name="jarn_1" value="1"/>Ich komme später wieder.!</li>		
+		</gossip>
+	</template>
+	</category>
+
+
+
+
+<!-- ================RedeMitDorfbewohnern Teil - Jarns Meinung über den Alten Mann ================ -->	
+	<category>
+	<pattern>2</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="jarn002.ogg">Und wie ich das habe! Die Sache ist eindeutig: Der Mann aus dem Wald benutzt dunkle Magie um uns von hier zu verjagen und hetzt seine Wölfe auf uns. Er kam manchmal hier her und tauschte ein wenig von seinem Gestrüpp und ein paar Kräuter, die er sammelt gegen die Arbeiten von Sonja und mir. Um es kurz zu machen: Er wollte uns beim letzten mal zu wenig geben. Da habe ich das Leder, seine Bezahlung, nunja, angepasst. Ich sage es ja: Er war immer schon neidisch, dass wir in Häusern leben, die er sich nicht bauen kann und nun will er uns hier weg haben.</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="alrike005.ogg" rldialog:patternRef ="22">Und sonst habt ihr keinen Ärger mit ihm?</li>
+		</gossip>
+	</template>
+	</category>
+
+		<category>
+		<pattern>22</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li rldialog:id="jarn003.ogg">Nein, denn sonst haben wir nicht viel mit ihm zu tun. Aber jetzt?! Soll er sich doch zum Beschützer der Bäume aufschwingen, wir haben ihm jedenfalls keinen Grund dafür gegeben, dass er die Wölfe auf uns hetzt. Er ist eine Gefahr für uns, wenn er so überreagiert.</li>
+			</gossip>
+				<set type="default" name="jarn_2" value="1"/>
+				<set type="questparts" name="hauptquest2" value="increase"/>
+				<srai>11</srai>
+		</template>	
+		</category>
+
+<!-- ================Paket Subquest annehmen ================ -->
+	
+	<category>
+	<pattern>3</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="jarn004.ogg">Ach... Alles wächst mir über den Kopf. Ich komme nicht einmal dazu dieses Paket zu Wolfram zu bringen obwohl er direkt dort drüben wohnt.</li>			
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="alrike006.ogg" rldialog:patternRef ="33">Ah, in jedem Dorf das gleiche. Gut, ich bringe es hin. Was ist denn drinnen?</li>
+		</gossip>
+	</template>
+	</category>
+
+		<category>
+		<pattern>33</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li rldialog:id="jarn005.ogg">Das kann ich nicht erzählen. Strenges Dichtergeheimnis. Aber er möchte etwas in seinem Keller ausprobieren, "für zukünftige Besucher auf der Durchreise", sagt er.</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:id="alrike007.ogg" rldialog:patternRef ="333">Also gut, ich bringe es ihm.</li>
+			</gossip>
+		</template>
+		</category>
+
+			<category>
+			<pattern>333</pattern>
+			<template>
+				<gossip rldialog:type="response">
+					<li rldialog:id="jarn006.ogg">Wie gesagt wohnt er dort drüben. Er wird so tun, als ob er nicht zuhause sei. Aber sprecht nur von dem Paket, er wird euch schon hören.</li>
+				</gossip>
+					<set type="queststate" name="paket" value="ASSIGNED"/>
+					<set type="questknown" name="paket" value="KNOWN"/>
+					<set type="default" name="jarn_3" value="1"/>
+					<script language="ruby">RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( $tagebuchtexte['paket'][0], $tagebuchtexte['paket'][1] );</script>
+					<srai>11</srai>
+			</template>
+			</category>
+
+
+<!-- ================Standardoptionen ================ -->
+	<category>
+	<pattern>EXIT</pattern> 
+	<template>
+		<system cmd="exit"/>
+	</template>
+	</category>	
+
+
+</aiml>

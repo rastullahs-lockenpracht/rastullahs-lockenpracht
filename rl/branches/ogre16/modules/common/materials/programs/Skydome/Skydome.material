@@ -1,0 +1,158 @@
+vertex_program Skydome_Dome_vs hlsl
+{
+	source Skydome_Dome_vs.hlsl
+	target vs_2_0
+	entry_point vs_main
+}
+
+fragment_program Skydome_Dome_ps hlsl
+{
+	source Skydome_Dome_ps.hlsl
+	target ps_2_0
+	entry_point ps_main
+}
+
+vertex_program Skydome_Clouds_vs hlsl
+{
+	source Skydome_Clouds_vs.hlsl
+	target vs_2_0
+	entry_point vs_main
+}
+
+fragment_program Skydome_Clouds_ps hlsl
+{
+	source Skydome_Clouds_ps.hlsl
+	target ps_2_0
+	entry_point ps_main
+}
+
+
+
+material Skydome_shader
+{	
+
+	technique hlsl
+	{
+		pass
+		{
+		fog_override true
+		lighting off
+
+			fragment_program_ref Skydome_Dome_ps
+			{
+				param_named suncolor_inside float4 0.5686 0.4526 0.0 1.0
+				param_named suncolor_outside float4 1 1 0.4211 1.0
+				param_named sundir float3 0.17101 0.873647 -0.969846
+				param_named sunexp float 1160.0000
+				param_named sunglowpower float 69.12
+			}
+
+			vertex_program_ref Skydome_Dome_vs
+			{				
+				
+				param_named_auto matViewProjection worldviewproj_matrix
+				param_named_auto vViewPosition camera_position_object_space
+				
+				param_named skycolor_top float4 0.3490 0.5684 0.7263 1.0
+				param_named skycolor_bottom float4 0.7596 0.8063 1.0 1.0
+			}
+			
+		
+		}
+		
+	
+	
+		pass
+		{
+		fog_override true
+		lighting off
+		
+		scene_blend alpha_blend 
+        depth_write off
+
+			fragment_program_ref Skydome_Clouds_ps
+			{
+
+				param_named cloudcolor float4 0.7196 0.6158 0.4684 1.0
+				param_named suncolor_outside float4 1 1 0.4211 1.0
+				
+				param_named sundir float3 0.17101 0.873647 -0.969846
+				
+				
+				param_named cloudexp float 0.16000
+				param_named cloudambient float 0.38000
+				param_named transexp float 3.20000
+			}
+
+			vertex_program_ref Skydome_Clouds_vs
+			{				
+				
+				param_named_auto matViewProjection worldviewproj_matrix
+				param_named_auto vViewPosition camera_position_object_space
+				
+				param_named_auto fTime0_1 time
+				param_named wind float2 3 2
+				param_named cloudscale float 1
+			}
+			
+			texture_unit 
+			{
+				texture_alias Clouds
+				texture Skydome_clouds_1.png
+			}
+		}
+		
+		
+		pass
+		{
+		fog_override true
+		lighting off
+		
+		scene_blend alpha_blend 
+        depth_write off
+
+			fragment_program_ref Skydome_Clouds_ps
+			{
+
+				param_named cloudcolor float4 0.8196 0.7158 0.5684 1.0
+				param_named suncolor_outside float4 1 1 0.4211 1.0
+				
+				param_named sundir float3 0.17101 0.873647 -0.969846
+				
+				
+				param_named cloudexp float 0.16000
+				param_named cloudambient float 0.38000
+				param_named transexp float 3.20000
+			}
+
+			vertex_program_ref Skydome_Clouds_vs
+			{				
+				
+				param_named_auto matViewProjection worldviewproj_matrix
+				param_named_auto vViewPosition camera_position_object_space
+				
+				param_named_auto fTime0_1 time
+				param_named wind float2 1 1.5
+				param_named cloudscale float 0.5
+			}
+			
+			texture_unit 
+			{
+				texture_alias Clouds
+				texture Skydome_clouds_1.png
+			}
+		}
+		
+	}
+
+	technique
+	{
+        pass
+        {
+            texture_unit
+            {
+                texture_alias diffuse
+            }
+        }
+    }
+}

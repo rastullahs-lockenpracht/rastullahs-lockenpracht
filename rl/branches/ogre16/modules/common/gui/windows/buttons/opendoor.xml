@@ -1,0 +1,7 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="RastullahLook/StaticImage" Name="OpenDoor">
+        <Property Name="UnifiedSize" Value="{{0,45},{0,45}}"/>
+        <Property Name="Image" Value="set:RastullahButtons image:Buttons/OpenDoor" /> 
+        <Property Name="FrameEnabled" Value="False"/>
+    </Window>
+</GUILayout>

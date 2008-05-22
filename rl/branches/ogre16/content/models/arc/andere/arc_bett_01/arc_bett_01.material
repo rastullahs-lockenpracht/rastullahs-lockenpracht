@@ -1,0 +1,28 @@
+
+material arc_bett_01
+{
+	technique
+	{
+		pass
+		{
+
+			alpha_rejection greater 100
+
+			texture_unit
+			{
+				filtering linear linear linear 
+				texture arc_bett_01.dds
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+

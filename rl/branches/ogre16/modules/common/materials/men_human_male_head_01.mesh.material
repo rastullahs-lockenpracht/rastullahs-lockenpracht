@@ -1,0 +1,13 @@
+
+material men_human_male_head_01 : Face_Normalmapping_mirrored
+{
+set_texture_alias DiffuseMap men_human_male_head_01_diffuse.png
+set_texture_alias NormalMap men_human_male_head_01_normal.png
+set_texture_alias SpecMap men_human_male_head_01_diffuse.png
+
+set_texture_alias EyeDiffuseMap men_eye_blue.png
+set_texture_alias EyeNormalMap men_eye_normal.png
+set_texture_alias EyeShadowMap men_eyeshadow.png
+
+
+}

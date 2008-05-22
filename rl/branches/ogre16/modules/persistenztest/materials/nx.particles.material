@@ -1,0 +1,59 @@
+material nx.fx-mat.magic
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+
+			point_sprites on
+			point_size 2
+			point_size_attenuation on
+
+			texture_unit
+			{
+				texture flare.png
+			}
+		}
+	}
+}
+
+material nx.smoke
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture nx.particle.smoke.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material nx.steam
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture nx.particle.steam.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}

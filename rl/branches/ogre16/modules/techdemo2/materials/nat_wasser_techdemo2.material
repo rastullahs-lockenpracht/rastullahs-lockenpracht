@@ -1,0 +1,39 @@
+material nat_wasser_techdemo2 : nat_wasser_see
+{
+    technique hlsl
+    {
+        pass
+        {
+            texture_unit wellen_map
+            {
+                texture nat_wellen.dds
+            }
+
+            texture_unit evn_map
+            {
+                cubic_texture desert07.dds separateUV
+                tex_address_mode clamp
+            }
+
+        }
+
+    }
+
+    technique glsl
+    {
+        pass
+        {
+            texture_unit wellen_map
+            {
+                texture nat_wellen.dds
+            }
+
+            texture_unit evn_map
+            {
+                cubic_texture desert07.dds separateUV
+                tex_address_mode clamp
+            }
+        }
+    }
+}
+

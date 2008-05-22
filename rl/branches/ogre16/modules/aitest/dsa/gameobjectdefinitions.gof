@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<GameObjectDefinitions>
+
+    <gameobjectclass classid="TestPerson" baseclass="NPC">
+        <property name="name" type="STRING" data="TestPerson"/>
+        <property name="description" type="STRING" data="Wenn man mal jemanden zum Reden braucht..."/>
+        <property name="geometrytype" type="STRING" data="capsule"/>
+        <property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+        <property name="mass" type="REAL" data="65"/>
+        <property name="dialogfile" type="STRING" data="testperson.xml"/>
+        <!--<property name="ai" type="MAP">-->
+            <property name="behaviours" type="ARRAY">
+    	        <property type="STRING" data="DefaultWanderBehaviour"/>
+    	        <property type="STRING" data="AvoidObstaclesBehaviour"/>
+            </property>
+        <!--</property>-->
+    </gameobjectclass>
+
+    <gameobjectclass classid="TestWalkPerson" baseclass="Creature">
+        <property name="name" type="STRING" data="TestPerson"/>
+        <property name="description" type="STRING" data="Wenn man mal jemanden zum Reden braucht..."/>
+        <property name="geometrytype" type="STRING" data="ellipsoid"/>
+        <property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+        <property name="mass" type="REAL" data="65"/>
+        <property name="dialogfile" type="STRING" data="testperson.xml"/>
+        <property name="behaviours" type="ARRAY">
+            <property type="STRING" data="DefaultIdleBehaviour"/>
+            <property type="STRING" data="DialogBehaviour"/>
+        </property>
+		<property name="eigenschaften" type="MAP">
+			<property name="MU" type="INT" data="12"/>
+			<property name="KL" type="INT" data="8"/>
+			<property name="IN" type="INT" data="9"/>
+			<property name="CH" type="INT" data="10"/>
+			<property name="FF" type="INT" data="11"/>
+			<property name="GE" type="INT" data="12"/>
+			<property name="KO" type="INT" data="13"/>
+			<property name="KK" type="INT" data="14"/>
+		</property>
+		<property name="talente" type="MAP">
+			<property name="Athletik" type="INT" data="3"/>
+<!--			<property name="Körperbeherrschung" type="INT" data="3"/>-->
+		</property>
+    </gameobjectclass>
+
+  <gameobjectclass classid="Wolf" baseclass="Creature">
+     <property name="classid" type="STRING" data="Wolf"/>
+     <property name="baseclass" type="STRING" data="Creature"/>
+     <property name="name" type="STRING" data="Wolf"/>
+     <property name="description" type="STRING" data="Ein gefährlicher, ganz gefährlicher, wirklich extrem gefährlicher Wolf. Aber er hat ein schwaches Herz."/>
+    <property name="description_dead" type="STRING" data="Ein sehr toter Wolf"/>
+    <property name="meshfile" type="STRING" data="tie_wolf_01.mesh"/>
+    <property name="mass" type="REAL" data="40"/>
+    <property name="geometrytype" type="STRING" data="sphere"/>
+    <!--<property name="ai" type="MAP">-->
+        <property name="behaviours" type="ARRAY">
+    	    <property type="STRING" data="DefaultWanderBehaviour"/>
+    	    <property type="STRING" data="AvoidObstaclesBehaviour"/>
+        </property>
+    <!--</property>-->
+  </gameobjectclass>
+
+</GameObjectDefinitions>

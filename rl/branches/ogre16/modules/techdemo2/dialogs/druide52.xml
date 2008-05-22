@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<aiml-startup version='1.0'>
+	<bot name='Alter Mann' voice=''>
+		<learn src='druide52.aiml'/>
+		<script src='dialog.rb' class='DialogCharTest'/>
+	</bot>
+</aiml-startup>

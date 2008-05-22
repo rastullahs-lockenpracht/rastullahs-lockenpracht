@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
+
+<aiml  version="1.0.1"
+            xmlns="http://alicebot.org/2001/AIML"
+			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
+
+<!-- ================Der Schlußmonolog Mit Autobiographischen Zügen================ -->
+
+	<category>
+	<pattern>9</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li></li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="null.ogg" rldialog:patternRef ="1">[At least the end can`t be so bad, so... Wacht it !]</li> 
+		</gossip>
+		
+	</template>
+	</category>
+
+	
+
+	<category>
+	<pattern>1</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="sonja012.ogg">You saved our village! On behalf of all villagers i have to thank you. Now we can easefully follow up our old lifes. Oh, by the way... during your presence a messenger delivered a message, and you know what, of all things for you! I should tell you that your sister Hesindiane requests you to visit her in her hometown Ruchnin.</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="null.ogg"  rldialog:patternRef ="11">[Get praised to the skies]</li> 
+		</gossip>
+		
+	</template>
+	</category>
+
+
+	<category>
+	<pattern>11</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="sonja013.ogg">And one more thing; it might sound strange but i urgently have to add: She wants you to know that you have to come not later than the release of the Techdemo 3.</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="null.ogg"  rldialog:patternRef ="111">[Remember that]</li> 
+		</gossip>
+	</template>
+	</category>
+
+	<category>
+	<pattern>111</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="sonja014.ogg">Once again: Thank you ever so much! Good speed on your further journey, you have a lot in mind but in spite of everything you will do it.</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="null.ogg" rldialog:patternRef ="1111">[Rastullahs Lockenpracht: quit 2. Techdemo ]</li> 
+		</gossip>
+	</template>
+	</category>
+
+	<category>
+	<pattern>1111</pattern>
+	<template>
+		<system cmd="exit"/>
+		<script language="ruby" src="ende.rb"/> 
+	</template>
+	</category>
+
+
+
+<!-- ================Standardoptionen ================ -->
+	<category>
+	<pattern>EXIT</pattern> 
+	<template>
+		<!-- Das muss man sich jetzt antun!-->
+		<srai>9</srai>
+	</template>
+	</category>	
+</aiml>

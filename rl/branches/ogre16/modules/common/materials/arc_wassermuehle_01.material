@@ -1,0 +1,155 @@
+material arc_wassermuehle/arc_wassermuehle_dach_01
+{
+    technique
+    {
+        pass
+        {
+            
+            texture_unit
+            {
+                texture arc_dach01.dds 
+            }
+        }
+    }
+}
+
+material arc_wassermuehle/arc_wassermuehle_balken_01
+{
+    technique
+    {
+        pass
+        {
+            
+            texture_unit
+            {
+                texture arc_balken.dds 
+            }
+        }
+    }
+}
+
+material arc_wassermuehle/arc_wassermuehle_putz_01
+{
+    technique
+    {
+        pass
+        {
+            
+            texture_unit
+            {
+                texture arc_lehmwand_01.dds 
+            }
+        }
+    }
+}
+
+material arc_wassermuehle/arc_wassermuehle_latten_01
+{
+    technique
+    {
+        pass
+        {
+            
+            texture_unit
+            {
+                texture holzwand2.dds 
+            }
+        }
+    }
+}
+
+material arc_wassermuehle/arc_wassermuehle_fenster_01
+{
+    technique
+    {
+        pass
+        {
+            
+            texture_unit
+            {
+                texture zeugs_01_eckbank_fenster_holzscheit.dds 
+            }
+        }
+    }
+}
+
+material arc_wassermuehle/arc_wassermuehle_bogentuer_01
+{
+    technique
+    {
+        pass
+        {
+            
+            texture_unit
+            {
+                texture arc_tuer_rund.dds 
+            }
+        }
+    }
+}
+
+material arc_wassermuehle/arc_wassermuehle_steinwand_01
+{
+    technique
+    {
+        pass
+        {
+            
+            texture_unit
+            {
+                texture wand_mauer_innen.dds 
+            }
+        }
+    }
+}
+
+material arc_wassermuehle/arc_wassermuehle_wasserrad_01
+{
+    technique
+    {
+        pass
+        {
+            alpha_rejection greater 215
+            texture_unit
+            {
+	        filtering linear linear linear 
+                texture arc_wasserrad_01.dds 
+            }
+        }
+    }
+}
+
+material arc_wassermuehle/arc_wassermuehe_schmutz_01
+{
+    technique
+    {
+        pass
+        {
+             // Überblenden aktiviert
+      scene_blend alpha_blend 
+      // Tiefenpuffer aus
+      depth_write off
+
+
+            texture_unit
+            {
+                texture arc_dirt_01.dds 
+            }
+        }
+    }
+}
+
+material arc_wassermuehle/Material_#20
+{
+    technique
+    {
+        pass
+        {
+            ambient 0.588 0.588 0.588
+            diffuse 0.588 0.588 0.588
+            specular 0.9 0.9 0.9 0.0
+            emissive 0.0 0.0 0.0
+        }
+    }
+}
+

@@ -1,0 +1,19 @@
+<scene formatVersion="0.0" >
+	<nodes>
+		<node name="Ivy" id="1" >
+			<position x="22.5935" y="-2.88005" z="-20.0237" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="Ivy"
+				id="2"
+				meshFile ="Ruchin_ivy_01.mesh"
+				materialFile="ruchin.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+	</nodes>
+</scene>

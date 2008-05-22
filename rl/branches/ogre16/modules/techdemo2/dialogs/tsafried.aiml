@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
+
+<aiml  version="1.0.1"
+            xmlns="http://alicebot.org/2001/AIML"
+			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
+<!-- ================Begrüßung ================ -->
+
+	<category>
+	<pattern>1</pattern>
+	<template>
+		<condition type="default" name="tsafried_1">
+			<li value="">
+				<gossip rldialog:type="response">
+					<li rldialog:id="tsafried001.ogg" >Ein Glück, dass ihr hier seid! Er braucht eure Hilfe!</li>
+				</gossip>
+				<gossip rldialog:type="option">
+					<li rldialog:id="alrike021.ogg" rldialog:patternRef ="11">Nun mal langsam, eigentlich wollte ich ja die Fragen stellen, aber was ist denn los?</li>
+				</gossip>
+			</li>
+			<li value="1">
+				<srai>11</srai>
+			</li>
+		</condition>
+	</template>
+	</category>
+
+<!-- ================Hauptmenü ================ -->	
+	<category>
+		<pattern>11</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<condition type="default" name="tsafried_1"><li rldialog:id="tsafried002.ogg" value="">Mein Mentor, ich habe ihn seit Tagen nicht gesehen!</li><li value="1" rldialog:id="null.ogg"></li></condition> 
+			</gossip>
+			<gossip rldialog:type="option">
+				<condition type="default" name="tsafried_2">
+					<li rldialog:id="alrike022.ogg" value="" rldialog:patternRef ="2">In welchem Haus wohnt er denn?</li>
+					<li rldialog:id="alrike025.ogg" value="2" rldialog:patternRef ="23">Um noch einmal darauf zurückzukommen. Wo im Wald wohnt Euer Mentor genau?</li>
+				</condition>
+				<condition type="default" name="tsafried_3"><li rldialog:id="alrike023.ogg" value="" rldialog:patternRef ="3">Wo ist er denn hin?</li></condition>
+				<li rldialog:id="alrike043.ogg" rldialog:patternRef ="EXIT"><set type="default" name="tsafried_1" value="1"/>Ich komme später wieder.</li>
+			</gossip>
+		</template>
+	</category>
+	
+
+<!-- ================Aufenthaltsort-Quest succeeden ================ -->	
+
+	<category>
+	<pattern>2</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="tsafried003.ogg">Oh, er wohnt nicht im Dorf. Er wohnt im Wald, im Einklang mit der Natur.</li>			
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="alrike024.ogg" rldialog:patternRef ="22">Das ist ja interessant. Wann ist er dort hingezogen?</li>
+			<li rldialog:id="alrike025.ogg" rldialog:patternRef ="23">Und wo genau?</li>
+		</gossip>
+	</template>
+	</category>
+
+
+		<category>
+		<pattern>22</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li rldialog:id="tsafried004.ogg">Er wohnte schon immer dort. Er ist im Wald aufgewachsen, spricht mit ihm und lebt mit ihm. Er meinte wenn ich auch einmal die Stimme des Waldes hören kann, könnte ich vielleicht auch dort leben.</li>			
+			</gossip>
+				<set type="default" name="tsafried_2" value="2"/>
+				<srai>11</srai>
+		</template>
+		</category>
+
+		<category>
+		<pattern>23</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li rldialog:id="tsafried005.ogg">Das ist schwer zu sagen. Er lebt mal hier, mal dort. Das letzte mal hab ich ihn in der Nähe vom verlassenen Turm gesehen.</li>			
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:id="alrike026.ogg" rldialog:patternRef ="233">Wie komme ich dorthin?</li>
+			</gossip>
+		</template>
+		</category>	
+		
+			<category>
+			<pattern>233</pattern>
+			<template>
+				<gossip rldialog:type="response">
+					<li rldialog:id="tsafried006.ogg">Also ich bin immer direkt in den Wald gegangen, dort kenne ich mich aus. Aber ich glaube es gibt einen alten Pfad, der auch dort hinführt. Der Weg ist ein klein wenig länger, aber viel einfacher zu finden. Fragt am besten Sonja danach.</li>			
+				</gossip>
+					<set type="default" name="tsafried_2" value="1"/>
+					<set type="queststate" name="aufenthaltsort" value="SUCCEEDED"/>
+					<srai>11</srai>
+			</template>
+			</category>
+
+
+
+<!-- ================RedeMitDorfbewohnern Teil - Tsafrieds Meinung über den Alten Mann ================ -->	
+
+	<category>
+	<pattern>3</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="tsafried007.ogg">Er ist weg! Seit einer Woche habe ich nichts mehr von ihm gehört. Seit...</li>			
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="alrike027.ogg" rldialog:patternRef ="333">Seit?</li>
+		</gossip>
+	</template>
+	</category>
+
+		<category>
+		<pattern>333</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li rldialog:id="tsafried008.ogg">Seit er von Sonja betrogen worden ist! Ich habe ihm schon immer gesagt, dass sie ihm nicht den richtigen Gegenwert für seine Pflanzen gibt, aber er lächelte mich immer nur mitleidig an, wenn ich das sagte!</li>			
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:id="alrike028.ogg" rldialog:patternRef ="3333">Es machte ihm wohl nichts aus.</li>
+			</gossip>
+		</template>
+		</category>
+
+			<category>
+			<pattern>3333</pattern>
+			<template>
+				<gossip rldialog:type="response">
+					<li rldialog:id="tsafried009.ogg">Aber jetzt ist er weg! Der letzte Tauschhandel war äußert ungerecht. Sie hat ihm viel zu wenig gegeben. Vielleicht ist er jetzt nur eingeschnappt und kommt deswegen nicht wieder. Aber vielleicht ist auch irgend etwas passiert. Ich mache mir Sorgen!</li>			
+				</gossip>
+				<gossip rldialog:type="option">
+					<li rldialog:id="alrike029.ogg" rldialog:patternRef ="33333">Und warum seid ihr nicht zu ihm gegangen und habt nachgesehen?</li>
+				</gossip>
+			</template>
+			</category>		
+
+				<category>
+				<pattern>33333</pattern>
+				<template>
+					<gossip rldialog:type="response">
+						<li rldialog:id="tsafried010.ogg">Jetzt bei den ganzen Wölfen? Ich mag ein Freund der Natur sein, aber mein Leben ist mir trotzdem lieb, so wahr Tsa es mir gab.</li>			
+					</gossip>
+					<gossip rldialog:type="option">
+						<li rldialog:id="alrike030.ogg" rldialog:patternRef ="333333">Ich werde ihn aufsuchen müssen, um zu sehen was er mit den Raubtieren zu tun hat.</li>
+						<li rldialog:id="alrike031.ogg" rldialog:patternRef ="333333">Ich werde schauen was los ist. Ein alter Mann allein mit den Wölfen ist viel zu gefährlich.</li>
+					</gossip>
+				</template>
+				</category>
+
+					<category>
+					<pattern>333333</pattern>
+					<template>
+						<gossip rldialog:type="response">
+							<li rldialog:id="tsafried011.ogg">Egal was es ist. Schaut nach und seht, ob es ihm gut geht, bitte. Alles weitere könnt Ihr danach entscheiden. Ich glaube nicht, dass er etwas gegen das Dorf hat. Er mag im Einklang mit der Natur leben, und, sicher, so ganz richtig im Kopf ist er nicht, er redet immer so seltsam, aber er mag auch die Menschen hier.</li>
+						</gossip>
+							<set type="default" name="tsafried_3" value="1"/>
+							<set type="questparts" name="hauptquest2" value="increase"/>
+							<srai>11</srai>
+
+					</template>
+					</category>
+
+
+<!-- ================Standardoptionen ================ -->
+	<category>
+	<pattern>EXIT</pattern> 
+	<template>
+		<system cmd="exit"/> 
+	</template>
+	</category>	
+
+
+</aiml>

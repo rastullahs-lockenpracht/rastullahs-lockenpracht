@@ -1,0 +1,195 @@
+// Name des Materials, muss mit dem in der mesh übereinstimmen
+
+material techdemo_terrain
+{
+	receive_shadows on
+
+	// Erste Technik, für Grafikkarten mit 8 Textureinheiten
+	technique
+	{
+		scheme tu6
+
+		pass
+		{
+			texture_unit
+			{
+	 	
+				// Der Fels ist unsere Basistextur,
+			        // auf sie soll der Rasen & Weg gelegt werden
+				texture Fels_03.png
+				// Skalieren, je nach Textur und Terraingröße anpassen
+				scale 0.05 0.05
+				// Es wird nur die Farbe eingeblendet
+				colour_op_ex source1 src_texture src_texture
+			}
+
+			// Die AlphaMap
+			texture_unit
+			{
+				// Die Textur
+				texture wiese_blending.png
+				// Wir benutzen das komplette Alpha dieser Textur
+				alpha_op_ex source1 src_texture src_texture
+				// Und die Farben des Basispasses
+				colour_op_ex source1 src_current src_current
+			}
+
+			// Die zweite Textur
+			texture_unit
+			{
+			    
+				texture Wiese_03.png
+				scale 0.05 0.05
+				// Wir blenden anhand des AlphaKanals die Textur dazu
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+
+			// Die AlphaMap
+			texture_unit
+			{
+				// Die Textur
+				texture weg_blending.png
+				// Wir benutzen das komplette Alpha dieser Textur
+				alpha_op_ex source1 src_texture src_texture
+				// Und die Farben des Basispasses
+				colour_op_ex source1 src_current src_current
+			}
+
+			// Die zweite Textur
+			texture_unit
+			{
+				
+				texture lehmboden_01.png
+				scale 0.05 0.05
+				// Wir blenden anhand des AlphaKanals die Textur dazu
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+
+			
+			// Beleuchtung
+			ambient 0.0 0.0 0.0 1
+			diffuse 0.5 0.5 0.5 
+
+			texture_unit
+			{
+				// Die Textur
+				texture techdemo_lightmap.png
+				// Und die Farben des Basispasses
+				colour_op_ex modulate src_texture src_current
+			}
+		}
+	}
+
+	// Zweite Technik, nur 2 Textureinheiten benötigt
+	technique
+	{
+		scheme tu2
+
+		// Basis Pass
+		pass
+		{
+			// Kein Licht
+			lighting off
+
+			texture_unit
+			{
+			 	
+				// Der Fels ist unsere Basistextur,
+                // auf sie soll der Rasen & Weg gelegt werden
+				texture Fels_03.png
+				// Skalieren, je nach Textur und Terraingröße anpassen
+				scale 0.05 0.05
+				// Es wird nur die Farbe eingeblendet
+				//colour_op_ex source1 src_texture src_texture
+			}
+		}
+
+		//Wiesentextur 2. Pass
+		pass
+		{
+			// Kein Licht
+			lighting off
+
+			// Dieser Pass wird über den ersten gelegt
+			scene_blend alpha_blend
+			// Dabei werden nur Pixel überschrieben,
+		        // die an der selben Position liegen
+			depth_func equal
+			alpha_rejection greater 2
+			
+			// Die AlphaMap
+			texture_unit
+			{
+				// Die Textur
+				texture wiese_blending.png
+				// Wir benutzen das komplette Alpha dieser Textur
+				alpha_op_ex source1 src_texture src_texture
+				// Und die Farben des Basispasses
+				colour_op_ex source1 src_current src_current
+			}
+
+			// Die zweite Textur
+			texture_unit
+			{
+			    
+				texture Wiese_03.png
+				scale 0.05 0.05
+				// Wir blenden anhand des AlphaKanals die Textur dazu
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+		}
+
+			// wegtextur 3. Pass
+		pass
+		{
+			// Kein Licht
+			lighting off
+
+			// Dieser Pass wird über den ersten gelegt
+			scene_blend alpha_blend
+			// Dabei werden nur Pixel überschrieben,
+			// die an der selben Position liegen
+  		        depth_func equal
+		        alpha_rejection greater 2
+			
+			// Die AlphaMap
+			texture_unit
+			{
+				// Die Textur
+				texture weg_blending.png
+				// Wir benutzen das komplette Alpha dieser Textur
+				alpha_op_ex source1 src_texture src_texture
+				// Und die Farben des Basispasses
+				colour_op_ex source1 src_current src_current
+			}
+
+			// Die zweite Textur
+			texture_unit
+			{
+				
+				texture lehmboden_01.png
+				scale 0.05 0.05
+				// Wir blenden anhand des AlphaKanals die Textur dazu
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+		}
+		
+		// Beleuchtung (extra pass)
+		pass
+		{
+			ambient 0.0 0.0 0.0 1
+			diffuse 0.5 0.5 0.5 
+
+			depth_func equal
+			scene_blend zero src_colour
+			
+			texture_unit
+			{
+				// Die Textur
+				texture techdemo_lightmap.png
+				// Und die Farben des Basispasses
+				colour_op_ex modulate_x2 src_texture src_current
+			}
+		}
+	}
+}

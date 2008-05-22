@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
+
+<aiml  version="1.0.1"
+            xmlns="http://alicebot.org/2001/AIML"
+			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
+<!-- ================BegrÃ¼ÃŸung ================ -->
+	<category>
+	<pattern>1</pattern>
+	<template>
+		<condition type="default" name="jarn_1">
+			<li value="">
+				<gossip rldialog:type="response">
+					<li></li>
+				</gossip>
+			</li>
+			<li value="1">
+				<srai>11</srai>
+			</li>
+		</condition>
+		<gossip rldialog:type="option">
+			<li rldialog:id="alrike001.ogg" rldialog:patternRef ="11">Hello Sir, Ingerimm be with you.</li>
+		</gossip>		
+	</template>
+	</category>
+
+
+
+<!-- ================HauptmenÃ¼ ================ -->
+	<category>
+	<pattern>11</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<condition type="default" name="jarn_1"><li rldialog:id="jarn001.ogg" value="">Let’s hope so, by goodness! But currently i am not getting down to anything! And now, there is this incident about the chicken !</li><li value="1" rldialog:id="null.ogg"></li></condition> 
+		</gossip>
+		<gossip rldialog:type="option">
+			<condition type="default" name="jarn_2"><li rldialog:id="alrike002.ogg" value="" rldialog:patternRef ="2">Well, talking about chicken. Regarding the recent events; What do you think about it? Did you see or know something which could help me ?</li></condition>
+			<condition type="default" name="jarn_3"><li rldialog:id="alrike003.ogg" value="" rldialog:patternRef ="3">Your not getting down to anything? What’s the snag?!</li> </condition>
+			<li rldialog:id="alrike004.ogg"><set type="default" name="jarn_1" value="1"/>I'll come again later.!</li>		
+		</gossip>
+	</template>
+	</category>
+
+
+
+
+<!-- ================RedeMitDorfbewohnern Teil - Jarns Meinung Ã¼ber den Alten Mann ================ -->	
+	<category>
+	<pattern>2</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="jarn002.ogg">Of course, young lady! The whole deal is non-ambiguous: It`s the man out of the forest. I bet he uses dark magic to chase us away by setting his wolfs on us. He used to come here and swap some of his herb and scrub for the services of Sonja and me. To cut a long story short: He tried to cheat us last time and didn`t give us enough. So, well, let`s say, i had to give him an adequate payment. Hehe, the old oddball didn`t get the amount of leather he used to get. I always knew it: He was always envious seeing us live in houses he were not able to built and now he wants to get rid of us.</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="alrike005.ogg" rldialog:patternRef ="22">But in the end, there are no more problems with him?</li>
+		</gossip>
+	</template>
+	</category>
+
+		<category>
+		<pattern>22</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li rldialog:id="jarn003.ogg">No, because usually we don`t spend much time with him. But now?! Shall he be the protector of the forest, we didn`t give him a reason for setting his wolfes on us. He`s a danger by overreacting like that!</li>
+			</gossip>
+				<set type="default" name="jarn_2" value="1"/>
+				<set type="questparts" name="hauptquest2" value="increase"/>
+				<srai>11</srai>
+		</template>	
+		</category>
+
+<!-- ================Paket Subquest annehmen ================ -->
+	
+	<category>
+	<pattern>3</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="jarn004.ogg">Gosh! Everything gets beyond my control. I do not even have the time to bring this little package to Wolfram although he lives straight over there.</li>			
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="alrike006.ogg" rldialog:patternRef ="33">Everytime the same old stories. Ok, you got my word, i`ll deliver it. Just tell me, what`s inside it?</li>
+		</gossip>
+	</template>
+	</category>
+
+		<category>
+		<pattern>33</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li rldialog:id="jarn005.ogg">Sorry, but i can not give that information away. It's a poet`s secret. But he told me that he wanted to have a crack at something, "for future visitors on a journey through".</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:id="alrike007.ogg" rldialog:patternRef ="333">So be it, I will deliver it.</li>
+			</gossip>
+		</template>
+		</category>
+
+			<category>
+			<pattern>333</pattern>
+			<template>
+				<gossip rldialog:type="response">
+					<li rldialog:id="jarn006.ogg">Like i said, he lives over there. He will pretend not being at home. But just mention the package when standing in front of his door. I bet the dodger will hear you.</li>
+				</gossip>
+					<set type="queststate" name="paket" value="ASSIGNED"/>
+					<set type="questknown" name="paket" value="KNOWN"/>
+					<set type="default" name="jarn_3" value="1"/>
+					<srai>11</srai>
+			</template>
+			</category>
+
+
+<!-- ================Standardoptionen ================ -->
+	<category>
+	<pattern>EXIT</pattern> 
+	<template>
+		<system cmd="exit"/>
+	</template>
+	</category>	
+
+
+</aiml>

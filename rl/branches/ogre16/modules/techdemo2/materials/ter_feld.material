@@ -1,0 +1,50 @@
+
+material ter_feld
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+
+			texture_unit
+			{
+				texture ter_feldalpha.dds
+				tex_coord_set 2
+				colour_op_ex blend_texture_alpha src_texture src_current
+				colour_op_multipass_fallback src_alpha one_minus_src_alpha
+			}
+
+			texture_unit
+			{
+				texture erdboden01.dds
+				tex_coord_set 1
+				colour_op_ex source1 src_texture src_current
+				colour_op_multipass_fallback one zero
+			}
+		}
+		pass
+		{
+			ambient 0.282353 0.282353 0.282353 1
+			diffuse 0.788235 0.788235 0.788235 1
+			specular 0 0 0 1 20
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture Techdemo2LightingMap.dds
+				colour_op_ex add src_texture src_current
+				colour_op_multipass_fallback one one
+			}
+
+			texture_unit
+			{
+				texture ter_feldalpha.dds
+				tex_coord_set 2
+				colour_op_ex blend_texture_alpha src_texture src_current
+				colour_op_multipass_fallback src_alpha one_minus_src_alpha
+			}
+		}
+	}
+}

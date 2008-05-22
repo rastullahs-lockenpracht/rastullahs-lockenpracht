@@ -1,0 +1,41 @@
+
+material ver_Lagerfeuer_an
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			specular 0 0 0 1 10
+			scene_blend alpha_blend
+
+			texture_unit
+			{
+				texture_alias 0
+				texture ver_lagerfeuer01_glut.png
+				colour_op_ex blend_texture_alpha src_texture src_current
+				colour_op_multipass_fallback dest_colour zero
+				alpha_op_ex modulate_x2 src_texture src_current
+			}
+
+			texture_unit
+			{
+				texture_alias 1
+				texture feuer_illu.png
+				tex_coord_set 1
+				colour_op_ex blend_current_alpha src_texture src_current
+				colour_op_multipass_fallback dest_colour zero
+				alpha_op_ex add src_texture src_current
+				scroll_anim 0 0.8
+			}
+
+			texture_unit
+			{
+				texture_alias 2
+				texture ver_lagerfeuer01_an.png
+			}
+		}
+
+	}
+
+}

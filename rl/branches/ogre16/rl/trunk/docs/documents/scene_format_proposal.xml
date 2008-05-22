@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rastullahmap version="0.4">
+	<nodes>
+
+		<!-- static mesh -->
+		<entity
+			name="nat_grasplane_01"
+			meshfile ="nat_grasplane_01.mesh"
+			receiveShadow="true">
+
+			<position x="5.7285" y="-7.94034" z="18.4169" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
+			<staticgeometrygroup id="0" />
+			<physicsproxy type="none" /> <!-- type is none|box|sphere|ellipsoid|mesh|convexhull|custom -->
+			<renderingdistance data="20000" />
+
+			<!-- active animations and tracks -->
+            <animation type="track" name="eagle_path_1" active="false"/>
+            <animation type="track" name="eagle_path_2" active="false">
+                       <keyframe framenr="1">
+                                 <translation x="0" y="1" z="2"/>
+                                 <rotation qx="0.000000" qy="-0.975135" qz="0.000000" qw="0.221611"/>
+                       </keyframe>
+            <animation type="mesh" name="fly"/>
+		</entity>
+
+		<!-- static mesh with custom collision-->
+		<entity
+			name="nat_tree_01"
+			meshfile="nat_tree_01.mesh"
+			visible="true"
+			castShadow="true" >
+
+			<position x="5.7285" y="-7.94034" z="18.4169" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.0237419" y="0.0237419" z="0.0237419" />
+
+			<!-- physics proxy -->
+			<physicsproxy type="custom"> <!-- type is none|box|sphere|ellipsoid|mesh|convexhull|custom -->
+				<!-- for type="custom" only -->
+				<!-- collision proxy consists of a box and a sphere -->
+				<collision type="box">
+					<scale x="-97.544470" y="127.113457" z="748.685760" />
+					<rotation qx="0.000000" qy="-0.975135" qz="0.000000" qw="0.221611" />
+					<offset x="-0.544470" y="0.113457" z="2.685760" />
+				</collision>
+				<collision type="sphere">
+					<radius r="10" />
+					<center x="141.95" y="7.20" z="32.55" />
+				</collision>
+			</physicsproxy>
+		</entity>
+
+
+		<!-- Light -->
+		<light name="Omni02"
+			type="point"
+			visible="true"
+			castShadows="false" > <!-- type is point|spot|directional -->
+
+			<position x="-196.095" y="-90.1458" z="563.122" />
+
+			<colourDiffuse r="0.3" g="0.3" b="0.3" />
+			<colourSpecular r="0.3" g="0.3" b="0.3" />
+			<lightAttenuation
+				range="200.0"
+				constant="1.0"
+				linear="0.0"
+				quadratic="0.0"
+				/>
+
+			<!-- just for type="spot" -->
+			<spotlightrange inner="10" outer="20" falloff="1" />
+			<direction x="0" y="-1" z="0.5" />
+
+			<!-- just for type="directional" -->
+			<direction x="0" y="-1" z="0.5" />
+
+		</light>
+
+
+		<!-- 3D Sound -->
+		<sound name="Bachplaetschern" file = "plaetschern.ogg" volume = "1.0">
+			<position x="5.7285" y="-7.94034" z="18.4169" />
+			<direction qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<!-- Add speed and falloff values... -->
+			<speed />
+			<falloff />
+		</sound>
+
+
+		<!-- GameObject -->
+		<gameobject name="Bauer" class="ArnolfGrossschaedel" state="IN_SCENE" id="4">
+			<!-- state is one of IN_SCENE, LOADED, HELD, IN_POSSESSION, READIED -->
+			<position x="29.9182" y="-0.6554" z="9.590" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+		</gameobject>
+
+		<!-- GameObject with custom property -->
+		<gameobject name="Höhlentür" class="door" state="IN_SCENE"> <!-- id is generated if it is not set -->
+			<position x="141.95" y="7.20" z="32.55" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+
+			<!-- properties can be found in .gof files -->
+			<property name="description" type="STRING" data="Eine Tür, allerdings ist keine Klinke vorhanden" />
+		</gameobject>
+		
+		<!-- Particle system -->
+		<particlesystem name="Steinstaubwolke" material="Techdemo/Steinstaubwolke" active="true"/>
+
+	</nodes>
+
+
+	<!-- Waypoints -->
+	<waypoints>
+
+		<landmark name="temple entrance">
+			<position x="5.7285" y="-7.94034" z="18.4169" />
+		</landmark>
+
+		<landmarkpath name="bauerrogalfsbetrunkenerheimweg" >
+			<landmark name="kneipe" />
+			<landmark name="kirche" />
+			<landmark name="feldweg" />
+			<landmark name="graben" />
+		</landmarkpath>
+
+	</waypoints>
+
+
+	<!-- Zones -->
+	<zones>
+		<zone type="default">
+			<light name="sunlight" /> <!-- light must be one of the lights in the nodes section -->
+			<sound name="defaultsoundtrack" /> <!-- name is processed by the soundmanager or a ruby script -->
+		</zone>
+
+		<zone type="mesh" name="temple interior">
+			<node name="nat_tree_01" />
+			<light name="Omni02" />
+			<sound name="in_taberna.ogg" />
+			<!-- Preset EAX environmental settings -->
+			<eaxpreset name="Large Hall" />
+		</zone>
+
+		<zone type="mesh" name="drainpipe">
+			<node name="deep_under" />
+			<sound name="blubber.ogg" />
+			<!-- Custom EAX environmental settings (add more parameters) -->
+			<eax
+				room="0"
+				rolloff="0"
+				reverb="0"
+				environment="0"
+				environmentsize="0"
+				/>
+		</zone>
+
+		<zone type="sphere" name="doomsday device core">
+			<radius r="10" />
+			<center x="141.95" y="7.20" z="32.55" />
+
+			<!-- Name of the ruby class, an instance will be created -->
+			<trigger classname="DoomsDayDevice" >
+				<!-- Parameters are properties -->
+				<property name="message" type="STRING" data="You triggered the dooms day device!" />
+			</trigger>
+
+			<!-- ... -->
+		</zone>
+	</zones>
+
+        <environment>
+        	<!-- Sky Box -->
+        	<sky type="box" material="ruchinsky" drawfirst="true" distance="600"/>
+
+        	<!-- Sky Dome -->
+        	<sky type="dome" material="ruchinsky" drawfirst="true">
+        		<skydomesettings curvature="10" tiling = "8" />
+        	</sky>
+
+        	<fog type="exp" density="0.001">
+        	     <colour r="0.3" g="0.3" b="0.3" />
+        	</fog>
+
+        	<fog type="exp2" density="0.001">
+        	     <colour r="0.3" g="0.3" b="0.3" />
+        	</fog>
+
+        	<fog type="linear" start="0.0" end="1.0">
+        	     <colour r="0.5" g="0.5" b="0.5" />
+        	</fog>
+
+       	</environment>
+
+</rastullahmap>

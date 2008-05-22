@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
+
+<aiml  version="1.0.1"
+            xmlns="http://alicebot.org/2001/AIML"
+			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
+<!-- ================Alles plus RedeMitDorfbewohnern Teil - Wolframs Meinung über den Alten Mann ================ -->	
+
+	<category>
+		<pattern>1</pattern>
+		<template>
+			<condition type="default" name="wolfram_2">
+				<li value="">
+					<gossip rldialog:type="response">
+						<li rldialog:id="wolfram001.ogg">Ah, yes! That's what makes adventures going. I always wanted to know if this really is the plague, it is made up to be. The one you need real Heros for. Thank you kindly, ....uhm... who are you anyway?</li>
+					</gossip>
+					<gossip rldialog:type="option">
+						<li rldialog:id="alrike013.ogg" rldialog:patternRef ="33">I am Alrike, from Wandleth, called here to protect you! But you have to tell me against what, in the first place.</li>
+					</gossip>
+				</li>
+				<li value="1">
+					<gossip rldialog:type="response">
+						<li rldialog:id="5SekStille.ogg">[Wolfram stands there lost in thought and isn't responsive to you. Or is he pondering too hard about something?]</li>
+					</gossip>
+					<gossip rldialog:type="option">
+						<li rldialog:id="5SekStille.ogg">[Leave]</li>
+					</gossip>
+					
+				</li>
+			</condition>
+		</template>
+	</category>
+
+		<category>
+		<pattern>33</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li rldialog:id="wolfram002.ogg">Oh, Ulrike... err Alrike! A noble quest indeed, though neither sword nor valour will smite this evil.</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:id="alrike014.ogg" rldialog:patternRef ="333">Um.. Beg pardon?</li>
+				<li rldialog:id="alrike015.ogg" rldialog:patternRef ="333"><set type="default" name="wolfram_2" value="1"/>Right, that's what I'm here for, I guess I can...</li>
+			</gossip>
+		</template>
+		</category>
+
+		
+			<category>
+			<pattern>333</pattern>
+			<template>
+				<gossip rldialog:type="response">
+					<li rldialog:id="wolfram003.ogg">But do not quail, I am fighting with you side by side. Many a song will be sung, blazing abroad the lore in countries near and far to enlighten.. </li>
+				</gossip>
+				<gossip rldialog:type="option">
+					<li rldialog:id="alrike016.ogg" rldialog:patternRef ="3333">Hey, stop a moment. I'm talking about the animals... You know, those, that bite you at night on your way to the potty.</li>
+				</gossip>
+			</template>
+			</category>
+
+				<category>
+				<pattern>3333</pattern>
+				<template>
+					<gossip rldialog:type="response">
+						<li rldialog:id="wolfram004.ogg">Err, emm.. right. I've almost forgotten about it. Glad we could talk it out. I thank you ever so deeply for the package Ulrike, May the...</li>
+					</gossip>
+					<gossip rldialog:type="option">
+						<li rldialog:id="alrike017.ogg" rldialog:patternRef ="33333">Hey! What have you forgotten about? You have to tell it to me first.</li>
+					</gossip>
+				</template>
+				</category>
+
+					<category>
+					<pattern>33333</pattern>
+					<template>
+						<gossip rldialog:type="response">
+							<li rldialog:id="wolfram005.ogg">Erm...What are you talk... ah, oh yes! So with the old man gone now, we have wolves straying around the hamlet. I spoke to him once in a while, when he was here. Between you and me... he is a bit of a kook. Very hard to talk with, simply can't stay on topic at all.</li>
+						</gossip>
+						<gossip rldialog:type="option">
+							<li rldialog:id="alrike018.ogg" rldialog:patternRef ="333333">And you believe it is his fault? With the wolves roaming around the village?</li>
+							<li rldialog:id="alrike019.ogg" rldialog:patternRef ="333333">How is this all connected? According to you he really doesn't seem to be a villain.</li>
+						</gossip>
+					</template>
+					</category>
+	
+						<category>
+						<pattern>333333</pattern>
+						<template>
+							<gossip rldialog:type="response">
+								<li rldialog:id="wolfram006.ogg">No, no, no... Don't get me wrong. I do not know whether he does this deliberately, or on the contrary, the wolves are here because of his disappearance. I only feel that these two are connected.</li>
+							</gossip>
+							<gossip rldialog:type="option">
+								<li rldialog:id="alrike020.ogg" rldialog:patternRef ="3333333"><set type="queststate" name="paket" value="SUCCEEDED"/><set type="questparts" name="hauptquest2" value="increase"/>Thank you for your answers, Sir. You were truly a great help on this matter.</li>
+							</gossip>
+						</template>
+						</category>
+							
+							<category>
+							<pattern>3333333</pattern>
+							<template>
+								<gossip rldialog:type="response">
+									<li rldialog:id="wolfram007.ogg">I will carry on with my work. Indeed, this is how we are.. Always aiming to better the world.</li>
+								</gossip>
+									<gossip rldialog:type="option">
+										<li rldialog:id="alrike020.ogg" rldialog:patternRef ="EXIT">[Leave]</li>  
+									</gossip>
+							</template>
+							</category>
+
+<!-- ================Standardoptionen ================ -->
+	<category>
+	<pattern>EXIT</pattern> 
+	<template>
+		<system cmd="exit"/>  
+	</template>
+	</category>	
+
+
+</aiml>

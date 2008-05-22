@@ -1,0 +1,43 @@
+material arc_ingerimmschrein_01/Marmor
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture arc_marmorschwarz_01.dds
+            }
+        }
+    }
+}
+
+material arc_ingerimmschrein_01/Rost
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture arc_metalrost_01.dds 
+            }
+        }
+    }
+}
+
+material arc_ingerimmschrein_01/seule
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture arc_marmorsaeulen_01.dds 
+            }
+        }
+    }
+}
+
+

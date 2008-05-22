@@ -1,0 +1,81 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+  	<Window Type="RastullahLook/FrameWindow" Name="PropertiesWindow">
+		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+        <Property Name="UnifiedSize" Value="{{0,400},{0,500}}"/>
+		<Property Name="Text" Value="Spielobjekt Eigenschaften"/>
+		<Property Name="SizingEnabled" Value="false"/>
+
+		<!-- Headersheet for the name and description -->
+		
+		<Window Type="DefaultGUISheet" Name="PropertiesWindow/HeaderSheet">
+      	 	<Property Name="UnifiedPosition" Value="{{0,30},{0,30}}"/>
+       	 	<Property Name="UnifiedSize" Value="{{0,350},{0,100}}"/>
+       	
+       	 	<!-- Name of the object -->
+       	 	 	
+			<Window Type="RastullahLook/StaticText" Name="PropertiesWindow/HeaderSheet/Name">
+      	 		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+       	 		<Property Name="UnifiedSize" Value="{{0,80},{0,25}}"/>
+       	 		<Property Name="Text" Value="Name:"/>
+        		<Property Name="FrameEnabled" Value="False"/>
+       	 		<Property Name="HorzFormatting" Value="LeftAligned" />
+    		</Window>
+    		
+    		<Window Type="RastullahLook/StaticText" Name="PropertiesWindow/HeaderSheet/ObjectName">
+      	 		<Property Name="UnifiedPosition" Value="{{0,90},{0,0}}"/>
+       	 		<Property Name="UnifiedSize" Value="{{0,250},{0,25}}"/>
+       	 		<Property Name="Text" Value="n/a"/>
+        		<Property Name="FrameEnabled" Value="True"/>
+       	 		<Property Name="HorzFormatting" Value="LeftAligned" />
+    		</Window>
+    		
+    		<!-- Description of the object -->
+    	
+			<Window Type="RastullahLook/StaticText" Name="PropertiesWindow/HeaderSheet/Description">
+      	 		<Property Name="UnifiedPosition" Value="{{0,0},{0,30}}"/>
+       	 		<Property Name="UnifiedSize" Value="{{0,80},{0,25}}"/>
+       	 		<Property Name="Text" Value="Description:"/>
+        		<Property Name="FrameEnabled" Value="False"/>
+       	 		<Property Name="HorzFormatting" Value="LeftAligned" />
+    		</Window>
+    		
+    		<Window Type="RastullahLook/MultiLineEditbox" Name="PropertiesWindow/HeaderSheet/ObjectDescription">
+      	 		<Property Name="ReadOnly" Value="true"/>
+            	<Property Name="Disabled" Value="true"/>
+    			<Property Name="UnifiedPosition" Value="{{0,90},{0,30}}"/>
+       	 		<Property Name="UnifiedSize" Value="{{0,250},{0,60}}"/>
+        		<Property Name="FrameEnabled" Value="False"/>
+    		</Window>
+    		
+    	</Window>
+    	
+    	<!-- Properties sheet for the properties of the object -->
+    	
+		<Window Type="RastullahLook/TabControl" Name="PropertiesWindow/PropertiesTabPane">
+      	 	<Property Name="UnifiedPosition" Value="{{0,30},{0,140}}"/>
+       	 	<Property Name="UnifiedSize" Value="{{0,340},{0,300}}"/>
+       	 	<Property Name="FrameEnabled" Value="False"/>
+       	 	
+       		<!-- Table with two columns for the key/value pair -->
+       	 	
+       		<Window Type="RastullahLook/MultiColumnList" Name="PropertiesWindow/PropertiesTabControl/MainTable">
+      	 		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+       	 		<Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+       	 		<Property Name="Text" Value="Eigenschaften"/>
+       	 		<Property Name="SortSettingEnabled" Value="False"/>
+       	 		<Property Name="Font" Value="Vera Serif-8"/>
+       	 		<Property Name="FrameEnabled" Value="False"/>
+    		</Window>   	
+       	 	 	
+       	</Window>
+		
+       	<!-- The Close button -->
+		<Window Type="RastullahLook/Button" Name="PropertiesWindow/CloseButton">
+           	<Property Name="UnifiedPosition" Value="{{0.3,0},{0.9,0}}"/>
+           	<Property Name="UnifiedSize" Value="{{0,125},{0,28}}"/>
+			<Property Name="Font" Value="Vera Serif-10"/>
+			<Property Name="Text" Value="Close"/>
+		</Window>
+		
+	</Window>
+</GUILayout>

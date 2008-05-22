@@ -1,0 +1,32 @@
+material ALPHA/TEX/gras_planes.dds/TWOSIDE
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+            alpha_rejection greater 120
+
+			texture_unit
+			{
+			filtering linear linear linear 
+				texture gras_planes.dds
+			}
+		}
+	}
+}
+material SOLID/TEX/gras_02.dds
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+			filtering linear linear linear 
+				texture gras_02.dds
+			}
+		}
+	}
+}

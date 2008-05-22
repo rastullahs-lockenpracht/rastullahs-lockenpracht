@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<waypointgraph>
+  <waypointnodes>
+    <node id="0" type="ext" x="3" y="0.5" z="-8.5"/>
+    <node id="1" type="ext" x="3" y="0.5" z="-4"/>
+    <node id="2" type="ext" x="3" y="0.5" z="0"/>
+    <node id="3" type="ext" x="3" y="0.5" z="1"/>
+    <node id="4" type="ext" x="3" y="0.5" z="5"/>
+    <node id="5" type="ext" x="3" y="0.5" z="9.5"/>
+    <node id="6" type="ext" x="4" y="0.5" z="-10"/>
+    <node id="7" type="ext" x="4" y="0.5" z="-7"/>
+    <node id="8" type="ext" x="4" y="0.5" z="-1"/>
+    <node id="9" type="ext" x="4" y="0.5" z="2"/>
+    <node id="10" type="ext" x="4" y="0.5" z="4"/>
+    <node id="11" type="ext" x="4" y="0.5" z="7"/>
+    <node id="12" type="ext" x="5" y="0.5" z="-6"/>
+    <node id="13" type="ext" x="5" y="0.5" z="-3"/>
+    <node id="14" type="ext" x="5" y="0.5" z="1"/>
+    <node id="15" type="ext" x="5" y="0.5" z="5"/>
+    <node id="16" type="ext" x="5" y="0.5" z="6"/>
+    <node id="17" type="ext" x="5" y="0.5" z="9.5"/>
+    <node id="18" type="ext" x="6" y="0.5" z="-9"/>
+    <node id="19" type="ext" x="6" y="0.5" z="-2"/>
+    <node id="20" type="ext" x="6" y="0.5" z="-1"/>
+    <node id="21" type="ext" x="6" y="0.5" z="4"/>
+    <node id="22" type="ext" x="6" y="0.5" z="8"/>
+    <node id="23" type="ext" x="6" y="0.5" z="9.5"/>
+    <node id="24" type="ext" x="7" y="0.5" z="-8"/>
+    <node id="25" type="ext" x="7" y="0.5" z="-4"/>
+  </waypointnodes>
+  <waypointedges>
+    <edge source="0" destination="1"/>
+    <edge source="0" destination="6"/>
+    <edge source="1" destination="0"/>
+    <edge source="1" destination="2"/>
+    <edge source="1" destination="7"/>
+    <edge source="2" destination="1"/>
+    <edge source="2" destination="3"/>
+    <edge source="2" destination="8"/>
+    <edge source="3" destination="2"/>
+    <edge source="3" destination="4"/>
+    <edge source="3" destination="9"/>
+    <edge source="4" destination="3"/>
+    <edge source="4" destination="5"/>
+    <edge source="4" destination="10"/>
+    <edge source="5" destination="4"/>
+    <edge source="5" destination="11"/>
+    <edge source="6" destination="7"/>
+    <edge source="6" destination="0"/>
+    <edge source="6" destination="12"/>
+    <edge source="7" destination="6"/>
+    <edge source="7" destination="8"/>
+    <edge source="7" destination="1"/>
+    <edge source="7" destination="13"/>
+    <edge source="8" destination="7"/>
+    <edge source="8" destination="9"/>
+    <edge source="8" destination="2"/>
+    <edge source="8" destination="14"/>
+    <edge source="9" destination="8"/>
+    <edge source="9" destination="10"/>
+    <edge source="9" destination="3"/>
+    <edge source="9" destination="15"/>
+    <edge source="10" destination="9"/>
+    <edge source="10" destination="11"/>
+    <edge source="10" destination="4"/>
+    <edge source="10" destination="16"/>
+    <edge source="11" destination="10"/>
+    <edge source="11" destination="5"/>
+    <edge source="11" destination="17"/>
+    <edge source="12" destination="13"/>
+    <edge source="12" destination="6"/>
+    <edge source="12" destination="18"/>
+    <edge source="13" destination="12"/>
+    <edge source="13" destination="14"/>
+    <edge source="13" destination="7"/>
+    <edge source="13" destination="19"/>
+    <edge source="14" destination="13"/>
+    <edge source="14" destination="15"/>
+    <edge source="14" destination="8"/>
+    <edge source="14" destination="20"/>
+    <edge source="15" destination="14"/>
+    <edge source="15" destination="16"/>
+    <edge source="15" destination="9"/>
+    <edge source="15" destination="21"/>
+    <edge source="16" destination="15"/>
+    <edge source="16" destination="17"/>
+    <edge source="16" destination="10"/>
+    <edge source="16" destination="22"/>
+    <edge source="17" destination="16"/>
+    <edge source="17" destination="11"/>
+    <edge source="17" destination="23"/>
+    <edge source="18" destination="19"/>
+    <edge source="18" destination="12"/>
+    <edge source="19" destination="18"/>
+    <edge source="19" destination="20"/>
+    <edge source="19" destination="13"/>
+    <edge source="20" destination="19"/>
+    <edge source="20" destination="21"/>
+    <edge source="20" destination="14"/>
+    <edge source="21" destination="20"/>
+    <edge source="21" destination="22"/>
+    <edge source="21" destination="15"/>
+    <edge source="22" destination="21"/>
+    <edge source="22" destination="23"/>
+    <edge source="22" destination="16"/>
+    <edge source="23" destination="22"/>
+    <edge source="23" destination="17"/>
+  </waypointedges>
+</waypointgraph>

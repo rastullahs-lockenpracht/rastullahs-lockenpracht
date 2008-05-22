@@ -1,0 +1,15 @@
+
+material men_Gennisch
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture men_Gennisch.dds
+			}
+		}
+	}
+}

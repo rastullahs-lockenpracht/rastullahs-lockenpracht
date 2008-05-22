@@ -1,0 +1,115 @@
+// GLSL offset bump mapping
+vertex_program DiffuseSpecMappingVP_GLSL glsl
+{
+    source DiffuseSpecMapping.vert
+}
+
+fragment_program DiffuseSpecMappingFP_GLSL glsl
+{
+    source DiffuseSpecMapping.frag
+}
+
+vertex_program DiffuseSpecMappingVS_HLSL hlsl
+{
+    source DiffuseSpecMapping.hlsl
+    entry_point main_vs
+    target vs_1_1
+}
+
+fragment_program DiffuseSpecMappingPS_HLSL hlsl
+{
+    source DiffuseSpecMapping.hlsl
+    entry_point main_ps
+    target ps_2_0
+}
+
+material DiffuseSpecMapping
+{
+    technique glsl
+    {
+	// scheme with_shaders
+
+        pass
+        {
+            ambient 0.2 0.2 0.2
+            diffuse 0.7 0.7 0.7
+            specular 0.8 0.8 0.8 128
+
+            vertex_program_ref DiffuseSpecMappingVP_GLSL
+            {
+            }
+
+            fragment_program_ref DiffuseSpecMappingFP_GLSL
+            {
+                param_named diffuseMap int 0
+                param_named specMap int 1
+            }
+
+            // Base diffuse texture map
+            texture_unit diffuse_map
+            {
+            }
+
+            // spec map for shinnines
+            texture_unit spec_map
+            {
+            }
+        }
+    }
+
+    technique hlsl
+    {
+	// scheme with_shaders
+
+        pass
+        {
+
+            vertex_program_ref DiffuseSpecMappingVS_HLSL
+            {
+                param_named_auto worldViewProj_matrix worldviewproj_matrix
+                param_named_auto lightPosition light_position_object_space 0
+                param_named_auto eyePosition camera_position_object_space
+            }
+
+            fragment_program_ref DiffuseSpecMappingPS_HLSL
+            {
+                param_named_auto lightDiffuse light_diffuse_colour 0
+                param_named_auto ambientLight ambient_light_colour
+
+                param_named materialAmbient float4 0.5 0.5 0.5 1.0
+                param_named materialDiffuse float4 0.7 0.7 0.7 1.0
+                param_named materialSpecular float4 0.8 0.8 0.8 1.0
+            }
+
+            // Base diffuse texture map
+            texture_unit diffuse_map
+            {
+            }
+
+            // spec map for shinnines
+            texture_unit spec_map
+            {
+            }
+        }
+    }
+
+    technique fixed_function
+    {
+        pass
+        {
+            ambient 0.2 0.2 0.2
+            diffuse 0.7 0.7 0.7
+            specular 0.8 0.8 0.8 128
+
+            // Base diffuse texture map
+            texture_unit diffuse_map
+            {
+            }
+
+            // spec map for shinnines
+            texture_unit spec_map
+            {
+            }
+        } 
+    }
+}

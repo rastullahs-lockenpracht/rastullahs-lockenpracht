@@ -1,0 +1,14 @@
+
+material men_wirt
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture men_wirt.dds
+			}
+		}
+	}
+}

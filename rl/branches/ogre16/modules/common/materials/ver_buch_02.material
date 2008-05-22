@@ -1,0 +1,16 @@
+
+material ver_buch_02
+{
+	technique
+	{
+		pass
+		{
+		
+
+			texture_unit
+			{
+				texture ver_buch_01.dds
+			}
+		}
+	}
+}

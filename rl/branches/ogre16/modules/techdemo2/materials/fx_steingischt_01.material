@@ -1,0 +1,26 @@
+
+material fx_steingischt_01
+{
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture gischt.dds
+				colour_op_ex blend_texture_alpha src_texture src_current
+				colour_op_multipass_fallback src_alpha one_minus_src_alpha
+				scroll_anim 0 0.5
+			}
+
+			texture_unit
+			{
+				texture fade2.dds
+				tex_coord_set 1
+			}
+		}
+	}
+}

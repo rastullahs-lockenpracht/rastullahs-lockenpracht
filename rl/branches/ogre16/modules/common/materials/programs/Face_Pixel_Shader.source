@@ -1,0 +1,23 @@
+sampler2D baseMap;
+sampler2D Texture1;
+sampler2D Texture2;
+
+struct PS_INPUT 
+{
+   float2 Texcoord : TEXCOORD0;
+   float2 Texcoord1: TEXCOORD1;
+   float2 Texcoord2: TEXCOORD2;
+   float4 Color    : TEXCOORD3;
+   
+};
+
+float4 ps_main( PS_INPUT Input ) : COLOR0
+{
+	float4 eyeColor = tex2D (Texture1, Input.Texcoord1) * tex2D (Texture2, Input.Texcoord2);
+	float4 faceColor = tex2D( baseMap, Input.Texcoord );
+   return float4(lerp(eyeColor.rgb ,faceColor.rgb, faceColor.a)* Input.Color.rgb,1);
+   
+}
+
+
+

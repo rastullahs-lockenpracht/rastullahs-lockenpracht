@@ -1,0 +1,140 @@
+material AmbientVertexColour
+{
+   technique
+   {
+      pass
+      {
+         ambient vertexcolour
+         diffuse vertexcolour
+      }
+   }
+}
+
+material DefaultDebugPrimitiveMaterial
+{
+   technique
+   {
+      pass
+      {
+         depth_write off
+         scene_blend alpha_blend
+
+         lighting off
+
+         texture_unit
+         {
+            colour_op_ex source1 src_manual src_current 1.0 0.5 1.0
+            alpha_op_ex source1 src_manual src_current 0.6
+         }
+      }
+   }
+}
+
+material alpha_purple
+{
+   technique
+   {
+      pass
+      {
+         depth_write off
+         scene_blend alpha_blend
+
+         texture_unit
+         {
+            colour_op_ex source1 src_manual src_current 1.0 0.5 1.0
+            alpha_op_ex source1 src_manual src_current 0.3
+         }
+      }
+   }
+}
+
+material alpha_red
+{
+   technique
+   {
+      pass
+      {
+         depth_write off
+         scene_blend alpha_blend
+
+         texture_unit
+         {
+            colour_op_ex source1 src_manual src_current 1.0 0.5 0.5
+            alpha_op_ex source1 src_manual src_current 0.3
+         }
+      }
+   }
+}
+
+material alpha_green
+{
+   technique
+   {
+      pass
+      {
+         depth_write off
+         scene_blend alpha_blend
+
+         texture_unit
+         {
+            colour_op_ex source1 src_manual src_current 0.5 1.0 0.5
+            alpha_op_ex source1 src_manual src_current 0.3
+         }
+      }
+   }
+}
+
+material alpha_blue
+{
+   technique
+   {
+      pass
+      {
+         depth_write off
+         scene_blend alpha_blend
+
+         texture_unit
+         {
+            colour_op_ex source1 src_manual src_current 0.5 0.5 1.0
+            alpha_op_ex source1 src_manual src_current 0.3
+         }
+      }
+   }
+}
+
+material alpha_yellow
+{
+   technique
+   {
+      pass
+      {
+         depth_write off
+         scene_blend alpha_blend
+
+         texture_unit
+         {
+            colour_op_ex source1 src_manual src_current 1.0 1.0 0.5
+            alpha_op_ex source1 src_manual src_current 0.3
+         }
+      }
+   }
+}
+
+material alpha_orange
+{
+   technique
+   {
+      pass
+      {
+         depth_write off
+         scene_blend alpha_blend
+
+         texture_unit
+         {
+            colour_op_ex source1 src_manual src_current 1.0 0.5 0.0
+            alpha_op_ex source1 src_manual src_current 0.3
+         }
+      }
+   }
+}
+

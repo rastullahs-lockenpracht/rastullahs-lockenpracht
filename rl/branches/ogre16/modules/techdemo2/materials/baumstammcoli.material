@@ -1,0 +1,12 @@
+
+material baumstammcoli
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			alpha_rejection always_fail 0
+		}
+	}
+}

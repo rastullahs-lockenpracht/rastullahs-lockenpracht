@@ -1,0 +1,7 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="RastullahLook/Menubar" Name="InGameMenu/Menubar">
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+        <Property Name="UnifiedSize" Value="{{1.0,0},{0,20}}"/>
+    </Window>
+</GUILayout>
+

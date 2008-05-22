@@ -1,0 +1,37 @@
+
+
+material arc_bruecke_01/base
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588 0.588 0.588 1
+			diffuse 0.588 0.588 0.588 1
+
+			texture_unit
+			{
+				texture arc_bruecke_01.dds
+			}
+		}
+	}
+}
+
+material arc_bruecke_01/alphablend
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588 0.588 0.588 1
+			diffuse 0.588 0.588 0.588 1
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture arc_bruecke_01.dds
+			}
+		}
+	}
+}

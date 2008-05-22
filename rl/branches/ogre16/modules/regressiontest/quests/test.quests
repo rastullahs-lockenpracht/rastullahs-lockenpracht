@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<quests>
+	<quest id="quest1">
+		<name>quest1</name>
+		<description>blub blub blahtext</description>
+		<state>COMPLETED</state>
+		<known>true</known>
+		<quest id="subquest1_1">
+			<name>subquest1_1</name>
+			<description>nochmal blah</description>
+			<known>true</known>
+		</quest>
+	</quest>
+	<quest id="quest2">
+		<name>quest2</name>
+		<description>blub blub blahtext213423</description>
+		<state>COMPLETED</state>
+		<known>true</known>
+		<quest id="subquest2_1">
+			<name>subquest2_1</name>
+			<known>false</known>
+		</quest>
+		<quest id="subquest2_2">
+			<name>subquest2_2</name>
+			<known>false</known>
+		</quest>
+		<quest id="subquest2_3">
+			<known>true</known>
+			<name>subquest2_3</name>
+			<known>true</known>
+		</quest>
+	</quest>
+	<quest id="quest3">
+		<name>quest3</name>
+		<quest id="subquest3_1">
+			<name>subquest3_1</name>
+			<known>true</known>
+		</quest>
+		<name>quest3</name>
+		<known>false</known>
+		<description>blub blub blahtext2312312312542143123</description>
+		<state>COMPLETED</state>
+	</quest>
+</quests>

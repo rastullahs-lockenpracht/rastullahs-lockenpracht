@@ -1,0 +1,28 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="DefaultWindow" Name="ItemDescriptionDragContainer">
+		<Property Name="UnifiedSize" Value="{{0,250},{0,120}}" />
+        <Window Type="RastullahLook/StaticImage" Name="ItemDescriptionDragContainer/Icon">
+            <Property Name="VerticalAlignment" Value="Bottom" />
+            <Property Name="HorizontalAlignment" Value="Left" />
+            <Property Name="UnifiedPosition" Value="{{0,2},{0,2}}" />
+            <Property Name="UnifiedSize" Value="{{0,90},{0,90}}" />
+			<Property Name="FrameEnabled" Value="False"/>
+        </Window>
+        <Window Type="RastullahLook/StaticText" Name="ItemDescriptionDragContainer/Name">
+            <Property Name="VerticalAlignment" Value="Top" />
+            <Property Name="HorizontalAlignment" Value="Center" />
+            <Property Name="UnifiedPosition" Value="{{0.0,100},{0,5}}" />
+            <Property Name="UnifiedSize" Value="{{0.95,-100},{0,24}}" />
+            <Property Name="Font" Value="Vera Serif-10" />
+            <Property Name="FrameEnabled" Value="false" />
+        </Window>
+        <Window Type="RastullahLook/MultiLineEditbox" Name="ItemDescriptionDragContainer/Description">
+            <Property Name="ReadOnly" Value="true"/>
+            <Property Name="Disabled" Value="true"/>
+            <Property Name="UnifiedPosition" Value="{{0.0,100},{0,30}}" />
+            <Property Name="UnifiedSize" Value="{{0.95,-100},{0.95,-30}}" />
+            <Property Name="Font" Value="Vera Serif-8" />
+            <Property Name="FrameEnabled" Value="false" />
+        </Window>
+    </Window>
+</GUILayout> 

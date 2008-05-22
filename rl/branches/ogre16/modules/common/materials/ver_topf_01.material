@@ -1,0 +1,17 @@
+
+material ver_topf_01
+{
+	technique
+	{
+		pass
+		{
+			
+			scene_blend alpha_blend
+
+			texture_unit
+			{
+				texture ver_topf_01.dds
+			}
+		}
+	}
+}

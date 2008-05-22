@@ -1,0 +1,30 @@
+
+material orig_orig_orig_Techdemo2_map2_lod
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+
+			texture_unit
+			{
+				texture Techdemo2map2lod.dds
+			}
+		}
+		pass
+		{
+			ambient 0.282353 0.282353 0.282353 1
+			diffuse 0.788235 0.788235 0.788235 1
+			specular 0 0 0 1 20
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture Techdemo2LightingMap2.dds
+				colour_op_ex blend_texture_alpha src_texture src_current
+				colour_op_multipass_fallback src_alpha one_minus_src_alpha
+			}
+		}
+	}
+}

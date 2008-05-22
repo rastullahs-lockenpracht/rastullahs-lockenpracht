@@ -1,0 +1,137 @@
+material nx.cube
+{
+
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 0.5 0.000000
+			diffuse 1.000000 0.769854 0.000000
+			specular 0.500000 0.246996 0.000000 30.500000
+			shading phong
+		}
+	}
+}
+
+material nx.cube.alt
+{
+
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 0.8 0.200000
+			diffuse 1.000000 0.769854 0.000000
+			specular 0.500000 0.246996 0.000000 30.500000
+			shading phong
+		}
+	}
+}
+
+material nx.sphere
+{
+
+	technique
+	{
+		pass
+		{
+			shading phong
+			ambient 0 1.0 0.8
+			diffuse 0 1.0 0.77
+			specular 0 0.5 0.25 0.5
+			shading phong
+		}
+	}
+}
+
+material nx.convex1
+{
+
+	technique
+	{
+		pass
+		{
+			ambient 0.6 1.0 0.8
+			diffuse 0.6 1.0 0.77
+			specular 0.6 0.5 0.25 0.5
+			shading phong
+		}
+	}
+}
+
+material nx.chair
+{
+
+	technique
+	{
+		pass
+		{
+			ambient 0.4 1.0 0.8
+			diffuse 0.4 1.0 0.77
+			specular 0.4 0.5 0.25 0.5
+			shading phong
+		}
+	}
+}
+
+material nx.motor.a
+{
+
+	technique
+	{
+		pass
+		{
+			ambient 0.5 0.5 0.5
+			diffuse 0.5 0.5 0.5
+			specular 0.5 0.5 0.5 0.5
+			shading phong
+		}
+	}
+}
+
+material nx.motor.b
+{
+
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 0.8 0.200000
+			diffuse 1.000000 0.769854 0.000000
+			specular 0.500000 0.246996 0.000000 30.500000
+			shading phong
+		}
+	}
+}
+
+material nx.raycaster
+{
+
+	technique
+	{
+		pass
+		{
+			ambient 0.1 0.1 0.1
+			diffuse 0.1 0.1 0.1
+			specular 0.1 0.1 0.1
+			shading phong
+		}
+	}
+}
+
+material nx.crosshair
+{
+
+	technique
+	{
+		pass
+		{
+			ambient 1.0 1.0 1.0
+			diffuse 1.0 1.0 1.0
+			specular 1.0 1.0 1.0
+			shading phong
+		}
+	}
+}
+
+

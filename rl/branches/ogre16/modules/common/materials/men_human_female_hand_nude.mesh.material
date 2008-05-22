@@ -1,0 +1,14 @@
+
+material men_human_female_hand_nude : Skin_Normalmapping
+{
+set_texture_alias DiffuseMap men_human_female_diffuse.png
+set_texture_alias NormalMap men_human_female_normalmap.png
+set_texture_alias SpecMap men_human_female_diffuse.png
+
+}
+material men_human_male_hand_nude : Skin_Normalmapping_mirrored
+{
+set_texture_alias DiffuseMap men_human_male_diffuse.png
+set_texture_alias NormalMap men_human_male_normalmap.png
+set_texture_alias SpecMap men_human_male_diffuse.png
+}

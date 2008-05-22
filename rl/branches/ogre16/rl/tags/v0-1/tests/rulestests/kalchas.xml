@@ -1,0 +1,970 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<?xml-stylesheet type="text/xsl" href="dsa4person.xsl" ?>
+<XDIML lang="de" version="1.01">
+
+  <Inhalt>
+    <Personen>
+      <Person ID="Kalchas1">
+        <Name>Kalchas</Name>
+        <GP>110</GP>
+        <Geschlecht>männlich</Geschlecht>
+        <Rasse ID="Mittelländer">
+          <Bezeichnung>Mittelländer</Bezeichnung>
+          <GP>0</GP>
+          <Modifikatoren>
+            <Modifikator ID="Ausdauer">
+              <Wert>10</Wert>
+            </Modifikator>
+            <Modifikator ID="Lebensenergie">
+              <Wert>10</Wert>
+            </Modifikator>
+            <Modifikator ID="Magieresistenz">
+              <Wert>-4</Wert>
+            </Modifikator>
+          </Modifikatoren>
+          <Farbverteilung ID="Augenfarbe">
+            <Farbe ID="dunkelbraun">
+              <Anteil>2</Anteil>
+            </Farbe>
+            <Farbe ID="braun">
+              <Anteil>7</Anteil>
+            </Farbe>
+            <Farbe ID="grün">
+              <Anteil>2</Anteil>
+            </Farbe>
+            <Farbe ID="blau">
+              <Anteil>6</Anteil>
+            </Farbe>
+            <Farbe ID="grau">
+              <Anteil>2</Anteil>
+            </Farbe>
+            <Farbe ID="schwarz">
+              <Anteil>1</Anteil>
+            </Farbe>
+          </Farbverteilung>
+          <Farbverteilung ID="Haarfarbe">
+            <Farbe ID="schwarz">
+              <Anteil>3</Anteil>
+            </Farbe>
+            <Farbe ID="braun">
+              <Anteil>4</Anteil>
+            </Farbe>
+            <Farbe ID="dunkelblond">
+              <Anteil>5</Anteil>
+            </Farbe>
+            <Farbe ID="blond">
+              <Anteil>4</Anteil>
+            </Farbe>
+            <Farbe ID="weißblond">
+              <Anteil>2</Anteil>
+            </Farbe>
+            <Farbe ID="rot">
+              <Anteil>2</Anteil>
+            </Farbe>
+          </Farbverteilung>
+          <Größe>
+            <Wert ID="Basis">160</Wert>
+            <Wert ID="W20">2</Wert>
+          </Größe>
+          <Wert ID="Differenz Gewicht zu Größe">100</Wert>
+          <Alter>
+            <Wert ID="Basis">15</Wert>
+            <Wert ID="W3">1</Wert>
+          </Alter>
+        </Rasse>
+        <Kultur ID="Zyklopeninseln">
+          <Bezeichnung>Zyklopeninseln</Bezeichnung>
+          <GP>8</GP>
+          <Talente>
+            <Talentgruppe ID="Körperliche Talente">
+              <Talent ID="Athletik">
+                <Wert>1</Wert>
+              </Talent>
+              <Talent ID="Klettern">
+                <Wert>1</Wert>
+              </Talent>
+              <Talent ID="Körperbeherrschung">
+                <Wert>2</Wert>
+              </Talent>
+              <Talent ID="Schwimmen">
+                <Wert>1</Wert>
+              </Talent>
+              <Talent ID="Tanzen">
+                <Wert>1</Wert>
+              </Talent>
+            </Talentgruppe>
+            <Talentgruppe ID="Natur-Talente">
+              <Talent ID="Fesseln / Entfesseln">
+                <Wert>1</Wert>
+              </Talent>
+              <Talent ID="Fischen / Angeln">
+                <Wert>1</Wert>
+              </Talent>
+              <Talent ID="Orientierung">
+                <Wert>1</Wert>
+              </Talent>
+              <Talent ID="Seefischerei">
+                <Wert>1</Wert>
+              </Talent>
+              <Talent ID="Wettervorhersage">
+                <Wert>1</Wert>
+              </Talent>
+            </Talentgruppe>
+            <Talentgruppe ID="Wissenstalente">
+              <Talent ID="Götter und Kulte">
+                <Wert>2</Wert>
+              </Talent>
+              <Talent ID="Philosophie">
+                <Wert>1</Wert>
+              </Talent>
+              <Talent ID="Sagen / Legenden">
+                <Wert>2</Wert>
+              </Talent>
+            </Talentgruppe>
+            <Talentgruppe ID="Handwerkliche Talente">
+              <Talent ID="Boote Fahren">
+                <Wert>1</Wert>
+              </Talent>
+              <Talent ID="Holzbearbeitung">
+                <Wert>1</Wert>
+              </Talent>
+              <Talent ID="Lederarbeiten">
+                <Wert>1</Wert>
+              </Talent>
+              <Talent ID="Seefahrt">
+                <Wert>1</Wert>
+              </Talent>
+              <Talent ID="Viehzucht">
+                <Wert>1</Wert>
+              </Talent>
+            </Talentgruppe>
+          </Talente>
+          <Kampftechniken>
+            <Kampftechnik ID="Dolche">
+              <Wert>1</Wert>
+              <AufAT>1</AufAT>
+              <AufPA>0</AufPA>
+            </Kampftechnik>
+            <Kampftechnik ID="Raufen">
+              <Wert>2</Wert>
+              <AufAT>1</AufAT>
+              <AufPA>1</AufPA>
+            </Kampftechnik>
+            <Kampftechnik ID="Ringen">
+              <Wert>2</Wert>
+              <AufAT>1</AufAT>
+              <AufPA>1</AufPA>
+            </Kampftechnik>
+            <Kampftechnik ID="Schleuder">
+              <Wert>1</Wert>
+              <AufAT>1</AufAT>
+            </Kampftechnik>
+          </Kampftechniken>
+          <Sonderfertigkeiten ID="automatische">
+            <Sonderfertigkeit ID="Meereskundig"/>
+          </Sonderfertigkeiten>
+          <Sprachen ID="Muttersprache">
+            <Sprache>Garethi</Sprache>
+          </Sprachen>
+          <Sprachen ID="Zweitsprache">
+            <Sprache>Zyklopäisch</Sprache>
+          </Sprachen>
+        </Kultur>
+        <Profession ID="Kiranya von Kutaki">
+          <Bezeichnung>Magier (Kiranya)</Bezeichnung>
+          <GP>18</GP>
+          <Voraussetzungen>
+            <Voraussetzung ID="Charisma">
+              <Wert ID="minimal">12</Wert>
+            </Voraussetzung>
+            <Voraussetzung ID="Fingerfertigkeit">
+              <Wert ID="minimal">12</Wert>
+            </Voraussetzung>
+            <Voraussetzung ID="Intuition">
+              <Wert ID="minimal">13</Wert>
+            </Voraussetzung>
+            <Voraussetzung ID="Klugheit">
+              <Wert ID="minimal">12</Wert>
+            </Voraussetzung>
+            <Voraussetzung ID="Konstitution">
+              <Wert ID="minimal">12</Wert>
+            </Voraussetzung>
+            <Voraussetzung ID="Mut">
+              <Wert ID="minimal">12</Wert>
+            </Voraussetzung>
+            <Voraussetzung ID="Sozialstatus">
+              <Wert ID="minimal">3</Wert>
+              <Wert ID="maximal">7</Wert>
+            </Voraussetzung>
+          </Voraussetzungen>
+          <Talente>
+            <Talentgruppe ID="Körperliche Talente">
+              <Talent ID="Klettern">
+                <Wert>2</Wert>
+              </Talent>
+              <Talent ID="Schwimmen">
+                <Wert>2</Wert>
+              </Talent>
+              <Talent ID="Selbstbeherrschung">
+                <Wert>2</Wert>
+              </Talent>
+              <Talent ID="Sich Verstecken">
+                <Wert>2</Wert>
+              </Talent>
+              <Talent ID="Sinnenschärfe">
+                <Wert>2</Wert>
+              </Talent>
+            </Talentgruppe>
+            <Talentgruppe ID="Gesellschaftliche Talente">
+              <Talent ID="Lehren">
+                <Wert>3</Wert>
+              </Talent>
+              <Talent ID="Menschenkenntnis">
+                <Wert>1</Wert>
+              </Talent>
+              <Talent ID="Schriftlicher Ausdruck">
+                <Wert>2</Wert>
+              </Talent>
+              <Talent ID="Überreden">
+                <Wert>1</Wert>
+              </Talent>
+            </Talentgruppe>
+            <Talentgruppe ID="Natur-Talente">
+              <Talent ID="Fischen / Angeln">
+                <Wert>2</Wert>
+              </Talent>
+              <Talent ID="Wettervorhersage">
+                <Wert>1</Wert>
+              </Talent>
+              <Talent ID="Wildnisleben">
+                <Wert>2</Wert>
+              </Talent>
+            </Talentgruppe>
+            <Talentgruppe ID="Wissenstalente">
+              <Talent ID="Geographie">
+                <Wert>1</Wert>
+              </Talent>
+              <Talent ID="Geschichtswissen">
+                <Wert>1</Wert>
+              </Talent>
+              <Talent ID="Götter und Kulte">
+                <Wert>3</Wert>
+              </Talent>
+              <Talent ID="Magiekunde">
+                <Wert>5</Wert>
+              </Talent>
+              <Talent ID="Philosophie">
+                <Wert>2</Wert>
+              </Talent>
+              <Talent ID="Rechnen">
+                <Wert>4</Wert>
+              </Talent>
+              <Talent ID="Rechtskunde">
+                <Wert>1</Wert>
+              </Talent>
+              <Talent ID="Sagen / Legenden">
+                <Wert>4</Wert>
+              </Talent>
+              <Talent ID="Sternkunde">
+                <Wert>2</Wert>
+              </Talent>
+              <Talent ID="Tierkunde">
+                <Wert>2</Wert>
+              </Talent>
+            </Talentgruppe>
+            <Talentgruppe ID="Handwerkliche Talente">
+              <Talent ID="Boote Fahren">
+                <Wert>3</Wert>
+              </Talent>
+              <Talent ID="Heilkunde Wunden">
+                <Wert>2</Wert>
+              </Talent>
+              <Talent ID="Holzbearbeitung">
+                <Wert>3</Wert>
+              </Talent>
+              <Talent ID="Kochen">
+                <Wert>2</Wert>
+              </Talent>
+              <Talent ID="Malen / Zeichnen">
+                <Wert>2</Wert>
+              </Talent>
+              <Talent ID="Schneidern">
+                <Wert>2</Wert>
+              </Talent>
+              <Talent ID="Viehzucht">
+                <Wert>2</Wert>
+              </Talent>
+            </Talentgruppe>
+          </Talente>
+          <Kampftechniken>
+            <Kampftechnik ID="Dolche">
+              <Wert>1</Wert>
+              <AufAT>1</AufAT>
+              <AufPA>0</AufPA>
+            </Kampftechnik>
+            <Kampftechnik ID="Stäbe">
+              <Wert>2</Wert>
+              <AufAT>1</AufAT>
+              <AufPA>1</AufPA>
+            </Kampftechnik>
+          </Kampftechniken>
+          <Charakteristika>
+            <Charakteristikum ID="Arroganz">
+              <Stufe>5</Stufe>
+            </Charakteristikum>
+            <Charakteristikum ID="Astrale Regeneration">
+              <Stufe>1</Stufe>
+            </Charakteristikum>
+            <Charakteristikum ID="Gildenmagier"/>
+            <Charakteristikum ID="Neugier">
+              <Stufe>7</Stufe>
+            </Charakteristikum>
+            <Charakteristikum ID="Vollzauberer"/>
+            <Charakteristikum ID="Weltfremd">
+              <Stufe>5</Stufe>
+              <Spezifizierung>gesellschaftliches Leben, weltliche und geistliche Autoritäten</Spezifizierung>
+            </Charakteristikum>
+          </Charakteristika>
+          <Sonderfertigkeiten ID="automatische">
+            <Sonderfertigkeit ID="Bindung des Stabes"/>
+            <Sonderfertigkeit ID="Merkmalskenntnis (Metamagie)"/>
+            <Sonderfertigkeit ID="Repräsentation (Gildenmagier)"/>
+            <Sonderfertigkeit ID="Ritualkenntnis (Gildenmagier)">
+              <Stufe>3</Stufe>
+            </Sonderfertigkeit>
+          </Sonderfertigkeiten>
+          <Sonderfertigkeiten ID="verbilligte">
+            <Sonderfertigkeit>Astrale Meditation</Sonderfertigkeit>
+            <Sonderfertigkeit>Große Meditation</Sonderfertigkeit>
+            <Sonderfertigkeit>Kraftlinienmagie I</Sonderfertigkeit>
+            <Sonderfertigkeit>Regeneration I</Sonderfertigkeit>
+            <Sonderfertigkeit>Bindung der Kugel</Sonderfertigkeit>
+          </Sonderfertigkeiten>
+          <Sprachen ID="Sprachen kennen">
+            <Sprache ID="Aureliani">
+              <Wert>3</Wert>
+            </Sprache>
+            <Sprache ID="Bosparano">
+              <Wert>3</Wert>
+            </Sprache>
+            <Sprache ID="Garethi">
+              <Wert>2</Wert>
+            </Sprache>
+            <Sprache ID="Zyklopäisch">
+              <Wert>2</Wert>
+            </Sprache>
+          </Sprachen>
+          <Schriften>
+            <Schrift ID="Imperiale Zeichen">
+              <Wert>3</Wert>
+            </Schrift>
+            <Schrift ID="Kusliker Zeichen">
+              <Wert>6</Wert>
+            </Schrift>
+            <Schrift ID="Nanduria">
+              <Wert>2</Wert>
+            </Schrift>
+          </Schriften>
+          <Zauberfertigkeiten>
+            <Zauberfertigkeit ID="Analys Arcanstruktur (Gildenmagier)">
+              <Zauberspruch>Analys Arcanstruktur</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>6</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Applicatus Zauberspeicher (Gildenmagier)">
+              <Zauberspruch>Applicatus Zauberspeicher</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>3</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Beherrschung brechen (Gildenmagier)">
+              <Zauberspruch>Beherrschung brechen</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>2</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Beschwörung vereiteln (Gildenmagier)">
+              <Zauberspruch>Beschwörung vereiteln</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>2</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Flim Flam Funkel (Gildenmagier)">
+              <Zauberspruch>Flim Flam Funkel</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>3</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Fortifex arkane Wand (Gildenmagier)">
+              <Zauberspruch>Fortifex arkane Wand</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>2</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Gardianum Zauberschild (Gildenmagier)">
+              <Zauberspruch>Gardianum Zauberschild</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>2</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Geisterruf (Gildenmagier)">
+              <Zauberspruch>Geisterruf</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>3</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Ignifaxius Flammenstrahl (Gildenmagier)">
+              <Zauberspruch>Ignifaxius Flammenstrahl</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>2</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Invercano Spiegeltrick (Gildenmagier)">
+              <Zauberspruch>Invercano Spiegeltrick</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>4</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Motoricus  (Gildenmagier)">
+              <Zauberspruch>Motoricus </Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>2</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Oculus Astralis (Gildenmagier)">
+              <Zauberspruch>Oculus Astralis</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>5</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Odem Arcanum (Gildenmagier)">
+              <Zauberspruch>Odem Arcanum</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>7</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Pentagramma Sphärenbann (Gildenmagier)">
+              <Zauberspruch>Pentagramma Sphärenbann</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>3</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Psychostabilis (Gildenmagier)">
+              <Zauberspruch>Psychostabilis</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>2</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Reversalis Revidum (Gildenmagier)">
+              <Zauberspruch>Reversalis Revidum</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>5</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Schleier der Unwissenheit (Gildenmagier)">
+              <Zauberspruch>Schleier der Unwissenheit</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>4</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Transversalis Teleport (Gildenmagier)">
+              <Zauberspruch>Transversalis Teleport</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>2</Wert>
+            </Zauberfertigkeit>
+            <Zauberfertigkeit ID="Unitatio Geistesbund (Gildenmagier)">
+              <Zauberspruch>Unitatio Geistesbund</Zauberspruch>
+              <Repräsentation>Gildenmagier</Repräsentation>
+              <Wert>5</Wert>
+            </Zauberfertigkeit>
+          </Zauberfertigkeiten>
+          <geschlechtsspezifischeBezeichnung ID="männlich">Magier (Kiranya)</geschlechtsspezifischeBezeichnung>
+          <geschlechtsspezifischeBezeichnung ID="weiblich">Magierin (Kiranya)</geschlechtsspezifischeBezeichnung>
+          <Sprachen ID="Zweitsprache">
+            <Sprache>Zyklopäisch</Sprache>
+          </Sprachen>
+          <Sprüche ID="bekannte">
+            <Zauber>Abvenenum reine Speise (Gildenmagier)</Zauber>
+            <Zauber>Analys Arcanstruktur (Gildenmagier)</Zauber>
+            <Zauber>Armatrutz (Gildenmagier)</Zauber>
+            <Zauber>Balsam Salabunde (Gildenmagier)</Zauber>
+            <Zauber>Bannbaladin (Gildenmagier)</Zauber>
+            <Zauber>Beherrschung brechen (Gildenmagier)</Zauber>
+            <Zauber>Blitz dich find (Gildenmagier)</Zauber>
+            <Zauber>Claudibus Clavistibor (Gildenmagier)</Zauber>
+            <Zauber>Cryptographo Zauberschrift (Gildenmagier)</Zauber>
+            <Zauber>Custodosigil Diebesbann (Gildenmagier)</Zauber>
+            <Zauber>Duplicatus Doppelbild (Gildenmagier)</Zauber>
+            <Zauber>Eisenrost und Patina (Gildenmagier)</Zauber>
+            <Zauber>Flim Flam Funkel (Gildenmagier)</Zauber>
+            <Zauber>Foramen Foraminor (Gildenmagier)</Zauber>
+            <Zauber>Gardianum Zauberschild (Gildenmagier)</Zauber>
+            <Zauber>Horriphobus Schreckgestalt (Gildenmagier)</Zauber>
+            <Zauber>Klarum Purum (Gildenmagier)</Zauber>
+            <Zauber>Motoricus  (Gildenmagier)</Zauber>
+            <Zauber>Odem Arcanum (Gildenmagier)</Zauber>
+            <Zauber>Paralysis starr wie Stein (Gildenmagier)</Zauber>
+            <Zauber>Plumbumbarum schwerer Arm (Gildenmagier)</Zauber>
+            <Zauber>Psychostabilis (Gildenmagier)</Zauber>
+            <Zauber>Respondami Warheitszwang (Gildenmagier)</Zauber>
+            <Zauber>Sensibar Empathicus (Gildenmagier)</Zauber>
+            <Zauber>Unitatio Geistesbund (Gildenmagier)</Zauber>
+            <Zauber>Koboldovision (Schelme)</Zauber>
+          </Sprüche>
+        </Profession>
+        <Eigenschaften>
+          <Eigenschaft ID="Mut">
+            <Wert>12</Wert>
+            <Basiswert>12</Basiswert>
+            <Maximalwert>18</Maximalwert>
+          </Eigenschaft>
+          <Eigenschaft ID="Klugheit">
+            <Wert>14</Wert>
+            <Basiswert>14</Basiswert>
+            <Maximalwert>21</Maximalwert>
+          </Eigenschaft>
+          <Eigenschaft ID="Intuition">
+            <Wert>13</Wert>
+            <Basiswert>13</Basiswert>
+            <Maximalwert>20</Maximalwert>
+          </Eigenschaft>
+          <Eigenschaft ID="Charisma">
+            <Wert>13</Wert>
+            <Basiswert>13</Basiswert>
+            <Maximalwert>20</Maximalwert>
+          </Eigenschaft>
+          <Eigenschaft ID="Fingerfertigkeit">
+            <Wert>12</Wert>
+            <Basiswert>12</Basiswert>
+            <Maximalwert>18</Maximalwert>
+          </Eigenschaft>
+          <Eigenschaft ID="Gewandtheit">
+            <Wert>10</Wert>
+            <Basiswert>10</Basiswert>
+            <Maximalwert>15</Maximalwert>
+          </Eigenschaft>
+          <Eigenschaft ID="Konstitution">
+            <Wert>12</Wert>
+            <Basiswert>12</Basiswert>
+            <Maximalwert>18</Maximalwert>
+          </Eigenschaft>
+          <Eigenschaft ID="Körperkraft">
+            <Wert>10</Wert>
+            <Basiswert>10</Basiswert>
+            <Maximalwert>15</Maximalwert>
+          </Eigenschaft>
+        </Eigenschaften>
+        <AbgeleiteteWerte>
+          <AbgeleiteterWert ID="Lebensenergie">
+            <Wert>27</Wert>
+            <Basiswert>17</Basiswert>
+            <Modifikatoren>
+              <Modifikator ID="Rasse">
+                <Wert>10</Wert>
+              </Modifikator>
+            </Modifikatoren>
+          </AbgeleiteterWert>
+          <AbgeleiteterWert ID="Ausdauer">
+            <Wert>27</Wert>
+            <Basiswert>17</Basiswert>
+            <Modifikatoren>
+              <Modifikator ID="Rasse">
+                <Wert>10</Wert>
+              </Modifikator>
+            </Modifikatoren>
+          </AbgeleiteterWert>
+          <AbgeleiteterWert ID="AttackeBasis">
+            <Wert>6</Wert>
+            <Basiswert>6</Basiswert>
+          </AbgeleiteterWert>
+          <AbgeleiteterWert ID="ParadeBasis">
+            <Wert>7</Wert>
+            <Basiswert>7</Basiswert>
+          </AbgeleiteterWert>
+          <AbgeleiteterWert ID="FernkampfBasis">
+            <Wert>7</Wert>
+            <Basiswert>7</Basiswert>
+          </AbgeleiteterWert>
+          <AbgeleiteterWert ID="InitiativeBasis">
+            <Wert>9</Wert>
+            <Basiswert>9</Basiswert>
+          </AbgeleiteterWert>
+          <AbgeleiteterWert ID="Magieresistenz">
+            <Wert>6</Wert>
+            <Basiswert>8</Basiswert>
+            <Modifikatoren>
+              <Modifikator ID="Rasse">
+                <Wert>-4</Wert>
+              </Modifikator>
+              <Modifikator ID="Vollzauberer">
+                <Wert>2</Wert>
+              </Modifikator>
+            </Modifikatoren>
+          </AbgeleiteterWert>
+          <AbgeleiteterWert ID="Astralenergie">
+            <Wert>31</Wert>
+            <Basiswert>19</Basiswert>
+            <Modifikatoren>
+              <Modifikator ID="Vollzauberer">
+                <Wert>12</Wert>
+              </Modifikator>
+            </Modifikatoren>
+          </AbgeleiteterWert>
+          <AbgeleiteterWert ID="Sozialstatus">
+            <Wert>7</Wert>
+            <Basiswert>0</Basiswert>
+            <Modifikatoren>
+              <Modifikator ID="Startwert">
+                <Wert>7</Wert>
+              </Modifikator>
+            </Modifikatoren>
+          </AbgeleiteterWert>
+        </AbgeleiteteWerte>
+        <Hauptfarbe>braun</Hauptfarbe>
+        <Augenfarbe>grün</Augenfarbe>
+        <Groesse>187</Groesse>
+        <Gewicht>87</Gewicht>
+        <Alter>18</Alter>
+        <Talente>
+          <Talentgruppe ID="Körperliche Talente">
+            <Talent ID="Athletik">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Klettern">
+              <Wert>3</Wert>
+            </Talent>
+            <Talent ID="Körperbeherrschung">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Schleichen">
+              <Wert>0</Wert>
+            </Talent>
+            <Talent ID="Schwimmen">
+              <Wert>3</Wert>
+            </Talent>
+            <Talent ID="Selbstbeherrschung">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Sich Verstecken">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Singen">
+              <Wert>0</Wert>
+            </Talent>
+            <Talent ID="Sinnenschärfe">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Tanzen">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Zechen">
+              <Wert>0</Wert>
+            </Talent>
+          </Talentgruppe>
+          <Talentgruppe ID="Gesellschaftliche Talente">
+            <Talent ID="Lehren">
+              <Wert>3</Wert>
+            </Talent>
+            <Talent ID="Menschenkenntnis">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Schriftlicher Ausdruck">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Überreden">
+              <Wert>1</Wert>
+            </Talent>
+          </Talentgruppe>
+          <Talentgruppe ID="Natur-Talente">
+            <Talent ID="Fesseln / Entfesseln">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Fischen / Angeln">
+              <Wert>3</Wert>
+            </Talent>
+            <Talent ID="Fährtensuchen">
+              <Wert>0</Wert>
+            </Talent>
+            <Talent ID="Orientierung">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Seefischerei">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Wettervorhersage">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Wildnisleben">
+              <Wert>2</Wert>
+            </Talent>
+          </Talentgruppe>
+          <Talentgruppe ID="Wissenstalente">
+            <Talent ID="Geographie">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Geschichtswissen">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Götter und Kulte">
+              <Wert>5</Wert>
+            </Talent>
+            <Talent ID="Magiekunde">
+              <Wert>5</Wert>
+            </Talent>
+            <Talent ID="Philosophie">
+              <Wert>3</Wert>
+            </Talent>
+            <Talent ID="Rechnen">
+              <Wert>4</Wert>
+            </Talent>
+            <Talent ID="Rechtskunde">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Sagen / Legenden">
+              <Wert>6</Wert>
+            </Talent>
+            <Talent ID="Sternkunde">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Tierkunde">
+              <Wert>2</Wert>
+            </Talent>
+          </Talentgruppe>
+          <Talentgruppe ID="Handwerkliche Talente">
+            <Talent ID="Boote Fahren">
+              <Wert>4</Wert>
+            </Talent>
+            <Talent ID="Heilkunde Wunden">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Holzbearbeitung">
+              <Wert>4</Wert>
+            </Talent>
+            <Talent ID="Kochen">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Lederarbeiten">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Malen / Zeichnen">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Schneidern">
+              <Wert>2</Wert>
+            </Talent>
+            <Talent ID="Seefahrt">
+              <Wert>1</Wert>
+            </Talent>
+            <Talent ID="Viehzucht">
+              <Wert>3</Wert>
+            </Talent>
+          </Talentgruppe>
+        </Talente>
+        <Sprachen>
+          <Sprache ID="Aureliani">
+            <Wert>3</Wert>
+          </Sprache>
+          <Sprache ID="Bosparano">
+            <Wert>3</Wert>
+          </Sprache>
+          <Sprache ID="Garethi">
+            <Wert>16</Wert>
+            <Art>Muttersprache</Art>
+          </Sprache>
+          <Sprache ID="Zyklopäisch">
+            <Wert>12</Wert>
+            <Art>Zweitsprache</Art>
+          </Sprache>
+        </Sprachen>
+        <Schriften>
+          <Schrift ID="Imperiale Zeichen">
+            <Wert>3</Wert>
+          </Schrift>
+          <Schrift ID="Kusliker Zeichen">
+            <Wert>6</Wert>
+          </Schrift>
+          <Schrift ID="Nanduria">
+            <Wert>2</Wert>
+          </Schrift>
+        </Schriften>
+        <Kampftechniken>
+          <Kampftechnik ID="Dolche">
+            <Wert>2</Wert>
+            <AufAT>1</AufAT>
+            <AufPA>1</AufPA>
+            <Attacke>7</Attacke>
+            <Parade>8</Parade>
+          </Kampftechnik>
+          <Kampftechnik ID="Hiebwaffen">
+            <Wert>0</Wert>
+            <AufAT>0</AufAT>
+            <AufPA>0</AufPA>
+            <Attacke>6</Attacke>
+            <Parade>7</Parade>
+          </Kampftechnik>
+          <Kampftechnik ID="Raufen">
+            <Wert>2</Wert>
+            <AufAT>1</AufAT>
+            <AufPA>1</AufPA>
+            <Attacke>7</Attacke>
+            <Parade>8</Parade>
+          </Kampftechnik>
+          <Kampftechnik ID="Ringen">
+            <Wert>2</Wert>
+            <AufAT>1</AufAT>
+            <AufPA>1</AufPA>
+            <Attacke>7</Attacke>
+            <Parade>8</Parade>
+          </Kampftechnik>
+          <Kampftechnik ID="Schleuder">
+            <Wert>1</Wert>
+            <AufAT>1</AufAT>
+            <Attacke>8</Attacke>
+          </Kampftechnik>
+          <Kampftechnik ID="Stäbe">
+            <Wert>2</Wert>
+            <AufAT>1</AufAT>
+            <AufPA>1</AufPA>
+            <Attacke>7</Attacke>
+            <Parade>8</Parade>
+          </Kampftechnik>
+          <Kampftechnik ID="Säbel">
+            <Wert>0</Wert>
+            <AufAT>0</AufAT>
+            <AufPA>0</AufPA>
+            <Attacke>6</Attacke>
+            <Parade>7</Parade>
+          </Kampftechnik>
+          <Kampftechnik ID="Wurfmesser">
+            <Wert>0</Wert>
+            <AufAT>0</AufAT>
+            <Attacke>7</Attacke>
+          </Kampftechnik>
+        </Kampftechniken>
+        <Charakteristika>
+          <Charakteristikum ID="Arroganz">
+            <Stufe>5</Stufe>
+          </Charakteristikum>
+          <Charakteristikum ID="Astrale Regeneration">
+            <Stufe>1</Stufe>
+          </Charakteristikum>
+          <Charakteristikum ID="Dunkelangst">
+            <Stufe>7</Stufe>
+          </Charakteristikum>
+          <Charakteristikum ID="Gildenmagier"/>
+          <Charakteristikum ID="Gutaussehend"/>
+          <Charakteristikum ID="Nachtblind"/>
+          <Charakteristikum ID="Neugier">
+            <Stufe>7</Stufe>
+          </Charakteristikum>
+          <Charakteristikum ID="Vollzauberer"/>
+          <Charakteristikum ID="Weltfremd">
+            <Stufe>5</Stufe>
+            <Spezifizierung>gesellschaftliches Leben, weltliche und geistliche Autoritäten</Spezifizierung>
+          </Charakteristikum>
+        </Charakteristika>
+        <Sonderfertigkeiten ID="tatsächliche">
+          <Sonderfertigkeit ID="Bindung des Stabes"/>
+          <Sonderfertigkeit ID="Meereskundig"/>
+          <Sonderfertigkeit ID="Merkmalskenntnis (Metamagie)"/>
+          <Sonderfertigkeit ID="Repräsentation (Gildenmagier)"/>
+          <Sonderfertigkeit ID="Ritualkenntnis (Gildenmagier)">
+            <Stufe>3</Stufe>
+          </Sonderfertigkeit>
+        </Sonderfertigkeiten>
+        <Sonderfertigkeiten ID="verbilligte">
+          <Sonderfertigkeit>Astrale Meditation</Sonderfertigkeit>
+          <Sonderfertigkeit>Große Meditation</Sonderfertigkeit>
+          <Sonderfertigkeit>Kraftlinienmagie I</Sonderfertigkeit>
+          <Sonderfertigkeit>Regeneration I</Sonderfertigkeit>
+          <Sonderfertigkeit>Bindung der Kugel</Sonderfertigkeit>
+        </Sonderfertigkeiten>
+        <Zauberfertigkeiten>
+          <Zauberfertigkeit ID="Analys Arcanstruktur (Gildenmagier)">
+            <Zauberspruch>Analys Arcanstruktur</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>6</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Applicatus Zauberspeicher (Gildenmagier)">
+            <Zauberspruch>Applicatus Zauberspeicher</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>3</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Beherrschung brechen (Gildenmagier)">
+            <Zauberspruch>Beherrschung brechen</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>2</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Beschwörung vereiteln (Gildenmagier)">
+            <Zauberspruch>Beschwörung vereiteln</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>4</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Flim Flam Funkel (Gildenmagier)">
+            <Zauberspruch>Flim Flam Funkel</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>5</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Fortifex arkane Wand (Gildenmagier)">
+            <Zauberspruch>Fortifex arkane Wand</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>2</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Gardianum Zauberschild (Gildenmagier)">
+            <Zauberspruch>Gardianum Zauberschild</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>2</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Geisterruf (Gildenmagier)">
+            <Zauberspruch>Geisterruf</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>3</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Ignifaxius Flammenstrahl (Gildenmagier)">
+            <Zauberspruch>Ignifaxius Flammenstrahl</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>2</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Invercano Spiegeltrick (Gildenmagier)">
+            <Zauberspruch>Invercano Spiegeltrick</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>4</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Motoricus  (Gildenmagier)">
+            <Zauberspruch>Motoricus </Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>2</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Oculus Astralis (Gildenmagier)">
+            <Zauberspruch>Oculus Astralis</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>5</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Odem Arcanum (Gildenmagier)">
+            <Zauberspruch>Odem Arcanum</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>7</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Pentagramma Sphärenbann (Gildenmagier)">
+            <Zauberspruch>Pentagramma Sphärenbann</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>3</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Psychostabilis (Gildenmagier)">
+            <Zauberspruch>Psychostabilis</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>2</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Reversalis Revidum (Gildenmagier)">
+            <Zauberspruch>Reversalis Revidum</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>5</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Schleier der Unwissenheit (Gildenmagier)">
+            <Zauberspruch>Schleier der Unwissenheit</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>4</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Transversalis Teleport (Gildenmagier)">
+            <Zauberspruch>Transversalis Teleport</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>2</Wert>
+          </Zauberfertigkeit>
+          <Zauberfertigkeit ID="Unitatio Geistesbund (Gildenmagier)">
+            <Zauberspruch>Unitatio Geistesbund</Zauberspruch>
+            <Repräsentation>Gildenmagier</Repräsentation>
+            <Wert>5</Wert>
+          </Zauberfertigkeit>
+        </Zauberfertigkeiten>
+        <Beschreibung>Dies ist der Beispielheld Kalchas. Er wuchs auf den Zyklopeninseln auf und wurde dann, weil er schhon als kleiner Junge die gute Kiranya verzauberte - er war halt hübsch anzuschauen und ein neugieriger, alleswissenwollender Frechdachs - nahm sie ihn, als seine magische Begabung erkannt wurde, mit Freuden auf und brachte ihm bei, was sie beibringen konnte.
+
+Er ist nicht fertig generiert, sondern ist wirklich nur als Beispielheld dabei. Ihr könnt ihn auch ohne Schaden aus Euren Daten löschen.</Beschreibung>
+      </Person>
+    </Personen>
+  </Inhalt>
+
+</XDIML>

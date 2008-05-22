@@ -1,0 +1,22 @@
+material farn1
+{ 
+   technique 
+   { 
+      pass 
+      { 
+      ambient 0.609804 0.609804 0.609804 1
+			diffuse 0.631373 0.631373 0.631373 1
+			specular 0 0 0 1 10
+                         // Rendert beidseitig 
+         cull_hardware none 
+         cull_software none 
+	 alpha_rejection greater 215 
+
+         texture_unit 
+         { 
+            texture farn1.dds             
+	    filtering linear linear linear 
+         } 
+      } 
+   } 
+} 

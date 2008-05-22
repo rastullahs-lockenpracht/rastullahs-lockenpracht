@@ -1,0 +1,7 @@
+material Statue_02 : Basic_Normalmapping_Spec
+{
+	set_texture_alias DiffuseMap Statue_02_diffuse.png
+	set_texture_alias NormalMap Statue_02_normals.png
+	set_texture_alias SpecMap Statue_02_specular.png
+
+}

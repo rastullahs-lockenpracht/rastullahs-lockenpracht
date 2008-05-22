@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<rastullahmap formatVersion="0.4.0">
+	<nodes>
+		<light name="fackkellicht" type="point" visible="true"
+			castShadows="false">
+			<position x="-1.39" y="6.06" z="12.84" />
+			<colourDiffuse r="0.8" g="0.7" b="0.5" />
+			<colourSpecular r="0.8" g="0.7" b="0.5" />
+			<lightAttenuation range="8" constant="0.79" linear="-0.21" quadratic="0.268" />
+		</light>
+		<light name="fackkellicht2" type="point" visible="true"
+			castShadows="false">
+			<position x="11.39" y="6.06" z="9.75" />
+			<colourDiffuse r="0.8" g="0.7" b="0.5" />
+			<colourSpecular r="0.8" g="0.7" b="0.5" />
+			<lightAttenuation range="8" constant="0.79" linear="-0.21" quadratic="0.268" />
+		</light>
+		<light name="fackkellicht3" type="point" visible="true"
+			castShadows="false">
+			<position x="-22.48" y="4.60" z="23.10" />
+			<colourDiffuse r="0.8" g="0.7" b="0.5" />
+			<colourSpecular r="0.8" g="0.7" b="0.5" />
+			<lightAttenuation range="8" constant="0.79" linear="-0.21" quadratic="0.268" />
+		</light>
+		<light name="fackkellicht4" type="point" visible="true"
+			castShadows="false">
+			<position x="36.49" y="7.37" z="30.27" />
+			<colourDiffuse r="0.8" g="0.7" b="0.5" />
+			<colourSpecular r="0.8" g="0.7" b="0.5" />
+			<lightAttenuation range="8" constant="0.79" linear="-0.21" quadratic="0.268" />
+		</light>
+		<light name="fackkellicht5" type="point" visible="true"
+			castShadows="false">
+			<position x="59.78" y="7.14" z="28.66" />
+			<colourDiffuse r="0.8" g="0.7" b="0.5" />
+			<colourSpecular r="0.8" g="0.7" b="0.5" />
+			<lightAttenuation range="8" constant="0.79" linear="-0.21" quadratic="0.268" />
+		</light>
+	</nodes>
+	<zones>
+		<zone name="default">
+			<light name="fackkellicht"/>
+			<light name="fackkellicht2"/>
+			<light name="fackkellicht3"/>
+			<light name="fackkellicht4"/>
+			<light name="fackkellicht5"/>
+			<light name="fackkellicht6"/>
+		</zone>
+	</zones>
+</rastullahmap>

@@ -1,0 +1,16 @@
+
+material ver_weinflasche_01
+{
+	technique
+	{
+		pass
+		{
+			
+
+			texture_unit
+			{
+				texture ver_weinflasche_01.dds
+			}
+		}
+	}
+}

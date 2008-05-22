@@ -1,0 +1,26 @@
+sampler2D baseMap;
+sampler2D specMap;
+sampler lookup;
+
+struct PS_INPUT 
+{
+   float2 Texcoord : TEXCOORD0;
+   float2 Texcoord1: TEXCOORD1;
+   float2 Texcoord2: TEXCOORD2;
+   float4 Color    : TEXCOORD3;
+   float4 Specular : TEXCOORD4;
+   
+};
+
+float4 ps_main( PS_INPUT Input ) : COLOR0
+{
+   float4 texcolor =tex2D( baseMap, Input.Texcoord );
+   float4 speccolor=tex2D( specMap, Input.Texcoord );
+   float4 endcolor =texcolor*(Input.Color +tex1D(lookup, clamp(pow(speccolor,2)*Input.Specular*4 ,0.01,0.99))/2);
+   endcolor.a = texcolor.a;
+   return endcolor;
+
+}
+
+
+

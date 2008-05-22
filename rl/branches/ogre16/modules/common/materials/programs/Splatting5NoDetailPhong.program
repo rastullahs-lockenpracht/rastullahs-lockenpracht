@@ -1,0 +1,185 @@
+// Base Texture with 4 blended Textures and included Detailmap
+fragment_program glSplatting5NoDetailPhong_FP glsl
+{
+  source Splatting5NoDetailPhong.frag
+}
+
+vertex_program glSplatting5NoDetailPhong_VP glsl
+{
+  source Splatting5NoDetailPhong.vert
+}
+
+fragment_program dxSplatting5NoDetailPhong_FP hlsl
+{
+  source Splatting5NoDetailPhong.hlsl
+  entry_point ps_main
+  target ps_2_0
+}
+
+vertex_program dxSplatting5NoDetailPhong_VP hlsl
+{
+  source Splatting5NoDetailPhong.hlsl
+  entry_point vs_main
+  target vs_1_1
+}
+
+material Splatting5NoDetailPhong
+{
+	technique hlsl
+	{
+		scheme with_shaders
+
+		pass
+		{
+			// HLSL Fragment Shader
+			fragment_program_ref dxSplatting5NoDetailPhong_FP
+			{
+				//Shader Constant: materialAmbient
+				param_named materialAmbient float4 0.2 0.2 0.2 1.0
+				//Shader Constant: materialDiffuse
+				param_named materialDiffuse float4 0.7 0.7 0.7 1.0
+
+				//Shader Constant: lightDiffuse
+				param_named_auto lightDiffuse light_diffuse_colour 0
+				//Shader Constant: ambientLight
+				param_named_auto ambientLight ambient_light_colour
+				
+				//Shader Constant: scaleBase
+				param_named scaleBase  float 1.000000
+				//Shader Constant: scaleBaseR
+				param_named scaleBaseR float 1.000000
+				//Shader Constant: scaleBaseG
+				param_named scaleBaseG float 1.000000
+				//Shader Constant: scaleBaseB
+				param_named scaleBaseB float 1.000000
+				//Shader Constant: scaleBaseA
+				param_named scaleBaseA float 1.000000
+				
+			}
+			// HLSL Vertex Shader
+			vertex_program_ref dxSplatting5NoDetailPhong_VP
+			{
+				//Shader Constant: matWorldViewProjection
+				param_named_auto matWorldViewProjection worldviewproj_matrix
+				//Shader Constant: fvLightPosition
+				param_named_auto fvLightPosition light_position_object_space 0
+			}
+			// The Texture containing the Splatting information in its channels
+			texture_unit SplattingMap
+			{
+				filtering anisotropic
+				
+			}
+			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
+			texture_unit BaseLayer
+			{
+				filtering anisotropic
+				
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer
+			texture_unit RedLayer
+			{
+				filtering anisotropic
+				
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer
+			texture_unit GreenLayer
+			{
+				filtering anisotropic
+				
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer
+			texture_unit BlueLayer
+			{
+				filtering anisotropic
+				
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer
+			texture_unit AlphaLayer
+			{
+				filtering anisotropic
+				
+			}
+		}
+	}
+
+	technique glsl
+	{
+		scheme with_shaders
+
+		pass
+		{
+			ambient 0.2 0.2 0.2
+			diffuse 0.7 0.7 0.7
+
+			vertex_program_ref glSplatting5NoDetailPhong_VP
+			{
+			}
+
+			fragment_program_ref glSplatting5NoDetailPhong_FP
+			{
+				param_named splattingMap int 0
+				param_named base int 1
+				param_named baseR int 2
+				param_named baseG int 3
+				param_named baseB int 4
+				param_named baseA int 5
+
+				//Shader Constant: scaleBase
+				param_named scaleBase  float 1.000000
+				//Shader Constant: scaleBaseR
+				param_named scaleBaseR float 1.000000
+				//Shader Constant: scaleBaseG
+				param_named scaleBaseG float 1.000000
+				//Shader Constant: scaleBaseB
+				param_named scaleBaseB float 1.000000
+				//Shader Constant: scaleBaseA
+				param_named scaleBaseA float 1.000000
+			}
+
+			// The Texture containing the Splatting information in its channels
+			texture_unit SplattingMap
+			{
+				filtering anisotropic
+				
+			}
+			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
+			texture_unit BaseLayer
+			{
+				filtering anisotropic
+				
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer
+			texture_unit RedLayer
+			{
+				filtering anisotropic
+				
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer
+			texture_unit GreenLayer
+			{
+				filtering anisotropic
+				
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer
+			texture_unit BlueLayer
+			{
+				filtering anisotropic
+				
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer
+			texture_unit AlphaLayer
+			{
+				filtering anisotropic
+				
+			}
+		}
+	}
+
+	technique fixed_function
+	{
+		pass
+		{
+		} 
+	}
+}

@@ -1,0 +1,38 @@
+
+material arc_Wachturm_01/Base
+{
+	technique
+	{
+		pass
+		{
+		ambient 0.309804 0.309804 0.309804 1
+			diffuse 0.531373 0.531373 0.531373 1
+			specular 0 0 0 1 10
+
+			texture_unit
+			{
+				texture arc_turm_01.dds
+			}
+		}
+	}
+}
+material arc_Wachturm_01/alpha
+{
+	technique
+	{
+		pass
+		{
+		ambient 0.409804 0.409804 0.409804 1
+			diffuse 0.531373 0.531373 0.531373 1
+			specular 0 0 0 1 10
+			alpha_rejection greater 99
+
+
+			texture_unit
+			{
+				texture arc_turm_01.dds
+				filtering linear linear linear 
+			}
+		}
+	}
+}

@@ -1,0 +1,14 @@
+material nat_steine_01
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture nat_steine_01.dds 
+            }
+        }
+    }
+}
+

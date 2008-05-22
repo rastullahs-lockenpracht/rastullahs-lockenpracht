@@ -1,0 +1,55 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="RastullahLook/FrameWindow" Name="LogWindow">
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+        <Property Name="UnifiedSize" Value="{{0,400},{0,330}}"/>
+
+		<Window Type="RastullahLook/TabControl" Name="LogWindow/TabPlane">
+            <Property Name="UnifiedPosition" Value="{{0,15},{0,20}}"/>
+            <Property Name="UnifiedSize" Value="{{0,370},{0,275}}"/>
+		 
+			<Window Type="DefaultGUISheet" Name="LogWindow/ErrorLog">
+                <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+				<Property Name="Text" Value="Fehler"/>
+				<Window Type="RastullahLook/MultiLineEditbox" Name="LogWindow/ErrorLog/Text">
+                    <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                    <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+				</Window>
+			</Window>
+			 
+			<Window Type="DefaultGUISheet" Name="LogWindow/RastullahLog">
+                <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+				<Property Name="Text" Value="rastullah.log"/>
+				<Window Type="RastullahLook/MultiLineEditbox" Name="LogWindow/RastullahLog/Text">
+                    <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                    <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+				</Window>
+			</Window>
+
+			<Window Type="DefaultGUISheet" Name="LogWindow/OgreLog"> 
+                <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+				<Property Name="Text" Value="ogre.log"/>
+				<Window Type="RastullahLook/MultiLineEditbox" Name="LogWindow/OgreLog/Text">
+                    <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                    <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+				</Window>
+			</Window>
+		</Window>
+
+	    <Window Type="RastullahLook/Button" Name="LogWindow/UpdateButton">
+		<Property Name="Text" Value="Update"/>
+                <Property Name="UnifiedPosition" Value="{{0,50},{0,300}}"/>
+                <Property Name="UnifiedSize" Value="{{0,80},{0,20}}"/>
+	    </Window>		
+
+	    <Window Type="RastullahLook/Button" Name="LogWindow/CloseButton">
+		<Property Name="Text" Value="Schließen"/>
+                <Property Name="UnifiedPosition" Value="{{0,160},{0,300}}"/>
+                <Property Name="UnifiedSize" Value="{{0,80},{0,20}}"/>
+	    </Window>		
+        </Window>
+</GUILayout>
+
+

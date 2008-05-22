@@ -1,0 +1,57 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+      <Window Type="RastullahLook/FrameWindow" Name="MainMenuLoadWindow">
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+        <Property Name="UnifiedSize" Value="{{0,400},{0,500}}"/>
+        <Property Name="Text" Value="Save/Load Game"/>
+        <Property Name="SizingEnabled" Value="false"/>
+
+        <!-- FileSheet for the filename edit box and the savegame list  -->
+        
+        <Window Type="DefaultGUISheet" Name="MainMenuLoadWindow/FileSheet">
+            <Property Name="UnifiedPosition" Value="{{0,30},{0,30}}"/>
+            <Property Name="UnifiedSize" Value="{{0,350},{0,385}}"/>
+                   
+            <!-- Table with two columns for the filename an save date of saved games -->
+            
+            <Window Type="RastullahLook/MultiColumnList" Name="MainMenuLoadWindow/FileSheet/SaveGameTable">
+                <Property Name="UnifiedPosition" Value="{{0,0},{0,30}}"/>
+                <Property Name="UnifiedSize" Value="{{1,0},{0,380}}"/>
+                <Property Name="Text" Value="SaveGames"/>
+                <Property Name="SortSettingEnabled" Value="False"/>
+                <Property Name="Font" Value="Vera Serif-8"/>
+                <Property Name="FrameEnabled" Value="True"/>
+            </Window> 
+        
+        </Window>      
+                     
+        <!-- Button sheet for the Load, Save, delete and cancel button -->
+        
+        <Window Type="DefaultGUISheet" Name="MainMenuLoadWindow/ButtonSheet">
+            <Property Name="UnifiedPosition" Value="{{0,30},{0,435}}"/>
+            <Property Name="UnifiedSize" Value="{{0,350},{0,85}}"/>
+            
+            <Window Type="RastullahLook/Button" Name="MainMenuLoadWindow/ButtonSheet/LoadButton">
+                <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                <Property Name="UnifiedSize" Value="{{0,110},{0,28}}"/>
+                <Property Name="Font" Value="Vera Serif-10"/>
+                <Property Name="Text" Value="Load"/>
+            </Window>
+         
+            <Window Type="RastullahLook/Button" Name="MainMenuLoadWindow/ButtonSheet/DeleteButton">
+                <Property Name="UnifiedPosition" Value="{{0,115},{0,0}}"/>
+                <Property Name="UnifiedSize" Value="{{0,110},{0,28}}"/>
+                <Property Name="Font" Value="Vera Serif-10"/>
+                <Property Name="Text" Value="Delete"/>
+            </Window>
+            
+            <Window Type="RastullahLook/Button" Name="MainMenuLoadWindow/ButtonSheet/CancelButton">
+                <Property Name="UnifiedPosition" Value="{{0,230},{0,0}}"/>
+                <Property Name="UnifiedSize" Value="{{0,110},{0,28}}"/>
+                <Property Name="Font" Value="Vera Serif-10"/>
+                <Property Name="Text" Value="Cancel"/>
+            </Window>
+        
+        </Window>
+        
+    </Window>
+</GUILayout>

@@ -1,0 +1,16 @@
+
+material zeugs_02_eckbank_fenster_holzscheit
+{
+	technique
+	{
+		pass
+		{
+		
+
+			texture_unit
+			{
+				texture zeugs_01_eckbank_fenster_holzscheit.dds
+			}
+		}
+	}
+}

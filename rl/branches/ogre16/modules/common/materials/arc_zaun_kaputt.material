@@ -1,0 +1,17 @@
+material zaun_kaputt
+{
+    technique
+    {
+        pass
+        {
+	    alpha_rejection greater 215 
+            texture_unit
+            {
+		filtering linear linear linear 
+                texture arc_zaun_kaputt.dds 
+            }
+        }
+    }
+}
+
+

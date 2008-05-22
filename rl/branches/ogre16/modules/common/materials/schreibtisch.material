@@ -1,0 +1,4 @@
+material schreibtisch: Basic_Vertex_Shader
+{
+set_texture_alias diffuse schreibtisch.dds 
+}

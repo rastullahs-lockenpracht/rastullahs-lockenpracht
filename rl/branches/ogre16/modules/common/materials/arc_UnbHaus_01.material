@@ -1,0 +1,87 @@
+material arc_UnbHaus/Stein
+{
+    technique
+    {
+        pass
+        {
+		texture_unit
+            {
+                texture arc_SteinLehmwand_01.dds
+            }
+        }
+    }
+}
+
+material arc_UnbHaus/Wand
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture arc_lehmwand_01.dds
+            }
+        }
+    }
+}
+
+material arc_UnbHaus/Dach
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture arc_dach01.dds 
+            }
+        }
+    }
+}
+
+material arc_UnbHaus/balken
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture arc_balken.dds 
+            }
+        }
+    }
+}
+
+material arc_UnbHaus/dirt
+{
+    technique
+    {
+        pass
+        {
+	  scene_blend alpha_blend 
+        depth_write off
+            texture_unit
+            {
+                texture arc_dirt_01.dds 
+            }
+        }
+    }
+}
+
+material arc_UnbHaus/hausstuff
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture arc_hausstuff_01.dds 
+            }
+        }
+    }
+}
+
+

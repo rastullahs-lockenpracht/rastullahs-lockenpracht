@@ -1,0 +1,15 @@
+
+material arc_bett_01: Basic_Vertex_Shader
+{
+set_texture_alias diffuse bauernbett.dds
+}
+
+
+
+
+
+
+
+
+
+

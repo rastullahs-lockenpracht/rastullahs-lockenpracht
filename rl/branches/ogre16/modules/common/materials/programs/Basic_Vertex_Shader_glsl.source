@@ -1,0 +1,152 @@
+//
+// Translator library functions
+//
+
+float xlat_lib_saturate( float x) {
+  return clamp( x, 0.0, 1.0);
+}
+
+vec2 xlat_lib_saturate( vec2 x) {
+  return clamp( x, 0.0, 1.0);
+}
+
+vec3 xlat_lib_saturate( vec3 x) {
+  return clamp( x, 0.0, 1.0);
+}
+
+vec4 xlat_lib_saturate( vec4 x) {
+  return clamp( x, 0.0, 1.0);
+}
+
+mat2 xlat_lib_saturate(mat2 m) {
+  return mat2( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0));
+}
+
+mat3 xlat_lib_saturate(mat3 m) {
+  return mat3( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0));
+}
+
+mat4 xlat_lib_saturate(mat4 m) {
+  return mat4( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0), clamp(m[3], 0.0, 1.0));
+}
+
+
+//
+// Structure definitions
+//
+
+struct VS_OUTPUT {
+    vec4 Position;
+    vec2 Texcoord;
+    vec2 Texcoord1;
+    vec2 Texcoord2;
+    vec4 Color;
+};
+
+struct VS_INPUT {
+    vec4 Position;
+    vec2 Texcoord;
+    vec2 Texcoord1;
+    vec2 Texcoord2;
+    vec3 Normal;
+};
+
+
+//
+// Global variable definitions
+//
+
+uniform vec4 Light1_attenuation;
+uniform vec4 Light1_color;
+uniform vec4 Light1_position;
+uniform vec4 Light1_spec_power;
+uniform vec4 Light2_attenuation;
+uniform vec4 Light2_color;
+uniform vec4 Light2_position;
+uniform vec4 Light2_spec_power;
+uniform vec4 Light3_attenuation;
+uniform vec4 Light3_color;
+uniform vec4 Light3_position;
+uniform vec4 Light3_spec_power;
+uniform vec4 groundcolor;
+uniform mat4 matViewProjection;
+uniform vec4 skycolor;
+uniform vec4 vViewPosition;
+
+//
+// Function declarations
+//
+
+VS_OUTPUT vs_main( in VS_INPUT Input );
+
+//
+// Function definitions
+//
+
+VS_OUTPUT vs_main( in VS_INPUT Input ) {
+    VS_OUTPUT Output;
+    vec3 LightDir;
+    float Dist;
+    float AngleAttn;
+    vec3 EyeVect;
+    vec3 HalfVect;
+    float SpecAttn;
+    float DistAttn;
+
+    Output.Color = mix( skycolor, groundcolor, vec4( ((dot( Input.Normal, vec3( 0.000000, -1.00000, 0.000000)) + 1.00000) / 2.00000)));
+    Output.Position = ( matViewProjection * Input.Position );
+    LightDir = vec3( (Light1_position - (Input.Position * Light1_position.w )));
+    Dist = length( LightDir );
+    LightDir = (LightDir / Dist);
+    AngleAttn = xlat_lib_saturate( dot( Input.Normal, LightDir) );
+    EyeVect = vec3( normalize( (Input.Position - vViewPosition) ));
+    HalfVect = normalize( (LightDir - EyeVect) );
+    SpecAttn = float( ((Light1_color * Light1_spec_power) * pow( clamp( dot( Input.Normal, HalfVect), 0.000000, 1.00000), 32.0000)));
+    DistAttn = clamp( (1.00000 / ((Light1_attenuation.y  + (Light1_attenuation.z  * Dist)) + ((Light1_attenuation.w  * Dist) * Dist)))*clamp(Light1_attenuation.x-Dist,0.0,1.0), 0.000000, 1.00000);
+    Output.Color += (((Light1_color * AngleAttn) + SpecAttn) * DistAttn);
+    LightDir = vec3( (Light3_position - (Input.Position * Light3_position.w )));
+    Dist = length( LightDir );
+    LightDir = (LightDir / Dist);
+    AngleAttn = xlat_lib_saturate( dot( Input.Normal, LightDir) );
+    EyeVect = vec3( normalize( (Input.Position - vViewPosition) ));
+    HalfVect = normalize( (LightDir - EyeVect) );
+    SpecAttn = float( ((Light3_color * Light3_spec_power) * pow( clamp( dot( Input.Normal, HalfVect), 0.000000, 1.00000), 32.0000)));
+    DistAttn = clamp( (1.00000 / ((Light3_attenuation.y  + (Light3_attenuation.z  * Dist)) + ((Light3_attenuation.w  * Dist) * Dist)))*clamp(Light3_attenuation.x-Dist,0.0,1.0), 0.000000, 1.00000);
+    Output.Color += (((Light3_color * AngleAttn) + SpecAttn) * DistAttn);
+    LightDir = vec3( (Light2_position - (Input.Position * Light2_position.w )));
+    Dist = length( LightDir );
+    LightDir = (LightDir / Dist);
+    AngleAttn = xlat_lib_saturate( dot( Input.Normal, LightDir) );
+    HalfVect = normalize( (LightDir - EyeVect) );
+    SpecAttn = float( ((Light2_color * Light2_spec_power) * pow( clamp( dot( Input.Normal, HalfVect), 0.000000, 1.00000), 32.0000)));
+    DistAttn = clamp( (1.00000 / ((Light2_attenuation.y  + (Light2_attenuation.z  * Dist)) + ((Light2_attenuation.w  * Dist) * Dist))*clamp(Light2_attenuation.x-Dist,0.0,1.0)), 0.000000, 1.00000);
+    Output.Color += (((Light2_color * AngleAttn) + SpecAttn) * DistAttn);
+    Output.Texcoord = Input.Texcoord;
+    Output.Texcoord1 = Input.Texcoord1;
+    Output.Texcoord2 = Input.Texcoord2;
+    return Output;
+}
+
+
+//
+// Translator's entry point
+//
+void main() {
+    VS_OUTPUT xlat_retVal;
+    VS_INPUT xlat_temp_Input;
+    xlat_temp_Input.Position = vec4( gl_Vertex);
+    xlat_temp_Input.Texcoord = vec2( gl_MultiTexCoord0);
+    xlat_temp_Input.Texcoord1 = vec2( gl_MultiTexCoord1);
+    xlat_temp_Input.Texcoord2 = vec2( gl_MultiTexCoord2);
+    xlat_temp_Input.Normal = vec3( gl_Normal);
+
+    xlat_retVal = vs_main( xlat_temp_Input);
+
+    gl_Position = vec4( xlat_retVal.Position);
+    gl_TexCoord[0] = vec4( xlat_retVal.Texcoord, 0.0, 0.0);
+    gl_TexCoord[1] = vec4( xlat_retVal.Texcoord1, 0.0, 0.0);
+    gl_TexCoord[2] = vec4( xlat_retVal.Texcoord2, 0.0, 0.0);
+    gl_TexCoord[3] = vec4( xlat_retVal.Color);
+}
+
+

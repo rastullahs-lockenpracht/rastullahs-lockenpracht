@@ -1,0 +1,4 @@
+material arc_tisch_01: Basic_Vertex_Shader
+{
+set_texture_alias diffuse zeugs_02_schreibtisch01_tischkleinrund.dds 
+}

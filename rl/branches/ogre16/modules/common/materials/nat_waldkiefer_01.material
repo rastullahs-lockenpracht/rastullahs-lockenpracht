@@ -1,0 +1,37 @@
+
+
+material nat_waldkiefer_01/borke
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+
+			texture_unit
+			{
+				texture nat_waldkiefer_01.dds
+			}
+		}
+	}
+}
+
+material nat_waldkiefer_01/blattwerk
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			alpha_rejection greater 215
+			texture_unit
+			{
+				
+				texture nat_waldkiefer_01.dds
+				filtering linear linear linear 
+			}
+		}
+	}
+}

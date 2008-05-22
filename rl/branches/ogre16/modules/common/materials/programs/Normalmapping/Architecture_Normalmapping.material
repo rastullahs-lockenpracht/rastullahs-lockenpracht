@@ -1,0 +1,124 @@
+material Architecture_Normalmapping 
+{
+	lod_distances 30
+	
+    technique hlsl
+    {
+	    lod_index 0
+        pass
+        {
+            vertex_program_ref Basic_Normalmapping_architecture_VS_HLSL
+            {
+                param_named_auto matViewProjection worldviewproj_matrix
+                param_named_auto LightPosition_0 light_position_object_space 0
+                param_named_auto LightPosition_1 light_position_object_space 1
+                //param_named_auto LightPosition_2 light_position_object_space 2
+                
+                param_named_auto LightAttn_0 light_attenuation 0
+                param_named_auto LightAttn_1 light_attenuation 1
+                //param_named_auto LightAttn_2 light_attenuation 2
+                
+                param_named_auto vViewPosition	 camera_position_object_space
+            }
+
+            fragment_program_ref Basic_Normalmapping_architecture_PS_HLSL
+            {
+                param_named_auto LightColor_0  light_diffuse_colour  0
+                param_named_auto LightColor_1  light_diffuse_colour  1
+                //param_named_auto LightColor_2  light_diffuse_colour  2
+                
+                param_named skycolor float4 0.8 0.8 0.8 1.0
+				param_named groundcolor float4 0.40 0.40 0.40 1.0
+                param_named SpecColor float4 0.25 0.25 0.25 1.0
+                param_named SpecExp float 16.0
+            }
+			
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture_alias DiffuseMap
+            }
+
+            // Normal map
+            texture_unit NormalMap
+            {
+                texture_alias NormalMap
+            }
+            texture_unit AOMap
+            {
+                texture_alias AOMap
+            }
+        }
+    }
+    
+    technique hlsl2
+	{
+		lod_index 1
+		
+		//Rendering Pass: Pass 0 (pass index: #0 )
+		pass
+		{
+			alpha_rejection greater 128
+			//DirectX 9.0 HLSL Pixel Shader ps_2_0
+			fragment_program_ref Basic_Pixel_Shader_AO
+			{
+			}
+			//DirectX 9.0 HLSL Vertex Shader vs_2_0
+			vertex_program_ref Basic_Vertex_Shader_AO
+			{
+				// param_named_auto
+
+				param_named_auto Light1_attenuation light_attenuation 0
+				param_named_auto Light1_color light_diffuse_colour 0
+				param_named_auto Light1_position light_position_object_space 0
+				param_named Light1_spec_power float 0.3
+				
+				param_named_auto Light2_attenuation light_attenuation 1
+				param_named_auto Light2_color light_diffuse_colour 1
+				param_named_auto Light2_position light_position_object_space 1
+				param_named Light2_spec_power float 0.3
+				
+				param_named_auto Light3_attenuation light_attenuation 2
+				param_named_auto Light3_color light_diffuse_colour 2
+				param_named_auto Light3_position light_position_object_space 2
+				param_named Light3_spec_power float 0.3
+				
+				
+				param_named_auto matViewProjection worldviewproj_matrix
+				param_named_auto vViewPosition camera_position_object_space
+				
+				
+				param_named skycolor float4 0.8 0.8 0.8 1.0
+				param_named groundcolor float4 0.40 0.40 0.40 1.0
+			}
+
+			texture_unit DiffuseMap
+			{
+				texture_alias DiffuseMap
+
+			}
+			texture_unit AOMap
+			{
+				texture_alias AOMap
+
+			}
+		}
+	}
+
+    technique fixed_function
+    {
+    
+        pass
+        {
+            ambient 0.6 0.6 0.6 1.0
+            diffuse 0.7 0.7 0.7 1.0
+            specular 0.3 0.3 0.3 1.0 16.0
+
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture_alias DiffuseMap
+            }
+        } 
+    }
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" ?>
+<Imageset Name="DialogFaces" Imagefile="defaultface.png" AutoScaled="false" >
+    <Image Name="Faces/Default" XPos="0" YPos="0" Width="128" Height="128" />
+</Imageset>

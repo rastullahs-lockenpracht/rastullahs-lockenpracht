@@ -1,0 +1,58 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+  	<Window Type="RastullahLook/FrameWindow" Name="SoundConfig">
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+        <Property Name="UnifiedSize" Value="{{0,600},{0,450}}"/>
+		<Property Name="SizingEnabled" Value="true"/>
+
+		<Window Type="RastullahLook/StaticText" Name="SoundConfig/Label1">
+            <Property Name="UnifiedPosition" Value="{{0.05,0},{0.05,0}}"/>
+            <Property Name="UnifiedSize" Value="{{0.9,0},{0,30}}"/>
+        	<Property Name="Font" Value="Vera Serif-10"/>
+        	<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="Text" Value="Soundtreiber auswählen" />
+		</Window>
+		
+		<Window Type="RastullahLook/Combobox" Name="SoundConfig/Table">
+            <Property Name="UnifiedPosition" Value="{{0.05,0},{0.1,0}}"/>
+            <Property Name="UnifiedSize" Value="{{0.9,0},{0.2,0}}"/>
+		</Window>
+		
+		<Window Type="RastullahLook/Slider" Name="SoundConfig/VolumeMusic">
+			<Property Name="Text" Value="Music"/>
+            <Property Name="UnifiedPosition" Value="{{0.05,0},{0.75,0}}"/>
+            <Property Name="UnifiedSize" Value="{{0,12},{0,25}}"/>
+		</Window>
+
+		<Window Type="RastullahLook/Slider" Name="SoundConfig/VolumeSound">
+			<Property Name="Text" Value="Sound"/>
+            <Property Name="UnifiedPosition" Value="{{0.15,0},{0.75,0}}"/>
+            <Property Name="UnifiedSize" Value="{{0,12},{0,25}}"/>
+		</Window>
+
+		<Window Type="RastullahLook/Slider" Name="SoundConfig/VolumeMaster">
+			<Property Name="Text" Value="Master"/>
+            <Property Name="UnifiedPosition" Value="{{0.25,0},{0.75,0}}"/>
+            <Property Name="UnifiedSize" Value="{{0,12},{0,25}}"/>
+		</Window>
+
+		<Window Type="DefaultWindow" Name="SoundConfig/DriverSettings">
+            <Property Name="UnifiedPosition" Value="{{0.05,0},{0.30,0}}"/>
+            <Property Name="UnifiedSize" Value="{{0.95,0},{0,4}}"/>
+		</Window>
+
+		<Window Type="RastullahLook/Button" Name="SoundConfig/OK">
+			<Property Name="Text" Value="OK"/>
+            <Property Name="UnifiedPosition" Value="{{0.05,0},{0.9,0}}"/>
+            <Property Name="UnifiedSize" Value="{{0.1,0},{0,35}}"/>
+        	<Property Name="Font" Value="Vera Serif-10"/>
+		</Window>
+
+		<Window Type="RastullahLook/Button" Name="SoundConfig/Cancel">
+			<Property Name="Text" Value="Abbruch"/>
+            <Property Name="UnifiedPosition" Value="{{0.8,0},{0.9,0}}"/>
+            <Property Name="UnifiedSize" Value="{{0.15,0},{0,35}}"/>
+        	<Property Name="Font" Value="Vera Serif-10"/>
+		</Window>
+	</Window>
+</GUILayout>
+

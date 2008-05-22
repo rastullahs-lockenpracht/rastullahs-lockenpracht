@@ -1,0 +1,61 @@
+material arc_stall_01/stallbalken
+{
+    technique
+    {
+        pass
+        {
+            alpha_rejection greater 215
+            texture_unit
+            {
+		filtering linear linear linear 
+                texture arc_stall_01.dds 
+            }
+        }
+    }
+}
+
+material arc_stall_01/stalldach
+{
+    technique
+    {
+        pass
+        {
+           
+            texture_unit
+            {
+                texture arc_dach_03.dds 
+            }
+        }
+    }
+}
+
+material arc_stall_01/stallwand
+{
+    technique
+    {
+        pass
+        {
+            
+            texture_unit
+            {
+                texture holzwand2.dds 
+            }
+        }
+    }
+}
+
+material arc_stall_01/stein
+{
+    technique
+    {
+        pass
+        {
+            
+            texture_unit
+            {
+                texture nat_stein02_mittel.dds 
+            }
+        }
+    }
+}
+

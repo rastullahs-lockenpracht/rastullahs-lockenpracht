@@ -1,0 +1,19 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="DefaultWindow" Name="InfoPopup">
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,500}}"/>
+        <Property Name="UnifiedSize" Value="{{0,50},{0,50}}"/>
+
+		<Window Type="RastullahLook/StaticImage" Name="InfoPopup/ErrorIcon">
+            <Property Name="UnifiedPosition" Value="{{0,50},{0,100}}"/>
+            <Property Name="UnifiedSize" Value="{{0,45},{0,45}}"/>
+			<Property Name="Image" Value="set:RastullahIcons image:Icons/Error" />
+		</Window>
+
+		<Window Type="RastullahLook/StaticImage" Name="InfoPopup/QuestIcon">
+            <Property Name="UnifiedPosition" Value="{{0,50},{0,100}}"/>
+            <Property Name="UnifiedSize" Value="{{0,45},{0,45}}"/>
+			<Property Name="Image" Value="set:RastullahIcons image:Icons/Quest" />
+		</Window>
+
+    </Window>
+</GUILayout>

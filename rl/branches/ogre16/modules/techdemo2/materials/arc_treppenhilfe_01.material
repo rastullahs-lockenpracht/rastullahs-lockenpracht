@@ -1,0 +1,12 @@
+material arc_treppenhilfe_01
+{
+	receive_shadows off
+
+	technique
+	{
+		pass
+		{
+			depth_func always_fail			
+		}
+	}
+}

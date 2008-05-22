@@ -1,0 +1,5 @@
+material fackel/SOLID/TEX/fackel_kana.png: Basic_Normalmapping
+{
+set_texture_alias DiffuseMap fackel_kana.png
+set_texture_alias NormalMap fackel_kana_normal.png
+}

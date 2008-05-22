@@ -1,0 +1,15 @@
+
+material arc_door_02
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture arc_door_02.dds
+			}
+		}
+	}
+}

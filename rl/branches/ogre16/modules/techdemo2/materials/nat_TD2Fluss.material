@@ -1,0 +1,5 @@
+material nat_TD2Fluss : Wassershader
+{
+set_texture_alias Cubemap desert07.dds
+}
+

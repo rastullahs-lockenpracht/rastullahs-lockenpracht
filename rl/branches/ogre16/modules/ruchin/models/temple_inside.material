@@ -1,0 +1,33 @@
+
+material temple_inside
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.5 0.5 0.5 1
+
+			texture_unit
+			{
+				texture_alias 0
+				texture arc_Temple_diffuse.png
+			}
+
+			texture_unit
+			{
+				texture_alias 1
+				texture arc_Temple_Dirtmap.png
+				tex_coord_set 1
+			}
+
+			texture_unit
+			{
+				texture_alias 2
+				texture temple_inside_AO.png
+				tex_coord_set 2
+			}
+		}
+
+	}
+
+}

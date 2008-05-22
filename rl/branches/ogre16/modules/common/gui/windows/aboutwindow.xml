@@ -1,0 +1,47 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="RastullahLook/FrameWindow" Name="AboutWindow">
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+        <Property Name="UnifiedSize" Value="{{0,400},{0,300}}"/>
+		<Property Name="Text" Value="Über Rastullahs Lockenpracht"/>
+
+		<Window Type="RastullahLook/StaticText" Name="AboutWindow/Text">
+		    <Property Name="UnifiedPosition" Value="{{0,15},{0,26}}"/>
+		    <Property Name="UnifiedSize" Value="{{0,290},{0,200}}"/>
+			<Property Name="FrameEnabled" Value="False"/>
+		</Window>
+
+		<Window Type="RastullahLook/StaticText" Name="AboutWindow/EngineLabel">
+		    <Property Name="UnifiedPosition" Value="{{0,15},{0,215}}"/>
+		    <Property Name="UnifiedSize" Value="{{0,70},{0,20}}"/>
+			<Property Name="Text" Value="Engine:"/>
+			<Property Name="FrameEnabled" Value="False"/>
+		</Window>
+
+		<Window Type="RastullahLook/StaticText" Name="AboutWindow/EngineText">
+		    <Property Name="UnifiedPosition" Value="{{0,90},{0,215}}"/>
+		    <Property Name="UnifiedSize" Value="{{0,150},{0,20}}"/>
+			<Property Name="FrameEnabled" Value="False"/>
+		</Window>
+
+		<Window Type="RastullahLook/StaticText" Name="AboutWindow/ModuleLabel">
+		    <Property Name="UnifiedPosition" Value="{{0,15},{0,235}}"/>
+		    <Property Name="UnifiedSize" Value="{{0,70},{0,20}}"/>
+			<Property Name="Text" Value="Modul:"/>
+			<Property Name="FrameEnabled" Value="False"/>
+		</Window>
+
+		<Window Type="RastullahLook/StaticText" Name="AboutWindow/ModuleText">
+		    <Property Name="UnifiedPosition" Value="{{0,90},{0,235}}"/>
+		    <Property Name="UnifiedSize" Value="{{0,150},{0,20}}"/>
+			<Property Name="FrameEnabled" Value="False"/>
+		</Window>
+
+		<Window Type="RastullahLook/Button" Name="AboutWindow/CloseButton">
+		    <Property Name="UnifiedPosition" Value="{{0,140},{0,265}}"/>
+		    <Property Name="UnifiedSize" Value="{{0,120},{0,28}}"/>
+			<Property Name="Font" Value="Vera Serif-10"/>
+			<Property Name="Text" Value="Schließen"/>
+			<Property Name="Tooltip" Value="Das Fenster schließen"/>
+		</Window>
+    </Window>
+</GUILayout>

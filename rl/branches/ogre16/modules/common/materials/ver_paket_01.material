@@ -1,0 +1,16 @@
+
+material ver_paket_01
+{
+	technique
+	{
+		pass
+		{
+			
+
+			texture_unit
+			{
+				texture ver_rattenpaket_01.dds
+			}
+		}
+	}
+}

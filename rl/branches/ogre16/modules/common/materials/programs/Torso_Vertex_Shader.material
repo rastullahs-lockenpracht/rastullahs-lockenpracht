@@ -1,0 +1,235 @@
+
+//DirectX 9.0 HLSL Pixel Shader ps_2_0
+fragment_program Torso_Pixel_Shader hlsl
+{
+	source Torso_Pixel_Shader.source
+	target ps_2_0
+	entry_point ps_main
+}
+
+fragment_program Torso_Pixel_Shader_2 hlsl
+{
+	source Torso_Pixel_Shader_2.source
+	target ps_2_0
+	entry_point ps_main
+}
+
+vertex_program Torso_Vertex_Shader hlsl
+{
+	source Torso_Vertex_Shader.source
+	target vs_2_0
+	entry_point vs_main
+}
+
+
+fragment_program Torso_Pixel_Shader_glsl glsl
+{
+	source Torso_Pixel_Shader_glsl.source
+}
+
+fragment_program Torso_Pixel_Shader_2_glsl glsl
+{
+	source Torso_Pixel_Shader_2_glsl.source
+}
+
+vertex_program Torso_Vertex_Shader_glsl glsl
+{
+	source Torso_Vertex_Shader_glsl.source
+}
+
+
+material Torso_Vertex_Shader_Short
+{
+	technique glsl
+	{
+		//Rendering Pass: Pass 0 (pass index: #0 )
+		pass
+		{
+			alpha_rejection greater 128
+			//DirectX 9.0 HLSL Pixel Shader ps_2_0
+			fragment_program_ref Torso_Pixel_Shader_glsl
+			{
+				param_named baseMap int 0
+				param_named clothMap int 1
+			}
+			//DirectX 9.0 HLSL Vertex Shader vs_2_0
+			vertex_program_ref Torso_Vertex_Shader_glsl
+			{
+				// param_named_auto
+
+				param_named_auto Light1_attenuation light_attenuation 0				
+				param_named_auto Light1_color light_diffuse_colour 0
+				param_named_auto Light1_position light_position_object_space 0
+				param_named Light1_spec_power float 0.3
+				
+				param_named_auto Light2_attenuation light_attenuation 1
+				param_named_auto Light2_color light_diffuse_colour 1
+				param_named_auto Light2_position light_position_object_space 1
+				param_named Light2_spec_power float 0.3
+				
+				param_named_auto Light3_attenuation light_attenuation 2
+				param_named_auto Light3_color light_diffuse_colour 2
+				param_named_auto Light3_position light_position_object_space 2
+				param_named Light3_spec_power float 0.3
+				
+				param_named_auto matViewProjection worldviewproj_matrix
+				param_named_auto vViewPosition camera_position_object_space
+				
+				param_named subsurfcolor float4 0.8 0 0 1
+				param_named skincolor float4 0.5 0.5 0.5 1
+				
+				param_named skycolor float4 0.5 0.5 0.5 1.0
+				param_named groundcolor float4 0.25 0.25 0.25 1.0
+			}
+
+			texture_unit
+			{
+				texture_alias skin
+				//texture nat_felsen_01.dds 2d
+			}
+			
+			texture_unit
+			{
+				texture_alias cloth
+				//texture nat_felsen_01.dds 2d
+			}
+		}
+	}
+	
+	
+	technique hlsl
+	{
+		//Rendering Pass: Pass 0 (pass index: #0 )
+		pass
+		{
+			alpha_rejection greater 128
+			//DirectX 9.0 HLSL Pixel Shader ps_2_0
+			fragment_program_ref Torso_Pixel_Shader
+			{
+			}
+			//DirectX 9.0 HLSL Vertex Shader vs_2_0
+			vertex_program_ref Torso_Vertex_Shader
+			{
+				// param_named_auto
+
+				param_named_auto Light1_attenuation light_attenuation 0				
+				param_named_auto Light1_color light_diffuse_colour 0
+				param_named_auto Light1_position light_position_object_space 0
+				param_named Light1_spec_power float 0.3
+				
+				param_named_auto Light2_attenuation light_attenuation 1
+				param_named_auto Light2_color light_diffuse_colour 1
+				param_named_auto Light2_position light_position_object_space 1
+				param_named Light2_spec_power float 0.3
+				
+				param_named_auto Light3_attenuation light_attenuation 2
+				param_named_auto Light3_color light_diffuse_colour 2
+				param_named_auto Light3_position light_position_object_space 2
+				param_named Light3_spec_power float 0.3
+				
+				param_named_auto matViewProjection worldviewproj_matrix
+				param_named_auto vViewPosition camera_position_object_space
+				
+				param_named subsurfcolor float4 0.8 0 0 1
+				param_named skincolor float4 0.5 0.5 0.5 1
+				
+				param_named skycolor float4 0.5 0.5 0.5 1.0
+				param_named groundcolor float4 0.25 0.25 0.25 1.0
+			}
+
+			texture_unit
+			{
+				texture_alias skin
+				//texture nat_felsen_01.dds 2d
+			}
+			
+			texture_unit
+			{
+				texture_alias cloth
+				//texture nat_felsen_01.dds 2d
+			}
+		}
+	}
+	technique
+	{
+        pass
+        {
+            texture_unit
+            {
+                texture_alias skin
+            }
+            texture_unit
+            {
+                colour_op alpha_blend
+                texture_alias cloth
+            }
+        }
+    }
+}
+
+
+material Torso_Vertex_Shader_Long
+{
+	technique
+	{
+		//Rendering Pass: Pass 0 (pass index: #0 )
+		pass
+		{
+			alpha_rejection greater 128
+			//DirectX 9.0 HLSL Pixel Shader ps_2_0
+			fragment_program_ref Torso_Pixel_Shader_2
+			{
+			}
+			//DirectX 9.0 HLSL Vertex Shader vs_2_0
+			vertex_program_ref Torso_Vertex_Shader
+			{
+				// param_named_auto
+
+				param_named_auto Light1_attenuation light_attenuation 0				
+				param_named_auto Light1_color light_diffuse_colour 0
+				param_named_auto Light1_position light_position_object_space 0
+				param_named Light1_spec_power float 0.3
+				
+				param_named_auto Light2_attenuation light_attenuation 1
+				param_named_auto Light2_color light_diffuse_colour 1
+				param_named_auto Light2_position light_position_object_space 1
+				param_named Light2_spec_power float 0.3
+				
+				param_named_auto matViewProjection worldviewproj_matrix
+				param_named_auto vViewPosition camera_position_object_space
+				
+				param_named subsurfcolor float4 0.8 0 0 1
+				
+				param_named skycolor float4 0.5 0.5 0.5 1.0
+				param_named groundcolor float4 0.10 0.10 0.10 1.0
+			}
+
+			texture_unit
+			{
+				texture_alias skin
+				//texture nat_felsen_01.dds 2d
+			}
+			
+			texture_unit
+			{
+				texture_alias cloth
+				//texture nat_felsen_01.dds 2d
+			}
+		}
+	}
+	technique
+	{
+        pass
+        {
+            texture_unit
+            {
+                texture_alias skin
+            }
+            texture_unit
+            {
+                colour_op alpha_blend
+                texture_alias cloth
+            }
+        }
+    }
+}

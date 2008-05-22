@@ -1,0 +1,17 @@
+material ins_hackstock_01
+{
+    technique
+    {
+        pass
+        {
+            ambient 0.588235 0.588235 0.588235
+            diffuse 0.588235 0.588235 0.588235
+
+            texture_unit
+            {
+                texture ins_hackstock_01.dds 
+            }
+        }
+    }
+}
+

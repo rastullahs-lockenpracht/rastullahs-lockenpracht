@@ -1,0 +1,81 @@
+
+material ruchin_terrain: TerrainVColorBlending
+{
+
+   set_texture_alias black       nat_gras_01.dds
+   set_texture_alias red         nat_felsen_01.dds
+   set_texture_alias green       boden_02.png
+   set_texture_alias blue        nat_steingrund_01.dds
+   set_texture_alias alpha       nat_steingrund_01.dds
+   set_texture_alias Lightingmap Ligthingmap_default.png
+   
+   technique glsl
+   {
+      pass
+      {
+         fragment_program_ref
+         {
+            param_named scale_Detail4 float 20.050000 
+            // Alpha
+         }
+
+         vertex_program_ref
+         {
+
+            param_named scale_Texture0 float 20.018000 
+            // Schwarz
+            param_named scale_Detail0 float 20.020000
+
+            param_named scale_Texture1 float 20.005700 
+            // Rot
+            param_named scale_Detail1 float 20.100000
+
+            param_named scale_Texture2 float 20.028500 
+            // Gruen
+            param_named scale_Detail2 float 20.060000
+
+            param_named scale_Texture3 float 20.008000 
+            // Blau
+            param_named scale_Detail3 float 20.050000
+
+            param_named scale_Texture4 float 20.016000 
+            // Alpha
+         }
+      }
+   }
+   
+   technique hlsl
+   {
+      pass
+      {
+         fragment_program_ref
+         {
+            param_named scale_Detail4 float 20.050000 
+            // Alpha
+         }
+
+         vertex_program_ref
+         {
+
+            param_named scale_Texture0 float 20.018000 
+            // Schwarz
+            param_named scale_Detail0 float 20.020000
+
+            param_named scale_Texture1 float 20.005700 
+            // Rot
+            param_named scale_Detail1 float 20.100000
+
+            param_named scale_Texture2 float 20.028500 
+            // Gruen
+            param_named scale_Detail2 float 20.060000
+
+            param_named scale_Texture3 float 20.008000 
+            // Blau
+            param_named scale_Detail3 float 20.050000
+
+            param_named scale_Texture4 float 20.016000 
+            // Alpha
+         }
+      }
+   }
+}

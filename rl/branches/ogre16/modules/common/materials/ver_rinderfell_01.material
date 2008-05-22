@@ -1,0 +1,21 @@
+
+material ver_rinderfell_01
+{
+	technique
+	{
+		pass
+		{
+		
+			alpha_rejection greater 99
+			ambient 0.409804 0.409804 0.409804 1
+			diffuse 0.431373 0.431373 0.431373 1
+			specular 0 0 0 1 10
+
+			texture_unit
+			{
+				texture ver_rinderfell_01.dds
+				filtering linear linear linear 
+			}
+		}
+	}
+}

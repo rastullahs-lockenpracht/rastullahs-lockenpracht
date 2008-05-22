@@ -1,0 +1,21 @@
+material nat_flaechengras_01
+{
+    technique
+    {
+        pass
+        {
+
+        
+        alpha_rejection greater 150
+        
+        //scene_blend alpha_blend
+        //depth_write off
+            texture_unit
+            {
+                texture nat_flaechengras_01.dds 
+		filtering linear linear linear 
+            }
+        }
+    }
+}
+

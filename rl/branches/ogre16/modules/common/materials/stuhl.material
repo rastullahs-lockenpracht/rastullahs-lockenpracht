@@ -1,0 +1,4 @@
+material stuhl: Basic_Vertex_Shader
+{
+set_texture_alias diffuse stuhl.dds 
+}

@@ -1,0 +1,20 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="RastullahLook/FrameWindow" Name="Console">
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+        <Property Name="UnifiedSize" Value="{{1,0},{0,300}}"/>
+        <Property Name="Text" Value="Ruby Scripting Console" /> 
+
+        <Window Type="RastullahLook/Listbox" Name="Console/Display">
+          <Property Name="UnifiedPosition" Value="{{0,18},{0,20}}" />
+          <Property Name="UnifiedSize" Value="{{1.0,-36},{1.0,-58}}" />
+        </Window>
+
+        <Window Type="RastullahLook/Editbox" Name="Console/Inputbox">
+          <Property Name="VerticalAlignment" Value="Bottom" />
+          <Property Name="HorizontalAlignment" Value="Right" />
+          <Property Name="UnifiedPosition" Value="{{0,-18},{0,-18}}" />
+          <Property Name="UnifiedSize" Value="{{1.0,-36},{0,16}}" />
+        </Window>
+
+    </Window>
+</GUILayout>

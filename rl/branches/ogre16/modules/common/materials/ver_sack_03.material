@@ -1,0 +1,16 @@
+
+material ver_sack_03
+{
+	technique
+	{
+		pass
+		{
+		
+
+			texture_unit
+			{
+				texture zeugs_03_apfelkorb_karotten.dds
+			}
+		}
+	}
+}

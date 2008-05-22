@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<rastullahmap formatVersion="0.4.0">
+	<nodes>
+		<light name="red pointlight" type="point" visible="false"
+			castShadows="false">
+			<position x="-10.0" y="1" z="-5.0" />
+			<colourDiffuse r="1" g="0" b="0" />
+			<colourSpecular r="1" g="0" b="0" />
+			<lightAttenuation range="5.0" constant="1.0" linear="0.0"
+				quadratic="0.0" />
+		</light>
+		<light name="green spotlight" type="spot" visible="false"
+			castShadows="false">
+			<position x="-12.0" y="1" z="-5.0" />
+			<colourDiffuse r="0" g="1" b="0" />
+			<colourSpecular r="0" g="1" b="0" />
+			<lightAttenuation range="10.0" constant="1.0" linear="0.0"
+				quadratic="0.0" />
+			<spotlightrange inner="10" outer="20" falloff="1" />
+			<direction x="0" y="-1" z="0.5" />
+		</light>
+		<light name="blue sun" type="directional" visible="true" castShadows="false">
+			<colourDiffuse r="0.8" g="0.8" b="0.8" />
+			<colourSpecular r="0.8" g="0.8" b="0.8" />
+			<direction x="1" y="-1" z="0" />
+		</light>
+	</nodes>
+	<zones>
+		<zone name="default">
+			<light name="blue sun"/>
+		</zone>
+		<zone name="Testzone">
+			<area type="sphere">
+				<position x="-10" y="0" z="-5"/>
+				<scale x="6" y="6" z="6"/>
+				<transition_distance>0.5</transition_distance>
+			</area>
+			<area type="mesh" meshfile="arc_UnbHaus_07.mesh">
+				<position x="25" y="0" z="-50"/>
+				<transition_distance>0.5</transition_distance>
+			</area>
+			<area type="sphere" subtract="true">
+				<position x="-11" y="0" z="-4"/>
+				<scale x="2" y="2" z="2"/>
+			</area>
+			<light name="red pointlight"/>
+			<light name="green spotlight"/>
+			<sound name="ruchin001.ogg"/>
+			<trigger name="test" classname="TestTrigger">
+				<property name="message" type="STRING" data="You triggered the dooms day device!" />
+			</trigger>
+		</zone>
+		<zone name="Underwater">
+			<area type="sphere">
+				<position x="-10" y="0" z="-5"/>
+				<scale x="2" y="2" z="2"/>
+				<transition_distance>0.2</transition_distance>
+			</area>
+			<light name="red pointlight"/>
+			<light name="green spotlight"/>
+			<eaxpreset name="Underwater"/>
+			<sound name="ruchin001.ogg"/>
+		</zone>
+	</zones>
+</rastullahmap>

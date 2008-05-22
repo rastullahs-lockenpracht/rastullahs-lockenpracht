@@ -1,0 +1,22 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="RastullahLook/FrameWindow" Name="ProgressWindow">
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+        <Property Name="UnifiedSize" Value="{{0,400},{0,171}}"/>
+		<Property Name="Text" Value="Bitte warten"/>
+
+		<Window Type="RastullahLook/StaticText" Name="ProgressWindow/Text">
+            <Property Name="UnifiedPosition" Value="{{0,25},{0,26}}"/>
+            <Property Name="UnifiedSize" Value="{{1,-50},{0,50}}"/>
+			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="Text" Value="Rastullahs Lockenpracht lädt Daten, bitte warten..." />
+            <Property Name="HorzFormatting" Value="WordWrapCentred" />
+		</Window>
+
+		<Window Type="RastullahLook/StatusBar" Name="ProgressWindow/ProgressBar">
+            <Property Name="UnifiedPosition" Value="{{0,25},{0,100}}"/>
+            <Property Name="UnifiedSize" Value="{{1,-50},{0,20}}"/>
+			<Property Name="StatusColour" Value="FFC7B74E"/>
+		</Window>
+    </Window>
+</GUILayout>
+

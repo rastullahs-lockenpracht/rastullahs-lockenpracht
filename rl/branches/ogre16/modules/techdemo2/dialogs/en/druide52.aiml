@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
+
+<aiml  version="1.0.1"
+            xmlns="http://alicebot.org/2001/AIML"
+			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
+<!-- ================Alles Druiden retten üäö ================ -->
+	<category>
+		<pattern>1</pattern>
+		<template>
+			<condition type="default" name="druide_1">
+				<li value="">
+					<gossip rldialog:type="response">
+						<li></li>
+					</gossip>
+					<gossip rldialog:type="option">
+						<li rldialog:id="alrike009.ogg" rldialog:patternRef ="11">Can you understand me? What happened?</li>
+					</gossip>
+				</li>
+				<li value="1">
+					<gossip rldialog:type="response">
+						<li rldialog:id="5SekStille.ogg">[Febrile silence]</li>
+					</gossip>
+					<gossip rldialog:type="option">
+						<li rldialog:patternRef ="EXIT">[Go again]</li>
+					</gossip>
+				</li>
+			</condition>
+		</template>
+	</category>
+
+
+	 <category>
+	 <pattern>11</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="altermann001.ogg">The poor... people. I didn`t want that to happen; couldn`t do anything... There is a wolf, it, it chases me, restrains me.[A howl from outside arrives the ear]There it is! Please, for the woods , hunt this beast down!</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:patternRef ="1111">[Draw weapon]</li>
+		</gossip>
+	</template>
+	</category>
+
+	
+	<category>
+	<pattern>1111</pattern>
+	<template>
+		<set type="default" name="druide_1" value="1"/>
+		<script language="ruby" src="kampf.rb"/>
+		<script language="ruby" src="waldwoelfe_retten.rb"/>
+		<system cmd="exit"/>
+	</template>
+	</category>
+
+
+
+
+<!-- ================Standardoptionen ================ -->
+	<category>
+	<pattern>EXIT</pattern> 
+	<template>
+		<system cmd="exit"/>
+	</template>
+	</category>	
+
+
+</aiml>

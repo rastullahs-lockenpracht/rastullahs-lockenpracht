@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
+
+<aiml  version="1.0.1"
+            xmlns="http://alicebot.org/2001/AIML"
+			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
+<!-- ================Begrüßung ================ -->
+
+	<category>
+	<pattern>1</pattern>
+	<template>
+		<gossip rldialog:type="response">
+				<li rldialog:id="5SekStille.ogg" value="">Mobile Cheat Console</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:patternRef ="2">[Activate Developers Cheat "Retten" to complete all necessary Quests to directly go to map 2! Dont' use this if you want to play!]</li>
+			<li rldialog:patternRef ="3">[Activate Developers Cheat "Schnetzeln" to complete all necessary Quests to directly go to map 2! Dont' use this if you want to play!]</li>
+			<li rldialog:id="5SekStille.ogg" rldialog:patternRef ="EXIT">I don't want to use Cheats!</li>
+		</gossip>
+	</template>
+	</category>
+
+	<category>
+	<pattern>2</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="5SekStille.ogg" value="">Cheat activated<set type="queststate" name="hauptquest42" value="ASSIGNED"/><set type="queststate" name="aufenthaltsort" value="SUCCEEDED"/></li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:patternRef ="EXIT">Exit</li>
+		</gossip>
+	</template>
+	</category>
+	<category>
+	
+	<pattern>3</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="5SekStille.ogg" value="">Cheat activated<set type="queststate" name="hauptquest41" value="ASSIGNED"/><set type="queststate" name="aufenthaltsort" value="SUCCEEDED"/></li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:patternRef ="EXIT">Exit</li>
+		</gossip>
+	</template>
+	</category>
+
+<!-- ================Standardoptionen ================ -->
+	<category>
+	<pattern>EXIT</pattern> 
+	<template>
+		<system cmd="exit"/>  	</template>
+	</category>	
+
+
+</aiml>

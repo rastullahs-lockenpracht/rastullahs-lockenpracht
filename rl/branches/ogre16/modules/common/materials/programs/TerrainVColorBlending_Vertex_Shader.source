@@ -1,0 +1,118 @@
+uniform float4x4 matViewProjection;
+
+uniform float scale_Texture0;
+uniform float scale_Texture1;
+uniform float scale_Texture2;
+uniform float scale_Texture3;
+uniform float scale_Texture4;
+
+uniform float scale_Detail0;
+uniform float scale_Detail1;
+uniform float scale_Detail2;
+uniform float scale_Detail3;
+
+uniform float4 Light_Color0;
+uniform float4 Light_Position0;
+uniform float4 Light_Attenuation0;
+
+uniform float4 Light_Color1;
+uniform float4 Light_Position1;
+uniform float4 Light_Attenuation1;
+
+uniform float4 Light_Color2;
+uniform float4 Light_Position2;
+uniform float4 Light_Attenuation2;
+
+uniform float4 skycolor;
+uniform float4 groundcolor;
+
+
+struct VS_OUTPUT 
+{
+   float4 Position : POSITION0;
+   float4 Color:   COLOR0;
+   float4 UV0 : TEXCOORD0;
+   float4 UV1 : TEXCOORD1;
+   float4 UV2 : TEXCOORD2;
+   float4 UV3 : TEXCOORD3;
+   float4 UV4 : TEXCOORD4;
+   float4 Light:TEXCOORD5;
+};
+
+VS_OUTPUT vs_main( float4 Position : POSITION,
+                   float4 Color:COLOR0,
+                   float2 UV:TEXCOORD0,
+                   float3 Normal: NORMAL0)
+{
+   VS_OUTPUT Output;
+   
+   Output.UV0 = float4(UV*scale_Texture0,UV*scale_Detail0);
+   Output.UV1 = float4(UV*scale_Texture1,UV*scale_Detail1);
+   Output.UV2 = float4(UV*scale_Texture2,UV*scale_Detail2);
+   Output.UV3 = float4(UV*scale_Texture3,UV*scale_Detail3);
+   Output.UV4 = float4(UV*scale_Texture4,UV);
+   
+   
+   Output.Light = lerp(skycolor,groundcolor,(dot(Normal, float3(0,-1,0))+1)/2 );
+   Output.Position = mul( matViewProjection, Position );
+  
+   
+   Output.Color = Color;
+   
+   // ######## Light 0 #########
+   float3 LightDir = Light_Position0 - (Position * Light_Position0.w);
+   float Dist = length(LightDir);
+   LightDir = LightDir / Dist;
+   
+   float AngleAttn= saturate(dot(Normal,LightDir));
+   AngleAttn = 1;  // ################# AngleAttn doesn't work for unknown reasons
+   
+   float DistAttn;
+   if (Light_Position0.w != 0.0)
+   {
+	   DistAttn = saturate(1/ (Light_Attenuation0.y +
+	                              Light_Attenuation0.z * Dist +
+	                              Light_Attenuation0.w * Dist * Dist)*saturate(Light_Attenuation0.x-Dist));
+	   
+	   Output.Light += Light_Color0 * DistAttn * AngleAttn;
+   }
+   
+   // ######## Light 1 #########
+   LightDir = Light_Position1 - (Position * Light_Position1.w);
+   Dist = length(LightDir);
+   LightDir = LightDir / Dist;
+   
+   AngleAttn= saturate(dot(Normal,LightDir));
+   AngleAttn = 1;
+   
+   if (Light_Position1.w != 0.0) 
+   {
+	   DistAttn = saturate(1/ (Light_Attenuation1.y +
+	                              Light_Attenuation1.z * Dist +
+	                              Light_Attenuation1.w * Dist * Dist)*saturate(Light_Attenuation1.x-Dist));
+	   
+	   Output.Light += Light_Color1 * DistAttn * AngleAttn;
+   }
+   // ######## Light 2 #########
+   LightDir = Light_Position2 - (Position * Light_Position2.w);
+   Dist = length(LightDir);
+   LightDir = LightDir / Dist;
+   
+   AngleAttn= saturate(dot(Normal,LightDir));
+   AngleAttn = 1;
+   
+   if (Light_Position2.w != 0.0)
+   {
+	   DistAttn = saturate(1/ (Light_Attenuation2.y +
+	                              Light_Attenuation2.z * Dist +
+	                              Light_Attenuation2.w * Dist * Dist)*saturate(Light_Attenuation2.x-Dist));
+	   
+	   Output.Light += Light_Color2 * DistAttn * AngleAttn;
+   }
+   
+   return( Output );
+   
+}
+
+
+

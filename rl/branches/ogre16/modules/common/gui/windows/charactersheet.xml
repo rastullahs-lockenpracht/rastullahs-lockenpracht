@@ -1,0 +1,144 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="RastullahLook/FrameWindow" Name="CharacterSheet">
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+        <Property Name="UnifiedSize" Value="{{0,640},{0,510}}"/>
+
+            <Window Type="RastullahLook/TabControl" Name="CharacterSheet/TabPlane">
+                <Property Name="UnifiedPosition" Value="{{0,15},{0,20}}"/>
+                <Property Name="UnifiedSize" Value="{{0,610},{0,485}}"/>
+             
+                <Window Type="DefaultGUISheet" Name="CharacterSheet/CharacterSheet">
+                    <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                    <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+                    <Property Name="Text" Value="Charakter"/>
+
+                    <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Name">
+                        <Property Name="UnifiedPosition" Value="{{0,10},{0,10}}"/>
+                        <Property Name="UnifiedSize" Value="{{0,300},{0,30}}"/>
+						<Property Name="FrameEnabled" Value="False"/>
+                    </Window>
+
+                    <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Rasse">
+                        <Property Name="UnifiedPosition" Value="{{0,10},{0,45}}"/>
+                        <Property Name="UnifiedSize" Value="{{0,300},{0,30}}"/>
+						<Property Name="FrameEnabled" Value="False"/>
+                    </Window>
+                      
+                    <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Kultur">
+                        <Property Name="UnifiedPosition" Value="{{0,10},{0,62}}"/>
+                        <Property Name="UnifiedSize" Value="{{0,300},{0,30}}"/>
+						<Property Name="FrameEnabled" Value="False"/>
+                    </Window>
+                      
+                    <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Profession">
+                        <Property Name="UnifiedPosition" Value="{{0,10},{0,80}}"/>
+                        <Property Name="UnifiedSize" Value="{{0,300},{0,30}}"/>
+						<Property Name="FrameEnabled" Value="False"/>
+                    </Window>
+
+                    <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Effekte">
+                        <Property Name="UnifiedPosition" Value="{{0,300},{0,10}}"/>
+                        <Property Name="UnifiedSize" Value="{{0,300},{0,300}}"/>
+						<Property Name="FrameEnabled" Value="False"/>
+                    </Window>
+
+                    <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/LE">
+                        <Property Name="UnifiedPosition" Value="{{0,10},{0,410}}"/>
+                        <Property Name="UnifiedSize" Value="{{0,150},{0,30}}"/>
+						<Property Name="FrameEnabled" Value="False"/>
+                    </Window>
+
+                    <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/AE">
+                        <Property Name="UnifiedPosition" Value="{{0,210},{0,410}}"/>
+                        <Property Name="UnifiedSize" Value="{{0,150},{0,30}}"/>
+						<Property Name="FrameEnabled" Value="False"/>
+                    </Window>
+                      
+                    <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/AP">
+                        <Property Name="UnifiedPosition" Value="{{0,410},{0,410}}"/>
+                        <Property Name="UnifiedSize" Value="{{0,150},{0,30}}"/>
+						<Property Name="FrameEnabled" Value="False"/>
+                    </Window>
+
+                    <Window Type="DefaultGUISheet" Name="CharacterSheet/CharacterSheet/Eigenschaften">
+                        <Property Name="UnifiedPosition" Value="{{0,10},{0,120}}"/>
+                        <Property Name="UnifiedSize" Value="{{0,300},{0,280}}"/>
+
+                        <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/MU">
+                            <Property Name="UnifiedPosition" Value="{{0,0},{0,5}}"/>
+                            <Property Name="UnifiedSize" Value="{{0,250},{0,30}}"/>
+							<Property Name="FrameEnabled" Value="False"/>
+                        </Window>
+
+                        <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/KL">
+                            <Property Name="UnifiedPosition" Value="{{0,0},{0,40}}"/>
+                            <Property Name="UnifiedSize" Value="{{0,250},{0,30}}"/>
+							<Property Name="FrameEnabled" Value="False"/>
+                        </Window>
+
+                        <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/IN">
+                            <Property Name="UnifiedPosition" Value="{{0,0},{0,75}}"/>
+                            <Property Name="UnifiedSize" Value="{{0,250},{0,30}}"/>
+							<Property Name="FrameEnabled" Value="False"/>
+                        </Window>
+
+                        <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/CH">
+                            <Property Name="UnifiedPosition" Value="{{0,0},{0,110}}"/>
+                            <Property Name="UnifiedSize" Value="{{0,250},{0,30}}"/>
+							<Property Name="FrameEnabled" Value="False"/>
+                        </Window>
+
+                        <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/FF">
+                            <Property Name="UnifiedPosition" Value="{{0,0},{0,145}}"/>
+                            <Property Name="UnifiedSize" Value="{{0,250},{0,30}}"/>
+							<Property Name="FrameEnabled" Value="False"/>
+                        </Window>
+
+                        <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/GE">
+                            <Property Name="UnifiedPosition" Value="{{0,0},{0,180}}"/>
+                            <Property Name="UnifiedSize" Value="{{0,250},{0,30}}"/>
+							<Property Name="FrameEnabled" Value="False"/>
+                        </Window>
+
+                        <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/KO">
+                            <Property Name="UnifiedPosition" Value="{{0,0},{0,215}}"/>
+                            <Property Name="UnifiedSize" Value="{{0,250},{0,30}}"/>
+							<Property Name="FrameEnabled" Value="False"/>
+                        </Window>
+
+                        <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/KK">
+                            <Property Name="UnifiedPosition" Value="{{0,0},{0,250}}"/>
+                            <Property Name="UnifiedSize" Value="{{0,250},{0,30}}"/>
+							<Property Name="FrameEnabled" Value="False"/>
+                        </Window>          
+
+                    </Window>
+
+                </Window>
+                 
+                <Window Type="DefaultGUISheet" Name="CharacterSheet/TalentSheet">
+                    <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                    <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+                    <Property Name="Text" Value="Talente"/>
+
+                    <Window Type="RastullahLook/MultiColumnList" Name="CharacterSheet/TalentSheet/Table">
+                        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                        <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+                    </Window>
+
+                </Window>
+                
+                <Window Type="DefaultGUISheet" Name="CharacterSheet/MagicSheet">
+                    <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                    <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+                    <Property Name="Text" Value="Zauber"/>
+
+                    <Window Type="RastullahLook/MultiColumnList" Name="CharacterSheet/MagicSheet/Table">
+                        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                        <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+                    </Window>
+                </Window>
+            </Window>
+        </Window>
+</GUILayout>
+

@@ -1,0 +1,15 @@
+material waf_sense_01
+{
+    technique
+    {
+        pass
+        {
+		
+            texture_unit
+            {
+                texture arc_Sense_Waschbrett_Fackel_Besen.dds
+            }
+        }
+    }
+}
+

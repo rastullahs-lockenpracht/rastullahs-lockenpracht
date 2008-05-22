@@ -1,0 +1,16 @@
+
+material arc_UnbHaus
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture arc_UnbHaus.dds
+			}
+		}
+	}
+}

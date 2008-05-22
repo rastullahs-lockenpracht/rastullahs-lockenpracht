@@ -1,0 +1,17 @@
+
+material ver_karaffe_01
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			specular 0 0 0 1 10
+
+			texture_unit
+			{
+				texture ver_becher_01.dds
+			}
+		}
+	}
+}

@@ -1,0 +1,76 @@
+material rl/dsa07
+{
+   
+
+   technique
+   {
+      pass
+      {
+         lighting off
+         depth_write off
+	 fog_override true none
+
+         texture_unit
+         {
+            cubic_texture dsa07.dds separateUV
+            tex_address_mode clamp
+         }
+      }
+   }
+}
+
+material himmel/wueste
+{
+   technique
+   {
+      pass
+      {
+         lighting off
+         depth_write off
+	     fog_override true none
+
+         texture_unit
+         {
+            cubic_texture desert.dds separateUV
+            tex_address_mode clamp
+         }
+      }
+   }
+}
+
+material rl/Techdemo2sky
+{
+   technique
+   {
+      pass
+      {
+         lighting off
+         depth_write off
+	     fog_override true none
+
+         texture_unit
+         {
+            cubic_texture 52h04.dds separateUV
+            tex_address_mode clamp
+         }
+      }
+   }
+}
+material rl/desert07
+{
+   technique
+   {
+      pass
+      {
+         lighting off
+         depth_write off
+	     fog_override true none
+
+         texture_unit
+         {
+            cubic_texture desert07.dds separateUV
+            tex_address_mode clamp
+         }
+      }
+   }
+}

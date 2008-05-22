@@ -1,0 +1,17 @@
+
+material nat_blume_01
+{
+	technique
+	{
+		pass
+		{
+		
+			alpha_rejection greater 128
+
+			texture_unit
+			{
+				texture nat_blume_01.dds
+			}
+		}
+	}
+}

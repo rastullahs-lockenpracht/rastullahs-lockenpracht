@@ -1,0 +1,16 @@
+
+material ver_kaestchen_01
+{
+	technique
+	{
+		pass
+		{
+		
+
+			texture_unit
+			{
+				texture pickel-schaufel-kastel.dds
+			}
+		}
+	}
+}

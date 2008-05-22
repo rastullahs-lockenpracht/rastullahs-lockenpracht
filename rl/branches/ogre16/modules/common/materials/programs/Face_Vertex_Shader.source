@@ -1,0 +1,140 @@
+float4x4 matViewProjection;
+float4 skycolor;
+float4 groundcolor;
+float4 Light1_attenuation;
+float4 Light1_position;
+float4 Light1_color;
+float4 Light1_spec_power;
+
+float4 Light2_attenuation;
+float4 Light2_position;
+float4 Light2_color;
+float4 Light2_spec_power;
+
+float4 Light3_attenuation;
+float4 Light3_position;
+float4 Light3_color;
+float4 Light3_spec_power;
+
+float3 eyeDirection;
+
+float4 subsurfcolor;
+float4 skincolor;
+
+float4 vViewPosition;
+
+struct VS_INPUT 
+{
+   float4 Position : POSITION0;
+   float2 Texcoord : TEXCOORD0;
+   float2 Texcoord1 : TEXCOORD1;
+   float2 Texcoord2: TEXCOORD2;
+   float3 Normal   : NORMAL;
+   
+};
+
+struct VS_OUTPUT 
+{
+   float4 Position : POSITION0;
+   float2 Texcoord : TEXCOORD0;
+   float2 Texcoord1: TEXCOORD1;
+   float2 Texcoord2: TEXCOORD2;
+   float4 Color    : TEXCOORD3;
+   
+};
+
+VS_OUTPUT vs_main( VS_INPUT Input )
+{
+   VS_OUTPUT Output;
+   Output.Color = float4(0,0,0,0);
+   Output.Position = mul( matViewProjection, Input.Position );
+   
+   
+   
+   // Light1
+   
+   float3 LightDir = Light1_position - Input.Position * Light1_position.w;
+   float Dist = length(LightDir);
+   LightDir = LightDir / Dist;
+   
+   float AngleAttn = saturate( dot(Input.Normal ,LightDir));
+   
+   float3 EyeVect = normalize(Input.Position - vViewPosition);
+   float3 HalfVect = normalize(LightDir - EyeVect);
+   
+   float SpecAttn = Light1_color * Light1_spec_power * pow(clamp(dot(Input.Normal,HalfVect),0,1),32);
+   
+   float DistAttn = clamp(1/ (Light1_attenuation.y +
+                              Light1_attenuation.z * Dist +
+                              Light1_attenuation.w * Dist * Dist)*saturate(Light1_attenuation.x-Dist)
+                          ,0,1);
+   
+   Output.Color += (Light1_color * AngleAttn + SpecAttn) * DistAttn ;
+   float accDistAttn = DistAttn;
+   
+   // Light3
+   
+   LightDir = Light3_position - Input.Position * Light3_position.w;
+   Dist = length(LightDir);
+   LightDir = LightDir / Dist;
+   
+   AngleAttn = saturate( dot(Input.Normal ,LightDir));
+   
+   EyeVect = normalize(Input.Position - vViewPosition);
+   HalfVect = normalize(LightDir - EyeVect);
+   
+   SpecAttn = Light3_color * Light3_spec_power * pow(clamp(dot(Input.Normal,HalfVect),0,1),32);
+   
+   DistAttn = clamp(1/ (Light3_attenuation.y +
+                              Light3_attenuation.z * Dist +
+                              Light3_attenuation.w * Dist * Dist)*saturate(Light3_attenuation.x-Dist)
+                          ,0,1);
+   
+   Output.Color += (Light3_color * AngleAttn + SpecAttn) * DistAttn ;
+   
+   accDistAttn += DistAttn;
+   
+   // Light2
+   
+   LightDir = Light2_position - Input.Position * Light2_position.w;
+   Dist = length(LightDir);
+   LightDir = LightDir / Dist;
+   
+   AngleAttn = saturate( dot(Input.Normal ,LightDir));
+   
+   HalfVect = normalize(LightDir - EyeVect);
+   
+   SpecAttn = Light2_color *Light2_spec_power * pow(clamp(dot(Input.Normal,HalfVect),0,1),32);
+   
+   DistAttn = clamp(1/ (Light2_attenuation.y +
+                        Light2_attenuation.z * Dist +
+                        Light2_attenuation.w * Dist * Dist)*saturate(Light2_attenuation.x-Dist)
+                        ,0,1);
+   
+   Output.Color += (Light2_color * AngleAttn + SpecAttn) * DistAttn ;
+   
+   accDistAttn += DistAttn;
+   
+   // fake SSS
+   Output.Color = lerp((saturate(accDistAttn)*subsurfcolor*Output.Color),Output.Color,( saturate(Output.Color*3 -0.2)));
+   
+   Output.Color += lerp(skycolor,groundcolor,(dot(Input.Normal, float3(0,-1,0))+1)/2 );
+   
+   Output.Color *= skincolor+0.5;
+   
+   Output.Texcoord = Input.Texcoord;
+   Output.Texcoord2 = Input.Texcoord1;
+   
+   float2 eyeDir; 
+   eyeDir.x = clamp(-eyeDirection.x/3,-0.3,0.3);
+   eyeDir.y = clamp(-eyeDirection.z/3,-0.3,0.3);
+     
+   Output.Texcoord1.x        = Input.Texcoord1.x + eyeDir.x;
+   Output.Texcoord1.y        = Input.Texcoord1.y + eyeDir.y;
+   
+   return( Output );
+   
+}
+
+
+

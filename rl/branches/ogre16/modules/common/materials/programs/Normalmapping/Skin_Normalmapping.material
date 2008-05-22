@@ -1,0 +1,484 @@
+material Skin_Normalmapping
+{
+	lod_distances 12 100
+	
+	
+    technique hlsl
+    {
+	    lod_index 0
+	
+	    
+        pass
+        {
+	        depth_bias -18
+	        alpha_rejection greater 128
+            vertex_program_ref Basic_Normalmapping_UV0_VS_HLSL
+            {
+                param_named_auto matViewProjection worldviewproj_matrix
+                param_named_auto LightPosition_0 light_position_object_space 0
+                param_named_auto LightPosition_1 light_position_object_space 1
+                param_named_auto LightPosition_2 light_position_object_space 2
+                
+                param_named_auto LightAttn_0 light_attenuation 0
+                param_named_auto LightAttn_1 light_attenuation 1
+                param_named_auto LightAttn_2 light_attenuation 2
+                
+                param_named_auto vViewPosition	 camera_position_object_space
+            }
+
+            fragment_program_ref Skin_Normalmapping_PS_HLSL
+            {
+                param_named_auto LightColor_0  light_diffuse_colour  0
+                param_named_auto LightColor_1  light_diffuse_colour  1
+                param_named_auto LightColor_2  light_diffuse_colour  2
+                
+                param_named skycolor float4 0.6 0.6 0.6 1.0
+				param_named groundcolor float4 0.2 0.2 0.2 1.0
+                param_named SkinColor float4 0.5 0.5 0.5 1.0
+                param_named SpecExp float 16.0
+                param_named skinscale float 20.0
+            }
+			
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture_alias DiffuseMap
+            }
+
+            // Normal map
+            texture_unit NormalMap
+            {
+                texture_alias NormalMap
+            }
+            
+            texture_unit SpecMap
+            {
+                texture_alias SpecMap
+            }
+            
+            texture_unit LookupSkin
+            {
+                texture_alias LookupSkin
+                texture lookup_skin.png 1d
+                tex_address_mode clamp
+            }
+            texture_unit skintexture
+            {
+                texture_alias skintexture
+                texture skin_texture.png
+            }
+        }
+    }
+    
+    
+    technique hlsl2
+	{
+		lod_index 1
+		//Rendering Pass: Pass 0 (pass index: #0 )
+		pass
+		{
+			depth_bias -1
+			alpha_rejection greater 128
+			//DirectX 9.0 HLSL Pixel Shader ps_2_0
+			fragment_program_ref Basic_Pixel_Shader
+			{
+			}
+			//DirectX 9.0 HLSL Vertex Shader vs_2_0
+			vertex_program_ref Skin_Vertex_Shader
+			{
+				// param_named_auto
+
+				param_named_auto Light1_attenuation light_attenuation 0
+				param_named_auto Light1_color light_diffuse_colour 0
+				param_named_auto Light1_position light_position_object_space 0
+				param_named Light1_spec_power float 0.5
+				
+				param_named_auto Light2_attenuation light_attenuation 1
+				param_named_auto Light2_color light_diffuse_colour 1
+				param_named_auto Light2_position light_position_object_space 1
+				param_named Light2_spec_power float 0.5
+				
+				param_named_auto Light3_attenuation light_attenuation 2
+				param_named_auto Light3_color light_diffuse_colour 2
+				param_named_auto Light3_position light_position_object_space 2
+				param_named Light3_spec_power float 0.5
+				
+				param_named subsurfcolor float4 0.8 0 0 1
+				param_named skincolor float4 0.5 0.5 0.5 1
+				
+				param_named_auto matViewProjection worldviewproj_matrix
+				param_named_auto vViewPosition camera_position_object_space
+				
+				param_named skycolor float4 0.6 0.6 0.6 1.0
+				param_named groundcolor float4 0.2 0.2 0.2 1.0
+			}
+			
+			texture_unit
+			{
+				texture_alias DiffuseMap
+
+			}
+		}
+	}
+    
+    
+    
+    
+    
+	
+    technique fixed_function
+    {
+	    lod_index 2
+	    
+        pass
+        {
+	        depth_bias -1
+            ambient 0.6 0.6 0.6 1.0
+            diffuse 0.7 0.7 0.7 1.0
+            specular 0.3 0.3 0.3 1.0 16.0
+
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture_alias DiffuseMap
+            }
+        } 
+    }
+}
+
+
+
+
+material Face_Normalmapping_mirrored
+{
+	lod_distances 10 100
+    technique hlsl
+    {
+	    lod_index 0
+        pass
+        {
+            vertex_program_ref Eye_Normalmapping_VS_HLSL
+            {
+                param_named_auto matViewProjection worldviewproj_matrix
+                param_named_auto LightPosition_0 light_position_object_space 0
+                param_named_auto LightPosition_1 light_position_object_space 1
+                param_named_auto LightPosition_2 light_position_object_space 2
+                
+                param_named_auto LightAttn_0 light_attenuation 0
+                param_named_auto LightAttn_1 light_attenuation 1
+                param_named_auto LightAttn_2 light_attenuation 2
+                
+                param_named eyeDirection float3 0.25 1 0.0
+                
+                param_named_auto vViewPosition	 camera_position_object_space
+            }
+
+            fragment_program_ref Eye_Normalmapping_PS_HLSL
+            {
+                param_named_auto LightColor_0  light_diffuse_colour  0
+                param_named_auto LightColor_1  light_diffuse_colour  1
+                param_named_auto LightColor_2  light_diffuse_colour  2
+                
+                param_named skycolor float4 0.6 0.6 0.6 1.0
+				param_named groundcolor float4 0.2 0.2 0.2 1.0
+                param_named SpecColor float4 1.0 1.0 1.0 1.0
+                param_named SpecExp float 64.0
+            }
+			
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture_alias EyeDiffuseMap
+            }
+
+            // Normal map
+            texture_unit NormalMap
+            {
+                texture_alias EyeNormalMap
+            }
+            
+            texture_unit ShadowMap
+            {
+                texture_alias EyeShadowMap
+                texture men_eyeshadow.png
+            }
+        }
+        
+        pass
+        {
+	        alpha_rejection greater 128
+            vertex_program_ref Basic_Normalmapping_UV0_VS_HLSL
+            {
+                param_named_auto matViewProjection worldviewproj_matrix
+                param_named_auto LightPosition_0 light_position_object_space 0
+                param_named_auto LightPosition_1 light_position_object_space 1
+                param_named_auto LightPosition_2 light_position_object_space 2
+                
+                param_named_auto LightAttn_0 light_attenuation 0
+                param_named_auto LightAttn_1 light_attenuation 1
+                param_named_auto LightAttn_2 light_attenuation 2
+                
+                param_named_auto vViewPosition	 camera_position_object_space
+            }
+
+            fragment_program_ref Skin_Normalmapping_mirrored_PS_HLSL
+            {
+                param_named_auto LightColor_0  light_diffuse_colour  0
+                param_named_auto LightColor_1  light_diffuse_colour  1
+                param_named_auto LightColor_2  light_diffuse_colour  2
+                
+                param_named skycolor float4 0.6 0.6 0.6 1.0
+				param_named groundcolor float4 0.2 0.2 0.2 1.0
+                param_named SkinColor float4 0.5 0.5 0.5 1.0
+                param_named SpecExp float 16.0
+                param_named skinscale float 3.5
+            }
+			
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture_alias DiffuseMap
+            }
+
+            // Normal map
+            texture_unit NormalMap
+            {
+                texture_alias NormalMap
+            }
+            
+            texture_unit SpecMap
+            {
+                texture_alias SpecMap
+            }
+            
+            texture_unit LookupSkin
+            {
+                texture_alias LookupSkin
+                texture lookup_skin.png 1d
+                tex_address_mode clamp
+            }
+            texture_unit skintexture
+            {
+                texture_alias skintexture
+                texture skin_texture.png
+            }
+        }
+    }
+    
+    technique hlsl1
+	{
+		lod_index 1
+		//Rendering Pass: Pass 0 (pass index: #0 )
+		pass
+		{
+			//DirectX 9.0 HLSL Pixel Shader ps_2_0
+			fragment_program_ref Face_Pixel_Shader
+			{
+			}
+			//DirectX 9.0 HLSL Vertex Shader vs_2_0
+			vertex_program_ref Face_Vertex_Shader
+			{
+				// param_named_auto
+
+				param_named_auto Light1_attenuation light_attenuation 0
+				param_named_auto Light1_color light_diffuse_colour 0
+				param_named_auto Light1_position light_position_object_space 0
+				param_named Light1_spec_power float 0.3
+				
+				param_named_auto Light2_attenuation light_attenuation 1
+				param_named_auto Light2_color light_diffuse_colour 1
+				param_named_auto Light2_position light_position_object_space 1
+				param_named Light2_spec_power float 0.3
+				
+				param_named_auto Light3_attenuation light_attenuation 2
+				param_named_auto Light3_color light_diffuse_colour 2
+				param_named_auto Light3_position light_position_object_space 2
+				param_named Light3_spec_power float 0.3
+				
+				param_named subsurfcolor float4 0.8 0 0 1
+				param_named skincolor float4 0.5 0.5 0.5 1
+				param_named eyeDirection float3 0.0 0 0.0
+				
+				param_named_auto matViewProjection worldviewproj_matrix
+				param_named_auto vViewPosition camera_position_object_space
+				
+				
+				param_named skycolor float4 0.6 0.6 0.6 1.0
+				param_named groundcolor float4 0.2 0.2 0.2 1.0
+			}
+			
+			texture_unit
+			{
+				texture_alias DiffuseMap
+
+			}
+			texture_unit DiffuseMap
+            {
+                texture_alias EyeDiffuseMap
+            }            
+            texture_unit ShadowMap
+            {
+                texture_alias EyeShadowMap
+                texture men_eyeshadow.png
+            }
+		}
+	}
+    
+
+    technique fixed_function
+    {
+	    lod_index 2
+        pass
+        {
+            ambient 0.6 0.6 0.6 1.0
+            diffuse 0.7 0.7 0.7 1.0
+            specular 0.3 0.3 0.3 1.0 16.0
+
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture_alias DiffuseMap
+            }
+        } 
+    }
+}
+
+
+material Skin_Normalmapping_mirrored
+{
+	lod_distances 12 100
+    technique hlsl
+    {
+	    lod_index 0
+        pass
+        {
+	        alpha_rejection greater 128
+            vertex_program_ref Basic_Normalmapping_UV0_VS_HLSL
+            {
+                param_named_auto matViewProjection worldviewproj_matrix
+                param_named_auto LightPosition_0 light_position_object_space 0
+                param_named_auto LightPosition_1 light_position_object_space 1
+                param_named_auto LightPosition_2 light_position_object_space 2
+                
+                param_named_auto LightAttn_0 light_attenuation 0
+                param_named_auto LightAttn_1 light_attenuation 1
+                param_named_auto LightAttn_2 light_attenuation 2
+                
+                param_named_auto vViewPosition	 camera_position_object_space
+            }
+
+            fragment_program_ref Skin_Normalmapping_mirrored_PS_HLSL
+            {
+                param_named_auto LightColor_0  light_diffuse_colour  0
+                param_named_auto LightColor_1  light_diffuse_colour  1
+                param_named_auto LightColor_2  light_diffuse_colour  2
+                
+                param_named skycolor float4 0.6 0.6 0.6 1.0
+				param_named groundcolor float4 0.2 0.2 0.2 1.0
+                param_named SkinColor float4 0.5 0.5 0.5 1.0
+                param_named SpecExp float 16.0
+                param_named skinscale float 3.5
+            }
+			
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture_alias DiffuseMap
+            }
+
+            // Normal map
+            texture_unit NormalMap
+            {
+                texture_alias NormalMap
+            }
+            
+            texture_unit SpecMap
+            {
+                texture_alias SpecMap
+            }
+            
+            texture_unit LookupSkin
+            {
+                texture_alias LookupSkin
+                texture lookup_skin.png 1d
+                tex_address_mode clamp
+            }
+            texture_unit skintexture
+            {
+                texture_alias skintexture
+                texture skin_texture.png
+            }
+            
+        }
+    }
+
+    technique hlsl2
+	{
+		lod_index 1
+		//Rendering Pass: Pass 0 (pass index: #0 )
+		pass
+		{
+			depth_bias -1
+			alpha_rejection greater 128
+			//DirectX 9.0 HLSL Pixel Shader ps_2_0
+			fragment_program_ref Basic_Pixel_Shader
+			{
+			}
+			//DirectX 9.0 HLSL Vertex Shader vs_2_0
+			vertex_program_ref Skin_Vertex_Shader
+			{
+				// param_named_auto
+
+				param_named_auto Light1_attenuation light_attenuation 0
+				param_named_auto Light1_color light_diffuse_colour 0
+				param_named_auto Light1_position light_position_object_space 0
+				param_named Light1_spec_power float 0.5
+				
+				param_named_auto Light2_attenuation light_attenuation 1
+				param_named_auto Light2_color light_diffuse_colour 1
+				param_named_auto Light2_position light_position_object_space 1
+				param_named Light2_spec_power float 0.5
+				
+				param_named_auto Light3_attenuation light_attenuation 2
+				param_named_auto Light3_color light_diffuse_colour 2
+				param_named_auto Light3_position light_position_object_space 2
+				param_named Light3_spec_power float 0.5
+				
+				param_named subsurfcolor float4 0.8 0 0 1
+				param_named skincolor float4 0.5 0.5 0.5 1
+				
+				param_named_auto matViewProjection worldviewproj_matrix
+				param_named_auto vViewPosition camera_position_object_space
+				
+				param_named skycolor float4 0.6 0.6 0.6 1.0
+				param_named groundcolor float4 0.2 0.2 0.2 1.0
+			}
+			
+			texture_unit
+			{
+				texture_alias DiffuseMap
+
+			}
+		}
+	}
+    
+
+    technique fixed_function
+    {
+	    lod_index 2
+	    
+        pass
+        {
+	        depth_bias -1
+            ambient 0.6 0.6 0.6 1.0
+            diffuse 0.7 0.7 0.7 1.0
+            specular 0.3 0.3 0.3 1.0 16.0
+
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture_alias DiffuseMap
+            }
+        } 
+    }
+}

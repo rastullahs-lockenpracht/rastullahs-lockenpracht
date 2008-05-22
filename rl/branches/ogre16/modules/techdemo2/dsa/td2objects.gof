@@ -1,0 +1,192 @@
+<?xml version="1.0" ?>
+<gameobjectdefinitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://svn.berlios.de/svnroot/repos/dsa-hl/modules/config/GameObjectDefinition.xsd">
+  <!-- TODO: 
+  	* remove properties classid and baseclass (should be attributes of gameobjectclass
+  	* move all never reused gameobjectclass definition to dotScene file -->
+
+  <gameobjectclass classid="Wolfram" baseclass="NPC">
+    <property name="classid" type="STRING" data="Wolfram"/>
+    <property name="baseclass" type="STRING" data="NPC"/>
+    <property name="name" type="STRING" data="Wolfram"/>
+    <property name="description" type="STRING" data="Wolfram"/>
+    <property name="meshfile" type="STRING" data="men_grim.mesh"/>
+    <property name="mass" type="REAL" data="75"/>
+    <property name="geometrytype" type="STRING" data="ellipsoid"/>
+    <property name="position" type="VECTOR3" data="-20.99, -6.5, 1.55"/>
+    <property name="orientation" type="QUATERNION" data="0.0, 180.0, 0.0"/>
+    <property name="dialogfile" type="STRING" data="wolfram.xml"/>
+    <property name="behaviours" type="ARRAY">
+    	<property type="STRING" data="DefaultIdleBehaviour"/>
+    	<property type="STRING" data="dialog_behaviour"/>
+    </property>
+  </gameobjectclass>
+
+  <gameobjectclass classid="Sonja" baseclass="NPC">
+    <property name="classid" type="STRING" data="Sonja"/>
+    <property name="baseclass" type="STRING" data="NPC"/>
+    <property name="name" type="STRING" data="Sonja"/>
+    <property name="description" type="STRING" data="Sonja"/>
+    <property name="meshfile" type="STRING" data="men_sonja.mesh"/>
+    <property name="mass" type="REAL" data="75"/>
+    <property name="geometrytype" type="STRING" data="ellipsoid"/>
+    <property name="position" type="VECTOR3" data="-32.40, -6.46, 4.03"/>
+    <property name="orientation" type="QUATERNION" data="0.0, 120.94, 0.0"/>
+    <property name="dialogfile" type="STRING" data="sonja.xml"/>
+    <property name="behaviours" type="ARRAY">
+    	<property type="STRING" data="DefaultIdleBehaviour"/>
+    	<property type="STRING" data="DialogBehaviour"/>
+    </property>
+  </gameobjectclass>
+  
+  <gameobjectclass classid="Sonj" baseclass="NPC">
+    <property name="classid" type="STRING" data="Sonj"/>
+    <property name="baseclass" type="STRING" data="NPC"/>
+    <property name="name" type="STRING" data="Sonja"/>
+    <property name="description" type="STRING" data="Sonja"/>
+    <property name="meshfile" type="STRING" data="men_sonja.mesh"/>
+    <property name="mass" type="REAL" data="0"/>
+    <property name="geometrytype" type="STRING" data="sphere"/>
+    <property name="position" type="VECTOR3" data="2.70, -37.79, -23.48"/>
+    <property name="orientation" type="QUATERNION" data="0.0, 120.94, 0.0"/>
+    <property name="dialogfile" type="STRING" data="sonja2.xml"/>
+    <property name="behaviours" type="ARRAY">
+    	<property type="STRING" data="DefaultIdleBehaviour"/>
+    	<property type="STRING" data="DialogBehaviour"/>
+    </property>
+  </gameobjectclass>
+  
+  <gameobjectclass classid="Jarn" baseclass="NPC">
+    <property name="classid" type="STRING" data="Jarn"/>
+    <property name="baseclass" type="STRING" data="NPC"/>
+    <property name="name" type="STRING" data="Jarn"/>
+    <property name="description" type="STRING" data="Jarn"/>
+    <property name="meshfile" type="STRING" data="men_gennisch2.mesh"/>
+    <property name="mass" type="REAL" data="75"/>
+    <property name="geometrytype" type="STRING" data="ellipsoid"/>
+    <property name="position" type="VECTOR3" data="-36.16, -6.25, 18.12"/>
+    <property name="orientation" type="QUATERNION" data="0.0, -23.40, 0.0"/>
+    <property name="dialogfile" type="STRING" data="jarn.xml"/>
+    <property name="behaviours" type="ARRAY">
+    	<property type="STRING" data="DefaultIdleBehaviour"/>
+    	<property type="STRING" data="DialogBehaviour"/>
+    </property>
+  </gameobjectclass>
+  
+  <gameobjectclass classid="Tsafried" baseclass="NPC">
+    <property name="classid" type="STRING" data="Tsafried"/>
+    <property name="baseclass" type="STRING" data="NPC"/>
+    <property name="name" type="STRING" data="Tsafried"/>
+    <property name="description" type="STRING" data="Tsafried"/>
+    <property name="meshfile" type="STRING" data="men_gennisch2.mesh"/>
+    <property name="mass" type="REAL" data="75"/>
+    <property name="geometrytype" type="STRING" data="sphere"/>
+    <property name="position" type="VECTOR3" data="11.46, -8.88, 39.43"/>
+    <property name="orientation" type="QUATERNION" data="0.0, 50.0, 0.0"/>
+    <property name="dialogfile" type="STRING" data="wolfram.xml"/>
+    <property name="behaviours" type="ARRAY">
+    	<property type="STRING" data="DefaultIdleBehaviour"/>
+    	<property type="STRING" data="DialogBehaviour"/>
+    </property>
+  </gameobjectclass>
+  
+  <gameobjectclass classid="Forrest" baseclass="NPC">
+    <property name="classid" type="STRING" data="Forrest"/>
+    <property name="baseclass" type="STRING" data="NPC"/>
+    <property name="name" type="STRING" data="Forrest"/>
+    <property name="description" type="STRING" data="Forrest"/>
+    <property name="meshfile" type="STRING" data="men_Gennisch.mesh"/>
+    <property name="mass" type="REAL" data="75"/>
+    <property name="geometrytype" type="STRING" data="sphere"/>
+    <property name="position" type="VECTOR3" data="-20.83, -6.70, 19.46"/>
+    <property name="dialogfile" type="STRING" data="forrest.xml"/>
+    <property name="behaviours" type="ARRAY">
+    	<property type="STRING" data="DefaultIdleBehaviour"/>
+    	<property type="STRING" data="AvoidObstaclesBehaviour"/>
+    	<property type="STRING" data="DialogBehaviour"/>
+    </property>
+  </gameobjectclass>
+  
+  <gameobjectclass classid="SchnetzelDruide" baseclass="NPC">
+    <property name="classid" type="STRING" data="SchnetzelDruide"/>
+    <property name="baseclass" type="STRING" data="NPC"/>
+    <property name="name" type="STRING" data="Alter Mann"/>
+    <property name="description" type="STRING" data="Alter Mann"/>
+    <property name="meshfile" type="STRING" data="men_druide.mesh"/>
+    <property name="mass" type="REAL" data="0"/>
+    <property name="geometrytype" type="STRING" data="sphere"/>
+    <property name="position" type="VECTOR3" data="21.78, -35.28, -264.45"/>
+    <property name="orientation" type="QUATERNION" data="0.0, 90.0, 0.0"/>
+    <property name="dialogfile" type="STRING" data="druide51.xml"/>
+  </gameobjectclass>
+  
+  <gameobjectclass classid="RettungsDruide" baseclass="NPC">
+    <property name="classid" type="STRING" data="RettungsDruide"/>
+    <property name="baseclass" type="STRING" data="NPC"/>
+    <property name="name" type="STRING" data="Alter Mann"/>
+    <property name="description" type="STRING" data="Alter Mann"/>
+    <property name="meshfile" type="STRING" data="men_druide.mesh"/>
+    <property name="mass" type="REAL" data="0"/>
+    <property name="geometrytype" type="STRING" data="sphere"/>
+    <property name="position" type="VECTOR3" data="24.53, -47.45, -260.33"/>
+    <property name="orientation" type="QUATERNION" data="90.0, 0.0, 0.0"/>
+    <property name="dialogfile" type="STRING" data="druide52.xml"/>
+  </gameobjectclass>
+  
+  <gameobjectclass classid="Wolf" baseclass="SimpleEnemy">
+    <property name="classid" type="STRING" data="Wolf"/>
+    <property name="baseclass" type="STRING" data="SimpleEnemy"/>
+    <property name="name" type="STRING" data="Wolf"/>
+    <property name="description" type="STRING" data="Ein gefährlicher, ganz gefährlicher, wirklich extrem gefährlicher Wolf. Aber er hat ein schwaches Herz."/>
+    <property name="description_dead" type="STRING" data="Ein sehr toter Wolf"/>
+    <property name="meshfile" type="STRING" data="tie_wolf_01.mesh"/>
+    <property name="mass" type="REAL" data="0"/>
+    <property name="geometrytype" type="STRING" data="sphere"/>
+    <property name="behaviours" type="ARRAY">
+    	<property type="STRING" data="DefaultIdleBehaviour"/>
+    	<property type="STRING" data="AvoidObstaclesBehaviour"/>
+    </property>
+  </gameobjectclass>
+  
+  <gameobjectclass classid="WolframsTuer" baseclass="WolframsTuer">
+    <property name="classid" type="STRING" data="WolframsTuer"/>
+    <property name="baseclass" type="STRING" data="WolframsTuer"/>
+    <property name="name" type="STRING" data="Wolframs Tür"/>
+    <property name="description" type="STRING" data="Wolframs Tür"/>
+    <property name="meshfile" type="STRING" data="arc_door_02.mesh"/>
+    <property name="mass" type="REAL" data="0"/>
+    <property name="geometrytype" type="STRING" data="sphere"/>
+    <property name="position" type="VECTOR3" data="-20.8134, -6.61745, 1.91752"/>
+    <property name="orientation" type="QUATERNION" data="0, 13, 0"/>
+  </gameobjectclass>
+  
+  <gameobjectclass classid="Bauer" baseclass="GameObject">
+    <property name="classid" type="STRING" data="Bauer"/>
+    <property name="baseclass" type="STRING" data="GameObject"/>
+    <property name="name" type="STRING" data="Ein Bauer"/>
+    <property name="description" type="STRING" data="Ein Bauer. Er ist im Gespräch vertieft und lässt sich nicht stören."/>
+    <property name="meshfile" type="STRING" data="men_Gennisch.mesh"/>
+    <property name="mass" type="REAL" data="0"/>
+    <property name="geometrytype" type="STRING" data="ellipsoid"/>
+    <property name="position" type="VECTOR3" data="-27.10, -6.5, -0.32"/>
+  </gameobjectclass>
+  
+  <gameobjectclass classid="Wirt" baseclass="GameObject">
+    <property name="classid" type="STRING" data="Wirt"/>
+    <property name="baseclass" type="STRING" data="GameObject"/>
+    <property name="name" type="STRING" data="Ein Wirt"/>
+    <property name="description" type="STRING" data="Ein Wirt. Er ist im Gespräch vertieft und lässt sich nicht stören."/>
+    <property name="meshfile" type="STRING" data="men_wirt.mesh"/>
+    <property name="position" type="VECTOR3" data="-27.10, -6.48, -1.40"/>
+    <property name="orientation" type="QUATERNION" data="0, 180, 0"/>
+  </gameobjectclass>
+  
+  <gameobjectclass classid="Buch der Kultur" baseclass="BuchDerKultur">
+    <property name="classid" type="STRING" data="Buch der Kultur"/>
+    <property name="baseclass" type="STRING" data="BuchDerKultur"/>
+    <property name="name" type="STRING" data="Buch der Kultur"/>
+    <property name="description" type="STRING" data="Ein magisches Buch mit Kultureinfluss."/>
+    <property name="meshfile" type="STRING" data="ver_buch_02.mesh"/>
+    <property name="position" type="VECTOR3" data="-35.1, -2.55, 17.04"/>
+  </gameobjectclass>
+  
+</gameobjectdefinitions>

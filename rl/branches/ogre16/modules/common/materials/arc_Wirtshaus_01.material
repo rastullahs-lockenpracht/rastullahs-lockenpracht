@@ -1,0 +1,152 @@
+
+
+material arc_Wirtshaus_01/Dach
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture arc_Dach01.dds
+
+			}
+		}
+	}
+}
+
+material arc_Wirtshaus_01/hausstuff
+{
+	technique
+	{
+		pass
+		{
+
+
+			texture_unit
+			{
+				texture arc_hausstuff_01.dds
+			}
+		}
+	}
+}
+
+material arc_Wirtshaus_01/Boden
+{
+	technique
+	{
+		pass
+		{
+
+
+			texture_unit
+			{
+				texture arc_boden_01.dds
+
+			}
+		}
+	}
+}
+
+material arc_Wirtshaus_01/Wand
+{
+	technique
+	{
+		pass
+		{
+
+
+			texture_unit
+			{
+				texture arc_lehmwand_01.dds
+
+			}
+		}
+	}
+}
+
+material arc_Wirtshaus_01/balken
+{
+	technique
+	{
+		pass
+		{
+
+
+			texture_unit
+			{
+				texture arc_balken.dds
+
+			}
+		}
+	}
+}
+
+material arc_Wirtshaus_01/Stein
+{
+	technique
+	{
+		pass
+		{
+
+
+			texture_unit
+			{
+				texture arc_SteinLehmwand_01.dds
+
+			}
+		}
+	}
+}
+
+material arc_Wirtshaus_01/Gelaender
+{
+	technique
+	{
+		pass
+		{
+      			alpha_rejection greater 215
+			texture_unit
+			{
+				filtering linear linear linear 
+				texture arc_gelaender_01.dds
+			}
+		}
+	}
+}
+
+material arc_Wirtshaus_01/brick
+{
+	technique
+	{
+		pass
+		{
+	
+
+			texture_unit
+			{
+				texture arc_brickwall_01.dds
+
+			}
+		}
+	}
+}
+
+material arc_Wirtshaus_01/dirt
+{
+	technique
+	{
+		pass
+		{
+
+		scene_blend alpha_blend
+		depth_write off
+
+			texture_unit
+			{
+				texture arc_dirt_01.dds
+
+			}
+		}
+	}
+}

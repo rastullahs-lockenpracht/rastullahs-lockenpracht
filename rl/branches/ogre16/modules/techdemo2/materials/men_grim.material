@@ -1,0 +1,31 @@
+
+material men_grim/base
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture men_grim.dds
+			}
+		}
+	}
+}
+material men_grim/alpha
+{
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_write off
+			
+			texture_unit
+			{
+				texture men_grim.dds
+			}
+		}
+	}
+}

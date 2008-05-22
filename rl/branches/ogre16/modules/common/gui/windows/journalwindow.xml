@@ -1,0 +1,61 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="RastullahLook/FrameWindow" Name="JournalWindow">
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+        <Property Name="UnifiedSize" Value="{{0,640},{0,510}}"/>
+
+		<Window Type="RastullahLook/TabControl" Name="JournalWindow/Tabs">
+            <Property Name="UnifiedPosition" Value="{{0,20},{0,20}}"/>
+            <Property Name="UnifiedSize" Value="{{0,640},{0,480}}"/>
+
+			<Window Type="DefaultGUISheet" Name="JournalWindow/Quests">
+				<Property Name="Text" Value="Quests"/>
+                <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+
+				<Window Type="RastullahLook/Listbox" Name="JournalWindow/Quests/QuestList">
+                    <Property Name="UnifiedPosition" Value="{{0,15},{0,30}}"/>
+                    <Property Name="UnifiedSize" Value="{{0,240},{0,400}}"/>
+				</Window>
+
+				<Window Type="RastullahLook/StaticText" Name="JournalWindow/Quests/QuestTitle">
+                    <Property Name="UnifiedPosition" Value="{{0,270},{0,30}}"/>
+                    <Property Name="UnifiedSize" Value="{{0,315},{0,30}}"/>
+					<Property Name="FrameEnabled" Value="False"/>
+				</Window>
+
+				<Window Type="RastullahLook/StaticText" Name="JournalWindow/Quests/QuestState">
+                    <Property Name="UnifiedPosition" Value="{{0,270},{0,60}}"/>
+                    <Property Name="UnifiedSize" Value="{{0,315},{0,30}}"/>
+					<Property Name="FrameEnabled" Value="False"/>
+				</Window>
+				  
+				<Window Type="RastullahLook/MultiLineEditbox" Name="JournalWindow/Quests/QuestDescription">
+                    <Property Name="UnifiedPosition" Value="{{0,270},{0,90}}"/>
+                    <Property Name="UnifiedSize" Value="{{0,315},{0,340}}"/>
+				</Window>
+			</Window>
+
+			<Window Type="DefaultGUISheet" Name="JournalWindow/Journal">
+				<Property Name="Text" Value="Journal"/>
+                <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+                <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+				<Window Type="RastullahLook/Listbox" Name="JournalWindow/Journal/JournalEntryList">
+                    <Property Name="UnifiedPosition" Value="{{0,15},{0,30}}"/>
+                    <Property Name="UnifiedSize" Value="{{0,240},{0,400}}"/>
+				</Window>
+
+				<Window Type="RastullahLook/StaticText" Name="JournalWindow/Journal/JournalEntryTitle">
+                    <Property Name="UnifiedPosition" Value="{{0,270},{0,30}}"/>
+                    <Property Name="UnifiedSize" Value="{{0,315},{0,30}}"/>
+					<Property Name="FrameEnabled" Value="False"/>
+				</Window>
+
+				<Window Type="RastullahLook/MultiLineEditbox" Name="JournalWindow/Journal/JournalEntryText">
+                    <Property Name="UnifiedPosition" Value="{{0,270},{0,60}}"/>
+                    <Property Name="UnifiedSize" Value="{{0,315},{0,370}}"/>
+				</Window>
+			</Window>
+		</Window>
+	</Window>
+</GUILayout>
+

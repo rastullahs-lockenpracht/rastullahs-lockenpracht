@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
+
+<aiml  version="1.0.1"
+            xmlns="http://alicebot.org/2001/AIML"
+			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
+
+<!-- ================Begrüßung ================ -->
+
+	<category>
+		<pattern>1</pattern>
+		<template>
+			<condition type="default" name="sonja_1">
+				<li value="">
+					<gossip rldialog:type="response">
+						<li rldialog:id="sonja001.ogg">Travia zum Gruße, was führt euch in unser abgelegenes Dorf?</li>
+					</gossip>
+					<gossip rldialog:type="option">
+						<li rldialog:id="alrike042.ogg" rldialog:patternRef ="11">Ich bin aus Wandleth hergeschickt worden um nach dem Rechten zu sehen. Man sagte mir, es gäbe Probleme mit Raubtieren?</li>
+					</gossip>
+				</li>
+				<li value="1">
+					<srai>11</srai>
+				</li>
+			</condition>
+		</template>
+	</category>
+
+
+<!-- ================Hauptmenü ================ -->	
+
+	<category>
+		<pattern>11</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<condition type="default" name="sonja_1"><li rldialog:id="sonja002.ogg" value="">So seltsam das auch ist, ja. Es hat vor gut einer Woche angefangen, dass wir Nachts die ersten Geräusche hörten, und gestern ist eins meiner Hühner gerissen worden! Mehr ist zum Glück noch nicht passiert. Um ehrlich zu sein, ich bin verzweifelt. Ich weiß garnicht wie ich mit so einer Situation umgehen soll. Das gab es hier noch nie!</li><li value="1" rldialog:id="null.ogg"></li></condition> 
+			</gossip>
+			<gossip rldialog:type="option">
+				<condition type="default" name="sonja_2"><li rldialog:id="alrike032.ogg" value="" rldialog:patternRef ="2">Und warum ruft ihr deswegen die Wache und nicht einen Jäger?</li></condition>		
+				<condition type="default" name="sonja_3"><li rldialog:id="alrike033.ogg" value="" rldialog:patternRef ="3">Was für ein Tier war es?</li></condition>		
+				<condition type="queststate" name="hauptquest2"><li rldialog:id="alrike034.ogg" value="OPEN" rldialog:patternRef ="5">Und was schlagt ihr vor, was ich tun soll? Ich kann ja wohl schlecht in den Wald gehen und alle Tiere jagen, die eure Hühner reißen könnten.</li></condition> 
+	   			<condition type="queststate" name="hauptquest2"><li rldialog:id="alrike035.ogg" value="SUCCEEDED" rldialog:patternRef ="4">Ich habe mit Allen geredet. Sie haben recht gegenteilige Meinungen, aber Einiges ist überzeugender als Anderes.</li></condition>
+				<condition type="default" name="sonja_7">
+					<li value="" rldialog:id="alrike045.ogg" rldialog:patternRef ="431">
+						<condition type="queststate" name="aufenthaltsort">
+							<li value="SUCCEEDED">Tsafried sagte, es gäbe einen alten Pfad, der zu einem verlassenen Turm führt. Kennt ihr ihn?</li>
+						</condition>
+					</li>
+				</condition>
+				<li rldialog:id="alrike043.ogg" rldialog:patternRef ="EXIT"><set type="default" name="sonja_1" value="1"/>Ich komme später wieder.</li>				
+			</gossip>
+		</template>
+	</category>
+
+<!-- ================Allgemeine Informationen================ -->
+
+	<category>
+	<pattern>2</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="sonja003.ogg">
+				<set type="default" name="sonja_2" value="1"/>
+				Wißt ihr, so seltsam es klingen mag, aber wir hatten noch nie Ärger mit Raubtieren aus dem Wald. Das ist so seit ich lebe und meine Eltern erzählten mir es ebenso. Es muß mehr dahinter stecken.
+			</li>
+		</gossip>
+		<srai>11</srai>
+
+	</template>
+	</category>
+
+	<category>
+	<pattern>3</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="sonja004.ogg">
+				<set type="default" name="sonja_3" value="1"/>
+				Ich denke es war ein Wolf. Wir haben Spuren im Dorf gefunden und sind uns ziemlich sicher! Sicher, es gibt Wölfe hier in der Gegend, aber noch nie vorher war einer auch nur in der Nähe des Dorfes.
+			</li>
+		</gossip>
+		<srai>11</srai>
+	</template>
+	</category>
+
+
+<!-- ================Hauptquestentscheidung, Map2 freischalten================ -->
+
+	<category>
+	<pattern>4</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="sonja008.ogg">Ich verlasse mich auf euer Urteil. Was denkt ihr, was hinter der Geschichte steckt?</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="alrike038.ogg" rldialog:patternRef ="41">Ich glaube, dass der alte Mann aus dem Wald schuld ist. Ich hörte von eurem kleinen unfairen "Geschäft". Was ihr macht soll mir egal sein, aber er ist wahrscheinlich auf Rache aus. Vielleicht hat er Einfluß auf Tiere und hetzt sie nun gegen das Dorf, etwas, dass das Gesetz des Reiches auf keinen Fall duldet! Ich werde ihn aufsuchen und festsetzen, notfalls mit Gewalt.</li>
+			<li rldialog:id="alrike039.ogg" rldialog:patternRef ="42">Ich glaube, dass das Verschwinden des alten Mannes aus dem Wald etwas damit zu tun hat. Seit er hier nicht mehr auftaucht, habt Ihr eure Probleme. Ihr habt, ihm meiner Meinung nach, eure jahrelange Ruhe mit den Tieren zu verdanken, wie auch immer er das anstellt. Ich denke ich sollte ihn suchen und nach dem rechten sehen, vielleicht ist ihm etwas zugestoßen.</li>
+		</gossip>
+	</template>
+	</category>
+
+
+	<category>
+	<pattern>41</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="sonja009.ogg"><script language="ruby">RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( $tagebuchtexte['schnetzeln1'][0], $tagebuchtexte['schnetzeln1'][1] );</script><set type="queststate" name="hauptquest2" value="COMPLETED"/><set type="queststate" name="hauptquest41" value="ASSIGNED"/><set type="questknown" name="hauptquest41" value="KNOWN"/>Bei Praios, so soll es sein. Ich glaube ihr sprecht die Wahrheit. Dann solltet ihr euch nun beeilen, und den Mann finden. Habt ihr schon herausfinden können wo er ist?</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<condition type="queststate" name="aufenthaltsort">
+				<li value="SUCCEEDED" rldialog:id="alrike040.ogg" rldialog:patternRef ="431" >Ja, Tsafried sagte, es gäbe einen alten Pfad, der zu einem verlassenen Turm führt. Kennt ihr ihn?</li>
+				<li value="ASSIGNED" rldialog:id="alrike041.ogg" rldialog:patternRef ="432" >Nein. Wisst ihr es denn nicht?</li>
+			</condition>				
+		</gossip>
+	</template>
+	</category>
+
+
+	<category>
+	<pattern>42</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="sonja009.ogg"><script language="ruby">RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( $tagebuchtexte['retten1'][0], $tagebuchtexte['retten1'][1] );</script><set type="queststate" name="hauptquest2" value="COMPLETED"/><set type="queststate" name="hauptquest42" value="ASSIGNED"/><set type="questknown" name="hauptquest42" value="KNOWN"/>Bei Praios, so soll es sein. Ich glaube ihr sprecht die Wahrheit. Dann solltet ihr euch nun beeilen, und den Mann finden. Habt ihr schon herausfinden können wo er ist?</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<condition type="queststate" name="aufenthaltsort">
+				<li value="SUCCEEDED" rldialog:id="alrike040.ogg" rldialog:patternRef ="431" >Ja, Tsafried sagte, es gäbe einen alten Pfad, der zu einem verlassenen Turm führt. Kennt ihr ihn?</li>
+				<li value="ASSIGNED" rldialog:id="alrike041.ogg" rldialog:patternRef ="432" >Nein. Wisst ihr es denn nicht?</li>
+			</condition>				
+		</gossip>
+	</template>
+	</category>
+
+
+	<category>
+	<pattern>431</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="sonja010.ogg"><script language="ruby">RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( $tagebuchtexte['aufenthalt'][0], $tagebuchtexte['aufenthalt'][1] );</script><set type="default" name="sonja_7" value="1"/>In der Tat, ja. Der Pfad beginnt bei den Hügeln gleich hinterm Dorf. Wenn ihr ihn entlanggeht werdet ihr an einen Abzweig gelangen, der auf eine gute Straße führt. Doch nehmt diese nicht sondern geht weiter. Ihr werdet in einen Wald kommen und den Turm schon von weitem sehen.</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="alrike043.ogg" rldialog:patternRef ="EXIT">Ich komme später wieder.</li>			
+		</gossip>
+	</template>
+	</category>
+	
+	
+	<category>
+	<pattern>432</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="sonja011.ogg">Leider nicht. Ihr solltet nocheinmal mit einer Person reden, die ihm nahe stand.</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="alrike044.ogg" rldialog:patternRef ="11"><set type="questknown" name="aufenthaltsort" value="KNOWN"/>Wird gemacht!</li>			
+		</gossip>
+	</template>
+	</category>
+
+
+
+<!-- ================Hauptquestentscheidung, Auftrag mit den Leuten zu reden ================ -->
+
+
+
+	<category>
+	<pattern>5</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="sonja005.ogg">Findet heraus, was hinter der Angelegenheit steckt! Sprecht doch zunächst mit den anderen Dorfbewohnern, sie werden euch mehr erzählen können.</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="alrike036.ogg" rldialog:patternRef ="55">Wer könnte etwas genaueres wissen, ich möchte nicht an jeder Tür klopfen nur um zu erfahren, dass niemand etwas gesehen hat.</li>
+		</gossip>
+	</template>
+	</category>
+	
+		<category>
+		<pattern>55</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li rldialog:id="sonja006.ogg">Drei Personen kommen in Frage. Meinen Mann, Jarn, findet ihr hier im Haus. Wolfram, der Dichter lebt in dem anderen Haus. Und dann ist da noch Tsafried, ihr findet ihn wahrscheinlich irgendwo bei den Bäumen dort drüben.</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:id="alrike037.ogg" rldialog:patternRef ="555">Wird gemacht. Und dann?</li>
+			</gossip>
+		</template>
+		</category>
+
+		<category>
+			<pattern>555</pattern>
+			<template>
+				<gossip rldialog:type="response">
+					<li rldialog:id="sonja007.ogg">Kehrt zu mir zurück und dann sehen wir hoffentlich, was zu tun ist.</li>
+				</gossip>
+				<set type="default" name="sonja_5" value="1"/>
+				<script language="ruby">RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( $tagebuchtexte['dorf2'][0], $tagebuchtexte['dorf2'][1] );</script>
+				<set type="queststate" name="hauptquest1" value="SUCCEEDED"/>
+				<set type="queststate" name="hauptquest2" value="ASSIGNED"/>
+				<set type="questknown" name="hauptquest2" value="KNOWN"/>
+				<srai>11</srai>
+			</template>
+		</category>
+
+
+<!-- ================Standardoptionen ================ -->
+	<category>
+	<pattern>EXIT</pattern> 
+	<template>
+		 <system cmd="exit"/>
+	</template>
+	</category>	
+</aiml>

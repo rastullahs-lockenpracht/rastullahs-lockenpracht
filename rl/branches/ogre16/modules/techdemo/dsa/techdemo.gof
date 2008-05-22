@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<GameObjectDefinitions>
+
+    <gameobjectclass classid="ArnolfGrossschaedel" baseclass="NPC">
+    	<property name="name" type="STRING" data="Ein Bauer"/>
+    	<property name="description" type="STRING" data="Ein Bauer"/>
+    	<property name="meshfile" type="STRING" data="men_wirt_posed.mesh"/>
+        <property name="mass" type="REAL" data="75"/>
+        <property name="dialog" type="STRING" data="bauer"/>
+        <property name="behaviours" type="ARRAY">
+            <property type="STRING" data="DefaultIdleBehaviour"/>
+            <property type="STRING" data="DialogBehaviour"/>
+        </property>
+	    <property name="geometrytype" type="STRING" data="ellipsoid"/>
+    </gameobjectclass>
+    
+    <gameobjectclass classid="Waldspinne" baseclass="Waldspinne">
+    	<property name="name" type="STRING" data="Waldspinne"/>
+    	<property name="description" type="STRING" data="Eine große Spinne, die sich anscheinend vor irgendetwas ängstigt."/>
+    	<property name="meshfile" type="STRING" data="tie_waldspinne.mesh"/>
+      <property name="mass" type="REAL" data="0"/>
+	    <property name="geometrytype" type="STRING" data="ellipsoid"/>
+    </gameobjectclass>
+    
+    <gameobjectclass classid="Heiltrank" baseclass="Heiltrank">
+    	<property name="name" type="STRING" data="Trank"/>
+    	<property name="description" type="STRING" data="Eine Flasche mit einer geheimnisvollen Flüssigkeit."/>
+    	<property name="meshfile" type="STRING" data="obj_heiltrank01.mesh"/>
+      <property name="mass" type="REAL" data="0"/>
+	    <property name="geometrytype" type="STRING" data="none"/>
+	    <property name="quality" type="STRING" data="A"/>
+    </gameobjectclass>
+    
+    <gameobjectclass classid="Fels" baseclass="Rock">
+    	<property name="name" type="STRING" data="Fels"/>
+    	<property name="description" type="STRING" data="Ein Fels"/>
+    	<property name="meshfile" type="STRING" data="nat_stein_gross_01.mesh"/>
+      <property name="mass" type="REAL" data="4000"/>
+	    <property name="geometrytype" type="STRING" data="ellipsoid"/>
+    </gameobjectclass>
+    
+    <gameobjectclass classid="switch3way" baseclass="Switch3Way">
+        <property name="name" type="STRING" data="Hebel"/>
+        <property name="description" type="STRING" data="Ein Hebel"/>
+        <property name="meshfile" type="STRING" data="arc_hebel_01.mesh"/>
+        <property name="geometrytype" type="STRING" data="sphere"/>
+    </gameobjectclass>
+    
+    <gameobjectclass classid="rockpile" baseclass="RockPile">
+        <property name="name" type="STRING" data="Steinhaufen"/>
+        <property name="description" type="STRING" data="Ein großer Steinhaufen"/>
+        <property name="meshfile" type="STRING" data="Steinhaufen.mesh"/>
+        <property name="geometrytype" type="STRING" data="convexhull"/>
+        <property name="highlight" type="BOOL" data="false"/>
+    </gameobjectclass>
+    
+</GameObjectDefinitions>

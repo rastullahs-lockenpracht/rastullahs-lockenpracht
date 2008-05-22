@@ -1,0 +1,172 @@
+/* This source file is part of Rastullahs Lockenpracht.
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ * 
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
+
+/* Typemaps fuer Quaternion.
+ * Ein Quaternion wird auf 
+ *  - Ein Array aus einem 3-elementigen Array 
+ *    für die Rotationsachse und einem Wert für den Winkel abgebildet
+ *  - 
+ * 
+ */
+
+%{
+// Helper method for checking the Quaternion
+static int checkRubyQuaternion( VALUE input ) 
+{
+	bool correct = false;
+
+	if (TYPE(input) == T_ARRAY)
+	{
+		int length = RARRAY(input)->len;
+
+		if (length == 2)
+		{
+			VALUE arr = rb_ary_entry(input, 0);
+			VALUE degree = rb_ary_entry(input, 1);
+
+			if( SWIG_FLOAT_P(degree) &&
+				TYPE(arr) == T_ARRAY && 
+				RARRAY(arr)->len == 3 &&
+				SWIG_FLOAT_P( RARRAY(arr)->ptr[0] ) &&
+				SWIG_FLOAT_P( RARRAY(arr)->ptr[1] ) &&
+				SWIG_FLOAT_P( RARRAY(arr)->ptr[2] ) )
+			{
+				correct = true;
+			}
+		}
+		else if (length == 3 || length == 4)
+		{
+			correct = true;
+			
+			for (int i = 0; i < length; i++)
+			{
+				if( !SWIG_FLOAT_P( RARRAY(input)->ptr[0] ) )
+				{
+					correct = false;
+					break;
+				}
+			}
+		}
+	}
+	
+    return (correct ? 1 : 0);
+}
+%}
+
+%typemap(typecheck)  
+   Ogre::Quaternion, const Ogre::Quaternion, 
+   Ogre::Quaternion*, Ogre::Quaternion&,
+   const Ogre::Quaternion*, const Ogre::Quaternion& 
+%{
+	$1 = checkRubyQuaternion($input);	
+%}
+
+
+%{
+// Helper method for converting ruby input to a Quaternion
+static Ogre::Quaternion* convertRubyToQuaternion( VALUE input, Ogre::Quaternion* quat )
+{
+   if (RARRAY(input)->len == 2)
+   {
+	   VALUE axisVal = rb_ary_entry(input, 0);
+	   Ogre::Vector3 axis(
+				NUM2DBL(rb_ary_entry(axisVal, 0)), 
+				NUM2DBL(rb_ary_entry(axisVal, 1)),
+				NUM2DBL(rb_ary_entry(axisVal, 2)));
+
+	   double angle = NUM2DBL(rb_ary_entry(input, 1));
+	      
+	   quat->FromAngleAxis(Ogre::Degree(angle), axis);
+   }
+   else if (RARRAY(input)->len == 3)
+   {
+       Ogre::Quaternion rotX, rotY, rotZ;
+       rotX.FromAngleAxis(
+			Ogre::Degree(NUM2DBL(rb_ary_entry(input, 0))), 
+			Ogre::Vector3::UNIT_X);
+       rotY.FromAngleAxis(
+			Ogre::Degree(NUM2DBL(rb_ary_entry(input, 1))), 
+			Ogre::Vector3::UNIT_Y);
+       rotZ.FromAngleAxis(
+			Ogre::Degree(NUM2DBL(rb_ary_entry(input, 2))), 
+			Ogre::Vector3::UNIT_Z);
+	   
+	   *quat = rotX * rotY * rotZ;
+	   quat->normalise();
+   }
+   else if (RARRAY(input)->len == 4)
+   {
+	   quat->w = NUM2DBL(rb_ary_entry(input, 0));
+	   quat->x = NUM2DBL(rb_ary_entry(input, 1));
+	   quat->y = NUM2DBL(rb_ary_entry(input, 2));
+	   quat->z = NUM2DBL(rb_ary_entry(input, 3));
+   }
+
+   return quat;
+}
+%}
+
+%typemap(in) Ogre::Quaternion, const Ogre::Quaternion
+{
+   Ogre::Quaternion quat;
+   convertRubyToQuaternion( $input, & quat );
+   $1 = quat;
+}
+
+%typemap(in) Ogre::Quaternion*, Ogre::Quaternion&,
+   const Ogre::Quaternion*, const Ogre::Quaternion&
+{
+   Ogre::Quaternion* quat = new Ogre::Quaternion();  
+   $1 = convertRubyToQuaternion( $input, quat );
+}
+
+
+%{
+// Helper method for creating the ruby Array
+static VALUE convertQuaternionToRuby( const Ogre::Quaternion* q ) 
+{
+   Ogre::Degree angle;
+   Ogre::Vector3 axis;
+   
+   q->ToAngleAxis(angle, axis);
+   
+   VALUE arrAxis = rb_ary_new3( 3, 
+       rb_float_new(axis.x), 
+       rb_float_new(axis.y), 
+       rb_float_new(axis.z) );
+
+   VALUE array = rb_ary_new3( 2, 
+       arrAxis, 
+       rb_float_new(angle.valueDegrees()) );
+
+   return array;
+}
+%}
+
+%typemap(out) Ogre::Quaternion, const Ogre::Quaternion 
+%{  
+   $result = convertQuaternionToRuby( & $1 );
+%}
+
+%typemap(out) Ogre::Quaternion*, const Ogre::Quaternion*, const Ogre::Quaternion&, Ogre::Quaternion& 
+%{
+   $result = convertQuaternionToRuby( $1 );
+%} 
+
+
+%typemap(freearg)  Ogre::Quaternion*, Ogre::Quaternion&,
+   const Ogre::Quaternion*, const Ogre::Quaternion& 
+"   delete $1;"

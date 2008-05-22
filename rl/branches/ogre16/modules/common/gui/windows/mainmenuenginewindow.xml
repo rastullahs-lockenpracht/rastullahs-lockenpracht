@@ -1,0 +1,72 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+	<Window Type="DefaultWindow" Name="MainMenu2">
+	    <Property Name="UnifiedPosition" Value="{{0,5},{0,100}}" />
+	    <Property Name="UnifiedSize" Value="{{1,-10},{1,-100}}" />
+		<Window Type="RastullahLook/StaticText" Name="MainMenu/GameName">
+            <Property Name="UnifiedPosition" Value="{{1,-355},{1,-58}}" />
+    	    <Property Name="UnifiedSize" Value="{{0,350},{0,50}}" />
+            <Property Name="HorzFormatting" Value="RightAligned"/>
+			<Property Name="FrameEnabled" Value="False"/>
+            <Property Name="Text" Value="Rastullahs Lockenpracht"/>
+            <Property Name="Font" Value="Vera Serif Bold-18" />
+            <Property Name="TextColours" Value="tl:FFEDD5A1 tr:FFEDD5A1 bl:FFEDD5A1 br:FFEDD5A1" />
+		</Window>
+		<Window Type="RastullahLook/StaticText" Name="MainMenu/EngineVersion">
+            <Property Name="UnifiedPosition" Value="{{1,-210},{1,-20}}" />
+    	    <Property Name="UnifiedSize" Value="{{0,200},{0,20}}" />
+            <Property Name="HorzFormatting" Value="RightAligned"/>
+			<Property Name="FrameEnabled" Value="False"/>
+            <Property Name="TextColours" Value="tl:FFEDD5A1 tr:FFEDD5A1 bl:FFEDD5A1 br:FFEDD5A1" />
+		</Window>
+
+		<Window Type="RastullahLook/StaticImage" Name="MainMenu/OgreLogo">
+			<Property Name="Image" Value="set:Logos image:Ogre"/>
+			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="UnifiedPosition" Value="{{0,50},{1,-200}}"/>
+			<Property Name="UnifiedSize" Value="{{0,125},{0,50}}"/>
+			<Property Name="Tooltip" Value="Ogre 3D Library"/>
+		</Window>
+		<Window Type="RastullahLook/StaticImage" Name="MainMenu/NewtonLogo">
+			<Property Name="Image" Value="set:Logos image:Newton"/>
+			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="UnifiedPosition" Value="{{0,110},{1,-145}}"/>
+			<Property Name="UnifiedSize" Value="{{0,90},{0,27}}"/>
+			<Property Name="Tooltip" Value="Newton Physics Library"/>
+		</Window>
+		<Window Type="RastullahLook/StaticImage" Name="MainMenu/CEGUILogo">
+			<Property Name="Image" Value="set:Logos image:CEGUI"/>
+			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="UnifiedPosition" Value="{{0,10},{1,-140}}"/>
+			<Property Name="UnifiedSize" Value="{{0,103},{0,56}}"/>
+			<Property Name="Tooltip" Value="Crazy Eddie's GUI Library"/>
+		</Window>
+		<Window Type="RastullahLook/StaticImage" Name="MainMenu/RubyLogo">
+			<Property Name="Image" Value="set:Logos image:Ruby"/>
+			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="UnifiedPosition" Value="{{0,130},{1,-100}}"/>
+			<Property Name="UnifiedSize" Value="{{0,43},{0,52}}"/>
+			<Property Name="Tooltip" Value="Ruby Scripting Language"/>
+		</Window>
+		<Window Type="RastullahLook/StaticImage" Name="MainMenu/BoostLogo">
+			<Property Name="Image" Value="set:Logos image:boost"/>
+			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="UnifiedPosition" Value="{{0,90},{1,-40}}"/>
+			<Property Name="UnifiedSize" Value="{{0,118},{0,28}}"/>
+			<Property Name="Tooltip" Value="Boost C++ Libraries"/>
+		</Window>
+		<Window Type="RastullahLook/StaticImage" Name="MainMenu/FmodLogo">
+			<Property Name="Image" Value="set:Logos image:Fmod"/>
+			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="UnifiedPosition" Value="{{0,10},{1,-70}}"/>
+			<Property Name="UnifiedSize" Value="{{0,75},{0,60}}"/>
+			<Property Name="Tooltip" Value="Fmod Sound Library"/>
+		</Window>
+		<Window Type="RastullahLook/StaticImage" Name="MainMenu/PantheonLogo">
+			<Property Name="Image" Value="set:Logos image:Pantheon"/>
+			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="UnifiedPosition" Value="{{0.5,-112},{0.5,-112}}" />
+			<Property Name="UnifiedSize" Value="{{0,225},{0,225}}"/>
+			<Property Name="Alpha" Value="0.5"/>
+		</Window>
+	</Window>
+</GUILayout>

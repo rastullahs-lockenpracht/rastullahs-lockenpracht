@@ -1,0 +1,32 @@
+
+material arc_BegehHaus/Main
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture arc_BegehHaus.dds
+			}
+		}
+	}
+}
+material arc_BegehHaus/Glas
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend 
+   		    depth_write off
+
+   			texture_unit
+			{
+				texture arc_BegehHaus.dds
+			}
+		}
+	}
+}

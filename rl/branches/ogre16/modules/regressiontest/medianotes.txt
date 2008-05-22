@@ -1,0 +1,5 @@
+All media files starting with nx. are taken from NxOgre.
+
+		(C) Robin Southern <betajaen@ihoed.com>
+
+They don't fall under our media distribution restrictions. They are free to use for other projects as long as his name is shown in the credits.

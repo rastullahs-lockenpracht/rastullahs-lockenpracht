@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<Imageset Name="Logos" Imagefile="Logos.png" AutoScaled="false" >
+    <Image Name="Ogre"     XPos="0"   YPos="0"   Width="250" Height="100" />
+    <Image Name="Newton"   XPos="255" YPos="0"   Width="180" Height="54" /> 
+    <Image Name="CEGUI"    XPos="0"   YPos="100" Width="206" Height="112" /> 
+    <Image Name="Ruby"     XPos="225" YPos="100" Width="86"  Height="104" />
+    <Image Name="boost"    XPos="0"   YPos="210" Width="237" Height="55" />
+    <Image Name="Fmod"     XPos="320" YPos="100" Width="150" Height="119" />
+    <Image Name="Pantheon" XPos="0"   YPos="280" Width="225" Height="225" />
+</Imageset>

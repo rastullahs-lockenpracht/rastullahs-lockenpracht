@@ -1,0 +1,4 @@
+material ver_truhe_gross01: Basic_Vertex_Shader
+{
+set_texture_alias diffuse ver_truhe_gross.dds 
+}

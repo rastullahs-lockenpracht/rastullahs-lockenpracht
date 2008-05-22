@@ -1,0 +1,17 @@
+
+material arc_regal_01
+{
+	technique
+	{
+		pass
+		{
+			
+			scene_blend alpha_blend
+
+			texture_unit
+			{
+				texture arc_regal_essen.dds
+			}
+		}
+	}
+}

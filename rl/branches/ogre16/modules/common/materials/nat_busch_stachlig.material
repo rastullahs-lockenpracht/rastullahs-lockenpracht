@@ -1,0 +1,19 @@
+material nat_busch_stachlig
+{
+    technique
+    {
+        pass
+        {
+            ambient 0.588235 0.588235 0.588235
+            diffuse 0.588235 0.588235 0.588235
+
+	        cull_hardware none
+            cull_software none
+            texture_unit
+            {
+                texture nat_busch_stachlig.dds 
+            }
+        }
+    }
+}
+

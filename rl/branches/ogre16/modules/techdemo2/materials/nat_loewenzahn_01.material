@@ -1,0 +1,20 @@
+
+material loewenzahn
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.380392 0.380392 0.380392 1
+			diffuse 0.356863 0.356863 0.356863 1
+			specular 0 0 0 1 10
+			alpha_rejection greater 128
+
+			texture_unit
+			{
+				texture loewenzahn.dds
+				filtering linear linear linear 
+			}
+		}
+	}
+}

@@ -1,0 +1,78 @@
+glow01
+{
+	quota	1000
+	material	glow01
+	particle_width	0.5
+	particle_height	0.5
+	cull_each	false
+	renderer	billboard
+	sorted	false
+	local_space	false
+	iteration_interval	0
+	nonvisible_update_timeout	0
+	billboard_type	point
+	billboard_origin	center
+	billboard_rotation_type	texcoord
+	common_up_vector	0 1 0
+	point_rendering	false
+	accurate_facing	false
+
+	emitter Point
+	{
+		angle	86
+		colour	0.419608 0.435294 0.894118 1
+		colour_range_start	0.419608 0.435294 0.894118 1
+		colour_range_end	0.160784 0.207843 0.796078 1
+		direction	0 1 0
+		emission_rate	2000
+		position	0 2 0
+		velocity	2
+		velocity_min	2
+		velocity_max	3
+		time_to_live	3
+		time_to_live_min	3
+		time_to_live_max	3
+		duration	2.8
+		duration_min	2.8
+		duration_max	2.8
+		repeat_delay	1
+		repeat_delay_min	1
+		repeat_delay_max	1
+	}
+
+	affector LinearForce
+	{
+		force_vector	0 -1 0
+		force_application	add
+	}
+
+	affector DeflectorPlane
+	{
+		plane_point	0 0 0
+		plane_normal	0 1 0
+		bounce	1
+	}
+
+	affector DeflectorPlane
+	{
+		plane_point	0 3 0
+		plane_normal	0 -1 0
+		bounce	-1
+	}
+
+	affector ColourInterpolator
+	{
+		colour0	0.34902 0.14902 0.682353 1
+		time0	0
+		colour1	0.14902 0.184314 0.576471 1
+		time1	0.2
+		colour2	0.152941 0.188235 0.580392 1
+		time2	0.4
+		colour3	0.172549 0.184314 0.654902 1
+		time3	0.6
+		colour4	0.243137 0.458824 0.858824 1
+		time4	0.8
+		colour5	0.388235 0.533333 0.921569 1
+		time5	1
+	}
+}

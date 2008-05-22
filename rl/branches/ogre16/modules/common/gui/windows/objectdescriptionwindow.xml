@@ -1,0 +1,13 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="DefaultGUISheet" Name="ObjectDescriptionWindow">
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,150}}"/>
+        <Property Name="UnifiedSize" Value="{{0,200},{0,300}}"/>
+
+		<Window Type="RastullahLook/MultiLineEditbox" Name="ObjectDescriptionWindow/Text">
+            <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+            <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+		</Window>
+	</Window>
+</GUILayout>
+
+

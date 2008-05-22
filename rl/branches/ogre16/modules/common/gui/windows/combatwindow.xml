@@ -1,0 +1,45 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="DefaultGUISheet" Name="CombatGui">
+		<Property Name="UnifiedPosition" Value="{{0.0,0},{0.0,0}}" />	
+		<Property Name="UnifiedSize" Value="{{1.0,0.0},{1.0,0}}" />
+
+		<Window Type="RastullahLook/FrameWindow" Name="CombatWindow/UserActionWindow">
+			<Property Name="UnifiedPosition" Value="{{0.2,0},{1.0,-60}}"/>
+			<Property Name="UnifiedSize" Value="{{0.6,0},{0,60}}"/>
+			
+			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="TitlebarEnabled" Value="False"/>
+			<Property Name="SizingEnabled" Value="False"/>
+			<Property Name="CloseButtonEnabled" Value="False"/>
+			
+		    <Window Type="RastullahLook/StaticImage" Name="CombatWindow/AttackIcon">
+		        <Property Name="UnifiedPosition" Value="{{0,14},{0,14}}"/>
+		        <Property Name="UnifiedSize" Value="{{0,32},{0,32}}"/>
+		        <Property Name="Image" Value="set:RastullahButtons image:Buttons/Attack" />
+		        <Property Name="FrameEnabled" Value="False"/>
+		    </Window>
+		    <Window Type="RastullahLook/StaticText" Name="CombatWindow/AttackedOpponent">
+		        <Property Name="UnifiedPosition" Value="{{0,50},{0,0}}"/>
+		        <Property Name="UnifiedSize" Value="{{0.5,-100},{1.0,0}}"/>
+		        <Property Name="FrameEnabled" Value="False"/>
+		    </Window>
+		    <Window Type="RastullahLook/StaticImage" Name="CombatWindow/ParryIcon">
+		        <Property Name="UnifiedPosition" Value="{{0.5,-50},{0,14}}"/>
+		        <Property Name="UnifiedSize" Value="{{0,32},{0,32}}"/>
+		        <Property Name="Image" Value="set:RastullahButtons image:Buttons/Parry" />
+		        <Property Name="FrameEnabled" Value="False"/>
+		    </Window>
+		    <Window Type="RastullahLook/StaticText" Name="CombatWindow/ParriedOpponent">
+		        <Property Name="UnifiedPosition" Value="{{0.5,0},{0,0}}"/>
+		        <Property Name="UnifiedSize" Value="{{0.5,-100},{1.0,0}}"/>
+		        <Property Name="FrameEnabled" Value="False"/>
+		    </Window>
+		    <Window Type="RastullahLook/StaticImage" Name="CombatWindow/EndTurnButton">
+		        <Property Name="UnifiedPosition" Value="{{1.0,-46},{0,14}}"/>
+		        <Property Name="UnifiedSize" Value="{{0,32},{0,32}}"/>
+		        <Property Name="Image" Value="set:RastullahButtons image:Buttons/OK" />
+		        <Property Name="FrameEnabled" Value="False"/>
+		    </Window>
+		</Window>
+	</Window>
+</GUILayout>

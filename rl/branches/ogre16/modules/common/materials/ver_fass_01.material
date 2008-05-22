@@ -1,0 +1,17 @@
+
+material ver_fass_01
+{
+	technique
+	{
+		pass
+		{
+			
+			
+
+			texture_unit
+			{
+				texture ver_fass_01.dds
+			}
+		}
+	}
+}

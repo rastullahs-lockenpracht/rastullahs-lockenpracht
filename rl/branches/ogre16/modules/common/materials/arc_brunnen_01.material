@@ -1,0 +1,49 @@
+
+
+material arc_brunnen_01/seil
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture ver_wurfhaken.dds
+			
+			}
+		}
+	}
+}
+
+material arc_brunnen_01/balken
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture arc_balken.dds
+			
+			}
+		}
+	}
+}
+
+material arc_brunnen_01/Stein
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture steinwand_01.dds
+		
+			}
+		}
+	}
+}

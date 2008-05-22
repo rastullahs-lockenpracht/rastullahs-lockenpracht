@@ -1,0 +1,60 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+	<Window Type="DefaultWindow" Name="Fmod3Config" >
+        <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+		
+		<Window Type="RastullahLook/StaticText" Name="Fmod3Config/OutputLabel">
+            <Property Name="UnifiedPosition" Value="{{0.05,0},{0.05,0}}"/>
+            <Property Name="UnifiedSize" Value="{{0.3,0},{0,30}}"/>
+			<Property Name="Font" Value="Vera Serif-10"/>
+			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="Text" Value="Ausgabe auswählen" />
+		</Window>
+		<Window Type="RastullahLook/Combobox" Name="Fmod3Config/Output" >
+            <Property Name="UnifiedPosition" Value="{{0.4,0},{0.05,0}}"/>
+            <Property Name="UnifiedSize" Value="{{0.4,0},{0,35}}"/>
+			<Property Name="Visible" Value="True" />
+			<Property Name="Font" Value="Vera Serif-10"/>
+		</Window>
+		<Window Type="RastullahLook/StaticText" Name="Fmod3Config/DriverLabel">
+            <Property Name="UnifiedPosition" Value="{{0.05,0},{0.15,0}}"/>
+            <Property Name="UnifiedSize" Value="{{0.3,0},{0,30}}"/>
+			<Property Name="Font" Value="Vera Serif-10"/>
+			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="Text" Value="Treiber auswählen" />
+		</Window>
+		<Window Type="RastullahLook/Combobox" Name="Fmod3Config/Driver" >
+            <Property Name="UnifiedPosition" Value="{{0.4,0},{0.15,0}}"/>
+            <Property Name="UnifiedSize" Value="{{0.4,0},{0,30}}"/>
+			<Property Name="Visible" Value="True" />
+			<Property Name="Font" Value="Vera Serif-10"/>
+		</Window>
+		
+		<Window Type="RastullahLook/StaticText" Name="Fmod3Config/SpeakerLabel">
+            <Property Name="UnifiedPosition" Value="{{0.05,0},{0.25,0}}"/>
+            <Property Name="UnifiedSize" Value="{{0.3,0},{0,30}}"/>
+			<Property Name="Font" Value="Vera Serif-10"/>
+			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="Text" Value="Lautsprechermodus" />
+		</Window>
+		<Window Type="RastullahLook/Combobox" Name="Fmod3Config/Speaker" >
+            <Property Name="UnifiedPosition" Value="{{0.4,0},{0.25,0}}"/>
+            <Property Name="UnifiedSize" Value="{{0.4,0},{0,35}}"/>
+			<Property Name="Visible" Value="True" />
+			<Property Name="Font" Value="Vera Serif-10"/>
+		</Window>
+		
+		<Window Type="RastullahLook/Button" Name="Fmod3Config/OK">
+            <Property Name="UnifiedPosition" Value="{{0,50},{0,325}}"/>
+            <Property Name="UnifiedSize" Value="{{0,125},{0,28}}"/>
+			<Property Name="Font" Value="Vera Serif-10"/>
+			<Property Name="Text" Value="Speichern"/>
+		</Window>
+
+		<Window Type="RastullahLook/Button" Name="Fmod3Config/Cancel">
+            <Property Name="UnifiedPosition" Value="{{0,225},{0,125}}"/>
+            <Property Name="UnifiedSize" Value="{{0,125},{0,28}}"/>
+			<Property Name="Font" Value="Vera Serif-10"/>
+			<Property Name="Text" Value="Abbrechen"/>
+		</Window>
+	</Window>
+</GUILayout>

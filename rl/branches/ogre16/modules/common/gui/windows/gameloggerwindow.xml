@@ -1,0 +1,12 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="RastullahLook/FrameWindow" Name="GameLogger">
+        <Property Name="UnifiedPosition" Value="{{0.2,0},{0.8,-60}}" />
+        <Property Name="UnifiedSize" Value="{{0.6,0},{0.2,0}}" />
+        <Property Name="Text" Value="Game Log" />
+        <Window Type="RastullahLook/Listbox" Name="GameLogger/Log">
+            <Property Name="UnifiedPosition" Value="{{0.00,30},{0.0,22}}" />
+            <Property Name="UnifiedSize" Value="{{1.0,-60},{1.0,-45}}" />
+            <Property Name="Font" Value="Vera Serif-8"/>
+        </Window>
+    </Window>
+</GUILayout>

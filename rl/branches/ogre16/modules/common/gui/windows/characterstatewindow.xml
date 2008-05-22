@@ -1,0 +1,38 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="DefaultGUISheet" Name="CharacterStateWindow">
+        <Property Name="VerticalAlignment" Value="Bottom" />
+	    <Property Name="HorizontalAlignment" Value="Left" />
+        <Property Name="UnifiedPosition" Value="{{0,10},{0,-10}}" />
+        <Property Name="UnifiedSize" Value="{{0,104},{0,104}}" />
+
+        <Window Type="RastullahLook/StaticText" Name="CharacterStateWindow/Name">
+            <Property Name="UnifiedPosition" Value="{{0,10},{0,10}}" />
+            <Property Name="UnifiedSize" Value="{{0,80},{0,30}}" />
+			<Property Name="FrameEnabled" Value="False"/>
+        </Window>
+
+        <Window Type="RastullahLook/StatusBar" Name="CharacterStateWindow/LP">
+            <Property Name="UnifiedPosition" Value="{{0,10},{0,45}}" />
+            <Property Name="UnifiedSize" Value="{{0,80},{0,13}}" />
+            <Property Name="CurrentProgress" Value="100"/>
+            <Property Name="StatusColour" Value="FFFF0000"/>
+        </Window>
+
+        <Window Type="RastullahLook/StatusBar" Name="CharacterStateWindow/AU">
+            <Property Name="UnifiedPosition" Value="{{0,10},{0,68}}" />
+            <Property Name="UnifiedSize" Value="{{0,80},{0,13}}" />
+            <Property Name="CurrentProgress" Value="100"/>
+            <Property Name="StatusColour" Value="FFFFFF00"/>
+        </Window>
+
+        <Window Type="RastullahLook/StatusBar" Name="CharacterStateWindow/AP">
+            <Property Name="UnifiedPosition" Value="{{0,10},{0,91}}" />
+            <Property Name="UnifiedSize" Value="{{0,80},{0,13}}" />
+            <Property Name="CurrentProgress" Value="100"/>
+            <Property Name="StatusColour" Value="FF0000FF"/>
+        </Window>
+
+    </Window>
+</GUILayout>
+
+

@@ -1,0 +1,12 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+        
+    <Window Type="RastullahLook/FrameWindow" Name="ContainerContentWindow/ContentFrameWindow">
+		<Property Name="UnifiedSize" Value="{{0,400},{0,300}}" />
+		<Property Name="WantsMultiClickEvents" Value="True"/>
+
+        <Window Type="RastullahLook/Container" Name="ContainerContentWindow/Content">
+			<Property Name="UnifiedPosition" Value="{{0,20},{0,30}}" />
+			<Property Name="ItemTooltips" Value="True"/>
+        </Window>
+    </Window>
+</GUILayout>

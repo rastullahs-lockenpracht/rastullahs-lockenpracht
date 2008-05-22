@@ -1,0 +1,178 @@
+<scene formatVersion="0.4.0">
+    <nodes>
+<entity name="Ruchin_h_1" meshfile="Ruchin_h_1.mesh">
+<position x="-36.7346" y="-1.74214" z="-80.6494"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_h_2" meshfile="Ruchin_h_2.mesh">
+<position x="-46.75" y="0.426744" z="-124.241"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_h_3" meshfile="Ruchin_h_3.mesh">
+<position x="-42.9753" y="-1.06221" z="-100.227"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_h_4" meshfile="Ruchin_h_4.mesh">
+<position x="-45.9489" y="-0.107363" z="-112.792"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_h_5" meshfile="Ruchin_h_5.mesh">
+<position x="-23.3157" y="1.59727" z="-134.774"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_h_6" meshfile="Ruchin_h_6.mesh">
+<position x="-19.3854" y="3.72413" z="-125.555"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_h_7" meshfile="Ruchin_h_7.mesh">
+<position x="-34.827" y="1.85744" z="-134.22"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_h_8" meshfile="Ruchin_h_8.mesh">
+<position x="-33.9235" y="1.17716" z="-121.066"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_h_9" meshfile="Ruchin_h_9.mesh">
+<position x="-29.9153" y="0.163115" z="-106.061"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_h_10" meshfile="Ruchin_h_10.mesh">
+<position x="-23.9525" y="3.24528" z="-114.816"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_i" meshfile="Ruchin_i.mesh">
+<position x="-2.48193" y="2.08122" z="-104.883"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_j" meshfile="Ruchin_j.mesh">
+<position x="43.3627" y="3.85267" z="-104.826"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_o" meshfile="Ruchin_o.mesh">
+<position x="-22.104" y="-0.615151" z="-39.2483"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_w" meshfile="Ruchin_w.mesh">
+<position x="67.945" y="-0.158122" z="-51.3684"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_r_8" meshfile="Ruchin_r_8.mesh">
+<position x="91.2075" y="3.56148" z="23.0173"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_r_7" meshfile="Ruchin_r_7.mesh">
+<position x="84.0642" y="2.93498" z="31.3881"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_r_6" meshfile="Ruchin_r_6.mesh">
+<position x="60.6135" y="1.67732" z="38.6987"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_r_5" meshfile="Ruchin_r_5.mesh">
+<position x="64.7816" y="-0.204867" z="48.8519"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_r_4" meshfile="Ruchin_r_4.mesh">
+<position x="70.5042" y="0.21027" z="42.9895"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_r_3" meshfile="Ruchin_r_3.mesh">
+<position x="63.1021" y="9.60079" z="9.66196"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_r_2" meshfile="Ruchin_r_2.mesh">
+<position x="61.2059" y="9.56682" z="18.0424"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_r_1" meshfile="Ruchin_r_1.mesh">
+<position x="49.1976" y="9.86685" z="13.2181"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_p_1" meshfile="Ruchin_p_1.mesh">
+<position x="19.9707" y="1.7878" z="-20.8474"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_p_2" meshfile="Ruchin_p_2.mesh">
+<position x="18.4899" y="0.721264" z="-3.67395"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_p_3" meshfile="Ruchin_p_3.mesh">
+<position x="21.7188" y="1.6745" z="5.96143"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_p_4" meshfile="Ruchin_p_4.mesh">
+<position x="36.5999" y="3.56817" z="1.72206"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_t_5" meshfile="Ruchin_t_5.mesh">
+<position x="31.3442" y="-0.52218" z="28.9052"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_t_4" meshfile="Ruchin_t_4.mesh">
+<position x="35.7339" y="2.80352" z="22.5256"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_t_3" meshfile="Ruchin_t_3.mesh">
+<position x="13.2522" y="-1.01373" z="29.6587"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_t_2" meshfile="Ruchin_t_2.mesh">
+<position x="6.5219" y="-2.31604" z="36.0502"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_t_1" meshfile="Ruchin_t_1.mesh">
+<position x="10.1605" y="-0.465297" z="44.5057"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_n_8" meshfile="Ruchin_n_8.mesh">
+<position x="-3.40638" y="0.118809" z="-68.1982"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_n_7" meshfile="Ruchin_n_7.mesh">
+<position x="13.1112" y="2.76192" z="-60.7119"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_n_6" meshfile="Ruchin_n_6.mesh">
+<position x="-0.21451" y="1.94417" z="-52.791"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_n_5" meshfile="Ruchin_n_5.mesh">
+<position x="11.6031" y="2.21514" z="-49.0058"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_n_4" meshfile="Ruchin_n_4.mesh">
+<position x="-0.678421" y="-1.7869" z="-38.0685"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_n_3" meshfile="Ruchin_n_3.mesh">
+<position x="8.57446" y="0.0163641" z="-33.8764"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_n_2" meshfile="Ruchin_n_2.mesh">
+<position x="0.257071" y="1.31868" z="-22.2147"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_n_1" meshfile="Ruchin_n_1.mesh">
+<position x="2.59356" y="1.04296" z="-9.59551"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_m_5" meshfile="Ruchin_m_5.mesh">
+<position x="28.293" y="3.42061" z="-74.0239"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_m_4" meshfile="Ruchin_m_4.mesh">
+<position x="27.9652" y="1.62184" z="-58.6508"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_m_3" meshfile="Ruchin_m_3.mesh">
+<position x="42.6957" y="2.10235" z="-51.4972"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_m_2" meshfile="Ruchin_m_2.mesh">
+<position x="30.9865" y="2.40826" z="-42.7316"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_m_1" meshfile="Ruchin_m_1.mesh">
+<position x="46.5588" y="5.5831" z="-30.5969"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_s_8" meshfile="Ruchin_s_8.mesh">
+<position x="-2.75074" y="-0.199522" z="24.1009"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_s_7" meshfile="Ruchin_s_7.mesh">
+<position x="5.27965" y="-1.2008" z="16.2314"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_s_6" meshfile="Ruchin_s_6.mesh">
+<position x="-13.3514" y="-1.04859" z="22.7186"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_s_5" meshfile="Ruchin_s_5.mesh">
+<position x="0.343925" y="-1.33966" z="8.27932"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_s_3" meshfile="Ruchin_s_3.mesh">
+<position x="-5.80605" y="-0.955266" z="0.876742"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_s_4" meshfile="Ruchin_s_4.mesh">
+<position x="-16.9548" y="-2.3108" z="12.2247"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_s_2" meshfile="Ruchin_s_2.mesh">
+<position x="-11.66" y="0.550525" z="-6.81664"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_s_1" meshfile="Ruchin_s_1.mesh">
+<position x="-19.8759" y="0.0177184" z="-0.887024"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_t_6" meshfile="Ruchin_t_6.mesh">
+<position x="27.452" y="-0.642672" z="20.9355"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_r_9" meshfile="Ruchin_r_9.mesh">
+<position x="83.525" y="6.34115" z="18.7542"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_n_9" meshfile="Ruchin_n_9.mesh">
+<position x="8.16092" y="1.44112" z="-74.2352"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_p_5" meshfile="Ruchin_p_5.mesh">
+<position x="38.134" y="3.33584" z="-13.8649"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_m_6" meshfile="Ruchin_m_6.mesh">
+<position x="38.5894" y="3.78567" z="-64.6336"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="Ruchin_s_9" meshfile="Ruchin_s_9.mesh">
+<position x="-8.75225" y="0.0711604" z="31.6625"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+    </nodes>
+</scene>
