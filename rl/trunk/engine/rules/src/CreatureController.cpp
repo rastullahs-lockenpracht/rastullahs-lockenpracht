@@ -85,10 +85,12 @@ namespace rl
         virtual bool isDirectionPossible(Ogre::Vector3 &direction) const
 	{
 	    direction = Vector3::ZERO;
+		return false;
 	}
         virtual bool isRotationPossible(Ogre::Vector3 &rotation) const
 	{
 	    rotation = Vector3::ZERO;
+		return false;
 	}
     protected:
         Creature::AnimationSpeedPair mAnim;
