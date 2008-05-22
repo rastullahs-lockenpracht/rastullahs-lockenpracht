@@ -445,6 +445,16 @@ namespace rl {
         WaitJob(const Ogre::Real& realtime);
     };
     
+    class GoToJob : public rl::Job
+    {
+    public:
+
+		GoToJob(rl::Creature* actor, const Ogre::Vector3& targetPos,
+			Ogre::Real maxDistance, Ogre::Real duration);
+		// Unclear what version is called from ruby, so uncomment second ctor.
+		//GoToJob(rl::Creature* actor, rl::GameObject* target, Ogre::Real maxDistance, Ogre::Real duration);
+    };
+    
     %feature("director") Item;
     class Item : public rl::GameObject {
     public:

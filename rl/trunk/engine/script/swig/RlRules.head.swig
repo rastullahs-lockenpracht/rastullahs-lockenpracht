@@ -35,6 +35,7 @@
 #include "GameObject.h"
 #include "GameObjectManager.h"
 #include "GlobalProperties.h"
+#include "GoToJob.h"
 #include "Inventory.h"
 #include "Item.h"
 #include "ObjectStateChangeEventSource.h"
