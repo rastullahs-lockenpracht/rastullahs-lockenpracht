@@ -69,7 +69,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain_d.lib xerces-c_2D.lib CEGUIBase_d.lib boost_thread-vc80-mt-gd-1_33_1.lib"
+				AdditionalDependencies="OgreMain_d.lib xerces-c_2D.lib CEGUIBase_d.lib"
 				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\dependencies\ogrenew\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui_mk2\lib\$(PlatformName)\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib\;..\..\dependencies\boost\lib"
@@ -157,7 +157,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib xerces-c_2.lib CEGUIBase.lib boost_thread-vc80-mt-1_33_1.lib"
+				AdditionalDependencies="OgreMain.lib xerces-c_2.lib CEGUIBase.lib"
 				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\dependencies\ogrenew\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui_mk2\lib\$(PlatformName)\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib\;..\..\dependencies\boost\lib"
@@ -243,7 +243,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib xerces-c_2.lib CEGUIBase.lib boost_thread-vc80-mt-1_33_1.lib"
+				AdditionalDependencies="OgreMain.lib xerces-c_2.lib CEGUIBase.lib"
 				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\dependencies\ogrenew\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui_mk2\lib\$(PlatformName)\Release&quot;;..\..\dependencies\cegui_mk2\lib\;..\..\dependencies\boost\lib"
