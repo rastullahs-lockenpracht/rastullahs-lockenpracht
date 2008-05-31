@@ -158,6 +158,7 @@ namespace rl {
             else
                 item->setOwner(this);
 			item->setState(GOS_IN_POSSESSION);
+            item->setScene(mScene);
 
 			return true;
 		}
@@ -178,6 +179,7 @@ namespace rl {
             // this is the case, if the item is removed automatically
             // don't change this without looking at Item::setState
             item->removeOldState();
+            item->setScene("");
         }
         else
         {

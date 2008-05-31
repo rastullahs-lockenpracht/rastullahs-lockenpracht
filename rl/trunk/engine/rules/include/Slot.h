@@ -33,7 +33,7 @@ public:
     // item-state etc, returns true, if succeeded to set item, false indicates to to nothing
     // subclasses MUST call this method when overriding
     virtual bool setItem(Item* item);
-    virtual void update() {} // this must only be called from creature::doPlaceIntoScene
+    virtual void update(); // this must only be called from creature::doPlaceIntoScene
     Item* getItem() const;
     bool isAllowed(const Item* item) const;
     bool isEmpty() const {return mItem == NULL;}

@@ -29,6 +29,7 @@
 
 namespace rl
 {
+    class Creature;
     class CreatureController;
 
     /// This class manages CreatureControllers, which provide an API for moving the creature

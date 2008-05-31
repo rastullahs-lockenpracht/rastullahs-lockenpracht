@@ -1292,5 +1292,13 @@ namespace rl
     void Creature::doRemoveFromScene()
     {
         GameObject::doRemoveFromScene();
+
+        // check items in inventory
+        Inventory::SlotMap slots = mInventory->getAllSlots();
+        Inventory::SlotMap::iterator it = slots.begin();
+        for( ; it != slots.end(); it++ )
+        {
+            it->second->update();
+        }
     }
 }

@@ -52,6 +52,7 @@ namespace rl
         static const Ogre::String PROPERTY_OBJECT_ID;
         static const Ogre::String PROPERTY_INHERITS;
         static const Ogre::String PROPERTY_BASE_CLASS;
+        static const Ogre::String PROPERTY_SCENE; 
         static const Ogre::String PROPERTY_POSITION; 
         static const Ogre::String PROPERTY_ORIENTATION; 
         static const Ogre::String PROPERTY_NAME;
@@ -98,6 +99,9 @@ namespace rl
         void addAction(Action* action, int option = Action::ACT_NORMAL);
         void addActionInGroup(Action* action, ActionGroup* group, int option = Action::ACT_NORMAL);
         void removeAction(Action* action);
+
+        void setScene(const CeGuiString& scene);
+        const CeGuiString& getScene() const;
     
         /*
          * sets the actor of this gameobject
@@ -214,7 +218,7 @@ namespace rl
 
         virtual void doPlaceIntoScene();
         virtual void doRemoveFromScene();
-
+        CeGuiString mScene;
 
     private:
         static int sNextGameObjectId;    

@@ -73,7 +73,8 @@ namespace rl
         mDebugVisualsManager(NULL),
         mJobScheduler(NULL),
         mRenderWindow(NULL),
-        mZoneManager(NULL)
+        mZoneManager(NULL),
+        mCurrentScene("")
     {
         initializeCoreSubsystem();
     }
@@ -577,5 +578,15 @@ namespace rl
     {
         mSoundManager->unloadAllDrivers();
         LOG_MESSAGE(Logger::CORE, "Soundtreiber entladen");
+    }
+
+    void CoreSubsystem::_setCurrentScene(const CeGuiString& scene)
+    {
+        mCurrentScene = scene;
+    }
+
+    const CeGuiString& CoreSubsystem::getCurrentScene() const
+    {
+        return mCurrentScene;
     }
 }

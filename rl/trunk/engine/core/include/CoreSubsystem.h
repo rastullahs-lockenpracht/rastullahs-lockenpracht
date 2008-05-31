@@ -111,6 +111,9 @@ public:
 
     void setTimeFactor(const Ogre::Real& factor = 1.0F);
 
+    void _setCurrentScene(const CeGuiString& scene);
+    const CeGuiString& getCurrentScene() const;
+
 private:
     World* mWorld;
     RubyInterpreter* mRubyInterpreter;
@@ -118,6 +121,7 @@ private:
     ContentModule* mActiveAdventureModule;
     Ogre::String mDefaultActiveModule;
     Ogre::RenderWindow* mRenderWindow;            //!< Render window for OGRE
+    CeGuiString mCurrentScene;
 
     RL_LONGLONG mClockStartTime;
 

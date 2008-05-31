@@ -96,6 +96,25 @@ namespace rl {
         return true;
     }
 
+    void Slot::update()
+    {
+        if (isEmpty()) 
+        {
+            return;
+        }
+
+        if (mOwner->getState() == GOS_IN_SCENE
+            || mOwner->getState() == GOS_HELD
+            || mOwner->getState() == GOS_READY)
+        {
+            mItem->setScene(mOwner->getScene());
+        }
+        else 
+        {
+            mItem->setScene("");
+        }
+    }
+
 
     BoneSlot::BoneSlot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask, const Ogre::String& bone)
         : Slot(owner, name, itemReadyMask, itemHeldMask), mBone(bone)
@@ -128,6 +147,7 @@ namespace rl {
 
     void BoneSlot::update()
     {
+        Slot::update();
         if( mItem && (mOwner->getState() == GOS_IN_SCENE
                 || mOwner->getState() == GOS_HELD
                 || mOwner->getState() == GOS_READY) )
@@ -208,6 +228,7 @@ namespace rl {
 
     void SubmeshSlot::update()
     {
+        Slot::update();
 	    if (mOwner->getActor())
 	    {
 		    MergeableMeshObject* mmo = dynamic_cast<MergeableMeshObject*>(
@@ -309,6 +330,7 @@ namespace rl {
 
     void MaterialSlot::update()
     {
+        Slot::update();
         if (mItem)
         {
             try

@@ -44,6 +44,7 @@ namespace rl
     const Ogre::String GameObject::PROPERTY_CLASS_ID = "classid";
     const Ogre::String GameObject::PROPERTY_BASE_CLASS = "baseclass";
     const Ogre::String GameObject::PROPERTY_POSITION = "position";
+    const Ogre::String GameObject::PROPERTY_SCENE = "scene";
     const Ogre::String GameObject::PROPERTY_INHERITS = "inherits";
     const Ogre::String GameObject::PROPERTY_ORIENTATION = "orientation";
     const Ogre::String GameObject::PROPERTY_NAME = "name";
@@ -71,7 +72,8 @@ namespace rl
             mMass(0),
             mGeometryType(GT_NONE),
             mDefaultAction(DEFAULT_VIEW_OBJECT_ACTION),
-            mState(GOS_LOADED)
+            mState(GOS_LOADED),
+            mScene("")
     {
         mEffectManager = new EffectManager(this);
 
@@ -161,6 +163,16 @@ namespace rl
     void GameObject::setSubmeshPreName(const CeGuiString& name)
     {
         mSubmeshPreName = name;
+    }
+
+    const CeGuiString& GameObject::getScene() const
+    {
+        return mScene;
+    }
+
+    void GameObject::setScene(const CeGuiString& scene)
+    {
+        mScene = scene;
     }
 
     void GameObject::addAction(Action* action, int option)
@@ -703,6 +715,7 @@ namespace rl
             {
                 actor->placeIntoScene(mPosition, mOrientation);
                 setActor(actor);
+                mScene = CoreSubsystem::getSingleton().getCurrentScene();
 
                 // this is done in setstate now
                 //GameObjectState tmpState = mState;
@@ -736,6 +749,7 @@ namespace rl
 
                 setActor(NULL);
                 actor->removeFromScene();
+                mScene = "";
             }
 
             // give the setstate function the possibility to reuse the actor
