@@ -72,6 +72,7 @@ CharacterSheetWindow::CharacterSheetWindow()
 
 CharacterSheetWindow::~CharacterSheetWindow()
 {
+    setCharacter(NULL);
 }
 
 void CharacterSheetWindow::setCharacter(Creature* creature)
