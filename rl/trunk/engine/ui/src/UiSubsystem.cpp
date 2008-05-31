@@ -166,7 +166,10 @@ namespace rl {
             if (mCharacter)
             {
                 ScriptWrapper::getSingleton().disowned( mCharacter );
-                mCharacter->getActor()->detach(SoundManager::getSingleton().getListenerActor());
+                if (mCharacter->getActor())
+                {
+                    mCharacter->getActor()->detach(SoundManager::getSingleton().getListenerActor());
+                }
                 mCharacter->setQueryFlags(mCharacter->getQueryFlags() & (~QUERYFLAG_PLAYER));
             }
 
