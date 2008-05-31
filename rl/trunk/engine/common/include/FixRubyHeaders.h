@@ -41,3 +41,41 @@
 #undef max
 #undef min
 
+#undef EWOULDBLOCK	
+#undef EINPROGRESS	
+#undef EALREADY	
+#undef ENOTSOCK	
+#undef EDESTADDRREQ	
+#undef EMSGSIZE	
+#undef EPROTOTYPE	
+#undef ENOPROTOOPT	
+#undef EPROTONOSUPPORT	
+#undef ESOCKTNOSUPPORT	
+#undef EOPNOTSUPP	
+#undef EPFNOSUPPORT	
+#undef EAFNOSUPPORT	
+#undef EADDRINUSE	
+#undef EADDRNOTAVAIL	
+#undef ENETDOWN	
+#undef ENETUNREACH	
+#undef ENETRESET	
+#undef ECONNABORTED	
+#undef ECONNRESET	
+#undef ENOBUFS		
+#undef EISCONN		
+#undef ENOTCONN	
+#undef ESHUTDOWN	
+#undef ETOOMANYREFS	
+#undef ETIMEDOUT	
+#undef ECONNREFUSED	
+#undef ELOOP		
+/*#undef ENAMETOOLONG	*/
+#undef EHOSTDOWN	
+#undef EHOSTUNREACH	
+/*#undef ENOTEMPTY	*/
+#undef EPROCLIM	
+#undef EUSERS		
+#undef EDQUOT		
+#undef ESTALE		
+#undef EREMOTE		
+
