@@ -24,11 +24,9 @@ class PersistenzTestModule < ContentModule
     def start()
         require "mckhero.rb"
         require "hero.rb"
-		$MAPLOADER = MapLoader.new("persistenztest")
-		$MAPLOADER.setDefaultMaps(["persistenztest01.rlmap.xml","hero.rlmap.xml"])
-		registerContentLoader($MAPLOADER)
-		loadContent();
-		load "persistenztest.rb"
+		require "MapChange.rb"
+		require "Clothing.rb"
+		SceneManager::getSingleton().loadScene("scene01", false);
     end
 end
 

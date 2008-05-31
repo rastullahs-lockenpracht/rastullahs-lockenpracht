@@ -21,8 +21,8 @@
 
 namespace rl 
 {
-	class TriggerFactory;
     class ScriptObjectMarker;
+	class TriggerFactory;
 
     class _RlScriptExport ScriptSubsystem : public Ogre::Singleton<ScriptSubsystem>
     {

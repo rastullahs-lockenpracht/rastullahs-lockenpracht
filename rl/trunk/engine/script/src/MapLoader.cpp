@@ -48,20 +48,22 @@ namespace rl {
 
     const CeGuiString MapLoader::PROPERTY_ACTIVEMAPS = "activemaps";
 
+    MapLoader::MapLoader()
+        : mRootSceneNode(NULL),
+          mResourceGroup(CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()),
+          mPercentageWindow(NULL),
+          ContentLoader(mResourceGroup)
+    {
+        initialize(mResourceGroup);
+    }
+
     MapLoader::MapLoader(const Ogre::String& resourceGroup)
         : mRootSceneNode(NULL),
           mResourceGroup(resourceGroup),
           mPercentageWindow(NULL),
           ContentLoader(resourceGroup)
     {
-        mNodeProcessors.push_back(new EntityNodeProcessor(resourceGroup));
-        mNodeProcessors.push_back(new GameObjectNodeProcessor());
-        mNodeProcessors.push_back(new SoundNodeProcessor());
-        mNodeProcessors.push_back(new LightNodeProcessor());
-		mNodeProcessors.push_back(new ParticleSystemNodeProcessor());
-
-        RequestedSceneChangeConnection = MessagePump::getSingleton().addMessageHandler<MessageType_SceneChangeRequested>(
-            boost::bind(&MapLoader::changeScene, this, _1));
+        initialize(resourceGroup);
     }
 
     MapLoader::~MapLoader()
@@ -72,6 +74,18 @@ namespace rl {
             delete *it;
         }
         delete mPercentageWindow;
+    }
+
+    void MapLoader::initialize(const Ogre::String& resourceGroup)
+    {
+        mNodeProcessors.push_back(new EntityNodeProcessor(resourceGroup));
+        mNodeProcessors.push_back(new GameObjectNodeProcessor());
+        mNodeProcessors.push_back(new SoundNodeProcessor());
+        mNodeProcessors.push_back(new LightNodeProcessor());
+		mNodeProcessors.push_back(new ParticleSystemNodeProcessor());
+
+        RequestedSceneChangeConnection = MessagePump::getSingleton().addMessageHandler<MessageType_SceneChangeRequested>(
+            boost::bind(&MapLoader::changeScene, this, _1));
     }
 
     void MapLoader::loadContent()

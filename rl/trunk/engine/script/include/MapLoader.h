@@ -38,6 +38,7 @@ namespace rl {
     public:
         static const CeGuiString PROPERTY_ACTIVEMAPS;
 
+        MapLoader();
         MapLoader(const Ogre::String& resourceGroup);
         ~MapLoader();
 
@@ -76,7 +77,8 @@ namespace rl {
         void processSceneNodes(XERCES_CPP_NAMESPACE::DOMElement* nodesElem, bool loadGameObjects);
         void setLoadingPercentage(Ogre::Real percentage, const Ogre::String& text = "");
         bool changeScene(Ogre::StringVector mapsresources);
-
+        void initialize(const Ogre::String& resourceGroup);
+    
         MessagePump::ScopedConnection RequestedSceneChangeConnection;
     };
 

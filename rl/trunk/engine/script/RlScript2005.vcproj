@@ -355,6 +355,18 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\Scene.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SceneLoader.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SceneManager.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\SoundNodeProcessor.cpp"
 					>
 				</File>
@@ -447,6 +459,18 @@
 				</File>
 				<File
 					RelativePath=".\include\ParticleSystemNodeProcessor.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\Scene.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\SceneLoader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\SceneManager.h"
 					>
 				</File>
 				<File

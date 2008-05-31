@@ -16,9 +16,10 @@
 
 %{
 //----------- Includes - Script -----------
+#include "ContentLoader.h"
 #include "MapLoader.h"
+#include "SceneManager.h"
 #include "ScriptSubsystem.h"
 #include "TriggerFactory.h"
 #include "UnifiedFactory.h"
-#include "ContentLoader.h"
 %}

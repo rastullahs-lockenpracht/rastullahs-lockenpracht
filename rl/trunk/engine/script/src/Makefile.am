@@ -20,6 +20,9 @@ libRlScript_la_SOURCES = \
 	LightNodeProcessor.cpp \
 	MapLoader.cpp \
 	ParticleSystemNodeProcessor.cpp \
+	Scene.cpp \
+	SceneLoader.cpp \
+	SceneManager.cpp \
 	ScriptSubsystem.cpp \
 	ScriptObjectMarker.cpp \
 	SoundNodeProcessor.cpp \

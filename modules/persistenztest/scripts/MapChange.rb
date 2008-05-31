@@ -1,21 +1,22 @@
 require "embed.rb"
 require "areahelper.rb"
 
-def changeMap(mapLoader, mapNames)
-	characterId = $UI.getActiveCharacter().getId()
-	CreatureControllerManager.getSingleton().detachController($UI.getActiveCharacter())
-	$UI.setActiveCharacter(nil)
+def changeScene(scene)
+#	characterId = $UI.getActiveCharacter().getId()
+#	CreatureControllerManager.getSingleton().detachController($UI.getActiveCharacter())
+#	$UI.setActiveCharacter(nil)
 	#$SCRIPT.logError(mapNames.type().to_s)
-	mapLoader.requestSceneChange(mapNames)
+#	mapLoader.requestSceneChange(mapNames)
+	SceneManager::getSingleton().loadScene(scene, true);
 end
 
-class MapChangeTrigger < Trigger
+class SceneChangeTrigger < Trigger
   def initialize(classname, name)
     super(classname, name, false);
   end
 
   def activate()
-	changeMap($MAPLOADER, @maps)
+	changeScene(@scene)
     return false
   end
   def deactivate()
@@ -27,8 +28,8 @@ class MapChangeTrigger < Trigger
   def getProperty(name)
 	super(name)
   end
-  def setMaps(maps)
-	@maps = maps
+  def setScene(scene)
+	@scene = scene
   end
   def getAllProperties()
     ps = super();
@@ -36,17 +37,16 @@ class MapChangeTrigger < Trigger
   end
 end
 
-def CreateMapChangeTrigger(name, pos, orientation, size, maps)
-	unless ( ZoneManager.getSingleton().getZone("MapChangeZone_" + name) == nil )
-		raise ArgumentError, "A MapChangeTrigger with name " + name + " already exists!", caller
+def CreateSceneChangeTrigger(name, pos, orientation, size, scene)
+	unless ( ZoneManager.getSingleton().getZone("SceneChangeZone_" + name) == nil )
+		raise ArgumentError, "A SceneChangeTrigger with name " + name + " already exists!", caller
 	end
-	trigger = $SCRIPT.getTriggerFactory().createTrigger("MapChangeTrigger", "MapChangeTrigger" + name)
-	trigger.setMaps(maps)
-	zone = ZoneManager.getSingleton().createZone("MapChangeZone_" + name, true)
+	trigger = $SCRIPT.getTriggerFactory().createTrigger("SceneChangeTrigger", "SceneChangeTrigger" + name)
+	trigger.setScene(scene)
+	zone = ZoneManager.getSingleton().createZone("SceneChangeZone_" + name, true)
 	ZoneManager.getSingleton().addAreaToZone(
-    "MapChangeZone_" + name, 
-    size, PhysicsManager::GT_BOX, pos, [0,0,0], orientation, 0.2, RlScript::QUERYFLAG_PLAYER);
-	trigger.setProperty("zone","MapChangeZone_" + name)
+	    "SceneChangeZone_" + name, 
+	    size, PhysicsManager::GT_BOX, pos, [0,0,0], orientation, 0.2, RlScript::QUERYFLAG_PLAYER);
+	trigger.setProperty("zone","SceneChangeZone_" + name)
 	zone.addTrigger(trigger)
-	zone.getTriggers().methods()
 end

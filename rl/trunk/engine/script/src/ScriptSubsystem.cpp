@@ -16,8 +16,12 @@
 #include "stdinc.h" //precompiled header
 
 #include "ScriptSubsystem.h"
+
+#include "SceneManager.h"
 #include "ScriptObjectMarker.h"
 #include "Logger.h"
+
+#include "SceneManager.h"
 
 using Ogre::Singleton;
 
@@ -29,10 +33,12 @@ namespace rl {
 		: mScriptObjectMarker(NULL), mTriggerFactory(NULL)
     {
         mScriptObjectMarker = new ScriptObjectMarker();
+        new SceneManager();
     }
 
     ScriptSubsystem::~ScriptSubsystem()
     {
+        delete SceneManager::getSingletonPtr();
         delete mScriptObjectMarker;
     }
 

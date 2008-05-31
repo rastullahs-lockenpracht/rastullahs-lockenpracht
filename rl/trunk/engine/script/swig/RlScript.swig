@@ -30,8 +30,10 @@ namespace rl
     class MapLoader : public rl::ContentLoader
     {
     public:
-        virtual ~MapLoader();
+        MapLoader();
         MapLoader(const Ogre::String& resourceGroup);
+        virtual ~MapLoader();
+
         void loadMap(const Ogre::String& mapresource, bool loadGameObjects = true);
         void loadContent();
         void unloadContent();
@@ -66,4 +68,13 @@ namespace rl
         virtual rl::SteeringBehaviour* createBehaviour(const Ogre::String& classname) = 0;
     };
 
+    class SceneManager 
+    {
+    public:
+        static rl::SceneManager& getSingleton();
+        void loadScene(const rl::CeGuiString& name, bool saveCurrent = true);
+
+    private:
+        SceneManager();
+    };
 }

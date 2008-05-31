@@ -7,10 +7,13 @@ noinst_HEADERS = \
 	MapLoader.h \
 	ParticleSystemNodeProcessor.h \
 	TriggerFactory.h \
-	SoundNodeProcessor.h \
+	Scene.h \
+	SceneLoader.h \
+	SceneManager.h \
 	ScriptObjectMarker.h \
 	ScriptPrerequisites.h \
 	ScriptSubsystem.h \
+	SoundNodeProcessor.h \
 	WaypointProcessor.h \
 	UnifiedFactory.h \
 	ZoneProcessor.h

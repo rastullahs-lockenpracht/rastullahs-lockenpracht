@@ -52,7 +52,7 @@
 
 #include <OgreNewt.h>
 
-#include <CeGuiString.h>
+#include <CEGUIString.h>
 #include <CEGUILogger.h>
 
 #include <boost/filesystem/operations.hpp>
