@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<GameObjectDefinitions>
+	<gameobjectclass classid="Kurzschwert" baseclass="Weapon">
+		<property name="name" type="STRING" data="Kurzschwert"/>
+		<property name="description" type="STRING" data="Ein ordinäres Kurzschwert - scharf, aber langweilig"/>
+		<property name="meshfile" type="STRING" data="waf_kurzschwert_01.mesh"/>
+		<property name="imagename" type="STRING" data="set:ModelThumbnails image:waf_kurzschwert_01"/>
+		<property name="mass" type="REAL" data="1.0"/>
+		<property name="size" type="INTPAIR" data="2,4"/>
+		<property name="geometrytype" type="STRING" data="box"/>
+		<property name="kampftechnik" type="STRING" data="Schwerter"/>
+		<!-- INTTRIPLE xyz for TP: x*d6 + y*d20 + z -->
+		<property name="TP" type="INTTRIPLE" data="1,0,2"/>
+		<property name="TPKK" type="INTPAIR" data="11,5"/>
+		<property name="BF" type="INT" data="1"/>
+		<property name="INI" type="INT" data="0"/>
+		<property name="WM" type="INTPAIR" data="0,-1"/>
+		<property name="DK" type="STRING" data="HN"/>
+	</gameobjectclass>
+</GameObjectDefinitions>
