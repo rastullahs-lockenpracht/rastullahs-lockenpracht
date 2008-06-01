@@ -24,7 +24,7 @@
 #include "SceneLoader.h"
 #include "UiSubsystem.h"
 
-rl::SceneManager* Ogre::Singleton<rl::SceneManager>::ms_Singleton = NULL;
+template<> rl::SceneManager* Ogre::Singleton<rl::SceneManager>::ms_Singleton = NULL;
 
 namespace rl 
 {
