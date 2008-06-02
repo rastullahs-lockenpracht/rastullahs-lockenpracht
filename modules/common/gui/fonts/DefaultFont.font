@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<Font 
+    Name="DefaultFont" 
+    Filename="GenBkBasR.ttf" 
+    Type="FreeType" 
+    Size="11" 
+    NativeHorzRes="800" 
+    NativeVertRes="600" 
+    AutoScaled="false"
+/>

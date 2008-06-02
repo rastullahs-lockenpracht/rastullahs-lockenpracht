@@ -350,17 +350,21 @@
     <Image Name="MenuTop" XPos="2" YPos="1" Width="4" Height="4" />
     <Image Name="MenuBottom" XPos="2" YPos="1" Width="4" Height="4" />
     <Image Name="MenuMiddle" XPos="2" YPos="1" Width="4" Height="4" />
+	
     <Image Name="PopupMenuArrowLeft" XPos="2" YPos="1" Width="4" Height="4" />
     <Image Name="PopupMenuArrowRight" XPos="2" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuFrameTopLeft" XPos="2" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuFrameTopRight" XPos="2" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuFrameBottomLeft" XPos="2" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuFrameBottomRight" XPos="2" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuFrameLeft" XPos="2" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuFrameRight" XPos="2" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuFrameTop" XPos="2" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuFrameBottom" XPos="2" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuMiddle" XPos="2" YPos="1" Width="4" Height="4" />
+	
+    <Image Name="PopupMenuFrameTopLeft" XPos="1" YPos="257" Width="5" Height="4" />
+    <Image Name="PopupMenuFrameTopRight" XPos="19" YPos="257" Width="6" Height="4" />
+    <Image Name="PopupMenuFrameBottomLeft" XPos="1" YPos="273" Width="5" Height="4" />
+    <Image Name="PopupMenuFrameBottomRight" XPos="19" YPos="273" Width="6" Height="4" />
+    <Image Name="PopupMenuFrameLeft" XPos="1" YPos="265" Width="5" Height="4" />
+    <Image Name="PopupMenuFrameRight" XPos="19" YPos="265" Width="6" Height="4" />
+    <Image Name="PopupMenuFrameTop" XPos="9" YPos="257" Width="6" Height="4" />
+    <Image Name="PopupMenuFrameBottom" XPos="9" YPos="273" Width="6" Height="4" />
+    <Image Name="PopupMenuMiddle" XPos="9" YPos="265" Width="6" Height="4" />
+	
+	<Image Name="MenuBar" XPos="325" YPos="260" Width="1" Height="26" />
 
     <Image Name="TooltipLeftEdge" XPos="1" YPos="265" Width="5" Height="4" />
     <Image Name="TooltipTopLeft" XPos="1" YPos="257" Width="5" Height="4" />

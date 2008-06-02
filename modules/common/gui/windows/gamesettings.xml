@@ -109,6 +109,12 @@
             <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
             <Property Name="Text" Value="Input"/>
          </Window>
+		 
+		<Window Type="DefaultGUISheet" Name="GameOptionsWindow/GuiDemo">
+            <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
+            <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
+            <Property Name="Text" Value="GuiDemo"/>
+         </Window>
       </Window>
    </Window>
 </GUILayout>

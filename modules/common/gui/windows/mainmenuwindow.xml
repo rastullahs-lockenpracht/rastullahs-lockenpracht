@@ -1,6 +1,6 @@
 <GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
 	<Window Type="DefaultWindow" Name="MainMenu">
-		<Property Name="UnifiedSize" Value="{{1.0, 0.0},{0.0,20.0}}"/>
+		<Property Name="UnifiedSize" Value="{{1.0, 0.0},{0.0,26.0}}"/>
 		<Property Name="UnifiedPosition" Value="{{0.0,0.0},{0.0,0.0}}"/>
 		<Window Type="RastullahLook/Menubar" Name="MainMenu/Menubar">
 			<Property Name="UnifiedSize" Value="{{1.0, 0.0},{1.0,0.0}}"/>

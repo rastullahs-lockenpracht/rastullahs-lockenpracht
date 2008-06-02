@@ -4374,12 +4374,14 @@
     ***************************************************
     -->
     <WidgetLook name="RastullahLook/MenuItem">
-        <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="NormalTextColour" initialValue="FF292a2e" redrawOnWrite="true" />
         <PropertyDefinition name="DisabledTextColour" initialValue="FF7F7F7F" redrawOnWrite="true" />
-        <PropertyDefinition name="HoverColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
-        <PropertyDefinition name="PushedColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
-        <PropertyDefinition name="OpenedColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="HoverTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="PushedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="OpenTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+		
         <Property name="WantsMultiClickEvents" value="False" />
+		
         <NamedArea name="ContentSize">
             <Area>
                 <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
@@ -4468,25 +4470,6 @@
                 <HorzFormat type="LeftAligned" />
             </TextComponent>
         </ImagerySection>
-        <ImagerySection name="frame">
-            <FrameComponent>
-                <Area>
-                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
-                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
-                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
-                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
-                </Area>
-                <Image type="TopLeftCorner" imageset="RastullahLook-Images" image="MenuTopLeft" />
-                <Image type="TopRightCorner" imageset="RastullahLook-Images" image="MenuTopRight" />
-                <Image type="BottomLeftCorner" imageset="RastullahLook-Images" image="MenuBottomLeft" />
-                <Image type="BottomRightCorner" imageset="RastullahLook-Images" image="MenuBottomRight" />
-                <Image type="LeftEdge" imageset="RastullahLook-Images" image="MenuLeft" />
-                <Image type="RightEdge" imageset="RastullahLook-Images" image="MenuRight" />
-                <Image type="TopEdge" imageset="RastullahLook-Images" image="MenuTop" />
-                <Image type="BottomEdge" imageset="RastullahLook-Images" image="MenuBottom" />
-                <Image type="Background" imageset="RastullahLook-Images" image="MenuMiddle" />
-            </FrameComponent>
-        </ImagerySection>
         <ImagerySection name="popup_arrow_right">
             <ImageryComponent>
                 <Area>
@@ -4525,6 +4508,7 @@
                 <HorzFormat type="RightAligned" />
             </ImageryComponent>
         </ImagerySection>
+		
         <StateImagery name="EnabledNormal">
             <Layer>
                 <Section section="label">
@@ -4534,31 +4518,22 @@
         </StateImagery>
         <StateImagery name="EnabledHover">
             <Layer>
-                <Section section="frame">
-                    <ColourProperty name="HoverColour" />
-                </Section>
                 <Section section="label">
-                    <ColourProperty name="NormalTextColour" />
+                    <ColourProperty name="HoverTextColour" />
                 </Section>
             </Layer>
         </StateImagery>
         <StateImagery name="EnabledPushed">
             <Layer>
-                <Section section="frame">
-                    <ColourProperty name="PushedColour" />
-                </Section>
                 <Section section="label">
-                    <ColourProperty name="NormalTextColour" />
+                    <ColourProperty name="PushedTextColour" />
                 </Section>
             </Layer>
         </StateImagery>
         <StateImagery name="EnabledPopupOpen">
             <Layer>
-                <Section section="frame">
-                    <ColourProperty name="OpenedColour" />
-                </Section>
                 <Section section="label">
-                    <ColourProperty name="NormalTextColour" />
+                    <ColourProperty name="OpenTextColour" />
                 </Section>
             </Layer>
         </StateImagery>
@@ -4571,9 +4546,6 @@
         </StateImagery>
         <StateImagery name="DisabledHover">
             <Layer>
-                <Section section="frame">
-                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
-                </Section>
                 <Section section="label">
                     <ColourProperty name="DisabledTextColour" />
                 </Section>
@@ -4581,9 +4553,6 @@
         </StateImagery>
         <StateImagery name="DisabledPushed">
             <Layer>
-                <Section section="frame">
-                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
-                </Section>
                 <Section section="label">
                     <ColourProperty name="DisabledTextColour" />
                 </Section>
@@ -4591,9 +4560,6 @@
         </StateImagery>
         <StateImagery name="DisabledPopupOpen">
             <Layer>
-                <Section section="frame">
-                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
-                </Section>
                 <Section section="label">
                     <ColourProperty name="DisabledTextColour" />
                 </Section>
@@ -4702,45 +4668,22 @@
     -->
     <WidgetLook name="RastullahLook/Menubar">
         <PropertyDefinition name="BackgroundColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
-        <PropertyDefinition name="BorderWidth" initialValue="5" layoutOnWrite="true" />
+        <PropertyDefinition name="BorderWidth" initialValue="9" layoutOnWrite="true" />
         <NamedArea name="ItemRenderArea">
             <Area>
                 <Dim type="LeftEdge" >
-                    <ImageDim imageset="RastullahLook-Images" image="PopupMenuFrameLeft" dimension="Width">
-                        <DimOperator op="Add">
-                            <PropertyDim name="BorderWidth" />
+					<AbsoluteDim value="0">
+						<DimOperator op="Add">
+							<PropertyDim name="BorderWidth" />
                         </DimOperator>
+					</AbsoluteDim>
+				</Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" >
+					<ImageDim imageset="RastullahLook-Images" image="MenuBar" dimension="Height">
                     </ImageDim>
-                </Dim>
-                <Dim type="TopEdge" >
-                    <ImageDim imageset="RastullahLook-Images" image="PopupMenuFrameTop" dimension="Height">
-                        <DimOperator op="Add">
-                            <PropertyDim name="BorderWidth" />
-                        </DimOperator>
-                    </ImageDim>
-                </Dim>
-                <Dim type="RightEdge" >
-                    <UnifiedDim scale="1" type="RightEdge">
-                        <DimOperator op="Subtract">
-                            <ImageDim imageset="RastullahLook-Images" image="PopupMenuFrameRight" dimension="Width">
-                                <DimOperator op="Add">
-                                    <PropertyDim name="BorderWidth" />
-                                </DimOperator>
-                            </ImageDim>
-                        </DimOperator>
-                    </UnifiedDim>
-                </Dim>
-                <Dim type="BottomEdge" >
-                    <UnifiedDim scale="1" type="BottomEdge">
-                        <DimOperator op="Subtract">
-                            <ImageDim imageset="RastullahLook-Images" image="PopupMenuFrameBottom" dimension="Height">
-                                <DimOperator op="Add">
-                                    <PropertyDim name="BorderWidth" />
-                                </DimOperator>
-                            </ImageDim>
-                        </DimOperator>
-                    </UnifiedDim>
-                </Dim>
+				</Dim>
             </Area>
         </NamedArea>
         <ImagerySection name="frame">
@@ -4749,17 +4692,12 @@
                     <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                     <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
                     <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
-                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Height" >
+							<ImageDim imageset="RastullahLook-Images" image="MenuBar" dimension="Height">
+                            </ImageDim>
+					</Dim>
                 </Area>
-                <Image type="TopLeftCorner" imageset="RastullahLook-Images" image="PopupMenuFrameTopLeft" />
-                <Image type="TopRightCorner" imageset="RastullahLook-Images" image="PopupMenuFrameTopRight" />
-                <Image type="BottomLeftCorner" imageset="RastullahLook-Images" image="PopupMenuFrameBottomLeft" />
-                <Image type="BottomRightCorner" imageset="RastullahLook-Images" image="PopupMenuFrameBottomRight" />
-                <Image type="LeftEdge" imageset="RastullahLook-Images" image="PopupMenuFrameLeft" />
-                <Image type="RightEdge" imageset="RastullahLook-Images" image="PopupMenuFrameRight" />
-                <Image type="TopEdge" imageset="RastullahLook-Images" image="PopupMenuFrameTop" />
-                <Image type="BottomEdge" imageset="RastullahLook-Images" image="PopupMenuFrameBottom" />
-                <Image type="Background" imageset="RastullahLook-Images" image="PopupMenuMiddle" />
+                <Image type="Background" imageset="RastullahLook-Images" image="MenuBar" />
             </FrameComponent>
         </ImagerySection>
         <StateImagery name="Enabled">
