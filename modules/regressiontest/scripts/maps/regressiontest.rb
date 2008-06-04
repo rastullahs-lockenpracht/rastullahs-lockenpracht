@@ -35,10 +35,10 @@ require 'NpcTest.rb'
 require 'SelectorTest.rb'
 require 'SoundTest.rb'
 require 'TimeTest.rb'
-
+require 'CombatTest.rb'
 require 'WalkJobTest.rb'
 
-class RegressionTest
+class RegressionTestSuite
 	def initialize
 		@mErrors = 0
 		@mTests = 0
@@ -73,6 +73,7 @@ class RegressionTest
 		runTest(SoundTest, [ 10, 0, 10])
 		runTest(TimeTest, [ -5, 0, -5])
 		runTest(WalkJobTest, [  0, 0, -3])
+		runTest(CombatTest, [15, 0, 15])
 
 		if @mErrors > 0
 		  MessageBox.showModal(
@@ -85,5 +86,5 @@ class RegressionTest
 	end
 end
 
-RegressionTest.new().runTests()
+RegressionTestSuite.new().runTests()
 $SCRIPT.log("map 'regressiontest' initialisiert.")

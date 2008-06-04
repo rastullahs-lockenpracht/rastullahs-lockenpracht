@@ -1,0 +1,42 @@
+material boden/SOLID/TEX/boden_kana.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture boden_kana.png
+			}
+		}
+	}
+}
+material boden/SOLID/TEX/gras_kana2.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture gras_kana2.png
+			}
+		}
+	}
+}
+material zaun/SOLID/TEX/ruchin_atlasmap.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture ruchin_atlasmap.png
+			}
+		}
+	}
+}
