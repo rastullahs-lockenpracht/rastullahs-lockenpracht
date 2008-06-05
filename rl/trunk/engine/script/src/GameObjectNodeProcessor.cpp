@@ -70,7 +70,7 @@ namespace rl
             for (XMLSize_t idx = 0; idx < goElChildNodes->getLength(); idx++)
             {
                 DOMNode* cur = goElChildNodes->item(idx);
-                if (cur->getNodeType() == DOMNode::ENTITY_NODE
+                if (cur->getNodeType() == DOMNode::ELEMENT_NODE
                     && hasNodeName(cur, "property"))
                 {
                     PropertyEntry propEntry = processProperty(static_cast<DOMElement*>(cur));
@@ -81,6 +81,7 @@ namespace rl
                 }
             } 		    
         }
+
         GameObjectState state = GOS_IN_SCENE;
         if (hasAttribute(nodeElem, "state"))
 	    {
