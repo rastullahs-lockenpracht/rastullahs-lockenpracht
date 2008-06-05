@@ -150,6 +150,7 @@ void AgentManager::gameObjectStateChanged(GameObject* go, GameObjectState oldSta
                     // Nevertheless see above comment for how to improve this situation.
                     AgentSteeringState* ass =
                         dynamic_cast<AgentSteeringState*>(agent->getCurrentState());
+                    ass->clearSteeringBehaviours();
                     for (PropertyArray::const_iterator it = behaviours.begin(),
                         end = behaviours.end(); it != end; ++it)
                     {
