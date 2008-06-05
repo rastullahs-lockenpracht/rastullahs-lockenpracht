@@ -683,9 +683,12 @@ namespace rl {
 
     void Actor::detach(Actor* actor)
     {
-        doDetach(actor);
-        actor->mParent = NULL;
-        mChildren.erase(actor);
+        if (actor) 
+        {
+            doDetach(actor);
+            actor->mParent = NULL;
+            mChildren.erase(actor);
+        }
     }
 
     void Actor::doDetach(Actor* actor)
