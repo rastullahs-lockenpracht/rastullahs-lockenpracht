@@ -5,7 +5,7 @@
       <position x="32" y="0" z="-10"/>
     </entity>
 	<gameobject id="100" class="Wolf" state="IN_SCENE">
-		<position x="25" y="0" z="0"/>
+		<position x="32" y="0" z="-10"/>
 		<property name="ai" type="MAP">
 			<property name="behaviours" type="ARRAY">
 			</property>
