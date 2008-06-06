@@ -104,21 +104,35 @@ namespace rl {
       std::string mMessage;
       std::string mFile;
       std::string mFunction;
+      std::string mWhat;
       int mLine;
 
    public:
       Exception(const char* message,
          const std::string& file, const std::string& function, int line)
          : mMessage(message), mFile(file), mFunction(function), mLine(line), 
-         std::exception() {}
+         mWhat(""),
+         std::exception()
+      {
+          update();
+      }
       Exception(const std::string& message,
          const std::string& file, const std::string& function, int line)
          : mMessage(message), mFile(file), mFunction(function), mLine(line), 
-         std::exception() {}
+         mWhat(""),
+         std::exception()
+      {
+          update();
+      }
       Exception(const CeGuiString& message,
          const std::string& file, const std::string& function, int line)
-         : mMessage(message.c_str()), mFile(file), mFunction(function), mLine(line), 
-         std::exception() {}
+         : mMessage(message.c_str()), mFile(file), mFunction(function), mLine(line),
+         mWhat(""),
+         std::exception()
+      {
+          update();
+      }
+
       
       Exception(const Exception& rhs) 
           :
@@ -126,7 +140,11 @@ namespace rl {
          mFile(rhs.mFile),
          mFunction(rhs.mFunction),
          mLine(rhs.mLine),
-         std::exception() {}
+         mWhat(""),
+         std::exception() 
+      {
+          update();
+      }
 
       virtual ~Exception() throw() {}
 
@@ -137,6 +155,7 @@ namespace rl {
             mFile = rhs.mFile;
             mFunction = rhs.mFunction;
             mLine = rhs.mLine;
+            update();
          }
          return *this;
       }      
@@ -147,22 +166,22 @@ namespace rl {
       virtual std::string getType() const { return "Exception"; }
       virtual int getLine() const { return mLine; }
 
-	  const char* what() const throw() { return toString().c_str(); }
+	  const char* what() const throw() { return mWhat.c_str(); }
 
-      virtual std::string toString() const
+      void update()
       {
          std::stringstream lineStream;
 
          lineStream 
-             << "In Datei " 
+             << "In file " 
              << getFile().c_str() 
-             << ",  Zeile " << getLine()
-             << ", Funktion " << getFunction().c_str()
-             << "\ntrat folgende Ausnahme vom Typ " << getType().c_str() 
-             << " auf\n-----------------------------------------------------------------------\n"
+             << ",  line " << getLine()
+             << ", function " << getFunction().c_str()
+             << "\nan exception of type " << getType().c_str() 
+             << " was raised.\n-----------------------------------------------------------------------\n"
              << getMessage().c_str();
 
-         return lineStream.str();
+         mWhat = lineStream.str();
       }
    };
 
