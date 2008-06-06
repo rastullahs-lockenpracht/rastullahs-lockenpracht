@@ -63,9 +63,9 @@ namespace rl
 		for (std::map<long, Zone*>::iterator it = mZonesIdMap.begin(); it != mZonesIdMap.end(); ++it)
 		{
 			Zone* curZone = (*it).second;
-            delete curZone;
+            doDestroyZone(curZone);
 		}
-		delete mDefaultZone;
+		doDestroyZone(mDefaultZone);
 	}
 
 	Zone* ZoneManager::getDefaultZone()
@@ -134,20 +134,16 @@ namespace rl
 
     void ZoneManager::destroyAllZones()
     {
-        for(ZoneMap::iterator it = mZones.begin(); it != mZones.end();)
+        for(ZoneMap::iterator it = mZones.begin(); it != mZones.end(); )
         {
-            // remove from active zones
-            if( isZoneActive(it->second) )
-                mActiveZones.remove(it->second);
-
-            std::map<long, Zone*>::iterator it_ = mZonesIdMap.find(it->second->getId());
-            if( it_ != mZonesIdMap.end() )
-                mZonesIdMap.erase(it_);
-
-
-            mZonesToDelete.push_back(it->second);
-            mZones.erase(it++);
+            destroyZone((it++)->first);
         }
+        mZones.clear();
+
+        std::list<Zone*>::iterator it = mZonesToDelete.begin();
+        for( ; it != mZonesToDelete.end(); it++)
+            doDestroyZone(*it);
+        mZonesToDelete.clear();
     }
 
     void ZoneManager::doDestroyZone(Zone *zone)
