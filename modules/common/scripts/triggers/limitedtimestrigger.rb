@@ -80,7 +80,7 @@ class LimitedTimesTrigger < Trigger
       @_prop_zone = value;
     elsif (name == "enter_code")
       setEnterCode(value);
-    elsif (name = "leave_code")
+    elsif (name == "leave_code")
       setLeaveCode(value);
     else
       super(name, value)
