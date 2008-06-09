@@ -25,7 +25,7 @@ class PersistenzTestModule < ContentModule
         require "mckhero.rb"
         require "hero.rb"
 		require "MapChange.rb"
-		require "Clothing.rb"
+		require "clothing.rb"
 		SceneManager::getSingleton().loadScene("scene01", false);
     end
 end
