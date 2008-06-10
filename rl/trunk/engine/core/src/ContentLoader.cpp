@@ -17,7 +17,6 @@
 #include "stdinc.h"
 
 #include "ContentLoader.h"
-#include "ContentModule.h"
 
 namespace rl
 {

@@ -137,6 +137,9 @@ namespace rl
 
             SaveGameFile* file = getSaveGameFile(name, moduleId);
             SaveGameFileReader reader;
+            
+            CoreSubsystem::getSingleton().getActiveAdventureModule()->unload();
+
             reader.parseSaveGameFile(file, mSaveGameDataOrderMap);
             ///@todo: SaveGameReader
 
@@ -152,6 +155,9 @@ namespace rl
 
             SaveGameFile* file = getSaveGameFile(id);
             SaveGameFileReader reader;
+
+            CoreSubsystem::getSingleton().getActiveAdventureModule()->unload();
+
             reader.parseSaveGameFile(file, mSaveGameDataOrderMap);
             ///@todo: SaveGameReader
 

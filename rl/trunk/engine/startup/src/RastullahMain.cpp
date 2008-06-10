@@ -92,7 +92,7 @@ void startupRl(bool developerMode, Ogre::String module)
         rl::showError(oe.getFullDescription());
     }
     catch(rl::Exception& re) {
-        rl::showError(re.toString());
+        rl::showError(re.what());
     }
     catch(CEGUI::Exception& ce) {
         rl::showError(ce.getMessage().c_str());
@@ -133,7 +133,7 @@ void startupRl(bool developerMode, Ogre::String module)
         rl::showError(oe.getFullDescription());
     }
     catch(rl::Exception& re) {
-        rl::showError(re.toString());
+        rl::showError(re.what());
     }
     catch(std::runtime_error& rte) {
         rl::showError(rte.what());

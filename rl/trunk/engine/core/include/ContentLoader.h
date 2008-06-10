@@ -22,8 +22,6 @@
 
 namespace rl
 {
-    class ContentModule;
-
     class _RlCoreExport ContentLoader : public PropertyHolder
     {
     public:
@@ -39,8 +37,6 @@ namespace rl
         PropertyKeys getAllPropertyKeys() const;
 
         virtual const CeGuiString getClassName() const = 0;
-    protected:
-        ContentModule* mContentModule;
     };
 }
 
