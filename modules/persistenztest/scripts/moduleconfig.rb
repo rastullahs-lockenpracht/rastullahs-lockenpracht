@@ -27,6 +27,7 @@ class PersistenzTestModule < ContentModule
 		require "MapChange.rb"
 		require "clothing.rb"
 		SceneManager::getSingleton().loadScene("scene01", false);
+		$PM.setEnabled(true)
     end
 end
 
