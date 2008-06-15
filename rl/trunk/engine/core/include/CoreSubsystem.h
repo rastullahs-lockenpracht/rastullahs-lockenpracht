@@ -66,7 +66,7 @@ public:
     void startCore();
 
     /** Renders one frame (for internal use) */
-    void renderOneFrame();
+    void renderOneFrame(bool executeTasks = true);
 
     World* getWorld();
     void loadMap(const Ogre::String type, const Ogre::String filename,

@@ -134,9 +134,9 @@ namespace rl
         //mRubyInterpreter->finalizeInterpreter();
     }
 
-    void CoreSubsystem::renderOneFrame()
+    void CoreSubsystem::renderOneFrame(bool executeTasks)
     {
-        mGameLoop->_executeOneRenderLoop();
+        mGameLoop->_executeOneRenderLoop(executeTasks);
     }
 
     void CoreSubsystem::setDeveloperMode(bool developerMode)

@@ -321,7 +321,7 @@ namespace rl {
             mPercentageWindow->setText(text);
         }
 
-        CoreSubsystem::getSingleton().renderOneFrame();
+        CoreSubsystem::getSingleton().renderOneFrame(false);
 
         if (percentage == 1)
         {

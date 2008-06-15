@@ -71,7 +71,7 @@ public:
 
     /// Execute the render loop for one frame (for internal use only)
     /// @see CoreSubsystem
-    void _executeOneRenderLoop();
+    void _executeOneRenderLoop(bool executeTasks = true);
 
     void setTimeFactor(Ogre::Real timeFactor);
       

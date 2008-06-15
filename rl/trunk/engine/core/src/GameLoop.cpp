@@ -128,7 +128,7 @@ namespace rl
         }
     }
 
-    void GameLoop::_executeOneRenderLoop()
+    void GameLoop::_executeOneRenderLoop(bool executeTasks)
     {
         // Calculate frame time. This time is smoothed and capped.
         unsigned long elapsedTime = mTimer->getMilliseconds();
@@ -153,7 +153,7 @@ namespace rl
         Root::getSingleton().renderOneFrame();
 
         // Execute all tasks in order.
-        for (size_t i = 0; i < mTaskLists.size(); ++i)
+        for (size_t i = 0; i < mTaskLists.size() && executeTasks; ++i)
         {
             GameTaskList* tasks = mTaskLists[i];
             for (GameTaskList::iterator it = tasks->begin(); it != tasks->end(); ++it)
