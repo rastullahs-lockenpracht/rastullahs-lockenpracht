@@ -522,6 +522,66 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="movements"
+				>
+				<File
+					RelativePath=".\src\FallDownMovement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\JogFastMovement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\JogMovement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\JumpHighMovement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\JumpLongMovement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\JumpToTargetMovement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\LieDownMovement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\RotateMovement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SneakMovement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SprintMovement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\StandAroundMovement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\StepRecognitionMovement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\StrafeMovement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WalkMovement.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Headerdateien"
@@ -753,6 +813,78 @@
 				</File>
 				<File
 					RelativePath=".\include\Weapon.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="movements"
+				>
+				<File
+					RelativePath=".\include\AbstractMovement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\FallDownMovement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\JogBackwardsMovement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\JogFastMovement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\JogMovement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\JumpHighMovement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\JumpLongMovement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\JumpToTargetMovement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\LieDownMovement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\RotateMovement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\SneakMovement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\SprintMovement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\StandAroundMovement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\StepRecognitionMovement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\StrafeMovement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\WalkBackwardsMovement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\WalkMovement.h"
 					>
 				</File>
 			</Filter>
