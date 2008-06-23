@@ -17,6 +17,7 @@
 
 #include "SteeringVehicle.h"
 
+#include "AbstractMovement.h"
 #include "AiSubsystem.h"
 #include "AiWorld.h" 
 #include "Agent.h"

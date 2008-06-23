@@ -52,7 +52,7 @@ namespace rl
 
     void AgentDialogState::update(const Ogre::Real elapsedTime)
     {
-        static CreatureController* ctrl = 
+        CreatureController* ctrl = 
                 CreatureControllerManager::getSingleton().getCreatureController(
                     mAgent->getControlledCreature());
 

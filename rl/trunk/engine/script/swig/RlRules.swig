@@ -816,13 +816,17 @@ namespace rl {
             MT_SCHLEICHEN,
             MT_HOCHSPRUNG,
             MT_WEITSPRUNG,
+            MT_ZIELSPRUNG,
             // these movements are only for internal purposes and should not be used directly
             // instead use one of the movements above
-            MT_DREHEN
+            MT_DREHEN,
+            MT_STUFENERKENNUNG,
+            MT_FALLEN,
+            MT_LIEGEN
         } MovementType;
         
         Creature *getCreature();
-        //bool setMovement(MovementType type, Ogre::Vector3 direction, Ogre::Vector3 rotation);
+        bool setMovement(MovementType type, Ogre::Vector3 direction, Ogre::Vector3 rotation);
         MovementType getMovementId() const;
         Ogre::Vector3 getDirection() const;
         Ogre::Vector3 getRotation() const;

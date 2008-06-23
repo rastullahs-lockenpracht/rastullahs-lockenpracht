@@ -48,10 +48,28 @@ noinst_HEADERS = \
 	TalentStateSet.h \
 	WaitJob.h \
 	Weapon.h \
-	ZauberStateSet.h
+	ZauberStateSet.h \
+	AbstractMovement.h \
+	FallDownMovement.h \
+	JogBackwardsMovement.h \
+	JogFastMovement.h \
+	JogMovement.h \
+	JumpHighMovement.h \
+	JumpLongMovement.h \
+	JumpToTargetMovement.h \
+	LieDownMovement.h \
+	RotateMovement.h \
+	SneakMovement.h \
+	SprintMovement.h \
+	StandAroundMovement.h \
+	StepRecognitionMovement.h \
+	StrafeMovement.h \
+	WalkBackwardsMovement.h \
+	WalkMovement.h
 
 CLEANFILES = stdinc.h.gch
 all-local: stdinc.h.gch
 stdinc.h.gch: $(noinst_HEADERS) stdinc.h
 	@echo Creating GCH file
 	g++ -I. stdinc.h
+

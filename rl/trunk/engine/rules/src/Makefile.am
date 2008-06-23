@@ -52,4 +52,18 @@ libRlRules_la_SOURCES = \
 	TalentStateSet.cpp \
 	WaitJob.cpp \
 	Weapon.cpp \
-	ZauberStateSet.cpp
+	ZauberStateSet.cpp \
+	FallDownMovement.cpp \
+	JogFastMovement.cpp \
+	JogMovement.cpp \
+	JumpHighMovement.cpp \
+	JumpLongMovement.cpp \
+	JumpToTargetMovement.cpp \
+	LieDownMovement.cpp \
+	RotateMovement.cpp \
+	SneakMovement.cpp \
+	SprintMovement.cpp \
+	StandAroundMovement.cpp \
+	StepRecognitionMovement.cpp \
+	StrafeMovement.cpp \
+	WalkMovement.cpp

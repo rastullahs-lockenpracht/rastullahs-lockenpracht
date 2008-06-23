@@ -20,6 +20,7 @@
 
 #include <utility>
 
+#include "AbstractMovement.h"
 #include "Actor.h"
 #include "ActorManager.h"
 #include "CameraObject.h"
