@@ -17,6 +17,8 @@
 #ifndef __PhysicsManager_H__
 #define __PhysicsManager_H__
 
+#include "CorePrerequisites.h"
+
 #include <map>
 #include <vector>
 

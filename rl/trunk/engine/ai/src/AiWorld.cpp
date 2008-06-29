@@ -15,13 +15,14 @@
  */
 #include "stdinc.h" //precompiled header
 
+#include "AiWorld.h"
+
 #ifdef __APPLE__
 #   include <OgreNewt/OgreNewt.h>
 #else
 #   include <OgreNewt.h>
 #endif
 
-#include "AiWorld.h"
 #include "PhysicsManager.h"
 #include "LineSetPrimitive.h"
 #include "CoreSubsystem.h"

@@ -16,7 +16,9 @@
 #ifndef __RlAI_World_H__
 #define __RlAI_World_H__
 
-#include "OpenSteer/Obstacle.h"
+#include "AiPrerequisites.h"
+
+#include <OpenSteer/Obstacle.h>
 #include "DebugVisualisable.h"
 #include "SimpleVehicle.h"
 

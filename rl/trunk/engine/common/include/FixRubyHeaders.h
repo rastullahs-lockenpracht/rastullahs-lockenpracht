@@ -15,10 +15,10 @@
  */
 
 /**
- * Einige Undefines, für unfreundliche defines in den Ruby-Headers.
- * Dort werden viele C-Funktionen überdeckt, die in Ogre aber benötigt werden.
- * Diese Datei muss nach einem Ruby-Header inkludiert werden, möglicherweise auch
- * noch davor, um vorherige Makros zu löschen.
+ * Einige Undefines, fÂ¸r unfreundliche defines in den Ruby-Headers.
+ * Dort werden viele C-Funktionen Â¸berdeckt, die in Ogre aber benË†tigt werden.
+ * Diese Datei muss nach einem Ruby-Header inkludiert werden, mË†glicherweise auch
+ * noch davor, um vorherige Makros zu lË†schen.
  */
 #undef accept
 #undef bind
@@ -32,14 +32,14 @@
 #undef strcasecmp
 #undef rename
 #undef write
-#ifdef HAVE_CONFIG_H
-    #undef PACKAGE_VERSION
-    #undef PACKAGE_STRING
-    #undef PACKAGE_NAME
-    #undef PACKAGE_TARNAME
-#endif
 #undef max
 #undef min
+
+#undef PACKAGE_VERSION
+#undef PACKAGE_STRING
+#undef PACKAGE_NAME
+#undef PACKAGE_TARNAME
+#undef HAVE_VSNPRINTF
 
 #undef EWOULDBLOCK	
 #undef EINPROGRESS	
@@ -79,3 +79,6 @@
 #undef ESTALE		
 #undef EREMOTE		
 
+#undef CONNECT
+#undef T_CONNECT
+#undef T_DATA

@@ -17,7 +17,6 @@
 
 #include <xercesc/dom/DOM.hpp>
 
-
 #include "DotSceneLoader.h"
 #include "World.h"
 

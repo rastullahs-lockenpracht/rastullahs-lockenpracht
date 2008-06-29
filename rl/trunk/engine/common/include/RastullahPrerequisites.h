@@ -23,6 +23,7 @@
 #undef min
 
 #ifdef __APPLE__
+#   include <HIToolbox/CarbonEventsCore.h>
 #   include <Ogre/Ogre.h>
 #   include <Ogre/OgreFont.h>
 #   include <Ogre/OgreFontManager.h>

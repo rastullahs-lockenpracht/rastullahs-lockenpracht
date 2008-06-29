@@ -17,6 +17,8 @@
 #ifndef __DotSceneLoader_H__
 #define __DotSceneLoader_H__
 
+#include "CorePrerequisites.h"
+
 #ifdef __APPLE__
 #   include <OgreNewt/OgreNewt.h>
 #else

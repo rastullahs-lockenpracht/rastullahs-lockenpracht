@@ -174,4 +174,3 @@ void RL_handleRubyError( VALUE error )
 %include "RlUi.swig"
 %include "RlAi.swig"
 %include "RlScript.swig"
-
