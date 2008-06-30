@@ -14,10 +14,7 @@ require 'npc.rb'
     
     itemToAdd = $GOM.createGameObject("men_human_female_legs_pants_01_long");
     hero.getInventory().hold(itemToAdd, "Trousers");
-    #hero.getInventory().getItem("Back").addItem(itemToAdd);
     itemToAdd = $GOM.createGameObject("men_human_female_cloth_short");
     hero.getInventory().hold(itemToAdd, "Clothes");
-    #hero.getInventory().getItem("Back").addItem(itemToAdd);
     itemToAdd = $GOM.createGameObject("men_human_female_feet_boots_01");
     hero.getInventory().hold(itemToAdd, "Boots");
-   # hero.getInventory().getItem("Back").addItem(itemToAdd);

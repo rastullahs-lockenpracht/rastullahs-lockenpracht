@@ -20,22 +20,22 @@ class InventoryTest < TestCase
     hero.getInventory().getItem("Back").addItem(itemToAdd);
     
     $SCRIPT.log("InventoryTest #2: Put a loaded object into container.");
-    sword_loaded_to_inventory = $GOM.createGameObject("shortsword");
+    sword_loaded_to_inventory = $GOM.createGameObject("Kurzschwert");
     hero.getInventory().getItem("Back").addItem(sword_loaded_to_inventory);
 
     $SCRIPT.log("InventoryTest #3: Put an object from the scene into container.");
-    sword_in_scene_to_inventory = $GOM.createGameObject("shortsword");
+    sword_in_scene_to_inventory = $GOM.createGameObject("Kurzschwert");
     sword_in_scene_to_inventory.placeIntoScene();
     hero.getInventory().getItem("Back").addItem(sword_in_scene_to_inventory);
 
     $SCRIPT.log("InventoryTest #4: Put an object attached to the hero into container.");
-    sword_held_to_inventory = $GOM.createGameObject("shortsword");
+    sword_held_to_inventory = $GOM.createGameObject("Kurzschwert");
     hero.getInventory().hold(sword_held_to_inventory, "Left Hand");
     #hero.getInventory().dropItem("Left Hand")
     hero.getInventory().getItem("Back").addItem(sword_held_to_inventory);
 
     $SCRIPT.log("InventoryTest #5: Put an object from a container into the hero's hand.");
-    sword_inventory_to_hold = $GOM.createGameObject("shortsword");
+    sword_inventory_to_hold = $GOM.createGameObject("Kurzschwert");
     hero.getInventory().getItem("Back").addItem(sword_inventory_to_hold)
     #hero.getInventory().getItem("Back").removeItem(sword_inventory_to_hold)
     hero.getInventory().hold(sword_inventory_to_hold, "Right Hand");
