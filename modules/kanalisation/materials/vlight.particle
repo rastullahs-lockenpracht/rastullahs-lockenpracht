@@ -1,0 +1,67 @@
+vlight
+{
+	quota	10
+	material	vlight
+	particle_width	1.4
+	particle_height	2.5
+	cull_each	false
+	renderer	billboard
+	sorted	false
+	local_space	false
+	iteration_interval	0
+	nonvisible_update_timeout	0
+	billboard_type	oriented_common
+	billboard_origin	center
+	billboard_rotation_type	texcoord
+	common_direction	-0.4 1 0
+	common_up_vector	0 1 0
+	point_rendering	false
+	accurate_facing	false
+
+	emitter Ellipsoid
+	{
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	0.901961 0.870588 0.717647 1
+		direction	0.43003 -0.902815 0
+		emission_rate	2
+		position	0 0 0
+		velocity	0
+		velocity_min	0
+		velocity_max	0.2
+		time_to_live	5
+		time_to_live_min	5
+		time_to_live_max	5
+		duration	0
+		duration_min	0
+		duration_max	0
+		repeat_delay	0
+		repeat_delay_min	0
+		repeat_delay_max	0
+		width	0.8
+		height	0.8
+		depth	1
+	}
+
+	affector Scaler
+	{
+		rate	0.4
+	}
+
+	affector ColourInterpolator
+	{
+		colour0	0.929412 0.894118 0.819608 1
+		time0	0
+		colour1	0.992157 0.94902 0.776471 1
+		time1	0.2
+		colour2	0.968627 0.960784 0.909804 1
+		time2	0.4
+		colour3	0.929412 0.921569 0.803922 1
+		time3	0.6
+		colour4	0.972549 0.937255 0.862745 1
+		time4	0.8
+		colour5	0.94902 0.901961 0.866667 1
+		time5	1
+	}
+}
