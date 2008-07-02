@@ -3094,7 +3094,7 @@ def upgradeXMLFile(filename):
         if meshUpgrade == None:
             exportLogger.logError('Could not run MeshUpgrade!')
         else:
-            for line in MeshUpgrade:
+            for line in meshUpgrade:
                 exportLogger.logInfo("OgreMeshUpgrade: " + line)
             meshUpgrade.close()
     return
