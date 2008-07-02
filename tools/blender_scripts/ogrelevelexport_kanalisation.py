@@ -3090,13 +3090,13 @@ def upgradeXMLFile(filename):
     if OGRE_MESH_UPGRADE != '':
         commandLine = OGRE_MESH_UPGRADE + ' "' + filename + '"'
         exportLogger.logInfo("Running OgreMeshUpgrade: " + commandLine)
-        MeshUpgrade = os.popen(commandLine, 'r')
-        if MeshUpgrade == None:
+        meshUpgrade = os.popen(commandLine, 'r')
+        if meshUpgrade == None:
             exportLogger.logError('Could not run MeshUpgrade!')
         else:
             for line in MeshUpgrade:
                 exportLogger.logInfo("OgreMeshUpgrade: " + line)
-            xmlConverter.close()
+            meshUpgrade.close()
     return
 
 def write_materials():
