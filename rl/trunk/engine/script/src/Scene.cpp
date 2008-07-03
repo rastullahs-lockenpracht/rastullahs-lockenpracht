@@ -70,7 +70,12 @@ const Property Scene::getProperty(const CeGuiString& key) const
             GameObject* cur = *it;
             if (cur->getState() == GOS_LOADED || cur->getState() == GOS_IN_SCENE)
             {
-                goProps.push_back(cur->getAllProperties()->toPropertyMap());
+                //Todo....
+                PropertyMap map;
+                map[GameObject::PROPERTY_CLASS_ID] = cur->getClassId();
+                map[GameObject::PROPERTY_OBJECT_ID] = cur->getId();
+                goProps.push_back(map);
+                //goProps.push_back(cur->getAllProperties()->toPropertyMap());
             }
         }
 
@@ -96,8 +101,8 @@ void Scene::setProperty(const CeGuiString& key, const Property& value)
             {
                 PropertyRecord cur(it->toMap());
                 GameObject* go = GameObjectManager::getSingleton().createGameObject(
-                    cur.getProperty(GameObject::PROPERTY_BASE_CLASS).toString(),
-                    cur.getProperty(GameObject::PROPERTY_CLASS_ID).toInt());
+                    cur.getProperty(GameObject::PROPERTY_CLASS_ID).toString(),
+                    cur.getProperty(GameObject::PROPERTY_OBJECT_ID).toInt());
             }
         }
         else

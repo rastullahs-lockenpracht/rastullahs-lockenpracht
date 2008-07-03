@@ -136,9 +136,12 @@ namespace rl
     {
         for(ZoneMap::iterator it = mZones.begin(); it != mZones.end(); )
         {
+            if( isZoneActive(it->second) )
+                mActiveZones.remove(it->second);
             destroyZone((it++)->first);
         }
         mZones.clear();
+        mZonesIdMap.clear();
 
         std::list<Zone*>::iterator it = mZonesToDelete.begin();
         for( ; it != mZonesToDelete.end(); it++)

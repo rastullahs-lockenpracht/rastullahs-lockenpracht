@@ -42,6 +42,7 @@ namespace rl
     const Ogre::String GameObject::CLASS_NAME = "GameObject";
 
     const Ogre::String GameObject::PROPERTY_CLASS_ID = "classid";
+    const Ogre::String GameObject::PROPERTY_OBJECT_ID = "id";
     const Ogre::String GameObject::PROPERTY_BASE_CLASS = "baseclass";
     const Ogre::String GameObject::PROPERTY_POSITION = "position";
     const Ogre::String GameObject::PROPERTY_SCENE = "scene";
