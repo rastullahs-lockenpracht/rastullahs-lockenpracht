@@ -13,5 +13,5 @@ hero.getInventory().hold(itemToAdd, "Boots");
 itemToAdd = $GOM.createGameObject("men_human_female_cloth_short");
 hero.getInventory().hold(itemToAdd, "Clothes");
 
-#itemToAdd = $GOM.createGameObject("torch");
-#hero.getInventory().hold(itemToAdd, "Right Hand");
+itemToAdd = $GOM.createGameObject("torch");
+hero.getInventory().hold(itemToAdd, "Right Hand");

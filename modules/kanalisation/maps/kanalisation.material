@@ -234,7 +234,7 @@ material boden_komplett.001/SOLID/TEX/boden_kana.png/VertCol: Basic_Normalmappin
 set_texture_alias DiffuseMap boden_kana.png
 set_texture_alias NormalMap boden_kana_normal.png
 }
-material wasser/SOLID/TEX/Untitled : Wassershader
+material wasser/SOLID/TEX/Untitled : Wassershader_Kanalisation
 {
 set_texture_alias Cubemap desert07.dds
 }

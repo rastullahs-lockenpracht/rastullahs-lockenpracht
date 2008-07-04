@@ -100,6 +100,7 @@
 <position x="17.838156" y="1.844218" z="15.676789"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>
 <entity name="schmutzwasser" meshfile="wasser.mesh">
+<physicsproxy type="none" />
 <position x="-17.99887" y="2.354909" z="26.217978"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>
 <entity name="raum_01.007" meshfile="raum_01.005.mesh">
@@ -235,6 +236,7 @@
 <position x="0.144417" y="0.0" z="55.632095"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>
 <entity name="farn" meshfile="farn.mesh">
+<physicsproxy type="none" />
 <position x="-2.364898" y="-1.932347" z="2.648438"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>
 <entity name="raum_01" meshfile="raum_01.mesh">
