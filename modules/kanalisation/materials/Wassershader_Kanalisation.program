@@ -7,7 +7,7 @@ material Wassershader_Kanalisation : Wassershader
             fragment_program_ref Wassershader_Kanalisation_PS_HLSL
             {
                 param_named reflectionexp float 3.0
-                param_named waterreflectcolor float4 0.45 0.42 0.42 0.6
+                param_named waterreflectcolor float4 0.55 0.52 0.52 0.6
             }
  
         }
