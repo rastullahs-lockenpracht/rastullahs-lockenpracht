@@ -429,19 +429,6 @@
 		44D8147A0BF7B62F00534175 /* Trigger.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814750BF7B62F00534175 /* Trigger.h */; };
 		44D8147B0BF7B62F00534175 /* Zone.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814760BF7B62F00534175 /* Zone.h */; };
 		44D8147C0BF7B62F00534175 /* ZoneManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814770BF7B62F00534175 /* ZoneManager.h */; };
-		48187AAB0D885CBB00CE6689 /* libRlCommon.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAAB20BD0E0FB00C6D4A0 /* libRlCommon.dylib */; };
-		48187AAC0D885CBB00CE6689 /* libRlCore.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAB610BD0E2DA00C6D4A0 /* libRlCore.dylib */; };
-		48187AAD0D885CBB00CE6689 /* libRlAi.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAC270BD0E3FF00C6D4A0 /* libRlAi.dylib */; };
-		48187AAE0D885CBB00CE6689 /* libRlRules.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAC370BD0E44900C6D4A0 /* libRlRules.dylib */; };
-		48187AAF0D885CBB00CE6689 /* libRlUi.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAC3E0BD0E46000C6D4A0 /* libRlUi.dylib */; };
-		483514870D8AED510077477D /* OIS.framework in Resources */ = {isa = PBXBuildFile; fileRef = 4857E4E40D46A664009D376D /* OIS.framework */; };
-		483514890D8AED510077477D /* libmeshmagick.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 440785DD0C09D231006E496D /* libmeshmagick.dylib */; };
-		4835148A0D8AED510077477D /* libruby.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 483646A10D83D57800912FEC /* libruby.dylib */; };
-		4835148B0D8AED510077477D /* OgreCEGUIRenderer.framework in Resources */ = {isa = PBXBuildFile; fileRef = 444EB3720BD1784A00C6D4A0 /* OgreCEGUIRenderer.framework */; };
-		4835148C0D8AED510077477D /* OpenSteer.framework in Resources */ = {isa = PBXBuildFile; fileRef = 444EB0DA0BD119BB00C6D4A0 /* OpenSteer.framework */; };
-		4835148D0D8AED510077477D /* CEGUI.framework in Resources */ = {isa = PBXBuildFile; fileRef = 444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */; };
-		4835148E0D8AED510077477D /* Ogre.framework in Resources */ = {isa = PBXBuildFile; fileRef = 444EAEBE0BD0F09900C6D4A0 /* Ogre.framework */; };
-		4835148F0D8AED510077477D /* OgreNewt.framework in Resources */ = {isa = PBXBuildFile; fileRef = 444EB0880BD1153500C6D4A0 /* OgreNewt.framework */; };
 		483646990D83D13700912FEC /* ContentLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646960D83D13700912FEC /* ContentLoader.h */; };
 		4836469A0D83D13700912FEC /* SoundStitching.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646970D83D13700912FEC /* SoundStitching.h */; };
 		4836469B0D83D13700912FEC /* StartAnimationJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646980D83D13700912FEC /* StartAnimationJob.h */; };
@@ -549,6 +536,21 @@
 		483D86A70D8C3DA200F3629E /* Fmod4Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D869A0D8C3DA200F3629E /* Fmod4Sound.cpp */; };
 		483D86A80D8C3DA200F3629E /* Fmod4SoundStitching.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483D869B0D8C3DA200F3629E /* Fmod4SoundStitching.cpp */; };
 		483D87CE0D8C564400F3629E /* libRlScript.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48570C1B0D8A6C5400096E35 /* libRlScript.dylib */; };
+		484D8D0B0E1E05F400BCFC2B /* OgreCEGUIRenderer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 444EB3720BD1784A00C6D4A0 /* OgreCEGUIRenderer.framework */; };
+		484D8D0C0E1E05F400BCFC2B /* OpenSteer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 444EB0DA0BD119BB00C6D4A0 /* OpenSteer.framework */; };
+		484D8D0D0E1E05F400BCFC2B /* CEGUI.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */; };
+		484D8D0E0E1E05F400BCFC2B /* Ogre.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 444EAEBE0BD0F09900C6D4A0 /* Ogre.framework */; };
+		484D8D0F0E1E05F400BCFC2B /* OgreNewt.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 444EB0880BD1153500C6D4A0 /* OgreNewt.framework */; };
+		484D92140E1E060200BCFC2B /* Xerces.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */; };
+		484D92150E1E060200BCFC2B /* OIS.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4857E4E40D46A664009D376D /* OIS.framework */; };
+		484D921E0E1E078100BCFC2B /* libRlCommon.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAAB20BD0E0FB00C6D4A0 /* libRlCommon.dylib */; };
+		484D921F0E1E078100BCFC2B /* libRlCore.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAB610BD0E2DA00C6D4A0 /* libRlCore.dylib */; };
+		484D92200E1E078100BCFC2B /* libRlAi.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAC270BD0E3FF00C6D4A0 /* libRlAi.dylib */; };
+		484D92210E1E078100BCFC2B /* libRlRules.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAC370BD0E44900C6D4A0 /* libRlRules.dylib */; };
+		484D92220E1E078100BCFC2B /* libRlUi.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 444EAC3E0BD0E46000C6D4A0 /* libRlUi.dylib */; };
+		484D92230E1E078100BCFC2B /* libRlScript.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 48570C1B0D8A6C5400096E35 /* libRlScript.dylib */; };
+		484D92240E1E078100BCFC2B /* libRlFmod4Driver.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 483D86700D8C3A3300F3629E /* libRlFmod4Driver.dylib */; };
+		484D92250E1E078100BCFC2B /* RlScript.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 483D87C90D8C55E500F3629E /* RlScript.bundle */; };
 		484FE6BA0E17BC8800FA880F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 484FE6B90E17BC8800FA880F /* Carbon.framework */; };
 		484FE6BB0E17BC8800FA880F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 484FE6B90E17BC8800FA880F /* Carbon.framework */; };
 		484FE6BC0E17BC8800FA880F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 484FE6B90E17BC8800FA880F /* Carbon.framework */; };
@@ -656,9 +658,6 @@
 		48A52CC20E0EF77E008DBDD8 /* libboost_system.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.lib */; };
 		48A52CC30E0EF785008DBDD8 /* libboost_system.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.lib */; };
 		48B5F63A0DAF48AF00D05C95 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D0C4E960486CD37000505A6 /* Info.plist */; };
-		48B5F6520DAF4D2D00D05C95 /* libRlScript.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 48570C1B0D8A6C5400096E35 /* libRlScript.dylib */; };
-		48B5F6530DAF4D3500D05C95 /* libRlFmod4Driver.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 483D86700D8C3A3300F3629E /* libRlFmod4Driver.dylib */; };
-		48B5F6540DAF4D4400D05C95 /* RlScript.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 483D87C90D8C55E500F3629E /* RlScript.bundle */; };
 		48B772DD0D58350B000A3B97 /* XmlProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B772DA0D58350B000A3B97 /* XmlProcessor.h */; };
 		48B772DE0D58350B000A3B97 /* XmlPropertyReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B772DB0D58350B000A3B97 /* XmlPropertyReader.h */; };
 		48B772DF0D58350B000A3B97 /* XmlPropertyWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B772DC0D58350B000A3B97 /* XmlPropertyWriter.h */; };
@@ -819,6 +818,26 @@
 			remoteInfo = RlScript;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		484D8D0A0E1E058D00BCFC2B /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				484D92140E1E060200BCFC2B /* Xerces.framework in Copy Frameworks */,
+				484D92150E1E060200BCFC2B /* OIS.framework in Copy Frameworks */,
+				484D8D0B0E1E05F400BCFC2B /* OgreCEGUIRenderer.framework in Copy Frameworks */,
+				484D8D0C0E1E05F400BCFC2B /* OpenSteer.framework in Copy Frameworks */,
+				484D8D0D0E1E05F400BCFC2B /* CEGUI.framework in Copy Frameworks */,
+				484D8D0E0E1E05F400BCFC2B /* Ogre.framework in Copy Frameworks */,
+				484D8D0F0E1E05F400BCFC2B /* OgreNewt.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0867D6ABFE840B52C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1670,12 +1689,12 @@
 			isa = PBXGroup;
 			children = (
 				485A056A0D71EDC40024198D /* MessageObject.h */,
+				485A057E0D71EDF20024198D /* MessagePump.cpp */,
 				485A056B0D71EDC40024198D /* MessagePump.h */,
 				485A056C0D71EDC40024198D /* MessageType.h */,
 				48B772E00D583521000A3B97 /* XmlProcessor.cpp */,
 				48B772E10D583521000A3B97 /* XmlPropertyReader.cpp */,
 				48B772E20D583521000A3B97 /* XmlPropertyWriter.cpp */,
-				485A057E0D71EDF20024198D /* MessagePump.cpp */,
 				48B772DA0D58350B000A3B97 /* XmlProcessor.h */,
 				48B772DB0D58350B000A3B97 /* XmlPropertyReader.h */,
 				48B772DC0D58350B000A3B97 /* XmlPropertyWriter.h */,
@@ -2848,6 +2867,7 @@
 				8D0C4E8C0486CD37000505A6 /* Resources */,
 				8D0C4E8F0486CD37000505A6 /* Sources */,
 				8D0C4E910486CD37000505A6 /* Frameworks */,
+				484D8D0A0E1E058D00BCFC2B /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2900,22 +2920,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48B5F6540DAF4D4400D05C95 /* RlScript.bundle in Resources */,
-				48B5F6530DAF4D3500D05C95 /* libRlFmod4Driver.dylib in Resources */,
-				48B5F6520DAF4D2D00D05C95 /* libRlScript.dylib in Resources */,
-				48187AAB0D885CBB00CE6689 /* libRlCommon.dylib in Resources */,
-				48187AAC0D885CBB00CE6689 /* libRlCore.dylib in Resources */,
-				483514870D8AED510077477D /* OIS.framework in Resources */,
-				483514890D8AED510077477D /* libmeshmagick.dylib in Resources */,
-				4835148A0D8AED510077477D /* libruby.dylib in Resources */,
-				4835148B0D8AED510077477D /* OgreCEGUIRenderer.framework in Resources */,
-				4835148C0D8AED510077477D /* OpenSteer.framework in Resources */,
-				4835148D0D8AED510077477D /* CEGUI.framework in Resources */,
-				4835148E0D8AED510077477D /* Ogre.framework in Resources */,
-				4835148F0D8AED510077477D /* OgreNewt.framework in Resources */,
-				48187AAD0D885CBB00CE6689 /* libRlAi.dylib in Resources */,
-				48187AAE0D885CBB00CE6689 /* libRlRules.dylib in Resources */,
-				48187AAF0D885CBB00CE6689 /* libRlUi.dylib in Resources */,
+				484D921E0E1E078100BCFC2B /* libRlCommon.dylib in Resources */,
+				484D921F0E1E078100BCFC2B /* libRlCore.dylib in Resources */,
+				484D92200E1E078100BCFC2B /* libRlAi.dylib in Resources */,
+				484D92210E1E078100BCFC2B /* libRlRules.dylib in Resources */,
+				484D92220E1E078100BCFC2B /* libRlUi.dylib in Resources */,
+				484D92230E1E078100BCFC2B /* libRlScript.dylib in Resources */,
+				484D92240E1E078100BCFC2B /* libRlFmod4Driver.dylib in Resources */,
+				484D92250E1E078100BCFC2B /* RlScript.bundle in Resources */,
 				8D0C4E8D0486CD37000505A6 /* InfoPlist.strings in Resources */,
 				8D0C4E8E0486CD37000505A6 /* main.nib in Resources */,
 				48D409CE0D9E483300AE5340 /* modules in Resources */,

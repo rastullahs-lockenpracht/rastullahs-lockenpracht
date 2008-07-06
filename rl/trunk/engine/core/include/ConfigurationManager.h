@@ -217,7 +217,17 @@ namespace rl
              * Saves a configuration file in OS specific directory
              */
             void saveConfig() const;
-
+			
+			/**
+			 * Set the path of the started RL executable
+			 */
+			void setExecutablePath(const Ogre::String& path);
+	
+			/**
+			 * Set the path of the started RL executable
+			 */
+			const Ogre::String& getExecutablePath() const;
+	
         private:
 
             /**
@@ -270,7 +280,8 @@ namespace rl
              * @return value if key exits, otherwise NULL
              */
             Ogre::String findSetting(const Ogre::String& section, const Ogre::String& key) const;
-
+			
+			Ogre::String mExecutablePath;             //!< Filename of the running RL executable
             Ogre::String mRastullahCfgFile;           //!< Filename of the Rastullah configuration file
             Ogre::String mOgreLogFile;                //!< Filename of the logfile written by OGRE
             Ogre::String mRastullahLogFile;           //!< Filename of the logfile written by Rastullah

@@ -55,6 +55,10 @@ void RubyInterpreter::initializeInterpreter()
 
     // UTF 8 aktivieren
     execute( "$KCODE = 'u'" );
+	
+	#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
+	addSearchPath(ConfigurationManager::getSingleton().getExecutablePath()+"/../Resources");
+	#endif
 
     //Skript-Verzeichnisse der  Dateien duerfen auch in /script liegen
     ModuleMap modules = CoreSubsystem::getSingleton().getAllModules();
@@ -92,6 +96,7 @@ void RubyInterpreter::setOutputFunction(staticValueMethod func)
 
 void RubyInterpreter::addSearchPath(const Ogre::String& path)
 {
+	LOG_DEBUG("RubyInterpreter", "Search path "+path+" added.");
     ruby_incpush(path.c_str());
 }
 

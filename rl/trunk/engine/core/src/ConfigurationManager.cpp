@@ -51,6 +51,7 @@ namespace rl
     ConfigurationManager::ConfigurationManager()
     {
         // Filenames for log and configuration files
+		mExecutablePath = "./";
         mRastullahCfgFile = "rastullah.conf";
         mOgreLogFile = "ogre.log";
         mCeguiLogFile = "cegui.log";
@@ -382,12 +383,25 @@ namespace rl
     {
         return Ogre::String("config/keymap-german.xml");
     }
+	
+	void ConfigurationManager::setExecutablePath(const Ogre::String& path)
+	{
+		mExecutablePath = path;
+	}
+
+	const Ogre::String& ConfigurationManager::getExecutablePath() const
+	{
+		return mExecutablePath;
+	}
 
     void ConfigurationManager::setRastullahCfgPath()
     {
         // First try: Current directory
         addToCfgPath("./");
 
+#		if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
+		addToCfgPath(mExecutablePath + "/../Resources/modules/config/");
+#		endif
 #       if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
         // Check system wide /etc/rastullah directory
         addToCfgPath("/etc/rastullah/");
@@ -421,9 +435,12 @@ namespace rl
     {
         try {
 #           if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+			std::cout << "Checking for " << fs::complete(filename);
             if (fs::exists(filename))
 #           else
-            if (fs::exists(fs::path(filename, fs::portable_posix_name)))
+			std::cout << "Checking for " << 
+				fs::complete(fs::path(filename, fs::portable_posix_name)).string();
+			if (fs::exists(fs::path(filename, fs::portable_posix_name)))
 #           endif
             {
                 return true;
