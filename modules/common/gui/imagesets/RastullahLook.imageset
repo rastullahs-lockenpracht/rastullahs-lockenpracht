@@ -5,7 +5,7 @@
     <Image Name="GenericBrush"  XPos="40" YPos="350" Width="1" Height="1" />
 
     <!-- Rastullah/FrameWindow -->
-    <Image Name="WindowBackground" XPos="256" YPos="1" Width="254" Height="254" />    
+    <Image Name="WindowBackground" XPos="40" YPos="295" Width="5" Height="5" />    
     <Image Name="WindowLeftEdge" XPos="30" YPos="302" Width="18" Height="2" />
     <Image Name="WindowRightEdge" XPos="56" YPos="302" Width="18" Height="2" />
     <Image Name="WindowTopEdge" XPos="51" YPos="281" Width="2" Height="18"  />
