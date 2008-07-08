@@ -664,6 +664,8 @@
 		48B772E30D583521000A3B97 /* XmlProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B772E00D583521000A3B97 /* XmlProcessor.cpp */; };
 		48B772E40D583521000A3B97 /* XmlPropertyReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B772E10D583521000A3B97 /* XmlPropertyReader.cpp */; };
 		48B772E50D583521000A3B97 /* XmlPropertyWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B772E20D583521000A3B97 /* XmlPropertyWriter.cpp */; };
+		48D0BDC70E23375E00863824 /* libruby.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 483646A10D83D57800912FEC /* libruby.dylib */; };
+		48D0BDE60E23378700863824 /* libboost_filesystem.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52B210E0EDA0E008DBDD8 /* libboost_filesystem.dylib */; };
 		48D34A630D90F5D500C89477 /* SaveGameData.h in Headers */ = {isa = PBXBuildFile; fileRef = 48D34A610D90F5D500C89477 /* SaveGameData.h */; };
 		48D34A640D90F5D500C89477 /* SaveGameData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48D34A620D90F5D500C89477 /* SaveGameData.cpp */; };
 		48D34A7D0D91C7D800C89477 /* SaveGameFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A056E0D71EDC40024198D /* SaveGameFile.h */; };
@@ -826,6 +828,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				48D0BDE60E23378700863824 /* libboost_filesystem.dylib in Copy Frameworks */,
+				48D0BDC70E23375E00863824 /* libruby.dylib in Copy Frameworks */,
 				484D92140E1E060200BCFC2B /* Xerces.framework in Copy Frameworks */,
 				484D92150E1E060200BCFC2B /* OIS.framework in Copy Frameworks */,
 				484D8D0B0E1E05F400BCFC2B /* OgreCEGUIRenderer.framework in Copy Frameworks */,
@@ -2868,6 +2872,7 @@
 				8D0C4E8F0486CD37000505A6 /* Sources */,
 				8D0C4E910486CD37000505A6 /* Frameworks */,
 				484D8D0A0E1E058D00BCFC2B /* Copy Frameworks */,
+				48D0BDF20E2342F600863824 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2950,6 +2955,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "pwd\ncd ../engine/script/swig\n/usr/local/bin/swig -ruby -minherit -c++ -Fmicrosoft -addextern RlExports.i";
+		};
+		48D0BDF20E2342F600863824 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SOURCE_ROOT}/tools/renameinstalldirs.sh ${BUILT_PRODUCTS_DIR}/Rastullah.app/Contents/MacOS/Rastullah\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
