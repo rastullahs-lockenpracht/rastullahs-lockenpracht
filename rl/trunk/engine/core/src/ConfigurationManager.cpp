@@ -384,9 +384,11 @@ namespace rl
         return Ogre::String("config/keymap-german.xml");
     }
 	
-	void ConfigurationManager::setExecutablePath(const Ogre::String& path)
+	void ConfigurationManager::setExecutable(const Ogre::String& path)
 	{
-		mExecutablePath = path;
+		fs::path exeAbsolute(path, fs::portable_posix_name);
+		
+		mExecutablePath = exeAbsolute.remove_leaf().string();
 	}
 
 	const Ogre::String& ConfigurationManager::getExecutablePath() const

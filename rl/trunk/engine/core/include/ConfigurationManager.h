@@ -219,9 +219,9 @@ namespace rl
             void saveConfig() const;
 			
 			/**
-			 * Set the path of the started RL executable
+			 * Extract the path of the started RL executable
 			 */
-			void setExecutablePath(const Ogre::String& path);
+			void setExecutable(const Ogre::String& executableFile);
 	
 			/**
 			 * Set the path of the started RL executable

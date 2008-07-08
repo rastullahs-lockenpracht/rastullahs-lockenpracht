@@ -37,7 +37,7 @@
     #include <shellapi.h>
 #endif
 
-void startupRl(bool developerMode, Ogre::String module, Ogre::String executablePath)
+void startupRl(bool developerMode, const Ogre::String& module, const Ogre::String& executable)
 {
     rl::CoreSubsystem* core = NULL;
     rl::RulesSubsystem* rules = NULL;
@@ -49,7 +49,7 @@ void startupRl(bool developerMode, Ogre::String module, Ogre::String executableP
 #ifndef _DEBUG
     try {
 #endif // #ifndef _DEBUG
-		rl::ConfigurationManager::getSingleton().setExecutablePath(executablePath);
+		rl::ConfigurationManager::getSingleton().setExecutable(executable);
         rl::ConfigurationManager::getSingleton().loadConfig();
 
         Ogre::String logDir = rl::ConfigurationManager::getSingleton().getRastullahLogDirectory();
@@ -153,12 +153,11 @@ void startupRl(bool developerMode, Ogre::String module, Ogre::String executableP
 }
 
 void analyzeParameters(int argc, char** argv, 
-	bool& developerMode, Ogre::String& startModule, Ogre::String& executablePath)
+	bool& developerMode, Ogre::String& startModule, Ogre::String& executable)
 {
     developerMode = false;
     startModule = "";
-	Ogre::String executable = argv[0];
-	executablePath = executable.substr(0, executable.find_last_of("/"));
+	executable = argv[0];
 
     for (int argIdx = 1; argIdx < argc; argIdx++)
     {
@@ -187,8 +186,8 @@ INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
 
     bool developer;
     Ogre::String module;
-	Ogre::String executablePath;
-    analyzeParameters(argc, argv, developer, module, executablePath);
+	Ogre::String executable;
+    analyzeParameters(argc, argv, developer, module, executable);
 
     for (int argIdx = 0; argIdx < argc; argIdx++)
     {
@@ -197,7 +196,7 @@ INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
     delete[] argv;
     LocalFree(argList);
 
-    startupRl(developer, module, executablePath);
+    startupRl(developer, module, executable);
 
     return 0;
 }
@@ -208,10 +207,10 @@ int main(int argc, char **argv)
 {
     bool developer;
     Ogre::String module;
-	Ogre::String executablePath;
+	Ogre::String executable;
 
-    analyzeParameters(argc, argv, developer, module, executablePath);
-    startupRl(developer, module, executablePath);
+    analyzeParameters(argc, argv, developer, module, executable);
+    startupRl(developer, module, executable);
 
     return 0;
 }
