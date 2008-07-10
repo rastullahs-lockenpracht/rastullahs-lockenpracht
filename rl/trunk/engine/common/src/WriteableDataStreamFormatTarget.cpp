@@ -27,9 +27,11 @@ namespace rl
 
     void WriteableDataStreamFormatTarget::writeChars (const XMLByte *const toWrite, const unsigned int count, XERCES_CPP_NAMESPACE::XMLFormatter *const formatter)
     {
+        mStream->write((char*)toWrite, count);
     }
 
     void WriteableDataStreamFormatTarget::flush ()
     {
+        mStream->flush();
     }
 }
