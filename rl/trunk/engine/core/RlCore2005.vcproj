@@ -568,6 +568,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\SaveAble.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SaveAbleCollection.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SaveAbleFactory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SaveAbleManager.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\SaveGameData.h"
 				>
 			</File>
@@ -870,6 +886,22 @@
 			</File>
 			<File
 				RelativePath=".\src\RubyInterpreter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SaveAble.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SaveAbleCollection.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SaveAbleFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SaveAbleManager.cpp"
 				>
 			</File>
 			<File

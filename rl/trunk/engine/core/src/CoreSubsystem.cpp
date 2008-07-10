@@ -39,6 +39,7 @@
 #include "ScriptWrapper.h"
 #include "SoundManager.h"
 #include "TimeSource.h"
+#include "WriteableFileSystemArchiv.h"
 #include "ZoneManager.h"
 
 #include <ctime>
@@ -181,6 +182,9 @@ namespace rl
         // By not specifying the first two parameters, OGRE will not try
         // to load plugins.cfg and ogre.cfg
         mOgreRoot = new Root("", "", ConfigurationManager::getSingleton().getOgreLogFile());
+
+        WriteableFileSystemArchiveFactory* factory = new WriteableFileSystemArchiveFactory();
+        ArchiveManager::getSingleton().addArchiveFactory(factory);
 
         // Load Ogre plugins
         Ogre::StringVector pluginList = ConfigurationManager::getSingleton().getPluginList();
