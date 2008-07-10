@@ -18,6 +18,9 @@ noinst_HEADERS =
     ScriptWrapper.h \
 	Sleep.h \
 	Tripel.h \
+	WriteableDataStream.h \
+	WriteableDataStreamFormatTarget.h \
+	WriteableFileSystemArchiv.h \
 	XmlProcessor.h \
     XmlPropertyReader.h \
 	XmlPropertyWriter.h \

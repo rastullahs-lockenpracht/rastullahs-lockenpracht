@@ -55,6 +55,10 @@
 	PrimitiveObject.h \
 	QuadTree.h \
 	RubyInterpreter.h \
+	SaveAble.h \
+	SaveAbleCollection.h \
+	SaveAbleFactory.h \
+	SaveAbleManager.h \
 	SaveGameFile.h \
 	SaveGameFileReader.h \
 	SaveGameFileWriter.h \

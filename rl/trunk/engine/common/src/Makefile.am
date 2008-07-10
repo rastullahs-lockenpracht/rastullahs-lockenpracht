@@ -14,6 +14,9 @@ libRlCommon_la_SOURCES = \
   Properties.cpp \
   Property.cpp \
   ScriptWrapper.cpp \
+  WriteableDataStream.cpp \
+  WriteableDataStreamFormatTarget.cpp \
+  WriteableFileSystemArchiv.cpp \
   XmlProcessor.cpp \
   XmlPropertyReader.cpp \
   XmlPropertyWriter.cpp \
