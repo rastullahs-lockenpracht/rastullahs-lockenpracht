@@ -117,4 +117,15 @@ namespace rl
         if(cr == NULL) { cr = dialog->getPc(0);}
         return Property(cr->doEigenschaftsprobe(mEigenschaft, mModifier));
     }
+	
+	RandomVariable::RandomVariable(int maximum)
+		: DialogVariable("random"), mMaximum(maximum)
+	{
+	}
+	
+	Property RandomVariable::calculateValue(Dialog* dialog)
+	{
+		double d = std::rand();
+        return Property(static_cast<int>(d * mMaximum / RAND_MAX) + 1);
+	}
 }

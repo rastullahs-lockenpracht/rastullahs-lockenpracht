@@ -95,6 +95,18 @@ namespace rl
         CeGuiString mTarget;
         int mModifier;
     };
+	
+	class RandomVariable : public DialogVariable
+	{
+	public:
+		RandomVariable(int maximum);
+		
+	protected:
+		virtual Property calculateValue(Dialog* dialog);
+		
+	private:
+		int mMaximum;
+	};
 }
 
 #endif //__DialogVariable_H__

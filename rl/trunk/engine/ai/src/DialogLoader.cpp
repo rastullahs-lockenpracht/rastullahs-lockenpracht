@@ -674,6 +674,11 @@ namespace rl
             }
             return new TalentProbeVariable(attr, modifier, target);
         }
+		else if (hasNodeName(variableXml, "random"))
+		{
+			int maximum = getAttributeValueAsInteger(variableXml, "maximum");
+			return new RandomVariable(maximum);
+		}
 
         return NULL;
     }
