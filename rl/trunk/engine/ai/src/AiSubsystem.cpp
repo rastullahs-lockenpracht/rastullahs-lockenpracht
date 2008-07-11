@@ -72,7 +72,6 @@ void AiSubsystem::initialize()
 	mWayPointGraphManager = new WayPointGraphManager();
     mWorld = new AiWorld();
     mDialogManager = new DialogManager();
-    Ogre::ResourceGroupManager::getSingleton()._registerScriptLoader(mDialogManager);
 
     mSceneLoadedConnection =
         MessagePump::getSingleton().addMessageHandler<MessageType_SceneLoaded>(

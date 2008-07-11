@@ -21,6 +21,7 @@ libRlAi_la_SOURCES = \
 	DialogCondition.cpp \
 	DialogElement.cpp \
 	DialogImplication.cpp \
+	DialogLoader.cpp \
 	DialogManager.cpp \
 	DialogOption.cpp \
 	DialogParagraph.cpp \

@@ -666,6 +666,22 @@
 		48B772E50D583521000A3B97 /* XmlPropertyWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B772E20D583521000A3B97 /* XmlPropertyWriter.cpp */; };
 		48D0BDC70E23375E00863824 /* libruby.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 483646A10D83D57800912FEC /* libruby.dylib */; };
 		48D0BDE60E23378700863824 /* libboost_filesystem.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52B210E0EDA0E008DBDD8 /* libboost_filesystem.dylib */; };
+		48D0BE2C0E273C5E00863824 /* SaveAble.h in Headers */ = {isa = PBXBuildFile; fileRef = 48D0BE280E273C5E00863824 /* SaveAble.h */; };
+		48D0BE2D0E273C5E00863824 /* SaveAbleCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 48D0BE290E273C5E00863824 /* SaveAbleCollection.h */; };
+		48D0BE2E0E273C5E00863824 /* SaveAbleFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 48D0BE2A0E273C5E00863824 /* SaveAbleFactory.h */; };
+		48D0BE2F0E273C5E00863824 /* SaveAbleManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 48D0BE2B0E273C5E00863824 /* SaveAbleManager.h */; };
+		48D0BE330E273C8000863824 /* WriteableDataStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 48D0BE300E273C8000863824 /* WriteableDataStream.h */; };
+		48D0BE340E273C8000863824 /* WriteableDataStreamFormatTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 48D0BE310E273C8000863824 /* WriteableDataStreamFormatTarget.h */; };
+		48D0BE350E273C8000863824 /* WriteableFileSystemArchiv.h in Headers */ = {isa = PBXBuildFile; fileRef = 48D0BE320E273C8000863824 /* WriteableFileSystemArchiv.h */; };
+		48D0BE390E273C9700863824 /* WriteableDataStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48D0BE360E273C9700863824 /* WriteableDataStream.cpp */; };
+		48D0BE3A0E273C9700863824 /* WriteableDataStreamFormatTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48D0BE370E273C9700863824 /* WriteableDataStreamFormatTarget.cpp */; };
+		48D0BE3B0E273C9700863824 /* WriteableFileSystemArchiv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48D0BE380E273C9700863824 /* WriteableFileSystemArchiv.cpp */; };
+		48D0BE400E273CB000863824 /* SaveAble.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48D0BE3C0E273CB000863824 /* SaveAble.cpp */; };
+		48D0BE410E273CB000863824 /* SaveAbleCollection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48D0BE3D0E273CB000863824 /* SaveAbleCollection.cpp */; };
+		48D0BE420E273CB000863824 /* SaveAbleFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48D0BE3E0E273CB000863824 /* SaveAbleFactory.cpp */; };
+		48D0BE430E273CB000863824 /* SaveAbleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48D0BE3F0E273CB000863824 /* SaveAbleManager.cpp */; };
+		48D0BE690E273FF400863824 /* DialogLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 48D0BE680E273FF400863824 /* DialogLoader.h */; };
+		48D0BE6D0E27401E00863824 /* DialogLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48D0BE6B0E27401E00863824 /* DialogLoader.cpp */; };
 		48D34A630D90F5D500C89477 /* SaveGameData.h in Headers */ = {isa = PBXBuildFile; fileRef = 48D34A610D90F5D500C89477 /* SaveGameData.h */; };
 		48D34A640D90F5D500C89477 /* SaveGameData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48D34A620D90F5D500C89477 /* SaveGameData.cpp */; };
 		48D34A7D0D91C7D800C89477 /* SaveGameFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A056E0D71EDC40024198D /* SaveGameFile.h */; };
@@ -1457,6 +1473,22 @@
 		48B772E00D583521000A3B97 /* XmlProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XmlProcessor.cpp; path = ../engine/common/src/XmlProcessor.cpp; sourceTree = SOURCE_ROOT; };
 		48B772E10D583521000A3B97 /* XmlPropertyReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XmlPropertyReader.cpp; path = ../engine/common/src/XmlPropertyReader.cpp; sourceTree = SOURCE_ROOT; };
 		48B772E20D583521000A3B97 /* XmlPropertyWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XmlPropertyWriter.cpp; path = ../engine/common/src/XmlPropertyWriter.cpp; sourceTree = SOURCE_ROOT; };
+		48D0BE280E273C5E00863824 /* SaveAble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveAble.h; path = ../engine/core/include/SaveAble.h; sourceTree = SOURCE_ROOT; };
+		48D0BE290E273C5E00863824 /* SaveAbleCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveAbleCollection.h; path = ../engine/core/include/SaveAbleCollection.h; sourceTree = SOURCE_ROOT; };
+		48D0BE2A0E273C5E00863824 /* SaveAbleFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveAbleFactory.h; path = ../engine/core/include/SaveAbleFactory.h; sourceTree = SOURCE_ROOT; };
+		48D0BE2B0E273C5E00863824 /* SaveAbleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveAbleManager.h; path = ../engine/core/include/SaveAbleManager.h; sourceTree = SOURCE_ROOT; };
+		48D0BE300E273C8000863824 /* WriteableDataStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WriteableDataStream.h; path = ../engine/common/include/WriteableDataStream.h; sourceTree = SOURCE_ROOT; };
+		48D0BE310E273C8000863824 /* WriteableDataStreamFormatTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WriteableDataStreamFormatTarget.h; path = ../engine/common/include/WriteableDataStreamFormatTarget.h; sourceTree = SOURCE_ROOT; };
+		48D0BE320E273C8000863824 /* WriteableFileSystemArchiv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WriteableFileSystemArchiv.h; path = ../engine/common/include/WriteableFileSystemArchiv.h; sourceTree = SOURCE_ROOT; };
+		48D0BE360E273C9700863824 /* WriteableDataStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WriteableDataStream.cpp; path = ../engine/common/src/WriteableDataStream.cpp; sourceTree = SOURCE_ROOT; };
+		48D0BE370E273C9700863824 /* WriteableDataStreamFormatTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WriteableDataStreamFormatTarget.cpp; path = ../engine/common/src/WriteableDataStreamFormatTarget.cpp; sourceTree = SOURCE_ROOT; };
+		48D0BE380E273C9700863824 /* WriteableFileSystemArchiv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WriteableFileSystemArchiv.cpp; path = ../engine/common/src/WriteableFileSystemArchiv.cpp; sourceTree = SOURCE_ROOT; };
+		48D0BE3C0E273CB000863824 /* SaveAble.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SaveAble.cpp; path = ../engine/core/src/SaveAble.cpp; sourceTree = SOURCE_ROOT; };
+		48D0BE3D0E273CB000863824 /* SaveAbleCollection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SaveAbleCollection.cpp; path = ../engine/core/src/SaveAbleCollection.cpp; sourceTree = SOURCE_ROOT; };
+		48D0BE3E0E273CB000863824 /* SaveAbleFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SaveAbleFactory.cpp; path = ../engine/core/src/SaveAbleFactory.cpp; sourceTree = SOURCE_ROOT; };
+		48D0BE3F0E273CB000863824 /* SaveAbleManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SaveAbleManager.cpp; path = ../engine/core/src/SaveAbleManager.cpp; sourceTree = SOURCE_ROOT; };
+		48D0BE680E273FF400863824 /* DialogLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogLoader.h; path = ../engine/ai/include/DialogLoader.h; sourceTree = SOURCE_ROOT; };
+		48D0BE6B0E27401E00863824 /* DialogLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DialogLoader.cpp; path = ../engine/ai/src/DialogLoader.cpp; sourceTree = SOURCE_ROOT; };
 		48D34A610D90F5D500C89477 /* SaveGameData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveGameData.h; path = ../engine/core/include/SaveGameData.h; sourceTree = SOURCE_ROOT; };
 		48D34A620D90F5D500C89477 /* SaveGameData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SaveGameData.cpp; path = ../engine/core/src/SaveGameData.cpp; sourceTree = SOURCE_ROOT; };
 		48D401810D9E483200AE5340 /* modules */ = {isa = PBXFileReference; lastKnownFileType = folder; name = modules; path = ../../../modules; sourceTree = SOURCE_ROOT; };
@@ -1692,6 +1724,12 @@
 		444EAB1F0BD0E25C00C6D4A0 /* RlCommon */ = {
 			isa = PBXGroup;
 			children = (
+				48D0BE360E273C9700863824 /* WriteableDataStream.cpp */,
+				48D0BE370E273C9700863824 /* WriteableDataStreamFormatTarget.cpp */,
+				48D0BE380E273C9700863824 /* WriteableFileSystemArchiv.cpp */,
+				48D0BE300E273C8000863824 /* WriteableDataStream.h */,
+				48D0BE310E273C8000863824 /* WriteableDataStreamFormatTarget.h */,
+				48D0BE320E273C8000863824 /* WriteableFileSystemArchiv.h */,
 				485A056A0D71EDC40024198D /* MessageObject.h */,
 				485A057E0D71EDF20024198D /* MessagePump.cpp */,
 				485A056B0D71EDC40024198D /* MessagePump.h */,
@@ -1742,6 +1780,14 @@
 		444EAB200BD0E27400C6D4A0 /* RlCore */ = {
 			isa = PBXGroup;
 			children = (
+				48D0BE3C0E273CB000863824 /* SaveAble.cpp */,
+				48D0BE3D0E273CB000863824 /* SaveAbleCollection.cpp */,
+				48D0BE3E0E273CB000863824 /* SaveAbleFactory.cpp */,
+				48D0BE3F0E273CB000863824 /* SaveAbleManager.cpp */,
+				48D0BE280E273C5E00863824 /* SaveAble.h */,
+				48D0BE290E273C5E00863824 /* SaveAbleCollection.h */,
+				48D0BE2A0E273C5E00863824 /* SaveAbleFactory.h */,
+				48D0BE2B0E273C5E00863824 /* SaveAbleManager.h */,
 				485A05860D71EDF20024198D /* Trigger.cpp */,
 				48389C100D86798600AFAB66 /* SoundStitchingObject.cpp */,
 				48389C0E0D86797000AFAB66 /* SoundStitchingObject.h */,
@@ -1976,6 +2022,8 @@
 				444EAC680BD0E52E00C6D4A0 /* WayPointGraph.cpp */,
 				444EAC690BD0E52E00C6D4A0 /* WayPointGraphManager.cpp */,
 				444EAC6A0BD0E52E00C6D4A0 /* WayPointNode.cpp */,
+				48D0BE680E273FF400863824 /* DialogLoader.h */,
+				48D0BE6B0E27401E00863824 /* DialogLoader.cpp */,
 			);
 			name = RlAi;
 			sourceTree = "<group>";
@@ -2388,6 +2436,9 @@
 				485A05740D71EDC40024198D /* MessageObject.h in Headers */,
 				485A05750D71EDC40024198D /* MessagePump.h in Headers */,
 				485A05760D71EDC40024198D /* MessageType.h in Headers */,
+				48D0BE330E273C8000863824 /* WriteableDataStream.h in Headers */,
+				48D0BE340E273C8000863824 /* WriteableDataStreamFormatTarget.h in Headers */,
+				48D0BE350E273C8000863824 /* WriteableFileSystemArchiv.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2476,6 +2527,10 @@
 				48D34A7F0D91C7D800C89477 /* SaveGameFileReader.h in Headers */,
 				48D34A800D91C7D800C89477 /* SaveGameFileWriter.h in Headers */,
 				48D34A810D91C7D800C89477 /* SaveGameManager.h in Headers */,
+				48D0BE2C0E273C5E00863824 /* SaveAble.h in Headers */,
+				48D0BE2D0E273C5E00863824 /* SaveAbleCollection.h in Headers */,
+				48D0BE2E0E273C5E00863824 /* SaveAbleFactory.h in Headers */,
+				48D0BE2F0E273C5E00863824 /* SaveAbleManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2521,6 +2576,7 @@
 				483D31620D85B398003477A0 /* DialogVariable.h in Headers */,
 				483D31630D85B398003477A0 /* SimpleVehicle.h in Headers */,
 				483D31640D85B398003477A0 /* WalkPathBehaviour.h in Headers */,
+				48D0BE690E273FF400863824 /* DialogLoader.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2992,6 +3048,9 @@
 				48B772E40D583521000A3B97 /* XmlPropertyReader.cpp in Sources */,
 				48B772E50D583521000A3B97 /* XmlPropertyWriter.cpp in Sources */,
 				485A05880D71EDF20024198D /* MessagePump.cpp in Sources */,
+				48D0BE390E273C9700863824 /* WriteableDataStream.cpp in Sources */,
+				48D0BE3A0E273C9700863824 /* WriteableDataStreamFormatTarget.cpp in Sources */,
+				48D0BE3B0E273C9700863824 /* WriteableFileSystemArchiv.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3072,6 +3131,10 @@
 				48389C290D867B1A00AFAB66 /* Trigger.cpp in Sources */,
 				48389C2C0D867B2A00AFAB66 /* PolynomicSoundFadeFunctor.cpp in Sources */,
 				48D34A640D90F5D500C89477 /* SaveGameData.cpp in Sources */,
+				48D0BE400E273CB000863824 /* SaveAble.cpp in Sources */,
+				48D0BE410E273CB000863824 /* SaveAbleCollection.cpp in Sources */,
+				48D0BE420E273CB000863824 /* SaveAbleFactory.cpp in Sources */,
+				48D0BE430E273CB000863824 /* SaveAbleManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3113,6 +3176,7 @@
 				48389BC00D8675E700AFAB66 /* DialogParagraph.cpp in Sources */,
 				48389BC10D8675E700AFAB66 /* DialogResponse.cpp in Sources */,
 				48389BC20D8675E700AFAB66 /* DialogVariable.cpp in Sources */,
+				48D0BE6D0E27401E00863824 /* DialogLoader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
