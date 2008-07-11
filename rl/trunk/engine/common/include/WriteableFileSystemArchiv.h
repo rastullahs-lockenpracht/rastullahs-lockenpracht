@@ -19,7 +19,11 @@
 
 #include "CommonPrerequisites.h"
 
-#include "OgreFileSystem.h"
+#ifdef __APPLE__
+#include <Ogre/OgreFileSystem.h>
+#else
+#include <OgreFileSystem.h>
+#endif
 
 namespace rl {
 

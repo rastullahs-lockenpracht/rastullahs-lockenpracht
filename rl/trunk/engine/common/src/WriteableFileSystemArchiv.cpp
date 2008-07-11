@@ -16,17 +16,12 @@
 
 #include "stdinc.h"
 
-#include "OgreStableHeaders.h"
-#include "OgreLogManager.h"
-#include "OgreException.h"
-#include "OgreStringVector.h"
-#include "OgreRoot.h"
-
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#include "WriteableFileSystemArchiv.h"
+
 #if OGRE_PLATFORM == OGRE_PLATFORM_LINUX || OGRE_PLATFORM == OGRE_PLATFORM_APPLE
-#   include "OgreSearchOps.h"
 #   include <sys/param.h>
 #   define MAX_PATH MAXPATHLEN
 #endif
@@ -37,8 +32,7 @@
 #   include <io.h>
 #endif
 
-#include "WriteableFileSystemArchiv.h"
-#include "WriteableFileStreamDataStream.h"
+#include "WriteableDataStream.h"
 
 using namespace Ogre;
 
