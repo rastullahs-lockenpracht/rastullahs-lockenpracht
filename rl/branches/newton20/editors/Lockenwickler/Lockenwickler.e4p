@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Project SYSTEM "Project-4.2.dtd">
+<!-- eric4 project file for project Lockenwickler -->
+<!-- Saved: 2008-06-23, 19:40:36 -->
+<!-- Copyright (C) 2008 Stefan Stammberger, sstammberger@web.de -->
+<Project version="4.2">
+  <ProgLanguage mixed="0">Python</ProgLanguage>
+  <ProjectType>Qt4</ProjectType>
+  <Description>Lockenwickler is an Editor application for the Rastulahs Lockenpracht game.</Description>
+  <Version>0.1</Version>
+  <Author>Stefan Stammberger</Author>
+  <Email>sstammberger@web.de</Email>
+  <Sources>
+    <Source>
+      <Dir>src</Dir>
+      <Name>Lockenwickler.py</Name>
+    </Source>
+    <Source>
+      <Dir>src</Dir>
+      <Name>ConsoleWindow.py</Name>
+    </Source>
+    <Source>
+      <Dir>src</Dir>
+      <Name>ModelSelectionDialog.py</Name>
+    </Source>
+    <Source>
+      <Dir>src</Dir>
+      <Name>ModuleManager.py</Name>
+    </Source>
+    <Source>
+      <Dir>src</Dir>
+      <Name>MovePivot.py</Name>
+    </Source>
+    <Source>
+      <Dir>src</Dir>
+      <Name>ObjectPropertyWin.py</Name>
+    </Source>
+    <Source>
+      <Dir>src</Dir>
+      <Name>OdeManager.py</Name>
+    </Source>
+    <Source>
+      <Dir>src</Dir>
+      <Name>OgreMainWindow.py</Name>
+    </Source>
+    <Source>
+      <Dir>src</Dir>
+      <Name>OgreWidget.py</Name>
+    </Source>
+    <Source>
+      <Dir>src</Dir>
+      <Name>PreferencesDialog.py</Name>
+    </Source>
+    <Source>
+      <Dir>src</Dir>
+      <Name>PythonOgreConfig.py</Name>
+    </Source>
+    <Source>
+      <Dir>src</Dir>
+      <Name>ui_ConsoleWindow.py</Name>
+    </Source>
+    <Source>
+      <Dir>src</Dir>
+      <Name>ui_FourPanelView.py</Name>
+    </Source>
+    <Source>
+      <Dir>src</Dir>
+      <Name>ui_lw.py</Name>
+    </Source>
+    <Source>
+      <Dir>src</Dir>
+      <Name>ui_model_prev.py</Name>
+    </Source>
+    <Source>
+      <Dir>src</Dir>
+      <Name>ui_obj_prop.py</Name>
+    </Source>
+    <Source>
+      <Dir>src</Dir>
+      <Name>ui_pref_dialog.py</Name>
+    </Source>
+    <Source>
+      <Dir>ui files</Dir>
+      <Name>batch_convert_ui.py</Name>
+    </Source>
+    <Source>
+      <Dir>ui files</Dir>
+      <Name>ui_ConsoleWindow.py</Name>
+    </Source>
+    <Source>
+      <Dir>ui files</Dir>
+      <Name>ui_FourPanelView.py</Name>
+    </Source>
+    <Source>
+      <Dir>ui files</Dir>
+      <Name>ui_lw.py</Name>
+    </Source>
+    <Source>
+      <Dir>ui files</Dir>
+      <Name>ui_model_prev.py</Name>
+    </Source>
+    <Source>
+      <Dir>ui files</Dir>
+      <Name>ui_obj_prop.py</Name>
+    </Source>
+    <Source>
+      <Dir>ui files</Dir>
+      <Name>ui_pref_dialog.py</Name>
+    </Source>
+  </Sources>
+  <Forms>
+    <Form>
+      <Dir>ui files</Dir>
+      <Name>console_window.ui</Name>
+    </Form>
+    <Form>
+      <Dir>ui files</Dir>
+      <Name>FourPanelView.ui</Name>
+    </Form>
+    <Form>
+      <Dir>ui files</Dir>
+      <Name>lockewickler.ui</Name>
+    </Form>
+    <Form>
+      <Dir>ui files</Dir>
+      <Name>model_preview.ui</Name>
+    </Form>
+    <Form>
+      <Dir>ui files</Dir>
+      <Name>object_property.ui</Name>
+    </Form>
+    <Form>
+      <Dir>ui files</Dir>
+      <Name>preferences_dialog.ui</Name>
+    </Form>
+  </Forms>
+  <Translations>
+  </Translations>
+  <Resources>
+  </Resources>
+  <Interfaces>
+  </Interfaces>
+  <Others>
+  </Others>
+  <MainScript>
+    <Dir>src</Dir>
+    <Name>Lockenwickler.py</Name>
+  </MainScript>
+  <Vcs>
+    <VcsType>None</VcsType>
+  </Vcs>
+  <FiletypeAssociations>
+    <FiletypeAssociation pattern="*.ui" type="FORMS" />
+    <FiletypeAssociation pattern="*.idl" type="INTERFACES" />
+    <FiletypeAssociation pattern="*.ptl" type="SOURCES" />
+    <FiletypeAssociation pattern="*.pyw" type="SOURCES" />
+    <FiletypeAssociation pattern="*.ui.h" type="FORMS" />
+    <FiletypeAssociation pattern="*.py" type="SOURCES" />
+    <FiletypeAssociation pattern="*.qrc" type="RESOURCES" />
+  </FiletypeAssociations>
+</Project>

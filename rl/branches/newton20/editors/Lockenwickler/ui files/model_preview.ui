@@ -1,0 +1,56 @@
+<ui version="4.0" >
+ <class>modelPreviewDialog</class>
+ <widget class="QDialog" name="modelPreviewDialog" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>272</width>
+    <height>744</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Dialog</string>
+  </property>
+  <layout class="QGridLayout" >
+   <item row="0" column="0" >
+    <widget class="QLineEdit" name="modelSearchBox" />
+   </item>
+   <item row="1" column="0" >
+    <widget class="QSplitter" name="splitter" >
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <widget class="QListWidget" name="listWidget" />
+     <widget class="QWidget" native="1" name="modelPreviewWindow" >
+      <property name="minimumSize" >
+       <size>
+        <width>200</width>
+        <height>200</height>
+       </size>
+      </property>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>modelSearchBox</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>listWidget</receiver>
+   <slot>clearSelection()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>115</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>114</x>
+     <y>48</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

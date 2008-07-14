@@ -1,0 +1,108 @@
+<ui version="4.0" >
+ <author>Stefan Stammberger</author>
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>660</width>
+    <height>657</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <layout class="QHBoxLayout" >
+    <item>
+     <layout class="QGridLayout" >
+      <item row="0" column="0" >
+       <widget class="QWidget" native="1" name="ogreRenderWindow" >
+        <property name="minimumSize" >
+         <size>
+          <width>250</width>
+          <height>250</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>660</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile" >
+    <property name="title" >
+     <string>File</string>
+    </property>
+    <addaction name="actionNeu" />
+    <addaction name="actionClose" />
+   </widget>
+   <widget class="QMenu" name="menuView" >
+    <property name="title" >
+     <string>View</string>
+    </property>
+    <addaction name="actionSceneGraph" />
+    <addaction name="actionPreferences" />
+    <addaction name="actionProperty_Window" />
+    <addaction name="actionObject_Selection" />
+    <addaction name="actionConsole_Window" />
+   </widget>
+   <addaction name="menuFile" />
+   <addaction name="menuView" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+  <action name="actionNeu" >
+   <property name="text" >
+    <string>Neu</string>
+   </property>
+  </action>
+  <action name="actionSceneGraph" >
+   <property name="checkable" >
+    <bool>false</bool>
+   </property>
+   <property name="text" >
+    <string>SceneGraph</string>
+   </property>
+  </action>
+  <action name="actionPreferences" >
+   <property name="checkable" >
+    <bool>false</bool>
+   </property>
+   <property name="text" >
+    <string>Preferences</string>
+   </property>
+  </action>
+  <action name="actionProperty_Window" >
+   <property name="text" >
+    <string>Property Window</string>
+   </property>
+  </action>
+  <action name="actionObject_Selection" >
+   <property name="text" >
+    <string>Object Selection</string>
+   </property>
+  </action>
+  <action name="actionClose" >
+   <property name="text" >
+    <string>Quit</string>
+   </property>
+  </action>
+  <action name="actionConsole_Window" >
+   <property name="text" >
+    <string>Console Window</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
