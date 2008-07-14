@@ -28,7 +28,7 @@ namespace rl
     RotateMovement::RotateMovement(CreatureController *creature) : AbstractMovement(creature), mYaw(0)
     {
         mRotLinearSpringK = 600.0f;
-        Real relationCoefficient = 1.0f;
+        Real relationCoefficient = 1.1f;
         mRotLinearDampingK = relationCoefficient * 2.0f * Math::Sqrt(mRotLinearSpringK);
     }
 

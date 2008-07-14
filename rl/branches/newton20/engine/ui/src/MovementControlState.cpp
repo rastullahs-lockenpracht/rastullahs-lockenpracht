@@ -224,18 +224,21 @@ namespace rl {
         mat_pair->setContactCallback(this);
         mat_pair->setDefaultCollidable(1);
         mat_pair->setDefaultFriction(0,0);
+        mat_pair->setDefaultFriction(0,1);
         mat_pair = PhysicsManager::getSingleton().createMaterialPair(
             PhysicsManager::getSingleton().getMaterialID("camera"),
             PhysicsManager::getSingleton().getMaterialID("level"));
         mat_pair->setContactCallback(this);
         mat_pair->setDefaultCollidable(1);
         mat_pair->setDefaultFriction(0,0);
+        mat_pair->setDefaultFriction(0,1);
         mat_pair = PhysicsManager::getSingleton().createMaterialPair(
             PhysicsManager::getSingleton().getMaterialID("camera"),
             PhysicsManager::getSingleton().getMaterialID("character"));
         mat_pair->setContactCallback(this);
         mat_pair->setDefaultCollidable(1);
         mat_pair->setDefaultFriction(0,0);
+        mat_pair->setDefaultFriction(0,1);
 
         mCharacterState.mCurrentMovementState = MOVE_NONE;
 
@@ -698,7 +701,7 @@ namespace rl {
 
     // -------------------------------------------------------------
     // character collision moved to CreatureController(Manager)
-    int MovementControlState::userProcess()
+    int MovementControlState::userProcess(Real timestep, int)
     {
         if( mViewMode == VM_FIRST_PERSON )
             return 0;
@@ -719,10 +722,9 @@ namespace rl {
 
     //------------------------------------------------------------------------
     // character callback moved to CreatureController
-    void MovementControlState::OnApplyForceAndTorque(PhysicalThing* thing)
+    void MovementControlState::OnApplyForceAndTorque(PhysicalThing* thing, float timestep)
     {
         OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
-        Real timestep = world->getTimeStep();
 
         calculateCamera(timestep);
 

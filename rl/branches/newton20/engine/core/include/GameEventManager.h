@@ -131,7 +131,7 @@ public:
 
 
     /// newton collision callback function
-    int userProcess();
+    int userProcess(Ogre::Real timestep, int threadid);
 
     /// notify about newton world update
     void notifyNewtonWorldUpdate();

@@ -60,7 +60,7 @@ namespace rl
         const Ogre::String& getName() const;
 
         // Newton Contact Callback
-        int userProcess();
+        int userProcess(Ogre::Real timestep, int threadid);
     protected:
         typedef std::map<Creature*, CreatureController*> ControllerMap;
         ControllerMap mControllers;

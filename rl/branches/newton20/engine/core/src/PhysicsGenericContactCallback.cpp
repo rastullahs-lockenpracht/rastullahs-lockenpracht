@@ -20,6 +20,9 @@
 #include "Actor.h"
 #include "PhysicalThing.h"
 
+
+using namespace Ogre;
+
 namespace rl
 {
     int PhysicsGenericContactCallback::userBegin()
@@ -27,7 +30,7 @@ namespace rl
         return 1;
     }
 
-    int PhysicsGenericContactCallback::userProcess()
+    int PhysicsGenericContactCallback::userProcess(Real timeStep, int)
     {
         return 1;
     }

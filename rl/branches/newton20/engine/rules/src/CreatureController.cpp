@@ -80,6 +80,9 @@ namespace rl
 
         mCreature->getActor()->getPhysicalThing()->setPhysicsController(this);
 
+//        mCreature->getActor()->getPhysicalThing()->_getBody()->setAngularDamping(0*Vector3::UNIT_SCALE);
+        mCreature->getActor()->getPhysicalThing()->_getBody()->setContinuousCollisionMode(1);
+
 
         std::pair<MovementType, AbstractMovement*> movementPair;
         movementPair.first = MT_NONE;
@@ -154,6 +157,8 @@ namespace rl
                 mCreature->getActor()->getPhysicalThing()->setPhysicsController(NULL);
 
                 mCreature->getActor()->getPhysicalThing()->setMaterialID(mOldMaterialId);
+        
+//                mCreature->getActor()->getPhysicalThing()->_getBody()->setAngularDamping(0.1*Vector3::UNIT_SCALE);
             }
         }
     }
@@ -359,14 +364,13 @@ namespace rl
         return false;
     }
 
-    void CreatureController::OnApplyForceAndTorque(PhysicalThing* thing)
+    void CreatureController::OnApplyForceAndTorque(PhysicalThing* thing, float timestep)
     {
         Vector3 force, torque;
         OgreNewt::Body *body = thing->_getBody();
         force = Vector3::ZERO;
         torque = Vector3::ZERO;
         OgreNewt::World *world = PhysicsManager::getSingleton()._getNewtonWorld();
-        Real timestep = world->getTimeStep();
         Real mass;
         Vector3 inertia;
         body->getMassMatrix(mass, inertia);
@@ -387,8 +391,9 @@ namespace rl
         body->setTorque(torque);
     }
 
-    int CreatureController::userProcess()
+    int CreatureController::userProcess(Real timestep, int threadid)
     {
+
         // own collision handling (floor, in order to get information for mAbstractLocation)
         Vector3 point;
         Vector3 normal;
@@ -419,7 +424,29 @@ namespace rl
                 mLastFloorContact = time;
             }
         }
+/*
+        setContactFrictionState(0,0);
+        setContactFrictionState(0,1);
+        setContactTangentAcceleration(0, 0);
+        setContactTangentAcceleration(0, 1);
+        setContactNormalDirection(((Vector3::UNIT_Y.dotProduct(point-charPos)*Vector3::UNIT_Y + charPos) - point).normalisedCopy());
+        setContactNormalAcceleration(0);
 
+std::ostringstream oss;
+Vector3 vec1, vec2;
+oss << " Collision: Point: " << point
+    << "  \t Normal: " << normal
+    << "  \t Force: " << getContactForce()
+    << "  \t Normal-Speed: " << getContactNormalSpeed()
+    << "  \t Contact-Speed: " << point
+    << "  \t Contact-Normal: " << normal;
+getContactTangentDirections(vec1, vec2);
+oss << "  \t Tangent-Directions: " << vec1 << " " << vec2;
+LOG_MESSAGE(Logger::RULES, oss.str());
+*/
+        setContactFrictionState(0,0);
+        setContactFrictionState(0,1);
+/*
         if( stepHeight < 0.4 )
         {
             if(stepHeight > 0.01f) // experimantal value, 
@@ -437,7 +464,6 @@ namespace rl
                 setContactFrictionState(1,0);
                 setContactFrictionState(1,1);
             }
-            //setContactTangentAcceleration(5);
             //setContactElasticity(0.0f);
         }
         else
@@ -455,6 +481,7 @@ namespace rl
                 setContactFrictionState(0,1);
             }
         }
+*/
 
         if(mMovement != NULL)
         {
@@ -464,7 +491,7 @@ namespace rl
             // for processing this contact. Should probably be solved in OgreNewt directly.
             OgreNewt::ContactCallback *movement = mMovement;
             *movement = (OgreNewt::ContactCallback)(*this);
-            return movement->userProcess();
+            return movement->userProcess(timestep, threadid);
         }
 
         // return one to tell Newton we want to accept this contact

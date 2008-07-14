@@ -286,7 +286,7 @@ namespace rl {
         return retval;
 	}
 
-    int FreeflightControlState::userProcess()
+    int FreeflightControlState::userProcess(Real timestep, int)
     {
         if (m_body0 == mCamBody || m_body1 == mCamBody)
         {
@@ -307,13 +307,10 @@ namespace rl {
 
 
 
-    void FreeflightControlState::OnApplyForceAndTorque(PhysicalThing* thing)
+    void FreeflightControlState::OnApplyForceAndTorque(PhysicalThing* thing, float timestep)
     {
         OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
         OgreNewt::Body* body = thing->_getBody();
-
-        // Get the current world timestep
-        Real timestep = world->getTimeStep();
 
         if (body == mCamBody)
         {

@@ -44,15 +44,30 @@ namespace rl
 
         physicsManager->createMaterialPair(char_mat, def_mat)->setContactCallback(this);
         physicsManager->createMaterialPair(char_mat, level_mat)->setContactCallback(this);
-        
-        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultFriction(0.8f,0.4f);
-        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultFriction(0.8f,0.4f);
+        physicsManager->createMaterialPair(char_mat, char_mat); //->setContactCallback(this);
+
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultFriction(0.0f,0.0f);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultFriction(0.0f,0.0f);
+        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultFriction(0.0f,0.0f);
         physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultElasticity(0.0f);
         physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultElasticity(0.0f);
-        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultSoftness(1.0f);
-        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultSoftness(1.0f);
+        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultElasticity(0.0f);
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultSoftness(0.5f);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultSoftness(0.5f);
+        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultSoftness(0.5f);
 
-        physicsManager->getNewtonDebugger()->setMaterialColor(char_mat, Ogre::ColourValue::Red);
+/*        
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultFriction(0.8f,0.4f);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultFriction(0.8f,0.4f);
+        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultFriction(0.8f,0.4f);
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultElasticity(0.01f);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultElasticity(0.01f);
+        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultElasticity(0.01);
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultSoftness(0.8f);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultSoftness(0.8f);
+        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultSoftness(0.8f);
+*/
+        //physicsManager->getNewtonDebugger()->setMaterialColor(char_mat, Ogre::ColourValue::Red);
     }
 
     CreatureControllerManager::~CreatureControllerManager()
@@ -146,7 +161,7 @@ namespace rl
         }
     }
 
-    int CreatureControllerManager::userProcess()
+    int CreatureControllerManager::userProcess(Real timestep, int threadid)
     {
         Actor *actor = static_cast<Actor*>(m_body0->getUserData());
         if( actor != NULL )
@@ -159,8 +174,8 @@ namespace rl
                 // for the controllers to work. This is because these members are used by OgreNewt functions
                 // for processing this contact. Should probably be solved in OgreNewt directly.
                 OgreNewt::ContactCallback* controller = it->second;
-                *controller = (OgreNewt::ContactCallback)(*this);
-                return controller->userProcess();
+               *controller = (OgreNewt::ContactCallback)(*this);
+                return controller->userProcess(timestep, threadid);
             }
         }
 

@@ -250,9 +250,7 @@ namespace rl
                 {
                     collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(
                                     thisWorld,
-                                    entity,
-                                    false));
-                    //orientation, pos));
+                                    entity));
                     LOG_DEBUG(Logger::RULES, "Created physics proxy type 'convexhull' for entity '"+entity->getName()+"'.");
                 }
                 else if (physicsProxyType == "mesh" || physicsProxyType == "auto")
@@ -274,7 +272,7 @@ namespace rl
             }
         }
 
-        if (!collision.isNull())
+        if ( collision != NULL )
         {
             collisions.push_back(collision);
         }

@@ -52,10 +52,10 @@ namespace rl
         bool run(Ogre::Real elapsedTime);
 
         /// Newton force and torque callback
-        void OnApplyForceAndTorque(PhysicalThing* thing);
+        void OnApplyForceAndTorque(PhysicalThing* thing, float timestep);
 
         /// Newton contact callback called by the movingCreatureManager
-        int userProcess();
+        int userProcess(Ogre::Real timestep, int threadid);
 
         Creature* getCreature() {return mCreature;}
         bool refetchCreature();

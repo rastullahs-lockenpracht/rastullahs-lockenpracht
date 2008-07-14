@@ -120,7 +120,7 @@ namespace rl {
         void _detachFromSceneNode(Ogre::SceneNode* node);
 
 		/** ForceCallback for mBody (OgreNewt::Body). */
-        void onApplyForceAndTorque();
+        void onApplyForceAndTorque(float timeStep);
         void addForce(const Ogre::Vector3& force);
 
         void freeze();

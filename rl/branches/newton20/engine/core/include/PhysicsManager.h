@@ -143,11 +143,11 @@ namespace rl {
         // Newton callbacks ...
         /// generic force callback. Gravity is applied and the force,
         /// applied via PhysicalThing interface.
-        static void genericForceCallback(OgreNewt::Body* body);
+        static void genericForceCallback(OgreNewt::Body* body, float timeStep, int threadIndex);
 
         /// special force callback for controlled characters (or monsters even)
         /// those bodies have up vector and are controlled using inverse dynamics
-        static void controlledForceCallback(OgreNewt::Body* body);
+        static void controlledForceCallback(OgreNewt::Body* body, float timeStep, int threadIndex);
 
         OgreNewt::World* _getNewtonWorld() const;
 
@@ -288,6 +288,7 @@ namespace rl {
         struct CollisionInUse
         {
         public:
+            CollisionInUse() : colPtr(NULL), geomType(GT_NONE) {}
             GeometryType geomType;  //! primitive type
             OgreNewt::CollisionPtr colPtr;          //! the collision primitve
         };

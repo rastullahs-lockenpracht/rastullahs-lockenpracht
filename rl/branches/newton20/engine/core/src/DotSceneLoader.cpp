@@ -492,7 +492,7 @@ namespace rl {
                 child = child->getNextSibling();
                 continue;
             }
-            collision.setNull();
+            collision = NULL;
             // am Anfang steht ein Node mit dem Typ
             std::string typeAsString = transcodeToStdString(child->getNodeName());
 
@@ -701,21 +701,21 @@ namespace rl {
                 {
                     LOG_MESSAGE(Logger::CORE,
                         " Mesh-Collisions in <collisions> werden momentan noch nicht unterstützt (Eintrag wird ignoriert).");
-                    collision.setNull();
+                    collision = NULL;
                 }
 /*
                 else if (typeAsString.compare("meshhull") == 0)  // automatische convexhull mit daten aus mesh
                 {
                     LOG_MESSAGE(Logger::CORE,
                         " Entityhull-Collisions werden momentan noch nicht unterstützt (Eintrag wird ignoriert).");
-                    collision.setNull();
+                    collision = NULL;
                 }
 */
                 else
                 {
                     LOG_MESSAGE(Logger::CORE,
                         " > Parse Error beim Erstellen einer Collision; ungültiger typ: '"+typeAsString+"' !");
-                    collision.setNull();
+                    collision = NULL;
                     //return OgreNewt::CollisionPtr(NULL);
                 }
 
@@ -723,7 +723,7 @@ namespace rl {
 
 
             // Collision dem vektor hinzufügen
-            if (!collision.isNull())
+            if (collision != NULL)
                 mCollisions.push_back(collision);
 
             child = child->getNextSibling();
@@ -868,9 +868,7 @@ namespace rl {
                 {
                     collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(
                                     thisWorld,
-                                    newEnt,
-                                    false));
-                    //orientation, pos));
+                                    newEnt));
                     LOG_DEBUG(Logger::CORE, " physical_body 'convexhull' für Entity '"+entName+"' erstellt. ");
                 }
                 else if (physical_body.compare("mesh") == 0 || physical_body.compare("auto"))
@@ -891,7 +889,7 @@ namespace rl {
         }
 
         // zur liste hinzufügen
-        if (!collision.isNull())
+        if (collision != NULL)
         {
             mCollisions.push_back(collision);
         }
@@ -906,7 +904,7 @@ namespace rl {
 
 
         // wieder aus der liste entfernen, falls mehrere entities hier definiert werden
-        if (!collision.isNull())
+        if (collision != NULL)
         {
             mCollisions.pop_back();
         }

@@ -32,7 +32,7 @@ namespace rl {
     {
     public:
         int userBegin();
-        int userProcess();
+        int userProcess( Ogre::Real timeStep, int threadid);
         /// This function calls the contact listeners. So any specialised listener overriding
         /// this one, has to call it explicitly.
         void userEnd();
