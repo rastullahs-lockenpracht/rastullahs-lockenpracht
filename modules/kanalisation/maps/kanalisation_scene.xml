@@ -1,5 +1,8 @@
 <scene formatVersion="0.4.0">
     <nodes>
+<entity name="Spinne" meshfile="tie_waldspinne.mesh">
+<position x="83.61" y="-1.05" z="28.88"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="8.0" y="8.0" z="8.0"/>
+</entity>
 <entity name="bruecke" meshfile="bruecke.mesh">
 <position x="2.892947" y="3.346505" z="7.881136"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>
@@ -117,9 +120,6 @@
 </entity>
 <entity name="saeule_07.001" meshfile="saeule_07.001.mesh">
 <position x="62.32452" y="10.705501" z="44.40452"/><rotation qw="0.706179" qx="-2.81E-4" qy="-0.708033" qz="-2.82E-4"/><scale x="1.0" y="1.0" z="1.0"/>
-</entity>
-<entity name="rostkette" meshfile="rostkette.mesh">
-<position x="11.6703" y="6.950521" z="10.76639"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>
 <entity name="raum_01.001" meshfile="raum_01.001.mesh">
 <position x="-11.642996" y="2.232062" z="38.87323"/><rotation qw="0.977955" qx="-3.89E-4" qy="-0.208817" qz="-8.3E-5"/><scale x="1.0" y="1.0" z="1.0"/>

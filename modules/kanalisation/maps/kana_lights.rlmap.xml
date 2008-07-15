@@ -3,7 +3,7 @@
 	<nodes>
 		<light name="fackkellicht" type="point" visible="true"
 			castShadows="false">
-			<position x="-1.39" y="5.54" z="12.84" />
+			<position x="-1.39" y="4.92" z="12.84" />
 			<colourDiffuse r="0.8" g="0.7" b="0.5" />
 			<colourSpecular r="0.8" g="0.7" b="0.5" />
 			<lightAttenuation range="8" constant="1" linear="0" quadratic=".034" />
