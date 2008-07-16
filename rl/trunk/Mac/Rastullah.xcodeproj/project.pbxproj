@@ -664,6 +664,7 @@
 		48B772E30D583521000A3B97 /* XmlProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B772E00D583521000A3B97 /* XmlProcessor.cpp */; };
 		48B772E40D583521000A3B97 /* XmlPropertyReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B772E10D583521000A3B97 /* XmlPropertyReader.cpp */; };
 		48B772E50D583521000A3B97 /* XmlPropertyWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B772E20D583521000A3B97 /* XmlPropertyWriter.cpp */; };
+		48CFBF8F0E2E869000CD0C51 /* FreeType.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 48CFBF8E0E2E869000CD0C51 /* FreeType.framework */; };
 		48D0BDC70E23375E00863824 /* libruby.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 483646A10D83D57800912FEC /* libruby.dylib */; };
 		48D0BDE60E23378700863824 /* libboost_filesystem.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52B210E0EDA0E008DBDD8 /* libboost_filesystem.dylib */; };
 		48D0BE2C0E273C5E00863824 /* SaveAble.h in Headers */ = {isa = PBXBuildFile; fileRef = 48D0BE280E273C5E00863824 /* SaveAble.h */; };
@@ -844,6 +845,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				48CFBF8F0E2E869000CD0C51 /* FreeType.framework in Copy Frameworks */,
 				48D0BDE60E23378700863824 /* libboost_filesystem.dylib in Copy Frameworks */,
 				48D0BDC70E23375E00863824 /* libruby.dylib in Copy Frameworks */,
 				484D92140E1E060200BCFC2B /* Xerces.framework in Copy Frameworks */,
@@ -1473,6 +1475,8 @@
 		48B772E00D583521000A3B97 /* XmlProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XmlProcessor.cpp; path = ../engine/common/src/XmlProcessor.cpp; sourceTree = SOURCE_ROOT; };
 		48B772E10D583521000A3B97 /* XmlPropertyReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XmlPropertyReader.cpp; path = ../engine/common/src/XmlPropertyReader.cpp; sourceTree = SOURCE_ROOT; };
 		48B772E20D583521000A3B97 /* XmlPropertyWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XmlPropertyWriter.cpp; path = ../engine/common/src/XmlPropertyWriter.cpp; sourceTree = SOURCE_ROOT; };
+		48CFBF8E0E2E869000CD0C51 /* FreeType.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FreeType.framework; path = /Library/Frameworks/FreeType.framework; sourceTree = "<absolute>"; };
+		48CFBFD70E2E87BB00CD0C51 /* renameinstalldirs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = renameinstalldirs.sh; path = tools/renameinstalldirs.sh; sourceTree = "<group>"; };
 		48D0BE280E273C5E00863824 /* SaveAble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveAble.h; path = ../engine/core/include/SaveAble.h; sourceTree = SOURCE_ROOT; };
 		48D0BE290E273C5E00863824 /* SaveAbleCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveAbleCollection.h; path = ../engine/core/include/SaveAbleCollection.h; sourceTree = SOURCE_ROOT; };
 		48D0BE2A0E273C5E00863824 /* SaveAbleFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveAbleFactory.h; path = ../engine/core/include/SaveAbleFactory.h; sourceTree = SOURCE_ROOT; };
@@ -1678,6 +1682,7 @@
 		20286C2AFDCF999611CA2CEA /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				48CFBFD60E2E87A800CD0C51 /* Scripts */,
 				483D86890D8C3DA200F3629E /* RlFmod4Driver */,
 				444EAC220BD0E3E000C6D4A0 /* RlAi */,
 				444EAB1F0BD0E25C00C6D4A0 /* RlCommon */,
@@ -1705,6 +1710,7 @@
 		20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				48CFBF8E0E2E869000CD0C51 /* FreeType.framework */,
 				484FE6B90E17BC8800FA880F /* Carbon.framework */,
 				48A52CAF0E0EF55C008DBDD8 /* libboost_system.lib */,
 				48A52B210E0EDA0E008DBDD8 /* libboost_filesystem.dylib */,
@@ -2402,6 +2408,14 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		48CFBFD60E2E87A800CD0C51 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				48CFBFD70E2E87BB00CD0C51 /* renameinstalldirs.sh */,
+			);
+			name = Scripts;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -3023,7 +3037,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SOURCE_ROOT}/tools/renameinstalldirs.sh ${BUILT_PRODUCTS_DIR}/Rastullah.app/Contents/MacOS/Rastullah\n";
+			shellScript = "${SOURCE_ROOT}/tools/renameinstalldirs.sh ${BUILT_PRODUCTS_DIR}/Rastullah.app/Contents/MacOS Rastullah\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
