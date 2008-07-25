@@ -6,6 +6,7 @@ noinst_HEADERS = \
 	LightNodeProcessor.h \
 	MapLoader.h \
 	ParticleSystemNodeProcessor.h \
+	PlaneNodeProcessor.h \
 	TriggerFactory.h \
 	Scene.h \
 	SceneLoader.h \

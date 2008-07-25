@@ -37,6 +37,7 @@
 #include "ZoneProcessor.h"
 #include "ContentModule.h"
 #include "RubyInterpreter.h"
+#include "PlaneNodeProcessor.h"
 
 using namespace Ogre;
 using namespace XERCES_CPP_NAMESPACE;
@@ -83,6 +84,7 @@ namespace rl {
         mNodeProcessors.push_back(new SoundNodeProcessor());
         mNodeProcessors.push_back(new LightNodeProcessor());
 		mNodeProcessors.push_back(new ParticleSystemNodeProcessor());
+		mNodeProcessors.push_back(new PlaneNodeProcessor(resourceGroup));
 
         RequestedSceneChangeConnection = MessagePump::getSingleton().addMessageHandler<MessageType_SceneChangeRequested>(
             boost::bind(&MapLoader::changeScene, this, _1));

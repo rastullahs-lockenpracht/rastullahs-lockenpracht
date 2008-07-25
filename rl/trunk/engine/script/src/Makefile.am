@@ -20,6 +20,7 @@ libRlScript_la_SOURCES = \
 	LightNodeProcessor.cpp \
 	MapLoader.cpp \
 	ParticleSystemNodeProcessor.cpp \
+	PlaneNodeProcessor.cpp \
 	Scene.cpp \
 	SceneLoader.cpp \
 	SceneManager.cpp \

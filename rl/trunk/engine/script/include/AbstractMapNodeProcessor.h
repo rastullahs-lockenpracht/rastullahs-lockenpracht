@@ -42,6 +42,7 @@ namespace rl
     
         Ogre::String getRandomName(const Ogre::String& baseName) const;
         Ogre::Vector3 processVector3(XERCES_CPP_NAMESPACE::DOMElement* nodeElem) const;
+		Ogre::Vector2 processVector2(XERCES_CPP_NAMESPACE::DOMElement* nodeElem) const;
         Ogre::Quaternion processQuaternion(XERCES_CPP_NAMESPACE::DOMElement* nodeElem) const;
         Ogre::ColourValue processColour(XERCES_CPP_NAMESPACE::DOMElement* colElem) const;
         
