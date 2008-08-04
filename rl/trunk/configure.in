@@ -73,7 +73,7 @@ AC_ARG_WITH([ogre-plugins], [AS_HELP_STRING([--with-ogre-plugins=@<:@=DIR@:>@], 
 AC_SUBST(OGRE_PLUGINDIR)
 
 # CEGUI
-PKG_CHECK_MODULES([CEGUI], [CEGUI >= 0.5.0])
+PKG_CHECK_MODULES([CEGUI], [CEGUI >= 0.6.0])
 PKG_CHECK_MODULES([CEGUIOGRE], [CEGUI-OGRE])
 
 dnl Other stuff we need

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -41,43 +41,43 @@
 #undef PACKAGE_TARNAME
 #undef HAVE_VSNPRINTF
 
-#undef EWOULDBLOCK	
-#undef EINPROGRESS	
-#undef EALREADY	
-#undef ENOTSOCK	
-#undef EDESTADDRREQ	
-#undef EMSGSIZE	
-#undef EPROTOTYPE	
-#undef ENOPROTOOPT	
-#undef EPROTONOSUPPORT	
-#undef ESOCKTNOSUPPORT	
-#undef EOPNOTSUPP	
-#undef EPFNOSUPPORT	
-#undef EAFNOSUPPORT	
-#undef EADDRINUSE	
-#undef EADDRNOTAVAIL	
-#undef ENETDOWN	
-#undef ENETUNREACH	
-#undef ENETRESET	
-#undef ECONNABORTED	
-#undef ECONNRESET	
-#undef ENOBUFS		
-#undef EISCONN		
-#undef ENOTCONN	
-#undef ESHUTDOWN	
-#undef ETOOMANYREFS	
-#undef ETIMEDOUT	
-#undef ECONNREFUSED	
-#undef ELOOP		
+#undef EWOULDBLOCK
+#undef EINPROGRESS
+#undef EALREADY
+#undef ENOTSOCK
+#undef EDESTADDRREQ
+#undef EMSGSIZE
+#undef EPROTOTYPE
+#undef ENOPROTOOPT
+#undef EPROTONOSUPPORT
+#undef ESOCKTNOSUPPORT
+#undef EOPNOTSUPP
+#undef EPFNOSUPPORT
+#undef EAFNOSUPPORT
+#undef EADDRINUSE
+#undef EADDRNOTAVAIL
+#undef ENETDOWN
+#undef ENETUNREACH
+#undef ENETRESET
+#undef ECONNABORTED
+#undef ECONNRESET
+#undef ENOBUFS
+#undef EISCONN
+#undef ENOTCONN
+#undef ESHUTDOWN
+#undef ETOOMANYREFS
+#undef ETIMEDOUT
+#undef ECONNREFUSED
+#undef ELOOP
 /*#undef ENAMETOOLONG	*/
-#undef EHOSTDOWN	
-#undef EHOSTUNREACH	
+#undef EHOSTDOWN
+#undef EHOSTUNREACH
 /*#undef ENOTEMPTY	*/
-#undef EPROCLIM	
-#undef EUSERS		
-#undef EDQUOT		
-#undef ESTALE		
-#undef EREMOTE		
+#undef EPROCLIM
+#undef EUSERS
+#undef EDQUOT
+#undef ESTALE
+#undef EREMOTE
 
 #undef CONNECT
 #undef T_CONNECT

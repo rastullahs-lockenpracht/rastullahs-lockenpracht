@@ -32,7 +32,7 @@ namespace rl
 	{
 	}
 
-	bool PlaneNodeProcessor::processNode(xercesc_2_7::DOMElement *nodeElem, bool loadGameObjects)
+	bool PlaneNodeProcessor::processNode(DOMElement *nodeElem, bool loadGameObjects)
 	{
 		if (!hasNodeName(nodeElem, "plane"))
         {
@@ -119,7 +119,7 @@ namespace rl
 		return true;
 	}
 
-	void PlaneNodeProcessor::createCollision(Ogre::Entity *entity, xercesc_2_7::DOMElement *physicsProxyElem)
+	void PlaneNodeProcessor::createCollision(Ogre::Entity *entity, DOMElement *physicsProxyElem)
 	{
 		bool collisionEnabled = false;
 		if (physicsProxyElem == NULL || !hasAttribute(physicsProxyElem, "type"))
