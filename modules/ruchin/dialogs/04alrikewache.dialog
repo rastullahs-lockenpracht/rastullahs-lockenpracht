@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE dialog SYSTEM "/home/mot/Pantheon/dialog.dtd.xml">
+<dialog name="04AlrikeWache">
+	<start>
+		<response id="0">
+			<option id="1">
+			<t language="de">
+				<p>Entschuldigt die Störung. Ich habe einen Einbruch zu melden.</p>
+			</t>
+			<t language="en">
+				<p>Excuse me. I've got a trespassing to report.</p>
+			</t>
+			<gotoresponse id="10"/>
+			</option>
+		</response>
+	</start>
+
+<response id="10">
+<t language="de">
+				<p>Wendet euch an den Wachhabenden in der Wache. Ich kann meinen Posten nicht verlassen.</p>
+			</t>
+			<t language="en">
+				<p>Ask the man on duty in the guard house. I can't leave my post.</p>
+			</t>
+			<exit/>
+		</response>
+
+</dialog>

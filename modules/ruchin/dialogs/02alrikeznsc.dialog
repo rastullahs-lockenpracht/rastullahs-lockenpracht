@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE dialog SYSTEM "/home/mot/Pantheon/dialog.dtd.xml">
+<dialog name="02AlrikzNSC">
+<start>
+	<response id="0">
+		<option id="1">
+		<t language="de">
+			<p>Travia zum Gruße. Könnt Ihr mir sagen, wo ich das Haus der Schreiberin Hesindiane finde?</p>
+		</t>
+		<t language="en">
+			<p>Greetings to Travia. Could you announce me, where I find the house Hesindiane the scribe?</p>
+		</t>
+		<gotoresponse id="2"/>
+		</option>
+	</response>
+</start>
+
+<switchresponse id="2">
+<case>TODO Wegbeschreibung.</case>
+<case>Das weiß ich leider nicht. Ich bin nur ein Pilger auf der Durchreise.</case>
+</switchresponse>
+</dialog>
