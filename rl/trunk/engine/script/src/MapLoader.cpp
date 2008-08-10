@@ -84,7 +84,7 @@ namespace rl {
         mNodeProcessors.push_back(new SoundNodeProcessor());
         mNodeProcessors.push_back(new LightNodeProcessor());
 		mNodeProcessors.push_back(new ParticleSystemNodeProcessor());
-		mNodeProcessors.push_back(new PlaneNodeProcessor(resourceGroup));
+		mNodeProcessors.push_back(new PlaneNodeProcessor());
 
         RequestedSceneChangeConnection = MessagePump::getSingleton().addMessageHandler<MessageType_SceneChangeRequested>(
             boost::bind(&MapLoader::changeScene, this, _1));

@@ -28,19 +28,21 @@
 
 #include "AbstractMapNodeProcessor.h"
 
+#include <OgreMaterial.h>
+
 namespace rl
 {
     class PlaneNodeProcessor : public AbstractMapNodeProcessor
     {
     public:
-        PlaneNodeProcessor(const Ogre::String& resourcegroup);
+        PlaneNodeProcessor();
 
         virtual bool processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects);
 
     private:
-        Ogre::String mResourceGroup;
 
         void createCollision(Ogre::Entity* entity, XERCES_CPP_NAMESPACE::DOMElement* physicsProxyElem);
+		void createRenderToTextures(Ogre::Entity* entity, XERCES_CPP_NAMESPACE::DOMElement* rttElem);
 	};
 }
 

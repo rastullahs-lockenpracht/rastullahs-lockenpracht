@@ -23,12 +23,14 @@
 #include "PhysicsManager.h"
 #include "World.h"
 
+#include <OgreMaterialManager.h>
+
 using namespace Ogre;
 using namespace XERCES_CPP_NAMESPACE;
 
 namespace rl
 {
-	PlaneNodeProcessor::PlaneNodeProcessor(const Ogre::String &resourcegroup)
+	PlaneNodeProcessor::PlaneNodeProcessor()
 	{
 	}
 
@@ -94,7 +96,7 @@ namespace rl
 		plane->d = 0;
 		plane->normal = Vector3::UNIT_Y;
 
-		MeshManager::getSingleton().createPlane(entName, mResourceGroup, *plane, 1, 1, 1, 1, true, 1, 1, 1, Vector3::UNIT_Z);
+		MeshManager::getSingleton().createPlane(entName, "custom", *plane, 1, 1, 1, 1, true, 1, 1, 1, Vector3::UNIT_Z);
 
 		Entity* ent = CoreSubsystem::getSingleton().getWorld()->getSceneManager()->createEntity(entName, entName);
 
@@ -103,11 +105,12 @@ namespace rl
 		node->attachObject(ent);
 
 		createCollision(ent, getChildNamed(nodeElem, "physicsproxy"));
-
+		
 		DOMElement* materialElem = getChildNamed(nodeElem, "material");
 		if(materialElem)
 		{
 			ent->setMaterialName(getAttributeValueAsStdString(materialElem, "name"));
+			createRenderToTextures(ent, getChildNamed(nodeElem, "renderToTexture"));
 		}
 		else
         {
@@ -154,4 +157,47 @@ namespace rl
 			}
 		}
 	}
+
+	void PlaneNodeProcessor::createRenderToTextures(Ogre::Entity* entity, XERCES_CPP_NAMESPACE::DOMElement* rttElem)
+	{
+		if(rttElem == NULL)
+			return;
+
+		MeshPtr mesh = entity->getMesh();
+
+		if(getAttributeValueAsBool(rttElem, "reflection"))
+			{
+			TexturePtr texture = Ogre::TextureManager::getSingleton().createManual( "Reflection" + entity->getName(), 
+				ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, TEX_TYPE_2D, 
+				512, 512, 0, PF_R8G8B8, TU_RENDERTARGET );
+			RenderTexture* rttTex = texture->getBuffer()->getRenderTarget();
+			
+			Viewport *v = rttTex->addViewport( CoreSubsystem::getSingleton().getWorld()->getActiveCamera() ); //Bleibt die Kamera immer die gleiche?
+			v->setOverlaysEnabled(false);
+				//rttTex->addListener(&mReflectionListener); //Klassen für Listener noch erstellen //wird einer Listener benötigt?
+			
+			for(int i = 0; i < mesh->getNumSubMeshes(); i++)
+			{
+				SubMesh* sub = mesh->getSubMesh(i);
+				sub->addTextureAlias("reflection", "Reflection" + entity->getName());
+			}
+		}
+		if(getAttributeValueAsBool(rttElem, "refaction"))
+		{
+			TexturePtr texture = Ogre::TextureManager::getSingleton().createManual( "Refaction" + entity->getName(), 
+				ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, TEX_TYPE_2D, 
+				512, 512, 0, PF_R8G8B8, TU_RENDERTARGET );
+			RenderTexture* rttTex = texture->getBuffer()->getRenderTarget();
+			
+			Viewport *v = rttTex->addViewport( CoreSubsystem::getSingleton().getWorld()->getActiveCamera());
+			v->setOverlaysEnabled(false);
+				//rttTex->addListener(&mRefactionListener); //Klassen für Listener noch erstellen
+			for(int i = 0; i < mesh->getNumSubMeshes(); i++)
+			{
+				SubMesh* sub = mesh->getSubMesh(i);
+				sub->addTextureAlias("refaction", "Refaction" + entity->getName());
+			}
+		}
+	}
 }
+
