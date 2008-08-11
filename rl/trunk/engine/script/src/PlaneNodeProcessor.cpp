@@ -103,6 +103,7 @@ namespace rl
 		LOG_DEBUG(Logger::RULES, " Loaded plane "+entName);
 
 		node->attachObject(ent);
+		node->scale(scale.x,1,scale.y);
 
 		createCollision(ent, getChildNamed(nodeElem, "physicsproxy"));
 		
@@ -116,18 +117,14 @@ namespace rl
         {
             LOG_WARNING(Logger::RULES, "No material given for plane "+entName);
         }
-
-		Real x = scale.x;
-		node->scale(scale.x,1,scale.y);
-
 		return true;
 	}
 
 	void PlaneNodeProcessor::createCollision(Ogre::Entity *entity, DOMElement *physicsProxyElem)
 	{
 		bool collisionEnabled = false;
-		if (physicsProxyElem == NULL || !hasAttribute(physicsProxyElem, "type"))
-			collisionEnabled = true;
+		if (physicsProxyElem == NULL || !hasAttribute(physicsProxyElem, "collision"))
+			collisionEnabled = false;
 		else if(getAttributeValueAsBool(physicsProxyElem, "collision"))
 			collisionEnabled = true;
 		if(collisionEnabled)
@@ -154,7 +151,7 @@ namespace rl
 			if (collisions.size() > 0)
 			{
 				PhysicsManager::getSingleton().addLevelGeometry(entity, collisions);
-				LOG_DEBUG(Logger::RULES, " Plane '"+entity->getName()+"' in levelGeometry geladen");
+				LOG_WARNING(Logger::RULES, " Plane '"+entity->getName()+"' in levelGeometry geladen");
 			}
 		}
 	}
