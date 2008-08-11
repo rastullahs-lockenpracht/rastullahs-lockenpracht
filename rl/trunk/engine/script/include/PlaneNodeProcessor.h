@@ -29,6 +29,7 @@
 #include "AbstractMapNodeProcessor.h"
 
 #include <OgreMaterial.h>
+#include <OgreRenderTargetListener.h>
 
 namespace rl
 {
@@ -42,8 +43,31 @@ namespace rl
     private:
 
         void createCollision(Ogre::Entity* entity, XERCES_CPP_NAMESPACE::DOMElement* physicsProxyElem);
-		void createRenderToTextures(Ogre::Entity* entity, XERCES_CPP_NAMESPACE::DOMElement* rttElem);
+		void createRenderToTextures(Ogre::Entity* entity, Ogre::Plane* plane, XERCES_CPP_NAMESPACE::DOMElement* rttElem);
+	};
+
+	class PlaneReflectionTextureListener : public Ogre::RenderTargetListener
+	{
+	protected:
+		Ogre::Entity* mEntity;
+		Ogre::Camera* mCamera;
+		Ogre::Plane* mPlane;
+	public:
+		PlaneReflectionTextureListener(Ogre::Entity* ent, Ogre::Camera* cam, Ogre::Plane* plane);
+		void preRenderTargetUpdate(const Ogre::RenderTargetEvent& evt);
+		void postRenderTargetUpdate(const Ogre::RenderTargetEvent& evt);
+	};
+
+	class PlaneRefactionTextureListener : public Ogre::RenderTargetListener
+	{
+	protected:
+		Ogre::Entity* mEntity;
+	public:
+		PlaneRefactionTextureListener(Ogre::Entity* ent);
+		void preRenderTargetUpdate(const Ogre::RenderTargetEvent& evt);
+		void postRenderTargetUpdate(const Ogre::RenderTargetEvent& evt);
 	};
 }
+
 
 #endif // __PlaneNodeProcessor_H__

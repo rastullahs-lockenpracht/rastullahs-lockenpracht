@@ -111,7 +111,7 @@ namespace rl
 		if(materialElem)
 		{
 			ent->setMaterialName(getAttributeValueAsStdString(materialElem, "name"));
-			createRenderToTextures(ent, getChildNamed(nodeElem, "renderToTexture"));
+			createRenderToTextures(ent, plane, getChildNamed(nodeElem, "renderToTexture"));
 		}
 		else
         {
@@ -156,7 +156,7 @@ namespace rl
 		}
 	}
 
-	void PlaneNodeProcessor::createRenderToTextures(Ogre::Entity* entity, XERCES_CPP_NAMESPACE::DOMElement* rttElem)
+	void PlaneNodeProcessor::createRenderToTextures(Ogre::Entity* entity, Plane* plane, XERCES_CPP_NAMESPACE::DOMElement* rttElem)
 	{
 		if(rttElem == NULL)
 			return;
@@ -172,7 +172,7 @@ namespace rl
 			
 			Viewport *v = rttTex->addViewport( CoreSubsystem::getSingleton().getWorld()->getActiveCamera() ); //Bleibt die Kamera immer die gleiche?
 			v->setOverlaysEnabled(false);
-				//rttTex->addListener(&mReflectionListener); //Klassen für Listener noch erstellen //wird einer Listener benötigt?
+			rttTex->addListener(new PlaneReflectionTextureListener(entity, CoreSubsystem::getSingleton().getWorld()->getActiveCamera(), plane));
 			
 			for(int i = 0; i < mesh->getNumSubMeshes(); i++)
 			{
@@ -189,13 +189,48 @@ namespace rl
 			
 			Viewport *v = rttTex->addViewport( CoreSubsystem::getSingleton().getWorld()->getActiveCamera());
 			v->setOverlaysEnabled(false);
-				//rttTex->addListener(&mRefactionListener); //Klassen für Listener noch erstellen
+			rttTex->addListener(new PlaneRefactionTextureListener(entity));
+
 			for(int i = 0; i < mesh->getNumSubMeshes(); i++)
 			{
 				SubMesh* sub = mesh->getSubMesh(i);
 				sub->addTextureAlias("refaction", "Refaction" + entity->getName());
 			}
 		}
+	}
+
+	PlaneReflectionTextureListener::PlaneReflectionTextureListener(Ogre::Entity *ent, Ogre::Camera* cam, Plane* plane)
+	{
+		mEntity = ent;
+		mCamera = cam;
+		mPlane = plane;
+	}
+
+	void PlaneReflectionTextureListener::preRenderTargetUpdate(CONST RenderTargetEvent &evt)
+	{
+		mEntity->setVisible(false);
+		mCamera->enableReflection(*mPlane);
+	}
+
+	void PlaneReflectionTextureListener::postRenderTargetUpdate(const Ogre::RenderTargetEvent& evt)
+	{
+		mEntity->setVisible(true);
+		mCamera->disableReflection();
+	}
+
+	PlaneRefactionTextureListener::PlaneRefactionTextureListener(Entity* ent)
+	{
+		mEntity = ent;
+	}
+
+	void PlaneRefactionTextureListener::preRenderTargetUpdate(const Ogre::RenderTargetEvent& evt)
+	{
+		mEntity->setVisible(false);
+	}
+
+	void PlaneRefactionTextureListener::postRenderTargetUpdate(const Ogre::RenderTargetEvent& evt)
+	{
+		mEntity->setVisible(true);
 	}
 }
 
