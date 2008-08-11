@@ -355,6 +355,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\PlaneNodeProcessor.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\Scene.cpp"
 					>
 				</File>
@@ -459,6 +463,10 @@
 				</File>
 				<File
 					RelativePath=".\include\ParticleSystemNodeProcessor.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\PlaneNodeProcessor.h"
 					>
 				</File>
 				<File

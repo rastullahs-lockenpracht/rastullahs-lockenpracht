@@ -55,6 +55,24 @@ namespace rl
         return rval;
     }
 
+	Vector2 AbstractMapNodeProcessor::processVector2(DOMElement* vec2Elem) const
+    {
+        Vector2 rval(Vector2::ZERO);
+        if (vec2Elem != NULL)
+        {
+            if (hasAttribute(vec2Elem, "x"))
+            {
+                rval.x = getAttributeValueAsReal(vec2Elem, "x");
+            }
+            if (hasAttribute(vec2Elem, "y"))
+            {
+                rval.y = getAttributeValueAsReal(vec2Elem, "y");
+            }
+        }
+
+        return rval;
+    }
+
     Quaternion AbstractMapNodeProcessor::processQuaternion(DOMElement* quatElem) const
     {
         Quaternion rval(Quaternion::IDENTITY);

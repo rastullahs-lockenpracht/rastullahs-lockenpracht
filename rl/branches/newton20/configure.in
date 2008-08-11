@@ -73,7 +73,7 @@ AC_ARG_WITH([ogre-plugins], [AS_HELP_STRING([--with-ogre-plugins=@<:@=DIR@:>@], 
 AC_SUBST(OGRE_PLUGINDIR)
 
 # CEGUI
-PKG_CHECK_MODULES([CEGUI], [CEGUI >= 0.5.0])
+PKG_CHECK_MODULES([CEGUI], [CEGUI >= 0.6.0])
 PKG_CHECK_MODULES([CEGUIOGRE], [CEGUI-OGRE])
 
 dnl Other stuff we need
@@ -102,7 +102,7 @@ AC_CHECK_LIB(xerces-c,main,,
 PKG_CHECK_MODULES(OIS, OIS >= 1.0.0)
 
 # Boost
-AX_BOOST_BASE(1.33.1)
+AX_BOOST_BASE(1.34)
 AX_BOOST_FILESYSTEM()
 
 dnl --------------------------------------------
