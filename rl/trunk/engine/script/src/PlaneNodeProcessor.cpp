@@ -78,7 +78,7 @@ namespace rl
 		DOMElement* scaleElem = getChildNamed(nodeElem, "scale");
         if (posElem != NULL)
         {
-            scale = processVector2(posElem);
+            scale = processVector2(scaleElem);
         }
 		else
         {
@@ -117,6 +117,7 @@ namespace rl
             LOG_WARNING(Logger::RULES, "No material given for plane "+entName);
         }
 
+		Real x = scale.x;
 		node->scale(scale.x,1,scale.y);
 
 		return true;
