@@ -51,16 +51,24 @@ namespace OgreNewt
 		//! remove lines drawn.
 		void hideLines();
 	
+        //! set default color
+        void setDefaultColor(Ogre::ColourValue col);
+
+        //! set Material color
+        void setMaterialColor(const MaterialID* mat, Ogre::ColourValue col);
+	
 	protected:
 		Debugger();
 	
 	private:
 		Ogre::SceneNode*		m_debugnode;
 		Ogre::ManualObject*		m_debuglines;
-	
-		
+        typedef std::map<int, Ogre::ColourValue> MaterialIdColorMap;
+        MaterialIdColorMap      m_materialcolors;
+        Ogre::ColourValue       m_defaultcolor;
 
-		static void _CDECL newtonPerBody( const NewtonBody* body );
+
+		static void newtonPerBody( const NewtonBody* body );
 		static void _CDECL newtonPerPoly( void* userData, int vertexCount, const float* faceVertec, int id );
 	};
 

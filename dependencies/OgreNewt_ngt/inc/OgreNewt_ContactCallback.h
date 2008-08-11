@@ -100,7 +100,7 @@ public:
 		can be called yet.  they must be called from the userProcess() function.
 		return 0 to ignore the collision, 1 to allow it.
 	*/
-	virtual int userBegin( int threadIndex ) { return 1; }
+	virtual int onAABBOverlap( int threadIndex ) { return 1; }
 
 	//! user-defined Process function
 	/*!
@@ -114,18 +114,18 @@ public:
 		called after all contacts between the 2 bodies have been processed. no member functions should be called from within this
 		function either, as all contacts have been processed at this point.
 	*/
-	virtual void userEnd( int threadIndex ) {  }
+	//virtual void userEnd( int threadIndex ) {  } // doesn't exist any more!
 
 	//! get the NewtonMaterial from this callback.
 	NewtonMaterial* _getNewtonMaterial() { return m_material; }
 
 
 	//! internal function.
-	static int _CDECL contactBegin( const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1, int threadIndex );
+	static int _CDECL onAABBOverlap( const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1, int threadIndex );
 	//! internal function.
-	static int _CDECL contactProcess( const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1, float timeStep, int threadIndex );
+	static void _CDECL contactProcess(const NewtonJoint* contact, float timeStep, int threadIndex );
 	//! internal function.
-	static void _CDECL contactEnd( const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1, int threadIndex );
+	//static void _CDECL contactEnd( const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1, int threadIndex );
 
 
 protected:

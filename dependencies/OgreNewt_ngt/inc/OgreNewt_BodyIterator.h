@@ -53,7 +53,8 @@ public:
 	void go( IteratorCallback callback )
 	{
 		m_callback = callback;
-		NewtonWorldForEachBodyDo( m_world->getNewtonWorld(), newtonIterator );
+                for( const NewtonBody* body = NewtonWorldGetFirstBody(m_world->getNewtonWorld()); body; NewtonWorldGetNextBody(m_world->getNewtonWorld(), body) )
+                    newtonIterator(body);
 	}
 	template <class c> void go( boost::function<void(c*, Body*)> callback, c* instancedClassPointer )
 	{
@@ -82,7 +83,7 @@ protected:
 		m_callback = NULL;
 	}
 
-	static void _CDECL newtonIterator( const NewtonBody* body )
+	static void newtonIterator( const NewtonBody* body )
 	{
 		OgreNewt::Body* bod = (OgreNewt::Body*)NewtonBodyGetUserData( body );
 

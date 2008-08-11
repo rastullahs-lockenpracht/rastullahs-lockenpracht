@@ -14,7 +14,7 @@ ContactCallback::~ContactCallback()
 {
 }
 
-int _CDECL ContactCallback::contactBegin( const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1, int threadIndex )
+int _CDECL ContactCallback::onAABBOverlap( const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1, int threadIndex )
 {
 	ContactCallback* me;
 
@@ -26,23 +26,29 @@ int _CDECL ContactCallback::contactBegin( const NewtonMaterial* material, const 
 	me->m_body0 = (OgreNewt::Body*)NewtonBodyGetUserData( body0 );
 	me->m_body1 = (OgreNewt::Body*)NewtonBodyGetUserData( body1 );
 
-	return me->userBegin( threadIndex );
+	return me->onAABBOverlap( threadIndex );
 }
 
-int _CDECL ContactCallback::contactProcess( const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1, float timeStep, int threadIndex )
+void _CDECL ContactCallback::contactProcess(const NewtonJoint *contactJoint, float timeStep, int threadIndex )
 {
-	ContactCallback *me;
+        for (void* contact = NewtonContactJointGetFirstContact (contactJoint); contact; contact = NewtonContactJointGetNextContact (contactJoint, contact))
+        {
+	        ContactCallback *me;
+                NewtonMaterial* material = NewtonContactGetMaterial(contact);
 
-	me = (ContactCallback*)NewtonMaterialGetMaterialPairUserData( material );
+                me = (ContactCallback*)NewtonMaterialGetMaterialPairUserData( material );
 
-	me->m_material = (NewtonMaterial*)material;
-	me->m_body0 = (OgreNewt::Body*)NewtonBodyGetUserData( body0 );
-	me->m_body1 = (OgreNewt::Body*)NewtonBodyGetUserData( body1 );
+                me->m_material = material;
+                me->m_body0 = (OgreNewt::Body*)NewtonBodyGetUserData( NewtonJointGetBody0(contactJoint) );
+	        me->m_body1 = (OgreNewt::Body*)NewtonBodyGetUserData( NewtonJointGetBody1(contactJoint) );
 
-	// call the user-defined callback function!
-	return me->userProcess( (Ogre::Real)timeStep, threadIndex );
+	        // call the user-defined callback function!
+	        if( !me->userProcess( (Ogre::Real)timeStep, threadIndex ) )
+                    NewtonContactJointRemoveContact(contactJoint, contact);
+        }
 }
 
+/*
 void _CDECL ContactCallback::contactEnd( const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1, int threadIndex )
 {
 	ContactCallback* me;
@@ -55,7 +61,7 @@ void _CDECL ContactCallback::contactEnd( const NewtonMaterial* material, const N
 
 	me->userEnd( threadIndex );
 }
-
+*/
 
 
 

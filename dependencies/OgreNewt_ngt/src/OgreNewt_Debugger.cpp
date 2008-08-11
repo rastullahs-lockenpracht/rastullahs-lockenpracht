@@ -10,6 +10,7 @@ Debugger::Debugger()
 {
 	m_debuglines = NULL;
 	m_debugnode = NULL;
+    m_defaultcolor = Ogre::ColourValue::White;
 }
 
 Debugger::~Debugger()
@@ -49,7 +50,8 @@ void Debugger::showLines( OgreNewt::World* world )
 	m_debuglines->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_LINE_LIST );
 
     // make the new lines.
-    NewtonWorldForEachBodyDo(world->getNewtonWorld(), newtonPerBody);
+    for( const NewtonBody* body = NewtonWorldGetFirstBody(world->getNewtonWorld()); body; body = NewtonWorldGetNextBody(world->getNewtonWorld(), body) )
+        newtonPerBody(body);
 
     m_debuglines->end();
 	m_debugnode->attachObject(m_debuglines); 
@@ -63,12 +65,30 @@ void Debugger::hideLines()
 	m_debuglines->clear(); 
 }
 
+void Debugger::setMaterialColor(const MaterialID* mat, Ogre::ColourValue col)
+{
+    m_materialcolors[mat->getID()] = col;
+}
+
+void Debugger::setDefaultColor(Ogre::ColourValue col)
+{
+    m_defaultcolor = col;
+}
 
 void _CDECL Debugger::newtonPerBody( const NewtonBody* body )
 {
-	float matrix[16];
-	NewtonBodyGetMatrix(body, &matrix[0]);
-	NewtonCollisionForEachPolygonDo( NewtonBodyGetCollision(body), &matrix[0], newtonPerPoly, NULL );
+    Debugger& debugger (Debugger::getSingleton());
+    MaterialIdColorMap::iterator it = 
+        debugger.m_materialcolors.find( NewtonBodyGetMaterialGroupID(body) );
+
+    if( it != debugger.m_materialcolors.end() )
+        debugger.m_debuglines->colour(it->second);
+    else
+        debugger.m_debuglines->colour(debugger.m_defaultcolor);
+
+    float matrix[16];
+    NewtonBodyGetMatrix(body, &matrix[0]);
+    NewtonCollisionForEachPolygonDo( NewtonBodyGetCollision(body), &matrix[0], newtonPerPoly, NULL );
 }
 
 void _CDECL Debugger::newtonPerPoly( void* userData, int vertexCount, const float* faceVertec, int id )
@@ -89,7 +109,5 @@ void _CDECL Debugger::newtonPerPoly( void* userData, int vertexCount, const floa
 	}
 }
 
-
-
-
 }	// end namespace OgreNewt
+

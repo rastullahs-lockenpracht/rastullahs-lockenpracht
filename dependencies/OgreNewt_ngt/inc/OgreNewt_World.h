@@ -135,7 +135,7 @@ public:
 	/*!
 		returns the number of bodies in the simulation.
 	*/
-	int getBodyCount() const { return NewtonGetBodyCount( m_world ); }
+	int getBodyCount() const { return NewtonWorldGetBodyCount( m_world ); }
 
 	//! multithread settings
 	void setMultithreadSolverOnSingleIsland( int mode ) { NewtonSetMultiThreadSolverOnSingleIsland( m_world, mode ); }

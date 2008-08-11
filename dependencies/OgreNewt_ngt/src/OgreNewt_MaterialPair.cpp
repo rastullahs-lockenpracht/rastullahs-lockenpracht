@@ -22,9 +22,8 @@ void MaterialPair::setContactCallback( OgreNewt::ContactCallback* callback )
 {
 	// set the material callbacks to the functions inside the ContactCallback class.
 	NewtonMaterialSetCollisionCallback( m_world->getNewtonWorld(), id0->getID(), id1->getID(), callback,
-		callback->contactBegin,
-		callback->contactProcess,
-		callback->contactEnd );
+		callback->onAABBOverlap,
+		callback->contactProcess);
 }
 
 
