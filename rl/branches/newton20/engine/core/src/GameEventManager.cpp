@@ -50,7 +50,7 @@ namespace rl {
         physicsManager->createMaterialPair(area_mat, lev_mat)->setDefaultCollidable(0);// ->setContactCallback(this);
 
         // set collision-debug color
-        //physicsManager->getNewtonDebugger()->setMaterialColor(area_mat, Ogre::ColourValue::Green);
+        physicsManager->getNewtonDebugger()->setMaterialColor(area_mat, Ogre::ColourValue::Green);
     }
 
     GameEventManager::~GameEventManager( )
@@ -281,7 +281,7 @@ namespace rl {
         if( it != mBodyGameAreaMap.end() )
         {
             it->second->foundCollision(bodyToActor(m_body1));
-            return false;
+            return 0;
         }
 
         it = mBodyGameAreaMap.find(m_body1);

@@ -108,9 +108,9 @@ namespace rl {
             PhysicsManager::getSingleton().getMaterialID("camera"),
             PhysicsManager::getSingleton().getMaterialID("character"))->setDefaultCollidable(0);
 
-        //PhysicsManager::getSingleton().getNewtonDebugger()->setMaterialColor(
-        //    PhysicsManager::getSingleton().getMaterialID("camera"),
-        //    Ogre::ColourValue::Black);
+        PhysicsManager::getSingleton().getNewtonDebugger()->setMaterialColor(
+            PhysicsManager::getSingleton().getMaterialID("camera"),
+            Ogre::ColourValue::Black);
 	}
 
     ControlState::~ControlState()

@@ -49,12 +49,15 @@ namespace rl
         physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultFriction(0.0f,0.0f);
         physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultFriction(0.0f,0.0f);
         physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultFriction(0.0f,0.0f);
-        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultElasticity(0.0f);
-        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultElasticity(0.0f);
-        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultElasticity(0.0f);
-        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultSoftness(0.5f);
-        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultSoftness(0.5f);
-        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultSoftness(0.5f);
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultElasticity(0.1f);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultElasticity(0.1f);
+        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultElasticity(0.1f);
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultSoftness(0.1f);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultSoftness(0.1f);
+        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultSoftness(0.1f);
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultSurfaceThickness(0.0f);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultSurfaceThickness(0.0f);
+        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultSurfaceThickness(0.0f);
 
 /*        
         physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultFriction(0.8f,0.4f);
@@ -67,7 +70,7 @@ namespace rl
         physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultSoftness(0.8f);
         physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultSoftness(0.8f);
 */
-        //physicsManager->getNewtonDebugger()->setMaterialColor(char_mat, Ogre::ColourValue::Red);
+        physicsManager->getNewtonDebugger()->setMaterialColor(char_mat, Ogre::ColourValue::Red);
     }
 
     CreatureControllerManager::~CreatureControllerManager()

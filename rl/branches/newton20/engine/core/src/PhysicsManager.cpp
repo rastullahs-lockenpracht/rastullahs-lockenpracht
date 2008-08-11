@@ -99,7 +99,7 @@ namespace rl
         // setup level material
         createMaterialID("level");
 
-        //mNewtonDebugger->setMaterialColor(getMaterialID("level"), Ogre::ColourValue::Blue);
+        mNewtonDebugger->setMaterialColor(getMaterialID("level"), Ogre::ColourValue::Blue);
 
         // below here starts 'old' stale fix code that should be removed
 
@@ -165,7 +165,10 @@ namespace rl
                     "Omega  Force  Torque  NewtonBodyGetSleepingState  NewtonBodyGetAutoFreeze  "\
                     "NewtonBodyGetContinuousCollisionMode  ( invMass  invIxx  invIyy  invIzz )");
                 if( Logger::getSingleton().getLogDetail() <= Logger::LL_DEBUG )
-                    NewtonWorldForEachBodyDo(mWorld->getNewtonWorld(), newtonPerBodyLogProperties);
+                for( const NewtonBody* body = NewtonWorldGetFirstBody(mWorld->getNewtonWorld());
+                     body != NULL;
+                     body = NewtonWorldGetNextBody(mWorld->getNewtonWorld(), body)  )
+                    newtonPerBodyLogProperties(body);
             }
 #endif
         }
@@ -183,8 +186,10 @@ namespace rl
                 LOG_DEBUG(Logger::CORE, "\tNewtonBodyLog: &Body  Position  Orientation  Velocity  "\
                     "Omega  Force  Torque  NewtonBodyGetSleepingState  NewtonBodyGetAutoFreeze  "\
                     "NewtonBodyGetContinuousCollisionMode  ( invMass  invIxx  invIyy  invIzz )");
-                if( Logger::getSingleton().getLogDetail() <= Logger::LL_DEBUG )
-                    NewtonWorldForEachBodyDo(mWorld->getNewtonWorld(), newtonPerBodyLogProperties);            }
+                for( const NewtonBody* body = NewtonWorldGetFirstBody(mWorld->getNewtonWorld());
+                     body != NULL;
+                     body = NewtonWorldGetNextBody(mWorld->getNewtonWorld(), body)  )
+                    newtonPerBodyLogProperties(body);
 #endif
         }
     }
@@ -506,6 +511,7 @@ namespace rl
                         {
                             Vector3 inert_offs=Vector3::ZERO;
                             static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(*inertia, inert_offs);
+                            *inertia *= mass;
                         }
                         break;
                     case GT_MESH:
@@ -830,6 +836,7 @@ namespace rl
 			{
                             Vector3 inert_offs=Vector3::ZERO;
                             static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(*inertia, inert_offs);
+                            *inertia *= Mass;
 			}
         }
         else if (geomType == GT_MESH)
@@ -887,6 +894,7 @@ namespace rl
         {
             Vector3 inert_offs=Vector3::ZERO;
             static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(*inertia, inert_offs);
+            *inertia *= mass;
         }
 
         return rval;
@@ -917,6 +925,7 @@ namespace rl
         {
             Vector3 inert_offs=Vector3::ZERO;
             static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(*inertia, inert_offs);
+            *inertia *= mass;
         }
 
         return rval;
@@ -951,6 +960,7 @@ namespace rl
         {
             Vector3 inert_offs=Vector3::ZERO;
             static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(*inertia, inert_offs);
+            *inertia *= mass;
         }
         return rval;
     }
@@ -986,6 +996,7 @@ namespace rl
         {
             Vector3 inert_offs=Vector3::ZERO;
             static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(*inertia, inert_offs);
+            *inertia *= mass;
         }
 
         return rval;
@@ -1024,6 +1035,7 @@ namespace rl
         {
             Vector3 inert_offs=Vector3::ZERO;
             static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(*inertia, inert_offs);
+            *inertia *= mass;
         }
         return rval;
     }

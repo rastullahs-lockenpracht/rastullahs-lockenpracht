@@ -425,28 +425,30 @@ namespace rl
             }
         }
 /*
+//        setContactNormalDirection(((Vector3::UNIT_Y.dotProduct(point-charPos)*Vector3::UNIT_Y + charPos) - point).normalisedCopy());
+        setContactNormalDirection(point - (charPos + charHeight/2));
+        setContactNormalAcceleration(0);
         setContactFrictionState(0,0);
         setContactFrictionState(0,1);
         setContactTangentAcceleration(0, 0);
         setContactTangentAcceleration(0, 1);
-        setContactNormalDirection(((Vector3::UNIT_Y.dotProduct(point-charPos)*Vector3::UNIT_Y + charPos) - point).normalisedCopy());
-        setContactNormalAcceleration(0);
 
-std::ostringstream oss;
-Vector3 vec1, vec2;
-oss << " Collision: Point: " << point
-    << "  \t Normal: " << normal
-    << "  \t Force: " << getContactForce()
-    << "  \t Normal-Speed: " << getContactNormalSpeed()
-    << "  \t Contact-Speed: " << point
-    << "  \t Contact-Normal: " << normal;
-getContactTangentDirections(vec1, vec2);
-oss << "  \t Tangent-Directions: " << vec1 << " " << vec2;
-LOG_MESSAGE(Logger::RULES, oss.str());
 */
+//std::ostringstream oss;
+//Vector3 vec1, vec2;
+//oss << " Collision: Point: " << point-charPos;
+//    << "  \t Normal: " << normal
+//    << "  \t Force: " << getContactForce()
+//    << "  \t Normal-Speed: " << getContactNormalSpeed()
+//    << "  \t Contact-Speed: " << point
+//    << "  \t Contact-Normal: " << normal;
+//getContactTangentDirections(vec1, vec2);
+//oss << "  \t Tangent-Directions: " << vec1 << " " << vec2;
+//LOG_MESSAGE(Logger::RULES, oss.str());
+/*
         setContactFrictionState(0,0);
         setContactFrictionState(0,1);
-/*
+
         if( stepHeight < 0.4 )
         {
             if(stepHeight > 0.01f) // experimantal value, 
