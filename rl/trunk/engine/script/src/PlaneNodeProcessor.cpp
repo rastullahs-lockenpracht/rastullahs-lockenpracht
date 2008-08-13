@@ -206,7 +206,7 @@ namespace rl
 		mPlane = plane;
 	}
 
-	void PlaneReflectionTextureListener::preRenderTargetUpdate(CONST RenderTargetEvent &evt)
+	void PlaneReflectionTextureListener::preRenderTargetUpdate(const RenderTargetEvent &evt)
 	{
 		mEntity->setVisible(false);
 		mCamera->enableReflection(*mPlane);
