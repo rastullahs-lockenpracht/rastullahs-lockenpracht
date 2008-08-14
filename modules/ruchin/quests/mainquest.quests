@@ -82,10 +82,5 @@
 			<state>OPEN</state>
 			<known>false</known>
 		</quest>
-		<quest id="subquest2_3">
-			<known>true</known>
-			<name>subquest2_3</name>
-			<known>true</known>
-		</quest>
 	</quest>
 </quests>
