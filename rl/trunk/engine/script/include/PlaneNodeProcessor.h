@@ -43,7 +43,7 @@ namespace rl
     private:
 
         void createCollision(Ogre::Entity* entity, XERCES_CPP_NAMESPACE::DOMElement* physicsProxyElem);
-		void createRenderToTextures(Ogre::Entity* entity, Ogre::Plane* plane, XERCES_CPP_NAMESPACE::DOMElement* rttElem);
+		void createRenderToTextures(Ogre::Entity* entity, Ogre::Plane* plane, Ogre::MaterialPtr mat, XERCES_CPP_NAMESPACE::DOMElement* rttElem);
 	};
 
 	class PlaneReflectionTextureListener : public Ogre::RenderTargetListener

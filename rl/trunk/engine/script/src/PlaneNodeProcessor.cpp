@@ -110,8 +110,15 @@ namespace rl
 		DOMElement* materialElem = getChildNamed(nodeElem, "material");
 		if(materialElem)
 		{	
-			createRenderToTextures(ent, plane, getChildNamed(nodeElem, "renderToTexture"));
-			ent->setMaterialName(getAttributeValueAsStdString(materialElem, "name"));
+			if(getChildNamed(nodeElem, "renderToTexture"))
+			{
+				Ogre::String matName = getAttributeValueAsStdString(materialElem, "name");
+				MaterialPtr material = static_cast<MaterialPtr>(MaterialManager::getSingleton().getByName(matName))->clone(matName + entName);
+				createRenderToTextures(ent, plane, material, getChildNamed(nodeElem, "renderToTexture"));
+				ent->setMaterialName(matName + entName);
+			}
+			else
+				ent->setMaterialName(getAttributeValueAsStdString(materialElem, "name"));
 		}
 		else
         {
@@ -156,12 +163,13 @@ namespace rl
 		}
 	}
 
-	void PlaneNodeProcessor::createRenderToTextures(Ogre::Entity* entity, Plane* plane, XERCES_CPP_NAMESPACE::DOMElement* rttElem)
+	void PlaneNodeProcessor::createRenderToTextures(Ogre::Entity* entity, Plane* plane, MaterialPtr material, XERCES_CPP_NAMESPACE::DOMElement* rttElem)
 	{
 		if(rttElem == NULL)
 			return;
 
-		MeshPtr mesh = entity->getMesh();
+		//MeshPtr mesh = entity->getMesh();
+		AliasTextureNamePairList aliases;
 
 		if(getAttributeValueAsBool(rttElem, "reflection"))
 		{
@@ -175,13 +183,14 @@ namespace rl
 			v->setOverlaysEnabled(false);
 			rttTex->addListener(new PlaneReflectionTextureListener(entity, CoreSubsystem::getSingleton().getWorld()->getActiveCamera(), plane));
 			
-			int num = mesh->getNumSubMeshes();
+			aliases["reflection"] = "Reflection" + entity->getName();
+			/*int num = mesh->getNumSubMeshes();
 			for(int i = 0; i < mesh->getNumSubMeshes(); i++)
 			{
 				SubMesh* sub = mesh->getSubMesh(i);
 				sub->addTextureAlias("reflection", "Reflection" + entity->getName());
 			}
-			mesh->updateMaterialForAllSubMeshes();
+			mesh->updateMaterialForAllSubMeshes();*/
 		}
 		if(getAttributeValueAsBool(rttElem, "refraction"))
 		{
@@ -194,12 +203,15 @@ namespace rl
 			v->setOverlaysEnabled(false);
 			rttTex->addListener(new PlaneRefractionTextureListener(entity));
 
-			for(int i = 0; i < mesh->getNumSubMeshes(); i++)
+			aliases["refraction"] = "Refraction" + entity->getName();
+			/*for(int i = 0; i < mesh->getNumSubMeshes(); i++)
 			{
 				SubMesh* sub = mesh->getSubMesh(i);
 				sub->addTextureAlias("refraction", "Refraction" + entity->getName());
-			}
+			}*/
 		}
+		if(!material->applyTextureAliases(aliases))
+			LOG_ERROR("PLANE", "Texture Aliase konnten nicht angewandt werden");
 	}
 
 	PlaneReflectionTextureListener::PlaneReflectionTextureListener(Ogre::Entity *ent, Ogre::Camera* cam, Plane* plane)
