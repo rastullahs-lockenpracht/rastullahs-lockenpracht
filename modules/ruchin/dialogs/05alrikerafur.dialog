@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE dialog SYSTEM "/home/mot/DSA-HL/dialog.dtd.xml">
+<dialog name="05AlrikeRafur">
+	<start>
+		<response id="0">
+			<option id="1" autoSelect="true">
+			<t language="de">
+				<p>Heda! Wartet einen Augenblick!</p>
+			</t>
+			<gotoresponse id="2" />
+			</option>
+		</response>
+	</start>
+	<response>
+		TODO HIER MUSS EIN SKRIPT AUSLOESEN, DASS RAFUR WEGRENNEN LAESST
+		<gotoresponse id="3"/>
+	</response>
+	<response id="3">
+		<option id="4" autoSelect="true">
+			<t language="de">
+				<p>Heilige Einfalt - nie machen sie, was man ihnen sagt!</p>
+			</t>
+		</option>
+	</response>
+</dialog>
