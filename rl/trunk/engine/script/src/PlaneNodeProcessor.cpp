@@ -96,7 +96,7 @@ namespace rl
 		plane->d = 0;
 		plane->normal = Vector3::UNIT_Y;
 
-		MeshManager::getSingleton().createPlane(entName, "custom", *plane, scale.x, scale.y, 1, 1, true, 1, 1, 1, Vector3::UNIT_Z);
+		MeshManager::getSingleton().createPlane(entName, "custom", *plane, scale.x, scale.y, 10, 10, true, 1, 1, 1, Vector3::UNIT_Z);
 
 		Entity* ent = CoreSubsystem::getSingleton().getWorld()->getSceneManager()->createEntity(entName, entName);
 
@@ -168,6 +168,9 @@ namespace rl
 		if(rttElem == NULL)
 			return;
 
+		Camera* cam = CoreSubsystem::getSingleton().getWorld()->getSceneManager()->createCamera("Cam" + entity->getName());
+		cam->setFOVy(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getFOVy());
+		cam->enableCustomNearClipPlane((MovablePlane*)plane);
 		//MeshPtr mesh = entity->getMesh();
 		AliasTextureNamePairList aliases;
 
@@ -178,10 +181,9 @@ namespace rl
 				512, 512, 0, PF_R8G8B8, TU_RENDERTARGET );
 			RenderTexture* rttTex = texture->getBuffer()->getRenderTarget();
 
-			CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->setAutoAspectRatio(true);
-			Viewport *v = rttTex->addViewport( CoreSubsystem::getSingleton().getWorld()->getActiveCamera() ); //Bleibt die Kamera immer die gleiche?
+			Viewport *v = rttTex->addViewport( cam ); //Bleibt die Kamera immer die gleiche?
 			v->setOverlaysEnabled(false);
-			rttTex->addListener(new PlaneReflectionTextureListener(entity, CoreSubsystem::getSingleton().getWorld()->getActiveCamera(), plane));
+			rttTex->addListener(new PlaneReflectionTextureListener(entity, cam, plane));
 			
 			aliases["reflection"] = "Reflection" + entity->getName();
 			/*int num = mesh->getNumSubMeshes();
@@ -199,9 +201,9 @@ namespace rl
 				512, 512, 0, PF_R8G8B8, TU_RENDERTARGET );
 			RenderTexture* rttTex = texture->getBuffer()->getRenderTarget();
 			
-			Viewport *v = rttTex->addViewport( CoreSubsystem::getSingleton().getWorld()->getActiveCamera());
+			Viewport *v = rttTex->addViewport( cam);
 			v->setOverlaysEnabled(false);
-			rttTex->addListener(new PlaneRefractionTextureListener(entity));
+			rttTex->addListener(new PlaneRefractionTextureListener(entity, cam));
 
 			aliases["refraction"] = "Refraction" + entity->getName();
 			/*for(int i = 0; i < mesh->getNumSubMeshes(); i++)
@@ -223,6 +225,8 @@ namespace rl
 
 	void PlaneReflectionTextureListener::preRenderTargetUpdate(const RenderTargetEvent &evt)
 	{
+		mCamera->setPosition(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getPosition());
+		mCamera->setOrientation(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getOrientation());
 		mEntity->setVisible(false);
 		mCamera->enableReflection(*mPlane);
 	}
@@ -233,13 +237,16 @@ namespace rl
 		mCamera->disableReflection();
 	}
 
-	PlaneRefractionTextureListener::PlaneRefractionTextureListener(Entity* ent)
+	PlaneRefractionTextureListener::PlaneRefractionTextureListener(Entity* ent, Camera* cam)
 	{
 		mEntity = ent;
+		mCamera = cam;
 	}
 
 	void PlaneRefractionTextureListener::preRenderTargetUpdate(const Ogre::RenderTargetEvent& evt)
 	{
+		mCamera->setPosition(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getPosition());
+		mCamera->setOrientation(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getOrientation());
 		mEntity->setVisible(false);
 	}
 

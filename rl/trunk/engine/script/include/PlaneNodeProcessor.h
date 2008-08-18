@@ -62,8 +62,9 @@ namespace rl
 	{
 	protected:
 		Ogre::Entity* mEntity;
+		Ogre::Camera* mCamera;
 	public:
-		PlaneRefractionTextureListener(Ogre::Entity* ent);
+		PlaneRefractionTextureListener(Ogre::Entity* ent, Ogre::Camera* cam);
 		void preRenderTargetUpdate(const Ogre::RenderTargetEvent& evt);
 		void postRenderTargetUpdate(const Ogre::RenderTargetEvent& evt);
 	};
