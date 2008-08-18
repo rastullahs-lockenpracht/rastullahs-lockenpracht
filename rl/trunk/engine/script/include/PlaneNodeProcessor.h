@@ -58,12 +58,12 @@ namespace rl
 		void postRenderTargetUpdate(const Ogre::RenderTargetEvent& evt);
 	};
 
-	class PlaneRefactionTextureListener : public Ogre::RenderTargetListener
+	class PlaneRefractionTextureListener : public Ogre::RenderTargetListener
 	{
 	protected:
 		Ogre::Entity* mEntity;
 	public:
-		PlaneRefactionTextureListener(Ogre::Entity* ent);
+		PlaneRefractionTextureListener(Ogre::Entity* ent);
 		void preRenderTargetUpdate(const Ogre::RenderTargetEvent& evt);
 		void postRenderTargetUpdate(const Ogre::RenderTargetEvent& evt);
 	};
