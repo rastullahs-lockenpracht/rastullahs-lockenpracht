@@ -225,8 +225,8 @@ namespace rl
 
 	void PlaneReflectionTextureListener::preRenderTargetUpdate(const RenderTargetEvent &evt)
 	{
-		mCamera->setPosition(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getPosition());
-		mCamera->setOrientation(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getOrientation());
+		mCamera->setPosition(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getWorldPosition());
+		mCamera->setOrientation(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getWorldOrientation());
 		mEntity->setVisible(false);
 		mCamera->enableReflection(*mPlane);
 	}
@@ -245,8 +245,8 @@ namespace rl
 
 	void PlaneRefractionTextureListener::preRenderTargetUpdate(const Ogre::RenderTargetEvent& evt)
 	{
-		mCamera->setPosition(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getPosition());
-		mCamera->setOrientation(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getOrientation());
+		mCamera->setPosition(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getWorldPosition());
+		mCamera->setOrientation(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getWorldOrientation());
 		mEntity->setVisible(false);
 	}
 
