@@ -317,12 +317,32 @@ namespace rl {
         {
             return mBone->getPosition();
         }
+        else if (mParent)
+        {
+            return mParent->getPosition();
+        }
         else
         {
             return Vector3::ZERO;
             /// @fixme: is submesh
             /*Throw(IllegalStateException,
                 "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");*/
+        }
+    }
+
+    const Vector3 Actor::getVelocity() const
+    {
+        if (mPhysicalThing)
+        {
+            return mPhysicalThing->getVelocity();
+        }
+        else if ( mParent )
+        {
+            return mParent->getVelocity();
+        }
+        else
+        {
+            return Vector3::ZERO;
         }
     }
 
@@ -335,6 +355,10 @@ namespace rl {
         else if (mBone)
         {
             return mBone->getOrientation();
+        }
+        else if (mParent)
+        {
+            return mParent->getOrientation();
         }
         else
         {
@@ -354,6 +378,10 @@ namespace rl {
         else if (mBone)
         {
             return mBone->_getDerivedPosition();
+        }
+        else if (mParent)
+        {
+            return mParent->getWorldPosition();
         }
         else
         {
@@ -416,6 +444,10 @@ namespace rl {
         else if (mBone)
         {
             return mBone->_getDerivedOrientation();
+        }
+        else if (mParent)
+        {
+            return mParent->getWorldOrientation();
         }
         else
         {
@@ -533,6 +565,7 @@ namespace rl {
         // Erst danach Parent/Child wirklich zuweisen, falls es eine Exception gibt.
         actor->mParent = this;
         mChildren.insert(actor);
+        actor->_update();
     }
 
     void Actor::attachToSlotAxisRot(

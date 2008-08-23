@@ -445,7 +445,7 @@ namespace rl
 //getContactTangentDirections(vec1, vec2);
 //oss << "  \t Tangent-Directions: " << vec1 << " " << vec2;
 //LOG_MESSAGE(Logger::RULES, oss.str());
-/*
+
         setContactFrictionState(0,0);
         setContactFrictionState(0,1);
 
@@ -483,7 +483,6 @@ namespace rl
                 setContactFrictionState(0,1);
             }
         }
-*/
 
         if(mMovement != NULL)
         {

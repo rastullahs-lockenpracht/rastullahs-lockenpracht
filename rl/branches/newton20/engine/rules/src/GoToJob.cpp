@@ -34,6 +34,8 @@ namespace rl
 		  mTimeLeft(duration)
 	{
 		mActor = CreatureControllerManager::getSingleton().getCreatureController(actor);
+                if( mActor == NULL )
+                    Throw(NullPointerException, "Couldn't get a CreatureController!");
 	}
 
 	GoToJob::GoToJob(Creature* actor, GameObject* target, Real maxDistance, Real duration)
@@ -45,6 +47,10 @@ namespace rl
 		  mTimeLeft(duration)
 	{
 		mActor = CreatureControllerManager::getSingleton().getCreatureController(actor);
+                if( mActor == NULL )
+                    Throw(NullPointerException, "Couldn't get a CreatureController!");
+                if( mTarget == NULL )
+                    Throw(NullPointerException, "Argument GameObject* target cannot be NULL!");
 	}
 
     GoToJob::~GoToJob()
@@ -60,15 +66,25 @@ namespace rl
 			mActor->setMovement(CreatureController::MT_STEHEN, Vector3::ZERO, Vector3::ZERO);
 			return true;
 		}
+
+                Ogre::Real distance = 0;
+
 		// update target position
 		if (mTarget)
 		{
 			mTargetPos = mTarget->getPosition();
+		        // Are we there now?
+		        distance = MathUtil::distance(mTarget->getWorldBoundingBox(),
+			    mActor->getCreature()->getWorldBoundingBox());
 		}
+                else
+                {
+                    if( mActor->getCreature()->getWorldBoundingBox().intersects(mTargetPos) )
+                        distance = 0;
+                    else
+                        distance = (mTargetPos - mActor->getCreature()->getPosition()).length();
+                }
 
-		// Are we there now?
-		Ogre::Real distance = MathUtil::distance(mTarget->getWorldBoundingBox(),
-			mActor->getCreature()->getWorldBoundingBox());
 		if (distance < mMaxDistance)
 		{
 			// Stay put where ever we are.
@@ -76,6 +92,8 @@ namespace rl
 			return true;
 		}
 
+
+                /*
 		// Hard set orientation.
 		/// @todo Use CreatureController properly to turn smoothly
 		Vector3 pos = mActor->getCreature()->getPosition();
@@ -84,8 +102,13 @@ namespace rl
 		targetPos.y = 0;
 		mActor->getCreature()->setOrientation(Vector3::NEGATIVE_UNIT_Z.getRotationTo(targetPos - pos));
 		mActor->setMovement(CreatureController::MT_LAUFEN, Vector3::NEGATIVE_UNIT_Z, Vector3::ZERO);
+                */
+		Vector3 pos = mActor->getCreature()->getPosition();
+                Radian yawDiff = Vector3::NEGATIVE_UNIT_Z.getRotationTo(mTargetPos-pos, Vector3::UNIT_Y).getYaw() - mActor->getYaw();
+                Vector3 rotation = Vector3::UNIT_Y*yawDiff.valueRadians();
+		mActor->setMovement(CreatureController::MT_LAUFEN, Vector3::NEGATIVE_UNIT_Z, rotation);
 
-		mTimeLeft  -= time;
+                mTimeLeft  -= time;
 		return false;
 	}
 }

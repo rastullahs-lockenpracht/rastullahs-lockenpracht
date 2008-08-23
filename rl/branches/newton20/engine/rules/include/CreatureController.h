@@ -114,7 +114,7 @@ namespace rl
          * @param direction This is the movement direction in local space.
 		 *                  If the direction isn't possible (see AbstractMovement::isDirectionPossible),
 		 *                  only a "part" of the direction is applied.
-         * @param rotation like above
+         * @param rotation like above (in radians)
          * @retval false signifies that the change to this movement was not possible (possibly because the present movement forbade it)
          */
         bool setMovement(MovementType type, Ogre::Vector3 direction, Ogre::Vector3 rotation);

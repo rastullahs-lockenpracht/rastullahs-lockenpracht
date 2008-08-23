@@ -71,7 +71,8 @@ void ListenerObject::_update()
         return;
     }
     listener->setPosition(actor->getWorldPosition());
-	listener->setOrientation(actor->getWorldOrientation());
+    listener->setOrientation(actor->getWorldOrientation());
+    listener->setVelocity(actor->getVelocity());
     LOG_DEBUG(Logger::CORE, "Pos Listener: "
         + StringConverter::toString(actor->getWorldPosition().x) + " "
         + StringConverter::toString(actor->getWorldPosition().y) + " "
@@ -81,8 +82,6 @@ void ListenerObject::_update()
         + StringConverter::toString(actor->getWorldOrientation().x) + " "
         + StringConverter::toString(actor->getWorldOrientation().y) + ", "
         + StringConverter::toString(actor->getWorldOrientation().z));
-//    listener->setOrientation(*temp1, *temp1);
-    // TODO Orientation korrigieren
 }
 
 /**

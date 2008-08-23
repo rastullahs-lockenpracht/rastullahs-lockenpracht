@@ -199,7 +199,7 @@ namespace rl
 
     void PhysicalThing::addForce(const Ogre::Vector3& force)
     {
-        //mBody->unFreeze();
+        mBody->unFreeze();
         mPendingForce += force;
     }
 
@@ -308,12 +308,12 @@ namespace rl
 
     void PhysicalThing::freeze()
     {
-        //mBody->freeze();
+        mBody->freeze();
     }
 
     void PhysicalThing::unfreeze()
     {
-        //mBody->unFreeze();
+        mBody->unFreeze();
     }
 
     void PhysicalThing::setContactListener(PhysicsContactListener* listener)
@@ -485,9 +485,9 @@ namespace rl
             // prepare for control
             mPhysicsController = controller;
             //mBody->setAutoFreeze(0);
-            //mBody->unFreeze();
-            //mBody->setLinearDamping(0.0f);
-            //mBody->setAngularDamping(Vector3::ZERO);
+            mBody->unFreeze();
+            mBody->setLinearDamping(0.0f);
+            mBody->setAngularDamping(Vector3::ZERO);
 
             mBody->setCustomForceAndTorqueCallback( PhysicsManager::controlledForceCallback );
 
