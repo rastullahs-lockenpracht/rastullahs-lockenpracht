@@ -43,7 +43,7 @@ namespace rl
     private:
 
         void createCollision(Ogre::Entity* entity, XERCES_CPP_NAMESPACE::DOMElement* physicsProxyElem);
-		void createRenderToTextures(Ogre::Entity* entity, Ogre::Plane* plane, XERCES_CPP_NAMESPACE::DOMElement* rttElem);
+		void createRenderToTextures(Ogre::Entity* entity, Ogre::Plane* plane, Ogre::MaterialPtr mat, XERCES_CPP_NAMESPACE::DOMElement* rttElem);
 	};
 
 	class PlaneReflectionTextureListener : public Ogre::RenderTargetListener
@@ -58,12 +58,13 @@ namespace rl
 		void postRenderTargetUpdate(const Ogre::RenderTargetEvent& evt);
 	};
 
-	class PlaneRefactionTextureListener : public Ogre::RenderTargetListener
+	class PlaneRefractionTextureListener : public Ogre::RenderTargetListener
 	{
 	protected:
 		Ogre::Entity* mEntity;
+		Ogre::Camera* mCamera;
 	public:
-		PlaneRefactionTextureListener(Ogre::Entity* ent);
+		PlaneRefractionTextureListener(Ogre::Entity* ent, Ogre::Camera* cam);
 		void preRenderTargetUpdate(const Ogre::RenderTargetEvent& evt);
 		void postRenderTargetUpdate(const Ogre::RenderTargetEvent& evt);
 	};

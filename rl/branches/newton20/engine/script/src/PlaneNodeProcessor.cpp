@@ -96,22 +96,29 @@ namespace rl
 		plane->d = 0;
 		plane->normal = Vector3::UNIT_Y;
 
-		MeshManager::getSingleton().createPlane(entName, "custom", *plane, 1, 1, 1, 1, true, 1, 1, 1, Vector3::UNIT_Z);
+		MeshManager::getSingleton().createPlane(entName, "custom", *plane, scale.x, scale.y, 10, 10, true, 1, 1, 1, Vector3::UNIT_Z);
 
 		Entity* ent = CoreSubsystem::getSingleton().getWorld()->getSceneManager()->createEntity(entName, entName);
 
 		LOG_DEBUG(Logger::RULES, " Loaded plane "+entName);
 
 		node->attachObject(ent);
-		node->scale(scale.x,1,scale.y);
+		//node->scale(scale.x,1,scale.y);
 
 		createCollision(ent, getChildNamed(nodeElem, "physicsproxy"));
 		
 		DOMElement* materialElem = getChildNamed(nodeElem, "material");
 		if(materialElem)
-		{
-			ent->setMaterialName(getAttributeValueAsStdString(materialElem, "name"));
-			createRenderToTextures(ent, plane, getChildNamed(nodeElem, "renderToTexture"));
+		{	
+			if(getChildNamed(nodeElem, "renderToTexture"))
+			{
+				Ogre::String matName = getAttributeValueAsStdString(materialElem, "name");
+				MaterialPtr material = static_cast<MaterialPtr>(MaterialManager::getSingleton().getByName(matName))->clone(matName + entName);
+				createRenderToTextures(ent, plane, material, getChildNamed(nodeElem, "renderToTexture"));
+				ent->setMaterialName(matName + entName);
+			}
+			else
+				ent->setMaterialName(getAttributeValueAsStdString(materialElem, "name"));
 		}
 		else
         {
@@ -156,47 +163,57 @@ namespace rl
 		}
 	}
 
-	void PlaneNodeProcessor::createRenderToTextures(Ogre::Entity* entity, Plane* plane, XERCES_CPP_NAMESPACE::DOMElement* rttElem)
+	void PlaneNodeProcessor::createRenderToTextures(Ogre::Entity* entity, Plane* plane, MaterialPtr material, XERCES_CPP_NAMESPACE::DOMElement* rttElem)
 	{
 		if(rttElem == NULL)
 			return;
 
-		MeshPtr mesh = entity->getMesh();
+		Camera* cam = CoreSubsystem::getSingleton().getWorld()->getSceneManager()->createCamera("Cam" + entity->getName());
+		cam->setFOVy(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getFOVy());
+		cam->enableCustomNearClipPlane((MovablePlane*)plane);
+		//MeshPtr mesh = entity->getMesh();
+		AliasTextureNamePairList aliases;
 
 		if(getAttributeValueAsBool(rttElem, "reflection"))
-			{
+		{
 			TexturePtr texture = Ogre::TextureManager::getSingleton().createManual( "Reflection" + entity->getName(), 
 				ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, TEX_TYPE_2D, 
 				512, 512, 0, PF_R8G8B8, TU_RENDERTARGET );
 			RenderTexture* rttTex = texture->getBuffer()->getRenderTarget();
-			
-			Viewport *v = rttTex->addViewport( CoreSubsystem::getSingleton().getWorld()->getActiveCamera() ); //Bleibt die Kamera immer die gleiche?
+
+			Viewport *v = rttTex->addViewport( cam ); //Bleibt die Kamera immer die gleiche?
 			v->setOverlaysEnabled(false);
-			rttTex->addListener(new PlaneReflectionTextureListener(entity, CoreSubsystem::getSingleton().getWorld()->getActiveCamera(), plane));
+			rttTex->addListener(new PlaneReflectionTextureListener(entity, cam, plane));
 			
+			aliases["reflection"] = "Reflection" + entity->getName();
+			/*int num = mesh->getNumSubMeshes();
 			for(int i = 0; i < mesh->getNumSubMeshes(); i++)
 			{
 				SubMesh* sub = mesh->getSubMesh(i);
 				sub->addTextureAlias("reflection", "Reflection" + entity->getName());
 			}
+			mesh->updateMaterialForAllSubMeshes();*/
 		}
-		if(getAttributeValueAsBool(rttElem, "refaction"))
+		if(getAttributeValueAsBool(rttElem, "refraction"))
 		{
-			TexturePtr texture = Ogre::TextureManager::getSingleton().createManual( "Refaction" + entity->getName(), 
+			TexturePtr texture = Ogre::TextureManager::getSingleton().createManual( "Refraction" + entity->getName(), 
 				ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, TEX_TYPE_2D, 
 				512, 512, 0, PF_R8G8B8, TU_RENDERTARGET );
 			RenderTexture* rttTex = texture->getBuffer()->getRenderTarget();
 			
-			Viewport *v = rttTex->addViewport( CoreSubsystem::getSingleton().getWorld()->getActiveCamera());
+			Viewport *v = rttTex->addViewport( cam);
 			v->setOverlaysEnabled(false);
-			rttTex->addListener(new PlaneRefactionTextureListener(entity));
+			rttTex->addListener(new PlaneRefractionTextureListener(entity, cam));
 
-			for(int i = 0; i < mesh->getNumSubMeshes(); i++)
+			aliases["refraction"] = "Refraction" + entity->getName();
+			/*for(int i = 0; i < mesh->getNumSubMeshes(); i++)
 			{
 				SubMesh* sub = mesh->getSubMesh(i);
-				sub->addTextureAlias("refaction", "Refaction" + entity->getName());
-			}
+				sub->addTextureAlias("refraction", "Refraction" + entity->getName());
+			}*/
 		}
+		if(!material->applyTextureAliases(aliases))
+			LOG_ERROR("PLANE", "Texture Aliase konnten nicht angewandt werden");
 	}
 
 	PlaneReflectionTextureListener::PlaneReflectionTextureListener(Ogre::Entity *ent, Ogre::Camera* cam, Plane* plane)
@@ -208,6 +225,8 @@ namespace rl
 
 	void PlaneReflectionTextureListener::preRenderTargetUpdate(const RenderTargetEvent &evt)
 	{
+		mCamera->setPosition(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getWorldPosition());
+		mCamera->setOrientation(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getWorldOrientation());
 		mEntity->setVisible(false);
 		mCamera->enableReflection(*mPlane);
 	}
@@ -218,17 +237,20 @@ namespace rl
 		mCamera->disableReflection();
 	}
 
-	PlaneRefactionTextureListener::PlaneRefactionTextureListener(Entity* ent)
+	PlaneRefractionTextureListener::PlaneRefractionTextureListener(Entity* ent, Camera* cam)
 	{
 		mEntity = ent;
+		mCamera = cam;
 	}
 
-	void PlaneRefactionTextureListener::preRenderTargetUpdate(const Ogre::RenderTargetEvent& evt)
+	void PlaneRefractionTextureListener::preRenderTargetUpdate(const Ogre::RenderTargetEvent& evt)
 	{
+		mCamera->setPosition(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getWorldPosition());
+		mCamera->setOrientation(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getWorldOrientation());
 		mEntity->setVisible(false);
 	}
 
-	void PlaneRefactionTextureListener::postRenderTargetUpdate(const Ogre::RenderTargetEvent& evt)
+	void PlaneRefractionTextureListener::postRenderTargetUpdate(const Ogre::RenderTargetEvent& evt)
 	{
 		mEntity->setVisible(true);
 	}
