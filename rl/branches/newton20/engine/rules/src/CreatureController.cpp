@@ -175,7 +175,7 @@ namespace rl
     {
         int act_gs = mCreature->getWert(Creature::WERT_GS);
         ///@todo wy does this not work
-        //act_gs -= mCreature->getWert(Creature::WERT_BE);
+        act_gs -= mCreature->getWert(Creature::WERT_BE);
         return max(act_gs,1);
     }
 
@@ -302,7 +302,7 @@ namespace rl
         {
             // find a reason why we now are AL_FLOOR
             if( timeSinceLastFloorContact < Time(Date::ONE_SECOND)*0.19 &&
-                -speed.y < 0.6 )
+                abs(speed.y) < 0.6 )
             {
                 setAbstractLocation(AL_FLOOR);
             }
@@ -311,7 +311,7 @@ namespace rl
         {
             // find a reason why we now are AL_AIRBORNE
             if( timeSinceLastFloorContact >= Time(Date::ONE_SECOND)*0.2 && // 2 seconds?
-                -speed.y > 0.6 )
+                abs(speed.y) > 0.6 )
             {
                 //std::ostringstream oss;
                 //oss << "Raycast for floor: speed.y: " << speed.y << "      timeSinceLastFloorContact: " << timeSinceLastFloorContact;
