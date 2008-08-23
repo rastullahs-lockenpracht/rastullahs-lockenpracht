@@ -127,7 +127,8 @@ class Torch < Item
 				@sound.getControlledObject().setVolume(0.5);
 				@sound.getControlledObject().setLooping(true)
 				@sound.getControlledObject().set3d(true)
-				getActor().attachToSlot(@sound, "SLOT_FAR_END")
+				#getActor().attachToSlot(@sound, "SLOT_FAR_END")
+                                getActor().attach(@sound) # here the position is set correctly!
 			end
 
 			if @light == nil
