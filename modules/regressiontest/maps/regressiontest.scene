@@ -4,8 +4,8 @@
 		<position x="1" y="0.45" z="1"/>
 		<scale x="10" y="2"/>
 		<physicsproxy collision="true" />
-		<renderToTexture reflection="true"/>
-		<material name="basic_reflection"/>
+		<renderToTexture reflection="true" refraction="true"/>
+		<material name="FresnelReflectionRefraction"/>
 	  </plane>  
 	  <entity meshfile="regressiontest_floorplane.mesh">
             <position x="0.0" y="0.0" z="0.0" />
