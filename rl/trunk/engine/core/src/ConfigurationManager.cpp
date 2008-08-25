@@ -286,6 +286,7 @@ namespace rl
         addPlugin("RenderSystem_GL", mOgrePluginDirectory);
         addPlugin("Plugin_ParticleFX", mOgrePluginDirectory);
         addPlugin("Plugin_OctreeSceneManager", mOgrePluginDirectory);
+		addPlugin("Plugin_CgProgramManager", mOgrePluginDirectory);
 
         // Load the module list
         ConfigFile* configfile = new ConfigFile();
