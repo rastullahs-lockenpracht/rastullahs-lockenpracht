@@ -4,20 +4,20 @@
 
 vertex_program FresnelRefractReflectVP cg
 {
-	source Fresnel.program
+	source Fresnel.source
 	entry_point main_vp
 	profiles vs_1_1 arbvp1
 }
 vertex_program FresnelRefractReflectVPold cg
 {
-	source Fresnel.program
+	source Fresnel.source
 	entry_point main_vp_old
 	profiles vs_1_1 arbvp1
 }
 
 fragment_program FresnelRefractReflectFP cg
 {
-	source Fresnel.program
+	source Fresnel.source
 	entry_point main_fp
 	// sorry, ps_1_1 and fp20 can't do this
 	profiles ps_2_0 arbfp1
@@ -25,7 +25,7 @@ fragment_program FresnelRefractReflectFP cg
 
 fragment_program FresnelRefractReflectPS asm
 {
-	source FresnelPS_ASM.program
+	source FresnelPS_ASM.source
 	// sorry, only for ps_1_4 :)
 	syntax ps_1_4
 
