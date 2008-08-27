@@ -75,10 +75,11 @@ namespace rl {
 
     UiSubsystem::~UiSubsystem()
     {
+		delete mInputManager;
+	
         delete mWindowFactory;
         delete mWindowManager;
-
-        delete mInputManager;
+        
 
         delete mGuiSystem;
         delete mGuiRenderer;
