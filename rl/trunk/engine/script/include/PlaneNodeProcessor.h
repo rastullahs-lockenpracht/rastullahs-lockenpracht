@@ -28,8 +28,8 @@
 
 #include "AbstractMapNodeProcessor.h"
 
-#include <OgreMaterial.h>
-#include <OgreRenderTargetListener.h>
+//#include <OgreMaterial.h>
+//#include <OgreRenderTargetListener.h>
 
 namespace rl
 {

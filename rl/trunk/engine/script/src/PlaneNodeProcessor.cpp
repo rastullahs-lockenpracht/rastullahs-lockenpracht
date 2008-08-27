@@ -23,7 +23,7 @@
 #include "PhysicsManager.h"
 #include "World.h"
 
-#include <OgreMaterialManager.h>
+//#include <OgreMaterialManager.h>
 
 using namespace Ogre;
 using namespace XERCES_CPP_NAMESPACE;
