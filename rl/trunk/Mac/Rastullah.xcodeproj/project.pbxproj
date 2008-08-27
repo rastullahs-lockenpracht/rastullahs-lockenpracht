@@ -429,6 +429,7 @@
 		44D8147A0BF7B62F00534175 /* Trigger.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814750BF7B62F00534175 /* Trigger.h */; };
 		44D8147B0BF7B62F00534175 /* Zone.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814760BF7B62F00534175 /* Zone.h */; };
 		44D8147C0BF7B62F00534175 /* ZoneManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814770BF7B62F00534175 /* ZoneManager.h */; };
+		48003B550E3211660056D073 /* libboost_system.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
 		483646990D83D13700912FEC /* ContentLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646960D83D13700912FEC /* ContentLoader.h */; };
 		4836469A0D83D13700912FEC /* SoundStitching.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646970D83D13700912FEC /* SoundStitching.h */; };
 		4836469B0D83D13700912FEC /* StartAnimationJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646980D83D13700912FEC /* StartAnimationJob.h */; };
@@ -645,18 +646,23 @@
 		4890C0E30E18062B00BE5850 /* StrafeMovement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4890C0D50E18062B00BE5850 /* StrafeMovement.cpp */; };
 		4890C0E40E18062B00BE5850 /* WalkMovement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4890C0D60E18062B00BE5850 /* WalkMovement.cpp */; };
 		48A52B220E0EDA0E008DBDD8 /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52B210E0EDA0E008DBDD8 /* libboost_filesystem.dylib */; };
-		48A52CB00E0EF55C008DBDD8 /* libboost_system.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.lib */; };
-		48A52CB10E0EF55C008DBDD8 /* libboost_system.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.lib */; };
+		48A52CB00E0EF55C008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
+		48A52CB10E0EF55C008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
 		48A52CB30E0EF577008DBDD8 /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52B210E0EDA0E008DBDD8 /* libboost_filesystem.dylib */; };
 		48A52CB60E0EF5BD008DBDD8 /* ApplyDamageJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 48A52CB50E0EF5BD008DBDD8 /* ApplyDamageJob.h */; };
 		48A52CB80E0EF5D0008DBDD8 /* ApplyDamageJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48A52CB70E0EF5D0008DBDD8 /* ApplyDamageJob.cpp */; };
-		48A52CBC0E0EF77B008DBDD8 /* libboost_system.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.lib */; };
-		48A52CBD0E0EF77B008DBDD8 /* libboost_system.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.lib */; };
-		48A52CBE0E0EF77C008DBDD8 /* libboost_system.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.lib */; };
-		48A52CBF0E0EF77C008DBDD8 /* libboost_system.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.lib */; };
-		48A52CC00E0EF77D008DBDD8 /* libboost_system.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.lib */; };
-		48A52CC20E0EF77E008DBDD8 /* libboost_system.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.lib */; };
-		48A52CC30E0EF785008DBDD8 /* libboost_system.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.lib */; };
+		48A52CBC0E0EF77B008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
+		48A52CBD0E0EF77B008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
+		48A52CBE0E0EF77C008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
+		48A52CBF0E0EF77C008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
+		48A52CC00E0EF77D008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
+		48A52CC20E0EF77E008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
+		48A52CC30E0EF785008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
+		48B0B0350E6534690023B198 /* PlaneNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B0B0340E6534690023B198 /* PlaneNodeProcessor.cpp */; };
+		48B0B0370E6534810023B198 /* PlaneNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B0B0360E6534810023B198 /* PlaneNodeProcessor.h */; };
+		48B0B03C0E6535AB0023B198 /* libmeshmagick.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 440785DD0C09D231006E496D /* libmeshmagick.dylib */; };
+		48B0B0490E65BBB30023B198 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48B0B0480E65BBB30023B198 /* libfmodex.dylib */; };
+		48B0B04A0E65BBC10023B198 /* libfmodex.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 48B0B0480E65BBB30023B198 /* libfmodex.dylib */; };
 		48B5F63A0DAF48AF00D05C95 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D0C4E960486CD37000505A6 /* Info.plist */; };
 		48B772DD0D58350B000A3B97 /* XmlProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B772DA0D58350B000A3B97 /* XmlProcessor.h */; };
 		48B772DE0D58350B000A3B97 /* XmlPropertyReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B772DB0D58350B000A3B97 /* XmlPropertyReader.h */; };
@@ -845,8 +851,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				48CFBF8F0E2E869000CD0C51 /* FreeType.framework in Copy Frameworks */,
+				48003B550E3211660056D073 /* libboost_system.dylib in Copy Frameworks */,
 				48D0BDE60E23378700863824 /* libboost_filesystem.dylib in Copy Frameworks */,
+				48CFBF8F0E2E869000CD0C51 /* FreeType.framework in Copy Frameworks */,
 				48D0BDC70E23375E00863824 /* libruby.dylib in Copy Frameworks */,
 				484D92140E1E060200BCFC2B /* Xerces.framework in Copy Frameworks */,
 				484D92150E1E060200BCFC2B /* OIS.framework in Copy Frameworks */,
@@ -1466,9 +1473,12 @@
 		4890C0D50E18062B00BE5850 /* StrafeMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StrafeMovement.cpp; path = ../engine/rules/src/StrafeMovement.cpp; sourceTree = SOURCE_ROOT; };
 		4890C0D60E18062B00BE5850 /* WalkMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WalkMovement.cpp; path = ../engine/rules/src/WalkMovement.cpp; sourceTree = SOURCE_ROOT; };
 		48A52B210E0EDA0E008DBDD8 /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = /usr/local/lib/libboost_filesystem.dylib; sourceTree = "<absolute>"; };
-		48A52CAF0E0EF55C008DBDD8 /* libboost_system.lib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_system.lib; path = /usr/local/lib/libboost_system.lib; sourceTree = "<absolute>"; };
+		48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_system.dylib; path = /usr/local/lib/libboost_system.dylib; sourceTree = "<absolute>"; };
 		48A52CB50E0EF5BD008DBDD8 /* ApplyDamageJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApplyDamageJob.h; path = ../engine/rules/include/ApplyDamageJob.h; sourceTree = SOURCE_ROOT; };
 		48A52CB70E0EF5D0008DBDD8 /* ApplyDamageJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ApplyDamageJob.cpp; path = ../engine/rules/src/ApplyDamageJob.cpp; sourceTree = SOURCE_ROOT; };
+		48B0B0340E6534690023B198 /* PlaneNodeProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlaneNodeProcessor.cpp; path = ../engine/script/src/PlaneNodeProcessor.cpp; sourceTree = SOURCE_ROOT; };
+		48B0B0360E6534810023B198 /* PlaneNodeProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaneNodeProcessor.h; path = ../engine/script/include/PlaneNodeProcessor.h; sourceTree = SOURCE_ROOT; };
+		48B0B0480E65BBB30023B198 /* libfmodex.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmodex.dylib; path = "FMOD Programmers API/api/lib/libfmodex.dylib"; sourceTree = SYSTEM_DEVELOPER_DIR; };
 		48B772DA0D58350B000A3B97 /* XmlProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XmlProcessor.h; path = ../engine/common/include/XmlProcessor.h; sourceTree = SOURCE_ROOT; };
 		48B772DB0D58350B000A3B97 /* XmlPropertyReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XmlPropertyReader.h; path = ../engine/common/include/XmlPropertyReader.h; sourceTree = SOURCE_ROOT; };
 		48B772DC0D58350B000A3B97 /* XmlPropertyWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XmlPropertyWriter.h; path = ../engine/common/include/XmlPropertyWriter.h; sourceTree = SOURCE_ROOT; };
@@ -1509,7 +1519,7 @@
 				444EAEBF0BD0F09900C6D4A0 /* CEGUI.framework in Frameworks */,
 				444EAEC00BD0F09900C6D4A0 /* Ogre.framework in Frameworks */,
 				4836CBCE0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
-				48A52CB00E0EF55C008DBDD8 /* libboost_system.lib in Frameworks */,
+				48A52CB00E0EF55C008DBDD8 /* libboost_system.dylib in Frameworks */,
 				484FE6BA0E17BC8800FA880F /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1526,7 +1536,7 @@
 				444EB0890BD1153500C6D4A0 /* OgreNewt.framework in Frameworks */,
 				440785DE0C09D231006E496D /* libmeshmagick.dylib in Frameworks */,
 				4836CBCD0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
-				48A52CB10E0EF55C008DBDD8 /* libboost_system.lib in Frameworks */,
+				48A52CB10E0EF55C008DBDD8 /* libboost_system.dylib in Frameworks */,
 				484FE6BC0E17BC8800FA880F /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1544,7 +1554,7 @@
 				444EB0D80BD1198B00C6D4A0 /* OgreNewt.framework in Frameworks */,
 				444EB0DB0BD119BB00C6D4A0 /* OpenSteer.framework in Frameworks */,
 				4836CBCC0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
-				48A52CBC0E0EF77B008DBDD8 /* libboost_system.lib in Frameworks */,
+				48A52CBC0E0EF77B008DBDD8 /* libboost_system.dylib in Frameworks */,
 				484FE6BD0E17BC8800FA880F /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1560,7 +1570,7 @@
 				444EB3410BD172BA00C6D4A0 /* CEGUI.framework in Frameworks */,
 				444EB3420BD172BA00C6D4A0 /* Ogre.framework in Frameworks */,
 				4836CBCB0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
-				48A52CBD0E0EF77B008DBDD8 /* libboost_system.lib in Frameworks */,
+				48A52CBD0E0EF77B008DBDD8 /* libboost_system.dylib in Frameworks */,
 				484FE6BE0E17BC8800FA880F /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1579,7 +1589,7 @@
 				444EB3730BD1784A00C6D4A0 /* OgreCEGUIRenderer.framework in Frameworks */,
 				4857E4E50D46A664009D376D /* OIS.framework in Frameworks */,
 				4836CBCA0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
-				48A52CBE0E0EF77C008DBDD8 /* libboost_system.lib in Frameworks */,
+				48A52CBE0E0EF77C008DBDD8 /* libboost_system.dylib in Frameworks */,
 				484FE6BF0E17BC8800FA880F /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1594,8 +1604,9 @@
 				48365BEC0D8D56DC00BF3313 /* libRlCommon.dylib in Frameworks */,
 				48365C950D8D56EA00BF3313 /* CEGUI.framework in Frameworks */,
 				4836CBCF0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
-				48A52CC30E0EF785008DBDD8 /* libboost_system.lib in Frameworks */,
+				48A52CC30E0EF785008DBDD8 /* libboost_system.dylib in Frameworks */,
 				484FE6C10E17BC8800FA880F /* Carbon.framework in Frameworks */,
+				48B0B0490E65BBB30023B198 /* libfmodex.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1604,7 +1615,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				483D87CE0D8C564400F3629E /* libRlScript.dylib in Frameworks */,
-				48A52CC00E0EF77D008DBDD8 /* libboost_system.lib in Frameworks */,
+				48A52CC00E0EF77D008DBDD8 /* libboost_system.dylib in Frameworks */,
 				484FE6C20E17BC8800FA880F /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1623,7 +1634,7 @@
 				48570C480D8A6E9900096E35 /* libRlRules.dylib in Frameworks */,
 				48570C490D8A6E9900096E35 /* libRlUi.dylib in Frameworks */,
 				4836CBC90D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
-				48A52CBF0E0EF77C008DBDD8 /* libboost_system.lib in Frameworks */,
+				48A52CBF0E0EF77C008DBDD8 /* libboost_system.dylib in Frameworks */,
 				484FE6C00E17BC8800FA880F /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1644,7 +1655,7 @@
 				444EB7A00BD195E800C6D4A0 /* libRlUi.dylib in Frameworks */,
 				4836F8BC0D885AAA00E3632F /* libruby.dylib in Frameworks */,
 				48570E020D8A6F8300096E35 /* libRlScript.dylib in Frameworks */,
-				48A52CC20E0EF77E008DBDD8 /* libboost_system.lib in Frameworks */,
+				48A52CC20E0EF77E008DBDD8 /* libboost_system.dylib in Frameworks */,
 				484FE6BB0E17BC8800FA880F /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1671,6 +1682,7 @@
 		20286C29FDCF999611CA2CEA /* Rastullah */ = {
 			isa = PBXGroup;
 			children = (
+				48B0B0480E65BBB30023B198 /* libfmodex.dylib */,
 				20286C2AFDCF999611CA2CEA /* Sources */,
 				20286C2CFDCF999611CA2CEA /* Resources */,
 				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
@@ -1712,7 +1724,7 @@
 			children = (
 				48CFBF8E0E2E869000CD0C51 /* FreeType.framework */,
 				484FE6B90E17BC8800FA880F /* Carbon.framework */,
-				48A52CAF0E0EF55C008DBDD8 /* libboost_system.lib */,
+				48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */,
 				48A52B210E0EDA0E008DBDD8 /* libboost_filesystem.dylib */,
 				4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */,
 				4857E4E40D46A664009D376D /* OIS.framework */,
@@ -2294,42 +2306,9 @@
 		444EAE600BD0E66500C6D4A0 /* RlScript */ = {
 			isa = PBXGroup;
 			children = (
-				485B89570E15796500D5B19C /* Scene.cpp */,
-				485B89580E15796500D5B19C /* SceneLoader.cpp */,
-				485B89590E15796500D5B19C /* SceneManager.cpp */,
-				485B89510E15794A00D5B19C /* Scene.h */,
-				485B89520E15794A00D5B19C /* SceneLoader.h */,
-				485B89530E15794A00D5B19C /* SceneManager.h */,
-				48760AA90D92E4B700BEB57C /* RlExports_wrap.cxx */,
-				48760AAA0D92E4B700BEB57C /* RlExports_wrap.h */,
+				48B0B0230E6533940023B198 /* Headers */,
+				48B0B0240E6533A50023B198 /* Source */,
 				48389C010D86783200AFAB66 /* swig */,
-				48389C190D867AA900AFAB66 /* stdinc.cpp */,
-				4404DA840C48D01E007B4657 /* stdinc.h */,
-				446BF4810C4532B50013C214 /* UnifiedFactory.h */,
-				444825ED0BF7B32100C5A94F /* AbstractMapNodeProcessor.h */,
-				444825EE0BF7B32100C5A94F /* EntityNodeProcessor.h */,
-				444825EF0BF7B32100C5A94F /* EnvironmentProcessor.h */,
-				444825F00BF7B32100C5A94F /* GameObjectNodeProcessor.h */,
-				444825F10BF7B32100C5A94F /* LightNodeProcessor.h */,
-				444825F20BF7B32100C5A94F /* MapLoader.h */,
-				444825F30BF7B32100C5A94F /* ParticleSystemNodeProcessor.h */,
-				48389C1A0D867AA900AFAB66 /* TriggerFactory.cpp */,
-				444825F40BF7B32100C5A94F /* SoundNodeProcessor.h */,
-				444825F50BF7B32100C5A94F /* TriggerFactory.h */,
-				444825F60BF7B32100C5A94F /* WaypointProcessor.h */,
-				444825F70BF7B32100C5A94F /* ZoneProcessor.h */,
-				444825D90BF7B2B200C5A94F /* AbstractMapNodeProcessor.cpp */,
-				444825DA0BF7B2B200C5A94F /* EntityNodeProcessor.cpp */,
-				444825DB0BF7B2B200C5A94F /* EnvironmentProcessor.cpp */,
-				444825DC0BF7B2B200C5A94F /* GameObjectNodeProcessor.cpp */,
-				444825DD0BF7B2B200C5A94F /* LightNodeProcessor.cpp */,
-				444825DE0BF7B2B200C5A94F /* MapLoader.cpp */,
-				444825DF0BF7B2B200C5A94F /* ParticleSystemNodeProcessor.cpp */,
-				444825E00BF7B2B200C5A94F /* SoundNodeProcessor.cpp */,
-				444825E10BF7B2B200C5A94F /* WaypointProcessor.cpp */,
-				444825E20BF7B2B200C5A94F /* ZoneProcessor.cpp */,
-				444EAE670BD0E6D400C6D4A0 /* ScriptObjectMarker.cpp */,
-				444EAE680BD0E6D400C6D4A0 /* ScriptSubsystem.cpp */,
 				444EAE610BD0E6C000C6D4A0 /* ScriptObjectMarker.h */,
 				444EAE620BD0E6C000C6D4A0 /* ScriptPrerequisites.h */,
 				444EAE630BD0E6C000C6D4A0 /* ScriptSubsystem.h */,
@@ -2340,6 +2319,8 @@
 		48389C010D86783200AFAB66 /* swig */ = {
 			isa = PBXGroup;
 			children = (
+				48760AA90D92E4B700BEB57C /* RlExports_wrap.cxx */,
+				48760AAA0D92E4B700BEB57C /* RlExports_wrap.h */,
 				48500B780D906A1000EAD8DB /* RlScriptExportsMac.cpp */,
 				48389C020D86787900AFAB66 /* RlExports.i */,
 				48389BE80D8677EE00AFAB66 /* RlAi.head.swig */,
@@ -2406,6 +2387,55 @@
 				483D869B0D8C3DA200F3629E /* Fmod4SoundStitching.cpp */,
 			);
 			path = src;
+			sourceTree = "<group>";
+		};
+		48B0B0230E6533940023B198 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				444825ED0BF7B32100C5A94F /* AbstractMapNodeProcessor.h */,
+				444825EE0BF7B32100C5A94F /* EntityNodeProcessor.h */,
+				444825EF0BF7B32100C5A94F /* EnvironmentProcessor.h */,
+				444825F00BF7B32100C5A94F /* GameObjectNodeProcessor.h */,
+				444825F10BF7B32100C5A94F /* LightNodeProcessor.h */,
+				444825F20BF7B32100C5A94F /* MapLoader.h */,
+				444825F30BF7B32100C5A94F /* ParticleSystemNodeProcessor.h */,
+				48B0B0360E6534810023B198 /* PlaneNodeProcessor.h */,
+				485B89510E15794A00D5B19C /* Scene.h */,
+				485B89520E15794A00D5B19C /* SceneLoader.h */,
+				485B89530E15794A00D5B19C /* SceneManager.h */,
+				444825F40BF7B32100C5A94F /* SoundNodeProcessor.h */,
+				4404DA840C48D01E007B4657 /* stdinc.h */,
+				444825F50BF7B32100C5A94F /* TriggerFactory.h */,
+				446BF4810C4532B50013C214 /* UnifiedFactory.h */,
+				444825F60BF7B32100C5A94F /* WaypointProcessor.h */,
+				444825F70BF7B32100C5A94F /* ZoneProcessor.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		48B0B0240E6533A50023B198 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				444825D90BF7B2B200C5A94F /* AbstractMapNodeProcessor.cpp */,
+				444825DA0BF7B2B200C5A94F /* EntityNodeProcessor.cpp */,
+				444825DB0BF7B2B200C5A94F /* EnvironmentProcessor.cpp */,
+				444825DC0BF7B2B200C5A94F /* GameObjectNodeProcessor.cpp */,
+				444825DD0BF7B2B200C5A94F /* LightNodeProcessor.cpp */,
+				444825DE0BF7B2B200C5A94F /* MapLoader.cpp */,
+				444825DF0BF7B2B200C5A94F /* ParticleSystemNodeProcessor.cpp */,
+				48B0B0340E6534690023B198 /* PlaneNodeProcessor.cpp */,
+				485B89570E15796500D5B19C /* Scene.cpp */,
+				485B89580E15796500D5B19C /* SceneLoader.cpp */,
+				485B89590E15796500D5B19C /* SceneManager.cpp */,
+				444EAE670BD0E6D400C6D4A0 /* ScriptObjectMarker.cpp */,
+				444EAE680BD0E6D400C6D4A0 /* ScriptSubsystem.cpp */,
+				444825E00BF7B2B200C5A94F /* SoundNodeProcessor.cpp */,
+				48389C190D867AA900AFAB66 /* stdinc.cpp */,
+				48389C1A0D867AA900AFAB66 /* TriggerFactory.cpp */,
+				444825E10BF7B2B200C5A94F /* WaypointProcessor.cpp */,
+				444825E20BF7B2B200C5A94F /* ZoneProcessor.cpp */,
+			);
+			name = Source;
 			sourceTree = "<group>";
 		};
 		48CFBFD60E2E87A800CD0C51 /* Scripts */ = {
@@ -2779,6 +2809,7 @@
 				485B89540E15794A00D5B19C /* Scene.h in Headers */,
 				485B89550E15794A00D5B19C /* SceneLoader.h in Headers */,
 				485B89560E15794A00D5B19C /* SceneManager.h in Headers */,
+				48B0B0370E6534810023B198 /* PlaneNodeProcessor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2995,11 +3026,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48B0B03C0E6535AB0023B198 /* libmeshmagick.dylib in Resources */,
 				484D921E0E1E078100BCFC2B /* libRlCommon.dylib in Resources */,
 				484D921F0E1E078100BCFC2B /* libRlCore.dylib in Resources */,
 				484D92200E1E078100BCFC2B /* libRlAi.dylib in Resources */,
 				484D92210E1E078100BCFC2B /* libRlRules.dylib in Resources */,
 				484D92220E1E078100BCFC2B /* libRlUi.dylib in Resources */,
+				48B0B04A0E65BBC10023B198 /* libfmodex.dylib in Resources */,
 				484D92230E1E078100BCFC2B /* libRlScript.dylib in Resources */,
 				484D92240E1E078100BCFC2B /* libRlFmod4Driver.dylib in Resources */,
 				484D92250E1E078100BCFC2B /* RlScript.bundle in Resources */,
@@ -3366,6 +3399,7 @@
 				485B895A0E15796500D5B19C /* Scene.cpp in Sources */,
 				485B895B0E15796500D5B19C /* SceneLoader.cpp in Sources */,
 				485B895C0E15796500D5B19C /* SceneManager.cpp in Sources */,
+				48B0B0350E6534690023B198 /* PlaneNodeProcessor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3538,7 +3572,7 @@
 				OTHER_LDFLAGS = "-pthread";
 				PREBINDING = NO;
 				PRODUCT_NAME = libRlCommon;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
@@ -3609,7 +3643,7 @@
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
 				PRODUCT_NAME = libRlCore;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
@@ -3688,7 +3722,7 @@
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
 				PRODUCT_NAME = libRlAi;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
@@ -3761,7 +3795,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = libRlRules;
 				SHARED_PRECOMPS_DIR = "";
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
@@ -3835,7 +3869,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = libRlUi;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
@@ -3898,12 +3932,16 @@
 				);
 				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"/Developer/FMOD Programmers API/api/inc\"";
 				INSTALL_PATH = "@executable_path/../Resources";
-				LIBRARY_SEARCH_PATHS = "$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"/Developer/FMOD Programmers API/api/lib\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(DEVELOPER_DIR)/FMOD Programmers API/api/lib\"";
 				OTHER_LDFLAGS = "-lfmodex";
 				PREBINDING = NO;
 				PRODUCT_NAME = RlFmod4Driver;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
@@ -3926,8 +3964,12 @@
 				);
 				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"/Developer/FMOD Programmers API/api/inc\"";
 				INSTALL_PATH = "@executable_path/../Resources";
-				LIBRARY_SEARCH_PATHS = "$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"/Developer/FMOD Programmers API/api/lib\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(DEVELOPER_DIR)/FMOD Programmers API/api/lib\"";
 				OTHER_LDFLAGS = "-lfmodex";
 				PREBINDING = NO;
 				PRODUCT_NAME = RlFmod4Driver;
@@ -3961,7 +4003,7 @@
 				MACH_O_TYPE = mh_bundle;
 				PREBINDING = NO;
 				PRODUCT_NAME = RlScript;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
@@ -4026,7 +4068,7 @@
 				MACH_O_TYPE = mh_dylib;
 				PREBINDING = NO;
 				PRODUCT_NAME = RlScript;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
@@ -4088,10 +4130,12 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/build/Debug\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/build/Debug\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(DEVELOPER_DIR)/FMOD Programmers API/api/lib\"";
 				PRODUCT_NAME = Rastullah;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
@@ -4119,10 +4163,12 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_3)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/build/Debug\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/build/Debug\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(DEVELOPER_DIR)/FMOD Programmers API/api/lib\"";
 				PRODUCT_NAME = Rastullah;
 				WRAPPER_EXTENSION = app;
 			};
@@ -4154,6 +4200,7 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
