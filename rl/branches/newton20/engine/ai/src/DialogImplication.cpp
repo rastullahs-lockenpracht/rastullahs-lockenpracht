@@ -48,7 +48,7 @@ namespace rl
         dialog->setProperty(mVariableName, prop);
     }
 
-        DialogVariableIncrease::DialogVariableIncrease(const Ogre::String& variableName, 
+	DialogVariableIncrease::DialogVariableIncrease(const Ogre::String& variableName, 
                                                    const CeGuiString& value)
         : DialogVariableAssignment(variableName, value)
     {

@@ -23,7 +23,7 @@
 #include "PhysicsManager.h"
 #include "World.h"
 
-#include <OgreMaterialManager.h>
+//#include <OgreMaterialManager.h>
 
 using namespace Ogre;
 using namespace XERCES_CPP_NAMESPACE;
@@ -90,19 +90,20 @@ namespace rl
 			entName = getRandomName("Plane");
 		}
 
-		SceneNode* node = getRootSceneNode()->createChildSceneNode(entName, position, orientation);
+		SceneNode* node = getRootSceneNode()->createChildSceneNode(entName + "Node", position, orientation);
 
-		Plane* plane = new MovablePlane(entName);
+		MovablePlane* plane = new MovablePlane(entName + "Plane");
 		plane->d = 0;
 		plane->normal = Vector3::UNIT_Y;
 
-		MeshManager::getSingleton().createPlane(entName, "custom", *plane, scale.x, scale.y, 10, 10, true, 1, 1, 1, Vector3::UNIT_Z);
+		MeshManager::getSingleton().createPlane(entName + "Mesh", "custom", *plane, scale.x, scale.y, 10, 10, true, 1, 1, 1, Vector3::UNIT_Z);
 
-		Entity* ent = CoreSubsystem::getSingleton().getWorld()->getSceneManager()->createEntity(entName, entName);
+		Entity* ent = CoreSubsystem::getSingleton().getWorld()->getSceneManager()->createEntity(entName, entName + "Mesh");
 
 		LOG_DEBUG(Logger::RULES, " Loaded plane "+entName);
 
 		node->attachObject(ent);
+		node->attachObject(plane);
 		//node->scale(scale.x,1,scale.y);
 
 		createCollision(ent, getChildNamed(nodeElem, "physicsproxy"));
@@ -169,9 +170,12 @@ namespace rl
 			return;
 
 		Camera* cam = CoreSubsystem::getSingleton().getWorld()->getSceneManager()->createCamera("Cam" + entity->getName());
+		cam->setNearClipDistance(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getNearClipDistance());
+        cam->setFarClipDistance(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getFarClipDistance());
+		cam->setAutoAspectRatio(true);
 		cam->setFOVy(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getFOVy());
 		cam->enableCustomNearClipPlane((MovablePlane*)plane);
-		//MeshPtr mesh = entity->getMesh();
+
 		AliasTextureNamePairList aliases;
 
 		if(getAttributeValueAsBool(rttElem, "reflection"))
@@ -181,18 +185,11 @@ namespace rl
 				512, 512, 0, PF_R8G8B8, TU_RENDERTARGET );
 			RenderTexture* rttTex = texture->getBuffer()->getRenderTarget();
 
-			Viewport *v = rttTex->addViewport( cam ); //Bleibt die Kamera immer die gleiche?
+			Viewport *v = rttTex->addViewport( cam );
 			v->setOverlaysEnabled(false);
 			rttTex->addListener(new PlaneReflectionTextureListener(entity, cam, plane));
 			
 			aliases["reflection"] = "Reflection" + entity->getName();
-			/*int num = mesh->getNumSubMeshes();
-			for(int i = 0; i < mesh->getNumSubMeshes(); i++)
-			{
-				SubMesh* sub = mesh->getSubMesh(i);
-				sub->addTextureAlias("reflection", "Reflection" + entity->getName());
-			}
-			mesh->updateMaterialForAllSubMeshes();*/
 		}
 		if(getAttributeValueAsBool(rttElem, "refraction"))
 		{
@@ -206,11 +203,6 @@ namespace rl
 			rttTex->addListener(new PlaneRefractionTextureListener(entity, cam));
 
 			aliases["refraction"] = "Refraction" + entity->getName();
-			/*for(int i = 0; i < mesh->getNumSubMeshes(); i++)
-			{
-				SubMesh* sub = mesh->getSubMesh(i);
-				sub->addTextureAlias("refraction", "Refraction" + entity->getName());
-			}*/
 		}
 		if(!material->applyTextureAliases(aliases))
 			LOG_ERROR("PLANE", "Texture Aliase konnten nicht angewandt werden");

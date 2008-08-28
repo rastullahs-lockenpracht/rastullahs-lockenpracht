@@ -44,14 +44,14 @@ namespace rl
     {
         AbstractMovement::activate();
         getRotationMovement()->activate();
-        //getStepRecognitionMovement()->activate();
+        getStepRecognitionMovement()->activate();
     }
 
     void StandAroundMovement::deactivate()
     {
         AbstractMovement::deactivate();
         getRotationMovement()->deactivate();
-        //getStepRecognitionMovement()->deactivate();
+        getStepRecognitionMovement()->deactivate();
     }
 
     bool StandAroundMovement::calculateBaseVelocity(Real &velocity)
@@ -89,7 +89,7 @@ namespace rl
         // (changing direction during slow movement makes char slide sideways)
         force.y = 0;
 
-        //getStepRecognitionMovement()->calculateForceAndTorque(force, torque, timestep);
+        getStepRecognitionMovement()->calculateForceAndTorque(force, torque, timestep);
     }
 
     bool StandAroundMovement::run(Ogre::Real elapsedTime,  Ogre::Vector3 direction, Ogre::Vector3 rotation)
@@ -104,9 +104,9 @@ namespace rl
         if( getRotationMovement()->isPossible() )
             if( getRotationMovement()->run(elapsedTime, direction, rotation) )
                 ret = true;
-        //if( getStepRecognitionMovement()->isPossible() )
-        //    if (getStepRecognitionMovement()->run(elapsedTime, direction, rotation) )
-        //        ret = true;
+        if( getStepRecognitionMovement()->isPossible() )
+            if (getStepRecognitionMovement()->run(elapsedTime, direction, rotation) )
+                ret = true;
         return ret;
     }
 

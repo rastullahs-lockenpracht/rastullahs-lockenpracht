@@ -18,6 +18,7 @@
 
 #include "UiPrerequisites.h"
 
+#include <CEGUI.h>
 #include <elements/CEGUIDragContainer.h>
 
 namespace rl 
@@ -41,6 +42,7 @@ namespace rl
 		const CeGuiString& getItemParentSlot() const;
 		Inventory* getItemParentInventory() const;
 		Item* getItem() const;
+                virtual void setItem(Item*); // can only be used once to initialize the Container
 		CEGUI::Window* getContentWindow() const;
 	
 		bool _handleItemMouseClick(const CEGUI::EventArgs& evt, Item* item);
@@ -49,13 +51,15 @@ namespace rl
         bool fadeOutAndHide(Ogre::Real delay);
         bool stopFadeOut();
 
-        void destroyWindow(); // this is internally done with a windowfadejob to prevent problems
+        virtual void destroy(void); // inherited from CEGUI::WINDOW
 
-        void setDestroyListener(ItemDragContainerDestroyListener *listener) {mDestroyListener = listener;}
+        //void destroyWindow(); // this is internally done with a windowfadejob to prevent problems
+
+        void setDestroyListener(ItemDragContainerDestroyListener *listener);
 	protected:
 		CEGUI::Window* mContentWindow;
 		
-		ItemDragContainer(Item* item, const CeGuiString& name);
+		ItemDragContainer(const CeGuiString &type, const CeGuiString& name);
 		virtual bool testClassName_impl(const CEGUI::String& class_name) const;
 
 	private:
@@ -71,7 +75,17 @@ namespace rl
     class ItemDragContainerDestroyListener
     {
     public:
+        ItemDragContainerDestroyListener();
+        virtual ~ItemDragContainerDestroyListener();
         virtual void notifyItemDragContainerDestroyed(ItemDragContainer* cont) = 0;
+    protected:
+        void addDragContainer(ItemDragContainer* dragcont);
+        void removeDragContainer(ItemDragContainer* dragcont);
+        friend class ItemDragContainer;
+    private:
+        typedef std::map<CeGuiString, ItemDragContainer*> DndContainerMap;
+        DndContainerMap mContainers;
+        bool mIsDestroying;
     };
 
 } // namespace rl

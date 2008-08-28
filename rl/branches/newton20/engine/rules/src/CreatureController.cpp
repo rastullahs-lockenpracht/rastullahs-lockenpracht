@@ -446,7 +446,8 @@ namespace rl
 //oss << "  \t Tangent-Directions: " << vec1 << " " << vec2;
 //LOG_MESSAGE(Logger::RULES, oss.str());
 
-        setContactFrictionState(0,0);
+        rotateTangentDirections(/*charOri*mDirection + */Vector3::UNIT_Y);
+        setContactFrictionState(1,0);
         setContactFrictionState(0,1);
 
         if( stepHeight < 0.4 )
@@ -456,15 +457,14 @@ namespace rl
                                    // too high means the creature stops if moving slowly onto a step because of the friction
             {
                 //setContactNormalAcceleration(5);
-                rotateTangentDirections(charOri*mDirection + Vector3::UNIT_Y);
                 setContactTangentAcceleration(5,0);
-                setContactFrictionState(1,0);
-                setContactFrictionState(1,1);
+                //setContactFrictionState(1,0);
+                //setContactFrictionState(1,1);
             }
             else
             {
-                setContactFrictionState(1,0);
-                setContactFrictionState(1,1);
+                //setContactFrictionState(1,0);
+                //setContactFrictionState(1,1);
             }
             //setContactElasticity(0.0f);
         }
@@ -474,13 +474,13 @@ namespace rl
             vel = mCreature->getActor()->getPhysicalThing()->getVelocity();
             if( vel.y >= 0 )
             {
-                setContactFrictionState(1,0);
-                setContactFrictionState(1,1);    
+                //setContactFrictionState(1,0);
+                //setContactFrictionState(1,1);    
             }
             else
             {
-                setContactFrictionState(0,0);
-                setContactFrictionState(0,1);
+                //setContactFrictionState(0,0);
+                //setContactFrictionState(0,1);
             }
         }
 

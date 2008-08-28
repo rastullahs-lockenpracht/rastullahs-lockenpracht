@@ -22,26 +22,49 @@
 #include "AbstractWindow.h"
 #include "Item.h"
 
+namespace CEGUI{
+    CEGUI_DEFINE_WINDOW_FACTORY(ItemIconDragContainer)
+}
 namespace rl {
-	ItemIconDragContainer::ItemIconDragContainer(Item* item, const CeGuiString& name)
-		: ItemDragContainer(item, name)
+
+    const CeGuiString ItemIconDragContainer::WidgetTypeName("ItemIconDragContainer");
+
+
+
+	ItemIconDragContainer::ItemIconDragContainer(const CeGuiString &type, const CeGuiString& name)
+		: ItemDragContainer(type, name)
 	{
-		CeGuiString icon = item->getImageName();
-
-		if (icon == "")
-		{
-			icon = ICON_UNKNOWN_ITEM;
-		}
-
 		CeGuiString prefix = name;
-		mContentWindow = AbstractWindow::loadWindow("itemicondragcontainer.xml", prefix);
+		mContentWindow = this; //AbstractWindow::loadWindow("itemicondragcontainer.xml", prefix);
+
 
 		for (size_t idx = 0; idx < mContentWindow->getChildCount(); ++idx)
 		{
 			LOG_MESSAGE(Logger::UI, mContentWindow->getChildAtIdx(idx)->getName());
 		}
 
-		mContentWindow->getChild(name+"ItemIconDragContainer/Icon")
+		addChildWindow(mContentWindow);
+                mContentWindow->setDestroyedByParent(true);
+	}
+
+        void ItemIconDragContainer::setItem(Item* item)
+        {
+            ItemDragContainer::setItem(item);
+
+
+
+
+		CeGuiString icon = item->getImageName();
+
+		if (icon == "")
+		{
+			icon = ICON_UNKNOWN_ITEM;
+		}
+                const CeGuiString &name = getName();
+
+
+
+		mContentWindow->getChild(name+"/Icon")
 			->setProperty("Image", icon);
 
 		mContentWindow->subscribeEvent(
@@ -59,6 +82,6 @@ namespace rl {
 			cegui_absdim(item->getSize().first*30),
 			cegui_absdim(item->getSize().second*30)));
 
-		addChildWindow(mContentWindow);
-	}
+
+        }
 }

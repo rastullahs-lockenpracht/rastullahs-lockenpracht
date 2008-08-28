@@ -40,8 +40,8 @@ namespace rl {
             Ogre::Real targetAlpha = 1.0f, Ogre::Real changeRate = 4.0f);
         WindowFadeJob(CEGUI::Window* window, Mode mode, 
             Ogre::Real targetAlpha = 1.0f, Ogre::Real changeRate = 4.0f);
-        WindowFadeJob(ItemDragContainer* window, Mode mode, 
-            Ogre::Real targetAlpha = 1.0f, Ogre::Real changeRate = 4.0f);
+        //WindowFadeJob(ItemDragContainer* window, Mode mode, 
+        //    Ogre::Real targetAlpha = 1.0f, Ogre::Real changeRate = 4.0f);
 
         virtual bool execute(Ogre::Real time);
         virtual void discard();
@@ -49,7 +49,7 @@ namespace rl {
     protected:
         AbstractWindow* mAbstractWindow;
         CEGUI::Window* mCEGUIWindow;
-        ItemDragContainer* mItemDragContainer;
+        //ItemDragContainer* mItemDragContainer;
         Mode mMode;
         Ogre::Real mChangeRate;
         Ogre::Real mCurrentAlpha;

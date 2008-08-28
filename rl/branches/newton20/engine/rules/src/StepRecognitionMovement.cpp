@@ -21,6 +21,8 @@ using namespace std;
 using namespace Ogre;
 
 
+/// @todo: use TriggerVolumes
+// void NewtonCollisionSetAsTriggerVolume(const NewtonCollision* convexCollision, int trigger);
 
 
 namespace rl

@@ -22,6 +22,8 @@
 #include "ControlState.h"
 #include "Combatant.h"
 #include "MessagePump.h"
+#include "PhysicsController.h"
+#include "PhysicsGenericContactCallback.h"
 #include "Selector.h"
 
 
@@ -32,7 +34,11 @@ namespace rl {
     class CombatGui;
     class CombatManager;
 
-	class _RlUiExport CombatControlState : public ControlState, public Combatant
+	class _RlUiExport CombatControlState :
+            public ControlState,
+            public Combatant,
+            public PhysicsController,
+            public PhysicsGenericContactCallback
 	{
 	public:
 		/**
@@ -46,6 +52,8 @@ namespace rl {
 
         virtual void pause();
         virtual void resume();
+        virtual bool keyPressed(const OIS::KeyEvent& evt, bool handled);
+        virtual bool keyReleased(const OIS::KeyEvent& evt, bool handled);
 
 		void run(Ogre::Real elapsedTime);
 
@@ -53,6 +61,14 @@ namespace rl {
 
         virtual Ogre::String getCombatantTypeName() const;
         virtual void requestCombatantAction();
+
+
+        // camera collision: OgreNewt::ContactCallback overides
+        int OnAABBOverlap(int threadIndex);
+        int userProcess(Ogre::Real timestep, int threadIndex);
+
+        // camera movement: Newton force and torque callback
+        void OnApplyForceAndTorque(PhysicalThing *pt, float timstep);
 
     private:
 		enum State {REQUEST_USER_INPUT, ROUND_EXECUTION};
@@ -74,6 +90,17 @@ namespace rl {
         CameraObject* mCamera;
 
 		State mState;
+        // Camera:
+        Ogre::Degree mCameraYaw, mCameraPitch;
+        Ogre::Real mMaxCameraDistance, mMinCameraDistance;
+        int mMovementState;
+        Ogre::Real mCameraLinearDampingK, mCameraLinearSpringK;
+
+        // Camera helper functions
+        void resetCamera();
+        void updateCameraLookAt(Ogre::Real timestep);
+        Ogre::Vector3 getCombatCenterPosition();
+        Ogre::Vector3 calculateOptimalCameraPosition();
         
         // Event handlers
 		bool userRequestAttackOpponent(Combatant*);

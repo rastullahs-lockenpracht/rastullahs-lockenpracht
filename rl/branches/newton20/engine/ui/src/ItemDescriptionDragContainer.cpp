@@ -22,10 +22,34 @@
 #include "AbstractWindow.h"
 #include "Item.h"
 
+
+
+namespace CEGUI
+{
+    CEGUI_DEFINE_WINDOW_FACTORY(ItemDescriptionDragContainer)
+}
+
 namespace rl {
-	ItemDescriptionDragContainer::ItemDescriptionDragContainer(Item* item, const CeGuiString& name)
-		: ItemDragContainer(item, name)
+
+    const CeGuiString ItemDescriptionDragContainer::WidgetTypeName("ItemDescriptionDragContainer");
+
+
+
+
+	ItemDescriptionDragContainer::ItemDescriptionDragContainer(const CeGuiString &type, const CeGuiString& name)
+		: ItemDragContainer(type, name)
 	{
+		CeGuiString prefix = name;
+
+		mContentWindow = this; //AbstractWindow::loadWindow("itemdescriptiondragcontainer.xml", prefix);
+		addChildWindow(mContentWindow);
+                mContentWindow->setDestroyedByParent(true);
+	}
+
+        void ItemDescriptionDragContainer::setItem(Item* item)
+        {
+            ItemDragContainer::setItem(item);
+
 		CeGuiString icon = item->getImageName();
 
 		if (icon == "")
@@ -33,18 +57,19 @@ namespace rl {
 			icon = ICON_UNKNOWN_ITEM;
 		}
 
-		CeGuiString prefix = name;
-		mContentWindow = AbstractWindow::loadWindow("itemdescriptiondragcontainer.xml", prefix);
+                const CeGuiString &name = getName();
+
 
 		mContentWindow->getChild(
-			name+"ItemDescriptionDragContainer/Icon")
+			name+"/Icon")
 			->setProperty("Image", icon);
 		mContentWindow->getChild(
-			name+"ItemDescriptionDragContainer/Name")
+			name+"/Name")
 			->setText(item->getName());
 		mContentWindow->getChild(
-			name+"ItemDescriptionDragContainer/Description")
+			name+"/Description")
 			->setText(item->getDescription());
+
 
 		mContentWindow->subscribeEvent(
 			Window::EventMouseClick,
@@ -54,7 +79,8 @@ namespace rl {
 			Window::EventMouseDoubleClick,
 			boost::bind(&ItemDragContainer::_handleItemDoubleClick, this, _1, item));
 
-		setSize(mContentWindow->getSize());
-		addChildWindow(mContentWindow);
-	}
+
+
+	    setSize(mContentWindow->getSize());
+        }
 }
