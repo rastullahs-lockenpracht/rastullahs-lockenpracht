@@ -1,0 +1,16 @@
+<scene formatVersion="0.4.0">
+    <nodes>
+<plane name="wasser">
+<position x="0.0" y="-0.1" z="0"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="48" y="48"/>
+<physicsproxy collision="true" />
+<renderToTexture reflection="true" refraction="true"/>
+<material name="FresnelReflectionRefraction"/>
+</plane>
+<entity name="boden" meshfile="wiese.mesh">
+<position x="0.0" y="0.0" z="0.0"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
+</entity>
+<entity name="felsen" meshfile="felsen.mesh">
+<position x="-9.461217" y="0.0" z="-0.349514"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="2.892444" y="2.892444" z="2.892444"/>
+</entity>
+    </nodes>
+</scene>

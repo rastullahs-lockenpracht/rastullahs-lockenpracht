@@ -1,0 +1,42 @@
+material wasser/SOLID/TEX/Untitled
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture Untitled
+			}
+		}
+	}
+}
+material wiese/SOLID/TEX/gras_kana.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture gras_kana.png
+			}
+		}
+	}
+}
+material felsen/SOLID/TEX/felsen_3_kana.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture felsen_3_kana.png
+			}
+		}
+	}
+}

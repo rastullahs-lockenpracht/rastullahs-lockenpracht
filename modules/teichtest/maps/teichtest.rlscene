@@ -1,0 +1,4 @@
+<scene name="scene01">
+	<map file="teichtest.rlmap.xml"/>
+	<map file="hero.rlmap.xml"/>
+</scene>

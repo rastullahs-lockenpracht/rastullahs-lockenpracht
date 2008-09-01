@@ -1,0 +1,14 @@
+material nx.wall
+{
+	technique
+	{
+		pass
+		{
+			diffuse 0.800000 0.800000 0.800000
+			texture_unit
+			{
+				texture nx.static.wall.png
+			}
+		}
+	}
+}
