@@ -354,7 +354,7 @@ namespace rl {
         mCamBody->setForce(springAcc * mass);
     }
 
-    int CombatControlState::OnAABBOverlap(int threadIndex)
+    int CombatControlState::onAABBOverlap(int threadIndex)
     {
         // TODO handle camera collisions here
         return 0;

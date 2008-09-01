@@ -245,6 +245,7 @@ namespace rl {
         mBody->setMaterialGroupID(
             PhysicsManager::getSingleton().getMaterialID("gamearea"));
         mBody->setUserData(NULL);
+        ((OgreNewt::ConvexCollision*)col)->setAsTriggerVolume(true);
     }
 
     GameSimpleCollisionAreaType::GameSimpleCollisionAreaType(
@@ -262,6 +263,7 @@ namespace rl {
         mBody->setMaterialGroupID(
             PhysicsManager::getSingleton().getMaterialID("gamearea"));
         mBody->setUserData(NULL);
+        ((OgreNewt::ConvexCollision*)col)->setAsTriggerVolume(true);
     }
 
 }

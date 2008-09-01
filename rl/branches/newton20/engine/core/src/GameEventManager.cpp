@@ -274,7 +274,27 @@ namespace rl {
 
         return NAME;
     }
+/*
+    int GameEventManager::onAABBOverlap(int)
+    {
+        NewtonBodyGameAreaMap::iterator it = mBodyGameAreaMap.find(m_body0);
+        if( it != mBodyGameAreaMap.end() )
+        {
+            it->second->foundCollision(bodyToActor(m_body1));
+            return 0;
+        }
 
+        it = mBodyGameAreaMap.find(m_body1);
+        if( it != mBodyGameAreaMap.end() )
+        {
+            it->second->foundCollision(bodyToActor(m_body0));
+            return 0;
+        }
+
+        LOG_WARNING(Logger::CORE, "Der Kollisionskörper konnte keiner GameArea zugeordnet werden!");
+        return 0;
+    }
+*/
     int GameEventManager::userProcess(Real timestep, int)
     {
         NewtonBodyGameAreaMap::iterator it = mBodyGameAreaMap.find(m_body0);
@@ -292,6 +312,7 @@ namespace rl {
         }
 
         LOG_WARNING(Logger::CORE, "Der Kollisionskörper konnte keiner GameArea zugeordnet werden!");
+
         return 0;
     }
 

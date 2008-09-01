@@ -27,7 +27,7 @@ namespace rl
 {
     /// this is the base class of all movements and provides a general interface for movements
     class AbstractMovement : 
-        public OgreNewt::ContactCallback
+        public PhysicsGenericContactCallback
     {
     public:
         AbstractMovement(CreatureController *movingCreature) : mMovingCreature(movingCreature), mActive(false) {}

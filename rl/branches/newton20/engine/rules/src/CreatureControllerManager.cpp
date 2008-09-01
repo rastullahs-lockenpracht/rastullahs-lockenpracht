@@ -176,8 +176,8 @@ namespace rl
                 // Protected members from type OgreNewt::ContactCallback have to be overridden in order
                 // for the controllers to work. This is because these members are used by OgreNewt functions
                 // for processing this contact. Should probably be solved in OgreNewt directly.
-                OgreNewt::ContactCallback* controller = it->second;
-               *controller = (OgreNewt::ContactCallback)(*this);
+                PhysicsGenericContactCallback* controller = it->second;
+               *controller = (PhysicsGenericContactCallback)(*this);
                 return controller->userProcess(timestep, threadid);
             }
         }

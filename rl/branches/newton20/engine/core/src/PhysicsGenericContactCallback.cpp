@@ -25,7 +25,7 @@ using namespace Ogre;
 
 namespace rl
 {
-    int PhysicsGenericContactCallback::userBegin()
+    int PhysicsGenericContactCallback::onAABBOverlap(int threadindex)
     {
         return 1;
     }
@@ -35,8 +35,10 @@ namespace rl
         return 1;
     }
 
-    void PhysicsGenericContactCallback::userEnd()
+    int PhysicsGenericContactCallback::contactProcess(Real timestep, int threadid)
     {
+        int retval = userProcess(timestep, threadid);
+
         Actor* a1 = static_cast<Actor*>(m_body0->getUserData());
         Actor* a2 = static_cast<Actor*>(m_body1->getUserData());
         if (a1 && a1->getPhysicalThing()->getContactListener())
@@ -49,5 +51,7 @@ namespace rl
             a2->getPhysicalThing()->getContactListener()->
                 contactOccured(a2->getPhysicalThing(), a1->getPhysicalThing());
         }
+
+        return retval;
     }
 }
