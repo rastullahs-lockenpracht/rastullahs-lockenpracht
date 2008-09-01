@@ -107,7 +107,7 @@ public:
 		user process function.  is called for each contact between the 2 bodies.  all member functions are valid from
 		within this function, and will affect the current contact.  return 0 to ignore the collision, 1 to allow it.
 	 */
-	virtual int userProcess( Ogre::Real timeStep, int threadIndex ) { return 1; }
+	virtual int contactProcess( Ogre::Real timeStep, int threadIndex ) { return 1; }
 
 	//! user-defined End function
 	/*!

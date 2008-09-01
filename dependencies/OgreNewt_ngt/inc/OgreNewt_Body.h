@@ -198,7 +198,22 @@ public:
 		returns the current center of mass, as an offset from the original origin when the body was created.
 	*/
 	Ogre::Vector3 getCenterOfMass() const;
+        //! freeze the rigid body.
+        /*!
+            this command "freezes" the Rigid Body, removing it from the active simulation list.  it will "unfreeze" if another body comes in contact with it, or you "unfreeze" it.
+            \sa unFreeze()
+        */
+       void freeze() { NewtonBodySetFreezeState( m_body, 1 ); }
 
+        //! unfreeze the rigid body.
+        /*!
+            \sa freeze()
+        */
+        void unFreeze() { NewtonBodySetFreezeState( m_body, 0 ); }
+
+        //! is the body freezed?
+        bool isFreezed() { return NewtonBodyGetFreezeState( m_body ) != 0; }
+            
 	//! set the material for the body
 	/*!
 		Materials are an extremely powerful way to control body behavior. first create a new MaterialID object, and then pass a pointer

@@ -90,6 +90,15 @@ public:
 	//! calculate the moment of inertia for this collision primitive, along with the theoretical center-of-mass for this shape.
 	void calculateInertialMatrix( Ogre::Vector3& inertia, Ogre::Vector3& offset ) const { NewtonConvexCollisionCalculateInertialMatrix( m_col, &inertia.x, &offset.x ); }
 
+        //! returns true, if the collision is a trigger-volume
+        bool isTriggerVolume() const { return NewtonCollisionIsTriggerVolume(m_col) != 0; }
+
+        //! set collision as trigger-volume
+        /*!
+                if a collision is marked as a trigger-volume, there's no calculation of contacts, so
+                this acts like an accurate aabb test
+        */
+        void setAsTriggerVolume(bool trigger) { NewtonCollisionSetAsTriggerVolume(m_col, (int)trigger); }
 };
 
 //typedef Ogre::SharedPtr<Collision> CollisionPtr;

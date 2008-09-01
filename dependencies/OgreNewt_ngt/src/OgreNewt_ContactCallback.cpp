@@ -43,8 +43,10 @@ void _CDECL ContactCallback::contactProcess(const NewtonJoint *contactJoint, flo
 	        me->m_body1 = (OgreNewt::Body*)NewtonBodyGetUserData( NewtonJointGetBody1(contactJoint) );
 
 	        // call the user-defined callback function!
-	        if( !me->userProcess( (Ogre::Real)timeStep, threadIndex ) )
+	        if( !me->contactProcess( (Ogre::Real)timeStep, threadIndex ) )
+                {
                     NewtonContactJointRemoveContact(contactJoint, contact);
+                }
         }
 }
 
