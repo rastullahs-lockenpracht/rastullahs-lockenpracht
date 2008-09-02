@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<GameObjectDefinitions>
+
+	<gameobjectclass classid="hero" baseclass="Hero">
+		<property name="geometrytype" type="STRING" data="ellipsoid" />
+		<property name="mass" type="REAL" data="75"/>
+		<property name="inventorywindowtype" type="STRING" data="inventory_human.xml"/>
+		<property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+		<property name="name" type="STRING" data="Alrike"/>
+		<property name="description" type="STRING" data="Heldin von Berufung"/>
+		<property name="inventory" type="MAP">
+			<property name="slots" type="ARRAY">
+				<!-- Left hand -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Left Hand"/>
+					<property name="type" type="STRING" data="bone"/>
+					<property name="bone" type="STRING" data="l_hand"/>
+					<property name="readies" type="INT" data="3"/> <!-- Weapons | Shields -->
+				</property>
+				<!-- Right hand -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Right Hand"/>
+					<property name="type" type="STRING" data="bone"/>
+					<property name="bone" type="STRING" data="r_hand"/>
+					<property name="readies" type="INT" data="3"/> <!-- Weapons | Shields -->
+				</property>
+			</property>
+		</property>
+		<property name="eigenschaften" type="MAP">
+			<property name="MU" type="INT" data="12"/>
+			<property name="KL" type="INT" data="8"/>
+			<property name="IN" type="INT" data="9"/>
+			<property name="CH" type="INT" data="10"/>
+			<property name="FF" type="INT" data="11"/>
+			<property name="GE" type="INT" data="12"/>
+			<property name="KO" type="INT" data="13"/>
+			<property name="KK" type="INT" data="14"/>
+		</property>
+		<property name="kampftechniken" type="MAP">
+			<property name="Schwerter" type="INTPAIR" data="5,7"/>
+		</property>
+		<property name="talente" type="MAP">
+			<property name="Athletik" type="INT" data="3"/>
+<!--			<property name="Körperbeherrschung" type="INT" data="3"/>-->
+		</property>
+		<!-- Animationen und Animationsgeschwindigkeiten fuer den CreatureController -->
+		<property name="animations" type="MAP">
+			<property name="sterben" type="STRING" data="idle"/>
+			<property name="liegen" type="STRING" data="idle"/>
+			<property name="fallen" type="STRING" data="idle"/>
+			<property name="fallen_anfang" type="STRING" data="idle"/>
+			<property name="fallen_landung" type="STRING" data="idle"/>
+			<property name="stehen" type="STRING" data="idle"/>
+			<property name="stehen_rechts" type="STRING" data="drehen_links"/>
+			<property name="stehen_links" type="STRING" data="drehen_rechts"/>
+			<!-- property name="seitwaerts_links" type="STRING" data="seitwaerts_links"/ -->
+			<!-- property name="seitwaerts_rechts" type="STRING" data="seitwaerts_rechts"/ -->
+			<property name="gehen" type="STRING" data="gehen"/>
+			<property name="gehen_rueckwaerts" type="STRING" data="gehen_rueckwaerts"/>
+			<property name="joggen_rueckwaerts" type="STRING" data="gehen_rueckwaerts"/>
+			<property name="joggen" type="STRING" data="rennen"/>
+			<property name="laufen" type="STRING" data="rennen"/>
+			<property name="rennen" type="STRING" data="rennen"/>
+			<property name="stehen_zu_schleichen" type="STRING" data="idle_zu_hocke"/>
+			<property name="schleichen_zu_stehen" type="STRING" data="hocke_zu_stehen"/>
+			<property name="schleichen" type="STRING" data="hocke_idle"/>
+			<property name="schleichen_vorwaerts" type="STRING" data="hocke_gehen"/>
+			<property name="hochsprung_absprung" type="STRING" data="idle_absprung"/>
+			<property name="hochsprung" type="STRING" data="idle_sprung"/>
+			<property name="hochsprung_landung" type="STRING" data="idle_sprung_landung"/>
+			<property name="weitsprung_absprung" type="STRING" data="rennen_absprung"/>
+			<property name="weitsprung" type="STRING" data="rennen_sprung"/>
+			<property name="weitsprung_landung" type="STRING" data="rennen_sprung_landung"/>
+			<property name="fallen" type="STRING" data="idle"/>
+			<!-- Kampf -->
+			<property name="kampf_attacke_pariert" type="STRING" data="kampf_schwerter_angriff_1"/>
+			<property name="kampf_attacke_treffer_nicht_pariert" type="STRING" data="kampf_schwerter_angriff_1"/>
+			<property name="kampf_attacke_treffer" type="STRING" data="kampf_schwerter_angriff_1"/>
+			<property name="kampf_attacke_misserfolg" type="STRING" data="kampf_schwerter_angriff_1"/>
+			<property name="kampf_parade_erfolg" type="STRING" data="kampf_schwerter_parade_1"/>
+			<property name="kampf_parade_misserfolg" type="STRING" data="kampf_schwerter_getroffen"/>
+			<property name="kampf_getroffen" type="STRING" data="kampf_schwerter_getroffen"/>
+		</property>
+		<property name="animationspeeds" type="MAP">
+			<property name="gehen" type="REAL" data="1.0"/>
+			<property name="joggen" type="REAL" data="0.3"/>
+			<property name="laufen" type="REAL" data="0.5"/>
+			<property name="rennen" type="REAL" data="0.4"/>
+		</property>
+		<property name="kampfaktionen" type="ARRAY">
+			<property type="STRING" data="Attacke"/>
+			<property type="STRING" data="Parade"/>
+			<property type="STRING" data="Ausweichen"/>
+			<property type="STRING" data="Bewegen"/>
+			<property type="STRING" data="Folgen"/>
+		</property>
+	</gameobjectclass>
+
+    <gameobjectclass classid="mckhero"  baseclass="MCKHero">
+        <property name="geometrytype" type="STRING" data="ellipsoid" />
+        <property name="mass" type="REAL" data="75"/>
+        <property name="inventorywindowtype" type="STRING" data="inventory_human.xml"/>
+        <property name="meshfile" type="STRING" data="men_human_female_torso.mesh"/>
+		<property name="submeshprename" type="STRING" data="men_human_female_"/>
+        <property name="geometrytype" type="STRING" data="ellipsoid"/>
+		<property name="meshparts" type="MAP">
+            <property name="torso" type="STRING" data="men_human_female_torso.mesh"/>
+            <property name="hand" type="STRING" data="men_human_female_hand_nude.mesh"/>
+            <property name="head" type="STRING" data="men_human_female_head_02.mesh"/>
+            <property name="hair" type="STRING" data="men_human_female_hair_long_01_normal.mesh"/>
+            <property name="trousers" type="STRING" data="men_human_female_legs_underpants.mesh"/>
+            <property name="boots" type="STRING" data="men_human_female_feet_nude.mesh"/>
+        </property>
+		<property name="inventory" type="MAP">
+			<property name="slots" type="ARRAY">
+				<!-- Rings on left hand -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Left Ring"/>
+					<property name="type" type="STRING" data="bone"/>
+					<property name="bone" type="STRING" data="Bip01 L Finger21"/>
+					<property name="holds" type="INT" data="4"/> <!-- Rings -->
+					<property name="readies" type="INT" data="4"/> <!-- Rings -->
+				</property>
+				<!-- Rings on right hand -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Right Ring"/>
+					<property name="type" type="STRING" data="bone"/>
+					<property name="bone" type="STRING" data="Bip01 R Finger21"/>
+					<property name="holds" type="INT" data="4"/> <!-- Rings -->
+					<property name="readies" type="INT" data="4"/> <!-- Rings -->
+				</property>
+				<!-- Left hand -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Left Hand"/>
+					<property name="type" type="STRING" data="bone"/>
+					<property name="bone" type="STRING" data="Bip01 L SlotHand"/>
+					<property name="readies" type="INT" data="3"/> <!-- Weapons | Shields -->
+				</property>
+				<!-- Right hand -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Right Hand"/>
+					<property name="type" type="STRING" data="bone"/>
+					<property name="bone" type="STRING" data="Bip01 R SlotHand"/>
+					<property name="readies" type="INT" data="3"/> <!-- Weapons | Shields -->
+				</property>
+				<!-- Head -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Head"/>
+					<property name="type" type="STRING" data="submesh"/>
+					<property name="submesh" type="STRING" data="head"/>
+					<property name="readies" type="INT" data="2048"/> <!-- Helmets -->
+					<property name="holds" type="INT" data="2048"/> <!-- Helmets -->
+				</property>
+				<!-- Back -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Back"/>
+					<property name="type" type="STRING" data="submesh"/>
+					<property name="submesh" type="STRING" data="back"/>
+					<property name="readies" type="INT" data="256"/> <!-- Backpacks -->
+					<property name="holds" type="INT" data="256"/> <!-- Backpacks -->
+				</property>
+				<!-- Armor -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Armor"/>
+					<property name="type" type="STRING" data="submesh"/>
+					<property name="submesh" type="STRING" data="armor"/>
+					<property name="readies" type="INT" data="32"/> <!-- Armor -->
+					<property name="holds" type="INT" data="32"/> <!-- Armor -->
+				</property>
+				<!-- Torso -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Torso"/>
+					<property name="type" type="STRING" data="submesh"/>
+					<property name="submesh" type="STRING" data="torso"/>
+					<property name="readies" type="INT" data="32800"/> <!-- Armor | Clothes -->
+					<property name="holds" type="INT" data="32800"/> <!-- Armor | Clothes -->
+				</property>
+				<!-- Clothes -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Clothes"/>
+					<property name="type" type="STRING" data="submesh"/>
+					<property name="submesh" type="STRING" data="clothes"/>
+					<property name="readies" type="INT" data="32768"/> <!-- Clothes -->
+					<property name="holds" type="INT" data="32768"/> <!-- Clothes -->
+				</property>
+				<!-- Boots -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Boots"/>
+					<property name="type" type="STRING" data="submesh"/>
+					<property name="submesh" type="STRING" data="boots"/>
+					<property name="readies" type="INT" data="16384"/> <!-- Boots -->
+					<property name="holds" type="INT" data="16384"/> <!-- Boots -->
+				</property>
+				<!-- Trousers -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Trousers"/>
+					<property name="type" type="STRING" data="submesh"/>
+					<property name="submesh" type="STRING" data="trousers"/>
+					<property name="readies" type="INT" data="4096"/> <!-- Trousers -->
+					<property name="holds" type="INT" data="4096"/> <!-- Trousers -->
+				</property>				
+			</property>
+		</property>
+		
+		<property name="kampftechniken" type="MAP">
+			<property name="Schwerter" type="INTPAIR" data="5,7"/>
+		</property>
+		
+		<!-- Animationen und Animationsgeschwindigkeiten fuer den CreatureController -->
+		<property name="animations" type="MAP">
+			<property name="sterben" type="STRING" data="Idle"/>
+			<property name="liegen" type="STRING" data="Idle"/>
+			<property name="fallen" type="STRING" data="Idle"/>
+			<property name="fallen_anfang" type="STRING" data="Idle"/>
+			<property name="fallen_landung" type="STRING" data="Idle"/>
+			<property name="stehen" type="STRING" data="Idle"/>
+			<property name="stehen_rechts" type="STRING" data="Idle"/>
+			<property name="stehen_links" type="STRING" data="Idle"/>
+			<!-- property name="seitwaerts_links" type="STRING" data="seitwaerts_links"/ -->
+			<!-- property name="seitwaerts_rechts" type="STRING" data="seitwaerts_rechts"/ -->
+			<property name="gehen" type="STRING" data="Walk"/>
+			<property name="gehen_rueckwaerts" type="STRING" data="Walk"/>
+			<property name="joggen_rueckwaerts" type="STRING" data="Walk"/>
+			<property name="joggen" type="STRING" data="Run"/>
+			<property name="laufen" type="STRING" data="Run"/>
+			<property name="rennen" type="STRING" data="Run"/>
+			<property name="stehen_zu_schleichen" type="STRING" data="idle_zu_hocke"/>
+			<property name="schleichen_zu_stehen" type="STRING" data="hocke_zu_stehen"/>
+			<property name="schleichen" type="STRING" data="hocke_idle"/>
+			<property name="schleichen_vorwaerts" type="STRING" data="hocke_gehen"/>
+			<property name="hochsprung_absprung" type="STRING" data="idle_absprung"/>
+			<property name="hochsprung" type="STRING" data="idle_sprung"/>
+			<property name="hochsprung_landung" type="STRING" data="idle_sprung_landung"/>
+			<property name="weitsprung_absprung" type="STRING" data="rennen_absprung"/>
+			<property name="weitsprung" type="STRING" data="rennen_sprung"/>
+			<property name="weitsprung_landung" type="STRING" data="rennen_sprung_landung"/>
+			
+			
+			<!-- Kampf -->
+			<property name="kampf_attacke_pariert" type="STRING" data="1h_hieb_attack1"/>
+			<property name="kampf_attacke_treffer_nicht_pariert" type="STRING" data="1h_hieb_attack1"/>
+			<property name="kampf_attacke_treffer" type="STRING" data="1h_hieb_attack1"/>
+			<property name="kampf_attacke_misserfolg" type="STRING" data="1h_hieb_attack1"/>
+			<property name="kampf_parade_erfolg" type="STRING" data="1h_hieb_block1"/>
+			<property name="kampf_parade_misserfolg" type="STRING" data="1h_hieb_gethit1"/>
+			<property name="kampf_getroffen" type="STRING" data="1h_hieb_gethit1"/>
+			
+			
+			
+			
+		</property>
+		<!-- Je nach key ist die Value ein absoluter oder ein relativer Wert! -->
+		<property name="animationspeeds" type="MAP">
+			<!-- property name="stehen" type="REAL" data="1"/ -->
+			<!-- property name="stehen_rechts" type="REAL" data="drehen_rechts"/ -->
+			<!-- property name="stehen_links" type="REAL" data="drehen_links"/ -->
+			<!-- property name="seitwaerts_links" type="REAL" data="1"/ -->
+			<!-- property name="seitwaerts_rechts" type="REAL" data="1"/ -->
+			<property name="gehen" type="REAL" data="1.1"/>
+			<!-- property name="gehen_rueckwaerts" type="REAL" data="1"/ -->
+			<!-- property name="joggen_rueckwaerts" type="REAL" data="1"/ -->
+			<property name="joggen" type="REAL" data="0.6"/>
+			<property name="laufen" type="REAL" data="0.5"/>
+			<property name="rennen" type="REAL" data="0.4"/>
+			<!-- property name="stehen_zu_schleichen" type="REAL" data="1"/ -->
+			<!-- property name="schleichen_zu_stehen" type="REAL" data="1"/ -->
+			<!-- property name="schleichen" type="REAL" data="1"/ -->
+			<!-- property name="schleichen_vorwaerts" type="REAL" data="1"/ -->
+			<!-- property name="hochsprung_absprung" type="REAL" data="1"/ -->
+			<!-- property name="hochsprung" type="REAL" data="1"/ -->
+			<!-- property name="hochsprung_landung" type="REAL" data="1"/ -->
+			<!-- property name="weitsprung_absprung" type="REAL" data="1"/ -->
+			<!-- property name="weitsprung" type="REAL" data="1"/ -->
+			<!-- property name="weitsprung_landung" type="REAL" data="1"/ -->
+		</property>
+		<property name="kampfaktionen" type="ARRAY">
+			<property type="STRING" data="Attacke"/>
+			<property type="STRING" data="Parade"/>
+			<property type="STRING" data="Ausweichen"/>
+			<property type="STRING" data="Bewegen"/>
+			<property type="STRING" data="Folgen"/>
+		</property>
+    </gameobjectclass>
+
+</GameObjectDefinitions>

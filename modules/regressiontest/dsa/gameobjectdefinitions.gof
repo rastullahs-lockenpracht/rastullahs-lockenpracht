@@ -98,24 +98,6 @@
         <property name="geometrytype" type="STRING" data="sphere"/>
     </gameobjectclass>
 
-    <gameobjectclass classid="leather backpack" baseclass="Container">
-        <property name="name" type="STRING" data="Rucksack"/>
-        <property name="description" type="STRING" data="Ein Lederrucksack (oder so)"/>
-        <property name="meshfile" type="STRING" data="men_human_female_backpack_leather_01.mesh"/>
-        <property name="submeshfile" type="STRING" data="backpack_leather_01.mesh"/>
-        <property name="imagename" type="STRING" data="set:ModelThumbnails image:Rucksack"/>
-        <property name="capacity" type="REAL" data="20.0"/>
-        <property name="volume" type="INTPAIR" data="8,6"/>
-        <property name="size" type="INTPAIR" data="2,2"/>
-        <property name="itemtype" type="INT" data="256"/>	
-		<property name="mass" type="REAL" data="5.0"/>
-		<property name="geometrytype" type="STRING" data="ellipsoid"/>
-        <property name="actions" type="ARRAY">
-			<property type="STRING" data="showcontainercontent"/>
-        </property>
-        <property name="defaultaction" type="STRING" data="showcontainercontent"/>
-    </gameobjectclass>
-
     <!-- ErrorHandlingTest -->
     <gameobjectclass classid="ErrorHandling" baseclass="GameObject">
         <property name="name" type="STRING" data="ErrorHandling-TestCase"/>

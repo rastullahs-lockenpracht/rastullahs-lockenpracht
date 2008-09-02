@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<GameObjectDefinitions>
+
+	<gameobjectclass classid="chest" baseclass="Chest">
+	  <property name="name" type="STRING" data="Truhe"/>
+		<property name="description" type="STRING" data="Eine Truhe"/>
+		<property name="geometrytype" type="STRING" data="convexhull"/>
+		<property name="mass" type="REAL" data="0"/>
+		<property name="meshfile" type="STRING" data="ver_truhe_gross01.mesh"/>
+<!--		<property name="sound" type="STRING" data="doorcreak.ogg"/>-->
+	</gameobjectclass>
+
+	<gameobjectclass classid="torch" baseclass="Torch">
+		<property name="name" type="STRING" data="Eine Fackel"/>
+		<property name="geometrytype" type="STRING" data="convexhull"/>
+		<property name="meshfile" type="STRING" data="ins_fackel_01.mesh"/>
+		<property name="sound" type="STRING" data="feuer_knisternd_01.ogg"/>
+		<property name="flames" type="STRING" data="feuertest"/>
+		<!-- <property name="lightable" type="BOOL" data="true"/> -->
+		<property name="lit" type="BOOL" data="true"/>
+		<property name="size" type="INTPAIR" data="1,3"/>
+		<property name="imagename" type="STRING" data="set:ModelThumbnails image:Fackel"/>
+	</gameobjectclass>
+    
+    <gameobjectclass classid="leather backpack" baseclass="Container">
+        <property name="name" type="STRING" data="Rucksack"/>
+        <property name="description" type="STRING" data="Ein Lederrucksack (oder so)"/>
+        <property name="meshfile" type="STRING" data="men_human_female_backpack_leather_01.mesh"/>
+        <property name="submeshfile" type="STRING" data="backpack_leather_01.mesh"/>
+        <property name="imagename" type="STRING" data="set:ModelThumbnails image:Rucksack"/>
+        <property name="capacity" type="REAL" data="20.0"/>
+        <property name="volume" type="INTPAIR" data="8,6"/>
+        <property name="size" type="INTPAIR" data="2,2"/>
+        <property name="itemtype" type="INT" data="256"/>	
+		<property name="mass" type="REAL" data="5.0"/>
+		<property name="geometrytype" type="STRING" data="ellipsoid"/>
+        <property name="actions" type="ARRAY">
+			<property type="STRING" data="showcontainercontent"/>
+        </property>
+        <property name="defaultaction" type="STRING" data="showcontainercontent"/>
+    </gameobjectclass>
+
+
+
+</GameObjectDefinitions>
