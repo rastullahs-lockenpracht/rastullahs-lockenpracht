@@ -14,62 +14,61 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-%typemap(freearg) Ogre::StringVector &, const Ogre::StringVector & {
-  delete $1;
-}
+%typemap(freearg) Ogre::StringVector &, const Ogre::StringVector & 
+    "delete $1;"
 
-%typemap(out) Ogre::StringVector, const Ogre::StringVector {
-  VALUE arr = rb_ary_new2($1.size()); 
-  StringVector::iterator i = $1.begin(), iend = $1.end();
-  for ( ; i!=iend; i++ )
-    rb_ary_push(arr, rb_str_new2(*i));
-  $result = arr;
-}
 
-%typemap(in) Ogre::StringVector , const Ogre::StringVector {
+%typemap(out) Ogre::StringVector, const Ogre::StringVector 
+%{
+  $result = rb_ary_new2($1.size()); 
+  for (StringVector::iterator i = $1.begin(), iend = $1.end() ; i!=iend; i++ )
+  {
+    rb_ary_push($result, rb_str_new2(*i));
+  }
+%}
+
+%typemap(in) Ogre::StringVector , const Ogre::StringVector 
+%{
   Check_Type($input, T_ARRAY);
-  Ogre::StringVector vec;
   int len = RARRAY($input)->len;
   for (int i=0; i!=len; i++) {
     VALUE inst = rb_ary_entry($input, i);
-    vec.push_back(Ogre::String(StringValuePtr(inst)));
+    $1.push_back(Ogre::String(StringValuePtr(inst)));
   }
-  $1 = vec;
-}
+%}
 
-%typemap(directorin) Ogre::StringVector &, const Ogre::StringVector & {
-  VALUE arr = rb_ary_new2($1->size()); 
-  StringVector::iterator i = $1->begin(), iend = $1->end();
-  for ( ; i!=iend; i++ )
-    rb_ary_push(arr, rb_str_new2(&(*i)));
-  $result = arr;
-}
-%typemap(directorin) Ogre::StringVector, const Ogre::StringVector {
-  VALUE arr = rb_ary_new2($1.size()); 
-  StringVector::iterator i = $1.begin(), iend = $1.end();
-  for ( ; i!=iend; i++ )
-    rb_ary_push(arr, rb_str_new2(*i));
-  $result = arr;
-}
+%typemap(directorin) Ogre::StringVector &, const Ogre::StringVector &
+%{
+  $result = rb_ary_new2($1->size()); 
+  for (StringVector::iterator i = $1->begin(), iend = $1->end(); i!=iend; i++ ) 
+  {
+    rb_ary_push($result, rb_str_new2(*i));
+  }
+%}
+%typemap(directorin) Ogre::StringVector, const Ogre::StringVector 
+%{
+  $result = rb_ary_new2($1.size()); 
+  for (StringVector::iterator i = $1.begin(), iend = $1.end(); i!=iend; i++ ) 
+  {
+    rb_ary_push($result, rb_str_new2(*i));
+  }
+%}
 
-%typemap(directorout) Ogre::StringVector , const Ogre::StringVector {
+%typemap(directorout) Ogre::StringVector , const Ogre::StringVector 
+%{
   Check_Type($input, T_ARRAY);
-  Ogre::StringVector vec;
-  int len = RARRAY($input)->len;
-  for (int i=0; i!=len; i++) {
+  for (int i=0, len = RARRAY($input)->len; i!=len; i++) {
     VALUE inst = rb_ary_entry($input, i);
-    vec.push_back(Ogre::String(StringValuePtr(inst)));
+    $result.push_back(Ogre::String(StringValuePtr(inst)));
   }
-  $result = vec;
-}
+%}
 
-%typemap(directorout) Ogre::StringVector *, const Ogre::StringVector* , Ogre::StringVector &, const Ogre::StringVector& {
+%typemap(directorout) Ogre::StringVector *, const Ogre::StringVector* , Ogre::StringVector &, const Ogre::StringVector& 
+%{
   Check_Type($input, T_ARRAY);
-  Ogre::StringVector *vec = new Ogre::StringVector;
-  int len = RARRAY($input)->len;
-  for (int i=0; i!=len; i++) {
+  $result = new Ogre::StringVector();
+  for (int i=0, len = RARRAY($input)->len; i!=len; i++) {
     VALUE inst = rb_ary_entry($input, i);
-    vec->push_back(Ogre::String(StringValuePtr(inst)));
+    $result->push_back(Ogre::String(StringValuePtr(inst)));
   }
-  $result = vec;
-}
+%}

@@ -69,19 +69,17 @@ static void convertRubyToColourValue( VALUE input, Ogre::ColourValue* cv )
 %}
 
 %typemap(in) Ogre::ColourValue, const Ogre::ColourValue
-{
-   Ogre::ColourValue vec(0.0, 0.0, 0.0, 0.0);
-   convertRubyToColourValue( $input, & vec );
-   $1 = vec;
-}
+%{
+   $1 = ColourValue(0.0, 0.0, 0.0, 0.0);
+   convertRubyToColourValue( $input, & $1 );
+%}
 
 %typemap(in) Ogre::ColourValue*, Ogre::ColourValue&,
    const Ogre::ColourValue*, const Ogre::ColourValue&
-{
-   Ogre::ColourValue* vec = new Ogre::ColourValue(0.0, 0.0, 0.0, 0.0);
-   convertRubyToColourValue(  $input, vec );
-   $1 = vec;
-}
+%{
+   $1 = new Ogre::ColourValue(0.0, 0.0, 0.0, 0.0);
+   convertRubyToColourValue(  $input, $1 );
+%}
 
 %{
 // Helper method for creating the ruby Array

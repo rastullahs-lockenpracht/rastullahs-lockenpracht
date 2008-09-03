@@ -17,7 +17,8 @@
 /* Radian / Degree all Ruby Values are interpreted as DEGREE! */
 %typemap(typecheck) Ogre::Radian, const Ogre::Radian& = double;
 
-%typemap(in) Ogre::Radian, const Ogre::Radian, Ogre::Radian&, const Ogre::Radian& {
+%typemap(in) Ogre::Radian, const Ogre::Radian, Ogre::Radian&, const Ogre::Radian& 
+%{
     if (TYPE($input) == T_FLOAT) {
 		$1 = Ogre::Degree(RFLOAT($input)->value);
     } else if (TYPE($input) == T_FIXNUM) {
@@ -25,8 +26,10 @@
     } else {
         throw Swig::DirectorTypeMismatchException("float or fixnum expected");
     }
-}
-%typemap(in) Ogre::Radian*, const Ogre::Radian*, Ogre::Radian&, const Ogre::Radian& {
+%}
+
+%typemap(in) Ogre::Radian*, const Ogre::Radian*, Ogre::Radian&, const Ogre::Radian&
+%{
     if (TYPE($input) == T_FLOAT) {
 		$1 = new Ogre::Radian(Ogre::Degree(RFLOAT($input)->value));
     } else if (TYPE($input) == T_FIXNUM) {
@@ -34,16 +37,16 @@
     } else {
         throw Swig::DirectorTypeMismatchException("float or fixnum expected");
     }
-}
+%}
 
 %typemap(freearg) Ogre::Radian*, const Ogre::Radian*, Ogre::Radian&, const Ogre::Radian& 
-"   delete $1;"
+    "delete $1;"
 
-%typemap(out) Ogre::Radian, const Ogre::Radian {
-     $result = rb_float_new($1.valueDegrees());
-}
-%typemap(out) Ogre::Radian&, const Ogre::Radian& {
-     $result = rb_float_new($1->valueDegrees());
-}
+%typemap(out) Ogre::Radian, const Ogre::Radian 
+    "$result = rb_float_new($1.valueDegrees());"
+
+%typemap(out) Ogre::Radian&, const Ogre::Radian& 
+    "$result = rb_float_new($1->valueDegrees());"
+
 
 

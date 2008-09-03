@@ -19,19 +19,17 @@
 
 
 %typemap(directorin) rl::CeGuiStringVector &, const rl::CeGuiStringVector & {
-  VALUE arr = rb_ary_new2($1->size()); 
+  $result = rb_ary_new2($1->size()); 
   rl::CeGuiStringVector::iterator i = $1->begin(), iend = $1->end();
   for ( ; i!=iend; i++ )
-    rb_ary_push(arr, rb_str_new2(&(*i)));
-  $result = arr;
+    rb_ary_push($result, rb_str_new2(&(*i)));
 }
 
 %typemap(directorin) rl::CeGuiStringVector, const rl::CeGuiStringVector {
-  VALUE arr = rb_ary_new2($1.size()); 
+  $result = rb_ary_new2($1.size()); 
   rl::CeGuiStringVector::iterator i = $1.begin(), iend = $1.end();
   for ( ; i!=iend; i++ )
-    rb_ary_push(arr, rb_str_new2(*i));
-  $result = arr;
+    rb_ary_push($result, rb_str_new2(*i));
 }
 
 %typemap(directorout) rl::CeGuiStringVector , const rl::CeGuiStringVector {

@@ -32,9 +32,10 @@
     "Check_Type($input, T_STRING);
     $1 = new rl::CeGuiString(
 		reinterpret_cast<CEGUI::utf8*>(StringValuePtr($input)));"
-%typemap(freearg) rl::CeGuiString*, rl::CeGuiString&, const rl::CeGuiString*, const rl::CeGuiString&  {
-   delete $1;
-}
+
+%typemap(freearg) rl::CeGuiString*, rl::CeGuiString&, const rl::CeGuiString*, const rl::CeGuiString&
+   "delete $1;"
+
 %typemap(out) rl::CeGuiString*, rl::CeGuiString&,  const rl::CeGuiString*, const rl::CeGuiString& 
      "$result = rb_str_buf_new2($1->c_str());"
 
@@ -48,10 +49,8 @@
 	"$input = rb_str_buf_new2($1->c_str());"
 
 %typemap(directorout) rl::CeGuiString, const rl::CeGuiString 
-    "$result = rl::CeGuiString(
-		reinterpret_cast<CEGUI::utf8*>(StringValuePtr($input)));"
+    "$result = rl::CeGuiString(reinterpret_cast<CEGUI::utf8*>(StringValuePtr($input)));"
 
 %typemap(directorout) const rl::CeGuiString &, rl::CeGuiString&  
     "$result = new rl::CeGuiString();
-     $result->append( 
-		reinterpret_cast<CEGUI::utf8*>(StringValuePtr($input)) );"
+     $result->append(reinterpret_cast<CEGUI::utf8*>(StringValuePtr($input)));"

@@ -131,6 +131,43 @@ void RL_handleRubyError( VALUE error )
 
 
 // Converting C++ Exceptions to Ruby Exceptions
+%{
+enum RlExceptionClass 
+{
+    RLEX_UNKNOWN,
+    RLEX_CEGUI,
+    RLEX_STL,
+    RLEX_SWIG_DIRECTOR
+};
+
+void throwRubyException(RlExceptionClass clazz, const char* exceptionMessage)
+{
+    static VALUE ceguiException = rb_define_class("CeguiException", rb_eRuntimeError);
+    static VALUE stdException = rb_define_class("StdException", rb_eRuntimeError);
+	static VALUE swigException = rb_define_class("SwigDirectorException", rb_eRuntimeError);
+    static VALUE unknownException = rb_define_class("UnknownException", rb_eRuntimeError);
+
+    VALUE rubyClass;
+    if (clazz == RLEX_CEGUI)
+    {
+        rubyClass = ceguiException;
+    }
+    else if (clazz == RLEX_STL)
+    {
+        rubyClass = stdException;
+    }
+    else if (clazz == RLEX_SWIG_DIRECTOR)
+    {
+        rubyClass = swigException;
+    }
+    else //if (clazz == RLEX_UNKNOWN)
+    {
+        rubyClass = unknownException;
+    }
+    rb_raise(rubyClass, exceptionMessage);
+}
+%}
+
 %exception %{
   try 
   {
@@ -138,23 +175,19 @@ void RL_handleRubyError( VALUE error )
   }
   catch (CEGUI::Exception& ce) 
   {
-    static VALUE ceguiException = rb_define_class("CeguiException", rb_eRuntimeError);
-    rb_raise(ceguiException, ce.getMessage().c_str());
+    throwRubyException(RLEX_CEGUI, ce.getMessage().c_str());
   }
   catch (std::exception& se) 
   {
-    static VALUE stdException = rb_define_class("StdException", rb_eRuntimeError);
-    rb_raise(stdException, se.what());
+    throwRubyException(RLEX_STL, se.what());
   }
   catch (Swig::DirectorException& de)
   {
-	static VALUE swigException = rb_define_class("SwigDirectorException", rb_eRuntimeError);
-	rb_raise(swigException, de.getMessage().c_str());
+	throwRubyException(RLEX_SWIG_DIRECTOR, de.getMessage().c_str());
   }
   catch (...) 
   {
-    static VALUE unknownException = rb_define_class("UnknownException", rb_eRuntimeError);
-    rb_raise(unknownException,"Unbekannte Exception");
+    throwRubyException(RLEX_UNKNOWN, "Unknown exception");
   }
 %}
 
