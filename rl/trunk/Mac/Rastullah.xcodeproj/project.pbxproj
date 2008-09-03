@@ -430,6 +430,7 @@
 		44D8147B0BF7B62F00534175 /* Zone.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814760BF7B62F00534175 /* Zone.h */; };
 		44D8147C0BF7B62F00534175 /* ZoneManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814770BF7B62F00534175 /* ZoneManager.h */; };
 		48003B550E3211660056D073 /* libboost_system.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
+		4835559B0E6ABED100008748 /* mkdmg.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4835559A0E6ABED100008748 /* mkdmg.sh */; };
 		483646990D83D13700912FEC /* ContentLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646960D83D13700912FEC /* ContentLoader.h */; };
 		4836469A0D83D13700912FEC /* SoundStitching.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646970D83D13700912FEC /* SoundStitching.h */; };
 		4836469B0D83D13700912FEC /* StartAnimationJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646980D83D13700912FEC /* StartAnimationJob.h */; };
@@ -670,6 +671,7 @@
 		48B772E30D583521000A3B97 /* XmlProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B772E00D583521000A3B97 /* XmlProcessor.cpp */; };
 		48B772E40D583521000A3B97 /* XmlPropertyReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B772E10D583521000A3B97 /* XmlPropertyReader.cpp */; };
 		48B772E50D583521000A3B97 /* XmlPropertyWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B772E20D583521000A3B97 /* XmlPropertyWriter.cpp */; };
+		48C04B8A0E67DF0300CD3A7D /* PCRE.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 48C04B890E67DF0300CD3A7D /* PCRE.framework */; };
 		48CFBF8F0E2E869000CD0C51 /* FreeType.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 48CFBF8E0E2E869000CD0C51 /* FreeType.framework */; };
 		48D0BDC70E23375E00863824 /* libruby.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 483646A10D83D57800912FEC /* libruby.dylib */; };
 		48D0BDE60E23378700863824 /* libboost_filesystem.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52B210E0EDA0E008DBDD8 /* libboost_filesystem.dylib */; };
@@ -851,6 +853,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				48C04B8A0E67DF0300CD3A7D /* PCRE.framework in Copy Frameworks */,
 				48003B550E3211660056D073 /* libboost_system.dylib in Copy Frameworks */,
 				48D0BDE60E23378700863824 /* libboost_filesystem.dylib in Copy Frameworks */,
 				48CFBF8F0E2E869000CD0C51 /* FreeType.framework in Copy Frameworks */,
@@ -1296,6 +1299,7 @@
 		44D814750BF7B62F00534175 /* Trigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Trigger.h; path = ../engine/core/include/Trigger.h; sourceTree = SOURCE_ROOT; };
 		44D814760BF7B62F00534175 /* Zone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Zone.h; path = ../engine/core/include/Zone.h; sourceTree = SOURCE_ROOT; };
 		44D814770BF7B62F00534175 /* ZoneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoneManager.h; path = ../engine/core/include/ZoneManager.h; sourceTree = SOURCE_ROOT; };
+		4835559A0E6ABED100008748 /* mkdmg.sh */ = {isa = PBXFileReference; explicitFileType = text.script.sh; fileEncoding = 4; name = mkdmg.sh; path = tools/mkdmg.sh; sourceTree = "<group>"; };
 		483646960D83D13700912FEC /* ContentLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentLoader.h; path = ../engine/core/include/ContentLoader.h; sourceTree = SOURCE_ROOT; };
 		483646970D83D13700912FEC /* SoundStitching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundStitching.h; path = ../engine/core/include/SoundStitching.h; sourceTree = SOURCE_ROOT; };
 		483646980D83D13700912FEC /* StartAnimationJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartAnimationJob.h; path = ../engine/core/include/StartAnimationJob.h; sourceTree = SOURCE_ROOT; };
@@ -1485,6 +1489,7 @@
 		48B772E00D583521000A3B97 /* XmlProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XmlProcessor.cpp; path = ../engine/common/src/XmlProcessor.cpp; sourceTree = SOURCE_ROOT; };
 		48B772E10D583521000A3B97 /* XmlPropertyReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XmlPropertyReader.cpp; path = ../engine/common/src/XmlPropertyReader.cpp; sourceTree = SOURCE_ROOT; };
 		48B772E20D583521000A3B97 /* XmlPropertyWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XmlPropertyWriter.cpp; path = ../engine/common/src/XmlPropertyWriter.cpp; sourceTree = SOURCE_ROOT; };
+		48C04B890E67DF0300CD3A7D /* PCRE.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PCRE.framework; path = /Library/Frameworks/PCRE.framework; sourceTree = "<absolute>"; };
 		48CFBF8E0E2E869000CD0C51 /* FreeType.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FreeType.framework; path = /Library/Frameworks/FreeType.framework; sourceTree = "<absolute>"; };
 		48CFBFD70E2E87BB00CD0C51 /* renameinstalldirs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = renameinstalldirs.sh; path = tools/renameinstalldirs.sh; sourceTree = "<group>"; };
 		48D0BE280E273C5E00863824 /* SaveAble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveAble.h; path = ../engine/core/include/SaveAble.h; sourceTree = SOURCE_ROOT; };
@@ -1682,6 +1687,7 @@
 		20286C29FDCF999611CA2CEA /* Rastullah */ = {
 			isa = PBXGroup;
 			children = (
+				48C04B890E67DF0300CD3A7D /* PCRE.framework */,
 				48B0B0480E65BBB30023B198 /* libfmodex.dylib */,
 				20286C2AFDCF999611CA2CEA /* Sources */,
 				20286C2CFDCF999611CA2CEA /* Resources */,
@@ -2442,6 +2448,7 @@
 			isa = PBXGroup;
 			children = (
 				48CFBFD70E2E87BB00CD0C51 /* renameinstalldirs.sh */,
+				4835559A0E6ABED100008748 /* mkdmg.sh */,
 			);
 			name = Scripts;
 			sourceTree = "<group>";
@@ -2973,7 +2980,7 @@
 				8D0C4E8F0486CD37000505A6 /* Sources */,
 				8D0C4E910486CD37000505A6 /* Frameworks */,
 				484D8D0A0E1E058D00BCFC2B /* Copy Frameworks */,
-				48D0BDF20E2342F600863824 /* ShellScript */,
+				48D0BDF20E2342F600863824 /* Rename Libs */,
 			);
 			buildRules = (
 			);
@@ -3040,6 +3047,7 @@
 				8D0C4E8E0486CD37000505A6 /* main.nib in Resources */,
 				48D409CE0D9E483300AE5340 /* modules in Resources */,
 				48B5F63A0DAF48AF00D05C95 /* Info.plist in Resources */,
+				4835559B0E6ABED100008748 /* mkdmg.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3059,18 +3067,19 @@
 			shellPath = /bin/sh;
 			shellScript = "pwd\ncd ../engine/script/swig\n/usr/local/bin/swig -ruby -minherit -c++ -Fmicrosoft -addextern RlExports.i";
 		};
-		48D0BDF20E2342F600863824 /* ShellScript */ = {
+		48D0BDF20E2342F600863824 /* Rename Libs */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Rename Libs";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SOURCE_ROOT}/tools/renameinstalldirs.sh ${BUILT_PRODUCTS_DIR}/Rastullah.app/Contents/MacOS Rastullah\n";
+			shellScript = "${SOURCE_ROOT}/tools/renameinstalldirs.sh ${BUILT_PRODUCTS_DIR}/Rastullah.app/Contents/MacOS Rastullah\n# ${SOURCE_ROOT}/tools/mkdmg.sh rastullah 1 ${BUILT_PRODUCTS_DIR}/Rastullah.app";
 		};
 /* End PBXShellScriptBuildPhase section */
 
