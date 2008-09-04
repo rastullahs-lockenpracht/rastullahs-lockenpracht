@@ -14,42 +14,50 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
+%{
+void convertRubyToCeGuiStringVector(VALUE input, rl::CeGuiStringVector& vec)
+{
+  Check_Type(input, T_ARRAY);
+  int len = RARRAY(input)->len;
+  for (int i=0; i!=len; i++) 
+  {
+    VALUE inst = rb_ary_entry(input, i);
+    vec.push_back(rl::CeGuiString(StringValuePtr(inst)));
+  }
+}
+
+VALUE convertCeGuiStringVectorToRuby(const rl::CeGuiStringVector& input)
+{
+  VALUE arr = rb_ary_new2(input.size()); 
+  for (rl::CeGuiStringVector::const_iterator i = input.begin(), iend = input.end() ; i!=iend; i++ )
+  {
+    rb_ary_push(arr, rb_str_new2(i->c_str()));
+  }
+  return arr;
+}
+%}
+
 %typemap(freearg) rl::CeGuiStringVector &, const rl::CeGuiStringVector & 
 "  delete $1;"
 
 
-%typemap(directorin) rl::CeGuiStringVector &, const rl::CeGuiStringVector & {
-  $result = rb_ary_new2($1->size()); 
-  rl::CeGuiStringVector::iterator i = $1->begin(), iend = $1->end();
-  for ( ; i!=iend; i++ )
-    rb_ary_push($result, rb_str_new2(&(*i)));
-}
+%typemap(directorin) rl::CeGuiStringVector &, const rl::CeGuiStringVector & 
+%{
+  $result = convertCeGuiStringVectorToRuby(*$1); 
+%}
 
-%typemap(directorin) rl::CeGuiStringVector, const rl::CeGuiStringVector {
-  $result = rb_ary_new2($1.size()); 
-  rl::CeGuiStringVector::iterator i = $1.begin(), iend = $1.end();
-  for ( ; i!=iend; i++ )
-    rb_ary_push($result, rb_str_new2(*i));
-}
+%typemap(directorin) rl::CeGuiStringVector, const rl::CeGuiStringVector
+%{
+  $result = convertCeGuiStringVectorToRuby($1); 
+%}
 
-%typemap(directorout) rl::CeGuiStringVector , const rl::CeGuiStringVector {
-  Check_Type($input, T_ARRAY);
-  rl::CeGuiStringVector vec;
-  int len = RARRAY($input)->len;
-  for (int i=0; i!=len; i++) {
-    VALUE inst = rb_ary_entry($input, i);
-    vec.push_back(rl::CeGuiString(StringValuePtr(inst)));
-  }
-  $result = vec;
-}
+%typemap(directorout) rl::CeGuiStringVector , const rl::CeGuiStringVector
+%{
+  convertRubyToCeGuiStringVector($input, $result);
+%}
 
-%typemap(directorout) rl::CeGuiStringVector &, const rl::CeGuiStringVector& {
-  Check_Type($input, T_ARRAY);
-  rl::CeGuiStringVector *vec = new rl::CeGuiStringVector;
-  int len = RARRAY($input)->len;
-  for (int i=0; i!=len; i++) {
-    VALUE inst = rb_ary_entry($input, i);
-    vec->push_back(rl::CeGuiString(StringValuePtr(inst)));
-  }
-  $result = vec;
-}
+%typemap(directorout) rl::CeGuiStringVector &, const rl::CeGuiStringVector& 
+%{
+  $result = new rl::CeGuiStringVector();
+  convertRubyToCeGuiStringVector($input, * $result);
+%}

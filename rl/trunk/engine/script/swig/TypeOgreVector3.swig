@@ -70,7 +70,7 @@ static void convertRubyToVector3( VALUE input, Ogre::Vector3* v )
    const Ogre::Vector3*, const Ogre::Vector3&
 %{
    $1 = new Ogre::Vector3(0.0, 0.0, 0.0);
-   convertRubyToVector3(  $input, vec );
+   convertRubyToVector3(  $input, $1 );
 %}
 
 %{
