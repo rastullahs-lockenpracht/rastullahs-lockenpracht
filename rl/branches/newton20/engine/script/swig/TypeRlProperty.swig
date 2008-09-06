@@ -213,7 +213,7 @@ VALUE convertPropertyToValue(rl::Property input)
 
 
 %typemap(typecheck) rl::Property, const rl::Property, rl::Property&, const rl::Property&, rl::Property*, const rl::Property* 
-{
+"
     if (TYPE($input) == T_FLOAT 
         || TYPE($input) == T_FIXNUM 
 	    || TYPE($input) == T_STRING
@@ -226,7 +226,7 @@ VALUE convertPropertyToValue(rl::Property input)
     }
     
     return 0;
-}
+"
 
 %typemap(in) rl::Property, const rl::Property
 "   
@@ -249,9 +249,7 @@ VALUE convertPropertyToValue(rl::Property input)
 "   delete $1;"
 
 %typemap(directorout) rl::Property, const rl::Property, rl::Property&, const rl::Property&
-"   
-	$result = rl::convertValueToProperty($1);
-"
+"   $result = rl::convertValueToProperty($1);"
 
 %typemap(directorout) rl::Property*, const rl::Property*
 "   

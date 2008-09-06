@@ -50,14 +50,14 @@ VALUE convertPropertyKeysToValue(PropertyKeys input)
 
 
 %typemap(typecheck) rl::PropertyKeys, const rl::PropertyKeys 
-{
+"
     if (TYPE($input) == T_ARRAY) 
     {
         return 1;
     }
     
     return 0;
-}
+"
 
 %typemap(in) rl::PropertyKeys, const rl::PropertyKeys
 "   

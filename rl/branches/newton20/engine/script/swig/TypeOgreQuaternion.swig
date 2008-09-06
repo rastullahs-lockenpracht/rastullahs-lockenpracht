@@ -77,7 +77,7 @@ static int checkRubyQuaternion( VALUE input )
 
 %{
 // Helper method for converting ruby input to a Quaternion
-static Ogre::Quaternion* convertRubyToQuaternion( VALUE input, Ogre::Quaternion* quat )
+static void convertRubyToQuaternion( VALUE input, Ogre::Quaternion* quat )
 {
    if (RARRAY(input)->len == 2)
    {
@@ -114,24 +114,20 @@ static Ogre::Quaternion* convertRubyToQuaternion( VALUE input, Ogre::Quaternion*
 	   quat->y = NUM2DBL(rb_ary_entry(input, 2));
 	   quat->z = NUM2DBL(rb_ary_entry(input, 3));
    }
-
-   return quat;
 }
 %}
 
 %typemap(in) Ogre::Quaternion, const Ogre::Quaternion
-{
-   Ogre::Quaternion quat;
-   convertRubyToQuaternion( $input, & quat );
-   $1 = quat;
-}
+%{
+   convertRubyToQuaternion( $input, & $1 );
+%}
 
 %typemap(in) Ogre::Quaternion*, Ogre::Quaternion&,
    const Ogre::Quaternion*, const Ogre::Quaternion&
-{
-   Ogre::Quaternion* quat = new Ogre::Quaternion();  
-   $1 = convertRubyToQuaternion( $input, quat );
-}
+%{
+   $1 = new Ogre::Quaternion();  
+   convertRubyToQuaternion( $input, $1 );
+%}
 
 
 %{

@@ -18,46 +18,38 @@
 	std::pair<int,int>*, std::pair<int,int>&, 
 	const std::pair<int,int>*, const std::pair<int,int>&, 
 	std::pair<int,int>, const std::pair<int,int>
-{
-   $1 = TYPE($input) == T_ARRAY && RARRAY($input)->len == 2 ? 1 : 0;
-}
+"   $1 = TYPE($input) == T_ARRAY && RARRAY($input)->len == 2 ? 1 : 0; "
 
 
 %typemap(in) std::pair<int,int>*, std::pair<int,int>&,
    const std::pair<int,int>*, const std::pair<int,int>&
-{
-	std::pair<int, int>* val = new std::pair<int, int>();
-	val->first = NUM2INT(rb_ary_entry($input, 0)), 
-	val->second = NUM2INT(rb_ary_entry($input, 1));
-	
-	$1 = val;
-}
+"
+	$1 = new std::pair<int, int>();
+	$1->first = NUM2INT(rb_ary_entry($input, 0)), 
+	$1->second = NUM2INT(rb_ary_entry($input, 1));
+"
+
 %typemap(freearg) std::pair<int,int>*, std::pair<int,int>&, 
-const std::pair<int,int>*, const std::pair<int,int>&  {
-   delete $1;
-}
+const std::pair<int,int>*, const std::pair<int,int>&
+   "delete $1;"
 
 %typemap(in) std::pair<int,int>, const std::pair<int,int>
-{
+"
 	$1.first = NUM2INT(rb_ary_entry($input, 0)), 
 	$1.second = NUM2INT(rb_ary_entry($input, 1));
-}
+"
 
 %typemap(out) std::pair<int,int>, const std::pair<int,int>
-{
-	VALUE array = rb_ary_new();
-	rb_ary_push(array, rb_int_new($1.first));
-	rb_ary_push(array, rb_int_new($1.second));
-	$result = array;
-}
+"
+	$result = rb_ary_new();
+	rb_ary_push($result, rb_int_new($1.first));
+	rb_ary_push($result, rb_int_new($1.second));
+"
 
 %typemap(out) std::pair<int,int>*, std::pair<int,int>&,
    const std::pair<int,int>*, const std::pair<int,int>&
-{
-	VALUE array = rb_ary_new();
-	rb_ary_push(array, rb_int_new($1->first));
-	rb_ary_push(array, rb_int_new($1->second));
-	$result = array;
-}
-
-
+"
+	$result = rb_ary_new();
+	rb_ary_push($result, rb_int_new($1->first));
+	rb_ary_push($result, rb_int_new($1->second));
+"

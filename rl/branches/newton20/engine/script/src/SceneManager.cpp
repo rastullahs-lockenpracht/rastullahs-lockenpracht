@@ -76,21 +76,20 @@ namespace rl
         std::map<CeGuiString, Scene*>::iterator itScene = mScenes.find(sceneName);
         if (itScene != mScenes.end())
         {            
+            std::map<Scene*, PropertyRecordPtr>::iterator itState =
+                mSceneStates.end();
             if (saveCurrent) 
             {
-                itScene->second->load(false);
-                mCurrentScene = itScene->second;
                 std::map<Scene*, PropertyRecordPtr>::iterator itState 
                     = mSceneStates.find(mCurrentScene);
-                if (itState != mSceneStates.end())
-                {
-                    mCurrentScene->setProperties(itState->second);
-                }
             }
-            else 
+
+            itScene->second->load(itState != mSceneStates.end()); // don't load game objects if there is a saved state
+            mCurrentScene = itScene->second;
+            
+            if (itState != mSceneStates.end())
             {
-                itScene->second->load(true);
-                mCurrentScene = itScene->second;
+                mCurrentScene->setProperties(itState->second);
             }
         }
         else

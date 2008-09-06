@@ -62,19 +62,16 @@ static void convertRubyToVector3( VALUE input, Ogre::Vector3* v )
 %}
 
 %typemap(in) Ogre::Vector3, const Ogre::Vector3
-{
-   Ogre::Vector3 vec(0.0, 0.0, 0.0);
-   convertRubyToVector3( $input, & vec );
-   $1 = vec;
-}
+%{
+   convertRubyToVector3( $input, & $1 );
+%}
 
 %typemap(in) Ogre::Vector3*, Ogre::Vector3&,
    const Ogre::Vector3*, const Ogre::Vector3&
-{
-   Ogre::Vector3* vec = new Ogre::Vector3(0.0, 0.0, 0.0);
-   convertRubyToVector3(  $input, vec );
-   $1 = vec;
-}
+%{
+   $1 = new Ogre::Vector3(0.0, 0.0, 0.0);
+   convertRubyToVector3(  $input, $1 );
+%}
 
 %{
 // Helper method for creating the ruby Array
