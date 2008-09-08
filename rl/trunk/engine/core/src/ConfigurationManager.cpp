@@ -265,6 +265,8 @@ namespace rl
         {
 #           if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
             mModulesRootDirectory = RL_MODULEDIR;
+#           elsif OGRE_PLATFORM == OGRE_PLATFORM_APPLE
+            mModulesRootDirectory = mExecutablePath + "/../Resources/modules";
 #           else
             mModulesRootDirectory = "./modules";
 #           endif
@@ -436,7 +438,8 @@ namespace rl
 
     bool ConfigurationManager::checkForFile(const Ogre::String& filename)
     {
-        try {
+        try 
+        {
 #           if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 			std::cout << "Checking for " << fs::complete(filename);
             if (fs::exists(filename))
@@ -449,7 +452,8 @@ namespace rl
                 return true;
             }
         }
-        catch (fs::filesystem_error&) {
+        catch (fs::filesystem_error&) 
+        {
             return false;
         }
 
