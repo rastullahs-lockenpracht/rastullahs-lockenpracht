@@ -884,7 +884,7 @@
 		440785E20C09D2C1006E496D /* LightFadeJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LightFadeJob.cpp; path = ../engine/core/src/LightFadeJob.cpp; sourceTree = SOURCE_ROOT; };
 		440785E30C09D2C1006E496D /* MergeableMeshObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MergeableMeshObject.cpp; path = ../engine/core/src/MergeableMeshObject.cpp; sourceTree = SOURCE_ROOT; };
 		440785E60C09D2DF006E496D /* MergeableMeshObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MergeableMeshObject.h; path = ../engine/core/include/MergeableMeshObject.h; sourceTree = SOURCE_ROOT; };
-		440786120C09D602006E496D /* RlScript-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "RlScript-Info.plist"; sourceTree = "<group>"; };
+		440786120C09D602006E496D /* RlScript-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RlScript-Info.plist"; sourceTree = "<group>"; };
 		44125A2F0C083D0100C24C0A /* CreatureWalkPathJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CreatureWalkPathJob.cpp; path = ../engine/ai/src/CreatureWalkPathJob.cpp; sourceTree = SOURCE_ROOT; };
 		44125A310C083D1100C24C0A /* CreatureWalkPathJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreatureWalkPathJob.h; path = ../engine/ai/include/CreatureWalkPathJob.h; sourceTree = SOURCE_ROOT; };
 		444825D90BF7B2B200C5A94F /* AbstractMapNodeProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AbstractMapNodeProcessor.cpp; path = ../engine/script/src/AbstractMapNodeProcessor.cpp; sourceTree = SOURCE_ROOT; };
@@ -1687,8 +1687,6 @@
 		20286C29FDCF999611CA2CEA /* Rastullah */ = {
 			isa = PBXGroup;
 			children = (
-				48C04B890E67DF0300CD3A7D /* PCRE.framework */,
-				48B0B0480E65BBB30023B198 /* libfmodex.dylib */,
 				20286C2AFDCF999611CA2CEA /* Sources */,
 				20286C2CFDCF999611CA2CEA /* Resources */,
 				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
@@ -1701,10 +1699,10 @@
 			isa = PBXGroup;
 			children = (
 				48CFBFD60E2E87A800CD0C51 /* Scripts */,
-				483D86890D8C3DA200F3629E /* RlFmod4Driver */,
 				444EAC220BD0E3E000C6D4A0 /* RlAi */,
 				444EAB1F0BD0E25C00C6D4A0 /* RlCommon */,
 				444EAB200BD0E27400C6D4A0 /* RlCore */,
+				483D86890D8C3DA200F3629E /* RlFmod4Driver */,
 				444EAC590BD0E50600C6D4A0 /* RlRules */,
 				444EAE600BD0E66500C6D4A0 /* RlScript */,
 				444EAC570BD0E4CD00C6D4A0 /* RlUi */,
@@ -1728,6 +1726,8 @@
 		20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				48C04B890E67DF0300CD3A7D /* PCRE.framework */,
+				48B0B0480E65BBB30023B198 /* libfmodex.dylib */,
 				48CFBF8E0E2E869000CD0C51 /* FreeType.framework */,
 				484FE6B90E17BC8800FA880F /* Carbon.framework */,
 				48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */,
