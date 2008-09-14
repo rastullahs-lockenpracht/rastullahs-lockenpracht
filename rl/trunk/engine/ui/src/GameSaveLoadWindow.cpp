@@ -106,7 +106,6 @@ namespace rl {
     {
         //mSaveGameTable->autoSizeColumnHeader(0);
         //mSaveGameTable->autoSizeColumnHeader(1);
-        listSaveGames();
     }
 
     //------------------------------------------------------- LoadEvent
@@ -123,13 +122,6 @@ namespace rl {
         if(filename != "")
         {
 
-            if(SaveGameManager::getSingleton().SaveGameFileExists(filename, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()))
-                SaveGameManager::getSingleton().loadSaveGameFile(filename, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId());
-            else
-            {
-                LOG_ERROR(Logger::UI, "Save Game " + filename + " doesn't exist!");
-                WindowFactory::getSingleton().showMessageWindow("Der Spielstand existiert nicht");
-            }
         }*/
 
         return true;
@@ -145,18 +137,13 @@ namespace rl {
 
         if(filename != "")
         {
-            LOG_MESSAGE(Logger::UI, "Create a SaveGameFile");
 
-            SaveGameManager::getSingleton().saveSaveGameFile(filename);
-
-            LOG_MESSAGE(Logger::UI, "Created save game");
         }
         else
         {
             WindowFactory::getSingleton().showMessageWindow("Bitte einen Namen für den Spielstand eingeben");
         }
 
-        listSaveGames();
 
         return true;
     }
@@ -166,35 +153,12 @@ namespace rl {
     bool GameSaveLoadWindow::handleDeleteEvent()
     {
         LOG_MESSAGE(Logger::UI, "Delete Button pressed");
-        if(SaveGameManager::getSingleton().SaveGameFileExists(mFilename->getText(), CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()))
-        {
-            SaveGameManager::getSingleton().deleteSaveGameFile(mFilename->getText(), CoreSubsystem::getSingleton().getActiveAdventureModule()->getId());
-            listSaveGames();
-        }
+
         return true;
     }
 
     void GameSaveLoadWindow::listSaveGames()
     {
-        SaveGameEntryMap saveGames = SaveGameManager::getSingleton().listSaveGames(CoreSubsystem::getSingleton().getActiveAdventureModule()->getId());
-    
-        while(mSaveGameTable->getRowCount() > saveGames.size())
-		    mSaveGameTable->removeRow(mSaveGameTable->getRowCount()-1);
-        while(mSaveGameTable->getRowCount() < saveGames.size())
-		    mSaveGameTable->addRow();
-        
-        int saveGameNum = 0;
-
-        for(SaveGameEntryMap::iterator it = saveGames.begin(); it != saveGames.end(); it++)
-        {
-            ListboxTextItem* item = new CEGUI::ListboxTextItem(it->second->getName());
-            item->setSelectionBrushImage(mSelectionImageset, mSelectionBrush);
-            mSaveGameTable->setItem(item, 0, saveGameNum);
-            item = new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_TIME));
-            item->setSelectionBrushImage(mSelectionImageset, mSelectionBrush);
-            mSaveGameTable->setItem(item, 1, saveGameNum);
-            saveGameNum++;
-        }
         //mSaveGameTable->autoSizeColumnHeader(0);
         //mSaveGameTable->autoSizeColumnHeader(1);
     }

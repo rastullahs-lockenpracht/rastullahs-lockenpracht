@@ -21,11 +21,15 @@
 #include "Property.h"
 #include "Properties.h"
 
-class SaveAble
+namespace rl
 {
-public:
-    void setSaveAble(bool enable);
-    bool isSaveAble();
-protected:
-    bool mIsSaveAble;
-};
+	void SaveAble::setSaveAble(bool enable)
+	{
+		mIsSaveAble = true;
+	}
+
+	bool SaveAble::isSaveAble()
+	{
+		return mIsSaveAble;
+	}
+}

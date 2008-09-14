@@ -47,12 +47,10 @@ namespace rl
 
         mScriptPatterns.push_back("*.gof");
         Ogre::ResourceGroupManager::getSingleton()._registerScriptLoader(this);
-        SaveGameManager::getSingleton().registerSaveGameData(this);
     }
 
     GameObjectManager::~GameObjectManager()
     {
-        SaveGameManager::getSingleton().unregisterSaveGameData(this);
         unregisterAllGameObjectStateListener();
         deleteAllGameObjects();
     }
@@ -291,90 +289,6 @@ namespace rl
         }
 
         return createRubyGameObject(classname, id);
-    }
-
-    CeGuiString GameObjectManager::getXmlNodeIdentifier() const
-    {
-        return "gameobjects";
-    }
-
-    using namespace XERCES_CPP_NAMESPACE;
-    
-    void GameObjectManager::writeData(SaveGameFileWriter *writer)
-    {
-        LOG_MESSAGE(Logger::RULES, "Saving Game Objects");
-        DOMElement* gameobjects = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
-
-        std::list<GameObject*> gos = getAllGameObjects();
-
-		for(std::list<GameObject*>::const_iterator it_gameobjects = gos.begin(); it_gameobjects != gos.end(); it_gameobjects++)
-        {
-            DOMElement* gameobject = writer->appendChildElement(writer->getDocument(), gameobjects, "gameobject");
-            writer->setAttributeValueAsInteger(gameobject, "ID", (*it_gameobjects)->getId());
-            writer->setAttributeValueAsString(gameobject, "ClassID", (*it_gameobjects)->getClassId());
-            writer->setAttributeValueAsInteger(gameobject, "State", (int)(*it_gameobjects)->getState());
-            writer->setAttributeValueAsInteger(gameobject, "QueryFlags", (int)(*it_gameobjects)->getQueryFlags());
-
-            PropertyMap actualMap = (*it_gameobjects)->getAllProperties()->toPropertyMap();
-
-            writer->writeEachPropertyToElem(gameobject, (*it_gameobjects)->getAllProperties()->getDifference(getClassProperties((*it_gameobjects)->getClassId()))->toPropertyMap());
-            //writer->writeEachPropertyToElem(gameobject, getPropertyMapDifference(actualMap, getClassProperties((*it_gameobjects)->getClassId())->toPropertyMap()));
-        } 
-    }
-
-    void GameObjectManager::readData(SaveGameFileReader *reader)
-    {
-        deleteAllGameObjects();
-
-        reader->initializeXml();
-
-        DOMNodeList* rootNodeList = reader->getDocument()->getDocumentElement()->getElementsByTagName(AutoXMLCh(getXmlNodeIdentifier().c_str()).data());
-
-        if(rootNodeList->getLength())
-        {
-            DOMNodeList* xmlGameObjects = static_cast<DOMElement*>(rootNodeList->item(0))->getElementsByTagName(AutoXMLCh("gameobject").data()); //there should be only one "gameobjects" node
-            if(xmlGameObjects->getLength())
-            {
-                for(XMLSize_t childIdx = 0; childIdx < xmlGameObjects->getLength(); childIdx++)
-                {
-                    DOMNode* xmlGameObject = xmlGameObjects->item(childIdx);
-                    if(xmlGameObject->getNodeType() == DOMNode::ELEMENT_NODE)
-                    {
-                        int ID = reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "ID");
-                        Ogre::String classID = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlGameObject), "ClassID");
-                        GameObjectState state = (GameObjectState)reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "State");
-                        int flags = reader->getAttributeValueAsInteger(static_cast<DOMElement*>(xmlGameObject), "QueryFlags");
-                        PropertyRecordPtr properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlGameObject));
-
-                        GameObject* object = NULL;
-                        if(getGameObject(ID) == NULL)
-                            object = createGameObject(classID, ID);
-                        else
-                            object = getGameObject(ID);
-                        
-                        applyProperties(object, properties);
-                        // Placing the actor a a little bit higher in the scene. The actor will fall onto ground.
-                        // Avoiding problems with the physics, because the character the creature is transfixed to ground
-                        if(state == GOS_IN_SCENE)
-                        {
-                            object->setProperty(GameObject::PROPERTY_POSITION, 
-	                            Property(object->getProperty(GameObject::PROPERTY_POSITION).toVector3() + Ogre::Vector3(0.0f,0.01f,0.0f)));
-                        }
-                        object->setState(state);
-                        object->setQueryFlags(flags);
-                    }
-                }
-            }
-        } 
-
-        MessagePump::getSingleton().sendMessage<MessageType_GameObjectsLoaded>();
-
-        reader->shutdownXml();
-    }
-
-    int GameObjectManager::getPriority() const
-    {
-        return 100;
     }
 
     PropertyMap GameObjectManager::getPropertyMapDifference(PropertyMap map1, PropertyMap map2)
