@@ -172,9 +172,9 @@ namespace rl
 		Camera* cam = CoreSubsystem::getSingleton().getWorld()->getSceneManager()->createCamera("Cam" + entity->getName());
 		cam->setNearClipDistance(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getNearClipDistance());
         cam->setFarClipDistance(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getFarClipDistance());
-		cam->setAutoAspectRatio(true);
+		//cam->setFarClipDistance(1000000);
+		cam->setAspectRatio(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getAspectRatio());
 		cam->setFOVy(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getFOVy());
-		cam->enableCustomNearClipPlane((MovablePlane*)plane);
 
 		AliasTextureNamePairList aliases;
 
@@ -190,6 +190,8 @@ namespace rl
 			rttTex->addListener(new PlaneReflectionTextureListener(entity, cam, plane));
 			
 			aliases["reflection"] = "Reflection" + entity->getName();
+
+			cam->enableCustomNearClipPlane((MovablePlane*)plane);
 		}
 		if(getAttributeValueAsBool(rttElem, "refraction"))
 		{
@@ -203,6 +205,9 @@ namespace rl
 			rttTex->addListener(new PlaneRefractionTextureListener(entity, cam));
 
 			aliases["refraction"] = "Refraction" + entity->getName();
+
+			plane->normal = Vector3::NEGATIVE_UNIT_Y;
+			cam->enableCustomNearClipPlane((MovablePlane*)plane);
 		}
 		if(!material->applyTextureAliases(aliases))
 			LOG_ERROR("PLANE", "Texture Aliase konnten nicht angewandt werden");
@@ -220,7 +225,7 @@ namespace rl
 		mCamera->setPosition(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getWorldPosition());
 		mCamera->setOrientation(CoreSubsystem::getSingleton().getWorld()->getActiveCamera()->getWorldOrientation());
 		mEntity->setVisible(false);
-		mCamera->enableReflection(*mPlane);
+		mCamera->enableReflection((MovablePlane*)mPlane);
 	}
 
 	void PlaneReflectionTextureListener::postRenderTargetUpdate(const Ogre::RenderTargetEvent& evt)
