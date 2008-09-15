@@ -39,6 +39,11 @@ namespace rl
     class _RlRulesExport EffectManager : public PropertyHolder
 	{
 	public:
+    
+        static const Ogre::String PROPERTY_TIMECHECK;
+        static const Ogre::String PROPERTY_TIME;
+        static const Ogre::String PROPERTY_EFFECT;
+        
 		EffectManager(GameObject* gameobject);
 		~EffectManager();
 
@@ -110,7 +115,7 @@ namespace rl
         bool mCheckEffectsRunning;
 
         /// Eine einfache Menge von Effekten
-		typedef std::set<Effect*> Effects;
+		typedef std::vector<Effect*> Effects;
 		Effects mEffects;
         /**
          * Eine Liste die wiedergibt, wann welcher Effekt

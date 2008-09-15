@@ -82,6 +82,7 @@ namespace rl
 
         static const Ogre::String PROPERTY_NAME;
         static const Ogre::String PROPERTY_STUFE;
+        static const Ogre::String PROPERTY_ENABLED;
 
 
         /// Setzt den Quantifier standardmaessig auf QUANTIFIER_MULTIPLE.

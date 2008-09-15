@@ -615,6 +615,7 @@
 		485B895C0E15796500D5B19C /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485B89590E15796500D5B19C /* SceneManager.cpp */; };
 		48760AAB0D92E4B700BEB57C /* RlExports_wrap.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 48760AA90D92E4B700BEB57C /* RlExports_wrap.cxx */; };
 		48760AAC0D92E4B700BEB57C /* RlExports_wrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 48760AAA0D92E4B700BEB57C /* RlExports_wrap.h */; };
+		487750B00E7E3C9C0018216B /* Cg.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 487750AF0E7E3C9C0018216B /* Cg.framework */; };
 		4890C0B80E18061300BE5850 /* AbstractMovement.h in Headers */ = {isa = PBXBuildFile; fileRef = 4890C0A70E18061300BE5850 /* AbstractMovement.h */; };
 		4890C0B90E18061300BE5850 /* FallDownMovement.h in Headers */ = {isa = PBXBuildFile; fileRef = 4890C0A80E18061300BE5850 /* FallDownMovement.h */; };
 		4890C0BA0E18061300BE5850 /* JogBackwardsMovement.h in Headers */ = {isa = PBXBuildFile; fileRef = 4890C0A90E18061300BE5850 /* JogBackwardsMovement.h */; };
@@ -664,7 +665,6 @@
 		48B0B03C0E6535AB0023B198 /* libmeshmagick.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 440785DD0C09D231006E496D /* libmeshmagick.dylib */; };
 		48B0B0490E65BBB30023B198 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48B0B0480E65BBB30023B198 /* libfmodex.dylib */; };
 		48B0B04A0E65BBC10023B198 /* libfmodex.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 48B0B0480E65BBB30023B198 /* libfmodex.dylib */; };
-		48B5F63A0DAF48AF00D05C95 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D0C4E960486CD37000505A6 /* Info.plist */; };
 		48B772DD0D58350B000A3B97 /* XmlProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B772DA0D58350B000A3B97 /* XmlProcessor.h */; };
 		48B772DE0D58350B000A3B97 /* XmlPropertyReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B772DB0D58350B000A3B97 /* XmlPropertyReader.h */; };
 		48B772DF0D58350B000A3B97 /* XmlPropertyWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B772DC0D58350B000A3B97 /* XmlPropertyWriter.h */; };
@@ -853,6 +853,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				487750B00E7E3C9C0018216B /* Cg.framework in Copy Frameworks */,
 				48C04B8A0E67DF0300CD3A7D /* PCRE.framework in Copy Frameworks */,
 				48003B550E3211660056D073 /* libboost_system.dylib in Copy Frameworks */,
 				48D0BDE60E23378700863824 /* libboost_filesystem.dylib in Copy Frameworks */,
@@ -1445,6 +1446,7 @@
 		48760A990D92E2CD00BEB57C /* RlUi.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlUi.swig; path = ../engine/script/swig/RlUi.swig; sourceTree = SOURCE_ROOT; };
 		48760AA90D92E4B700BEB57C /* RlExports_wrap.cxx */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; includeInIndex = 0; name = RlExports_wrap.cxx; path = ../engine/script/swig/RlExports_wrap.cxx; sourceTree = SOURCE_ROOT; };
 		48760AAA0D92E4B700BEB57C /* RlExports_wrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RlExports_wrap.h; path = ../engine/script/swig/RlExports_wrap.h; sourceTree = SOURCE_ROOT; };
+		487750AF0E7E3C9C0018216B /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = /Library/Frameworks/Cg.framework; sourceTree = "<absolute>"; };
 		4890C0A70E18061300BE5850 /* AbstractMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbstractMovement.h; path = ../engine/rules/include/AbstractMovement.h; sourceTree = SOURCE_ROOT; };
 		4890C0A80E18061300BE5850 /* FallDownMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FallDownMovement.h; path = ../engine/rules/include/FallDownMovement.h; sourceTree = SOURCE_ROOT; };
 		4890C0A90E18061300BE5850 /* JogBackwardsMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JogBackwardsMovement.h; path = ../engine/rules/include/JogBackwardsMovement.h; sourceTree = SOURCE_ROOT; };
@@ -1688,6 +1690,7 @@
 			isa = PBXGroup;
 			children = (
 				20286C2AFDCF999611CA2CEA /* Sources */,
+				48D401810D9E483200AE5340 /* modules */,
 				20286C2CFDCF999611CA2CEA /* Resources */,
 				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
 				195DF8CFFE9D517E11CA2CBB /* Products */,
@@ -1714,7 +1717,6 @@
 		20286C2CFDCF999611CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				48D401810D9E483200AE5340 /* modules */,
 				440786120C09D602006E496D /* RlScript-Info.plist */,
 				8D0C4E960486CD37000505A6 /* Info.plist */,
 				0867D6AAFE840B52C02AAC07 /* InfoPlist.strings */,
@@ -1726,6 +1728,7 @@
 		20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				487750AF0E7E3C9C0018216B /* Cg.framework */,
 				48C04B890E67DF0300CD3A7D /* PCRE.framework */,
 				48B0B0480E65BBB30023B198 /* libfmodex.dylib */,
 				48CFBF8E0E2E869000CD0C51 /* FreeType.framework */,
@@ -3046,7 +3049,6 @@
 				8D0C4E8D0486CD37000505A6 /* InfoPlist.strings in Resources */,
 				8D0C4E8E0486CD37000505A6 /* main.nib in Resources */,
 				48D409CE0D9E483300AE5340 /* modules in Resources */,
-				48B5F63A0DAF48AF00D05C95 /* Info.plist in Resources */,
 				4835559B0E6ABED100008748 /* mkdmg.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

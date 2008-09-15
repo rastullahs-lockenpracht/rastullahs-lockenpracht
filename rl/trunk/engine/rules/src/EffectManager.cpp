@@ -30,6 +30,10 @@
 
 namespace rl
 {
+    const Ogre::String EffectManager::PROPERTY_TIMECHECK = "timechecks";
+    const Ogre::String EffectManager::PROPERTY_TIME = "time";
+    const Ogre::String EffectManager::PROPERTY_EFFECT = "effect";
+
     EffectManager::EffectManager(GameObject* gameobject)
         : mGameObject(gameobject),
         mCheckEffectsRunning(false)
@@ -94,7 +98,7 @@ namespace rl
         LOG_DEBUG(Logger::RULES,
             debugInfo.str());
         // Insert Sum and effect into the checklist
-        mChecklist[timeForCheck].insert(effect);
+        mChecklist[timeForCheck].push_back(effect);
     }
 
     void EffectManager::addDateCheck(RL_LONGLONG date, Effect* effect)
@@ -113,7 +117,7 @@ namespace rl
         std::stringstream debugInfo;
         debugInfo << "Adding check! now:" << now << " check: " << date << std::endl;
         LOG_DEBUG(Logger::RULES, debugInfo.str());
-        mChecklist[date].insert(effect);
+        mChecklist[date].push_back(effect);
     }
 
 
@@ -147,7 +151,7 @@ namespace rl
             }
         }
         ScriptWrapper::getSingleton().owned(effect);
-        mEffects.insert(effect);
+        mEffects.push_back(effect);
         effect->enable();
 
         checkStateChange(oldState);
@@ -158,7 +162,14 @@ namespace rl
         Effect::LifeState oldState = getLifeState();
     
         effect->disable();
-        mEffects.erase(effect);
+        for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); ++it)
+        {
+            if (*it == effect)
+            {
+                mEffects.erase(it);
+                break;
+            }
+        }
         ScriptWrapper::getSingleton().disowned(effect);
         ///@todo also remove from the check lists?
 
@@ -226,12 +237,34 @@ namespace rl
         Property rval;
         if (key == Creature::PROPERTY_EFFECTS)
         {
-            PropertyArray arr;
-            for (Effects::const_iterator it = mEffects.begin(); it != mEffects.end(); it++)
+            PropertyMap map;
+            
+            std::map<Effect*, int> effectIds;
+            PropertyArray effectProps;
+            for (int i = 0, size = mEffects.size(); i < size; ++i)
             {
-                arr.push_back((*it)->getAllProperties()->toPropertyMap());
+                Effect* cur = mEffects[i];
+                effectProps.push_back(cur->getAllProperties()->toPropertyMap());
+                effectIds[cur] = i;
             }
-            rval = Property(arr);
+            
+            PropertyArray timeCheck;
+            for (std::map<RL_LONGLONG, Effects>::const_iterator itTc = mChecklist.begin(); 
+                itTc != mChecklist.end(); ++itTc)
+            {
+                for (Effects::const_iterator itEff = itTc->second.begin(); 
+                    itEff != itTc->second.end(); ++itEff)
+                {
+                    PropertyMap tcElem;
+                    tcElem[EffectManager::PROPERTY_EFFECT] = effectIds[*itEff];
+                    tcElem[EffectManager::PROPERTY_TIME] = itTc->first;
+                    timeCheck.push_back(tcElem);
+                }
+            }
+            
+            map[Creature::PROPERTY_EFFECTS] = effectProps;
+            map[EffectManager::PROPERTY_TIMECHECK] = timeCheck;
+            rval.setValue(map);
         }
         else 
         {
@@ -246,16 +279,30 @@ namespace rl
         {
             if (key == Creature::PROPERTY_EFFECTS)
             {
-                PropertyArray arr = value.toArray();
-                for (PropertyArray::iterator it = arr.begin(); it != arr.end(); it++)
+                PropertyMap map = value.toMap();
+                
+                std::vector<Effect*> effectIds;
+                
+                PropertyArray arr = map[Creature::PROPERTY_EFFECTS].toArray();
+                for (int i = 0, size = arr.size(); i < size; ++i)
                 {
-                    PropertyMap cur = it->toMap();
+                    PropertyMap cur = arr[i].toMap();
                     Ogre::String name = cur[Effect::PROPERTY_NAME].toString().c_str();
                     int stufe = cur[Effect::PROPERTY_STUFE];
                     Effect* eff = EffectFactoryManager::getSingleton().createEffect(name, stufe);
-                    mEffects.insert(eff);
-                    ///@TODO: activate effects
-                }                
+                    eff->setProperties(cur);
+                    mEffects.push_back(eff);
+                    ///@TODO: activate effects?
+                }
+                
+                PropertyArray timeCheckProp = map[EffectManager::PROPERTY_TIMECHECK].toArray();
+                for (int i = 0, size = timeCheckProp.size(); i < size; ++i)
+                {
+                    PropertyMap cur = timeCheckProp[i].toMap();
+                    RL_LONGLONG time = cur[EffectManager::PROPERTY_TIME].toLong();
+                    Effect* eff = mEffects[cur[EffectManager::PROPERTY_EFFECT].toInt()];
+                    mChecklist[time].push_back(eff);
+                }
             }
             else
             {

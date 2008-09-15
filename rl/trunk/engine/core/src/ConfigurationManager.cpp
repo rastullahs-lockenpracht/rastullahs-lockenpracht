@@ -124,8 +124,6 @@ namespace rl
         addSetting("MovementController keys", "reset_camera", "0 (Nummernblock)");
 
         addSetting("Localization", "language", "de");
-
-        setRastullahCfgPath();
     }
 
     ConfigurationManager::~ConfigurationManager()
@@ -187,6 +185,7 @@ namespace rl
 
     void ConfigurationManager::loadConfig()
     {
+        setRastullahCfgPath();
         // On Linux, we create the .rastullah directory
 #       if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
         fs::path rastullahCfgDirectory(Ogre::String(::getenv("HOME")) + "/.rastullah",
@@ -265,7 +264,7 @@ namespace rl
         {
 #           if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
             mModulesRootDirectory = RL_MODULEDIR;
-#           elsif OGRE_PLATFORM == OGRE_PLATFORM_APPLE
+#           elif OGRE_PLATFORM == OGRE_PLATFORM_APPLE
             mModulesRootDirectory = mExecutablePath + "/../Resources/modules";
 #           else
             mModulesRootDirectory = "./modules";
@@ -390,8 +389,8 @@ namespace rl
 	void ConfigurationManager::setExecutable(const Ogre::String& path)
 	{
 		fs::path exeAbsolute(path, fs::portable_posix_name);
-		
 		mExecutablePath = exeAbsolute.remove_leaf().string();
+        std::cout << "ConfigurationManager" << "Executable is " << path << " " << mExecutablePath;
 	}
 
 	const Ogre::String& ConfigurationManager::getExecutablePath() const
@@ -441,11 +440,12 @@ namespace rl
         try 
         {
 #           if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-			std::cout << "Checking for " << fs::complete(filename);
+			std::cout << "Checking for " << fs::complete(filename) << std::endl;
             if (fs::exists(filename))
 #           else
 			std::cout << "Checking for " << 
-				fs::complete(fs::path(filename, fs::portable_posix_name)).string();
+				fs::complete(fs::path(filename, fs::portable_posix_name)).string()
+                 << std::endl;
 			if (fs::exists(fs::path(filename, fs::portable_posix_name)))
 #           endif
             {

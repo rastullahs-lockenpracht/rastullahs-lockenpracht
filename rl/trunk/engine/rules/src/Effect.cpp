@@ -22,6 +22,7 @@ namespace rl
 {
     const Ogre::String Effect::PROPERTY_NAME = "name";
     const Ogre::String Effect::PROPERTY_STUFE = "stufe";
+    const Ogre::String Effect::PROPERTY_ENABLED = "enabled";    
 
 	Effect::Effect(int stufe)
 	{
@@ -116,6 +117,10 @@ namespace rl
         {
             prop.setValue(mStufe);
         }
+        else if (key == Effect::PROPERTY_ENABLED)
+        {
+            prop.setValue(mEnabled);
+        }
         else
         {
             Throw(
@@ -137,6 +142,10 @@ namespace rl
             {
                 mStufe = value.toInt();
             }
+            else if (key == Effect::PROPERTY_ENABLED)
+            {
+                mEnabled = value.toBool();
+            }
             else
             {
                 LOG_WARNING(
@@ -148,7 +157,7 @@ namespace rl
         {
             LOG_ERROR(
                 Logger::RULES,
-                "property " + key + " has the wrong format");
+                "property " + key + " has the wrong format: " + ex.getMessage());
         }
     }
 
