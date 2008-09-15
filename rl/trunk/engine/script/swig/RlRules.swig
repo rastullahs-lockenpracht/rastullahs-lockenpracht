@@ -638,8 +638,8 @@ namespace rl {
         Effect(int stufe = 1);
         virtual ~Effect();
 
-        const rl::CeGuiString getName() const;
-        void setName(rl::CeGuiString name);
+        const Ogre::String getName() const;
+        void setName(Ogre::String name);
         const rl::CeGuiString getDescription() const;
         void setDescription(rl::CeGuiString description);
         Quantifier getQuantifier();

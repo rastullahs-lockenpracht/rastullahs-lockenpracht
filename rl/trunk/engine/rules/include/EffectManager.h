@@ -36,7 +36,7 @@ namespace rl
      * should be called every Aktion (the dark eye time unit)
      **/
 
-	class _RlRulesExport EffectManager
+    class _RlRulesExport EffectManager : public PropertyHolder
 	{
 	public:
 		EffectManager(GameObject* gameobject);
@@ -97,6 +97,10 @@ namespace rl
         CeGuiString getEffects();
 
         void checkStateChange(Effect::LifeState oldState);
+
+        virtual const Property getProperty(const CeGuiString& key) const;
+        virtual void setProperty(const CeGuiString& key, const Property& value);
+        virtual PropertyKeys getAllPropertyKeys() const;
 
 	private:
 

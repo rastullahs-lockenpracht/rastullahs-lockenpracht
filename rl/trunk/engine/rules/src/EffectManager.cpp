@@ -20,7 +20,9 @@
 #include <sstream>
 
 #include "CoreSubsystem.h"
+#include "Creature.h"
 #include "DsaManager.h"
+#include "EffectFactory.h"
 #include "Exception.h"
 #include "MessagePump.h"
 #include "RulesMessages.h"
@@ -28,35 +30,36 @@
 
 namespace rl
 {
-	EffectManager::EffectManager(GameObject* gameobject)
+    EffectManager::EffectManager(GameObject* gameobject)
         : mGameObject(gameobject),
         mCheckEffectsRunning(false)
-	{
-	}
+    {
+    }
 
-	EffectManager::~EffectManager()
-	{
-		for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
-		{
-			//delete (*it);
+    EffectManager::~EffectManager()
+    {
+        for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
+        {
+            //delete (*it);
             ScriptWrapper::getSingleton().disowned(*it);
-		}
-	}
+        }
+    }
 
-	void EffectManager::checkEffects()
-	{
-            if( mCheckEffectsRunning )
+    void EffectManager::checkEffects()
+    {
+        if( mCheckEffectsRunning ) {
                 return;
-            mCheckEffectsRunning = true;
+        }
+        mCheckEffectsRunning = true;
         RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
         Checklist::iterator checkIt = mChecklist.begin();
         if (checkIt == mChecklist.end()) return;
         while ( checkIt != mChecklist.end() && checkIt->first <= now )
         {
-				std::stringstream debugInfo;
-				debugInfo << "Effect check: " << checkIt->first << " now: " << now << std::endl;
+                std::stringstream debugInfo;
+                debugInfo << "Effect check: " << checkIt->first << " now: " << now << std::endl;
                 LOG_DEBUG(Logger::RULES,
-					debugInfo.str());
+                    debugInfo.str());
             for (Effects::iterator effIt = checkIt->second.begin(); effIt != checkIt->second.end(); effIt++)
             {
                 int nextCheck;
@@ -76,7 +79,7 @@ namespace rl
         }
 
         mCheckEffectsRunning = false;
-	}
+    }
 
     void EffectManager::addTimeCheck(RL_LONGLONG timeUntilCheck, Effect* effect)
     {
@@ -86,10 +89,10 @@ namespace rl
         // Get current ingame time and add timeUntilCheck
         RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
         RL_LONGLONG timeForCheck = now + timeUntilCheck;
-				std::stringstream debugInfo;
-				debugInfo << "Adding check! now:" << now << " check: " << timeForCheck << std::endl;
-                LOG_DEBUG(Logger::RULES,
-					debugInfo.str());
+        std::stringstream debugInfo;
+        debugInfo << "Adding check! now:" << now << " check: " << timeForCheck << std::endl;
+        LOG_DEBUG(Logger::RULES,
+            debugInfo.str());
         // Insert Sum and effect into the checklist
         mChecklist[timeForCheck].insert(effect);
     }
@@ -98,46 +101,57 @@ namespace rl
     {
         // Preconditions: date > now, effect != NULL
         RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
-        if (date <= now) Throw(IllegalArgumentException, "date lies in the past!");
-        if (effect == NULL) Throw(IllegalArgumentException, "effect pointer is NULL!");
+        if (date <= now) 
+        {
+            Throw(IllegalArgumentException, "date lies in the past!");
+        }
+        if (effect == NULL) 
+        {
+            Throw(IllegalArgumentException, "effect pointer is NULL!");
+        }
         // Insert date and effect into the checklist
-				std::stringstream debugInfo;
-				debugInfo << "Adding check! now:" << now << " check: " << date << std::endl;
-                LOG_DEBUG(Logger::RULES,
-					debugInfo.str());
+        std::stringstream debugInfo;
+        debugInfo << "Adding check! now:" << now << " check: " << date << std::endl;
+        LOG_DEBUG(Logger::RULES, debugInfo.str());
         mChecklist[date].insert(effect);
     }
 
 
-	void EffectManager::addEffect(Effect* effect)
-	{
+    void EffectManager::addEffect(Effect* effect)
+    {
         Effect::LifeState oldState = getLifeState();
 
         LOG_DEBUG(Logger::RULES, "Adding effect " + effect->getName());
-		for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
-		{
-			if ((*it)->getName() == effect->getName())
-			{
-				if ((*it)->getQuantifier() == Effect::QUANTIFIER_UNIQUE) return;
-				if ((*it)->getQuantifier() == Effect::QUANTIFIER_UNIQUE_BUT_PROLONGABLE)
-				{
-					//TODO
-					//Vielleicht alten durch neuen ersetzen?
-					//oder (*it)->setDuration(effect->getDuration())
-				}
-				if ((*it)->getQuantifier() == Effect::QUANTIFIER_UNIQUE_BUT_CUMULATIVE)
-				{
-					for (int i = 0; i < effect->getStufe(); i++)
-						(*it)->increaseStufe();
-				}
-			}
-		}
+        for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
+        {
+            Effect* cur = *it;
+            if (cur->getName() == effect->getName())
+            {
+                if (cur->getQuantifier() == Effect::QUANTIFIER_UNIQUE) 
+                {
+                    return;
+                }
+                else if (cur->getQuantifier() == Effect::QUANTIFIER_UNIQUE_BUT_PROLONGABLE)
+                {
+                    //TODO
+                    //Vielleicht alten durch neuen ersetzen?
+                    //oder (*it)->setDuration(effect->getDuration())
+                }
+                else if (cur->getQuantifier() == Effect::QUANTIFIER_UNIQUE_BUT_CUMULATIVE)
+                {
+                    for (int i = 0; i < effect->getStufe(); i++)
+                    {
+                        cur->increaseStufe();
+                    }
+                }
+            }
+        }
         ScriptWrapper::getSingleton().owned(effect);
-		mEffects.insert(effect);
-		effect->enable();
+        mEffects.insert(effect);
+        effect->enable();
 
         checkStateChange(oldState);
-	}
+    }
 
     void EffectManager::removeEffect(Effect* effect)
     {
@@ -153,8 +167,8 @@ namespace rl
 
     void EffectManager::removeEffect(CeGuiString name)
     {
-		for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
-		{
+        for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
+        {
             if ((*it)->getName() == name)
             {
                 removeEffect(*it);
@@ -179,21 +193,21 @@ namespace rl
         Effect::LifeState currentState = getLifeState();
         if (currentState != oldState)
         {
-			MessagePump::getSingleton().sendMessage<MessageType_GameObjectLifeStateChanged>(mGameObject,
-				oldState, currentState);
+            MessagePump::getSingleton().sendMessage<MessageType_GameObjectLifeStateChanged>(mGameObject,
+                oldState, currentState);
         }
     }
 
     int EffectManager::getMod(CeGuiString target, Effect::ModType type, Effect::ModTag tag)
     {
-      checkEffects();
-      int mod = 0;
-	  if (type == Effect::MODTYPE_MULT) mod = 1;
-      for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
-      {
-        mod += (*it)->getMod(target, type, tag);
-      }
-      return mod;
+        checkEffects();
+        int mod = 0;
+        if (type == Effect::MODTYPE_MULT) mod = 1;
+        for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
+        {
+            mod += (*it)->getMod(target, type, tag);
+        }
+        return mod;
     }
 
     CeGuiString EffectManager::getEffects()
@@ -206,5 +220,62 @@ namespace rl
         }
         return retVal;
     }
+
+    const Property EffectManager::getProperty(const CeGuiString& key) const
+    {
+        Property rval;
+        if (key == Creature::PROPERTY_EFFECTS)
+        {
+            PropertyArray arr;
+            for (Effects::const_iterator it = mEffects.begin(); it != mEffects.end(); it++)
+            {
+                arr.push_back((*it)->getAllProperties()->toPropertyMap());
+            }
+            rval = Property(arr);
+        }
+        else 
+        {
+            Throw(IllegalArgumentException, key + " is not a property of EffectManager.");
+        }
+        return rval;
+    }
+    
+    void EffectManager::setProperty(const CeGuiString& key, const Property& value)
+    {
+        try
+        {
+            if (key == Creature::PROPERTY_EFFECTS)
+            {
+                PropertyArray arr = value.toArray();
+                for (PropertyArray::iterator it = arr.begin(); it != arr.end(); it++)
+                {
+                    PropertyMap cur = it->toMap();
+                    Ogre::String name = cur[Effect::PROPERTY_NAME].toString().c_str();
+                    int stufe = cur[Effect::PROPERTY_STUFE];
+                    Effect* eff = EffectFactoryManager::getSingleton().createEffect(name, stufe);
+                    mEffects.insert(eff);
+                    ///@TODO: activate effects
+                }                
+            }
+            else
+            {
+                LOG_WARNING(Logger::RULES, 
+                    key + " is not a property of EffectManager");
+            }
+        }
+        catch (WrongFormatException ex)
+        {
+            LOG_ERROR(Logger::RULES, 
+                "property " + key + " has the wrong format");
+        }
+    }
+
+    PropertyKeys EffectManager::getAllPropertyKeys() const
+    {
+        PropertyKeys keys;
+        keys.insert(Creature::PROPERTY_EFFECTS);
+        return keys;
+    }
+
 }
 

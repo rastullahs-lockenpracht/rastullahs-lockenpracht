@@ -1066,10 +1066,10 @@ namespace rl
         {
             mErschoepfung = value.toInt();
         }
-        //else if (key == Creature::PROPERTY_EFFECTS)
-        //{
-        //    mEffectManager->setProperty(Creature::PROPERTY_EFFECTS, value);
-        //}
+        else if (key == Creature::PROPERTY_EFFECTS)
+        {
+            mEffectManager->setProperty(Creature::PROPERTY_EFFECTS, value);
+        }
         else if (key == Creature::PROPERTY_EIGENSCHAFTEN)
         {
             mEigenschaften.clear();
@@ -1161,10 +1161,10 @@ namespace rl
         {
             return Property(mErschoepfung);
         }
-        //else if (key == Creature::PROPERTY_EFFECTS)
-        //{
-        //    return Property(mEffectManager->getProperty(Creature::PROPERTY_EFFECTS));
-        //}
+        else if (key == Creature::PROPERTY_EFFECTS)
+        {
+            return mEffectManager->getProperty(Creature::PROPERTY_EFFECTS);
+        }
         else if (key == Creature::PROPERTY_EIGENSCHAFTEN)
         {
             PropertyMap map = rl::convertToPropertyMap(mEigenschaften);
@@ -1237,7 +1237,7 @@ namespace rl
         keys.insert(Creature::PROPERTY_CURRENT_AE);
         keys.insert(Creature::PROPERTY_CURRENT_AU);
         keys.insert(Creature::PROPERTY_CURRENT_FATIGUE);
-        //keys.insert(Creature::PROPERTY_EFFECTS);
+        keys.insert(Creature::PROPERTY_EFFECTS);
         keys.insert(Creature::PROPERTY_EIGENSCHAFTEN);
         keys.insert(Creature::PROPERTY_TALENTE);
         keys.insert(Creature::PROPERTY_KAMPFTECHNIKEN);
