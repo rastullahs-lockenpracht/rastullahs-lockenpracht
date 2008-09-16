@@ -48,23 +48,27 @@ namespace rl
 				{
 					Ogre::String name = getAttributeValueAsStdString(curZoneElem, "name");
                     Zone* zone = NULL;
-                    if( name == "default" )
+                    if (name == "default")
+                    {
                         zone = ZoneManager::getSingleton().getDefaultZone();
+                    }
                     else
                     {
                         // get the zone with that name or create one
                         zone = ZoneManager::getSingleton().getZone(name);
-                        if( !zone )
+                        if (!zone)
+                        {
                             zone = ZoneManager::getSingleton().createZone(name, false);
+                        }
 
                         // multiple areas
                         for(DOMNode* curArea = cur->getFirstChild(); curArea != NULL; curArea = curArea->getNextSibling())
                         {
-                            if( curArea->getNodeType() == DOMNode::ELEMENT_NODE
-                                && hasNodeName(curArea, "area") )
+                            if (curArea->getNodeType() == DOMNode::ELEMENT_NODE
+                                && hasNodeName(curArea, "area"))
                             {
                                 DOMElement *curAreaElem = static_cast<DOMElement*>(curArea);
-                                if( hasAttribute(curAreaElem, "type") )
+                                if (hasAttribute(curAreaElem, "type"))
                                 {
                                     // type
                                     Ogre::String type;
@@ -72,78 +76,111 @@ namespace rl
 
                                     // add or subtract?
                                     bool subtract = false;
-                                    if( hasAttribute(curAreaElem, "subtract") )
+                                    if (hasAttribute(curAreaElem, "subtract"))
+                                    {
                                         subtract = getAttributeValueAsBool(curAreaElem, "subtract");
+                                    }
 
                                     // position
                                     Vector3 position = Vector3::ZERO;
                                     DOMElement* positionElem = getChildNamed(curAreaElem, "position");
-                                    if( positionElem != NULL )
+                                    if (positionElem)
+                                    {
                                         position = getValueAsVector3(positionElem);
+                                    }
 
                                     //scale, rotation, offset
                                     Vector3 scale = Vector3::UNIT_SCALE;
                                     DOMElement* scaleElem = getChildNamed(curAreaElem, "scale");
-                                    if( scaleElem != NULL )
+                                    if (!scaleElem)
+                                    {
+                                        scaleElem = getChildNamed(curAreaElem, "size");
+                                    }
+                                    
+                                    if (scaleElem)
+                                    {
                                         scale = getValueAsVector3(scaleElem);
+                                    }
 
                                     Vector3 offset = Vector3::ZERO;
                                     DOMElement* offsetElem = getChildNamed(curAreaElem, "offset");
-                                    if( offsetElem != NULL )
+                                    if (offsetElem)
+                                    {
                                         offset = getValueAsVector3(offsetElem);
+                                    }
 
                                     Quaternion rotation = Quaternion::IDENTITY;
                                     DOMElement* rotationElem = getChildNamed(curAreaElem, "rotation");
-                                    if( rotationElem != NULL )
+                                    if (rotationElem)
+                                    {
                                         rotation = getValueAsQuaternion(rotationElem);
+                                    }
 
                                     //transition distance
                                     Real transitionDistance = 0;
                                     DOMElement* transitionElem = getChildNamed(curAreaElem, "transition_distance");
-                                    if( transitionElem != NULL )
+                                    if (transitionElem)
+                                    {
                                         transitionDistance = getValueAsReal(transitionElem);
-
+                                    }
 					            
                                     if (type == "mesh")
     					            {
                                         Ogre::String meshName;
-                                        if( hasAttribute(curAreaElem, "meshfile") )
+                                        if (hasAttribute(curAreaElem, "meshfile"))
                                         {
                                             meshName = getAttributeValueAsStdString(curAreaElem, "meshfile");
-                                            if( subtract )
+                                            if (subtract)
+                                            {
                                                 ZoneManager::getSingleton().subtractMeshAreaFromZone(name,
                                                     meshName, GT_CONVEXHULL, position, scale, offset, rotation, transitionDistance, QUERYFLAG_PLAYER);
+                                            }
                                             else
+                                            {
                                                 ZoneManager::getSingleton().addMeshAreaToZone(name,
                                                     meshName, GT_CONVEXHULL, position, scale, offset, rotation, transitionDistance, QUERYFLAG_PLAYER);
+                                            }
                                         }
                                         else
+                                        {
                                             LOG_ERROR(Logger::SCRIPT, "an <area> element with type=\"mesh\" must have attribute 'meshfile'");
+                                        }
                                     }
     					            else
                                     {
                                         GeometryType geom = GT_NONE;
-                                        if (type == "sphere" )
+                                        if (type == "sphere")
+                                        {
                                             geom = GT_SPHERE;
-                                        else if (type == "box" )
+                                        }
+                                        else if (type == "box")
+                                        {
                                             geom = GT_BOX;
-                                        else if (type == "ellipsoid" )
+                                        }
+                                        else if (type == "ellipsoid")
+                                        {
                                             geom = GT_ELLIPSOID;
-                                        else if (type == "pyramid" )
+                                        }
+                                        else if (type == "pyramid")
+                                        {
                                             geom = GT_PYRAMID;
-                                        else if (type == "capsule" )
+                                        }
+                                        else if (type == "capsule")
+                                        {
                                             geom = GT_CAPSULE;
+                                        }
                                         else
                                         {
                                             LOG_ERROR(Logger::SCRIPT, "Unknown area type '" + type + "' !");
                                         }
-                                        if ( geom != GT_NONE )
+                                        
+                                        if ( geom != GT_NONE)
                                         {
                                             Ogre::AxisAlignedBox aabb;
                                             aabb.setMinimum( - scale / 2.0f);
                                             aabb.setMaximum( + scale / 2.0f);
 
-                                            if( subtract )
+                                            if (subtract)
                                                 ZoneManager::getSingleton().subtractAreaFromZone(name,
                                                     aabb, geom, position, offset, rotation, transitionDistance, QUERYFLAG_PLAYER);
                                             else
@@ -160,7 +197,7 @@ namespace rl
                         }
                     }
 
-					if (zone != NULL)
+					if (zone)
 					{
 						for (DOMNode* cur = curZoneElem->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
 						{
@@ -189,9 +226,9 @@ namespace rl
 										->createTrigger(classname, name);
 
                                     // add trigger properties
-                                    for( DOMNode* curProperty = cur->getFirstChild(); curProperty != NULL; curProperty = curProperty->getNextSibling() )
+                                    for( DOMNode* curProperty = cur->getFirstChild(); curProperty != NULL; curProperty = curProperty->getNextSibling())
                                     {
-                                        if( hasNodeName(curProperty, "property") )
+                                        if (hasNodeName(curProperty, "property"))
                                         {
                                             PropertyEntry propEntry = processProperty(static_cast<DOMElement*>(curProperty));
                                             if (propEntry.first != "")
