@@ -613,6 +613,10 @@
 		485B895A0E15796500D5B19C /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485B89570E15796500D5B19C /* Scene.cpp */; };
 		485B895B0E15796500D5B19C /* SceneLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485B89580E15796500D5B19C /* SceneLoader.cpp */; };
 		485B895C0E15796500D5B19C /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485B89590E15796500D5B19C /* SceneManager.cpp */; };
+		487029C70E80DCEA00B66388 /* GameOverWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 487029C60E80DCEA00B66388 /* GameOverWindow.h */; };
+		487029C90E80DCF900B66388 /* GameOverWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487029C80E80DCF900B66388 /* GameOverWindow.cpp */; };
+		487029E80E80E12200B66388 /* PartyManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 487029E70E80E12200B66388 /* PartyManager.h */; };
+		487029EA0E80E13300B66388 /* PartyManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487029E90E80E13300B66388 /* PartyManager.cpp */; };
 		48760AAB0D92E4B700BEB57C /* RlExports_wrap.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 48760AA90D92E4B700BEB57C /* RlExports_wrap.cxx */; };
 		48760AAC0D92E4B700BEB57C /* RlExports_wrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 48760AAA0D92E4B700BEB57C /* RlExports_wrap.h */; };
 		487750B00E7E3C9C0018216B /* Cg.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 487750AF0E7E3C9C0018216B /* Cg.framework */; };
@@ -1443,6 +1447,10 @@
 		485B89570E15796500D5B19C /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scene.cpp; path = ../engine/script/src/Scene.cpp; sourceTree = SOURCE_ROOT; };
 		485B89580E15796500D5B19C /* SceneLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneLoader.cpp; path = ../engine/script/src/SceneLoader.cpp; sourceTree = SOURCE_ROOT; };
 		485B89590E15796500D5B19C /* SceneManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneManager.cpp; path = ../engine/script/src/SceneManager.cpp; sourceTree = SOURCE_ROOT; };
+		487029C60E80DCEA00B66388 /* GameOverWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameOverWindow.h; path = ../engine/ui/include/GameOverWindow.h; sourceTree = SOURCE_ROOT; };
+		487029C80E80DCF900B66388 /* GameOverWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameOverWindow.cpp; path = ../engine/ui/src/GameOverWindow.cpp; sourceTree = SOURCE_ROOT; };
+		487029E70E80E12200B66388 /* PartyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyManager.h; path = ../engine/rules/include/PartyManager.h; sourceTree = SOURCE_ROOT; };
+		487029E90E80E13300B66388 /* PartyManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PartyManager.cpp; path = ../engine/rules/src/PartyManager.cpp; sourceTree = SOURCE_ROOT; };
 		48760A990D92E2CD00BEB57C /* RlUi.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlUi.swig; path = ../engine/script/swig/RlUi.swig; sourceTree = SOURCE_ROOT; };
 		48760AA90D92E4B700BEB57C /* RlExports_wrap.cxx */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; includeInIndex = 0; name = RlExports_wrap.cxx; path = ../engine/script/swig/RlExports_wrap.cxx; sourceTree = SOURCE_ROOT; };
 		48760AAA0D92E4B700BEB57C /* RlExports_wrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RlExports_wrap.h; path = ../engine/script/swig/RlExports_wrap.h; sourceTree = SOURCE_ROOT; };
@@ -2058,6 +2066,8 @@
 		444EAC570BD0E4CD00C6D4A0 /* RlUi */ = {
 			isa = PBXGroup;
 			children = (
+				487029C80E80DCF900B66388 /* GameOverWindow.cpp */,
+				487029C60E80DCEA00B66388 /* GameOverWindow.h */,
 				48389B960D86743900AFAB66 /* CombatGui.h */,
 				48389B970D86743900AFAB66 /* GameSaveLoadWindow.h */,
 				48389B980D86743900AFAB66 /* MainMenuLoadWindow.h */,
@@ -2170,9 +2180,12 @@
 		444EAC590BD0E50600C6D4A0 /* RlRules */ = {
 			isa = PBXGroup;
 			children = (
+				487029E90E80E13300B66388 /* PartyManager.cpp */,
+				487029E70E80E12200B66388 /* PartyManager.h */,
 				4890C0C90E18062B00BE5850 /* FallDownMovement.cpp */,
 				4890C0CA0E18062B00BE5850 /* JogFastMovement.cpp */,
 				4890C0CB0E18062B00BE5850 /* JogMovement.cpp */,
+				483D311D0D85B215003477A0 /* RulesMessages.h */,
 				4890C0CC0E18062B00BE5850 /* JumpHighMovement.cpp */,
 				4890C0CD0E18062B00BE5850 /* JumpLongMovement.cpp */,
 				4890C0CE0E18062B00BE5850 /* JumpToTargetMovement.cpp */,
@@ -2229,7 +2242,6 @@
 				483D311B0D85B215003477A0 /* Kampfaktion.h */,
 				483D311C0D85B215003477A0 /* RulesConstants.h */,
 				483D31160D85B215003477A0 /* EffectManagementTask.h */,
-				483D311D0D85B215003477A0 /* RulesMessages.h */,
 				44D8145B0BF7B52600534175 /* Selector.h */,
 				444826030BF7B37D00C5A94F /* SelectionHelper.cpp */,
 				444826040BF7B37D00C5A94F /* Selector.cpp */,
@@ -2711,6 +2723,7 @@
 				4890C0C60E18061300BE5850 /* StrafeMovement.h in Headers */,
 				4890C0C70E18061300BE5850 /* WalkBackwardsMovement.h in Headers */,
 				4890C0C80E18061300BE5850 /* WalkMovement.h in Headers */,
+				487029E80E80E12200B66388 /* PartyManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2772,6 +2785,7 @@
 				48389B9B0D86743900AFAB66 /* GameSaveLoadWindow.h in Headers */,
 				48389B9C0D86743900AFAB66 /* MainMenuLoadWindow.h in Headers */,
 				48389B9D0D86743900AFAB66 /* UiMessages.h in Headers */,
+				487029C70E80DCEA00B66388 /* GameOverWindow.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3307,6 +3321,7 @@
 				4890C0E20E18062B00BE5850 /* StepRecognitionMovement.cpp in Sources */,
 				4890C0E30E18062B00BE5850 /* StrafeMovement.cpp in Sources */,
 				4890C0E40E18062B00BE5850 /* WalkMovement.cpp in Sources */,
+				487029EA0E80E13300B66388 /* PartyManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3365,6 +3380,7 @@
 				48389B930D86741F00AFAB66 /* GameSaveLoadWindow.cpp in Sources */,
 				48389B940D86741F00AFAB66 /* MainMenuLoadWindow.cpp in Sources */,
 				48389B950D86741F00AFAB66 /* stdinc.cpp in Sources */,
+				487029C90E80DCF900B66388 /* GameOverWindow.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
