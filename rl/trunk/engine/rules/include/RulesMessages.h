@@ -27,6 +27,7 @@
 namespace rl
 {
 	class Combatant;
+    class Creature;
 	class GameObject;
 
 	/// 0x03xxxxxx as mask for rules messages
@@ -50,7 +51,17 @@ namespace rl
         // Mask
         RLMSG_GAMEOBJECT_EVENTS = 0x03000300,
         // Events
-        RLMSG_GAMEOBJECT_LIFESTATE_CHANGED = 0x03000301
+        RLMSG_GAMEOBJECT_LIFESTATE_CHANGED = 0x03000301,
+        
+        // Player character related events
+        // Mask
+        RLMSG_PLAYERCHAR_EVENTS = 0x03000400,
+        // Events
+        RLMSG_PLAYERCHAR_DIED = 0x03000401,
+        RLMSG_PLAYERCHAR_ALL_DIED = 0x03000402,
+        RLMSG_PLAYERCHAR_ADDED = 0x03000403,
+        RLMSG_PLAYERCHAR_REMOVED = 0x03000404,
+        RLMSG_PLAYERCHAR_ACTIVE_CHANGED = 0x03000405        
     };
 
     /// Message sent right after a new game log event has been added.
@@ -70,6 +81,21 @@ namespace rl
 		MessageType_GameObjectLifeStateChanged;
     
     typedef MessageType<RLMSG_SAVEGAME_GOS_LOADED> MessageType_GameObjectsLoaded;
+    
+    typedef MessageType<RLMSG_PLAYERCHAR_DIED, Creature*>
+        MessageType_PlayerCharDied;
+
+    typedef MessageType<RLMSG_PLAYERCHAR_ADDED, Creature*>
+        MessageType_PlayerCharAdded;
+
+    typedef MessageType<RLMSG_PLAYERCHAR_REMOVED, Creature*>
+        MessageType_PlayerCharRemoved;
+
+    typedef MessageType<RLMSG_PLAYERCHAR_ACTIVE_CHANGED, Creature*, Creature*>
+        MessageType_ActivePlayerCharChanged;
+
+    typedef MessageType<RLMSG_PLAYERCHAR_ALL_DIED>
+        MessageType_AllPlayerCharsDied;
 
 }
 #endif

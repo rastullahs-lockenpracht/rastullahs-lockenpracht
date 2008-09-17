@@ -16,21 +16,23 @@
 #include "stdinc.h" //precompiled header
 
 #include "RulesSubsystem.h"
+
 #include "ActionManager.h"
 #include "CombatManager.h"
+#include "ConfigurationManager.h"
+#include "CreatureControllerManager.h"
 #include "DsaManager.h"
 #include "DsaDataLoader.h"
 #include "EffectFactory.h"
 #include "EffectManagementTask.h"
 #include "GameEventLog.h"
 #include "GameLoop.h"
-#include "Logger.h"
-#include "CreatureControllerManager.h"
 #include "GameObjectManager.h"
-#include "QuestBook.h"
 #include "GameTimeSource.h"
 #include "GlobalProperties.h"
-#include <ConfigurationManager.h>
+#include "Logger.h"
+#include "PartyManager.h"
+#include "QuestBook.h"
 
 template <>
 rl::RulesSubsystem* Singleton<rl::RulesSubsystem>::ms_Singleton = 0;
@@ -79,16 +81,21 @@ namespace rl
 
         new EffectFactoryManager();
         new GameObjectManager();
+        
+        mPartyManager = new PartyManager();
 		LOG_MESSAGE(Logger::RULES, "Erzeugen abgeschlossen");
     }
 
 	RulesSubsystem::~RulesSubsystem()
     {
+        delete mPartyManager;
         GameLoop::getSingleton().removeTask(mEffectManagementTask);
         delete mEffectManagementTask;
         delete mGlobalProperties;
-        if(mQuestBook)
+        if (mQuestBook)
+        {
             Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(mQuestBook);
+        }
         delete mQuestBook;
 		delete mGameEventLog;
         delete mDsaManager;
@@ -107,8 +114,10 @@ namespace rl
 
 	void RulesSubsystem::resetQuestBook()
 	{
-        if(mQuestBook)
+        if (mQuestBook)
+        {
             Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(mQuestBook);
+        }
 		delete mQuestBook;
 		mQuestBook = new QuestBook();
         Ogre::ResourceGroupManager::getSingleton()._registerScriptLoader(mQuestBook);

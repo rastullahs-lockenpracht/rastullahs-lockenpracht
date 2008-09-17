@@ -34,9 +34,8 @@
 #include "GameLoggerWindow.h"
 #include "GameObject.h"
 #include "GameObjectInfoWindow.h"
-#include "PropertiesWindow.h"
+#include "GameOverWindow.h"
 #include "GameSaveLoadWindow.h"
-#include "MainMenuLoadWindow.h"
 #include "GameSettings.h"
 #include "InfoPopup.h"
 #include "InGameMenuWindow.h"
@@ -45,11 +44,14 @@
 #include "JournalWindow.h"
 #include "LogWindow.h"
 #include "MessageWindow.h"
+#include "MainMenuLoadWindow.h"
 #include "MainMenuWindow.h"
 #include "MainMenuEngineWindow.h"
 #include "MovableText.h"
 #include "ObjectDescriptionWindow.h"
+#include "PartyManager.h"
 #include "PlaylistWindow.h"
+#include "PropertiesWindow.h"
 #include "QuestBook.h"
 #include "RubyInterpreter.h"
 #include "RulesSubsystem.h"
@@ -133,7 +135,7 @@ namespace rl {
 
     void WindowFactory::showCharacterActionChoice()
     {
-        showActionChoice(UiSubsystem::getSingleton().getActiveCharacter());
+        showActionChoice(PartyManager::getSingleton().getActiveCharacter());
     }
 
     void WindowFactory::showContainerContent(Container* container)
@@ -214,9 +216,9 @@ namespace rl {
                 mInventoryWindow = NULL;
             }
 
-            if (UiSubsystem::getSingleton().getActiveCharacter() != NULL)
+            if (PartyManager::getSingleton().getActiveCharacter() != NULL)
             {
-                Creature* creat = UiSubsystem::getSingleton().getActiveCharacter();
+                Creature* creat = PartyManager::getSingleton().getActiveCharacter();
 
                 Ogre::String inventoryWindowType = creat->getInventoryWindowType();
                 if (inventoryWindowType == "")
@@ -249,7 +251,7 @@ namespace rl {
         }
         else
         {
-            mCharacterSheet->setCharacter(UiSubsystem::getSingleton().getActiveCharacter());
+            mCharacterSheet->setCharacter(PartyManager::getSingleton().getActiveCharacter());
             mCharacterSheet->setVisible(true);
         }
     }
@@ -283,7 +285,7 @@ namespace rl {
 
     void WindowFactory::showDescriptionWindow(GameObject* obj)
     {
-        (new GameObjectInfoWindow(obj, UiSubsystem::getSingleton().getActiveCharacter()))->setVisible(true);
+        (new GameObjectInfoWindow(obj, PartyManager::getSingleton().getActiveCharacter()))->setVisible(true);
     }
 
     void WindowFactory::toggleCharacterStateWindow()
@@ -376,7 +378,7 @@ namespace rl {
 
     void WindowFactory::showActionChoice(GameObject* obj)
     {
-        ActionChoiceWindow* w = new ActionChoiceWindow(UiSubsystem::getSingleton().getActiveCharacter());
+        ActionChoiceWindow* w = new ActionChoiceWindow(PartyManager::getSingleton().getActiveCharacter());
         int numActions = w->showActionsOfObject(obj);
         if (numActions > 0)
         {
@@ -420,6 +422,11 @@ namespace rl {
     {
         // Create the game settings window and show it
         mGameSettings->setVisible(true);
+    }
+    
+    void WindowFactory::showGameOverWindow()
+    {
+        (new GameOverWindow())->setVisible(true);
     }
 
     void WindowFactory::logAllWindows()

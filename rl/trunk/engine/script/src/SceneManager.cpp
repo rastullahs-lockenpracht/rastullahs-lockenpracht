@@ -20,9 +20,9 @@
 
 #include "Creature.h"
 #include "CreatureControllerManager.h"
+#include "PartyManager.h"
 #include "Scene.h"
 #include "SceneLoader.h"
-#include "UiSubsystem.h"
 
 template<> rl::SceneManager* Ogre::Singleton<rl::SceneManager>::ms_Singleton = NULL;
 
@@ -60,7 +60,7 @@ namespace rl
             return;
         }
 
-        Creature* activeChar = UiSubsystem::getSingleton().getActiveCharacter();
+        Creature* activeChar = PartyManager::getSingleton().getActiveCharacter();
 
         if (activeChar) {
             CreatureControllerManager::getSingleton().detachController(
@@ -100,7 +100,7 @@ namespace rl
 
         if (activeChar) 
         {
-            UiSubsystem::getSingleton().setActiveCharacter(activeChar);
+            PartyManager::getSingleton().setActiveCharacter(activeChar);
         }
     }
 

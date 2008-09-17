@@ -86,6 +86,7 @@ namespace rl {
         void showMainMenuLoadWindow(MainMenuWindow* win);
 		void hideMainMenuLoadWindow();
         void showPopupMessage(int popupTypes);
+        void showGameOverWindow();
         /**
          * Creates a GameSettings object and displays its layout file on screen
          */

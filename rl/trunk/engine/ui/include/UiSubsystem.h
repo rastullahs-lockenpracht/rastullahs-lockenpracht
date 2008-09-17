@@ -23,8 +23,9 @@
 
 #include "ControlState.h"
 #include "MessagePump.h"
+#include "Effect.h"
 
-// Gar nicht schön, aber ansonsten gibt es unnötige Abhängigkeiten,
+// Gar nicht schË†n, aber ansonsten gibt es unnË†tige Abhâ€°ngigkeiten,
 // wenn man die Header hier inkludiert.
 namespace CEGUI {
     class OgreCEGUIRenderer;
@@ -52,13 +53,6 @@ namespace rl {
         virtual ~UiSubsystem();
 
         CEGUI::OgreCEGUIRenderer* getGUIRenderer();
-        Creature* getActiveCharacter() const;
-        ///@todo function feels misplaced here,
-        void setActiveCharacter(Creature* person);
-
-        virtual bool onBeforeClearScene();
-        virtual bool onBeforeGameObjectsLoaded();
-        virtual bool onGameObjectsLoaded();
 
         void initializeSubsystem();
 
@@ -69,6 +63,16 @@ namespace rl {
 	    MessagePump::ScopedConnection mSceneClearingConnection;
         MessagePump::ScopedConnection mGameObjectsLoadedConnection;
         MessagePump::ScopedConnection mBeforeLoadingGameObjectsConnection;
+        MessagePump::ScopedConnection mActiveCharacterChangedConnection;
+        MessagePump::ScopedConnection mAllPlayerCharactersDiedConnection;
+
+        bool onBeforeClearScene();
+        bool onBeforeGameObjectsLoaded();
+        bool onGameObjectsLoaded();
+        ///@todo function feels misplaced here,
+        bool onActiveCharacterChanged(Creature* oldActive, Creature* newActive);
+        bool onAllPlayerCharactersDied();
+        
 
         // Singletons
         InputManager* mInputManager;
@@ -78,6 +82,7 @@ namespace rl {
         CEGUI::OgreCEGUIRenderer* mGuiRenderer;
         CEGUI::ResourceProvider* mGuiResourceProvider;
         CEGUI::System* mGuiSystem;
+        
     };
 }
 
