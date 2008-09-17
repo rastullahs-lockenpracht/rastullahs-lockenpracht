@@ -4,7 +4,7 @@ require 'npc.rb'
 class InventoryTest < TestCase
   def execute()
     $SCRIPT.log("InventoryTest started.");
-    hero = $UI.getActiveCharacter();
+    hero = PartyManager.getSingleton().getActiveCharacter();
     backpack = $GOM.createGameObject("leather backpack");
     #backpack.addAction(ShowContainerContentAction.new());
     #backpack.setPosition(center);

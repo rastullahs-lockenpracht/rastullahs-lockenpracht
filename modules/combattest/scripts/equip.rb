@@ -2,7 +2,7 @@ require 'npc.rb'
 require 'clothing.rb'
 	
 	$SCRIPT.log("aktiven hero geten");
-	hero = $UI.getActiveCharacter();
+	hero = PartyManager.getSingleton().getActiveCharacter();
 
     
     itemToAdd = $GOM.createGameObject("men_human_female_legs_pants_01_long");

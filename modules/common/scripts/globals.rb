@@ -9,7 +9,6 @@ $CORE = CoreSubsystem.getSingleton();
 $JS = JobScheduler.getSingleton();
 $AM = ActorManager.getSingleton();
 $PM = PhysicsManager.getSingleton();
-$UI = UiSubsystem.getSingleton();
 $DM = DsaManager.getSingleton();
 $WF = WindowFactory.getSingleton();
 $AI = AiSubsystem.getSingleton();
@@ -30,7 +29,7 @@ class HeroPosWriter
 	
   end
   def writePos()
-	actor = $UI.getActiveCharacter().getActor();
+	actor = PartyManager.getSingleton().getActiveCharacter().getActor();
 	$SCRIPT.log("[ "+actor.getWorldPosition()[0].to_s+", "+actor.getWorldPosition()[1].to_s+", "+actor.getWorldPosition()[2].to_s+"]" );  
 	$SCRIPT.log("[ [ "+actor.getWorldOrientation()[0][0].to_s+", "+actor.getWorldOrientation()[0][1].to_s+", "+actor.getWorldOrientation()[0][2].to_s+" ] , "+actor.getWorldOrientation()[1].to_s+"]") ; 
   end

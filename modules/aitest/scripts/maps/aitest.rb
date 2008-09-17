@@ -33,7 +33,7 @@ $SCRIPT.log("Prepare hero for being the active character")
 PlayerSettings.preparePlayer($hero)
 
 $SCRIPT.log("Set hero as active character")
-$UI.setActiveCharacter($hero)
+PartyManager.getSingleton().setActiveCharacter($hero)
 $SCRIPT.log("Hero ready")
 
 $SCRIPT.log("map 'regressiontest' initialisiert.");

@@ -49,7 +49,7 @@ class EffectTest < TestCase
     def execute()
 	
 		# Define a pointer to the hero
-		$h = $UI.getActiveCharacter()
+		$h = PartyManager.getSingleton().getActiveCharacter()
         # Define a base box to place everything else on.
         height = 0.1
         min_base = [-2.0, 0.05, -2.0]

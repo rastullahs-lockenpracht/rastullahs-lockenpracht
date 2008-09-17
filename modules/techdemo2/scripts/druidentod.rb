@@ -1,6 +1,6 @@
 #<!-- Script um Druiden mit Animationen sterben zu lassen, Physikschubs, als Dialogpartner deaktivieren. druidentod.rb-->
 
-$UI.getActiveCharacter().getActor().getControlledObject().startAnimation("kampf_schwerter_angriff_1", 1.0, 1)
+PartyManager.getSingleton().getActiveCharacter().getActor().getControlledObject().startAnimation("kampf_schwerter_angriff_1", 1.0, 1)
 
 #Ger�usch
 @mTodSound = $AM.createSoundSampleActor("TodSound","altermann005.ogg");

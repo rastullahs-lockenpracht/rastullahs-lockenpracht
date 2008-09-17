@@ -26,7 +26,7 @@ hero.getInventory().hold(itemToAdd, "Right Hand");
 
 
 $SCRIPT.log("Set hero as active character")
-$UI.setActiveCharacter(hero)
+PartyManager.getSingleton().setActiveCharacter(hero)
 
 $World.setFog( World::FOG_EXP, [0.8,0.8,1.0,0.5], 0.00003, 0.4, 1.0);
 

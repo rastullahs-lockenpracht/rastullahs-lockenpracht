@@ -2,7 +2,7 @@ require 'npc.rb'
 require 'torch.rb'
 require 'clothing.rb'
 
-hero = $UI.getActiveCharacter();
+hero = PartyManager.getSingleton().getActiveCharacter();
 
 itemToAdd = $GOM.createGameObject("men_human_female_legs_pants_01_long");
 hero.getInventory().hold(itemToAdd, "Trousers");

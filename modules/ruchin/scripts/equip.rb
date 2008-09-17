@@ -1,7 +1,7 @@
 require 'npc.rb'
 	
 	$SCRIPT.log("aktiven hero geten");
-	hero = $UI.getActiveCharacter();
+	hero = PartyManager.getSingleton().getActiveCharacter();
 	
 	$SCRIPT.log("backpack erstellen");
     #backpack = $GOM.createGameObject("leather backpack");

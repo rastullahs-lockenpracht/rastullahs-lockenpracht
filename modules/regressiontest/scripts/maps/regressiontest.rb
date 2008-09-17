@@ -11,10 +11,11 @@ $SCRIPT.log("init map 'regressiontest'...")
 
 $SCRIPT.log("Prepare hero for being the active character")
 $hero = $GOM.getGameObject(10);
+$hero.modifyLe(-20);
 PlayerSettings.preparePlayer($hero)
 
 $SCRIPT.log("Set hero as active character")
-$UI.setActiveCharacter($hero)
+PartyManager.getSingleton().setActiveCharacter($hero)
 
 $SCRIPT.log("Hero ready")
 

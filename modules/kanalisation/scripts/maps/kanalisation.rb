@@ -38,14 +38,7 @@ $hero.placeIntoScene();
 $hero.setPosition([ -35.15, 2.69, 26.09]);
 $hero.setOrientation([ [ -4.43614335381426e-005, -0.999999940395355, -3.53998184436932e-005 ] , 67.3891525268555]);
 PlayerSettings.preparePlayer($hero);
-$UI.setActiveCharacter($hero)
-$SCRIPT.log("Create hero")
-
-$SCRIPT.log("Prepare hero for being the active character")
-PlayerSettings.preparePlayer($hero)
-
-$SCRIPT.log("Set hero as active character")
-$UI.setActiveCharacter($hero)
+PartyManager.getSingleton().setActiveCharacter($hero)
 
 $SCRIPT.log("Hero ready")
 

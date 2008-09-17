@@ -2,9 +2,9 @@ require "embed.rb"
 require "areahelper.rb"
 
 def changeScene(scene)
-#	characterId = $UI.getActiveCharacter().getId()
-#	CreatureControllerManager.getSingleton().detachController($UI.getActiveCharacter())
-#	$UI.setActiveCharacter(nil)
+#	characterId = PartyManager.getSingleton().getActiveCharacter().getId()
+#	CreatureControllerManager.getSingleton().detachController(PartyManager.getSingleton().getActiveCharacter())
+#	PartyManager.getSingleton().setActiveCharacter(nil)
 	#$SCRIPT.logError(mapNames.type().to_s)
 #	mapLoader.requestSceneChange(mapNames)
 	SceneManager::getSingleton().loadScene(scene, true);

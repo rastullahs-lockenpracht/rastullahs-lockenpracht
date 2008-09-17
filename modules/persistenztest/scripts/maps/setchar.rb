@@ -9,7 +9,7 @@ hero = $GOM.getGameObject(10);
 PlayerSettings.preparePlayer(hero)
 
 $SCRIPT.log("Set hero as active character")
-$UI.setActiveCharacter(hero)
+PartyManager.getSingleton().setActiveCharacter(hero)
 
 $SCRIPT.log("Hero ready")
 itemToAdd = $GOM.createGameObject("men_human_female_legs_pants_01_long");

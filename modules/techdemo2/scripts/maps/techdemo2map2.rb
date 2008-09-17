@@ -10,7 +10,7 @@ $SCRIPT.log("Held erstellen");
 $hero = $GOM.createGameObject("hero", 1);
 $hero.placeIntoScene()
 PlayerSettings.preparePlayer($hero)
-$UI.setActiveCharacter($hero)
+PartyManager.getSingleton().setActiveCharacter($hero)
 $SCRIPT.log("Held erstellt");
 
 #$heroVehicle = $AGM.createAgent(AgentManager::AGENT_PLAYER, $hero);	
