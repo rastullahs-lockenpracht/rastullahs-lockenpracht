@@ -28,7 +28,7 @@ rl::PartyManager* Ogre::Singleton<rl::PartyManager>::ms_Singleton = 0;
 namespace rl
 {
     
-    PartyManager::PartyManager()
+	PartyManager::PartyManager() : mActiveCharacter(NULL)
     {
         ///@todo watch characters for death, trigger game over if no-one is left
         mLifeStateChangeConnection =
