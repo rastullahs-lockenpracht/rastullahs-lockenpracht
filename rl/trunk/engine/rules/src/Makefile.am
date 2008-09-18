@@ -37,6 +37,7 @@ libRlRules_la_SOURCES = \
 	ObjectStateChangeEvent.cpp \
 	ObjectStateChangeEventSource.cpp \
 	ObjectStateChangeListener.cpp \
+	PartyManager.cpp \
 	Quest.cpp \
 	QuestBook.cpp \
 	QuestEvent.cpp \
