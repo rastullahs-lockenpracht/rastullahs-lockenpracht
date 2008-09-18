@@ -377,6 +377,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\GameOverWindow.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\InputManager.h"
 				>
 			</File>
@@ -595,6 +599,10 @@
 			</File>
 			<File
 				RelativePath=".\src\FreeflightControlState.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\GameOverWindow.cpp"
 				>
 			</File>
 			<File
