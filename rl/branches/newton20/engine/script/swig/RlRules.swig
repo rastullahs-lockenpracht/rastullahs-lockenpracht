@@ -638,8 +638,8 @@ namespace rl {
         Effect(int stufe = 1);
         virtual ~Effect();
 
-        const rl::CeGuiString getName() const;
-        void setName(rl::CeGuiString name);
+        const Ogre::String getName() const;
+        void setName(Ogre::String name);
         const rl::CeGuiString getDescription() const;
         void setDescription(rl::CeGuiString description);
         Quantifier getQuantifier();
@@ -733,7 +733,7 @@ namespace rl {
         virtual ~Creature();
 
         virtual int getLe();
-        virtual void modifyLe(int mod, bool ignoreMax);
+        virtual void modifyLe(int mod, bool ignoreMax = false);
         virtual void modifyAe(int mod);
         virtual void modifyAu(int mod);
         void setWert(Wert wertId, int value);
@@ -895,6 +895,16 @@ namespace rl {
         void setOrientation(const Ogre::Quaternion& ori);
 		virtual void updatePrimitive();
 	};
+    
+    class PartyManager
+    {
+    public:
+        void setActiveCharacter(Creature* character);
+        Creature* getActiveCharacter() const;
+        void addCharacter(Creature* character);
+        void removeCharacter(Creature* character);
+        static PartyManager& getSingleton();
+    };
 
 } // Namespace
 

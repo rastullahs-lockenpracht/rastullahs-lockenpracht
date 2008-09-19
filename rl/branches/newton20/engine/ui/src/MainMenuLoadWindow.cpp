@@ -114,7 +114,6 @@ namespace rl {
 		//	module = CoreSubsystem::getSingleton().getModule(moduleId.c_str());
 		//	assert(module != NULL /*MainMenuLoadWindow::handleLoadEvent()*/);
 		//	CoreSubsystem::getSingleton().startAdventureModule(module);
-		//	SaveGameManager::getSingleton().loadSaveGameFile(((SaveGameFile*)mSaveGameTable->getFirstSelectedItem()->getUserData())->getId());
 		//}
 
         return true;
@@ -129,9 +128,6 @@ namespace rl {
         if(mSaveGameTable->getFirstSelectedItem())
 		{
             mSaveGameTable->getRowWithID(mSaveGameTable->getFirstSelectedItem()->getID());
-            
-            SaveGameManager::getSingleton().deleteSaveGameFile(
-                ((SaveGameFile*)mSaveGameTable->getFirstSelectedItem()->getUserData())->getId());
         }
 
         return true;
@@ -140,31 +136,6 @@ namespace rl {
     void MainMenuLoadWindow::listSaveGames()
     {
         mSaveGameTable->clearAllSelections();
-        SaveGameEntryMap saveGames = SaveGameManager::getSingleton().listSaveGames();
-
-        while(mSaveGameTable->getRowCount() > saveGames.size())
-		    mSaveGameTable->removeRow(mSaveGameTable->getRowCount()-1);
-        while(mSaveGameTable->getRowCount() < saveGames.size())
-		    mSaveGameTable->addRow();
-
-        int saveGameNum = 0;
-
-        for(SaveGameEntryMap::iterator it = saveGames.begin(); it != saveGames.end(); it++)
-        {
-            CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem(it->second->getName());
-            item->setUserData(it->second);
-            item->setSelectionBrushImage(mSelectionImageset, mSelectionBrush);
-            mSaveGameTable->setItem(item, 0, saveGameNum);
-            item = new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_MODULENAME).toString());
-            item->setUserData(it->second);
-            item->setSelectionBrushImage(mSelectionImageset, mSelectionBrush);
-            mSaveGameTable->setItem(item, 1, saveGameNum);
-            item = new CEGUI::ListboxTextItem(it->second->getProperty(SaveGameFile::PROPERTY_TIME).toString());
-            item->setUserData(it->second);
-            item->setSelectionBrushImage(mSelectionImageset, mSelectionBrush);
-            mSaveGameTable->setItem(item, 2, saveGameNum);
-            saveGameNum++;
-        }
         /*mSaveGameTable->autoSizeColumnHeader(0);
         mSaveGameTable->autoSizeColumnHeader(1);
         mSaveGameTable->autoSizeColumnHeader(2);*/

@@ -41,6 +41,7 @@
 #include "ObjectStateChangeEventSource.h"
 #include "ObjectStateChangeEvent.h"
 #include "ObjectStateChangeListener.h"
+#include "PartyManager.h"
 #include "Quest.h"
 #include "QuestBook.h"
 #include "QuestEvent.h"

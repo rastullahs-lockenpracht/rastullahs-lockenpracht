@@ -31,6 +31,7 @@ namespace rl
 	class GameEventLog;
     class GlobalProperties;
 	class QuestBook;
+    class PartyManager;
     class XdimlLoader;
 
 	class _RlRulesExport RulesSubsystem : public Ogre::Singleton<RulesSubsystem>
@@ -52,6 +53,7 @@ namespace rl
         XdimlLoader* mXdimlLoader;
         GlobalProperties* mGlobalProperties;
         EffectManagementTask* mEffectManagementTask;
+        PartyManager* mPartyManager;
     };
 }
 

@@ -42,8 +42,7 @@ namespace rl
     class _RlRulesExport GameObjectManager : 
         public Ogre::Singleton<GameObjectManager>,
         public GameObjectStateListener,
-        public Ogre::ScriptLoader,
-        public SaveGameData
+        public Ogre::ScriptLoader
     {
     public:
         GameObjectManager();
@@ -74,14 +73,6 @@ namespace rl
         void registerGameObjectStateListener(GameObjectStateListener* listener);
         void unregisterGameObjectStateListener(GameObjectStateListener* listener);
         void unregisterAllGameObjectStateListener();
-
-        /// Override from SaveGameData
-        /// Manages saving and loading from the SaveGameFile
-
-        virtual CeGuiString getXmlNodeIdentifier() const;
-        virtual void writeData(SaveGameFileWriter* writer);
-        virtual void readData(SaveGameFileReader* reader);
-        virtual int getPriority() const;
     private:
         typedef std::map<const CeGuiString, PropertyRecordPtr> ClassPropertyMap;
         typedef std::set<GameObjectStateListener*> GameObjectStateListenerSet;

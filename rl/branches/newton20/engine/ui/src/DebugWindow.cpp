@@ -29,6 +29,7 @@
 #include "Creature.h"
 #include "Exception.h"
 #include "MeshObject.h"
+#include "PartyManager.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -177,10 +178,10 @@ namespace rl
             "\nTriangle Count: " +
             StringConverter::toString(stats.triangleCount);
 
-        if (UiSubsystem::getSingleton().getActiveCharacter() != NULL &&
-            UiSubsystem::getSingleton().getActiveCharacter()->getActor() != NULL)
+        if (PartyManager::getSingleton().getActiveCharacter() != NULL &&
+            PartyManager::getSingleton().getActiveCharacter()->getActor() != NULL)
         {
-            ActorControlledObject* charObj = UiSubsystem::getSingletonPtr()->
+            ActorControlledObject* charObj = PartyManager::getSingletonPtr()->
                 getActiveCharacter()->getActor()->getControlledObject();
 
             if( charObj != NULL )

@@ -87,6 +87,7 @@ namespace rl {
         PropertyMethod(Bool, const bool&);
         PropertyMethod(String, CEGUI::String);
         PropertyMethod(Int, const int&);
+        PropertyMethod(Long, const RL_LONGLONG&);
         PropertyMethod(Real, const Ogre::Real&);
         PropertyMethod(Vector3, const Ogre::Vector3&);
         PropertyMethod(Quaternion, const Ogre::Quaternion&);

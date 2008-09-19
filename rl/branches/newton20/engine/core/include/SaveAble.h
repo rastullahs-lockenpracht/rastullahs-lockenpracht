@@ -13,3 +13,29 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+
+
+/// Basis jedes Objektes im Spiel, welches veränderlich ist und einen abspeicherbaren Status haben soll
+
+#ifndef __SaveAble_H__
+#define __SaveAble_H__
+
+#include "CorePrerequisites.h"
+#include "Properties.h"
+
+namespace rl
+{
+
+	class SaveAble : public PropertyHolder
+	{
+	public:
+		void setSaveAble(bool enable);
+		bool isSaveAble();
+	protected:
+		bool mIsSaveAble;
+	};
+
+}
+
+
+#endif

@@ -29,6 +29,7 @@ libRlUi_la_SOURCES = \
     FreeflightControlState.cpp \
     GameLoggerWindow.cpp \
     GameObjectInfoWindow.cpp \
+	GameOverWindow.cpp \
 	GameSaveLoadWindow.cpp \
     GameSettings.cpp \
     InfoPopup.cpp \

@@ -613,8 +613,13 @@
 		485B895A0E15796500D5B19C /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485B89570E15796500D5B19C /* Scene.cpp */; };
 		485B895B0E15796500D5B19C /* SceneLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485B89580E15796500D5B19C /* SceneLoader.cpp */; };
 		485B895C0E15796500D5B19C /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485B89590E15796500D5B19C /* SceneManager.cpp */; };
+		487029C70E80DCEA00B66388 /* GameOverWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 487029C60E80DCEA00B66388 /* GameOverWindow.h */; };
+		487029C90E80DCF900B66388 /* GameOverWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487029C80E80DCF900B66388 /* GameOverWindow.cpp */; };
+		487029E80E80E12200B66388 /* PartyManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 487029E70E80E12200B66388 /* PartyManager.h */; };
+		487029EA0E80E13300B66388 /* PartyManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487029E90E80E13300B66388 /* PartyManager.cpp */; };
 		48760AAB0D92E4B700BEB57C /* RlExports_wrap.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 48760AA90D92E4B700BEB57C /* RlExports_wrap.cxx */; };
 		48760AAC0D92E4B700BEB57C /* RlExports_wrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 48760AAA0D92E4B700BEB57C /* RlExports_wrap.h */; };
+		487750B00E7E3C9C0018216B /* Cg.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 487750AF0E7E3C9C0018216B /* Cg.framework */; };
 		4890C0B80E18061300BE5850 /* AbstractMovement.h in Headers */ = {isa = PBXBuildFile; fileRef = 4890C0A70E18061300BE5850 /* AbstractMovement.h */; };
 		4890C0B90E18061300BE5850 /* FallDownMovement.h in Headers */ = {isa = PBXBuildFile; fileRef = 4890C0A80E18061300BE5850 /* FallDownMovement.h */; };
 		4890C0BA0E18061300BE5850 /* JogBackwardsMovement.h in Headers */ = {isa = PBXBuildFile; fileRef = 4890C0A90E18061300BE5850 /* JogBackwardsMovement.h */; };
@@ -664,7 +669,6 @@
 		48B0B03C0E6535AB0023B198 /* libmeshmagick.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 440785DD0C09D231006E496D /* libmeshmagick.dylib */; };
 		48B0B0490E65BBB30023B198 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48B0B0480E65BBB30023B198 /* libfmodex.dylib */; };
 		48B0B04A0E65BBC10023B198 /* libfmodex.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 48B0B0480E65BBB30023B198 /* libfmodex.dylib */; };
-		48B5F63A0DAF48AF00D05C95 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D0C4E960486CD37000505A6 /* Info.plist */; };
 		48B772DD0D58350B000A3B97 /* XmlProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B772DA0D58350B000A3B97 /* XmlProcessor.h */; };
 		48B772DE0D58350B000A3B97 /* XmlPropertyReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B772DB0D58350B000A3B97 /* XmlPropertyReader.h */; };
 		48B772DF0D58350B000A3B97 /* XmlPropertyWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B772DC0D58350B000A3B97 /* XmlPropertyWriter.h */; };
@@ -853,6 +857,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				487750B00E7E3C9C0018216B /* Cg.framework in Copy Frameworks */,
 				48C04B8A0E67DF0300CD3A7D /* PCRE.framework in Copy Frameworks */,
 				48003B550E3211660056D073 /* libboost_system.dylib in Copy Frameworks */,
 				48D0BDE60E23378700863824 /* libboost_filesystem.dylib in Copy Frameworks */,
@@ -884,7 +889,7 @@
 		440785E20C09D2C1006E496D /* LightFadeJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LightFadeJob.cpp; path = ../engine/core/src/LightFadeJob.cpp; sourceTree = SOURCE_ROOT; };
 		440785E30C09D2C1006E496D /* MergeableMeshObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MergeableMeshObject.cpp; path = ../engine/core/src/MergeableMeshObject.cpp; sourceTree = SOURCE_ROOT; };
 		440785E60C09D2DF006E496D /* MergeableMeshObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MergeableMeshObject.h; path = ../engine/core/include/MergeableMeshObject.h; sourceTree = SOURCE_ROOT; };
-		440786120C09D602006E496D /* RlScript-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "RlScript-Info.plist"; sourceTree = "<group>"; };
+		440786120C09D602006E496D /* RlScript-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RlScript-Info.plist"; sourceTree = "<group>"; };
 		44125A2F0C083D0100C24C0A /* CreatureWalkPathJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CreatureWalkPathJob.cpp; path = ../engine/ai/src/CreatureWalkPathJob.cpp; sourceTree = SOURCE_ROOT; };
 		44125A310C083D1100C24C0A /* CreatureWalkPathJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreatureWalkPathJob.h; path = ../engine/ai/include/CreatureWalkPathJob.h; sourceTree = SOURCE_ROOT; };
 		444825D90BF7B2B200C5A94F /* AbstractMapNodeProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AbstractMapNodeProcessor.cpp; path = ../engine/script/src/AbstractMapNodeProcessor.cpp; sourceTree = SOURCE_ROOT; };
@@ -1442,9 +1447,14 @@
 		485B89570E15796500D5B19C /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scene.cpp; path = ../engine/script/src/Scene.cpp; sourceTree = SOURCE_ROOT; };
 		485B89580E15796500D5B19C /* SceneLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneLoader.cpp; path = ../engine/script/src/SceneLoader.cpp; sourceTree = SOURCE_ROOT; };
 		485B89590E15796500D5B19C /* SceneManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneManager.cpp; path = ../engine/script/src/SceneManager.cpp; sourceTree = SOURCE_ROOT; };
+		487029C60E80DCEA00B66388 /* GameOverWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameOverWindow.h; path = ../engine/ui/include/GameOverWindow.h; sourceTree = SOURCE_ROOT; };
+		487029C80E80DCF900B66388 /* GameOverWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameOverWindow.cpp; path = ../engine/ui/src/GameOverWindow.cpp; sourceTree = SOURCE_ROOT; };
+		487029E70E80E12200B66388 /* PartyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyManager.h; path = ../engine/rules/include/PartyManager.h; sourceTree = SOURCE_ROOT; };
+		487029E90E80E13300B66388 /* PartyManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PartyManager.cpp; path = ../engine/rules/src/PartyManager.cpp; sourceTree = SOURCE_ROOT; };
 		48760A990D92E2CD00BEB57C /* RlUi.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlUi.swig; path = ../engine/script/swig/RlUi.swig; sourceTree = SOURCE_ROOT; };
 		48760AA90D92E4B700BEB57C /* RlExports_wrap.cxx */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; includeInIndex = 0; name = RlExports_wrap.cxx; path = ../engine/script/swig/RlExports_wrap.cxx; sourceTree = SOURCE_ROOT; };
 		48760AAA0D92E4B700BEB57C /* RlExports_wrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RlExports_wrap.h; path = ../engine/script/swig/RlExports_wrap.h; sourceTree = SOURCE_ROOT; };
+		487750AF0E7E3C9C0018216B /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = /Library/Frameworks/Cg.framework; sourceTree = "<absolute>"; };
 		4890C0A70E18061300BE5850 /* AbstractMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbstractMovement.h; path = ../engine/rules/include/AbstractMovement.h; sourceTree = SOURCE_ROOT; };
 		4890C0A80E18061300BE5850 /* FallDownMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FallDownMovement.h; path = ../engine/rules/include/FallDownMovement.h; sourceTree = SOURCE_ROOT; };
 		4890C0A90E18061300BE5850 /* JogBackwardsMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JogBackwardsMovement.h; path = ../engine/rules/include/JogBackwardsMovement.h; sourceTree = SOURCE_ROOT; };
@@ -1687,9 +1697,8 @@
 		20286C29FDCF999611CA2CEA /* Rastullah */ = {
 			isa = PBXGroup;
 			children = (
-				48C04B890E67DF0300CD3A7D /* PCRE.framework */,
-				48B0B0480E65BBB30023B198 /* libfmodex.dylib */,
 				20286C2AFDCF999611CA2CEA /* Sources */,
+				48D401810D9E483200AE5340 /* modules */,
 				20286C2CFDCF999611CA2CEA /* Resources */,
 				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
 				195DF8CFFE9D517E11CA2CBB /* Products */,
@@ -1701,10 +1710,10 @@
 			isa = PBXGroup;
 			children = (
 				48CFBFD60E2E87A800CD0C51 /* Scripts */,
-				483D86890D8C3DA200F3629E /* RlFmod4Driver */,
 				444EAC220BD0E3E000C6D4A0 /* RlAi */,
 				444EAB1F0BD0E25C00C6D4A0 /* RlCommon */,
 				444EAB200BD0E27400C6D4A0 /* RlCore */,
+				483D86890D8C3DA200F3629E /* RlFmod4Driver */,
 				444EAC590BD0E50600C6D4A0 /* RlRules */,
 				444EAE600BD0E66500C6D4A0 /* RlScript */,
 				444EAC570BD0E4CD00C6D4A0 /* RlUi */,
@@ -1716,7 +1725,6 @@
 		20286C2CFDCF999611CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				48D401810D9E483200AE5340 /* modules */,
 				440786120C09D602006E496D /* RlScript-Info.plist */,
 				8D0C4E960486CD37000505A6 /* Info.plist */,
 				0867D6AAFE840B52C02AAC07 /* InfoPlist.strings */,
@@ -1728,6 +1736,9 @@
 		20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				487750AF0E7E3C9C0018216B /* Cg.framework */,
+				48C04B890E67DF0300CD3A7D /* PCRE.framework */,
+				48B0B0480E65BBB30023B198 /* libfmodex.dylib */,
 				48CFBF8E0E2E869000CD0C51 /* FreeType.framework */,
 				484FE6B90E17BC8800FA880F /* Carbon.framework */,
 				48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */,
@@ -2055,6 +2066,8 @@
 		444EAC570BD0E4CD00C6D4A0 /* RlUi */ = {
 			isa = PBXGroup;
 			children = (
+				487029C80E80DCF900B66388 /* GameOverWindow.cpp */,
+				487029C60E80DCEA00B66388 /* GameOverWindow.h */,
 				48389B960D86743900AFAB66 /* CombatGui.h */,
 				48389B970D86743900AFAB66 /* GameSaveLoadWindow.h */,
 				48389B980D86743900AFAB66 /* MainMenuLoadWindow.h */,
@@ -2167,9 +2180,12 @@
 		444EAC590BD0E50600C6D4A0 /* RlRules */ = {
 			isa = PBXGroup;
 			children = (
+				487029E90E80E13300B66388 /* PartyManager.cpp */,
+				487029E70E80E12200B66388 /* PartyManager.h */,
 				4890C0C90E18062B00BE5850 /* FallDownMovement.cpp */,
 				4890C0CA0E18062B00BE5850 /* JogFastMovement.cpp */,
 				4890C0CB0E18062B00BE5850 /* JogMovement.cpp */,
+				483D311D0D85B215003477A0 /* RulesMessages.h */,
 				4890C0CC0E18062B00BE5850 /* JumpHighMovement.cpp */,
 				4890C0CD0E18062B00BE5850 /* JumpLongMovement.cpp */,
 				4890C0CE0E18062B00BE5850 /* JumpToTargetMovement.cpp */,
@@ -2226,7 +2242,6 @@
 				483D311B0D85B215003477A0 /* Kampfaktion.h */,
 				483D311C0D85B215003477A0 /* RulesConstants.h */,
 				483D31160D85B215003477A0 /* EffectManagementTask.h */,
-				483D311D0D85B215003477A0 /* RulesMessages.h */,
 				44D8145B0BF7B52600534175 /* Selector.h */,
 				444826030BF7B37D00C5A94F /* SelectionHelper.cpp */,
 				444826040BF7B37D00C5A94F /* Selector.cpp */,
@@ -2708,6 +2723,7 @@
 				4890C0C60E18061300BE5850 /* StrafeMovement.h in Headers */,
 				4890C0C70E18061300BE5850 /* WalkBackwardsMovement.h in Headers */,
 				4890C0C80E18061300BE5850 /* WalkMovement.h in Headers */,
+				487029E80E80E12200B66388 /* PartyManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2769,6 +2785,7 @@
 				48389B9B0D86743900AFAB66 /* GameSaveLoadWindow.h in Headers */,
 				48389B9C0D86743900AFAB66 /* MainMenuLoadWindow.h in Headers */,
 				48389B9D0D86743900AFAB66 /* UiMessages.h in Headers */,
+				487029C70E80DCEA00B66388 /* GameOverWindow.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3046,7 +3063,6 @@
 				8D0C4E8D0486CD37000505A6 /* InfoPlist.strings in Resources */,
 				8D0C4E8E0486CD37000505A6 /* main.nib in Resources */,
 				48D409CE0D9E483300AE5340 /* modules in Resources */,
-				48B5F63A0DAF48AF00D05C95 /* Info.plist in Resources */,
 				4835559B0E6ABED100008748 /* mkdmg.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3305,6 +3321,7 @@
 				4890C0E20E18062B00BE5850 /* StepRecognitionMovement.cpp in Sources */,
 				4890C0E30E18062B00BE5850 /* StrafeMovement.cpp in Sources */,
 				4890C0E40E18062B00BE5850 /* WalkMovement.cpp in Sources */,
+				487029EA0E80E13300B66388 /* PartyManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3363,6 +3380,7 @@
 				48389B930D86741F00AFAB66 /* GameSaveLoadWindow.cpp in Sources */,
 				48389B940D86741F00AFAB66 /* MainMenuLoadWindow.cpp in Sources */,
 				48389B950D86741F00AFAB66 /* stdinc.cpp in Sources */,
+				487029C90E80DCF900B66388 /* GameOverWindow.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -40,6 +40,7 @@
 #include "ItemDescriptionDragContainer.h"
 #include "ItemIconDragContainer.h"
 #include "Logger.h"
+#include "RulesMessages.h"
 #include "ScriptWrapper.h"
 #include "SoundManager.h"
 #include "UiMessages.h"
@@ -82,6 +83,9 @@ namespace rl {
         mBeforeLoadingGameObjectsConnection = 
             MessagePump::getSingleton().addMessageHandler<MessageType<RLMSG_SAVEGAME_LOADING> >(
                 boost::bind(&UiSubsystem::onBeforeGameObjectsLoaded, this));
+        mActiveCharacterChangedConnection = 
+            MessagePump::getSingleton().addMessageHandler<MessageType_ActivePlayerCharChanged>(
+                boost::bind(&UiSubsystem::onActiveCharacterChanged, this, _1, _2));
         mWindowFactory = new WindowFactory();
     }
 
@@ -166,12 +170,7 @@ namespace rl {
         return mGuiRenderer;
     }
 
-    Creature* UiSubsystem::getActiveCharacter() const
-    {
-        return mCharacter;
-    }
-
-    void UiSubsystem::setActiveCharacter(Creature* creature)
+    bool UiSubsystem::onActiveCharacterChanged(Creature* oldActive, Creature* newActive)
     {
         // Ensure we have a sound listener
         if (SoundManager::getSingleton().getListenerActor() == NULL)
@@ -179,45 +178,39 @@ namespace rl {
             SoundManager::getSingleton().createListenerActor();
         }
 
-        if (creature != mCharacter )
+        if (oldActive)
         {
-            if (mCharacter)
+            ScriptWrapper::getSingleton().disowned( oldActive );
+            if (oldActive->getActor())
             {
-                ScriptWrapper::getSingleton().disowned( mCharacter );
-                if (mCharacter->getActor())
-                {
-                    mCharacter->getActor()->detach(SoundManager::getSingleton().getListenerActor());
-                }
-                mCharacter->setQueryFlags(mCharacter->getQueryFlags() & (~QUERYFLAG_PLAYER));
+                oldActive->getActor()->detach(SoundManager::getSingleton().getListenerActor());
             }
-
-            if (!creature)
-            {
-                mCharacter = NULL;
-                mInputManager->clearControlStates();
-            }
-            else
-            {
-                ScriptWrapper::getSingleton().owned(creature);
-                mCharacter = creature;
-                mCharacter->addQueryFlag(QUERYFLAG_PLAYER);
-
-                mWindowFactory->setActiveCharacter(creature);
-
-                mCharacter->getActor()->attach(SoundManager::getSingleton().getListenerActor());
-                LOG_MESSAGE(Logger::UI, "SoundListener attached.");
-
-                // Reset control stack for the new Character and set to movement.
-                mInputManager->setControlState(CST_MOVEMENT);
-            }
-
-            MessagePump::getSingleton().sendMessage<MessageType_ActiveCharacterChanged>(creature);
+            oldActive->setQueryFlags(oldActive->getQueryFlags() & (~QUERYFLAG_PLAYER));
         }
+        
+        if (!newActive)
+        {
+            mInputManager->clearControlStates();
+        }
+        else
+        {
+            ScriptWrapper::getSingleton().owned(newActive);
+            newActive->addQueryFlag(QUERYFLAG_PLAYER);
+            
+            mWindowFactory->setActiveCharacter(newActive);
+            
+            newActive->getActor()->attach(SoundManager::getSingleton().getListenerActor());
+            LOG_MESSAGE(Logger::UI, "SoundListener attached.");
+            
+            // Reset control stack for the new Character and set to movement.
+            mInputManager->setControlState(CST_MOVEMENT);
+        }
+        
+        return true;
     }
 
     bool UiSubsystem::onBeforeClearScene()
     {
-        setActiveCharacter(NULL);
         // Remove control states here too, in case that there has not yet been a
         // person set active.
         mInputManager->clearControlStates();
@@ -258,9 +251,18 @@ namespace rl {
             mCharacterId = mCharacter->getId();
         }
         else
+        {
             mCharacterId = -1;
-
+        }
+        
         //mInputManager->clearControlStates();
         return false;
+    }
+    
+    bool UiSubsystem::onAllPlayerCharactersDied()
+    {
+        LOG_MESSAGE(Logger::UI, "All player chars are dead, show game over");
+        WindowFactory::getSingleton().showGameOverWindow();
+        return true;
     }
 }

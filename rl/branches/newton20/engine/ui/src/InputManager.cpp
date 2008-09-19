@@ -51,6 +51,7 @@
 #include "Job.h"
 #include "JobScheduler.h"
 #include "MovementControlState.h"
+#include "PartyManager.h"
 #include "RubyInterpreter.h"
 #include "UiSubsystem.h"
 #include "WindowFactory.h"
@@ -394,7 +395,7 @@ namespace rl {
     void InputManager::pushControlState(ControlStateType controlStateType)
     {
         Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
-        Creature* character = UiSubsystem::getSingleton().getActiveCharacter();
+        Creature* character = PartyManager::getSingleton().getActiveCharacter();
 
         ControlState* controller = NULL;
         switch (controlStateType)

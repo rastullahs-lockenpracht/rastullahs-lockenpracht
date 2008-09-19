@@ -407,6 +407,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\PartyManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Quest.cpp"
 				>
 			</File>
@@ -706,6 +710,10 @@
 			</File>
 			<File
 				RelativePath=".\include\ObjectStateChangeListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\PartyManager.h"
 				>
 			</File>
 			<File

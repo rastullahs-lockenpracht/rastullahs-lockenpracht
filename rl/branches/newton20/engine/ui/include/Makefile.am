@@ -21,6 +21,7 @@ noinst_HEADERS = \
     FreeflightControlState.h \
     GameLoggerWindow.h \
     GameObjectInfoWindow.h \
+	GameOverWindow.h \
 	GameSaveLoadWindow.h \
     GameSettings.h \
     InfoPopup.h \

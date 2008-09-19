@@ -31,6 +31,7 @@ noinst_HEADERS = \
 	ObjectStateChangeEvent.h \
 	ObjectStateChangeEventSource.h \
 	ObjectStateChangeListener.h \
+	PartyManager.h \
 	Quest.h \
 	QuestBook.h \
 	QuestEvent.h \

@@ -36,9 +36,14 @@ namespace rl
      * should be called every Aktion (the dark eye time unit)
      **/
 
-	class _RlRulesExport EffectManager
+    class _RlRulesExport EffectManager : public PropertyHolder
 	{
 	public:
+    
+        static const Ogre::String PROPERTY_TIMECHECK;
+        static const Ogre::String PROPERTY_TIME;
+        static const Ogre::String PROPERTY_EFFECT;
+        
 		EffectManager(GameObject* gameobject);
 		~EffectManager();
 
@@ -98,6 +103,10 @@ namespace rl
 
         void checkStateChange(Effect::LifeState oldState);
 
+        virtual const Property getProperty(const CeGuiString& key) const;
+        virtual void setProperty(const CeGuiString& key, const Property& value);
+        virtual PropertyKeys getAllPropertyKeys() const;
+
 	private:
 
         GameObject* mGameObject;
@@ -106,7 +115,7 @@ namespace rl
         bool mCheckEffectsRunning;
 
         /// Eine einfache Menge von Effekten
-		typedef std::set<Effect*> Effects;
+		typedef std::vector<Effect*> Effects;
 		Effects mEffects;
         /**
          * Eine Liste die wiedergibt, wann welcher Effekt

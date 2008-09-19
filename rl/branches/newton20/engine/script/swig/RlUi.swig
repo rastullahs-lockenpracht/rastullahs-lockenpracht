@@ -44,9 +44,6 @@ class UiSubsystem
 public:
     static UiSubsystem& getSingleton(void);
     void initializeSubsystem();
-
-    rl::Creature* getActiveCharacter();
-    void setActiveCharacter(rl::Creature* chara);
 };
 
 enum ControlStateType 

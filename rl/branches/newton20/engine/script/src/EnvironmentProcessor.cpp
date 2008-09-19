@@ -102,7 +102,7 @@ namespace rl
 	{
         if (fogElem)
         {
-		    if (!hasAttribute(fogElem, "material"))
+		    if (!hasAttribute(fogElem, "type"))
 		    {
 			    LOG_ERROR(
 				    Logger::RULES,

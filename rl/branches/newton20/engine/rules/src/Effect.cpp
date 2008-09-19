@@ -20,6 +20,9 @@
 
 namespace rl
 {
+    const Ogre::String Effect::PROPERTY_NAME = "name";
+    const Ogre::String Effect::PROPERTY_STUFE = "stufe";
+    const Ogre::String Effect::PROPERTY_ENABLED = "enabled";    
 
 	Effect::Effect(int stufe)
 	{
@@ -27,12 +30,12 @@ namespace rl
 		mQuantifier = QUANTIFIER_MULTIPLE;
 	}
 
-	const CeGuiString Effect::getName() const
+	const Ogre::String Effect::getName() const
 	{
 		return mName;
 	}
 
-	void Effect::setName(CeGuiString name)
+	void Effect::setName(Ogre::String name)
 	{
 		mName = name;
 	}
@@ -89,13 +92,13 @@ namespace rl
 
     RL_LONGLONG Effect::timeCheck()
     {
-      return PERMANENT;
+        return PERMANENT;
     }
 
 	Effect::LifeState Effect::getLifeState() const
     {
-      // should be overlaoaded in the specific derivated effects.
-      return LS_NONE;
+        // should be overlaoaded in the specific derivated effects.
+        return LS_NONE;
     }
 
     int Effect::getMod(CeGuiString target, ModType type, ModTag tag)
@@ -105,27 +108,64 @@ namespace rl
 
     const Property Effect::getProperty(const CeGuiString& key) const
     {
-        //else
-        //{
+        Property prop;
+        if (key == Effect::PROPERTY_NAME)
+        {
+            prop.setValue(mName);
+        }
+        else if (key == Effect::PROPERTY_STUFE)
+        {
+            prop.setValue(mStufe);
+        }
+        else if (key == Effect::PROPERTY_ENABLED)
+        {
+            prop.setValue(mEnabled);
+        }
+        else
+        {
             Throw(
                 IllegalArgumentException, 
                 key + " is not a property of this effect (" + mName + ")");
-        //}
+        }
+        return prop;
     }
 
     void Effect::setProperty(const CeGuiString& key, const Property& value)
     {
-        // else
-        //{
-            LOG_WARNING(
+        try
+        {
+            if (key == Effect::PROPERTY_NAME)
+            {
+                mName = value.toString().c_str();
+            }
+            else if (key == Effect::PROPERTY_STUFE)
+            {
+                mStufe = value.toInt();
+            }
+            else if (key == Effect::PROPERTY_ENABLED)
+            {
+                mEnabled = value.toBool();
+            }
+            else
+            {
+                LOG_WARNING(
+                    Logger::RULES,
+                    key + " is not a property of this Effect (" + mName + ")");
+            }
+        }
+        catch (WrongFormatException ex)
+        {
+            LOG_ERROR(
                 Logger::RULES,
-                key + " is not a property of this Effect ("+mName+")");
-        //}
+                "property " + key + " has the wrong format: " + ex.getMessage());
+        }
     }
 
     PropertyKeys Effect::getAllPropertyKeys() const
     {
         PropertyKeys keys;
+        keys.insert(Effect::PROPERTY_NAME);
+        keys.insert(Effect::PROPERTY_STUFE);
         return keys;
     }
 

@@ -80,13 +80,17 @@ namespace rl
             QUANTIFIER_UNIQUE_BUT_CUMULATIVE
         };
 
+        static const Ogre::String PROPERTY_NAME;
+        static const Ogre::String PROPERTY_STUFE;
+        static const Ogre::String PROPERTY_ENABLED;
+
 
         /// Setzt den Quantifier standardmaessig auf QUANTIFIER_MULTIPLE.
 		Effect(int stufe = 1);
         virtual ~Effect() {}
 
-        const CeGuiString getName() const;
-        void setName(CeGuiString name);
+        const Ogre::String getName() const;
+        void setName(Ogre::String name);
         const CeGuiString getDescription() const;
         void setDescription(CeGuiString description);
         /// @see Quantifier
@@ -131,7 +135,7 @@ namespace rl
         virtual void setProperty(const CeGuiString& key, const Property& value);
         virtual PropertyKeys getAllPropertyKeys() const;
 	protected:
-		CeGuiString mName;
+		Ogre::String mName;
 		CeGuiString mDescription;
 		/// Dauer desEffekts in Aktionen.
 		int mStufe;
