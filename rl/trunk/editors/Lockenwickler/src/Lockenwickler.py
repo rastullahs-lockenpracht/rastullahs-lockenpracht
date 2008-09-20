@@ -75,13 +75,12 @@ class Lockenwickler(QtGui.QMainWindow):
     def addActions(self, target, actions):
         for act in actions:
             if act is None:
-                target.addSeparator()
+               target.addSeparator()
             else:
                 target.addAction(act)
 
     def setupUi(self):
         self.setObjectName("MainWindow")
-        self.resize(QtCore.QSize(QtCore.QRect(0,0,660,657).size()).expandedTo(self.minimumSizeHint()))
 
         self.centralwidget = QtGui.QWidget(self)
         self.centralwidget.setObjectName("centralwidget")
@@ -93,7 +92,6 @@ class Lockenwickler(QtGui.QMainWindow):
         self.gridlayout.setObjectName("gridlayout")
 
         self.menubar = QtGui.QMenuBar(self)
-        self.menubar.setGeometry(QtCore.QRect(0,0,660,22))
         self.menubar.setObjectName("menubar")
 
         self.menuFile = QtGui.QMenu(self.menubar)
