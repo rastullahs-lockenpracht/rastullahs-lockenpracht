@@ -21,24 +21,24 @@ class PreferencesDialog(QtGui.QDialog):
         QtCore.QObject.connect(self.prefDialog.listWidget, QtCore.SIGNAL("itemDoubleClicked(QListWidgetItem *)"),
                                self.onLoadSelectedModule)
 
-##        if platform.system() == "Windows" or platform.system() == "MAC":
-##            # TODO: delete this when ready
-##            self.prefDialog.lineEdit.setText("C:\Users\Stefan\Desktop\Lockenwickler\modules\modules.cfg")
-##            self.moduleCfgPath = "C:\Users\Stefan\Desktop\Lockenwickler\modules\modules.cfg"
-##            self.moduleCfgIsSelected = True
-##            self.modulePath = self.moduleCfgPath.replace("modules.cfg", "")
-##            self.readInModules()
-##            # end delete
-##        else:
-##            # TODO: delete this when ready
-##            self.prefDialog.lineEdit.setText("/home/stefan/blubb/rl_modules/modules/modules.cfg")
-##            self.moduleCfgPath = "/home/stefan/blubb/rl_modules/modules/modules.cfg"
-##            self.moduleCfgIsSelected = True
-##            self.modulePath = self.moduleCfgPath.replace("modules.cfg", "")
-##            self.readInModules()
-##            # end delete
+        if platform.system() == "Windows" or platform.system() == "MAC":
+            # TODO: delete this when ready
+            self.prefDialog.lineEdit.setText("C:\Users\Stefan\Desktop\Lockenwickler\modules\modules.cfg")
+            self.moduleCfgPath = "C:\Users\Stefan\Desktop\Lockenwickler\modules\modules.cfg"
+            self.moduleCfgIsSelected = True
+            self.modulePath = self.moduleCfgPath.replace("modules.cfg", "")
+            self.readInModules()
+            # end delete
+        else:
+            # TODO: delete this when ready
+            self.prefDialog.lineEdit.setText("/home/stefan/blubb/rl_modules/modules/modules.cfg")
+            self.moduleCfgPath = "/home/stefan/blubb/rl_modules/modules/modules.cfg"
+            self.moduleCfgIsSelected = True
+            self.modulePath = self.moduleCfgPath.replace("modules.cfg", "")
+            self.readInModules()
+            # end delete
 
-        #self.moduleCfgIsSelected = False
+        self.moduleCfgIsSelected = False
 
         self.setModal(True)
 
@@ -71,6 +71,7 @@ class PreferencesDialog(QtGui.QDialog):
 
     def onLoadSelectedModule(self):
         item = self.prefDialog.listWidget.currentItem()
+
         if item == None:
             mbox = QtGui.QMessageBox(self)
             mbox.setModal(True)

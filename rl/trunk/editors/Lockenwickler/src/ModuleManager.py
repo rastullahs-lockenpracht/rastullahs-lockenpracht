@@ -4,11 +4,14 @@ import xml.dom.minidom as xml
 import ctypes
 import ogre.renderer.OGRE as og
 
+from MovePivot import *
+
 # a class to store information about a object that got selected
 class SelectionObject():
     def __init__(self,  entity,  distance):
         self.entity = entity #the selected entity
         self.distance = distance # the distance from camera at the time of selection
+        self.isPivot = False
 
     #if True this instance will show its bounding box else it will hide it
     def setSelected(self,  selected):
@@ -29,7 +32,9 @@ class MyRaySceneQueryListener ( og.RaySceneQueryListener ):
         self.mVertexList = []
         self.mIndexList = []
 
+        self.currentRay = None
         self.lastRay = None
+
     # sort algorithm for the selection list
     def sortCompareImp(self,  x,  y):
         if x.distance > y.distance:
@@ -40,10 +45,36 @@ class MyRaySceneQueryListener ( og.RaySceneQueryListener ):
             return -1
 
     def queryResult ( self, entity, distance ):
+        print entity.getName()
         if distance == 0.0: #camera is in the bounding box, ignore this selection
             return True
         elif entity.getName() == "rayLine" :
             return True
+        elif entity.isVisible() and entity.getName() == "EditorXArrow":
+            so = SelectionObject(entity,  distance)
+            so.isPivot = True
+            self.selectionList.append(so)
+            return False
+        elif entity.isVisible() and entity.getName() == "EditorYArrow":
+            so = SelectionObject(entity,  distance)
+            so.isPivot = True
+            self.selectionList.append(so)
+            return False
+        elif entity.isVisible() and entity.getName() == "EditorZArrow":
+            so = SelectionObject(entity,  distance)
+            so.isPivot = True
+            self.selectionList.append(so)
+            return False
+        elif entity.isVisible() and entity.getName() == "EditorFreeMover":
+            return True
+        elif entity.getName() == "EditorXRotator" or entity.getName() == "EditorYRotator" or entity.getName() == "EditorZRotator":
+            if entity.isVisible() and self.rayCastToPolygonLevelOnSingleMesh(self.currentRay,  entity):
+                so = SelectionObject(entity,  distance)
+                so.isPivot = True
+                self.selectionList.append(so)
+                return False
+            else:
+                return True
         else:
             so = SelectionObject(entity,  distance)
             self.selectionList.append(so)
@@ -88,6 +119,12 @@ class MyRaySceneQueryListener ( og.RaySceneQueryListener ):
 
         pMesh = entity.getMesh()
 
+        pos =    entity.getParentNode().getWorldPosition()
+        scale =  entity.getParentNode().getScale()
+        orient = entity.getParentNode().getWorldOrientation()
+
+
+
         for i in range ( pMesh.getNumSubMeshes() ):
             pSubMesh = pMesh.getSubMesh(i)
             if pSubMesh.useSharedVertices:
@@ -100,11 +137,10 @@ class MyRaySceneQueryListener ( og.RaySceneQueryListener ):
             numVertices += pMesh.sharedVertexData.vertexCount
 
             storageclass = ctypes.c_float * 3
-            test=storageclass(1.1)
+            test=storageclass(0.0,  0.0,  0.0)
 #         mVertexList = new Point[numVertices];
 #         mIndexList = new unsigned int[numIndices];
 
-        self.mNormalList = []
         self.mVertexList = []
         self.mIndexList = []
 
@@ -115,28 +151,19 @@ class MyRaySceneQueryListener ( og.RaySceneQueryListener ):
         if useSharedVertices:
             ## Real* pVertices (x, y, z order x numVertices)
             elem = pMesh.sharedVertexData.vertexDeclaration.findElementBySemantic(og.VES_POSITION)
-            elemNormal = pMesh.sharedVertexData.vertexDeclaration.findElementBySemantic(og.VES_NORMAL)
 
             if not elem:
                 ogre.Except(Exception.ERR_ITEM_NOT_FOUND, "Can't find position elements in the "
                     "mesh to be written!", "MeshSerializerImpl.writeGeometry")
 
             vbuf = pMesh.sharedVertexData.vertexBufferBinding.getBuffer(elem.getSource())
-            vbufNormal = pMesh.sharedVertexData.vertexBufferBinding.getBuffer(elemNormal.getSource())
 
             ## need space for the 3 verticies
             storageclass = ctypes.c_float * 3
-            test=storageclass(1.1)
-
-            storageclass = ctypes.c_float * 3
-            testNormal=storageclass(1.1)
+            test=storageclass(0.0,  0.0,  0.0)
 
             for j in range ( pMesh.sharedVertexData.vertexCount ):
-                #vbufNormal.readData(j * vbufNormal.getVertexSize(), 3 * ctypes.sizeof(ctype.c_float), ctypes.addressof(testNormal))
-                vbufNormal.readData(j * 3, 3 * ctypes.sizeof(ctype.c_float), ctypes.addressof(testNormal))
-                self.mNormalList.append( og.Vector3(testNormal[0], testNormal[1],  testNormal[2]) )
-
-                vbuf.readData(j * vbuf.getVertexSize(), 3 * ctypes.sizeof(ctype.c_float), ctypes.addressof(test))
+                vbuf.readData(j * vbuf.getVertexSize(), 3 * ctype.sizeof(ctype.c_float), ctype.addressof(test))
                 self.mVertexList.append( og.Vector3(test[0], test[1], test[2]) )
                 vertListCount+=1
 
@@ -145,30 +172,26 @@ class MyRaySceneQueryListener ( og.RaySceneQueryListener ):
             if not pSubMesh.useSharedVertices:
                 ## Real* pVertices (x, y, z order x numVertices)
                 elem = pSubMesh.vertexData.vertexDeclaration.findElementBySemantic(og.VES_POSITION)
-                elemNormal = pSubMesh.vertexData.vertexDeclaration.findElementBySemantic(og.VES_NORMAL)
 
-                if not elem or not elemNormal:
+                if not elem:
                     og.Except(Exception.ERR_ITEM_NOT_FOUND, "Can't find position elements in the "
                         "mesh to be written!", "MeshSerializerImpl.writeGeometry")
 
                 vbuf = pSubMesh.vertexData.vertexBufferBinding.getBuffer(elem.getSource())
-                vbufNormal = pSubMesh.vertexData.vertexBufferBinding.getBuffer(elemNormal.getSource())
 
                 ## need space for the verticies
-                storageclass = ctypes.c_float * (pSubMesh.vertexData.vertexCount * 3)
-                test=storageclass(1.1)
+                storageclass = ctypes.c_float * (pSubMesh.vertexData.vertexCount * 6)
+                test=storageclass(0.0)
 
-                storageclassNormal = ctypes.c_float * (pSubMesh.vertexData.vertexCount * 3)
-                testNormal=storageclassNormal(1.1)
+                vbuf.readData(0, pSubMesh.vertexData.vertexCount * 6 * ctypes.sizeof(ctypes.c_float), ctypes.addressof(test))
 
-                vbuf.readData(0, pSubMesh.vertexData.vertexCount * 3 * ctypes.sizeof(ctypes.c_float),
-                                                                                ctypes.addressof(test))
-                vbufNormal.readData(0, pSubMesh.vertexData.vertexCount * 3 * ctypes.sizeof(ctypes.c_float),
-                                                                                ctypes.addressof(testNormal))
-
-                for j in range ( pSubMesh.vertexData.vertexCount ):
-                    self.mVertexList.append( og.Vector3(test[j], test[j+1], test[j+2]) )
-                    self.mNormalList.append( og.Vector3(testNormal[j], testNormal[j+1], testNormal[j+2]) )
+                for j in range ( 0,  pSubMesh.vertexData.vertexCount * 6,  6):
+                    #print j
+                    p = og.Vector3(test[j], test[j+1], test[j+2])
+                    p /= scale
+                    p += pos
+                    p = orient * p
+                    self.mVertexList.append( p )
                     vertListCount += 1
 
             ibuf = pSubMesh.indexData.indexBuffer
@@ -176,38 +199,50 @@ class MyRaySceneQueryListener ( og.RaySceneQueryListener ):
             storageclass = ctypes.c_ushort * pSubMesh.indexData.indexCount
             test2=storageclass()
 
-            ibuf.readData(0, ibuf.getSizeInBytes(), ctypes.addressof(test2))
 
+            ibuf.readData(0, ibuf.getSizeInBytes(), ctypes.addressof(test2))
             for j in range ( pSubMesh.indexData.indexCount ):
                 self.mIndexList.append (test2[j])   # unsigned short
                 indexCount += 1
 
+            ih = 0
+            for blah in self.mVertexList:
+                print str(ih) + ": "  +  str(blah)
+                ih += 1
+
+#            for blah in self.mIndexList:
+#                print blah
+
+
     # used when a new selection is made, meaning when not iterationg through the selected objects
     def rayCastToPolygonLevel(self,  ray):
         self.lastRay = ray
+
+        for so in self.selectionList:
+            if so.isPivot:
+                return so
+
         if len(self.selectionList) >= 1:
             for so in self.selectionList:
-                self.getMeshInformation(so.entity)
+                if self.rayCastToPolygonLevelOnSingleMesh(ray,  so.entity):
+                    return so
 
-                i = 0
-                while i <= (len(self.mIndexList) - 3):
-                    globalPosition = so.entity.getParentNode().getPosition()
-                    result = og.Math.intersects(ray, globalPosition + self.mVertexList[self.mIndexList[i]], globalPosition + self.mVertexList[self.mIndexList[i+1]],
-                                                                                                                                                              globalPosition + self.mVertexList[self.mIndexList[i+2]], True, True)
 
-                    if result.first:
-                        return so
-#                        self.previousSelected = self.currentSelected
-#
-#                        if self.previousSelected is not -1:
-#                            self.selectionList[self.previousSelected].setSelected(False)
-#
-#                        self.currentSelected = self.selectionList.index(so)
-#                        so.setSelected(True)
-#                        return
-                    i += 3
+    def rayCastToPolygonLevelOnSingleMesh(self,  ray,  entity):
+        self.getMeshInformation(entity)
+        globalPosition = entity.getParentNode().getWorldPosition()
 
-#        print "fertsch #####################################################################################"
+        i = 0
+        while i <= (len(self.mIndexList) - 3):
+            result = og.Math.intersects(ray, globalPosition + self.mVertexList[self.mIndexList[i]], globalPosition + self.mVertexList[self.mIndexList[i+1]],
+                                                                                                                                                          globalPosition + self.mVertexList[self.mIndexList[i+2]], True, False)
+
+            if result.first:
+                return True
+
+            i += 3
+
+        return False
 
     def rayCastToPolygonLevelOnCurrentSelection(self):
         if len(self.selectionList) >= 1:
@@ -238,6 +273,13 @@ class ModuleManager(object):
         self.lastRay = None
         self.rayLine = None
 
+        self.pivot = None
+        self.movingPivot = False
+
+        self.leftMouseDown = False
+        self.middleMouseDown = False
+        self.rightMouseDown = False
+
     def load(self,  moduleName,  mapFiles):
         self.moduleName = moduleName
         self.mapFiles = mapFiles
@@ -248,6 +290,7 @@ class ModuleManager(object):
             if node != None:
                 self.parseSceneNodes(node)
 
+        self.pivot = Pivot(self.sceneManager)
 
     def parseSceneNodes(self,  nodeList):
         for ent in nodeList:
@@ -281,7 +324,12 @@ class ModuleManager(object):
                         nodeScale = og.Vector3(px, py, pz)
                         continue
 
-            e = self.sceneManager.createEntity(entityName, meshFile)
+            try:
+                e = self.sceneManager.createEntity(entityName, meshFile)
+            except:
+                print "Warning: Meshfile " + meshFile + " could not be found."
+                return
+
             n = self.sceneManager.getRootSceneNode().createChild()
             n.attachObject(e)
             n.setPosition(nodePosition)
@@ -290,28 +338,39 @@ class ModuleManager(object):
 
         pass
 
-
+    # called when a click into Main Ogre Window occurs
     def selectionClick(self,  ray,  controlDown=False,  shiftDown=False):
-        if not controlDown and not shiftDown:
-            self.resetSelection()
-
         self.lastRay = ray
+        self.listenerDings.currentRay = ray
         self.raySceneQuery.Ray = ray
         self.raySceneQuery.execute(self.listenerDings)
 
-
         so = self.listenerDings.rayCastToPolygonLevel(ray)
-        if so is not None and not controlDown and not shiftDown:
-            so.setSelected(True)
-            self.userSelectionList.append(so)
-        elif so is not None and controlDown and not shiftDown:
-            so.setSelected(True)
-            self.userSelectionList.append(so)
-        elif so is not None and not controlDown and shiftDown:
-            for selo in self.userSelectionList:
-                if so.entity.getName() == selo.entity.getName():
-                    so.setSelected(False)
-                    self.userSelectionList.remove(selo)
+        if so is not None:
+            if not so.isPivot:
+                self.pivot.show()
+                if not controlDown and not shiftDown:
+                    self.resetSelection()
+                    so.setSelected(True)
+                    self.userSelectionList.append(so)
+                    self.updatePivots()
+                elif controlDown and not shiftDown:
+                    so.setSelected(True)
+                    self.userSelectionList.append(so)
+                    self.updatePivots()
+                elif not controlDown and shiftDown:
+                    for selo in self.userSelectionList:
+                        if so.entity.getName() == selo.entity.getName():
+                            so.setSelected(False)
+                            self.userSelectionList.remove(selo)
+                    self.updatePivots()
+            else:
+                print "isPivot: " + str(so.entity.getName())
+                self.pivot.startTransforming(so.entity,  self.userSelectionList)
+        else:
+            print "noneee"
+            self.resetSelection() # click in empty space, deselect everything
+            self.pivot.hide()
 
         if self.rayLine == None:
             self.rayLine = self.sceneManager.createManualObject("rayLine")
@@ -333,6 +392,10 @@ class ModuleManager(object):
 
             self.rayLine.end()
 
+    def leftMouseUp(self):
+        if self.pivot.isTransforming:
+            self.pivot.stopTransforming()
+
     def iterateEntityUnderMouse(self):
         self.listenerDings.iterateEntityUnderMouse()
 
@@ -346,6 +409,15 @@ class ModuleManager(object):
 
         self.listenerDings.reset()
         pass
+
+
+    def updatePivots(self):
+        newPivotPosition = og.Vector3(0, 0, 0)
+
+        for so in self.userSelectionList:
+            newPivotPosition += so.entity.getParentNode().getPosition()
+
+        self.pivot.setPosition(newPivotPosition / len(self.userSelectionList))
 
     def unload(self,  saveOnUnload=True):
         pass

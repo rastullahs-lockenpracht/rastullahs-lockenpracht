@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE Project SYSTEM "Project-4.2.dtd">
+<!DOCTYPE Project SYSTEM "Project-4.4.dtd">
 <!-- eric4 project file for project Lockenwickler -->
-<!-- Saved: 2008-06-23, 19:40:36 -->
+<!-- Saved: 2008-09-19, 19:08:16 -->
 <!-- Copyright (C) 2008 Stefan Stammberger, sstammberger@web.de -->
-<Project version="4.2">
+<Project version="4.4">
   <ProgLanguage mixed="0">Python</ProgLanguage>
   <ProjectType>Qt4</ProjectType>
   <Description>Lockenwickler is an Editor application for the Rastulahs Lockenpracht game.</Description>
@@ -11,128 +11,39 @@
   <Author>Stefan Stammberger</Author>
   <Email>sstammberger@web.de</Email>
   <Sources>
-    <Source>
-      <Dir>src</Dir>
-      <Name>Lockenwickler.py</Name>
-    </Source>
-    <Source>
-      <Dir>src</Dir>
-      <Name>ConsoleWindow.py</Name>
-    </Source>
-    <Source>
-      <Dir>src</Dir>
-      <Name>ModelSelectionDialog.py</Name>
-    </Source>
-    <Source>
-      <Dir>src</Dir>
-      <Name>ModuleManager.py</Name>
-    </Source>
-    <Source>
-      <Dir>src</Dir>
-      <Name>MovePivot.py</Name>
-    </Source>
-    <Source>
-      <Dir>src</Dir>
-      <Name>ObjectPropertyWin.py</Name>
-    </Source>
-    <Source>
-      <Dir>src</Dir>
-      <Name>OdeManager.py</Name>
-    </Source>
-    <Source>
-      <Dir>src</Dir>
-      <Name>OgreMainWindow.py</Name>
-    </Source>
-    <Source>
-      <Dir>src</Dir>
-      <Name>OgreWidget.py</Name>
-    </Source>
-    <Source>
-      <Dir>src</Dir>
-      <Name>PreferencesDialog.py</Name>
-    </Source>
-    <Source>
-      <Dir>src</Dir>
-      <Name>PythonOgreConfig.py</Name>
-    </Source>
-    <Source>
-      <Dir>src</Dir>
-      <Name>ui_ConsoleWindow.py</Name>
-    </Source>
-    <Source>
-      <Dir>src</Dir>
-      <Name>ui_FourPanelView.py</Name>
-    </Source>
-    <Source>
-      <Dir>src</Dir>
-      <Name>ui_lw.py</Name>
-    </Source>
-    <Source>
-      <Dir>src</Dir>
-      <Name>ui_model_prev.py</Name>
-    </Source>
-    <Source>
-      <Dir>src</Dir>
-      <Name>ui_obj_prop.py</Name>
-    </Source>
-    <Source>
-      <Dir>src</Dir>
-      <Name>ui_pref_dialog.py</Name>
-    </Source>
-    <Source>
-      <Dir>ui files</Dir>
-      <Name>batch_convert_ui.py</Name>
-    </Source>
-    <Source>
-      <Dir>ui files</Dir>
-      <Name>ui_ConsoleWindow.py</Name>
-    </Source>
-    <Source>
-      <Dir>ui files</Dir>
-      <Name>ui_FourPanelView.py</Name>
-    </Source>
-    <Source>
-      <Dir>ui files</Dir>
-      <Name>ui_lw.py</Name>
-    </Source>
-    <Source>
-      <Dir>ui files</Dir>
-      <Name>ui_model_prev.py</Name>
-    </Source>
-    <Source>
-      <Dir>ui files</Dir>
-      <Name>ui_obj_prop.py</Name>
-    </Source>
-    <Source>
-      <Dir>ui files</Dir>
-      <Name>ui_pref_dialog.py</Name>
-    </Source>
+    <Source>src/Lockenwickler.py</Source>
+    <Source>src/ConsoleWindow.py</Source>
+    <Source>src/ModelSelectionDialog.py</Source>
+    <Source>src/ModuleManager.py</Source>
+    <Source>src/MovePivot.py</Source>
+    <Source>src/ObjectPropertyWin.py</Source>
+    <Source>src/OdeManager.py</Source>
+    <Source>src/OgreMainWindow.py</Source>
+    <Source>src/OgreWidget.py</Source>
+    <Source>src/PreferencesDialog.py</Source>
+    <Source>src/PythonOgreConfig.py</Source>
+    <Source>src/ui_ConsoleWindow.py</Source>
+    <Source>src/ui_FourPanelView.py</Source>
+    <Source>src/ui_lw.py</Source>
+    <Source>src/ui_model_prev.py</Source>
+    <Source>src/ui_obj_prop.py</Source>
+    <Source>src/ui_pref_dialog.py</Source>
+    <Source>ui files/batch_convert_ui.py</Source>
+    <Source>ui files/ui_ConsoleWindow.py</Source>
+    <Source>ui files/ui_FourPanelView.py</Source>
+    <Source>ui files/ui_lw.py</Source>
+    <Source>ui files/ui_model_prev.py</Source>
+    <Source>ui files/ui_obj_prop.py</Source>
+    <Source>ui files/ui_pref_dialog.py</Source>
+    <Source>src/SceneExplorer.py</Source>
   </Sources>
   <Forms>
-    <Form>
-      <Dir>ui files</Dir>
-      <Name>console_window.ui</Name>
-    </Form>
-    <Form>
-      <Dir>ui files</Dir>
-      <Name>FourPanelView.ui</Name>
-    </Form>
-    <Form>
-      <Dir>ui files</Dir>
-      <Name>lockewickler.ui</Name>
-    </Form>
-    <Form>
-      <Dir>ui files</Dir>
-      <Name>model_preview.ui</Name>
-    </Form>
-    <Form>
-      <Dir>ui files</Dir>
-      <Name>object_property.ui</Name>
-    </Form>
-    <Form>
-      <Dir>ui files</Dir>
-      <Name>preferences_dialog.ui</Name>
-    </Form>
+    <Form>ui files/console_window.ui</Form>
+    <Form>ui files/FourPanelView.ui</Form>
+    <Form>ui files/lockewickler.ui</Form>
+    <Form>ui files/model_preview.ui</Form>
+    <Form>ui files/object_property.ui</Form>
+    <Form>ui files/preferences_dialog.ui</Form>
   </Forms>
   <Translations>
   </Translations>
@@ -142,12 +53,119 @@
   </Interfaces>
   <Others>
   </Others>
-  <MainScript>
-    <Dir>src</Dir>
-    <Name>Lockenwickler.py</Name>
-  </MainScript>
+  <MainScript>src/Lockenwickler.py</MainScript>
   <Vcs>
-    <VcsType>None</VcsType>
+    <VcsType>Subversion</VcsType>
+    <VcsOptions>
+      <dict>
+        <key>
+          <string>add</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>checkout</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>commit</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>diff</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>export</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>global</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>history</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>log</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>remove</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>status</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>tag</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>update</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+      </dict>
+    </VcsOptions>
+    <VcsOtherData>
+      <dict>
+        <key>
+          <string>standardLayout</string>
+        </key>
+        <value>
+          <bool>True</bool>
+        </value>
+      </dict>
+    </VcsOtherData>
   </Vcs>
   <FiletypeAssociations>
     <FiletypeAssociation pattern="*.ui" type="FORMS" />
