@@ -25,16 +25,33 @@
 
 namespace rl
 {
+	class SaveAble;
+
+	class SaveAblePtr : public Ogre::SharedPtr<SaveAble>
+	{
+	};
 
 	class SaveAble : public PropertyHolder
 	{
 	public:
+		SaveAble(int id, bool isSaveAble = true);
 		void setSaveAble(bool enable);
 		bool isSaveAble();
-	protected:
-		bool mIsSaveAble;
-	};
 
+		virtual const Property getProperty(const CeGuiString& key) const;
+        virtual void setProperty(const CeGuiString& key, const Property& value);
+        virtual PropertyKeys getAllPropertyKeys() const;
+		
+		SaveAblePtr getParent() const { return mParentSaveAble; };
+
+		int getId();
+	protected:
+		SaveAblePtr mParentSaveAble;
+		int mId;
+		bool mIsSaveAble;
+	};	
+
+	typedef std::pair<int, SaveAblePtr>  SaveAbleReference;
 }
 
 
