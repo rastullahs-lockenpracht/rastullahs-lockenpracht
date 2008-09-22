@@ -2,11 +2,11 @@
 #define HELPER_H
 
 #include <QWidget>
-#include "ifDialog.h"
+#include "ifdialog.h"
 
 class startMode : public QWidget
 {
-	
+
 public:
 	startMode(QWidget *parent = 0);
 };
@@ -14,7 +14,7 @@ public:
 class optionMode : public QWidget
 {
 	Q_OBJECT
-	
+
 public:
 	optionMode(QWidget *parent = 0);
 
@@ -31,27 +31,27 @@ private:
 	QLabel *opt_mehrfachLabel;
 	QLabel *opt_wennLabel;
 	QLabel *opt_caseLabel;
-	
+
 	QLineEdit *opt_nameLEdit;
 	QLineEdit *opt_soundLEdit;
-	
+
 	QTextEdit *opt_textTEdit;
-	
+
 	QTreeWidget *opt_ifTree;
 	QStringList opt_ifHeaderlabels;
 	QTreeWidgetItem *if_item;
-	
+
 	QTreeWidget *opt_wennTree;
 	QTreeWidget *opt_caseTree;
-	
+
 	QToolButton *opt_ifAdd;
 	QToolButton *opt_ifRem;
 	QToolButton *opt_wenn;
 	QToolButton *opt_caseAdd;
 	QToolButton *opt_caseRem;
-	
+
 	QPushButton *opt_takeButton;
-	
+
 	QCheckBox *opt_mehrfachCheck;
 	QGroupBox *opt_mehrfachBox;
 
@@ -74,19 +74,19 @@ private:
 	QLabel *res_soundLabel;
 	QLabel *res_effektLabel;
 	QLabel *res_gotoLabel;
-	
+
 	QLineEdit *res_nameLEdit;
 	QLineEdit *res_soundLEdit;
-	
+
 	QTextEdit *res_textTEdit;
-	
+
 	QTreeWidget *res_effektTree;
-	
+
 	QToolButton *res_effektAdd;
 	QToolButton *res_effektRem;
-	
+
 	QPushButton *res_takeButton;
-	
+
 	QComboBox *res_gotoCombo;
 };
 

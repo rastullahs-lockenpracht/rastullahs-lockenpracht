@@ -1,6 +1,6 @@
-/* 
+/*
  * (C) 2003-2008. Team Pantheon. www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -78,7 +78,7 @@ namespace rl {
 
     typedef std::vector<Property> PropertyArray;
     typedef std::map<CeGuiString, Property> PropertyMap;
-    
+
     class _RlCommonExport Property
     {
     public:
@@ -87,7 +87,8 @@ namespace rl {
         PropertyMethod(Bool, const bool&);
         PropertyMethod(String, CEGUI::String);
         PropertyMethod(Int, const int&);
-        PropertyMethod(Long, const RL_LONGLONG&);
+        PropertyMethod(Long, const long&);
+        PropertyMethod(LongLong, const RL_LONGLONG&);
         PropertyMethod(Real, const Ogre::Real&);
         PropertyMethod(Vector3, const Ogre::Vector3&);
         PropertyMethod(Quaternion, const Ogre::Quaternion&);
@@ -163,7 +164,7 @@ namespace rl {
             output[it->first.c_str()] = temp;
         }
     }
-    
+
     template<typename T> void convertToMap(
         const PropertyMap& propmap, std::map<const CeGuiString, T>& output)
     {
@@ -176,7 +177,7 @@ namespace rl {
 			//output.insert(typename std::map<const CeGuiString, T>::value_type(it->first, it->second));
         }
     }
-    
+
     template<typename T> void convertToSet(
         const PropertyArray& propvec, std::set<T>& output)
     {
