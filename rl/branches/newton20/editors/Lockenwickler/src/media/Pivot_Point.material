@@ -1,0 +1,56 @@
+material Lockenwickler_Pivot_X
+{
+	technique
+	{
+		pass
+		{
+			ambient 1.0 0.0 0.0 1.0
+			diffuse 1.0 0.0 0.0 1.0
+			specular 1.0 0.0 0.0 1.0 12.5
+			emissive 1.0 0.0 0.0 1.0
+		}
+	}
+}
+
+material Lockenwickler_Pivot_Y
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.0 0.0 1.0 1.0
+			diffuse 0.0 0.0 1.0 1.0
+			specular 0.0 0.0 1.0 1.0 12.5
+			emissive 0.0 0.0 1.0 1.0
+		}
+	}
+}
+
+material Lockenwickler_Pivot_Z
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.0 1.0 0.0 1.0
+			diffuse 0.0 1.0 0.0 1.0
+			specular 0.0 1.0 0.0 1.0 12.5
+			emissive 0.0 1.0 0.0 1.0
+		}
+	}
+}
+
+material Lockenwickler_FreeMover
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.0 0.0 0.0 1.0
+			diffuse 0.0 0.0 0.0 1.0
+			specular 0.0 0.0 0.0 1.0 12.5
+			emissive 0.0 0.0 0.0 1.0
+		}
+	}
+}
+ 

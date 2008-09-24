@@ -25,10 +25,10 @@ class ConsoleWindow(QtGui.QDialog):
         sys.stderr = self
 
     def write(self, text):
-        if text.isspace():
-            return
         if self.filterLog:
-            if text.startswith("Error"):
+            if text.isspace():
+                return
+            elif text.startswith("Error"):
                 self.consoleWindow.textEdit.append(text)
                 return
             elif text.startswith("OGRE EXCEPTION"):

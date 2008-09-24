@@ -17,7 +17,6 @@ class OgreMainWindow(QtGui.QWidget):
         self.OgreMainWinSceneMgr = OgreMainWinSceneMgr
 
         self.ogreRenderWindow = None
-        self.ogreRenderWindow2 = None
 
         self.leftMouseDown = False
         self.middleMouseDown = False
@@ -29,8 +28,6 @@ class OgreMainWindow(QtGui.QWidget):
         self.moveCamBackward = False
         self.strafeCamLeft = False
         self.strafeCamRight = False
-
-        self.focusedWindow = None # the ogre window which has focus at the moment (activated by a click into the window), eventFilter method
 
         self.camUpdateTimer = QtCore.QTimer(self)
         self.camUpdateTimer.connect(self.camUpdateTimer, QtCore.SIGNAL("timeout()"), self.updateCamera)
@@ -61,6 +58,7 @@ class OgreMainWindow(QtGui.QWidget):
         self.ogreWindowOptions = QtGui.QToolButton(self)
         QtCore.QObject.connect(self.ogreWindowOptions, QtCore.SIGNAL("clicked()"),
                                     self.onPreferencesButton)
+        self.ogreWindowOptions.hide()
 
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum,QtGui.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
@@ -71,18 +69,9 @@ class OgreMainWindow(QtGui.QWidget):
         self.splitterV.addWidget(self.ogreWindowOptions)
 
         # create the horizontal splitter wich contains the two ogre render windows and add it to the vertical splitter
-        self.splitterH = QtGui.QSplitter(Form)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding,QtGui.QSizePolicy.MinimumExpanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.splitterH.sizePolicy().hasHeightForWidth())
-        self.splitterH.setSizePolicy(sizePolicy)
-        self.splitterH.setOrientation(QtCore.Qt.Horizontal)
-        self.splitterH.setObjectName("splitterH")
-
 
         ##################################
-        self.ogreRenderWindow = OgreWidget.OgreWidget("OgreMainWin", self.ogreRoot, self.OgreMainWinSceneMgr, "MainCam", self.splitterH,  0)
+        self.ogreRenderWindow = OgreWidget.OgreWidget("OgreMainWin", self.ogreRoot, self.OgreMainWinSceneMgr, "MainCam", self.splitterV,  0)
         self.ogreRenderWindow.setMinimumSize(QtCore.QSize(250,250))
 
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum,QtGui.QSizePolicy.Maximum)
@@ -91,31 +80,15 @@ class OgreMainWindow(QtGui.QWidget):
         sizePolicy.setHeightForWidth(self.ogreRenderWindow.sizePolicy().hasHeightForWidth())
         self.ogreRenderWindow.setSizePolicy(sizePolicy)
         self.ogreRenderWindow.setObjectName("ogreWidget")
-        self.splitterH.addWidget(self.ogreRenderWindow)
-        self.ogreRenderWindow.setBackgroundColor(og.ColourValue(0, 0, 1))
+        self.splitterV.addWidget(self.ogreRenderWindow)
+        self.ogreRenderWindow.setBackgroundColor(og.ColourValue(0, 1, 1))
         ####################################
 
-        #################################
-        self.ogreRenderWindow2 = OgreWidget.OgreWidget("OgreMainWin2", self.ogreRoot, self.OgreMainWinSceneMgr, "MainCam2", self.splitterH,  0)
-        self.ogreRenderWindow2.setMinimumSize(QtCore.QSize(250,250))
-
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum,QtGui.QSizePolicy.Maximum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ogreRenderWindow2.sizePolicy().hasHeightForWidth())
-        self.ogreRenderWindow2.setSizePolicy(sizePolicy)
-        self.ogreRenderWindow2.setObjectName("ogreWidget2")
-        self.splitterH.addWidget(self.ogreRenderWindow2)
-        self.ogreRenderWindow2.setBackgroundColor(og.ColourValue(0, 0, 1))
-        ###################################
-
-        self.splitterV.addWidget(self.splitterH)
         self.gridlayout.addWidget(self.splitterV,0,0,1,1)
 
         # register the eventfilters for the render windows
         # this is needed to catch mouse enter and mouse leave events for these windows
         self.ogreRenderWindow.installEventFilter(self)
-        self.ogreRenderWindow2.installEventFilter(self)
 
         self.lastMousePosX = 0
         self.lastMousePosY = 0
@@ -154,7 +127,7 @@ class OgreMainWindow(QtGui.QWidget):
         if event.type() == 2:
             if event.button() == 1: # left mouse button is pressed
                 self.leftMouseDown = True
-                self.focusedWindow = obj
+                self.moduleManager.leftMouseDown = True
 
                 if self.rightMouseDown: #if right mouse button is already pressed dolly the camera
                     self.dollyCamera = True
@@ -163,32 +136,43 @@ class OgreMainWindow(QtGui.QWidget):
 
             elif event.button() == 2: # right mouse button is pressed
                 self.rightMouseDown = True
-                self.focusedWindow = obj
+                self.moduleManager.rightMouseDown = True
+
             elif event.button() == 4: # middle mouse button is pressed
                 self.middleMouseDown = True
-                self.focusedWindow = obj
+                self.moduleManager.middleMouseDown = True
 
             self.camUpdateTimer.start(15)
 
         elif event.type() == 3:
             if event.button() == 1: # left mouse button is released
                 self.leftMouseDown = False
+                self.moduleManager.leftMouseDown = False
+                self.moduleManager.leftMouseUp()
 
                 if self.dollyCamera == True: #if we dolly the camera set it to false
                     self.dollyCamera = False
 
             elif event.button() == 2: # right mouse button is released
                 self.rightMouseDown = False
+                self.moduleManager.rightMouseDown = False
             elif event.button() == 4: # middle mouse button is released
                 self.middleMouseDown = False
+                self.moduleManager.middleMouseDown = False
 
             if not self.rightMouseDown:
                 self.dollyCamera = False
                 self.camUpdateTimer.stop()
 
         elif event.type() == 5: #mouse moved while button down
-            rotX = (event.globalX() - self.lastMousePosX) * 0.01
-            rotY = (event.globalY() - self.lastMousePosY) * 0.01
+            incX =  (event.globalX() - self.lastMousePosX)
+            incY =  (event.globalY() - self.lastMousePosY)
+
+            if self.leftMouseDown and not self.middleMouseDown and not self.rightMouseDown:
+                self.moduleManager.pivot.onMouseMoved(event.globalX,  event.globalY,  incX,  incY)
+
+            rotX = incX * 0.01
+            rotY = incY * 0.01
 
             if (rotX < 0.3 and rotY < 0.3) and (rotX > -0.3 and rotY > -0.3): # check to avoid to huge values which may happen when the user clicks and lastMousePosX/Y is zero
                 if self.dollyCamera:
@@ -227,17 +211,12 @@ class OgreMainWindow(QtGui.QWidget):
         else:
             self.moduleManager.selectionClick(mouseRay)
 
-
-#        self.moduleManager.resetCurrentOgreSelection()
-
-
-
     def updateCamera(self):
         if self.moveCamForward:
-            self.focusedWindow.dollyCamera(og.Vector3( 0, 0,-0.2))
+            self.ogreRenderWindow.dollyCamera(og.Vector3( 0, 0,-0.2))
         if self.moveCamBackward:
-            self.focusedWindow.dollyCamera(og.Vector3( 0, 0, 0.2))
+            self.ogreRenderWindow.dollyCamera(og.Vector3( 0, 0, 0.2))
         if self.strafeCamLeft:
-            self.focusedWindow.dollyCamera(og.Vector3(-0.2, 0 , 0))
+            self.ogreRenderWindow.dollyCamera(og.Vector3(-0.2, 0 , 0))
         if self.strafeCamRight:
-            self.focusedWindow.dollyCamera(og.Vector3( 0.2, 0, 0))
+            self.ogreRenderWindow.dollyCamera(og.Vector3( 0.2, 0, 0))

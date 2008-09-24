@@ -23,6 +23,10 @@
 
 namespace rl
 {
+	SaveAble::SaveAble(int id, bool isSaveAble)
+	{
+	}
+
 	void SaveAble::setSaveAble(bool enable)
 	{
 		mIsSaveAble = true;
@@ -31,5 +35,24 @@ namespace rl
 	bool SaveAble::isSaveAble()
 	{
 		return mIsSaveAble;
+	}
+
+	const Property SaveAble::getProperty(const CeGuiString& key) const
+	{
+		return Property();
+	}
+	
+	void SaveAble::setProperty(const CeGuiString& key, const Property& value)
+	{
+	}
+	
+	PropertyKeys SaveAble::getAllPropertyKeys() const
+	{
+		return PropertyKeys();
+	}
+
+	int SaveAble::getId()
+	{
+		return mId;
 	}
 }

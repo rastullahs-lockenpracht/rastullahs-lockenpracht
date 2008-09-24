@@ -15,3 +15,5 @@
 */
 
 #include "stdinc.h"
+
+#include "SaveAbleFactory.h"
