@@ -123,12 +123,8 @@ namespace rl {
 
         ViewMode mViewMode;
 
-        int mObstractedFrameCount;
-        Ogre::Real mObstractedTime;
-        int mCameraJammedFrameCount;
-        Ogre::Real mCameraJammedTime;
-
         PhysicsMaterialRaycast* mRaycast;
+        PhysicsMaterialConvexcast * mConvexcast;
         HalfSphereSelector mSelector;
         HalfSphereSelector mCombatSelector;
 
