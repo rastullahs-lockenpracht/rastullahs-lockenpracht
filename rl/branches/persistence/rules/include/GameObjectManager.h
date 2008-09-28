@@ -35,8 +35,8 @@ namespace rl
     public:
         GameObjectFactory();
 
-        GameObject* createGameObject(const Ogre::String& classname, unsigned int id);
-        virtual GameObject* createRubyGameObject(const Ogre::String& classname, unsigned int id) = 0;
+		GameObject* createGameObject(const Ogre::String& classname, const CeGuiString &id);
+        virtual GameObject* createRubyGameObject(const Ogre::String& classname, const CeGuiString &id) = 0;
     };
 
     class _RlRulesExport GameObjectManager : 
@@ -48,10 +48,10 @@ namespace rl
         GameObjectManager();
         ~GameObjectManager();
 
-        GameObject* getGameObject(unsigned int id) const;
-        GameObject* createGameObject(const CeGuiString& classId, unsigned int id = 0);
+		GameObject* getGameObject(const CeGuiString &id) const;
+		GameObject* createGameObject(const CeGuiString& classId, const CeGuiString &id = "");
 		
-        void deleteGameObject(unsigned int id);
+		void deleteGameObject(const CeGuiString &id);
         void deleteGameObject(GameObject* obj);
         void deleteAllGameObjects();
 
@@ -79,7 +79,7 @@ namespace rl
 
         Ogre::StringVector mScriptPatterns;
 
-        std::map<unsigned int, GameObject*> mGameObjects;
+		std::map<CeGuiString, GameObject*> mGameObjects;
         ClassPropertyMap mClassProperties;
         unsigned int mGeneratedId;
         GameObjectFactory* mGameObjectFactory;

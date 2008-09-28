@@ -108,14 +108,14 @@ namespace rl {
       
         static DsaManager& getSingleton();
         rl::Talent* getTalent(const rl::CeGuiString name) const;
-        rl::Creature* getCreature(const int id) const;
+        rl::Creature* getCreature(const rl::CeGuiString &id) const;
     };
     
     %feature("director") GameObjectFactory; 
     class GameObjectFactory
     {
     public:
-        virtual rl::GameObject* createRubyGameObject(const Ogre::String& classname, unsigned int id) = 0;
+        virtual rl::GameObject* createRubyGameObject(const Ogre::String& classname, const rl::CeGuiString &id) = 0;
         GameObjectFactory();
         virtual ~GameObjectFactory();
     };
@@ -124,8 +124,8 @@ namespace rl {
     {
     public:
         static rl::GameObjectManager& getSingleton();
-        rl::GameObject* createGameObject(const Ogre::String& classId, unsigned int id = 0);
-        rl::GameObject* getGameObject(unsigned int id) const;
+        rl::GameObject* createGameObject(const Ogre::String& classId, const rl::CeGuiString &id = "");
+        rl::GameObject* getGameObject(const rl::CeGuiString id) const;
         void setGameObjectFactory(rl::GameObjectFactory* gof);
 
     private:
@@ -367,13 +367,11 @@ namespace rl {
     %constant unsigned long QUERYFLAG_PLAYER = rl::QUERYFLAG_PLAYER;
     
     %feature("director") GameObject;
-    class GameObject: public ObjectStateChangeEventSource
+    class GameObject: public ObjectStateChangeEventSource, public SaveAble
     {
     public:
-        GameObject(unsigned int id);
+        GameObject(const rl::CeGuiString &id);
         virtual ~GameObject();
-
-        virtual unsigned int getId();
 
         virtual const rl::CeGuiString getName() const;
         virtual void setName(rl::CeGuiString name);
@@ -479,7 +477,7 @@ namespace rl {
             ITEMTYPE_ALL_ITEMS  = ~(0)
         };
     
-        Item(unsigned int id);
+        Item(const rl::CeGuiString &id);
         virtual ~Item();
         
         virtual void placeIntoScene();
@@ -513,7 +511,7 @@ namespace rl {
     public:
         enum Distanzklasse { DK_H=0, DK_N, DK_S, DK_P };
 
-        Weapon(unsigned int id);
+        Weapon(const rl::CeGuiString &id);
         virtual ~Weapon();
                 
         void setTp(int d6, int d20, int mod);
@@ -547,7 +545,7 @@ namespace rl {
         static const CeGuiString Armor::PROPERTY_G_BE = "g_be";
         static const CeGuiString Armor::PROPERTY_G_RS = "g_rs";
         
-        Armor(unsigned int id);
+        Armor(const rl::CeGuiString &id);
         virtual ~Armor();
 
         virtual const rl::Property getProperty(const rl::CeGuiString& key) const;
@@ -562,7 +560,7 @@ namespace rl {
     class Container : public Item
     {
     public:
-        Container(unsigned int id);
+        Container(const rl::CeGuiString &id);
         virtual ~Container();
 
         Ogre::Real getCapacity() const;
@@ -729,7 +727,7 @@ namespace rl {
         static const Creature::Wert Creature::WERT_REGENERATION = "Regeneration";
         
         
-        Creature(unsigned int id);
+        Creature(const rl::CeGuiString &id);
         virtual ~Creature();
 
         virtual int getLe();

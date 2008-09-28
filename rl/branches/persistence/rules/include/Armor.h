@@ -34,7 +34,7 @@ namespace rl
         static const Ogre::String PROPERTY_G_RS;
 
         // Konstruktor und Destruktor
-		Armor (unsigned int id);
+		Armor (const CeGuiString &id);
 		virtual ~Armor();
 		 
 

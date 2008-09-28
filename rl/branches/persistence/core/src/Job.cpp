@@ -22,7 +22,8 @@ namespace rl
 {
     AbstractJob::AbstractJob(bool isDiscardable, bool destroyWhenDone)
         : mIsDiscardable(isDiscardable), 
-        mDestroyWhenDone(destroyWhenDone)
+        mDestroyWhenDone(destroyWhenDone),
+		SaveAble("")
     {
     }
 

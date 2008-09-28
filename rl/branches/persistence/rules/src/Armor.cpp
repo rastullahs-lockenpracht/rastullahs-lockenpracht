@@ -31,7 +31,7 @@ namespace rl
     const Ogre::String Armor::PROPERTY_G_BE = "g_be";
     const Ogre::String Armor::PROPERTY_G_RS = "g_rs";
 
-	Armor::Armor(unsigned int id)
+	Armor::Armor(const CeGuiString &id)
 		: Item(id),
 		mGRS(0),
 		mGBE(0),

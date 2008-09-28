@@ -35,7 +35,7 @@ namespace rl
 
         virtual Trigger* createTrigger(const Ogre::String& classname, const Ogre::String& name) = 0;
         virtual Effect* createEffect(const Ogre::String& name, int stufe) = 0;
-        virtual GameObject* createRubyGameObject(const Ogre::String& classname, unsigned int id) = 0;
+        virtual GameObject* createRubyGameObject(const Ogre::String& classname, const CeGuiString &id) = 0;
         virtual SteeringBehaviour* createBehaviour(const Ogre::String& classname) = 0;
     };
 }

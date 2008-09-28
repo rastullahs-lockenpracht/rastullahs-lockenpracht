@@ -50,7 +50,7 @@ namespace rl
         static const Ogre::String PROPERTY_TP_KAMPFTECHNIK;
         static const Ogre::String PROPERTY_NATURAL;
 
-		Weapon (unsigned int id);
+		Weapon (const CeGuiString &id);
         virtual ~Weapon(void);
 
 		void setTp(int d6, int d20, int mod);

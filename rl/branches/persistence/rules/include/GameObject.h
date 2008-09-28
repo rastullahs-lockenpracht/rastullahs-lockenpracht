@@ -21,6 +21,7 @@
 
 #include "Action.h"
 #include "Actor.h"
+#include "SaveAble.h"
 #include "RulesConstants.h"
 #include "ObjectStateChangeEventSource.h"
 #include "Properties.h"
@@ -40,11 +41,11 @@ namespace rl
     class _RlRulesExport GameObject 
         : public ActorNotifiedObject, 
           public ObjectStateChangeEventSource,
-          public PropertyHolder
+		  public SaveAble
     {
     public:
         typedef std::vector<std::pair<Action*, int> > ActionOptionVector;
-        static const unsigned int NO_OBJECT_ID = 0;
+		static const CeGuiString NO_OBJECT_ID;
         
         static const Ogre::String CLASS_NAME;
 
@@ -68,10 +69,8 @@ namespace rl
         static const CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
         static const CeGuiString DEFAULT_VIEW_OBJECT_ACTION_DEBUG;
 
-        GameObject(unsigned int id);
+		GameObject(const CeGuiString &id);
         virtual ~GameObject();
-
-        int getId() const;
 
         const CeGuiString& getClassId() const;
         void setClassId(const CeGuiString& classId);
@@ -192,7 +191,6 @@ namespace rl
         void _checkEffects();
 
     protected:
-        int mId;
         GameObjectState mState;
         
         CeGuiString mName;

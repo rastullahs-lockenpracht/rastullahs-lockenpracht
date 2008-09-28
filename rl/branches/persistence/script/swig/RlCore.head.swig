@@ -69,6 +69,8 @@
 #include "LinearSoundFadeFunctor.h"
 #include "PolynomicSoundFadeFunctor.h"
 #include "TimeSource.h"
+#include "SaveAble.h"
+#include "SaveAbleManager.h"
 
 #undef message
 #undef send

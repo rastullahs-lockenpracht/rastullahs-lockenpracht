@@ -788,6 +788,24 @@ public:
     void setPaused(bool paused);
 };
 
+%feature("director") SaveAble;
+class rl::SaveAble
+{
+public:
+	SaveAble(const rl::CeGuiString &id, bool isSaveAble = true);
+	~SaveAble();
+	void setSaveAble(bool enable);
+	bool isSaveAble();
+
+	const rl::Property getProperty(const rl::CeGuiString& key) const;
+    void setProperty(const rl::CeGuiString& key, const rl::Property& value);
+    rl::PropertyKeys getAllPropertyKeys() const;
+	
+	rl::SaveAblePtr getParent() const;
+
+	rl::CeGuiString getId() const;
+};
+
 class Sound 
 {
 private:

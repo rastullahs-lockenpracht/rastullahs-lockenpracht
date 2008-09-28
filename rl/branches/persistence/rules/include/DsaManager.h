@@ -77,7 +77,7 @@ namespace rl
         Talent* getTalent(const CeGuiString talentName) const;
         Kampftechnik* getKampftechnik(const CeGuiString kampftechnikName) const;
         Eigenschaft* getEigenschaft(const CeGuiString eigenschaftName) const;
-		Creature* getCreature(int id) const;        
+		Creature* getCreature(const CeGuiString &id) const;        
 				
 		int getSteigerKosten(int column, int from, int to) const;
 		int getSteigerKosten(int column, int from) const;
@@ -94,7 +94,7 @@ namespace rl
         Ogre::Real mTimeScale;
 
         typedef std::map<CeGuiString, Talent*> TalentMap;
-		typedef std::map<int, Creature*> CreatureMap;
+		typedef std::map<CeGuiString, Creature*> CreatureMap;
         typedef std::map<CeGuiString, Kampftechnik*> KampftechnikMap;
 		typedef std::map<CeGuiString, Eigenschaft*> EigenschaftMap;
 		EigenschaftMap mEigenschaften;

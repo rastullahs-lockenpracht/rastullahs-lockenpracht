@@ -27,14 +27,15 @@ namespace rl
 {
 	class SaveAble;
 
-	class SaveAblePtr : public Ogre::SharedPtr<SaveAble>
+	class _RlCoreExport SaveAblePtr : public Ogre::SharedPtr<SaveAble>
 	{
 	};
 
-	class SaveAble : public PropertyHolder
+	class _RlCoreExport SaveAble : public PropertyHolder
 	{
 	public:
-		SaveAble(int id, bool isSaveAble = true);
+		SaveAble(const CeGuiString &id, bool isSaveAble = true);
+		~SaveAble();
 		void setSaveAble(bool enable);
 		bool isSaveAble();
 
@@ -44,10 +45,10 @@ namespace rl
 		
 		SaveAblePtr getParent() const { return mParentSaveAble; };
 
-		int getId();
+		CeGuiString getId() const;
 	protected:
 		SaveAblePtr mParentSaveAble;
-		int mId;
+		CeGuiString mId;
 		bool mIsSaveAble;
 	};	
 

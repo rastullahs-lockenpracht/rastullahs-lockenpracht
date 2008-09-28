@@ -291,7 +291,7 @@ namespace rl
 		return sum;
 	}
 
-	Creature* DsaManager::getCreature(int id) const
+	Creature* DsaManager::getCreature(const CeGuiString &id) const
 	{
 		CreatureMap::const_iterator it = mCreatures.find(id);
         if (it != mCreatures.end())

@@ -102,7 +102,7 @@ void Scene::setProperty(const CeGuiString& key, const Property& value)
                 PropertyRecord cur(it->toMap());
                 GameObject* go = GameObjectManager::getSingleton().createGameObject(
                     cur.getProperty(GameObject::PROPERTY_CLASS_ID).toString(),
-                    cur.getProperty(GameObject::PROPERTY_OBJECT_ID).toInt());
+					cur.getProperty(GameObject::PROPERTY_OBJECT_ID).toString());
             }
         }
         else

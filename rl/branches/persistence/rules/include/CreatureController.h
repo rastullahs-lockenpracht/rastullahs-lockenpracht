@@ -153,7 +153,7 @@ namespace rl
 
     protected:
         Creature *mCreature;
-        int mGameObjectId;
+		CeGuiString mGameObjectId;
         AbstractLocation mAbstractLocation;
         
         AbstractMovement *mMovement;

@@ -41,6 +41,8 @@ namespace rl
 
     const Ogre::String GameObject::CLASS_NAME = "GameObject";
 
+	const CeGuiString GameObject::NO_OBJECT_ID = "";
+
     const Ogre::String GameObject::PROPERTY_CLASS_ID = "classid";
     const Ogre::String GameObject::PROPERTY_OBJECT_ID = "id";
     const Ogre::String GameObject::PROPERTY_BASE_CLASS = "baseclass";
@@ -58,9 +60,8 @@ namespace rl
     const Ogre::String GameObject::PROPERTY_ACTIONS = "actions";
     const Ogre::String GameObject::PROPERTY_DEFAULT_ACTION = "defaultaction";
 
-    GameObject::GameObject(unsigned int id)
-        :   mId(id),
-            mName(""),
+	GameObject::GameObject(const CeGuiString &id)
+        :   mName(""),
             mDescription(""),
             mMeshfile(""),
 			mMeshParts(),
@@ -74,7 +75,8 @@ namespace rl
             mGeometryType(GT_NONE),
             mDefaultAction(DEFAULT_VIEW_OBJECT_ACTION),
             mState(GOS_LOADED),
-            mScene("")
+            mScene(""),
+			SaveAble(id)
     {
         mEffectManager = new EffectManager(this);
 
@@ -104,11 +106,6 @@ namespace rl
     {
         destroyActor();
     	delete mEffectManager;
-    }
-
-    int GameObject::getId() const
-    {
-        return mId;
     }
 
     const CeGuiString& GameObject::getClassId() const
@@ -185,7 +182,7 @@ namespace rl
 
         mActions.push_back(make_pair(action, option));
         LOG_MESSAGE(Logger::RULES,
-            "Bei GameObject #"+CEGUI::PropertyHelper::intToString(mId)+
+            "Bei GameObject #" + mId +
             " ("+getName()+") wurde Aktion "+action->getName().c_str()+" hinzugefuegt.");
     }
 
@@ -644,7 +641,7 @@ namespace rl
     {
         if (!mActor)
         {
-            Ogre::String actorName = Ogre::StringConverter::toString(mId);
+            Ogre::String actorName = mId.c_str();
 			Actor* actor = NULL;
 
 			if (mMeshfile.empty() && mMeshParts.empty())
@@ -652,7 +649,7 @@ namespace rl
 				LOG_ERROR(
 					Logger::RULES,
 					"Neither mesh file nor mesh parts are set on gameobject '" + getName()
-					+ "' (id: " + getId() + "). Can't create actor!");
+					+ "' (id: " + getId().c_str() + "). Can't create actor!");
 			}
 			else if (!mMeshParts.empty())
 			{
@@ -728,7 +725,7 @@ namespace rl
                 LOG_ERROR(
                     Logger::RULES,
                     "Error placing gameobject '"
-                    + Ogre::StringConverter::toString(mId)
+                    + mId
                     + "' into scene "
                     + mMeshfile);
             }

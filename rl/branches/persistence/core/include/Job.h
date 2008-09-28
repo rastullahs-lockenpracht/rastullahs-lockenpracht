@@ -20,11 +20,12 @@
 #include "CorePrerequisites.h"
 
 #include "TimeSource.h"
-#include "Properties.h"
+
+#include "SaveAble.h"
 
 namespace rl
 {
-    class _RlCoreExport AbstractJob : public PropertyHolder
+    class _RlCoreExport AbstractJob : public SaveAble
     {
     public:
         enum JobPersistenceType

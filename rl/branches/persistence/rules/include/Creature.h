@@ -149,7 +149,7 @@ namespace rl
             static const Wert WERT_KAMPFUNFAEHIGKEITSSCHWELLE; 
             static const Wert WERT_REGENERATION;
     			
-			Creature(unsigned int id);
+			Creature(const CeGuiString &id);
 
             /// Der Standarddestruktor.
             virtual ~Creature();

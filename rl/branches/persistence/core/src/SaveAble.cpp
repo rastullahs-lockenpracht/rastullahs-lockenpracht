@@ -23,7 +23,11 @@
 
 namespace rl
 {
-	SaveAble::SaveAble(int id, bool isSaveAble)
+	SaveAble::SaveAble(const CeGuiString &id, bool isSaveAble)
+	{
+	}
+
+	SaveAble::~SaveAble()
 	{
 	}
 
@@ -51,7 +55,7 @@ namespace rl
 		return PropertyKeys();
 	}
 
-	int SaveAble::getId()
+	CeGuiString SaveAble::getId() const
 	{
 		return mId;
 	}

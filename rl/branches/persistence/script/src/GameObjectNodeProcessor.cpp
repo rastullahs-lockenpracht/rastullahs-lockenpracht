@@ -40,7 +40,7 @@ namespace rl
 
         Ogre::String classname = getAttributeValueAsStdString(nodeElem, "class");
 
-        unsigned int goid = GameObject::NO_OBJECT_ID;
+        CeGuiString goid = GameObject::NO_OBJECT_ID;
 
         if (hasAttribute(nodeElem, "id"))
         {

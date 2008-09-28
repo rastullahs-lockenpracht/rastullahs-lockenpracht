@@ -40,7 +40,7 @@ namespace rl
 		/** Creates a new container
 		 * @param id the gameobject ID
 		 */
-        Container(int id);
+		Container(const CeGuiString &id);
         virtual ~Container(void);
 
 		/// Get the weight capacity (in Stein)

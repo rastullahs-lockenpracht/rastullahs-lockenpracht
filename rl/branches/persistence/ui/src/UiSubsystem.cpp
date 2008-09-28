@@ -203,7 +203,7 @@ namespace rl {
 
     bool UiSubsystem::onGameObjectsLoaded()
     {
-        if (mCharacterId != -1)
+        if (mCharacterId != "")
         {
             Creature* character = static_cast<Creature*>(GameObjectManager::getSingleton().getGameObject(mCharacterId));
 

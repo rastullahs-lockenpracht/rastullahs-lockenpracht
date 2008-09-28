@@ -82,7 +82,7 @@ namespace rl
 
 
 
-    Creature::Creature(unsigned int id)
+	Creature::Creature(const CeGuiString &id)
         : GameObject(id),
 		mCurrentLe(0),
         mCurrentAu(0),

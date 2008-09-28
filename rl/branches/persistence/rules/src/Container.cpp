@@ -38,7 +38,7 @@ namespace rl {
     const Ogre::String Container::PROPERTY_CONTENT_OBJECTS = "objects";
     const Ogre::String Container::PROPERTY_CONTENT_POSITIONS = "positions";
 
-    Container::Container(int id)
+	Container::Container(const CeGuiString &id)
         : Item(id),
           mCapacity(0.0),
 		  mVolume(std::make_pair(1,1))

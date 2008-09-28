@@ -292,7 +292,7 @@ namespace rl
 		//! the yaw angle in radians
 		//Ogre::Radian mYaw;
 
-        int mCreatureId;
+        CeGuiString mCreatureId;
 
         bool refetchCreature();
 

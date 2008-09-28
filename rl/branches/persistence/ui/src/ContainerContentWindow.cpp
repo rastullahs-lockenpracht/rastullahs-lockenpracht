@@ -209,7 +209,7 @@ namespace rl {
 
 		CeGuiString dragContainerName =
 			mWindow->getName() +  "/item/"
-			+ Ogre::StringConverter::toString(item->getId())+"_DragContainer";
+			+ item->getId()+"_DragContainer";
 
 		itemhandler = new ItemIconDragContainer(item,
 			dragContainerName);

@@ -62,7 +62,7 @@ namespace rl
         static const Ogre::String PROPERTY_SIZE;
         static const Ogre::String PROPERTY_SUBMESHNAME;
 
-		Item(unsigned int id);
+		Item(const CeGuiString &id);
         virtual ~Item(void);
 
 		void setItemType(ItemType itemType);

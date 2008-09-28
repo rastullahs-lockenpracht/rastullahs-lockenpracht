@@ -58,7 +58,7 @@ namespace rl {
 
     private:
         Creature* mCharacter;
-        int mCharacterId;
+        CeGuiString mCharacterId;
 
 	    MessagePump::ScopedConnection mSceneClearingConnection;
         MessagePump::ScopedConnection mGameObjectsLoadedConnection;

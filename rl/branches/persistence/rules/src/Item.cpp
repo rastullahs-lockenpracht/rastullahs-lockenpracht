@@ -34,7 +34,7 @@ namespace rl
     const Ogre::String Item::PROPERTY_SIZE = "size";
     const Ogre::String Item::PROPERTY_SUBMESHNAME = "submeshfile";
 
-    Item::Item(unsigned int id)
+	Item::Item(const CeGuiString &id)
         : GameObject(id),
 		mItemType(ITEMTYPE_OTHER),
 		mImageName(""),

@@ -77,7 +77,7 @@ namespace rl {
         bool isMouseUsedByCegui() const;
 
         Creature* mCharacter;
-        int mCharacterId;
+        CeGuiString mCharacterId;
 
         Actor* mCameraActor;
         Actor* mCharacterActor;

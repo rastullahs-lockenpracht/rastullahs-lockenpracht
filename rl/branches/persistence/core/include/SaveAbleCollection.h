@@ -27,6 +27,7 @@ namespace rl
 		void deattachSaveAble(SaveAblePtr saveAble);
 		void deattachSaveAble(int id);
 		void deattachAllSaveAbles();
+		Ogre::String getId();
 	protected:
 		Ogre::String mId;
 	};

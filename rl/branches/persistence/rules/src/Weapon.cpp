@@ -37,7 +37,7 @@ namespace rl
     const Ogre::String Weapon::PROPERTY_TP_KAMPFTECHNIK = "kampftechnik";
     const Ogre::String Weapon::PROPERTY_NATURAL = "natural";
 
-	Weapon::Weapon(unsigned int id)
+	Weapon::Weapon(const CeGuiString &id)
 		: Item(id),
         mTp(0, 0, 0),
 		mTpKk(0, 0),

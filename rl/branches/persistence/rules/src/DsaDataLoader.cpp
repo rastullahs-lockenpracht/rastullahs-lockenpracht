@@ -234,7 +234,7 @@ namespace rl {
 			getValueAsString(getChildNamed(personXml, "Beschreibung"));
 
         //@warning replace this by correct loading process
-		Creature* rval = new Creature(10000);
+		Creature* rval = new Creature("10000");
         rval->setName(name);
         rval->setDescription(desc);
 

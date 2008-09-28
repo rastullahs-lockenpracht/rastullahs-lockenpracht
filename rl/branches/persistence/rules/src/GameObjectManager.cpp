@@ -80,9 +80,9 @@ namespace rl
 
     }
 
-    GameObject* GameObjectManager::getGameObject(unsigned int id) const
+	GameObject* GameObjectManager::getGameObject(const CeGuiString &id) const
     {
-        std::map<unsigned int, GameObject*>::const_iterator it
+		std::map<CeGuiString , GameObject*>::const_iterator it
                 = mGameObjects.find(id);
 
         if (it != mGameObjects.end())
@@ -96,7 +96,7 @@ namespace rl
     std::list<GameObject*> GameObjectManager::getAllGameObjects() const
     {
         std::list<GameObject*> gos;
-        std::map<unsigned int, GameObject*>::const_iterator it;
+		std::map<CeGuiString, GameObject*>::const_iterator it;
 
         //
         //    Run through all GOs and put them into the list
@@ -115,11 +115,11 @@ namespace rl
     }
 
     GameObject* GameObjectManager::createGameObject(
-        const CeGuiString& classId, unsigned int id)
+		const CeGuiString& classId,const CeGuiString &id)
     {
 		LOG_MESSAGE("GameObjectManager", "Create/Get GameObject of type " + classId
-			+ " #" + Ogre::StringConverter::toString((int)id));
-        unsigned int goId;
+			+ " #" + id);
+		CeGuiString goId;
 
         if (id != GameObject::NO_OBJECT_ID)
         {
@@ -155,7 +155,7 @@ namespace rl
         return go;
     }
 
-    void GameObjectManager::deleteGameObject(unsigned int id)
+	void GameObjectManager::deleteGameObject(const CeGuiString &id)
     {
         if(mGameObjects.find(id) != mGameObjects.end())
         {
@@ -200,7 +200,7 @@ namespace rl
 		if (posDivider != CeGuiString::npos)
 		{
 			Ogre::String classId(serializedString.substr(0, posDivider).c_str());
-			unsigned int goid = CEGUI::PropertyHelper::stringToUint(serializedString.substr(posDivider+1));
+			Ogre::String goid = serializedString.substr(posDivider+1).c_str();
 			return createGameObject(classId, goid);
 		}
 
@@ -209,7 +209,7 @@ namespace rl
 
 	Property GameObjectManager::toProperty(const GameObject* const go) const
 	{
-		return Property(go->getClassId() + "|" + CEGUI::PropertyHelper::uintToString(go->getId()));
+		return Property(go->getClassId() + "|" + go->getId());
 	}
 
     const PropertyRecordPtr GameObjectManager::getClassProperties(const CeGuiString& classId) const
@@ -261,7 +261,7 @@ namespace rl
     {
     }
 
-    GameObject* GameObjectFactory::createGameObject(const Ogre::String& classname, unsigned int id)
+	GameObject* GameObjectFactory::createGameObject(const Ogre::String& classname, const CeGuiString &id)
     {
         if (classname == GameObject::CLASS_NAME)
         {

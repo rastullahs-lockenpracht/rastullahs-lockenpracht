@@ -568,42 +568,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\SaveAble.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SaveAbleCollection.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SaveAbleFactory.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SaveAbleManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SaveGameData.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SaveGameFile.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SaveGameFileReader.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SaveGameFileWriter.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SaveGameManager.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\SceneQuery.h"
 				>
 			</File>
@@ -696,6 +660,46 @@
 				</File>
 				<File
 					RelativePath=".\include\nulldriver\NullSoundStitching.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="SaveGame"
+				>
+				<File
+					RelativePath=".\include\SaveAble.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\SaveAbleCollection.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\SaveAbleFactory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\SaveAbleManager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\SaveGameData.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\SaveGameFile.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\SaveGameFileReader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\SaveGameFileWriter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\SaveGameManager.h"
 					>
 				</File>
 			</Filter>
@@ -889,42 +893,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\SaveAble.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\SaveAbleCollection.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\SaveAbleFactory.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\SaveAbleManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\SaveGameData.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\SaveGameFile.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\SaveGameFileReader.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\SaveGameFileWriter.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\SaveGameManager.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\SceneQuery.cpp"
 				>
 			</File>
@@ -1041,6 +1009,46 @@
 				</File>
 				<File
 					RelativePath=".\src\nulldriver\NullSoundStitching.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="SaveGame"
+				>
+				<File
+					RelativePath=".\src\SaveAble.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SaveAbleCollection.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SaveAbleFactory.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SaveAbleManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SaveGameData.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SaveGameFile.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SaveGameFileReader.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SaveGameFileWriter.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SaveGameManager.cpp"
 					>
 				</File>
 			</Filter>
