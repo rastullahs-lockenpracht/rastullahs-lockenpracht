@@ -18,6 +18,8 @@
 
 #include "GoToJob.h"
 
+#include "Creature.h"
+#include "CreatureController.h"
 #include "CreatureControllerManager.h"
 #include "MathUtil.h"
 

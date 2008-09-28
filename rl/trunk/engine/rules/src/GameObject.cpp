@@ -209,23 +209,52 @@ namespace rl
         ActionVector actions;
         for (ActionOptionVector::const_iterator it = mActions.begin(); it != mActions.end(); ++it)
         {
-            LOG_MESSAGE(Logger::RULES, "Untersuche Aktion "+(*it).first->getName());
+            LOG_DEBUG(Logger::RULES, "Untersuche Aktion "+(*it).first->getName());
             if ((*it).second == Action::ACT_DISABLED)
-                continue;
+            {
+                continue;                
+            }
             //if ((*it).second > ACT_NEEDS_TALENT)
             if (actor != NULL && !(*it).first->canDo(const_cast<GameObject*>(this), actor)) // Aktion nicht m�glich
-                continue;
-
+            {
+                continue;                
+            }
+            
             actions.push_back((*it).first);
         }
         return actions;
     }
+    
+    bool GameObject::hasAction(const CeGuiString& actionName, Creature* actor) const
+    {
+        ActionOptionVector::const_iterator it =
+            findAction(mActions.begin(), mActions.end(), actionName);
+        
+        if (it == mActions.end())
+        {
+            return false;
+        }
 
-    void GameObject::doAction( const CeGuiString actionName,
+        LOG_DEBUG(Logger::RULES, "Untersuche Aktion "+(*it).first->getName());
+        if ((*it).second == Action::ACT_DISABLED)
+        {
+            return false;                
+        }
+        //if ((*it).second > ACT_NEEDS_TALENT)
+        if (actor != NULL && !(*it).first->canDo(const_cast<GameObject*>(this), actor)) // Aktion nicht m�glich
+        {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    
+    void GameObject::doAction( const CeGuiString& actionName,
                               Creature* actor,
                               GameObject* target)
     {
-        ActionOptionVector::const_iterator it =
+        ActionOptionVector::iterator it =
             findAction(mActions.begin(), mActions.end(), actionName);
 
         if (it == mActions.end())
@@ -240,7 +269,7 @@ namespace rl
         }
     }
 
-    void GameObject::doAction(const CeGuiString actionName)
+    void GameObject::doAction(const CeGuiString& actionName)
     {
         doAction(actionName, NULL, NULL);
     }
@@ -291,6 +320,22 @@ namespace rl
         return end;
     }
 
+    GameObject::ActionOptionVector::const_iterator
+    GameObject::findAction(
+                           GameObject::ActionOptionVector::const_iterator begin,
+                           GameObject::ActionOptionVector::const_iterator end,
+                           const CeGuiString actionName) const
+    {
+        for (ActionOptionVector::const_iterator iter = begin; iter != end; ++iter)
+        {
+            Action* action = (*iter).first;
+            
+            if (action->getName().compare(actionName) == 0)
+                return iter;
+        }
+        return end;
+    }
+    
     GameObject::ActionOptionVector::iterator
         GameObject::findAction(
             GameObject::ActionOptionVector::iterator begin,

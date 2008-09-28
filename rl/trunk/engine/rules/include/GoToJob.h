@@ -18,15 +18,15 @@
 #define __RL_GOTO_JOB_H__
 
 #include "RulesPrerequisites.h"
-#include "Creature.h"
-#include "CreatureController.h"
 #include "Job.h"
 
 namespace rl
 {
-    class MeshAnimation;
-
-    /// A rl#Job to play an animation.
+    class Creature;
+    class CreatureController;
+    class GameObject;
+    
+    /// A rl#Job to let a creature go to a target position
     class _RlRulesExport GoToJob : public Job
     {
     public:
