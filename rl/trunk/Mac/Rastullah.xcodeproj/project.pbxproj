@@ -430,7 +430,6 @@
 		44D8147B0BF7B62F00534175 /* Zone.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814760BF7B62F00534175 /* Zone.h */; };
 		44D8147C0BF7B62F00534175 /* ZoneManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814770BF7B62F00534175 /* ZoneManager.h */; };
 		48003B550E3211660056D073 /* libboost_system.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
-		4835559B0E6ABED100008748 /* mkdmg.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4835559A0E6ABED100008748 /* mkdmg.sh */; };
 		483646990D83D13700912FEC /* ContentLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646960D83D13700912FEC /* ContentLoader.h */; };
 		4836469A0D83D13700912FEC /* SoundStitching.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646970D83D13700912FEC /* SoundStitching.h */; };
 		4836469B0D83D13700912FEC /* StartAnimationJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646980D83D13700912FEC /* StartAnimationJob.h */; };
@@ -703,6 +702,8 @@
 		48D34A800D91C7D800C89477 /* SaveGameFileWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A05700D71EDC40024198D /* SaveGameFileWriter.h */; };
 		48D34A810D91C7D800C89477 /* SaveGameManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A05710D71EDC40024198D /* SaveGameManager.h */; };
 		48D409CE0D9E483300AE5340 /* modules in Resources */ = {isa = PBXBuildFile; fileRef = 48D401810D9E483200AE5340 /* modules */; };
+		48EFE0A40E8B6AF6007EB7F8 /* FetchItemJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 48EFE0A30E8B6AF6007EB7F8 /* FetchItemJob.h */; };
+		48EFE0A60E8B6C39007EB7F8 /* FetchItemJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48EFE0A50E8B6C39007EB7F8 /* FetchItemJob.cpp */; };
 		8D0C4E8D0486CD37000505A6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0867D6AAFE840B52C02AAC07 /* InfoPlist.strings */; };
 		8D0C4E8E0486CD37000505A6 /* main.nib in Resources */ = {isa = PBXBuildFile; fileRef = 02345980000FD03B11CA0E72 /* main.nib */; };
 /* End PBXBuildFile section */
@@ -882,9 +883,9 @@
 		4404DA6E0C48CEE2007B4657 /* stdinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdinc.h; path = ../engine/ai/include/stdinc.h; sourceTree = SOURCE_ROOT; };
 		4404DA7C0C48CFB3007B4657 /* stdinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdinc.h; path = ../engine/common/include/stdinc.h; sourceTree = SOURCE_ROOT; };
 		4404DA7E0C48CFC7007B4657 /* stdinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdinc.h; path = ../engine/core/include/stdinc.h; sourceTree = SOURCE_ROOT; };
-		4404DA820C48D005007B4657 /* stdinc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stdinc.cpp; path = ../engine/rules/src/stdinc.cpp; sourceTree = SOURCE_ROOT; };
+		4404DA820C48D005007B4657 /* stdinc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdinc.cpp; sourceTree = "<group>"; };
 		4404DA840C48D01E007B4657 /* stdinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdinc.h; path = ../engine/script/include/stdinc.h; sourceTree = SOURCE_ROOT; };
-		4404DA850C48D037007B4657 /* stdinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdinc.h; path = ../engine/ui/include/stdinc.h; sourceTree = SOURCE_ROOT; };
+		4404DA850C48D037007B4657 /* stdinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdinc.h; sourceTree = "<group>"; };
 		440785DD0C09D231006E496D /* libmeshmagick.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmeshmagick.dylib; path = /usr/local/lib/libmeshmagick.dylib; sourceTree = "<absolute>"; };
 		440785E20C09D2C1006E496D /* LightFadeJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LightFadeJob.cpp; path = ../engine/core/src/LightFadeJob.cpp; sourceTree = SOURCE_ROOT; };
 		440785E30C09D2C1006E496D /* MergeableMeshObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MergeableMeshObject.cpp; path = ../engine/core/src/MergeableMeshObject.cpp; sourceTree = SOURCE_ROOT; };
@@ -913,8 +914,8 @@
 		444825F50BF7B32100C5A94F /* TriggerFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TriggerFactory.h; path = ../engine/script/include/TriggerFactory.h; sourceTree = SOURCE_ROOT; };
 		444825F60BF7B32100C5A94F /* WaypointProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaypointProcessor.h; path = ../engine/script/include/WaypointProcessor.h; sourceTree = SOURCE_ROOT; };
 		444825F70BF7B32100C5A94F /* ZoneProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoneProcessor.h; path = ../engine/script/include/ZoneProcessor.h; sourceTree = SOURCE_ROOT; };
-		444826030BF7B37D00C5A94F /* SelectionHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SelectionHelper.cpp; path = ../engine/rules/src/SelectionHelper.cpp; sourceTree = SOURCE_ROOT; };
-		444826040BF7B37D00C5A94F /* Selector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Selector.cpp; path = ../engine/rules/src/Selector.cpp; sourceTree = SOURCE_ROOT; };
+		444826030BF7B37D00C5A94F /* SelectionHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SelectionHelper.cpp; sourceTree = "<group>"; };
+		444826040BF7B37D00C5A94F /* Selector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Selector.cpp; sourceTree = "<group>"; };
 		444EAAAC0BD0E0C700C6D4A0 /* RastullahMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RastullahMain.cpp; path = ../engine/startup/src/RastullahMain.cpp; sourceTree = SOURCE_ROOT; };
 		444EAAB20BD0E0FB00C6D4A0 /* libRlCommon.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libRlCommon.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		444EAAB60BD0E17000C6D4A0 /* ConfigFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConfigFile.cpp; path = ../engine/common/src/ConfigFile.cpp; sourceTree = SOURCE_ROOT; };
@@ -1097,158 +1098,158 @@
 		444EAC8C0BD0E54100C6D4A0 /* WayPointGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WayPointGraph.h; path = ../engine/ai/include/WayPointGraph.h; sourceTree = SOURCE_ROOT; };
 		444EAC8D0BD0E54100C6D4A0 /* WayPointGraphManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WayPointGraphManager.h; path = ../engine/ai/include/WayPointGraphManager.h; sourceTree = SOURCE_ROOT; };
 		444EAC8E0BD0E54100C6D4A0 /* WayPointNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WayPointNode.h; path = ../engine/ai/include/WayPointNode.h; sourceTree = SOURCE_ROOT; };
-		444EACA20BD0E57100C6D4A0 /* AboutWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AboutWindow.cpp; path = ../engine/ui/src/AboutWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACA30BD0E57100C6D4A0 /* AbstractWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AbstractWindow.cpp; path = ../engine/ui/src/AbstractWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACA40BD0E57100C6D4A0 /* ActionChoiceWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ActionChoiceWindow.cpp; path = ../engine/ui/src/ActionChoiceWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACA60BD0E57100C6D4A0 /* CharacterSheetWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CharacterSheetWindow.cpp; path = ../engine/ui/src/CharacterSheetWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACA70BD0E57100C6D4A0 /* CharacterStateWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CharacterStateWindow.cpp; path = ../engine/ui/src/CharacterStateWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACA80BD0E57100C6D4A0 /* CloseConfirmationWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CloseConfirmationWindow.cpp; path = ../engine/ui/src/CloseConfirmationWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACAA0BD0E57100C6D4A0 /* CommandMapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CommandMapper.cpp; path = ../engine/ui/src/CommandMapper.cpp; sourceTree = SOURCE_ROOT; };
-		444EACAC0BD0E57100C6D4A0 /* ConfigComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConfigComponent.cpp; path = ../engine/ui/src/ConfigComponent.cpp; sourceTree = SOURCE_ROOT; };
-		444EACAD0BD0E57100C6D4A0 /* Console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Console.cpp; path = ../engine/ui/src/Console.cpp; sourceTree = SOURCE_ROOT; };
-		444EACAE0BD0E57100C6D4A0 /* ContainerContentWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContainerContentWindow.cpp; path = ../engine/ui/src/ContainerContentWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACB10BD0E57100C6D4A0 /* DebugWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DebugWindow.cpp; path = ../engine/ui/src/DebugWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACB30BD0E57100C6D4A0 /* DialogWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DialogWindow.cpp; path = ../engine/ui/src/DialogWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACB50BD0E57100C6D4A0 /* GameLoggerWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameLoggerWindow.cpp; path = ../engine/ui/src/GameLoggerWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACB60BD0E57100C6D4A0 /* GameObjectInfoWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameObjectInfoWindow.cpp; path = ../engine/ui/src/GameObjectInfoWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACB80BD0E57100C6D4A0 /* GameSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameSettings.cpp; path = ../engine/ui/src/GameSettings.cpp; sourceTree = SOURCE_ROOT; };
-		444EACB90BD0E57100C6D4A0 /* InfoPopup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InfoPopup.cpp; path = ../engine/ui/src/InfoPopup.cpp; sourceTree = SOURCE_ROOT; };
-		444EACBA0BD0E57100C6D4A0 /* InGameMenuWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InGameMenuWindow.cpp; path = ../engine/ui/src/InGameMenuWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACBB0BD0E57100C6D4A0 /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InputManager.cpp; path = ../engine/ui/src/InputManager.cpp; sourceTree = SOURCE_ROOT; };
-		444EACBC0BD0E57100C6D4A0 /* InventoryWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InventoryWindow.cpp; path = ../engine/ui/src/InventoryWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACBD0BD0E57100C6D4A0 /* ItemDragContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ItemDragContainer.cpp; path = ../engine/ui/src/ItemDragContainer.cpp; sourceTree = SOURCE_ROOT; };
-		444EACBE0BD0E57100C6D4A0 /* JournalWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JournalWindow.cpp; path = ../engine/ui/src/JournalWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACBF0BD0E57100C6D4A0 /* ListboxWrappedTextItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ListboxWrappedTextItem.cpp; path = ../engine/ui/src/ListboxWrappedTextItem.cpp; sourceTree = SOURCE_ROOT; };
-		444EACC00BD0E57100C6D4A0 /* LogWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LogWindow.cpp; path = ../engine/ui/src/LogWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACC10BD0E57100C6D4A0 /* MainMenuEngineWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuEngineWindow.cpp; path = ../engine/ui/src/MainMenuEngineWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACC20BD0E57100C6D4A0 /* MainMenuWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuWindow.cpp; path = ../engine/ui/src/MainMenuWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACC30BD0E57100C6D4A0 /* MessageWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageWindow.cpp; path = ../engine/ui/src/MessageWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACC50BD0E57100C6D4A0 /* ObjectDescriptionWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectDescriptionWindow.cpp; path = ../engine/ui/src/ObjectDescriptionWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACC60BD0E57100C6D4A0 /* PlaylistWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlaylistWindow.cpp; path = ../engine/ui/src/PlaylistWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACC70BD0E57100C6D4A0 /* RenderSystemConfigComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RenderSystemConfigComponent.cpp; path = ../engine/ui/src/RenderSystemConfigComponent.cpp; sourceTree = SOURCE_ROOT; };
-		444EACC90BD0E57100C6D4A0 /* SoundConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SoundConfig.cpp; path = ../engine/ui/src/SoundConfig.cpp; sourceTree = SOURCE_ROOT; };
-		444EACCA0BD0E57100C6D4A0 /* SoundDriverConfigComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SoundDriverConfigComponent.cpp; path = ../engine/ui/src/SoundDriverConfigComponent.cpp; sourceTree = SOURCE_ROOT; };
-		444EACCB0BD0E57100C6D4A0 /* SubtitleWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SubtitleWindow.cpp; path = ../engine/ui/src/SubtitleWindow.cpp; sourceTree = SOURCE_ROOT; };
-		444EACCC0BD0E57100C6D4A0 /* UiSubsystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UiSubsystem.cpp; path = ../engine/ui/src/UiSubsystem.cpp; sourceTree = SOURCE_ROOT; };
-		444EACCD0BD0E57100C6D4A0 /* WindowFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WindowFactory.cpp; path = ../engine/ui/src/WindowFactory.cpp; sourceTree = SOURCE_ROOT; };
-		444EACCE0BD0E57100C6D4A0 /* WindowFadeJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WindowFadeJob.cpp; path = ../engine/ui/src/WindowFadeJob.cpp; sourceTree = SOURCE_ROOT; };
-		444EACCF0BD0E57100C6D4A0 /* WindowManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WindowManager.cpp; path = ../engine/ui/src/WindowManager.cpp; sourceTree = SOURCE_ROOT; };
-		444EACFE0BD0E58C00C6D4A0 /* AboutWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutWindow.h; path = ../engine/ui/include/AboutWindow.h; sourceTree = SOURCE_ROOT; };
-		444EACFF0BD0E58C00C6D4A0 /* AbstractWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbstractWindow.h; path = ../engine/ui/include/AbstractWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD000BD0E58C00C6D4A0 /* ActionChoiceWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionChoiceWindow.h; path = ../engine/ui/include/ActionChoiceWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD010BD0E58C00C6D4A0 /* CeGuiHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CeGuiHelper.h; path = ../engine/ui/include/CeGuiHelper.h; sourceTree = SOURCE_ROOT; };
-		444EAD030BD0E58C00C6D4A0 /* CharacterSheetWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CharacterSheetWindow.h; path = ../engine/ui/include/CharacterSheetWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD040BD0E58C00C6D4A0 /* CharacterStateWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CharacterStateWindow.h; path = ../engine/ui/include/CharacterStateWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD050BD0E58C00C6D4A0 /* CloseConfirmationWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloseConfirmationWindow.h; path = ../engine/ui/include/CloseConfirmationWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD070BD0E58C00C6D4A0 /* CommandMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommandMapper.h; path = ../engine/ui/include/CommandMapper.h; sourceTree = SOURCE_ROOT; };
-		444EAD090BD0E58C00C6D4A0 /* ConfigComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfigComponent.h; path = ../engine/ui/include/ConfigComponent.h; sourceTree = SOURCE_ROOT; };
-		444EAD0A0BD0E58C00C6D4A0 /* Console.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Console.h; path = ../engine/ui/include/Console.h; sourceTree = SOURCE_ROOT; };
-		444EAD0B0BD0E58C00C6D4A0 /* ContainerContentWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContainerContentWindow.h; path = ../engine/ui/include/ContainerContentWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD0E0BD0E58C00C6D4A0 /* DebugWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugWindow.h; path = ../engine/ui/include/DebugWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD100BD0E58C00C6D4A0 /* DialogWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogWindow.h; path = ../engine/ui/include/DialogWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD120BD0E58C00C6D4A0 /* GameLoggerWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameLoggerWindow.h; path = ../engine/ui/include/GameLoggerWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD130BD0E58C00C6D4A0 /* GameObjectInfoWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObjectInfoWindow.h; path = ../engine/ui/include/GameObjectInfoWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD150BD0E58C00C6D4A0 /* GameSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameSettings.h; path = ../engine/ui/include/GameSettings.h; sourceTree = SOURCE_ROOT; };
-		444EAD160BD0E58C00C6D4A0 /* InfoPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InfoPopup.h; path = ../engine/ui/include/InfoPopup.h; sourceTree = SOURCE_ROOT; };
-		444EAD170BD0E58C00C6D4A0 /* InGameMenuWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InGameMenuWindow.h; path = ../engine/ui/include/InGameMenuWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD180BD0E58C00C6D4A0 /* InputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputManager.h; path = ../engine/ui/include/InputManager.h; sourceTree = SOURCE_ROOT; };
-		444EAD190BD0E58C00C6D4A0 /* InventoryWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InventoryWindow.h; path = ../engine/ui/include/InventoryWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD1A0BD0E58C00C6D4A0 /* ItemDragContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemDragContainer.h; path = ../engine/ui/include/ItemDragContainer.h; sourceTree = SOURCE_ROOT; };
-		444EAD1B0BD0E58C00C6D4A0 /* JournalWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JournalWindow.h; path = ../engine/ui/include/JournalWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD1C0BD0E58C00C6D4A0 /* ListboxWrappedTextItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListboxWrappedTextItem.h; path = ../engine/ui/include/ListboxWrappedTextItem.h; sourceTree = SOURCE_ROOT; };
-		444EAD1D0BD0E58C00C6D4A0 /* LogWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogWindow.h; path = ../engine/ui/include/LogWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD1E0BD0E58C00C6D4A0 /* MainMenuEngineWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuEngineWindow.h; path = ../engine/ui/include/MainMenuEngineWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD1F0BD0E58C00C6D4A0 /* MainMenuWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuWindow.h; path = ../engine/ui/include/MainMenuWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD200BD0E58C00C6D4A0 /* MessageWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageWindow.h; path = ../engine/ui/include/MessageWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD220BD0E58C00C6D4A0 /* ObjectDescriptionWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectDescriptionWindow.h; path = ../engine/ui/include/ObjectDescriptionWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD230BD0E58C00C6D4A0 /* PlaylistWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaylistWindow.h; path = ../engine/ui/include/PlaylistWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD240BD0E58C00C6D4A0 /* RenderSystemConfigComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderSystemConfigComponent.h; path = ../engine/ui/include/RenderSystemConfigComponent.h; sourceTree = SOURCE_ROOT; };
-		444EAD260BD0E58C00C6D4A0 /* SoundConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundConfig.h; path = ../engine/ui/include/SoundConfig.h; sourceTree = SOURCE_ROOT; };
-		444EAD270BD0E58C00C6D4A0 /* SoundDriverConfigComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundDriverConfigComponent.h; path = ../engine/ui/include/SoundDriverConfigComponent.h; sourceTree = SOURCE_ROOT; };
-		444EAD280BD0E58C00C6D4A0 /* SubtitleWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubtitleWindow.h; path = ../engine/ui/include/SubtitleWindow.h; sourceTree = SOURCE_ROOT; };
-		444EAD290BD0E58C00C6D4A0 /* UiPrerequisites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UiPrerequisites.h; path = ../engine/ui/include/UiPrerequisites.h; sourceTree = SOURCE_ROOT; };
-		444EAD2A0BD0E58C00C6D4A0 /* UiSubsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UiSubsystem.h; path = ../engine/ui/include/UiSubsystem.h; sourceTree = SOURCE_ROOT; };
-		444EAD2B0BD0E58C00C6D4A0 /* WindowFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowFactory.h; path = ../engine/ui/include/WindowFactory.h; sourceTree = SOURCE_ROOT; };
-		444EAD2C0BD0E58C00C6D4A0 /* WindowFadeJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowFadeJob.h; path = ../engine/ui/include/WindowFadeJob.h; sourceTree = SOURCE_ROOT; };
-		444EAD2D0BD0E58C00C6D4A0 /* WindowManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowManager.h; path = ../engine/ui/include/WindowManager.h; sourceTree = SOURCE_ROOT; };
-		444EADB00BD0E64100C6D4A0 /* Action.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Action.cpp; path = ../engine/rules/src/Action.cpp; sourceTree = SOURCE_ROOT; };
-		444EADB10BD0E64100C6D4A0 /* ActionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ActionManager.cpp; path = ../engine/rules/src/ActionManager.cpp; sourceTree = SOURCE_ROOT; };
-		444EADB20BD0E64100C6D4A0 /* Armor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Armor.cpp; path = ../engine/rules/src/Armor.cpp; sourceTree = SOURCE_ROOT; };
-		444EADB30BD0E64100C6D4A0 /* Combat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Combat.cpp; path = ../engine/rules/src/Combat.cpp; sourceTree = SOURCE_ROOT; };
-		444EADB40BD0E64100C6D4A0 /* CombatManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CombatManager.cpp; path = ../engine/rules/src/CombatManager.cpp; sourceTree = SOURCE_ROOT; };
-		444EADB50BD0E64100C6D4A0 /* Container.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Container.cpp; path = ../engine/rules/src/Container.cpp; sourceTree = SOURCE_ROOT; };
-		444EADB60BD0E64100C6D4A0 /* Creature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Creature.cpp; path = ../engine/rules/src/Creature.cpp; sourceTree = SOURCE_ROOT; };
-		444EADB70BD0E64100C6D4A0 /* Date.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Date.cpp; path = ../engine/rules/src/Date.cpp; sourceTree = SOURCE_ROOT; };
-		444EADB80BD0E64100C6D4A0 /* DsaDataLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DsaDataLoader.cpp; path = ../engine/rules/src/DsaDataLoader.cpp; sourceTree = SOURCE_ROOT; };
-		444EADB90BD0E64100C6D4A0 /* DsaManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DsaManager.cpp; path = ../engine/rules/src/DsaManager.cpp; sourceTree = SOURCE_ROOT; };
-		444EADBA0BD0E64100C6D4A0 /* Effect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Effect.cpp; path = ../engine/rules/src/Effect.cpp; sourceTree = SOURCE_ROOT; };
-		444EADBB0BD0E64100C6D4A0 /* EffectManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EffectManager.cpp; path = ../engine/rules/src/EffectManager.cpp; sourceTree = SOURCE_ROOT; };
-		444EADBC0BD0E64100C6D4A0 /* Eigenschaft.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Eigenschaft.cpp; path = ../engine/rules/src/Eigenschaft.cpp; sourceTree = SOURCE_ROOT; };
-		444EADBD0BD0E64100C6D4A0 /* EigenschaftenStateSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EigenschaftenStateSet.cpp; path = ../engine/rules/src/EigenschaftenStateSet.cpp; sourceTree = SOURCE_ROOT; };
-		444EADBE0BD0E64100C6D4A0 /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameObject.cpp; path = ../engine/rules/src/GameObject.cpp; sourceTree = SOURCE_ROOT; };
-		444EADBF0BD0E64100C6D4A0 /* GameObjectManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameObjectManager.cpp; path = ../engine/rules/src/GameObjectManager.cpp; sourceTree = SOURCE_ROOT; };
-		444EADC10BD0E64100C6D4A0 /* Inventory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Inventory.cpp; path = ../engine/rules/src/Inventory.cpp; sourceTree = SOURCE_ROOT; };
-		444EADC20BD0E64100C6D4A0 /* Item.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Item.cpp; path = ../engine/rules/src/Item.cpp; sourceTree = SOURCE_ROOT; };
-		444EADC30BD0E64100C6D4A0 /* JournalEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JournalEntry.cpp; path = ../engine/rules/src/JournalEntry.cpp; sourceTree = SOURCE_ROOT; };
-		444EADC40BD0E64100C6D4A0 /* Kampftechnik.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Kampftechnik.cpp; path = ../engine/rules/src/Kampftechnik.cpp; sourceTree = SOURCE_ROOT; };
-		444EADC50BD0E64100C6D4A0 /* ObjectStateChangeEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectStateChangeEvent.cpp; path = ../engine/rules/src/ObjectStateChangeEvent.cpp; sourceTree = SOURCE_ROOT; };
-		444EADC60BD0E64100C6D4A0 /* ObjectStateChangeEventSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectStateChangeEventSource.cpp; path = ../engine/rules/src/ObjectStateChangeEventSource.cpp; sourceTree = SOURCE_ROOT; };
-		444EADC70BD0E64100C6D4A0 /* ObjectStateChangeListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectStateChangeListener.cpp; path = ../engine/rules/src/ObjectStateChangeListener.cpp; sourceTree = SOURCE_ROOT; };
-		444EADC90BD0E64100C6D4A0 /* Quest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Quest.cpp; path = ../engine/rules/src/Quest.cpp; sourceTree = SOURCE_ROOT; };
-		444EADCA0BD0E64100C6D4A0 /* QuestBook.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QuestBook.cpp; path = ../engine/rules/src/QuestBook.cpp; sourceTree = SOURCE_ROOT; };
-		444EADCB0BD0E64100C6D4A0 /* QuestEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QuestEvent.cpp; path = ../engine/rules/src/QuestEvent.cpp; sourceTree = SOURCE_ROOT; };
-		444EADCC0BD0E64100C6D4A0 /* QuestListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QuestListener.cpp; path = ../engine/rules/src/QuestListener.cpp; sourceTree = SOURCE_ROOT; };
-		444EADCD0BD0E64100C6D4A0 /* RulesSubsystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RulesSubsystem.cpp; path = ../engine/rules/src/RulesSubsystem.cpp; sourceTree = SOURCE_ROOT; };
-		444EADCE0BD0E64100C6D4A0 /* Slot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Slot.cpp; path = ../engine/rules/src/Slot.cpp; sourceTree = SOURCE_ROOT; };
-		444EADCF0BD0E64100C6D4A0 /* SonderfertigkeitenStateSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SonderfertigkeitenStateSet.cpp; path = ../engine/rules/src/SonderfertigkeitenStateSet.cpp; sourceTree = SOURCE_ROOT; };
-		444EADD00BD0E64100C6D4A0 /* StateSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StateSet.cpp; path = ../engine/rules/src/StateSet.cpp; sourceTree = SOURCE_ROOT; };
-		444EADD10BD0E64100C6D4A0 /* Talent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Talent.cpp; path = ../engine/rules/src/Talent.cpp; sourceTree = SOURCE_ROOT; };
-		444EADD20BD0E64100C6D4A0 /* Talentgruppe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Talentgruppe.cpp; path = ../engine/rules/src/Talentgruppe.cpp; sourceTree = SOURCE_ROOT; };
-		444EADD30BD0E64100C6D4A0 /* TalentStateSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TalentStateSet.cpp; path = ../engine/rules/src/TalentStateSet.cpp; sourceTree = SOURCE_ROOT; };
-		444EADD80BD0E64100C6D4A0 /* Weapon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Weapon.cpp; path = ../engine/rules/src/Weapon.cpp; sourceTree = SOURCE_ROOT; };
-		444EADD90BD0E64100C6D4A0 /* ZauberStateSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ZauberStateSet.cpp; path = ../engine/rules/src/ZauberStateSet.cpp; sourceTree = SOURCE_ROOT; };
-		444EAE040BD0E65B00C6D4A0 /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Action.h; path = ../engine/rules/include/Action.h; sourceTree = SOURCE_ROOT; };
-		444EAE050BD0E65B00C6D4A0 /* ActionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionManager.h; path = ../engine/rules/include/ActionManager.h; sourceTree = SOURCE_ROOT; };
-		444EAE060BD0E65B00C6D4A0 /* Armor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Armor.h; path = ../engine/rules/include/Armor.h; sourceTree = SOURCE_ROOT; };
-		444EAE070BD0E65B00C6D4A0 /* Combat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Combat.h; path = ../engine/rules/include/Combat.h; sourceTree = SOURCE_ROOT; };
-		444EAE080BD0E65B00C6D4A0 /* CombatManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CombatManager.h; path = ../engine/rules/include/CombatManager.h; sourceTree = SOURCE_ROOT; };
-		444EAE090BD0E65B00C6D4A0 /* Container.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Container.h; path = ../engine/rules/include/Container.h; sourceTree = SOURCE_ROOT; };
-		444EAE0A0BD0E65B00C6D4A0 /* Creature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Creature.h; path = ../engine/rules/include/Creature.h; sourceTree = SOURCE_ROOT; };
-		444EAE0B0BD0E65B00C6D4A0 /* Date.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Date.h; path = ../engine/rules/include/Date.h; sourceTree = SOURCE_ROOT; };
-		444EAE0C0BD0E65B00C6D4A0 /* DsaDataLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DsaDataLoader.h; path = ../engine/rules/include/DsaDataLoader.h; sourceTree = SOURCE_ROOT; };
-		444EAE0D0BD0E65B00C6D4A0 /* DsaManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DsaManager.h; path = ../engine/rules/include/DsaManager.h; sourceTree = SOURCE_ROOT; };
-		444EAE0E0BD0E65B00C6D4A0 /* Effect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Effect.h; path = ../engine/rules/include/Effect.h; sourceTree = SOURCE_ROOT; };
-		444EAE0F0BD0E65B00C6D4A0 /* EffectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectManager.h; path = ../engine/rules/include/EffectManager.h; sourceTree = SOURCE_ROOT; };
-		444EAE100BD0E65B00C6D4A0 /* Eigenschaft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Eigenschaft.h; path = ../engine/rules/include/Eigenschaft.h; sourceTree = SOURCE_ROOT; };
-		444EAE110BD0E65B00C6D4A0 /* EigenschaftenStateSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EigenschaftenStateSet.h; path = ../engine/rules/include/EigenschaftenStateSet.h; sourceTree = SOURCE_ROOT; };
-		444EAE120BD0E65B00C6D4A0 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObject.h; path = ../engine/rules/include/GameObject.h; sourceTree = SOURCE_ROOT; };
-		444EAE130BD0E65B00C6D4A0 /* GameObjectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObjectManager.h; path = ../engine/rules/include/GameObjectManager.h; sourceTree = SOURCE_ROOT; };
-		444EAE160BD0E65B00C6D4A0 /* GameObjectStateListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObjectStateListener.h; path = ../engine/rules/include/GameObjectStateListener.h; sourceTree = SOURCE_ROOT; };
-		444EAE170BD0E65B00C6D4A0 /* Inventory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Inventory.h; path = ../engine/rules/include/Inventory.h; sourceTree = SOURCE_ROOT; };
-		444EAE180BD0E65B00C6D4A0 /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Item.h; path = ../engine/rules/include/Item.h; sourceTree = SOURCE_ROOT; };
-		444EAE190BD0E65B00C6D4A0 /* JournalEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JournalEntry.h; path = ../engine/rules/include/JournalEntry.h; sourceTree = SOURCE_ROOT; };
-		444EAE1A0BD0E65B00C6D4A0 /* Kampftechnik.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Kampftechnik.h; path = ../engine/rules/include/Kampftechnik.h; sourceTree = SOURCE_ROOT; };
-		444EAE1B0BD0E65B00C6D4A0 /* ObjectStateChangeEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectStateChangeEvent.h; path = ../engine/rules/include/ObjectStateChangeEvent.h; sourceTree = SOURCE_ROOT; };
-		444EAE1C0BD0E65B00C6D4A0 /* ObjectStateChangeEventSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectStateChangeEventSource.h; path = ../engine/rules/include/ObjectStateChangeEventSource.h; sourceTree = SOURCE_ROOT; };
-		444EAE1D0BD0E65B00C6D4A0 /* ObjectStateChangeListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectStateChangeListener.h; path = ../engine/rules/include/ObjectStateChangeListener.h; sourceTree = SOURCE_ROOT; };
-		444EAE1F0BD0E65B00C6D4A0 /* Quest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Quest.h; path = ../engine/rules/include/Quest.h; sourceTree = SOURCE_ROOT; };
-		444EAE200BD0E65B00C6D4A0 /* QuestBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuestBook.h; path = ../engine/rules/include/QuestBook.h; sourceTree = SOURCE_ROOT; };
-		444EAE210BD0E65B00C6D4A0 /* QuestEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuestEvent.h; path = ../engine/rules/include/QuestEvent.h; sourceTree = SOURCE_ROOT; };
-		444EAE220BD0E65B00C6D4A0 /* QuestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuestListener.h; path = ../engine/rules/include/QuestListener.h; sourceTree = SOURCE_ROOT; };
-		444EAE230BD0E65B00C6D4A0 /* RulesPrerequisites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RulesPrerequisites.h; path = ../engine/rules/include/RulesPrerequisites.h; sourceTree = SOURCE_ROOT; };
-		444EAE240BD0E65B00C6D4A0 /* RulesSubsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RulesSubsystem.h; path = ../engine/rules/include/RulesSubsystem.h; sourceTree = SOURCE_ROOT; };
-		444EAE250BD0E65B00C6D4A0 /* Slot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Slot.h; path = ../engine/rules/include/Slot.h; sourceTree = SOURCE_ROOT; };
-		444EAE260BD0E65B00C6D4A0 /* SonderfertigkeitenStateSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SonderfertigkeitenStateSet.h; path = ../engine/rules/include/SonderfertigkeitenStateSet.h; sourceTree = SOURCE_ROOT; };
-		444EAE270BD0E65B00C6D4A0 /* StateSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StateSet.h; path = ../engine/rules/include/StateSet.h; sourceTree = SOURCE_ROOT; };
-		444EAE280BD0E65B00C6D4A0 /* Talent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Talent.h; path = ../engine/rules/include/Talent.h; sourceTree = SOURCE_ROOT; };
-		444EAE290BD0E65B00C6D4A0 /* Talentgruppe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Talentgruppe.h; path = ../engine/rules/include/Talentgruppe.h; sourceTree = SOURCE_ROOT; };
-		444EAE2A0BD0E65B00C6D4A0 /* TalentInputIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TalentInputIterator.h; path = ../engine/rules/include/TalentInputIterator.h; sourceTree = SOURCE_ROOT; };
-		444EAE2B0BD0E65B00C6D4A0 /* TalentStateSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TalentStateSet.h; path = ../engine/rules/include/TalentStateSet.h; sourceTree = SOURCE_ROOT; };
-		444EAE300BD0E65B00C6D4A0 /* Weapon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Weapon.h; path = ../engine/rules/include/Weapon.h; sourceTree = SOURCE_ROOT; };
-		444EAE310BD0E65B00C6D4A0 /* ZauberStateSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZauberStateSet.h; path = ../engine/rules/include/ZauberStateSet.h; sourceTree = SOURCE_ROOT; };
-		444EAE610BD0E6C000C6D4A0 /* ScriptObjectMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScriptObjectMarker.h; path = ../engine/script/include/ScriptObjectMarker.h; sourceTree = SOURCE_ROOT; };
-		444EAE620BD0E6C000C6D4A0 /* ScriptPrerequisites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScriptPrerequisites.h; path = ../engine/script/include/ScriptPrerequisites.h; sourceTree = SOURCE_ROOT; };
-		444EAE630BD0E6C000C6D4A0 /* ScriptSubsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScriptSubsystem.h; path = ../engine/script/include/ScriptSubsystem.h; sourceTree = SOURCE_ROOT; };
+		444EACA20BD0E57100C6D4A0 /* AboutWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AboutWindow.cpp; sourceTree = "<group>"; };
+		444EACA30BD0E57100C6D4A0 /* AbstractWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AbstractWindow.cpp; sourceTree = "<group>"; };
+		444EACA40BD0E57100C6D4A0 /* ActionChoiceWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ActionChoiceWindow.cpp; sourceTree = "<group>"; };
+		444EACA60BD0E57100C6D4A0 /* CharacterSheetWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CharacterSheetWindow.cpp; sourceTree = "<group>"; };
+		444EACA70BD0E57100C6D4A0 /* CharacterStateWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CharacterStateWindow.cpp; sourceTree = "<group>"; };
+		444EACA80BD0E57100C6D4A0 /* CloseConfirmationWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CloseConfirmationWindow.cpp; sourceTree = "<group>"; };
+		444EACAA0BD0E57100C6D4A0 /* CommandMapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CommandMapper.cpp; sourceTree = "<group>"; };
+		444EACAC0BD0E57100C6D4A0 /* ConfigComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConfigComponent.cpp; sourceTree = "<group>"; };
+		444EACAD0BD0E57100C6D4A0 /* Console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Console.cpp; sourceTree = "<group>"; };
+		444EACAE0BD0E57100C6D4A0 /* ContainerContentWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContainerContentWindow.cpp; sourceTree = "<group>"; };
+		444EACB10BD0E57100C6D4A0 /* DebugWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugWindow.cpp; sourceTree = "<group>"; };
+		444EACB30BD0E57100C6D4A0 /* DialogWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DialogWindow.cpp; sourceTree = "<group>"; };
+		444EACB50BD0E57100C6D4A0 /* GameLoggerWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameLoggerWindow.cpp; sourceTree = "<group>"; };
+		444EACB60BD0E57100C6D4A0 /* GameObjectInfoWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameObjectInfoWindow.cpp; sourceTree = "<group>"; };
+		444EACB80BD0E57100C6D4A0 /* GameSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSettings.cpp; sourceTree = "<group>"; };
+		444EACB90BD0E57100C6D4A0 /* InfoPopup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InfoPopup.cpp; sourceTree = "<group>"; };
+		444EACBA0BD0E57100C6D4A0 /* InGameMenuWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InGameMenuWindow.cpp; sourceTree = "<group>"; };
+		444EACBB0BD0E57100C6D4A0 /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputManager.cpp; sourceTree = "<group>"; };
+		444EACBC0BD0E57100C6D4A0 /* InventoryWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InventoryWindow.cpp; sourceTree = "<group>"; };
+		444EACBD0BD0E57100C6D4A0 /* ItemDragContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ItemDragContainer.cpp; sourceTree = "<group>"; };
+		444EACBE0BD0E57100C6D4A0 /* JournalWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JournalWindow.cpp; sourceTree = "<group>"; };
+		444EACBF0BD0E57100C6D4A0 /* ListboxWrappedTextItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ListboxWrappedTextItem.cpp; sourceTree = "<group>"; };
+		444EACC00BD0E57100C6D4A0 /* LogWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LogWindow.cpp; sourceTree = "<group>"; };
+		444EACC10BD0E57100C6D4A0 /* MainMenuEngineWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenuEngineWindow.cpp; sourceTree = "<group>"; };
+		444EACC20BD0E57100C6D4A0 /* MainMenuWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenuWindow.cpp; sourceTree = "<group>"; };
+		444EACC30BD0E57100C6D4A0 /* MessageWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageWindow.cpp; sourceTree = "<group>"; };
+		444EACC50BD0E57100C6D4A0 /* ObjectDescriptionWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectDescriptionWindow.cpp; sourceTree = "<group>"; };
+		444EACC60BD0E57100C6D4A0 /* PlaylistWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlaylistWindow.cpp; sourceTree = "<group>"; };
+		444EACC70BD0E57100C6D4A0 /* RenderSystemConfigComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderSystemConfigComponent.cpp; sourceTree = "<group>"; };
+		444EACC90BD0E57100C6D4A0 /* SoundConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundConfig.cpp; sourceTree = "<group>"; };
+		444EACCA0BD0E57100C6D4A0 /* SoundDriverConfigComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundDriverConfigComponent.cpp; sourceTree = "<group>"; };
+		444EACCB0BD0E57100C6D4A0 /* SubtitleWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SubtitleWindow.cpp; sourceTree = "<group>"; };
+		444EACCC0BD0E57100C6D4A0 /* UiSubsystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UiSubsystem.cpp; sourceTree = "<group>"; };
+		444EACCD0BD0E57100C6D4A0 /* WindowFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WindowFactory.cpp; sourceTree = "<group>"; };
+		444EACCE0BD0E57100C6D4A0 /* WindowFadeJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WindowFadeJob.cpp; sourceTree = "<group>"; };
+		444EACCF0BD0E57100C6D4A0 /* WindowManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WindowManager.cpp; sourceTree = "<group>"; };
+		444EACFE0BD0E58C00C6D4A0 /* AboutWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutWindow.h; sourceTree = "<group>"; };
+		444EACFF0BD0E58C00C6D4A0 /* AbstractWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractWindow.h; sourceTree = "<group>"; };
+		444EAD000BD0E58C00C6D4A0 /* ActionChoiceWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionChoiceWindow.h; sourceTree = "<group>"; };
+		444EAD010BD0E58C00C6D4A0 /* CeGuiHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CeGuiHelper.h; sourceTree = "<group>"; };
+		444EAD030BD0E58C00C6D4A0 /* CharacterSheetWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterSheetWindow.h; sourceTree = "<group>"; };
+		444EAD040BD0E58C00C6D4A0 /* CharacterStateWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterStateWindow.h; sourceTree = "<group>"; };
+		444EAD050BD0E58C00C6D4A0 /* CloseConfirmationWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloseConfirmationWindow.h; sourceTree = "<group>"; };
+		444EAD070BD0E58C00C6D4A0 /* CommandMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandMapper.h; sourceTree = "<group>"; };
+		444EAD090BD0E58C00C6D4A0 /* ConfigComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigComponent.h; sourceTree = "<group>"; };
+		444EAD0A0BD0E58C00C6D4A0 /* Console.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Console.h; sourceTree = "<group>"; };
+		444EAD0B0BD0E58C00C6D4A0 /* ContainerContentWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerContentWindow.h; sourceTree = "<group>"; };
+		444EAD0E0BD0E58C00C6D4A0 /* DebugWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugWindow.h; sourceTree = "<group>"; };
+		444EAD100BD0E58C00C6D4A0 /* DialogWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogWindow.h; sourceTree = "<group>"; };
+		444EAD120BD0E58C00C6D4A0 /* GameLoggerWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLoggerWindow.h; sourceTree = "<group>"; };
+		444EAD130BD0E58C00C6D4A0 /* GameObjectInfoWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObjectInfoWindow.h; sourceTree = "<group>"; };
+		444EAD150BD0E58C00C6D4A0 /* GameSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSettings.h; sourceTree = "<group>"; };
+		444EAD160BD0E58C00C6D4A0 /* InfoPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoPopup.h; sourceTree = "<group>"; };
+		444EAD170BD0E58C00C6D4A0 /* InGameMenuWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InGameMenuWindow.h; sourceTree = "<group>"; };
+		444EAD180BD0E58C00C6D4A0 /* InputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputManager.h; sourceTree = "<group>"; };
+		444EAD190BD0E58C00C6D4A0 /* InventoryWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryWindow.h; sourceTree = "<group>"; };
+		444EAD1A0BD0E58C00C6D4A0 /* ItemDragContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemDragContainer.h; sourceTree = "<group>"; };
+		444EAD1B0BD0E58C00C6D4A0 /* JournalWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JournalWindow.h; sourceTree = "<group>"; };
+		444EAD1C0BD0E58C00C6D4A0 /* ListboxWrappedTextItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListboxWrappedTextItem.h; sourceTree = "<group>"; };
+		444EAD1D0BD0E58C00C6D4A0 /* LogWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogWindow.h; sourceTree = "<group>"; };
+		444EAD1E0BD0E58C00C6D4A0 /* MainMenuEngineWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuEngineWindow.h; sourceTree = "<group>"; };
+		444EAD1F0BD0E58C00C6D4A0 /* MainMenuWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuWindow.h; sourceTree = "<group>"; };
+		444EAD200BD0E58C00C6D4A0 /* MessageWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageWindow.h; sourceTree = "<group>"; };
+		444EAD220BD0E58C00C6D4A0 /* ObjectDescriptionWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectDescriptionWindow.h; sourceTree = "<group>"; };
+		444EAD230BD0E58C00C6D4A0 /* PlaylistWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistWindow.h; sourceTree = "<group>"; };
+		444EAD240BD0E58C00C6D4A0 /* RenderSystemConfigComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderSystemConfigComponent.h; sourceTree = "<group>"; };
+		444EAD260BD0E58C00C6D4A0 /* SoundConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundConfig.h; sourceTree = "<group>"; };
+		444EAD270BD0E58C00C6D4A0 /* SoundDriverConfigComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundDriverConfigComponent.h; sourceTree = "<group>"; };
+		444EAD280BD0E58C00C6D4A0 /* SubtitleWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubtitleWindow.h; sourceTree = "<group>"; };
+		444EAD290BD0E58C00C6D4A0 /* UiPrerequisites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UiPrerequisites.h; sourceTree = "<group>"; };
+		444EAD2A0BD0E58C00C6D4A0 /* UiSubsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UiSubsystem.h; sourceTree = "<group>"; };
+		444EAD2B0BD0E58C00C6D4A0 /* WindowFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowFactory.h; sourceTree = "<group>"; };
+		444EAD2C0BD0E58C00C6D4A0 /* WindowFadeJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowFadeJob.h; sourceTree = "<group>"; };
+		444EAD2D0BD0E58C00C6D4A0 /* WindowManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowManager.h; sourceTree = "<group>"; };
+		444EADB00BD0E64100C6D4A0 /* Action.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Action.cpp; sourceTree = "<group>"; };
+		444EADB10BD0E64100C6D4A0 /* ActionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ActionManager.cpp; sourceTree = "<group>"; };
+		444EADB20BD0E64100C6D4A0 /* Armor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Armor.cpp; sourceTree = "<group>"; };
+		444EADB30BD0E64100C6D4A0 /* Combat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Combat.cpp; sourceTree = "<group>"; };
+		444EADB40BD0E64100C6D4A0 /* CombatManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CombatManager.cpp; sourceTree = "<group>"; };
+		444EADB50BD0E64100C6D4A0 /* Container.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Container.cpp; sourceTree = "<group>"; };
+		444EADB60BD0E64100C6D4A0 /* Creature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Creature.cpp; sourceTree = "<group>"; };
+		444EADB70BD0E64100C6D4A0 /* Date.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Date.cpp; sourceTree = "<group>"; };
+		444EADB80BD0E64100C6D4A0 /* DsaDataLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DsaDataLoader.cpp; sourceTree = "<group>"; };
+		444EADB90BD0E64100C6D4A0 /* DsaManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DsaManager.cpp; sourceTree = "<group>"; };
+		444EADBA0BD0E64100C6D4A0 /* Effect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Effect.cpp; sourceTree = "<group>"; };
+		444EADBB0BD0E64100C6D4A0 /* EffectManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EffectManager.cpp; sourceTree = "<group>"; };
+		444EADBC0BD0E64100C6D4A0 /* Eigenschaft.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Eigenschaft.cpp; sourceTree = "<group>"; };
+		444EADBD0BD0E64100C6D4A0 /* EigenschaftenStateSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EigenschaftenStateSet.cpp; sourceTree = "<group>"; };
+		444EADBE0BD0E64100C6D4A0 /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameObject.cpp; sourceTree = "<group>"; };
+		444EADBF0BD0E64100C6D4A0 /* GameObjectManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameObjectManager.cpp; sourceTree = "<group>"; };
+		444EADC10BD0E64100C6D4A0 /* Inventory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Inventory.cpp; sourceTree = "<group>"; };
+		444EADC20BD0E64100C6D4A0 /* Item.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Item.cpp; sourceTree = "<group>"; };
+		444EADC30BD0E64100C6D4A0 /* JournalEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JournalEntry.cpp; sourceTree = "<group>"; };
+		444EADC40BD0E64100C6D4A0 /* Kampftechnik.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Kampftechnik.cpp; sourceTree = "<group>"; };
+		444EADC50BD0E64100C6D4A0 /* ObjectStateChangeEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectStateChangeEvent.cpp; sourceTree = "<group>"; };
+		444EADC60BD0E64100C6D4A0 /* ObjectStateChangeEventSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectStateChangeEventSource.cpp; sourceTree = "<group>"; };
+		444EADC70BD0E64100C6D4A0 /* ObjectStateChangeListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectStateChangeListener.cpp; sourceTree = "<group>"; };
+		444EADC90BD0E64100C6D4A0 /* Quest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Quest.cpp; sourceTree = "<group>"; };
+		444EADCA0BD0E64100C6D4A0 /* QuestBook.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QuestBook.cpp; sourceTree = "<group>"; };
+		444EADCB0BD0E64100C6D4A0 /* QuestEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QuestEvent.cpp; sourceTree = "<group>"; };
+		444EADCC0BD0E64100C6D4A0 /* QuestListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QuestListener.cpp; sourceTree = "<group>"; };
+		444EADCD0BD0E64100C6D4A0 /* RulesSubsystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RulesSubsystem.cpp; sourceTree = "<group>"; };
+		444EADCE0BD0E64100C6D4A0 /* Slot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Slot.cpp; sourceTree = "<group>"; };
+		444EADCF0BD0E64100C6D4A0 /* SonderfertigkeitenStateSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SonderfertigkeitenStateSet.cpp; sourceTree = "<group>"; };
+		444EADD00BD0E64100C6D4A0 /* StateSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateSet.cpp; sourceTree = "<group>"; };
+		444EADD10BD0E64100C6D4A0 /* Talent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Talent.cpp; sourceTree = "<group>"; };
+		444EADD20BD0E64100C6D4A0 /* Talentgruppe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Talentgruppe.cpp; sourceTree = "<group>"; };
+		444EADD30BD0E64100C6D4A0 /* TalentStateSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TalentStateSet.cpp; sourceTree = "<group>"; };
+		444EADD80BD0E64100C6D4A0 /* Weapon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Weapon.cpp; sourceTree = "<group>"; };
+		444EADD90BD0E64100C6D4A0 /* ZauberStateSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZauberStateSet.cpp; sourceTree = "<group>"; };
+		444EAE040BD0E65B00C6D4A0 /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Action.h; sourceTree = "<group>"; };
+		444EAE050BD0E65B00C6D4A0 /* ActionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionManager.h; sourceTree = "<group>"; };
+		444EAE060BD0E65B00C6D4A0 /* Armor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Armor.h; sourceTree = "<group>"; };
+		444EAE070BD0E65B00C6D4A0 /* Combat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Combat.h; sourceTree = "<group>"; };
+		444EAE080BD0E65B00C6D4A0 /* CombatManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombatManager.h; sourceTree = "<group>"; };
+		444EAE090BD0E65B00C6D4A0 /* Container.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Container.h; sourceTree = "<group>"; };
+		444EAE0A0BD0E65B00C6D4A0 /* Creature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Creature.h; sourceTree = "<group>"; };
+		444EAE0B0BD0E65B00C6D4A0 /* Date.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Date.h; sourceTree = "<group>"; };
+		444EAE0C0BD0E65B00C6D4A0 /* DsaDataLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DsaDataLoader.h; sourceTree = "<group>"; };
+		444EAE0D0BD0E65B00C6D4A0 /* DsaManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DsaManager.h; sourceTree = "<group>"; };
+		444EAE0E0BD0E65B00C6D4A0 /* Effect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Effect.h; sourceTree = "<group>"; };
+		444EAE0F0BD0E65B00C6D4A0 /* EffectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EffectManager.h; sourceTree = "<group>"; };
+		444EAE100BD0E65B00C6D4A0 /* Eigenschaft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Eigenschaft.h; sourceTree = "<group>"; };
+		444EAE110BD0E65B00C6D4A0 /* EigenschaftenStateSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EigenschaftenStateSet.h; sourceTree = "<group>"; };
+		444EAE120BD0E65B00C6D4A0 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
+		444EAE130BD0E65B00C6D4A0 /* GameObjectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObjectManager.h; sourceTree = "<group>"; };
+		444EAE160BD0E65B00C6D4A0 /* GameObjectStateListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObjectStateListener.h; sourceTree = "<group>"; };
+		444EAE170BD0E65B00C6D4A0 /* Inventory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Inventory.h; sourceTree = "<group>"; };
+		444EAE180BD0E65B00C6D4A0 /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
+		444EAE190BD0E65B00C6D4A0 /* JournalEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JournalEntry.h; sourceTree = "<group>"; };
+		444EAE1A0BD0E65B00C6D4A0 /* Kampftechnik.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Kampftechnik.h; sourceTree = "<group>"; };
+		444EAE1B0BD0E65B00C6D4A0 /* ObjectStateChangeEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectStateChangeEvent.h; sourceTree = "<group>"; };
+		444EAE1C0BD0E65B00C6D4A0 /* ObjectStateChangeEventSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectStateChangeEventSource.h; sourceTree = "<group>"; };
+		444EAE1D0BD0E65B00C6D4A0 /* ObjectStateChangeListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectStateChangeListener.h; sourceTree = "<group>"; };
+		444EAE1F0BD0E65B00C6D4A0 /* Quest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quest.h; sourceTree = "<group>"; };
+		444EAE200BD0E65B00C6D4A0 /* QuestBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestBook.h; sourceTree = "<group>"; };
+		444EAE210BD0E65B00C6D4A0 /* QuestEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestEvent.h; sourceTree = "<group>"; };
+		444EAE220BD0E65B00C6D4A0 /* QuestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestListener.h; sourceTree = "<group>"; };
+		444EAE230BD0E65B00C6D4A0 /* RulesPrerequisites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RulesPrerequisites.h; sourceTree = "<group>"; };
+		444EAE240BD0E65B00C6D4A0 /* RulesSubsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RulesSubsystem.h; sourceTree = "<group>"; };
+		444EAE250BD0E65B00C6D4A0 /* Slot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slot.h; sourceTree = "<group>"; };
+		444EAE260BD0E65B00C6D4A0 /* SonderfertigkeitenStateSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SonderfertigkeitenStateSet.h; sourceTree = "<group>"; };
+		444EAE270BD0E65B00C6D4A0 /* StateSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateSet.h; sourceTree = "<group>"; };
+		444EAE280BD0E65B00C6D4A0 /* Talent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Talent.h; sourceTree = "<group>"; };
+		444EAE290BD0E65B00C6D4A0 /* Talentgruppe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Talentgruppe.h; sourceTree = "<group>"; };
+		444EAE2A0BD0E65B00C6D4A0 /* TalentInputIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TalentInputIterator.h; sourceTree = "<group>"; };
+		444EAE2B0BD0E65B00C6D4A0 /* TalentStateSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TalentStateSet.h; sourceTree = "<group>"; };
+		444EAE300BD0E65B00C6D4A0 /* Weapon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Weapon.h; sourceTree = "<group>"; };
+		444EAE310BD0E65B00C6D4A0 /* ZauberStateSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZauberStateSet.h; sourceTree = "<group>"; };
+		444EAE610BD0E6C000C6D4A0 /* ScriptObjectMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScriptObjectMarker.h; path = script/include/ScriptObjectMarker.h; sourceTree = "<group>"; };
+		444EAE620BD0E6C000C6D4A0 /* ScriptPrerequisites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScriptPrerequisites.h; path = script/include/ScriptPrerequisites.h; sourceTree = "<group>"; };
+		444EAE630BD0E6C000C6D4A0 /* ScriptSubsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScriptSubsystem.h; path = script/include/ScriptSubsystem.h; sourceTree = "<group>"; };
 		444EAE670BD0E6D400C6D4A0 /* ScriptObjectMarker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScriptObjectMarker.cpp; path = ../engine/script/src/ScriptObjectMarker.cpp; sourceTree = SOURCE_ROOT; };
 		444EAE680BD0E6D400C6D4A0 /* ScriptSubsystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScriptSubsystem.cpp; path = ../engine/script/src/ScriptSubsystem.cpp; sourceTree = SOURCE_ROOT; };
 		444EAEBD0BD0F09900C6D4A0 /* CEGUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CEGUI.framework; path = /Library/Frameworks/CEGUI.framework; sourceTree = "<absolute>"; };
@@ -1262,37 +1263,37 @@
 		446BF46F0C4532120013C214 /* LinearSoundFadeFunctor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LinearSoundFadeFunctor.cpp; path = ../engine/core/src/LinearSoundFadeFunctor.cpp; sourceTree = SOURCE_ROOT; };
 		446BF4700C4532120013C214 /* SoundFadeFunctor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SoundFadeFunctor.cpp; path = ../engine/core/src/SoundFadeFunctor.cpp; sourceTree = SOURCE_ROOT; };
 		446BF4710C4532120013C214 /* SoundFadeJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SoundFadeJob.cpp; path = ../engine/core/src/SoundFadeJob.cpp; sourceTree = SOURCE_ROOT; };
-		446BF4750C4532720013C214 /* CreatureController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreatureController.h; path = ../engine/rules/include/CreatureController.h; sourceTree = SOURCE_ROOT; };
-		446BF4760C4532720013C214 /* CreatureControllerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreatureControllerManager.h; path = ../engine/rules/include/CreatureControllerManager.h; sourceTree = SOURCE_ROOT; };
-		446BF4770C4532720013C214 /* EffectFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectFactory.h; path = ../engine/rules/include/EffectFactory.h; sourceTree = SOURCE_ROOT; };
-		446BF47B0C45329F0013C214 /* CreatureController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CreatureController.cpp; path = ../engine/rules/src/CreatureController.cpp; sourceTree = SOURCE_ROOT; };
-		446BF47C0C45329F0013C214 /* CreatureControllerManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CreatureControllerManager.cpp; path = ../engine/rules/src/CreatureControllerManager.cpp; sourceTree = SOURCE_ROOT; };
-		446BF47D0C45329F0013C214 /* EffectFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EffectFactory.cpp; path = ../engine/rules/src/EffectFactory.cpp; sourceTree = SOURCE_ROOT; };
+		446BF4750C4532720013C214 /* CreatureController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreatureController.h; sourceTree = "<group>"; };
+		446BF4760C4532720013C214 /* CreatureControllerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreatureControllerManager.h; sourceTree = "<group>"; };
+		446BF4770C4532720013C214 /* EffectFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EffectFactory.h; sourceTree = "<group>"; };
+		446BF47B0C45329F0013C214 /* CreatureController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CreatureController.cpp; sourceTree = "<group>"; };
+		446BF47C0C45329F0013C214 /* CreatureControllerManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CreatureControllerManager.cpp; sourceTree = "<group>"; };
+		446BF47D0C45329F0013C214 /* EffectFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EffectFactory.cpp; sourceTree = "<group>"; };
 		446BF4810C4532B50013C214 /* UnifiedFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnifiedFactory.h; path = ../engine/script/include/UnifiedFactory.h; sourceTree = SOURCE_ROOT; };
-		446BF4840C45335A0013C214 /* ControlState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlState.h; path = ../engine/ui/include/ControlState.h; sourceTree = SOURCE_ROOT; };
-		446BF4850C45335A0013C214 /* CutsceneControlState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CutsceneControlState.h; path = ../engine/ui/include/CutsceneControlState.h; sourceTree = SOURCE_ROOT; };
-		446BF4860C45335A0013C214 /* DialogControlState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogControlState.h; path = ../engine/ui/include/DialogControlState.h; sourceTree = SOURCE_ROOT; };
-		446BF4870C45335A0013C214 /* FreeflightControlState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FreeflightControlState.h; path = ../engine/ui/include/FreeflightControlState.h; sourceTree = SOURCE_ROOT; };
-		446BF4880C45335A0013C214 /* ItemDescriptionDragContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemDescriptionDragContainer.h; path = ../engine/ui/include/ItemDescriptionDragContainer.h; sourceTree = SOURCE_ROOT; };
-		446BF4890C45335A0013C214 /* ItemIconDragContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemIconDragContainer.h; path = ../engine/ui/include/ItemIconDragContainer.h; sourceTree = SOURCE_ROOT; };
-		446BF48A0C45335A0013C214 /* MovementControlState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MovementControlState.h; path = ../engine/ui/include/MovementControlState.h; sourceTree = SOURCE_ROOT; };
-		446BF48B0C45335A0013C214 /* PropertiesWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PropertiesWindow.h; path = ../engine/ui/include/PropertiesWindow.h; sourceTree = SOURCE_ROOT; };
-		446BF4940C4533BD0013C214 /* CombatControlState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CombatControlState.cpp; path = ../engine/ui/src/CombatControlState.cpp; sourceTree = SOURCE_ROOT; };
-		446BF4950C4533BD0013C214 /* CombatWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CombatWindow.cpp; path = ../engine/ui/src/CombatWindow.cpp; sourceTree = SOURCE_ROOT; };
-		446BF4960C4533BD0013C214 /* ControlState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControlState.cpp; path = ../engine/ui/src/ControlState.cpp; sourceTree = SOURCE_ROOT; };
-		446BF4970C4533BD0013C214 /* CutsceneControlState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CutsceneControlState.cpp; path = ../engine/ui/src/CutsceneControlState.cpp; sourceTree = SOURCE_ROOT; };
-		446BF4980C4533BD0013C214 /* DialogControlState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DialogControlState.cpp; path = ../engine/ui/src/DialogControlState.cpp; sourceTree = SOURCE_ROOT; };
-		446BF4990C4533BD0013C214 /* FreeflightControlState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FreeflightControlState.cpp; path = ../engine/ui/src/FreeflightControlState.cpp; sourceTree = SOURCE_ROOT; };
-		446BF49A0C4533BD0013C214 /* ItemIconDragContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ItemIconDragContainer.cpp; path = ../engine/ui/src/ItemIconDragContainer.cpp; sourceTree = SOURCE_ROOT; };
-		446BF49B0C4533BD0013C214 /* MovementControlState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MovementControlState.cpp; path = ../engine/ui/src/MovementControlState.cpp; sourceTree = SOURCE_ROOT; };
-		446BF49C0C4533BD0013C214 /* PropertiesWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PropertiesWindow.cpp; path = ../engine/ui/src/PropertiesWindow.cpp; sourceTree = SOURCE_ROOT; };
-		446BF4D00C453B9E0013C214 /* CombatControlState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CombatControlState.h; path = ../engine/ui/include/CombatControlState.h; sourceTree = SOURCE_ROOT; };
-		446BF4D10C453B9E0013C214 /* CombatWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CombatWindow.h; path = ../engine/ui/include/CombatWindow.h; sourceTree = SOURCE_ROOT; };
-		446BF4D50C453C1D0013C214 /* ItemDescriptionDragContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ItemDescriptionDragContainer.cpp; path = ../engine/ui/src/ItemDescriptionDragContainer.cpp; sourceTree = SOURCE_ROOT; };
-		44D8145A0BF7B52600534175 /* SelectionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectionHelper.h; path = ../engine/rules/include/SelectionHelper.h; sourceTree = SOURCE_ROOT; };
-		44D8145B0BF7B52600534175 /* Selector.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = Selector.h; path = ../engine/rules/include/Selector.h; sourceTree = SOURCE_ROOT; };
-		44D8145F0BF7B58A00534175 /* ProgressWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressWindow.h; path = ../engine/ui/include/ProgressWindow.h; sourceTree = SOURCE_ROOT; };
-		44D814630BF7B5AD00534175 /* ProgressWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgressWindow.cpp; path = ../engine/ui/src/ProgressWindow.cpp; sourceTree = SOURCE_ROOT; };
+		446BF4840C45335A0013C214 /* ControlState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlState.h; sourceTree = "<group>"; };
+		446BF4850C45335A0013C214 /* CutsceneControlState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CutsceneControlState.h; sourceTree = "<group>"; };
+		446BF4860C45335A0013C214 /* DialogControlState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogControlState.h; sourceTree = "<group>"; };
+		446BF4870C45335A0013C214 /* FreeflightControlState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreeflightControlState.h; sourceTree = "<group>"; };
+		446BF4880C45335A0013C214 /* ItemDescriptionDragContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemDescriptionDragContainer.h; sourceTree = "<group>"; };
+		446BF4890C45335A0013C214 /* ItemIconDragContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemIconDragContainer.h; sourceTree = "<group>"; };
+		446BF48A0C45335A0013C214 /* MovementControlState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovementControlState.h; sourceTree = "<group>"; };
+		446BF48B0C45335A0013C214 /* PropertiesWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertiesWindow.h; sourceTree = "<group>"; };
+		446BF4940C4533BD0013C214 /* CombatControlState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CombatControlState.cpp; sourceTree = "<group>"; };
+		446BF4950C4533BD0013C214 /* CombatWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CombatWindow.cpp; sourceTree = "<group>"; };
+		446BF4960C4533BD0013C214 /* ControlState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControlState.cpp; sourceTree = "<group>"; };
+		446BF4970C4533BD0013C214 /* CutsceneControlState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CutsceneControlState.cpp; sourceTree = "<group>"; };
+		446BF4980C4533BD0013C214 /* DialogControlState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DialogControlState.cpp; sourceTree = "<group>"; };
+		446BF4990C4533BD0013C214 /* FreeflightControlState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FreeflightControlState.cpp; sourceTree = "<group>"; };
+		446BF49A0C4533BD0013C214 /* ItemIconDragContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ItemIconDragContainer.cpp; sourceTree = "<group>"; };
+		446BF49B0C4533BD0013C214 /* MovementControlState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovementControlState.cpp; sourceTree = "<group>"; };
+		446BF49C0C4533BD0013C214 /* PropertiesWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PropertiesWindow.cpp; sourceTree = "<group>"; };
+		446BF4D00C453B9E0013C214 /* CombatControlState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombatControlState.h; sourceTree = "<group>"; };
+		446BF4D10C453B9E0013C214 /* CombatWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombatWindow.h; sourceTree = "<group>"; };
+		446BF4D50C453C1D0013C214 /* ItemDescriptionDragContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ItemDescriptionDragContainer.cpp; sourceTree = "<group>"; };
+		44D8145A0BF7B52600534175 /* SelectionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectionHelper.h; sourceTree = "<group>"; };
+		44D8145B0BF7B52600534175 /* Selector.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; path = Selector.h; sourceTree = "<group>"; };
+		44D8145F0BF7B58A00534175 /* ProgressWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressWindow.h; sourceTree = "<group>"; };
+		44D814630BF7B5AD00534175 /* ProgressWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProgressWindow.cpp; sourceTree = "<group>"; };
 		44D814670BF7B5C700534175 /* Landmark.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Landmark.cpp; path = ../engine/ai/src/Landmark.cpp; sourceTree = SOURCE_ROOT; };
 		44D814680BF7B5C700534175 /* LandmarkPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LandmarkPath.cpp; path = ../engine/ai/src/LandmarkPath.cpp; sourceTree = SOURCE_ROOT; };
 		44D8146B0BF7B5E800534175 /* Landmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Landmark.h; path = ../engine/ai/include/Landmark.h; sourceTree = SOURCE_ROOT; };
@@ -1304,7 +1305,6 @@
 		44D814750BF7B62F00534175 /* Trigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Trigger.h; path = ../engine/core/include/Trigger.h; sourceTree = SOURCE_ROOT; };
 		44D814760BF7B62F00534175 /* Zone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Zone.h; path = ../engine/core/include/Zone.h; sourceTree = SOURCE_ROOT; };
 		44D814770BF7B62F00534175 /* ZoneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoneManager.h; path = ../engine/core/include/ZoneManager.h; sourceTree = SOURCE_ROOT; };
-		4835559A0E6ABED100008748 /* mkdmg.sh */ = {isa = PBXFileReference; explicitFileType = text.script.sh; fileEncoding = 4; name = mkdmg.sh; path = tools/mkdmg.sh; sourceTree = "<group>"; };
 		483646960D83D13700912FEC /* ContentLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentLoader.h; path = ../engine/core/include/ContentLoader.h; sourceTree = SOURCE_ROOT; };
 		483646970D83D13700912FEC /* SoundStitching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundStitching.h; path = ../engine/core/include/SoundStitching.h; sourceTree = SOURCE_ROOT; };
 		483646980D83D13700912FEC /* StartAnimationJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartAnimationJob.h; path = ../engine/core/include/StartAnimationJob.h; sourceTree = SOURCE_ROOT; };
@@ -1313,14 +1313,14 @@
 		483646A10D83D57800912FEC /* libruby.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libruby.dylib; path = /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/libruby.dylib; sourceTree = "<absolute>"; };
 		4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Xerces.framework; path = /Library/Frameworks/Xerces.framework; sourceTree = "<absolute>"; };
 		48380B180D800EED0013EE0C /* StartAnimationJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StartAnimationJob.cpp; path = ../engine/core/src/StartAnimationJob.cpp; sourceTree = SOURCE_ROOT; };
-		48389B8E0D86741F00AFAB66 /* CombatGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CombatGui.cpp; path = ../engine/ui/src/CombatGui.cpp; sourceTree = SOURCE_ROOT; };
-		48389B8F0D86741F00AFAB66 /* GameSaveLoadWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameSaveLoadWindow.cpp; path = ../engine/ui/src/GameSaveLoadWindow.cpp; sourceTree = SOURCE_ROOT; };
-		48389B900D86741F00AFAB66 /* MainMenuLoadWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuLoadWindow.cpp; path = ../engine/ui/src/MainMenuLoadWindow.cpp; sourceTree = SOURCE_ROOT; };
-		48389B910D86741F00AFAB66 /* stdinc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stdinc.cpp; path = ../engine/ui/src/stdinc.cpp; sourceTree = SOURCE_ROOT; };
-		48389B960D86743900AFAB66 /* CombatGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CombatGui.h; path = ../engine/ui/include/CombatGui.h; sourceTree = SOURCE_ROOT; };
-		48389B970D86743900AFAB66 /* GameSaveLoadWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameSaveLoadWindow.h; path = ../engine/ui/include/GameSaveLoadWindow.h; sourceTree = SOURCE_ROOT; };
-		48389B980D86743900AFAB66 /* MainMenuLoadWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuLoadWindow.h; path = ../engine/ui/include/MainMenuLoadWindow.h; sourceTree = SOURCE_ROOT; };
-		48389B990D86743900AFAB66 /* UiMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UiMessages.h; path = ../engine/ui/include/UiMessages.h; sourceTree = SOURCE_ROOT; };
+		48389B8E0D86741F00AFAB66 /* CombatGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CombatGui.cpp; sourceTree = "<group>"; };
+		48389B8F0D86741F00AFAB66 /* GameSaveLoadWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSaveLoadWindow.cpp; sourceTree = "<group>"; };
+		48389B900D86741F00AFAB66 /* MainMenuLoadWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenuLoadWindow.cpp; sourceTree = "<group>"; };
+		48389B910D86741F00AFAB66 /* stdinc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdinc.cpp; sourceTree = "<group>"; };
+		48389B960D86743900AFAB66 /* CombatGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombatGui.h; sourceTree = "<group>"; };
+		48389B970D86743900AFAB66 /* GameSaveLoadWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSaveLoadWindow.h; sourceTree = "<group>"; };
+		48389B980D86743900AFAB66 /* MainMenuLoadWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuLoadWindow.h; sourceTree = "<group>"; };
+		48389B990D86743900AFAB66 /* UiMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UiMessages.h; sourceTree = "<group>"; };
 		48389BE80D8677EE00AFAB66 /* RlAi.head.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlAi.head.swig; path = ../engine/script/swig/RlAi.head.swig; sourceTree = SOURCE_ROOT; };
 		48389BE90D8677EE00AFAB66 /* RlAi.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlAi.swig; path = ../engine/script/swig/RlAi.swig; sourceTree = SOURCE_ROOT; };
 		48389BEA0D8677EE00AFAB66 /* RlCommon.head.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlCommon.head.swig; path = ../engine/script/swig/RlCommon.head.swig; sourceTree = SOURCE_ROOT; };
@@ -1353,25 +1353,25 @@
 		48389C1A0D867AA900AFAB66 /* TriggerFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TriggerFactory.cpp; path = ../engine/script/src/TriggerFactory.cpp; sourceTree = SOURCE_ROOT; };
 		483D31100D85B1AF003477A0 /* NullSoundStitching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NullSoundStitching.h; path = ../engine/core/include/nulldriver/NullSoundStitching.h; sourceTree = SOURCE_ROOT; };
 		483D31120D85B1C2003477A0 /* NullSoundStitching.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NullSoundStitching.cpp; path = ../engine/core/src/nulldriver/NullSoundStitching.cpp; sourceTree = SOURCE_ROOT; };
-		483D31150D85B215003477A0 /* Combatant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Combatant.h; path = ../engine/rules/include/Combatant.h; sourceTree = SOURCE_ROOT; };
-		483D31160D85B215003477A0 /* EffectManagementTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectManagementTask.h; path = ../engine/rules/include/EffectManagementTask.h; sourceTree = SOURCE_ROOT; };
-		483D31170D85B215003477A0 /* GameEventLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameEventLog.h; path = ../engine/rules/include/GameEventLog.h; sourceTree = SOURCE_ROOT; };
-		483D31180D85B215003477A0 /* GameTimeSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameTimeSource.h; path = ../engine/rules/include/GameTimeSource.h; sourceTree = SOURCE_ROOT; };
-		483D31190D85B215003477A0 /* GlobalProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlobalProperties.h; path = ../engine/rules/include/GlobalProperties.h; sourceTree = SOURCE_ROOT; };
-		483D311A0D85B215003477A0 /* GoToJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GoToJob.h; path = ../engine/rules/include/GoToJob.h; sourceTree = SOURCE_ROOT; };
-		483D311B0D85B215003477A0 /* Kampfaktion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Kampfaktion.h; path = ../engine/rules/include/Kampfaktion.h; sourceTree = SOURCE_ROOT; };
-		483D311C0D85B215003477A0 /* RulesConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RulesConstants.h; path = ../engine/rules/include/RulesConstants.h; sourceTree = SOURCE_ROOT; };
-		483D311D0D85B215003477A0 /* RulesMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RulesMessages.h; path = ../engine/rules/include/RulesMessages.h; sourceTree = SOURCE_ROOT; };
-		483D311E0D85B215003477A0 /* stdinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdinc.h; path = ../engine/rules/include/stdinc.h; sourceTree = SOURCE_ROOT; };
-		483D311F0D85B215003477A0 /* WaitJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaitJob.h; path = ../engine/rules/include/WaitJob.h; sourceTree = SOURCE_ROOT; };
-		483D312B0D85B22C003477A0 /* Combatant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Combatant.cpp; path = ../engine/rules/src/Combatant.cpp; sourceTree = SOURCE_ROOT; };
-		483D312C0D85B22C003477A0 /* EffectManagementTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EffectManagementTask.cpp; path = ../engine/rules/src/EffectManagementTask.cpp; sourceTree = SOURCE_ROOT; };
-		483D312D0D85B22C003477A0 /* GameEventLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameEventLog.cpp; path = ../engine/rules/src/GameEventLog.cpp; sourceTree = SOURCE_ROOT; };
-		483D312E0D85B22C003477A0 /* GameTimeSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameTimeSource.cpp; path = ../engine/rules/src/GameTimeSource.cpp; sourceTree = SOURCE_ROOT; };
-		483D312F0D85B22C003477A0 /* GlobalProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlobalProperties.cpp; path = ../engine/rules/src/GlobalProperties.cpp; sourceTree = SOURCE_ROOT; };
-		483D31300D85B22C003477A0 /* GoToJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GoToJob.cpp; path = ../engine/rules/src/GoToJob.cpp; sourceTree = SOURCE_ROOT; };
-		483D31310D85B22C003477A0 /* Kampfaktion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Kampfaktion.cpp; path = ../engine/rules/src/Kampfaktion.cpp; sourceTree = SOURCE_ROOT; };
-		483D31320D85B22C003477A0 /* WaitJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WaitJob.cpp; path = ../engine/rules/src/WaitJob.cpp; sourceTree = SOURCE_ROOT; };
+		483D31150D85B215003477A0 /* Combatant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Combatant.h; sourceTree = "<group>"; };
+		483D31160D85B215003477A0 /* EffectManagementTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EffectManagementTask.h; sourceTree = "<group>"; };
+		483D31170D85B215003477A0 /* GameEventLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEventLog.h; sourceTree = "<group>"; };
+		483D31180D85B215003477A0 /* GameTimeSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameTimeSource.h; sourceTree = "<group>"; };
+		483D31190D85B215003477A0 /* GlobalProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalProperties.h; sourceTree = "<group>"; };
+		483D311A0D85B215003477A0 /* GoToJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoToJob.h; sourceTree = "<group>"; };
+		483D311B0D85B215003477A0 /* Kampfaktion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Kampfaktion.h; sourceTree = "<group>"; };
+		483D311C0D85B215003477A0 /* RulesConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RulesConstants.h; sourceTree = "<group>"; };
+		483D311D0D85B215003477A0 /* RulesMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RulesMessages.h; sourceTree = "<group>"; };
+		483D311E0D85B215003477A0 /* stdinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdinc.h; sourceTree = "<group>"; };
+		483D311F0D85B215003477A0 /* WaitJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitJob.h; sourceTree = "<group>"; };
+		483D312B0D85B22C003477A0 /* Combatant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Combatant.cpp; sourceTree = "<group>"; };
+		483D312C0D85B22C003477A0 /* EffectManagementTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EffectManagementTask.cpp; sourceTree = "<group>"; };
+		483D312D0D85B22C003477A0 /* GameEventLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEventLog.cpp; sourceTree = "<group>"; };
+		483D312E0D85B22C003477A0 /* GameTimeSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameTimeSource.cpp; sourceTree = "<group>"; };
+		483D312F0D85B22C003477A0 /* GlobalProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GlobalProperties.cpp; sourceTree = "<group>"; };
+		483D31300D85B22C003477A0 /* GoToJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GoToJob.cpp; sourceTree = "<group>"; };
+		483D31310D85B22C003477A0 /* Kampfaktion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Kampfaktion.cpp; sourceTree = "<group>"; };
+		483D31320D85B22C003477A0 /* WaitJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitJob.cpp; sourceTree = "<group>"; };
 		483D31450D85B398003477A0 /* AgentCombatState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AgentCombatState.h; path = ../engine/ai/include/AgentCombatState.h; sourceTree = SOURCE_ROOT; };
 		483D31460D85B398003477A0 /* AgentDialogState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AgentDialogState.h; path = ../engine/ai/include/AgentDialogState.h; sourceTree = SOURCE_ROOT; };
 		483D31470D85B398003477A0 /* AgentState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AgentState.h; path = ../engine/ai/include/AgentState.h; sourceTree = SOURCE_ROOT; };
@@ -1447,49 +1447,49 @@
 		485B89570E15796500D5B19C /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scene.cpp; path = ../engine/script/src/Scene.cpp; sourceTree = SOURCE_ROOT; };
 		485B89580E15796500D5B19C /* SceneLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneLoader.cpp; path = ../engine/script/src/SceneLoader.cpp; sourceTree = SOURCE_ROOT; };
 		485B89590E15796500D5B19C /* SceneManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneManager.cpp; path = ../engine/script/src/SceneManager.cpp; sourceTree = SOURCE_ROOT; };
-		487029C60E80DCEA00B66388 /* GameOverWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameOverWindow.h; path = ../engine/ui/include/GameOverWindow.h; sourceTree = SOURCE_ROOT; };
-		487029C80E80DCF900B66388 /* GameOverWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameOverWindow.cpp; path = ../engine/ui/src/GameOverWindow.cpp; sourceTree = SOURCE_ROOT; };
-		487029E70E80E12200B66388 /* PartyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyManager.h; path = ../engine/rules/include/PartyManager.h; sourceTree = SOURCE_ROOT; };
-		487029E90E80E13300B66388 /* PartyManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PartyManager.cpp; path = ../engine/rules/src/PartyManager.cpp; sourceTree = SOURCE_ROOT; };
+		487029C60E80DCEA00B66388 /* GameOverWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverWindow.h; sourceTree = "<group>"; };
+		487029C80E80DCF900B66388 /* GameOverWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameOverWindow.cpp; sourceTree = "<group>"; };
+		487029E70E80E12200B66388 /* PartyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartyManager.h; sourceTree = "<group>"; };
+		487029E90E80E13300B66388 /* PartyManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PartyManager.cpp; sourceTree = "<group>"; };
 		48760A990D92E2CD00BEB57C /* RlUi.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RlUi.swig; path = ../engine/script/swig/RlUi.swig; sourceTree = SOURCE_ROOT; };
 		48760AA90D92E4B700BEB57C /* RlExports_wrap.cxx */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; includeInIndex = 0; name = RlExports_wrap.cxx; path = ../engine/script/swig/RlExports_wrap.cxx; sourceTree = SOURCE_ROOT; };
 		48760AAA0D92E4B700BEB57C /* RlExports_wrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RlExports_wrap.h; path = ../engine/script/swig/RlExports_wrap.h; sourceTree = SOURCE_ROOT; };
 		487750AF0E7E3C9C0018216B /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = /Library/Frameworks/Cg.framework; sourceTree = "<absolute>"; };
-		4890C0A70E18061300BE5850 /* AbstractMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbstractMovement.h; path = ../engine/rules/include/AbstractMovement.h; sourceTree = SOURCE_ROOT; };
-		4890C0A80E18061300BE5850 /* FallDownMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FallDownMovement.h; path = ../engine/rules/include/FallDownMovement.h; sourceTree = SOURCE_ROOT; };
-		4890C0A90E18061300BE5850 /* JogBackwardsMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JogBackwardsMovement.h; path = ../engine/rules/include/JogBackwardsMovement.h; sourceTree = SOURCE_ROOT; };
-		4890C0AA0E18061300BE5850 /* JogFastMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JogFastMovement.h; path = ../engine/rules/include/JogFastMovement.h; sourceTree = SOURCE_ROOT; };
-		4890C0AB0E18061300BE5850 /* JogMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JogMovement.h; path = ../engine/rules/include/JogMovement.h; sourceTree = SOURCE_ROOT; };
-		4890C0AC0E18061300BE5850 /* JumpHighMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JumpHighMovement.h; path = ../engine/rules/include/JumpHighMovement.h; sourceTree = SOURCE_ROOT; };
-		4890C0AD0E18061300BE5850 /* JumpLongMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JumpLongMovement.h; path = ../engine/rules/include/JumpLongMovement.h; sourceTree = SOURCE_ROOT; };
-		4890C0AE0E18061300BE5850 /* JumpToTargetMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JumpToTargetMovement.h; path = ../engine/rules/include/JumpToTargetMovement.h; sourceTree = SOURCE_ROOT; };
-		4890C0AF0E18061300BE5850 /* LieDownMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LieDownMovement.h; path = ../engine/rules/include/LieDownMovement.h; sourceTree = SOURCE_ROOT; };
-		4890C0B00E18061300BE5850 /* RotateMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RotateMovement.h; path = ../engine/rules/include/RotateMovement.h; sourceTree = SOURCE_ROOT; };
-		4890C0B10E18061300BE5850 /* SneakMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SneakMovement.h; path = ../engine/rules/include/SneakMovement.h; sourceTree = SOURCE_ROOT; };
-		4890C0B20E18061300BE5850 /* SprintMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SprintMovement.h; path = ../engine/rules/include/SprintMovement.h; sourceTree = SOURCE_ROOT; };
-		4890C0B30E18061300BE5850 /* StandAroundMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandAroundMovement.h; path = ../engine/rules/include/StandAroundMovement.h; sourceTree = SOURCE_ROOT; };
-		4890C0B40E18061300BE5850 /* StepRecognitionMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StepRecognitionMovement.h; path = ../engine/rules/include/StepRecognitionMovement.h; sourceTree = SOURCE_ROOT; };
-		4890C0B50E18061300BE5850 /* StrafeMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StrafeMovement.h; path = ../engine/rules/include/StrafeMovement.h; sourceTree = SOURCE_ROOT; };
-		4890C0B60E18061300BE5850 /* WalkBackwardsMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WalkBackwardsMovement.h; path = ../engine/rules/include/WalkBackwardsMovement.h; sourceTree = SOURCE_ROOT; };
-		4890C0B70E18061300BE5850 /* WalkMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WalkMovement.h; path = ../engine/rules/include/WalkMovement.h; sourceTree = SOURCE_ROOT; };
-		4890C0C90E18062B00BE5850 /* FallDownMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FallDownMovement.cpp; path = ../engine/rules/src/FallDownMovement.cpp; sourceTree = SOURCE_ROOT; };
-		4890C0CA0E18062B00BE5850 /* JogFastMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JogFastMovement.cpp; path = ../engine/rules/src/JogFastMovement.cpp; sourceTree = SOURCE_ROOT; };
-		4890C0CB0E18062B00BE5850 /* JogMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JogMovement.cpp; path = ../engine/rules/src/JogMovement.cpp; sourceTree = SOURCE_ROOT; };
-		4890C0CC0E18062B00BE5850 /* JumpHighMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JumpHighMovement.cpp; path = ../engine/rules/src/JumpHighMovement.cpp; sourceTree = SOURCE_ROOT; };
-		4890C0CD0E18062B00BE5850 /* JumpLongMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JumpLongMovement.cpp; path = ../engine/rules/src/JumpLongMovement.cpp; sourceTree = SOURCE_ROOT; };
-		4890C0CE0E18062B00BE5850 /* JumpToTargetMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JumpToTargetMovement.cpp; path = ../engine/rules/src/JumpToTargetMovement.cpp; sourceTree = SOURCE_ROOT; };
-		4890C0CF0E18062B00BE5850 /* LieDownMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LieDownMovement.cpp; path = ../engine/rules/src/LieDownMovement.cpp; sourceTree = SOURCE_ROOT; };
-		4890C0D00E18062B00BE5850 /* RotateMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RotateMovement.cpp; path = ../engine/rules/src/RotateMovement.cpp; sourceTree = SOURCE_ROOT; };
-		4890C0D10E18062B00BE5850 /* SneakMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SneakMovement.cpp; path = ../engine/rules/src/SneakMovement.cpp; sourceTree = SOURCE_ROOT; };
-		4890C0D20E18062B00BE5850 /* SprintMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SprintMovement.cpp; path = ../engine/rules/src/SprintMovement.cpp; sourceTree = SOURCE_ROOT; };
-		4890C0D30E18062B00BE5850 /* StandAroundMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StandAroundMovement.cpp; path = ../engine/rules/src/StandAroundMovement.cpp; sourceTree = SOURCE_ROOT; };
-		4890C0D40E18062B00BE5850 /* StepRecognitionMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StepRecognitionMovement.cpp; path = ../engine/rules/src/StepRecognitionMovement.cpp; sourceTree = SOURCE_ROOT; };
-		4890C0D50E18062B00BE5850 /* StrafeMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StrafeMovement.cpp; path = ../engine/rules/src/StrafeMovement.cpp; sourceTree = SOURCE_ROOT; };
-		4890C0D60E18062B00BE5850 /* WalkMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WalkMovement.cpp; path = ../engine/rules/src/WalkMovement.cpp; sourceTree = SOURCE_ROOT; };
+		4890C0A70E18061300BE5850 /* AbstractMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractMovement.h; sourceTree = "<group>"; };
+		4890C0A80E18061300BE5850 /* FallDownMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FallDownMovement.h; sourceTree = "<group>"; };
+		4890C0A90E18061300BE5850 /* JogBackwardsMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JogBackwardsMovement.h; sourceTree = "<group>"; };
+		4890C0AA0E18061300BE5850 /* JogFastMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JogFastMovement.h; sourceTree = "<group>"; };
+		4890C0AB0E18061300BE5850 /* JogMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JogMovement.h; sourceTree = "<group>"; };
+		4890C0AC0E18061300BE5850 /* JumpHighMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JumpHighMovement.h; sourceTree = "<group>"; };
+		4890C0AD0E18061300BE5850 /* JumpLongMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JumpLongMovement.h; sourceTree = "<group>"; };
+		4890C0AE0E18061300BE5850 /* JumpToTargetMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JumpToTargetMovement.h; sourceTree = "<group>"; };
+		4890C0AF0E18061300BE5850 /* LieDownMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LieDownMovement.h; sourceTree = "<group>"; };
+		4890C0B00E18061300BE5850 /* RotateMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RotateMovement.h; sourceTree = "<group>"; };
+		4890C0B10E18061300BE5850 /* SneakMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SneakMovement.h; sourceTree = "<group>"; };
+		4890C0B20E18061300BE5850 /* SprintMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SprintMovement.h; sourceTree = "<group>"; };
+		4890C0B30E18061300BE5850 /* StandAroundMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandAroundMovement.h; sourceTree = "<group>"; };
+		4890C0B40E18061300BE5850 /* StepRecognitionMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StepRecognitionMovement.h; sourceTree = "<group>"; };
+		4890C0B50E18061300BE5850 /* StrafeMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StrafeMovement.h; sourceTree = "<group>"; };
+		4890C0B60E18061300BE5850 /* WalkBackwardsMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WalkBackwardsMovement.h; sourceTree = "<group>"; };
+		4890C0B70E18061300BE5850 /* WalkMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WalkMovement.h; sourceTree = "<group>"; };
+		4890C0C90E18062B00BE5850 /* FallDownMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FallDownMovement.cpp; sourceTree = "<group>"; };
+		4890C0CA0E18062B00BE5850 /* JogFastMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JogFastMovement.cpp; sourceTree = "<group>"; };
+		4890C0CB0E18062B00BE5850 /* JogMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JogMovement.cpp; sourceTree = "<group>"; };
+		4890C0CC0E18062B00BE5850 /* JumpHighMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JumpHighMovement.cpp; sourceTree = "<group>"; };
+		4890C0CD0E18062B00BE5850 /* JumpLongMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JumpLongMovement.cpp; sourceTree = "<group>"; };
+		4890C0CE0E18062B00BE5850 /* JumpToTargetMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JumpToTargetMovement.cpp; sourceTree = "<group>"; };
+		4890C0CF0E18062B00BE5850 /* LieDownMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LieDownMovement.cpp; sourceTree = "<group>"; };
+		4890C0D00E18062B00BE5850 /* RotateMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RotateMovement.cpp; sourceTree = "<group>"; };
+		4890C0D10E18062B00BE5850 /* SneakMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SneakMovement.cpp; sourceTree = "<group>"; };
+		4890C0D20E18062B00BE5850 /* SprintMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SprintMovement.cpp; sourceTree = "<group>"; };
+		4890C0D30E18062B00BE5850 /* StandAroundMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StandAroundMovement.cpp; sourceTree = "<group>"; };
+		4890C0D40E18062B00BE5850 /* StepRecognitionMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StepRecognitionMovement.cpp; sourceTree = "<group>"; };
+		4890C0D50E18062B00BE5850 /* StrafeMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StrafeMovement.cpp; sourceTree = "<group>"; };
+		4890C0D60E18062B00BE5850 /* WalkMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WalkMovement.cpp; sourceTree = "<group>"; };
 		48A52B210E0EDA0E008DBDD8 /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = /usr/local/lib/libboost_filesystem.dylib; sourceTree = "<absolute>"; };
 		48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_system.dylib; path = /usr/local/lib/libboost_system.dylib; sourceTree = "<absolute>"; };
-		48A52CB50E0EF5BD008DBDD8 /* ApplyDamageJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApplyDamageJob.h; path = ../engine/rules/include/ApplyDamageJob.h; sourceTree = SOURCE_ROOT; };
-		48A52CB70E0EF5D0008DBDD8 /* ApplyDamageJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ApplyDamageJob.cpp; path = ../engine/rules/src/ApplyDamageJob.cpp; sourceTree = SOURCE_ROOT; };
+		48A52CB50E0EF5BD008DBDD8 /* ApplyDamageJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyDamageJob.h; sourceTree = "<group>"; };
+		48A52CB70E0EF5D0008DBDD8 /* ApplyDamageJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ApplyDamageJob.cpp; sourceTree = "<group>"; };
 		48B0B0340E6534690023B198 /* PlaneNodeProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlaneNodeProcessor.cpp; path = ../engine/script/src/PlaneNodeProcessor.cpp; sourceTree = SOURCE_ROOT; };
 		48B0B0360E6534810023B198 /* PlaneNodeProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaneNodeProcessor.h; path = ../engine/script/include/PlaneNodeProcessor.h; sourceTree = SOURCE_ROOT; };
 		48B0B0480E65BBB30023B198 /* libfmodex.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmodex.dylib; path = "FMOD Programmers API/api/lib/libfmodex.dylib"; sourceTree = SYSTEM_DEVELOPER_DIR; };
@@ -1501,7 +1501,6 @@
 		48B772E20D583521000A3B97 /* XmlPropertyWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XmlPropertyWriter.cpp; path = ../engine/common/src/XmlPropertyWriter.cpp; sourceTree = SOURCE_ROOT; };
 		48C04B890E67DF0300CD3A7D /* PCRE.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PCRE.framework; path = /Library/Frameworks/PCRE.framework; sourceTree = "<absolute>"; };
 		48CFBF8E0E2E869000CD0C51 /* FreeType.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FreeType.framework; path = /Library/Frameworks/FreeType.framework; sourceTree = "<absolute>"; };
-		48CFBFD70E2E87BB00CD0C51 /* renameinstalldirs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = renameinstalldirs.sh; path = tools/renameinstalldirs.sh; sourceTree = "<group>"; };
 		48D0BE280E273C5E00863824 /* SaveAble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveAble.h; path = ../engine/core/include/SaveAble.h; sourceTree = SOURCE_ROOT; };
 		48D0BE290E273C5E00863824 /* SaveAbleCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveAbleCollection.h; path = ../engine/core/include/SaveAbleCollection.h; sourceTree = SOURCE_ROOT; };
 		48D0BE2A0E273C5E00863824 /* SaveAbleFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveAbleFactory.h; path = ../engine/core/include/SaveAbleFactory.h; sourceTree = SOURCE_ROOT; };
@@ -1521,6 +1520,10 @@
 		48D34A610D90F5D500C89477 /* SaveGameData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveGameData.h; path = ../engine/core/include/SaveGameData.h; sourceTree = SOURCE_ROOT; };
 		48D34A620D90F5D500C89477 /* SaveGameData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SaveGameData.cpp; path = ../engine/core/src/SaveGameData.cpp; sourceTree = SOURCE_ROOT; };
 		48D401810D9E483200AE5340 /* modules */ = {isa = PBXFileReference; lastKnownFileType = folder; name = modules; path = ../../../modules; sourceTree = SOURCE_ROOT; };
+		48EFE0A30E8B6AF6007EB7F8 /* FetchItemJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchItemJob.h; sourceTree = "<group>"; };
+		48EFE0A50E8B6C39007EB7F8 /* FetchItemJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FetchItemJob.cpp; sourceTree = "<group>"; };
+		48EFE0D70E8B6EB1007EB7F8 /* mkdmg.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = mkdmg.sh; sourceTree = "<group>"; };
+		48EFE0D80E8B6EB1007EB7F8 /* renameinstalldirs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = renameinstalldirs.sh; sourceTree = "<group>"; };
 		8D0C4E960486CD37000505A6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D0C4E970486CD37000505A6 /* Rastullah.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rastullah.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1697,7 +1700,7 @@
 		20286C29FDCF999611CA2CEA /* Rastullah */ = {
 			isa = PBXGroup;
 			children = (
-				20286C2AFDCF999611CA2CEA /* Sources */,
+				20286C2AFDCF999611CA2CEA /* Engine */,
 				48D401810D9E483200AE5340 /* modules */,
 				20286C2CFDCF999611CA2CEA /* Resources */,
 				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
@@ -1706,10 +1709,10 @@
 			name = Rastullah;
 			sourceTree = "<group>";
 		};
-		20286C2AFDCF999611CA2CEA /* Sources */ = {
+		20286C2AFDCF999611CA2CEA /* Engine */ = {
 			isa = PBXGroup;
 			children = (
-				48CFBFD60E2E87A800CD0C51 /* Scripts */,
+				48CFBFD60E2E87A800CD0C51 /* Mac Scripts */,
 				444EAC220BD0E3E000C6D4A0 /* RlAi */,
 				444EAB1F0BD0E25C00C6D4A0 /* RlCommon */,
 				444EAB200BD0E27400C6D4A0 /* RlCore */,
@@ -1719,7 +1722,8 @@
 				444EAC570BD0E4CD00C6D4A0 /* RlUi */,
 				444EAAAC0BD0E0C700C6D4A0 /* RastullahMain.cpp */,
 			);
-			name = Sources;
+			name = Engine;
+			path = ../engine;
 			sourceTree = "<group>";
 		};
 		20286C2CFDCF999611CA2CEA /* Resources */ = {
@@ -2066,262 +2070,21 @@
 		444EAC570BD0E4CD00C6D4A0 /* RlUi */ = {
 			isa = PBXGroup;
 			children = (
-				487029C80E80DCF900B66388 /* GameOverWindow.cpp */,
-				487029C60E80DCEA00B66388 /* GameOverWindow.h */,
-				48389B960D86743900AFAB66 /* CombatGui.h */,
-				48389B970D86743900AFAB66 /* GameSaveLoadWindow.h */,
-				48389B980D86743900AFAB66 /* MainMenuLoadWindow.h */,
-				48389B990D86743900AFAB66 /* UiMessages.h */,
-				48389B8E0D86741F00AFAB66 /* CombatGui.cpp */,
-				48389B8F0D86741F00AFAB66 /* GameSaveLoadWindow.cpp */,
-				48389B900D86741F00AFAB66 /* MainMenuLoadWindow.cpp */,
-				48389B910D86741F00AFAB66 /* stdinc.cpp */,
-				4404DA850C48D037007B4657 /* stdinc.h */,
-				446BF4D50C453C1D0013C214 /* ItemDescriptionDragContainer.cpp */,
-				446BF4D00C453B9E0013C214 /* CombatControlState.h */,
-				446BF4D10C453B9E0013C214 /* CombatWindow.h */,
-				446BF4940C4533BD0013C214 /* CombatControlState.cpp */,
-				446BF4950C4533BD0013C214 /* CombatWindow.cpp */,
-				446BF4960C4533BD0013C214 /* ControlState.cpp */,
-				446BF4970C4533BD0013C214 /* CutsceneControlState.cpp */,
-				446BF4980C4533BD0013C214 /* DialogControlState.cpp */,
-				446BF4990C4533BD0013C214 /* FreeflightControlState.cpp */,
-				446BF49A0C4533BD0013C214 /* ItemIconDragContainer.cpp */,
-				446BF49B0C4533BD0013C214 /* MovementControlState.cpp */,
-				446BF49C0C4533BD0013C214 /* PropertiesWindow.cpp */,
-				446BF4840C45335A0013C214 /* ControlState.h */,
-				446BF4850C45335A0013C214 /* CutsceneControlState.h */,
-				446BF4860C45335A0013C214 /* DialogControlState.h */,
-				446BF4870C45335A0013C214 /* FreeflightControlState.h */,
-				446BF4880C45335A0013C214 /* ItemDescriptionDragContainer.h */,
-				446BF4890C45335A0013C214 /* ItemIconDragContainer.h */,
-				446BF48A0C45335A0013C214 /* MovementControlState.h */,
-				446BF48B0C45335A0013C214 /* PropertiesWindow.h */,
-				44D814630BF7B5AD00534175 /* ProgressWindow.cpp */,
-				44D8145F0BF7B58A00534175 /* ProgressWindow.h */,
-				444EACFE0BD0E58C00C6D4A0 /* AboutWindow.h */,
-				444EACFF0BD0E58C00C6D4A0 /* AbstractWindow.h */,
-				444EAD000BD0E58C00C6D4A0 /* ActionChoiceWindow.h */,
-				444EAD010BD0E58C00C6D4A0 /* CeGuiHelper.h */,
-				444EAD030BD0E58C00C6D4A0 /* CharacterSheetWindow.h */,
-				444EAD040BD0E58C00C6D4A0 /* CharacterStateWindow.h */,
-				444EAD050BD0E58C00C6D4A0 /* CloseConfirmationWindow.h */,
-				444EAD070BD0E58C00C6D4A0 /* CommandMapper.h */,
-				444EAD090BD0E58C00C6D4A0 /* ConfigComponent.h */,
-				444EAD0A0BD0E58C00C6D4A0 /* Console.h */,
-				444EAD0B0BD0E58C00C6D4A0 /* ContainerContentWindow.h */,
-				444EAD0E0BD0E58C00C6D4A0 /* DebugWindow.h */,
-				444EAD100BD0E58C00C6D4A0 /* DialogWindow.h */,
-				444EAD120BD0E58C00C6D4A0 /* GameLoggerWindow.h */,
-				444EAD130BD0E58C00C6D4A0 /* GameObjectInfoWindow.h */,
-				444EAD150BD0E58C00C6D4A0 /* GameSettings.h */,
-				444EAD160BD0E58C00C6D4A0 /* InfoPopup.h */,
-				444EAD170BD0E58C00C6D4A0 /* InGameMenuWindow.h */,
-				444EAD180BD0E58C00C6D4A0 /* InputManager.h */,
-				444EAD190BD0E58C00C6D4A0 /* InventoryWindow.h */,
-				444EAD1A0BD0E58C00C6D4A0 /* ItemDragContainer.h */,
-				444EAD1B0BD0E58C00C6D4A0 /* JournalWindow.h */,
-				444EAD1C0BD0E58C00C6D4A0 /* ListboxWrappedTextItem.h */,
-				444EAD1D0BD0E58C00C6D4A0 /* LogWindow.h */,
-				444EAD1E0BD0E58C00C6D4A0 /* MainMenuEngineWindow.h */,
-				444EAD1F0BD0E58C00C6D4A0 /* MainMenuWindow.h */,
-				444EAD200BD0E58C00C6D4A0 /* MessageWindow.h */,
-				444EAD220BD0E58C00C6D4A0 /* ObjectDescriptionWindow.h */,
-				444EAD230BD0E58C00C6D4A0 /* PlaylistWindow.h */,
-				444EAD240BD0E58C00C6D4A0 /* RenderSystemConfigComponent.h */,
-				444EAD260BD0E58C00C6D4A0 /* SoundConfig.h */,
-				444EAD270BD0E58C00C6D4A0 /* SoundDriverConfigComponent.h */,
-				444EAD280BD0E58C00C6D4A0 /* SubtitleWindow.h */,
-				444EAD290BD0E58C00C6D4A0 /* UiPrerequisites.h */,
-				444EAD2A0BD0E58C00C6D4A0 /* UiSubsystem.h */,
-				444EAD2B0BD0E58C00C6D4A0 /* WindowFactory.h */,
-				444EAD2C0BD0E58C00C6D4A0 /* WindowFadeJob.h */,
-				444EAD2D0BD0E58C00C6D4A0 /* WindowManager.h */,
-				444EACA20BD0E57100C6D4A0 /* AboutWindow.cpp */,
-				444EACA30BD0E57100C6D4A0 /* AbstractWindow.cpp */,
-				444EACA40BD0E57100C6D4A0 /* ActionChoiceWindow.cpp */,
-				444EACA60BD0E57100C6D4A0 /* CharacterSheetWindow.cpp */,
-				444EACA70BD0E57100C6D4A0 /* CharacterStateWindow.cpp */,
-				444EACA80BD0E57100C6D4A0 /* CloseConfirmationWindow.cpp */,
-				444EACAA0BD0E57100C6D4A0 /* CommandMapper.cpp */,
-				444EACAC0BD0E57100C6D4A0 /* ConfigComponent.cpp */,
-				444EACAD0BD0E57100C6D4A0 /* Console.cpp */,
-				444EACAE0BD0E57100C6D4A0 /* ContainerContentWindow.cpp */,
-				444EACB10BD0E57100C6D4A0 /* DebugWindow.cpp */,
-				444EACB30BD0E57100C6D4A0 /* DialogWindow.cpp */,
-				444EACB50BD0E57100C6D4A0 /* GameLoggerWindow.cpp */,
-				444EACB60BD0E57100C6D4A0 /* GameObjectInfoWindow.cpp */,
-				444EACB80BD0E57100C6D4A0 /* GameSettings.cpp */,
-				444EACB90BD0E57100C6D4A0 /* InfoPopup.cpp */,
-				444EACBA0BD0E57100C6D4A0 /* InGameMenuWindow.cpp */,
-				444EACBB0BD0E57100C6D4A0 /* InputManager.cpp */,
-				444EACBC0BD0E57100C6D4A0 /* InventoryWindow.cpp */,
-				444EACBD0BD0E57100C6D4A0 /* ItemDragContainer.cpp */,
-				444EACBE0BD0E57100C6D4A0 /* JournalWindow.cpp */,
-				444EACBF0BD0E57100C6D4A0 /* ListboxWrappedTextItem.cpp */,
-				444EACC00BD0E57100C6D4A0 /* LogWindow.cpp */,
-				444EACC10BD0E57100C6D4A0 /* MainMenuEngineWindow.cpp */,
-				444EACC20BD0E57100C6D4A0 /* MainMenuWindow.cpp */,
-				444EACC30BD0E57100C6D4A0 /* MessageWindow.cpp */,
-				444EACC50BD0E57100C6D4A0 /* ObjectDescriptionWindow.cpp */,
-				444EACC60BD0E57100C6D4A0 /* PlaylistWindow.cpp */,
-				444EACC70BD0E57100C6D4A0 /* RenderSystemConfigComponent.cpp */,
-				444EACC90BD0E57100C6D4A0 /* SoundConfig.cpp */,
-				444EACCA0BD0E57100C6D4A0 /* SoundDriverConfigComponent.cpp */,
-				444EACCB0BD0E57100C6D4A0 /* SubtitleWindow.cpp */,
-				444EACCC0BD0E57100C6D4A0 /* UiSubsystem.cpp */,
-				444EACCD0BD0E57100C6D4A0 /* WindowFactory.cpp */,
-				444EACCE0BD0E57100C6D4A0 /* WindowFadeJob.cpp */,
-				444EACCF0BD0E57100C6D4A0 /* WindowManager.cpp */,
+				48EFE0890E8B6900007EB7F8 /* Source */,
+				48EFE0880E8B6822007EB7F8 /* Headers */,
 			);
 			name = RlUi;
+			path = ../engine/ui;
 			sourceTree = "<group>";
 		};
 		444EAC590BD0E50600C6D4A0 /* RlRules */ = {
 			isa = PBXGroup;
 			children = (
-				487029E90E80E13300B66388 /* PartyManager.cpp */,
-				487029E70E80E12200B66388 /* PartyManager.h */,
-				4890C0C90E18062B00BE5850 /* FallDownMovement.cpp */,
-				4890C0CA0E18062B00BE5850 /* JogFastMovement.cpp */,
-				4890C0CB0E18062B00BE5850 /* JogMovement.cpp */,
-				483D311D0D85B215003477A0 /* RulesMessages.h */,
-				4890C0CC0E18062B00BE5850 /* JumpHighMovement.cpp */,
-				4890C0CD0E18062B00BE5850 /* JumpLongMovement.cpp */,
-				4890C0CE0E18062B00BE5850 /* JumpToTargetMovement.cpp */,
-				4890C0CF0E18062B00BE5850 /* LieDownMovement.cpp */,
-				4890C0D00E18062B00BE5850 /* RotateMovement.cpp */,
-				4890C0D10E18062B00BE5850 /* SneakMovement.cpp */,
-				4890C0D20E18062B00BE5850 /* SprintMovement.cpp */,
-				4890C0D30E18062B00BE5850 /* StandAroundMovement.cpp */,
-				4890C0D40E18062B00BE5850 /* StepRecognitionMovement.cpp */,
-				4890C0D50E18062B00BE5850 /* StrafeMovement.cpp */,
-				4890C0D60E18062B00BE5850 /* WalkMovement.cpp */,
-				4890C0A70E18061300BE5850 /* AbstractMovement.h */,
-				4890C0A80E18061300BE5850 /* FallDownMovement.h */,
-				4890C0A90E18061300BE5850 /* JogBackwardsMovement.h */,
-				4890C0AA0E18061300BE5850 /* JogFastMovement.h */,
-				4890C0AB0E18061300BE5850 /* JogMovement.h */,
-				4890C0AC0E18061300BE5850 /* JumpHighMovement.h */,
-				4890C0AD0E18061300BE5850 /* JumpLongMovement.h */,
-				4890C0AE0E18061300BE5850 /* JumpToTargetMovement.h */,
-				4890C0AF0E18061300BE5850 /* LieDownMovement.h */,
-				4890C0B00E18061300BE5850 /* RotateMovement.h */,
-				4890C0B10E18061300BE5850 /* SneakMovement.h */,
-				4890C0B20E18061300BE5850 /* SprintMovement.h */,
-				4890C0B30E18061300BE5850 /* StandAroundMovement.h */,
-				4890C0B40E18061300BE5850 /* StepRecognitionMovement.h */,
-				4890C0B50E18061300BE5850 /* StrafeMovement.h */,
-				4890C0B60E18061300BE5850 /* WalkBackwardsMovement.h */,
-				4890C0B70E18061300BE5850 /* WalkMovement.h */,
-				48A52CB70E0EF5D0008DBDD8 /* ApplyDamageJob.cpp */,
-				48A52CB50E0EF5BD008DBDD8 /* ApplyDamageJob.h */,
-				483D311E0D85B215003477A0 /* stdinc.h */,
-				483D312D0D85B22C003477A0 /* GameEventLog.cpp */,
-				483D312E0D85B22C003477A0 /* GameTimeSource.cpp */,
-				483D31300D85B22C003477A0 /* GoToJob.cpp */,
-				483D31170D85B215003477A0 /* GameEventLog.h */,
-				483D311F0D85B215003477A0 /* WaitJob.h */,
-				483D31190D85B215003477A0 /* GlobalProperties.h */,
-				4404DA820C48D005007B4657 /* stdinc.cpp */,
-				446BF47B0C45329F0013C214 /* CreatureController.cpp */,
-				446BF47C0C45329F0013C214 /* CreatureControllerManager.cpp */,
-				483D31150D85B215003477A0 /* Combatant.h */,
-				446BF47D0C45329F0013C214 /* EffectFactory.cpp */,
-				446BF4750C4532720013C214 /* CreatureController.h */,
-				446BF4760C4532720013C214 /* CreatureControllerManager.h */,
-				446BF4770C4532720013C214 /* EffectFactory.h */,
-				44D8145A0BF7B52600534175 /* SelectionHelper.h */,
-				483D311A0D85B215003477A0 /* GoToJob.h */,
-				483D31180D85B215003477A0 /* GameTimeSource.h */,
-				483D312F0D85B22C003477A0 /* GlobalProperties.cpp */,
-				483D312B0D85B22C003477A0 /* Combatant.cpp */,
-				483D312C0D85B22C003477A0 /* EffectManagementTask.cpp */,
-				483D31310D85B22C003477A0 /* Kampfaktion.cpp */,
-				483D31320D85B22C003477A0 /* WaitJob.cpp */,
-				483D311B0D85B215003477A0 /* Kampfaktion.h */,
-				483D311C0D85B215003477A0 /* RulesConstants.h */,
-				483D31160D85B215003477A0 /* EffectManagementTask.h */,
-				44D8145B0BF7B52600534175 /* Selector.h */,
-				444826030BF7B37D00C5A94F /* SelectionHelper.cpp */,
-				444826040BF7B37D00C5A94F /* Selector.cpp */,
-				444EAE040BD0E65B00C6D4A0 /* Action.h */,
-				444EAE050BD0E65B00C6D4A0 /* ActionManager.h */,
-				444EAE060BD0E65B00C6D4A0 /* Armor.h */,
-				444EAE070BD0E65B00C6D4A0 /* Combat.h */,
-				444EAE080BD0E65B00C6D4A0 /* CombatManager.h */,
-				444EAE090BD0E65B00C6D4A0 /* Container.h */,
-				444EAE0A0BD0E65B00C6D4A0 /* Creature.h */,
-				444EAE0B0BD0E65B00C6D4A0 /* Date.h */,
-				444EAE0C0BD0E65B00C6D4A0 /* DsaDataLoader.h */,
-				444EAE0D0BD0E65B00C6D4A0 /* DsaManager.h */,
-				444EAE0E0BD0E65B00C6D4A0 /* Effect.h */,
-				444EAE0F0BD0E65B00C6D4A0 /* EffectManager.h */,
-				444EAE100BD0E65B00C6D4A0 /* Eigenschaft.h */,
-				444EAE110BD0E65B00C6D4A0 /* EigenschaftenStateSet.h */,
-				444EAE120BD0E65B00C6D4A0 /* GameObject.h */,
-				444EAE130BD0E65B00C6D4A0 /* GameObjectManager.h */,
-				444EAE160BD0E65B00C6D4A0 /* GameObjectStateListener.h */,
-				444EAE170BD0E65B00C6D4A0 /* Inventory.h */,
-				444EAE180BD0E65B00C6D4A0 /* Item.h */,
-				444EAE190BD0E65B00C6D4A0 /* JournalEntry.h */,
-				444EAE1A0BD0E65B00C6D4A0 /* Kampftechnik.h */,
-				444EAE1B0BD0E65B00C6D4A0 /* ObjectStateChangeEvent.h */,
-				444EAE1C0BD0E65B00C6D4A0 /* ObjectStateChangeEventSource.h */,
-				444EAE1D0BD0E65B00C6D4A0 /* ObjectStateChangeListener.h */,
-				444EAE1F0BD0E65B00C6D4A0 /* Quest.h */,
-				444EAE200BD0E65B00C6D4A0 /* QuestBook.h */,
-				444EAE210BD0E65B00C6D4A0 /* QuestEvent.h */,
-				444EAE220BD0E65B00C6D4A0 /* QuestListener.h */,
-				444EAE230BD0E65B00C6D4A0 /* RulesPrerequisites.h */,
-				444EAE240BD0E65B00C6D4A0 /* RulesSubsystem.h */,
-				444EAE250BD0E65B00C6D4A0 /* Slot.h */,
-				444EAE260BD0E65B00C6D4A0 /* SonderfertigkeitenStateSet.h */,
-				444EAE270BD0E65B00C6D4A0 /* StateSet.h */,
-				444EAE280BD0E65B00C6D4A0 /* Talent.h */,
-				444EAE290BD0E65B00C6D4A0 /* Talentgruppe.h */,
-				444EAE2A0BD0E65B00C6D4A0 /* TalentInputIterator.h */,
-				444EAE2B0BD0E65B00C6D4A0 /* TalentStateSet.h */,
-				444EAE300BD0E65B00C6D4A0 /* Weapon.h */,
-				444EAE310BD0E65B00C6D4A0 /* ZauberStateSet.h */,
-				444EADB00BD0E64100C6D4A0 /* Action.cpp */,
-				444EADB10BD0E64100C6D4A0 /* ActionManager.cpp */,
-				444EADB20BD0E64100C6D4A0 /* Armor.cpp */,
-				444EADB30BD0E64100C6D4A0 /* Combat.cpp */,
-				444EADB40BD0E64100C6D4A0 /* CombatManager.cpp */,
-				444EADB50BD0E64100C6D4A0 /* Container.cpp */,
-				444EADB60BD0E64100C6D4A0 /* Creature.cpp */,
-				444EADB70BD0E64100C6D4A0 /* Date.cpp */,
-				444EADB80BD0E64100C6D4A0 /* DsaDataLoader.cpp */,
-				444EADB90BD0E64100C6D4A0 /* DsaManager.cpp */,
-				444EADBA0BD0E64100C6D4A0 /* Effect.cpp */,
-				444EADBB0BD0E64100C6D4A0 /* EffectManager.cpp */,
-				444EADBC0BD0E64100C6D4A0 /* Eigenschaft.cpp */,
-				444EADBD0BD0E64100C6D4A0 /* EigenschaftenStateSet.cpp */,
-				444EADBE0BD0E64100C6D4A0 /* GameObject.cpp */,
-				444EADBF0BD0E64100C6D4A0 /* GameObjectManager.cpp */,
-				444EADC10BD0E64100C6D4A0 /* Inventory.cpp */,
-				444EADC20BD0E64100C6D4A0 /* Item.cpp */,
-				444EADC30BD0E64100C6D4A0 /* JournalEntry.cpp */,
-				444EADC40BD0E64100C6D4A0 /* Kampftechnik.cpp */,
-				444EADC50BD0E64100C6D4A0 /* ObjectStateChangeEvent.cpp */,
-				444EADC60BD0E64100C6D4A0 /* ObjectStateChangeEventSource.cpp */,
-				444EADC70BD0E64100C6D4A0 /* ObjectStateChangeListener.cpp */,
-				444EADC90BD0E64100C6D4A0 /* Quest.cpp */,
-				444EADCA0BD0E64100C6D4A0 /* QuestBook.cpp */,
-				444EADCB0BD0E64100C6D4A0 /* QuestEvent.cpp */,
-				444EADCC0BD0E64100C6D4A0 /* QuestListener.cpp */,
-				444EADCD0BD0E64100C6D4A0 /* RulesSubsystem.cpp */,
-				444EADCE0BD0E64100C6D4A0 /* Slot.cpp */,
-				444EADCF0BD0E64100C6D4A0 /* SonderfertigkeitenStateSet.cpp */,
-				444EADD00BD0E64100C6D4A0 /* StateSet.cpp */,
-				444EADD10BD0E64100C6D4A0 /* Talent.cpp */,
-				444EADD20BD0E64100C6D4A0 /* Talentgruppe.cpp */,
-				444EADD30BD0E64100C6D4A0 /* TalentStateSet.cpp */,
-				444EADD80BD0E64100C6D4A0 /* Weapon.cpp */,
-				444EADD90BD0E64100C6D4A0 /* ZauberStateSet.cpp */,
+				48EFE0A20E8B69F5007EB7F8 /* Headers */,
+				48EFE0A10E8B69EE007EB7F8 /* Source */,
 			);
 			name = RlRules;
+			path = rules;
 			sourceTree = "<group>";
 		};
 		444EAE600BD0E66500C6D4A0 /* RlScript */ = {
@@ -2330,9 +2093,6 @@
 				48B0B0230E6533940023B198 /* Headers */,
 				48B0B0240E6533A50023B198 /* Source */,
 				48389C010D86783200AFAB66 /* swig */,
-				444EAE610BD0E6C000C6D4A0 /* ScriptObjectMarker.h */,
-				444EAE620BD0E6C000C6D4A0 /* ScriptPrerequisites.h */,
-				444EAE630BD0E6C000C6D4A0 /* ScriptSubsystem.h */,
 			);
 			name = RlScript;
 			sourceTree = "<group>";
@@ -2413,6 +2173,9 @@
 		48B0B0230E6533940023B198 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				444EAE610BD0E6C000C6D4A0 /* ScriptObjectMarker.h */,
+				444EAE620BD0E6C000C6D4A0 /* ScriptPrerequisites.h */,
+				444EAE630BD0E6C000C6D4A0 /* ScriptSubsystem.h */,
 				444825ED0BF7B32100C5A94F /* AbstractMapNodeProcessor.h */,
 				444825EE0BF7B32100C5A94F /* EntityNodeProcessor.h */,
 				444825EF0BF7B32100C5A94F /* EnvironmentProcessor.h */,
@@ -2459,13 +2222,295 @@
 			name = Source;
 			sourceTree = "<group>";
 		};
-		48CFBFD60E2E87A800CD0C51 /* Scripts */ = {
+		48CFBFD60E2E87A800CD0C51 /* Mac Scripts */ = {
 			isa = PBXGroup;
 			children = (
-				48CFBFD70E2E87BB00CD0C51 /* renameinstalldirs.sh */,
-				4835559A0E6ABED100008748 /* mkdmg.sh */,
+				48EFE0D70E8B6EB1007EB7F8 /* mkdmg.sh */,
+				48EFE0D80E8B6EB1007EB7F8 /* renameinstalldirs.sh */,
 			);
-			name = Scripts;
+			name = "Mac Scripts";
+			path = ../Mac/tools;
+			sourceTree = "<group>";
+		};
+		48EFE0880E8B6822007EB7F8 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				44D8145F0BF7B58A00534175 /* ProgressWindow.h */,
+				444EACFE0BD0E58C00C6D4A0 /* AboutWindow.h */,
+				444EACFF0BD0E58C00C6D4A0 /* AbstractWindow.h */,
+				444EAD000BD0E58C00C6D4A0 /* ActionChoiceWindow.h */,
+				444EAD010BD0E58C00C6D4A0 /* CeGuiHelper.h */,
+				444EAD030BD0E58C00C6D4A0 /* CharacterSheetWindow.h */,
+				4404DA850C48D037007B4657 /* stdinc.h */,
+				446BF4D00C453B9E0013C214 /* CombatControlState.h */,
+				446BF4D10C453B9E0013C214 /* CombatWindow.h */,
+				446BF4840C45335A0013C214 /* ControlState.h */,
+				446BF4850C45335A0013C214 /* CutsceneControlState.h */,
+				446BF4860C45335A0013C214 /* DialogControlState.h */,
+				446BF4870C45335A0013C214 /* FreeflightControlState.h */,
+				446BF4880C45335A0013C214 /* ItemDescriptionDragContainer.h */,
+				446BF4890C45335A0013C214 /* ItemIconDragContainer.h */,
+				446BF48A0C45335A0013C214 /* MovementControlState.h */,
+				446BF48B0C45335A0013C214 /* PropertiesWindow.h */,
+				487029C60E80DCEA00B66388 /* GameOverWindow.h */,
+				48389B960D86743900AFAB66 /* CombatGui.h */,
+				48389B970D86743900AFAB66 /* GameSaveLoadWindow.h */,
+				48389B980D86743900AFAB66 /* MainMenuLoadWindow.h */,
+				444EAD040BD0E58C00C6D4A0 /* CharacterStateWindow.h */,
+				444EAD050BD0E58C00C6D4A0 /* CloseConfirmationWindow.h */,
+				444EAD070BD0E58C00C6D4A0 /* CommandMapper.h */,
+				444EAD090BD0E58C00C6D4A0 /* ConfigComponent.h */,
+				444EAD0A0BD0E58C00C6D4A0 /* Console.h */,
+				444EAD0B0BD0E58C00C6D4A0 /* ContainerContentWindow.h */,
+				444EAD0E0BD0E58C00C6D4A0 /* DebugWindow.h */,
+				444EAD100BD0E58C00C6D4A0 /* DialogWindow.h */,
+				444EAD120BD0E58C00C6D4A0 /* GameLoggerWindow.h */,
+				444EAD130BD0E58C00C6D4A0 /* GameObjectInfoWindow.h */,
+				444EAD150BD0E58C00C6D4A0 /* GameSettings.h */,
+				444EAD160BD0E58C00C6D4A0 /* InfoPopup.h */,
+				444EAD170BD0E58C00C6D4A0 /* InGameMenuWindow.h */,
+				444EAD180BD0E58C00C6D4A0 /* InputManager.h */,
+				444EAD190BD0E58C00C6D4A0 /* InventoryWindow.h */,
+				444EAD1A0BD0E58C00C6D4A0 /* ItemDragContainer.h */,
+				444EAD1B0BD0E58C00C6D4A0 /* JournalWindow.h */,
+				444EAD1C0BD0E58C00C6D4A0 /* ListboxWrappedTextItem.h */,
+				444EAD1D0BD0E58C00C6D4A0 /* LogWindow.h */,
+				444EAD1E0BD0E58C00C6D4A0 /* MainMenuEngineWindow.h */,
+				444EAD1F0BD0E58C00C6D4A0 /* MainMenuWindow.h */,
+				444EAD200BD0E58C00C6D4A0 /* MessageWindow.h */,
+				444EAD220BD0E58C00C6D4A0 /* ObjectDescriptionWindow.h */,
+				444EAD230BD0E58C00C6D4A0 /* PlaylistWindow.h */,
+				444EAD240BD0E58C00C6D4A0 /* RenderSystemConfigComponent.h */,
+				444EAD260BD0E58C00C6D4A0 /* SoundConfig.h */,
+				444EAD270BD0E58C00C6D4A0 /* SoundDriverConfigComponent.h */,
+				444EAD280BD0E58C00C6D4A0 /* SubtitleWindow.h */,
+				444EAD290BD0E58C00C6D4A0 /* UiPrerequisites.h */,
+				444EAD2A0BD0E58C00C6D4A0 /* UiSubsystem.h */,
+				444EAD2B0BD0E58C00C6D4A0 /* WindowFactory.h */,
+				444EAD2C0BD0E58C00C6D4A0 /* WindowFadeJob.h */,
+				444EAD2D0BD0E58C00C6D4A0 /* WindowManager.h */,
+				48389B990D86743900AFAB66 /* UiMessages.h */,
+			);
+			name = Headers;
+			path = include;
+			sourceTree = "<group>";
+		};
+		48EFE0890E8B6900007EB7F8 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				444EACC90BD0E57100C6D4A0 /* SoundConfig.cpp */,
+				444EACCA0BD0E57100C6D4A0 /* SoundDriverConfigComponent.cpp */,
+				444EACCB0BD0E57100C6D4A0 /* SubtitleWindow.cpp */,
+				444EACCC0BD0E57100C6D4A0 /* UiSubsystem.cpp */,
+				444EACCD0BD0E57100C6D4A0 /* WindowFactory.cpp */,
+				444EACCE0BD0E57100C6D4A0 /* WindowFadeJob.cpp */,
+				444EACCF0BD0E57100C6D4A0 /* WindowManager.cpp */,
+				487029C80E80DCF900B66388 /* GameOverWindow.cpp */,
+				48389B8E0D86741F00AFAB66 /* CombatGui.cpp */,
+				48389B8F0D86741F00AFAB66 /* GameSaveLoadWindow.cpp */,
+				48389B900D86741F00AFAB66 /* MainMenuLoadWindow.cpp */,
+				48389B910D86741F00AFAB66 /* stdinc.cpp */,
+				446BF4D50C453C1D0013C214 /* ItemDescriptionDragContainer.cpp */,
+				446BF4940C4533BD0013C214 /* CombatControlState.cpp */,
+				446BF4950C4533BD0013C214 /* CombatWindow.cpp */,
+				446BF4960C4533BD0013C214 /* ControlState.cpp */,
+				446BF4970C4533BD0013C214 /* CutsceneControlState.cpp */,
+				446BF4980C4533BD0013C214 /* DialogControlState.cpp */,
+				446BF4990C4533BD0013C214 /* FreeflightControlState.cpp */,
+				446BF49A0C4533BD0013C214 /* ItemIconDragContainer.cpp */,
+				446BF49B0C4533BD0013C214 /* MovementControlState.cpp */,
+				446BF49C0C4533BD0013C214 /* PropertiesWindow.cpp */,
+				44D814630BF7B5AD00534175 /* ProgressWindow.cpp */,
+				444EACA20BD0E57100C6D4A0 /* AboutWindow.cpp */,
+				444EACA30BD0E57100C6D4A0 /* AbstractWindow.cpp */,
+				444EACA40BD0E57100C6D4A0 /* ActionChoiceWindow.cpp */,
+				444EACA60BD0E57100C6D4A0 /* CharacterSheetWindow.cpp */,
+				444EACA70BD0E57100C6D4A0 /* CharacterStateWindow.cpp */,
+				444EACA80BD0E57100C6D4A0 /* CloseConfirmationWindow.cpp */,
+				444EACAA0BD0E57100C6D4A0 /* CommandMapper.cpp */,
+				444EACAC0BD0E57100C6D4A0 /* ConfigComponent.cpp */,
+				444EACAD0BD0E57100C6D4A0 /* Console.cpp */,
+				444EACAE0BD0E57100C6D4A0 /* ContainerContentWindow.cpp */,
+				444EACB10BD0E57100C6D4A0 /* DebugWindow.cpp */,
+				444EACB30BD0E57100C6D4A0 /* DialogWindow.cpp */,
+				444EACB50BD0E57100C6D4A0 /* GameLoggerWindow.cpp */,
+				444EACB60BD0E57100C6D4A0 /* GameObjectInfoWindow.cpp */,
+				444EACB80BD0E57100C6D4A0 /* GameSettings.cpp */,
+				444EACB90BD0E57100C6D4A0 /* InfoPopup.cpp */,
+				444EACBA0BD0E57100C6D4A0 /* InGameMenuWindow.cpp */,
+				444EACBB0BD0E57100C6D4A0 /* InputManager.cpp */,
+				444EACBC0BD0E57100C6D4A0 /* InventoryWindow.cpp */,
+				444EACBD0BD0E57100C6D4A0 /* ItemDragContainer.cpp */,
+				444EACBE0BD0E57100C6D4A0 /* JournalWindow.cpp */,
+				444EACBF0BD0E57100C6D4A0 /* ListboxWrappedTextItem.cpp */,
+				444EACC00BD0E57100C6D4A0 /* LogWindow.cpp */,
+				444EACC10BD0E57100C6D4A0 /* MainMenuEngineWindow.cpp */,
+				444EACC20BD0E57100C6D4A0 /* MainMenuWindow.cpp */,
+				444EACC30BD0E57100C6D4A0 /* MessageWindow.cpp */,
+				444EACC50BD0E57100C6D4A0 /* ObjectDescriptionWindow.cpp */,
+				444EACC60BD0E57100C6D4A0 /* PlaylistWindow.cpp */,
+				444EACC70BD0E57100C6D4A0 /* RenderSystemConfigComponent.cpp */,
+			);
+			name = Source;
+			path = src;
+			sourceTree = "<group>";
+		};
+		48EFE0A10E8B69EE007EB7F8 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				48EFE0A50E8B6C39007EB7F8 /* FetchItemJob.cpp */,
+				48A52CB70E0EF5D0008DBDD8 /* ApplyDamageJob.cpp */,
+				483D312D0D85B22C003477A0 /* GameEventLog.cpp */,
+				483D312E0D85B22C003477A0 /* GameTimeSource.cpp */,
+				483D31300D85B22C003477A0 /* GoToJob.cpp */,
+				4404DA820C48D005007B4657 /* stdinc.cpp */,
+				446BF47B0C45329F0013C214 /* CreatureController.cpp */,
+				446BF47C0C45329F0013C214 /* CreatureControllerManager.cpp */,
+				446BF47D0C45329F0013C214 /* EffectFactory.cpp */,
+				483D312F0D85B22C003477A0 /* GlobalProperties.cpp */,
+				483D312B0D85B22C003477A0 /* Combatant.cpp */,
+				483D312C0D85B22C003477A0 /* EffectManagementTask.cpp */,
+				483D31310D85B22C003477A0 /* Kampfaktion.cpp */,
+				483D31320D85B22C003477A0 /* WaitJob.cpp */,
+				444826030BF7B37D00C5A94F /* SelectionHelper.cpp */,
+				444826040BF7B37D00C5A94F /* Selector.cpp */,
+				487029E90E80E13300B66388 /* PartyManager.cpp */,
+				4890C0C90E18062B00BE5850 /* FallDownMovement.cpp */,
+				4890C0CA0E18062B00BE5850 /* JogFastMovement.cpp */,
+				4890C0CB0E18062B00BE5850 /* JogMovement.cpp */,
+				4890C0CC0E18062B00BE5850 /* JumpHighMovement.cpp */,
+				4890C0CD0E18062B00BE5850 /* JumpLongMovement.cpp */,
+				4890C0CE0E18062B00BE5850 /* JumpToTargetMovement.cpp */,
+				4890C0CF0E18062B00BE5850 /* LieDownMovement.cpp */,
+				4890C0D00E18062B00BE5850 /* RotateMovement.cpp */,
+				4890C0D10E18062B00BE5850 /* SneakMovement.cpp */,
+				4890C0D20E18062B00BE5850 /* SprintMovement.cpp */,
+				4890C0D30E18062B00BE5850 /* StandAroundMovement.cpp */,
+				4890C0D40E18062B00BE5850 /* StepRecognitionMovement.cpp */,
+				4890C0D50E18062B00BE5850 /* StrafeMovement.cpp */,
+				4890C0D60E18062B00BE5850 /* WalkMovement.cpp */,
+				444EADB00BD0E64100C6D4A0 /* Action.cpp */,
+				444EADB10BD0E64100C6D4A0 /* ActionManager.cpp */,
+				444EADB20BD0E64100C6D4A0 /* Armor.cpp */,
+				444EADB30BD0E64100C6D4A0 /* Combat.cpp */,
+				444EADB40BD0E64100C6D4A0 /* CombatManager.cpp */,
+				444EADB50BD0E64100C6D4A0 /* Container.cpp */,
+				444EADB60BD0E64100C6D4A0 /* Creature.cpp */,
+				444EADB70BD0E64100C6D4A0 /* Date.cpp */,
+				444EADB80BD0E64100C6D4A0 /* DsaDataLoader.cpp */,
+				444EADB90BD0E64100C6D4A0 /* DsaManager.cpp */,
+				444EADBA0BD0E64100C6D4A0 /* Effect.cpp */,
+				444EADBB0BD0E64100C6D4A0 /* EffectManager.cpp */,
+				444EADBC0BD0E64100C6D4A0 /* Eigenschaft.cpp */,
+				444EADBD0BD0E64100C6D4A0 /* EigenschaftenStateSet.cpp */,
+				444EADBE0BD0E64100C6D4A0 /* GameObject.cpp */,
+				444EADBF0BD0E64100C6D4A0 /* GameObjectManager.cpp */,
+				444EADC10BD0E64100C6D4A0 /* Inventory.cpp */,
+				444EADC20BD0E64100C6D4A0 /* Item.cpp */,
+				444EADC30BD0E64100C6D4A0 /* JournalEntry.cpp */,
+				444EADC40BD0E64100C6D4A0 /* Kampftechnik.cpp */,
+				444EADC50BD0E64100C6D4A0 /* ObjectStateChangeEvent.cpp */,
+				444EADC60BD0E64100C6D4A0 /* ObjectStateChangeEventSource.cpp */,
+				444EADC70BD0E64100C6D4A0 /* ObjectStateChangeListener.cpp */,
+				444EADC90BD0E64100C6D4A0 /* Quest.cpp */,
+				444EADCA0BD0E64100C6D4A0 /* QuestBook.cpp */,
+				444EADCB0BD0E64100C6D4A0 /* QuestEvent.cpp */,
+				444EADCC0BD0E64100C6D4A0 /* QuestListener.cpp */,
+				444EADCD0BD0E64100C6D4A0 /* RulesSubsystem.cpp */,
+				444EADCE0BD0E64100C6D4A0 /* Slot.cpp */,
+				444EADCF0BD0E64100C6D4A0 /* SonderfertigkeitenStateSet.cpp */,
+				444EADD00BD0E64100C6D4A0 /* StateSet.cpp */,
+				444EADD10BD0E64100C6D4A0 /* Talent.cpp */,
+				444EADD20BD0E64100C6D4A0 /* Talentgruppe.cpp */,
+				444EADD30BD0E64100C6D4A0 /* TalentStateSet.cpp */,
+				444EADD80BD0E64100C6D4A0 /* Weapon.cpp */,
+				444EADD90BD0E64100C6D4A0 /* ZauberStateSet.cpp */,
+			);
+			name = Source;
+			path = src;
+			sourceTree = "<group>";
+		};
+		48EFE0A20E8B69F5007EB7F8 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				48EFE0A30E8B6AF6007EB7F8 /* FetchItemJob.h */,
+				487029E70E80E12200B66388 /* PartyManager.h */,
+				483D311D0D85B215003477A0 /* RulesMessages.h */,
+				4890C0A70E18061300BE5850 /* AbstractMovement.h */,
+				4890C0A80E18061300BE5850 /* FallDownMovement.h */,
+				4890C0A90E18061300BE5850 /* JogBackwardsMovement.h */,
+				4890C0AA0E18061300BE5850 /* JogFastMovement.h */,
+				4890C0AB0E18061300BE5850 /* JogMovement.h */,
+				4890C0AC0E18061300BE5850 /* JumpHighMovement.h */,
+				4890C0AD0E18061300BE5850 /* JumpLongMovement.h */,
+				4890C0AE0E18061300BE5850 /* JumpToTargetMovement.h */,
+				4890C0AF0E18061300BE5850 /* LieDownMovement.h */,
+				4890C0B00E18061300BE5850 /* RotateMovement.h */,
+				4890C0B10E18061300BE5850 /* SneakMovement.h */,
+				4890C0B20E18061300BE5850 /* SprintMovement.h */,
+				4890C0B30E18061300BE5850 /* StandAroundMovement.h */,
+				48A52CB50E0EF5BD008DBDD8 /* ApplyDamageJob.h */,
+				483D311E0D85B215003477A0 /* stdinc.h */,
+				483D31170D85B215003477A0 /* GameEventLog.h */,
+				483D311F0D85B215003477A0 /* WaitJob.h */,
+				483D31190D85B215003477A0 /* GlobalProperties.h */,
+				4890C0B40E18061300BE5850 /* StepRecognitionMovement.h */,
+				4890C0B60E18061300BE5850 /* WalkBackwardsMovement.h */,
+				483D31150D85B215003477A0 /* Combatant.h */,
+				446BF4750C4532720013C214 /* CreatureController.h */,
+				446BF4760C4532720013C214 /* CreatureControllerManager.h */,
+				446BF4770C4532720013C214 /* EffectFactory.h */,
+				44D8145A0BF7B52600534175 /* SelectionHelper.h */,
+				483D311A0D85B215003477A0 /* GoToJob.h */,
+				483D31180D85B215003477A0 /* GameTimeSource.h */,
+				483D311B0D85B215003477A0 /* Kampfaktion.h */,
+				483D311C0D85B215003477A0 /* RulesConstants.h */,
+				483D31160D85B215003477A0 /* EffectManagementTask.h */,
+				44D8145B0BF7B52600534175 /* Selector.h */,
+				444EAE040BD0E65B00C6D4A0 /* Action.h */,
+				444EAE050BD0E65B00C6D4A0 /* ActionManager.h */,
+				444EAE060BD0E65B00C6D4A0 /* Armor.h */,
+				444EAE070BD0E65B00C6D4A0 /* Combat.h */,
+				444EAE080BD0E65B00C6D4A0 /* CombatManager.h */,
+				444EAE090BD0E65B00C6D4A0 /* Container.h */,
+				444EAE0A0BD0E65B00C6D4A0 /* Creature.h */,
+				444EAE0B0BD0E65B00C6D4A0 /* Date.h */,
+				444EAE0C0BD0E65B00C6D4A0 /* DsaDataLoader.h */,
+				444EAE0D0BD0E65B00C6D4A0 /* DsaManager.h */,
+				444EAE0E0BD0E65B00C6D4A0 /* Effect.h */,
+				444EAE0F0BD0E65B00C6D4A0 /* EffectManager.h */,
+				444EAE100BD0E65B00C6D4A0 /* Eigenschaft.h */,
+				444EAE110BD0E65B00C6D4A0 /* EigenschaftenStateSet.h */,
+				444EAE120BD0E65B00C6D4A0 /* GameObject.h */,
+				444EAE130BD0E65B00C6D4A0 /* GameObjectManager.h */,
+				444EAE160BD0E65B00C6D4A0 /* GameObjectStateListener.h */,
+				444EAE170BD0E65B00C6D4A0 /* Inventory.h */,
+				444EAE180BD0E65B00C6D4A0 /* Item.h */,
+				444EAE190BD0E65B00C6D4A0 /* JournalEntry.h */,
+				444EAE1A0BD0E65B00C6D4A0 /* Kampftechnik.h */,
+				444EAE1B0BD0E65B00C6D4A0 /* ObjectStateChangeEvent.h */,
+				444EAE1C0BD0E65B00C6D4A0 /* ObjectStateChangeEventSource.h */,
+				444EAE1D0BD0E65B00C6D4A0 /* ObjectStateChangeListener.h */,
+				444EAE1F0BD0E65B00C6D4A0 /* Quest.h */,
+				444EAE200BD0E65B00C6D4A0 /* QuestBook.h */,
+				444EAE210BD0E65B00C6D4A0 /* QuestEvent.h */,
+				444EAE220BD0E65B00C6D4A0 /* QuestListener.h */,
+				444EAE230BD0E65B00C6D4A0 /* RulesPrerequisites.h */,
+				444EAE240BD0E65B00C6D4A0 /* RulesSubsystem.h */,
+				444EAE250BD0E65B00C6D4A0 /* Slot.h */,
+				444EAE260BD0E65B00C6D4A0 /* SonderfertigkeitenStateSet.h */,
+				444EAE270BD0E65B00C6D4A0 /* StateSet.h */,
+				444EAE280BD0E65B00C6D4A0 /* Talent.h */,
+				444EAE290BD0E65B00C6D4A0 /* Talentgruppe.h */,
+				444EAE2A0BD0E65B00C6D4A0 /* TalentInputIterator.h */,
+				444EAE2B0BD0E65B00C6D4A0 /* TalentStateSet.h */,
+				444EAE300BD0E65B00C6D4A0 /* Weapon.h */,
+				444EAE310BD0E65B00C6D4A0 /* ZauberStateSet.h */,
+				4890C0B70E18061300BE5850 /* WalkMovement.h */,
+				4890C0B50E18061300BE5850 /* StrafeMovement.h */,
+			);
+			name = Headers;
+			path = include;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2724,6 +2769,7 @@
 				4890C0C70E18061300BE5850 /* WalkBackwardsMovement.h in Headers */,
 				4890C0C80E18061300BE5850 /* WalkMovement.h in Headers */,
 				487029E80E80E12200B66388 /* PartyManager.h in Headers */,
+				48EFE0A40E8B6AF6007EB7F8 /* FetchItemJob.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3063,7 +3109,6 @@
 				8D0C4E8D0486CD37000505A6 /* InfoPlist.strings in Resources */,
 				8D0C4E8E0486CD37000505A6 /* main.nib in Resources */,
 				48D409CE0D9E483300AE5340 /* modules in Resources */,
-				4835559B0E6ABED100008748 /* mkdmg.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3322,6 +3367,7 @@
 				4890C0E30E18062B00BE5850 /* StrafeMovement.cpp in Sources */,
 				4890C0E40E18062B00BE5850 /* WalkMovement.cpp in Sources */,
 				487029EA0E80E13300B66388 /* PartyManager.cpp in Sources */,
+				48EFE0A60E8B6C39007EB7F8 /* FetchItemJob.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
