@@ -47,7 +47,7 @@ namespace rl
          *         Job, after execution is finished. This should usually be the case, but
          *         sometimes it is sensible to pool a number of Jobs for reuse.
          */
-        AbstractJob(bool isDiscardable, 
+        AbstractJob(const CeGuiString &id, bool isDiscardable, 
             bool destroyWhenDone);
 
         virtual ~AbstractJob();

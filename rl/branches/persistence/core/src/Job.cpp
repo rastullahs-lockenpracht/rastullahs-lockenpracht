@@ -21,9 +21,11 @@
 namespace rl
 {
     AbstractJob::AbstractJob(bool isDiscardable, bool destroyWhenDone)
+    AbstractJob::AbstractJob(const CeGuiString &id, bool isDiscardable, bool destroyWhenDone)
         : mIsDiscardable(isDiscardable), 
+        mDestroyWhenDone(destroyWhenDone)
         mDestroyWhenDone(destroyWhenDone),
-		SaveAble("")
+		SaveAble(id)
     {
     }
 

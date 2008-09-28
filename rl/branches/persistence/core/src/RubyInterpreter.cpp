@@ -153,10 +153,12 @@ bool RubyInterpreter::execute(const Ogre::String& command)
 bool RubyInterpreter::executeFile(Ogre::String rubyfile)
 {
     bool error = execute("load '" + rubyfile + "'");
+#ifdef _DEBUG
     if (CoreSubsystem::getSingleton().isInitialized())
     {
         execute("load 'checkerrors.rb'");
     }
+#endif
     return error;
 }
 
