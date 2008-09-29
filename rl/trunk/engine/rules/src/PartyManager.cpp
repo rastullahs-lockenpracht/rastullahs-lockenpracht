@@ -28,18 +28,21 @@ rl::PartyManager* Ogre::Singleton<rl::PartyManager>::ms_Singleton = 0;
 namespace rl
 {
     
-	PartyManager::PartyManager() : mActiveCharacter(NULL)
+	PartyManager::PartyManager()
+		: mActiveCharacter(NULL)
     {
         ///@todo watch characters for death, trigger game over if no-one is left
+        LOG_MESSAGE("PartyManager", "Register message handler");
         mLifeStateChangeConnection =
             MessagePump::getSingleton().addMessageHandler<MessageType_GameObjectLifeStateChanged>(
                 boost::bind(&PartyManager::onGameObjectLifeStateChanged, this, _1, _2, _3));
     }
-    
+
     void PartyManager::addCharacter(Creature* character)
     {
         mParty.push_back(character);
-        ///@todo send message
+        MessagePump::getSingleton().sendMessage<MessageType_PlayerCharRemoved>(
+			character);
         
         if (mActiveCharacter == NULL)
         {
@@ -54,9 +57,10 @@ namespace rl
         {
             if (*it == character)
             {
-                ///@todo send message
                 mParty.erase(it);
-                break;
+                MessagePump::getSingleton().sendMessage<MessageType_PlayerCharRemoved>(
+					character);
+				break;
             }
         }
         checkParty();
@@ -89,9 +93,9 @@ namespace rl
     
     bool PartyManager::isInParty(Creature* creature) const
     {
-        for (int i = 0; i < mParty.size(); ++i)
+		for (Party::const_iterator it = mParty.begin(); it != mParty.end(); ++it)
         {
-            if (mParty[i] == creature)
+            if (*it == creature)
             {
                 return true;
             }

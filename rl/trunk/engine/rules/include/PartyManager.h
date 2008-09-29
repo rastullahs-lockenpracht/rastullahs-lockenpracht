@@ -28,17 +28,19 @@ namespace rl
     class _RlRulesExport PartyManager : public Ogre::Singleton<PartyManager>
     {
     public:
-        PartyManager();
+		typedef std::vector<Creature*> Party;
+
+		PartyManager();
         
         Creature* getActiveCharacter() const;
         void setActiveCharacter(Creature* character);
         void addCharacter(Creature* character);
         void removeCharacter(Creature* character);
-        std::vector<Creature*> getCharacters() const;
+        Party getCharacters() const;
         bool isInParty(Creature* creature) const;
         
     private:
-        std::vector<Creature*> mParty;
+		Party mParty;
         Creature* mActiveCharacter;
 	    MessagePump::ScopedConnection mLifeStateChangeConnection;
 
