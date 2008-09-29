@@ -46,8 +46,11 @@ namespace rl
 
     bool FetchItemJob::execute(Ogre::Real time)
 	{
-		// Check now, one frame after done, to make sure everything is
-		if (mTimeLeft < 0 || !mItem)
+		if (mTimeLeft < 0 
+			|| !mItem 
+			|| mItem->getState() == GOS_UNDEFINED
+			|| mItem->getState() == GOS_UNLOADED
+			|| mItem->getState() == GOS_LOADED)
 		{
 			// Stay put where ever we are.
 			mActor->setMovement(CreatureController::MT_STEHEN, Vector3::ZERO, Vector3::ZERO);
@@ -63,28 +66,28 @@ namespace rl
 		{
 			mActor->setMovement(CreatureController::MT_STEHEN, Vector3::ZERO, Vector3::ZERO);
             
-            switch (mItem->getState())
+            if (mItem->getState() == GOS_IN_SCENE)
             {
-                case GOS_IN_SCENE:
                     // @todo play pickup animation
                     mActor->getCreature()->getInventory()->hold(mItem, mTargetSlot);
                     return true;
-                    break;
-                case GOS_IN_POSSESSION:
-                    Container* container = mItem->getParentContainer();
-                    if (container && container->hasAction(CeGuiString("open"), mActor->getCreature()))
-                    {
-                        container->doAction(CeGuiString("open"), mActor->getCreature(), mItem);
-                        container->removeItem(mItem);
-                        mActor->getCreature()->getInventory()->hold(mItem, mTargetSlot);
-                        return true;
-                    }
-                    break;
-                case GOS_READY:
-                case GOS_HELD:
+			}
+            else if (mItem->getState() == GOS_IN_POSSESSION)
+			{
+				Container* container = mItem->getParentContainer();
+				if (container && container->hasAction(CeGuiString("open"), mActor->getCreature()))
+				{
+					container->doAction(CeGuiString("open"), mActor->getCreature(), mItem);
+					container->removeItem(mItem);
+					mActor->getCreature()->getInventory()->hold(mItem, mTargetSlot);
+					return true;
+				}
+			}
+            else if (mItem->getState() == GOS_READY
+					 || mItem->getState() == GOS_HELD)
+			{
                     LOG_WARNING("FetchItemJob", "Target item is held by someone");
                     return true;
-                    break;
             }
 
             return false;
