@@ -83,11 +83,11 @@ bool BasicFrameListener::frameStarted(const Ogre::FrameEvent &evt)
 
 	if (mKeyboard->isKeyDown(OIS::KC_F3))
 	{
-		Debugger::getSingleton().showLines( m_World );
+		Debugger::getSingleton().showDebugInformation( m_World );
 	}
 	else
 	{
-		Debugger::getSingleton().hideLines();
+		Debugger::getSingleton().hideDebugInformation();
 	}
 
 	

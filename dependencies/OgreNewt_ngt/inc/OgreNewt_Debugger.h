@@ -15,6 +15,8 @@
 #include <Ogre.h>
 #include <Newton.h>
 #include "OgreNewt_World.h"
+#include "OgreNewt_Body.h"
+#include "OgreNewt_Tools.h"
 
 namespace OgreNewt
 {
@@ -43,13 +45,13 @@ namespace OgreNewt
 
 		//! show the newton world
 		/*!
-			Draws the Newton world as 3D lines.
+			Draws the Newton world as 3D lines with informative text above each body
 			\param world pointer to the OgreNewt::World
 		*/
-		void showLines( OgreNewt::World* world );
+		void showDebugInformation( OgreNewt::World* world );
 
-		//! remove lines drawn.
-		void hideLines();
+		//! remove lines and text drawn
+		void hideDebugInformation();
 	
         //! set default color
         void setDefaultColor(Ogre::ColourValue col);
@@ -62,10 +64,21 @@ namespace OgreNewt
 	
 	private:
 		Ogre::SceneNode*		m_debugnode;
-		Ogre::ManualObject*		m_debuglines;
         typedef std::map<int, Ogre::ColourValue> MaterialIdColorMap;
         MaterialIdColorMap      m_materialcolors;
         Ogre::ColourValue       m_defaultcolor;
+
+        struct BodyDebugData
+        {
+            BodyDebugData() : m_lastcol(NULL), m_node(NULL), m_lines(NULL), m_text(NULL), m_updated(false) {}
+            const Collision* m_lastcol;
+            Ogre::SceneNode* m_node;
+            Ogre::ManualObject* m_lines;
+            OgreNewt::OgreAddons::MovableText* m_text;
+            int m_updated;
+        };            
+        typedef std::map<OgreNewt::Body*, BodyDebugData> BodyDebugDataMap;
+        BodyDebugDataMap m_cachemap;
 
 
 		static void newtonPerBody( const NewtonBody* body );
