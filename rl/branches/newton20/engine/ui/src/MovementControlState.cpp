@@ -1012,7 +1012,7 @@ namespace rl {
                 CollisionFound = true;
                 Real hitBodyVel = info.mBody->getVelocity().dotProduct(diff.normalisedCopy());
                 hitBodyVel = std::min(0.0f, hitBodyVel); // if the body moves, try to avoid it
-                Real dist = std::max(info.mDistance + (hitBodyVel*timestep - 0.1)/diff.length(), 0.0);
+                Real dist = std::max(info.mDistance + (hitBodyVel*timestep - 0.01)/diff.length(), 0.0);
                 diff *= dist;
 
                 mLastCameraCollision = 0;

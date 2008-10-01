@@ -299,7 +299,7 @@ namespace rl
 		else if (mGeometryType == GT_MESH)
 		{
 	        CollisionPtr collision(new TreeCollision(
-				PhysicsManager::getSingleton()._getNewtonWorld(), entity, false));
+				PhysicsManager::getSingleton()._getNewtonWorld(), entity, true));
 		    mBody->setCollision(collision);
 		}
 

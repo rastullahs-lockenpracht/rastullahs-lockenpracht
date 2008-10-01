@@ -137,8 +137,8 @@ namespace rl {
 		/// Komplette Levelgeometrie auflösen
 		void clearLevelGeometry();
 		
-		void toggleDebugMode();
-        bool isDebugMode() const;
+	void toggleDebugMode();
+        int isDebugMode() const;
 
         // Newton callbacks ...
         /// generic force callback. Gravity is applied and the force,
@@ -305,7 +305,8 @@ namespace rl {
         OgreNewt::World* mWorld;
         //! the visualisation for physical behaviour (actually not the best)
         OgreNewt::Debugger* mNewtonDebugger;
-        bool mDebugMode;
+        //! debug mode: 0 no debugging, 1 show debug lines (freezed state), 2 show debug lines (update every frame)
+        int mDebugMode;
 
         //! factory for creating new collision primitives
         PhysicsCollisionFactory* mPhysicsCollisionFactory;

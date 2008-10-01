@@ -256,7 +256,7 @@ namespace rl
                 else if (physicsProxyType == "mesh" || physicsProxyType == "auto")
                 {
                     collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(
-                                    thisWorld, entity, false));
+                                    thisWorld, entity, true));
                     LOG_DEBUG(Logger::RULES, "Created physics proxy type 'mesh' for entity '"+entity->getName()+"'.");
                 }
                 else

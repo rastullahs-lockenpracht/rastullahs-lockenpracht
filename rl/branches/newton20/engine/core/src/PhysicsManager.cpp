@@ -101,6 +101,7 @@ namespace rl
 
         mNewtonDebugger->setMaterialColor(getMaterialID("level"), Ogre::ColourValue::Blue);
 
+
         // below here starts 'old' stale fix code that should be removed
 
         // setup level quadtree extents
@@ -131,6 +132,8 @@ namespace rl
                 delete (*it).second;
         }
         mMaterials.clear();
+
+        mNewtonDebugger->deInit();
 
         delete mPhysicsCollisionFactory;
         delete mGenericCallback;
@@ -192,6 +195,10 @@ namespace rl
                     newtonPerBodyLogProperties(body);
 #endif
         }
+
+
+        if( mDebugMode == 2 )
+            mNewtonDebugger->showDebugInformation(mWorld);
     }
 
 #ifdef _DEBUG
@@ -274,31 +281,27 @@ namespace rl
         mEnabled = enabled;
     }
 
-    bool PhysicsManager::isDebugMode() const
+    int PhysicsManager::isDebugMode() const
     {
         return mDebugMode;
     }
 
     void PhysicsManager::toggleDebugMode()
     {
-        if (mDebugMode)
-		{
-            mNewtonDebugger->hideLines();
-		}
-        else
+        mDebugMode = (mDebugMode+1)%3;
+        switch(mDebugMode)
         {
-            mNewtonDebugger = &OgreNewt::Debugger::getSingleton();
-
-			try
-			{
-				mNewtonDebugger->init(
-					CoreSubsystem::getSingleton().getWorld()->getSceneManager());
-			}
-			catch(Ogre::Exception) {}
-
-            mNewtonDebugger->showLines(mWorld);
+            case 0:
+                mNewtonDebugger->hideDebugInformation();
+                break;
+            case 1:
+	        mNewtonDebugger->init(CoreSubsystem::getSingleton().getWorld()->getSceneManager());
+                mNewtonDebugger->showDebugInformation(mWorld);
+                break;
+            default:
+	        mNewtonDebugger->init(CoreSubsystem::getSingleton().getWorld()->getSceneManager());
+                break;
         }
-        mDebugMode = !mDebugMode;
     }
 
     void PhysicsManager::addLevelGeometry( Ogre::Entity* levelEntity, const std::vector<OgreNewt::CollisionPtr> &collisions)
@@ -308,14 +311,24 @@ namespace rl
 
         SceneNode* node = levelEntity->getParentSceneNode();
         //Level entity has to be attached to a scene node.
+        
 
-        for( size_t i = 0; i < collisions.size(); i++)
+        // try one compound collision for the entity if there are several collisions
+        OgreNewt::CollisionPtr collision(NULL);
+        switch( collisions.size() )
         {
-		    if( collisions[i] == NULL )
-                continue;
+            case 0:
+                break;
+            case 1:
+                collision = collisions[0];
+                break;
+            default:
+                collision = new OgreNewt::CollisionPrimitives::CompoundCollision(mWorld, collisions);
+                break;
+        }
 
-            OgreNewt::CollisionPtr collision = collisions[i];
-
+        if( collision )
+        {
             OgreNewt::Body* body = new OgreNewt::Body(mWorld, collision );
 
 
@@ -324,7 +337,7 @@ namespace rl
                 node->getWorldOrientation());
             body->setMaterialGroupID(getMaterialID("level"));
 
-			mLevelBodiesQuadTree.add(body);
+            mLevelBodiesQuadTree.add(body);
             //mLevelBodies.push_back(body);
         }
 
@@ -846,7 +859,7 @@ namespace rl
 
             rval = CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(
                 PhysicsManager::getSingleton()._getNewtonWorld(),
-                entity, false/*, true */ ));
+                entity, true ));
         }
         else
         {
@@ -1039,6 +1052,5 @@ namespace rl
         }
         return rval;
     }
-
 }
 
