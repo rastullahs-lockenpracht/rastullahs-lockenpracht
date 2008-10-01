@@ -110,6 +110,13 @@ namespace rl
          */
         void setActor(Actor* actor);
         Actor* getActor();
+        
+        /**
+         * Check whether a creature can perform an action on this game object
+         *
+         * @return a boolean
+         */
+        bool hasAction(const CeGuiString& actionName, Creature* actor) const;
 
         /**
          * Get all valid actions a character can perfom on this game object
@@ -126,11 +133,11 @@ namespace rl
                    if the action wasn't triggered by someone (e.g. by time)
          *  @param target the action's target (can be <code>NULL</code> if no other game objects are involved)
          */
-        void doAction(const CeGuiString actionName,
+        void doAction(const CeGuiString& actionName,
                       Creature* actor,
                       GameObject* target);
 
-        void doAction(const CeGuiString actionName);
+        void doAction(const CeGuiString& actionName);
 
         void doAction(Action* action,
                       Creature* actor,
@@ -148,7 +155,7 @@ namespace rl
         const Ogre::Vector3& getPosition() const;
         Ogre::AxisAlignedBox getWorldBoundingBox() const;
 
-        /// Soll der Aktor überhaupt leuchten?
+        /// Soll der Aktor Â¸berhaupt leuchten?
         bool isHighlightingEnabled();
         void setHighlightingEnabled( bool highlightenabled );
 
@@ -232,6 +239,8 @@ namespace rl
 
         ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin,
             ActionOptionVector::iterator end, const CeGuiString actionName);
+        ActionOptionVector::const_iterator findAction(ActionOptionVector::const_iterator begin,
+            ActionOptionVector::const_iterator end, const CeGuiString actionName) const;
         ActionOptionVector::iterator findAction(ActionOptionVector::iterator
             begin, ActionOptionVector::iterator end, const Action* action);    
     };

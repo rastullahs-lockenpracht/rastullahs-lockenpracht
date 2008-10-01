@@ -52,7 +52,7 @@ namespace rl
 
         virtual bool Invoke(MessageObjectBase* obj)
         {
-            MessageObjectType* obj2 = (MessageObjectType*)obj;
+            MessageObjectType* obj2 = static_cast<MessageObjectType*>(obj);
             return obj2->Invoke(mHandler);
         }
 
@@ -126,6 +126,10 @@ namespace rl
             MessageHandlerMapEntries* entries = getOrCreateMapEntries(_MessageType::MessageTypeId);
             MessageHandlerMapEntry entry = {mNextConnectionId++, wrapper};
             entries->push_back(entry);
+
+            LOG_MESSAGE("MessagePump", 
+                "Added message handler for message type " 
+                + Ogre::StringConverter::toString(_MessageType::MessageTypeId));
 
             Connection con;
             con.pump = this;
@@ -216,13 +220,14 @@ namespace rl
 
         // overloads from GameTask
 
-		virtual void run(Ogre::Real elapsedTime);
+        virtual void run(Ogre::Real elapsedTime);
 
         virtual const Ogre::String& getName() const;
 
     private:
         MessageHandlerMapEntries* getOrCreateMapEntries(int id) 
         {
+            LOG_MESSAGE("MessagePump", "Create or get id " + Ogre::StringConverter::toString(id));
             MessageHandlerMap::iterator it = mMessageHandlerMap.find(id);
             if(it == mMessageHandlerMap.end())
             {

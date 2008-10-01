@@ -359,6 +359,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\FetchItemJob.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\GameEventLog.cpp"
 				>
 			</File>
@@ -658,6 +662,10 @@
 			</File>
 			<File
 				RelativePath=".\include\EigenschaftenStateSet.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\FetchItemJob.h"
 				>
 			</File>
 			<File

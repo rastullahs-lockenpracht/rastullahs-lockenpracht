@@ -476,6 +476,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\GameOverWindow.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\GameSaveLoadWindow.h"
 					>
 				</File>
@@ -714,6 +718,10 @@
 				</File>
 				<File
 					RelativePath=".\src\GameObjectInfoWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\GameOverWindow.cpp"
 					>
 				</File>
 				<File

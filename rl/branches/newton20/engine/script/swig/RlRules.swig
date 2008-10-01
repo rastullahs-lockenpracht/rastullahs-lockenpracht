@@ -455,6 +455,14 @@ namespace rl {
 		//GoToJob(rl::Creature* actor, rl::GameObject* target, Ogre::Real maxDistance, Ogre::Real duration);
     };
     
+    /// A rl#Job to fetch an item
+    class FetchItemJob : public Job
+    {
+    public:
+
+		FetchItemJob(rl::Creature* actor, rl::Item* item, const Ogre::String& targetSlot, Ogre::Real duration);
+    };
+    
     %feature("director") Item;
     class Item : public rl::GameObject {
     public:

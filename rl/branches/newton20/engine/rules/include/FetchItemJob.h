@@ -14,8 +14,8 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#ifndef __RL_GOTO_JOB_H__
-#define __RL_GOTO_JOB_H__
+#ifndef __RL_FETCH_ITEM_JOB_H__
+#define __RL_FETCH_ITEM_JOB_H__
 
 #include "RulesPrerequisites.h"
 #include "Job.h"
@@ -24,27 +24,24 @@ namespace rl
 {
     class Creature;
     class CreatureController;
-    class GameObject;
+    class Item;
     
-    /// A rl#Job to let a creature go to a target position
-    class _RlRulesExport GoToJob : public Job
+    /// A rl#Job to fetch an item
+    class _RlRulesExport FetchItemJob : public Job
     {
     public:
 
-		GoToJob(Creature* actor, const Ogre::Vector3& targetPos,
-			Ogre::Real maxDistance, Ogre::Real duration);
-		GoToJob(Creature* actor, GameObject* target, Ogre::Real maxDistance, Ogre::Real duration);
-        virtual ~GoToJob();
+		FetchItemJob(Creature* actor, Item* item, const Ogre::String& targetSlot, Ogre::Real duration);
+        virtual ~FetchItemJob();
 
         virtual bool execute(Ogre::Real time);
 
     private:
 		CreatureController* mActor;
-		GameObject* mTarget;
-		Ogre::Vector3 mTargetPos;
-		Ogre::Real mMaxDistance;
+		Item* mItem;
+		Ogre::String mTargetSlot;
 		Ogre::Real mTimeLeft;
     };
 }
 
-#endif
+#endif //__RL_FETCH_ITEM_JOB_H__
