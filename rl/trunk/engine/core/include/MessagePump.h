@@ -209,14 +209,7 @@ namespace rl
             doPost(obj);
         }
 
-        void sendPending()
-        {
-            while(!mMessageQueue.empty())
-            {
-                doSend(mMessageQueue.front());
-                mMessageQueue.pop();
-            }
-        }
+        void sendPending();
 
         // overloads from GameTask
 
@@ -225,63 +218,12 @@ namespace rl
         virtual const Ogre::String& getName() const;
 
     private:
-        MessageHandlerMapEntries* getOrCreateMapEntries(int id) 
-        {
-            LOG_MESSAGE("MessagePump", "Create or get id " + Ogre::StringConverter::toString(id));
-            MessageHandlerMap::iterator it = mMessageHandlerMap.find(id);
-            if(it == mMessageHandlerMap.end())
-            {
-                MessageHandlerMapEntries* entries = new MessageHandlerMapEntries();
-                mMessageHandlerMap[id] = entries;
-                return entries;
-            }
-            return it->second;
-        }
-
-        bool doSend(MessageObjectBase* msg)
-        {
-            bool msgHandled = false;
-            MessageHandlerMapEntries* entries = getOrCreateMapEntries(msg->getMessageTypeId());
-            for(MessageHandlerMapEntries::iterator it = entries->begin(); it != entries->end(); ++it)
-            {
-                if((*it).handlerWrapper->Invoke(msg))
-                {
-                    msgHandled = true;
-                }
-            }
-            delete msg;
-            return msgHandled;;
-        }
-
-        void doPost(MessageObjectBase* msg)
-        {
-            mMessageQueue.push(msg);
-        }
+        MessageHandlerMapEntries* getOrCreateMapEntries(int id); 
+        bool doSend(MessageObjectBase* msg);
+        void doPost(MessageObjectBase* msg);
 
         friend class Connection;
-        void disconnectHandler(int connectionId)
-        {
-            //not very performant...definitely needs improvement
-            for (MessageHandlerMap::iterator it = mMessageHandlerMap.begin();
-                it != mMessageHandlerMap.end(); ++it)
-            {
-                MessageHandlerMapEntries* en = it->second;
-                for (MessageHandlerMapEntries::iterator jt = en->begin(); jt != en->end(); ++jt)
-                {
-                    if (jt->connectionId == connectionId)
-                    {
-                        delete jt->handlerWrapper;
-                        en->erase(jt);
-                        if (en->empty())
-                        {
-                            delete en;
-                            mMessageHandlerMap.erase(it);
-                        }
-                        return;
-                    }
-                }
-            }
-        }
+        void disconnectHandler(int connectionId);
 
     private:
         int mNextConnectionId;
