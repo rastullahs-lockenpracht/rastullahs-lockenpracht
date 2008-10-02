@@ -24,6 +24,7 @@ class RegressionTestModule < ContentModule
     def start()
         require "mckhero.rb"
         require "hero.rb"
+        require "truhe.rb"
         MapLoader.new("regressiontest").loadMap("regressiontest.scene")
         load "regressiontest.rb"
     end

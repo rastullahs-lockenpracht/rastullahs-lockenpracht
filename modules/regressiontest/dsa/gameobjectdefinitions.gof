@@ -32,6 +32,24 @@
             <property type="STRING" data="DefaultIdleBehaviour"/>
             <property type="STRING" data="DialogBehaviour"/>
         </property>
+   		<property name="inventory" type="MAP">
+			<property name="slots" type="ARRAY">
+				<!-- Left hand -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Left Hand"/>
+					<property name="type" type="STRING" data="bone"/>
+					<property name="bone" type="STRING" data="l_hand"/>
+					<property name="readies" type="INT" data="3"/> <!-- Weapons | Shields -->
+				</property>
+				<!-- Right hand -->
+				<property type="MAP"> 
+					<property name="name" type="STRING" data="Right Hand"/>
+					<property name="type" type="STRING" data="bone"/>
+					<property name="bone" type="STRING" data="r_hand"/>
+					<property name="readies" type="INT" data="3"/> <!-- Weapons | Shields -->
+				</property>
+			</property>
+		</property>
 		<property name="eigenschaften" type="MAP">
 			<property name="MU" type="INT" data="12"/>
 			<property name="KL" type="INT" data="8"/>

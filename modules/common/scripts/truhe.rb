@@ -6,6 +6,8 @@
 # Inwiefern ist Deferred Construction sinnvoll?
 load "embed.rb"
 
+require "gameobjectprops.rb"
+
 class OpenContainerAction < Action
   def initialize
     super("opencontainer", "Öffnen");

@@ -24,6 +24,7 @@ $SCRIPT.log("begin tests.")
 require 'doortest.rb'
 require 'effecttest.rb'
 require 'ErrorHandlingTest.rb'
+require 'FetchItemJobTest.rb'
 require 'GameObjectCreationTest.rb'
 require 'InventoryTest.rb'
 require 'JobSequenceTest.rb'
@@ -75,6 +76,7 @@ class RegressionTestSuite
 		runTest(TimeTest, [ -5, 0, -5])
 		runTest(WalkJobTest, [  0, 0, -3])
 		runTest(CombatTest, [15, 0, 15])
+   		runTest(FetchItemJobTest, [-15, 0, 15])
 
 		if @mErrors > 0
 		  MessageBox.showModal(
