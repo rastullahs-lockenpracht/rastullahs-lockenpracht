@@ -52,15 +52,34 @@ namespace rl
 			|| mItem->getState() == GOS_UNLOADED
 			|| mItem->getState() == GOS_LOADED)
 		{
+            if (!mItem) 
+            {
+                LOG_WARNING("FetchItemJob", "Item not set or it has a strange state.");
+            }
+            else if (mTimeLeft < 0)
+            {
+                LOG_MESSAGE("FetchItemJob", "Time is up.");
+            }
+            else
+            {
+                LOG_WARNING("FetchItemJob", "Item has a strange state (" 
+                        + StringConverter::toString(mItem->getState()) + ")");
+            }
+
 			// Stay put where ever we are.
 			mActor->setMovement(CreatureController::MT_STEHEN, Vector3::ZERO, Vector3::ZERO);
 			return true;
 		}
 
-		Vector3 targetPos = mItem->getPosition();
+        Item* target = mItem;
+        while (target->getState() == GOS_IN_POSSESSION)
+        {
+            target = target->getParentContainer();
+        }
+		Vector3 targetPos = target->getPosition();
 
 		// Are we there now?
-		Ogre::Real distance = MathUtil::distance(mItem->getWorldBoundingBox(),
+		Ogre::Real distance = MathUtil::distance(target->getWorldBoundingBox(),
 			mActor->getCreature()->getWorldBoundingBox());
 		if (distance < 1.0f)
 		{
@@ -68,9 +87,9 @@ namespace rl
             
             if (mItem->getState() == GOS_IN_SCENE)
             {
-                    // @todo play pickup animation
-                    mActor->getCreature()->getInventory()->hold(mItem, mTargetSlot);
-                    return true;
+                // @todo play pickup animation
+                mActor->getCreature()->getInventory()->hold(mItem, mTargetSlot);
+                return true;
 			}
             else if (mItem->getState() == GOS_IN_POSSESSION)
 			{
@@ -86,8 +105,8 @@ namespace rl
             else if (mItem->getState() == GOS_READY
 					 || mItem->getState() == GOS_HELD)
 			{
-                    LOG_WARNING("FetchItemJob", "Target item is held by someone");
-                    return true;
+                LOG_WARNING("FetchItemJob", "Target item is held by someone");
+                return true;
             }
 
             return false;

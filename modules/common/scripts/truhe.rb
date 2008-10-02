@@ -10,7 +10,7 @@ require "gameobjectprops.rb"
 
 class OpenContainerAction < Action
   def initialize
-    super("opencontainer", "Öffnen");
+    super("open", "Öffnen");
   end
 
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
@@ -25,7 +25,7 @@ end
 
 class CloseContainerAction < Action
   def initialize
-    super("closecontainer", "Schließen");
+    super("close", "Schließen");
   end
 
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
@@ -37,6 +37,22 @@ class CloseContainerAction < Action
     container.close()
   end
 end
+
+class ShowContainerContentAction < Action
+  def initialize
+    super("showcontent", "Hineinsehen");
+  end
+
+  # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
+  def canDo(container, user)
+    true
+  end
+
+  def doAction(container, user, target)
+    container.showContent(user)
+  end
+end
+
 
 class Chest < Container
 
@@ -50,6 +66,7 @@ class Chest < Container
     # @todo: Make these actions global actions (add to ActionManager)
     addAction(OpenContainerAction.new);
     addAction(CloseContainerAction.new);
+    addAction(ShowContainerContentAction.new);
     $SCRIPT.log("truhe.rb - Aktionen hinzugefuegt.");
   end
   
@@ -73,7 +90,13 @@ class Chest < Container
     chestActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
     knarzActor = chestActor.getChildByName(chestActor.getName()+"_knarzen");
     knarzActor.getControlledObject().play();
-    setOpen( true);
+    setOpen( true);    
+  end
+  
+  def showContent(actor)
+    if not isOpen()
+        open()
+    end
     $WF.showContainerContent(self);
   end
 

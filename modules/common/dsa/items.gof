@@ -8,6 +8,8 @@
 		<property name="mass" type="REAL" data="0"/>
 		<property name="meshfile" type="STRING" data="ver_truhe_gross01.mesh"/>
 <!--		<property name="sound" type="STRING" data="doorcreak.ogg"/>-->
+        <property name="capacity" type="REAL" data="200.0"/>
+        <property name="volume" type="INTPAIR" data="12,12"/>
 	</gameobjectclass>
 
 	<gameobjectclass classid="torch" baseclass="Torch">
