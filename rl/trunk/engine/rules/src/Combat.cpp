@@ -72,9 +72,11 @@ namespace rl
 		  mNextActionId(0),
 		  mAnimationSequenceTicket(0)
     {
+        LOG_MESSAGE("Combat", "Register message handler");
 		mLifeStateChangeConnection =
             MessagePump::getSingleton().addMessageHandler<MessageType_GameObjectLifeStateChanged>(
 			    boost::bind(&Combat::onGameObjectLifeStateChanged, this, _1, _2, _3));
+        LOG_MESSAGE("Combat", "Registering message handler done");
     }
 
     Combat::~Combat()
