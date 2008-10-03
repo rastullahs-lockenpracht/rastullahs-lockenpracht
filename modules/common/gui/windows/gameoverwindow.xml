@@ -1,29 +1,36 @@
 <GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
-    <Window Type="RastullahLook/FrameWindow" Name="CloseConfirmationWindow">
+    <Window Type="RastullahLook/FrameWindow" Name="GameOverWindow">
         <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}"/>
-        <Property Name="UnifiedSize" Value="{{0,400},{0,171}}"/>
-		<Property Name="Text" Value="Rastullahs Lockenpracht beenden"/>
+        <Property Name="UnifiedSize" Value="{{0,400},{0,250}}"/>
+		<Property Name="Text" Value="Game Over"/>
 
-		<Window Type="RastullahLook/StaticText" Name="CloseConfirmationWindow/Text">
+		<Window Type="RastullahLook/StaticText" Name="GameOverWindow/Text">
             <Property Name="UnifiedPosition" Value="{{0,15},{0,26}}"/>
             <Property Name="UnifiedSize" Value="{{0,370},{0,50}}"/>
 			<Property Name="FrameEnabled" Value="False"/>
-			<Property Name="Text" Value="Soll Rastullahs Lockenpracht wirklich beendet werden?" />
+			<Property Name="Text" Value="All your characters have died." />
             <Property Name="HorzFormatting" Value="WordWrapCentred" />
 		</Window>
 
-		<Window Type="RastullahLook/Button" Name="CloseConfirmationWindow/YesButton">
-            <Property Name="UnifiedPosition" Value="{{0,50},{0,125}}"/>
+		<Window Type="RastullahLook/Button" Name="GameOverWindow/MainMenuButton">
+            <Property Name="UnifiedPosition" Value="{{0.5,-60},{0,125}}"/>
             <Property Name="UnifiedSize" Value="{{0,125},{0,28}}"/>
 			<Property Name="Font" Value="Vera Serif-10"/>
-			<Property Name="Text" Value="Ja"/>
+			<Property Name="Text" Value="Main Menu"/>
 		</Window>
 
-		<Window Type="RastullahLook/Button" Name="CloseConfirmationWindow/NoButton">
-            <Property Name="UnifiedPosition" Value="{{0,225},{0,125}}"/>
+		<Window Type="RastullahLook/Button" Name="GameOverWindow/QuitButton">
+            <Property Name="UnifiedPosition" Value="{{0.5,-60},{0,165}}"/>
             <Property Name="UnifiedSize" Value="{{0,125},{0,28}}"/>
 			<Property Name="Font" Value="Vera Serif-10"/>
-			<Property Name="Text" Value="Nein"/>
+			<Property Name="Text" Value="Quit"/>
+		</Window>
+
+		<Window Type="RastullahLook/Button" Name="GameOverWindow/CheatButton">
+            <Property Name="UnifiedPosition" Value="{{0.5,-60},{0,205}}"/>
+            <Property Name="UnifiedSize" Value="{{0,125},{0,28}}"/>
+			<Property Name="Font" Value="Vera Serif-10"/>
+			<Property Name="Text" Value="Cheat"/>
 		</Window>
     </Window>
 </GUILayout>
