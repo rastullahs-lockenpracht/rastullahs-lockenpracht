@@ -22,7 +22,7 @@ class OgreMainWindow(QtGui.QWidget):
         self.middleMouseDown = False
         self.rightMouseDown = False
 
-        self.dollyCamera = False
+        self.mDollyCamera = False
 
         self.moveCamForward = False
         self.moveCamBackward = False
@@ -130,7 +130,7 @@ class OgreMainWindow(QtGui.QWidget):
                 self.moduleManager.leftMouseDown = True
 
                 if self.rightMouseDown: #if right mouse button is already pressed dolly the camera
-                    self.dollyCamera = True
+                    self.mDollyCamera = True
                 else:
                     self.calculateSelectionRay(event)
 
@@ -150,8 +150,8 @@ class OgreMainWindow(QtGui.QWidget):
                 self.moduleManager.leftMouseDown = False
                 self.moduleManager.leftMouseUp()
 
-                if self.dollyCamera == True: #if we dolly the camera set it to false
-                    self.dollyCamera = False
+                if self.mDollyCamera == True: #if we dolly the camera set it to false
+                    self.mDollyCamera = False
 
             elif event.button() == 2: # right mouse button is released
                 self.rightMouseDown = False
@@ -161,37 +161,41 @@ class OgreMainWindow(QtGui.QWidget):
                 self.moduleManager.middleMouseDown = False
 
             if not self.rightMouseDown:
-                self.dollyCamera = False
+                self.mDollyCamera = False
                 self.camUpdateTimer.stop()
 
+            self.lastMousePosX = 0
+            self.lastMousePosY = 0
+
         elif event.type() == 5: #mouse moved while button down
+            if self.lastMousePosX == 0: # check to avoid to huge values which may happen when the user clicks and lastMousePosX/Y is zero
+                self.lastMousePosX = event.globalX()
+            if self.lastMousePosY == 0:# check to avoid to huge values which may happen when the user clicks and lastMousePosX/Y is zero
+                self.lastMousePosY = event.globalY()
+
             incX =  (event.globalX() - self.lastMousePosX)
             incY =  (event.globalY() - self.lastMousePosY)
 
-            if self.leftMouseDown and not self.middleMouseDown and not self.rightMouseDown:
+            if self.moduleManager.pivot is not None and  self.leftMouseDown and not self.middleMouseDown and not self.rightMouseDown:
                 self.moduleManager.pivot.onMouseMoved(event.globalX,  event.globalY,  incX,  incY)
+
 
             rotX = incX * 0.01
             rotY = incY * 0.01
 
-            if (rotX < 0.3 and rotY < 0.3) and (rotX > -0.3 and rotY > -0.3): # check to avoid to huge values which may happen when the user clicks and lastMousePosX/Y is zero
-                if self.dollyCamera:
-                    self.focusedWindow.dollyCamera(og.Vector3( rotX, -rotY,  0))
-                elif self.rightMouseDown:
-                    obj.orbitCamera(-rotX,  rotY)
+            if self.mDollyCamera:
+                obj.dollyCamera(og.Vector3(rotX, -rotY,  0) * 3)
+            elif self.rightMouseDown:
+                obj.orbitCamera(-rotX,  rotY)
 
             self.lastMousePosX = event.globalX()
             self.lastMousePosY = event.globalY()
-
-        elif event.type() == 3: # mouse released
-            self.lastMousePosX = 0
-            self.lastMousePosY = 0
 
         return False
 
     #calculates the the selection ray and notifies the ModuleManager that something is about to be selected
     def calculateSelectionRay(self,  event):
-        relMousePos = self.focusedWindow.mapFromGlobal(QtCore.QPoint(event.globalX(),  event.globalY())) # get the mose position relative to the focused window
+        relMousePos = self.ogreRenderWindow.mapFromGlobal(QtCore.QPoint(event.globalX(),  event.globalY())) # get the mose position relative to the ogre window
 
         if self.lastSelectionClick != None:
             if self.lastSelectionClick.x() == relMousePos.x() and self.lastSelectionClick.y() == relMousePos.y(): # mouse didn't move
@@ -201,8 +205,10 @@ class OgreMainWindow(QtGui.QWidget):
                 return
 
         self.lastSelectionClick = relMousePos
-        mouseRay = self.focusedWindow.getCamera().getCameraToViewportRay(relMousePos.x()/float(self.focusedWindow.viewport.getActualHeight()),
-                                                                                                                                           relMousePos.y()/float(self.focusedWindow.viewport.getActualWidth()))
+        screenX = relMousePos.x()/float(self.ogreRenderWindow.viewport.getActualWidth())
+        screenY = relMousePos.y()/float(self.ogreRenderWindow.viewport.getActualHeight())
+
+        mouseRay = self.ogreRenderWindow.getCamera().getCameraToViewportRay(screenX, screenY)
 
         if event.modifiers() == QtCore.Qt.ControlModifier:
             self.moduleManager.selectionClick(mouseRay,  True,  False)

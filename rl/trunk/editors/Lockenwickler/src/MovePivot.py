@@ -98,6 +98,7 @@ class Pivot():
         self.pivotNode.setPosition(pos)
 
     def startTransforming(self, dirEntity, soList):
+        print "dbg: transforming....."
         self.moveDirection = dirEntity.getName()
         self.selectionList = soList
         self.isTransforming = True
@@ -108,42 +109,68 @@ class Pivot():
         pass
 
     def hide(self):
-        self.pivotNode.setVisible(False)
+        self.pivotNode.removeAllChildren()
 
     def show(self):
+        self.hide()
         if self.mode == 1:
-            self.xMoveNode.setVisible(True)
-            self.yMoveNode.setVisible(True)
-            self.zMoveNode.setVisible(True)
-            self.freeMoveNode.setVisible(True)
+            self.pivotNode.addChild(self.xMoveNode)
+            self.pivotNode.addChild(self.yMoveNode)
+            self.pivotNode.addChild(self.zMoveNode)
         elif self.mode == 2:
-            self.xRotateNode.setVisible(True)
-            self.yRotateNode.setVisible(True)
-            self.zRotateNode.setVisible(True)
+            self.pivotNode.addChild(self.xRotateNode)
+            self.pivotNode.addChild(self.yRotateNode)
+            self.pivotNode.addChild(self.zRotateNode)
         elif self.mode == 3:
             pass
 
     def setMoveMode(self):
         self.hide()
         self.mode = 1
-        self.xMoveNode.setVisible(True)
-        self.yMoveNode.setVisible(True)
-        self.zMoveNode.setVisible(True)
-        self.freeMoveNode.setVisible(False)
-
+        self.pivotNode.addChild(self.xMoveNode)
+        self.pivotNode.addChild(self.yMoveNode)
+        self.pivotNode.addChild(self.zMoveNode)
         pass
 
     def setRotateMode(self):
         self.hide()
         self.mode = 2
-        self.xRotateNode.setVisible(True)
-        self.yRotateNode.setVisible(True)
-        self.zRotateNode.setVisible(True)
+        self.pivotNode.addChild(self.xRotateNode)
+        self.pivotNode.addChild(self.yRotateNode)
+        self.pivotNode.addChild(self.zRotateNode)
         pass
 
-    def __setScaleMode(self):
+    def settScaleMode(self):
         pass
 
     def onMouseMoved(self, globalX, globalY, incX, incY):
-        print self.moveDirection
+        # move mode
+        if self.mode == 1:
+            transVec = None
+            if self.moveDirection == "EditorXArrow":
+                transVec = og.Vector3(-incX, 0.0 , 0.0)
+            elif self.moveDirection == "EditorYArrow":
+                transVec = og.Vector3(0.0, -incY, 0.0)
+            elif self.moveDirection == "EditorZArrow":
+                transVec = og.Vector3(0.0, 0.0, -incX)
+
+            for so in self.selectionList:
+                so.entity.getParentNode().translate(transVec)
+
+            self.pivotNode.translate(transVec)
+
+        # rotate mode
+        elif self.mode == 2:
+            rotValue = (incX + incY) * 0.05
+
+            if self.moveDirection == "EditorXRotator":
+                for so in self.selectionList:
+                    so.entity.getParentNode().pitch(rotValue)
+            if self.moveDirection == "EditorYRotator":
+                for so in self.selectionList:
+                    so.entity.getParentNode().yaw(rotValue)
+            if self.moveDirection == "EditorZRotator":
+                for so in self.selectionList:
+                    so.entity.getParentNode().roll(rotValue)
+
         pass

@@ -9,6 +9,7 @@ from MovePivot import *
 # a class to store information about a object that got selected
 class SelectionObject():
     def __init__(self,  entity,  distance):
+        self.entityName = entity.getName()
         self.entity = entity #the selected entity
         self.distance = distance # the distance from camera at the time of selection
         self.isPivot = False
@@ -19,6 +20,12 @@ class SelectionObject():
             self.entity.getParentNode().showBoundingBox(True)
         else:
             self.entity.getParentNode().showBoundingBox(False)
+
+    def __eq__(self, other):
+        return self.entity.getName() == other.entity.getName()
+
+    def __ne__(self, other):
+        return self.entity.getName() != other.entity.getName()
 
 class MyRaySceneQueryListener ( og.RaySceneQueryListener ):
     def __init__( self ):
@@ -45,7 +52,7 @@ class MyRaySceneQueryListener ( og.RaySceneQueryListener ):
             return -1
 
     def queryResult ( self, entity, distance ):
-        print entity.getName()
+        #print entity.getName()
         if distance == 0.0: #camera is in the bounding box, ignore this selection
             return True
         elif entity.getName() == "rayLine" :
@@ -84,13 +91,10 @@ class MyRaySceneQueryListener ( og.RaySceneQueryListener ):
         return True
 
     def reset(self):
-        for so in self.selectionList:
-            so.setSelected(False)
-
         self.previousSelected = -1
         self.currentSelected = -1
-
-        self.selectionList = []
+        del self.selectionList[:]
+        #self.selectionList = []
 
     def iterateEntityUnderMouse(self):
         self.previousSelected = self.currentSelected
@@ -120,10 +124,8 @@ class MyRaySceneQueryListener ( og.RaySceneQueryListener ):
         pMesh = entity.getMesh()
 
         pos =    entity.getParentNode().getWorldPosition()
-        scale =  entity.getParentNode().getScale()
         orient = entity.getParentNode().getWorldOrientation()
-
-
+        scale =  entity.getParentNode().getScale()
 
         for i in range ( pMesh.getNumSubMeshes() ):
             pSubMesh = pMesh.getSubMesh(i)
@@ -207,7 +209,7 @@ class MyRaySceneQueryListener ( og.RaySceneQueryListener ):
 
             ih = 0
             for blah in self.mVertexList:
-                print str(ih) + ": "  +  str(blah)
+                #print str(ih) + ": "  +  str(blah)
                 ih += 1
 
 #            for blah in self.mIndexList:
@@ -229,15 +231,38 @@ class MyRaySceneQueryListener ( og.RaySceneQueryListener ):
 
 
     def rayCastToPolygonLevelOnSingleMesh(self,  ray,  entity):
+        return True
         self.getMeshInformation(entity)
+        name = entity.getName()
+        print "dbg: " + name
+
+        temp = []
+        for vec in self.mVertexList:
+            temp.append(vec.x)
+            temp.append(vec.y)
+            temp.append(vec.z)
+
         globalPosition = entity.getParentNode().getWorldPosition()
+        globalOrientation = entity.getParentNode().getWorldOrientation()
+
 
         i = 0
         while i <= (len(self.mIndexList) - 3):
-            result = og.Math.intersects(ray, globalPosition + self.mVertexList[self.mIndexList[i]], globalPosition + self.mVertexList[self.mIndexList[i+1]],
-                                                                                                                                                          globalPosition + self.mVertexList[self.mIndexList[i+2]], True, False)
+            verta = globalPosition + self.mVertexList[self.mIndexList[i]]
+            vertb = globalPosition + self.mVertexList[self.mIndexList[i+1]]
+            vertc = globalPosition + self.mVertexList[self.mIndexList[i+2]]
+
+            verta = globalOrientation * verta
+            vertb = globalOrientation * vertb
+            vertc = globalOrientation * vertc
+            normal = og.Math.calculateBasicFaceNormal(verta, vertb, vertc)
+
+            result = og.Math.intersects(ray, verta, vertb, vertc, True, True)
+            #result = og.Math.intersects(ray, globalPosition + self.mVertexList[self.mIndexList[i]], globalPosition + self.mVertexList[self.mIndexList[i+1]],
+            #                                                                                                                                              globalPosition + self.mVertexList[self.mIndexList[i+2]], normal,  True, True)
 
             if result.first:
+                print "dbg: Treffer!!!!!!!!!"
                 return True
 
             i += 3
@@ -291,6 +316,7 @@ class ModuleManager(object):
                 self.parseSceneNodes(node)
 
         self.pivot = Pivot(self.sceneManager)
+        self.pivot.hide()
 
     def parseSceneNodes(self,  nodeList):
         for ent in nodeList:
@@ -330,16 +356,17 @@ class ModuleManager(object):
                 print "Warning: Meshfile " + meshFile + " could not be found."
                 return
 
-            n = self.sceneManager.getRootSceneNode().createChild()
+            n = self.sceneManager.getRootSceneNode().createChild(entityName + "_node")
             n.attachObject(e)
             n.setPosition(nodePosition)
-            n.setOrientation(nodeRotation)
+            #n.setOrientation(nodeRotation)
             n.setScale(nodeScale)
 
         pass
 
     # called when a click into Main Ogre Window occurs
     def selectionClick(self,  ray,  controlDown=False,  shiftDown=False):
+        self.listenerDings.reset()
         self.lastRay = ray
         self.listenerDings.currentRay = ray
         self.raySceneQuery.Ray = ray
@@ -356,21 +383,26 @@ class ModuleManager(object):
                     self.updatePivots()
                 elif controlDown and not shiftDown:
                     so.setSelected(True)
+
+                    for soFromList in self.userSelectionList:
+                        if soFromList == so:
+                            return # object already selected
+
                     self.userSelectionList.append(so)
                     self.updatePivots()
+
                 elif not controlDown and shiftDown:
                     for selo in self.userSelectionList:
-                        if so.entity.getName() == selo.entity.getName():
+                        if so == selo:
                             so.setSelected(False)
                             self.userSelectionList.remove(selo)
                     self.updatePivots()
             else:
-                print "isPivot: " + str(so.entity.getName())
                 self.pivot.startTransforming(so.entity,  self.userSelectionList)
         else:
-            print "noneee"
             self.resetSelection() # click in empty space, deselect everything
-            self.pivot.hide()
+            if self.pivot is not None:
+                self.pivot.hide()
 
         if self.rayLine == None:
             self.rayLine = self.sceneManager.createManualObject("rayLine")
@@ -393,7 +425,7 @@ class ModuleManager(object):
             self.rayLine.end()
 
     def leftMouseUp(self):
-        if self.pivot.isTransforming:
+        if self.pivot is not None and self.pivot.isTransforming:
             self.pivot.stopTransforming()
 
     def iterateEntityUnderMouse(self):

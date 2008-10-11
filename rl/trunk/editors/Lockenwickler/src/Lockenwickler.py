@@ -2,8 +2,8 @@ import os
 import sys
 import platform
 
-#sys.path.insert(0,'..')
-#import PythonOgreConfig
+sys.path.insert(0,'..')
+import PythonOgreConfig
 
 from random import randint
 from os.path import isfile
@@ -25,7 +25,7 @@ class Lockenwickler(QtGui.QMainWindow):
 
         self.setupUi()
 
-        self.consoleWindow = ConsoleWindow(False,  self)
+        self.consoleWindow = ConsoleWindow(True,  self)
 
         self.setupOgre()
 
@@ -106,7 +106,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.statusbar.setObjectName("statusbar")
         self.setStatusBar(self.statusbar)
 
-        self.actionNeu = QtGui.QAction(QtGui.QIcon("media/icons/package.png"), "&New",  self)
+        self.actionNeu =self.createAction("&New",  self.close,  "Ctrl + N",  "filenew.png",  "New")
         self.actionNeu.setObjectName("actionNeu")
 
         self.actionClose = self.createAction("Quit",  self.close,  "Alt + Q",  "exit.png",  "Quit")
@@ -120,7 +120,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.actionRotate = self.createAction("&Rotate",  self.actionRotateSlot,  "r",  "rotate.png",  "Rotate selected object")
         self.actionRotate.setObjectName("actionRotate")
 
-        self.actionScale = self.createAction("&Scale",  self.actionScaleSlot,  "s",  "resizecol.png",  "Scale selected object")
+        self.actionScale = self.createAction("&Scale",  self.actionScaleSlot,  "x",  "resizecol.png",  "Scale selected object")
         self.actionRotate.setObjectName("actionRotate")
 
 
@@ -199,16 +199,24 @@ class Lockenwickler(QtGui.QMainWindow):
         oglog.addListener(self.consoleWindow.lockenLog)
 
     def update(self):
+#        try:
+#            self.OgreMainWinSceneMgr.getSceneNode("saeule_076_node").yaw(0.02)
+#        except Exception,  e:
+#            pass
+
         self.ogreRoot.renderOneFrame()
 
     def actionMoveSlot(self):
-        print "MOVE!!!!!!!!!!!"
+        self.moduleManager.pivot.setMoveMode()
+        return
 
     def actionRotateSlot(self):
-        print "ROTATE!!!!!!!!!"
+        self.moduleManager.pivot.setRotateMode()
+        return
 
     def actionScaleSlot(self):
-        print "Scale!!!!!!!!"
+        self.moduleManager.pivot.setScaleMode()
+        return
 
     def togglePreferencesWindow(self):
         if self.prefDialog.isHidden():
@@ -362,7 +370,7 @@ class Lockenwickler(QtGui.QMainWindow):
         if reply == QtGui.QMessageBox.Cancel:
             return False
         if reply == QtGui.QMessageBox.Yes:
-            print "SAVE!!!!"
+            print""
             #TODO: implement save here
         return True
 
