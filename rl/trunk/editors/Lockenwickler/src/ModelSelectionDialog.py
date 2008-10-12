@@ -1,23 +1,60 @@
+#################################################
+ # Copyright (C) 2008  Stefan Stammberger
+ #
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+ # version 2.1 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ # Lesser General Public License for more details.
+ #
+ # You should have received a copy of the GNU Lesser General Public
+ # License along with this library; if not, write to the Free Software
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ #################################################
+
+
 import sys
 import os
 from os.path import isdir
 from os.path import isfile
 
+from PyQt4.QtGui import *
+from PyQt4.QtCore import *
+
 import OgreWidget
 import ogre.renderer.OGRE as og
-from PyQt4 import QtGui, QtCore
 
-class ModelSelectionDialog(QtGui.QDialog):
+
+class MyListWidget(QListWidget):
+    def __init__(self,  parent):
+        super(MyListWidget, self).__init__(parent)
+        self.setDragEnabled(True)
+
+    def startDrag(self,  dropActions):
+        data = QByteArray()
+        stream = QDataStream(data,  QIODevice.WriteOnly)
+        stream << self.currentItem().text()
+        mimeData = QMimeData()
+        mimeData.setData("application/x-text", data)
+        drag = QDrag(self)
+        drag.setMimeData(mimeData)
+        drag.start(Qt.CopyAction)
+
+class ModelSelectionDialog(QDialog):
     def __init__(self, ogreRoot, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QDialog.__init__(self, parent)
         self.ogreRoot = ogreRoot
 
         self.setupUi()
 
-        QtCore.QObject.connect(self.modelSearchBox, QtCore.SIGNAL("textChanged(QString)"),
+        self.connect(self.modelSearchBox, SIGNAL("textChanged(QString)"),
                                self.updateModelList)
 
-        QtCore.QObject.connect(self.listWidget, QtCore.SIGNAL("itemSelectionChanged ()"),
+        self.connect(self.listWidget, SIGNAL("itemSelectionChanged ()"),
                                self.setPreviewedModel)
 
         self.modelList = []
@@ -31,37 +68,39 @@ class ModelSelectionDialog(QtGui.QDialog):
         self.lastMousePosX = 0
         self.lastMousePosY = 0
 
+
+
     def setupUi(self):
         self.setObjectName("modelPreviewDialog")
-        self.resize(QtCore.QSize(QtCore.QRect(0,0,272,744).size()).expandedTo(self.minimumSizeHint()))
+        self.resize(QSize(QRect(0,0,272,744).size()).expandedTo(self.minimumSizeHint()))
 
-        self.gridlayout = QtGui.QGridLayout(self)
+        self.gridlayout = QGridLayout(self)
         self.gridlayout.setObjectName("gridlayout")
 
-        self.modelSearchBox = QtGui.QLineEdit(self)
+        self.modelSearchBox = QLineEdit(self)
         self.modelSearchBox.setObjectName("modelSearchBox")
         self.gridlayout.addWidget(self.modelSearchBox,0,0,1,1)
 
-        self.splitter = QtGui.QSplitter(self)
-        self.splitter.setOrientation(QtCore.Qt.Vertical)
+        self.splitter = QSplitter(self)
+        self.splitter.setOrientation(Qt.Vertical)
         self.splitter.setObjectName("splitter")
 
-        self.listWidget = QtGui.QListWidget(self.splitter)
+        self.listWidget = MyListWidget(self.splitter)
         self.listWidget.setObjectName("listWidget")
 
         self.ogreModelPrevWindowSceneMgr = self.ogreRoot.createSceneManager(og.ST_GENERIC,"ogreModelPrevWindowSceneMgr")
         self.ogreModelPrevWindow = OgreWidget.OgreWidget("ModelPrevWin", self.ogreRoot, self.ogreModelPrevWindowSceneMgr, "PrevCam",
                                                          self.splitter)
-        self.ogreModelPrevWindow.setMinimumSize(QtCore.QSize(200,200))
+        self.ogreModelPrevWindow.setMinimumSize(QSize(200,200))
         self.ogreModelPrevWindow.setObjectName("modelPreviewWindow")
         self.gridlayout.addWidget(self.splitter,1,0,1,1)
 
         self.retranslateUi()
-        QtCore.QObject.connect(self.modelSearchBox,QtCore.SIGNAL("textChanged(QString)"),self.listWidget.clearSelection)
-        QtCore.QMetaObject.connectSlotsByName(self)
+        QObject.connect(self.modelSearchBox,SIGNAL("textChanged(QString)"),self.listWidget.clearSelection)
+        QMetaObject.connectSlotsByName(self)
 
     def retranslateUi(self):
-        self.setWindowTitle(QtGui.QApplication.translate("modelPreviewDialog", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
+        self.setWindowTitle(QApplication.translate("modelPreviewDialog", "Dialog", None, QApplication.UnicodeUTF8))
 
     def setPreviewedModel(self):
         if self.ent != None:
@@ -99,6 +138,12 @@ class ModelSelectionDialog(QtGui.QDialog):
 
         self.listWidget.sortItems()
 
+    def eventFilter(self, obj, event):
+        if event.type() == 5:
+            self.startDrag()
+            event.accept()
+
+        return False
 
     def event(self, event):
         if event.type() == 31: # scroll wheel turned
@@ -108,17 +153,18 @@ class ModelSelectionDialog(QtGui.QDialog):
                 self.ogreModelPrevWindow.zoomCamera( 5)
 
         if event.type() == 5: #mouse moved while button down
-           rotX = (event.globalX() - self.lastMousePosX) * 0.01
-           rotY = (event.globalY() - self.lastMousePosY) * 0.01
+            rotX = (event.globalX() - self.lastMousePosX) * 0.01
+            rotY = (event.globalY() - self.lastMousePosY) * 0.01
 
-           if rotX < 0.1 and rotY < 0.1: # first click, don't do anything at all here
-               self.ogreModelPrevWindow.orbitCamera(-rotX,  rotY)
+            if rotX < 0.1 and rotY < 0.1: # first click, don't do anything at all here
+                self.ogreModelPrevWindow.orbitCamera(-rotX,  rotY)
 
-           self.lastMousePosX = event.globalX()
-           self.lastMousePosY = event.globalY()
+            self.lastMousePosX = event.globalX()
+            self.lastMousePosY = event.globalY()
 
         if event.type() == 3: # mouse released
             self.lastMousePosX = 0
             self.lastMousePosY = 0
 
         return False
+

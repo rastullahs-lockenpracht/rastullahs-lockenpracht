@@ -1,17 +1,39 @@
+#################################################
+ # Copyright (C) 2008  Stefan Stammberger
+ #
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+ # version 2.1 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ # Lesser General Public License for more details.
+ #
+ # You should have received a copy of the GNU Lesser General Public
+ # License along with this library; if not, write to the Free Software
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ #################################################
+
+
 import os
 import sys
 import platform
 
-from PyQt4 import QtGui, QtCore
+from PyQt4.QtGui import *
+from PyQt4.QtCore import *
+
+from ViewportGrid import *
 
 import OgreWidget
 import ogre.renderer.OGRE as og
 
 # this class is the heart of the 3d part
 # it manages the two ogre render windows and recieves events from the windows through the event filter
-class OgreMainWindow(QtGui.QWidget):
+class OgreMainWindow(QWidget):
     def __init__(self, moduleManager,  ogreRoot, OgreMainWinSceneMgr,  parent):
-        QtGui.QWidget.__init__(self, parent)
+        QWidget.__init__(self, parent)
         self.moduleManager = moduleManager
         self.ogreRoot = ogreRoot
         self.OgreMainWinSceneMgr = OgreMainWinSceneMgr
@@ -29,38 +51,39 @@ class OgreMainWindow(QtGui.QWidget):
         self.strafeCamLeft = False
         self.strafeCamRight = False
 
-        self.camUpdateTimer = QtCore.QTimer(self)
-        self.camUpdateTimer.connect(self.camUpdateTimer, QtCore.SIGNAL("timeout()"), self.updateCamera)
+        self.camUpdateTimer = QTimer(self)
+        self.camUpdateTimer.connect(self.camUpdateTimer, SIGNAL("timeout()"), self.updateCamera)
 
         self.lastSelectionClick = None # Qpoint wich saves the last selection click mouse position
 
         self.setupUi(self)
 
+
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(QtCore.QSize(QtCore.QRect(0,0,935,843).size()).expandedTo(Form.minimumSizeHint()))
+        Form.resize(QSize(QRect(0,0,935,843).size()).expandedTo(Form.minimumSizeHint()))
 
-        self.gridlayout = QtGui.QGridLayout(Form)
+        self.gridlayout = QGridLayout(Form)
         self.gridlayout.setObjectName("gridlayout")
 
         # create the vertical splitter ( contains the preferences buttons and the horizontal splitter with the two render windows )
-        self.splitterV = QtGui.QSplitter(Form)
+        self.splitterV = QSplitter(Form)
 
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding,QtGui.QSizePolicy.MinimumExpanding)
+        sizePolicy = QSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.splitterV.sizePolicy().hasHeightForWidth())
         self.splitterV.setSizePolicy(sizePolicy)
-        self.splitterV.setOrientation(QtCore.Qt.Vertical)
+        self.splitterV.setOrientation(Qt.Vertical)
         self.splitterV.setObjectName("splitter")
 
         # create the preferences buttons and connect the signals
-        self.ogreWindowOptions = QtGui.QToolButton(self)
-        QtCore.QObject.connect(self.ogreWindowOptions, QtCore.SIGNAL("clicked()"),
+        self.ogreWindowOptions = QToolButton(self)
+        QObject.connect(self.ogreWindowOptions, SIGNAL("clicked()"),
                                     self.onPreferencesButton)
         self.ogreWindowOptions.hide()
 
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum,QtGui.QSizePolicy.Minimum)
+        sizePolicy = QSizePolicy(QSizePolicy.Maximum,QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ogreWindowOptions.sizePolicy().hasHeightForWidth())
@@ -72,9 +95,9 @@ class OgreMainWindow(QtGui.QWidget):
 
         ##################################
         self.ogreRenderWindow = OgreWidget.OgreWidget("OgreMainWin", self.ogreRoot, self.OgreMainWinSceneMgr, "MainCam", self.splitterV,  0)
-        self.ogreRenderWindow.setMinimumSize(QtCore.QSize(250,250))
+        self.ogreRenderWindow.setMinimumSize(QSize(250,250))
 
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum,QtGui.QSizePolicy.Maximum)
+        sizePolicy = QSizePolicy(QSizePolicy.Maximum,QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ogreRenderWindow.sizePolicy().hasHeightForWidth())
@@ -89,38 +112,40 @@ class OgreMainWindow(QtGui.QWidget):
         # register the eventfilters for the render windows
         # this is needed to catch mouse enter and mouse leave events for these windows
         self.ogreRenderWindow.installEventFilter(self)
-
+        self.ogreRenderWindow.setAcceptDrops(True)
         self.lastMousePosX = 0
         self.lastMousePosY = 0
 
         self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        QMetaObject.connectSlotsByName(Form)
 
+        self.viewportGrid = ViewportGrid(self.OgreMainWinSceneMgr, self.ogreRenderWindow.viewport)
+        self.viewportGrid.enable()
     def retranslateUi(self, Form):
-        Form.setWindowTitle(QtGui.QApplication.translate("Form", "Form", None, QtGui.QApplication.UnicodeUTF8))
-        self.ogreWindowOptions.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        Form.setWindowTitle(QApplication.translate("Form", "Form", None, QApplication.UnicodeUTF8))
+        self.ogreWindowOptions.setText(QApplication.translate("Form", "...", None, QApplication.UnicodeUTF8))
 
     def onPreferencesButton(self):
-        self.splitterH.setOrientation(QtCore.Qt.Vertical)
+        self.splitterH.setOrientation(Qt.Vertical)
 
     def keyPressEvent(self,  event):
-        if event.key() == QtCore.Qt.Key_W:
+        if event.key() == Qt.Key_W:
             self.moveCamForward = True
-        elif event.key() == QtCore.Qt.Key_S:
+        elif event.key() == Qt.Key_S:
             self.moveCamBackward = True
-        elif event.key() == QtCore.Qt.Key_A:
+        elif event.key() == Qt.Key_A:
             self.strafeCamLeft = True
-        elif event.key() == QtCore.Qt.Key_D:
+        elif event.key() == Qt.Key_D:
             self.strafeCamRight= True
 
     def keyReleaseEvent(self,  event):
-        if event.key() == QtCore.Qt.Key_W:
+        if event.key() == Qt.Key_W:
             self.moveCamForward = False
-        elif event.key() == QtCore.Qt.Key_S:
+        elif event.key() == Qt.Key_S:
             self.moveCamBackward = False
-        elif event.key() == QtCore.Qt.Key_A:
+        elif event.key() == Qt.Key_A:
             self.strafeCamLeft = False
-        elif event.key() == QtCore.Qt.Key_D:
+        elif event.key() == Qt.Key_D:
             self.strafeCamRight= False
 
     def eventFilter(self, obj, event):
@@ -179,7 +204,6 @@ class OgreMainWindow(QtGui.QWidget):
             if self.moduleManager.pivot is not None and  self.leftMouseDown and not self.middleMouseDown and not self.rightMouseDown:
                 self.moduleManager.pivot.onMouseMoved(event.globalX,  event.globalY,  incX,  incY)
 
-
             rotX = incX * 0.01
             rotY = incY * 0.01
 
@@ -191,11 +215,53 @@ class OgreMainWindow(QtGui.QWidget):
             self.lastMousePosX = event.globalX()
             self.lastMousePosY = event.globalY()
 
+        if event.type() == 60: #drag enter
+            self.dragEnterEvent(event)
+        if event.type() == 61: #drag move
+            self.dragMoveEvent(event)
+        if event.type() == 62:
+            print "dbg: DragLeave"
+        if event.type() == 63:
+            self.dropEvent(event)
+
         return False
+
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasFormat("application/x-text"):
+            data = event.mimeData().data("application/x-text")
+            stream = QDataStream(data, QIODevice.ReadOnly)
+            text = QString()
+            stream >> text
+
+            self.moduleManager.startDropModelAction(text, self.getCameraToViewportRay()) #start the model draging
+
+            event.setDropAction(Qt.CopyAction)
+            event.accept()
+
+        else:
+            event.ignore()
+
+
+    def dragMoveEvent(self, event):
+        self.moduleManager.moveDropModelAction(self.getCameraToViewportRay()) #move it with the mouse
+
+        event.accept()
+
+    def dropEvent(self, event):
+        self.moduleManager.stopDropModelAction(self.getCameraToViewportRay()) # place it down
+        event.accept()
+
+    def getCameraToViewportRay(self):
+        relMousePos = self.ogreRenderWindow.mapFromGlobal(QCursor.pos())
+
+        screenX = relMousePos.x()/float(self.ogreRenderWindow.viewport.getActualWidth())
+        screenY = relMousePos.y()/float(self.ogreRenderWindow.viewport.getActualHeight())
+
+        return self.ogreRenderWindow.getCamera().getCameraToViewportRay(screenX, screenY)
 
     #calculates the the selection ray and notifies the ModuleManager that something is about to be selected
     def calculateSelectionRay(self,  event):
-        relMousePos = self.ogreRenderWindow.mapFromGlobal(QtCore.QPoint(event.globalX(),  event.globalY())) # get the mose position relative to the ogre window
+        relMousePos = self.ogreRenderWindow.mapFromGlobal(QPoint(event.globalX(),  event.globalY())) # get the mose position relative to the ogre window
 
         if self.lastSelectionClick != None:
             if self.lastSelectionClick.x() == relMousePos.x() and self.lastSelectionClick.y() == relMousePos.y(): # mouse didn't move
@@ -210,12 +276,13 @@ class OgreMainWindow(QtGui.QWidget):
 
         mouseRay = self.ogreRenderWindow.getCamera().getCameraToViewportRay(screenX, screenY)
 
-        if event.modifiers() == QtCore.Qt.ControlModifier:
+        if event.modifiers() == Qt.ControlModifier:
             self.moduleManager.selectionClick(mouseRay,  True,  False)
-        elif event.modifiers() == QtCore.Qt.ShiftModifier:
+        elif event.modifiers() == Qt.ShiftModifier:
             self.moduleManager.selectionClick(mouseRay,  False,  True)
         else:
             self.moduleManager.selectionClick(mouseRay)
+
 
     def updateCamera(self):
         if self.moveCamForward:

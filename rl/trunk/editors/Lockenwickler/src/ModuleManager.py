@@ -1,3 +1,21 @@
+#################################################
+ # Copyright (C) 2008  Stefan Stammberger
+ #
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+ # version 2.1 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ # Lesser General Public License for more details.
+ #
+ # You should have received a copy of the GNU Lesser General Public
+ # License along with this library; if not, write to the Free Software
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ #################################################
+
 import sys
 import xml.dom.minidom as xml
 
@@ -52,10 +70,12 @@ class MyRaySceneQueryListener ( og.RaySceneQueryListener ):
             return -1
 
     def queryResult ( self, entity, distance ):
-        #print entity.getName()
+        #print "dbg: " + entity.getName()
         if distance == 0.0: #camera is in the bounding box, ignore this selection
             return True
-        elif entity.getName() == "rayLine" :
+#        elif entity.getName() == "rayLine" :
+#            return True
+        elif entity.getName() == "OgreMainWin::0::ViewportGrid":
             return True
         elif entity.isVisible() and entity.getName() == "EditorXArrow":
             so = SelectionObject(entity,  distance)
@@ -296,7 +316,7 @@ class ModuleManager(object):
         self.listenerDings = MyRaySceneQueryListener()
 
         self.lastRay = None
-        self.rayLine = None
+#        self.rayLine = None
 
         self.pivot = None
         self.movingPivot = False
@@ -304,6 +324,11 @@ class ModuleManager(object):
         self.leftMouseDown = False
         self.middleMouseDown = False
         self.rightMouseDown = False
+
+        self.dropCount = 0
+        self.dropNode = None
+        self.dropEntity = None
+        self.dropCollisionPlane = og.Plane(og.Vector3.UNIT_Y, og.Vector3.ZERO)
 
     def load(self,  moduleName,  mapFiles):
         self.moduleName = moduleName
@@ -375,7 +400,8 @@ class ModuleManager(object):
         so = self.listenerDings.rayCastToPolygonLevel(ray)
         if so is not None:
             if not so.isPivot:
-                self.pivot.show()
+                if self.pivot is not None:
+                    self.pivot.show()
                 if not controlDown and not shiftDown:
                     self.resetSelection()
                     so.setSelected(True)
@@ -404,25 +430,25 @@ class ModuleManager(object):
             if self.pivot is not None:
                 self.pivot.hide()
 
-        if self.rayLine == None:
-            self.rayLine = self.sceneManager.createManualObject("rayLine")
-            self.rayLine.setDynamic(True)
-            self.sceneManager.getRootSceneNode().createChildSceneNode("raynode").attachObject(self.rayLine)
-
-            self.rayLine.begin("BaseWhiteNoLighting", og.RenderOperation.OT_LINE_STRIP)
-
-            self.rayLine.position(ray.getOrigin())
-            self.rayLine.position( ray.getPoint(10000))
-
-            self.rayLine.end()
-
-        else:
-            self.rayLine.beginUpdate(0)
-
-            self.rayLine.position(ray.getOrigin())
-            self.rayLine.position( ray.getPoint(10000))
-
-            self.rayLine.end()
+#        if self.rayLine == None:
+#            self.rayLine = self.sceneManager.createManualObject("rayLine")
+#            self.rayLine.setDynamic(True)
+#            self.sceneManager.getRootSceneNode().createChildSceneNode("raynode").attachObject(self.rayLine)
+#
+#            self.rayLine.begin("BaseWhiteNoLighting", og.RenderOperation.OT_LINE_STRIP)
+#
+#            self.rayLine.position(ray.getOrigin())
+#            self.rayLine.position( ray.getPoint(10000))
+#
+#            self.rayLine.end()
+#
+#        else:
+#            self.rayLine.beginUpdate(0)
+#
+#            self.rayLine.position(ray.getOrigin())
+#            self.rayLine.position( ray.getPoint(10000))
+#
+#            self.rayLine.end()
 
     def leftMouseUp(self):
         if self.pivot is not None and self.pivot.isTransforming:
@@ -448,8 +474,8 @@ class ModuleManager(object):
 
         for so in self.userSelectionList:
             newPivotPosition += so.entity.getParentNode().getPosition()
-
-        self.pivot.setPosition(newPivotPosition / len(self.userSelectionList))
+        if self.pivot is not None:
+            self.pivot.setPosition(newPivotPosition / len(self.userSelectionList))
 
     def unload(self,  saveOnUnload=True):
         pass
@@ -457,5 +483,26 @@ class ModuleManager(object):
     def save(self):
         pass
 
+    def startDropModelAction(self, meshFile, ray):
+        self.dropEntity = self.sceneManager.createEntity("dropMesh" + str(self.dropCount), str(meshFile))
+        self.dropNode = self.sceneManager.getRootSceneNode().createChild("dropNode" + str(self.dropCount))
+        self.dropNode.attachObject(self.dropEntity)
+
+        result = og.Math.intersects(ray, self.dropCollisionPlane)
+        if result.first == True:
+            self.dropNode.setPosition(ray.getPoint(result.second))
+        else:
+            self.dropNode.setPosition(ray.getPoint(50))
+
+        self.dropCount += 1
+
+    def moveDropModelAction(self, ray):
+        result = og.Math.intersects(ray, self.dropCollisionPlane)
+        if result.first == True:
+            self.dropNode.setPosition(ray.getPoint(result.second))
+        else:
+            self.dropNode.setPosition(ray.getPoint(50))
 
 
+    def stopDropModelAction(self, ray):
+        pass
