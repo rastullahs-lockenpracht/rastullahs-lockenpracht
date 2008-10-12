@@ -52,7 +52,7 @@ const Ogre::String Quest::PROPERTY_PARTSTODO = "partstodo";
 const Ogre::String Quest::PROPERTY_PARTSDONE = "partsdone";
 
 Quest::Quest(const CeGuiString& id, const CeGuiString& name, const CeGuiString& description)
-:       mId(id),
+:       SaveAble(id),
         mName(name),
         mDescription(description),
         mPartsToDo(1),
@@ -74,11 +74,6 @@ Quest::~Quest()
        delete *it;
     }
     mSubquests.clear();
-}
-
-const CeGuiString Quest::getId() const
-{
-	return mId;
 }
 
 const CeGuiString Quest::getName() const

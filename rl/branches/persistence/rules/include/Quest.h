@@ -21,6 +21,7 @@
 #include <vector>
 
 #include "Properties.h"
+#include "SaveAble.h"
 
 namespace rl {
 
@@ -33,7 +34,7 @@ namespace rl {
     /**
     * @brief Verwaltet einen Quest oder Subquest
     */
-    class _RlRulesExport Quest : public PropertyHolder
+    class _RlRulesExport Quest : public SaveAble
     {
     public:
         enum State
@@ -65,11 +66,6 @@ namespace rl {
             const CeGuiString& description = "");
 
         virtual ~Quest();
-
-        /**
-        * @return die Quest-ID
-        */
-        const CeGuiString getId() const;
 
         /**
         * @return der Titel des Quests
@@ -172,7 +168,6 @@ namespace rl {
         static const int UNKNOWN = 0;
 
         QuestVector mSubquests;
-        CeGuiString mId;
         CeGuiString mName;
         CeGuiString mDescription;
         int mPartsToDo;

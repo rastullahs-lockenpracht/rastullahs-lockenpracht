@@ -130,7 +130,7 @@ namespace rl {
         }
         if(!mapLoaded)
         {
-            LOG_MESSAGE(Logger::RULES, "Loading map " + mapresource);
+			LOG_MESSAGE(Logger::SCRIPT, "Loading map " + mapresource);
 
   		    initializeXml();
 

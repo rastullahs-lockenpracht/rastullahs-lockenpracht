@@ -188,7 +188,7 @@ namespace rl {
         rl::CeGuiString getText() const;
     };
     
-    class Quest
+    class Quest : public SaveAble
     {
     public:
         enum State
