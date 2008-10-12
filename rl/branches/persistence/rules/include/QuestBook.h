@@ -27,7 +27,7 @@
 #include "Quest.h"
 #include "QuestEvent.h"
 #include "QuestListener.h"
-#include "SaveGameData.h"
+#include "SaveAbleFactory.h"
 #include "XmlProcessor.h"
 
 #include <vector>
@@ -39,8 +39,8 @@ class _RlRulesExport QuestBook :
     public Ogre::ScriptLoader,
     public EventSource, 
     public PropertyHolder, 
-    public SaveGameData,
-    public XmlProcessor
+    public XmlProcessor,
+	public SaveAbleFactory
 {
 public:
     static const Ogre::String PROPERTY_QUESTS;
@@ -59,9 +59,16 @@ public:
 
 	/**
 	 * Fuegt einen Quest hinzu
-	 * @param quest der Qubquest
+	 * @param quest der Subquest
 	 */
 	void addQuest(Quest* quest);
+
+	/** TODO
+	 *Inheritated from SaveAbleFactory
+	 *@param params Params needed for creation
+	 *@return SaveAble which has been created
+	 */
+	SaveAblePtr createSaveAble(PropertyRecordPtr params);
 
     /**
      *  Adds a journal entry to the quest book.
@@ -83,14 +90,6 @@ public:
     virtual void setProperty(const CeGuiString& key, const Property& value);
     void setQuestsProperty(PropertyArray array, Quest* rootQuest);
     virtual PropertyKeys getAllPropertyKeys() const;
-
-    /// Override from SaveGameData
-    /// Manages saving and loading from the SaveGameFile
-
-    virtual CeGuiString getXmlNodeIdentifier() const;
-    virtual void writeData(SaveGameFileWriter* writer);
-    virtual void readData(SaveGameFileReader* reader);
-    virtual int getPriority() const;
 
     //loading quests from xml
     virtual const Ogre::StringVector &getScriptPatterns(void) const;

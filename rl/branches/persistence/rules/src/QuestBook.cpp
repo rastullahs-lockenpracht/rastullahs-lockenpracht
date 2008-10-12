@@ -36,12 +36,10 @@ namespace rl {
     {
         mScriptPatterns.push_back("*.quests");
         createRoot();
-        SaveGameManager::getSingleton().registerSaveGameData(this);
     }
 
     QuestBook::~QuestBook()
     {
-        SaveGameManager::getSingleton().unregisterSaveGameData(this);
 	    delete mRootQuest;
         for( vector<JournalEntry*>::iterator it = mJournalEntries.begin();
             it != mJournalEntries.end(); it++ )
@@ -85,6 +83,10 @@ namespace rl {
     {
 	    mRootQuest->addSubquest(quest);
     }
+
+	SaveAblePtr QuestBook::createSaveAble(PropertyRecordPtr params)
+	{
+	}
 
     void QuestBook::_fireQuestBookChanged(Quest *quest, int reason)
     {
@@ -305,28 +307,6 @@ namespace rl {
         return quests;
     }
 
-    CeGuiString QuestBook::getXmlNodeIdentifier() const
-    {
-        return "questbook";
-    }
-
-    void QuestBook::writeData(SaveGameFileWriter *writer)
-    {
-        LOG_MESSAGE(Logger::RULES, "Saving questbook");
-
-        PropertyRecordPtr set = getAllProperties();
-        writer->writeEachProperty(this, set->toPropertyMap());
-    }
-
-    void QuestBook::readData(SaveGameFileReader* reader)
-    {
-        LOG_MESSAGE(Logger::RULES, "Loading questbook");
-
-        clear();
-        PropertyRecordPtr properties = reader->getAllPropertiesAsRecord(this);
-        setProperties(properties);
-    }
-
     void QuestBook::clear()
     {
         delete mRootQuest;
@@ -340,11 +320,6 @@ namespace rl {
         }
 
         createRoot();
-    }
-
-    int QuestBook::getPriority() const
-    {
-        return 101;
     }
 
     const Ogre::StringVector &QuestBook::getScriptPatterns(void) const
