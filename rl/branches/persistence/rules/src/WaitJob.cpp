@@ -21,14 +21,14 @@
 namespace rl
 {
 
-    WaitJob::WaitJob(const Date& dsatime)
-        : Job(false, true, TimeSource::GAMETIME, Job::PERSISTENT),
+    WaitJob::WaitJob(const CeGuiString &id, const Date& dsatime)
+        : Job(id, false, true, TimeSource::GAMETIME, Job::PERSISTENT),
         mTime(dsatime.toReal())
     {
     }
 
-    WaitJob::WaitJob(const Ogre::Real& realtime)
-        : Job(false, true, TimeSource::REALTIME_INTERRUPTABLE, Job::PERSISTENT),
+    WaitJob::WaitJob(const CeGuiString &id, const Ogre::Real& realtime)
+        : Job(id, false, true, TimeSource::REALTIME_INTERRUPTABLE, Job::PERSISTENT),
         mTime(realtime)
     {
     }

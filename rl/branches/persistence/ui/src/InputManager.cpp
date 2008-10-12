@@ -578,7 +578,7 @@ namespace rl {
 
 
         KeyRepeatJob(AbstractWindow* window, OIS::KeyCode key) :
-          Job(false, true),
+          Job("",false, true),
           mWindow(window),
           mKey(key),
           mLastTime(0)

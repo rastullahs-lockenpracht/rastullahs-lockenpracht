@@ -26,7 +26,7 @@ namespace rl
     class _RlCoreExport JobQueue : public AbstractJob
     {
     public:
-        JobQueue();
+        JobQueue(const CeGuiString &id);
         ~JobQueue();
 
         void add(AbstractJob* job);
@@ -44,7 +44,7 @@ namespace rl
     class _RlCoreExport JobSet : public AbstractJob
     {
     public:
-        JobSet();
+        JobSet(const CeGuiString &id);
         ~JobSet();
 
         void add(AbstractJob* job);

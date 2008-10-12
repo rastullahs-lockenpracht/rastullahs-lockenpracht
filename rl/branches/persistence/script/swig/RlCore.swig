@@ -989,7 +989,7 @@ public:
 %apply SWIGTYPE *DYNAMIC { Job * };
 
 %feature("director") Job;
-class Job
+class Job : public SaveAble
 {
 public:
     /**
@@ -1004,7 +1004,7 @@ public:
      *         Job, after execution is finished. This should usually be the case, but
      *         sometimes it is sensible to pool a number of Jobs for reuse.
      */
-	Job( bool isDiscardable, bool destroyWhenDone );
+	Job(const rl::CeGuiString &id, bool isDiscardable, bool destroyWhenDone );
 	virtual ~Job();
 	
 	/**
@@ -1052,9 +1052,9 @@ private:
 class PlayAnimationJob : public rl::Job
 {
 public:
-    PlayAnimationJob(Actor* actor, const Ogre::String& anim, Ogre::Real duration,
+    PlayAnimationJob(const rl::CeGuiString &id, Actor* actor, const Ogre::String& anim, Ogre::Real duration,
 		bool replaceAllAnims=true);
-    PlayAnimationJob(Actor* actor, const Ogre::String& anim, int loops = 1,
+    PlayAnimationJob(const rl::CeGuiString &id, Actor* actor, const Ogre::String& anim, int loops = 1,
 		bool replaceAllAnims=true);
     virtual ~PlayAnimationJob();
     
@@ -1065,7 +1065,7 @@ private:
 class StartAnimationJob : public rl::Job
 {
 public:
-    StartAnimationJob(Actor* actor, const Ogre::String& anim, bool doLoop=false,
+    StartAnimationJob(const rl::CeGuiString &id, Actor* actor, const Ogre::String& anim, bool doLoop=false,
 		bool replaceAllAnims=true);
     virtual ~StartAnimationJob();
     
@@ -1085,7 +1085,7 @@ private:
 class JobQueue : public rl::Job
 {
 public:
-    JobQueue();
+    JobQueue(const rl::CeGuiString &id);
     virtual ~JobQueue();
     void add(Job* job);
     
@@ -1096,7 +1096,7 @@ private:
 class JobSet : public rl::Job
 {
 public:
-    JobSet();
+    JobSet(const rl::CeGuiString &id);
     virtual ~JobSet();
     void add(Job* job);
     

@@ -136,7 +136,7 @@ namespace rl
 
 		// Get real animation name
 		Creature::AnimationSpeedPair asp = getCreature()->getAnimation(ani);
-		PlayAnimationJob* job = new PlayAnimationJob(getCreature()->getActor(), asp.first);
+		PlayAnimationJob* job = new PlayAnimationJob("Animation" + ani + getCreature()->getId(), getCreature()->getActor(), asp.first);
         job->setHoldOnEnd(false);
         jobSet->add(job);
 	}
@@ -164,7 +164,7 @@ namespace rl
 
 		// Get real animation name
 		Creature::AnimationSpeedPair asp = getCreature()->getAnimation(ani);
-		PlayAnimationJob* job = new PlayAnimationJob(getCreature()->getActor(), asp.first);
+		PlayAnimationJob* job = new PlayAnimationJob("Animation" + ani + getCreature()->getId(), getCreature()->getActor(), asp.first);
         job->setHoldOnEnd(false);
         jobSet->add(job);
 	}
@@ -173,20 +173,20 @@ namespace rl
 	{
 		// Get real animation name
 		Creature::AnimationSpeedPair asp = getCreature()->getAnimation("kampf_getroffen");
-		PlayAnimationJob* job = new PlayAnimationJob(getCreature()->getActor(), asp.first);
+		PlayAnimationJob* job = new PlayAnimationJob("Animation" + Ogre::String("kampf_getroffen") + getCreature()->getId(), getCreature()->getActor(), asp.first);
         job->setHoldOnEnd(false);
 		jobSet->add(job);
 	}
 
 	void Combatant::doBewegen(JobSet* jobSet, const Ogre::Vector3& targetPos)
 	{
-		Job* job = new GoToJob(getCreature(), targetPos, 0.0f, 3.0f);
+		Job* job = new GoToJob("GoTo" + getCreature()->getId(), getCreature(), targetPos, 0.0f, 3.0f);
 		jobSet->add(job);
 	}
 
 	void Combatant::doFolgen(JobSet* jobSet, Combatant* target)
 	{
-		Job* job = new GoToJob(getCreature(), target->getCreature(),
+		Job* job = new GoToJob("GoTo" + getCreature()->getId(), getCreature(), target->getCreature(),
 			getActiveWeapon()->getMaximumDistance(), 3.0f);
 		jobSet->add(job);
 	}

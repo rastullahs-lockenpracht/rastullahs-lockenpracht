@@ -20,8 +20,8 @@
 namespace rl
 {
 
-JobQueue::JobQueue()
-: AbstractJob(false, true),
+JobQueue::JobQueue(const CeGuiString &id)
+: AbstractJob(id, false, true),
     mTimeSource(TimeSource::REALTIME_CONTINUOUS)
 {
 }
@@ -96,8 +96,8 @@ const CeGuiString JobQueue::getClassName() const
     return "JobQueue";
 }
 
-JobSet::JobSet()
-: AbstractJob(false, true),
+JobSet::JobSet(const CeGuiString &id)
+: AbstractJob(id, false, true),
     mTimeSource(TimeSource::REALTIME_CONTINUOUS)
 {
 }

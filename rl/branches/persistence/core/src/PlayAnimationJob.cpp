@@ -24,9 +24,9 @@ using namespace Ogre;
 namespace rl
 {
 
-    PlayAnimationJob::PlayAnimationJob(Actor* actor, const Ogre::String& anim, Ogre::Real duration,
+    PlayAnimationJob::PlayAnimationJob(const CeGuiString &id, Actor* actor, const Ogre::String& anim, Ogre::Real duration,
         bool replaceAllAnims)
-        : Job(false, true, TimeSource::REALTIME_INTERRUPTABLE),
+        : Job(id, false, true, TimeSource::REALTIME_INTERRUPTABLE),
           mActor(actor),
           mAnimName(anim),
           mDuration(duration),
@@ -39,9 +39,9 @@ namespace rl
     {
     }
 
-    PlayAnimationJob::PlayAnimationJob(Actor* actor, const Ogre::String& anim, int loops,
+    PlayAnimationJob::PlayAnimationJob(const CeGuiString &id, Actor* actor, const Ogre::String& anim, int loops,
         bool replaceAllAnims)
-        : Job(false, true, TimeSource::REALTIME_INTERRUPTABLE),
+        : Job(id, false, true, TimeSource::REALTIME_INTERRUPTABLE),
           mActor(actor),
           mAnimName(anim),
           mLoops(loops),

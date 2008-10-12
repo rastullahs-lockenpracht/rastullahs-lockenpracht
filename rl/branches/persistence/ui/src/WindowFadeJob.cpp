@@ -29,7 +29,7 @@ using namespace Ogre;
 namespace rl
 {
     WindowFadeJob::WindowFadeJob(AbstractWindow* window, Mode mode, Real targetAlpha, Real changeRate)
-        : Job(true, true),
+        : Job("", true, true),
         mAbstractWindow(window),
         mCEGUIWindow(window->getWindow()),
         mItemDragContainer(NULL),
@@ -44,7 +44,7 @@ namespace rl
     }
 
     WindowFadeJob::WindowFadeJob(CEGUI::Window* window, Mode mode, Real targetAlpha, Real changeRate)
-        : Job(true, true),
+        : Job("", true, true),
         mAbstractWindow(NULL),
         mCEGUIWindow(window),
         mItemDragContainer(NULL),
@@ -59,7 +59,7 @@ namespace rl
     }
 
     WindowFadeJob::WindowFadeJob(ItemDragContainer* window, Mode mode, Real targetAlpha, Real changeRate)
-        : Job(true, true),
+        : Job("", true, true),
         mAbstractWindow(NULL),
         mCEGUIWindow(window),
         mItemDragContainer(window),

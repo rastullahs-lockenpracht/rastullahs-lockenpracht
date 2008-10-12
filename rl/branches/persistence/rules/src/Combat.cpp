@@ -72,9 +72,11 @@ namespace rl
 		  mNextActionId(0),
 		  mAnimationSequenceTicket(0)
     {
+        LOG_MESSAGE("Combat", "Register message handler");
 		mLifeStateChangeConnection =
             MessagePump::getSingleton().addMessageHandler<MessageType_GameObjectLifeStateChanged>(
 			    boost::bind(&Combat::onGameObjectLifeStateChanged, this, _1, _2, _3));
+        LOG_MESSAGE("Combat", "Registering message handler done");
     }
 
     Combat::~Combat()
@@ -321,15 +323,15 @@ namespace rl
 		// Auf gehts!
 
 		// Prepare JobQueue for animations.
-		JobQueue* jobQueue = new JobQueue();
+		JobQueue* jobQueue = new JobQueue("AnimationQueue");
 
 		for (size_t actionIndex = 0; actionIndex < 3; ++actionIndex)
 		{
 			for (CombatantQueue::iterator it = mCombatantQueue.begin();
 				it != mCombatantQueue.end(); ++it)
 			{
-			    JobSet* jobSetAnims = new JobSet();
-                JobSet* jobSetOutcome = new JobSet(); // damage is applied after combat animations to prevent premature reactions
+			    JobSet* jobSetAnims = new JobSet("jobSetAnims");
+                JobSet* jobSetOutcome = new JobSet("jobSetOutcome"); // damage is applied after combat animations to prevent premature reactions
 
                 Combatant* combatant = it->second;
 

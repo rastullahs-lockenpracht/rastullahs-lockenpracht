@@ -28,8 +28,8 @@ namespace rl
     const CeGuiString CreatureWalkPathJob::PROPERTY_NEXTLANDMARKS = "nextlandmarks";
     const CeGuiString CreatureWalkPathJob::PROPERTY_GAMEOBJECTID = "go_id";
 
-    CreatureWalkPathJob::CreatureWalkPathJob(const Ogre::String& name, Creature* movingCreature, Landmark* startLandmark)
-        : Job(false, true, TimeSource::GAMETIME, Job::PERSISTENT), 
+    CreatureWalkPathJob::CreatureWalkPathJob(const CeGuiString &id, const Ogre::String& name, Creature* movingCreature, Landmark* startLandmark)
+        : Job(id, false, true, TimeSource::GAMETIME, Job::PERSISTENT), 
         mLandmarkPath("LandmarkPath" + name), 
         mWayPoints(NULL),
         mUpdatedDirection(false),

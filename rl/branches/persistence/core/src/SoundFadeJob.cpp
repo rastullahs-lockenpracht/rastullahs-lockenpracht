@@ -23,7 +23,7 @@
 namespace rl
 {
     SoundFadeJob::SoundFadeJob(SoundObject* soundObject, SoundFadeFunctor* fadeFunctor, bool destroyWhenDone)
-        : Job(true, destroyWhenDone),
+        : Job("", true, destroyWhenDone),
         mSoundObject(soundObject),
         mSoundFadeFunctor(fadeFunctor),
         mTime(0)

@@ -44,13 +44,14 @@ namespace rl
 
         if (hasAttribute(nodeElem, "id"))
         {
-            goid = getAttributeValueAsInteger(nodeElem, "id");
+            goid = getAttributeValueAsString(nodeElem, "id");
         }
 
         GameObject* go = GameObjectManager::getSingleton().getGameObject(goid);
         if(!go)
         {
             go = GameObjectManager::getSingleton().createGameObject(classname, goid);
+			LOG_MESSAGE("Maploader", "Created GameObject with id: " + goid);
 
             DOMElement* posElem = getChildNamed(nodeElem, "position");
             if (posElem != NULL)

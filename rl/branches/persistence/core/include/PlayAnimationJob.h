@@ -39,7 +39,7 @@ namespace rl
         * @param replaceAllAnims <code>true</code> if all other animations should be stopped,
         *                        when this animation is started, <code>false</code> else.
         */
-        PlayAnimationJob(Actor* actor, const Ogre::String& anim, Ogre::Real duration,
+        PlayAnimationJob(const CeGuiString &id, Actor* actor, const Ogre::String& anim, Ogre::Real duration,
             bool replaceAllAnims=true);
 
         /**
@@ -51,7 +51,7 @@ namespace rl
         * @param replaceAllAnims <code>true</code> if all other animations should be stopped,
         *                        when this animation is started, <code>false</code> else.
         */
-        PlayAnimationJob(Actor* actor, const Ogre::String& anim, int loops = 1,
+        PlayAnimationJob(const CeGuiString &id, Actor* actor, const Ogre::String& anim, int loops = 1,
             bool replaceAllAnims=true);
 
         virtual ~PlayAnimationJob();

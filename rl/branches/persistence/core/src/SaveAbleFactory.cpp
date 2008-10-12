@@ -17,3 +17,31 @@
 #include "stdinc.h"
 
 #include "SaveAbleFactory.h"
+
+namespace rl
+{
+	void SaveAbleFactoryPool::registerFactory(const Ogre::String &key, rl::SaveAbleFactory *fac)
+	{
+		if(mFactories.find(key) != mFactories.end())
+			LOG_ERROR("CORE", "SaveAbleFactory already registered!");
+		mFactories[key] = fac;
+	}
+
+	void SaveAbleFactoryPool::unregisterFactory(const Ogre::String &key)
+	{
+		std::map<Ogre::String,SaveAbleFactory*>::iterator it = mFactories.find(key);
+		mFactories.erase(it);
+	}
+
+	void SaveAbleFactoryPool::unregisterFactory(rl::SaveAbleFactory *fac)
+	{
+	}
+
+	SaveAbleFactory* SaveAbleFactoryPool::getFactory(const Ogre::String &key)
+	{
+		std::map<Ogre::String,SaveAbleFactory*>::iterator it = mFactories.find(key);
+		if(it == mFactories.end())
+			return NULL;
+		return it->second;
+	}
+}

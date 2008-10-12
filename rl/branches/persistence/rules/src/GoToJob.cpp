@@ -25,8 +25,8 @@ using namespace Ogre;
 
 namespace rl
 {
-	GoToJob::GoToJob(Creature* actor, const Vector3& targetPos, Real maxDistance, Real duration)
-		: Job(false, true, TimeSource::REALTIME_INTERRUPTABLE),
+	GoToJob::GoToJob(const CeGuiString &id, Creature* actor, const Vector3& targetPos, Real maxDistance, Real duration)
+		: Job(id, false, true, TimeSource::REALTIME_INTERRUPTABLE),
 		  mActor(NULL),
 		  mTarget(NULL),
 		  mTargetPos(targetPos),
@@ -36,8 +36,8 @@ namespace rl
 		mActor = CreatureControllerManager::getSingleton().getCreatureController(actor);
 	}
 
-	GoToJob::GoToJob(Creature* actor, GameObject* target, Real maxDistance, Real duration)
-		: Job(false, true, TimeSource::REALTIME_INTERRUPTABLE),
+	GoToJob::GoToJob(const CeGuiString &id, Creature* actor, GameObject* target, Real maxDistance, Real duration)
+		: Job(id, false, true, TimeSource::REALTIME_INTERRUPTABLE),
 		  mActor(NULL),
 		  mTarget(target),
 		  mTargetPos(Vector3::ZERO),

@@ -41,7 +41,7 @@ namespace rl
         * @param movingCreature the job has to know a moving creature
         * @param startLandmark first landmark, the moving creature has to go to
         */
-        CreatureWalkPathJob(const Ogre::String& name, Creature* movingCreature, Landmark* startLandmark);
+        CreatureWalkPathJob(const CeGuiString &id, const Ogre::String& name, Creature* movingCreature, Landmark* startLandmark);
         //destructor
         virtual ~CreatureWalkPathJob();
 

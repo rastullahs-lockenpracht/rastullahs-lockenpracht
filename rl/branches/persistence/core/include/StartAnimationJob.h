@@ -38,7 +38,7 @@ namespace rl
         * @param replaceAllAnims <code>true</code> if all other animations should be stopped,
         *                        when this animation is started, <code>false</code> else.
         */
-        StartAnimationJob(Actor* actor, const Ogre::String& anim, bool doLoop=false,
+        StartAnimationJob(const CeGuiString &id, Actor* actor, const Ogre::String& anim, bool doLoop=false,
             bool replaceAllAnims=true);
         virtual ~StartAnimationJob();
 

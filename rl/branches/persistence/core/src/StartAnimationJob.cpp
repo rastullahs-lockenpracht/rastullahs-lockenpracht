@@ -23,9 +23,9 @@ using namespace Ogre;
 namespace rl
 {
 
-    StartAnimationJob::StartAnimationJob(Actor* actor, const Ogre::String& anim, bool doLoop,
+    StartAnimationJob::StartAnimationJob(const CeGuiString &id, Actor* actor, const Ogre::String& anim, bool doLoop,
         bool replaceAllAnims)
-        : Job(false, true, TimeSource::REALTIME_INTERRUPTABLE),
+        : Job(id, false, true, TimeSource::REALTIME_INTERRUPTABLE),
           mActor(actor),
           mAnimName(anim),
           mLoop(doLoop),

@@ -31,7 +31,7 @@ namespace rl
     {
     public:
 
-		FetchItemJob(Creature* actor, Item* item, const Ogre::String& targetSlot, Ogre::Real duration);
+		FetchItemJob(const CeGuiString &id, Creature* actor, Item* item, const Ogre::String& targetSlot, Ogre::Real duration);
         virtual ~FetchItemJob();
 
         virtual bool execute(Ogre::Real time);

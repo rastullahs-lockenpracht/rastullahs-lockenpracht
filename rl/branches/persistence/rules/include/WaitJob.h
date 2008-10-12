@@ -29,8 +29,8 @@ namespace rl
         public Job
     {
     public:
-        WaitJob(const Date& dsatime);
-        WaitJob(const Ogre::Real& realtime);
+        WaitJob(const CeGuiString &id, const Date& dsatime);
+        WaitJob(const CeGuiString &id, const Ogre::Real& realtime);
         ~WaitJob();
 
         virtual bool execute(Ogre::Real time);

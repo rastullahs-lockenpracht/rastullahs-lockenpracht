@@ -31,9 +31,9 @@ namespace rl
     {
     public:
 
-		GoToJob(Creature* actor, const Ogre::Vector3& targetPos,
+		GoToJob(const CeGuiString &id, Creature* actor, const Ogre::Vector3& targetPos,
 			Ogre::Real maxDistance, Ogre::Real duration);
-		GoToJob(Creature* actor, GameObject* target, Ogre::Real maxDistance, Ogre::Real duration);
+		GoToJob(const CeGuiString &id, Creature* actor, GameObject* target, Ogre::Real maxDistance, Ogre::Real duration);
         virtual ~GoToJob();
 
         virtual bool execute(Ogre::Real time);

@@ -439,15 +439,15 @@ namespace rl {
     class WaitJob : public rl::Job
     {
     public:
-        WaitJob(const rl::Date& dsatime);
-        WaitJob(const Ogre::Real& realtime);
+        WaitJob(const rl::CeGuiString &id, const rl::Date& dsatime);
+        WaitJob(const rl::CeGuiString &id, const Ogre::Real& realtime);
     };
     
     class GoToJob : public rl::Job
     {
     public:
 
-		GoToJob(rl::Creature* actor, const Ogre::Vector3& targetPos,
+		GoToJob(const rl::CeGuiString &id, rl::Creature* actor, const Ogre::Vector3& targetPos,
 			Ogre::Real maxDistance, Ogre::Real duration);
 		// Unclear what version is called from ruby, so uncomment second ctor.
 		//GoToJob(rl::Creature* actor, rl::GameObject* target, Ogre::Real maxDistance, Ogre::Real duration);
@@ -458,7 +458,7 @@ namespace rl {
     {
     public:
 
-		FetchItemJob(rl::Creature* actor, rl::Item* item, const Ogre::String& targetSlot, Ogre::Real duration);
+		FetchItemJob(const rl::CeGuiString &id, rl::Creature* actor, rl::Item* item, const Ogre::String& targetSlot, Ogre::Real duration);
     };
     
     %feature("director") Item;
