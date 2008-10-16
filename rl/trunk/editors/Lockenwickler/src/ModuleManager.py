@@ -116,21 +116,21 @@ class MyRaySceneQueryListener ( og.RaySceneQueryListener ):
         del self.selectionList[:]
         #self.selectionList = []
 
-    def iterateEntityUnderMouse(self):
-        self.previousSelected = self.currentSelected
-        if len(self.selectionList) >= self.currentSelected: # would mean we are out of bounds
-            self.selectionList[self.currentSelected].setSelected(False)
-
-        self.currentSelected += 1
-
-        if len(self.selectionList) == self.currentSelected: # means we are out of bounds and reached the end of the list, reset it to zero
-            self.currentSelected = 0
-
-        if len(self.selectionList) >= self.currentSelected: # would mean we are out of bounds
-            #print str(self.selectionList[self.currentSelected].distance) + " "  + self.selectionList[self.currentSelected].entity.getName()
-            if self.rayCastToPolygonLevelOnCurrentSelection():
-                self.selectionList[self.currentSelected].setSelected(True)
-                return self.selectionList[self.currentSelected]
+#    def iterateEntityUnderMouse(self):
+#        self.previousSelected = self.currentSelected
+#        if len(self.selectionList) >= self.currentSelected: # would mean we are out of bounds
+#            self.selectionList[self.currentSelected].setSelected(False)
+#
+#        self.currentSelected += 1
+#
+#        if len(self.selectionList) == self.currentSelected: # means we are out of bounds and reached the end of the list, reset it to zero
+#            self.currentSelected = 0
+#
+#        if len(self.selectionList) >= self.currentSelected: # would mean we are out of bounds
+#            #print str(self.selectionList[self.currentSelected].distance) + " "  + self.selectionList[self.currentSelected].entity.getName()
+#            if self.rayCastToPolygonLevelOnCurrentSelection():
+#                self.selectionList[self.currentSelected].setSelected(True)
+#                return self.selectionList[self.currentSelected]
 
 
     def getMeshInformation(self,  entity):
@@ -330,6 +330,8 @@ class ModuleManager(object):
         self.dropEntity = None
         self.dropCollisionPlane = og.Plane(og.Vector3.UNIT_Y, og.Vector3.ZERO)
 
+        self.numerOfCopys = 0 #everytime a copy is made this numer is increased to generate unique node and mesh names
+
     def load(self,  moduleName,  mapFiles):
         self.moduleName = moduleName
         self.mapFiles = mapFiles
@@ -417,6 +419,7 @@ class ModuleManager(object):
                     self.userSelectionList.append(so)
                     self.updatePivots()
 
+
                 elif not controlDown and shiftDown:
                     for selo in self.userSelectionList:
                         if so == selo:
@@ -424,6 +427,7 @@ class ModuleManager(object):
                             self.userSelectionList.remove(selo)
                     self.updatePivots()
             else:
+                #so.entity is the pivot direction that was clicked
                 self.pivot.startTransforming(so.entity,  self.userSelectionList)
         else:
             self.resetSelection() # click in empty space, deselect everything
@@ -450,14 +454,77 @@ class ModuleManager(object):
 #
 #            self.rayLine.end()
 
+    def deleteObjects(self):
+        if len(self.userSelectionList) < 1:
+            return
+
+        self.pivot.hide()
+
+        for so in self.userSelectionList:
+            self.sceneManager.destroySceneNode(so.entity.getParentNode().getName())
+            del so
+
+        self.userSelectionList = []
+
+    def incrementNameSuffixNumber(self, name):
+        newName = ""
+        split = name.split("_")
+        lastPart = len(split)-1
+        newName = name.rstrip(split[lastPart])
+        newName = newName + str(self.numerOfCopys)
+
+#        if split[lastPart].isdigit() and not split[lastPart].startswith("0"):
+#            num = int(split[lastPart])
+#            num = num + 1
+#            newName = name.rstrip(split[lastPart])
+#            newName = newName + str(num)
+#        else:
+#            newName = name + "_1"
+
+        self.numerOfCopys = self.numerOfCopys + 1
+        return newName
+
+    def copyObjects(self):
+        if len(self.userSelectionList) < 1:
+            return
+
+        newSelectionList = []
+        print "dbg: "
+        for so in self.userSelectionList:
+            nodeName = self.incrementNameSuffixNumber(so.entity.getParentNode().getName())
+            newNode = self.sceneManager.getRootSceneNode().createChild(nodeName)
+
+            entityName = self.incrementNameSuffixNumber(so.entity.getName())
+            newEntity = self.sceneManager.createEntity(entityName, so.entity.getMesh().getName())
+
+            newNode.attachObject(newEntity)
+            newNode.setPosition(so.entity.getParentNode().getPosition())
+            newNode.setOrientation(so.entity.getParentNode().getOrientation())
+            newNode.setScale(so.entity.getParentNode().getScale())
+
+            newSO = SelectionObject(newEntity, so.distance)
+            newSO.setSelected(True)
+            newSelectionList.append(newSO)
+
+        self.resetSelection()
+        self.userSelectionList = newSelectionList
+
+    def cutObjects(self):
+        if len(self.userSelectionList) < 1:
+            return
+        print "dbg: cut"
+
+    def pasteObjects(self):
+        print "dbg: paste"
+
     def leftMouseUp(self):
         if self.pivot is not None and self.pivot.isTransforming:
             self.pivot.stopTransforming()
 
-    def iterateEntityUnderMouse(self):
-        self.listenerDings.iterateEntityUnderMouse()
-
-        pass
+#    def iterateEntityUnderMouse(self):
+#        self.listenerDings.iterateEntityUnderMouse()
+#
+#        pass
 
     def resetSelection(self):
         for so in self.userSelectionList:
@@ -506,3 +573,4 @@ class ModuleManager(object):
 
     def stopDropModelAction(self, ray):
         pass
+

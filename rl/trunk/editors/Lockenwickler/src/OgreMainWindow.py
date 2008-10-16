@@ -263,12 +263,12 @@ class OgreMainWindow(QWidget):
     def calculateSelectionRay(self,  event):
         relMousePos = self.ogreRenderWindow.mapFromGlobal(QPoint(event.globalX(),  event.globalY())) # get the mose position relative to the ogre window
 
-        if self.lastSelectionClick != None:
-            if self.lastSelectionClick.x() == relMousePos.x() and self.lastSelectionClick.y() == relMousePos.y(): # mouse didn't move
-                # we don't initiate a new selection based on bounding boxes here, we just iterate through the list generated last time a selection was made
-                # this is based on how far the distance of the object is from the camera (as returned by ogre)
-                self.moduleManager.iterateEntityUnderMouse() # don't select something new, switch through the currently selected models
-                return
+#        if self.lastSelectionClick != None:
+#            if self.lastSelectionClick.x() == relMousePos.x() and self.lastSelectionClick.y() == relMousePos.y(): # mouse didn't move
+#                # we don't initiate a new selection based on bounding boxes here, we just iterate through the list generated last time a selection was made
+#                # this is based on how far the distance of the object is from the camera (as returned by ogre)
+#                self.moduleManager.iterateEntityUnderMouse() # don't select something new, switch through the currently selected models
+#                return
 
         self.lastSelectionClick = relMousePos
         screenX = relMousePos.x()/float(self.ogreRenderWindow.viewport.getActualWidth())

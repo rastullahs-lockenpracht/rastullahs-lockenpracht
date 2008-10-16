@@ -116,6 +116,9 @@ class Lockenwickler(QtGui.QMainWindow):
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
 
+        self.menuEdit = QtGui.QMenu(self.menubar)
+        self.menuEdit.setObjectName("menuEdit")
+
         self.menuView = QtGui.QMenu(self.menubar)
         self.menuView.setObjectName("menuView")
         self.setMenuBar(self.menubar)
@@ -125,13 +128,27 @@ class Lockenwickler(QtGui.QMainWindow):
         self.statusbar.setObjectName("statusbar")
         self.setStatusBar(self.statusbar)
 
-        self.actionNeu =self.createAction("&New",  self.close,  "Ctrl + N",  "filenew.png",  "New")
+#####################################
+        self.actionNeu =self.createAction("&New",  self.actionNewSlot,  QKeySequence.New,  "filenew.png",  "New")
         self.actionNeu.setObjectName("actionNeu")
 
-        self.actionClose = self.createAction("Quit",  self.close,  "Alt + Q",  "exit.png",  "Quit")
-        self.actionClose.setObjectName("actionClose")
+        self.actionClose = self.createAction("Quit",  self.actionQuitSlot,  "Alt + Q",  "exit.png",  "Quit")
+        self.actionClose.setObjectName("actionQuit")
+#####################################
 
 
+#####################################
+        self.actionDelete = self.createAction("Delete",  self.actionDeleteSlot,  QKeySequence.Delete,  "editdelete.png",  "Delete")
+        self.actionDelete.setObjectName("actionDelete")
+
+        self.actionCopy = self.createAction("Copy",  self.actionCopySlot,  QKeySequence.Copy,  "editcopy.png",  "Copy")
+        self.actionCopy.setObjectName("actionCopy")
+
+        self.actionCut = self.createAction("Cut",  self.actionCutSlot,  QKeySequence.Cut,  "editcut.png",  "Cut")
+        self.actionCut.setObjectName("actionCut")
+
+        self.actionPaste = self.createAction("Paste",  self.actionPasteSlot,  QKeySequence.Paste,  "editpaste.png",  "Paste")
+        self.actionPaste.setObjectName("actionPaste")
 
         self.actionMove = self.createAction("&Move",  self.actionMoveSlot,  "g",  "move.png",  "Move selected object")
         self.actionMove.setObjectName("actionMove")
@@ -143,6 +160,8 @@ class Lockenwickler(QtGui.QMainWindow):
         self.actionRotate.setObjectName("actionRotate")
 
 
+#####################################
+#####################################
         self.actionSceneExplorer = self.createAction("&Scene Exlporer",  self.toggleSceneExplorer,  "Alt + E",  "view_tree.png",  "Scene Explorer",  False)
         self.actionSceneExplorer.setObjectName("actionSceneExplorer")
 
@@ -158,15 +177,29 @@ class Lockenwickler(QtGui.QMainWindow):
         self.actionConsole_Window = self.createAction("&Console Window",  self.toggleConsoleWindow,  "Alt + C",  "console.png",  "Console Window")
         self.actionConsole_Window.setObjectName("actionConsole_Window")
 
+#####################################
+#####################################
+
 
         self.menuFile.addAction(self.actionNeu)
         self.menuFile.addAction(self.actionClose)
+
+        self.menuEdit.addAction(self.actionMove)
+        self.menuEdit.addAction(self.actionRotate)
+        self.menuEdit.addAction(self.actionScale)
+        self.menuEdit.addSeparator()
+        self.menuEdit.addAction(self.actionDelete)
+        self.menuEdit.addAction(self.actionCopy)
+        self.menuEdit.addAction(self.actionCut)
+        self.menuEdit.addAction(self.actionPaste)
+
         self.menuView.addAction(self.actionSceneExplorer)
         self.menuView.addAction(self.actionPreferences)
         self.menuView.addAction(self.actionProperty_Window)
         self.menuView.addAction(self.actionObject_Selection)
         self.menuView.addAction(self.actionConsole_Window)
         self.menubar.addAction(self.menuFile.menuAction())
+        self.menubar.addAction(self.menuEdit.menuAction())
         self.menubar.addAction(self.menuView.menuAction())
 
         self.retranslateUi()
@@ -175,6 +208,7 @@ class Lockenwickler(QtGui.QMainWindow):
     def retranslateUi(self):
         self.setWindowTitle(QtGui.QApplication.translate("MainWindow", "MainWindow", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuEdit.setTitle(QtGui.QApplication.translate("MainWindow", "Edit", None, QtGui.QApplication.UnicodeUTF8))
         self.menuView.setTitle(QtGui.QApplication.translate("MainWindow", "View", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNeu.setText(QtGui.QApplication.translate("MainWindow", "New", None, QtGui.QApplication.UnicodeUTF8))
         self.actionMove.setText(QtGui.QApplication.translate("MainWindow", "Move", None, QtGui.QApplication.UnicodeUTF8))
@@ -225,17 +259,33 @@ class Lockenwickler(QtGui.QMainWindow):
 
         self.ogreRoot.renderOneFrame()
 
+    def actionNewSlot(self):
+        print "dbg: new"
+        return
+
+    def actionQuitSlot(self):
+        self.close()
+
+    def actionDeleteSlot(self):
+        self.moduleManager.deleteObjects()
+
+    def actionCopySlot(self):
+        self.moduleManager.copyObjects()
+
+    def actionCutSlot(self):
+        self.moduleManager.cutObjects()
+
+    def actionPasteSlot(self):
+        self.moduleManager.pasteObjects()
+
     def actionMoveSlot(self):
         self.moduleManager.pivot.setMoveMode()
-        return
 
     def actionRotateSlot(self):
         self.moduleManager.pivot.setRotateMode()
-        return
 
     def actionScaleSlot(self):
         self.moduleManager.pivot.setScaleMode()
-        return
 
     def togglePreferencesWindow(self):
         if self.prefDialog.isHidden():

@@ -26,29 +26,29 @@ class ViewportGrid(og.RenderTargetListener):
     def __init__(self, pSceneMgr, pViewport):
         super(ViewportGrid, self).__init__()
 
-        self.m_pSceneMgr = pSceneMgr
-        self.m_pViewport = pViewport
-        self.m_enabled = False
-        self.m_layer = None
+        self.sceneManager = pSceneMgr
+        self.viewport = pViewport
+        self.enabled = False
+        self.layer = None
 
-        self.m_pPrevCamera = None
-        self.m_prevOrtho = False
-        self.m_prevCamPos = None
-        self.m_prevNear = None
-        self.m_prevFOVy = None
-        self.m_prevAspectRatio = None
-        self.m_forceUpdate = True
+        self.prevCamera = None
+        self.prevOrtho = False
+        self.prevCamPos = None
+        self.prevNear = None
+        self.prevOrtho = None
+        self.prevAspectRatio = None
+        self.bForceUpdate = True
 
-        self.m_pGrid = None
-        self.m_created = False
-        self.m_pNode = None
+        self.pGrid = None
+        self.created = False
+        self.pNode = None
 
-        self.m_colour1 = og.ColourValue(0.7, 0.7, 0.7)
-        self.m_colour2 = og.ColourValue(0.7, 0.7, 0.7)
-        self.m_division = 10
-        self.m_perspSize = 100
-        self.m_renderScale = True
-        self.m_renderMiniAxes = True
+        self.colour1 = og.ColourValue(0.7, 0.7, 0.7)
+        self.colour2 = og.ColourValue(0.7, 0.7, 0.7)
+        self.division = 10
+        self.perspSize = 100
+        self.renderScale = True
+        self.renderMiniAxes = True
 
         self.sMatName = "ViewportGrid"
 
@@ -56,90 +56,90 @@ class ViewportGrid(og.RenderTargetListener):
         self.setRenderLayer(RL_BEHIND)
 
         # Add this as a render target listener
-        self.m_pViewport.getTarget().addListener(self)
+        self.viewport.getTarget().addListener(self)
 
 
     def getColour(self):
-        return m_colour1
+        return colour1
 
     def setColour(self, colour):
         # Force alpha = 1 for the primary colour
-        self.m_colour1 = colour
-        self.m_colour1.a = 1.0
-        self.m_colour2 = m_colour1
+        self.colour1 = colour
+        self.colour1.a = 1.0
+        self.colour2 = colour1
         self.forceUpdate()
 
     #Grid division (the number of new lines that are created when zooming in).
     def getDivision(self):
-        return m_division
+        return division
 
     def setDivision(self, division):
-        self.m_division = division
+        self.division = division
         self.forceUpdate()
 
     #//! Grid render layer (behind of in front of the objects).
     def getRenderLayer(self):
-        return m_layer
+        return layer
 
     def setRenderLayer(self, layer):
-        self.m_layer = layer
+        self.layer = layer
 
-        if self.m_layer == RL_BEHIND:
+        if self.layer == RL_BEHIND:
             # Render just before the world geometry
-            self.m_pGrid.setRenderQueueGroup(og.RENDER_QUEUE_WORLD_GEOMETRY_1 - 1)
-        elif self.m_layer == RL_INFRONT:
+            self.pGrid.setRenderQueueGroup(og.RENDER_QUEUE_WORLD_GEOMETRY_1 - 1)
+        elif self.layer == RL_INFRONT:
             # Render just before the overlays
-            self.m_pGrid.setRenderQueueGroup(og.RENDER_QUEUE_OVERLAY - 1)
+            self.pGrid.setRenderQueueGroup(og.RENDER_QUEUE_OVERLAY - 1)
 
 
     def getPerspectiveSize(self):
-        return m_perspSize
+        return perspSize
 
     def setPerspectiveSize(self, size):
-        self.m_perspSize = size
+        self.perspSize = size
         self.forceUpdate()
 
 #       //! Render scaling info? Defaults to true.
 #       //! @todo Implement this
     def getRenderScale(self):
-        return m_renderScale
+        return renderScale
 
     def setRenderScale(self, enabled = True):
-        self.m_renderScale = enabled
+        self.renderScale = enabled
         self.forceUpdate()
 
 #       //! Render mini axes? Defaults to true.
 #       //! @todo Implement this
     def getRenderMiniAxes(self):
-        return m_renderMiniAxes
+        return renderMiniAxes
 
     def setRenderMiniAxes(self, enabled = True):
-        self.m_renderMiniAxes = enabled
+        self.renderMiniAxes = enabled
         self.forceUpdate()
 
     #// Enable / disable
     def isEnabled(self):
-        return m_enabled
+        return self.enabled
 
     def enable(self):
-        self.m_enabled = True
+        self.enabled = True
 
-        if not self.m_pGrid.isAttached():
-            self.m_pNode.attachObject(self.m_pGrid)
+        if not self.pGrid.isAttached():
+            self.pNode.attachObject(self.pGrid)
 
         self.forceUpdate()
 
 
     def disable(self):
-        self.m_enabled = False
+        self.enabled = False
 
-        if self.m_pGrid.isAttached():
-            self.m_pNode.detachObject(self.m_pGrid)
+        if self.pGrid.isAttached():
+            self.pNode.detachObject(self.pGrid)
 
 
 
     def  toggle(self):
-        self.setEnabled(not self.m_enabled)
+        self.setEnabled(not self.enabled)
 
     def setEnabled(self, enabled):
         if enabled:
@@ -149,34 +149,34 @@ class ViewportGrid(og.RenderTargetListener):
 
 
     def forceUpdate(self):
-        self.m_forceUpdate = True
+        self.bForceUpdate = True
 
     def preViewportUpdate(self, evt):
-       #TODO find out why evt.souce and self.m_pViewport differ in their memory address
-       # if evt.source != self.m_pViewport:
+       #TODO find out why evt.souce and self.viewport differ in their memory address
+       # if evt.source != self.viewport:
            # return
 
-        self.m_pGrid.setVisible(True)
+        self.pGrid.setVisible(True)
 
-        if self.m_enabled:
+        if self.enabled:
             self.__update()
 
     def postViewportUpdate(self, evt):
-       # if evt.source != self.m_pViewport:
+       # if evt.source != self.viewport:
            # return
-        self.m_pGrid.setVisible(False)
+        self.pGrid.setVisible(False)
 
     def __createGrid(self):
-        name = self.m_pViewport.getTarget().getName() + "::"
-        name += str(self.m_pViewport.getZOrder()) + "::ViewportGrid"
+        name = self.viewport.getTarget().getName() + "::"
+        name += str(self.viewport.getZOrder()) + "::ViewportGrid"
 
         #// Create the manual object
-        self.m_pGrid = self.m_pSceneMgr.createManualObject(name)
-        self.m_pGrid.setDynamic(True)
+        self.pGrid = self.sceneManager.createManualObject(name)
+        self.pGrid.setDynamic(True)
 
         #// Create the scene node (not attached yet)
-        self.m_pNode = self.m_pSceneMgr.getRootSceneNode().createChildSceneNode(name)
-        self.m_enabled = False
+        self.pNode = self.sceneManager.getRootSceneNode().createChildSceneNode(name)
+        self.enabled = False
 
         #// Make sure the material is created
         #//! @todo Should we destroy the material somewhere?
@@ -189,23 +189,23 @@ class ViewportGrid(og.RenderTargetListener):
 
 
     def __destroyGrid(self):
-        self.m_pSceneMgr.destroyManualObject(self.m_pGrid)
-        self.m_pGrid = None
+        self.sceneManager.destroyManualObject(self.pGrid)
+        self.pGrid = None
 
-        self.m_pSceneMgr.destroySceneNode(self.m_pNode.getName())
-        self.m_pNode = None
+        self.sceneManager.destroySceneNode(self.pNode.getName())
+        self.pNode = None
 
 
     def __update(self):
-        if not self.m_enabled:
+        if not self.enabled:
             return
 
-        pCamera = self.m_pViewport.getCamera()
+        pCamera = self.viewport.getCamera()
         if not pCamera:
             return
 
         # Check if an update is necessary
-        if not self.__checkUpdate() and not self.m_forceUpdate:
+        if not self.__checkUpdate() and not self.bForceUpdate:
             return
 
         if pCamera.getProjectionType() == og.PT_ORTHOGRAPHIC:
@@ -213,17 +213,17 @@ class ViewportGrid(og.RenderTargetListener):
         else:
             self.__updatePersp()
 
-        self.m_forceUpdate = False
+        self.bForceUpdate = False
 
 
 
     def __updateOrtho(self):
         # Screen dimensions
-        width = self.m_pViewport.getActualWidth()
-        height = self.m_pViewport.getActualHeight()
+        width = self.viewport.getActualWidth()
+        height = self.viewport.getActualHeight()
 
         #Camera information
-        pCamera = m_pViewport.getCamera()
+        pCamera = pViewport.getCamera()
         camPos = pCamera.getPosition()
         camDir = pCamera.getDirection()
         camUp = pCamera.getUp()
@@ -246,7 +246,7 @@ class ViewportGrid(og.RenderTargetListener):
         worldToScreen = width / worldWidth
         screenToWorld = worldWidth / width
 
-        # TODO Treshold should be dependent on window width/height (min? max?) so there are no more then m_division full alpha-lines
+        # TODO Treshold should be dependent on window width/height (min? max?) so there are no more then division full alpha-lines
         treshold = 10 # Treshhold in pixels
 
         # Calculate the spacing multiplier
@@ -258,18 +258,18 @@ class ViewportGrid(og.RenderTargetListener):
                 exp = exp +1
                 temp = temp * treshold # TODO maybe wrong
 
-            mult = og.Math.Pow(self.m_division, exp)
+            mult = og.Math.Pow(self.division, exp)
         else:
-            while temp > (self.m_division * treshold):
+            while temp > (self.division * treshold):
                 exp = exp +1
                 temp = temp / treshold # TODO maybe wrong
 
-            mult = og.Math.Pow(1.0 / self.m_division, exp)
+            mult = og.Math.Pow(1.0 / self.division, exp)
 
-        # Interpolate alpha for (multiplied) spacing between treshold and m_division * treshold
-        self.m_colour2.a = worldToScreen * mult / (m_division * treshold - treshold)
-        if m_colour2.a > 1.0:
-           self.m_colour2.a = 1.0
+        # Interpolate alpha for (multiplied) spacing between treshold and division * treshold
+        self.colour2.a = worldToScreen * mult / (division * treshold - treshold)
+        if colour2.a > 1.0:
+           self.colour2.a = 1.0
 
         # Calculate the horizontal zero-axis color
         camRightX = og.Math.Abs(camRight.x)
@@ -283,7 +283,7 @@ class ViewportGrid(og.RenderTargetListener):
         elif og.Math.RealEqual(camRightZ, 1.0):
             horAxisColor = og.ColourValue.Blue
         else:
-            horAxisColor = self.m_colour1
+            horAxisColor = self.colour1
 
         # Calculate the vertical zero-axis color
         camUpX = og.Math.Abs(camUp.x)
@@ -297,19 +297,19 @@ class ViewportGrid(og.RenderTargetListener):
         elif og.Math.RealEqual(camUpZ, 1.0):
             horAxisColor = og.ColourValue.Blue
         else:
-            horAxisColor = self.m_colour1
+            horAxisColor = self.colour1
 
         # The number of lines
         numLinesWidth = int((worldWidth / mult) + 1)
         numLinesHeight = int((worldHeight / mult) + 1)
 
         # Start creating or updating the grid
-        self.m_pGrid.estimateVertexCount(2 * numLinesWidth + 2 * numLinesHeight)
-        if m_created:
-            self.m_pGrid.beginUpdate(0)
+        self.pGrid.estimateVertexCount(2 * numLinesWidth + 2 * numLinesHeight)
+        if created:
+            self.pGrid.beginUpdate(0)
         else:
-            self.m_pGrid.begin(self.sMatName, og.RenderOperation.OT_LINE_LIST)
-            self.m_created = True
+            self.pGrid.begin(self.sMatName, og.RenderOperation.OT_LINE_LIST)
+            self.created = True
 
         # Vertical lines
         startX = mult * int(worldLeft / mult)
@@ -326,19 +326,19 @@ class ViewportGrid(og.RenderTargetListener):
 
             if multX == 0:
                 colour = vertAxisColor
-            elif multX % (int(self.m_division)):
-                self.m_colour2
+            elif multX % (int(self.division)):
+                self.colour2
             else:
-                self.m_colour1
+                self.colour1
 
 
 
 
             # Add the line
-            self.m_pGrid.position(x, worldBottom, 0)
-            self.m_pGrid.colour(colour)
-            self.m_pGrid.position(x, worldTop, 0)
-            self.m_pGrid.colour(colour)
+            self.pGrid.position(x, worldBottom, 0)
+            self.pGrid.colour(colour)
+            self.pGrid.position(x, worldTop, 0)
+            self.pGrid.colour(colour)
 
             x += mult
 
@@ -355,24 +355,24 @@ class ViewportGrid(og.RenderTargetListener):
             else:
                 multY = int(y / mult + 0.5)
 
-            #colour = (multY == 0) ? horAxisColor : (multY % int(m_division)) ? self.m_colour2 : self.m_colour1
+            #colour = (multY == 0) ? horAxisColor : (multY % int(division)) ? self.colour2 : self.colour1
             if multY == 0:
                 colour = horAxisColor
-            elif multY % (int(self.m_division)):
-                self.m_colour2
+            elif multY % (int(self.division)):
+                self.colour2
             else:
-                self.m_colour1
+                self.colour1
 
-            self.m_pGrid.position(worldLeft, y, 0)
-            self.m_pGrid.colour(colour)
-            self.m_pGrid.position(worldRight, y, 0)
-            self.m_pGrid.colour(colour)
+            self.pGrid.position(worldLeft, y, 0)
+            self.pGrid.colour(colour)
+            self.pGrid.position(worldRight, y, 0)
+            self.pGrid.colour(colour)
 
             y += mult
 
-        self.m_pGrid.end()
+        self.pGrid.end()
 
-        self.m_pNode.setOrientation(pCamera.getOrientation())
+        self.pNode.setOrientation(pCamera.getOrientation())
 
 
     def __updatePersp(self):
@@ -380,8 +380,8 @@ class ViewportGrid(og.RenderTargetListener):
         mult = 1
 
         #! @todo Interpolate alpha
-        self.m_colour2.a = 0.5
-        #if(m_colour2.a > 1.0f) m_colour2.a = 1.0f
+        self.colour2.a = 0.5
+        #if(colour2.a > 1.0f) colour2.a = 1.0f
 
         # Calculate the horizontal zero-axis color
         horAxisColor = og.ColourValue.Red
@@ -390,20 +390,20 @@ class ViewportGrid(og.RenderTargetListener):
         vertAxisColor = og.ColourValue.Blue
 
         # The number of lines
-        numLines = int(self.m_perspSize / mult) + 1
+        numLines = int(self.perspSize / mult) + 1
 
         # Start creating or updating the grid
-        self.m_pGrid.estimateVertexCount(4 * numLines)
-        if self.m_created:
-            self.m_pGrid.beginUpdate(0)
+        self.pGrid.estimateVertexCount(4 * numLines)
+        if self.created:
+            self.pGrid.beginUpdate(0)
         else:
-            self.m_pGrid.begin(self.sMatName, og.RenderOperation.OT_LINE_LIST)
-            self.m_created = True
+            self.pGrid.begin(self.sMatName, og.RenderOperation.OT_LINE_LIST)
+            self.created = True
 
         # Vertical lines
-        start = mult * int(-self.m_perspSize / 2 / mult)
+        start = mult * int(-self.perspSize / 2 / mult)
         x = start
-        while x <= (self.m_perspSize / 2):
+        while x <= (self.perspSize / 2):
             # Get the right color for this line
             #multX = (x == 0) ? x : (x < 0) ? int(x / mult - 0.5f) : int(x / mult + 0.5f)
             if x == 0:
@@ -413,25 +413,25 @@ class ViewportGrid(og.RenderTargetListener):
             else:
                 multX = int(x / mult +0.5)
 
-            #colour = (multX == 0) ? vertAxisColor : (multX % (int) self.m_division) ? self.m_colour2 : self.m_colour1
+            #colour = (multX == 0) ? vertAxisColor : (multX % (int) self.division) ? self.colour2 : self.colour1
             if multX == 0:
                 colour = vertAxisColor
-            elif multX % int(self.m_division):
-                colour = self.m_colour2
+            elif multX % int(self.division):
+                colour = self.colour2
             else:
-                colour = self.m_colour1
+                colour = self.colour1
 
             # Add the line
-            self.m_pGrid.position(x, 0, -self.m_perspSize / 2)
-            self.m_pGrid.colour(colour)
-            self.m_pGrid.position(x, 0, self.m_perspSize / 2)
-            self.m_pGrid.colour(colour)
+            self.pGrid.position(x, 0, -self.perspSize / 2)
+            self.pGrid.colour(colour)
+            self.pGrid.position(x, 0, self.perspSize / 2)
+            self.pGrid.colour(colour)
 
             x += mult
 
         # Horizontal lines
         y = start
-        while y <= (self.m_perspSize / 2):
+        while y <= (self.perspSize / 2):
             # Get the right color for this line
             #multY = (y == 0) ? y : (y < 0) ? int(y / mult - 0.5f) : int(y / mult + 0.5f)
             if y == 0:
@@ -441,49 +441,49 @@ class ViewportGrid(og.RenderTargetListener):
             else:
                 multY = int(y / mult +0.5)
 
-            #colour = (multY == 0) ? horAxisColor : (multY % int(self.m_division)) ? self.m_colour2 : self.m_colour1
+            #colour = (multY == 0) ? horAxisColor : (multY % int(self.division)) ? self.colour2 : self.colour1
             if multY == 0:
                 colour = horAxisColor
-            elif multY % int(self.m_division):
-                colour = self.m_colour2
+            elif multY % int(self.division):
+                colour = self.colour2
             else:
-                colour = self.m_colour1
+                colour = self.colour1
             # Add the line
-            self.m_pGrid.position(-self.m_perspSize / 2, 0, y)
-            self.m_pGrid.colour(colour)
-            self.m_pGrid.position(self.m_perspSize / 2, 0, y)
-            self.m_pGrid.colour(colour)
+            self.pGrid.position(-self.perspSize / 2, 0, y)
+            self.pGrid.colour(colour)
+            self.pGrid.position(self.perspSize / 2, 0, y)
+            self.pGrid.colour(colour)
 
             y += mult
 
-        self.m_pGrid.end()
+        self.pGrid.end()
 
         # Normal orientation, grid in the X-Z plane
-        self.m_pNode.resetOrientation()
+        self.pNode.resetOrientation()
 
 
     def __checkUpdate(self):
         update = False
 
-        pCamera = self.m_pViewport.getCamera()
+        pCamera = self.viewport.getCamera()
         if not pCamera:
             return False
 
-        if pCamera is not self.m_pPrevCamera:
-            self.m_pPrevCamera = pCamera
+        if pCamera is not self.prevCamera:
+            self.prevCamera = pCamera
             update = True
 
 
         ortho = (pCamera.getProjectionType() == og.PT_ORTHOGRAPHIC)
-        if ortho is not self.m_prevOrtho:
-            self.m_prevOrtho = ortho
+        if ortho is not self.prevOrtho:
+            self.prevOrtho = ortho
             update = True
 
             # Set correct material properties
-            pMaterial = MaterialManager.getSingleton().getByName(self.sMatName)
-            if not pMaterial.isNull():
-                pMaterial.setDepthWriteEnabled(not ortho)
-                pMaterial.setDepthCheckEnabled(not ortho)
+            pMaterial = og.MaterialManager.getSingleton().getByName(self.sMatName)
+
+            pMaterial.setDepthWriteEnabled(not ortho)
+            pMaterial.setDepthCheckEnabled(not ortho)
 
         #return update || ortho ? checkUpdateOrtho() : checkUpdatePersp()
         if update:
@@ -498,24 +498,24 @@ class ViewportGrid(og.RenderTargetListener):
     def __checkUpdateOrtho(self):
         update = False
 
-        pCamera = self.m_pViewport.getCamera()
+        pCamera = self.viewport.getCamera()
         if not pCamera:
             return False
 
-        if pCamera.getPosition() is not self.m_prevCamPos:
-            self.m_prevCamPos = pCamera.getPosition()
+        if pCamera.getPosition() is not self.prevCamPos:
+            self.prevCamPos = pCamera.getPosition()
             update = True
 
-        if pCamera.getNearClipDistance() is not self.m_prevNear:
-            self.m_prevNear = pCamera.getNearClipDistance()
+        if pCamera.getNearClipDistance() is not self.prevNear:
+            self.prevNear = pCamera.getNearClipDistance()
             update = True
 
-        if pCamera.getFOVy() is not self.m_prevFOVy:
-            self.m_prevFOVy = pCamera.getFOVy()
+        if pCamera.getFOVy() is not self.prevOrtho:
+            self.prevOrtho = pCamera.getFOVy()
             update = True
 
-        if pCamera.getAspectRatio() is not self.m_prevAspectRatio:
-            self.m_prevAspectRatio = pCamera.getAspectRatio()
+        if pCamera.getAspectRatio() is not self.prevAspectRatio:
+            self.prevAspectRatio = pCamera.getAspectRatio()
             update = True
 
         return update

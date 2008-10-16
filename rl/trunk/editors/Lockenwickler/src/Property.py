@@ -16,16 +16,31 @@
  # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  #################################################
 
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 
-class Property():
+class Vector3Property():
     def __init__(self):
         pass
 
-    def setValue(self):
-        pass
+    def __parseValues(self):
+        self.vector3 = self.so.entity.getParentNode().getPosition()
+        self.__createTree()
 
-    def getValue(self):
-        pass
+    def __createTree(self):
+        item = QTreeWidgetItem(self.treeWidget)
+        item.setText(0,QApplication.translate("ObjectPropertys", "Position", None, QApplication.UnicodeUTF8))
+        item.setText(1, str(self.vector3.x) + " , " + str(self.vector3.y) +" , " + str(self.vector3.z))
 
-    def createEditor(self):
-        pass
+        item1 = QTreeWidgetItem(item)
+        item1.setText(0,QApplication.translate("ObjectPropertys", "X", None, QApplication.UnicodeUTF8))
+        item1.setText(1, str(self.vector3.x))
+
+        item2 = QTreeWidgetItem(item)
+        item2.setText(0,QApplication.translate("ObjectPropertys", "Y", None, QApplication.UnicodeUTF8))
+        item2.setText(1, str(self.vector3.y))
+
+        item3 = QTreeWidgetItem(item)
+        item3.setText(0,QApplication.translate("ObjectPropertys", "Z", None, QApplication.UnicodeUTF8))
+        item3.setText(1, str(self.vector3.z))
+
