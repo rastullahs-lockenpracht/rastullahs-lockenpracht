@@ -416,10 +416,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\DotSceneLoader.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\DotSceneOctreeWorld.h"
 				>
 			</File>
@@ -758,10 +754,6 @@
 			</File>
 			<File
 				RelativePath=".\src\DebugVisualsManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\DotSceneLoader.cpp"
 				>
 			</File>
 			<File

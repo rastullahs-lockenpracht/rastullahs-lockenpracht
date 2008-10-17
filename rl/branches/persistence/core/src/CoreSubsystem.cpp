@@ -566,12 +566,6 @@ namespace rl
         return mModules;
     }
 
-    void CoreSubsystem::loadMap(const Ogre::String type, const Ogre::String filename,
-        const Ogre::String module)
-    {
-        mWorld->loadScene(filename, module);
-    }
-
     void CoreSubsystem::loadPlugins()
     {
         mSoundManager->applySettings(rl::ConfigurationManager::getSingleton().getSettings("Sound"));
