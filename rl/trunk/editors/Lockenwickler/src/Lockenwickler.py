@@ -276,7 +276,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.moduleManager.cutObjects()
 
     def actionPasteSlot(self):
-        self.moduleManager.pasteObjects()
+        self.moduleManager.pasteObjects(self.ogreRenderWindow.getCameraToViewportRay())
 
     def actionMoveSlot(self):
         self.moduleManager.pivot.setMoveMode()

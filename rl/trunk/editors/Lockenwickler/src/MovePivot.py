@@ -124,6 +124,9 @@ class Pivot():
     def setPosition(self,  pos):
         self.pivotNode.setPosition(pos)
 
+    def getPosition(self):
+        return self.pivotNode.getPosition()
+
     def startTransforming(self, dirEntity, soList):
         print "dbg: transforming....."
         self.moveDirection = dirEntity.getName()

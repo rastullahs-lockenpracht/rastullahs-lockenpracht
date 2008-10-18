@@ -312,6 +312,8 @@ class ModuleManager(object):
         self.raySceneQuery = self.sceneManager.createRayQuery(og.Ray())
 
         self.userSelectionList = []
+        self.cutList = [] # selection objects that has been cut out and wait to be pasted again
+        self.cutListPreviousNodes = [] # contains the nodes they where copnnected to before the cut
 
         self.listenerDings = MyRaySceneQueryListener()
 
@@ -512,10 +514,35 @@ class ModuleManager(object):
     def cutObjects(self):
         if len(self.userSelectionList) < 1:
             return
-        print "dbg: cut"
 
-    def pasteObjects(self):
-        print "dbg: paste"
+        self.cutList = []
+        for so in self.userSelectionList:
+            self.cutListPreviousNodes.append(so.entity.getParentNode().getParent())
+            so.entity.getParentNode().getParent().removeChild(so.entity.getParentNode())
+            # set the "point of gravity" of all the cutted nodes to world origin at 0,0,0
+            # so we only have to translate them to their new destination when they get pasted
+            # the position of the pivot point is considered as the center of gravity
+            so.entity.getParentNode().setPosition(so.entity.getParentNode().getPosition() - self.pivot.getPosition())
+            self.cutList.append(so)
+        self.resetSelection()
+    def pasteObjects(self,  ray):
+        if len(self.cutList) < 1:
+            return
+
+        result = og.Math.intersects(ray, self.dropCollisionPlane)
+        if result.first == True:
+            i=0
+            while i < len(self.cutList):
+                self.cutListPreviousNodes[i].addChild(self.cutList[i].entity.getParentNode())
+                self.cutList[i].entity.getParentNode().translate(ray.getPoint(result.second))
+                i = i+1
+        else:
+            i=0
+            while i < len(self.cutList):
+                self.cutListPreviousNodes[i].addChild(self.cutList[i].entity.getParentNode())
+                self.cutList[i].entity.getParentNode().translate(ray.getPoint(100.0))
+                i = i+1
+        self.cutList = []
 
     def leftMouseUp(self):
         if self.pivot is not None and self.pivot.isTransforming:
