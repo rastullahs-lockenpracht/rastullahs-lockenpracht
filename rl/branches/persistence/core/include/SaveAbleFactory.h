@@ -22,13 +22,13 @@
 
 namespace rl
 {
-	class SaveAbleFactory : public Ogre::Singleton<SaveAbleFactory>
+	class _RlCoreExport SaveAbleFactory : public Ogre::Singleton<SaveAbleFactory>
 	{
 	public:
 		virtual SaveAblePtr createSaveAble(PropertyRecordPtr params) = 0;
 	};
 
-	class SaveAbleFactoryPool : public Ogre::Singleton<SaveAbleFactoryPool>
+	class _RlCoreExport SaveAbleFactoryPool : public Ogre::Singleton<SaveAbleFactoryPool>
 	{
 	public:
 		void registerFactory(const Ogre::String &key, SaveAbleFactory* fac);

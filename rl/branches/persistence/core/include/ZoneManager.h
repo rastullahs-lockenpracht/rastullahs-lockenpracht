@@ -90,7 +90,7 @@ namespace rl
             unsigned long queryflags);
 		Zone* getDefaultZone();
 		Zone* getZone(const Ogre::String& name);
-        Zone* getZone(long id);
+        Zone* getZone(const CeGuiString &id);
 
         /// asks wether this zone is currently activated
         bool isZoneActive(const Zone* zone) const;
@@ -126,7 +126,7 @@ namespace rl
         virtual int getPriority() const;  // zones must be loaded before triggers!
 	private:
 		ZoneMap mZones;
-        std::map<long, Zone*> mZonesIdMap;
+        std::map<CeGuiString, Zone*> mZonesIdMap;
 		std::list<Zone*> mActiveZones;
         typedef std::map<const Ogre::String, Sound*> SoundMap;
         SoundMap mActiveSounds;

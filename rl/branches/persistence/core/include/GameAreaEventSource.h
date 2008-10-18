@@ -84,12 +84,12 @@ public:
 protected:
     /// helps the zonemanager to associate zones with areas
     friend class ZoneManager;
-    void setId(long id) {mId = id;}
-    long getId() const {return mId;}
+    void setId(const CeGuiString &id) {mId = id;}
+    CeGuiString getId() const {return mId;}
     /// helps the zonemanger to get the values for saving the GameAreaEventSource
     PropertyRecord mProperties;
 private:
-    long mId;
+    CeGuiString mId;
     /** Verteilt die Events an die angefügten Listener
     * Für jeden Actor wird ein einzelnes Ereigniss generiert, zuerst für alle
     * verlassenden Actoren, dann für die betretenden

@@ -43,7 +43,7 @@ namespace rl
         GameTask(false)
 	{
 		// the default zone is active when no other Zone is active
-		mDefaultZone = new Zone(0,false);
+		mDefaultZone = new Zone("Zone_0",false);
         mNextZoneId = 1;
 		mActiveZones.push_front(mDefaultZone);
 
@@ -60,7 +60,7 @@ namespace rl
         for( ; it != mZonesToDelete.end(); it++)
             doDestroyZone(*it);
         mZonesToDelete.clear();
-		for (std::map<long, Zone*>::iterator it = mZonesIdMap.begin(); it != mZonesIdMap.end(); ++it)
+		for (std::map<CeGuiString, Zone*>::iterator it = mZonesIdMap.begin(); it != mZonesIdMap.end(); ++it)
 		{
 			Zone* curZone = (*it).second;
             doDestroyZone(curZone);
@@ -86,9 +86,9 @@ namespace rl
 		}
 	}
 
-	Zone* ZoneManager::getZone(long id)
+	Zone* ZoneManager::getZone(const CeGuiString &id)
 	{
-		std::map<long, Zone*>::const_iterator it = mZonesIdMap.find(id);
+		std::map<CeGuiString, Zone*>::const_iterator it = mZonesIdMap.find(id);
 		if (it == mZonesIdMap.end())
 		{
 			return NULL;
@@ -101,8 +101,8 @@ namespace rl
 
     Zone* ZoneManager::createZone(const Ogre::String& name, bool needsToBeSaved)
 	{
-        Zone* zone = new Zone(mNextZoneId, needsToBeSaved);
-        mZonesIdMap[mNextZoneId] = zone;
+		Zone* zone = new Zone("Zone_" + Ogre::StringConverter::toString(mNextZoneId), needsToBeSaved);
+        mZonesIdMap["Zone_" + Ogre::StringConverter::toString(mNextZoneId)] = zone;
         mZones[name] = zone;
         mNextZoneId++;
 
@@ -124,7 +124,7 @@ namespace rl
         if( it != mZones.end() )
             mZones.erase(it);
 
-        std::map<long, Zone*>::iterator it_ = mZonesIdMap.find(zone->getId());
+        std::map<CeGuiString, Zone*>::iterator it_ = mZonesIdMap.find(zone->getId());
         if( it_ != mZonesIdMap.end() )
             mZonesIdMap.erase(it_);
 
@@ -215,7 +215,7 @@ namespace rl
             // diese funktion hier notwendig um die mask zu ignorieren
             if( (*it)->getGameAreaType()->isInside(actor) )
             {
-                if( (*it)->getId() < 0 )
+				if( (*it)->mProperties.getProperty("subtract"))
                     x--;
                 else
                     x++;
@@ -269,7 +269,7 @@ namespace rl
                 aabb, geom, this, queryflags, position + offset, orientation, true);
 
         gam->getGameAreaType()->setTransitionDistance(transitionDistance);
-        gam->setId( - (zone->getId())); // a negative id indicates to subtract this area from the zone
+        gam->setId((zone->getId())); // a negative id indicates to subtract this area from the zone
         zone->addEventSource(gam);
         // set the properties for saving
         gam->mProperties.setProperty("subtract", Property(true));
@@ -343,7 +343,7 @@ namespace rl
                 entity, geom, this, queryflags, position + offset, orientation, true);
 
         gam->getGameAreaType()->setTransitionDistance(transitionDistance);
-        gam->setId( - (zone->getId()) ); // a negative id indicates to subtract this area from the zone
+        gam->setId((zone->getId()) ); // a negative id indicates to subtract this area from the zone
 
         CoreSubsystem::getSingletonPtr()->getWorld()
             ->getSceneManager()->destroyEntity(entity);
@@ -362,10 +362,10 @@ namespace rl
 
 	void ZoneManager::areaLeft(GameAreaEvent* gae)
 	{
-        long id = gae->getSource()->getId();
-        if( id != 0 )
+        CeGuiString id = gae->getSource()->getId();
+        if( id != "")
         {
-            if( id > 0 )
+			if( !gae->getSource()->mProperties.getProperty("subtract") )
             {
                 Zone *zone = getZone(id);
                 if( zone )
@@ -377,7 +377,7 @@ namespace rl
             }
             else
             {
-                Zone *zone = getZone(-id); // means we have to subtract this area from the zone
+                Zone *zone = getZone(id); // means we have to subtract this area from the zone
                 if( zone )
                 {
                     if( !zone->isActive() )
@@ -392,10 +392,10 @@ namespace rl
 
 	void ZoneManager::areaEntered(GameAreaEvent* gae)
 	{
-        long id = gae->getSource()->getId();
-        if( id != 0 )
+        CeGuiString id = gae->getSource()->getId();
+        if( id != "" )
         {
-            if( id > 0 )
+            if( !gae->getSource()->mProperties.getProperty("subtract") )
             {
                 Zone *zone = getZone(id);
                 if( zone )
@@ -407,7 +407,7 @@ namespace rl
             }
             else
             {
-                Zone *zone = getZone(-id); // means we have to subtract this area from the zone
+                Zone *zone = getZone(id); // means we have to subtract this area from the zone
                 if( zone )
                 {
                     zone->personLeft();

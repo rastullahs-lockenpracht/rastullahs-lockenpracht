@@ -27,7 +27,7 @@ namespace rl
 {
 
 
-    Zone::Zone(long id, bool needsToBeSaved) : mId(id), mEaxPreset(""), mNeedsToBeSaved(needsToBeSaved), mPersonsInside(0)
+    Zone::Zone(const CeGuiString &id, bool needsToBeSaved) : mEaxPreset(""), mNeedsToBeSaved(needsToBeSaved), mPersonsInside(0), SaveAble(id, needsToBeSaved)
     {
     }
 

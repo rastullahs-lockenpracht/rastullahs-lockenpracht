@@ -86,6 +86,9 @@ namespace rl {
 
 	SaveAblePtr QuestBook::createSaveAble(PropertyRecordPtr params)
 	{
+		SaveAblePtr ptr;
+		ptr.bind(static_cast<SaveAble*>(new Quest(""))); //TODO !!!!!
+		return ptr; // TODO
 	}
 
     void QuestBook::_fireQuestBookChanged(Quest *quest, int reason)

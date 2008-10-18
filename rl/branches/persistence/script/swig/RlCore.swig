@@ -1165,7 +1165,7 @@ public:
         
 	rl::Zone* getDefaultZone();
 	rl::Zone* getZone(const Ogre::String& name);
-    rl::Zone* getZone(long id);
+    rl::Zone* getZone(const rl::CeGuiString &id);
     bool isZoneActive(const rl::Zone *zone) const;
     bool isInZone(Zone* zone, Actor *actor);
 };

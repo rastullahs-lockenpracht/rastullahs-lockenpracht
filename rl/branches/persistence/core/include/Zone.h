@@ -18,6 +18,7 @@
 
 #include "CorePrerequisites.h"
 #include "GameEventManager.h"  /* wegen GameAreaEventSourceList */
+#include "SaveAble.h"
 
 namespace rl {
 
@@ -28,7 +29,7 @@ namespace rl {
     class ZoneManager;
 
     /// an abstraction of an zone, consisting of all GameAreaEventSources with the associated id
-    class _RlCoreExport Zone
+	class _RlCoreExport Zone : public SaveAble
 	{
 	public:
         virtual ~Zone();
@@ -49,13 +50,12 @@ namespace rl {
         void removeLight(Actor* light);
         void removeSound(const Ogre::String& name);
         void removeTrigger(Trigger* trigger);
-        long getId() const {return mId;}
         
         bool needsToBeSaved() const {return mNeedsToBeSaved;}
 
     protected:
         friend class ZoneManager;
-        Zone(long id, bool needsToBeSaved);
+        Zone(const CeGuiString &id, bool needsToBeSaved);
         void addEventSource(GameAreaEventSource* gam);
         void removeEventSource(GameAreaEventSource* gam);
         GameAreaEventSourceList& getEventSources();
@@ -64,7 +64,6 @@ namespace rl {
         bool isActive() const; // only for the ZoneManager, in order to ask if a zone is active use ZoneManager::isZoneActive
     private:
         bool mNeedsToBeSaved;
-        long mId;
         Zone();
 		std::list<Actor*> mLights;
 		std::list<Ogre::String> mSounds;

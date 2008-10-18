@@ -18,6 +18,10 @@
 
 #include "SaveAbleFactory.h"
 
+template<> rl::SaveAbleFactory* Ogre::Singleton<rl::SaveAbleFactory>::ms_Singleton = 0;
+
+template<> rl::SaveAbleFactoryPool* Ogre::Singleton<rl::SaveAbleFactoryPool>::ms_Singleton = 0;
+
 namespace rl
 {
 	void SaveAbleFactoryPool::registerFactory(const Ogre::String &key, rl::SaveAbleFactory *fac)
