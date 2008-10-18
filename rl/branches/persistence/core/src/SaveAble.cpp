@@ -23,7 +23,7 @@
 
 namespace rl
 {
-	SaveAble::SaveAble(const CeGuiString &id, bool isSaveAble)
+	SaveAble::SaveAble(const CeGuiString &id, bool isSaveAble) : mId(id)
 	{
 	}
 
