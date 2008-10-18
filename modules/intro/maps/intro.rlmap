@@ -1,0 +1,16 @@
+<scene formatVersion="0.4.0">
+    <nodes>
+<entity name="entity_0" meshfile="wueste.mesh">
+<position x="7.7022953" y="18.513506" z="-71.49255"/><rotation qw="0.919954" qx="0.187985" qy="0.33705" qz="0.068873"/>                <property type="STRING" name="physical_body" data="none"/>
+
+</entity>
+<entity name="nat_stein_01" meshfile="nat_stein_01.mesh">
+<position x="13.487664" y="8.259508" z="-37.13589"/><rotation qw="0.976916" qx="0.061914" qy="0.204045" qz="-0.012932"/><scale x="0.65" y="0.5" z="0.65"/>                <property type="STRING" name="physical_body" data="none"/>
+
+</entity>
+<entity name="arc_boronsrad" meshfile="arc_boronsrad.mesh">
+<position x="1.7044659" y="-0.92208046" z="-2.555693"/><rotation qw="0.779333" qx="0.055446" qy="0.623836" qz="-0.019875"/><scale x="1.0" y="1.0" z="1.0"/>                <property type="STRING" name="physical_body" data="none"/>
+
+</entity>
+    </nodes>
+</scene>

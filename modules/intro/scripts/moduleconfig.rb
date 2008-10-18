@@ -21,7 +21,8 @@ class IntroModule < ContentModule
 
     def start()
         $SCRIPT.log("Loading menu background..")
-        $CORE.loadMap("Octree", "intro.scene", "General");
+		SceneManager::getSingleton().loadScene("intro", false);
+        #$CORE.loadMap("Octree", "intro.scene", "General");
         load "intro.rb"
         $SCRIPT.log("done")
         
