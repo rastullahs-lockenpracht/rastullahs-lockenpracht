@@ -160,6 +160,8 @@ namespace rl {
     void WindowFactory::toggleConsole()
     {
         mConsole->setVisible(!mConsole->isVisible());
+        if( mConsole->isVisible() )
+            mConsole->getWindow()->activate();
     }
 
     void WindowFactory::toggleDebugWindow()

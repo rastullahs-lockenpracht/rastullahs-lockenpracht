@@ -53,6 +53,7 @@ namespace rl {
 
 			bool handleKeyDown(const CEGUI::EventArgs& e);
             bool handleKeyUp(const CEGUI::EventArgs& e);
+            bool handleActivated(const CEGUI::EventArgs& e);
 			void appendTextRow(const CeGuiString& text, const CEGUI::colour color);
 
 			std::vector<CeGuiString> mHistory;
