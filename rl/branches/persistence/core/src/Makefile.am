@@ -58,6 +58,7 @@ libRlCore_la_SOURCES = \
 	SaveAbleCollection.cpp \
 	SaveAbleFactory.cpp \
 	SaveAbleManager.cpp \
+	SaveAbleSerializer.cpp \
 	SaveGameFile.cpp \
 	SaveGameFileReader.cpp \
 	SaveGameFileWriter.cpp \

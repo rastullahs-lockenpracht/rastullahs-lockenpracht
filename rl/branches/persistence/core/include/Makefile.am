@@ -59,6 +59,8 @@
 	SaveAbleCollection.h \
 	SaveAbleFactory.h \
 	SaveAbleManager.h \
+	SaveAbleSerializer.h \
+	SaveGameData.h \
 	SaveGameFile.h \
 	SaveGameFileReader.h \
 	SaveGameFileWriter.h \

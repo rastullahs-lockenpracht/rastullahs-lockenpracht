@@ -14,6 +14,7 @@ libRlCommon_la_SOURCES = \
   Properties.cpp \
   Property.cpp \
   ScriptWrapper.cpp \
+  ScriptSerializer.cpp \
   WriteableDataStream.cpp \
   WriteableDataStreamFormatTarget.cpp \
   WriteableFileSystemArchiv.cpp \

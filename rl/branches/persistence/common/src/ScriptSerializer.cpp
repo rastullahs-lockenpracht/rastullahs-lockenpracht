@@ -16,6 +16,8 @@
 
 #include "stdinc.h"
 
-#include "SaveAbleManager.h"
+#include "ScriptSerializer.h"
 
-template<> rl::SaveAbleManager* Ogre::Singleton<rl::SaveAbleManager>::ms_Singleton = 0;
+namespace rl
+{
+}

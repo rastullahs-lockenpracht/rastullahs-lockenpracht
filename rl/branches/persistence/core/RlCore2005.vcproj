@@ -679,6 +679,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\SaveAbleSerializer.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\SaveGameData.h"
 					>
 				</File>
@@ -1021,6 +1025,10 @@
 				</File>
 				<File
 					RelativePath=".\src\SaveAbleManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SaveAbleSerializer.cpp"
 					>
 				</File>
 				<File

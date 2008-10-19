@@ -335,6 +335,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ScriptSerializer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ScriptWrapper.cpp"
 				>
 			</File>
@@ -468,6 +472,10 @@
 			</File>
 			<File
 				RelativePath=".\include\RastullahPrerequisites.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ScriptSerializer.h"
 				>
 			</File>
 			<File

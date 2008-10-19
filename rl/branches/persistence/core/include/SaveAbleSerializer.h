@@ -14,30 +14,23 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef __SaveAbleManager_H__
-#define __SaveAbleManager_H__
+#ifndef __SaveAbleSerializer_H__
+#define __SaveAbleSerializer_H__
 
 #include "CorePrerequisites.h"
-#include "SaveAble.h"
-#include "SaveAbleCollection.h"
+#include "SaveAbleManager.h"
+#include "SaveGameFile.h"
+#include "ScriptSerializer.h"
 
 namespace rl
 {
-	class _RlCoreExport SaveAbleManager : public Ogre::Singleton<SaveAbleManager>
+	class _RlCoreExport SaveAbleSerializer : public ScriptSerializer
 	{
 	public:
-		void saveState();
-		void addSaveAble(SaveAblePtr save);
-		void removeSaveAble(SaveAblePtr save);
-		void removeSaveAble(int id);
-		void removeAllSaveAbles();
-		void attachSaveAbleToCollection(int id);
-		void deattachSaveAbleFromColltection(int id);
-		void restoreState();
+		void writeToSaveGameFile();
+		void readFromSaveGameFile();
 	protected:
-		std::map<int, PropertyRecordPtr> mSaveAbleStates;
-		std::map<int, SaveAblePtr> mSaveAbles;
-		std::map<Ogre::String,SaveAbleCollection> mSaveAbleCollections;
+		std::map<CeGuiString, SaveGameFile*> mSaveGameFile;
 	};
 }
 

@@ -14,31 +14,10 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef __SaveAbleManager_H__
-#define __SaveAbleManager_H__
+#include "stdinc.h"
 
-#include "CorePrerequisites.h"
-#include "SaveAble.h"
-#include "SaveAbleCollection.h"
+#include "SaveAbleSerializer.h"
 
 namespace rl
 {
-	class _RlCoreExport SaveAbleManager : public Ogre::Singleton<SaveAbleManager>
-	{
-	public:
-		void saveState();
-		void addSaveAble(SaveAblePtr save);
-		void removeSaveAble(SaveAblePtr save);
-		void removeSaveAble(int id);
-		void removeAllSaveAbles();
-		void attachSaveAbleToCollection(int id);
-		void deattachSaveAbleFromColltection(int id);
-		void restoreState();
-	protected:
-		std::map<int, PropertyRecordPtr> mSaveAbleStates;
-		std::map<int, SaveAblePtr> mSaveAbles;
-		std::map<Ogre::String,SaveAbleCollection> mSaveAbleCollections;
-	};
 }
-
-#endif
