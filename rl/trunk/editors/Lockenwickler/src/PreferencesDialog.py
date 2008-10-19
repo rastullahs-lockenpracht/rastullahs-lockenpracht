@@ -41,12 +41,13 @@ class PreferencesDialog(QtGui.QDialog):
                                self.onLoadSelectedModule)
 
         if platform.system() == "Windows" or platform.system() == "MAC":
+            pass
             # TODO: delete this when ready
-            self.prefDialog.lineEdit.setText("C:\Users\Stefan\Desktop\Lockenwickler\modules\modules.cfg")
-            self.moduleCfgPath = "C:\Users\Stefan\Desktop\Lockenwickler\modules\modules.cfg"
-            self.moduleCfgIsSelected = True
-            self.modulePath = self.moduleCfgPath.replace("modules.cfg", "")
-            self.readInModules()
+#            self.prefDialog.lineEdit.setText("C:\Users\Stefan\Desktop\Lockenwickler\modules\modules.cfg")
+#            self.moduleCfgPath = "C:\Users\Stefan\Desktop\Lockenwickler\modules\modules.cfg"
+#            self.moduleCfgIsSelected = True
+#            self.modulePath = self.moduleCfgPath.replace("modules.cfg", "")
+#            self.readInModules()
             # end delete
         else:
             # TODO: delete this when ready
