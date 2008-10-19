@@ -74,6 +74,7 @@ namespace rl {
         mGuiResourceProvider(NULL),
         mGuiSystem(NULL)
     {
+        mWindowFactory = new WindowFactory();
         mSceneClearingConnection =
             MessagePump::getSingleton().addMessageHandler<MessageType_SceneClearing>(
 			    boost::bind(&UiSubsystem::onBeforeClearScene, this));
@@ -86,7 +87,9 @@ namespace rl {
         mActiveCharacterChangedConnection = 
             MessagePump::getSingleton().addMessageHandler<MessageType_ActivePlayerCharChanged>(
                 boost::bind(&UiSubsystem::onActiveCharacterChanged, this, _1, _2));
-        mWindowFactory = new WindowFactory();
+        mAllPlayerCharactersDiedConnection =
+            MessagePump::getSingleton().addMessageHandler<MessageType_AllPlayerCharsDied>(
+                boost::bind(&UiSubsystem::onAllPlayerCharactersDied, this));
     }
 
     UiSubsystem::~UiSubsystem()
@@ -110,7 +113,7 @@ namespace rl {
         World* world = CoreSubsystem::getSingleton().getWorld();
         SceneManager* sceneMgr = world->getSceneManager();
         
-        CEGUI::System::setDefaultXMLParserName("XercesParser");
+//        CEGUI::System::setDefaultXMLParserName("XercesParser");
 
         LOG_MESSAGE2(Logger::UI,
             "Initializing CEGUI Renderer.", "UiSubsystem::initializeUiSubsystem");

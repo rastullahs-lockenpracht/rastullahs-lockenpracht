@@ -16,19 +16,23 @@
  # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  #################################################
 
-
 import sys
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-import ogre.renderer.OGRE as og
 
-class SceneExplorer(QWidget):
-    def __init__(self, parent=None):
-        QWidget.__init__(self, parent)
-        self.sceneTreeView = QTreeView()
+from Property import *
 
-        vBoxLayout = QVBoxLayout()
-        vBoxLayout.addWidget(self.sceneTreeView)
+class ObjectPropertyModel():
+    def __init__(self):
+        self.numProperties = 0
+        self.currentObject = None
+        self.properties = []
 
-        self.setLayout(vBoxLayout)
+    def getNumProperies(self):
+        return self.numProperties
 
+    # sets the current object whose properties are displayed
+    def setSingleObject(self, so):
+        self.currentObject = so
+        self.__parseProperties()
+
+    def __parseProperties(self):
+        node = self.currentObject.entity.getParentNode()

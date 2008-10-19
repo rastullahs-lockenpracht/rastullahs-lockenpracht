@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE Project SYSTEM "Project-4.4.dtd">
+<!DOCTYPE Project SYSTEM "Project-4.5.dtd">
 <!-- eric4 project file for project Lockenwickler -->
-<!-- Saved: 2008-09-20, 20:03:11 -->
+<!-- Saved: 2008-10-16, 19:21:23 -->
 <!-- Copyright (C) 2008 Stefan Stammberger, sstammberger@web.de -->
-<Project version="4.4">
+<Project version="4.5">
   <ProgLanguage mixed="0">Python</ProgLanguage>
   <ProjectType>Qt4</ProjectType>
   <Description>Lockenwickler is an Editor application for the Rastulahs Lockenpracht game.</Description>
@@ -17,16 +17,11 @@
     <Source>src/ModuleManager.py</Source>
     <Source>src/MovePivot.py</Source>
     <Source>src/ObjectPropertyWin.py</Source>
-    <Source>src/OdeManager.py</Source>
     <Source>src/OgreMainWindow.py</Source>
     <Source>src/OgreWidget.py</Source>
     <Source>src/PreferencesDialog.py</Source>
     <Source>src/PythonOgreConfig.py</Source>
     <Source>src/ui_ConsoleWindow.py</Source>
-    <Source>src/ui_FourPanelView.py</Source>
-    <Source>src/ui_lw.py</Source>
-    <Source>src/ui_model_prev.py</Source>
-    <Source>src/ui_obj_prop.py</Source>
     <Source>src/ui_pref_dialog.py</Source>
     <Source>ui files/batch_convert_ui.py</Source>
     <Source>ui files/ui_ConsoleWindow.py</Source>
@@ -36,6 +31,9 @@
     <Source>ui files/ui_obj_prop.py</Source>
     <Source>ui files/ui_pref_dialog.py</Source>
     <Source>src/SceneExplorer.py</Source>
+    <Source>src/Property.py</Source>
+    <Source>src/ViewportGrid.py</Source>
+    <Source>src/ObjectPropertyModel.py</Source>
   </Sources>
   <Forms>
     <Form>ui files/console_window.ui</Form>
@@ -170,9 +168,11 @@
   <FiletypeAssociations>
     <FiletypeAssociation pattern="*.ui" type="FORMS" />
     <FiletypeAssociation pattern="*.idl" type="INTERFACES" />
+    <FiletypeAssociation pattern="*.qm" type="TRANSLATIONS" />
     <FiletypeAssociation pattern="*.ptl" type="SOURCES" />
     <FiletypeAssociation pattern="*.pyw" type="SOURCES" />
     <FiletypeAssociation pattern="*.ui.h" type="FORMS" />
+    <FiletypeAssociation pattern="*.ts" type="TRANSLATIONS" />
     <FiletypeAssociation pattern="*.py" type="SOURCES" />
     <FiletypeAssociation pattern="*.qrc" type="RESOURCES" />
   </FiletypeAssociations>
