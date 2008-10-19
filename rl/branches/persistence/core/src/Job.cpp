@@ -20,10 +20,9 @@
 
 namespace rl
 {
-    AbstractJob::AbstractJob(const CeGuiString &id, bool isDiscardable, bool destroyWhenDone)
+    AbstractJob::AbstractJob(bool isDiscardable, bool destroyWhenDone)
         : mIsDiscardable(isDiscardable), 
-        mDestroyWhenDone(destroyWhenDone),
-		SaveAble(id)
+        mDestroyWhenDone(destroyWhenDone)
     {
     }
 
@@ -111,10 +110,13 @@ namespace rl
     }
 
     Job::Job(const CeGuiString &id, bool isDiscardable, bool destroyWhenDone, TimeSource::TimeSourceType timesource, JobPersistenceType persistence)
-        : AbstractJob(id, isDiscardable, destroyWhenDone),
+        : AbstractJob(isDiscardable, destroyWhenDone),
         mTimeSource(timesource),
-        mPersistence(persistence)
+        mPersistence(persistence),
+		SaveAble(id)
     {
+		if(persistence != PERSISTENT)
+			setSaveAble(false);
     }
 
     Job::~Job()

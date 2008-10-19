@@ -25,15 +25,10 @@
 
 namespace rl
 {
-    class _RlCoreExport AbstractJob : public SaveAble
+	class _RlCoreExport AbstractJob : public PropertyHolder
     {
     public:
-        enum JobPersistenceType
-        {
-            NOT_PERSISTENT,             // the job is not influenced by any save/load - events
-            PERSISTENT,                 // the job stores data in (and loads from) a savegamefile, the job is deleted (not discarded) before a new game is loaded
-            FINISH_WHEN_GAME_LOADED     // the job is discarded if it is discardable or deleted, when a new game is loaded
-        };
+        
 
         /**
          * Constructor.
@@ -47,7 +42,7 @@ namespace rl
          *         Job, after execution is finished. This should usually be the case, but
          *         sometimes it is sensible to pool a number of Jobs for reuse.
          */
-        AbstractJob(const CeGuiString &id, bool isDiscardable, 
+        AbstractJob(bool isDiscardable, 
             bool destroyWhenDone);
 
         virtual ~AbstractJob();
@@ -63,9 +58,6 @@ namespace rl
          * rescheduled for another execution.
          */
         virtual bool execute(Ogre::Real time) = 0;
-
-        /// Returns the Persistence-Type of this job
-        virtual JobPersistenceType getPersistenceType() const = 0;
 
         virtual TimeSource::TimeSourceType getTimeSource() const = 0;
 
@@ -106,9 +98,16 @@ namespace rl
      *
      *  This class provides default implementations for most of AbstractJob's methods
      */
-    class _RlCoreExport Job : public AbstractJob
+    class _RlCoreExport Job : public AbstractJob, public SaveAble
     {
     public:
+		enum JobPersistenceType
+        {
+            NOT_PERSISTENT,             // the job is not influenced by any save/load - events
+            PERSISTENT,                 // the job stores data in (and loads from) a savegamefile, the job is deleted (not discarded) before a new game is loaded
+            FINISH_WHEN_GAME_LOADED     // the job is discarded if it is discardable or deleted, when a new game is loaded
+        };
+
         /**
          * Constructor.
          *

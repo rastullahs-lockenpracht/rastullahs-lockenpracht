@@ -38,7 +38,6 @@ namespace rl {
 class _RlRulesExport QuestBook : 
     public Ogre::ScriptLoader,
     public EventSource, 
-    public PropertyHolder, 
     public XmlProcessor,
 	public SaveAbleFactory
 {

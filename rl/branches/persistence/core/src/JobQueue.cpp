@@ -21,7 +21,7 @@ namespace rl
 {
 
 JobQueue::JobQueue(const CeGuiString &id)
-: AbstractJob(id, false, true),
+: Job(id, false, true),
     mTimeSource(TimeSource::REALTIME_CONTINUOUS)
 {
 }
@@ -81,9 +81,9 @@ bool JobQueue::execute(Ogre::Real elapsedTime)
     }
 }
 
-AbstractJob::JobPersistenceType JobQueue::getPersistenceType() const
+Job::JobPersistenceType JobQueue::getPersistenceType() const
 {
-    return AbstractJob::PERSISTENT; ///@todo is this correct?
+    return Job::PERSISTENT; ///@todo is this correct?
 }
 
 TimeSource::TimeSourceType JobQueue::getTimeSource() const 
@@ -97,7 +97,7 @@ const CeGuiString JobQueue::getClassName() const
 }
 
 JobSet::JobSet(const CeGuiString &id)
-: AbstractJob(id, false, true),
+: Job(id, false, true),
     mTimeSource(TimeSource::REALTIME_CONTINUOUS)
 {
 }
@@ -182,10 +182,9 @@ void JobSet::update()
     }
 }
 
-
-AbstractJob::JobPersistenceType JobSet::getPersistenceType() const
+Job::JobPersistenceType JobSet::getPersistenceType() const
 {
-    return AbstractJob::PERSISTENT; ///@todo is this correct?
+    return Job::PERSISTENT; ///@todo is this correct?
 }
 
 TimeSource::TimeSourceType JobSet::getTimeSource() const 

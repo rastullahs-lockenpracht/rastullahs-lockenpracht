@@ -35,7 +35,6 @@ namespace rl
         mTokenThreshold(JP_NORMAL), 
         mTicketCounter(0)
     {
-        SaveGameManager::getSingleton().registerSaveGameData(this);
     }
 
     JobScheduler::~JobScheduler()
@@ -204,7 +203,7 @@ namespace rl
 
     using namespace XERCES_CPP_NAMESPACE;
 
-    void JobScheduler::writeData(SaveGameFileWriter* writer)
+    /*void JobScheduler::writeData(SaveGameFileWriter* writer)
     {
         DOMElement* jobSchedulerParentNode = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
 
@@ -225,99 +224,88 @@ namespace rl
                 writer->writeEachPropertyToElem(jobNode, map);
             }
         }
-    }
+    }*/
 
-    void JobScheduler::readData(SaveGameFileReader* reader)
-    {
-        // delete and discard old jobs
-        for( JobQueue::iterator iter = mJobQueue.begin(); iter != mJobQueue.end(); iter++ )
-        {
-            if( iter->job->getPersistenceType() == Job::PERSISTENT )
-            {
-                // delete the job, but do not discard it!
-                iter->markedToRemove = true;
-            }
-            else if( iter->job->getPersistenceType() == Job::FINISH_WHEN_GAME_LOADED )
-            {
-                // discard the job, then delete it
-                if( iter->job->isDiscardable() )
-                    iter->job->discard();
-                iter->markedToRemove = true;
-            }
-        }
+    //void JobScheduler::readData(SaveGameFileReader* reader)
+    //{
+    //    // delete and discard old jobs
+    //    for( JobQueue::iterator iter = mJobQueue.begin(); iter != mJobQueue.end(); iter++ )
+    //    {
+    //        if( iter->job->getPersistenceType() == Job::PERSISTENT )
+    //        {
+    //            // delete the job, but do not discard it!
+    //            iter->markedToRemove = true;
+    //        }
+    //        else if( iter->job->getPersistenceType() == Job::FINISH_WHEN_GAME_LOADED )
+    //        {
+    //            // discard the job, then delete it
+    //            if( iter->job->isDiscardable() )
+    //                iter->job->discard();
+    //            iter->markedToRemove = true;
+    //        }
+    //    }
 
         
         // load jobs from savegamefile
 
-        reader->initializeXml();
+    //    reader->initializeXml();
 
 
-        DOMNodeList* rootNodeList = reader->getDocument()->getDocumentElement()->getElementsByTagName(AutoXMLCh(getXmlNodeIdentifier().c_str()).data());
-        
-        if(rootNodeList->getLength())
-        {
-            DOMNodeList* xmlJobs = static_cast<DOMElement*>(rootNodeList->item(0))->getElementsByTagName(AutoXMLCh("job").data());
-            if (xmlJobs->getLength())
-            {
-                for (XMLSize_t childIdx1 = 0; childIdx1 < xmlJobs->getLength(); childIdx1++)
-                {
-                    DOMNode* xmlJob_ = xmlJobs->item(childIdx1);
-                    if (xmlJob_->getNodeType() == DOMNode::ELEMENT_NODE)
-                    {
-                        DOMElement* xmlJob = static_cast<DOMElement*>(xmlJob_);
-                        JobPriority priority;
-                        unsigned short tokens;
-                        int start, end;
-                        Time timeLastCall;
-                        bool called;
-                        priority = JobPriority(reader->getAttributeValueAsInteger(xmlJob, "priority"));
-                        tokens = reader->getAttributeValueAsInteger(xmlJob, "tokens");
-                        start = reader->getAttributeValueAsInteger(xmlJob, "start");
-                        end = reader->getAttributeValueAsInteger(xmlJob, "end");
-                        timeLastCall = reader->getAttributeValueAsInt64(xmlJob, "timeLastCall");
-                        called = reader->getAttributeValueAsBool(xmlJob, "called");
+    //    DOMNodeList* rootNodeList = reader->getDocument()->getDocumentElement()->getElementsByTagName(AutoXMLCh(getXmlNodeIdentifier().c_str()).data());
+    //    
+    //    if(rootNodeList->getLength())
+    //    {
+    //        DOMNodeList* xmlJobs = static_cast<DOMElement*>(rootNodeList->item(0))->getElementsByTagName(AutoXMLCh("job").data());
+    //        if (xmlJobs->getLength())
+    //        {
+    //            for (XMLSize_t childIdx1 = 0; childIdx1 < xmlJobs->getLength(); childIdx1++)
+    //            {
+    //                DOMNode* xmlJob_ = xmlJobs->item(childIdx1);
+    //                if (xmlJob_->getNodeType() == DOMNode::ELEMENT_NODE)
+    //                {
+    //                    DOMElement* xmlJob = static_cast<DOMElement*>(xmlJob_);
+    //                    JobPriority priority;
+    //                    unsigned short tokens;
+    //                    int start, end;
+    //                    Time timeLastCall;
+    //                    bool called;
+    //                    priority = JobPriority(reader->getAttributeValueAsInteger(xmlJob, "priority"));
+    //                    tokens = reader->getAttributeValueAsInteger(xmlJob, "tokens");
+    //                    start = reader->getAttributeValueAsInteger(xmlJob, "start");
+    //                    end = reader->getAttributeValueAsInteger(xmlJob, "end");
+    //                    timeLastCall = reader->getAttributeValueAsInt64(xmlJob, "timeLastCall");
+    //                    called = reader->getAttributeValueAsBool(xmlJob, "called");
 
-                        Ogre::String className = reader->getAttributeValueAsStdString(xmlJob, "classname");
+    //                    Ogre::String className = reader->getAttributeValueAsStdString(xmlJob, "classname");
 
-                        JobCreationMap::iterator it = mJobCreationMap.find(className);
-                        if (it == mJobCreationMap.end())
-                        {
-                            LOG_ERROR(Logger::CORE, "Die Job-Klasse '" + className + "' ist nicht beim JobScheduler registriert!");
-                            continue;
-                        }
+    //                    JobCreationMap::iterator it = mJobCreationMap.find(className);
+    //                    if (it == mJobCreationMap.end())
+    //                    {
+    //                        LOG_ERROR(Logger::CORE, "Die Job-Klasse '" + className + "' ist nicht beim JobScheduler registriert!");
+    //                        continue;
+    //                    }
 
-                        AbstractJob* job = it->second();
-                        if (job == NULL)
-                        {
-                            LOG_ERROR(Logger::CORE, "Fehler beim Erstellen eines Objekts der Job-Klasse '" + className + "'!");
-                            continue;
-                        }
-                        PropertyRecordPtr properties = reader->getPropertiesAsRecord(xmlJob);
-                        job->setProperties(properties);
-                        
-                        
-                        unsigned long ticket = ++mTicketCounter;
-                        TimeSource* ts = TimeSourceManager::getSingleton().getTimeSource(job->getTimeSource());
-                        JobEntry entry = {job, NULL, ticket, priority, tokens, start, end, timeLastCall, TimeSource::UNKNOWN, called, false};
-                        mJobQueue.push_back(entry);
-                    }
-                }
-            }
-        }
+    //                    AbstractJob* job = it->second();
+    //                    if (job == NULL)
+    //                    {
+    //                        LOG_ERROR(Logger::CORE, "Fehler beim Erstellen eines Objekts der Job-Klasse '" + className + "'!");
+    //                        continue;
+    //                    }
+    //                    PropertyRecordPtr properties = reader->getPropertiesAsRecord(xmlJob);
+    //                    job->setProperties(properties);
+    //                    
+    //                    
+    //                    unsigned long ticket = ++mTicketCounter;
+    //                    TimeSource* ts = TimeSourceManager::getSingleton().getTimeSource(job->getTimeSource());
+    //                    JobEntry entry = {job, NULL, ticket, priority, tokens, start, end, timeLastCall, TimeSource::UNKNOWN, called, false};
+    //                    mJobQueue.push_back(entry);
+    //                }
+    //            }
+    //        }
+    //    }
 
-        reader->shutdownXml();
-    }
-
-    int JobScheduler::getPriority() const
-    {
-        return 0; // must be loaded before triggers!
-    }
-
-    CeGuiString JobScheduler::getXmlNodeIdentifier() const
-    {
-        static const CeGuiString name = "jobscheduler";
-        return name;
-    }
+    //    reader->shutdownXml();
+    //}
 
     JobScheduler::JobCreationMap JobScheduler::mJobCreationMap;
 }

@@ -22,7 +22,7 @@ namespace rl
 {
 
 ApplyDamageJob::ApplyDamageJob(Creature* target, int tp)
-:   Job("",false, true, TimeSource::GAMETIME, AbstractJob::PERSISTENT),
+:   Job("",false, true, TimeSource::GAMETIME, Job::PERSISTENT),
     mTarget(target), 
     mTp(tp)
 {

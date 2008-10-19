@@ -23,7 +23,7 @@
 namespace rl
 {
 
-    class _RlCoreExport JobQueue : public AbstractJob
+    class _RlCoreExport JobQueue : public Job
     {
     public:
         JobQueue(const CeGuiString &id);
@@ -41,7 +41,7 @@ namespace rl
         TimeSource::TimeSourceType mTimeSource;
     };
 
-    class _RlCoreExport JobSet : public AbstractJob
+    class _RlCoreExport JobSet : public Job
     {
     public:
         JobSet(const CeGuiString &id);

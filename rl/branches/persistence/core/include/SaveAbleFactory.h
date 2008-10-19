@@ -22,7 +22,7 @@
 
 namespace rl
 {
-	class _RlCoreExport SaveAbleFactory : public Ogre::Singleton<SaveAbleFactory>
+	class _RlCoreExport SaveAbleFactory : public Ogre::Singleton<SaveAbleFactory>, PropertyHolder
 	{
 	public:
 		virtual SaveAblePtr createSaveAble(PropertyRecordPtr params) = 0;

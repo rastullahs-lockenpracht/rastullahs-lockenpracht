@@ -46,8 +46,7 @@ namespace rl
      */
     class _RlCoreExport JobScheduler
         : public GameTask,
-          public Ogre::Singleton<JobScheduler>,
-          public SaveGameData
+          public Ogre::Singleton<JobScheduler>
     {
     public:
         typedef enum {JP_LOW = 10, JP_NORMAL = 20, JP_HIGH = 30} JobPriority;
@@ -90,15 +89,6 @@ namespace rl
         virtual void run(Ogre::Real time);
 
         virtual const Ogre::String& getName() const;
-
-
-        /// Override from SaveGameData
-        /// Manages saving and loading from the SaveGameFile
-
-        virtual CeGuiString getXmlNodeIdentifier() const;
-        virtual void writeData(SaveGameFileWriter* writer);
-        virtual void readData(SaveGameFileReader* reader);
-        virtual int getPriority() const;  // this should probably be one of the last things to load, so the job can access various things (gameobjects etc)
 
         typedef AbstractJob*(*JobCreateFunction)(void);
         static void registerJobClass(const Ogre::String &name, JobCreateFunction);
