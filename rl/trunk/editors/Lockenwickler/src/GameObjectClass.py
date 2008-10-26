@@ -66,6 +66,13 @@ class GOCIntTripleProperty():
     def getType(self):
         return "INTTRIPPLE"
 
+class GOCMapProperty():
+    def __init__(self, name):
+        self.name = name
+        self.childProperties = []
+
+    def getType(self):
+        return "MAP"
 
 class GameObjectClass():
     def __init__(self,  parentElement):
@@ -74,34 +81,53 @@ class GameObjectClass():
 
         self.properties = []
 
-        for property in parentElement.getiterator("property"):
+        for property in parentElement:#.getiterator("property"):
             if property.get("type") == "ARRAY":
                 pass
-            elif property.get("type") == "STRING":
-                name = property.get("name")
-                data = property.get("data")
-                self.properties.append(GOCStringProperty(name, data))
-            elif property.get("type") == "REAL":
-                name = property.get("name")
-                data = property.get("data")
-                self.properties.append(GOCRealProperty(name, data))
-            elif property.get("type") == "BOOL":
-                name = property.get("name")
-                data = property.get("data")
-                self.properties.append(GOCBoolProperty(name, data))
             elif property.get("type") == "MAP":
-                pass
-            elif property.get("type") == "INT":
-                name = property.get("name")
-                data = property.get("data")
-                self.properties.append(GOCIntProperty(name, data))
-            elif property.get("type") == "INTPAIR":
-                name = property.get("name")
-                data = property.get("data")
-                self.properties.append(GOCIntPairProperty(name, data))
-            elif property.get("type") == "INTTRIPLE":
-                name = property.get("name")
-                data = property.get("data")
-                self.properties.append(GOCIntTripleProperty(name, data))
+                self.properties.append(self.createPropertyMap(property))
             else:
-                print property.get("type")
+                self.properties.append(self.createProperty(property))
+
+    def createPropertyMap(self, property):
+        propMap = GOCMapProperty(property.get("name"))
+        for subProperty in property:
+            if subProperty.get("type") == "MAP":
+                propMap.childProperties.append(self.createPropertyMap(property))
+            else:
+                for subProperty in property:
+                    propMap.childProperties.append(self.createProperty(subProperty))
+
+        return propMap
+
+
+    def createProperty(self, property):
+        if property.get("type") == "STRING":
+            name = property.get("name")
+            data = property.get("data")
+            return GOCStringProperty(name, data)
+        elif property.get("type") == "REAL":
+            name = property.get("name")
+            data = property.get("data")
+            return GOCRealProperty(name, data)
+        elif property.get("type") == "BOOL":
+            name = property.get("name")
+            data = property.get("data")
+            return GOCBoolProperty(name, data)
+        elif property.get("type") == "INT":
+            name = property.get("name")
+            data = property.get("data")
+            return GOCIntProperty(name, data)
+        elif property.get("type") == "INTPAIR":
+            name = property.get("name")
+            data = property.get("data")
+            return GOCIntPairProperty(name, data)
+        elif property.get("type") == "INTTRIPLE":
+            name = property.get("name")
+            data = property.get("data")
+            return GOCIntTripleProperty(name, data)
+        else:
+            print property.get("type")
+
+
+

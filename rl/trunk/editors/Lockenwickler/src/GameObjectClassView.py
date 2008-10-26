@@ -75,6 +75,12 @@ class GameObjectClassView(QWidget):
                     item1.setIcon(0, QIcon("media/icons/agt_multimedia.png"))
                     item1.setText(0, str(prop.name))
                     item1.setText(1, prop.getType())
-                    item1.setText(2, unicode(prop.data))
+                    if prop.getType() is "MAP":
+                        pass
+                    elif prop.getType() is "ARRAY":
+                        pass
+                    else:
+                        item1.setText(2, unicode(prop.data))
+
                     changeColor = not changeColor
 
