@@ -22,6 +22,9 @@
 #include "SaveGameFile.h"
 #include "ScriptSerializer.h"
 
+#include "SaveGameFileReader.h"
+#include "SaveGameFileWriter.h"
+
 namespace rl
 {
 	class _RlCoreExport SaveAbleSerializer : public ScriptSerializer
@@ -31,6 +34,8 @@ namespace rl
 		void readFromSaveGameFile();
 	protected:
 		std::map<CeGuiString, SaveGameFile*> mSaveGameFile;
+		SaveGameFileReader mReader;
+		SaveGameFileWriter mWriter;
 	};
 }
 

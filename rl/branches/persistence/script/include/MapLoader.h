@@ -33,7 +33,7 @@ namespace rl {
     class AbstractMapNodeProcessor;
     class ProgressWindow;
 
-    class _RlScriptExport MapLoader : public ContentLoader,private XmlProcessor 
+    class _RlScriptExport MapLoader : public ContentLoader, protected XmlProcessor 
     {
     public:
         static const CeGuiString PROPERTY_ACTIVEMAPS;

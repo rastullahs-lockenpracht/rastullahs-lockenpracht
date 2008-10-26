@@ -25,11 +25,13 @@
 
 #include "Property.h"
 #include "Properties.h"
+#include "WriteableDataStream.h"
+#include "ScriptSerializer.h"
 
 
 namespace rl
 {
-    class _RlCoreExport SaveGameFile : public PropertyHolder, public Ogre::ScriptLoader
+    class _RlCoreExport SaveGameFile : public PropertyHolder, public ScriptSerializer
     {
     public:
         static const Ogre::String PROPERTY_MODULEID;
@@ -40,12 +42,13 @@ namespace rl
         SaveGameFile(const CeGuiString &name, int id = 0);
         ~SaveGameFile();
         CeGuiString buildFilename();
-        CeGuiString getName();
+        CeGuiString getName() const;
+		CeGuiString getModuleId() const;
         int getId();
         bool saveGameExists();
 
         //access to file
-        Ogre::DataStreamPtr &getDataStream();
+        WriteableDataStreamPtr &getDataStream();
         void closeDataStream();
         XERCES_CPP_NAMESPACE::XMLFormatTarget* getFormatTarget();
         void deleteFileFromStorage();
@@ -68,7 +71,7 @@ namespace rl
 
         //file access
         Ogre::StringVector mScriptPatterns;
-        Ogre::DataStreamPtr mStream;
+        WriteableDataStreamPtr mStream;
         int mSaveGameId;
     };
 }

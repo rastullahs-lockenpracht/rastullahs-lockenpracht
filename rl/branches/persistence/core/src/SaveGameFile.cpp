@@ -32,7 +32,7 @@ namespace rl
     const Ogre::String SaveGameFile::PROPERTY_MODULENAME = "modulename";
 
 
-    SaveGameFile::SaveGameFile(const CeGuiString &name, int id) : mStream((Ogre::DataStream*)NULL)
+    SaveGameFile::SaveGameFile(const CeGuiString &name, int id) : mStream((WriteableDataStream*)NULL)
     {
         setProperty(PROPERTY_NAME,name);
         mSaveGameId = id;
@@ -53,17 +53,22 @@ namespace rl
 #       endif        
     }
 
-    CeGuiString SaveGameFile::getName()
+    CeGuiString SaveGameFile::getName() const
     {
         return getProperty(PROPERTY_NAME);
     }
+
+	CeGuiString SaveGameFile::getModuleId() const
+	{
+		return mModuleID;
+	}
 
     int SaveGameFile::getId()
     {
         return mSaveGameId;
     }
 
-    Ogre::DataStreamPtr &SaveGameFile::getDataStream()
+    WriteableDataStreamPtr &SaveGameFile::getDataStream()
     {
         Ogre::ResourceGroupManager::getSingleton().createResourceGroup("SaveGame");
 
@@ -161,7 +166,7 @@ namespace rl
 
     void SaveGameFile::parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
     {
-        mStream = stream;
+		mStream.bind(static_cast<WriteableDataStream*>(stream.get()));
     }
 
     Ogre::Real SaveGameFile::getLoadingOrder() const

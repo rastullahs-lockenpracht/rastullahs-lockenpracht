@@ -31,6 +31,8 @@ namespace rl
 	{
 	};
 
+	typedef std::pair<CeGuiString, SaveAblePtr>  SaveAbleReference;
+
 	class _RlCoreExport SaveAble : public PropertyHolder
 	{
 	public:
@@ -43,16 +45,15 @@ namespace rl
         virtual void setProperty(const CeGuiString& key, const Property& value);
         virtual PropertyKeys getAllPropertyKeys() const;
 		
-		SaveAblePtr getParent() const { return mParentSaveAble; };
+		SaveAblePtr getParent() const { return mParentSaveAble.second; };
 
 		CeGuiString getId() const;
 	protected:
-		SaveAblePtr mParentSaveAble;
+		SaveAbleReference mParentSaveAble;
+		std::map<CeGuiString, SaveAblePtr> mChildrenSaveAbles;
 		CeGuiString mId;
 		bool mIsSaveAble;
 	};	
-
-	typedef std::pair<int, SaveAblePtr>  SaveAbleReference;
 }
 
 

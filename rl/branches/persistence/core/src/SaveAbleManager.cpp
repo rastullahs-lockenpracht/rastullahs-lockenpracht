@@ -19,3 +19,8 @@
 #include "SaveAbleManager.h"
 
 template<> rl::SaveAbleManager* Ogre::Singleton<rl::SaveAbleManager>::ms_Singleton = 0;
+
+namespace rl
+{
+	
+}
