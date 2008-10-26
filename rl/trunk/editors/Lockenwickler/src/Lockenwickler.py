@@ -31,6 +31,7 @@ from PyQt4 import QtGui, QtCore
 from PreferencesDialog import *
 from ObjectPropertyWin import *
 from ModelSelectionDialog import *
+from GameObjectClassView import *
 from ConsoleWindow import *
 from ModuleManager import *
 from SceneExplorer import *
@@ -42,9 +43,15 @@ class Lockenwickler(QtGui.QMainWindow):
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
 
+        pixmap = QPixmap("media/icons/lockenwickler_provisorium.png")
+        splash = QSplashScreen(pixmap, Qt.WindowStaysOnTopHint)
+        splash.setMask(pixmap.mask())
+        splash.showMessage("Starting...")
+        splash.show()
+
         self.setupUi()
 
-        self.consoleWindow = ConsoleWindow(True,  self)
+        self.consoleWindow = ConsoleWindow(False,  self)
 
         self.setupOgre()
 
@@ -52,6 +59,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.objectPropertyWin = ObjectPropertyWin(self)
         self.sceneExplorerWin = SceneExplorer(self)
         self.modelSelectionDialog = ModelSelectionDialog(self.ogreRoot, self)
+        self.gameObjectClassView = GameObjectClassView(self.moduleManager.gocManager)
 
         self.createDockWindows()
 
@@ -63,6 +71,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.restoreGeometry(settings.value("MainWindow/Geometry").toByteArray())
         self.restoreState(settings.value("MainWindow/DockWindows").toByteArray())
 
+        self.setWindowIcon(QIcon("media/icons/lockenwickler_provisorium_small.png"))
         self.setWindowTitle("Rastullahs Lockenwickler")
 #        # Import Psyco if available
 #        try:
@@ -74,6 +83,8 @@ class Lockenwickler(QtGui.QMainWindow):
 #            pass
 
         #QtGui.QApplication.setKeyboardInputInterval(5000)
+
+        splash.finish(self)
 
     def createAction(self, text, slot=None, shortcut=None, icon=None, tip=None, checkable=False, signal="triggered()"):
         action = QtGui.QAction(text, self)
@@ -174,6 +185,9 @@ class Lockenwickler(QtGui.QMainWindow):
         self.actionObject_Selection = self.createAction("&Model Preview Window",  self.toggleModelPreviewWindow,  "Alt + O",  "tux.png",  "Model Preview")
         self.actionObject_Selection.setObjectName("actionObject_Selection")
 
+        self.actionGameObjectClass_Selection = self.createAction("&Game Object Class Preview Window",  self.toggleGameObjectViewWindow,  "Alt + G",  "multirow.png",  "GameObjectClass Preview")
+        self.actionGameObjectClass_Selection.setObjectName("actionObject_Selection")
+
         self.actionConsole_Window = self.createAction("&Console Window",  self.toggleConsoleWindow,  "Alt + C",  "console.png",  "Console Window")
         self.actionConsole_Window.setObjectName("actionConsole_Window")
 
@@ -197,6 +211,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.menuView.addAction(self.actionPreferences)
         self.menuView.addAction(self.actionProperty_Window)
         self.menuView.addAction(self.actionObject_Selection)
+        self.menuView.addAction(self.actionGameObjectClass_Selection)
         self.menuView.addAction(self.actionConsole_Window)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEdit.menuAction())
@@ -299,6 +314,12 @@ class Lockenwickler(QtGui.QMainWindow):
         else:
             self.modelSelectionDock.hide()
 
+    def toggleGameObjectViewWindow(self):
+        if self.gameObjectClassViewDock.isHidden():
+            self.gameObjectClassViewDock.show()
+        else:
+            self.gameObjectClassViewDock.hide()
+
     def toggleSceneExplorer(self):
         if self.sceneExplorerDock.isHidden():
             self.sceneExplorerDock.show()
@@ -338,7 +359,7 @@ class Lockenwickler(QtGui.QMainWindow):
             pass
 
         self.mapFiles = [] # a list in case the module has more than one map file
-
+        self.gofFiles = [] # gof File list
         for line in f:
             lStripped = line.strip() #strip the whitespace away, not needed here
 
@@ -364,10 +385,18 @@ class Lockenwickler(QtGui.QMainWindow):
             self.mapFiles.append(mf)
 
         command = (os.path.join(self.workingDir,  "maps") + "/*.scene")
-        for mf in glob.glob(command): # search for all xml files in the maps directory and add them
+        for mf in glob.glob(command): # search for all .scene files in the maps directory and add them
             self.mapFiles.append(mf)
 
-        self.moduleManager.load(moduleName,  self.mapFiles)
+        command = (os.path.join(self.workingDir,  "dsa") + "/*.gof")
+        for gf in glob.glob(command): # search for all .gof files in the dsa directory in the module dir
+            self.gofFiles.append(gf)
+
+        command = (os.path.join(self.workingDirCommon,  "dsa") + "/*.gof")
+        for gf in glob.glob(command): # search for all .gof files in the dsa directory in the common module dir
+            self.gofFiles.append(gf)
+
+        self.moduleManager.load(moduleName,  self.mapFiles,  self.gofFiles)
 
     def setResourcePaths(self, path, moduleName):
         for file in os.listdir(path):
@@ -394,6 +423,12 @@ class Lockenwickler(QtGui.QMainWindow):
         self.modelSelectionDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
         self.modelSelectionDock.setWidget(self.modelSelectionDialog)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.modelSelectionDock)
+
+        self.gameObjectClassViewDock = QtGui.QDockWidget(self.tr("GameObjectClasses"), self)
+        self.gameObjectClassViewDock.setObjectName("GameObjectClassView")
+        self.gameObjectClassViewDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
+        self.gameObjectClassViewDock.setWidget(self.gameObjectClassView)
+        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.gameObjectClassViewDock)
 
         self.sceneExplorerDock = QtGui.QDockWidget(self.tr("Scene Explorer"), self)
         self.sceneExplorerDock.setObjectName("SceneExplorerDockWindow")

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.5.dtd">
 <!-- eric4 project file for project Lockenwickler -->
-<!-- Saved: 2008-10-16, 19:21:23 -->
+<!-- Saved: 2008-10-23, 19:52:05 -->
 <!-- Copyright (C) 2008 Stefan Stammberger, sstammberger@web.de -->
 <Project version="4.5">
   <ProgLanguage mixed="0">Python</ProgLanguage>
@@ -34,6 +34,11 @@
     <Source>src/Property.py</Source>
     <Source>src/ViewportGrid.py</Source>
     <Source>src/ObjectPropertyModel.py</Source>
+    <Source>src/GameObjectClass.py</Source>
+    <Source>src/GameObjectClassManager.py</Source>
+    <Source>src/setup.py</Source>
+    <Source>src/GameObjectClassView.py</Source>
+    <Source>src/MyRaySceneQueryListener.py</Source>
   </Sources>
   <Forms>
     <Form>ui files/console_window.ui</Form>
