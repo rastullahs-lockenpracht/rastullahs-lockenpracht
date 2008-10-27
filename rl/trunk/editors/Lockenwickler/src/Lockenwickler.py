@@ -21,8 +21,8 @@ import os
 import sys
 import platform
 
-sys.path.insert(0,'..')
-import PythonOgreConfig
+#sys.path.insert(0,'..')
+#import PythonOgreConfig
 
 from random import randint
 from os.path import isfile

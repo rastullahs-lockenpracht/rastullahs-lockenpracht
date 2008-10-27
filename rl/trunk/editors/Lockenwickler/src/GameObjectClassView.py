@@ -28,7 +28,12 @@ class GameObjectClassView(QWidget):
         self.gocManager = gocManager
         self.gocManager.setGameObjectsViewUpdateCallback(self.updateObjectList)
 
+        self.gameObjectDict = {}
+
         self.setupUi()
+
+    def addItemToDict(self, property, item):
+        self.gameObjectDict[item] = property
 
     def setupUi(self):
         self.setObjectName("gameObjectClassView")
@@ -44,12 +49,40 @@ class GameObjectClassView(QWidget):
         self.gridlayout.addWidget(self.treeWidget , 1, 0, 1, 1)
 
         self.setWindowTitle(QApplication.translate("objectPreviewDialog", "Dialog", None, QApplication.UnicodeUTF8))
-
+        self.connect(self.treeWidget, SIGNAL("itemDoubleClicked (QTreeWidgetItem *,int)"), self.onDoubleClick)
         QMetaObject.connectSlotsByName(self)
 
+    def onDoubleClick(self, item,  row):
+        if self.gameObjectDict[item].getType() == "MAP" or self.gameObjectDict[item].getType() == "ARRAY":
+            print "NOT YET :)"
+        else:
+            if self.gameObjectDict[item].openEditor(row, self):
+                item.setText(0, str(self.gameObjectDict[item].name))
+                item.setText(2, str(self.gameObjectDict[item].data))
+
+
+
+    def createPropertyMapItem(self, property, parentItem):
+        for subProperty in property.childProperties:
+            if subProperty is not None:
+                if subProperty.getType() == "MAP":
+                    item = QTreeWidgetItem(parentItem)
+                    self.addItemToDict(subProperty, item)
+                    item.setText(0, subProperty.name)
+                    item.setText(1, subProperty.getType())
+                    self.createPropertyMapItem(property, item)
+                else:
+                    item = QTreeWidgetItem(parentItem)
+                    self.addItemToDict(subProperty, item)
+                    item.setText(0, subProperty.name)
+                    item.setText(1, subProperty.getType())
+                    if not subProperty.getType() == "ARRAY":
+                        item.setText(2, subProperty.data)
+
+
     def updateObjectList(self,  objectsDict):
-        changeColor = True
         for key in objectsDict:
+            changeColor = True
             file = objectsDict[key]
             fileItem = QTreeWidgetItem(self.treeWidget)
             fileItem.setText(0, str(key))
@@ -57,6 +90,7 @@ class GameObjectClassView(QWidget):
 
             for go in file:
                 goItem = QTreeWidgetItem(fileItem)
+                self.addItemToDict(go, goItem)
                 goItem.setIcon(0, QIcon("media/icons/agt_games.png"))
                 if changeColor:
                     goItem.setBackgroundColor(0, QColor("lightGray"))
@@ -66,8 +100,10 @@ class GameObjectClassView(QWidget):
                 goItem.setText(1, str(go.baseclass))
                 changeColor = not changeColor
 
+                changeColor2 = False
                 for prop in go.properties:
-                    item1 = QTreeWidgetItem(goItem)
+                    item1 = QTreeWidgetItem(goItem) #the property item, needs to be created regardless the type
+                    self.addItemToDict(prop, item1)
                     if changeColor:
                         item1.setBackgroundColor(0, QColor("lightGray"))
                         item1.setBackgroundColor(1, QColor("lightGray"))
@@ -76,11 +112,11 @@ class GameObjectClassView(QWidget):
                     item1.setText(0, str(prop.name))
                     item1.setText(1, prop.getType())
                     if prop.getType() is "MAP":
-                        pass
+                        self.createPropertyMapItem(prop, item1)
                     elif prop.getType() is "ARRAY":
                         pass
                     else:
                         item1.setText(2, unicode(prop.data))
 
-                    changeColor = not changeColor
+                    changeColor2 = not changeColor
 

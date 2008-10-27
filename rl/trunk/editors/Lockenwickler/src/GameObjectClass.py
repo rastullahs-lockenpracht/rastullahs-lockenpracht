@@ -18,6 +18,11 @@
 
 from elementtree.ElementTree import *
 
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+
+from GOStringEditor import *
+
 class GOCStringProperty():
     def __init__(self, name, data):
         self.name = name
@@ -25,6 +30,17 @@ class GOCStringProperty():
 
     def getType(self):
         return "STRING"
+
+    def openEditor(self, row, parent = None):
+        dlg = GOStringEditor(parent)
+        dlg.nameEdit.setText(self.name)
+        dlg.dataEdit.setText(self.data)
+        result = dlg.exec_()
+        if result:
+            self.name = dlg.nameEdit.text()
+            self.data = dlg.dataEdit.toPlainText()
+
+        return result
 
 class GOCRealProperty():
     def __init__(self, name, data):
@@ -95,8 +111,8 @@ class GameObjectClass():
             if subProperty.get("type") == "MAP":
                 propMap.childProperties.append(self.createPropertyMap(property))
             else:
-                for subProperty in property:
-                    propMap.childProperties.append(self.createProperty(subProperty))
+                for subProperty1 in property:
+                    propMap.childProperties.append(self.createProperty(subProperty1))
 
         return propMap
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.5.dtd">
 <!-- eric4 project file for project Lockenwickler -->
-<!-- Saved: 2008-10-23, 19:52:05 -->
+<!-- Saved: 2008-10-27, 21:11:54 -->
 <!-- Copyright (C) 2008 Stefan Stammberger, sstammberger@web.de -->
 <Project version="4.5">
   <ProgLanguage mixed="0">Python</ProgLanguage>
@@ -39,6 +39,15 @@
     <Source>src/setup.py</Source>
     <Source>src/GameObjectClassView.py</Source>
     <Source>src/MyRaySceneQueryListener.py</Source>
+    <Source>src/GOStringEditor.py</Source>
+    <Source>ui files/Ui_console_window.py</Source>
+    <Source>ui files/Ui_FourPanelView.py</Source>
+    <Source>ui files/Ui_lockewickler.py</Source>
+    <Source>ui files/Ui_model_preview.py</Source>
+    <Source>ui files/Ui_object_property.py</Source>
+    <Source>ui files/Ui_preferences_dialog.py</Source>
+    <Source>ui files/Ui_GOPropertyEditorDialogINT.py</Source>
+    <Source>ui files/Ui_GOPropertyEditorDialogSTRING.py</Source>
   </Sources>
   <Forms>
     <Form>ui files/console_window.ui</Form>
@@ -47,6 +56,8 @@
     <Form>ui files/model_preview.ui</Form>
     <Form>ui files/object_property.ui</Form>
     <Form>ui files/preferences_dialog.ui</Form>
+    <Form>ui files/GOPropertyEditorDialogINT.ui</Form>
+    <Form>ui files/GOPropertyEditorDialogSTRING.ui</Form>
   </Forms>
   <Translations>
   </Translations>
