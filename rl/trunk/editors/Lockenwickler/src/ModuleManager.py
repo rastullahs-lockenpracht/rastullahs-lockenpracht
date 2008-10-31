@@ -311,7 +311,7 @@ class ModuleManager(object):
         if go is not None:
             dropEntity = self.sceneManager.createEntity("dropMesh" + str(self.dropCount), str(meshFile))
             dropNode = self.sceneManager.getRootSceneNode().createChild("dropNode" + str(self.dropCount))
-            dropNode.attachObject(self.dropEntity)
+            dropNode.attachObject(dropEntity)
 
             result = og.Math.intersects(ray, self.dropCollisionPlane)
             if result.first == True:
@@ -320,7 +320,7 @@ class ModuleManager(object):
                 dropNode.setPosition(ray.getPoint(50))
 
             self.dropGO = GameObjectRepresentation(self.dropCount, classid, dropNode, meshFile)
-            dropEntity.setUserAny(self.dropGO)
+            dropEntity.setUserObject(self.dropGO)
 
         self.dropCount += 1
 

@@ -98,7 +98,7 @@ class GameObjectRepresentation():
         self.meshFile = meshFile
 
     def setPosition(self, pos):
-        self.name.setPosition(pos)
+        self.node.setPosition(pos)
 
 
 class GameObjectClass():
