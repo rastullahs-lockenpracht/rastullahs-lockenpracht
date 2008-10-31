@@ -240,6 +240,7 @@ class ModuleManager(object):
     def cutObjects(self):
         if len(self.userSelectionList) < 1:
             return
+            return
 
         self.cutList = []
         for so in self.userSelectionList:
@@ -302,6 +303,36 @@ class ModuleManager(object):
 
     def save(self):
         pass
+
+    def startDropGameObjectAction(self, classid, ray):
+        go = self.gocManager.getGameObjectWithClassId(classid)
+        meshFile = go.getMeshFileName()
+
+        if go is not None:
+            dropEntity = self.sceneManager.createEntity("dropMesh" + str(self.dropCount), str(meshFile))
+            dropNode = self.sceneManager.getRootSceneNode().createChild("dropNode" + str(self.dropCount))
+            dropNode.attachObject(self.dropEntity)
+
+            result = og.Math.intersects(ray, self.dropCollisionPlane)
+            if result.first == True:
+                dropNode.setPosition(ray.getPoint(result.second))
+            else:
+                dropNode.setPosition(ray.getPoint(50))
+
+            self.dropGO = GameObjectRepresentation(self.dropCount, classid, dropNode, meshFile)
+            dropEntity.setUserAny(self.dropGO)
+
+        self.dropCount += 1
+
+    def moveDropGameObjectAction(self, ray):
+        result = og.Math.intersects(ray, self.dropCollisionPlane)
+        if result.first == True:
+            self.dropGO.setPosition(ray.getPoint(result.second))
+        else:
+            self.dropGO.setPosition(ray.getPoint(50))
+
+    def stopDropGameObjectAction(self, ray):
+        print "sd"
 
     def startDropModelAction(self, meshFile, ray):
         self.dropEntity = self.sceneManager.createEntity("dropMesh" + str(self.dropCount), str(meshFile))

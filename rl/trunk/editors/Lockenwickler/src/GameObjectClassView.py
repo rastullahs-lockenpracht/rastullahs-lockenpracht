@@ -22,6 +22,23 @@ from PyQt4.QtGui import *
 
 from GameObjectClass import *
 
+# The drag events are processed in ObgreMainWindow.py
+
+class GoTreeWidget(QTreeWidget):
+    def __init__(self, parent = None):
+        super(GoTreeWidget, self).__init__(parent)
+        self.setDragEnabled(True)
+
+    def startDrag(self,  dropActions):
+        data = QByteArray()
+        stream = QDataStream(data,  QIODevice.WriteOnly)
+        stream << self.currentItem().text(0)
+        mimeData = QMimeData()
+        mimeData.setData("application/x-game_object", data)
+        drag = QDrag(self)
+        drag.setMimeData(mimeData)
+        drag.start(Qt.CopyAction)
+
 class GameObjectClassView(QWidget):
     def __init__(self, gocManager, parent = None):
         super(GameObjectClassView, self).__init__(parent)
@@ -42,7 +59,7 @@ class GameObjectClassView(QWidget):
         self.gridlayout = QGridLayout(self)
         self.gridlayout.setObjectName("gridlayout")
 
-        self.treeWidget = QTreeWidget()
+        self.treeWidget = GoTreeWidget()
         self.treeWidget.setColumnCount(3)
         self.treeWidget.setObjectName("ObjectTreeView")
 
@@ -53,7 +70,7 @@ class GameObjectClassView(QWidget):
         QMetaObject.connectSlotsByName(self)
 
     def onDoubleClick(self, item,  row):
-        if self.gameObjectDict[item].getType() == "MAP" or self.gameObjectDict[item].getType() == "ARRAY":
+        if self.gameObjectDict[item].getType() == "MAP" or self.gameObjectDict[item].getType() == "ARRAY"or self.gameObjectDict[item].getType() == "GAME_OBJECT":
             print "NOT YET :)"
         else:
             if self.gameObjectDict[item].openEditor(row, self):

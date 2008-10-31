@@ -38,6 +38,14 @@ class GameObjectClassManager():
         if self.callback is not None:
             self.callback(self.fileDict)
 
+    def getGameObjectWithClassId(self, id):
+        for key in self.fileDict:
+            for go in self.fileDict[key]:
+                if go.classid == id:
+                    return go
+
+        return None
+
         # whenever a gameobject changes outside of the view, the view has to update itself wth the new values
     def setGameObjectsViewUpdateCallback(self, callback):
         self.callback = callback

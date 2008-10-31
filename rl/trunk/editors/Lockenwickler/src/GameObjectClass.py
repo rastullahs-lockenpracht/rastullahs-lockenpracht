@@ -90,10 +90,23 @@ class GOCMapProperty():
     def getType(self):
         return "MAP"
 
+class GameObjectRepresentation():
+    def __init__(self, inWorldId, gameObjectClass, node, meshFile = None):
+        self.inWorldId = inWorldId
+        self.goc = gameObjectClass
+        self.node = node
+        self.meshFile = meshFile
+
+    def setPosition(self, pos):
+        self.name.setPosition(pos)
+
+
 class GameObjectClass():
     def __init__(self,  parentElement):
         self.classid = parentElement.get("classid")
         self.baseclass = parentElement.get("baseclass")
+
+        self.meshFile = None
 
         self.properties = []
 
@@ -105,6 +118,9 @@ class GameObjectClass():
             else:
                 self.properties.append(self.createProperty(property))
 
+    def getType(self):
+        return "GAME_OBJECT"
+
     def createPropertyMap(self, property):
         propMap = GOCMapProperty(property.get("name"))
         for subProperty in property:
@@ -115,6 +131,17 @@ class GameObjectClass():
                     propMap.childProperties.append(self.createProperty(subProperty1))
 
         return propMap
+
+    def getMeshFileName(self):
+        if self.meshFile is None:
+            for prop in self.properties:
+                if prop.getType() == "STRING":
+                    if prop.name == "meshfile":
+                        self.meshFile = prop.data
+                        return self.meshFile
+            return None
+        else:
+            return self.meshFile
 
 
     def createProperty(self, property):
