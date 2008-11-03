@@ -56,8 +56,15 @@ namespace rl {
           mMovementState(0),
           mCameraLinearSpringK(100.0f),
           mCameraLinearDampingK(Math::NEG_INFINITY),
-          mMaxCameraDistance(30.0f),
-          mMinCameraDistance(5.0f)
+          mViewMode(VM_COMBAT_CENTERED),
+          mCameraFocusedCombatant(NULL),
+          mCameraTransitionLookAtActive(false),
+          mCameraTransitionPositionActive(false),
+          mCameraMaxDistance(30.0f),
+          mCameraCombatCenteredMinDistance(5.0f),
+          mCameraThirdPersonMinDistance(1.0f),
+          mCameraSwitchDist(30.0f),
+          mCameraSwitchTransitionDist(0.3f)
     {
         CreatureSelectionFilter* filter = new CreatureSelectionFilter();
         filter->setAlignmentMask(Creature::ALIGNMENT_ENEMY);
@@ -129,10 +136,7 @@ namespace rl {
         mat_pair->setDefaultFriction(0,0);
         mat_pair->setDefaultFriction(0,1);
 
-        // reset camera
-        //resetCamera(); // if you don't call this here, the camera should smoothly move to the new position -> looks nicer
-        // perhaps this should be handled differently!
-        mMovementState = 0;
+       
 
 
         ///\todo Richtig machen, nur temporär Ani hier setzen.
@@ -166,6 +170,24 @@ namespace rl {
         mCombat->addAlly(this);
 
         mCombat->start();
+
+        // reset camera
+        //resetCamera(); // if you don't call this here, the camera should smoothly move to the new position -> looks nicer
+        // perhaps this should be handled differently!
+        mMovementState = 0;
+        // calculate some buffered values, so they are initialized:
+        mCameraTransitionPositionActive = false;
+        mCameraTransitionLookAtActive = false;
+        mCameraFocusedCombatant = this;
+        mCameraYaw = Degree(0);
+        mCameraPitch = Degree(50);
+        mCameraDistance = 30.0f; // only used for third-person
+        mCombatCenter = calculateCombatCenterPosition();
+        mCombatRadius = calculateCombatRadius(mCombatCenter);
+        calculateOptimalCameraPositionAndLookAt();
+ 
+        // update CombatGui
+        mCombatGui->update();
     }
 
     void CombatControlState::pause()
@@ -228,37 +250,69 @@ namespace rl {
 
     void CombatControlState::run(Ogre::Real elapsedTime)
     {
-        // update CombatGui
-        mCombatGui->update();
-
-
+        // updateCameraLookAt should be called before mCombatGui->update()!
 
         // update camera look-at position
         updateCameraLookAt(elapsedTime);
 
-        if( mMovementState & MOVE_RIGHT )
-            mCameraYaw += Degree( 360.0/10.0 * elapsedTime );
-        if( mMovementState & MOVE_LEFT )
-            mCameraYaw -= Degree( 360.0/10.0 * elapsedTime );
 
+        // update CombatGui
+        mCombatGui->update();
+
+
+        // slow down rotational movement, when radius grows
+        if( mMovementState & MOVE_RIGHT )
+            mCameraYaw += Degree( 360.0/2.0 * elapsedTime / Math::Sqrt(mCameraDistance) );
+        if( mMovementState & MOVE_LEFT )
+            mCameraYaw -= Degree( 360.0/2.0 * elapsedTime / Math::Sqrt(mCameraDistance) );
+        if( mMovementState & MOVE_FORWARD )
+            mCameraDistance -= 5 * elapsedTime;
+        if( mMovementState & MOVE_BACKWARD )
+            mCameraDistance += 5 * elapsedTime;
+
+        mCameraDistance = std::max( mCameraDistance, mCameraThirdPersonMinDistance);
+        mCameraDistance = std::min( mCameraDistance, mCameraMaxDistance);
+
+        // switch view mode smoothly if nearer:
+        if( mViewMode == VM_COMBAT_CENTERED )
+        {
+            if( mMovementState & MOVE_FORWARD )
+            {
+                mViewMode = VM_THIRD_PERSON;
+            }
+        }
+        else // VM_THIRD_PERSON
+        {
+            if( mCameraDistance >= mCameraSwitchDist - 0.05f && mMovementState & MOVE_BACKWARD )
+            {
+                mViewMode = VM_COMBAT_CENTERED;
+            }
+        }
     }
 
     void CombatControlState::resetCamera(void)
     {
+        mCombatCenter = calculateCombatCenterPosition();
+        mCombatRadius = calculateCombatRadius(mCombatCenter);
+        mCameraTransitionPositionActive = false;
+        mCameraTransitionLookAtActive = false;
         mCameraYaw = Degree(0);
         mCameraPitch = Degree(50);
-        mCameraActor->setPosition(calculateOptimalCameraPosition());
+        if( mViewMode == VM_THIRD_PERSON )
+            mCameraDistance = 2.0f; // only used for third-person
+        calculateOptimalCameraPositionAndLookAt();
+        mCameraActor->setPosition(mCameraOptPos);
+        SceneNode* cameraNode = mCameraActor->_getSceneNode();
+        cameraNode->lookAt(mCameraLookAt, Node::TS_WORLD);
     }
 
     void CombatControlState::updateCameraLookAt(Real elapsedTime)
     {
-        Vector3 combatCenter = getCombatCenterPosition();
         SceneNode* cameraNode = mCameraActor->_getSceneNode();
-
-        cameraNode->lookAt(combatCenter + 2*Vector3::UNIT_Y, Node::TS_WORLD);
+        cameraNode->lookAt(mCameraLookAt, Node::TS_WORLD);
     }
 
-    Vector3 CombatControlState::getCombatCenterPosition()
+    Vector3 CombatControlState::calculateCombatCenterPosition()
     {
         // get the center of all persons (allies and opponents)
         int n = 0;
@@ -287,11 +341,9 @@ namespace rl {
 
         return pos;
     }
-    
-    Vector3 CombatControlState::calculateOptimalCameraPosition()
-    {
-        Vector3 center = getCombatCenterPosition();
 
+    Real CombatControlState::calculateCombatRadius(Vector3 center)
+    {
         // get the greatest distance from center from all persons
         Real distance = 0;
         const Combat::CombatantSet &allies (mCombat->getAllAllies() );
@@ -304,31 +356,77 @@ namespace rl {
         {
             distance = std::max( ( (*it)->getCreature()->getPosition() - center ).length(), distance );
         }
-        distance+=2;
+        return distance;
+    }
+    
+    void CombatControlState::calculateOptimalCameraPositionAndLookAt()
+    {
+        // some variables:
+        Vector3 playerPos = mCharacter->getPosition();
+        mCombatCenter = calculateCombatCenterPosition();
+        mCombatRadius = calculateCombatRadius(mCombatCenter);
 
 
+
+        // calculate camera-distance for VM_COMBAT_CENTERED (needed for third-person view, too)
+        Real combatCenteredDistance = mCombatRadius + 2; // this is camera-distance from center projected to the plane!
+            
         // put camera on the line player-center far enough to see all persons
         // if player is "exactly" in the center, use player orientation as fallback orientation
         // + rotation from mCameraYaw
-        Vector3 playerPos = mCharacter->getPosition();
-        Vector3 diff = playerPos - center;
+        Vector3 diff = playerPos - mCombatCenter;
         diff.y = 0;
-        Quaternion camYaw;
-        camYaw.FromAngleAxis(mCameraYaw, Vector3::UNIT_Y);
+        Quaternion combatCenteredCamYaw;
+        combatCenteredCamYaw.FromAngleAxis(mCameraYaw, Vector3::UNIT_Y);
         if( diff.squaredLength() < 0.01 )
         {
             diff = mCharacterActor->getOrientation()*Vector3::UNIT_Z;
         }
         diff.y = 0;
         diff.normalise();
-        diff = camYaw*diff;
+        diff = combatCenteredCamYaw*diff;
         diff.y = Math::Tan(mCameraPitch.valueRadians());
 
-        distance = std::max( distance,  mMinCameraDistance*Math::Cos(mCameraPitch.valueRadians()) );
-        distance = std::min( distance,  mMaxCameraDistance*Math::Cos(mCameraPitch.valueRadians()) );
-            
-        Vector3 camPos = center + distance*diff;
-        return camPos;
+        Real cosPitch = Math::Cos(mCameraPitch.valueRadians());
+        combatCenteredDistance = std::max( combatCenteredDistance,  mCameraCombatCenteredMinDistance*cosPitch );
+        combatCenteredDistance = std::min( combatCenteredDistance,  mCameraMaxDistance*cosPitch );
+ 
+
+
+
+
+        // TODO
+        // Bewegung wirkt zu eckig... evt hilft es lookat und position separat zu berechnen
+        // und dabei das lookat schneller auf den anvisierten combatant zu setzen...
+        // ideal scheint mir eine "runde" bewegung, a la kamerafahrt!
+
+
+        Vector3 center;
+        Vector3 dist;
+        if( mViewMode == VM_THIRD_PERSON && mCameraFocusedCombatant )
+        {
+            center = mCameraFocusedCombatant->getPosition();
+            // if mCameraDistance is near the one needed for combatCentered,
+            // interpolate the center (between center of third-person-view
+            // and center of combat-centered-view)
+            Real interpolateDist = std::max(0.0f, combatCenteredDistance - mCameraDistance*cosPitch) / cosPitch;
+            if( interpolateDist <  mCameraSwitchTransitionDist*mCameraSwitchDist )
+            {
+                center += (mCombatCenter - center)*(1 - interpolateDist/(mCameraSwitchTransitionDist*mCameraSwitchDist));
+            }
+            dist = mCameraDistance*cosPitch;
+        }
+        else // assume VM_COMBAT_CENTERED
+        {
+            center = mCombatCenter;
+            // update camera-distance variable
+            mCameraDistance = (combatCenteredDistance*diff).length();
+            dist = combatCenteredDistance;
+        }
+
+        mCameraSwitchDist = (combatCenteredDistance*diff).length();
+        mCameraOptPos = center + dist*diff;
+        mCameraLookAt = center + 1.4*Vector3::UNIT_Y;
     }
 
     void CombatControlState::OnApplyForceAndTorque(PhysicalThing* thing, float timestep)
@@ -337,10 +435,32 @@ namespace rl {
         Quaternion camOri;
         mCamBody->getPositionOrientation(camPos, camOri);
 
-        Vector3 optimalCamPos = calculateOptimalCameraPosition();
+        calculateOptimalCameraPositionAndLookAt();
+
+        // handle transition
+        if( mCameraTransitionPositionActive )
+        {
+            Vector3 diff = mCameraOptPos - mCameraTransitionPosition;
+            Real dist = diff.length();
+            Vector3 dir = diff/dist;
+            mCameraTransitionPosition += dir*std::min(dist, 0.5f*timestep);
+            if( (mCameraTransitionPosition - mCameraOptPos).squaredLength() < 0.02 )
+                mCameraTransitionPositionActive = false;
+            mCameraOptPos = mCameraTransitionPosition;
+        }
+        if( mCameraTransitionLookAtActive )
+        {
+            Vector3 diff = mCameraLookAt - mCameraTransitionLookAt;
+            Real dist = diff.length();
+            Vector3 dir = diff/dist;
+            mCameraTransitionLookAt += dir * std::min(dist,0.5f*timestep);
+            if( (mCameraLookAt-mCameraTransitionLookAt).squaredLength() < 0.02 )
+                mCameraTransitionLookAtActive = false;
+            mCameraLookAt = mCameraTransitionLookAt;
+        }
 
 
-        Vector3 diff = camPos - optimalCamPos;
+        Vector3 diff = camPos - mCameraOptPos;
         Vector3 cameraVelocity;
         cameraVelocity = mCamBody->getVelocity();
         // spring velocity
@@ -352,6 +472,46 @@ namespace rl {
         mCamBody->getMassMatrix(mass, inertia);
                                                 
         mCamBody->setForce(springAcc * mass);
+    }
+
+    void CombatControlState::setViewMode(ViewMode mode)
+    {
+        if(mode != mViewMode)
+        {
+            mViewMode = mode;
+            mCameraTransitionPosition = mCameraActor->getPosition();
+            mCameraTransitionLookAt = mCameraLookAt;
+            mCameraTransitionLookAtActive = true;
+            mCameraTransitionPositionActive = true;
+        }
+    }
+
+    void CombatControlState::toggleViewMode()
+    {
+        if( mViewMode == VM_COMBAT_CENTERED )
+            setViewMode(VM_THIRD_PERSON);
+        else
+            setViewMode(VM_COMBAT_CENTERED);
+    }
+
+    CombatControlState::ViewMode CombatControlState::getViewMode()
+    {
+        return mViewMode;
+    }
+
+    void CombatControlState::setCameraFocusedCombatant(Combatant* combatant)
+    {
+        if( combatant != mCameraFocusedCombatant )
+        {
+            if( mViewMode == VM_THIRD_PERSON )
+            {
+                mCameraTransitionPosition = mCameraActor->getPosition();
+                mCameraTransitionLookAt = mCameraLookAt;
+                mCameraTransitionLookAtActive = true;
+                mCameraTransitionPositionActive = true;
+            }
+        }
+        mCameraFocusedCombatant = combatant;
     }
 
     int CombatControlState::onAABBOverlap(int threadIndex)

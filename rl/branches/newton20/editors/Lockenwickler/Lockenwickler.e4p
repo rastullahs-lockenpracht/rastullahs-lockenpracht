@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.5.dtd">
 <!-- eric4 project file for project Lockenwickler -->
-<!-- Saved: 2008-10-16, 19:21:23 -->
+<!-- Saved: 2008-10-31, 11:20:58 -->
 <!-- Copyright (C) 2008 Stefan Stammberger, sstammberger@web.de -->
 <Project version="4.5">
   <ProgLanguage mixed="0">Python</ProgLanguage>
@@ -23,25 +23,20 @@
     <Source>src/PythonOgreConfig.py</Source>
     <Source>src/ui_ConsoleWindow.py</Source>
     <Source>src/ui_pref_dialog.py</Source>
-    <Source>ui files/batch_convert_ui.py</Source>
-    <Source>ui files/ui_ConsoleWindow.py</Source>
-    <Source>ui files/ui_FourPanelView.py</Source>
-    <Source>ui files/ui_lw.py</Source>
-    <Source>ui files/ui_model_prev.py</Source>
-    <Source>ui files/ui_obj_prop.py</Source>
-    <Source>ui files/ui_pref_dialog.py</Source>
     <Source>src/SceneExplorer.py</Source>
     <Source>src/Property.py</Source>
     <Source>src/ViewportGrid.py</Source>
     <Source>src/ObjectPropertyModel.py</Source>
+    <Source>src/GameObjectClass.py</Source>
+    <Source>src/GameObjectClassManager.py</Source>
+    <Source>src/setup.py</Source>
+    <Source>src/GameObjectClassView.py</Source>
+    <Source>src/MyRaySceneQueryListener.py</Source>
+    <Source>src/GOStringEditor.py</Source>
   </Sources>
   <Forms>
-    <Form>ui files/console_window.ui</Form>
-    <Form>ui files/FourPanelView.ui</Form>
-    <Form>ui files/lockewickler.ui</Form>
-    <Form>ui files/model_preview.ui</Form>
-    <Form>ui files/object_property.ui</Form>
-    <Form>ui files/preferences_dialog.ui</Form>
+    <Form>ui files/GOPropertyEditorDialogINT.ui</Form>
+    <Form>ui files/GOPropertyEditorDialogSTRING.ui</Form>
   </Forms>
   <Translations>
   </Translations>

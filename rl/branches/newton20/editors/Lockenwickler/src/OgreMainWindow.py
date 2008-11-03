@@ -227,8 +227,8 @@ class OgreMainWindow(QWidget):
         return False
 
     def dragEnterEvent(self, event):
-        if event.mimeData().hasFormat("application/x-text"):
-            data = event.mimeData().data("application/x-text")
+        if event.mimeData().hasFormat("application/x-static_model"):
+            data = event.mimeData().data("application/x-static_model")
             stream = QDataStream(data, QIODevice.ReadOnly)
             text = QString()
             stream >> text
@@ -238,18 +238,39 @@ class OgreMainWindow(QWidget):
             event.setDropAction(Qt.CopyAction)
             event.accept()
 
+        elif event.mimeData().hasFormat("application/x-game_object"):
+            data = event.mimeData().data("application/x-game_object")
+            stream = QDataStream(data, QIODevice.ReadOnly)
+            text = QString()
+            stream >> text
+
+            self.moduleManager.startDropGameObjectAction(text, self.getCameraToViewportRay()) #start the model draging
+
+            event.setDropAction(Qt.CopyAction)
+            event.accept()
         else:
             event.ignore()
 
 
     def dragMoveEvent(self, event):
-        self.moduleManager.moveDropModelAction(self.getCameraToViewportRay()) #move it with the mouse
-
-        event.accept()
+        if event.mimeData().hasFormat("application/x-static_model"):
+            self.moduleManager.moveDropModelAction(self.getCameraToViewportRay()) #move it with the mouse
+            event.accept()
+        elif event.mimeData().hasFormat("application/x-game_object"):
+            self.moduleManager.moveDropGameObjectAction(self.getCameraToViewportRay()) #move it with the mouse
+            event.accept()
+        else:
+            event.ignore()
 
     def dropEvent(self, event):
-        self.moduleManager.stopDropModelAction(self.getCameraToViewportRay()) # place it down
-        event.accept()
+        if event.mimeData().hasFormat("application/x-static_model"):
+            self.moduleManager.stopDropModelAction(self.getCameraToViewportRay()) #move it with the mouse
+            event.accept()
+        elif event.mimeData().hasFormat("application/x-game_object"):
+            self.moduleManager.stopDropGameObjectAction(self.getCameraToViewportRay()) #move it with the mouse
+            event.accept()
+        else:
+            event.ignore()
 
     def getCameraToViewportRay(self):
         relMousePos = self.ogreRenderWindow.mapFromGlobal(QCursor.pos())

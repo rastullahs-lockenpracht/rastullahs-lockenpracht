@@ -28,6 +28,7 @@ from PyQt4.QtCore import *
 import OgreWidget
 import ogre.renderer.OGRE as og
 
+# The drag events are processed in ObgreMainWindow.py
 
 class MyListWidget(QListWidget):
     def __init__(self,  parent):
@@ -39,7 +40,7 @@ class MyListWidget(QListWidget):
         stream = QDataStream(data,  QIODevice.WriteOnly)
         stream << self.currentItem().text()
         mimeData = QMimeData()
-        mimeData.setData("application/x-text", data)
+        mimeData.setData("application/x-static_model", data)
         drag = QDrag(self)
         drag.setMimeData(mimeData)
         drag.start(Qt.CopyAction)

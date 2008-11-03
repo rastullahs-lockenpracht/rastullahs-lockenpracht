@@ -41,6 +41,14 @@ namespace rl {
             public PhysicsGenericContactCallback
 	{
 	public:
+        /** 
+         * Different view-modes:
+         * @VM_COMBAT_CENTERED: "cameraLookAt" to center of combat (middle of all combatant positions)
+         * @VM_THIRD_PERSON: zooms to one combatant (not only hero!)
+        */
+        typedef enum {VM_COMBAT_CENTERED, VM_THIRD_PERSON} ViewMode;
+
+
 		/**
 		*  @throw NullPointerException if camera is NULL.
 		*  @warning Ownership of combat is taken by the CombatControlState.
@@ -70,6 +78,13 @@ namespace rl {
         // camera movement: Newton force and torque callback
         void OnApplyForceAndTorque(PhysicalThing *pt, float timstep);
 
+        // Change ViewMode
+        void setViewMode(ViewMode mode);
+        ViewMode getViewMode();
+        void toggleViewMode();
+        // set the combatant (must be part of this combat), the camera should focus on (VM_THIRD_PERSON) (only used internally?)
+        void setCameraFocusedCombatant(Combatant* combatant);
+
     private:
 		enum State {REQUEST_USER_INPUT, ROUND_EXECUTION};
 
@@ -90,17 +105,36 @@ namespace rl {
         CameraObject* mCamera;
 
 		State mState;
+
         // Camera:
         Ogre::Degree mCameraYaw, mCameraPitch;
-        Ogre::Real mMaxCameraDistance, mMinCameraDistance;
-        int mMovementState;
+        Ogre::Real mCameraMaxDistance, mCameraCombatCenteredMinDistance, mCameraThirdPersonMinDistance;
+        int mMovementState; // keyboard input
         Ogre::Real mCameraLinearDampingK, mCameraLinearSpringK;
+        ViewMode mViewMode;
+        Ogre::Vector3 mCameraLookAt; // set by calculateOptimalCameraPositionAndLookAt
+        Ogre::Vector3 mCameraOptPos; // set by calculateOptimalCameraPositionAndLookAt
+        Ogre::Real mCameraDistance; // only used in third-person, changed by calculateOptimalCameraAndPosition
+        Ogre::Real mCameraSwitchDist; // set by calculateOptimalCameraPositionAndLookAt, dist at which switches to third-person
+        Ogre::Real mCameraSwitchTransitionDist; // relative value (0-1) of mCameraSwitchDist
+        Combatant* mCameraFocusedCombatant;  // the combatant currently focused by camera (VM_THIRD_PERSON)
+        // when switching from one view-mode to another or when changing focused combatant, these variables are used
+        // to provide smooth camera movement
+        bool mCameraTransitionLookAtActive;
+        bool mCameraTransitionPositionActive;
+        Ogre::Vector3 mCameraTransitionPosition;
+        Ogre::Vector3 mCameraTransitionLookAt;
+        // buffered values needed fo camera-movement, calculated once per frame:
+        Ogre::Vector3 mCombatCenter; // result of calculateCombatCenterPosition
+        Ogre::Real mCombatRadius; // result of calculateCombatRadius
 
         // Camera helper functions
         void resetCamera();
         void updateCameraLookAt(Ogre::Real timestep);
-        Ogre::Vector3 getCombatCenterPosition();
-        Ogre::Vector3 calculateOptimalCameraPosition();
+        Ogre::Vector3 calculateCombatCenterPosition();
+        Ogre::Real calculateCombatRadius(Ogre::Vector3 center);
+        // sets the variables mCameraLookAt, mCameraOptPos, mCameraDistance, usually called in OnApplyForceAndTorque
+        void calculateOptimalCameraPositionAndLookAt();
         
         // Event handlers
 		bool userRequestAttackOpponent(Combatant*);
