@@ -21,6 +21,8 @@ from elementtree.ElementTree import *
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
+import ogre.renderer.OGRE as og
+
 from GOStringEditor import *
 
 class GOCStringProperty():
@@ -90,12 +92,18 @@ class GOCMapProperty():
     def getType(self):
         return "MAP"
 
-class GameObjectRepresentation():
+# gameObjectClass is the id of the class itself
+# since a game object can be ingame more than once there is also a id for those
+class GameObjectRepresentation(og.UserDefinedObject):
     def __init__(self, inWorldId, gameObjectClass, node, meshFile = None):
+        og.UserDefinedObject.__init__(self)
         self.inWorldId = inWorldId
-        self.goc = gameObjectClass
+        self.gocName = gameObjectClass
         self.node = node
         self.meshFile = meshFile
+
+    def getType(self):
+        return "GAME_OBJECT_REPRESENTATION"
 
     def setPosition(self, pos):
         self.node.setPosition(pos)

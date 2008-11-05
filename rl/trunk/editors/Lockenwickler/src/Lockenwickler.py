@@ -161,6 +161,9 @@ class Lockenwickler(QtGui.QMainWindow):
         self.actionPaste = self.createAction("Paste",  self.actionPasteSlot,  QKeySequence.Paste,  "editpaste.png",  "Paste")
         self.actionPaste.setObjectName("actionPaste")
 
+        self.actionSelect = self.createAction("&Select",  self.actionSelectSlot,  "Space",  "cursor.png",  "Move selected object")
+        self.actionSelect.setObjectName("actionSelect")
+
         self.actionMove = self.createAction("&Move",  self.actionMoveSlot,  "g",  "move.png",  "Move selected object")
         self.actionMove.setObjectName("actionMove")
 
@@ -198,6 +201,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.menuFile.addAction(self.actionNeu)
         self.menuFile.addAction(self.actionClose)
 
+        self.menuEdit.addAction(self.actionSelect)
         self.menuEdit.addAction(self.actionMove)
         self.menuEdit.addAction(self.actionRotate)
         self.menuEdit.addAction(self.actionScale)
@@ -292,6 +296,9 @@ class Lockenwickler(QtGui.QMainWindow):
 
     def actionPasteSlot(self):
         self.moduleManager.pasteObjects(self.ogreRenderWindow.getCameraToViewportRay())
+
+    def actionSelectSlot(self):
+        self.moduleManager.pivot.hide()
 
     def actionMoveSlot(self):
         self.moduleManager.pivot.setMoveMode()
@@ -452,6 +459,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.moveToolBar = self.addToolBar("Transformation Bar")
         self.moveToolBar.setObjectName("TransformationBar")
         self.moveToolBar.setAllowedAreas(QtCore.Qt.TopToolBarArea | QtCore.Qt.BottomToolBarArea)
+        self.moveToolBar.addAction(self.actionSelect)
         self.moveToolBar.addAction(self.actionMove)
         self.moveToolBar.addAction(self.actionRotate)
         self.moveToolBar.addAction(self.actionScale)

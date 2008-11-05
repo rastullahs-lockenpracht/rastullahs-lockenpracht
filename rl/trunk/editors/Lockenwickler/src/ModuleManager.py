@@ -38,6 +38,11 @@ class ModuleManager(object):
         self.cutList = [] # selection objects that has been cut out and wait to be pasted again
         self.cutListPreviousNodes = [] # contains the nodes they where copnnected to before the cut
 
+        # we need to hold a reference to the game object representaions ourself
+        # python does not recognize the a reference to a c++ object (Entity in our case) is passed
+        # and deletes the object
+        self.gameObjectRepresentationDict = []
+
         self.listenerDings = MyRaySceneQueryListener()
 
         self.lastRay = None
@@ -128,10 +133,9 @@ class ModuleManager(object):
         self.raySceneQuery.execute(self.listenerDings)
 
         so = self.listenerDings.rayCastToPolygonLevel(ray)
+
         if so is not None:
             if not so.isPivot:
-                if self.pivot is not None:
-                    self.pivot.show()
                 if not controlDown and not shiftDown:
                     self.resetSelection()
                     so.setSelected(True)
@@ -217,29 +221,49 @@ class ModuleManager(object):
             return
 
         newSelectionList = []
-        print "dbg: "
+
         for so in self.userSelectionList:
-            nodeName = self.incrementNameSuffixNumber(so.entity.getParentNode().getName())
-            newNode = self.sceneManager.getRootSceneNode().createChild(nodeName)
+            if so.entity.getUserObject() is not None:
+                if so.entity.getUserObject().getType() == "GAME_OBJECT_REPRESENTATION":
+                    go = self.gocManager.getGameObjectWithClassId(so.entity.getUserObject().gocName)
+                    meshFile = go.getMeshFileName()
 
-            entityName = self.incrementNameSuffixNumber(so.entity.getName())
-            newEntity = self.sceneManager.createEntity(entityName, so.entity.getMesh().getName())
+                    if go is not None:
+                        newEntity = self.sceneManager.createEntity("dropMesh" + str(self.dropCount), str(meshFile))
+                        newNode = self.sceneManager.getRootSceneNode().createChild("dropNode" + str(self.dropCount))
+                        newNode.attachObject(newEntity)
+                        newNode.setPosition(so.entity.getParentNode().getPosition())
 
-            newNode.attachObject(newEntity)
-            newNode.setPosition(so.entity.getParentNode().getPosition())
-            newNode.setOrientation(so.entity.getParentNode().getOrientation())
-            newNode.setScale(so.entity.getParentNode().getScale())
+                        newGO = GameObjectRepresentation(self.dropCount, so.entity.getUserObject().gocName, newNode, meshFile)
+                        self.gameObjectRepresentationDict.append(newGO)
+                        newEntity.setUserObject(newGO)
+                        newGO.setPosition(og.Vector3(0, 0, 0))
 
-            newSO = SelectionObject(newEntity, so.distance)
-            newSO.setSelected(True)
-            newSelectionList.append(newSO)
+                        newSO = SelectionObject(newEntity, so.distance)
+                        newSO.setSelected(True)
+                        newSelectionList.append(newSO)
+                        self.dropCount += 1
+            else:
+                nodeName = self.incrementNameSuffixNumber(so.entity.getParentNode().getName())
+                newNode = self.sceneManager.getRootSceneNode().createChild(nodeName)
+
+                entityName = self.incrementNameSuffixNumber(so.entity.getName())
+                newEntity = self.sceneManager.createEntity(entityName, so.entity.getMesh().getName())
+
+                newNode.attachObject(newEntity)
+                newNode.setPosition(so.entity.getParentNode().getPosition())
+                newNode.setOrientation(so.entity.getParentNode().getOrientation())
+                newNode.setScale(so.entity.getParentNode().getScale())
+
+                newSO = SelectionObject(newEntity, so.distance)
+                newSO.setSelected(True)
+                newSelectionList.append(newSO)
 
         self.resetSelection()
         self.userSelectionList = newSelectionList
 
     def cutObjects(self):
         if len(self.userSelectionList) < 1:
-            return
             return
 
         self.cutList = []
