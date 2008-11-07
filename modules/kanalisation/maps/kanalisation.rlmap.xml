@@ -1,4 +1,4 @@
-<scene formatVersion="0.4.0">
+<rlmap formatVersion="0.4.0">
     <nodes>
 <entity name="Spinne" meshfile="tie_waldspinne.mesh">
 <position x="83.61" y="-1.05" z="28.88"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="8.0" y="8.0" z="8.0"/>
@@ -102,10 +102,12 @@
 <entity name="fackeln_eingangshalle" meshfile="fackeln.001.mesh">
 <position x="17.838156" y="1.844218" z="15.676789"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>
-<entity name="schmutzwasser" meshfile="wasser.mesh">
-<physicsproxy type="none" />
-<position x="-17.99887" y="2.354909" z="26.217978"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
-</entity>
+<plane name="schmutzwasser">
+<position x="-17.99887" y="2.354909" z="26.217978"/><rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/><scale x="48" y="48"/>
+<physicsproxy collision="false" />
+<renderToTexture reflection="true" refraction="false"/>
+<material name="DirtyWater"/>
+</plane>
 <entity name="raum_01.007" meshfile="raum_01.005.mesh">
 <position x="-40.115147" y="5.383284" z="26.274029"/><rotation qw="0.840188" qx="-3.35E-4" qy="0.542295" qz="2.16E-4"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>
@@ -264,4 +266,4 @@
 <position x="3.885619" y="2.696382" z="3.961683"/><rotation qw="1.0" qx="-3.98E-4" qy="0.0" qz="0.0"/><scale x="1.0" y="1.0" z="1.0"/>
 </entity>
     </nodes>
-</scene>
+</rlmap>

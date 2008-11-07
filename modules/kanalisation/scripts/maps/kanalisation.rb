@@ -33,7 +33,7 @@ kanalLied.getControlledObject().play();
 $SCRIPT.log("Sound fertig");
 
 $SCRIPT.log("Initialize hero");
-$hero = $GOM.createGameObject("mckhero", 1);
+$hero = $GOM.createGameObject("mckhero", "hero");
 $hero.placeIntoScene();
 $hero.setPosition([ -35.15, 2.69, 26.09]);
 $hero.setOrientation([ [ -4.43614335381426e-005, -0.999999940395355, -3.53998184436932e-005 ] , 67.3891525268555]);

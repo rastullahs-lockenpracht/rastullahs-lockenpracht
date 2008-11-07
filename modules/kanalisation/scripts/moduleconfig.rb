@@ -28,7 +28,7 @@ class KanalisationModule < ContentModule
         #$CORE.loadMap("Octree", "kanalisation.scene", "kanalisation");
 		loader = MapLoader.new("kanalisation");
 		loader.loadMap("kana_lights.rlmap.xml");
-		loader.loadMap("kanalisation_scene.xml");
+		loader.loadMap("kanalisation.rlmap.xml");
         load "kanalisation.rb"
         $World = $CORE.getWorld();
     end

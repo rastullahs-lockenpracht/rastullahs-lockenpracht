@@ -1,0 +1,81 @@
+// Vertex program for fresnel reflections / refractions
+void main_vp(
+		float4 pos			: POSITION,
+		float4 normal		: NORMAL,
+		float2 tex			: TEXCOORD0,
+		
+		out float4 oPos		: POSITION,
+		out float3 noiseCoord : TEXCOORD0,
+		out float4 projectionCoord : TEXCOORD1,
+		out float3 oEyeDir : TEXCOORD2, 
+		out float3 oNormal : TEXCOORD3,
+		out float2 oTex    : TEXCOORD4,
+		out float4 color   : COLOR,
+		
+		uniform float4x4 worldViewProjMatrix,
+		uniform float3 eyePosition, // object space
+		uniform float timeVal,
+		uniform float scale,  // the amount to scale the noise texture by
+		uniform float scroll, // the amount by which to scroll the noise
+		uniform float noise,  // the noise perturb as a factor of the  time
+		uniform float4 ambient  //ambient light color
+		)
+{
+	oPos = mul(worldViewProjMatrix, pos);
+	// Projective texture coordinates, adjust for mapping
+	float4x4 scalemat = float4x4(0.5,   0,   0, 0.5, 
+	                               0,-0.5,   0, 0.5,
+								   0,   0, 0.5, 0.5,
+								   0,   0,   0,   1);
+	projectionCoord = mul(scalemat, oPos);
+	// Noise map coords
+	noiseCoord.xy = (tex + (timeVal * scroll)) * scale;
+	noiseCoord.z = noise * timeVal;
+
+	oEyeDir = normalize(pos.xyz - eyePosition); 
+	oNormal = normal.rgb; 
+	
+	oTex = tex;
+	color = ambient;
+}
+
+// Fragment program for distorting a texture using a 3D noise texture
+void main_fp(
+		float3 noiseCoord			: TEXCOORD0,
+		float4 projectionCoord		: TEXCOORD1,
+		float3 eyeDir				: TEXCOORD2,
+		float3 normal				: TEXCOORD3,
+		float2 tex					: TEXCOORD4,
+		float4 color				: COLOR,
+		
+		out float4 col		: COLOR,
+		
+		uniform float noiseScale, 
+		uniform float fresnelBias,
+		uniform float fresnelScale,
+		uniform float fresnelPower,
+		uniform sampler2D noiseMap : register(s0),
+		uniform sampler2D reflectMap : register(s1),
+		uniform sampler2D dirtMap : register(s2)
+		)
+{
+	// Do the tex projection manually so we can distort _after_
+	float2 final = projectionCoord.xy / projectionCoord.w;
+
+	// Noise
+	float3 noiseNormal = (tex2D(noiseMap, (noiseCoord.xy / 5)).rgb - 0.5).rbg * noiseScale;
+	final += noiseNormal.xz;
+
+	// Fresnel
+	//normal = normalize(normal + noiseNormal.xz);
+	float fresnel = fresnelBias + fresnelScale * (saturate(pow(1 + dot(eyeDir, normal), fresnelPower)+0.2));
+
+	// Reflection / refraction
+	float4 reflectionColour = tex2D(reflectMap, final);
+	float4 dirtColour = tex2D(dirtMap, tex) * color;
+
+	// Final colour
+	col = lerp(dirtColour, reflectionColour, fresnel);
+
+
+}
