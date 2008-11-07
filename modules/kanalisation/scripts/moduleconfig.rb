@@ -26,9 +26,10 @@ class KanalisationModule < ContentModule
 		require 'mckhero.rb'
 		require 'torch.rb'
         #$CORE.loadMap("Octree", "kanalisation.scene", "kanalisation");
-		loader = MapLoader.new("kanalisation");
-		loader.loadMap("kana_lights.rlmap.xml");
-		loader.loadMap("kanalisation.rlmap.xml");
+		#loader = MapLoader.new("kanalisation");
+		#loader.loadMap("kana_lights.rlmap.xml");
+		#loader.loadMap("kanalisation.rlmap.xml");
+		SceneManager.getSingleton().loadScene("kanalisation");
         load "kanalisation.rb"
         $World = $CORE.getWorld();
     end

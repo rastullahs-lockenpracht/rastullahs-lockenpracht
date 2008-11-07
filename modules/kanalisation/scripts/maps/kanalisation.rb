@@ -32,15 +32,15 @@ $SCRIPT.log(" Abspielen");
 kanalLied.getControlledObject().play();
 $SCRIPT.log("Sound fertig");
 
-$SCRIPT.log("Initialize hero");
-$hero = $GOM.createGameObject("mckhero", "hero");
-$hero.placeIntoScene();
-$hero.setPosition([ -35.15, 2.69, 26.09]);
-$hero.setOrientation([ [ -4.43614335381426e-005, -0.999999940395355, -3.53998184436932e-005 ] , 67.3891525268555]);
-PlayerSettings.preparePlayer($hero);
-PartyManager.getSingleton().setActiveCharacter($hero)
+#$SCRIPT.log("Initialize hero");
+#$hero = $GOM.createGameObject("mckhero", "hero");
+#$hero.placeIntoScene();
+#$hero.setPosition([ -35.15, 2.69, 26.09]);
+#$hero.setOrientation([ [ -4.43614335381426e-005, -0.999999940395355, -3.53998184436932e-005 ] , 67.3891525268555]);
+#PlayerSettings.preparePlayer($hero);
+#PartyManager.getSingleton().setActiveCharacter($hero)
 
-$SCRIPT.log("Hero ready")
+#$SCRIPT.log("Hero ready")
 
 #$SCRIPT.log("Fackellicht erstellen..");
 #fackellicht = $AM.createLightActor("Das Licht der Fackel", LightObject::LT_POINT );

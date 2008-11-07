@@ -1,0 +1,5 @@
+<scene name="kanalisation">
+	<map file="kana_lights.rlmap.xml"/>
+	<map file="kanalisation.rlmap.xml"/>
+	<map file="hero.rlmap.xml"/>
+</scene>
