@@ -6,5 +6,5 @@ def GoTo(acting_creature, targetpos)
 end
 
 def _GoTo(acting_creature, targetpos)
-    GoToJob.new(acting_creature, targetpos, 0.5, 1000000)
+    return GoToJob.new(acting_creature, targetpos, 0.5, 1000000)
 end
