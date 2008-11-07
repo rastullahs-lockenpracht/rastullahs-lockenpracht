@@ -59,7 +59,7 @@ namespace rl
         }
     };
 
-    Combat::Combat()
+    Combat::Combat(Ogre::Real maxDistance)
         : mOwnedCombatants(),
 		  mOpponents(),
           mAllies(),
@@ -165,14 +165,29 @@ namespace rl
 		mRemovedCombatants.clear();
 	}
 
-    const Combat::CombatantSet& Combat::getAllOpponents() const
+    const Combat::CombatantSet& Combat::getAllPlayerOpponents() const
     {
         return mOpponents;
     }
 
-    const Combat::CombatantSet& Combat::getAllAllies() const
+    const Combat::CombatantSet& Combat::getAllPlayerAllies() const
     {
         return mAllies;
+    }
+
+    const Combat::CombatantSet Combat::getAllOpponents(Combatant* combatant) const
+    {
+        if (mOpponents.find(combatant) != mOpponents.end())
+        {
+            return mAllies;
+        }
+        
+        if (mAllies.find(combatant) != mAllies.end())
+        {
+            return mOpponents;
+        }
+        
+        return Combat::CombatantSet(); // not in combat -> no opponents
     }
 
     void Combat::start()
@@ -384,6 +399,25 @@ namespace rl
     void Combat::endRound()
     {
 		clearRemovedCombatantSet();
+
+        // check for fleeing from combat
+        for (CombatantSet::iterator it = mAllies.begin(); it != mAllies.end(); ++it)
+        {
+            if (outOfCombatRange(*it, mOpponents))
+            {
+                removeAlly(*it);
+            }
+        }
+        for (CombatantSet::iterator it = mOpponents.begin(); it != mOpponents.end(); ++it)
+        {
+            if (outOfCombatRange(*it, mAllies))
+            {
+                removeOpponent(*it);
+            }
+        }
+
+		clearRemovedCombatantSet();
+
         // All actions executed. Analyze outcome of this round.
         if (mAllies.empty())
         {

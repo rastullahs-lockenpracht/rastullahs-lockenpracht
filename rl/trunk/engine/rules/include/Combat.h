@@ -41,7 +41,7 @@ namespace rl
     public:
         typedef std::set<Combatant*> CombatantSet;
 
-        Combat();
+        Combat(Ogre::Real maxDistance = 10.0f);
         ~Combat();
 
         void addOpponent(Combatant*);
@@ -54,8 +54,9 @@ namespace rl
 
         void removeAlly(Combatant*);
 
-        const CombatantSet& getAllOpponents() const;
-        const CombatantSet& getAllAllies() const;
+        const CombatantSet getAllOpponents(Combatant* combatant) const;
+        const CombatantSet& getAllPlayerOpponents() const;
+        const CombatantSet& getAllPlayerAllies() const;
 
         void start();
         void pause();
