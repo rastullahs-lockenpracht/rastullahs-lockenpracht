@@ -95,7 +95,7 @@ namespace rl
         }
         if (mParentContainer != NULL)
         {
-            mParentContainer->removeItem(this);
+            mParentContainer->_doRemoveItem(this);
             mParentContainer = NULL;
         }
         if (mParentSlot != NULL)

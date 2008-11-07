@@ -71,7 +71,21 @@ namespace rl
 		 * @return <code>true</code> if adding was successful, <code>false</code> otherwise (e.g. not enough space)
 		 */
         bool addItem(Item* item, IntPair position = IntPair(0,0));
+
+        /**
+         * Remove an item from the container
+         *
+		 * @param item the item
+         */
         void removeItem(Item* item);
+
+        /**
+         * Remove an item from the container
+         * Note: This method must only be called by Item, use removeItem in all other cases
+         *
+		 * @param item the item
+         */
+        void _doRemoveItem(Item* item);
 
         ItemSet getItems() const;
 
