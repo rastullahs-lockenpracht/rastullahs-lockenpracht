@@ -70,7 +70,8 @@ namespace rl
 		  mRemovedCombatants(),
           mCurrentRound(0),
 		  mNextActionId(0),
-		  mAnimationSequenceTicket(0)
+		  mAnimationSequenceTicket(0),
+		  mMaxDistance(maxDistance)
     {
         LOG_MESSAGE("Combat", "Register message handler");
 		mLifeStateChangeConnection =
@@ -403,14 +404,14 @@ namespace rl
         // check for fleeing from combat
         for (CombatantSet::iterator it = mAllies.begin(); it != mAllies.end(); ++it)
         {
-            if (outOfCombatRange(*it, mOpponents))
+            if (isOutOfCombatRange(*it, mOpponents))
             {
                 removeAlly(*it);
             }
         }
         for (CombatantSet::iterator it = mOpponents.begin(); it != mOpponents.end(); ++it)
         {
-            if (outOfCombatRange(*it, mAllies))
+            if (isOutOfCombatRange(*it, mAllies))
             {
                 removeOpponent(*it);
             }
@@ -577,5 +578,20 @@ namespace rl
 			}
 		}
 		return false;
+	}
+
+	bool Combat::isOutOfCombatRange(Combatant* combatant, const Combat::CombatantSet& enemies) const
+	{
+		Vector3 pos = combatant->getPosition();
+		Ogre::Real sqD = mMaxDistance * mMaxDistance;
+		for (CombatantSet::const_iterator it = enemies.begin(); it != enemies.end(); ++it)
+		{
+			if (pos.squaredDistance((*it)->getPosition()) <= sqD)
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

@@ -120,6 +120,10 @@ namespace rl
 
         unsigned short mCurrentRound;
 		unsigned short mNextActionId;
+		
+		/// Maximum distance to enemies, a combatant is  this exceededing distance to its enemies
+		/// he is considered fleeing
+		Ogre::Real mMaxDistance;
 
 		MessagePump::ScopedConnection mLifeStateChangeConnection;
 
@@ -139,8 +143,9 @@ namespace rl
 		/// destroy combatants owned by this combat instance.
 		void clearRemovedCombatantSet();
 
-        // Message handlers
+		bool isOutOfCombatRange(Combatant* combatant, const CombatantSet& enemies) const;
 
+        // Message handlers
         bool onGameObjectLifeStateChanged(GameObject*, Effect::LifeState, Effect::LifeState);
     };
 }
