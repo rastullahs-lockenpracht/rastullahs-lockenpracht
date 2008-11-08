@@ -22,5 +22,35 @@ template<> rl::SaveAbleManager* Ogre::Singleton<rl::SaveAbleManager>::ms_Singlet
 
 namespace rl
 {
-	
+	void SaveAbleManager::saveState()
+	{
+	}
+
+	void SaveAbleManager::addSaveAble(SaveAblePtr save)
+	{
+	}
+
+	void SaveAbleManager::removeSaveAble(SaveAblePtr save)
+	{
+	}
+		
+	void SaveAbleManager::removeSaveAble(const CeGuiString &id)
+	{
+	}
+		
+	void SaveAbleManager::removeAllSaveAbles()
+	{
+	}
+		
+	void SaveAbleManager::attachSaveAbleToCollection(const CeGuiString &id)
+	{
+	}
+		
+	void SaveAbleManager::deattachSaveAbleFromColltection(const CeGuiString &id)
+	{
+	}
+		
+	void SaveAbleManager::restoreState()
+	{
+	}
 }

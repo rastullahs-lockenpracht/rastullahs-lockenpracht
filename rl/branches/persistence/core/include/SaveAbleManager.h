@@ -29,10 +29,10 @@ namespace rl
 		void saveState();
 		void addSaveAble(SaveAblePtr save);
 		void removeSaveAble(SaveAblePtr save);
-		void removeSaveAble(int id);
+		void removeSaveAble(const CeGuiString &id);
 		void removeAllSaveAbles();
-		void attachSaveAbleToCollection(int id);
-		void deattachSaveAbleFromColltection(int id);
+		void attachSaveAbleToCollection(const CeGuiString &id);
+		void deattachSaveAbleFromColltection(const CeGuiString &id);
 		void restoreState();
 	protected:
 		std::map<int, PropertyRecordPtr> mSaveAbleStates;

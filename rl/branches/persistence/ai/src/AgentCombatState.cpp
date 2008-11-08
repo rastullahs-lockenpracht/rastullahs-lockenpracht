@@ -19,6 +19,7 @@
 #include "AgentCombatState.h"
 #include "Combat.h"
 #include "CombatManager.h"
+#include "Creature.h"
 #include "CreatureControllerManager.h"
 
 namespace rl
@@ -45,13 +46,19 @@ namespace rl
     void AgentCombatState::requestCombatantAction()
     {
         // Think!
-		const Combat::CombatantSet& allies = mCombat->getAllAllies();
-		if (!allies.empty())
+        Combat::CombatantSet opponents = mCombat->getAllOpponents(this);
+		if (!opponents.empty())
 		{
-			Combatant* target = *allies.begin();
-			// Are we in weapon range to opponent
-			if (target)
-			{
+			Combatant* target = findOpponent(opponents);
+            
+            mCombat->registerParade(target);
+
+            if (getCreature()->getLe() <= 5)
+            {
+                mCombat->registerBewegen(this, getFleeTarget(opponents));
+            }
+            else if (target)
+            {
 				// Are we in weapon range to opponent
 				if (mCombat->canAttack(this, target))
 				{
@@ -71,5 +78,48 @@ namespace rl
 	void AgentCombatState::update(const float elapsedTime)
     {
         mAgent->updateVehicle(0, elapsedTime);
+    }
+
+    class DistanceComparator
+		: std::binary_function<Combatant*, Combatant*, bool>
+    {
+    private:
+        const Combatant* mActingCombatant;
+
+    public:
+        DistanceComparator(const Combatant* actingCombatant)
+            : mActingCombatant(actingCombatant)
+        {
+        }
+
+        bool operator()(const Combatant* c1, const Combatant* c2) const
+        {
+            Vector3 pos = mActingCombatant->getPosition();
+            return pos.squaredDistance(c1->getPosition())
+                < pos.squaredDistance(c2->getPosition());
+        }
+    };
+
+
+    Combatant* AgentCombatState::findOpponent(const Combat::CombatantSet& opponents) const
+    {
+        ///@todo support different search patterns (search for most dangerous, weakest, ... opponent)
+        Combat::CombatantSet::const_iterator minIt = 
+            std::min_element(opponents.begin(), opponents.end(), DistanceComparator(this));
+        return *minIt;
+    }
+
+    Vector3 AgentCombatState::getFleeTarget(const Combat::CombatantSet& opponents) const
+    {
+        Vector3 oppPosition;
+        for (Combat::CombatantSet::const_iterator it = opponents.begin(); it != opponents.end(); ++it)
+        {
+            oppPosition += (*it)->getPosition();
+        }
+        oppPosition /= opponents.size();
+
+        Vector3 pos = getPosition();
+        Vector3 oppositeDirection = (pos - oppPosition).normalisedCopy();
+        return pos + 10 * oppositeDirection;
     }
 }

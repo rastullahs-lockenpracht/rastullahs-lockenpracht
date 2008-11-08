@@ -23,13 +23,15 @@ namespace rl
 	class SaveAbleCollection
 	{
 	public:
+		SaveAbleCollection(const CeGuiString &id);
 		void attachSaveAble(SaveAblePtr saveAble);
 		void deattachSaveAble(SaveAblePtr saveAble);
 		void deattachSaveAble(int id);
 		void deattachAllSaveAbles();
 		Ogre::String getId();
 	protected:
-		Ogre::String mId;
+		std::map<int, SaveAblePtr> mSaveAbles;
+		CeGuiString mId;
 	};
 
 }

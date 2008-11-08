@@ -168,16 +168,25 @@ namespace rl {
 		}
     }
 
-    void Container::removeItem(Item* item)
+    void Container::_doRemoveItem(Item* item)
     {
         ItemSet::iterator it = mItems.find(item);
         if (it != mItems.end())
         {
             mItems.erase(it);
             mItemPositions.erase(mItemPositions.find(item));
-            
-            // this is the case, if the item is removed automatically
-            // don't change this without looking at Item::setState
+        }
+        else
+        {
+            Throw(IllegalArgumentException, "Item not in Container.");
+        }
+    }
+
+    void Container::removeItem(Item* item)
+    {
+        ItemSet::iterator it = mItems.find(item);
+        if (it != mItems.end())
+        {
             item->removeOldState();
             item->setScene("");
         }

@@ -59,7 +59,7 @@ namespace rl
         }
     };
 
-    Combat::Combat()
+    Combat::Combat(Ogre::Real maxDistance)
         : mOwnedCombatants(),
 		  mOpponents(),
           mAllies(),
@@ -70,7 +70,8 @@ namespace rl
 		  mRemovedCombatants(),
           mCurrentRound(0),
 		  mNextActionId(0),
-		  mAnimationSequenceTicket(0)
+		  mAnimationSequenceTicket(0),
+		  mMaxDistance(maxDistance)
     {
         LOG_MESSAGE("Combat", "Register message handler");
 		mLifeStateChangeConnection =
@@ -165,14 +166,29 @@ namespace rl
 		mRemovedCombatants.clear();
 	}
 
-    const Combat::CombatantSet& Combat::getAllOpponents() const
+    const Combat::CombatantSet& Combat::getAllPlayerOpponents() const
     {
         return mOpponents;
     }
 
-    const Combat::CombatantSet& Combat::getAllAllies() const
+    const Combat::CombatantSet& Combat::getAllPlayerAllies() const
     {
         return mAllies;
+    }
+
+    const Combat::CombatantSet Combat::getAllOpponents(Combatant* combatant) const
+    {
+        if (mOpponents.find(combatant) != mOpponents.end())
+        {
+            return mAllies;
+        }
+        
+        if (mAllies.find(combatant) != mAllies.end())
+        {
+            return mOpponents;
+        }
+        
+        return Combat::CombatantSet(); // not in combat -> no opponents
     }
 
     void Combat::start()
@@ -384,6 +400,25 @@ namespace rl
     void Combat::endRound()
     {
 		clearRemovedCombatantSet();
+
+        // check for fleeing from combat
+        for (CombatantSet::iterator it = mAllies.begin(); it != mAllies.end(); ++it)
+        {
+            if (isOutOfCombatRange(*it, mOpponents))
+            {
+                removeAlly(*it);
+            }
+        }
+        for (CombatantSet::iterator it = mOpponents.begin(); it != mOpponents.end(); ++it)
+        {
+            if (isOutOfCombatRange(*it, mAllies))
+            {
+                removeOpponent(*it);
+            }
+        }
+
+		clearRemovedCombatantSet();
+
         // All actions executed. Analyze outcome of this round.
         if (mAllies.empty())
         {
@@ -543,5 +578,20 @@ namespace rl
 			}
 		}
 		return false;
+	}
+
+	bool Combat::isOutOfCombatRange(Combatant* combatant, const Combat::CombatantSet& enemies) const
+	{
+		Vector3 pos = combatant->getPosition();
+		Ogre::Real sqD = mMaxDistance * mMaxDistance;
+		for (CombatantSet::const_iterator it = enemies.begin(); it != enemies.end(); ++it)
+		{
+			if (pos.squaredDistance((*it)->getPosition()) <= sqD)
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

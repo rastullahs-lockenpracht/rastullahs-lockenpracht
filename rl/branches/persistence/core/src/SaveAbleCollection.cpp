@@ -17,3 +17,11 @@
 #include "stdinc.h"
 
 #include "SaveAbleCollection.h"
+
+namespace rl
+{
+	SaveAbleCollection::SaveAbleCollection(const CeGuiString &id)
+	{
+		mId = id;
+	}
+}
