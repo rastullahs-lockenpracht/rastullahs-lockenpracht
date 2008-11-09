@@ -163,7 +163,7 @@ namespace rl {
 
                 LOG_MESSAGE(Logger::SCRIPT, "Map " + mapresource + " loaded");
 
-                if(hasAttribute(doc->getDocumentElement(), "scenescript"))
+                if(hasAttribute(doc->getDocumentElement(), "mapscript"))
                 {
                     if(getAttributeValueAsString(doc->getDocumentElement(), "scenescript").length() != 0)
                     {
