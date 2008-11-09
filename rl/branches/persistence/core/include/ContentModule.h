@@ -24,7 +24,7 @@
 namespace rl
 {
 
-    class _RlCoreExport ContentModule : public SaveGameData
+    class _RlCoreExport ContentModule
 	{
 	public:
 		ContentModule(const Ogre::String& id, const CeGuiString& name, bool common, long minimumEngineVersion);
@@ -52,12 +52,6 @@ namespace rl
         bool isLoaded() const;
 
         void registerContentLoader(ContentLoader* loader);
-
-        CeGuiString getXmlNodeIdentifier() const;
-        void writeData(SaveGameFileWriter* writer);
-        void readData(SaveGameFileReader* reader);
-        /// defines the loading/saving order higher priority are saved last and loaded first
-        int getPriority() const;
 	private:
         typedef std::vector<ContentLoader*> ContentLoaderVector;
         ContentLoaderVector mContentLoaders;

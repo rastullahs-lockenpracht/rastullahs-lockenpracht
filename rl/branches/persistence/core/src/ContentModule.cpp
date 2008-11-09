@@ -110,8 +110,6 @@ namespace rl
 
     void ContentModule::initialize()
     {
-        SaveGameManager::getSingleton().registerSaveGameData(this);
-
         Ogre::String moduleDir = getDirectory();
 
         Ogre::String resourceGroup = getId();
@@ -191,7 +189,6 @@ namespace rl
 
     void ContentModule::unload()
     {
-        SaveGameManager::getSingleton().unregisterSaveGameData(this);
         for(ContentLoaderVector::const_iterator it = mContentLoaders.begin(); it != mContentLoaders.end(); ++it)
         {
             (*it)->unloadContent();
@@ -210,39 +207,5 @@ namespace rl
     void ContentModule::registerContentLoader(ContentLoader *loader)
     {
         mContentLoaders.push_back(loader);
-    }
-
-    CeGuiString ContentModule::getXmlNodeIdentifier() const
-    {
-        return "ContentModule";
-    }
-
-    using namespace XERCES_CPP_NAMESPACE;
-
-    void ContentModule::writeData(SaveGameFileWriter* writer)
-    {
-        if(!this->isCommon())
-        {
-            LOG_MESSAGE(Logger::CORE, "Saving ContentLoaders");
-            DOMElement* contentLoadersNode = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
-            writer->setAttributeValueAsString(contentLoadersNode, "name", mName);
-
-            for(ContentLoaderVector::const_iterator it = mContentLoaders.begin(); it != mContentLoaders.end(); ++it)
-            {
-                DOMElement* contentLoaderNode = writer->appendChildElement(writer->getDocument(), contentLoadersNode, "contentloader");
-                writer->setAttributeValueAsString(contentLoaderNode, "classname", Property((*it)->getClassName()));
-                writer->writeEachPropertyToElem(contentLoaderNode, (*it)->getAllProperties()->toPropertyMap());
-            }
-        }
-    }
-
-    void ContentModule::readData(SaveGameFileReader* reader)
-    {
-    }
-
-    /// defines the loading/saving order higher priority are saved last and loaded first
-    int ContentModule::getPriority() const
-    {
-        return 10;
     }
 }
