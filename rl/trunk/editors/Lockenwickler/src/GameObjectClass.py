@@ -24,6 +24,7 @@ from PyQt4.QtGui import *
 import ogre.renderer.OGRE as og
 
 from GOStringEditor import *
+from GOIntEditor import *
 
 class GOCStringProperty():
     def __init__(self, name, data):
@@ -52,6 +53,17 @@ class GOCRealProperty():
     def getType(self):
         return "REAL"
 
+    def openEditor(self, row, parent = None):
+        dlg = GOStringEditor(parent)
+        dlg.nameEdit.setText(self.name)
+        dlg.dataEdit.setText(self.data)
+        result = dlg.exec_()
+        if result:
+            self.name = dlg.nameEdit.text()
+            self.data = dlg.dataEdit.toPlainText()
+
+        return result
+
 class GOCBoolProperty():
     def __init__(self, name, data):
         self.name = name
@@ -67,6 +79,17 @@ class GOCIntProperty():
 
     def getType(self):
         return "INT"
+
+    def openEditor(self, row, parent = None):
+        dlg = GOIntEditor(parent)
+        dlg.nameEdit.setText(self.name)
+        dlg.dataEdit.setText(self.data)
+        result = dlg.exec_()
+        if result:
+            self.name = dlg.nameEdit.text()
+            self.data = dlg.dataEdit.toPlainText()
+
+        return result
 
 class GOCIntPairProperty():
     def __init__(self, name, data):
