@@ -167,7 +167,7 @@ namespace rl {
                 {
                     if(getAttributeValueAsString(doc->getDocumentElement(), "mapscript").length() != 0)
                     {
-                        if(!CoreSubsystem::getSingleton().getRubyInterpreter()->executeFile(getAttributeValueAsStdString(doc->getDocumentElement(), "scenescript")))
+                        if(!CoreSubsystem::getSingleton().getRubyInterpreter()->executeFile(getAttributeValueAsStdString(doc->getDocumentElement(), "mapscript")))
                             LOG_MESSAGE(Logger::SCRIPT, "Executed init script of map " + mapresource);
                         else
                             LOG_ERROR(Logger::SCRIPT, "Error while executing init script of map " + mapresource);
