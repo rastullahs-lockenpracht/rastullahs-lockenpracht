@@ -36,15 +36,73 @@ from GameObjectClassManager import *
 from MyRaySceneQueryListener import *
 
 class Map():
-    def __init__(self):
-        return
+    def __init__(self, pathToFile, sceneManager, ogreRoot):
+        self.pathToMapFile = pathToFile
+        self.sceneManager = sceneManager
+        self.mapNode = sceneManager.getRootSceneNode().createChildSceneNode(self.pathToMapFile)
+        self.ogreRoot = ogreRoot
+
+        xmlTree = xml.parse(pathToFile)
+        root = xmlTree.getroot()
+
+        if root.attrib["formatVersion"] == "0.4.0":
+            self.parseMap(root)
+        else:
+            print pathToFile + " has wrong format version. It needs to be 0.4.0"
+            return
+
+    def parseMap(self, rootElement):
+        nodes = rootElement.getiterator("entity")
+        for n in nodes:
+            entityName = n.attrib["name"]
+            meshFile = n.attrib["meshfile"]
+            nodePosition = None
+            nodeRotation = None
+            nodeScale = None
+
+            transformations = n.getiterator()
+            for t in transformations:
+                if t.tag == "position":
+                    x = float(t.attrib["x"])
+                    y = float(t.attrib["y"])
+                    z = float(t.attrib["z"])
+                    nodePosition = og.Vector3(x, y, z)
+                elif t.tag == "rotation":
+                    qw = float(t.attrib["qw"])
+                    qx = float(t.attrib["qx"])
+                    qy = float(t.attrib["qy"])
+                    qz = float(t.attrib["qz"])
+                    nodeRotation = og.Quaternion(qw, qx, qy, qz)
+                elif t.tag == "scale":
+                    x = float(t.attrib["x"])
+                    y = float(t.attrib["y"])
+                    z = float(t.attrib["z"])
+                    nodeScale = og.Vector3(x, y, z)
+
+            try:
+                e = self.sceneManager.createEntity(entityName, meshFile)
+            except:
+                print "Warning: Meshfile " + meshFile + " could not be found."
+                return
+
+            n = self.mapNode.createChild(entityName + "_node")
+            n.attachObject(e)
+            n.setPosition(nodePosition)
+            n.setOrientation(nodeRotation)
+            n.setScale(nodeScale)
+
+
+
 
 class Scene():
     def __init__(self):
         return
 
 class Module():
-    def __init__(self,name, modulePath):
+    def __init__(self,name, modulePath, sceneManager, ogreRoot):
+        self.sceneManager = sceneManager
+        self.ogreRoot = ogreRoot
+
         self.name = name
         self.moduleRoot = join(modulePath, name)
         self.__isCommon = False
@@ -55,6 +113,10 @@ class Module():
         self.mapFiles = [] # a list in case the module has more than one map file
         self.gofFiles = [] # gof File list
 
+        self.scenes =[]
+
+        self.isLoaded = False
+
     def isCommon(self):
         modConfig = join(self.moduleRoot,  "scripts/moduleconfig.rb")
         if isfile(modConfig): # is the modconfig existing?
@@ -62,7 +124,7 @@ class Module():
         else:
             print ("Error: couldn't find module config")
             return
-
+        isDependencieLine = False
         for i, line in enumerate(f):
             lStripped = line.strip() #strip the whitespace away, not needed here
             if lStripped.startswith("super("):
@@ -71,9 +133,24 @@ class Module():
                     self.__isCommon = True
                     return True
 
+
+            elif isDependencieLine:
+                if lStripped == "end":
+                    isDependencieLine = False
+                else:
+                    self.hasDependencies = True
+                    self.moduleDependencies.append(lStripped.split('"')[1])
+
+            elif lStripped == "def getDependencies()":
+                isDependencieLine = True
+
         return False
 
     def load(self):
+        if self.isLoaded:
+            return
+
+        self.isLoaded = True
         modConfig = join(self.moduleRoot,  "scripts/moduleconfig.rb")
         if isfile(modConfig): # is the modconfig existing?
             f = codecs.open(modConfig, 'r', 'utf-8')
@@ -81,21 +158,27 @@ class Module():
             print ("Error: couldn't find module config")
             return
 
-        isDependencieLine = False
-
-        for i, line in enumerate(f):
-            lStripped = line.strip() #strip the whitespace away, not needed here
-
-            if isDependencieLine:
-                if lStripped == "end":
-                    isDependencieLine = False
-                else:
-                    self.moduleDependencies.append(lStripped.split('"')[1])
-
-            elif lStripped == "def getDependencies()":
-                isDependencieLine = True
+        #for i, line in enumerate(f):
+            #lStripped = line.strip() #strip the whitespace away, not needed here
 
         self.setResourcePaths()
+        og.ResourceGroupManager.getSingleton().initialiseAllResourceGroups()
+
+        if not self.isCommon():
+            cmd = join(self.moduleRoot, "maps/*.rlmap.xml")
+            maps = glob.glob(cmd)
+            for m in maps:
+                self.mapFiles.append(Map(m, self.sceneManager, self.ogreRoot))
+
+            cmd = join(self.moduleRoot, "maps/*.rlscene")
+            sceneFile = glob.glob(cmd)
+            #self.loadScenes(sceneFile)
+
+    def saveMaps(self):
+        return
+
+    def saveScenes(self):
+        return
 
     def setResourcePaths(self, recurseFolder = ""):
         if recurseFolder == "":
@@ -108,49 +191,12 @@ class Module():
 
 
             if file.startswith('.'): #ignore dot files (hidden)
-                continue
+                pass
             if os.path.isdir(curFile):
                 og.ResourceGroupManager.getSingleton().addResourceLocation(curFile, "FileSystem", self.name, False)
                 self.setResourcePaths(curFile)
-                continue
             if os.path.isfile(curFile):
                 pass
-
-
-#                spl = lStripped.split('"')
-#                for a in spl:
-#                    if a.endswith(".xml"):
-#                        pathToMapFile = self.workingDir + "/maps/" + a
-#                        self.mapFiles.append(pathToMapFile)
-
-#        self.setWindowTitle(moduleName)
-#
-#        self.modelSelectionDialog.scanDirForModels(self.workingDir, moduleName)
-#        self.modelSelectionDialog.scanDirForModels(self.workingDirCommon, "common")
-#
-#        self.setResourcePaths(self.workingDir, moduleName)
-#        self.setResourcePaths(self.workingDirCommon, "common")
-#        og.ResourceGroupManager.getSingleton().initialiseAllResourceGroups()
-#
-#        command = (os.path.join(self.workingDir,  "maps") + "/*.xml")
-#        for mf in glob.glob(command): # search for all xml files in the maps directory and add them
-#            self.mapFiles.append(mf)
-#
-#        command = (os.path.join(self.workingDir,  "maps") + "/*.scene")
-#        for mf in glob.glob(command): # search for all .scene files in the maps directory and add them
-#            self.mapFiles.append(mf)
-#
-#        command = (os.path.join(self.workingDir,  "dsa") + "/*.gof")
-#        for gf in glob.glob(command): # search for all .gof files in the dsa directory in the module dir
-#            self.gofFiles.append(gf)
-#
-#        command = (os.path.join(self.workingDirCommon,  "dsa") + "/*.gof")
-#        for gf in glob.glob(command): # search for all .gof files in the dsa directory in the common module dir
-#            self.gofFiles.append(gf)
-#
-#        self.moduleManager.load(moduleName,  self.mapFiles,  self.gofFiles)
-
-
 
 class ModuleManager():
     def __init__(self,  ogreRoot,  sceneManager):
@@ -160,6 +206,8 @@ class ModuleManager():
 
         self.gocManager = GameObjectClassManager()
 
+        self.mainModule = []
+        self.mainModuledependencieList =[]
         self.moduleList = []
         self.userSelectionList = []
         self.cutList = [] # selection objects that has been cut out and wait to be pasted again
@@ -205,7 +253,7 @@ class ModuleManager():
             if line.startswith('module='):
                 splines = line.split('=')
                 str = splines[1].rstrip().rstrip()
-                self.moduleList.append(Module(str, self.moduleCfgPath.replace("/modules.cfg",  "")))
+                self.moduleList.append(Module(str, self.moduleCfgPath.replace("/modules.cfg",  ""), self.sceneManager, self.ogreRoot))
 
         self.moduleConfigIsParsed = True
 
@@ -230,12 +278,21 @@ class ModuleManager():
         layout.addWidget(btnBox)
         dlg.setLayout(layout)
         if dlg.exec_():
-            self.loadModule(list.currentItem().text())
+            self.loadModule(str(list.currentItem().text()))
 
     def loadModule(self, moduleName):
         for m in self.moduleList:
             if m.name == moduleName:
+                if m.hasDependencies:
+                    for moduleDependencie in m.moduleDependencies:
+                        for m2 in self.moduleList:
+                            if m2.name == moduleDependencie:
+                                m2.load()
+                                self.mainModuledependencieList.append(m2)
+
                 m.load()
+                self.mainModule = m
+
 
     # called when a click into Main Ogre Window occurs
     def selectionClick(self,  ray,  controlDown=False,  shiftDown=False):
