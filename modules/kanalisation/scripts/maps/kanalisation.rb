@@ -51,5 +51,4 @@ $SCRIPT.log("Sound fertig");
 #$SCRIPT.log("Fackellicht erstellt.");
 
 load "particle.rb"
-load "equip.rb"
 

@@ -19,3 +19,5 @@ itemToAdd = $GOM.createGameObject("men_human_female_cloth_short");
 hero.getInventory().hold(itemToAdd, "Clothes");
 itemToAdd = $GOM.createGameObject("men_human_female_feet_boots_01");
 hero.getInventory().hold(itemToAdd, "Boots");
+
+load "equip.rb"
