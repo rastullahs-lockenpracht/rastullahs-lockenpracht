@@ -24,4 +24,9 @@ namespace rl
 	{
 		mId = id;
 	}
+
+	CeGuiString SaveAbleCollection::getId() const
+	{
+		return mId;
+	}
 }

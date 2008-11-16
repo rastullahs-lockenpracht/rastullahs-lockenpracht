@@ -24,11 +24,11 @@ namespace rl
 	{
 	public:
 		SaveAbleCollection(const CeGuiString &id);
-		void attachSaveAble(SaveAblePtr saveAble);
-		void deattachSaveAble(SaveAblePtr saveAble);
-		void deattachSaveAble(int id);
-		void deattachAllSaveAbles();
-		Ogre::String getId();
+		virtual void attachSaveAble(SaveAblePtr saveAble) = 0;
+		virtual void deattachSaveAble(SaveAblePtr saveAble) = 0;
+		virtual void deattachSaveAble(const CeGuiString &id) = 0;
+		virtual void deattachAllSaveAbles() = 0;
+		CeGuiString getId() const;
 	protected:
 		std::map<int, SaveAblePtr> mSaveAbles;
 		CeGuiString mId;

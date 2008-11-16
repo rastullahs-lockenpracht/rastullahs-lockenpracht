@@ -22,10 +22,11 @@
 #include <vector>
 
 #include "Properties.h"
+#include "SaveAbleCollection.h"
 
 namespace rl {
 
-    class Scene : public PropertyHolder
+    class Scene : public PropertyHolder, public SaveAbleCollection
     {
     public:
         static const Ogre::String PROPERTY_GAMEOBJECTS;

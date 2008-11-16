@@ -42,11 +42,11 @@ namespace rl
 	{
 	}
 		
-	void SaveAbleManager::attachSaveAbleToCollection(const CeGuiString &id)
+	void SaveAbleManager::attachSaveAbleToCollection(const CeGuiString &saveAbleId, const CeGuiString &collectionId)
 	{
 	}
 		
-	void SaveAbleManager::deattachSaveAbleFromColltection(const CeGuiString &id)
+	void SaveAbleManager::deattachSaveAbleFromColltection(const CeGuiString &saveAbleId, const CeGuiString &collectionId)
 	{
 	}
 		

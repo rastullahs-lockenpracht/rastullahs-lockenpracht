@@ -31,13 +31,13 @@ namespace rl
 		void removeSaveAble(SaveAblePtr save);
 		void removeSaveAble(const CeGuiString &id);
 		void removeAllSaveAbles();
-		void attachSaveAbleToCollection(const CeGuiString &id);
-		void deattachSaveAbleFromColltection(const CeGuiString &id);
+		void attachSaveAbleToCollection(const CeGuiString &saveAbleId, const CeGuiString &collectionId);
+		void deattachSaveAbleFromColltection(const CeGuiString &saveAbleId, const CeGuiString &collectionId);
 		void restoreState();
 	protected:
 		std::map<int, PropertyRecordPtr> mSaveAbleStates;
 		std::map<int, SaveAblePtr> mSaveAbles;
-		std::map<Ogre::String,SaveAbleCollection> mSaveAbleCollections;
+		std::map<Ogre::String,SaveAbleCollection*> mSaveAbleCollections;
 	};
 }
 
