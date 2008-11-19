@@ -137,9 +137,8 @@ namespace rl
         static FMOD_RESULT F_CALLBACK channelCallback(
             FMOD_CHANNEL* channel,
             FMOD_CHANNEL_CALLBACKTYPE type,
-            int command,
-            unsigned int commanddata1,
-            unsigned int commanddata2
+            void* commanddata1,
+            void* commanddata2
         );
 
         typedef std::map<const Ogre::String, FMOD_REVERB_PROPERTIES> EaxPresetMap;
