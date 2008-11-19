@@ -1,3 +1,5 @@
+import TerrainVColorBlending from TerrainVColorBlending.material
+
 
 material Ruchin_ground: TerrainVColorBlending
 {

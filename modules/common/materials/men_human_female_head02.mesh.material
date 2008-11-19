@@ -1,3 +1,5 @@
+import Face_Normalmapping_mirrored from Skin_Normalmapping.material
+
 
 material men_human_female_head_02 : Face_Normalmapping_mirrored
 {

@@ -57,7 +57,7 @@ techdemoDorf.getControlledObject().set3d(false);
 $SCRIPT.log(" Loopen");
 techdemoDorf.getControlledObject().setLooping( true );
 $SCRIPT.log(" Laden");
-techdemoDorf.getControlledObject().load();
+#techdemoDorf.getControlledObject().load();
 $SCRIPT.log("Dorf-Thema fertig");
 
 $World.setFog( World::FOG_EXP, [0.1,0.08,0.01,0.1], 0.00503, 10.0, 100.0);
@@ -86,7 +86,7 @@ load( "buchderkultur.rb" );
 $SCRIPT.log("Weiteres geladen");
 
 #Musik als letztes Starten
-techdemoDorf.getControlledObject().play();
+#techdemoDorf.getControlledObject().play();
 
 # Tagebucheintrag
 entry = $tagebuchtexte['dorf1']

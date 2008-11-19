@@ -1,3 +1,9 @@
+import Architecture_Normalmapping from Architecture_Normalmapping.material
+import Basic_Normalmapping from Basic_Normalmapping.material
+import Basic_Vertex_Shader from Basic_Vertex_Shader.program
+import Basic_Vertex_Shader_AO from Basic_Vertex_Shader_AO.material
+import Basic_Vertex_Shader_Alpha from Basic_Vertex_Shader_Alpha.material
+
 
 material Ruchin_l/base : Basic_Vertex_Shader
 {

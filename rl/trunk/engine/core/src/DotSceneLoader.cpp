@@ -771,8 +771,10 @@ namespace rl {
               return;
         }
 
-        if (parentNode->getScale() != Vector3::UNIT_SCALE)
+        /*if (parentNode->getScale() != Vector3::UNIT_SCALE) 
+		{
             newEnt->setNormaliseNormals(true);
+		}*/
 
         parentNode->attachObject(newEnt);
 

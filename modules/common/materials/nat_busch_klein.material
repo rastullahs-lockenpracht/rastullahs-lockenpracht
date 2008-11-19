@@ -1,3 +1,5 @@
+import windy_grass from WindyGrass.program
+
 material nat_busch_klein : windy_grass
 {
 	lod_distances 50.0

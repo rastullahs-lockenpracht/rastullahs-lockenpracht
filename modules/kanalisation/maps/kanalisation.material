@@ -1,3 +1,6 @@
+import Basic_Normalmapping_kana from Normalmapping.program
+import Wassershader_Kanalisation from Wassershader_Kanalisation.program
+
 material matschboden/SOLID/TEX/boden_kana.png: Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap boden_kana.png

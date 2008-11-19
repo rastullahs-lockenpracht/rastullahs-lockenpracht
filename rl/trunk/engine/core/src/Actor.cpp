@@ -434,17 +434,17 @@ namespace rl {
             node->setScale( vec );
 
             // Falls es sich um ein Mesh handelt ...
-            if( getControlledObject()->isMeshObject() )
+/*            if( getControlledObject()->isMeshObject() )
             {
                 MeshObject* meshObj = dynamic_cast<MeshObject*>( getControlledObject() );
 
                 // ... und größer/kleiner als normal skaliert wird ...
                 if( vec != Vector3(1,1,1) )
                     // ... müssen die Normalen neu berechnet werden.
-                    meshObj->getEntity()->setNormaliseNormals( true );
+					meshObj->getEntity()->setNormaliseNormals( true );
                 else
                     meshObj->getEntity()->setNormaliseNormals( false );
-            }
+            }*/
         }
     }
 

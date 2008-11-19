@@ -1,3 +1,5 @@
+import TerrainVColorBlending from TerrainVColorBlending.material
+
 
 material ruchin_terrain: TerrainVColorBlending
 {

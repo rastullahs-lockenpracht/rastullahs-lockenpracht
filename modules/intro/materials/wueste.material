@@ -1,3 +1,5 @@
+import Splatting3NoDetailVertexPhong from Splatting3NoDetailVertexPhong.program
+
 material wuesten_alphamap : Splatting3NoDetailVertexPhong
 {
 	receive_shadows on

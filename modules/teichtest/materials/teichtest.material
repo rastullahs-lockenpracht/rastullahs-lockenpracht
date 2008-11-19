@@ -1,3 +1,5 @@
+import Wassershader_Kanalisation from Wassershader_Kanalisation.program
+
 material wasser/SOLID/TEX/Untitled
 {
 	technique

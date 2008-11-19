@@ -1,3 +1,5 @@
+import Basic_Normalmapping_Spec_mirrored from Basic_Normalmapping_Spec.material
+
 
 material men_human_female_armor_kroetenhaut : Basic_Normalmapping_Spec_mirrored
 {

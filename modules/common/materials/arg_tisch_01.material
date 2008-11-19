@@ -1,3 +1,5 @@
+import Basic_Vertex_Shader from Basic_Vertex_Shader.program
+
 
 material arg_tisch_01: Basic_Vertex_Shader
 {

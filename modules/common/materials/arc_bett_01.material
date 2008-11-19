@@ -1,3 +1,5 @@
+import Basic_Vertex_Shader from Basic_Vertex_Shader.program
+
 
 material arc_bett_01: Basic_Vertex_Shader
 {

@@ -1,3 +1,5 @@
+import windy_grass from WindyGrass.program
+
 material ALPHA/getreide.png : windy_grass
 {
 	lod_distances 50.0

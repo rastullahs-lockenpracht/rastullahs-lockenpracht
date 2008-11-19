@@ -1,3 +1,8 @@
+import Basic_Vertex_Shader from Basic_Vertex_Shader.program
+import Ruchin/base from Ruchintest.material
+import Ruchin_Stadtmauer/Dach from Stadtmauer.material
+import Ruchin_Stadtmauer/Wand from __unkown_material_file__
+
 material Stadtwache/Wand : Ruchin_Stadtmauer/Wand
 {
 

@@ -1,3 +1,5 @@
+import windy_grass from WindyGrass.program
+
 material nat_baum_mittel_02 : windy_grass
 {
 	lod_distances 75.0

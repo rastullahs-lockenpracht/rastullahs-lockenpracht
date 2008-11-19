@@ -1,3 +1,5 @@
+import Basic_Normalmapping_Spec from Basic_Normalmapping_Spec.material
+
 
 material obj_Shortsleeve : Basic_Normalmapping_Spec
 {

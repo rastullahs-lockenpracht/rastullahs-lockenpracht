@@ -1,3 +1,5 @@
+import Basic_Normalmapping from Basic_Normalmapping.material
+
 
 material men_human_female_legs_underpants : Basic_Normalmapping
 {

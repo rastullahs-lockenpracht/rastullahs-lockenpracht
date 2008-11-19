@@ -1,3 +1,5 @@
+import Wassershader from Wassershader.program
+
 material Wassershader_Kanalisation : Wassershader
 {	
     technique hlsl

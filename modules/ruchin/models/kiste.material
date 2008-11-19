@@ -1,3 +1,5 @@
+import Basic_Vertex_Shader from Basic_Vertex_Shader.program
+
 
 material arc_kiste : Basic_Vertex_Shader
 {

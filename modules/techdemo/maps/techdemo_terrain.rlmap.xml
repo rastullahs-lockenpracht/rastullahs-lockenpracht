@@ -30569,7 +30569,7 @@
       <staticgeometrygroup id="0" />
       <physicsproxy type="none" />
     </entity>
-		<gameobject class="hero" id="1" state="IN_SCENE">
+		<gameobject class="mckhero" id="1" state="IN_SCENE">
 			<position x="0" y="0.7" z="0"/>
 		</gameobject>
 		<gameobject class="ArnolfGrossschaedel" state="IN_SCENE">

@@ -1,3 +1,5 @@
+import Basic_Normalmapping from Basic_Normalmapping.material
+
 material fackel/SOLID/TEX/fackel_kana.png: Basic_Normalmapping
 {
 set_texture_alias DiffuseMap fackel_kana.png

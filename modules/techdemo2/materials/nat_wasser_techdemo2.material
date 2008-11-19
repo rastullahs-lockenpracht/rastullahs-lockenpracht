@@ -1,3 +1,5 @@
+import nat_wasser_see from nat_wasser_see.program
+
 material nat_wasser_techdemo2 : nat_wasser_see
 {
     technique hlsl

@@ -1,3 +1,5 @@
+import Splatting5 from Splatting5.program
+
 material Techdemo2_map2 : Splatting5
 {
 	technique hlsl

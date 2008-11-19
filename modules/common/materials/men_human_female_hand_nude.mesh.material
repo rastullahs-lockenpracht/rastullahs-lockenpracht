@@ -1,3 +1,6 @@
+import Skin_Normalmapping from Skin_Normalmapping.material
+import Skin_Normalmapping_mirrored from Skin_Normalmapping.material
+
 
 material men_human_female_hand_nude : Skin_Normalmapping
 {
