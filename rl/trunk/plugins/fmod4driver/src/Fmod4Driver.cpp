@@ -213,10 +213,13 @@ namespace rl
         {
             char pluginName[128];
             unsigned int version;
-			FMOD_PLUGINTYPE type;
+			FMOD_PLUGINTYPE type = FMOD_PLUGINTYPE_CODEC;
+			unsigned int handle;
+			FMOD_RESULT result = mFmod4System->getPluginHandle(FMOD_PLUGINTYPE_CODEC, i, &handle);
+			CHECK_FMOD4_ERRORS(result);
 
-            FMOD_RESULT result = mFmod4System->getPluginInfo(
-                i,
+            result = mFmod4System->getPluginInfo(
+                handle,
                 &type,
 				pluginName,
                 127,
