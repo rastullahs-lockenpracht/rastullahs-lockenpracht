@@ -1,4 +1,4 @@
-waber
+particle_system waber
 {
 	quota	200
 	material	waber

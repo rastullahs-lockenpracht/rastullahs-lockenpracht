@@ -1,4 +1,4 @@
-vlight
+particle_system vlight
 {
 	quota	10
 	material	vlight
