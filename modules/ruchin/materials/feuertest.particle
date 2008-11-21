@@ -1,4 +1,4 @@
-feuertest2
+particle_system feuertest2
 {
 	quota	70
 	material	feuertest

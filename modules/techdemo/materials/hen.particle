@@ -1,5 +1,4 @@
-
-PEExamples/explo
+particle_system PEExamples/explo
 {
 	quota	50
 	material	RL/flamme

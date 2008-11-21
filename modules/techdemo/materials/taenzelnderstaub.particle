@@ -1,5 +1,4 @@
-
-staub
+particle_system staub
 {
 	quota	500
 	material	staub

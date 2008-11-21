@@ -1,4 +1,4 @@
-nebel
+particle_system nebel
 {
 	quota	80
 	material	nebel

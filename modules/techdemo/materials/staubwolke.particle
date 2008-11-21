@@ -1,4 +1,4 @@
-Techdemo/Steinstaubwolke
+particle_system Techdemo/Steinstaubwolke
 {
 	quota	200
 	material	RL/Staubwolke

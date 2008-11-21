@@ -1,5 +1,4 @@
-
-qualm
+particle_system qualm
 {
 	quota	10
 	material	qualm
