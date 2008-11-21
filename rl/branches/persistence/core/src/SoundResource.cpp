@@ -85,15 +85,6 @@ const Ogre::DataStreamPtr &SoundResource::getDataStream() const
 }
 
 /**
- * @author JoSch
- * @date 03-14-2005
- */
-int SoundResource::getSize() const
-{
-    return calculateSize();
-}
-
-/**
  * @author Blakharaz
  * @date 03-14-2005
  */

@@ -220,8 +220,8 @@ namespace rl {
 
         // Weltkoordinaten in lokale umwandeln
         mTargetCameraPosition =
-            -1*(mCameraActor->_getSceneNode()->getParentSceneNode()->getWorldOrientation().Inverse()*
-            (mCameraActor->_getSceneNode()->getParentSceneNode()->getWorldPosition() - globalCameraPosition));
+            -1*(mCameraActor->_getSceneNode()->getParentSceneNode()->_getDerivedOrientation().Inverse()*
+            (mCameraActor->_getSceneNode()->getParentSceneNode()->_getDerivedPosition() - globalCameraPosition));
 
         mTargetCameraDirection = (listenerEyes - mTargetCameraPosition).normalisedCopy();
     }

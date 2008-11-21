@@ -33,10 +33,6 @@ namespace rl {
  */
 class _RlCoreExport SoundResource: public Ogre::Resource
 {
-    private:
-        /// Unsere Daten von Ogres ResourceManager.
-        Ogre::DataStreamPtr mDataStream;
-                       
     public:
         /// Der Standardkonstruktor
         SoundResource(Ogre::ResourceManager* creator, const Ogre::String& name, 
@@ -44,10 +40,8 @@ class _RlCoreExport SoundResource: public Ogre::Resource
             Ogre::ManualResourceLoader* loader);
         /// Der Destruktor
         virtual ~SoundResource();
-        /// Den Datenstrom zur�ckgeben
+        /// Den Datenstrom zurueckgeben
         const Ogre::DataStreamPtr &getDataStream() const;
-        /// Groesse zurueckgeben.
-        int getSize() const;
 
     protected:
 		/// Laedt die Soundquelle.
@@ -57,6 +51,10 @@ class _RlCoreExport SoundResource: public Ogre::Resource
 		/// Bestimmt die Groesse im Speicher (wird erst nach dem Laden aufgerufen)
 		virtual size_t calculateSize() const;        
         
+
+	private:
+        /// Unsere Daten von Ogres ResourceManager.
+        Ogre::DataStreamPtr mDataStream;
 };
 
 class _RlCoreExport SoundResourcePtr :

@@ -63,6 +63,7 @@ namespace rl
         const Ogre::String& getMovableType(void) const { return msType; }
         Ogre::Real getBoundingRadius(void) const {return mRadius;}
         Ogre::Real getSquaredViewDepth(const Ogre::Camera* cam) const { return 0; }
+		void visitRenderables(Ogre::Renderable::Visitor* visitor,  bool debugRenderables = false);
  
         // from renderable
         void getRenderOperation(Ogre::RenderOperation &op);

@@ -162,5 +162,10 @@ float SoundStitching::getLength() const
     return 0.0f;
 }
 
+void SoundStitching::visitRenderables(Renderable::Visitor* visitor, 
+			bool debugRenderables)
+{
+}
+
 };
 

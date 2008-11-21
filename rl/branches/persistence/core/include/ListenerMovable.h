@@ -69,6 +69,10 @@ namespace rl {
         /// Ist dies der aktuelle Listener
         bool isActive() const;
 		void setActive(bool active);
+
+		/// From MovableObject
+		virtual void visitRenderables(Ogre::Renderable::Visitor* visitor, 
+			bool debugRenderables = false);
         
     protected:
          /// Shared class-level name for Movable type
