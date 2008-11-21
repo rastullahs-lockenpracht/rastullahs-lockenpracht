@@ -1,5 +1,4 @@
-
-flammen
+particle_system flammen
 {
 	quota	10
 	material	fackel

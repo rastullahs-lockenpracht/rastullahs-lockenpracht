@@ -1,4 +1,4 @@
-feuertest
+particle_system feuertest
 {
 	quota	30
 	material	glow01

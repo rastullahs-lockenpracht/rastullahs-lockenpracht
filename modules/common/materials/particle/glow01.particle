@@ -1,4 +1,4 @@
-glow01
+particle_system glow01
 {
 	quota	1000
 	material	glow01

@@ -1,4 +1,4 @@
-Rl/Sandsturm
+particle_system Rl/Sandsturm
 {
 	quota	50
 	material	RL/Sandsturm

@@ -1,5 +1,4 @@
-
-regen
+particle_system regen
 {
 	quota	1000
 	material	regen

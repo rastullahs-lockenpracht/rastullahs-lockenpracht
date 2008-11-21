@@ -1,5 +1,4 @@
-
-feuer
+particle_system feuer
 {
 	quota	1500
 	material	feuer

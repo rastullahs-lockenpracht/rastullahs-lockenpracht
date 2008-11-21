@@ -1,5 +1,4 @@
-
-Kerzenflammen
+particle_system Kerzenflammen
 {
 	quota	10
 	material	fackel
