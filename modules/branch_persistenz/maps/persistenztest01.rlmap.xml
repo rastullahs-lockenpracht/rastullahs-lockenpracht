@@ -1,0 +1,18 @@
+<scene formatVersion="0.4.0" scenescript="map01.rb">
+    <nodes>
+        <entity meshfile="regressiontest_floorplane.mesh">
+            <position x="0.0" y="0.0" z="0.0" />
+            <scale x="1.0" y="1.0" z="1.0" />
+        </entity>
+		<gameobject class="number1" id="11" state="IN_SCENE">
+            <position x="5" y="0.2" z="0"/>
+        </gameobject>
+        <gameobject class="Kurzschwert" id="115" state="IN_SCENE">
+            <position x="10" y="0.2" z="0"/>
+        </gameobject>
+		<entity meshfile="nx.crosshair.mesh">
+			<position x="0.0" y="0.2" z="4.0" />
+            <scale x="1.0" y="1.0" z="1.0" />
+		</entity>
+    </nodes>
+</scene>

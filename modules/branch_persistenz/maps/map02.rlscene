@@ -1,0 +1,4 @@
+<scene name="scene02">
+	<map file="persistenztest02.rlmap.xml"/>
+	<map file="hero.rlmap.xml"/>
+</scene>

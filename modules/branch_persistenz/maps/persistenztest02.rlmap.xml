@@ -1,0 +1,14 @@
+<scene formatVersion="0.4.0" scenescript="map02.rb">
+    <nodes>
+        <entity meshfile="regressiontest_floorplane.mesh">
+            <position x="0.0" y="0.0" z="0.0" />
+            <scale x="1.0" y="1.0" z="1.0" />
+        </entity>
+		<gameobject class="number2" id="12" state="IN_SCENE">
+            <position x="5" y="0.0" z="0"/>
+        </gameobject>
+        <gameobject class="leather backpack" id="215" state="IN_SCENE">
+            <position x="10" y="0.2" z="0"/>
+        </gameobject>
+    </nodes>
+</scene>
