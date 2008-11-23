@@ -26,7 +26,7 @@
 
 namespace rl {
 
-    class Scene : public PropertyHolder, public SaveAbleCollection
+    class _RlScriptExport Scene : public PropertyHolder, public SaveAbleCollection
     {
     public:
         static const Ogre::String PROPERTY_GAMEOBJECTS;
@@ -42,6 +42,10 @@ namespace rl {
         virtual void setProperty(const CeGuiString& key, const Property& value);
         virtual PropertyKeys getAllPropertyKeys() const;
 
+		virtual void attachSaveAble(SaveAblePtr saveAble);
+		virtual void deattachSaveAble(SaveAblePtr saveAble);
+		virtual void deattachSaveAble(const CeGuiString &id);
+		virtual void deattachAllSaveAbles();
     private:
         CeGuiString mName;
         std::vector<Ogre::String> mMaps;

@@ -29,6 +29,7 @@ libRlRules_la_SOURCES = \
 	GameTimeSource.cpp \
 	GlobalProperties.cpp \
 	GoToJob.cpp \
+	FetchItemJob.cpp \
 	Item.cpp \
 	Inventory.cpp \
 	JournalEntry.cpp \

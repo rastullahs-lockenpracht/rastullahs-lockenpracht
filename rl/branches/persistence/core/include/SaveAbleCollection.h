@@ -20,7 +20,7 @@
 namespace rl
 {
 
-	class SaveAbleCollection
+	class _RlCoreExport SaveAbleCollection
 	{
 	public:
 		SaveAbleCollection(const CeGuiString &id);

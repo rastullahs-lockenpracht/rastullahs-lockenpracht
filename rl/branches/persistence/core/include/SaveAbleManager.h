@@ -25,6 +25,8 @@ namespace rl
 {
 	class _RlCoreExport SaveAbleManager : public Ogre::Singleton<SaveAbleManager>
 	{
+	protected:
+		typedef std::map<CeGuiString, SaveAbleCollection*> SaveAbleCollectionMap;
 	public:
 		void saveState();
 		void addSaveAble(SaveAblePtr save);
@@ -34,10 +36,13 @@ namespace rl
 		void attachSaveAbleToCollection(const CeGuiString &saveAbleId, const CeGuiString &collectionId);
 		void deattachSaveAbleFromColltection(const CeGuiString &saveAbleId, const CeGuiString &collectionId);
 		void restoreState();
+		void restoreSaveAble(const CeGuiString &id);
+		SaveAbleCollectionMap getCollections();
 	protected:
-		std::map<int, PropertyRecordPtr> mSaveAbleStates;
-		std::map<int, SaveAblePtr> mSaveAbles;
-		std::map<Ogre::String,SaveAbleCollection*> mSaveAbleCollections;
+		std::map<CeGuiString, PropertyRecordPtr> mSaveAbleStates;
+		std::map<CeGuiString, SaveAblePtr> mSaveAbles;
+		
+		SaveAbleCollectionMap mSaveAbleCollections;
 	};
 }
 

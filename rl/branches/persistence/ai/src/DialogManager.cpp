@@ -113,7 +113,7 @@ namespace rl
         LOG_MESSAGE(Logger::RULES, "Saving dialogs");
 
         PropertyRecordPtr set = getAllProperties();
-        writer->writeEachProperty(this, set->toPropertyMap());
+        //writer->writeEachProperty(this, set->toPropertyMap());
     }
 
     void DialogManager::readData(SaveGameFileReader* reader)

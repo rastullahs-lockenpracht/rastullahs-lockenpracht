@@ -36,6 +36,7 @@
 #include "PhysicsManager.h"
 #include "RubyInterpreter.h"
 #include "SaveGameManager.h"
+#include "SaveAbleSerializer.h"
 #include "ScriptWrapper.h"
 #include "SoundManager.h"
 #include "TimeSource.h"
@@ -100,6 +101,7 @@ namespace rl
         delete mRubyInterpreter;
         delete mTimeSourceManager;
         delete mSaveGameManager;
+		delete mSaveAbleSerializer;
         delete mGameLoop;
         //mXmlResourceManager->unloadAll();
         //delete mXmlResourceManager;
@@ -244,6 +246,9 @@ namespace rl
 
         mSaveGameManager = new SaveGameManager();
         LOG_MESSAGE(Logger::RULES, "SaveGameManager erzeugt");
+
+		mSaveAbleSerializer = new SaveAbleSerializer();
+        LOG_MESSAGE(Logger::RULES, "SaveAbleSerializer erzeugt");
 		
 		mTimeSourceManager = new TimeSourceManager();
         mTimeSourceManager->registerTimeSource(new RealTimeContinuous());

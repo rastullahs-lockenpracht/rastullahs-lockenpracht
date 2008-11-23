@@ -30,7 +30,7 @@ namespace rl
 const Ogre::String Scene::PROPERTY_GAMEOBJECTS = "gameobjects";
 
 Scene::Scene(const CeGuiString& name)
-: mName(name)
+: mName(name), SaveAbleCollection(name)
 {
 }
 
@@ -123,6 +123,22 @@ PropertyKeys Scene::getAllPropertyKeys() const
     PropertyKeys keys;
     keys.insert(Scene::PROPERTY_GAMEOBJECTS);
     return keys;
+}
+
+void Scene::attachSaveAble(SaveAblePtr saveAble)
+{
+}
+
+void Scene::deattachSaveAble(SaveAblePtr saveAble)
+{
+}
+
+void Scene::deattachSaveAble(const CeGuiString &id)
+{
+}
+
+void Scene::deattachAllSaveAbles()
+{
 }
 
 }

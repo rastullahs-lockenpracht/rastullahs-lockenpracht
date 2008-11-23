@@ -27,15 +27,35 @@
 
 namespace rl
 {
-	class _RlCoreExport SaveAbleSerializer : public ScriptSerializer
+	class _RlCoreExport SaveAbleSerializer : public Ogre::Singleton<SaveAbleSerializer>, public ScriptSerializer
 	{
 	public:
-		void writeToSaveGameFile();
-		void readFromSaveGameFile();
+		SaveAbleSerializer();
+
+		typedef std::map<int, SaveGameFile*> SaveGameEntryMap;
+
+		SaveGameEntryMap listSaveGames();
+		SaveGameEntryMap listSaveGames(const CeGuiString &moduleId);
+
+		virtual const Ogre::StringVector&  getScriptPatterns(void) const;
+        virtual void parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);
+        virtual Ogre::Real getLoadingOrder(void) const;
+
+		void createNewSaveGame();
+		void writeSaveGame(int fileId);
+		void readSaveGame(int fileId);
+
+		int getHighestSaveGameNumber();
 	protected:
-		std::map<CeGuiString, SaveGameFile*> mSaveGameFile;
+		void writeToSaveGameFile(SaveGameFile* file);
+		void readFromSaveGameFile(SaveGameFile* file);
+
+		SaveGameEntryMap mSaveGameFile;
 		SaveGameFileReader mReader;
 		SaveGameFileWriter mWriter;
+
+		Ogre::StringVector mScriptPatterns;
+		int mHighestSaveGameNumber;
 	};
 }
 

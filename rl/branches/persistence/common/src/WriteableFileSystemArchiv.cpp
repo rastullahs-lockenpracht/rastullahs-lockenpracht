@@ -74,12 +74,6 @@ namespace rl
     {
         String full_path = concatenate_path(mName, filename);
 
-        // Use filesystem to determine size 
-        // (quicker than streaming to the end and back)
-        struct stat tagStat;
-	int ret = stat(full_path.c_str(), &tagStat);
-        assert(ret == 0 && "Problem getting file size" );
-
         // Always open in binary mode
         std::fstream *origStream = new std::fstream();
         origStream->open(full_path.c_str(), std::ios::in | std::ios::out | std::ios::binary);
@@ -89,19 +83,19 @@ namespace rl
         {
             delete origStream;
             OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND,
-                "Cannot open file: " + filename,
+                "Cannot open or create file: " + filename,
                 "WriteableFileSystemArchive::open");
         }
 
         /// Construct return stream, tell it to delete on destroy
         WriteableFileStreamDataStream* stream = new WriteableFileStreamDataStream(filename,
-            origStream, tagStat.st_size, true);
+            origStream, true);
         return DataStreamPtr(stream);
     }
     
     const String& WriteableFileSystemArchiveFactory::getType(void) const
     {
-        static String name = "FileSystem";
+        static String name = "WriteableFileSystem";
         return name;
     }
 

@@ -119,7 +119,7 @@ namespace rl
         mSaveGames[file->getId()] = file;
 
         SaveGameFileWriter writer;
-        writer.buildSaveGameFile(file, mSaveGameDataOrderMap);
+        //writer.buildSaveGameFile(file, mSaveGameDataOrderMap);
 
         //freeSaveGameMap();
 
