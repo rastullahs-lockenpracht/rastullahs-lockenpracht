@@ -27,8 +27,9 @@ namespace rl {
 
     class Actor;
     class AbstractWindow;
-    class CharacterStateWindow;
+    class CharacterSelectionWindow;
     class CharacterSheetWindow;
+    class CharacterStateWindow;
     class CloseConfirmationWindow;
     class CombatWindow;
     class Console;
@@ -96,6 +97,7 @@ namespace rl {
         void toggleDebugWindow();
         void toggleGameLogWindow();
         void toggleCharacterStateWindow();
+        void toggleCharacterSelectionWindow();
         void toggleInGameGlobalMenu();
         void toggleInventoryWindow();
         void notifyInventoryWindowDestroyed();
@@ -136,6 +138,7 @@ namespace rl {
         CloseConfirmationWindow* mCloseConfirmationWindow;
         GameSettings* mGameSettings;
         CombatWindow* mCombatWindow;
+        CharacterSelectionWindow* mCharacterSelectionWindow;
     };
 }
 

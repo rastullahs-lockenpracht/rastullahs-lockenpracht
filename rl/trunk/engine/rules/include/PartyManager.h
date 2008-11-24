@@ -25,11 +25,11 @@ namespace rl
 {
     class Creature;
 
+    typedef std::vector<Creature*> Party;
+
     class _RlRulesExport PartyManager : public Ogre::Singleton<PartyManager>
     {
     public:
-		typedef std::vector<Creature*> Party;
-
 		PartyManager();
         
         Creature* getActiveCharacter() const;

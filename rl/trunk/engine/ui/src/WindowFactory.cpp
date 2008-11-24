@@ -20,6 +20,7 @@
 #include "AboutWindow.h"
 #include "ActionChoiceWindow.h"
 #include "ActorManager.h"
+#include "CharacterSelectionWindow.h"
 #include "CharacterSheetWindow.h"
 #include "CharacterStateWindow.h"
 #include "CloseConfirmationWindow.h"
@@ -85,7 +86,8 @@ namespace rl {
         mMainMenuWindow(NULL),
 		mMainMenuLoadWindow(NULL),
         mGameSettings(NULL),
-        mCombatWindow(NULL)
+        mCombatWindow(NULL),
+        mCharacterSelectionWindow(NULL)
     {
     }
 
@@ -111,6 +113,8 @@ namespace rl {
         RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mJournalWindow);
         //RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mInfoPopup);
         mMainMenuWindow = new MainMenuWindow( new MainMenuEngineWindow() );
+        
+        mCharacterSelectionWindow = new CharacterSelectionWindow();
 
         logAllWindows();
     }
@@ -292,7 +296,13 @@ namespace rl {
     {
         mCharacterStateWindow->setVisible(!mCharacterStateWindow->isVisible());
     }
-
+    
+    void WindowFactory::toggleCharacterSelectionWindow()
+    {
+        mCharacterSelectionWindow->setVisible(!mCharacterSelectionWindow->isVisible());
+        mCharacterSelectionWindow->update();
+    }
+    
     void WindowFactory::toggleInGameGlobalMenu()
     {
         mInGameMenuWindow->setVisible(!mInGameMenuWindow->isVisible());
