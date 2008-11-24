@@ -220,6 +220,20 @@ namespace rl
                 writer->setAttributeValueAsInt64(jobNode, "timeLastCall", iter->timeLastCall);
                 writer->setAttributeValueAsBool(jobNode, "called", iter->called);
                 writer->setAttributeValueAsString(jobNode, "classname", iter->job->getClassName());
+                CeGuiString timeSource = "unknown";
+                switch (iter->job->getTimeSource())
+                {
+                    case TimeSource::GAMETIME:
+                        timeSource = "gametime";
+                        break;
+                    case TimeSource::REALTIME_CONTINUOUS:
+                        timeSource = "realtime_continuous";
+                        break;
+                    case TimeSource::REALTIME_INTERRUPTABLE:
+                        timeSource = "realtime_interruptable";
+                        break;
+                }
+                writer->setAttributeValueAsString(jobNode, "time", timeSource);
 
                 PropertyMap map = iter->job->getAllProperties()->toPropertyMap();
                 writer->writeEachPropertyToElem(jobNode, map);
@@ -295,10 +309,23 @@ namespace rl
                         PropertyRecordPtr properties = reader->getPropertiesAsRecord(xmlJob);
                         job->setProperties(properties);
                         
+                        CeGuiString timeSourceStr = reader->getAttributeValueAsString(xmlJob, "time");
+                        TimeSource::TimeSourceType ts = TimeSource::UNKNOWN;
+                        if (timeSourceStr == "gametime") 
+                        {
+                            ts = TimeSource::GAMETIME;
+                        }
+                        else if (timeSourceStr == "realtime_continuous") 
+                        {
+                            ts = TimeSource::REALTIME_CONTINUOUS;
+                        }
+                        else if (timeSourceStr == "realtime_interruptable") 
+                        {
+                            ts = TimeSource::REALTIME_INTERRUPTABLE;
+                        }
                         
                         unsigned long ticket = ++mTicketCounter;
-                        TimeSource* ts = TimeSourceManager::getSingleton().getTimeSource(job->getTimeSource());
-                        JobEntry entry = {job, NULL, ticket, priority, tokens, start, end, timeLastCall, TimeSource::UNKNOWN, called, false};
+                        JobEntry entry = {job, NULL, ticket, priority, tokens, start, end, timeLastCall, ts, called, false};
                         mJobQueue.push_back(entry);
                     }
                 }
