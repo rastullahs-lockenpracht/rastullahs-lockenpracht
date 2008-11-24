@@ -1,0 +1,10 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="DefaultGUISheet" Name="CharacterSelectionWindow/Characters">
+        <Property Name="VerticalAlignment" Value="Bottom" />
+	    <Property Name="HorizontalAlignment" Value="Left" />
+        <Property Name="UnifiedPosition" Value="{{0,10},{0,10}}" />
+        <Property Name="UnifiedSize" Value="{{0,80},{1,-200}}" />
+    </Window>
+</GUILayout>
+
+

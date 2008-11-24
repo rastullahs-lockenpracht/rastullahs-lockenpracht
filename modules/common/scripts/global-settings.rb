@@ -15,6 +15,7 @@ class GlobalSettings
       actionManager.registerInGameGlobalAction(ToggleCollisionDebugAction.new(), $grpView)
       actionManager.registerInGameGlobalAction(ShowCharacterSheetAction.new(), $grpView)
       actionManager.registerInGameGlobalAction(ToggleCharacterStateWindowAction.new(), $grpView)
+      actionManager.registerInGameGlobalAction(ToggleCharacterSelectionWindowAction.new(), $grpView)
       actionManager.registerInGameGlobalAction(ShowTargetWindowAction.new(), $grpView)
       actionManager.registerInGameGlobalAction(ToggleInGameGlobalMenuAction.new(), $grpView)
       actionManager.registerInGameGlobalAction(ShowJournalWindowAction.new(), $grpView)

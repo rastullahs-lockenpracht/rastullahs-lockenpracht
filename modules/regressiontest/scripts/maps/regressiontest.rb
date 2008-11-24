@@ -39,6 +39,7 @@ require 'SoundTest.rb'
 require 'TimeTest.rb'
 require 'CombatTest.rb'
 require 'WalkJobTest.rb'
+require 'CharacterSelectionTest.rb'
 
 class RegressionTestSuite
 	def initialize
@@ -68,7 +69,7 @@ class RegressionTestSuite
 		runTest(LightzoneTest, [-10, 0, -5])
 		runTest(MapLoadingTest, [ -5, 0, -10])
 		runTest(MaterialSlotTest, [-15, 0, -5])
-#		runTest(MergeableMeshTest, [ 10, 0, 0])
+		runTest(MergeableMeshTest, [ 10, 0, 0])
 		runTest(MeshAreaTest, [-50, 0,-55])
 		runTest(NpcTest, [ -5, 0, 5])
 		runTest(SelectorTest, [  5, 0, 0])
@@ -76,7 +77,8 @@ class RegressionTestSuite
 		runTest(TimeTest, [ -5, 0, -5])
 		runTest(WalkJobTest, [  0, 0, -3])
 		runTest(CombatTest, [15, 0, 15])
-   		runTest(FetchItemJobTest, [-15, 0, 15])
+  		runTest(FetchItemJobTest, [-15, 0, 15])
+        runTest(CharacterSelectionTest, [-15, 0, -15])
 
 		if @mErrors > 0
 		  MessageBox.showModal(

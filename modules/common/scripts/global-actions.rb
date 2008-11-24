@@ -136,6 +136,16 @@ class ToggleCharacterStateWindowAction < Action
     end
 end
 
+class ToggleCharacterSelectionWindowAction < Action
+    def initialize
+        super("togglecharacterselectionwindow", "Partyauswahl zeigen/verstecken")
+    end
+
+    def doAction(object, actor, target)
+        $WF.toggleCharacterSelectionWindow()
+    end
+end
+
 class ShowCharacterSheetAction < Action
   def initialize
     super("showcharactersheet", "Charakterblatt des aktiven Helden anzeigen")
