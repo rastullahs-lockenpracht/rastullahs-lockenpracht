@@ -663,6 +663,8 @@
 		48A52CC00E0EF77D008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
 		48A52CC20E0EF77E008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
 		48A52CC30E0EF785008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
+		48B006C50ECAC05F008141C2 /* CharacterSelectionWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B006C40ECAC05F008141C2 /* CharacterSelectionWindow.cpp */; };
+		48B006C80ECAC11D008141C2 /* CharacterSelectionWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B006C70ECAC11D008141C2 /* CharacterSelectionWindow.h */; };
 		48B0B0350E6534690023B198 /* PlaneNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B0B0340E6534690023B198 /* PlaneNodeProcessor.cpp */; };
 		48B0B0370E6534810023B198 /* PlaneNodeProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B0B0360E6534810023B198 /* PlaneNodeProcessor.h */; };
 		48B0B03C0E6535AB0023B198 /* libmeshmagick.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 440785DD0C09D231006E496D /* libmeshmagick.dylib */; };
@@ -1490,6 +1492,8 @@
 		48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_system.dylib; path = /usr/local/lib/libboost_system.dylib; sourceTree = "<absolute>"; };
 		48A52CB50E0EF5BD008DBDD8 /* ApplyDamageJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyDamageJob.h; sourceTree = "<group>"; };
 		48A52CB70E0EF5D0008DBDD8 /* ApplyDamageJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ApplyDamageJob.cpp; sourceTree = "<group>"; };
+		48B006C40ECAC05F008141C2 /* CharacterSelectionWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CharacterSelectionWindow.cpp; sourceTree = "<group>"; };
+		48B006C70ECAC11D008141C2 /* CharacterSelectionWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterSelectionWindow.h; sourceTree = "<group>"; };
 		48B0B0340E6534690023B198 /* PlaneNodeProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlaneNodeProcessor.cpp; path = ../engine/script/src/PlaneNodeProcessor.cpp; sourceTree = SOURCE_ROOT; };
 		48B0B0360E6534810023B198 /* PlaneNodeProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaneNodeProcessor.h; path = ../engine/script/include/PlaneNodeProcessor.h; sourceTree = SOURCE_ROOT; };
 		48B0B0480E65BBB30023B198 /* libfmodex.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmodex.dylib; path = "FMOD Programmers API/api/lib/libfmodex.dylib"; sourceTree = SYSTEM_DEVELOPER_DIR; };
@@ -1519,7 +1523,7 @@
 		48D0BE6B0E27401E00863824 /* DialogLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DialogLoader.cpp; path = ../engine/ai/src/DialogLoader.cpp; sourceTree = SOURCE_ROOT; };
 		48D34A610D90F5D500C89477 /* SaveGameData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveGameData.h; path = ../engine/core/include/SaveGameData.h; sourceTree = SOURCE_ROOT; };
 		48D34A620D90F5D500C89477 /* SaveGameData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SaveGameData.cpp; path = ../engine/core/src/SaveGameData.cpp; sourceTree = SOURCE_ROOT; };
-		48D401810D9E483200AE5340 /* modules */ = {isa = PBXFileReference; lastKnownFileType = folder; name = modules; path = ../../../modules; sourceTree = SOURCE_ROOT; };
+		48D401810D9E483200AE5340 /* modules */ = {isa = PBXFileReference; explicitFileType = folder; includeInIndex = 1; name = modules; path = ../../../modules; sourceTree = SOURCE_ROOT; };
 		48EFE0A30E8B6AF6007EB7F8 /* FetchItemJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchItemJob.h; sourceTree = "<group>"; };
 		48EFE0A50E8B6C39007EB7F8 /* FetchItemJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FetchItemJob.cpp; sourceTree = "<group>"; };
 		48EFE0D70E8B6EB1007EB7F8 /* mkdmg.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = mkdmg.sh; sourceTree = "<group>"; };
@@ -2170,6 +2174,97 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		48B006C30ECABFB0008141C2 /* windows */ = {
+			isa = PBXGroup;
+			children = (
+				444EACAC0BD0E57100C6D4A0 /* ConfigComponent.cpp */,
+				444EACAD0BD0E57100C6D4A0 /* Console.cpp */,
+				444EACB80BD0E57100C6D4A0 /* GameSettings.cpp */,
+				444EACA20BD0E57100C6D4A0 /* AboutWindow.cpp */,
+				444EACA30BD0E57100C6D4A0 /* AbstractWindow.cpp */,
+				444EACA40BD0E57100C6D4A0 /* ActionChoiceWindow.cpp */,
+				487029C80E80DCF900B66388 /* GameOverWindow.cpp */,
+				48389B8F0D86741F00AFAB66 /* GameSaveLoadWindow.cpp */,
+				48389B900D86741F00AFAB66 /* MainMenuLoadWindow.cpp */,
+				446BF4950C4533BD0013C214 /* CombatWindow.cpp */,
+				446BF49C0C4533BD0013C214 /* PropertiesWindow.cpp */,
+				44D814630BF7B5AD00534175 /* ProgressWindow.cpp */,
+				444EACA60BD0E57100C6D4A0 /* CharacterSheetWindow.cpp */,
+				444EACA70BD0E57100C6D4A0 /* CharacterStateWindow.cpp */,
+				444EACA80BD0E57100C6D4A0 /* CloseConfirmationWindow.cpp */,
+				444EACCB0BD0E57100C6D4A0 /* SubtitleWindow.cpp */,
+				444EACC90BD0E57100C6D4A0 /* SoundConfig.cpp */,
+				444EACAE0BD0E57100C6D4A0 /* ContainerContentWindow.cpp */,
+				444EACB10BD0E57100C6D4A0 /* DebugWindow.cpp */,
+				444EACB30BD0E57100C6D4A0 /* DialogWindow.cpp */,
+				444EACB50BD0E57100C6D4A0 /* GameLoggerWindow.cpp */,
+				444EACB60BD0E57100C6D4A0 /* GameObjectInfoWindow.cpp */,
+				444EACB90BD0E57100C6D4A0 /* InfoPopup.cpp */,
+				444EACBA0BD0E57100C6D4A0 /* InGameMenuWindow.cpp */,
+				444EACBC0BD0E57100C6D4A0 /* InventoryWindow.cpp */,
+				444EACBD0BD0E57100C6D4A0 /* ItemDragContainer.cpp */,
+				444EACBE0BD0E57100C6D4A0 /* JournalWindow.cpp */,
+				444EACC00BD0E57100C6D4A0 /* LogWindow.cpp */,
+				446BF4D50C453C1D0013C214 /* ItemDescriptionDragContainer.cpp */,
+				446BF49A0C4533BD0013C214 /* ItemIconDragContainer.cpp */,
+				444EACC10BD0E57100C6D4A0 /* MainMenuEngineWindow.cpp */,
+				444EACBF0BD0E57100C6D4A0 /* ListboxWrappedTextItem.cpp */,
+				444EACC20BD0E57100C6D4A0 /* MainMenuWindow.cpp */,
+				444EACC30BD0E57100C6D4A0 /* MessageWindow.cpp */,
+				444EACC50BD0E57100C6D4A0 /* ObjectDescriptionWindow.cpp */,
+				444EACC60BD0E57100C6D4A0 /* PlaylistWindow.cpp */,
+				444EACC70BD0E57100C6D4A0 /* RenderSystemConfigComponent.cpp */,
+				444EACCA0BD0E57100C6D4A0 /* SoundDriverConfigComponent.cpp */,
+				48B006C40ECAC05F008141C2 /* CharacterSelectionWindow.cpp */,
+			);
+			name = windows;
+			sourceTree = "<group>";
+		};
+		48B006C60ECAC097008141C2 /* windows */ = {
+			isa = PBXGroup;
+			children = (
+				444EACFE0BD0E58C00C6D4A0 /* AboutWindow.h */,
+				444EACFF0BD0E58C00C6D4A0 /* AbstractWindow.h */,
+				444EAD000BD0E58C00C6D4A0 /* ActionChoiceWindow.h */,
+				444EAD030BD0E58C00C6D4A0 /* CharacterSheetWindow.h */,
+				444EAD040BD0E58C00C6D4A0 /* CharacterStateWindow.h */,
+				444EAD050BD0E58C00C6D4A0 /* CloseConfirmationWindow.h */,
+				446BF4D10C453B9E0013C214 /* CombatWindow.h */,
+				444EAD0B0BD0E58C00C6D4A0 /* ContainerContentWindow.h */,
+				48389B970D86743900AFAB66 /* GameSaveLoadWindow.h */,
+				446BF4880C45335A0013C214 /* ItemDescriptionDragContainer.h */,
+				446BF4890C45335A0013C214 /* ItemIconDragContainer.h */,
+				44D8145F0BF7B58A00534175 /* ProgressWindow.h */,
+				444EAD090BD0E58C00C6D4A0 /* ConfigComponent.h */,
+				446BF48B0C45335A0013C214 /* PropertiesWindow.h */,
+				487029C60E80DCEA00B66388 /* GameOverWindow.h */,
+				48389B980D86743900AFAB66 /* MainMenuLoadWindow.h */,
+				444EAD0E0BD0E58C00C6D4A0 /* DebugWindow.h */,
+				444EAD100BD0E58C00C6D4A0 /* DialogWindow.h */,
+				444EAD120BD0E58C00C6D4A0 /* GameLoggerWindow.h */,
+				444EAD130BD0E58C00C6D4A0 /* GameObjectInfoWindow.h */,
+				444EAD150BD0E58C00C6D4A0 /* GameSettings.h */,
+				444EAD170BD0E58C00C6D4A0 /* InGameMenuWindow.h */,
+				444EAD190BD0E58C00C6D4A0 /* InventoryWindow.h */,
+				444EAD1A0BD0E58C00C6D4A0 /* ItemDragContainer.h */,
+				444EAD1C0BD0E58C00C6D4A0 /* ListboxWrappedTextItem.h */,
+				444EAD1E0BD0E58C00C6D4A0 /* MainMenuEngineWindow.h */,
+				444EAD1F0BD0E58C00C6D4A0 /* MainMenuWindow.h */,
+				444EAD200BD0E58C00C6D4A0 /* MessageWindow.h */,
+				444EAD220BD0E58C00C6D4A0 /* ObjectDescriptionWindow.h */,
+				444EAD230BD0E58C00C6D4A0 /* PlaylistWindow.h */,
+				444EAD240BD0E58C00C6D4A0 /* RenderSystemConfigComponent.h */,
+				444EAD260BD0E58C00C6D4A0 /* SoundConfig.h */,
+				444EAD270BD0E58C00C6D4A0 /* SoundDriverConfigComponent.h */,
+				444EAD280BD0E58C00C6D4A0 /* SubtitleWindow.h */,
+				444EAD0A0BD0E58C00C6D4A0 /* Console.h */,
+				444EAD1B0BD0E58C00C6D4A0 /* JournalWindow.h */,
+				444EAD1D0BD0E58C00C6D4A0 /* LogWindow.h */,
+				48B006C70ECAC11D008141C2 /* CharacterSelectionWindow.h */,
+			);
+			name = windows;
+			sourceTree = "<group>";
+		};
 		48B0B0230E6533940023B198 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
@@ -2235,55 +2330,19 @@
 		48EFE0880E8B6822007EB7F8 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				44D8145F0BF7B58A00534175 /* ProgressWindow.h */,
-				444EACFE0BD0E58C00C6D4A0 /* AboutWindow.h */,
-				444EACFF0BD0E58C00C6D4A0 /* AbstractWindow.h */,
-				444EAD000BD0E58C00C6D4A0 /* ActionChoiceWindow.h */,
+				48B006C60ECAC097008141C2 /* windows */,
 				444EAD010BD0E58C00C6D4A0 /* CeGuiHelper.h */,
-				444EAD030BD0E58C00C6D4A0 /* CharacterSheetWindow.h */,
 				4404DA850C48D037007B4657 /* stdinc.h */,
 				446BF4D00C453B9E0013C214 /* CombatControlState.h */,
-				446BF4D10C453B9E0013C214 /* CombatWindow.h */,
 				446BF4840C45335A0013C214 /* ControlState.h */,
 				446BF4850C45335A0013C214 /* CutsceneControlState.h */,
 				446BF4860C45335A0013C214 /* DialogControlState.h */,
 				446BF4870C45335A0013C214 /* FreeflightControlState.h */,
-				446BF4880C45335A0013C214 /* ItemDescriptionDragContainer.h */,
-				446BF4890C45335A0013C214 /* ItemIconDragContainer.h */,
 				446BF48A0C45335A0013C214 /* MovementControlState.h */,
-				446BF48B0C45335A0013C214 /* PropertiesWindow.h */,
-				487029C60E80DCEA00B66388 /* GameOverWindow.h */,
 				48389B960D86743900AFAB66 /* CombatGui.h */,
-				48389B970D86743900AFAB66 /* GameSaveLoadWindow.h */,
-				48389B980D86743900AFAB66 /* MainMenuLoadWindow.h */,
-				444EAD040BD0E58C00C6D4A0 /* CharacterStateWindow.h */,
-				444EAD050BD0E58C00C6D4A0 /* CloseConfirmationWindow.h */,
 				444EAD070BD0E58C00C6D4A0 /* CommandMapper.h */,
-				444EAD090BD0E58C00C6D4A0 /* ConfigComponent.h */,
-				444EAD0A0BD0E58C00C6D4A0 /* Console.h */,
-				444EAD0B0BD0E58C00C6D4A0 /* ContainerContentWindow.h */,
-				444EAD0E0BD0E58C00C6D4A0 /* DebugWindow.h */,
-				444EAD100BD0E58C00C6D4A0 /* DialogWindow.h */,
-				444EAD120BD0E58C00C6D4A0 /* GameLoggerWindow.h */,
-				444EAD130BD0E58C00C6D4A0 /* GameObjectInfoWindow.h */,
-				444EAD150BD0E58C00C6D4A0 /* GameSettings.h */,
 				444EAD160BD0E58C00C6D4A0 /* InfoPopup.h */,
-				444EAD170BD0E58C00C6D4A0 /* InGameMenuWindow.h */,
 				444EAD180BD0E58C00C6D4A0 /* InputManager.h */,
-				444EAD190BD0E58C00C6D4A0 /* InventoryWindow.h */,
-				444EAD1A0BD0E58C00C6D4A0 /* ItemDragContainer.h */,
-				444EAD1B0BD0E58C00C6D4A0 /* JournalWindow.h */,
-				444EAD1C0BD0E58C00C6D4A0 /* ListboxWrappedTextItem.h */,
-				444EAD1D0BD0E58C00C6D4A0 /* LogWindow.h */,
-				444EAD1E0BD0E58C00C6D4A0 /* MainMenuEngineWindow.h */,
-				444EAD1F0BD0E58C00C6D4A0 /* MainMenuWindow.h */,
-				444EAD200BD0E58C00C6D4A0 /* MessageWindow.h */,
-				444EAD220BD0E58C00C6D4A0 /* ObjectDescriptionWindow.h */,
-				444EAD230BD0E58C00C6D4A0 /* PlaylistWindow.h */,
-				444EAD240BD0E58C00C6D4A0 /* RenderSystemConfigComponent.h */,
-				444EAD260BD0E58C00C6D4A0 /* SoundConfig.h */,
-				444EAD270BD0E58C00C6D4A0 /* SoundDriverConfigComponent.h */,
-				444EAD280BD0E58C00C6D4A0 /* SubtitleWindow.h */,
 				444EAD290BD0E58C00C6D4A0 /* UiPrerequisites.h */,
 				444EAD2A0BD0E58C00C6D4A0 /* UiSubsystem.h */,
 				444EAD2B0BD0E58C00C6D4A0 /* WindowFactory.h */,
@@ -2298,58 +2357,21 @@
 		48EFE0890E8B6900007EB7F8 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				444EACC90BD0E57100C6D4A0 /* SoundConfig.cpp */,
-				444EACCA0BD0E57100C6D4A0 /* SoundDriverConfigComponent.cpp */,
-				444EACCB0BD0E57100C6D4A0 /* SubtitleWindow.cpp */,
+				48B006C30ECABFB0008141C2 /* windows */,
 				444EACCC0BD0E57100C6D4A0 /* UiSubsystem.cpp */,
 				444EACCD0BD0E57100C6D4A0 /* WindowFactory.cpp */,
 				444EACCE0BD0E57100C6D4A0 /* WindowFadeJob.cpp */,
 				444EACCF0BD0E57100C6D4A0 /* WindowManager.cpp */,
-				487029C80E80DCF900B66388 /* GameOverWindow.cpp */,
 				48389B8E0D86741F00AFAB66 /* CombatGui.cpp */,
-				48389B8F0D86741F00AFAB66 /* GameSaveLoadWindow.cpp */,
-				48389B900D86741F00AFAB66 /* MainMenuLoadWindow.cpp */,
 				48389B910D86741F00AFAB66 /* stdinc.cpp */,
-				446BF4D50C453C1D0013C214 /* ItemDescriptionDragContainer.cpp */,
 				446BF4940C4533BD0013C214 /* CombatControlState.cpp */,
-				446BF4950C4533BD0013C214 /* CombatWindow.cpp */,
 				446BF4960C4533BD0013C214 /* ControlState.cpp */,
 				446BF4970C4533BD0013C214 /* CutsceneControlState.cpp */,
 				446BF4980C4533BD0013C214 /* DialogControlState.cpp */,
 				446BF4990C4533BD0013C214 /* FreeflightControlState.cpp */,
-				446BF49A0C4533BD0013C214 /* ItemIconDragContainer.cpp */,
 				446BF49B0C4533BD0013C214 /* MovementControlState.cpp */,
-				446BF49C0C4533BD0013C214 /* PropertiesWindow.cpp */,
-				44D814630BF7B5AD00534175 /* ProgressWindow.cpp */,
-				444EACA20BD0E57100C6D4A0 /* AboutWindow.cpp */,
-				444EACA30BD0E57100C6D4A0 /* AbstractWindow.cpp */,
-				444EACA40BD0E57100C6D4A0 /* ActionChoiceWindow.cpp */,
-				444EACA60BD0E57100C6D4A0 /* CharacterSheetWindow.cpp */,
-				444EACA70BD0E57100C6D4A0 /* CharacterStateWindow.cpp */,
-				444EACA80BD0E57100C6D4A0 /* CloseConfirmationWindow.cpp */,
 				444EACAA0BD0E57100C6D4A0 /* CommandMapper.cpp */,
-				444EACAC0BD0E57100C6D4A0 /* ConfigComponent.cpp */,
-				444EACAD0BD0E57100C6D4A0 /* Console.cpp */,
-				444EACAE0BD0E57100C6D4A0 /* ContainerContentWindow.cpp */,
-				444EACB10BD0E57100C6D4A0 /* DebugWindow.cpp */,
-				444EACB30BD0E57100C6D4A0 /* DialogWindow.cpp */,
-				444EACB50BD0E57100C6D4A0 /* GameLoggerWindow.cpp */,
-				444EACB60BD0E57100C6D4A0 /* GameObjectInfoWindow.cpp */,
-				444EACB80BD0E57100C6D4A0 /* GameSettings.cpp */,
-				444EACB90BD0E57100C6D4A0 /* InfoPopup.cpp */,
-				444EACBA0BD0E57100C6D4A0 /* InGameMenuWindow.cpp */,
 				444EACBB0BD0E57100C6D4A0 /* InputManager.cpp */,
-				444EACBC0BD0E57100C6D4A0 /* InventoryWindow.cpp */,
-				444EACBD0BD0E57100C6D4A0 /* ItemDragContainer.cpp */,
-				444EACBE0BD0E57100C6D4A0 /* JournalWindow.cpp */,
-				444EACBF0BD0E57100C6D4A0 /* ListboxWrappedTextItem.cpp */,
-				444EACC00BD0E57100C6D4A0 /* LogWindow.cpp */,
-				444EACC10BD0E57100C6D4A0 /* MainMenuEngineWindow.cpp */,
-				444EACC20BD0E57100C6D4A0 /* MainMenuWindow.cpp */,
-				444EACC30BD0E57100C6D4A0 /* MessageWindow.cpp */,
-				444EACC50BD0E57100C6D4A0 /* ObjectDescriptionWindow.cpp */,
-				444EACC60BD0E57100C6D4A0 /* PlaylistWindow.cpp */,
-				444EACC70BD0E57100C6D4A0 /* RenderSystemConfigComponent.cpp */,
 			);
 			name = Source;
 			path = src;
@@ -2832,6 +2854,7 @@
 				48389B9C0D86743900AFAB66 /* MainMenuLoadWindow.h in Headers */,
 				48389B9D0D86743900AFAB66 /* UiMessages.h in Headers */,
 				487029C70E80DCEA00B66388 /* GameOverWindow.h in Headers */,
+				48B006C80ECAC11D008141C2 /* CharacterSelectionWindow.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3427,6 +3450,7 @@
 				48389B940D86741F00AFAB66 /* MainMenuLoadWindow.cpp in Sources */,
 				48389B950D86741F00AFAB66 /* stdinc.cpp in Sources */,
 				487029C90E80DCF900B66388 /* GameOverWindow.cpp in Sources */,
+				48B006C50ECAC05F008141C2 /* CharacterSelectionWindow.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
