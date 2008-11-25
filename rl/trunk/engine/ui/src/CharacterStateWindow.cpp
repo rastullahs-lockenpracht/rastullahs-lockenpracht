@@ -60,44 +60,60 @@ void CharacterStateWindow::setCharacter(Creature* person)
 
 void CharacterStateWindow::update()
 {
-	if (!isVisible())
+	if (!isVisible() || mCharacter == NULL)
+    {
 		return;
-	if (mCharacter == NULL)
-		return;
-
+    }
+        
 	mName->setText(mCharacter->getName());
 
 	float lep;
 	if (mCharacter->getLeMax() <= 0)
-		lep = 0.0;
+    {
+		lep = 0.0;        
+    }
 	else
-		lep = (float)mCharacter->getLe() / (float)mCharacter->getLeMax();
+    {
+		lep = (float)mCharacter->getLe() / (float)mCharacter->getLeMax();        
+    }
 	mLP->setProgress(lep);
 
 	float au;
 	if (mCharacter->getAuMax() <= 0)
-		au = 0.0;
+    {
+		au = 0.0;        
+    }
 	else
-		au = (float)mCharacter->getAu() / (float)mCharacter->getAuMax();
+    {
+		au = (float)mCharacter->getAu() / (float)mCharacter->getAuMax();        
+    }
 	mAU->setProgress(au);
 
 	if (!mCharacter->isMagic())
 	{
-		if (mAP->isVisible())
-			mAP->setVisible(false);
-		return;
+		if (mAP->isVisible()) 
+        {
+			mAP->setVisible(false);            
+        }
 	}
-
-	if (!mAP->isVisible())
-		mAP->setVisible(true);
-
-	float asp;
-	if (mCharacter->getAeMax() <= 0)
-		asp = 0.0;
-	else
-		asp = (float)mCharacter->getAe() / (float)mCharacter->getAeMax();
-	mAP->setProgress(asp);
-
+    else 
+    {
+     	if (!mAP->isVisible()) 
+        {
+            mAP->setVisible(true);            
+        }
+        
+        float asp;
+        if (mCharacter->getAeMax() <= 0)
+        {
+            asp = 0.0;
+        }
+        else
+        {
+            asp = (float)mCharacter->getAe() / (float)mCharacter->getAeMax();
+        }
+        mAP->setProgress(asp);        
+    }
 }
 
 void CharacterStateWindow::objectStateChanged(ObjectStateChangeEvent* evt)
