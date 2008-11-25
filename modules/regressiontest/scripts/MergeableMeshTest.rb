@@ -55,11 +55,11 @@ class MergeableMeshTest < TestCase
         test_obj4.getInventory().dropItem("Armor")
 
         $SCRIPT.log("Give swords to all creatures.");
-        sword2 = $GOM.createGameObject("shortsword");
+        sword2 = $GOM.createGameObject("Kurzschwert");
         test_obj2.getInventory().hold(sword2, "Right Hand");
-        sword3 = $GOM.createGameObject("shortsword");
+        sword3 = $GOM.createGameObject("Kurzschwert");
         test_obj3.getInventory().hold(sword3, "Right Hand");
-        sword4 = $GOM.createGameObject("shortsword");
+        sword4 = $GOM.createGameObject("Kurzschwert");
         test_obj4.getInventory().hold(sword4, "Right Hand");
     end
 
