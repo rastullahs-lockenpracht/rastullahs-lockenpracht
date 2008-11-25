@@ -3,22 +3,22 @@
 	        <Property Name="UnifiedSize" Value="{{0,64},{0,100}}" />
 	        
 			<Window Type="RastullahLook/StaticImage" Name="CharacterSelectionWindow/Character/Picture">
-				<Property Name="UnifiedPosition" Value="{{0,0},{0,14}}" />
+				<Property Name="UnifiedPosition" Value="{{0,0},{0,16}}" />
 				<Property Name="UnifiedSize" Value="{{1,0},{0,64}}" />
 				<Property Name="FrameEnabled" Value="False"/>
 			</Window>
 
 			<Window Type="RastullahLook/StaticText" Name="CharacterSelectionWindow/Character/Name">
-				<Property Name="UnifiedPosition" Value="{{0,0},{0,80}}" />
+				<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
 				<Property Name="UnifiedSize" Value="{{1,0},{0,15}}" />
 				<Property Name="FrameEnabled" Value="False"/>
 			</Window>
 	
 			<Window Type="RastullahLook/StatusBar" Name="CharacterSelectionWindow/Character/LP">
-				<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
+				<Property Name="UnifiedPosition" Value="{{0,0},{0,80}}" />
 				<Property Name="UnifiedSize" Value="{{1,0},{0,13}}" />
 				<Property Name="CurrentProgress" Value="100"/>
-				<Property Name="StatusColour" Value="FFFF0000"/>
+				<Property Name="StatusColour" Value="FFFF007F"/>
 			</Window>
 		</Window>
 </GUILayout>
