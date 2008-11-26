@@ -25,6 +25,8 @@
 #include "SoundManager.h"
 #include "SoundDriver.h"
 
+using namespace Ogre;
+
 namespace rl
 {
     GameSettings::GameSettings()
@@ -46,8 +48,12 @@ namespace rl
         getWindow()->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked,
                                     boost::bind(&GameSettings::onCancel, this));
 
+        mVideoRenderer = getCombobox("GameOptionsWindow/Video/Renderer");
+        mVideoResolution = getCombobox("GameOptionsWindow/Video/Resolution");
+        mVideoFullscreen = getCheckbox("GameOptionsWindow/Video/Fullscreen");
         centerWindow();
         setVisible(false);
+        update();
     }
 
     GameSettings::~GameSettings()
@@ -126,5 +132,55 @@ namespace rl
     bool GameSettings::onSoundDriverChanged()
     {
         return true;
+    }
+    
+    void GameSettings::update()
+    {
+        Root* root = Ogre::Root::getSingletonPtr();
+        RenderSystem* renderer = root->getRenderSystem();
+        
+        ConfigOptionMap config = renderer->getConfigOptions();
+        
+		ConfigOptionMap::iterator cfi;
+		
+		cfi = config.find( "Full Screen" );
+		if( cfi != config.end() )
+		{
+			mVideoFullscreen->setSelected(cfi->second.currentValue == "Yes");
+		}
+        
+/*		cfi = config.find( "FSAA" );
+		if( cfi != config.end() )
+		{
+			if( cfi->second.currentValue == "0" )
+			{
+				SetControlValue( iFSAARef, 1 );
+			}
+			else if( cfi->second.currentValue == "2" )
+			{
+				SetControlValue( iFSAARef, 2 );
+			}
+			else if( cfi->second.currentValue == "4" )
+			{
+				SetControlValue( iFSAARef, 3 );
+			}
+			else if( cfi->second.currentValue == "6" )
+			{
+				SetControlValue( iFSAARef, 4 );
+			}
+		}
+        
+		cfi = config.find( "Colour Depth" );
+		if( cfi != config.end() )
+		{
+			if( cfi->second.currentValue == "32" )
+			{
+				SetControlValue( iColorDepthRef, 1 );
+			}
+			else
+			{
+				SetControlValue( iColorDepthRef, 2 );
+			}
+		}*/
     }
 }

@@ -174,7 +174,6 @@ namespace rl {
     ItemDragContainer* InventoryWindow::getItemDragContainer(const Item* item, bool description)
     {
 		CeGuiString dragContainerName = getDragContainerNameFromItem(item, description);
-		ItemDragContainer* itemhandler = NULL;
 
 		DndContainerMap::iterator iter = mWorldDragContainers.find(dragContainerName);
         if( iter != mWorldDragContainers.end() )

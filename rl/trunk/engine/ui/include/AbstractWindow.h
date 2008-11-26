@@ -21,6 +21,7 @@
 
 
 #include <CEGUIWindow.h>
+#include <elements/CEGUICheckbox.h>
 #include <elements/CEGUIEditbox.h>
 #include <elements/CEGUIListbox.h>
 #include <elements/CEGUIMultiColumnList.h>
@@ -81,6 +82,7 @@ namespace rl {
         CEGUI::ScrollablePane* getScrollablePane(const char* name);
 		CEGUI::Slider* getSlider(const char* name);
 		CEGUI::TabControl* getTabControl(const char* name);
+        CEGUI::Checkbox* getCheckbox(const char* name);
 
 		int getWindowInputType();
 
