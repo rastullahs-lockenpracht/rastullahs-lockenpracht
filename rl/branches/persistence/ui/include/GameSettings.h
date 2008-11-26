@@ -82,11 +82,17 @@ namespace rl
 		 * configuration section.
 		 */
 		bool onRenderSystemChanged();
+        
+        void update();
 
 		std::list<SoundDriverConfigComponent*> mSoundDriverConfigs;   //!< List of registered sounddriver configuration components
 		SoundDriverConfigComponent* mCurrentSoundDriverConfig;        //!< Configuration component of currently selected sound driver
 		std::list<RenderSystemConfigComponent*> mRenderSystemConfigs; //!< List of registered rendersystem configuration components
 		RenderSystemConfigComponent* mCurrentRenderSystemConfig;      //!< Configuration component of currently selected rendersystem
+        
+        CEGUI::Combobox* mVideoRenderer;
+        CEGUI::Combobox* mVideoResolution;
+        CEGUI::Checkbox* mVideoFullscreen;
 	};
 }
 

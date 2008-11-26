@@ -59,10 +59,12 @@ namespace rl
     const Ogre::String GameObject::PROPERTY_MASS = "mass";
     const Ogre::String GameObject::PROPERTY_ACTIONS = "actions";
     const Ogre::String GameObject::PROPERTY_DEFAULT_ACTION = "defaultaction";
-
+    const Ogre::String GameObject::PROPERTY_IMAGENAME = "imagename";
+    
 	GameObject::GameObject(const CeGuiString &id)
         :   mName(""),
             mDescription(""),
+            mImageName(""),
             mMeshfile(""),
 			mMeshParts(),
             mQueryFlags(QUERYFLAG_GAMEOBJECT),
@@ -138,6 +140,16 @@ namespace rl
         mDescription = description;
     }
 
+	void GameObject::setImageName(const CeGuiString& name)
+	{
+		mImageName = name;
+	}
+    
+	const CeGuiString& GameObject::getImageName() const
+	{
+		return mImageName;
+	}
+    
     const CeGuiString& GameObject::getMeshfile() const
     {
         return mMeshfile;
@@ -533,6 +545,10 @@ namespace rl
         {
             prop.setValue(mDescription);
         }
+        else if (key == PROPERTY_IMAGENAME)
+        {
+            prop.setValue(mImageName);
+        }
         else if (key == PROPERTY_MESHFILE)
         {
             prop.setValue(mMeshfile);
@@ -586,6 +602,10 @@ namespace rl
             else if (key == PROPERTY_DESCRIPTION)
             {
                 setDescription(value.toString());
+            }
+            else if (key == PROPERTY_IMAGENAME)
+            {
+                setImageName(value.toString());
             }
             else if (key == PROPERTY_MESHFILE)
             {
@@ -675,6 +695,7 @@ namespace rl
         keys.insert(PROPERTY_MESHPARTS);
         keys.insert(PROPERTY_GEOMETRY_TYPE);
         keys.insert(PROPERTY_MASS);
+        keys.insert(PROPERTY_IMAGENAME);
         return keys;
     }
 

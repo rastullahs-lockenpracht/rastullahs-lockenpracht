@@ -111,6 +111,7 @@ namespace rl
         addSetting("Action keys", "showjournalwindow", "J");
         addSetting("Action keys", "showcharactersheet", "C");
         addSetting("Action keys", "togglecharacterstatewindow", "O");
+        addSetting("Action keys", "togglecharacterselectionwindow", "Y");
         addSetting("Action keys", "toggleingameglobalmenu", "F10");
         addSetting("Action keys", "shownextdebugwindowpage", "Ctrl+M");
         addSetting("Action keys", "showobjectactions", "U");

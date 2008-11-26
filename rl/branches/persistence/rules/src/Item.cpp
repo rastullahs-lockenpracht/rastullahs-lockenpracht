@@ -29,7 +29,6 @@ namespace rl
 {
     const Ogre::String Item::CLASS_NAME = "Item";
 
-    const Ogre::String Item::PROPERTY_IMAGENAME = "imagename";
     const Ogre::String Item::PROPERTY_ITEMTYPE = "itemtype";
     const Ogre::String Item::PROPERTY_SIZE = "size";
     const Ogre::String Item::PROPERTY_SUBMESHNAME = "submeshfile";
@@ -37,7 +36,6 @@ namespace rl
 	Item::Item(const CeGuiString &id)
         : GameObject(id),
 		mItemType(ITEMTYPE_OTHER),
-		mImageName(""),
 		mSize(pair<int,int>(1,1)),
         mOwner(NULL),
         mParentSlot(NULL),
@@ -60,16 +58,6 @@ namespace rl
 	Item::ItemType Item::getItemType() const
 	{
 		return mItemType;
-	}
-
-	void Item::setImageName(const CeGuiString& name)
-	{
-		mImageName = name;
-	}
-
-	const CeGuiString& Item::getImageName() const
-	{
-		return mImageName;
 	}
 
 	bool Item::isContainer() const
@@ -176,11 +164,7 @@ namespace rl
 
     void Item::setProperty(const CeGuiString& key, const Property& value)
     {
-        if (key == Item::PROPERTY_IMAGENAME)
-        {
-            mImageName = value.toString();
-        }
-        else if (key == Item::PROPERTY_SIZE)
+        if (key == Item::PROPERTY_SIZE)
         {
             mSize = value.toIntPair();
         }
@@ -200,11 +184,7 @@ namespace rl
 
     const Property Item::getProperty(const CeGuiString& key) const
     {
-        if (key == Item::PROPERTY_IMAGENAME)
-        {
-            return Property(mImageName);
-        }
-        else if (key == Item::PROPERTY_SIZE)
+        if (key == Item::PROPERTY_SIZE)
         {
             return Property(mSize);
         }
@@ -225,7 +205,7 @@ namespace rl
     PropertyKeys Item::getAllPropertyKeys() const
     {
         PropertyKeys keys(GameObject::getAllPropertyKeys());
-        keys.insert(Item::PROPERTY_IMAGENAME);
+        keys.insert(Item::PROPERTY_SUBMESHNAME);
         keys.insert(Item::PROPERTY_SIZE);
         keys.insert(Item::PROPERTY_ITEMTYPE);
         return keys;

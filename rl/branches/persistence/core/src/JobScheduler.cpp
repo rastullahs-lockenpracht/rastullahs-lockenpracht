@@ -219,13 +219,26 @@ namespace rl
                 writer->setAttributeValueAsInt64(jobNode, "timeLastCall", iter->timeLastCall);
                 writer->setAttributeValueAsBool(jobNode, "called", iter->called);
                 writer->setAttributeValueAsString(jobNode, "classname", iter->job->getClassName());
+                CeGuiString timeSource = "unknown";
+                switch (iter->job->getTimeSource())
+                {
+                    case TimeSource::GAMETIME:
+                        timeSource = "gametime";
+                        break;
+                    case TimeSource::REALTIME_CONTINUOUS:
+                        timeSource = "realtime_continuous";
+                        break;
+                    case TimeSource::REALTIME_INTERRUPTABLE:
+                        timeSource = "realtime_interruptable";
+                        break;
+                }
+                writer->setAttributeValueAsString(jobNode, "time", timeSource);
 
                 PropertyMap map = iter->job->getAllProperties()->toPropertyMap();
                 writer->writeEachPropertyToElem(jobNode, map);
             }
         }
     }*/
-
     //void JobScheduler::readData(SaveGameFileReader* reader)
     //{
     //    // delete and discard old jobs
@@ -285,24 +298,37 @@ namespace rl
     //                        continue;
     //                    }
 
-    //                    AbstractJob* job = it->second();
-    //                    if (job == NULL)
-    //                    {
-    //                        LOG_ERROR(Logger::CORE, "Fehler beim Erstellen eines Objekts der Job-Klasse '" + className + "'!");
-    //                        continue;
-    //                    }
-    //                    PropertyRecordPtr properties = reader->getPropertiesAsRecord(xmlJob);
-    //                    job->setProperties(properties);
-    //                    
-    //                    
-    //                    unsigned long ticket = ++mTicketCounter;
-    //                    TimeSource* ts = TimeSourceManager::getSingleton().getTimeSource(job->getTimeSource());
-    //                    JobEntry entry = {job, NULL, ticket, priority, tokens, start, end, timeLastCall, TimeSource::UNKNOWN, called, false};
-    //                    mJobQueue.push_back(entry);
-    //                }
-    //            }
-    //        }
-    //    }
+//                        AbstractJob* job = it->second();
+//                        if (job == NULL)
+//                        {
+//                            LOG_ERROR(Logger::CORE, "Fehler beim Erstellen eines Objekts der Job-Klasse '" + className + "'!");//
+//                            continue;
+//                        }
+//                        PropertyRecordPtr properties = reader->getPropertiesAsRecord(xmlJob);
+//                       job->setProperties(properties);
+//                        
+//                        CeGuiString timeSourceStr = reader->getAttributeValueAsString(xmlJob, "time");
+//                        TimeSource::TimeSourceType ts = TimeSource::UNKNOWN;
+//                        if (timeSourceStr == "gametime") 
+//                        {
+//                            ts = TimeSource::GAMETIME;
+//                        }
+//                        else if (timeSourceStr == "realtime_continuous") 
+//                        {
+//                            ts = TimeSource::REALTIME_CONTINUOUS;
+//                        }
+//                        else if (timeSourceStr == "realtime_interruptable") 
+//                        {
+//                            ts = TimeSource::REALTIME_INTERRUPTABLE;
+//                        }
+//                        
+//                        unsigned long ticket = ++mTicketCounter;
+//                        JobEntry entry = {job, NULL, ticket, priority, tokens, start, end, timeLastCall, ts, called, false};
+//                        mJobQueue.push_back(entry);
+//                    }
+//                }
+//            }
+//        }
 
     //    reader->shutdownXml();
     //}
