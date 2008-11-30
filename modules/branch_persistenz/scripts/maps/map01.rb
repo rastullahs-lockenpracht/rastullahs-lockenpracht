@@ -3,7 +3,7 @@ require 'MapChange.rb'
 
 $SCRIPT.log("map 1 von 'persistenztest' wird initialisiert....")
 
-base = $AM.createBoxPrimitiveActor("SelectorTestBase", [-2,0.05,-2], [2,0.3,2], "alpha_blue")
+base = $AM.createBoxPrimitiveActor("SelectorTestBase", [-2,0.05,-2], [2,0.3,2], "nx.cube")
 
 base.placeIntoScene([8,0,8])
 

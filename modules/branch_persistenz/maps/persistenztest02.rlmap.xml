@@ -1,4 +1,4 @@
-<scene formatVersion="0.4.0" scenescript="map02.rb">
+<scene formatVersion="0.4.0" mapscript="map02.rb">
     <nodes>
         <entity meshfile="regressiontest_floorplane.mesh">
             <position x="0.0" y="0.0" z="0.0" />
