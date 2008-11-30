@@ -20,80 +20,62 @@
 import sys
 import platform
 import string
-from ui_pref_dialog import *
 
-class PreferencesDialog(QtGui.QDialog):
-    def __init__(self, loadModuleCallback, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 
-        self.loadModuleCallback = loadModuleCallback
+class PreferencesDialog(QDialog):
+    def __init__(self, parent=None):
+        QDialog.__init__(self, parent)
 
-        self.prefDialog = Ui_PreferencesDialog()
-        self.prefDialog.setupUi(self)
+        self.label = QLabel()
+        self.label.setText("Please select the modules.cfg file.")
+        self.modulConfigSelector = QPushButton()
+        self.modulConfigSelector.setText("...")
+        self.lineEdit = QLineEdit()
 
-        QtCore.QObject.connect(self.prefDialog.modulConfigSelector, QtCore.SIGNAL("clicked()"),
+        layout = QGridLayout()
+        layout.addWidget(self.label, 0, 0, 1, 2)
+        layout.addWidget(self.lineEdit, 1, 0)
+        layout.addWidget(self.modulConfigSelector, 1, 1)
+
+        self.setLayout(layout)
+
+        QObject.connect(self.modulConfigSelector, SIGNAL("clicked()"),
                                self.openModulConfigSelector)
-
-        QtCore.QObject.connect(self.prefDialog.loadModuleBtn, QtCore.SIGNAL("clicked()"),
-                               self.onLoadSelectedModule)
-
-        QtCore.QObject.connect(self.prefDialog.listWidget, QtCore.SIGNAL("itemDoubleClicked(QListWidgetItem *)"),
-                               self.onLoadSelectedModule)
-
-        if platform.system() == "Windows" or platform.system() == "MAC":
-            pass
-            # TODO: delete this when ready
-            self.prefDialog.lineEdit.setText("C:/a11/modules/modules.cfg")
-            self.moduleCfgPath = 'C:/a11/modules/modules.cfg'
-            self.moduleCfgIsSelected = True
-            self.modulePath = self.moduleCfgPath.replace("modules.cfg", "")
-            self.readInModules()
-            # end delete
-        else:
-            # TODO: delete this when ready
-            self.prefDialog.lineEdit.setText("/home/stefan/blubb/rl_modules/modules/modules.cfg")
-            self.moduleCfgPath = "/home/stefan/blubb/rl_modules/modules/modules.cfg"
-            self.moduleCfgIsSelected = True
-            self.modulePath = self.moduleCfgPath.replace("modules.cfg", "")
-            self.readInModules()
-            # end delete
-
-        self.moduleCfgIsSelected = False
 
         self.setModal(True)
 
+    def setCfgPath(self, inPath):
+        path = str(inPath)
+
+        from os.path import isfile
+
+        if isfile(path):
+            self.moduleCfgPath = path
+            self.modulePath = self.moduleCfgPath.replace("modules.cfg", "")
+            self.lineEdit.setText(self.moduleCfgPath)
+            return True
+        else:
+            return False
+
     def openModulConfigSelector(self):
-        dialog = QtGui.QFileDialog(self)
+        dialog = QFileDialog(self)
         self.moduleCfgPath = str(dialog.getOpenFileName(self, "Select modules.cfg", "/home/stefan/blubb/rl_modules/modules/", "modules.cfg (*.cfg)"))
         self.modulePath = self.moduleCfgPath.replace("modules.cfg", "")
 
         from os.path import isfile
 
         if isfile(self.moduleCfgPath):
-            self.prefDialog.lineEdit.setText(self.moduleCfgPath)
-            self.moduleCfgIsSelected = True
-            self.readInModules()
+            self.lineEdit.setText(self.moduleCfgPath)
 
-    def readInModules(self):
-        if self.moduleCfgIsSelected:
-            import codecs
-            f = codecs.open(self.moduleCfgPath, 'r', 'utf-8')
 
-            for line in f:
-                if line.startswith('#'):
-                    continue
-
-                if line.startswith('module='):
-                    splines = line.split('=')
-                    str = splines[1].rstrip().rstrip()
-                    if str != "common":
-                        self.prefDialog.listWidget.addItem(str)
 
     def onLoadSelectedModule(self):
         item = self.prefDialog.listWidget.currentItem()
 
         if item == None:
-            mbox = QtGui.QMessageBox(self)
+            mbox = QMessageBox(self)
             mbox.setModal(True)
             mbox.setText("Please select a module.")
             mbox.show()
@@ -102,5 +84,6 @@ class PreferencesDialog(QtGui.QDialog):
             self.loadModuleCallback(self.modulePath, tempo)
             self.hide()
 
-
+    def getModuleConfigPath(self):
+        return self.lineEdit
 

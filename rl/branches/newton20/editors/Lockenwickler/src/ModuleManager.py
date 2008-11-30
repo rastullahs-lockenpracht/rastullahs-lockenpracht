@@ -17,16 +17,188 @@
  #################################################
 
 import sys
-import xml.dom.minidom as xml
+import codecs
+import glob
+import os
+from os.path import isfile,  join
+
+
+import elementtree.ElementTree as xml
 
 import ctypes
 import ogre.renderer.OGRE as og
+
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 
 from MovePivot import *
 from GameObjectClassManager import *
 from MyRaySceneQueryListener import *
 
-class ModuleManager(object):
+class Map():
+    def __init__(self, pathToFile, sceneManager, ogreRoot):
+        self.pathToMapFile = pathToFile
+        self.sceneManager = sceneManager
+        self.mapNode = sceneManager.getRootSceneNode().createChildSceneNode(self.pathToMapFile)
+        self.ogreRoot = ogreRoot
+
+        xmlTree = xml.parse(pathToFile)
+        root = xmlTree.getroot()
+
+        if root.attrib["formatVersion"] == "0.4.0":
+            self.parseMap(root)
+        else:
+            print pathToFile + " has wrong format version. It needs to be 0.4.0"
+            return
+
+    def parseMap(self, rootElement):
+        nodes = rootElement.getiterator("entity")
+        for n in nodes:
+            entityName = n.attrib["name"]
+            meshFile = n.attrib["meshfile"]
+            nodePosition = None
+            nodeRotation = None
+            nodeScale = None
+
+            transformations = n.getiterator()
+            for t in transformations:
+                if t.tag == "position":
+                    x = float(t.attrib["x"])
+                    y = float(t.attrib["y"])
+                    z = float(t.attrib["z"])
+                    nodePosition = og.Vector3(x, y, z)
+                elif t.tag == "rotation":
+                    qw = float(t.attrib["qw"])
+                    qx = float(t.attrib["qx"])
+                    qy = float(t.attrib["qy"])
+                    qz = float(t.attrib["qz"])
+                    nodeRotation = og.Quaternion(qw, qx, qy, qz)
+                elif t.tag == "scale":
+                    x = float(t.attrib["x"])
+                    y = float(t.attrib["y"])
+                    z = float(t.attrib["z"])
+                    nodeScale = og.Vector3(x, y, z)
+
+            try:
+                e = self.sceneManager.createEntity(entityName, meshFile)
+            except:
+                print "Warning: Meshfile " + meshFile + " could not be found."
+                return
+
+            n = self.mapNode.createChild(entityName + "_node")
+            n.attachObject(e)
+            n.setPosition(nodePosition)
+            n.setOrientation(nodeRotation)
+            n.setScale(nodeScale)
+
+
+
+
+class Scene():
+    def __init__(self):
+        return
+
+class Module():
+    def __init__(self,name, modulePath, sceneManager, ogreRoot):
+        self.sceneManager = sceneManager
+        self.ogreRoot = ogreRoot
+
+        self.name = name
+        self.moduleRoot = join(modulePath, name)
+        self.__isCommon = False
+
+        self.hasDependencies = False
+        self.moduleDependencies = []
+
+        self.mapFiles = [] # a list in case the module has more than one map file
+        self.gofFiles = [] # gof File list
+
+        self.scenes =[]
+
+        self.isLoaded = False
+
+    def isCommon(self):
+        modConfig = join(self.moduleRoot,  "scripts/moduleconfig.rb")
+        if isfile(modConfig): # is the modconfig existing?
+            f = codecs.open(modConfig, 'r', 'utf-8')
+        else:
+            print ("Error: couldn't find module config")
+            return
+        isDependencieLine = False
+        for i, line in enumerate(f):
+            lStripped = line.strip() #strip the whitespace away, not needed here
+            if lStripped.startswith("super("):
+                split = lStripped.split(",")
+                if split[2].strip() == unicode("true"):
+                    self.__isCommon = True
+                    return True
+
+
+            elif isDependencieLine:
+                if lStripped == "end":
+                    isDependencieLine = False
+                else:
+                    self.hasDependencies = True
+                    self.moduleDependencies.append(lStripped.split('"')[1])
+
+            elif lStripped == "def getDependencies()":
+                isDependencieLine = True
+
+        return False
+
+    def load(self):
+        if self.isLoaded:
+            return
+
+        self.isLoaded = True
+        modConfig = join(self.moduleRoot,  "scripts/moduleconfig.rb")
+        if isfile(modConfig): # is the modconfig existing?
+            f = codecs.open(modConfig, 'r', 'utf-8')
+        else:
+            print ("Error: couldn't find module config")
+            return
+
+        #for i, line in enumerate(f):
+            #lStripped = line.strip() #strip the whitespace away, not needed here
+
+        self.setResourcePaths()
+        og.ResourceGroupManager.getSingleton().initialiseAllResourceGroups()
+
+        if not self.isCommon():
+            cmd = join(self.moduleRoot, "maps/*.rlmap.xml")
+            maps = glob.glob(cmd)
+            for m in maps:
+                self.mapFiles.append(Map(m, self.sceneManager, self.ogreRoot))
+
+            cmd = join(self.moduleRoot, "maps/*.rlscene")
+            sceneFile = glob.glob(cmd)
+            #self.loadScenes(sceneFile)
+
+    def saveMaps(self):
+        return
+
+    def saveScenes(self):
+        return
+
+    def setResourcePaths(self, recurseFolder = ""):
+        if recurseFolder == "":
+            rootFolder = self.moduleRoot
+        else:
+            rootFolder = join(self.moduleRoot, recurseFolder)
+
+        for file in os.listdir(rootFolder):
+            curFile = join(rootFolder, file)
+
+
+            if file.startswith('.'): #ignore dot files (hidden)
+                pass
+            if os.path.isdir(curFile):
+                og.ResourceGroupManager.getSingleton().addResourceLocation(curFile, "FileSystem", self.name, False)
+                self.setResourcePaths(curFile)
+            if os.path.isfile(curFile):
+                pass
+
+class ModuleManager():
     def __init__(self,  ogreRoot,  sceneManager):
         self.sceneManager = sceneManager
         self.ogreRoot = ogreRoot
@@ -34,9 +206,17 @@ class ModuleManager(object):
 
         self.gocManager = GameObjectClassManager()
 
+        self.mainModule = []
+        self.mainModuledependencieList =[]
+        self.moduleList = []
         self.userSelectionList = []
         self.cutList = [] # selection objects that has been cut out and wait to be pasted again
         self.cutListPreviousNodes = [] # contains the nodes they where copnnected to before the cut
+
+        # we need to hold a reference to the game object representaions ourself
+        # python does not recognize the a reference to a c++ object (Entity in our case) is passed
+        # and deletes the object
+        self.gameObjectRepresentationDict = []
 
         self.listenerDings = MyRaySceneQueryListener()
 
@@ -56,68 +236,63 @@ class ModuleManager(object):
         self.dropCollisionPlane = og.Plane(og.Vector3.UNIT_Y, og.Vector3.ZERO)
 
         self.numerOfCopys = 0 #everytime a copy is made this numer is increased to generate unique node and mesh names
+        self.moduleConfigIsParsed = False
 
-    def load(self,  moduleName,  mapFiles,  gofFiles):
-        self.moduleName = moduleName
-        self.mapFiles = mapFiles
-        self.gofFiles = gofFiles
 
-        self.gocManager.parseGOFFiles(self.gofFiles)
+    def parseModuleConfig(self):
+        if self.moduleConfigIsParsed:
+            return
 
-        for a in self.mapFiles:
-            doc = xml.parse(a)
-            node = doc.getElementsByTagName("entity")
-            if node != None:
-                self.parseSceneNodes(node)
+        import codecs
+        f = codecs.open(self.moduleCfgPath, 'r', 'utf-8')
 
-        self.pivot = Pivot(self.sceneManager)
-        self.pivot.hide()
+        for line in f:
+            if line.startswith('#'):
+                continue
 
-    def parseSceneNodes(self,  nodeList):
-        for ent in nodeList:
-            entityName = ent.attributes["name"].nodeValue # get the name of the ent
-            meshFile = ent.attributes["meshfile"].nodeValue # meshfile
-            nodePosition = None
-            nodeRotation = None
-            nodeScale = None
+            if line.startswith('module='):
+                splines = line.split('=')
+                str = splines[1].rstrip().rstrip()
+                self.moduleList.append(Module(str, self.moduleCfgPath.replace("/modules.cfg",  ""), self.sceneManager, self.ogreRoot))
 
-            for cn in ent.childNodes:
-                if cn.nodeType == cn.ELEMENT_NODE:
-                    if cn.localName == "position":
-                        px = float(cn.attributes["x"].nodeValue)
-                        py = float(cn.attributes["y"].nodeValue)
-                        pz = float(cn.attributes["z"].nodeValue)
-                        nodePosition = og.Vector3(px, py, pz)
-                        continue
+        self.moduleConfigIsParsed = True
 
-                    if cn.localName == "rotation":
-                        qw = float(cn.attributes["qw"].nodeValue)
-                        qx = float(cn.attributes["qx"].nodeValue)
-                        qy = float(cn.attributes["qy"].nodeValue)
-                        qz = float(cn.attributes["qz"].nodeValue)
-                        nodeRotation = og.Quaternion(qw,  qx, qy, qz)
-                        continue
+    def openLoadModuleDialog(self, moduleConfigPath, lw):
+        self.moduleCfgPath = str(moduleConfigPath)
+        self.moduleFolder = str(moduleConfigPath.replace("modules.cfg", ""))
 
-                    if cn.localName == "scale":
-                        px = float(cn.attributes["x"].nodeValue)
-                        py = float(cn.attributes["y"].nodeValue)
-                        pz = float(cn.attributes["z"].nodeValue)
-                        nodeScale = og.Vector3(px, py, pz)
-                        continue
+        self.parseModuleConfig()
 
-            try:
-                e = self.sceneManager.createEntity(entityName, meshFile)
-            except:
-                print "Warning: Meshfile " + meshFile + " could not be found."
-                return
+        dlg = QDialog()
+        list = QListWidget()
+        btnBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        dlg.connect(btnBox, SIGNAL("accepted()"), dlg.accept)
+        dlg.connect(btnBox, SIGNAL("rejected()"), dlg.reject)
 
-            n = self.sceneManager.getRootSceneNode().createChild(entityName + "_node")
-            n.attachObject(e)
-            n.setPosition(nodePosition)
-            #n.setOrientation(nodeRotation)
-            n.setScale(nodeScale)
+        for m in self.moduleList:
+            if not m.isCommon():
+                list.addItem(m.name)
 
-        pass
+        layout = QVBoxLayout()
+        layout.addWidget(list)
+        layout.addWidget(btnBox)
+        dlg.setLayout(layout)
+        if dlg.exec_():
+            self.loadModule(str(list.currentItem().text()))
+
+    def loadModule(self, moduleName):
+        for m in self.moduleList:
+            if m.name == moduleName:
+                if m.hasDependencies:
+                    for moduleDependencie in m.moduleDependencies:
+                        for m2 in self.moduleList:
+                            if m2.name == moduleDependencie:
+                                m2.load()
+                                self.mainModuledependencieList.append(m2)
+
+                m.load()
+                self.mainModule = m
+
 
     # called when a click into Main Ogre Window occurs
     def selectionClick(self,  ray,  controlDown=False,  shiftDown=False):
@@ -128,10 +303,9 @@ class ModuleManager(object):
         self.raySceneQuery.execute(self.listenerDings)
 
         so = self.listenerDings.rayCastToPolygonLevel(ray)
+
         if so is not None:
             if not so.isPivot:
-                if self.pivot is not None:
-                    self.pivot.show()
                 if not controlDown and not shiftDown:
                     self.resetSelection()
                     so.setSelected(True)
@@ -217,29 +391,49 @@ class ModuleManager(object):
             return
 
         newSelectionList = []
-        print "dbg: "
+
         for so in self.userSelectionList:
-            nodeName = self.incrementNameSuffixNumber(so.entity.getParentNode().getName())
-            newNode = self.sceneManager.getRootSceneNode().createChild(nodeName)
+            if so.entity.getUserObject() is not None:
+                if so.entity.getUserObject().getType() == "GAME_OBJECT_REPRESENTATION":
+                    go = self.gocManager.getGameObjectWithClassId(so.entity.getUserObject().gocName)
+                    meshFile = go.getMeshFileName()
 
-            entityName = self.incrementNameSuffixNumber(so.entity.getName())
-            newEntity = self.sceneManager.createEntity(entityName, so.entity.getMesh().getName())
+                    if go is not None:
+                        newEntity = self.sceneManager.createEntity("dropMesh" + str(self.dropCount), str(meshFile))
+                        newNode = self.sceneManager.getRootSceneNode().createChild("dropNode" + str(self.dropCount))
+                        newNode.attachObject(newEntity)
+                        newNode.setPosition(so.entity.getParentNode().getPosition())
 
-            newNode.attachObject(newEntity)
-            newNode.setPosition(so.entity.getParentNode().getPosition())
-            newNode.setOrientation(so.entity.getParentNode().getOrientation())
-            newNode.setScale(so.entity.getParentNode().getScale())
+                        newGO = GameObjectRepresentation(self.dropCount, so.entity.getUserObject().gocName, newNode, meshFile)
+                        self.gameObjectRepresentationDict.append(newGO)
+                        newEntity.setUserObject(newGO)
+                        newGO.setPosition(og.Vector3(0, 0, 0))
 
-            newSO = SelectionObject(newEntity, so.distance)
-            newSO.setSelected(True)
-            newSelectionList.append(newSO)
+                        newSO = SelectionObject(newEntity, so.distance)
+                        newSO.setSelected(True)
+                        newSelectionList.append(newSO)
+                        self.dropCount += 1
+            else:
+                nodeName = self.incrementNameSuffixNumber(so.entity.getParentNode().getName())
+                newNode = self.sceneManager.getRootSceneNode().createChild(nodeName)
+
+                entityName = self.incrementNameSuffixNumber(so.entity.getName())
+                newEntity = self.sceneManager.createEntity(entityName, so.entity.getMesh().getName())
+
+                newNode.attachObject(newEntity)
+                newNode.setPosition(so.entity.getParentNode().getPosition())
+                newNode.setOrientation(so.entity.getParentNode().getOrientation())
+                newNode.setScale(so.entity.getParentNode().getScale())
+
+                newSO = SelectionObject(newEntity, so.distance)
+                newSO.setSelected(True)
+                newSelectionList.append(newSO)
 
         self.resetSelection()
         self.userSelectionList = newSelectionList
 
     def cutObjects(self):
         if len(self.userSelectionList) < 1:
-            return
             return
 
         self.cutList = []
@@ -252,6 +446,7 @@ class ModuleManager(object):
             so.entity.getParentNode().setPosition(so.entity.getParentNode().getPosition() - self.pivot.getPosition())
             self.cutList.append(so)
         self.resetSelection()
+
     def pasteObjects(self,  ray):
         if len(self.cutList) < 1:
             return
@@ -274,11 +469,6 @@ class ModuleManager(object):
     def leftMouseUp(self):
         if self.pivot is not None and self.pivot.isTransforming:
             self.pivot.stopTransforming()
-
-#    def iterateEntityUnderMouse(self):
-#        self.listenerDings.iterateEntityUnderMouse()
-#
-#        pass
 
     def resetSelection(self):
         for so in self.userSelectionList:

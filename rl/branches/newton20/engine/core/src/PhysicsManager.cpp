@@ -333,8 +333,8 @@ namespace rl
 
 
             body->attachNode(node);
-            body->setPositionOrientation(node->getWorldPosition(),
-                node->getWorldOrientation());
+            body->setPositionOrientation(node->_getDerivedPosition(),
+                node->_getDerivedOrientation());
             body->setMaterialGroupID(getMaterialID("level"));
 
             mLevelBodiesQuadTree.add(body);

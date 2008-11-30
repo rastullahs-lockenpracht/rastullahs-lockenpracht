@@ -209,17 +209,22 @@ namespace rl
 
         int numPlugins;
         mFmod4System->getNumPlugins(FMOD_PLUGINTYPE_CODEC, &numPlugins);
-        for (int i = 0; i < numDrivers; i++)
+        for (int i = 0; i < numPlugins; i++)
         {
             char pluginName[128];
             unsigned int version;
+			FMOD_PLUGINTYPE type = FMOD_PLUGINTYPE_CODEC;
+			unsigned int handle;
+			FMOD_RESULT result = mFmod4System->getPluginHandle(FMOD_PLUGINTYPE_CODEC, i, &handle);
+			CHECK_FMOD4_ERRORS(result);
 
-            mFmod4System->getPluginInfo(
-                FMOD_PLUGINTYPE_CODEC,
-                i,
-                pluginName,
+            result = mFmod4System->getPluginInfo(
+                handle,
+                &type,
+				pluginName,
                 127,
                 &version);
+			CHECK_FMOD4_ERRORS(result);
             LOG_MESSAGE(Logger::MULTIMEDIA,
                 String("Fmod4Driver Plugin '")
                 + pluginName
@@ -407,9 +412,8 @@ namespace rl
 FMOD_RESULT F_CALLBACK Fmod4Driver::channelCallback(
     FMOD_CHANNEL *_channel,
     FMOD_CHANNEL_CALLBACKTYPE type,
-    int command,
-    unsigned int commanddata1, 
-    unsigned int commanddata2)
+    void* commanddata1, 
+    void* commanddata2)
 {
     /// Extract the Fmod channel and then our Sound object.
     FMOD::Channel* channel = (FMOD::Channel*)_channel;
@@ -444,7 +448,7 @@ FMOD_RESULT F_CALLBACK Fmod4Driver::channelCallback(
         
                     // We get the time point of the sync point and put it in a timing event.
                     sound->getFmodChannel()->getCurrentSound(&fmodsound);
-                    fmodsound->getSyncPoint(commanddata1, &syncpoint);
+                    fmodsound->getSyncPoint(*static_cast<int*>(commanddata1), &syncpoint);
                     fmodsound->getSyncPointInfo(syncpoint, NULL, 0, &event.mTime, FMOD_TIMEUNIT_MS);
                     sound->dispatchEvent(&event);
                 }
@@ -480,11 +484,7 @@ FMOD_RESULT F_CALLBACK Fmod4Driver::channelCallback(
 
     void Fmod4Driver::_registerChannel(FMOD::Channel* channel, Fmod4Sound* sound)
     {
-        FMOD_RESULT res = channel->setCallback(FMOD_CHANNEL_CALLBACKTYPE_END, channelCallback, 0);
-        CHECK_FMOD4_ERRORS(res);
-        res = channel->setCallback(FMOD_CHANNEL_CALLBACKTYPE_SYNCPOINT, channelCallback, 0);
-        CHECK_FMOD4_ERRORS(res);
-        res = channel->setCallback(FMOD_CHANNEL_CALLBACKTYPE_VIRTUALVOICE, channelCallback, 0);
+        FMOD_RESULT res = channel->setCallback(channelCallback);
         CHECK_FMOD4_ERRORS(res);
         mChannelSoundMap.insert(std::make_pair(channel, sound));
     }

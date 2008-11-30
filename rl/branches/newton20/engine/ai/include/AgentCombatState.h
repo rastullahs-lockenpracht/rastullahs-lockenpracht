@@ -18,6 +18,7 @@
 
 #include "AiPrerequisites.h"
 #include "AgentState.h"
+#include "Combat.h"
 #include "Combatant.h"
 
 namespace rl
@@ -46,6 +47,10 @@ namespace rl
     protected:
         typedef enum {} CombatState;
         CombatState mState;
+
+    private:
+        Combatant* findOpponent(const Combat::CombatantSet& opponents) const;
+        Ogre::Vector3 getFleeTarget(const Combat::CombatantSet& opponents) const;
 	};
 }
 #endif

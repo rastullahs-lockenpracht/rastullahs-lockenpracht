@@ -186,8 +186,8 @@ namespace rl
 
             if( charObj != NULL )
             {
-                Ogre::Vector3 pos = charObj->getMovableObject()->getParentNode()->getWorldPosition();
-                Ogre::Quaternion ori = charObj->getMovableObject()->getParentNode()->getWorldOrientation();
+                Ogre::Vector3 pos = charObj->getMovableObject()->getParentNode()->_getDerivedPosition();
+                Ogre::Quaternion ori = charObj->getMovableObject()->getParentNode()->_getDerivedOrientation();
 
                 textSt += "\nPlayer Position [ "
                     + StringConverter::toString(pos.x,2,0,32,std::ios_base::fixed)+", "

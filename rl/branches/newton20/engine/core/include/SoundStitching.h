@@ -131,6 +131,10 @@ namespace rl {
         /// Laeuft der Sound noch
         virtual const bool isPlaying() const = 0;
 
+		/// From MovableObject
+		virtual void visitRenderables(Ogre::Renderable::Visitor* visitor, 
+			bool debugRenderables = false);
+
     protected:
         SoundDriver* mCreator;
 

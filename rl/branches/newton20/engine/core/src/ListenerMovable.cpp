@@ -203,4 +203,9 @@ void ListenerMovable::setActive(bool active)
 	mActive = active;
 }
 
+void ListenerMovable::visitRenderables(Renderable::Visitor* visitor, 
+			bool debugRenderables)
+{
+}
+
 }

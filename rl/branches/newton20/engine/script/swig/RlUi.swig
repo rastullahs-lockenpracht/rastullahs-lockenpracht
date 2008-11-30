@@ -103,6 +103,7 @@ public:
     void toggleConsole();
     void toggleDebugWindow();
     void toggleGameLogWindow();
+    void toggleCharacterSelectionWindow();
     void toggleCharacterStateWindow();
     void toggleInGameGlobalMenu();
     void toggleInventoryWindow();

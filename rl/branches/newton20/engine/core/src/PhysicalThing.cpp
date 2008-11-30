@@ -130,8 +130,8 @@ namespace rl
 		if (mBody && mActor)
 		{
 			mBody->setPositionOrientation(
-				mActor->_getSceneNode()->getWorldPosition(),
-				mActor->_getSceneNode()->getWorldOrientation());
+				mActor->_getSceneNode()->_getDerivedPosition(),
+				mActor->_getSceneNode()->_getDerivedOrientation());
 			mActor->_update(Actor::UF_ALL & ~Actor::UF_PHYSICAL_THING);
 		}
     }

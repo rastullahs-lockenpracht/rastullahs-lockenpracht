@@ -64,6 +64,7 @@ namespace rl
         static const Ogre::String PROPERTY_MASS; 
         static const Ogre::String PROPERTY_ACTIONS; 
         static const Ogre::String PROPERTY_DEFAULT_ACTION;
+        static const Ogre::String PROPERTY_IMAGENAME;
 
         static const CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
         static const CeGuiString DEFAULT_VIEW_OBJECT_ACTION_DEBUG;
@@ -82,6 +83,9 @@ namespace rl
         const CeGuiString& getDescription() const;
         void setDescription(const CeGuiString& description);
 
+		const CeGuiString& getImageName() const;
+		void setImageName(const CeGuiString& name);
+        
         const CeGuiString& getMeshfile() const;
         void setMeshfile(const CeGuiString& meshfile);
 
@@ -204,6 +208,7 @@ namespace rl
         
         CeGuiString mName;
         CeGuiString mDescription;
+        CeGuiString mImageName;
         CeGuiString mMeshfile;
 		MeshPartMap mMeshParts;
         CeGuiString mSubmeshPreName;

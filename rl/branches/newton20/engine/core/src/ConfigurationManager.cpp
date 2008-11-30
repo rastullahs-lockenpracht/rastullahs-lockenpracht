@@ -111,6 +111,7 @@ namespace rl
         addSetting("Action keys", "showjournalwindow", "J");
         addSetting("Action keys", "showcharactersheet", "C");
         addSetting("Action keys", "togglecharacterstatewindow", "O");
+        addSetting("Action keys", "togglecharacterselectionwindow", "Y");
         addSetting("Action keys", "toggleingameglobalmenu", "F10");
         addSetting("Action keys", "shownextdebugwindowpage", "Ctrl+M");
         addSetting("Action keys", "showobjectactions", "U");
@@ -388,9 +389,14 @@ namespace rl
 	
 	void ConfigurationManager::setExecutable(const Ogre::String& path)
 	{
+#       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+		return;
+		fs::path exeAbsolute(path);
+#       else
 		fs::path exeAbsolute(path, fs::portable_posix_name);
-		mExecutablePath = exeAbsolute.remove_leaf().string();
-        std::cout << "ConfigurationManager" << "Executable is " << path << " " << mExecutablePath;
+#		endif
+		mExecutablePath = exeAbsolute.branch_path().string();
+        std::cout << "ConfigurationManager " << "Executable is " << path << " " << mExecutablePath;
 	}
 
 	const Ogre::String& ConfigurationManager::getExecutablePath() const
@@ -440,17 +446,14 @@ namespace rl
         try 
         {
 #           if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-			std::cout << "Checking for " << fs::complete(filename) << std::endl;
-            if (fs::exists(filename))
+			std::cout << "Checking for " << fs::complete(filename).string() << std::endl;
+            return fs::exists(filename);
 #           else
 			std::cout << "Checking for " << 
 				fs::complete(fs::path(filename, fs::portable_posix_name)).string()
                  << std::endl;
-			if (fs::exists(fs::path(filename, fs::portable_posix_name)))
+			return fs::exists(fs::path(filename, fs::portable_posix_name));
 #           endif
-            {
-                return true;
-            }
         }
         catch (fs::filesystem_error&) 
         {

@@ -21,7 +21,10 @@ from elementtree.ElementTree import *
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
+import ogre.renderer.OGRE as og
+
 from GOStringEditor import *
+from GOIntEditor import *
 
 class GOCStringProperty():
     def __init__(self, name, data):
@@ -50,6 +53,17 @@ class GOCRealProperty():
     def getType(self):
         return "REAL"
 
+    def openEditor(self, row, parent = None):
+        dlg = GOStringEditor(parent)
+        dlg.nameEdit.setText(self.name)
+        dlg.dataEdit.setText(self.data)
+        result = dlg.exec_()
+        if result:
+            self.name = dlg.nameEdit.text()
+            self.data = dlg.dataEdit.toPlainText()
+
+        return result
+
 class GOCBoolProperty():
     def __init__(self, name, data):
         self.name = name
@@ -65,6 +79,17 @@ class GOCIntProperty():
 
     def getType(self):
         return "INT"
+
+    def openEditor(self, row, parent = None):
+        dlg = GOIntEditor(parent)
+        dlg.nameEdit.setText(self.name)
+        dlg.dataEdit.setText(self.data)
+        result = dlg.exec_()
+        if result:
+            self.name = dlg.nameEdit.text()
+            self.data = dlg.dataEdit.toPlainText()
+
+        return result
 
 class GOCIntPairProperty():
     def __init__(self, name, data):
@@ -90,12 +115,18 @@ class GOCMapProperty():
     def getType(self):
         return "MAP"
 
-class GameObjectRepresentation():
+# gameObjectClass is the id of the class itself
+# since a game object can be ingame more than once there is also a id for those
+class GameObjectRepresentation(og.UserDefinedObject):
     def __init__(self, inWorldId, gameObjectClass, node, meshFile = None):
+        og.UserDefinedObject.__init__(self)
         self.inWorldId = inWorldId
-        self.goc = gameObjectClass
+        self.gocName = gameObjectClass
         self.node = node
         self.meshFile = meshFile
+
+    def getType(self):
+        return "GAME_OBJECT_REPRESENTATION"
 
     def setPosition(self, pos):
         self.node.setPosition(pos)

@@ -25,7 +25,6 @@ import platform
 #import PythonOgreConfig
 
 from random import randint
-from os.path import isfile
 
 from PyQt4 import QtGui, QtCore
 from PreferencesDialog import *
@@ -35,6 +34,7 @@ from GameObjectClassView import *
 from ConsoleWindow import *
 from ModuleManager import *
 from SceneExplorer import *
+from NewModuleWizard import *
 
 import OgreMainWindow
 import ogre.renderer.OGRE as og
@@ -55,7 +55,7 @@ class Lockenwickler(QtGui.QMainWindow):
 
         self.setupOgre()
 
-        self.prefDialog = PreferencesDialog(self.loadModule, self)
+        self.prefDialog = PreferencesDialog(self)
         self.objectPropertyWin = ObjectPropertyWin(self)
         self.sceneExplorerWin = SceneExplorer(self)
         self.modelSelectionDialog = ModelSelectionDialog(self.ogreRoot, self)
@@ -70,9 +70,13 @@ class Lockenwickler(QtGui.QMainWindow):
         settings = QtCore.QSettings()
         self.restoreGeometry(settings.value("MainWindow/Geometry").toByteArray())
         self.restoreState(settings.value("MainWindow/DockWindows").toByteArray())
+        if not self.prefDialog.setCfgPath(settings.value("Preferences/moduleCfgPath").toString()):
+            self.prefDialog.show()
 
         self.setWindowIcon(QIcon("media/icons/lockenwickler_provisorium_small.png"))
         self.setWindowTitle("Rastullahs Lockenwickler")
+
+
 #        # Import Psyco if available
 #        try:
 #            import psyco
@@ -81,8 +85,6 @@ class Lockenwickler(QtGui.QMainWindow):
 #            #psyco.profile()
 #        except ImportError:
 #            pass
-
-        #QtGui.QApplication.setKeyboardInputInterval(5000)
 
         splash.finish(self)
 
@@ -140,8 +142,11 @@ class Lockenwickler(QtGui.QMainWindow):
         self.setStatusBar(self.statusbar)
 
 #####################################
-        self.actionNeu =self.createAction("&New",  self.actionNewSlot,  QKeySequence.New,  "filenew.png",  "New")
+        self.actionNeu =self.createAction("&New Module",  self.actionNewSlot,  QKeySequence.New,  "filenew.png",  "New Module")
         self.actionNeu.setObjectName("actionNeu")
+
+        self.actionOpen = self.createAction("&Open Module",  self.actionOpenSlot,  QKeySequence.Open,  "filenew.png",  "Open Module")
+        self.actionOpen.setObjectName("actionOpen")
 
         self.actionClose = self.createAction("Quit",  self.actionQuitSlot,  "Alt + Q",  "exit.png",  "Quit")
         self.actionClose.setObjectName("actionQuit")
@@ -160,6 +165,9 @@ class Lockenwickler(QtGui.QMainWindow):
 
         self.actionPaste = self.createAction("Paste",  self.actionPasteSlot,  QKeySequence.Paste,  "editpaste.png",  "Paste")
         self.actionPaste.setObjectName("actionPaste")
+
+        self.actionSelect = self.createAction("&Select",  self.actionSelectSlot,  "Space",  "cursor.png",  "Move selected object")
+        self.actionSelect.setObjectName("actionSelect")
 
         self.actionMove = self.createAction("&Move",  self.actionMoveSlot,  "g",  "move.png",  "Move selected object")
         self.actionMove.setObjectName("actionMove")
@@ -196,8 +204,10 @@ class Lockenwickler(QtGui.QMainWindow):
 
 
         self.menuFile.addAction(self.actionNeu)
+        self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionClose)
 
+        self.menuEdit.addAction(self.actionSelect)
         self.menuEdit.addAction(self.actionMove)
         self.menuEdit.addAction(self.actionRotate)
         self.menuEdit.addAction(self.actionScale)
@@ -225,7 +235,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
         self.menuEdit.setTitle(QtGui.QApplication.translate("MainWindow", "Edit", None, QtGui.QApplication.UnicodeUTF8))
         self.menuView.setTitle(QtGui.QApplication.translate("MainWindow", "View", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionNeu.setText(QtGui.QApplication.translate("MainWindow", "New", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionNeu.setText(QtGui.QApplication.translate("MainWindow", "New Module", None, QtGui.QApplication.UnicodeUTF8))
         self.actionMove.setText(QtGui.QApplication.translate("MainWindow", "Move", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRotate.setText(QtGui.QApplication.translate("MainWindow", "Rotate", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSceneExplorer.setText(QtGui.QApplication.translate("MainWindow", "Scene Explorer", None, QtGui.QApplication.UnicodeUTF8))
@@ -267,15 +277,14 @@ class Lockenwickler(QtGui.QMainWindow):
         oglog.addListener(self.consoleWindow.lockenLog)
 
     def update(self):
-#        try:
-#            self.OgreMainWinSceneMgr.getSceneNode("saeule_076_node").yaw(0.02)
-#        except Exception,  e:
-#            pass
-
         self.ogreRoot.renderOneFrame()
 
+    def actionOpenSlot(self):
+        self.moduleManager.openLoadModuleDialog(self.prefDialog.lineEdit.text(), self)
+
     def actionNewSlot(self):
-        print "dbg: new"
+        newModuleWiz = NewModuleWizard(self)
+        newModuleWiz.exec_()
         return
 
     def actionQuitSlot(self):
@@ -292,6 +301,9 @@ class Lockenwickler(QtGui.QMainWindow):
 
     def actionPasteSlot(self):
         self.moduleManager.pasteObjects(self.ogreRenderWindow.getCameraToViewportRay())
+
+    def actionSelectSlot(self):
+        self.moduleManager.pivot.hide()
 
     def actionMoveSlot(self):
         self.moduleManager.pivot.setMoveMode()
@@ -338,79 +350,6 @@ class Lockenwickler(QtGui.QMainWindow):
         else:
             self.consoleDock.hide()
 
-    # parses the moduleconfig.rb and searches for all loader.loadmap(" statements in the ruby script
-    # and parses them too
-    def loadModule(self, modulePath, moduleName):
-        if self.moduleName == moduleName:
-            return
-
-        self.moduleName = moduleName
-        self.workingDir = modulePath + moduleName # the module path
-        self.workingDirCommon = modulePath + "common" # the module path of the common module
-
-        import codecs
-        import glob
-
-        modConfig = self.workingDir + "/scripts/moduleconfig.rb"
-        if isfile(modConfig): # is the modconfig existing?
-            f = codecs.open(modConfig, 'r', 'utf-8')
-        else:
-            print ("Error: couldn't find module config")
-            pass
-
-        self.mapFiles = [] # a list in case the module has more than one map file
-        self.gofFiles = [] # gof File list
-        for line in f:
-            lStripped = line.strip() #strip the whitespace away, not needed here
-
-            # get the map file(s)
-            if lStripped.startswith("loader.loadMap("): # all loadMap commands begin with loader.loadMap(
-                spl = lStripped.split('"')
-                for a in spl:
-                    if a.endswith(".xml"):
-                        pathToMapFile = self.workingDir + "/maps/" + a
-                        self.mapFiles.append(pathToMapFile)
-
-        self.setWindowTitle(moduleName)
-
-        self.modelSelectionDialog.scanDirForModels(self.workingDir, moduleName)
-        self.modelSelectionDialog.scanDirForModels(self.workingDirCommon, "common")
-
-        self.setResourcePaths(self.workingDir, moduleName)
-        self.setResourcePaths(self.workingDirCommon, "common")
-        og.ResourceGroupManager.getSingleton().initialiseAllResourceGroups()
-
-        command = (os.path.join(self.workingDir,  "maps") + "/*.xml")
-        for mf in glob.glob(command): # search for all xml files in the maps directory and add them
-            self.mapFiles.append(mf)
-
-        command = (os.path.join(self.workingDir,  "maps") + "/*.scene")
-        for mf in glob.glob(command): # search for all .scene files in the maps directory and add them
-            self.mapFiles.append(mf)
-
-        command = (os.path.join(self.workingDir,  "dsa") + "/*.gof")
-        for gf in glob.glob(command): # search for all .gof files in the dsa directory in the module dir
-            self.gofFiles.append(gf)
-
-        command = (os.path.join(self.workingDirCommon,  "dsa") + "/*.gof")
-        for gf in glob.glob(command): # search for all .gof files in the dsa directory in the common module dir
-            self.gofFiles.append(gf)
-
-        self.moduleManager.load(moduleName,  self.mapFiles,  self.gofFiles)
-
-    def setResourcePaths(self, path, moduleName):
-        for file in os.listdir(path):
-            curFile = path + "/" + file
-
-            if file.startswith('.'): #ignore dot files (hidden)
-                continue
-            if isdir(curFile):
-                og.ResourceGroupManager.getSingleton().addResourceLocation(curFile, "FileSystem", moduleName, False)
-                self.setResourcePaths(curFile, moduleName)
-                continue
-            if isfile(curFile):
-                pass
-
     def createDockWindows(self):
         self.propertyDock = QtGui.QDockWidget(self.tr("Properties"), self)
         self.propertyDock.setObjectName("PropertyDockWindow")
@@ -452,6 +391,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.moveToolBar = self.addToolBar("Transformation Bar")
         self.moveToolBar.setObjectName("TransformationBar")
         self.moveToolBar.setAllowedAreas(QtCore.Qt.TopToolBarArea | QtCore.Qt.BottomToolBarArea)
+        self.moveToolBar.addAction(self.actionSelect)
         self.moveToolBar.addAction(self.actionMove)
         self.moveToolBar.addAction(self.actionRotate)
         self.moveToolBar.addAction(self.actionScale)
@@ -481,6 +421,7 @@ class Lockenwickler(QtGui.QMainWindow):
     def closeEvent(self,  event):
         if self.saveOnClose():
             settings = QtCore.QSettings()
+            settings.setValue("Preferences/moduleCfgPath", QtCore.QVariant(self.prefDialog.lineEdit.text()))
             settings.setValue("MainWindow/Geometry",  QtCore.QVariant(self.saveGeometry()))
             settings.setValue("MainWIndow/DockWindows",  QtCore.QVariant(self.saveState()))
         else:

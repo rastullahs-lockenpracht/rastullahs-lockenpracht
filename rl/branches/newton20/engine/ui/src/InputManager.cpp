@@ -446,7 +446,10 @@ namespace rl {
     {
         while (!mControlStates.empty())
         {
-            popControlState();
+            ControlState* controller = mControlStates.top();
+            mControlStates.pop();
+            controller->pause();
+            mFinishedControlStates.push_back(controller);
         }
     }
 

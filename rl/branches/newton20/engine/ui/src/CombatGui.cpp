@@ -37,7 +37,8 @@ namespace rl {
 		  mCombat(combat),
 		  mCamera(camera),
 		  mUserInputEnabled(false),
-		  mGameLoggerWindowOpened(false)
+		  mGameLoggerWindowOpened(false),
+          mVisible(false)
     {
         mCombatWindow = WindowFactory::getSingleton().getCombatWindow();
 		mGameLoggerWindow = WindowFactory::getSingleton().getGameLogger();
@@ -68,7 +69,7 @@ namespace rl {
         sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(mHud);
 
 		// Create an attack/parry/(goto) button set for all opponents present at the beginning.
-        const Combat::CombatantSet& opponents = mCombat->getAllOpponents();
+        const Combat::CombatantSet& opponents = mCombat->getAllPlayerOpponents();
         for (Combat::CombatantSet::const_iterator it = opponents.begin(), end = opponents.end();
             it != end; ++it)
         {
@@ -82,6 +83,7 @@ namespace rl {
 	CombatGui::~CombatGui()
 	{
 		hide();
+        mHud->getParentSceneNode()->detachObject(mHud);
         SceneManager* sceneMgr = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
 		sceneMgr->destroyManualObject(mHud);
 	}
@@ -96,7 +98,7 @@ namespace rl {
         mHud->clear();
 
         mHud->begin("alpha_red", RenderOperation::OT_LINE_LIST);
-        const Combat::CombatantSet& opponents = mCombat->getAllOpponents();
+        const Combat::CombatantSet& opponents = mCombat->getAllPlayerOpponents();
         for (Combat::CombatantSet::const_iterator it = opponents.begin(), end = opponents.end();
             it != end; ++it)
         {
@@ -161,16 +163,25 @@ namespace rl {
 
 	void CombatGui::show()
 	{
-		mGameLoggerWindowOpened = !mGameLoggerWindow->isVisible();
-        mCombatWindow->setVisible(true);
-		mGameLoggerWindow->setVisible(true);
+        if (!mVisible)
+        {
+		    mGameLoggerWindowOpened = !mGameLoggerWindow->isVisible();
+            mCombatWindow->setVisible(true);
+		    mGameLoggerWindow->setVisible(true);
+            mHud->setVisible(true);
+            mVisible = true;
+        }
 	}
 
 	void CombatGui::hide()
 	{
-        mCombatWindow->setVisible(false);
-		mGameLoggerWindow->setVisible(!mGameLoggerWindowOpened);
-		mHud->clear();
+        if (mVisible)
+        {
+            mCombatWindow->setVisible(false);
+		    mGameLoggerWindow->setVisible(!mGameLoggerWindowOpened);
+            mHud->setVisible(false);
+            mVisible = false;
+        }
 	}
 
 	bool CombatGui::enemyButtonClicked(int handle, int buttonIndex)

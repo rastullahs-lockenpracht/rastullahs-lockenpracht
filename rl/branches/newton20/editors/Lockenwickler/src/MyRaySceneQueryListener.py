@@ -26,6 +26,12 @@ class SelectionObject():
         self.entity = entity #the selected entity
         self.distance = distance # the distance from camera at the time of selection
         self.isPivot = False
+
+#        if self.entity.getUserObject() is not None:
+#            self.isGameObject = True
+#        else:
+#            self.isGameObject = False
+
     #if True this instance will show its bounding box else it will hide it
     def setSelected(self,  selected):
         if selected == True:

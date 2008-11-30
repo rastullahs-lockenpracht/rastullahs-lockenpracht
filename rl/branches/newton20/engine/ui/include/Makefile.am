@@ -5,6 +5,7 @@ noinst_HEADERS = \
     CeGuiHelper.h \
     CharacterSheetWindow.h \
     CharacterStateWindow.h \
+	CharacterSelectionWindow.h \
     CloseConfirmationWindow.h \
     CombatControlState.h \
     CombatGui.h \

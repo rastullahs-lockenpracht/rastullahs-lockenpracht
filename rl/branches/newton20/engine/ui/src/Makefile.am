@@ -13,6 +13,7 @@ libRlUi_la_SOURCES = \
     AbstractWindow.cpp \
     CharacterSheetWindow.cpp \
     CharacterStateWindow.cpp \
+	CharacterSelectionWindow.cpp \
     CloseConfirmationWindow.cpp \
     CombatControlState.cpp \
     CombatGui.cpp \

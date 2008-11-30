@@ -176,13 +176,14 @@ namespace rl
 				+ Ogre::String(name)
 				+ " is NULL");
 
-		if (requiredClass != NULL && !wnd->testClassName(requiredClass))
-			Throw(
+		if (requiredClass != NULL && !wnd->testClassName(requiredClass)) {
+            Throw(
 				rl::NullPointerException,
 				"Window "
 				+ Ogre::String(name)
 				+ " has not the required class "
 				+ Ogre::String(requiredClass));
+        }
 
 		return wnd;
 	}
@@ -191,7 +192,12 @@ namespace rl
 	{
 		return static_cast<Editbox*>(getWindow(name, "Editbox"));
 	}
-
+    
+	Checkbox* AbstractWindow::getCheckbox(const char* name)
+	{
+		return static_cast<Checkbox*>(getWindow(name, "Checkbox"));
+	}
+    
 	Listbox* AbstractWindow::getListbox(const char* name)
 	{
 		return static_cast<Listbox*>(getWindow(name, "Listbox"));

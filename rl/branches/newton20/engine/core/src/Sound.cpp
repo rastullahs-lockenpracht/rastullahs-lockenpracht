@@ -145,4 +145,9 @@ const Ogre::Real Sound::getRolloffEndDistance() const
 	return mRolloffEndDistance;
 }
 
+void Sound::visitRenderables(Renderable::Visitor* visitor, 
+			bool debugRenderables)
+{
+}
+
 };

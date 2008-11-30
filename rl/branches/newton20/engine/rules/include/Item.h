@@ -58,7 +58,6 @@ namespace rl
         static const Ogre::String CLASS_NAME;
 
         static const Ogre::String PROPERTY_ITEMTYPE;
-        static const Ogre::String PROPERTY_IMAGENAME;
         static const Ogre::String PROPERTY_SIZE;
         static const Ogre::String PROPERTY_SUBMESHNAME;
 
@@ -67,9 +66,6 @@ namespace rl
 
 		void setItemType(ItemType itemType);
 		ItemType getItemType() const;
-
-		const CeGuiString& getImageName() const;
-		void setImageName(const CeGuiString& name);
 
         const CeGuiString& getSubmeshName() const;
         void setSubmeshName(const CeGuiString& name);
@@ -85,11 +81,11 @@ namespace rl
 
 
         /**
-         * Fügt das Verhalten für die GO-States: GOS_READY, GOS_HELD und GOS_IN_POSSESION hinzu.
-         * @warning Bevor einer der drei States gesetzt wird, sollte zunächst die Funktion removeOldState
-         * aufgerufen werden, dann müssen Owner und ParentSlot/ParentContainer gesetzt werden und
+         * FÂ¸gt das Verhalten fÂ¸r die GO-States: GOS_READY, GOS_HELD und GOS_IN_POSSESION hinzu.
+         * @warning Bevor einer der drei States gesetzt wird, sollte zunâ€°chst die Funktion removeOldState
+         * aufgerufen werden, dann mÂ¸ssen Owner und ParentSlot/ParentContainer gesetzt werden und
          * eventuell doCreateActor. Als letztes muss diese Funktion mit dem neuen State aufgerufen werden.
-         * Die Reihenfolge ist wichtig, damit die onStateChange-Funktionen funktionieren können!
+         * Die Reihenfolge ist wichtig, damit die onStateChange-Funktionen funktionieren kË†nnen!
          **/
         virtual void setState(GameObjectState state);
         virtual void removeOldState();
@@ -110,7 +106,6 @@ namespace rl
         void doCreateActor();
     protected:
 		ItemType mItemType;
-		CeGuiString mImageName;
         CeGuiString mSubmeshName;
 		std::pair<int,int> mSize;
         GameObject* mOwner;
