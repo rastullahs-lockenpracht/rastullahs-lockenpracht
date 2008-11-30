@@ -18,14 +18,22 @@
 #include "GameSettings.h"
 
 #include <boost/bind.hpp>
+#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
+#include <CEGUI/elements/CEGUIFrameWindow.h>
+#include <CEGUI/elements/CEGUIListboxTextItem.h>
+#else
 #include <elements/CEGUIFrameWindow.h>
 #include <elements/CEGUIListboxTextItem.h>
+#endif
+
 #include <iostream>
 
 #include "SoundManager.h"
 #include "SoundDriver.h"
 
 using namespace Ogre;
+using namespace CEGUI;
+using namespace std;
 
 namespace rl
 {
@@ -51,6 +59,37 @@ namespace rl
         mVideoRenderer = getCombobox("GameOptionsWindow/Video/Renderer");
         mVideoResolution = getCombobox("GameOptionsWindow/Video/Resolution");
         mVideoFullscreen = getCheckbox("GameOptionsWindow/Video/Fullscreen");
+        
+        mVideoColorDepth32 = getRadioButton("GameOptionsWindow/Video/ColorDepth/32");
+        mVideoColorDepth32->setUserData(new Ogre::String("32"));
+        mVideoColorDepth32->setGroupID(1);
+        mVideoColorDepth16 = getRadioButton("GameOptionsWindow/Video/ColorDepth/16");
+        mVideoColorDepth16->setUserData(new Ogre::String("16"));
+        mVideoColorDepth16->setGroupID(1);
+        
+        mVideoFsaa0 = getRadioButton("GameOptionsWindow/Video/FSAA/Off");
+        mVideoFsaa0->setUserData(new Ogre::String("0"));
+        mVideoFsaa0->setGroupID(2);
+        mVideoFsaa2 = getRadioButton("GameOptionsWindow/Video/FSAA/2x");
+        mVideoFsaa2->setUserData(new Ogre::String("2"));
+        mVideoFsaa2->setGroupID(2);
+        mVideoFsaa4 = getRadioButton("GameOptionsWindow/Video/FSAA/4x");
+        mVideoFsaa4->setUserData(new Ogre::String("4"));
+        mVideoFsaa4->setGroupID(2);
+        mVideoFsaa8 = getRadioButton("GameOptionsWindow/Video/FSAA/8x");
+        mVideoFsaa8->setUserData(new Ogre::String("8"));
+        mVideoFsaa8->setGroupID(2);
+        
+        mVideoRttModeFBO = getRadioButton("GameOptionsWindow/Video/RTT/FBO");
+        mVideoRttModeFBO->setUserData(new Ogre::String("FBO"));
+        mVideoRttModeFBO->setGroupID(3);
+        mVideoRttModePBuffer = getRadioButton("GameOptionsWindow/Video/RTT/PBuffer");
+        mVideoRttModePBuffer->setUserData(new Ogre::String("PBuffer"));
+        mVideoRttModePBuffer->setGroupID(3);
+        mVideoRttModeCopy = getRadioButton("GameOptionsWindow/Video/RTT/Copy");
+        mVideoRttModeCopy->setUserData(new Ogre::String("Copy"));
+        mVideoRttModeCopy->setGroupID(3);
+        
         centerWindow();
         setVisible(false);
         update();
@@ -137,50 +176,124 @@ namespace rl
     void GameSettings::update()
     {
         Root* root = Ogre::Root::getSingletonPtr();
+        
+        RenderSystemList* renderers = root->getAvailableRenderers();
         RenderSystem* renderer = root->getRenderSystem();
+        
+        createElements(mVideoRenderer, renderers->size());
+
+        for (int i = 0; i < renderers->size(); ++i)
+        {
+            RenderSystem* cur = renderers->operator[](i);
+            ListboxItem* item = mVideoRenderer->getListboxItemFromIndex(i);
+            item->setText(cur->getName());
+            if (cur == renderer)
+            {
+                mVideoRenderer->setItemSelectState(item, true);
+            }
+        }
         
         ConfigOptionMap config = renderer->getConfigOptions();
         
-		ConfigOptionMap::iterator cfi;
-		
-		cfi = config.find( "Full Screen" );
-		if( cfi != config.end() )
-		{
-			mVideoFullscreen->setSelected(cfi->second.currentValue == "Yes");
-		}
+        setOption(config, "Full Screen", mVideoFullscreen);
+        vector<RadioButton*> videoColorDepth;
+        videoColorDepth.push_back(mVideoColorDepth32);
+        videoColorDepth.push_back(mVideoColorDepth16);
         
-/*		cfi = config.find( "FSAA" );
-		if( cfi != config.end() )
-		{
-			if( cfi->second.currentValue == "0" )
-			{
-				SetControlValue( iFSAARef, 1 );
-			}
-			else if( cfi->second.currentValue == "2" )
-			{
-				SetControlValue( iFSAARef, 2 );
-			}
-			else if( cfi->second.currentValue == "4" )
-			{
-				SetControlValue( iFSAARef, 3 );
-			}
-			else if( cfi->second.currentValue == "6" )
-			{
-				SetControlValue( iFSAARef, 4 );
-			}
-		}
+        setOption(config, "Colour Depth", videoColorDepth);
+        vector<RadioButton*> videoAntiAliasing;
+        videoAntiAliasing.push_back(mVideoFsaa0);
+        videoAntiAliasing.push_back(mVideoFsaa2);
+        videoAntiAliasing.push_back(mVideoFsaa4);
+        videoAntiAliasing.push_back(mVideoFsaa8);
+        setOption(config, "FSAA", videoAntiAliasing);
         
-		cfi = config.find( "Colour Depth" );
-		if( cfi != config.end() )
-		{
-			if( cfi->second.currentValue == "32" )
-			{
-				SetControlValue( iColorDepthRef, 1 );
-			}
-			else
-			{
-				SetControlValue( iColorDepthRef, 2 );
-			}
-		}*/
+        vector<RadioButton*> videoRttMode;
+        videoRttMode.push_back(mVideoRttModeFBO);
+        videoRttMode.push_back(mVideoRttModePBuffer);
+        videoRttMode.push_back(mVideoRttModeCopy);
+        setOption(config, "RTT Preferred Mode", videoRttMode);
+        
+        setOption(config, "Video Mode", mVideoResolution);
     }
+    
+    void GameSettings::setOption(const ConfigOptionMap& configuration, const Ogre::String& option, Checkbox* checkbox)
+    {
+        ConfigOptionMap::const_iterator cfi = configuration.find(option);
+        if (cfi != configuration.end()) 
+        {
+            checkbox->setSelected(cfi->second.currentValue == "Yes");            
+        }
+    }
+
+    void GameSettings::setOption(const ConfigOptionMap& configuration, const Ogre::String& option, Combobox* combobox)
+    {
+        ConfigOptionMap::const_iterator cfi = configuration.find(option);
+        if (cfi != configuration.end()) 
+        {
+            ConfigOption curOption = cfi->second;
+            int delta = curOption.possibleValues.size() - combobox->getItemCount();
+            if (delta > 0)
+            {
+                for (int i = 0; i < delta; ++i)
+                {
+                    combobox->addItem(new ListboxTextItem(""));
+                }
+            }
+            else if (delta < 0)
+            {
+                for (int i = 0; i < -delta; ++i)
+                {
+                    ListboxItem* item = combobox->getListboxItemFromIndex(combobox->getItemCount() - 1);
+                    combobox->removeItem(item);
+                    delete item;
+                }
+            }
+            
+            for (int i = 0; i < combobox->getItemCount(); ++i)
+            {
+                ListboxItem* item = combobox->getListboxItemFromIndex(i);
+                item->setText(curOption.possibleValues[i]);
+            }
+        }
+    }
+
+    void GameSettings::setOption(const ConfigOptionMap& configuration, const Ogre::String& option, std::vector<RadioButton*> radioGroup)
+    {
+        ConfigOptionMap::const_iterator cfi = configuration.find(option);
+        if (cfi != configuration.end()) 
+        {
+            ConfigOption curOption = cfi->second;
+            for (std::vector<RadioButton*>::const_iterator it = radioGroup.begin(); it != radioGroup.end(); ++it)
+            {
+                Ogre::String* value = static_cast<Ogre::String*>((*it)->getUserData());
+                if (value && (*value == curOption.currentValue))
+                {
+                    (*it)->setSelected(true);
+                    break;
+                }
+            }
+        }
+    }
+    
+    void GameSettings::createElements(CEGUI::Combobox* combobox, size_t count)
+    {
+        int delta = count - combobox->getItemCount();
+        if (delta > 0)
+        {
+            for (int i = 0; i < delta; ++i)
+            {
+                combobox->addItem(new ListboxTextItem(""));
+            }
+        }
+        else if (delta < 0)
+        {
+            for (int i = 0; i < -delta; ++i)
+            {
+                ListboxItem* item = combobox->getListboxItemFromIndex(combobox->getItemCount() - 1);
+                combobox->removeItem(item);
+                delete item;
+            }
+        }
+    }    
 }
