@@ -726,6 +726,10 @@ namespace OgreNewt
                 }
             }
 
+            void MovableText::visitRenderables(Renderable::Visitor* visitor, bool debugRenderables)
+            {
+                visitor->visit(this, 0, debugRenderables);
+            }
         }
 }
 

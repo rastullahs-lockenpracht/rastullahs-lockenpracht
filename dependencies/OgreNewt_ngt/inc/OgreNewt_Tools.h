@@ -269,6 +269,7 @@ namespace OgreNewt
                 void    getWorldTransforms(Matrix4 *xform) const;
                 Real    getBoundingRadius(void) const {return mRadius;};
                 Real    getSquaredViewDepth(const Camera *cam) const {return 0;};
+                void visitRenderables(Ogre::Renderable::Visitor* visitor,  bool debugRenderables = false);
                 const   Quaternion        &getWorldOrientation(void) const;
                 const   Vector3           &getWorldPosition(void) const;
                 const   AxisAlignedBox    &getBoundingBox(void) const {return mAABB;};
