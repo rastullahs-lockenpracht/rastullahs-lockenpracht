@@ -320,11 +320,11 @@
 
     <Image Name="CheckboxNormal" XPos="110" YPos="2" Width="12" Height="12" />
     <Image Name="CheckboxHover" XPos="110" YPos="30" Width="12" Height="12" />
-    <Image Name="CheckboxMark" XPos="110" YPos="16" Width="12" Height="12" />
+    <Image Name="CheckboxMark" XPos="126" YPos="320" Width="12" Height="12" />
     
     <Image Name="RadioButtonNormal" XPos="124" YPos="2" Width="12" Height="12" />
     <Image Name="RadioButtonHover" XPos="124" YPos="30" Width="12" Height="12" />
-    <Image Name="RadioButtonMark" XPos="124" YPos="16" Width="12" Height="12" />
+    <Image Name="RadioButtonMark" XPos="126" YPos="320" Width="12" Height="12" />
     
 
 

@@ -20,38 +20,108 @@
             <Property Name="UnifiedSize" Value="{{1,0},{1,0}}"/>
             <Property Name="Text" Value="Video"/>
 
-            <Window Type="RastullahLook/StaticText" Name="GameOptionsWindow/Video/LabelRenderer">
+            <Window Type="RastullahLook/StaticText" Name="GameOptionsWindow/Video/RendererLabel">
                <Property Name="UnifiedPosition" Value="{{0.05,0},{0.05,0}}"/>
                <Property Name="UnifiedSize" Value="{{0.9,0},{0,20}}"/>
-               <Property Name="Text" Value="Rendersystem"/>
+               <Property Name="Text" Value="Renderer"/>
             </Window>
 
-            <Window Type="RastullahLook/Combobox" Name="GameOptionsWindow/Video/TableRenderer">
+            <Window Type="RastullahLook/Combobox" Name="GameOptionsWindow/Video/Renderer">
                <Property Name="UnifiedPosition" Value="{{0.25,0},{0.05,0}}"/>
-               <Property Name="UnifiedSize" Value="{{0.7,0},{0,50}}"/>
+               <Property Name="UnifiedSize" Value="{{0.7,0},{0,200}}"/>
+               <Property Name="ReadOnly" Value="True"/>
             </Window>
 
-            <Window Type="RastullahLook/StaticText" Name="GameOptionsWindow/Video/LabelResolution">
+            <Window Type="RastullahLook/StaticText" Name="GameOptionsWindow/Video/ResolutionLabel">
                <Property Name="UnifiedPosition" Value="{{0.05,0},{0.15,0}}"/>
                <Property Name="UnifiedSize" Value="{{0.9,0},{0,20}}"/>
                <Property Name="Text" Value="Resolution"/>
             </Window>
 
-            <Window Type="RastullahLook/Combobox" Name="GameOptionsWindow/Video/TableResolution">
+            <Window Type="RastullahLook/Combobox" Name="GameOptionsWindow/Video/Resolution">
                <Property Name="UnifiedPosition" Value="{{0.25,0},{0.15,0}}"/>
-               <Property Name="UnifiedSize" Value="{{0.7,0},{0,50}}"/>
-            </Window>
-
-            <Window Type="RastullahLook/StaticText" Name="GameOptionsWindow/Video/LabelFullscreen">
-               <Property Name="UnifiedPosition" Value="{{0.05,0},{0.25,0}}"/>
-               <Property Name="UnifiedSize" Value="{{0.9,0},{0,20}}"/>
-               <Property Name="Text" Value="Fullscreen"/>
+               <Property Name="UnifiedSize" Value="{{0.7,0},{0,200}}"/>
+               <Property Name="ReadOnly" Value="True"/>
             </Window>
 
             <Window Type="RastullahLook/Checkbox" Name="GameOptionsWindow/Video/Fullscreen">
                <Property Name="UnifiedPosition" Value="{{0.25,0},{0.25,0}}"/>
-               <Property Name="UnifiedSize" Value="{{0,20},{0,20}}"/>
+               <Property Name="UnifiedSize" Value="{{0.9,0},{0,20}}"/>
+               <Property Name="Text" Value="Fullscreen"/>
             </Window>
+
+            <Window Type="RastullahLook/StaticText" Name="GameOptionsWindow/Video/FSAA">
+               <Property Name="UnifiedPosition" Value="{{0.05,0},{0.35,0}}"/>
+               <Property Name="UnifiedSize" Value="{{0.9,0},{0,20}}"/>
+               <Property Name="Text" Value="FSAA"/>
+            </Window>
+
+            <Window Type="RastullahLook/RadioButton" Name="GameOptionsWindow/Video/FSAA/Off">
+               <Property Name="UnifiedPosition" Value="{{0.25,0},{0.35,0}}"/>
+               <Property Name="UnifiedSize" Value="{{0.9,0},{0,20}}"/>
+               <Property Name="Text" Value="Off"/>
+            </Window>
+
+            <Window Type="RastullahLook/RadioButton" Name="GameOptionsWindow/Video/FSAA/2x">
+               <Property Name="UnifiedPosition" Value="{{0.25,50},{0.35,0}}"/>
+               <Property Name="UnifiedSize" Value="{{0.9,0},{0,20}}"/>
+               <Property Name="Text" Value="2x"/>
+            </Window>
+
+            <Window Type="RastullahLook/RadioButton" Name="GameOptionsWindow/Video/FSAA/4x">
+               <Property Name="UnifiedPosition" Value="{{0.25,100},{0.35,0}}"/>
+               <Property Name="UnifiedSize" Value="{{0.9,0},{0,20}}"/>
+               <Property Name="Text" Value="4x"/>
+            </Window>
+
+            <Window Type="RastullahLook/RadioButton" Name="GameOptionsWindow/Video/FSAA/8x">
+               <Property Name="UnifiedPosition" Value="{{0.25,150},{0.35,0}}"/>
+               <Property Name="UnifiedSize" Value="{{0.9,0},{0,20}}"/>
+               <Property Name="Text" Value="8x"/>
+            </Window>
+
+            <Window Type="RastullahLook/StaticText" Name="GameOptionsWindow/Video/RTT">
+               <Property Name="UnifiedPosition" Value="{{0.05,0},{0.45,0}}"/>
+               <Property Name="UnifiedSize" Value="{{0.9,0},{0,20}}"/>
+               <Property Name="Text" Value="RTT Mode"/>
+            </Window>
+
+            <Window Type="RastullahLook/RadioButton" Name="GameOptionsWindow/Video/RTT/FBO">
+               <Property Name="UnifiedPosition" Value="{{0.25,0},{0.45,0}}"/>
+               <Property Name="UnifiedSize" Value="{{0.9,0},{0,20}}"/>
+               <Property Name="Text" Value="FBO"/>
+            </Window>
+
+            <Window Type="RastullahLook/RadioButton" Name="GameOptionsWindow/Video/RTT/PBuffer">
+               <Property Name="UnifiedPosition" Value="{{0.25,60},{0.45,0}}"/>
+               <Property Name="UnifiedSize" Value="{{0.9,0},{0,20}}"/>
+               <Property Name="Text" Value="PBuffer"/>
+            </Window>
+
+            <Window Type="RastullahLook/RadioButton" Name="GameOptionsWindow/Video/RTT/Copy">
+               <Property Name="UnifiedPosition" Value="{{0.25,120},{0.45,0}}"/>
+               <Property Name="UnifiedSize" Value="{{0.9,0},{0,20}}"/>
+               <Property Name="Text" Value="Copy"/>
+            </Window>
+            
+            <Window Type="RastullahLook/StaticText" Name="GameOptionsWindow/Video/ColorDepth">
+               <Property Name="UnifiedPosition" Value="{{0.05,0},{0.55,0}}"/>
+               <Property Name="UnifiedSize" Value="{{0.9,0},{0,20}}"/>
+               <Property Name="Text" Value="Color Depth"/>
+            </Window>
+
+            <Window Type="RastullahLook/RadioButton" Name="GameOptionsWindow/Video/ColorDepth/32">
+               <Property Name="UnifiedPosition" Value="{{0.25,0},{0.55,0}}"/>
+               <Property Name="UnifiedSize" Value="{{0.9,0},{0,20}}"/>
+               <Property Name="Text" Value="32 bit (16.7m)"/>
+            </Window>
+
+            <Window Type="RastullahLook/RadioButton" Name="GameOptionsWindow/Video/ColorDepth/16">
+               <Property Name="UnifiedPosition" Value="{{0.25,150},{0.55,0}}"/>
+               <Property Name="UnifiedSize" Value="{{0.9,0},{0,20}}"/>
+               <Property Name="Text" Value="16 bit (65,536)"/>
+            </Window>
+
          </Window>
 
          <Window Type="DefaultGUISheet" Name="GameOptionsWindow/Sound">
