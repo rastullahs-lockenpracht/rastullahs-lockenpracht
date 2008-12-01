@@ -33,6 +33,7 @@
 			</property>
 		</property>
 	</property>
+    <property name="current_le" type="INT" data="30"/>
 	<property name="ai" type="MAP">
 		<property name="behaviours" type="ARRAY">
 			<property type="STRING" data="DefaultWanderBehaviour"/>
