@@ -154,7 +154,7 @@
 		32FFF56B06E9CECE00E1D8A3 /* Soccer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = Soccer.cpp; sourceTree = "<group>"; };
 		32FFF58006E9CF3800E1D8A3 /* OpenSteer.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = OpenSteer.icns; sourceTree = "<group>"; };
 		4425B3E60B7B61DB0067899D /* OpenSteer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenSteer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4425B3E70B7B61DB0067899D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		4425B3E70B7B61DB0067899D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4425B40A0B7B678E0067899D /* SharedPointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedPointer.h; sourceTree = "<group>"; };
 		4425B41C0B7B67F90067899D /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		4425B47B0B7B76740067899D /* PolylineSegmentedPathTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PolylineSegmentedPathTest.cpp; path = ../test/PolylineSegmentedPathTest.cpp; sourceTree = SOURCE_ROOT; };
@@ -165,7 +165,7 @@
 		841E3BFC0736BF4400E3AD2C /* Obstacle.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = Obstacle.cpp; sourceTree = "<group>"; };
 		84AD12AD070E221100559513 /* OpenSteerDemo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OpenSteerDemo.h; sourceTree = "<group>"; };
 		84AD12B1070E224000559513 /* OpenSteerDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = OpenSteerDemo.cpp; sourceTree = "<group>"; };
-		8D1107310486CEB800E47090 /* OpenSteerDemo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "OpenSteerDemo-Info.plist"; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* OpenSteerDemo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OpenSteerDemo-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* OpenSteerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenSteerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
