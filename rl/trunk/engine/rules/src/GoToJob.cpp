@@ -62,15 +62,22 @@ namespace rl
 			mActor->setMovement(CreatureController::MT_STEHEN, Vector3::ZERO, Vector3::ZERO);
 			return true;
 		}
+        
+        Ogre::Real distance;
+        
 		// update target position
 		if (mTarget)
 		{
 			mTargetPos = mTarget->getPosition();
-		}
-
+            distance = MathUtil::distance(mTarget->getWorldBoundingBox(),
+                                                     mActor->getCreature()->getWorldBoundingBox());
+        }
+        else 
+        {
+            distance = MathUtil::distance(mTargetPos, mActor->getCreature()->getWorldBoundingBox());
+        }
+        
 		// Are we there now?
-		Ogre::Real distance = MathUtil::distance(mTarget->getWorldBoundingBox(),
-			mActor->getCreature()->getWorldBoundingBox());
 		if (distance < mMaxDistance)
 		{
 			// Stay put where ever we are.
