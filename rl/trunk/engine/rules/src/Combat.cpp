@@ -377,13 +377,13 @@ namespace rl
 					    }
 					    else if (entry.aktion == BEWEGEN)
 					    {
-						    GameEventLog::getSingleton().logEvent(combatant->getName() + " läuft nach "
+						    GameEventLog::getSingleton().logEvent(combatant->getName() + " lâ€°uft nach "
 							    + CeGuiString(StringConverter::toString(entry.targetPos)), GET_COMBAT);
 						    combatant->doBewegen(jobSetAnims, entry.targetPos);
 					    }
 					    else if (entry.aktion == FOLGEN)
 					    {
-						    GameEventLog::getSingleton().logEvent(combatant->getName() + " läuft zu "
+						    GameEventLog::getSingleton().logEvent(combatant->getName() + " lâ€°uft zu "
 							    + entry.target->getName(), GET_COMBAT);
 						    combatant->doFolgen(jobSetAnims, entry.target);
 					    }
@@ -401,23 +401,34 @@ namespace rl
     {
 		clearRemovedCombatantSet();
 
+        CombatantSet removedAllies, removedOpponents;
+        
         // check for fleeing from combat
         for (CombatantSet::iterator it = mAllies.begin(); it != mAllies.end(); ++it)
         {
             if (isOutOfCombatRange(*it, mOpponents))
             {
-                removeAlly(*it);
+                removedAllies.insert(*it);
             }
         }
+        for (CombatantSet::iterator it = removedAllies.begin(); it != removedAllies.end(); ++it)
+        {
+            removeAlly(*it);
+        }
+        
         for (CombatantSet::iterator it = mOpponents.begin(); it != mOpponents.end(); ++it)
         {
             if (isOutOfCombatRange(*it, mAllies))
             {
-                removeOpponent(*it);
+                removedOpponents.insert(*it);
             }
         }
-
-		clearRemovedCombatantSet();
+        for (CombatantSet::iterator it = removedOpponents.begin(); it != removedOpponents.end(); ++it)
+        {
+            removeOpponent(*it);
+        }
+        
+        clearRemovedCombatantSet();
 
         // All actions executed. Analyze outcome of this round.
         if (mAllies.empty())
@@ -437,17 +448,12 @@ namespace rl
 
     void Combat::doAttacke(JobSet* jobSetAnims, JobSet* jobSetDamage, Combatant* actor, Combatant* target)
 	{
-        enum Damage {
-            DMG_NONE,
-            DMG_HALF,
-            DMG_NORMAL,
-            DMG_DOUBLE
-        };
+        bool damageSp = false;
         
         GameEventLog::getSingleton().logEvent(
             actor->getName() + " attackiert " + target->getName(), GET_COMBAT);
         
-        Damage rollDamage = DMG_NONE;
+        DamageStrength rollDamage = DMG_NONE;
 		// Make an attack roll.
 		int aresult = actor->rollAttacke();
         
@@ -474,14 +480,20 @@ namespace rl
 					if (presult >= RESULT_ERFOLG)
 					{
 						GameEventLog::getSingleton().logEvent("Erfolg, aber pariert.", GET_COMBAT);
-                        if (target->getActiveWeapon()->isNatural())
+                        if (target->getActiveWeapon()->isNatural() && !actor->getActiveWeapon()->isNatural())
                         {
                             rollDamage = DMG_HALF;
+                        }
+                        else if (!target->getActiveWeapon()->isNatural() && actor->getActiveWeapon()->isNatural())
+                        {
+                            doDamage(jobSetDamage, DMG_HALF, target, actor);
+                            rollDamage = DMG_NONE;
                         }
                         else
                         {
                             rollDamage = DMG_NONE;
                         }
+                        damageSp = target->getActiveWeapon()->isAvoidingArmor();
 					}
 					else
 					{
@@ -510,18 +522,23 @@ namespace rl
 			target->doGetroffen(jobSetAnims);
 		}
 		
-		if (rollDamage != DMG_NONE) ///@todo half/double damage
+        doDamage(jobSetDamage, rollDamage, actor, target);
+	}
+    
+    void Combat::doDamage(JobSet* jobSet, DamageStrength damageStrength, Combatant* actor, Combatant* target)
+    {
+        if (damageStrength != DMG_NONE) ///@todo half/double damage
 		{
-			int tp = actor->rollTrefferpunkte();
-            jobSetAnims->add(new ApplyDamageJob(target->getCreature(), tp));
-
-			CeGuiString msg = actor->getName() + " trifft für "
+			int tp = actor->rollTrefferpunkte(damageStrength);
+            jobSet->add(new ApplyDamageJob(target->getCreature(), tp, Creature::LEDAMAGE_SP));
+            
+			CeGuiString msg = actor->getName() + " trifft fuer "
             + CeGuiString(StringConverter::toString(tp))
             + " Trefferpunkte";
 			GameEventLog::getSingleton().logEvent(msg, GET_COMBAT);
 		}
-	}
-    
+        
+    }
 
     void Combat::jobFinished(unsigned long ticket)
 	{
@@ -546,7 +563,7 @@ namespace rl
 					CeGuiString msg = curCreature->getName() + " ist jetzt ";
 					if (newstate == Effect::LS_INCAPACITATED)
 					{
-						msg += "kampfunfähig.";
+						msg += "kampfunfâ€°hig.";
 					}
                     else if (newstate == Effect::LS_UNCONSCIOUS)
 					{

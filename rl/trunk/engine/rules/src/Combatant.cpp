@@ -85,9 +85,9 @@ namespace rl
 		return getCreature()->doParade(weapon->getKampftechnik(), 0, gluecklich);
 	}
 
-	int Combatant::rollTrefferpunkte() const
+	int Combatant::rollTrefferpunkte(DamageStrength damage) const
 	{
-		return getCreature()->doTrefferpunkteWurf(getActiveWeapon());
+		return getCreature()->doTrefferpunkteWurf(getActiveWeapon(), damage);
 	}
 
 	int Combatant::applyTrefferpunkte(int tp)

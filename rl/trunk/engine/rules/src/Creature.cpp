@@ -861,8 +861,13 @@ namespace rl
 		return rval;
 	}
 
-	int Creature::doTrefferpunkteWurf(Weapon* weapon) const
+	int Creature::doTrefferpunkteWurf(Weapon* weapon, DamageStrength damage) const
 	{
+        if (damage == DMG_NONE)
+        {
+            return 0;
+        }
+        
 		// Roll dice
 		const Tripel<int>& weaponTp = weapon->getTp();
 		int rval = DsaManager::getSingleton().roll(weaponTp.first, weaponTp.second);
@@ -890,27 +895,31 @@ namespace rl
         }
 
         ///@todo auf Verletzlichkeiten und Immunitaeten achten
-        if ((damageType & LEDAMAGE_FIRE) == LEDAMAGE_FIRE)
+        if (damageType & LEDAMAGE_FIRE)
         {
             LOG_ERROR("Creature", "Fire damage not handled!"); ///@todo implement
         }
-        if ((damageType & LEDAMAGE_WATER) == LEDAMAGE_WATER)
+        if (damageType & LEDAMAGE_WATER)
         {
             LOG_ERROR("Creature", "Water damage not handled!"); ///@todo implement
         }
-        if ((damageType & LEDAMAGE_DEMONIC) == LEDAMAGE_DEMONIC)
+        if (damageType & LEDAMAGE_DEMONIC)
         {
             LOG_ERROR("Creature", "Demonic damage not handled!"); ///@todo implement
         }
 
-        if ((damageType & LEDAMAGE_TP_A) == LEDAMAGE_TP_A)
+        if (damageType & LEDAMAGE_TP_A)
         {
             damageAu(tp, AUDAMAGE_NORMAL);
             tp = (int)floor(tp/2.);
         }
 
-        int rs = getWert(WERT_RS);
-        int sp = -tp + rs;
+        int sp = -tp;
+        if (!(damageType & LEDAMAGE_SP))
+        {
+            int rs = getWert(WERT_RS);
+            sp += rs;            
+        }
 		modifyLe(sp);
 
         if (sp >= getEigenschaft("KO"))
@@ -1293,12 +1302,13 @@ namespace rl
     {
         GameObject::doRemoveFromScene();
 
+        ///@todo check if this is really necessary
         // check items in inventory
-        Inventory::SlotMap slots = mInventory->getAllSlots();
-        Inventory::SlotMap::iterator it = slots.begin();
-        for( ; it != slots.end(); it++ )
-        {
-            it->second->update();
-        }
+        //Inventory::SlotMap slots = mInventory->getAllSlots();
+        //Inventory::SlotMap::iterator it = slots.begin();
+        //for( ; it != slots.end(); it++ )
+        //{
+        //    it->second->update();
+        //}
     }
 }

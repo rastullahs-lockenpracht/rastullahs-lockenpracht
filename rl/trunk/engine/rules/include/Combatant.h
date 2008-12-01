@@ -19,10 +19,11 @@
 
 #include "RulesPrerequisites.h"
 
+#include "Creature.h"
+
 namespace rl
 {
     class Combat;
-    class Creature;
     class CreatureController;
 	class Kampfaktion;
 	class JobSet;
@@ -79,7 +80,7 @@ namespace rl
         **/
 		int rollParade(bool gluecklich);
 
-		int rollTrefferpunkte() const;
+		int rollTrefferpunkte(DamageStrength damage) const;
 		int applyTrefferpunkte(int tp);
 
 		void doAttacke(JobSet* jobSet, Combatant* target, int attackeResult, bool parade,

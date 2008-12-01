@@ -21,10 +21,11 @@
 namespace rl 
 {
 
-ApplyDamageJob::ApplyDamageJob(Creature* target, int tp)
+ApplyDamageJob::ApplyDamageJob(Creature* target, int damage, int damageType)
 :   Job(false, true, TimeSource::GAMETIME, AbstractJob::PERSISTENT),
     mTarget(target), 
-    mTp(tp)
+    mDamage(damage),
+    mType(damageType)
 {
 }
 
@@ -34,7 +35,7 @@ ApplyDamageJob::~ApplyDamageJob()
 
 bool ApplyDamageJob::execute(Ogre::Real time)
 {
-    mTarget->damageLe(mTp);
+    mTarget->damageLe(mDamage, mType);
     return true;
 }
 
