@@ -19,21 +19,25 @@
 
 #include "CommonPrerequisites.h"
 
-namespace rl {
-
-class _RlCommonExport MathUtil
+namespace rl 
 {
+    
+    class _RlCommonExport MathUtil
+    {
     public:
         static const Ogre::Real EPSILON;
-
+        
         static Ogre::Vector3 sphericalToCartesian(Ogre::Real r,
-            Ogre::Radian azimuth, Ogre::Radian altitude);
-
+                                                  Ogre::Radian azimuth, Ogre::Radian altitude);
+        
         static void cartesianToSpherical(Ogre::Vector3 cartesian, Ogre::Real& r,
-            Ogre::Radian& azimuth, Ogre::Radian& altitude);
+                                         Ogre::Radian& azimuth, Ogre::Radian& altitude);
         static Ogre::Real normaliseAngle(Ogre::Real angle);
-
+        
 		static Ogre::Real distance(const Ogre::AxisAlignedBox& b1, const Ogre::AxisAlignedBox& b2);
-};
+        static Ogre::Real distance(const Ogre::Vector3& v, const Ogre::AxisAlignedBox& b);
+        static Ogre::Real distance(const Ogre::AxisAlignedBox& b, const Ogre::Vector3& v);
+    };
+    
 }
 #endif
