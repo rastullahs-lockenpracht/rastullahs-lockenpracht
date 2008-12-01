@@ -101,5 +101,6 @@
 		<property name="INI" type="INT" data="2"/>
 		<property name="WM" type="INTPAIR" data="0,-5"/>
 		<property name="DK" type="STRING" data="HN"/>
+		<property name="natural" type="BOOL" data="true"/>
 	</gameobjectclass>
 </GameObjectDefinitions>
