@@ -84,7 +84,12 @@ namespace rl
 		bool onRenderSystemChanged();
         
         void update();
-
+        
+        void setOption(const Ogre::ConfigOptionMap& configuration, const Ogre::String& option, CEGUI::Checkbox* checkbox);
+        void setOption(const Ogre::ConfigOptionMap& configuration, const Ogre::String& option, CEGUI::Combobox* combobox);
+        void setOption(const Ogre::ConfigOptionMap& configuration, const Ogre::String& option, std::vector<CEGUI::RadioButton*> radioGroup);
+        void createElements(CEGUI::Combobox* combobox, size_t count);
+        
 		std::list<SoundDriverConfigComponent*> mSoundDriverConfigs;   //!< List of registered sounddriver configuration components
 		SoundDriverConfigComponent* mCurrentSoundDriverConfig;        //!< Configuration component of currently selected sound driver
 		std::list<RenderSystemConfigComponent*> mRenderSystemConfigs; //!< List of registered rendersystem configuration components
@@ -93,6 +98,9 @@ namespace rl
         CEGUI::Combobox* mVideoRenderer;
         CEGUI::Combobox* mVideoResolution;
         CEGUI::Checkbox* mVideoFullscreen;
+        CEGUI::RadioButton* mVideoColorDepth32, *mVideoColorDepth16;
+        CEGUI::RadioButton* mVideoFsaa0, *mVideoFsaa2, *mVideoFsaa4, *mVideoFsaa8;
+        CEGUI::RadioButton* mVideoRttModeFBO, *mVideoRttModePBuffer, *mVideoRttModeCopy;
 	};
 }
 

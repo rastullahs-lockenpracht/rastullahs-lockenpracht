@@ -232,7 +232,12 @@ namespace rl
 	{
 		return static_cast<PushButton*>(getWindow(name, "PushButton"));
 	}
-
+    
+	RadioButton* AbstractWindow::getRadioButton(const char* name)
+	{
+		return static_cast<RadioButton*>(getWindow(name, "RadioButton"));
+	}
+    
 	Combobox* AbstractWindow::getCombobox(const char* name)
 	{
 		return static_cast<Combobox*>(getWindow(name, "Combobox"));

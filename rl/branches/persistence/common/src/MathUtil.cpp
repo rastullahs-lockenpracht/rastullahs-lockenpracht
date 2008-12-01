@@ -75,4 +75,30 @@ namespace rl
 			return dv.length();
 		}
 	}
+    
+	Real MathUtil::distance(const Vector3& v, const AxisAlignedBox& b)
+    {
+        return MathUtil::distance(b, v);
+    }
+    
+	Real MathUtil::distance(const AxisAlignedBox& b, const Vector3& v)
+	{
+		if (b.contains(v))
+		{
+			return 0.0f;
+		}
+		else
+		{
+			Vector3 dv;
+            
+			const Vector3& min1 = b.getMinimum();
+			const Vector3& max1 = b.getMaximum();
+            
+			dv.x = min1.x > v.x ? min1.x - v.x : v.x > max1.x ? v.x - max1.x : 0.0f;
+			dv.y = min1.y > v.y ? min1.y - v.y : v.y > max1.y ? v.y - max1.y : 0.0f;
+			dv.z = min1.z > v.z ? min1.z - v.z : v.z > max1.z ? v.z - max1.z : 0.0f;
+            
+			return dv.length();
+		}
+	}
 }
