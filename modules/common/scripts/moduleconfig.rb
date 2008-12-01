@@ -23,9 +23,10 @@ class CommonModule < ContentModule
 
     def start()
 	UiSubsystem.getSingleton().initializeSubsystem()
+    CoreSubsystem.getSingleton() # with these strange things here, globals.rb works
 
-	load "globals.rb"
-	load "startup-global.rb"	
+	require "globals.rb"
+	require "startup-global.rb"	
     end
 end
 

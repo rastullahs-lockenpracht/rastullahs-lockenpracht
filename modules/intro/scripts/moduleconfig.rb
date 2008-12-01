@@ -1,3 +1,5 @@
+include RlScript
+
 class IntroModule < ContentModule
     def initialize()
         super("intro", "Intro", false, 200603030)
