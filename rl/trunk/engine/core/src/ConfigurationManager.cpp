@@ -184,6 +184,21 @@ namespace rl
         return mModuleList;
     }
 
+    void ConfigurationManager::removeModules(const Ogre::StringVector& modules)
+    {
+        for (Ogre::StringVector::const_iterator it = modules.begin(), end = modules.end(); it != end; ++it)
+        {
+            for (Ogre::StringVector::iterator itDel = mModuleList.begin(), endDel = mModuleList.end(); itDel != endDel; ++itDel)
+            {
+                if (*itDel == *it)
+                {
+                    mModuleList.erase(itDel);
+                    break;
+                }
+            }
+        }
+    }
+
     void ConfigurationManager::loadConfig()
     {
         setRastullahCfgPath();
