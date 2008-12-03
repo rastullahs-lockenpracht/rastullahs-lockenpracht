@@ -3,10 +3,15 @@ PROJECT(RL)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 # Cmake handles escaping of preprocessor directives
-CMAKE_POLICY(SET CMP0005 NEW)
+CMAKE_POLICY(SET CMP0005 OLD)
 
 # Include required cmake macros
 INCLUDE(FeatureSummary)
+
+# Version information
+SET(RL_MAJOR_VERSION 0)
+SET(RL_MINOR_VERSION 3)
+SET(RL_PATCH_VERSION 0)
 
 # Add directory with RL's own macro definitions
 # (checked before ${CMAKE_ROOT}/Modules)
@@ -21,7 +26,9 @@ SET(RL_SCRIPT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/engine/script/include INTERNAL)
 SET(RL_UI_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/engine/ui/include INTERNAL)
 
 # Check for required components
+FIND_PACKAGE(PkgConfig)
 FIND_PACKAGE(OGRE 1.6 REQUIRED)
+FIND_PACKAGE(OgreNewt REQUIRED)
 FIND_PACKAGE(CEGUI REQUIRED)
 FIND_PACKAGE(Boost 1.34 REQUIRED filesystem)
 FIND_PACKAGE(SWIG REQUIRED)
@@ -39,8 +46,7 @@ SET(ENABLE_FMOD4 "Enable FMOD 4.xx (FMODex) sound support" ON)
 SET(ENABLE_OPENAL "Enable OpenAL sound support (unsupported)" OFF)
 
 # Handle options
-SET(DATADIR ${DATAROOTDIR}/${DATADIRNAME})
-ADD_DEFINITIONS(-DDATADIR=${DATADIR})
+ADD_DEFINITIONS(-DRL_MODULEDIR=\\"${DATAROOTDIR}/${DATADIRNAME}/modules\\")
 
 # Include subdirectories
 ADD_SUBDIRECTORY(engine)

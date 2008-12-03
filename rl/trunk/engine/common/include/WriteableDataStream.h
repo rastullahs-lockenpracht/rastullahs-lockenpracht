@@ -72,3 +72,4 @@ namespace rl
 
     typedef Ogre::SharedPtr<WriteableFileStreamDataStream> WriteableFileStreamDataStreamPtr;
 }
+
