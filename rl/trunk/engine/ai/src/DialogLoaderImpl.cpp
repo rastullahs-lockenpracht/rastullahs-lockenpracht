@@ -717,6 +717,10 @@ namespace rl
                 CeGuiString newvalue = getAttributeValueAsString(implicationElem, "newvalue");
                 return new QuestPropertyAssignment(questId, prop, newvalue);
             }
+            else if (hasNodeName(implicationElem, "startcombat"))
+            {
+                return new CombatStart();
+            }
         }
         
         return NULL;

@@ -91,6 +91,13 @@ namespace rl
         Ogre::String mProperty;
         CeGuiString mNewValue;
     };
+    
+    class CombatStart : public DialogImplication
+    {
+    public:
+        CombatStart();
+        virtual void apply(Dialog* dialog);
+    };
 }
 
 #endif //__DialogImplication_H__
