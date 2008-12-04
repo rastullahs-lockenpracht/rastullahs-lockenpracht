@@ -880,6 +880,15 @@ namespace rl
 		
 		int bonus = (kk - tpkk.first) / tpkk.second;
 		rval += bonus;
+        
+        if (damage == DMG_HALF)
+        {
+            rval = (rval + 1) / 2;
+        }
+        else if (damage == DMG_DOUBLE)
+        {
+            rval *= 2; ///@TODO check if correct
+        }
 
 		return rval;
 	}
