@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<dialog name="combatdialog">
+	<start>
+    	<response id="1">
+			<p>Tach. Auf's Maul?</p>
+			<option id="2">
+				Klar, los geht's.
+				<response id="21"><startcombat/></response>
+			</option>
+			<option id="3">
+				Och nö, heute nicht.
+				<response id="31"><exit/></response>
+			</option>
+		</response>
+	</start>
+</dialog>
