@@ -39,6 +39,15 @@ namespace rl
 
 	void SaveAbleFactoryPool::unregisterFactory(rl::SaveAbleFactory *fac)
 	{
+		std::map<Ogre::String,SaveAbleFactory*>::iterator it;
+		for(it = mFactories.begin(); it != mFactories.end(); it++)
+		{
+			if(it->second == fac)
+			{
+				mFactories.erase(it);
+				return;
+			}
+		}
 	}
 
 	SaveAbleFactory* SaveAbleFactoryPool::getFactory(const Ogre::String &key)

@@ -14,6 +14,9 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
+#ifndef _H_WriteableDataStream
+#define _H_WriteableDataStream
+
 #include "CommonPrerequisites.h"
 
 #include <iostream>
@@ -23,6 +26,8 @@ namespace rl
     class _RlCommonExport WriteableDataStream : public Ogre::DataStream
     {
     public:
+		WriteableDataStream() : Ogre::DataStream() {}
+		WriteableDataStream(const Ogre::String &name) : Ogre::DataStream(name) {}
         virtual void write(void* buf, size_t count) = 0;
         virtual void flush() = 0;
     };
@@ -72,3 +77,6 @@ namespace rl
 
     typedef Ogre::SharedPtr<WriteableFileStreamDataStream> WriteableFileStreamDataStreamPtr;
 }
+
+#endif
+

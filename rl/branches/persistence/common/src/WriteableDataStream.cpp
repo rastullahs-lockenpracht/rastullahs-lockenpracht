@@ -24,7 +24,7 @@ using namespace Ogre;
 namespace rl
 {
     WriteableFileStreamDataStream::WriteableFileStreamDataStream(std::fstream* s, 
-            bool freeOnClose)
+		bool freeOnClose) : WriteableDataStream(), mpStream(s), mFreeOnClose(freeOnClose)
     {
         mpStream->seekg(0, std::ios_base::end);
         mSize = mpStream->tellg();
@@ -33,7 +33,7 @@ namespace rl
 
     WriteableFileStreamDataStream::WriteableFileStreamDataStream(const Ogre::String& name, 
             std::fstream* s, 
-            bool freeOnClose)
+			bool freeOnClose) : WriteableDataStream(name), mpStream(s), mFreeOnClose(freeOnClose)
     {
         mpStream->seekg(0, std::ios_base::end);
         mSize = mpStream->tellg();
@@ -43,7 +43,7 @@ namespace rl
     WriteableFileStreamDataStream::WriteableFileStreamDataStream(const Ogre::String& name, 
             std::fstream* s, 
             size_t size, 
-            bool freeOnClose)
+			bool freeOnClose) : WriteableDataStream(name), mpStream(s), mFreeOnClose(freeOnClose)
     {
         mSize = size;
     }

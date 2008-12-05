@@ -20,6 +20,7 @@ noinst_HEADERS =
 	DialogElementSelection.h \
 	DialogImplication.h \
 	DialogLoader.h \
+	DialogLoaderImpl.h \
 	DialogManager.h \
 	DialogOption.h \
 	DialogResponse.h \

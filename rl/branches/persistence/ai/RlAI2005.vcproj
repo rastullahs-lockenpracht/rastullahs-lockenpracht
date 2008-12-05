@@ -367,6 +367,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\DialogLoaderImpl.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\DialogManager.cpp"
 				>
 			</File>
@@ -538,6 +542,10 @@
 			</File>
 			<File
 				RelativePath=".\include\DialogLoader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\DialogLoaderImpl.h"
 				>
 			</File>
 			<File

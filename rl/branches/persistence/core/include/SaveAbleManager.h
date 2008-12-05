@@ -20,6 +20,7 @@
 #include "CorePrerequisites.h"
 #include "SaveAble.h"
 #include "SaveAbleCollection.h"
+#include "SaveAbleFactory.h"
 
 namespace rl
 {
@@ -28,21 +29,32 @@ namespace rl
 	protected:
 		typedef std::map<CeGuiString, SaveAbleCollection*> SaveAbleCollectionMap;
 	public:
+		typedef std::map<CeGuiString, SaveAblePtr> SaveAbleMap;
+		typedef std::map<CeGuiString, PropertyRecordPtr> SaveAbleStateMap;
 		void saveState();
-		void addSaveAble(SaveAblePtr save);
+		void loadState();
+		void addSaveAble(SaveAblePtr save, const CeGuiString &collectionId);
+		void moveSaveAbleToCollection(SaveAblePtr save, const CeGuiString &collectionId);
+		void moveSaveAbleToCollection(const CeGuiString &saveAbleId, const CeGuiString &collectionId);
 		void removeSaveAble(SaveAblePtr save);
 		void removeSaveAble(const CeGuiString &id);
 		void removeAllSaveAbles();
-		void attachSaveAbleToCollection(const CeGuiString &saveAbleId, const CeGuiString &collectionId);
-		void deattachSaveAbleFromColltection(const CeGuiString &saveAbleId, const CeGuiString &collectionId);
-		void restoreState();
-		void restoreSaveAble(const CeGuiString &id);
-		SaveAbleCollectionMap getCollections();
-	protected:
-		std::map<CeGuiString, PropertyRecordPtr> mSaveAbleStates;
-		std::map<CeGuiString, SaveAblePtr> mSaveAbles;
+		//void attachSaveAbleToCollection(const CeGuiString &saveAbleId, const CeGuiString &collectionId);
+		//void deattachSaveAbleFromColltection(const CeGuiString &saveAbleId, const CeGuiString &collectionId);
 		
+		SaveAbleCollectionMap getCollections();
+		SaveAbleStateMap getSaveAbleStates();
+
+		SaveAbleFactory* getFactory(SaveAblePtr saveAble);
+		SaveAbleFactory* getFactory(const CeGuiString &id);
+	protected:
+		SaveAbleStateMap mSaveAbleStates;
+		SaveAbleMap mSaveAbles;
 		SaveAbleCollectionMap mSaveAbleCollections;
+
+		void storeSaveAbleStates();
+		void restoreSaveAblesFromStates();
+		void restoreSaveAbleFromState(const CeGuiString &id);		
 	};
 }
 

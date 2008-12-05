@@ -67,7 +67,8 @@ public:
 	 *@param params Params needed for creation
 	 *@return SaveAble which has been created
 	 */
-	SaveAblePtr createSaveAble(PropertyRecordPtr params);
+	SaveAblePtr createSaveAble(const CeGuiString &id, PropertyRecordPtr params);
+	virtual void removeSaveAble(const CeGuiString &id);
 
     /**
      *  Adds a journal entry to the quest book.

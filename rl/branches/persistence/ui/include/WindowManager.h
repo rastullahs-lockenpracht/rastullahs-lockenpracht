@@ -19,6 +19,8 @@
 
 #include "UiPrerequisites.h"
 
+#include "MessagePump.h"
+
 namespace rl {
 
 	class AbstractWindow;
@@ -33,6 +35,7 @@ namespace rl {
 		void registerWindow(AbstractWindow* window);
 		void unregisterWindow(AbstractWindow* window);
 		void destroyWindow(AbstractWindow* window);
+        bool destroyAllWindows();
 		void closeTopWindow();
 		bool handleMovedToFront(AbstractWindow* window);
 		bool handleMovedToBack(AbstractWindow* window);
@@ -47,6 +50,7 @@ namespace rl {
 
 	private:
 		std::list<AbstractWindow*> mWindowList;
+        MessagePump::ScopedConnection mSceneClearConnection;
 
         unsigned short mNumActiveWindowsMouseInput;
         unsigned short mNumActiveWindowsKeyboardInput;

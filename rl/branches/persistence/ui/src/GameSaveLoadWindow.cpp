@@ -35,6 +35,7 @@
 #include "WindowFactory.h"
 #include "ConfigurationManager.h"
 #include "SaveGameManager.h"
+#include "SaveAbleSerializer.h"
 #include "CoreSubsystem.h"
 #include "ContentModule.h"
 
@@ -104,8 +105,7 @@ namespace rl {
 
     void GameSaveLoadWindow::initialize()
     {
-        //mSaveGameTable->autoSizeColumnHeader(0);
-        //mSaveGameTable->autoSizeColumnHeader(1);
+		listSaveGames();
     }
 
     //------------------------------------------------------- LoadEvent
@@ -137,7 +137,7 @@ namespace rl {
 
         if(filename != "")
         {
-
+			if(SaveAbleSerializer::getSingleton().SaveGameExists(filename, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()));
         }
         else
         {
@@ -159,8 +159,23 @@ namespace rl {
 
     void GameSaveLoadWindow::listSaveGames()
     {
-        //mSaveGameTable->autoSizeColumnHeader(0);
-        //mSaveGameTable->autoSizeColumnHeader(1);
+		mSaveGameTable->clearAllSelections();
+
+		while(mSaveGameTable->getRowCount() > 0)
+			mSaveGameTable->removeRow(0);
+
+		SaveGameEntryMap saveGames = SaveAbleSerializer::getSingleton().listSaveGames(CoreSubsystem::getSingleton().getActiveAdventureModule()->getId());
+		int count = saveGames.size();
+
+		for(int i = 0; i < count; i++)
+		{
+			mSaveGameTable->addRow(i);
+			mSaveGameTable->setItem(new ListboxTextItem(saveGames[i]->getName(),0,saveGames[i]),0,i); 
+			mSaveGameTable->setItem(new ListboxTextItem(saveGames[i]->getProperty(SaveGameFile::PROPERTY_TIME).toString()),1,i);
+		}
+
+        mSaveGameTable->autoSizeColumnHeader(0);
+        mSaveGameTable->autoSizeColumnHeader(1);
     }
 
     bool GameSaveLoadWindow::handleSelectSaveGame()

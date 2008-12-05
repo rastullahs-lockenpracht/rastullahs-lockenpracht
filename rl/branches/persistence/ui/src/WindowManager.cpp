@@ -18,8 +18,9 @@
 #include "WindowManager.h"
 #include <CEGUIWindowManager.h>
 
-#include "CoreSubsystem.h"
 #include "AbstractWindow.h"
+#include "CoreMessages.h"
+#include "CoreSubsystem.h"
 #include "Exception.h"
 #include "GameLoop.h"
 #include "UiSubsystem.h"
@@ -35,6 +36,8 @@ namespace rl {
           mNumActiveWindowsMouseInput(0),
           mNumActiveWindowsKeyboardInput(0)
 	{
+        mSceneClearConnection = MessagePump::getSingleton().addMessageHandler<MessageType_SceneClearing>(
+            boost::bind(&WindowManager::destroyAllWindows, this));
 	}
 
 	WindowManager::~WindowManager()
@@ -123,15 +126,33 @@ namespace rl {
     AbstractWindow* WindowManager::getActiveWindow()
     {
         // iterate through windows
-        std::list<AbstractWindow*>::iterator it;
-        for( it = mWindowList.begin(); it != mWindowList.end(); it++ )
+        for (std::list<AbstractWindow*>::iterator it = mWindowList.begin(); it != mWindowList.end(); it++ )
         {
-            if( (*it)->getWindow()->isActive() )
+            if ( (*it)->getWindow()->isActive() )
             {
                 return *it;
             }
         }
 
         return NULL;
+    }
+
+    bool WindowManager::destroyAllWindows()
+    {
+        for (std::list<AbstractWindow*>::iterator it = mWindowList.begin(); it != mWindowList.end(); it++ )
+        {
+            AbstractWindow* cur = *it;
+//			if (cur->isVisible())
+//			{
+				cur->setVisible(false, true);
+//			}
+//          else 
+//          {
+//              delete cur;
+//          }
+        }
+
+        mWindowList.clear();
+        return true;
     }
 }

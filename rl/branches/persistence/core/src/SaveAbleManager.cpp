@@ -26,7 +26,7 @@ namespace rl
 	{
 	}
 
-	void SaveAbleManager::addSaveAble(SaveAblePtr save)
+	void SaveAbleManager::addSaveAble(SaveAblePtr save, const CeGuiString &collectionId)
 	{
 	}
 
@@ -42,15 +42,36 @@ namespace rl
 	{
 	}
 		
-	void SaveAbleManager::attachSaveAbleToCollection(const CeGuiString &saveAbleId, const CeGuiString &collectionId)
+	/*void SaveAbleManager::attachSaveAbleToCollection(const CeGuiString &saveAbleId, const CeGuiString &collectionId)
+	{
+	}*/
+		
+	/*void SaveAbleManager::deattachSaveAbleFromColltection(const CeGuiString &saveAbleId, const CeGuiString &collectionId)
+	{
+	}*/
+		
+	void SaveAbleManager::restoreSaveAblesFromStates()
 	{
 	}
-		
-	void SaveAbleManager::deattachSaveAbleFromColltection(const CeGuiString &saveAbleId, const CeGuiString &collectionId)
+
+	void SaveAbleManager::restoreSaveAbleFromState(const CeGuiString &id)
 	{
 	}
-		
-	void SaveAbleManager::restoreState()
+
+	void SaveAbleManager::storeSaveAbleStates()
 	{
+		mSaveAbleStates.clear();
+
+		SaveAbleMap::const_iterator it;
+		for(it = mSaveAbles.begin(); it != mSaveAbles.end(); it++)
+		{
+			PropertyRecordPtr Properties;
+			Properties->setProperty("Properties", it->second->getAllProperties()->toPropertyMap());
+
+			// Ein dickes TODO ------
+			Properties->setProperty("CreationProperties", Property());
+			Properties->setProperty("Factory", Property("ID der Factory"));
+			mSaveAbleStates[it->first] = Properties;
+		}
 	}
 }

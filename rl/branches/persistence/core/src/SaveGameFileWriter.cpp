@@ -48,7 +48,30 @@ namespace rl
 	{
 		initializeXml();
 
+		XMLCh tempStr[100];
+        XMLString::transcode("LS", tempStr, 99);
+        mImplementation = DOMImplementationRegistry::getDOMImplementation(tempStr);
+		mTarget = file->getFormatTarget();
+		mWriter = static_cast<DOMImplementationLS*>(mImplementation)->createDOMWriter();
+		mDocument = static_cast<DOMImplementation*>(mImplementation)->createDocument(0, XMLString::transcode("SaveGameFile"), 0);
 
+		 if (mWriter->canSetFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true))
+            mWriter->setFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true);
+
+        if (mWriter->canSetFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true))
+             mWriter->setFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true);
+
+		mDocument->setNodeValue(XMLString::transcode("SaveGameFile")); //Set name of document root node
+
+		setAttributeValueAsString(mDocument->getDocumentElement(), "SaveGameFormatVersion", "0.6");
+		setAttributeValueAsInteger(mDocument->getDocumentElement(), "Engineversion", CoreSubsystem::getSingleton().getEngineBuildNumber());
+
+
+        mWriter->writeNode(mTarget, *mDocument);
+
+        mWriter->release();
+
+        delete mDocument;
 
 		shutdownXml();
 	}

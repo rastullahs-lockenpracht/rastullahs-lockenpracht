@@ -334,6 +334,8 @@ namespace rl
         // Initialise the modules
         Ogre::StringVector modulesList = ConfigurationManager::getSingleton().getModuleList();
 
+        Ogre::StringVector brokenModules;
+
         for (size_t i = 0; i < modulesList.size(); i++)
         {
             mRubyInterpreter->executeFile(ContentModule::getInitFile(modulesList[i]));
@@ -342,8 +344,9 @@ namespace rl
 
             if (module == NULL)
             {
-                Throw(rl::RuntimeException,
-                      ContentModule::getInitFile(modulesList[i]) + " did not register module '" + modulesList[i] + "'");
+                LOG_WARNING("CoreSubsystem",
+                      ContentModule::getInitFile(modulesList[i]) + " did not register module '" + modulesList[i] + "', removed.");
+                brokenModules.push_back(modulesList[i]);
             }
             //else
             //{
@@ -354,6 +357,8 @@ namespace rl
             //    }
             //}
         }
+
+        ConfigurationManager::getSingleton().removeModules(brokenModules);
     }
 
     ContentModule* CoreSubsystem::getModule(const Ogre::String& moduleId) const

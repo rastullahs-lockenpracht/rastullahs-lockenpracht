@@ -36,6 +36,8 @@ namespace rl
 
 		SaveGameEntryMap listSaveGames();
 		SaveGameEntryMap listSaveGames(const CeGuiString &moduleId);
+		bool SaveGameExists(const CeGuiString &name, const CeGuiString &moduleId);
+		SaveGameFile* getSaveGame(const CeGuiString &name, const CeGuiString &moduleId);
 
 		virtual const Ogre::StringVector&  getScriptPatterns(void) const;
         virtual void parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);
@@ -50,7 +52,7 @@ namespace rl
 		void writeToSaveGameFile(SaveGameFile* file);
 		void readFromSaveGameFile(SaveGameFile* file);
 
-		SaveGameEntryMap mSaveGameFile;
+		SaveGameEntryMap mSaveGameFiles;
 		SaveGameFileReader mReader;
 		SaveGameFileWriter mWriter;
 

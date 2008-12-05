@@ -73,7 +73,13 @@ namespace rl
     static const int RESULT_ERFOLG = 1;
     /// Eine normal misslungene Attacke oder Parade
     static const int RESULT_MISSERFOLG = -1;
-
+   
+    enum DamageStrength {
+        DMG_NONE,
+        DMG_HALF,
+        DMG_NORMAL,
+        DMG_DOUBLE
+    };
 
     /// Basistalente
     /// @todo Passenderen Ort suchen
@@ -632,7 +638,7 @@ namespace rl
              **/
             int doInitiativeWurf(bool getMaxInitiative = false);
 
-			int doTrefferpunkteWurf(Weapon* weapon) const;
+			int doTrefferpunkteWurf(Weapon* weapon, DamageStrength damage) const;
 
             /**
              *  Fuegt der Kreatur \a tp @ref abbdet "Trefferpunkte" zu.
@@ -642,10 +648,11 @@ namespace rl
              **/
             void damageLe(int tp, int damageType = LEDAMAGE_NORMAL);
             static const int LEDAMAGE_NORMAL = 0;
-            static const int LEDAMAGE_FIRE = 1;
-            static const int LEDAMAGE_WATER = 2;
-            static const int LEDAMAGE_DEMONIC = 4;
-            static const int LEDAMAGE_TP_A = 8;
+            static const int LEDAMAGE_SP = 1;
+            static const int LEDAMAGE_FIRE = 2;
+            static const int LEDAMAGE_WATER = 4;
+            static const int LEDAMAGE_DEMONIC = 8;
+            static const int LEDAMAGE_TP_A = 16;
 
             /**
              *  Zieht der Kreatur \a asp @ref abbdea "Astralpunkte" ab.

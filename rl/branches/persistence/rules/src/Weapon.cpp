@@ -37,6 +37,8 @@ namespace rl
     const Ogre::String Weapon::PROPERTY_TP_KAMPFTECHNIK = "kampftechnik";
     const Ogre::String Weapon::PROPERTY_NATURAL = "natural";
 
+    const Ogre::String Weapon::PROPERTY_AVOID_ARMOR = "avoidarmor";
+    
 	Weapon::Weapon(const CeGuiString &id)
 		: Item(id),
         mTp(0, 0, 0),
@@ -46,7 +48,8 @@ namespace rl
 		mWm(0, 0),
         mDk(DK_H),
         mKampftechnik(""),
-        mNatural(false)
+        mNatural(false),
+        mAvoidArmor(false)
 	{
         mQueryFlags |= QUERYFLAG_WEAPON;
 		mItemType = ITEMTYPE_WEAPON;
@@ -184,7 +187,17 @@ namespace rl
     {
         mNatural = natural;
     }
-
+    
+    bool Weapon::isAvoidingArmor() const
+    {
+        return mAvoidArmor;
+    }
+    
+    void Weapon::setAvoidArmor(bool avoid)
+    {
+        mAvoidArmor = avoid;
+    }
+    
     void Weapon::setProperty(const CeGuiString& key, const Property& value)
     {
         if (key == Weapon::PROPERTY_TP)
@@ -238,6 +251,10 @@ namespace rl
         else if (key == Weapon::PROPERTY_NATURAL)
         {
             mNatural = value.toBool();
+        }
+        else if (key == Weapon::PROPERTY_AVOID_ARMOR)
+        {
+            mAvoidArmor = value.toBool();
         }
         else
         {
@@ -296,6 +313,10 @@ namespace rl
         {
             return Property(mNatural);
         }
+        else if (key == Weapon::PROPERTY_AVOID_ARMOR)
+        {
+            return Property(mAvoidArmor);
+        }
         else
         {
             return Item::getProperty(key);
@@ -313,6 +334,7 @@ namespace rl
         keys.insert(Weapon::PROPERTY_TP_DK);
         keys.insert(Weapon::PROPERTY_TP_KAMPFTECHNIK);
         keys.insert(Weapon::PROPERTY_NATURAL);
+        keys.insert(Weapon::PROPERTY_AVOID_ARMOR);
         return keys;
     }
 }

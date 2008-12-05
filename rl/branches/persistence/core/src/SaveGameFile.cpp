@@ -19,6 +19,7 @@
 #include "SaveGameFile.h"
 #include "SaveGameManager.h"
 #include <xercesc/framework/LocalFileFormatTarget.hpp>
+#include "WriteableDataStreamFormatTarget.h"
 
 #include <ConfigurationManager.h>
 #include <CoreSubsystem.h>
@@ -32,25 +33,13 @@ namespace rl
     const Ogre::String SaveGameFile::PROPERTY_MODULENAME = "modulename";
 
 
-    SaveGameFile::SaveGameFile(const CeGuiString &name, int id) : mStream((WriteableDataStream*)NULL)
+    SaveGameFile::SaveGameFile(int id, WriteableDataStreamPtr stream) : mStream(stream)
     {
-        setProperty(PROPERTY_NAME,name);
-        mSaveGameId = id;
+		mSaveGameId = id;  
     }
 
     SaveGameFile::~SaveGameFile()
     {
-    }
-
-    CeGuiString SaveGameFile::buildFilename()
-    {
-#       if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
-        return Ogre::String(::getenv("HOME")) + "/.rastullah/saves/" 
-            + Ogre::StringConverter::toString(mSaveGameId) + ".save";
-#       else
-        return ConfigurationManager::getSingleton().getModulesRootDirectory() + "/saves/" 
-            + Ogre::StringConverter::toString(mSaveGameId) + ".save";
-#       endif        
     }
 
     CeGuiString SaveGameFile::getName() const
@@ -63,52 +52,28 @@ namespace rl
 		return mModuleID;
 	}
 
-    int SaveGameFile::getId()
+    int SaveGameFile::getId() const
     {
         return mSaveGameId;
     }
 
     WriteableDataStreamPtr &SaveGameFile::getDataStream()
     {
-        Ogre::ResourceGroupManager::getSingleton().createResourceGroup("SaveGame");
-
-        mScriptPatterns.push_back((Ogre::StringConverter::toString(mSaveGameId) + ".save").c_str());
-
-        Ogre::ResourceGroupManager::getSingleton()._registerScriptLoader(this);
-
-        Ogre::ResourceGroupManager::getSingleton().addResourceLocation(ConfigurationManager::getSingleton().getModulesRootDirectory() 
-            + "/saves", "FileSystem", "SaveGame");
-        Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("SaveGame");
-
-        ///@todo: decryption
-        return mStream;
-    }
-
-    void SaveGameFile::closeDataStream()
-    {
-        Ogre::ResourceGroupManager::getSingleton().clearResourceGroup("SaveGame"); //close all resource files -> make them writable
-        Ogre::ResourceGroupManager::getSingleton().destroyResourceGroup("SaveGame");
-
-        Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(this);
+		return mStream;
     }
 
     XERCES_CPP_NAMESPACE::XMLFormatTarget* SaveGameFile::getFormatTarget()
     {
         ///@todo: encryption
-        return new XERCES_CPP_NAMESPACE::LocalFileFormatTarget(this->buildFilename().c_str());
+		return new WriteableDataStreamFormatTarget(mStream);
     }
 
     void SaveGameFile::deleteFileFromStorage()
     {
-        if(remove(buildFilename().c_str()))
+        /*if(remove(buildFilename().c_str()))
             LOG_ERROR(Logger::RULES, "SaveGameFile is not removed from filesystem. The file doesn't exists!");
         else 
-            LOG_MESSAGE(Logger::RULES,"SaveGameFile successfully removed from filesystem");
-    }
-
-    bool SaveGameFile::saveGameExists()
-    {
-        return !Ogre::DataStreamPtr( new Ogre::FileHandleDataStream(fopen(this->buildFilename().c_str(), "r"))).isNull();
+            LOG_MESSAGE(Logger::RULES,"SaveGameFile successfully removed from filesystem");*/
     }
 
     const Property SaveGameFile::getProperty(const CeGuiString& key) const
@@ -157,20 +122,5 @@ namespace rl
         set.insert(PROPERTY_NAME);
         set.insert(PROPERTY_MODULENAME);
         return set;
-    }
-
-    const Ogre::StringVector& SaveGameFile::getScriptPatterns() const
-    {
-        return mScriptPatterns;
-    }
-
-    void SaveGameFile::parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
-    {
-		mStream.bind(static_cast<WriteableDataStream*>(stream.get()));
-    }
-
-    Ogre::Real SaveGameFile::getLoadingOrder() const
-    {
-        return 1000.0f;
     }
 }

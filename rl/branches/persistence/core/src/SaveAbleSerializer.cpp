@@ -64,6 +64,10 @@ namespace rl
 
 	void SaveAbleSerializer::parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
 	{
+		LOG_MESSAGE(Logger::CORE, "Parsing headers of save game file: " + stream->getName() + " Resource group: " + groupName);
+		mSaveGameFiles[Ogre::StringConverter::parseInt(stream->getName())] = 
+			new SaveGameFile(Ogre::StringConverter::parseInt(stream->getName()),
+			WriteableDataStreamPtr(dynamic_cast<WriteableDataStream*>(stream.get())));
 	}
 
 	const Ogre::StringVector& SaveAbleSerializer::getScriptPatterns() const
@@ -75,6 +79,50 @@ namespace rl
     {
         return 2000.0f;
     }
+	
+	SaveAbleSerializer::SaveGameEntryMap SaveAbleSerializer::listSaveGames()
+	{
+		return mSaveGameFiles;
+	}
 
+	SaveAbleSerializer::SaveGameEntryMap SaveAbleSerializer::listSaveGames(const CeGuiString &moduleId)
+	{
+		SaveGameEntryMap files;
+		SaveGameEntryMap::const_iterator iter;
+		for(iter = mSaveGameFiles.begin(); iter != mSaveGameFiles.end(); iter++)
+		{
+			if(iter->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString() == moduleId)
+				files[iter->first] = iter->second;
+		}
+		return files;
+	}
 
+	bool SaveAbleSerializer::SaveGameExists(const CeGuiString &name, const CeGuiString &moduleId)
+	{
+		bool exists = false;
+		SaveGameEntryMap::const_iterator iter;
+		for(iter = mSaveGameFiles.begin(); iter != mSaveGameFiles.end() && !exists; iter++)
+		{
+			if(iter->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString() == moduleId)
+			{
+				if(iter->second->getName() == name)
+					exists = true;
+			}
+		}
+		return exists;
+	}
+
+	SaveGameFile* SaveAbleSerializer::getSaveGame(const CeGuiString &name, const CeGuiString &moduleId)
+	{
+		SaveGameEntryMap::const_iterator iter;
+		for(iter = mSaveGameFiles.begin(); iter != mSaveGameFiles.end(); iter++)
+		{
+			if(iter->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString() == moduleId)
+			{
+				if(iter->second->getName() == name)
+					return iter->second;
+			}
+		}
+		return NULL;
+	}
 }

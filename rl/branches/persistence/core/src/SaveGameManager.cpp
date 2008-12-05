@@ -56,15 +56,15 @@ namespace rl
 
     SaveGameManager::SaveGameManager() : mHighestSaveGameNumber(0)
     { 
-        Ogre::ResourceGroupManager::getSingleton().createResourceGroup("SaveGames");
+        //Ogre::ResourceGroupManager::getSingleton().createResourceGroup("SaveGames");
 
-        mScriptPatterns.push_back("*.save");
-        Ogre::ResourceGroupManager::getSingleton()._registerScriptLoader(this);
+        //mScriptPatterns.push_back("*.save");
+        //Ogre::ResourceGroupManager::getSingleton()._registerScriptLoader(this);
 
-        Ogre::ResourceGroupManager::getSingleton().addResourceLocation(ConfigurationManager::getSingleton().getModulesRootDirectory() 
-            + "/saves", "FileSystem", "SaveGames");
-        Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("SaveGames");
-        Ogre::ResourceGroupManager::getSingleton().clearResourceGroup("SaveGames"); //close all resource files -> make them writable
+        //Ogre::ResourceGroupManager::getSingleton().addResourceLocation(ConfigurationManager::getSingleton().getModulesRootDirectory() 
+        //    + "/saves", "FileSystem", "SaveGames");
+        //Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("SaveGames");
+        //Ogre::ResourceGroupManager::getSingleton().clearResourceGroup("SaveGames"); //close all resource files -> make them writable
     }
 
     SaveGameManager::~SaveGameManager()
@@ -92,33 +92,33 @@ namespace rl
 
     void SaveGameManager::saveSaveGameFile(const CeGuiString &name)
     {
-        MessagePump::getSingleton().sendMessage<MessageType_SaveGameSaving>();
+    //    MessagePump::getSingleton().sendMessage<MessageType_SaveGameSaving>();
 
-        time_t rawTime;
-        tm* localTime; 
-        time(&rawTime);
-        localTime = localtime(&rawTime);
+    //    time_t rawTime;
+    //    tm* localTime; 
+    //    time(&rawTime);
+    //    localTime = localtime(&rawTime);
 
-        SaveGameFile* file = NULL;
+    //    SaveGameFile* file = NULL;
 
-        if(SaveGameFileExists(name, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()))
-        {
-             file = getSaveGameFile(name, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId());
-             //new SaveGameFile(name,getSaveGameFile(name, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId())->getId());
-        }
-        else
-        {
-            mHighestSaveGameNumber++;
-            file = new SaveGameFile(name, mHighestSaveGameNumber);
-        }
-        
-        file->setProperty(SaveGameFile::PROPERTY_TIME, Property(printTimeAsString(localTime)));
-        file->setProperty(SaveGameFile::PROPERTY_MODULEID, Property(CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()));
-        file->setProperty(SaveGameFile::PROPERTY_MODULENAME, Property(CoreSubsystem::getSingleton().getActiveAdventureModule()->getName()));
+    //    if(SaveGameFileExists(name, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()))
+    //    {
+    //         file = getSaveGameFile(name, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId());
+    //         //new SaveGameFile(name,getSaveGameFile(name, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId())->getId());
+    //    }
+    //    else
+    //    {
+    //        mHighestSaveGameNumber++;
+    //        file = new SaveGameFile(name, mHighestSaveGameNumber);
+    //    }
+    //    
+    //    file->setProperty(SaveGameFile::PROPERTY_TIME, Property(printTimeAsString(localTime)));
+    //    file->setProperty(SaveGameFile::PROPERTY_MODULEID, Property(CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()));
+    //    file->setProperty(SaveGameFile::PROPERTY_MODULENAME, Property(CoreSubsystem::getSingleton().getActiveAdventureModule()->getName()));
 
-        mSaveGames[file->getId()] = file;
+    //    mSaveGames[file->getId()] = file;
 
-        SaveGameFileWriter writer;
+    //    SaveGameFileWriter writer;
         //writer.buildSaveGameFile(file, mSaveGameDataOrderMap);
 
         //freeSaveGameMap();
@@ -126,12 +126,12 @@ namespace rl
         //Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("SaveGames");
         //Ogre::ResourceGroupManager::getSingleton().clearResourceGroup("SaveGames"); //close all resource files -> make them writable
 
-        MessagePump::getSingleton().sendMessage<MessageType_SaveGameSaved>();
+        //MessagePump::getSingleton().sendMessage<MessageType_SaveGameSaved>();
     }
 
     void SaveGameManager::loadSaveGameFile(const CeGuiString &name, const CeGuiString &moduleId)
     {
-        if(SaveGameFileExists(name, moduleId))
+     /*   if(SaveGameFileExists(name, moduleId))
         {
             MessagePump::getSingleton().sendMessage<MessageType_SaveGameLoading>();
 
@@ -144,7 +144,7 @@ namespace rl
             ///@todo: SaveGameReader
 
             MessagePump::getSingleton().sendMessage<MessageType_SaveGameLoaded>();
-        }
+        }*/
     }
 
     void SaveGameManager::loadSaveGameFile(int id)
@@ -235,24 +235,24 @@ namespace rl
 
     void SaveGameManager::parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
     {
-        Ogre::String name = stream->getName();
-        name = name.substr(0, name.length()-5); //delete ".save" at the and of the name
-        int pointpos = name.find_last_of(".");
-        name = name.substr(0, pointpos);
+        //Ogre::String name = stream->getName();
+        //name = name.substr(0, name.length()-5); //delete ".save" at the and of the name
+        //int pointpos = name.find_last_of(".");
+        //name = name.substr(0, pointpos);
 
-        if(Ogre::StringConverter::isNumber(name))
-        {
-            mHighestSaveGameNumber = std::max(mHighestSaveGameNumber, Ogre::StringConverter::parseInt(name));
+        //if(Ogre::StringConverter::isNumber(name))
+        //{
+        //    mHighestSaveGameNumber = std::max(mHighestSaveGameNumber, Ogre::StringConverter::parseInt(name));
 
-            SaveGameFile* file = new SaveGameFile("", Ogre::StringConverter::parseInt(name));        
-            
-            LOG_MESSAGE(Logger::RULES, "Parsing header of save game: " + name + ".save");
-            SaveGameFileReader reader;
-            reader.parseSaveGameFileHeader(stream, groupName, file);
-            
-            if(file->getProperty(SaveGameFile::PROPERTY_MODULEID) != "") // broken save game
-                mSaveGames[Ogre::StringConverter::parseInt(name)] = file;
-        }
+        //    SaveGameFile* file = new SaveGameFile("", Ogre::StringConverter::parseInt(name));        
+        //    
+        //    LOG_MESSAGE(Logger::RULES, "Parsing header of save game: " + name + ".save");
+        //    SaveGameFileReader reader;
+        //    reader.parseSaveGameFileHeader(stream, groupName, file);
+        //    
+        //    if(file->getProperty(SaveGameFile::PROPERTY_MODULEID) != "") // broken save game
+        //        mSaveGames[Ogre::StringConverter::parseInt(name)] = file;
+        //}
     }
 
     void SaveGameManager::registerSaveGameData(SaveGameData* data)

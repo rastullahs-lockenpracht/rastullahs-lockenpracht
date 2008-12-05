@@ -84,11 +84,16 @@ namespace rl {
 	    mRootQuest->addSubquest(quest);
     }
 
-	SaveAblePtr QuestBook::createSaveAble(PropertyRecordPtr params)
+	SaveAblePtr QuestBook::createSaveAble(const CeGuiString &id, PropertyRecordPtr params)
 	{
 		SaveAblePtr ptr;
 		ptr.bind(static_cast<SaveAble*>(new Quest(""))); //TODO !!!!!
+		_fireQuestBookChanged(static_cast<Quest*>(ptr.get()), 0);
 		return ptr; // TODO
+	}
+
+	void QuestBook::removeSaveAble(const CeGuiString &id)
+	{
 	}
 
     void QuestBook::_fireQuestBookChanged(Quest *quest, int reason)

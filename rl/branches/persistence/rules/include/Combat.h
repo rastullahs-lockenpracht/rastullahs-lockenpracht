@@ -23,16 +23,16 @@
 #include <vector>
 #include <boost/tuple/tuple.hpp>
 
+#include "Creature.h"
+#include "Effect.h"
 #include "JobListener.h"
 #include "Kampfaktion.h"
 #include "MessagePump.h"
 #include "RulesConstants.h"
-#include "Effect.h"
 
 namespace rl
 {
     class Combatant;
-	class Creature;
 	class GameObject;
 	class JobSet;
 
@@ -121,7 +121,7 @@ namespace rl
         unsigned short mCurrentRound;
 		unsigned short mNextActionId;
 		
-		/// Maximum distance to enemies, a combatant is  this exceededing distance to its enemies
+		/// Maximum distance to enemies, if a combatant is exceeding this distance to all its enemies
 		/// he is considered fleeing
 		Ogre::Real mMaxDistance;
 
@@ -132,6 +132,7 @@ namespace rl
         void endRound();
 
 		void doAttacke(JobSet* jobSetAnims, JobSet* jobSetDamage, Combatant* actor, Combatant* target);
+        void doDamage(JobSet* jobSet, DamageStrength damageStrength, Combatant* actor, Combatant* target);
 
 		Ogre::Real getMaximumAttackeDistance(Combatant* actor) const;
 

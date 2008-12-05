@@ -20,7 +20,7 @@
 
 namespace rl
 {
-    class WriteableDataStreamFormatTarget : public XERCES_CPP_NAMESPACE::XMLFormatTarget
+    class _RlCommonExport WriteableDataStreamFormatTarget : public XERCES_CPP_NAMESPACE::XMLFormatTarget
     {
     public:
         WriteableDataStreamFormatTarget(WriteableDataStreamPtr stream);

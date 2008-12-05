@@ -34,60 +34,60 @@ namespace rl
 
     void SaveGameFileReader::parseSaveGameFile(SaveGameFile* file, const SaveGameDataOrderMap &map)
     {
-        initializeXml();
+        //initializeXml();
 
-        mDocument = loadDocument(file->getDataStream());
+        //mDocument = loadDocument(file->getDataStream());
 
-        int version = getAttributeValueAsInteger(mDocument->getDocumentElement(), "Engineversion");
-        if(version >= CoreSubsystem::getSingleton().getEngineBuildNumber())
-            LOG_MESSAGE(Logger::CORE, "Loading save game: Engine version is ok");
-        else
-            LOG_ERROR(Logger::CORE, "Loading save game: Save game version is newer then engine version! Loading save game could crash");
+        //int version = getAttributeValueAsInteger(mDocument->getDocumentElement(), "Engineversion");
+        //if(version >= CoreSubsystem::getSingleton().getEngineBuildNumber())
+        //    LOG_MESSAGE(Logger::CORE, "Loading save game: Engine version is ok");
+        //else
+        //    LOG_ERROR(Logger::CORE, "Loading save game: Save game version is newer then engine version! Loading save game could crash");
 
-        for(SaveGameDataOrderMap::const_reverse_iterator data_iter = map.rbegin(); data_iter != map.rend(); data_iter++)
-        {
-            data_iter->second->readData(this);
-        }
+        //for(SaveGameDataOrderMap::const_reverse_iterator data_iter = map.rbegin(); data_iter != map.rend(); data_iter++)
+        //{
+        //    data_iter->second->readData(this);
+        //}
 
 
-        file->closeDataStream(); //make the save game writable
+        //file->closeDataStream(); //make the save game writable
 
-        mDocument = NULL;
+        //mDocument = NULL;
 
-        shutdownXml();
+        //shutdownXml();
     }
 
     void SaveGameFileReader::parseSaveGameFileHeader(Ogre::DataStreamPtr &stream, const Ogre::String &groupName, SaveGameFile* file)
     {
-        initializeXml();
+        //initializeXml();
 
-        if(stream->size())
-        {
-            DOMDocument* doc = loadDocument(stream);
+        //if(stream->size())
+        //{
+        //    DOMDocument* doc = loadDocument(stream);
 
-             DOMNodeList* headerDefsXml = doc->getDocumentElement()->getElementsByTagName(AutoXMLCh("header").data());
-             if(headerDefsXml->getLength())
-             {
-                 DOMElement* elem = static_cast<DOMElement*>(headerDefsXml->item(0));
-                 /*DOMNodeList* headerDefChildren = elem->getChildNodes();
-                 for(XMLSize_t childIdx = 0; childIdx < headerDefChildren->getLength(); childIdx++)
-                 {
-                     DOMNode* curChild = headerDefChildren->item(childIdx);
-                     if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
-                     {
-                         PropertyEntry entry = processProperty(static_cast<DOMElement*>(curChild));
-                         if(entry.first != "")
-                         {
-                            file->setProperty(entry.first, entry.second);
-                         }
-                     }
-                 }*/
-                 PropertyRecordPtr set = getPropertiesAsRecord(elem);
-                 file->setProperties(set);
-             }
-        }
+        //     DOMNodeList* headerDefsXml = doc->getDocumentElement()->getElementsByTagName(AutoXMLCh("header").data());
+        //     if(headerDefsXml->getLength())
+        //     {
+        //         DOMElement* elem = static_cast<DOMElement*>(headerDefsXml->item(0));
+        //         /*DOMNodeList* headerDefChildren = elem->getChildNodes();
+        //         for(XMLSize_t childIdx = 0; childIdx < headerDefChildren->getLength(); childIdx++)
+        //         {
+        //             DOMNode* curChild = headerDefChildren->item(childIdx);
+        //             if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
+        //             {
+        //                 PropertyEntry entry = processProperty(static_cast<DOMElement*>(curChild));
+        //                 if(entry.first != "")
+        //                 {
+        //                    file->setProperty(entry.first, entry.second);
+        //                 }
+        //             }
+        //         }*/
+        //         PropertyRecordPtr set = getPropertiesAsRecord(elem);
+        //         file->setProperties(set);
+        //     }
+        //}
 
-        shutdownXml();
+        //shutdownXml();
     }
 
     PropertyRecordPtr SaveGameFileReader::getAllPropertiesAsRecord(SaveGameData* data)
