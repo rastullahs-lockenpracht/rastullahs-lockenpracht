@@ -54,25 +54,25 @@ namespace rl
 
         ~WriteableFileStreamDataStream();
 
-		size_t read(void* buf, size_t count);
+		virtual size_t read(void* buf, size_t count);
 
-        size_t readLine(char* buf, size_t maxCount, const Ogre::String& delim = "\n");
+        virtual size_t readLine(char* buf, size_t maxCount, const Ogre::String& delim = "\n");
 		
-		void skip(long count);
+		virtual void skip(long count);
 	
-	    void seek( size_t pos );
+	    virtual void seek( size_t pos );
 
-		size_t tell(void) const;
+		virtual size_t tell(void) const;
 
-	    bool eof(void) const;
+	    virtual bool eof(void) const;
 
-        void close(void);
+        virtual void close(void);
 
-        std::fstream* getFStream();
+        virtual std::fstream* getFStream();
 
-        void write(void* buf, size_t count);
+        virtual void write(void* buf, size_t count);
 
-        void flush();
+        virtual void flush();
     };
 
     typedef Ogre::SharedPtr<WriteableFileStreamDataStream> WriteableFileStreamDataStreamPtr;

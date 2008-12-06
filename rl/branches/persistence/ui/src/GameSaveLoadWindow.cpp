@@ -137,7 +137,15 @@ namespace rl {
 
         if(filename != "")
         {
-			if(SaveAbleSerializer::getSingleton().SaveGameExists(filename, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()));
+			if(SaveAbleSerializer::getSingleton().SaveGameExists(filename, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()))
+			{
+				SaveAbleSerializer::getSingleton().writeSaveGame(SaveAbleSerializer::getSingleton().getSaveGame(filename, CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()));
+			}
+			else
+			{
+			}
+			SaveAbleSerializer::getSingleton().updateFileList();
+			listSaveGames();
         }
         else
         {
