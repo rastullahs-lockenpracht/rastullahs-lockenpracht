@@ -303,7 +303,7 @@ namespace rl {
 
         mCharacterState.mLastMovementState = mCharacterState.mCurrentMovementState;
 
-        if (isEnemyNear())
+        if (isEnemyNear() && !(mCharacter->getLifeState() & Effect::LS_NO_COMBAT))
         {
             InputManager::getSingleton().pushControlState(CST_COMBAT);
         }
@@ -1178,7 +1178,7 @@ namespace rl {
         if ( isMouseUsedByCegui() )
             return;
 
-        InputManager* im = InputManager::getSingletonPtr();
+        //InputManager* im = InputManager::getSingletonPtr();
 
         GameObject* oldGo = mSelector.getFirstSelectedObject();
 
