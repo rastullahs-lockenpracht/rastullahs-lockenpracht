@@ -68,6 +68,7 @@ namespace rl
 		SaveGameFile* file = new SaveGameFile(Ogre::StringConverter::parseInt(stream->getName()),
 			WriteableDataStreamPtr(dynamic_cast<WriteableDataStream*>(stream.get())));
 		mReader.parseSaveGameFileHeader(file);
+		mHighestSaveGameNumber = Ogre::StringConverter::parseInt(stream->getName()) > mHighestSaveGameNumber ? Ogre::StringConverter::parseInt(stream->getName()) : mHighestSaveGameNumber;
 		mSaveGameFiles[Ogre::StringConverter::parseInt(stream->getName())] = file;
 	}
 
@@ -125,5 +126,58 @@ namespace rl
 			}
 		}
 		return NULL;
+	}
+
+	void SaveAbleSerializer::updateFileList()
+	{
+		Ogre::ResourceGroupManager::getSingleton().destroyResourceGroup("SaveGameFiles");
+
+		SaveGameEntryMap::iterator iter;
+		for(iter = mSaveGameFiles.begin(); iter != mSaveGameFiles.end(); iter++)
+		{
+			delete iter->second;
+		}
+
+		mSaveGameFiles.clear();
+
+		Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("SaveGameFiles");
+	}
+
+
+///---------------------------------------------------------------
+
+
+	SaveGameFile* SaveAbleSerializer::createNewSaveGame()
+	{
+		return NULL;
+	}
+
+	void SaveAbleSerializer::deleteSaveGame(int fileId)
+	{
+	}
+
+	void SaveAbleSerializer::deleteSaveGame(SaveGameFile* save)
+	{
+	}
+
+	void SaveAbleSerializer::writeSaveGame(int fileId)
+	{
+	}
+
+	void SaveAbleSerializer::writeSaveGame(SaveGameFile* save)
+	{
+	}
+
+	void SaveAbleSerializer::readSaveGame(int fileId)
+	{
+	}
+
+	void SaveAbleSerializer::readSaveGame(SaveGameFile* save)
+	{
+	}
+
+	int SaveAbleSerializer::getHighestSaveGameNumber()
+	{
+		return mHighestSaveGameNumber;
 	}
 }

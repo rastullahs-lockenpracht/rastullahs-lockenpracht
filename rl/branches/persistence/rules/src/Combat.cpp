@@ -486,7 +486,7 @@ namespace rl
                         }
                         else if (!target->getActiveWeapon()->isNatural() && actor->getActiveWeapon()->isNatural())
                         {
-                            doDamage(jobSetDamage, DMG_HALF, target, actor);
+                            doDamage(jobSetAnims, DMG_HALF, target, actor);
                             rollDamage = DMG_NONE;
                         }
                         else
@@ -522,7 +522,7 @@ namespace rl
 			target->doGetroffen(jobSetAnims);
 		}
 		
-        doDamage(jobSetDamage, rollDamage, actor, target);
+        doDamage(jobSetAnims, rollDamage, actor, target);
 	}
     
     void Combat::doDamage(JobSet* jobSet, DamageStrength damageStrength, Combatant* actor, Combatant* target)

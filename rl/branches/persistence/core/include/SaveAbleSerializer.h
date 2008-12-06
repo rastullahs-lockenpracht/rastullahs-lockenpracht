@@ -34,6 +34,7 @@ namespace rl
 
 		typedef std::map<int, SaveGameFile*> SaveGameEntryMap;
 
+		void updateFileList();
 		SaveGameEntryMap listSaveGames() const;
 		SaveGameEntryMap listSaveGames(const CeGuiString &moduleId) const;
 		bool SaveGameExists(const CeGuiString &name, const CeGuiString &moduleId);
@@ -43,9 +44,13 @@ namespace rl
         virtual void parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);
         virtual Ogre::Real getLoadingOrder(void) const;
 
-		void createNewSaveGame();
+		SaveGameFile* createNewSaveGame();
+		void deleteSaveGame(int fileId);
+		void deleteSaveGame(SaveGameFile* save);
 		void writeSaveGame(int fileId);
+		void writeSaveGame(SaveGameFile* save);
 		void readSaveGame(int fileId);
+		void readSaveGame(SaveGameFile* save);
 
 		int getHighestSaveGameNumber();
 	protected:

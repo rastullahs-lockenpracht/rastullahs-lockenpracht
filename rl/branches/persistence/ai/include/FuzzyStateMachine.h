@@ -59,11 +59,11 @@ namespace rl
 		 */
         virtual void clearStates()
 		{
-			typename StateList::iterator itr = mStates.begin();
-			for(; itr != mStates.begin(); ++itr)
+			for(typename StateList::iterator itr = mStates.begin(); itr != mStates.end(); ++itr)
 			{
-                ScriptWrapper::getSingleton().disowned( itr->second );
-				delete itr->second;
+                FuzzyStatePtr state = itr->second;
+                ScriptWrapper::getSingleton().disowned( state );
+				delete state;
 			}
 			mStates.clear();
 		}
