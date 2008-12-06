@@ -32,7 +32,7 @@ namespace rl
     public:
         SaveGameFileReader();
         void parseSaveGameFile(SaveGameFile* file, const SaveGameDataOrderMap &map);
-        void parseSaveGameFileHeader(Ogre::DataStreamPtr &stream, const Ogre::String &groupName, SaveGameFile* file);
+        void parseSaveGameFileHeader(SaveGameFile* file);
 
         PropertyRecordPtr getAllPropertiesAsRecord(SaveGameData* data);
 

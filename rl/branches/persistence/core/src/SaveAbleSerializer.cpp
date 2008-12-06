@@ -65,9 +65,10 @@ namespace rl
 	void SaveAbleSerializer::parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
 	{
 		LOG_MESSAGE(Logger::CORE, "Parsing headers of save game file: " + stream->getName() + " Resource group: " + groupName);
-		mSaveGameFiles[Ogre::StringConverter::parseInt(stream->getName())] = 
-			new SaveGameFile(Ogre::StringConverter::parseInt(stream->getName()),
+		SaveGameFile* file = new SaveGameFile(Ogre::StringConverter::parseInt(stream->getName()),
 			WriteableDataStreamPtr(dynamic_cast<WriteableDataStream*>(stream.get())));
+		mReader.parseSaveGameFileHeader(file);
+		mSaveGameFiles[Ogre::StringConverter::parseInt(stream->getName())] = file;
 	}
 
 	const Ogre::StringVector& SaveAbleSerializer::getScriptPatterns() const

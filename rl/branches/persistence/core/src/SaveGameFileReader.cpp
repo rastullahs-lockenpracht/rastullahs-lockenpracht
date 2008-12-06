@@ -57,37 +57,42 @@ namespace rl
         //shutdownXml();
     }
 
-    void SaveGameFileReader::parseSaveGameFileHeader(Ogre::DataStreamPtr &stream, const Ogre::String &groupName, SaveGameFile* file)
+    void SaveGameFileReader::parseSaveGameFileHeader(SaveGameFile* file)
     {
-        //initializeXml();
+		initializeXml();
 
-        //if(stream->size())
-        //{
-        //    DOMDocument* doc = loadDocument(stream);
+		WriteableDataStreamPtr stream = file->getDataStream();
 
-        //     DOMNodeList* headerDefsXml = doc->getDocumentElement()->getElementsByTagName(AutoXMLCh("header").data());
-        //     if(headerDefsXml->getLength())
-        //     {
-        //         DOMElement* elem = static_cast<DOMElement*>(headerDefsXml->item(0));
-        //         /*DOMNodeList* headerDefChildren = elem->getChildNodes();
-        //         for(XMLSize_t childIdx = 0; childIdx < headerDefChildren->getLength(); childIdx++)
-        //         {
-        //             DOMNode* curChild = headerDefChildren->item(childIdx);
-        //             if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
-        //             {
-        //                 PropertyEntry entry = processProperty(static_cast<DOMElement*>(curChild));
-        //                 if(entry.first != "")
-        //                 {
-        //                    file->setProperty(entry.first, entry.second);
-        //                 }
-        //             }
-        //         }*/
-        //         PropertyRecordPtr set = getPropertiesAsRecord(elem);
-        //         file->setProperties(set);
-        //     }
-        //}
+		if(stream->size())
+		{
+			DOMDocument* doc = loadDocument(stream);
+			DOMNodeList* headerDefsXml = doc->getDocumentElement()->getElementsByTagName(AutoXMLCh("header").data());
 
-        //shutdownXml();
+			if(headerDefsXml->getLength())
+			{
+				DOMElement* elem = static_cast<DOMElement*>(headerDefsXml->item(0));
+				DOMNodeList* headerDefChildren = elem->getChildNodes();
+
+				for(XMLSize_t childIdx = 0; childIdx < headerDefChildren->getLength(); childIdx++)
+				{
+					DOMNode* curChild = headerDefChildren->item(childIdx);
+					if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
+                    {
+                        PropertyEntry entry = processProperty(static_cast<DOMElement*>(curChild));
+                        if(entry.first != "")
+                        {
+                           file->setProperty(entry.first, entry.second);
+                        }
+                    }
+                }
+
+
+                PropertyRecordPtr set = getPropertiesAsRecord(elem);
+                file->setProperties(set);
+            }
+		}
+
+		shutdownXml();
     }
 
     PropertyRecordPtr SaveGameFileReader::getAllPropertiesAsRecord(SaveGameData* data)
