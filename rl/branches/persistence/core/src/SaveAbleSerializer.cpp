@@ -80,12 +80,12 @@ namespace rl
         return 2000.0f;
     }
 	
-	SaveAbleSerializer::SaveGameEntryMap SaveAbleSerializer::listSaveGames()
+	SaveAbleSerializer::SaveGameEntryMap SaveAbleSerializer::listSaveGames() const
 	{
 		return mSaveGameFiles;
 	}
 
-	SaveAbleSerializer::SaveGameEntryMap SaveAbleSerializer::listSaveGames(const CeGuiString &moduleId)
+	SaveAbleSerializer::SaveGameEntryMap SaveAbleSerializer::listSaveGames(const CeGuiString &moduleId) const
 	{
 		SaveGameEntryMap files;
 		SaveGameEntryMap::const_iterator iter;

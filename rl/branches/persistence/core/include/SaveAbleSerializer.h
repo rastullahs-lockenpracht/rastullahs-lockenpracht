@@ -34,8 +34,8 @@ namespace rl
 
 		typedef std::map<int, SaveGameFile*> SaveGameEntryMap;
 
-		SaveGameEntryMap listSaveGames();
-		SaveGameEntryMap listSaveGames(const CeGuiString &moduleId);
+		SaveGameEntryMap listSaveGames() const;
+		SaveGameEntryMap listSaveGames(const CeGuiString &moduleId) const;
 		bool SaveGameExists(const CeGuiString &name, const CeGuiString &moduleId);
 		SaveGameFile* getSaveGame(const CeGuiString &name, const CeGuiString &moduleId);
 

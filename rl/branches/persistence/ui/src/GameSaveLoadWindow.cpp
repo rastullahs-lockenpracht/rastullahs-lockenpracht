@@ -165,13 +165,13 @@ namespace rl {
 			mSaveGameTable->removeRow(0);
 
 		SaveGameEntryMap saveGames = SaveAbleSerializer::getSingleton().listSaveGames(CoreSubsystem::getSingleton().getActiveAdventureModule()->getId());
-		int count = saveGames.size();
+		SaveGameEntryMap::const_iterator iter = saveGames.begin();
 
-		for(int i = 0; i < count; i++)
+		for(int i = 0; iter != saveGames.end(); i++, iter++)
 		{
 			mSaveGameTable->addRow(i);
-			mSaveGameTable->setItem(new ListboxTextItem(saveGames[i]->getName(),0,saveGames[i]),0,i); 
-			mSaveGameTable->setItem(new ListboxTextItem(saveGames[i]->getProperty(SaveGameFile::PROPERTY_TIME).toString()),1,i);
+			mSaveGameTable->setItem(new ListboxTextItem(iter->second->getName(),0,iter->second),0,i); 
+			mSaveGameTable->setItem(new ListboxTextItem(iter->second->getProperty(SaveGameFile::PROPERTY_TIME).toString()),1,i);
 		}
 
         mSaveGameTable->autoSizeColumnHeader(0);
