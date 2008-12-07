@@ -29,7 +29,6 @@ namespace rl
 	protected:
 		typedef std::map<CeGuiString, SaveAbleCollection*> SaveAbleCollectionMap;
 	public:
-		typedef std::map<CeGuiString, SaveAblePtr> SaveAbleMap;
 		typedef std::map<CeGuiString, PropertyRecordPtr> SaveAbleStateMap;
 		void saveState();
 		void loadState();
@@ -39,8 +38,6 @@ namespace rl
 		void removeSaveAble(SaveAblePtr save);
 		void removeSaveAble(const CeGuiString &id);
 		void removeAllSaveAbles();
-		//void attachSaveAbleToCollection(const CeGuiString &saveAbleId, const CeGuiString &collectionId);
-		//void deattachSaveAbleFromColltection(const CeGuiString &saveAbleId, const CeGuiString &collectionId);
 		
 		SaveAbleCollectionMap getCollections();
 		SaveAbleStateMap getSaveAbleStates();
@@ -49,7 +46,7 @@ namespace rl
 		SaveAbleFactory* getFactory(const CeGuiString &id);
 	protected:
 		SaveAbleStateMap mSaveAbleStates;
-		SaveAbleMap mSaveAbles;
+		//SaveAbleMap mSaveAbles;
 		SaveAbleCollectionMap mSaveAbleCollections;
 
 		void storeSaveAbleStates();

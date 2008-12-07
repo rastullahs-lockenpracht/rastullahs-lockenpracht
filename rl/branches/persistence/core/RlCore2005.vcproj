@@ -663,6 +663,10 @@
 				Name="SaveGame"
 				>
 				<File
+					RelativePath=".\include\GlobalData.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\SaveAble.h"
 					>
 				</File>
@@ -1011,6 +1015,10 @@
 			<Filter
 				Name="SaveGame"
 				>
+				<File
+					RelativePath=".\src\GlobalData.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\src\SaveAble.cpp"
 					>

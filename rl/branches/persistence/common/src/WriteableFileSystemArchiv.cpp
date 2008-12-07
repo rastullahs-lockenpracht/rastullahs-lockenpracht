@@ -72,6 +72,7 @@ namespace rl
 
     DataStreamPtr WriteableFileSystemArchive::open(const String& filename) const
     {
+        LOG_MESSAGE(Logger::COMMON, "Opening WriteableFileStreamDataStream: " + filename);
         String full_path = concatenate_path(mName, filename);
 
         // Always open in binary mode

@@ -14,27 +14,24 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#include "CorePrerequisites.h"
-#include "SaveAble.h"
+#ifndef __GLOBALDATA_H__
+#define __GLOBALDATA_H__
+
+#include "SaveAbleCollection.h"
 
 namespace rl
 {
-
-	class _RlCoreExport SaveAbleCollection
-	{
-	public:
-        typedef std::map<CeGuiString, SaveAblePtr> SaveAbleMap;
-
-		SaveAbleCollection(const CeGuiString &id);
-		virtual void attachSaveAble(SaveAblePtr saveAble) = 0;
-		virtual void deattachSaveAble(SaveAblePtr saveAble) = 0;
-		virtual void deattachSaveAble(const CeGuiString &id) = 0;
-		virtual void deattachAllSaveAbles() = 0;
-		CeGuiString getId() const;
-        SaveAbleMap getSaveAbles() const;
-	protected:
-		SaveAbleMap mSaveAbles;
-		CeGuiString mId;
-	};
-
+    class GlobalData : public SaveAbleCollection
+    {
+    public:
+        GlobalData(const CeGuiString &id);
+        virtual ~GlobalData();
+        virtual void attachSaveAble(SaveAblePtr saveAble);
+		virtual void deattachSaveAble(SaveAblePtr saveAble);
+		virtual void deattachSaveAble(const CeGuiString &id);
+		virtual void deattachAllSaveAbles();
+    };
 }
+
+
+#endif

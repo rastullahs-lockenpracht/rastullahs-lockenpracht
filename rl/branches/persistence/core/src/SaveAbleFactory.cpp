@@ -28,13 +28,17 @@ namespace rl
 	{
 		if(mFactories.find(key) != mFactories.end())
 			LOG_ERROR("CORE", "SaveAbleFactory already registered!");
-		mFactories[key] = fac;
+        else
+            mFactories[key] = fac;
 	}
 
 	void SaveAbleFactoryPool::unregisterFactory(const Ogre::String &key)
 	{
 		std::map<Ogre::String,SaveAbleFactory*>::iterator it = mFactories.find(key);
-		mFactories.erase(it);
+        if(it != mFactories.end())            
+            mFactories.erase(it);
+        else
+            LOG_ERROR(Logger::CORE, "SaveAbleFactory is not registered!");
 	}
 
 	void SaveAbleFactoryPool::unregisterFactory(rl::SaveAbleFactory *fac)

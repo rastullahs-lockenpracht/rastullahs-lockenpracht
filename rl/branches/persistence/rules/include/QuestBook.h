@@ -69,6 +69,7 @@ public:
 	 */
 	SaveAblePtr createSaveAble(const CeGuiString &id, PropertyRecordPtr params);
 	virtual void removeSaveAble(const CeGuiString &id);
+    virtual PropertyRecordPtr getCreationParams(const CeGuiString &id) const;
 
     /**
      *  Adds a journal entry to the quest book.

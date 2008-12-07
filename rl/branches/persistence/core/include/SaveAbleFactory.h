@@ -27,6 +27,7 @@ namespace rl
 	public:
 		virtual SaveAblePtr createSaveAble(const CeGuiString &id, PropertyRecordPtr params) = 0;
 		virtual void removeSaveAble(const CeGuiString &id) = 0;
+        virtual PropertyRecordPtr getCreationParams(const CeGuiString &id) const = 0;
 	};
 
 	class _RlCoreExport SaveAbleFactoryPool : public Ogre::Singleton<SaveAbleFactoryPool>

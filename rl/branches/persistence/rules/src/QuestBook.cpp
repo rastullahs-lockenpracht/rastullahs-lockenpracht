@@ -96,6 +96,11 @@ namespace rl {
 	{
 	}
 
+    PropertyRecordPtr QuestBook::getCreationParams(const CeGuiString &id) const
+    {
+        return PropertyRecordPtr();
+    }
+
     void QuestBook::_fireQuestBookChanged(Quest *quest, int reason)
     {
 	    QuestEvent* evt = new QuestEvent(this, reason);

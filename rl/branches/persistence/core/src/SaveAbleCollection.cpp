@@ -29,4 +29,9 @@ namespace rl
 	{
 		return mId;
 	}
+
+    SaveAbleCollection::SaveAbleMap SaveAbleCollection::getSaveAbles() const
+    {
+        return mSaveAbles;
+    }
 }

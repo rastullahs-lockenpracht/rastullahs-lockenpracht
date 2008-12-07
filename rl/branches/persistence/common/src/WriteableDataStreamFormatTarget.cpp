@@ -27,12 +27,22 @@ namespace rl
 
     void WriteableDataStreamFormatTarget::writeChars (const XMLByte *const toWrite, const unsigned int count, XERCES_CPP_NAMESPACE::XMLFormatter *const formatter)
     {
-        mStream->write((char*)toWrite, count);
+        if(static_cast<WriteableDataStream*>(mStream.get()))
+        {
+            mStream->write((char*)toWrite, count);
+        }
+        else
+            LOG_ERROR(Logger::COMMON, "WriteableDataStreamFormatTarget: Stream " + mStream->getName() + " is not writeable");
     }
 
     void WriteableDataStreamFormatTarget::flush ()
     {
-        mStream->flush();
+        if(static_cast<WriteableDataStream*>(mStream.get()))
+        {
+            mStream->flush();
+        }
+        else
+            LOG_ERROR(Logger::COMMON, "WriteableDataStreamFormatTarget: Stream " + mStream->getName() + " is not writeable");
     }
 }
 

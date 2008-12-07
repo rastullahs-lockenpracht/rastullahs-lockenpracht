@@ -24,8 +24,8 @@ namespace rl
     {
     public:
         WriteableDataStreamFormatTarget(WriteableDataStreamPtr stream);
-        void writeChars (const XMLByte *const toWrite, const unsigned int count, XERCES_CPP_NAMESPACE::XMLFormatter *const formatter);
-        void flush ();
+        virtual void writeChars (const XMLByte *const toWrite, const unsigned int count, XERCES_CPP_NAMESPACE::XMLFormatter *const formatter);
+        virtual void flush ();
     protected:
         WriteableDataStreamPtr mStream;
     };
