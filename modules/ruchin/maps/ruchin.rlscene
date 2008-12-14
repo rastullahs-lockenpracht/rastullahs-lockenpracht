@@ -1,0 +1,4 @@
+<scene name="ruchin">
+	<map file="ruchin.rlmap.xml"/>	
+	<map file="Ruchin_houses.rlmap.xml"/>
+</scene>

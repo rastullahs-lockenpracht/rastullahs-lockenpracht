@@ -78,7 +78,7 @@ $SCRIPT.log("Türen gesetzt");
 
 loader = MapLoader.new("ruchin");
 loader.loadMap("ruchin_lightzones.rlmap.xml");
-loader.loadMap("Ruchin_houses.scene.xml");
+#loader.loadMap("Ruchin_houses.scene.xml");
 
 $SCRIPT.log("Fackellicht erstellen..");
 fackellicht = $AM.createLightActor("Das Licht der Fackel", LightObject::LT_POINT );

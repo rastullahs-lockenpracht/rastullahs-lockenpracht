@@ -25,7 +25,7 @@ class RuchinModule < ContentModule
     def start()
 		require 'clothing.rb'
 		
-        $CORE.loadMap("Octree", "ruchin.scene", "ruchin");
+		SceneManager::getSingleton().loadScene("ruchin", false);
         load "maptest.rb"
         $World = $CORE.getWorld();
     end
