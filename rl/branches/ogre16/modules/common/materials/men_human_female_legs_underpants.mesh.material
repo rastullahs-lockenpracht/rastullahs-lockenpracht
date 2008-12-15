@@ -1,6 +1,0 @@
-
-material men_human_female_legs_underpants : Basic_Normalmapping
-{
-set_texture_alias DiffuseMap men_human_female_legs_underpants_diffuse.png
-set_texture_alias NormalMap  men_human_female_legs_underpants_normal.png
-}

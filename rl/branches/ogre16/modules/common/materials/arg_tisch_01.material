@@ -1,5 +1,0 @@
-
-material arg_tisch_01: Basic_Vertex_Shader
-{
-set_texture_alias diffuse arc_tisch_01.dds
-}

@@ -1,5 +1,0 @@
-
-material waf_kurzschwert_01 : Basic_Vertex_Shader
-{
-set_texture_alias diffuse waf_kurzschwert_01.dds
-}

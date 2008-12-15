@@ -1,7 +1,0 @@
-
-material arc_fass : Basic_Vertex_Shader
-{
-			
-			set_texture_alias diffuse arc_fass_diffuse.dds
-
-}

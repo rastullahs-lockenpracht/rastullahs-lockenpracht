@@ -1,7 +1,0 @@
-
-material men_human_female_armor_kroetenhaut : Basic_Normalmapping_Spec_mirrored
-{
-set_texture_alias DiffuseMap obj_kroetenhaut_diffuse.png
-set_texture_alias NormalMap obj_kroetenhaut_normal.png
-set_texture_alias SpecMap obj_kroetenhaut_specular.png
-}

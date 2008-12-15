@@ -1,5 +1,0 @@
-
-material nachtkasten: Basic_Vertex_Shader
-{
-set_texture_alias diffuse ver_moebel_04.dds
-}

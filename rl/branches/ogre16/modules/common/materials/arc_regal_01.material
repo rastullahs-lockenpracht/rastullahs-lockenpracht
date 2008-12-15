@@ -1,5 +1,0 @@
-
-material arc_regal_essen: Basic_Vertex_Shader
-{
-set_texture_alias diffuse arc_regal_essen.dds
-}
