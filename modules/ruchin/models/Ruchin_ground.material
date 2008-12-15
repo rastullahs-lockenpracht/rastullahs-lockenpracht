@@ -15,13 +15,13 @@ material Ruchin_ground: TerrainVColorBlending
    {
       pass
       {
-         fragment_program_ref
+         fragment_program_ref TerrainVColorBlending_Pixel_Shader_glsl
          {
             param_named scale_Detail4 float 30.050000 
             // Alpha
          }
 
-         vertex_program_ref
+         vertex_program_ref TerrainVColorBlending_Vertex_Shader_glsl
          {
 
             param_named scale_Texture0 float 30.58000 
@@ -50,13 +50,13 @@ material Ruchin_ground: TerrainVColorBlending
    {
       pass
       {
-         fragment_program_ref
+         fragment_program_ref TerrainVColorBlending_Pixel_Shader
          {
             param_named scale_Detail4 float 100.050000 
             // Alpha
          }
 
-         vertex_program_ref
+         vertex_program_ref TerrainVColorBlending_Vertex_Shader
          {
 
             param_named scale_Texture0 float 30.58000 
