@@ -18,7 +18,7 @@ vertex_program Basic_Vertex_Shader_AO hlsl
 
 material Basic_Vertex_Shader_AO
 {
-receive_shadows off
+	receive_shadows off
 	technique hlsl
 	{
 		
