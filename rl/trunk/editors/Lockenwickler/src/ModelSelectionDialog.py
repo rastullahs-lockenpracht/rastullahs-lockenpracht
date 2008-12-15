@@ -97,8 +97,7 @@ class ModelSelectionDialog(QDialog):
         self.gridlayout.addWidget(self.splitter,1,0,1,1)
 
         self.retranslateUi()
-        QObject.connect(self.modelSearchBox,SIGNAL("textChanged(QString)"),self.listWidget.clearSelection)
-        QMetaObject.connectSlotsByName(self)
+
 
     def retranslateUi(self):
         self.setWindowTitle(QApplication.translate("modelPreviewDialog", "Dialog", None, QApplication.UnicodeUTF8))
@@ -115,14 +114,14 @@ class ModelSelectionDialog(QDialog):
         self.node.setScale(og.Vector3(1,1,1))
         bb = self.ent.getBoundingBox()
 
-    def scanDirForModels(self, dir, name):
+    def scanDirForModels(self, dir):
         for file in os.listdir(dir):
             curFile = dir + "/" + file
 
             if file.startswith('.'): #ignore dot files (hidden)
                 continue
             if isdir(curFile):
-                self.scanDirForModels(curFile, file)
+                self.scanDirForModels(curFile)
                 continue
             if isfile(curFile):
                 if file.endswith(".mesh"):
@@ -143,6 +142,7 @@ class ModelSelectionDialog(QDialog):
         if event.type() == 5:
             self.startDrag()
             event.accept()
+            return True
 
         return False
 
@@ -152,6 +152,7 @@ class ModelSelectionDialog(QDialog):
                 self.ogreModelPrevWindow.zoomCamera(-5)
             else:
                 self.ogreModelPrevWindow.zoomCamera( 5)
+            return True
 
         if event.type() == 5: #mouse moved while button down
             rotX = (event.globalX() - self.lastMousePosX) * 0.01
@@ -162,10 +163,12 @@ class ModelSelectionDialog(QDialog):
 
             self.lastMousePosX = event.globalX()
             self.lastMousePosY = event.globalY()
+            return True
 
         if event.type() == 3: # mouse released
             self.lastMousePosX = 0
             self.lastMousePosY = 0
+            return True
 
         return False
 

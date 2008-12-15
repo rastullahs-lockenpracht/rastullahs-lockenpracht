@@ -150,6 +150,7 @@ class OgreMainWindow(QWidget):
 
     def eventFilter(self, obj, event):
         if event.type() == 2:
+            self.ogreRenderWindow.setFocus()
             if event.button() == 1: # left mouse button is pressed
                 self.leftMouseDown = True
                 self.moduleManager.leftMouseDown = True

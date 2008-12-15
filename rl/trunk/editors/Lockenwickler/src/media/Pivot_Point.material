@@ -4,8 +4,6 @@ material Lockenwickler_Pivot_X
 	{
 		pass
 		{
-                        depth_check off
-                        depth_write off
 			ambient 1.0 0.0 0.0 0.5
 			diffuse 1.0 0.0 0.0 0.5
 			specular 1.0 0.0 0.0 0.5 12.5
@@ -21,8 +19,6 @@ material Lockenwickler_Pivot_Y
 
 		pass
 		{
-                        depth_check off
-                        depth_write off
 			ambient 0.0 0.0 1.0 0.5
 			diffuse 0.0 0.0 1.0 0.5
 			specular 0.0 0.0 1.0 0.5 12.5
@@ -37,8 +33,6 @@ material Lockenwickler_Pivot_Z
 	{
 		pass
 		{
-                        depth_check off
-                        depth_write off
 			ambient 0.0 1.0 0.0 0.5
 			diffuse 0.0 1.0 0.0 0.5
 			specular 0.0 1.0 0.0 0.5 12.5
@@ -60,4 +54,44 @@ material Lockenwickler_FreeMover
 		}
 	}
 }
+
+material SOLID/TEX/lightbulp.png
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture lightbulp.png
+			}
+		}
+	}
+}
+
+material Lockenwickler_Area
+{
+	technique
+	{
+                pass
+		{
+                        depth_write off
+                        scene_blend alpha_blend
+                        
+			ambient 0.0 1.0 0.0 0.2
+			diffuse 0.0 1.0 0.0 0.2
+			emissive 0.0 1.0 0.0 0.2
+		}
+
+		pass
+		{
+                        polygon_mode wireframe
+
+			ambient 0.0 1.0 0.0 1.0
+			diffuse 0.0 1.0 0.0 1.0
+			emissive 0.0 1.0 0.0 1.0
+		}
+	}
+}
+
  
