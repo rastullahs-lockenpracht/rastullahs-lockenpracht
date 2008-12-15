@@ -1,11 +1,13 @@
 import Basic_Vertex_Shader from Basic_Vertex_Shader.program
+import Basic_Normalmapping from Basic_Normalmapping.material
 import Ruchin/base from Ruchintest.material
 import Ruchin_Stadtmauer/Dach from Stadtmauer.material
-import Ruchin_Stadtmauer/Wand from Stadtmauer.material
+import Ruchin_Stadtmauer from Stadtmauer.material
 
-material Stadtwache/Wand : Ruchin_Stadtmauer/Wand
+material Stadtwache/Wand : Basic_Normalmapping
 {
-
+	set_texture_alias DiffuseMap Ruchin_stadtmauer.png
+	set_texture_alias NormalMap Ruchin_stadtmauer_normal.png
 }
 
 material Stadtwache/Base : Ruchin/base
