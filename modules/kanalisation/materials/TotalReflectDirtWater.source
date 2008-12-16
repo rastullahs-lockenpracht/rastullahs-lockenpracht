@@ -13,6 +13,8 @@ void main_vp(
 		out float4 color   : COLOR,
 		
 		uniform float4x4 worldViewProjMatrix,
+		uniform float3 lightPosition, //object space
+		uniform float4 lightDiffuse,
 		uniform float3 eyePosition, // object space
 		uniform float timeVal,
 		uniform float scale,  // the amount to scale the noise texture by
@@ -35,8 +37,11 @@ void main_vp(
 	oEyeDir = normalize(pos.xyz - eyePosition); 
 	oNormal = normal.rgb; 
 	
+	float3 N = normalize(normal);
+	float3 L = normalize(lightPosition - pos.xyz);
+	
 	oTex = tex;
-	color = ambient;
+	color = ambient + lightDiffuse * max(dot(N, L) , 0);
 }
 
 // Fragment program for distorting a texture using a 3D noise texture
@@ -63,7 +68,7 @@ void main_fp(
 	float2 final = projectionCoord.xy / projectionCoord.w;
 
 	// Noise
-	float3 noiseNormal = (tex2D(noiseMap, (noiseCoord.xy / 5)).rgb - 0.5).rbg * noiseScale;
+	float3 noiseNormal = (tex2D(noiseMap, (noiseCoord.xy )).rgb - 0.5).rbg * noiseScale;
 	final += noiseNormal.xz;
 
 	// Fresnel

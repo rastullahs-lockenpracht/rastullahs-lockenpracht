@@ -30,6 +30,8 @@ material DirtyWater
 			{
 				param_named_auto worldViewProjMatrix worldviewproj_matrix
 				param_named_auto eyePosition camera_position_object_space
+				param_named_auto lightPosition light_position_object_space 0
+				param_named_auto lightDiffuse light_diffuse_colour 0
 				param_named_auto timeVal time 0.05
 				param_named_auto ambient ambient_light_colour
 				param_named scroll float 1  
