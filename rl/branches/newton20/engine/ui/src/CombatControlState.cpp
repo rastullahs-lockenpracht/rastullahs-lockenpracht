@@ -64,7 +64,7 @@ namespace rl {
           mCameraCombatCenteredMinDistance(5.0f),
           mCameraThirdPersonMinDistance(1.0f),
           mCameraSwitchDist(30.0f),
-          mCameraSwitchTransitionDist(0.3f)
+          mCameraSwitchTransitionDist(0.8f)
     {
         CreatureSelectionFilter* filter = new CreatureSelectionFilter();
         filter->setAlignmentMask(Creature::ALIGNMENT_ENEMY);
