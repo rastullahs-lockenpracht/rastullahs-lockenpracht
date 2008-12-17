@@ -124,6 +124,7 @@ class GameObjectRepresentation(og.UserDefinedObject):
         self.gocName = gameObjectClass
         self.node = node
         self.meshFile = meshFile
+        self.state = "IN_SCENE"
 
     def getType(self):
         return "GAME_OBJECT_REPRESENTATION"

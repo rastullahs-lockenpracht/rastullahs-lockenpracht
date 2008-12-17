@@ -17,10 +17,12 @@
 
 #include "DialogImplication.h"
 
+#include "Combat.h"
+#include "CombatManager.h"
 #include "Dialog.h"
-#include "RulesSubsystem.h"
 #include "Property.h"
 #include "QuestBook.h"
+#include "RulesSubsystem.h"
 
 using namespace Ogre;
 
@@ -132,6 +134,26 @@ namespace rl
     {
         Quest* quest = RulesSubsystem::getSingleton().getQuestBook()->getQuest(mQuestId);
         quest->setPropertyAsString(mProperty, mNewValue);
+    }
+    
+    CombatStart::CombatStart()
+    {
+    }
+    
+    void CombatStart::apply(Dialog* dialog)
+    {
+        Combat* combat = CombatManager::getSingleton().startCombat();
+        std::vector<Creature*> allies = dialog->getPlayerCharacters();
+        for (std::vector<Creature*>::iterator it = allies.begin(); it != allies.end(); ++it)
+        {
+            combat->addAlly(*it);            
+        }
+        std::vector<Creature*> enemies = dialog->getNonPlayerCharacters();
+        for (std::vector<Creature*>::iterator it = enemies.begin(); it != enemies.end(); ++it)
+        {
+            combat->addOpponent(*it);
+        }
+        combat->start();
     }
 
 }

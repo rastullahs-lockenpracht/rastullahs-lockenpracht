@@ -268,7 +268,7 @@ namespace rl {
 
         mCharacterState.mLastMovementState = mCharacterState.mCurrentMovementState;
 
-        if (isEnemyNear())
+        if (isEnemyNear() && !(mCharacter->getLifeState() & Effect::LS_NO_COMBAT))
         {
             InputManager::getSingleton().pushControlState(CST_COMBAT);
         }

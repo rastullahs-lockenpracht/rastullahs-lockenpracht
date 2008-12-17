@@ -190,6 +190,13 @@ namespace rl
             Ogre::StringVector getModuleList() const;
 
             /**
+             * Remove modules from the module list (e.g. because they are broken)
+             *
+             * @param modules the modules to remove
+             */
+            void removeModules(const Ogre::StringVector& modules);
+
+            /**
              * Returns the filename of the current keymap file used by
              * Rastullah
              *

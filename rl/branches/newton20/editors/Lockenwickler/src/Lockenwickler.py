@@ -59,6 +59,8 @@ class Lockenwickler(QtGui.QMainWindow):
         self.objectPropertyWin = ObjectPropertyWin(self)
         self.sceneExplorerWin = SceneExplorer(self)
         self.modelSelectionDialog = ModelSelectionDialog(self.ogreRoot, self)
+        self.moduleManager.modelSelectionDialog = self.modelSelectionDialog
+
         self.gameObjectClassView = GameObjectClassView(self.moduleManager.gocManager)
 
         self.createDockWindows()
@@ -272,6 +274,9 @@ class Lockenwickler(QtGui.QMainWindow):
 
         og.ResourceGroupManager.getSingleton().addResourceLocation("./media", "FileSystem", "General", False)
         og.ResourceGroupManager.getSingleton().initialiseAllResourceGroups()
+
+        self.moduleManager.pivot = Pivot(self.OgreMainWinSceneMgr)
+        self.moduleManager.pivot.hide()
 
         oglog = og.LogManager.getSingleton().getDefaultLog()
         oglog.addListener(self.consoleWindow.lockenLog)

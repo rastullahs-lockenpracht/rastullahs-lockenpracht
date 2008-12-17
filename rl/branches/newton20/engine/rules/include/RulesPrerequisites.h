@@ -91,6 +91,7 @@ namespace rl
 
 	typedef std::vector<Action*> ActionVector;
 	
-	ActionVector::iterator findAction(ActionVector::iterator& begin, ActionVector::iterator& end, const CeGuiString actionName);
+	ActionVector::iterator findAction(ActionVector::iterator& begin, ActionVector::iterator& end, const CeGuiString& actionName);
+	ActionVector::const_iterator findAction(ActionVector::const_iterator& begin, ActionVector::const_iterator& end, const CeGuiString& actionName);
 }
 #endif

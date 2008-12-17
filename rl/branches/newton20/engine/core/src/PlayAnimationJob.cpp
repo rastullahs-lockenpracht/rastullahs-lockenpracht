@@ -73,18 +73,26 @@ namespace rl
             {
                 mo->stopAllAnimationsExcept(mAnimName);
             }                
-
-            if (mDuration > 0)
+            
+            if (mo->hasAnimation(mAnimName))
             {
-                mAnimation = mo->startAnimation(mAnimName, 1.0f, 0);
-                mTimeToGo = mDuration;
-                mAnimationRunning = true;
+                if (mDuration > 0)
+                {
+                    mAnimation = mo->startAnimation(mAnimName, 1.0f, 0);
+                    mTimeToGo = mDuration;
+                    mAnimationRunning = true;
+                }
+                else
+                {
+                    mAnimation = mo->startAnimation(mAnimName, 1.0f, mLoops);
+                    mTimeToGo = mAnimation->getLength() * (float)mLoops;
+                    mAnimationRunning = true;
+                }
             }
-            else
+            else 
             {
-                MeshAnimation* animation = mo->startAnimation(mAnimName, 1.0f, mLoops);
-                mTimeToGo = animation->getLength() * (float)mLoops;
-                mAnimationRunning = true;
+                mAnimation = NULL;
+                mTimeToGo = 0;
             }
         }
 

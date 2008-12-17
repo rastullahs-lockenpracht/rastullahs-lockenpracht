@@ -166,6 +166,7 @@ namespace rl {
             "UiSubsystem::initializeUiSubsystem");
 
         mWindowFactory->initialize();
+        LOG_MESSAGE2(Logger::UI, "WindowFactory initialized.", "UiSubsystem::initializeUiSubsystem");
     }
 
     CEGUI::OgreCEGUIRenderer* UiSubsystem::getGUIRenderer()

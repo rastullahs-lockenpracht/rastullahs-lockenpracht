@@ -49,6 +49,7 @@ namespace rl
         static const Ogre::String PROPERTY_TP_DK;
         static const Ogre::String PROPERTY_TP_KAMPFTECHNIK;
         static const Ogre::String PROPERTY_NATURAL;
+        static const Ogre::String PROPERTY_AVOID_ARMOR;
 
 		Weapon (unsigned int id);
         virtual ~Weapon(void);
@@ -70,6 +71,8 @@ namespace rl
 		const CeGuiString& getKampftechnik() const;
         void setNatural(bool natural);
         bool isNatural() const;
+        void setAvoidArmor(bool avoid);
+        bool isAvoidingArmor() const;
 
 		/// Return minimum distance in meters where weapon can be used without penalty.
 		Ogre::Real getMinimumDistance() const;
@@ -89,6 +92,7 @@ namespace rl
 		int mDk;
 		CeGuiString mKampftechnik;
         bool mNatural;
+        bool mAvoidArmor;
 	};
 }
 

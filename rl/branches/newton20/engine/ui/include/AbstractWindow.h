@@ -22,6 +22,7 @@
 
 #include <CEGUIWindow.h>
 #include <elements/CEGUICheckbox.h>
+#include <elements/CEGUIRadioButton.h>
 #include <elements/CEGUIEditbox.h>
 #include <elements/CEGUIListbox.h>
 #include <elements/CEGUIMultiColumnList.h>
@@ -77,6 +78,7 @@ namespace rl {
 		CEGUI::MenuBase* getMenu(const char* name);
 		CEGUI::MenuItem* getMenuItem(const char* name);
 		CEGUI::PushButton* getPushButton(const char* name);
+		CEGUI::RadioButton* getRadioButton(const char* name);
 		CEGUI::Combobox* getCombobox(const char* name);
 		CEGUI::ComboDropList* getComboDropList(const char* name);
         CEGUI::ScrollablePane* getScrollablePane(const char* name);

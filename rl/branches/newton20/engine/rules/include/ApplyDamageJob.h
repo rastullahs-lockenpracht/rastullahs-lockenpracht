@@ -27,14 +27,15 @@ namespace rl
     class _RlRulesExport ApplyDamageJob : public Job
     {
     public:
-        ApplyDamageJob(Creature* target, int tp);
+        ApplyDamageJob(Creature* target, int damage, int damageType);
         ~ApplyDamageJob();
 
         virtual bool execute(Ogre::Real time);
 
     private:
         Creature* mTarget;
-        int mTp;
+        int mDamage;
+        int mType;
     };
 
 }

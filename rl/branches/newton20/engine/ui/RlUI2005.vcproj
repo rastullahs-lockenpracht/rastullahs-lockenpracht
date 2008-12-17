@@ -432,6 +432,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\CharacterSelectionWindow.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\CharacterSheetWindow.h"
 					>
 				</File>
@@ -674,6 +678,10 @@
 				</File>
 				<File
 					RelativePath=".\src\ActionChoiceWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\CharacterSelectionWindow.cpp"
 					>
 				</File>
 				<File
