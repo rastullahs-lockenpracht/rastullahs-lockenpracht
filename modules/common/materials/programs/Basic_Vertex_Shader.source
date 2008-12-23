@@ -97,6 +97,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    
    AngleAttn = saturate( dot(Input.Normal ,LightDir));
    
+   EyeVect = normalize(Input.Position - eyePosition);
    HalfVect = normalize(LightDir - EyeVect);
    
    SpecAttn = Light2_color *Light2_spec_power * pow(clamp(dot(Input.Normal,HalfVect),0,1),32);
