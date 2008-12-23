@@ -75,8 +75,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    LightDir = LightDir / Dist;
    
    AngleAttn = saturate( dot(Input.Normal ,LightDir));
-   
-   EyeVect = normalize(Input.Position - vViewPosition);
+
    HalfVect = normalize(LightDir - EyeVect);
    
    SpecAttn = Light3_color * Light3_spec_power * pow(clamp(dot(Input.Normal,HalfVect),0,1),32);
@@ -97,7 +96,6 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    
    AngleAttn = saturate( dot(Input.Normal ,LightDir));
    
-   EyeVect = normalize(Input.Position - eyePosition);
    HalfVect = normalize(LightDir - EyeVect);
    
    SpecAttn = Light2_color *Light2_spec_power * pow(clamp(dot(Input.Normal,HalfVect),0,1),32);
