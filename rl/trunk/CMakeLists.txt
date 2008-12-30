@@ -2,9 +2,6 @@ PROJECT(RL)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
-# Cmake handles escaping of preprocessor directives
-CMAKE_POLICY(SET CMP0005 OLD)
-
 # Include required cmake macros
 INCLUDE(FeatureSummary)
 
@@ -29,8 +26,11 @@ SET(RL_UI_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/engine/ui/include INTERNAL)
 FIND_PACKAGE(PkgConfig)
 FIND_PACKAGE(OGRE 1.6 REQUIRED)
 FIND_PACKAGE(OgreNewt REQUIRED)
+FIND_PACKAGE(MeshMagick 0.5 REQUIRED)
 FIND_PACKAGE(CEGUI REQUIRED)
+FIND_PACKAGE(Ruby REQUIRED)
 FIND_PACKAGE(Boost 1.34 REQUIRED filesystem)
+FIND_PACKAGE(OIS REQUIRED)
 FIND_PACKAGE(SWIG REQUIRED)
 IF (NOT SWIG_DIR MATCHES -rl$)
 	SET_FEATURE_INFO(SWIG "" "" "You use an unsupported version of SWIG.")
@@ -42,11 +42,11 @@ SET(DATAROOTDIR "${CMAKE_INSTALL_PREFIX}/share" CACHE STRING "Sets the root of d
 SET(DATADIRNAME "rastullah" CACHE STRING "change the name of the directory for the read-only architecture-independent game data")
 
 # Game options
-SET(ENABLE_FMOD4 "Enable FMOD 4.xx (FMODex) sound support" ON)
-SET(ENABLE_OPENAL "Enable OpenAL sound support (unsupported)" OFF)
+SET(WITH_FMOD4 ON CACHE BOOL "Enable FMOD 4.xx (FMODex) sound support")
+SET(WITH_OPENAL OFF CACHE BOOL "Enable OpenAL sound support (unsupported)")
 
 # Handle options
-ADD_DEFINITIONS(-DRL_MODULEDIR=\\"${DATAROOTDIR}/${DATADIRNAME}/modules\\")
+ADD_DEFINITIONS(-DRL_MODULEDIR="${DATAROOTDIR}/${DATADIRNAME}/modules")
 
 # Include subdirectories
 ADD_SUBDIRECTORY(engine)
