@@ -1,0 +1,42 @@
+//pixel shader
+float noiseScale;
+float fresnelBias;
+float fresnelScale;
+float fresnelPower;
+
+sampler2D noiseMap;
+sampler2D reflectMap;
+sampler2D dirtMap;
+
+struct PS_INPUT
+{
+	float3 NoiseCoord : TEXCOORD0;
+	float4 ProjectionCoord : TEXCOORD1;
+	float3 EyeDir : TEXCOORD2;
+	float3 Normal : TEXCOORD3;
+	float2 Tex    : TEXCOORD4;
+	float4 Color   : COLOR;
+};
+
+float4 ps_main(PS_INPUT Input) : COLOR
+{
+	// Do the tex projection manually so we can distort _after_
+	float2 final = Input.ProjectionCoord.xy / Input.ProjectionCoord.w;
+
+	// Noise
+	float3 noiseNormal = (tex2D(noiseMap, (Input.NoiseCoord.xy )).rgb - 0.5).rbg * noiseScale;
+	final += noiseNormal.xz;
+
+	// Fresnel
+	//normal = normalize(Input.Normal + noiseNormal.xz);
+	float fresnel = fresnelBias + fresnelScale * (saturate(pow(1 + dot(Input.EyeDir, Input.Normal), fresnelPower)+0.2));
+
+	// Reflection / refraction
+	float4 reflectionColour = tex2D(reflectMap, final);
+	float4 dirtColour = tex2D(dirtMap, Input.Tex) * Input.Color;
+
+	// Final colour
+	float4 col = lerp(dirtColour, reflectionColour, fresnel);
+	
+	return col;
+}

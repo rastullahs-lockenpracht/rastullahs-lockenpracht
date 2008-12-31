@@ -2,19 +2,18 @@
 // Distortion effects
 //----------------------------
 
-vertex_program TotalReflectDirtWaterVP cg
+vertex_program TotalReflectDirtWaterVS hlsl
 {
-	source TotalReflectDirtWater.source
-	entry_point main_vp
-	profiles vs_1_1 arbvp1
+	source TotalReflectDirtWaterVertex_hlsl.source
+	entry_point vs_main
+	target vs_2_0
 }
 
-fragment_program TotalReflectDirtWaterFP cg
+fragment_program TotalReflectDirtWaterPS hlsl
 {
-	source TotalReflectDirtWater.source
-	entry_point main_fp
-	// sorry, ps_1_1 and fp20 can't do this
-	profiles ps_2_0 arbfp1
+	source TotalReflectDirtWaterPixel_hlsl.source
+	entry_point ps_main
+	target ps_2_0
 }
 
 material DirtyWater
@@ -26,20 +25,37 @@ material DirtyWater
 		{
 			ambient 0.609804 0.609804 0.609804 1
 			
-			vertex_program_ref TotalReflectDirtWaterVP
+			vertex_program_ref TotalReflectDirtWaterVS
 			{
 				param_named_auto worldViewProjMatrix worldviewproj_matrix
 				param_named_auto eyePosition camera_position_object_space
-				param_named_auto lightPosition light_position_object_space 0
-				param_named_auto lightDiffuse light_diffuse_colour 0
+				
+				param_named_auto Light1_attenuation light_attenuation 0
+				param_named_auto Light1_color light_diffuse_colour 0
+				param_named_auto Light1_position light_position_object_space 0
+				param_named Light1_spec_power float 0.3
+				
+				param_named_auto Light2_attenuation light_attenuation 1
+				param_named_auto Light2_color light_diffuse_colour 1
+				param_named_auto Light2_position light_position_object_space 1
+				param_named Light2_spec_power float 0.3
+				
+				param_named_auto Light3_attenuation light_attenuation 2
+				param_named_auto Light3_color light_diffuse_colour 2
+				param_named_auto Light3_position light_position_object_space 2
+				param_named Light3_spec_power float 0.3
+				
 				param_named_auto timeVal time 0.05
-				param_named_auto ambient ambient_light_colour
+				//param_named_auto ambient ambient_light_colour
+				param_named skycolor float4 0.8 0.8 0.8 1.0
+				param_named groundcolor float4 0.40 0.40 0.40 1.0
+				
 				param_named scroll float 1  
 				param_named scale float 1 
 				param_named noise float 1 
 				// scroll and noisePos will need updating per frame
 			}
-			fragment_program_ref TotalReflectDirtWaterFP
+			fragment_program_ref TotalReflectDirtWaterPS
 			{
 				param_named fresnelBias float -0.1 
 				param_named fresnelScale float 1.8 

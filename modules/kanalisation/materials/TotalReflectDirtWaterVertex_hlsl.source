@@ -1,0 +1,143 @@
+//vertex shader
+
+float4x4 worldViewProjMatrix;
+float3 eyePosition; // object space
+float timeVal;
+float scale;  // the amount to scale the noise texture by
+float scroll; // the amount by which to scroll the noise
+float noise;  // the noise perturb as a factor of the  time
+float4 ambient;  //ambient light color
+
+//lights
+float4 skycolor;
+float4 groundcolor;
+float4 Light1_attenuation;
+float4 Light1_position;
+float4 Light1_color;
+float4 Light1_spec_power;
+
+float4 Light2_attenuation;
+float4 Light2_position;
+float4 Light2_color;
+float4 Light2_spec_power;
+
+float4 Light3_attenuation;
+float4 Light3_position;
+float4 Light3_color;
+float4 Light3_spec_power;
+
+struct VS_INPUT 
+{
+   float4 Position : POSITION;
+   float2 Texcoord : TEXCOORD0;
+   float3 Normal   : NORMAL;   
+};
+
+struct VS_OUTPUT
+{
+	float4 Position		: POSITION;
+	float3 NoiseCoord 	: TEXCOORD0;
+	float4 ProjectionCoord 	: TEXCOORD1;
+	float3 EyeDir 	: TEXCOORD2;
+	float3 Normal 	: TEXCOORD3;
+	float2 Tex    	: TEXCOORD4;
+	float4 Color   	: COLOR;
+};
+
+VS_OUTPUT vs_main(VS_INPUT Input)
+{
+	VS_OUTPUT Output = (VS_OUTPUT) 0;
+	
+	Output.Position = mul(worldViewProjMatrix, Input.Position);
+	
+	
+	//Output color
+	Output.Color = lerp(skycolor,groundcolor,(dot(Input.Normal, float3(0,-1,0))+1)/2 );
+	
+	
+   // Light1
+   
+   float3 LightDir = Light1_position - Input.Position * Light1_position.w;
+   float Dist = length(LightDir);
+   LightDir = LightDir / Dist;
+   
+   float AngleAttn = saturate( dot(Input.Normal ,LightDir));
+   
+   float3 EyeVect = normalize(Input.Position - eyePosition);
+   float3 HalfVect = normalize(LightDir - EyeVect);
+   
+   float SpecAttn = Light1_color * Light1_spec_power * pow(clamp(dot(Input.Normal,HalfVect),0,1),32);
+   
+   float DistAttn = clamp(1/ (Light1_attenuation.y +
+                              Light1_attenuation.z * Dist +
+                              Light1_attenuation.w * Dist * Dist)*saturate(Light1_attenuation.x-Dist)
+                          ,0,1);
+   
+   Output.Color += (Light1_color * AngleAttn + SpecAttn) * DistAttn ;
+   
+   
+   // Light3
+   
+   LightDir = Light3_position - Input.Position * Light3_position.w;
+   Dist = length(LightDir);
+   LightDir = LightDir / Dist;
+   
+   AngleAttn = saturate( dot(Input.Normal ,LightDir));
+
+   HalfVect = normalize(LightDir - EyeVect);
+   
+   SpecAttn = Light3_color * Light3_spec_power * pow(clamp(dot(Input.Normal,HalfVect),0,1),32);
+   
+   DistAttn = clamp(1/ (Light3_attenuation.y +
+                              Light3_attenuation.z * Dist +
+                              Light3_attenuation.w * Dist * Dist)*saturate(Light3_attenuation.x-Dist)
+                          ,0,1);
+   
+   Output.Color += (Light3_color * AngleAttn + SpecAttn) * DistAttn ;
+   
+   
+   // Light2
+   
+   LightDir = Light2_position - Input.Position * Light2_position.w;
+   Dist = length(LightDir);
+   LightDir = LightDir / Dist;
+   
+   AngleAttn = saturate( dot(Input.Normal ,LightDir));
+   
+   HalfVect = normalize(LightDir - EyeVect);
+   
+   SpecAttn = Light2_color *Light2_spec_power * pow(clamp(dot(Input.Normal,HalfVect),0,1),32);
+   
+   DistAttn = clamp(1/ (Light2_attenuation.y +
+                        Light2_attenuation.z * Dist +
+                        Light2_attenuation.w * Dist * Dist)*saturate(Light2_attenuation.x-Dist)
+                        ,0,1);
+   
+   Output.Color += (Light2_color * AngleAttn + SpecAttn) * DistAttn ;
+	
+	//end color
+	
+	float4x4 scalemat = float4x4(0.5,   0,   0, 0.5, 
+	                               0,-0.5,   0, 0.5,
+								   0,   0, 0.5, 0.5,
+								   0,   0,   0,   1);
+
+	//output projection coord
+	Output.ProjectionCoord = mul(scalemat, Output.Position);
+	
+	//Noise Texture
+	Output.NoiseCoord.xy = (Input.Texcoord + (timeVal * scroll)) * scale;
+	Output.NoiseCoord.z = noise * timeVal;
+	
+	//Output Eye Dir
+	Output.EyeDir = normalize(Input.Position.xyz - eyePosition);
+	
+	//Output Normale
+	Output.Normal = Input.Normal.rgb; 
+	
+	//Output UV Texture
+	Output.Tex = Input.Texcoord;
+	
+	return Output;
+}
+
