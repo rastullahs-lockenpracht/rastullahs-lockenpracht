@@ -163,7 +163,7 @@ namespace rl {
 
     void QuestBook::addJournalEntry(CeGuiString caption, CeGuiString text)
     {
-        addJournalEntry(new JournalEntry(caption, text));
+        addJournalEntry(new JournalEntry(caption, caption, text));
     }
 
     unsigned int QuestBook::getNumJournalEntries() const

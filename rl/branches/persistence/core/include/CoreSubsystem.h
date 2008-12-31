@@ -43,6 +43,7 @@ class XmlResourceManager;
 class SoundManager;
 class DebugVisualsManager;
 class SaveGameManager;
+class SaveAbleManager;
 class SaveAbleSerializer;
 class JobScheduler;
 class ZoneManager;
@@ -141,6 +142,7 @@ private:
     SoundManager* mSoundManager;
     DebugVisualsManager* mDebugVisualsManager;
     SaveGameManager* mSaveGameManager;
+    SaveAbleManager* mSaveAbleManager;
 	SaveAbleSerializer* mSaveAbleSerializer;
     JobScheduler* mJobScheduler;
 	ZoneManager* mZoneManager;

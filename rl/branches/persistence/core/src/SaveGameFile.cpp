@@ -57,7 +57,7 @@ namespace rl
         return mSaveGameId;
     }
 
-    WriteableDataStreamPtr &SaveGameFile::getDataStream()
+    WriteableDataStreamPtr SaveGameFile::getDataStream() const
     {
 		return mStream;
     }

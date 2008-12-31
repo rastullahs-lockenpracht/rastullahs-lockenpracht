@@ -14,6 +14,8 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
+#ifndef __RlWriteableDataStreamFormatTarget_H_
+#define __RlWriteableDataStreamFormatTarget_H_
 
 #include <xercesc/framework/XMLFormatter.hpp>
 #include "WriteableDataStream.h"
@@ -30,3 +32,5 @@ namespace rl
         WriteableDataStreamPtr mStream;
     };
 }
+
+#endif

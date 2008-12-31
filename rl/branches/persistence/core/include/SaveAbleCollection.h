@@ -14,6 +14,9 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
+#ifndef __RlSaveAbleCollection_H_
+#define __RlSaveAbleCollection_H_
+
 #include "CorePrerequisites.h"
 #include "SaveAble.h"
 
@@ -38,3 +41,6 @@ namespace rl
 	};
 
 }
+
+#endif
+

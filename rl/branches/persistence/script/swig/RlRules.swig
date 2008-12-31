@@ -180,7 +180,7 @@ namespace rl {
     class JournalEntry
     {
     public:
-        JournalEntry(const rl::CeGuiString caption, const rl::CeGuiString text);
+        JournalEntry(const rl::CeGuiString &id, const rl::CeGuiString &caption, const rl::CeGuiString &text);
         virtual ~JournalEntry();
 
         rl::CeGuiString getCaption() const;

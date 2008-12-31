@@ -64,7 +64,6 @@ namespace rl {
 
 			// Schwarzer Hintergrund
 			newVp->setBackgroundColour(ColourValue(0,0,0));
-
 		}
     }
 

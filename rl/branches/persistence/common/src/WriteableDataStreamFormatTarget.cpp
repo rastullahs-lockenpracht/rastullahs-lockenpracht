@@ -27,7 +27,7 @@ namespace rl
 
     void WriteableDataStreamFormatTarget::writeChars (const XMLByte *const toWrite, const unsigned int count, XERCES_CPP_NAMESPACE::XMLFormatter *const formatter)
     {
-        if(static_cast<WriteableDataStream*>(mStream.get()))
+        if(dynamic_cast<WriteableDataStream*>(mStream.get()))
         {
             mStream->write((char*)toWrite, count);
         }
@@ -37,7 +37,7 @@ namespace rl
 
     void WriteableDataStreamFormatTarget::flush ()
     {
-        if(static_cast<WriteableDataStream*>(mStream.get()))
+        if(dynamic_cast<WriteableDataStream*>(mStream.get()))
         {
             mStream->flush();
         }

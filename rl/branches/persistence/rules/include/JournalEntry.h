@@ -19,6 +19,7 @@
 
 #include "RulesPrerequisites.h"
 #include "EventObject.h"
+#include "SaveAble.h"
 
 namespace rl {
 
@@ -29,13 +30,13 @@ namespace rl {
     * @todo Mit Zeitstempel versehen
     * @todo Mit Quest verknüpfbar machen
     */
-    class _RlRulesExport JournalEntry
+    class _RlRulesExport JournalEntry : public SaveAble
     {
     public:
         static const Ogre::String PROPERTY_TEXT;
         static const Ogre::String PROPERTY_CAPTION;
 
-        JournalEntry(const CeGuiString caption, const CeGuiString text);
+        JournalEntry(const CeGuiString &id, const CeGuiString &caption, const CeGuiString &text);
         virtual ~JournalEntry();
 
         CeGuiString getCaption() const;

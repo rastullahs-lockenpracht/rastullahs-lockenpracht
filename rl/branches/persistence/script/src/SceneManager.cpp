@@ -23,6 +23,7 @@
 #include "PartyManager.h"
 #include "Scene.h"
 #include "SceneLoader.h"
+#include "SaveAbleManager.h"
 
 template<> rl::SceneManager* Ogre::Singleton<rl::SceneManager>::ms_Singleton = NULL;
 
@@ -60,6 +61,8 @@ namespace rl
             return;
         }
 
+        SaveAbleManager::getSingleton().saveState();
+
         Creature* activeChar = PartyManager::getSingleton().getActiveCharacter();
 
         if (activeChar) {
@@ -68,7 +71,7 @@ namespace rl
             activeChar->setState(GOS_LOADED);
         }
 
-        if (saveCurrent) 
+        if (saveCurrent && mCurrentScene) 
         {
             mSceneStates[mCurrentScene] = mCurrentScene->getAllProperties();
         }

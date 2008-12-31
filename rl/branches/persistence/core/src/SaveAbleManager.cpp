@@ -24,6 +24,7 @@ namespace rl
 {
 	void SaveAbleManager::saveState()
 	{
+        storeSaveAbleStates();
 	}
 
 	void SaveAbleManager::addSaveAble(SaveAblePtr save, const CeGuiString &collectionId)

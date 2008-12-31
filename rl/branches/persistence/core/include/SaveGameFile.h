@@ -46,7 +46,7 @@ namespace rl
 		int getId() const;
 
         //access to file
-        WriteableDataStreamPtr &getDataStream();
+        WriteableDataStreamPtr getDataStream() const;
         XERCES_CPP_NAMESPACE::XMLFormatTarget* getFormatTarget();
         void deleteFileFromStorage(); //erwuenscht?
 

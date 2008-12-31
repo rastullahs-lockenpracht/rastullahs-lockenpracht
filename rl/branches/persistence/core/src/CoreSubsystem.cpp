@@ -101,6 +101,7 @@ namespace rl
         delete mRubyInterpreter;
         delete mTimeSourceManager;
         delete mSaveGameManager;
+        delete mSaveAbleManager;
 		delete mSaveAbleSerializer;
         delete mGameLoop;
         //mXmlResourceManager->unloadAll();
@@ -246,6 +247,8 @@ namespace rl
 
         mSaveGameManager = new SaveGameManager();
         LOG_MESSAGE(Logger::RULES, "SaveGameManager erzeugt");
+
+        mSaveAbleManager = new SaveAbleManager();
 
 		mSaveAbleSerializer = new SaveAbleSerializer();
         LOG_MESSAGE(Logger::RULES, "SaveAbleSerializer erzeugt");
