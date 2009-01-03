@@ -1,11 +1,12 @@
 # Find FMODEx
 #
 # This module defines
-# FMODEX_FOUND
-# FMODEX_INCLUDE_DIR
-# FMODEX_LIBRARY
+# FMODEX_FOUND       - FMODEx was found
+# FMODEX_INCLUDE_DIR - Directory containing FMODEx header files
+# FMODEX_LIBRARY     - Library name of FMODEx library
 #
 # Based on the CMakeLists.txt of zdoom and FindFMOD.cmake of openfrag
+# Copyright (C) 2003-2009 Team Pantheon. http://www.team-pantheon.de
 #
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
@@ -15,7 +16,7 @@ IF(FMODEX_INCLUDE_DIR AND FMODEX_LIBRARY)
 	SET(FMODEX_FIND_QUIETLY TRUE)
 ENDIF(FMODEX_INCLUDE_DIR AND FMODEX_LIBRARY)
 
-# Check for for 32/64 bit architecture
+# Check for 32/64 bit architecture
 IF(CMAKE_SIZEOF_VOID_P MATCHES "8")
 	SET(X64 64)
 ENDIF(CMAKE_SIZEOF_VOID_P MATCHES "8")
@@ -27,15 +28,15 @@ ELSE(WIN32)
 	SET(FMODEX_INCLUDE_SEARCH_DIRS
 	    /usr/include
 	    /usr/local/include
-	    /opt/fmodex/fmodex/include
-            /opt/include)
+	    /opt/fmodex/include
+	    /opt/include INTERNAL)
 	SET(FMODEX_LIBRARY_SEARCH_DIRS
 	    /usr/lib
 	    /usr/lib64
 	    /usr/local/lib
 	    /usr/local/lib64
 	    /opt/fmodex/lib
-	    /opt/fmodex/lib64)
+	    /opt/fmodex/lib64 INTERNAL)
 	SET(FMODEX_INC_DIR_SUFFIXES PATH_SUFFIXES fmodex)
 ENDIF(WIN32)
 
@@ -60,38 +61,22 @@ ENDIF(NOT FMODEX_FIND_QUIETLY)
 FIND_PATH(FMODEX_INCLUDE_DIR fmod.h
           PATHS ${FMODEX_INCLUDE_SEARCH_PATHS}
           PATH_SUFFIXES ${FMODEX_INC_DIR_SUFFIXES})
-IF(FMODEX_INCLUDE_DIR)
-	IF (NOT FMODEX_FIND_QUIETLY)
-		MESSAGE(STATUS "  includes: ${FMODEX_INCLUDE_DIR}")
-	ENDIF(NOT FMODEX_FIND_QUIETLY)
-ELSE(FMODEX_INCLUDE_DIR)
-	MESSAGE(SEND_ERROR "FMODEx include files could not be found.")
-ENDIF(FMODEX_INCLUDE_DIR)
 
 FIND_LIBRARY(FMODEX_LIBRARY ${FMODEX_LIBRARY_NAME}
              PATHS ${FMODEX_LIBRARY_SEARCH_DIRS}
              PATH_SUFFIXES ${FMOD_LIB_DIR_SUFFIXES})
-IF(FMODEX_LIBRARY)
-	IF (NOT FMODEX_FIND_QUIETLY)
-		MESSAGE(STATUS "  libraries: ${FMODEX_LIBRARY}")
-	ENDIF(NOT FMODEX_FIND_QUIETLY)
-ELSE(FMODEX_LIBRARY)
-	MESSAGE(SEND_ERROR, "FMODex library could not be found.")
-ENDIF(FMODEX_LIBRARY)
+
+SET(FMODEX_INCLUDE_DIR ${FMODEX_INCLUDE_DIR} CACHE STRING "Directory containing FMODEx header files")
+SET(FMODEX_LIBRARY ${FMODEX_LIBRARY} CACHE STRING "Library name of FMODEx library")
 
 IF(FMODEX_INCLUDE_DIR AND FMODEX_LIBRARY)
 	SET(FMODEX_FOUND TRUE)
 ENDIF(FMODEX_INCLUDE_DIR AND FMODEX_LIBRARY)
 
-# Allow customisation of paths
-SET(FMODEX_INCLUDE_DIR ${FMODEX_INCLUDE_DIR})
-SET(FMODEX_LIBRARY ${FMODEX_LIBRARY})
-
 IF(FMODEX_INCLUDE_DIR)
 	# Extract the library version from the header file
 	SET(FMODEX_VERSION 0)
-	FILE(READ "${FMODEX_INCLUDE_DIR}/fmod.h"
-	     _FMODEX_FMOD_H_CONTENTS)
+	FILE(READ "${FMODEX_INCLUDE_DIR}/fmod.h" _FMODEX_FMOD_H_CONTENTS)
 	STRING(REGEX REPLACE ".*#define FMOD_VERSION    0x([0-9]+).*" "\\1"
 	       FMODEX_VERSION "${_FMODEX_FMOD_H_CONTENTS}")
 	IF(NOT "${FMODEX_VERSION}" STREQUAL 0)
@@ -104,19 +89,36 @@ IF(FMODEX_INCLUDE_DIR)
 	# Compare installed and required version
 	IF(FMODEx_FIND_VERSION)
 		# Major and minor version are required
-		IF(NOT FMODEx_FIND_VERSION_MINOR)
-			MESSAGE(SEND_ERROR "When requesting a specific version of FMODEx , you must provide at least the major and minor version numbers, e.g., 4.20")
-		ENDIF(NOT FMODEx_FIND_VERSION_MINOR)
+		IF(NOT DEFINED FMODEx_FIND_VERSION_MINOR)
+			MESSAGE(SEND_ERROR "When requesting a specific version of FMODEx, you must provide at least the major and minor version numbers, e.g., 4.20")
+		ENDIF(NOT DEFINED FMODEx_FIND_VERSION_MINOR)
 
-		IF ("${FMOD_VERSION}" VERSION_LESS "${FMODEx_FIND_VERSION}")
-			SET(FMODEX_FOUND FALSE)
-			MESSAGE(STATUS "Detected version of FMODEx ${FMODEX_VERSION} is too old. At least version ${FMODEx_FIND_VERSION} is required.")
-		ENDIF("${FMOD_VERSION}" VERSION_LESS "${FMODEx_FIND_VERSION}")
+		# Exact version match requested
+		IF(FMODEx_FIND_VERSION_EXACT)
+			IF(NOT "${FMOD_VERSION}" VERSION_EQUAL "${FMODEx_FIND_VERSION}")
+				SET(NEWTON_FOUND FALSE)
+				MESSAGE(SEND_ERROR "Required version of FMODEx ${FMODEx_FIND_VERSION}, but you have FMODEx ${FMOD_VERSION} installed.")
+			ENDIF(NOT "${FMOD_VERSION}" VERSION_EQUAL "${FMODEx_FIND_VERSION}")
+		ELSE(FMODEx_FIND_VERSION_EXACT)
+			IF("${FMOD_VERSION}" VERSION_LESS "${FMODEx_FIND_VERSION}")
+				SET(NEWTON_FOUND FALSE)
+				MESSAGE(STATUS "Detected version of FMODEx ${FMODEX_VERSION} is too old. At least version ${FMODEx_FIND_VERSION} is required.")
+			ENDIF("${FMOD_VERSION}" VERSION_LESS "${FMODEx_FIND_VERSION}")
+		ENDIF(FMODEx_FIND_VERSION_EXACT)
 	ENDIF(FMODEx_FIND_VERSION)
 ENDIF(FMODEX_INCLUDE_DIR)
 
 IF(FMODEX_FOUND)
 	IF(NOT FMODEX_FIND_QUIETLY)
+		MESSAGE(STATUS "  libraries: ${FMODEX_LIBRARY}")
+		MESSAGE(STATUS "  includes: ${FMODEX_INCLUDE_DIR}")
 		MESSAGE(STATUS "  version: ${FMODEX_VERSION}")
 	ENDIF(NOT FMODEX_FIND_QUIETLY)
+ELSE(FMODEX_FOUND)
+	IF(NOT FMODEX_LIBRARY)
+		MESSAGE(SEND_ERROR, "FMODex library could not be found.")
+	ENDIF(NOT FMODEX_LIBRARY)
+	IF(NOT FMODEX_INCLUDE_DIR)
+		MESSAGE(SEND_ERROR "FMODEx include files could not be found.")
+	ENDIF(NOT FMODEX_INCLUDE_DIR)
 ENDIF(FMODEX_FOUND)
