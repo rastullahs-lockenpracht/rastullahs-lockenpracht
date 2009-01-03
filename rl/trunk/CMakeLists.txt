@@ -1,6 +1,6 @@
 PROJECT(RL)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6.2)
 
 # Include required cmake macros
 INCLUDE(FeatureSummary)
