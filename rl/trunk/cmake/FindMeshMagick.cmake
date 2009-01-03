@@ -1,26 +1,19 @@
 # Find MeshMagick
 #
 # This module defines
-# MESHMAGICK_FOUND
-# MESHMAGICK_INCLUDE_DIR
-# MESHMAGICK_LIBRARY
+# MESHMAGICK_FOUND       - MeshMagick was found
+# MESHMAGICK_INCLUDE_DIR - Directory containing MeshMagick header files
+# MESHMAGICK_LIBRARY     - Library name of MeshMagick library
 #
 # Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
 #
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-MESSAGE(STATUS "Value of MESHMAGICK_INCLUDE_DIR from previous run: ${MESHMAGICK_INCLUDE_DIR}")
-MESSAGE(STATUS "Value of MESHMAGICK_LIBRARY from previous run: ${MESHMAGICK_LIBRARY}")
-
 # On a new cmake run, we do not need to be verbose
 IF(MESHMAGICK_INCLUDE_DIR AND MESHMAGICK_LIBRARY)
 	SET(MESHMAGICK_FIND_QUIETLY TRUE)
 ENDIF(MESHMAGICK_INCLUDE_DIR AND MESHMAGICK_LIBRARY)
-
-IF (NOT MESHMAGICK_FIND_QUIETLY)
-	MESSAGE(STATUS "Checking for MeshMagick")
-ENDIF(NOT MESHMAGICK_FIND_QUIETLY)
 
 # Search for headers and libraries
 IF(WIN32)
@@ -54,8 +47,8 @@ ELSE(WIN32)
 	ENDIF(NOT MESHMAGICK_FOUND)
 ENDIF(WIN32)
 
-SET(MESHMAGICK_INCLUDE_DIR ${MESHMAGICK_INCLUDE_DIR})
-SET(MESHMAGICK_LIBRARY ${MESHMAGICK_LIBRARY})
+SET(MESHMAGICK_INCLUDE_DIR ${MESHMAGICK_INCLUDE_DIR} CACHE STRING "Directory containing MeshMagick header files")
+SET(MESHMAGICK_LIBRARY ${MESHMAGICK_LIBRARY} CACHE STRING "Library name of MeshMagick library")
 
 IF(MESHMAGICK_INCLUDE_DIR AND MESHMAGICK_LIBRARY)
 	SET(MESHMAGICK_FOUND TRUE)

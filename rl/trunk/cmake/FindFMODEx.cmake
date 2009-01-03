@@ -28,8 +28,8 @@ ELSE(WIN32)
 	SET(FMODEX_INCLUDE_SEARCH_DIRS
 	    /usr/include
 	    /usr/local/include
-	    /opt/fmodex/fmodex/include
-            /opt/include INTERNAL)
+	    /opt/fmodex/include
+	    /opt/include INTERNAL)
 	SET(FMODEX_LIBRARY_SEARCH_DIRS
 	    /usr/lib
 	    /usr/lib64

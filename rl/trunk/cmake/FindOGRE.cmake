@@ -11,9 +11,6 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-MESSAGE(STATUS "Value of OGRE_INCLUDE_DIRS from previous run: ${OGRE_INCLUDE_DIRS}")
-MESSAGE(STATUS "Value of OGRE_LIBRARIES from previous run: ${OGRE_LIBRARIES}")
-
 IF (OGRE_LIBRARIES AND OGRE_INCLUDE_DIRS)
 	SET(OGRE_FIND_QUIETLY TRUE) # Already in cache, be silent
 ENDIF (OGRE_LIBRARIES AND OGRE_INCLUDE_DIRS)
