@@ -86,9 +86,9 @@ IF(FMODEX_INCLUDE_DIR)
 	# Compare installed and required version
 	IF(FMODEx_FIND_VERSION)
 		# Major and minor version are required
-		IF(NOT FMODEx_FIND_VERSION_MINOR)
+		IF(NOT DEFINED FMODEx_FIND_VERSION_MINOR)
 			MESSAGE(SEND_ERROR "When requesting a specific version of FMODEx, you must provide at least the major and minor version numbers, e.g., 4.20")
-		ENDIF(NOT FMODEx_FIND_VERSION_MINOR)
+		ENDIF(NOT DEFINED FMODEx_FIND_VERSION_MINOR)
 
 		IF ("${FMOD_VERSION}" VERSION_LESS "${FMODEx_FIND_VERSION}")
 			SET(FMODEX_FOUND FALSE)
