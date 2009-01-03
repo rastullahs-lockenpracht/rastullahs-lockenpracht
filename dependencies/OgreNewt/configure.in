@@ -32,8 +32,9 @@ AC_FUNC_MEMCMP
 # Check for Ogre
 PKG_CHECK_MODULES(OGRE, OGRE >= 1.4.0)
 
-# Check for Newton header
-AC_CHECK_HEADERS(Newton.h, , AC_MSG_ERROR([Can't find Newton headers]))
+# Check for Newton
+AC_CHECK_LIB([Newton], [fopen], [], AC_MSG_ERROR([Can't find libNewton]))
+AC_CHECK_HEADERS([Newton.h], , AC_MSG_ERROR([Can't find Newton headers]))
 
 AC_CONFIG_FILES([Makefile
                  include/Makefile

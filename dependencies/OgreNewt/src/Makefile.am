@@ -1,7 +1,7 @@
 INCLUDES = $(OGRE_CFLAGS) -I../include/OgreNewt
 
 lib_LTLIBRARIES = libOgreNewt.la
-libOgreNewt_la_LDFLAGS = $(OGRE_LIBS)
+libOgreNewt_la_LDFLAGS = $(OGRE_LIBS) $(LIBS)
 libOgreNewt_la_SOURCES = \
 	OgreNewt_BasicJoints.cpp \
 	OgreNewt_Body.cpp \
