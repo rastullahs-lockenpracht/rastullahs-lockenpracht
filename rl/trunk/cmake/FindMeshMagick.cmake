@@ -5,7 +5,7 @@
 # MESHMAGICK_INCLUDE_DIR - Directory containing MeshMagick header files
 # MESHMAGICK_LIBRARY     - Library name of MeshMagick library
 #
-# Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+# Copyright (C) 2003-2009 Team Pantheon. http://www.team-pantheon.de
 #
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
