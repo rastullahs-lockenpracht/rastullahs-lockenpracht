@@ -6,9 +6,9 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 INCLUDE(FeatureSummary)
 
 # Version information
-SET(OgreNewt_MAJOR_VERSION 0)
-SET(OgreNewt_MINOR_VERSION 0)
-SET(OgreNewt_PATCH_VERSION 7)
+SET(OgreNewt_MAJOR_VERSION 1)
+SET(OgreNewt_MINOR_VERSION 5)
+SET(OgreNewt_PATCH_VERSION 3)
 
 # Add directory with OgreNewt's own macro definitions
 # (checked before ${CMAKE_ROOT}/Modules)
@@ -17,7 +17,7 @@ SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 # Check for required components
 FIND_PACKAGE(PkgConfig)
 FIND_PACKAGE(OGRE 1.4 REQUIRED)
-FIND_PACKAGE(Newton REQUIRED)
+FIND_PACKAGE(Newton 1.53 REQUIRED)
 
 INCLUDE_DIRECTORIES(
 ${CMAKE_CURRENT_SOURCE_DIR}/include/OgreNewt
