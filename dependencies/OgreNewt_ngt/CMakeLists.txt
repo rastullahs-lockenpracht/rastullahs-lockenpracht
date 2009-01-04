@@ -18,7 +18,7 @@ INCLUDE(FeatureSummary)
    SET(CPACK_PACKAGE_CONTACT "contact@rastullahs-lockenpracht.de")
 
   # General package-information [optional]
-   SET(CPACK_PACKAGE_NAME "ogreNewt")
+   SET(CPACK_PACKAGE_NAME "OgreNewt")
    #SET(CPACK_PACKAGE_FILE_NAME "name-version-something-else-to-add")
 
   # Package version information [mandatory]
