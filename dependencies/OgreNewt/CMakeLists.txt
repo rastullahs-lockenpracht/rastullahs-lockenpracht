@@ -7,8 +7,8 @@ INCLUDE(FeatureSummary)
 
 # Version information
 SET(OgreNewt_MAJOR_VERSION 1)
-SET(OgreNewt_MINOR_VERSION 5)
-SET(OgreNewt_PATCH_VERSION 3)
+SET(OgreNewt_MINOR_VERSION 53)
+SET(OgreNewt_PATCH_VERSION 0)
 
 # Add directory with OgreNewt's own macro definitions
 # (checked before ${CMAKE_ROOT}/Modules)
