@@ -1,6 +1,6 @@
 PROJECT(OgreNewt)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6.2 FATAL_ERROR)
 
 # Include required cmake macros
 INCLUDE(FeatureSummary)
