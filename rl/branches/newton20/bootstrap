@@ -1,6 +1,0 @@
-#!/bin/sh
-echo "Bootstrap..."
-
-# Fire up autotools
-libtoolize --force && aclocal -I m4 $ACLOCAL_FLAGS && autoheader && automake --include-deps --add-missing --foreign && autoconf 
-
