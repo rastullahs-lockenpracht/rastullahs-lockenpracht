@@ -5,6 +5,41 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6 FATAL_ERROR)
 # Include required cmake macros
 INCLUDE(FeatureSummary)
 
+# === CPack packaging ===
+  #Include packaging information
+   INCLUDE(InstallRequiredSystemLibraries)
+
+  #Enable absolute paths
+   SET(CPACK_SET_DESTDIR "ON")
+
+  # General package-information [mandatory]
+   SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "opensteer info")
+   SET(CPACK_PACKAGE_VENDOR "Team Pantheon")
+   SET(CPACK_PACKAGE_CONTACT "contact@rastullahs-lockenpracht.de")
+
+  # General package-information [optional]
+   SET(CPACK_PACKAGE_NAME "opensteer")
+   #SET(CPACK_PACKAGE_FILE_NAME "name-version-something-else-to-add")
+
+  # Package version information [mandatory]
+   SET(CPACK_PACKAGE_VERSION_MAJOR "0")
+   SET(CPACK_PACKAGE_VERSION_MINOR "9")
+   SET(CPACK_PACKAGE_VERSION_PATCH "0")
+
+  # Architecture and Platform [mandatory]
+   IF(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
+     SET(CPACK_DEBIAN_PACKAGE_ARCHITECTURE amd64)
+   ELSEIF(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "i686")
+     SET(CPACK_DEBIAN_PACKAGE_ARCHITECTURE i386)
+   ENDIF(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
+
+  # ReadMe/License/Copyright etc... [optional]
+   #SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/ReadMe.txt")
+   #SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/Copyright.txt")
+
+# === CMake Main ===
+
+
 # Version information
 SET(OpenSteer_MAJOR_VERSION 0)
 SET(OpenSteer_MINOR_VERSION 9)
@@ -74,5 +109,29 @@ IF(NOT WIN32)
 	INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/opensteer.pc
 	        DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
 ENDIF(NOT WIN32)
+
+# === CPack package creation / installation ===
+
+  SET(CPACK_PACKAGE_INSTALL_DIRECTORY "CMake ${CMake_VERSION_MAJOR}.${CMake_VERSION_MINOR}")
+  #SET(CPACK_PACKAGE_INSTALL_REGISTRY_KEY "opensteer 0.9.0")
+  IF(WIN32 AND NOT UNIX)
+    # TEMPLATE - Not Tested!
+    # There is a bug in NSI that does not handle full unix paths properly. Make
+    # sure there is at least one set of four (4) backlasshes.
+    SET(CPACK_PACKAGE_ICON "${CMake_SOURCE_DIR}/Utilities/Release\\\\InstallIcon.bmp")
+    SET(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\opensteer_setup.exe")
+    SET(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY} opensteer")
+    SET(CPACK_NSIS_HELP_LINK "http:\\\\\\\\www.rastullahs-lockenpracht.de")
+    SET(CPACK_NSIS_URL_INFO_ABOUT "http:\\\\\\\\www.wiki.team-pantheon.de")
+    SET(CPACK_NSIS_CONTACT "teall.hartmann@web.de")
+    SET(CPACK_NSIS_MODIFY_PATH ON)
+  ELSE(WIN32 AND NOT UNIX)
+    SET(CPACK_STRIP_FILES "bin/opensteer")
+    SET(CPACK_SOURCE_STRIP_FILES "")
+  ENDIF(WIN32 AND NOT UNIX)
+
+#SET(CPACK_PACKAGE_EXECUTABLES "opensteer" "opensteer")
+
+INCLUDE(CPack)
 
 PRINT_ENABLED_FEATURES()
