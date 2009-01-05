@@ -1,7 +1,7 @@
 import Basic_Normalmapping_kana from Normalmapping.program
 import Wassershader_Kanalisation from Wassershader_Kanalisation.program
 
-material matschboden/SOLID/TEX/boden_kana.png: Basic_Normalmapping_kana
+material matschboden/SOLID/TEX/boden_kana.png : Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap boden_kana.png
 set_texture_alias NormalMap boden_kana_normal.png
@@ -27,17 +27,18 @@ material farn/ALPHA/TEX/farn.png
          } 
       } 
    } 
-material wurzeln_02/SOLID/TEX/baumstamm_kana.png: Basic_Normalmapping_kana
+}
+material wurzeln_02/SOLID/TEX/baumstamm_kana.png : Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap baumstamm_kana.png
 set_texture_alias NormalMap baumstamm_kana_normal.png
 }
-material treppe_02/SOLID/TEX/wand_kana.png: Basic_Normalmapping_kana
+material treppe_02/SOLID/TEX/wand_kana.png : Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap wand_kana.png
 set_texture_alias NormalMap wand_kana_normal.png
 }
-material fass_stehend/SOLID/TEX/fass_kanalisation.png: Basic_Normalmapping_kana
+material fass_stehend/SOLID/TEX/fass_kanalisation.png : Basic_Normalmapping_kana
 {
 set_texture_alias DiffuseMap fass_kanalisation.png
 set_texture_alias NormalMap fass_kanalisation_normal.png
