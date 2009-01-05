@@ -1,14 +1,53 @@
-PROJECT(OgreNewt)
+cd ..PROJECT(OgreNewt)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.2 FATAL_ERROR)
 
-# Include required cmake macros
-INCLUDE(FeatureSummary)
+# Package and version information
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Ogre Bindings for the Newton Physics SDK")
+SET(CPACK_PACKAGE_VENDOR "Team Pantheon")
+SET(CPACK_PACKAGE_CONTACT "contact@rastullahs-lockenpracht.de")
 
-# Version information
 SET(OgreNewt_MAJOR_VERSION 1)
 SET(OgreNewt_MINOR_VERSION 53)
 SET(OgreNewt_PATCH_VERSION 0)
+
+SET(CPACK_PACKAGE_VERSION_MAJOR ${OgreNewt_MAJOR_VERSION})
+SET(CPACK_PACKAGE_VERSION_MINOR ${OgreNewt_MINOR_VERSION})
+SET(CPACK_PACKAGE_VERSION_PATCH ${OgreNewt_PATCH_VERSION})
+
+IF(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
+	SET(CPACK_DEBIAN_PACKAGE_ARCHITECTURE amd64)
+ELSEIF(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "i686")
+	SET(CPACK_DEBIAN_PACKAGE_ARCHITECTURE i386)
+ENDIF(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
+
+SET(CPACK_SOURCE_GENERATOR "TBZ2;ZIP")
+SET(CPACK_SOURCE_PACKAGE_FILE_NAME
+"${CMAKE_PROJECT_NAME}-${OgreNewt_MAJOR_VERSION}.${OgreNewt_MINOR_VERSION}.${OgreNewt_PATCH_VERSION}")
+
+IF(WIN32 AND NOT UNIX)
+	# TEMPLATE - Not Tested!
+	# There is a bug in NSI that does not handle full unix paths properly. Make
+	# sure there is at least one set of four (4) backlasshes.
+	SET(CPACK_PACKAGE_ICON "${CMake_SOURCE_DIR}/Utilities/Release\\\\InstallIcon.bmp")
+	SET(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\OgreNewt2_setup.exe")
+	SET(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY} OgreNewt2")
+	SET(CPACK_NSIS_HELP_LINK "http:\\\\\\\\www.rastullahs-lockenpracht.de")
+	SET(CPACK_NSIS_URL_INFO_ABOUT "http:\\\\\\\\www.wiki.team-pantheon.de")
+	SET(CPACK_NSIS_CONTACT "contact@rastullahs-lockenpracht.de")
+	SET(CPACK_NSIS_MODIFY_PATH ON)
+ELSE(WIN32 AND NOT UNIX)
+	SET(CPACK_STRIP_FILES "bin/OgrewNewt")
+	SET(CPACK_SOURCE_STRIP_FILES "")
+ENDIF(WIN32 AND NOT UNIX)
+
+#Enable absolute paths
+SET(CPACK_SET_DESTDIR "ON")
+
+# Include required cmake macros
+INCLUDE(FeatureSummary)
+INCLUDE(InstallRequiredSystemLibraries)
+INCLUDE(CPack)
 
 # Add directory with OgreNewt's own macro definitions
 # (checked before ${CMAKE_ROOT}/Modules)
