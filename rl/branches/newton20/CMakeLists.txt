@@ -2,48 +2,52 @@ PROJECT(RL)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.2 FATAL_ERROR)
 
-# Include required cmake macros
-INCLUDE(FeatureSummary)
+# Package and version information
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Rastullahs Lockenpracht ist ein auf DSA Regeln basierendes (Rollen-)Spiel")
+SET(CPACK_PACKAGE_VENDOR "Team Pantheon")
+SET(CPACK_PACKAGE_CONTACT "contact@rastullahs-lockenpracht.de")
 
-# === CPack packaging ===
-  #Include packaging information
-   INCLUDE(InstallRequiredSystemLibraries)
-
-  #Enable absolute paths
-   SET(CPACK_SET_DESTDIR "ON")
-
-  # General package-information [mandatory]
-   SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Rastullahs Lockenpracht ist ein auf DSA Regeln basierendes (Rollen-)Spiel")
-   SET(CPACK_PACKAGE_VENDOR "Team Pantheon")
-   SET(CPACK_PACKAGE_CONTACT "contact@rastullahs-lockenpracht.de")
-
-  # General package-information [optional]
-   SET(CPACK_PACKAGE_NAME "rastullah")
-   #SET(CPACK_PACKAGE_FILE_NAME "rastullah-0.3.0-something-else-to-add")
-
-  # Package version information [mandatory]
-   SET(CPACK_PACKAGE_VERSION_MAJOR "0")
-   SET(CPACK_PACKAGE_VERSION_MINOR "3")
-   SET(CPACK_PACKAGE_VERSION_PATCH "0")
-
-  # Architecture and Platform [mandatory]
-   IF(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
-     SET(CPACK_DEBIAN_PACKAGE_ARCHITECTURE amd64)
-   ELSEIF(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "i686")
-     SET(CPACK_DEBIAN_PACKAGE_ARCHITECTURE i386)
-   ENDIF(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
-
-  # ReadMe/License/Copyright etc... [optional]
-   #SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/ReadMe.txt")
-   #SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/Copyright.txt")
-
-# === CMake Main ===
-
-
-# Version information
 SET(RL_MAJOR_VERSION 0)
 SET(RL_MINOR_VERSION 3)
 SET(RL_PATCH_VERSION 0)
+
+SET(CPACK_PACKAGE_VERSION_MAJOR ${RL_MAJOR_VERSION})
+SET(CPACK_PACKAGE_VERSION_MINOR ${RL_MINOR_VERSION})
+SET(CPACK_PACKAGE_VERSION_PATCH ${RL_PATCH_VERSION})
+
+IF(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
+	SET(CPACK_DEBIAN_PACKAGE_ARCHITECTURE amd64)
+ELSEIF(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "i686")
+	SET(CPACK_DEBIAN_PACKAGE_ARCHITECTURE i386)
+ENDIF(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
+
+SET(CPACK_SOURCE_GENERATOR "TBZ2;ZIP")
+SET(CPACK_SOURCE_PACKAGE_FILE_NAME
+"${CMAKE_PROJECT_NAME}-${RL_MAJOR_VERSION}.${RL_MINOR_VERSION}.${RL_PATCH_VERSION}")
+
+IF(WIN32 AND NOT UNIX)
+	# TEMPLATE - Not Tested!
+	# There is a bug in NSI that does not handle full unix paths properly. Make
+	# sure there is at least one set of four (4) backlasshes.
+	SET(CPACK_PACKAGE_ICON "${CMake_SOURCE_DIR}/Utilities/Release\\\\InstallIcon.bmp")
+	SET(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\RL_setup.exe")
+	SET(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY} RL")
+	SET(CPACK_NSIS_HELP_LINK "http:\\\\\\\\www.rastullahs-lockenpracht.de")
+	SET(CPACK_NSIS_URL_INFO_ABOUT "http:\\\\\\\\www.wiki.team-pantheon.de")
+	SET(CPACK_NSIS_CONTACT "contact@rastullahs-lockenpracht.de")
+	SET(CPACK_NSIS_MODIFY_PATH ON)
+ELSE(WIN32 AND NOT UNIX)
+	SET(CPACK_STRIP_FILES "bin/RL")
+	SET(CPACK_SOURCE_STRIP_FILES "")
+ENDIF(WIN32 AND NOT UNIX)
+
+#Enable absolute paths
+SET(CPACK_SET_DESTDIR "ON")
+
+# Include required cmake macros
+INCLUDE(FeatureSummary)
+INCLUDE(InstallRequiredSystemLibraries)
+INCLUDE(CPack)
 
 # Add directory with RL's own macro definitions
 # (checked before ${CMAKE_ROOT}/Modules)
@@ -86,29 +90,5 @@ SET(WITH_OPENAL OFF CACHE BOOL "Enable OpenAL sound support (unsupported)")
 # Include subdirectories
 ADD_SUBDIRECTORY(engine)
 ADD_SUBDIRECTORY(plugins)
-
-# === CPack package creation / installation ===
-
-  SET(CPACK_PACKAGE_INSTALL_DIRECTORY "CMake ${CMake_VERSION_MAJOR}.${CMake_VERSION_MINOR}")
-  #SET(CPACK_PACKAGE_INSTALL_REGISTRY_KEY "Rastullahs Lockenpracht 0.3")
-  IF(WIN32 AND NOT UNIX)
-    # TEMPLATE - Not Tested!
-    # There is a bug in NSI that does not handle full unix paths properly. Make
-    # sure there is at least one set of four (4) backlasshes.
-    SET(CPACK_PACKAGE_ICON "${CMake_SOURCE_DIR}/Utilities/Release\\\\InstallIcon.bmp")
-    SET(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\rastullah_setup.exe")
-    SET(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY} rastullah")
-    SET(CPACK_NSIS_HELP_LINK "http:\\\\\\\\www.rastullahs-lockenpracht.de")
-    SET(CPACK_NSIS_URL_INFO_ABOUT "http:\\\\\\\\www.wiki.team-pantheon.de")
-    SET(CPACK_NSIS_CONTACT "contact@rastullahs-lockenpracht.de")
-    SET(CPACK_NSIS_MODIFY_PATH ON)
-  ELSE(WIN32 AND NOT UNIX)
-    SET(CPACK_STRIP_FILES "bin/rastullah")
-    SET(CPACK_SOURCE_STRIP_FILES "")
-  ENDIF(WIN32 AND NOT UNIX)
-
-#SET(CPACK_PACKAGE_EXECUTABLES "rastullah" "rastullah")
-
-INCLUDE(CPack)
 
 PRINT_ENABLED_FEATURES()
