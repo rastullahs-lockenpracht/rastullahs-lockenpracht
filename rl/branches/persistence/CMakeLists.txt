@@ -1,0 +1,10 @@
+# Library directories
+ADD_SUBDIRECTORY(common)
+ADD_SUBDIRECTORY(ai)
+ADD_SUBDIRECTORY(ui)
+ADD_SUBDIRECTORY(core)
+ADD_SUBDIRECTORY(rules)
+ADD_SUBDIRECTORY(script)
+
+# Main program directory
+ADD_SUBDIRECTORY(startup)
