@@ -1272,7 +1272,7 @@
                     <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
                 </Area>
                 <Image imageset="RastullahLook-Images" image="TitlebarRight" />
-                <VertFormat type="Stretched" />
+                <VertFormat type="Tiled" />
                 <HorzFormat type="RightAligned" />
             </ImageryComponent>
             <ImageryComponent>
@@ -1325,8 +1325,8 @@
                     <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
                 </Area>
                 <Image imageset="RastullahLook-Images" image="TitlebarMiddle" />
-                <VertFormat type="Stretched" />
-                <HorzFormat type="Stretched" />
+                <VertFormat type="Tiled" />
+                <HorzFormat type="Tiled" />
             </ImageryComponent>
         </ImagerySection>
         <ImagerySection name="caption">
@@ -1510,8 +1510,8 @@
                 </Area>
                 <Image imageset="RastullahLook-Images" image="WindowBackground" />
                 <ColourProperty name="ClientAreaColour" />
-                <VertFormat type="Tiled" />
-                <HorzFormat type="Tiled" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
             </ImageryComponent>
         </ImagerySection>
         <ImagerySection name="notitle_frame">
@@ -2180,7 +2180,7 @@
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
-                <Dim type="Width" ><UnifiedDim scale="0.1" type="Width" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                 <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
             </Area>
             <Property name="UnifiedMinSize" value="{{0,25},{0,0}}" />
