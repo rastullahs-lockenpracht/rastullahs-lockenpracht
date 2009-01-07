@@ -54,10 +54,10 @@ public:
 		you can set different IDs for each piece in a compound collision object, and then use these IDs in a collision callback to
 		determine which part is currently colliding.
 	*/
-	void setUserID( unsigned id ) const { NewtonConvexCollisionSetUserID( m_col, id); }
+	void setUserID( unsigned id ) const { NewtonCollisionSetUserID( m_col, id); }
 
 	//! get user ID, for collision callback identification
-	unsigned getUserID() const { return NewtonConvexCollisionGetUserID( m_col ); }
+	unsigned getUserID() const { return NewtonCollisionGetUserID( m_col ); }
 
 	//! make unique
 	void makeUnique() { NewtonCollisionMakeUnique( m_world->getNewtonWorld(), m_col ); }

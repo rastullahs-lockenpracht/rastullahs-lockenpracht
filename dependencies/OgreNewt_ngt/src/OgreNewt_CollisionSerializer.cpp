@@ -22,7 +22,7 @@ namespace OgreNewt
     {
       OGRE_EXCEPT(Ogre::Exception::ERR_INVALIDPARAMS, "Unable to open file " + filename + " for writing","CollisionSerializer::exportTreeCollision");
     }
-    NewtonCollisionSerialize(collision->getNewtonCollision(), &CollisionSerializer::_newtonSerializeCallback, this);
+    NewtonCollisionSerialize(collision->getWorld()->getNewtonWorld(), collision->getNewtonCollision(), &CollisionSerializer::_newtonSerializeCallback, this);
   }
 
 
