@@ -319,14 +319,14 @@ namespace rl {
         Vector3 pos = Vector3::ZERO;
 
         const Combat::CombatantSet &allies (mCombat->getAllPlayerAllies() );
-        for(Combat::CombatantSet::iterator it = allies.begin(); it != allies.end(); it++)
+        for(Combat::CombatantSet::const_iterator it = allies.begin(); it != allies.end(); it++)
         {
             pos += (*it)->getCreature()->getPosition();
             n++;
         }
 
         const Combat::CombatantSet &opponents (mCombat->getAllPlayerOpponents());
-        for(Combat::CombatantSet::iterator it = opponents.begin(); it != opponents.end(); it++)
+        for(Combat::CombatantSet::const_iterator it = opponents.begin(); it != opponents.end(); it++)
         {
             pos += (*it)->getCreature()->getPosition();
             n++;
@@ -347,12 +347,12 @@ namespace rl {
         // get the greatest distance from center from all persons
         Real distance = 0;
         const Combat::CombatantSet &allies (mCombat->getAllPlayerAllies() );
-        for(Combat::CombatantSet::iterator it = allies.begin(); it != allies.end(); it++)
+        for(Combat::CombatantSet::const_iterator it = allies.begin(); it != allies.end(); it++)
         {
             distance = std::max( ( (*it)->getCreature()->getPosition() - center ).length(), distance );
         }
         const Combat::CombatantSet &opponents = mCombat->getAllPlayerOpponents();
-        for(Combat::CombatantSet::iterator it = opponents.begin(); it != opponents.end(); it++)
+        for(Combat::CombatantSet::const_iterator it = opponents.begin(); it != opponents.end(); it++)
         {
             distance = std::max( ( (*it)->getCreature()->getPosition() - center ).length(), distance );
         }

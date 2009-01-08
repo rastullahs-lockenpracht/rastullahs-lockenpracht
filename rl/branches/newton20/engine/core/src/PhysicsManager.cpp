@@ -193,12 +193,15 @@ namespace rl
                      body != NULL;
                      body = NewtonWorldGetNextBody(mWorld->getNewtonWorld(), body)  )
                     newtonPerBodyLogProperties(body);
+            }
 #endif
         }
 
 
         if( mDebugMode == 2 )
+        {
             mNewtonDebugger->showDebugInformation(mWorld);
+        }
     }
 
 #ifdef _DEBUG
