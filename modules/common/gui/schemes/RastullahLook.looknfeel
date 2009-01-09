@@ -503,9 +503,9 @@
 
 	<!-- RastullahLook/Container -->
 	<WidgetLook name="RastullahLook/Container">
-		<PropertyDefinition	name="ContainerColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
-		<PropertyDefinition	name="ContainerColour_Standard" initialValue="FFFFFFFF" redrawOnWrite="true" />
-		<PropertyDefinition	name="ContainerColour_DropPossible" initialValue="FF9FB9FF" redrawOnWrite="true" />
+		<PropertyDefinition	name="ContainerColour" initialValue="FF3C3C3C" redrawOnWrite="true" />
+		<PropertyDefinition	name="ContainerColour_Standard" initialValue="FF3C3C3C" redrawOnWrite="true" />
+		<PropertyDefinition	name="ContainerColour_DropPossible" initialValue="FF99A4C2" redrawOnWrite="true" />
 		<PropertyDefinition	name="ContainerColour_DropImpossible" initialValue="FFFF4700" redrawOnWrite="true" />
 		<PropertyDefinition	name="ContainerColour_DropReady" initialValue="FFBCFF56" redrawOnWrite="true" />
 
@@ -1147,7 +1147,7 @@
     <WidgetLook name="RastullahLook/Editbox">
         <PropertyDefinition name="NormalTextColour" initialValue="FF000000" redrawOnWrite="true" />
         <PropertyDefinition name="SelectedTextColour" initialValue="FF000055" redrawOnWrite="true" />
-        <PropertyDefinition name="ActiveSelectionColour" initialValue="FFE4D243" redrawOnWrite="true" />
+        <PropertyDefinition name="ActiveSelectionColour" initialValue="FF727272" redrawOnWrite="true" />
         <PropertyDefinition name="InactiveSelectionColour" initialValue="FFC4B223" redrawOnWrite="true" />
         <Property name="MouseCursorImage" value="set:RastullahLook-Images image:MouseTextBar" />
         <NamedArea name="TextArea">
@@ -2732,9 +2732,9 @@
     -->
     <WidgetLook name="RastullahLook/Combobox">
         <PropertyLinkDefinition name="NormalEditTextColour" widget="__auto_editbox__" targetProperty="NormalTextColour" initialValue="FFFFFFFF" />
-        <PropertyLinkDefinition name="SelectedEditTextColour" widget="__auto_editbox__" targetProperty="SelectedTextColour" initialValue="FF000000" />
+        <PropertyLinkDefinition name="SelectedEditTextColour" widget="__auto_editbox__" targetProperty="SelectedTextColour" initialValue="FF3C3C3C" />
         <PropertyLinkDefinition name="ActiveEditSelectionColour" widget="__auto_editbox__" targetProperty="ActiveSelectionColour" initialValue="FF6060FF" />
-        <PropertyLinkDefinition name="InactiveEditSelectionColour" widget="__auto_editbox__" targetProperty="InactiveSelectionColour" initialValue="FF808080" />
+        <PropertyLinkDefinition name="InactiveEditSelectionColour" widget="__auto_editbox__" targetProperty="InactiveSelectionColour" initialValue="FFA7A7A7" />
         <Child  type="RastullahLook/ComboEditbox" nameSuffix="__auto_editbox__">
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
@@ -4374,7 +4374,7 @@
     ***************************************************
     -->
     <WidgetLook name="RastullahLook/MenuItem">
-        <PropertyDefinition name="NormalTextColour" initialValue="FF292a2e" redrawOnWrite="true" />
+        <PropertyDefinition name="NormalTextColour" initialValue="FFCFCFCF" redrawOnWrite="true" />
         <PropertyDefinition name="DisabledTextColour" initialValue="FF7F7F7F" redrawOnWrite="true" />
         <PropertyDefinition name="HoverTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
         <PropertyDefinition name="PushedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />

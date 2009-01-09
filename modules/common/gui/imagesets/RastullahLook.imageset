@@ -19,7 +19,7 @@
     <Image Name="MouseTarget" XPos="1" YPos="283" Width="18" Height="20" />
     <Image Name="StaticRight" XPos="116" YPos="263" Width="4" Height="2" />
     <Image Name="TabPaneLeft" XPos="106" YPos="263" Width="4" Height="2" />
-    <Image Name="CheckboxMark" XPos="110" YPos="16" Width="12" Height="12" />
+    <Image Name="CheckboxMark" XPos="44" YPos="395" Width="12" Height="12" />
     <Image Name="EditBoxCarat" XPos="117" YPos="331" Width="3" Height="16" />
     <Image Name="EditBoxRight" XPos="108" YPos="331" Width="5" Height="16" />
     <Image Name="GenericBrush" XPos="40" YPos="350" Width="1" Height="1" />
@@ -32,8 +32,8 @@
     <Image Name="TabPaneLower" XPos="112" YPos="267" Width="2" Height="4" />
     <Image Name="TabPaneRight" XPos="116" YPos="263" Width="4" Height="2" />
     <Image Name="TitlebarLeft" XPos="112" YPos="293" Width="40" Height="25" />
-    <Image Name="CheckboxHover" XPos="110" YPos="30" Width="12" Height="12" />
-    <Image Name="EditBoxMiddle" XPos="53" YPos="331" Width="52" Height="16" />
+    <Image Name="CheckboxHover" XPos="44" YPos="409" Width="12" Height="12" />
+    <Image Name="EditBoxMiddle" XPos="53" YPos="334" Width="52" Height="13" />
     <Image Name="ListboxBottom" XPos="112" YPos="267" Width="2" Height="4" />
     <Image Name="MultiListLeft" XPos="106" YPos="263" Width="4" Height="2" />
     <Image Name="StaticTopLeft" XPos="106" YPos="257" Width="3" Height="3" />
@@ -45,11 +45,11 @@
     <Image Name="VertScrollTop" XPos="182" YPos="2" Width="20" Height="8" />
     <Image Name="WindowTopEdge" XPos="49" YPos="281" Width="6" Height="16" />
     <Image Name="WindowTopLeft" XPos="31" YPos="281" Width="17" Height="16" />
-    <Image Name="CheckboxNormal" XPos="110" YPos="2" Width="12" Height="12" />
+    <Image Name="CheckboxNormal" XPos="44" YPos="381" Width="12" Height="12" />
     <Image Name="ListboxTopLeft" XPos="106" YPos="257" Width="3" Height="3" />
     <Image Name="MenuBottomLeft" XPos="2" YPos="1" Width="4" Height="4" />
     <Image Name="MultiListRight" XPos="116" YPos="263" Width="4" Height="2" />
-    <Image Name="SpinnerUpHover" XPos="82" YPos="110" Width="10" Height="6" />
+    <Image Name="SpinnerUpHover" XPos="200" YPos="320" Width="10" Height="6" />
     <Image Name="StaticBackdrop" XPos="125" YPos="376" Width="8" Height="10" />
     <Image Name="StaticTopRight" XPos="117" YPos="257" Width="3" Height="3" />
     <Image Name="StatusBarRight" XPos="157" YPos="320" Width="5" Height="13" />
@@ -61,7 +61,7 @@
     <Image Name="WindowTopRight" XPos="56" YPos="281" Width="16" Height="16" />
     <Image Name="AltProgressHalf" XPos="109" YPos="89" Width="4" Height="5" />
     <Image Name="AltProgressLeft" XPos="71" YPos="88" Width="8" Height="12" />
-    <Image Name="ComboboxListTop" XPos="148" YPos="48" Width="8" Height="8" />
+    <Image Name="ComboboxListTop" XPos="73" YPos="330" Width="8" Height="8" />
     <Image Name="HeaderBarSortUp" XPos="162" YPos="285" Width="7" Height="7" />
     <Image Name="ItemBackgroundB" XPos="298" YPos="318" Width="15" Height="8" />
     <Image Name="ItemBackgroundL" XPos="290" YPos="303" Width="8" Height="15" />
@@ -79,8 +79,8 @@
     <Image Name="NewTitlebarLeft" XPos="112" YPos="293" Width="40" Height="25" />
     <Image Name="PopupMenuMiddle" XPos="9" YPos="265" Width="6" Height="4" />
     <Image Name="ProgressBarLeft" XPos="71" YPos="74" Width="7" Height="12" />
-    <Image Name="RadioButtonMark" XPos="124" YPos="16" Width="12" Height="12" />
-    <Image Name="SpinnerUpNormal" XPos="68" YPos="110" Width="10" Height="6" />
+    <Image Name="RadioButtonMark" XPos="60" YPos="395" Width="12" Height="12" />
+    <Image Name="SpinnerUpNormal" XPos="174" YPos="320" Width="10" Height="6" />
     <Image Name="StatusBarMiddle" XPos="154" YPos="320" Width="1" Height="13" />
     <Image Name="TooltipLeftEdge" XPos="1" YPos="265" Width="5" Height="4" />
     <Image Name="TooltipTopRight" XPos="19" YPos="257" Width="6" Height="4" />
@@ -89,8 +89,8 @@
     <Image Name="ButtonLeftNormal" XPos="77" YPos="281" Width="13" Height="17" />
     <Image Name="ButtonLeftPushed" XPos="77" YPos="301" Width="13" Height="17" />
     <Image Name="CloseButtonHover" XPos="125" YPos="319" Width="15" Height="15" />
-    <Image Name="ComboboxEditLeft" XPos="138" YPos="2" Width="8" Height="16" />
-    <Image Name="ComboboxListLeft" XPos="138" YPos="48" Width="8" Height="8" />
+    <Image Name="ComboboxEditLeft" XPos="41" YPos="330" Width="8" Height="18" />
+    <Image Name="ComboboxListLeft" XPos="41" YPos="335" Width="8" Height="8" />
     <Image Name="ItemBackgroundBG" XPos="298" YPos="303" Width="15" Height="15" />
     <Image Name="ItemBackgroundBL" XPos="290" YPos="318" Width="8" Height="8" />
     <Image Name="ItemBackgroundBR" XPos="313" YPos="318" Width="8" Height="8" />
@@ -99,8 +99,8 @@
     <Image Name="MultiListTopLeft" XPos="106" YPos="257" Width="3" Height="3" />
     <Image Name="NewTitlebarRight" XPos="213" YPos="293" Width="6" Height="25" />
     <Image Name="ProgressBarRight" XPos="88" YPos="74" Width="6" Height="12" />
-    <Image Name="RadioButtonHover" XPos="124" YPos="30" Width="12" Height="12" />
-    <Image Name="SpinnerDownHover" XPos="82" YPos="118" Width="10" Height="6" />
+    <Image Name="RadioButtonHover" XPos="60" YPos="409" Width="12" Height="12" />
+    <Image Name="SpinnerDownHover" XPos="200" YPos="327" Width="10" Height="6" />
     <Image Name="StaticBottomLeft" XPos="106" YPos="268" Width="3" Height="3" />
     <Image Name="StatusBarFilling" XPos="185" YPos="320" Width="4" Height="13" />
     <Image Name="TabPaneLowerLeft" XPos="106" YPos="268" Width="3" Height="3" />
@@ -123,7 +123,7 @@
     <Image Name="ButtonRightNormal" XPos="94" YPos="281" Width="13" Height="17" />
     <Image Name="ButtonRightPushed" XPos="94" YPos="301" Width="13" Height="17" />
     <Image Name="CloseButtonNormal" XPos="125" YPos="319" Width="15" Height="15" />
-    <Image Name="ComboboxListRight" XPos="158" YPos="48" Width="8" Height="8" />
+    <Image Name="ComboboxListRight" XPos="106" YPos="335" Width="8" Height="8" />
     <Image Name="HeaderBarSortDown" XPos="170" YPos="285" Width="7" Height="7" />
     <Image Name="ListboxBottomLeft" XPos="106" YPos="268" Width="3" Height="3" />
     <Image Name="MultiListBackdrop" XPos="125" YPos="376" Width="8" Height="10" />
@@ -131,8 +131,8 @@
     <Image Name="NewTitlebarMiddle" XPos="152" YPos="293" Width="61" Height="25" />
     <Image Name="PopupMenuFrameTop" XPos="9" YPos="257" Width="6" Height="4" />
     <Image Name="ProgressBarMiddle" XPos="80" YPos="74" Width="6" Height="12" />
-    <Image Name="RadioButtonNormal" XPos="124" YPos="2" Width="12" Height="12" />
-    <Image Name="SpinnerDownNormal" XPos="68" YPos="118" Width="10" Height="6" />
+    <Image Name="RadioButtonNormal" XPos="60" YPos="381" Width="12" Height="12" />
+    <Image Name="SpinnerDownNormal" XPos="174" YPos="327" Width="10" Height="6" />
     <Image Name="StaticBottomRight" XPos="117" YPos="268" Width="3" Height="3" />
     <Image Name="TabPaneLowerRight" XPos="117" YPos="268" Width="3" Height="3" />
     <Image Name="TooltipBottomEdge" XPos="9" YPos="273" Width="6" Height="4" />
@@ -144,18 +144,18 @@
     <Image Name="ButtonMiddleNormal" XPos="91" YPos="281" Width="2" Height="17" />
     <Image Name="ButtonMiddlePushed" XPos="91" YPos="301" Width="2" Height="17" />
     <Image Name="CloseButtonPressed" XPos="125" YPos="319" Width="15" Height="15" />
-    <Image Name="ComboboxEditMiddle" XPos="148" YPos="2" Width="8" Height="16" />
-    <Image Name="ComboboxListBottom" XPos="148" YPos="58" Width="8" Height="8" />
+    <Image Name="ComboboxEditMiddle" XPos="66" YPos="330" Width="8" Height="18" />
+    <Image Name="ComboboxListBottom" XPos="73" YPos="340" Width="8" Height="8" />
     <Image Name="ListboxBottomRight" XPos="117" YPos="268" Width="3" Height="3" />
     <Image Name="PopupMenuArrowLeft" XPos="2" YPos="1" Width="4" Height="4" />
     <Image Name="PopupMenuFrameLeft" XPos="1" YPos="265" Width="5" Height="4" />
     <Image Name="TabContentPaneLeft" XPos="106" YPos="263" Width="4" Height="2" />
-    <Image Name="TextSelectionBrush" XPos="8" YPos="70" Width="16" Height="16" />
+    <Image Name="TextSelectionBrush" XPos="162" YPos="340" Width="16" Height="16" />
     <Image Name="TooltipBottomRight" XPos="19" YPos="273" Width="6" Height="4" />
     <Image Name="VertScrollUpNormal" XPos="196" YPos="32" Width="12" Height="12" />
     <Image Name="ButtonLeftHighlight" XPos="77" YPos="350" Width="13" Height="17" />
     <Image Name="ComboboxDividerLeft" XPos="138" YPos="68" Width="14" Height="1" />
-    <Image Name="ComboboxListTopLeft" XPos="138" YPos="38" Width="8" Height="8" />
+    <Image Name="ComboboxListTopLeft" XPos="41" YPos="330" Width="8" Height="8" />
     <Image Name="HorzScrollLeftHover" XPos="181" YPos="257" Width="15" Height="14" />
     <Image Name="MultiLineEditboxTop" XPos="269" YPos="258" Width="6" Height="7" />
     <Image Name="MultiListBottomLeft" XPos="106" YPos="268" Width="3" Height="3" />
@@ -170,8 +170,8 @@
     <Image Name="VertScrollDownHover" XPos="182" YPos="46" Width="12" Height="12" />
     <Image Name="ButtonRightHighlight" XPos="94" YPos="350" Width="13" Height="17" />
     <Image Name="ComboboxDividerRight" XPos="164" YPos="68" Width="14" Height="1" />
-    <Image Name="ComboboxListBackdrop" XPos="148" YPos="48" Width="8" Height="8" />
-    <Image Name="ComboboxListTopRight" XPos="158" YPos="38" Width="8" Height="8" />
+    <Image Name="ComboboxListBackdrop" XPos="73" YPos="335" Width="8" Height="8" />
+    <Image Name="ComboboxListTopRight" XPos="106" YPos="330" Width="8" Height="8" />
     <Image Name="HorzScrollBarSegment" XPos="174" YPos="274" Width="4" Height="7" />
     <Image Name="HorzScrollLeftNormal" XPos="181" YPos="257" Width="15" Height="14" />
     <Image Name="HorzScrollRightHover" XPos="161" YPos="257" Width="16" Height="14" />
@@ -193,7 +193,7 @@
     <Image Name="ComboboxDividerMiddle" XPos="154" YPos="68" Width="8" Height="1" />
     <Image Name="HorzScrollRightNormal" XPos="161" YPos="257" Width="16" Height="14" />
     <Image Name="HorzScrollThumbNormal" XPos="1" YPos="500" Width="26" Height="11" />
-    <Image Name="ListboxSelectionBrush" XPos="40" YPos="350" Width="16" Height="16" />
+    <Image Name="ListboxSelectionBrush" XPos="77" YPos="412" Width="16" Height="16" />
     <Image Name="MiniVertScrollUpHover" XPos="123" YPos="257" Width="11" Height="13" />
     <Image Name="MultiLineEditboxRight" XPos="278" YPos="268" Width="5" Height="2" />
     <Image Name="NewCloseButtonPressed" XPos="125" YPos="319" Width="15" Height="15" />
@@ -205,8 +205,8 @@
     <Image Name="TabButtonMiddleNormal" XPos="47" YPos="266" Width="2" Height="2" />
     <Image Name="VertScrollThumbNormal" XPos="214" YPos="2" Width="8" Height="24" />
     <Image Name="VertSliderThumbNormal" XPos="217" YPos="28" Width="15" Height="6" />
-    <Image Name="ComboboxListBottomLeft" XPos="138" YPos="58" Width="8" Height="8" />
-    <Image Name="ComboboxSelectionBrush" XPos="8" YPos="70" Width="16" Height="16" />
+    <Image Name="ComboboxListBottomLeft" XPos="41" YPos="340" Width="8" Height="8" />
+    <Image Name="ComboboxSelectionBrush" XPos="162" YPos="340" Width="16" Height="16" />
     <Image Name="HeaderBarBackdropHover" XPos="88" YPos="373" Width="4" Height="17" />
     <Image Name="HeaderBarSplitterHover" XPos="95" YPos="373" Width="2" Height="17" />
     <Image Name="MiniVertScrollUpNormal" XPos="123" YPos="257" Width="11" Height="13" />
@@ -215,18 +215,18 @@
     <Image Name="TabButtonLowerSelected" XPos="85" YPos="270" Width="2" Height="8" />
     <Image Name="TabButtonRightSelected" XPos="88" YPos="267" Width="11" Height="2" />
     <Image Name="TabButtonUpperSelected" XPos="85" YPos="257" Width="2" Height="9" />
-    <Image Name="ComboboxListBottomRight" XPos="158" YPos="58" Width="8" Height="8" />
-    <Image Name="ComboboxListButtonHover" XPos="158" YPos="20" Width="16" Height="16" />
+    <Image Name="ComboboxListBottomRight" XPos="106" YPos="340" Width="8" Height="8" />
+    <Image Name="ComboboxListButtonHover" XPos="95" YPos="394" Width="16" Height="16" />
     <Image Name="HeaderBarBackdropNormal" XPos="77" YPos="373" Width="4" Height="17" />
     <Image Name="HeaderBarSplitterNormal" XPos="105" YPos="373" Width="2" Height="17" />
     <Image Name="MiniHorzScrollLeftHover" XPos="181" YPos="257" Width="15" Height="14" />
     <Image Name="MiniVertScrollDownHover" XPos="136" YPos="259" Width="11" Height="13" />
     <Image Name="MultiLineEditboxTopLeft" XPos="258" YPos="258" Width="8" Height="7" />
-    <Image Name="MultiListSelectionBrush" XPos="40" YPos="350" Width="16" Height="16" />
+    <Image Name="MultiListSelectionBrush" XPos="77" YPos="412" Width="16" Height="16" />
     <Image Name="TabButtonMiddleSelected" XPos="85" YPos="267" Width="2" Height="2" />
     <Image Name="TabContentPaneLowerLeft" XPos="106" YPos="268" Width="3" Height="3" />
     <Image Name="TabContentPaneUpperLeft" XPos="106" YPos="268" Width="3" Height="3" />
-    <Image Name="ComboboxListButtonNormal" XPos="158" YPos="2" Width="16" Height="16" />
+    <Image Name="ComboboxListButtonNormal" XPos="77" YPos="394" Width="16" Height="16" />
     <Image Name="HorzScrollThumbLeftHover" XPos="220" YPos="272" Width="9" Height="14" />
     <Image Name="MiniHorzScrollBarSegment" XPos="174" YPos="274" Width="4" Height="7" />
     <Image Name="MiniHorzScrollLeftNormal" XPos="181" YPos="257" Width="15" Height="14" />
@@ -235,7 +235,7 @@
     <Image Name="MiniVertScrollBarSegment" XPos="163" YPos="275" Width="7" Height="4" />
     <Image Name="MiniVertScrollDownNormal" XPos="136" YPos="259" Width="11" Height="13" />
     <Image Name="MiniVertScrollThumbHover" XPos="1" YPos="495" Width="11" Height="26" />
-    <Image Name="MultiLineEditboxBackdrop" XPos="1" YPos="1" Width="254" Height="254" />
+    <Image Name="MultiLineEditboxBackdrop" XPos="41" YPos="334" Width="73" Height="13" />
     <Image Name="MultiLineEditboxTopRight" XPos="278" YPos="258" Width="5" Height="7" />
     <Image Name="PopupMenuFrameBottomLeft" XPos="1" YPos="273" Width="5" Height="4" />
     <Image Name="TabButtonLowerLeftNormal" XPos="35" YPos="269" Width="11" Height="9" />
@@ -275,7 +275,7 @@
     <Image Name="MiniHorzScrollThumbRightNormal" XPos="242" YPos="257" Width="10" Height="14" />
     <Image Name="MiniVertScrollThumbBottomHover" XPos="149" YPos="279" Width="11" Height="9" />
     <Image Name="MiniVertScrollThumbMiddleHover" XPos="136" YPos="279" Width="11" Height="7" />
-    <Image Name="MultiLineEditboxSelectionBrush" XPos="40" YPos="350" Width="16" Height="16" />
+    <Image Name="MultiLineEditboxSelectionBrush" XPos="77" YPos="412" Width="16" Height="16" />
     <Image Name="TransparentMultiLineEditboxTop" XPos="49" YPos="368" Width="3" Height="3" />
     <Image Name="MiniHorzScrollThumbMiddleNormal" XPos="229" YPos="257" Width="13" Height="14" />
     <Image Name="MiniVertScrollThumbBottomNormal" XPos="149" YPos="279" Width="11" Height="9" />
