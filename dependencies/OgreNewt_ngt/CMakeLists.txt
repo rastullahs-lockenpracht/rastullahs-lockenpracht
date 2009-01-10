@@ -69,7 +69,6 @@ ${OGRE_INCLUDE_DIRS}
 ${NEWTON_INCLUDE_DIR})
 
 SET(OgreNewt_LIB_SRCS
-src/OgreNewt_BasicFrameListener.cpp
 src/OgreNewt_BasicJoints.cpp
 src/OgreNewt_Body.cpp
 src/OgreNewt_Collision.cpp
@@ -101,7 +100,7 @@ INSTALL(TARGETS OgreNewt
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
         ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 
-INSTALL(FILES inc/OgreNewt_BasicFrameListener.h inc/OgreNewt_BasicJoints.h
+INSTALL(FILES inc/OgreNewt_BasicJoints.h
 inc/OgreNewt_Body.h inc/OgreNewt_BodyIterator.h inc/OgreNewt_Collision.h
 inc/OgreNewt_CollisionPrimitives.h inc/OgreNewt_CollisionSerializer.h
 inc/OgreNewt_ContactCallback.h inc/OgreNewt_Debugger.h inc/OgreNewt.h
