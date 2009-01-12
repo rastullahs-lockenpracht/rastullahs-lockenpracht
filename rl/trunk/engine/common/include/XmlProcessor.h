@@ -23,7 +23,10 @@
 #include <xercesc/sax/ErrorHandler.hpp>
 #include <xercesc/sax2/Attributes.hpp>
 
-class XERCES_CPP_NAMESPACE::SAXParseException;
+namespace XERCES_CPP_NAMESPACE
+{
+    class SAXParseException;
+}
 
 #include "CommonPrerequisites.h"
 
