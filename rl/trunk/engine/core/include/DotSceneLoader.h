@@ -31,8 +31,13 @@
 #include "XmlResourceManager.h"
 #include "XmlPropertyReader.h"
 
-class Ogre::SceneNode;
-class XERCES_CPP_NAMESPACE::DOMElement;
+namespace Ogre {
+	class SceneNode;
+}
+
+namespace XERCES_CPP_NAMESPACE {
+	class DOMElement;
+}
 
 namespace rl {
 

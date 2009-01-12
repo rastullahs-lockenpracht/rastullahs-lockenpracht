@@ -23,7 +23,10 @@
 #include <map>
 #include "BaseAnimation.h"
 
-class Ogre::Animation;
+namespace Ogre
+{
+	class Animation;
+}
 
 namespace rl {
 
