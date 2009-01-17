@@ -24,7 +24,7 @@ class PersistenzTestModule < ContentModule
     def start()
         require "mckhero.rb"
         require "hero.rb"
-		require "MapChange.rb"
+		require "SceneChange.rb"
 		require "clothing.rb"
 		SceneManager::getSingleton().loadScene("scene01", false);
 		$PM.setEnabled(true)

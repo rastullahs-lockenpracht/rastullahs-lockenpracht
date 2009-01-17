@@ -1,5 +1,5 @@
 require 'embed.rb'
-require 'MapChange.rb'
+require 'SceneChange.rb'
 
 $SCRIPT.log("map 1 von 'persistenztest' wird initialisiert....")
 

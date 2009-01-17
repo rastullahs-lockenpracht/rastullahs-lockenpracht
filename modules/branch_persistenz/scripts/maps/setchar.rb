@@ -2,7 +2,7 @@ load "embed.rb"
 
 require 'player.rb'
 require 'hero.rb'
-require 'MapChange.rb'
+require 'SceneChange.rb'
 
 $SCRIPT.log("Prepare hero for being the active character")
 hero = $GOM.getGameObject("hero");
