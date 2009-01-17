@@ -69,8 +69,8 @@ public:
     void renderOneFrame(bool executeTasks = true);
 
     World* getWorld();
-    void loadMap(const Ogre::String type, const Ogre::String filename,
-        const Ogre::String module);
+    void loadMap(const Ogre::String& type, const Ogre::String& filename,
+        const Ogre::String& module);
 
     RubyInterpreter* getRubyInterpreter();
 
@@ -113,6 +113,7 @@ public:
 
     void _setCurrentScene(const CeGuiString& scene);
     const CeGuiString& getCurrentScene() const;
+    void loadPlugin(const Ogre::String& plugin);
 
 private:
     World* mWorld;
@@ -156,8 +157,8 @@ private:
     void unloadPlugins();
 
     /**
-     * Sammelt alle Default-Techniques, um sie später bei jedem aktivierten Scheme
-     * benutzen zu können
+     * Sammelt alle Default-Techniques, um sie spâ€°ter bei jedem aktivierten Scheme
+     * benutzen zu kË†nnen
      */
     void updateDefaultScheme();
 

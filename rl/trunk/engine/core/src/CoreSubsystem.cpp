@@ -471,7 +471,7 @@ namespace rl
             {
                 Throw(
                     rl::RuntimeException,
-                    "Depedency Module " + depName
+                    "Dependency Module " + depName
                     + " needed by " + Ogre::String(module->getName().c_str())
                     + " not found.");
             }
@@ -571,10 +571,23 @@ namespace rl
         return mModules;
     }
 
-    void CoreSubsystem::loadMap(const Ogre::String type, const Ogre::String filename,
-        const Ogre::String module)
+    void CoreSubsystem::loadMap(const Ogre::String& type, const Ogre::String& filename,
+        const Ogre::String& module)
     {
         mWorld->loadScene(filename, module);
+    }
+    
+    void CoreSubsystem::loadPlugin(const Ogre::String& plugin)
+    {
+        Ogre::String pluginFile;
+        
+#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+        pluginFile = "lib" + plugin;
+#else
+        pluginFile = plugin;
+#endif
+        
+        Ogre::Root::getSingleton().loadPlugin(pluginFile);
     }
 
     void CoreSubsystem::loadPlugins()

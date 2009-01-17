@@ -22,6 +22,7 @@
 #include "Actor.h"
 #include "ActorManager.h"
 #include "ConfigFile.h"
+#include "CoreSubsystem.h"
 #include "GameLoop.h"
 #include "ListenerMovable.h"
 #include "ListenerObject.h"
@@ -251,11 +252,7 @@ SoundDriver *SoundManager::getDriverByName(const String &name)
 
         try
         {
-            #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-            Ogre::Root::getSingleton().loadPlugin(drivername);
-            #else
-            Ogre::Root::getSingleton().loadPlugin("lib" + drivername);
-            #endif
+            CoreSubsystem::getSingleton().loadPlugin(drivername);
         }
         catch(Ogre::Exception &e)
         {
