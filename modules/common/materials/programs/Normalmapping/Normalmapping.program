@@ -5,6 +5,17 @@ vertex_program Basic_Normalmapping_UV0_VS_HLSL hlsl
     target vs_1_1
 }
 
+vertex_program Basic_Normalmapping_UV0_VP_GLSL glsl
+{
+    source Basic_Normalmapping_UV0.vert
+}
+
+vertex_program Basic_Normalmapping_UV0_VERTEX unified
+{
+    delegate Basic_Normalmapping_UV0_VS_HLSL
+	delegate Basic_Normalmapping_UV0_VP_GLSL
+}
+
 vertex_program Basic_Normalmapping_architecture_VS_HLSL hlsl
 {
     source Basic_Normalmapping_architecture_VS.hlsl
@@ -39,6 +50,25 @@ fragment_program Basic_Normalmapping_PS_HLSL hlsl
     entry_point ps_main
     target ps_2_0
 }
+
+fragment_program Basic_Normalmapping_FP_GLSL glsl
+{
+    source Basic_Normalmapping.frag
+	
+	default_params
+	{				
+		param_named DiffuseMap int 0
+		param_named NormalMap int 1
+	}
+}
+
+fragment_program Basic_Normalmapping_PIXEL unified
+{
+	delegate Basic_Normalmapping_PS_HLSL
+    delegate Basic_Normalmapping_FP_GLSL
+}
+
+
 fragment_program Basic_Normalmapping_architecture_PS_HLSL hlsl
 {
     source Basic_Normalmapping_architecture_PS.hlsl

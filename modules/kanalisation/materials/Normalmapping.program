@@ -1,12 +1,11 @@
 material Basic_Normalmapping_kana 
 {
-	
-    technique hlsl
+    technique high
     {
 	    lod_index 0
         pass
         {
-            vertex_program_ref Basic_Normalmapping_UV0_VS_HLSL
+            vertex_program_ref Basic_Normalmapping_UV0_VERTEX
             {
                 param_named_auto matViewProjection worldviewproj_matrix
                 param_named_auto LightPosition_0 light_position_object_space 0
@@ -20,7 +19,7 @@ material Basic_Normalmapping_kana
                 param_named_auto vViewPosition	 camera_position_object_space
             }
 
-            fragment_program_ref Basic_Normalmapping_PS_HLSL
+            fragment_program_ref Basic_Normalmapping_PIXEL
             {
                 param_named_auto LightColor_0  light_diffuse_colour  0
                 param_named_auto LightColor_1  light_diffuse_colour  1
@@ -45,20 +44,19 @@ material Basic_Normalmapping_kana
             }
         }
     }
-    
-    technique hlsl1
+
+	
+	technique low
 	{
 		lod_index 1
 		//Rendering Pass: Pass 0 (pass index: #0 )
 		pass
 		{
 			alpha_rejection greater 128
-			//DirectX 9.0 HLSL Pixel Shader ps_2_0
-			fragment_program_ref Basic_Pixel_Shader
+			fragment_program_ref Basic_Pixel_Unified
 			{
 			}
-			//DirectX 9.0 HLSL Vertex Shader vs_2_0
-			vertex_program_ref Basic_Vertex_Shader
+			vertex_program_ref Basic_Vertex_Unified
 			{
 				// param_named_auto
 
@@ -95,6 +93,8 @@ material Basic_Normalmapping_kana
 	}
     
 
+	
+	
     technique fixed_function
     {
 	    lod_index 2

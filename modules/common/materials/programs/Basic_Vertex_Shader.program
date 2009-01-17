@@ -38,6 +38,10 @@ vertex_program Basic_Vertex_Shader_glsl glsl
 fragment_program Basic_Pixel_Shader_glsl glsl
 {
 	source Basic_Pixel_Shader_glsl.source
+	default_params
+	{
+		param_named baseMap int 0
+	}
 }
 
 vertex_program Basic_Vertex_Shader_SR hlsl
@@ -57,7 +61,6 @@ fragment_program Basic_Pixel_ShaderUV1 hlsl
 fragment_program Basic_Pixel_ShaderUV1_glsl glsl
 {
 	source Basic_Pixel_ShaderUV1_glsl.source
-
 }
 
 vertex_program Skin_Vertex_Shader hlsl
@@ -69,6 +72,18 @@ vertex_program Skin_Vertex_Shader hlsl
 vertex_program Skin_Vertex_Shader_glsl glsl
 {
 	source Skin_Vertex_Shader_glsl.source
+}
+
+vertex_program Basic_Vertex_Unified unified
+{
+	delegate Basic_Vertex_Shader
+	delegate Basic_Vertex_Shader_glsl
+}
+
+fragment_program Basic_Pixel_Unified unified
+{
+	delegate Basic_Pixel_Shader
+	delegate Basic_Pixel_Shader_glsl
 }
 
 
