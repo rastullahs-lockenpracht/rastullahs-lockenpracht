@@ -98,7 +98,10 @@ public:
                 if a collision is marked as a trigger-volume, there's no calculation of contacts, so
                 this acts like an accurate aabb test
         */
-        void setAsTriggerVolume(bool trigger) { NewtonCollisionSetAsTriggerVolume(m_col, (int)trigger); }
+        //! TODO:
+        // this doesn't work correctly yet, because the userdata pointer in the collision callback can't be accessed with a trigger
+        // volume in the current beta!
+        void setAsTriggerVolume(bool trigger) { /*NewtonCollisionSetAsTriggerVolume(m_col, (int)trigger);*/ }
 };
 
 //typedef Ogre::SharedPtr<Collision> CollisionPtr;

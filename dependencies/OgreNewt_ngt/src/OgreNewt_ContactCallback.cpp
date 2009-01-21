@@ -1,6 +1,7 @@
 #include <OgreNewt_ContactCallback.h>
 #include <OgreNewt_Body.h>
 
+
 namespace OgreNewt
 {
 
@@ -31,6 +32,20 @@ int _CDECL ContactCallback::onAABBOverlap( const NewtonMaterial* material, const
 
 void _CDECL ContactCallback::contactProcess(const NewtonJoint *contactJoint, float timeStep, int threadIndex )
 {
+/*    // pruefe ob nur TriggerVolume - funktioniert mit aktuellem newton noch nicht
+    if( NewtonCollisionIsTriggerVolume(NewtonBodyGetCollision(NewtonJointGetBody1(contactJoint))) ||
+        NewtonCollisionIsTriggerVolume(NewtonBodyGetCollision(NewtonJointGetBody1(contactJoint))) )
+    {
+	    ContactCallback *me = (ContactCallback*)NewtonJointGetUserData(contactJoint);
+        me->m_material = NULL;
+        me->m_body0 = (OgreNewt::Body*)NewtonBodyGetUserData( NewtonJointGetBody0(contactJoint) );
+    	me->m_body1 = (OgreNewt::Body*)NewtonBodyGetUserData( NewtonJointGetBody1(contactJoint) );
+        me->contactProcess( (Ogre::Real)timeStep, threadIndex );
+
+        return;
+    }
+*/
+bool test = false;
         for (void* contact = NewtonContactJointGetFirstContact (contactJoint); contact; contact = NewtonContactJointGetNextContact (contactJoint, contact))
         {
 	        ContactCallback *me;

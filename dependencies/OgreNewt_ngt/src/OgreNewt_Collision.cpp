@@ -8,7 +8,7 @@ namespace OgreNewt
 {
 
 	
-Collision::Collision( const World* world )
+Collision::Collision( const World* world ) : m_col(NULL)
 {
 	m_world = world;
 }
@@ -27,9 +27,12 @@ Ogre::AxisAlignedBox Collision::getAABB( const Ogre::Quaternion& orient, const O
 	float matrix[16];
 	OgreNewt::Converters::QuatPosToMatrix( orient, pos, matrix );
 
-	NewtonCollisionCalculateAABB( m_col, matrix, &min.x, &max.x );
+    if( m_col )
+    {
+    	NewtonCollisionCalculateAABB( m_col, matrix, &min.x, &max.x );
 
-	box = Ogre::AxisAlignedBox(min, max);
+	    box = Ogre::AxisAlignedBox(min, max);
+    }
 	return box;
 }
 
@@ -48,6 +51,7 @@ ConvexCollision::~ConvexCollision()
 ConvexModifierCollision::ConvexModifierCollision(const World* world, const Collision* col) : Collision(world)
 {
 	m_col = NewtonCreateConvexHullModifier( world->getNewtonWorld(), col->getNewtonCollision() );
+    NewtonAddCollisionReference(m_col);
 }
 
 ConvexModifierCollision::~ConvexModifierCollision()
@@ -59,7 +63,8 @@ void ConvexModifierCollision::setScalarMatrix( const Ogre::Matrix4& mat ) const
 	float matrix[16];
 	OgreNewt::Converters::Matrix4ToMatrix( mat, matrix );
 
-	NewtonConvexHullModifierSetMatrix( m_col, matrix );	
+    if( m_col )
+    	NewtonConvexHullModifierSetMatrix( m_col, matrix );	
 }
 
 Ogre::Matrix4 ConvexModifierCollision::getScalarMatrix() const
@@ -67,9 +72,12 @@ Ogre::Matrix4 ConvexModifierCollision::getScalarMatrix() const
 	float matrix[16];
 	Ogre::Matrix4 mat;
 	
-	NewtonConvexHullModifierGetMatrix( m_col, matrix );
+    if( m_col )
+    {
+    	NewtonConvexHullModifierGetMatrix( m_col, matrix );
 
-	OgreNewt::Converters::MatrixToMatrix4( matrix, mat );
+    	OgreNewt::Converters::MatrixToMatrix4( matrix, mat );
+    }
 
 	return mat;
 }
@@ -77,3 +85,4 @@ Ogre::Matrix4 ConvexModifierCollision::getScalarMatrix() const
 
 
 }	// end NAMESPACE OgreNewt
+
