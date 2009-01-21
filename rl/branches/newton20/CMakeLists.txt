@@ -78,6 +78,10 @@ IF (NOT SWIG_DIR MATCHES -rl$)
 	SET_FEATURE_INFO(SWIG "" "" "You use an unsupported version of SWIG.")
 ENDIF(NOT SWIG_DIR MATCHES -rl$)
 
+# Compile settings for build types
+SET(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -DDEBUG")
+SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g -DDEBUG")
+
 # Path options
 SET(BINDIR "bin" CACHE STRING "Where to install binaries")
 SET(DATAROOTDIR "${CMAKE_INSTALL_PREFIX}/share" CACHE STRING "Sets the root of data directories to a non-default location")
