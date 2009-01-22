@@ -16,7 +16,9 @@
 #ifndef _FMODDRIVER_H_
 #define _FMODDRIVER_H_
 
-#include "Fmod4DriverPrerequisites.h"
+#include "CorePrerequisites.h"
+
+#include <fmod.hpp>
 
 #include "SoundDriver.h"
 
@@ -42,7 +44,7 @@ namespace rl
     /** Diese Klasse ist der Treiber, der OpenAL zur
      * Ausgabe benutzt.
      */
-    class _RlFmod4DriverExport Fmod4Driver : public rl::SoundDriver
+    class Fmod4Driver : public rl::SoundDriver
     {
     public:
         /// Der Treibername
@@ -89,7 +91,7 @@ namespace rl
         */
         virtual bool setEaxPreset(const Ogre::String& name);
 
-        /// Setzt den Faktor f, mit der die Lautst�rke nach der Formel 1/(f*Entfernung) abnimmt
+        /// Setzt den Faktor f, mit der die Lautstaerke nach der Formel 1/(f*Entfernung) abnimmt
         virtual void setRolloffFactor(const Ogre::Real&);
         virtual const Ogre::Real getRolloffFactor();
 
