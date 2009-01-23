@@ -17,7 +17,6 @@ RL_BINARIES="$RASTULLAH_APP_BIN \
     $RASTULLAH_RES_DIR/libRlRules.dylib \
     $RASTULLAH_RES_DIR/libRlScript.dylib \
     $RASTULLAH_RES_DIR/libRlUi.dylib \
-    $RASTULLAH_RES_DIR/libRlFmod4Driver.dylib \
     $RASTULLAH_RES_DIR/libboost_filesystem.dylib \
     $RASTULLAH_RES_DIR/libboost_system.dylib \
     $RASTULLAH_RES_DIR/RlScript.bundle"
@@ -28,6 +27,7 @@ do
     echo Processing $cur
     install_name_tool -change /Library/Frameworks/CEGUI.framework/Versions/A/CEGUI @executable_path/../Frameworks/CEGUI.framework/Versions/A/CEGUI $cur
     install_name_tool -change libboost_system-mt-1_35.dylib @executable_path/../Resources/libboost_system.dylib $cur
+    install_name_tool -change ./libfmodex.dylib @executable_path/../Resources/libfmodex.dylib $cur
     install_name_tool -change libboost_filesystem-mt-1_35.dylib @executable_path/../Resources/libboost_filesystem.dylib $cur
     install_name_tool -change /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/libruby.1.dylib @executable_path/../Frameworks/libruby.1.dylib $cur
     install_name_tool -change /Users/blakharaz/Library/Frameworks/OgreNewt.framework/Versions/A/OgreNewt @executable_path/../Frameworks/OgreNewt.framework/Versions/A/OgreNewt $cur
