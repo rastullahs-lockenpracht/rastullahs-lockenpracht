@@ -22,8 +22,7 @@ import glob
 import os
 from os.path import isfile,  join
 
-
-import elementtree.ElementTree as xml
+import xml.etree.cElementTree as xml
 
 import ctypes
 import ogre.renderer.OGRE as og
@@ -60,6 +59,13 @@ from MyRaySceneQueryListener import *
 class Map():
     def __init__(self, pathToFile, sceneManager, ogreRoot, gocManager):
         self.pathToMapFile = pathToFile
+        
+        mapName = pathToFile.replace("\\", "/")
+        mapName = mapName.split("/")
+        mapName = mapName[len(mapName) - 1].split(".")
+        mapName = mapName[len(mapName) - 3]
+        self.mapName = mapName
+        
         self.sceneManager = sceneManager
         self.mapNode = sceneManager.getRootSceneNode().createChildSceneNode(self.pathToMapFile)
         self.ogreRoot = ogreRoot
@@ -77,52 +83,46 @@ class Map():
 
     def parseMapNodes(self, nodeElement):
         nodes = nodeElement.getiterator("entity")
-        if len(nodes) > 0:
-            self.createEntites(nodes)
+        
+        self.createEntites(nodes)
 
         nodes = nodeElement.getiterator("light")
-        if len(nodes) > 0:
-            self.createLights(nodes)
+        self.createLights(nodes)
 
         nodes = nodeElement.getiterator("sound")
-        if len(nodes) > 0:
-            self.createSound(nodes)
+        self.createSound(nodes)
 
         nodes = nodeElement.getiterator("gameobject")
-        if len(nodes) > 0:
-            self.createGameObjects(nodes)
+        self.createGameObjects(nodes)
 
         nodes = nodeElement.getiterator("particlesystem")
-        if len(nodes) > 0:
-            self.createParticleSystems(nodes)
+        self.createParticleSystems(nodes)
 
     def createEntites(self, entityNodes):
         for nodes in entityNodes:
             entityName = nodes.attrib["name"]
-            print entityName
             meshFile = nodes.attrib["meshfile"]
             nodePosition = None
-            nodeRotation = None
             nodeScale = None
+            qw = qx = qy = qz = None
 
             transformations = nodes.getiterator()
             for t in transformations:
                 if t.tag == "position":
-                    x = float(t.attrib["x"])
-                    y = float(t.attrib["y"])
-                    z = float(t.attrib["z"])
-                    nodePosition = og.Vector3(x, y, z)
+                    posx = float(t.attrib["x"])
+                    posy = float(t.attrib["y"])
+                    posz = float(t.attrib["z"])
+                    nodePosition = og.Vector3(posx, posy, posz)
                 elif t.tag == "rotation":
                     qw = float(t.attrib["qw"])
                     qx = float(t.attrib["qx"])
                     qy = float(t.attrib["qy"])
                     qz = float(t.attrib["qz"])
-                    nodeRotation = og.Quaternion(qw, qx, qy, qz)
                 elif t.tag == "scale":
-                    x = float(t.attrib["x"])
-                    y = float(t.attrib["y"])
-                    z = float(t.attrib["z"])
-                    nodeScale = og.Vector3(x, y, z)
+                    scalex = float(t.attrib["x"])
+                    scaley = float(t.attrib["y"])
+                    scalez = float(t.attrib["z"])
+                    nodeScale = og.Vector3(scalex, scaley, scalez)
 
             try:
                 e = self.sceneManager.createEntity(entityName, meshFile)
@@ -133,7 +133,7 @@ class Map():
             n = self.mapNode.createChild(entityName + "_node")
             n.attachObject(e)
             n.setPosition(nodePosition)
-            n.setOrientation(nodeRotation)
+            n.setOrientation(qw, qx, qy, qz)
             n.setScale(nodeScale)
 
     def createLights(self, lightNodes):
@@ -179,7 +179,7 @@ class Map():
             n.setPosition(lightPosition)
 
     def createSound(self, soundNodes):
-        raise NotImplementedError
+        #raise NotImplementedError
         return
 
     def createGameObjects(self, gameObjectNodes):
@@ -224,26 +224,48 @@ class Map():
                 if nodeScale:
                     dropNode.setScale(nodeScale)
 
-
                 go = GameObjectRepresentation(id, classid, dropNode, meshFile)
                 go.inWorldId = id
                 ent.setUserObject(go)
 
 
     def createParticleSystems(self, particleNodes):
-        raise NotImplementedError
+        #raise NotImplementedError
         return
 
 class Scene():
-    def __init__(self):
-        return
+    def __init__(self, moduleroot, pathToFile, sceneManager, ogreRoot, gocManager):
+        self.moduleRoot = moduleroot
+        self.sceneManager = sceneManager
+        self.ogreRoot = ogreRoot
+        self.gocManager = gocManager
+        
+        xmlTree = xml.parse(pathToFile)
+        root = xmlTree.getroot()
+        self.name = root.attrib["name"]
+        
+        self.mapFiles = [] # a list in case the module has more than one map file
+        mappaths = []
+        
+        maps = root.getiterator("map")
+        for m in maps:
+            mappaths.append(join(self.moduleRoot, join("maps", m.attrib["file"])))
+            
+        for m in mappaths:
+            self.mapFiles.append(Map(m, self.sceneManager, self.ogreRoot, self.gocManager))
+            
+        #cmd = join(self.moduleRoot, "maps/*.rlmap.xml")
+        #maps = glob.glob(cmd)
+        #for m in maps:
+            #self.mapFiles.append(Map(m, self.sceneManager, self.ogreRoot, self.gocManager))
+
 
 class Module():
     def __init__(self,name, modulePath, sceneManager, ogreRoot, gameObjectManager):
         self.sceneManager = sceneManager
         self.ogreRoot = ogreRoot
         self.gocManager = gameObjectManager
-
+        
         self.name = name
         self.moduleRoot = join(modulePath, name)
         self.__isCommon = False
@@ -251,7 +273,7 @@ class Module():
         self.hasDependencies = False
         self.moduleDependencies = []
 
-        self.mapFiles = [] # a list in case the module has more than one map file
+
         self.gofFiles = [] # gof File list
 
         self.scenes =[]
@@ -303,21 +325,24 @@ class Module():
             #lStripped = line.strip() #strip the whitespace away, not needed here
 
         self.setResourcePaths()
-        og.ResourceGroupManager.getSingleton().initialiseAllResourceGroups()
-
+        
+        try:
+            og.ResourceGroupManager.getSingleton().initialiseAllResourceGroups()
+        except og.OgreException, e:
+            print e
+        
         cmd = join(self.moduleRoot, "dsa/*.gof")
         self.gofFiles = glob.glob(cmd)
         self.gocManager.parseGOFFiles(self.gofFiles)
 
         if not self.isCommon():
-            cmd = join(self.moduleRoot, "maps/*.rlmap.xml")
-            maps = glob.glob(cmd)
-            for m in maps:
-                self.mapFiles.append(Map(m, self.sceneManager, self.ogreRoot, self.gocManager))
-
             cmd = join(self.moduleRoot, "maps/*.rlscene")
             sceneFile = glob.glob(cmd)
-            #self.loadScenes(sceneFile)
+            self.loadScenes(sceneFile)
+
+    def loadScenes(self, sceneFiles):
+        for f in sceneFiles:
+            self.scenes.append(Scene(self.moduleRoot, f, self.sceneManager, self.ogreRoot, self.gocManager))
 
     def saveMaps(self):
         return
@@ -349,6 +374,8 @@ class ModuleManager():
         self.ogreRoot = ogreRoot
         self.modelSelectionDialog = None
 
+        self.moduleCfgPath = ""
+
         self.raySceneQuery = self.sceneManager.createRayQuery(og.Ray())
 
         self.gocManager = GameObjectClassManager()
@@ -356,7 +383,6 @@ class ModuleManager():
         # python does not recognize the a reference to a c++ object (Entity in our case) is passed
         # and deletes the object
         self.gameObjectRepresentationDict = []
-
 
         self.mainModule = []
         self.mainModuledependencieList =[]
@@ -367,8 +393,10 @@ class ModuleManager():
 
         self.listenerDings = MyRaySceneQueryListener()
 
+        self.moduleExplorer = None
+
         self.lastRay = None
-#        self.rayLine = None
+        self.rayLine = None
 
         # pivot is initialzed and set in the Lockenwickler.setUpOgre function
         self.pivot = None
@@ -381,11 +409,14 @@ class ModuleManager():
         self.dropCount = 0
         self.dropNode = None
         self.dropEntity = None
-        self.dropCollisionPlane = og.Plane(og.Vector3.UNIT_Y, og.Vector3.ZERO)
+        self.dropCollisionPlane = og.Plane(og.Vector3().UNIT_Y, og.Vector3().ZERO)
 
         self.numerOfCopys = 0 #everytime a copy is made this numer is increased to generate unique node and mesh names
         self.moduleConfigIsParsed = False
 
+    def resetParsedModuleConfig(self):
+        self.moduleConfigIsParsed = False
+        self.moduleList = []
 
     def parseModuleConfig(self):
         if self.moduleConfigIsParsed:
@@ -405,9 +436,19 @@ class ModuleManager():
 
         self.moduleConfigIsParsed = True
 
-    def openLoadModuleDialog(self, moduleConfigPath, lw):
-        self.moduleCfgPath = str(moduleConfigPath)
-        self.moduleFolder = str(moduleConfigPath.replace("modules.cfg", ""))
+
+    def moduleExists(self, name):
+        lowerA = str(name).lower()
+        
+        for m in self.moduleList:
+            lowerB = m.name.lower()
+            if lowerA == lowerB:
+                return True
+        
+        return False
+
+    def openLoadModuleDialog(self):
+        self.moduleFolder = str(self.moduleCfgPath.replace("modules.cfg", ""))
 
         self.parseModuleConfig()
 
@@ -443,17 +484,19 @@ class ModuleManager():
                 m.load()
                 self.modelSelectionDialog.scanDirForModels(m.moduleRoot)
                 self.mainModule = m
+                self.moduleExplorer.setCurrentModule(m)
+                
+        self.moduleExplorer.updateView()
+#        n = self.sceneManager.getRootSceneNode().createChildSceneNode()
+#        e = self.sceneManager.createEntity("west342wt346t",  "UniCube.mesh")
+#        e.setMaterialName("Lockenwickler_Area")
+#
+#        e2 = self.sceneManager.createEntity("west342wt34635t",  "UniSphere.mesh")
+#        e2.setMaterialName("Lockenwickler_Area")
 
-        n = self.sceneManager.getRootSceneNode().createChildSceneNode()
-        e = self.sceneManager.createEntity("west342wt346t",  "UniCube.mesh")
-        e.setMaterialName("Lockenwickler_Area")
-
-        e2 = self.sceneManager.createEntity("west342wt34635t",  "UniSphere.mesh")
-        e2.setMaterialName("Lockenwickler_Area")
-
-        n.attachObject(e)
-        n.attachObject(e2)
-        n.setScale(og.Vector3(10, 5, 20))
+#        n.attachObject(e)
+#        n.attachObject(e2)
+#        n.setScale(og.Vector3(10, 5, 20))
 
     # called when a click into Main Ogre Window occurs
     def selectionClick(self,  ray,  controlDown=False,  shiftDown=False):
@@ -497,25 +540,25 @@ class ModuleManager():
             if self.pivot is not None:
                 self.pivot.hide()
 
-#        if self.rayLine == None:
-#            self.rayLine = self.sceneManager.createManualObject("rayLine")
-#            self.rayLine.setDynamic(True)
-#            self.sceneManager.getRootSceneNode().createChildSceneNode("raynode").attachObject(self.rayLine)
-#
-#            self.rayLine.begin("BaseWhiteNoLighting", og.RenderOperation.OT_LINE_STRIP)
-#
-#            self.rayLine.position(ray.getOrigin())
-#            self.rayLine.position( ray.getPoint(10000))
-#
-#            self.rayLine.end()
-#
-#        else:
-#            self.rayLine.beginUpdate(0)
-#
-#            self.rayLine.position(ray.getOrigin())
-#            self.rayLine.position( ray.getPoint(10000))
-#
-#            self.rayLine.end()
+        if self.rayLine == None:
+            self.rayLine = self.sceneManager.createManualObject("rayLine")
+            self.rayLine.setDynamic(True)
+            self.sceneManager.getRootSceneNode().createChildSceneNode("raynode").attachObject(self.rayLine)
+
+            self.rayLine.begin("BaseWhiteNoLighting", og.RenderOperation.OT_LINE_STRIP)
+
+            self.rayLine.position(ray.getOrigin())
+            self.rayLine.position( ray.getPoint(10000))
+
+            self.rayLine.end()
+
+        else:
+            self.rayLine.beginUpdate(0)
+
+            self.rayLine.position(ray.getOrigin())
+            self.rayLine.position( ray.getPoint(10000))
+
+            self.rayLine.end()
 
     def deleteObjects(self):
         if len(self.userSelectionList) < 1:

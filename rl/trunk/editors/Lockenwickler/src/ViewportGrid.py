@@ -277,11 +277,11 @@ class ViewportGrid(og.RenderTargetListener):
         camRightZ = og.Math.Abs(camRight.z)
 
         if og.Math.RealEqual(camRightX, 1.0):
-            horAxisColor = og.ColourValue.Red
+            horAxisColor = og.ColourValue().Red
         elif og.Math.RealEqual(camRightY, 1.0):
-            horAxisColor = og.ColourValue.Green
+            horAxisColor = og.ColourValue().Green
         elif og.Math.RealEqual(camRightZ, 1.0):
-            horAxisColor = og.ColourValue.Blue
+            horAxisColor = og.ColourValue().Blue
         else:
             horAxisColor = self.colour1
 
@@ -291,11 +291,11 @@ class ViewportGrid(og.RenderTargetListener):
         camUpZ = og.Math.Abs(camUp.z)
 
         if og.Math.RealEqual(camUpX, 1.0):
-            horAxisColor = og.ColourValue.Red
+            horAxisColor = og.ColourValue().Red
         elif og.Math.RealEqual(camUpY, 1.0):
-            horAxisColor = og.ColourValue.Green
+            horAxisColor = og.ColourValue().Green
         elif og.Math.RealEqual(camUpZ, 1.0):
-            horAxisColor = og.ColourValue.Blue
+            horAxisColor = og.ColourValue().Blue
         else:
             horAxisColor = self.colour1
 
@@ -384,10 +384,10 @@ class ViewportGrid(og.RenderTargetListener):
         #if(colour2.a > 1.0f) colour2.a = 1.0f
 
         # Calculate the horizontal zero-axis color
-        horAxisColor = og.ColourValue.Red
+        horAxisColor = og.ColourValue().Red
 
         # Calculate the vertical zero-axis color
-        vertAxisColor = og.ColourValue.Blue
+        vertAxisColor = og.ColourValue().Blue
 
         # The number of lines
         numLines = int(self.perspSize / mult) + 1

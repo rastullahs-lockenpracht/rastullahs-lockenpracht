@@ -50,7 +50,7 @@ class Pivot():
         self.xMoveNode = self.pivotNode.createChildSceneNode()
         self.xMoveNode.attachObject(self.xMoveEntity)
         self.xMoveNode.translate(og.Vector3(2, 0, 0))
-        self.xMoveNode.rotate(og.Vector3.UNIT_Y,  og.Degree(90))
+        self.xMoveNode.rotate(og.Vector3().UNIT_Y,  og.Degree(90))
 
 #        plane = og.Plane (og.Vector3.UNIT_X, 0)
 #        self.meshManager.createPlane ('EditorXArrowSelectionPlane', 'General', plane, 5, 14, 1, 1, False, 1, 5, 5, (0, 0, 1))
@@ -68,10 +68,10 @@ class Pivot():
         self.yMoveNode = self.pivotNode.createChildSceneNode()
         self.yMoveNode.attachObject(self.yMoveEntity)
         self.yMoveNode.translate(og.Vector3(0, 2, 0))
-        self.yMoveNode.rotate(og.Vector3.UNIT_X,  og.Degree(-90))
+        self.yMoveNode.rotate(og.Vector3().UNIT_X,  og.Degree(-90))
         #self.yNode.showBoundingBox(True)
 
-#        plane = og.Plane (og.Vector3.UNIT_X, 0)
+#        plane = og.Plane (og.Vector3().UNIT_X, 0)
 #        self.meshManager.createPlane ('EditorYArrowSelectionPlane', 'General', plane, 14, 0, 1, 1, False, 1, 5, 5, (0, 0, 1))
 #        self.yMoveEntitySelectionPlane = self.sceneManager.createEntity ('EditorYArrowSelectionPlane', 'EditorYArrowSelectionPlane')
 #        self.yMoveNodeSelectionPlane = self.xMoveNode.createChildSceneNode()
@@ -101,7 +101,7 @@ class Pivot():
         self.xRotateNode = self.pivotNode.createChildSceneNode()
         self.xRotateNode.attachObject(self.xRotateEntity)
         #self.xRotateNode.translate(0, 0, -5)
-        self.xRotateNode.rotate(og.Vector3.UNIT_Y,  og.Degree(90))
+        self.xRotateNode.rotate(og.Vector3().UNIT_Y,  og.Degree(90))
 
         self.yRotateEntity = self.sceneManager.createEntity("EditorYRotator",  "Rotate_Torus.mesh")
         self.yRotateEntity.setMaterialName("Lockenwickler_Pivot_Y")
@@ -109,7 +109,7 @@ class Pivot():
         self.yRotateNode = self.pivotNode.createChildSceneNode()
         self.yRotateNode.attachObject(self.yRotateEntity)
         #self.yRotateNode.translate(0, 0, -10)
-        self.yRotateNode.rotate(og.Vector3.UNIT_X,  og.Degree(90))
+        self.yRotateNode.rotate(og.Vector3().UNIT_X,  og.Degree(90))
 
         self.zRotateEntity = self.sceneManager.createEntity("EditorZRotator",  "Rotate_Torus.mesh")
         self.zRotateEntity.setMaterialName("Lockenwickler_Pivot_Z")

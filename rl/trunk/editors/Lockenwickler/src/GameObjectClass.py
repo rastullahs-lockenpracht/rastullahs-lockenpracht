@@ -16,7 +16,8 @@
  # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  #################################################
 
-from elementtree.ElementTree import *
+#from elementtree.ElementTree import *
+from xml.etree.cElementTree import *
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE Project SYSTEM "Project-4.5.dtd">
+<!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project Lockenwickler -->
-<!-- Saved: 2008-11-09, 21:48:49 -->
-<!-- Copyright (C) 2008 Stefan Stammberger, sstammberger@web.de -->
-<Project version="4.5">
+<!-- Saved: 2009-01-26, 17:27:44 -->
+<!-- Copyright (C) 2009 Stefan Stammberger, sstammberger@web.de -->
+<Project version="4.6">
+  <Language>en</Language>
   <ProgLanguage mixed="0">Python</ProgLanguage>
   <ProjectType>Qt4</ProjectType>
   <Description>Lockenwickler is an Editor application for the Rastulahs Lockenpracht game.</Description>
@@ -22,7 +23,6 @@
     <Source>src/PreferencesDialog.py</Source>
     <Source>src/PythonOgreConfig.py</Source>
     <Source>src/ui_ConsoleWindow.py</Source>
-    <Source>src/SceneExplorer.py</Source>
     <Source>src/Property.py</Source>
     <Source>src/ViewportGrid.py</Source>
     <Source>src/ObjectPropertyModel.py</Source>
@@ -35,6 +35,8 @@
     <Source>src/GOIntEditor.py</Source>
     <Source>src/CodeDump.py</Source>
     <Source>src/NewModuleWizard.py</Source>
+    <Source>src/Ui_NewModuleWizard.py</Source>
+    <Source>src/ModuleExplorer.py</Source>
   </Sources>
   <Forms>
     <Form>ui files/GOPropertyEditorDialogINT.ui</Form>
@@ -51,7 +53,7 @@
   </Others>
   <MainScript>src/Lockenwickler.py</MainScript>
   <Vcs>
-    <VcsType>Subversion</VcsType>
+    <VcsType>None</VcsType>
     <VcsOptions>
       <dict>
         <key>

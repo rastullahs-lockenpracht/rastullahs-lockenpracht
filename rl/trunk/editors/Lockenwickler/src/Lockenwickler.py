@@ -1,4 +1,4 @@
-#################################################
+ #################################################
  # Copyright (C) 2008  Stefan Stammberger
  #
  # This library is free software; you can redistribute it and/or
@@ -21,8 +21,8 @@ import os
 import sys
 import platform
 
-#sys.path.insert(0,'..')
-#import PythonOgreConfig
+sys.path.insert(0,'..')
+import PythonOgreConfig
 
 from random import randint
 
@@ -33,7 +33,7 @@ from ModelSelectionDialog import *
 from GameObjectClassView import *
 from ConsoleWindow import *
 from ModuleManager import *
-from SceneExplorer import *
+from ModuleExplorer import *
 from NewModuleWizard import *
 
 import OgreMainWindow
@@ -43,11 +43,11 @@ class Lockenwickler(QtGui.QMainWindow):
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
 
-        pixmap = QPixmap("media/icons/lockenwickler_provisorium.png")
-        splash = QSplashScreen(pixmap, Qt.WindowStaysOnTopHint)
-        splash.setMask(pixmap.mask())
-        splash.showMessage("Starting...")
-        splash.show()
+#        pixmap = QPixmap("media/icons/lockenwickler_provisorium.png")
+#        splash = QSplashScreen(pixmap, Qt.WindowStaysOnTopHint)
+#        splash.setMask(pixmap.mask())
+#        splash.showMessage("Starting...")
+#        splash.show()
 
         self.setupUi()
 
@@ -57,7 +57,7 @@ class Lockenwickler(QtGui.QMainWindow):
 
         self.prefDialog = PreferencesDialog(self)
         self.objectPropertyWin = ObjectPropertyWin(self)
-        self.sceneExplorerWin = SceneExplorer(self)
+        self.moduleExplorerWin = ModuleExplorer(self)
         self.modelSelectionDialog = ModelSelectionDialog(self.ogreRoot, self)
         self.moduleManager.modelSelectionDialog = self.modelSelectionDialog
 
@@ -75,20 +75,13 @@ class Lockenwickler(QtGui.QMainWindow):
         if not self.prefDialog.setCfgPath(settings.value("Preferences/moduleCfgPath").toString()):
             self.prefDialog.show()
 
+        self.moduleManager.moduleCfgPath = self.prefDialog.moduleCfgPath
+        self.moduleManager.moduleExplorer = self.moduleExplorerWin
+        
         self.setWindowIcon(QIcon("media/icons/lockenwickler_provisorium_small.png"))
         self.setWindowTitle("Rastullahs Lockenwickler")
 
-
-#        # Import Psyco if available
-#        try:
-#            import psyco
-#            psyco.full()
-#            #psyco.log()
-#            #psyco.profile()
-#        except ImportError:
-#            pass
-
-        splash.finish(self)
+#        splash.finish(self)
 
     def createAction(self, text, slot=None, shortcut=None, icon=None, tip=None, checkable=False, signal="triggered()"):
         action = QtGui.QAction(text, self)
@@ -183,9 +176,9 @@ class Lockenwickler(QtGui.QMainWindow):
 
 #####################################
 #####################################
-        self.actionSceneExplorer = self.createAction("&Scene Exlporer",  self.toggleSceneExplorer,  "Alt + E",  "view_tree.png",  "Scene Explorer",  False)
+        self.actionSceneExplorer = self.createAction("&Scene Exlporer",  self.toggleModuleExplorer,  "Alt + E",  "view_tree.png",  "Module Explorer",  False)
         self.actionSceneExplorer.setObjectName("actionSceneExplorer")
-
+        
         self.actionPreferences = self.createAction("&Preferences",  self.togglePreferencesWindow,  "Alt + P",  "configure.png",  "Lockenwickler Preferences",  False)
         self.actionPreferences.setObjectName("actionPreferences")
 
@@ -240,7 +233,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.actionNeu.setText(QtGui.QApplication.translate("MainWindow", "New Module", None, QtGui.QApplication.UnicodeUTF8))
         self.actionMove.setText(QtGui.QApplication.translate("MainWindow", "Move", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRotate.setText(QtGui.QApplication.translate("MainWindow", "Rotate", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSceneExplorer.setText(QtGui.QApplication.translate("MainWindow", "Scene Explorer", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSceneExplorer.setText(QtGui.QApplication.translate("MainWindow", "Module Explorer", None, QtGui.QApplication.UnicodeUTF8))
         self.actionPreferences.setText(QtGui.QApplication.translate("MainWindow", "Preferences", None, QtGui.QApplication.UnicodeUTF8))
         self.actionProperty_Window.setText(QtGui.QApplication.translate("MainWindow", "Property Window", None, QtGui.QApplication.UnicodeUTF8))
         self.actionObject_Selection.setText(QtGui.QApplication.translate("MainWindow", "Object Selection", None, QtGui.QApplication.UnicodeUTF8))
@@ -285,10 +278,10 @@ class Lockenwickler(QtGui.QMainWindow):
         self.ogreRoot.renderOneFrame()
 
     def actionOpenSlot(self):
-        self.moduleManager.openLoadModuleDialog(self.prefDialog.lineEdit.text(), self)
+        self.moduleManager.openLoadModuleDialog()
 
     def actionNewSlot(self):
-        newModuleWiz = NewModuleWizard(self)
+        newModuleWiz = NewModuleWizard(self.moduleManager, self)
         newModuleWiz.exec_()
         return
 
@@ -337,11 +330,11 @@ class Lockenwickler(QtGui.QMainWindow):
         else:
             self.gameObjectClassViewDock.hide()
 
-    def toggleSceneExplorer(self):
-        if self.sceneExplorerDock.isHidden():
-            self.sceneExplorerDock.show()
+    def toggleModuleExplorer(self):
+        if self.moduleExplorerDock.isHidden():
+            self.moduleExplorerDock.show()
         else:
-            self.sceneExplorerDock.hide()
+            self.moduleExplorerDock.hide()
 
     def togglePropertyWindow(self):
         if self.propertyDock.isHidden():
@@ -374,11 +367,11 @@ class Lockenwickler(QtGui.QMainWindow):
         self.gameObjectClassViewDock.setWidget(self.gameObjectClassView)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.gameObjectClassViewDock)
 
-        self.sceneExplorerDock = QtGui.QDockWidget(self.tr("Scene Explorer"), self)
-        self.sceneExplorerDock.setObjectName("SceneExplorerDockWindow")
-        self.sceneExplorerDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
-        self.sceneExplorerDock.setWidget(self.sceneExplorerWin)
-        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.sceneExplorerDock)
+        self.moduleExplorerDock = QtGui.QDockWidget(self.tr("Module Explorer"), self)
+        self.moduleExplorerDock.setObjectName("SceneExplorerDockWindow")
+        self.moduleExplorerDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
+        self.moduleExplorerDock.setWidget(self.moduleExplorerWin)
+        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.moduleExplorerDock)
 
         self.consoleDock = QtGui.QDockWidget(self.tr("Console"), self)
         self.consoleDock.setObjectName("ConsoleDockWindow")
@@ -433,6 +426,15 @@ class Lockenwickler(QtGui.QMainWindow):
             event.ignore()
 
 if __name__ == "__main__":
+#    # Import Psyco if available
+#    try:
+##        import psyco
+##        psyco.full(0.02)
+#        #psyco.log()
+#        #psyco.profile()
+#    except ImportError:
+#        pass
+    
     app = QtGui.QApplication(sys.argv)
     app.setOrganizationName("Team Pantheon")
     app.setOrganizationDomain("rastullahs-lockenpracht.de/team")
