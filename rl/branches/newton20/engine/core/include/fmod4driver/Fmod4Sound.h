@@ -16,7 +16,9 @@
 #ifndef _FMOD4SOUND_H_
 #define _FMOD4SOUND_H_
 
-#include "Fmod4DriverPrerequisites.h"
+#include "CorePrerequisites.h"
+
+#include <fmod.hpp>
 
 #include "Sound.h"
 #include "SoundDriver.h"
@@ -25,7 +27,7 @@ namespace rl {
 
     class Fmod4Driver;
 
-    class _RlFmod4DriverExport Fmod4Sound : public Sound
+    class Fmod4Sound : public Sound
     {
     public:
         /// Konstruktor
@@ -94,7 +96,7 @@ namespace rl {
         bool mAutoDestroy;
     };
 
-    class _RlFmod4DriverExport Fmod4SoundPtr :
+    class Fmod4SoundPtr :
         public Ogre::SharedPtr<Fmod4Sound>
     {
     public:

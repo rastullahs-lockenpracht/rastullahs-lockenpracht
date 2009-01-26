@@ -16,7 +16,9 @@
 #ifndef _FMOD4SOUNDSTITCHING_H_
 #define _FMOD4SOUNDSTITCHING_H_
 
-#include "Fmod4DriverPrerequisites.h"
+#include "CorePrerequisites.h"
+
+#include <fmod.hpp>
 
 #include "SoundStitching.h"
 #include "SoundDriver.h"
@@ -26,7 +28,7 @@ namespace rl {
     class Fmod4Driver;
     typedef std::vector<FMOD::Sound*> SubsoundVector;
 
-    class _RlFmod4DriverExport Fmod4SoundStitching : public SoundStitching
+    class Fmod4SoundStitching : public SoundStitching
     {
     public:
         /// Konstruktor
@@ -98,7 +100,7 @@ namespace rl {
         SubsoundVector mSoundSlots;
     };
 
-    class _RlFmod4DriverExport Fmod4SoundStitchingPtr :
+    class Fmod4SoundStitchingPtr :
         public Ogre::SharedPtr<Fmod4SoundStitching>
     {
     public:

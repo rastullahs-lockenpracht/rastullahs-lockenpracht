@@ -48,7 +48,7 @@ namespace rl
         {
             if ((*it)->isDriverPlugin())
             {
-                registerSoundDriverConfig((*it)->getConfigComponent());
+                //registerSoundDriverConfig((*it)->getConfigComponent());
             }
         }
 

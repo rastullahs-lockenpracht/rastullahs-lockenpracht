@@ -13,8 +13,10 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h"
 
-#include "Fmod4ConfigComponent.h"
+#include <fmod_errors.h>
+
 #include "Fmod4Driver.h"
 #include "Fmod4Sound.h"
 #include "Fmod4SoundStitching.h"
@@ -37,7 +39,6 @@ namespace rl
         : SoundDriver(soundResourceManager),
         mMasterChannelGroup(NULL)
     {
-        mConfigComponent = new Fmod4ConfigComponent();
         gSoundResourceManager = soundResourceManager;
         gDriver = this;
     }

@@ -23,7 +23,7 @@ using namespace OgreNewt;
 
 namespace rl {
     PhysicsMaterialRaycast::PhysicsMaterialRaycast()
-        : Raycast(), mInfo(), mMaterial(0), mGetNearest(false)
+        : Raycast(), mInfo(), mMaterial(0)
     {
     }
 
@@ -38,7 +38,6 @@ namespace rl {
         mInfo.mDistance = 1.1;
         mInfo.mNormal = Vector3::ZERO;
 
-        mGetNearest = false;
         go(world, start, end);
 
         return mInfo;
@@ -55,14 +54,63 @@ namespace rl {
         mInfo.mDistance = 1.1;
         mInfo.mNormal = Vector3::ZERO;
 
-        mGetNearest = false;
         go(world, start, end);
 
         return mInfo;
     }
 
+    bool PhysicsMaterialRaycast::userPreFilterCallback( OgreNewt::Body *body )
+    {
+        if( body->getMaterialGroupID() == NULL )
+        {
+            LOG_MESSAGE(Logger::CORE, "Warning PhysicsMaterialRaycast found body without material (getMaterialGroupId() == NULL)!");
+            return true;
+        }
+        else if( body->getMaterialGroupID() == PhysicsManager::getSingleton().createMaterialID("gamearea") ) // don't trigger gameareas
+        {
+            return false;
+        }
+        else
+        {
+            if( mMaterial == NULL && mMaterialVector == NULL)
+            {
+                return true;
+            }
+            else if( mMaterial != NULL )
+            {
+                if (body->getMaterialGroupID()->getID() == mMaterial->getID() && !mInvertMat ||
+                    body->getMaterialGroupID()->getID() != mMaterial->getID() && mInvertMat)
+                {
+                    return true;
+                }
+            }
+            else // mMaterialVector != NULL
+            {
+                bool found = false;
+
+                MaterialVector::const_iterator iter;
+                for(iter = mMaterialVector->begin(); iter != mMaterialVector->end(); iter++)
+                {
+                    if (body->getMaterialGroupID()->getID() == (*iter)->getID())
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if( found && !mInvertMat || !found && mInvertMat )
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     bool PhysicsMaterialRaycast::userCallback(Body* body, Ogre::Real distance, const Ogre::Vector3& normal, int collisionID)
     {
+        return true;
+        /*
         if( body->getMaterialGroupID() == NULL )
         {
             mInfo.mBody = body;
@@ -118,6 +166,7 @@ namespace rl {
             }
         }
         return mGetNearest;
+        */
     }
 
 

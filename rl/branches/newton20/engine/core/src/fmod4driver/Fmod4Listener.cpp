@@ -13,8 +13,9 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#include "Fmod4Listener.h"
+#include "stdinc.h"
 
+#include "Fmod4Listener.h"
 
 using namespace Ogre;
 

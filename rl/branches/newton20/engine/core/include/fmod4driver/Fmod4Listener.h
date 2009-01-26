@@ -16,7 +16,10 @@
 #ifndef __Fmod4Listener_H__
 #define __Fmod4Listener_H__
 
-#include "Fmod4DriverPrerequisites.h"
+#include "CorePrerequisites.h"
+
+#include <fmod.hpp>
+
 #include "ListenerMovable.h"
 
 namespace rl {
@@ -28,7 +31,7 @@ namespace rl {
     * @version 1.0
     * @version 2.0
     */
-    class _RlFmod4DriverExport Fmod4Listener : public ListenerMovable
+    class Fmod4Listener : public ListenerMovable
     {
     public:
         /// Konstruktor

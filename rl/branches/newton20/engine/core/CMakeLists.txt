@@ -1,5 +1,6 @@
 INCLUDE_DIRECTORIES(
 ${CMAKE_CURRENT_SOURCE_DIR}/include
+${CMAKE_CURRENT_SOURCE_DIR}/include/fmod4driver
 ${CMAKE_CURRENT_SOURCE_DIR}/include/nulldriver
 ${RL_COMMON_INCLUDE_DIR}
 ${OGRE_INCLUDE_DIRS}
@@ -82,6 +83,10 @@ src/TrackAnimation.cpp
 src/World.cpp
 src/Zone.cpp
 src/ZoneManager.cpp
+src/fmod4driver/Fmod4Driver.cpp
+src/fmod4driver/Fmod4Listener.cpp
+src/fmod4driver/Fmod4Sound.cpp
+src/fmod4driver/Fmod4SoundStitching.cpp
 src/nulldriver/NullDriver.cpp
 src/nulldriver/NullListener.cpp
 src/nulldriver/NullSound.cpp

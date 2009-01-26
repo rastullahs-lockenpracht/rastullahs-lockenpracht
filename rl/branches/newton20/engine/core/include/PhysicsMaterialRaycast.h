@@ -71,11 +71,13 @@ namespace rl {
             const Ogre::Vector3& startpt, const Ogre::Vector3& endpt, bool invertmat = false);
 
         bool userCallback(OgreNewt::Body* body, Ogre::Real distance, const Ogre::Vector3& normal, int collisionID);
+
+
+        bool userPreFilterCallback( OgreNewt::Body *body );  // filtering is now done here!
     private:
         RaycastInfo mInfo;
         const MaterialVector *mMaterialVector;
         const OgreNewt::MaterialID* mMaterial;
-        bool mGetNearest;
         bool mInvertMat;
     };
 
