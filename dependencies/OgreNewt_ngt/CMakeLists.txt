@@ -82,7 +82,8 @@ src/OgreNewt_MaterialPair.cpp
 src/OgreNewt_RayCast.cpp
 src/OgreNewt_Tools.cpp
 src/OgreNewt_Vehicle.cpp
-src/OgreNewt_World.cpp)
+src/OgreNewt_World.cpp
+src/OgreNewt_PlayerController.cpp)
 
 ADD_LIBRARY(OgreNewt SHARED ${OgreNewt_LIB_SRCS})
 
@@ -106,7 +107,7 @@ inc/OgreNewt_CollisionPrimitives.h inc/OgreNewt_CollisionSerializer.h
 inc/OgreNewt_ContactCallback.h inc/OgreNewt_Debugger.h inc/OgreNewt.h
 inc/OgreNewt_Joint.h inc/OgreNewt_MaterialID.h inc/OgreNewt_MaterialPair.h
 inc/OgreNewt_Prerequisites.h inc/OgreNewt_RayCast.h inc/OgreNewt_Tools.h
-inc/OgreNewt_Vehicle.h inc/OgreNewt_World.h
+inc/OgreNewt_Vehicle.h inc/OgreNewt_World.h inc/OgreNewt_PlayerController.h
 DESTINATION ${CMAKE_INSTALL_PREFIX}/include/OgreNewt)
 
 IF(NOT WIN32)

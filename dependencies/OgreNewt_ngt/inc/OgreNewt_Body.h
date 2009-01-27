@@ -321,6 +321,9 @@ public:
 	//! get angular damping
 	Ogre::Vector3 getAngularDamping() const;
 
+    //! calculate force needed for given velocity
+    Ogre::Vector3 calculateInverseDynamicsForce(Ogre::Real timestep, Ogre::Vector3 desiredVelocity);
+
 	//! get the freeze threshold
 	//void getFreezeThreshold( Ogre::Real& speed, Ogre::Real& omega ) const { NewtonBodyGetFreezeTreshold( m_body, &speed, &omega ); }
 

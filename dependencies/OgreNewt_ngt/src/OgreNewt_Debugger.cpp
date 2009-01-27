@@ -11,6 +11,13 @@ Debugger::Debugger()
 {
     m_debugnode = NULL;
     m_defaultcolor = Ogre::ColourValue::White;
+
+    m_recordraycasts = false;
+    m_markhitbodies = false;
+    m_raycol = Ogre::ColourValue::Green;
+    m_convexcol = Ogre::ColourValue::Blue;
+    m_hitbodycol = Ogre::ColourValue::Red;
+    m_prefilterdiscardedcol = Ogre::ColourValue::Black;
 }
 
 Debugger::~Debugger()
@@ -31,16 +38,22 @@ void Debugger::init( Ogre::SceneManager* smgr )
         m_debugnode = smgr->getRootSceneNode()->createChildSceneNode("__OgreNewt__Debugger__Node__");
         //m_debuglines = new Ogre::ManualObject("__OgreNewt__Debugger__Lines__");
     }
+
+    if( !m_raycastsnode )
+    {
+        m_raycastsnode = smgr->getRootSceneNode()->createChildSceneNode("__OgreNewt__Raycasts_Debugger__Node__");
+    }
 }
 
 void Debugger::deInit()
 {
 	if (m_debugnode)
 	{
-		m_debugnode->removeAndDestroyAllChildren();
+		m_debugnode->removeAllChildren();
 		m_debugnode->getParentSceneNode()->removeAndDestroyChild( m_debugnode->getName() );
 		m_debugnode = NULL;
 	}
+
 
         for(BodyDebugDataMap::iterator it = m_cachemap.begin(); it != m_cachemap.end(); it++)
         {
@@ -49,6 +62,14 @@ void Debugger::deInit()
                 delete mo;
         }
         m_cachemap.clear();
+
+    clearRaycastsRecorded();
+    if( m_raycastsnode )
+    {
+		m_raycastsnode->removeAndDestroyAllChildren();
+		m_raycastsnode->getParentSceneNode()->removeAndDestroyChild( m_debugnode->getName() );
+		m_raycastsnode = NULL;
+    }
 }
 
 
@@ -67,6 +88,12 @@ void Debugger::showDebugInformation( OgreNewt::World* world )
     {
         if( it->second.m_updated )
             newmap.insert(*it);
+        else
+        {
+            Ogre::ManualObject* mo = it->second.m_lines;
+            if( mo )
+                delete mo;
+        }
     }
     Debugger::getSingleton().m_cachemap.swap(newmap);
 }
@@ -74,7 +101,8 @@ void Debugger::showDebugInformation( OgreNewt::World* world )
 void Debugger::hideDebugInformation()
 {
 	// erase any existing lines!
-	m_debugnode->removeAllChildren();
+    if( m_debugnode )
+    	m_debugnode->removeAllChildren();
 }
 
 void Debugger::setMaterialColor(const MaterialID* mat, Ogre::ColourValue col)
@@ -177,7 +205,7 @@ void _CDECL Debugger::newtonPerBody( const NewtonBody* body )
         float matrix[16];
         Converters::QuatPosToMatrix(Ogre::Quaternion::IDENTITY, Ogre::Vector3::ZERO, &matrix[0]);
         
-        NewtonCollisionForEachPolygonDo( NewtonBodyGetCollision(body), &matrix[0], newtonPerPoly, data );
+        NewtonCollisionForEachPolygonDo( NewtonBodyGetCollision(body), &matrix[0], newtonPerPoly, data->m_lines );
         
         data->m_lines->end();
         data->m_node->attachObject(data->m_lines);
@@ -186,7 +214,7 @@ void _CDECL Debugger::newtonPerBody( const NewtonBody* body )
 
 void _CDECL Debugger::newtonPerPoly( void* userData, int vertexCount, const float* faceVertec, int id )
 {
-        BodyDebugData* data = (BodyDebugData*)userData;
+    Ogre::ManualObject* lines = (Ogre::ManualObject*)userData;
 	Ogre::Vector3 p0, p1;
 
         if( vertexCount < 2 )
@@ -200,11 +228,162 @@ void _CDECL Debugger::newtonPerPoly( void* userData, int vertexCount, const floa
 	{
 		p1 = Ogre::Vector3( faceVertec[(i*3) + 0], faceVertec[(i*3) + 1], faceVertec[(i*3) + 2] );
 
-		data->m_lines->position( p0 );
-		data->m_lines->position( p1 );
+		lines->position( p0 );
+		lines->position( p1 );
 
 		p0 = p1;
 	}
+}
+
+
+// ----------------- raycast-debugging -----------------------
+void Debugger::startRaycastRecording(bool markhitbodies)
+{
+    m_recordraycasts = true;
+    m_markhitbodies = markhitbodies;
+    clearRaycastsRecorded();
+}
+
+bool Debugger::isRaycastRecording()
+{
+    return m_recordraycasts;
+}
+
+bool Debugger::isRaycastRecordingHitBodies()
+{
+    return m_markhitbodies;
+}
+
+void Debugger::clearRaycastsRecorded()
+{
+    if( m_raycastsnode )
+    {
+        while( m_raycastsnode->numAttachedObjects() > 0 )
+        {
+            delete m_raycastsnode->detachObject((unsigned short)0);
+        }
+
+        m_raycastsnode->detachAllObjects();
+    }
+}
+
+void Debugger::stopRaycastRecording()
+{
+    m_recordraycasts = false;
+}
+
+void Debugger::setRaycastRecordingColor(Ogre::ColourValue rayCol, Ogre::ColourValue convexCol, Ogre::ColourValue hitBodyCol, Ogre::ColourValue prefilterDiscardedBodyCol)
+{
+    m_raycol = rayCol;
+    m_convexcol = convexCol;
+    m_hitbodycol = hitBodyCol;
+    m_prefilterdiscardedcol = prefilterDiscardedBodyCol;
+}
+
+void Debugger::addRay(const Ogre::Vector3 &startpt, const Ogre::Vector3 &endpt)
+{
+    static int i = 0;
+    std::ostringstream oss;
+    oss << "__OgreNewt__Raycast_Debugger__Lines__Raycastline__" << i++ << "__";
+    Ogre::ManualObject *line = new Ogre::ManualObject(oss.str());
+
+    line->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_LINE_LIST );
+    line->colour(m_raycol);
+    line->position(startpt);
+    line->position(endpt);
+    line->end();
+
+    m_raycastsnode->attachObject(line);    
+}
+
+void Debugger::addConvexRay(const OgreNewt::Collision* col, const Ogre::Vector3 &startpt, const Ogre::Quaternion &colori, const Ogre::Vector3 &endpt)
+{
+    static int i = 0;
+    // lines from aab
+    std::ostringstream oss;
+    oss << "__OgreNewt__Raycast_Debugger__Lines__Convexcastlines__" << i++ << "__";
+    Ogre::ManualObject *line = new Ogre::ManualObject(oss.str());
+
+    line->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_LINE_LIST );
+    line->colour(m_convexcol);
+
+    // aab1
+    Ogre::AxisAlignedBox aab1 = col->getAABB(colori, startpt);
+    const Ogre::Vector3* corners1 = aab1.getAllCorners();
+    Ogre::AxisAlignedBox aab2 = col->getAABB(colori, endpt);
+    const Ogre::Vector3* corners2 = aab2.getAllCorners();
+    for(int i = 0; i < 4; i++)
+    {
+        line->position(corners1[i]); line->position(corners1[(i+1)%4]);
+        line->position(corners1[i+4]); line->position(corners1[(i+1)%4+4]);
+        line->position(corners2[i]); line->position(corners2[(i+1)%4]);
+        line->position(corners2[i+4]); line->position(corners2[(i+1)%4+4]);
+        line->position(corners1[i]); line->position(corners2[i]);
+        line->position(corners1[i+4]); line->position(corners2[i+4]);
+    }
+    line->position(corners1[0]); line->position(corners1[6]);
+    line->position(corners1[1]); line->position(corners1[5]);
+    line->position(corners1[2]); line->position(corners1[4]);
+    line->position(corners1[3]); line->position(corners1[7]);
+    line->position(corners2[0]); line->position(corners2[6]);
+    line->position(corners2[1]); line->position(corners2[5]);
+    line->position(corners2[2]); line->position(corners2[4]);
+    line->position(corners2[3]); line->position(corners2[7]);
+
+    // bodies
+    float matrix[16];
+    Converters::QuatPosToMatrix(colori, startpt, &matrix[0]);
+    NewtonCollisionForEachPolygonDo( col->getNewtonCollision(), &matrix[0], newtonPerPoly, line );
+    Converters::QuatPosToMatrix(colori, endpt, &matrix[0]);
+    NewtonCollisionForEachPolygonDo( col->getNewtonCollision(), &matrix[0], newtonPerPoly, line );
+
+
+    line->end();
+    m_raycastsnode->attachObject(line);
+}
+
+void Debugger::addDiscardedBody(const OgreNewt::Body* body)
+{
+    static int i = 0;
+    float matrix[16];
+    Ogre::Vector3 pos;
+    Ogre::Quaternion ori;
+
+    std::ostringstream oss;
+    oss << "__OgreNewt__Raycast_Debugger__Lines__DiscardedBody__" << i++ << "__";
+    Ogre::ManualObject *line = new Ogre::ManualObject(oss.str());
+
+    line->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_LINE_LIST );
+    line->colour(m_prefilterdiscardedcol);
+
+    body->getPositionOrientation(pos, ori);
+    Converters::QuatPosToMatrix(ori, pos, &matrix[0]);
+    NewtonCollisionForEachPolygonDo( body->getCollision()->getNewtonCollision() , &matrix[0], newtonPerPoly, line );
+
+    line->end();
+    m_raycastsnode->attachObject(line);
+}
+
+void Debugger::addHitBody(const OgreNewt::Body* body)
+{
+    static int i = 0;
+    float matrix[16];
+    Ogre::Vector3 pos;
+    Ogre::Quaternion ori;
+
+    std::ostringstream oss;
+    oss << "__OgreNewt__Raycast_Debugger__Lines__HitBody__" << i++ << "__";
+    Ogre::ManualObject *line = new Ogre::ManualObject(oss.str());
+
+    line->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_LINE_LIST );
+    line->colour(m_hitbodycol);
+
+    body->getPositionOrientation(pos, ori);
+    Converters::QuatPosToMatrix(ori, pos, &matrix[0]);
+    NewtonCollisionForEachPolygonDo( body->getCollision()->getNewtonCollision() , &matrix[0], newtonPerPoly, line );
+
+    line->end();
+    m_raycastsnode->attachObject(line);
 }
 
 }	// end namespace OgreNewt

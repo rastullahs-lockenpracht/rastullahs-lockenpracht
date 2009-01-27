@@ -296,6 +296,15 @@ Ogre::Vector3 Body::getTorqueAcceleration() const
 	return ret;
 }
 
+Ogre::Vector3 Body::calculateInverseDynamicsForce(Ogre::Real timestep, Ogre::Vector3 desiredVelocity)
+{
+    Ogre::Vector3 ret;
+    NewtonBodyCalculateInverseDynamicsForce(m_body, timestep, &desiredVelocity.x, &ret.x);
+
+    return ret;
+}
+
+
 Ogre::Vector3 Body::getAngularDamping() const
 {
 	Ogre::Vector3 ret;

@@ -58,7 +58,36 @@ namespace OgreNewt
 
         //! set Material color
         void setMaterialColor(const MaterialID* mat, Ogre::ColourValue col);
-	
+
+        //! enable additional raycast-debugging (this also enables displaying of recorded raycasts!)
+        void startRaycastRecording(bool markhitbodies = false);
+
+        //! returns true, if currently recording raycasts
+        bool isRaycastRecording();
+
+        //! returns true, if hit bodies are currently recording
+        bool isRaycastRecordingHitBodies();
+
+        //! clears all raycasts, that are currently shown, should probably be done once per frame!
+        void clearRaycastsRecorded();
+
+        //! disables raycast-debugging
+        void stopRaycastRecording();
+
+        //! set the color of the raycast-debug-lines
+        void setRaycastRecordingColor(Ogre::ColourValue rayCol, Ogre::ColourValue convexCol, Ogre::ColourValue hitBodyCol, Ogre::ColourValue prefilterDiscardedBodyCol);
+
+        //! this function is used internally
+        void addRay(const Ogre::Vector3 &startpt, const Ogre::Vector3 &endpt);
+
+        //! this function is used internally
+        void addConvexRay(const OgreNewt::Collision* col, const Ogre::Vector3 &startpt, const Ogre::Quaternion &colori, const Ogre::Vector3 &endpt);
+
+        //! this function is used internally
+        void addDiscardedBody(const OgreNewt::Body* body);
+
+        //! this function is used internally
+        void addHitBody(const OgreNewt::Body* body);
 	protected:
 		Debugger();
 	
@@ -67,6 +96,12 @@ namespace OgreNewt
         typedef std::map<int, Ogre::ColourValue> MaterialIdColorMap;
         MaterialIdColorMap      m_materialcolors;
         Ogre::ColourValue       m_defaultcolor;
+
+        // raycast-debugging
+        Ogre::SceneNode*        m_raycastsnode;
+        bool                    m_recordraycasts;
+        Ogre::ColourValue       m_raycol, m_convexcol, m_hitbodycol, m_prefilterdiscardedcol;
+        bool                    m_markhitbodies;
 
         struct BodyDebugData
         {

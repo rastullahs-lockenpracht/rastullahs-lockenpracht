@@ -105,12 +105,13 @@ public:
 	//! constructor
 	/*!
 		performs a raycast, then the results can be queried from the object after creation.
-		\param world pointer to the OgreNewt::World
-		\param startpt starting point of the ray in global space
-		\param endpt ending point of the ray in global space
-                \param sorted sort the results by distance
+        \param world pointer to the OgreNewt::World
+        \param startpt starting point of the ray in global space
+        \param endpt ending point of the ray in global space
+        \param sorted sort the results by distance
+        \param prefilter pointer to a prefilter function
 	*/
-	BasicRaycast( const OgreNewt::World* world, const Ogre::Vector3& startpt, const Ogre::Vector3& endpt, bool sorted );
+	BasicRaycast( const OgreNewt::World* world, const Ogre::Vector3& startpt, const Ogre::Vector3& endpt, bool sorted);
 	
 	//! destuctor.
 	~BasicRaycast();
@@ -138,7 +139,6 @@ private:
 	typedef std::vector<BasicRaycastInfo> RaycastInfoList;
 
 	RaycastInfoList mRayList;
-
 };
 
 //! general convexcast
@@ -224,7 +224,6 @@ public:
         //! empty constructor
         BasicConvexcast();
 
-
 	//! constructor
 	/*!
 		performs a raycast, then the results can be queried from the object after creation.
@@ -234,6 +233,7 @@ public:
                 \param colori orientation of the collision in global space
 		\param endpt ending point of ray in global space
                 \param maxcontactscount maximum number of contacts that should be saved
+                \param prefilter pointer to a prefilter function
 	*/
 	BasicConvexcast( const OgreNewt::World* world, const OgreNewt::Collision* col, const Ogre::Vector3& startpt, const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount);
 

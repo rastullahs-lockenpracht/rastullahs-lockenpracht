@@ -1,5 +1,6 @@
 #include "OgreNewt_RayCast.h"
 #include "OgreNewt_Tools.h"
+#include "OgreNewt_Debugger.h"
 
 
 namespace OgreNewt
@@ -12,6 +13,10 @@ namespace OgreNewt
 
 	void Raycast::go(const OgreNewt::World* world, const Ogre::Vector3& startpt, const Ogre::Vector3& endpt )
 	{
+        if( Debugger::getSingleton().isRaycastRecording() )
+        {
+            Debugger::getSingleton().addRay(startpt, endpt);
+        }
 		// perform the raycast!
 		NewtonWorldRayCast( world->getNewtonWorld(), (float*)&startpt, (float*)&endpt, OgreNewt::Raycast::newtonRaycastFilter, this, OgreNewt::Raycast::newtonRaycastPreFilter );
 	}
@@ -23,6 +28,13 @@ namespace OgreNewt
 
 		Body* bod = (Body*)NewtonBodyGetUserData( body );
 		Ogre::Vector3 normal = Ogre::Vector3( hitNormal[0], hitNormal[1], hitNormal[2] );
+
+
+        if( Debugger::getSingleton().isRaycastRecording() && Debugger::getSingleton().isRaycastRecordingHitBodies() )
+        {
+            Debugger::getSingleton().addHitBody(bod);
+        }
+
 
 		if (me->userCallback( bod, intersectParam, normal, collisionID ))
 			return intersectParam;
@@ -41,7 +53,15 @@ namespace OgreNewt
 		if (me->userPreFilterCallback( bod ))
 			return 1;
 		else
+        {
+
+            if( Debugger::getSingleton().isRaycastRecording() && Debugger::getSingleton().isRaycastRecordingHitBodies() )
+            {
+                Debugger::getSingleton().addDiscardedBody(bod);
+            }
+
 			return 0;
+        }
 	}
 
 
@@ -57,7 +77,8 @@ namespace OgreNewt
 	BasicRaycast::BasicRaycastInfo::~BasicRaycastInfo() {}
 
 
-	BasicRaycast::BasicRaycast(const OgreNewt::World* world, const Ogre::Vector3& startpt, const Ogre::Vector3& endpt, bool sorted ) : Raycast() 
+	BasicRaycast::BasicRaycast(const OgreNewt::World* world, const Ogre::Vector3& startpt, const Ogre::Vector3& endpt, bool sorted)
+        : Raycast()
 	{
 		go( world, startpt, endpt );
                 if( sorted )
@@ -143,6 +164,11 @@ namespace OgreNewt
 
 	void Convexcast::go(const OgreNewt::World* world, const OgreNewt::Collision *col, const Ogre::Vector3& startpt, const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount)
 	{
+
+        if( Debugger::getSingleton().isRaycastRecording() )
+        {
+            Debugger::getSingleton().addConvexRay(col, startpt, colori, endpt);
+        }
                 // reserve memory
                 if( mReturnInfoListSize < maxcontactscount )
                 {
@@ -161,6 +187,15 @@ namespace OgreNewt
                         NewtonWorldConvexCast( world->getNewtonWorld(), &matrix[0], (float*)&endpt, col->getNewtonCollision(),
                                                &mFirstContactDistance, this, OgreNewt::Convexcast::newtonConvexcastPreFilter,
                                                mReturnInfoList, mReturnInfoListSize );
+
+            if( Debugger::getSingleton().isRaycastRecording() && Debugger::getSingleton().isRaycastRecordingHitBodies() )
+            {
+                for(int i = 0; i < mReturnInfoListLength; i++)
+                {
+                    Body* body = (OgreNewt::Body*) NewtonBodyGetUserData(mReturnInfoList[i].m_hitBody);
+                    Debugger::getSingleton().addHitBody(body);
+                }
+            }
 	}
 
 	unsigned _CDECL Convexcast::newtonConvexcastPreFilter(const NewtonBody *body, const NewtonCollision *collision, void* userData)
@@ -173,7 +208,15 @@ namespace OgreNewt
 		if (me->userPreFilterCallback( bod ))
 			return 1;
 		else
+        {
+
+            if( Debugger::getSingleton().isRaycastRecording() && Debugger::getSingleton().isRaycastRecordingHitBodies() )
+            {
+                Debugger::getSingleton().addDiscardedBody(bod);
+            }
+
 			return 0;
+        }
 	}
 
 
