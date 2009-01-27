@@ -321,8 +321,8 @@ namespace rl
 		// find the distance to the floor:
                 // raycasts
                 PhysicsMaterialRaycast::MaterialVector materialVector;
-                materialVector.push_back(PhysicsManager::getSingleton().getMaterialID("default")); // should we perhaps only use level here?
-                materialVector.push_back(PhysicsManager::getSingleton().getMaterialID("level"));
+                materialVector.push_back(PhysicsManager::getSingleton().getMaterialID("camera")); // should we perhaps only use level here?
+                materialVector.push_back(PhysicsManager::getSingleton().getMaterialID("character"));
 
                 Vector3 start = getCreature()->getPosition();
                 Vector3 end = start + Vector3::NEGATIVE_UNIT_Y*0.4;
@@ -330,7 +330,7 @@ namespace rl
                 RaycastInfo info = mRaycast.execute(
                             PhysicsManager::getSingleton()._getNewtonWorld(),
                             &materialVector,
-                            start, end);
+                            start, end, false);
 
 		if( info.mBody == NULL )
 		{

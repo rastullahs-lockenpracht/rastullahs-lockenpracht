@@ -305,7 +305,7 @@ namespace rl {
         OgreNewt::World* mWorld;
         //! the visualisation for physical behaviour (actually not the best)
         OgreNewt::Debugger* mNewtonDebugger;
-        //! debug mode: 0 no debugging, 1 show debug lines (freezed state), 2 show debug lines (update every frame)
+        //! debug mode: 0 no debugging, 1 show debug lines (freezed state), 2 show debug lines (update every frame), 3 show raycasts from one frame, 4 upda raycasts every frame
         int mDebugMode;
 
         //! factory for creating new collision primitives

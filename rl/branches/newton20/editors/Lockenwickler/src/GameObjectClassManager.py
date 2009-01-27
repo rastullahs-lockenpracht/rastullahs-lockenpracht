@@ -16,7 +16,8 @@
  # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  #################################################
 
-from elementtree.ElementTree import parse
+#from elementtree.ElementTree import parse
+from xml.etree.cElementTree import parse
 
 from GameObjectClass import *
 

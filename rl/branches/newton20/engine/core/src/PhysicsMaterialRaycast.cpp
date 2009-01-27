@@ -109,6 +109,9 @@ namespace rl {
 
     bool PhysicsMaterialRaycast::userCallback(Body* body, Ogre::Real distance, const Ogre::Vector3& normal, int collisionID)
     {
+        mInfo.mBody = body;
+        mInfo.mDistance = distance;
+        mInfo.mNormal = normal;
         return true;
         /*
         if( body->getMaterialGroupID() == NULL )
@@ -158,9 +161,6 @@ namespace rl {
 
                 if( found && !mInvertMat || !found && mInvertMat )
                 {
-                    mInfo.mBody = body;
-                    mInfo.mDistance = distance;
-                    mInfo.mNormal = normal;
                     mGetNearest = true;
                 }
             }
@@ -259,3 +259,4 @@ namespace rl {
     }
 
 }
+

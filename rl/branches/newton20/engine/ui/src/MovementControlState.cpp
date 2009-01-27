@@ -997,6 +997,8 @@ namespace rl {
             materialVector.push_back( mCamBody->getMaterialGroupID() );
             OgreNewt::World *world = PhysicsManager::getSingleton()._getNewtonWorld();
 
+OgreNewt::Debugger::getSingleton().init(CoreSubsystem::getSingleton().getWorld()->getSceneManager());
+OgreNewt::Debugger::getSingleton().startRaycastRecording(true);
             ConvexcastInfo info = mConvexcast->execute(
                     world,
                     &materialVector,
@@ -1005,6 +1007,7 @@ namespace rl {
                     Quaternion::IDENTITY,
                     targetCamPos,
                     true);
+OgreNewt::Debugger::getSingleton().stopRaycastRecording();
 
             bool CollisionFound = false;
             if( info.mBody )

@@ -60,11 +60,11 @@ class OgreWidget(QtGui.QWidget):
 
         # Create focus node (camera always points at this)
         self.camFocusNode = self.sceneManager.getRootSceneNode().createChildSceneNode()
-        self.camFocusNode.setFixedYawAxis(True, og.Vector3.UNIT_Y)
+        self.camFocusNode.setFixedYawAxis(True, og.Vector3().UNIT_Y)
         # camera node is offset a ways along the Z axis of focus node
         self.camNode = self.camFocusNode.createChildSceneNode()
         # fix yaw on this one too for when we manipulate it directly
-        self.camNode.setFixedYawAxis(True, og.Vector3.UNIT_Y)
+        self.camNode.setFixedYawAxis(True, og.Vector3().UNIT_Y)
         self.camNode.setPosition(0, 0, self.camDistFromFocusNode)
         self.camNode.attachObject(self.camera)
 

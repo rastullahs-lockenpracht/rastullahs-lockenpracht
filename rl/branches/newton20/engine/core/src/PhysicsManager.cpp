@@ -72,7 +72,7 @@ namespace rl
         : mEnabled(false),
         mNewtonDebugger(&OgreNewt::Debugger::getSingleton()),
         mPhysicalThings(),
-        mDebugMode(false),
+        mDebugMode(0),
         mGravity(0, -9.81, 0),
         mTimeFactor(1.0f),
         mWorldAABB(Vector3(-100, -100, -100), Vector3(100, 100, 100)),
@@ -151,6 +151,12 @@ namespace rl
         //NewtonSetMinimumFrameRate(mWorld->getNewtonWorld(), 1./mMaxTimestep);
 
 
+        if( mDebugMode == 4 )
+        {
+            mNewtonDebugger->clearRaycastsRecorded();
+        }
+
+
         // Newton kann timesteps zwischen 1/20 und 1/600!
         mElapsed += elapsedTime * mTimeFactor;
         while( mElapsed >= mMaxTimestep)
@@ -158,6 +164,7 @@ namespace rl
             // perhaps we should add a newtonupdate listener, but i don't
             // know if it's really neccessary
             GameEventManager::getSingleton().notifyNewtonWorldUpdate();
+
 
             mWorld->update(mMaxTimestep);
             mElapsed-=mMaxTimestep;
@@ -201,6 +208,10 @@ namespace rl
         if( mDebugMode == 2 )
         {
             mNewtonDebugger->showDebugInformation(mWorld);
+        }
+        else if( mDebugMode == 3 )
+        {
+            mNewtonDebugger->stopRaycastRecording();
         }
     }
 
@@ -291,18 +302,29 @@ namespace rl
 
     void PhysicsManager::toggleDebugMode()
     {
-        mDebugMode = (mDebugMode+1)%3;
+        mNewtonDebugger->init(CoreSubsystem::getSingleton().getWorld()->getSceneManager());
+        mDebugMode = (mDebugMode+1)%5;
         switch(mDebugMode)
         {
             case 0:
+                mNewtonDebugger->stopRaycastRecording();
+                mNewtonDebugger->clearRaycastsRecorded();
                 mNewtonDebugger->hideDebugInformation();
                 break;
             case 1:
-	        mNewtonDebugger->init(CoreSubsystem::getSingleton().getWorld()->getSceneManager());
                 mNewtonDebugger->showDebugInformation(mWorld);
                 break;
+            case 2:
+                break;
+            case 3:
+                mNewtonDebugger->startRaycastRecording(true);
+                mNewtonDebugger->hideDebugInformation();
+                break;
+            case 4:
+                mNewtonDebugger->startRaycastRecording(true);
+                mNewtonDebugger->hideDebugInformation();
+                break;
             default:
-	        mNewtonDebugger->init(CoreSubsystem::getSingleton().getWorld()->getSceneManager());
                 break;
         }
     }
