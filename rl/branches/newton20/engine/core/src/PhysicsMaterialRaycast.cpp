@@ -173,7 +173,8 @@ namespace rl {
 // -------------------------------------------------------------------------------------------------
 
     ConvexcastInfo::ConvexcastInfo(const OgreNewt::BasicConvexcast::ConvexcastContactInfo &info) :
-        ConvexcastContactInfo(info)
+        ConvexcastContactInfo(info),
+        mDistance(0)
     {
     }
 
@@ -194,7 +195,9 @@ namespace rl {
 
         BasicConvexcast::go(world, col, startpt, ori, endpt, 1, 0); // set threadindex to 0, I hope this is ok
 
-        return ConvexcastInfo(BasicConvexcast::getInfoAt(0));
+        ConvexcastInfo info(BasicConvexcast::getInfoAt(0));
+        info.mDistance = getDistanceToFirstHit();
+        return info;
     }
 
     ConvexcastInfo PhysicsMaterialConvexcast::execute(OgreNewt::World* world, const MaterialVector* materials,
@@ -207,7 +210,9 @@ namespace rl {
 
         BasicConvexcast::go(world, col, startpt, ori, endpt, 1, 0); // set threadindex to 0, I hope this is ok
 
-        return ConvexcastInfo(BasicConvexcast::getInfoAt(0));
+        ConvexcastInfo info(BasicConvexcast::getInfoAt(0));
+        info.mDistance = getDistanceToFirstHit();
+        return info;
     }
 
     bool PhysicsMaterialConvexcast::userPreFilterCallback( OgreNewt::Body *body )

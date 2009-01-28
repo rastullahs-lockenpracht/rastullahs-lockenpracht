@@ -90,6 +90,7 @@ namespace rl {
     {
         public:
             ConvexcastInfo(const OgreNewt::BasicConvexcast::ConvexcastContactInfo& info);
+            Ogre::Real mDistance;
     };
 
     class _RlCoreExport PhysicsMaterialConvexcast : public OgreNewt::BasicConvexcast

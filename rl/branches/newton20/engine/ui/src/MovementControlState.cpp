@@ -87,6 +87,7 @@ namespace rl {
         mViewMode(VM_THIRD_PERSON),
         mRaycast(new PhysicsMaterialRaycast()),
         mConvexcast(new PhysicsMaterialConvexcast()),
+        mCameraCastCollision(NULL),
         mSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager()),
         mCombatSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager(),
             QUERYFLAG_CREATURE),
@@ -134,6 +135,31 @@ namespace rl {
 
         mMessageType_SaveGameLoading_Handler = MessagePump::getSingleton().addMessageHandler<MessageType_SaveGameLoading>(
             boost::bind(&MovementControlState::beforeLoadingSaveGame, this));
+
+        // Kamera-Groesse beziehen
+        CameraObject* ogreCam = static_cast<CameraObject*>(
+            mCameraActor->getControlledObject());
+        AxisAlignedBox camAabb = ogreCam->getDefaultSize();
+        // Radius berechnen
+        Real camRadius = (camAabb.getMaximum().z - camAabb.getMinimum().z) / 2.0f;
+        camRadius *= 1.1f;
+        Vector3 verts[80];
+        int k = 0;
+        for(int i = 0; i < 16; i++)
+        {
+            int n;
+            n = abs(abs(i-8)-8)+1;
+            for(int j = 0; j < n; j++)
+            {
+                Real h = (i-7.5f)/7.5f;
+                Degree angle(360.0f/(n+1)*j);
+                Real rad = Math::Sqrt(1-h*h);
+                verts[k++] = camRadius*Vector3(rad*Math::Cos(angle),rad*Math::Sin(angle),h);
+            }
+        }
+        //! TODO: remove this workaround (newton-bug: "spheres don't cast"!)
+        mCameraCastCollision = new OgreNewt::CollisionPrimitives::ConvexHull(mCamBody->getWorld(), verts, 80);
+        //mCameraCastCollision = new OgreNewt::CollisionPrimitives::Ellipsoid(mCamBody->getWorld(), Vector3::UNIT_SCALE * camRadius);
     }
 
     //------------------------------------------------------------------------
@@ -145,6 +171,7 @@ namespace rl {
         mSelector.setFilter(NULL);
         delete mRaycast;
         delete mConvexcast;
+        delete mCameraCastCollision;
 
         if (DebugWindow::getSingletonPtr())
         {
@@ -676,7 +703,7 @@ namespace rl {
         }
 
         setContactSoftness(0.8f);
-        setContactElasticity(0.0f);
+        setContactElasticity(0.4f);
         mLastCameraCollision = 0;
 
         return 1;
@@ -1002,18 +1029,15 @@ namespace rl {
             materialVector.push_back( mCharBody->getMaterialGroupID() );
             materialVector.push_back( mCamBody->getMaterialGroupID() );
             OgreNewt::World *world = PhysicsManager::getSingleton()._getNewtonWorld();
-            OgreNewt::Collision* box = new OgreNewt::CollisionPrimitives::Box(mCamBody->getWorld(), Vector3::UNIT_SCALE * camRadius * Ogre::Math::Sqrt(2), charOri);
 
             ConvexcastInfo info = mConvexcast->execute(
                     world,
                     &materialVector,
-                    box, //mCamBody->getCollision(),
+                    mCameraCastCollision,
                     charPos,
                     Quaternion::IDENTITY,
                     targetCamPos,
                     true);
-
-            delete box;
 
             bool CollisionFound = false;
             if( info.mBody )
@@ -1021,7 +1045,7 @@ namespace rl {
                 CollisionFound = true;
                 Real hitBodyVel = info.mBody->getVelocity().dotProduct(diff.normalisedCopy());
                 hitBodyVel = std::min(0.0f, hitBodyVel); // if the body moves, try to avoid it
-                Real dist = std::max((info.mContactPoint-charPos).length() - camRadius  + (hitBodyVel*timestep - 0.01)/diff.length(), 0.0);
+                Real dist = std::max(info.mDistance  + (hitBodyVel*timestep - 0.01)/diff.length(), 0.0);
                 diff *= dist;
 
                 mLastCameraCollision = 0;
