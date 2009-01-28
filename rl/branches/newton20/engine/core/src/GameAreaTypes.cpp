@@ -207,7 +207,7 @@ namespace rl {
                 mBody->getCollision(), orientationA, positionA,
                 actor->getPhysicalThing()->_getBody()->getCollision(),
                 actor->getOrientation(), actor->getPosition(),
-                retA, retB, retNorm);
+                retA, retB, retNorm, 0); // set threadindex to 0, I hope this is ok!
 
         if( intRet == 0 )
             return 0;

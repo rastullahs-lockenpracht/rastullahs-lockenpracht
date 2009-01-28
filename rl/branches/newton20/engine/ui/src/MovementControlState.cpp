@@ -648,7 +648,7 @@ namespace rl {
                     PhysicsManager::getSingleton()._getNewtonWorld(),
                     mCamBody->getCollision(), camOri, camPos,
                     mCharBody->getCollision(), charOri, charPos,
-                    camPoint, charPoint, normal
+                    camPoint, charPoint, normal, 0 // set threadindex to 0, I hope this is ok!
                     );
             if( collisionPoints == 0 )
                 mCharacterActor->setVisible(false);
@@ -951,6 +951,12 @@ namespace rl {
         Quaternion charOri (mController->getYaw(), Vector3::UNIT_Y);
         Quaternion virtualCamOri;
         virtualCamOri.FromAngleAxis(mCamVirtualYaw, Vector3::UNIT_Y);
+        // get camera size
+        CameraObject* ogreCam = static_cast<CameraObject*>(
+                mCameraActor->getControlledObject());
+        AxisAlignedBox camAabb = ogreCam->getDefaultSize();
+        Real camRadius = (camAabb.getMaximum().z - camAabb.getMinimum().z) / 2.0f;
+
 
 
 
@@ -996,18 +1002,18 @@ namespace rl {
             materialVector.push_back( mCharBody->getMaterialGroupID() );
             materialVector.push_back( mCamBody->getMaterialGroupID() );
             OgreNewt::World *world = PhysicsManager::getSingleton()._getNewtonWorld();
+            OgreNewt::Collision* box = new OgreNewt::CollisionPrimitives::Box(mCamBody->getWorld(), Vector3::UNIT_SCALE * camRadius * Ogre::Math::Sqrt(2), charOri);
 
-OgreNewt::Debugger::getSingleton().init(CoreSubsystem::getSingleton().getWorld()->getSceneManager());
-OgreNewt::Debugger::getSingleton().startRaycastRecording(true);
             ConvexcastInfo info = mConvexcast->execute(
                     world,
                     &materialVector,
-                    mCamBody->getCollision(),
+                    box, //mCamBody->getCollision(),
                     charPos,
                     Quaternion::IDENTITY,
                     targetCamPos,
                     true);
-OgreNewt::Debugger::getSingleton().stopRaycastRecording();
+
+            delete box;
 
             bool CollisionFound = false;
             if( info.mBody )
@@ -1015,7 +1021,7 @@ OgreNewt::Debugger::getSingleton().stopRaycastRecording();
                 CollisionFound = true;
                 Real hitBodyVel = info.mBody->getVelocity().dotProduct(diff.normalisedCopy());
                 hitBodyVel = std::min(0.0f, hitBodyVel); // if the body moves, try to avoid it
-                Real dist = std::max(info.mDistance + (hitBodyVel*timestep - 0.01)/diff.length(), 0.0);
+                Real dist = std::max((info.mContactPoint-charPos).length() - camRadius  + (hitBodyVel*timestep - 0.01)/diff.length(), 0.0);
                 diff *= dist;
 
                 mLastCameraCollision = 0;

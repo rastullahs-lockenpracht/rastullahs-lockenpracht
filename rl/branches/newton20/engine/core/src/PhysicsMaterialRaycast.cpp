@@ -192,7 +192,7 @@ namespace rl {
         mMaterial = material;
         mInvertMat = invertmat;
 
-        BasicConvexcast::go(world, col, startpt, ori, endpt, 1);
+        BasicConvexcast::go(world, col, startpt, ori, endpt, 1, 0); // set threadindex to 0, I hope this is ok
 
         return ConvexcastInfo(BasicConvexcast::getInfoAt(0));
     }
@@ -205,7 +205,7 @@ namespace rl {
         mMaterial = NULL;
         mInvertMat = invertmat;
 
-        BasicConvexcast::go(world, col, startpt, ori, endpt, 1);
+        BasicConvexcast::go(world, col, startpt, ori, endpt, 1, 0); // set threadindex to 0, I hope this is ok
 
         return ConvexcastInfo(BasicConvexcast::getInfoAt(0));
     }
