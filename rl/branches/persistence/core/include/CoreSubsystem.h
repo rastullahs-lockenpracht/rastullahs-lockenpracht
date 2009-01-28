@@ -113,6 +113,7 @@ public:
 
     void _setCurrentScene(const CeGuiString& scene);
     const CeGuiString& getCurrentScene() const;
+    void loadPlugin(const Ogre::String& plugin);
 
 private:
     World* mWorld;
@@ -158,8 +159,8 @@ private:
     void unloadPlugins();
 
     /**
-     * Sammelt alle Default-Techniques, um sie später bei jedem aktivierten Scheme
-     * benutzen zu können
+     * Sammelt alle Default-Techniques, um sie sp‰ter bei jedem aktivierten Scheme
+     * benutzen zu kˆnnen
      */
     void updateDefaultScheme();
 

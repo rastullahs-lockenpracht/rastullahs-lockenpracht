@@ -20,10 +20,13 @@
 #include "UiPrerequisites.h"
 #include "ConfigComponent.h"
 
+namespace Ogre
+{
+    class RenderSystem;
+}
+
 namespace rl
 {
-    class Ogre::RenderSystem;
-
     class _RlUiExport RenderSystemConfigComponent : public ConfigComponent
     {
     public:

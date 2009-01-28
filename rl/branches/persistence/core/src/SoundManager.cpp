@@ -22,12 +22,14 @@
 #include "Actor.h"
 #include "ActorManager.h"
 #include "ConfigFile.h"
+#include "CoreSubsystem.h"
 #include "GameLoop.h"
 #include "ListenerMovable.h"
 #include "ListenerObject.h"
 #include "SoundDriver.h"
 #include "SoundResource.h"
 
+#include "Fmod4Driver.h"
 #include "NullDriver.h"
 
 using namespace std;
@@ -57,6 +59,9 @@ namespace rl
         NullDriver* nullDriver = new NullDriver(this);
         registerDriver(nullDriver);
         setActiveDriver(nullDriver);
+
+		Fmod4Driver* fmod4Driver = new Fmod4Driver(this);
+		registerDriver(fmod4Driver);
 
         mResourceType = "Sound";
         ResourceGroupManager::getSingleton()._registerResourceManager(mResourceType, this);
@@ -249,29 +254,31 @@ SoundDriver *SoundManager::getDriverByName(const String &name)
             drivername = it->second;
         }
 
-        try
-        {
-            #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-            Ogre::Root::getSingleton().loadPlugin(drivername);
-            #else
-            Ogre::Root::getSingleton().loadPlugin("lib" + drivername);
-            #endif
-        }
-        catch(Ogre::Exception &e)
-        {
-            LOG_MESSAGE(Logger::MULTIMEDIA,
-                CeGuiString("Soundtreiber kann nicht geladen werden: ")
-                    + drivername + "\n"
-                    + e.getFullDescription());
-        }
-        catch(...)
-        {
-            LOG_MESSAGE(Logger::MULTIMEDIA,
-                 CeGuiString("Soundtreiber kann nicht geladen werden: ")
-                    + drivername);
-        }
 
-        SoundDriver *driver = getDriverByName(drivername);
+		SoundDriver *driver = getDriverByName(drivername);
+
+        if (driver == NULL)
+        {
+			try
+			{
+				CoreSubsystem::getSingleton().loadPlugin(drivername);
+			}
+			catch(Ogre::Exception &e)
+			{
+				LOG_MESSAGE(Logger::MULTIMEDIA,
+					CeGuiString("Soundtreiber kann nicht geladen werden: ")
+						+ drivername + "\n"
+						+ e.getFullDescription());
+			}
+			catch(...)
+			{
+				LOG_MESSAGE(Logger::MULTIMEDIA,
+					 CeGuiString("Soundtreiber kann nicht geladen werden: ")
+						+ drivername);
+			}
+		}
+
+        driver = getDriverByName(drivername);
 
         if (driver == NULL)
         {

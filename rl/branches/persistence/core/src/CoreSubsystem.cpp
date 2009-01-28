@@ -579,6 +579,19 @@ namespace rl
         return mModules;
     }
 
+    void CoreSubsystem::loadPlugin(const Ogre::String& plugin)
+    {
+        Ogre::String pluginFile;
+        
+#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+        pluginFile = "lib" + plugin;
+#else
+        pluginFile = plugin;
+#endif
+        
+        Ogre::Root::getSingleton().loadPlugin(pluginFile);
+    }
+
     void CoreSubsystem::loadPlugins()
     {
         mSoundManager->applySettings(rl::ConfigurationManager::getSingleton().getSettings("Sound"));

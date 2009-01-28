@@ -1,5 +1,6 @@
 INCLUDE_DIRECTORIES(
 ${CMAKE_CURRENT_SOURCE_DIR}/include
+${CMAKE_CURRENT_SOURCE_DIR}/include/fmod4driver
 ${CMAKE_CURRENT_SOURCE_DIR}/include/nulldriver
 ${RL_COMMON_INCLUDE_DIR}
 ${OGRE_INCLUDE_DIRS}
@@ -82,6 +83,10 @@ src/TrackAnimation.cpp
 src/World.cpp
 src/Zone.cpp
 src/ZoneManager.cpp
+src/fmod4driver/Fmod4Driver.cpp
+src/fmod4driver/Fmod4Listener.cpp
+src/fmod4driver/Fmod4Sound.cpp
+src/fmod4driver/Fmod4SoundStitching.cpp
 src/nulldriver/NullDriver.cpp
 src/nulldriver/NullListener.cpp
 src/nulldriver/NullSound.cpp
@@ -95,7 +100,7 @@ TARGET_LINK_LIBRARIES(RlCore ${OGRE_LIBRARIES} ${CEGUI_LIBRARIES} ${OGRENEWT_LIB
 
 SET_TARGET_PROPERTIES(RlCore PROPERTIES
 	VERSION ${RL_MAJOR_VERSION}.${RL_MINOR_VERSION}.${RL_PATCH_VERSION}
-	SOVERSION ${RL_MAJOR_VERSION}
+	SOVERSION ${RL_MAJOR_VERSION}.${RL_MINOR_VERSION}
 	DEFINE_SYMBOL RLCORE_EXPORTS)
 
 INSTALL(TARGETS RlCore LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)

@@ -24,6 +24,7 @@
 
 #include "CommonPrerequisites.h"
 #include <string>
+#include <iostream>
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #  include <Windows.h>
@@ -401,7 +402,7 @@ namespace rl {
          MessageBox(NULL, message.c_str(), "Meldung",
             MB_OK | MB_ICONINFORMATION | MB_TOPMOST);
 #     else
-         printf(message.c_str());
+         std::cout << message << std::endl;
 #     endif
    }
 
@@ -418,7 +419,7 @@ namespace rl {
          MessageBox(NULL, message.c_str(), "Fehler",
             MB_OK | MB_ICONERROR | MB_TOPMOST);
 #     else
-         fprintf(stderr, message.c_str());
+         std::cerr << message << std::endl;
 #     endif
    }
 }
