@@ -128,8 +128,8 @@ private:
         public:
             StaticConvexCast(PlayerController *pc, const OgreNewt::World* world,
                              const OgreNewt::Collision* col, const Ogre::Vector3& startpt,
-                             const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount) :
-                    BasicConvexcast(pc->getControlledBody()->getWorld(), col, startpt, colori, endpt, maxcontactscount),
+                             const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int thread) :
+                    BasicConvexcast(pc->getControlledBody()->getWorld(), col, startpt, colori, endpt, maxcontactscount, thread),
                     m_parent(pc)
                 {}
 
@@ -143,8 +143,8 @@ private:
         public:
             DynamicConvexCast(PlayerController *pc, const OgreNewt::World* world,
                              const OgreNewt::Collision* col, const Ogre::Vector3& startpt,
-                             const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount) :
-                    BasicConvexcast(pc->getControlledBody()->getWorld(), col, startpt, colori, endpt, maxcontactscount),
+                             const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int thread) :
+                    BasicConvexcast(pc->getControlledBody()->getWorld(), col, startpt, colori, endpt, maxcontactscount, thread),
                     m_parent(pc)
                 {}
 
@@ -158,8 +158,8 @@ private:
         public:
             AllBodyConvexCast(PlayerController *pc, const OgreNewt::World* world,
                              const OgreNewt::Collision* col, const Ogre::Vector3& startpt,
-                             const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount) :
-                    BasicConvexcast(pc->getControlledBody()->getWorld(), col, startpt, colori, endpt, maxcontactscount),
+                             const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int thread) :
+                    BasicConvexcast(pc->getControlledBody()->getWorld(), col, startpt, colori, endpt, maxcontactscount, thread),
                     m_parent(pc)
                 {}
 

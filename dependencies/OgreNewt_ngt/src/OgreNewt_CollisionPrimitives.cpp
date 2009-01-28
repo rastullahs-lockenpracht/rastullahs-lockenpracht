@@ -501,7 +501,13 @@ namespace OgreNewt
 			NewtonTreeCollisionEndBuild( m_col, optimize );
 
             NewtonAddCollisionReference(m_col);
+            NewtonTreeCollisionSetUserRayCastCallback( m_col, rayHitCallback );
 		}
+
+        float TreeCollision::rayHitCallback(float interception, float *normal, int faceId, void *userData)
+        {
+            return interception;
+        }
 
 
 		int TreeCollisionSceneParser::count = 0;

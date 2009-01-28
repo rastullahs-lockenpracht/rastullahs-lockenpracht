@@ -166,7 +166,7 @@ public:
                 \param maxcontactscount maximum number of contacts that should be saved,
                        set to 0 if you only need the distance to the first intersection
 	*/
-	void go( const OgreNewt::World* world, const OgreNewt::Collision* col, const Ogre::Vector3& startpt, const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount);
+	void go( const OgreNewt::World* world, const OgreNewt::Collision* col, const Ogre::Vector3& startpt, const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int threadIndex);
 
 	//! user callback pre-filter function.
 	/*!
@@ -209,7 +209,7 @@ public:
 	class _OgreNewtExport ConvexcastContactInfo
 	{
 	public:
-		Ogre::Real              mDistance;      //!< dist from point1 of the raycast, in range [0,1].
+		//Ogre::Real              mDistance;      //!< dist from point1 of the raycast, in range [0,1].
 		OgreNewt::Body*         mBody;          //!< pointer to body intersected with
 		int                     mCollisionID;   //!< collision ID of the primitive hit by the ray (for compound collision bodies)
 		Ogre::Vector3           mContactNormal; //!< normal of intersection.
@@ -235,7 +235,7 @@ public:
                 \param maxcontactscount maximum number of contacts that should be saved
                 \param prefilter pointer to a prefilter function
 	*/
-	BasicConvexcast( const OgreNewt::World* world, const OgreNewt::Collision* col, const Ogre::Vector3& startpt, const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount);
+	BasicConvexcast( const OgreNewt::World* world, const OgreNewt::Collision* col, const Ogre::Vector3& startpt, const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int threadIndex);
 
 	//! destuctor.
 	~BasicConvexcast();

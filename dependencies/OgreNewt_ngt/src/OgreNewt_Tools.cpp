@@ -101,12 +101,12 @@ namespace OgreNewt
 		
 		int CollisionPointDistance( const OgreNewt::World* world, const Ogre::Vector3& globalpt, 
 									const OgreNewt::Collision* col, const Ogre::Quaternion& colorient, const Ogre::Vector3& colpos, 
-									Ogre::Vector3& retpt, Ogre::Vector3& retnormal )
+									Ogre::Vector3& retpt, Ogre::Vector3& retnormal, int threadIndex )
 		{
 			float matrix[16];
 			Converters::QuatPosToMatrix( colorient, colpos, matrix );
 
-			return NewtonCollisionPointDistance( world->getNewtonWorld(), &globalpt.x, col->getNewtonCollision(), matrix, &retpt.x, &retnormal.x );
+			return NewtonCollisionPointDistance( world->getNewtonWorld(), &globalpt.x, col->getNewtonCollision(), matrix, &retpt.x, &retnormal.x, threadIndex);
 		}
 		
 
@@ -114,7 +114,7 @@ namespace OgreNewt
 		
 		int CollisionClosestPoint( const OgreNewt::World* world, const OgreNewt::Collision* colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA,
 															const OgreNewt::Collision* colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB,
-															Ogre::Vector3& retPosA, Ogre::Vector3& retPosB, Ogre::Vector3& retNorm )
+															Ogre::Vector3& retPosA, Ogre::Vector3& retPosB, Ogre::Vector3& retNorm, int threadIndex )
 		{
 			float matrixA[16];
 			float matrixB[16];
@@ -123,14 +123,14 @@ namespace OgreNewt
 			Converters::QuatPosToMatrix( colOrientB, colPosB, matrixB );
 
 			return NewtonCollisionClosestPoint( world->getNewtonWorld(), colA->getNewtonCollision(), matrixA, colB->getNewtonCollision(), matrixB,
-												&retPosA.x, &retPosB.x, &retNorm.x );
+												&retPosA.x, &retPosB.x, &retNorm.x, threadIndex );
 		}
 
 
 		int CollisionCollide(  const OgreNewt::World* world, int maxSize, 
 			const OgreNewt::Collision* colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA,
 			const OgreNewt::Collision* colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB,
-			Ogre::Vector3* retContactPts, Ogre::Vector3* retNormals, Ogre::Real* retPenetrations )
+			Ogre::Vector3* retContactPts, Ogre::Vector3* retNormals, Ogre::Real* retPenetrations, int threadIndex )
 		{
 			float matrixA[16];
 			float matrixB[16];
@@ -139,14 +139,14 @@ namespace OgreNewt
 			Converters::QuatPosToMatrix( colOrientB, colPosB, matrixB );
 
 			return NewtonCollisionCollide( world->getNewtonWorld(), maxSize, colA->getNewtonCollision(), matrixA,
-				colB->getNewtonCollision(), matrixB, &retContactPts[0].x, &retNormals[0].x, retPenetrations );
+				colB->getNewtonCollision(), matrixB, &retContactPts[0].x, &retNormals[0].x, retPenetrations, threadIndex );
 		}
 
 
 		int CollisionCollideContinue( const OgreNewt::World* world, int maxSize, Ogre::Real timeStep,
 			const OgreNewt::Collision* colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA, const Ogre::Vector3& colVelA, const Ogre::Vector3& colOmegaA,
 			const OgreNewt::Collision* colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB, const Ogre::Vector3& colVelB, const Ogre::Vector3& colOmegaB,
-			Ogre::Real& retTimeOfImpact, Ogre::Vector3* retContactPts, Ogre::Vector3* retNormals, Ogre::Real* retPenetrations )
+			Ogre::Real& retTimeOfImpact, Ogre::Vector3* retContactPts, Ogre::Vector3* retNormals, Ogre::Real* retPenetrations, int threadIndex )
 		{
 			float matrixA[16];
 			float matrixB[16];
@@ -157,7 +157,7 @@ namespace OgreNewt
 			return NewtonCollisionCollideContinue( world->getNewtonWorld(), maxSize, timeStep,
 				colA->getNewtonCollision(), matrixA, &colVelA.x, &colOmegaA.x, 
 				colB->getNewtonCollision(), matrixB, &colVelB.x, &colOmegaB.x,
-				&retTimeOfImpact, &retContactPts[0].x, &retNormals[0].x, retPenetrations );
+				&retTimeOfImpact, &retContactPts[0].x, &retNormals[0].x, retPenetrations, threadIndex );
 		}
 
 

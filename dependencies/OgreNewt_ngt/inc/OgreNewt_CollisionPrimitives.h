@@ -256,6 +256,9 @@ namespace OgreNewt
 
 			//! finish the tree collision
 			void finish( bool optimize = true );
+
+        private:
+            static float _CDECL rayHitCallback(float interception, float *normal, int faceId, void *userData);
 		};
 
 		////////////////////////////////////////////////////////

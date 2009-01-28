@@ -73,7 +73,7 @@ namespace OgreNewt
 		*/
 		_OgreNewtExport int CollisionPointDistance( const OgreNewt::World* world, const Ogre::Vector3& globalpt, 
 									const OgreNewt::Collision* col, const Ogre::Quaternion& colorient, const Ogre::Vector3& colpos, 
-									Ogre::Vector3& retpt, Ogre::Vector3& retnormal );
+									Ogre::Vector3& retpt, Ogre::Vector3& retnormal, int threadIndex );
 									
 
 
@@ -92,7 +92,7 @@ namespace OgreNewt
 		*/
 		_OgreNewtExport int CollisionClosestPoint( const OgreNewt::World* world, const OgreNewt::Collision* colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA,
 															const OgreNewt::Collision* colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB,
-															Ogre::Vector3& retPosA, Ogre::Vector3& retPosB, Ogre::Vector3& retNorm );
+															Ogre::Vector3& retPosA, Ogre::Vector3& retPosB, Ogre::Vector3& retNorm, int threadIndex );
 
 
 		//! manual collision between collision primitives.
@@ -114,7 +114,7 @@ namespace OgreNewt
 		_OgreNewtExport int CollisionCollide(  const OgreNewt::World* world, int maxSize, 
 			const OgreNewt::Collision* colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA,
 			const OgreNewt::Collision* colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB,
-			Ogre::Vector3* retContactPts, Ogre::Vector3* retNormals, Ogre::Real* retPenetrations );
+			Ogre::Vector3* retContactPts, Ogre::Vector3* retNormals, Ogre::Real* retPenetrations, int threadIndex );
 
 
 		//! manual collision between moving primitives.
@@ -141,7 +141,7 @@ namespace OgreNewt
 		_OgreNewtExport int CollisionCollideContinue( const OgreNewt::World* world, int maxSize, Ogre::Real timeStep,
 			const OgreNewt::Collision* colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA, const Ogre::Vector3& colVelA, const Ogre::Vector3& colOmegaA,
 			const OgreNewt::Collision* colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB, const Ogre::Vector3& colVelB, const Ogre::Vector3& colOmegaB,
-			Ogre::Real& retTimeOfImpact, Ogre::Vector3* retContactPts, Ogre::Vector3* retNormals, Ogre::Real* retPenetrations );
+			Ogre::Real& retTimeOfImpact, Ogre::Vector3* retContactPts, Ogre::Vector3* retNormals, Ogre::Real* retPenetrations, int threadIndex );
 
 
 		//! local raycast on a collision object.
