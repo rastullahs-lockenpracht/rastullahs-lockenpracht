@@ -11,14 +11,14 @@
 #ifndef _INCLUDE_OGRENEWT_MATERIALID
 #define _INCLUDE_OGRENEWT_MATERIALID
 
-#include <Newton.h>
-#include "OgreNewt_World.h"
+
+#include "OgreNewt_Prerequisites.h"
 
 // OgreNewt namespace.  all functions and classes use this namespace.
 namespace OgreNewt
 {
 
-	class World;
+class World;
 
 //! represents a material
 class _OgreNewtExport MaterialID

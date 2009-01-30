@@ -11,14 +11,18 @@
 #ifndef _INCLUDE_OGRENEWT_PLAYERCONTROLLER
 #define _INCLUDE_OGRENEWT_PLAYERCONTROLLER
 
-#include <Newton.h>
+
+#include "OgreNewt_Prerequisites.h"
 #include "OgreNewt_Joint.h"
-#include "OgreNewt_Collision.h"
 #include "OgreNewt_RayCast.h"
+#include "OgreNewt_Body.h"
 
 
 namespace OgreNewt
 {
+
+class Collision;
+class ConvexCollision;
 
 //! PlayerController
 /*!
@@ -35,7 +39,7 @@ public:
     OgreNewt::Body* getControlledBody() const {return m_body;}
 
     //! set the characters velocity, the -Speed-values can be negative, sideSpeed positiv means move to the right, heading is in absolute space
-    void setVelocity(Ogre::Real forwardSpeed, Ogre::Real sideSpeed, Ogre::Radian heading);
+    void setVelocity(Ogre::Real forwardSpeed, Ogre::Real sideSpeed, Ogre::Degree heading);
 
     //! get currently set velocity
     void getVelocity(Ogre::Real &forwardSpeed, Ogre::Real& sideSpeed, Ogre::Radian& heading) const;
@@ -58,11 +62,11 @@ public:
     //! get currently set restitution
     Ogre::Real getRestitution() const;
 
-    //! set up-vector pin
-    void setPinVector(Ogre::Vector3 upVector);
-
-    //! get currently set up-vector pin
-    Ogre::Vector3 getPinVector() const;
+    // not supported yet
+    // set up-vector pin
+    //void setPinVector(Ogre::Vector3 upVector);
+    // get currently set up-vector pin
+    //Ogre::Vector3 getPinVector() const;
 
     //! is the body currently in the air (jumpin?)
     bool isInJumpState() const;

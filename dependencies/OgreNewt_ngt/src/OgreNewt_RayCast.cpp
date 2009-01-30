@@ -1,6 +1,8 @@
 #include "OgreNewt_RayCast.h"
 #include "OgreNewt_Tools.h"
 #include "OgreNewt_Debugger.h"
+#include "OgreNewt_World.h"
+#include "OgreNewt_Collision.h"
 
 
 namespace OgreNewt

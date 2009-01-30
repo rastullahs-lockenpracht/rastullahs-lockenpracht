@@ -1,5 +1,5 @@
-#include <OgreNewt_Vehicle.h>
-#include <OgreNewt_Tools.h>
+#include "OgreNewt_Vehicle.h"
+#include "OgreNewt_Tools.h"
 
 namespace OgreNewt
 {

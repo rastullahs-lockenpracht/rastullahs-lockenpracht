@@ -11,8 +11,8 @@
 #ifndef _INCLUDE_OGRENEWT_COLLISIONPRIMITIVES
 #define _INCLUDE_OGRENEWT_COLLISIONPRIMITIVES
 
-#include <Newton.h>
-#include "OgreNewt_World.h"
+
+#include "OgreNewt_Prerequisites.h"
 #include "OgreNewt_Collision.h"
 
 

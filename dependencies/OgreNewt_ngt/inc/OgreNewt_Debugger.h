@@ -12,14 +12,16 @@
 #define _INCLUDE_OGRENEWT_DEBUGGER
 
 
-#include <Ogre.h>
-#include <Newton.h>
-#include "OgreNewt_World.h"
-#include "OgreNewt_Body.h"
+#include "OgreNewt_Prerequisites.h"
 #include "OgreNewt_Tools.h"
 
 namespace OgreNewt
 {
+
+    class World;
+    class Body;
+    class MaterialID;
+    class Collision;
 
 	//! For viewing the Newton rigid bodies visually.
 	/*!
@@ -91,7 +93,7 @@ namespace OgreNewt
 	protected:
 		Debugger();
 	
-	private:
+	protected:
 		Ogre::SceneNode*		m_debugnode;
         typedef std::map<int, Ogre::ColourValue> MaterialIdColorMap;
         MaterialIdColorMap      m_materialcolors;
@@ -115,8 +117,11 @@ namespace OgreNewt
         typedef std::map<OgreNewt::Body*, BodyDebugData> BodyDebugDataMap;
         BodyDebugDataMap m_cachemap;
 
+        // create debug information for one body
+        void processBody(Body* body);
 
-		static void newtonPerBody( const NewtonBody* body );
+
+    private:
 		static void _CDECL newtonPerPoly( void* userData, int vertexCount, const float* faceVertec, int id );
 	};
 

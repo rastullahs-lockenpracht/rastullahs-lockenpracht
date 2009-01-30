@@ -1,4 +1,6 @@
 #include "OgreNewt_Body.h"
+#include "OgreNewt_World.h"
+#include "OgreNewt_Collision.h"
 #include "OgreNewt_Tools.h"
 
 
@@ -357,6 +359,15 @@ void Body::addLocalForce( const Ogre::Vector3& force, const Ogre::Vector3& pos )
 	Ogre::Vector3 globalpoint = (bodyorient * pos) + bodypos;
 
 	addGlobalForce( globalforce, globalpoint );
+}
+
+Body* Body::getNext() const
+{
+    NewtonBody* body = NewtonWorldGetNextBody( m_world->getNewtonWorld(), m_body );
+    if( body )
+        return (Body*) NewtonBodyGetUserData(body);
+
+    return NULL;
 }
 
 

@@ -1,7 +1,5 @@
-#include <Ogre.h>
-#include <OgreNewt_Collision.h>
-#include <OgreNewt_World.h>
-#include <OgreNewt_Tools.h>
+#include "OgreNewt_Collision.h"
+#include "OgreNewt_Tools.h"
 
 
 namespace OgreNewt

@@ -1,4 +1,7 @@
 #include "OgreNewt_Tools.h"
+#include "OgreNewt_World.h"
+#include "OgreNewt_Body.h"
+#include "OgreNewt_Collision.h"
 #include <iostream>
 #include <OgreFontManager.h>
 

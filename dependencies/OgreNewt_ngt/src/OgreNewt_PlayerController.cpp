@@ -1,6 +1,8 @@
-#include <OgreNewt_PlayerController.h>
-#include <OgreNewt_Tools.h>
-#include <OgreNewt_CollisionPrimitives.h>
+#include "OgreNewt_PlayerController.h"
+#include "OgreNewt_Tools.h"
+#include "OgreNewt_Collision.h"
+#include "OgreNewt_CollisionPrimitives.h"
+#include "OgreNewt_World.h"
 
 namespace OgreNewt
 {
@@ -15,7 +17,7 @@ PlayerController::PlayerController(OgreNewt::Body * child) :
     m_heading = Ogre::Radian(0);
     Ogre::Real playerHeight, playerRadius;
     getPlayerHeightAndRadius(playerHeight, playerRadius);
-    m_maxStepHeight = playerHeight / 5;
+    m_maxStepHeight = playerHeight / 4;
     m_maxSlope = Ogre::Degree(45);
     m_restitution = 0;
     m_upVector = Ogre::Vector3::UNIT_Y;
@@ -173,6 +175,15 @@ bool PlayerController::findFloorCastPreFilter(OgreNewt::Body *body)
 }
 
 
+void PlayerController::setVelocity(Ogre::Real forwardSpeed, Ogre::Real sideSpeed, Ogre::Degree heading)
+{
+    m_forwardSpeed = forwardSpeed;
+    m_sideSpeed = sideSpeed;
+    m_heading = heading;
+    m_body->unFreeze();
+}
+
+
 void PlayerController::submitConstraint( Ogre::Real timestep, int threadindex )
 {
 
@@ -190,45 +201,79 @@ void PlayerController::submitConstraint( Ogre::Real timestep, int threadindex )
     omega = m_body->getOmega();
     torqueAcc = m_body->getTorqueAcceleration();
 
-    // ----------- "up-vector-pin" -----------
-    // get the plane of rotation
-    Ogre::Vector3 oriChangeVec;
-    Ogre::Radian oriChangeAngle;
-    Ogre::Quaternion oriDiffFromLast = (ori * m_lastOri.Inverse());
-    oriDiffFromLast.ToAngleAxis(oriChangeAngle, oriChangeVec);
-    if( abs(oriChangeAngle.valueRadians()) > 1.0e-3 )
-    {
-        // correct angle
-        addAngularRow(oriChangeAngle, oriChangeVec);
 
-        // additional correction, see newton CustomPlayerController
-        Ogre::Vector3 frontDir = ori*oriChangeVec;
-        addAngularRow(Ogre::Radian(0.0f), oriChangeVec);
-    }
+    // ----- "up vector joint" -----
+    Ogre::Quaternion yawOri;
+    yawOri.FromAngleAxis(ori.getYaw(), Ogre::Vector3::UNIT_Y);
+    Ogre::Vector3 yawX = yawOri * Ogre::Vector3::UNIT_X;
+    Ogre::Vector3 yawZ = yawOri * Ogre::Vector3::UNIT_Z;
+    Ogre::Radian relAngleErrorX, relAngleErrorZ;
+    Ogre::Vector3 dirErrorX, dirErrorZ;
+    ori.xAxis().getRotationTo(yawX, yawZ).ToAngleAxis(relAngleErrorX, dirErrorX);
+    ori.zAxis().getRotationTo(yawZ, yawX).ToAngleAxis(relAngleErrorZ, dirErrorZ);
+    if( abs(relAngleErrorX.valueRadians()) < 0.001f )
+        addAngularRow(Ogre::Radian(0.0f), yawZ);
     else
-    {
-        addAngularRow(Ogre::Radian(0.0f), ori.yAxis());
-        addAngularRow(Ogre::Radian(0.0f), ori.xAxis());
-    }
+        addAngularRow(relAngleErrorX, dirErrorX);
+    if( abs(relAngleErrorZ.valueRadians()) < 0.001f )
+        addAngularRow(Ogre::Radian(0.0f), yawX);
+    else
+        addAngularRow(relAngleErrorZ, dirErrorZ);
+
 
     // ----------- calculate torque -----------
     Ogre::Quaternion targetOri;
     targetOri.FromAngleAxis(m_heading, Ogre::Vector3::UNIT_Y);
-    Ogre::Quaternion oriDiff = (targetOri * ori.Inverse());
-    Ogre::Real turnOmega  = oriDiff.getYaw().valueRadians() / timestep;
-    torqueAcc = ori.yAxis() * (torqueAcc.dotProduct(ori.yAxis()));
-    Ogre::Vector3 torque = ori.yAxis() * (turnOmega - omega.y * inertia.y/timestep - torqueAcc.y);
+    Ogre::Radian yawDiff = ((ori*Ogre::Vector3::UNIT_Z).getRotationTo(targetOri*Ogre::Vector3::UNIT_Z)).getYaw();
+    Ogre::Real turnOmega = yawDiff.valueRadians() / timestep;
+    Ogre::Vector3 torque = Ogre::Vector3::UNIT_Y * ((turnOmega - omega.y) * inertia.y/timestep - torqueAcc.y);
     m_body->addTorque(torque);
 
 
 
     // ----------- find floor -----------
-    Ogre::Vector3 p1 = pos - Ogre::Vector3::UNIT_Y*m_lastPlayerHeight;
-    FindFloorRaycast findFloorCast(this, pos, p1, true);
+    //! perhaps calculate SLOPE differently, a convexcast with a rotated box should do it, but we'll see if it is needed!
+    Ogre::Vector3 findFloorCastP1 = pos - Ogre::Vector3::UNIT_Y*m_maxStepHeight;
+    // go a bit up from current position
+    Ogre::Vector3 findFloorCastP0 = pos + Ogre::Vector3::UNIT_Y*m_maxStepHeight;
+    FindFloorRaycast findFloorCast(this, findFloorCastP0, findFloorCastP1, true);
     if( findFloorCast.getHitCount() > 0 )
     {
         // slope:
-        if( Ogre::Math::ACos(findFloorCast.getFirstHit().mNormal.y) > m_maxSlope )
+        if( Ogre::Math::ASin(findFloorCast.getFirstHit().mNormal.y) < m_maxSlope )
+        {
+            // try some more raycasts...
+            FindFloorRaycast findFloorCast_0(this, findFloorCastP0+0.1*Ogre::Vector3::UNIT_X, findFloorCastP1+0.1*Ogre::Vector3::UNIT_X, true);
+            FindFloorRaycast findFloorCast_1(this, findFloorCastP0-0.1*Ogre::Vector3::UNIT_X, findFloorCastP1-0.1*Ogre::Vector3::UNIT_X, true);
+            FindFloorRaycast findFloorCast_2(this, findFloorCastP0+0.1*Ogre::Vector3::UNIT_Z, findFloorCastP1+0.1*Ogre::Vector3::UNIT_Z, true);
+            FindFloorRaycast findFloorCast_3(this, findFloorCastP0-0.1*Ogre::Vector3::UNIT_Z, findFloorCastP1-0.1*Ogre::Vector3::UNIT_Z, true);
+            if( findFloorCast_0.getHitCount() > 0 && Ogre::Math::ASin(findFloorCast_0.getFirstHit().mNormal.y) < m_maxSlope )
+            {
+                findFloorCastP0 += 0.1*Ogre::Vector3::UNIT_X;
+                findFloorCastP1 += 0.1*Ogre::Vector3::UNIT_X;
+                findFloorCast = findFloorCast_0;
+            }
+            else if( findFloorCast_1.getHitCount() > 0 && Ogre::Math::ASin(findFloorCast_1.getFirstHit().mNormal.y) < m_maxSlope )
+            {
+                findFloorCastP0 -= 0.1*Ogre::Vector3::UNIT_X;
+                findFloorCastP1 -= 0.1*Ogre::Vector3::UNIT_X;
+                findFloorCast = findFloorCast_1;
+            }
+            else if( findFloorCast_2.getHitCount() > 0 && Ogre::Math::ASin(findFloorCast_2.getFirstHit().mNormal.y) < m_maxSlope )
+            {
+                findFloorCastP0 += 0.1*Ogre::Vector3::UNIT_Z;
+                findFloorCastP1 += 0.1*Ogre::Vector3::UNIT_Z;
+                findFloorCast = findFloorCast_2;
+            }
+            else if( findFloorCast_3.getHitCount() > 0 && Ogre::Math::ASin(findFloorCast_3.getFirstHit().mNormal.y) < m_maxSlope )
+            {
+                findFloorCastP0 -= 0.1*Ogre::Vector3::UNIT_Z;
+                findFloorCastP1 -= 0.1*Ogre::Vector3::UNIT_Z;
+                findFloorCast = findFloorCast_3;
+            }
+        }
+        
+        if( Ogre::Math::ASin(findFloorCast.getFirstHit().mNormal.y) > m_maxSlope )
         
         {
             // desired velocity
@@ -242,7 +287,7 @@ void PlayerController::submitConstraint( Ogre::Real timestep, int threadindex )
             {
 
                 // hit-body:
-                Ogre::Vector3 hitPoint = pos + (p1-pos) * findFloorCast.getFirstHit().mDistance;
+                Ogre::Vector3 hitPoint = findFloorCastP0 + (findFloorCastP1-findFloorCastP0) * findFloorCast.getFirstHit().mDistance;
                 Ogre::Vector3 hitOmega = findFloorCast.getFirstHit().mBody->getOmega();
                 Ogre::Vector3 hitVel = findFloorCast.getFirstHit().mBody->getVelocity();
                 Ogre::Vector3 hitPos;
@@ -255,10 +300,20 @@ void PlayerController::submitConstraint( Ogre::Real timestep, int threadindex )
 
 
 
+            // look ahead for obstacles in along the horizontal of the desired velocity
+            Ogre::Vector3 horizontalDesiredVel = desiredVel;
+            horizontalDesiredVel.y = 0;
+
+
+
 
 
             // calculate force needed for desired velocity
-//            m_body->
+            Ogre::Vector3 force = m_body->calculateInverseDynamicsForce(timestep, horizontalDesiredVel);
+            Ogre::Vector3 forceAcc = m_body->getForceAcceleration();
+            force -= forceAcc;
+            force.y = 0;
+            m_body->addForce(force);
 
         }
     }

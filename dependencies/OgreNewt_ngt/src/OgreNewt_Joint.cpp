@@ -1,5 +1,7 @@
-#include <assert.h>
-#include <OgreNewt_Joint.h>
+/*  #include <assert.h>  why do we need this here? */
+#include "OgreNewt_Joint.h"
+#include "OgreNewt_Body.h"
+#include "OgreNewt_World.h"
 
 
 namespace OgreNewt

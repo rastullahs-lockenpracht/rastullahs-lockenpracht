@@ -16,11 +16,7 @@
 #ifndef _INCLUDE_OGRENEWT_BODY
 #define _INCLUDE_OGRENEWT_BODY
 
-
-#include <Ogre.h>
-#include <Newton.h>
-#include "OgreNewt_World.h"
-#include "OgreNewt_Collision.h"
+#include "OgreNewt_Prerequisites.h"
 #include "OgreNewt_MaterialID.h"
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
@@ -29,6 +25,10 @@
 // OgreNewt namespace.  all functions and classes use this namespace.
 namespace OgreNewt
 {
+
+class World;
+class MaterialID;
+class Collision;
 
 /*
 	CLASS DEFINITION:
@@ -370,6 +370,10 @@ public:
 	{
 		addBouyancyForce( fluidDensity, fluidLinearViscosity, fluidAngularViscosity, gravity, boost::bind(callback, instancedClassPointer, _1, _2, _3, _4, _5) );
 	}
+
+
+    //! use this function to iterate through all bodies
+    Body* getNext() const;
 
 
 

@@ -11,13 +11,16 @@
 #ifndef _INCLUDE_OGRENEWT_JOINT
 #define _INCLUDE_OGRENEWT_JOINT
 
-#include <Newton.h>
-#include "OgreNewt_World.h"
-#include "OgreNewt_Body.h"
+
+#include "OgreNewt_Prerequisites.h"
+
 
 // OgreNewt namespace.  all functions and classes use this namespace.
 namespace OgreNewt
 {
+
+class World;
+class Body;
 
 //! base class for all joints.
 /*!
@@ -158,6 +161,7 @@ protected:
 	const OgreNewt::Body* m_body0;
 	const OgreNewt::Body* m_body1;
 
+private:
 	//! newton callback.  used internally.
 	static void _CDECL newtonSubmitConstraint( const NewtonJoint* me, float timeStep, int threadIndex );
 	static void _CDECL newtonGetInfo( const NewtonJoint* me, NewtonJointRecord* info );

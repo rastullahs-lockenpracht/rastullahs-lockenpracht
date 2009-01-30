@@ -1,7 +1,5 @@
-#include <OgreNewt_World.h>
-#include <OgreNewt_Body.h>
-#include <OgreNewt_MaterialID.h>
-#include <OgreNewt_Tools.h>
+#include "OgreNewt_World.h"
+#include "OgreNewt_MaterialID.h"
 
 namespace OgreNewt
 {
@@ -79,6 +77,16 @@ void _CDECL World::newtonLeaveWorld( const NewtonBody* body, int threadIndex )
 		me->m_leaveCallback( b, threadIndex );
 	}
 }
+
+Body* World::getFirstBody()
+{
+    NewtonBody* body = NewtonWorldGetFirstBody( m_world );
+    if( body )
+        return (Body*) NewtonBodyGetUserData(body);
+
+    return NULL;
+}
+
 
 // -------------------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------------------

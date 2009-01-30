@@ -11,9 +11,7 @@
 #ifndef _INCLUDE_OGRENEWT_BASICJOINTS
 #define _INCLUDE_OGRENEWT_BASICJOINTS
 
-#include <Newton.h>
-#include "OgreNewt_World.h"
-#include "OgreNewt_Body.h"
+#include "OgreNewt_Prerequisites.h"
 #include "OgreNewt_Joint.h"
 
 // OgreNewt namespace.  all functions and classes use this namespace.
@@ -33,6 +31,11 @@ class _OgreNewtExport BallAndSocket : public Joint
 {
  
 public:
+	//! custom ballandsocket callback function.
+	/*!
+		 use the setCallback() function to assign your custom function to the joint.
+	 */
+	typedef void(*BallAndSocketCallback)( BallAndSocket* me, Ogre::Real timestep );
 
 	//! constructor
 	/*!
@@ -66,7 +69,16 @@ public:
 	*/
 	void setLimits( const Ogre::Vector3& pin, Ogre::Radian maxCone, Ogre::Radian maxTwist ) const { NewtonBallSetConeLimits( m_joint, &pin.x, (float)maxCone.valueRadians(), (float)maxTwist.valueRadians() ); }
 
+    //! set callback function
+    void setCallback(BallAndSocketCallback *callback) {m_callback = callback;}
 
+
+protected:
+    BallAndSocketCallback *m_callback;
+
+private:
+    static void _CDECL newtonBallCallback(const NewtonJoint* ball, float timestep);
+    
 };
 
 

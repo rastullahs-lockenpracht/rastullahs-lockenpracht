@@ -14,6 +14,7 @@
 #define __INCLUDE_OGRENEWT_PREREQ__
 
 #include <Ogre.h>
+#include <Newton.h>
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #   define _CDECL _cdecl

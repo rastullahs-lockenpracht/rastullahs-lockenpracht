@@ -1,5 +1,5 @@
-#include <OgreNewt_CollisionSerializer.h>
-#include <OgreNewt_Collision.h>
+#include "OgreNewt_CollisionSerializer.h"
+#include "OgreNewt_Collision.h"
 
 #include "Ogre.h"
 

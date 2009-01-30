@@ -10,10 +10,8 @@
 #ifndef _INCLUDE_OGRENEWT_WORLD
 #define _INCLUDE_OGRENEWT_WORLD
 
-#include <Newton.h>
-#include <Ogre.h>
+
 #include "OgreNewt_Prerequisites.h"
-#include "OgreNewt_MaterialID.h"
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 
@@ -25,8 +23,9 @@ namespace OgreNewt
 {
 
 
-class MaterialID;
 class Body;
+class MaterialID;
+
 
 //! represents a physics world.
 /*!
@@ -137,6 +136,9 @@ public:
 	*/
 	int getBodyCount() const { return NewtonWorldGetBodyCount( m_world ); }
 
+    //! get the number of constaints in the simulation
+    int getConstraintCount() const {return NewtonWorldGetConstraintCount( m_world ); }
+
 	//! multithread settings
 	void setMultithreadSolverOnSingleIsland( int mode ) { NewtonSetMultiThreadSolverOnSingleIsland( m_world, mode ); }
 
@@ -180,6 +182,15 @@ public:
 	{
 		setLeaveWorldCallback( boost::bind(callback, instancedClassPointer, _1, _2) );
 	}
+
+    //! to iterate through all bodies call this function and then use body->getNext()
+    Body* getFirstBody();
+
+    /*
+    //! to iterate through all material-pairs use this function and then call matPair->getNext()
+    MaterialGroupID* getFirstMaterialGroupID();
+    */
+
 
 
 protected:

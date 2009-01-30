@@ -1,4 +1,7 @@
 #include "OgreNewt_Debugger.h"
+#include "OgreNewt_World.h"
+#include "OgreNewt_Body.h"
+#include "OgreNewt_Collision.h"
 #include <sstream>
 
 namespace OgreNewt
@@ -36,7 +39,6 @@ void Debugger::init( Ogre::SceneManager* smgr )
     if( !m_debugnode )
     {
         m_debugnode = smgr->getRootSceneNode()->createChildSceneNode("__OgreNewt__Debugger__Node__");
-        //m_debuglines = new Ogre::ManualObject("__OgreNewt__Debugger__Lines__");
     }
 
     if( !m_raycastsnode )
@@ -78,8 +80,11 @@ void Debugger::showDebugInformation( OgreNewt::World* world )
     m_debugnode->removeAllChildren();
 
     // make the new lines.
-    for( const NewtonBody* body = NewtonWorldGetFirstBody(world->getNewtonWorld()); body; body = NewtonWorldGetNextBody(world->getNewtonWorld(), body) )
-        newtonPerBody(body);
+    for( Body* body = world->getFirstBody(); body; body = body->getNext() )
+    {
+        processBody(body);
+    }
+        
 
 
     // delete old entries
@@ -115,14 +120,12 @@ void Debugger::setDefaultColor(Ogre::ColourValue col)
     m_defaultcolor = col;
 }
 
-void _CDECL Debugger::newtonPerBody( const NewtonBody* body )
+void Debugger::processBody( OgreNewt::Body* bod )
 {
-    Debugger& debugger (Debugger::getSingleton());
-    MaterialIdColorMap::iterator it = 
-        debugger.m_materialcolors.find( NewtonBodyGetMaterialGroupID(body) );
+    NewtonBody* newtonBody = bod->getNewtonBody();
+    MaterialIdColorMap::iterator it = m_materialcolors.find( NewtonBodyGetMaterialGroupID(newtonBody) );
 
 
-    Body *bod = (OgreNewt::Body*)NewtonBodyGetUserData(body);
     Ogre::Vector3 pos;
     Ogre::Quaternion ori;
     bod->getPositionOrientation(pos, ori);
@@ -175,7 +178,7 @@ void _CDECL Debugger::newtonPerBody( const NewtonBody* body )
         else
         {
             std::ostringstream oss;
-            oss << "__OgreNewt__Debugger__Lines__" << body << "__";
+            oss << "__OgreNewt__Debugger__Lines__" << bod << "__";
             data->m_lines = new Ogre::ManualObject(oss.str());
         }
 
@@ -197,15 +200,15 @@ void _CDECL Debugger::newtonPerBody( const NewtonBody* body )
         data->m_lines->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_LINE_LIST );
 
         // set color
-        if( it != debugger.m_materialcolors.end() )
+        if( it != m_materialcolors.end() )
             data->m_lines->colour(it->second);
         else
-            data->m_lines->colour(debugger.m_defaultcolor);
+            data->m_lines->colour(m_defaultcolor);
 
         float matrix[16];
         Converters::QuatPosToMatrix(Ogre::Quaternion::IDENTITY, Ogre::Vector3::ZERO, &matrix[0]);
         
-        NewtonCollisionForEachPolygonDo( NewtonBodyGetCollision(body), &matrix[0], newtonPerPoly, data->m_lines );
+        NewtonCollisionForEachPolygonDo( NewtonBodyGetCollision(newtonBody), &matrix[0], newtonPerPoly, data->m_lines );
         
         data->m_lines->end();
         data->m_node->attachObject(data->m_lines);

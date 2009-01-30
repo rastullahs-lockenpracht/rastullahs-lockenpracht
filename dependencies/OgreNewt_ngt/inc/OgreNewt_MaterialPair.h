@@ -11,7 +11,8 @@
 #ifndef _INCLUDE_OGRENEWT_MATERIALPAIR
 #define _INCLUDE_OGRENEWT_MATERIALPAIR
 
-#include <Newton.h>
+
+#include "OgreNewt_Prerequisites.h"
 #include "OgreNewt_World.h"
 #include "OgreNewt_ContactCallback.h"
 #include "OgreNewt_MaterialID.h"
@@ -76,12 +77,18 @@ public:
 	void setContactCallback( OgreNewt::ContactCallback* callback );
 
 
-
 protected:
-
 	const MaterialID*	id0;
 	const MaterialID*	id1;
 	const World*		m_world;
+    OgreNewt::ContactCallback *m_contactcallback;
+
+private:
+	//! internal function.
+	static int _CDECL collisionCallback_onAABBOverlap( const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1, int threadIndex );
+	//! internal function.
+	static void _CDECL collisionCallback_contactsProcess(const NewtonJoint* contact, float timeStep, int threadIndex );
+
 
 };
 

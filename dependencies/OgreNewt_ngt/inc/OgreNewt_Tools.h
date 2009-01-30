@@ -12,15 +12,14 @@
 #define _INCLUDE_OGRENEWT_TOOLS
 
 
-#include <Ogre.h>
+#include "OgreNewt_Prerequisites.h"
 #include <OgreMovableObject.h>
 #include <OgreRenderable.h>
-#include <Newton.h>
-#include "OgreNewt_World.h"
-#include "OgreNewt_Collision.h"
 
 namespace OgreNewt
 {
+    class World;
+    class Collision;
 
 	//! set of handy convertors.
 	namespace Converters

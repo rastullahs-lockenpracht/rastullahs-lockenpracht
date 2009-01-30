@@ -13,15 +13,15 @@
 #define _INCLUDE_OGRENEWT_RAYCAST
 
 
-#include <Ogre.h>
-#include <Newton.h>
-#include "OgreNewt_World.h"
-#include "OgreNewt_Body.h"
-
+#include "OgreNewt_Prerequisites.h"
 
 // OgreNewt namespace.  all functions and classes use this namespace.
 namespace OgreNewt
 {
+
+class World;
+class Body;
+class Collision;
 
 //! general raycast
 /*!

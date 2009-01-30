@@ -11,8 +11,8 @@ by Walaber
 #ifndef _INCLUDE_OGRENEWT_COLLISIONSERIALIZER
 #define _INCLUDE_OGRENEWT_COLLISIONSERIALIZER
 
-#include <Newton.h>
-#include "OgreNewt_World.h"
+
+#include "OgreNewt_Prerequisites.h"
 #include "OgreSerializer.h"
 #include "OgreString.h"
 
@@ -46,6 +46,7 @@ namespace OgreNewt
     */
     void importCollision(Ogre::DataStreamPtr& stream, Collision* pDest);
 
+  private:
     /*!
     Callback function for Newton. It should never be called directly, but will be called by Newton to save the Collision to a stream.
     (Newton calls this function several times for each serialization, once for each chunk of its file format apparently)

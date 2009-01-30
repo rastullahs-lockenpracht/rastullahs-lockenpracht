@@ -1,7 +1,6 @@
-#include <Newton.h>
-#include <OgreNewt_BasicJoints.h>
-#include <OgreNewt_World.h>
-#include <OgreNewt_Body.h>
+#include "OgreNewt_BasicJoints.h"
+#include "OgreNewt_World.h"
+#include "OgreNewt_Body.h"
 
 namespace OgreNewt
 {
@@ -22,7 +21,8 @@ BallAndSocket::BallAndSocket( const World* world, const OgreNewt::Body* child, c
 	// all constructors inherited from Joint MUST call these 2 functions to make the joint function properly.
 	NewtonJointSetUserData( m_joint, this );
 	NewtonJointSetDestructor( m_joint, destructor );
-										
+
+    m_callback = NULL;
 }
 
 BallAndSocket::~BallAndSocket()
@@ -59,6 +59,13 @@ Ogre::Vector3 BallAndSocket::getJointForce() const
 	return ret;
 }
 
+
+void _CDECL BallAndSocket::newtonBallCallback(const NewtonJoint* ball, float timestep)
+{
+    BallAndSocket* me = (BallAndSocket*)NewtonJointGetUserData(ball);
+    if( me->m_callback != NULL )
+        ( *me->m_callback )(me, timestep);
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

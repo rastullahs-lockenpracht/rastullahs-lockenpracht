@@ -9,14 +9,11 @@
 
 */
 
-#ifndef _INCLUDE_OGRENEWT_BODYITERATOR
-#define _INCLUDE_OGRENEWT_BODYITERATOR
+#ifndef _INCLUDE_OGRENEWT_BODYINAABBITERATOR
+#define _INCLUDE_OGRENEWT_BODYINAABBITERATOR
 
-#include <Newton.h>
 
-#include "OgreNewt_World.h"
-#include "OgreNewt_Body.h"
-
+#include "OgreNewt_Prerequisites.h"
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 
@@ -24,12 +21,17 @@
 namespace OgreNewt
 {
 
+class World;
+class Body;
 
-//! Iterate through all bodies in the world.
+
+//! Iterate through all bodies in a specific AABB in the world.
 /*!
-	this class is an easy way to loop through all bodies in the world, performing some kind of action.
+	this class is an easy way to loop through all bodies in an AABB in the world, performing some kind of action.
+    if you want to iterate through all bodies, use the world->getFirstBody and body->getNext functions
+    warning: this class is not thread safe
 */
-class _OgreNewtExport BodyIterator
+class _OgreNewtExport BodyInAABBIterator
 {
 public:
 	//! function to be called for all bodies
@@ -50,15 +52,15 @@ public:
 		will call the provided function for all bodies in the world.
 		\param callback pointer to a function to be used
 	*/
-	void go( IteratorCallback callback )
+	void go( const Ogre::AxisAlignedBox &aabb, IteratorCallback callback )
 	{
 		m_callback = callback;
-                for( const NewtonBody* body = NewtonWorldGetFirstBody(m_world->getNewtonWorld()); body; NewtonWorldGetNextBody(m_world->getNewtonWorld(), body) )
-                    newtonIterator(body);
+        NewtonWorldForEachBodyInAABBDo(m_world, &aabb.getMinimum().x, &aabb.getMaximum().x, newtonIterator);
+        
 	}
-	template <class c> void go( boost::function<void(c*, Body*)> callback, c* instancedClassPointer )
+	template <class c> void go( const Ogre::AxisAlignedBox &aabb, boost::function<void(c*, Body*)> callback, c* instancedClassPointer )
 	{
-		go ( boost::bind(callback, instancedClassPointer, _1) );
+		go ( aabb, boost::bind(callback, instancedClassPointer, _1) );
 	}
 
 	//! get the singleton.
@@ -66,14 +68,14 @@ public:
 		The body iterator is a singleton class, only one instance should exist per application.  you can perform many different
 		kinds of iterations by using different callback functions.
 	*/
-	static BodyIterator& getSingleton()
+	static BodyInAABBIterator& getSingleton()
 	{
-		static BodyIterator instance;
+		static BodyInAABBIterator instance;
 		return instance;
 	}
 
 	//! destructor
-	~BodyIterator() {}
+	~BodyInAABBIterator() {}
 
 protected:
 
@@ -83,10 +85,9 @@ protected:
 		m_callback = NULL;
 	}
 
-	static void newtonIterator( const NewtonBody* body )
+	static void _CDECL newtonIterator( const NewtonBody* body )
 	{
 		OgreNewt::Body* bod = (OgreNewt::Body*)NewtonBodyGetUserData( body );
-
 		getSingleton().m_callback( bod );
 	}
 
@@ -98,5 +99,5 @@ protected:
 
 }	// end NAMESPACE OgreNewt
 
-#endif	// _INCLUDE_OGRENEWT_BODYITERATOR
+#endif	// _INCLUDE_OGRENEWT_BODYINAABBITERATOR
 

@@ -74,7 +74,7 @@ src/OgreNewt_Body.cpp
 src/OgreNewt_Collision.cpp
 src/OgreNewt_CollisionPrimitives.cpp
 src/OgreNewt_CollisionSerializer.cpp
-src/OgreNewt_ContactCallback.cpp
+src/OgreNewt_ContactJoint.cpp
 src/OgreNewt_Debugger.cpp
 src/OgreNewt_Joint.cpp
 src/OgreNewt_MaterialID.cpp
@@ -102,12 +102,13 @@ INSTALL(TARGETS OgreNewt
         ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 
 INSTALL(FILES inc/OgreNewt_BasicJoints.h
-inc/OgreNewt_Body.h inc/OgreNewt_BodyIterator.h inc/OgreNewt_Collision.h
+inc/OgreNewt_Body.h inc/OgreNewt_Collision.h
 inc/OgreNewt_CollisionPrimitives.h inc/OgreNewt_CollisionSerializer.h
 inc/OgreNewt_ContactCallback.h inc/OgreNewt_Debugger.h inc/OgreNewt.h
 inc/OgreNewt_Joint.h inc/OgreNewt_MaterialID.h inc/OgreNewt_MaterialPair.h
 inc/OgreNewt_Prerequisites.h inc/OgreNewt_RayCast.h inc/OgreNewt_Tools.h
 inc/OgreNewt_Vehicle.h inc/OgreNewt_World.h inc/OgreNewt_PlayerController.h
+inc/OgreNewt_ContactJoint.h inc/OgreNewt_BodyInAABBIterator.h
 DESTINATION ${CMAKE_INSTALL_PREFIX}/include/OgreNewt)
 
 IF(NOT WIN32)

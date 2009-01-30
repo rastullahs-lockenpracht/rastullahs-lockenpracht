@@ -11,13 +11,14 @@
 #ifndef _INCLUDE_OGRENEWT_VEHICLE
 #define _INCLUDE_OGRENEWT_VEHICLE
 
-#include <Newton.h>
-#include "OgreNewt_Body.h"
+
+#include "OgreNewt_Prerequisites.h"
 #include "OgreNewt_Joint.h"
-#include "OgreNewt_World.h"
 
 namespace OgreNewt
 {
+    class Body;
+    class World;
 #ifdef INCLUDE_VEHICLE
 //! Represents a wheeled vehicle
 /*!

@@ -20,9 +20,10 @@
 		NOTE: update_framerate must be a value between [60,600]
 */
 
-#pragma once
-#include <Ogre.h>
-#include <OgreNewt_World.h>
+#ifndef _INCLUDE_OGRENEWT_BASICFRAMELISTENER
+#define _INCLUDE_OGRENEWT_BASICFRAMELISTENER
+
+#include "OgreNewt_Prerequisites.h"
 
 // using OIS (an Ogre 1.4.x dependency) for input.
 #define OIS_DYNAMIC_LIB
@@ -30,6 +31,8 @@
 
 namespace OgreNewt
 {
+
+class World;
 
 
 //! simple frame listener to update the physics.
@@ -62,3 +65,6 @@ private:
 
 
 }	// end NAMESPACE OgreNewt
+
+#endif /* _INCLUDE_OGRENEWT_BASICFRAMELISTENER */
+

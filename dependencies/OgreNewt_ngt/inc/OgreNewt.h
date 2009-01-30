@@ -24,17 +24,20 @@
 #include "OgreNewt_Collision.h"
 #include "OgreNewt_Body.h"
 #include "OgreNewt_CollisionPrimitives.h"
+#include "OgreNewt_CollisionSerializer.h"
 #include "OgreNewt_MaterialID.h"
 #include "OgreNewt_MaterialPair.h"
 #include "OgreNewt_ContactCallback.h"
+#include "OgreNewt_ContactJoint.h"
 #include "OgreNewt_Vehicle.h"
+#include "OgreNewt_PlayerController.h"
 #include "OgreNewt_RayCast.h"
 
 #include "OgreNewt_Joint.h"
 #include "OgreNewt_BasicJoints.h"
 
 #include "OgreNewt_Tools.h"
-#include "OgreNewt_BodyIterator.h"
+#include "OgreNewt_BodyInAABBIterator.h"
 #include "OgreNewt_Debugger.h"
 
 #include "OgreNewt_BasicFrameListener.h"

@@ -1,5 +1,5 @@
-#include <OgreNewt_MaterialID.h>
-#include <OgreNewt_World.h>
+#include "OgreNewt_MaterialID.h"
+#include "OgreNewt_World.h"
 
 namespace OgreNewt
 {
