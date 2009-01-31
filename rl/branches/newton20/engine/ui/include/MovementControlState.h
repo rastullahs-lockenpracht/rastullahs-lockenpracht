@@ -60,7 +60,8 @@ namespace rl {
 
         /// This is the OgreNewt contact process callback for the combination
         /// Character <-> Level
-        int userProcess(Ogre::Real timestep, int threadid);
+        int onAABBOverlap( OgreNewt::Body* body0, OgreNewt::Body* body1, int threadIndex );
+        void userProcess(OgreNewt::ContactJoint &contactJoint, Ogre::Real timestep, int threadid);
 
         /// Newton force and torque callback
         void OnApplyForceAndTorque(PhysicalThing* thing, float timestep);

@@ -73,7 +73,7 @@ namespace rl {
 
         // camera collision: OgreNewt::ContactCallback overides
         int onAABBOverlap(int threadIndex);
-        int userProcess(Ogre::Real timestep, int threadIndex);
+        void userProcess(OgreNewt::ContactJoint &contactJoint, Ogre::Real timestep, int threadIndex);
 
         // camera movement: Newton force and torque callback
         void OnApplyForceAndTorque(PhysicalThing *pt, float timstep);

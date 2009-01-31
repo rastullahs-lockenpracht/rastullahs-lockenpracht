@@ -31,21 +31,20 @@ namespace rl {
     class _RlCoreExport PhysicsGenericContactCallback : public OgreNewt::ContactCallback
     {
     public:
-        //! this function must not be overwritten!
-        int contactProcess( Ogre::Real timeStep, int threadid );
-
         /*!
          * this function is called, when the aabbs of two bodies overlap, return 0 to indicate, that no contact calculation
          * should be initiated.
          * ATTENTION: if 0 is returned, the contact-listeners cannot be called!
         */
-        int onAABBOverlap(int threadindex);
+        int onAABBOverlap(int threadindex) { return 1; }
 
         /*!
          * process user defined contact forces (etc) here
         */
-        virtual int userProcess( Ogre::Real timeStep, int threadid);
-    private:
+        virtual void userProcess( OgreNewt::ContactJoint &contactJoint, Ogre::Real timeStep, int threadid) {}
+
+        //! this function must not be overwritten!
+        void contactsProcess( OgreNewt::ContactJoint &contactJoint, Ogre::Real timeStep, int threadid );
     };
 }
 

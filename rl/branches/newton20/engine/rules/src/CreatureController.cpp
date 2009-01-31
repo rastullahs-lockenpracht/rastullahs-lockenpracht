@@ -391,13 +391,15 @@ namespace rl
         body->setTorque(torque);
     }
 
-    int CreatureController::userProcess(Real timestep, int threadid)
+    void CreatureController::userProcess(OgreNewt::ContactJoint &contactJoint, Real timestep, int threadid)
     {
+for(OgreNewt::Contact contact = contactJoint.getFirstContact(); contact; contact = contact.getNext() )
+{
 
         // own collision handling (floor, in order to get information for mAbstractLocation)
         Vector3 point;
         Vector3 normal;
-        getContactPositionAndNormal(point, normal);
+        contact.getPositionAndNormal(point, normal);
 
         // determine if this contact is with the floor.
         // Meaning the contact normal has an angle to UNIT_Y of 20 or less.
@@ -446,9 +448,9 @@ namespace rl
 //oss << "  \t Tangent-Directions: " << vec1 << " " << vec2;
 //LOG_MESSAGE(Logger::RULES, oss.str());
 
-        rotateTangentDirections(/*charOri*mDirection + */Vector3::UNIT_Y);
-        setContactFrictionState(1,0);
-        setContactFrictionState(0,1);
+        contact.rotateTangentDirections(/*charOri*mDirection + */Vector3::UNIT_Y);
+        contact.setFrictionState(1,0);
+        contact.setFrictionState(0,1);
 
         if( stepHeight < 0.4 )
         {
@@ -457,7 +459,7 @@ namespace rl
                                    // too high means the creature stops if moving slowly onto a step because of the friction
             {
                 //setContactNormalAcceleration(5);
-                setContactTangentAcceleration(5,0);
+                contact.setTangentAcceleration(5,0);
                 //setContactFrictionState(1,0);
                 //setContactFrictionState(1,1);
             }
@@ -483,20 +485,13 @@ namespace rl
                 //setContactFrictionState(0,1);
             }
         }
+}
 
         if(mMovement != NULL)
         {
-            // @XXX Evil code!
-            // Protected members from type OgreNewt::ContactCallback have to be overridden in order
-            // for the movements to work. This is because these members are used by OgreNewt functions
-            // for processing this contact. Should probably be solved in OgreNewt directly.
-            PhysicsGenericContactCallback *movement = mMovement;
-            *movement = (PhysicsGenericContactCallback)(*this);
-            return movement->userProcess(timestep, threadid);
+            // give the movement a chance to modify the contact
+            mMovement->userProcess(contactJoint, timestep, threadid);
         }
-
-        // return one to tell Newton we want to accept this contact
-        return 1;
     }
 
     AbstractMovement *CreatureController::getMovementFromId(CreatureController::MovementType id)

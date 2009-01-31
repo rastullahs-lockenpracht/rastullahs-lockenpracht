@@ -131,8 +131,7 @@ public:
 
 
     /// newton collision callback functions
-    //int onAABBOverlap(int threadid);
-    int userProcess(Ogre::Real timestep, int threadid);
+    void userProcess(OgreNewt::ContactJoint &contactJoint, Ogre::Real timestep, int threadid);
 
     /// notify about newton world update
     void notifyNewtonWorldUpdate();

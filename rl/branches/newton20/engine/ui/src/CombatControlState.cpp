@@ -520,10 +520,9 @@ namespace rl {
         return 0;
     }
    
-    int CombatControlState::userProcess(Ogre::Real timestep, int threadIndex)
+    void CombatControlState::userProcess(OgreNewt::ContactJoint &contactJoint, Ogre::Real timestep, int threadIndex)
     {
         // TODO handle camera collisions here
-        return 0;
     }
 
     Ogre::String CombatControlState::getCombatantTypeName() const

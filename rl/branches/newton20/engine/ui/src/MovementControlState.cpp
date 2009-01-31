@@ -249,21 +249,24 @@ namespace rl {
         mat_pair->setContactCallback(this);
         mat_pair->setDefaultCollidable(1);
         mat_pair->setDefaultFriction(0,0);
-        mat_pair->setDefaultFriction(0,1);
+        mat_pair->setDefaultSoftness(0.8f);
+        mat_pair->setDefaultElasticity(0.4f);
         mat_pair = PhysicsManager::getSingleton().createMaterialPair(
             PhysicsManager::getSingleton().getMaterialID("camera"),
             PhysicsManager::getSingleton().getMaterialID("level"));
         mat_pair->setContactCallback(this);
         mat_pair->setDefaultCollidable(1);
         mat_pair->setDefaultFriction(0,0);
-        mat_pair->setDefaultFriction(0,1);
+        mat_pair->setDefaultSoftness(0.8f);
+        mat_pair->setDefaultElasticity(0.4f);
         mat_pair = PhysicsManager::getSingleton().createMaterialPair(
             PhysicsManager::getSingleton().getMaterialID("camera"),
             PhysicsManager::getSingleton().getMaterialID("character"));
         mat_pair->setContactCallback(this);
         mat_pair->setDefaultCollidable(1);
         mat_pair->setDefaultFriction(0,0);
-        mat_pair->setDefaultFriction(0,1);
+        mat_pair->setDefaultSoftness(0.8f);
+        mat_pair->setDefaultElasticity(0.4f);
 
         mCharacterState.mCurrentMovementState = MOVE_NONE;
 
@@ -688,25 +691,25 @@ namespace rl {
         mCameraActor->setOrientation(cameraNode->getOrientation());
     }
 
-    // -------------------------------------------------------------
-    // character collision moved to CreatureController(Manager)
-    int MovementControlState::userProcess(Real timestep, int)
+
+    int MovementControlState::onAABBOverlap( OgreNewt::Body* body0, OgreNewt::Body* body1, int threadIndex )
     {
         if( mViewMode == VM_FIRST_PERSON )
             return 0;
 
         // test if this is cam-player-collide
-        if( ( m_body0 == mCamBody && m_body1 == mCharacterActor->getPhysicalThing()->_getBody() ) ||
-            ( m_body1 == mCamBody && m_body0 == mCharacterActor->getPhysicalThing()->_getBody() ) )
+        if( ( body0 == mCamBody && body1 == mCharacterActor->getPhysicalThing()->_getBody() ) ||
+            ( body1 == mCamBody && body0 == mCharacterActor->getPhysicalThing()->_getBody() ) )
         {
             return 0;
         }
 
-        setContactSoftness(0.8f);
-        setContactElasticity(0.4f);
-        mLastCameraCollision = 0;
-
         return 1;
+    }
+
+    void MovementControlState::userProcess(OgreNewt::ContactJoint &contactJoint, Real timestep, int)
+    {
+        mLastCameraCollision = 0;
     }
 
     //------------------------------------------------------------------------

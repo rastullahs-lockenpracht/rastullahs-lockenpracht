@@ -20,7 +20,6 @@
 
 #include "RulesPrerequisites.h"
 #include "PhysicsController.h"
-#include "PhysicsGenericContactCallback.h"
 #include "PhysicsMaterialRaycast.h"
 #include "Creature.h"
 #include "Actor.h"
@@ -40,8 +39,7 @@ namespace rl
      * It handles all nessessary things like animations and calculates the movement speed.
      */
     class _RlRulesExport CreatureController :
-        public PhysicsController,
-        public PhysicsGenericContactCallback
+        public PhysicsController
     {
     public:
         static const Ogre::String PROPERTY_CREATUREID;
@@ -55,7 +53,7 @@ namespace rl
         void OnApplyForceAndTorque(PhysicalThing* thing, float timestep);
 
         /// Newton contact callback called by the movingCreatureManager
-        int userProcess(Ogre::Real timestep, int threadid);
+        void userProcess(OgreNewt::ContactJoint &contactJoint, Ogre::Real timestep, int threadid);
 
         Creature* getCreature() {return mCreature;}
         bool refetchCreature();

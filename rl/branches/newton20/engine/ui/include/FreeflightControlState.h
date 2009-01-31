@@ -20,12 +20,12 @@
 #include "UiPrerequisites.h"
 #include "ControlState.h"
 #include "PhysicsController.h"
-#include "PhysicsGenericContactCallback.h"
 
 #ifdef __APPLE__
 #   include <OgreNewt/OgreNewt.h>
 #else
 #   include <OgreNewt.h>
+#   include <OgreNewt_PlayerController.h>
 #endif
 
 namespace rl {
@@ -35,8 +35,7 @@ namespace rl {
 	*/
 	class _RlUiExport FreeflightControlState : 
         public ControlState,
-        public PhysicsController,
-        public PhysicsGenericContactCallback
+        public PhysicsController
 	{
 	public:
 		/**
@@ -57,10 +56,6 @@ namespace rl {
 	    void toggleCameraCollision();
 	    void resetCamera();
 
-        /// This is the OgreNewt contact process callback for the combination
-        /// Character <-> Level
-        int userProcess(Ogre::Real timestep, int threadid);
-
         /// Newton force and torque callback
         void OnApplyForceAndTorque(PhysicalThing* thing, float timestep);
 
@@ -78,6 +73,8 @@ namespace rl {
         Ogre::Real mMouseSensitivity;
         bool mInvertedMouse;
         std::pair<Ogre::Degree, Ogre::Degree> mPitchRange;
+
+        OgreNewt::PlayerController *mOgreNewtPlayerController;
 	};
 }
 #endif

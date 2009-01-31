@@ -164,27 +164,34 @@ namespace rl
         }
     }
 
-    int CreatureControllerManager::userProcess(Real timestep, int threadid)
+    void CreatureControllerManager::userProcess(OgreNewt::ContactJoint &contactJoint, Real timestep, int threadid)
     {
-        Actor *actor = static_cast<Actor*>(m_body0->getUserData());
+        Actor *actor = static_cast<Actor*>(contactJoint.getBody0()->getUserData());
         if( actor != NULL )
         {
             ControllerMap::const_iterator it = mControllers.find(static_cast<Creature*>(actor->getGameObject()));
             if (it != mControllers.end())
             {
-                // @XXX Evil code!
-                // Protected members from type OgreNewt::ContactCallback have to be overridden in order
-                // for the controllers to work. This is because these members are used by OgreNewt functions
-                // for processing this contact. Should probably be solved in OgreNewt directly.
-                PhysicsGenericContactCallback* controller = it->second;
-               *controller = (PhysicsGenericContactCallback)(*this);
-                return controller->userProcess(timestep, threadid);
+                it->second->userProcess(contactJoint, timestep, threadid);
+                return;
             }
         }
 
+        // if the controlled body is the second body...
+        actor = static_cast<Actor*>(contactJoint.getBody1()->getUserData());
+        if( actor != NULL )
+        {
+            ControllerMap::const_iterator it = mControllers.find(static_cast<Creature*>(actor->getGameObject()));
+            if (it != mControllers.end())
+            {
+                it->second->userProcess(contactJoint, timestep, threadid);
+                return;
+            }
+        }
+
+
         LOG_ERROR(Logger::RULES,
             "Der Kollisionskörper konnte keinem CreatureController zugeordnet werden.");
-        return 1;
     }
 
     const Ogre::String& CreatureControllerManager::getName() const

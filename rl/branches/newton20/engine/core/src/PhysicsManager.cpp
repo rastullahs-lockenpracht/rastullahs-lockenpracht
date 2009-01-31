@@ -500,7 +500,15 @@ namespace rl
     void PhysicsManager::resetMaterialPair(const OgreNewt::MaterialID* M1,
             const OgreNewt::MaterialID* M2)
     {
-        getMaterialPair(M1,M2)->setContactCallback(mGenericCallback);
+        OgreNewt::MaterialPair *mat_pair = getMaterialPair(M1,M2);
+        mat_pair->setContactCallback(mGenericCallback);
+        mat_pair->setContinuousCollisionMode(0);
+        mat_pair->setDefaultCollidable(1);
+        mat_pair->setDefaultElasticity(0.4f);
+        mat_pair->setDefaultSoftness(0.1f);
+        mat_pair->setDefaultFriction(0.9f, 0.5f);
+        //! TODO find a good value here, until now I hope nobody is changing the default from newton :-P
+        //mat_pair->setDefaultSurfaceThickness(); 
     }
 
     OgreNewt::CollisionPtr PhysicsManager::createCollision(
