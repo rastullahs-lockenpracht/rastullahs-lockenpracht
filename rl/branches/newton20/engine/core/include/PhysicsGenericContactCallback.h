@@ -36,7 +36,7 @@ namespace rl {
          * should be initiated.
          * ATTENTION: if 0 is returned, the contact-listeners cannot be called!
         */
-        int onAABBOverlap(int threadindex) { return 1; }
+        virtual int onAABBOverlap( OgreNewt::Body* body0, OgreNewt::Body* body1,  int threadindex) { return 1; }
 
         /*!
          * process user defined contact forces (etc) here

@@ -514,7 +514,7 @@ namespace rl {
         mCameraFocusedCombatant = combatant;
     }
 
-    int CombatControlState::onAABBOverlap(int threadIndex)
+    int CombatControlState::onAABBOverlap(OgreNewt::Body* body0, OgreNewt::Body* body1, int threadIndex)
     {
         // TODO handle camera collisions here
         return 0;

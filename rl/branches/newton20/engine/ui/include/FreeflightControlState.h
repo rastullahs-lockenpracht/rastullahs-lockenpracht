@@ -20,6 +20,7 @@
 #include "UiPrerequisites.h"
 #include "ControlState.h"
 #include "PhysicsController.h"
+#include "PhysicsGenericContactCallback.h"
 
 #ifdef __APPLE__
 #   include <OgreNewt/OgreNewt.h>
@@ -35,7 +36,8 @@ namespace rl {
 	*/
 	class _RlUiExport FreeflightControlState : 
         public ControlState,
-        public PhysicsController
+        public PhysicsController,
+        public PhysicsGenericContactCallback
 	{
 	public:
 		/**
@@ -56,6 +58,8 @@ namespace rl {
 	    void toggleCameraCollision();
 	    void resetCamera();
 
+        /// Newton contacts callback
+        int onAABBOverlap( OgreNewt::Body* body0, OgreNewt::Body* body1, int threadIndex );
         /// Newton force and torque callback
         void OnApplyForceAndTorque(PhysicalThing* thing, float timestep);
 

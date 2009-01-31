@@ -102,6 +102,8 @@ namespace rl {
         mat_pair->setContinuousCollisionMode(1);
         mat_pair->setDefaultSoftness(1.0f);
         mat_pair->setDefaultCollidable(1);
+        mat_pair->setDefaultFriction(0,0);
+        mat_pair->setContactCallback(this);
         mat_pair = PhysicsManager::getSingleton().createMaterialPair(
                     PhysicsManager::getSingleton().getMaterialID("camera"),
                     PhysicsManager::getSingleton().getMaterialID("level"));
@@ -109,6 +111,8 @@ namespace rl {
         mat_pair->setContinuousCollisionMode(1);
         mat_pair->setDefaultSoftness(1.0f);
         mat_pair->setDefaultCollidable(1);
+        mat_pair->setDefaultFriction(0,0);
+        mat_pair->setContactCallback(this);
         mat_pair = PhysicsManager::getSingleton().createMaterialPair(
                     PhysicsManager::getSingleton().getMaterialID("camera"),
                     PhysicsManager::getSingleton().getMaterialID("character"));
@@ -116,6 +120,8 @@ namespace rl {
         mat_pair->setContinuousCollisionMode(1);
         mat_pair->setDefaultSoftness(1.0f);
         mat_pair->setDefaultCollidable(1);
+        mat_pair->setDefaultFriction(0,0);
+        mat_pair->setContactCallback(this);
     }
 
 	void FreeflightControlState::run(Real elapsedTime)
@@ -209,12 +215,16 @@ namespace rl {
 
 if( mCollisionsEnabled )
     mOgreNewtPlayerController->setVelocity(mDesiredVelocity.z, mDesiredVelocity.x, mYaw);
-else
-{
+
         mCameraActor->setOrientation(Quaternion::IDENTITY);
         mCameraActor->yaw(mYaw.valueDegrees());
         mCameraActor->pitch(mPitch.valueDegrees());
-}
+    }
+
+    
+    int FreeflightControlState::onAABBOverlap( OgreNewt::Body* body0, OgreNewt::Body* body1, int threadIndex )
+    {
+        return mCollisionsEnabled;
     }
 
 	void FreeflightControlState::toggleCameraCollision()
@@ -222,11 +232,6 @@ else
 		// with or without collision?
         // be careful to enable collision if beeing in another collision
         mCollisionsEnabled = !mCollisionsEnabled;
-
-        const OgreNewt::ConvexCollision *camCol = dynamic_cast<const OgreNewt::ConvexCollision *>( mCamBody->getCollision() );
-
-        // simple way to ignore camera-collision!
-        const_cast<OgreNewt::ConvexCollision*>(camCol)->setAsTriggerVolume( !mCollisionsEnabled );
 	}
 
 	void FreeflightControlState::resetCamera()
@@ -328,7 +333,8 @@ else
             Vector3 currentVel = body->getVelocity();
             Real delay = 2 * PhysicsManager::getSingleton().getMaxTimestep();
             Vector3 force = mass*(orientation * mDesiredVelocity - currentVel) / delay;
-if( !mCollisionsEnabled )
+if( mCollisionsEnabled )
+    force = mass*(- currentVel) / delay;
             body->setForce(force);
         }
     }
