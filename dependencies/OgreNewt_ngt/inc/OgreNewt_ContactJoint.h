@@ -19,7 +19,6 @@
 namespace OgreNewt
 {
 
-class ContactJoint;
 class Contact;
 class MaterialPair;
 
@@ -87,7 +86,7 @@ public:
 	~Contact();
 
     //! return true, if this is not a valid contact (end of the contact-list!)
-    bool operator! () const { return m_contact != NULL; }
+    operator bool() const { return m_contact != NULL; }
 
     //! get the next contact from the parent contact-joint
     Contact getNext() const;
@@ -99,52 +98,52 @@ public:
     OgreNewt::Body* getBody1() const { return (OgreNewt::Body*) NewtonBodyGetUserData( NewtonJointGetBody1( m_parent->_getNewtonContactJoint() ) ); }
 
 	//! get the face ID of a TreeCollision object
-	unsigned getContactFaceAttribute() const { return NewtonMaterialGetContactFaceAttribute( m_material ); }
+	unsigned getFaceAttribute() const { return NewtonMaterialGetContactFaceAttribute( m_material ); }
 
 	//! get the Collision ID of a body currently colliding
 	unsigned getBodyCollisionID( OgreNewt::Body* body ) const { return NewtonMaterialGetBodyCollisionID( m_material, body->getNewtonBody() ); }
 
 	//! speed of the collision
-	Ogre::Real getContactNormalSpeed() const { return (Ogre::Real)NewtonMaterialGetContactNormalSpeed( m_material ); }
+	Ogre::Real getNormalSpeed() const { return (Ogre::Real)NewtonMaterialGetContactNormalSpeed( m_material ); }
 
 	//! force of the collision
 	/*!
 		only valid for objects in a stable state (sitting on top of each other, etc)
 	*/
-	Ogre::Vector3 getContactForce() const;
+	Ogre::Vector3 getForce() const;
 
 	//! get positoin and normal of the collision
-	void getContactPositionAndNormal( Ogre::Vector3& pos, Ogre::Vector3& norm ) const { NewtonMaterialGetContactPositionAndNormal(m_material, &pos.x, &norm.x); }
+	void getPositionAndNormal( Ogre::Vector3& pos, Ogre::Vector3& norm ) const { NewtonMaterialGetContactPositionAndNormal(m_material, &pos.x, &norm.x); }
 
 	//! get the tangent vectors of the collision
-	void getContactTangentDirections( Ogre::Vector3& dir0, Ogre::Vector3& dir1 ) const { NewtonMaterialGetContactTangentDirections(m_material, &dir0.x, &dir1.x); }
+	void getTangentDirections( Ogre::Vector3& dir0, Ogre::Vector3& dir1 ) const { NewtonMaterialGetContactTangentDirections(m_material, &dir0.x, &dir1.x); }
 
 	//! get tangent speed of the collision
-	Ogre::Real getContactTangentSpeed( int index ) const { return (Ogre::Real)NewtonMaterialGetContactTangentSpeed( m_material, index ); }
+	Ogre::Real getTangentSpeed( int index ) const { return (Ogre::Real)NewtonMaterialGetContactTangentSpeed( m_material, index ); }
 
 	//! set softness of the current contact
-	void setContactSoftness( Ogre::Real softness ) { NewtonMaterialSetContactSoftness( m_material, (float)softness ); }
+	void setSoftness( Ogre::Real softness ) { NewtonMaterialSetContactSoftness( m_material, (float)softness ); }
 
 	//! set elasticity of the current contact
-	void setContactElasticity( Ogre::Real elasticity ) { NewtonMaterialSetContactElasticity( m_material, (float)elasticity ); }
+	void setElasticity( Ogre::Real elasticity ) { NewtonMaterialSetContactElasticity( m_material, (float)elasticity ); }
 
 	//! set friction state of current contact
-	void setContactFrictionState( int state, int index ) { NewtonMaterialSetContactFrictionState( m_material, state, index ); }
+	void setFrictionState( int state, int index ) { NewtonMaterialSetContactFrictionState( m_material, state, index ); }
 
 	//! set static friction for current contact
-	void setContactFrictionCoef( Ogre::Real stat, Ogre::Real kinetic, int index ) { NewtonMaterialSetContactFrictionCoef( m_material, (float)stat, (float)kinetic, index ); }
+	void setFrictionCoef( Ogre::Real stat, Ogre::Real kinetic, int index ) { NewtonMaterialSetContactFrictionCoef( m_material, (float)stat, (float)kinetic, index ); }
 
 	//! set tangent acceleration for contact
-	void setContactTangentAcceleration( Ogre::Real accel, int index ) { NewtonMaterialSetContactTangentAcceleration( m_material, (float)accel, index ); }
+	void setTangentAcceleration( Ogre::Real accel, int index ) { NewtonMaterialSetContactTangentAcceleration( m_material, (float)accel, index ); }
 
 	//! align tangent vectors with a user supplied direction
 	void rotateTangentDirections( const Ogre::Vector3& dir ) { NewtonMaterialContactRotateTangentDirections( m_material, &dir.x ); }
 
 	//! manually set the normal for the collision.
-	void setContactNormalDirection( const Ogre::Vector3& dir ) { NewtonMaterialSetContactNormalDirection( m_material, &dir.x ); }
+	void setNormalDirection( const Ogre::Vector3& dir ) { NewtonMaterialSetContactNormalDirection( m_material, &dir.x ); }
 
 	//! manually set the acceleration along the collision normal.
-	void setContactNormalAcceleration( Ogre::Real accel ) { NewtonMaterialSetContactNormalAcceleration( m_material, accel ); }
+	void setNormalAcceleration( Ogre::Real accel ) { NewtonMaterialSetContactNormalAcceleration( m_material, accel ); }
 
     //! removes the contact from the parent contact-joint, this means newton doesn't process this contact
     /*!

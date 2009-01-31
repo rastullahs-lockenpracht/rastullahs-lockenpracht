@@ -55,7 +55,7 @@ public:
 	void go( const Ogre::AxisAlignedBox &aabb, IteratorCallback callback )
 	{
 		m_callback = callback;
-        NewtonWorldForEachBodyInAABBDo(m_world, &aabb.getMinimum().x, &aabb.getMaximum().x, newtonIterator);
+        NewtonWorldForEachBodyInAABBDo(m_world->getNewtonWorld(), &aabb.getMinimum().x, &aabb.getMaximum().x, newtonIterator);
         
 	}
 	template <class c> void go( const Ogre::AxisAlignedBox &aabb, boost::function<void(c*, Body*)> callback, c* instancedClassPointer )
@@ -79,7 +79,7 @@ public:
 
 protected:
 
-	BodyIterator()
+	BodyInAABBIterator()
 	{
 		m_world = NULL;
 		m_callback = NULL;

@@ -74,6 +74,7 @@ src/OgreNewt_Body.cpp
 src/OgreNewt_Collision.cpp
 src/OgreNewt_CollisionPrimitives.cpp
 src/OgreNewt_CollisionSerializer.cpp
+src/OgreNewt_ContactCallback.cpp
 src/OgreNewt_ContactJoint.cpp
 src/OgreNewt_Debugger.cpp
 src/OgreNewt_Joint.cpp
@@ -109,6 +110,7 @@ inc/OgreNewt_Joint.h inc/OgreNewt_MaterialID.h inc/OgreNewt_MaterialPair.h
 inc/OgreNewt_Prerequisites.h inc/OgreNewt_RayCast.h inc/OgreNewt_Tools.h
 inc/OgreNewt_Vehicle.h inc/OgreNewt_World.h inc/OgreNewt_PlayerController.h
 inc/OgreNewt_ContactJoint.h inc/OgreNewt_BodyInAABBIterator.h
+inc/OgreNewt_BasicFrameListener.h
 DESTINATION ${CMAKE_INSTALL_PREFIX}/include/OgreNewt)
 
 IF(NOT WIN32)

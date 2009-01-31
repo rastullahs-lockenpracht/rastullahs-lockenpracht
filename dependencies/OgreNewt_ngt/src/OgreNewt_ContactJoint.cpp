@@ -46,13 +46,17 @@ Contact::Contact(void* contact, ContactJoint* parent)
     }
 }
 
+Contact::~Contact()
+{
+}
+
 Contact Contact::getNext() const
 {
     Contact contact( NewtonContactJointGetNextContact(m_parent->_getNewtonContactJoint(), m_contact), m_parent);
     return contact;
 }
 
-Ogre::Vector3 Contact::getContactForce() const 
+Ogre::Vector3 Contact::getForce() const 
 {
 	Ogre::Vector3 force;
 	NewtonMaterialGetContactForce( m_material, &force.x );
@@ -69,3 +73,4 @@ void Contact::remove()
 
 
 }
+
