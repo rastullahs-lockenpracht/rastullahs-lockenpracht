@@ -44,6 +44,13 @@ namespace OgreNewt
 		public:
 			//! constructor
 			/*!
+				Create a 'blank' box collision object.  Can be used for CollisionSerializer::importCollision
+				\param world pointer to the OgreNewt::World
+			*/
+			Box(const World* world);
+
+			//! constructor
+			/*!
 				\param world pointer to OgreNewt::World
 				\param size vector representing width, height, depth
 				\param orient orientation offset of the primitive
@@ -60,6 +67,13 @@ namespace OgreNewt
 		class _OgreNewtExport Ellipsoid : public OgreNewt::ConvexCollision
 		{
 		public:
+			//! constructor
+			/*!
+				Create a 'blank' ellipsoid collision object. Can be used for CollisionSerializer::importCollision
+				\param world pointer to the OgreNewt::World
+			*/
+			Ellipsoid(const World* world);
+
 			//! constructor
 			/*!
 				for a sphere, pass the same radius for all 3 axis.
@@ -79,6 +93,13 @@ namespace OgreNewt
 		class _OgreNewtExport Cylinder : public OgreNewt::ConvexCollision
 		{
 		public:
+			//! constructor
+			/*!
+				Create a 'blank' cylinder collision object. Can be used for CollisionSerializer::importCollision
+				\param world pointer to the OgreNewt::World
+			*/
+			Cylinder(const World* world);
+
 			//! constructor
 			/*!
 				default aligned along the local X axis (x=height).
@@ -101,6 +122,13 @@ namespace OgreNewt
 		public:
 			//! constructor
 			/*!
+				Create a 'blank' capsule collision object. Can be used for CollisionSerializer::importCollision
+				\param world pointer to the OgreNewt::World
+			*/
+			Capsule(const World* world);
+
+			//! constructor
+			/*!
 				default aligned along the local X axis (x=height).
 				\param world pointer to OgreNewt::World
 				\param radius radius of the capsule (Y and Z axis)
@@ -121,6 +149,13 @@ namespace OgreNewt
 		public:
 			//! constructor
 			/*!
+				Create a 'blank' cone collision object. Can be used for CollisionSerializer::importCollision
+				\param world pointer to the OgreNewt::World
+			*/
+			Cone(const World* world);
+
+			//! constructor
+			/*!
 				default aligned along the local X axis (x=height).
 				\param world pointer to OgreNewt::World
 				\param radius radius of the cone (Y and Z axis)
@@ -139,6 +174,13 @@ namespace OgreNewt
 		class _OgreNewtExport ChamferCylinder : public OgreNewt::ConvexCollision
 		{
 		public:
+			//! constructor
+			/*!
+				Create a 'blank' chamferycylinder collision object. Can be used for CollisionSerializer::importCollision
+				\param world pointer to the OgreNewt::World
+			*/
+			ChamferCylinder(const World* world);
+
 			//! constructor
 			/*!
 				default aligned along the local X axis (x=height).
@@ -162,6 +204,13 @@ namespace OgreNewt
 		class _OgreNewtExport ConvexHull : public OgreNewt::ConvexCollision
 		{
 		public:
+			//! constructor
+			/*!
+				Create a 'blank' convexhull collision object. Can be used for CollisionSerializer::importCollision
+				\param world pointer to the OgreNewt::World
+			*/
+			ConvexHull(const World* world);
+
 			//! constructor
 			/*!
 				Overloaded constructor.  pass a SceneNode*, and it will use the vertex data from the first attached object.
@@ -255,11 +304,27 @@ namespace OgreNewt
 			void addPoly( Ogre::Vector3* polys, unsigned int ID );
 
 			//! finish the tree collision
-			void finish( bool optimize = true );
+			void finish( bool optimize );
+
+			//! set RayCastCallback active/disabled
+			/*!
+                THIS IS NOT WORKING AT THE MOMENT:
+                the code is based on an assumption about the order newton processes bodies in a raycast, I want to check this first,
+                so I commented the necessary code out.
+				If this Callback is active and a Ray hit this TreeCollision, the data of the hits will be given to the OgreNewt::RayCast function usercallback
+				\param active true = Callback active; false = Callback disabled 
+			*/
+			void setRayCastCallbackactive(bool active = true)
+			{
+				setRayCastCallbackactive( active, m_col );
+			}
 
         private:
-            static float _CDECL rayHitCallback(float interception, float *normal, int faceId, void *userData);
-		};
+			static void setRayCastCallbackactive( bool active , const NewtonCollision *col );
+
+			static float _CDECL newtonRayCastCallback(float distance, float* normal, int faceId, void* userData);
+
+        };
 
 		////////////////////////////////////////////////////////
 		//! TreeCollision created by parsing a tree of SceneNodes, adding collision data of all meshes.
@@ -278,7 +343,7 @@ namespace OgreNewt
 			~TreeCollisionSceneParser() {}
 
 			//! parse the scene.
-			void parseScene( Ogre::SceneNode* startNode, bool optimize = false, FaceWinding fw = FW_DEFAULT );
+			void parseScene( Ogre::SceneNode* startNode, bool optimize = true, FaceWinding fw = FW_DEFAULT );
 
 		protected:
 
@@ -309,6 +374,13 @@ namespace OgreNewt
 		public:
 			//! constructor
 			/*!
+			Create a 'blank' ellipsoid compoundcollision object. Can be used for CollisionSerializer::importCollision
+			\param world pointer to the OgreNewt::World
+			*/
+			CompoundCollision(const World* world);
+
+			//! constructor
+			/*!
 				creates a compound collision object made from an array of simple primitive parts.  can be used to make very complex
 				collision shapes.
 				\param world pointer to the OgreNewt::World
@@ -333,6 +405,13 @@ namespace OgreNewt
 		class _OgreNewtExport Pyramid : public OgreNewt::ConvexCollision
 		{
 		public:
+			//! constructor
+			/*!
+			Create a 'blank' ellipsoid collision object. Can be used for CollisionSerializer::importCollision
+			\param world pointer to the OgreNewt::World
+			*/
+			Pyramid(const World* world);
+
 			//! constructor
 			/*!
 				\param world pointer to the OgreNewt::World

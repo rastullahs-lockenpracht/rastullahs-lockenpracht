@@ -9,6 +9,8 @@ namespace OgreNewt
 // Constructor
 World::World()
 {
+	m_limits = Ogre::AxisAlignedBox(Ogre::Vector3(-100,-100,-100), Ogre::Vector3(100,100,100));
+
 	m_world = NewtonCreate( NULL, NULL );
 
 	if (!m_world)
@@ -43,11 +45,13 @@ void World::update( Ogre::Real t_step )
 void World::setWorldSize( const Ogre::Vector3& min, const Ogre::Vector3& max )
 {
 	NewtonSetWorldSize( m_world, (float*)&min.x, (float*)&max.x );
+	m_limits = Ogre::AxisAlignedBox(min, max);
 }
 
 void World::setWorldSize( const Ogre::AxisAlignedBox& box )
 {
 	NewtonSetWorldSize( m_world, (float*)&box.getMinimum(), (float*)&box.getMaximum() );
+	m_limits = box;
 }
 
 void World::setLeaveWorldCallback( LeaveWorldCallback callback )

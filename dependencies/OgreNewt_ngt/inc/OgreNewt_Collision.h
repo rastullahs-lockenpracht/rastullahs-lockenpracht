@@ -14,12 +14,30 @@
 
 #include "OgreNewt_Prerequisites.h"
 #include "OgreNewt_World.h"
+#include "OgreNewt_CollisionSerializer.h"
 
 // OgreNewt namespace.  all functions and classes use this namespace.
 namespace OgreNewt
 {
 
 class World;
+
+enum _OgreNewtExport CollisionPrimitive
+{
+	BoxPrimitive				=	SERIALIZE_ID_BOX,
+	ConePrimitive				=	SERIALIZE_ID_CONE,
+	EllipsoidPrimitive			=	SERIALIZE_ID_SPHERE,
+	CapsulePrimitive			=	SERIALIZE_ID_CAPSULE,
+	CylinderPrimitive			=	SERIALIZE_ID_CYLINDER,
+	CompoundCollisionPrimitive	=	SERIALIZE_ID_COMPOUND,
+	ConvexHullPrimitive			=	SERIALIZE_ID_CONVEXHULL,
+	ConvexHullModifierPrimitive	=	SERIALIZE_ID_CONVEXMODIFIER,
+	ChamferCylinderPrimitive	=	SERIALIZE_ID_CHAMFERCYLINDER,
+	TreeCollisionPrimitive		=	SERIALIZE_ID_TREE,
+	NullPrimitive				=	SERIALIZE_ID_NULL,
+	HeighFieldPrimitive			=	SERIALIZE_ID_HEIGHTFIELD,
+	ScenePrimitive				=	SERIALIZE_ID_SCENE
+};
 
 /*
 	CLASS DEFINITION:
@@ -68,14 +86,25 @@ public:
 	//! get the Axis-Aligned Bounding Box for this collision shape.
 	Ogre::AxisAlignedBox getAABB( const Ogre::Quaternion& orient = Ogre::Quaternion::IDENTITY, const Ogre::Vector3& pos = Ogre::Vector3::ZERO ) const;
 
+	//! Returns the Collisiontype for this Collision
+	CollisionPrimitive getCollisionPrimitiveType() const { return getCollisionPrimitiveType( m_col ); } 
+
+	//! Returns the Collisiontype for the given Newton-Collision
+	static CollisionPrimitive getCollisionPrimitiveType(const NewtonCollision *col);
+
+	//! friend functions for the Serializer
+	friend void CollisionSerializer::exportCollision(const Collision* collision, const Ogre::String& filename);
+	friend void CollisionSerializer::importCollision(Ogre::DataStreamPtr& stream, Collision* pDest);
 
 protected:
 
 	NewtonCollision* m_col;
 	const World* m_world;
-        friend class CollisionSerializer;
 
 };
+
+//typedef Ogre::SharedPtr<Collision> CollisionPtr;
+typedef Collision* CollisionPtr;
 
 //! represents a collision shape that is explicitly convex.
 class _OgreNewtExport ConvexCollision : public Collision
@@ -104,8 +133,6 @@ public:
         void setAsTriggerVolume(bool trigger) { NewtonCollisionSetAsTriggerVolume(m_col, (int)trigger); }
 };
 
-//typedef Ogre::SharedPtr<Collision> CollisionPtr;
-typedef Collision* CollisionPtr;
 
 
 //! represents a scalable collision shape.

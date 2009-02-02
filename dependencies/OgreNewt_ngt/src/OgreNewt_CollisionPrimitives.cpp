@@ -19,6 +19,9 @@ namespace OgreNewt
 
 
 		// OgreNewt::CollisionPrimitives::Box
+		Box::Box(const World* world) : ConvexCollision( world )
+		{}
+
 		Box::Box( const World* world, const Ogre::Vector3& size, const Ogre::Quaternion& orient, const Ogre::Vector3& pos ) : ConvexCollision( world )
 		{
 			float matrix[16];
@@ -33,6 +36,9 @@ namespace OgreNewt
 
 
 		// OgreNewt::CollisionPrimitives::Ellipsoid
+		Ellipsoid::Ellipsoid(const World* world) : ConvexCollision( world )
+		{}
+
 		Ellipsoid::Ellipsoid( const World* world, const Ogre::Vector3& size, const Ogre::Quaternion& orient, const Ogre::Vector3& pos ) : ConvexCollision( world )
 		{
 			float matrix[16];
@@ -46,6 +52,9 @@ namespace OgreNewt
 
 
 		// OgreNewt::CollisionPrimitives::Cylinder
+		Cylinder::Cylinder(const World* world) : ConvexCollision( world )
+		{}
+
 		Cylinder::Cylinder( const World* world, Ogre::Real radius, Ogre::Real height, 
 									const Ogre::Quaternion& orient, const Ogre::Vector3& pos ) : ConvexCollision( world )
 		{
@@ -60,6 +69,9 @@ namespace OgreNewt
 
 
 		// OgreNewt::CollisionPrimitives::Capsule
+		Capsule::Capsule(const World* world) : ConvexCollision( world )
+		{}
+
 		Capsule::Capsule( const World* world, Ogre::Real radius, Ogre::Real height, 
 									const Ogre::Quaternion& orient, const Ogre::Vector3& pos ) : ConvexCollision( world )
 		{
@@ -74,6 +86,9 @@ namespace OgreNewt
 
 
 		// OgreNewt::CollisionPrimitives::Cone
+		Cone::Cone(const World* world) : ConvexCollision( world )
+		{}
+
 		Cone::Cone( const World* world, Ogre::Real radius, Ogre::Real height, 
 									const Ogre::Quaternion& orient, const Ogre::Vector3& pos ) : ConvexCollision( world )
 		{
@@ -87,6 +102,9 @@ namespace OgreNewt
 		}
 
 		// OgreNewt::CollisionPrimitives::ChamferCylinder
+		ChamferCylinder::ChamferCylinder(const World* world) : ConvexCollision( world )
+		{}
+
 		ChamferCylinder::ChamferCylinder( const World* world, Ogre::Real radius, Ogre::Real height, 
 									const Ogre::Quaternion& orient, const Ogre::Vector3& pos ) : ConvexCollision( world )
 		{
@@ -102,6 +120,9 @@ namespace OgreNewt
 
 		
 		// OgreNewt::CollisionPrimitives::ConvexHull
+		ConvexHull::ConvexHull(const World* world) : ConvexCollision( world )
+		{}
+
 		ConvexHull::ConvexHull( const World* world, Ogre::Entity* obj, const Ogre::Quaternion& orient, const Ogre::Vector3& pos ) : ConvexCollision( world )
 		{
 			Ogre::Vector3 scale(1.0,1.0,1.0);
@@ -496,19 +517,41 @@ namespace OgreNewt
 			NewtonTreeCollisionAddFace( m_col, 3, (float*)&polys[0].x, sizeof(Ogre::Vector3), ID );
 		}
 
-		void TreeCollision::finish( bool optimize)
+		void TreeCollision::finish( bool optimize )
 		{
 			NewtonTreeCollisionEndBuild( m_col, optimize );
 
             NewtonAddCollisionReference(m_col);
-            NewtonTreeCollisionSetUserRayCastCallback( m_col, rayHitCallback );
-		}
-
-        float TreeCollision::rayHitCallback(float interception, float *normal, int faceId, void *userData)
-        {
-            return interception;
         }
 
+
+        float _CDECL TreeCollision::newtonRayCastCallback(float interception, float *normal, int faceId, void *userData)
+        {
+            return interception;
+
+            // the following code is only based on the assumption about the order newton processes bodies in a raycast!
+            /*
+			Body* bod = ((Raycast*)userData)->m_lastbody;
+			
+            //! TODO: what do we need to return here?
+			if(!bod)
+				return 0;
+
+			((Raycast*)userData)->userCallback( bod, distance, Ogre::Vector3(normal[0], normal[1], normal[2]), faceId );
+
+			((Raycast*)userData)->bodyalreadyadded = true;
+
+			return distance;
+            */
+        }
+
+		void TreeCollision::setRayCastCallbackactive(bool active, const NewtonCollision *col )
+		{
+			if(active)
+				NewtonTreeCollisionSetUserRayCastCallback( col, newtonRayCastCallback );
+			else
+				NewtonTreeCollisionSetUserRayCastCallback( col, NULL );
+		}
 
 		int TreeCollisionSceneParser::count = 0;
 		
@@ -688,6 +731,9 @@ namespace OgreNewt
 
 
 		// OgreNewt::CollisionPrimitives::CompoundCollision
+		CompoundCollision::CompoundCollision(const World* world) : Collision( world )
+		{}
+		
 		CompoundCollision::CompoundCollision( const World* world, std::vector<OgreNewt::Collision*> col_array ) : Collision( world )
 		{
 			//get the number of elements.
@@ -711,6 +757,9 @@ namespace OgreNewt
 
 		
 		// OgreNewt::CollisionPrimitives::Pyramid
+		Pyramid::Pyramid(const World* world) : ConvexCollision( world )
+		{}
+
 		Pyramid::Pyramid( const World* world, const Ogre::Vector3& size, const Ogre::Quaternion& orient, const Ogre::Vector3& pos ) : ConvexCollision( world )
 		{
 			float matrix[16];

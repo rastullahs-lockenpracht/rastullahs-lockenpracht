@@ -62,8 +62,15 @@ public:
 		return false and the callback will call for any other bodies, even those farther than the current one.
 	*/
 	virtual bool userCallback( OgreNewt::Body* body, Ogre::Real distance, const Ogre::Vector3& normal, int collisionID ) = 0;
+/*
+	friend float CollisionPrimitives::TreeCollision::newtonRayCastCallback(float distance, float *normal, int faceId, void *userData);
+protected:
+	//! save the last OgreNewt::Body from the newtonRaycastPreFilter to use this for example the TreeCollisionRayCallback
+	OgreNewt::Body *m_treecollisionhack_lastbody;
 
-
+	//! save if this body was already added by RayCastCallback from TreeCollision
+	bool m_treecollisionhack_bodyalreadyadded;
+*/
 private:
 
 	//! callback used for running the raycast itself... used internally

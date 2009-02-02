@@ -36,7 +36,7 @@ namespace OgreNewt
     virtual ~CollisionSerializer();
 
     /*!
-    Serialize the TreeCollision to a file with the given name.
+    Serialize the Collision to a file with the given name.
     */
 	void exportCollision(const Collision* collision, const Ogre::String& filename);
 
@@ -54,7 +54,7 @@ namespace OgreNewt
     static void _CDECL _newtonSerializeCallback(void* serializeHandle, const void* buffer, int size);
 
     /*!
-    Callback function for Newton. It should never be called directly, but will be called by Newton to load the TreeCollision from a stream.
+    Callback function for Newton. It should never be called directly, but will be called by Newton to load the Collision from a stream.
     (Newton calls this function several times for each deserialization, once for each chunk of its file format apparently)
     */
     static void _CDECL _newtonDeserializeCallback(void* deserializeHandle, void* buffer, int size);

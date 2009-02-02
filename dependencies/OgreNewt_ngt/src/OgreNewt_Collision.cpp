@@ -34,6 +34,15 @@ Ogre::AxisAlignedBox Collision::getAABB( const Ogre::Quaternion& orient, const O
 	return box;
 }
 
+CollisionPrimitive Collision::getCollisionPrimitiveType(const NewtonCollision *col)
+{
+	NewtonCollisionInfoRecord *info = new NewtonCollisionInfoRecord();
+
+	NewtonCollisionGetInfo( col, info );
+
+	return static_cast<CollisionPrimitive>(info->m_collisionType);
+}
+
 
 
 ConvexCollision::ConvexCollision( const OgreNewt::World* world ) : Collision( world )

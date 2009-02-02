@@ -8,11 +8,11 @@
 
 	main header file.
 
-	current version:  0.20
+	current version:  2.00  ( I only raised the version number to indicate that this is for Newton2.0! )
 
-		Newton version: 2.0
+		Newton version: 2.0 beta (31.01.2009)
 
-		Ogre version: Eihort (1.4.x)
+		Ogre version: Shoggoth (1.6.x)
 
 */
 
@@ -42,15 +42,49 @@
 
 #include "OgreNewt_BasicFrameListener.h"
 
-/*! \mainpage OgreNewt Library version 0.11
+/*! \mainpage OgreNewt Library version 2.00
 
 	\section into_sec Introduction
 
 	OgreNewt is an OOP wrapper for integrating the Newton Dynamics Physics SDK with OGRE.
 
-	\section new New in this Version
+    \section problems Problems and missing features in this version
 
-	New in this version!
+    Problems and missing features in this version
+        - PlayerController not finished
+        - only one world is possible, the Debugger and Body
+        - this library supports the newton functions for multithreading but there are several functions/classes in this
+          library itself, that are not thread safe (I don't need multiple threads)
+        - the copied MovableText class (in Tools::OgreAddons) seems to have some graphics error (it's used
+          to show the debugging information above each body)
+        - I didn't test several features:
+            - vehicle
+            - joints
+            - collsions-serializer
+        - the treecollision raycastcallback doesn't work (see comments in the TreeCollision-class!)
+        - shared pointers for collisions (atm CollisionPtr := Collision*, but should be Ogre::SharedPtr<Collision>, but there was some problem...)
+
+
+	\section new New in this version
+
+    New in this version
+        - this version uses cmake > 2.6.2!
+        - several interface-breaking changes:
+            - the ContactCallback passes a ContactJoint as argument that can be used to iterate through all contacts
+              (the callback is not called for each contact any more, but for each pair of colliding bodies!)
+            - added a lots of new simple "iterators":
+                - for Bodies use body = World->getFirstBody() and body = body->getNext()
+                - for the 
+            - BodyIterator renamed to BodyInAABBIterator, it does now only iterate throuch bodies in a specific AABB
+        - added support for trigger-volumes (ConvexCollision::setAsTriggerVolume ...)
+        - added support for convexcasts
+        - added additional debugging features:
+            - raycast/convexcast debugging
+            - information about each body as billboard above it
+        - a lot of minor changes and functions added and renamed
+
+
+	previous changes...
 		- updated to Newton version 2.0!!  Many big improvements and changes to the library, and OgreNewt now supports it.
 		- several interface-breaking changes:
 			- updated to support multithreading support now native to Newton.
@@ -59,7 +93,6 @@
 			- Body::attachToNode has been renamed to attachNode, better implying the relationship between the body and the Ogre::Node.
 			- BodyIterator class has been upgraded to use boost::function, allowing the same callback flexibility as other callbacks.
 
-	previous changes...
 		- bug fix - fixed problem with TreeCollisionSceneParser that wasn't adjusting to different scales properly.
 		- optimization - fixed several classes to only write debug data to the LOG when compiled in DEBUG mode:
 			- Custom2DJonit

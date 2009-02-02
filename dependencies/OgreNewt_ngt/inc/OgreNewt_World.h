@@ -170,6 +170,11 @@ public:
 	*/
 	void setWorldSize( const Ogre::AxisAlignedBox& box );
 
+	/*!
+		get the world limits.
+	*/
+	Ogre::AxisAlignedBox getWorldSize() { return m_limits; }
+
 	//! get the Newton SDK version.
 	int getVersion() const { return NewtonWorldGetVersion( m_world ); }
 
@@ -183,6 +188,9 @@ public:
 		setLeaveWorldCallback( boost::bind(callback, instancedClassPointer, _1, _2) );
 	}
 
+
+	//! updates only the collision of the world and call the callback functions if necessary, can be used for an collision only system
+	void CollisionUpdate() { NewtonCollisionUpdate( m_world ); }
     //! to iterate through all bodies call this function and then use body->getNext()
     Body* getFirstBody();
 
@@ -204,6 +212,7 @@ private:
 
 	static void _CDECL newtonLeaveWorld( const NewtonBody* body, int threadIndex );
 
+	Ogre::AxisAlignedBox m_limits;
 };
 
 }
