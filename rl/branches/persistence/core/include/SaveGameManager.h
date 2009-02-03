@@ -67,7 +67,7 @@ namespace rl
         void freeSaveGameMap();
 
         Ogre::StringVector mScriptPatterns;
-        SaveGameEntryMap mSaveGames;
+        //SaveGameEntryMap mSaveGames;
 
         SaveGameDataOrderMap mSaveGameDataOrderMap;
 

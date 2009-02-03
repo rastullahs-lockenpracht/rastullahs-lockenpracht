@@ -89,7 +89,7 @@ namespace rl
         }
 
         /// Construct return stream, tell it to delete on destroy
-        WriteableFileStreamDataStream* stream = new WriteableFileStreamDataStream(filename,
+        WriteableFileStreamDataStream* stream = OGRE_NEW WriteableFileStreamDataStream(filename,
             origStream, true);
         return DataStreamPtr(stream);
     }

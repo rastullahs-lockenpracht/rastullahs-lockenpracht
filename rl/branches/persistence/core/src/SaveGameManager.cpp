@@ -74,12 +74,12 @@ namespace rl
 
     SaveGameEntryMap SaveGameManager::listSaveGames()
     {
-        return mSaveGames;
+        return SaveGameEntryMap();//mSaveGames;
     }
 
     SaveGameEntryMap SaveGameManager::listSaveGames(const CeGuiString &moduleId)
     {
-        SaveGameEntryMap entries;
+        /*SaveGameEntryMap entries;
         for(SaveGameEntryMap::const_iterator iter = mSaveGames.begin(); iter != mSaveGames.end(); iter++)
         {
             if(iter->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString() == moduleId)
@@ -87,7 +87,8 @@ namespace rl
                 entries[iter->first] = iter->second;
             }
         }
-        return entries;
+        return entries;*/
+        return SaveGameEntryMap();
     }
 
     void SaveGameManager::saveSaveGameFile(const CeGuiString &name)
@@ -149,7 +150,7 @@ namespace rl
 
     void SaveGameManager::loadSaveGameFile(int id)
     {
-        if(mSaveGames.find(id) != mSaveGames.end())
+        /*if(mSaveGames.find(id) != mSaveGames.end())
         {
             MessagePump::getSingleton().sendMessage<MessageType_SaveGameLoading>();
 
@@ -162,64 +163,65 @@ namespace rl
             ///@todo: SaveGameReader
 
             MessagePump::getSingleton().sendMessage<MessageType_SaveGameLoaded>();
-        }
+        }*/
     }
 
     void SaveGameManager::deleteSaveGameFile(const CeGuiString &name, const CeGuiString &moduleId)
     {
-        if(SaveGameFileExists(name, moduleId))
+        /*if(SaveGameFileExists(name, moduleId))
         {
             int id = getSaveGameId(name, moduleId);
             static_cast<SaveGameFile*>(mSaveGames[id])->deleteFileFromStorage();
             delete mSaveGames[id];
             mSaveGames.erase(id);
-        }
+        }*/
     }
 
     void SaveGameManager::deleteSaveGameFile(int id)
     {
-        if(mSaveGames.find(id) == mSaveGames.end())
+        /*if(mSaveGames.find(id) == mSaveGames.end())
         {
             static_cast<SaveGameFile*>(mSaveGames[id])->deleteFileFromStorage();
             delete mSaveGames[id];
             mSaveGames.erase(id);
-        }
+        }*/
     }
 
     bool SaveGameManager::SaveGameFileExists(const CeGuiString &name, const CeGuiString &moduleId)
     {
-        bool saveGameFileExists = false;
+        /*bool saveGameFileExists = false;
         for(SaveGameEntryMap::const_iterator it = mSaveGames.begin(); it != mSaveGames.end() && !saveGameFileExists; ++it)
         {
             if(it->second->getProperty(SaveGameFile::PROPERTY_NAME).toString() == name 
                 && it->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString() == moduleId)
                 saveGameFileExists = true;
         }
-        return saveGameFileExists;
+        return saveGameFileExists;*/
+        return false;
     }
 
     SaveGameFile* SaveGameManager::getSaveGameFile(const CeGuiString &name, const CeGuiString &moduleId)
     {
-        if(SaveGameFileExists(name, moduleId))
-            return mSaveGames[getSaveGameId(name, moduleId)];
+       /* if(SaveGameFileExists(name, moduleId))
+            return mSaveGames[getSaveGameId(name, moduleId)];*/
         return NULL;
     }
 
     SaveGameFile* SaveGameManager::getSaveGameFile(int id)
     {
-        if(mSaveGames.find(id) != mSaveGames.end())
-            return mSaveGames[id];
+        /*if(mSaveGames.find(id) != mSaveGames.end())
+            return mSaveGames[id];*/
         return NULL;
     }
 
     int SaveGameManager::getSaveGameId(const CeGuiString &name, const CeGuiString &moduleId)
     {
-        for(SaveGameEntryMap::const_iterator it = mSaveGames.begin(); it != mSaveGames.end(); ++it)
+        /*for(SaveGameEntryMap::const_iterator it = mSaveGames.begin(); it != mSaveGames.end(); ++it)
         {
             if(it->second->getProperty(SaveGameFile::PROPERTY_NAME).toString() == name 
                 && it->second->getProperty(SaveGameFile::PROPERTY_MODULEID).toString() == moduleId)
                 return it->first;
-        }
+        }*/
         return -1;
     }
     
@@ -281,11 +283,11 @@ namespace rl
 
     void SaveGameManager::freeSaveGameMap()
     {
-        for(SaveGameEntryMap::const_iterator iter = mSaveGames.begin(); iter != mSaveGames.end(); iter++)
+       /* for(SaveGameEntryMap::const_iterator iter = mSaveGames.begin(); iter != mSaveGames.end(); iter++)
         {
             delete iter->second;
         }
-        mSaveGames.clear();
+        mSaveGames.clear();*/
     }
 
     int SaveGameManager::getHighestSaveGameNumber()

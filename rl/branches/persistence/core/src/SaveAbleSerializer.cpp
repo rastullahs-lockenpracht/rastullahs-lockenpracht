@@ -65,7 +65,7 @@ namespace rl
 	void SaveAbleSerializer::parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
 	{
 		LOG_MESSAGE(Logger::CORE, "Parsing headers of save game file: " + stream->getName() + " Resource group: " + groupName);
-		SaveGameFile* file = new SaveGameFile(Ogre::StringConverter::parseInt(stream->getName()),(WriteableDataStreamPtr)static_cast<WriteableFileStreamDataStream*>(stream.get()));
+		SaveGameFile* file = new SaveGameFile(Ogre::StringConverter::parseInt(stream->getName()),(WriteableDataStreamPtr)static_cast<WriteableDataStream*>(stream.get()));
 		mReader.parseSaveGameFileHeader(file);
 		mHighestSaveGameNumber = Ogre::StringConverter::parseInt(stream->getName()) > mHighestSaveGameNumber ? Ogre::StringConverter::parseInt(stream->getName()) : mHighestSaveGameNumber;
 		mSaveGameFiles[Ogre::StringConverter::parseInt(stream->getName())] = file;
