@@ -61,7 +61,7 @@
             - vehicle
             - joints
             - collsions-serializer
-        - the treecollision raycastcallback doesn't work (see comments in the TreeCollision-class!)
+            - treecollision raycastcallback 
         - shared pointers for collisions (atm CollisionPtr := Collision*, but should be Ogre::SharedPtr<Collision>, but there was some problem...)
 
 
