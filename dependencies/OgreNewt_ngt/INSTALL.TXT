@@ -1,0 +1,21 @@
+To compile and install this library you need cmake > 2.6.2 (http://www.cmake.org/)
+
+On Windows:
+    install cmake and then use cmake to create project files for Visual Studio
+
+On *nix:
+    if you have installed cmake, you can do:
+    
+    mkdir build
+    cd build
+    cmake ..
+    make
+    
+    To install the library type (as root)
+
+    make install
+
+    or
+
+    sudo make install
+

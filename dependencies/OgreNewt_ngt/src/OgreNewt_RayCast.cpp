@@ -19,8 +19,14 @@ namespace OgreNewt
         {
             Debugger::getSingleton().addRay(startpt, endpt);
         }
+
+        m_treecollisioncallback_lastbody = NULL;
+
 		// perform the raycast!
 		NewtonWorldRayCast( world->getNewtonWorld(), (float*)&startpt, (float*)&endpt, OgreNewt::Raycast::newtonRaycastFilter, this, OgreNewt::Raycast::newtonRaycastPreFilter );
+
+        m_treecollisioncallback_lastbody = NULL;
+
 	}
 
 	float _CDECL Raycast::newtonRaycastFilter(const NewtonBody* body, const float* hitNormal, int collisionID, void* userData, float intersectParam)
@@ -30,6 +36,10 @@ namespace OgreNewt
 
 		Body* bod = (Body*)NewtonBodyGetUserData( body );
 		Ogre::Vector3 normal = Ogre::Vector3( hitNormal[0], hitNormal[1], hitNormal[2] );
+
+
+        if( me->m_treecollisioncallback_bodyalreadyadded )
+            return intersectParam;
 
 
         if( Debugger::getSingleton().isRaycastRecording() && Debugger::getSingleton().isRaycastRecordingHitBodies() )
@@ -51,6 +61,10 @@ namespace OgreNewt
 		Raycast* me = (Raycast*)userData;
 
 		Body* bod = (Body*)NewtonBodyGetUserData( body );
+
+
+        me->m_treecollisioncallback_bodyalreadyadded = false;
+        me->m_treecollisioncallback_lastbody = bod;
 
 		if (me->userPreFilterCallback( bod ))
 			return 1;

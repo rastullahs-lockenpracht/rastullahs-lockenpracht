@@ -1,5 +1,6 @@
 #include "OgreNewt_CollisionPrimitives.h"
 #include "OgreNewt_Tools.h"
+#include "OgreNewt_RayCast.h"
 
 #include "Ogre.h"
 
@@ -13,8 +14,6 @@ namespace OgreNewt
 		Null::Null(const OgreNewt::World *world) : Collision( world )
 		{
 			m_col = NewtonCreateNull( m_world->getNewtonWorld() );
-
-            NewtonAddCollisionReference(m_col);
 		}
 
 
@@ -29,8 +28,6 @@ namespace OgreNewt
 			OgreNewt::Converters::QuatPosToMatrix( orient, pos, &matrix[0] );
 
 			m_col = NewtonCreateBox( m_world->getNewtonWorld(), (float)size.x, (float)size.y, (float)size.z, &matrix[0] );
-
-            NewtonAddCollisionReference(m_col);
 		}
 
 
@@ -46,8 +43,6 @@ namespace OgreNewt
 			OgreNewt::Converters::QuatPosToMatrix( orient, pos, &matrix[0] );
 
 			m_col = NewtonCreateSphere( m_world->getNewtonWorld(), (float)size.x, (float)size.y, (float)size.z, &matrix[0] );
-
-            NewtonAddCollisionReference(m_col);
 		}
 
 
@@ -63,8 +58,6 @@ namespace OgreNewt
 			OgreNewt::Converters::QuatPosToMatrix( orient, pos, &matrix[0] );
 
 			m_col = NewtonCreateCylinder( m_world->getNewtonWorld(), (float)radius, (float)height, &matrix[0] );
-
-            NewtonAddCollisionReference(m_col);
 		}
 
 
@@ -80,8 +73,6 @@ namespace OgreNewt
 			OgreNewt::Converters::QuatPosToMatrix( orient, pos, &matrix[0] );
 
 			m_col = NewtonCreateCapsule( m_world->getNewtonWorld(), (float)radius, (float)height, &matrix[0] );
-
-            NewtonAddCollisionReference(m_col);
 		}
 
 
@@ -97,8 +88,6 @@ namespace OgreNewt
 			OgreNewt::Converters::QuatPosToMatrix( orient, pos, &matrix[0] );
 
 			m_col = NewtonCreateCone( m_world->getNewtonWorld(), (float)radius, (float)height, &matrix[0] );
-
-            NewtonAddCollisionReference(m_col);
 		}
 
 		// OgreNewt::CollisionPrimitives::ChamferCylinder
@@ -113,8 +102,6 @@ namespace OgreNewt
 			OgreNewt::Converters::QuatPosToMatrix( orient, pos, &matrix[0] );
 
 			m_col = NewtonCreateChamferCylinder( m_world->getNewtonWorld(), (float)radius, (float)height, &matrix[0] );
-
-            NewtonAddCollisionReference(m_col);
 		}
 
 
@@ -239,8 +226,6 @@ namespace OgreNewt
 			//okay, let's try making the ConvexHull!
 			m_col = NewtonCreateConvexHull( m_world->getNewtonWorld(), (int)total_verts, (float*)&vertices[0].x, sizeof(Ogre::Vector3), 0.001f, &matrix[0] );
 
-            NewtonAddCollisionReference(m_col);
-
 			delete []vertices;
 
 		}
@@ -254,9 +239,6 @@ namespace OgreNewt
 
 			//make the collision primitive.
 			m_col = NewtonCreateConvexHull( m_world->getNewtonWorld(), vertcount, (float*)&verts[0].x, sizeof(Ogre::Vector3), 0.001f, &matrix[0]);
-
-            NewtonAddCollisionReference(m_col);
-
 		}
 
 
@@ -520,29 +502,22 @@ namespace OgreNewt
 		void TreeCollision::finish( bool optimize )
 		{
 			NewtonTreeCollisionEndBuild( m_col, optimize );
-
-            NewtonAddCollisionReference(m_col);
         }
 
 
         float _CDECL TreeCollision::newtonRayCastCallback(float interception, float *normal, int faceId, void *userData)
         {
-            return interception;
-
-            // the following code is only based on the assumption about the order newton processes bodies in a raycast!
-            /*
-			Body* bod = ((Raycast*)userData)->m_lastbody;
+			Body* bod = ((Raycast*)userData)->m_treecollisioncallback_lastbody;
 			
             //! TODO: what do we need to return here?
 			if(!bod)
 				return 0;
 
-			((Raycast*)userData)->userCallback( bod, distance, Ogre::Vector3(normal[0], normal[1], normal[2]), faceId );
+			((Raycast*)userData)->userCallback( bod, interception, Ogre::Vector3(normal[0], normal[1], normal[2]), faceId );
 
-			((Raycast*)userData)->bodyalreadyadded = true;
+			((Raycast*)userData)->m_treecollisioncallback_bodyalreadyadded = true;
 
-			return distance;
-            */
+			return interception;
         }
 
 		void TreeCollision::setRayCastCallbackactive(bool active, const NewtonCollision *col )
@@ -749,10 +724,8 @@ namespace OgreNewt
 
 			m_col = NewtonCreateCompoundCollision( world->getNewtonWorld(), num, array );
 
-            NewtonAddCollisionReference(m_col);
 
 			delete[] array;
-
 		}
 
 		
@@ -791,10 +764,8 @@ namespace OgreNewt
 			//make the collision primitive.
 			m_col = NewtonCreateConvexHull( m_world->getNewtonWorld(), 5, vertices, sizeof(float)*3, 0.001f, &matrix[0]);
 
-            NewtonAddCollisionReference(m_col);
 
 			delete []vertices;
-
 		}
 
 

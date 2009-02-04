@@ -18,6 +18,7 @@
 
 #include "OgreNewt_Prerequisites.h"
 #include "OgreNewt_MaterialID.h"
+#include "OgreNewt_Collision.h"
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 
@@ -28,7 +29,6 @@ namespace OgreNewt
 
 class World;
 class MaterialID;
-class Collision;
 
 /*
 	CLASS DEFINITION:
@@ -393,9 +393,19 @@ public:
 	*/
 	void addLocalForce( const Ogre::Vector3& force, const Ogre::Vector3& pos );
 
-	
+    //! Returns the Collisiontype for the Collision from this Body
+    /*!
+     * usually it is also possible to get this via: body->getCollision()->getCollisionPrimitiveType()
+    */
+    CollisionPrimitive getCollisionPrimitiveType() const { return Collision::getCollisionPrimitiveType(getNewtonCollision()); }
 
- protected:
+    //! Returns the Newton Collision for this Body
+    /*!
+     * usually it is also possible to get this via: body->getCollision()
+    */
+    NewtonCollision *getNewtonCollision() const { return NewtonBodyGetCollision( m_body ); }
+
+protected:
 
 	NewtonBody*			m_body;
 	const Collision*	m_collision;

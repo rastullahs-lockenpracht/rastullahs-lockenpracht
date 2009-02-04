@@ -46,9 +46,6 @@ namespace OgreNewt
         NewtonCollision* col = NewtonCreateCollisionFromSerialization(pDest->getWorld()->getNewtonWorld(), &CollisionSerializer::_newtonDeserializeCallback, &stream);
 
         pDest->m_col = col;
-        // this is a bit nasty, but we need to add a reference for the collision, there should be no problems,
-        // if the OgreNewt-functions are used and the newton-collisions are not accessed directly in any way
-        NewtonAddCollisionReference(pDest->m_col);
     }
   }
 

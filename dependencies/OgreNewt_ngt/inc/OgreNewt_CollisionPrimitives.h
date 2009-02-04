@@ -308,10 +308,6 @@ namespace OgreNewt
 
 			//! set RayCastCallback active/disabled
 			/*!
-                THIS IS NOT WORKING AT THE MOMENT:
-                the code is based on an assumption about the order newton processes bodies in a raycast, I want to check this first,
-                so I commented the necessary code out.
-				If this Callback is active and a Ray hit this TreeCollision, the data of the hits will be given to the OgreNewt::RayCast function usercallback
 				\param active true = Callback active; false = Callback disabled 
 			*/
 			void setRayCastCallbackactive(bool active = true)
@@ -319,10 +315,11 @@ namespace OgreNewt
 				setRayCastCallbackactive( active, m_col );
 			}
 
+            //! used internally
+			static float _CDECL newtonRayCastCallback(float distance, float* normal, int faceId, void* userData);
+
         private:
 			static void setRayCastCallbackactive( bool active , const NewtonCollision *col );
-
-			static float _CDECL newtonRayCastCallback(float distance, float* normal, int faceId, void* userData);
 
         };
 

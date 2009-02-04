@@ -58,7 +58,6 @@ ConvexCollision::~ConvexCollision()
 ConvexModifierCollision::ConvexModifierCollision(const World* world, const Collision* col) : Collision(world)
 {
 	m_col = NewtonCreateConvexHullModifier( world->getNewtonWorld(), col->getNewtonCollision() );
-    NewtonAddCollisionReference(m_col);
 }
 
 ConvexModifierCollision::~ConvexModifierCollision()
