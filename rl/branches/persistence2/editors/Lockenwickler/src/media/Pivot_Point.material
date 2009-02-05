@@ -1,0 +1,97 @@
+material Lockenwickler_Pivot_X
+{
+	technique
+	{
+		pass
+		{
+			ambient 1.0 0.0 0.0 0.5
+			diffuse 1.0 0.0 0.0 0.5
+			specular 1.0 0.0 0.0 0.5 12.5
+			emissive 1.0 0.0 0.0 0.5
+		}
+	}
+}
+
+material Lockenwickler_Pivot_Y
+{
+	technique
+	{
+
+		pass
+		{
+			ambient 0.0 0.0 1.0 0.5
+			diffuse 0.0 0.0 1.0 0.5
+			specular 0.0 0.0 1.0 0.5 12.5
+			emissive 0.0 0.0 1.0 0.5
+		}
+	}
+}
+
+material Lockenwickler_Pivot_Z
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.0 1.0 0.0 0.5
+			diffuse 0.0 1.0 0.0 0.5
+			specular 0.0 1.0 0.0 0.5 12.5
+			emissive 0.0 1.0 0.0 0.5
+		}
+	}
+}
+
+material Lockenwickler_FreeMover
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.0 0.0 0.0 0.5
+			diffuse 0.0 0.0 0.0 0.5
+			specular 0.0 0.0 0.0 0.5 12.5
+			emissive 0.0 0.0 0.0 0.5
+		}
+	}
+}
+
+material SOLID/TEX/lightbulp.png
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture lightbulp.png
+			}
+		}
+	}
+}
+
+material Lockenwickler_Area
+{
+	technique
+	{
+                pass
+		{
+                        depth_write off
+                        scene_blend alpha_blend
+                        
+			ambient 0.0 1.0 0.0 0.2
+			diffuse 0.0 1.0 0.0 0.2
+			emissive 0.0 1.0 0.0 0.2
+		}
+
+		pass
+		{
+                        polygon_mode wireframe
+
+			ambient 0.0 1.0 0.0 1.0
+			diffuse 0.0 1.0 0.0 1.0
+			emissive 0.0 1.0 0.0 1.0
+		}
+	}
+}
+
+ 

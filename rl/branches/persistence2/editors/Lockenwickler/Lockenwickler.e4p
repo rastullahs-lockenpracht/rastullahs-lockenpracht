@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Project SYSTEM "Project-4.6.dtd">
+<!-- eric4 project file for project Lockenwickler -->
+<!-- Saved: 2009-01-26, 17:27:44 -->
+<!-- Copyright (C) 2009 Stefan Stammberger, sstammberger@web.de -->
+<Project version="4.6">
+  <Language>en</Language>
+  <ProgLanguage mixed="0">Python</ProgLanguage>
+  <ProjectType>Qt4</ProjectType>
+  <Description>Lockenwickler is an Editor application for the Rastulahs Lockenpracht game.</Description>
+  <Version>0.1</Version>
+  <Author>Stefan Stammberger</Author>
+  <Email>sstammberger@web.de</Email>
+  <Sources>
+    <Source>src/Lockenwickler.py</Source>
+    <Source>src/ConsoleWindow.py</Source>
+    <Source>src/ModelSelectionDialog.py</Source>
+    <Source>src/ModuleManager.py</Source>
+    <Source>src/MovePivot.py</Source>
+    <Source>src/ObjectPropertyWin.py</Source>
+    <Source>src/OgreMainWindow.py</Source>
+    <Source>src/OgreWidget.py</Source>
+    <Source>src/PreferencesDialog.py</Source>
+    <Source>src/PythonOgreConfig.py</Source>
+    <Source>src/ui_ConsoleWindow.py</Source>
+    <Source>src/Property.py</Source>
+    <Source>src/ViewportGrid.py</Source>
+    <Source>src/ObjectPropertyModel.py</Source>
+    <Source>src/GameObjectClass.py</Source>
+    <Source>src/GameObjectClassManager.py</Source>
+    <Source>src/setup.py</Source>
+    <Source>src/GameObjectClassView.py</Source>
+    <Source>src/MyRaySceneQueryListener.py</Source>
+    <Source>src/GOStringEditor.py</Source>
+    <Source>src/GOIntEditor.py</Source>
+    <Source>src/CodeDump.py</Source>
+    <Source>src/NewModuleWizard.py</Source>
+    <Source>src/Ui_NewModuleWizard.py</Source>
+    <Source>src/ModuleExplorer.py</Source>
+  </Sources>
+  <Forms>
+    <Form>ui files/GOPropertyEditorDialogINT.ui</Form>
+    <Form>ui files/GOPropertyEditorDialogSTRING.ui</Form>
+    <Form>ui files/NewModuleWizard.ui</Form>
+  </Forms>
+  <Translations>
+  </Translations>
+  <Resources>
+  </Resources>
+  <Interfaces>
+  </Interfaces>
+  <Others>
+  </Others>
+  <MainScript>src/Lockenwickler.py</MainScript>
+  <Vcs>
+    <VcsType>None</VcsType>
+    <VcsOptions>
+      <dict>
+        <key>
+          <string>add</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>checkout</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>commit</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>diff</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>export</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>global</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>history</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>log</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>remove</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>status</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>tag</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+        <key>
+          <string>update</string>
+        </key>
+        <value>
+          <list>
+            <string></string>
+          </list>
+        </value>
+      </dict>
+    </VcsOptions>
+    <VcsOtherData>
+      <dict>
+        <key>
+          <string>standardLayout</string>
+        </key>
+        <value>
+          <bool>True</bool>
+        </value>
+      </dict>
+    </VcsOtherData>
+  </Vcs>
+  <FiletypeAssociations>
+    <FiletypeAssociation pattern="*.ui" type="FORMS" />
+    <FiletypeAssociation pattern="*.idl" type="INTERFACES" />
+    <FiletypeAssociation pattern="*.qm" type="TRANSLATIONS" />
+    <FiletypeAssociation pattern="*.ptl" type="SOURCES" />
+    <FiletypeAssociation pattern="*.pyw" type="SOURCES" />
+    <FiletypeAssociation pattern="*.ui.h" type="FORMS" />
+    <FiletypeAssociation pattern="*.ts" type="TRANSLATIONS" />
+    <FiletypeAssociation pattern="*.py" type="SOURCES" />
+    <FiletypeAssociation pattern="*.qrc" type="RESOURCES" />
+  </FiletypeAssociations>
+</Project>
