@@ -22,7 +22,7 @@ namespace rl
 {
     LightFadeJob::LightFadeJob(LightObject* lightObject, const Ogre::ColourValue& targetDiffuse,
         const Ogre::ColourValue& targetSpecular, Ogre::Real duration)
-        : Job(true, true),
+        : Job("", true, true),
         mLightObject(lightObject),
         mDuration(duration)
     {

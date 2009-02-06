@@ -61,6 +61,7 @@ src/SaveAble.cpp
 src/SaveAbleCollection.cpp
 src/SaveAbleFactory.cpp
 src/SaveAbleManager.cpp
+src/SaveAbleSerializer.cpp
 src/SaveGameFile.cpp
 src/SaveGameFileReader.cpp
 src/SaveGameFileWriter.cpp
