@@ -92,6 +92,8 @@ class ModelSelectionDialog(QDialog):
         self.ogreModelPrevWindowSceneMgr = self.ogreRoot.createSceneManager(og.ST_GENERIC,"ogreModelPrevWindowSceneMgr")
         self.ogreModelPrevWindow = OgreWidget.OgreWidget("ModelPrevWin", self.ogreRoot, self.ogreModelPrevWindowSceneMgr, "PrevCam",
                                                          self.splitter)
+        self.ogreModelPrevWindow.renderWindow.getViewport(0).setOverlaysEnabled(False)
+        
         self.ogreModelPrevWindow.setMinimumSize(QSize(200,200))
         self.ogreModelPrevWindow.setObjectName("modelPreviewWindow")
         self.gridlayout.addWidget(self.splitter,1,0,1,1)

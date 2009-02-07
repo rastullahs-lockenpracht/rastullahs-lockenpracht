@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project Lockenwickler -->
-<!-- Saved: 2009-01-26, 17:27:44 -->
+<!-- Saved: 2009-02-07, 20:03:18 -->
 <!-- Copyright (C) 2009 Stefan Stammberger, sstammberger@web.de -->
 <Project version="4.6">
   <Language>en</Language>
@@ -37,6 +37,7 @@
     <Source>src/NewModuleWizard.py</Source>
     <Source>src/Ui_NewModuleWizard.py</Source>
     <Source>src/ModuleExplorer.py</Source>
+    <Source>src/SelectionBuffer.py</Source>
   </Sources>
   <Forms>
     <Form>ui files/GOPropertyEditorDialogINT.ui</Form>

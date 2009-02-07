@@ -93,7 +93,13 @@ class OgreWidget(QtGui.QWidget):
     def getCamera(self):
         assert(self.camera)
         return self.camera
-
+    
+    def getWidth():
+        return self.renderWindow.getActualWidth()
+        
+    def getHeight():
+        return self.renderWindow.getActualHeight()
+    
     #(const Ogre::Radian& horz, const Ogre::Radian& vert)
     def orbitCamera( self, horz, vert):
         #orbit around focus node
