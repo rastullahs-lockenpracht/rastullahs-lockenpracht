@@ -260,11 +260,11 @@ class Lockenwickler(QtGui.QMainWindow):
         self.moduleName = ""
         self.moduleManager = ModuleManager(self.ogreRoot,  self.OgreMainWinSceneMgr)
 
-        self.ogreRenderWindow = OgreMainWindow.OgreMainWindow(self.moduleManager,  root,  self.OgreMainWinSceneMgr,  self)
-        self.gridlayout.addWidget(self.ogreRenderWindow,0,0,1,1)
+        self.ogreMainWindow = OgreMainWindow.OgreMainWindow(self.moduleManager,  root,  self.OgreMainWinSceneMgr,  self)
+        self.gridlayout.addWidget(self.ogreMainWindow,0,0,1,1)
         self.hboxlayout.addLayout(self.gridlayout)
         self.setCentralWidget(self.centralwidget)
-
+        
         og.ResourceGroupManager.getSingleton().addResourceLocation("./media", "FileSystem", "General", False)
         og.ResourceGroupManager.getSingleton().initialiseAllResourceGroups()
 
@@ -298,7 +298,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.moduleManager.cutObjects()
 
     def actionPasteSlot(self):
-        self.moduleManager.pasteObjects(self.ogreRenderWindow.getCameraToViewportRay())
+        self.moduleManager.pasteObjects(self.ogreMainWindow.getCameraToViewportRay())
 
     def actionSelectSlot(self):
         self.moduleManager.pivot.hide()
@@ -397,11 +397,11 @@ class Lockenwickler(QtGui.QMainWindow):
 
     def keyPressEvent(self,  event):
         if not event.isAutoRepeat():
-            self.ogreRenderWindow.keyPressEvent(event)
+            self.ogreMainWindow.keyPressEvent(event)
 
     def keyReleaseEvent(self,  event):
         if not event.isAutoRepeat():
-            self.ogreRenderWindow.keyReleaseEvent(event)
+            self.ogreMainWindow.keyReleaseEvent(event)
         pass
 
     def connectActionButtons(self):

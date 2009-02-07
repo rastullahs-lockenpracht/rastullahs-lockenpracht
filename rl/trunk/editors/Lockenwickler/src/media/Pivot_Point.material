@@ -19,6 +19,8 @@ material Lockenwickler_Pivot_Y
 
 		pass
 		{
+			lighting off
+
 			ambient 0.0 0.0 1.0 0.5
 			diffuse 0.0 0.0 1.0 0.5
 			specular 0.0 0.0 1.0 0.5 12.5
@@ -94,4 +96,48 @@ material Lockenwickler_Area
 	}
 }
 
- 
+vertex_program PlainColor_VS cg
+{
+	source PlainColor.cg
+	entry_point main_plain_color_vp
+	profiles vs_1_1 arbvp1
+
+	default_params
+	{
+		param_named_auto worldViewProj worldviewproj_matrix		
+	}
+
+}
+
+fragment_program PlainColor_PS cg			
+{
+	source PlainColor.cg		
+	entry_point main_plain_color_fp	
+	profiles ps_1_1 arbfp1
+  
+	default_params
+	{
+		param_named inColor float4 1 1 1 1
+	}
+}	
+
+material PlainColor
+{
+        // Material has one technique
+	technique					
+	{
+                // This technique has one pass
+		pass					
+		{
+                        // Make this pass use the vertex shader defined above
+			vertex_program_ref PlainColor_VS	
+			{
+			}
+                        // Make this pass use the pixel shader defined above
+			fragment_program_ref PlainColor_PS	
+			{
+			      param_named_auto inColor custom 1
+			}
+		}
+	}
+}

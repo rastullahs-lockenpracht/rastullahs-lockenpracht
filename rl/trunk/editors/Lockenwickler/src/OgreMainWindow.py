@@ -38,7 +38,7 @@ class OgreMainWindow(QWidget):
         self.ogreRoot = ogreRoot
         self.OgreMainWinSceneMgr = OgreMainWinSceneMgr
 
-        self.ogreRenderWindow = None
+        self.ogreWidget = None
 
         self.leftMouseDown = False
         self.middleMouseDown = False
@@ -94,32 +94,32 @@ class OgreMainWindow(QWidget):
         # create the horizontal splitter wich contains the two ogre render windows and add it to the vertical splitter
 
         ##################################
-        self.ogreRenderWindow = OgreWidget.OgreWidget("OgreMainWin", self.ogreRoot, self.OgreMainWinSceneMgr, "MainCam", self.splitterV,  0)
-        self.ogreRenderWindow.setMinimumSize(QSize(250,250))
+        self.ogreWidget = OgreWidget.OgreWidget("OgreMainWin", self.ogreRoot, self.OgreMainWinSceneMgr, "MainCam", self.splitterV,  0)
+        self.ogreWidget.setMinimumSize(QSize(250,250))
 
         sizePolicy = QSizePolicy(QSizePolicy.Maximum,QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ogreRenderWindow.sizePolicy().hasHeightForWidth())
-        self.ogreRenderWindow.setSizePolicy(sizePolicy)
-        self.ogreRenderWindow.setObjectName("ogreWidget")
-        self.splitterV.addWidget(self.ogreRenderWindow)
-        self.ogreRenderWindow.setBackgroundColor(og.ColourValue(0, 1, 1))
+        sizePolicy.setHeightForWidth(self.ogreWidget.sizePolicy().hasHeightForWidth())
+        self.ogreWidget.setSizePolicy(sizePolicy)
+        self.ogreWidget.setObjectName("ogreWidget")
+        self.splitterV.addWidget(self.ogreWidget)
+        self.ogreWidget.setBackgroundColor(og.ColourValue(0, 1, 1))
         ####################################
 
         self.gridlayout.addWidget(self.splitterV,0,0,1,1)
 
         # register the eventfilters for the render windows
         # this is needed to catch mouse enter and mouse leave events for these windows
-        self.ogreRenderWindow.installEventFilter(self)
-        self.ogreRenderWindow.setAcceptDrops(True)
+        self.ogreWidget.installEventFilter(self)
+        self.ogreWidget.setAcceptDrops(True)
         self.lastMousePosX = 0
         self.lastMousePosY = 0
 
         self.retranslateUi(Form)
         QMetaObject.connectSlotsByName(Form)
 
-        self.viewportGrid = ViewportGrid(self.OgreMainWinSceneMgr, self.ogreRenderWindow.viewport)
+        self.viewportGrid = ViewportGrid(self.OgreMainWinSceneMgr, self.ogreWidget.viewport)
         self.viewportGrid.enable()
     def retranslateUi(self, Form):
         Form.setWindowTitle(QApplication.translate("Form", "Form", None, QApplication.UnicodeUTF8))
@@ -150,7 +150,7 @@ class OgreMainWindow(QWidget):
 
     def eventFilter(self, obj, event):
         if event.type() == 2:
-            self.ogreRenderWindow.setFocus()
+            self.ogreWidget.setFocus()
             if event.button() == 1: # left mouse button is pressed
                 self.leftMouseDown = True
                 self.moduleManager.leftMouseDown = True
@@ -274,16 +274,16 @@ class OgreMainWindow(QWidget):
             event.ignore()
 
     def getCameraToViewportRay(self):
-        relMousePos = self.ogreRenderWindow.mapFromGlobal(QCursor.pos())
+        relMousePos = self.ogreWidget.mapFromGlobal(QCursor.pos())
 
-        screenX = relMousePos.x()/float(self.ogreRenderWindow.viewport.getActualWidth())
-        screenY = relMousePos.y()/float(self.ogreRenderWindow.viewport.getActualHeight())
+        screenX = relMousePos.x()/float(self.ogreWidget.viewport.getActualWidth())
+        screenY = relMousePos.y()/float(self.ogreWidget.viewport.getActualHeight())
 
-        return self.ogreRenderWindow.getCamera().getCameraToViewportRay(screenX, screenY)
+        return self.ogreWidget.getCamera().getCameraToViewportRay(screenX, screenY)
 
     #calculates the the selection ray and notifies the ModuleManager that something is about to be selected
     def calculateSelectionRay(self,  event):
-        relMousePos = self.ogreRenderWindow.mapFromGlobal(QPoint(event.globalX(),  event.globalY())) # get the mose position relative to the ogre window
+        relMousePos = self.ogreWidget.mapFromGlobal(QPoint(event.globalX(),  event.globalY())) # get the mose position relative to the ogre window
 
 #        if self.lastSelectionClick != None:
 #            if self.lastSelectionClick.x() == relMousePos.x() and self.lastSelectionClick.y() == relMousePos.y(): # mouse didn't move
@@ -293,10 +293,10 @@ class OgreMainWindow(QWidget):
 #                return
 
         self.lastSelectionClick = relMousePos
-        screenX = relMousePos.x()/float(self.ogreRenderWindow.viewport.getActualWidth())
-        screenY = relMousePos.y()/float(self.ogreRenderWindow.viewport.getActualHeight())
+        screenX = relMousePos.x()/float(self.ogreWidget.viewport.getActualWidth())
+        screenY = relMousePos.y()/float(self.ogreWidget.viewport.getActualHeight())
 
-        mouseRay = self.ogreRenderWindow.getCamera().getCameraToViewportRay(screenX, screenY)
+        mouseRay = self.ogreWidget.getCamera().getCameraToViewportRay(screenX, screenY)
 
         if event.modifiers() == Qt.ControlModifier:
             self.moduleManager.selectionClick(mouseRay,  True,  False)
@@ -305,13 +305,19 @@ class OgreMainWindow(QWidget):
         else:
             self.moduleManager.selectionClick(mouseRay)
 
+    def getWidth():
+        return self.ogreWidget.getWidth()
+        
+    def getHeight():
+        return self.ogreWidget.getHeight()
+
 
     def updateCamera(self):
         if self.moveCamForward:
-            self.ogreRenderWindow.dollyCamera(og.Vector3( 0, 0,-0.2))
+            self.ogreWidget.dollyCamera(og.Vector3( 0, 0,-0.2))
         if self.moveCamBackward:
-            self.ogreRenderWindow.dollyCamera(og.Vector3( 0, 0, 0.2))
+            self.ogreWidget.dollyCamera(og.Vector3( 0, 0, 0.2))
         if self.strafeCamLeft:
-            self.ogreRenderWindow.dollyCamera(og.Vector3(-0.2, 0 , 0))
+            self.ogreWidget.dollyCamera(og.Vector3(-0.2, 0 , 0))
         if self.strafeCamRight:
-            self.ogreRenderWindow.dollyCamera(og.Vector3( 0.2, 0, 0))
+            self.ogreWidget.dollyCamera(og.Vector3( 0.2, 0, 0))
