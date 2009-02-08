@@ -23,10 +23,12 @@ class RuchinModule < ContentModule
     end
 
     def start()
+        require 'mckhero.rb'
 		require 'clothing.rb'
-		
+		require 'npc.rb'
+
 		SceneManager::getSingleton().loadScene("ruchin", false);
-        load "maptest.rb"
+        load "ruchin.rb"
         $World = $CORE.getWorld();
     end
 end

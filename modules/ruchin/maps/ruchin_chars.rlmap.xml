@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<scene formatVersion="0.4.0">
+    <nodes>
+        <gameobject class="mckhero" state="IN_SCENE" id="1">
+            <position x="-16.18" y="9.17" z="29.55"/>
+            <rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/>
+            <scale x="1.0" y="1.0" z="1.0"/>
+		</gameobject>
+		<gameobject class="Hesindiane" state="IN_SCENE" id="101">
+            <position x="2.5935" y="2.88005" z="-10.0237"/>
+            <rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/>
+            <scale x="1.0" y="1.0" z="1.0"/>
+		</gameobject>
+		<gameobject class="Hagen" state="IN_SCENE" id="102">
+            <position x="2.5935" y="2.88005" z="-10.0237"/>
+            <rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/>
+            <scale x="1.0" y="1.0" z="1.0"/>
+		</gameobject>
+		<gameobject class="Thorben" state="IN_SCENE" id="103">
+            <position x="2.5935" y="2.88005" z="-10.0237"/>
+            <rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/>
+            <scale x="1.0" y="1.0" z="1.0"/>
+		</gameobject>
+		<gameobject class="Larissia" state="IN_SCENE" id="104">
+            <position x="2.5935" y="2.88005" z="-10.0237"/>
+            <rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/>
+            <scale x="1.0" y="1.0" z="1.0"/>
+		</gameobject>
+		<gameobject class="Wachoffizier" state="IN_SCENE" id="105">
+            <position x="2.5935" y="2.88005" z="-10.0237"/>
+            <rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/>
+            <scale x="1.0" y="1.0" z="1.0"/>
+		</gameobject>
+		<gameobject class="Wache" state="IN_SCENE" id="106">
+            <position x="2.5935" y="2.88005" z="-10.0237"/>
+            <rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/>
+            <scale x="1.0" y="1.0" z="1.0"/>
+            <property name="name" type="STRING" data="Wache 1"/>
+        </gameobject>
+		<gameobject class="Wache" state="IN_SCENE" id="107">
+            <position x="2.5935" y="2.88005" z="-10.0237"/>
+            <rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/>
+            <scale x="1.0" y="1.0" z="1.0"/>
+            <property name="name" type="STRING" data="Wache 2"/>
+        </gameobject>
+		<gameobject class="Rafur" state="IN_SCENE" id="201">
+            <position x="2.5935" y="2.88005" z="-10.0237"/>
+            <rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/>
+            <scale x="1.0" y="1.0" z="1.0"/>
+		</gameobject>
+		<gameobject class="Dieb" state="IN_SCENE" id="202">
+            <position x="2.5935" y="2.88005" z="-10.0237"/>
+            <rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/>
+            <scale x="1.0" y="1.0" z="1.0"/>
+		</gameobject>
+		<gameobject class="Advokat" state="IN_SCENE" id="203">
+            <position x="2.5935" y="2.88005" z="-10.0237"/>
+            <rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/>
+            <scale x="1.0" y="1.0" z="1.0"/>
+		</gameobject>
+		<gameobject class="Handlanger" state="IN_SCENE" id="204">
+            <position x="2.5935" y="2.88005" z="-10.0237"/>
+            <rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/>
+            <scale x="1.0" y="1.0" z="1.0"/>
+		</gameobject>
+		<gameobject class="Leibwaechter" state="IN_SCENE" id="205">
+            <position x="2.5935" y="2.88005" z="-10.0237"/>
+            <rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0"/>
+            <scale x="1.0" y="1.0" z="1.0"/>
+		</gameobject>
+    </nodes>
+</scene>

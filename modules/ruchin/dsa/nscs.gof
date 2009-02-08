@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<GameObjectDefinitions>
+
+
+	<gameobjectclass classid="Hesindiane" baseclass="NPC">
+		<property name="name" type="STRING" data="Hesindiane"/>
+		<property name="description" type="STRING" data="Deine ältere Schwester. Sie hat sich lieber aufs lernen konzentriert, während du in den Strassen herumgetollt bist. Dafür bist du Humorvoller."/>
+		<property name="geometrytype" type="STRING" data="ellipsoid"/>
+		<property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+		<property name="mass" type="REAL" data="65"/>
+		<property name="behaviours" type="ARRAY">
+			<property type="STRING" data="DefaultIdleBehaviour"/>
+			<property type="STRING" data="DialogBehaviour"/>
+		</property>
+		<property name="eigenschaften" type="MAP">
+			<property name="MU" type="INT" data="12"/>
+			<property name="KL" type="INT" data="14"/>
+			<property name="IN" type="INT" data="11"/>
+			<property name="CH" type="INT" data="8"/>
+			<property name="FF" type="INT" data="13"/>
+			<property name="GE" type="INT" data="11"/>
+			<property name="KO" type="INT" data="11"/>
+			<property name="KK" type="INT" data="10"/>
+		</property>
+		<property name="werte" type="MAP">
+			<property name="ModLE" type="INT" data="10"/>
+			<property name="ModAU" type="INT" data="10"/>
+			<property name="GS" type="INT" data="7" />
+			<property name="SO" type="INT" data="6" />
+		</property>
+		<property name="current_le" type="INT" data="20"/>
+		<property name="current_au" type="INT" data="20"/>
+		<!-- todo auf das echte maximum setzen -->
+		<property name="talente" type="MAP">
+			<property name="Selbstbeherrschung" type="INT" data="8"/>
+			<property name="Lehren" type="INT" data="5"/>
+		</property>
+	</gameobjectclass>
+
+	<gameobjectclass classid="Hagen" baseclass="NPC">
+		<property name="name" type="STRING" data="Hagen"/>
+		<property name="description" type="STRING" data=""/>
+		<property name="geometrytype" type="STRING" data="ellipsoid"/>
+		<property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+		<property name="mass" type="REAL" data="65"/>
+		<property name="behaviours" type="ARRAY">
+			<property type="STRING" data="DefaultIdleBehaviour"/>
+			<property type="STRING" data="DialogBehaviour"/>
+		</property>
+    </gameobjectclass>
+
+	<gameobjectclass classid="Thorben" baseclass="NPC">
+		<property name="name" type="STRING" data="Thorben"/>
+		<property name="description" type="STRING" data=""/>
+		<property name="geometrytype" type="STRING" data="ellipsoid"/>
+		<property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+		<property name="mass" type="REAL" data="65"/>
+		<property name="behaviours" type="ARRAY">
+			<property type="STRING" data="DefaultIdleBehaviour"/>
+			<property type="STRING" data="DialogBehaviour"/>
+		</property>
+    </gameobjectclass>
+
+	<gameobjectclass classid="Rafur" baseclass="NPC">
+		<property name="name" type="STRING" data="Rafur"/>
+		<property name="description" type="STRING" data=""/>
+		<property name="geometrytype" type="STRING" data="ellipsoid"/>
+		<property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+		<property name="mass" type="REAL" data="65"/>
+		<property name="behaviours" type="ARRAY">
+			<property type="STRING" data="DefaultIdleBehaviour"/>
+			<property type="STRING" data="DialogBehaviour"/>
+		</property>
+    </gameobjectclass>
+
+	<gameobjectclass classid="Larissia" baseclass="NPC">
+		<property name="name" type="STRING" data="Larissia"/>
+		<property name="description" type="STRING" data=""/>
+		<property name="geometrytype" type="STRING" data="ellipsoid"/>
+		<property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+		<property name="mass" type="REAL" data="65"/>
+		<property name="behaviours" type="ARRAY">
+			<property type="STRING" data="DefaultIdleBehaviour"/>
+			<property type="STRING" data="DialogBehaviour"/>
+		</property>
+    </gameobjectclass>
+
+	<gameobjectclass classid="Dieb" baseclass="NPC">
+		<property name="name" type="STRING" data="Dieb"/>
+		<property name="description" type="STRING" data=""/>
+		<property name="geometrytype" type="STRING" data="ellipsoid"/>
+		<property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+		<property name="mass" type="REAL" data="65"/>
+		<property name="behaviours" type="ARRAY">
+			<property type="STRING" data="DefaultIdleBehaviour"/>
+			<property type="STRING" data="DialogBehaviour"/>
+		</property>
+    </gameobjectclass>
+
+	<gameobjectclass classid="Wachoffizier" baseclass="NPC">
+		<property name="name" type="STRING" data="Wachoffizier"/>
+		<property name="description" type="STRING" data=""/>
+		<property name="geometrytype" type="STRING" data="ellipsoid"/>
+		<property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+		<property name="mass" type="REAL" data="65"/>
+		<property name="behaviours" type="ARRAY">
+			<property type="STRING" data="DefaultIdleBehaviour"/>
+			<property type="STRING" data="DialogBehaviour"/>
+		</property>
+    </gameobjectclass>
+
+	<gameobjectclass classid="Wache" baseclass="NPC">
+		<property name="name" type="STRING" data="Wache"/>
+		<property name="description" type="STRING" data=""/>
+		<property name="geometrytype" type="STRING" data="ellipsoid"/>
+		<property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+		<property name="mass" type="REAL" data="65"/>
+		<property name="behaviours" type="ARRAY">
+			<property type="STRING" data="DefaultIdleBehaviour"/>
+			<property type="STRING" data="DialogBehaviour"/>
+		</property>
+    </gameobjectclass>
+
+	<gameobjectclass classid="Advokat" baseclass="NPC">
+		<property name="name" type="STRING" data="Advokat"/>
+		<property name="description" type="STRING" data=""/>
+		<property name="geometrytype" type="STRING" data="ellipsoid"/>
+		<property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+		<property name="mass" type="REAL" data="65"/>
+		<property name="behaviours" type="ARRAY">
+			<property type="STRING" data="DefaultIdleBehaviour"/>
+			<property type="STRING" data="DialogBehaviour"/>
+		</property>
+    </gameobjectclass>
+
+	<gameobjectclass classid="Handlanger" baseclass="NPC">
+		<property name="name" type="STRING" data="Handlanger"/>
+		<property name="description" type="STRING" data=""/>
+		<property name="geometrytype" type="STRING" data="ellipsoid"/>
+		<property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+		<property name="mass" type="REAL" data="65"/>
+		<property name="behaviours" type="ARRAY">
+			<property type="STRING" data="DefaultIdleBehaviour"/>
+			<property type="STRING" data="DialogBehaviour"/>
+		</property>
+    </gameobjectclass>
+    
+	<gameobjectclass classid="Leibwaechter" baseclass="NPC">
+		<property name="name" type="STRING" data="Leibwaechter"/>
+		<property name="description" type="STRING" data=""/>
+		<property name="geometrytype" type="STRING" data="ellipsoid"/>
+		<property name="meshfile" type="STRING" data="men_alrike.mesh"/>
+		<property name="mass" type="REAL" data="65"/>
+		<property name="behaviours" type="ARRAY">
+			<property type="STRING" data="DefaultIdleBehaviour"/>
+			<property type="STRING" data="DialogBehaviour"/>
+		</property>
+    </gameobjectclass>
+    
+</GameObjectDefinitions>
