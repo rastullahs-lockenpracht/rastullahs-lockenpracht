@@ -61,7 +61,7 @@ namespace rl
     {
 		initializeXml();
 
-		WriteableDataStreamPtr stream = file->getDataStream();
+        Ogre::DataStreamPtr stream = file->getDataStream();
 
 		if(stream->size())
 		{

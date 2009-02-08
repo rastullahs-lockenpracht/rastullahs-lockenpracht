@@ -20,29 +20,23 @@
 
 namespace rl
 {
-    WriteableDataStreamFormatTarget::WriteableDataStreamFormatTarget(WriteableDataStreamPtr stream)
+    WriteableDataStreamFormatTarget::WriteableDataStreamFormatTarget(WriteableDataStream* stream)
     {
         mStream = stream;
     }
 
     void WriteableDataStreamFormatTarget::writeChars (const XMLByte *const toWrite, const unsigned int count, XERCES_CPP_NAMESPACE::XMLFormatter *const formatter)
     {
-        if(dynamic_cast<WriteableDataStream*>(mStream.get()))
-        {
-            mStream->write((char*)toWrite, count);
-        }
-        else
-            LOG_ERROR(Logger::COMMON, "WriteableDataStreamFormatTarget: Stream " + mStream->getName() + " is not writeable");
+        mStream->write((char*)toWrite, count);
+        /*else
+            LOG_ERROR(Logger::COMMON, "WriteableDataStreamFormatTarget: Stream " + mStream->getName() + " is not writeable");*/
     }
 
     void WriteableDataStreamFormatTarget::flush ()
     {
-        if(dynamic_cast<WriteableDataStream*>(mStream.get()))
-        {
-            mStream->flush();
-        }
-        else
-            LOG_ERROR(Logger::COMMON, "WriteableDataStreamFormatTarget: Stream " + mStream->getName() + " is not writeable");
+        mStream->flush();
+        /*else
+            LOG_ERROR(Logger::COMMON, "WriteableDataStreamFormatTarget: Stream " + mStream->getName() + " is not writeable");*/
     }
 }
 

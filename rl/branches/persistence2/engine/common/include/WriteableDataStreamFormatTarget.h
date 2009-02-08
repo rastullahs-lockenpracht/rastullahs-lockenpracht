@@ -25,11 +25,11 @@ namespace rl
     class _RlCommonExport WriteableDataStreamFormatTarget : public XERCES_CPP_NAMESPACE::XMLFormatTarget
     {
     public:
-        WriteableDataStreamFormatTarget(WriteableDataStreamPtr stream);
+        WriteableDataStreamFormatTarget(WriteableDataStream* stream);
         virtual void writeChars (const XMLByte *const toWrite, const unsigned int count, XERCES_CPP_NAMESPACE::XMLFormatter *const formatter);
         virtual void flush ();
     protected:
-        WriteableDataStreamPtr mStream;
+        WriteableDataStream* mStream;
     };
 }
 

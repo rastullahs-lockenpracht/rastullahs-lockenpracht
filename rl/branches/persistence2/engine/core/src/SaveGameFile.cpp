@@ -33,7 +33,7 @@ namespace rl
     const Ogre::String SaveGameFile::PROPERTY_MODULENAME = "modulename";
 
 
-    SaveGameFile::SaveGameFile(int id, WriteableDataStreamPtr stream) : mStream(stream)
+    SaveGameFile::SaveGameFile(int id, Ogre::DataStreamPtr stream) : mStream(stream)
     {
 		mSaveGameId = id;  
     }
@@ -57,7 +57,7 @@ namespace rl
         return mSaveGameId;
     }
 
-    WriteableDataStreamPtr SaveGameFile::getDataStream() const
+    Ogre::DataStreamPtr SaveGameFile::getDataStream() const
     {
 		return mStream;
     }
@@ -65,7 +65,7 @@ namespace rl
     XERCES_CPP_NAMESPACE::XMLFormatTarget* SaveGameFile::getFormatTarget()
     {
         ///@todo: encryption
-		return new WriteableDataStreamFormatTarget(mStream);
+        return new WriteableDataStreamFormatTarget(static_cast<WriteableDataStream*>(mStream.get()));
     }
 
     void SaveGameFile::deleteFileFromStorage()

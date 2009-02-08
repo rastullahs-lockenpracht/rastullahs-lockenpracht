@@ -39,14 +39,14 @@ namespace rl
         static const Ogre::String PROPERTY_NAME;
         static const Ogre::String PROPERTY_MODULENAME;
 
-        SaveGameFile(int id, WriteableDataStreamPtr stream);
+        SaveGameFile(int id, Ogre::DataStreamPtr stream);
         ~SaveGameFile();
         CeGuiString getName() const;
 		CeGuiString getModuleId() const;
 		int getId() const;
 
         //access to file
-        WriteableDataStreamPtr getDataStream() const;
+        Ogre::DataStreamPtr getDataStream() const;
         XERCES_CPP_NAMESPACE::XMLFormatTarget* getFormatTarget();
         void deleteFileFromStorage(); //erwuenscht?
 
@@ -63,7 +63,7 @@ namespace rl
 
         //file access
         Ogre::StringVector mScriptPatterns;
-        WriteableDataStreamPtr mStream;
+        Ogre::DataStreamPtr mStream;
         int mSaveGameId;
     };
 }
