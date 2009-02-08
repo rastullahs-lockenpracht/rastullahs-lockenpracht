@@ -829,7 +829,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D0C4E890486CD37000505A6 /* Rastullah */;
+			remoteGlobalIDString = 8D0C4E890486CD37000505A6;
 			remoteInfo = Rastullah;
 		};
 /* End PBXContainerItemProxy section */
@@ -3129,7 +3129,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SOURCE_ROOT}/tools/renameinstalldirs.sh ${BUILT_PRODUCTS_DIR}/Rastullah.app/Contents/MacOS Rastullah\n# ${SOURCE_ROOT}/tools/mkdmg.sh rastullah 1 ${BUILT_PRODUCTS_DIR}/Rastullah.app";
+			shellScript = "${SOURCE_ROOT}/tools/renameinstalldirs.sh ${BUILT_PRODUCTS_DIR} Rastullah.app/Contents/MacOS Rastullah\n# ${SOURCE_ROOT}/tools/mkdmg.sh rastullah 1 ${BUILT_PRODUCTS_DIR}/Rastullah.app";
 		};
 /* End PBXShellScriptBuildPhase section */
 
