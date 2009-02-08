@@ -3,15 +3,44 @@ import random
 
 import ogre.renderer.OGRE as og
 
+
+# a class to store information about a object that got selected
+class SelectionObject():
+    def __init__(self,  entity):
+        self.entityName = entity.getName()
+        self.entity = entity #the selected entity
+        self.isPivot = False
+
+#        if self.entity.getUserObject() is not None:
+#            self.isGameObject = True
+#        else:
+#            self.isGameObject = False
+
+    #if True this instance will show its bounding box else it will hide it
+    def setSelected(self,  selected):
+        if selected == True:
+            self.entity.getParentNode().showBoundingBox(True)
+        else:
+            self.entity.getParentNode().showBoundingBox(False)
+
+    def __eq__(self, other):
+        return self.entity.getName() == other.entity.getName()
+
+    def __ne__(self, other):
+        return self.entity.getName() != other.entity.getName()
+
 # class to handle material switching without having to modify scene materials individually
 class MaterialSwitcher( og.MaterialManager.Listener ):
     def __init__(self):
         og.MaterialManager.Listener.__init__(self)
       
         self.currentColor = og.ColourValue(0.0, 0.0, 0.0)
+        self.currentColorAsVector3 = og.Vector3()
+        
         self.lastEntity = ""
         self.lastTechnique = None
         
+        self.colorDict = {}
        
     # takes into account that one Entity can have multiple SubEntities
     def handleSchemeNotFound(self, index, name, material, lod, subEntity):
@@ -26,8 +55,8 @@ class MaterialSwitcher( og.MaterialManager.Listener ):
                 self.randomizeColor()
                 subEntity.setCustomParameter(1, og.Vector4(self.currentColor.r, self.currentColor.g, self.currentColor.b, 1.0))
                 
-
                 self.lastEntity = subEntity.getParent().getName()
+                self.colorDict[self.lastEntity] = self.currentColorAsVector3
                 return self.lastTechnique
         
 
@@ -35,12 +64,13 @@ class MaterialSwitcher( og.MaterialManager.Listener ):
         r = random.randrange(1, 255)
         g = random.randrange(1, 255)
         b = random.randrange(1, 255)
-        
+        self.currentColorAsVector3 = og.Vector3(r, g, b)
         var = 1.0 / 255.0
 
         self.currentColor = og.ColourValue(r * var, g * var, b * var)
 
-        
+        #print str(int(self.currentColor.r * 255)) + " " + str(int(255 * self.currentColor.g)) + " " + str(int(255 * self.currentColor.b))
+    
     def reset(self):
         self.currentColor = og.ColourValue(0.0, 0.0, 0.0)
         self.lastEntity = ""
@@ -73,13 +103,6 @@ class SelectionBuffer():
         
         self.selectionTargetListener = SelectionRenderListener( self.materialSwitchListener )
         
-#        self.texture = og.TextureManager.getSingleton().createManual("SelectionPassTex", 
-#                                                                    og.ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, 
-#                                                                    og.TEX_TYPE_2D, 
-#                                                                    self.viewport.getActualWidth(), 
-#                                                                    self.viewport.getActualHeight(), 
-#                                                                    0, og.PixelFormat.PF_R8G8B8, og.TU_RENDERTARGET)
-                                                                    
         width = self.viewport.getWidth()
         height = self.viewport.getHeight()
         
@@ -110,30 +133,35 @@ class SelectionBuffer():
         #buffersize2 = self.renderTexture.getWidth()*self.renderTexture.getHeight()*4
         
         storageclass = ctypes.c_uint8 * (bufferSize)
-        buff = storageclass()
+        self.buffer = storageclass()
         
-        VoidPointer = og.CastVoidPtr(ctypes.addressof(buff))
+        VoidPointer = og.CastVoidPtr(ctypes.addressof(self.buffer))
 
-        pBox = og.PixelBox(pixelBuffer.getWidth(), pixelBuffer.getHeight(),pixelBuffer.getDepth(), pixelBuffer.getFormat(), VoidPointer)
-        self.renderTexture.copyContentsToMemory(pBox, og.RenderTarget.FrameBuffer.FB_FRONT)
-        self.renderTexture.writeContentsToTimestampedFile("editor", ".png")
-        i = 0
-        
-        while i < len(buff):
-            #print str(buff[i + 2]) + " " + str(buff[i+1]) + " " + str(buff[i])
+        self.pBox = og.PixelBox(pixelBuffer.getWidth(), pixelBuffer.getHeight(),pixelBuffer.getDepth(), pixelBuffer.getFormat(), VoidPointer)
+        self.renderTexture.copyContentsToMemory(self.pBox, og.RenderTarget.FrameBuffer.FB_FRONT)
+
+#        i = 0
+#        
+#        while i < len(self.buffer):
+#            #print str(self.buffer[i + 2]) + " " + str(self.buffer[i+1]) + " " + str(self.buffer[i])
+#            
+#            i += 4
             
-            i += 4
-        #for a in buff:
-            #print a
+    def onSelectionClick(self, x, y):
+        self.update()
+        
+        posInStream = (self.pBox.getWidth() * y - 1)*4
+        posInStream += x*4
+        
+        colVec = og.Vector3(self.buffer[posInStream + 2], self.buffer[posInStream+1], self.buffer[posInStream])
+        
+        for key in self.materialSwitchListener.colorDict:
+            if self.materialSwitchListener.colorDict[key] == colVec:
+                so = SelectionObject(self.sceneMgr.getEntity(key))
+                return so
 
-        #pBox = pixelBuffer.getCurrentLock()
+        return None
         
-        #storageclass = ctypes.c_uint8 * (self.renderTexture.getWidth()*self.renderTexture.getHeight()*3) 
-        
-        
-        #pixelBuffer.unlock()
-        
-
     def createRTTOverlays(self):
         baseWhite = og.MaterialManager.getSingletonPtr().getByName("Lockenwickler_Pivot_X")
         SelectionBufferTexture = baseWhite.clone("SelectionDebugMaterial")

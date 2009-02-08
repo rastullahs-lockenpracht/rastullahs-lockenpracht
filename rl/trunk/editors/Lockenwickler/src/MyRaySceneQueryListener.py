@@ -18,7 +18,6 @@
 
 import ctypes
 import ogre.renderer.OGRE as og
-import ogre.physics.OgreNewt as on
 
 # a class to store information about a object that got selected
 class SelectionObject():
@@ -61,11 +60,8 @@ class MyRaySceneQueryListener ( og.RaySceneQueryListener ):
         self.currentRay = None
         self.lastRay = None
 
-        self.World = on.World()
-        self.World.setWorldSize(og.Vector3(-1000000, -1000000, -1000000), og.Vector3(1000000, 1000000, 1000000))
-
-    def __del__(self):
-        del self.World
+    #def __del__(self):
+        #del self.World
 
     # sort algorithm for the selection list
     def sortCompareImp(self,  x,  y):
@@ -137,31 +133,7 @@ class MyRaySceneQueryListener ( og.RaySceneQueryListener ):
 
 
     def rayCastToPolygonLevelOnSingleMesh(self,  ray,  entity):
-        col = on.TreeCollision(self.World, entity.getParentNode(), False)
-        bod = on.Body(self.World, col)
-
-
-        start = ray.getOrigin()
-        end = ray.getPoint(10000)
-
-        retNorm = og.Vector3(0.0, 0.0, 0.0)
-
-        val = on.CollisionRayCast(col, start, end, retNorm)
-#        print val
-#
-#        print retNorm.x
-#        print retNorm.y
-#        print retNorm.z
-        del col
-        self.World.destroyAllBodies()
-        
-        if retNorm.x != 0.0 or retNorm.y != 0.0 or retNorm.z != 0.0:
-#           print "yes"
-           return True
-        else:
-#            print "no"
-            return False
-           
+        return
         
         
 

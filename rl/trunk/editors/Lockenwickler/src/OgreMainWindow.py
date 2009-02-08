@@ -299,11 +299,11 @@ class OgreMainWindow(QWidget):
         mouseRay = self.ogreWidget.getCamera().getCameraToViewportRay(screenX, screenY)
 
         if event.modifiers() == Qt.ControlModifier:
-            self.moduleManager.selectionClick(mouseRay,  True,  False)
+            self.moduleManager.selectionClick(relMousePos.x(), relMousePos.y(), mouseRay,  True,  False)
         elif event.modifiers() == Qt.ShiftModifier:
-            self.moduleManager.selectionClick(mouseRay,  False,  True)
+            self.moduleManager.selectionClick(relMousePos.x(), relMousePos.y(), mouseRay,  False,  True)
         else:
-            self.moduleManager.selectionClick(mouseRay)
+            self.moduleManager.selectionClick(relMousePos.x(), relMousePos.y(), mouseRay)
 
     def getWidth():
         return self.ogreWidget.getWidth()

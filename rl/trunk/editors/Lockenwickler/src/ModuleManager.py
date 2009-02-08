@@ -33,7 +33,7 @@ from PyQt4.QtGui import *
 from SelectionBuffer import *
 from MovePivot import *
 from GameObjectClassManager import *
-from MyRaySceneQueryListener import *
+
 
 #                <zone name="Testzone">
 #                        <area type="sphere">
@@ -378,8 +378,6 @@ class ModuleManager():
 
         self.moduleCfgPath = ""
 
-        self.raySceneQuery = self.sceneManager.createRayQuery(og.Ray())
-
         self.gocManager = GameObjectClassManager()
         # we need to hold a reference to the game object representaions ourself
         # python does not recognize the a reference to a c++ object (Entity in our case) is passed
@@ -392,8 +390,6 @@ class ModuleManager():
         self.userSelectionList = []
         self.cutList = [] # selection objects that has been cut out and wait to be pasted again
         self.cutListPreviousNodes = [] # contains the nodes they where copnnected to before the cut
-
-        self.listenerDings = MyRaySceneQueryListener()
 
         self.moduleExplorer = None
 
@@ -507,18 +503,14 @@ class ModuleManager():
             self.selectionBuffer = SelectionBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
 
     # called when a click into Main Ogre Window occurs
-    def selectionClick(self,  ray,  controlDown=False,  shiftDown=False):
+    def selectionClick(self, screenX, screenY, ray,  controlDown=False,  shiftDown=False):
+        so = None
+        
         if self.selectionBuffer is not None:
-            self.selectionBuffer.update()
-            
-        self.listenerDings.reset()
-        self.lastRay = ray
-        self.listenerDings.currentRay = ray
-        self.raySceneQuery.Ray = ray
-        self.raySceneQuery.execute(self.listenerDings)
-
-        so = self.listenerDings.rayCastToPolygonLevel(ray)
-
+            so = self.selectionBuffer.onSelectionClick(screenX, screenY)
+        
+        
+        
         if so is not None:
             if not so.isPivot:
                 if not controlDown and not shiftDown:
@@ -691,8 +683,6 @@ class ModuleManager():
 
         self.userSelectionList = []
 
-        self.listenerDings.reset()
-        pass
 
 
     def updatePivots(self):
