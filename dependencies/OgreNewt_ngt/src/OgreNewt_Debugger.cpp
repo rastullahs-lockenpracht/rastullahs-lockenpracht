@@ -10,8 +10,9 @@ namespace OgreNewt
 //////////////////////////////////////////////////////////
 // DEUBBER FUNCTIONS
 //////////////////////////////////////////////////////////
-Debugger::Debugger()
+Debugger::Debugger(const OgreNewt::World* world)
 {
+    m_world = world;
     m_debugnode = NULL;
     m_defaultcolor = Ogre::ColourValue::White;
 
@@ -25,15 +26,9 @@ Debugger::Debugger()
 
 Debugger::~Debugger()
 {
-    Debugger::getSingleton().deInit();
+    deInit();
 }
 
-Debugger& Debugger::getSingleton()
-{
-    static Debugger instance;
-    return instance;
-}
-		
 void Debugger::init( Ogre::SceneManager* smgr )
 {
     if( !m_debugnode )
@@ -75,12 +70,12 @@ void Debugger::deInit()
 }
 
 
-void Debugger::showDebugInformation( OgreNewt::World* world )
+void Debugger::showDebugInformation( )
 {
     m_debugnode->removeAllChildren();
 
     // make the new lines.
-    for( Body* body = world->getFirstBody(); body; body = body->getNext() )
+    for( Body* body = m_world->getFirstBody(); body; body = body->getNext() )
     {
         processBody(body);
     }
@@ -89,7 +84,7 @@ void Debugger::showDebugInformation( OgreNewt::World* world )
 
     // delete old entries
     BodyDebugDataMap newmap;
-    for(BodyDebugDataMap::iterator it = Debugger::getSingleton().m_cachemap.begin(); it != Debugger::getSingleton().m_cachemap.end(); it++)
+    for(BodyDebugDataMap::iterator it = m_cachemap.begin(); it != m_cachemap.end(); it++)
     {
         if( it->second.m_updated )
             newmap.insert(*it);
@@ -100,7 +95,7 @@ void Debugger::showDebugInformation( OgreNewt::World* world )
                 delete mo;
         }
     }
-    Debugger::getSingleton().m_cachemap.swap(newmap);
+    m_cachemap.swap(newmap);
 }
 
 void Debugger::hideDebugInformation()
@@ -148,14 +143,14 @@ void Debugger::processBody( OgreNewt::Body* bod )
 
 
     // look for cached data
-    BodyDebugData* data = &Debugger::getSingleton().m_cachemap[bod];
+    BodyDebugData* data = &m_cachemap[bod];
     if( data->m_lastcol == bod->getCollision() ) // use cached data
     {
         // set new position...
         data->m_node->setPosition(pos);
         data->m_node->setOrientation(ori);
         data->m_updated = 1;
-        Debugger::getSingleton().m_debugnode->addChild(data->m_node);
+        m_debugnode->addChild(data->m_node);
         data->m_text->setCaption(oss_info.str());
         data->m_text->setLocalTranslation(bod->getAABB().getSize().y*1.1*Ogre::Vector3::UNIT_Y);
     }
@@ -171,7 +166,7 @@ void Debugger::processBody( OgreNewt::Body* bod )
             data->m_node->setOrientation(ori);
         }
         else
-            data->m_node = Debugger::getSingleton().m_debugnode->createChildSceneNode(pos, ori);
+            data->m_node = m_debugnode->createChildSceneNode(pos, ori);
 
         if( data->m_lines )
             data->m_lines->clear();

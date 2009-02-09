@@ -52,7 +52,8 @@
 
     Problems and missing features in this version
         - PlayerController not finished
-        - only one world is possible, the Debugger and Body
+        - the convexcast seems to have difficulties with more than one contact (I've segfault when debugging it with the OgreNewt::Debugger...)
+          I added a hack, it only creates one contact at the maximum at the moment!
         - this library supports the newton functions for multithreading but there are several functions/classes in this
           library itself, that are not thread safe (I don't need multiple threads)
         - the copied MovableText class (in Tools::OgreAddons) seems to have some graphics error (it's used
@@ -75,7 +76,9 @@
             - added a lots of new simple "iterators":
                 - for Bodies use body = World->getFirstBody() and body = body->getNext()
                 - for the 
-            - BodyIterator renamed to BodyInAABBIterator, it does now only iterate throuch bodies in a specific AABB
+            - BodyIterator renamed to BodyInAABBIterator, it does now only iterate through bodies in a specific AABB
+            - removed "Singleton-classes", the debugger and the BodyInAABBIterator are now part of a World
+              (call world->getDebugger() / world->getBodyInAABBIterator() to use these classes!)
         - added support for trigger-volumes (ConvexCollision::setAsTriggerVolume ...)
         - added support for convexcasts
         - added additional debugging features:

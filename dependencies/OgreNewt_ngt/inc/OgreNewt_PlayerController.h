@@ -80,8 +80,8 @@ public:
 protected:
     OgreNewt::Body *m_body; // we need this again, because in the joint it's constant!
 
-    Ogre::Real m_forwardSpeed, m_sideSpeed, m_maxStepHeight;
-    Ogre::Radian m_heading, m_maxSlope, m_restitution;
+    Ogre::Real m_forwardSpeed, m_sideSpeed, m_maxStepHeight, m_restitution;
+    Ogre::Radian m_heading, m_maxSlope;
     Ogre::Vector3 m_upVector;
 
     bool m_isInJumpState;
@@ -107,7 +107,8 @@ protected:
 
 
     // other parameters
-    int m_maxCollisionsIterations;
+    int m_maxCollisionsIteration;
+    int m_maxContactsCount;
 
     // variables used in submitConstraint
     Ogre::Quaternion m_lastOri;
@@ -130,42 +131,40 @@ private:
     class StaticConvexCast : public OgreNewt::BasicConvexcast
     {
         public:
-            StaticConvexCast(PlayerController *pc, const OgreNewt::World* world,
-                             const OgreNewt::Collision* col, const Ogre::Vector3& startpt,
-                             const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int thread) :
-                    BasicConvexcast(pc->getControlledBody()->getWorld(), col, startpt, colori, endpt, maxcontactscount, thread),
-                    m_parent(pc)
-                {}
+            StaticConvexCast(PlayerController *pc) : m_parent(pc) {}
+
+            void go(const OgreNewt::Collision* col, const Ogre::Vector3& startpt,
+                    const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int thread)
+            {
+                go(m_parent->getControlledBody()->getWorld(), col, startpt, colori, endpt, maxcontactscount, thread);
+            }
 
             virtual bool userPreFilterCallback(OgreNewt::Body* body) {return m_parent->convexStaticCastPreFilter(body);}
         private:
             OgreNewt::PlayerController* m_parent;
+            using BasicConvexcast::go;
     };
 
     class DynamicConvexCast : public OgreNewt::BasicConvexcast
     {
         public:
-            DynamicConvexCast(PlayerController *pc, const OgreNewt::World* world,
-                             const OgreNewt::Collision* col, const Ogre::Vector3& startpt,
-                             const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int thread) :
-                    BasicConvexcast(pc->getControlledBody()->getWorld(), col, startpt, colori, endpt, maxcontactscount, thread),
-                    m_parent(pc)
-                {}
+            DynamicConvexCast(PlayerController *pc) : m_parent(pc) {}
+
+            void go(const OgreNewt::Collision* col, const Ogre::Vector3& startpt,
+                    const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int thread)
+            {
+                go(m_parent->getControlledBody()->getWorld(), col, startpt, colori, endpt, maxcontactscount, thread);
+            }
 
             virtual bool userPreFilterCallback(OgreNewt::Body* body) {return m_parent->convexDynamicCastPreFilter(body);}
         private:
             OgreNewt::PlayerController* m_parent;
+            using BasicConvexcast::go;
     };
 
     class AllBodyConvexCast : public OgreNewt::BasicConvexcast
     {
         public:
-            AllBodyConvexCast(PlayerController *pc, const OgreNewt::World* world,
-                             const OgreNewt::Collision* col, const Ogre::Vector3& startpt,
-                             const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int thread) :
-                    BasicConvexcast(pc->getControlledBody()->getWorld(), col, startpt, colori, endpt, maxcontactscount, thread),
-                    m_parent(pc)
-                {}
 
             virtual bool userPreFilterCallback(OgreNewt::Body* body) {return m_parent->convexAllBodyCastPreFilter(body);}
         private:

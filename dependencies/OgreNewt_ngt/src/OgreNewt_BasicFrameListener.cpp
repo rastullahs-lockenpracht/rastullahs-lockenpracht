@@ -14,7 +14,7 @@ namespace OgreNewt
 	m_elapsed = 0.0f;
 
 	// add the standard debug viewer.
-	Debugger::getSingleton().init( mgr );
+	W->getDebugger().init( mgr );
 
 	OIS::ParamList pl;
 	size_t windowHnd = 0;
@@ -83,11 +83,11 @@ bool BasicFrameListener::frameStarted(const Ogre::FrameEvent &evt)
 
 	if (mKeyboard->isKeyDown(OIS::KC_F3))
 	{
-		Debugger::getSingleton().showDebugInformation( m_World );
+		m_world->getDebugger().showDebugInformation( m_World );
 	}
 	else
 	{
-		Debugger::getSingleton().hideDebugInformation();
+		m_world->getDebugger().hideDebugInformation();
 	}
 
 	

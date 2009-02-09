@@ -7,7 +7,9 @@ namespace OgreNewt
 
 
 // Constructor
-World::World()
+World::World() :
+    m_bodyInAABBIterator(this),
+    m_debugger(this)
 {
 	m_limits = Ogre::AxisAlignedBox(Ogre::Vector3(-100,-100,-100), Ogre::Vector3(100,100,100));
 
@@ -83,7 +85,7 @@ void _CDECL World::newtonLeaveWorld( const NewtonBody* body, int threadIndex )
 	}
 }
 
-Body* World::getFirstBody()
+Body* World::getFirstBody() const
 {
     NewtonBody* body = NewtonWorldGetFirstBody( m_world );
     if( body )

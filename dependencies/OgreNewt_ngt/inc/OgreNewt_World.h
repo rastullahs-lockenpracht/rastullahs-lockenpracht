@@ -12,6 +12,8 @@
 
 
 #include "OgreNewt_Prerequisites.h"
+#include "OgreNewt_BodyInAABBIterator.h"
+#include "OgreNewt_Debugger.h"
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 
@@ -192,14 +194,21 @@ public:
 	//! updates only the collision of the world and call the callback functions if necessary, can be used for an collision only system
 	void CollisionUpdate() { NewtonCollisionUpdate( m_world ); }
     //! to iterate through all bodies call this function and then use body->getNext()
-    Body* getFirstBody();
+    Body* getFirstBody() const;
 
     /*
     //! to iterate through all material-pairs use this function and then call matPair->getNext()
     MaterialGroupID* getFirstMaterialGroupID();
     */
 
+    //! get a bodyInAABBIterator for this world
+    const BodyInAABBIterator& getBodyInAABBIterator() const {return m_bodyInAABBIterator;}
 
+    //! get the debugger for this world
+    /*!
+     * the debugger needs to be initialized (Debugger::init(...) ) in order to work correctly
+    */
+    Debugger& getDebugger() const {return m_debugger;}
 
 protected:
 	
@@ -207,6 +216,10 @@ protected:
 	MaterialID* m_defaultMatID;
 
 	LeaveWorldCallback m_leaveCallback;
+    
+    BodyInAABBIterator m_bodyInAABBIterator;
+
+    mutable Debugger m_debugger;
 
 private:
 

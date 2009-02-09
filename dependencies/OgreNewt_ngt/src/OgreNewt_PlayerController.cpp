@@ -3,6 +3,7 @@
 #include "OgreNewt_Collision.h"
 #include "OgreNewt_CollisionPrimitives.h"
 #include "OgreNewt_World.h"
+#include <vector>
 
 namespace OgreNewt
 {
@@ -11,6 +12,9 @@ PlayerController::PlayerController(OgreNewt::Body * child) :
     CustomJoint(6, child, NULL),
     m_body(child)
 {
+    // initialize some non settable parameters
+    m_maxCollisionsIteration = 8;
+    m_maxContactsCount = 16;
     // initialize settable values
     m_forwardSpeed = 0;
     m_sideSpeed = 0;
@@ -31,6 +35,8 @@ PlayerController::PlayerController(OgreNewt::Body * child) :
     // initialize sensor-shape parameters
     m_staticRadiusFactor = 1.125f;
     m_dynamicRadiusFactor = 1.5f;
+    //! TODO I think there's an error with the radius...
+    m_dynamicRadiusFactor = 0.75f;
     m_floorFinderRadiusFactor = 1.0f;
     m_maxPlayerHeightPaddFactor = 0.01f;
     m_sensorShapeSegments = 32;
@@ -138,8 +144,8 @@ void PlayerController::getPlayerHeightAndRadius(Ogre::Real &height, Ogre::Real &
     height = aab.getMaximum().y - aab.getMinimum().y;
 
     Ogre::Real rx = aab.getMaximum().x - aab.getMinimum().x;
-    Ogre::Real ry = aab.getMaximum().y - aab.getMinimum().y;
-    radius = std::max(rx,ry);
+    Ogre::Real rz = aab.getMaximum().z - aab.getMinimum().z;
+    radius = std::max(rx,rz) / 2.0f;
 }
 
 
@@ -182,6 +188,68 @@ void PlayerController::setVelocity(Ogre::Real forwardSpeed, Ogre::Real sideSpeed
     m_heading = heading;
     m_body->unFreeze();
 }
+
+/*
+// helper class
+class HitBodyCache : public BasicConvexcast::ConvexcastContactInfo
+{
+    public:
+        Ogre::Vector3 mVel;
+        Ogre::Vector3 mOmega;
+        HitBodyCache() {}
+        HitBodyCache(const BasicConvexcast::ConvexcastContactInfo& info) :
+            BasicConvexcast::ConvexcastContactInfo(info)
+        {
+            mVel = mBody->getVelocity();
+            mOmega = mBody->getOmega();
+        }
+};
+
+// helper class
+class HitBodyVector : public std::vector<HitBodyCache>
+{
+    public:
+        void getCollidingBodiesFromConvexcast(const BasicConvexcast& cast)
+        {
+            // find first contact with each body and cache it
+            resize(0);
+            for(int i = 0; i < size(); i++)
+            {
+                int j;
+                for( j = 0; j < size(); j++ )
+                {
+                    if( cast.getInfoAt(i).mBody == at(j).mBody )
+                        break;
+                }
+                if( j == size() )
+                    push_back(HitBodyCache(cast.getInfoAt(0)));
+            }
+        }
+};
+*/
+
+// helper class
+class HitBodyVector : public std::vector<Body*>
+{
+    public:
+        void getCollidingBodiesFromConvexcast(const BasicConvexcast& cast)
+        {
+            // find first contact with each body and cache it
+            resize(0);
+            for(int i = 0; i < size(); i++)
+            {
+                Body* body = cast.getInfoAt(i).mBody;
+                int j;
+                for( j = 0; j < size(); j++ )
+                {
+                    if( body == at(j) )
+                        break;
+                }
+                if( j == size() )
+                    push_back(body);
+            }
+        }
+};
 
 
 void PlayerController::submitConstraint( Ogre::Real timestep, int threadindex )
@@ -308,7 +376,197 @@ void PlayerController::submitConstraint( Ogre::Real timestep, int threadindex )
 
 
 
+
+            // ----------------- DYNAMIC CONVEXCAST ---------------------
+
+            // first cast directly in front of the player
+            Ogre::Vector3 startCast = pos;
+            Ogre::Vector3 endCast = startCast;
+            DynamicConvexCast dynamicConvexCast(this);
+            HitBodyVector hitBodyVec;
+            hitBodyVec.reserve(m_maxContactsCount);
+
+            endCast = startCast + horizontalDesiredVel*timestep;
+            dynamicConvexCast.go(m_dynamicsSensorShape, startCast, yawOri, endCast, m_maxContactsCount, threadindex);
+
+            for(int iterations = 0; iterations < m_maxCollisionsIteration; iterations++)
+            {
+                bool velocCorrection;
+                Ogre::Real timeToFirstContact;
+                int numOfContacts;
+
+
+                numOfContacts = dynamicConvexCast.getContactsCount();
+                if( numOfContacts == 0 )
+                    break;
+
+                timeToFirstContact = (dynamicConvexCast.getInfoAt(0).mContactPoint - startCast).dotProduct(horizontalDesiredVel) / 
+                                     horizontalDesiredVel.squaredLength();
+                velocCorrection = false;
+
+
+                // correct velocity if the body cannot be pushed and calculate impulse if it can be pushed
+                for(int i = 0; i < numOfContacts; i++)
+                {
+                    Ogre::Real hitMass;
+                    Ogre::Vector3 hitInertia;
+                    Ogre::Vector3 hitNormal;
+                    Body* hitBody = dynamicConvexCast.getInfoAt(i).mBody;
+                    hitBody->getMassMatrix(hitMass, hitInertia);
+                    hitNormal = dynamicConvexCast.getInfoAt(i).mContactNormal;
+                    hitNormal.y = 0;
+                    hitNormal.normalise();
+
+                    if( !canPushBody(hitBody) )
+                    {
+                        Ogre::Real reboundVel, penetrationVel;
+                        Ogre::Real penetration;
+                        penetration = dynamicConvexCast.getInfoAt(i).mContactPenetration;
+                        penetration = std::max(penetration, 0.1f);
+                        penetrationVel = -0.5f/timestep * penetration;
+
+                        reboundVel = horizontalDesiredVel.dotProduct(hitNormal) * (1.0f+m_restitution) + penetrationVel;
+                        if( reboundVel < 0.0f )
+                        {
+                            velocCorrection = true;
+                            horizontalDesiredVel -= hitNormal*reboundVel;
+                        }
+                    }
+                    else // if( !canPushBody(body) )  -> can push body
+                    {
+                        Ogre::Real relVel, projVel, massWeigh, momentumDamper, playerNormalVel;
+                        Ogre::Vector3 hitCenterOfMass, hitPos, hitContactPointVel;
+                        Ogre::Quaternion hitOri;
+
+                        hitBody->getPositionOrientation(hitPos, hitOri);
+                        hitCenterOfMass = hitBody->getCenterOfMass();
+                        // calculate hitContactPointVel
+                        hitCenterOfMass = hitOri*hitCenterOfMass;
+                        hitContactPointVel = hitBody->getOmega() * (dynamicConvexCast.getInfoAt(i).mContactPoint - hitCenterOfMass);
+                        hitContactPointVel.y = 0.0f; //! WHY??
+                        hitContactPointVel += hitBody->getVelocity();
+
+                        massWeigh = mass / (mass + hitMass);
+                        massWeigh = std::min(massWeigh, 0.5f);
+
+                        projVel = hitContactPointVel.dotProduct(hitNormal);
+                        playerNormalVel = horizontalDesiredVel.dotProduct(hitNormal);
+                        relVel = playerNormalVel * massWeigh - projVel;
+                        if( relVel < 0.0f )
+                        {
+                            momentumDamper = 0.1f;
+                            velocCorrection = true;
+                            // correct horizontalDesiredVel
+                            horizontalDesiredVel -= hitNormal*( relVel * (1.0f - momentumDamper) + playerNormalVel*(1.0f - massWeigh) );
+
+                            //apply impulse to hit body
+                            hitBody->addImpulse(hitNormal*relVel*momentumDamper, hitCenterOfMass); // not the real CenterOffMass any more!
+                        }
+                    }
+                }
+
+
+
+                // now restore hit body state and apply a force to archive the hit impulse
+                hitBodyVec.getCollidingBodiesFromConvexcast(dynamicConvexCast);
+                for(int i = 0; i < hitBodyVec.size(); i++)
+                {
+                    Ogre::Real hitMass;
+                    Ogre::Vector3 hitInertia;
+                    Body* hitBody = hitBodyVec[i];
+                    hitBody->getMassMatrix(hitMass, hitInertia);
+
+                    if( canPushBody(hitBody) && mass > 1.0e-3f )
+                    {
+                        Ogre::Vector3 hitPos, force, torque;
+                        Ogre::Quaternion hitOri;
+
+                        hitBody->getPositionOrientation(hitPos, hitOri);
+                        
+                        // calculate the force and the torque to archive the desired push
+                        force = (vel - hitBody->getVelocity())*mass/timestep - hitBody->getForceAcceleration();
+                        hitBody->addForce(force);
+                        
+                        torque = (omega - hitBody->getOmega())/timestep * (hitOri*hitInertia) - hitBody->getTorqueAcceleration();
+                        hitBody->addTorque(torque);
+                    }
+                }
+
+
+                // has the horizontalDesiredVel changed, so we need a new cast?
+                if( timeToFirstContact > 0.01*timestep && velocCorrection )
+                {
+                    endCast = startCast + horizontalDesiredVel*timestep;
+                    dynamicConvexCast.go(m_dynamicsSensorShape, startCast, yawOri, endCast, m_maxContactsCount, threadindex);
+                }
+            }
+
+
+            // ----------------- STATIC CONVEXCAST ---------------------
+            StaticConvexCast staticConvexCast(this);
+            startCast.y += 0.5f*m_maxStepHeight;
+            endCast = startCast + horizontalDesiredVel*timestep;
+
+            staticConvexCast.go(m_horizontalSensorShape, startCast, yawOri, endCast, m_maxContactsCount, threadindex);
+            for(int iterations = 0; iterations < m_maxCollisionsIteration; iterations++)
+            {
+                bool velocCorrection;
+                Ogre::Real timeToFirstContact;
+                int numOfContacts;
+
+
+                numOfContacts = staticConvexCast.getContactsCount();
+                if( numOfContacts == 0 )
+                    break;
+
+                timeToFirstContact = (staticConvexCast.getInfoAt(0).mContactPoint - startCast).dotProduct(horizontalDesiredVel) / 
+                                     horizontalDesiredVel.squaredLength();
+                velocCorrection = false;
+
+
+                // correct velocity (like body that can't be pushed above!)
+                for(int i = 0; i < numOfContacts; i++)
+                {
+                    Ogre::Real hitMass;
+                    Ogre::Vector3 hitInertia;
+                    Ogre::Vector3 hitNormal;
+                    Ogre::Real reboundVel, penetrationVel;
+                    Ogre::Real penetration;
+
+                    Body* hitBody = staticConvexCast.getInfoAt(i).mBody;
+                    hitBody->getMassMatrix(hitMass, hitInertia);
+                    hitNormal = staticConvexCast.getInfoAt(i).mContactNormal;
+                    hitNormal.y = 0;
+                    hitNormal.normalise();
+
+                    penetration = staticConvexCast.getInfoAt(i).mContactPenetration;
+                    penetration = std::max(penetration, 0.1f);
+                    penetrationVel = -0.5f/timestep * penetration;
+
+                    reboundVel = horizontalDesiredVel.dotProduct(hitNormal) * (1.0f+m_restitution) + penetrationVel;
+                    if( reboundVel < 0.0f )
+                    {
+                        velocCorrection = true;
+                        horizontalDesiredVel -= hitNormal*reboundVel;
+                    }
+                }
+
+
+                // has the horizontalDesiredVel changed, so we need a new cast?
+                if( timeToFirstContact > 0.01*timestep && velocCorrection )
+                {
+                    endCast = startCast + horizontalDesiredVel*timestep;
+                    staticConvexCast.go(m_horizontalSensorShape, startCast, yawOri, endCast, m_maxContactsCount, threadindex);
+                }
+            }
+//! TODO MISSING FURTHER CASTS ETC
+
+
+
+
+
             // calculate force needed for desired velocity
+            horizontalDesiredVel.y = 0.0f;
             Ogre::Vector3 force = m_body->calculateInverseDynamicsForce(timestep, horizontalDesiredVel);
             Ogre::Vector3 forceAcc = m_body->getForceAcceleration();
             force -= forceAcc;

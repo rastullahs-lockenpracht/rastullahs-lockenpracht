@@ -71,6 +71,7 @@ ${NEWTON_INCLUDE_DIR})
 SET(OgreNewt_LIB_SRCS
 src/OgreNewt_BasicJoints.cpp
 src/OgreNewt_Body.cpp
+src/OgreNewt_BodyInAABBIterator.cpp
 src/OgreNewt_Collision.cpp
 src/OgreNewt_CollisionPrimitives.cpp
 src/OgreNewt_CollisionSerializer.cpp

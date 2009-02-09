@@ -25,16 +25,14 @@ namespace OgreNewt
 
 	//! For viewing the Newton rigid bodies visually.
 	/*!
-		This class implements a debug view of the Newton world.  it is a Singleton!
+		This class implements a debug view of the Newton world. You can access it via World::getDebugger().
+        It needs to be initialized (call World::getDebugger().init(...)).
 	*/
 	class _OgreNewtExport Debugger
 	{
 	
 	public:
 		~Debugger();
-
-		//! get the singleton reference
-		static Debugger& getSingleton();
 
 		//! init the debugger.
 		/*
@@ -48,9 +46,8 @@ namespace OgreNewt
 		//! show the newton world
 		/*!
 			Draws the Newton world as 3D lines with informative text above each body
-			\param world pointer to the OgreNewt::World
 		*/
-		void showDebugInformation( OgreNewt::World* world );
+		void showDebugInformation();
 
 		//! remove lines and text drawn
 		void hideDebugInformation();
@@ -90,10 +87,13 @@ namespace OgreNewt
 
         //! this function is used internally
         void addHitBody(const OgreNewt::Body* body);
+
 	protected:
-		Debugger();
-	
-	protected:
+        friend class OgreNewt::World;
+        //! this function must only be used by an instance of the OgreNewt::World class
+        Debugger(const OgreNewt::World* world);
+
+        const OgreNewt::World*        m_world;
 		Ogre::SceneNode*		m_debugnode;
         typedef std::map<int, Ogre::ColourValue> MaterialIdColorMap;
         MaterialIdColorMap      m_materialcolors;
@@ -117,11 +117,20 @@ namespace OgreNewt
         typedef std::map<OgreNewt::Body*, BodyDebugData> BodyDebugDataMap;
         BodyDebugDataMap m_cachemap;
 
-        // create debug information for one body
+        //! create debug information for one body
         void processBody(Body* body);
 
 
     private:
+        //! this function is declared private, so nobody can use it!
+        Debugger();
+
+        //! this function is declared private, so nobody can use it!
+        Debugger(const Debugger&);
+
+        //! this function is declared private, so nobody can use it!
+        const Debugger& operator=(const Debugger&);
+
 		static void _CDECL newtonPerPoly( void* userData, int vertexCount, const float* faceVertec, int id );
 	};
 
