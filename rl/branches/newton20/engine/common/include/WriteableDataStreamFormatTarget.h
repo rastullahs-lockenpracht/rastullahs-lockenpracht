@@ -30,3 +30,4 @@ namespace rl
         WriteableDataStreamPtr mStream;
     };
 }
+
