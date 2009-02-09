@@ -54,6 +54,6 @@ SET(WITH_OPENAL OFF CACHE BOOL "Enable OpenAL sound support (unsupported)")
 
 # Include subdirectories
 ADD_SUBDIRECTORY(engine)
-ADD_SUBDIRECTORY(plugins)
+#ADD_SUBDIRECTORY(plugins)
 
 PRINT_ENABLED_FEATURES()
