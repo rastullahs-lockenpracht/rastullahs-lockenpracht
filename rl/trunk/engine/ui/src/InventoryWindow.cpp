@@ -23,6 +23,7 @@
 #include <CEGUIWindowManager.h>
 #include <elements/CEGUIFrameWindow.h>
 
+#include "AbstractWindow.h"
 #include "Actor.h"
 #include "ActorManager.h"
 #include "CameraObject.h"
@@ -213,10 +214,19 @@ namespace rl {
 		else
 		{
 			if (showdescription)
-				itemhandler = new ItemDescriptionDragContainer(item, dragContainerName);
+                        {
+				itemhandler = dynamic_cast<ItemDescriptionDragContainer*> (
+                                        AbstractWindow::loadWindow("itemdescriptiondragcontainer.xml", dragContainerName));
+                                //new ItemDescriptionDragContainer(item, dragContainerName);
+                                itemhandler->setItem(item);
+                        }
 			else
             {
-				itemhandler = new ItemIconDragContainer(item, dragContainerName);
+				itemhandler = dynamic_cast<ItemIconDragContainer*> (
+                                        AbstractWindow::loadWindow("itemicondragcontainer.xml", dragContainerName));
+                                    //CEGUI::WindowManager::getSingleton().createWindow("ItemIconDragContainer", dragContainerName));
+                                itemhandler->setItem(item);
+				//itemhandler = new ItemIconDragContainer(item, dragContainerName);
                 itemhandler->setTooltipText(item->getName());
             }
 
@@ -286,20 +296,14 @@ namespace rl {
 
 			if (mInventory->canHold(item, targetSlot))
 			{
-				if (dragcont->getItemParentContainer() != NULL)
-				{
-					dragcont->getParent()->removeChildWindow(dragcont);
-				}
-				else if (dragcont->getItemParentSlot() != "")
-				{
-					dragcont->getParent()->removeChildWindow(dragcont);
-				}
+				dragcont->getParent()->removeChildWindow(dragcont);
 
 				ItemDragContainer* newCont = createItemDragContainer(item, false, targetSlot);
 
 				if (newCont)
 				{
-                    dragcont->destroyWindow();
+                                    CEGUI::WindowManager::getSingleton().destroyWindow(dragcont);
+//                    dragcont->destroyWindow();
 				}
 				else
 				{
@@ -412,7 +416,8 @@ namespace rl {
 				-1);
 
 
-            dragcont->destroyWindow();
+                        CEGUI::WindowManager::getSingleton().destroyWindow(dragcont);
+//            dragcont->destroyWindow();
 
 			Ogre::Vector3 targetPosWorldSpace =
 				mInventory->getOwner()->getPosition()

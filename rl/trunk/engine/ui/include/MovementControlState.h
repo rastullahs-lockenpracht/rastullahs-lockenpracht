@@ -60,10 +60,11 @@ namespace rl {
 
         /// This is the OgreNewt contact process callback for the combination
         /// Character <-> Level
-        int userProcess();
+        int onAABBOverlap( OgreNewt::Body* body0, OgreNewt::Body* body1, int threadIndex );
+        void userProcess(OgreNewt::ContactJoint &contactJoint, Ogre::Real timestep, int threadid);
 
         /// Newton force and torque callback
-        void OnApplyForceAndTorque(PhysicalThing* thing);
+        void OnApplyForceAndTorque(PhysicalThing* thing, float timestep);
 
         /// First oder Third person view.
         void setViewMode(ViewMode mode);
@@ -123,12 +124,9 @@ namespace rl {
 
         ViewMode mViewMode;
 
-        int mObstractedFrameCount;
-        Ogre::Real mObstractedTime;
-        int mCameraJammedFrameCount;
-        Ogre::Real mCameraJammedTime;
-
         PhysicsMaterialRaycast* mRaycast;
+        PhysicsMaterialConvexcast * mConvexcast;
+        OgreNewt::Collision *mCameraCastCollision;
         HalfSphereSelector mSelector;
         HalfSphereSelector mCombatSelector;
 

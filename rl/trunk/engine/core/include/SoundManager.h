@@ -83,7 +83,7 @@ typedef std::list<SoundDriver*> DriverList;
         Ogre::NameValuePairList getSettings() const;
 
         /// 3D-Sound aktualisieren.
-        void update();
+        //void update(); // there is no implementation of this function and it is never used!
         /// Den aktiven Treiber zurckgeben.
         SoundDriver* getActiveDriver() const;
         /// Den aktiven Treiber setzen.

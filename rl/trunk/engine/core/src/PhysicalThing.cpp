@@ -145,7 +145,7 @@ namespace rl
 
     void PhysicalThing::_attachToSceneNode(Ogre::SceneNode* node)
     {
-        mBody->attachToNode(node);
+        mBody->attachNode(node);
     }
 
     void PhysicalThing::_attachToBone(MeshObject* object, const std::string& boneName )
@@ -189,7 +189,7 @@ namespace rl
         mUpVectorJoint = NULL;
     }
 
-    void PhysicalThing::onApplyForceAndTorque()
+    void PhysicalThing::onApplyForceAndTorque(float timestep)
     {
         Vector3 gravity = mOverrideGravity ?
             mGravity : PhysicsManager::getSingleton().getGravity();
@@ -210,8 +210,10 @@ namespace rl
 
     void PhysicalThing::setMass(Ogre::Real mass)
     {
+        Vector3 inertia;
+        mBody->getMassMatrix(mMass, inertia);
         mMass = mass;
-        mBody->setMass(mass);
+        mBody->setMassMatrix(mass, inertia);
     }
 
     void PhysicalThing::setGravityOverride(bool override, const Vector3& gravity)
@@ -297,7 +299,7 @@ namespace rl
 		else if (mGeometryType == GT_MESH)
 		{
 	        CollisionPtr collision(new TreeCollision(
-				PhysicsManager::getSingleton()._getNewtonWorld(), entity, false));
+				PhysicsManager::getSingleton()._getNewtonWorld(), entity, true));
 		    mBody->setCollision(collision);
 		}
 
@@ -482,7 +484,7 @@ namespace rl
         {
             // prepare for control
             mPhysicsController = controller;
-            mBody->setAutoFreeze(0);
+            //mBody->setAutoFreeze(0);
             mBody->unFreeze();
             mBody->setLinearDamping(0.0f);
             mBody->setAngularDamping(Vector3::ZERO);

@@ -275,24 +275,28 @@ namespace rl {
         return NAME;
     }
 
-    int GameEventManager::userProcess()
+    void GameEventManager::userProcess(OgreNewt::ContactJoint &contactJoint, Real timestep, int)
     {
-        NewtonBodyGameAreaMap::iterator it = mBodyGameAreaMap.find(m_body0);
+        OgreNewt::Body* body0 = contactJoint.getBody0();
+        OgreNewt::Body* body1 = contactJoint.getBody1();
+
+        NewtonBodyGameAreaMap::iterator it = mBodyGameAreaMap.find(body0);
         if( it != mBodyGameAreaMap.end() )
         {
-            it->second->foundCollision(bodyToActor(m_body1));
-            return false;
+            it->second->foundCollision(bodyToActor(body1));
+            return;
         }
 
-        it = mBodyGameAreaMap.find(m_body1);
+        it = mBodyGameAreaMap.find(body1);
         if( it != mBodyGameAreaMap.end() )
         {
-            it->second->foundCollision(bodyToActor(m_body0));
-            return 0;
+            it->second->foundCollision(bodyToActor(body0));
+            return;
         }
 
         LOG_WARNING(Logger::CORE, "Der Kollisionskörper konnte keiner GameArea zugeordnet werden!");
-        return 0;
+
+        // there should be no contacts (trigger-volume!), so we don't need to do anything here!
     }
 
     void GameEventManager::notifyNewtonWorldUpdate()

@@ -116,6 +116,7 @@ private:
     unsigned long mSmoothedFrames;
     /// Time cap for frame time, to prevent interpolation problems during spikes.
     Ogre::Real mMaxFrameTime;
+    Ogre::Real mMinFrameTime;
     bool mQuitRequested;
     bool mPaused;
 

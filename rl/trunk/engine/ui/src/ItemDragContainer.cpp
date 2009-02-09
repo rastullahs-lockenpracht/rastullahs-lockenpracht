@@ -31,9 +31,9 @@
 namespace rl {
 	const Ogre::String ItemDragContainer::ICON_UNKNOWN_ITEM = "set:ModelThumbnails image:item_unknown";
 
-	ItemDragContainer::ItemDragContainer(Item* item, const CeGuiString& name)
-		: CEGUI::DragContainer("DragContainer", name),
-		mItem(item),
+	ItemDragContainer::ItemDragContainer(const CeGuiString &type, const CeGuiString& name)
+		: CEGUI::DragContainer(type, name),
+		mItem(NULL),
 		mParentContainer(NULL),
 		mParentSlot(""),
 		mContentWindow(NULL),
@@ -43,10 +43,28 @@ namespace rl {
 	{
 	}
 
-	ItemDragContainer::~ItemDragContainer()
+        void ItemDragContainer::setItem(Item* item)
+        {
+            if( mItem != NULL )
+                Throw(IllegalArgumentException,"The item of an ItemDragContainer can only be set once!");
+            mItem = item;
+        }
+
+        ItemDragContainer::~ItemDragContainer()
+        {
+            if(mDestroyListener)
+                mDestroyListener->notifyItemDragContainerDestroyed(this);
+            setDestroyListener(NULL);
+        }
+
+	void ItemDragContainer::destroy()
 	{
-        if(mDestroyListener)
-            mDestroyListener->notifyItemDragContainerDestroyed(this);
+            if(mDestroyListener)
+                mDestroyListener->notifyItemDragContainerDestroyed(this);
+            setDestroyListener(NULL);
+
+            CEGUI::DragContainer::destroy();
+/*        
         stopFadeOut();
 
         hide();
@@ -59,8 +77,9 @@ namespace rl {
 		removeChildWindow(mContentWindow);
 		CEGUI::WindowManager::getSingleton().destroyWindow(mContentWindow);
         CEGUI::WindowManager::getSingleton().destroyWindow(this);
+*/
 	}
-
+/*
     void ItemDragContainer::destroyWindow()
     {
         if(mDestroyListener)
@@ -80,7 +99,7 @@ namespace rl {
             JobScheduler::JP_NORMAL,
             0.0f);
     }
-
+*/
 	void ItemDragContainer::setItemParent(Container* container)
 	{
 		mParentContainer = container;
@@ -179,4 +198,65 @@ namespace rl {
 
         return true;
     }
+
+    void ItemDragContainer::setDestroyListener(ItemDragContainerDestroyListener *listener)
+    {
+        if( listener == mDestroyListener )
+            return ;
+
+        if( mDestroyListener )
+            mDestroyListener->removeDragContainer(this);
+
+        mDestroyListener = listener;
+
+        if( listener )
+            mDestroyListener->addDragContainer(this);
+    }
+
+
+    ItemDragContainerDestroyListener::ItemDragContainerDestroyListener() : mIsDestroying(false)
+    {
+    }
+
+    ItemDragContainerDestroyListener::~ItemDragContainerDestroyListener()
+    {
+        // remove all dragContainers from list
+        mIsDestroying = true;
+        for( DndContainerMap::iterator it = mContainers.begin(); it != mContainers.end(); it++ )
+            it->second->setDestroyListener(NULL);
+    }
+
+    void ItemDragContainerDestroyListener::addDragContainer(ItemDragContainer *dragcont)
+    {
+        if( dragcont == NULL )
+            Throw(NullPointerException, "Parameter dragcont in ItemDragContainerDestroyListener::addDragContainer should not be NULL!");
+
+        DndContainerMap::iterator it = mContainers.find(dragcont->getName());
+        if( it != mContainers.end() )
+        {
+            Throw(IllegalArgumentException, "ItemDragContainerDestroyListener::addDragContainer: ItemDragContainer with name '"+
+                    dragcont->getName()+"' already added!");
+        }
+
+        mContainers.insert(std::make_pair(dragcont->getName(), dragcont));
+    }
+
+    void ItemDragContainerDestroyListener::removeDragContainer(ItemDragContainer *dragcont)
+    {
+        if( mIsDestroying )  // if this Listener is destroyed, we don't need to care about the list
+            return ;
+
+        if( dragcont == NULL )
+            Throw(NullPointerException, "Parameter dragcont in ItemDragContainerDestroyListener::removeDragContainer should not be NULL!");
+
+        DndContainerMap::iterator it = mContainers.find(dragcont->getName());
+        if( it == mContainers.end() )
+        {
+            Throw(IllegalArgumentException, "ItemDragContainerDestroyListener::removeDragContainer: ItemDragContainer with name '"+
+                    dragcont->getName()+"' was not added before!");
+        }
+
+        mContainers.erase(it);
+   }
+
 }

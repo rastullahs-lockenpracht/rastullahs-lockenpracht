@@ -72,7 +72,7 @@ namespace rl {
 
 		if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
 		{
-			ItemDragContainer* dragcont = static_cast<ItemDragContainer*>(
+			ItemDragContainer* dragcont = dynamic_cast<ItemDragContainer*>(
 				evtArgs.dragDropItem);
 			Item* item = dragcont->getItem();
 
@@ -158,7 +158,7 @@ namespace rl {
 
 		if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
 		{
-			ItemDragContainer* dragcont = static_cast<ItemDragContainer*>(
+			ItemDragContainer* dragcont = dynamic_cast<ItemDragContainer*>(
 				evtArgs.dragDropItem);
 			Item* item = dragcont->getItem();
 
@@ -179,7 +179,8 @@ namespace rl {
             {
                 if( dragcont != getItemWindow(item) )
                 {
-                    dragcont->destroyWindow();
+                    CEGUI::WindowManager::getSingleton().destroyWindow(dragcont);
+                    //dragcont->destroyWindow();
                     dragcont = createItemWindow(item);
                     mContentWindow->addChildWindow(dragcont);
                 }
@@ -211,8 +212,11 @@ namespace rl {
 			mWindow->getName() +  "/item/"
 			+ Ogre::StringConverter::toString(item->getId())+"_DragContainer";
 
-		itemhandler = new ItemIconDragContainer(item,
-			dragContainerName);
+                itemhandler = dynamic_cast<ItemIconDragContainer*>(
+                    AbstractWindow::loadWindow("itemicondragcontainer.xml", dragContainerName));
+                    //CEGUI::WindowManager::getSingleton().createWindow("ItemIconDragContainer", dragContainerName));
+                itemhandler->setItem(item);
+		//itemhandler = new ItemIconDragContainer(item, dragContainerName);
         itemhandler->setDestroyListener(this);
         mItemDragContainerMap.insert(std::make_pair(item, itemhandler));
 		itemhandler->setItemParent(mContainer);

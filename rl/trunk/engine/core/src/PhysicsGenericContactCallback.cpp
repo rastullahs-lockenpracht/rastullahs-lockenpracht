@@ -20,22 +20,17 @@
 #include "Actor.h"
 #include "PhysicalThing.h"
 
+
+using namespace Ogre;
+
 namespace rl
 {
-    int PhysicsGenericContactCallback::userBegin()
+    void PhysicsGenericContactCallback::contactsProcess(OgreNewt::ContactJoint &contactJoint, Real timestep, int threadid)
     {
-        return 1;
-    }
+        userProcess(contactJoint, timestep, threadid);
 
-    int PhysicsGenericContactCallback::userProcess()
-    {
-        return 1;
-    }
-
-    void PhysicsGenericContactCallback::userEnd()
-    {
-        Actor* a1 = static_cast<Actor*>(m_body0->getUserData());
-        Actor* a2 = static_cast<Actor*>(m_body1->getUserData());
+        Actor* a1 = static_cast<Actor*>(contactJoint.getBody0()->getUserData());
+        Actor* a2 = static_cast<Actor*>(contactJoint.getBody1()->getUserData());
         if (a1 && a1->getPhysicalThing()->getContactListener())
         {
             a1->getPhysicalThing()->getContactListener()->

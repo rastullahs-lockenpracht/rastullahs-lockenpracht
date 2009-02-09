@@ -17,9 +17,7 @@
 
 #include "UiSubsystem.h"
 
-#include <CEGUISystem.h>
-#include <CEGUIWindow.h>
-#include <CEGUIWindowManager.h>
+#include <CEGUI.h>
 
 #ifdef __APPLE__
 #   include <OgreCEGUIRenderer/OgreCEGUIRenderer.h>
@@ -39,6 +37,8 @@
 #include "GameLoop.h"
 #include "GameObjectManager.h"
 #include "InputManager.h"
+#include "ItemDescriptionDragContainer.h"
+#include "ItemIconDragContainer.h"
 #include "Logger.h"
 #include "RulesMessages.h"
 #include "ScriptWrapper.h"
@@ -49,6 +49,18 @@
 
 using namespace Ogre;
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
+
+// this function needs to be in the CEGUI-namespace
+namespace CEGUI{
+    void initializeOwnCeguiWindowFactories()
+    {
+            CEGUI::WindowFactoryManager& wfMgr = CEGUI::WindowFactoryManager::getSingleton();
+            wfMgr.addFactory(&CEGUI_WINDOW_FACTORY(ItemDescriptionDragContainer)); // ohne rl:: davor hier!
+            //wfMgr.addFalagardWindowMapping("ItemDescriptionDragContainer", "CEGUI/ItemDescriptionDragContainer", "", "Falagard/Default");
+            wfMgr.addFactory(&CEGUI_WINDOW_FACTORY(ItemIconDragContainer)); // ohne rl:: davor hier!
+            //wfMgr.addFalagardWindowMapping("ItemIconDragContainer", "CEGUI/ItemIconDragContainer", "", "Falagard/Default");
+    }
+}
 
 namespace rl {
     const char* UiSubsystem::CEGUI_ROOT = "RootWindow";
@@ -138,8 +150,13 @@ namespace rl {
         sheet->setZOrderingEnabled(true);
         sheet->moveToBack();
         System::getSingleton().setDefaultTooltip("RastullahLook/Tooltip");
+
+        CEGUI::initializeOwnCeguiWindowFactories();
+
         LOG_MESSAGE2(Logger::UI, "CEGUI initialized.",
             "UiSubsystem::initializeUiSubsystem");
+
+
 
         mWindowManager = new WindowManager();
 
@@ -149,6 +166,7 @@ namespace rl {
             "UiSubsystem::initializeUiSubsystem");
 
         mWindowFactory->initialize();
+        LOG_MESSAGE2(Logger::UI, "WindowFactory initialized.", "UiSubsystem::initializeUiSubsystem");
     }
 
     CEGUI::OgreCEGUIRenderer* UiSubsystem::getGUIRenderer()

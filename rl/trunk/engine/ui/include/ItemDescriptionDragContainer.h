@@ -25,9 +25,17 @@ namespace rl
 	class ItemDescriptionDragContainer : public ItemDragContainer
 	{
 	public:
-		ItemDescriptionDragContainer(Item* item, const CeGuiString& name);
+		ItemDescriptionDragContainer(const CeGuiString &type, const CeGuiString& name);
+                void setItem(Item*);
+                static const CeGuiString WidgetTypeName; // for CEGUI
 	};
 
 } // namespace rl
+namespace CEGUI{
+
+    using rl::ItemDescriptionDragContainer;
+
+    CEGUI_DECLARE_WINDOW_FACTORY(ItemDescriptionDragContainer)
+}
 
 #endif //__ItemDescriptionDragContainer_H__

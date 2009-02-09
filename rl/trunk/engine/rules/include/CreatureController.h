@@ -20,7 +20,6 @@
 
 #include "RulesPrerequisites.h"
 #include "PhysicsController.h"
-#include "PhysicsGenericContactCallback.h"
 #include "PhysicsMaterialRaycast.h"
 #include "Creature.h"
 #include "Actor.h"
@@ -40,8 +39,7 @@ namespace rl
      * It handles all nessessary things like animations and calculates the movement speed.
      */
     class _RlRulesExport CreatureController :
-        public PhysicsController,
-        public PhysicsGenericContactCallback
+        public PhysicsController
     {
     public:
         static const Ogre::String PROPERTY_CREATUREID;
@@ -52,10 +50,10 @@ namespace rl
         bool run(Ogre::Real elapsedTime);
 
         /// Newton force and torque callback
-        void OnApplyForceAndTorque(PhysicalThing* thing);
+        void OnApplyForceAndTorque(PhysicalThing* thing, float timestep);
 
         /// Newton contact callback called by the movingCreatureManager
-        int userProcess();
+        void userProcess(OgreNewt::ContactJoint &contactJoint, Ogre::Real timestep, int threadid);
 
         Creature* getCreature() {return mCreature;}
         bool refetchCreature();
@@ -114,7 +112,7 @@ namespace rl
          * @param direction This is the movement direction in local space.
 		 *                  If the direction isn't possible (see AbstractMovement::isDirectionPossible),
 		 *                  only a "part" of the direction is applied.
-         * @param rotation like above
+         * @param rotation like above (in radians)
          * @retval false signifies that the change to this movement was not possible (possibly because the present movement forbade it)
          */
         bool setMovement(MovementType type, Ogre::Vector3 direction, Ogre::Vector3 rotation);

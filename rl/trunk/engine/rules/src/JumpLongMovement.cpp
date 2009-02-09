@@ -186,7 +186,7 @@ namespace rl
         }
 
         Vector3 omega = mMovingCreature->getCreature()->getActor()->getPhysicalThing()->_getBody()->getOmega();
-        torque = -omega / PhysicsManager::getSingleton().getMaxTimestep() * 2 * mass;
+        torque = -omega / PhysicsManager::getSingleton().getMaxTimestep() * 2 * inertia;
     }
 
     bool JumpLongMovement::run(Ogre::Real elapsedTime,  Ogre::Vector3 direction, Ogre::Vector3 rotation)
