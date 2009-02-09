@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -23,6 +23,21 @@
 namespace rl {
 
 	class Actor;
+	class GameObject;
+
+	enum CameraPositionType
+	{
+	    CPT_FIXED,
+	    CPT_ROTATING
+	};
+
+	struct CameraPosition
+	{
+	    CameraPositionType type;
+	    Ogre::Vector3 position;
+	    Ogre::Quaternion orientation1;
+	    Ogre::Quaternion orientation2;
+	};
 
 	class _RlUiExport CutsceneControlState : public ControlState
 	{
@@ -41,6 +56,17 @@ namespace rl {
         void setCameraPosition(const Ogre::Vector3& pos);
         void setCameraOrientation(const Ogre::Quaternion& orient);
         void lookAt(const Ogre::Vector3& point);
+        void setCameraTarget(GameObject* target);
+
+        void addCamera(const Ogre::Vector3& position, const Ogre::Quaternion& orientation);
+        void addCamera(const Ogre::Vector3& position, const Ogre::Quaternion& orientation1,
+                       const Ogre::Quaternion& orientation2);
+
+	private:
+	    std::vector<CameraPosition> mPositions;
+	    GameObject* mTarget;
+
+	    CameraPosition getBestCameraPosition() const;
 	};
 }
 #endif
