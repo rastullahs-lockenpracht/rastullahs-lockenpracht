@@ -57,8 +57,24 @@ from GameObjectClassManager import *
 #                        </trigger>
 #                </zone>
 
+def indent(elem, level=0):
+    i = "\n" + level*"  "
+    
+    if len(elem):
+        if not elem.text or not elem.text.strip():
+            elem.text = i + "  "
+        if not elem.tail or not elem.tail.strip():
+            elem.tail = i
+        for elem in elem:
+            indent(elem, level+1)
+        if not elem.tail or not elem.tail.strip():
+            elem.tail = i
+    else:
+        if level and (not elem.tail or not elem.tail.strip()):
+            elem.tail = i
+
 class Map():
-    def __init__(self, pathToFile, sceneManager, ogreRoot, gocManager):
+    def __init__(self, pathToFile, sceneManager, ogreRoot, gocManager, emptyMap = False):
         self.pathToMapFile = pathToFile
         
         mapName = pathToFile.replace("\\", "/")
@@ -66,21 +82,23 @@ class Map():
         mapName = mapName[len(mapName) - 1].split(".")
         mapName = mapName[len(mapName) - 3]
         self.mapName = mapName
+        self.mapFileName = self.mapName + ".rlmap.xml"
         
         self.sceneManager = sceneManager
         self.mapNode = sceneManager.getRootSceneNode().createChildSceneNode(self.pathToMapFile)
         self.ogreRoot = ogreRoot
         self.gocManager = gocManager
 
-        xmlTree = xml.parse(pathToFile)
-        root = xmlTree.getroot()
+        if not emptyMap:
+            xmlTree = xml.parse(pathToFile)
+            root = xmlTree.getroot()
 
-        if root.attrib["formatVersion"] == "0.4.0":
-            self.parseMapNodes(root.find("nodes"))
-            #self.parseMapZones(root.find("zones"))
-        else:
-            print pathToFile + " has wrong format version. It needs to be 0.4.0"
-            return
+            if root.attrib["formatVersion"] == "0.4.0":
+                self.parseMapNodes(root.find("nodes"))
+                #self.parseMapZones(root.find("zones"))
+            else:
+                print pathToFile + " has wrong format version. It needs to be 0.4.0"
+                return
 
     def parseMapNodes(self, nodeElement):
         nodes = nodeElement.getiterator("entity")
@@ -148,7 +166,7 @@ class Map():
             colourSpecular = None
             lightAttenuationRange = None
             lightAttenuationConstant= None
-            lightAttenuationlinear = None
+            lightAttenuationLinear = None
             lightAttenuationQuadratic = None
 
             transformations = l.getiterator()
@@ -171,14 +189,27 @@ class Map():
                 elif t.tag == "lightAttenuation":
                     lightAttenuationRange = float(t.attrib["range"])
                     lightAttenuationConstant= float(t.attrib["constant"])
-                    lightAttenuationlinear = float(t.attrib["linear"])
+                    lightAttenuationLinear = float(t.attrib["linear"])
                     lightAttenuationQuadratic = float(t.attrib["quadratic"])
+            
 
-            e = self.sceneManager.createEntity(lightName, "lightbulp.mesh")
+            light = self.sceneManager.createLight(lightName)
+            light.setVisible(lightVisible)
+            light.setCastShadows(castShadows)
+            light.setAttenuation(lightAttenuationRange, lightAttenuationConstant, lightAttenuationLinear, lightAttenuationQuadratic)
+            light.setDiffuseColour(colourDiffuse)
+            light.setSpecularColour(colourSpecular)
+            
+            if lightType == "point":
+                light.setType(og.Light.LT_POINT)
+            
+            e = self.sceneManager.createEntity(lightName + "_ent", "lightbulp.mesh")
             n = self.mapNode.createChild(lightName + "_node")
             n.attachObject(e)
+            n.attachObject(light)
             n.setPosition(lightPosition)
 
+            
     def createSound(self, soundNodes):
         #raise NotImplementedError
         return
@@ -233,32 +264,57 @@ class Map():
     def createParticleSystems(self, particleNodes):
         #raise NotImplementedError
         return
+        
+    def save(self):
+        root = xml.Element("rastullahmap")
+        root.attrib["formatVersion"] = "0.4.0"
+        
+        nodesElem = xml.SubElement(root, "nodes")
+        
+        iter = self.mapNode.getChildIterator()
+        while iter.hasMoreElements():
+            iter.getNext().getName()
 
 class Scene():
-    def __init__(self, moduleroot, pathToFile, sceneManager, ogreRoot, gocManager):
+    def __init__(self, moduleroot, pathToFile, sceneManager, ogreRoot, gocManager, emptyScene = False, sceneName = "NewScene"):
         self.moduleRoot = moduleroot
+        self.pathToFile = pathToFile
         self.sceneManager = sceneManager
         self.ogreRoot = ogreRoot
         self.gocManager = gocManager
-        
-        xmlTree = xml.parse(pathToFile)
-        root = xmlTree.getroot()
-        self.name = root.attrib["name"]
-        
         self.mapFiles = [] # a list in case the module has more than one map file
         mappaths = []
+        self.name = sceneName
+
         
-        maps = root.getiterator("map")
-        for m in maps:
-            mappaths.append(join(self.moduleRoot, join("maps", m.attrib["file"])))
+        if not emptyScene:
+            xmlTree = xml.parse(pathToFile)
+            root = xmlTree.getroot()
+            self.name = root.attrib["name"]
+        
+            maps = root.getiterator("map")
+            for m in maps:
+                mappaths.append(join(self.moduleRoot, join("maps", m.attrib["file"])))
+                
+            for m in mappaths:
+                self.mapFiles.append(Map(m, self.sceneManager, self.ogreRoot, self.gocManager))
             
-        for m in mappaths:
-            self.mapFiles.append(Map(m, self.sceneManager, self.ogreRoot, self.gocManager))
-            
-        #cmd = join(self.moduleRoot, "maps/*.rlmap.xml")
-        #maps = glob.glob(cmd)
-        #for m in maps:
-            #self.mapFiles.append(Map(m, self.sceneManager, self.ogreRoot, self.gocManager))
+    def addMap(self, name):
+        path = join(self.moduleRoot, join("maps", name + ".rlmap.xml"))
+        self.mapFiles.append(Map(path, self.sceneManager, self.ogreRoot, self.gocManager, True))
+        
+    def save(self):
+        root = xml.Element("scene")
+        root.attrib["name"] = self.name
+        
+        for m in self.mapFiles:
+            sub = xml.SubElement(root, "map")
+            sub.attrib["file"] = m.mapFileName
+            m.save()
+
+        indent(root)
+        xml.ElementTree(root).write(self.pathToFile)
+
 
 
 class Module():
@@ -281,6 +337,18 @@ class Module():
 
         self.isLoaded = False
 
+    def addScene(self, name):
+        self.scenes.append(Scene(self.moduleRoot, join(self.moduleRoot, ("maps/" + name + ".rlscene")), self.sceneManager, self.ogreRoot, self.gocManager, True, name))
+    
+    def addMapToScene(self, sceneName, mapName):
+        for scene in self.scenes:
+            if scene.name == sceneName:
+                scene.addMap(mapName)
+                return
+        
+        print "ERROR: could not find scene: " + sceneName
+        
+    
     def isCommon(self):
         modConfig = join(self.moduleRoot,  "scripts/moduleconfig.rb")
         if isfile(modConfig): # is the modconfig existing?
@@ -343,14 +411,12 @@ class Module():
             
         
     def loadScenes(self, sceneFiles):
-        for f in sceneFiles:
-            self.scenes.append(Scene(self.moduleRoot, f, self.sceneManager, self.ogreRoot, self.gocManager))
+        for s in sceneFiles:
+            self.scenes.append(Scene(self.moduleRoot, s, self.sceneManager, self.ogreRoot, self.gocManager))
 
-    def saveMaps(self):
-        return
-
-    def saveScenes(self):
-        return
+    def save(self):
+        for s in self.scenes:
+            s.save()
 
     def setResourcePaths(self, recurseFolder = ""):
         if recurseFolder == "":
@@ -384,7 +450,7 @@ class ModuleManager():
         # and deletes the object
         self.gameObjectRepresentationDict = []
 
-        self.mainModule = []
+        self.mainModule = None
         self.mainModuledependencieList =[]
         self.moduleList = []
         self.userSelectionList = []
@@ -486,7 +552,7 @@ class ModuleManager():
                 self.mainModule = m
                 self.moduleExplorer.setCurrentModule(m)
                 
-#        self.moduleExplorer.updateView()
+        self.moduleExplorer.updateView()
 #        n = self.sceneManager.getRootSceneNode().createChildSceneNode()
 #        e = self.sceneManager.createEntity("west342wt346t",  "UniCube.mesh")
 #        e.setMaterialName("PlainColor")
@@ -502,14 +568,23 @@ class ModuleManager():
         if self.selectionBuffer is None:
             self.selectionBuffer = SelectionBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
 
+    def addSceneToModule(self, name):
+        if self.mainModule is not None:
+            self.mainModule.addScene(name)
+
+    def addMapToScene(self, sceneName, mapName):
+        if self.mainModule is not None:
+            self.mainModule.addMapToScene(sceneName, mapName)
+
+    def setModuleExplorer(self, moduleExplorer):
+        self.moduleExplorer = moduleExplorer
+        self.moduleExplorer.setModuleManager(self)
+        
     # called when a click into Main Ogre Window occurs
     def selectionClick(self, screenX, screenY, ray,  controlDown=False,  shiftDown=False):
         so = None
-        
         if self.selectionBuffer is not None:
             so = self.selectionBuffer.onSelectionClick(screenX, screenY)
-        
-        
         
         if so is not None:
             if not so.isPivot:
@@ -697,7 +772,7 @@ class ModuleManager():
         pass
 
     def save(self):
-        pass
+        self.mainModule.save()
 
     def startDropGameObjectAction(self, classid, ray):
         go = self.gocManager.getGameObjectWithClassId(classid)

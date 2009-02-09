@@ -95,7 +95,7 @@ class SelectionBuffer():
         self.sceneMgr = sceneManager
         self.camera = sceneManager.getCamera("MainCam")
 
-        self.viewport = renderTarget
+        self.renderTarget = renderTarget
         
         # This is the material listener - Note: it is controlled by a seperate
         # RenderTargetListener, not applied globally to all targets
@@ -103,8 +103,8 @@ class SelectionBuffer():
         
         self.selectionTargetListener = SelectionRenderListener( self.materialSwitchListener )
         
-        width = self.viewport.getWidth()
-        height = self.viewport.getHeight()
+        width = self.renderTarget.getWidth()
+        height = self.renderTarget.getHeight()
         
         self.texture = og.TextureManager.getSingleton().createManual("SelectionPassTex", 
                                                                     og.ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, 
@@ -122,9 +122,11 @@ class SelectionBuffer():
         self.renderTexture.addListener( self.selectionTargetListener )
         self.renderTexture.getViewport(0).setMaterialScheme("aa")
         
-        self.createRTTOverlays()
+        #self.createRTTOverlays()
 
     def update(self):
+        self.updateBufferSize()
+        
         self.renderTexture.update()        
         self.materialSwitchListener.reset()
         
@@ -146,6 +148,37 @@ class SelectionBuffer():
 #            #print str(self.buffer[i + 2]) + " " + str(self.buffer[i+1]) + " " + str(self.buffer[i])
 #            
 #            i += 4
+    
+    def updateBufferSize(self):
+        width = self.renderTarget.getWidth()
+        height = self.renderTarget.getHeight()
+        needsSizeUpdate = False
+        
+        if width is not self.renderTexture.getWidth():
+            needsSizeUpdate = True
+        if height is not self.renderTexture.getHeight():
+            needsSizeUpdate = True            
+        
+        if needsSizeUpdate:
+            og.TextureManager.getSingleton().unload("SelectionPassTex")
+            
+            self.texture = og.TextureManager.getSingleton().createManual("SelectionPassTex", 
+                                                            og.ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, 
+                                                            og.TEX_TYPE_2D, 
+                                                            width, 
+                                                            height, 
+                                                            0, og.PixelFormat.PF_R8G8B8, og.TU_RENDERTARGET)
+                                                                    
+            self.renderTexture = self.texture.getBuffer().getRenderTarget()
+            self.renderTexture.setAutoUpdated(False)
+            self.renderTexture.setPriority(0)                                                         
+            self.renderTexture.addViewport( self.camera )
+            self.renderTexture.getViewport(0).setOverlaysEnabled(False)
+            self.renderTexture.getViewport(0).setClearEveryFrame(True)
+            self.renderTexture.addListener( self.selectionTargetListener )
+            self.renderTexture.getViewport(0).setMaterialScheme("aa")
+        else:
+            return
             
     def onSelectionClick(self, x, y):
         self.update()
@@ -157,8 +190,31 @@ class SelectionBuffer():
         
         for key in self.materialSwitchListener.colorDict:
             if self.materialSwitchListener.colorDict[key] == colVec:
-                so = SelectionObject(self.sceneMgr.getEntity(key))
-                return so
+                if key == "OgreMainWin::0::ViewportGrid":
+                    return None
+                elif key == "rayLine":
+                    return None
+                elif key == "EditorXArrow":
+                    so = SelectionObject(self.sceneMgr.getEntity(key))
+                    so.isPivot = True
+                    return so
+                elif key == "EditorYArrow":
+                    so = SelectionObject(self.sceneMgr.getEntity(key))
+                    so.isPivot = True
+                    return so
+                elif key == "EditorZArrow":
+                    so = SelectionObject(self.sceneMgr.getEntity(key))
+                    so.isPivot = True
+                    return so
+                elif key == "EditorFreeMover":
+                    return None
+                elif key == "EditorXRotator" or key == "EditorYRotator" or key == "EditorZRotator":
+                    so = SelectionObject(self.sceneMgr.getEntity(key))
+                    so.isPivot = True
+                    return so
+                else:
+                    so = SelectionObject(self.sceneMgr.getEntity(key))
+                    return so
 
         return None
         
