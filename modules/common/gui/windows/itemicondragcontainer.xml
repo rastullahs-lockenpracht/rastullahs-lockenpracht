@@ -1,5 +1,5 @@
 <GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
-    <Window Type="DefaultWindow" Name="ItemIconDragContainer">
+    <Window Type="ItemIconDragContainer" Name="ItemIconDragContainer">
         <Window Type="RastullahLook/StaticImage" Name="ItemIconDragContainer/Icon">
             <Property Name="VerticalAlignment" Value="Bottom" />
             <Property Name="HorizontalAlignment" Value="Left" />
