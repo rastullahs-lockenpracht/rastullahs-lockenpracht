@@ -70,7 +70,6 @@ namespace rl
 
     PhysicsManager::PhysicsManager( )
         : mEnabled(false),
-        mNewtonDebugger(&OgreNewt::Debugger::getSingleton()),
         mPhysicalThings(),
         mDebugMode(0),
         mGravity(0, -9.81, 0),
@@ -99,7 +98,7 @@ namespace rl
         // setup level material
         createMaterialID("level");
 
-        mNewtonDebugger->setMaterialColor(getMaterialID("level"), Ogre::ColourValue::Blue);
+        mWorld->getDebugger().setMaterialColor(getMaterialID("level"), Ogre::ColourValue::Blue);
 
 
         // below here starts 'old' stale fix code that should be removed
@@ -133,7 +132,7 @@ namespace rl
         }
         mMaterials.clear();
 
-        mNewtonDebugger->deInit();
+        mWorld->getDebugger().deInit();
 
         delete mPhysicsCollisionFactory;
         delete mGenericCallback;
@@ -153,7 +152,7 @@ namespace rl
 
         if( mDebugMode == 4 )
         {
-            mNewtonDebugger->clearRaycastsRecorded();
+            mWorld->getDebugger().clearRaycastsRecorded();
         }
 
 
@@ -207,11 +206,11 @@ namespace rl
 
         if( mDebugMode == 2 )
         {
-            mNewtonDebugger->showDebugInformation(mWorld);
+            mWorld->getDebugger().showDebugInformation();
         }
         else if( mDebugMode == 3 )
         {
-            mNewtonDebugger->stopRaycastRecording();
+            mWorld->getDebugger().stopRaycastRecording();
         }
     }
 
@@ -302,27 +301,27 @@ namespace rl
 
     void PhysicsManager::toggleDebugMode()
     {
-        mNewtonDebugger->init(CoreSubsystem::getSingleton().getWorld()->getSceneManager());
+        mWorld->getDebugger().init(CoreSubsystem::getSingleton().getWorld()->getSceneManager());
         mDebugMode = (mDebugMode+1)%5;
         switch(mDebugMode)
         {
             case 0:
-                mNewtonDebugger->stopRaycastRecording();
-                mNewtonDebugger->clearRaycastsRecorded();
-                mNewtonDebugger->hideDebugInformation();
+                mWorld->getDebugger().stopRaycastRecording();
+                mWorld->getDebugger().clearRaycastsRecorded();
+                mWorld->getDebugger().hideDebugInformation();
                 break;
             case 1:
-                mNewtonDebugger->showDebugInformation(mWorld);
+                mWorld->getDebugger().showDebugInformation();
                 break;
             case 2:
                 break;
             case 3:
-                mNewtonDebugger->startRaycastRecording(true);
-                mNewtonDebugger->hideDebugInformation();
+                mWorld->getDebugger().startRaycastRecording(true);
+                mWorld->getDebugger().hideDebugInformation();
                 break;
             case 4:
-                mNewtonDebugger->startRaycastRecording(true);
-                mNewtonDebugger->hideDebugInformation();
+                mWorld->getDebugger().startRaycastRecording(true);
+                mWorld->getDebugger().hideDebugInformation();
                 break;
             default:
                 break;

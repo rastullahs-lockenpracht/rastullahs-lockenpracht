@@ -30,9 +30,10 @@ import ogre.renderer.OGRE as og
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
+from SelectionBuffer import *
 from MovePivot import *
 from GameObjectClassManager import *
-from MyRaySceneQueryListener import *
+
 
 #                <zone name="Testzone">
 #                        <area type="sphere">
@@ -339,7 +340,8 @@ class Module():
             cmd = join(self.moduleRoot, "maps/*.rlscene")
             sceneFile = glob.glob(cmd)
             self.loadScenes(sceneFile)
-
+            
+        
     def loadScenes(self, sceneFiles):
         for f in sceneFiles:
             self.scenes.append(Scene(self.moduleRoot, f, self.sceneManager, self.ogreRoot, self.gocManager))
@@ -376,8 +378,6 @@ class ModuleManager():
 
         self.moduleCfgPath = ""
 
-        self.raySceneQuery = self.sceneManager.createRayQuery(og.Ray())
-
         self.gocManager = GameObjectClassManager()
         # we need to hold a reference to the game object representaions ourself
         # python does not recognize the a reference to a c++ object (Entity in our case) is passed
@@ -390,8 +390,6 @@ class ModuleManager():
         self.userSelectionList = []
         self.cutList = [] # selection objects that has been cut out and wait to be pasted again
         self.cutListPreviousNodes = [] # contains the nodes they where copnnected to before the cut
-
-        self.listenerDings = MyRaySceneQueryListener()
 
         self.moduleExplorer = None
 
@@ -414,6 +412,8 @@ class ModuleManager():
         self.numerOfCopys = 0 #everytime a copy is made this numer is increased to generate unique node and mesh names
         self.moduleConfigIsParsed = False
 
+        self.selectionBuffer = None
+    
     def resetParsedModuleConfig(self):
         self.moduleConfigIsParsed = False
         self.moduleList = []
@@ -486,28 +486,31 @@ class ModuleManager():
                 self.mainModule = m
                 self.moduleExplorer.setCurrentModule(m)
                 
-        self.moduleExplorer.updateView()
+#        self.moduleExplorer.updateView()
 #        n = self.sceneManager.getRootSceneNode().createChildSceneNode()
 #        e = self.sceneManager.createEntity("west342wt346t",  "UniCube.mesh")
-#        e.setMaterialName("Lockenwickler_Area")
+#        e.setMaterialName("PlainColor")
+#        e.getSubEntity(0).setCustomParameter(1, og.Vector4(0.0, 0.0, 1.0, 1.0))
 #
 #        e2 = self.sceneManager.createEntity("west342wt34635t",  "UniSphere.mesh")
-#        e2.setMaterialName("Lockenwickler_Area")
-
+#        e2.setMaterialName("PlainColor")
+#        e2.getSubEntity(0).setCustomParameter(1, og.Vector4(0, 1, 0, 1))
 #        n.attachObject(e)
 #        n.attachObject(e2)
 #        n.setScale(og.Vector3(10, 5, 20))
+#        
+        if self.selectionBuffer is None:
+            self.selectionBuffer = SelectionBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
 
     # called when a click into Main Ogre Window occurs
-    def selectionClick(self,  ray,  controlDown=False,  shiftDown=False):
-        self.listenerDings.reset()
-        self.lastRay = ray
-        self.listenerDings.currentRay = ray
-        self.raySceneQuery.Ray = ray
-        self.raySceneQuery.execute(self.listenerDings)
-
-        so = self.listenerDings.rayCastToPolygonLevel(ray)
-
+    def selectionClick(self, screenX, screenY, ray,  controlDown=False,  shiftDown=False):
+        so = None
+        
+        if self.selectionBuffer is not None:
+            so = self.selectionBuffer.onSelectionClick(screenX, screenY)
+        
+        
+        
         if so is not None:
             if not so.isPivot:
                 if not controlDown and not shiftDown:
@@ -680,8 +683,6 @@ class ModuleManager():
 
         self.userSelectionList = []
 
-        self.listenerDings.reset()
-        pass
 
 
     def updatePivots(self):
