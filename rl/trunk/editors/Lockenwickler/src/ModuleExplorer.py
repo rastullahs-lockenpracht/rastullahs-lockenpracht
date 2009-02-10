@@ -41,7 +41,6 @@ class ModuleTreeWidget(QTreeWidget):
     def __init__(self, parent = None):
         super(ModuleTreeWidget, self).__init__(parent)
         
-        self.connect(self, SIGNAL("itemClicked (QTreeWidgetItem *,int)"), self.onClick)
         self.setContextMenuPolicy(Qt.CustomContextMenu)        
         self.connect(self, SIGNAL("customContextMenuRequested(const QPoint &)"), self.doMenu)
 
@@ -60,15 +59,13 @@ class ModuleTreeWidget(QTreeWidget):
     def doMenu(self, point):
         self.onMenuCallback(self.mapToGlobal(point))
 
-    def onClick(self, item, column):
-        pass
-
 class ModuleExplorer(QWidget):
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
         self.sceneTreeView = ModuleTreeWidget()
         
         self.sceneTreeView.setMenuCallback(self.onMenu)
+        self.connect(self.sceneTreeView, SIGNAL("itemClicked (QTreeWidgetItem *,int)"), self.onClick)
         
         vBoxLayout = QVBoxLayout()
         vBoxLayout.addWidget(self.sceneTreeView)
@@ -78,7 +75,22 @@ class ModuleExplorer(QWidget):
         self.nodeDict = {}
         
         self.moduleManager = None
-      
+        self.mapSelectedCallback = None
+        
+    def onClick(self, item, column):
+        if self.mapSelectedCallback is None:
+            return
+        
+        name = str(item.text(0))
+        if name.startswith("Map: "):
+            self.mapSelectedCallback(str(item.parent().text(0)).replace("Scene: ", ""), name.replace("Map: ", ""))
+        elif name.startswith("Scene: "):
+            if item.childCount > 0:
+                self.mapSelectedCallback(name.replace("Scene: ", ""), None)
+                return
+                
+            self.mapSelectedCallback(name.replace("Scene: ", ""), str(item.child(0).text(0)).replace("Map: ", ""))
+        
     def onMenu(self, point):
         if self.moduleManager is not None:
             menu = QMenu(self)
@@ -103,6 +115,7 @@ class ModuleExplorer(QWidget):
         if dlg.exec_():
             self.moduleManager.addSceneToModule(str(dlg.nameInput.text()))
             self.updateView()
+            self.onNewMap()
             
     def onNewMap(self):
         dlg = NameInputDlg(self)
@@ -134,10 +147,12 @@ class ModuleExplorer(QWidget):
             childItem2 = QTreeWidgetItem(childItem) 
             childItem2.setText(0, iter.getNext().getName())
         
-        
     def setCurrentModule(self, module):
         self.module = module
         self.updateView()
 
     def setModuleManager(self, moduleManager):
         self.moduleManager = moduleManager
+        
+    def setMapSelectedCallback(self, callback):
+        self.mapSelectedCallback = callback

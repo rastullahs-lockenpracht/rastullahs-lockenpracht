@@ -57,6 +57,8 @@ from GameObjectClassManager import *
 #                        </trigger>
 #                </zone>
 
+
+# make the xml file more pretty
 def indent(elem, level=0):
     i = "\n" + level*"  "
     
@@ -72,6 +74,7 @@ def indent(elem, level=0):
     else:
         if level and (not elem.tail or not elem.tail.strip()):
             elem.tail = i
+
 
 class Map():
     def __init__(self, pathToFile, sceneManager, ogreRoot, gocManager, emptyMap = False):
@@ -149,7 +152,7 @@ class Map():
                 print "Warning: Meshfile " + meshFile + " could not be found."
                 continue
 
-            n = self.mapNode.createChild(entityName + "_node")
+            n = self.mapNode.createChild("entity_" + entityName + "_node")
             n.attachObject(e)
             n.setPosition(nodePosition)
             n.setOrientation(qw, qx, qy, qz)
@@ -204,7 +207,7 @@ class Map():
                 light.setType(og.Light.LT_POINT)
             
             e = self.sceneManager.createEntity(lightName + "_ent", "lightbulp.mesh")
-            n = self.mapNode.createChild(lightName + "_node")
+            n = self.mapNode.createChild("light_" + lightName + "_node")
             n.attachObject(e)
             n.attachObject(light)
             n.setPosition(lightPosition)
@@ -246,7 +249,7 @@ class Map():
             if go is not None:
                 meshFile = go.getMeshFileName()
                 ent = self.sceneManager.createEntity("dropMesh" + str(id), str(meshFile))
-                dropNode = self.sceneManager.getRootSceneNode().createChild("dropNode" + str(id))
+                dropNode = self.mapNode.createChild("gameobject_" + "dropNode" + str(id))
                 dropNode.attachObject(ent)
 
                 if nodePosition:
@@ -273,7 +276,8 @@ class Map():
         
         iter = self.mapNode.getChildIterator()
         while iter.hasMoreElements():
-            iter.getNext().getName()
+            name = iter.getNext().getName()
+            print name
 
 class Scene():
     def __init__(self, moduleroot, pathToFile, sceneManager, ogreRoot, gocManager, emptyScene = False, sceneName = "NewScene"):
@@ -435,7 +439,20 @@ class Module():
                 self.setResourcePaths(curFile)
             if os.path.isfile(curFile):
                 pass
-
+                
+    def getMap(self, mapName, sceneName = None):
+        if sceneName is not None:
+            for s in self.scenes:
+                if s.name == sceneName:
+                    for m in s.mapFiles:
+                        if m.mapName == mapName:
+                            return m
+        else:
+            for s in self.scenes:
+                for m in s.mapFiles:
+                        if m.mapName == mapName:
+                            return m
+                            
 class ModuleManager():
     def __init__(self,  ogreRoot,  sceneManager):
         self.sceneManager = sceneManager
@@ -456,7 +473,7 @@ class ModuleManager():
         self.userSelectionList = []
         self.cutList = [] # selection objects that has been cut out and wait to be pasted again
         self.cutListPreviousNodes = [] # contains the nodes they where copnnected to before the cut
-
+        self.currentMap = None
         self.moduleExplorer = None
 
         self.lastRay = None
@@ -479,6 +496,7 @@ class ModuleManager():
         self.moduleConfigIsParsed = False
 
         self.selectionBuffer = None
+        self.propertyWindow = None
     
     def resetParsedModuleConfig(self):
         self.moduleConfigIsParsed = False
@@ -578,7 +596,17 @@ class ModuleManager():
 
     def setModuleExplorer(self, moduleExplorer):
         self.moduleExplorer = moduleExplorer
+        self.moduleExplorer.setMapSelectedCallback(self.selectMapCallback)
         self.moduleExplorer.setModuleManager(self)
+    
+    def setPropertyWindow(self, propertyWin):
+        self.propertyWindow = propertyWin
+        
+    def selectMapCallback(self, sceneName, mapName):
+        self.currentMap = self.mainModule.getMap(mapName, sceneName)
+        if self.currentMap is None:
+            QMessageBox.warning(None, "Don't forget to select a map", "You won't be happy without a map!")
+
         
     # called when a click into Main Ogre Window occurs
     def selectionClick(self, screenX, screenY, ray,  controlDown=False,  shiftDown=False):
@@ -588,6 +616,8 @@ class ModuleManager():
         
         if so is not None:
             if not so.isPivot:
+                self.propertyWindow.showProperties(so)
+                
                 if not controlDown and not shiftDown:
                     self.resetSelection()
                     so.setSelected(True)
@@ -750,6 +780,8 @@ class ModuleManager():
 
     def leftMouseUp(self):
         if self.pivot is not None and self.pivot.isTransforming:
+            self.propertyWindow.updateProperties()
+            self.moduleExplorer.updateView()
             self.pivot.stopTransforming()
 
     def resetSelection(self):
@@ -780,7 +812,7 @@ class ModuleManager():
         if go is not None:
             meshFile = go.getMeshFileName()
             dropEntity = self.sceneManager.createEntity("dropMesh" + str(self.dropCount), str(meshFile))
-            dropNode = self.sceneManager.getRootSceneNode().createChild("dropNode" + str(self.dropCount))
+            dropNode = self.currentMap.mapNode.createChild("gameobject_dropNode" + str(self.dropCount))
             dropNode.attachObject(dropEntity)
 
             result = og.Math.intersects(ray, self.dropCollisionPlane)
@@ -806,7 +838,7 @@ class ModuleManager():
 
     def startDropModelAction(self, meshFile, ray):
         self.dropEntity = self.sceneManager.createEntity("dropMesh" + str(self.dropCount), str(meshFile))
-        self.dropNode = self.sceneManager.getRootSceneNode().createChild("dropNode" + str(self.dropCount))
+        self.dropNode = self.currentMap.mapNode.createChild("entity_dropNode" + str(self.dropCount))
         self.dropNode.attachObject(self.dropEntity)
 
         result = og.Math.intersects(ray, self.dropCollisionPlane)

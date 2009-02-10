@@ -1,4 +1,5 @@
  #################################################
+ #################################################
  # Copyright (C) 2008  Stefan Stammberger
  #
  # This library is free software; you can redistribute it and/or
@@ -77,6 +78,7 @@ class Lockenwickler(QtGui.QMainWindow):
 
         self.moduleManager.moduleCfgPath = self.prefDialog.moduleCfgPath
         self.moduleManager.setModuleExplorer(self.moduleExplorerWin)
+        self.moduleManager.setPropertyWindow(self.objectPropertyWin)
         
         self.setWindowIcon(QIcon("media/icons/lockenwickler_provisorium_small.png"))
         self.setWindowTitle("Rastullahs Lockenwickler")

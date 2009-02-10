@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-4.2.dtd">
 <!-- eric4 tasks file for project Lockenwickler -->
-<!-- Saved: 2009-02-09, 18:57:06 -->
+<!-- Saved: 2009-02-10, 21:36:41 -->
 <Tasks version="4.2">
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: not implemented yet</Summary>
@@ -24,10 +24,10 @@
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: implement save here</Summary>
     <Description></Description>
-    <Created>2009-02-09, 16:16:17</Created>
+    <Created>2009-02-10, 12:40:21</Created>
     <Resource>
       <Filename>src/Lockenwickler.py</Filename>
-      <Linenumber>424</Linenumber>
+      <Linenumber>426</Linenumber>
     </Resource>
   </Task>
 </Tasks>
