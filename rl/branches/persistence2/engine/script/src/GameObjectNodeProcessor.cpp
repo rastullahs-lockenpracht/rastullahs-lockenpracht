@@ -48,10 +48,19 @@ namespace rl
         }
 
         GameObject* go = GameObjectManager::getSingleton().getGameObject(goid);
-        if(!go)
+        if (!go)
         {
             go = GameObjectManager::getSingleton().createGameObject(classname, goid);
-			LOG_MESSAGE("Maploader", "Created GameObject with id: " + goid);
+            LOG_MESSAGE("Maploader", "Created GameObject with id: " + goid);
+
+            if (!go) // Error creating the GameObject
+            {
+                LOG_ERROR(
+                    "MapLoader", 
+                    "Could not create a game object with classid '" 
+                    + classname + "' and id '" + goid + "'");
+                return true;
+            }
 
             DOMElement* posElem = getChildNamed(nodeElem, "position");
             if (posElem != NULL)

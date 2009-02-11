@@ -28,8 +28,9 @@ namespace rl
     public:
 		WriteableDataStream() : Ogre::DataStream() {}
 		WriteableDataStream(const Ogre::String &name) : Ogre::DataStream(name) {}
-        virtual void write(void* buf, size_t count) {}
-        virtual void flush() {}
+        virtual void write(void* buf, size_t count) = 0;
+        virtual void flush() = 0;
+        virtual void beginWrite() = 0;
     };
 
     typedef Ogre::SharedPtr<WriteableDataStream> WriteableDataStreamPtr;
@@ -73,6 +74,8 @@ namespace rl
         virtual void write(void* buf, size_t count);
 
         virtual void flush();
+
+        virtual void beginWrite();
     };
 
     typedef Ogre::SharedPtr<WriteableFileStreamDataStream> WriteableFileStreamDataStreamPtr;

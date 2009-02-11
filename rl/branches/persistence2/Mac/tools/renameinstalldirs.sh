@@ -1,10 +1,11 @@
 #!/bin/bash
-RASTULLAH_APP_DIR=$1
-RASTULLAH_APP_NAME=$2
+PRODUCTS_DIR=$1
+RASTULLAH_APP_DIR=${1}/${2}
+RASTULLAH_APP_NAME=$3
 RASTULLAH_APP_BIN=${RASTULLAH_APP_DIR}/${RASTULLAH_APP_NAME}
 CEGUI_DIR=${RASTULLAH_APP_DIR}/../Frameworks/CEGUI.framework
 CEGUI_BIN=${CEGUI_DIR}/CEGUI
-RASTULLAH_RES_DIR=$1/../Resources
+RASTULLAH_RES_DIR=${RASTULLAH_APP_DIR}/../Resources
 
 #TODO: Replace the absolute source paths to something with olist -L $RASTULLAH_APP_NAME and grep
 
@@ -19,7 +20,13 @@ RL_BINARIES="$RASTULLAH_APP_BIN \
     $RASTULLAH_RES_DIR/libRlUi.dylib \
     $RASTULLAH_RES_DIR/libboost_filesystem.dylib \
     $RASTULLAH_RES_DIR/libboost_system.dylib \
-    $RASTULLAH_RES_DIR/RlScript.bundle"
+    $RASTULLAH_RES_DIR/RlScript.bundle \
+    $PRODUCTS_DIR/libRlAi.dylib \
+    $PRODUCTS_DIR/libRlCommon.dylib \
+    $PRODUCTS_DIR/libRlCore.dylib \
+    $PRODUCTS_DIR/libRlRules.dylib \
+    $PRODUCTS_DIR/libRlScript.dylib \
+    $PRODUCTS_DIR/libRlUi.dylib"
 
 # RL Application binary
 for cur in $RL_BINARIES 

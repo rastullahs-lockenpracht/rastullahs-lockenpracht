@@ -63,7 +63,7 @@ namespace rl
 
 		mDocument->setNodeValue(XMLString::transcode("SaveGameFile")); //Set name of document root node
 
-		setAttributeValueAsString(mDocument->getDocumentElement(), "SaveGameFormatVersion", "0.6");
+		setAttributeValueAsString(mDocument->getDocumentElement(), "SaveGameFormatVersion", "0.8");
 		setAttributeValueAsInteger(mDocument->getDocumentElement(), "Engineversion", CoreSubsystem::getSingleton().getEngineBuildNumber());
 
 

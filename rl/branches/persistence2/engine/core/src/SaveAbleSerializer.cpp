@@ -133,7 +133,7 @@ namespace rl
 
 	void SaveAbleSerializer::updateFileList()
 	{
-		Ogre::ResourceGroupManager::getSingleton().destroyResourceGroup("SaveGameFiles");
+		Ogre::ResourceGroupManager::getSingleton().unloadResourceGroup("SaveGameFiles");
 
 		SaveGameEntryMap::iterator iter;
 		for(iter = mSaveGameFiles.begin(); iter != mSaveGameFiles.end(); iter++)

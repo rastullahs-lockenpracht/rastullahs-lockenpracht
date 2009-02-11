@@ -23,6 +23,7 @@ namespace rl
     WriteableDataStreamFormatTarget::WriteableDataStreamFormatTarget(WriteableDataStream* stream)
     {
         mStream = stream;
+        mStream->beginWrite();
     }
 
     void WriteableDataStreamFormatTarget::writeChars (const XMLByte *const toWrite, const unsigned int count, XERCES_CPP_NAMESPACE::XMLFormatter *const formatter)

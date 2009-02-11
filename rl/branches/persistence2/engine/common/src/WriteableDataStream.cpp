@@ -189,6 +189,13 @@ namespace rl
     void WriteableFileStreamDataStream::flush()
     {
         mpStream->clear();
+        mpStream->put('\0');
         mpStream->flush();
+    }
+
+    void WriteableFileStreamDataStream::beginWrite()
+    {
+        mpStream->clear();
+        mpStream->seekp(std::ios_base::beg);
     }
 }
