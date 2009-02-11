@@ -40,6 +40,7 @@ namespace rl
           mLastTimes(),
           mSmoothedFrames(3),
           mMaxFrameTime(0.1f),
+          mMinFrameTime(1.0/60),
           mQuitRequested(false),
           mPaused(false)
     {
@@ -137,6 +138,16 @@ namespace rl
 
         if( elapsedTime < mGameTime )
             unsmoothedFrameTime = 1;
+
+        if( unsmoothedFrameTime < mMinFrameTime*1000 )
+        {
+            usleep(floor(1000*(mMinFrameTime*1000 - unsmoothedFrameTime)));
+            elapsedTime = mTimer->getMilliseconds();
+            unsmoothedFrameTime = elapsedTime - mGameTime;
+            if( elapsedTime < mGameTime )
+                unsmoothedFrameTime = 1;
+        }
+
 
         if( unsmoothedFrameTime > mMaxFrameTime*1000 )
         {

@@ -44,14 +44,32 @@ namespace rl
 
         physicsManager->createMaterialPair(char_mat, def_mat)->setContactCallback(this);
         physicsManager->createMaterialPair(char_mat, level_mat)->setContactCallback(this);
-        
+        physicsManager->createMaterialPair(char_mat, char_mat); //->setContactCallback(this);
+
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultFriction(0.0f,0.0f);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultFriction(0.0f,0.0f);
+        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultFriction(0.0f,0.0f);
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultElasticity(0.1f);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultElasticity(0.1f);
+        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultElasticity(0.1f);
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultSoftness(0.1f);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultSoftness(0.1f);
+        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultSoftness(0.1f);
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultSurfaceThickness(0.0f);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultSurfaceThickness(0.0f);
+        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultSurfaceThickness(0.0f);
+
+/*        
         physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultFriction(0.8f,0.4f);
         physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultFriction(0.8f,0.4f);
-        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultElasticity(0.0f);
-        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultElasticity(0.0f);
-        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultSoftness(1.0f);
-        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultSoftness(1.0f);
-
+        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultFriction(0.8f,0.4f);
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultElasticity(0.01f);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultElasticity(0.01f);
+        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultElasticity(0.01);
+        physicsManager->getMaterialPair(char_mat, def_mat)->setDefaultSoftness(0.8f);
+        physicsManager->getMaterialPair(char_mat, level_mat)->setDefaultSoftness(0.8f);
+        physicsManager->getMaterialPair(char_mat, char_mat)->setDefaultSoftness(0.8f);
+*/
         physicsManager->getNewtonDebugger()->setMaterialColor(char_mat, Ogre::ColourValue::Red);
     }
 
@@ -146,27 +164,34 @@ namespace rl
         }
     }
 
-    int CreatureControllerManager::userProcess()
+    void CreatureControllerManager::userProcess(OgreNewt::ContactJoint &contactJoint, Real timestep, int threadid)
     {
-        Actor *actor = static_cast<Actor*>(m_body0->getUserData());
+        Actor *actor = static_cast<Actor*>(contactJoint.getBody0()->getUserData());
         if( actor != NULL )
         {
             ControllerMap::const_iterator it = mControllers.find(static_cast<Creature*>(actor->getGameObject()));
             if (it != mControllers.end())
             {
-                // @XXX Evil code!
-                // Protected members from type OgreNewt::ContactCallback have to be overridden in order
-                // for the controllers to work. This is because these members are used by OgreNewt functions
-                // for processing this contact. Should probably be solved in OgreNewt directly.
-                OgreNewt::ContactCallback* controller = it->second;
-                *controller = (OgreNewt::ContactCallback)(*this);
-                return controller->userProcess();
+                it->second->userProcess(contactJoint, timestep, threadid);
+                return;
             }
         }
 
+        // if the controlled body is the second body...
+        actor = static_cast<Actor*>(contactJoint.getBody1()->getUserData());
+        if( actor != NULL )
+        {
+            ControllerMap::const_iterator it = mControllers.find(static_cast<Creature*>(actor->getGameObject()));
+            if (it != mControllers.end())
+            {
+                it->second->userProcess(contactJoint, timestep, threadid);
+                return;
+            }
+        }
+
+
         LOG_ERROR(Logger::RULES,
             "Der Kollisionskörper konnte keinem CreatureController zugeordnet werden.");
-        return 1;
     }
 
     const Ogre::String& CreatureControllerManager::getName() const

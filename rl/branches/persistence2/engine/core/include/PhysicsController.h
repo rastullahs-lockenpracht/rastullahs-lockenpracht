@@ -39,7 +39,7 @@ namespace rl
 		 * to be applied to the associated PhysicalThing object.
 		 * @param thing PhysicalThing to apply force and torque to.
 		 */
-        virtual void OnApplyForceAndTorque(PhysicalThing* thing) = 0;
+        virtual void OnApplyForceAndTorque(PhysicalThing* thing, float timestep) = 0;
     };
 }
 

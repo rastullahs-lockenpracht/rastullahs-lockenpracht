@@ -26,8 +26,7 @@
 namespace rl
 {
     /// this is the base class of all movements and provides a general interface for movements
-    class AbstractMovement : 
-        public OgreNewt::ContactCallback
+    class AbstractMovement // : public PhysicsGenericContactCallback
     {
     public:
         AbstractMovement(CreatureController *movingCreature) : mMovingCreature(movingCreature), mActive(false) {}
@@ -55,7 +54,7 @@ namespace rl
          * this method is called, when this movement is currently used to enable 
          * an individual procession of collisions contacts for each movement
          */
-        virtual int userProcess(OgreNewt::Body *body0, OgreNewt::Body *body1) {return 1;}
+        virtual void userProcess(OgreNewt::ContactJoint &contactJoint, Ogre::Real timestep, int threadid) {}
 
         /**
          * this method is called by OnApplyTorqueAndForceCallback of the CreatureController

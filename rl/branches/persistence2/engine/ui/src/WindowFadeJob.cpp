@@ -32,7 +32,7 @@ namespace rl
         : Job("", true, true),
         mAbstractWindow(window),
         mCEGUIWindow(window->getWindow()),
-        mItemDragContainer(NULL),
+//        mItemDragContainer(NULL),
         mMode(mode),
         mChangeRate(changeRate),
         mCurrentAlpha(mode == FADE_IN ? 0.0f : 1.0f),
@@ -47,7 +47,7 @@ namespace rl
         : Job("", true, true),
         mAbstractWindow(NULL),
         mCEGUIWindow(window),
-        mItemDragContainer(NULL),
+//        mItemDragContainer(NULL),
         mMode(mode),
         mChangeRate(changeRate),
         mCurrentAlpha(mode == FADE_IN ? 0.0f : 1.0f),
@@ -57,7 +57,7 @@ namespace rl
         mCEGUIWindow->setVisible(true);
         mCEGUIWindow->setAlpha(mCurrentAlpha);
     }
-
+/*
     WindowFadeJob::WindowFadeJob(ItemDragContainer* window, Mode mode, Real targetAlpha, Real changeRate)
         : Job("", true, true),
         mAbstractWindow(NULL),
@@ -72,7 +72,7 @@ namespace rl
         mCEGUIWindow->setVisible(true);
         mCEGUIWindow->setAlpha(mCurrentAlpha);
     }
-
+*/
     bool WindowFadeJob::execute(Real time)
     {
         mCurrentAlpha += time * mChangeRate * Math::Sign(mTargetAlpha - mCurrentAlpha);
@@ -97,8 +97,8 @@ namespace rl
         {
             if( mAbstractWindow )
                 WindowManager::getSingleton().destroyWindow(mAbstractWindow);
-            else if(mItemDragContainer)
-                delete mItemDragContainer;
+//            else if(mItemDragContainer)
+//                delete mItemDragContainer;
             else
                 CEGUI::WindowManager::getSingleton().destroyWindow(mCEGUIWindow);
         }

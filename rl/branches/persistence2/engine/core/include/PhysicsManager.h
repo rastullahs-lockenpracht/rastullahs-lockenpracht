@@ -30,7 +30,6 @@
 
 namespace OgreNewt {
     class Body;
-    class Debugger;
     class MaterialID;
     class MaterialPair;
     class World;
@@ -137,17 +136,17 @@ namespace rl {
 		/// Komplette Levelgeometrie auflösen
 		void clearLevelGeometry();
 		
-		void toggleDebugMode();
-        bool isDebugMode() const;
+	void toggleDebugMode();
+        int isDebugMode() const;
 
         // Newton callbacks ...
         /// generic force callback. Gravity is applied and the force,
         /// applied via PhysicalThing interface.
-        static void genericForceCallback(OgreNewt::Body* body);
+        static void genericForceCallback(OgreNewt::Body* body, float timeStep, int threadIndex);
 
         /// special force callback for controlled characters (or monsters even)
         /// those bodies have up vector and are controlled using inverse dynamics
-        static void controlledForceCallback(OgreNewt::Body* body);
+        static void controlledForceCallback(OgreNewt::Body* body, float timeStep, int threadIndex);
 
         OgreNewt::World* _getNewtonWorld() const;
 
@@ -277,7 +276,7 @@ namespace rl {
         static Ogre::String convertGeometryTypeToString(const GeometryType& geomType);
 
         /// returns newton debugger
-        OgreNewt::Debugger* getNewtonDebugger() {return mNewtonDebugger;}
+        OgreNewt::Debugger* getNewtonDebugger() {return &mWorld->getDebugger();}
 
     private:
 
@@ -288,6 +287,7 @@ namespace rl {
         struct CollisionInUse
         {
         public:
+            CollisionInUse() : colPtr(NULL), geomType(GT_NONE) {}
             GeometryType geomType;  //! primitive type
             OgreNewt::CollisionPtr colPtr;          //! the collision primitve
         };
@@ -302,9 +302,8 @@ namespace rl {
         bool mEnabled;
         //! the globally used physical representation of the world by Newton
         OgreNewt::World* mWorld;
-        //! the visualisation for physical behaviour (actually not the best)
-        OgreNewt::Debugger* mNewtonDebugger;
-        bool mDebugMode;
+        //! debug mode: 0 no debugging, 1 show debug lines (freezed state), 2 show debug lines (update every frame), 3 show raycasts from one frame, 4 upda raycasts every frame
+        int mDebugMode;
 
         //! factory for creating new collision primitives
         PhysicsCollisionFactory* mPhysicsCollisionFactory;

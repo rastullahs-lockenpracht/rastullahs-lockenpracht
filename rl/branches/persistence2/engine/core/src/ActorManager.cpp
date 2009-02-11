@@ -291,9 +291,11 @@ namespace rl {
         try
         {
             CameraObject* co = new CameraObject(uniquename);
+            // the mass should be as small as possible, so the camera doesn't interact with other bodies,
+            // but setting the mass to 0 means, that the body is static!
             PhysicalThing* pt = PhysicsManager::getSingleton()
                 .createPhysicalThing(GT_SPHERE, co,
-                100.0f, true);
+                0.001f, true);
             PhysicsManager::getSingleton().createPhysicsProxy(pt, NULL);
             pt->_getBody()->setMaterialGroupID(
                 PhysicsManager::getSingleton().createMaterialID("camera"));

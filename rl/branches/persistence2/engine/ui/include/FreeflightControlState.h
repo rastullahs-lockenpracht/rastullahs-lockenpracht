@@ -26,6 +26,7 @@
 #   include <OgreNewt/OgreNewt.h>
 #else
 #   include <OgreNewt.h>
+#   include <OgreNewt_PlayerController.h>
 #endif
 
 namespace rl {
@@ -57,12 +58,10 @@ namespace rl {
 	    void toggleCameraCollision();
 	    void resetCamera();
 
-        /// This is the OgreNewt contact process callback for the combination
-        /// Character <-> Level
-        int userProcess();
-
+        /// Newton contacts callback
+        int onAABBOverlap( OgreNewt::Body* body0, OgreNewt::Body* body1, int threadIndex );
         /// Newton force and torque callback
-        void OnApplyForceAndTorque(PhysicalThing* thing);
+        void OnApplyForceAndTorque(PhysicalThing* thing, float timestep);
 
 	private:		
 		int mCurrentMovementState;
@@ -78,6 +77,8 @@ namespace rl {
         Ogre::Real mMouseSensitivity;
         bool mInvertedMouse;
         std::pair<Ogre::Degree, Ogre::Degree> mPitchRange;
+
+        OgreNewt::PlayerController *mOgreNewtPlayerController;
 	};
 }
 #endif

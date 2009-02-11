@@ -80,6 +80,9 @@ namespace rl
 
         mCreature->getActor()->getPhysicalThing()->setPhysicsController(this);
 
+//        mCreature->getActor()->getPhysicalThing()->_getBody()->setAngularDamping(0*Vector3::UNIT_SCALE);
+        mCreature->getActor()->getPhysicalThing()->_getBody()->setContinuousCollisionMode(1);
+
 
         std::pair<MovementType, AbstractMovement*> movementPair;
         movementPair.first = MT_NONE;
@@ -154,6 +157,8 @@ namespace rl
                 mCreature->getActor()->getPhysicalThing()->setPhysicsController(NULL);
 
                 mCreature->getActor()->getPhysicalThing()->setMaterialID(mOldMaterialId);
+        
+//                mCreature->getActor()->getPhysicalThing()->_getBody()->setAngularDamping(0.1*Vector3::UNIT_SCALE);
             }
         }
     }
@@ -170,7 +175,7 @@ namespace rl
     {
         int act_gs = mCreature->getWert(Creature::WERT_GS);
         ///@todo wy does this not work
-        //act_gs -= mCreature->getWert(Creature::WERT_BE);
+        act_gs -= mCreature->getWert(Creature::WERT_BE);
         return max(act_gs,1);
     }
 
@@ -297,7 +302,7 @@ namespace rl
         {
             // find a reason why we now are AL_FLOOR
             if( timeSinceLastFloorContact < Time(Date::ONE_SECOND)*0.19 &&
-                -speed.y < 0.6 )
+                abs(speed.y) < 0.6 )
             {
                 setAbstractLocation(AL_FLOOR);
             }
@@ -306,7 +311,7 @@ namespace rl
         {
             // find a reason why we now are AL_AIRBORNE
             if( timeSinceLastFloorContact >= Time(Date::ONE_SECOND)*0.2 && // 2 seconds?
-                -speed.y > 0.6 )
+                abs(speed.y) > 0.6 )
             {
                 //std::ostringstream oss;
                 //oss << "Raycast for floor: speed.y: " << speed.y << "      timeSinceLastFloorContact: " << timeSinceLastFloorContact;
@@ -316,8 +321,8 @@ namespace rl
 		// find the distance to the floor:
                 // raycasts
                 PhysicsMaterialRaycast::MaterialVector materialVector;
-                materialVector.push_back(PhysicsManager::getSingleton().getMaterialID("default")); // should we perhaps only use level here?
-                materialVector.push_back(PhysicsManager::getSingleton().getMaterialID("level"));
+                materialVector.push_back(PhysicsManager::getSingleton().getMaterialID("camera")); // should we perhaps only use level here?
+                materialVector.push_back(PhysicsManager::getSingleton().getMaterialID("character"));
 
                 Vector3 start = getCreature()->getPosition();
                 Vector3 end = start + Vector3::NEGATIVE_UNIT_Y*0.4;
@@ -325,7 +330,7 @@ namespace rl
                 RaycastInfo info = mRaycast.execute(
                             PhysicsManager::getSingleton()._getNewtonWorld(),
                             &materialVector,
-                            start, end);
+                            start, end, false);
 
 		if( info.mBody == NULL )
 		{
@@ -359,14 +364,13 @@ namespace rl
         return false;
     }
 
-    void CreatureController::OnApplyForceAndTorque(PhysicalThing* thing)
+    void CreatureController::OnApplyForceAndTorque(PhysicalThing* thing, float timestep)
     {
         Vector3 force, torque;
         OgreNewt::Body *body = thing->_getBody();
         force = Vector3::ZERO;
         torque = Vector3::ZERO;
         OgreNewt::World *world = PhysicsManager::getSingleton()._getNewtonWorld();
-        Real timestep = world->getTimeStep();
         Real mass;
         Vector3 inertia;
         body->getMassMatrix(mass, inertia);
@@ -387,12 +391,15 @@ namespace rl
         body->setTorque(torque);
     }
 
-    int CreatureController::userProcess()
+    void CreatureController::userProcess(OgreNewt::ContactJoint &contactJoint, Real timestep, int threadid)
     {
+for(OgreNewt::Contact contact = contactJoint.getFirstContact(); contact; contact = contact.getNext() )
+{
+
         // own collision handling (floor, in order to get information for mAbstractLocation)
         Vector3 point;
         Vector3 normal;
-        getContactPositionAndNormal(point, normal);
+        contact.getPositionAndNormal(point, normal);
 
         // determine if this contact is with the floor.
         // Meaning the contact normal has an angle to UNIT_Y of 20 or less.
@@ -419,6 +426,31 @@ namespace rl
                 mLastFloorContact = time;
             }
         }
+/*
+//        setContactNormalDirection(((Vector3::UNIT_Y.dotProduct(point-charPos)*Vector3::UNIT_Y + charPos) - point).normalisedCopy());
+        setContactNormalDirection(point - (charPos + charHeight/2));
+        setContactNormalAcceleration(0);
+        setContactFrictionState(0,0);
+        setContactFrictionState(0,1);
+        setContactTangentAcceleration(0, 0);
+        setContactTangentAcceleration(0, 1);
+
+*/
+//std::ostringstream oss;
+//Vector3 vec1, vec2;
+//oss << " Collision: Point: " << point-charPos;
+//    << "  \t Normal: " << normal
+//    << "  \t Force: " << getContactForce()
+//    << "  \t Normal-Speed: " << getContactNormalSpeed()
+//    << "  \t Contact-Speed: " << point
+//    << "  \t Contact-Normal: " << normal;
+//getContactTangentDirections(vec1, vec2);
+//oss << "  \t Tangent-Directions: " << vec1 << " " << vec2;
+//LOG_MESSAGE(Logger::RULES, oss.str());
+
+        contact.rotateTangentDirections(/*charOri*mDirection + */Vector3::UNIT_Y);
+        contact.setFrictionState(1,0);
+        contact.setFrictionState(0,1);
 
         if( stepHeight < 0.4 )
         {
@@ -427,17 +459,15 @@ namespace rl
                                    // too high means the creature stops if moving slowly onto a step because of the friction
             {
                 //setContactNormalAcceleration(5);
-                rotateTangentDirections(charOri*mDirection + Vector3::UNIT_Y);
-                setContactTangentAcceleration(5,0);
-                setContactFrictionState(1,0);
-                setContactFrictionState(1,1);
+                contact.setTangentAcceleration(5,0);
+                //setContactFrictionState(1,0);
+                //setContactFrictionState(1,1);
             }
             else
             {
-                setContactFrictionState(1,0);
-                setContactFrictionState(1,1);
+                //setContactFrictionState(1,0);
+                //setContactFrictionState(1,1);
             }
-            //setContactTangentAcceleration(5);
             //setContactElasticity(0.0f);
         }
         else
@@ -446,29 +476,22 @@ namespace rl
             vel = mCreature->getActor()->getPhysicalThing()->getVelocity();
             if( vel.y >= 0 )
             {
-                setContactFrictionState(1,0);
-                setContactFrictionState(1,1);    
+                //setContactFrictionState(1,0);
+                //setContactFrictionState(1,1);    
             }
             else
             {
-                setContactFrictionState(0,0);
-                setContactFrictionState(0,1);
+                //setContactFrictionState(0,0);
+                //setContactFrictionState(0,1);
             }
         }
+}
 
         if(mMovement != NULL)
         {
-            // @XXX Evil code!
-            // Protected members from type OgreNewt::ContactCallback have to be overridden in order
-            // for the movements to work. This is because these members are used by OgreNewt functions
-            // for processing this contact. Should probably be solved in OgreNewt directly.
-            OgreNewt::ContactCallback *movement = mMovement;
-            *movement = (OgreNewt::ContactCallback)(*this);
-            return movement->userProcess();
+            // give the movement a chance to modify the contact
+            mMovement->userProcess(contactJoint, timestep, threadid);
         }
-
-        // return one to tell Newton we want to accept this contact
-        return 1;
     }
 
     AbstractMovement *CreatureController::getMovementFromId(CreatureController::MovementType id)

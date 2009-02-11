@@ -70,9 +70,8 @@ namespace rl
 
     PhysicsManager::PhysicsManager( )
         : mEnabled(false),
-        mNewtonDebugger(&OgreNewt::Debugger::getSingleton()),
         mPhysicalThings(),
-        mDebugMode(false),
+        mDebugMode(0),
         mGravity(0, -9.81, 0),
         mTimeFactor(1.0f),
         mWorldAABB(Vector3(-100, -100, -100), Vector3(100, 100, 100)),
@@ -99,7 +98,8 @@ namespace rl
         // setup level material
         createMaterialID("level");
 
-        mNewtonDebugger->setMaterialColor(getMaterialID("level"), Ogre::ColourValue::Blue);
+        mWorld->getDebugger().setMaterialColor(getMaterialID("level"), Ogre::ColourValue::Blue);
+
 
         // below here starts 'old' stale fix code that should be removed
 
@@ -132,6 +132,8 @@ namespace rl
         }
         mMaterials.clear();
 
+        mWorld->getDebugger().deInit();
+
         delete mPhysicsCollisionFactory;
         delete mGenericCallback;
         delete mWorld;
@@ -148,6 +150,12 @@ namespace rl
         //NewtonSetMinimumFrameRate(mWorld->getNewtonWorld(), 1./mMaxTimestep);
 
 
+        if( mDebugMode == 4 )
+        {
+            mWorld->getDebugger().clearRaycastsRecorded();
+        }
+
+
         // Newton kann timesteps zwischen 1/20 und 1/600!
         mElapsed += elapsedTime * mTimeFactor;
         while( mElapsed >= mMaxTimestep)
@@ -155,6 +163,7 @@ namespace rl
             // perhaps we should add a newtonupdate listener, but i don't
             // know if it's really neccessary
             GameEventManager::getSingleton().notifyNewtonWorldUpdate();
+
 
             mWorld->update(mMaxTimestep);
             mElapsed-=mMaxTimestep;
@@ -165,7 +174,10 @@ namespace rl
                     "Omega  Force  Torque  NewtonBodyGetSleepingState  NewtonBodyGetAutoFreeze  "\
                     "NewtonBodyGetContinuousCollisionMode  ( invMass  invIxx  invIyy  invIzz )");
                 if( Logger::getSingleton().getLogDetail() <= Logger::LL_DEBUG )
-                    NewtonWorldForEachBodyDo(mWorld->getNewtonWorld(), newtonPerBodyLogProperties);
+                for( const NewtonBody* body = NewtonWorldGetFirstBody(mWorld->getNewtonWorld());
+                     body != NULL;
+                     body = NewtonWorldGetNextBody(mWorld->getNewtonWorld(), body)  )
+                    newtonPerBodyLogProperties(body);
             }
 #endif
         }
@@ -183,9 +195,22 @@ namespace rl
                 LOG_DEBUG(Logger::CORE, "\tNewtonBodyLog: &Body  Position  Orientation  Velocity  "\
                     "Omega  Force  Torque  NewtonBodyGetSleepingState  NewtonBodyGetAutoFreeze  "\
                     "NewtonBodyGetContinuousCollisionMode  ( invMass  invIxx  invIyy  invIzz )");
-                if( Logger::getSingleton().getLogDetail() <= Logger::LL_DEBUG )
-                    NewtonWorldForEachBodyDo(mWorld->getNewtonWorld(), newtonPerBodyLogProperties);            }
+                for( const NewtonBody* body = NewtonWorldGetFirstBody(mWorld->getNewtonWorld());
+                     body != NULL;
+                     body = NewtonWorldGetNextBody(mWorld->getNewtonWorld(), body)  )
+                    newtonPerBodyLogProperties(body);
+            }
 #endif
+        }
+
+
+        if( mDebugMode == 2 )
+        {
+            mWorld->getDebugger().showDebugInformation();
+        }
+        else if( mDebugMode == 3 )
+        {
+            mWorld->getDebugger().stopRaycastRecording();
         }
     }
 
@@ -269,31 +294,38 @@ namespace rl
         mEnabled = enabled;
     }
 
-    bool PhysicsManager::isDebugMode() const
+    int PhysicsManager::isDebugMode() const
     {
         return mDebugMode;
     }
 
     void PhysicsManager::toggleDebugMode()
     {
-        if (mDebugMode)
-		{
-            mNewtonDebugger->hideLines();
-		}
-        else
+        mWorld->getDebugger().init(CoreSubsystem::getSingleton().getWorld()->getSceneManager());
+        mDebugMode = (mDebugMode+1)%5;
+        switch(mDebugMode)
         {
-            mNewtonDebugger = &OgreNewt::Debugger::getSingleton();
-
-			try
-			{
-				mNewtonDebugger->init(
-					CoreSubsystem::getSingleton().getWorld()->getSceneManager());
-			}
-			catch(Ogre::Exception) {}
-
-            mNewtonDebugger->showLines(mWorld);
+            case 0:
+                mWorld->getDebugger().stopRaycastRecording();
+                mWorld->getDebugger().clearRaycastsRecorded();
+                mWorld->getDebugger().hideDebugInformation();
+                break;
+            case 1:
+                mWorld->getDebugger().showDebugInformation();
+                break;
+            case 2:
+                break;
+            case 3:
+                mWorld->getDebugger().startRaycastRecording(true);
+                mWorld->getDebugger().hideDebugInformation();
+                break;
+            case 4:
+                mWorld->getDebugger().startRaycastRecording(true);
+                mWorld->getDebugger().hideDebugInformation();
+                break;
+            default:
+                break;
         }
-        mDebugMode = !mDebugMode;
     }
 
     void PhysicsManager::addLevelGeometry( Ogre::Entity* levelEntity, const std::vector<OgreNewt::CollisionPtr> &collisions)
@@ -303,23 +335,33 @@ namespace rl
 
         SceneNode* node = levelEntity->getParentSceneNode();
         //Level entity has to be attached to a scene node.
+        
 
-        for( size_t i = 0; i < collisions.size(); i++)
+        // try one compound collision for the entity if there are several collisions
+        OgreNewt::CollisionPtr collision(NULL);
+        switch( collisions.size() )
         {
-		    if( collisions[i].isNull() )
-                continue;
+            case 0:
+                break;
+            case 1:
+                collision = collisions[0];
+                break;
+            default:
+                collision = new OgreNewt::CollisionPrimitives::CompoundCollision(mWorld, collisions);
+                break;
+        }
 
-            OgreNewt::CollisionPtr collision = collisions[i];
+        if( collision )
+        {
+            OgreNewt::Body* body = new OgreNewt::Body(mWorld, collision );
 
-		    OgreNewt::Body* body = new OgreNewt::Body(mWorld, collision );
 
-
-            body->attachToNode(node);
+            body->attachNode(node);
             body->setPositionOrientation(node->_getDerivedPosition(),
                 node->_getDerivedOrientation());
             body->setMaterialGroupID(getMaterialID("level"));
 
-			mLevelBodiesQuadTree.add(body);
+            mLevelBodiesQuadTree.add(body);
             //mLevelBodies.push_back(body);
         }
 
@@ -364,26 +406,23 @@ namespace rl
 		*/
     }
 
-    // adopted from the chararcter demo in the newton sdk
-    // copyright 2000-2004
-    // By Julio Jerez
-    void PhysicsManager::genericForceCallback(OgreNewt::Body* body)
+    void PhysicsManager::genericForceCallback(OgreNewt::Body* body, float timestep, int)
     {
         // apply saved forces in the PhysicalThing
         PhysicalThing* thing =
             static_cast<Actor*>(body->getUserData())->getPhysicalThing();
 
-        thing->onApplyForceAndTorque();
+        thing->onApplyForceAndTorque(timestep);
     }
 
-    void PhysicsManager::controlledForceCallback(OgreNewt::Body* body)
+    void PhysicsManager::controlledForceCallback(OgreNewt::Body* body, float timestep, int)
     {
         PhysicalThing* thing =
             static_cast<Actor*>(body->getUserData())->getPhysicalThing();
 
         if (thing->getPhysicsController())
         {
-            thing->getPhysicsController()->OnApplyForceAndTorque(thing);
+            thing->getPhysicsController()->OnApplyForceAndTorque(thing, timestep);
         }
         else
         {
@@ -460,7 +499,15 @@ namespace rl
     void PhysicsManager::resetMaterialPair(const OgreNewt::MaterialID* M1,
             const OgreNewt::MaterialID* M2)
     {
-        getMaterialPair(M1,M2)->setContactCallback(mGenericCallback);
+        OgreNewt::MaterialPair *mat_pair = getMaterialPair(M1,M2);
+        mat_pair->setContactCallback(mGenericCallback);
+        mat_pair->setContinuousCollisionMode(0);
+        mat_pair->setDefaultCollidable(1);
+        mat_pair->setDefaultElasticity(0.4f);
+        mat_pair->setDefaultSoftness(0.1f);
+        mat_pair->setDefaultFriction(0.9f, 0.5f);
+        //! TODO find a good value here, until now I hope nobody is changing the default from newton :-P
+        //mat_pair->setDefaultSurfaceThickness(); 
     }
 
     OgreNewt::CollisionPtr PhysicsManager::createCollision(
@@ -480,7 +527,8 @@ namespace rl
         CollisionInUse &usedcol (mCollisionPrimitives[collisionName]);
         // log some performance warning if collisionname is equal, but geomtype different ?
 
-        if (! usedcol.colPtr.isNull() )
+        if( false )
+//        if ( usedcol.colPtr != NULL )
         {
             if ( usedcol.geomType != geomType )
             {   // when geometry types mismatch, issue performance warning
@@ -495,7 +543,28 @@ namespace rl
 
                 if( inertia )
                 {
+
                     // we must set inertia here, the calling function doesn't know we are not creating a new collision
+                    switch(usedcol.geomType)
+                    {
+                    case GT_BOX: // from createBox
+                    case GT_CAPSULE: // from createCapsule
+                    case GT_CONVEXHULL: // from createCollisionFromEntity
+                    case GT_ELLIPSOID: // from createEllipsoid
+                    case GT_PYRAMID: // createPyramid
+                    case GT_SPHERE:
+                        {
+                            Vector3 inert_offs=Vector3::ZERO;
+                            static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(*inertia, inert_offs);
+                            *inertia *= mass;
+                        }
+                        break;
+                    case GT_MESH:
+                    case GT_NONE:
+                        *inertia = Ogre::Vector3::ZERO;
+                        break;
+                    }
+/*
                     Ogre::AxisAlignedBox aabb(entity->getBoundingBox());
                     Vector3 size( aabb.getSize() );
                     switch(usedcol.geomType)
@@ -539,11 +608,12 @@ namespace rl
                         }
                         break;
                     }
+*/
                 }
             }
         }
 
-        if (rval.isNull())
+//        if ( rval == NULL )
         {
             // if there is none, then create a new collision object
             rval = mPhysicsCollisionFactory->createCollisionFromEntity(
@@ -568,7 +638,8 @@ namespace rl
         CollisionInUse &usedcol (mCollisionPrimitives[name]);
         // log some performance warning if collisionname is equal, but geomtype different ?
 
-        if (! usedcol.colPtr.isNull() )
+        if( false )
+//        if ( usedcol.colPtr != NULL )
         {
             if ( usedcol.geomType != geomType )
             {   // when geometry types mismatch, issue performance warning
@@ -582,7 +653,7 @@ namespace rl
             }
         }
 
-        if (rval.isNull())
+//        if ( rval == NULL )
         {
             // if there is none, then create a new collision object
             rval = mPhysicsCollisionFactory->createCollisionFromAABB(
@@ -804,14 +875,13 @@ namespace rl
 			// calculate the convex hull of the animated mesh
 			rval = CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(
                 PhysicsManager::getSingleton()._getNewtonWorld(),
-				entity, entity->hasSkeleton(), *orientation, *offset));
+				entity, /*entity->hasSkeleton(),*/ *orientation, *offset));
 
 			if (inertia != NULL)
 			{
-				*inertia = Vector3(
-				size.x*size.x/6.0f,
-				size.y*size.y/6.0f,
-				size.z*size.z/6.0f) * Mass;
+                            Vector3 inert_offs=Vector3::ZERO;
+                            static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(*inertia, inert_offs);
+                            *inertia *= Mass;
 			}
         }
         else if (geomType == GT_MESH)
@@ -821,14 +891,14 @@ namespace rl
 
             rval = CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(
                 PhysicsManager::getSingleton()._getNewtonWorld(),
-                entity, false, true));
+                entity, true ));
         }
         else
         {
             Throw(IllegalArgumentException, "unknown geometry type.");
         }
 
-        if (rval.isNull())
+        if ( rval == NULL )
         {
             LOG_DEBUG(Logger::CORE, " creating collision primitiv '"+
                 PhysicsManager::convertGeometryTypeToString(geomType)+"' for Entity '"+
@@ -860,13 +930,19 @@ namespace rl
 			offset = &object_offset;
 		if (! orientation)
 			orientation = &object_orientation;
-        if (inertia)
-            *inertia = OgreNewt::MomentOfInertia::CalcBoxSolid(mass, aabb.getSize());
 
-		// a box collision primitiv has got it's coordinate system at it's center, so we need to shift it
-		return CollisionPtr(new OgreNewt::CollisionPrimitives::Box(
+        // a box collision primitiv has got it's coordinate system at it's center, so we need to shift it
+        OgreNewt::CollisionPtr rval(new OgreNewt::CollisionPrimitives::Box(
             PhysicsManager::getSingleton()._getNewtonWorld(),
             aabb.getSize(), *orientation, *offset));
+        if (inertia)
+        {
+            Vector3 inert_offs=Vector3::ZERO;
+            static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(*inertia, inert_offs);
+            *inertia *= mass;
+        }
+
+        return rval;
     }
 
     OgreNewt::CollisionPtr PhysicsCollisionFactory::createPyramid(const Ogre::AxisAlignedBox& aabb,
@@ -886,12 +962,18 @@ namespace rl
 			offset = &object_offset;
 		if (! orientation)
 			orientation = &object_orientation;
-        if (inertia)
-            *inertia = Ogre::Vector3(size.x,size.y/2.0f, size.z) * mass;
 
-        return CollisionPtr(new OgreNewt::CollisionPrimitives::Pyramid(
+        OgreNewt::CollisionPtr rval(new OgreNewt::CollisionPrimitives::Pyramid(
             PhysicsManager::getSingleton()._getNewtonWorld(),
             size, *orientation, *offset));
+        if (inertia)
+        {
+            Vector3 inert_offs=Vector3::ZERO;
+            static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(*inertia, inert_offs);
+            *inertia *= mass;
+        }
+
+        return rval;
     }
 
     OgreNewt::CollisionPtr PhysicsCollisionFactory::createSphere(const Ogre::AxisAlignedBox& aabb,
@@ -914,14 +996,18 @@ namespace rl
 			offset = &object_offset;
 		if (! orientation)
 			orientation = &object_orientation;
-        if (inertia)
-            //*inertia = OgreNewt::MomentOfInertia::CalcSphereSolid(Mass,radius);
-            *inertia = mass * Vector3(radius*radius, radius*radius, radius*radius);
-
-		// a sphere primitiv has got its coordinate system at its center, so shift it with radius
-        return CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
-    		PhysicsManager::getSingleton()._getNewtonWorld(),
+ 
+        // a sphere primitiv has got its coordinate system at its center, so shift it with radius
+        OgreNewt::CollisionPtr rval(new OgreNewt::CollisionPrimitives::Ellipsoid(
+            PhysicsManager::getSingleton()._getNewtonWorld(),
             Vector3(radius, radius, radius), *orientation, *offset));
+        if (inertia)
+        {
+            Vector3 inert_offs=Vector3::ZERO;
+            static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(*inertia, inert_offs);
+            *inertia *= mass;
+        }
+        return rval;
     }
 
     OgreNewt::CollisionPtr PhysicsCollisionFactory::createEllipsoid(const Ogre::AxisAlignedBox& aabb,
@@ -945,13 +1031,20 @@ namespace rl
 			offset = &object_offset;
 		if (! orientation)
 			orientation = &object_orientation;
-        if (inertia)
-            *inertia = Vector3(s.x*s.x, s.y*s.y, s.z*s.z) * mass;
 
         // an ellipsoid primitiv has got its coordinate system at its center, so shift it with radius
-        return CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
+        OgreNewt::CollisionPtr rval(new OgreNewt::CollisionPrimitives::Ellipsoid(
             PhysicsManager::getSingleton()._getNewtonWorld(),
             s, *orientation, *offset));
+
+        if (inertia)
+        {
+            Vector3 inert_offs=Vector3::ZERO;
+            static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(*inertia, inert_offs);
+            *inertia *= mass;
+        }
+
+        return rval;
     }
 
     OgreNewt::CollisionPtr PhysicsCollisionFactory::createCapsule(const Ogre::AxisAlignedBox& aabb,
@@ -975,16 +1068,21 @@ namespace rl
     		offset = &object_offset;
 		if (! orientation)
 			orientation = &object_orientation;
-        if (inertia) {
-            double sradius = radius*radius;
-			*inertia = Vector3(sradius, size.y*size.y, sradius) * mass;
-        }
 
-		// an capsule primitiv has got its coordinate system at its center, so shift it with radius
-		// additionally it is x axis aligned, so rotate it 90 degrees around z axis
-		return CollisionPtr(new OgreNewt::CollisionPrimitives::Capsule(
+
+        // an capsule primitiv has got its coordinate system at its center, so shift it with radius
+        // additionally it is x axis aligned, so rotate it 90 degrees around z axis
+        OgreNewt::CollisionPtr rval(new OgreNewt::CollisionPrimitives::Capsule(
             PhysicsManager::getSingleton()._getNewtonWorld(),
             radius, height, *orientation, *offset));
-    }
 
+        if (inertia)
+        {
+            Vector3 inert_offs=Vector3::ZERO;
+            static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(*inertia, inert_offs);
+            *inertia *= mass;
+        }
+        return rval;
+    }
 }
+

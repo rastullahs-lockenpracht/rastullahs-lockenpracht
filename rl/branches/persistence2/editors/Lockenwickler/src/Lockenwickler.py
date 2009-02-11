@@ -1,4 +1,5 @@
  #################################################
+ #################################################
  # Copyright (C) 2008  Stefan Stammberger
  #
  # This library is free software; you can redistribute it and/or
@@ -76,7 +77,8 @@ class Lockenwickler(QtGui.QMainWindow):
             self.prefDialog.show()
 
         self.moduleManager.moduleCfgPath = self.prefDialog.moduleCfgPath
-        self.moduleManager.moduleExplorer = self.moduleExplorerWin
+        self.moduleManager.setModuleExplorer(self.moduleExplorerWin)
+        self.moduleManager.setPropertyWindow(self.objectPropertyWin)
         
         self.setWindowIcon(QIcon("media/icons/lockenwickler_provisorium_small.png"))
         self.setWindowTitle("Rastullahs Lockenwickler")
@@ -142,6 +144,9 @@ class Lockenwickler(QtGui.QMainWindow):
 
         self.actionOpen = self.createAction("&Open Module",  self.actionOpenSlot,  QKeySequence.Open,  "filenew.png",  "Open Module")
         self.actionOpen.setObjectName("actionOpen")
+        
+        self.actionSave = self.createAction("&Save",  self.actionSaveSlot,  QKeySequence.Save,  "filenew.png",  "Save Module")
+        self.actionSave.setObjectName("actionSave")
 
         self.actionClose = self.createAction("Quit",  self.actionQuitSlot,  "Alt + Q",  "exit.png",  "Quit")
         self.actionClose.setObjectName("actionQuit")
@@ -200,6 +205,7 @@ class Lockenwickler(QtGui.QMainWindow):
 
         self.menuFile.addAction(self.actionNeu)
         self.menuFile.addAction(self.actionOpen)
+        self.menuFile.addAction(self.actionSave)
         self.menuFile.addAction(self.actionClose)
 
         self.menuEdit.addAction(self.actionSelect)
@@ -284,7 +290,10 @@ class Lockenwickler(QtGui.QMainWindow):
         newModuleWiz = NewModuleWizard(self.moduleManager, self)
         newModuleWiz.exec_()
         return
-
+        
+    def actionSaveSlot(self):
+        self.moduleManager.save()
+        
     def actionQuitSlot(self):
         self.close()
 
@@ -368,7 +377,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.gameObjectClassViewDock)
 
         self.moduleExplorerDock = QtGui.QDockWidget(self.tr("Module Explorer"), self)
-        self.moduleExplorerDock.setObjectName("SceneExplorerDockWindow")
+        self.moduleExplorerDock.setObjectName("ModuleExplorerDockWindow")
         self.moduleExplorerDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
         self.moduleExplorerDock.setWidget(self.moduleExplorerWin)
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.moduleExplorerDock)
@@ -383,6 +392,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.fileToolBar.setObjectName("FileToolBar")
         self.fileToolBar.setAllowedAreas(QtCore.Qt.TopToolBarArea | QtCore.Qt.BottomToolBarArea)
         self.fileToolBar.addAction(self.actionNeu)
+        self.fileToolBar.addAction(self.actionSave)
         self.fileToolBar.addAction(self.actionClose)
         self.addToolBar(QtCore.Qt.TopToolBarArea, self.fileToolBar)
 

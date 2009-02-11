@@ -106,14 +106,15 @@ namespace rl {
                 (*it)->getCreatureController()->getCreature()->getActor()
                     ->_getSceneNode()->_getWorldAABB());
 
-			// Place buttons, if needed by current state
-			if (mUserInputEnabled)
-			{
-				Ogre::Rect screenRect = mCamera->getPixelRectOnScreen(rec);
-				// Place button set above opponent, horizontally centered.
-				int xpos = screenRect.left + ((screenRect.right - screenRect.left) - setSize.first) / 2;
-				mCombatWindow->placeEnemyButtonSet(mOpponentButtons[*it], xpos, screenRect.top - setSize.second);
-			}
+			// Place buttons, update every frame (camera movement requires this)
+                        // TODO: is there any better possibility (attach button-windows to ogre node?!?)
+			//if (mUserInputEnabled)
+			//{
+			Ogre::Rect screenRect = mCamera->getPixelRectOnScreen(rec);
+			// Place button set above opponent, horizontally centered.
+			int xpos = screenRect.left + ((screenRect.right - screenRect.left) - setSize.first) / 2;
+			mCombatWindow->placeEnemyButtonSet(mOpponentButtons[*it], xpos, screenRect.top - setSize.second);
+			//}
 
 			// draw Hud
 

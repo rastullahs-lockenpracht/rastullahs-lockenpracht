@@ -33,6 +33,7 @@ class OgreWidget(QtGui.QWidget):
         self.sceneManager = sceneManager
         self.camDistFromFocusNode = camDistFromFocusNode
         self.initOgreWindow(renderWindowName,cameraName)
+        self.resizeEventListener = []
 
     def initOgreWindow(self, renderWindowName, cameraName):
         self.renderParameters = og.NameValuePairList()
@@ -86,6 +87,12 @@ class OgreWidget(QtGui.QWidget):
 
         if self.camera:
             self.camera.setAspectRatio(float(event.size().width()) / float(event.size().height()));
+            
+        for listener in self.resizeEventListener:
+            listener(event.size().width(), event.size().height())
+
+    def addResizeEventListener(self, listener):
+        self.resizeEventListener.append(listener)
 
     def addOgreResourceLocation(self, location, locType, resGroup, recursive=False):
         og.ResourceGroupManager.getSingleton().addResourceLocation(location, locType, resGroup, recursive)

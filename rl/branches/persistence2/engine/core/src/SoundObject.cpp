@@ -144,6 +144,7 @@ bool SoundObject::is3d() const
 void SoundObject::set3d( bool is3d )
 {
 	getSound()->set3d(is3d);
+        _update(); // do we need this here?
 }
 
 void SoundObject::load()

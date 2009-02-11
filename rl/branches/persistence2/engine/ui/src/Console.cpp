@@ -57,8 +57,14 @@ namespace rl
 		mCommandLine->subscribeEvent(
 			Editbox::EventKeyUp,
 			boost::bind(&Console::handleKeyUp, this, _1));
-		mWindow->subscribeEvent(FrameWindow::EventCloseClicked,
-            boost::bind(&Console::hideWindow, this));
+		mWindow->subscribeEvent(
+                        FrameWindow::EventCloseClicked,
+                        boost::bind(&Console::hideWindow, this));
+                mWindow->subscribeEvent(
+                        FrameWindow::EventActivated,
+                        boost::bind(&Console::handleActivated, this, _1));
+
+                mWindow->setAlwaysOnTop(true);
 
 		// load history from file
         if( ConfigurationManager::getSingleton().getIntSetting("General", "Save Console History") > 0 )
@@ -282,5 +288,11 @@ namespace rl
 		else
 			mCommandLine->setText(mHistory[mHistoryMarker]);
 	}
+
+        bool Console::handleActivated(const CEGUI::EventArgs&)
+        {
+            mCommandLine->activate();
+            return false;
+        }
 }
 

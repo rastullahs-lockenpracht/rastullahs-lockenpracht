@@ -75,6 +75,7 @@ FIND_PACKAGE(MeshMagick 0.5 REQUIRED)
 FIND_PACKAGE(Ruby REQUIRED)
 FIND_PACKAGE(Boost 1.34 REQUIRED filesystem)
 FIND_PACKAGE(SWIG REQUIRED)
+FIND_PACKAGE(FMODEx 4.20.06 REQUIRED)
 IF (NOT SWIG_DIR MATCHES -rl$)
 	SET_FEATURE_INFO(SWIG "" "" "You use an unsupported version of SWIG.")
 ENDIF(NOT SWIG_DIR MATCHES -rl$)
@@ -89,7 +90,7 @@ SET(DATAROOTDIR "${CMAKE_INSTALL_PREFIX}/share" CACHE STRING "Sets the root of d
 SET(DATADIRNAME "rastullah" CACHE STRING "change the name of the directory for the read-only architecture-independent game data")
 
 # Game options
-SET(WITH_FMOD4 ON CACHE BOOL "Enable FMOD 4.xx (FMODex) sound support")
+#SET(WITH_FMOD4 ON CACHE BOOL "Enable FMOD 4.xx (FMODex) sound support")
 SET(WITH_OPENAL OFF CACHE BOOL "Enable OpenAL sound support (unsupported)")
 
 # Include subdirectories

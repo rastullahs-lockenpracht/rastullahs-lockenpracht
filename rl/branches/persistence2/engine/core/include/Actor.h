@@ -144,6 +144,9 @@ namespace rl {
         /// Gibt die aktuelle Position des Aktors relativ zur Welt zurück
         const Ogre::Vector3& getWorldPosition(void) const;
 
+        /// Ermittelt die aktuelle Geschwindigkeit des Actors, falls moeglich
+        const Ogre::Vector3 getVelocity() const;
+
         /// Setzt die Position des Aktors relativ zu seinem Parent
         void setPosition(const Ogre::Vector3& vec);
         /// Setzt die Position des Aktors relativ zu seinem Parent

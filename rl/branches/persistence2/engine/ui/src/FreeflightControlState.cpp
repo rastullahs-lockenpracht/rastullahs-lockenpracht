@@ -46,7 +46,8 @@ namespace rl {
         mCollisionsEnabled(false),
         mPitchRange(Degree(-89), Degree(89)),
         mYaw(Degree(0)),
-        mPitch(Degree(0))
+        mPitch(Degree(0)),
+        mOgreNewtPlayerController(NULL)
 	{
         mMouseSensitivity = ConfigurationManager::getSingleton().getIntSetting("Input", "Mouse Sensitivity");
         mInvertedMouse = ConfigurationManager::getSingleton().getBoolSetting("Input", "Mouse Invert");
@@ -59,7 +60,10 @@ namespace rl {
     void FreeflightControlState::pause()
     {
 		mCameraActor->getPhysicalThing()->freeze();
-		mCharacterActor->getPhysicalThing()->unfreeze();
+		//mCharacterActor->getPhysicalThing()->unfreeze();
+        delete mOgreNewtPlayerController;
+        mOgreNewtPlayerController = NULL;
+        mCharacterActor->getPhysicalThing()->setUpConstraint();
         mCameraActor->getPhysicalThing()->setPhysicsController(NULL);
 
         // Char<->Level collision back to default
@@ -78,7 +82,9 @@ namespace rl {
     void FreeflightControlState::resume()
     {
         mCameraActor->getPhysicalThing()->unfreeze();
-		mCharacterActor->getPhysicalThing()->freeze();
+		//mCharacterActor->getPhysicalThing()->freeze();
+        mCharacterActor->getPhysicalThing()->clearUpConstraint();
+        mOgreNewtPlayerController = new OgreNewt::PlayerController(mCharBody);
 
         resetCamera();
 
@@ -92,21 +98,30 @@ namespace rl {
         mat_pair = PhysicsManager::getSingleton().createMaterialPair(
                     PhysicsManager::getSingleton().getMaterialID("camera"),
                     PhysicsManager::getSingleton().getMaterialID("default"));
-        mat_pair->setContactCallback(this);
+        mat_pair->setContactCallback(NULL);
         mat_pair->setContinuousCollisionMode(1);
+        mat_pair->setDefaultSoftness(1.0f);
         mat_pair->setDefaultCollidable(1);
+        mat_pair->setDefaultFriction(0,0);
+        mat_pair->setContactCallback(this);
         mat_pair = PhysicsManager::getSingleton().createMaterialPair(
                     PhysicsManager::getSingleton().getMaterialID("camera"),
                     PhysicsManager::getSingleton().getMaterialID("level"));
-        mat_pair->setContactCallback(this);
+        mat_pair->setContactCallback(NULL);
         mat_pair->setContinuousCollisionMode(1);
+        mat_pair->setDefaultSoftness(1.0f);
         mat_pair->setDefaultCollidable(1);
+        mat_pair->setDefaultFriction(0,0);
+        mat_pair->setContactCallback(this);
         mat_pair = PhysicsManager::getSingleton().createMaterialPair(
                     PhysicsManager::getSingleton().getMaterialID("camera"),
                     PhysicsManager::getSingleton().getMaterialID("character"));
-        mat_pair->setContactCallback(this);
+        mat_pair->setContactCallback(NULL);
         mat_pair->setContinuousCollisionMode(1);
+        mat_pair->setDefaultSoftness(1.0f);
         mat_pair->setDefaultCollidable(1);
+        mat_pair->setDefaultFriction(0,0);
+        mat_pair->setContactCallback(this);
     }
 
 	void FreeflightControlState::run(Real elapsedTime)
@@ -198,9 +213,18 @@ namespace rl {
         if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
         if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
 
+if( mCollisionsEnabled )
+    mOgreNewtPlayerController->setVelocity(mDesiredVelocity.z, mDesiredVelocity.x, mYaw);
+
         mCameraActor->setOrientation(Quaternion::IDENTITY);
         mCameraActor->yaw(mYaw.valueDegrees());
         mCameraActor->pitch(mPitch.valueDegrees());
+    }
+
+    
+    int FreeflightControlState::onAABBOverlap( OgreNewt::Body* body0, OgreNewt::Body* body1, int threadIndex )
+    {
+        return mCollisionsEnabled;
     }
 
 	void FreeflightControlState::toggleCameraCollision()
@@ -286,34 +310,11 @@ namespace rl {
         return retval;
 	}
 
-    int FreeflightControlState::userProcess()
-    {
-        if (m_body0 == mCamBody || m_body1 == mCamBody)
-        {
-            // this is camera collision
 
-            if( !mCollisionsEnabled )
-                return 0;
-
-            setContactSoftness(1.0f);  // "weiche" Collision
-            setContactElasticity(0.0f);
-
-            return 1;
-        }
-
-        // return one to tell Newton we want to accept this contact
-        return 1;
-    }
-
-
-
-    void FreeflightControlState::OnApplyForceAndTorque(PhysicalThing* thing)
+    void FreeflightControlState::OnApplyForceAndTorque(PhysicalThing* thing, float timestep)
     {
         OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
         OgreNewt::Body* body = thing->_getBody();
-
-        // Get the current world timestep
-        Real timestep = world->getTimeStep();
 
         if (body == mCamBody)
         {
@@ -332,7 +333,8 @@ namespace rl {
             Vector3 currentVel = body->getVelocity();
             Real delay = 2 * PhysicsManager::getSingleton().getMaxTimestep();
             Vector3 force = mass*(orientation * mDesiredVelocity - currentVel) / delay;
-
+if( mCollisionsEnabled )
+    force = mass*(- currentVel) / delay;
             body->setForce(force);
         }
     }

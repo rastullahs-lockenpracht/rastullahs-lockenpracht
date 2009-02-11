@@ -21,6 +21,8 @@ using namespace std;
 using namespace Ogre;
 
 
+/// @todo: use TriggerVolumes
+// void NewtonCollisionSetAsTriggerVolume(const NewtonCollision* convexCollision, int trigger);
 
 
 namespace rl
@@ -98,8 +100,8 @@ namespace rl
 
         // the materials that are triggered here
         PhysicsMaterialRaycast::MaterialVector materialVector;
-        materialVector.push_back(PhysicsManager::getSingleton().getMaterialID("default")); // should we perhaps only use level here?
-        materialVector.push_back(PhysicsManager::getSingleton().getMaterialID("level"));
+        materialVector.push_back(PhysicsManager::getSingleton().getMaterialID("character")); // should we perhaps only use level here?
+        materialVector.push_back(PhysicsManager::getSingleton().getMaterialID("camera"));
 
 
 
@@ -113,7 +115,8 @@ namespace rl
                 PhysicsManager::getSingleton()._getNewtonWorld(),
                 &materialVector,
                 start,
-                end);
+                end,
+                true);
         if(info.mBody)
         {
             mMoveToNextTarget = false;
@@ -149,7 +152,7 @@ namespace rl
                     mRaycast.execute(
                             PhysicsManager::getSingleton()._getNewtonWorld(),
                             &materialVector,
-                            start, end);
+                            start, end, true);
 
                 // do we need to check bodies left and right of this ray? (step width?)
 

@@ -85,15 +85,13 @@ namespace rl {
         mRotationSpeed(Degree(120.0f)),
         mMouseSensitivity(4.0f),
         mViewMode(VM_THIRD_PERSON),
-        mObstractedFrameCount(0),
-        mObstractedTime(0.0f),
-        mCameraJammedFrameCount(0),
-        mCameraJammedTime(0.0f),
         mRaycast(new PhysicsMaterialRaycast()),
+        mConvexcast(new PhysicsMaterialConvexcast()),
+        mCameraCastCollision(NULL),
         mSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager()),
         mCombatSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager(),
             QUERYFLAG_CREATURE),
-        mCharPositionsBuffer(20),
+        mCharPositionsBuffer(100),
         mCharPositionsBufferIdx(-1),
         mCharacterOccludedTime(0),
         mCharacterOccludedFrameCount(0),
@@ -137,6 +135,31 @@ namespace rl {
 
         mMessageType_SaveGameLoading_Handler = MessagePump::getSingleton().addMessageHandler<MessageType_SaveGameLoading>(
             boost::bind(&MovementControlState::beforeLoadingSaveGame, this));
+
+        // Kamera-Groesse beziehen
+        CameraObject* ogreCam = static_cast<CameraObject*>(
+            mCameraActor->getControlledObject());
+        AxisAlignedBox camAabb = ogreCam->getDefaultSize();
+        // Radius berechnen
+        Real camRadius = (camAabb.getMaximum().z - camAabb.getMinimum().z) / 2.0f;
+        camRadius *= 1.1f;
+        Vector3 verts[80];
+        int k = 0;
+        for(int i = 0; i < 16; i++)
+        {
+            int n;
+            n = abs(abs(i-8)-8)+1;
+            for(int j = 0; j < n; j++)
+            {
+                Real h = (i-7.5f)/7.5f;
+                Degree angle(360.0f/(n+1)*j);
+                Real rad = Math::Sqrt(1-h*h);
+                verts[k++] = camRadius*Vector3(rad*Math::Cos(angle),rad*Math::Sin(angle),h);
+            }
+        }
+        //! TODO: remove this workaround (newton-bug: "spheres don't cast"!)
+        mCameraCastCollision = new OgreNewt::CollisionPrimitives::ConvexHull(mCamBody->getWorld(), verts, 80);
+        //mCameraCastCollision = new OgreNewt::CollisionPrimitives::Ellipsoid(mCamBody->getWorld(), Vector3::UNIT_SCALE * camRadius);
     }
 
     //------------------------------------------------------------------------
@@ -147,6 +170,8 @@ namespace rl {
         delete mSelector.getFilter();
         mSelector.setFilter(NULL);
         delete mRaycast;
+        delete mConvexcast;
+        delete mCameraCastCollision;
 
         if (DebugWindow::getSingletonPtr())
         {
@@ -224,18 +249,24 @@ namespace rl {
         mat_pair->setContactCallback(this);
         mat_pair->setDefaultCollidable(1);
         mat_pair->setDefaultFriction(0,0);
+        mat_pair->setDefaultSoftness(0.8f);
+        mat_pair->setDefaultElasticity(0.4f);
         mat_pair = PhysicsManager::getSingleton().createMaterialPair(
             PhysicsManager::getSingleton().getMaterialID("camera"),
             PhysicsManager::getSingleton().getMaterialID("level"));
         mat_pair->setContactCallback(this);
         mat_pair->setDefaultCollidable(1);
         mat_pair->setDefaultFriction(0,0);
+        mat_pair->setDefaultSoftness(0.8f);
+        mat_pair->setDefaultElasticity(0.4f);
         mat_pair = PhysicsManager::getSingleton().createMaterialPair(
             PhysicsManager::getSingleton().getMaterialID("camera"),
             PhysicsManager::getSingleton().getMaterialID("character"));
         mat_pair->setContactCallback(this);
         mat_pair->setDefaultCollidable(1);
         mat_pair->setDefaultFriction(0,0);
+        mat_pair->setDefaultSoftness(0.8f);
+        mat_pair->setDefaultElasticity(0.4f);
 
         mCharacterState.mCurrentMovementState = MOVE_NONE;
 
@@ -264,42 +295,6 @@ namespace rl {
             if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
         }
 
-
-
-
-        // Do we need to reset the Camera?
-        Vector3 charPos = mCharacterActor->getWorldPosition();
-        Quaternion charOri = mCharacterActor->getWorldOrientation();
-        //mCharBody->getPositionOrientation(charPos, charOri);
-
-        Vector3 camPos;
-        Quaternion camOri;
-        mCamBody->getPositionOrientation(camPos, camOri);
-
-        float maxdistance;
-        if (mViewMode == VM_FIRST_PERSON)
-            maxdistance = 0.25;
-        else
-            maxdistance = 1.3f * mDesiredDistance + 1.4f;
-
-        // if we have more than 250ms and at least five frames with camera distance higher
-        // than desired distance, reset camera
-        if ((camPos - (charPos + charOri*mLookAtOffset)).length() > maxdistance)
-        {
-            mCameraJammedTime += elapsedTime;
-            ++mCameraJammedFrameCount;
-        }
-        else
-        {
-            mCameraJammedTime = 0.0f;
-            mCameraJammedFrameCount = 0;
-        }
-
-        if (mCameraJammedTime > 0.250f && mCameraJammedFrameCount > 5)
-        {
-            mCameraJammedFrameCount = 0;
-            resetCamera();
-        }
 
         mCharacterState.mLastMovementState = mCharacterState.mCurrentMovementState;
 
@@ -683,7 +678,7 @@ namespace rl {
                     PhysicsManager::getSingleton()._getNewtonWorld(),
                     mCamBody->getCollision(), camOri, camPos,
                     mCharBody->getCollision(), charOri, charPos,
-                    camPoint, charPoint, normal
+                    camPoint, charPoint, normal, 0 // set threadindex to 0, I hope this is ok!
                     );
             if( collisionPoints == 0 )
                 mCharacterActor->setVisible(false);
@@ -696,33 +691,32 @@ namespace rl {
         mCameraActor->setOrientation(cameraNode->getOrientation());
     }
 
-    // -------------------------------------------------------------
-    // character collision moved to CreatureController(Manager)
-    int MovementControlState::userProcess()
+
+    int MovementControlState::onAABBOverlap( OgreNewt::Body* body0, OgreNewt::Body* body1, int threadIndex )
     {
         if( mViewMode == VM_FIRST_PERSON )
             return 0;
 
         // test if this is cam-player-collide
-        if( ( m_body0 == mCamBody && m_body1 == mCharacterActor->getPhysicalThing()->_getBody() ) ||
-            ( m_body1 == mCamBody && m_body0 == mCharacterActor->getPhysicalThing()->_getBody() ) )
+        if( ( body0 == mCamBody && body1 == mCharacterActor->getPhysicalThing()->_getBody() ) ||
+            ( body1 == mCamBody && body0 == mCharacterActor->getPhysicalThing()->_getBody() ) )
         {
             return 0;
         }
 
-        setContactSoftness(0.8f);
-        setContactElasticity(0.0f);
-        mLastCameraCollision = 0;
-
         return 1;
+    }
+
+    void MovementControlState::userProcess(OgreNewt::ContactJoint &contactJoint, Real timestep, int)
+    {
+        mLastCameraCollision = 0;
     }
 
     //------------------------------------------------------------------------
     // character callback moved to CreatureController
-    void MovementControlState::OnApplyForceAndTorque(PhysicalThing* thing)
+    void MovementControlState::OnApplyForceAndTorque(PhysicalThing* thing, float timestep)
     {
         OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
-        Real timestep = world->getTimeStep();
 
         calculateCamera(timestep);
 
@@ -817,6 +811,8 @@ namespace rl {
                 charPos,
                 true);
 
+
+            // reset the camera if the character is to far away or cannot be seen any more (Raycast)
             Real maxdistance = Math::Pow(1.5f * mDesiredDistance + 1.4f, 2);
             if( infoCastChar.mBody || (camPos - charPos).squaredLength() > maxdistance)
             {
@@ -824,7 +820,7 @@ namespace rl {
                 mCharacterOccludedFrameCount++;
 
                 // falls zu lange, Kamera resetten:
-                if( mCharacterOccludedTime > 0.500f && mCharacterOccludedFrameCount > 10 )
+                if( mCharacterOccludedTime > 0.250f && mCharacterOccludedFrameCount > 5 )
                 {
                     resetCamera();
                     return;
@@ -832,45 +828,45 @@ namespace rl {
 
             }
             else
-                mCharacterOccludedTime = 0;
-
-            if( infoCastOptPos.mBody )
             {
-                if( !infoCastChar.mBody ) // Character noch im Blickfeld
+                mCharacterOccludedTime = 0;
+                mCharacterOccludedFrameCount = 0;
+            }
+
+            if( infoCastOptPos.mBody && !infoCastChar.mBody )
+            {
+                // andere Position ermitteln, die ziwschen optimaler und Character liegt
+                // und erreichbar ist
+                Real lenToOptCamPos = (optimalCamPos - charPos).length();
+
+                RaycastInfo infoCastNewPos;
+                Real delta = lenToOptCamPos/2.0f;
+                Vector3 temp = charPos + delta * normToOptCamPos;
+                // Annaeherung in Schritten, an den Punkt, der von der aktuellen Position aus erreicht werden kann!
+                while( delta > 0.05 ) // genauigkeit des gefundenen Punktes
                 {
-                    // andere Position ermitteln, die ziwschen optimaler und Character liegt
-                    // und erreichbar ist
-                    Real lenToOptCamPos = (optimalCamPos - charPos).length();
-
-                    RaycastInfo infoCastNewPos;
-                    Real delta = lenToOptCamPos/2.0f;
-                    Vector3 temp = charPos + delta * normToOptCamPos;
-                    // Annaeherung in Schritten, an den Punkt, der von der aktuellen Position aus erreicht werden kann!
-                    while( delta > 0.05 ) // genauigkeit des gefundenen Punktes
+                    infoCastNewPos = mRaycast->execute(
+                        world,
+                        &materialVector,
+                        camPos + camRadius * normToOptCamPos, // Groesse der Kamera!
+                        temp,
+                        true);
+                    delta = delta/2.0f;
+                    if( infoCastNewPos.mBody ) // Hindernis gefunden, naeher an Char ran
                     {
-                        infoCastNewPos = mRaycast->execute(
-                            world,
-                            &materialVector,
-                            camPos + camRadius * normToOptCamPos, // Groesse der Kamera!
-                            temp,
-                            true);
-                        delta = delta/2.0f;
-                        if( infoCastNewPos.mBody ) // Hindernis gefunden, naeher an Char ran
-                        {
-                            temp = temp - delta * normToOptCamPos;
-                        }
-                        else // kein Hindernis gefunden, weiter von Char weg
-                        {
-                            temp = temp + delta * normToOptCamPos;
-                        }
+                        temp = temp - delta * normToOptCamPos;
                     }
-
-                    // Jetzt koennen wir sicher sein, dass diese Stelle erreichbar ist:
-                    temp = temp - 0.05 * normToOptCamPos;
-                    // Groesse der Kamera einbeziehen
-                    optimalCamPos = temp - camRadius * normToOptCamPos;
-                    // so ab hier kann ganz normal weiter gerechnet werden!
+                    else // kein Hindernis gefunden, weiter von Char weg
+                    {
+                        temp = temp + delta * normToOptCamPos;
+                    }
                 }
+
+                // Jetzt koennen wir sicher sein, dass diese Stelle erreichbar ist:
+                temp = temp - 0.05 * normToOptCamPos;
+                // Groesse der Kamera einbeziehen
+                optimalCamPos = temp - camRadius * normToOptCamPos;
+                // so ab hier kann ganz normal weiter gerechnet werden!
             }
 
 
@@ -883,7 +879,7 @@ namespace rl {
                 // hier werden erstmal nur alte Player-Positionen betrachtet
                 // es wird davon ausgegangen, dass diese "nah" genug aneinanderliegen
                 // und durch "Geraden" miteinander verbunden werden koennen
-                // durch das spring-Acc-Damping System sollten die Bewegungen trotzdem flssig
+                // durch das spring-Acc-Damping System sollten die Bewegungen trotzdem fluessig
                 // und weich (keine scharfen Kurven) erscheinen
 
                 size_t buffSize = mCharPositionsBuffer.size();
@@ -985,6 +981,12 @@ namespace rl {
         Quaternion charOri (mController->getYaw(), Vector3::UNIT_Y);
         Quaternion virtualCamOri;
         virtualCamOri.FromAngleAxis(mCamVirtualYaw, Vector3::UNIT_Y);
+        // get camera size
+        CameraObject* ogreCam = static_cast<CameraObject*>(
+                mCameraActor->getControlledObject());
+        AxisAlignedBox camAabb = ogreCam->getDefaultSize();
+        Real camRadius = (camAabb.getMaximum().z - camAabb.getMinimum().z) / 2.0f;
+
 
 
 
@@ -1023,74 +1025,35 @@ namespace rl {
                                                 Math::Cos(mPitch) * mDesiredDistance);
             }
 
+            Vector3 diff = targetCamPos - charPos;
 
-            // Kamera-Gr�e beziehen
-            CameraObject* ogreCam = static_cast<CameraObject*>(
-                mCameraActor->getControlledObject());
-            AxisAlignedBox aabb = ogreCam->getDefaultSize();
-            // Radius berechnen
-            Real radius = (aabb.getMaximum().z - aabb.getMinimum().z) / 2.0f;
-            radius *= 1.1f; // bissle was dazu tun schadet nich, da ja nur wenige raycasts gemacht werden
-            // unds eigentlich ne kugel ist!
-
-
-
-            Vector3 startRay[6], endRay[6];
-
-            Real sinPitchRad = Math::Sin(mPitch) * radius;
-            Real cosPitchRad = Math::Cos(mPitch) * radius;
-            Vector3 radiusOffset = charOri * Vector3(0, sinPitchRad, cosPitchRad);
-
-            startRay[0] = charPos;
-            endRay[0] = targetCamPos; // hier ist nun leider was doppelt,
-                                      // dadurch kann aber sichergestellt
-                                      // werden, dass kein Objekt direkt
-                                      // hinter dem Helden bersehen wird
-            startRay[1] = charPos + radiusOffset;
-            endRay[1] = targetCamPos + radiusOffset;
-            radiusOffset = charOri * Vector3(radius, sinPitchRad, cosPitchRad);
-            startRay[2] = charPos + radiusOffset;
-            endRay[2] = targetCamPos + radiusOffset;
-            startRay[3] = charPos - radiusOffset;
-            endRay[3] = targetCamPos - radiusOffset;
-            radiusOffset = charOri * Vector3(0, radius-cosPitchRad, -sinPitchRad);
-            startRay[4] = charPos + radiusOffset;
-            endRay[4] = targetCamPos + radiusOffset;
-            startRay[5] = charPos - radiusOffset;
-            endRay[5] = targetCamPos - radiusOffset;
-
-            const OgreNewt::MaterialID* materialId =
-                mCharBody->getMaterialGroupID();
-//                PhysicsManager::getSingleton()._getLevelMaterialID();
+            // Convexcast
+            PhysicsMaterialConvexcast::MaterialVector materialVector;
+            materialVector.push_back( mCharBody->getMaterialGroupID() );
+            materialVector.push_back( mCamBody->getMaterialGroupID() );
             OgreNewt::World *world = PhysicsManager::getSingleton()._getNewtonWorld();
 
-            Vector3 diff = targetCamPos - charPos;
-            bool CollisionFound = false;
-            for( int i = 0; i < 6; i++ )
-            {
-                RaycastInfo info = mRaycast->execute(
+            ConvexcastInfo info = mConvexcast->execute(
                     world,
-                    materialId,
-                    startRay[i],
-                    endRay[i],
+                    &materialVector,
+                    mCameraCastCollision,
+                    charPos,
+                    Quaternion::IDENTITY,
+                    targetCamPos,
                     true);
 
-                if( info.mBody && info.mBody != mCamBody )
-                {
-                    CollisionFound = true;
-                    Vector3 newdiff = (info.mDistance) * (endRay[i] - startRay[i]);
-                    if( newdiff.squaredLength() < diff.squaredLength() )
-                        diff = newdiff;
-                    if( i == 0 ) // beim ersten schon nahes hindernis gefunden?
-                    {
-                        if( diff.squaredLength() < radius*radius )
-                        {
-                            diff -= charOri * Vector3(0, sinPitchRad, cosPitchRad);
-                            break;
-                        }
-                    }
-                }
+            bool CollisionFound = false;
+            if( info.mBody )
+            {
+                CollisionFound = true;
+                Real hitBodyVel = info.mBody->getVelocity().dotProduct(diff.normalisedCopy());
+                hitBodyVel = std::min(0.0f, hitBodyVel); // if the body moves, try to avoid it
+                Real dist = std::max(info.mDistance  + (hitBodyVel*timestep - 0.01)/diff.length(), 0.0);
+                diff *= dist;
+
+                mLastCameraCollision = 0;
             }
+
 
             // Langsames Entfernen vom Char:
             if( CollisionFound )
@@ -1178,7 +1141,7 @@ namespace rl {
         if ( isMouseUsedByCegui() )
             return;
 
-        //InputManager* im = InputManager::getSingletonPtr();
+        InputManager* im = InputManager::getSingletonPtr();
 
         GameObject* oldGo = mSelector.getFirstSelectedObject();
 

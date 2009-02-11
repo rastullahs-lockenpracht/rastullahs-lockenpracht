@@ -21,6 +21,7 @@
 #include "Actor.h"
 #include "CameraObject.h"
 #include "CommandMapper.h"
+#include "GameObject.h"
 #include "PhysicalThing.h"
 
 using namespace Ogre;
@@ -28,7 +29,8 @@ using namespace Ogre;
 namespace rl {
 
 	CutsceneControlState::CutsceneControlState(CommandMapper* cmdMapper,
-        Actor* camera) : ControlState(cmdMapper, camera, NULL, CST_CUTSCENE)
+        Actor* camera) : ControlState(cmdMapper, camera, NULL, CST_CUTSCENE),
+        mTarget(NULL)
 	{
 	}
 
@@ -49,23 +51,63 @@ namespace rl {
 		mCameraActor->_getSceneNode()->setFixedYawAxis(true);
     }
 
-	void CutsceneControlState::run(Ogre::Real elapsedTime)
+	void CutsceneControlState::run(Real elapsedTime)
 	{
+	    CameraPosition pos = getBestCameraPosition();
+	    switch (pos.type)
+	    {
+	    case CPT_FIXED:
+	        setCameraPosition(pos.position);
+	        setCameraOrientation(pos.orientation1);
+	        break;
+	    case CPT_ROTATING:
+	        setCameraPosition(pos.position);
+	        lookAt(mTarget->getPosition());
+	        break;
+	    }
 	}
 
-    void CutsceneControlState::setCameraPosition(const Ogre::Vector3& pos)
+	void CutsceneControlState::setCameraTarget(GameObject* target)
+	{
+	    mTarget = target;
+	}
+
+    void CutsceneControlState::setCameraPosition(const Vector3& pos)
     {
         mCameraActor->setPosition(pos);
     }
 
-    void CutsceneControlState::setCameraOrientation(const Ogre::Quaternion& orient)
+    void CutsceneControlState::setCameraOrientation(const Quaternion& orient)
     {
         mCameraActor->setOrientation(orient);
     }
 
-    void CutsceneControlState::lookAt(const Ogre::Vector3& point)
+    void CutsceneControlState::lookAt(const Vector3& point)
     {
-        dynamic_cast<Ogre::Camera*>(mCameraActor->getControlledObject()->getMovableObject())
+        dynamic_cast<Camera*>(mCameraActor->getControlledObject()->getMovableObject())
             ->lookAt(point);
+    }
+
+    CameraPosition CutsceneControlState::getBestCameraPosition() const
+    {
+        if (mPositions.empty())
+        {
+            CameraPosition nullPos = {CPT_FIXED, Vector3::ZERO, Quaternion::IDENTITY, Quaternion::IDENTITY};
+            return nullPos;
+        }
+        return *mPositions.begin();
+    }
+
+    void CutsceneControlState::addCamera(const Vector3& position, const Quaternion& orientation)
+    {
+        CameraPosition cpos = {CPT_FIXED, position, orientation, orientation};
+        mPositions.push_back(cpos);
+    }
+
+    void CutsceneControlState::addCamera(const Vector3& position, const Quaternion& orientation1,
+            const Quaternion& orientation2)
+    {
+        CameraPosition cpos = {CPT_ROTATING, position, orientation1, orientation2};
+        mPositions.push_back(cpos);
     }
 }

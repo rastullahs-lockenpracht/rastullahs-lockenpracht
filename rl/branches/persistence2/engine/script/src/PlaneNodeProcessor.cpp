@@ -150,7 +150,7 @@ namespace rl
 
 			collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Box(world, size, orientation, pos));
 
-			if (!collision.isNull())
+			if ( collision != NULL )
 			{
 				collisions.push_back(collision);
 			}

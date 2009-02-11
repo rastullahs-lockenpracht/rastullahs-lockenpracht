@@ -191,7 +191,7 @@ class Pivot():
                 transVec = transVec * transFactor
                 for so in self.selectionList:
                     so.entity.getParentNode().translate(transVec)
-
+                    
                 self.pivotNode.translate(transVec)
 
             # rotate mode
@@ -211,8 +211,16 @@ class Pivot():
         self.update()
 
     def update(self):
-        if not self.isHidden:
-            dist = self.camera.getPosition().distance(self.pivotNode.getPosition())
-            self.pivotNode.setScale(og.Vector3(0.5,  0.5,  0.5) * (dist / 30))
+        vSize = og.Vector3(1.0,1.0,1.0)
+        vScale = og.Vector3(1.0,1.0,1.0)
+
+        dist = (self.camera.getDerivedPosition() - self.pivotNode._getDerivedPosition()).length()
+        vScale *= dist / 90.0
+
+        self.pivotNode.setScale(vScale.x * vSize.x,vScale.y * vSize.y,vScale.z * vSize.z)
+        #print vScale.x * vSize.x,vScale.y * vSize.y,vScale.z * vSize.z
+#        if not self.isHidden:
+#            dist = self.camera.getPosition().distance(self.pivotNode.getPosition())
+#            self.pivotNode.setScale(og.Vector3(0.5,  0.5,  0.5) * (dist / 30))
 
 

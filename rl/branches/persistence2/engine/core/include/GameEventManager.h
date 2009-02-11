@@ -130,8 +130,8 @@ public:
 	void removeQueuedDeletionSources();
 
 
-    /// newton collision callback function
-    int userProcess();
+    /// newton collision callback functions
+    void userProcess(OgreNewt::ContactJoint &contactJoint, Ogre::Real timestep, int threadid);
 
     /// notify about newton world update
     void notifyNewtonWorldUpdate();

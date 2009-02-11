@@ -291,7 +291,7 @@ namespace rl
         mWorld = new DotSceneOctreeWorld();
         mActorManager->setWorld(mWorld);
 
-        mPhysicsManager = new PhysicsManager();
+        mPhysicsManager = new PhysicsManager();  // the World needs to be initialized before!
         GameLoop::getSingleton().addTask(mPhysicsManager, GameLoop::TG_PHYSICS);
         LOG_MESSAGE(Logger::CORE,"PhysicsManager erzeugt");
 
