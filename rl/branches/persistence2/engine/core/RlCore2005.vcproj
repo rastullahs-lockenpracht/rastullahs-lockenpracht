@@ -48,7 +48,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="-Zm130"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;.\include\nulldriver;.\include\fmod4driver;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\OgreNewt\include\OgreNewt;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\meshmagick\include;..\..\dependencies\FMOD4\api\inc"
+				AdditionalIncludeDirectories=".\include;.\include\nulldriver;.\include\fmod4driver;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\OgreNewt_ngt\inc;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\NewtonSDK2\sdk\;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\meshmagick\include;..\..\dependencies\FMOD4\api\inc"
 				PreprocessorDefinitions="WITH_FMOD3;_WINDOWS,_DEBUG,WIN32,RLCORE_EXPORTS;_CRT_SECURE_NO_DEPRECATE;RL_USE_PCH"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -90,7 +90,7 @@
 				OutputFile="./lib/$(ConfigurationName)/RlCore.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;&quot;..\..\dependencies\ogrenewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll;..\..\dependencies\meshmagick\lib;..\..\dependencies\FMOD4\api\lib"
+				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\ogrenewt_ngt\lib\;..\..\dependencies\NewtonSDK2\sdk\x32\dll_vs7;..\..\dependencies\meshmagick\lib;..\..\dependencies\FMOD4\api\lib"
 				IgnoreDefaultLibraryNames=""
 				TypeLibraryFile="$(OutDir)\RlCore.lib"
 				GenerateDebugInformation="true"
@@ -679,7 +679,6 @@
 					>
 				</File>
 			</Filter>
-
 			<Filter
 				Name="SaveGame"
 				>

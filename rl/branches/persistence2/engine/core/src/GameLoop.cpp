@@ -141,7 +141,7 @@ namespace rl
 
         if( unsmoothedFrameTime < mMinFrameTime*1000 )
         {
-            usleep(floor(1000*(mMinFrameTime*1000 - unsmoothedFrameTime)));
+            //usleep(floor(1000*(mMinFrameTime*1000 - unsmoothedFrameTime)));
             elapsedTime = mTimer->getMilliseconds();
             unsmoothedFrameTime = elapsedTime - mGameTime;
             if( elapsedTime < mGameTime )

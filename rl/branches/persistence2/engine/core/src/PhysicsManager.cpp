@@ -171,7 +171,7 @@ namespace rl
             if( mDebugMode )
             {
                 LOG_DEBUG(Logger::CORE, "\tNewtonBodyLog: &Body  Position  Orientation  Velocity  "\
-                    "Omega  Force  Torque  NewtonBodyGetSleepingState  NewtonBodyGetAutoFreeze  "\
+                    "Omega  Force  Torque  NewtonBodyGetSleepState  NewtonBodyGetAutoFreeze  "\
                     "NewtonBodyGetContinuousCollisionMode  ( invMass  invIxx  invIyy  invIzz )");
                 if( Logger::getSingleton().getLogDetail() <= Logger::LL_DEBUG )
                 for( const NewtonBody* body = NewtonWorldGetFirstBody(mWorld->getNewtonWorld());
@@ -193,7 +193,7 @@ namespace rl
             if( mDebugMode )
             {
                 LOG_DEBUG(Logger::CORE, "\tNewtonBodyLog: &Body  Position  Orientation  Velocity  "\
-                    "Omega  Force  Torque  NewtonBodyGetSleepingState  NewtonBodyGetAutoFreeze  "\
+                    "Omega  Force  Torque  NewtonBodyGetSleepState  NewtonBodyGetAutoFreeze  "\
                     "NewtonBodyGetContinuousCollisionMode  ( invMass  invIxx  invIyy  invIzz )");
                 for( const NewtonBody* body = NewtonWorldGetFirstBody(mWorld->getNewtonWorld());
                      body != NULL;
@@ -234,8 +234,8 @@ namespace rl
         Vector3 invMass, invIxx, invIyy, invIzz;
         NewtonBodyGetInvMass(body, &invMass.x, &invIxx.x, &invIyy.x, &invIzz.x);
         oss << "\tNewtonBodyLog: " << body << "  " << pos << "  " << orient << "  " << velocity << "  "
-            << omega << "  " << force << "  " << torque << "  " << NewtonBodyGetSleepingState(body)
-            << "  " << NewtonBodyGetAutoFreeze(body) << "  " << NewtonBodyGetContinuousCollisionMode(body) << "  ( "
+            << omega << "  " << force << "  " << torque << "  " << NewtonBodyGetSleepState(body)
+            << "  " << NewtonBodyGetAutoSleep(body) << "  " << NewtonBodyGetContinuousCollisionMode(body) << "  ( "
             << invMass << "  " << invIxx << "  " << invIyy << "  " << invIzz << " )";
         LOG_DEBUG(Logger::CORE, oss.str());
     }
