@@ -1,8 +1,6 @@
 #include "OgreNewt_CollisionSerializer.h"
 #include "OgreNewt_Collision.h"
 
-#include "Ogre.h"
-
 namespace OgreNewt
 {
   CollisionSerializer::CollisionSerializer()

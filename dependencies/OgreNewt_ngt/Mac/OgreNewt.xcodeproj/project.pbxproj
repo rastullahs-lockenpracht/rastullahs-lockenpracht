@@ -1,0 +1,446 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		444EA9A30BD0D33B00C6D4A0 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EA9A20BD0D33B00C6D4A0 /* Ogre.framework */; };
+		444EA9A70BD0D35800C6D4A0 /* libnewton32.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 444EA9A60BD0D35800C6D4A0 /* libnewton32.a */; };
+		487D45C30F47388600D1D69F /* OgreNewt.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45AF0F47388600D1D69F /* OgreNewt.h */; };
+		487D45C50F47388600D1D69F /* OgreNewt_BasicJoints.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45B10F47388600D1D69F /* OgreNewt_BasicJoints.h */; };
+		487D45C60F47388600D1D69F /* OgreNewt_Body.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45B20F47388600D1D69F /* OgreNewt_Body.h */; };
+		487D45C70F47388600D1D69F /* OgreNewt_BodyInAABBIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45B30F47388600D1D69F /* OgreNewt_BodyInAABBIterator.h */; };
+		487D45C80F47388600D1D69F /* OgreNewt_Collision.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45B40F47388600D1D69F /* OgreNewt_Collision.h */; };
+		487D45C90F47388600D1D69F /* OgreNewt_CollisionPrimitives.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45B50F47388600D1D69F /* OgreNewt_CollisionPrimitives.h */; };
+		487D45CA0F47388600D1D69F /* OgreNewt_CollisionSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45B60F47388600D1D69F /* OgreNewt_CollisionSerializer.h */; };
+		487D45CB0F47388600D1D69F /* OgreNewt_ContactCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45B70F47388600D1D69F /* OgreNewt_ContactCallback.h */; };
+		487D45CC0F47388600D1D69F /* OgreNewt_ContactJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45B80F47388600D1D69F /* OgreNewt_ContactJoint.h */; };
+		487D45CD0F47388600D1D69F /* OgreNewt_Debugger.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45B90F47388600D1D69F /* OgreNewt_Debugger.h */; };
+		487D45CE0F47388600D1D69F /* OgreNewt_Joint.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45BA0F47388600D1D69F /* OgreNewt_Joint.h */; };
+		487D45CF0F47388600D1D69F /* OgreNewt_MaterialID.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45BB0F47388600D1D69F /* OgreNewt_MaterialID.h */; };
+		487D45D00F47388600D1D69F /* OgreNewt_MaterialPair.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45BC0F47388600D1D69F /* OgreNewt_MaterialPair.h */; };
+		487D45D10F47388600D1D69F /* OgreNewt_PlayerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45BD0F47388600D1D69F /* OgreNewt_PlayerController.h */; };
+		487D45D20F47388600D1D69F /* OgreNewt_Prerequisites.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45BE0F47388600D1D69F /* OgreNewt_Prerequisites.h */; };
+		487D45D30F47388600D1D69F /* OgreNewt_RayCast.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45BF0F47388600D1D69F /* OgreNewt_RayCast.h */; };
+		487D45D40F47388600D1D69F /* OgreNewt_Tools.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45C00F47388600D1D69F /* OgreNewt_Tools.h */; };
+		487D45D50F47388600D1D69F /* OgreNewt_Vehicle.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45C10F47388600D1D69F /* OgreNewt_Vehicle.h */; };
+		487D45D60F47388600D1D69F /* OgreNewt_World.h in Headers */ = {isa = PBXBuildFile; fileRef = 487D45C20F47388600D1D69F /* OgreNewt_World.h */; };
+		487D45EA0F47389A00D1D69F /* OgreNewt_BasicJoints.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45D80F47389A00D1D69F /* OgreNewt_BasicJoints.cpp */; };
+		487D45EB0F47389A00D1D69F /* OgreNewt_Body.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45D90F47389A00D1D69F /* OgreNewt_Body.cpp */; };
+		487D45EC0F47389A00D1D69F /* OgreNewt_BodyInAABBIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45DA0F47389A00D1D69F /* OgreNewt_BodyInAABBIterator.cpp */; };
+		487D45ED0F47389A00D1D69F /* OgreNewt_Collision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45DB0F47389A00D1D69F /* OgreNewt_Collision.cpp */; };
+		487D45EE0F47389A00D1D69F /* OgreNewt_CollisionPrimitives.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45DC0F47389A00D1D69F /* OgreNewt_CollisionPrimitives.cpp */; };
+		487D45EF0F47389A00D1D69F /* OgreNewt_CollisionSerializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45DD0F47389A00D1D69F /* OgreNewt_CollisionSerializer.cpp */; };
+		487D45F00F47389A00D1D69F /* OgreNewt_ContactCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45DE0F47389A00D1D69F /* OgreNewt_ContactCallback.cpp */; };
+		487D45F10F47389A00D1D69F /* OgreNewt_ContactJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45DF0F47389A00D1D69F /* OgreNewt_ContactJoint.cpp */; };
+		487D45F20F47389A00D1D69F /* OgreNewt_Debugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45E00F47389A00D1D69F /* OgreNewt_Debugger.cpp */; };
+		487D45F30F47389A00D1D69F /* OgreNewt_Joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45E10F47389A00D1D69F /* OgreNewt_Joint.cpp */; };
+		487D45F40F47389A00D1D69F /* OgreNewt_MaterialID.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45E20F47389A00D1D69F /* OgreNewt_MaterialID.cpp */; };
+		487D45F50F47389A00D1D69F /* OgreNewt_MaterialPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45E30F47389A00D1D69F /* OgreNewt_MaterialPair.cpp */; };
+		487D45F60F47389A00D1D69F /* OgreNewt_PlayerController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45E40F47389A00D1D69F /* OgreNewt_PlayerController.cpp */; };
+		487D45F70F47389A00D1D69F /* OgreNewt_RayCast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45E50F47389A00D1D69F /* OgreNewt_RayCast.cpp */; };
+		487D45F80F47389A00D1D69F /* OgreNewt_Tools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45E60F47389A00D1D69F /* OgreNewt_Tools.cpp */; };
+		487D45F90F47389A00D1D69F /* OgreNewt_Vehicle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45E70F47389A00D1D69F /* OgreNewt_Vehicle.cpp */; };
+		487D45FA0F47389A00D1D69F /* OgreNewt_World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45E80F47389A00D1D69F /* OgreNewt_World.cpp */; };
+		48A94EC50F476C1700252666 /* libc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A94EC10F476B1400252666 /* libc.dylib */; };
+		8D07F2C00486CC7A007CD1D0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		444EA9A20BD0D33B00C6D4A0 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = /Library/Frameworks/Ogre.framework; sourceTree = "<absolute>"; };
+		444EA9A60BD0D35800C6D4A0 /* libnewton32.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libnewton32.a; path = /usr/local/lib/libnewton32.a; sourceTree = "<absolute>"; };
+		487D45AF0F47388600D1D69F /* OgreNewt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt.h; path = ../inc/OgreNewt.h; sourceTree = SOURCE_ROOT; };
+		487D45B10F47388600D1D69F /* OgreNewt_BasicJoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_BasicJoints.h; path = ../inc/OgreNewt_BasicJoints.h; sourceTree = SOURCE_ROOT; };
+		487D45B20F47388600D1D69F /* OgreNewt_Body.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_Body.h; path = ../inc/OgreNewt_Body.h; sourceTree = SOURCE_ROOT; };
+		487D45B30F47388600D1D69F /* OgreNewt_BodyInAABBIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_BodyInAABBIterator.h; path = ../inc/OgreNewt_BodyInAABBIterator.h; sourceTree = SOURCE_ROOT; };
+		487D45B40F47388600D1D69F /* OgreNewt_Collision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_Collision.h; path = ../inc/OgreNewt_Collision.h; sourceTree = SOURCE_ROOT; };
+		487D45B50F47388600D1D69F /* OgreNewt_CollisionPrimitives.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_CollisionPrimitives.h; path = ../inc/OgreNewt_CollisionPrimitives.h; sourceTree = SOURCE_ROOT; };
+		487D45B60F47388600D1D69F /* OgreNewt_CollisionSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_CollisionSerializer.h; path = ../inc/OgreNewt_CollisionSerializer.h; sourceTree = SOURCE_ROOT; };
+		487D45B70F47388600D1D69F /* OgreNewt_ContactCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_ContactCallback.h; path = ../inc/OgreNewt_ContactCallback.h; sourceTree = SOURCE_ROOT; };
+		487D45B80F47388600D1D69F /* OgreNewt_ContactJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_ContactJoint.h; path = ../inc/OgreNewt_ContactJoint.h; sourceTree = SOURCE_ROOT; };
+		487D45B90F47388600D1D69F /* OgreNewt_Debugger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_Debugger.h; path = ../inc/OgreNewt_Debugger.h; sourceTree = SOURCE_ROOT; };
+		487D45BA0F47388600D1D69F /* OgreNewt_Joint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_Joint.h; path = ../inc/OgreNewt_Joint.h; sourceTree = SOURCE_ROOT; };
+		487D45BB0F47388600D1D69F /* OgreNewt_MaterialID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_MaterialID.h; path = ../inc/OgreNewt_MaterialID.h; sourceTree = SOURCE_ROOT; };
+		487D45BC0F47388600D1D69F /* OgreNewt_MaterialPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_MaterialPair.h; path = ../inc/OgreNewt_MaterialPair.h; sourceTree = SOURCE_ROOT; };
+		487D45BD0F47388600D1D69F /* OgreNewt_PlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_PlayerController.h; path = ../inc/OgreNewt_PlayerController.h; sourceTree = SOURCE_ROOT; };
+		487D45BE0F47388600D1D69F /* OgreNewt_Prerequisites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_Prerequisites.h; path = ../inc/OgreNewt_Prerequisites.h; sourceTree = SOURCE_ROOT; };
+		487D45BF0F47388600D1D69F /* OgreNewt_RayCast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_RayCast.h; path = ../inc/OgreNewt_RayCast.h; sourceTree = SOURCE_ROOT; };
+		487D45C00F47388600D1D69F /* OgreNewt_Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_Tools.h; path = ../inc/OgreNewt_Tools.h; sourceTree = SOURCE_ROOT; };
+		487D45C10F47388600D1D69F /* OgreNewt_Vehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_Vehicle.h; path = ../inc/OgreNewt_Vehicle.h; sourceTree = SOURCE_ROOT; };
+		487D45C20F47388600D1D69F /* OgreNewt_World.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreNewt_World.h; path = ../inc/OgreNewt_World.h; sourceTree = SOURCE_ROOT; };
+		487D45D80F47389A00D1D69F /* OgreNewt_BasicJoints.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_BasicJoints.cpp; path = ../src/OgreNewt_BasicJoints.cpp; sourceTree = SOURCE_ROOT; };
+		487D45D90F47389A00D1D69F /* OgreNewt_Body.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_Body.cpp; path = ../src/OgreNewt_Body.cpp; sourceTree = SOURCE_ROOT; };
+		487D45DA0F47389A00D1D69F /* OgreNewt_BodyInAABBIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_BodyInAABBIterator.cpp; path = ../src/OgreNewt_BodyInAABBIterator.cpp; sourceTree = SOURCE_ROOT; };
+		487D45DB0F47389A00D1D69F /* OgreNewt_Collision.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_Collision.cpp; path = ../src/OgreNewt_Collision.cpp; sourceTree = SOURCE_ROOT; };
+		487D45DC0F47389A00D1D69F /* OgreNewt_CollisionPrimitives.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_CollisionPrimitives.cpp; path = ../src/OgreNewt_CollisionPrimitives.cpp; sourceTree = SOURCE_ROOT; };
+		487D45DD0F47389A00D1D69F /* OgreNewt_CollisionSerializer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_CollisionSerializer.cpp; path = ../src/OgreNewt_CollisionSerializer.cpp; sourceTree = SOURCE_ROOT; };
+		487D45DE0F47389A00D1D69F /* OgreNewt_ContactCallback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_ContactCallback.cpp; path = ../src/OgreNewt_ContactCallback.cpp; sourceTree = SOURCE_ROOT; };
+		487D45DF0F47389A00D1D69F /* OgreNewt_ContactJoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_ContactJoint.cpp; path = ../src/OgreNewt_ContactJoint.cpp; sourceTree = SOURCE_ROOT; };
+		487D45E00F47389A00D1D69F /* OgreNewt_Debugger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_Debugger.cpp; path = ../src/OgreNewt_Debugger.cpp; sourceTree = SOURCE_ROOT; };
+		487D45E10F47389A00D1D69F /* OgreNewt_Joint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_Joint.cpp; path = ../src/OgreNewt_Joint.cpp; sourceTree = SOURCE_ROOT; };
+		487D45E20F47389A00D1D69F /* OgreNewt_MaterialID.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_MaterialID.cpp; path = ../src/OgreNewt_MaterialID.cpp; sourceTree = SOURCE_ROOT; };
+		487D45E30F47389A00D1D69F /* OgreNewt_MaterialPair.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_MaterialPair.cpp; path = ../src/OgreNewt_MaterialPair.cpp; sourceTree = SOURCE_ROOT; };
+		487D45E40F47389A00D1D69F /* OgreNewt_PlayerController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_PlayerController.cpp; path = ../src/OgreNewt_PlayerController.cpp; sourceTree = SOURCE_ROOT; };
+		487D45E50F47389A00D1D69F /* OgreNewt_RayCast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_RayCast.cpp; path = ../src/OgreNewt_RayCast.cpp; sourceTree = SOURCE_ROOT; };
+		487D45E60F47389A00D1D69F /* OgreNewt_Tools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_Tools.cpp; path = ../src/OgreNewt_Tools.cpp; sourceTree = SOURCE_ROOT; };
+		487D45E70F47389A00D1D69F /* OgreNewt_Vehicle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_Vehicle.cpp; path = ../src/OgreNewt_Vehicle.cpp; sourceTree = SOURCE_ROOT; };
+		487D45E80F47389A00D1D69F /* OgreNewt_World.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_World.cpp; path = ../src/OgreNewt_World.cpp; sourceTree = SOURCE_ROOT; };
+		48A94EBE0F476A8700252666 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/i686-apple-darwin9/4.0.1/libstdc++.dylib"; sourceTree = SDKROOT; };
+		48A94EC10F476B1400252666 /* libc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libc.dylib; path = usr/lib/libc.dylib; sourceTree = SDKROOT; };
+		8D07F2C70486CC7A007CD1D0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D07F2C80486CC7A007CD1D0 /* OgreNewt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OgreNewt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D07F2C30486CC7A007CD1D0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				444EA9A30BD0D33B00C6D4A0 /* Ogre.framework in Frameworks */,
+				444EA9A70BD0D35800C6D4A0 /* libnewton32.a in Frameworks */,
+				48A94EC50F476C1700252666 /* libc.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DDFF38A45A11DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D07F2C80486CC7A007CD1D0 /* OgreNewt.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* OgreNewt */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77ACFE841707C02AAC07 /* Source */,
+				089C1665FE841158C02AAC07 /* Resources */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DDFF38A45A11DB9C8B /* Products */,
+				48A94EBE0F476A8700252666 /* libstdc++.dylib */,
+				48A94EC10F476B1400252666 /* libc.dylib */,
+			);
+			name = OgreNewt;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				444EA9A60BD0D35800C6D4A0 /* libnewton32.a */,
+				444EA9A20BD0D33B00C6D4A0 /* Ogre.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C1665FE841158C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D07F2C70486CC7A007CD1D0 /* Info.plist */,
+				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77ACFE841707C02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				487D45D80F47389A00D1D69F /* OgreNewt_BasicJoints.cpp */,
+				487D45D90F47389A00D1D69F /* OgreNewt_Body.cpp */,
+				487D45DA0F47389A00D1D69F /* OgreNewt_BodyInAABBIterator.cpp */,
+				487D45DB0F47389A00D1D69F /* OgreNewt_Collision.cpp */,
+				487D45DC0F47389A00D1D69F /* OgreNewt_CollisionPrimitives.cpp */,
+				487D45DD0F47389A00D1D69F /* OgreNewt_CollisionSerializer.cpp */,
+				487D45DE0F47389A00D1D69F /* OgreNewt_ContactCallback.cpp */,
+				487D45DF0F47389A00D1D69F /* OgreNewt_ContactJoint.cpp */,
+				487D45E00F47389A00D1D69F /* OgreNewt_Debugger.cpp */,
+				487D45E10F47389A00D1D69F /* OgreNewt_Joint.cpp */,
+				487D45E20F47389A00D1D69F /* OgreNewt_MaterialID.cpp */,
+				487D45E30F47389A00D1D69F /* OgreNewt_MaterialPair.cpp */,
+				487D45E40F47389A00D1D69F /* OgreNewt_PlayerController.cpp */,
+				487D45E50F47389A00D1D69F /* OgreNewt_RayCast.cpp */,
+				487D45E60F47389A00D1D69F /* OgreNewt_Tools.cpp */,
+				487D45E70F47389A00D1D69F /* OgreNewt_Vehicle.cpp */,
+				487D45E80F47389A00D1D69F /* OgreNewt_World.cpp */,
+				487D45AF0F47388600D1D69F /* OgreNewt.h */,
+				487D45B10F47388600D1D69F /* OgreNewt_BasicJoints.h */,
+				487D45B20F47388600D1D69F /* OgreNewt_Body.h */,
+				487D45B30F47388600D1D69F /* OgreNewt_BodyInAABBIterator.h */,
+				487D45B40F47388600D1D69F /* OgreNewt_Collision.h */,
+				487D45B50F47388600D1D69F /* OgreNewt_CollisionPrimitives.h */,
+				487D45B60F47388600D1D69F /* OgreNewt_CollisionSerializer.h */,
+				487D45B70F47388600D1D69F /* OgreNewt_ContactCallback.h */,
+				487D45B80F47388600D1D69F /* OgreNewt_ContactJoint.h */,
+				487D45B90F47388600D1D69F /* OgreNewt_Debugger.h */,
+				487D45BA0F47388600D1D69F /* OgreNewt_Joint.h */,
+				487D45BB0F47388600D1D69F /* OgreNewt_MaterialID.h */,
+				487D45BC0F47388600D1D69F /* OgreNewt_MaterialPair.h */,
+				487D45BD0F47388600D1D69F /* OgreNewt_PlayerController.h */,
+				487D45BE0F47388600D1D69F /* OgreNewt_Prerequisites.h */,
+				487D45BF0F47388600D1D69F /* OgreNewt_RayCast.h */,
+				487D45C00F47388600D1D69F /* OgreNewt_Tools.h */,
+				487D45C10F47388600D1D69F /* OgreNewt_Vehicle.h */,
+				487D45C20F47388600D1D69F /* OgreNewt_World.h */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D07F2BD0486CC7A007CD1D0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				487D45C30F47388600D1D69F /* OgreNewt.h in Headers */,
+				487D45C50F47388600D1D69F /* OgreNewt_BasicJoints.h in Headers */,
+				487D45C60F47388600D1D69F /* OgreNewt_Body.h in Headers */,
+				487D45C70F47388600D1D69F /* OgreNewt_BodyInAABBIterator.h in Headers */,
+				487D45C80F47388600D1D69F /* OgreNewt_Collision.h in Headers */,
+				487D45C90F47388600D1D69F /* OgreNewt_CollisionPrimitives.h in Headers */,
+				487D45CA0F47388600D1D69F /* OgreNewt_CollisionSerializer.h in Headers */,
+				487D45CB0F47388600D1D69F /* OgreNewt_ContactCallback.h in Headers */,
+				487D45CC0F47388600D1D69F /* OgreNewt_ContactJoint.h in Headers */,
+				487D45CD0F47388600D1D69F /* OgreNewt_Debugger.h in Headers */,
+				487D45CE0F47388600D1D69F /* OgreNewt_Joint.h in Headers */,
+				487D45CF0F47388600D1D69F /* OgreNewt_MaterialID.h in Headers */,
+				487D45D00F47388600D1D69F /* OgreNewt_MaterialPair.h in Headers */,
+				487D45D10F47388600D1D69F /* OgreNewt_PlayerController.h in Headers */,
+				487D45D20F47388600D1D69F /* OgreNewt_Prerequisites.h in Headers */,
+				487D45D30F47388600D1D69F /* OgreNewt_RayCast.h in Headers */,
+				487D45D40F47388600D1D69F /* OgreNewt_Tools.h in Headers */,
+				487D45D50F47388600D1D69F /* OgreNewt_Vehicle.h in Headers */,
+				487D45D60F47388600D1D69F /* OgreNewt_World.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D07F2BC0486CC7A007CD1D0 /* OgreNewt */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4FADC24208B4156D00ABE55E /* Build configuration list for PBXNativeTarget "OgreNewt" */;
+			buildPhases = (
+				8D07F2BD0486CC7A007CD1D0 /* Headers */,
+				8D07F2BF0486CC7A007CD1D0 /* Resources */,
+				8D07F2C10486CC7A007CD1D0 /* Sources */,
+				8D07F2C30486CC7A007CD1D0 /* Frameworks */,
+				8D07F2C50486CC7A007CD1D0 /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OgreNewt;
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = OgreNewt;
+			productReference = 8D07F2C80486CC7A007CD1D0 /* OgreNewt.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 4FADC24608B4156D00ABE55E /* Build configuration list for PBXProject "OgreNewt" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* OgreNewt */;
+			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D07F2BC0486CC7A007CD1D0 /* OgreNewt */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D07F2BF0486CC7A007CD1D0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D07F2C00486CC7A007CD1D0 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D07F2C50486CC7A007CD1D0 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D07F2C10486CC7A007CD1D0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				487D45EA0F47389A00D1D69F /* OgreNewt_BasicJoints.cpp in Sources */,
+				487D45EB0F47389A00D1D69F /* OgreNewt_Body.cpp in Sources */,
+				487D45EC0F47389A00D1D69F /* OgreNewt_BodyInAABBIterator.cpp in Sources */,
+				487D45ED0F47389A00D1D69F /* OgreNewt_Collision.cpp in Sources */,
+				487D45EE0F47389A00D1D69F /* OgreNewt_CollisionPrimitives.cpp in Sources */,
+				487D45EF0F47389A00D1D69F /* OgreNewt_CollisionSerializer.cpp in Sources */,
+				487D45F00F47389A00D1D69F /* OgreNewt_ContactCallback.cpp in Sources */,
+				487D45F10F47389A00D1D69F /* OgreNewt_ContactJoint.cpp in Sources */,
+				487D45F20F47389A00D1D69F /* OgreNewt_Debugger.cpp in Sources */,
+				487D45F30F47389A00D1D69F /* OgreNewt_Joint.cpp in Sources */,
+				487D45F40F47389A00D1D69F /* OgreNewt_MaterialID.cpp in Sources */,
+				487D45F50F47389A00D1D69F /* OgreNewt_MaterialPair.cpp in Sources */,
+				487D45F60F47389A00D1D69F /* OgreNewt_PlayerController.cpp in Sources */,
+				487D45F70F47389A00D1D69F /* OgreNewt_RayCast.cpp in Sources */,
+				487D45F80F47389A00D1D69F /* OgreNewt_Tools.cpp in Sources */,
+				487D45F90F47389A00D1D69F /* OgreNewt_Vehicle.cpp in Sources */,
+				487D45FA0F47389A00D1D69F /* OgreNewt_World.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C1667FE841158C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4FADC24308B4156D00ABE55E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+				);
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = (
+					/Library/Frameworks/Ogre.framework/Headers,
+					/usr/local/include,
+				);
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SDKROOT)/usr/lib/i686-apple-darwin9/4.0.1\"";
+				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
+				PRODUCT_NAME = OgreNewt;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		4FADC24408B4156D00ABE55E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+				);
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "/Library/Frameworks/Ogre.framework/**";
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SDKROOT)/usr/lib/i686-apple-darwin9/4.0.1\"";
+				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Ogre,
+				);
+				PRODUCT_NAME = OgreNewt;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		4FADC24708B4156D00ABE55E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Library/Frameworks/Ogre.framework/Headers;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Debug;
+		};
+		4FADC24808B4156D00ABE55E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/Library/Frameworks/Ogre.framework/Headers,
+				);
+				PREBINDING = NO;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4FADC24208B4156D00ABE55E /* Build configuration list for PBXNativeTarget "OgreNewt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FADC24308B4156D00ABE55E /* Debug */,
+				4FADC24408B4156D00ABE55E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4FADC24608B4156D00ABE55E /* Build configuration list for PBXProject "OgreNewt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FADC24708B4156D00ABE55E /* Debug */,
+				4FADC24808B4156D00ABE55E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}

@@ -13,8 +13,6 @@
 
 
 #include "OgreNewt_Prerequisites.h"
-#include <OgreMovableObject.h>
-#include <OgreRenderable.h>
 
 namespace OgreNewt
 {

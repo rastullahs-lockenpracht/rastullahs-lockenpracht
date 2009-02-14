@@ -13,8 +13,6 @@ by Walaber
 
 
 #include "OgreNewt_Prerequisites.h"
-#include "OgreSerializer.h"
-#include "OgreString.h"
 
 // OgreNewt namespace.  all functions and classes use this namespace.
 namespace OgreNewt

@@ -3,7 +3,12 @@
 #include "OgreNewt_Body.h"
 #include "OgreNewt_Collision.h"
 #include <iostream>
-#include <OgreFontManager.h>
+
+#ifdef __APPLE__
+#    include <Ogre/OgreFontManager.h>
+#else
+#    include <OgreFontManager.h>
+#endif
 
 namespace OgreNewt
 {
@@ -108,8 +113,11 @@ namespace OgreNewt
 		{
 			float matrix[16];
 			Converters::QuatPosToMatrix( colorient, colpos, matrix );
-
+#ifdef __APPLE__
+			return NewtonCollisionPointDistance( world->getNewtonWorld(), &globalpt.x, col->getNewtonCollision(), matrix, &retpt.x, &retnormal.x);
+#else
 			return NewtonCollisionPointDistance( world->getNewtonWorld(), &globalpt.x, col->getNewtonCollision(), matrix, &retpt.x, &retnormal.x, threadIndex);
+#endif
 		}
 		
 
@@ -125,8 +133,13 @@ namespace OgreNewt
 			Converters::QuatPosToMatrix( colOrientA, colPosA, matrixA );
 			Converters::QuatPosToMatrix( colOrientB, colPosB, matrixB );
 
+#ifdef __APPLE__
 			return NewtonCollisionClosestPoint( world->getNewtonWorld(), colA->getNewtonCollision(), matrixA, colB->getNewtonCollision(), matrixB,
-												&retPosA.x, &retPosB.x, &retNorm.x, threadIndex );
+												&retPosA.x, &retPosB.x, &retNorm.x);
+#else
+			return NewtonCollisionClosestPoint( world->getNewtonWorld(), colA->getNewtonCollision(), matrixA, colB->getNewtonCollision(), matrixB,
+                                               &retPosA.x, &retPosB.x, &retNorm.x, threadIndex );
+#endif
 		}
 
 
@@ -141,8 +154,13 @@ namespace OgreNewt
 			Converters::QuatPosToMatrix( colOrientA, colPosA, matrixA );
 			Converters::QuatPosToMatrix( colOrientB, colPosB, matrixB );
 
+#ifdef __APPLE__
 			return NewtonCollisionCollide( world->getNewtonWorld(), maxSize, colA->getNewtonCollision(), matrixA,
-				colB->getNewtonCollision(), matrixB, &retContactPts[0].x, &retNormals[0].x, retPenetrations, threadIndex );
+				colB->getNewtonCollision(), matrixB, &retContactPts[0].x, &retNormals[0].x, retPenetrations);
+#else
+			return NewtonCollisionCollide( world->getNewtonWorld(), maxSize, colA->getNewtonCollision(), matrixA,
+                                          colB->getNewtonCollision(), matrixB, &retContactPts[0].x, &retNormals[0].x, retPenetrations, threadIndex );
+#endif
 		}
 
 
@@ -157,10 +175,17 @@ namespace OgreNewt
 			Converters::QuatPosToMatrix( colOrientA, colPosA, matrixA );
 			Converters::QuatPosToMatrix( colOrientB, colPosB, matrixB );
 
+#ifdef __APPLE__
 			return NewtonCollisionCollideContinue( world->getNewtonWorld(), maxSize, timeStep,
-				colA->getNewtonCollision(), matrixA, &colVelA.x, &colOmegaA.x, 
-				colB->getNewtonCollision(), matrixB, &colVelB.x, &colOmegaB.x,
-				&retTimeOfImpact, &retContactPts[0].x, &retNormals[0].x, retPenetrations, threadIndex );
+                                                  colA->getNewtonCollision(), matrixA, &colVelA.x, &colOmegaA.x, 
+                                                  colB->getNewtonCollision(), matrixB, &colVelB.x, &colOmegaB.x,
+                                                  &retTimeOfImpact, &retContactPts[0].x, &retNormals[0].x, retPenetrations);
+#else
+			return NewtonCollisionCollideContinue( world->getNewtonWorld(), maxSize, timeStep,
+                                                  colA->getNewtonCollision(), matrixA, &colVelA.x, &colOmegaA.x, 
+                                                  colB->getNewtonCollision(), matrixB, &colVelB.x, &colOmegaB.x,
+                                                  &retTimeOfImpact, &retContactPts[0].x, &retNormals[0].x, retPenetrations, threadIndex );
+#endif
 		}
 
 

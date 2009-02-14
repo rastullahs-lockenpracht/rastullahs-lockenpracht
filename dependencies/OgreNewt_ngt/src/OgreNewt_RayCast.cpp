@@ -213,11 +213,18 @@ namespace OgreNewt
                 float matrix[16];
                 OgreNewt::Converters::QuatPosToMatrix(colori, startpt, &matrix[0] );
                 mFirstContactDistance = -1;
+#ifdef __APPLE__
                 mReturnInfoListLength = 
-                        NewtonWorldConvexCast( world->getNewtonWorld(), &matrix[0], (float*)&endpt, col->getNewtonCollision(),
+                    NewtonWorldConvexCast( world->getNewtonWorld(), &matrix[0], (float*)&endpt, col->getNewtonCollision(),
                                                &mFirstContactDistance, this, OgreNewt::Convexcast::newtonConvexcastPreFilter,
-                                               mReturnInfoList, mReturnInfoListSize, threadIndex);
-
+                                               mReturnInfoList, mReturnInfoListSize);
+#else
+                mReturnInfoListLength = 
+                    NewtonWorldConvexCast( world->getNewtonWorld(), &matrix[0], (float*)&endpt, col->getNewtonCollision(),
+                              &mFirstContactDistance, this, OgreNewt::Convexcast::newtonConvexcastPreFilter,
+                              mReturnInfoList, mReturnInfoListSize, threadIndex);
+#endif
+        
                 //! TODO: that's a hack here!!
                 if( mReturnInfoListLength > 0 )
                 {

@@ -2,8 +2,6 @@
 #include "OgreNewt_Tools.h"
 #include "OgreNewt_RayCast.h"
 
-#include "Ogre.h"
-
 namespace OgreNewt
 {
 

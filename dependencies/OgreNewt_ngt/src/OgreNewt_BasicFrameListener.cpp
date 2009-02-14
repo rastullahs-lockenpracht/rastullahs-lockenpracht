@@ -1,5 +1,6 @@
 #include "OgreNewt_BasicFrameListener.h"
 #include "OgreNewt_Debugger.h"
+#include "OgreNewt_World.h"
 
 namespace OgreNewt
 {

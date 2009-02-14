@@ -13,7 +13,13 @@
 #ifndef __INCLUDE_OGRENEWT_PREREQ__
 #define __INCLUDE_OGRENEWT_PREREQ__
 
-#include <Ogre.h>
+#ifdef __APPLE__
+#    include <Carbon/Carbon.h>
+#    include <Ogre/Ogre.h>
+#else
+#    include <Ogre.h>
+#endif
+
 #include <Newton.h>
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
