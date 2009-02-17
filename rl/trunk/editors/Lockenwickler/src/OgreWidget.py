@@ -27,6 +27,7 @@ import ogre.renderer.OGRE as og
 class OgreWidget(QtGui.QWidget):
     def __init__(self, renderWindowName, ogreRoot, sceneManager, cameraName, parent,  camDistFromFocusNode=100):
         QtGui.QWidget.__init__(self, parent)
+        self.painted = False
         self.renderWindowName = renderWindowName
         self.parent = parent
         self.ogreRoot = ogreRoot
@@ -34,6 +35,7 @@ class OgreWidget(QtGui.QWidget):
         self.camDistFromFocusNode = camDistFromFocusNode
         self.initOgreWindow(renderWindowName,cameraName)
         self.resizeEventListener = []
+        self.ogreViewportCreatedCallback = None
 
     def initOgreWindow(self, renderWindowName, cameraName):
         self.renderParameters = og.NameValuePairList()
@@ -48,32 +50,48 @@ class OgreWidget(QtGui.QWidget):
             scr = str(info.screen())
             win = str(int(self.winId()))
             winHandle = disp + ':' + scr + ':' + win
+            
             self.renderParameters['parentWindowHandle'] = winHandle
 
-        renderWindow = self.ogreRoot.createRenderWindow(renderWindowName, self.width(), self.height(),
-                                                        False, self.renderParameters)
-
-        renderWindow.active = True
-        self.renderWindow = renderWindow
-
-        self.camera = self.sceneManager.createCamera(cameraName)
-        self.camera.NearClipDistance = 0.1
-
-        # Create focus node (camera always points at this)
-        self.camFocusNode = self.sceneManager.getRootSceneNode().createChildSceneNode()
-        self.camFocusNode.setFixedYawAxis(True, og.Vector3().UNIT_Y)
-        # camera node is offset a ways along the Z axis of focus node
-        self.camNode = self.camFocusNode.createChildSceneNode()
-        # fix yaw on this one too for when we manipulate it directly
-        self.camNode.setFixedYawAxis(True, og.Vector3().UNIT_Y)
-        self.camNode.setPosition(0, 0, self.camDistFromFocusNode)
-        self.camNode.attachObject(self.camera)
-
-        self.viewport = self.renderWindow.addViewport(self.camera, 0, 0.0, 0.0, 1.0, 1.0)
-        self.viewport.setClearEveryFrame(True)
 
     def setBackgroundColor(self, colorValue):
-        self.viewport.BackgroundColour = colorValue
+        if self.painted:
+            self.viewport.BackgroundColour = colorValue
+        else:
+            self.backGroundColor = colorValue
+
+    def setOgreViewportCreatedCallback(self, callback):
+        self.ogreViewportCreatedCallback = callback
+    
+    def paintEvent(self, event):
+        if not self.painted:
+            renderWindow = self.ogreRoot.createRenderWindow(renderWindowName, self.width(), self.height(),
+                                                False, self.renderParameters)
+
+            renderWindow.active = True
+            self.renderWindow = renderWindow
+            
+            self.camera = self.sceneManager.createCamera(cameraName)
+            self.camera.NearClipDistance = 0.1
+
+            # Create focus node (camera always points at this)
+            self.camFocusNode = self.sceneManager.getRootSceneNode().createChildSceneNode()
+            self.camFocusNode.setFixedYawAxis(True, og.Vector3().UNIT_Y)
+            # camera node is offset a ways along the Z axis of focus node
+            self.camNode = self.camFocusNode.createChildSceneNode()
+            # fix yaw on this one too for when we manipulate it directly
+            self.camNode.setFixedYawAxis(True, og.Vector3().UNIT_Y)
+            self.camNode.setPosition(0, 0, self.camDistFromFocusNode)
+            self.camNode.attachObject(self.camera)
+            
+            self.viewport = self.renderWindow.addViewport(self.camera, 0, 0.0, 0.0, 1.0, 1.0)
+            self.viewport.setClearEveryFrame(True)
+            self.viewport.BackgroundColour = self.backGroundColor
+            
+            if self.ogreViewportCreatedCallback:
+                self.ogreViewportCreatedCallback()
+            
+            self.painted = True
 
     def resizeEvent(self, event):
         self.renderWindow.resize(event.size().width(), event.size().height())

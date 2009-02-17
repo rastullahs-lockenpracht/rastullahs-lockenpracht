@@ -55,9 +55,8 @@ class OgreMainWindow(QWidget):
         self.camUpdateTimer.connect(self.camUpdateTimer, SIGNAL("timeout()"), self.updateCamera)
 
         self.lastSelectionClick = None # Qpoint wich saves the last selection click mouse position
-
+        
         self.setupUi(self)
-
 
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -118,9 +117,13 @@ class OgreMainWindow(QWidget):
 
         self.retranslateUi(Form)
         QMetaObject.connectSlotsByName(Form)
-
+        
+        self.ogreWidget.setOgreViewportCreatedCallback(self.ogreViewportCreatedCallback)
+        
+    def ogreViewportCreatedCallback(self):
         self.viewportGrid = ViewportGrid(self.OgreMainWinSceneMgr, self.ogreWidget.viewport)
         self.viewportGrid.enable()
+        
     def retranslateUi(self, Form):
         Form.setWindowTitle(QApplication.translate("Form", "Form", None, QApplication.UnicodeUTF8))
         self.ogreWindowOptions.setText(QApplication.translate("Form", "...", None, QApplication.UnicodeUTF8))
