@@ -32,10 +32,12 @@ class OgreWidget(QtGui.QWidget):
         self.parent = parent
         self.ogreRoot = ogreRoot
         self.sceneManager = sceneManager
+        self.cameraName = cameraName
         self.camDistFromFocusNode = camDistFromFocusNode
         self.initOgreWindow(renderWindowName,cameraName)
         self.resizeEventListener = []
         self.ogreViewportCreatedCallback = None
+        self.renderWindow = None
 
     def initOgreWindow(self, renderWindowName, cameraName):
         self.renderParameters = og.NameValuePairList()
@@ -65,13 +67,13 @@ class OgreWidget(QtGui.QWidget):
     
     def paintEvent(self, event):
         if not self.painted:
-            renderWindow = self.ogreRoot.createRenderWindow(renderWindowName, self.width(), self.height(),
+            renderWindow = self.ogreRoot.createRenderWindow(self.renderWindowName, self.width(), self.height(),
                                                 False, self.renderParameters)
 
             renderWindow.active = True
             self.renderWindow = renderWindow
             
-            self.camera = self.sceneManager.createCamera(cameraName)
+            self.camera = self.sceneManager.createCamera(self.cameraName)
             self.camera.NearClipDistance = 0.1
 
             # Create focus node (camera always points at this)
@@ -94,18 +96,19 @@ class OgreWidget(QtGui.QWidget):
             self.painted = True
 
     def resizeEvent(self, event):
-        self.renderWindow.resize(event.size().width(), event.size().height())
-        self.renderWindow.windowMovedOrResized()
+        if self.renderWindow:
+            self.renderWindow.resize(event.size().width(), event.size().height())
+            self.renderWindow.windowMovedOrResized()
 
-        if platform.system() == "Linux":
-            self.viewport._updateDimensions() # shouldn't actually be needed but it doesn't work without it on linux
+            if platform.system() == "Linux":
+                self.viewport._updateDimensions() # shouldn't actually be needed but it doesn't work without it on linux
 
-        self.renderWindow.update(True)
-        self.ogreRoot.renderOneFrame()
+            self.renderWindow.update(True)
+            self.ogreRoot.renderOneFrame()
 
-        if self.camera:
-            self.camera.setAspectRatio(float(event.size().width()) / float(event.size().height()));
-            
+            if self.camera:
+                self.camera.setAspectRatio(float(event.size().width()) / float(event.size().height()));
+                
         for listener in self.resizeEventListener:
             listener(event.size().width(), event.size().height())
 

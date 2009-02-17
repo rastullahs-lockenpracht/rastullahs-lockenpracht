@@ -82,7 +82,9 @@ class Lockenwickler(QtGui.QMainWindow):
         
         self.setWindowIcon(QIcon("media/icons/lockenwickler_provisorium_small.png"))
         self.setWindowTitle("Rastullahs Lockenwickler")
-
+        
+        self.editorSetupFinished = False
+        
 #        splash.finish(self)
 
     def createAction(self, text, slot=None, shortcut=None, icon=None, tip=None, checkable=False, signal="triggered()"):
@@ -271,19 +273,22 @@ class Lockenwickler(QtGui.QMainWindow):
         self.hboxlayout.addLayout(self.gridlayout)
         self.setCentralWidget(self.centralwidget)
         
+        oglog = og.LogManager.getSingleton().getDefaultLog()
+        oglog.addListener(self.consoleWindow.lockenLog)
+
+    def finishEditorSetup(self):
         og.ResourceGroupManager.getSingleton().addResourceLocation("./media", "FileSystem", "General", False)
         og.ResourceGroupManager.getSingleton().initialiseAllResourceGroups()
 
         self.moduleManager.pivot = Pivot(self.OgreMainWinSceneMgr)
         self.moduleManager.pivot.hide()
-
-        oglog = og.LogManager.getSingleton().getDefaultLog()
-        oglog.addListener(self.consoleWindow.lockenLog)
-
+        self.editorSetupFinished = True
+        
     def update(self):
         self.ogreRoot.renderOneFrame()
 
     def actionOpenSlot(self):
+        self.finishEditorSetup()
         self.moduleManager.openLoadModuleDialog()
 
     def actionNewSlot(self):

@@ -325,4 +325,5 @@ class OgreMainWindow(QWidget):
         if self.strafeCamRight:
             self.ogreWidget.dollyCamera(og.Vector3( 0.2, 0, 0))
         
-        self.moduleManager.pivot.update()
+        if self.moduleManager.pivot:
+            self.moduleManager.pivot.update()
