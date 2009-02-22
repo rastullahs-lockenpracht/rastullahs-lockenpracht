@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -37,7 +37,7 @@ namespace rl
     {
     }
 
-    DialogVariableAssignment::DialogVariableAssignment(const Ogre::String& variableName, 
+    DialogVariableAssignment::DialogVariableAssignment(const Ogre::String& variableName,
                                                        const CeGuiString& value)
         : mVariableName(variableName), mValue(value)
     {
@@ -50,7 +50,7 @@ namespace rl
         dialog->setProperty(mVariableName, prop);
     }
 
-	DialogVariableIncrease::DialogVariableIncrease(const Ogre::String& variableName, 
+	DialogVariableIncrease::DialogVariableIncrease(const Ogre::String& variableName,
                                                    const CeGuiString& value)
         : DialogVariableAssignment(variableName, value)
     {
@@ -69,13 +69,13 @@ namespace rl
         }
         else
         {
-            LOG_ERROR(Logger::DIALOG, "You can not increase the variable '" 
+            LOG_ERROR(Logger::DIALOG, "You can not increase the variable '"
                                       + mVariableName
                                       + "'. The variable's type is not a number");
         }
     }
 
-    DialogVariableDecrease::DialogVariableDecrease(const Ogre::String& variableName, 
+    DialogVariableDecrease::DialogVariableDecrease(const Ogre::String& variableName,
                                                    const CeGuiString& value)
         : DialogVariableAssignment(variableName, value)
     {
@@ -94,13 +94,13 @@ namespace rl
         }
         else
         {
-            LOG_ERROR(Logger::DIALOG, "You can not decrease the variable '" 
+            LOG_ERROR(Logger::DIALOG, "You can not decrease the variable '"
                                       + mVariableName
                                       + "'. The variable's type is not a number");
         }
     }
 
-    DialogElementActivation::DialogElementActivation(const CeGuiString& id, 
+    DialogElementActivation::DialogElementActivation(const CeGuiString& id,
                                                      bool value,
                                                      bool isOption)
         : mElementId(id), mValue(value), mIsOption(isOption)
@@ -135,24 +135,25 @@ namespace rl
         Quest* quest = RulesSubsystem::getSingleton().getQuestBook()->getQuest(mQuestId);
         quest->setPropertyAsString(mProperty, mNewValue);
     }
-    
+
     CombatStart::CombatStart()
     {
     }
-    
+
     void CombatStart::apply(Dialog* dialog)
     {
         Combat* combat = CombatManager::getSingleton().startCombat();
-        std::vector<Creature*> allies = dialog->getPlayerCharacters();
+        ///@FIXME: fix starting combat from dialog
+/*        std::vector<Creature*> allies = dialog->getPlayerCharacters();
         for (std::vector<Creature*>::iterator it = allies.begin(); it != allies.end(); ++it)
         {
-            combat->addAlly(*it);            
+            combat->addAlly(*it);
         }
         std::vector<Creature*> enemies = dialog->getNonPlayerCharacters();
         for (std::vector<Creature*>::iterator it = enemies.begin(); it != enemies.end(); ++it)
         {
             combat->addOpponent(*it);
-        }
+        }*/
         combat->start();
     }
 

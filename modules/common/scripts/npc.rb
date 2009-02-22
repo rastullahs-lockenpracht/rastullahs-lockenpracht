@@ -6,7 +6,7 @@ class TalkAction < Action
   end
 
   def doAction(object, actor, target)
-    dialog = DialogManager::getSingleton().createDialog(object.getDialog(), object, actor)  
+    dialog = DialogManager::getSingleton().createDialog(object.getDialog(), object)  
 	  agent = AgentManager::getSingleton().createAgent(object)
 	  agent.pushState(RlScript::AST_DIALOG);
 	  agent.getCurrentState().setDialogPartner(

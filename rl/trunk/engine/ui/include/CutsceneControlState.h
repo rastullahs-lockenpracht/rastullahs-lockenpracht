@@ -61,6 +61,7 @@ namespace rl {
         void addCamera(const Ogre::Vector3& position, const Ogre::Quaternion& orientation);
         void addCamera(const Ogre::Vector3& position, const Ogre::Quaternion& orientation1,
                        const Ogre::Quaternion& orientation2);
+        void clearCameras();
 
 	private:
 	    std::vector<CameraPosition> mPositions;

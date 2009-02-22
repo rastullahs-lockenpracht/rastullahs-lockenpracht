@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -20,7 +20,7 @@ namespace std {
 	%template(Ogrevec3Vector) vector<Ogre::Vector3 >;
 };
 
-namespace rl 
+namespace rl
 {
 	// Before first use
 	%apply SWIGTYPE *DYNAMIC { rl::AStarHeuristic * };
@@ -44,7 +44,7 @@ namespace rl
 		bool isAhead(rl::Agent* agent, const float threshold);
 		bool needAvoidance(const float minTimeToCollision);
 	};
-	
+
 	%feature("director") SteeringBehaviour;
 	class SteeringBehaviour
 	{
@@ -58,28 +58,28 @@ namespace rl
 		virtual void update(const float elapsedTime)=0;
 
 		virtual float calculateActivation()=0;
-		
+
 		float getActivationLevel();
 		void setActivationLevel(float activationLevel);
 
 		rl::SteeringBehaviour* getParent();
 		rl::SteeringVehicle* getController();
 	};
-	
+
 	%feature("director") AgentState;
     class AgentState
     {
     private:
         AgentState(rl::Agent* agent);
     };
-    
-    
+
+
     class AgentSteeringState : public rl::AgentState
     {
     public:
         void addSteeringBehaviour(SteeringBehaviour* behaviour);
     };
-   
+
     class AgentDialogState : public rl::AgentState
     {
     public:
@@ -90,7 +90,7 @@ namespace rl
     };
 
     typedef enum {AST_STEERING, AST_COMBAT, AST_DIALOG} AgentStateType;
-	
+
 	class Agent
 	{
 	public:
@@ -101,12 +101,12 @@ namespace rl
         void pushState(rl::AgentStateType type);
 	};
 
-	class AiSubsystem 
+	class AiSubsystem
 	{
 	public:
 		static AiSubsystem& getSingleton(void);
 	};
-	
+
 	%feature("director") BehaviourFactory;
     class BehaviourFactory
     {
@@ -116,16 +116,16 @@ namespace rl
 
         virtual rl::SteeringBehaviour* createBehaviour(const Ogre::String& classname) = 0;
     };
-    
+
 	class AgentManager
 	{
-	public:		
+	public:
 		static AgentManager& getSingleton(void);
 		rl::Agent* createAgent(rl::Creature* character);
-		
+
         virtual void setBehaviourFactory(BehaviourFactory* factory);
 	};
-	
+
 	class AStarHeuristic
 	{
 	public:
@@ -133,7 +133,7 @@ namespace rl
 		virtual ~AStarHeuristic();
 		virtual float calcDistance(const Ogre::Vector3& vec1, const Ogre::Vector3& vec2) const = 0;
 	};
-	
+
 	class ManhattanDistance
 		: public rl::AStarHeuristic
 	{
@@ -168,26 +168,26 @@ namespace rl
 		EuclideanDistanceSquared();
 		virtual ~EuclideanDistanceSquared();
 		virtual float calcDistance(const Ogre::Vector3& vec1, const Ogre::Vector3& vec2) const;
-	}; 
-	
+	};
+
 	class AStarCosts
 	{
 	public:
-		AStarCosts(const rl::AStarHeuristic* Heuristic, float TieBreakFactor);	
+		AStarCosts(const rl::AStarHeuristic* Heuristic, float TieBreakFactor);
 		virtual ~AStarCosts();
 		virtual float calcCost(const rl::WayPointGraph* WPGraph, const rl::AStarWayPointNode* wp1,
 			const rl::AStarWayPointNode* wp2) const = 0;
 	};
-	
+
 	class AStarCostsDefault : public AStarCosts
 	{
 	public:
-		AStarCostsDefault(const rl::AStarHeuristic* Heuristic, float TieBreakFactor);	
+		AStarCostsDefault(const rl::AStarHeuristic* Heuristic, float TieBreakFactor);
 		~AStarCostsDefault();
 		virtual float calcCost(const rl::WayPointGraph* WPGraph, const rl::AStarWayPointNode* wp1,
 			const rl::AStarWayPointNode* wp2) const;
 	};
-	
+
 	class AStar
 	{
 	public:
@@ -195,40 +195,40 @@ namespace rl
 		//AStar( const rl::AStarCosts* Costs, const rl::WayPointGraph* WPGraph,
 		//	const Ogre::Vector3& StartPos, const Ogre::Vector3& EndPos );
 		virtual ~AStar();
-		
+
 		void search(std::vector<Ogre::Vector3>& resultPath);
 		void searchFromTo(std::vector<Ogre::Vector3>& resultPath,
 			const Ogre::Vector3& StartPos, const Ogre::Vector3& EndPos );
 		void reset();
 	};
-	
+
     class PhysicalObstacle {
-        
+
         public:
             PhysicalObstacle(rl::PhysicalThing *thing);
             virtual ~PhysicalObstacle();
-            
+
             OpenSteer::Obstacle *getObstacle() const;
-            
+
             rl::PhysicalThing *getPhysicalThing() const;
             void setPhysicalThing(rl::PhysicalThing *thing);
     };
-    
+
     class WayPointNode
 	{
 	public:
-		enum WayPointNodeType 
+		enum WayPointNodeType
 		{
 			WP_UNKNOWN = 0,
 			WP_EXTERIOR = 1,
 			WP_INTERIOR = 2
 		};
-		
+
 		WayPointNode(const Ogre::Vector3& pos, const rl::WayPointNode::WayPointNodeType type);
 		Ogre::Vector3 getPosition() const;
 	};
-	
-	class WayPointGraph 
+
+	class WayPointGraph
 	{
 	public:
 		WayPointNode* addWayPoint(const Ogre::Vector3& position, const WayPointNode::WayPointNodeType type);
@@ -238,14 +238,14 @@ namespace rl
 		const rl::WayPointNode* getNearestWayPoint(const Ogre::Vector3& position) const;
 		const rl::WayPointNode* getWayPointAt(unsigned int index) const;
 	};
-	
-	class WayPointGraphManager 
+
+	class WayPointGraphManager
 	{
 	public:
 		static WayPointGraphManager& getSingleton(void);
 		rl::WayPointGraph* createWayPointGraph();
 	};
-	
+
 	class Landmark
 	{
 	public:
@@ -253,7 +253,7 @@ namespace rl
 		const Ogre::String& getName() const;
 		const Ogre::Vector3& getPosition() const;
 	};
-	
+
 	class LandmarkPath
 	{
 	public:
@@ -264,7 +264,7 @@ namespace rl
 		void addPoint(rl::Landmark* lm);
         rl::LandmarkPath::LandmarkList getPoints();
 	};
-	
+
     class WalkPathBehaviour : public rl::SteeringBehaviour
 	{
 	public:
@@ -280,7 +280,7 @@ namespace rl
 
 		virtual float calculateActivation();
 	};
-	
+
 	class CreatureWalkPathJob : public Job
     {
     public:
@@ -301,8 +301,8 @@ namespace rl
     {
     public:
         static rl::DialogManager& getSingleton();
-        rl::Dialog* createDialog(const Ogre::String& name, rl::Creature* npc, rl::Creature* pc);
-        rl::Dialog* createDialog(const Ogre::String& name, const std::vector<rl::Creature*>& npcs, const std::vector<rl::Creature*>& pcs);
+        rl::Dialog* createDialog(const Ogre::String& name, rl::Creature* npc);
+        rl::Dialog* createDialog(const Ogre::String& name, const std::list<rl::Creature*>& npcs);
     private:
         DialogManager();
     };
@@ -337,7 +337,7 @@ static swig_type_info *AStarHeuristic_dynamic_cast(void **ptr)
         *ptr=pEuclideanDistanceSquared;
         return SWIGTYPE_p_rl__EuclideanDistanceSquared;
     }
-   
+
     return 0;
 }
 %}
@@ -355,7 +355,7 @@ static swig_type_info *AStarCosts_dynamic_cast(void **ptr)
         *ptr=pAStarCostsDefault;
         return SWIGTYPE_p_rl__AStarCostsDefault;
     }
-   
+
     return 0;
 }
 %}
@@ -373,14 +373,14 @@ static swig_type_info *AgentState_dynamic_cast(void **ptr)
         *ptr=pAgentDialogState;
         return SWIGTYPE_p_rl__AgentDialogState;
     }
-    
+
     rl::AgentSteeringState *pAgentSteeringState = dynamic_cast<rl::AgentSteeringState*>(pAgentState);
     if (pAgentSteeringState)
     {
         *ptr=pAgentSteeringState;
         return SWIGTYPE_p_rl__AgentSteeringState;
     }
-   
+
     return 0;
 }
 %}

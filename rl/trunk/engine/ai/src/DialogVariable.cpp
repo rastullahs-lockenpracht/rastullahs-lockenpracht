@@ -81,19 +81,16 @@ namespace rl
 
     Property TalentProbeVariable::calculateValue(Dialog* dialog)
     {
-        Creature* cr = NULL;
-        if(mTarget == "pc")
+        Creature* cr = dialog->getParticipant(mTarget);
+        if (cr == NULL)
         {
-            cr = dialog->getPc(0); ///@todo allow multiple PCs
+            LOG_ERROR("Dialog", "No or wrong target for talent check ' " + mTalent + "'");
+            return Property(-1);
         }
-        else if (mTarget == "npc")
+        else
         {
-            cr = dialog->getNpc(0);
+            return Property(cr->doTalentprobe(mTalent, mModifier));
         }
-        // if no target was given, use the player character. 
-        // @todo: remove this, target should be required!
-        if(cr == NULL) { cr = dialog->getPc(0);}
-        return Property(cr->doTalentprobe(mTalent, mModifier));
     }
 
     EigenschaftsProbeVariable::EigenschaftsProbeVariable(const rl::CeGuiString &eigenschaft, int modifier, const rl::CeGuiString& target)
@@ -103,26 +100,25 @@ namespace rl
 
     Property EigenschaftsProbeVariable::calculateValue(Dialog* dialog)
     {
-        Creature* cr = NULL;
-        if(mTarget == "pc")
-        {
-            cr = dialog->getPc(0); ///@todo allow multiple PCs
-        }
-        else if (mTarget == "npc")
-        {
-            cr = dialog->getNpc(0);
-        }
-        // if no target was given, use the player character. 
+        Creature* cr = dialog->getParticipant(mTarget);
+        // if no target was given, use the player character.
         // @todo: remove this, target should be required!
-        if(cr == NULL) { cr = dialog->getPc(0);}
-        return Property(cr->doEigenschaftsprobe(mEigenschaft, mModifier));
+        if (cr == NULL)
+        {
+            LOG_ERROR("Dialog", "No or wrong target for attribute check ' " + mEigenschaft + "'");
+            return Property(-1);
+        }
+        else
+        {
+            return Property(cr->doEigenschaftsprobe(mEigenschaft, mModifier));
+        }
     }
-	
+
 	RandomVariable::RandomVariable(int maximum)
 		: DialogVariable("random"), mMaximum(maximum)
 	{
 	}
-	
+
 	Property RandomVariable::calculateValue(Dialog* dialog)
 	{
 		double d = std::rand();

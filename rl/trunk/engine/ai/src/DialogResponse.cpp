@@ -31,7 +31,7 @@ namespace rl
     DialogResponse::~DialogResponse()
     {
     }
-    
+
 
     void DialogResponse::addOption(rl::DialogOption *option)
     {
@@ -77,9 +77,10 @@ namespace rl
         }
     }
 
-    Creature* DialogResponse::getNpc(rl::Dialog *dialog) const
+    const CeGuiString& DialogResponse::getDefaultPerson() const
     {
-        return dialog->getNpc(mNpcId);
+        static CeGuiString PERSON = "npc";
+        return PERSON;
     }
 
     DialogResponseSelection::DialogResponseSelection(const CeGuiString& id)

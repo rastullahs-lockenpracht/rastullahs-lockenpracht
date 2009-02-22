@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -24,11 +24,11 @@ namespace rl
 {
     class Dialog;
     class DialogImplication;
-	class DialogOption;   
+	class DialogOption;
     class Creature;
 
     /**
-     * The reponse a DialogCharacter can give in a Dialog
+     * The response a DialogCharacter can give in a Dialog
      */
     class _RlAiExport DialogResponse : public DialogElement
     {
@@ -39,7 +39,6 @@ namespace rl
         DialogResponse(const CeGuiString& id, int npcId = 0);
         virtual ~DialogResponse();
 
-
         void addOption(DialogOption* option);
         void addImplication(DialogImplication* effect);
         virtual const Options& getOptions(Dialog* dialog) const;
@@ -47,14 +46,15 @@ namespace rl
 
         void applyImplications(Dialog* dialog);
 
-        Creature* getNpc(Dialog* dialog) const;
+    protected:
+        virtual const CeGuiString& getDefaultPerson() const;
 
     private:
         Options mOptions;
         Implications mEffects;
         int mNpcId;
     };
-    
+
     class DialogResponseSelection : public DialogSelection<DialogResponse>
     {
     public:

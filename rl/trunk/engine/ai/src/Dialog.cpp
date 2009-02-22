@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -18,14 +18,14 @@
 #include "Dialog.h"
 #include "DialogResponse.h"
 
+using namespace std;
+
 namespace rl
 {
 	const Ogre::String Dialog::PROP_EXIT_REQUESTED = "exit_requested";
 
-    Dialog::Dialog(const std::vector<Creature*>& npc, const std::vector<Creature*>& pc)
+    Dialog::Dialog()
     {
-        mNonPlayerCharacters = npc;
-        mPlayerCharacters = pc;
     }
 
     Dialog::~Dialog()
@@ -50,16 +50,6 @@ namespace rl
     void Dialog::addVariable(DialogVariable* variable)
     {
         //mVariables[vkey] = variable;
-    }
-
-    Creature* Dialog::getNpc(int id) const
-    {
-        return mNonPlayerCharacters[id];
-    }
-
-    Creature* Dialog::getPc(int id) const
-    {
-        return mPlayerCharacters[id];
     }
 
     const Property Dialog::getProperty(const CeGuiString& key) const
@@ -104,14 +94,27 @@ namespace rl
         return getProperty(key).getAsString();
     }
 
-    std::vector<Creature*> Dialog::getNonPlayerCharacters() const
+    void Dialog::addParticipant(const CeGuiString& personId, Creature* person)
     {
-        return mNonPlayerCharacters;
+        mParticipantMap[personId] = person;
+        mAllParticipants.push_back(person);
     }
 
-    std::vector<Creature*> Dialog::getPlayerCharacters() const
+    list<Creature*> Dialog::getParticipants() const
     {
-        return mPlayerCharacters;
+        return mAllParticipants;
     }
 
+    Creature* Dialog::getParticipant(const CeGuiString& personId) const
+    {
+        map<CeGuiString, Creature*>::const_iterator it = mParticipantMap.find(personId);
+
+        if (it == mParticipantMap.end())
+        {
+            LOG_ERROR("Dialog", "Could not find participant with ID '" + personId + "'");
+            return NULL;
+        }
+
+        return it->second;
+    }
 }

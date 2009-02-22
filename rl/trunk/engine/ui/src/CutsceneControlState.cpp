@@ -110,4 +110,9 @@ namespace rl {
         CameraPosition cpos = {CPT_ROTATING, position, orientation1, orientation2};
         mPositions.push_back(cpos);
     }
+
+    void CutsceneControlState::clearCameras()
+    {
+        mPositions.clear();
+    }
 }

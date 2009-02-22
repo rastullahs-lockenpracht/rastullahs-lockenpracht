@@ -9,6 +9,8 @@
 
 #include "AiPrerequisites.h"
 
+#include <list>
+
 #include "Properties.h"
 #include "XmlProcessor.h"
 
@@ -24,17 +26,33 @@ namespace rl
     class DialogResponse;
     class DialogVariable;
 	class Property;
-    
+
     class DialogLoaderImpl : private XmlProcessor
     {
     public:
         DialogLoaderImpl();
         ~DialogLoaderImpl();
-        
-        Dialog* createDialog(const Ogre::String& name, const std::vector<Creature*>& pcs, const std::vector<Creature*>& npcs) const;
+
+        Dialog* createDialog(const Ogre::String& name, const std::list<Creature*>& participants) const;
         void parseDialog(Ogre::DataStreamPtr& stream, const Ogre::String& groupName);
 
     private:
+        class DialogParticipant
+        {
+        public:
+            DialogParticipant(const CeGuiString& personId,
+                    int goId, const CeGuiString& goClass, const CeGuiString& name);
+
+            bool isMatching(Creature* go) const;
+            const CeGuiString& getPersonId() const;
+
+        private:
+            const CeGuiString& mPersonId;
+            int mGoId;
+            const CeGuiString& mGoClass;
+            const CeGuiString& mName;
+        };
+
         class DialogPrototype
         {
         public:
@@ -44,14 +62,17 @@ namespace rl
             DialogOption* getOption(const CeGuiString& id) const;
             void addResponse(DialogResponse* option);
             DialogResponse* getResponse(const CeGuiString& id) const;
-            
+
             void setStartResponse(DialogResponse* response);
-            Dialog* createDialog(const std::vector<Creature*>& pcs, const std::vector<Creature*>& npcs);
+            Dialog* createDialog(const std::list<Creature*>& participants);
             void setProperty(const CeGuiString& key, const Property& value);
-            
+
+            void addParticipant(DialogParticipant* participant);
+
         private:
             std::map<CeGuiString, DialogOption*> mOptionCache;
             std::map<CeGuiString, DialogResponse*> mResponseCache;
+            std::list<DialogParticipant*> mParticipantFilter;
             DialogResponse* mDialogStart;
             PropertyRecord mPropertyVariables;
         };
@@ -69,6 +90,7 @@ namespace rl
         DialogCondition* processConditionClasses(XERCES_CPP_NAMESPACE::DOMElement* conditionXml);
         DialogParagraph* processParagraph(XERCES_CPP_NAMESPACE::DOMElement* paragraphXml);
         DialogImplication* processImplicationClasses(XERCES_CPP_NAMESPACE::DOMNode* implicationXml);
+        DialogParticipant* processPerson(XERCES_CPP_NAMESPACE::DOMElement* personXml);
         void processTranslation(DialogElement* element, XERCES_CPP_NAMESPACE::DOMNode* translationXml);
         void createDialogVariable(XERCES_CPP_NAMESPACE::DOMElement* variableXml, DialogPrototype* dialogPrototype);
         void processElementNodes(XERCES_CPP_NAMESPACE::DOMElement* dialogXml, const Ogre::String& nodeName, DialogPrototype* dialogPrototype);
@@ -77,4 +99,3 @@ namespace rl
 
     };
 }
-
