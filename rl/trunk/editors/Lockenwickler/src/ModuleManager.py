@@ -358,7 +358,7 @@ class Module():
         if isfile(modConfig): # is the modconfig existing?
             f = codecs.open(modConfig, 'r', 'utf-8')
         else:
-            print ("Error: couldn't find module config")
+            print ("Module.isCommon() Error: couldn't find module config")
             return
         isDependencieLine = False
         for i, line in enumerate(f):
@@ -391,7 +391,7 @@ class Module():
         if isfile(modConfig): # is the modconfig existing?
             f = codecs.open(modConfig, 'r', 'utf-8')
         else:
-            print ("Error: couldn't find module config")
+            print ("Module.load: Error: couldn't find module config")
             return
 
         #for i, line in enumerate(f):
@@ -790,8 +790,6 @@ class ModuleManager():
 
         self.userSelectionList = []
 
-
-
     def updatePivots(self):
         newPivotPosition = og.Vector3(0, 0, 0)
 
@@ -838,6 +836,7 @@ class ModuleManager():
 
     def startDropModelAction(self, meshFile, ray):
         self.dropEntity = self.sceneManager.createEntity("dropMesh" + str(self.dropCount), str(meshFile))
+
         self.dropNode = self.currentMap.mapNode.createChild("entity_dropNode" + str(self.dropCount))
         self.dropNode.attachObject(self.dropEntity)
 

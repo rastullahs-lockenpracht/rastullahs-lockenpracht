@@ -107,8 +107,9 @@ class NewModuleWizard(QDialog, Ui_Dialog):
             script = script[len(script) - 1]
             sdeps = sdeps + str("       require " + script + "\n")
         
-        
-        f = open(os.path.join(modulePath, "scripts\\") + "moduleconfig.rb", "w")
+        p = os.path.join(modulePath, "scripts")
+        p = os.path.join(p, "moduleconfig.rb")
+        f = open(p, "w")
         f.write("include RlScript\n")
         f.write("\n\n")
         f.write("class " + mname.capitalize() + "Module < ContentModule\n")

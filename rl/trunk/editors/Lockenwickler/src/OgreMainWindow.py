@@ -314,7 +314,6 @@ class OgreMainWindow(QWidget):
     def getHeight():
         return self.ogreWidget.getHeight()
 
-
     def updateCamera(self):        
         if self.moveCamForward:
             self.ogreWidget.dollyCamera(og.Vector3( 0, 0,-0.2))
@@ -327,3 +326,6 @@ class OgreMainWindow(QWidget):
         
         if self.moduleManager.pivot:
             self.moduleManager.pivot.update()
+            
+    def updateRenderWindow(self):
+        self.ogreWidget.update()

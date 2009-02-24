@@ -40,7 +40,9 @@ class PreferencesDialog(QDialog):
         layout.addWidget(self.modulConfigSelector, 1, 1)
 
         self.setLayout(layout)
-
+        
+        self.moduleCfgPath = None
+        
         QObject.connect(self.modulConfigSelector, SIGNAL("clicked()"),
                                self.openModulConfigSelector)
 
@@ -68,7 +70,6 @@ class PreferencesDialog(QDialog):
 
         if isfile(self.moduleCfgPath):
             self.lineEdit.setText(self.moduleCfgPath)
-
 
 
     def onLoadSelectedModule(self):

@@ -41,19 +41,22 @@ class OgreWidget(QtGui.QWidget):
 
     def initOgreWindow(self, renderWindowName, cameraName):
         self.renderParameters = og.NameValuePairList()
+        
+        win = str(int(self.winId()))
+        self.renderParameters['parentWindowHandle'] = win
 
-        if platform.system() == "Windows" or platform.system() == "MAC":
-            hwnd = int(self.winId())
-            self.renderParameters['externalWindowHandle'] = str(hwnd)
-        else:
-            import sip
-            info = self.x11Info()
-            disp =  str(sip.unwrapinstance(info.display()))
-            scr = str(info.screen())
-            win = str(int(self.winId()))
-            winHandle = disp + ':' + scr + ':' + win
-            
-            self.renderParameters['parentWindowHandle'] = winHandle
+#        if platform.system() == "Windows" or platform.system() == "MAC":
+#            hwnd = int(self.winId())
+#            self.renderParameters['externalWindowHandle'] = str(hwnd)
+#        else:
+#            import sip
+#            info = self.x11Info()
+#            disp =  str(sip.unwrapinstance(info.display()))
+#            scr = str(info.screen())
+#            win = str(int(self.winId()))
+#            winHandle = disp + ':' + scr + ':' + win
+#            
+#            self.renderParameters['parentWindowHandle'] = win
 
 
     def setBackgroundColor(self, colorValue):
@@ -94,7 +97,7 @@ class OgreWidget(QtGui.QWidget):
                 self.ogreViewportCreatedCallback()
             
             self.painted = True
-
+        
     def resizeEvent(self, event):
         if self.renderWindow:
             self.renderWindow.resize(event.size().width(), event.size().height())
@@ -152,3 +155,8 @@ class OgreWidget(QtGui.QWidget):
     def panCamera( self, horz, vert):
         self.camNode.yaw(horz, og.Node.TS_WORLD)
         self.camNode.pitch(vert, og.Node.TS_LOCAL)
+        
+    def update(self):
+        if self.renderWindow is not None:
+            self.renderWindow.update(True)
+

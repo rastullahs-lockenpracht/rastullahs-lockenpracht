@@ -75,8 +75,10 @@ class Lockenwickler(QtGui.QMainWindow):
         self.restoreState(settings.value("MainWindow/DockWindows").toByteArray())
         if not self.prefDialog.setCfgPath(settings.value("Preferences/moduleCfgPath").toString()):
             self.prefDialog.show()
-
-        self.moduleManager.moduleCfgPath = self.prefDialog.moduleCfgPath
+            self.moduleManager.moduleCfgPath = self.prefDialog.moduleCfgPath
+        else:
+            self.moduleManager.moduleCfgPath = self.prefDialog.moduleCfgPath
+        
         self.moduleManager.setModuleExplorer(self.moduleExplorerWin)
         self.moduleManager.setPropertyWindow(self.objectPropertyWin)
         
@@ -277,15 +279,19 @@ class Lockenwickler(QtGui.QMainWindow):
         oglog.addListener(self.consoleWindow.lockenLog)
 
     def finishEditorSetup(self):
-        og.ResourceGroupManager.getSingleton().addResourceLocation("./media", "FileSystem", "General", False)
-        og.ResourceGroupManager.getSingleton().initialiseAllResourceGroups()
+        if not self.editorSetupFinished:
+            og.ResourceGroupManager.getSingleton().addResourceLocation("./media", "FileSystem", "General", False)
+            og.ResourceGroupManager.getSingleton().initialiseAllResourceGroups()
 
-        self.moduleManager.pivot = Pivot(self.OgreMainWinSceneMgr)
-        self.moduleManager.pivot.hide()
-        self.editorSetupFinished = True
+            self.moduleManager.pivot = Pivot(self.OgreMainWinSceneMgr)
+            self.moduleManager.pivot.hide()
+            self.editorSetupFinished = True
         
     def update(self):
         self.ogreRoot.renderOneFrame()
+        if platform.system() == "Linux":
+            self.ogreMainWindow.updateRenderWindow()
+            self.modelSelectionDialog.updateRenderWindow()
 
     def actionOpenSlot(self):
         self.finishEditorSetup()

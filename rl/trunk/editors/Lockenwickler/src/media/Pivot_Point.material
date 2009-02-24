@@ -141,3 +141,26 @@ material PlainColor
 		}
 	}
 }
+
+fragment_program PlainColorGLSL_FP glsl
+{
+	source PlainColorFP.glsl
+	
+	default_params
+	{
+	      param_named_auto inColor custom 1
+	}
+}
+
+material PlainColorGLSL glsl
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref PlainColorGLSL_FP
+			{
+			}
+		}
+	}
+}

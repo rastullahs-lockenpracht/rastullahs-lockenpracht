@@ -177,3 +177,5 @@ class ModelSelectionDialog(QDialog):
 
         return False
 
+    def updateRenderWindow(self):
+        self.ogreModelPrevWindow.update()
