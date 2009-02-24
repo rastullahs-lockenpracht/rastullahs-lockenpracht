@@ -122,7 +122,7 @@ class SelectionBuffer():
         self.renderTexture.addListener( self.selectionTargetListener )
         self.renderTexture.getViewport(0).setMaterialScheme("aa")
         
-        #self.createRTTOverlays()
+#        self.createRTTOverlays()
 
     def update(self):
         self.updateBufferSize()

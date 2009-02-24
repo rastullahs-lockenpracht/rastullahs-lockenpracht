@@ -142,7 +142,7 @@ material PlainColor
 	}
 }
 
-fragment_program PlainColorGLSL_VP glsl
+vertex_program PlainColorGLSL_VP glsl
 {
 	source PlainColorVP.glsl
 }
