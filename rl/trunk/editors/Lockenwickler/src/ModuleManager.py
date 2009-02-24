@@ -571,18 +571,18 @@ class ModuleManager():
                 self.moduleExplorer.setCurrentModule(m)
                 
         self.moduleExplorer.updateView()
-#        n = self.sceneManager.getRootSceneNode().createChildSceneNode()
-#        e = self.sceneManager.createEntity("west342wt346t",  "UniCube.mesh")
-#        e.setMaterialName("PlainColor")
-#        e.getSubEntity(0).setCustomParameter(1, og.Vector4(0.0, 0.0, 1.0, 1.0))
-#
-#        e2 = self.sceneManager.createEntity("west342wt34635t",  "UniSphere.mesh")
-#        e2.setMaterialName("PlainColor")
-#        e2.getSubEntity(0).setCustomParameter(1, og.Vector4(0, 1, 0, 1))
-#        n.attachObject(e)
-#        n.attachObject(e2)
-#        n.setScale(og.Vector3(10, 5, 20))
-#        
+        n = self.sceneManager.getRootSceneNode().createChildSceneNode()
+        e = self.sceneManager.createEntity("west342wt346t",  "UniCube.mesh")
+        e.setMaterialName("PlainColorGLSL")
+        e.getSubEntity(0).setCustomParameter(1, og.Vector4(0.0, 0.0, 1.0, 1.0))
+
+        e2 = self.sceneManager.createEntity("west342wt34635t",  "UniSphere.mesh")
+        e2.setMaterialName("PlainColor")
+        e2.getSubEntity(0).setCustomParameter(1, og.Vector4(0, 1, 0, 1))
+        n.attachObject(e)
+        n.attachObject(e2)
+        n.setScale(og.Vector3(10, 5, 20))
+        
         if self.selectionBuffer is None:
             self.selectionBuffer = SelectionBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
 

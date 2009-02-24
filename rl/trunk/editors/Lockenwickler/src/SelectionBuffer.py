@@ -50,7 +50,7 @@ class MaterialSwitcher( og.MaterialManager.Listener ):
                 subEntity.setCustomParameter(1, og.Vector4(self.currentColor.r, self.currentColor.g, self.currentColor.b, 1.0))
                 return self.lastTechnique
             else:
-                self.lastTechnique = og.MaterialManager.getSingleton().load("PlainColorGLSL", og.ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME).getBestTechnique()
+                self.lastTechnique = og.MaterialManager.getSingleton().load("PlainColorGLSL", og.ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME).getTechnique(0)
                 
                 self.randomizeColor()
                 subEntity.setCustomParameter(1, og.Vector4(self.currentColor.r, self.currentColor.g, self.currentColor.b, 1.0))

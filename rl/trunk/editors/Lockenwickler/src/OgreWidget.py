@@ -42,12 +42,14 @@ class OgreWidget(QtGui.QWidget):
     def initOgreWindow(self, renderWindowName, cameraName):
         self.renderParameters = og.NameValuePairList()
         
-        win = str(int(self.winId()))
-        self.renderParameters['parentWindowHandle'] = win
 
-#        if platform.system() == "Windows" or platform.system() == "MAC":
-#            hwnd = int(self.winId())
-#            self.renderParameters['externalWindowHandle'] = str(hwnd)
+        if platform.system() == "Windows" or platform.system() == "MAC":
+            hwnd = int(self.winId())
+            self.renderParameters['externalWindowHandle'] = str(hwnd)
+        else:
+            win = str(int(self.winId()))
+            self.renderParameters['parentWindowHandle'] = win
+
 #        else:
 #            import sip
 #            info = self.x11Info()

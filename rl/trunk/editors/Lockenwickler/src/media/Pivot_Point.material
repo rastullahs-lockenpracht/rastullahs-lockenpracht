@@ -142,6 +142,11 @@ material PlainColor
 	}
 }
 
+fragment_program PlainColorGLSL_VP glsl
+{
+	source PlainColorVP.glsl
+}
+
 fragment_program PlainColorGLSL_FP glsl
 {
 	source PlainColorFP.glsl
@@ -158,6 +163,10 @@ material PlainColorGLSL glsl
 	{
 		pass
 		{
+			vertex_program_ref PlainColorGLSL_VP	
+			{
+			}
+			
 			fragment_program_ref PlainColorGLSL_FP
 			{
 			}
