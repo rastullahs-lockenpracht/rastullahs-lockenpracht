@@ -43,6 +43,7 @@ class ObjectPropertyWin(QDialog):
         self.treeWidget.setMinimumSize(QSize(400,400))
         self.treeWidget.setObjectName("treeWidget")
         self.treeWidget.setAlternatingRowColors(True)
+        self.treeWidget.setAnimated(True)
         
         self.retranslateUi()
         QMetaObject.connectSlotsByName(self)
@@ -75,7 +76,7 @@ class ObjectPropertyWin(QDialog):
     def parsePosition(self, node):
         item = QTreeWidgetItem(self.treeWidget)
         item.setText(0, "Position")
-        item.setText(1, str(node.getPosition().x) + " " + str(node.getPosition().y) + " " + str(node.getPosition().z))
+        item.setText(1, str(node.getPosition().x) + ", " + str(node.getPosition().y) + ", " + str(node.getPosition().z))
         
         itemX = QTreeWidgetItem(item)
         itemX.setText(0, "X")
@@ -92,7 +93,7 @@ class ObjectPropertyWin(QDialog):
     def parseOrientation(self, node):
         item = QTreeWidgetItem(self.treeWidget)
         item.setText(0, "Orientation")
-        item.setText(1, str(node.getOrientation().x) + " " + str(node.getOrientation().y) + " " + str(node.getOrientation().z))
+        item.setText(1, str(node.getOrientation().x) + ", " + str(node.getOrientation().y) + ", " + str(node.getOrientation().z))
         
         itemX = QTreeWidgetItem(item)
         itemX.setText(0, "X")
@@ -109,7 +110,7 @@ class ObjectPropertyWin(QDialog):
     def parseScale(self, node):
         item = QTreeWidgetItem(self.treeWidget)
         item.setText(0, "Scale")
-        item.setText(1, str(node.getScale().x) + " " + str(node.getScale().y) + " " + str(node.getScale().z))
+        item.setText(1, str(node.getScale().x) + ", " + str(node.getScale().y) + ", " + str(node.getScale().z))
         
         itemX = QTreeWidgetItem(item)
         itemX.setText(0, "X")

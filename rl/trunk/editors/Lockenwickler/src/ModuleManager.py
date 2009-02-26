@@ -274,10 +274,23 @@ class Map():
         
         nodesElem = xml.SubElement(root, "nodes")
         
-        iter = self.mapNode.getChildIterator()
-        while iter.hasMoreElements():
-            name = iter.getNext().getName()
-            print name
+        i = 0
+        while i < self.mapNode.numChildren():
+            n = self.mapNode.getChild(i)
+            if n.name.startswith("entity_"):
+                entElem = xml.SubElement(nodesElem, "entity")
+                entElem.attrib["name"] = n.getAttachedObject(0).getName()
+                entElem.attrib["meshfile"] = n.getAttachedObject(0).getMesh().getName()
+                
+            i = i+1
+            
+        indent(root)
+        xml.ElementTree(root).write(self.pathToMapFile)
+# caused a linux crash
+#        iter = self.mapNode.getChildIterator()
+#        while iter.hasMoreElements():
+#            name = iter.getNext().getName()
+#            print name
 
 class Scene():
     def __init__(self, moduleroot, pathToFile, sceneManager, ogreRoot, gocManager, emptyScene = False, sceneName = "NewScene"):
@@ -571,17 +584,18 @@ class ModuleManager():
                 self.moduleExplorer.setCurrentModule(m)
                 
         self.moduleExplorer.updateView()
-        n = self.sceneManager.getRootSceneNode().createChildSceneNode()
-        e = self.sceneManager.createEntity("west342wt346t",  "UniCube.mesh")
-        e.setMaterialName("PlainColorGLSL")
-        e.getSubEntity(0).setCustomParameter(1, og.Vector4(0.0, 0.0, 1.0, 1.0))
-
-        e2 = self.sceneManager.createEntity("west342wt34635t",  "UniSphere.mesh")
-        e2.setMaterialName("PlainColor")
-        e2.getSubEntity(0).setCustomParameter(1, og.Vector4(0, 1, 0, 1))
-        n.attachObject(e)
-        n.attachObject(e2)
-        n.setScale(og.Vector3(10, 5, 20))
+        
+#        n = self.sceneManager.getRootSceneNode().createChildSceneNode()
+#        e = self.sceneManager.createEntity("west342wt346t",  "UniCube.mesh")
+#        e.setMaterialName("PlainColorGLSL")
+#        e.getSubEntity(0).setCustomParameter(1, og.Vector4(0.0, 0.0, 1.0, 1.0))
+#
+#        e2 = self.sceneManager.createEntity("west342wt34635t",  "UniSphere.mesh")
+#        e2.setMaterialName("PlainColor")
+#        e2.getSubEntity(0).setCustomParameter(1, og.Vector4(0, 1, 0, 1))
+#        n.attachObject(e)
+#        n.attachObject(e2)
+#        n.setScale(og.Vector3(10, 5, 20))
         
         if self.selectionBuffer is None:
             self.selectionBuffer = SelectionBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
@@ -835,6 +849,9 @@ class ModuleManager():
         print "sd"
 
     def startDropModelAction(self, meshFile, ray):
+        if self.currentMap is None:
+            return
+            
         self.dropEntity = self.sceneManager.createEntity("dropMesh" + str(self.dropCount), str(meshFile))
 
         self.dropNode = self.currentMap.mapNode.createChild("entity_dropNode" + str(self.dropCount))
@@ -849,6 +866,9 @@ class ModuleManager():
         self.dropCount += 1
 
     def moveDropModelAction(self, ray):
+        if self.currentMap is None:
+            return
+            
         result = og.Math.intersects(ray, self.dropCollisionPlane)
         if result.first == True:
             self.dropNode.setPosition(ray.getPoint(result.second))

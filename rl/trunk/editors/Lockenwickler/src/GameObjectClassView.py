@@ -28,7 +28,8 @@ class GoTreeWidget(QTreeWidget):
     def __init__(self, parent = None):
         super(GoTreeWidget, self).__init__(parent)
         self.setDragEnabled(True)
-
+        self.setAnimated(True)
+        
     def startDrag(self,  dropActions):
         data = QByteArray()
         stream = QDataStream(data,  QIODevice.WriteOnly)
