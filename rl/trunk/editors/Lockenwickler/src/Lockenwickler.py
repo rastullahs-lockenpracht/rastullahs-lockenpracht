@@ -57,7 +57,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.setupOgre()
 
         self.prefDialog = PreferencesDialog(self)
-        self.objectPropertyWin = ObjectPropertyWin(self)
+        self.objectPropertyWin = ObjectPropertyWin(self.OgreMainWinSceneMgr, self)
         self.moduleExplorerWin = ModuleExplorer(self)
         self.modelSelectionDialog = ModelSelectionDialog(self.ogreRoot, self)
         self.moduleManager.modelSelectionDialog = self.modelSelectionDialog
@@ -146,10 +146,10 @@ class Lockenwickler(QtGui.QMainWindow):
         self.actionNeu =self.createAction("&New Module",  self.actionNewSlot,  QKeySequence.New,  "filenew.png",  "New Module")
         self.actionNeu.setObjectName("actionNeu")
 
-        self.actionOpen = self.createAction("&Open Module",  self.actionOpenSlot,  QKeySequence.Open,  "filenew.png",  "Open Module")
+        self.actionOpen = self.createAction("&Open Module",  self.actionOpenSlot,  QKeySequence.Open,  "fileopen.png",  "Open Module")
         self.actionOpen.setObjectName("actionOpen")
         
-        self.actionSave = self.createAction("&Save",  self.actionSaveSlot,  QKeySequence.Save,  "filenew.png",  "Save Module")
+        self.actionSave = self.createAction("&Save",  self.actionSaveSlot,  QKeySequence.Save,  "filesave.png",  "Save Module")
         self.actionSave.setObjectName("actionSave")
 
         self.actionClose = self.createAction("Quit",  self.actionQuitSlot,  "Alt + Q",  "exit.png",  "Quit")
@@ -403,6 +403,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.fileToolBar.setObjectName("FileToolBar")
         self.fileToolBar.setAllowedAreas(QtCore.Qt.TopToolBarArea | QtCore.Qt.BottomToolBarArea)
         self.fileToolBar.addAction(self.actionNeu)
+        self.fileToolBar.addAction(self.actionOpen)
         self.fileToolBar.addAction(self.actionSave)
         self.fileToolBar.addAction(self.actionClose)
         self.addToolBar(QtCore.Qt.TopToolBarArea, self.fileToolBar)

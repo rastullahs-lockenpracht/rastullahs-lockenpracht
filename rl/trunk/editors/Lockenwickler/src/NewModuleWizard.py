@@ -136,6 +136,7 @@ class NewModuleWizard(QDialog, Ui_Dialog):
         f.write("end\n\n")
 
         f.write("CoreSubsystem.getSingleton().registerModule(" + mname.capitalize() + "Module.new());\n")
+        f.close()
         
         self.moduleManager.resetParsedModuleConfig()
         self.moduleManager.openLoadModuleDialog()
