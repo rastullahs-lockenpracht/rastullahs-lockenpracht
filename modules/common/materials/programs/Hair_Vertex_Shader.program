@@ -1,0 +1,28 @@
+//Effect: Textured
+
+//DirectX 9.0 HLSL Vertex Shader vs_2_0
+vertex_program Hair_Vertex_Shader hlsl
+{
+	source Hair_Vertex_Shader.source
+	target vs_2_0
+	entry_point vs_main
+}
+//DirectX 9.0 HLSL Pixel Shader ps_2_0
+fragment_program Hair_Pixel_Shader hlsl
+{
+	source Hair_Pixel_Shader.source
+	target ps_2_0
+	entry_point ps_main
+}
+
+
+//DirectX 9.0 HLSL Vertex Shader vs_2_0
+vertex_program Hair_Vertex_Shader_glsl glsl
+{
+	source Hair_Vertex_Shader_glsl.source
+}
+//DirectX 9.0 HLSL Pixel Shader ps_2_0
+fragment_program Hair_Pixel_Shader_glsl glsl
+{
+	source Hair_Pixel_Shader_glsl.source
+}
