@@ -111,6 +111,7 @@ class ObjectPropertyWin(QDialog):
                         self.node.setScale(self.node.getScale().x, val, self.node.getScale().z)
                     elif item.text(0) == "Z":
                         self.node.setScale(self.node.getScale().x, self.node.getScale().y, val)
+                        
     def showProperties(self, so):
         # onItemChanged should only be called when the user changes values not when they change by code
         self.disconnect(self.treeWidget, SIGNAL("itemChanged (QTreeWidgetItem *,int)"),
@@ -128,6 +129,20 @@ class ObjectPropertyWin(QDialog):
             n = self.node.getAttachedObject(0).getName()
             item.setText(1, n)
             item.setFlags(item.flags() | Qt.ItemIsEditable)
+            
+            itemMat = QTreeWidgetItem(self.treeWidget)
+            itemMat.setText(0, "Materials")
+            
+            i = 0
+            while i < self.node.getAttachedObject(0).getNumSubEntities():
+                it = QTreeWidgetItem(itemMat)
+                it.setFlags(item.flags() | Qt.ItemIsEditable)
+                it.setText(0, "SubMesh" + str(i))
+                it.setText(1, self.node.getAttachedObject(0).getSubEntity(i).getMaterialName())
+                i += 1
+                
+            
+            #item.setFlags(item.flags() | Qt.ItemIsEditable)
             
             self.parsePosition(self.node)
             self.parseOrientation(self.node)

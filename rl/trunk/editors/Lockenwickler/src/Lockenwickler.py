@@ -31,6 +31,7 @@ from PyQt4 import QtGui, QtCore
 from PreferencesDialog import *
 from ObjectPropertyWin import *
 from ModelSelectionDialog import *
+from MaterialSelectionDialog import *
 from GameObjectClassView import *
 from ConsoleWindow import *
 from ModuleManager import *
@@ -60,7 +61,9 @@ class Lockenwickler(QtGui.QMainWindow):
         self.objectPropertyWin = ObjectPropertyWin(self.OgreMainWinSceneMgr, self)
         self.moduleExplorerWin = ModuleExplorer(self)
         self.modelSelectionDialog = ModelSelectionDialog(self.ogreRoot, self)
+        self.materialSelectionDialog = MaterialSelectionDialog(self.ogreRoot, self)
         self.moduleManager.modelSelectionDialog = self.modelSelectionDialog
+        self.moduleManager.materialSelectionDialog = self.materialSelectionDialog
 
         self.gameObjectClassView = GameObjectClassView(self.moduleManager.gocManager)
 
@@ -196,6 +199,9 @@ class Lockenwickler(QtGui.QMainWindow):
 
         self.actionObject_Selection = self.createAction("&Model Preview Window",  self.toggleModelPreviewWindow,  "Alt + O",  "tux.png",  "Model Preview")
         self.actionObject_Selection.setObjectName("actionObject_Selection")
+        
+        self.actionMaterial_Selection = self.createAction("Material &Preview Window",  self.toggleMaterialPreviewWindow,  "Alt + M",  "colors.png",  "Material Preview")
+        self.actionMaterial_Selection.setObjectName("actionMaterial_Selection")
 
         self.actionGameObjectClass_Selection = self.createAction("&Game Object Class Preview Window",  self.toggleGameObjectViewWindow,  "Alt + G",  "multirow.png",  "GameObjectClass Preview")
         self.actionGameObjectClass_Selection.setObjectName("actionObject_Selection")
@@ -226,6 +232,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.menuView.addAction(self.actionPreferences)
         self.menuView.addAction(self.actionProperty_Window)
         self.menuView.addAction(self.actionObject_Selection)
+        self.menuView.addAction(self.actionMaterial_Selection)
         self.menuView.addAction(self.actionGameObjectClass_Selection)
         self.menuView.addAction(self.actionConsole_Window)
         self.menubar.addAction(self.menuFile.menuAction())
@@ -292,6 +299,7 @@ class Lockenwickler(QtGui.QMainWindow):
         if platform.system() == "Linux":
             self.ogreMainWindow.updateRenderWindow()
             self.modelSelectionDialog.updateRenderWindow()
+            self.materialSelectionDialog.updateRenderWindow()
 
     def actionOpenSlot(self):
         self.finishEditorSetup()
@@ -343,6 +351,12 @@ class Lockenwickler(QtGui.QMainWindow):
             self.modelSelectionDock.show()
         else:
             self.modelSelectionDock.hide()
+    
+    def toggleMaterialPreviewWindow(self):
+        if self.materialSelectionDock.isHidden():
+            self.materialSelectionDock.show()
+        else:
+            self.materialSelectionDock.hide()
 
     def toggleGameObjectViewWindow(self):
         if self.gameObjectClassViewDock.isHidden():
@@ -380,6 +394,12 @@ class Lockenwickler(QtGui.QMainWindow):
         self.modelSelectionDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
         self.modelSelectionDock.setWidget(self.modelSelectionDialog)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.modelSelectionDock)
+        
+        self.materialSelectionDock = QtGui.QDockWidget(self.tr("Materials"), self)
+        self.materialSelectionDock.setObjectName("MaterialSelectionDockWindow")
+        self.materialSelectionDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
+        self.materialSelectionDock.setWidget(self.materialSelectionDialog)
+        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.materialSelectionDock)
 
         self.gameObjectClassViewDock = QtGui.QDockWidget(self.tr("GameObjectClasses"), self)
         self.gameObjectClassViewDock.setObjectName("GameObjectClassView")

@@ -30,9 +30,9 @@ import ogre.renderer.OGRE as og
 
 # The drag events are processed in ObgreMainWindow.py
 
-class ModelListWidget(QListWidget):
+class MaterialListWidget(QListWidget):
     def __init__(self,  parent):
-        super(ModelListWidget, self).__init__(parent)
+        super(MaterialListWidget, self).__init__(parent)
         self.setDragEnabled(True)
 
     def startDrag(self,  dropActions):
@@ -40,29 +40,29 @@ class ModelListWidget(QListWidget):
         stream = QDataStream(data,  QIODevice.WriteOnly)
         stream << self.currentItem().text()
         mimeData = QMimeData()
-        mimeData.setData("application/x-static_model", data)
+        mimeData.setData("application/x-material", data)
         drag = QDrag(self)
         drag.setMimeData(mimeData)
         drag.start(Qt.CopyAction)
 
-class ModelSelectionDialog(QDialog):
+class MaterialSelectionDialog(QDialog):
     def __init__(self, ogreRoot, parent=None):
         QDialog.__init__(self, parent)
         self.ogreRoot = ogreRoot
 
         self.setupUi()
 
-        self.connect(self.modelSearchBox, SIGNAL("textChanged(QString)"),
-                               self.updateModelList)
+        self.connect(self.materialSearchBox, SIGNAL("textChanged(QString)"),
+                               self.updateMaterialList)
 
         self.connect(self.listWidget, SIGNAL("itemSelectionChanged ()"),
-                               self.setPreviewedModel)
+                               self.setPreviewedMaterial)
 
-        self.modelList = []
+        self.materialList = []
 
-        self.ogreModelPrevWindow.setBackgroundColor(og.ColourValue(0,1,0))
+        self.ogreMaterialPrevWindow.setBackgroundColor(og.ColourValue(0,1,0))
 
-        self.node = self.ogreModelPrevWindowSceneMgr.getRootSceneNode().createChildSceneNode()
+        self.node = self.ogreMaterialPrevWindowSceneMgr.getRootSceneNode().createChildSceneNode()
         self.ent = None
         self.nodeScale = og.Vector3(1,1,1)
 
@@ -72,74 +72,77 @@ class ModelSelectionDialog(QDialog):
 
 
     def setupUi(self):
-        self.setObjectName("modelPreviewDialog")
+        self.setObjectName("materialPreviewDialog")
         self.resize(QSize(QRect(0,0,272,744).size()).expandedTo(self.minimumSizeHint()))
 
         self.gridlayout = QGridLayout(self)
         self.gridlayout.setObjectName("gridlayout")
 
-        self.modelSearchBox = QLineEdit(self)
-        self.modelSearchBox.setObjectName("modelSearchBox")
-        self.gridlayout.addWidget(self.modelSearchBox,0,0,1,1)
+        self.materialSearchBox = QLineEdit(self)
+        self.materialSearchBox.setObjectName("materialSearchBox")
+        self.gridlayout.addWidget(self.materialSearchBox,0,0,1,1)
 
         self.splitter = QSplitter(self)
         self.splitter.setOrientation(Qt.Vertical)
         self.splitter.setObjectName("splitter")
 
-        self.listWidget = ModelListWidget(self.splitter)
+        self.listWidget = MaterialListWidget(self.splitter)
         self.listWidget.setObjectName("listWidget")
 
-        self.ogreModelPrevWindowSceneMgr = self.ogreRoot.createSceneManager(og.ST_GENERIC,"ogreModelPrevWindowSceneMgr")
-        self.ogreModelPrevWindow = OgreWidget.OgreWidget("ModelPrevWin", self.ogreRoot, self.ogreModelPrevWindowSceneMgr, "PrevCam",
+        self.ogreMaterialPrevWindowSceneMgr = self.ogreRoot.createSceneManager(og.ST_GENERIC,"ogreMaterialPrevWindowSceneMgr")
+        self.ogreMaterialPrevWindow = OgreWidget.OgreWidget("MaterialPrevWin", self.ogreRoot, self.ogreMaterialPrevWindowSceneMgr, "MaterialPrevCam",
                                                          self.splitter)
-        self.ogreModelPrevWindow.setOgreViewportCreatedCallback(self.ogreViewportCreatedCallback)                                                 
+        self.ogreMaterialPrevWindow.setBackgroundColor(og.ColourValue(1.0, 1.0, 1.0, 1.0))
+        self.ogreMaterialPrevWindow.setOgreViewportCreatedCallback(self.ogreViewportCreatedCallback)                                                 
         
         
-        self.ogreModelPrevWindow.setMinimumSize(QSize(200,200))
-        self.ogreModelPrevWindow.setObjectName("modelPreviewWindow")
+        self.ogreMaterialPrevWindow.setMinimumSize(QSize(200,200))
+        self.ogreMaterialPrevWindow.setObjectName("materialPreviewWindow")
         self.gridlayout.addWidget(self.splitter,1,0,1,1)
 
         self.retranslateUi()
 
     def ogreViewportCreatedCallback(self):
-        self.ogreModelPrevWindow.renderWindow.getViewport(0).setOverlaysEnabled(False)
+        self.ogreMaterialPrevWindow.renderWindow.getViewport(0).setOverlaysEnabled(False)
         
     def retranslateUi(self):
-        self.setWindowTitle(QApplication.translate("modelPreviewDialog", "Dialog", None, QApplication.UnicodeUTF8))
+        self.setWindowTitle(QApplication.translate("materialPreviewDialog", "Dialog", None, QApplication.UnicodeUTF8))
 
-    def setPreviewedModel(self):
-        if self.ent != None:
-            self.ogreModelPrevWindowSceneMgr.destroyEntity(self.ent.getName())
+    def setPreviewedMaterial(self):
+        if self.ent == None:
+            self.ent = self.ogreMaterialPrevWindowSceneMgr.createEntity("MaterialPrevEntity9993944", "UniCube.mesh")
+            self.nodeScale = og.Vector3(1,1,1)
 
-        self.nodeScale = og.Vector3(1,1,1)
+            self.node.attachObject(self.ent)
+            self.node.setScale(og.Vector3(6,6,6))
+        self.ent.setMaterialName(str(self.listWidget.currentItem().text()))
 
-        self.ent = self.ogreModelPrevWindowSceneMgr.createEntity(str(self.listWidget.currentItem().text()),
-                                                                 str(self.listWidget.currentItem().text()))
-        self.node.attachObject(self.ent)
-        self.node.setScale(og.Vector3(1,1,1))
-        bb = self.ent.getBoundingBox()
-
-    def scanDirForModels(self, dir):
+    def scanDirForMaterials(self, dir):
         for file in os.listdir(dir):
             curFile = dir + "/" + file
 
             if file.startswith('.'): #ignore dot files (hidden)
                 continue
             if isdir(curFile):
-                self.scanDirForModels(curFile)
+                self.scanDirForMaterials(curFile)
                 continue
             if isfile(curFile):
-                if file.endswith(".mesh"):
-                    self.modelList.append(file)
-                    self.listWidget.addItem(file)
-
+                if file.endswith(".material"):
+                    f = open(curFile, "r")
+                    for line in f:
+                        if line.startswith("material "):
+                            l = line.replace("material ", "").lstrip().rstrip()
+                            self.materialList.append(l)
+                            self.listWidget.addItem(l)
+                        
+                    f.close()
         self.listWidget.sortItems()
 
-    def updateModelList(self, text):
+    def updateMaterialList(self, text):
         self.listWidget.clear()
-        for model in self.modelList:
-            if model.find(text) != -1:
-               self.listWidget.addItem(model)
+        for material in self.materialList:
+            if material.find(text) != -1:
+               self.listWidget.addItem(material)
 
         self.listWidget.sortItems()
 
@@ -154,9 +157,9 @@ class ModelSelectionDialog(QDialog):
     def event(self, event):
         if event.type() == 31: # scroll wheel turned
             if event.delta() < 0:
-                self.ogreModelPrevWindow.zoomCamera(-5)
+                self.ogreMaterialPrevWindow.zoomCamera(-5)
             else:
-                self.ogreModelPrevWindow.zoomCamera( 5)
+                self.ogreMaterialPrevWindow.zoomCamera( 5)
             return True
 
         if event.type() == 5: #mouse moved while button down
@@ -164,7 +167,7 @@ class ModelSelectionDialog(QDialog):
             rotY = (event.globalY() - self.lastMousePosY) * 0.01
 
             if rotX < 0.1 and rotY < 0.1: # first click, don't do anything at all here
-                self.ogreModelPrevWindow.orbitCamera(-rotX,  rotY)
+                self.ogreMaterialPrevWindow.orbitCamera(-rotX,  rotY)
 
             self.lastMousePosX = event.globalX()
             self.lastMousePosY = event.globalY()
@@ -178,4 +181,4 @@ class ModelSelectionDialog(QDialog):
         return False
 
     def updateRenderWindow(self):
-        self.ogreModelPrevWindow.update()
+        self.ogreMaterialPrevWindow.update()

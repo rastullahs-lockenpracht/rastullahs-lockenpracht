@@ -44,10 +44,12 @@ class MaterialSwitcher( og.MaterialManager.Listener ):
        
     # takes into account that one Entity can have multiple SubEntities
     def handleSchemeNotFound(self, index, name, material, lod, subEntity):
+
         temp = str(type(subEntity))
         if temp == "<class 'ogre.renderer.OGRE._ogre_.SubEntity'>":
             if self.lastEntity == subEntity.getParent().getName():
                 subEntity.setCustomParameter(1, og.Vector4(self.currentColor.r, self.currentColor.g, self.currentColor.b, 1.0))
+                #print str(subEntity.getParent().getRenderQueueGroup())
                 return self.lastTechnique
             else:
                 self.lastTechnique = og.MaterialManager.getSingleton().load("PlainColorGLSL", og.ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME).getTechnique(0)

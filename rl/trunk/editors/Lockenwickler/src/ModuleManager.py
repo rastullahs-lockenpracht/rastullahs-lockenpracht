@@ -494,6 +494,7 @@ class ModuleManager():
         self.sceneManager = sceneManager
         self.ogreRoot = ogreRoot
         self.modelSelectionDialog = None
+        self.materialSelectionDialog = None
 
         self.moduleCfgPath = ""
 
@@ -528,7 +529,8 @@ class ModuleManager():
         self.dropNode = None
         self.dropEntity = None
         self.dropCollisionPlane = og.Plane(og.Vector3().UNIT_Y, og.Vector3().ZERO)
-
+        self.dropMat = None
+        
         self.numerOfCopys = 0 #everytime a copy is made this numer is increased to generate unique node and mesh names
         self.moduleConfigIsParsed = False
 
@@ -599,10 +601,12 @@ class ModuleManager():
                             if m2.name == moduleDependencie:
                                 m2.load()
                                 self.modelSelectionDialog.scanDirForModels(m2.moduleRoot)
+                                self.materialSelectionDialog.scanDirForMaterials(m2.moduleRoot)
                                 self.mainModuledependencieList.append(m2)
 
                 m.load()
                 self.modelSelectionDialog.scanDirForModels(m.moduleRoot)
+                self.materialSelectionDialog.scanDirForMaterials(m.moduleRoot)
                 self.mainModule = m
                 self.moduleExplorer.setCurrentModule(m)
                 
@@ -868,14 +872,14 @@ class ModuleManager():
         else:
             self.dropGO.setPosition(ray.getPoint(50))
 
-    def stopDropGameObjectAction(self, ray):
-        print "sd"
+    def finishDropGameObjectAction(self, ray):
+        return
 
     def startDropModelAction(self, meshFile, ray):
         if self.currentMap is None:
             return
             
-        self.dropEntity = self.sceneManager.createEntity("dropMesh" + str(ModuleManager.dropCount), str(meshFile))
+        self.dropEntity = self.sceneManager.createEntity("dropMesh" + str(ModuleManager.dropCount), meshFile)
 
         self.dropNode = self.currentMap.mapNode.createChild("entity_dropNode" + str(ModuleManager.dropCount))
         self.dropNode.attachObject(self.dropEntity)
@@ -897,7 +901,33 @@ class ModuleManager():
             self.dropNode.setPosition(ray.getPoint(result.second))
         else:
             self.dropNode.setPosition(ray.getPoint(50))
+    
+    def finishDropModelAction(self, ray):
+        return
 
-    def stopDropModelAction(self, ray):
-        pass
+    def startDropMaterialAction(self, text):
+        self.dropMat = text
+        
+    def moveDropMaterialAction(self, event):
+        return
 
+    def finishDropMaterialAction(self, screenX, screenY):
+        so = self.selectionBuffer.onSelectionClick(screenX, screenY)
+        if so is not None:
+            if not so.entity.getNumSubEntities() > 1:
+                so.entity.setMaterialName(self.dropMat)
+            else:
+                i = 0
+                text = "Warning this Entity has more than one SubEntities with the folloing materials: \n\n"
+                while i < so.entity.getNumSubEntities():
+                    text += "SubMesh" + str(i) + ":  " + so.entity.getSubEntity(i).getMaterialName() + "\n"
+                    i += 1
+                
+                text += "\n Replace the materials?"
+                reply = QMessageBox.question(None, "Warning: multiple materials",  text,  QMessageBox.Yes|QMessageBox.No)
+                if reply == QMessageBox.Cancel:
+                    return
+                if reply == QMessageBox.Yes:
+                    so.entity.setMaterialName(self.dropMat)
+        
+        

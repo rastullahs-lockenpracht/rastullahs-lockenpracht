@@ -31,6 +31,7 @@ class Pivot():
         self.meshManager = og.MeshManager.getSingleton ()
 
         self.pivotNode = sceneManager.getRootSceneNode().createChildSceneNode("pivotNode")
+
         self.__createMovePivot()
         self.__createRotatePivot()
         self.__createScalePivot()
@@ -44,49 +45,27 @@ class Pivot():
     def __createMovePivot(self):
         self.xMoveEntity = self.sceneManager.createEntity("EditorXArrow",  "Pivot_Arrow.mesh")
         self.xMoveEntity.setMaterialName("Lockenwickler_Pivot_X")
-#        self.xMoveEntity.getSubEntity(0).getMaterial().setDepthCheckEnabled(False)
-#        self.xMoveEntity.getSubEntity(0).getMaterial().setDepthWriteEnabled(False)
-        self.xMoveEntity.setRenderQueueGroup(og.RENDER_QUEUE_OVERLAY)
+        self.xMoveEntity.setRenderQueueGroup(og.RENDER_QUEUE_MAX)
         self.xMoveNode = self.pivotNode.createChildSceneNode()
         self.xMoveNode.attachObject(self.xMoveEntity)
         self.xMoveNode.translate(og.Vector3(2, 0, 0))
         self.xMoveNode.rotate(og.Vector3().UNIT_Y,  og.Degree(90))
-
-#        plane = og.Plane (og.Vector3.UNIT_X, 0)
-#        self.meshManager.createPlane ('EditorXArrowSelectionPlane', 'General', plane, 5, 14, 1, 1, False, 1, 5, 5, (0, 0, 1))
-#        self.xMoveEntitySelectionPlane = self.sceneManager.createEntity ('EditorXArrowSelectionPlane', 'EditorXArrowSelectionPlane')
-#        self.xMoveNodeSelectionPlane = self.xMoveNode.createChildSceneNode()
-#        self.xMoveNodeSelectionPlane.attachObject (self.xMoveEntitySelectionPlane)
-#        self.xMoveNodeSelectionPlane.translate(og.Vector3(0, 0, 5))
-#        self.xMoveEntitySelectionPlane.setMaterialName("Lockenwickler_Pivot_X")
-
-
-
+        
         self.yMoveEntity = self.sceneManager.createEntity("EditorYArrow",  "Pivot_Arrow.mesh")
         self.yMoveEntity.setMaterialName("Lockenwickler_Pivot_Y")
-        self.yMoveEntity.setRenderQueueGroup(og.RENDER_QUEUE_OVERLAY)
+        self.yMoveEntity.setRenderQueueGroup(og.RENDER_QUEUE_MAX)
         self.yMoveNode = self.pivotNode.createChildSceneNode()
         self.yMoveNode.attachObject(self.yMoveEntity)
         self.yMoveNode.translate(og.Vector3(0, 2, 0))
         self.yMoveNode.rotate(og.Vector3().UNIT_X,  og.Degree(-90))
-        #self.yNode.showBoundingBox(True)
-
-#        plane = og.Plane (og.Vector3().UNIT_X, 0)
-#        self.meshManager.createPlane ('EditorYArrowSelectionPlane', 'General', plane, 14, 0, 1, 1, False, 1, 5, 5, (0, 0, 1))
-#        self.yMoveEntitySelectionPlane = self.sceneManager.createEntity ('EditorYArrowSelectionPlane', 'EditorYArrowSelectionPlane')
-#        self.yMoveNodeSelectionPlane = self.xMoveNode.createChildSceneNode()
-#        self.yMoveNodeSelectionPlane.attachObject (self.yMoveEntitySelectionPlane)
-#        self.yMoveNodeSelectionPlane.translate(og.Vector3(0, 5, 0))
-#        self.yMoveEntitySelectionPlane.setMaterialName("Lockenwickler_Pivot_Y")
 
 
         self.zMoveEntity = self.sceneManager.createEntity("EditorZArrow",  "Pivot_Arrow.mesh")
         self.zMoveEntity.setMaterialName("Lockenwickler_Pivot_Z")
-        self.zMoveEntity.setRenderQueueGroup(og.RENDER_QUEUE_OVERLAY)
+        self.zMoveEntity.setRenderQueueGroup(og.RENDER_QUEUE_MAX)
         self.zMoveNode = self.pivotNode.createChildSceneNode()
         self.zMoveNode.attachObject(self.zMoveEntity)
         self.zMoveNode.translate(og.Vector3(0, 0, 2))
-        #self.zNode.showBoundingBox(True)
 
         self.freeMoveEntity = self.sceneManager.createEntity("EditorFreeMoveArrow",  "Pivot_FreeMover.mesh")
         self.freeMoveEntity.setMaterialName("Lockenwickler_FreeMover")
