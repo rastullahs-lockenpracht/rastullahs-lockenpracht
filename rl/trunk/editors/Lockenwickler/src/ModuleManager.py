@@ -540,6 +540,8 @@ class ModuleManager():
         self.selectionBuffer = None
         self.propertyWindow = None
     
+        self.oneClickEntityPlacement = False
+    
     def resetParsedModuleConfig(self):
         self.moduleConfigIsParsed = False
         self.moduleList = []
@@ -654,6 +656,11 @@ class ModuleManager():
         
     # called when a click into Main Ogre Window occurs
     def selectionClick(self, screenX, screenY, ray,  controlDown=False,  shiftDown=False):
+        if self.oneClickEntityPlacement:
+            meshFile = str(self.modelSelectionDialog.listWidget.currentItem().text())
+            self.startDropModelAction(meshFile, ray)
+            return
+            
         so = None
         if self.selectionBuffer is not None:
             so = self.selectionBuffer.onSelectionClick(screenX, screenY)
@@ -692,25 +699,25 @@ class ModuleManager():
             if self.pivot is not None:
                 self.pivot.hide()
 
-        if self.rayLine == None:
-            self.rayLine = self.sceneManager.createManualObject("rayLine")
-            self.rayLine.setDynamic(True)
-            self.sceneManager.getRootSceneNode().createChildSceneNode("raynode").attachObject(self.rayLine)
-
-            self.rayLine.begin("BaseWhiteNoLighting", og.RenderOperation.OT_LINE_STRIP)
-
-            self.rayLine.position(ray.getOrigin())
-            self.rayLine.position( ray.getPoint(10000))
-
-            self.rayLine.end()
-
-        else:
-            self.rayLine.beginUpdate(0)
-
-            self.rayLine.position(ray.getOrigin())
-            self.rayLine.position( ray.getPoint(10000))
-
-            self.rayLine.end()
+#        if self.rayLine == None:
+#            self.rayLine = self.sceneManager.createManualObject("rayLine")
+#            self.rayLine.setDynamic(True)
+#            self.sceneManager.getRootSceneNode().createChildSceneNode("raynode").attachObject(self.rayLine)
+#
+#            self.rayLine.begin("BaseWhiteNoLighting", og.RenderOperation.OT_LINE_STRIP)
+#
+#            self.rayLine.position(ray.getOrigin())
+#            self.rayLine.position( ray.getPoint(10000))
+#
+#            self.rayLine.end()
+#
+#        else:
+#            self.rayLine.beginUpdate(0)
+#
+#            self.rayLine.position(ray.getOrigin())
+#            self.rayLine.position( ray.getPoint(10000))
+#
+#            self.rayLine.end()
 
     def deleteObjects(self):
         if len(self.userSelectionList) < 1:
@@ -884,6 +891,7 @@ class ModuleManager():
 
     def startDropModelAction(self, meshFile, ray):
         if self.currentMap is None:
+            print "No map selected!"
             return
             
         self.dropEntity = self.sceneManager.createEntity("dropMesh" + str(ModuleManager.dropCount), meshFile)
@@ -937,4 +945,5 @@ class ModuleManager():
                 if reply == QMessageBox.Yes:
                     so.entity.setMaterialName(self.dropMat)
         
-        
+    def setOneClickEntityPlacement(self, state):
+        self.oneClickEntityPlacement = state

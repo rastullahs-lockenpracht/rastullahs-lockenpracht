@@ -184,8 +184,11 @@ class Lockenwickler(QtGui.QMainWindow):
         self.actionRotate.setObjectName("actionRotate")
 
         self.actionScale = self.createAction("&Scale",  self.actionScaleSlot,  "x",  "resizecol.png",  "Scale selected object")
-        self.actionRotate.setObjectName("actionRotate")
+        self.actionScale.setObjectName("actionScale")
 
+        self.actionOneClickEntityPlacement = self.createAction("&OneClickEntityPlacement",  self.actionOneClickEntityPlacementSlot,  "",  "resizecol.png",  "Add an Entity just by a click")
+        self.actionOneClickEntityPlacement.setObjectName("actionOneClickEntityPlacement")
+        self.actionOneClickEntityPlacement.setCheckable(True)
 
 #####################################
 #####################################
@@ -228,6 +231,9 @@ class Lockenwickler(QtGui.QMainWindow):
         self.menuEdit.addAction(self.actionCopy)
         self.menuEdit.addAction(self.actionCut)
         self.menuEdit.addAction(self.actionPaste)
+        self.menuEdit.addSeparator()
+        self.menuEdit.addAction(self.actionOneClickEntityPlacement)
+        
 
         self.menuView.addAction(self.actionSceneExplorer)
         self.menuView.addAction(self.actionPreferences)
@@ -342,6 +348,9 @@ class Lockenwickler(QtGui.QMainWindow):
 
     def actionScaleSlot(self):
         self.moduleManager.pivot.setScaleMode()
+
+    def actionOneClickEntityPlacementSlot(self):
+        self.moduleManager.setOneClickEntityPlacement(self.actionOneClickEntityPlacement.isChecked())
 
     def togglePreferencesWindow(self):
         if self.prefDialog.isHidden():
