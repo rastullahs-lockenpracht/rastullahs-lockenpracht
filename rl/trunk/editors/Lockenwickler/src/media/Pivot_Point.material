@@ -4,8 +4,6 @@ material Lockenwickler_Pivot_X
 	{
 		pass
 		{
-			depth_check off
-
 			ambient 1.0 0.0 0.0 0.5
 			diffuse 1.0 0.0 0.0 0.5
 			specular 1.0 0.0 0.0 0.5 12.5
@@ -21,8 +19,6 @@ material Lockenwickler_Pivot_Y
 
 		pass
 		{
-			depth_check off
-
 			ambient 0.0 0.0 1.0 0.5
 			diffuse 0.0 0.0 1.0 0.5
 			specular 0.0 0.0 1.0 0.5 12.5
@@ -37,8 +33,6 @@ material Lockenwickler_Pivot_Z
 	{
 		pass
 		{
-			depth_check off
-
 			ambient 0.0 1.0 0.0 0.5
 			diffuse 0.0 1.0 0.0 0.5
 			specular 0.0 1.0 0.0 0.5 12.5
@@ -53,8 +47,6 @@ material Lockenwickler_FreeMover
 	{
 		pass
 		{	
-			depth_check off
-
 			ambient 0.0 0.0 0.0 0.5
 			diffuse 0.0 0.0 0.0 0.5
 			specular 0.0 0.0 0.0 0.5 12.5

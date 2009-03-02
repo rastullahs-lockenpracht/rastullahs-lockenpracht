@@ -132,8 +132,9 @@ class MaterialSelectionDialog(QDialog):
                     for line in f:
                         if line.startswith("material "):
                             l = line.replace("material ", "").lstrip().rstrip()
-                            self.materialList.append(l)
-                            self.listWidget.addItem(l)
+                            l2 = l.split(":")
+                            self.materialList.append(l2[0])
+                            self.listWidget.addItem(l2[0])
                         
                     f.close()
         self.listWidget.sortItems()

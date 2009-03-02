@@ -282,26 +282,27 @@ class Map():
         i = 0
         while i < self.mapNode.numChildren():
             n = self.mapNode.getChild(i)
-            if n.name.startswith("entity_"):
-                entElem = xml.SubElement(nodesElem, "entity")
-                entElem.attrib["name"] = n.getAttachedObject(0).getName()
-                entElem.attrib["meshfile"] = n.getAttachedObject(0).getMesh().getName()
-                
-                posElem = xml.SubElement(entElem, "position")
-                posElem.attrib["x"] = str(n.getPosition().x)
-                posElem.attrib["y"] = str(n.getPosition().y)
-                posElem.attrib["z"] = str(n.getPosition().z)
-                
-                rotElem = xml.SubElement(entElem, "rotation")
-                rotElem.attrib["qw"] = str(n.getOrientation().w)
-                rotElem.attrib["qx"] = str(n.getOrientation().x)
-                rotElem.attrib["qy"] = str(n.getOrientation().y)
-                rotElem.attrib["qz"] = str(n.getOrientation().z)
-                
-                scaleElem = xml.SubElement(entElem, "scale")
-                scaleElem.attrib["x"] = str(n.getScale().x)
-                scaleElem.attrib["y"] = str(n.getScale().y)
-                scaleElem.attrib["z"] = str(n.getScale().z)
+            if n.numAttachedObjects() > 0:
+                if n.name.startswith("entity_"):
+                    entElem = xml.SubElement(nodesElem, "entity")
+                    entElem.attrib["name"] = n.getAttachedObject(0).getName()
+                    entElem.attrib["meshfile"] = n.getAttachedObject(0).getMesh().getName()
+                    
+                    posElem = xml.SubElement(entElem, "position")
+                    posElem.attrib["x"] = str(n.getPosition().x)
+                    posElem.attrib["y"] = str(n.getPosition().y)
+                    posElem.attrib["z"] = str(n.getPosition().z)
+                    
+                    rotElem = xml.SubElement(entElem, "rotation")
+                    rotElem.attrib["qw"] = str(n.getOrientation().w)
+                    rotElem.attrib["qx"] = str(n.getOrientation().x)
+                    rotElem.attrib["qy"] = str(n.getOrientation().y)
+                    rotElem.attrib["qz"] = str(n.getOrientation().z)
+                    
+                    scaleElem = xml.SubElement(entElem, "scale")
+                    scaleElem.attrib["x"] = str(n.getScale().x)
+                    scaleElem.attrib["y"] = str(n.getScale().y)
+                    scaleElem.attrib["z"] = str(n.getScale().z)
                 
             i = i+1
             
@@ -438,6 +439,7 @@ class Module():
         except og.OgreException, e:
             print e
         
+        
         cmd = join(self.moduleRoot, "dsa/*.gof")
         self.gofFiles = glob.glob(cmd)
         self.gocManager.parseGOFFiles(self.gofFiles)
@@ -464,15 +466,16 @@ class Module():
 
         for file in os.listdir(rootFolder):
             curFile = join(rootFolder, file)
-
+            if file == "WindyGrass.program":
+                print "yes!"
 
             if file.startswith('.'): #ignore dot files (hidden)
                 continue
-            if os.path.isdir(curFile):
+            elif os.path.isdir(curFile):
                 og.ResourceGroupManager.getSingleton().addResourceLocation(curFile, "FileSystem", self.name, False)
                 self.setResourcePaths(curFile)
-            if os.path.isfile(curFile):
-                pass
+            elif os.path.isfile(curFile):
+                continue
                 
     def getMap(self, mapName, sceneName = None):
         if sceneName is not None:
@@ -716,7 +719,10 @@ class ModuleManager():
         self.pivot.hide()
 
         for so in self.userSelectionList:
-            self.sceneManager.destroySceneNode(so.entity.getParentNode().getName())
+            node = so.entity.getParentNode()
+            node.detachAllObjects()
+            self.sceneManager.destroySceneNode(node)
+            self.sceneManager.destroyEntity(so.entity)
             del so
 
         self.userSelectionList = []
@@ -753,7 +759,7 @@ class ModuleManager():
 
                     if go is not None:
                         newEntity = self.sceneManager.createEntity("dropMesh" + str(ModuleManager.dropCount), str(meshFile))
-                        newNode = self.sceneManager.getRootSceneNode().createChild("dropNode" + str(ModuleManager.dropCount))
+                        newNode = self.currentMap.mapNode.createChild("gameObject_dropNode" + str(ModuleManager.dropCount))
                         newNode.attachObject(newEntity)
                         newNode.setPosition(so.entity.getParentNode().getPosition())
 
@@ -767,10 +773,10 @@ class ModuleManager():
                         newSelectionList.append(newSO)
                         ModuleManager.dropCount += 1
             else:
-                nodeName = self.incrementNameSuffixNumber(so.entity.getParentNode().getName())
-                newNode = self.sceneManager.getRootSceneNode().createChild(nodeName)
+                nodeName = "entity_dropNode" + str(ModuleManager.dropCount)
+                newNode = self.currentMap.mapNode.createChild(nodeName)
 
-                entityName = self.incrementNameSuffixNumber(so.entity.getName())
+                entityName = "dropMesh" + str(ModuleManager.dropCount)
                 newEntity = self.sceneManager.createEntity(entityName, so.entity.getMesh().getName())
 
                 newNode.attachObject(newEntity)
@@ -781,6 +787,7 @@ class ModuleManager():
                 newSO = SelectionObject(newEntity)
                 newSO.setSelected(True)
                 newSelectionList.append(newSO)
+                ModuleManager.dropCount += 1
 
         self.resetSelection()
         self.userSelectionList = newSelectionList

@@ -37,6 +37,7 @@ from ConsoleWindow import *
 from ModuleManager import *
 from ModuleExplorer import *
 from NewModuleWizard import *
+from PivotRenderQueueListener import *
 
 import OgreMainWindow
 import ogre.renderer.OGRE as og
@@ -271,8 +272,10 @@ class Lockenwickler(QtGui.QMainWindow):
 
         root.initialise(False)
 
+        self.pivotRenderQueueListener = PivotRenderQueueListener()
         self.OgreMainWinSceneMgr = self.ogreRoot.createSceneManager(og.ST_GENERIC, "OgreMainWinSceneMgr")
         self.OgreMainWinSceneMgr.ambientLight = og.ColourValue(4, 4, 4)
+        self.OgreMainWinSceneMgr.addRenderQueueListener(self.pivotRenderQueueListener)
 
         self.moduleName = ""
         self.moduleManager = ModuleManager(self.ogreRoot,  self.OgreMainWinSceneMgr)

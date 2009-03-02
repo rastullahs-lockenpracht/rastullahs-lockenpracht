@@ -1,5 +1,6 @@
 import ctypes as ctypes
 import random
+import platform
 
 import ogre.renderer.OGRE as og
 
@@ -36,9 +37,15 @@ class MaterialSwitcher( og.MaterialManager.Listener ):
       
         self.currentColor = og.ColourValue(0.0, 0.0, 0.0)
         self.currentColorAsVector3 = og.Vector3()
-        
+
         self.lastEntity = ""
         self.lastTechnique = None
+ 
+
+        if platform.system() == "Windows":
+            self.lastTechnique = og.MaterialManager.getSingleton().load("PlainColor", og.ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME).getTechnique(0)
+        else:
+            self.lastTechnique = og.MaterialManager.getSingleton().load("PlainColorGLSL", og.ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME).getTechnique(0)
         
         self.colorDict = {}
        
@@ -52,8 +59,6 @@ class MaterialSwitcher( og.MaterialManager.Listener ):
                 #print str(subEntity.getParent().getRenderQueueGroup())
                 return self.lastTechnique
             else:
-                self.lastTechnique = og.MaterialManager.getSingleton().load("PlainColorGLSL", og.ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME).getTechnique(0)
-                
                 self.randomizeColor()
                 subEntity.setCustomParameter(1, og.Vector4(self.currentColor.r, self.currentColor.g, self.currentColor.b, 1.0))
                 
@@ -208,9 +213,10 @@ class SelectionBuffer():
                     so = SelectionObject(self.sceneMgr.getEntity(key))
                     so.isPivot = True
                     return so
-                elif key == "EditorFreeMover":
-                    return None
                 elif key == "EditorXRotator" or key == "EditorYRotator" or key == "EditorZRotator":
+                    so = SelectionObject(self.sceneMgr.getEntity(key))
+                    so.isPivot = True
+                elif key == "EditorXScaler" or key == "EditorYScaler" or key == "EditorZScaler":
                     so = SelectionObject(self.sceneMgr.getEntity(key))
                     so.isPivot = True
                     return so

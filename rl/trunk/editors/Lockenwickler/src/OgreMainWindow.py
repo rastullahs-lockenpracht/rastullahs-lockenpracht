@@ -237,7 +237,7 @@ class OgreMainWindow(QWidget):
             text = QString()
             stream >> text
 
-            self.moduleManager.startDropModelAction(text, self.getCameraToViewportRay()) #start the model draging
+            self.moduleManager.startDropModelAction(str(text), self.getCameraToViewportRay()) #start the model draging
 
             event.setDropAction(Qt.CopyAction)
             event.accept()
