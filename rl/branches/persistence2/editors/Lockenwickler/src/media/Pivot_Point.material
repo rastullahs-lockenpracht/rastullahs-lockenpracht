@@ -19,8 +19,6 @@ material Lockenwickler_Pivot_Y
 
 		pass
 		{
-			lighting off
-
 			ambient 0.0 0.0 1.0 0.5
 			diffuse 0.0 0.0 1.0 0.5
 			specular 0.0 0.0 1.0 0.5 12.5
@@ -48,7 +46,7 @@ material Lockenwickler_FreeMover
 	technique
 	{
 		pass
-		{
+		{	
 			ambient 0.0 0.0 0.0 0.5
 			diffuse 0.0 0.0 0.0 0.5
 			specular 0.0 0.0 0.0 0.5 12.5
@@ -137,6 +135,38 @@ material PlainColor
 			fragment_program_ref PlainColor_PS	
 			{
 			      param_named_auto inColor custom 1
+			}
+		}
+	}
+}
+
+vertex_program PlainColorGLSL_VP glsl
+{
+	source PlainColorVP.glsl
+}
+
+fragment_program PlainColorGLSL_FP glsl
+{
+	source PlainColorFP.glsl
+	
+	default_params
+	{
+	      param_named_auto inColor custom 1
+	}
+}
+
+material PlainColorGLSL glsl
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref PlainColorGLSL_VP	
+			{
+			}
+			
+			fragment_program_ref PlainColorGLSL_FP
+			{
 			}
 		}
 	}

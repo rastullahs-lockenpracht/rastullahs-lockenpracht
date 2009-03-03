@@ -26,7 +26,7 @@ import os,sys
 #########################################################################
 ### Override this setting if you are using non standard locations
 
-libpath = "/home/stefan/development/root/usr/lib/"
+libpath = "/home/fusion/development/root/usr/lib/"
 
 #########################################################################
 

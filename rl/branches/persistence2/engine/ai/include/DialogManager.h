@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -18,6 +18,8 @@
 
 #include "AiPrerequisites.h"
 
+#include <list>
+
 #include "Properties.h"
 #include "SaveGameData.h"
 #include "XmlProcessor.h"
@@ -28,8 +30,8 @@ namespace rl
 	class Dialog;
 	class DialogLoader;
 
-    class _RlAiExport DialogManager 
-        : public Ogre::Singleton<DialogManager>, 
+    class _RlAiExport DialogManager
+        : public Ogre::Singleton<DialogManager>,
         public PropertyHolder,
         public SaveGameData
     {
@@ -42,8 +44,8 @@ namespace rl
         DialogManager();
         ~DialogManager();
 
-        Dialog* createDialog(const Ogre::String& name, rl::Creature* npc, rl::Creature* pc);
-        Dialog* createDialog(const Ogre::String& name, const std::vector<Creature*>& pcs, const std::vector<Creature*>& npcs);
+        Dialog* createDialog(const Ogre::String& name, Creature* npc);
+        Dialog* createDialog(const Ogre::String& name, const std::list<Creature*>& npcs);
 
         virtual const Property getProperty(const CeGuiString& key) const;
         virtual void setProperty(const CeGuiString& key, const Property& value);
@@ -54,20 +56,20 @@ namespace rl
         virtual int getPriority() const;
 
     private:
- 
+
         class DialogConfiguration
         {
         public:
-            DialogConfiguration(const Ogre::String& name, const std::vector<Creature*>& npcs);
+            DialogConfiguration(const Ogre::String& name, const std::list<Creature*>& participants);
 
             const Ogre::String& getName() const;
-            const std::vector<Creature*>& getNpcs() const;
-            
+            const std::list<Creature*>& getParticipants() const;
+
             bool operator==(const DialogConfiguration&) const;
             bool operator<(const DialogConfiguration&) const;
         private:
             Ogre::String mDialogName;
-            std::vector<Creature*> mNpcs;
+            std::list<Creature*> mParticipants;
         };
 
 

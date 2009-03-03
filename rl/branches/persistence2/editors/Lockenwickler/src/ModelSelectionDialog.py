@@ -30,9 +30,9 @@ import ogre.renderer.OGRE as og
 
 # The drag events are processed in ObgreMainWindow.py
 
-class MyListWidget(QListWidget):
+class ModelListWidget(QListWidget):
     def __init__(self,  parent):
-        super(MyListWidget, self).__init__(parent)
+        super(ModelListWidget, self).__init__(parent)
         self.setDragEnabled(True)
 
     def startDrag(self,  dropActions):
@@ -86,13 +86,14 @@ class ModelSelectionDialog(QDialog):
         self.splitter.setOrientation(Qt.Vertical)
         self.splitter.setObjectName("splitter")
 
-        self.listWidget = MyListWidget(self.splitter)
+        self.listWidget = ModelListWidget(self.splitter)
         self.listWidget.setObjectName("listWidget")
 
         self.ogreModelPrevWindowSceneMgr = self.ogreRoot.createSceneManager(og.ST_GENERIC,"ogreModelPrevWindowSceneMgr")
         self.ogreModelPrevWindow = OgreWidget.OgreWidget("ModelPrevWin", self.ogreRoot, self.ogreModelPrevWindowSceneMgr, "PrevCam",
                                                          self.splitter)
-        self.ogreModelPrevWindow.renderWindow.getViewport(0).setOverlaysEnabled(False)
+        self.ogreModelPrevWindow.setOgreViewportCreatedCallback(self.ogreViewportCreatedCallback)                                                 
+        
         
         self.ogreModelPrevWindow.setMinimumSize(QSize(200,200))
         self.ogreModelPrevWindow.setObjectName("modelPreviewWindow")
@@ -100,7 +101,9 @@ class ModelSelectionDialog(QDialog):
 
         self.retranslateUi()
 
-
+    def ogreViewportCreatedCallback(self):
+        self.ogreModelPrevWindow.renderWindow.getViewport(0).setOverlaysEnabled(False)
+        
     def retranslateUi(self):
         self.setWindowTitle(QApplication.translate("modelPreviewDialog", "Dialog", None, QApplication.UnicodeUTF8))
 
@@ -174,3 +177,5 @@ class ModelSelectionDialog(QDialog):
 
         return False
 
+    def updateRenderWindow(self):
+        self.ogreModelPrevWindow.update()

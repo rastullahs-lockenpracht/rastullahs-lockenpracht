@@ -29,6 +29,7 @@ src/ControlState.cpp
 src/Console.cpp
 src/CutsceneControlState.cpp
 src/DebugWindow.cpp
+src/DialogController.cpp
 src/DialogControlState.cpp
 src/DialogWindow.cpp
 src/FreeflightControlState.cpp

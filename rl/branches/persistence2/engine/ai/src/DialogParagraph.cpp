@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -17,12 +17,17 @@
 
 #include "DialogParagraph.h"
 
+#include "Dialog.h"
+#include "DialogElement.h"
+
+using namespace std;
+
 namespace rl
 {
 
     DialogParagraph::DialogParagraph(
-        const CeGuiString& text, const Ogre::String& voicefile)
-    : mText(text), mVoiceFile(voicefile)
+        const CeGuiString& text, const CeGuiString& person, const Ogre::String& voicefile)
+    : mText(text), mPerson(person), mVoiceFile(voicefile), mParent(NULL)
     {
         // for debug information
         mText.c_str();
@@ -37,6 +42,15 @@ namespace rl
         return mText;
     }
 
+    const CeGuiString& DialogParagraph::getPerson() const
+    {
+        if (mPerson.empty())
+        {
+            return mParent->getPerson();
+        }
+        return mPerson;
+    }
+
     const Ogre::String& DialogParagraph::getVoiceFile() const
     {
         return mVoiceFile;
@@ -47,8 +61,41 @@ namespace rl
         return NULL;
     }
 
+    DialogElement* DialogParagraph::getParent() const
+    {
+        return mParent;
+    }
+
+    void DialogParagraph::_setParent(DialogElement* parent)
+    {
+        mParent = parent;
+    }
+
+    Creature* DialogParagraph::getSpeaker(Dialog* dialog) const
+    {
+        return dialog->getParticipant(getPerson());
+    }
+
+    list<Creature*> DialogParagraph::getListeners(Dialog* dialog) const
+    {
+        Creature* speaker = getSpeaker(dialog);
+
+        list<Creature*> listeners;
+
+        list<Creature*> participants = dialog->getParticipants();
+        for (list<Creature*>::iterator it = participants.begin(), end = participants.end(); it != end; ++it)
+        {
+            if (*it != speaker)
+            {
+                listeners.push_back(*it);
+            }
+        }
+
+        return listeners;
+    }
+
     DialogGotoResponse::DialogGotoResponse(rl::DialogResponse *response)
-        : DialogParagraph("", ""), mResponse(response)
+        : DialogParagraph("", "", ""), mResponse(response)
     {
     }
 
@@ -57,4 +104,3 @@ namespace rl
         return mResponse;
     }
 }
-

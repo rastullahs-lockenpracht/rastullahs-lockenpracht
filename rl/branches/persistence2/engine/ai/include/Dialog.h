@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -22,27 +22,23 @@
 
 namespace rl
 {
+    class Creature;
     class DialogOption;
     class DialogResponse;
     class DialogVariable;
-    class Creature;
 
     class _RlAiExport Dialog : public PropertyHolder
     {
     public:
 		static const Ogre::String PROP_EXIT_REQUESTED;
 
-        Dialog(const std::vector<Creature*>& pc, const std::vector<Creature*>& npc);
+        Dialog();
         ~Dialog();
 
         DialogResponse* getDialogStart() const;
         void setStartResponse(DialogResponse* start);
         void addVariable(DialogVariable* variable);
         void initialize();
-        Creature* getNpc(int id) const;
-        Creature* getPc(int id) const;
-        std::vector<Creature*> getNonPlayerCharacters() const;
-        std::vector<Creature*> getPlayerCharacters() const;
 		bool isExitRequested() const;
         CeGuiString getVariableValue(const Ogre::String& variableName) const;
 
@@ -50,10 +46,14 @@ namespace rl
         virtual void setProperty(const CeGuiString& key, const Property& value);
         virtual PropertyKeys getAllPropertyKeys() const;
 
+        void addParticipant(const CeGuiString& personId, Creature* person);
+        std::list<Creature*> getParticipants() const;
+        Creature* getParticipant(const CeGuiString& id) const;
+
     private:
         DialogResponse* mDialogStart;
-        std::vector<Creature*> mNonPlayerCharacters;
-        std::vector<Creature*> mPlayerCharacters;
+        std::list<Creature*> mAllParticipants;
+        std::map<CeGuiString, Creature*> mParticipantMap;
         std::map<Ogre::String, DialogVariable*> mVariables;
         PropertyRecord mPropertyVariables;
 		bool mExitRequested;

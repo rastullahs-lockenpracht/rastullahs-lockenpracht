@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -22,9 +22,11 @@
 #include "Dialog.h"
 #include "DialogLoader.h"
 #include "GameObjectManager.h"
+#include "PartyManager.h"
 #include "SaveGameManager.h"
 
 using namespace Ogre;
+using namespace std;
 using namespace XERCES_CPP_NAMESPACE;
 
 template<>
@@ -51,8 +53,8 @@ namespace rl
 			mDialogLoader);
 		delete mDialogLoader;
         SaveGameManager::getSingleton().unregisterSaveGameData(this);
-		std::map<DialogConfiguration, Dialog*>::iterator itr = mDialogStates.begin();
-		std::map<DialogConfiguration, Dialog*>::iterator end = mDialogStates.end();
+		map<DialogConfiguration, Dialog*>::iterator itr = mDialogStates.begin();
+		map<DialogConfiguration, Dialog*>::iterator end = mDialogStates.end();
 		for(; itr != end; ++itr)
 		{
 			delete itr->second;
@@ -66,7 +68,7 @@ namespace rl
         if (key == DialogManager::PROPERTY_DIALOGS)
         {
             PropertyArray vec;
-            for (std::map<DialogConfiguration, Dialog*>::const_iterator it
+            for (map<DialogConfiguration, Dialog*>::const_iterator it
                 = mDialogStates.begin(); it != mDialogStates.end(); ++it)
             {
                 PropertyMap curDialogProp;
@@ -76,8 +78,8 @@ namespace rl
 
                 PropertyArray npcs;
 
-                for (std::vector<Creature*>::const_iterator itNpc = it->first.getNpcs().begin();
-                    itNpc != it->first.getNpcs().end(); ++itNpc)
+                for (list<Creature*>::const_iterator itNpc = it->first.getParticipants().begin();
+                    itNpc != it->first.getParticipants().end(); ++itNpc)
                 {
                     npcs.push_back(GameObjectManager::getSingleton().toProperty(*itNpc));
                 }
@@ -90,7 +92,7 @@ namespace rl
 
         Throw(IllegalArgumentException, key + " is not a property of DialogManager");
     }
-	
+
 	int DialogManager::getPriority() const
 	{
 		return 50;
@@ -129,43 +131,55 @@ namespace rl
         return "dialogs";
     }
 
-    Dialog* DialogManager::createDialog(const Ogre::String& name, Creature* npc, Creature* pc)
+    Dialog* DialogManager::createDialog(const Ogre::String& name, Creature* npc)
     {
-        std::vector<Creature*> npcs;
+        list<Creature*> npcs;
         npcs.push_back(npc);
-        std::vector<Creature*> pcs;
-        pcs.push_back(pc);
 
-        return createDialog(name, npcs, pcs);
+        return createDialog(name, npcs);
     }
 
-    Dialog* DialogManager::createDialog(const Ogre::String& name, const std::vector<Creature*>& pcs, const std::vector<Creature*>& npcs)
+    Dialog* DialogManager::createDialog(const Ogre::String& name, const list<Creature*>& npcs)
     {
-        std::map<DialogConfiguration, Dialog*>::iterator it 
-            = mDialogStates.find(DialogConfiguration(name, npcs));
+        list<Creature*> participants;
+
+        Party party = PartyManager::getSingleton().getCharacters();
+        for (Party::const_iterator it = party.begin(); it != party.end(); ++it)
+        {
+            participants.push_back(*it);
+        }
+
+        for (list<Creature*>::const_iterator it = npcs.begin(); it != npcs.end(); ++it)
+        {
+            participants.push_back(*it);
+        }
+
+        map<DialogConfiguration, Dialog*>::iterator it
+            = mDialogStates.find(DialogConfiguration(name, participants));
 
         Dialog* dialog;
         if (it != mDialogStates.end())
         {
             dialog = (*it).second;
         }
-        else 
+        else
         {
-			dialog = mDialogLoader->createDialog(name, pcs, npcs); ///@todo save dialogs
-			
-			if (!dialog) 
+			dialog = mDialogLoader->createDialog(name, participants); ///@todo save dialogs
+
+			if (!dialog)
 			{
 				return NULL;
 			}
-			
+
             dialog->initialize();
-            mDialogStates[DialogConfiguration(name, npcs)] = dialog;
+            mDialogStates[DialogConfiguration(name, participants)] = dialog;
         }
 		return dialog;
     }
-	
-    DialogManager::DialogConfiguration::DialogConfiguration(const Ogre::String& name, const std::vector<Creature*>& npcs)
-        : mDialogName(name), mNpcs(npcs)
+
+    DialogManager::DialogConfiguration::DialogConfiguration(const Ogre::String& name,
+            const list<Creature*>& participants)
+        : mDialogName(name), mParticipants(participants)
     {
     }
 
@@ -174,9 +188,9 @@ namespace rl
         return mDialogName;
     }
 
-    const std::vector<Creature*>& DialogManager::DialogConfiguration::getNpcs() const
+    const list<Creature*>& DialogManager::DialogConfiguration::getParticipants() const
     {
-        return mNpcs;
+        return mParticipants;
     }
 
     bool DialogManager::DialogConfiguration::operator <(const rl::DialogManager::DialogConfiguration & other) const
@@ -186,8 +200,8 @@ namespace rl
 
     bool DialogManager::DialogConfiguration::operator ==(const rl::DialogManager::DialogConfiguration & other) const
     {
-        return (mDialogName == other.mDialogName) 
-            && (mNpcs == other.mNpcs);
+        return (mDialogName == other.mDialogName)
+            && (mParticipants == other.mParticipants);
     }
 
 

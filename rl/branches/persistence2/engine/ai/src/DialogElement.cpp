@@ -22,8 +22,8 @@
 
 namespace rl
 {
-    DialogElement::DialogElement(const CeGuiString& id)
-        : mId(id)
+    DialogElement::DialogElement(const CeGuiString& id, const CeGuiString& person)
+        : mId(id), mPerson(person)
     {
     }
 
@@ -41,9 +41,20 @@ namespace rl
         return mId;
     }
 
+    const CeGuiString& DialogElement::getPerson() const
+    {
+        if (mPerson.empty())
+        {
+            return getDefaultPerson();
+        }
+
+        return mPerson;
+    }
+
     void DialogElement::addParagraph(DialogParagraph* paragraph)
     {
         mParagraphs.push_back(paragraph);
+        paragraph->_setParent(this);
     }
 
     std::list<DialogParagraph*> DialogElement::getParagraphs(Dialog* dialog)
@@ -55,5 +66,4 @@ namespace rl
 	{
 		return false;
 	}
-
 }

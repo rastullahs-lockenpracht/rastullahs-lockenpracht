@@ -13,6 +13,7 @@
 #include "DialogLoaderImpl.h"
 
 #include "ConfigurationManager.h"
+#include "Creature.h"
 #include "Dialog.h"
 #include "DialogCondition.h"
 #include "DialogElement.h"
@@ -21,9 +22,11 @@
 #include "DialogParagraph.h"
 #include "DialogResponse.h"
 #include "DialogVariable.h"
+#include "PartyManager.h"
 #include "XmlPropertyReader.h"
 
 using namespace Ogre;
+using namespace std;
 using namespace XERCES_CPP_NAMESPACE;
 
 namespace rl
@@ -32,51 +35,50 @@ namespace rl
     : XmlProcessor()
     {
     }
-    
+
     DialogLoaderImpl::~DialogLoaderImpl()
     {
 		std::map<Ogre::String, DialogPrototype*>::iterator itr = mDialogs.begin();
         std::map<Ogre::String, DialogPrototype*>::iterator end = mDialogs.end();
-        for(; itr != end; ++itr)
+        for (; itr != end; ++itr)
         {
 			DialogPrototype* p = itr->second;
 			delete p;
 		}
         mDialogs.clear();
 	}
-    
+
 
     void DialogLoaderImpl::parseDialog(DataStreamPtr& stream, const Ogre::String& groupName)
     {
         initializeXml();
-        
+
         DOMDocument* doc = loadDocument(stream);
         if (doc)
         {
             DOMNodeList* dialogNodes = doc->getElementsByTagName(AutoXMLCh("dialog").data());
-            
+
             for (XMLSize_t i = 0; i < dialogNodes->getLength(); ++i)
             {
                 DOMNode* cur = dialogNodes->item(i);
                 processDialog(static_cast<DOMElement*>(cur));
             }
         }
-        
+
         shutdownXml();
     }
 
-    Dialog* DialogLoaderImpl::createDialog(const String& name, const std::vector<Creature*>& pcs, 
-                                       const std::vector<Creature*>& npcs) const
+    Dialog* DialogLoaderImpl::createDialog(const String& name, const std::list<Creature*>& participants) const
     {
         std::map<Ogre::String, DialogPrototype*>::const_iterator it =
         mDialogs.find(name);
-        
+
         if (it == mDialogs.end())
         {
             return NULL;
         }
-        
-        return it->second->createDialog(pcs, npcs);
+
+        return it->second->createDialog(participants);
     }
 
     void DialogLoaderImpl::processDialog(DOMElement* dialogElem)
@@ -84,13 +86,13 @@ namespace rl
         DialogPrototype* dialogPrototype = new DialogPrototype();
         Ogre::String name = getAttributeValueAsStdString(dialogElem, "name");
         mDialogs[name] = dialogPrototype;
-        
+
         // first step: process all possible references
         processElementNodes(dialogElem, "option", dialogPrototype);
         processElementNodes(dialogElem, "switchoption", dialogPrototype);
         processElementNodes(dialogElem, "response", dialogPrototype);
         processElementNodes(dialogElem, "switchresponse", dialogPrototype);
-        
+
         for (DOMNode* curChild = dialogElem->getFirstChild(); curChild != NULL; curChild = curChild->getNextSibling())
         {
             if (hasNodeName(curChild, "variable"))
@@ -115,13 +117,24 @@ namespace rl
             }
             else if (hasNodeName(curChild, "start"))
             {
-                for (DOMNode* curChildChild = curChild->getFirstChild(); curChildChild != NULL; 
+                for (DOMNode* curChildChild = curChild->getFirstChild(); curChildChild != NULL;
                      curChildChild = curChildChild->getNextSibling())
                 {
-                    DialogResponse *response = processResponseClasses(curChildChild, dialogPrototype);
+                    DialogResponse* response = processResponseClasses(curChildChild, dialogPrototype);
                     if (response)
                     {
                         dialogPrototype->setStartResponse(response);
+                    }
+                }
+            }
+            else if (hasNodeName(curChild, "persons"))
+            {
+                for (DOMNode* curChildChild = curChild->getFirstChild(); curChildChild != NULL;
+                                     curChildChild = curChildChild->getNextSibling())
+                {
+                    if (hasNodeName(curChildChild, "person"))
+                    {
+                        dialogPrototype->addParticipant(processPerson(static_cast<DOMElement*>(curChildChild)));
                     }
                 }
             }
@@ -141,7 +154,7 @@ namespace rl
             }
             CeGuiString id = getAttributeValueAsString(dialogElemXml, "id");
             CeGuiString text = getValueAsString(dialogElemXml);
-            
+
             if (hasNodeName(dialogElemXml, "switchoption"))
             {
                 DialogOption* option = new DialogSelection<DialogOption>(id);
@@ -171,7 +184,7 @@ namespace rl
                 dialogPrototype->addResponse(new DialogResponseSelection(id));
             }
         }
-        
+
     }
 
     DialogResponse* DialogLoaderImpl::processResponseClasses(DOMNode *node, DialogPrototype *dialogPrototype)
@@ -195,17 +208,17 @@ namespace rl
     DialogResponse* DialogLoaderImpl::processResponse(DOMElement *responseXml, DialogLoaderImpl::DialogPrototype *dialogPrototype, bool subelements)
     {
         CeGuiString id = getAttributeValueAsString(responseXml, "id");
-        
+
         DialogResponse* response = dialogPrototype->getResponse(id);
-        
+
         if (!response)  Throw(IllegalArgumentException, CeGuiString("No response with ID "+ id).c_str());
-        
+
         bool languageDefined = false;
         DOMElement* defaultLanguage = NULL;
         if (subelements)
         {
             bool paragraphsDefined = false;
-            
+
             for (DOMNode* cur = responseXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
             {
                 DialogOption* option = processOptionClasses(cur, dialogPrototype);
@@ -214,14 +227,14 @@ namespace rl
                     response->addOption(option);
                     continue;
                 }
-                
+
                 DialogImplication* implication = processImplicationClasses(cur);
                 if (implication)
                 {
                     response->addImplication(implication);
                     continue;
                 }
-                
+
                 if (hasNodeName(cur, "p"))
                 {
                     response->addParagraph(processParagraph(static_cast<DOMElement*>(cur)));
@@ -232,14 +245,14 @@ namespace rl
                 {
                     DOMElement* translation = static_cast<DOMElement*>(cur);
                     // check loca
-                    if(getAttributeValueAsStdString(translation, "language") 
+                    if (getAttributeValueAsStdString(translation, "language")
                        == ConfigurationManager::getSingleton().getStringSetting("Localization", "language"))
                     {
                         processTranslation(response, translation);
                         languageDefined = true;
                     }
                     // set german as default language
-                    if(getAttributeValueAsStdString(translation, "language") == "de")
+                    if (getAttributeValueAsStdString(translation, "language") == "de")
                     {
                         defaultLanguage = translation;
                     }
@@ -251,22 +264,22 @@ namespace rl
                     response->addParagraph(new DialogGotoResponse(dialogPrototype->getResponse(id)));
                 }
             }
-            
+
             if (!paragraphsDefined)
             {
                 CeGuiString responseXmlText = getValueAsString(responseXml);
                 response->addParagraph(new DialogParagraph(responseXmlText));
             }
-        }            
+        }
         // use german as the default language if german is not set as
         // default language but no other language was found!
-        if(!languageDefined && defaultLanguage != NULL 
+        if (!languageDefined && defaultLanguage != NULL
            && ConfigurationManager::getSingleton().getStringSetting("Localization", "language") != "de")
         {
             processTranslation(response, defaultLanguage);
             languageDefined = true;
         }
-        
+
         return response;
     }
 
@@ -274,9 +287,9 @@ namespace rl
     {
         CeGuiString id = getAttributeValueAsString(switchRespXml, "id");
         DialogSelection<DialogResponse>* response = dynamic_cast<DialogSelection<DialogResponse>*>(dialogPrototype->getResponse(id));
-        
+
         if (!response)  Throw(IllegalArgumentException, CeGuiString("No switchresponse with ID "+ id).c_str());
-        
+
         for (DOMNode* cur = switchRespXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
         {
             DialogVariable* variable = processVariableClasses(static_cast<DOMElement*>(cur));
@@ -295,11 +308,11 @@ namespace rl
                         response->addElement(condition, responseCase);
                         break;
                     }
-                }               
+                }
             }
         }
-        
-        
+
+
         return response;
     }
 
@@ -324,18 +337,18 @@ namespace rl
     DialogOption* DialogLoaderImpl::processOption(DOMElement *optionXml, DialogLoaderImpl::DialogPrototype *dialogPrototype, bool subelements)
     {
         CeGuiString id = getAttributeValueAsString(optionXml, "id");
-        
+
         DialogOption* option = dialogPrototype->getOption(id);
-        
+
         if (!option)    Throw(IllegalArgumentException, CeGuiString("No option with ID "+ id).c_str());
-        
+
         bool languageDefined = false;
         DOMElement* defaultLanguage = NULL;
-        
+
         if (subelements)
         {
             bool paragraphsDefined = false;
-            
+
             for (DOMNode* cur = optionXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
             {
                 DialogResponse* response = processResponseClasses(cur, dialogPrototype);
@@ -356,28 +369,28 @@ namespace rl
                 else if (hasNodeName(cur, "t"))
                 {
                     DOMElement* translation = static_cast<DOMElement*>(cur);
-                    // check loca
-                    if(getAttributeValueAsStdString(translation, "language") 
+                    // check locale
+                    if (getAttributeValueAsStdString(translation, "language")
                        == ConfigurationManager::getSingleton().getStringSetting("Localization", "language"))
                     {
                         defaultLanguage = translation;
                         processTranslation(option, translation);
                         std::string label = getAttributeValueAsStdString(translation, "label");
-                        if(!label.empty())
+                        if (!label.empty())
                         {
                             option->setLabel(label);
                         }
                         languageDefined = true;
                     }
                     // set german as default language
-                    if(getAttributeValueAsStdString(translation, "language") == "de")
+                    if (getAttributeValueAsStdString(translation, "language") == "de")
                     {
                         defaultLanguage = translation;
                     }
                     paragraphsDefined = true;
                 }
             }
-            
+
             if (!paragraphsDefined)
             {
                 CeGuiString optionXmlText = getValueAsString(optionXml);
@@ -386,18 +399,18 @@ namespace rl
         }
         // use german as the default language if german is not set as
         // default language but no other language was found!
-        if(!languageDefined && defaultLanguage != NULL 
+        if (!languageDefined && defaultLanguage != NULL
            && ConfigurationManager::getSingleton().getStringSetting("Localization", "language") != "de")
         {
             processTranslation(option, defaultLanguage);
             std::string label = getAttributeValueAsStdString(defaultLanguage, "label");
-            if(!label.empty())
+            if (!label.empty())
             {
                 option->setLabel(label);
             }
             languageDefined = true;
         }
-        
+
         return option;
     }
 
@@ -405,9 +418,9 @@ namespace rl
     {
         CeGuiString id = getAttributeValueAsString(switchOptXml, "id");
         DialogOptionSelection* option = dynamic_cast<DialogOptionSelection*>(dialogPrototype->getOption(id));
-        
+
         if (!option) Throw(IllegalArgumentException, CeGuiString("No switchoption with ID "+ id).c_str());
-        
+
         for (DOMNode* cur = switchOptXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
         {
             DialogVariable* variable = processVariableClasses(static_cast<DOMElement*>(cur));
@@ -426,25 +439,25 @@ namespace rl
                         option->addElement(condition, optionCase);
                         break;
                     }
-                }               
+                }
             }
             // process translations
             else if (hasNodeName(cur, "t"))
             {
                 DOMElement* translation = static_cast<DOMElement*>(cur);
                 // check loca
-                if(getAttributeValueAsStdString(translation, "language") == 
+                if (getAttributeValueAsStdString(translation, "language") ==
                    ConfigurationManager::getSingleton().getStringSetting("Localization", "language"))
                 {
                     std::string label = getAttributeValueAsStdString(translation, "label");
-                    if(!label.empty())
+                    if (!label.empty())
                     {
                         option->setLabel(label);
                     }
-                } 
+                }
             }
         }
-        
+
         return option;
     }
 
@@ -459,19 +472,19 @@ namespace rl
     {
         DialogCondition* cond = NULL;
         DialogVariable* var = NULL;
-        
+
         for (DOMNode* cur = ifXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
         {
             if (cur->getNodeType() == DOMNode::ELEMENT_NODE)
             {
                 DOMElement* curElem = static_cast<DOMElement*>(cur);
-                
+
                 DialogCondition* curCond = processConditionClasses(curElem);
                 if (curCond)
                 {
                     cond = curCond;
                 }
-                
+
                 DialogVariable* curVar = processVariableClasses(curElem);
                 if (curVar)
                 {
@@ -479,7 +492,7 @@ namespace rl
                 }
             }
         }
-        
+
         cond->setVariable(var);
         return cond;
     }
@@ -497,7 +510,7 @@ namespace rl
     DialogCondition* DialogLoaderImpl::processCase(DOMElement *caseXml)
     {
         DialogCondition* cond = NULL;
-        
+
         for (DOMNode* cur = caseXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
         {
             if (cur->getNodeType() == DOMNode::ELEMENT_NODE)
@@ -509,7 +522,7 @@ namespace rl
                 }
             }
         }
-        
+
         return cond;
     }
 
@@ -520,13 +533,13 @@ namespace rl
     DialogLoaderImpl::DialogPrototype::~DialogPrototype()
     {
         std::map<CeGuiString, DialogOption*>::iterator it;
-        for( it = mOptionCache.begin(); it != mOptionCache.end(); it++ )
-            if( it->second != NULL )
+        for (it = mOptionCache.begin(); it != mOptionCache.end(); it++)
+            if (it->second != NULL)
                 delete it->second;
-        
+
         std::map<CeGuiString, DialogResponse*>::iterator it1;
-        for( it1 = mResponseCache.begin(); it1 != mResponseCache.end(); it1++ )
-            if( it1->second != NULL )
+        for (it1 = mResponseCache.begin(); it1 != mResponseCache.end(); it1++)
+            if (it1->second != NULL)
                 delete it1->second;
     }
 
@@ -534,7 +547,7 @@ namespace rl
     {
         if (mOptionCache.find(option->getId()) != mOptionCache.end())
         {
-            Throw(IllegalArgumentException, 
+            Throw(IllegalArgumentException,
                   CeGuiString("Duplicate option/switchoption ID "+ option->getId()).c_str());
         }
         mOptionCache[option->getId()] = option;
@@ -554,7 +567,7 @@ namespace rl
     {
         if (mResponseCache.find(response->getId()) != mResponseCache.end())
         {
-            Throw(IllegalArgumentException, 
+            Throw(IllegalArgumentException,
                   CeGuiString("Duplicate Response/switchResponse ID "+ response->getId()).c_str());
         }
         mResponseCache[response->getId()] = response;
@@ -570,17 +583,58 @@ namespace rl
         return it->second;
     }
 
-    Dialog* DialogLoaderImpl::DialogPrototype::createDialog(const std::vector<Creature*>& pcs, const std::vector<Creature*>& npcs)
+    Dialog* DialogLoaderImpl::DialogPrototype::createDialog(const list<Creature*>& participants)
     {
-        Dialog* dialog = new Dialog(pcs, npcs);
+        Dialog* dialog = new Dialog();
+
+        // for easy 1pc-1nsc dialogs (active player is "player", one NSC is "nsc")
+        Creature* player = PartyManager::getSingleton().getActiveCharacter();
+        dialog->addParticipant("player", player);
+
+        bool found1stNpc = false;
+        Party playerChars = PartyManager::getSingleton().getCharacters();
+
+        for (list<Creature*>::const_iterator itPart = participants.begin(); itPart != participants.end(); ++itPart)
+        {
+            Creature* curCr = *itPart;
+
+            if (!found1stNpc)
+            {
+                bool isInParty = false;
+                for (Party::iterator itParty = playerChars.begin(); itParty != playerChars.end(); ++itParty)
+                {
+                    if (*itParty == curCr)
+                    {
+                        isInParty = true;
+                        break;
+                    }
+                }
+
+                if (!isInParty)
+                {
+                    dialog->addParticipant("nsc", curCr);
+                    found1stNpc = true;
+                }
+            }
+
+
+            for (list<DialogLoaderImpl::DialogParticipant*>::iterator it = mParticipantFilter.begin();
+                    it != mParticipantFilter.end(); ++it)
+            {
+                if ((*it)->isMatching(curCr))
+                {
+                    dialog->addParticipant((*it)->getPersonId(), curCr);
+                }
+            }
+        }
         dialog->setStartResponse(mDialogStart);
-        
-        for (PropertyRecord::PropertyRecordMap::const_iterator it = mPropertyVariables.begin(); 
+
+        for (PropertyRecord::PropertyRecordMap::const_iterator it = mPropertyVariables.begin();
              it != mPropertyVariables.end(); ++it)
         {
             dialog->setProperty(it->first, it->second);
         }
-        
+
         return dialog;
     }
 
@@ -594,6 +648,28 @@ namespace rl
         mDialogStart = start;
     }
 
+    void DialogLoaderImpl::DialogPrototype::addParticipant(DialogLoaderImpl::DialogParticipant* participant)
+    {
+        mParticipantFilter.push_back(participant);
+    }
+
+    DialogLoaderImpl::DialogParticipant::DialogParticipant(const CeGuiString& personId, int goId,
+            const CeGuiString& goClass, const CeGuiString& name)
+        : mPersonId(personId), mGoId(goId), mGoClass(goClass), mName(name)
+    {
+    }
+
+    const CeGuiString& DialogLoaderImpl::DialogParticipant::getPersonId() const
+    {
+        return mPersonId;
+    }
+
+    bool DialogLoaderImpl::DialogParticipant::isMatching(Creature* creature) const
+    {
+        return (mGoId == -1 || creature->getId() == mGoId)
+            && (mGoClass.empty() || creature->getClassId() == mGoClass)
+            && (mName.empty() || creature->getName() == mName);
+    }
 
     DialogCondition* DialogLoaderImpl::processConditionClasses(DOMElement* conditionXml)
     {
@@ -628,7 +704,7 @@ namespace rl
             return new DialogConditionGreaterOrEquals(
                                                       getAttributeValueAsReal(conditionXml, "value"));
         }
-        
+
         return NULL;
     }
 
@@ -671,7 +747,7 @@ namespace rl
             int maximum = getAttributeValueAsInteger(variableXml, "maximum");
             return new RandomVariable(maximum);
         }
-        
+
         return NULL;
     }
 
@@ -681,7 +757,7 @@ namespace rl
         if (implicationXml->getNodeType() == DOMNode::ELEMENT_NODE)
         {
             DOMElement* implicationElem = static_cast<DOMElement*>(implicationXml);
-            
+
             if (hasNodeName(implicationElem, "setvariable"))
             {
                 Ogre::String variableName = getAttributeValueAsStdString(implicationElem, "name");
@@ -722,7 +798,7 @@ namespace rl
                 return new CombatStart();
             }
         }
-        
+
         return NULL;
     }
 
@@ -736,6 +812,36 @@ namespace rl
             }
         }
     }
-    
+
+    DialogLoaderImpl::DialogParticipant* DialogLoaderImpl::processPerson(DOMElement* personXml)
+    {
+        CeGuiString personId(""), goClass(""), name("");
+        int goId = -1;
+
+        if (hasAttribute(personXml, "id"))
+        {
+            personId = getAttributeValueAsString(personXml, "id");
+        }
+        else
+        {
+            LOG_ERROR("DialogLoader", "person node without id found");
+        }
+
+        if (hasAttribute(personXml, "goId"))
+        {
+            goId = getAttributeValueAsInteger(personXml, "goId");
+        }
+        if (hasAttribute(personXml, "goClass"))
+        {
+            goClass = getAttributeValueAsString(personXml, "goClass");
+        }
+        if (hasAttribute(personXml, "name"))
+        {
+            name = getAttributeValueAsString(personXml, "name");
+        }
+
+        return new DialogParticipant(personId, goId, goClass, name);
+    }
+
 }
 

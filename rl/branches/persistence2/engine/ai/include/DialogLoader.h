@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -18,7 +18,9 @@
 
 #include "AiPrerequisites.h"
 
-namespace rl 
+#include <list>
+
+namespace rl
 {
 	class Creature;
     class Dialog;
@@ -29,14 +31,14 @@ namespace rl
 	public:
 		DialogLoader();
 		~DialogLoader();
-	
+
 		virtual const Ogre::StringVector& getScriptPatterns() const;
         virtual void parseScript(Ogre::DataStreamPtr& stream, const Ogre::String& groupName);
 		virtual Ogre::Real getLoadingOrder() const;
-		
-		Dialog* createDialog(const Ogre::String& name, const std::vector<Creature*>& pcs, const std::vector<Creature*>& npcs) const;
 
-	private: 
+		Dialog* createDialog(const Ogre::String& name, const std::list<Creature*>& participants) const;
+
+	private:
         Ogre::StringVector mScriptPatterns;
         DialogLoaderImpl* mLoaderImplementation;
     };

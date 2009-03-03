@@ -1,5 +1,6 @@
 import ctypes as ctypes
 import random
+import platform
 
 import ogre.renderer.OGRE as og
 
@@ -36,22 +37,28 @@ class MaterialSwitcher( og.MaterialManager.Listener ):
       
         self.currentColor = og.ColourValue(0.0, 0.0, 0.0)
         self.currentColorAsVector3 = og.Vector3()
-        
+
         self.lastEntity = ""
         self.lastTechnique = None
+ 
+
+        if platform.system() == "Windows":
+            self.lastTechnique = og.MaterialManager.getSingleton().load("PlainColor", og.ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME).getTechnique(0)
+        else:
+            self.lastTechnique = og.MaterialManager.getSingleton().load("PlainColorGLSL", og.ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME).getTechnique(0)
         
         self.colorDict = {}
        
     # takes into account that one Entity can have multiple SubEntities
     def handleSchemeNotFound(self, index, name, material, lod, subEntity):
+
         temp = str(type(subEntity))
         if temp == "<class 'ogre.renderer.OGRE._ogre_.SubEntity'>":
             if self.lastEntity == subEntity.getParent().getName():
                 subEntity.setCustomParameter(1, og.Vector4(self.currentColor.r, self.currentColor.g, self.currentColor.b, 1.0))
+                #print str(subEntity.getParent().getRenderQueueGroup())
                 return self.lastTechnique
             else:
-                self.lastTechnique = og.MaterialManager.getSingleton().load("PlainColor", og.ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME).getTechnique(0)
-                
                 self.randomizeColor()
                 subEntity.setCustomParameter(1, og.Vector4(self.currentColor.r, self.currentColor.g, self.currentColor.b, 1.0))
                 
@@ -122,7 +129,7 @@ class SelectionBuffer():
         self.renderTexture.addListener( self.selectionTargetListener )
         self.renderTexture.getViewport(0).setMaterialScheme("aa")
         
-        #self.createRTTOverlays()
+#        self.createRTTOverlays()
 
     def update(self):
         self.updateBufferSize()
@@ -206,9 +213,10 @@ class SelectionBuffer():
                     so = SelectionObject(self.sceneMgr.getEntity(key))
                     so.isPivot = True
                     return so
-                elif key == "EditorFreeMover":
-                    return None
                 elif key == "EditorXRotator" or key == "EditorYRotator" or key == "EditorZRotator":
+                    so = SelectionObject(self.sceneMgr.getEntity(key))
+                    so.isPivot = True
+                elif key == "EditorXScaler" or key == "EditorYScaler" or key == "EditorZScaler":
                     so = SelectionObject(self.sceneMgr.getEntity(key))
                     so.isPivot = True
                     return so

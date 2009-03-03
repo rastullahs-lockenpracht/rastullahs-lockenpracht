@@ -75,7 +75,6 @@ def indent(elem, level=0):
         if level and (not elem.tail or not elem.tail.strip()):
             elem.tail = i
 
-
 class Map():
     def __init__(self, pathToFile, sceneManager, ogreRoot, gocManager, emptyMap = False):
         self.pathToMapFile = pathToFile
@@ -123,6 +122,12 @@ class Map():
     def createEntites(self, entityNodes):
         for nodes in entityNodes:
             entityName = nodes.attrib["name"]
+            
+            if entityName.startswith("dropMesh"):
+                num = int(entityName.replace("dropMesh",  ""))
+                if ModuleManager.dropCount < num:
+                    ModuleManager.dropCount = num
+                    
             meshFile = nodes.attrib["meshfile"]
             nodePosition = None
             nodeScale = None
@@ -274,10 +279,40 @@ class Map():
         
         nodesElem = xml.SubElement(root, "nodes")
         
-        iter = self.mapNode.getChildIterator()
-        while iter.hasMoreElements():
-            name = iter.getNext().getName()
-            print name
+        i = 0
+        while i < self.mapNode.numChildren():
+            n = self.mapNode.getChild(i)
+            if n.numAttachedObjects() > 0:
+                if n.name.startswith("entity_"):
+                    entElem = xml.SubElement(nodesElem, "entity")
+                    entElem.attrib["name"] = n.getAttachedObject(0).getName()
+                    entElem.attrib["meshfile"] = n.getAttachedObject(0).getMesh().getName()
+                    
+                    posElem = xml.SubElement(entElem, "position")
+                    posElem.attrib["x"] = str(n.getPosition().x)
+                    posElem.attrib["y"] = str(n.getPosition().y)
+                    posElem.attrib["z"] = str(n.getPosition().z)
+                    
+                    rotElem = xml.SubElement(entElem, "rotation")
+                    rotElem.attrib["qw"] = str(n.getOrientation().w)
+                    rotElem.attrib["qx"] = str(n.getOrientation().x)
+                    rotElem.attrib["qy"] = str(n.getOrientation().y)
+                    rotElem.attrib["qz"] = str(n.getOrientation().z)
+                    
+                    scaleElem = xml.SubElement(entElem, "scale")
+                    scaleElem.attrib["x"] = str(n.getScale().x)
+                    scaleElem.attrib["y"] = str(n.getScale().y)
+                    scaleElem.attrib["z"] = str(n.getScale().z)
+                
+            i = i+1
+            
+        indent(root)
+        xml.ElementTree(root).write(self.pathToMapFile)
+# caused a linux crash
+#        iter = self.mapNode.getChildIterator()
+#        while iter.hasMoreElements():
+#            name = iter.getNext().getName()
+#            print name
 
 class Scene():
     def __init__(self, moduleroot, pathToFile, sceneManager, ogreRoot, gocManager, emptyScene = False, sceneName = "NewScene"):
@@ -358,7 +393,7 @@ class Module():
         if isfile(modConfig): # is the modconfig existing?
             f = codecs.open(modConfig, 'r', 'utf-8')
         else:
-            print ("Error: couldn't find module config")
+            print ("Module.isCommon() Error: couldn't find module config")
             return
         isDependencieLine = False
         for i, line in enumerate(f):
@@ -391,7 +426,7 @@ class Module():
         if isfile(modConfig): # is the modconfig existing?
             f = codecs.open(modConfig, 'r', 'utf-8')
         else:
-            print ("Error: couldn't find module config")
+            print ("Module.load: Error: couldn't find module config")
             return
 
         #for i, line in enumerate(f):
@@ -403,6 +438,7 @@ class Module():
             og.ResourceGroupManager.getSingleton().initialiseAllResourceGroups()
         except og.OgreException, e:
             print e
+        
         
         cmd = join(self.moduleRoot, "dsa/*.gof")
         self.gofFiles = glob.glob(cmd)
@@ -430,15 +466,16 @@ class Module():
 
         for file in os.listdir(rootFolder):
             curFile = join(rootFolder, file)
-
+            if file == "WindyGrass.program":
+                print "yes!"
 
             if file.startswith('.'): #ignore dot files (hidden)
                 continue
-            if os.path.isdir(curFile):
+            elif os.path.isdir(curFile):
                 og.ResourceGroupManager.getSingleton().addResourceLocation(curFile, "FileSystem", self.name, False)
                 self.setResourcePaths(curFile)
-            if os.path.isfile(curFile):
-                pass
+            elif os.path.isfile(curFile):
+                continue
                 
     def getMap(self, mapName, sceneName = None):
         if sceneName is not None:
@@ -454,14 +491,18 @@ class Module():
                             return m
                             
 class ModuleManager():
+    dropCount = 0
+        
     def __init__(self,  ogreRoot,  sceneManager):
         self.sceneManager = sceneManager
         self.ogreRoot = ogreRoot
         self.modelSelectionDialog = None
+        self.materialSelectionDialog = None
 
         self.moduleCfgPath = ""
 
         self.gocManager = GameObjectClassManager()
+        
         # we need to hold a reference to the game object representaions ourself
         # python does not recognize the a reference to a c++ object (Entity in our case) is passed
         # and deletes the object
@@ -487,16 +528,19 @@ class ModuleManager():
         self.middleMouseDown = False
         self.rightMouseDown = False
 
-        self.dropCount = 0
+       
         self.dropNode = None
         self.dropEntity = None
         self.dropCollisionPlane = og.Plane(og.Vector3().UNIT_Y, og.Vector3().ZERO)
-
+        self.dropMat = None
+        
         self.numerOfCopys = 0 #everytime a copy is made this numer is increased to generate unique node and mesh names
         self.moduleConfigIsParsed = False
 
         self.selectionBuffer = None
         self.propertyWindow = None
+    
+        self.oneClickEntityPlacement = False
     
     def resetParsedModuleConfig(self):
         self.moduleConfigIsParsed = False
@@ -519,7 +563,6 @@ class ModuleManager():
                 self.moduleList.append(Module(str, self.moduleCfgPath.replace("/modules.cfg",  ""), self.sceneManager, self.ogreRoot, self.gocManager))
 
         self.moduleConfigIsParsed = True
-
 
     def moduleExists(self, name):
         lowerA = str(name).lower()
@@ -563,17 +606,20 @@ class ModuleManager():
                             if m2.name == moduleDependencie:
                                 m2.load()
                                 self.modelSelectionDialog.scanDirForModels(m2.moduleRoot)
+                                self.materialSelectionDialog.scanDirForMaterials(m2.moduleRoot)
                                 self.mainModuledependencieList.append(m2)
 
                 m.load()
                 self.modelSelectionDialog.scanDirForModels(m.moduleRoot)
+                self.materialSelectionDialog.scanDirForMaterials(m.moduleRoot)
                 self.mainModule = m
                 self.moduleExplorer.setCurrentModule(m)
                 
         self.moduleExplorer.updateView()
+        ModuleManager.dropCount += 1
 #        n = self.sceneManager.getRootSceneNode().createChildSceneNode()
 #        e = self.sceneManager.createEntity("west342wt346t",  "UniCube.mesh")
-#        e.setMaterialName("PlainColor")
+#        e.setMaterialName("PlainColorGLSL")
 #        e.getSubEntity(0).setCustomParameter(1, og.Vector4(0.0, 0.0, 1.0, 1.0))
 #
 #        e2 = self.sceneManager.createEntity("west342wt34635t",  "UniSphere.mesh")
@@ -582,7 +628,7 @@ class ModuleManager():
 #        n.attachObject(e)
 #        n.attachObject(e2)
 #        n.setScale(og.Vector3(10, 5, 20))
-#        
+        
         if self.selectionBuffer is None:
             self.selectionBuffer = SelectionBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
 
@@ -610,6 +656,11 @@ class ModuleManager():
         
     # called when a click into Main Ogre Window occurs
     def selectionClick(self, screenX, screenY, ray,  controlDown=False,  shiftDown=False):
+        if self.oneClickEntityPlacement:
+            meshFile = str(self.modelSelectionDialog.listWidget.currentItem().text())
+            self.startDropModelAction(meshFile, ray)
+            return
+            
         so = None
         if self.selectionBuffer is not None:
             so = self.selectionBuffer.onSelectionClick(screenX, screenY)
@@ -648,25 +699,25 @@ class ModuleManager():
             if self.pivot is not None:
                 self.pivot.hide()
 
-        if self.rayLine == None:
-            self.rayLine = self.sceneManager.createManualObject("rayLine")
-            self.rayLine.setDynamic(True)
-            self.sceneManager.getRootSceneNode().createChildSceneNode("raynode").attachObject(self.rayLine)
-
-            self.rayLine.begin("BaseWhiteNoLighting", og.RenderOperation.OT_LINE_STRIP)
-
-            self.rayLine.position(ray.getOrigin())
-            self.rayLine.position( ray.getPoint(10000))
-
-            self.rayLine.end()
-
-        else:
-            self.rayLine.beginUpdate(0)
-
-            self.rayLine.position(ray.getOrigin())
-            self.rayLine.position( ray.getPoint(10000))
-
-            self.rayLine.end()
+#        if self.rayLine == None:
+#            self.rayLine = self.sceneManager.createManualObject("rayLine")
+#            self.rayLine.setDynamic(True)
+#            self.sceneManager.getRootSceneNode().createChildSceneNode("raynode").attachObject(self.rayLine)
+#
+#            self.rayLine.begin("BaseWhiteNoLighting", og.RenderOperation.OT_LINE_STRIP)
+#
+#            self.rayLine.position(ray.getOrigin())
+#            self.rayLine.position( ray.getPoint(10000))
+#
+#            self.rayLine.end()
+#
+#        else:
+#            self.rayLine.beginUpdate(0)
+#
+#            self.rayLine.position(ray.getOrigin())
+#            self.rayLine.position( ray.getPoint(10000))
+#
+#            self.rayLine.end()
 
     def deleteObjects(self):
         if len(self.userSelectionList) < 1:
@@ -675,7 +726,10 @@ class ModuleManager():
         self.pivot.hide()
 
         for so in self.userSelectionList:
-            self.sceneManager.destroySceneNode(so.entity.getParentNode().getName())
+            node = so.entity.getParentNode()
+            node.detachAllObjects()
+            self.sceneManager.destroySceneNode(node)
+            self.sceneManager.destroyEntity(so.entity)
             del so
 
         self.userSelectionList = []
@@ -711,12 +765,12 @@ class ModuleManager():
                     meshFile = go.getMeshFileName()
 
                     if go is not None:
-                        newEntity = self.sceneManager.createEntity("dropMesh" + str(self.dropCount), str(meshFile))
-                        newNode = self.sceneManager.getRootSceneNode().createChild("dropNode" + str(self.dropCount))
+                        newEntity = self.sceneManager.createEntity("dropMesh" + str(ModuleManager.dropCount), str(meshFile))
+                        newNode = self.currentMap.mapNode.createChild("gameObject_dropNode" + str(ModuleManager.dropCount))
                         newNode.attachObject(newEntity)
                         newNode.setPosition(so.entity.getParentNode().getPosition())
 
-                        newGO = GameObjectRepresentation(self.dropCount, so.entity.getUserObject().gocName, newNode, meshFile)
+                        newGO = GameObjectRepresentation(ModuleManager.dropCount, so.entity.getUserObject().gocName, newNode, meshFile)
                         self.gameObjectRepresentationDict.append(newGO)
                         newEntity.setUserObject(newGO)
                         newGO.setPosition(og.Vector3(0, 0, 0))
@@ -724,12 +778,12 @@ class ModuleManager():
                         newSO = SelectionObject(newEntity, so.distance)
                         newSO.setSelected(True)
                         newSelectionList.append(newSO)
-                        self.dropCount += 1
+                        ModuleManager.dropCount += 1
             else:
-                nodeName = self.incrementNameSuffixNumber(so.entity.getParentNode().getName())
-                newNode = self.sceneManager.getRootSceneNode().createChild(nodeName)
+                nodeName = "entity_dropNode" + str(ModuleManager.dropCount)
+                newNode = self.currentMap.mapNode.createChild(nodeName)
 
-                entityName = self.incrementNameSuffixNumber(so.entity.getName())
+                entityName = "dropMesh" + str(ModuleManager.dropCount)
                 newEntity = self.sceneManager.createEntity(entityName, so.entity.getMesh().getName())
 
                 newNode.attachObject(newEntity)
@@ -737,9 +791,10 @@ class ModuleManager():
                 newNode.setOrientation(so.entity.getParentNode().getOrientation())
                 newNode.setScale(so.entity.getParentNode().getScale())
 
-                newSO = SelectionObject(newEntity, so.distance)
+                newSO = SelectionObject(newEntity)
                 newSO.setSelected(True)
                 newSelectionList.append(newSO)
+                ModuleManager.dropCount += 1
 
         self.resetSelection()
         self.userSelectionList = newSelectionList
@@ -790,8 +845,6 @@ class ModuleManager():
 
         self.userSelectionList = []
 
-
-
     def updatePivots(self):
         newPivotPosition = og.Vector3(0, 0, 0)
 
@@ -811,8 +864,8 @@ class ModuleManager():
 
         if go is not None:
             meshFile = go.getMeshFileName()
-            dropEntity = self.sceneManager.createEntity("dropMesh" + str(self.dropCount), str(meshFile))
-            dropNode = self.currentMap.mapNode.createChild("gameobject_dropNode" + str(self.dropCount))
+            dropEntity = self.sceneManager.createEntity("dropMesh" + str(ModuleManager.dropCount), str(meshFile))
+            dropNode = self.currentMap.mapNode.createChild("gameobject_dropNode" + str(ModuleManager.dropCount))
             dropNode.attachObject(dropEntity)
 
             result = og.Math.intersects(ray, self.dropCollisionPlane)
@@ -821,10 +874,10 @@ class ModuleManager():
             else:
                 dropNode.setPosition(ray.getPoint(50))
 
-            self.dropGO = GameObjectRepresentation(self.dropCount, classid, dropNode, meshFile)
+            self.dropGO = GameObjectRepresentation(ModuleManager.dropCount, classid, dropNode, meshFile)
             dropEntity.setUserObject(self.dropGO)
 
-        self.dropCount += 1
+        ModuleManager.dropCount += 1
 
     def moveDropGameObjectAction(self, ray):
         result = og.Math.intersects(ray, self.dropCollisionPlane)
@@ -833,12 +886,17 @@ class ModuleManager():
         else:
             self.dropGO.setPosition(ray.getPoint(50))
 
-    def stopDropGameObjectAction(self, ray):
-        print "sd"
+    def finishDropGameObjectAction(self, ray):
+        return
 
     def startDropModelAction(self, meshFile, ray):
-        self.dropEntity = self.sceneManager.createEntity("dropMesh" + str(self.dropCount), str(meshFile))
-        self.dropNode = self.currentMap.mapNode.createChild("entity_dropNode" + str(self.dropCount))
+        if self.currentMap is None:
+            print "No map selected!"
+            return
+            
+        self.dropEntity = self.sceneManager.createEntity("dropMesh" + str(ModuleManager.dropCount), meshFile)
+
+        self.dropNode = self.currentMap.mapNode.createChild("entity_dropNode" + str(ModuleManager.dropCount))
         self.dropNode.attachObject(self.dropEntity)
 
         result = og.Math.intersects(ray, self.dropCollisionPlane)
@@ -847,16 +905,45 @@ class ModuleManager():
         else:
             self.dropNode.setPosition(ray.getPoint(50))
 
-        self.dropCount += 1
+        ModuleManager.dropCount += 1
 
     def moveDropModelAction(self, ray):
+        if self.currentMap is None:
+            return
+            
         result = og.Math.intersects(ray, self.dropCollisionPlane)
         if result.first == True:
             self.dropNode.setPosition(ray.getPoint(result.second))
         else:
             self.dropNode.setPosition(ray.getPoint(50))
+    
+    def finishDropModelAction(self, ray):
+        return
 
+    def startDropMaterialAction(self, text):
+        self.dropMat = text
+        
+    def moveDropMaterialAction(self, event):
+        return
 
-    def stopDropModelAction(self, ray):
-        pass
-
+    def finishDropMaterialAction(self, screenX, screenY):
+        so = self.selectionBuffer.onSelectionClick(screenX, screenY)
+        if so is not None:
+            if not so.entity.getNumSubEntities() > 1:
+                so.entity.setMaterialName(self.dropMat)
+            else:
+                i = 0
+                text = "Warning this Entity has more than one SubEntities with the folloing materials: \n\n"
+                while i < so.entity.getNumSubEntities():
+                    text += "SubMesh" + str(i) + ":  " + so.entity.getSubEntity(i).getMaterialName() + "\n"
+                    i += 1
+                
+                text += "\n Replace the materials?"
+                reply = QMessageBox.question(None, "Warning: multiple materials",  text,  QMessageBox.Yes|QMessageBox.No)
+                if reply == QMessageBox.Cancel:
+                    return
+                if reply == QMessageBox.Yes:
+                    so.entity.setMaterialName(self.dropMat)
+        
+    def setOneClickEntityPlacement(self, state):
+        self.oneClickEntityPlacement = state

@@ -66,6 +66,13 @@ namespace rl
 		setAttributeValueAsString(mDocument->getDocumentElement(), "SaveGameFormatVersion", "0.8");
 		setAttributeValueAsInteger(mDocument->getDocumentElement(), "Engineversion", CoreSubsystem::getSingleton().getEngineBuildNumber());
 
+        DOMElement* header = appendChildElement(mDocument, mDocument->getDocumentElement(), "header");
+        PropertyRecordPtr headerSet = file->getAllProperties();
+        for (PropertyRecord::PropertyRecordMap::const_iterator it_header = headerSet->begin(); it_header != headerSet->end(); it_header++)
+        {
+            this->processProperty(header, PropertyEntry(it_header->first.c_str(), it_header->second));
+        }
+
 
         mWriter->writeNode(mTarget, *mDocument);
 

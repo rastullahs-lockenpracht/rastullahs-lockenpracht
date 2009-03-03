@@ -27,67 +27,93 @@ import ogre.renderer.OGRE as og
 class OgreWidget(QtGui.QWidget):
     def __init__(self, renderWindowName, ogreRoot, sceneManager, cameraName, parent,  camDistFromFocusNode=100):
         QtGui.QWidget.__init__(self, parent)
+        self.painted = False
         self.renderWindowName = renderWindowName
         self.parent = parent
         self.ogreRoot = ogreRoot
         self.sceneManager = sceneManager
+        self.cameraName = cameraName
         self.camDistFromFocusNode = camDistFromFocusNode
         self.initOgreWindow(renderWindowName,cameraName)
         self.resizeEventListener = []
+        self.ogreViewportCreatedCallback = None
+        self.renderWindow = None
 
     def initOgreWindow(self, renderWindowName, cameraName):
         self.renderParameters = og.NameValuePairList()
+        
 
         if platform.system() == "Windows" or platform.system() == "MAC":
             hwnd = int(self.winId())
             self.renderParameters['externalWindowHandle'] = str(hwnd)
         else:
-            import sip
-            info = self.x11Info()
-            disp =  str(sip.unwrapinstance(info.display()))
-            scr = str(info.screen())
             win = str(int(self.winId()))
-            winHandle = disp + ':' + scr + ':' + win
-            self.renderParameters['parentWindowHandle'] = winHandle
+            self.renderParameters['parentWindowHandle'] = win
 
-        renderWindow = self.ogreRoot.createRenderWindow(renderWindowName, self.width(), self.height(),
-                                                        False, self.renderParameters)
+#        else:
+#            import sip
+#            info = self.x11Info()
+#            disp =  str(sip.unwrapinstance(info.display()))
+#            scr = str(info.screen())
+#            win = str(int(self.winId()))
+#            winHandle = disp + ':' + scr + ':' + win
+#            
+#            self.renderParameters['parentWindowHandle'] = win
 
-        renderWindow.active = True
-        self.renderWindow = renderWindow
-
-        self.camera = self.sceneManager.createCamera(cameraName)
-        self.camera.NearClipDistance = 0.1
-
-        # Create focus node (camera always points at this)
-        self.camFocusNode = self.sceneManager.getRootSceneNode().createChildSceneNode()
-        self.camFocusNode.setFixedYawAxis(True, og.Vector3().UNIT_Y)
-        # camera node is offset a ways along the Z axis of focus node
-        self.camNode = self.camFocusNode.createChildSceneNode()
-        # fix yaw on this one too for when we manipulate it directly
-        self.camNode.setFixedYawAxis(True, og.Vector3().UNIT_Y)
-        self.camNode.setPosition(0, 0, self.camDistFromFocusNode)
-        self.camNode.attachObject(self.camera)
-
-        self.viewport = self.renderWindow.addViewport(self.camera, 0, 0.0, 0.0, 1.0, 1.0)
-        self.viewport.setClearEveryFrame(True)
 
     def setBackgroundColor(self, colorValue):
-        self.viewport.BackgroundColour = colorValue
+        if self.painted:
+            self.viewport.BackgroundColour = colorValue
+        else:
+            self.backGroundColor = colorValue
 
-    def resizeEvent(self, event):
-        self.renderWindow.resize(event.size().width(), event.size().height())
-        self.renderWindow.windowMovedOrResized()
+    def setOgreViewportCreatedCallback(self, callback):
+        self.ogreViewportCreatedCallback = callback
+    
+    def paintEvent(self, event):
+        if not self.painted:
+            renderWindow = self.ogreRoot.createRenderWindow(self.renderWindowName, self.width(), self.height(),
+                                                False, self.renderParameters)
 
-        if platform.system() == "Linux":
-            self.viewport._updateDimensions() # shouldn't actually be needed but it doesn't work without it on linux
-
-        self.renderWindow.update(True)
-        self.ogreRoot.renderOneFrame()
-
-        if self.camera:
-            self.camera.setAspectRatio(float(event.size().width()) / float(event.size().height()));
+            renderWindow.active = True
+            self.renderWindow = renderWindow
             
+            self.camera = self.sceneManager.createCamera(self.cameraName)
+            self.camera.NearClipDistance = 0.1
+
+            # Create focus node (camera always points at this)
+            self.camFocusNode = self.sceneManager.getRootSceneNode().createChildSceneNode()
+            self.camFocusNode.setFixedYawAxis(True, og.Vector3().UNIT_Y)
+            # camera node is offset a ways along the Z axis of focus node
+            self.camNode = self.camFocusNode.createChildSceneNode()
+            # fix yaw on this one too for when we manipulate it directly
+            self.camNode.setFixedYawAxis(True, og.Vector3().UNIT_Y)
+            self.camNode.setPosition(0, 0, self.camDistFromFocusNode)
+            self.camNode.attachObject(self.camera)
+            
+            self.viewport = self.renderWindow.addViewport(self.camera, 0, 0.0, 0.0, 1.0, 1.0)
+            self.viewport.setClearEveryFrame(True)
+            self.viewport.BackgroundColour = self.backGroundColor
+            
+            if self.ogreViewportCreatedCallback:
+                self.ogreViewportCreatedCallback()
+            
+            self.painted = True
+        
+    def resizeEvent(self, event):
+        if self.renderWindow:
+            self.renderWindow.resize(event.size().width(), event.size().height())
+            self.renderWindow.windowMovedOrResized()
+
+            if platform.system() == "Linux":
+                self.viewport._updateDimensions() # shouldn't actually be needed but it doesn't work without it on linux
+
+            self.renderWindow.update(True)
+            self.ogreRoot.renderOneFrame()
+
+            if self.camera:
+                self.camera.setAspectRatio(float(event.size().width()) / float(event.size().height()));
+                
         for listener in self.resizeEventListener:
             listener(event.size().width(), event.size().height())
 
@@ -131,3 +157,8 @@ class OgreWidget(QtGui.QWidget):
     def panCamera( self, horz, vert):
         self.camNode.yaw(horz, og.Node.TS_WORLD)
         self.camNode.pitch(vert, og.Node.TS_LOCAL)
+        
+    def update(self):
+        if self.renderWindow is not None:
+            self.renderWindow.update(True)
+

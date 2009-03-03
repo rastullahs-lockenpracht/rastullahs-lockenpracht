@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-* 
+*
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Clarified Artistic License.
 *
@@ -29,30 +29,30 @@ namespace rl
         mLoaderImplementation = new DialogLoaderImpl();
         mScriptPatterns.push_back("*.dialog");
   	}
-	
+
     DialogLoader::~DialogLoader()
     {
         delete mLoaderImplementation;
 	}
- 
+
     const StringVector& DialogLoader::getScriptPatterns() const
     {
         return mScriptPatterns;
     }
-    
+
 	Ogre::Real DialogLoader::getLoadingOrder() const
     {
         return 1000;
     }
-    
+
     void DialogLoader::parseScript(Ogre::DataStreamPtr& stream, const Ogre::String& groupName)
     {
         mLoaderImplementation->parseDialog(stream, groupName);
     }
-    
-    Dialog* DialogLoader::createDialog(const Ogre::String& name, const std::vector<Creature*>& pcs, const std::vector<Creature*>& npcs) const
+
+    Dialog* DialogLoader::createDialog(const Ogre::String& name, const std::list<Creature*>& participants) const
     {
-        return mLoaderImplementation->createDialog(name, pcs, npcs);
+        return mLoaderImplementation->createDialog(name, participants);
     }
 
 }

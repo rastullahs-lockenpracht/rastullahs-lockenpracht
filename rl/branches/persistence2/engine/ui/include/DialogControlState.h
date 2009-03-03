@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -18,33 +18,29 @@
 #define __DialogCharacterController_H__
 
 #include "UiPrerequisites.h"
-#include "ControlState.h"
-
+#include "DialogController.h"
 
 namespace rl {
 
 	class Actor;
+    class Creature;
 	class Dialog;
     class DialogElement;
-	class DialogOption;
-	class DialogParagraph;
-	class DialogResponse;
 	class DialogWindow;
 	class GameLoggerWindow;
-    class GameObject;
 	class MeshAnimation;
 	class SoundObject;
 	class SubtitleWindow;
 
-	/** Diese Klasse 
-	  *  
+	/** Diese Klasse
+	  *
 	  */
-	class _RlUiExport DialogControlState : public ControlState
+	class _RlUiExport DialogControlState : public DialogController
 	{
 	public:
         enum DialogMode
-		{ 
-            // Frontperspektive auf Augenhöhe, ausgehend von der Mitte zwischen den Redenden
+		{
+            // Frontperspektive auf Augenhï¿½he, ausgehend von der Mitte zwischen den Redenden
 			DM_FRONT = 1,
 		};
 
@@ -54,7 +50,7 @@ namespace rl {
 		*  @throw InvalidArgumentException if character is not placed in the scene.
 		*/
 		DialogControlState(CommandMapper* cmdMapper, Actor* camera, Creature* character);
-		/// Dtor 
+		/// Dtor
 		virtual ~DialogControlState();
 
         virtual void pause();
@@ -65,71 +61,40 @@ namespace rl {
 
 		void start(Dialog* dialog);
 
-		/// Antwort eines der Dialogführenden
+		/// Antwort eines der Dialogfï¿½hrenden
 		void response(Actor* actor, const CeGuiString& text, const Ogre::String& soundFile = "");
 
-        virtual bool mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id, bool handled);
-
-		bool handleDialogSelectOption(DialogOption* option);	
-		bool handleDialogClose();
+		bool handleDialogSelectOption(DialogOption* option);
+		virtual void handleDialogEnd();
 		bool requestDialogClose();
+	    virtual bool textFinished();
 
 	private:
+        enum DialogState
+        {
+            CHOOSING_OPTION = 1,
+            TALKING_PARTNER_CHARACTER,
+            TALKING_PLAYER_CHARACTER,
+            CLOSING_DIALOG
+        };
+
 		/// Die Zielkameraposition in lokalen Koordinaten
 		Ogre::Vector3 mTargetCameraPosition;
-		/// Die benötigte lokale Drehung der Kamera
+		/// Die benï¿½tigte lokale Drehung der Kamera
 		Ogre::Vector3 mTargetCameraDirection;
 
-		/// Die aktuelle Zeit für die Textanzeige
-		Ogre::Real mCurrFadeTextTime;
-        /// Die Zeit bis der Text ausgeblendet wird
-        Ogre::Real mTotalFadeTextTime;
 
-        Ogre::Real mSubtitleSpeed;
-
-		/// Der Untertitel-Text
-		CeGuiString mText;
-		/// Es wird gerade Text angezeigt
-		bool mTextShown;
-
-		GameObject* mCurrentSpeaker;
-		GameObject* mCurrentListener;
-        DialogResponse* mCurrentResponse;
-        DialogOption* mCurrentOption;
-        std::list<DialogParagraph*> mCurrentParagraphs;
-
-        /// Die Art der Kamerapositinierung
+        /// Die Art der Kamerapositionierung
         DialogMode mDialogMode;
 
-		MeshAnimation* mTalkAnimation;
+        DialogState mDialogState;
+
 
 		DialogWindow* mDialogWindow;
-		SubtitleWindow* mSubtitleWindow;
-		SoundObject* mSoundObject;
-	
-		float getShowTextLength(const CeGuiString& text) const;
-        void recalculateCamera(GameObject* speaker, GameObject* listener);
-        void processTextVariables(CeGuiString& text);
 
-		enum DialogState
-		{
-			CHOOSING_OPTION = 1,
-			TALKING_PARTNER_CHARACTER,
-			TALKING_PLAYER_CHARACTER,
-			CLOSING_DIALOG
-		};
+        virtual void recalculateDialogCamera(Creature* speaker, std::list<Creature*> listeners);
 
-		Dialog* mDialog;
-		GameLoggerWindow* mGameLogger;
-		DialogState mState;
-		CeGuiString mCurrentResponseText;
-				
-        void showResponse(DialogResponse* response);
         void showOptions(const std::list<DialogOption*>& options);
-        void doTalk(DialogParagraph* paragraph);
-        Ogre::Vector3 getParticipantPosition(GameObject* participant);
-
-		void textFinished();
 	};
 }
 #endif

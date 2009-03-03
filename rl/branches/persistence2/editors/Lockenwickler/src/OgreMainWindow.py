@@ -55,9 +55,8 @@ class OgreMainWindow(QWidget):
         self.camUpdateTimer.connect(self.camUpdateTimer, SIGNAL("timeout()"), self.updateCamera)
 
         self.lastSelectionClick = None # Qpoint wich saves the last selection click mouse position
-
+        
         self.setupUi(self)
-
 
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -118,9 +117,13 @@ class OgreMainWindow(QWidget):
 
         self.retranslateUi(Form)
         QMetaObject.connectSlotsByName(Form)
-
+        
+        self.ogreWidget.setOgreViewportCreatedCallback(self.ogreViewportCreatedCallback)
+        
+    def ogreViewportCreatedCallback(self):
         self.viewportGrid = ViewportGrid(self.OgreMainWinSceneMgr, self.ogreWidget.viewport)
         self.viewportGrid.enable()
+        
     def retranslateUi(self, Form):
         Form.setWindowTitle(QApplication.translate("Form", "Form", None, QApplication.UnicodeUTF8))
         self.ogreWindowOptions.setText(QApplication.translate("Form", "...", None, QApplication.UnicodeUTF8))
@@ -220,10 +223,10 @@ class OgreMainWindow(QWidget):
             self.dragEnterEvent(event)
         if event.type() == 61: #drag move
             self.dragMoveEvent(event)
-        if event.type() == 62:
-            print "dbg: DragLeave"
+#        if event.type() == 62:
+#            self.finishDropEvent(event)
         if event.type() == 63:
-            self.dropEvent(event)
+            self.finishDropEvent(event)
 
         return False
 
@@ -234,7 +237,7 @@ class OgreMainWindow(QWidget):
             text = QString()
             stream >> text
 
-            self.moduleManager.startDropModelAction(text, self.getCameraToViewportRay()) #start the model draging
+            self.moduleManager.startDropModelAction(str(text), self.getCameraToViewportRay()) #start the model draging
 
             event.setDropAction(Qt.CopyAction)
             event.accept()
@@ -245,7 +248,17 @@ class OgreMainWindow(QWidget):
             text = QString()
             stream >> text
 
-            self.moduleManager.startDropGameObjectAction(text, self.getCameraToViewportRay()) #start the model draging
+            self.moduleManager.startDropGameObjectAction(str(text), self.getCameraToViewportRay()) #start the model draging
+
+            event.setDropAction(Qt.CopyAction)
+            event.accept()
+        elif event.mimeData().hasFormat("application/x-material"):
+            data = event.mimeData().data("application/x-material")
+            stream = QDataStream(data, QIODevice.ReadOnly)
+            text = QString()
+            stream >> text
+
+            self.moduleManager.startDropMaterialAction(str(text)) #start the material draging
 
             event.setDropAction(Qt.CopyAction)
             event.accept()
@@ -260,15 +273,22 @@ class OgreMainWindow(QWidget):
         elif event.mimeData().hasFormat("application/x-game_object"):
             self.moduleManager.moveDropGameObjectAction(self.getCameraToViewportRay()) #move it with the mouse
             event.accept()
+        elif event.mimeData().hasFormat("application/x-material"):
+            self.moduleManager.moveDropMaterialAction(event) #move it with the mouse
+            event.accept()
         else:
             event.ignore()
 
-    def dropEvent(self, event):
+    def finishDropEvent(self, event):
         if event.mimeData().hasFormat("application/x-static_model"):
-            self.moduleManager.stopDropModelAction(self.getCameraToViewportRay()) #move it with the mouse
+            self.moduleManager.finishDropModelAction(self.getCameraToViewportRay())
             event.accept()
         elif event.mimeData().hasFormat("application/x-game_object"):
-            self.moduleManager.stopDropGameObjectAction(self.getCameraToViewportRay()) #move it with the mouse
+            self.moduleManager.finishDropGameObjectAction(self.getCameraToViewportRay()) 
+            event.accept()
+        elif event.mimeData().hasFormat("application/x-material"):
+            relMousePos = self.ogreWidget.mapFromGlobal(QCursor.pos())
+            self.moduleManager.finishDropMaterialAction(relMousePos.x(), relMousePos.y()) 
             event.accept()
         else:
             event.ignore()
@@ -299,18 +319,17 @@ class OgreMainWindow(QWidget):
         mouseRay = self.ogreWidget.getCamera().getCameraToViewportRay(screenX, screenY)
 
         if event.modifiers() == Qt.ControlModifier:
-            self.moduleManager.selectionClick(mouseRay,  True,  False)
+            self.moduleManager.selectionClick(relMousePos.x(), relMousePos.y(), mouseRay,  True,  False)
         elif event.modifiers() == Qt.ShiftModifier:
-            self.moduleManager.selectionClick(mouseRay,  False,  True)
+            self.moduleManager.selectionClick(relMousePos.x(), relMousePos.y(), mouseRay,  False,  True)
         else:
-            self.moduleManager.selectionClick(mouseRay)
+            self.moduleManager.selectionClick(relMousePos.x(), relMousePos.y(), mouseRay)
 
     def getWidth():
         return self.ogreWidget.getWidth()
         
     def getHeight():
         return self.ogreWidget.getHeight()
-
 
     def updateCamera(self):        
         if self.moveCamForward:
@@ -322,4 +341,8 @@ class OgreMainWindow(QWidget):
         if self.strafeCamRight:
             self.ogreWidget.dollyCamera(og.Vector3( 0.2, 0, 0))
         
-        self.moduleManager.pivot.update()
+        if self.moduleManager.pivot:
+            self.moduleManager.pivot.update()
+            
+    def updateRenderWindow(self):
+        self.ogreWidget.update()

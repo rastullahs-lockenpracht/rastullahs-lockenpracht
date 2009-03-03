@@ -25,8 +25,5 @@ void main_plain_color_fp(
 		uniform float4 inColor
 		)
 {	 
-	// Just sample texture using supplied UV
-	//color = float4(0, 1, 0, 1);
-	//color = float4(inColor.r, inColor.g, inColor.b, 1);
 	color = inColor;
 }

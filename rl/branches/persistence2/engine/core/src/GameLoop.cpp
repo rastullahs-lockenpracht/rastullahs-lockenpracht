@@ -22,6 +22,7 @@
 #include "CoreSubsystem.h"
 #include "FixRubyHeaders.h"
 #include "Exception.h"
+#include "Sleep.h"
 
 #include <numeric>
 
@@ -141,7 +142,7 @@ namespace rl
 
         if( unsmoothedFrameTime < mMinFrameTime*1000 )
         {
-            //usleep(floor(1000*(mMinFrameTime*1000 - unsmoothedFrameTime)));
+            msleep(floor((mMinFrameTime*1000 - unsmoothedFrameTime)));
             elapsedTime = mTimer->getMilliseconds();
             unsmoothedFrameTime = elapsedTime - mGameTime;
             if( elapsedTime < mGameTime )

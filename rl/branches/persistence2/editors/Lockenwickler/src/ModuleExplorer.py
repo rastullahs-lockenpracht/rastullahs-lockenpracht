@@ -45,7 +45,7 @@ class ModuleTreeWidget(QTreeWidget):
         self.connect(self, SIGNAL("customContextMenuRequested(const QPoint &)"), self.doMenu)
 
         self.onMenuCallback = None
-
+        self.setAnimated(True)
 
 #        clearAction= QAction("Clear Window",  self)
 #        self.consoleWindow.textEdit.addAction(clearAction)
@@ -77,6 +77,8 @@ class ModuleExplorer(QWidget):
         self.moduleManager = None
         self.mapSelectedCallback = None
         
+        self.lastSelectedMap = None
+        
     def onClick(self, item, column):
         if self.mapSelectedCallback is None:
             return
@@ -84,12 +86,18 @@ class ModuleExplorer(QWidget):
         name = str(item.text(0))
         if name.startswith("Map: "):
             self.mapSelectedCallback(str(item.parent().text(0)).replace("Scene: ", ""), name.replace("Map: ", ""))
+            self.lastSelectedMap = name
         elif name.startswith("Scene: "):
             if item.childCount > 0:
                 self.mapSelectedCallback(name.replace("Scene: ", ""), None)
                 return
-                
             self.mapSelectedCallback(name.replace("Scene: ", ""), str(item.child(0).text(0)).replace("Map: ", ""))
+            self.lastSelectedMap = name
+        else:
+            self.mapSelectedCallback(str(item.parent().parent().text(0)).replace("Scene: ", ""), str(item.parent().text(0)).replace("Map: ", ""))
+            self.lastSelectedMap = name
+            
+
         
     def onMenu(self, point):
         if self.moduleManager is not None:
@@ -137,15 +145,30 @@ class ModuleExplorer(QWidget):
             for m in s.mapFiles:
                 self.parseMap(m, sceneRootItem)
 
-                
+
     def parseMap(self, map, sceneRootItem):
         childItem =  QTreeWidgetItem(sceneRootItem)
-        childItem.setText(0, "Map: " + map.mapName)
+        mn = "Map: " + map.mapName
+        childItem.setText(0, mn)
+        if mn == self.lastSelectedMap:
+            childItem.setSelected(True)
+            childItem.parent().setExpanded(True)
         
-        iter = map.mapNode.getChildIterator()
-        while iter.hasMoreElements():
+        i = 0
+        while i < map.mapNode.numChildren():
             childItem2 = QTreeWidgetItem(childItem) 
-            childItem2.setText(0, iter.getNext().getName())
+            childItem2.setText(0, map.mapNode.getChild(i).getName())
+            i = i+1
+
+
+# this crashed in linux
+#        iter = map.mapNode.getChildIterator()
+#        while iter.hasMoreElements():
+#            childItem2 = QTreeWidgetItem(childItem) 
+#            val = iter.getNext()
+#            if  val is not None:
+#                childItem2.setText(0, val.getName())
+
         
     def setCurrentModule(self, module):
         self.module = module

@@ -48,7 +48,7 @@ namespace rl
 
     const CeGuiString& DialogOption::getConditionVariableType()
     {
-        RlAssert(mPrecondition, CeGuiString("No precondition found for option with id: " 
+        RlAssert(mPrecondition, CeGuiString("No precondition found for option with id: "
                                 + getId()
                                 + "\nA precondition must be set to get its variable type").c_str());
         return mPrecondition->getVariableType();
@@ -67,7 +67,7 @@ namespace rl
     bool DialogOption::isAvailable(Dialog* dialog) const
     {
         bool isActive = true;
-        
+
         if(dialog->getAllProperties()->hasProperty("option" + getId() + "isActive"))
         {
             isActive = dialog->getProperty("option" + getId() + "isActive");
@@ -97,4 +97,9 @@ namespace rl
         return mLabel;
     }
 
+    const CeGuiString& DialogOption::getDefaultPerson() const
+    {
+        static CeGuiString PLAYER = "player";
+        return PLAYER;
+    }
 }

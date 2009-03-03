@@ -15,8 +15,8 @@ ${OIS_INCLUDE_DIRS}
 ${RUBY_INCLUDE_PATH})
 
 SET_SOURCE_FILES_PROPERTIES(swig/RlExports.i PROPERTIES 
-        CPLUSPLUS ON
-        SWIG_FLAGS -minherit)
+	CPLUSPLUS ON
+	SWIG_FLAGS -minherit)
 
 SWIG_ADD_MODULE(RlScript RUBY
 swig/RlExports.i

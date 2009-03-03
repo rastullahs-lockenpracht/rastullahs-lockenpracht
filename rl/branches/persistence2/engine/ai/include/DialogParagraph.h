@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,21 +21,31 @@
 
 namespace rl
 {
+    class Creature;
+    class Dialog;
+    class DialogElement;
     class DialogResponse;
 
     class _RlAiExport DialogParagraph
     {
     public:
-        DialogParagraph(const CeGuiString& text, const Ogre::String& voicefile = "");
+        DialogParagraph(const CeGuiString& text, const CeGuiString& person = "", const Ogre::String& voicefile = "");
         virtual ~DialogParagraph();
 
         const CeGuiString& getText() const;
+        const CeGuiString& getPerson() const;
         const Ogre::String& getVoiceFile() const;
+        DialogElement* getParent() const;
+        void _setParent(DialogElement* parent);
         virtual DialogResponse* getResponse() const;
+        Creature* getSpeaker(Dialog* dialog) const;
+        std::list<Creature*> getListeners(Dialog* dialog) const;
 
     private:
         CeGuiString mText;
+        CeGuiString mPerson;
         Ogre::String mVoiceFile;
+        DialogElement* mParent;
     };
 
     class _RlAiExport DialogGotoResponse : public DialogParagraph

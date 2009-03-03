@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -36,13 +36,11 @@ namespace rl
         DialogOption(const CeGuiString& id, bool isAutoSelected);
         ~DialogOption();
 
-
         const CeGuiString& getLabel() const;
         void setLabel(const CeGuiString& label);
 
-        void setResponse(DialogResponse* response);
         DialogResponse* getResponse() const;
-
+        void setResponse(DialogResponse* response);
 
         void setPrecondition(DialogCondition* precondition);
         virtual const CeGuiString& getConditionVariableType();
@@ -51,13 +49,16 @@ namespace rl
         bool isAutoSelected() const;
         bool isAvailable(Dialog* dialog) const;
 
+    protected:
+        virtual const CeGuiString& getDefaultPerson() const;
+
     private:
         DialogResponse* mResponse;
         DialogCondition* mPrecondition;
         CeGuiString mLabel;
         bool mIsAutoSelected;
     };
-    
+
     typedef DialogSelection<DialogOption> DialogOptionSelection;
 }
 

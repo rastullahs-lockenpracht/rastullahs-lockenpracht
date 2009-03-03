@@ -33,13 +33,17 @@ namespace rl
         void addParagraph(DialogParagraph* paragraph);
         virtual std::list<DialogParagraph*> getParagraphs(Dialog* dialog);
 		virtual bool isSelection() const;
+		const CeGuiString& getPerson() const;
 
     protected:
-        DialogElement(const CeGuiString& id);
+        DialogElement(const CeGuiString& id, const CeGuiString& person = "");
         virtual ~DialogElement();
+
+        virtual const CeGuiString& getDefaultPerson() const = 0;
 
     private:
         CeGuiString mId;
+        CeGuiString mPerson;
         std::list<DialogParagraph*> mParagraphs;
     };
 
@@ -66,10 +70,10 @@ namespace rl
         {
             return (mVariable != NULL);
         }
-            
+
         virtual const CeGuiString& getConditionVariableType()
         {
-            RlAssert(mVariable, CeGuiString("No variable found for option with id: " + DialogElementType::getId()).c_str()); 
+            RlAssert(mVariable, CeGuiString("No variable found for option with id: " + DialogElementType::getId()).c_str());
             return mVariable->getType();
         }
 
