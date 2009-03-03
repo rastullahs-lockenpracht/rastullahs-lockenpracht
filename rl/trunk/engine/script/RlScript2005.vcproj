@@ -131,7 +131,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="-Zm130"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\dialog\include;..\rules\include;..\ai\include;..\ui\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\opensteer\include;..\..\dependencies\ois\includes"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\dialog\include;..\rules\include;..\ai\include;..\ui\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\OgreNewt\inc;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\opensteer\include;..\..\dependencies\ois\includes"
 				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;_USRDLL;RLSCRIPT_EXPORTS;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES;RL_USE_PCH"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
@@ -155,7 +155,7 @@
 				AdditionalDependencies="RlCore.lib RlAi.lib RlUi.lib RlRules.lib OgreMain.lib msvcrt-ruby18.lib CEGUIBase.lib xerces-c_2.lib OgreNewt.lib Newton.lib"
 				OutputFile="$(OutDir)/RlScript.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
+				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs7"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
