@@ -40,8 +40,6 @@
 #include "OgreNewt_BodyInAABBIterator.h"
 #include "OgreNewt_Debugger.h"
 
-#include "OgreNewt_BasicFrameListener.h"
-
 /*! \mainpage OgreNewt Library version 2.00
 
 	\section into_sec Introduction
