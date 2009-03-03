@@ -52,7 +52,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions=" /Zm1000 -O0 -g3 -fno-inline"
-				AdditionalIncludeDirectories=".\inc;..\NewtonSDK2\sdk;..\ogrenew\OgreMain\include;..\boost\include"
+				AdditionalIncludeDirectories=".\inc;..\NewtonSDK\sdk;..\ogrenew\OgreMain\include;..\boost\include"
 				PreprocessorDefinitions="_OGRENEWT_EXPORTS;_OGRENEWT_DYNAMIC"
 				ExceptionHandling="1"
 				RuntimeTypeInfo="true"
@@ -68,7 +68,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32,_WINDOWS,CMAKE_INTDIR=\&quot;Debug\&quot;,_OGRENEWT_EXPORTS"
-				AdditionalIncludeDirectories="\OgreNewt\inc;"
+				AdditionalIncludeDirectories=".\OgreNewt\inc;"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -80,10 +80,10 @@
 				OutputFile="./lib/OgreNewt_d.dll"
 				Version="2.0"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../ogrenew/lib;../boost/lib;../NewtonSDK2/sdk/x32/dll_vs7"
+				AdditionalLibraryDirectories="../ogrenew/lib;../boost/lib;../NewtonSDK/sdk/x32/dll_vs7"
 				GenerateManifest="true"
-				ProgramDatabaseFile="lib\OgreNewt_d.pdb"
-				ImportLibrary="lib\OgreNewt_d.lib"
+				ProgramDatabaseFile=".\lib\OgreNewt_d.pdb"
+				ImportLibrary=".\lib\OgreNewt_d.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -149,14 +149,14 @@
 				AdditionalOptions=" /Zm1000"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories=".\inc;..\NewtonSDK2\sdk;..\ogrenew\OgreMain\include;..\boost\include"
-				PreprocessorDefinitions="_OGRENEWT_EXPORTS "
+				AdditionalIncludeDirectories=".\inc;..\NewtonSDK\sdk;..\ogrenew\OgreMain\include;..\boost\include"
+				PreprocessorDefinitions="_OGRENEWT_EXPORTS;_OGRENEWT_DYNAMIC"
 				ExceptionHandling="1"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
 				AssemblerListingLocation="Release"
 				ObjectFile="$(IntDir)\"
-				ProgramDataBaseFileName="/Release/OgreNewt.pdb"
+				ProgramDataBaseFileName="./Release/OgreNewt.pdb"
 				WarningLevel="3"
 				CompileAs="2"
 			/>
@@ -178,7 +178,7 @@
 				OutputFile="./lib/OgreNewt.dll"
 				Version="2.0"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="../ogrenew/lib;../boost/lib;../NewtonSDK2/sdk/x32/dll_vs7"
+				AdditionalLibraryDirectories="../ogrenew/lib;../boost/lib;../NewtonSDK/sdk/x32/dll_vs7"
 				GenerateManifest="true"
 				ProgramDatabaseFile="lib\OgreNewt.pdb"
 				ImportLibrary="lib\OgreNewt.lib"
