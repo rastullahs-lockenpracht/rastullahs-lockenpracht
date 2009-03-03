@@ -4,6 +4,7 @@
 #include "OgreNewt_CollisionPrimitives.h"
 #include "OgreNewt_World.h"
 #include <vector>
+#include <iostream>
 
 namespace OgreNewt
 {
@@ -35,8 +36,6 @@ PlayerController::PlayerController(OgreNewt::Body * child) :
     // initialize sensor-shape parameters
     m_staticRadiusFactor = 1.125f;
     m_dynamicRadiusFactor = 1.5f;
-    //! TODO I think there's an error with the radius...
-    m_dynamicRadiusFactor = 0.75f;
     m_floorFinderRadiusFactor = 1.0f;
     m_maxPlayerHeightPaddFactor = 0.01f;
     m_sensorShapeSegments = 32;
@@ -146,6 +145,10 @@ void PlayerController::getPlayerHeightAndRadius(Ogre::Real &height, Ogre::Real &
     Ogre::Real rx = aab.getMaximum().x - aab.getMinimum().x;
     Ogre::Real rz = aab.getMaximum().z - aab.getMinimum().z;
     radius = std::max(rx,rz) / 2.0f;
+
+    //! TODO: the aabb seems to be too big
+// height *= 0.9f;
+// radius *= 0.5f;
 }
 
 
@@ -385,7 +388,7 @@ void PlayerController::submitConstraint( Ogre::Real timestep, int threadindex )
             DynamicConvexCast dynamicConvexCast(this);
             HitBodyVector hitBodyVec;
             hitBodyVec.reserve(m_maxContactsCount);
-
+/*
             endCast = startCast + horizontalDesiredVel*timestep;
             dynamicConvexCast.go(m_dynamicsSensorShape, startCast, yawOri, endCast, m_maxContactsCount, threadindex);
 
@@ -500,13 +503,13 @@ void PlayerController::submitConstraint( Ogre::Real timestep, int threadindex )
                     dynamicConvexCast.go(m_dynamicsSensorShape, startCast, yawOri, endCast, m_maxContactsCount, threadindex);
                 }
             }
-
+*/
 
             // ----------------- STATIC CONVEXCAST ---------------------
             StaticConvexCast staticConvexCast(this);
             startCast.y += 0.5f*m_maxStepHeight;
             endCast = startCast + horizontalDesiredVel*timestep;
-
+/*
             staticConvexCast.go(m_horizontalSensorShape, startCast, yawOri, endCast, m_maxContactsCount, threadindex);
             for(int iterations = 0; iterations < m_maxCollisionsIteration; iterations++)
             {
@@ -559,10 +562,121 @@ void PlayerController::submitConstraint( Ogre::Real timestep, int threadindex )
                     staticConvexCast.go(m_horizontalSensorShape, startCast, yawOri, endCast, m_maxContactsCount, threadindex);
                 }
             }
-//! TODO MISSING FURTHER CASTS ETC
+*/
 
 
+            // ----------------- STEP RECOGNITION AND GROUND TRACKING ---------------------
+            // now determine the ground tracking, predict the destination position
+            if( m_isInJumpState )
+            {
+                // player of in the air look ahead for the land
+                startCast = pos + horizontalDesiredVel*timestep + Ogre::Vector3::UNIT_Y*m_maxStepHeight*0.5f;
+                endCast = startCast - Ogre::Vector3::UNIT_Y*m_maxStepHeight;
 
+                staticConvexCast.go(m_verticalSensorShape, startCast, yawOri, endCast, 1, threadindex);
+                
+//! TODO: remove this... bug in newton?    
+Ogre::Real distanceToFirstHit = staticConvexCast.getDistanceToFirstHit();
+if( distanceToFirstHit > 0.01f )
+{
+
+                // found land
+                if( staticConvexCast.getContactsCount() > 0 )
+                {
+                    Ogre::Real dist, correctionVel;
+                    dist = - m_maxStepHeight * (0.5f - 1.0f*staticConvexCast.getDistanceToFirstHit());
+                    correctionVel = dist/timestep - vel.y;
+                    addLinearRow(pos, pos, Ogre::Vector3::UNIT_Y);
+                    setRowAcceleration(correctionVel/timestep);
+                    m_isInJumpState = false;
+                }
+}
+            }
+            else // m_isInJumpState
+            {
+                // player is moving on the ground, look ahead for stair steps
+                startCast = pos + horizontalDesiredVel*timestep + Ogre::Vector3::UNIT_Y*m_maxStepHeight;
+                endCast = startCast - Ogre::Vector3::UNIT_Y*m_maxStepHeight*2.0f;
+
+                AllBodyConvexCast allBodyConvexCast(this);
+                allBodyConvexCast.go(m_verticalSensorShape, startCast, yawOri, endCast, 1, threadindex);
+
+                if( allBodyConvexCast.getContactsCount() == 0 )
+                {
+                    //m_isInJumpState = true;
+                }
+                else
+                {
+                    m_isInJumpState = false;
+
+
+                    Ogre::Real distanceToFirstHit = allBodyConvexCast.getDistanceToFirstHit();
+                    // found "step"
+
+                    if( distanceToFirstHit < 0.01f )
+                    {
+                        // something when wrong because the vertical sensor shape is colliding
+                        // at origin of the predicted destination
+                        // this should never happens as a precaution set the vertical body velocity to zero
+                        Ogre::Vector3 vel = m_body->getVelocity();
+                        vel.y = 0.0f;
+                        m_body->setVelocity(vel);
+                    }
+                    else
+                    {
+                        Ogre::Real dist, correctionVel;
+                        // "the player will hit surface, make shure it is grounded" (?)
+                        dist = - m_maxStepHeight * (1.0f - 3.0f*distanceToFirstHit);
+/*
+                        // check if the contact violates the maxSlope constraint
+                        if( Ogre::Math::ASin( allBodyConvexCast.getInfoAt(0).mContactNormal.y ) < m_maxSlope )
+                        {
+                            // we are hitting stiff slope
+                            // cast a ray at the hit point to verify this is a face normal and not and edge of vertex normal
+                            // that can be pointing in the wrong direction
+                            Ogre::Vector3 hitPos, localNormal, origin, retCollisionLocalNormal, p0, p1;
+                            Ogre::Real retCollisionDist;
+                            int retCollisionColId;
+                            Ogre::Quaternion hitOri, hitOriInv;
+                            const OgreNewt::Collision* collision;
+                            
+                            Body* hitBody = allBodyConvexCast.getInfoAt(0).mBody;
+                            hitBody->getPositionOrientation(hitPos, hitOri);
+                            
+                            hitOriInv = hitOri.Inverse();
+                            localNormal = hitOriInv*allBodyConvexCast.getInfoAt(0).mContactNormal;
+                            origin = hitOriInv*(allBodyConvexCast.getInfoAt(0).mContactPoint - hitPos);
+                            
+                            collision = hitBody->getCollision();
+
+                            p0 = origin + localNormal*0.1f;
+                            p1 = origin - localNormal*0.1f;
+
+                            retCollisionDist = CollisionTools::CollisionRayCast(collision, p0, p1, retCollisionLocalNormal, retCollisionColId);
+                            if( retCollisionDist < 1.0f ) // this is always true
+                            {
+                                if( retCollisionLocalNormal.dotProduct(localNormal) < 0.9f ) // this is really an illegal slope
+                                {
+                                    horizontalDesiredVel = Ogre::Vector3::ZERO;
+                                    dist= 0.0f; // this sets correctionVel for steps to 0
+                                }
+                            }
+                            else
+                            {
+                                dist= 0.0f; // this sets correctionVel for steps to 0
+                            }
+                        }
+*/
+
+                        // move up for step
+
+                        correctionVel = dist / timestep - vel.y;
+std::cout << "distToFirstHit: " << distanceToFirstHit << "    \tdist: " << dist << "    \tvel.y: " << vel.y << "    \tCorrectionVel: " << correctionVel << std::endl;
+                        addLinearRow(pos, pos, Ogre::Vector3::UNIT_Y);
+                        setRowAcceleration( correctionVel / timestep );
+                    }
+                }
+            }
 
 
             // calculate force needed for desired velocity

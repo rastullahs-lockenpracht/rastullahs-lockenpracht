@@ -165,10 +165,18 @@ private:
     class AllBodyConvexCast : public OgreNewt::BasicConvexcast
     {
         public:
+            AllBodyConvexCast(PlayerController *pc) : m_parent(pc) {}
+
+            void go(const OgreNewt::Collision* col, const Ogre::Vector3& startpt,
+                    const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int thread)
+            {
+                go(m_parent->getControlledBody()->getWorld(), col, startpt, colori, endpt, maxcontactscount, thread);
+            }
 
             virtual bool userPreFilterCallback(OgreNewt::Body* body) {return m_parent->convexAllBodyCastPreFilter(body);}
         private:
             OgreNewt::PlayerController* m_parent;
+            using BasicConvexcast::go;
     };
 };
 

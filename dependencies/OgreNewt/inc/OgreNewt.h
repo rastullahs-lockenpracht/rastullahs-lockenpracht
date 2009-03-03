@@ -56,6 +56,7 @@
           I added a hack, it only creates one contact at the maximum at the moment!
         - this library supports the newton functions for multithreading but there are several functions/classes in this
           library itself, that are not thread safe (I don't need multiple threads)
+          especially the world-updates are not threadsafe in ogre (see newton forum, someone posted a solution there!)
         - the copied MovableText class (in Tools::OgreAddons) seems to have some graphics error (it's used
           to show the debugging information above each body)
         - I didn't test several features:
