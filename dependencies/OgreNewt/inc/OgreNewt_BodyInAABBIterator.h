@@ -62,13 +62,13 @@ protected:
 
 private:
     //! this function is declared private, so nobody can use it!
-	BodyInAABBIterator();
+    BodyInAABBIterator() {}
 
     //! this function is declared private, so nobody can use it!
-    BodyInAABBIterator(const BodyInAABBIterator&);
+    BodyInAABBIterator(const BodyInAABBIterator&) {}
 
     //! this function is declared private, so nobody can use it!
-    const BodyInAABBIterator& operator=(const BodyInAABBIterator&);
+    const BodyInAABBIterator& operator=(const BodyInAABBIterator&) { return NULL; }
 
 	static void _CDECL newtonIterator( const NewtonBody* body );
 };

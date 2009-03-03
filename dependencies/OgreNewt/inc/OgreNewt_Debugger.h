@@ -123,13 +123,13 @@ namespace OgreNewt
 
     private:
         //! this function is declared private, so nobody can use it!
-        Debugger();
+        Debugger() {}
 
         //! this function is declared private, so nobody can use it!
-        Debugger(const Debugger&);
+        Debugger(const Debugger&) {}
 
         //! this function is declared private, so nobody can use it!
-        const Debugger& operator=(const Debugger&);
+        const Debugger& operator=(const Debugger&) { return NULL; }
 
 		static void _CDECL newtonPerPoly( void* userData, int vertexCount, const float* faceVertec, int id );
 	};
