@@ -164,9 +164,33 @@ material PlainColorGLSL glsl
 			vertex_program_ref PlainColorGLSL_VP	
 			{
 			}
-			
+				
 			fragment_program_ref PlainColorGLSL_FP
 			{
+			}
+		}
+	}
+}
+
+fragment_program FragmentDepthMap glsl
+{
+	source depthmap.frag
+}
+
+material DepthMap
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref PlainColorGLSL_VP	
+			{
+			}
+
+			fragment_program_ref FragmentDepthMap
+			{
+				param_named_auto fNear near_clip_distance
+				param_named_auto fFar far_clip_distance
 			}
 		}
 	}

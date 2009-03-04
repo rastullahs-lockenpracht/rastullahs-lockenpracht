@@ -79,7 +79,7 @@ class OgreWidget(QtGui.QWidget):
             self.renderWindow = renderWindow
             
             self.camera = self.sceneManager.createCamera(self.cameraName)
-            self.camera.NearClipDistance = 0.1
+            self.camera.NearClipDistance = 0.5
 
             # Create focus node (camera always points at this)
             self.camFocusNode = self.sceneManager.getRootSceneNode().createChildSceneNode()

@@ -138,6 +138,27 @@ class NewModuleWizard(QDialog, Ui_Dialog):
         f.write("CoreSubsystem.getSingleton().registerModule(" + mname.capitalize() + "Module.new());\n")
         f.close()
         
+        
+        
+        p = os.path.join(modulePath, "maps")
+        p = os.path.join(p, str(self.sceneNameLineEdit.text()) + ".rlscene")
+        
+        f = open(p, "w")
+        f.write("<scene name=\"" + str(self.sceneNameLineEdit.text()) + "\">\n")
+        f.write("    <map file=\"" + str(self.mapNameLineEdit.text()) + ".rlmap.xml\"" +  "/>\n")
+        f.write("</scene>\n")
+        f.close()
+        
+        p = os.path.join(modulePath, "maps")
+        p = os.path.join(p, str(self.mapNameLineEdit.text()) + ".rlmap.xml")
+        
+        f = open(p, "w")
+        f.write("<rastullahmap formatVersion=\"0.4.0\">\n")
+        f.write("    <nodes>\n")
+        f.write("    </nodes>\n")
+        f.write("</rastullahmap>\n")
+        f.close()
+        
         self.moduleManager.resetParsedModuleConfig()
         self.moduleManager.openLoadModuleDialog()
         

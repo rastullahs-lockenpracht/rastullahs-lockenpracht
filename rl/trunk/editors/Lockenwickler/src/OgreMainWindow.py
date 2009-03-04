@@ -76,20 +76,6 @@ class OgreMainWindow(QWidget):
         self.splitterV.setOrientation(Qt.Vertical)
         self.splitterV.setObjectName("splitter")
 
-        # create the preferences buttons and connect the signals
-        self.ogreWindowOptions = QToolButton(self)
-        QObject.connect(self.ogreWindowOptions, SIGNAL("clicked()"),
-                                    self.onPreferencesButton)
-        self.ogreWindowOptions.hide()
-
-        sizePolicy = QSizePolicy(QSizePolicy.Maximum,QSizePolicy.Minimum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ogreWindowOptions.sizePolicy().hasHeightForWidth())
-        self.ogreWindowOptions.setSizePolicy(sizePolicy)
-        self.ogreWindowOptions.setObjectName("ogreWindowPreferences")
-        self.splitterV.addWidget(self.ogreWindowOptions)
-
         # create the horizontal splitter wich contains the two ogre render windows and add it to the vertical splitter
 
         ##################################
@@ -126,10 +112,6 @@ class OgreMainWindow(QWidget):
         
     def retranslateUi(self, Form):
         Form.setWindowTitle(QApplication.translate("Form", "Form", None, QApplication.UnicodeUTF8))
-        self.ogreWindowOptions.setText(QApplication.translate("Form", "...", None, QApplication.UnicodeUTF8))
-
-    def onPreferencesButton(self):
-        self.splitterH.setOrientation(Qt.Vertical)
 
     def keyPressEvent(self,  event):
         if event.key() == Qt.Key_W:
@@ -166,6 +148,7 @@ class OgreMainWindow(QWidget):
             elif event.button() == 2: # right mouse button is pressed
                 self.rightMouseDown = True
                 self.moduleManager.rightMouseDown = True
+                QTimer.singleShot(50, self.onContextMenuTimer)
 
             elif event.button() == 4: # middle mouse button is pressed
                 self.middleMouseDown = True
@@ -185,6 +168,7 @@ class OgreMainWindow(QWidget):
             elif event.button() == 2: # right mouse button is released
                 self.rightMouseDown = False
                 self.moduleManager.rightMouseDown = False
+                
             elif event.button() == 4: # middle mouse button is released
                 self.middleMouseDown = False
                 self.moduleManager.middleMouseDown = False
@@ -346,3 +330,9 @@ class OgreMainWindow(QWidget):
             
     def updateRenderWindow(self):
         self.ogreWidget.update()
+        
+    def onContextMenuTimer(self):
+        if not self.rightMouseDown:
+            self.moduleManager.onContextMenu()
+        
+        

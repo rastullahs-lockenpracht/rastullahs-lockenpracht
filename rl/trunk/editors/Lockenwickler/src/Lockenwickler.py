@@ -17,7 +17,6 @@
  # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  #################################################
 
-
 import os
 import sys
 import platform
@@ -85,6 +84,7 @@ class Lockenwickler(QtGui.QMainWindow):
         
         self.moduleManager.setModuleExplorer(self.moduleExplorerWin)
         self.moduleManager.setPropertyWindow(self.objectPropertyWin)
+        self.moduleManager.setContextMenuCallback(self.onContextMenuCallback)
         
         self.setWindowIcon(QIcon("media/icons/lockenwickler_provisorium_small.png"))
         self.setWindowTitle("Rastullahs Lockenwickler")
@@ -282,7 +282,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.OgreMainWinSceneMgr = self.ogreRoot.createSceneManager(og.ST_GENERIC, "OgreMainWinSceneMgr")
         self.OgreMainWinSceneMgr.ambientLight = og.ColourValue(4, 4, 4)
         self.OgreMainWinSceneMgr.addRenderQueueListener(self.pivotRenderQueueListener)
-
+        
         self.moduleName = ""
         self.moduleManager = ModuleManager(self.ogreRoot,  self.OgreMainWinSceneMgr)
 
@@ -457,6 +457,19 @@ class Lockenwickler(QtGui.QMainWindow):
         if not event.isAutoRepeat():
             self.ogreMainWindow.keyReleaseEvent(event)
         pass
+
+    def onContextMenuCallback(self, actions):
+        menu = QMenu("My Menu!!")
+        menu.addAction(self.actionDelete)
+        menu.addAction(self.actionCopy)
+        menu.addAction(self.actionCut)
+        menu.addAction(self.actionPaste)
+        menu.addSeparator()
+        for a in actions:
+            menu.addAction(a)
+            
+        menu.exec_(QCursor.pos())
+        
 
     def connectActionButtons(self):
         pass

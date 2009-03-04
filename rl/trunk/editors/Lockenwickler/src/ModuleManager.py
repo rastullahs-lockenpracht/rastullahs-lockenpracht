@@ -31,6 +31,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
 from SelectionBuffer import *
+from DepthBuffer import *
 from MovePivot import *
 from GameObjectClassManager import *
 
@@ -466,8 +467,6 @@ class Module():
 
         for file in os.listdir(rootFolder):
             curFile = join(rootFolder, file)
-            if file == "WindyGrass.program":
-                print "yes!"
 
             if file.startswith('.'): #ignore dot files (hidden)
                 continue
@@ -538,9 +537,12 @@ class ModuleManager():
         self.moduleConfigIsParsed = False
 
         self.selectionBuffer = None
+        self.depthBuffer = None
         self.propertyWindow = None
     
         self.oneClickEntityPlacement = False
+        
+        self.onContextMenuCallback = None
     
     def resetParsedModuleConfig(self):
         self.moduleConfigIsParsed = False
@@ -615,12 +617,11 @@ class ModuleManager():
                 self.mainModule = m
                 self.moduleExplorer.setCurrentModule(m)
                 
-        self.moduleExplorer.updateView()
-        ModuleManager.dropCount += 1
+#        self.moduleExplorer.updateView()
+#        ModuleManager.dropCount += 1
 #        n = self.sceneManager.getRootSceneNode().createChildSceneNode()
 #        e = self.sceneManager.createEntity("west342wt346t",  "UniCube.mesh")
-#        e.setMaterialName("PlainColorGLSL")
-#        e.getSubEntity(0).setCustomParameter(1, og.Vector4(0.0, 0.0, 1.0, 1.0))
+#        e.setMaterialName("DepthMap")
 #
 #        e2 = self.sceneManager.createEntity("west342wt34635t",  "UniSphere.mesh")
 #        e2.setMaterialName("PlainColor")
@@ -631,6 +632,9 @@ class ModuleManager():
         
         if self.selectionBuffer is None:
             self.selectionBuffer = SelectionBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
+
+        if self.depthBuffer is None:
+            self.depthBuffer = DepthBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
 
     def addSceneToModule(self, name):
         if self.mainModule is not None:
@@ -660,7 +664,9 @@ class ModuleManager():
             meshFile = str(self.modelSelectionDialog.listWidget.currentItem().text())
             self.startDropModelAction(meshFile, ray)
             return
-            
+        
+        #self.depthBuffer.onSelectionClick(screenX, screenY)
+        
         so = None
         if self.selectionBuffer is not None:
             so = self.selectionBuffer.onSelectionClick(screenX, screenY)
@@ -947,3 +953,38 @@ class ModuleManager():
         
     def setOneClickEntityPlacement(self, state):
         self.oneClickEntityPlacement = state
+
+
+        
+    def createLight(self):
+        print "creating light here..."
+    
+    def createZone(self):
+        print "creating zone here..."
+    
+    def onContextMenu(self):
+        actions = []
+        actions.append(self.createAction("Create Light here", self.createLight))
+        actions.append(self.createAction("Create Zone here", self.createZone))
+        
+        if self.onContextMenuCallback is not None:
+            self.onContextMenuCallback(actions)
+
+    def setContextMenuCallback(self, callback):
+        self.onContextMenuCallback = callback
+
+    def createAction(self, text, slot=None, shortcut=None, icon=None, tip=None, checkable=False, signal="triggered()"):
+        action = QAction(text, None)
+        if icon is not None:
+            action.setIcon(QIcon("media/icons/%s" % icon))
+        if shortcut is not None:
+            action.setShortcut(shortcut)
+        if tip is not None:
+            action.setToolTip(tip)
+            action.setStatusTip(tip)
+        if slot is not None:
+            QWidget.connect(action, SIGNAL(signal), slot)
+
+        action.setCheckable(checkable)
+
+        return action

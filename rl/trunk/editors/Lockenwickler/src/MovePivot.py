@@ -116,6 +116,12 @@ class Pivot():
         self.zScaleNode = self.pivotNode.createChildSceneNode()
         self.zScaleNode.attachObject(self.zScaleEntity)
         self.zScaleNode.translate(og.Vector3(0, 0, 2))
+        
+        self.uniScaleEntity = self.sceneManager.createEntity("UniScaler",  "UniCube.mesh")
+        self.uniScaleEntity.setMaterialName("Lockenwickler_FreeMover")
+        self.uniScaleEntity.setRenderQueueGroup(og.RENDER_QUEUE_OVERLAY - 1)
+        self.uniScaleNode = self.pivotNode.createChildSceneNode()
+        self.uniScaleNode.attachObject(self.uniScaleEntity)
 
     def setPosition(self,  pos):
         self.pivotNode.setPosition(pos)
@@ -127,11 +133,9 @@ class Pivot():
         self.moveDirection = dirEntity.getName()
         self.selectionList = soList
         self.isTransforming = True
-        pass
 
     def stopTransforming(self):
         self.isTransforming = False
-        pass
 
     def hide(self):
         self.pivotNode.removeAllChildren()
@@ -148,7 +152,10 @@ class Pivot():
             self.pivotNode.addChild(self.yRotateNode)
             self.pivotNode.addChild(self.zRotateNode)
         elif self.mode == 3:
-            return
+            self.pivotNode.addChild(self.xScaleNode)
+            self.pivotNode.addChild(self.yScaleNode)
+            self.pivotNode.addChild(self.zScaleNode)
+            self.pivotNode.addChild(self.uniScaleNode)
         self.isHidden = False
 
     def setMoveMode(self):
@@ -171,6 +178,7 @@ class Pivot():
         self.pivotNode.addChild(self.xScaleNode)
         self.pivotNode.addChild(self.yScaleNode)
         self.pivotNode.addChild(self.zScaleNode)
+        self.pivotNode.addChild(self.uniScaleNode)
         
     def onMouseMoved(self, globalX, globalY, incX, incY):
         # move mode
@@ -219,6 +227,12 @@ class Pivot():
                 if self.moveDirection == "EditorZScaler":
                     for so in self.selectionList:
                         scale = so.entity.getParentNode().getScale() + og.Vector3(0, 0, incX * scaleFactor)
+                        so.entity.getParentNode().setScale(scale)
+                if self.moveDirection == "UniScaler":
+                    for so in self.selectionList:
+                        val = incY / 6.0
+                        print val
+                        scale = so.entity.getParentNode().getScale() + og.Vector3(val * scaleFactor, val * scaleFactor, val * scaleFactor)
                         so.entity.getParentNode().setScale(scale)
         
         self.update()
