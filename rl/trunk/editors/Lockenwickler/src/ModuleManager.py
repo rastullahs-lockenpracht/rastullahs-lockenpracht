@@ -76,6 +76,22 @@ def indent(elem, level=0):
         if level and (not elem.tail or not elem.tail.strip()):
             elem.tail = i
 
+# creates unique names for new entities
+def createUniqueEntityName(sceneManager, name = None):
+    n = ""
+    if name is None:
+        n = "dropMesh" + str(ModuleManager.dropCount)
+    else:
+        n = name
+        
+    while sceneManager.hasEntity(n):
+        n = "dropMesh" + str(ModuleManager.dropCount)
+        ModuleManager.dropCount += 1
+        
+    return n
+        
+        
+
 class Map():
     def __init__(self, pathToFile, sceneManager, ogreRoot, gocManager, emptyMap = False):
         self.pathToMapFile = pathToFile
@@ -104,8 +120,10 @@ class Map():
                 return
 
     def parseMapNodes(self, nodeElement):
-        nodes = nodeElement.getiterator("entity")
+        nodes = nodeElement.getiterator("gameobject")
+        self.createGameObjects(nodes)
         
+        nodes = nodeElement.getiterator("entity")
         self.createEntites(nodes)
 
         nodes = nodeElement.getiterator("light")
@@ -113,9 +131,6 @@ class Map():
 
         nodes = nodeElement.getiterator("sound")
         self.createSound(nodes)
-
-        nodes = nodeElement.getiterator("gameobject")
-        self.createGameObjects(nodes)
 
         nodes = nodeElement.getiterator("particlesystem")
         self.createParticleSystems(nodes)
@@ -128,6 +143,8 @@ class Map():
                 num = int(entityName.replace("dropMesh",  ""))
                 if ModuleManager.dropCount < num:
                     ModuleManager.dropCount = num
+                elif ModuleManager.dropCount < num:
+                    ModuleManager.dropCount = num + 1
                     
             meshFile = nodes.attrib["meshfile"]
             nodePosition = None
@@ -153,7 +170,7 @@ class Map():
                     nodeScale = og.Vector3(scalex, scaley, scalez)
 
             try:
-                e = self.sceneManager.createEntity(entityName, meshFile)
+                e = self.sceneManager.createEntity(createUniqueEntityName(self.sceneManager,  entityName), meshFile)
             except:
                 print "Warning: Meshfile " + meshFile + " could not be found."
                 continue
@@ -226,7 +243,13 @@ class Map():
     def createGameObjects(self, gameObjectNodes):
         for g in gameObjectNodes:
             classid = g.attrib["class"]
+            
             id = int(g.attrib["id"])
+            if ModuleManager.dropCount < id:
+                ModuleManager.dropCount = id
+            elif ModuleManager.dropCount < num:
+                ModuleManager.dropCount = num + 1
+                
             state = g.attrib["state"]
             nodePosition = None
             nodeRotation = None
@@ -254,7 +277,8 @@ class Map():
             go = self.gocManager.getGameObjectWithClassId(classid)
             if go is not None:
                 meshFile = go.getMeshFileName()
-                ent = self.sceneManager.createEntity("dropMesh" + str(id), str(meshFile))
+                
+                ent = self.sceneManager.createEntity(createUniqueEntityName(self.sceneManager), str(meshFile))
                 dropNode = self.mapNode.createChild("gameobject_" + "dropNode" + str(id))
                 dropNode.attachObject(ent)
 
@@ -304,11 +328,36 @@ class Map():
                     scaleElem.attrib["x"] = str(n.getScale().x)
                     scaleElem.attrib["y"] = str(n.getScale().y)
                     scaleElem.attrib["z"] = str(n.getScale().z)
-                
+                    
+                if n.name.startswith("gameobject_"):
+                    goElem = xml.SubElement(nodesElem, "gameobject")
+                    mname = n.name
+
+                    goElem.attrib["class"] = str(n.getAttachedObject(0).getUserObject().gocName)
+                    goElem.attrib["state"] = str(n.getAttachedObject(0).getUserObject().state)
+                    goElem.attrib["id"] = str(n.getAttachedObject(0).getUserObject().inWorldId)
+                    
+                    posElem = xml.SubElement(goElem, "position")
+                    posElem.attrib["x"] = str(n.getPosition().x)
+                    posElem.attrib["y"] = str(n.getPosition().y)
+                    posElem.attrib["z"] = str(n.getPosition().z)
+                    
+                    rotElem = xml.SubElement(goElem, "rotation")
+                    rotElem.attrib["qw"] = str(n.getOrientation().w)
+                    rotElem.attrib["qx"] = str(n.getOrientation().x)
+                    rotElem.attrib["qy"] = str(n.getOrientation().y)
+                    rotElem.attrib["qz"] = str(n.getOrientation().z)
+                    
+                    scaleElem = xml.SubElement(goElem, "scale")
+                    scaleElem.attrib["x"] = str(n.getScale().x)
+                    scaleElem.attrib["y"] = str(n.getScale().y)
+                    scaleElem.attrib["z"] = str(n.getScale().z)
+                    
             i = i+1
             
         indent(root)
         xml.ElementTree(root).write(self.pathToMapFile)
+        
 # caused a linux crash
 #        iter = self.mapNode.getChildIterator()
 #        while iter.hasMoreElements():
@@ -491,7 +540,7 @@ class Module():
                             
 class ModuleManager():
     dropCount = 0
-        
+    
     def __init__(self,  ogreRoot,  sceneManager):
         self.sceneManager = sceneManager
         self.ogreRoot = ogreRoot
@@ -771,7 +820,7 @@ class ModuleManager():
                     meshFile = go.getMeshFileName()
 
                     if go is not None:
-                        newEntity = self.sceneManager.createEntity("dropMesh" + str(ModuleManager.dropCount), str(meshFile))
+                        newEntity = self.sceneManager.createEntity(createUniqueEntityName(self.sceneManager), str(meshFile))
                         newNode = self.currentMap.mapNode.createChild("gameObject_dropNode" + str(ModuleManager.dropCount))
                         newNode.attachObject(newEntity)
                         newNode.setPosition(so.entity.getParentNode().getPosition())
@@ -789,7 +838,7 @@ class ModuleManager():
                 nodeName = "entity_dropNode" + str(ModuleManager.dropCount)
                 newNode = self.currentMap.mapNode.createChild(nodeName)
 
-                entityName = "dropMesh" + str(ModuleManager.dropCount)
+                entityName = createUniqueEntityName(self.sceneManager)
                 newEntity = self.sceneManager.createEntity(entityName, so.entity.getMesh().getName())
 
                 newNode.attachObject(newEntity)
@@ -866,11 +915,15 @@ class ModuleManager():
         self.mainModule.save()
 
     def startDropGameObjectAction(self, classid, ray):
+        if self.currentMap is None:
+            print "No map selected!"
+            return
+            
         go = self.gocManager.getGameObjectWithClassId(classid)
 
         if go is not None:
             meshFile = go.getMeshFileName()
-            dropEntity = self.sceneManager.createEntity("dropMesh" + str(ModuleManager.dropCount), str(meshFile))
+            dropEntity = self.sceneManager.createEntity(createUniqueEntityName(self.sceneManager), str(meshFile))
             dropNode = self.currentMap.mapNode.createChild("gameobject_dropNode" + str(ModuleManager.dropCount))
             dropNode.attachObject(dropEntity)
 
@@ -881,11 +934,15 @@ class ModuleManager():
                 dropNode.setPosition(ray.getPoint(50))
 
             self.dropGO = GameObjectRepresentation(ModuleManager.dropCount, classid, dropNode, meshFile)
+            self.gameObjectRepresentationDict.append(self.dropGO)
             dropEntity.setUserObject(self.dropGO)
 
         ModuleManager.dropCount += 1
 
     def moveDropGameObjectAction(self, ray):
+        if self.currentMap is None:
+            return
+        
         result = og.Math.intersects(ray, self.dropCollisionPlane)
         if result.first == True:
             self.dropGO.setPosition(ray.getPoint(result.second))
@@ -893,6 +950,7 @@ class ModuleManager():
             self.dropGO.setPosition(ray.getPoint(50))
 
     def finishDropGameObjectAction(self, ray):
+        self.dropGO = None
         return
 
     def startDropModelAction(self, meshFile, ray):
@@ -900,8 +958,7 @@ class ModuleManager():
             print "No map selected!"
             return
             
-        self.dropEntity = self.sceneManager.createEntity("dropMesh" + str(ModuleManager.dropCount), meshFile)
-
+        self.dropEntity = self.sceneManager.createEntity(createUniqueEntityName(self.sceneManager), meshFile)
         self.dropNode = self.currentMap.mapNode.createChild("entity_dropNode" + str(ModuleManager.dropCount))
         self.dropNode.attachObject(self.dropEntity)
 
