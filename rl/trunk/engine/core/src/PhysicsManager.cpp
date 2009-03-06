@@ -171,13 +171,10 @@ namespace rl
             if( mDebugMode )
             {
                 LOG_DEBUG(Logger::CORE, "\tNewtonBodyLog: &Body  Position  Orientation  Velocity  "\
-                    "Omega  Force  Torque  NewtonBodyGetSleepingState  NewtonBodyGetAutoFreeze  "\
-                    "NewtonBodyGetContinuousCollisionMode  ( invMass  invIxx  invIyy  invIzz )");
+                    "Omega  Force  Torque NewtonBodyGetContinuousCollisionMode mass inertia");
                 if( Logger::getSingleton().getLogDetail() <= Logger::LL_DEBUG )
-                for( const NewtonBody* body = NewtonWorldGetFirstBody(mWorld->getNewtonWorld());
-                     body != NULL;
-                     body = NewtonWorldGetNextBody(mWorld->getNewtonWorld(), body)  )
-                    newtonPerBodyLogProperties(body);
+                for( OgreNewt::Body* body = mWorld->getFirstBody(); body != NULL; body = body->getNext() )
+                    logBodyProperties(body);
             }
 #endif
         }
@@ -193,12 +190,9 @@ namespace rl
             if( mDebugMode )
             {
                 LOG_DEBUG(Logger::CORE, "\tNewtonBodyLog: &Body  Position  Orientation  Velocity  "\
-                    "Omega  Force  Torque  NewtonBodyGetSleepingState  NewtonBodyGetAutoFreeze  "\
-                    "NewtonBodyGetContinuousCollisionMode  ( invMass  invIxx  invIyy  invIzz )");
-                for( const NewtonBody* body = NewtonWorldGetFirstBody(mWorld->getNewtonWorld());
-                     body != NULL;
-                     body = NewtonWorldGetNextBody(mWorld->getNewtonWorld(), body)  )
-                    newtonPerBodyLogProperties(body);
+                    "Omega  Force  Torque NewtonBodyGetContinuousCollisionMode mass inertia");
+                for( OgreNewt::Body* body = mWorld->getFirstBody(); body != NULL; body = body->getNext() )
+                    logBodyProperties(body);
             }
 #endif
         }
@@ -215,28 +209,22 @@ namespace rl
     }
 
 #ifdef _DEBUG
-    void _CDECL PhysicsManager::newtonPerBodyLogProperties( const NewtonBody* body )
+    void PhysicsManager::logBodyProperties( const OgreNewt::Body* body )
     {
         std::ostringstream oss;
         Quaternion orient;
         Vector3 pos;
-        float matrix[16];
-        NewtonBodyGetMatrix(body,matrix);
-        OgreNewt::Converters::MatrixToQuatPos(matrix,orient,pos);
-        Vector3 force;
-        NewtonBodyGetForce(body, &force.x);
-        Vector3 torque;
-        NewtonBodyGetTorque(body, &torque.x);
-        Vector3 omega;
-        NewtonBodyGetOmega(body, &omega.x);
-        Vector3 velocity;
-        NewtonBodyGetVelocity(body, &velocity.x);
-        Vector3 invMass, invIxx, invIyy, invIzz;
-        NewtonBodyGetInvMass(body, &invMass.x, &invIxx.x, &invIyy.x, &invIzz.x);
+        body->getPositionOrientation(pos, orient);
+        Vector3 force = body->getForce();
+        Vector3 torque = body->getTorque();
+        Vector3 omega = body->getOmega();
+        Vector3 velocity = body->getVelocity();
+        Vector3 inertia;
+        Real mass;
+        body->getMassMatrix(mass, inertia);
         oss << "\tNewtonBodyLog: " << body << "  " << pos << "  " << orient << "  " << velocity << "  "
-            << omega << "  " << force << "  " << torque << "  " << NewtonBodyGetSleepingState(body)
-            << "  " << NewtonBodyGetAutoFreeze(body) << "  " << NewtonBodyGetContinuousCollisionMode(body) << "  ( "
-            << invMass << "  " << invIxx << "  " << invIyy << "  " << invIzz << " )";
+            << omega << "  " << force << "  " << torque << " " << body->getContinuousCollisionMode()
+            << mass << "  " << inertia;
         LOG_DEBUG(Logger::CORE, oss.str());
     }
 #endif

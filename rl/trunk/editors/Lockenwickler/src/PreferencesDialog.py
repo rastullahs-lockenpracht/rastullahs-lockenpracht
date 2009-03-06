@@ -63,7 +63,7 @@ class PreferencesDialog(QDialog):
 
     def openModulConfigSelector(self):
         dialog = QFileDialog(self)
-        self.moduleCfgPath = str(dialog.getOpenFileName(self, "Select modules.cfg", "/home/stefan/blubb/rl_modules/modules/", "modules.cfg (*.cfg)"))
+        self.moduleCfgPath = str(dialog.getOpenFileName(self, "Select modules.cfg", "/home/melven/rastullah/rl_dist/modules/", "modules.cfg (*.cfg)"))
         self.modulePath = self.moduleCfgPath.replace("modules.cfg", "")
 
         from os.path import isfile

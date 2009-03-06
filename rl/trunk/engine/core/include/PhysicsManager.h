@@ -364,7 +364,7 @@ namespace rl {
         PhysicsGenericContactCallback* mGenericCallback;
 
 #ifdef _DEBUG
-        static void _CDECL PhysicsManager::newtonPerBodyLogProperties( const NewtonBody* body );
+        void logBodyProperties( const OgreNewt::Body* body );
 #endif
 
     };
