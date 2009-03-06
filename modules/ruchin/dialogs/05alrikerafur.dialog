@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<!DOCTYPE dialog SYSTEM "/home/mot/DSA-HL/dialog.dtd.xml">
 <dialog name="05AlrikeRafur">
 	<start>
 		<response id="0">

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<!DOCTYPE dialog SYSTEM "/home/mot/Pantheon/dialog.dtd.xml">
 <dialog name="03AlrikeHesindiane">
 	<variable name="ortbekannt" type="BOOL" data="false"/>
 	<variable name="diebesgutbekannt" type="BOOL" data="false"/>

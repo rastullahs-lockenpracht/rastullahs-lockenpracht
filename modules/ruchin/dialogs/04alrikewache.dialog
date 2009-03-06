@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<!DOCTYPE dialog SYSTEM "/home/mot/Pantheon/dialog.dtd.xml">
 <dialog name="04AlrikeWache">
 	<start>
 		<response id="0">
