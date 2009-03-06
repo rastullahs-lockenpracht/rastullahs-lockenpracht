@@ -26,6 +26,21 @@ class GameObjectClassManager():
         self.fileDict = {}
         self.callback = None
 
+        # we need to hold a reference to the game object representaions ourself
+        # python does not recognize the a reference to a c++ object (Entity in our case) is passed
+        # and deletes the object
+        self.gameObjectRepresentationDict = []
+
+    def inWorldIdExists(self, id):
+        for rep in self.gameObjectRepresentationDict:
+            if str(rep.inWorldId) == str(id):
+                return True
+        
+        return False
+
+    def addGameObjectRepresentation(self, gocRep):
+        self.gameObjectRepresentationDict.append(gocRep)
+
     def parseGOFFiles(self, filePaths):
         for filePath in filePaths:
             tree = parse(filePath)

@@ -290,6 +290,7 @@ class Map():
                     dropNode.setScale(nodeScale)
 
                 go = GameObjectRepresentation(id, classid, dropNode, meshFile)
+                self.gocManager.addGameObjectRepresentation(go)
                 go.inWorldId = id
                 ent.setUserObject(go)
 
@@ -551,10 +552,6 @@ class ModuleManager():
 
         self.gocManager = GameObjectClassManager()
         
-        # we need to hold a reference to the game object representaions ourself
-        # python does not recognize the a reference to a c++ object (Entity in our case) is passed
-        # and deletes the object
-        self.gameObjectRepresentationDict = []
 
         self.mainModule = None
         self.mainModuledependencieList =[]
@@ -826,7 +823,7 @@ class ModuleManager():
                         newNode.setPosition(so.entity.getParentNode().getPosition())
 
                         newGO = GameObjectRepresentation(ModuleManager.dropCount, so.entity.getUserObject().gocName, newNode, meshFile)
-                        self.gameObjectRepresentationDict.append(newGO)
+                        self.gocManager.addGameObjectRepresentation(self.dropGO)
                         newEntity.setUserObject(newGO)
                         newGO.setPosition(og.Vector3(0, 0, 0))
 
@@ -934,7 +931,7 @@ class ModuleManager():
                 dropNode.setPosition(ray.getPoint(50))
 
             self.dropGO = GameObjectRepresentation(ModuleManager.dropCount, classid, dropNode, meshFile)
-            self.gameObjectRepresentationDict.append(self.dropGO)
+            self.gocManager.addGameObjectRepresentation(self.dropGO)
             dropEntity.setUserObject(self.dropGO)
 
         ModuleManager.dropCount += 1

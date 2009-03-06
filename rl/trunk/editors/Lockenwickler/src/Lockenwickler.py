@@ -58,7 +58,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.setupOgre()
 
         self.prefDialog = PreferencesDialog(self)
-        self.objectPropertyWin = ObjectPropertyWin(self.OgreMainWinSceneMgr, self)
+        self.objectPropertyWin = ObjectPropertyWin(self.OgreMainWinSceneMgr, self.gocManager, self)
         self.moduleExplorerWin = ModuleExplorer(self)
         self.modelSelectionDialog = ModelSelectionDialog(self.ogreRoot, self)
         self.materialSelectionDialog = MaterialSelectionDialog(self.ogreRoot, self)
@@ -285,7 +285,8 @@ class Lockenwickler(QtGui.QMainWindow):
         
         self.moduleName = ""
         self.moduleManager = ModuleManager(self.ogreRoot,  self.OgreMainWinSceneMgr)
-
+        self.gocManager = self.moduleManager.gocManager
+        
         self.ogreMainWindow = OgreMainWindow.OgreMainWindow(self.moduleManager,  root,  self.OgreMainWinSceneMgr,  self)
         self.gridlayout.addWidget(self.ogreMainWindow,0,0,1,1)
         self.hboxlayout.addLayout(self.gridlayout)

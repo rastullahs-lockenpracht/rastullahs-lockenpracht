@@ -25,11 +25,12 @@ from PyQt4.QtGui import *
 from Property import *
 
 class ObjectPropertyWin(QDialog):
-    def __init__(self, sceneManager, parent=None):
+    def __init__(self, sceneManager, gocManager, parent=None):
         super(QDialog, self).__init__(parent)
         self.setupUi()
         self.sceneManager = sceneManager
         self.valueBeforeEdit = None
+        self.gocManager = gocManager
         
         self.connect(self.treeWidget, SIGNAL("itemDoubleClicked (QTreeWidgetItem *,int)"),
                                self.onItemClicked)
@@ -59,12 +60,22 @@ class ObjectPropertyWin(QDialog):
     def onItemClicked(self, item, column):
         if column == 1:
             self.valueBeforeEdit = item.text(column)
-            self.treeWidget.editItem(item, column)
+            
+            if item.text(0) == "State":
+                rect = self.treeWidget.visualItemRect(item)
+                
+                combo = QComboBox(self.treeWidget)
+                combo.setGeometry(QCursor.pos().x(), QCursor.pos().y(), 100, 30)
+                combo.addItem("IN_SCENE")
+                combo.addItem("BLUBB")
+                combo.show()
+            else:
+                self.treeWidget.editItem(item, column)
 
     def onItemChanged(self, item, column):
         if self.valueBeforeEdit is not None and self.valueBeforeEdit != item.text(column):
             parent = item.parent()
-            if parent is None:
+            if parent is None: # handle properties that don't expand here (pos, rot, scale etc)
                 if item.text(0) == "Name":
                     if not self.sceneManager.hasEntity(str(item.text(column))):
                         newEnt = self.node.getAttachedObject(0).clone(str(item.text(column)))
@@ -79,6 +90,25 @@ class ObjectPropertyWin(QDialog):
                     else:
                         item.setText(column, self.valueBeforeEdit)
                         print "Error: Name already exists!"
+                elif item.text(0) == "GameObject Id":
+                    if not self.gocManager.inWorldIdExists(str(item.text(column))):
+                        val = None
+                        try:
+                            val = int(item.text(1))
+                        except ValueError, e:
+                            item.setText(column, self.valueBeforeEdit)
+                            print "ValueError: " + str(e)
+                            return
+                            
+                        self.node.getAttachedObject(0).getUserObject().inWorldId = str(val)
+                    else:
+                        item.setText(column, self.valueBeforeEdit)
+                        print "Error: Id exists already!"
+                elif item.text(0) == "State":
+                    rect = self.treeWidget.visualItemRect()
+                    combo = QComboBox(self.treeWidget)
+                    combo.setGeometry(rect)
+                    
             else:
                 val = None
                 try:
@@ -143,6 +173,30 @@ class ObjectPropertyWin(QDialog):
                 
             
             #item.setFlags(item.flags() | Qt.ItemIsEditable)
+            
+            self.parsePosition(self.node)
+            self.parseOrientation(self.node)
+            self.parseScale(self.node)
+            
+        elif name.startswith("gameobject_"):
+            item = QTreeWidgetItem(self.treeWidget)
+            item.setText(0, "ClassName")
+            n = str(self.node.getAttachedObject(0).getUserObject().gocName)
+            item.setText(1, n)
+            item.setFlags(item.flags() | Qt.ItemIsEditable)
+            
+            item = QTreeWidgetItem(self.treeWidget)
+            item.setText(0, "GameObject Id")
+            n = str(self.node.getAttachedObject(0).getUserObject().inWorldId)
+            item.setText(1, n)
+            item.setFlags(item.flags() | Qt.ItemIsEditable)
+            
+            item = QTreeWidgetItem(self.treeWidget)
+            item.setText(0, "State")
+            n = str(self.node.getAttachedObject(0).getUserObject().state)
+            item.setText(1, n)
+            item.setFlags(item.flags() | Qt.ItemIsEditable)
+            
             
             self.parsePosition(self.node)
             self.parseOrientation(self.node)
