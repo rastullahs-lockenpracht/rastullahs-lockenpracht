@@ -14,6 +14,7 @@ Debugger::Debugger(const OgreNewt::World* world)
 {
     m_world = world;
     m_debugnode = NULL;
+    m_raycastsnode = NULL;
     m_defaultcolor = Ogre::ColourValue::White;
 
     m_recordraycasts = false;
