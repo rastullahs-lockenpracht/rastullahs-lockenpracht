@@ -420,6 +420,7 @@ class Module():
         self.hasDependencies = False
         self.moduleDependencies = []
 
+        self.modConfig = join(self.moduleRoot,  "scripts/moduleconfig.rb")
 
         self.gofFiles = [] # gof File list
 
@@ -440,9 +441,9 @@ class Module():
         
     
     def isCommon(self):
-        modConfig = join(self.moduleRoot,  "scripts/moduleconfig.rb")
-        if isfile(modConfig): # is the modconfig existing?
-            f = codecs.open(modConfig, 'r', 'utf-8')
+        
+        if isfile(self.modConfig): # is the modconfig existing?
+            f = codecs.open(self.modConfig, 'r', 'utf-8')
         else:
             print ("Module.isCommon() Error: couldn't find module config")
             return
@@ -473,16 +474,23 @@ class Module():
             return
 
         self.isLoaded = True
-        modConfig = join(self.moduleRoot,  "scripts/moduleconfig.rb")
-        if isfile(modConfig): # is the modconfig existing?
-            f = codecs.open(modConfig, 'r', 'utf-8')
+        self.modConfig = join(self.moduleRoot,  "scripts/moduleconfig.rb")
+        if isfile(self.modConfig): # is the modconfig existing?
+            f = codecs.open(self.modConfig, 'r', 'utf-8')
         else:
             print ("Module.load: Error: couldn't find module config")
             return
 
-        #for i, line in enumerate(f):
-            #lStripped = line.strip() #strip the whitespace away, not needed here
-
+        for line in f:
+            lStripped = line.strip() #strip the whitespace away, not needed here
+            if lStripped.startswith("hero = $GOM.getGameObject("):
+                try:
+                    self.playerStart = int(line.split("(")[1].split(")")[0])
+                except ValueError, e:
+                    print self.modConfig + " ValueError: " + str(e)
+                    self.playerStart = None
+                    continue
+                    
         self.setResourcePaths()
         
         try:
@@ -508,6 +516,24 @@ class Module():
     def save(self):
         for s in self.scenes:
             s.save()
+            
+        self.saveModuleConfig()
+
+    def saveModuleConfig(self):
+        if self.playerStart is not None:
+            f = open(self.modConfig, "r")
+            
+            newconfig = ""
+            for line in f:
+                if line.startswith("       hero = $GOM.getGameObject("):
+                    newconfig += "       hero = $GOM.getGameObject(" + str(self.playerStart) + ");\n"
+                else:
+                    newconfig += line
+            f.close()
+            
+            f = open(self.modConfig, "w")
+            f.write(newconfig)
+            f.close()
 
     def setResourcePaths(self, recurseFolder = ""):
         if recurseFolder == "":
@@ -589,6 +615,8 @@ class ModuleManager():
         self.oneClickEntityPlacement = False
         
         self.onContextMenuCallback = None
+    
+        self.playerStartGameObjectId = None
     
     def resetParsedModuleConfig(self):
         self.moduleConfigIsParsed = False
@@ -1007,8 +1035,6 @@ class ModuleManager():
         
     def setOneClickEntityPlacement(self, state):
         self.oneClickEntityPlacement = state
-
-
         
     def createLight(self):
         print "creating light here..."
@@ -1016,10 +1042,19 @@ class ModuleManager():
     def createZone(self):
         print "creating zone here..."
     
-    def onContextMenu(self):
+    def setPlayerStart(self):
+        self.mainModule.playerStart = str(self.playerStartGameObjectId)
+        print "setting Player Start to " + str(self.playerStartGameObjectId)
+    
+    def onContextMenu(self, screenX, screenY):
         actions = []
         actions.append(self.createAction("Create Light here", self.createLight))
         actions.append(self.createAction("Create Zone here", self.createZone))
+        
+        so = self.selectionBuffer.onSelectionClick(screenX, screenY)
+        if so is not None and so.entity.getParentNode().getName().startswith("gameobject_"):
+            actions.append(self.createAction("Set Player Starterpoint", self.setPlayerStart))
+            self.playerStartGameObjectId = so.entity.getUserObject().inWorldId
         
         if self.onContextMenuCallback is not None:
             self.onContextMenuCallback(actions)

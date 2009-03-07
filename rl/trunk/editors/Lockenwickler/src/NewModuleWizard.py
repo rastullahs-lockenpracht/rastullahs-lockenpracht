@@ -138,7 +138,6 @@ class NewModuleWizard(QDialog, Ui_Dialog):
         f.write("       PartyManager.getSingleton().setActiveCharacter(hero)\n\n")
         f.write("    end\n")
         f.write("end\n\n")
-
         f.write("CoreSubsystem.getSingleton().registerModule(" + mname.capitalize() + "Module.new());\n")
         f.close()
         

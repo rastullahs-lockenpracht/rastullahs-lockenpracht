@@ -333,6 +333,7 @@ class OgreMainWindow(QWidget):
         
     def onContextMenuTimer(self):
         if not self.rightMouseDown:
-            self.moduleManager.onContextMenu()
+            relMousePos = self.ogreWidget.mapFromGlobal(QCursor.pos()) # get the mose position relative to the ogre window
+            self.moduleManager.onContextMenu(relMousePos.x(), relMousePos.y())
         
         
