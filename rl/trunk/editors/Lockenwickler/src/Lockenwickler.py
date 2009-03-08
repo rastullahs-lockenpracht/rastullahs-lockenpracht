@@ -20,6 +20,7 @@
 import os
 import sys
 import platform
+import subprocess
 
 sys.path.insert(0,'..')
 import PythonOgreConfig
@@ -155,8 +156,11 @@ class Lockenwickler(QtGui.QMainWindow):
         
         self.actionSave = self.createAction("&Save",  self.actionSaveSlot,  QKeySequence.Save,  "filesave.png",  "Save Module")
         self.actionSave.setObjectName("actionSave")
+        
+        self.actionRunModule = self.createAction("&Save and Run",  self.actionRunModuleSlot,  "Alt+R",  "fileexport.png",  "Save And Run Module")
+        self.actionRunModule.setObjectName("actionRunModule")
 
-        self.actionClose = self.createAction("Quit",  self.actionQuitSlot,  "Alt + Q",  "exit.png",  "Quit")
+        self.actionClose = self.createAction("Quit",  self.actionQuitSlot,  "Alt+Q",  "exit.png",  "Quit")
         self.actionClose.setObjectName("actionQuit")
 #####################################
 
@@ -192,25 +196,25 @@ class Lockenwickler(QtGui.QMainWindow):
 
 #####################################
 #####################################
-        self.actionSceneExplorer = self.createAction("&Scene Exlporer",  self.toggleModuleExplorer,  "Alt + E",  "view_tree.png",  "Module Explorer",  False)
+        self.actionSceneExplorer = self.createAction("&Scene Exlporer",  self.toggleModuleExplorer,  "Alt+E",  "view_tree.png",  "Module Explorer",  False)
         self.actionSceneExplorer.setObjectName("actionSceneExplorer")
         
-        self.actionPreferences = self.createAction("&Preferences",  self.togglePreferencesWindow,  "Alt + P",  "configure.png",  "Lockenwickler Preferences",  False)
+        self.actionPreferences = self.createAction("&Preferences",  self.togglePreferencesWindow,  "Alt+P",  "configure.png",  "Lockenwickler Preferences",  False)
         self.actionPreferences.setObjectName("actionPreferences")
 
-        self.actionProperty_Window = self.createAction("Pr&operty Window",  self.togglePropertyWindow,  "Alt + P",  "unsortedlist1.png",  "Property Window")
+        self.actionProperty_Window = self.createAction("Pr&operty Window",  self.togglePropertyWindow,  "Alt+P",  "unsortedlist1.png",  "Property Window")
         self.actionProperty_Window.setObjectName("actionProperty_Window")
 
-        self.actionObject_Selection = self.createAction("&Model Preview Window",  self.toggleModelPreviewWindow,  "Alt + O",  "tux.png",  "Model Preview")
+        self.actionObject_Selection = self.createAction("&Model Preview Window",  self.toggleModelPreviewWindow,  "Alt+O",  "tux.png",  "Model Preview")
         self.actionObject_Selection.setObjectName("actionObject_Selection")
         
-        self.actionMaterial_Selection = self.createAction("Material &Preview Window",  self.toggleMaterialPreviewWindow,  "Alt + M",  "colors.png",  "Material Preview")
+        self.actionMaterial_Selection = self.createAction("Material &Preview Window",  self.toggleMaterialPreviewWindow,  "Alt+M",  "colors.png",  "Material Preview")
         self.actionMaterial_Selection.setObjectName("actionMaterial_Selection")
 
-        self.actionGameObjectClass_Selection = self.createAction("&Game Object Class Preview Window",  self.toggleGameObjectViewWindow,  "Alt + G",  "multirow.png",  "GameObjectClass Preview")
+        self.actionGameObjectClass_Selection = self.createAction("&Game Object Class Preview Window",  self.toggleGameObjectViewWindow,  "Alt+G",  "multirow.png",  "GameObjectClass Preview")
         self.actionGameObjectClass_Selection.setObjectName("actionObject_Selection")
 
-        self.actionConsole_Window = self.createAction("&Console Window",  self.toggleConsoleWindow,  "Alt + C",  "console.png",  "Console Window")
+        self.actionConsole_Window = self.createAction("&Console Window",  self.toggleConsoleWindow,  "Alt+C",  "console.png",  "Console Window")
         self.actionConsole_Window.setObjectName("actionConsole_Window")
 
 #####################################
@@ -220,6 +224,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.menuFile.addAction(self.actionNeu)
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionSave)
+        self.menuFile.addAction(self.actionRunModule)
         self.menuFile.addAction(self.actionClose)
 
         self.menuEdit.addAction(self.actionSelect)
@@ -322,6 +327,16 @@ class Lockenwickler(QtGui.QMainWindow):
         
     def actionSaveSlot(self):
         self.moduleManager.save()
+        
+    def actionRunModuleSlot(self):
+        self.moduleManager.save()
+        if platform.system() == "Windows":
+            workingDir = self.prefDialog.moduleCfgPath.replace("/modules/modules.cfg", "")
+            executable = os.path.join(workingDir, "Rastullah.exe")
+            executable = executable.replace("/",  "\\")
+            if os.path.isfile(executable):
+                subprocess.Popen([executable, "--module", self.moduleManager.mainModule.name], 0, None, None, None, None, None, False, False, workingDir)
+
         
     def actionQuitSlot(self):
         self.close()
@@ -438,6 +453,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.fileToolBar.addAction(self.actionNeu)
         self.fileToolBar.addAction(self.actionOpen)
         self.fileToolBar.addAction(self.actionSave)
+        self.fileToolBar.addAction(self.actionRunModule)
         self.fileToolBar.addAction(self.actionClose)
         self.addToolBar(QtCore.Qt.TopToolBarArea, self.fileToolBar)
 
