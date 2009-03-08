@@ -247,8 +247,8 @@ class Map():
             id = int(g.attrib["id"])
             if ModuleManager.dropCount < id:
                 ModuleManager.dropCount = id
-            elif ModuleManager.dropCount < num:
-                ModuleManager.dropCount = num + 1
+            elif ModuleManager.dropCount < id:
+                ModuleManager.dropCount = id + 1
                 
             state = g.attrib["state"]
             nodePosition = None
