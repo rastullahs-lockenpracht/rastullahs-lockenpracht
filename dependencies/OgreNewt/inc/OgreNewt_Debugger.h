@@ -129,7 +129,7 @@ namespace OgreNewt
         Debugger(const Debugger&) {}
 
         //! this function is declared private, so nobody can use it!
-        const Debugger& operator=(const Debugger& d) { return *this = d; } // actually this implementation must *never* be used!
+        const Debugger& operator=(const Debugger& d) { return d; } // actually this implementation must *never* be used!
 
 		static void _CDECL newtonPerPoly( void* userData, int vertexCount, const float* faceVertec, int id );
 	};
