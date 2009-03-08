@@ -52,7 +52,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions=" /Zm1000 -O0 -g3 -fno-inline"
+				AdditionalOptions=" /Zm1000"
 				AdditionalIncludeDirectories=".\inc;..\NewtonSDK\sdk;..\ogrenew\OgreMain\include;..\boost\include"
 				PreprocessorDefinitions="_OGRENEWT_EXPORTS;_OGRENEWT_DYNAMIC"
 				ExceptionHandling="1"
@@ -81,7 +81,7 @@
 				OutputFile="./lib/OgreNewt_d.dll"
 				Version="2.0"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../ogrenew/lib;../boost/lib;../NewtonSDK/sdk/x32/dll_vs7"
+				AdditionalLibraryDirectories="../ogrenew/lib;../boost/lib;..\NewtonSDK\sdk\x32\dll_vs9"
 				GenerateManifest="true"
 				ProgramDatabaseFile=".\lib\OgreNewt_d.pdb"
 				RandomizedBaseAddress="1"
@@ -178,7 +178,7 @@
 				OutputFile="./lib/OgreNewt.dll"
 				Version="2.0"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="../ogrenew/lib;../boost/lib;../NewtonSDK/sdk/x32/dll_vs7"
+				AdditionalLibraryDirectories="../ogrenew/lib;../boost/lib;..\NewtonSDK\sdk\x32\dll_vs9"
 				GenerateManifest="true"
 				ProgramDatabaseFile="lib\OgreNewt.pdb"
 				RandomizedBaseAddress="1"
