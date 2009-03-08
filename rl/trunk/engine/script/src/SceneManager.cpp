@@ -60,6 +60,12 @@ namespace rl
             return;
         }
 
+        
+        // if the current scene is NULL, we cannot save it
+        if (mCurrentScene == NULL)
+            saveCurrent = false;
+
+
         Creature* activeChar = PartyManager::getSingleton().getActiveCharacter();
 
         if (activeChar) {

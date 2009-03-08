@@ -873,7 +873,7 @@ namespace rl {
                                     newEnt));
                     LOG_DEBUG(Logger::CORE, " physical_body 'convexhull' für Entity '"+entName+"' erstellt. ");
                 }
-                else if (physical_body.compare("mesh") == 0 || physical_body.compare("auto"))
+                else if (physical_body.compare("mesh") == 0 || physical_body.compare("auto") == 0)
                 {
                     collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(
                                     thisWorld, newEnt, true));
