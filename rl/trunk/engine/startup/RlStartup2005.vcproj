@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\core\include;..\dialog\include;..\rules\include;..\ai\include;..\ui\include;..\common\include;..\script\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\xerces\include;..\..\dependencies\boost\include;..\..\dependencies\OgreNewt\include\OgreNewt;..\..\dependencies\NewtonSDK\sdk;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\ois\includes"
+				AdditionalIncludeDirectories=".\include;..\core\include;..\dialog\include;..\rules\include;..\ai\include;..\ui\include;..\common\include;..\script\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\xerces\include;..\..\dependencies\boost\include;..\..\dependencies\OgreNewt\inc;..\..\dependencies\NewtonSDK\sdk;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\ois\includes"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
