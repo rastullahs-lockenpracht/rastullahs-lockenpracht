@@ -441,7 +441,6 @@ class Module():
         
     
     def isCommon(self):
-        
         if isfile(self.modConfig): # is the modconfig existing?
             f = codecs.open(self.modConfig, 'r', 'utf-8')
         else:
@@ -462,7 +461,14 @@ class Module():
                     isDependencieLine = False
                 else:
                     self.hasDependencies = True
-                    self.moduleDependencies.append(lStripped.split('"')[1])
+                    pl = lStripped.split('"')
+                    i = 1
+                    while i < 100: 
+                        try:
+                            self.moduleDependencies.append(pl[i])
+                            i += 2
+                        except IndexError, e:
+                            break
 
             elif lStripped == "def getDependencies()":
                 isDependencieLine = True
