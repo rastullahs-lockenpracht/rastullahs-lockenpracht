@@ -10,8 +10,8 @@
 			</option>
 		</response>
 	</start>
-	<response>
-		TODO HIER MUSS EIN SKRIPT AUSLOESEN, DASS RAFUR WEGRENNEN LAESST
+	<response id="2">
+		<!-- TODO HIER MUSS EIN SKRIPT AUSLOESEN, DASS RAFUR WEGRENNEN LAESST -->
 		<gotoresponse id="3"/>
 	</response>
 	<response id="3">
