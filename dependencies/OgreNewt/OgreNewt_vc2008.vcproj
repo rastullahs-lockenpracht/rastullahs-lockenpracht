@@ -53,9 +53,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions=" /Zm1000"
+				Optimization="0"
 				AdditionalIncludeDirectories=".\inc;..\NewtonSDK\sdk;..\ogrenew\OgreMain\include;..\boost\include"
 				PreprocessorDefinitions="_OGRENEWT_EXPORTS;_OGRENEWT_DYNAMIC"
 				ExceptionHandling="1"
+				RuntimeLibrary="3"
 				RuntimeTypeInfo="true"
 				AssemblerListingLocation="Debug"
 				ObjectFile="$(IntDir)\"
