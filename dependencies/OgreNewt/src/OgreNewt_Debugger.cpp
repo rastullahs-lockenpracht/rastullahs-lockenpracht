@@ -73,14 +73,15 @@ void Debugger::nodeDestroyed (const Ogre::Node *node)
 {
     if(node == m_debugnode)
     {
-        m_debugnode = NULL;
         clearBodyDebugDataCache();
+        m_debugnode = NULL;
     }
 
     if(node == m_raycastsnode)
     {
-        m_raycastsnode = NULL;
+        //!TODO: check this... this accesses the node, I'm not shure if this is allowed in this function
         clearRaycastsRecorded();
+        m_raycastsnode = NULL;
     }
 }
 
