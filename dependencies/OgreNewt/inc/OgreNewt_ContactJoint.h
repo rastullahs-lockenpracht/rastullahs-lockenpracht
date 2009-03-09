@@ -27,7 +27,7 @@ class MaterialPair;
     this class must not be inherited or instantiated directly in any way, 
     it is passed as argument in the contacsProcess-function of the ContactCallback!
     for iterating through all contacts you can do something like this:
-    for(Contact contact = contactJoint.getFirstContact(); contact; contact.getNext())
+    for(Contact contact = contactJoint.getFirstContact(); contact; contact = contact.getNext())
         ...
 */
 class _OgreNewtExport ContactJoint
