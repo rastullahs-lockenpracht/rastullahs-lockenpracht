@@ -18,6 +18,7 @@
 
 #include "ConfigFile.h"
 #include "Exception.h"
+#include <OgreMemoryAllocatorConfig.h>
 
 using namespace Ogre;
 using namespace std;
@@ -92,7 +93,7 @@ namespace rl
     void ConfigFile::addSection(const Ogre::String& section, const Ogre::NameValuePairList& settings)
     {
         // Create new section
-        mSettings[section] = new SettingsMultiMap();
+        mSettings[section] = OGRE_NEW_T(SettingsMultiMap, MEMCATEGORY_GENERAL);
         // Insert values from the settings list
         mSettings[section]->insert(settings.begin(), settings.end());
     }
