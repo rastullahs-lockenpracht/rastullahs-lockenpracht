@@ -15,6 +15,7 @@
 #include "OgreNewt_Prerequisites.h"
 #include "OgreNewt_Tools.h"
 
+
 namespace OgreNewt
 {
 
@@ -28,7 +29,7 @@ namespace OgreNewt
 		This class implements a debug view of the Newton world. You can access it via World::getDebugger().
         It needs to be initialized (call World::getDebugger().init(...)).
 	*/
-	class _OgreNewtExport Debugger
+	class _OgreNewtExport Debugger : public Ogre::Node::Listener
 	{
 	
 	public:
@@ -42,6 +43,9 @@ namespace OgreNewt
 
 		//! de-init the debugger (cleantup)
 		void deInit();
+
+        //! called when one of the nodes used in this class are destroyed
+        virtual void nodeDestroyed (const Ogre::Node *);
 
 		//! show the newton world
 		/*!
@@ -119,6 +123,9 @@ namespace OgreNewt
 
         //! create debug information for one body
         void processBody(Body* body);
+
+        //! clear debug data cache fo bodies (m_cachemap)
+        void clearBodyDebugDataCache();
 
 
     private:

@@ -70,6 +70,7 @@ ${NEWTON_INCLUDE_DIR})
 
 SET(OgreNewt_LIB_SRCS
 src/OgreNewt_BasicJoints.cpp
+src/OgreNewt_BasicFrameListener.cpp
 src/OgreNewt_Body.cpp
 src/OgreNewt_BodyInAABBIterator.cpp
 src/OgreNewt_Collision.cpp

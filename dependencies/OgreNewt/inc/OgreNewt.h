@@ -39,6 +39,7 @@
 #include "OgreNewt_Tools.h"
 #include "OgreNewt_BodyInAABBIterator.h"
 #include "OgreNewt_Debugger.h"
+#include "OgreNewt_BasicFrameListener.h"
 
 /*! \mainpage OgreNewt Library version 2.00
 

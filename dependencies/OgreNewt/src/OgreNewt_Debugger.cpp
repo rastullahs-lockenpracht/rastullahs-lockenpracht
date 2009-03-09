@@ -35,11 +35,13 @@ void Debugger::init( Ogre::SceneManager* smgr )
     if( !m_debugnode )
     {
         m_debugnode = smgr->getRootSceneNode()->createChildSceneNode("__OgreNewt__Debugger__Node__");
+        m_debugnode->setListener(this);
     }
 
     if( !m_raycastsnode )
     {
         m_raycastsnode = smgr->getRootSceneNode()->createChildSceneNode("__OgreNewt__Raycasts_Debugger__Node__");
+        m_raycastsnode->setListener(this);
     }
 }
 
@@ -47,12 +49,44 @@ void Debugger::deInit()
 {
 	if (m_debugnode)
 	{
+        m_debugnode->setListener(NULL);
 		m_debugnode->removeAllChildren();
 		m_debugnode->getParentSceneNode()->removeAndDestroyChild( m_debugnode->getName() );
 		m_debugnode = NULL;
 	}
 
 
+    clearBodyDebugDataCache();
+
+
+    clearRaycastsRecorded();
+    if( m_raycastsnode )
+    {
+        m_raycastsnode->setListener(NULL);
+		m_raycastsnode->removeAndDestroyAllChildren();
+		m_raycastsnode->getParentSceneNode()->removeAndDestroyChild( m_raycastsnode->getName() );
+		m_raycastsnode = NULL;
+    }
+}
+
+void Debugger::nodeDestroyed (const Ogre::Node *node)
+{
+    if(node == m_debugnode)
+    {
+        m_debugnode = NULL;
+        clearBodyDebugDataCache();
+    }
+
+    if(node == m_raycastsnode)
+    {
+        m_raycastsnode = NULL;
+        clearRaycastsRecorded();
+    }
+}
+
+
+void Debugger::clearBodyDebugDataCache()
+{
         for(BodyDebugDataMap::iterator it = m_cachemap.begin(); it != m_cachemap.end(); it++)
         {
             Ogre::ManualObject* mo = it->second.m_lines;
@@ -61,18 +95,14 @@ void Debugger::deInit()
         }
         m_cachemap.clear();
 
-    clearRaycastsRecorded();
-    if( m_raycastsnode )
-    {
-		m_raycastsnode->removeAndDestroyAllChildren();
-		m_raycastsnode->getParentSceneNode()->removeAndDestroyChild( m_debugnode->getName() );
-		m_raycastsnode = NULL;
-    }
 }
 
 
 void Debugger::showDebugInformation( )
 {
+    if (!m_debugnode)
+        return;
+
     m_debugnode->removeAllChildren();
 
     // make the new lines.
@@ -281,6 +311,9 @@ void Debugger::setRaycastRecordingColor(Ogre::ColourValue rayCol, Ogre::ColourVa
 
 void Debugger::addRay(const Ogre::Vector3 &startpt, const Ogre::Vector3 &endpt)
 {
+    if (!m_raycastsnode)
+        return;
+
     static int i = 0;
     std::ostringstream oss;
     oss << "__OgreNewt__Raycast_Debugger__Lines__Raycastline__" << i++ << "__";
@@ -297,6 +330,9 @@ void Debugger::addRay(const Ogre::Vector3 &startpt, const Ogre::Vector3 &endpt)
 
 void Debugger::addConvexRay(const OgreNewt::Collision* col, const Ogre::Vector3 &startpt, const Ogre::Quaternion &colori, const Ogre::Vector3 &endpt)
 {
+    if (!m_raycastsnode)
+        return;
+
     static int i = 0;
     // lines from aab
     std::ostringstream oss;
@@ -343,6 +379,9 @@ void Debugger::addConvexRay(const OgreNewt::Collision* col, const Ogre::Vector3 
 
 void Debugger::addDiscardedBody(const OgreNewt::Body* body)
 {
+    if (!m_raycastsnode)
+        return;
+
     static int i = 0;
     float matrix[16];
     Ogre::Vector3 pos;
@@ -365,6 +404,9 @@ void Debugger::addDiscardedBody(const OgreNewt::Body* body)
 
 void Debugger::addHitBody(const OgreNewt::Body* body)
 {
+    if (!m_raycastsnode)
+        return;
+
     static int i = 0;
     float matrix[16];
     Ogre::Vector3 pos;

@@ -223,7 +223,7 @@ const OgreNewt::MaterialID* Body::getMaterialGroupID() const
 	if (m_matid)
 		return m_matid;
 	else
-		return NULL;
+        return m_world->getDefaultMaterialID();		
 }
 
 

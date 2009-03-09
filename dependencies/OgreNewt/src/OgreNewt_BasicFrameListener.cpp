@@ -5,8 +5,8 @@
 namespace OgreNewt
 {
 
-	BasicFrameListener::BasicFrameListener( Ogre::RenderWindow* win, Ogre::SceneManager* mgr, OgreNewt::World* W, int update_framerate) :
-		FrameListener()
+BasicFrameListener::BasicFrameListener( Ogre::RenderWindow* win, Ogre::SceneManager* mgr, OgreNewt::World* W, int update_framerate) :
+        FrameListener()
 {
 	m_World = W;
 	desired_framerate = update_framerate;
@@ -84,11 +84,11 @@ bool BasicFrameListener::frameStarted(const Ogre::FrameEvent &evt)
 
 	if (mKeyboard->isKeyDown(OIS::KC_F3))
 	{
-		m_world->getDebugger().showDebugInformation( m_World );
+		m_World->getDebugger().showDebugInformation();
 	}
 	else
 	{
-		m_world->getDebugger().hideDebugInformation();
+		m_World->getDebugger().hideDebugInformation();
 	}
 
 	
