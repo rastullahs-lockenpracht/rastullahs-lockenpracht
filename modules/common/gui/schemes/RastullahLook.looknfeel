@@ -3549,9 +3549,9 @@
     ***************************************************
     -->
     <WidgetLook name="RastullahLook/MultiLineEditbox">
-        <PropertyDefinition name="NormalTextColour" initialValue="FF000000" redrawOnWrite="true" />
-        <PropertyDefinition name="SelectedTextColour" initialValue="FF000000" redrawOnWrite="true" />
-        <PropertyDefinition name="ActiveSelectionColour" initialValue="FF607FFF" redrawOnWrite="true" />
+        <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="SelectedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="ActiveSelectionColour" initialValue="FFF3C549" redrawOnWrite="true" />
         <PropertyDefinition name="InactiveSelectionColour" initialValue="FF808080" redrawOnWrite="true" />
         <Property name="MouseCursorImage" value="set:RastullahLook-Images image:MouseTextBar" />
         <Property name="SelectionBrushImage" value="set:RastullahLook-Images image:MultiLineEditboxSelectionBrush" />
