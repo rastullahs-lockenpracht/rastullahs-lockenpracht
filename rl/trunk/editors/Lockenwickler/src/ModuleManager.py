@@ -91,6 +91,21 @@ def createUniqueEntityName(sceneManager, name = None):
     return n
         
         
+class EntityCustomOptions(og.UserDefinedObject):
+    def __init__(self, receivesShadow = True, staticgeometrygroup = 0, physicsproxytype = "none", renderingdistance = "20000"):
+        og.UserDefinedObject.__init__(self)
+        self.receivesShadow = receivesShadow
+        self.staticgeometrygroup = staticgeometrygroup
+        self.physicsproxytype = physicsproxytype
+        self.renderingdistance = renderingdistance
+        
+        ModuleManager.entityCustomOptionsDict.append(self)
+        
+    def copy(self):
+            return EntityCustomOptions(self.receivesShadow, self.staticgeometrygroup, self.physicsproxytype, self.renderingdistance)
+        
+    def getType(self):
+            return "EntityCustomOptions"
 
 class Map():
     def __init__(self, pathToFile, sceneManager, ogreRoot, gocManager, emptyMap = False):
@@ -147,6 +162,27 @@ class Map():
                     ModuleManager.dropCount = num + 1
                     
             meshFile = nodes.attrib["meshfile"]
+            
+            eco = EntityCustomOptions()
+            
+            try:
+                eco.receivesShadow = bool(nodes.attrib["receivesShadow"])
+            except:
+                pass
+            try:
+                eco.staticgeometrygroup = int(nodes.attrib["staticgeometrygroup"])
+            except:
+                pass
+            try:
+                eco.physicsproxy = nodes.attrib["physicsproxy"]
+            except:
+                pass
+            try:
+                eco.renderingdistance = float(nodes.attrib["renderingdistance"])
+            except:
+                pass
+            
+            
             nodePosition = None
             nodeScale = None
             qw = qx = qy = qz = None
@@ -173,8 +209,10 @@ class Map():
                 e = self.sceneManager.createEntity(createUniqueEntityName(self.sceneManager,  entityName), meshFile)
             except:
                 print "Warning: Meshfile " + meshFile + " could not be found."
-                continue
+                return
+            
 
+            e.setUserObject(eco)
             n = self.mapNode.createChild("entity_" + entityName + "_node")
             n.attachObject(e)
             n.setPosition(nodePosition)
@@ -188,13 +226,19 @@ class Map():
             lightVisible = bool(l.attrib["visible"])
             castShadows = bool(l.attrib["castShadows"])
             lightPosition = None
+            lightDirection = None
             colourDiffuse = None
             colourSpecular = None
             lightAttenuationRange = None
             lightAttenuationConstant= None
             lightAttenuationLinear = None
             lightAttenuationQuadratic = None
+            spotlightinner = None
+            spotlightouter = None
+            falloff = None 
+            
 
+                
             transformations = l.getiterator()
             for t in transformations:
                 if t.tag == "position":
@@ -217,23 +261,36 @@ class Map():
                     lightAttenuationConstant= float(t.attrib["constant"])
                     lightAttenuationLinear = float(t.attrib["linear"])
                     lightAttenuationQuadratic = float(t.attrib["quadratic"])
-            
-
+                elif t.tag == "spotlightrange":
+                    spotlightinner = float(t.attrib["spotlightinner"])
+                    spotlightouter = float(t.attrib["spotlightouter"])
+                    falloff = float(t.attrib["falloff"])
+                    
             light = self.sceneManager.createLight(lightName)
             light.setVisible(lightVisible)
             light.setCastShadows(castShadows)
-            light.setAttenuation(lightAttenuationRange, lightAttenuationConstant, lightAttenuationLinear, lightAttenuationQuadratic)
-            light.setDiffuseColour(colourDiffuse)
-            light.setSpecularColour(colourSpecular)
+            if lightAttenuationConstant and lightAttenuationLinear and lightAttenuationQuadratic:
+                light.setAttenuation(lightAttenuationRange, lightAttenuationConstant, lightAttenuationLinear, lightAttenuationQuadratic)
+            if colourDiffuse:
+                light.setDiffuseColour(colourDiffuse)
+            if colourSpecular:
+                light.setSpecularColour(colourSpecular)
+            if spotlightinner and spotlightouter and spotlightouter: 
+                light.setSpotlightRange(spotlightinner, spotlightouter, falloff)
             
             if lightType == "point":
-                light.setType(og.Light.LT_POINT)
-            
+                light.setType(og.Light.LT_POINT)            
+            elif lightType == "spot":
+                light.setType(og.Light.LT_SPOT)
+            elif lightType == "directional":
+                light.setType(og.Light.LT_DIRECTIONAL)
+                
             e = self.sceneManager.createEntity(lightName + "_ent", "lightbulp.mesh")
             n = self.mapNode.createChild("light_" + lightName + "_node")
             n.attachObject(e)
             n.attachObject(light)
-            n.setPosition(lightPosition)
+            if lightPosition:
+                n.setPosition(lightPosition)
 
             
     def createSound(self, soundNodes):
@@ -313,6 +370,11 @@ class Map():
                     entElem = xml.SubElement(nodesElem, "entity")
                     entElem.attrib["name"] = n.getAttachedObject(0).getName()
                     entElem.attrib["meshfile"] = n.getAttachedObject(0).getMesh().getName()
+   
+                    entElem.attrib["receivesShadow"] = str(n.getAttachedObject(0).getUserObject().receivesShadow).lower()
+                    entElem.attrib["staticgeometrygroup"] = str(n.getAttachedObject(0).getUserObject().staticgeometrygroup)
+                    entElem.attrib["physicsproxytype"] = str(n.getAttachedObject(0).getUserObject().physicsproxytype)
+                    entElem.attrib["renderingdistance"] = str(n.getAttachedObject(0).getUserObject().renderingdistance)
                     
                     posElem = xml.SubElement(entElem, "position")
                     posElem.attrib["x"] = str(n.getPosition().x)
@@ -330,7 +392,7 @@ class Map():
                     scaleElem.attrib["y"] = str(n.getScale().y)
                     scaleElem.attrib["z"] = str(n.getScale().z)
                     
-                if n.name.startswith("gameobject_"):
+                elif n.name.startswith("gameobject_"):
                     goElem = xml.SubElement(nodesElem, "gameobject")
                     mname = n.name
 
@@ -354,6 +416,66 @@ class Map():
                     scaleElem.attrib["y"] = str(n.getScale().y)
                     scaleElem.attrib["z"] = str(n.getScale().z)
                     
+                elif n.name.startswith("light_"):
+                    light = n.getAttachedObject(0)
+                    lightName = light.getName()
+                    lightType = light.getType()
+                    isVisible = "true"
+                    if not light.isVisible():
+                        isVisible = "false"
+                    
+                    castShadows = "false"
+                    if light.getCastShadows():
+                        castShadows = "true"
+                    
+                    if lightType == og.Light.LT_POINT:
+                        lightType = "point"
+                    elif lightType == og.Light.LT_SPOT:
+                        lightType = "spot"
+                    elif lightType == og.Light.LT_SPOT:
+                        lightType = "directional"
+                    
+                    
+                    lightElem = xml.SubElement(nodesElem, "light")
+                    lightElem.attrib["name"] = lightName
+                    lightElem.attrib["type"] = lightType
+                    lightElem.attrib["visible"] = isVisible
+                    lightElem.attrib["castShadows"] = castShadows
+                    
+                    if lightType == "point" or lightType == "spot":
+                        posElem = xml.SubElement(lightElem, "position")
+                        posElem.attrib["x"] = str(light.getPosition().x)
+                        posElem.attrib["y"] = str(light.getPosition().y)
+                        posElem.attrib["z"] = str(light.getPosition().z)
+                    
+                    colDiffuseElem = xml.SubElement(lightElem, "colourDiffuse")
+                    colDiffuseElem.attrib["r"] = str(light.getDiffuseColour().r)
+                    colDiffuseElem.attrib["g"] = str(light.getDiffuseColour().g)
+                    colDiffuseElem.attrib["b"] = str(light.getDiffuseColour().b)
+
+                    colSpecularElem = xml.SubElement(lightElem, "colourSpecular")
+                    colSpecularElem.attrib["r"] = str(light.getSpecularColour().r)
+                    colSpecularElem.attrib["g"] = str(light.getSpecularColour().g)
+                    colSpecularElem.attrib["b"] = str(light.getSpecularColour().b)
+                    
+                    lightAttenuationElem = xml.SubElement(lightElem, "lightAttenuation")
+                    lightAttenuationElem.attrib["range"] = str(light.getAttenuationRange())
+                    lightAttenuationElem.attrib["constant"] = str(light.getAttenuationConstant())
+                    lightAttenuationElem.attrib["linear"] = str(light.getAttenuationLinear())
+                    lightAttenuationElem.attrib["quadratic"] = str(light.getAttenuationQuadratic())
+                    
+                    if lightType == "spot":
+                        spotligthRangeElem = xml.SubElement(lightElem, "spotlightrange")
+                        spotligthRangeElem.attrib["inner"] = str(light.getSpotlightInnerAngle())
+                        spotligthRangeElem.attrib["outer"] = str(light.getSpotlightOuterAngle())
+                        spotligthRangeElem.attrib["falloff"] = str(light.getSpotlightFalloff())
+                        
+                    if lightType == "spot" or lightType == "directional":
+                        directionElem = xml.SubElement(lightElem, "direction")
+                        directionElem.attrib["x"] = str(light.getDirection().x)
+                        directionElem.attrib["y"] = str(light.getDirection().y)
+                        directionElem.attrib["z"] = str(light.getDirection().z)
+                        
             i = i+1
             
         indent(root)
@@ -573,6 +695,7 @@ class Module():
                             
 class ModuleManager():
     dropCount = 0
+    entityCustomOptionsDict = []
     
     def __init__(self,  ogreRoot,  sceneManager):
         self.sceneManager = sceneManager
@@ -623,6 +746,8 @@ class ModuleManager():
         self.onContextMenuCallback = None
     
         self.playerStartGameObjectId = None
+        
+        self.entityCustomOptionsDict = []
     
     def resetParsedModuleConfig(self):
         self.moduleConfigIsParsed = False
@@ -846,13 +971,13 @@ class ModuleManager():
 
         for so in self.userSelectionList:
             if so.entity.getUserObject() is not None:
-                if so.entity.getUserObject().getType() == "GAME_OBJECT_REPRESENTATION":
+                if str(so.entity.getParentNode().getName()).startswith("gameobject_"):
                     go = self.gocManager.getGameObjectWithClassId(so.entity.getUserObject().gocName)
                     meshFile = go.getMeshFileName()
 
                     if go is not None:
                         newEntity = self.sceneManager.createEntity(createUniqueEntityName(self.sceneManager), str(meshFile))
-                        newNode = self.currentMap.mapNode.createChild("gameObject_dropNode" + str(ModuleManager.dropCount))
+                        newNode = self.currentMap.mapNode.createChild("gameobject_dropNode" + str(ModuleManager.dropCount))
                         newNode.attachObject(newEntity)
                         newNode.setPosition(so.entity.getParentNode().getPosition())
 
@@ -865,22 +990,27 @@ class ModuleManager():
                         newSO.setSelected(True)
                         newSelectionList.append(newSO)
                         ModuleManager.dropCount += 1
-            else:
-                nodeName = "entity_dropNode" + str(ModuleManager.dropCount)
-                newNode = self.currentMap.mapNode.createChild(nodeName)
+                elif str(so.entity.getParentNode().getName()).startswith("entity_"):
+                    nodeName = "entity_dropNode" + str(ModuleManager.dropCount)
+                    newNode = self.currentMap.mapNode.createChild(nodeName)
 
-                entityName = createUniqueEntityName(self.sceneManager)
-                newEntity = self.sceneManager.createEntity(entityName, so.entity.getMesh().getName())
+                    entityName = createUniqueEntityName(self.sceneManager)
+                    newEntity = self.sceneManager.createEntity(entityName, so.entity.getMesh().getName())
 
-                newNode.attachObject(newEntity)
-                newNode.setPosition(so.entity.getParentNode().getPosition())
-                newNode.setOrientation(so.entity.getParentNode().getOrientation())
-                newNode.setScale(so.entity.getParentNode().getScale())
+                    eco = so.entity.getUserObject().copy()
+                    newEntity.setUserObject(eco)
 
-                newSO = SelectionObject(newEntity)
-                newSO.setSelected(True)
-                newSelectionList.append(newSO)
-                ModuleManager.dropCount += 1
+                    newNode.attachObject(newEntity)
+                    newNode.setPosition(so.entity.getParentNode().getPosition())
+                    newNode.setOrientation(so.entity.getParentNode().getOrientation())
+                    newNode.setScale(so.entity.getParentNode().getScale())
+
+                    newSO = SelectionObject(newEntity)
+                    newSO.setSelected(True)
+                    newSelectionList.append(newSO)
+                    ModuleManager.dropCount += 1
+                elif str(so.entity.getParentNode().getName()).startswith("light_"):
+                    print "Can't copy lights yet :)"
 
         self.resetSelection()
         self.userSelectionList = newSelectionList
@@ -990,6 +1120,11 @@ class ModuleManager():
             return
             
         self.dropEntity = self.sceneManager.createEntity(createUniqueEntityName(self.sceneManager), meshFile)
+        
+        eco = EntityCustomOptions()
+        self.dropEntity.setUserObject(eco)
+        #ModuleManager.entityCustomOptionsDict.append(eco)
+        
         self.dropNode = self.currentMap.mapNode.createChild("entity_dropNode" + str(ModuleManager.dropCount))
         self.dropNode.attachObject(self.dropEntity)
 
