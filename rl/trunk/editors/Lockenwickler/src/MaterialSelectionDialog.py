@@ -76,8 +76,9 @@ class MaterialSelectionDialog(QDialog):
         self.resize(QSize(QRect(0,0,272,744).size()).expandedTo(self.minimumSizeHint()))
 
         self.gridlayout = QGridLayout(self)
-        self.gridlayout.setObjectName("gridlayout")
-
+        self.gridlayout.setObjectName("materialSelectionLayout")
+        self.gridlayout.setContentsMargins(2, 2, 2, 2)
+        
         self.materialSearchBox = QLineEdit(self)
         self.materialSearchBox.setObjectName("materialSearchBox")
         self.gridlayout.addWidget(self.materialSearchBox,0,0,1,1)

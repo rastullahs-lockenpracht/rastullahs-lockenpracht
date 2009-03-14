@@ -77,6 +77,7 @@ class ModelSelectionDialog(QDialog):
 
         self.gridlayout = QGridLayout(self)
         self.gridlayout.setObjectName("gridlayout")
+        self.gridlayout.setContentsMargins(2, 2, 2, 2)
 
         self.modelSearchBox = QLineEdit(self)
         self.modelSearchBox.setObjectName("modelSearchBox")

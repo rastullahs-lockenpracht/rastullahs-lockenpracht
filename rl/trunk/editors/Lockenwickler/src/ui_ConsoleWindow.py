@@ -16,7 +16,8 @@ class Ui_ConsoleWindow(object):
 
         self.gridlayout = QtGui.QGridLayout(ConsoleWindow)
         self.gridlayout.setObjectName("gridlayout")
-
+        self.gridlayout.setContentsMargins(0, 0, 0, 0)
+        
         self.textEdit = QtGui.QTextEdit(ConsoleWindow)
         self.textEdit.setObjectName("textEdit")
         self.gridlayout.addWidget(self.textEdit,0,0,1,1)

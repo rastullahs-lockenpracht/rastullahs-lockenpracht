@@ -24,6 +24,87 @@ from PyQt4.QtGui import *
 
 from Property import *
 
+class BoolEditor(QDialog):
+    def __init__(self, currentSelectedText, parent=None):
+        super(QDialog, self).__init__(parent)
+        self.setGeometry(QCursor.pos().x(), QCursor.pos().y(), 100, 30)
+        
+        layout = QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        
+        currentSelected = False
+        if currentSelectedText == "True" or currentSelectedText == "true":
+            currentSelected = True
+        
+        self.combo = QComboBox()
+        self.combo.addItem("True")
+        self.combo.addItem("False")
+        
+        if not currentSelected:
+            self.combo.setCurrentIndex(1)
+        
+        layout.addWidget(self.combo)
+        self.setLayout(layout)
+        
+        self.connect(self.combo, SIGNAL("currentIndexChanged ( const QString &)"), self.accept)
+    
+    def getValue(self):
+        return str(self.combo.currentText())
+    
+class GameObjectStateEditor(QDialog):
+    def __init__(self, currentSelectedText, parent=None):
+        super(QDialog, self).__init__(parent)
+        self.setGeometry(QCursor.pos().x(), QCursor.pos().y(), 100, 30)
+        
+        layout = QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        
+        self.combo = QComboBox()
+        self.combo.addItem("IN_SCENE")
+        self.combo.addItem("LOADED")
+        self.combo.addItem("HELD")
+        self.combo.addItem("IN_POSSESSION")
+        self.combo.addItem("READIED")
+
+        self.combo.setCurrentIndex(self.combo.findText(currentSelectedText))
+        
+
+        layout.addWidget(self.combo)
+        self.setLayout(layout)
+        
+        self.connect(self.combo, SIGNAL("currentIndexChanged ( const QString &)"), self.accept)
+    
+    def getValue(self):
+        return str(self.combo.currentText())
+        
+class EntityPhysicsProxyEditor(QDialog):
+    def __init__(self, currentSelectedText, parent=None):
+        super(QDialog, self).__init__(parent)
+        self.setGeometry(QCursor.pos().x(), QCursor.pos().y(), 100, 30)
+        
+        layout = QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        
+        self.combo = QComboBox()
+        self.combo.addItem("none")
+        self.combo.addItem("box")
+        self.combo.addItem("sphere")
+        self.combo.addItem("ellipsoid")
+        self.combo.addItem("pyramid")
+        self.combo.addItem("mesh")
+        self.combo.addItem("convexhull")
+        self.combo.addItem("custom - Not supported by editor yet!")
+
+        self.combo.setCurrentIndex(self.combo.findText(currentSelectedText))
+        
+        layout.addWidget(self.combo)
+        self.setLayout(layout)
+        
+        self.connect(self.combo, SIGNAL("currentIndexChanged ( const QString &)"), self.accept)
+    
+    def getValue(self):
+        return str(self.combo.currentText())
+    
 class ObjectPropertyWin(QDialog):
     def __init__(self, sceneManager, gocManager, parent=None):
         super(QDialog, self).__init__(parent)
@@ -59,16 +140,25 @@ class ObjectPropertyWin(QDialog):
 
     def onItemClicked(self, item, column):
         if column == 1:
-            self.valueBeforeEdit = item.text(column)
+            self.valueBeforeEdit = str(item.text(column))
             
             if item.text(0) == "State":
-                rect = self.treeWidget.visualItemRect(item)
+                ed = GameObjectStateEditor(item.text(column), self)
+                ed.exec_()
+                item.setText(column, ed.getValue())
+                self.node.getAttachedObject(0).getUserObject().state = ed.getValue()
                 
-                combo = QComboBox(self.treeWidget)
-                combo.setGeometry(QCursor.pos().x(), QCursor.pos().y(), 100, 30)
-                combo.addItem("IN_SCENE")
-                combo.addItem("BLUBB")
-                combo.show()
+            elif item.text(0) == "Receives Shadows":
+                bedit = BoolEditor(item.text(column), self)
+                bedit.exec_()
+                item.setText(column, bedit.getValue())
+                self.node.getAttachedObject(0).getUserObject().receivesShadow = bedit.getValue()
+            elif item.text(0) == "Physics Proxy Type":
+                bedit = EntityPhysicsProxyEditor(item.text(column), self)
+                bedit.exec_()
+                item.setText(column, bedit.getValue())
+                self.node.getAttachedObject(0).getUserObject().physicsproxytype = bedit.getValue()
+                
             else:
                 self.treeWidget.editItem(item, column)
 
@@ -104,11 +194,24 @@ class ObjectPropertyWin(QDialog):
                     else:
                         item.setText(column, self.valueBeforeEdit)
                         print "Error: Id exists already!"
-                elif item.text(0) == "State":
-                    rect = self.treeWidget.visualItemRect()
-                    combo = QComboBox(self.treeWidget)
-                    combo.setGeometry(rect)
-                    
+                elif item.text(0) == "Static Geometry Group":                        
+                    val = None
+                    try:
+                        val = int(item.text(1))
+                    except ValueError, e:
+                        item.setText(column, self.valueBeforeEdit)
+                        print "ValueError: " + str(e)
+                        return
+                elif item.text(0) == "Rendering Distance":                        
+                    val = None
+                    try:
+                        val = float(item.text(1))
+                    except ValueError, e:
+                        item.setText(column, self.valueBeforeEdit)
+                        print "ValueError: " + str(e)
+                        return
+                        
+                    self.node.getAttachedObject(0).getUserObject().renderingdistance = val
             else:
                 val = None
                 try:
@@ -141,7 +244,8 @@ class ObjectPropertyWin(QDialog):
                         self.node.setScale(self.node.getScale().x, val, self.node.getScale().z)
                     elif item.text(0) == "Z":
                         self.node.setScale(self.node.getScale().x, self.node.getScale().y, val)
-                        
+
+                    
     def showProperties(self, so):
         # onItemChanged should only be called when the user changes values not when they change by code
         self.disconnect(self.treeWidget, SIGNAL("itemChanged (QTreeWidgetItem *,int)"),
@@ -171,12 +275,11 @@ class ObjectPropertyWin(QDialog):
                 it.setText(1, self.node.getAttachedObject(0).getSubEntity(i).getMaterialName())
                 i += 1
                 
-            
-            #item.setFlags(item.flags() | Qt.ItemIsEditable)
-            
+                        
             self.parsePosition(self.node)
             self.parseOrientation(self.node)
             self.parseScale(self.node)
+            self.parseEntityOptions(self.node)
             
         elif name.startswith("gameobject_"):
             item = QTreeWidgetItem(self.treeWidget)
@@ -194,9 +297,7 @@ class ObjectPropertyWin(QDialog):
             item = QTreeWidgetItem(self.treeWidget)
             item.setText(0, "State")
             n = str(self.node.getAttachedObject(0).getUserObject().state)
-            item.setText(1, n)
-            item.setFlags(item.flags() | Qt.ItemIsEditable)
-            
+            item.setText(1, n)            
             
             self.parsePosition(self.node)
             self.parseOrientation(self.node)
@@ -271,6 +372,28 @@ class ObjectPropertyWin(QDialog):
         itemZ.setText(1, str(node.getScale().z))
         itemZ.setFlags(itemZ.flags() | Qt.ItemIsEditable)
         
+    def parseEntityOptions(self, node):
+        uo = node.getAttachedObject(0).getUserObject()
+
+        if uo is not None:
+            item = QTreeWidgetItem(self.treeWidget)
+            item.setText(0, "Receives Shadows")
+            item.setText(1, str(uo.receivesShadow))
+            
+            item = QTreeWidgetItem(self.treeWidget)
+            item.setText(0, "Static Geometry Group")
+            item.setText(1, str(uo.staticgeometrygroup))
+            item.setFlags(item.flags() | Qt.ItemIsEditable)
+
+            item = QTreeWidgetItem(self.treeWidget)
+            item.setText(0, "Physics Proxy Type")
+            item.setText(1, str(uo.physicsproxytype))  
+            
+            item = QTreeWidgetItem(self.treeWidget)
+            item.setText(0, "Rendering Distance")
+            item.setText(1, str(uo.renderingdistance))
+            item.setFlags(item.flags() | Qt.ItemIsEditable)
+            
     def updateProperties(self):
         if self.so is not None:
             self.showProperties(self.so)

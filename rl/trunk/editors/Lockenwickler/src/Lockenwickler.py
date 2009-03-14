@@ -124,11 +124,13 @@ class Lockenwickler(QtGui.QMainWindow):
         self.centralwidget.setObjectName("centralwidget")
 
         self.hboxlayout = QtGui.QHBoxLayout(self.centralwidget)
+        self.hboxlayout.setContentsMargins(0, 0, 0, 0)
         self.hboxlayout.setObjectName("hboxlayout")
 
         self.gridlayout = QtGui.QGridLayout()
         self.gridlayout.setObjectName("gridlayout")
-
+        self.gridlayout.setContentsMargins(0, 0, 0, 0)
+        
         self.menubar = QtGui.QMenuBar(self)
         self.menubar.setObjectName("menubar")
 

@@ -165,10 +165,8 @@ class Map():
             
             eco = EntityCustomOptions()
             
-            try:
-                eco.receivesShadow = bool(nodes.attrib["receivesShadow"])
-            except:
-                pass
+            if nodes.attrib["receivesShadow"] == "False" or nodes.attrib["receivesShadow"] == "false":
+                eco.receivesShadow = "False"
             try:
                 eco.staticgeometrygroup = int(nodes.attrib["staticgeometrygroup"])
             except:
@@ -349,6 +347,7 @@ class Map():
                 go = GameObjectRepresentation(id, classid, dropNode, meshFile)
                 self.gocManager.addGameObjectRepresentation(go)
                 go.inWorldId = id
+                go.state = state
                 ent.setUserObject(go)
 
 

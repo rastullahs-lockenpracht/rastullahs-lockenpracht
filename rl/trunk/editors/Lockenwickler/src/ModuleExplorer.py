@@ -31,6 +31,7 @@ class NameInputDlg(QDialog):
         layout = QVBoxLayout()
         layout.addWidget(self.nameInput)
         layout.addWidget(buttonBox)
+        layout.setContentsMargins(2, 2, 2, 2)
         self.setLayout(layout)
         
         self.connect(buttonBox, SIGNAL("accepted()"), self, SLOT("accept()"))        
@@ -69,7 +70,8 @@ class ModuleExplorer(QWidget):
         
         vBoxLayout = QVBoxLayout()
         vBoxLayout.addWidget(self.sceneTreeView)
-
+        vBoxLayout.setContentsMargins(0, 0, 0, 0)
+        
         self.setLayout(vBoxLayout)
         
         self.nodeDict = {}

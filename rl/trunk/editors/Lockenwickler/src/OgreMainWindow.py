@@ -63,6 +63,7 @@ class OgreMainWindow(QWidget):
         Form.resize(QSize(QRect(0,0,935,843).size()).expandedTo(Form.minimumSizeHint()))
 
         self.gridlayout = QGridLayout(Form)
+        self.gridlayout.setContentsMargins(0, 2, 0, 0)
         self.gridlayout.setObjectName("gridlayout")
 
         # create the vertical splitter ( contains the preferences buttons and the horizontal splitter with the two render windows )
