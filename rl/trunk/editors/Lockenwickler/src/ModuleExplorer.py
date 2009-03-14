@@ -16,7 +16,6 @@
  # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  #################################################
 
-#dienstag 24.03 15.50
 import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -159,7 +158,10 @@ class ModuleExplorer(QWidget):
         i = 0
         while i < map.mapNode.numChildren():
             childItem2 = QTreeWidgetItem(childItem) 
-            childItem2.setText(0, map.mapNode.getChild(i).getName())
+            childItem2.setText(0, map.mapNode.getChild(i).getName())            
+            
+            childItem3 = QTreeWidgetItem(childItem2) 
+            childItem3.setText(0, str(type(map.mapNode.getChild(i).getAttachedObject(0))))
             i = i+1
 
 

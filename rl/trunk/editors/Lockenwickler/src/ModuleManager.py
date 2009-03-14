@@ -58,6 +58,17 @@ from GameObjectClassManager import *
 #                        </trigger>
 #                </zone>
 
+# get the light out of a light node
+def extractLight(node):
+        i = 0
+        num = node.numAttachedObjects()
+        while i < node.numAttachedObjects():
+            c = node.getAttachedObject(i)
+            tp = str(type(c))
+            if tp == "<class 'ogre.renderer.OGRE._ogre_.Light'>":
+                return c
+            
+            i += 1
 
 # make the xml file more pretty
 def indent(elem, level=0):
@@ -98,6 +109,7 @@ class EntityCustomOptions(og.UserDefinedObject):
         self.staticgeometrygroup = staticgeometrygroup
         self.physicsproxytype = physicsproxytype
         self.renderingdistance = renderingdistance
+        self.materialName = "NotChanged"
         
         ModuleManager.entityCustomOptionsDict.append(self)
         
@@ -165,8 +177,11 @@ class Map():
             
             eco = EntityCustomOptions()
             
-            if nodes.attrib["receivesShadow"] == "False" or nodes.attrib["receivesShadow"] == "false":
-                eco.receivesShadow = "False"
+            try:
+                if nodes.attrib["receivesShadow"] == "False" or nodes.attrib["receivesShadow"] == "false":
+                    eco.receivesShadow = "False"
+            except:
+                pass
             try:
                 eco.staticgeometrygroup = int(nodes.attrib["staticgeometrygroup"])
             except:
@@ -179,8 +194,12 @@ class Map():
                 eco.renderingdistance = float(nodes.attrib["renderingdistance"])
             except:
                 pass
-            
-            
+            try:
+                eco.renderingdistance
+                nodes.attrib["materialName"]
+            except:
+                pass
+                
             nodePosition = None
             nodeScale = None
             qw = qx = qy = qz = None
@@ -220,6 +239,9 @@ class Map():
     def createLights(self, lightNodes):
         for l in lightNodes:
             lightName = l.attrib["name"]
+            if lightName == "templeLight2":
+                print "yes!"
+                
             lightType = l.attrib["type"]
             lightVisible = bool(l.attrib["visible"])
             castShadows = bool(l.attrib["castShadows"])
@@ -258,7 +280,7 @@ class Map():
                     lightAttenuationRange = float(t.attrib["range"])
                     lightAttenuationConstant= float(t.attrib["constant"])
                     lightAttenuationLinear = float(t.attrib["linear"])
-                    lightAttenuationQuadratic = float(t.attrib["quadratic"])
+                    lightAttenuationQuadric  = float(t.attrib["quadratic"])
                 elif t.tag == "spotlightrange":
                     spotlightinner = float(t.attrib["spotlightinner"])
                     spotlightouter = float(t.attrib["spotlightouter"])
@@ -267,8 +289,8 @@ class Map():
             light = self.sceneManager.createLight(lightName)
             light.setVisible(lightVisible)
             light.setCastShadows(castShadows)
-            if lightAttenuationConstant and lightAttenuationLinear and lightAttenuationQuadratic:
-                light.setAttenuation(lightAttenuationRange, lightAttenuationConstant, lightAttenuationLinear, lightAttenuationQuadratic)
+            if lightAttenuationConstant and lightAttenuationLinear and lightAttenuationQuadric:
+                light.setAttenuation(lightAttenuationRange, lightAttenuationConstant, lightAttenuationLinear, lightAttenuationQuadric)
             if colourDiffuse:
                 light.setDiffuseColour(colourDiffuse)
             if colourSpecular:
@@ -285,11 +307,10 @@ class Map():
                 
             e = self.sceneManager.createEntity(lightName + "_ent", "lightbulp.mesh")
             n = self.mapNode.createChild("light_" + lightName + "_node")
-            n.attachObject(e)
             n.attachObject(light)
+            n.attachObject(e)
             if lightPosition:
                 n.setPosition(lightPosition)
-
             
     def createSound(self, soundNodes):
         #raise NotImplementedError
@@ -416,7 +437,7 @@ class Map():
                     scaleElem.attrib["z"] = str(n.getScale().z)
                     
                 elif n.name.startswith("light_"):
-                    light = n.getAttachedObject(0)
+                    light = extractLight(n)
                     lightName = light.getName()
                     lightType = light.getType()
                     isVisible = "true"
@@ -429,9 +450,9 @@ class Map():
                     
                     if lightType == og.Light.LT_POINT:
                         lightType = "point"
-                    elif lightType == og.Light.LT_SPOT:
+                    elif lightType == og.Light.LT_SPOTLIGHT:
                         lightType = "spot"
-                    elif lightType == og.Light.LT_SPOT:
+                    elif lightType == og.Light.LT_DIRECTIONAL:
                         lightType = "directional"
                     
                     
@@ -461,7 +482,7 @@ class Map():
                     lightAttenuationElem.attrib["range"] = str(light.getAttenuationRange())
                     lightAttenuationElem.attrib["constant"] = str(light.getAttenuationConstant())
                     lightAttenuationElem.attrib["linear"] = str(light.getAttenuationLinear())
-                    lightAttenuationElem.attrib["quadratic"] = str(light.getAttenuationQuadratic())
+                    lightAttenuationElem.attrib["quadratic"] = str(light.getAttenuationQuadric())
                     
                     if lightType == "spot":
                         spotligthRangeElem = xml.SubElement(lightElem, "spotlightrange")
@@ -548,7 +569,9 @@ class Module():
         self.scenes =[]
 
         self.isLoaded = False
-
+        
+        self.playerStart = None
+        
     def addScene(self, name):
         self.scenes.append(Scene(self.moduleRoot, join(self.moduleRoot, ("maps/" + name + ".rlscene")), self.sceneManager, self.ogreRoot, self.gocManager, True, name))
     
@@ -1159,6 +1182,7 @@ class ModuleManager():
         if so is not None:
             if not so.entity.getNumSubEntities() > 1:
                 so.entity.setMaterialName(self.dropMat)
+                so.entity.getUserObject().materialName = self.dropMat
             else:
                 i = 0
                 text = "Warning this Entity has more than one SubEntities with the folloing materials: \n\n"
@@ -1172,6 +1196,7 @@ class ModuleManager():
                     return
                 if reply == QMessageBox.Yes:
                     so.entity.setMaterialName(self.dropMat)
+                    so.entity.getUserObject().materialName = self.dropMat
         
     def setOneClickEntityPlacement(self, state):
         self.oneClickEntityPlacement = state

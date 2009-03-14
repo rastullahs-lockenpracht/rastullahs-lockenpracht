@@ -50,7 +50,7 @@ class Lockenwickler(QtGui.QMainWindow):
 #        splash = QSplashScreen(pixmap, Qt.WindowStaysOnTopHint)
 #        splash.setMask(pixmap.mask())
 #        splash.showMessage("Starting...")
-#        splash.show()
+#        splash.show() 
 
         self.setupUi()
 
@@ -218,6 +218,9 @@ class Lockenwickler(QtGui.QMainWindow):
 
         self.actionConsole_Window = self.createAction("&Console Window",  self.toggleConsoleWindow,  "Alt+C",  "console.png",  "Console Window")
         self.actionConsole_Window.setObjectName("actionConsole_Window")
+        
+        self.actionToggleViewportGrid = self.createAction("&Toggle Grid",  self.toggleViewportGrid,  "Alt+G",  "console.png",  "Toggle Viewport Grid")
+        self.actionToggleViewportGrid.setObjectName("actionToggleViewportGrid")
 
 #####################################
 #####################################
@@ -249,6 +252,8 @@ class Lockenwickler(QtGui.QMainWindow):
         self.menuView.addAction(self.actionMaterial_Selection)
         self.menuView.addAction(self.actionGameObjectClass_Selection)
         self.menuView.addAction(self.actionConsole_Window)
+        self.menuView.addAction(self.actionToggleViewportGrid)
+        
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEdit.menuAction())
         self.menubar.addAction(self.menuView.menuAction())
@@ -411,6 +416,9 @@ class Lockenwickler(QtGui.QMainWindow):
             self.consoleDock.show()
         else:
             self.consoleDock.hide()
+
+    def toggleViewportGrid(self):
+        self.ogreMainWindow.toggleViewportGrid()
 
     def createDockWindows(self):
         self.propertyDock = QtGui.QDockWidget(self.tr("Properties"), self)
