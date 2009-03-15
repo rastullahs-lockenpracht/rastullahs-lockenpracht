@@ -485,15 +485,19 @@ class Lockenwickler(QtGui.QMainWindow):
             self.ogreMainWindow.keyReleaseEvent(event)
         pass
 
-    def onContextMenuCallback(self, actions):
+    def onContextMenuCallback(self, actions, menus):
         menu = QMenu("My Menu!!")
         menu.addAction(self.actionDelete)
         menu.addAction(self.actionCopy)
         menu.addAction(self.actionCut)
         menu.addAction(self.actionPaste)
         menu.addSeparator()
+        
+        for m in menus:
+            menu.addMenu(m)
         for a in actions:
             menu.addAction(a)
+
             
         menu.exec_(QCursor.pos())
         
@@ -522,8 +526,8 @@ class Lockenwickler(QtGui.QMainWindow):
 if __name__ == "__main__":
 #    # Import Psyco if available
 #    try:
-##        import psyco
-##        psyco.full(0.02)
+#        import psyco
+#        psyco.full(0.02)
 #        #psyco.log()
 #        #psyco.profile()
 #    except ImportError:

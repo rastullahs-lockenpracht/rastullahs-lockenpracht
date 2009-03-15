@@ -335,8 +335,13 @@ class OgreMainWindow(QWidget):
     def onContextMenuTimer(self):
         if not self.rightMouseDown:
             relMousePos = self.ogreWidget.mapFromGlobal(QCursor.pos()) # get the mose position relative to the ogre window
-            self.moduleManager.onContextMenu(relMousePos.x(), relMousePos.y())
-    
+            
+            screenX = relMousePos.x()/float(self.ogreWidget.viewport.getActualWidth())
+            screenY = relMousePos.y()/float(self.ogreWidget.viewport.getActualHeight())
+            mouseRay = self.ogreWidget.getCamera().getCameraToViewportRay(screenX, screenY)
+
+            self.moduleManager.onContextMenu(relMousePos.x(), relMousePos.y(), mouseRay)
+            
     def toggleViewportGrid(self):
         if self.viewportGrid.isEnabled():
             self.viewportGrid.disable()

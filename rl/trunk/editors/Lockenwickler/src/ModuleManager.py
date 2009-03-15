@@ -34,6 +34,7 @@ from SelectionBuffer import *
 from DepthBuffer import *
 from MovePivot import *
 from GameObjectClassManager import *
+from MyRaySceneQueryListener import *
 
 
 #                <zone name="Testzone">
@@ -101,7 +102,9 @@ def createUniqueEntityName(sceneManager, name = None):
         
     return n
         
-        
+def printVector3(vec):
+    print str(vec.x) + ";" + str(vec.y) + ";" + str(vec.z)
+    
 class EntityCustomOptions(og.UserDefinedObject):
     def __init__(self, receivesShadow = True, staticgeometrygroup = 0, physicsproxytype = "none", renderingdistance = "20000"):
         og.UserDefinedObject.__init__(self)
@@ -301,7 +304,7 @@ class Map():
             if lightType == "point":
                 light.setType(og.Light.LT_POINT)            
             elif lightType == "spot":
-                light.setType(og.Light.LT_SPOT)
+                light.setType(og.Light.LT_SPOTLIGHT)
             elif lightType == "directional":
                 light.setType(og.Light.LT_DIRECTIONAL)
                 
@@ -464,9 +467,9 @@ class Map():
                     
                     if lightType == "point" or lightType == "spot":
                         posElem = xml.SubElement(lightElem, "position")
-                        posElem.attrib["x"] = str(light.getPosition().x)
-                        posElem.attrib["y"] = str(light.getPosition().y)
-                        posElem.attrib["z"] = str(light.getPosition().z)
+                        posElem.attrib["x"] = str(n.getPosition().x)
+                        posElem.attrib["y"] = str(n.getPosition().y)
+                        posElem.attrib["z"] = str(n.getPosition().z)
                     
                     colDiffuseElem = xml.SubElement(lightElem, "colourDiffuse")
                     colDiffuseElem.attrib["r"] = str(light.getDiffuseColour().r)
@@ -766,11 +769,15 @@ class ModuleManager():
         self.oneClickEntityPlacement = False
         
         self.onContextMenuCallback = None
-    
+        self.contextMenuClickPosition = None
+        self.contextMenuRay = None
+        
         self.playerStartGameObjectId = None
         
         self.entityCustomOptionsDict = []
-    
+        
+        self.raySceneQueryListener = MyRaySceneQueryListener()
+        
     def resetParsedModuleConfig(self):
         self.moduleConfigIsParsed = False
         self.moduleList = []
@@ -932,25 +939,25 @@ class ModuleManager():
             if self.pivot is not None:
                 self.pivot.hide()
 
-#        if self.rayLine == None:
-#            self.rayLine = self.sceneManager.createManualObject("rayLine")
-#            self.rayLine.setDynamic(True)
-#            self.sceneManager.getRootSceneNode().createChildSceneNode("raynode").attachObject(self.rayLine)
-#
-#            self.rayLine.begin("BaseWhiteNoLighting", og.RenderOperation.OT_LINE_STRIP)
-#
-#            self.rayLine.position(ray.getOrigin())
-#            self.rayLine.position( ray.getPoint(10000))
-#
-#            self.rayLine.end()
-#
-#        else:
-#            self.rayLine.beginUpdate(0)
-#
-#            self.rayLine.position(ray.getOrigin())
-#            self.rayLine.position( ray.getPoint(10000))
-#
-#            self.rayLine.end()
+        if self.rayLine == None:
+            self.rayLine = self.sceneManager.createManualObject("rayLine")
+            self.rayLine.setDynamic(True)
+            self.sceneManager.getRootSceneNode().createChildSceneNode("raynode").attachObject(self.rayLine)
+
+            self.rayLine.begin("BaseWhiteNoLighting", og.RenderOperation.OT_LINE_STRIP)
+
+            self.rayLine.position(ray.getOrigin())
+            self.rayLine.position( ray.getPoint(10000))
+
+            self.rayLine.end()
+
+        else:
+            self.rayLine.beginUpdate(0)
+
+            self.rayLine.position(ray.getOrigin())
+            self.rayLine.position( ray.getPoint(10000))
+
+            self.rayLine.end()
 
     def deleteObjects(self):
         if len(self.userSelectionList) < 1:
@@ -960,6 +967,11 @@ class ModuleManager():
 
         for so in self.userSelectionList:
             node = so.entity.getParentNode()
+
+            if node.getName().startswith("light_"):
+                light = extractLight(node)
+                self.sceneManager.destroyLight(light)
+                
             node.detachAllObjects()
             self.sceneManager.destroySceneNode(node)
             self.sceneManager.destroyEntity(so.entity)
@@ -1145,7 +1157,6 @@ class ModuleManager():
         
         eco = EntityCustomOptions()
         self.dropEntity.setUserObject(eco)
-        #ModuleManager.entityCustomOptionsDict.append(eco)
         
         self.dropNode = self.currentMap.mapNode.createChild("entity_dropNode" + str(ModuleManager.dropCount))
         self.dropNode.attachObject(self.dropEntity)
@@ -1200,10 +1211,78 @@ class ModuleManager():
         
     def setOneClickEntityPlacement(self, state):
         self.oneClickEntityPlacement = state
-        
-    def createLight(self):
-        print "creating light here..."
     
+    def createLight(self, name):
+        pos = og.Vector3()
+        
+        query = self.sceneManager.createRayQuery(self.contextMenuRay)
+        query.ray = self.contextMenuRay
+        query.setSortByDistance(True)
+        query.execute(self.raySceneQueryListener)
+        if self.raySceneQueryListener.dist < 100000:
+            pos = self.contextMenuRay.getPoint(self.raySceneQueryListener.dist)
+            self.raySceneQueryListener.dist = 100000
+            
+#        so = self.selectionBuffer.onSelectionClick(int(self.contextMenuClickPosition.x), int(self.contextMenuClickPosition.y))
+#        if so is not None:
+#            result = og.Math.intersects(self.contextMenuRay, so.entity.getBoundingBox())
+#            
+#            if result.first:
+#                pos = self.contextMenuRay.getPoint(result.second)
+#                pos += so.entity.getParentNode().getPosition()
+        
+        light = None
+        if not self.sceneManager.hasLight(name):
+            light = self.sceneManager.createLight(name)
+            
+        return light,  pos
+        
+    def addPointLight(self):
+        if self.currentMap is None:
+            print "No map selected!"
+            return
+            
+        lightName = "pointLight" + str(ModuleManager.dropCount)
+        ModuleManager.dropCount += 1
+        
+        light, pos = self.createLight(lightName)
+        printVector3(pos)
+        
+        if not light:
+            print "Error while creating light"
+            return
+            
+        light.setType(og.Light.LT_POINT)
+        
+        e = self.sceneManager.createEntity(lightName + "_ent", "lightbulp.mesh")
+        n = self.currentMap.mapNode.createChild("light_" + lightName + "_node")
+        n.attachObject(light)
+        n.attachObject(e)
+        n.setPosition(pos)
+        
+    def addSpotLight(self):
+        if self.currentMap is None:
+            print "No map selected!"
+            return
+            
+        lightName = "spotLight" + str(ModuleManager.dropCount)
+        ModuleManager.dropCount += 1
+        
+        light, pos = self.createLight(lightName)
+        printVector3(pos)
+        
+        if not light:
+            print "Error while creating light"
+            return
+            
+        light.setType(og.Light.LT_SPOTLIGHT)
+        
+        e = self.sceneManager.createEntity(lightName + "_ent", "lightbulp.mesh")
+        n = self.currentMap.mapNode.createChild("light_" + lightName + "_node")
+        n.attachObject(light)
+        n.attachObject(e)
+        n.setPosition(pos)
+        
     def createZone(self):
         print "creating zone here..."
     
@@ -1211,18 +1290,28 @@ class ModuleManager():
         self.mainModule.playerStart = str(self.playerStartGameObjectId)
         print "setting Player Start to " + str(self.playerStartGameObjectId)
     
-    def onContextMenu(self, screenX, screenY):
+    def onContextMenu(self, screenX, screenY, ray):
+        menus = []
         actions = []
-        actions.append(self.createAction("Create Light here", self.createLight))
         actions.append(self.createAction("Create Zone here", self.createZone))
+        pla = self.createAction("Pointlight", self.addPointLight, None, "idea.png")
+        pls = self.createAction("Spotlight", self.addSpotLight, None, "idea.png")
+        
+        lightMenu = QMenu("Add Light")
+        lightMenu.addAction(pla)
+        lightMenu.addAction(pls)
+        menus.append(lightMenu)
         
         so = self.selectionBuffer.onSelectionClick(screenX, screenY)
+        self.contextMenuClickPosition = og.Vector2(screenX, screenY)
+        self.contextMenuRay = ray
+        
         if so is not None and so.entity.getParentNode().getName().startswith("gameobject_"):
             actions.append(self.createAction("Set Player Starterpoint", self.setPlayerStart))
             self.playerStartGameObjectId = so.entity.getUserObject().inWorldId
         
         if self.onContextMenuCallback is not None:
-            self.onContextMenuCallback(actions)
+            self.onContextMenuCallback(actions,  menus)
 
     def setContextMenuCallback(self, callback):
         self.onContextMenuCallback = callback
