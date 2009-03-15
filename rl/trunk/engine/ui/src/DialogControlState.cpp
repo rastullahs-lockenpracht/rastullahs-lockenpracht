@@ -62,7 +62,8 @@ namespace rl {
         : DialogController(cmdMapper, camera, character, CST_DIALOG),
         mTargetCameraPosition(Vector3::ZERO),
         mTargetCameraDirection(Vector3::UNIT_Z),
-        mDialogMode(DM_FRONT)
+        mDialogMode(DM_FRONT),
+        mDialogWindow(NULL)
     {
     }
 

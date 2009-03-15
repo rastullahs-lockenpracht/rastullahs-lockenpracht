@@ -17,6 +17,7 @@
 #ifndef __RL_DYNAMICCAST_I__
 #define __RL_DYNAMICCAST_I__
 
+%include "TypeDynamicDirector.swig"
 %include "TypeOgreColourValue.swig"
 %include "TypeOgreQuaternion.swig"
 %include "TypeOgreRadian.swig"
@@ -26,9 +27,9 @@
 %include "TypeOgreVector3.swig"
 %include "TypeRlCeGuiString.swig"
 %include "TypeRlCeGuiStringVector.swig"
+%include "TypeRlGameObjectList.swig"
 %include "TypeRlProperty.swig"
 %include "TypeRlPropertyKeys.swig"
 %include "TypeStdPairIntInt.swig"
-%include "TypeDynamicDirector.swig"
 
 #endif

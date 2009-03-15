@@ -92,10 +92,10 @@ namespace rl
 
     GameObject* Selector::getFirstSelectedObject() const
     {
-        return mSelection.empty() ? NULL : mSelection[0];
+        return mSelection.empty() ? NULL : *mSelection.begin();
     }
 
-    const Selector::GameObjectVector& Selector::getAllSelectedObjects() const
+    const GameObjectList& Selector::getAllSelectedObjects() const
     {
         return mSelection;
     }

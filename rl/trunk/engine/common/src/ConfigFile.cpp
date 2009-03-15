@@ -18,7 +18,12 @@
 
 #include "ConfigFile.h"
 #include "Exception.h"
+
+#ifdef __APPLE__
+#include <Ogre/OgreMemoryAllocatorConfig.h>
+#else
 #include <OgreMemoryAllocatorConfig.h>
+#endif
 
 using namespace Ogre;
 using namespace std;

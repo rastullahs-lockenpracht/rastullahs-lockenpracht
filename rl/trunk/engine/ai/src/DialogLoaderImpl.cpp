@@ -612,7 +612,7 @@ namespace rl
 
                 if (!isInParty)
                 {
-                    dialog->addParticipant("nsc", curCr);
+                    dialog->addParticipant("npc", curCr);
                     found1stNpc = true;
                 }
             }

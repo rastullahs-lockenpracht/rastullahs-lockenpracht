@@ -1289,6 +1289,7 @@
 		44D814770BF7B62F00534175 /* ZoneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoneManager.h; sourceTree = "<group>"; };
 		483373800F65EBF4005979BF /* DialogController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DialogController.cpp; sourceTree = "<group>"; };
 		483373820F65EC01005979BF /* DialogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogController.h; sourceTree = "<group>"; };
+		483374130F6D275A005979BF /* TypeRlGameObjectList.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypeRlGameObjectList.swig; path = script/swig/TypeRlGameObjectList.swig; sourceTree = "<group>"; };
 		483646960D83D13700912FEC /* ContentLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentLoader.h; sourceTree = "<group>"; };
 		483646970D83D13700912FEC /* SoundStitching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundStitching.h; sourceTree = "<group>"; };
 		483646980D83D13700912FEC /* StartAnimationJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartAnimationJob.h; sourceTree = "<group>"; };
@@ -1947,6 +1948,7 @@
 				48389BFB0D8677EE00AFAB66 /* TypeOgreVector3.swig */,
 				48389BFC0D8677EE00AFAB66 /* TypeRlCeGuiString.swig */,
 				48389BFD0D8677EE00AFAB66 /* TypeRlCeGuiStringVector.swig */,
+				483374130F6D275A005979BF /* TypeRlGameObjectList.swig */,
 				48389BFE0D8677EE00AFAB66 /* TypeRlProperty.swig */,
 				48389BFF0D8677EE00AFAB66 /* TypeRlPropertyKeys.swig */,
 				48389C000D8677EE00AFAB66 /* TypeStdPairIntInt.swig */,

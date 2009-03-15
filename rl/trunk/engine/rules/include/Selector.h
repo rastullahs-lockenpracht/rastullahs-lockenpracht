@@ -63,8 +63,6 @@ namespace rl {
     class _RlRulesExport Selector : public DebugVisualisable
     {
     public:
-        typedef std::vector<GameObject*> GameObjectVector;
-
         Selector(unsigned long mask = 0xffffffff);
         virtual ~Selector();
         virtual void updateSelection();
@@ -77,11 +75,11 @@ namespace rl {
         SelectionFilter* getFilter() const;
 
         GameObject* getFirstSelectedObject() const;
-        const GameObjectVector& getAllSelectedObjects() const;
+        const GameObjectList& getAllSelectedObjects() const;
 		unsigned int getSelectionCount() const;
 
     protected:
-        GameObjectVector mSelection;
+        GameObjectList mSelection;
         unsigned long mSelectionMask;
         SelectionFilter* mFilter;
 

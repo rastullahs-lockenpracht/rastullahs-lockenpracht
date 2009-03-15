@@ -31,8 +31,8 @@ namespace rl
 
     AgentDialogState::AgentDialogState(Agent* agent)
         : AgentState(agent),
-        mPartner(NULL),
-        mTalking(false)
+        mTalking(false),
+        mDialog(NULL)
     {
     }
 
@@ -40,9 +40,9 @@ namespace rl
     {
     }
 
-    void AgentDialogState::setDialogPartner(Agent* partner)
+    void AgentDialogState::addDialogPartner(Agent* partner)
     {
-        mPartner = partner;
+        mPartners.push_back(partner);
     }
 
     void AgentDialogState::setDialog(Dialog* dialog)
@@ -56,15 +56,26 @@ namespace rl
                 CreatureControllerManager::getSingleton().getCreatureController(
                     mAgent->getControlledCreature());
 
-        if (mAgent->getPosition().squaredDistance(mPartner->getPosition()) > 1.5
-            || !mAgent->isAhead(mPartner, 0.95))
+        Vector3 partnerPos(Vector3::ZERO);
+        if (!mPartners.empty())
+        {
+            for (std::list<Agent*>::iterator it = mPartners.begin(), end = mPartners.end(); it != end; ++it)
+            {
+                partnerPos += (*it)->getPosition();
+            }
+            partnerPos /= mPartners.size();
+        }
+
+        if (!mPartners.empty() &&
+            (mAgent->getPosition().squaredDistance(partnerPos) > 1.5
+            || !mAgent->isAhead(partnerPos, 0.95)))
         {		
-            mAgent->addForce(mAgent->calcSeek(mPartner->getPosition()));
+            mAgent->addForce(mAgent->calcSeek(partnerPos));
             mAgent->updateVehicle(0, elapsedTime);
         }
 		else
         {
-			if (!mTalking)
+			if (!mTalking && mDialog)
             {
                 mAgent->reset();
                 ctrl->setMovement(

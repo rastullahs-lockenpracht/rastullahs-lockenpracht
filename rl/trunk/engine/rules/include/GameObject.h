@@ -19,6 +19,8 @@
 
 #include "RulesPrerequisites.h"
 
+#include <list>
+
 #include "Action.h"
 #include "Actor.h"
 #include "RulesConstants.h"
@@ -249,6 +251,8 @@ namespace rl
         ActionOptionVector::iterator findAction(ActionOptionVector::iterator
             begin, ActionOptionVector::iterator end, const Action* action);    
     };
+    
+    typedef std::list<GameObject*> GameObjectList;
 }
 
 #endif

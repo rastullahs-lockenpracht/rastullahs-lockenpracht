@@ -119,7 +119,7 @@ namespace rl {
         GameObjectFactory();
         virtual ~GameObjectFactory();
     };
-
+    
     class GameObjectManager
     {
     public:
@@ -127,7 +127,7 @@ namespace rl {
         rl::GameObject* createGameObject(const Ogre::String& classId, unsigned int id = 0);
         rl::GameObject* getGameObject(unsigned int id) const;
         void setGameObjectFactory(rl::GameObjectFactory* gof);
-        std::list<rl::GameObject*> getAllGameObjects();
+        rl::GameObjectList getAllGameObjects();
 
     private:
         GameObjectManager();
@@ -877,7 +877,7 @@ namespace rl {
         unsigned long getSelectionMask() const;
 
         GameObject* getFirstSelectedObject() const;
-		const std::vector<GameObject*>& getAllSelectedObjects() const;
+		const rl::GameObjectList& getAllSelectedObjects() const;
 		unsigned int getSelectionCount() const;
 
 		virtual void updatePrimitive() = 0;
