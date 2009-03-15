@@ -10,9 +10,13 @@ class TalkAction < Action
     npcs.push(object);
     npcs += object.getCreaturesNearby(1, false);
     dialog = DialogManager::getSingleton().createDialog(object.getDialog(), npcs);  
-	  agent = AgentManager::getSingleton().createAgent(object);
-	  agent.pushState(RlScript::AST_DIALOG);
-    agent.getCurrentState().setDialog(dialog);
+    agent = AgentManager::getSingleton().createAgent(object);
+    agent.pushState(RlScript::AST_DIALOG);
+    dialogState = agent.getCurrentState()
+    dialogState.setDialog(dialog);
+    npcs.each do |cur|
+      dialogState.addDialogPartner(AgentManager::getSingleton().createAgent(cur));
+    end
   end
 end
 
@@ -64,13 +68,12 @@ class NPC < Creature
   include BehaviourBot
   
   def getCreaturesNearby(range, includePlayers)
-    gos = $GOM.getAllGameObjects();
-    gos.each { |go|
-      if ((go.getPosition() - self.getPosition()).getLength() <= range) and
-          (includePlayers || !PartyManager.getSingleton().isInParty(go))
-        gos -= go;
-      end
-    }
-    return gos;
+    print "Getting all nearby";
+    selector = SphereSelector.new(QUERYFLAG_CREATURE);
+    selector.setPosition(getPosition());
+    selector.setRadius(range);
+    selector.updateSelection();
+    
+    return selector.getAllSelectedObjects();
   end
 end
