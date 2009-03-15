@@ -1,4 +1,4 @@
-#include <xercesc/util/XMemory.hpp> // Muss vor Ogre stehen (zumindest für VS)
+#include <xercesc/util/XMemory.hpp> // Muss vor Ogre stehen (zumindest fï¿½r VS)
 
 #include <Ogre.h>
 #include <OgreLogManager.h>
@@ -7,11 +7,8 @@
 
 #include "Logger.h"
 #include "CoreSubsystem.h"
-#include "MultimediaSubsystem.h"
 #include "RulesSubsystem.h"
-#include "DialogSubsystem.h"
 #include "UiSubsystem.h"
-#include "ScriptSubsystem.h"
 #include "RubyInterpreter.h"
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
@@ -66,30 +63,30 @@ int main( int argc, char **argv)
         runner.run();
         rl::Logger::getSingleton().log(rl::Logger::CORE, Ogre::LML_NORMAL, "Ende...");
 
-    } 
+    }
     catch(Ogre::Exception& oe) {
         rl::showError(oe.getFullDescription());
-    } 
+    }
     catch(rl::Exception& re) {
         rl::showError(re.toString());
-    } 
+    }
     catch(CEGUI::Exception& ce) {
         rl::showError(ce.getMessage().c_str());
     }
     catch(std::runtime_error& rte) {
         rl::showError(rte.what());
-    } 
+    }
     catch(std::exception& exp) {
         rl::showError( exp.what() );
-    } 
+    }
     catch(std::string& err) {
         rl::showError( err );
-    } 
+    }
     catch(...) {
         rl::showError( "Unknown exception occured" );
     }
 
-    try 
+    try
     {
         delete script;
         delete ui;
@@ -100,23 +97,23 @@ int main( int argc, char **argv)
     }
     catch(Ogre::Exception& oe) {
         rl::showError(oe.getFullDescription());
-    } 
+    }
     catch(rl::Exception& re) {
         rl::showError(re.toString());
-    } 
+    }
     catch(std::runtime_error& rte) {
         rl::showError(rte.what());
-    } 
+    }
     catch(std::exception& exp) {
         rl::showError( exp.what() );
-    } 
+    }
     catch(std::string& err) {
         rl::showError( err );
-    } 
+    }
     catch(...) {
         rl::showError( "Unknown exception occured" );
-    }   
+    }
 
-    
+
     return 0;
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<dialog name="test_3pers_dialog">
+	<persons>
+		<!-- 
+			Default persons:
+    			player: the current active player char (speaks all options by default)
+	    		nsc: the first dialog partner which is not in the player parts (speaks all responses by default)
+		-->
+		<person id="player" goid="10"/>
+		<person id="2" goclass="TestPerson2"/>
+		<person id="3" name="TestPerson_byName"/>
+	</persons>
+	<start>
+		<response id="1" person="2">Moin.
+			<option id="11">Option 1
+				<response id="111">
+					<p person="2">Blah Blah</p>
+					<p person="3">Du erzaehlst Unsinn.</p>
+					<p person="2">Stimmt ja gar nicht.</p>
+					<exit/>
+				</response>
+			</option>				
+		</response>
+		
+	</start>
+
+</dialog>

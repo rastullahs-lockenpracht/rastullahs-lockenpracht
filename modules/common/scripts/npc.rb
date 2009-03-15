@@ -6,11 +6,12 @@ class TalkAction < Action
   end
 
   def doAction(object, actor, target)
-    dialog = DialogManager::getSingleton().createDialog(object.getDialog(), object)  
-	  agent = AgentManager::getSingleton().createAgent(object)
+    npcs = Array.new();
+    npcs.push(object);
+    npcs += object.getCreaturesNearby(1, false);
+    dialog = DialogManager::getSingleton().createDialog(object.getDialog(), npcs);  
+	  agent = AgentManager::getSingleton().createAgent(object);
 	  agent.pushState(RlScript::AST_DIALOG);
-	  agent.getCurrentState().setDialogPartner(
-  		AgentManager::getSingleton().createAgent(actor))
     agent.getCurrentState().setDialog(dialog);
   end
 end
@@ -61,4 +62,15 @@ end
 class NPC < Creature
   include TalkTarget
   include BehaviourBot
+  
+  def getCreaturesNearby(range, includePlayers)
+    gos = $GOM.getAllGameObjects();
+    gos.each { |go|
+      if ((go.getPosition() - self.getPosition()).getLength() <= range) and
+          (includePlayers || !PartyManager.getSingleton().isInParty(go))
+        gos -= go;
+      end
+    }
+    return gos;
+  end
 end
