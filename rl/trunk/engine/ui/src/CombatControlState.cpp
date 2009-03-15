@@ -139,7 +139,7 @@ namespace rl {
        
 
 
-        ///\todo Richtig machen, nur temporär Ani hier setzen.
+        ///\todo Richtig machen, nur temporâ€°r Ani hier setzen.
         static_cast<MeshObject*>(mCharacterActor->getControlledObject())
             ->startAnimation("kampf_schwerter_idle");
 
@@ -149,12 +149,12 @@ namespace rl {
         mEnemySelector.setRadius(10.0);
 
         mEnemySelector.updateSelection();
-        const Selector::GameObjectVector& enemies = mEnemySelector.getAllSelectedObjects();
+        const GameObjectList& enemies = mEnemySelector.getAllSelectedObjects();
         if (!enemies.empty())
         {
-            for (size_t i = 0; i < enemies.size(); ++i)
+            for (GameObjectList::const_iterator it = enemies.begin(); it != enemies.end(); ++it)
             {
-                mCombat->addOpponent(static_cast<Creature*>(enemies[i]));
+                mCombat->addOpponent(static_cast<Creature*>(*it));
             }
         }
         else
