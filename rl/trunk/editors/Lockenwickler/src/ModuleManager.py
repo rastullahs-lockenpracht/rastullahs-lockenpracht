@@ -285,11 +285,19 @@ class Map():
                     lightAttenuationLinear = float(t.attrib["linear"])
                     lightAttenuationQuadric  = float(t.attrib["quadratic"])
                 elif t.tag == "spotlightrange":
-                    spotlightinner = float(t.attrib["spotlightinner"])
-                    spotlightouter = float(t.attrib["spotlightouter"])
+                    spotlightinner = float(t.attrib["inner"])
+                    spotlightouter = float(t.attrib["outer"])
                     falloff = float(t.attrib["falloff"])
                     
             light = self.sceneManager.createLight(lightName)
+            
+            if lightType == "point":
+                light.setType(og.Light.LT_POINT)            
+            elif lightType == "spot":
+                light.setType(og.Light.LT_SPOTLIGHT)
+            elif lightType == "directional":
+                light.setType(og.Light.LT_DIRECTIONAL)
+            
             light.setVisible(lightVisible)
             light.setCastShadows(castShadows)
             if lightAttenuationConstant and lightAttenuationLinear and lightAttenuationQuadric:
@@ -301,12 +309,7 @@ class Map():
             if spotlightinner and spotlightouter and spotlightouter: 
                 light.setSpotlightRange(spotlightinner, spotlightouter, falloff)
             
-            if lightType == "point":
-                light.setType(og.Light.LT_POINT)            
-            elif lightType == "spot":
-                light.setType(og.Light.LT_SPOTLIGHT)
-            elif lightType == "directional":
-                light.setType(og.Light.LT_DIRECTIONAL)
+
                 
             e = self.sceneManager.createEntity(lightName + "_ent", "lightbulp.mesh")
             n = self.mapNode.createChild("light_" + lightName + "_node")
@@ -332,7 +335,6 @@ class Map():
             state = g.attrib["state"]
             nodePosition = None
             nodeRotation = None
-            nodeScale = None
 
             transformations = g.getiterator()
             for t in transformations:
@@ -347,11 +349,6 @@ class Map():
                     qy = float(t.attrib["qy"])
                     qz = float(t.attrib["qz"])
                     nodeRotation = og.Quaternion(qw, qx, qy, qz)
-                elif t.tag == "scale":
-                    x = float(t.attrib["x"])
-                    y = float(t.attrib["y"])
-                    z = float(t.attrib["z"])
-                    nodeScale = og.Vector3(x, y, z)
 
             go = self.gocManager.getGameObjectWithClassId(classid)
             if go is not None:
@@ -365,8 +362,6 @@ class Map():
                     dropNode.setPosition(nodePosition)
                 if nodeRotation:
                     dropNode.setOrientation(nodeRotation)
-                if nodeScale:
-                    dropNode.setScale(nodeScale)
 
                 go = GameObjectRepresentation(id, classid, dropNode, meshFile)
                 self.gocManager.addGameObjectRepresentation(go)
@@ -434,11 +429,6 @@ class Map():
                     rotElem.attrib["qy"] = str(n.getOrientation().y)
                     rotElem.attrib["qz"] = str(n.getOrientation().z)
                     
-                    scaleElem = xml.SubElement(goElem, "scale")
-                    scaleElem.attrib["x"] = str(n.getScale().x)
-                    scaleElem.attrib["y"] = str(n.getScale().y)
-                    scaleElem.attrib["z"] = str(n.getScale().z)
-                    
                 elif n.name.startswith("light_"):
                     light = extractLight(n)
                     lightName = light.getName()
@@ -489,15 +479,17 @@ class Map():
                     
                     if lightType == "spot":
                         spotligthRangeElem = xml.SubElement(lightElem, "spotlightrange")
-                        spotligthRangeElem.attrib["inner"] = str(light.getSpotlightInnerAngle())
-                        spotligthRangeElem.attrib["outer"] = str(light.getSpotlightOuterAngle())
+                        spotligthRangeElem.attrib["inner"] = str(light.getSpotlightInnerAngle().valueDegrees())
+                        spotligthRangeElem.attrib["outer"] = str(light.getSpotlightOuterAngle().valueDegrees())
                         spotligthRangeElem.attrib["falloff"] = str(light.getSpotlightFalloff())
                         
                     if lightType == "spot" or lightType == "directional":
                         directionElem = xml.SubElement(lightElem, "direction")
-                        directionElem.attrib["x"] = str(light.getDirection().x)
-                        directionElem.attrib["y"] = str(light.getDirection().y)
-                        directionElem.attrib["z"] = str(light.getDirection().z)
+                        dir = og.Vector3()
+                        n.getOrientation().ToAxes(dir)
+                        directionElem.attrib["x"] = str(dir.x)
+                        directionElem.attrib["y"] = str(dir.y)
+                        directionElem.attrib["z"] = str(dir.z)
                         
             i = i+1
             

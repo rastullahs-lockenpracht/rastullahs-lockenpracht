@@ -132,6 +132,7 @@ class NewModuleWizard(QDialog, Ui_Dialog):
         f.write(sdeps + "\n")
         f.write("       require 'player.rb'\n")
         f.write("       require 'mckhero.rb'\n")
+        f.write("       $PM.setEnabled(true);\n\n")
         f.write("\n\n       SceneManager.getSingleton().loadScene(\"" + self.sceneNameLineEdit.text() + "\");\n\n")
         f.write("       hero = $GOM.getGameObject(XXXXXX);\n")
         f.write("       PlayerSettings.preparePlayer(hero)\n")

@@ -159,7 +159,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.actionSave = self.createAction("&Save",  self.actionSaveSlot,  QKeySequence.Save,  "filesave.png",  "Save Module")
         self.actionSave.setObjectName("actionSave")
         
-        self.actionRunModule = self.createAction("&Save and Run",  self.actionRunModuleSlot,  "Alt+R",  "fileexport.png",  "Save And Run Module")
+        self.actionRunModule = self.createAction("&Save and Run",  self.actionRunModuleSlot,  "Ctrl+G",  "fileexport.png",  "Save And Run Module")
         self.actionRunModule.setObjectName("actionRunModule")
 
         self.actionClose = self.createAction("Quit",  self.actionQuitSlot,  "Alt+Q",  "exit.png",  "Quit")
