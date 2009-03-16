@@ -137,7 +137,8 @@ class Map():
         self.mapNode = sceneManager.getRootSceneNode().createChildSceneNode(self.pathToMapFile)
         self.ogreRoot = ogreRoot
         self.gocManager = gocManager
-
+        self.isHidden = False
+        
         if not emptyMap:
             xmlTree = xml.parse(pathToFile)
             root = xmlTree.getroot()
@@ -149,6 +150,24 @@ class Map():
                 print pathToFile + " has wrong format version. It needs to be 0.4.0"
                 return
 
+    def hide(self):
+        try:
+            self.sceneManager.getRootSceneNode().removeChild(self.mapNode)
+        except:
+            print "Error: map is already hidden!"
+            return
+        
+        self.isHidden = True
+        
+    def show(self):
+        try:
+            self.sceneManager.getRootSceneNode().addChild(self.mapNode)
+        except:
+            print "Error: map is already shown!"
+            return
+        
+        self.isHidden = False
+    
     def parseMapNodes(self, nodeElement):
         nodes = nodeElement.getiterator("gameobject")
         self.createGameObjects(nodes)

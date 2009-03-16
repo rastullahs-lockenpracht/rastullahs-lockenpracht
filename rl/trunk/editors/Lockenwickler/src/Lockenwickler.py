@@ -159,7 +159,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.actionSave = self.createAction("&Save",  self.actionSaveSlot,  QKeySequence.Save,  "filesave.png",  "Save Module")
         self.actionSave.setObjectName("actionSave")
         
-        self.actionRunModule = self.createAction("&Save and Run",  self.actionRunModuleSlot,  "Ctrl+G",  "fileexport.png",  "Save And Run Module")
+        self.actionRunModule = self.createAction("&Save and Run",  self.actionRunModuleSlot,  "Alt+R",  "fileexport.png",  "Save And Run Module")
         self.actionRunModule.setObjectName("actionRunModule")
 
         self.actionClose = self.createAction("Quit",  self.actionQuitSlot,  "Alt+Q",  "exit.png",  "Quit")
@@ -506,12 +506,12 @@ class Lockenwickler(QtGui.QMainWindow):
         pass
 
     def saveOnClose(self):
-        reply = QtGui.QMessageBox.question(self,  "Rastullahs Lockenwickler - Unsaved Chages",  "Save unsaved changes?",  QtGui.QMessageBox.Yes|QtGui.QMessageBox.No|QtGui.QMessageBox.Cancel)
-        if reply == QtGui.QMessageBox.Cancel:
-            return False
-        if reply == QtGui.QMessageBox.Yes:
-            print""
-            #TODO: implement save here
+#        reply = QtGui.QMessageBox.question(self,  "Rastullahs Lockenwickler - Unsaved Chages",  "Save unsaved changes?",  QtGui.QMessageBox.Yes|QtGui.QMessageBox.No|QtGui.QMessageBox.Cancel)
+#        if reply == QtGui.QMessageBox.Cancel:
+#            return False
+#        if reply == QtGui.QMessageBox.Yes:
+#            print""
+#            #TODO: implement save here
         return True
 
     def closeEvent(self,  event):
