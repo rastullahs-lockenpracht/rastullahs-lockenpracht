@@ -453,7 +453,7 @@ class Map():
                     lightName = light.getName()
                     lightType = light.getType()
                     isVisible = "true"
-                    if not light.isVisible():
+                    if not light.getVisible():
                         isVisible = "false"
                     
                     castShadows = "false"
