@@ -1,11 +1,11 @@
 /* 
-	OgreNewt Library
+    OgreNewt Library
 
-	Ogre implementation of Newton Game Dynamics SDK
+    Ogre implementation of Newton Game Dynamics SDK
 
-	OgreNewt basically has no license, you may use any or all of the library however you desire... I hope it can help you in any way.
+    OgreNewt basically has no license, you may use any or all of the library however you desire... I hope it can help you in any way.
 
-		by melven
+        by melven
 
 */
 #ifndef _INCLUDE_OGRENEWT_PLAYERCONTROLLER
@@ -181,8 +181,8 @@ private:
 };
 
 
-}	// end NAMESPACE OgreNewt
+}   // end NAMESPACE OgreNewt
 
 
-#endif	// _INCLUDE_OGRENEWT_PLAYERCONTROLLER
+#endif  // _INCLUDE_OGRENEWT_PLAYERCONTROLLER
 

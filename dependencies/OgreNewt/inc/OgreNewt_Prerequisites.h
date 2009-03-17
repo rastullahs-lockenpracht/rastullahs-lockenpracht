@@ -1,11 +1,12 @@
 /* 
-	OgreNewt Library
+    OgreNewt Library
 
-	Ogre implementation of Newton Game Dynamics SDK
+    Ogre implementation of Newton Game Dynamics SDK
 
-	OgreNewt basically has no license, you may use any or all of the library however you desire... I hope it can help you in any way.
+    OgreNewt basically has no license, you may use any or all of the library however you desire... I hope it can help you in any way.
 
-		by Walaber
+        by Walaber
+        some changes by melven
 
 */
 
@@ -15,9 +16,19 @@
 
 #ifdef __APPLE__
 #    include <Carbon/Carbon.h>
-#    include <Ogre/Ogre.h>
+#   include <Ogre/OgreVector3.h>
+#   include <Ogre/OgreQuaternion.h>
+#   include <Ogre/OgreMovableObject.h>
+#   include <Ogre/OgreRenderable.h>
+#   include <Ogre/OgreNode.h>
+#   include <Ogre/OgreFrameListener.h>
 #else
-#    include <Ogre.h>
+#include <OgreVector3.h>
+#include <OgreQuaternion.h>
+#include <OgreMovableObject.h>
+#include <OgreRenderable.h>
+#include <OgreNode.h>
+#include <OgreFrameListener.h>
 #endif
 
 #include <Newton.h>

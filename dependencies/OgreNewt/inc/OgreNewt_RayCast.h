@@ -6,6 +6,7 @@
     OgreNewt basically has no license, you may use any or all of the library however you desire... I hope it can help you in any way.
 
         by Walaber
+        some changes by melven
 
 */
 

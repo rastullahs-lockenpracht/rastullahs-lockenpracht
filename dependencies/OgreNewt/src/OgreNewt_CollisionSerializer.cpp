@@ -60,6 +60,6 @@ namespace OgreNewt
     Ogre::DataStreamPtr ptr =* (static_cast<Ogre::DataStreamPtr*>(deserializeHandle));
     ptr->read(buffer, size);
   }
-}	// end namespace OgreNewt
+}   // end namespace OgreNewt
 
 

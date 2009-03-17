@@ -3,6 +3,7 @@
 #include "OgreNewt_Collision.h"
 #include "OgreNewt_CollisionPrimitives.h"
 #include "OgreNewt_World.h"
+
 #include <vector>
 #include <iostream>
 
@@ -694,5 +695,5 @@ std::cout << "distToFirstHit: " << distanceToFirstHit << "    \tdist: " << dist 
 }
 
 
-}	// end NAMESPACE OgreNewt
+}   // end NAMESPACE OgreNewt
 

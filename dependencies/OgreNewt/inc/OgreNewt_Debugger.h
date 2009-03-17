@@ -1,11 +1,12 @@
 /* 
-	OgreNewt Library
+    OgreNewt Library
 
-	Ogre implementation of Newton Game Dynamics SDK
+    Ogre implementation of Newton Game Dynamics SDK
 
-	OgreNewt basically has no license, you may use any or all of the library however you desire... I hope it can help you in any way.
+    OgreNewt basically has no license, you may use any or all of the library however you desire... I hope it can help you in any way.
 
-		by Walaber
+        by Walaber
+        some changes by melven
 
 */
 #ifndef _INCLUDE_OGRENEWT_DEBUGGER
@@ -24,38 +25,38 @@ namespace OgreNewt
     class MaterialID;
     class Collision;
 
-	//! For viewing the Newton rigid bodies visually.
-	/*!
-		This class implements a debug view of the Newton world. You can access it via World::getDebugger().
+    //! For viewing the Newton rigid bodies visually.
+    /*!
+        This class implements a debug view of the Newton world. You can access it via World::getDebugger().
         It needs to be initialized (call World::getDebugger().init(...)).
-	*/
-	class _OgreNewtExport Debugger : public Ogre::Node::Listener
-	{
-	
-	public:
-		~Debugger();
+    */
+    class _OgreNewtExport Debugger : public Ogre::Node::Listener
+    {
+    
+    public:
+        ~Debugger();
 
-		//! init the debugger.
-		/*
-			\param smgr pointer to your Ogre::SceneManager
-		*/
-		void init( Ogre::SceneManager* smgr );
+        //! init the debugger.
+        /*
+            \param smgr pointer to your Ogre::SceneManager
+        */
+        void init( Ogre::SceneManager* smgr );
 
-		//! de-init the debugger (cleantup)
-		void deInit();
+        //! de-init the debugger (cleantup)
+        void deInit();
 
         //! called when one of the nodes used in this class are destroyed
         virtual void nodeDestroyed (const Ogre::Node *);
 
-		//! show the newton world
-		/*!
-			Draws the Newton world as 3D lines with informative text above each body
-		*/
-		void showDebugInformation();
+        //! show the newton world
+        /*!
+            Draws the Newton world as 3D lines with informative text above each body
+        */
+        void showDebugInformation();
 
-		//! remove lines and text drawn
-		void hideDebugInformation();
-	
+        //! remove lines and text drawn
+        void hideDebugInformation();
+    
         //! set default color
         void setDefaultColor(Ogre::ColourValue col);
 
@@ -92,13 +93,13 @@ namespace OgreNewt
         //! this function is used internally
         void addHitBody(const OgreNewt::Body* body);
 
-	protected:
+    protected:
         friend class OgreNewt::World;
         //! this function must only be used by an instance of the OgreNewt::World class
         Debugger(const OgreNewt::World* world);
 
         const OgreNewt::World*        m_world;
-		Ogre::SceneNode*		m_debugnode;
+        Ogre::SceneNode*        m_debugnode;
         typedef std::map<int, Ogre::ColourValue> MaterialIdColorMap;
         MaterialIdColorMap      m_materialcolors;
         Ogre::ColourValue       m_defaultcolor;
@@ -138,11 +139,11 @@ namespace OgreNewt
         //! this function is declared private, so nobody can use it!
         const Debugger& operator=(const Debugger& d) { return d; } // actually this implementation must *never* be used!
 
-		static void _CDECL newtonPerPoly( void* userData, int vertexCount, const float* faceVertec, int id );
-	};
+        static void _CDECL newtonPerPoly( void* userData, int vertexCount, const float* faceVertec, int id );
+    };
 
-}	// end namespace OgreNewt
+}   // end namespace OgreNewt
 
 
-#endif	// _INCLUDE_OGRENEWT_DEBUGGER
+#endif  // _INCLUDE_OGRENEWT_DEBUGGER
 

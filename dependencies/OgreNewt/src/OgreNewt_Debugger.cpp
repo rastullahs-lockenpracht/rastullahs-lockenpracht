@@ -2,7 +2,18 @@
 #include "OgreNewt_World.h"
 #include "OgreNewt_Body.h"
 #include "OgreNewt_Collision.h"
+
 #include <sstream>
+
+#ifdef __APPLE__
+#   include <Ogre/OgreSceneNode.h>
+#   include <Ogre/OgreSceneManager.h>
+#   include <Ogre/OgreManualObject.h>
+#else
+#   include <OgreSceneNode.h>
+#   include <OgreSceneManager.h>
+#   include <OgreManualObject.h>
+#endif
 
 namespace OgreNewt
 {
@@ -47,13 +58,13 @@ void Debugger::init( Ogre::SceneManager* smgr )
 
 void Debugger::deInit()
 {
-	if (m_debugnode)
-	{
+    if (m_debugnode)
+    {
         m_debugnode->setListener(NULL);
-		m_debugnode->removeAllChildren();
-		m_debugnode->getParentSceneNode()->removeAndDestroyChild( m_debugnode->getName() );
-		m_debugnode = NULL;
-	}
+        m_debugnode->removeAllChildren();
+        m_debugnode->getParentSceneNode()->removeAndDestroyChild( m_debugnode->getName() );
+        m_debugnode = NULL;
+    }
 
 
     clearBodyDebugDataCache();
@@ -63,9 +74,9 @@ void Debugger::deInit()
     if( m_raycastsnode )
     {
         m_raycastsnode->setListener(NULL);
-		m_raycastsnode->removeAndDestroyAllChildren();
-		m_raycastsnode->getParentSceneNode()->removeAndDestroyChild( m_raycastsnode->getName() );
-		m_raycastsnode = NULL;
+        m_raycastsnode->removeAndDestroyAllChildren();
+        m_raycastsnode->getParentSceneNode()->removeAndDestroyChild( m_raycastsnode->getName() );
+        m_raycastsnode = NULL;
     }
 }
 
@@ -132,9 +143,9 @@ void Debugger::showDebugInformation( )
 
 void Debugger::hideDebugInformation()
 {
-	// erase any existing lines!
+    // erase any existing lines!
     if( m_debugnode )
-    	m_debugnode->removeAllChildren();
+        m_debugnode->removeAllChildren();
 }
 
 void Debugger::setMaterialColor(const MaterialID* mat, Ogre::ColourValue col)
@@ -245,24 +256,24 @@ void Debugger::processBody( OgreNewt::Body* bod )
 void _CDECL Debugger::newtonPerPoly( void* userData, int vertexCount, const float* faceVertec, int id )
 {
     Ogre::ManualObject* lines = (Ogre::ManualObject*)userData;
-	Ogre::Vector3 p0, p1;
+    Ogre::Vector3 p0, p1;
 
         if( vertexCount < 2 )
             return;
 
-	int i= vertexCount - 1;
-	p0 = Ogre::Vector3( faceVertec[(i*3) + 0], faceVertec[(i*3) + 1], faceVertec[(i*3) + 2] );
+    int i= vertexCount - 1;
+    p0 = Ogre::Vector3( faceVertec[(i*3) + 0], faceVertec[(i*3) + 1], faceVertec[(i*3) + 2] );
 
 
-	for (i=0;i<vertexCount;i++)
-	{
-		p1 = Ogre::Vector3( faceVertec[(i*3) + 0], faceVertec[(i*3) + 1], faceVertec[(i*3) + 2] );
+    for (i=0;i<vertexCount;i++)
+    {
+        p1 = Ogre::Vector3( faceVertec[(i*3) + 0], faceVertec[(i*3) + 1], faceVertec[(i*3) + 2] );
 
-		lines->position( p0 );
-		lines->position( p1 );
+        lines->position( p0 );
+        lines->position( p1 );
 
-		p0 = p1;
-	}
+        p0 = p1;
+    }
 }
 
 
@@ -428,5 +439,5 @@ void Debugger::addHitBody(const OgreNewt::Body* body)
     m_raycastsnode->attachObject(line);
 }
 
-}	// end namespace OgreNewt
+}   // end namespace OgreNewt
 

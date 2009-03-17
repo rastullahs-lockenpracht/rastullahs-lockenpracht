@@ -1,11 +1,12 @@
 /* 
-OgreNewt Library
+    OgreNewt Library
 
-Ogre implementation of Newton Game Dynamics SDK
+    Ogre implementation of Newton Game Dynamics SDK
 
-OgreNewt basically has no license, you may use any or all of the library however you desire... I hope it can help you in any way.
+    OgreNewt basically has no license, you may use any or all of the library however you desire... I hope it can help you in any way.
 
-by Walaber
+        by Walaber
+        some changes by melven
 
 */
 #ifndef _INCLUDE_OGRENEWT_COLLISIONSERIALIZER
@@ -17,7 +18,7 @@ by Walaber
 // OgreNewt namespace.  all functions and classes use this namespace.
 namespace OgreNewt
 {
-	class Collision;
+    class Collision;
 
   /*!
   This class can be used to (de)serialize a Collision. Pre-building a Collision and serializing from a tool,
@@ -36,11 +37,11 @@ namespace OgreNewt
     /*!
     Serialize the Collision to a file with the given name.
     */
-	void exportCollision(const Collision* collision, const Ogre::String& filename);
+    void exportCollision(const Collision* collision, const Ogre::String& filename);
 
     /*!
     Deserialize the Collision from a DataStream.
-	this will create a NEW Collision object
+    this will create a NEW Collision object
     */
     void importCollision(Ogre::DataStreamPtr& stream, Collision* pDest);
 
@@ -59,7 +60,7 @@ namespace OgreNewt
   };
 
 
-}	// end NAMESPACE OgreNewt
+}   // end NAMESPACE OgreNewt
 
 #endif
 // _INCLUDE_OGRENEWT_COLLISIONSERIALIZER
