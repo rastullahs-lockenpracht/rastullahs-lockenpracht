@@ -16,6 +16,7 @@
 #include "stdinc.h"
 
 #include <xercesc/dom/DOM.hpp>
+#include <CEGUI/CEGUIPropertyHelper.h>
 
 #include "DialogLoaderImpl.h"
 
@@ -675,6 +676,8 @@ namespace rl
             const CeGuiString& goClass, const CeGuiString& name)
         : mPersonId(personId), mGoId(goId), mGoClass(goClass), mName(name)
     {
+        LOG_MESSAGE("DialogLoader", "Person '" + personId + "' is id='" + 
+                    CEGUI::PropertyHelper::intToString(goId) + "' class='" + goClass + "' name='" + name + "'");
     }
 
     const CeGuiString& DialogLoaderImpl::DialogParticipant::getPersonId() const
@@ -845,13 +848,13 @@ namespace rl
             LOG_ERROR("DialogLoader", "person node without id found");
         }
 
-        if (hasAttribute(personXml, "goId"))
+        if (hasAttribute(personXml, "goid"))
         {
-            goId = getAttributeValueAsInteger(personXml, "goId");
+            goId = getAttributeValueAsInteger(personXml, "goid");
         }
-        if (hasAttribute(personXml, "goClass"))
+        if (hasAttribute(personXml, "goclass"))
         {
-            goClass = getAttributeValueAsString(personXml, "goClass");
+            goClass = getAttributeValueAsString(personXml, "goclass");
         }
         if (hasAttribute(personXml, "name"))
         {

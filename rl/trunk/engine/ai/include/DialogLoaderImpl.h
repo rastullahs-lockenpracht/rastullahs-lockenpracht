@@ -53,10 +53,10 @@ namespace rl
             const CeGuiString& getPersonId() const;
 
         private:
-            const CeGuiString& mPersonId;
+            const CeGuiString mPersonId;
             int mGoId;
-            const CeGuiString& mGoClass;
-            const CeGuiString& mName;
+            const CeGuiString mGoClass;
+            const CeGuiString mName;
         };
 
         class DialogPrototype
