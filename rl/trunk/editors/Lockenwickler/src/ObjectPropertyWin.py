@@ -559,4 +559,6 @@ class ObjectPropertyWin(QDialog):
     def updateProperties(self):
         if self.so is not None:
             self.showProperties(self.so)
-            
+    
+    def clear(self):
+        self.treeWidget.clear()

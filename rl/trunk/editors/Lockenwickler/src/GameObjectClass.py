@@ -122,7 +122,7 @@ class GameObjectRepresentation(og.UserDefinedObject):
     def __init__(self, inWorldId, gameObjectClass, node, meshFile = None):
         og.UserDefinedObject.__init__(self)
         self.inWorldId = inWorldId
-        self.gocName = gameObjectClass
+        self.gocName = str(gameObjectClass)
         self.node = node
         self.meshFile = meshFile
         self.state = "IN_SCENE"

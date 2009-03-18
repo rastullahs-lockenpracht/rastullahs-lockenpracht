@@ -213,7 +213,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.actionMaterial_Selection = self.createAction("Material &Preview Window",  self.toggleMaterialPreviewWindow,  "Alt+M",  "colors.png",  "Material Preview")
         self.actionMaterial_Selection.setObjectName("actionMaterial_Selection")
 
-        self.actionGameObjectClass_Selection = self.createAction("&Game Object Class Preview Window",  self.toggleGameObjectViewWindow,  "Alt+G",  "multirow.png",  "GameObjectClass Preview")
+        self.actionGameObjectClass_Selection = self.createAction("&Game Object Class Preview Window",  self.toggleGameObjectViewWindow,  "Ctrl+G",  "multirow.png",  "GameObjectClass Preview")
         self.actionGameObjectClass_Selection.setObjectName("actionObject_Selection")
 
         self.actionConsole_Window = self.createAction("&Console Window",  self.toggleConsoleWindow,  "Alt+C",  "console.png",  "Console Window")

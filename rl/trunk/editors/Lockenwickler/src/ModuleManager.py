@@ -261,9 +261,6 @@ class Map():
     def createLights(self, lightNodes):
         for l in lightNodes:
             lightName = l.attrib["name"]
-            if lightName == "templeLight2":
-                print "yes!"
-                
             lightType = l.attrib["type"]
             lightVisible = bool(l.attrib["visible"])
             castShadows = bool(l.attrib["castShadows"])
@@ -319,7 +316,7 @@ class Map():
             
             light.setVisible(lightVisible)
             light.setCastShadows(castShadows)
-            if lightAttenuationConstant and lightAttenuationLinear and lightAttenuationQuadric:
+            if lightAttenuationRange is not None and lightAttenuationConstant is not None and lightAttenuationLinear is not None and lightAttenuationQuadric is not None:
                 light.setAttenuation(lightAttenuationRange, lightAttenuationConstant, lightAttenuationLinear, lightAttenuationQuadric)
             if colourDiffuse:
                 light.setDiffuseColour(colourDiffuse)
@@ -878,8 +875,8 @@ class ModuleManager():
         if self.selectionBuffer is None:
             self.selectionBuffer = SelectionBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
 
-        if self.depthBuffer is None:
-            self.depthBuffer = DepthBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
+#        if self.depthBuffer is None:
+#            self.depthBuffer = DepthBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
 
     def addSceneToModule(self, name):
         if self.mainModule is not None:
@@ -900,16 +897,20 @@ class ModuleManager():
     def selectMapCallback(self, sceneName, mapName):
         self.currentMap = self.mainModule.getMap(mapName, sceneName)
         if self.currentMap is None:
-            QMessageBox.warning(None, "Don't forget to select a map", "You won't be happy without a map!")
+            print "Don't forget to select a map"
 
         
     # called when a click into Main Ogre Window occurs
     def selectionClick(self, screenX, screenY, ray,  controlDown=False,  shiftDown=False):
         if self.oneClickEntityPlacement:
-            meshFile = str(self.modelSelectionDialog.listWidget.currentItem().text())
-            self.startDropModelAction(meshFile, ray)
-            return
-        
+            if self.modelSelectionDialog.listWidget.currentItem() is not None:
+                meshFile = str(self.modelSelectionDialog.listWidget.currentItem().text())
+                self.startDropModelAction(meshFile, ray)
+                return
+            else:
+                print "Warning: OneClickEntityPlacement still runed on without any selected mesh!"
+                return
+                
         #self.depthBuffer.onSelectionClick(screenX, screenY)
         
         so = None
@@ -947,28 +948,29 @@ class ModuleManager():
                 self.pivot.startTransforming(so.entity,  self.userSelectionList)
         else:
             self.resetSelection() # click in empty space, deselect everything
+            self.propertyWindow.clear()
             if self.pivot is not None:
                 self.pivot.hide()
 
-        if self.rayLine == None:
-            self.rayLine = self.sceneManager.createManualObject("rayLine")
-            self.rayLine.setDynamic(True)
-            self.sceneManager.getRootSceneNode().createChildSceneNode("raynode").attachObject(self.rayLine)
-
-            self.rayLine.begin("BaseWhiteNoLighting", og.RenderOperation.OT_LINE_STRIP)
-
-            self.rayLine.position(ray.getOrigin())
-            self.rayLine.position( ray.getPoint(10000))
-
-            self.rayLine.end()
-
-        else:
-            self.rayLine.beginUpdate(0)
-
-            self.rayLine.position(ray.getOrigin())
-            self.rayLine.position( ray.getPoint(10000))
-
-            self.rayLine.end()
+#        if self.rayLine == None:
+#            self.rayLine = self.sceneManager.createManualObject("rayLine")
+#            self.rayLine.setDynamic(True)
+#            self.sceneManager.getRootSceneNode().createChildSceneNode("raynode").attachObject(self.rayLine)
+#
+#            self.rayLine.begin("BaseWhiteNoLighting", og.RenderOperation.OT_LINE_STRIP)
+#
+#            self.rayLine.position(ray.getOrigin())
+#            self.rayLine.position( ray.getPoint(10000))
+#
+#            self.rayLine.end()
+#
+#        else:
+#            self.rayLine.beginUpdate(0)
+#
+#            self.rayLine.position(ray.getOrigin())
+#            self.rayLine.position( ray.getPoint(10000))
+#
+#            self.rayLine.end()
 
     def deleteObjects(self):
         if len(self.userSelectionList) < 1:
@@ -1009,7 +1011,8 @@ class ModuleManager():
         return newName
 
     def copyObjects(self):
-        if len(self.userSelectionList) < 1:
+        if len(self.userSelectionList) < 1 or self.currentMap is None:
+            print "Warning: No map selected!"
             return
 
         newSelectionList = []
@@ -1027,11 +1030,11 @@ class ModuleManager():
                         newNode.setPosition(so.entity.getParentNode().getPosition())
 
                         newGO = GameObjectRepresentation(ModuleManager.dropCount, so.entity.getUserObject().gocName, newNode, meshFile)
-                        self.gocManager.addGameObjectRepresentation(self.dropGO)
+                        self.gocManager.addGameObjectRepresentation(newGO)
                         newEntity.setUserObject(newGO)
-                        newGO.setPosition(og.Vector3(0, 0, 0))
+                        #newGO.setPosition(og.Vector3(0, 0, 0))
 
-                        newSO = SelectionObject(newEntity, so.distance)
+                        newSO = SelectionObject(newEntity)
                         newSO.setSelected(True)
                         newSelectionList.append(newSO)
                         ModuleManager.dropCount += 1
