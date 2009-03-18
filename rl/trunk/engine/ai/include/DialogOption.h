@@ -33,7 +33,7 @@ namespace rl
     class _RlAiExport DialogOption : public DialogElement
     {
     public:
-        DialogOption(const CeGuiString& id, bool isAutoSelected);
+        DialogOption(const CeGuiString& id, const CeGuiString& person, bool autoSelected = false);
         ~DialogOption();
 
         const CeGuiString& getLabel() const;
@@ -46,6 +46,7 @@ namespace rl
         virtual const CeGuiString& getConditionVariableType();
         virtual bool isConditional();
 
+        void setAutoSelected(bool autoSelected);
         bool isAutoSelected() const;
         bool isAvailable(Dialog* dialog) const;
 
@@ -56,7 +57,7 @@ namespace rl
         DialogResponse* mResponse;
         DialogCondition* mPrecondition;
         CeGuiString mLabel;
-        bool mIsAutoSelected;
+        bool mAutoSelected;
     };
 
     typedef DialogSelection<DialogOption> DialogOptionSelection;

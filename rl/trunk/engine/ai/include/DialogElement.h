@@ -32,8 +32,8 @@ namespace rl
         const CeGuiString& getId() const;
         void addParagraph(DialogParagraph* paragraph);
         virtual std::list<DialogParagraph*> getParagraphs(Dialog* dialog);
-		virtual bool isSelection() const;
-		const CeGuiString& getPerson() const;
+        virtual bool isSelection() const;
+        const CeGuiString& getPerson() const;
 
     protected:
         DialogElement(const CeGuiString& id, const CeGuiString& person = "");
@@ -51,8 +51,8 @@ namespace rl
     class DialogSelection : public DialogElementType
     {
     public:
-        DialogSelection(const CeGuiString& id)
-            : DialogElementType(id, false), mVariable(NULL)
+        DialogSelection(const CeGuiString& id, const CeGuiString& person)
+            : DialogElementType(id, person), mVariable(NULL)
         {
         }
 
@@ -97,11 +97,11 @@ namespace rl
 
         DialogElementType* getSelectedElement(Dialog* dialog) const
         {
-			// Recalculate switch variable on start, keep for whole switch evaluation
-			if (mVariable)
-			{
-				mVariable->invalidate();
-			}
+            // Recalculate switch variable on start, keep for whole switch evaluation
+            if (mVariable)
+            {
+                    mVariable->invalidate();
+            }
 
             for (typename CondElemMap::const_iterator it = mElements.begin(); it != mElements.end(); ++it)
             {
@@ -116,10 +116,10 @@ namespace rl
             return NULL;
         }
 
-		virtual bool isSelection() const
-		{
-			return true;
-		}
+        virtual bool isSelection() const
+        {
+            return true;
+        }
 
     private:
         typedef std::vector<std::pair<DialogCondition*, DialogElementType*> > CondElemMap;

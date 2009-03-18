@@ -22,8 +22,8 @@
 namespace rl
 {
 
-    DialogOption::DialogOption(const CeGuiString& id, bool isAutoSelected)
-    : DialogElement(id), mPrecondition(NULL), mResponse(NULL), mLabel(""), mIsAutoSelected(isAutoSelected)
+    DialogOption::DialogOption(const CeGuiString& id, const CeGuiString& person, bool autoSelected)
+    : DialogElement(id, person), mPrecondition(NULL), mResponse(NULL), mLabel(""), mAutoSelected(autoSelected)
     {
     }
 
@@ -59,9 +59,14 @@ namespace rl
         return (mPrecondition != NULL);
     }
 
+    void DialogOption::setAutoSelected(bool autoSelected)
+    {
+        mAutoSelected = autoSelected;
+    }
+
     bool DialogOption::isAutoSelected() const
     {
-        return mIsAutoSelected;
+        return mAutoSelected;
     }
 
     bool DialogOption::isAvailable(Dialog* dialog) const
