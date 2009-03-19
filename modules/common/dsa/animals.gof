@@ -73,10 +73,10 @@
 		<property name="kampf_getroffen" type="STRING" data="getroffen"/>
 	</property>
 	<property name="animationspeeds" type="MAP">
-		<property name="gehen" type="REAL" data="0.2"/>
-		<property name="joggen" type="REAL" data="0.2"/>
-		<property name="laufen" type="REAL" data="0.2"/>
-		<property name="rennen" type="REAL" data="0.2"/>
+		<property name="gehen" type="REAL" data="1.4"/>
+		<property name="joggen" type="REAL" data="1.4"/>
+		<property name="laufen" type="REAL" data="0.4"/>
+		<property name="rennen" type="REAL" data="0.4"/>
 	</property>
 	<property name="kampfaktionen" type="ARRAY">
 		<property type="STRING" data="Attacke"/>
