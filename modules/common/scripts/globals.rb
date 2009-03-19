@@ -2,9 +2,6 @@ print( "\n- Registering Globals" );
 
 include RlScript
 
-# Der GC reisst oft die Objekte ab
-GC.disable
-
 $CORE = CoreSubsystem.getSingleton();
 $JS = JobScheduler.getSingleton();
 $AM = ActorManager.getSingleton();

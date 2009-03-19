@@ -22,6 +22,8 @@ class CommonModule < ContentModule
     end
 
     def start()
+    # Der GC reisst oft Obejekte ab...
+    GC.disable
 	UiSubsystem.getSingleton().initializeSubsystem()
     CoreSubsystem.getSingleton() # with these strange things here, globals.rb works
 
