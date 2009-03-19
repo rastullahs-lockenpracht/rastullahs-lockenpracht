@@ -113,17 +113,29 @@ namespace rl
 		}
         else 
         {
-            // Hard set orientation.
-            /// @todo Use CreatureController properly to turn smoothly
+		
             Vector3 pos = mActor->getCreature()->getPosition();
             pos.y = 0;
             targetPos.y = 0;
-            mActor->getCreature()->setOrientation(Vector3::NEGATIVE_UNIT_Z.getRotationTo(targetPos - pos));
-            mActor->setMovement(CreatureController::MT_LAUFEN, Vector3::NEGATIVE_UNIT_Z, Vector3::ZERO);
-            
+            Degree realYawDiff = (mActor->getCreature()->getOrientation()*Vector3::NEGATIVE_UNIT_Z).getRotationTo(targetPos - pos).getYaw();
+            Vector3 rotation = Vector3::ZERO;
+            Quaternion currentOri(mActor->getYaw(), Vector3::UNIT_Y);
+            rotation.y = (currentOri*Vector3::NEGATIVE_UNIT_Z).getRotationTo(targetPos - pos).getYaw().valueRadians();
+
+            // old code for rotation:
+            //mActor->getCreature()->setOrientation(Vector3::NEGATIVE_UNIT_Z.getRotationTo(targetPos - pos));
+    
+            // first rotate, then move, is this the "desired" behaviour?
+            if( realYawDiff > Degree(5) || realYawDiff < Degree(-5) )
+                mActor->setMovement(CreatureController::MT_STEHEN, Vector3::ZERO, rotation);
+            else
+                mActor->setMovement(CreatureController::MT_LAUFEN, Vector3::NEGATIVE_UNIT_Z, rotation);
+
+    
             mTimeLeft  -= time;
             return false;            
         }
 
 	}
 }
+

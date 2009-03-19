@@ -21,6 +21,7 @@
 #include "CombatManager.h"
 #include "Creature.h"
 #include "CreatureControllerManager.h"
+#include "CreatureWalkPathJob.h"
 
 namespace rl
 {
@@ -77,7 +78,8 @@ namespace rl
 
 	void AgentCombatState::update(const float elapsedTime)
     {
-        mAgent->updateVehicle(0, elapsedTime);
+        // we don't use the vehicle (combat uses GoToJob, the vehicle would change the movement and reset the animation!)
+        //mAgent->updateVehicle(0, elapsedTime);
     }
 
     class DistanceComparator
@@ -123,3 +125,4 @@ namespace rl
         return pos + 10 * oppositeDirection;
     }
 }
+

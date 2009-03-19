@@ -19,6 +19,7 @@
 
 #include "RulesPrerequisites.h"
 #include "Job.h"
+#include "CreatureController.h"
 
 namespace rl
 {
@@ -32,8 +33,12 @@ namespace rl
     public:
 
 		GoToJob(Creature* actor, const Ogre::Vector3& targetPos,
-			Ogre::Real maxDistance, Ogre::Real duration);
-		GoToJob(Creature* actor, GameObject* target, Ogre::Real maxDistance, Ogre::Real duration);
+			Ogre::Real maxDistance, Ogre::Real duration,
+            CreatureController::MovementType movementType_moving = CreatureController::MT_RENNEN,
+            CreatureController::MovementType movementType_idle = CreatureController::MT_STEHEN);
+		GoToJob(Creature* actor, GameObject* target, Ogre::Real maxDistance, Ogre::Real duration,
+            CreatureController::MovementType movementType_moving = CreatureController::MT_RENNEN,
+            CreatureController::MovementType movementType_idle = CreatureController::MT_STEHEN);
         virtual ~GoToJob();
 
         virtual bool execute(Ogre::Real time);
@@ -44,6 +49,7 @@ namespace rl
 		Ogre::Vector3 mTargetPos;
 		Ogre::Real mMaxDistance;
 		Ogre::Real mTimeLeft;
+        CreatureController::MovementType mMovementType_moving, mMovementType_idle;
     };
 }
 

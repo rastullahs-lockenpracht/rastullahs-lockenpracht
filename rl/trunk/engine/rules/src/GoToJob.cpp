@@ -19,7 +19,6 @@
 #include "GoToJob.h"
 
 #include "Creature.h"
-#include "CreatureController.h"
 #include "CreatureControllerManager.h"
 #include "MathUtil.h"
 
@@ -27,24 +26,30 @@ using namespace Ogre;
 
 namespace rl
 {
-	GoToJob::GoToJob(Creature* actor, const Vector3& targetPos, Real maxDistance, Real duration)
+	GoToJob::GoToJob(Creature* actor, const Vector3& targetPos, Real maxDistance, Real duration, CreatureController::MovementType movementType_moving,
+            CreatureController::MovementType movementType_idle)
 		: Job(false, true, TimeSource::REALTIME_INTERRUPTABLE),
 		  mActor(NULL),
 		  mTarget(NULL),
 		  mTargetPos(targetPos),
 		  mMaxDistance(maxDistance),
-		  mTimeLeft(duration)
+		  mTimeLeft(duration),
+          mMovementType_moving(movementType_moving),
+          mMovementType_idle(movementType_idle)
 	{
 		mActor = CreatureControllerManager::getSingleton().getCreatureController(actor);
 	}
 
-	GoToJob::GoToJob(Creature* actor, GameObject* target, Real maxDistance, Real duration)
+	GoToJob::GoToJob(Creature* actor, GameObject* target, Real maxDistance, Real duration, CreatureController::MovementType movementType_moving,
+            CreatureController::MovementType movementType_idle)
 		: Job(false, true, TimeSource::REALTIME_INTERRUPTABLE),
 		  mActor(NULL),
 		  mTarget(target),
 		  mTargetPos(Vector3::ZERO),
 		  mMaxDistance(maxDistance),
-		  mTimeLeft(duration)
+		  mTimeLeft(duration),
+          mMovementType_moving(movementType_moving),
+          mMovementType_idle(movementType_idle)
 	{
 		mActor = CreatureControllerManager::getSingleton().getCreatureController(actor);
 	}
@@ -59,7 +64,7 @@ namespace rl
 		if (mTimeLeft < 0)
 		{
 			// Stay put where ever we are.
-			mActor->setMovement(CreatureController::MT_STEHEN, Vector3::ZERO, Vector3::ZERO);
+			mActor->setMovement(mMovementType_idle, Vector3::ZERO, Vector3::ZERO);
 			return true;
 		}
         
@@ -81,20 +86,31 @@ namespace rl
 		if (distance < mMaxDistance)
 		{
 			// Stay put where ever we are.
-			mActor->setMovement(CreatureController::MT_STEHEN, Vector3::ZERO, Vector3::ZERO);
+			mActor->setMovement(mMovementType_idle, Vector3::ZERO, Vector3::ZERO);
 			return true;
 		}
 
-		// Hard set orientation.
-		/// @todo Use CreatureController properly to turn smoothly
+
 		Vector3 pos = mActor->getCreature()->getPosition();
 		pos.y = 0;
 		Vector3 targetPos = mTargetPos;
 		targetPos.y = 0;
-		mActor->getCreature()->setOrientation(Vector3::NEGATIVE_UNIT_Z.getRotationTo(targetPos - pos));
-		mActor->setMovement(CreatureController::MT_LAUFEN, Vector3::NEGATIVE_UNIT_Z, Vector3::ZERO);
+        Degree realYawDiff = (mActor->getCreature()->getOrientation()*Vector3::NEGATIVE_UNIT_Z).getRotationTo(targetPos - pos).getYaw();
+        Vector3 rotation = Vector3::ZERO;
+        Quaternion currentOri(mActor->getYaw(), Vector3::UNIT_Y);
+        rotation.y = (currentOri*Vector3::NEGATIVE_UNIT_Z).getRotationTo(targetPos - pos).getYaw().valueRadians();
+
+        // old code for rotation:
+		//mActor->getCreature()->setOrientation(Vector3::NEGATIVE_UNIT_Z.getRotationTo(targetPos - pos));
+        
+        // first rotate, then move, is this the "desired" behaviour?
+        if( realYawDiff > Degree(5) || realYawDiff < Degree(-5) )
+            mActor->setMovement(mMovementType_idle, Vector3::ZERO, rotation);
+        else
+    		mActor->setMovement(mMovementType_moving, Vector3::NEGATIVE_UNIT_Z, rotation);
 
 		mTimeLeft  -= time;
 		return false;
 	}
 }
+

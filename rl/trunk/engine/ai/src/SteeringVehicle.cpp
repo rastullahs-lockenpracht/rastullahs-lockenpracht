@@ -54,12 +54,18 @@ SteeringVehicle::SteeringVehicle(Creature* creature)
 
     mController = CreatureControllerManager::getSingleton().getCreatureController(
         mCreature);
+    std::ostringstream oss;
+    oss << " Creature '" << mCreature->getName() << "' controlled by SteeringVehicle.";
+    LOG_DEBUG(Logger::RULES, oss.str());
     mMessageType_GameObjectsLoaded_Handler = MessagePump::getSingleton().addMessageHandler<MessageType_GameObjectsLoaded>(
                 boost::bind(&SteeringVehicle::refetchCreature, this));
 }
 
 SteeringVehicle::~SteeringVehicle()
 {
+    std::ostringstream oss;
+    oss << " Creature '" << mCreature->getName() << "' not controlled by SteeringVehicle any more.";
+    LOG_DEBUG(Logger::RULES, oss.str());
 }
 
 void SteeringVehicle::resetLocalSpace()
