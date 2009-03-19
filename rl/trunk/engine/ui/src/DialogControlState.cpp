@@ -255,7 +255,7 @@ namespace rl {
 
         if (!DialogController::textFinished())
         {
-            if (mDialogState == TALKING_PARTNER_CHARACTER)
+            if (mDialogState == DS_SHOWING_RESPONSE)
             {
 
                 DialogResponse::Options options = mCurrentResponse->getAvailableOptions(mDialog);
@@ -268,9 +268,9 @@ namespace rl {
                 }
                 mDialogWindow->setAvailableOptions(options);
                 mDialogWindow->setVisible(true);
-                mDialogState = CHOOSING_OPTION;
+                mDialogState = DS_CHOOSING_OPTION;
             }
-            else if (mDialogState == TALKING_PLAYER_CHARACTER)
+            else if (mDialogState == DS_SHOWING_OPTION)
             {
                 showResponse(mCurrentOption->getResponse());
             }
@@ -295,7 +295,7 @@ namespace rl {
             mCurrentOption = option;
         }
 
-        mDialogState = TALKING_PLAYER_CHARACTER;
+        mDialogState = DS_SHOWING_OPTION;
         mCurrentParagraphs = mCurrentOption->getParagraphs(mDialog);
         doTalk(mCurrentParagraphs.front());
 

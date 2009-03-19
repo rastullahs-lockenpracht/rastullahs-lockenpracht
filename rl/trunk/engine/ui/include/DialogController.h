@@ -34,6 +34,16 @@ namespace rl
         virtual bool mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id, bool handled);
 
     protected:
+        
+        enum DialogState
+        {
+            DS_UNKNOWN = 1,
+            DS_CHOOSING_OPTION,
+            DS_SHOWING_OPTION,
+            DS_SHOWING_RESPONSE,
+            DS_CLOSING_DIALOG
+        };
+        
         DialogController(CommandMapper* commandMapper, Actor* camera, Creature* character,
                 ControlStateType type);
         virtual ~DialogController();
@@ -71,6 +81,7 @@ namespace rl
         Dialog* mDialog;
         GameLoggerWindow* mGameLogger;
         CeGuiString mCurrentResponseText;
+        DialogState mDialogState;
 
         float getShowTextLength(const CeGuiString& text) const;
         void processTextVariables(CeGuiString& text);

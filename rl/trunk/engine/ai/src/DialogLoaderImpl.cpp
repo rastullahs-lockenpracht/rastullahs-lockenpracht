@@ -676,8 +676,6 @@ namespace rl
             const CeGuiString& goClass, const CeGuiString& name)
         : mPersonId(personId), mGoId(goId), mGoClass(goClass), mName(name)
     {
-        LOG_MESSAGE("DialogLoader", "Person '" + personId + "' is id='" + 
-                    CEGUI::PropertyHelper::intToString(goId) + "' class='" + goClass + "' name='" + name + "'");
     }
 
     const CeGuiString& DialogLoaderImpl::DialogParticipant::getPersonId() const

@@ -42,7 +42,8 @@ namespace rl
         mDialogWindow(NULL),
         mCurrentResponseText(""),
         mGameLogger(NULL),
-        mCurrentSpeaker(NULL)
+        mCurrentSpeaker(NULL),
+        mDialogState(DS_UNKNOWN)
     {
         mSubtitleSpeed = ConfigurationManager::getSingleton().getRealSetting(
             "General", "Subtitle Speed");
@@ -153,6 +154,8 @@ namespace rl
             handleDialogEnd();
             return;
         }
+        
+        mDialogState = DS_SHOWING_RESPONSE;
 
         if (response->isSelection())
         {

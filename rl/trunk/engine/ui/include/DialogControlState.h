@@ -70,14 +70,6 @@ namespace rl {
 	    virtual bool textFinished();
 
 	private:
-        enum DialogState
-        {
-            CHOOSING_OPTION = 1,
-            TALKING_PARTNER_CHARACTER,
-            TALKING_PLAYER_CHARACTER,
-            CLOSING_DIALOG
-        };
-
 		/// Die Zielkameraposition in lokalen Koordinaten
 		Ogre::Vector3 mTargetCameraPosition;
 		/// Die ben�tigte lokale Drehung der Kamera
@@ -87,7 +79,6 @@ namespace rl {
         /// Die Art der Kamerapositionierung
         DialogMode mDialogMode;
 
-        DialogState mDialogState;
 
 
 		DialogWindow* mDialogWindow;
