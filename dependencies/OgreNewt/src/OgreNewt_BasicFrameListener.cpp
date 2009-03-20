@@ -13,7 +13,7 @@
 namespace OgreNewt
 {
 
-BasicFrameListener::BasicFrameListener( Ogre::RenderWindow* win, Ogre::SceneManager* mgr, OgreNewt::World* W, int update_framerate) :
+BasicFrameListener::BasicFrameListener( Ogre::RenderWindow* win, OgreNewt::World* W, int update_framerate) :
         FrameListener()
 {
     m_World = W;
@@ -21,23 +21,6 @@ BasicFrameListener::BasicFrameListener( Ogre::RenderWindow* win, Ogre::SceneMana
 
     m_update = (Ogre::Real)(1.0f / (Ogre::Real)desired_framerate);
     m_elapsed = 0.0f;
-
-    // add the standard debug viewer.
-    W->getDebugger().init( mgr );
-
-    OIS::ParamList pl;
-    size_t windowHnd = 0;
-    std::ostringstream windowHndStr;
-
-    win->getCustomAttribute("WINDOW", &windowHnd);
-    windowHndStr << windowHnd;
-    pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
-
-    mInputManager = OIS::InputManager::createInputSystem( pl );
-
-    //Create all devices (We only catch joystick exceptions here, as, most people have Key/Mouse)
-    mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject( OIS::OISKeyboard, false ));
-
 }
 
 BasicFrameListener::~BasicFrameListener(void)
@@ -86,20 +69,6 @@ bool BasicFrameListener::frameStarted(const Ogre::FrameEvent &evt)
     Ogre::LogManager::getSingleton().logMessage("   Newton updates this loop: "+Ogre::StringConverter::toString(count));
 #endif
 
-    /////////////////////////////////////////////////////////////
-    //      DEBUGGER
-    mKeyboard->capture();
-
-    if (mKeyboard->isKeyDown(OIS::KC_F3))
-    {
-        m_World->getDebugger().showDebugInformation();
-    }
-    else
-    {
-        m_World->getDebugger().hideDebugInformation();
-    }
-
-    
     return true;
 }
 

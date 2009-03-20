@@ -145,7 +145,7 @@ void OgreNewtonApplication::createFrameListener()
 	mFrameListener = new OgreNewtonFrameListener( mWindow, mCamera, mSceneMgr, m_World);
 	mRoot->addFrameListener(mFrameListener);
 
-	mNewtonListener = new OgreNewt::BasicFrameListener( mWindow, mSceneMgr, m_World, 60 );
+	mNewtonListener = new OgreNewt::BasicFrameListener( mWindow, m_World, 60 );
 	mRoot->addFrameListener(mNewtonListener);
 }
 

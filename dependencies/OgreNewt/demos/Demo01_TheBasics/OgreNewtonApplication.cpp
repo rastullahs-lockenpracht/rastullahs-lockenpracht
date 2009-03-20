@@ -89,12 +89,12 @@ void OgreNewtonApplication::createFrameListener()
 {
 	// this is our custom frame listener for this app, that lets us shoot cylinders with the space bar, move
 	// the camera, etc.
-	mFrameListener = new OgreNewtonFrameListener( mWindow, mCamera, mSceneMgr, m_World);//, msnCam );
+	mFrameListener = new OgreNewtonFrameListener( mWindow, mCamera, mSceneMgr, m_World);
 	mRoot->addFrameListener(mFrameListener);
 
 	// this is a basic frame listener included with OgreNewt that does nothing but update the
 	// physics at a set framerate for you.  complex project will want more control, but this
 	// works for simple demos like this.  feel free to look at the source to see how it works.
-	mNewtonListener = new OgreNewt::BasicFrameListener( mWindow, mSceneMgr, m_World, 120 );
+	mNewtonListener = new OgreNewt::BasicFrameListener( mWindow, m_World, 60 );
 	mRoot->addFrameListener(mNewtonListener);
 }

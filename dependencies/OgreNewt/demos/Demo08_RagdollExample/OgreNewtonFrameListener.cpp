@@ -8,6 +8,10 @@ OgreNewtonFrameListener::OgreNewtonFrameListener(RenderWindow* win, Camera* cam,
 	m_World = W;
 	mSceneMgr = mgr;
 
+    timer = 0.0f;
+    OgreNewt::Debugger &debug(m_World->getDebugger());
+    debug.init(mgr);
+
 	//////////////////////////////
 	// setup the ragdoll model here.
 	mRagEntity = mSceneMgr->createEntity( "RAGDOLL_ENTITY", "zombie.mesh" );
@@ -131,7 +135,7 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 			mK1 = true;
 
 			// spawn the ragdoll.  this is the version that is made up of simple primitives.
-			mRagdoll = new RagDoll( "../../media/models/zombie_rag_primitives.xml", m_World, mRagNode );
+			mRagdoll = new RagDoll( "../media/models/zombie_rag_primitives.xml", m_World, mRagNode );
 			mRagEntity->getAnimationState( "LOOP" )->setEnabled( false );
 
 		}
@@ -140,7 +144,7 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 			mK2 = true;
 
 			// spawn the ragdoll.  this is the version that uses auto-hull generation for very accurate collision shapes.
-			mRagdoll = new RagDoll( "../../media/models/zombie_rag_hull.xml", m_World, mRagNode );
+			mRagdoll = new RagDoll( "../media/models/zombie_rag_hull.xml", m_World, mRagNode );
 			mRagEntity->getAnimationState( "LOOP" )->setEnabled( false );
 
 		}
@@ -150,7 +154,7 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 	if (!mKeyboard->isKeyDown( OIS::KC_2 )) { mK2 = false; }
 
 
-	if (mKeyboard->isKeyDown( OIS::KC_F3 )) 
+	if (mKeyboard->isKeyDown( OIS::KC_F2 )) 
 	{ 
 		mRagEntity->setVisible( false );
 	} 
@@ -160,6 +164,21 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 	}
 
 	
+    OgreNewt::Debugger& debug(m_World->getDebugger());
+    if (mKeyboard->isKeyDown(OIS::KC_F3))
+    {
+        debug.showDebugInformation();
+        debug.startRaycastRecording();
+        debug.clearRaycastsRecorded();
+    }
+    else
+    {
+        debug.hideDebugInformation();
+        debug.clearRaycastsRecorded();
+        debug.stopRaycastRecording();
+    }
+
+
 
 
 	if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))

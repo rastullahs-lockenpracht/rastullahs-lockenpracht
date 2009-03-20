@@ -18,6 +18,10 @@ OgreNewtonFrameListener::OgreNewtonFrameListener(RenderWindow* win, Camera* cam,
 	mDragLineNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	mDragLine = new Ogre::ManualObject( "__DRAG_LINES__" );
 
+
+    timer = 0.0f;
+    OgreNewt::Debugger &debug(m_World->getDebugger());
+    debug.init(mgr);
 }
 
 OgreNewtonFrameListener::~OgreNewtonFrameListener(void)
@@ -148,6 +152,21 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 		}
 	}
 
+
+
+    OgreNewt::Debugger& debug(m_World->getDebugger());
+    if (mKeyboard->isKeyDown(OIS::KC_F3))
+    {
+        debug.showDebugInformation();
+        debug.startRaycastRecording();
+        debug.clearRaycastsRecorded();
+    }
+    else
+    {
+        debug.hideDebugInformation();
+        debug.clearRaycastsRecorded();
+        debug.stopRaycastRecording();
+    }
 
 
 

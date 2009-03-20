@@ -8,6 +8,10 @@ OgreNewtonFrameListener::OgreNewtonFrameListener(RenderWindow* win, Camera* cam,
 	mSceneMgr = mgr;
 
 	mCar = car;
+
+    timer = 0.0f;
+    OgreNewt::Debugger &debug(m_World->getDebugger());
+    debug.init(mgr);
 }
 
 OgreNewtonFrameListener::~OgreNewtonFrameListener(void)
@@ -118,6 +122,21 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 		}
 	}
 	if (!mKeyboard->isKeyDown( OIS::KC_R )) { mR = false; }
+
+
+    OgreNewt::Debugger& debug(m_World->getDebugger());
+    if (mKeyboard->isKeyDown(OIS::KC_F3))
+    {
+        debug.showDebugInformation();
+        debug.startRaycastRecording();
+        debug.clearRaycastsRecorded();
+    }
+    else
+    {
+        debug.hideDebugInformation();
+        debug.clearRaycastsRecorded();
+        debug.stopRaycastRecording();
+    }
 
 
 

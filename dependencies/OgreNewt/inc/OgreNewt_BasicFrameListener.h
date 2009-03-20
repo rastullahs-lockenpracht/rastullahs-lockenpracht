@@ -26,10 +26,6 @@
 
 #include "OgreNewt_Prerequisites.h"
 
-// using OIS (an Ogre dependency) for input.
-#define OIS_DYNAMIC_LIB
-#include <OIS/OIS.h>
-
 namespace OgreNewt
 {
 
@@ -51,16 +47,10 @@ protected:
 
 
 public:
-    BasicFrameListener(Ogre::RenderWindow* win, Ogre::SceneManager* mgr, OgreNewt::World* W, int update_framerate = 60);
+    BasicFrameListener(Ogre::RenderWindow* win, OgreNewt::World* W, int update_framerate = 60);
     ~BasicFrameListener(void);
 
     bool frameStarted(const Ogre::FrameEvent &evt);
-
-private:
-
-    OIS::InputManager* mInputManager;
-    OIS::Keyboard* mKeyboard;
-
 };
 
 

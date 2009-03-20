@@ -8,6 +8,10 @@ OgreNewtonFrameListener::OgreNewtonFrameListener(RenderWindow* win, Camera* cam,
 	m_World = W;
 //	msnCam = ncam;
 	mSceneMgr = mgr;
+
+    timer = 0.0f;
+    OgreNewt::Debugger &debug(m_World->getDebugger());
+    debug.init(mgr);
 }
 
 OgreNewtonFrameListener::~OgreNewtonFrameListener(void)
@@ -104,6 +108,19 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 
 	timer -= evt.timeSinceLastFrame;
 
+    OgreNewt::Debugger& debug(m_World->getDebugger());
+    if (mKeyboard->isKeyDown(OIS::KC_F3))
+    {
+        debug.showDebugInformation();
+        debug.startRaycastRecording();
+        debug.clearRaycastsRecorded();
+    }
+    else
+    {
+        debug.hideDebugInformation();
+        debug.clearRaycastsRecorded();
+        debug.stopRaycastRecording();
+    }
 
 	if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
 		return false;
