@@ -227,7 +227,7 @@ void Debugger::processBody( OgreNewt::Body* bod )
         }
         else
         {
-            data->m_text = new OgreNewt::OgreAddons::MovableText( oss_name.str(), oss_info.str(), "VeraSerifBold-16",0.2);
+            data->m_text = new OgreNewt::OgreAddons::MovableText( oss_name.str(), oss_info.str(), "BlueHighway-10",0.5);
             data->m_text->setLocalTranslation(bod->getAABB().getMaximum().y/2*Ogre::Vector3::UNIT_Y+Ogre::Vector3::UNIT_Y*0.1);
             data->m_text->setTextAlignment( OgreNewt::OgreAddons::MovableText::H_LEFT, OgreNewt::OgreAddons::MovableText::V_ABOVE );
         }
