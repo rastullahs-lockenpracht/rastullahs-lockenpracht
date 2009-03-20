@@ -68,7 +68,8 @@ class ModuleExplorer(QWidget):
         vBoxLayout.setContentsMargins(0, 0, 0, 0)
         
         self.setLayout(vBoxLayout)
-        
+        self.resize(QSize(QRect(0,0,272,450).size()).expandedTo(self.minimumSizeHint()))
+
         self.nodeDict = {}
         
         self.moduleManager = None

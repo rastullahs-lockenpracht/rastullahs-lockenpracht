@@ -73,7 +73,7 @@ class ModelSelectionDialog(QDialog):
 
     def setupUi(self):
         self.setObjectName("modelPreviewDialog")
-        self.resize(QSize(QRect(0,0,272,744).size()).expandedTo(self.minimumSizeHint()))
+        self.resize(QSize(QRect(0,0,272,450).size()).expandedTo(self.minimumSizeHint()))
 
         self.gridlayout = QGridLayout(self)
         self.gridlayout.setObjectName("gridlayout")

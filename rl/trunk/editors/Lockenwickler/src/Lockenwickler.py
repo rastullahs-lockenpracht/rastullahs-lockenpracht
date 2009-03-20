@@ -421,11 +421,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.ogreMainWindow.toggleViewportGrid()
 
     def createDockWindows(self):
-        self.propertyDock = QtGui.QDockWidget(self.tr("Properties"), self)
-        self.propertyDock.setObjectName("PropertyDockWindow")
-        self.propertyDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
-        self.propertyDock.setWidget(self.objectPropertyWin)
-        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.propertyDock)
+
 
         self.modelSelectionDock = QtGui.QDockWidget(self.tr("Models"), self)
         self.modelSelectionDock.setObjectName("ModelSelectionDockWindow")
@@ -438,19 +434,28 @@ class Lockenwickler(QtGui.QMainWindow):
         self.materialSelectionDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
         self.materialSelectionDock.setWidget(self.materialSelectionDialog)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.materialSelectionDock)
-
+        self.tabifyDockWidget(self.modelSelectionDock, self.materialSelectionDock)
+        
         self.gameObjectClassViewDock = QtGui.QDockWidget(self.tr("GameObjectClasses"), self)
         self.gameObjectClassViewDock.setObjectName("GameObjectClassView")
         self.gameObjectClassViewDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
         self.gameObjectClassViewDock.setWidget(self.gameObjectClassView)
-        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.gameObjectClassViewDock)
+        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.gameObjectClassViewDock)        
+        self.tabifyDockWidget(self.modelSelectionDock, self.gameObjectClassViewDock)
+        
+        self.propertyDock = QtGui.QDockWidget(self.tr("Properties"), self)
+        self.propertyDock.setObjectName("PropertyDockWindow")
+        self.propertyDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
+        self.propertyDock.setWidget(self.objectPropertyWin)
+        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.propertyDock)
 
         self.moduleExplorerDock = QtGui.QDockWidget(self.tr("Module Explorer"), self)
         self.moduleExplorerDock.setObjectName("ModuleExplorerDockWindow")
         self.moduleExplorerDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
         self.moduleExplorerDock.setWidget(self.moduleExplorerWin)
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.moduleExplorerDock)
-
+        self.tabifyDockWidget(self.moduleExplorerDock, self.propertyDock)
+        
         self.consoleDock = QtGui.QDockWidget(self.tr("Console"), self)
         self.consoleDock.setObjectName("ConsoleDockWindow")
         self.consoleDock.setAllowedAreas(QtCore.Qt.BottomDockWidgetArea | QtCore.Qt.TopDockWidgetArea)
