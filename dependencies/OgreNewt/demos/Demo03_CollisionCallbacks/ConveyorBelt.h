@@ -1,6 +1,11 @@
 #pragma once
 
 #include <OgreNewt.h>
+#ifdef __APPLE__
+#   include <Ogre/Ogre.h>
+#else
+#   include <Ogre.h>
+#endif
 
 // conveyorBelt - simple class for creating conveyor belt objects!
 class ConveyorBelt
