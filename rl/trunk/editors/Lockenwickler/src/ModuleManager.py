@@ -36,29 +36,8 @@ from DepthBuffer import *
 from MovePivot import *
 from GameObjectClassManager import *
 from MyRaySceneQueryListener import *
+from ZoneManager import ZoneManager
 
-
-#                <zone name="Testzone">
-#                        <area type="sphere">
-#                                <position x="-10" y="0" z="-5"/>
-#                                <scale x="6" y="6" z="6"/>
-#                                <transition_distance>0.5</transition_distance>
-#                        </area>
-#                        <area type="mesh" meshfile="arc_UnbHaus_07.mesh">
-#                                <position x="25" y="0" z="-50"/>
-#                                <transition_distance>0.5</transition_distance>
-#                        </area>
-#                        <area type="sphere" subtract="true">
-#                                <position x="-11" y="0" z="-4"/>
-#                                <scale x="2" y="2" z="2"/>
-#                        </area>
-#                        <light name="red pointlight"/>
-#                        <light name="green spotlight"/>
-#                        <sound name="ruchin001.ogg"/>
-#                        <trigger name="test" classname="TestTrigger">
-#                                <property name="message" type="STRING" data="You triggered the dooms day device!" />
-#                        </trigger>
-#                </zone>
 
 # get the light out of a light node
 def extractLight(node):
@@ -787,6 +766,8 @@ class ModuleManager():
         
         self.raySceneQueryListener = MyRaySceneQueryListener()
         
+        self.zoneManager = ZoneManager(self.sceneManager)
+        
     def resetParsedModuleConfig(self):
         self.moduleConfigIsParsed = False
         self.moduleList = []
@@ -897,6 +878,7 @@ class ModuleManager():
         
     def selectMapCallback(self, sceneName, mapName):
         self.currentMap = self.mainModule.getMap(mapName, sceneName)
+        self.zoneManager.currentMap = self.currentMap
         if self.currentMap is None:
             print "Don't forget to select a map"
 
@@ -909,7 +891,7 @@ class ModuleManager():
                 self.startDropModelAction(meshFile, ray)
                 return
             else:
-                print "Warning: OneClickEntityPlacement still runed on without any selected mesh!"
+                print "Warning: OneClickEntityPlacement still runing on without any selected mesh!"
                 return
                 
         #self.depthBuffer.onSelectionClick(screenX, screenY)
@@ -1238,14 +1220,6 @@ class ModuleManager():
             pos = self.contextMenuRay.getPoint(self.raySceneQueryListener.dist)
             self.raySceneQueryListener.dist = 100000
             
-#        so = self.selectionBuffer.onSelectionClick(int(self.contextMenuClickPosition.x), int(self.contextMenuClickPosition.y))
-#        if so is not None:
-#            result = og.Math.intersects(self.contextMenuRay, so.entity.getBoundingBox())
-#            
-#            if result.first:
-#                pos = self.contextMenuRay.getPoint(result.second)
-#                pos += so.entity.getParentNode().getPosition()
-        
         light = None
         if not self.sceneManager.hasLight(name):
             light = self.sceneManager.createLight(name)
@@ -1298,8 +1272,8 @@ class ModuleManager():
         n.attachObject(e)
         n.setPosition(pos)
         
-    def createZone(self):
-        print "creating zone here..."
+    def addZoneToMap(self, name):
+        self.zoneManager.createZone(name)
     
     def setPlayerStart(self):
         self.mainModule.playerStart = str(self.playerStartGameObjectId)
@@ -1308,7 +1282,6 @@ class ModuleManager():
     def onContextMenu(self, screenX, screenY, ray):
         menus = []
         actions = []
-        actions.append(self.createAction("Create Zone here", self.createZone))
         pla = self.createAction("Pointlight", self.addPointLight, None, "idea.png")
         pls = self.createAction("Spotlight", self.addSpotLight, None, "idea.png")
         
@@ -1321,10 +1294,26 @@ class ModuleManager():
         self.contextMenuClickPosition = og.Vector2(screenX, screenY)
         self.contextMenuRay = ray
         
-        if so is not None and so.entity.getParentNode().getName().startswith("gameobject_"):
+        if so is not None and so.entity.getParentNode().getName().startswith("entity_"):
+            pos = og.Vector3()
+            query = self.sceneManager.createRayQuery(self.contextMenuRay)
+            query.ray = self.contextMenuRay
+            query.setSortByDistance(True)
+            query.execute(self.raySceneQueryListener)
+            if self.raySceneQueryListener.dist < 100000:
+                pos = self.contextMenuRay.getPoint(self.raySceneQueryListener.dist)
+                self.raySceneQueryListener.dist = 100000
+
+            self.zoneManager.entityUnderMouse = so.entity
+            self.zoneManager.newAreaPosition = pos
+            menus.append(self.zoneManager.getZoneMenu())
+
+        elif so is not None and so.entity.getParentNode().getName().startswith("gameobject_"):
             actions.append(self.createAction("Set Player Starterpoint", self.setPlayerStart))
             self.playerStartGameObjectId = so.entity.getUserObject().inWorldId
-        
+            
+                
+            
         if self.onContextMenuCallback is not None:
             self.onContextMenuCallback(actions,  menus)
 

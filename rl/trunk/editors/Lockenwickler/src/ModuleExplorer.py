@@ -83,8 +83,16 @@ class ModuleExplorer(QWidget):
         if self.mapSelectedCallback is None:
             return
         
+
+        
         name = str(item.text(0))
         if name.startswith("Map: "):
+            if column == 1:
+                if self.module.getMap(name.replace("Map: ", "")).isHidden:
+                    self.module.getMap(name.replace("Map: ", "")).show()
+                else:
+                    self.module.getMap(name.replace("Map: ", "")).hide()
+                    
             self.mapSelectedCallback(str(item.parent().text(0)).replace("Scene: ", ""), name.replace("Map: ", ""))
             self.lastSelectedMap = name
         elif name.startswith("Scene: "):
@@ -97,8 +105,6 @@ class ModuleExplorer(QWidget):
             self.mapSelectedCallback(str(item.parent().parent().text(0)).replace("Scene: ", ""), str(item.parent().text(0)).replace("Map: ", ""))
             self.lastSelectedMap = name
             
-
-        
     def onMenu(self, point):
         if self.moduleManager is not None:
             index = self.sceneTreeView.indexAt(point)
@@ -130,7 +136,14 @@ class ModuleExplorer(QWidget):
             deleteAction= QAction("Delete",  self)
             menu.addAction(deleteAction)
             self.connect(deleteAction, SIGNAL("triggered()"), self.onDelete)
-            
+                
+            if self.sceneTreeView.currentItem() is not None and str(self.sceneTreeView.currentItem().text(0)).startswith("Map:"):
+                menu.addSeparator()
+                
+                newZoneAction = QAction("New Zone",  self)
+                menu.addAction(newZoneAction)
+                self.connect(newZoneAction, SIGNAL("triggered()"), self.onNewZone)
+                
             menu.exec_(QCursor().pos())
             
     def onHideMap(self):
@@ -158,7 +171,13 @@ class ModuleExplorer(QWidget):
             sceneName = str(self.sceneTreeView.currentItem().text(0)).replace("Scene: ", "")
             self.moduleManager.addMapToScene(sceneName, str(dlg.nameInput.text()))
             self.updateView()
-        
+    
+    def onNewZone(self):
+        dlg = NameInputDlg(self)
+        if dlg.exec_():
+            self.moduleManager.addZoneToMap(str(dlg.nameInput.text()))
+            self.updateView()
+    
     def onDelete(self):
         print "delete"
       
@@ -188,11 +207,23 @@ class ModuleExplorer(QWidget):
         
         i = 0
         while i < map.mapNode.numChildren():
+            if map.mapNode.getChild(i).getName().startswith("zone_"):
+                self.parseZone(map.mapNode.getChild(i), childItem)
+                i = i+1
+                continue
+                
             childItem2 = QTreeWidgetItem(childItem) 
             childItem2.setText(0, map.mapNode.getChild(i).getName())            
             
+            thetype = None
+            try:
+                thetype = str(type(map.mapNode.getChild(i).getAttachedObject(0)))
+            except:
+                i = i+1
+                continue
+                
             childItem3 = QTreeWidgetItem(childItem2) 
-            childItem3.setText(0, str(type(map.mapNode.getChild(i).getAttachedObject(0))))
+            childItem3.setText(0, thetype)
             i = i+1
             
 
@@ -204,6 +235,9 @@ class ModuleExplorer(QWidget):
 #            if  val is not None:
 #                childItem2.setText(0, val.getName())
 
+    def parseZone(self, node, parentItem):
+        childItem = QTreeWidgetItem(parentItem) 
+        childItem.setText(0, node.getName())
         
     def setCurrentModule(self, module):
         self.module = module

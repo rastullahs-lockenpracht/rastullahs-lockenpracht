@@ -1,4 +1,4 @@
- #################################################
+#################################################
 # This source file is part of Rastullahs Lockenwickler.
 # Copyright (C) 2003-2009 Team Pantheon. http://www.team-pantheon.de
 #
