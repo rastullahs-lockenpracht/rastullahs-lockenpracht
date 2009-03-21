@@ -24,6 +24,7 @@ from PyQt4.QtGui import *
  
 import ogre.renderer.OGRE as og
  
+from ModuleExplorer import NameInputDlg
  
 #                <zone name="Testzone">
 #                        <area type="sphere">
@@ -74,7 +75,14 @@ class Area():
             print "not yet"
         elif type == "mesh":
             self.areaEntity = sceneManager.createEntity("area_" + parentZone.name + str(id) + "_entity", self.meshFile)
-            
+        elif type == "othermesh":
+            try:
+                self.areaEntity = sceneManager.createEntity("area_" + parentZone.name + str(id) + "_entity", self.meshFile)
+            except:
+                print "Mesh " + self.meshFile + " not found!"
+                return None
+                
+        self.areaEntity.setMaterialName("Lockenwickler_Area")
         self.areaNode.attachObject(self.areaEntity)
         self.areaNode.setPosition(position)
         if orientation is not None:
@@ -86,7 +94,7 @@ class Area():
             self.areaNode.setScale(self.areaNode.getScale() + 0.05)
             
 class Zone():
-    def __init__(self,map, name):
+    def __init__(self,sceneManager, map, name):
         self.map = map
         self.name = name
         self.areaList = []
@@ -94,14 +102,24 @@ class Zone():
         self.soundListList = []
         self.triggerList = []
         self.areaCounter = 0
+        self.sceneManager = sceneManager
+        self.isHidden = False
         
-        self.zoneNode =  self.map.mapNode.createChildSceneNode("zone_" + name + "_node")
+        self.zoneNode =  self.sceneManager.getRootSceneNode().createChildSceneNode("zone_" + name + "_node")
         
-    def addArea(self, sceneManager , type, position, orientation, scale, meshFile = None):
-        area = Area(sceneManager, type, self, self.areaCounter, position, orientation, scale, meshFile)
-        self.areaList.append(area)
+    def addArea(self, type, position, orientation, scale, meshFile = None):
+        area = Area(self.sceneManager, type, self, self.areaCounter, position, orientation, scale, meshFile)
+        if area is not None:
+            self.areaList.append(area)
+            self.areaCounter = self.areaCounter + 1
         
-        self.areaCounter = self.areaCounter + 1
+    def hide(self):
+        self.sceneManager.getRootSceneNode().detachChild(self.zoneNode)
+        self.isHidden = True
+    
+    def show(self):
+        self.sceneManager.getRootSceneNode().attachChild(self.zoneNode)
+        self.isHidden = False
         
     def __del__(self):
         self.areaNode.getParentSceneNode().detachChild(self.areaNode)
@@ -123,8 +141,10 @@ class ZoneManager():
         if self.currentMap == None:
             print "No map selected!"
             return
-        
-        self.zoneList.append(Zone(self.currentMap, name))
+            
+        z = Zone(self.sceneManager, self.currentMap, name)
+        self.zoneList.append(z)
+        self.currentMap.zoneList.append(z)
         
     def getZoneMenu(self):
         self.menuList = []
@@ -159,13 +179,30 @@ class ZoneManager():
             self.menuList.append(meshAction)
             m.addAction(meshAction)
             
+            otherMeshAction = self.createAction("convex hull from another mesh ", functools.partial(self.onZoneNameTriggered, zone, "othermesh"))
+            self.menuList.append(otherMeshAction)
+            m.addAction(otherMeshAction)
+            
         return menu
         
     def onZoneNameTriggered(self, zone, type):
         if self.newAreaPosition is not None:
             if type == "box":
                 zone.addArea(self.sceneManager, "box", self.newAreaPosition, None, None)
-        
+            elif type == "sphere":
+                zone.addArea(self.sceneManager, "sphere", self.newAreaPosition, None, None)
+            elif type == "mesh":
+                resName = self.entityUnderMouse.getMesh().getName()
+                parentNode = self.entityUnderMouse.getParentSceneNode()
+                zone.addArea(self.sceneManager, "mesh", parentNode.getPosition(), parentNode.getOrientation(), parentNode.getScale(), resName)
+            elif type == "othermesh":
+                dlg = NameInputDlg(QApplication.focusWidget())
+                resName = ""
+                if dlg.exec_():
+                    resName = str(dlg.nameInput.text())
+
+                zone.addArea(self.sceneManager, "othermesh", self.newAreaPosition, None, None, resName)
+                
     def getZone(self, name):
         for zone in self.zoneList:
             if zone.name == name:

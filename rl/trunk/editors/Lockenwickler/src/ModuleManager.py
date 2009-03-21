@@ -119,6 +119,8 @@ class Map():
         self.gocManager = gocManager
         self.isHidden = False
         
+        self.zoneList = []
+        
         if not emptyMap:
             xmlTree = xml.parse(pathToFile)
             root = xmlTree.getroot()
@@ -805,7 +807,7 @@ class ModuleManager():
 
         self.parseModuleConfig()
 
-        dlg = QDialog()
+        dlg = QDialog(QApplication.focusWidget())
         list = QListWidget()
         btnBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         dlg.connect(btnBox, SIGNAL("accepted()"), dlg.accept)
@@ -1294,21 +1296,22 @@ class ModuleManager():
         self.contextMenuClickPosition = og.Vector2(screenX, screenY)
         self.contextMenuRay = ray
         
-        if so is not None and so.entity.getParentNode().getName().startswith("entity_"):
-            pos = og.Vector3()
-            query = self.sceneManager.createRayQuery(self.contextMenuRay)
-            query.ray = self.contextMenuRay
-            query.setSortByDistance(True)
-            query.execute(self.raySceneQueryListener)
-            if self.raySceneQueryListener.dist < 100000:
-                pos = self.contextMenuRay.getPoint(self.raySceneQueryListener.dist)
-                self.raySceneQueryListener.dist = 100000
-
+        pos = og.Vector3()
+        query = self.sceneManager.createRayQuery(self.contextMenuRay)
+        query.ray = self.contextMenuRay
+        query.setSortByDistance(True)
+        query.execute(self.raySceneQueryListener)
+        if self.raySceneQueryListener.dist < 100000:
+            pos = self.contextMenuRay.getPoint(self.raySceneQueryListener.dist)
+            self.raySceneQueryListener.dist = 100000
+        
+        if so is not None:
             self.zoneManager.entityUnderMouse = so.entity
-            self.zoneManager.newAreaPosition = pos
-            menus.append(self.zoneManager.getZoneMenu())
+        
+        self.zoneManager.newAreaPosition = pos
+        menus.append(self.zoneManager.getZoneMenu())
 
-        elif so is not None and so.entity.getParentNode().getName().startswith("gameobject_"):
+        if so is not None and so.entity.getParentNode().getName().startswith("gameobject_"):
             actions.append(self.createAction("Set Player Starterpoint", self.setPlayerStart))
             self.playerStartGameObjectId = so.entity.getUserObject().inWorldId
             

@@ -37,7 +37,6 @@ class NameInputDlg(QDialog):
         self.connect(buttonBox, SIGNAL("accepted()"), self, SLOT("accept()"))        
         self.connect(buttonBox, SIGNAL("rejected()"), self, SLOT("reject()"))
         
-        
 class ModuleTreeWidget(QTreeWidget):
     def __init__(self, parent = None):
         super(ModuleTreeWidget, self).__init__(parent)
@@ -83,14 +82,14 @@ class ModuleExplorer(QWidget):
         if self.mapSelectedCallback is None:
             return
         
-
-        
         name = str(item.text(0))
         if name.startswith("Map: "):
             if column == 1:
                 if self.module.getMap(name.replace("Map: ", "")).isHidden:
+                    item.setIcon(1 , QIcon("media/icons/14_layer_visible.png"))
                     self.module.getMap(name.replace("Map: ", "")).show()
                 else:
+                    item.setIcon(1 , QIcon("media/icons/14_layer_invisible.png"))
                     self.module.getMap(name.replace("Map: ", "")).hide()
                     
             self.mapSelectedCallback(str(item.parent().text(0)).replace("Scene: ", ""), name.replace("Map: ", ""))
@@ -204,14 +203,10 @@ class ModuleExplorer(QWidget):
         if mn == self.lastSelectedMap:
             childItem.setSelected(True)
             childItem.parent().setExpanded(True)
-        
+            
+            self.parseZone(map, childItem)
         i = 0
-        while i < map.mapNode.numChildren():
-            if map.mapNode.getChild(i).getName().startswith("zone_"):
-                self.parseZone(map.mapNode.getChild(i), childItem)
-                i = i+1
-                continue
-                
+        while i < map.mapNode.numChildren():                
             childItem2 = QTreeWidgetItem(childItem) 
             childItem2.setText(0, map.mapNode.getChild(i).getName())            
             
@@ -235,9 +230,11 @@ class ModuleExplorer(QWidget):
 #            if  val is not None:
 #                childItem2.setText(0, val.getName())
 
-    def parseZone(self, node, parentItem):
-        childItem = QTreeWidgetItem(parentItem) 
-        childItem.setText(0, node.getName())
+    def parseZone(self, map, parentItem):
+        for zone in map.zoneList:
+            childItem = QTreeWidgetItem(parentItem) 
+            childItem.setText(0, "Zone: " + zone.name)
+            childItem.setIcon(0, QIcon("media/icons/dissociatecell.png"))
         
     def setCurrentModule(self, module):
         self.module = module
