@@ -616,7 +616,7 @@ class Module():
     def load(self):
         if self.isLoaded:
             return
-
+        
         self.isLoaded = True
         self.modConfig = join(self.moduleRoot,  "scripts/moduleconfig.rb")
         if isfile(self.modConfig): # is the modconfig existing?
@@ -651,8 +651,7 @@ class Module():
             cmd = join(self.moduleRoot, "maps/*.rlscene")
             sceneFile = glob.glob(cmd)
             self.loadScenes(sceneFile)
-            
-        
+                
     def loadScenes(self, sceneFiles):
         for s in sceneFiles:
             self.scenes.append(Scene(self.moduleRoot, s, self.sceneManager, self.ogreRoot, self.gocManager, self.zoneManager))
@@ -825,19 +824,37 @@ class ModuleManager():
 
     # I'm sorry for this
     def loadModule(self, moduleName):
+        t = og.Timer()
+        
+        progress = QProgressDialog("Loading " + moduleName, "Abort Loading", 0, 8, None);
+        progress.setWindowModality(Qt.WindowModal)
+        progress.show()
+        
         for m in self.moduleList:
             if m.name == moduleName:
                 if m.hasDependencies: # load modules on wich the main module depends before the main module is loaded
                     for moduleDependencie in m.moduleDependencies:
                         for m2 in self.moduleList:
                             if m2.name == moduleDependencie:
+                                progress.setLabelText("Loading Dependencie: " + moduleDependencie)
+                                progress.setValue(2)
+                                QApplication.processEvents()
                                 m2.load()
                                 self.modelSelectionDialog.scanDirForModels(m2.moduleRoot)
                                 self.materialSelectionDialog.scanDirForMaterials(m2.moduleRoot)
                                 self.mainModuledependencieList.append(m2)
 
+                progress.setLabelText("Loading " + moduleName)
+                progress.setValue(4)
+                QApplication.processEvents()
                 m.load()
+                progress.setLabelText("Scan for models...")
+                progress.setValue(6)
+                QApplication.processEvents()
                 self.modelSelectionDialog.scanDirForModels(m.moduleRoot)
+                progress.setLabelText("Scan for materials")
+                progress.setValue(8)
+                QApplication.processEvents()
                 self.materialSelectionDialog.scanDirForMaterials(m.moduleRoot)
                 self.mainModule = m
                 self.moduleExplorer.setCurrentModule(m)
@@ -860,6 +877,11 @@ class ModuleManager():
 
 #        if self.depthBuffer is None:
 #            self.depthBuffer = DepthBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
+        
+        progress.hide()
+        
+        print "Time to load module: " + str(t.getMilliseconds() / 1000.0) + " seconds"
+        del t
 
     def addSceneToModule(self, name):
         if self.mainModule is not None:
