@@ -421,8 +421,6 @@ class Lockenwickler(QtGui.QMainWindow):
         self.ogreMainWindow.toggleViewportGrid()
 
     def createDockWindows(self):
-
-
         self.modelSelectionDock = QtGui.QDockWidget(self.tr("Models"), self)
         self.modelSelectionDock.setObjectName("ModelSelectionDockWindow")
         self.modelSelectionDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
@@ -503,9 +501,7 @@ class Lockenwickler(QtGui.QMainWindow):
         for a in actions:
             menu.addAction(a)
 
-            
         menu.exec_(QCursor.pos())
-        
 
     def connectActionButtons(self):
         pass
@@ -525,6 +521,8 @@ class Lockenwickler(QtGui.QMainWindow):
             settings.setValue("Preferences/moduleCfgPath", QtCore.QVariant(self.prefDialog.lineEdit.text()))
             settings.setValue("MainWindow/Geometry",  QtCore.QVariant(self.saveGeometry()))
             settings.setValue("MainWIndow/DockWindows",  QtCore.QVariant(self.saveState()))
+            
+            self.ogreRoot.shutdown()
         else:
             event.ignore()
 
@@ -546,5 +544,7 @@ if __name__ == "__main__":
     form = Lockenwickler()
     form.show()
 
-    sys.exit(app.exec_())
+    app.exec_()
+    
+    sys.exit(0)
 

@@ -188,7 +188,11 @@ class ObjectPropertyWin(QDialog):
                 newColor = QColorDialog.getColor(QColor(col.r * 255, col.g * 255, col.g * 255), self)
                 ModuleManager.extractLight(self.node).setSpecularColour(og.ColourValue(min * newColor.red(), min * newColor.green(), min * newColor.blue()))
                 self.showProperties(self.so)
-
+            elif item.text(0) == "Subtract":
+                bedit = BoolEditor(item.text(column), self)
+                bedit.exec_()
+                item.setText(column, str(bedit.getValue()))
+                self.so.entity.getUserObject().subtract = bedit.getValue()                    
             else:
                 self.treeWidget.editItem(item, column)
 
@@ -211,7 +215,7 @@ class ObjectPropertyWin(QDialog):
                         else:
                             item.setText(column, self.valueBeforeEdit)
                             print "Error: Name already exists!"
-                            
+
                     elif self.node.getName().startswith("light_"):
                         if not self.sceneManager.hasLight(str(item.text(column))):
                             newLight = self.sceneManager.createLight(str(item.text(column)))
@@ -233,7 +237,10 @@ class ObjectPropertyWin(QDialog):
                         else:
                             item.setText(column, self.valueBeforeEdit)
                             print "Error: Name already exists!"
-                            
+
+                elif item.text(0) == "Zone Name":
+                    self.node.getAttachedObject(0).getUserObject().parentZone.name = str(item.text(column))
+                        
                 elif item.text(0) == "GameObject Id":
                     if not self.gocManager.inWorldIdExists(str(item.text(column))):
                         val = None
@@ -407,8 +414,25 @@ class ObjectPropertyWin(QDialog):
             self.parseDiffuseColor(self.node)
             self.parseSpecularColor(self.node)
             self.parseLightAttenuation(self.node)
-
-       
+        elif name.startswith("area_"):
+            area = so.entity.getUserObject()
+            item = QTreeWidgetItem(self.treeWidget)
+            item.setText(0, "Zone Name")
+            item.setText(1, area.parentZone.name)
+            item.setFlags(item.flags() | Qt.ItemIsEditable)
+            
+            item = QTreeWidgetItem(self.treeWidget)
+            item.setText(0, "Type")
+            item.setText(1, area.type)
+            
+            item = QTreeWidgetItem(self.treeWidget)
+            item.setText(0, "Subtract")
+            item.setText(1, str(area.subtract))
+            
+            self.parsePosition(area.areaNode)
+            self.parseOrientation(area.areaNode)
+            self.parseScale(area.areaNode)
+            
         self.connect(self.treeWidget, SIGNAL("itemChanged (QTreeWidgetItem *,int)"),
                        self.onItemChanged)
                        

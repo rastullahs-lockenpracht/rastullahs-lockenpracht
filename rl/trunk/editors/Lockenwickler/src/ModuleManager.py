@@ -103,7 +103,7 @@ class EntityCustomOptions(og.UserDefinedObject):
             return "EntityCustomOptions"
 
 class Map():
-    def __init__(self, pathToFile, sceneManager, ogreRoot, gocManager, emptyMap = False):
+    def __init__(self, pathToFile, sceneManager, ogreRoot, gocManager, zoneManager, emptyMap = False):
         self.pathToMapFile = pathToFile
         
         mapName = pathToFile.replace("\\", "/")
@@ -117,6 +117,7 @@ class Map():
         self.mapNode = sceneManager.getRootSceneNode().createChildSceneNode(self.pathToMapFile)
         self.ogreRoot = ogreRoot
         self.gocManager = gocManager
+        self.zoneManager = zoneManager
         self.isHidden = False
         
         self.zoneList = []
@@ -127,7 +128,7 @@ class Map():
 
             if root.attrib["formatVersion"] == "0.4.0":
                 self.parseMapNodes(root.find("nodes"))
-                #self.parseMapZones(root.find("zones"))
+                self.parseMapZones(root.find("zones"))
             else:
                 print pathToFile + " has wrong format version. It needs to be 0.4.0"
                 return
@@ -149,6 +150,9 @@ class Map():
             return
         
         self.isHidden = False
+    
+    def parseMapZones(self, zonesElement):
+        self.zoneManager.parseZonesFromXml(zonesElement, self)
     
     def parseMapNodes(self, nodeElement):
         nodes = nodeElement.getiterator("gameobject")
@@ -231,7 +235,6 @@ class Map():
             except:
                 print "Warning: Meshfile " + meshFile + " could not be found."
                 return
-            
 
             e.setUserObject(eco)
             n = self.mapNode.createChild("entity_" + entityName + "_node")
@@ -257,8 +260,6 @@ class Map():
             spotlightinner = None
             spotlightouter = None
             falloff = None 
-            
-
                 
             transformations = l.getiterator()
             for t in transformations:
@@ -501,12 +502,13 @@ class Map():
 #            print name
 
 class Scene():
-    def __init__(self, moduleroot, pathToFile, sceneManager, ogreRoot, gocManager, emptyScene = False, sceneName = "NewScene"):
+    def __init__(self, moduleroot, pathToFile, sceneManager, ogreRoot, gocManager, zoneManager, emptyScene = False, sceneName = "NewScene"):
         self.moduleRoot = moduleroot
         self.pathToFile = pathToFile
         self.sceneManager = sceneManager
         self.ogreRoot = ogreRoot
         self.gocManager = gocManager
+        self.zoneManager = zoneManager
         self.mapFiles = [] # a list in case the module has more than one map file
         mappaths = []
         self.name = sceneName
@@ -522,11 +524,11 @@ class Scene():
                 mappaths.append(join(self.moduleRoot, join("maps", m.attrib["file"])))
                 
             for m in mappaths:
-                self.mapFiles.append(Map(m, self.sceneManager, self.ogreRoot, self.gocManager))
+                self.mapFiles.append(Map(m, self.sceneManager, self.ogreRoot, self.gocManager, self.zoneManager))
             
     def addMap(self, name):
         path = join(self.moduleRoot, join("maps", name + ".rlmap.xml"))
-        self.mapFiles.append(Map(path, self.sceneManager, self.ogreRoot, self.gocManager, True))
+        self.mapFiles.append(Map(path, self.sceneManager, self.ogreRoot, self.gocManager, self.zoneManager, True))
         
     def save(self):
         root = xml.Element("scene")
@@ -540,13 +542,12 @@ class Scene():
         indent(root)
         xml.ElementTree(root).write(self.pathToFile)
 
-
-
 class Module():
-    def __init__(self,name, modulePath, sceneManager, ogreRoot, gameObjectManager):
+    def __init__(self,name, modulePath, sceneManager, ogreRoot, gameObjectManager, zoneManager):
         self.sceneManager = sceneManager
         self.ogreRoot = ogreRoot
         self.gocManager = gameObjectManager
+        self.zoneManager = zoneManager
         
         self.name = name
         self.moduleRoot = join(modulePath, name)
@@ -566,7 +567,7 @@ class Module():
         self.playerStart = None
         
     def addScene(self, name):
-        self.scenes.append(Scene(self.moduleRoot, join(self.moduleRoot, ("maps/" + name + ".rlscene")), self.sceneManager, self.ogreRoot, self.gocManager, True, name))
+        self.scenes.append(Scene(self.moduleRoot, join(self.moduleRoot, ("maps/" + name + ".rlscene")), self.sceneManager, self.ogreRoot, self.gocManager, self.zoneManager, True, name))
     
     def addMapToScene(self, sceneName, mapName):
         for scene in self.scenes:
@@ -654,7 +655,7 @@ class Module():
         
     def loadScenes(self, sceneFiles):
         for s in sceneFiles:
-            self.scenes.append(Scene(self.moduleRoot, s, self.sceneManager, self.ogreRoot, self.gocManager))
+            self.scenes.append(Scene(self.moduleRoot, s, self.sceneManager, self.ogreRoot, self.gocManager, self.zoneManager))
 
     def save(self):
         for s in self.scenes:
@@ -743,13 +744,11 @@ class ModuleManager():
         self.middleMouseDown = False
         self.rightMouseDown = False
 
-       
         self.dropNode = None
         self.dropEntity = None
         self.dropCollisionPlane = og.Plane(og.Vector3().UNIT_Y, og.Vector3().ZERO)
         self.dropMat = None
         
-        self.numerOfCopys = 0 #everytime a copy is made this numer is increased to generate unique node and mesh names
         self.moduleConfigIsParsed = False
 
         self.selectionBuffer = None
@@ -788,7 +787,7 @@ class ModuleManager():
             if line.startswith('module='):
                 splines = line.split('=')
                 str = splines[1].rstrip().rstrip()
-                self.moduleList.append(Module(str, self.moduleCfgPath.replace("/modules.cfg",  ""), self.sceneManager, self.ogreRoot, self.gocManager))
+                self.moduleList.append(Module(str, self.moduleCfgPath.replace("/modules.cfg",  ""), self.sceneManager, self.ogreRoot, self.gocManager, self.zoneManager))
 
         self.moduleConfigIsParsed = True
 
@@ -965,8 +964,10 @@ class ModuleManager():
 
         for so in self.userSelectionList:
             node = so.entity.getParentNode()
-
-            if node.getName().startswith("light_"):
+            if node.getName().startswith("area_"):
+                self.zoneManager.deleteArea(so.entity.getUserObject())
+                continue
+            elif node.getName().startswith("light_"):
                 light = extractLight(node)
                 self.sceneManager.destroyLight(light)
                 
@@ -976,24 +977,6 @@ class ModuleManager():
             del so
 
         self.userSelectionList = []
-
-    def incrementNameSuffixNumber(self, name):
-        newName = ""
-        split = name.split("_")
-        lastPart = len(split)-1
-        newName = name.rstrip(split[lastPart])
-        newName = newName + str(self.numerOfCopys)
-
-#        if split[lastPart].isdigit() and not split[lastPart].startswith("0"):
-#            num = int(split[lastPart])
-#            num = num + 1
-#            newName = name.rstrip(split[lastPart])
-#            newName = newName + str(num)
-#        else:
-#            newName = name + "_1"
-
-        self.numerOfCopys = self.numerOfCopys + 1
-        return newName
 
     def copyObjects(self):
         if len(self.userSelectionList) < 1 or self.currentMap is None:
@@ -1017,7 +1000,6 @@ class ModuleManager():
                         newGO = GameObjectRepresentation(ModuleManager.dropCount, so.entity.getUserObject().gocName, newNode, meshFile)
                         self.gocManager.addGameObjectRepresentation(newGO)
                         newEntity.setUserObject(newGO)
-                        #newGO.setPosition(og.Vector3(0, 0, 0))
 
                         newSO = SelectionObject(newEntity)
                         newSO.setSelected(True)

@@ -48,19 +48,20 @@ from ModuleExplorer import NameInputDlg
 #                        </trigger>
 #                </zone>
  
-class Area():
-    def __init__(self,sceneManager, type, parentZone, id, position, orientation, scale, meshFile = None, transitiondistance = "0.5"):
+class Area(og.UserDefinedObject):
+    def __init__(self,sceneManager, type, parentZone, id, position, orientation, scale, meshFile = None, transitiondistance = "0.5", subtract = False):
+        og.UserDefinedObject.__init__(self)
         self.type = type
         self.parentZone = parentZone
         if not parentZone:
            raise Exception("No parentZone")
 
-        self.id = id
+        self.id = id # editor internal id for entity and node creation
         self.areaNode = parentZone.zoneNode.createChildSceneNode("area_" + parentZone.name + " " + str(id))
         self.meshFile = meshFile
         self.areaEntity = None
         self.transitiondistance = transitiondistance
-        
+        self.__subtract = subtract
         self.sceneManager = sceneManager
         
         if type == "box":
@@ -74,8 +75,6 @@ class Area():
         elif type == "pyramid":
             print "not yet"
         elif type == "mesh":
-            self.areaEntity = sceneManager.createEntity("area_" + parentZone.name + str(id) + "_entity", self.meshFile)
-        elif type == "othermesh":
             try:
                 self.areaEntity = sceneManager.createEntity("area_" + parentZone.name + str(id) + "_entity", self.meshFile)
             except:
@@ -83,16 +82,35 @@ class Area():
                 return None
                 
         self.areaEntity.setMaterialName("Lockenwickler_Area")
+        if self.__subtract:
+            self.areaEntity.setMaterialName("Lockenwickler_Area_Subtract")
+            
+        self.areaEntity.setUserObject(self)
         self.areaNode.attachObject(self.areaEntity)
         self.areaNode.setPosition(position)
         if orientation is not None:
-            self.areaNode.setOrientation(orientation)
+            self.areaNode.setOrientation(orientation.qw, orientation.qx, orientation.qy, orientation.qz)
         if scale is not None:
             self.areaNode.setScale(scale)
+    
+    def __del__(self):
+        self.areaNode.detachAllObjects()
+        self.areaNode.getParent().removeAndDestroyChild(self.areaNode.getName())
+        self.sceneManager.destroyEntity(self.areaEntity.getName())
+    
+    def getsubtract(self):
+        return self.__subtract
         
-        if type == "mesh":
-            self.areaNode.setScale(self.areaNode.getScale() + 0.05)
-            
+    def setsubtract(self, val):
+        if not val:
+            self.areaEntity.setMaterialName("Lockenwickler_Area")
+        else:
+            self.areaEntity.setMaterialName("Lockenwickler_Area_Subtract")
+        
+        self.__subtract = val
+        
+    subtract = property(getsubtract, setsubtract)
+    
 class Zone():
     def __init__(self,sceneManager, map, name):
         self.map = map
@@ -112,7 +130,13 @@ class Zone():
         if area is not None:
             self.areaList.append(area)
             self.areaCounter = self.areaCounter + 1
-        
+    
+    def deleteArea(self, area):
+        for a in self.areaList:
+            if a.id == area.id:
+                self.areaList.remove(a)
+                del a
+    
     def hide(self):
         self.sceneManager.getRootSceneNode().removeChild(self.zoneNode)
         self.isHidden = True
@@ -121,12 +145,6 @@ class Zone():
         self.sceneManager.getRootSceneNode().addChild(self.zoneNode)
         self.isHidden = False
         
-    def __del__(self):
-        self.areaNode.getParentSceneNode().detachChild(self.areaNode)
-        self.areaNode.detachAllObjects()
-        
-        self.sceneMgr.destroySceneNode(self.areaNode)
-        self.sceneMgr.destroyEntity(self.areaEntity)
         
 class ZoneManager():
     def __init__(self, sceneManager):
@@ -145,7 +163,66 @@ class ZoneManager():
         z = Zone(self.sceneManager, self.currentMap, name)
         self.zoneList.append(z)
         self.currentMap.zoneList.append(z)
+        return z
         
+    def parseZonesFromXml(self, zoneXmlNode, map):
+        if zoneXmlNode is None:
+            return
+        
+        self.currentMap = map
+        
+        zoneNodes = zoneXmlNode.getiterator("zone")
+        for zone in zoneNodes:
+            zoneName = zone.attrib["name"]
+            z = self.createZone(zoneName)
+            
+            areaNodes = zone.getiterator("area")
+            for area in areaNodes:
+                type = area.attrib["type"]
+                meshFile = None
+                if type == "mesh":
+                    meshFile = area.attrib["meshfile"]
+                
+                pos = og.Vector3()
+                qw = qx = qy = qz = 0
+                scale = None
+                hasRotation = False
+                
+                transformations = area.getiterator()
+                for t in transformations:
+                    if t.tag == "position":
+                        posx = float(t.attrib["x"])
+                        posy = float(t.attrib["y"])
+                        posz = float(t.attrib["z"])
+                        pos = og.Vector3(posx, posy, posz)
+                    elif t.tag == "rotation":
+                        qw = float(t.attrib["qw"])
+                        qx = float(t.attrib["qx"])
+                        qy = float(t.attrib["qy"])
+                        qz = float(t.attrib["qz"])
+                        hasRotation = True
+                    elif type == "mesh" and t.tag == "scale":
+                        scalex = float(t.attrib["x"])
+                        scaley = float(t.attrib["y"])
+                        scalez = float(t.attrib["z"])
+                        scale = og.Vector3(scalex, scaley, scalez)
+                    elif t.tag == "size":
+                        scalex = float(t.attrib["x"])
+                        scaley = float(t.attrib["y"])
+                        scalez = float(t.attrib["z"])
+                        scale = og.Vector3(scalex, scaley, scalez)
+                
+                rot = None
+                if hasRotation:
+                    rot = og.Quaternion(qw, qx, qy, qz)
+                    
+                z.addArea(type, pos, rot, scale, meshFile)
+    def deleteArea(self, area):
+        for z in self.zoneList:
+            for a in z.areaList:
+                if a.id == area.id:
+                    z.deleteArea(area)
+    
     def getZoneMenu(self):
         self.menuList = []
         menu = QMenu("Add Area")
@@ -175,13 +252,9 @@ class ZoneManager():
             self.menuList.append(pyramidAction)
             m.addAction(pyramidAction)
             
-            meshAction = self.createAction("convex hull from: " + self.entityUnderMouse.getName(), functools.partial(self.onZoneNameTriggered, zone, "mesh"))
+            meshAction = self.createAction("mesh", functools.partial(self.onZoneNameTriggered, zone, "mesh"))
             self.menuList.append(meshAction)
             m.addAction(meshAction)
-            
-            otherMeshAction = self.createAction("convex hull from another mesh ", functools.partial(self.onZoneNameTriggered, zone, "othermesh"))
-            self.menuList.append(otherMeshAction)
-            m.addAction(otherMeshAction)
             
         return menu
         
@@ -192,16 +265,12 @@ class ZoneManager():
             elif type == "sphere":
                 zone.addArea("sphere", self.newAreaPosition, None, None)
             elif type == "mesh":
-                resName = self.entityUnderMouse.getMesh().getName()
-                parentNode = self.entityUnderMouse.getParentSceneNode()
-                zone.addArea("mesh", parentNode.getPosition(), parentNode.getOrientation(), parentNode.getScale(), resName)
-            elif type == "othermesh":
                 dlg = NameInputDlg(QApplication.focusWidget())
                 resName = ""
                 if dlg.exec_():
                     resName = str(dlg.nameInput.text())
 
-                zone.addArea("othermesh", self.newAreaPosition, None, None, resName)
+                zone.addArea("mesh", self.newAreaPosition, None, None, resName)
                 
     def getZone(self, name):
         for zone in self.zoneList:

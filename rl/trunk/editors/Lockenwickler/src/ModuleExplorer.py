@@ -307,9 +307,11 @@ class ModuleExplorer(QWidget):
             childItem.setIcon(0, QIcon("media/icons/dissociatecell.png"))
             childItem.setIcon(1, QIcon("media/icons/14_layer_visible.png"))
             
+            i = 0
             for area in zone.areaList:
                 childItem2 = QTreeWidgetItem(childItem)
-                childItem2.setText(0, "Area " + str(area.id))
+                childItem2.setText(0, "Area " + str(i))
+                i += 1
                 
     def setCurrentModule(self, module):
         self.module = module

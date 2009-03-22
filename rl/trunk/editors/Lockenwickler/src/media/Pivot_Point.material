@@ -94,6 +94,31 @@ material Lockenwickler_Area
 	}
 }
 
+material Lockenwickler_Area_Subtract
+{
+	technique
+	{
+                pass
+		{
+                        depth_write off
+                        scene_blend alpha_blend
+                        
+			ambient 0.0 0.0 1.0 0.2
+			diffuse 0.0 0.0 1.0 0.2
+			emissive 0.0 0.0 1.0 0.2
+		}
+
+		pass
+		{
+                        polygon_mode wireframe
+
+			ambient 0.0 0.0 1.0 1.0
+			diffuse 0.0 0.0 1.0 1.0
+			emissive 0.0 0.0 1.0 1.0
+		}
+	}
+}
+
 vertex_program PlainColor_VS cg
 {
 	source PlainColor.cg
