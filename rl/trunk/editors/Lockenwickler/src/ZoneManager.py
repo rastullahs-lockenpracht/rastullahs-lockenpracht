@@ -114,11 +114,11 @@ class Zone():
             self.areaCounter = self.areaCounter + 1
         
     def hide(self):
-        self.sceneManager.getRootSceneNode().detachChild(self.zoneNode)
+        self.sceneManager.getRootSceneNode().removeChild(self.zoneNode)
         self.isHidden = True
     
     def show(self):
-        self.sceneManager.getRootSceneNode().attachChild(self.zoneNode)
+        self.sceneManager.getRootSceneNode().addChild(self.zoneNode)
         self.isHidden = False
         
     def __del__(self):

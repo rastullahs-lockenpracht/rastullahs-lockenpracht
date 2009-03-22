@@ -135,6 +135,15 @@ class ModuleExplorer(QWidget):
                 return
             self.mapSelectedCallback(name.replace("Scene: ", ""), str(item.child(0).text(0)).replace("Map: ", ""))
             self.lastSelectedMap = name
+        elif name.startswith("Zone: "):
+            if self.moduleManager and column == 1:
+                if self.moduleManager.zoneManager.getZone(name.replace("Zone: ", "")).isHidden:
+                    item.setIcon(1 , QIcon("media/icons/14_layer_visible.png"))
+                    self.moduleManager.zoneManager.getZone(name.replace("Zone: ", "")).show()
+                else:
+                    item.setIcon(1 , QIcon("media/icons/14_layer_invisible.png"))
+                    self.moduleManager.zoneManager.getZone(name.replace("Zone: ", "")).hide()
+                
         else:
             self.mapSelectedCallback(str(item.parent().parent().text(0)).replace("Scene: ", ""), str(item.parent().text(0)).replace("Map: ", ""))
             self.lastSelectedMap = name
@@ -296,7 +305,8 @@ class ModuleExplorer(QWidget):
             childItem = QTreeWidgetItem(parentItem) 
             childItem.setText(0, "Zone: " + zone.name)
             childItem.setIcon(0, QIcon("media/icons/dissociatecell.png"))
-        
+            childItem.setIcon(1, QIcon("media/icons/14_layer_visible.png"))
+            
             for area in zone.areaList:
                 childItem2 = QTreeWidgetItem(childItem)
                 childItem2.setText(0, "Area " + str(area.id))
