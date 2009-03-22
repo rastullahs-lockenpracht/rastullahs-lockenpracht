@@ -22,6 +22,36 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import ogre.renderer.OGRE as og
 
+class ExplorerOptionsDlg(QDialog):
+    def __init__(self, lights, gameObjects, entities, zones, parent = None):
+        super(ExplorerOptionsDlg, self).__init__(parent)
+        
+        buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        layout = QVBoxLayout()
+        
+        self.lightCheckBox = QCheckBox("Show Lights")
+        self.lightCheckBox.setChecked(lights)        
+        layout.addWidget(self.lightCheckBox)
+        
+        self.gameObjectsCheckBox = QCheckBox("Show Game-Objects")
+        self.gameObjectsCheckBox.setChecked(gameObjects)        
+        layout.addWidget(self.gameObjectsCheckBox)
+        
+        self.entitiesCheckBox = QCheckBox("Show Entities")
+        self.entitiesCheckBox.setChecked(entities)        
+        layout.addWidget(self.entitiesCheckBox)
+        
+        self.zonesCheckBox = QCheckBox("Show Zones")
+        self.zonesCheckBox.setChecked(zones)        
+        layout.addWidget(self.zonesCheckBox)
+        
+        layout.addWidget(buttonBox)
+        layout.setContentsMargins(2, 2, 2, 2)
+        self.setLayout(layout)
+        
+        self.connect(buttonBox, SIGNAL("accepted()"), self, SLOT("accept()"))        
+        self.connect(buttonBox, SIGNAL("rejected()"), self, SLOT("reject()"))
+
 class NameInputDlg(QDialog):
     def __init__(self, parent = None):
         super(NameInputDlg, self).__init__(parent)
@@ -77,6 +107,11 @@ class ModuleExplorer(QWidget):
         
         self.lastSelectedMap = None
         self.onMenuPoint = None
+        
+        self.showLights = True
+        self.showGameObjects = True
+        self.showEntities = True
+        self.showZones = True
         
     def onClick(self, item, column):
         if self.mapSelectedCallback is None:
@@ -142,8 +177,22 @@ class ModuleExplorer(QWidget):
                 newZoneAction = QAction("New Zone",  self)
                 menu.addAction(newZoneAction)
                 self.connect(newZoneAction, SIGNAL("triggered()"), self.onNewZone)
-                
+            
+            menu.addSeparator()
+            optionsAction= QAction("Open Explorer Options",  self)
+            menu.addAction(optionsAction)
+            self.connect(optionsAction, SIGNAL("triggered()"), self.onOptions)
+            
             menu.exec_(QCursor().pos())
+    
+    def onOptions(self):
+        dlg = ExplorerOptionsDlg(self.showLights, self.showGameObjects, self.showEntities, self.showZones, self)
+        if dlg.exec_():
+            self.showLights = dlg.lightCheckBox.isChecked()
+            self.showGameObjects = dlg.gameObjectsCheckBox.isChecked()
+            self.showEntities = dlg.entitiesCheckBox.isChecked()
+            self.showZones = dlg.zonesCheckBox.isChecked()
+            self.updateView()
             
     def onHideMap(self):
         if self.module:
@@ -193,6 +242,7 @@ class ModuleExplorer(QWidget):
 
     def parseMap(self, map, sceneRootItem):
         childItem =  QTreeWidgetItem(sceneRootItem)
+        sceneRootItem.setExpanded(True)
         mn = "Map: " + map.mapName
         
         childItem.setIcon(1 , QIcon("media/icons/14_layer_visible.png"))
@@ -202,24 +252,35 @@ class ModuleExplorer(QWidget):
         childItem.setText(0, mn)
         if mn == self.lastSelectedMap:
             childItem.setSelected(True)
-            childItem.parent().setExpanded(True)
+            childItem.setExpanded(True)
             
+        if self.showZones:
             self.parseZone(map, childItem)
-        i = 0
-        while i < map.mapNode.numChildren():                
-            childItem2 = QTreeWidgetItem(childItem) 
-            childItem2.setText(0, map.mapNode.getChild(i).getName())            
             
-            thetype = None
-            try:
-                thetype = str(type(map.mapNode.getChild(i).getAttachedObject(0)))
-            except:
-                i = i+1
-                continue
-                
-            childItem3 = QTreeWidgetItem(childItem2) 
-            childItem3.setText(0, thetype)
+        i = 0
+        while i < map.mapNode.numChildren(): 
+            if map.mapNode.getChild(i).getName().startswith("light_") and self.showLights:
+                childItem2 = QTreeWidgetItem(childItem) 
+                childItem2.setText(0, map.mapNode.getChild(i).getName()) 
+            elif map.mapNode.getChild(i).getName().startswith("gameobject_") and self.showGameObjects:
+                childItem2 = QTreeWidgetItem(childItem) 
+                childItem2.setText(0, map.mapNode.getChild(i).getName()) 
+            elif map.mapNode.getChild(i).getName().startswith("entity_") and self.showEntities:
+                childItem2 = QTreeWidgetItem(childItem) 
+                childItem2.setText(0, map.mapNode.getChild(i).getName()) 
             i = i+1
+
+        
+#            thetype = None
+#            try:
+#                thetype = str(type(map.mapNode.getChild(i).getAttachedObject(0)))
+#            except:
+#                i = i+1
+#                continue
+#                
+#            childItem3 = QTreeWidgetItem(childItem2) 
+#            childItem3.setText(0, thetype)
+#            i = i+1
             
 
 # this crashed in linux
@@ -236,6 +297,10 @@ class ModuleExplorer(QWidget):
             childItem.setText(0, "Zone: " + zone.name)
             childItem.setIcon(0, QIcon("media/icons/dissociatecell.png"))
         
+            for area in zone.areaList:
+                childItem2 = QTreeWidgetItem(childItem)
+                childItem2.setText(0, "Area " + str(area.id))
+                
     def setCurrentModule(self, module):
         self.module = module
         self.updateView()

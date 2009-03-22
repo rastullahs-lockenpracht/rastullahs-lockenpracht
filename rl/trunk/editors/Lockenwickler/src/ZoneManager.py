@@ -55,7 +55,7 @@ class Area():
         if not parentZone:
            raise Exception("No parentZone")
 
-        
+        self.id = id
         self.areaNode = parentZone.zoneNode.createChildSceneNode("area_" + parentZone.name + " " + str(id))
         self.meshFile = meshFile
         self.areaEntity = None
@@ -188,20 +188,20 @@ class ZoneManager():
     def onZoneNameTriggered(self, zone, type):
         if self.newAreaPosition is not None:
             if type == "box":
-                zone.addArea(self.sceneManager, "box", self.newAreaPosition, None, None)
+                zone.addArea("box", self.newAreaPosition, None, None)
             elif type == "sphere":
-                zone.addArea(self.sceneManager, "sphere", self.newAreaPosition, None, None)
+                zone.addArea("sphere", self.newAreaPosition, None, None)
             elif type == "mesh":
                 resName = self.entityUnderMouse.getMesh().getName()
                 parentNode = self.entityUnderMouse.getParentSceneNode()
-                zone.addArea(self.sceneManager, "mesh", parentNode.getPosition(), parentNode.getOrientation(), parentNode.getScale(), resName)
+                zone.addArea("mesh", parentNode.getPosition(), parentNode.getOrientation(), parentNode.getScale(), resName)
             elif type == "othermesh":
                 dlg = NameInputDlg(QApplication.focusWidget())
                 resName = ""
                 if dlg.exec_():
                     resName = str(dlg.nameInput.text())
 
-                zone.addArea(self.sceneManager, "othermesh", self.newAreaPosition, None, None, resName)
+                zone.addArea("othermesh", self.newAreaPosition, None, None, resName)
                 
     def getZone(self, name):
         for zone in self.zoneList:
