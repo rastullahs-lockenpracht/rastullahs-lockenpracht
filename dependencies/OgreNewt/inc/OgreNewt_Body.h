@@ -163,9 +163,9 @@ public:
         sets a custom transform callback for the rigid body. see the docs on setCustomForceAndTorqueCallback for a description of how to use this function.
     */
     void setCustomTransformCallback( TransformCallback callback );
-    template<class c> void setCustomTransformCallback( boost::function<void(c*, OgreNewt::Body*, const Ogre::Quaternion&, const Ogre::Vector3&)> callback, c *instancedClassPointer )
+    template<class c> void setCustomTransformCallback( boost::function<void(c*, OgreNewt::Body*, const Ogre::Quaternion&, const Ogre::Vector3&, int)> callback, c *instancedClassPointer )
     {
-        setCustomTransformCallback( boost::bind(callback, instancedClassPointer, _1, _2, _3) );
+        setCustomTransformCallback( boost::bind(callback, instancedClassPointer, _1, _2, _3, _4) );
     }
 
     //! remove any transform callbacks.

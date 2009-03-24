@@ -50,6 +50,7 @@
     \section problems Problems and missing features in this version
 
     Problems and missing features in this version
+        - HeightFieldCollision
         - PlayerController not finished
         - the convexcast seems to have difficulties with more than one contact (I've segfault when debugging it with the OgreNewt::Debugger...)
           I added a hack, it only creates one contact at the maximum at the moment! <-- this is probably due to an error in newton
