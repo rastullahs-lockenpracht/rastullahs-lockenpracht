@@ -490,9 +490,10 @@ class Map():
                         
             i = i+1
             
+        self.zoneManager.saveZonesToXml(root, self)
         indent(root)
         xml.ElementTree(root).write(self.pathToMapFile)
-        
+
 # caused a linux crash
 #        iter = self.mapNode.getChildIterator()
 #        while iter.hasMoreElements():
@@ -705,7 +706,22 @@ class Module():
                 for m in s.mapFiles:
                         if m.mapName == mapName:
                             return m
-                            
+
+class ProgressBarThread(QThread):
+    def __init__(self, min, max, moduleName):
+        QThread.__init__(self)
+        self.progress = QProgressDialog("Loading " + moduleName, "Abort Loading", min, max, None);
+        self.progress.setWindowModality(Qt.WindowModal)
+
+    def setProgress(self, progress, labelText):
+        self.progress.setLabelText(labelText)
+        self.progress.setValue(progress)
+        
+    def run(self):
+        self.progress.show()
+        self.exec_()
+
+        
 class ModuleManager():
     dropCount = 0
     entityCustomOptionsDict = []
@@ -824,41 +840,38 @@ class ModuleManager():
     def loadModule(self, moduleName):
         t = og.Timer()
         
+#        self.progress = ProgressBarThread(0, 8, moduleName)
+#        self.progress.start()
+        
         for m in self.moduleList:
             if m.name == moduleName:
                 if m.hasDependencies: # load modules on wich the main module depends before the main module is loaded
                     for moduleDependencie in m.moduleDependencies:
                         for m2 in self.moduleList:
                             if m2.name == moduleDependencie:
+#                                self.progress.setProgress(2, "Loading Dependencie: " + moduleDependencie)
                                 m2.load()
                                 self.modelSelectionDialog.scanDirForModels(m2.moduleRoot)
                                 self.materialSelectionDialog.scanDirForMaterials(m2.moduleRoot)
                                 self.mainModuledependencieList.append(m2)
+
+#                self.progress.setProgress(4, "Loading " + moduleName)
                 m.load()
+#                self.progress.setProgress(6, "Scan for models...")
                 self.modelSelectionDialog.scanDirForModels(m.moduleRoot)
+#                self.progress.setProgress(8, "Scan for materials")
                 self.materialSelectionDialog.scanDirForMaterials(m.moduleRoot)
                 self.mainModule = m
                 self.moduleExplorer.setCurrentModule(m)
-                
-#        self.moduleExplorer.updateView()
-#        ModuleManager.dropCount += 1
-#        n = self.sceneManager.getRootSceneNode().createChildSceneNode()
-#        e = self.sceneManager.createEntity("west342wt346t",  "UniCube.mesh")
-#        e.setMaterialName("DepthMap")
-#
-#        e2 = self.sceneManager.createEntity("west342wt34635t",  "UniSphere.mesh")
-#        e2.setMaterialName("PlainColor")
-#        e2.getSubEntity(0).setCustomParameter(1, og.Vector4(0, 1, 0, 1))
-#        n.attachObject(e)
-#        n.attachObject(e2)
-#        n.setScale(og.Vector3(10, 5, 20))
-        
+
         if self.selectionBuffer is None:
             self.selectionBuffer = SelectionBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
 
 #        if self.depthBuffer is None:
 #            self.depthBuffer = DepthBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
-        
+
+
+#        self.progress.quit()
         print "Time to load module: " + str(t.getMilliseconds() / 1000.0) + " seconds"
         del t
 

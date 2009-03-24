@@ -18,6 +18,7 @@
  #################################################
 
 import functools
+import xml.etree.cElementTree as xml
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -89,7 +90,7 @@ class Area(og.UserDefinedObject):
         self.areaNode.attachObject(self.areaEntity)
         self.areaNode.setPosition(position)
         if orientation is not None:
-            self.areaNode.setOrientation(orientation.qw, orientation.qx, orientation.qy, orientation.qz)
+            self.areaNode.setOrientation(orientation.w, orientation.x, orientation.y, orientation.z)
         if scale is not None:
             self.areaNode.setScale(scale)
     
@@ -117,7 +118,7 @@ class Zone():
         self.name = name
         self.areaList = []
         self.lightList = []
-        self.soundListList = []
+        self.soundList = []
         self.triggerList = []
         self.areaCounter = 0
         self.sceneManager = sceneManager
@@ -217,6 +218,64 @@ class ZoneManager():
                     rot = og.Quaternion(qw, qx, qy, qz)
                     
                 z.addArea(type, pos, rot, scale, meshFile)
+            
+            
+            lightNodes = zone.getiterator("light")
+            for light in lightNodes:
+                name = light.attrib["name"]
+                z.lightList.append(name)
+                
+            soundNodes = zone.getiterator("sound")
+            for sound in soundNodes:
+                name = sound.attrib["name"]
+                z.soundList.append(name)
+            
+
+    def saveZonesToXml(self, root, map):
+        if len(map.zoneList) == 0:
+            return
+        
+        rootZonesElem = xml.SubElement(root, "zones")
+        for zone in map.zoneList:
+            zoneElem = xml.SubElement(rootZonesElem, "zone")
+            zoneElem.attrib["name"] = zone.name
+            
+            for area in zone.areaList:
+                areaElem = xml.SubElement(zoneElem, "area")
+                areaElem.attrib["type"] = area.type
+                
+                if area.type == "mesh" and area.meshFile is not None:
+                    areaElem.attrib["meshfile"] = area.meshFile
+                    
+                posElem = xml.SubElement(areaElem, "position")
+                posElem.attrib["x"] = str(area.areaNode.getPosition().x)
+                posElem.attrib["y"] = str(area.areaNode.getPosition().y)
+                posElem.attrib["z"] = str(area.areaNode.getPosition().z)
+                
+                rotElem = xml.SubElement(areaElem, "rotation")
+                rotElem.attrib["qw"] = str(area.areaNode.getOrientation().w)
+                rotElem.attrib["qx"] = str(area.areaNode.getOrientation().x)
+                rotElem.attrib["qy"] = str(area.areaNode.getOrientation().y)
+                rotElem.attrib["qz"] = str(area.areaNode.getOrientation().z)
+                
+                scaleElem = None
+                if area.type == "mesh":
+                    scaleElem = xml.SubElement(areaElem, "scale")
+                else:
+                    scaleElem = xml.SubElement(areaElem, "size")
+
+                scaleElem.attrib["x"] = str(area.areaNode.getScale().x)
+                scaleElem.attrib["y"] = str(area.areaNode.getScale().y)
+                scaleElem.attrib["z"] = str(area.areaNode.getScale().z)
+                
+            for lightName in zone.lightList:
+                lightElem = xml.SubElement(zoneElem, "light")
+                lightElem.attrib["name"] = lightName
+            
+            for soundName in zone.soundList:
+                soundElem = xml.SubElement(zoneElem, "sound")
+                soundElem.attrib["name"] = soundName
+                
     def deleteArea(self, area):
         for z in self.zoneList:
             for a in z.areaList:

@@ -522,7 +522,7 @@ class Lockenwickler(QtGui.QMainWindow):
             settings.setValue("MainWindow/Geometry",  QtCore.QVariant(self.saveGeometry()))
             settings.setValue("MainWIndow/DockWindows",  QtCore.QVariant(self.saveState()))
             
-            self.ogreRoot.shutdown()
+            #self.ogreRoot.shutdown()
         else:
             event.ignore()
 
