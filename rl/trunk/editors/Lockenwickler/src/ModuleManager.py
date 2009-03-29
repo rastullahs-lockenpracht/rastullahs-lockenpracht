@@ -917,14 +917,14 @@ class ModuleManager():
             so = self.selectionBuffer.onSelectionClick(screenX, screenY)
         
         if so is not None:
-            if not so.isPivot:
-                self.propertyWindow.showProperties(so)
-                
+            if not so.isPivot:                
                 if not controlDown and not shiftDown:
                     self.resetSelection()
                     so.setSelected(True)
                     self.userSelectionList.append(so)
-                    self.moduleExplorer.selectItems(self.userSelectionList)
+                    self.propertyWindow.showProperties(so)
+                    self.moduleExplorer.deselectAll()
+                    self.moduleExplorer.selectItem(so, True)
                     self.updatePivots()
                 elif controlDown and not shiftDown:
                     so.setSelected(True)
@@ -934,6 +934,7 @@ class ModuleManager():
                             return # object already selected
 
                     self.userSelectionList.append(so)
+                    self.propertyWindow.showProperties(so)
                     self.moduleExplorer.selectItem(so, True)
                     self.updatePivots()
 

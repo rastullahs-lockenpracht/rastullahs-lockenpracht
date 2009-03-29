@@ -21,7 +21,18 @@ import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import ogre.renderer.OGRE as og
-import ModuleManager 
+
+# get the light out of a light node
+def extractLight(node):
+        i = 0
+        num = node.numAttachedObjects()
+        while i < node.numAttachedObjects():
+            c = node.getAttachedObject(i)
+            tp = str(type(c))
+            if tp == "<class 'ogre.renderer.OGRE._ogre_.Light'>":
+                return c
+            
+            i += 1
 
 class ExplorerOptionsDlg(QDialog):
     def __init__(self, lights, gameObjects, entities, zones, parent = None):
@@ -131,11 +142,21 @@ class ModuleExplorer(QWidget):
     
     def selectItem(self, so, select):
         nodeName = so.entity.getParentNode().getName()
-        items = self.sceneTreeView.findItems(nodeName, Qt.MatchFixedString | Qt.MatchRecursive)
+       
+        items = None
+        
+        if nodeName.startswith("light_") and self.showLights: 
+            items = self.sceneTreeView.findItems(extractLight(so.entity.getParentNode()).getName(), Qt.MatchFixedString | Qt.MatchRecursive)    
+        elif nodeName.startswith("gameobject_") and self.showGameObjects:
+            go = so.entity.getUserObject()
+            items = self.sceneTreeView.findItems(go.gocName + " id:" + str(go.inWorldId), Qt.MatchFixedString | Qt.MatchRecursive)    
+        elif nodeName.startswith("entity_") and self.showEntities:
+            items = self.sceneTreeView.findItems(so.entityName, Qt.MatchFixedString | Qt.MatchRecursive)    
         
         if select:
             for item in items:
                 self.sceneTreeView.setItemSelected(item, True)
+                self.sceneTreeView.expandItem(item)
         else:
             for item in items:
                 self.sceneTreeView.setItemSelected(item, False)
@@ -321,7 +342,7 @@ class ModuleExplorer(QWidget):
         while i < map.mapNode.numChildren(): 
             if map.mapNode.getChild(i).getName().startswith("light_") and self.showLights:
                 childItem2 = QTreeWidgetItem(childItem) 
-                childItem2.setText(0, ModuleManager.extractLight(map.mapNode.getChild(i)).getName()) 
+                childItem2.setText(0, extractLight(map.mapNode.getChild(i)).getName()) 
             elif map.mapNode.getChild(i).getName().startswith("gameobject_") and self.showGameObjects:
                 childItem2 = QTreeWidgetItem(childItem) 
                 go = map.mapNode.getChild(i).getAttachedObject(0).getUserObject()

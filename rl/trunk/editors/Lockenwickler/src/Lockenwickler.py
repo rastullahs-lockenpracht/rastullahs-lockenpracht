@@ -37,6 +37,7 @@ from ConsoleWindow import *
 from ModuleManager import ModuleManager
 from ModuleExplorer import *
 from NewModuleWizard import *
+from MovePivot import *
 from PivotRenderQueueListener import *
 
 import OgreMainWindow
