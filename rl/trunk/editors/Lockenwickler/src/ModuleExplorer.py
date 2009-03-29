@@ -21,6 +21,7 @@ import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import ogre.renderer.OGRE as og
+import ModuleManager 
 
 class ExplorerOptionsDlg(QDialog):
     def __init__(self, lights, gameObjects, entities, zones, parent = None):
@@ -78,6 +79,7 @@ class ModuleTreeWidget(QTreeWidget):
         self.setAnimated(True)
 
         self.setHeaderLabels(["Structure", "Visibility"])
+        self.setSelectionMode(3)
         
     def setMenuCallback(self, callback):
         self.onMenuCallback = callback
@@ -92,7 +94,8 @@ class ModuleExplorer(QWidget):
         
         self.sceneTreeView.setMenuCallback(self.onMenu)
         self.connect(self.sceneTreeView, SIGNAL("itemClicked (QTreeWidgetItem *,int)"), self.onClick)
-        
+        self.connect(self.sceneTreeView, SIGNAL("itemSelectionChanged ()"), self.onSelectionChanged)
+
         vBoxLayout = QVBoxLayout()
         vBoxLayout.addWidget(self.sceneTreeView)
         vBoxLayout.setContentsMargins(0, 0, 0, 0)
@@ -104,6 +107,7 @@ class ModuleExplorer(QWidget):
         
         self.moduleManager = None
         self.mapSelectedCallback = None
+        self.mapItems = []
         
         self.lastSelectedMap = None
         self.onMenuPoint = None
@@ -112,7 +116,38 @@ class ModuleExplorer(QWidget):
         self.showGameObjects = True
         self.showEntities = True
         self.showZones = True
+
+    def selectItems(self, selectedItems):
+        self.deselectAll()
         
+        if selectedItems is None:
+            return
+        
+        for so in selectedItems:
+            nodeName = so.entity.getParentNode().getName()
+            items = self.sceneTreeView.findItems(nodeName, Qt.MatchFixedString | Qt.MatchRecursive)
+            for item in items:
+                self.sceneTreeView.setItemSelected(item, True)
+    
+    def selectItem(self, so, select):
+        nodeName = so.entity.getParentNode().getName()
+        items = self.sceneTreeView.findItems(nodeName, Qt.MatchFixedString | Qt.MatchRecursive)
+        
+        if select:
+            for item in items:
+                self.sceneTreeView.setItemSelected(item, True)
+        else:
+            for item in items:
+                self.sceneTreeView.setItemSelected(item, False)
+                
+    def onSelectionChanged(self):
+        pass
+
+    def deselectAll(self):
+        for item in self.sceneTreeView.selectedItems():
+            self.sceneTreeView.setItemSelected(item, False)
+
+
     def onClick(self, item, column):
         if self.mapSelectedCallback is None:
             return
@@ -126,15 +161,7 @@ class ModuleExplorer(QWidget):
                 else:
                     item.setIcon(1 , QIcon("media/icons/14_layer_invisible.png"))
                     self.module.getMap(name.replace("Map: ", "")).hide()
-                    
-            self.mapSelectedCallback(str(item.parent().text(0)).replace("Scene: ", ""), name.replace("Map: ", ""))
-            self.lastSelectedMap = name
-        elif name.startswith("Scene: "):
-            if item.childCount > 0:
-                self.mapSelectedCallback(name.replace("Scene: ", ""), None)
-                return
-            self.mapSelectedCallback(name.replace("Scene: ", ""), str(item.child(0).text(0)).replace("Map: ", ""))
-            self.lastSelectedMap = name
+            
         elif name.startswith("Zone: "):
             if self.moduleManager and column == 1:
                 if self.moduleManager.zoneManager.getZone(name.replace("Zone: ", "")).isHidden:
@@ -143,10 +170,6 @@ class ModuleExplorer(QWidget):
                 else:
                     item.setIcon(1 , QIcon("media/icons/14_layer_invisible.png"))
                     self.moduleManager.zoneManager.getZone(name.replace("Zone: ", "")).hide()
-                
-        else:
-            self.mapSelectedCallback(str(item.parent().parent().text(0)).replace("Scene: ", ""), str(item.parent().text(0)).replace("Map: ", ""))
-            self.lastSelectedMap = name
             
     def onMenu(self, point):
         if self.moduleManager is not None:
@@ -175,6 +198,9 @@ class ModuleExplorer(QWidget):
                 revealMapAction = QAction("Show",  self)
                 menu.addAction(revealMapAction)
                 self.connect(revealMapAction, SIGNAL("triggered()"), self.onShowMap)
+                setActiveMapAction = QAction("Set Active",  self)
+                menu.addAction(setActiveMapAction)
+                self.connect(setActiveMapAction, SIGNAL("triggered()"), self.onSetActiveMap)
                 
             deleteAction= QAction("Delete",  self)
             menu.addAction(deleteAction)
@@ -237,8 +263,31 @@ class ModuleExplorer(QWidget):
     
     def onDelete(self):
         print "delete"
-      
+        
+    def paintLastSelectedMapBlue(self):
+        print self.lastSelectedMap
+        for item in self.mapItems:
+            if str(item.text(0)) == self.lastSelectedMap:
+                brush = item.foreground(0)
+                brush.setColor(QColor("blue"))
+                item.setForeground(0, brush)
+                item.setIcon(0, QIcon("media/icons/2rightarrow.png"))
+            else:
+                brush = item.foreground(0)
+                brush.setColor(QColor("black"))
+                item.setForeground(0, brush)
+                item.setIcon(0, QIcon())
+                
+    def onSetActiveMap(self):
+        item = self.sceneTreeView.currentItem()
+        self.lastSelectedMap = str(item.text(0))
+        self.paintLastSelectedMapBlue()
+        sceneName = str(item.parent().text(0).replace("Scene: ", ""))
+        mapName = str(item.text(0).replace("Map: ", ""))
+        self.mapSelectedCallback(sceneName, mapName)
+        
     def updateView(self):
+        self.mapItems = []
         self.sceneTreeView.clear()
         
         for s in self.module.scenes:
@@ -247,10 +296,12 @@ class ModuleExplorer(QWidget):
             
             for m in s.mapFiles:
                 self.parseMap(m, sceneRootItem)
-
+        
+        self.paintLastSelectedMapBlue()
 
     def parseMap(self, map, sceneRootItem):
         childItem =  QTreeWidgetItem(sceneRootItem)
+        self.mapItems.append(childItem)
         sceneRootItem.setExpanded(True)
         mn = "Map: " + map.mapName
         
@@ -270,13 +321,14 @@ class ModuleExplorer(QWidget):
         while i < map.mapNode.numChildren(): 
             if map.mapNode.getChild(i).getName().startswith("light_") and self.showLights:
                 childItem2 = QTreeWidgetItem(childItem) 
-                childItem2.setText(0, map.mapNode.getChild(i).getName()) 
+                childItem2.setText(0, ModuleManager.extractLight(map.mapNode.getChild(i)).getName()) 
             elif map.mapNode.getChild(i).getName().startswith("gameobject_") and self.showGameObjects:
                 childItem2 = QTreeWidgetItem(childItem) 
-                childItem2.setText(0, map.mapNode.getChild(i).getName()) 
+                go = map.mapNode.getChild(i).getAttachedObject(0).getUserObject()
+                childItem2.setText(0, go.gocName + " id:" + str(go.inWorldId)) 
             elif map.mapNode.getChild(i).getName().startswith("entity_") and self.showEntities:
                 childItem2 = QTreeWidgetItem(childItem) 
-                childItem2.setText(0, map.mapNode.getChild(i).getName()) 
+                childItem2.setText(0, map.mapNode.getChild(i).getAttachedObject(0).getName()) 
             i = i+1
 
         

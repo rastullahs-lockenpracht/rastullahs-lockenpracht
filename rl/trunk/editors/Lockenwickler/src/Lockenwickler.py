@@ -34,7 +34,7 @@ from ModelSelectionDialog import *
 from MaterialSelectionDialog import *
 from GameObjectClassView import *
 from ConsoleWindow import *
-from ModuleManager import *
+from ModuleManager import ModuleManager
 from ModuleExplorer import *
 from NewModuleWizard import *
 from PivotRenderQueueListener import *

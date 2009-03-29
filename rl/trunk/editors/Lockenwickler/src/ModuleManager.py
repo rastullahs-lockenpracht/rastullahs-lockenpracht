@@ -904,6 +904,7 @@ class ModuleManager():
             if self.modelSelectionDialog.listWidget.currentItem() is not None:
                 meshFile = str(self.modelSelectionDialog.listWidget.currentItem().text())
                 self.startDropModelAction(meshFile, ray)
+                self.moduleExplorer.updateView()
                 return
             else:
                 print "Warning: OneClickEntityPlacement still runing on without any selected mesh!"
@@ -923,6 +924,7 @@ class ModuleManager():
                     self.resetSelection()
                     so.setSelected(True)
                     self.userSelectionList.append(so)
+                    self.moduleExplorer.selectItems(self.userSelectionList)
                     self.updatePivots()
                 elif controlDown and not shiftDown:
                     so.setSelected(True)
@@ -932,6 +934,7 @@ class ModuleManager():
                             return # object already selected
 
                     self.userSelectionList.append(so)
+                    self.moduleExplorer.selectItem(so, True)
                     self.updatePivots()
 
 
@@ -940,12 +943,15 @@ class ModuleManager():
                         if so == selo:
                             so.setSelected(False)
                             self.userSelectionList.remove(selo)
+                            self.moduleExplorer.selectItem(selo, False)
                     self.updatePivots()
+                
             else:
                 #so.entity is the pivot direction that was clicked
                 self.pivot.startTransforming(so.entity,  self.userSelectionList)
         else:
             self.resetSelection() # click in empty space, deselect everything
+            self.moduleExplorer.selectItems(None)
             self.propertyWindow.clear()
             if self.pivot is not None:
                 self.pivot.hide()
@@ -1140,6 +1146,7 @@ class ModuleManager():
             self.dropGO.setPosition(ray.getPoint(50))
 
     def finishDropGameObjectAction(self, ray):
+        self.moduleExplorer.updateView()
         self.dropGO = None
         return
 
@@ -1175,6 +1182,7 @@ class ModuleManager():
             self.dropNode.setPosition(ray.getPoint(50))
     
     def finishDropModelAction(self, ray):
+        self.moduleExplorer.updateView()
         return
 
     def startDropMaterialAction(self, text):
@@ -1246,6 +1254,7 @@ class ModuleManager():
         n.attachObject(light)
         n.attachObject(e)
         n.setPosition(pos)
+        self.moduleExplorer.updateView()
         
     def addSpotLight(self):
         if self.currentMap is None:
@@ -1269,10 +1278,12 @@ class ModuleManager():
         n.attachObject(light)
         n.attachObject(e)
         n.setPosition(pos)
+        self.moduleExplorer.updateView()
         
     def addZoneToMap(self, name):
         self.zoneManager.createZone(name)
-    
+        self.moduleExplorer.updateView()
+        
     def setPlayerStart(self):
         self.mainModule.playerStart = str(self.playerStartGameObjectId)
         print "setting Player Start to " + str(self.playerStartGameObjectId)
