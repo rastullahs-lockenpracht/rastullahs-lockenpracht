@@ -2,7 +2,7 @@
 #include "OgreNewt_Debugger.h"
 #include "OgreNewt_World.h"
 
-#ifdef __APPLE_
+#ifdef __APPLE__
 #   include <Ogre/OgreFrameListener.h>
 #   include <Ogre/OgreRenderWindow.h>
 #else

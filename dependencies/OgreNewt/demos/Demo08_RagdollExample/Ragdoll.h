@@ -8,7 +8,9 @@
 
 #include <OgreNewt.h>
 #include <Ogre.h>
+#ifndef TIXML_USE_STL
 #define TIXML_USE_STL
+#endif
 #include <tinyxml.h>
 
 

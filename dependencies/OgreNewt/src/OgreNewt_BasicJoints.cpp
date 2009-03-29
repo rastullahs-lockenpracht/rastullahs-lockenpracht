@@ -2,6 +2,14 @@
 #include "OgreNewt_World.h"
 #include "OgreNewt_Body.h"
 
+#ifdef __APPLE__
+#   include <Ogre/OgreLogManager.h>
+#   include <Ogre/OgreStringConverter.h>
+#else
+#   include <OgreLogManager.h>
+#   include <OgreStringConverter.h>
+#endif
+
 namespace OgreNewt
 {
 

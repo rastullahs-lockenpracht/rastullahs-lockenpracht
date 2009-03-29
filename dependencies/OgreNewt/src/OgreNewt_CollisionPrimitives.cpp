@@ -118,7 +118,7 @@ namespace OgreNewt
         ConvexHull::ConvexHull(const World* world) : ConvexCollision( world )
         {}
 
-        ConvexHull::ConvexHull( const World* world, Ogre::Entity* obj, const Ogre::Quaternion& orient, const Ogre::Vector3& pos ) : ConvexCollision( world )
+        ConvexHull::ConvexHull( const World* world, Ogre::Entity* obj, const Ogre::Quaternion& orient, const Ogre::Vector3& pos, Ogre::Real tolerance ) : ConvexCollision( world )
         {
             Ogre::Vector3 scale(1.0,1.0,1.0);
             
@@ -232,7 +232,7 @@ namespace OgreNewt
             OgreNewt::Converters::QuatPosToMatrix( orient, pos, &matrix[0] );
     
             //okay, let's try making the ConvexHull!
-            m_col = NewtonCreateConvexHull( m_world->getNewtonWorld(), (int)total_verts, (float*)&vertices[0].x, sizeof(Ogre::Vector3), 0.001f, &matrix[0] );
+            m_col = NewtonCreateConvexHull( m_world->getNewtonWorld(), (int)total_verts, (float*)&vertices[0].x, sizeof(Ogre::Vector3), tolerance, &matrix[0] );
 
             delete []vertices;
 
@@ -240,13 +240,13 @@ namespace OgreNewt
 
 
         // OgreNewt::CollisionPrimitives::ConvexHull
-        ConvexHull::ConvexHull( const World* world, const Ogre::Vector3* verts, int vertcount, const Ogre::Quaternion& orient, const Ogre::Vector3& pos ) : ConvexCollision( world )
+        ConvexHull::ConvexHull( const World* world, const Ogre::Vector3* verts, int vertcount, const Ogre::Quaternion& orient, const Ogre::Vector3& pos, Ogre::Real tolerance ) : ConvexCollision( world )
         {
             float matrix[16];
             OgreNewt::Converters::QuatPosToMatrix( orient, pos, &matrix[0] );
 
             //make the collision primitive.
-            m_col = NewtonCreateConvexHull( m_world->getNewtonWorld(), vertcount, (float*)&verts[0].x, sizeof(Ogre::Vector3), 0.001f, &matrix[0]);
+            m_col = NewtonCreateConvexHull( m_world->getNewtonWorld(), vertcount, (float*)&verts[0].x, sizeof(Ogre::Vector3), tolerance, &matrix[0]);
         }
 
 
@@ -741,7 +741,7 @@ namespace OgreNewt
         Pyramid::Pyramid(const World* world) : ConvexCollision( world )
         {}
 
-        Pyramid::Pyramid( const World* world, const Ogre::Vector3& size, const Ogre::Quaternion& orient, const Ogre::Vector3& pos ) : ConvexCollision( world )
+        Pyramid::Pyramid( const World* world, const Ogre::Vector3& size, const Ogre::Quaternion& orient, const Ogre::Vector3& pos, Ogre::Real tolerance ) : ConvexCollision( world )
         {
             float matrix[16];
 
@@ -770,7 +770,7 @@ namespace OgreNewt
             vertices [idx++] = 0.0f;
 
             //make the collision primitive.
-            m_col = NewtonCreateConvexHull( m_world->getNewtonWorld(), 5, vertices, sizeof(float)*3, 0.001f, &matrix[0]);
+            m_col = NewtonCreateConvexHull( m_world->getNewtonWorld(), 5, vertices, sizeof(float)*3, tolerance, &matrix[0]);
 
 
             delete []vertices;

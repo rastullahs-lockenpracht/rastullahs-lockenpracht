@@ -219,9 +219,10 @@ namespace OgreNewt
                 \param node pointer to an Ogre::SceneNode with a single entity attached
                 \param orient orientation offset of the primitive
                 \param pos position offset of the primitive
+                \parem tolerance a tolerance passed to newton
             */
             ConvexHull( const World* world, Ogre::Entity* ent, 
-                const Ogre::Quaternion& orient = Ogre::Quaternion::IDENTITY, const Ogre::Vector3& pos = Ogre::Vector3::ZERO );
+                const Ogre::Quaternion& orient = Ogre::Quaternion::IDENTITY, const Ogre::Vector3& pos = Ogre::Vector3::ZERO, Ogre::Real tolerance = 0.001f );
 
             /*!
                 Overloaded constructor.  pass a pointer to an array of vertices and the hull will be made from that.
@@ -230,9 +231,10 @@ namespace OgreNewt
                 \param vertcount number ot vetices in the array
                 \param orient orientation offset of the primitive
                 \param pos position offset of the primitive
+                \param tolerance a tolerance passed to newton
             */
             ConvexHull( const World* world, const Ogre::Vector3* verts, int vertcount,
-                const Ogre::Quaternion& orient = Ogre::Quaternion::IDENTITY, const Ogre::Vector3& pos = Ogre::Vector3::ZERO );
+                const Ogre::Quaternion& orient = Ogre::Quaternion::IDENTITY, const Ogre::Vector3& pos = Ogre::Vector3::ZERO, Ogre::Real tolerance = 0.001f );
 
             //! destructor
             ~ConvexHull() {}
@@ -416,9 +418,10 @@ namespace OgreNewt
                 \param size Ogre::Vector3 size.
                 \param orient orientation offset of the primitive
                 \param pos position offset of the primitive
+                \param tolerance a tolerance passed to newton
             */
             Pyramid( const World* world, const Ogre::Vector3& size,
-                const Ogre::Quaternion& orient = Ogre::Quaternion::IDENTITY, const Ogre::Vector3& pos = Ogre::Vector3::ZERO );
+                const Ogre::Quaternion& orient = Ogre::Quaternion::IDENTITY, const Ogre::Vector3& pos = Ogre::Vector3::ZERO, Ogre::Real tolerance = 0.001f );
 
             //! destructor
             ~Pyramid() {}
