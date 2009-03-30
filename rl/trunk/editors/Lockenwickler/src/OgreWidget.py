@@ -105,13 +105,11 @@ class OgreWidget(QtGui.QWidget):
         if self.renderWindow:
             self.renderWindow.resize(event.size().width(), event.size().height())
             self.renderWindow.windowMovedOrResized()
-
-            if platform.system() == "Linux":
-                self.viewport._updateDimensions() # shouldn't actually be needed but it doesn't work without it on linux
+            self.viewport.update()
 
             self.renderWindow.update(True)
             self.ogreRoot.renderOneFrame()
-
+            
             if self.camera:
                 self.camera.setAspectRatio(float(event.size().width()) / float(event.size().height()));
                 

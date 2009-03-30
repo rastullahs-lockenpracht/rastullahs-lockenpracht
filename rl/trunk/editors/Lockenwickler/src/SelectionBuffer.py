@@ -33,6 +33,17 @@ def extractLight(node):
             if tp == "<class 'ogre.renderer.OGRE._ogre_.Light'>":
                 return c
             i += 1
+            
+# get the light out of a light node
+def extractEntity(node):
+        i = 0
+        num = node.numAttachedObjects()
+        while i < node.numAttachedObjects():
+            c = node.getAttachedObject(i)
+            tp = str(type(c))
+            if tp == "<class 'ogre.renderer.OGRE._ogre_.Entity'>":
+                return c
+            i += 1
 
 # a class to store information about a object that got selected
 class SelectionObject():
@@ -124,10 +135,12 @@ class SelectionRenderListener(og.RenderTargetListener):
 
         
 class SelectionBuffer():
-    def __init__(self, sceneManager,  renderTarget):
+    def __init__(self, sceneManager,  renderTarget, moduleManager, zoneManager):
         self.sceneMgr = sceneManager
         self.camera = sceneManager.getCamera("MainCam")
-
+        self.moduleManager = moduleManager
+        self.zoneManager = zoneManager
+        
         self.renderTarget = renderTarget
         
         # This is the material listener - Note: it is controlled by a seperate
@@ -254,15 +267,26 @@ class SelectionBuffer():
         return None
         
     def manualSelectObjects(self, itemNodes):
-        return
-        
         items = []
-        for item in itemNodes:
-            if item.startswith("light_"):
-                pass
-            obj = self.sceneMgr.getRootSceneNode().getChild(item).getAttachedObject(0)
-            so = SelectionObject(obj)
-            items.append(so)
+        for key in itemNodes:
+            parentNode = None
+            if key.startswith("Map: "):
+                parentNode = self.moduleManager.mainModule.getMap(key.replace("Map: ", "")).mapNode
+                for nodeName in itemNodes[key]:                    
+                    n = parentNode.getChild(nodeName).getAttachedObject(0)
+                    if parentNode.getChild(nodeName).getName().startswith("light_"):
+                        n = extractEntity(parentNode.getChild(nodeName))
+                        
+                    so = SelectionObject(n)
+                    so.setSelected(True)
+                    items.append(so)
+            elif key.startswith("Zone: "):
+                parentNode = self.zoneManager.getZone(key.replace("Zone: ", "")).zoneNode
+                for nodeName in itemNodes[key]:
+                    obj = parentNode.getChild(nodeName).getAttachedObject(0)
+                    so = SelectionObject(obj)
+                    so.setSelected(True)
+                    items.append(so)
         
         return items
         

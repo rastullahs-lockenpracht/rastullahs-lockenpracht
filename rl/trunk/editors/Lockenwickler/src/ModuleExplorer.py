@@ -173,15 +173,38 @@ class ModuleExplorer(QWidget):
     def onSelectionChanged(self):
         if self.selectionChangedCallback is None:
             return
-            
-        nodeNames = []
-        items = self.sceneTreeView.selectedItems()
+
+        nodeNames = {}
+        
+        # get all maps and add them as a key to the dictionary
+        # append a empty list to that key
+        items = self.sceneTreeView.findItems("Map: ", Qt.MatchStartsWith | Qt.MatchCaseSensitive | Qt.MatchRecursive)
         for item in items:
+            nodeNames[str(item.text(0))] = []
+            
+        # get all zones and add them as a key to the dictionary
+        # append a empty list to that key            
+        items = self.sceneTreeView.findItems("Zone: ", Qt.MatchStartsWith | Qt.MatchCaseSensitive | Qt.MatchRecursive)
+        for item in items:
+            nodeNames[str(item.text(0))] = []
+        
+        #get all selected items
+        items = self.sceneTreeView.selectedItems()
+        
+        #end remove all the things from the list we actually don't want to be selected
+        for item in items:
+            if str(item.text(0)).startswith("Scene: ") or str(item.text(0)).startswith("Map: ") or str(item.text(0)).startswith("Zone: "):
+                items.remove(item)
+        
+        for item in items:
+            parentName =  str(item.text(0))
+                        
             name = str(item.data(0, Qt.UserRole).toString())
             if len > 0:
-                nodeNames.append(name)
+                nodeNames[str(item.parent().text(0))].append(name)
                 
         self.selectionChangedCallback(nodeNames)
+
     def deselectAll(self):
         self.disconnect(self.sceneTreeView, SIGNAL("itemSelectionChanged ()"), self.onSelectionChanged)
         

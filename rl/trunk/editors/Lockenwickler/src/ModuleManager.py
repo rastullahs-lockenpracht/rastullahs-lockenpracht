@@ -865,7 +865,7 @@ class ModuleManager():
                 self.moduleExplorer.setCurrentModule(m)
 
         if self.selectionBuffer is None:
-            self.selectionBuffer = SelectionBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
+            self.selectionBuffer = SelectionBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"), self, self.zoneManager)
 
 #        if self.depthBuffer is None:
 #            self.depthBuffer = DepthBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
