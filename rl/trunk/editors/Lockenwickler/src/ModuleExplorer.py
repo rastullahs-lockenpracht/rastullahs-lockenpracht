@@ -90,7 +90,7 @@ class ModuleTreeWidget(QTreeWidget):
         self.setAnimated(True)
 
         self.setHeaderLabels(["Structure", "Visibility"])
-        self.setSelectionMode(3)
+        self.setSelectionMode(QAbstractItemView.ExtendedSelection)
         
     def setMenuCallback(self, callback):
         self.onMenuCallback = callback
@@ -118,6 +118,7 @@ class ModuleExplorer(QWidget):
         
         self.moduleManager = None
         self.mapSelectedCallback = None
+        self.selectionChangedCallback = None
         self.mapItems = []
         
         self.lastSelectedMap = None
@@ -129,6 +130,7 @@ class ModuleExplorer(QWidget):
         self.showZones = True
 
     def selectItems(self, selectedItems):
+        self.disconnect(self.sceneTreeView, SIGNAL("itemSelectionChanged ()"), self.onSelectionChanged)
         self.deselectAll()
         
         if selectedItems is None:
@@ -139,8 +141,10 @@ class ModuleExplorer(QWidget):
             items = self.sceneTreeView.findItems(nodeName, Qt.MatchFixedString | Qt.MatchRecursive)
             for item in items:
                 self.sceneTreeView.setItemSelected(item, True)
+        self.connect(self.sceneTreeView, SIGNAL("itemSelectionChanged ()"), self.onSelectionChanged)
     
     def selectItem(self, so, select):
+        self.disconnect(self.sceneTreeView, SIGNAL("itemSelectionChanged ()"), self.onSelectionChanged)
         nodeName = so.entity.getParentNode().getName()
        
         items = None
@@ -152,22 +156,39 @@ class ModuleExplorer(QWidget):
             items = self.sceneTreeView.findItems(go.gocName + " id:" + str(go.inWorldId), Qt.MatchFixedString | Qt.MatchRecursive)    
         elif nodeName.startswith("entity_") and self.showEntities:
             items = self.sceneTreeView.findItems(so.entityName, Qt.MatchFixedString | Qt.MatchRecursive)    
+        elif nodeName.startswith("area_") and self.showZones:
+            area = so.entity.getUserObject()
+            items = self.sceneTreeView.findItems("Area " + str(area.id), Qt.MatchFixedString | Qt.MatchRecursive)    
         
-        if select:
+        if select and items is not None:
             for item in items:
                 self.sceneTreeView.setItemSelected(item, True)
                 self.sceneTreeView.expandItem(item)
         else:
-            for item in items:
-                self.sceneTreeView.setItemSelected(item, False)
-                
+            if items is not None:
+                for item in items:
+                    self.sceneTreeView.setItemSelected(item, False)
+        self.connect(self.sceneTreeView, SIGNAL("itemSelectionChanged ()"), self.onSelectionChanged)
+        
     def onSelectionChanged(self):
-        pass
-
+        if self.selectionChangedCallback is None:
+            return
+            
+        nodeNames = []
+        items = self.sceneTreeView.selectedItems()
+        for item in items:
+            name = str(item.data(0, Qt.UserRole).toString())
+            if len > 0:
+                nodeNames.append(name)
+                
+        self.selectionChangedCallback(nodeNames)
     def deselectAll(self):
+        self.disconnect(self.sceneTreeView, SIGNAL("itemSelectionChanged ()"), self.onSelectionChanged)
+        
         for item in self.sceneTreeView.selectedItems():
             self.sceneTreeView.setItemSelected(item, False)
-
+            
+        self.connect(self.sceneTreeView, SIGNAL("itemSelectionChanged ()"), self.onSelectionChanged)
 
     def onClick(self, item, column):
         if self.mapSelectedCallback is None:
@@ -342,13 +363,16 @@ class ModuleExplorer(QWidget):
         while i < map.mapNode.numChildren(): 
             if map.mapNode.getChild(i).getName().startswith("light_") and self.showLights:
                 childItem2 = QTreeWidgetItem(childItem) 
+                childItem2.setData(0, Qt.UserRole, QVariant(map.mapNode.getChild(i).getName()))
                 childItem2.setText(0, extractLight(map.mapNode.getChild(i)).getName()) 
             elif map.mapNode.getChild(i).getName().startswith("gameobject_") and self.showGameObjects:
                 childItem2 = QTreeWidgetItem(childItem) 
                 go = map.mapNode.getChild(i).getAttachedObject(0).getUserObject()
+                childItem2.setData(0, Qt.UserRole, QVariant(map.mapNode.getChild(i).getName()))
                 childItem2.setText(0, go.gocName + " id:" + str(go.inWorldId)) 
             elif map.mapNode.getChild(i).getName().startswith("entity_") and self.showEntities:
                 childItem2 = QTreeWidgetItem(childItem) 
+                childItem2.setData(0, Qt.UserRole, QVariant(map.mapNode.getChild(i).getName()))
                 childItem2.setText(0, map.mapNode.getChild(i).getAttachedObject(0).getName()) 
             i = i+1
 
@@ -377,13 +401,15 @@ class ModuleExplorer(QWidget):
         for zone in map.zoneList:
             childItem = QTreeWidgetItem(parentItem) 
             childItem.setText(0, "Zone: " + zone.name)
+            childItem.setData(0, Qt.UserRole, QVariant(zone.zoneNode.getName()))
             childItem.setIcon(0, QIcon("media/icons/dissociatecell.png"))
             childItem.setIcon(1, QIcon("media/icons/14_layer_visible.png"))
             
             i = 0
             for area in zone.areaList:
                 childItem2 = QTreeWidgetItem(childItem)
-                childItem2.setText(0, "Area " + str(i))
+                childItem2.setText(0, "Area " + str(area.id))
+                childItem2.setData(0, Qt.UserRole, QVariant(area.areaNode.getName()))
                 i += 1
                 
     def setCurrentModule(self, module):
@@ -395,3 +421,6 @@ class ModuleExplorer(QWidget):
         
     def setMapSelectedCallback(self, callback):
         self.mapSelectedCallback = callback
+
+    def setSelectionChangedCallback(self, callback):
+        self.selectionChangedCallback = callback

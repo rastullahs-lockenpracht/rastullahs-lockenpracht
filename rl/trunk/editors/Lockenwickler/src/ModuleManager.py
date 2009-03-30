@@ -886,10 +886,15 @@ class ModuleManager():
     def setModuleExplorer(self, moduleExplorer):
         self.moduleExplorer = moduleExplorer
         self.moduleExplorer.setMapSelectedCallback(self.selectMapCallback)
+        self.moduleExplorer.setSelectionChangedCallback(self.selectionChangedCallback)
         self.moduleExplorer.setModuleManager(self)
     
     def setPropertyWindow(self, propertyWin):
         self.propertyWindow = propertyWin
+    
+    def selectionChangedCallback(self, items):
+        self.resetSelection()
+        self.userSelectionList = self.selectionBuffer.manualSelectObjects(items)
         
     def selectMapCallback(self, sceneName, mapName):
         self.currentMap = self.mainModule.getMap(mapName, sceneName)
@@ -1092,8 +1097,9 @@ class ModuleManager():
             self.pivot.stopTransforming()
 
     def resetSelection(self):
-        for so in self.userSelectionList:
-            so.setSelected(False)
+        if self.userSelectionList is not None:
+            for so in self.userSelectionList:
+                so.setSelected(False)
 
         self.userSelectionList = []
 

@@ -426,6 +426,14 @@ class ObjectPropertyWin(QDialog):
             item.setText(1, area.type)
             
             item = QTreeWidgetItem(self.treeWidget)
+            item.setText(0, "Dbg Area Id:")
+            item.setText(1, str(area.id))
+            
+            item = QTreeWidgetItem(self.treeWidget)
+            item.setText(0, "Dbg Area Entity Name:")
+            item.setText(1, area.areaEntity.getName())
+            
+            item = QTreeWidgetItem(self.treeWidget)
             item.setText(0, "Subtract")
             item.setText(1, str(area.subtract))
             

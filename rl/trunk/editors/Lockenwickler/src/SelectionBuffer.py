@@ -23,6 +23,16 @@ import platform
 
 import ogre.renderer.OGRE as og
 
+# get the light out of a light node
+def extractLight(node):
+        i = 0
+        num = node.numAttachedObjects()
+        while i < node.numAttachedObjects():
+            c = node.getAttachedObject(i)
+            tp = str(type(c))
+            if tp == "<class 'ogre.renderer.OGRE._ogre_.Light'>":
+                return c
+            i += 1
 
 # a class to store information about a object that got selected
 class SelectionObject():
@@ -242,6 +252,20 @@ class SelectionBuffer():
                     return so
 
         return None
+        
+    def manualSelectObjects(self, itemNodes):
+        return
+        
+        items = []
+        for item in itemNodes:
+            if item.startswith("light_"):
+                pass
+            obj = self.sceneMgr.getRootSceneNode().getChild(item).getAttachedObject(0)
+            so = SelectionObject(obj)
+            items.append(so)
+        
+        return items
+        
         
     def createRTTOverlays(self):
         baseWhite = og.MaterialManager.getSingletonPtr().getByName("Lockenwickler_Pivot_X")
