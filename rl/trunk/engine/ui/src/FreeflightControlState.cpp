@@ -237,7 +237,7 @@ namespace rl {
 		// with or without collision?
         // be careful to enable collision if beeing in another collision
         mCollisionsEnabled = !mCollisionsEnabled;
-/*
+
         if( mCollisionsEnabled )
         {
             CreatureControllerManager::getSingleton().detachController(mCharacter);
@@ -250,7 +250,7 @@ namespace rl {
             PhysicsManager::getSingleton().createPhysicsProxy(mCharacterActor->getPhysicalThing());
             CreatureControllerManager::getSingleton().getCreatureController(mCharacter);
         }
-*/
+
 	}
 
 	void FreeflightControlState::resetCamera()
