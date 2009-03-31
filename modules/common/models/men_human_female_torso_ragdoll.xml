@@ -1,0 +1,225 @@
+<RagDoll>
+    <!--Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01"-->
+        <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 Pelvis">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+            <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 Spine">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 Spine1">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                    <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 Spine2">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                        <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 Neck">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                            <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 Head">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                                <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 Ponytail1">
+                                    <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 Ponytail11">
+                                    </Bone>
+                                </Bone>
+                                <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 Ponytail2">
+                                    <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 Ponytail21">
+                                    </Bone>
+                                </Bone>
+                            </Bone>
+                            <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 L Clavicle">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                                <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 L UpperArm">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                                    <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 L Forearm">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                                        <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 L Hand">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                                        </Bone>
+                                    </Bone>
+                                </Bone>
+                            </Bone>
+                            <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 R Clavicle">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                                <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 R UpperArm">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                                    <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 R Forearm">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                                        <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 R Hand">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                                        </Bone>
+                                    </Bone>
+                                </Bone>
+                            </Bone>
+                        </Bone>
+                    </Bone>
+                </Bone>
+            </Bone>
+            <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 L Thigh">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 L Calf">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                    <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 L Foot">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                    </Bone>
+                </Bone>
+            </Bone>
+            <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 R Thigh">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 R Calf">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                    <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bip01 R Foot">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                    </Bone>
+                </Bone>
+            </Bone>
+        </Bone>
+        <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bone01">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+            <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bone02">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bone09">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                </Bone>
+            </Bone>
+        </Bone>
+        <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bone03">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+            <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bone04">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bone10">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                </Bone>
+            </Bone>
+        </Bone>
+        <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bone05">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+            <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bone08">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bone12">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                </Bone>
+            </Bone>
+        </Bone>
+        <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bone06">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+            <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bone07">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                <Bone dir="0,1,0" length="0.0" shape="hull" size="0.3,0,0" mass="20" skeleton_bone="Bone11">
+        <Joint type="ballsocket" pin="0,1,0" limit1="20.0" limit2="-30.0"/>
+                </Bone>
+            </Bone>
+        </Bone>
+    <!--/Bone-->
+        <!--
+Gewichte:
+Kopf 7
+Rumpf 43
+Oberarm 3
+Unterarm 2
+Hand 1
+Oberschenkel 12
+Unterschenkel 5
+Fuß 2
+
+Bip01 R Thigh 
+	z 130 - -80
+	x 40 - -20
+	y 20 - -30
+Bip01 L Thigh 
+	z 130 - -80
+	x -40 - +20
+	y 20 - -30
+
+Bip01 R Calf
+Bip01 L Calf
+	z 0 - -160
+
+Bip01 R Foot
+Bip01 L Foot
+	z -80 - 36
+	x -40 - 40
+	y 30 - -30
+
+
+Bip01 Spine
+	z 40 - -40
+	y 25 - -25
+	x 30 - -30
+
+
+Bip01 Spine1
+Bip01 Spine2
+	z 40 - -30
+	y 25 - -25
+	x 30 - -30
+
+
+Bip01 Neck
+	z 30 - -70
+	y 35 - -35
+	x 25 - -25
+
+Bip01 Head
+	z 45 - -45
+	y 45 - -45
+	x 70 - -70
+
+Bip01 R UpperArm
+	y 150- -15
+	z -120 -60
+	x 60 - -30
+
+Bip01 R Forearm
+	z 0 - 150
+
+Bip01 R Hand
+	z -50 - 30
+	y 40 - -40
+	x 40 - -40
+
+Bip01 L UpperArm
+	y -150- 15
+	z -120 -60
+	x -60 - 30
+
+Bip01 L Forearm
+	z 0 - -150
+
+
+Bip01 L Hand
+	z -50 - 30
+	y 40 - -40
+	x 40 - -40
+
+Bip01 Ponytail2
+	z 90 - -20
+	y 30 - -30
+	x 20 - -20
+
+Bip01 Ponytail21
+	z 80 - -20
+	y 40 - -40
+	x 20 - -20
+
+Bip01 Ponytail1
+Bip01 Ponytail11
+	z 45 - -5
+	y 40 - -40
+	x 20 - -20
+
+
+
+// obere rockbones
+Bone01
+Bone03
+Bone05
+Bone06
+	z 0 - 30
+	y 20 - -20
+	x 15 - -15 (vll auch ganz weg lassen)
+
+// untere rockbones
+Bone02
+Bone04
+Bone08
+Bone07
+	z 20 - -20
+	y 30 - -30
+    x 15 - -15 (vll auch ganz weg lassen)
+    -->
+</RagDoll>
